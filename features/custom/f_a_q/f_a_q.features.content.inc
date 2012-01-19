@@ -20,19 +20,7 @@ $content['question01'] = (object)array(
   'comment' => '2',
   'translate' => '0',
   'machine_name' => 'question01',
-  'body' => array(
-    'und' => array(
-      0 => array(
-        'value' => '<p>Answer01</p>
-',
-        'summary' => '',
-        'format' => 'filtered_html',
-        'safe_value' => '<p>Answer01</p>
-',
-        'safe_summary' => '',
-      ),
-    ),
-  ),
+  'body' => array(),
 );
 $content['question02'] = (object)array(
   'title' => 'Question 02',

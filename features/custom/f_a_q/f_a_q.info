@@ -9,6 +9,11 @@ dependencies[] = "taxonomy"
 dependencies[] = "token"
 dependencies[] = "views"
 description = "Frequently Asked Question"
+feature_sets[f_a_q][title] = "FAQ"
+feature_sets[f_a_q][description] = "FAQ features"
+feature_sets[f_a_q][icon] = "feature-set-icons/faq.png"
+feature_sets[f_a_q][enable][] = "f_a_q"
+feature_sets[f_a_q][disable][] = "f_a_q"
 features[content][] = "question01"
 features[content][] = "question02"
 features[content_menu_links][] = "main-menu:faq"
@@ -46,10 +51,17 @@ features[variable][] = "save_continue_f_a_q"
 features[variable][] = "show_diff_inline_f_a_q"
 features[variable][] = "show_preview_changes_f_a_q"
 features[variable][] = "workbench_moderation_default_state_f_a_q"
-features[views_view][] = "faq"
 
+feature_sets[f_a_q][title] = 'FAQ'
+feature_sets[f_a_q][description] = 'FAQ features'
+feature_sets[f_a_q][icon] = 'feature-set-icons/faq.png'
+feature_sets[f_a_q][enable][] = f_a_q
+feature_sets[f_a_q][disable][] = f_a_q
+
+
+features[views_view][] = "faq"
 name = "F.A.Q"
 package = "Features"
 php = "5.2.4"
 project = "f_a_q"
-version = "7.x-1.0-final1"
+version = "7.x-1.0-final3"
