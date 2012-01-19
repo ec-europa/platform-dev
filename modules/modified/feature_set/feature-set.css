@@ -1,0 +1,71 @@
+#feature-set-admin-form .feature-set-image {
+  float: left;
+  width: 0;
+  overflow: visible;
+}
+
+#feature-set-admin-form .feature-set-image img {
+  max-height: 35px;
+  max-width: 35px;
+  padding: 10px 0;
+}
+
+#feature-set-admin-form .feature-set {
+  position: relative;
+  left: 55px;
+  margin-right: 55px;
+}
+
+#feature-set-admin-form .form-item input {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+#feature-set-admin-form span.name {
+  display: block;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+#feature-set-admin-form tr.even,
+#feature-set-admin-form tr.odd {
+  border-width: 0 1px 1px;
+}
+
+#feature-set-admin-form td.disabled {
+  border-color: #BEBFB9;
+  border-style: solid;
+  border-width: 0 1px;
+  color: #5A5A5A;
+  font-style: italic;
+}
+
+#feature-set-admin-form td.status {
+  background-color: #F8FFF0;
+  background-image: url("/misc/message-24-ok.png");
+  border-color: #BEBFB9;
+  border-style: solid;
+  border-width: 0 1px;
+  color: #234600;
+}
+
+#feature-set-admin-form td.warning {
+  background-image: url("/misc/message-24-warning.png");
+  border-color: #BEBFB9;
+  border-style: solid;
+  border-width: 0 1px;
+  color: #884400;
+  background-color: #FFFCE5;
+}
+
+#feature-set-admin-form td.messages {
+  background-position: 8px center;
+  background-repeat: no-repeat;
+  margin: 6px 0;
+  padding: 10px 10px 10px 50px;
+}
+
+#feature-set-admin-form ul.links li {
+  display: inline;
+}

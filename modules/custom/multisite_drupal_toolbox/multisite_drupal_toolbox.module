@@ -1,0 +1,21 @@
+<?php
+  function multisite_drupal_toolbox_boot() {
+    global $conf;
+
+	if(!isset($conf["language_count"])) {
+	  $conf["language_count"] = 2;	
+	}
+	else {
+	  if($conf["language_count"] == 1 && $conf["language_default"]->language == 'en')
+	      $conf["language_count"] = 2; // set language_count to 2 to force the display of the language prefix	
+	}
+  }
+  
+  
+ 
+function multisite_drupal_toolbox_feature_set_api() {
+  return array('version' => '1.0');
+}
+
+  
+ 

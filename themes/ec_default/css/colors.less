@@ -1,0 +1,108 @@
+//main colors
+@body_color:  #ffffff; //#ffffff
+@text_color:  #3b3b3b; //#3b3b3b
+
+//header colors
+@h1_color: #113355; //#113355
+@h2_color: #336699; //#336699
+@h3_color: #003366; //#003366
+@h4_color: #003366; //#003366
+@h5_color: #336699; //#336699
+@h6_color: #003366; //#003366
+
+//links colors
+@link_color:               #027AC6; //#027AC6
+@link_hover_color:   #003366; //#003366
+@link_active_color: #003366; //#003366
+
+//sidebar colors
+@sidebar_bg_color:     #f2f2f2; //#f2f2f2
+@sidebar_text_color: #3b3b3b; //#3b3b3b
+
+//tabs colors
+@primary_tab_bg_color:      #0065a2; //#0065a2
+@primary_tab_text_color:  #ffffff; //#ffffff
+
+
+/* ---------- Color Module Styles ----------- */
+
+body,
+body.overlay {
+  color: @text_color;
+}
+h1 {color: @h1_color; }
+h2 {color: @h2_color; }
+h3 {color: @h3_color; }
+h4 {color: @h4_color; }
+h5 {color: @h5_color; }
+h6 {color: @h6_color; }
+
+.comment {
+  .comment-arrow {
+    border-color: @body_color;
+  }
+}
+
+.layout {
+  background: @body_color;
+}
+
+.layout-left  {
+  label {
+    color: @sidebar_text_color;
+  }
+  .block {
+    background-color: @sidebar_bg_color;
+    border-top: solid 1px darken(@sidebar_bg_color,15%);
+    border-right: solid 2px darken(@sidebar_bg_color,15%);
+    border-bottom: solid 2px darken(@sidebar_bg_color,15%);
+  }
+}
+
+.tabs {
+  border-color: darken(@body_color,15%);
+  ul {
+    &.primary {
+      li {
+        a {
+          color: @text_color;
+          background-color: darken(@body_color,10%);
+          border-color: darken(@body_color,20%);
+          text-shadow: 0 1px 0 darken(@body_color,20%);
+          &:hover { border-color: darken(@body_color,15%); }
+          .active {
+            background-color: @body_color;
+            a {
+              background-color: lighten(@body_color,5%);
+              border-color: darken(@body_color,20%);
+              border-bottom-color: @body_color;            
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+a {
+  color: @link_color;
+  &:hover { color: @link_hover_color; }
+  &:focus { color: @link_hover_color; }
+  &:active { color: @link_active_color; }  
+}
+
+#main-menu-links {
+  a {
+    color: @primary_tab_text_color;
+    background: @primary_tab_bg_color;
+    text-shadow: 1px 1px (#fff - @primary_tab_text_color);
+    &:hover { background: fadeout(@primary_tab_bg_color,10%); }
+    &:focus { background: fadeout(@primary_tab_bg_color,10%); }
+    &:active { background: darken(@primary_tab_bg_color,10%); }
+  }
+}
+
+#page-wrapper,
+#footer-wrapper {
+  background: @body_color;
+}

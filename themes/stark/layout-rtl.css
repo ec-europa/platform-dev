@@ -1,0 +1,49 @@
+@media all and (min-width: 480px) {
+  #content,
+  #sidebar-first,
+  #sidebar-second {
+    float: right;
+  }
+}
+
+@media all and (min-width: 480px) and (max-width: 959px) {
+  body.sidebar-first #content,
+  body.two-sidebars #content {
+    float: left;
+  }
+
+  #sidebar-second {
+    float: left;
+  }
+  body.two-sidebars #sidebar-second {
+    float: right;
+    clear: right;
+  }
+}
+
+@media all and (min-width: 960px) {
+  #content {
+    float: right;
+  }
+  body.sidebar-first #content {
+    left: auto;
+    right: 20%;
+  }
+  body.two-sidebars #content {
+    left: auto;
+    right: 20%;
+  }
+
+  #sidebar-first {
+    left: auto;
+    right: -80%;
+  }
+  body.two-sidebars #sidebar-first {
+    left: auto;
+    right: -60%;
+  }
+
+  #sidebar-second {
+    float: left;
+  }
+}

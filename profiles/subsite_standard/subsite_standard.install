@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ */
+
+function subsite_standard_install() {
+  include_once DRUPAL_ROOT . '/profiles/standard/standard.install';
+  standard_install();
+
+
+  // add dummy terms in 'tags' vocabulary -------------------------------------------------
+  $term = new stdClass();
+  $term->name = "sport";
+  $term->vid = 1;
+  taxonomy_term_save($term);
+
+  $term = new stdClass();
+  $term->name = "economic";
+  $term->vid = 1;
+  taxonomy_term_save($term);
+
+  
+  
+  // add a user acccount --------------------------------------------------------------------
+  $account = new StdClass();
+  $account->is_new = TRUE;
+  $account->status = TRUE;
+  $account->name = 'administrator';
+  $account->pass = 'admin';
+  $account->mail = 'admin@admin.com';
+  $account->init = 'admin@admin.com';
+  $account->roles[3] = 'administrator';
+  user_save($account);
+
+  
+  
+  // affect dummy contents to the user 'administrator' -----------------------------------------------
+  $query = db_select('node', 'n');
+  $query->condition('n.type', 'article', '=')
+      ->fields('n', array('nid', 'title', 'uid'));
+  $results = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach($results as $result) {
+    $node = node_load($result['nid']);
+    $node->uid = $account->uid;
+    node_save($node);
+  }
+
+  
+  // define the theme used -------------------------------------------------------------------------------
+  $enable = array(
+  'theme_default' => 'ec_default', // should be the our CCE theme
+  'admin_theme' => 'seven',
+  );
+  theme_enable($enable);
+ 
+  foreach ($enable as $var => $theme) {
+    if (!is_numeric($var)) {
+      variable_set($var, $theme);
+    }
+  }
+  theme_disable(array('bartik')); // Disable the default Bartik theme
+  
+	 
+	  
+  // setup settings ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  
+  // language settings
+	  
+  // set the url language prefix to 'en'
+  db_update('languages')
+      ->fields(array('prefix' => 'en'))
+      ->condition('language', 'en')
+      ->execute(); 
+	  
+  // set the default language negociation
+  $lni = language_negotiation_info();
+  $ln['language-default'] = $lni['language-default'];
+  $ln['locale-url'] = $lni['locale-url'];
+  language_negotiation_set('language', $ln);
+	  
+	  
+}

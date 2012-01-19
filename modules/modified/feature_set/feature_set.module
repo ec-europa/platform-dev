@@ -1,0 +1,284 @@
+<?php
+// Indicates if all the enable modules are enabled
+define('FEATURE_SET_ENABLED', 0x01);
+
+// Indicates if all the disable modules are disabled
+define('FEATURE_SET_DISABLED', 0x02);
+
+/*
+* TODO: keep a running tally of modules in the disable list and make sure that
+*       no other feature set has that module listed in its disable list
+*/
+
+/**
+ * Implements hook_permission().
+ */
+function feature_set_permission() {
+  return array(
+    'administer feature sets' => array(
+      'title' => t('Administer feature sets'),
+      'description' => t('Enable and disable feature sets as defined by the feature set module. Note that this functionality is similar and is a subset of the functionality allowed by administer modules so be aware that users with this permission will be able to enable, disable, and uninstall modules defined via the feature set module'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function feature_set_menu() {
+  $items['admin/structure/feature-set'] = array(
+    'title' => 'Feature Set',
+    'description' => 'Enable or disable feature sets',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('feature_set_admin_form'),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer feature sets'),
+    'file' => 'feature_set.admin.inc',
+  );
+  $items['admin/structure/feature-set/enable/%'] = array(
+    'title' => 'Feature Set Enable',
+    'description' => 'Enable a feature set',
+    'page callback' => 'feature_set_enable_url',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer feature sets'),
+    'file' => 'feature_set.admin.inc',
+  );
+  
+  $items['admin/structure/feature-set/disable/%'] = array(
+    'title' => 'Feature Set Disable',
+    'description' => 'Disable a feature set',
+    'page callback' => 'feature_set_disable_url',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer feature sets'),
+    'file' => 'feature_set.admin.inc',  
+  );
+  return $items;
+}
+
+function feature_set_parse_info($info, $module, $path) {
+  $sets = array();
+  if (!empty($info['feature_sets'])) {
+    foreach($info['feature_sets'] as $set => $details) {
+      $details['module'] = $module;
+      $details['status'] = feature_set_status($details);
+      
+      if (!empty($details['icon'])) {
+        $details['icon'] = $path . '/' . $details['icon'];
+      }
+      
+      // only add valid feature sets
+      if (feature_set_check($details)) {
+        $sets[$set] = $details;
+      }
+    }
+  }
+  return $sets;
+}
+
+/**
+ * Returns an array of defined feature_sets.
+ */
+function feature_set_get_featuresets($install_state = NULL) {
+  $sets = &drupal_static(__FUNCTION__);
+  
+  if (!isset($sets)) {
+    $modules = module_implements('feature_set_api');
+    $sets = array();
+    foreach($modules as $module) {
+      $path = drupal_get_path('module', $module);
+      $infofile = $path .'/' . $module . '.info';
+      $info = drupal_parse_info_file($infofile);
+      $sets += feature_set_parse_info($info, $module, $path);
+    }
+    
+    // add feature sets from the install profile
+    if (!empty($install_state['parameters']['profile'])) {
+      $install_profile = $install_state['parameters']['profile'];
+    }
+    else {
+      $install_profile = variable_get('install_profile', '');
+    }
+    /*
+    if (!empty($install_profile)) {
+      $info = install_profile_info($install_profile);
+      $path = 'profiles/' . $install_profile;
+      $sets += feature_set_parse_info($info, $install_profile, $path);
+    }*/
+  }
+  return $sets;
+}
+
+/**
+ * Returns an array of feature_set information for a particular featureset
+ * or FALSE if that featureset does not exist
+ */
+function feature_set_get_featureset($feature_set) {
+  $sets = feature_set_get_featuresets();
+  if (!empty($sets[$feature_set])) {
+    return $sets[$feature_set];
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ *
+ */
+function feature_set_enable_feature_set($feature_set) {
+  if (!empty($feature_set['enable'])) {
+    module_enable($feature_set['enable']);
+  }
+}
+
+/**
+ * 
+ */
+function feature_set_disable_feature_set($feature_set) {
+  if (!empty($feature_set['disable'])) {
+    module_disable($feature_set['disable']);
+  }
+  if (!empty($feature_set['uninstall'])) {
+    drupal_uninstall_modules($feature_set['uninstall']);
+  }
+}
+
+/**
+ * Given a feature_set return status
+ * Since disable modules is a subset of enable modules
+ * disable status and enable status are mutually exclusive
+ * However, there is a third state of "inconsistent" indicated by not all of 
+ * the enable module being enabled and not all of the disable modules being 
+ * disabled.
+ */
+function feature_set_status($feature_set) {
+  $status = 0x00;
+
+  if (!empty($feature_set['enable'])) {
+    $enabled = TRUE;
+    foreach ($feature_set['enable'] as $module) {
+      if (!module_exists($module)) {
+        $enabled = FALSE;
+        break;
+      }
+    }
+    if ($enabled) {
+      $status = $status | FEATURE_SET_ENABLED;
+    }
+  }
+
+  if (!empty($feature_set['disable'])) {
+    foreach($feature_set['disable'] as $module) {
+      $disabled = TRUE;
+      if (module_exists($module)) {
+
+        $disabled = FALSE;
+        break;
+      }
+    }
+    if ($disabled) {
+      $status = $status | FEATURE_SET_DISABLED;
+    }
+  }
+
+
+  // -----------------------------------------------
+  // check dependencies, disable the checkbox if the feature is required by other modules of features
+  // -----------------------------------------------
+  /*
+  if (!empty($feature_set['enable'])) {
+    $dependencies = FALSE;
+    foreach ($feature_set['enable'] as $module) {
+      if (is_requiredby($module)) {
+        $dependencies = TRUE;
+        break;
+      }
+    }
+    if ($dependencies) {
+      $status = 2;
+    }
+  }
+*/
+
+
+  return $status;
+}
+
+/**
+ * Checks to ensure the feature_set is valid
+ * Currently this only checks if the disable list of modules is a subset of 
+ * the enable set of modules. If the feature_set is invalid we throw a watchdog
+ * error.
+ */
+function feature_set_check($feature_set) {
+  if (!empty($feature_set['enable'])) {
+    $subset = array_intersect($feature_set['disable'], $feature_set['enable']);
+    if ($subset == $feature_set['disable']) {
+      return TRUE;
+    }
+  }
+  watchdog('feature_set', 'Invalid feature set "@set" provided by @module', array('@module' => $feature_set['module'],'@set' => $feature_set['title']), WATCHDOG_ERROR);
+  return FALSE;
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function feature_set_theme($existing, $type, $theme, $path) {
+  return array(
+    'feature_set_admin_form' => array(
+      'file' => 'feature_set.admin.inc',
+      'render element' => 'form',
+    ),
+  );
+}
+
+/*
+* return TRUE if features or modules require the module $module
+*/
+function is_requiredby($module) {
+  $is_required = 0;
+
+  $modules = system_rebuild_module_data();
+  $required_by = $modules[$module]->required_by;
+  $module_list = array_keys(module_list());
+  if(!empty($required_by)) {
+    foreach(array_keys($required_by) as $key) {
+      //print $key;
+      $check_module = in_array($key, $module_list);
+      $check_profile = ($key==variable_get("install_profile"))?TRUE:FALSE;
+      print $check_module;
+      if($check_module && !$check_profile) // check if the module is required by another one and if this module is not a installation profile
+        $is_required++;
+    }
+  }
+  return ($is_required>0) ? TRUE : FALSE;
+}
+
+
+/*
+* return the list of all the modules that require the module $module
+*/
+function get_requiredby($module) {
+  $modules = system_rebuild_module_data();
+  $required_by = $modules[$module]->required_by;
+
+  $featuresets = feature_set_get_featuresets();
+
+  $output = '<div id="requiredby">';
+  foreach($required_by as $key => $value) {
+    if(in_array($key, array_keys($featuresets))) { // it's a feature
+      $output .= t("required by")." : ".$featuresets[$key]["title"]." ";
+    }
+    else {
+      $output .= t("required by")." : ".$key." "; // it's a module
+    }
+  }
+  $output .= '<div/>';
+  return $output;
+}
+
+
+
+

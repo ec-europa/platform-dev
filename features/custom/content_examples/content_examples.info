@@ -1,0 +1,8 @@
+core = "7.x"
+description = "content examples"
+features[content][] = "article 1"
+features[content][] = "article 2"
+name = "content_examples"
+package = "Features"
+project = "content_examples"
+version = "7.x-1.0"

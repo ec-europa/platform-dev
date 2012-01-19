@@ -1,0 +1,86 @@
+name = Subsite communities
+description = Subsite communities profile
+version = VERSION
+core = 7.x
+
+dependencies[] = block
+dependencies[] = color
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = dashboard
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = dblog
+dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = toolbar
+;dependencies[] = overlay
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = rdf
+dependencies[] = locale
+
+dependencies[] = captcha
+dependencies[] = entity
+dependencies[] = ctools
+dependencies[] = token
+;dependencies[] = apachesolr
+;dependencies[] = apachesolr_attachments
+dependencies[] = contact
+dependencies[] = context
+dependencies[] = context_ui
+dependencies[] = context_layouts
+
+dependencies[] = date
+dependencies[] = diff
+dependencies[] = features
+dependencies[] = fivestar
+dependencies[] = hidden_captcha
+dependencies[] = media
+dependencies[] = password_policy
+dependencies[] = rules
+dependencies[] = references
+dependencies[] = strongarm
+dependencies[] = sweaver
+dependencies[] = defaultcontent
+dependencies[] = workbench
+dependencies[] = workbench_moderation 
+dependencies[] = ckeditor
+dependencies[] = varnish
+dependencies[] = views
+dependencies[] = views_ui
+dependencies[] = views_bulk_operations
+dependencies[] = views_xml
+dependencies[] = views_xhtml
+dependencies[] = views_rdf
+dependencies[] = views_json
+dependencies[] = votingapi
+dependencies[] = uuid
+dependencies[] = feature_set
+
+dependencies[] = multisite_drupal_toolbox
+
+dependencies[] = og
+dependencies[] = og_access
+dependencies[] = og_context
+dependencies[] = og_field_access
+dependencies[] = og_register
+dependencies[] = og_ui
+
+;features
+dependencies[] = content_examples
+dependencies[] = cce_basic_config
+
+files[] = subsite_communities.profile
+
+; Information added by drupal.org packaging script on 2011-12-05
+version = "7.10"
+project = "drupal"
+datestamp = "1323125439"
+

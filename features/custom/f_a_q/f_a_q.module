@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ * Code for the F.A.Q feature.
+ */
+
+include_once('f_a_q.features.inc');
+
+function f_a_q_init(){
+  //add a bit of jQuery to make it work
+  drupal_add_js(drupal_get_path('module', 'f_a_q') .'/faq.js');
+}

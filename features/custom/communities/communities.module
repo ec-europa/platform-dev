@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the communities feature.
+ */
+
+include_once('communities.features.inc');

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the CCE_basic_config feature.
+ */
+
+include_once('cce_basic_config.features.inc');
