@@ -1,0 +1,38 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ */
+
+function ecas_install() {
+  variable_set('ecas_warning_message', t('Your account is not yet approved'));
+
+  // check for Curl support
+  if (!function_exists('curl_version')) {
+    drupal_set_message(
+      t(
+        'Your PHP installation does not seem to provide the Curl
+        extension. Please check your PHP configuration since Curl
+        functions are required by the "ecas" module.'
+      ),
+      'warning'
+    );
+  }
+
+  // check for LDAP support
+  if (!function_exists('ldap_connect')) {
+    drupal_set_message(
+      t(
+        'Your PHP installation does not seem to provide the LDAP
+        extension. Please check your PHP configuration since LDAP
+        functions are required by the "ecas" module.'
+      ),
+      'warning'
+    );
+  }
+}
+
+function ecas_uninstall() {
+  variable_del('ecas_warning_message');
+}
