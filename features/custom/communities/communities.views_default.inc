@@ -11,11 +11,11 @@ function communities_views_default_views() {
   $export = array();
 
   $view = new view;
-  $view->name = 'og_my_list';
+  $view->name = 'communities_directory';
   $view->description = 'Show active groups that are nodes';
   $view->tag = 'og';
   $view->base_table = 'node';
-  $view->human_name = 'OG my list';
+  $view->human_name = 'Communities directory';
   $view->core = 0;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -103,6 +103,33 @@ function communities_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
+  $handler->display->display_options['path'] = 'communities_directory';
+  $handler->display->display_options['menu']['type'] = 'normal';
+  $handler->display->display_options['menu']['title'] = 'communities';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
+
+  /* Display: Feed */
+  $handler = $view->new_display('feed', 'Feed', 'feed_1');
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['style_plugin'] = 'rss';
+  $handler->display->display_options['row_plugin'] = 'node_rss';
+  $handler->display->display_options['path'] = 'group-list/feed';
+  $handler->display->display_options['displays'] = array(
+    'page_1' => 'page_1',
+    'default' => 0,
+  );
+
+  /* Display: Page 2 */
+  $handler = $view->new_display('page', 'Page 2', 'page_2');
+  $handler->display->display_options['path'] = 'communities_directory/all';
+  $handler->display->display_options['menu']['type'] = 'default tab';
+  $handler->display->display_options['menu']['title'] = 'all communities';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['tab_options']['weight'] = '0';
+
+  /* Display: Page 3 */
+  $handler = $view->new_display('page', 'Page 3', 'page_3');
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Author uid */
   $handler->display->display_options['arguments']['uid']['id'] = 'uid';
@@ -116,19 +143,11 @@ function communities_views_default_views() {
   $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['uid']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['uid']['not'] = 0;
-  $handler->display->display_options['path'] = 'group-list-my';
-
-  /* Display: Feed */
-  $handler = $view->new_display('feed', 'Feed', 'feed_1');
-  $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['style_plugin'] = 'rss';
-  $handler->display->display_options['row_plugin'] = 'node_rss';
-  $handler->display->display_options['path'] = 'group-list/feed';
-  $handler->display->display_options['displays'] = array(
-    'page_1' => 'page_1',
-    'default' => 0,
-  );
-  $translatables['og_my_list'] = array(
+  $handler->display->display_options['path'] = 'communities_directory/my';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'my communities';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $translatables['communities_directory'] = array(
     t('Defaults'),
     t('Groups list'),
     t('more'),
@@ -147,8 +166,10 @@ function communities_views_default_views() {
     t('Group: Group\'s state'),
     t('Page'),
     t('Feed'),
+    t('Page 2'),
+    t('Page 3'),
   );
-  $export['og_my_list'] = $view;
+  $export['communities_directory'] = $view;
 
   return $export;
 }
