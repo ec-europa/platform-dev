@@ -68,7 +68,8 @@ function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
 function theme_feature_set_admin_form($form) {
   $form = array_pop($form);
   drupal_add_css(drupal_get_path('module', 'feature_set') . '/feature-set.css');
-  $header = array('', 'Feature Set', 'status');
+  //$header = array('', 'Feature Set', 'status');
+  $header = array('Feature Set', 'Status');
   
   $rows = array();
   foreach(element_children($form) as $key) {
@@ -94,9 +95,9 @@ function theme_feature_set_admin_form($form) {
     
       $row = array(
         'data' => array(
-          drupal_render($form[$key]),
           $icon . $featureset,
-          array('data' => $form[$key]['#featuresetinfo']['status'], 'class' => array($form[$key]['#featuresetinfo']['class'], 'messages')),
+          array('data' => drupal_render($form[$key]), 'class' => array('switcher')),          
+          //array('data' => $form[$key]['#featuresetinfo']['status'], 'class' => array($form[$key]['#featuresetinfo']['class'], 'messages')),
         ),
       );
       $rows[] = $row;

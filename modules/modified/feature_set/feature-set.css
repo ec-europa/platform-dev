@@ -66,6 +66,10 @@
   padding: 10px 10px 10px 50px;
 }
 
+#feature-set-admin-form td.switcher {
+  width: 100px;
+}
+
 #feature-set-admin-form ul.links li {
   display: inline;
 }
