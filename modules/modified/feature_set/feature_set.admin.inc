@@ -95,7 +95,7 @@ function theme_feature_set_admin_form($form) {
     
       $row = array(
         'data' => array(
-          $icon . $featureset,
+          array('data' => $icon . $featureset, 'class' => array('feature')),
           array('data' => drupal_render($form[$key]), 'class' => array('switcher')),          
           //array('data' => $form[$key]['#featuresetinfo']['status'], 'class' => array($form[$key]['#featuresetinfo']['class'], 'messages')),
         ),

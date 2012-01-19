@@ -7,9 +7,16 @@ jQuery(function($){
   
     //Add switcher before checkbox and hide checkbox
     $("#feature-set-admin-form .form-checkbox").each(function() {
-      $html_before = '<label class="cb-enable"><span>On</span></label><label class="cb-disable selected"><span>Off</span></label>';
+      //Check if the feature has been enabled
+      if ($(this).is(':checked')) {
+        var html_before = '<label class="cb-enable selected"><span>On</span></label><label class="cb-disable"><span>Off</span></label>';
+        var row = $(this).parents('tr');
+        row.addClass('gradient');
+      } else {
+        var html_before = '<label class="cb-enable"><span>On</span></label><label class="cb-disable selected"><span>Off</span></label>';
+      }     
       
-      $(this).before($html_before);
+      $(this).before(html_before);
       $(this).css('opacity',0);
     });
       
