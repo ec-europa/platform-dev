@@ -279,6 +279,12 @@ function get_requiredby($module) {
   return $output;
 }
 
-
+/**
+ * alter html code (to add js and css).
+ */
+function feature_set_preprocess_html(&$variables) {
+  // Add javascripts
+  drupal_add_js(drupal_get_path('module', 'feature_set').'/feature_set.js');  
+}
 
 
