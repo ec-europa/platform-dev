@@ -1,0 +1,45 @@
+<?php
+/**
+ * @file
+ * Code for the Links feature.
+ */
+
+include_once('links.features.inc');
+
+// $Id: links.module Exp $
+ 
+/**
+ * Implementation of hook_block_info().
+ */
+function links_block_info() {
+  $blocks['Add-links-block'] = array(
+    'info' => t('Manage links'),
+  );
+  return $blocks;
+}
+ 
+/**
+ * Implementation of hook_block_view().
+ */
+function links_block_view($delta='') {
+  $block = array();
+  switch ($delta) {
+    case 'Add-links-block':
+      $block['subject'] = t('Manage links');
+      $block['content'] = links_contents();
+      break;
+  }
+  return $block;
+}
+ 
+/**
+ * custom html block
+ * @return string
+ */
+function links_contents() {
+
+$output = l('Create Link','node/add/links');
+
+  return $output;
+}
+ 
