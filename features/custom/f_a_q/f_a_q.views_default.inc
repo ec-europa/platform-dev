@@ -138,19 +138,7 @@ function f_a_q_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'f_a_q' => 'f_a_q',
   );
-  /* Filter criterion: Content: Tags (field_tags) */
-  $handler->display->display_options['filters']['field_tags_tid']['id'] = 'field_tags_tid';
-  $handler->display->display_options['filters']['field_tags_tid']['table'] = 'field_data_field_tags';
-  $handler->display->display_options['filters']['field_tags_tid']['field'] = 'field_tags_tid';
-  $handler->display->display_options['filters']['field_tags_tid']['value'] = '';
-  $handler->display->display_options['filters']['field_tags_tid']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_tags_tid']['expose']['operator_id'] = 'field_tags_tid_op';
-  $handler->display->display_options['filters']['field_tags_tid']['expose']['label'] = 'Filter by Tags';
-  $handler->display->display_options['filters']['field_tags_tid']['expose']['operator'] = 'field_tags_tid_op';
-  $handler->display->display_options['filters']['field_tags_tid']['expose']['identifier'] = 'field_tags_tid';
-  $handler->display->display_options['filters']['field_tags_tid']['reduce_duplicates'] = 0;
-  $handler->display->display_options['filters']['field_tags_tid']['vocabulary'] = 'tags';
-  $handler->display->display_options['filters']['field_tags_tid']['error_message'] = 1;
+  $handler->display->display_options['filters']['type']['group'] = 0;
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
@@ -176,7 +164,6 @@ function f_a_q_views_default_views() {
   <dt style = text-decoration: underline;>[title]</dt>
     <dd>[body][field_tags]</dd>
 </dl>'),
-    t('Filter by Tags'),
     t('Page'),
   );
   $export['faq'] = $view;

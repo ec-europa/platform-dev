@@ -20,7 +20,19 @@ $content['question01'] = (object)array(
   'comment' => '2',
   'translate' => '0',
   'machine_name' => 'question01',
-  'body' => array(),
+  'body' => array(
+    'und' => array(
+      0 => array(
+        'value' => '<p>My answer 01</p>
+',
+        'summary' => '',
+        'format' => 'filtered_html',
+        'safe_value' => '<p>My answer 01</p>
+',
+        'safe_summary' => '',
+      ),
+    ),
+  ),
 );
 $content['question02'] = (object)array(
   'title' => 'Question 02',
@@ -33,7 +45,19 @@ $content['question02'] = (object)array(
   'comment' => '2',
   'translate' => '0',
   'machine_name' => 'question02',
-  'body' => array(),
+  'body' => array(
+    'und' => array(
+      0 => array(
+        'value' => '<p>My answer 2</p>
+',
+        'summary' => '',
+        'format' => 'filtered_html',
+        'safe_value' => '<p>My answer 2</p>
+',
+        'safe_summary' => '',
+      ),
+    ),
+  ),
 );
 return $content;
 }

@@ -3,18 +3,19 @@ dependencies[] = "content_examples"
 dependencies[] = "defaultcontent"
 dependencies[] = "entity_token"
 dependencies[] = "features"
+dependencies[] = "links"
 dependencies[] = "menu"
 dependencies[] = "strongarm"
 dependencies[] = "taxonomy"
 dependencies[] = "token"
 dependencies[] = "views"
-
-
 description = "Frequently Asked Question"
 feature_sets[f_a_q][title] = "FAQ"
 feature_sets[f_a_q][description] = "FAQ features"
 feature_sets[f_a_q][icon] = "feature-set-icons/faq.png"
 feature_sets[f_a_q][enable][] = "f_a_q"
+feature_sets[f_a_q][enable][] = "f_a_q"
+feature_sets[f_a_q][disable][] = "f_a_q"
 feature_sets[f_a_q][disable][] = "f_a_q"
 features[content][] = "question01"
 features[content][] = "question02"
@@ -27,7 +28,6 @@ features[field][] = "node-f_a_q-field_tags"
 features[menu_custom][] = "main-menu"
 features[menu_links][] = "main-menu:faq"
 features[node][] = "f_a_q"
-features[taxonomy][] = "tags"
 features[user_permission][] = "create f_a_q content"
 features[user_permission][] = "delete any f_a_q content"
 features[user_permission][] = "delete own f_a_q content"
@@ -53,17 +53,9 @@ features[variable][] = "save_continue_f_a_q"
 features[variable][] = "show_diff_inline_f_a_q"
 features[variable][] = "show_preview_changes_f_a_q"
 features[variable][] = "workbench_moderation_default_state_f_a_q"
-
-feature_sets[f_a_q][title] = 'FAQ'
-feature_sets[f_a_q][description] = 'FAQ features'
-feature_sets[f_a_q][icon] = 'feature-set-icons/faq.png'
-feature_sets[f_a_q][enable][] = f_a_q
-feature_sets[f_a_q][disable][] = f_a_q
-
-
 features[views_view][] = "faq"
 name = "F.A.Q"
 package = "Features"
 php = "5.2.4"
 project = "f_a_q"
-version = "7.x-1.0-final3"
+version = "7.x-1.0-final4"
