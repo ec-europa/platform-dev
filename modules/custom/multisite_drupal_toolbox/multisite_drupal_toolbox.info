@@ -22,8 +22,8 @@ feature_sets[communities][icon] = 'feature-set-icons/community.png'
 feature_sets[communities][enable][] = communities
 feature_sets[communities][disable][] = communities
 
-feature_sets[communities][title] = 'Sitemap'
-feature_sets[communities][description] = 'Build a sitemap and make it available for your visitors'
-feature_sets[communities][icon] = 'feature-set-icons/sitemap.png'
-feature_sets[communities][enable][] = sitemap
-feature_sets[communities][disable][] = sitemap
+feature_sets[sitemap][title] = 'Sitemap'
+feature_sets[sitemap][description] = 'Build a sitemap and make it available for your visitors'
+feature_sets[sitemap][icon] = 'feature-set-icons/sitemap.png'
+feature_sets[sitemap][enable][] = sitemap
+feature_sets[sitemap][disable][] = sitemap
