@@ -8,6 +8,8 @@ dependencies[] = "strongarm"
 dependencies[] = "taxonomy"
 dependencies[] = "token"
 dependencies[] = "views"
+
+
 description = "Frequently Asked Question"
 feature_sets[f_a_q][title] = "FAQ"
 feature_sets[f_a_q][description] = "FAQ features"
