@@ -80,15 +80,23 @@
   display: inline;
 }
 
+#feature-set-admin-form tr > td {
+  background-color: #F3F4EE;
+}
+
 #feature-set-admin-form tr.gradient > td.feature {
-  background: #e9f4d3; /* Old browsers */
-  background: -moz-linear-gradient(45deg,  #e9f4d3 0%, #ffffff 40%, #ffffff 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#e9f4d3), color-stop(40%,#ffffff), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(45deg,  #e9f4d3 0%,#ffffff 40%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(45deg,  #e9f4d3 0%,#ffffff 40%,#ffffff 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(45deg,  #e9f4d3 0%,#ffffff 40%,#ffffff 100%); /* IE10+ */
-  background: linear-gradient(45deg,  #e9f4d3 0%,#ffffff 40%,#ffffff 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e9f4d3', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(-45deg,  #ffffff 0%, #dbefb3 47%, #cdf285 70%, #e9f4d3 91%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#ffffff), color-stop(47%,#dbefb3), color-stop(70%,#cdf285), color-stop(91%,#e9f4d3)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(-45deg,  #ffffff 0%,#dbefb3 47%,#cdf285 70%,#e9f4d3 91%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(-45deg,  #ffffff 0%,#dbefb3 47%,#cdf285 70%,#e9f4d3 91%); /* Opera 11.10+ */
+background: -ms-linear-gradient(-45deg,  #ffffff 0%,#dbefb3 47%,#cdf285 70%,#e9f4d3 91%); /* IE10+ */
+background: linear-gradient(-45deg,  #ffffff 0%,#dbefb3 47%,#cdf285 70%,#e9f4d3 91%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#cdf285',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+#feature-set-admin-form tr.gradient > td.switcher {
+  background-color: #E9F4D3;
 }
 
 /* -----
