@@ -56,13 +56,14 @@ dependencies[] = varnish
 dependencies[] = views
 dependencies[] = views_ui
 dependencies[] = views_bulk_operations
-dependencies[] = views_xml
-dependencies[] = views_xhtml
-dependencies[] = views_rdf
-dependencies[] = views_json
+;dependencies[] = views_xml
+;dependencies[] = views_xhtml
+;dependencies[] = views_rdf
+;dependencies[] = views_json
 dependencies[] = votingapi
 dependencies[] = uuid
 dependencies[] = feature_set
+dependencies[] = less
 
 dependencies[] = multisite_drupal_toolbox
 

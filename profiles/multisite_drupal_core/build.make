@@ -89,6 +89,12 @@ projects[link][version] = "1.0"
 projects[og][subdir] = "contributed"
 projects[og][version] = "1.3"
 
+projects[site_map][subdir] = "contributed"
+projects[site_map][version] = "1.0"
+
+projects[less][subdir] = "contributed"
+projects[less][version] = "2.4"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"

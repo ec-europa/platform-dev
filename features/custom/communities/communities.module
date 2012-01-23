@@ -5,3 +5,7 @@
  */
 
 include_once('communities.features.inc');
+
+function communities_disable() {
+  _delete_content_type('community');
+}
