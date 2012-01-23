@@ -37,9 +37,11 @@ function links_block_view($delta='') {
  * @return string
  */
 function links_contents() {
-
-$output = l('Create Link','node/add/links');
-
+  $output = l('Create Link','node/add/links');
   return $output;
+}
+
+function links_disable() {
+  _disable_content_type('links');
 }
  
