@@ -35,11 +35,18 @@ body,
 .without-secondary-menu .region-header {
   margin-top: 15px;
 }
+#main-menu {
+  display: block;
+  float: left;
+}
 #secondary-menu {
   position: absolute;
   right: 0; /* LTR */
-  top: 0;
-  width: 480px;
+  top: 30px;
+  width: auto;
+}
+.tabs {
+  clear: both;
 }
 #content,
 #sidebar-first,

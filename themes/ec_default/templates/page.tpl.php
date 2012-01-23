@@ -131,47 +131,13 @@
   <div class="layout-body">
     <div class="layout-wrapper">
       <div class="layout-wrapper-reset">
-      
-      <?php if ($main_menu): ?>
-        <div id="main-menu" class="navigation">
-          <?php print theme('links__system_main_menu', array(
-            'links' => $main_menu,
-            'attributes' => array(
-              'id' => 'main-menu-links',
-              'class' => array('links', 'clearfix'),
-            ),
-            'heading' => array(
-              'text' => t('Main menu'),
-              'level' => 'h2',
-              'class' => array('element-invisible'),
-            ),
-          )); ?>
-        </div><!-- /#main-menu -->
-      <?php endif; ?>   
 
       <?php if ($messages): ?>
         <div id="messages">
           <?php print $messages; ?>
         </div><!-- /#messages -->
       <?php endif; ?>
-  
-      <?php if ($secondary_menu): ?>
-        <div id="secondary-menu" class="navigation">
-          <?php print theme('links__system_secondary_menu', array(
-            'links' => $secondary_menu,
-            'attributes' => array(
-              'id' => 'secondary-menu-links',
-              'class' => array('links', 'inline', 'clearfix'),
-            ),
-            'heading' => array(
-              'text' => t('Secondary menu'),
-              'level' => 'h2',
-              'class' => array('element-invisible'),
-            ),
-          )); ?>
-        </div><!-- /#secondary-menu -->
-      <?php endif; ?>        
-        
+
         <div class="layout-left">
       <?php if ($page['sidebar_first']): ?>
         <?php print render($page['sidebar_first']); ?>
@@ -180,6 +146,41 @@
 
         <div class="layout-content">
           <div class="layout-content-reset"><a id="content" name="content"></a>
+          
+            <?php if ($main_menu): ?>
+              <div id="main-menu" class="navigation">
+                <?php print theme('links__system_main_menu', array(
+                  'links' => $main_menu,
+                  'attributes' => array(
+                    'id' => 'main-menu-links',
+                    'class' => array('links', 'clearfix', 'pills'),
+                  ),
+                  'heading' => array(
+                    'text' => t('Main menu'),
+                    'level' => 'h2',
+                    'class' => array('element-invisible'),
+                  ),
+                )); ?>
+              </div><!-- /#main-menu -->
+            <?php endif; ?>    
+
+            <?php if ($secondary_menu): ?>
+              <div id="secondary-menu" class="navigation">
+                <?php print theme('links__system_secondary_menu', array(
+                  'links' => $secondary_menu,
+                  'attributes' => array(
+                    'id' => 'secondary-menu-links',
+                    'class' => array('links', 'inline', 'clearfix'),
+                  ),
+                  'heading' => array(
+                    'text' => t('Secondary menu'),
+                    'level' => 'h2',
+                    'class' => array('element-invisible'),
+                  ),
+                )); ?>
+              </div><!-- /#secondary-menu -->
+            <?php endif; ?>             
+            
             <p class="off-screen">Additional tools</p>
             <ul class="reset-list" id="additional-tools">
               <li class="print"> <a class="link-components" href="javascript:tools.printPage();" title="Print version"><img alt="Print version" src="http://ec.europa.eu/wel/template-2012/images/print.gif"><span class="s">&nbsp;</span></a> </li>

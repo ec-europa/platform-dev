@@ -69,7 +69,11 @@ h6 {color: @h6_color; }
           background-color: darken(@body_color,10%);
           border-color: darken(@body_color,20%);
           text-shadow: 0 1px 0 darken(@body_color,20%);
-          &:hover { border-color: darken(@body_color,15%); }
+          &:hover { 
+            border-color: darken(@body_color,15%); 
+            background-color: darken(@body_color,5%);
+            color: @text_color;
+          }
           .active {
             background-color: @body_color;
             a {

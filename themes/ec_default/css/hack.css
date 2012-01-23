@@ -2,6 +2,17 @@
 .title-en {
   background-image: url("../images/title/title_en.gif");
 }
+.layout-body {
+  margin-top: 15px;
+}
+.layout-content {
+  margin-top: 0;
+  padding-top: 0;
+  position: relative;
+}
+.layout-noright #additional-tools {
+  clear: left;
+}
 
 /* Hack for bootstrap css */
 #header li {

@@ -44,10 +44,6 @@ function ec_default_preprocess_html(&$variables) {
   drupal_add_css(path_to_theme() . '/css/style.less', array('group' => CSS_THEME));
   drupal_add_css(path_to_theme() . '/css/colors.less', array('group' => CSS_THEME));
 
-  
-  // Add Less javascript
-  //drupal_add_js(path_to_theme() . '/less/less.js');  
-  
   // Add EC javascript
 	drupal_add_js('http://ec.europa.eu/wel/template-2012/scripts/ec.js', 'external');
   

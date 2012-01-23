@@ -62,10 +62,10 @@ kbd {
   color: #666;
   display: inline-block;
   padding: 0 6px;
-  -webkit-border-radius: 5px;
+  /*-webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  border-radius: 5px;
-  //.border-radius;
+  border-radius: 5px;*/
+  .border-radius;
 }
 pre {
   background-color: #f2f2f2;
@@ -74,6 +74,9 @@ pre {
   overflow: hidden;
   padding: 15px;
   white-space: pre-wrap;
+}
+p {
+  font-size: 100%;
 }
 
 
@@ -92,24 +95,24 @@ blockquote {
   font-style: italic;
   margin: 1.5em 10px;
   padding: 0.5em 10px;
-}
-blockquote:before {
-  color: #bbb;
-  content: "\201C";
-  font-size: 3em;
-  line-height: 0.1em;
-  margin-right: 0.2em;
-  vertical-align: -.4em;
-}
-blockquote:after {
-  color: #bbb;
-  content: "\201D";
-  font-size: 3em;
-  line-height: 0.1em;
-  vertical-align: -.45em;
-}
-blockquote :first-child {
-  display: inline;
+  &:before {
+    color: #bbb;
+    content: "\201C";
+    font-size: 3em;
+    line-height: 0.1em;
+    margin-right: 0.2em;
+    vertical-align: -.4em;  
+  }
+  &:after {
+    color: #bbb;
+    content: "\201D";
+    font-size: 3em;
+    line-height: 0.1em;
+    vertical-align: -.45em;  
+  }
+  &:first-child {
+  display: inline;  
+  }
 }
 a.feed-icon {
   display: inline-block;
@@ -215,10 +218,10 @@ ul.tips {
   line-height: 1.7;
   padding: 1px 10px 2px 10px;
   text-decoration: none;
-  -webkit-border-radius: 0 0 10px 10px;
+  /*-webkit-border-radius: 0 0 10px 10px;
   -moz-border-radius: 0 0 10px 10px;
-  border-radius: 0 0 10px 10px;
-  //.border-radius(0,0,10px,10px);
+  border-radius: 0 0 10px 10px;*/
+  .border-radius(0,0,10px,10px);
 }
 #skip-link a:hover,
 #skip-link a:active,
@@ -227,50 +230,18 @@ ul.tips {
 }
 
 /* --------------- Main Menu ------------ */
-
-#main-menu {
-  clear: both;
-}
 #main-menu-links {
-  font-size: 0.929em;
-  margin: 0 0 10px;
-  padding: 0 15px;
-}
-#main-menu-links li {
-  float: left; /* LTR */
-  list-style: none;
-  padding: 0 1px;
-  margin: 0 1px;
-}
-#main-menu-links a {
-  float: left; /* LTR */
-  height: 2.4em;
-  line-height: 2.4em;
-  padding: 0 0.8em;
-  text-decoration: none;
-  -webkit-border-radius: 0 0 8px 8px;
-  -moz-border-radius: 0 0 8px 8px;
-  border-radius: 0 0 8px 8px;
-  //.border-radius(0,0,8px,8px);
-}
-#main-menu-links li a.active {
-  border-bottom: none;
-}
-.featured #main-menu-links li a:active,
-.featured #main-menu-links li a.active {
-  background: #074A8B;
-  background: rgba(7, 74, 139, 1.0);
-}
-#main-menu-links li a.active,
-#main-menu-links li.active-trail a {
-
+  a {
+    text-decoration: none;
+    font-size: 120%;
+  }
 }
 
 /* --------------- Secondary Menu ------------ */
 
 #secondary-menu-links {
   float: right; /* LTR */
-  font-size: 0.929em;
+  font-size: 0.9em;
   margin: 10px 10px 0;
 }
 #secondary-menu-links a:hover,
@@ -327,13 +298,15 @@ ul.tips {
 
 .content {
   margin-top: 10px;
+  clear: both;
 }
 h1#page-title {
   font-size: 2em;
   line-height: 1;
+  clear: both;
 }
 .node .content {
-  font-size: 1.071em;
+  font-size: 1em;
 }
 .node-teaser .content {
   font-size: 1em;
@@ -366,7 +339,7 @@ h1#page-title {
   line-height: 1.6;
 }
 .meta {
-  font-size: 0.857em;
+  font-size: 0.9em;
   color: #68696b;
   margin-bottom: -5px;
 }
@@ -385,11 +358,11 @@ h1#page-title {
 }
 .field-type-taxonomy-term-reference .field-label,
 .field-type-taxonomy-term-reference ul.links {
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 .node-teaser .field-type-taxonomy-term-reference .field-label,
 .node-teaser .field-type-taxonomy-term-reference ul.links {
-  font-size: 0.821em;
+  font-size: 0.9em;
 }
 .field-type-taxonomy-term-reference ul.links {
   padding: 0;
@@ -410,7 +383,7 @@ h1#page-title {
 }
 ul.links {
   color: #68696b;
-  font-size: 0.821em;
+  font-size: 0.9em;
 }
 .node-unpublished {
   margin: -20px -15px 0;
@@ -449,19 +422,19 @@ ul.links {
 }
 .comment .submitted p {
   margin: 4px 0;
-  font-size: 1.071em;
+  font-size: 1em;
   line-height: 1.2;
 }
 .comment .submitted .comment-time {
-  font-size: 0.786em;
+  font-size: 0.9em;
   color: #68696b;
 }
 .comment .submitted .comment-permalink {
-  font-size: 0.786em;
+  font-size: 0.9em;
   text-transform: lowercase;
 }
 .comment .content {
-  font-size: 0.929em;
+  font-size: 1em;
   line-height: 1.6;
 }
 .comment .comment-arrow {
@@ -504,10 +477,10 @@ ul.links {
 .layout-left .block {
   padding: 10px 15px;
   margin: 0 0 20px;
-  -webkit-border-radius: 0 8px 8px 0;
+  /*-webkit-border-radius: 0 8px 8px 0;
   -moz-border-radius: 0 8px 8px 0;
-  border-radius: 0 8px 8px 0;
-  //.border-radius(0,8px,8px,0);  
+  border-radius: 0 8px 8px 0;*/
+  .border-radius(0,8px,8px,0);  
 }
 .layout-left .block input[type=text],
 .layout-left .block input[type=password] {
@@ -600,14 +573,14 @@ ul.links {
   height: 1.8em;
   line-height: 1.9;
   display: block;
-  font-size: 0.929em;
+  font-size: 1em;
   float: left; /* not LTR */
   padding: 0 10px 3px;
   margin: 0;
-  -webkit-border-radius: 8px 8px 0 0;
+  /*-webkit-border-radius: 8px 8px 0 0;
   -moz-border-radius: 8px 8px 0 0;
-  border-radius: 8px 8px 0 0;
-  //.border-radius(8px,8px,0,0);
+  border-radius: 8px 8px 0 0;*/
+  .border-radius(8px,8px,0,0);
 }
 .tabs ul.secondary {
   border-bottom: none;
@@ -629,10 +602,10 @@ ul.links {
 .tabs ul.secondary li a.active {
   background: #f2f2f2;
   border-bottom: none;
-  -webkit-border-radius: 5px;
+  /*-webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  border-radius: 5px;
-  //.border-radius;
+  border-radius: 5px;*/
+  .border-radius;
 }
 ul.action-links {
   list-style: none;
@@ -688,7 +661,7 @@ div.form-item div.password-suggestions {
 #password-strength-text,
 .password-strength-title,
 div.password-confirm {
-  font-size: 0.82em;
+  font-size: 0.9em;
 }
 #password-strength-text {
   margin-top: 0.2em;
@@ -705,16 +678,16 @@ a.button {
   border-right-color: #d2d2d2;
   color: #3a3a3a;
   cursor: pointer;
-  font-size: 0.929em;
+  font-size: 0.9em;
   font-weight: normal;
   text-align: center;
   margin-bottom: 1em;
   margin-right: 0.6em; /* LTR */
   padding: 4px 17px;
-  -webkit-border-radius: 15px;
+  /*-webkit-border-radius: 15px;
   -moz-border-radius: 15px;
-  border-radius: 15px;
-  //.border-radius(15px,15px,15px,15px);
+  border-radius: 15px;*/
+  .border-radius(15px,15px,15px,15px);
 }
 a.button:link,
 a.button:visited,
@@ -735,10 +708,10 @@ fieldset {
   padding: 0 0 10px;
   position: relative;
   top: 12px; /* Offsets the negative margin of legends */
-  -webkit-border-radius: 5px;
+  /*-webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  border-radius: 5px;
-  //.border-radius;
+  border-radius: 5px;*/
+  .border-radius;
 }
 .fieldset-wrapper {
   margin-top: 25px;
@@ -749,13 +722,13 @@ fieldset {
 .filter-wrapper {
   top: 0;
   padding: 1em 0 0.2em;
-  -webkit-border-radius: 0 0 5px 5px;
+  /*-webkit-border-radius: 0 0 5px 5px;
   -moz-border-radius: 0 0 5px 5px;
-  border-radius: 0 0 5px 5px;
-  //.border-radius(0,0,5px,5px);
+  border-radius: 0 0 5px 5px;*/
+  .border-radius(0,0,5px,5px);
 }
 .filter-help a {
-  font-size: 0.857em;
+  font-size: 0.9em;
   padding: 2px 20px 0;
 }
 .filter-wrapper .form-item label {
@@ -769,10 +742,10 @@ fieldset {
 }
 fieldset.collapsed {
   background: transparent;
-  -webkit-border-radius: 0;
+  /*-webkit-border-radius: 0;
   -moz-border-radius: 0;
-  border-radius: 0;
-  //.border-radius(0,0,0,0);
+  border-radius: 0;*/
+  .border-radius(0,0,0,0);
 }
 fieldset legend {
   background: #dbdbdb;
@@ -789,16 +762,16 @@ fieldset legend {
   text-shadow: 0 1px 0 #fff;
   top: -12px;
   width: 100%;
-  -webkit-border-radius: 5px 5px 0 0;
+  /*-webkit-border-radius: 5px 5px 0 0;
   -moz-border-radius: 5px 5px 0 0;
-  border-radius: 5px 5px 0 0;
-  //.border-radius(5px,5px,0,0);
+  border-radius: 5px 5px 0 0;*/
+  .border-radius(5px,5px,0,0);
 }
 fieldset.collapsed legend {
-  -webkit-border-radius: 5px;
+  /*-webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  border-radius: 5px;
-  //.border-radius;
+  border-radius: 5px;*/
+  .border-radius;
 }
 fieldset legend a {
   color: #3b3b3b;
@@ -817,7 +790,7 @@ input {
 }
 input,
 textarea {
-  font-size: 0.929em;
+  font-size: 0.9em;
 }
 textarea {
   line-height: 1.5;
@@ -862,24 +835,24 @@ fieldset .description {
 /* Contact Form */
 .contact-form #edit-name {
   width: 75%;
-  -webkit-border-radius: 5px;
+  /*-webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  border-radius: 5px;
-  //.border-radius;
+  border-radius: 5px;*/
+  .border-radius;
 }
 .contact-form #edit-mail {
   width: 75%;
-  -webkit-border-radius: 5px;
+  /*-webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  border-radius: 5px;
-  //.border-radius;
+  border-radius: 5px;*/
+  .border-radius;
 }
 .contact-form #edit-subject {
   width: 75%;
-  -webkit-border-radius: 5px;
+  /*-webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  border-radius: 5px;
-  //.border-radius;
+  border-radius: 5px;*/
+  .border-radius;
 }
 .contact-form #edit-message {
   width: 76.3%;
@@ -890,10 +863,10 @@ fieldset .description {
 }
 .contact-form .resizable-textarea .grippie {
   width: 76%;
-  -webkit-border-radius: 0 0 5px 5px;
+  /*-webkit-border-radius: 0 0 5px 5px;
   -moz-border-radius: 0 0 5px 5px;
-  border-radius: 0 0 5px 5px;
-  //.border-radius(0,0,5px,5px);
+  border-radius: 0 0 5px 5px;*/
+  .border-radius(0,0,5px,5px);
 }
 
 /* Disabled form elements */
@@ -932,10 +905,10 @@ html.js input.throbbing {
 .comment-form input,
 .comment-form .form-select {
   margin: 0;
-  -webkit-border-radius: 5px;
+  /*-webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  border-radius: 5px;
-  //.border-radius;
+  border-radius: 5px;*/
+  .border-radius;
 }
 .comment-form .form-type-textarea label {
   float: none;
@@ -969,7 +942,7 @@ html.js input.throbbing {
   width: 320px;
 }
 .comment-form .form-item .description {
-  font-size: 0.786em;
+  font-size: 0.9em;
   line-height: 1.2;
   margin-left: 120px; /* LTR */
 }
@@ -977,10 +950,10 @@ html.js input.throbbing {
   margin-bottom: 0.5em;
 }
 .comment-form .form-textarea {
-  -webkit-border-radius: 5px 5px 0 0;
+  /*-webkit-border-radius: 5px 5px 0 0;
   -moz-border-radius: 5px 5px 0 0;
-  border-radius: 5px 5px 0 0;
-  //.border-radius(5px,5px,0,0);
+  border-radius: 5px 5px 0 0;*/
+  .border-radius(5px,5px,0,0);
 }
 .comment-form fieldset.filter-wrapper .fieldset-wrapper,
 .comment-form .text-format-wrapper .form-item {
@@ -995,7 +968,7 @@ html.js input.throbbing {
   min-width: 120px;
 }
 .comment-form fieldset.filter-wrapper .tips {
-  font-size: 0.786em;
+  font-size: 0.9em;
 }
 #comment-body-add-more-wrapper .form-type-textarea label {
   margin-bottom: 0.4em;
@@ -1020,7 +993,7 @@ div.vertical-tabs .vertical-tabs-panes fieldset.vertical-tabs-pane {
   padding-left: 35px;
 }
 #forum .name {
-  font-size: 1.083em;
+  font-size: 1em;
 }
 #forum .description {
   font-size: 1em;
@@ -1202,7 +1175,7 @@ div.admin-panel .description {
   margin: 0;
 }
 .poll .percent {
-  font-size: 0.857em;
+  font-size: 0.9em;
   font-style: italic;
   margin-bottom: 3em;
   margin-top: -3.2em;
@@ -1214,7 +1187,7 @@ div.admin-panel .description {
   margin-right: 2.25em;
 }
 .poll .total {
-  font-size: 0.929em;
+  font-size: 0.9em;
   font-style: italic;
   text-align: right; /* LTR */
   clear: both;
