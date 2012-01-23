@@ -245,10 +245,8 @@ function is_requiredby($module) {
   $module_list = array_keys(module_list());
   if(!empty($required_by)) {
     foreach(array_keys($required_by) as $key) {
-      //print $key;
       $check_module = in_array($key, $module_list);
       $check_profile = ($key==variable_get("install_profile"))?TRUE:FALSE;
-      print $check_module;
       if($check_module && !$check_profile) // check if the module is required by another one and if this module is not a installation profile
         $is_required++;
     }
