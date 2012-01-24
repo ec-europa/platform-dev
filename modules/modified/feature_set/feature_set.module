@@ -129,6 +129,11 @@ function feature_set_enable_feature_set($feature_set) {
   if (!empty($feature_set['enable'])) {
     module_enable($feature_set['enable']);
   }
+  
+  // multisite fix, need to clear cache
+  menu_rebuild();
+  drupal_flush_all_caches();
+  
 }
 
 /**
@@ -141,6 +146,11 @@ function feature_set_disable_feature_set($feature_set) {
   if (!empty($feature_set['uninstall'])) {
     drupal_uninstall_modules($feature_set['uninstall']);
   }
+  
+  // multisite fix, need to clear cache
+  menu_rebuild();
+  drupal_flush_all_caches();
+  
 }
 
 /**
