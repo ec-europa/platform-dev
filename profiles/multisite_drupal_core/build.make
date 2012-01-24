@@ -95,6 +95,9 @@ projects[site_map][version] = "1.0"
 projects[less][subdir] = "contributed"
 projects[less][version] = "2.4"
 
+projects[xmlsitemap][subdir] = "contributed"
+projects[xmlsitemap][version] = "2.0-rc1"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"
