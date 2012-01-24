@@ -9,3 +9,19 @@ include_once('communities.features.inc');
 function communities_disable() {
   _disable_content_type('community');
 }
+
+/*
+* hook_views_pre_render
+*/
+function communities_views_pre_render(&$view) {
+  if($view->name == 'communities_directory') {
+    $alphabet = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+    $output = '<ul class="glossary">';
+    foreach($alphabet as $letter) {
+      $url = $_GET['q'].'/'.$letter;
+      $output .= '<li>'.l($letter, $url).'</li>';
+    }
+    $output .= '<div class="add_content">'.l(t('create a new community'),'node/add/community').'</div>';
+    $view->header['area']->options['content'] = $output;
+  }
+}
