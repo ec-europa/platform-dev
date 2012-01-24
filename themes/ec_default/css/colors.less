@@ -1,3 +1,4 @@
+/*----- Set 1 -----*/
 //main colors
 @body_color:  #ffffff; //#ffffff
 @text_color:  #3b3b3b; //#3b3b3b
@@ -22,12 +23,41 @@
 //tabs colors
 @primary_tab_bg_color:      #0065a2; //#0065a2
 @primary_tab_text_color:  #ffffff; //#ffffff
+/*----- /Set 1 -----*/
 
+/*----- Set 2 -----*/
+/*//main colors
+@body_color:  #0065A2; //#ffffff
+@text_color:  #dddddd; //#3b3b3b
+
+//header colors
+@h1_color: #113355; //#113355
+@h2_color: #336699; //#336699
+@h3_color: #003366; //#003366
+@h4_color: #003366; //#003366
+@h5_color: #336699; //#336699
+@h6_color: #003366; //#003366
+
+//links colors
+@link_color:               #dddddd; //#027AC6
+@link_hover_color:   #e88a24; //#003366
+@link_active_color: #e88a24; //#003366
+
+//sidebar colors
+@sidebar_bg_color:     #e88a24; //#f2f2f2
+@sidebar_text_color: #000000; //#3b3b3b
+@sidebar_link_color: #000000; //#3b3b3b
+
+//tabs colors
+@primary_tab_bg_color:      #e88a24; //#0065a2
+@primary_tab_text_color:  #000000; //#ffffff*/
+/*----- /Set 2 -----*/
 
 /* ---------- Color Module Styles ----------- */
 
 body,
-body.overlay {
+body.overlay,
+li {
   color: @text_color;
 }
 h1 {color: @h1_color; }
@@ -57,9 +87,13 @@ h6 {color: @h6_color; }
     border-right: solid 2px darken(@sidebar_bg_color,15%);
     border-bottom: solid 2px darken(@sidebar_bg_color,15%);
   }
+  a {
+    color: @sidebar_link_color;
+    &:hover { color: @sidebar_link_color; };
+  }
 }
 
-.tabs {
+/*.tabs {
   border-color: darken(@body_color,15%);
   ul {
     &.primary {
@@ -86,6 +120,29 @@ h6 {color: @h6_color; }
       }
     }
   }
+}*/
+.tabs {
+  border-color: darken(@body_color,15%);
+  li {
+    a {
+      &:hover {
+        background-color: darken(@body_color,5%);
+        border-color: @body_color @body_color darken(@body_color,15%);
+      }
+    }
+  }
+  .active {
+    a {
+      color: lighten(@link_color,20%);
+      background-color: @body_color;
+      border-color: darken(@body_color,15%) darken(@body_color,15%) transparent darken(@body_color,15%);
+      &:hover { 
+        color: lighten(@link_color,20%);
+        background-color: @body_color;
+        border-color: darken(@body_color,15%) darken(@body_color,15%) transparent darken(@body_color,15%);
+      }
+    }
+  }
 }
 
 a {
@@ -108,10 +165,11 @@ a {
 }*/
 .pills {
   a {
+    border: 1px solid fadeout(@primary_tab_bg_color,10%);
     &:hover { 
       background: darken(@primary_tab_bg_color,10%); 
       color: @primary_tab_text_color;
-      text-shadow: 1px 1px (#fff - @primary_tab_text_color);    
+      border-color: transparent;
     }
   }
   .active { 
@@ -119,13 +177,17 @@ a {
       color: @primary_tab_text_color;
       background: @primary_tab_bg_color;
       text-shadow: 1px 1px (#fff - @primary_tab_text_color);
+      border-color: transparent;
       &:hover { background: fadeout(@primary_tab_bg_color,10%); }
       &:focus { background: fadeout(@primary_tab_bg_color,10%); }
     }
   }
 }
 
-#page-wrapper,
-#footer-wrapper {
-  background: @body_color;
+.meta {
+  color: lighten(@text_color,20%);
+}
+
+.layout-footer {
+  color: @link_color;
 }

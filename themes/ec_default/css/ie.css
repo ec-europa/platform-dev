@@ -1,5 +1,10 @@
 /* $Id: ie.css,v 1.12 2011/01/04 02:59:37 webchick Exp $ */
 
+#main-menu {
+  position: absolute;
+  left: 15px;
+  top: 0;
+}
 .block {
   zoom: 1;
 }

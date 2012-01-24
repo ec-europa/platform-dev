@@ -37,7 +37,6 @@ body,
 }
 #main-menu {
   display: block;
-  float: left;
 }
 #secondary-menu {
   position: absolute;

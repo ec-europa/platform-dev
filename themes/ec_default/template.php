@@ -38,6 +38,7 @@ function ec_default_preprocess_html(&$variables) {
 
   // Add hack stylesheet, to overide EC and bootstrap stylesheets if needed
   drupal_add_css(path_to_theme() . '/css/hack.css', array('group' => CSS_THEME));
+  drupal_add_css(path_to_theme() . '/css/hack-ie.css', array('group' => CSS_THEME));
 
   // Add Less stylesheets
   //drupal_add_css(path_to_theme() . '/bootstrap/bootstrap.less', array('group' => CSS_THEME));
@@ -255,6 +256,28 @@ function ec_default_field__taxonomy_term_reference($variables) {
 
   // Render the top-level DIV.
   $output = '<div class="' . $variables['classes'] . (!in_array('clearfix', $variables['classes_array']) ? ' clearfix' : '') . '">' . $output . '</div>';
+
+  return $output;
+}
+
+/**
+ * Alter primary tabs
+ */
+function ec_default_menu_local_tasks(&$variables) {
+  $output = '';
+
+  if (!empty($variables['primary'])) {
+    $variables['primary']['#prefix'] = '<h2 class="element-invisible">' . t('Primary tabs') . '</h2>';
+    $variables['primary']['#prefix'] .= '<ul class="tabs">';
+    $variables['primary']['#suffix'] = '</ul>';
+    $output .= drupal_render($variables['primary']);
+  }
+  if (!empty($variables['secondary'])) {
+    $variables['secondary']['#prefix'] = '<h2 class="element-invisible">' . t('Secondary tabs') . '</h2>';
+    $variables['secondary']['#prefix'] .= '<ul class="tabs secondary">';
+    $variables['secondary']['#suffix'] = '</ul>';
+    $output .= drupal_render($variables['secondary']);
+  }
 
   return $output;
 }

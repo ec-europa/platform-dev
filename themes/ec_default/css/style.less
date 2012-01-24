@@ -282,7 +282,6 @@ ul.tips {
 /* --------------- Highlighted ---------------- */
 
 #highlighted {
-  border-bottom: 1px solid #d3d7d9;
   font-size: 120%;
 }
 
@@ -296,7 +295,7 @@ ul.tips {
 
 /* ----------------- Content ------------------ */
 
-.content {
+.layout-content .content {
   margin-top: 10px;
   clear: both;
 }
@@ -314,6 +313,7 @@ h1#page-title {
 .node-teaser h2 {
   margin-top: 0;
   padding-top: 0.5em;
+  clear: both;
 }
 .node-teaser h2 a {
   color: #181818;
@@ -340,7 +340,6 @@ h1#page-title {
 }
 .meta {
   font-size: 0.9em;
-  color: #68696b;
   margin-bottom: -5px;
 }
 .submitted .user-picture img {
@@ -547,7 +546,7 @@ ul.links {
 
 /* --------------- System Tabs  --------------- */
 
-.tabs {
+/*.tabs {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin-bottom: 20px;
 }
@@ -559,9 +558,9 @@ ul.links {
 }
 .tabs ul.primary li {
   display: block;
-  float: left; /* LTR */
+  float: left; 
   vertical-align: bottom;
-  margin: 0 5px 0 0; /* LTR */
+  margin: 0 5px 0 0;
   position: relative;
   top: 1px;
 }
@@ -574,12 +573,9 @@ ul.links {
   line-height: 1.9;
   display: block;
   font-size: 1em;
-  float: left; /* not LTR */
+  float: left; 
   padding: 0 10px 3px;
   margin: 0;
-  /*-webkit-border-radius: 8px 8px 0 0;
-  -moz-border-radius: 8px 8px 0 0;
-  border-radius: 8px 8px 0 0;*/
   .border-radius(8px,8px,0,0);
 }
 .tabs ul.secondary {
@@ -588,13 +584,13 @@ ul.links {
 }
 .tabs ul.secondary li {
   display: block;
-  float: left; /* LTR */
+  float: left; 
 }
 .tabs ul.secondary li:last-child {
-  border-right: none; /* LTR */
+  border-right: none; 
 }
 .tabs ul.secondary li:first-child {
-  padding-left: 0; /* LTR */
+  padding-left: 0; 
 }
 .tabs ul.secondary li a {
   padding: 0.25em 0.5em;
@@ -602,10 +598,12 @@ ul.links {
 .tabs ul.secondary li a.active {
   background: #f2f2f2;
   border-bottom: none;
-  /*-webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;*/
   .border-radius;
+}*/
+.tabs {
+  a {
+    text-decoration: none;
+  }
 }
 ul.action-links {
   list-style: none;
