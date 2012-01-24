@@ -10,6 +10,7 @@ function communities_disable() {
   _disable_content_type('community');
 }
 
+
 /*
 * hook_views_pre_render
 */
@@ -25,3 +26,4 @@ function communities_views_pre_render(&$view) {
     $view->header['area']->options['content'] = $output;
   }
 }
+

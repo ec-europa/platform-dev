@@ -77,7 +77,7 @@ function communities_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '1',
+        'weight' => '2',
       ),
     ),
   );
@@ -150,7 +150,7 @@ function communities_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '8',
+        'weight' => '3',
       ),
     ),
   );
@@ -176,14 +176,13 @@ function communities_field_default_fields() {
           0 => 'fid',
         ),
       ),
-      'module' => 'file',
+      'module' => 'image',
       'settings' => array(
-        'display_default' => 0,
-        'display_field' => 0,
+        'default_image' => '2',
         'uri_scheme' => 'public',
       ),
       'translatable' => '0',
-      'type' => 'file',
+      'type' => 'image',
     ),
     'field_instance' => array(
       'bundle' => 'community',
@@ -192,10 +191,13 @@ function communities_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'file',
-          'settings' => array(),
-          'type' => 'file_default',
-          'weight' => 5,
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => '',
+          ),
+          'type' => 'image',
+          'weight' => 8,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -209,10 +211,13 @@ function communities_field_default_fields() {
       'label' => 'thumbnail',
       'required' => 0,
       'settings' => array(
-        'description_field' => 0,
-        'file_directory' => 'communities_thumbnail',
-        'file_extensions' => 'jpg png',
+        'alt_field' => 0,
+        'file_directory' => '',
+        'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
+        'max_resolution' => '',
+        'min_resolution' => '',
+        'title_field' => 0,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -224,7 +229,6 @@ function communities_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            0 => 0,
             'audio' => 0,
             'default' => 0,
             'image' => 'image',
@@ -233,7 +237,7 @@ function communities_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'media_generic',
-        'weight' => '6',
+        'weight' => '4',
       ),
     ),
   );
@@ -309,7 +313,7 @@ function communities_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '2',
+        'weight' => '5',
       ),
       'widget_type' => 'options_select',
     ),
@@ -391,7 +395,7 @@ function communities_field_default_fields() {
           'display_label' => 0,
         ),
         'type' => 'options_onoff',
-        'weight' => '0',
+        'weight' => '1',
       ),
     ),
   );
@@ -469,7 +473,7 @@ function communities_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '3',
+        'weight' => '6',
       ),
       'widget_type' => 'options_select',
     ),
