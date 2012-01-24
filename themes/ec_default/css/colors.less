@@ -93,16 +93,35 @@ a {
   &:hover { color: @link_hover_color; }
   &:focus { color: @link_hover_color; }
   &:active { color: @link_active_color; }  
+  &:visited { color: @link_color; }
 }
 
-#main-menu-links {
+/*#main-menu-links {
   a {
     color: @primary_tab_text_color;
     background: @primary_tab_bg_color;
     text-shadow: 1px 1px (#fff - @primary_tab_text_color);
-    &:hover { background: fadeout(@primary_tab_bg_color,10%); }
+    &:hover { background: fadeout(@primary_tab_bg_color,10%);}
     &:focus { background: fadeout(@primary_tab_bg_color,10%); }
     &:active { background: darken(@primary_tab_bg_color,10%); }
+  }
+}*/
+.pills {
+  a {
+    &:hover { 
+      background: darken(@primary_tab_bg_color,10%); 
+      color: @primary_tab_text_color;
+      text-shadow: 1px 1px (#fff - @primary_tab_text_color);    
+    }
+  }
+  .active { 
+    a {
+      color: @primary_tab_text_color;
+      background: @primary_tab_bg_color;
+      text-shadow: 1px 1px (#fff - @primary_tab_text_color);
+      &:hover { background: fadeout(@primary_tab_bg_color,10%); }
+      &:focus { background: fadeout(@primary_tab_bg_color,10%); }
+    }
   }
 }
 
