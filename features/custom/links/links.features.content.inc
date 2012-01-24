@@ -20,22 +20,6 @@ $content['link1'] = (object)array(
   'comment' => '2',
   'translate' => '0',
   'machine_name' => 'link1',
-  'field_link' => array(
-    'und' => array(
-      0 => array(
-        'url' => 'http://uesp.com',
-        'title' => NULL,
-        'attributes' => array(),
-      ),
-    ),
-  ),
-  'field_tags' => array(
-    'und' => array(
-      0 => array(
-        'tid' => '3',
-      ),
-    ),
-  ),
 );
 $content['link2'] = (object)array(
   'title' => 'my link 2',
