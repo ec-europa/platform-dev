@@ -21,5 +21,14 @@ function sitemap_user_default_permissions() {
     'module' => 'site_map',
   );
 
+  // Exported permission: administer xmlsitemap
+  $permissions['administer xmlsitemap'] = array(
+    'name' => 'administer xmlsitemap',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'xmlsitemap',
+  );
+
   return $permissions;
 }
