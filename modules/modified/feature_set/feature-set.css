@@ -110,4 +110,4 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .cb-disable.selected span { background-position: right -210px; color: #fff; }
 .cb-enable.selected { background-position: 0 -60px; }
 .cb-enable.selected span { background-position: left -150px; color: #fff; }
-.switch label { cursor: pointer; }
+.switch label { cursor: pointer; width: auto; margin: 0 !important}

@@ -22,3 +22,9 @@
   line-height: 1.6;
   color: #fff;
 }
+label {
+  width: auto;
+  float: none;
+  text-align: left;
+  font-size: 1em;
+}
