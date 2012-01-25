@@ -1,10 +1,19 @@
 /* communites styles */
-ul.glossary {
+.view-header ul.glossary {
   list-style-type: none;
   padding: 0px;
-  float: left;
 }
-ul.glossary li {
+
+.view-header ul.glossary li {
   float: left;
   padding: 0 5px 0 5px;
+}
+
+.view-header ul.glossary li a {
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.view-header .add_content {
+  float: right;
 }
