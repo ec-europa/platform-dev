@@ -18,7 +18,7 @@ function communities_disable() {
 * hook_enable
 */
 function communities_enable() {
-  global fid_default_community_image;
+  global $fid_default_community_image;
 	
   // affect a file image to the default image of the field thumbnail of the content type community -------------------------------------------------------
   // file creation
