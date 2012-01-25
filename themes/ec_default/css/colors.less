@@ -93,34 +93,6 @@ h6 {color: @h6_color; }
   }
 }
 
-/*.tabs {
-  border-color: darken(@body_color,15%);
-  ul {
-    &.primary {
-      li {
-        a {
-          color: @text_color;
-          background-color: darken(@body_color,10%);
-          border-color: darken(@body_color,20%);
-          text-shadow: 0 1px 0 darken(@body_color,20%);
-          &:hover { 
-            border-color: darken(@body_color,15%); 
-            background-color: darken(@body_color,5%);
-            color: @text_color;
-          }
-          .active {
-            background-color: @body_color;
-            a {
-              background-color: lighten(@body_color,5%);
-              border-color: darken(@body_color,20%);
-              border-bottom-color: @body_color;            
-            }
-          }
-        }
-      }
-    }
-  }
-}*/
 .tabs {
   border-color: darken(@body_color,15%);
   li {
@@ -153,19 +125,9 @@ a {
   &:visited { color: @link_color; }
 }
 
-/*#main-menu-links {
-  a {
-    color: @primary_tab_text_color;
-    background: @primary_tab_bg_color;
-    text-shadow: 1px 1px (#fff - @primary_tab_text_color);
-    &:hover { background: fadeout(@primary_tab_bg_color,10%);}
-    &:focus { background: fadeout(@primary_tab_bg_color,10%); }
-    &:active { background: darken(@primary_tab_bg_color,10%); }
-  }
-}*/
 .pills {
   a {
-    border: 1px solid fadeout(@primary_tab_bg_color,10%);
+    border: 1px solid lighten(@primary_tab_bg_color,10%);
     &:hover { 
       background: darken(@primary_tab_bg_color,10%); 
       color: @primary_tab_text_color;
@@ -178,8 +140,6 @@ a {
       background: @primary_tab_bg_color;
       text-shadow: 1px 1px (#fff - @primary_tab_text_color);
       border-color: transparent;
-      &:hover { background: fadeout(@primary_tab_bg_color,10%); }
-      &:focus { background: fadeout(@primary_tab_bg_color,10%); }
     }
   }
 }
