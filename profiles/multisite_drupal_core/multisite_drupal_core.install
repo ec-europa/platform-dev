@@ -22,7 +22,10 @@ function multisite_drupal_core_install() {
   $term->vid = 1;
   taxonomy_term_save($term);
 
-  
+  // create new roles -------------------------------------------------------------------------------------------------------------------------------------------------------
+  $role = new stdClass();
+  $role->name = 'contributor';
+  user_role_save($role);
   
   // add a user acccount -----------------------------------------------------------------------------------------------------------------------------------------------------
   $account = new StdClass();

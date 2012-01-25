@@ -6,9 +6,35 @@
 
 include_once('communities.features.inc');
 
+
+/*
+* hook_disable
+*/
 function communities_disable() {
   _disable_content_type('community');
 }
+
+/*
+* hook_enable
+*/
+function communities_enable() {
+  // affect a file image to the default image of the field thumbnail of the content type community -------------------------------------------------------
+  // file creation
+  $file = new stdClass();
+  $file->fid = NULL;
+  $file->uri = "public://default_images/community_default.png";
+  $file->filename = "community_default.png";
+  $file->filemime = file_get_mimetype($file->uri);
+  $file->uid = 1;
+  $file->status = FILE_STATUS_PERMANENT;
+  $f = file_save($file);
+
+  // field config update
+  $field = field_info_field('field_thumbnail');
+  $field['settings']['default_image'] = $f->fid;
+  field_update_field($field);
+}
+
 
 
 /*
