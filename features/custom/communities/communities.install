@@ -1,0 +1,29 @@
+<?php
+
+/*
+* hook_install
+*/
+function communities_install() {
+  global $fid_default_community_image;
+	
+  // affect a file image to the default image of the field thumbnail of the content type community -------------------------------------------------------
+  // file creation
+  $file = new stdClass();
+  $file->fid = NULL;
+  $file->uri = "public://default_images/community_default.png";
+  $file->filename = "community_default.png";
+  $file->filemime = file_get_mimetype($file->uri);
+  $file->uid = 1;
+  $file->status = FILE_STATUS_PERMANENT;
+  $f = file_save($file);
+
+  $fid_default_community_image = $f->fid;
+  
+  /*
+  // field config update
+  $field = field_info_field('field_thumbnail');
+  $field['settings']['default_image'] = $f->fid;
+  field_update_field($field);
+  */
+	  
+}
