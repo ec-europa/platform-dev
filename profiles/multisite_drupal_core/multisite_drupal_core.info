@@ -64,6 +64,7 @@ dependencies[] = votingapi
 dependencies[] = uuid
 dependencies[] = feature_set
 dependencies[] = less
+dependencies[] = translation
 
 dependencies[] = multisite_drupal_toolbox
 
