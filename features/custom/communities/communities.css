@@ -1,0 +1,10 @@
+/* communites styles */
+ul.glossary {
+  list-style-type: none;
+  padding: 0px;
+  float: left;
+}
+ul.glossary li {
+  float: left;
+  padding: 0 5px 0 5px;
+}

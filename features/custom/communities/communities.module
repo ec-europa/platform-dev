@@ -27,3 +27,9 @@ function communities_views_pre_render(&$view) {
   }
 }
 
+/*
+* hook_init
+*/
+function communities_init() {
+  drupal_add_css(drupal_get_path('module', 'commuities') . '/communities.css');
+}
