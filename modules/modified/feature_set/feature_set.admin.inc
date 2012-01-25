@@ -56,7 +56,17 @@ function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
 
   $form['#theme'] = 'feature_set_admin_form';
 
-  $form['submit'] = array('#type' => 'submit', '#value' => t('Update Feature Sets'));
+  $form['submit'] = array(
+    '#type' => 'submit', 
+    '#value' => t('Validate'), 
+    '#attributes' => array(
+      'class' => array(
+        'btn',
+        'large',
+        'primary',
+      ),
+    ),
+  );
 
   return $form;
 }

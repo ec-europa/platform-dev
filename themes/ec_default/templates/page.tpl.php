@@ -86,9 +86,17 @@
  */
 ?>
 
+<?php
+$no_left = false;
+if (arg(0) == 'admin' ||
+    arg(2) == 'edit') {
+  $no_left = true;
+}
+?>
+
 <a id="top-page" name="top-page"></a>
 
-<div class="layout layout-noright" id="layout">
+<div class="layout layout-noright<?php if ($no_left) print ' layout-noleft'; ?>" id="layout">
   
   <div id="header">
     <a href="<?php print $front_page; ?>">
@@ -127,7 +135,7 @@
       <li><?php print $site_name; ?></li>
     </ul>
   </div><!-- /#path -->
-  
+
   <div class="layout-body">
     <div class="layout-wrapper">
       <div class="layout-wrapper-reset">
