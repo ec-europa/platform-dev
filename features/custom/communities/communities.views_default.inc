@@ -59,8 +59,8 @@ function communities_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = FALSE;
-  $handler->display->display_options['header']['area']['content'] = 'gjhgjhgjhghj';
-  $handler->display->display_options['header']['area']['format'] = 'filtered_html';
+  $handler->display->display_options['header']['area']['content'] = 'header content';
+  $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   /* Relationship: Group: Node group */
   $handler->display->display_options['relationships']['og_rel']['id'] = 'og_rel';
@@ -113,7 +113,7 @@ function communities_views_default_views() {
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
   $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['label'] = '';
+  $handler->display->display_options['fields']['body']['label'] = 'Description';
   $handler->display->display_options['fields']['body']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['body']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['body']['alter']['absolute'] = 0;
@@ -127,28 +127,35 @@ function communities_views_default_views() {
   $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 0;
   $handler->display->display_options['fields']['body']['alter']['trim'] = 1;
   $handler->display->display_options['fields']['body']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['body']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['body']['hide_empty'] = 0;
   $handler->display->display_options['fields']['body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
-  /* Field: OG group: Created */
-  $handler->display->display_options['fields']['created']['id'] = 'created';
-  $handler->display->display_options['fields']['created']['table'] = 'og';
-  $handler->display->display_options['fields']['created']['field'] = 'created';
-  $handler->display->display_options['fields']['created']['relationship'] = 'og_rel';
-  $handler->display->display_options['fields']['created']['label'] = 'Since';
-  $handler->display->display_options['fields']['created']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['created']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['created']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['created']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['created']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['created']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['created']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['created']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['created']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['created']['date_format'] = 'time ago';
+  /* Field: Content: Group visibility */
+  $handler->display->display_options['fields']['group_access']['id'] = 'group_access';
+  $handler->display->display_options['fields']['group_access']['table'] = 'field_data_group_access';
+  $handler->display->display_options['fields']['group_access']['field'] = 'group_access';
+  $handler->display->display_options['fields']['group_access']['label'] = 'Visibility';
+  $handler->display->display_options['fields']['group_access']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['group_access']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['group_access']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['group_access']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['group_access']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['group_access']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['group_access']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['group_access']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['group_access']['field_api_classes'] = 0;
   /* Contextual filter: Content: Author uid */
   $handler->display->display_options['arguments']['uid']['id'] = 'uid';
   $handler->display->display_options['arguments']['uid']['table'] = 'node';
@@ -271,10 +278,11 @@ function communities_views_default_views() {
     t('Items per page'),
     t('- All -'),
     t('Offset'),
-    t('gjhgjhgjhghj'),
+    t('header content'),
     t('group'),
     t('Title'),
-    t('Since'),
+    t('Description'),
+    t('Visibility'),
     t('All'),
     t('Group: Group\'s state'),
     t('Page'),
@@ -340,7 +348,6 @@ function communities_views_default_views() {
   $handler->display->display_options['arguments']['group']['field'] = 'group';
   $handler->display->display_options['arguments']['group']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['group']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['group']['title'] = '%1 group members';
   $handler->display->display_options['arguments']['group']['default_argument_type'] = 'og_context';
   $handler->display->display_options['arguments']['group']['default_argument_skip_url'] = 0;
   $handler->display->display_options['arguments']['group']['summary']['number_of_records'] = '0';
@@ -375,7 +382,6 @@ function communities_views_default_views() {
     t('Desc'),
     t('group membership'),
     t('All'),
-    t('%1 group members'),
     t('Block'),
   );
   $export['communities_members'] = $view;
