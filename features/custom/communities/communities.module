@@ -32,6 +32,22 @@ function communities_views_pre_render(&$view) {
   }
 }
 
+
+
+/*
+* hook_init
+*/
 function communities_init() {
   drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
+}
+
+
+
+/*
+* hook_modules_enable
+*/
+function communities_modules_enabled($modules) {
+  if (in_array('og_access', $modules)) {
+    node_access_rebuild();
+  }
 }
