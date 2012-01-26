@@ -23,11 +23,13 @@ mkdir sites/default/files/private_files
 chmod -R 777 sites/default/files
 
 mkdir sites/all/libraries
-cd sites/all/libraries
+#cd sites/all/libraries
+cd sites/all/modules/contributed/ckeditor
+rmdir ckeditor
 wget http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.2/ckeditor_3.6.2.tar.gz
 tar xvf ckeditor_3.6.2.tar.gz
 rm ckeditor_3.6.2.tar.gz
 
-cd ../../../..
+cd ../../../../../..
 mv $1 $webroot
 
