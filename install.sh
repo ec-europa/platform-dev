@@ -14,7 +14,7 @@ cp -R profiles/subsite_communities $1/profiles
 cp -R modules $1/sites/all
 cp -R features $1/sites/all/modules
 cp -R themes $1/sites/all
-cp -R files/default_images $1/sites/default/files
+cp -R files/ $1/sites/default/files/
 cd $1
 
 drush si multisite_drupal_core --db-url=$db_url/$1 --account-name=$account_name --account-pass=$account_pass --site-name=$1 --site-mail=$site_mail
