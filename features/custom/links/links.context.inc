@@ -29,12 +29,6 @@ function links_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'links-Add-links-block' => array(
-          'module' => 'links',
-          'delta' => 'Add-links-block',
-          'region' => 'sidebar_first',
-          'weight' => '-10',
-        ),
         'views-links-block' => array(
           'module' => 'views',
           'delta' => 'links-block',
