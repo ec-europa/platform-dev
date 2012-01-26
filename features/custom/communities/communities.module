@@ -44,7 +44,7 @@ function communities_init() {
 
 
 /*
-* hook_modules_enable
+* hook_modules_enabled
 */
 function communities_modules_enabled($modules) {
   if (in_array('og_access', $modules)) {
