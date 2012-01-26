@@ -1,5 +1,4 @@
 core = "7.x"
-dependencies[] = "f_a_q"
 dependencies[] = "site_map"
 dependencies[] = "xmlsitemap"
 dependencies[] = "xmlsitemap_engines"
