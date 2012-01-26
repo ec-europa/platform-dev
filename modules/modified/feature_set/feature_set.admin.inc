@@ -13,12 +13,12 @@ function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
       $elementname = 'featureset-' . $featureset;
       $form[$elementname] = array(
         '#type' => 'checkbox',
-        '#disabled' => (empty($details['status']) || is_requiredby($featureset) ) ? TRUE : FALSE, // disabled the widget if its in an inconsistent
+        '#disabled' => (empty($details['status']) || is_requiredby($featureset) || requires($featureset) ) ? TRUE : FALSE, // disabled the widget if its in an inconsistent
 	 //'#disabled' => ($details['status']>1) ? TRUE : FALSE, // disabled the widget if its in an inconsistent
         '#default_value' => (FEATURE_SET_ENABLED & $details['status']) ? 1 : 0,
         '#featuresetinfo' => array(
           'featureset' => $details['title'],
-          'description' => $details['description'].get_requiredby($featureset),
+          'description' => $details['description'].get_require($featureset),
           'icon' => empty($details['icon']) ? '' : $details['icon'],
         ),
       );

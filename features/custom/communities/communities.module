@@ -42,12 +42,8 @@ function communities_init() {
 }
 
 
-
 /*
 * hook_modules_enabled
 */
 function communities_modules_enabled($modules) {
-  if (in_array('communities', $modules)) {
-    node_access_rebuild();
-  }
 }

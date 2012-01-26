@@ -133,6 +133,7 @@ function feature_set_enable_feature_set($feature_set) {
   // multisite fix, need to clear cache
   menu_rebuild();
   drupal_flush_all_caches();
+  node_access_rebuild();
   
 }
 
@@ -261,12 +262,32 @@ function is_requiredby($module) {
         $is_required++;
     }
   }
-  return ($is_required>0) ? TRUE : FALSE;
+  return ($is_required > 0) ? TRUE : FALSE;
 }
 
 
 /*
-* return the list of all the modules that require the module $module
+* return TRUE if the module $module requires other features (that are disabled)
+*/
+function requires($module) {
+  $requires = 0;
+  
+  $modules = system_rebuild_module_data();
+  $list_requires = array_keys($modules[$module]->requires);
+  $list_module_enable = module_list();
+  
+  foreach($list_requires as $value)  {
+    if(!in_array($value, $list_module_enable)) 
+      $requires++;
+  } 
+  
+  return ($requires > 0) ? TRUE : FALSE;
+}
+
+
+
+/*
+* return the list of all the modules that are required by the module $module
 */
 function get_requiredby($module) {
   $modules = system_rebuild_module_data();
@@ -287,9 +308,31 @@ function get_requiredby($module) {
   return $output;
 }
 
+/*
+* return the list of all the modules that require the module $module
+*/
+function get_require($module) {
+  $modules = system_rebuild_module_data();
+
+  $featuresets = feature_set_get_featuresets();
+  $list_features = array_keys($featuresets);
+  $list_requires = array_keys($modules[$module]->requires);
+
+  $output = '<div id="require">';
+  foreach($list_features as $value)  {
+    if(in_array($value, $list_requires))
+      $output .= t("requires")." : ".$featuresets[$key]["title"]." ";    
+  }
+  $output .= '<div/>';
+  return $output;
+}
+
+
 /**
  * alter html code (to add js and css).
  */
+ 
+/*
 function feature_set_preprocess_html(&$variables) {
   // Add javascripts
   drupal_add_js(drupal_get_path('module', 'feature_set').'/feature_set.js');  
@@ -298,5 +341,5 @@ function feature_set_preprocess_html(&$variables) {
   drupal_add_css(drupal_get_path('module', 'feature_set').'/feature_set_ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
 
 }
-
+*/
 
