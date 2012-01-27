@@ -128,13 +128,14 @@ function feature_set_get_featureset($feature_set) {
 function feature_set_enable_feature_set($feature_set) {
   if (!empty($feature_set['enable'])) {
     module_enable($feature_set['enable']);
+	drupal_set_message("feature(s) added");
   }
   
   // multisite fix, need to clear cache
   menu_rebuild();
   drupal_flush_all_caches();
   node_access_rebuild();
-  drupal_set_message("feature(s) added");
+  
 }
 
 /**
@@ -143,6 +144,7 @@ function feature_set_enable_feature_set($feature_set) {
 function feature_set_disable_feature_set($feature_set) {
   if (!empty($feature_set['disable'])) {
     module_disable($feature_set['disable']);
+	drupal_set_message("feature(s) disabled");
   }
   if (!empty($feature_set['uninstall'])) {
     drupal_uninstall_modules($feature_set['uninstall']);
@@ -151,7 +153,7 @@ function feature_set_disable_feature_set($feature_set) {
   // multisite fix, need to clear cache
   menu_rebuild();
   drupal_flush_all_caches();
-  drupal_set_message("feature(s) disabled");
+  
 }
 
 /**
