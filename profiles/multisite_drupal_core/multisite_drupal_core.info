@@ -65,6 +65,7 @@ dependencies[] = uuid
 dependencies[] = feature_set
 dependencies[] = less
 dependencies[] = translation
+dependencies[] = pathauto
 
 dependencies[] = multisite_drupal_toolbox
 

@@ -57,7 +57,7 @@ projects[strongarm][subdir] = "contributed"
 projects[strongarm][version] = "2.0-beta4"
 
 projects[sweaver][subdir] = "contributed"
-projects[sweaver][version] = "1.1"
+projects[sweaver][version] = "1.x-dev"
 
 projects[token][subdir] = "contributed"
 projects[token][version] = "1.0-beta7"
@@ -101,6 +101,8 @@ projects[xmlsitemap][version] = "2.0-rc1"
 projects[backup_migrate][subdir] = "contributed"
 projects[backup_migrate][version] = "2.2"
 
+projects[pathauto][subdir] = "contributed"
+projects[pathauto][version] = "1.0"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
