@@ -4,7 +4,7 @@
 		//FAQ
 		$(".view-faq .views-field-title").click(function(){
 			$(this).next(".views-field-body").slideToggle("slow");
-			$(this).next(".views-field-field-tags").slideToggle("slow");
+			$(this).next(".views-field-body").next(".views-field-field-tags").slideToggle("slow");
 			$(this).toggleClass("active");
 			return false;
 		});	

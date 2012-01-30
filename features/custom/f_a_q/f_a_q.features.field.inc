@@ -63,7 +63,7 @@ function f_a_q_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'body',
-      'label' => 'Body',
+      'label' => 'Answer',
       'required' => FALSE,
       'settings' => array(
         'display_summary' => TRUE,
