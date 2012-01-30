@@ -10,6 +10,7 @@
 function f_a_q_content_defaults() {
 $content = array();
 $content['question01'] = (object)array(
+  'exported_path' => 'content/question-01',
   'title' => 'Question 01',
   'status' => '1',
   'promote' => '1',
@@ -35,6 +36,7 @@ $content['question01'] = (object)array(
   ),
 );
 $content['question02'] = (object)array(
+  'exported_path' => 'content/question-02',
   'title' => 'Question 02',
   'status' => '1',
   'promote' => '1',

@@ -7,8 +7,29 @@
 include_once('f_a_q.features.inc');
 
 function f_a_q_init(){
-  //add a bit of jQuery to make it work
-  drupal_add_js(drupal_get_path('module', 'f_a_q') .'/faq.js');
+}
+
+/*
+* hook_views_pre_render
+*/
+function f_a_q_views_pre_render(&$view) {
+  if($view->name == 'faq') {
+    //add a bit of jQuery to make it work
+	drupal_add_js(drupal_get_path('module', 'f_a_q') .'/faq.js');
+	
+	//Build extra menu item for this view
+	$output= '<ul>';
+	$output.= '<li class="faq_expand">'.t('Expand all').'</li>';
+	$output.= '<li class="faq_collapse">'.t('Collapse all').'</li>';	
+	//Check permission
+	 if (user_access('administer nodes')) {
+		$output.= '<li class="add_content">'.l(t('create a new FAQ'),'node/add/faq').'</li>';
+	}
+	$output.= '</ul>';
+	
+	//add menu to the exsiting  header
+    $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
+  }
 }
 
 function f_a_q_disable() {
