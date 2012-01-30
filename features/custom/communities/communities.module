@@ -86,7 +86,13 @@ function communities_node_type_insert($info) {
       user_role_grant_permissions($result['rid'], array(  
         'create community content',
 	    'delete own community content',
-	    'edit own community content',  
+	    'edit own community content',
+		'view own unpublished content',
+		'view revisions',
+		'access workbench',
+        'use workbench_moderation my drafts tab',
+        'use workbench_moderation needs review tab',
+        'view moderation messages', 
       )); 	
 	}
 }

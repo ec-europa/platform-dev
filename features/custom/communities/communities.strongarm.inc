@@ -21,7 +21,7 @@ function communities_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_community';
-  $strongarm->value = '2';
+  $strongarm->value = '0';
   $export['comment_community'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -87,7 +87,9 @@ function communities_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'node_options_community';
   $strongarm->value = array(
-    0 => 'status',
+    0 => 'promote',
+    1 => 'moderation',
+    2 => 'revision',
   );
   $export['node_options_community'] = $strongarm;
 
