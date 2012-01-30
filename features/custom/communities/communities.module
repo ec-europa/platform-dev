@@ -31,19 +31,7 @@ function communities_disable() {
 /*
 * hook_enable
 */
-function communities_enable() {
-  // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-  $result = db_select('role', 'r')
-    ->condition('name', "contributor",'=')
-    ->fields('r', array('rid'))
-    ->execute()
-    ->fetchAssoc();
-
-  user_role_grant_permissions($result['rid'], array(  
-    'create community content',
-	'delete own community content',
-	'edit own community content',  
-  ));   
+function communities_enable() {  
 }
 
 
@@ -80,4 +68,25 @@ function communities_init() {
 * hook_modules_enabled
 */
 function communities_modules_enabled($modules) {
+}
+
+
+/*
+* hook_node_type_insert
+*/
+function communities_node_type_insert($info) {
+	if($info->type == 'community') {
+      // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
+      $result = db_select('role', 'r')
+        ->condition('name', "contributor",'=')
+        ->fields('r', array('rid'))
+        ->execute()
+        ->fetchAssoc();
+
+      user_role_grant_permissions($result['rid'], array(  
+        'create community content',
+	    'delete own community content',
+	    'edit own community content',  
+      )); 	
+	}
 }
