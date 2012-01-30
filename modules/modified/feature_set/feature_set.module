@@ -132,7 +132,6 @@ function feature_set_enable_feature_set($feature_set) {
   }
   
   // multisite fix, need to clear cache
-  menu_rebuild();
   drupal_flush_all_caches();
   node_access_rebuild();
   
@@ -151,7 +150,6 @@ function feature_set_disable_feature_set($feature_set) {
   }
   
   // multisite fix, need to clear cache
-  menu_rebuild();
   drupal_flush_all_caches();
   
 }

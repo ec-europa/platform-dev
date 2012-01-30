@@ -10,6 +10,7 @@
 function communities_content_defaults() {
 $content = array();
 $content['first community'] = (object)array(
+  'exported_path' => 'community/my-first-community',
   'title' => 'my first community',
   'status' => '1',
   'promote' => '0',
@@ -35,6 +36,7 @@ $content['first community'] = (object)array(
   ),
 );
 $content['second community'] = (object)array(
+  'exported_path' => 'community/second-community',
   'title' => 'second community',
   'status' => '1',
   'promote' => '0',

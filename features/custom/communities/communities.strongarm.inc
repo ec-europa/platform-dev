@@ -21,7 +21,7 @@ function communities_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_community';
-  $strongarm->value = '0';
+  $strongarm->value = '2';
   $export['comment_community'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -62,6 +62,13 @@ function communities_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'enable_revisions_page_community';
+  $strongarm->value = 1;
+  $export['enable_revisions_page_community'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_community';
   $strongarm->value = '0';
   $export['language_content_type_community'] = $strongarm;
@@ -87,9 +94,8 @@ function communities_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'node_options_community';
   $strongarm->value = array(
-    0 => 'promote',
-    1 => 'moderation',
-    2 => 'revision',
+    0 => 'moderation',
+    1 => 'revision',
   );
   $export['node_options_community'] = $strongarm;
 
@@ -106,6 +112,13 @@ function communities_strongarm() {
   $strongarm->name = 'node_submitted_community';
   $strongarm->value = 1;
   $export['node_submitted_community'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'workbench_moderation_default_state_community';
+  $strongarm->value = 'draft';
+  $export['workbench_moderation_default_state_community'] = $strongarm;
 
   return $export;
 }

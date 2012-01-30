@@ -96,3 +96,12 @@ function communities_node_type_insert($info) {
       )); 	
 	}
 }
+
+/*
+* hook_exit
+*/
+function communities_exit() {
+  if($_GET['q'] == 'admin/structure/feature-set') {
+    drupal_flush_all_caches();
+  }
+}

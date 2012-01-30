@@ -8,8 +8,6 @@
  * Implements hook_field_default_fields().
  */
 function communities_field_default_fields() {
-  global $fid_default_community_image;
-	
   $fields = array();
 
   // Exported field: 'node-community-body'
@@ -180,7 +178,7 @@ function communities_field_default_fields() {
       ),
       'module' => 'image',
       'settings' => array(
-        'default_image' => "$fid_default_community_image",
+        'default_image' => '',
         'uri_scheme' => 'public',
       ),
       'translatable' => '0',
