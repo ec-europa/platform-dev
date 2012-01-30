@@ -12,6 +12,38 @@ include_once('communities.features.inc');
 */
 function communities_disable() {
   _disable_content_type('community');
+  
+   // revoke permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
+  $result = db_select('role', 'r')
+    ->condition('name', "contributor",'=')
+    ->fields('r', array('rid'))
+    ->execute()
+    ->fetchAssoc();
+
+  user_role_revoke_permissions($result['rid'], array(  
+    'create community content',
+	'delete own community content',
+	'edit own community content',  
+  ));  
+}
+
+
+/*
+* hook_enable
+*/
+function communities_enable() {
+  // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
+  $result = db_select('role', 'r')
+    ->condition('name', "contributor",'=')
+    ->fields('r', array('rid'))
+    ->execute()
+    ->fetchAssoc();
+
+  user_role_grant_permissions($result['rid'], array(  
+    'create community content',
+	'delete own community content',
+	'edit own community content',  
+  ));   
 }
 
 
@@ -27,7 +59,9 @@ function communities_views_pre_render(&$view) {
       $url = $_GET['q'].'/'.$letter;
       $output .= '<li>'.l($letter, $url).'</li>';
     }
-    $output .= '<div class="add_content">'.l(t('create a new community'),'node/add/community').'</div>';
+	if(user_access('create community content'))  {
+      $output .= '<div class="add_content">'.l(t('create a new community'),'node/add/community').'</div>';
+	}
     $view->header['area']->options['content'] = $output;
   }
 }
