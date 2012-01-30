@@ -329,6 +329,19 @@ function get_require($module) {
 }
 
 
+
+/*
+* hook_exit
+*/
+function feature_set_exit() {
+  if($_GET['q'] == 'admin/structure/feature-set') {
+    drupal_flush_all_caches();
+  }
+}
+
+
+
+
 /**
  * alter html code (to add js and css).
  */
@@ -344,3 +357,4 @@ function feature_set_preprocess_html(&$variables) {
 }
 */
 
+	

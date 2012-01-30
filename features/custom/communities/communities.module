@@ -77,13 +77,13 @@ function communities_modules_enabled($modules) {
 function communities_node_type_insert($info) {
 	if($info->type == 'community') {
       // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-      $result = db_select('role', 'r')
+      $contributor = db_select('role', 'r')
         ->condition('name', "contributor",'=')
         ->fields('r', array('rid'))
         ->execute()
         ->fetchAssoc();
 
-      user_role_grant_permissions($result['rid'], array(  
+      user_role_grant_permissions($contributor['rid'], array(  
         'create community content',
 	    'delete own community content',
 	    'edit own community content',
@@ -94,14 +94,25 @@ function communities_node_type_insert($info) {
         'use workbench_moderation needs review tab',
         'view moderation messages', 
       )); 	
-	}
+	
+      $community_manager = db_select('role', 'r')
+        ->condition('name', "community_manager",'=')
+        ->fields('r', array('rid'))
+        ->execute()
+        ->fetchAssoc();
+
+      user_role_grant_permissions($community_manager['rid'], array(  
+        'create community content',
+	    'delete own community content',
+	    'edit own community content',
+		'view own unpublished content',
+		'view revisions',
+		'access workbench',
+        'use workbench_moderation my drafts tab',
+        'use workbench_moderation needs review tab',
+        'view moderation messages', 
+      )); 	
+	}	
+	
 }
 
-/*
-* hook_exit
-*/
-function communities_exit() {
-  if($_GET['q'] == 'admin/structure/feature-set') {
-    drupal_flush_all_caches();
-  }
-}
