@@ -5,6 +5,9 @@
   -moz-border-radius: @arguments;
   border-radius: @arguments;
 }
+.f_right {
+  float: right;
+}
 
 /* ---------- Overall Specifications ---------- */
 
@@ -17,9 +20,6 @@ body {
 }
 del {
   text-decoration: line-through;
-}
-tr.odd {
-  background-color: #dddddd;
 }
 img {
   outline: 0;
@@ -497,60 +497,6 @@ ul.links {
 
 /* --------------- System Tabs  --------------- */
 
-/*.tabs {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin-bottom: 20px;
-}
-.tabs ul.primary {
-  padding: 0 3px;
-  margin: 0;
-  overflow: hidden;
-  border-bottom: none;
-}
-.tabs ul.primary li {
-  display: block;
-  float: left; 
-  vertical-align: bottom;
-  margin: 0 5px 0 0;
-  position: relative;
-  top: 1px;
-}
-.tabs ul.primary li.active a {
-  border-bottom: 1px solid #ffffff;
-  font-weight: bold;
-}
-.tabs ul.primary li a {
-  height: 1.8em;
-  line-height: 1.9;
-  display: block;
-  font-size: 1em;
-  float: left; 
-  padding: 0 10px 3px;
-  margin: 0;
-  .border-radius(8px,8px,0,0);
-}
-.tabs ul.secondary {
-  border-bottom: none;
-  padding: 0.5em 0;
-}
-.tabs ul.secondary li {
-  display: block;
-  float: left; 
-}
-.tabs ul.secondary li:last-child {
-  border-right: none; 
-}
-.tabs ul.secondary li:first-child {
-  padding-left: 0; 
-}
-.tabs ul.secondary li a {
-  padding: 0.25em 0.5em;
-}
-.tabs ul.secondary li a.active {
-  background: #f2f2f2;
-  border-bottom: none;
-  .border-radius;
-}*/
 .tabs {
   a {
     text-decoration: none;
@@ -570,19 +516,45 @@ ul.action-links li a {
   background: url(../images/add.png) no-repeat left center;
   margin: 0 10px 0 0;
 }
+ul.secondary {
+  margin: 0;
+  padding: 0;
+}
 
 /* ---------------- Messages  ----------------- */
 
-#messages {
-  padding: 5px 0 5px;
-  margin: 0 auto;
-}
-.featured #messages {
-  background: #f0f0f0;
-  background: rgba(30, 50, 10, 0.08);
-}
-div.messages {
-  margin: 8px 15px;
+div {
+  &.messages {
+    margin: 8px 15px;
+    background-position: 0 0;
+    .alert-message;
+  }
+  &.warning {
+    position: relative;
+    color: #404040;
+    background-color: #eedc94;
+    background-repeat: repeat-x;
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#fceec1), to(#eedc94));
+    background-image: -moz-linear-gradient(top, #fceec1, #eedc94);
+    background-image: -ms-linear-gradient(top, #fceec1, #eedc94);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fceec1), color-stop(100%, #eedc94));
+    background-image: -webkit-linear-gradient(top, #fceec1, #eedc94);
+    background-image: -o-linear-gradient(top, #fceec1, #eedc94);
+    background-image: linear-gradient(top, #fceec1, #eedc94);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fceec1', endColorstr='#eedc94', GradientType=0);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    border-color: #eedc94 #eedc94 #e4c652;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    border-width: 1px;
+    border-style: solid;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
 }
 
 /* -------------- Breadcrumbs   -------------- */
@@ -623,113 +595,11 @@ div.password-confirm {
 /* -------------- Form Elements   ------------- */
 
 fieldset {
-  background: #ffffff;
   border: 1px solid #cccccc;
-  margin-top: 10px;
-  margin-bottom: 32px;
-  padding: 0 0 10px;
-  position: relative;
-  top: 12px; /* Offsets the negative margin of legends */
-  /*-webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;*/
-  .border-radius;
+  padding: 10px;
+  margin: 10px 0;
 }
-.fieldset-wrapper {
-  margin-top: 25px;
-}
-.node-form .fieldset-wrapper {
-  margin-top: 0;
-}
-.filter-wrapper {
-  top: 0;
-  padding: 1em 0 0.2em;
-  /*-webkit-border-radius: 0 0 5px 5px;
-  -moz-border-radius: 0 0 5px 5px;
-  border-radius: 0 0 5px 5px;*/
-  .border-radius(0,0,5px,5px);
-}
-.filter-help a {
-  font-size: 0.9em;
-  padding: 2px 20px 0;
-}
-.filter-wrapper .form-item label {
-  margin-right: 10px;
-}
-.filter-wrapper .form-item {
-  padding: 0 0 0.5em 0.5em;
-}
-.filter-guidelines {
-  padding: 0 1.5em 0 0.5em;
-}
-fieldset.collapsed {
-  background: transparent;
-  /*-webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;*/
-  .border-radius(0,0,0,0);
-}
-fieldset legend {
-  background: #dbdbdb;
-  border: 1px solid #ccc;
-  border-bottom: none;
-  color: #3b3b3b;
-  display: block;
-  height: 2em;
-  left: -1px; /* LTR */
-  line-height: 2;
-  padding: 0;
-  position: absolute;
-  text-indent: 10px;
-  text-shadow: 0 1px 0 #fff;
-  top: -12px;
-  width: 100%;
-  /*-webkit-border-radius: 5px 5px 0 0;
-  -moz-border-radius: 5px 5px 0 0;
-  border-radius: 5px 5px 0 0;*/
-  .border-radius(5px,5px,0,0);
-}
-fieldset.collapsed legend {
-  /*-webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;*/
-  .border-radius;
-}
-fieldset legend a {
-  color: #3b3b3b;
-}
-fieldset legend a:hover,
-fieldset legend a:focus,
-fieldset legend a:active {
-  color: #000;
-}
-fieldset .fieldset-wrapper {
-  padding: 0 10px;
-}
-.password-suggestions ul li {
-  margin-left: 1.2em; /* LTR */
-}
-.form-item {
-  margin-bottom: 1em;
-  margin-top: 2px;
-}
-fieldset .description {
-  margin-top: 5px;
-  line-height: 1.4;
-  color: #3c3c3c;
-  font-style: italic;
-}
-.form-type-radio label,
-.form-type-checkbox label {
-  margin-left: 4px;
-}
-.form-type-radio .description,
-.form-type-checkbox .description {
-  margin-left: 2px;
-}
-.form-actions {
-  padding-top: 10px;
-}
+
 /* Contact Form */
 .contact-form #edit-name {
   width: 75%;
@@ -1107,4 +977,33 @@ div.admin-panel .description {
 }
 #footer-wrapper .poll .bar .foreground {
   background-color: #ddd;
+}
+
+/* ---------------- action bar (expand/collapse/create)  ----------------- */
+ul.action_bar {
+  line-height: 26px;
+  padding: 10px;
+  li {
+    display: inline;
+    cursor: pointer;
+    &.expand {
+      a {
+        background: transparent url(../images/expand.png) 0 0 no-repeat;
+        line-height: 16px;
+        padding-left: 20px;
+        display: inline-block;
+      }
+    }
+    &.collapse {
+      a {
+        background: transparent url(../images/collapse.png) 0 0 no-repeat;
+        line-height: 16px;
+        padding-left: 20px;
+        display: inline-block;
+      }
+    }    
+  }
+  a {
+    text-decoration: none;
+  }
 }

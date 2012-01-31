@@ -135,7 +135,7 @@ if (arg(0) == 'admin' ||
       <li><?php print $site_name; ?></li>
     </ul>
   </div><!-- /#path -->
-
+  
   <div class="layout-body">
     <div class="layout-wrapper">
       <div class="layout-wrapper-reset">

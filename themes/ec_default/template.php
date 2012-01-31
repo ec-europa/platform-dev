@@ -5,6 +5,50 @@
  * Add body classes if certain regions have content.
  */
 function ec_default_preprocess_html(&$variables) {
+/*drupal_set_message('message1');
+drupal_set_message('message2','warning');
+drupal_set_message('message3','error');
+drupal_set_message('message4','info');*/
+
+  // Alter $variables to add bootstrap classes
+    //messages
+  /*$variables_table = explode('|',$variables['user']->session);
+  $dsm = '';
+  $dsm_serialized = '';
+
+  foreach ($variables_table as $key => $item) {
+    if ($messages = @unserialize($item)) {
+      foreach ($messages as $type => $message) {
+        switch ($type) {
+          case 'status':
+            $dsm['alert-message success'] = $messages[$type];
+          break;
+          
+          case 'error':
+            $dsm['alert-message error'] = $messages[$type];
+          break;
+
+          case 'warning':
+            $dsm['alert-message warning'] = $messages[$type];
+          break;
+
+          case 'info':
+            $dsm['alert-message info'] = $messages[$type];
+          break;          
+          
+          default :
+            $dsm['alert-message'] = $messages[$type];
+          break;
+        }
+      }
+      $dsm_serialized[] .= serialize($dsm);
+    } else {
+      $dsm_serialized[] .= $item;
+    }
+  }
+  $variables['user']->session = implode('|',$dsm_serialized);*/
+    // end messages
+  
   if (!empty($variables['page']['featured'])) {
     $variables['classes_array'][] = 'featured';
   }
@@ -50,6 +94,7 @@ function ec_default_preprocess_html(&$variables) {
   
   // Add hack javascript, to overide EC javascript if needed
   drupal_add_js(path_to_theme() . '/scripts/hack.js');  
+
 }
 
 /**
@@ -281,3 +326,10 @@ function ec_default_menu_local_tasks(&$variables) {
 
   return $output;
 }
+
+/**
+ * Alter tables
+ */
+/*function ec_default_table($variables) {
+
+}*/

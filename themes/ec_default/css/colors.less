@@ -68,6 +68,16 @@ h4 {color: @h4_color; }
 h5 {color: @h5_color; }
 h6 {color: @h6_color; }
 
+table {
+  tr {
+    &.odd { background-color: transparent; }
+    &.even  { background-color: transparent; }
+    td {
+      &.active { background-color: transparent; }
+    }
+  }
+}
+
 .comment {
   .comment-arrow {
     border-color: @body_color;
@@ -114,6 +124,15 @@ h6 {color: @h6_color; }
         background-color: @body_color;
         border-color: darken(@body_color,15%) darken(@body_color,15%) transparent darken(@body_color,15%);
       }
+    }
+  }
+}
+
+ul {
+  .secondary {
+    border-color: darken(@body_color,15%);
+    li {
+      border-color: darken(@body_color,15%);
     }
   }
 }

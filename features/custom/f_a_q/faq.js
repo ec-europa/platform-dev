@@ -7,7 +7,7 @@
 			$(this).next(".views-field-body").next(".views-field-field-tags").slideToggle("slow");
 			$(this).toggleClass("active");
 			return false;
-		});	
+		});
 		
 		//init
 		$(".view-faq .views-field-title").toggleClass("active");
@@ -16,20 +16,32 @@
 		$(".view-faq .views-field-field-tags").css("display","none");
 		
 		//expand
-		$(".faq_expand").click(function(){
+		$(".view-faq .expand").click(function(){
 			$(".view-faq .views-field-body").slideDown("slow");
 			$(".view-faq .views-field-field-tags").slideDown("slow");
 			$(".view-faq .views-field-title").addClass("active");
 			return false;
 		});	
+		$(".view-faq .expand a").click(function(){
+			$(".view-faq .views-field-body").slideDown("slow");
+			$(".view-faq .views-field-field-tags").slideDown("slow");
+			$(".view-faq .views-field-title").addClass("active");
+			return false;
+		});	    
 		
 		//collapse
-		$(".faq_collapse").click(function(){
+		$(".view-faq .collapse").click(function(){
 			$(".view-faq .views-field-body").slideUp("slow");
 			$(".view-faq .views-field-field-tags").slideUp("slow");
 			$(".view-faq .views-field-title").removeClass("active");
 			return false;
 		});	
+		$(".view-faq .collapse a").click(function(){
+			$(".view-faq .views-field-body").slideUp("slow");
+			$(".view-faq .views-field-field-tags").slideUp("slow");
+			$(".view-faq .views-field-title").removeClass("active");
+			return false;
+		});	    
 		
 		
 	});
