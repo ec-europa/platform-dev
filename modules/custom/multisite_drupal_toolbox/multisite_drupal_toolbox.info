@@ -29,7 +29,7 @@ feature_sets[sitemap][enable][] = sitemap
 feature_sets[sitemap][disable][] = sitemap
 
 feature_sets[links][title] = 'Links'
-feature_sets[links][description] = 'Links feature'
+feature_sets[links][description] = 'Create and add links in your Community'
 feature_sets[links][icon] = 'feature-set-icons/links.png'
 feature_sets[links][enable][] = links
 feature_sets[links][disable][] = links
