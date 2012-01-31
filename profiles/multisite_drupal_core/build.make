@@ -112,4 +112,5 @@ projects[pathauto][version] = "1.0"
 ;libraries[ckeditor][destination] = "libraries"
 ;libraries[ckeditor][overwrite] = TRUE
 
-
+projects[user_field_privacy][subdir] = "contributed"
+projects[user_field_privacy][version] = "7.x-1.1"
