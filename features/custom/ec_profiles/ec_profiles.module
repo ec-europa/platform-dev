@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the EC Profiles feature.
+ */
+
+include_once('ec_profiles.features.inc');
