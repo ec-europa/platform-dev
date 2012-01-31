@@ -1,0 +1,13 @@
+--- workbench_moderation.module 2012-01-31 15:39:09.000000000 +0100
++++ workbench_moderation.module	2012-01-31 15:32:38.000000000 +0100
+@@ -1473,6 +1473,10 @@
+   if (!empty($node->workbench_moderation['published'])) {
+     drupal_register_shutdown_function('workbench_moderation_store', $node);
+   }
++
++  // Multisite upgrade : Notify other modules that the state was changed.
++  module_invoke_all('workbench_moderation_transition', $node, $old_revision->state, $state);
++
+ }
+ 
+ /**

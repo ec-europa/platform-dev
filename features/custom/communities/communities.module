@@ -80,41 +80,54 @@ function communities_modules_enabled($modules) {
 */
 function communities_node_type_insert($info) {
   if($info->type == 'community') {
-	  node_types_rebuild();
+	node_types_rebuild();
 	  
-      // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-      $au = db_select('role', 'r')
-        ->condition('name', "authenticated user",'=')
-        ->fields('r', array('rid'))
-        ->execute()
-        ->fetchAssoc();
+    // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
+    $au = db_select('role', 'r')
+      ->condition('name', "authenticated user",'=')
+      ->fields('r', array('rid'))
+      ->execute()
+      ->fetchAssoc();
 
-      user_role_grant_permissions($au['rid'], array(  
-        'create community content',
-	    'delete own community content',
-	    'edit own community content',
-		'view own unpublished content',
-		'view revisions',
-		'access workbench',
-        'use workbench_moderation my drafts tab',
-        'use workbench_moderation needs review tab',
-        'view moderation messages', 
-      )); 	
+    user_role_grant_permissions($au['rid'], array(  
+      'create community content',
+	  'delete own community content',
+	  'edit own community content',
+      'view own unpublished content',
+	  'view revisions',
+	  'access workbench',
+      'use workbench_moderation my drafts tab',
+      'use workbench_moderation needs review tab',
+      'view moderation messages', 
+	  'moderate content from draft to needs_review',
+      'view moderation history',
+    )); 	
   
-      // add permissions to OG roles ----------------------------------------------------------------------------------------------------------------------------------------------  
-      $cm = db_select('og_role', 'r')
-        ->condition('name', "community_manager",'=')
-        ->fields('r', array('rid'))
-        ->execute()
-        ->fetchAssoc();  
+    // add permissions to OG roles ----------------------------------------------------------------------------------------------------------------------------------------------  
+    $cm = db_select('og_role', 'r')
+      ->condition('name', "community_manager",'=')
+      ->fields('r', array('rid'))
+      ->execute()
+      ->fetchAssoc();  
   
-      og_role_grant_permissions($cm['rid'], array(  
-        'add user',
-        'administer',
-        'approve and deny subscription',
-        'unsubscribe',
-        'update group',       
-      ));  
+    og_role_grant_permissions($cm['rid'], array(  
+      'add user',
+      'approve and deny subscription',
+      'unsubscribe',
+      'update group', 
+      'administer group',
+    ));  
   }	
 }
+
+
+
+/*
+* hook_workbench_moderation_transition
+*/
+function communities_workbench_moderation_transition($node, $previous_state, $new_state) {
+  drupal_set_message("DEBUG moderation workflow");
+}
+
+
 

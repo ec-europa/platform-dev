@@ -2,6 +2,7 @@
 
 source config.sh
 
+#build the drupal instance
 drush make profiles/multisite_drupal_core/build.make $1
 
 mysql -u root -p -e "drop database $1;"
@@ -15,8 +16,14 @@ cp -R modules $1/sites/all
 cp -R features $1/sites/all/modules
 cp -R themes $1/sites/all
 cp -R files/ $1/sites/default/files/
-cd $1
 
+
+#apply patches
+patch -b $1/sites/all/modules/contributed/workbench_moderation/workbench_moderation.module patches/workbench_moderation.patch
+
+
+#install and configure the drupal instance
+cd $1
 drush si multisite_drupal_core --db-url=$db_url/$1 --account-name=$account_name --account-pass=$account_pass --site-name=$1 --site-mail=$site_mail
 
 mkdir sites/default/files/private_files
