@@ -70,6 +70,8 @@ function communities_init() {
 * hook_modules_enabled
 */
 function communities_modules_enabled($modules) {
+  if(in_array('communities', $modules)) { 
+  }
 }
 
 
@@ -77,7 +79,9 @@ function communities_modules_enabled($modules) {
 * hook_node_type_insert
 */
 function communities_node_type_insert($info) {
-	if($info->type == 'community') {
+  if($info->type == 'community') {
+	  node_types_rebuild();
+	  
       // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
       $au = db_select('role', 'r')
         ->condition('name', "authenticated user",'=')
@@ -98,7 +102,7 @@ function communities_node_type_insert($info) {
       )); 	
   
       // add permissions to OG roles ----------------------------------------------------------------------------------------------------------------------------------------------  
-      $cm = db_select('og_role', 'or')
+      $cm = db_select('og_role', 'r')
         ->condition('name', "community_manager",'=')
         ->fields('r', array('rid'))
         ->execute()
@@ -111,11 +115,6 @@ function communities_node_type_insert($info) {
         'unsubscribe',
         'update group',       
       ));  
-	}	
-	
-	
-	
-	
-	
+  }	
 }
 
