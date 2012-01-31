@@ -51,11 +51,18 @@ module_invoke('context','save',$context);
 
 }
 
+
+
+
 /*
-* hook_node_type_insert
+* hook_modules_enabled
 */
-function links_node_type_insert($info) {
-  if($info->type == 'links') {
+function links_modules_enabled($modules) {
+  if(in_array('links', $modules)) { 
+	
+	
+	
+	
 	  node_types_rebuild();
 		//drupal_set_message('node_type_insert', 'warning'); //OK
 	  
@@ -101,32 +108,33 @@ function links_node_type_insert($info) {
         ->fetchAssoc();
   
       og_role_grant_permissions($cm['rid'], array(
-				'edit own links content',
-				'edit any links content',
+				'update own links content',
+				'update any links content',
 				'delete own links content',
 				'delete any links content',
-				'create links content',
       ));
 			
 			//Administrator Member
 			$admm = db_select('og_role', 'r')
-        ->condition('name', "administrator member",'=')
+        ->condition('name', "member",'=')
         ->fields('r', array('rid'))
         ->execute()
         ->fetchAssoc();
   
       og_role_grant_permissions($admm['rid'], array(
-				'edit own links content',
-				'edit any links content',
+				'update own links content',
+				'update any links content',
 				'delete own links content',
 				'delete any links content',
-				'create links content',
       ));
 			
-			//drupal_set_message($cm['rid'] .'  and  ' . $admm['rid'], 'warning'); //OK
-			
-				
+				drupal_flush_all_caches();	
+	
+	
+	
+	
+	
+	
+	
   }
 }
-
-
