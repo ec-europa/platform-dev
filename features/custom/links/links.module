@@ -125,13 +125,6 @@ function links_node_type_insert($info) {
 			
 			//drupal_set_message($cm['rid'] .'  and  ' . $admm['rid'], 'warning'); //OK
 			
-			$check = db_select('og_role_permission', 'r')
-        ->condition('name', "community_manager",'=')
-        ->fields('r', array('permission'))
-        ->execute()
-        ->fetchAssoc();
-
-				drupal_set_message(print_r('CHECK: '. $check, TRUE));
 				
   }
 }
