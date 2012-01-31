@@ -33,3 +33,9 @@ feature_sets[links][description] = 'Create and add links in your Community'
 feature_sets[links][icon] = 'feature-set-icons/links.png'
 feature_sets[links][enable][] = links
 feature_sets[links][disable][] = links
+
+feature_sets[ec_profiles][title] = 'EC Profiles'
+feature_sets[ec_profiles][description] = 'Create and add links in your Community'
+feature_sets[ec_profiles][icon] = 'feature-set-icons/ec_profiles.png'
+feature_sets[ec_profiles][enable][] = ec_profiles
+feature_sets[ec_profiles][disable][] = ec_profiles
