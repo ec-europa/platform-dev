@@ -27,10 +27,7 @@ function multisite_drupal_core_install() {
   // create new roles -------------------------------------------------------------------------------------------------------------------------------------------------------
   $role = new stdClass();
   $role->name = 'contributor';
-  user_role_save($role);
-  $role1 = new stdClass();
-  $role1->name = 'community_manager';
-  user_role_save($role1);  
+  user_role_save($role);  
   
   // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
   user_role_grant_permissions($role->rid, array(  

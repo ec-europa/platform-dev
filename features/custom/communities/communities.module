@@ -31,7 +31,9 @@ function communities_disable() {
 /*
 * hook_enable
 */
-function communities_enable() {  
+function communities_enable() {
+  // create og role -------------------------------------------------------------------------------------------------------------------------------
+  $community_manager_role = og_create_global_role("community_manager");
 }
 
 
@@ -77,13 +79,13 @@ function communities_modules_enabled($modules) {
 function communities_node_type_insert($info) {
 	if($info->type == 'community') {
       // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-      $contributor = db_select('role', 'r')
-        ->condition('name', "contributor",'=')
+      $au = db_select('role', 'r')
+        ->condition('name', "authenticated user",'=')
         ->fields('r', array('rid'))
         ->execute()
         ->fetchAssoc();
 
-      user_role_grant_permissions($contributor['rid'], array(  
+      user_role_grant_permissions($au['rid'], array(  
         'create community content',
 	    'delete own community content',
 	    'edit own community content',
@@ -94,25 +96,26 @@ function communities_node_type_insert($info) {
         'use workbench_moderation needs review tab',
         'view moderation messages', 
       )); 	
-	
-      $community_manager = db_select('role', 'r')
+  
+      // add permissions to OG roles ----------------------------------------------------------------------------------------------------------------------------------------------  
+      $cm = db_select('og_role', 'or')
         ->condition('name', "community_manager",'=')
         ->fields('r', array('rid'))
         ->execute()
-        ->fetchAssoc();
-
-      user_role_grant_permissions($community_manager['rid'], array(  
-        'create community content',
-	    'delete own community content',
-	    'edit own community content',
-		'view own unpublished content',
-		'view revisions',
-		'access workbench',
-        'use workbench_moderation my drafts tab',
-        'use workbench_moderation needs review tab',
-        'view moderation messages', 
-      )); 	
+        ->fetchAssoc();  
+  
+      og_role_grant_permissions($cm['rid'], array(  
+        'add user',
+        'administer',
+        'approve and deny subscription',
+        'unsubscribe',
+        'update group',       
+      ));  
 	}	
+	
+	
+	
+	
 	
 }
 
