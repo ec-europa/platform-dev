@@ -8,6 +8,9 @@
 .f_right {
   float: right;
 }
+.clickable {
+  cursor: pointer;
+}
 
 /* ---------- Overall Specifications ---------- */
 
@@ -980,30 +983,14 @@ div.admin-panel .description {
 }
 
 /* ---------------- action bar (expand/collapse/create)  ----------------- */
-ul.action_bar {
-  line-height: 26px;
+.action_bar {
   padding: 10px;
-  li {
-    display: inline;
-    cursor: pointer;
-    &.expand {
-      a {
-        background: transparent url(../images/expand.png) 0 0 no-repeat;
-        line-height: 16px;
-        padding-left: 20px;
-        display: inline-block;
-      }
-    }
-    &.collapse {
-      a {
-        background: transparent url(../images/collapse.png) 0 0 no-repeat;
-        line-height: 16px;
-        padding-left: 20px;
-        display: inline-block;
-      }
-    }    
-  }
   a {
     text-decoration: none;
   }
+}
+
+/* ---------------- faq  ----------------- */
+.view-faq ol.nav {
+  list-style: decimal;
 }

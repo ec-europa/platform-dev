@@ -104,16 +104,26 @@ table {
   }
 }
 
-.tabs {
+.nav-tabs {
   border-color: darken(@body_color,15%);
-  li {
-    a {
-      &:hover {
-        background-color: darken(@body_color,5%);
-        border-color: @body_color @body_color darken(@body_color,15%);
-      }
+  li > a {
+    text-decoration: none !important;
+    &:hover {
+      background-color: darken(@body_color,5%);
+      border-color: @body_color @body_color darken(@body_color,15%);
     }
   }
+  &.nav-stacked > li > a {
+    text-decoration: none !important;
+    &:hover {
+      background-color: darken(@body_color,5%);
+      border-color: @body_color @body_color darken(@body_color,15%);
+    }
+    &.active {
+      background-color: darken(@body_color,15%);
+      border-color: @body_color @body_color darken(@body_color,20%);    
+    }
+  }  
   .active {
     a {
       color: lighten(@link_color,20%);
@@ -145,24 +155,34 @@ a {
   &:visited { color: @link_color; }
 }
 
-.pills {
-  a {
-    border: 1px solid lighten(@primary_tab_bg_color,10%);
-    &:hover { 
-      background: darken(@primary_tab_bg_color,10%); 
-      color: @primary_tab_text_color;
-      border-color: transparent;
-    }
-  }
-  .active { 
-    a {
-      color: @primary_tab_text_color;
-      background: @primary_tab_bg_color;
-      text-shadow: 1px 1px (#fff - @primary_tab_text_color);
-      border-color: transparent;
-    }
+.nav-pills > li > a {
+  border: 1px solid lighten(@primary_tab_bg_color,10%);
+  text-decoration: none !important;
+  &:hover { 
+    background: darken(@primary_tab_bg_color,10%); 
+    color: @primary_tab_text_color;
+    border-color: transparent;
   }
 }
+.nav-pills {
+  .active > a { 
+    color: @primary_tab_text_color;
+    background: @primary_tab_bg_color;
+    text-shadow: 1px 1px (#fff - @primary_tab_text_color);
+    border-color: transparent;
+    &:hover { 
+      background: lighten(@primary_tab_bg_color,10%);
+    }
+  }
+  &.nav {
+    li > a {
+      &:hover {
+        background: lighten(@primary_tab_bg_color,10%);
+      }
+    }  
+  }
+}
+
 
 .meta {
   color: lighten(@text_color,20%);

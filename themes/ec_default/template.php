@@ -70,7 +70,7 @@ drupal_set_message('message4','info');*/
   $variables['head_title'] = variable_get('site_name') . ' - ' . t('European Commission');
 
   // Add twitter bootsrap css
-  drupal_add_css(path_to_theme() . '/bootstrap/bootstrap.min.css', array('group' => CSS_THEME));
+  drupal_add_css(path_to_theme() . '/bootstrap/css/bootstrap.min.css', array('group' => CSS_THEME));
 
   // Add conditional stylesheets for IE
   drupal_add_css(path_to_theme() . '/css/ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));

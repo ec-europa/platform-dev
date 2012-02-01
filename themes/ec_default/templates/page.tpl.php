@@ -161,7 +161,7 @@ if (arg(0) == 'admin' ||
                   'links' => $main_menu,
                   'attributes' => array(
                     'id' => 'main-menu-links',
-                    'class' => array('links', 'clearfix', 'pills'),
+                    'class' => array('clearfix', 'nav', 'nav-pills'),
                   ),
                   'heading' => array(
                     'text' => t('Main menu'),
