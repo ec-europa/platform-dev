@@ -34,10 +34,14 @@ function links_enable(){
 
 /*
  * Hook disable 
+ * Disable content type
  * Edit communities context to remove block
  * Remove permissions
  */
 function links_disable(){
+
+/*** Disable content type ***/
+ _disable_content_type('links');
 
 /***  Remove block  ***/
 //Name of the context to edit
@@ -52,7 +56,7 @@ unset($context->reactions['block']['blocks'][$blockTitle]);
 module_invoke('context','save',$context);
 
 /*** Remove permissions ***/
- _disable_content_type('links');
+
   
 		// Administrator
 		$adm = db_select('role', 'r')
@@ -101,7 +105,7 @@ module_invoke('context','save',$context);
 		
 		// Administrator Member
 		$admm = db_select('og_role', 'r')
-			->condition('name', "member",'=')
+			->condition('name', "administrator member",'=')
 			->fields('r', array('rid'))
 			->execute()
 			->fetchAssoc();
@@ -122,7 +126,7 @@ module_invoke('context','save',$context);
 * hook_modules_enabled
 */
 function links_modules_enabled($modules) {
-  if(in_array('links', $modules)) { 	
+  if(in_array('links', $modules)) {
 	
 	  node_types_rebuild();
 	  
@@ -134,7 +138,7 @@ function links_modules_enabled($modules) {
 			->execute()
 			->fetchAssoc();
 
-		user_role_grant_permissions($adm['rid'], array(  
+		user_role_grant_permissions($adm['rid'], array(
 			'edit own links content',
 			'edit any links content',
 			'delete own links content',
@@ -174,7 +178,7 @@ function links_modules_enabled($modules) {
 		
 		// Administrator Member
 		$admm = db_select('og_role', 'r')
-			->condition('name', "member",'=')
+			->condition('name', "administrator member",'=')
 			->fields('r', array('rid'))
 			->execute()
 			->fetchAssoc();
