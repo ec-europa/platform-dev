@@ -32,6 +32,7 @@ $handler->display->display_options['pager']['type'] = 'full';
 $handler->display->display_options['pager']['options']['items_per_page'] = '30';
 $handler->display->display_options['style_plugin'] = 'list';
 $handler->display->display_options['style_options']['type'] = 'ol';
+$handler->display->display_options['style_options']['class'] = 'nav nav-tabs nav-stacked';
 $handler->display->display_options['row_plugin'] = 'fields';
 /* Header: Global: Text area */
 $handler->display->display_options['header']['area']['id'] = 'area';
@@ -39,7 +40,7 @@ $handler->display->display_options['header']['area']['table'] = 'views';
 $handler->display->display_options['header']['area']['field'] = 'area';
 $handler->display->display_options['header']['area']['empty'] = TRUE;
 $handler->display->display_options['header']['area']['content'] = '<h2>Quick answer to common questions</h2>';
-$handler->display->display_options['header']['area']['format'] = 'filtered_html';
+$handler->display->display_options['header']['area']['format'] = 'full_html';
 $handler->display->display_options['header']['area']['tokenize'] = 0;
 /* Field: Content: Title */
 $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -47,19 +48,24 @@ $handler->display->display_options['fields']['title']['table'] = 'node';
 $handler->display->display_options['fields']['title']['field'] = 'title';
 $handler->display->display_options['fields']['title']['label'] = '';
 $handler->display->display_options['fields']['title']['alter']['alter_text'] = 0;
-$handler->display->display_options['fields']['title']['alter']['make_link'] = 0;
+$handler->display->display_options['fields']['title']['alter']['make_link'] = 1;
+$handler->display->display_options['fields']['title']['alter']['path'] = '/';
 $handler->display->display_options['fields']['title']['alter']['absolute'] = 0;
 $handler->display->display_options['fields']['title']['alter']['external'] = 0;
 $handler->display->display_options['fields']['title']['alter']['replace_spaces'] = 0;
 $handler->display->display_options['fields']['title']['alter']['trim_whitespace'] = 0;
+$handler->display->display_options['fields']['title']['alter']['link_class'] = 'views-field-title';
 $handler->display->display_options['fields']['title']['alter']['nl2br'] = 0;
 $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 0;
 $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 0;
 $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
 $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['title']['alter']['html'] = 0;
+$handler->display->display_options['fields']['title']['element_type'] = '0';
+$handler->display->display_options['fields']['title']['element_label_type'] = '0';
 $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['title']['element_default_classes'] = 1;
+$handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
+$handler->display->display_options['fields']['title']['element_default_classes'] = 0;
 $handler->display->display_options['fields']['title']['hide_empty'] = 0;
 $handler->display->display_options['fields']['title']['empty_zero'] = 0;
 $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
@@ -179,11 +185,13 @@ $translatables['faq'] = array(
   t('- All -'),
   t('Offset'),
   t('<h2>Quick answer to common questions</h2>'),
+  t('/'),
   t('Edit this item'),
   t('[edit_node][body]
 '),
   t('Page'),
 );
+
   $export['faq'] = $view;
 
   return $export;
