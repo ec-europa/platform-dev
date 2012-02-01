@@ -5,8 +5,8 @@ source config.sh
 #build the drupal instance
 drush make profiles/multisite_drupal_core/build.make $1
 
-mysql -u root -p -e "drop database $1;"
-mysql -u root -p -e "create database $1;"
+mysql -u $db_user -p "$db_pass" -e "drop database $1;"
+mysql -u $db_user -p "$db_pass" -e "create database $1;"
 
 chmod -R 777 $1/sites/default
 cp -R profiles/multisite_drupal_core $1/profiles
