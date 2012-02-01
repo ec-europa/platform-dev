@@ -3,6 +3,7 @@
   
 		//FAQ
 		$(".view-faq .views-field-title").click(function(){
+      var parent = $(this).parents('li');
 			$(this).next(".views-field-body").slideToggle("slow");
 			$(this).next(".views-field-body").next(".views-field-field-tags").slideToggle("slow");
 			$(this).toggleClass("active");
@@ -10,19 +11,12 @@
 		});
 		
 		//init
-		$(".view-faq .views-field-title").toggleClass("active");
 		$(".view-faq .views-field-title").css("text-decoration","underline");
 		$(".view-faq .views-field-body").css("display","none");
 		$(".view-faq .views-field-field-tags").css("display","none");
 		
 		//expand
-		$(".view-faq .expand").click(function(){
-			$(".view-faq .views-field-body").slideDown("slow");
-			$(".view-faq .views-field-field-tags").slideDown("slow");
-			$(".view-faq .views-field-title").addClass("active");
-			return false;
-		});	
-		$(".view-faq .expand a").click(function(){
+		$(".view-faq a.action-expand").click(function(){
 			$(".view-faq .views-field-body").slideDown("slow");
 			$(".view-faq .views-field-field-tags").slideDown("slow");
 			$(".view-faq .views-field-title").addClass("active");
@@ -30,13 +24,7 @@
 		});	    
 		
 		//collapse
-		$(".view-faq .collapse").click(function(){
-			$(".view-faq .views-field-body").slideUp("slow");
-			$(".view-faq .views-field-field-tags").slideUp("slow");
-			$(".view-faq .views-field-title").removeClass("active");
-			return false;
-		});	
-		$(".view-faq .collapse a").click(function(){
+		$(".view-faq a.action-collapse").click(function(){
 			$(".view-faq .views-field-body").slideUp("slow");
 			$(".view-faq .views-field-field-tags").slideUp("slow");
 			$(".view-faq .views-field-title").removeClass("active");

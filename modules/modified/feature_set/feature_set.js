@@ -24,16 +24,20 @@ jQuery(function($){
     
     //Manage click on switcher  
     $(".cb-enable").click(function(){
-      var parent = $(this).parents('.switch');
-      $('.cb-disable',parent).removeClass('selected');
-      $(this).addClass('selected');
-      $('.form-checkbox',parent).attr('checked', true);
+      if ($(this).parents('.form-disabled').size()==0) {
+        var parent = $(this).parents('.switch');
+        $('.cb-disable',parent).removeClass('selected');
+        $(this).addClass('selected');
+        $('.form-checkbox',parent).attr('checked', true);
+      }
     });
     $(".cb-disable").click(function(){
-      var parent = $(this).parents('.switch');
-      $('.cb-enable',parent).removeClass('selected');
-      $(this).addClass('selected');
-      $('.form-checkbox',parent).attr('checked', false);
+      if ($(this).parents('.form-disabled').size()==0) {
+        var parent = $(this).parents('.switch');
+        $('.cb-enable',parent).removeClass('selected');
+        $(this).addClass('selected');
+        $('.form-checkbox',parent).attr('checked', false);
+      }
     });
   });
 });

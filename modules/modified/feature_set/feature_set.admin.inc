@@ -62,8 +62,8 @@ function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
     '#attributes' => array(
       'class' => array(
         'btn',
-        'large',
-        'primary',
+        'btn-large',
+        'btn-primary',
       ),
     ),
   );
@@ -114,8 +114,7 @@ function theme_feature_set_admin_form($form) {
       
     }
   }
-  
-  $output = theme('table', array('header' => $header, 'rows' => $rows));
+  $output = theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('class' => array('table','table-bordered'))));
   $output .= drupal_render_children($form);
   
   return $output;

@@ -346,7 +346,7 @@ function feature_set_exit() {
  * alter html code (to add js and css).
  */
  
-/*
+
 function feature_set_preprocess_html(&$variables) {
   // Add javascripts
   drupal_add_js(drupal_get_path('module', 'feature_set').'/feature_set.js');  
@@ -355,6 +355,6 @@ function feature_set_preprocess_html(&$variables) {
   drupal_add_css(drupal_get_path('module', 'feature_set').'/feature_set_ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
 
 }
-*/
+
 
 	
