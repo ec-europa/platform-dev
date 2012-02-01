@@ -2,6 +2,7 @@
 
 source config.sh
 
+
 #build the drupal instance
 drush make profiles/multisite_drupal_core/build.make $1
 

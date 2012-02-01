@@ -16,6 +16,7 @@ Configuration of the site\n
 \t-m, --site-email\t\tDefine the site email\n
 \t-b, --base-url\t\tDefine the base URL of the site\n"
 
+
 #Default values
 webroot='/var/www'
 db_user='root'
