@@ -122,7 +122,7 @@ module_invoke('context','save',$context);
 * hook_modules_enabled
 */
 function links_node_type_insert($info) {
-  //if(in_array('links', $modules)) { 	
+  if($info->type == 'links') {	
 	
 	  node_types_rebuild();
 	  
@@ -166,10 +166,10 @@ function links_node_type_insert($info) {
 			->fetchAssoc();
 
 		og_role_change_permissions($cm['rid'], array(
-			'update own links content',
-			'update any links content',
-			'delete own links content',
-			'delete any links content',
+			'update own links content' => 1,
+			'update any links content'=> 1,
+			'delete own links content'=> 1,
+			'delete any links content'=> 1,
 		));
 		
 		// Administrator Member
@@ -180,14 +180,14 @@ function links_node_type_insert($info) {
 			->fetchAssoc();
 
 		og_role_change_permissions($admm['rid'], array(
-			'update own links content',
-			'update any links content',
-			'delete own links content',
-			'delete any links content',
+			'update own links content' => 1,
+			'update any links content' => 1,
+			'delete own links content' => 1,
+			'delete any links content' => 1,
 		));
 		
 		node_access_rebuild();
 		drupal_flush_all_caches();	
 	
-  //}
+  }
 }

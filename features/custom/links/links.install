@@ -11,4 +11,5 @@ function links_install() {
 	->condition('type', 'module', '=')
   ->execute();
 	
+	drupal_set_message('INSTALL OK');
 }
