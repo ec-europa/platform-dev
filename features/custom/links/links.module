@@ -101,7 +101,7 @@ module_invoke('context','save',$context);
 		
 		// Administrator Member
 		$admm = db_select('og_role', 'r')
-			->condition('name', "member",'=')
+			->condition('name', "administrator member",'=')
 			->fields('r', array('rid'))
 			->execute()
 			->fetchAssoc();
@@ -121,8 +121,8 @@ module_invoke('context','save',$context);
 /*
 * hook_modules_enabled
 */
-function links_modules_enabled($modules) {
-  if(in_array('links', $modules)) { 	
+function links_node_type_insert($info) {
+  //if(in_array('links', $modules)) { 	
 	
 	  node_types_rebuild();
 	  
@@ -165,7 +165,7 @@ function links_modules_enabled($modules) {
 			->execute()
 			->fetchAssoc();
 
-		og_role_grant_permissions($cm['rid'], array(
+		og_role_change_permissions($cm['rid'], array(
 			'update own links content',
 			'update any links content',
 			'delete own links content',
@@ -174,12 +174,12 @@ function links_modules_enabled($modules) {
 		
 		// Administrator Member
 		$admm = db_select('og_role', 'r')
-			->condition('name', "member",'=')
+			->condition('name', "administrator member",'=')
 			->fields('r', array('rid'))
 			->execute()
 			->fetchAssoc();
 
-		og_role_grant_permissions($admm['rid'], array(
+		og_role_change_permissions($admm['rid'], array(
 			'update own links content',
 			'update any links content',
 			'delete own links content',
@@ -189,5 +189,5 @@ function links_modules_enabled($modules) {
 		node_access_rebuild();
 		drupal_flush_all_caches();	
 	
-  }
+  //}
 }
