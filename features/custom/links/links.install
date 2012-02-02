@@ -1,0 +1,14 @@
+<?php
+
+function links_install() {
+ // db_query("UPDATE {system} SET weight = '-1' WHERE name = 'NOM_MODULE' AND type = 'module'");
+	
+	db_update('system') // Table name no longer needs {}
+  ->fields(array(
+    'weight' => 100,
+  ))
+	->condition('name', 'links', '=')
+	->condition('type', 'module', '=')
+  ->execute();
+	
+}
