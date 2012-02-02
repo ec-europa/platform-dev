@@ -45,6 +45,8 @@ function multisite_drupal_core_install() {
   $account->mail = 'administrator@test.com';
   $account->init = 'administrator@test.com';
   $account->roles[3] = 'administrator';
+  $account->field_firstname[LANGUAGE_NONE][0]['value'] = 'John';
+  $account->field_lastname[LANGUAGE_NONE][0]['value'] = 'Smith';
   user_save($account);
   
   $account1 = new StdClass();
@@ -55,6 +57,8 @@ function multisite_drupal_core_install() {
   $account1->mail = 'contributor@test.com';
   $account1->init = 'contributor@test.com';
   $account1->roles[4] = 'contributor';
+  $account1->field_firstname[LANGUAGE_NONE][0]['value'] = 'John';
+  $account1->field_lastname[LANGUAGE_NONE][0]['value'] = 'Doe';  
   user_save($account1);  
 
   
