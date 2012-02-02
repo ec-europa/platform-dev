@@ -126,11 +126,11 @@ table {
   }  
   .active {
     a {
-      color: lighten(@link_color,20%);
+      color: @link_color;
       background-color: @body_color;
       border-color: darken(@body_color,15%) darken(@body_color,15%) transparent darken(@body_color,15%);
       &:hover { 
-        color: lighten(@link_color,20%);
+        color: @link_color;
         background-color: @body_color;
         border-color: darken(@body_color,15%) darken(@body_color,15%) transparent darken(@body_color,15%);
       }
