@@ -121,8 +121,8 @@ module_invoke('context','save',$context);
 /*
 * hook_modules_enabled
 */
-function links_node_type_insert($info) {
-  if($info->type == 'links') {	
+function links_modules_enabled($modules) {
+  if($modules == 'links') {	
 	
 	  node_types_rebuild();
 	  
@@ -165,11 +165,11 @@ function links_node_type_insert($info) {
 			->execute()
 			->fetchAssoc();
 
-		og_role_change_permissions($cm['rid'], array(
-			'update own links content' => 1,
-			'update any links content'=> 1,
-			'delete own links content'=> 1,
-			'delete any links content'=> 1,
+		og_role_grant_permissions($cm['rid'], array(
+			'update own links content',
+			'update any links content',
+			'delete own links content',
+			'delete any links content',
 		));
 		
 		// Administrator Member
@@ -179,15 +179,21 @@ function links_node_type_insert($info) {
 			->execute()
 			->fetchAssoc();
 
-		og_role_change_permissions($admm['rid'], array(
-			'update own links content' => 1,
-			'update any links content' => 1,
-			'delete own links content' => 1,
-			'delete any links content' => 1,
+		og_role_grant_permissions($admm['rid'], array(
+			'update own links content',
+			'update any links content',
+			'delete own links content',
+			'delete any links content',
 		));
 		
 		node_access_rebuild();
 		drupal_flush_all_caches();	
 	
   }
+}
+
+function links_og_permission_alter(&$perms) {
+drupal_set_message('alter permissions');
+drupal_set_message(print_r($perms,TRUE));
+
 }
