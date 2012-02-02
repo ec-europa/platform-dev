@@ -5,13 +5,13 @@
  * Add body classes if certain regions have content.
  */
 function ec_default_preprocess_html(&$variables) {
-/*drupal_set_message('message1');
-drupal_set_message('message2','warning');
-drupal_set_message('message3','error');
-drupal_set_message('message4','info');*/
+  /*drupal_set_message('message1');
+  drupal_set_message('message2','warning');
+  drupal_set_message('message3','error');
+  drupal_set_message('message4','info');*/
 
   // Alter $variables to add bootstrap classes
-    //messages
+  //messages
   /*$variables_table = explode('|',$variables['user']->session);
   $dsm = '';
   $dsm_serialized = '';
@@ -23,7 +23,7 @@ drupal_set_message('message4','info');*/
           case 'status':
             $dsm['alert-message success'] = $messages[$type];
           break;
-          
+
           case 'error':
             $dsm['alert-message error'] = $messages[$type];
           break;
@@ -34,8 +34,8 @@ drupal_set_message('message4','info');*/
 
           case 'info':
             $dsm['alert-message info'] = $messages[$type];
-          break;          
-          
+          break;
+
           default :
             $dsm['alert-message'] = $messages[$type];
           break;
@@ -47,7 +47,7 @@ drupal_set_message('message4','info');*/
     }
   }
   $variables['user']->session = implode('|',$dsm_serialized);*/
-    // end messages
+  //end messages
   
   if (!empty($variables['page']['featured'])) {
     $variables['classes_array'][] = 'featured';

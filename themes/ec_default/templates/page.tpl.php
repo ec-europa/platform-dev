@@ -87,10 +87,10 @@
 ?>
 
 <?php
-$no_left = false;
+$no_left = FALSE;
 if (arg(0) == 'admin' ||
     arg(2) == 'edit') {
-  $no_left = true;
+  $no_left = TRUE;
 }
 ?>
 
