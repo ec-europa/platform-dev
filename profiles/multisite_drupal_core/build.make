@@ -66,7 +66,7 @@ projects[uuid][subdir] = "contributed"
 projects[uuid][version] = "1.0-alpha2"
 
 projects[varnish][subdir] = "contributed"
-projects[varnish][version] = "1.x-dev"
+projects[varnish][version] = "1.x-beta1"
 
 projects[views][subdir] = "contributed"
 projects[views][version] = "3.0-rc3"
