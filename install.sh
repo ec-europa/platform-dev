@@ -10,8 +10,10 @@ function __echo {
 
 usage="Installation of multisite instance\n
 Syntax : $(basename $0) [ARGS] SITE-NAME\n
-\t-?,-h, --help\t\tPrint this message\n\n
-\t-v, --verbose\t\tSet the script in verbose mode
+\t-?,-h, --help\t\tPrint this message\n
+\t-v, --verbose\t\tSet the script in verbose mode\n
+\t-f, --force\t\tForce the installation without any request to user input\n
+\t\t\t(Take care, it might delete automatically \n
 Connection information\n
 \t-u, --db-user\t\tSet the database user\n
 \t-p, --db-pass\t\tSet the database password\n
@@ -26,12 +28,13 @@ Configuration of the site\n
 
 
 # Configuration of the script
-while getopts "u:p:H:P:a:e:n:b:vh?-:" option; do
+while getopts "u:p:H:P:a:e:n:b:vfh?-:" option; do
         #Management of the --options
         if [ "$option" = "-" ]; then
                 case $OPTARG in
                         help) option=h ;;
                         verbose) option=v ;;
+						force) force=f ;;
                         dbuser) option=u ;;
                         dbpass) option=p ;;
                         dbhost) option=H ;;
@@ -58,6 +61,7 @@ while getopts "u:p:H:P:a:e:n:b:vh?-:" option; do
                 m) site_mail=$OPTARG ;;
                 b) baseurl=$OPTARG ;;
                 v) verbose=1 ;;
+				f) force=1 ;;
                 \?|h)
                         echo -e $usage
                         exit 0
@@ -129,7 +133,7 @@ done
 
 #install and configure the drupal instance
 drush_option=
-if [ "${verbose}" = 1 ] ; then
+if [ "${force}" = 1 ] ; then
 	drush_option="-y"
 fi
 drush si ${drush_option} multisite_drupal_core --db-url=$db_url --account-name=$account_name --account-pass=$account_pass --site-name=${site_name} --site-mail=$site_mail

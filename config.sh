@@ -12,3 +12,4 @@ account_mail='EMAIL@ADDRESS.COM'
 site_mail='EMAIL@ADDRESS.COM'
 baseurl='www.site.com'
 verbose=0
+force=0
