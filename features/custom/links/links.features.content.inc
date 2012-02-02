@@ -9,7 +9,7 @@
  */
 function links_content_defaults() {
 $content = array();
-$content['link_one'] = (object)array(
+$content['link1'] = (object)array(
   'exported_path' => 'content/my-link-1',
   'title' => 'my link 1',
   'status' => '1',
@@ -31,7 +31,7 @@ $content['link_one'] = (object)array(
     ),
   ),
 );
-$content['link_two'] = (object)array(
+$content['link2'] = (object)array(
   'exported_path' => 'content/my-link-2',
   'title' => 'my link 2',
   'status' => '1',
