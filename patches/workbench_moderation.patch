@@ -1,5 +1,8 @@
---- workbench_moderation.module 2012-01-31 15:39:09.000000000 +0100
-+++ workbench_moderation.module	2012-01-31 15:32:38.000000000 +0100
+Modify the module in order to add a new hook in the API (hook_workbench_moderation_transition)
+Index: sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
+===================================================================
+--- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module 2012-01-31 15:39:09.000000000 +0100
++++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2012-01-31 15:32:38.000000000 +0100
 @@ -1473,6 +1473,10 @@
    if (!empty($node->workbench_moderation['published'])) {
      drupal_register_shutdown_function('workbench_moderation_store', $node);
