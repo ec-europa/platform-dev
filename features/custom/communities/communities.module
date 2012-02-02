@@ -44,14 +44,25 @@ function communities_enable() {
 function communities_views_pre_render(&$view) {
   if($view->name == 'communities_directory') {
     $alphabet = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
-    $output = '<ul class="glossary">';
+    
+    $output = '<div class="well btn-toolbar action_bar">';
+    $output .= '<div class="btn-group">';
+    
     foreach($alphabet as $letter) {
       $url = $_GET['q'].'/'.$letter;
-      $output .= '<li>'.l($letter, $url).'</li>';
+      $output .= l($letter,$url,array('attributes' => array('class' => array('btn btn-small action-expand'))));
     }
-	if(user_access('create community content'))  {
-      $output .= '<div class="add_content">'.l(t('create a new community'),'node/add/community').'</div>';
-	}
+    
+    $output .= '</div>';
+    
+    if(user_access('create community content'))  {
+      $output.= '<div class="btn-group">';
+      $output.= l(t('create a new community'),'node/add/community',array('attributes' => array('class' => array('btn btn-info'))));
+      $output.= '</div>';    
+    }
+    
+    $output .= '</div>';
+    
     $view->header['area']->options['content'] = $output;
   }
 }
@@ -99,8 +110,6 @@ function communities_node_type_insert($info) {
       'use workbench_moderation my drafts tab',
       'use workbench_moderation needs review tab',
       'view moderation messages', 
-	  'moderate content from draft to needs_review',
-      'view moderation history',
     )); 	
   
     // add permissions to OG roles ----------------------------------------------------------------------------------------------------------------------------------------------  
@@ -119,15 +128,4 @@ function communities_node_type_insert($info) {
     ));  
   }	
 }
-
-
-
-/*
-* hook_workbench_moderation_transition
-*/
-function communities_workbench_moderation_transition($node, $previous_state, $new_state) {
-  drupal_set_message("DEBUG moderation workflow");
-}
-
-
 
