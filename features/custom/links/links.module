@@ -12,22 +12,8 @@ include_once('links.features.inc');
  */
 function links_enable(){
 
-  //Name of the context to edit
-  $contextName='communities'; 
-  //Load context
-  $context=module_invoke('context','load',$contextName);
-  //Make some modifications
-  $blockTitle='links-block';
-  $blockToAdd = array(
-    'module' => 'views',
-    'delta' => 'links-block',
-    'region' => 'sidebar_first',
-    'weight' => '-10',
-    ); 
-  //Add modification to the context
-  $context->reactions['block']['blocks'][$blockTitle]=$blockToAdd;
-  //Update the context
-  module_invoke('context','save',$context);
+  //Add block in context
+  _add_block_context('communities','links-block','views','links-block', 'sidebar_first');
   
   drupal_set_message('Links feature is now active on your site.');
 
@@ -41,17 +27,8 @@ function links_enable(){
  */
 function links_disable(){
 
-  /***  Remove block  ***/
-  //Name of the context to edit
-  $contextName='communities'; 
-  //Load context
-  $context=module_invoke('context','load',$contextName); 
-  //The element to remove
-  $blockTitle='links-block'; 
-  //Remove element from the context
-  unset($context->reactions['block']['blocks'][$blockTitle]);
-  //Update the context
-  module_invoke('context','save',$context);
+  // Remove block
+  _remove_block_context('communities', 'links-block');
 
   /*** Remove permissions ***/
   _disable_content_type('links');
@@ -63,7 +40,7 @@ function links_disable(){
     ->execute()
     ->fetchAssoc();
 
-  user_role_revoke_permissions($adm['rid'], array(  
+  user_role_revoke_permissions($adm['rid'], array(
     'edit own links content',
     'edit any links content',
     'delete own links content',
