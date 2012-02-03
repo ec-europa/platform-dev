@@ -12,22 +12,22 @@ include_once('links.features.inc');
  */
 function links_enable(){
 
-	//Name of the context to edit
-	$contextName='communities'; 
-	//Load context
-	$context=module_invoke('context','load',$contextName);
-	//Make some modifications
-	$blockTitle='links-block';
-	$blockToAdd = array(
-					'module' => 'views',
-					'delta' => 'links-block',
-					'region' => 'sidebar_first',
-					'weight' => '-10',
-					); 
-	//Add modification to the context
-	$context->reactions['block']['blocks'][$blockTitle]=$blockToAdd;
-	//Update the context
-	module_invoke('context','save',$context);
+  //Name of the context to edit
+  $contextName='communities'; 
+  //Load context
+  $context=module_invoke('context','load',$contextName);
+  //Make some modifications
+  $blockTitle='links-block';
+  $blockToAdd = array(
+    'module' => 'views',
+    'delta' => 'links-block',
+    'region' => 'sidebar_first',
+    'weight' => '-10',
+    ); 
+  //Add modification to the context
+  $context->reactions['block']['blocks'][$blockTitle]=$blockToAdd;
+  //Update the context
+  module_invoke('context','save',$context);
 
 }
 
@@ -63,59 +63,58 @@ function links_disable(){
 
   user_role_revoke_permissions($adm['rid'], array(  
     'edit own links content',
-	'edit any links content',
-	'delete own links content',
-	'delete any links content',
-	'create links content',
+    'edit any links content',
+    'delete own links content',
+    'delete any links content',
+    'create links content',
   ));
-		
+    
   // Contributor
   $contrib = db_select('role', 'r')
     ->condition('name', "contributor",'=')
-	->fields('r', array('rid'))
-	->execute()
-	->fetchAssoc();
-			
+    ->fields('r', array('rid'))
+    ->execute()
+    ->fetchAssoc();
+      
   user_role_revoke_permissions($contrib['rid'], array(
     'edit own links content',
-	'edit any links content',
-	'delete own links content',
-	'delete any links content',
-	'create links content',
+    'edit any links content',
+    'delete own links content',
+    'delete any links content',
+    'create links content',
   ));
-					
+          
   // Disable permissions to OG roles ---------------------------------------------------------------  
   // Community Manager
   $cm = db_select('og_role', 'r')
     ->condition('name', "community_manager",'=')
-	->fields('r', array('rid'))
-	->execute()
-	->fetchAssoc();
+    ->fields('r', array('rid'))
+    ->execute()
+    ->fetchAssoc();
 
   og_role_revoke_permissions($cm['rid'], array(
     'update own links content',
-	'update any links content',
-	'delete own links content',
-	'delete any links content',
+    'update any links content',
+    'delete own links content',
+    'delete any links content',
   ));
-		
+    
   // Administrator Member
   $admm = db_select('og_role', 'r')
     ->condition('name', "administrator member",'=')
-	->fields('r', array('rid'))
-	->execute()
-	->fetchAssoc();
+    ->fields('r', array('rid'))
+    ->execute()
+    ->fetchAssoc();
 
   og_role_revoke_permissions($admm['rid'], array(
     'update own links content',
-	'update any links content',
-	'delete own links content',
-	'delete any links content',
+    'update any links content',
+    'delete own links content',
+    'delete any links content',
   ));
-		
-  drupal_flush_all_caches();	
+    
+  drupal_flush_all_caches();  
 }
-
 
 
 /*
@@ -126,69 +125,69 @@ function links_node_insert($node) {
   if ($node->type == 'links') {
     node_types_rebuild();
 
-	drupal_set_message("invalide cache og");
+    drupal_set_message("invalide cache og");
     og_invalidate_cache();
-	  
+    
     // Add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
     // Administrator
     $adm = db_select('role', 'r')
-	  ->condition('name', "administrator",'=')
-	  ->fields('r', array('rid'))
-	  ->execute()
-	  ->fetchAssoc();
+      ->condition('name', "administrator",'=')
+      ->fields('r', array('rid'))
+      ->execute()
+      ->fetchAssoc();
 
     user_role_grant_permissions($adm['rid'], array(  
-	  'edit own links content',
-	  'edit any links content',
-	  'delete own links content',
-	  'delete any links content',
-	  'create links content',
+      'edit own links content',
+      'edit any links content',
+      'delete own links content',
+      'delete any links content',
+      'create links content',
     ));
-		
+    
     // Contributor
     $contrib = db_select('role', 'r')
-	  ->condition('name', "contributor",'=')
-	  ->fields('r', array('rid'))
-	  ->execute()
-	  ->fetchAssoc();
-			
+      ->condition('name', "contributor",'=')
+      ->fields('r', array('rid'))
+      ->execute()
+      ->fetchAssoc();
+      
     user_role_grant_permissions($contrib['rid'], array(
-	  'edit own links content',
-	  'edit any links content',
-	  'delete own links content',
-	  'delete any links content',
-	  'create links content',
+      'edit own links content',
+      'edit any links content',
+      'delete own links content',
+      'delete any links content',
+      'create links content',
     ));
-					
-	// Add permissions to OG roles ---------------------------------------------------------------  
-	// Community Manager
-	$cm = db_select('og_role', 'r')
-	  ->condition('name', "community_manager",'=')
-	  ->fields('r', array('rid'))
-	  ->execute()
-	  ->fetchAssoc();
+          
+  // Add permissions to OG roles ---------------------------------------------------------------  
+  // Community Manager
+  $cm = db_select('og_role', 'r')
+    ->condition('name', "community_manager",'=')
+    ->fields('r', array('rid'))
+    ->execute()
+    ->fetchAssoc();
 
-	og_role_grant_permissions($cm['rid'], array(
-	  'update own links content',
-	  'update any links content',
-	  'delete own links content',
-	  'delete any links content',
-	));
-		
-	// Administrator Member
-	$admm = db_select('og_role', 'r')
-	  ->condition('name', "administrator member",'=')
-	  ->fields('r', array('rid'))
-	  ->execute()
-	  ->fetchAssoc();
+  og_role_grant_permissions($cm['rid'], array(
+    'update own links content',
+    'update any links content',
+    'delete own links content',
+    'delete any links content',
+  ));
+    
+  // Administrator Member
+  $admm = db_select('og_role', 'r')
+    ->condition('name', "administrator member",'=')
+    ->fields('r', array('rid'))
+    ->execute()
+    ->fetchAssoc();
 
-	og_role_grant_permissions($admm['rid'], array(
-	  'update own links content',
-	  'update any links content',
-	  'delete own links content',
-	  'delete any links content',
+  og_role_grant_permissions($admm['rid'], array(
+    'update own links content',
+    'update any links content',
+    'delete own links content',
+    'delete any links content',
     ));
-		
+    
   }
 }
 
