@@ -20,6 +20,7 @@ Connection information\n
 \t-H, --db-host\t\tSet the database host\n\n
 \t-P, --db-port\t\tSet the database port\n\n
 Configuration of the site\n
+\t-d,           \t\tDefine drush options
 \t-r, --web-root\t\tDefine the web root\n
 \t-a, --account\t\tDefine the account name for the administrator\n
 \t-e, --account-email\tDefine the email address for the administrator\n
@@ -28,7 +29,7 @@ Configuration of the site\n
 
 
 # Configuration of the script
-while getopts "u:p:H:P:a:e:r:n:b:vfh?-:" option; do
+while getopts "u:p:H:P:a:e:d:r:n:b:vfh?-:" option; do
         #Management of the --options
         if [ "$option" = "-" ]; then
                 case $OPTARG in
@@ -57,6 +58,7 @@ while getopts "u:p:H:P:a:e:r:n:b:vfh?-:" option; do
                 P) db_port=$OPTARG ;;
                 a) account=$OPTARG ;;
                 e) account_mail=$OPTARG ;;
+				d) drush_options=$OPTARG ;;
 				r) webroot=$OPTARG ;;
                 m) site_mail=$OPTARG ;;
                 b) baseurl=$OPTARG ;;
@@ -94,13 +96,19 @@ if [ -d "${working_dir}" ] ; then
 	__echo "done"
 fi
 
+# Set up the drush option
+if [ "${force}" = 1 ] ; then
+	drush_options="${drush_options} -y"
+fi
+__echo "Set drush options: ${drush_options}"
+
 #build the drupal instance
-drush make profiles/multisite_drupal_core/build.make ${site_name}
+drush ${drush_options} make profiles/multisite_drupal_core/build.make ${site_name} 1>&2
 
-mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "drop database ${site_name};"
-mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "create database ${site_name};"
+mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "drop database ${site_name};" 1>&2
+mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "create database ${site_name};" 1>&2
 
-chmod -R 777 ${site_name}/sites/default
+chmod -R 777 ${site_name}/sites/default 
 cp -R profiles/multisite_drupal_core ${site_name}/profiles
 cp -R profiles/subsite_standard ${site_name}/profiles
 cp -R profiles/subsite_communities ${site_name}/profiles
@@ -132,11 +140,7 @@ for patch_file in "${patch_dir}/"*.patch "${patch_dir}/"*.diff; do
 done
 
 #install and configure the drupal instance
-drush_option=
-if [ "${force}" = 1 ] ; then
-	drush_option="-y"
-fi
-drush si ${drush_option} multisite_drupal_core --db-url=$db_url --account-name=$account_name --account-pass=$account_pass --site-name=${site_name} --site-mail=$site_mail
+drush --php="/usr/bin/php" ${drush_options} si multisite_drupal_core --db-url=$db_url --account-name=$account_name --account-pass=$account_pass --site-name=${site_name} --site-mail=$site_mail  1>&2
 
 mkdir "${working_dir}/sites/default/files/private_files"
 chmod -R 777 "${working_dir}/sites/default/files"
@@ -145,8 +149,8 @@ mkdir "${working_dir}/sites/all/libraries"
 #cd sites/all/libraries
 cd "${working_dir}/sites/all/modules/contributed/ckeditor"
 rm -rf "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor"
-wget -P "${working_dir}/sites/all/modules/contributed/ckeditor/" http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.2/ckeditor_3.6.2.tar.gz
-tar xvzf "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor_3.6.2.tar.gz" 1>&2
+wget -P "${working_dir}/sites/all/modules/contributed/ckeditor/" http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.2/ckeditor_3.6.2.tar.gz  1>&2
+tar xzf "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor_3.6.2.tar.gz" 1>&2
 rm "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor_3.6.2.tar.gz"
 
 if [ -d "${webroot}/${site_name}" ] ; then
