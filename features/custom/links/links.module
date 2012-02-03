@@ -121,10 +121,16 @@ module_invoke('context','save',$context);
 /*
 * hook_modules_enabled
 */
-function links_modules_enabled($modules) {
-  if($modules == 'links') {	
-	
+
+
+//function links_modules_enabled($modules) {
+//  if($modules == 'links') {	
+function links_node_insert($node) {
+  if ($node->type == 'links') {
 	  node_types_rebuild();
+
+	  drupal_set_message("invalide cache og");
+      og_invalidate_cache();
 	  
 		// Add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
 		// Administrator
@@ -186,14 +192,9 @@ function links_modules_enabled($modules) {
 			'delete any links content',
 		));
 		
-		node_access_rebuild();
-		drupal_flush_all_caches();	
+		//node_access_rebuild();
+		//drupal_flush_all_caches();	
 	
   }
 }
 
-function links_og_permission_alter(&$perms) {
-drupal_set_message('alter permissions');
-drupal_set_message(print_r($perms,TRUE));
-
-}

@@ -138,44 +138,48 @@ function communities_node_type_insert($info) {
 function communities_workbench_moderation_transition($node, $previous_state, $new_state) {
   global $base_url;
 
-  drupal_set_message("DEBUG moderation workflow");
-  drupal_set_message(print_r($previous_state, TRUE));
-  drupal_set_message(print_r($new_state, TRUE));
-  drupal_set_message($base_url);
+  $transition_made = $previous_state."__".$new_state;  
   
-  $query = db_select('users', 'u');
-  $query->join('users_roles', 'ur', 'u.uid = ur.uid');
-  $query->join('role', 'r', 'r.rid = ur.rid');
-  $query->condition('r.name', "administrator",'=');
-  $query->fields('u', array('uid'));
-  $result = $query->execute();
-
-  while($record = $result->fetchAssoc()) {
-    $admin_users[] = $record['uid'];
-  }
-
-  drupal_set_message(print_r($admin_users, TRUE));
-
-  $transition_made = $previous_state."__".$new_state;
-  
+  // transistions settings
   $transitions_settings = array(
     "draft__needs_review" => array(
-	  "message" => get_mail_template(),
+	  "message" => get_mail_template('draft__needs_review'),
 	  "subject" => "creation of community request",
-	  "to_creator" => $node->uid,
-         "to_admin" => $admin_users,
-         "nid" => $node->nid,
 	),
-  );
+	"needs_review__draft" => array(
+	  "message" => get_mail_template('needs_review__draft'),
+	  "subject" => "community refused",	
+	),
+  );  
+  
+  if(isset($transitions_settings[$transition_made])) { // if there are settings for the transition => process send mail  
+    // get all administrators
+    $query = db_select('users', 'u');
+    $query->join('users_roles', 'ur', 'u.uid = ur.uid');
+    $query->join('role', 'r', 'r.rid = ur.rid');
+    $query->condition('r.name', "administrator",'=');
+    $query->fields('u', array('uid'));
+    $result = $query->execute();
 
-  if(isset($transitions_settings[$transition_made])) {
-    $settings = $transitions_settings[$transition_made];
-    _send_mail($settings);
+    while($record = $result->fetchAssoc()) {
+      $admin_users[] = $record['uid'];
+    }
+  
+    $params = array(
+	  "to_creator" => $node->uid,
+      "to_admin" => $admin_users,
+      "nid" => $node->nid,  
+    );
+    $params += $transitions_settings[$transition_made];
+	
+    _send_mail($params); // send mail
   }
    
 }
 
-
+/*
+* send mail function
+*/
 function _send_mail($params) {
   $module = 'communities';
   $key = 'workbench_moderation_workflow';
@@ -210,10 +214,6 @@ function communities_mail($key, &$message, $params) {
   $admin_user = user_load($params['admin_uid']);
   $creator_user = user_load($params['to_creator']);
 
-  drupal_set_message(print_r($params,TRUE));
-  drupal_set_message(print_r($admin_user,TRUE));
-  drupal_set_message(print_r($creator_user,TRUE));
-
   $node = node_load($params['nid']);
 
   $variables = array(
@@ -234,8 +234,18 @@ function communities_mail($key, &$message, $params) {
   }
 }
 
-
-function get_mail_template() {
-  $output = "Dear %admin_user,<br><p>%creator_user requests a community creation : %community_link<br></p><p><a href=\"%site_url/en/admin/workbench\">Go to administration</a></p>";
+/*
+* provide the template mail
+*/
+function get_mail_template($key) {
+  $output = "";
+  switch ($key) {
+	case 'draft__needs_review': 
+      $output = "Dear %admin_user,<br><p>%creator_user requests a community creation : %community_link<br></p><p><a href=\"%site_url/en/admin/workbench\">Go to administration</a>.</p>";
+ 	  break;
+	case 'needs_review__draft': 
+      $output = "Dear %creator_user,<br><p>Your community %community_link has been refused.<br></p>";
+	  break;
+  }
   return $output;
 }
