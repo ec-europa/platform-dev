@@ -26,3 +26,44 @@ function _disable_content_type($type) {
   $type_info->disabled = 1;
   node_type_save($type_info);
 }
+
+
+/**
+* Add block to the context
+*/
+function multisite_drupal_toolbox_enable(){
+	_add_block_context('site_wide','locale-language','locale','language','highlighted');	
+}
+
+
+/**
+* Utility function to add block to a context
+*/
+function _add_block_context($contextName,$blockTitle,$module,$delta, $region,$weight='-10'){
+	//Load context
+	$context=module_invoke('context','load',$contextName); 
+	//Make some modifications
+	$blockToAdd = array(
+			'module' => $module,
+			'delta' =>  $delta,
+			'region' => $region,
+			'weight' => $weight,
+					); 
+	//Add modification to the context
+	$context->reactions['block']['blocks'][$blockTitle]=$blockToAdd;	
+	//Update the context
+	module_invoke('context','save',$context);
+}
+
+
+/**
+* Utility function to remove block from context
+*/
+function _remove_block_context($contextName,$blockTitle){	 
+	//Load context
+	$context=module_invoke('context','load',$contextName);	 
+	//Remove element from the context
+	unset($context->reactions['block']['blocks'][$blockTitle]);   
+	//Update the context
+	module_invoke('context','save',$context);
+}
