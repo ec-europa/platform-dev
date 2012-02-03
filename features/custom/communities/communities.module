@@ -82,6 +82,22 @@ function communities_init() {
 */
 function communities_modules_enabled($modules) {
   if(in_array('communities', $modules)) { 
+	// populate users fields of dummy users
+    $account = user_load_by_name("admin");
+	$account1 = user_load_by_name("administrator");
+	$account2 = user_load_by_name("contributor");
+
+	$account->field_firstname['und'][0]['value'] = 'John';
+    $account->field_lastname['und'][0]['value'] = 'Doe';
+	user_save($account);
+	
+	$account1->field_firstname['und'][0]['value'] = 'John';
+    $account1->field_lastname['und'][0]['value'] = 'Smith';
+	user_save($account1);	
+	
+	$account2->field_firstname['und'][0]['value'] = 'John';
+    $account2->field_lastname['und'][0]['value'] = 'Name';
+	user_save($account2);	
   }
 }
 
@@ -216,9 +232,18 @@ function communities_mail($key, &$message, $params) {
 
   $node = node_load($params['nid']);
 
+  if(isset($admin_user->field_firstname['und'][0]['value']))
+    $admin_name = $admin_user->field_firstname['und'][0]['value']." ".$admin_user->field_lastname['und'][0]['value'];
+  else
+    $admin_name = $admin_user->name;
+  if(isset($creator_user->field_firstname['und'][0]['value']))
+    $creator_name = $creator_user->field_firstname['und'][0]['value']." ".$creator_user->field_lastname['und'][0]['value'];
+  else
+    $creator_name = $creator_user->name;
+
   $variables = array(
-    '%admin_user' => $admin_user->field_firstname['und'][0]['value']." ".$admin_user->field_lastname['und'][0]['value'], 
-    '%creator_user' => $creator_user->field_firstname['und'][0]['value']." ".$creator_user->field_lastname['und'][0]['value'],
+    '%admin_user' => $admin_name, 
+    '%creator_user' => $creator_name,
     '%community_link' => l($node->title, $base_url."/en/node/".$node->nid), 
     '%site_url' => $base_url,
   );
