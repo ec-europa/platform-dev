@@ -55,10 +55,10 @@ function cce_basic_config_field_default_fields() {
       'entity_type' => 'user',
       'field_name' => 'field_firstname',
       'label' => 'firstname',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'text_processing' => '0',
-        'user_register_form' => 0,
+        'user_register_form' => 1,
       ),
       'widget' => array(
         'active' => 1,
@@ -117,10 +117,10 @@ function cce_basic_config_field_default_fields() {
       'entity_type' => 'user',
       'field_name' => 'field_lastname',
       'label' => 'lastname',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'text_processing' => '0',
-        'user_register_form' => 0,
+        'user_register_form' => 1,
       ),
       'widget' => array(
         'active' => 1,

@@ -8,7 +8,6 @@
 
 function multisite_drupal_core_install() {
   include_once DRUPAL_ROOT . '/profiles/standard/standard.install';
-  include_once DRUPAL_ROOT . '/includes/password.inc';
   
   standard_install();
 
@@ -36,43 +35,7 @@ function multisite_drupal_core_install() {
 	'edit own article content',  
   )); 
 
-  // add users acccounts -----------------------------------------------------------------------------------------------------------------------------------------------------
-  $account = new StdClass();
-  $account->is_new = TRUE;
-  $account->status = TRUE;
-  $account->name = 'administrator';
-  $account->pass = user_hash_password('pass');
-  $account->mail = 'administrator@test.com';
-  $account->init = 'administrator@test.com';
-  $account->roles[3] = 'administrator';
-  $account->field_firstname[LANGUAGE_NONE][0]['value'] = 'John';
-  $account->field_lastname[LANGUAGE_NONE][0]['value'] = 'Smith';
-  user_save($account);
-  
-  $account1 = new StdClass();
-  $account1->is_new = TRUE;
-  $account1->status = TRUE;
-  $account1->name = 'contributor';
-  $account1->pass = user_hash_password('pass');
-  $account1->mail = 'contributor@test.com';
-  $account1->init = 'contributor@test.com';
-  $account1->roles[4] = 'contributor';
-  $account1->field_firstname[LANGUAGE_NONE][0]['value'] = 'John';
-  $account1->field_lastname[LANGUAGE_NONE][0]['value'] = 'Doe';  
-  user_save($account1);  
 
-  
-  // affect dummy contents to the user 'administrator' ---------------------------------------------------------------------------------------------------------------
-  $query = db_select('node', 'n');
-  $query->condition('n.type', 'article', '=')
-      ->fields('n', array('nid', 'title', 'uid'));
-  $results = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
-
-  foreach($results as $result) {
-    $node = node_load($result['nid']);
-    $node->uid = $account->uid;
-    node_save($node);
-  }
 
   
   // define the theme used ------------------------------------------------------------------------------------------------------------------------------------------------------

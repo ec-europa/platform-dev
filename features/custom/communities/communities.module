@@ -82,6 +82,14 @@ function communities_init() {
 */
 function communities_modules_enabled($modules) {
   if(in_array('communities', $modules)) { 
+    $account = user_load_by_name('administrator');
+    $account->field_firstname['und'][0]['value'] = 'John';
+    $account->field_lastname['und'][0]['value'] = 'Smith'; 
+    user_save($account); 
+    $account1 = user_load_by_name('contributor');
+    $account1->field_firstname['und'][0]['value'] = 'John';
+    $account1->field_lastname['und'][0]['value'] = 'Doe'; 
+    user_save($account1); 	
   }
 }
 
@@ -216,9 +224,24 @@ function communities_mail($key, &$message, $params) {
 
   $node = node_load($params['nid']);
 
+  // check if user fields are populated
+  if(isset($admin_user->field_firstname['und'][0]['value'])) {
+    $admin_name = $admin_user->field_firstname['und'][0]['value']." ".$admin_user->field_lastname['und'][0]['value'];
+  }
+  else {
+    $admin_name = $admin_user->name;
+  }
+  if(isset($creator_user->field_firstname['und'][0]['value'])) {
+    $creator_name = $creator_user->field_firstname['und'][0]['value']." ".$creator_user->field_lastname['und'][0]['value'];
+  }
+  else {
+    $creator_name = $admin_user->name;
+  }  
+  
+  // create token
   $variables = array(
-    '%admin_user' => $admin_user->field_firstname['und'][0]['value']." ".$admin_user->field_lastname['und'][0]['value'], 
-    '%creator_user' => $creator_user->field_firstname['und'][0]['value']." ".$creator_user->field_lastname['und'][0]['value'],
+    '%admin_user' => $admin_name, 
+    '%creator_user' => $creator_name,
     '%community_link' => l($node->title, $base_url."/en/node/".$node->nid), 
     '%site_url' => $base_url,
   );
