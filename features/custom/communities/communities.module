@@ -148,18 +148,33 @@ function communities_node_type_insert($info) {
 }
 
 
+
+
+/*
+* get the rid of a og role name
+*/
+function get_og_rid($role_name) {
+  $r = db_select('og_role', 'r')
+    ->condition('name', $role_name,'=')
+    ->fields('r', array('rid'))
+    ->execute()
+    ->fetchAssoc();   
+
+  return $r['rid'];
+}
+
+
 /*
 * hook_node_insert
 */
-function communities_node_insert($node) {
+function multisite_drupal_toolbox_node_insert($node) {
   if($node->type == 'community') {
-    // get the group id
-    $gid = og_get_group('node', $node->nid);
+    // get the group related to the node
+    $group = og_get_group('node', $node->nid);
     $community_manager_rid = get_og_rid("community_manager");
 	$administrator_member_rid = get_og_rid("administrator member");
 	// grant administrator member and community manager roles to the group author
-	og_role_grant($gid, $node->uid, $community_manager_rid);
-	og_role_grant($gid, $node->uid, $administrator_member_rid);
+	og_role_grant($group->gid, $node->uid, $community_manager_rid);
+	og_role_grant($group->gid, $node->uid, $administrator_member_rid);
   }
 }
-
