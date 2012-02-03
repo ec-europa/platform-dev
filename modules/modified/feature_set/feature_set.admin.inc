@@ -63,7 +63,7 @@ function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
       'class' => array(
         'btn',
         'btn-large',
-        'btn-primary',
+        'btn-success',
       ),
     ),
   );

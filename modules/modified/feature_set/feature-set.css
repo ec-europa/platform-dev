@@ -1,6 +1,8 @@
 #feature-set-admin-form .switch {
   display: block;
-  display: inline-block;
+  width: 60px;
+  margin: 0 auto;
+  height: 30px;
 }
 
 #feature-set-admin-form .feature-set-image {
@@ -19,6 +21,10 @@
   position: relative;
   left: 55px;
   margin-right: 55px;
+}
+
+#feature-set-admin-form #edit-submit {
+  float: right;
 }
 
 #feature-set-admin-form .form-item input {
@@ -103,15 +109,26 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
   On/Off switchers 
 ----- */
 .cb-enable, .cb-disable, .cb-enable span, .cb-disable span { background: url(switch.png) repeat-x; display: block; float: left; }
-.cb-enable span, .cb-disable span { line-height: 30px; display: block; background-repeat: no-repeat; font-weight: bold; color: #999; }
-.cb-enable span { background-position: left -120px; padding: 0 10px; }
-.cb-disable span { background-position: right -240px;padding: 0 10px; }
-.cb-disable.selected { background-position: 0 -90px; }
-.cb-disable.selected span { background-position: right -330px; color: #fff; }
-.cb-enable.selected { background-position: 0 -60px; }
-.cb-enable.selected span { background-position: left -180px; color: #fff; }
+.cb-enable span, .cb-disable span { height: 30px; line-height: 30px; display: block; background-repeat: no-repeat; font-weight: bold; color: #999; width: 30px;}
+.cb-enable span i, .cb-disable span i { display: block; margin: 8px auto; display: none; }
+.cb-enable span { background-position: left -150px; padding: 0; }
+.cb-disable span { background-position: right -300px; padding: 0; }
+
+.cb-disable.selected { background-position: 0 -120px; }
+.cb-disable.selected span { background-position: right -420px; color: #fff; width: 30px; }
+.cb-enable.selected { background-position: 0 -90px; }
+.cb-enable.selected span { background-position: left -240px; color: #fff; width: 30px; }
+.cb-enable.selected span i, .cb-disable.selected span i { display: block; }
+
+.pending .cb-disable.selected { background-position: 0 -60px; }
+.pending .cb-disable.selected span { background-position: right -360px; color: #fff; width: 30px; }
+.pending .cb-enable.selected { background-position: 0 -60px; }
+.pending .cb-enable.selected span { background-position: left -210px; color: #fff; width: 30px; }
+
+.form-disabled .cb-enable, .form-disabled .cb-disable { cursor: not-allowed; }
 .form-disabled .cb-disable.selected { background-position: 0 -30px; }
-.form-disabled .cb-disable.selected span { background-position: right -270px; color: #fff; }
+.form-disabled .cb-disable.selected span { background-position: right -330px; color: #fff; }
 .form-disabled .cb-enable.selected { background-position: 0 -30px; }
-.form-disabled .cb-enable.selected span { background-position: left -150px; color: #fff; }
+.form-disabled .cb-enable.selected span { background-position: left -180px; color: #fff; }
+
 .switch label { cursor: pointer; width: auto; margin: 0 !important}
