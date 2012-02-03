@@ -39,3 +39,9 @@ feature_sets[ec_profiles][description] = 'Create and add links in your Community
 feature_sets[ec_profiles][icon] = 'feature-set-icons/ec_profiles.png'
 feature_sets[ec_profiles][enable][] = ec_profiles
 feature_sets[ec_profiles][disable][] = ec_profiles
+
+feature_sets[events][title] = 'Events'
+feature_sets[events][description] = 'Create and add events calendar in your Community'
+feature_sets[events][icon] = 'feature-set-icons/events.png'
+feature_sets[events][enable][] = events
+feature_sets[events][disable][] = events
