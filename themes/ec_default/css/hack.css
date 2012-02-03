@@ -9,6 +9,10 @@
   margin-top: 0;
   padding-top: 0;
   position: relative;
+  margin-left: 205px;
+}
+.layout-left {
+  margin-left: 5px;
 }
 .layout-noright #additional-tools {
   clear: left;

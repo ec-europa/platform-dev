@@ -16,11 +16,14 @@
 @link_hover_color:   #003366; //#003366
 @link_active_color: #003366; //#003366
 
-//sidebar colors
-@sidebar_bg_color:     #f2f2f2; //#f2f2f2
-@sidebar_text_color: #3b3b3b; //#3b3b3b
+//block colors
+@block_bg_color:                    #F5F5F5; //#F5F5F5
+@block_text_color:                #3b3b3b; //#3b3b3b
+@block_link_color:                #027AC6; //#027AC6
+@block_link_hover_color:    #003366; //#003366
+@block_link_active_color:  #003366; //#003366
 
-//tabs colors
+//primary tabs colors
 @primary_tab_bg_color:      #0065a2; //#0065a2
 @primary_tab_text_color:  #ffffff; //#ffffff
 /*----- /Set 1 -----*/
@@ -58,9 +61,8 @@
 body,
 body.overlay,
 li,
-label {
-  color: @text_color;
-}
+label { color: @text_color; }
+
 h1 {color: @h1_color; }
 h2 {color: @h2_color; }
 h3 {color: @h3_color; }
@@ -79,29 +81,21 @@ table {
 }
 
 .comment {
-  .comment-arrow {
-    border-color: @body_color;
-  }
+  .comment-arrow { border-color: @body_color; }
 }
 
-.layout {
-  background: @body_color;
-}
+.layout { background: @body_color; }
 
-.layout-left  {
-  label {
-    color: @sidebar_text_color;
-  }
-  .block {
-    background-color: @sidebar_bg_color;
-    border-top: solid 1px darken(@sidebar_bg_color,15%);
-    border-right: solid 2px darken(@sidebar_bg_color,15%);
-    border-bottom: solid 2px darken(@sidebar_bg_color,15%);
-  }
+.well {
+  color: @block_text_color;
+  background-color: @block_bg_color;
+  label { color: @block_text_color; }  
   a {
-    color: @sidebar_link_color;
-    &:hover { color: @sidebar_link_color; };
-  }
+    color: @block_link_color;
+    &:hover { color: @block_link_hover_color; };
+    &:active { color: @block_link_active_color; };
+    &:focus { color: @block_link_active_color; };
+  }  
 }
 
 .nav-tabs {
@@ -141,9 +135,7 @@ table {
 ul {
   .secondary {
     border-color: darken(@body_color,15%);
-    li {
-      border-color: darken(@body_color,15%);
-    }
+    li { border-color: darken(@body_color,15%); }
   }
 }
 
@@ -170,24 +162,16 @@ a {
     background: @primary_tab_bg_color;
     text-shadow: 1px 1px (#fff - @primary_tab_text_color);
     border-color: transparent;
-    &:hover { 
-      background: lighten(@primary_tab_bg_color,10%);
-    }
+    &:hover { background: lighten(@primary_tab_bg_color,10%); }
   }
   &.nav {
     li > a {
-      &:hover {
-        background: lighten(@primary_tab_bg_color,10%);
-      }
+      &:hover { background: lighten(@primary_tab_bg_color,10%); }
     }  
   }
 }
 
 
-.meta {
-  color: lighten(@text_color,20%);
-}
+.meta { color: lighten(@text_color,20%); }
 
-.layout-footer {
-  color: @link_color;
-}
+.layout-footer { color: @link_color; }
