@@ -114,7 +114,7 @@ function theme_feature_set_admin_form($form) {
       
     }
   }
-  $output = theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('class' => array('table','table-bordered'))));
+  $output = theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('class' => array('table','table-striped'))));
   $output .= drupal_render_children($form);
   
   return $output;

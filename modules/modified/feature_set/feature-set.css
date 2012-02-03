@@ -86,10 +86,6 @@
   display: inline;
 }
 
-#feature-set-admin-form tr > td {
-  background-color: #F3F4EE;
-}
-
 #feature-set-admin-form tr.gradient > td.feature {
 background: #ffffff; /* Old browsers */
 background: -moz-linear-gradient(-45deg,  #ffffff 0%, #dbefb3 47%, #cdf285 70%, #e9f4d3 91%); /* FF3.6+ */
