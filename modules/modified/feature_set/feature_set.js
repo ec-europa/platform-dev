@@ -27,7 +27,7 @@ jQuery(function($){
       if (!$(this).is('.form-disabled')) {    
       
         //add pending status
-        $(this).addClass('pending');
+        $(this).toggleClass('pending');
         
         //change button
         $(this).children('label').each(function() {
