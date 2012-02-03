@@ -28,6 +28,8 @@ function links_enable(){
   $context->reactions['block']['blocks'][$blockTitle]=$blockToAdd;
   //Update the context
   module_invoke('context','save',$context);
+  
+  drupal_set_message('Links feature is now active on your site.');
 
 }
 
@@ -113,7 +115,8 @@ function links_disable(){
     'delete any links content',
   ));
     
-  drupal_flush_all_caches();  
+  drupal_flush_all_caches(); 
+  drupal_set_message('Links feature is now disabled on your site.');
 }
 
 
@@ -186,7 +189,7 @@ function links_node_insert($node) {
     'update any links content',
     'delete own links content',
     'delete any links content',
-    ));
+  ));
     
   }
 }

@@ -322,6 +322,7 @@ function links_views_default_views() {
   $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
   $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
   $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
+  $handler->display->display_options['fields']['field_link']['label'] = '';
   $handler->display->display_options['fields']['field_link']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['field_link']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['field_link']['alter']['absolute'] = 0;
@@ -334,7 +335,7 @@ function links_views_default_views() {
   $handler->display->display_options['fields']['field_link']['alter']['strip_tags'] = 0;
   $handler->display->display_options['fields']['field_link']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['field_link']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['field_link']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_link']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['field_link']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_link']['empty_zero'] = 0;
