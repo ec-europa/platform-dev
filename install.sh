@@ -28,7 +28,7 @@ Configuration of the site\n
 
 
 # Configuration of the script
-while getopts "u:p:H:P:a:e:n:b:vfh?-:" option; do
+while getopts "u:p:H:P:a:e:r:n:b:vfh?-:" option; do
         #Management of the --options
         if [ "$option" = "-" ]; then
                 case $OPTARG in
@@ -41,7 +41,7 @@ while getopts "u:p:H:P:a:e:n:b:vfh?-:" option; do
                         dbport) option=P ;;
                         account) option=a ;;
                         account-email) option=e ;;
-						web-root) option=r ;;
+                        web-root) option=r ;;
                         site-email) option=m ;;
                         base-url) option=b ;;
                         *)
@@ -95,7 +95,7 @@ if [ -d "${working_dir}" ] ; then
 fi
 
 #build the drupal instance
-__echo `drush make profiles/multisite_drupal_core/build.make ${site_name}`
+drush make profiles/multisite_drupal_core/build.make ${site_name}
 
 mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "drop database ${site_name};"
 mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "create database ${site_name};"
