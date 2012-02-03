@@ -107,6 +107,8 @@ projects[pathauto][version] = "1.0"
 projects[user_field_privacy][subdir] = "contributed"
 projects[user_field_privacy][version] = "7.x-1.1"
 
+projects[calendar][subdir] = "contributed"
+projects[calendar][version] = "7.x-3.0-alpha2"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
