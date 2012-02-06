@@ -167,8 +167,8 @@ function get_og_rid($role_name) {
 /*
 * hook_node_insert
 */
-/*
-function multisite_drupal_toolbox_node_insert($node) {
+
+function multisite_drupal_toolbox_node_update($node) {
   if($node->type == 'community') {
     // get the group related to the node
     $group = og_get_group('node', $node->nid);
@@ -180,4 +180,3 @@ function multisite_drupal_toolbox_node_insert($node) {
 	og_role_grant($group->gid, $node->uid, $administrator_member_rid);
   }
 }
-*/

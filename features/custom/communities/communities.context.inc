@@ -29,6 +29,12 @@ function communities_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'menu-menu-communities-menu' => array(
+          'module' => 'menu',
+          'delta' => 'menu-communities-menu',
+          'region' => 'featured',
+          'weight' => '-10',
+        ),
         'views-communities_members-block_1' => array(
           'module' => 'views',
           'delta' => 'communities_members-block_1',

@@ -9,7 +9,6 @@
  */
 function communities_field_default_fields() {
   $fields = array();
-  global $fid_default_community_image;
 
   // Exported field: 'node-community-body'
   $fields['node-community-body'] = array(
@@ -179,7 +178,7 @@ function communities_field_default_fields() {
       ),
       'module' => 'image',
       'settings' => array(
-        'default_image' => "$fid_default_community_image",
+        'default_image' => '',
         'uri_scheme' => 'public',
       ),
       'translatable' => '0',
