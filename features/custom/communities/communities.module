@@ -148,6 +148,54 @@ function communities_node_type_insert($info) {
 }
 
 
+/*
+* hook_menu
+*/
+/*
+function communities_menu() {
+  $items['community/%group_name/wiki'] = array(
+    'title' => 'wiki',
+    //'page callback' => 'views_page',
+    //'page arguments' => array('og_nodes', 'page_1', 1),
+	'page callback' => 'test_page',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+  return $items;
+}
+
+function test_page() {
+  return "test page";
+}
+*/
+	
+	
+function group_name_to_arg($arg) {
+  if (arg(0) == 'node') {
+    $nid = arg(1);
+    $node = node_load($nid);
+    if($node->type == 'group')
+      return $node->title;
+  }
+  else {
+    if(arg(0) == 'community') {
+      return arg(1);
+    }
+  }
+  return 'none';
+}
+
+
+function group_name_load($arg) {
+  $node = node_load($arg);
+  $alias = drupal_get_normal_path("community/".$arg);
+  $param = explode("/", $alias);
+  return $param[1];
+}
+
+
 
 
 /*

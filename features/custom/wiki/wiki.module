@@ -1,0 +1,24 @@
+<?php
+/**
+ * @file
+ * Code for the wiki feature.
+ */
+
+include_once('wiki.features.inc');
+
+
+function wiki_menu() {
+  $items = array();
+ 
+  $items['community/%group_name/wiki'] = array(
+    'title' => 'wiki',
+    'page callback' => 'views_page',
+    'page arguments' => array('wiki_list', 'page_1', 1),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+
+  return $items;
+}

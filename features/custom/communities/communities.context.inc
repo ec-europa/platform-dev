@@ -32,7 +32,7 @@ function communities_context_default_contexts() {
         'menu-menu-communities-menu' => array(
           'module' => 'menu',
           'delta' => 'menu-communities-menu',
-          'region' => 'featured',
+          'region' => 'highlighted',
           'weight' => '-10',
         ),
         'views-communities_members-block_1' => array(

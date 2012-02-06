@@ -45,3 +45,9 @@ feature_sets[events][description] = 'Create and add events calendar in your Comm
 feature_sets[events][icon] = 'feature-set-icons/events.png'
 feature_sets[events][enable][] = events
 feature_sets[events][disable][] = events
+
+feature_sets[wiki][title] = 'Wikis'
+feature_sets[wiki][description] = 'Create and add wikis in your Community'
+feature_sets[wiki][icon] = 'feature-set-icons/wiki.png'
+feature_sets[wiki][enable][] = wiki
+feature_sets[wiki][disable][] = wiki
