@@ -68,3 +68,27 @@ function _remove_block_context($contextName,$blockTitle){
 	module_invoke('context','save',$context);
 }
 
+
+/**
+* Utility function to add view to a context
+*/
+function _add_views_context($contextName,$viewTitle){
+	//Load context
+	$context=module_invoke('context','load',$contextName); 
+	//Add modification to the context
+	$context->conditions['views']['values'][$viewTitle]=$viewTitle;	
+	//Update the context
+	module_invoke('context','save',$context);
+}
+
+/**
+* Utility function to remove block from context
+*/
+function _remove_views_context($contextName,$viewTitle){	 
+	//Load context
+	$context=module_invoke('context','load',$contextName);	 
+	//Remove element from the context
+	unset($context->conditions['views']['values'][$viewTitle]);   
+	//Update the context
+	module_invoke('context','save',$context);
+}
