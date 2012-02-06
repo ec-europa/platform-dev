@@ -96,6 +96,21 @@ if (arg(0) == 'admin' ||
 
 <a id="top-page" name="top-page"></a>
 
+<!--<ul class="nav nav-pills">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Profile</a></li>
+        <li class="dropdown">
+          <a href="#" data-toggle="dropdown" class="dropdown-toggle">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>-->
+      
 <div class="layout layout-noright<?php if ($no_left) print ' layout-noleft'; ?>" id="layout">
   
   <div id="header">

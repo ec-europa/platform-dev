@@ -69,8 +69,10 @@ function ec_default_preprocess_html(&$variables) {
   // Update page title
   $variables['head_title'] = variable_get('site_name') . ' - ' . t('European Commission');
 
-  // Add twitter bootsrap css
+  // Add twitter bootsrap
   drupal_add_css(path_to_theme() . '/bootstrap/css/bootstrap.min.css', array('group' => CSS_THEME));
+  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap.min.js');
+  drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-dropdown.js');
 
   // Add conditional stylesheets for IE
   drupal_add_css(path_to_theme() . '/css/ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
@@ -306,12 +308,12 @@ function ec_default_field__taxonomy_term_reference($variables) {
 }
 
 /**
- * Alter primary tabs
+ * Alter tabs
  */
 function ec_default_menu_local_tasks(&$variables) {
   $output = '';
 
-  if (!empty($variables['primary'])) {
+  /*if (!empty($variables['primary'])) {
     $variables['primary']['#prefix'] = '<h2 class="element-invisible">' . t('Primary tabs') . '</h2>';
     $variables['primary']['#prefix'] .= '<ul class="nav nav-tabs">';
     $variables['primary']['#suffix'] = '</ul>';
@@ -319,11 +321,23 @@ function ec_default_menu_local_tasks(&$variables) {
   }
   if (!empty($variables['secondary'])) {
     $variables['secondary']['#prefix'] = '<h2 class="element-invisible">' . t('Secondary tabs') . '</h2>';
-    $variables['secondary']['#prefix'] .= '<ul class="nav nav-tabs secondary">';
+    $variables['secondary']['#prefix'] .= '<div class="subnav"><ul class="nav nav-pills">';
+    $variables['secondary']['#suffix'] = '</ul></div>';
+    $output .= drupal_render($variables['secondary']);
+  }*/
+  if (!empty($variables['primary'])) {
+    $variables['primary']['#prefix'] = '<h2 class="element-invisible">' . t('Primary tabs') . '</h2>';
+    $variables['primary']['#prefix'] .= '<div class="subnav"><ul class="nav nav-pills">';
+    $variables['primary']['#suffix'] = '</ul></div>';
+    $output .= drupal_render($variables['primary']);
+  }
+  if (!empty($variables['secondary'])) {
+    $variables['secondary']['#prefix'] = '<h2 class="element-invisible">' . t('Secondary tabs') . '</h2>';
+    $variables['secondary']['#prefix'] .= '<ul class="nav nav-tabs">';
     $variables['secondary']['#suffix'] = '</ul>';
     $output .= drupal_render($variables['secondary']);
   }
-
+  
   return $output;
 }
 
