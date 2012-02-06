@@ -147,36 +147,15 @@ function communities_node_type_insert($info) {
   }	
 }
 
-
-/*
-* hook_menu
-*/
-/*
-function communities_menu() {
-  $items['community/%group_name/wiki'] = array(
-    'title' => 'wiki',
-    //'page callback' => 'views_page',
-    //'page arguments' => array('og_nodes', 'page_1', 1),
-	'page callback' => 'test_page',
-    'access callback' => TRUE,
-    'type' => MENU_NORMAL_ITEM,
-    'menu_name' => 'menu-communities-menu',
-    'weight' => 1,
-  );
-  return $items;
-}
-
-function test_page() {
-  return "test page";
-}
-*/
 	
-	
+/*
+* _to_arg function
+*/
 function group_name_to_arg($arg) {
   if (arg(0) == 'node') {
     $nid = arg(1);
     $node = node_load($nid);
-    if($node->type == 'group')
+    if($node->type == 'community')
       return $node->title;
   }
   else {
@@ -187,12 +166,14 @@ function group_name_to_arg($arg) {
   return 'none';
 }
 
-
+/*
+* _load function
+*/
 function group_name_load($arg) {
-  $node = node_load($arg);
-  $alias = drupal_get_normal_path("community/".$arg);
+  $alias = drupal_get_normal_path("community/".$arg); // get real path to get node id
   $param = explode("/", $alias);
-  return $param[1];
+  $group = og_get_group('node', $param[1]); // load community
+  return $group->gid;
 }
 
 

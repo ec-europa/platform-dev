@@ -6,7 +6,9 @@
 
 include_once('wiki.features.inc');
 
-
+/*
+* hook_menu
+*/
 function wiki_menu() {
   $items = array();
  
