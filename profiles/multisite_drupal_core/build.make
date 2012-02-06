@@ -105,10 +105,13 @@ projects[pathauto][subdir] = "contributed"
 projects[pathauto][version] = "1.0"
 
 projects[user_field_privacy][subdir] = "contributed"
-projects[user_field_privacy][version] = "7.x-1.1"
+projects[user_field_privacy][version] = "1.1"
 
 projects[calendar][subdir] = "contributed"
-projects[calendar][version] = "7.x-3.0-alpha2"
+projects[calendar][version] = "3.0-alpha2"
+
+projects[og_create_perms][subdir] = "contributed"
+projects[og_create_perms][version] = "1.0"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"

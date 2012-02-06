@@ -156,7 +156,7 @@ function group_name_to_arg($arg) {
     $nid = arg(1);
     $node = node_load($nid);
     if($node->type == 'community')
-      return $node->title;
+      return str_replace(" ","-",$node->title);
   }
   else {
     if(arg(0) == 'community') {
@@ -170,12 +170,16 @@ function group_name_to_arg($arg) {
 * _load function
 */
 function group_name_load($arg) {
-  $alias = drupal_get_normal_path("community/".$arg); // get real path to get node id
+  if($arg == 'none')
+    return 0;
+  $alias = drupal_get_normal_path("community/".str_replace(" ","-",$arg)); // get real path to get node id
   $param = explode("/", $alias);
   $group = og_get_group('node', $param[1]); // load community
+	  
+  og_context($group);
+  
   return $group->gid;
 }
-
 
 
 
@@ -209,3 +213,40 @@ function multisite_drupal_toolbox_node_update($node) {
 	og_role_grant($group->gid, $node->uid, $administrator_member_rid);
   }
 }
+
+
+
+/*
+* hook_menu
+*/
+/*
+function communities_menu() {
+  $items['community/%group_name/view'] = array(
+    'title arguments' => array(1),
+	'title callback' => '_communities_title_item',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'page callback' => 'node_page_view',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => -10,
+  );
+  return $items;
+}
+*/
+	
+/*
+* dynalically change menu item title
+*/
+/*
+function _communities_title_item($arg) {
+  $n = $query = db_select('og', 'og')
+    ->fields('og', array('etid'))
+	->condition('gid', $arg, '=')
+	->condition('entity_type', 'node', '=')
+	->execute()
+	->fetchAssoc();
+  $node = node_load($n['etid']);
+  return $node->title;
+}
+*/

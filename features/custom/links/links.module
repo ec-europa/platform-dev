@@ -171,3 +171,22 @@ function links_node_insert($node) {
   }
 }
 
+
+/*
+* hook_menu
+*/
+function links_menu() {
+  $items = array();
+ 
+  $items['community/%group_name/links'] = array(
+    'title' => 'links',
+    'page callback' => 'views_page',
+    'page arguments' => array('links', 'page', 1),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+
+  return $items;
+}

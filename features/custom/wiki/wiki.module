@@ -24,3 +24,14 @@ function wiki_menu() {
 
   return $items;
 }
+
+/*
+* hook_enable
+*/
+function wiki_enable() {
+  _add_views_context("communities","wiki_list");
+}
+
+function wiki_disable() {
+  _remove_views_context("communities","wiki_list");
+}
