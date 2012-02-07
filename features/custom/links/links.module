@@ -190,3 +190,39 @@ function links_menu() {
 
   return $items;
 }
+
+/**
+ * Implementation of hook_block_info().
+ */
+function links_block_info() {
+
+  $blocks['addlink'] = array(
+    'info' => t('Add Links'),
+  );
+  return $blocks;
+}
+ 
+/**
+ * Implementation of hook_block_view().
+ */
+function links_block_view($delta='') {
+  $block = array();
+  switch ($delta) {
+    case 'addlink':
+      $block['subject'] = t('Add links');
+      $block['content'] = links_contents();
+      break;
+  }
+  return $block;
+}
+ 
+/**
+ * custom html block
+ * @return string
+ */
+function links_contents() {
+  
+  $addl = l('Add some new links!','en/node/add/links'); 
+  return $addl;
+ 
+}
