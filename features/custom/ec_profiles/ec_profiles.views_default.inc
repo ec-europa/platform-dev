@@ -11,11 +11,11 @@ function ec_profiles_views_default_views() {
   $export = array();
 
   $view = new view;
-  $view->name = 'admin_people';
-  $view->description = 'Emulates the Drupal user administration page.';
+  $view->name = 'people';
+  $view->description = 'People directory.';
   $view->tag = 'default';
   $view->base_table = 'users';
-  $view->human_name = 'People';
+  $view->human_name = 'People directory';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -345,7 +345,7 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['tab_options']['title'] = 'People';
   $handler->display->display_options['tab_options']['weight'] = '0';
   $handler->display->display_options['tab_options']['name'] = 'main-menu';
-  $translatables['admin_people'] = array(
+  $translatables['people'] = array(
     t('Master'),
     t('People'),
     t('more'),
@@ -371,7 +371,7 @@ function ec_profiles_views_default_views() {
     t('Active'),
     t('Page'),
   );
-  $export['admin_people'] = $view;
+  $export['people'] = $view;
 
   return $export;
 }
