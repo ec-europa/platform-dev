@@ -96,7 +96,7 @@ function _remove_views_context($contextName,$viewTitle){
 /**
 * Utility function to add content type from context
 */
-function _add_content_type_context($context, $contentType){
+function _add_content_type_context($contextName, $contentType){
 
 	//Load context
 	$context=module_invoke('context','load',$contextName); 
