@@ -41,7 +41,7 @@ function multisite_drupal_core_install() {
   // define the theme used ------------------------------------------------------------------------------------------------------------------------------------------------------
   $enable = array(
   'theme_default' => 'ec_default', // should be the our CCE theme
-  'admin_theme' => 'seven',
+  'admin_theme' => 'ec_default',
   );
   theme_enable($enable);
  

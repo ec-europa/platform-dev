@@ -74,6 +74,15 @@ function communities_views_pre_render(&$view) {
 */
 function communities_init() {
   drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
+  
+  // set og context on comunities views
+  if(arg(0) == 'community') {
+    $alias = drupal_get_normal_path("community/".str_replace(" ","-",arg(1)));
+    $param = explode("/", $alias);
+    $group = og_get_group('node', $param[1]);
+	og_context($group);
+  }
+   
 }
 
 
@@ -176,7 +185,7 @@ function group_name_load($arg) {
   $param = explode("/", $alias);
   $group = og_get_group('node', $param[1]); // load community
 	  
-  og_context($group);
+  //og_context($group);
   
   return $group->gid;
 }
@@ -200,7 +209,6 @@ function get_og_rid($role_name) {
 /*
 * hook_node_insert
 */
-
 function multisite_drupal_toolbox_node_update($node) {
   if($node->type == 'community') {
     // get the group related to the node
