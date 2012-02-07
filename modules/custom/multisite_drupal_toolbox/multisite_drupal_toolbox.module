@@ -32,7 +32,10 @@ function _disable_content_type($type) {
 * Add block to the context
 */
 function multisite_drupal_toolbox_enable(){
-	_add_block_context('site_wide','locale-language','locale','language','highlighted');	
+	
+  _add_block_context('site_wide','locale-language','locale','language','highlighted');	
+  _add_block_context('communities','createcontent','multisite_drupal_toolbox','createcontent', 'sidebar_first');
+  
 }
 
 
@@ -126,8 +129,8 @@ function _remove_content_type_context($contextName,$contentType){
  */
 function links_block_info() {
 
-  $blocks['addlink'] = array(
-    'info' => t('Add Links'),
+  $blocks['createcontent'] = array(
+    'info' => t('Create Content'),
   );
   return $blocks;
 }
@@ -138,9 +141,9 @@ function links_block_info() {
 function links_block_view($delta='') {
   $block = array();
   switch ($delta) {
-    case 'addlink':
+    case 'createcontent':
       $block['subject'] = t('Create Content');
-      $block['content'] = links_contents();
+      $block['content'] = create_contents();
       break;
   }
   return $block;
@@ -150,7 +153,7 @@ function links_block_view($delta='') {
  * custom html block
  * @return string
  */
-function links_contents() {
+function create_contents() {
 
   $addl = l('Create links','node/add/links',array('query' => array('gids_node[]' => og_context()->etid)));
   $addl .= '<br />' . l('Create events','node/add/events',array('query' => array('gids_node[]' => og_context()->etid)));
