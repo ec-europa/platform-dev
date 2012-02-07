@@ -14,6 +14,7 @@ function links_enable(){
 
   //Add block in context
   _add_block_context('communities','links-block','views','links-block', 'sidebar_first');
+  _add_views_context('communities','links');
   
   drupal_set_message('Links feature is now active on your site.');
 
@@ -29,6 +30,7 @@ function links_disable(){
 
   // Remove block
   _remove_block_context('communities', 'links-block');
+  _remove_views_context('communities', 'links');
 
   /*** Remove permissions ***/
   _disable_content_type('links');
