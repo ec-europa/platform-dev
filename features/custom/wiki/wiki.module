@@ -35,3 +35,37 @@ function wiki_enable() {
 function wiki_disable() {
   _remove_views_context("communities","wiki_list");
 }
+
+
+
+/**
+* Implements hook_element_info_alter().
+*
+* Sets the text format processor to a custom callback function.
+* This code is taken from the Better Formats module.
+*/
+/*
+function wiki_element_info_alter(&$type) {
+  if (isset($type['text_format']['#process'])) {
+    foreach ($type['text_format']['#process'] as &$callback) {
+      if ($callback === 'filter_process_format') {
+        $callback = 'wiki_format_filter_process_format';
+      }
+    }
+  }
+}
+*/
+	
+/*
+* hook_filter_process_format
+*/
+/*
+function wiki_format_filter_process_format($element) {
+  $element = filter_process_format($element);
+  // Change the default text format of the 'body' field to ' wiki'.
+  if ($element['#bundle'] == 'wiki' && $element['#field_name'] == 'body') {
+    $element['format']['format']['#default_value'] = 'wiki';
+  }
+  return $element;
+}
+*/

@@ -161,11 +161,11 @@ function communities_node_type_insert($info) {
 * _to_arg function
 */
 function group_name_to_arg($arg) {
-  if (arg(0) == 'node') {
-    $nid = arg(1);
-    $node = node_load($nid);
-    if($node->type == 'community')
-      return str_replace(" ","-",$node->title);
+  if (arg(0) == 'node' && is_numeric(arg(1))) {
+	  $nid = arg(1);
+      $node = node_load($nid);
+      if($node->type == 'community')
+        return str_replace(" ","-",$node->title);
   }
   else {
     if(arg(0) == 'community') {

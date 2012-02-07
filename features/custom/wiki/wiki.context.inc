@@ -22,7 +22,7 @@ function wiki_context_default_contexts() {
         'wiki' => 'wiki',
       ),
       'options' => array(
-        'node_form' => '0',
+        'node_form' => '1',
       ),
     ),
   );
