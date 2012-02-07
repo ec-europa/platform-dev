@@ -120,3 +120,42 @@ function _remove_content_type_context($contextName,$contentType){
 	module_invoke('context', 'save', $context);
   
 }
+
+/**
+ * Implementation of hook_block_info().
+ */
+function links_block_info() {
+
+  $blocks['addlink'] = array(
+    'info' => t('Add Links'),
+  );
+  return $blocks;
+}
+ 
+/**
+ * Implementation of hook_block_view().
+ */
+function links_block_view($delta='') {
+  $block = array();
+  switch ($delta) {
+    case 'addlink':
+      $block['subject'] = t('Create Content');
+      $block['content'] = links_contents();
+      break;
+  }
+  return $block;
+}
+ 
+/**
+ * custom html block
+ * @return string
+ */
+function links_contents() {
+
+  $addl = l('Create links','node/add/links',array('query' => array('gids_node[]' => og_context()->etid)));
+  $addl .= '<br />' . l('Create events','node/add/events',array('query' => array('gids_node[]' => og_context()->etid)));
+  $addl .= '<br />' . l('Create wikis','node/add/wiki',array('query' => array('gids_node[]' => og_context()->etid)));
+  
+  return $addl;
+
+}
