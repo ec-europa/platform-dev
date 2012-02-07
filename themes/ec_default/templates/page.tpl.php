@@ -162,9 +162,11 @@ if (arg(0) == 'admin' ||
       <?php endif; ?>
 
         <div class="layout-left">
+        <ul class="nav nav-list">
       <?php if ($page['sidebar_first']): ?>
         <?php print render($page['sidebar_first']); ?>
       <?php endif; ?>
+        </ul>
         </div><!-- /.layout-left -->	
 
         <div class="layout-content">
