@@ -55,6 +55,26 @@ function wiki_element_info_alter(&$type) {
   }
 }
 
+
+
+/*
+* hook_modules_enabled
+*/
+function wiki_filter_format_insert($format) {
+  if($format->format == 'wiki') { 
+    // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
+    $au = db_select('role', 'r')
+      ->condition('name', "authenticated user",'=')
+      ->fields('r', array('rid'))
+      ->execute()
+      ->fetchAssoc();
+
+    user_role_grant_permissions($au['rid'], array(  
+      'use text format wiki',
+    )); 	
+  }
+}
+
 	
 /*
 * hook_filter_process_format
