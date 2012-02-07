@@ -92,3 +92,31 @@ function _remove_views_context($contextName,$viewTitle){
 	//Update the context
 	module_invoke('context','save',$context);
 }
+
+/**
+* Utility function to add content type from context
+*/
+function _add_content_type_context($context, $contentType){
+
+	//Load context
+	$context=module_invoke('context','load',$contextName); 
+  //Add modification to the context
+	$context->conditions['node']['values'][$contentType]=$contentType;
+	//Update the context
+	module_invoke('context','save',$context);
+    
+}
+
+/**
+* Utility function to remove content type from context
+*/
+function _remove_content_type_context($contextName,$contentType){
+	
+  //Load context
+	$context=module_invoke('context','load',$contextName);	 
+	//Remove element from the context
+	unset($context->conditions['node']['values'][$contentType]);   
+	//Update the context
+	module_invoke('context', 'save', $context);
+  
+}
