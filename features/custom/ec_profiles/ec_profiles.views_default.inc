@@ -117,30 +117,6 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['fields']['picture']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['picture']['link_photo_to_profile'] = 1;
   /* Field: User: Name */
-  $handler->display->display_options['fields']['name_1']['id'] = 'name_1';
-  $handler->display->display_options['fields']['name_1']['table'] = 'users';
-  $handler->display->display_options['fields']['name_1']['field'] = 'name';
-  $handler->display->display_options['fields']['name_1']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['name_1']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['name_1']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['name_1']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['name_1']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['name_1']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['name_1']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['name_1']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['name_1']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['name_1']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['name_1']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['name_1']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['name_1']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['name_1']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['name_1']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['name_1']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['name_1']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['name_1']['link_to_user'] = 1;
-  $handler->display->display_options['fields']['name_1']['overwrite_anonymous'] = 0;
-  $handler->display->display_options['fields']['name_1']['format_username'] = 1;
-  /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
   $handler->display->display_options['fields']['name']['field'] = 'name';
@@ -248,49 +224,6 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['fields']['access']['hide_empty'] = 0;
   $handler->display->display_options['fields']['access']['empty_zero'] = 0;
   $handler->display->display_options['fields']['access']['date_format'] = 'time ago';
-  /* Field: User: Language */
-  $handler->display->display_options['fields']['language']['id'] = 'language';
-  $handler->display->display_options['fields']['language']['table'] = 'users';
-  $handler->display->display_options['fields']['language']['field'] = 'language';
-  $handler->display->display_options['fields']['language']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['language']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['language']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['language']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['language']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['language']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['language']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['language']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['language']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['language']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['language']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['language']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['language']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['language']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['language']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['language']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['language']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['language']['link_to_user'] = 1;
-  /* Field: User: Link to contact page */
-  $handler->display->display_options['fields']['contact']['id'] = 'contact';
-  $handler->display->display_options['fields']['contact']['table'] = 'users';
-  $handler->display->display_options['fields']['contact']['field'] = 'contact';
-  $handler->display->display_options['fields']['contact']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['contact']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['contact']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['contact']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['contact']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['contact']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['contact']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['contact']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['contact']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['contact']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['contact']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['contact']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['contact']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['contact']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['contact']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['contact']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['contact']['hide_alter_empty'] = 1;
   /* Filter criterion: User: Name */
   $handler->display->display_options['filters']['uid']['id'] = 'uid';
   $handler->display->display_options['filters']['uid']['table'] = 'users';
@@ -360,14 +293,12 @@ function ec_profiles_views_default_views() {
     t('Description'),
     t('Browse the people directory to acces user profiles'),
     t('Picture'),
-    t('Name'),
     t('Username'),
     t('firstname'),
     t('lastname'),
     t('Member for'),
     t('Last access'),
-    t('Language'),
-    t('Link to contact page'),
+    t('Name'),
     t('Active'),
     t('Page'),
   );
