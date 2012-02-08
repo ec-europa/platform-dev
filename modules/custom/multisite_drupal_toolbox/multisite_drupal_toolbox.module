@@ -157,13 +157,17 @@ function create_contents() {
       
   $og = og_context();
   if ($og) {
-  $addl = l('Create links','node/add/links',array('query' => array('gids_node[]' => $og->etid)));
-  if (module_exists('events'))
-  $addl .= '<br />' . l('Create events','node/add/event',array('query' => array('gids_node[]' => $og->etid)));
-  if (module_exists('wiki'))
-  $addl .= '<br />' . l('Create wikis','node/add/wiki',array('query' => array('gids_node[]' => $og->etid)));      
-  
-  return $addl;
+    $addl = '<ul>';
+    
+    if (module_exists('links'))
+    $addl .= '<li>' . l('Create links','node/add/links',array('query' => array('gids_node[]' => $og->etid))) . '</li>';
+    if (module_exists('events'))
+    $addl .= '<li>' . l('Create events','node/add/event',array('query' => array('gids_node[]' => $og->etid))) . '</li>';
+    if (module_exists('wiki'))
+    $addl .= '<li>' . l('Create wikis','node/add/wiki',array('query' => array('gids_node[]' => $og->etid))) . '</li>';   
+    
+    $addl .= '</ul>';
+    return $addl;
   }
 }
 
