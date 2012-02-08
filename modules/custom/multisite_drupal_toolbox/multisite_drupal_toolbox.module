@@ -127,7 +127,7 @@ function _remove_content_type_context($contextName,$contentType){
 /**
  * Implementation of hook_block_info().
  */
-function links_block_info() {
+function multisite_drupal_toolbox_block_info() {
 
   $blocks['createcontent'] = array(
     'info' => t('Create Content'),
@@ -138,7 +138,7 @@ function links_block_info() {
 /**
  * Implementation of hook_block_view().
  */
-function links_block_view($delta='') {
+function multisite_drupal_toolbox_block_view($delta='') {
   $block = array();
   switch ($delta) {
     case 'createcontent':
