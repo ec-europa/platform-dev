@@ -46,7 +46,7 @@ function wiki_disable() {
 * Sets the text format processor to a custom callback function.
 * This code is taken from the Better Formats module.
 */
-
+/*
 function wiki_element_info_alter(&$type) {
   if (isset($type['text_format']['#process'])) {
     foreach ($type['text_format']['#process'] as &$callback) {
@@ -56,11 +56,11 @@ function wiki_element_info_alter(&$type) {
     }
   }
 }
-	
+*/
 /*
 * hook_filter_process_format
 */
-
+/*
 function wiki_format_filter_process_format($element) {
   $element = filter_process_format($element);
   // Change the default text format of the 'body' field to ' wiki'.
@@ -69,3 +69,4 @@ function wiki_format_filter_process_format($element) {
   }
   return $element;
 }
+*/
