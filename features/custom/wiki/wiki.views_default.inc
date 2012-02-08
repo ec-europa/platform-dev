@@ -22,6 +22,7 @@ function wiki_views_default_views() {
 
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
+  $handler->display->display_options['title'] = 'Wikis';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -134,6 +135,7 @@ function wiki_views_default_views() {
   $handler->display->display_options['arguments']['group']['not'] = 0;
   $translatables['wiki_list'] = array(
     t('Defaults'),
+    t('Wikis'),
     t('more'),
     t('Apply'),
     t('Reset'),

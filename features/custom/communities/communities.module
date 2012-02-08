@@ -192,18 +192,7 @@ function group_name_load($arg) {
 
 
 
-/*
-* get the rid of a og role name
-*/
-function get_og_rid($role_name) {
-  $r = db_select('og_role', 'r')
-    ->condition('name', $role_name,'=')
-    ->fields('r', array('rid'))
-    ->execute()
-    ->fetchAssoc();   
 
-  return $r['rid'];
-}
 
 
 /*
