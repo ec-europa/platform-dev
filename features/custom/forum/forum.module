@@ -1,0 +1,97 @@
+<?php
+/**
+ * @file
+ * Code for the wiki feature.
+ */
+
+//include_once('forum.features.inc');
+include_once( 'sites/all/modules/contributed/devel/krumo/class.krumo.php' );
+/*
+* hook_menu
+*/
+function forum_menu() {
+  $items = array();
+ 
+  $items['community/%group_name/forum'] = array(
+    'title' => 'Forum',
+    'page callback' => 'views_page',
+    'page arguments' => array('forum_rooms_list', 'page_forum_rooms', 1),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+ 
+  //$items['community/%group_name/forum/%room_alias/thread'] = array(
+  $items['forum/%room_alias/thread'] = array(
+    'title' => 'Forum',
+    'page callback' => 'views_page',
+    'page arguments' => array('forum_thread_list', 'page_forum_thread_list', 1 ),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'weight' => 1,
+  );
+
+  return $items;
+}
+
+	
+/*
+* _to_arg function
+*/
+function room_alias_to_arg($arg) {
+  if (arg(0) == 'node') {
+    $nid = arg(1);
+    $node = node_load($nid);
+    switch( $node->type ) {
+        case 'forum_room':
+        case 'forum_thread':
+            $alias = drupal_lookup_path( 'alias', $_GET['q'] );
+            //In case of edit mode
+            if ( $alias == FALSE ) return 0; 
+            $alias = explode( '/', $alias );
+            return $alias[1];
+        case 'community':
+        case FALSE:
+            //nothing
+            break;
+        default:
+            krumo( $node );
+            break;
+    }
+  }
+  else {
+      if( preg_match( "/.*forum\/([^\/]*)\/.*/", $_GET['q'], $matches ) ) {
+        return $matches[1];
+      } 
+  }
+  return '';
+}
+
+/*
+* _load function
+*/
+function room_alias_load($arg) {
+  if( empty($arg) ) return 0;
+  
+  if ( preg_match( "/(.*$arg).*/", $_GET['q'], $matches ) ) {
+    $source = drupal_lookup_path( 'source', $matches[1] );
+    $source = explode("/", $source);
+    if ( count($source) != 2 ) return 0;
+  return $source[1];  
+  } else {
+      return 0;
+  }
+}
+
+/*
+* hook_enable
+*
+function forum_enable() {
+  _add_views_context("communities","wiki_list");
+}
+
+function forum_disable() {
+  _remove_views_context("communities","wiki_list");
+}
+ */
