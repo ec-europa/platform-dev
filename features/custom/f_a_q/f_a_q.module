@@ -21,8 +21,8 @@ function f_a_q_views_pre_render(&$view) {
 	$output= '<div class="well btn-toolbar action_bar">';
   
   $output.= '<div class="btn-group">';
-  $output.= l('<i class="icon-chevron-down"></i>'.t('Expand'),'',array('attributes' => array('class' => array('btn btn-small action-expand')), 'html' => true));
-  $output.= l('<i class="icon-chevron-up"></i>'.t('Collapse'),'',array('attributes' => array('class' => array('btn btn-small action-collapse')), 'html' => true));
+  $output.= l('<i class="icon-chevron-down"></i>'.t('Expand all'),'',array('attributes' => array('class' => array('btn btn-small action-expand')), 'html' => true));
+  $output.= l('<i class="icon-chevron-up"></i>'.t('Collapse all'),'',array('attributes' => array('class' => array('btn btn-small action-collapse')), 'html' => true));
   $output.= '</div>';
   
 	if (user_access('administer nodes')) {  
