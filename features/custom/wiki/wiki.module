@@ -46,6 +46,7 @@ function wiki_disable() {
 * Sets the text format processor to a custom callback function.
 * This code is taken from the Better Formats module.
 */
+
 /*
 function wiki_element_info_alter(&$type) {
   if (isset($type['text_format']['#process'])) {
@@ -57,6 +58,7 @@ function wiki_element_info_alter(&$type) {
   }
 }
 */
+
 /*
 * hook_filter_process_format
 */
