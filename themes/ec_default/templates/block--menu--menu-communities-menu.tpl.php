@@ -44,27 +44,25 @@
  * @ingroup themeable
  */
 ?>
-<div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
-  <?php print render($title_prefix); ?>
 <?php if ($block->subject): ?>
-  <h2<?php print $title_attributes; ?>><?php print $block->subject ?></h2>
+<li class="nav-header">
+<?php print $block->subject ?>
+</li>
 <?php endif;?>
-  <?php print render($title_suffix); ?>
 
-  <div class="content"<?php print $content_attributes; ?>>
-    <?php 
-      $menu = menu_navigation_links("menu-communities-menu");
-      
-      foreach ($menu as $item_id) {
-        $items[] = l($item_id['title'],$item_id['href']);
-      }
+<li>
+  <?php 
+    $menu = menu_navigation_links("menu-communities-menu");
+    
+    foreach ($menu as $item_id) {
+      $items[] = l($item_id['title'],$item_id['href']);
+    }
 
-      $att = array(
-        'class' => 'nav nav-list', 
-      );  
-      
-      print theme('item_list', array('items' => $items, 'attributes' => $att));
-    ?>
-  </div>
-</div>
+    $att = array(
+      'class' => 'nav nav-list', 
+    );  
+    
+    print theme('item_list', array('items' => $items, 'attributes' => $att));
+  ?>
+</li>
