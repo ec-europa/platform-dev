@@ -50,6 +50,4 @@
 </li>
 <?php endif;?>
 
-<li>
-  <?php print $content ?>
-</li>
+<?php print $content ?>
