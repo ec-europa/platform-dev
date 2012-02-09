@@ -49,7 +49,10 @@ function communities_views_pre_render(&$view) {
     $output .= '<div class="btn-group">';
     
     foreach($alphabet as $letter) {
-      $url = $_GET['q'].'/'.$letter;
+	  if(count(arg()) > 1)
+	    $url = arg(0)."/".arg(1)."/".$letter;
+	  else
+	    $url = arg(0)."/".$letter;
       $output .= l($letter,$url,array('attributes' => array('class' => array('btn btn-small action-expand'))));
     }
     
