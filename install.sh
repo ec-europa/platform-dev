@@ -25,11 +25,12 @@ Configuration of the site\n
 \t-a, --account\t\tDefine the account name for the administrator\n
 \t-e, --account-email\tDefine the email address for the administrator\n
 \t-m, --site-email\t\tDefine the site email\n
-\t-b, --base-url\t\tDefine the base URL of the site\n"
+\t-b, --base-url\t\tDefine the base URL of the site\n
+\t-i, --install-profile\t\tDefine the installation profile to use\n"
 
 
 # Configuration of the script
-while getopts "u:p:H:P:a:e:d:r:n:b:vfh?-:" option; do
+while getopts "u:p:H:P:a:e:d:r:n:b:i:vfh?-:" option; do
         #Management of the --options
         if [ "$option" = "-" ]; then
                 case $OPTARG in
@@ -45,6 +46,7 @@ while getopts "u:p:H:P:a:e:d:r:n:b:vfh?-:" option; do
                         web-root) option=r ;;
                         site-email) option=m ;;
                         base-url) option=b ;;
+						install_profile) option=i ;;
                         *)
                                 echo "[ERROR] Unknown option --$OPTARG"
                                 exit 1
@@ -64,6 +66,7 @@ while getopts "u:p:H:P:a:e:d:r:n:b:vfh?-:" option; do
                 b) baseurl=$OPTARG ;;
                 v) verbose=1 ;;
 				f) force=1 ;;
+				i) install_profile=$OPTARG ;;
                 \?|h)
                         echo -e $usage
                         exit 0
@@ -140,7 +143,7 @@ for patch_file in "${patch_dir}/"*.patch "${patch_dir}/"*.diff; do
 done
 
 #install and configure the drupal instance
-drush --php="/usr/bin/php" ${drush_options} si multisite_drupal_core --db-url=$db_url --account-name=$account_name --account-pass=$account_pass --site-name=${site_name} --site-mail=$site_mail  1>&2
+drush --php="/usr/bin/php" ${drush_options} si $install_profile --db-url=$db_url --account-name=$account_name --account-pass=$account_pass --site-name=${site_name} --site-mail=$site_mail  1>&2
 
 mkdir "${working_dir}/sites/default/files/private_files"
 chmod -R 777 "${working_dir}/sites/default/files"

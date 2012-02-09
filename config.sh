@@ -13,3 +13,4 @@ site_mail='EMAIL@ADDRESS.COM'
 baseurl='www.site.com'
 verbose=0
 force=0
+install_profile='multisite_drupal_core'

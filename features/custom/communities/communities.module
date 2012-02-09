@@ -92,6 +92,7 @@ function communities_init() {
 /*
 * hook_modules_enabled
 */
+/*
 function communities_modules_enabled($modules) {
   if(in_array('communities', $modules)) { 
 	// populate users fields of dummy users
@@ -112,6 +113,7 @@ function communities_modules_enabled($modules) {
 	user_save($account2);	
   }
 }
+*/
 
 
 /*

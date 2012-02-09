@@ -44,7 +44,7 @@ dependencies[] = fivestar
 dependencies[] = hidden_captcha
 dependencies[] = media
 dependencies[] = password_policy
-dependencies[] = rules
+;dependencies[] = rules
 dependencies[] = references
 dependencies[] = strongarm
 dependencies[] = sweaver
@@ -56,26 +56,26 @@ dependencies[] = varnish
 dependencies[] = views
 dependencies[] = views_ui
 dependencies[] = views_bulk_operations
-dependencies[] = views_xml
-dependencies[] = views_xhtml
-dependencies[] = views_rdf
-dependencies[] = views_json
+;dependencies[] = views_xml
+;dependencies[] = views_xhtml
+;dependencies[] = views_rdf
+;dependencies[] = views_json
 dependencies[] = votingapi
 dependencies[] = uuid
 dependencies[] = feature_set
+dependencies[] = less
+dependencies[] = translation
+dependencies[] = pathauto
 
 dependencies[] = multisite_drupal_toolbox
 
-dependencies[] = og
-dependencies[] = og_access
-dependencies[] = og_context
-dependencies[] = og_field_access
-dependencies[] = og_register
-dependencies[] = og_ui
 
 ;features
 dependencies[] = content_examples
 dependencies[] = cce_basic_config
+dependencies[] = communities
+
+
 
 files[] = subsite_communities.profile
 
