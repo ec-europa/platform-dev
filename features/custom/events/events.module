@@ -171,7 +171,7 @@ function events_modules_disabled($modules) {
 * hook_node_insert
 */
 
-function events_node_insert($node) {
+function events_node_type_insert($node) {
   if ($node->type == 'events') {
     node_types_rebuild();
 

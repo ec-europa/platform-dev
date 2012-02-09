@@ -105,7 +105,7 @@ function links_disable(){
 * hook_node_insert
 */
 
-function links_node_insert($node) {
+function links_node_type_insert($node) {
   if ($node->type == 'links') {
     node_types_rebuild();
 

@@ -41,7 +41,7 @@ function wiki_enable() {
 * hook_node_insert
 */
 
-function wiki_node_insert($node) {
+function wiki_node_type_insert($node) {
   if ($node->type == 'wiki') {
     node_types_rebuild();
 
@@ -98,7 +98,7 @@ function wiki_node_insert($node) {
 /*
  * Hook disable 
  */
-function links_disable(){
+function wiki_disable(){
 
   // Remove block
   _remove_views_context("communities", "wiki_list");
@@ -111,40 +111,40 @@ function links_disable(){
   // Administrator
   $adm_rid = get_rid('administrator');
   user_role_revoke_permissions($adm_rid, array(
-    'edit own links content',
-    'edit any links content',
-    'delete own links content',
-    'delete any links content',
-    'create links content',
+    'edit own wiki content',
+    'edit any wiki content',
+    'delete own wiki content',
+    'delete any wiki content',
+    'create wiki content',
   ));
     
   // Contributor
   $contrib_rid = get_rid('contributor');
   user_role_revoke_permissions($contrib_rid, array(
-    'edit own links content',
-    'edit any links content',
-    'delete own links content',
-    'delete any links content',
-    'create links content',
+    'edit own wiki content',
+    'edit any wiki content',
+    'delete own wiki content',
+    'delete any wiki content',
+    'create wiki content',
   ));
           
   // Disable permissions to OG roles ---------------------------------------------------------------  
   // Community Manager
   $cm_rid = get_og_rid('community_manager');
   og_role_revoke_permissions($cm_rid, array(
-    'update own links content',
-    'update any links content',
-    'delete own links content',
-    'delete any links content',
+    'update own wiki content',
+    'update any wiki content',
+    'delete own wiki content',
+    'delete any wiki content',
   ));
     
   // Administrator Member
   $admm_rid = get_og_rid('administrator member');
   og_role_revoke_permissions($admm_rid, array(
-    'update own links content',
-    'update any links content',
-    'delete own links content',
-    'delete any links content',
+    'update own wiki content',
+    'update any wiki content',
+    'delete own wiki content',
+    'delete any wiki content',
   ));
     
 }

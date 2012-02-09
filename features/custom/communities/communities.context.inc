@@ -41,6 +41,12 @@ function communities_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-10',
         ),
+        'menu-menu-communities-menu' => array(
+          'module' => 'menu',
+          'delta' => 'menu-communities-menu',
+          'region' => 'sidebar_first',
+          'weight' => '-10',
+        ),
       ),
     ),
   );
