@@ -179,7 +179,7 @@ function communities_field_default_fields() {
       ),
       'module' => 'image',
       'settings' => array(
-        'default_image' => "$fid_default_community_image;",
+        'default_image' => "$fid_default_community_image",
         'uri_scheme' => 'public',
       ),
       'translatable' => '0',

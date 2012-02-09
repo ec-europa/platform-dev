@@ -5,3 +5,46 @@
  */
 
 include_once('survey.features.inc');
+
+
+/*
+* hook_menu
+*/
+function survey_menu() {
+  $items = array();
+ 
+  $items['community/%group_name/survey'] = array(
+    'title' => 'survey',
+    'page callback' => 'views_page',
+    'page arguments' => array('surveys_list', 'page_1', 1),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+
+  return $items;
+}
+
+
+
+/*
+* hook_enable
+*/
+function survey_enable() {
+  _add_views_context("communities","surveys_list");
+  _add_block_context('communities', 'surveys_list-block_1', 'views', 'surveys_list-block_1', 'sidebar_first');
+  _add_content_type_context('communities','webform');
+}
+
+
+/*
+ * Hook disable 
+ */
+function survey_disable(){
+
+  // Remove block
+  _remove_views_context("communities", "surveys_list");
+  _remove_block_context('communities', 'surveys_list-block_1');
+  _remove_content_type_context('communities','webform');
+}
