@@ -23,7 +23,18 @@ function cce_basic_config_context_default_contexts() {
       ),
     ),
   );
-  $context->reactions = array();
+  $context->reactions = array(
+    'block' => array(
+	  'blocks' => array(
+	    'system-main-menu' => array(
+	      'module' => 'system',
+	  	  'delta' => 'main-menu',
+	  	  'region' => 'featured',
+	  	  'weight' => '-10',
+	    ),
+	  ),
+    ),
+  );
   $context->condition_mode = 0;
 
   // Translatables
@@ -34,3 +45,4 @@ function cce_basic_config_context_default_contexts() {
 
   return $export;
 }
+
