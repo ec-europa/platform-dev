@@ -122,6 +122,10 @@ projects[og_create_perms][version] = "1.0"
 ;projects[simplewiki][subdir] = "contributed"
 ;projects[simplewiki][version] = "1.x-dev"
 
+projects[webform][subdir] = "contributed"
+projects[webform][version] = "3.15"
+
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"

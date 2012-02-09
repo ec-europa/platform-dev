@@ -51,3 +51,10 @@ feature_sets[wiki][description] = 'Create and add wikis in your Community'
 feature_sets[wiki][icon] = 'feature-set-icons/wiki.png'
 feature_sets[wiki][enable][] = wiki
 feature_sets[wiki][disable][] = wiki
+
+feature_sets[survey][title] = 'Surveys'
+feature_sets[survey][description] = 'Create and add surveys in your Community'
+feature_sets[survey][icon] = 'feature-set-icons/survey.png'
+feature_sets[survey][enable][] = survey
+feature_sets[survey][disable][] = survey
+

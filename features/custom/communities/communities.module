@@ -122,13 +122,8 @@ function communities_node_type_insert($info) {
 	node_types_rebuild();
 	  
     // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-    $au = db_select('role', 'r')
-      ->condition('name', "authenticated user",'=')
-      ->fields('r', array('rid'))
-      ->execute()
-      ->fetchAssoc();
-
-    user_role_grant_permissions($au['rid'], array(  
+	$au_rid = get_rid('authenticated user');
+    user_role_grant_permissions($au_rid, array(  
       'create community content',
 	  'delete own community content',
 	  'edit own community content',
@@ -143,13 +138,8 @@ function communities_node_type_insert($info) {
     )); 	
   
     // add permissions to OG roles ----------------------------------------------------------------------------------------------------------------------------------------------  
-    $cm = db_select('og_role', 'r')
-      ->condition('name', "community_manager",'=')
-      ->fields('r', array('rid'))
-      ->execute()
-      ->fetchAssoc();  
-  
-    og_role_grant_permissions($cm['rid'], array(  
+	$cm_rid = get_og_rid('community_manager');  
+    og_role_grant_permissions($cm_rid, array(  
       'add user',
       'approve and deny subscription',
       'unsubscribe',
