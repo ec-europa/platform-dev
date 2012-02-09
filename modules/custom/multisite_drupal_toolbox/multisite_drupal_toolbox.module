@@ -38,8 +38,9 @@ function _disable_content_type($type) {
 function multisite_drupal_toolbox_enable(){
 	
   _add_block_context('site_wide','locale-language','locale','language','highlighted');	
+  _add_block_context('site_wide','system-main-menu','system','main-menu','featured');	
   _add_block_context('communities','createcontent','multisite_drupal_toolbox','createcontent', 'sidebar_first');
-  
+ 
 }
 
 
