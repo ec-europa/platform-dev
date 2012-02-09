@@ -25,11 +25,6 @@ function communities_context_default_contexts() {
         'node_form' => '1',
       ),
     ),
-    'views' => array(
-      'values' => array(
-        'communities_directory' => 'communities_directory',
-      ),
-    ),
   );
   $context->reactions = array(
     'block' => array(
