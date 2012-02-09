@@ -342,8 +342,19 @@ function ec_default_menu_local_tasks(&$variables) {
 }
 
 /**
- * Alter tables
+ * Hook form alter
  */
-/*function ec_default_table($variables) {
+function ec_default_form_alter(&$form, &$form_state, $form_id) {
+  $form['#after_build'][] = 'ec_default_cck_alter';
+}
 
-}*/
+/**
+ * #after_build function to modify CCK fields
+ */
+function ec_default_cck_alter($form, &$form_state) {
+  //print_r($form);
+  if (!user_access('administer nodes')) {
+    $form['comment_body']['und'][0]['format']['#access'] = 0;
+  }
+  return $form;
+}

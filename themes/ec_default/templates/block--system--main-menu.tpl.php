@@ -45,24 +45,18 @@
  */
 ?>
 
-<?php if ($block->subject): ?>
-<li id="<?php print $block_html_id; ?>" class="nav-header">
-<?php print $block->subject ?>
-</li>
-<?php endif;?>
-
-<li>
+  <ul id="<?php print $block_html_id; ?>" class="nav nav-pills">
   <?php 
-    $menu = menu_navigation_links("menu-communities-menu");
+    $menu = menu_navigation_links("main-menu");
+    $items = "";
     
     foreach ($menu as $item_id) {
-      $items[] = l($item_id['title'],$item_id['href']);
+      $items .= '<li>'.l($item_id['title'],$item_id['href']).'</li>';
     }
-
-    $att = array(
-      'class' => 'nav nav-list', 
-    );  
     
-    print theme('item_list', array('items' => $items, 'attributes' => $att));
-  ?>
-</li>
+    print $items;
+  ?>    
+  </ul>  
+
+
+
