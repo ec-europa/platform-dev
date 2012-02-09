@@ -1,0 +1,278 @@
+﻿<?php
+
+DECLARE( 'CT_THREAD', 'forum-thread' );
+DECLARE( 'CT_ROOM', 'forum-room' );
+
+/**
+ * @file
+ * Code for the Group Forum feature.
+ */
+
+include_once('group_forum.features.inc');
+
+
+/*
+* hook_modules_enabled
+*/
+function group_forum_modules_enabled($modules) {
+  if(in_array('group_forum', $modules)) {
+    drupal_set_message('The group forum feature is now active on your site.');
+  }
+}
+ 
+/*
+* hook_modules_disabled
+*/
+function group_forum_modules_disabled($modules) {
+  if(in_array('group_forum', $modules)) {
+    drupal_set_message('The group forum feature is now disabled on your site.');
+  }
+}
+
+/*
+* hook_node_insert
+*/
+
+function group_forum_node_type_insert($node) {
+  if ($node->type == CT_THREAD ) {
+    node_types_rebuild();
+
+    drupal_set_message("invalide cache og");
+    og_invalidate_cache();
+    
+    // Add permissions to roles -----------------------------------------------
+    // Administrator
+	$adm_rid = get_rid('administrator');
+    user_role_grant_permissions($adm_rid, array(  
+      'edit own forum thread content',
+      'delete own forum thread content',
+      'edit any forum thread content',
+      'delete any forum thread content',
+      'create forum thread content',
+    ));
+    
+    // Contributor
+    $contrib_rid = get_rid('contributor');
+    user_role_grant_permissions($contrib_rid, array(
+      'edit own forum thread content',
+      'delete own forum thread content',
+      'create forum thread content',
+    ));
+          
+    // Add permissions to OG roles --------------------------------------------
+    // Community Manager
+    $cm_rid = get_og_rid('community_manager');
+    og_role_grant_permissions($cm_rid, array(
+      'edit own forum thread content',
+      'delete own forum thread content',
+      'delete any forum thread content',
+      'create forum thread content',
+    ));
+    
+    // Administrator Member
+    $admm_rid = get_og_rid('administrator member');
+    og_role_grant_permissions($admm_rid, array(
+      'edit own forum thread content',
+      'delete own forum thread content',
+      'delete any forum thread content',
+      'create forum thread content',
+    ));
+    
+    // Member
+    $contrib_rid = get_rid('member');
+    og_role_grant_permissions($contrib_rid, array(
+	  'edit own forum thread content',
+	  'delete own forum thread content',
+	  'create forum thread content',
+	));
+  
+  } else if ($node->type == CT_ROOM ) {
+    node_types_rebuild();
+
+    drupal_set_message("invalide cache og");
+    og_invalidate_cache();
+    
+    // Add permissions to roles -----------------------------------------------
+    // Administrator
+	$adm_rid = get_rid('administrator');
+    user_role_grant_permissions($adm_rid, array(  
+      'edit own forum room content',
+      'edit any forum room content',
+      'delete own forum room content',
+      'delete any forum room content',
+      'create forum room content',
+    ));
+          
+    // Add permissions to OG roles -------------------------------------------- 
+    // Community Manager
+    $cm_rid = get_og_rid('community_manager');
+    og_role_grant_permissions($cm_rid, array(
+      'edit own forum room content',
+      'delete own forum room content',
+      'delete any forum room content',
+      'create forum room content',
+    ));
+    
+    // Administrator Member
+    $admm_rid = get_og_rid('administrator member');
+    og_role_grant_permissions($admm_rid, array(
+      'edit own forum room content',
+      'delete own forum room content',
+      'delete any forum room content',
+      'create forum room content',
+    ));
+  
+  }
+}
+
+function group_forum_disable() {
+  _disable_content_type( CT_ROOM );
+  _disable_content_type( CT_THREAD );
+  
+  // Administrator
+  $adm_rid = get_rid('administrator');
+  user_role_revoke_permissions($adm_rid, array(
+    'edit own forum room content',
+    'edit any forum room content',
+    'delete own forum room content',
+    'delete any forum room content',
+    'create forum room content',
+    'edit own forum thread content',
+    'delete own forum thread content',
+    'edit any forum thread content',
+    'delete any forum thread content',
+    'create forum thread content',
+  ));
+    
+  // Contributor
+  $contrib_rid = get_rid('contributor');
+  user_role_revoke_permissions($contrib_rid, array(
+    'edit own forum thread content',
+    'delete own forum thread content',
+    'create forum thread content',
+  ));
+          
+  // Disable permissions to OG roles ------------------------------------------
+  // Community Manager
+  $cm_rid = get_og_rid('community_manager');
+  og_role_revoke_permissions($cm_rid, array(
+    'edit own forum room content',
+    'delete own forum room content',
+    'delete any forum room content',
+    'create forum room content',
+    'edit own forum thread content',
+    'delete own forum thread content',
+    'delete any forum thread content',
+    'create forum thread content',
+  ));
+    
+  // Administrator Member
+  $admm_rid = get_og_rid('administrator member');
+  og_role_revoke_permissions($admm_rid, array(
+    'edit own forum room content',
+    'delete own forum room content',
+    'delete any forum room content',
+    'create forum room content',
+    'edit own forum thread content',
+    'delete own forum thread content',
+    'delete any forum thread content',
+    'create forum thread content',
+  ));
+    
+  // Member
+  $contrib_rid = get_rid('member');
+  user_role_revoke_permissions($contrib_rid, array(
+    'edit own forum thread content',
+    'delete own forum thread content',
+    'create forum thread content',
+  ));
+    
+}
+
+
+
+
+
+/**
+ * ==========================================================================
+ * Start of development
+ * ==========================================================================
+ */
+
+
+/*
+* hook_menu
+*/
+function group_forum_menu() {
+  $items = array();
+ 
+  $items['community/%group_name/forum'] = array(
+    'title' => 'Forum',
+    'page callback' => 'views_page',
+    'page arguments' => array('forum_rooms_list', 'page_forum_rooms', 1),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+ 
+  $items['community/%group_name/forum/%room_alias/thread'] = array(
+    'title' => 'Forum',
+    'page callback' => 'views_page',
+    'page arguments' => array('forum_thread_list', 'page_forum_thread_list', 3 ),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'weight' => 1,
+  );
+
+  return $items;
+}
+
+	
+/*
+* _to_arg function
+*/
+function room_alias_to_arg($arg) {
+  if (arg(0) == 'node') {
+    $nid = arg(1);
+    $node = node_load($nid);
+    switch( $node->type ) {
+        case 'forum_room':
+        case 'forum_thread':
+            $alias = drupal_lookup_path( 'alias', $_GET['q'] );
+            //In case of edit mode
+            if ( $alias == FALSE ) return 0; 
+            $alias = explode( '/', $alias );
+            return $alias[1];
+        case 'community':
+        case FALSE:
+            //nothing
+            break;
+        default:
+            krumo( $node );
+            break;
+    }
+  }
+  else {
+      if( preg_match( "/.*forum\/([^\/]*)\/.*/", $_GET['q'], $matches ) ) {
+        return $matches[1];
+      } 
+  }
+  return '';
+}
+
+/*
+* _load function
+*/
+function room_alias_load($arg) {
+  if( empty($arg) ) return 0;
+  
+  if ( preg_match( "/(.*$arg).*/", $_GET['q'], $matches ) ) {
+    $source = drupal_lookup_path( 'source', $matches[1] );
+    $source = explode("/", $source);
+    if ( count($source) != 2 ) return 0;
+  return $source[1];  
+  } else {
+      return 0;
+  }
+}
