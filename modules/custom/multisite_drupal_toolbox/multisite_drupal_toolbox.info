@@ -63,3 +63,9 @@ feature_sets[news][description] = 'Create and add news in your Community'
 feature_sets[news][icon] = 'feature-set-icons/news.png'
 feature_sets[news][enable][] = news
 feature_sets[news][disable][] = news
+
+feature_sets[group_forum][title] = 'Forums'
+feature_sets[group_forum][description] = 'Create and add forums in your Community'
+feature_sets[group_forum][icon] = 'feature-set-icons/forum.png'
+feature_sets[group_forum][enable][] = group_forum
+feature_sets[group_forum][disable][] = group_forum
