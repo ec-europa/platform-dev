@@ -34,4 +34,3 @@ function cce_basic_config_context_default_contexts() {
 
   return $export;
 }
-
