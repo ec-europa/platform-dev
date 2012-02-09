@@ -9,6 +9,7 @@
 function subsite_communities_install() {
   include_once DRUPAL_ROOT . '/profiles/multisite_drupal_core/multisite_drupal_core.install';
   multisite_drupal_core_install();
-  node_access_rebuild();
-  drupal_flush_all_caches();
+  //node_access_rebuild();
+  //drupal_flush_all_caches();
 }
+
