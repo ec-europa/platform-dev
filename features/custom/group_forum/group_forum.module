@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 DEFINE( 'CT_THREAD', 'forum-thread' );
 DEFINE( 'CT_ROOM', 'forum-room' );
@@ -200,26 +200,27 @@ function group_forum_disable() {
  */
 
 
+
 /*
 * hook_menu
 */
-function group_forum_menu() {
+function forum_menu() {
   $items = array();
  
-  $items['community/%group_name/forum'] = array(
-    'title' => 'Forum',
+  $items['community/%group_name/forum_TMP'] = array(
+    'title' => 'forum_TMP',
     'page callback' => 'views_page',
-    'page arguments' => array('forum_rooms_list', 'page_forum_rooms', 1),
+    'page arguments' => array('forum_TMP_rooms_list', 'page_forum_TMP_rooms', 1),
     'access callback' => TRUE,
     'type' => MENU_NORMAL_ITEM,
     'menu_name' => 'menu-communities-menu',
     'weight' => 1,
   );
  
-  $items['community/%group_name/forum/%room_alias/thread'] = array(
-    'title' => 'Forum',
+  $items['community/%group_name/forum_TMP/%room_alias/thread'] = array(
+    'title' => 'forum_TMP',
     'page callback' => 'views_page',
-    'page arguments' => array('forum_thread_list', 'page_forum_thread_list', 3 ),
+    'page arguments' => array('forum_TMP_thread_list', 'page_forum_TMP_threads', 3 ),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
     'weight' => 1,
@@ -228,37 +229,126 @@ function group_forum_menu() {
   return $items;
 }
 
-  
+
+function group_forum_form_alter(&$form, &$form_state, $form_id) {
+    if( $form_id != 'forum_thread_node_form' || !isset($_GET['field_forum_room']) ) return;
+    
+    $form['field_forum_room']['und']['#default_value'] = $_GET['field_forum_room'];
+}
+
+/**
+ * Internal function in order to get the contextual link to create a thread
+ * in a room
+ * @return type 
+ */
+function _group_forum_get_link_from_room() {
+    $group = og_context();
+    $group_id = isset($group) ? $group->etid : '';
+    
+    $room_id = room_alias_load( room_alias_to_arg( '' ) );
+    
+    $attributes = array( 
+        'attributes' => array(
+            'type' => 'add',
+            ),
+        );
+    
+    $options = array( 
+        'query' => array( 
+            'gids_node[]' => $group_id,
+            'field_forum_TMP_room' => $room_id 
+            ),
+        'absolute' => TRUE,
+        );
+    
+    $url = url( 'node/add/'.CT_THREAD, $options );
+    
+    return l( t('Add a new thread'), 
+      $url, 
+      $attributes );
+}
+
+/**
+ * Internal function in order to get the contextual link to create a room 
+ * in a group
+ * @return type 
+ */
+function _group_forum_get_link_from_group() {
+    $group = og_context();
+    $group_id = isset($group) ? $group->etid : '';
+    
+    $attributes = array( 
+        'attributes' => array(
+            'type' => 'add',
+            ),
+        );
+    
+    $options = array( 
+        'query' => array( 
+            'gids_node[]' => $group_id,
+            ),
+        'absolute' => TRUE,
+        );
+    
+    $url = url( 'node/add/'.CT_ROOM, $options );
+    
+    return l( t('Add a new Room'), 
+      $url, 
+      $attributes );
+}
+
+/**
+ * Add a buttons in the views associated with this feature
+ * @param type $view 
+ */
+function group_forum_views_pre_render(&$view) {
+    switch( $view->name ) {
+        case 'forum_thread_list':
+            if ( user_access('create forum_thread content') ) {
+                $view->header['area']->options['content'] = _group_forum_get_link_from_room();
+            }
+            break;
+        case 'forum_rooms_list':
+            if ( user_access('create forum_room content') ) {
+                $view->header['area']->options['content'] = _group_forum_get_link_from_group();
+            }
+            break;
+        default:
+            break;
+    }  
+}
+	
 /*
 * _to_arg function
 */
 function room_alias_to_arg($arg) {
   if (arg(0) == 'node') {
+    if ( arg(1) == 'add' ) return;
     $nid = arg(1);
     $node = node_load($nid);
     switch( $node->type ) {
-      case 'forum_room':
-      case 'forum_thread':
-        $alias = drupal_lookup_path( 'alias', $_GET['q'] );
-        //In case of edit mode
-        if ( $alias == FALSE ) return 0; 
-        $alias = explode( '/', $alias );
-        return $alias[1];
-      case 'community':
-      case FALSE:
-        //nothing
-        break;
-      default:
-        krumo( $node );
-        break;
+        case 'forum_room':
+        case 'forum_thread':
+            $alias = drupal_lookup_path( 'alias', $_GET['q'] );
+            //In case of edit mode
+            if ( $alias == FALSE ) return 0; 
+            $alias = explode( '/', $alias );
+            return $alias[1];
+        case 'community':
+        case FALSE:
+            //nothing
+            break;
+        default:
+            krumo( $node );
+            break;
     }
   }
   else {
-    if( preg_match( "/.*forum\/([^\/]*)\/.*/", $_GET['q'], $matches ) ) {
-      return $matches[1];
-    } 
+      if( preg_match( "/.*forum\/([^\/]*)\/.*/", $_GET['q'], $matches ) ) {
+        return $matches[1];
+      } 
   }
-  return '';
+  return;
 }
 
 /*
