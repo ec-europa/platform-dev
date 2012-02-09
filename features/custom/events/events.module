@@ -10,16 +10,81 @@ include_once('events.features.inc');
 * Add block to the context
 */
 function events_enable(){
-	_add_block_context('communities','views-calendar-block_2','views','calendar-block_2','sidebar_first');
+	_add_block_context('communities','views-calendar-upcoming_events','views','calendar-upcoming_events','sidebar_first');
+	_add_views_context('communities','calendar');
+	_add_views_context('communities','calendar:month');
+	_add_views_context('communities','calendar:week');
+	_add_views_context('communities','calendar:day');
+	_add_views_context('communities','calendar:year');
+	_add_content_type_context('communities', 'event');
 }
+
 
 /**
 * Remove block from the context
 */
 function events_disable(){
-	_remove_block_context('communities','views-calendar-block_2');
+	_remove_block_context('communities','views-calendar-upcoming_events');
+	_remove_views_context('communities','calendar');
+	_remove_views_context('communities','calendar:month');
+	_remove_views_context('communities','calendar:week');
+	_remove_views_context('communities','calendar:day');
+	_remove_views_context('communities','calendar:year');
+	_remove_content_type_context('communities', 'event');
 	_disable_content_type('event');
 }
+
+
+/*
+* hook_menu
+*/
+function events_menu() {
+
+  $items = array();
+ 
+  $items['community/%group_name/calendar'] = array(
+    'title' => 'Events',
+    'page callback' => 'views_page',
+    'page arguments' => array('calendar', 'month', 1),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+ 
+   $items['community/%group_name/calendar/week'] = array(
+    'title' => 'Week',
+    'page callback' => 'views_page',
+    'page arguments' => array('calendar', 'week', 1),
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_TASK,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+  
+   $items['community/%group_name/calendar/day'] = array(
+    'title' => 'Day',
+    'page callback' => 'views_page',
+    'page arguments' => array('calendar', 'day', 1),
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_TASK,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+  
+   $items['community/%group_name/calendar/year'] = array(
+    'title' => 'Year',
+    'page callback' => 'views_page',
+    'page arguments' => array('calendar', 'year', 1),
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_TASK,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+ 
+return $items;}
+
+
 
 /*
 *setup permission
