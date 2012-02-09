@@ -44,9 +44,6 @@ projects[fivestar][version] = "2.0-alpha1"
 projects[hidden_captcha][subdir] = "contributed"
 projects[hidden_captcha][version] = "1.0"
 
-projects[references][subdir] = "contributed"
-projects[references][version] = "2.0-beta3"
-
 projects[password_policy][subdir] = "contributed"
 projects[password_policy][version] = "1.0-beta2"
 
@@ -124,6 +121,9 @@ projects[og_create_perms][version] = "1.0"
 
 projects[webform][subdir] = "contributed"
 projects[webform][version] = "3.15"
+
+projects[references][subdir] = "contributed"
+projects[references][version] = "2.0"
 
 
 ;libraries
