@@ -58,8 +58,8 @@ feature_sets[survey][icon] = 'feature-set-icons/survey.png'
 feature_sets[survey][enable][] = survey
 feature_sets[survey][disable][] = survey
 
-feature_sets[links][title] = 'News'
-feature_sets[links][description] = 'Create and add news in your Community'
-feature_sets[links][icon] = 'feature-set-icons/news.png'
-feature_sets[links][enable][] = news
-feature_sets[links][disable][] = news
+feature_sets[news][title] = 'News'
+feature_sets[news][description] = 'Create and add news in your Community'
+feature_sets[news][icon] = 'feature-set-icons/news.png'
+feature_sets[news][enable][] = news
+feature_sets[news][disable][] = news
