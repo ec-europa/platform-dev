@@ -7,6 +7,170 @@
 include_once('news.features.inc');
 
 /*
+ * Hook enable 
+ * Edit communities context to add a block
+ */
+function news_enable(){
+
+  //Add block in context
+  //_add_block_context('communities','news-block','views','news-block', 'sidebar_first');
+  _add_views_context('communities','news');
+  _add_content_type_context('communities','news');
+  
+  drupal_set_message('News feature is now active on your site.');
+
+}
+
+
+/*
+ * Hook disable 
+ * Edit communities context to remove block
+ * Remove permissions
+ */
+function news_disable(){
+
+  // Remove block
+ // _remove_block_context('communities', 'news-block');
+  _remove_views_context('communities', 'news');
+  _remove_content_type_context('communities','news');
+
+  /*** Remove permissions ***/
+  _disable_content_type('news');
+  
+  // Administrator
+  $adm = db_select('role', 'r')
+    ->condition('name', "administrator",'=')
+    ->fields('r', array('rid'))
+    ->execute()
+    ->fetchAssoc();
+
+  user_role_revoke_permissions($adm['rid'], array(
+    'edit own news content',
+    'edit any news content',
+    'delete own news content',
+    'delete any news content',
+    'create news content',
+  ));
+    
+  // Contributor
+  $contrib = db_select('role', 'r')
+    ->condition('name', "contributor",'=')
+    ->fields('r', array('rid'))
+    ->execute()
+    ->fetchAssoc();
+      
+  user_role_revoke_permissions($contrib['rid'], array(
+    'edit own news content',
+    'edit any news content',
+    'delete own news content',
+    'delete any news content',
+    'create news content',
+  ));
+          
+  // Disable permissions to OG roles ---------------------------------------------------------------  
+  // Community Manager
+  $cm = db_select('og_role', 'r')
+    ->condition('name', "community_manager",'=')
+    ->fields('r', array('rid'))
+    ->execute()
+    ->fetchAssoc();
+
+  og_role_revoke_permissions($cm['rid'], array(
+    'update own news content',
+    'update any news content',
+    'delete own news content',
+    'delete any news content',
+  ));
+    
+  // Administrator Member
+  $admm = db_select('og_role', 'r')
+    ->condition('name', "administrator member",'=')
+    ->fields('r', array('rid'))
+    ->execute()
+    ->fetchAssoc();
+
+  og_role_revoke_permissions($admm['rid'], array(
+    'update own news content',
+    'update any news content',
+    'delete own news content',
+    'delete any news content',
+  ));
+    
+  drupal_flush_all_caches(); 
+  drupal_set_message('News feature is now disabled on your site.');
+}
+
+
+/*
+* hook_node_insert
+*/
+
+function news_node_type_insert($node) {
+drupal_set_message("NODE INSERT");
+  if ($node->type == 'news') {
+    node_types_rebuild();
+
+    drupal_set_message("NEWS node type creation");
+    og_invalidate_cache();
+    
+    // Add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
+    // Administrator
+    $adm_rid = get_rid('administrator');
+    user_role_grant_permissions($adm_rid, array(
+      'edit own news content',
+      'edit any news content',
+      'delete own news content',
+      'delete any news content',
+      'create news content',
+    ));
+   
+    drupal_set_message("admrid: " . $adm_rid);
+   
+    // Contributor
+    $ctb_rid = get_rid('contributor');      
+    user_role_grant_permissions($ctb_rid, array(
+      'edit own news content',
+      'edit any news content',
+      'delete own news content',
+      'delete any news content',
+      'create news content',
+    ));
+          
+    drupal_set_message("ctb_rid: " . $ctb_rid);      
+          
+    // Add permissions to OG roles ---------------------------------------------------------------
+    // Community Manager
+    $cm_rid = get_og_rid('community_manager');
+    og_role_grant_permissions($cm_rid, array(
+      'create news content',
+      'update own news content',
+      'update any news content',
+      'delete own news content',
+      'delete any news content',
+    ));
+    
+    // Administrator Member
+    $admm_rid = get_og_rid('administrator member');
+    og_role_grant_permissions($admm_rid, array(
+      'create news content',
+      'update own news content',
+      'update any news content',
+      'delete own news content',
+      'delete any news content',
+    ));
+  
+    // Member
+    $mbr = get_og_rid('member');
+    og_role_grant_permissions($mbr, array(
+      'create news content',
+      'update own news content',
+      'delete own news content',
+    ));
+  }
+}
+
+
+/*
 * hook_menu
 */
 function news_menu() {
