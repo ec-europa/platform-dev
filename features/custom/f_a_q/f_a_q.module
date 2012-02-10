@@ -20,11 +20,11 @@ function f_a_q_views_pre_render(&$view) {
   $output = '';
   
 	//Build extra menu item for this view
-  $output .= l(t('Expand all'), '', array('attributes' => array('type' => 'expand', 'action_bar' => 'start', 'btn_group' => 'start')));
-  $output .= l(t('Collapse'), '', array('attributes' => array('type' => 'collapse', 'btn_group' => 'end')));
+  $output .= l(t('Expand all'), '', array('attributes' => array('type' => 'expand', 'action_bar' => 'first', 'btn_group' => 'first')));
+  $output .= l(t('Collapse'), '', array('attributes' => array('type' => 'collapse', 'btn_group' => 'last')));
   
   if (user_access('administer nodes')) { 
-    $output .= l(t('Create a new FAQ'), 'node/add/f-a-q', array('attributes' => array('type' => 'add', 'action_bar' => 'end', 'btn_group' => 'single')));
+    $output .= l(t('Create a new FAQ'), 'node/add/f-a-q', array('attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
   }
   
 	//add menu to the exsiting  header

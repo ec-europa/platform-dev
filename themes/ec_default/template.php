@@ -371,10 +371,10 @@ function ec_default_link( $variables ){
 
   if( isset($variables['options']['attributes']['action_bar']) ) {
     switch ( $variables['options']['attributes']['action_bar'] ) {
-      case 'start':
+      case 'first':
         $action_bar_before .= '<div class="well btn-toolbar action_bar">';
         break;
-      case 'end':
+      case 'last':
         $action_bar_after .= '</div>';
         break;
       default:
@@ -384,10 +384,10 @@ function ec_default_link( $variables ){
   
   if( isset($variables['options']['attributes']['btn_group']) ) {
     switch ( $variables['options']['attributes']['btn_group'] ) {
-      case 'start':
+      case 'first':
         $btn_group_before .= '<div class="btn-group">';
         break;
-      case 'end':
+      case 'last':
         $btn_group_after .= '</div>';
         break;
       case 'single':
