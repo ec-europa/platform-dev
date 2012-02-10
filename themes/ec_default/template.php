@@ -364,29 +364,65 @@ function ec_default_cck_alter($form, &$form_state) {
  */
 function ec_default_link( $variables ){
   $decoration = '';
-  $class = '';
-  if( isset($variables['options']['attributes']['type']) ) {
-    switch ( $variables['options']['attributes']['type'] ) {
-      case 'add':
-        $decoration .= '<i class="icon-plus icon-white" />';
-        $variables['options']['attributes']['class'] .= 'btn btn-info';
+  $action_bar_before = '';
+  $action_bar_after = '';
+  $btn_group_before = '';
+  $btn_group_after = '';  
+
+  if( isset($variables['options']['attributes']['action_bar']) ) {
+    switch ( $variables['options']['attributes']['action_bar'] ) {
+      case 'start':
+        $action_bar_before .= '<div class="well btn-toolbar action_bar">';
         break;
-      case 'chevron-down':
-        $decoration .= '<i class="icon-chevron-down" />';
-        break;
-      case 'chevron-up':
-        $decoration .= '<i class="icon-chevron-up" />';
+      case 'end':
+        $action_bar_after .= '</div>';
         break;
       default:
         break;
     }
   }
   
-  $output = '<a href="' . 
+  if( isset($variables['options']['attributes']['btn_group']) ) {
+    switch ( $variables['options']['attributes']['btn_group'] ) {
+      case 'start':
+        $btn_group_before .= '<div class="btn-group">';
+        break;
+      case 'end':
+        $btn_group_after .= '</div>';
+        break;
+      case 'single':
+        $btn_group_before .= '<div class="btn-group">';
+        $btn_group_after .= '</div>';
+        break;  
+      default:
+        break;
+    }
+  }  
+  
+  if( isset($variables['options']['attributes']['type']) ) {
+    switch ( $variables['options']['attributes']['type'] ) {
+      case 'add':
+        $decoration .= '<i class="icon-plus icon-white" />';
+        $variables['options']['attributes']['class'] .= 'btn btn-info';
+        break;
+      case 'expand':
+        $decoration .= '<i class="icon-chevron-down" />';
+        $variables['options']['attributes']['class'] .= 'btn btn-small';
+        break;
+      case 'collapse':
+        $decoration .= '<i class="icon-chevron-up" />';
+        $variables['options']['attributes']['class'] .= 'btn btn-small';
+        break;
+      default:
+        break;
+    }
+  }
+  
+  $output = $action_bar_before.$btn_group_before.'<a href="' . 
     check_plain(url($variables['path'], $variables['options'])) . '"' . 
     drupal_attributes($variables['options']['attributes']) . '>' . 
     $decoration . ($variables['options']['html'] ? 
       $variables['text'] : check_plain($variables['text'])) . 
-    '</a>';
+    '</a>'.$btn_group_after.$action_bar_after;
   return $output;
 }
