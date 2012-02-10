@@ -30,7 +30,7 @@ function news_enable(){
 function news_disable(){
 
   // Remove block
- // _remove_block_context('communities', 'news-block');
+  //_remove_block_context('communities', 'news-block');
   _remove_views_context('communities', 'news');
   _remove_content_type_context('communities','news');
 
@@ -38,13 +38,8 @@ function news_disable(){
   _disable_content_type('news');
   
   // Administrator
-  $adm = db_select('role', 'r')
-    ->condition('name', "administrator",'=')
-    ->fields('r', array('rid'))
-    ->execute()
-    ->fetchAssoc();
-
-  user_role_revoke_permissions($adm['rid'], array(
+  $adm_rid = get_rid('administrator');
+  user_role_revoke_permissions($adm_rid, array(
     'edit own news content',
     'edit any news content',
     'delete own news content',
@@ -53,13 +48,8 @@ function news_disable(){
   ));
     
   // Contributor
-  $contrib = db_select('role', 'r')
-    ->condition('name', "contributor",'=')
-    ->fields('r', array('rid'))
-    ->execute()
-    ->fetchAssoc();
-      
-  user_role_revoke_permissions($contrib['rid'], array(
+  $ctb_rid = get_rid('contributor');      
+  user_role_revoke_permissions($ctb_rid, array(
     'edit own news content',
     'edit any news content',
     'delete own news content',
@@ -69,35 +59,35 @@ function news_disable(){
           
   // Disable permissions to OG roles ---------------------------------------------------------------  
   // Community Manager
-  $cm = db_select('og_role', 'r')
-    ->condition('name', "community_manager",'=')
-    ->fields('r', array('rid'))
-    ->execute()
-    ->fetchAssoc();
-
-  og_role_revoke_permissions($cm['rid'], array(
+  $cm_rid = get_og_rid('community_manager');
+  og_role_revoke_permissions($cm_rid, array(
     'update own news content',
     'update any news content',
     'delete own news content',
     'delete any news content',
+    'create news content',
   ));
     
   // Administrator Member
-  $admm = db_select('og_role', 'r')
-    ->condition('name', "administrator member",'=')
-    ->fields('r', array('rid'))
-    ->execute()
-    ->fetchAssoc();
-
-  og_role_revoke_permissions($admm['rid'], array(
+  $admm_rid = get_og_rid('administrator member');
+  og_role_revoke_permissions($admm_rid, array(
     'update own news content',
     'update any news content',
     'delete own news content',
     'delete any news content',
+    'create news content',
+  ));
+  
+  // Member
+  $mbr = get_og_rid('member');
+  og_role_revoke_permissions($mbr, array(
+      'create news content',
+      'update own news content',
+      'delete own news content',
   ));
     
   drupal_flush_all_caches(); 
-  drupal_set_message('News feature is now disabled on your site.');
+  drupal_set_message('Links feature is now disabled on your site.');
 }
 
 
@@ -105,13 +95,13 @@ function news_disable(){
 * hook_node_insert
 */
 
-function news_node_type_insert($node) {
-drupal_set_message("NODE INSERT");
-  if ($node->type == 'news') {
+function news_node_insert($node) {
+
+  if ($node->type == 'news' && $node->title 'my news 1') {
     node_types_rebuild();
 
-    drupal_set_message("NEWS node type creation");
-    og_invalidate_cache();
+    drupal_set_message("Modifications occuring on node: " . $node->nid . '  -> Title: ' . $node->title . 'Updating ' . $node->type . ' permissions');
+    //og_invalidate_cache();
     
     // Add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
     // Administrator
