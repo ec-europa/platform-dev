@@ -97,7 +97,7 @@ function news_disable(){
 
 function news_node_insert($node) {
 
-  if ($node->type == 'news' && $node->title 'my news 1') {
+  if ($node->type == 'news' && $node->title == 'my news 1') {
     node_types_rebuild();
 
     drupal_set_message("Modifications occuring on node: " . $node->nid . '  -> Title: ' . $node->title . 'Updating ' . $node->type . ' permissions');
