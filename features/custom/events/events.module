@@ -171,7 +171,7 @@ function events_modules_disabled($modules) {
 * hook_node_insert
 */
 
-function events_node_type_insert($node) {
+function events_node_insert($node) {
   if ($node->type == 'events') {
     node_types_rebuild();
 
@@ -239,4 +239,58 @@ function events_node_type_insert($node) {
   ));
     
   }
+}
+
+
+
+/**
+ * Add a buttons in the views associated with this feature
+ * @param type $view 
+ */
+function events_views_pre_render(&$view) {
+if($view->name=='calendar'){
+		switch( $view->current_display ) {
+			case 'upcoming_events':
+				
+				break;
+			case 'month':
+			case 'week':
+			case 'day':
+			case 'year':
+				if ( user_access('create event content') ) {
+					$view->header['area']->options['content'] = _events_get_link_from_group();
+				}
+				break;
+			default:
+				break;
+		}  
+	}
+}
+
+
+
+function _events_get_link_from_group(){
+
+    $group = og_context();
+    $group_id = isset($group) ? $group->etid : '';
+    
+    $attributes = array( 
+        'attributes' => array(
+            'type' => 'add',
+			'action_bar' => 'single'
+            ),
+        );
+    
+    $options = array( 
+        'query' => array( 
+            'gids_node[]' => $group_id,
+            ),
+        'absolute' => TRUE,
+        );
+    
+    $url = url( 'node/add/event', $options );
+    
+    return l( t('Add a new Event'), 
+      $url, 
+      $attributes );
 }
