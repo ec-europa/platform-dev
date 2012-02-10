@@ -24,7 +24,8 @@ function links_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Latest Links';
   $handler->display->display_options['use_more_always'] = TRUE;
-  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['type'] = 'og_context';
+  $handler->display->display_options['access']['perm'] = 'update own links content';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
@@ -121,7 +122,7 @@ function links_views_default_views() {
   $handler->display->display_options['fields']['field_tags']['delta_reversed'] = 0;
   $handler->display->display_options['fields']['field_tags']['delta_first_last'] = 0;
   $handler->display->display_options['fields']['field_tags']['field_api_classes'] = 0;
-  /* Field: Content: link */
+  /* Field: Content: Link */
   $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
   $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
   $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
@@ -318,7 +319,7 @@ function links_views_default_views() {
   $handler->display->display_options['fields']['field_tags']['delta_reversed'] = 0;
   $handler->display->display_options['fields']['field_tags']['delta_first_last'] = 0;
   $handler->display->display_options['fields']['field_tags']['field_api_classes'] = 0;
-  /* Field: Content: link */
+  /* Field: Content: Link */
   $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
   $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
   $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
@@ -400,7 +401,7 @@ function links_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: link */
+  /* Field: Content: Link */
   $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
   $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
   $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
@@ -463,7 +464,7 @@ function links_views_default_views() {
     t('Offset'),
     t('group membership'),
     t('Tags'),
-    t('link'),
+    t('Link'),
     t('Edit link'),
     t('Delete link'),
     t('All'),
