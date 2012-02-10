@@ -77,6 +77,15 @@ function links_disable(){
     'delete any links content',
     'create links content',
   ));
+  
+  // Member
+  $mbr = get_og_rid('member');
+  og_role_revoke_permissions($mbr, array(
+      'create links content',
+      'update own links content',
+      'delete own links content',
+  ));
+  
     
   drupal_flush_all_caches(); 
   drupal_set_message('Links feature is now disabled on your site.');
@@ -135,7 +144,16 @@ function links_disable(){
       'update any links content',
       'delete own links content',
       'delete any links content',
-    ));    
+    ));
+    
+    // Member
+    $mbr = get_og_rid('member');
+    og_role_grant_permissions($mbr, array(
+      'create links content',
+      'update own links content',
+      'delete own links content',
+    ));
+    
   }
 }
 
