@@ -369,6 +369,10 @@ function ec_default_link( $variables ){
   $btn_group_before = '';
   $btn_group_after = '';  
 
+  if (!isset($variables['options']['attributes']['class'])) {
+    $variables['options']['attributes']['class'] = '';
+  }
+  
   if( isset($variables['options']['attributes']['action_bar']) ) {
     switch ( $variables['options']['attributes']['action_bar'] ) {
       case 'first':
