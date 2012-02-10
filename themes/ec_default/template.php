@@ -79,8 +79,8 @@ function ec_default_preprocess_html(&$variables) {
   drupal_add_css(path_to_theme() . '/css/ie6.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'IE 6', '!IE' => FALSE), 'preprocess' => FALSE));
 
   // Add EC stylesheets
-  drupal_add_css('http://ec.europa.eu/wel/template-2012/stylesheets/ec.css', array('group' => CSS_THEME, 'type' => 'external'));
-  drupal_add_css('http://ec.europa.eu/wel/template-2012/stylesheets/ec-ie.css', array('group' => CSS_THEME, 'browsers' => array('!IE' => FALSE), 'type' => 'external'));
+  drupal_add_css('/wel/template-2012/stylesheets/ec.css', array('group' => CSS_THEME, 'type' => 'external'));
+  drupal_add_css('/wel/template-2012/stylesheets/ec-ie.css', array('group' => CSS_THEME, 'browsers' => array('!IE' => FALSE), 'type' => 'external'));
 
   // Add hack stylesheet, to overide EC and bootstrap stylesheets if needed
   drupal_add_css(path_to_theme() . '/css/hack.css', array('group' => CSS_THEME));
@@ -92,7 +92,7 @@ function ec_default_preprocess_html(&$variables) {
   drupal_add_css(path_to_theme() . '/css/colors.less', array('group' => CSS_THEME));
 
   // Add EC javascript
-	drupal_add_js('http://ec.europa.eu/wel/template-2012/scripts/ec.js', 'external');
+	drupal_add_js('/wel/template-2012/scripts/ec.js', 'external');
   
   // Add hack javascript, to overide EC javascript if needed
   drupal_add_js(path_to_theme() . '/scripts/hack.js');  
@@ -352,9 +352,41 @@ function ec_default_form_alter(&$form, &$form_state, $form_id) {
  * #after_build function to modify CCK fields
  */
 function ec_default_cck_alter($form, &$form_state) {
-  //print_r($form);
   if (!user_access('administer nodes')) {
     $form['comment_body']['und'][0]['format']['#access'] = 0;
   }
   return $form;
+}
+
+/**
+ * Returns HTML for a link.
+ * @param type $variables 
+ */
+function ec_default_link( $variables ){
+  $decoration = '';
+  $class = '';
+  if( isset($variables['options']['attributes']['type']) ) {
+    switch ( $variables['options']['attributes']['type'] ) {
+      case 'add':
+        $decoration .= '<i class="icon-plus icon-white" />';
+        $variables['options']['attributes']['class'] .= 'btn btn-info';
+        break;
+      case 'chevron-down':
+        $decoration .= '<i class="icon-chevron-down" />';
+        break;
+      case 'chevron-up':
+        $decoration .= '<i class="icon-chevron-up" />';
+        break;
+      default:
+        break;
+    }
+  }
+  
+  $output = '<a href="' . 
+    check_plain(url($variables['path'], $variables['options'])) . '"' . 
+    drupal_attributes($variables['options']['attributes']) . '>' . 
+    $decoration . ($variables['options']['html'] ? 
+      $variables['text'] : check_plain($variables['text'])) . 
+    '</a>';
+  return $output;
 }

@@ -116,7 +116,7 @@ if (arg(0) == 'admin' ||
   <div id="header">
     <a href="<?php print $front_page; ?>">
 
-      <img alt="European Commission logo" id="banner-flag" src="http://ec.europa.eu/wel/template-2012/images/logo/logo_en.gif">
+      <img alt="European Commission logo" id="banner-flag" src="/wel/template-2012/images/logo/logo_en.gif">
       
       <p id="banner-title-text"><?php print $site_name; ?></p>
       <span class="title-en" id="banner-image-title"></span>
@@ -193,9 +193,9 @@ if (arg(0) == 'admin' ||
             
             <p class="off-screen">Additional tools</p>
             <ul class="reset-list" id="additional-tools">
-              <li class="print"> <a class="link-components" href="javascript:tools.printPage();" title="Print version"><img alt="Print version" src="http://ec.europa.eu/wel/template-2012/images/print.gif"><span class="s">&nbsp;</span></a> </li>
-              <li class="font-decrease"> <a class="link-components" href="javascript:tools.decreaseFontSize();" title="Decrease text"><img alt="Decrease text" src="http://ec.europa.eu/wel/template-2012/images/font-decrease.gif"><span class="s">&nbsp;</span></a> </li>
-              <li class="font-increase"> <a class="link-components" href="javascript:tools.increaseFontSize();" title="Increase text"><img alt="Increase text" src="http://ec.europa.eu/wel/template-2012/images/font-increase.gif"><span class="s">&nbsp;</span></a> </li>
+              <li class="print"> <a class="link-components" href="javascript:tools.printPage();" title="Print version"><img alt="Print version" src="/wel/template-2012/images/print.gif"><span class="s">&nbsp;</span></a> </li>
+              <li class="font-decrease"> <a class="link-components" href="javascript:tools.decreaseFontSize();" title="Decrease text"><img alt="Decrease text" src="/wel/template-2012/images/font-decrease.gif"><span class="s">&nbsp;</span></a> </li>
+              <li class="font-increase"> <a class="link-components" href="javascript:tools.increaseFontSize();" title="Increase text"><img alt="Increase text" src="/wel/template-2012/images/font-increase.gif"><span class="s">&nbsp;</span></a> </li>
             </ul>
 
             <?php if ($page['highlighted']): ?><div id="highlighted"><?php print render($page['highlighted']); ?></div><?php endif; ?>

@@ -44,10 +44,12 @@
  * @ingroup themeable
  */
 ?>
+  <?php print render($title_prefix); ?>
 <?php if ($block->subject): ?>
 <li class="nav-header">
 <?php print $block->subject ?>
 </li>
 <?php endif;?>
+  <?php print render($title_suffix); ?>
 
 <?php print $content ?>
