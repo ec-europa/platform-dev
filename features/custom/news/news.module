@@ -114,8 +114,6 @@ function news_node_insert($node) {
       'create news content',
     ));
    
-    drupal_set_message("admrid: " . $adm_rid);
-   
     // Contributor
     $ctb_rid = get_rid('contributor');      
     user_role_grant_permissions($ctb_rid, array(
@@ -125,8 +123,6 @@ function news_node_insert($node) {
       'delete any news content',
       'create news content',
     ));
-          
-    drupal_set_message("ctb_rid: " . $ctb_rid);      
           
     // Add permissions to OG roles ---------------------------------------------------------------
     // Community Manager
