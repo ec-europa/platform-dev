@@ -44,27 +44,29 @@ function communities_enable() {
 function communities_views_pre_render(&$view) {
   if($view->name == 'communities_directory') {
     $alphabet = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+    $output = '';
     
-    $output = '<div class="well btn-toolbar action_bar">';
-    $output .= '<div class="btn-group">';
-    
+    $i = 0;
+    $len = count($alphabet);
     foreach($alphabet as $letter) {
-	  if(count(arg()) > 1)
-	    $url = arg(0)."/".arg(1)."/".$letter;
-	  else
-	    $url = arg(0)."/".$letter;
-      $output .= l($letter,$url,array('attributes' => array('class' => array('btn btn-small action-expand'))));
+      if(count(arg()) > 1)
+        $url = arg(0)."/".arg(1)."/".$letter;
+      else
+        $url = arg(0)."/".$letter;
+      
+      if ($i == 0) { // first
+        $output .= l($letter,$url,array('attributes' => array('type' => 'small', 'action_bar' => 'first', 'btn_group' => 'first')));
+      } else if ($i == $len - 1) { // last
+        $output .= l($letter,$url,array('attributes' => array('type' => 'small', 'btn_group' => 'last')));
+      } else {
+        $output .= l($letter,$url,array('attributes' => array('type' => 'small')));
+      }
+      $i++;
     }
-    
-    $output .= '</div>';
     
     if(user_access('create community content'))  {
-      $output.= '<div class="btn-group">';
-      $output.= l('<i class="icon-plus icon-white"></i>'.t('Create a new community'),'node/add/community',array('attributes' => array('class' => array('btn btn-info')), 'html' => true));
-      $output.= '</div>';    
+      $output.= l(t('Create a new community'),'node/add/community',array('attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
     }
-    
-    $output .= '</div>';
     
     $view->header['area']->options['content'] = $output;
   }

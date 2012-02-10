@@ -429,6 +429,12 @@ function ec_default_link( $variables ){
         $decoration .= '<i class="icon-pencil icon-white" />';
         $variables['options']['attributes']['class'] .= 'btn btn-warning';
         break;
+      case 'neutral':
+        $variables['options']['attributes']['class'] .= 'btn';
+        break;   
+      case 'small':
+        $variables['options']['attributes']['class'] .= 'btn btn-small';
+        break;         
       default:
         break;
     }
