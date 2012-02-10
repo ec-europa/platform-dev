@@ -377,6 +377,10 @@ function ec_default_link( $variables ){
       case 'last':
         $action_bar_after .= '</div>';
         break;
+      case 'single':
+        $action_bar_before .= '<div class="well btn-toolbar action_bar">';
+        $action_bar_after .= '</div>';
+        break;        
       default:
         break;
     }
