@@ -114,6 +114,29 @@ function survey_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['nid']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['nid']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['nid']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['nid']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['nid']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['nid']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['nid']['link_to_node'] = 0;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -141,26 +164,6 @@ function survey_views_default_views() {
   $handler->display->display_options['fields']['body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
-  /* Field: Content: Webform results link */
-  $handler->display->display_options['fields']['webform_results']['id'] = 'webform_results';
-  $handler->display->display_options['fields']['webform_results']['table'] = 'node';
-  $handler->display->display_options['fields']['webform_results']['field'] = 'webform_results';
-  $handler->display->display_options['fields']['webform_results']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['webform_results']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['webform_results']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['webform_results']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['webform_results']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['webform_results']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['webform_results']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['webform_results']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['webform_results']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['webform_results']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['webform_results']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['webform_results']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['webform_results']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['webform_results']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['webform_results']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['webform_results']['hide_alter_empty'] = 1;
   /* Field: Content: Webform submission count */
   $handler->display->display_options['fields']['webform_submission_count_node']['id'] = 'webform_submission_count_node';
   $handler->display->display_options['fields']['webform_submission_count_node']['table'] = 'node';
@@ -174,7 +177,7 @@ function survey_views_default_views() {
   $handler->display->display_options['fields']['webform_submission_count_node']['alter']['nl2br'] = 0;
   $handler->display->display_options['fields']['webform_submission_count_node']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['webform_submission_count_node']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['webform_submission_count_node']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['webform_submission_count_node']['alter']['strip_tags'] = 1;
   $handler->display->display_options['fields']['webform_submission_count_node']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['webform_submission_count_node']['alter']['html'] = 0;
   $handler->display->display_options['fields']['webform_submission_count_node']['element_label_colon'] = 1;
@@ -182,6 +185,29 @@ function survey_views_default_views() {
   $handler->display->display_options['fields']['webform_submission_count_node']['hide_empty'] = 0;
   $handler->display->display_options['fields']['webform_submission_count_node']['empty_zero'] = 0;
   $handler->display->display_options['fields']['webform_submission_count_node']['hide_alter_empty'] = 1;
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['label'] = 'Results';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Results page';
+  $handler->display->display_options['fields']['nothing']['alter']['make_link'] = 1;
+  $handler->display->display_options['fields']['nothing']['alter']['path'] = 'survey_analysis/[nid]';
+  $handler->display->display_options['fields']['nothing']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['nothing']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['nothing']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['nothing']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['nothing']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['nothing']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['nothing']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['nothing']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['nothing']['hide_alter_empty'] = 0;
   $handler->display->display_options['path'] = 'community/survey';
 
   /* Display: Block */
@@ -254,6 +280,10 @@ function survey_views_default_views() {
     t('# of Submissions'),
     t('All'),
     t('Page'),
+    t('Nid'),
+    t('Results'),
+    t('Results page'),
+    t('survey_analysis/[nid]'),
     t('Block'),
     t('Latest surveys'),
   );
