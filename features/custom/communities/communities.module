@@ -153,11 +153,27 @@ function communities_node_type_insert($info) {
   }	
 }
 
+
+/*
+* hook_node_insert
+*/
+function communities_node_insert($node) {
+	
+	print_r($node);
+	
+  $item = array(
+    'link_path' => 'some-drupal-path',
+    'link_title' => 'Link Title',
+    'menu_name' => 'primary-links',
+  );
+  menu_link_save($item);
+}
+
 	
 /*
 * _to_arg function
 */
-function group_name_to_arg($arg) {
+function group_name_to_arg($arg=null) {
   $context = og_context();
   if(isset($context->etid)) {
     $node = node_load($context->etid);
@@ -208,26 +224,31 @@ function multisite_drupal_toolbox_node_update($node) {
 /*
 * hook_menu
 */
-/*
 function communities_menu() {
   $items['community/%group_name/view'] = array(
     'title arguments' => array(1),
 	'title callback' => '_communities_title_item',
     'page arguments' => array(1),
     'access callback' => TRUE,
-    'page callback' => 'node_page_view',
+    'page callback' => '_redirection',
     'type' => MENU_NORMAL_ITEM,
     'menu_name' => 'menu-communities-menu',
     'weight' => -10,
   );
   return $items;
 }
+
+/*
+* redirection to a community page with the gid $arg
 */
+function _redirection($arg) {
+  drupal_goto('community/'.group_name_to_arg($arg));
+}
 	
 /*
 * dynalically change menu item title
 */
-/*
+
 function _communities_title_item($arg) {
   $n = $query = db_select('og', 'og')
     ->fields('og', array('etid'))
@@ -236,6 +257,5 @@ function _communities_title_item($arg) {
 	->execute()
 	->fetchAssoc();
   $node = node_load($n['etid']);
-  return $node->title;
+  return $node->title." homepage";
 }
-*/

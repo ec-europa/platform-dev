@@ -125,6 +125,9 @@ projects[webform][version] = "3.15"
 projects[references][subdir] = "contributed"
 projects[references][version] = "2.0"
 
+projects[devel][subdir] = "contributed"
+projects[devel][version] = "1.2"
+
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
