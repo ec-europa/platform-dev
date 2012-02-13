@@ -186,3 +186,18 @@ function wiki_format_filter_process_format($element) {
   }
   return $element;
 }
+
+
+
+
+/*
+* hook_views_pre_render
+*/
+function communities_views_pre_render(&$view) {
+  if($view->name == 'wiki_list') {
+    if(user_access('create wiki content'))  {
+      $output.= l(t('Create a new wiki'),'node/add/wiki',array('attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
+    }
+    $view->header['area']->options['content'] = $output;
+  }
+}

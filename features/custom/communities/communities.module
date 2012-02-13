@@ -153,22 +153,6 @@ function communities_node_type_insert($info) {
   }	
 }
 
-
-/*
-* hook_node_insert
-*/
-function communities_node_insert($node) {
-	
-	print_r($node);
-	
-  $item = array(
-    'link_path' => 'some-drupal-path',
-    'link_title' => 'Link Title',
-    'menu_name' => 'primary-links',
-  );
-  menu_link_save($item);
-}
-
 	
 /*
 * _to_arg function
@@ -256,6 +240,10 @@ function _communities_title_item($arg) {
 	->condition('entity_type', 'node', '=')
 	->execute()
 	->fetchAssoc();
-  $node = node_load($n['etid']);
-  return $node->title." homepage";
+  if(isset($n['etid']))  {
+    $node = node_load($n['etid']);
+    return $node->title." homepage";
+  }
+  else
+    return null;
 }

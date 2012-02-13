@@ -179,3 +179,16 @@ function survey_node_type_insert($node) {
     
   }
 }
+
+
+/*
+* hook_views_pre_render
+*/
+function communities_views_pre_render(&$view) {
+  if($view->name == 'surveys_list') {
+    if(user_access('create webform content'))  {
+      $output.= l(t('Create a new survey'),'node/add/wiki',array('attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
+    }
+    $view->header['area']->options['content'] = $output;
+  }
+}
