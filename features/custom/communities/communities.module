@@ -234,7 +234,7 @@ function _redirection($arg) {
 */
 
 function _communities_title_item($arg) {
-  $n = $query = db_select('og', 'og')
+  $n = db_select('og', 'og')
     ->fields('og', array('etid'))
 	->condition('gid', $arg, '=')
 	->condition('entity_type', 'node', '=')
