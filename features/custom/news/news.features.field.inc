@@ -49,7 +49,7 @@ function news_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 1,
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -77,90 +77,7 @@ function news_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '4',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-news-field__news_thumbnail'
-  $fields['node-news-field__news_thumbnail'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field__news_thumbnail',
-      'foreign keys' => array(
-        'fid' => array(
-          'columns' => array(
-            'fid' => 'fid',
-          ),
-          'table' => 'file_managed',
-        ),
-      ),
-      'indexes' => array(
-        'fid' => array(
-          0 => 'fid',
-        ),
-      ),
-      'module' => 'file',
-      'settings' => array(
-        'display_default' => 0,
-        'display_field' => 0,
-        'uri_scheme' => 'private',
-      ),
-      'translatable' => '0',
-      'type' => 'file',
-    ),
-    'field_instance' => array(
-      'bundle' => 'news',
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'file',
-          'settings' => array(),
-          'type' => 'file_default',
-          'weight' => 3,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field__news_thumbnail',
-      'label' => 'Thumbnail',
-      'required' => 0,
-      'settings' => array(
-        'description_field' => 0,
-        'file_directory' => '',
-        'file_extensions' => 'jpg jpeg png gif',
-        'max_filesize' => '10 mb',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'media',
-        'settings' => array(
-          'allowed_schemes' => array(
-            'private' => 'private',
-            'public' => 'public',
-          ),
-          'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
-            'image' => 'image',
-            'video' => 0,
-          ),
-          'progress_indicator' => 'throbber',
-        ),
-        'type' => 'media_generic',
-        'weight' => 0,
+        'weight' => '1',
       ),
     ),
   );
@@ -169,7 +86,7 @@ function news_field_default_fields() {
   $fields['node-news-field_link'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '-1',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_link',
@@ -205,7 +122,7 @@ function news_field_default_fields() {
           'module' => 'link',
           'settings' => array(),
           'type' => 'link_default',
-          'weight' => 2,
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -242,7 +159,161 @@ function news_field_default_fields() {
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '5',
+        'weight' => '2',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-news-field_news_picture'
+  $fields['node-news-field_news_picture'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_news_picture',
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'module' => 'image',
+      'settings' => array(
+        'default_image' => 0,
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'image',
+    ),
+    'field_instance' => array(
+      'bundle' => 'news',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => '',
+          ),
+          'type' => 'image',
+          'weight' => '1',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_news_picture',
+      'label' => 'Picture',
+      'required' => 0,
+      'settings' => array(
+        'alt_field' => 0,
+        'file_directory' => '',
+        'file_extensions' => 'png gif jpg jpeg',
+        'max_filesize' => '10 mb',
+        'max_resolution' => '',
+        'min_resolution' => '',
+        'title_field' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'media',
+        'settings' => array(
+          'allowed_schemes' => array(
+            'private' => 'private',
+            'public' => 'public',
+          ),
+          'allowed_types' => array(
+            'audio' => 0,
+            'default' => 0,
+            'image' => 'image',
+            'video' => 0,
+          ),
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'media_generic',
+        'weight' => '4',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-news-group_access'
+  $fields['node-news-group_access'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'group_access',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'no_ui' => TRUE,
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'Public - accessible to all site users',
+          1 => 'Private - accessible only to group members',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'news',
+      'default_value' => array(
+        0 => array(
+          'value' => '0',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 4,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'group_access',
+      'label' => 'Group visibility',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_buttons',
+        'weight' => '6',
       ),
     ),
   );
@@ -285,7 +356,7 @@ function news_field_default_fields() {
           'module' => 'og',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => 0,
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -320,7 +391,7 @@ function news_field_default_fields() {
           'opt_group' => 'auto',
         ),
         'type' => 'group_audience',
-        'weight' => '2',
+        'weight' => '5',
       ),
       'widget_type' => 'group_audience',
     ),
@@ -330,9 +401,10 @@ function news_field_default_fields() {
   // Included for use with string extractors like potx.
   t('Body');
   t('Enter a link related to your news content.');
+  t('Group visibility');
   t('Groups audience');
   t('Link');
-  t('Thumbnail');
+  t('Picture');
 
   return $fields;
 }
