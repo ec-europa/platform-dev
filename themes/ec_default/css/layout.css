@@ -35,13 +35,14 @@ body,
 .without-secondary-menu .region-header {
   margin-top: 15px;
 }
-#main-menu {
+#block-system-main-menu {
   display: block;
+  margin: 0 200px 0 0;
 }
 #secondary-menu {
   position: absolute;
   right: 0; /* LTR */
-  top: 30px;
+  top: 15px;
   width: auto;
 }
 .tabs {
