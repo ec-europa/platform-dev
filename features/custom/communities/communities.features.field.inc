@@ -50,7 +50,7 @@ function communities_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 1,
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -127,7 +127,7 @@ function communities_field_default_fields() {
           'module' => 'taxonomy',
           'settings' => array(),
           'type' => 'taxonomy_term_reference_link',
-          'weight' => 6,
+          'weight' => '6',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -179,7 +179,7 @@ function communities_field_default_fields() {
       ),
       'module' => 'image',
       'settings' => array(
-        'default_image' => "$fid_default_community_image",
+        'default_image' => $fid_default_community_image;,
         'uri_scheme' => 'public',
       ),
       'translatable' => '0',
@@ -198,7 +198,7 @@ function communities_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 8,
+          'weight' => '-1',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -284,7 +284,7 @@ function communities_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 2,
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -361,7 +361,7 @@ function communities_field_default_fields() {
           'module' => 'og_ui',
           'settings' => array(),
           'type' => 'og_group_subscribe',
-          'weight' => 0,
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -439,10 +439,9 @@ function communities_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 3,
+          'type' => 'hidden',
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',

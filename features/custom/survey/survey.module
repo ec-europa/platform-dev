@@ -23,9 +23,33 @@ function survey_menu() {
     'weight' => 1,
   );
 
+  $items['survey_analysis/%'] = array(
+    'title' => 'Analysis',
+    'page callback' => 'survey_analysis',
+    'page arguments' => array(1),
+    'access callback' => 'TRUE',
+    'weight' => 5,
+  );
+
   return $items;
 }
 
+
+/*
+* display analysis results of a webform
+*/
+function survey_analysis($nid) {
+  $node = node_load($nid);
+  $sids = array();
+  $components = $node->webform['components'];
+  $data = array();
+  foreach ($components as $cid => $component) {
+    if ($row_data = webform_component_invoke($component['type'], 'analysis', $component, $sids, FALSE)) {
+      $data[$cid] = $row_data;
+    }
+  }
+  return theme('webform_results_analysis', array('node' => $node, 'data' => $data, 'sids' => $sids, 'component' => NULL));
+}
 
 
 /*
@@ -60,6 +84,14 @@ function survey_disable(){
       'delete own webform submissions',
       'edit own webform content',
       'edit own webform submissions',
+      'access all webform results',
+      'edit all webform submissions',
+    ));
+
+    // authenticated user
+    $au_rid = get_rid('authenticated user');
+    user_role_revoke_permissions($au_rid, array(
+      'access all webform results',
     ));
           
     // Add permissions to OG roles ---------------------------------------------------------------  
@@ -113,6 +145,14 @@ function survey_node_type_insert($node) {
       'delete own webform submissions',
       'edit own webform content',
       'edit own webform submissions',
+      'access all webform results',
+      'edit all webform submissions',
+    ));
+
+    // authenticated user
+    $au_rid = get_rid('authenticated user');
+    user_role_grant_permissions($au_rid, array(
+      'access all webform results',
     ));
           
     // Add permissions to OG roles ---------------------------------------------------------------  

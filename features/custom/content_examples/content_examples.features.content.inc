@@ -10,6 +10,7 @@
 function content_examples_content_defaults() {
 $content = array();
 $content['article 1'] = (object)array(
+  'exported_path' => 'article/article-1',
   'title' => 'article 1',
   'status' => '1',
   'promote' => '1',
@@ -44,6 +45,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
   ),
 );
 $content['article 2'] = (object)array(
+  'exported_path' => 'article/article-2',
   'title' => 'article 2',
   'status' => '1',
   'promote' => '1',
