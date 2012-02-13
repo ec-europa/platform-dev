@@ -85,76 +85,7 @@ function links_disable(){
       'update own links content',
       'delete own links content',
   ));
-  
-    
-  drupal_flush_all_caches(); 
   drupal_set_message('Links feature is now disabled on your site.');
-}
-
-
-/*
-* hook_node_insert
-*/
-
- function links_node_insert($node) {
-   if ($node->type == 'links' && $node->title == 'my link 1') {
-
-    node_types_rebuild();
-
-    drupal_set_message("Modifications occuring on node: " . $node->nid . '  -> Title: ' . $node->title . 'Updating permissions');
-    //og_invalidate_cache();
-    
-    // Add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-    // Administrator
-    $adm_rid = get_rid('administrator');
-    user_role_grant_permissions($adm_rid, array(  
-      'edit own links content',
-      'edit any links content',
-      'delete own links content',
-      'delete any links content',
-      'create links content',
-    ));
-    
-    // Contributor
-    $ctb_rid = get_rid('contributor'); 
-    user_role_grant_permissions($ctb_rid, array(
-      'edit own links content',
-      'edit any links content',
-      'delete own links content',
-      'delete any links content',
-      'create links content',
-    ));
-          
-    // Add permissions to OG roles ---------------------------------------------------------------  
-    // Community Manager
-    $cm_rid = get_og_rid('community_manager');
-    og_role_grant_permissions($cm_rid, array(
-      'create links content',
-      'update own links content',
-      'update any links content',
-      'delete own links content',
-      'delete any links content',
-    ));
-      
-    // Administrator Member
-    $admm_rid = get_og_rid('administrator member');
-    og_role_grant_permissions($admm_rid, array(
-      'create links content',
-      'update own links content',
-      'update any links content',
-      'delete own links content',
-      'delete any links content',
-    ));
-    
-    // Member
-    $mbr = get_og_rid('member');
-    og_role_grant_permissions($mbr, array(
-      'create links content',
-      'update own links content',
-      'delete own links content',
-    ));
-    
-  }
 }
 
 
@@ -175,4 +106,24 @@ function links_menu() {
   );
 
   return $items;
+}
+
+
+/*
+* hook_views_pre_render
+*/
+function links_views_pre_render(&$view) {
+
+  if($view->name == 'links' && $view->current_display == 'page' && user_access('create links content')) {
+    $output = '';
+
+    $og = og_context();
+    if ($og) { 
+      $output .= l(t('Create a Link'), 'node/add/links', array('attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single'),'query' => array('gids_node[]' => $og->etid)));
+    }
+    //add menu to the exsiting  header
+    if($view->header['area']){
+      $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+    }
+  }
 }
