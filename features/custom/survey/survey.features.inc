@@ -30,7 +30,7 @@ function survey_views_api() {
 function survey_node_info() {
   $items = array(
     'webform' => array(
-      'name' => t('Webform'),
+      'name' => t('Survey'),
       'base' => 'node_content',
       'description' => t('Create a new form or questionnaire accessible to users. Submission results and statistics are recorded and accessible to privileged users.'),
       'has_title' => '1',

@@ -66,7 +66,7 @@ projects[varnish][subdir] = "contributed"
 projects[varnish][version] = "1.0-beta1"
 
 projects[views][subdir] = "contributed"
-projects[views][version] = "3.0-rc3"
+projects[views][version] = "3.1"
 
 projects[views_datasource][subdir] = "contributed"
 projects[views_datasource][version] = "1.x-dev"
