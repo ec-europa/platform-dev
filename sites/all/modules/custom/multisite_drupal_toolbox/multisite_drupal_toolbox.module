@@ -201,3 +201,28 @@ function get_rid($role_name) {
   return $r['rid'];
 }
 
+
+
+
+/*
+// method to switch theme
+	
+function multisite_drupal_toolbox_custom_theme() {
+  $current_path = current_path();
+
+  if ($current_path == 'admin/structure/features') {
+    print "swith theme";
+    return 'bartik';
+  }
+
+}
+
+function multisite_drupal_toolbox_menu_alter(&$items) {
+	$items['admin/structure/features']['theme callback'] = 'mymodule_default_node_theme';
+}
+
+
+function mymodule_default_node_theme() {
+	return 'seven';
+}
+*/
