@@ -115,10 +115,10 @@ chmod -R 777 ${site_name}/sites/default
 cp -R profiles/multisite_drupal_core ${site_name}/profiles
 cp -R profiles/subsite_standard ${site_name}/profiles
 cp -R profiles/subsite_communities ${site_name}/profiles
-cp -R modules ${site_name}/sites/all
-cp -R features ${site_name}/sites/all/modules
-cp -R themes ${site_name}/sites/all
-cp -R files/ ${site_name}/sites/default/files/
+cp -R sites/all/modules/ ${site_name}/sites/all
+cp -R sites/all/modules/features ${site_name}/sites/all/modules
+cp -R sites/all/themes ${site_name}/sites/all
+cp -R sites/default/files/ ${site_name}/sites/default/files/
 
 
 # we assume the script is in the patches directory
@@ -151,7 +151,6 @@ drush php-eval 'node_access_rebuild();'
 mkdir "${working_dir}/sites/default/files/private_files"
 chmod -R 777 "${working_dir}/sites/default/files"
 
-mkdir "${working_dir}/sites/all/libraries"
 #cd sites/all/libraries
 cd "${working_dir}/sites/all/modules/contributed/ckeditor"
 rm -rf "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor"
