@@ -64,27 +64,6 @@ function news_user_default_permissions() {
   
     
   //OG
-  
-      // Add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-    // Administrator
-    $adm_rid = get_rid('administrator');
-    user_role_grant_permissions($adm_rid, array(
-      'edit own news content',
-      'edit any news content',
-      'delete own news content',
-      'delete any news content',
-      'create news content',
-    ));
-   
-    // Contributor
-    $ctb_rid = get_rid('contributor');      
-    user_role_grant_permissions($ctb_rid, array(
-      'edit own news content',
-      'edit any news content',
-      'delete own news content',
-      'delete any news content',
-      'create news content',
-    ));
           
     // Add permissions to OG roles ---------------------------------------------------------------
     // Community Manager
