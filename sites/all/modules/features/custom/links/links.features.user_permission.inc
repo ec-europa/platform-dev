@@ -61,7 +61,7 @@ function links_user_default_permissions() {
   );
   
   // Add permissions to OG roles ---------------------------------------------------------------  
-  include_once('events.features.og_permission.inc');
+  include_once('links.features.og_permission.inc');
   
   
   return $permissions;
