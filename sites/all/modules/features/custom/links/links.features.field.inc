@@ -83,6 +83,7 @@ function links_field_default_fields() {
         'title_maxlength' => '255',
         'title_value' => '',
         'url' => 0,
+        'user_field_privacy' => FALSE,
         'user_register_form' => FALSE,
         'validate_url' => 1,
       ),
@@ -154,6 +155,7 @@ function links_field_default_fields() {
       'label' => 'Tags',
       'required' => 0,
       'settings' => array(
+        'user_field_privacy' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -224,6 +226,7 @@ function links_field_default_fields() {
       'label' => 'Group visibility',
       'required' => TRUE,
       'settings' => array(
+        'user_field_privacy' => FALSE,
         'user_register_form' => FALSE,
       ),
       'view modes' => array(
@@ -298,6 +301,7 @@ function links_field_default_fields() {
       'label' => 'Groups audience',
       'required' => FALSE,
       'settings' => array(
+        'user_field_privacy' => FALSE,
         'user_register_form' => FALSE,
       ),
       'view modes' => array(
