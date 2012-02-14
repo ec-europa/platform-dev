@@ -88,14 +88,16 @@
     </h2>
   <?php endif; ?>
   <?php print render($title_suffix); ?>
-
-  <?php if ($display_submitted): ?>
-    <div class="meta submitted">
-      <?php print $user_picture; ?>
-      <?php print $submitted; ?>
-    </div>
-  <?php endif; ?>
-
+  
+  <div class="meta submitted">
+  <?php
+      if ($display_submitted): 
+        print $user_picture;
+        print $submitted;
+      endif; 
+  ?>    
+  </div>
+      
   <div class="content clearfix"<?php print $content_attributes; ?>>
     <?php
 
@@ -103,11 +105,20 @@
       hide($content['comments']);
       hide($content['links']);
       
-      $content['body']['#weight'] = 0;
+      /*$content['body']['#weight'] = 0;
       $content['group_group']['#weight'] = 1;
+      $content['group_group'][0]['#attributes']['#markup'] = 'bla bla';*/
+      //print_r($content);
+      //print render($content);
       
-      print render($content);
+      print render($content['body']);
     ?>
+      <div class="meta submitted">
+    <?php
+      print render($content['group_group']);
+      print render($content['group_access']);
+    ?>
+      </div>
   </div>
 
   <?php
