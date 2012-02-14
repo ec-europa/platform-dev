@@ -88,8 +88,7 @@
 
 <?php
 $no_left = FALSE;
-if (arg(0) == 'admin' ||
-    arg(2) == 'edit') {
+if (arg(0) == 'admin') {
   $no_left = TRUE;
 }
 ?>
@@ -172,31 +171,13 @@ if (arg(0) == 'admin' ||
         <div class="layout-content">
           <div class="layout-content-reset"><a id="content" name="content"></a>
           
-            <?php if ($page['featured']): ?><?php print render($page['featured']); ?><?php endif; ?>
+            <?php if ($page['tools']): ?>
+              <?php print render($page['tools']); ?>
+            <?php endif; ?>
 
-            <?php if ($secondary_menu): ?>
-              <div id="secondary-menu" class="navigation">
-                <?php print theme('links__system_secondary_menu', array(
-                  'links' => $secondary_menu,
-                  'attributes' => array(
-                    'id' => 'secondary-menu-links',
-                    'class' => array('links', 'inline', 'clearfix'),
-                  ),
-                  'heading' => array(
-                    'text' => t('Secondary menu'),
-                    'level' => 'h2',
-                    'class' => array('element-invisible'),
-                  ),
-                )); ?>
-              </div><!-- /#secondary-menu -->
-            <?php endif; ?>             
-            
-            <p class="off-screen">Additional tools</p>
-            <ul class="reset-list" id="additional-tools">
-              <li class="print"> <a class="link-components" href="javascript:tools.printPage();" title="Print version"><img alt="Print version" src="/wel/template-2012/images/print.gif"><span class="s">&nbsp;</span></a> </li>
-              <li class="font-decrease"> <a class="link-components" href="javascript:tools.decreaseFontSize();" title="Decrease text"><img alt="Decrease text" src="/wel/template-2012/images/font-decrease.gif"><span class="s">&nbsp;</span></a> </li>
-              <li class="font-increase"> <a class="link-components" href="javascript:tools.increaseFontSize();" title="Increase text"><img alt="Increase text" src="/wel/template-2012/images/font-increase.gif"><span class="s">&nbsp;</span></a> </li>
-            </ul>
+            <?php if ($page['featured']): ?>
+              <?php print render($page['featured']); ?>
+            <?php endif; ?>
 
             <?php if ($page['highlighted']): ?><div id="highlighted"><?php print render($page['highlighted']); ?></div><?php endif; ?>
             <a id="main-content"></a>

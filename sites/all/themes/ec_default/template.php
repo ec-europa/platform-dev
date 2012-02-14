@@ -84,7 +84,7 @@ function ec_default_preprocess_html(&$variables) {
 
   // Add hack stylesheet, to overide EC and bootstrap stylesheets if needed
   drupal_add_css(path_to_theme() . '/css/hack.css', array('group' => CSS_THEME));
-  drupal_add_css(path_to_theme() . '/css/hack-ie.css', array('group' => CSS_THEME));
+  drupal_add_css(path_to_theme() . '/css/hack-ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE)));
 
   // Add Less stylesheets
   //drupal_add_css(path_to_theme() . '/bootstrap/bootstrap.less', array('group' => CSS_THEME));

@@ -6,16 +6,14 @@
   margin-top: 15px;
 }
 .layout-content {
-  margin-top: 0;
-  padding-top: 0;
   position: relative;
-  margin-left: 205px;
+  padding-top: 15px;
 }
 .layout-left {
   margin-left: 5px;
 }
 .layout-noright #additional-tools {
-  clear: left;
+  margin-right: -5px;
 }
 
 /* Hack for bootstrap css */
@@ -40,7 +38,7 @@ fieldset legend {
 .btn-info {
   color: #fff !important;
 }
-.layout-left .form-actions {
+#block-search-form .form-actions {
   background-color: transparent;
   border-top: none;
   margin-bottom: 0;

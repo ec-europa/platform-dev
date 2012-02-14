@@ -37,13 +37,18 @@ body,
 }
 #block-system-main-menu {
   display: block;
+  margin: 0;
+}
+.region-featured{
   margin: 0 200px 0 0;
 }
-#secondary-menu {
-  position: absolute;
-  right: 0; /* LTR */
-  top: 15px;
-  width: auto;
+.region-tools {
+  float: right;
+  width: 200px;
+  display: block;
+}
+#search-block-form {
+  text-align: right;
 }
 .tabs {
   clear: both;

@@ -1,12 +1,9 @@
 /* $Id: ie.css,v 1.12 2011/01/04 02:59:37 webchick Exp $ */
 
-#block-system-main-menu {
+.layout-noleft #block-system-main-menu {
   position: absolute;
   left: 15px;
   top: 15px;
-}
-#secondary-menu {
-  top: 5px;
 }
 .block {
   zoom: 1;

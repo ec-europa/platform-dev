@@ -1,4 +1,5 @@
 /* Hack for EC css */
-.layout-content {
-  padding-top: 15px;
+.layout-noright #additional-tools li {
+  margin: 0;
+  padding: 0;
 }
