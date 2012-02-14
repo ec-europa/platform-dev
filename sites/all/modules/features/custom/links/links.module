@@ -7,7 +7,7 @@
 include_once('links.features.inc');
 
 /*
- * Hook enable 
+ * hook_enable 
  * Edit communities context to add a block
  */
 function links_enable(){
@@ -23,7 +23,7 @@ function links_enable(){
 
 
 /*
- * Hook disable 
+ * hook_disable 
  * Edit communities context to remove block
  * Remove permissions
  */
