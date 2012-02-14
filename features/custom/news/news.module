@@ -120,7 +120,7 @@ function news_views_pre_render(&$view) {
 
     $og = og_context();
     if ($og) { 
-      $output .= l(t('Create a News'), 'node/add/news', array('attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single'),'query' => array('gids_node[]' => $og->etid)));
+      $output .= l(t('Create a News'), 'node/add/news', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'),'query' => array('gids_node[]' => $og->etid)));
     }
     //add menu to the exsiting  header
     if($view->header['area']){
