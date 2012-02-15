@@ -65,15 +65,15 @@
     <?php print $picture; ?>
 
     <div class="submitted">
-      <p class="commenter-name">
+      <div class="commenter-name">
         <?php print $author; ?>
-      </p>
-      <p class="comment-time">
-        <?php print $created; ?>
-      </p>
-      <p class="comment-permalink">
+      </div>
+      <div class="comment-time">
+        <?php print  format_date($comment->created, 'custom', 'd/m/Y H:i'); ?>
+      </div>
+      <div class="comment-permalink">
         <?php print $permalink; ?>
-      </p>
+      </div>
     </div>
   </div>
 

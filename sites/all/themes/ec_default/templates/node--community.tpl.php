@@ -92,7 +92,6 @@
   <div class="meta submitted">
   <?php
       if ($display_submitted): 
-        print $user_picture;
         print $submitted;
       endif; 
   ?>    
@@ -113,7 +112,7 @@
       
       print render($content['body']);
     ?>
-      <div class="meta submitted">
+      <div class="meta submitted group well">
     <?php
       print render($content['group_group']);
       print render($content['group_access']);
@@ -131,7 +130,7 @@
     $links = render($content['links']);
     if ($links):
   ?>
-    <div class="link-wrapper">
+    <div class="link-wrapper right">
       <?php print $links; ?>
     </div>
   <?php endif; ?>

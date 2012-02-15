@@ -298,6 +298,9 @@ h1#page-title {
   .form-item {
     margin: 0;
   }
+  &.group {
+    float: right;
+  }
 }
 .submitted .user-picture img {
   float: left; /* LTR */
@@ -332,6 +335,11 @@ h1#page-title {
 }
 .link-wrapper {
   text-align: right;
+  &.right {
+    float: right;
+    padding-top: 15px;
+    width: 50%;
+  }
 }
 .field-type-image img,
 .user-picture img {
@@ -352,6 +360,9 @@ ul.links {
 
 /* ----------------- Comments ----------------- */
 
+#comments {
+  margin-top: 0;
+}
 .comment h2.title {
   margin-bottom: 1em;
 }

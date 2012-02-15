@@ -91,7 +91,6 @@
 
   <?php if ($display_submitted): ?>
     <div class="meta submitted">
-      <?php print $user_picture; ?>
       <?php print $submitted; ?>
     </div>
   <?php endif; ?>

@@ -26,7 +26,7 @@ fieldset legend {
 }
 .comment .comment-text {
   display: inline-block;
-  width: auto;
+  width: 550px !important;
 }
 #search-block-form input.form-submit,
 #search-form input.form-submit {
