@@ -230,9 +230,9 @@ function get_rid($role_name) {
 
 
 
-/*
+
 // method to switch theme
-	
+/*	
 function multisite_drupal_toolbox_custom_theme() {
   $current_path = current_path();
 
@@ -242,13 +242,12 @@ function multisite_drupal_toolbox_custom_theme() {
   }
 
 }
-
-function multisite_drupal_toolbox_menu_alter(&$items) {
-	$items['admin/structure/features']['theme callback'] = 'mymodule_default_node_theme';
-}
-
-
-function mymodule_default_node_theme() {
-	return 'seven';
-}
 */
+	
+function multisite_drupal_toolbox_menu_alter(&$items) {
+	$items['admin/structure/feature-set']['theme callback'] = 'multisite_cce_theme';
+}
+
+function multisite_cce_theme() {
+	return 'ec_default';
+}
