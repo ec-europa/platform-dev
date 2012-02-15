@@ -115,7 +115,7 @@ function news_menu() {
 */
 function news_views_pre_render(&$view) {
 
-  if($view->name == 'news' && $view->current_display == 'page' && user_access('create news content')) {
+  if($view->name == 'news' && $view->current_display == 'page') {
     $output = '';
 
     $og = og_context();
