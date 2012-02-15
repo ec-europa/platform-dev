@@ -215,8 +215,9 @@ function multisite_drupal_toolbox_node_update($node) {
 */
 function communities_menu() {
   $items['community/%group_name/view'] = array(
-    'title arguments' => array(1),
-	'title callback' => '_communities_title_item',
+    //'title arguments' => array(1),
+	//'title callback' => '_communities_title_item',
+    'title' => t('home page'),
     'page arguments' => array(1),
     'access callback' => TRUE,
     'page callback' => '_redirection',
@@ -251,4 +252,19 @@ function _communities_title_item($arg) {
   }
   else
     return null;
+}
+
+
+
+/*
+* hook_block_view_alter
+*/
+function communities_block_view_alter(&$data, $block) {
+  if($block->delta == 'menu-communities-menu') {
+    $context  = og_context();
+    if(isset($context->etid)) {
+      $node = node_load($context->etid);
+      $data['subject'] = $node->title;
+    }
+  }
 }
