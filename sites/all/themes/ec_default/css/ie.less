@@ -18,16 +18,22 @@ fieldset legend {
 #footer-wrapper #footer .block {
   height: 100%;
 }
-.comment .attribution {
-  display: inline-block;
-  position: relative;
-  float: left; /* LTR */
-  overflow: hidden;
+.comment {
+  .attribution {
+    display: inline-block;
+    position: relative;
+    float: left; /* LTR */
+    overflow: hidden;
+  }
+  .comment-text {
+    display: inline-block;
+    width: 550px !important;
+  }  
 }
-.comment .comment-text {
-  display: inline-block;
-  width: 550px !important;
-}
+.indented .comment .comment-text { width: 525px !important; }
+.indented .indented .comment .comment-text { width: 500px !important; }
+.indented .indented .indented .comment .comment-text { width: 475px !important; }
+
 #search-block-form input.form-submit,
 #search-form input.form-submit {
   text-transform: capitalize; /* Trigger text indent. */

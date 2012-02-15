@@ -81,7 +81,7 @@
     <div class="comment-arrow"></div>
 
     <?php if ($new): ?>
-      <span class="new"><?php print $new; ?></span>
+      <span class="label label-info"><?php print $new; ?></span>
     <?php endif; ?>
 
     <?php print render($title_prefix); ?>
