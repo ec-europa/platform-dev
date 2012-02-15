@@ -57,9 +57,9 @@
     
   ?>
     <?php
-      $output .= '<h2>' . $user_profile['field_firstname'][0]['#markup'] . ' ' . $user_profile['field_lastname'][0]['#markup'] . '</h2>';
+      $output .= '<h3>' . $user_profile['field_firstname'][0]['#markup'] . ' ' . $user_profile['field_lastname'][0]['#markup'] . '</h3>';
       
-      $output .= '<p><strong>' . $user_profile['summary']['member_for']['#title'] . '</strong>: ' . $user_profile['summary']['member_for']['#markup'] . '</p>';
+      $output .= '<p><strong>' . t('Member since') . '</strong>: ' . date('d/m/Y',$user_profile['field_lastname']['#object']->created) . '</p>';
     
       $output .= l(t('Contact this user'), '', array('attributes' => array('type' => 'message')));
       
