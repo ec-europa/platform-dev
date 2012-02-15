@@ -52,3 +52,11 @@ fieldset legend {
   padding-right: 4px;
   margin-top: 1px;
 }
+.nav-list .nav-header {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) inset;
+     -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) inset;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) inset;  
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px; 
+}
