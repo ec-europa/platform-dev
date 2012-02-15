@@ -24,7 +24,7 @@ projects[date][subdir] = "contributed"
 projects[date][version] = "2.0-alpha5"
 
 projects[defaultcontent][subdir] = "contributed"
-projects[defaultcontent][version] = "1.0-alpha4"
+projects[defaultcontent][version] = "1.0-alpha5"
 
 projects[diff][subdir] = "contributed"
 projects[diff][version] = "2.0"
@@ -33,10 +33,10 @@ projects[entity][subdir] = "contributed"
 projects[entity][version] = "1.0-rc1"
 
 projects[features][subdir] = "contributed"
-projects[features][version] = "1.0-beta4"
+projects[features][version] = "1.0-beta6"
 
 projects[media][subdir] = "contributed"
-projects[media][version] = "1.0-rc2"
+projects[media][version] = "1.0-rc3"
 
 projects[fivestar][subdir] = "contributed"
 projects[fivestar][version] = "2.0-alpha1"
