@@ -69,20 +69,4 @@ function cce_basic_config_enable() {
   $context->reactions['block']['blocks']['form']=$blockToAdd2;	  
   module_invoke('context','save',$context);	
 	
-
-	
 }
-
-// function cce_basic_config_modules_enabled($modules) {
-// drupal_set_message('activation');
-  // if(in_array('search', $modules) || in_array('cce_basic_config', $modules)) {
-    // //Disable cloned Search Form Block
-    // $dis_search = db_update('block') // Table name no longer needs {}
-    // ->fields(array(
-      // 'region' => '-1',
-    // ))
-    // ->condition('module', 'search', '=')
-    // ->condition('delta', 'form', '=')
-    // ->execute();
-  // }
-// }
