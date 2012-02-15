@@ -239,22 +239,36 @@ function get_rid($role_name) {
 
 
 // method to switch theme
-/*	
-function multisite_drupal_toolbox_custom_theme() {
-  $current_path = current_path();
 
-  if ($current_path == 'admin/structure/features') {
-    print "swith theme";
-    return 'bartik';
-  }
-
-}
-*/
-	
+/*
+* hook__menu_alter
+*/	
 function multisite_drupal_toolbox_menu_alter(&$items) {
-	$items['admin/structure/feature-set']['theme callback'] = 'multisite_cce_theme';
+  $list_pages = array(
+    'admin/structure/feature-set',
+    'admin/workbench',
+    'node/%/edit',
+    'user/%/edit',
+    'admin/content/comment',
+    'admin/content/media',
+    'admin/content/webform',
+    'admin/structure/block',
+    'admin/structure/feature-set',
+    'admin/structure/taxonomy',
+    'admin/help',
+  );
+
+  foreach($list_pages as $page) {
+    $result = db_select('menu_router', 'mr')
+      ->fields('mr', array('path'))
+      ->condition('path', $page.'%','LIKE')
+      ->execute();
+    while($record = $result->fetchAssoc()) {
+      $items[$record['path']]['theme callback'] = 'multisite_cce_theme';
+    }
+  }
 }
 
 function multisite_cce_theme() {
-	return 'ec_default';
+	return variable_get('default_theme','ec_default');
 }
