@@ -84,4 +84,13 @@ function multisite_drupal_core_install() {
   $ln['locale-url'] = $lni['locale-url'];
   language_negotiation_set('language', $ln);
   
+  //Disable cloned Search Form Block
+  $dis_search = db_update('block') // Table name no longer needs {}
+    ->fields(array(
+    'region' => '-1',
+    ))
+    ->condition('module', 'search', '=')
+    ->condition('delta', 'form', '=')
+    ->execute();
+  
 }

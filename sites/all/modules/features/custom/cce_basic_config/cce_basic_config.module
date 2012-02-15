@@ -73,16 +73,16 @@ function cce_basic_config_enable() {
 	
 }
 
-function cce_basic_config_modules_enabled($modules) {
-drupal_set_message('activation');
-  if(in_array('search', $modules) || in_array('cce_basic_config', $modules)) {
-    //Disable cloned Search Form Block
-    $dis_search = db_update('block') // Table name no longer needs {}
-    ->fields(array(
-      'region' => '-1',
-    ))
-    ->condition('module', 'search', '=')
-    ->condition('delta', 'form', '=')
-    ->execute();
-  }
-}
+// function cce_basic_config_modules_enabled($modules) {
+// drupal_set_message('activation');
+  // if(in_array('search', $modules) || in_array('cce_basic_config', $modules)) {
+    // //Disable cloned Search Form Block
+    // $dis_search = db_update('block') // Table name no longer needs {}
+    // ->fields(array(
+      // 'region' => '-1',
+    // ))
+    // ->condition('module', 'search', '=')
+    // ->condition('delta', 'form', '=')
+    // ->execute();
+  // }
+// }
