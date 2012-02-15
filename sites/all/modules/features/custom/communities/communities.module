@@ -195,7 +195,7 @@ function group_name_load($arg) {
 /*
 * hook_node_insert
 */
-function multisite_drupal_toolbox_node_update($node) {
+function communities_node_insert($node) {
   if($node->type == 'community') {
     // get the group related to the node
     $group = og_get_group('node', $node->nid);

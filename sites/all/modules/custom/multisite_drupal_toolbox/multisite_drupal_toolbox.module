@@ -243,7 +243,7 @@ function get_rid($role_name) {
 /*
 * hook__menu_alter
 */	
-function multisite_drupal_toolbox_menu_alter(&$items) {
+function multisite_drupal_toolbox_menu_alter($items) {
   $list_pages = array(
     'admin/structure/feature-set',
     'admin/workbench',
