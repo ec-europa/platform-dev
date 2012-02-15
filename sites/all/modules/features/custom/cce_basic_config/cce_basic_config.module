@@ -60,7 +60,20 @@ function cce_basic_config_modules_enabled($modules) {
 * hook_enable
 */
 function cce_basic_config_enable(){
-  _add_block_context('site_wide','user-menu','system','user-menu', 'tools');
-  _add_block_context('site_wide','form','search','form', 'tools');
-
+  $context=module_invoke('context','load','site_wide'); 
+  $blockToAdd1 = array(
+    'module' => 'system',
+    'delta' =>  'user-menu',
+	'region' => 'tools',
+	'weight' => 1,
+  ); 
+  $context->reactions['block']['blocks']['user-menu']=$blockToAdd1;	
+  $blockToAdd2 = array(
+    'module' => 'search',
+    'delta' =>  'form',
+    'region' => 'tools',
+    'weight' => 2,
+  ); 
+  $context->reactions['block']['blocks']['form']=$blockToAdd2;	  
+  module_invoke('context','save',$context);
 }
