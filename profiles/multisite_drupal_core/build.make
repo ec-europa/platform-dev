@@ -84,7 +84,7 @@ projects[link][subdir] = "contributed"
 projects[link][version] = "1.0"
 
 projects[og][subdir] = "contributed"
-projects[og][version] = "1.3"
+projects[og][version] = "1.x-dev"
 
 projects[site_map][subdir] = "contributed"
 projects[site_map][version] = "1.0"

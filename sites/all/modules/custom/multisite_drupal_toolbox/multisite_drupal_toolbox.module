@@ -88,6 +88,7 @@ function _add_views_context($contextName,$viewTitle){
 	module_invoke('context','save',$context);
 }
 
+
 /**
 * Utility function to remove block from context
 */
@@ -110,8 +111,7 @@ function _add_content_type_context($contextName, $contentType){
   //Add modification to the context
 	$context->conditions['node']['values'][$contentType]=$contentType;
 	//Update the context
-	module_invoke('context','save',$context);
-    
+	module_invoke('context','save',$context);  
 }
 
 /**
@@ -125,8 +125,34 @@ function _remove_content_type_context($contextName,$contentType){
 	unset($context->conditions['node']['values'][$contentType]);   
 	//Update the context
 	module_invoke('context', 'save', $context);
-  
+
 }
+
+
+/**
+* Utility function to add path condition to a context
+*/
+function _add_path_context($contextName,$path){
+	//Load context
+	$context=module_invoke('context','load',$contextName); 
+	//Add modification to the context
+	$context->conditions['path']['values'][$path]=$path;	
+	//Update the context
+	module_invoke('context','save',$context);
+}
+
+/**
+* Utility function to remove path from context
+*/
+function _remove_path_context($contextName,$path){
+  //Load context
+  $context=module_invoke('context','load',$contextName);	 
+  //Remove element from the context
+  unset($context->conditions['path']['values'][$path]);   
+  //Update the context
+  module_invoke('context', 'save', $context);
+}
+
 
 /**
  * Implementation of hook_block_info().

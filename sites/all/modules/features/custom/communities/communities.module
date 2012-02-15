@@ -87,7 +87,12 @@ function communities_init() {
     $group = og_get_group('node', $param[1]);
 	og_context($group);
   }
-   
+  // set og context on surveys results analysis
+  if(arg(0) == 'survey_analysis') { 
+    $node = node_load(arg(1));
+    $gid = $node->group_audience['und'][0]['gid'];
+    og_context(og_load($gid));    
+  }
 }
 
 
