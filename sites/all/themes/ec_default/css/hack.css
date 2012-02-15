@@ -35,8 +35,9 @@ fieldset legend {
   font-size: 1.2em;
   font-weight: bold;
   padding-left: 0;
+  width: auto;
 }
-.btn-info {
+.btn-info, .btn-warning, .btn-primary, .btn-success, .btn-success {
   color: #fff !important;
 }
 #block-search-form .form-actions {
@@ -46,4 +47,8 @@ fieldset legend {
   margin-top: 0;
   padding: 0;
   text-align: center;
+}
+[class^="icon-"] {
+  padding-right: 4px;
+  margin-top: 1px;
 }

@@ -419,25 +419,29 @@ function ec_default_link( $variables ){
   if( isset($variables['options']['attributes']['type']) ) {
     switch ( $variables['options']['attributes']['type'] ) {
       case 'add':
-        $decoration .= '<i class="icon-plus icon-white" />';
+        $decoration .= '<i class="icon-plus icon-white"></i>';
         $variables['options']['attributes']['class'] .= ' btn btn-success';
         break;
       case 'expand':
-        $decoration .= '<i class="icon-chevron-down" />';
+        $decoration .= '<i class="icon-chevron-down"></i>';
         $variables['options']['attributes']['class'] .= ' btn btn-small';
         break;
       case 'collapse':
-        $decoration .= '<i class="icon-chevron-up" />';
+        $decoration .= '<i class="icon-chevron-up"></i>';
         $variables['options']['attributes']['class'] .= ' btn btn-small';
         break;
       case 'delete':
-        $decoration .= '<i class="icon-trash icon-white" />';
+        $decoration .= '<i class="icon-trash icon-white"></i>';
         $variables['options']['attributes']['class'] .= ' btn btn-danger';
         break;
       case 'edit':
-        $decoration .= '<i class="icon-pencil icon-white" />';
+        $decoration .= '<i class="icon-pencil icon-white"></i>';
         $variables['options']['attributes']['class'] .= ' btn btn-warning';
         break;
+      case 'message':
+        $decoration .= '<i class="icon-envelope icon-white"></i>';
+        $variables['options']['attributes']['class'] .= ' btn btn-info';
+        break;        
       case 'neutral':
         $variables['options']['attributes']['class'] .= ' btn';
         break;   

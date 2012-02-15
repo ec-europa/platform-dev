@@ -33,5 +33,51 @@
  */
 ?>
 <div class="profile"<?php print $attributes; ?>>
-  <?php print render($user_profile); ?>
+  <?php //print render($user_profile); ?>
+  <?php 
+    //list basic fields
+    $basic = array('field_firstname', 'field_lastname', 'user_picture', 'summary');
+    $output = '';
+  ?>
+  
+  <fieldset>
+  <legend>Basic information</legend>
+    <div class="span2">
+  <?php 
+    print render($user_profile['user_picture']);
+  ?>
+    </div>
+    <div class="span7">
+  <?
+    /*foreach ($user_profile as $key => $value) {
+      if (in_array($key,$basic)) {
+        print render($value);
+      }
+    }*/
+    
+  ?>
+    <?php
+      $output .= '<h2>' . $user_profile['field_firstname'][0]['#markup'] . ' ' . $user_profile['field_lastname'][0]['#markup'] . '</h2>';
+      
+      $output .= '<p><strong>' . $user_profile['summary']['member_for']['#title'] . '</strong>: ' . $user_profile['summary']['member_for']['#markup'] . '</p>';
+    
+      $output .= l(t('Contact this user'), '', array('attributes' => array('type' => 'message')));
+      
+      print $output;
+    ?>
+    
+    </div>
+  </fieldset>
+  
+  <fieldset>
+  <legend>Professional information</legend>
+  <?php 
+    foreach ($user_profile as $key => $value) {
+      if (!in_array($key,$basic)) {
+        print render($value);
+      }
+    }
+  ?>  
+  </fieldset>  
+  
 </div>
