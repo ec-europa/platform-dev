@@ -68,6 +68,14 @@ function cce_basic_config_enable() {
   ); 
   $context->reactions['block']['blocks']['form']=$blockToAdd2;	  
   module_invoke('context','save',$context);	
-		
+	
+  //Disable cloned Search Form Block
+  $dis_search = db_update('block') // Table name no longer needs {}
+  ->fields(array(
+    'region' => '-1',
+  ))
+  ->condition('module', 'search', '=')
+  ->condition('delta', 'form', '=')
+  ->execute();
 	
 }
