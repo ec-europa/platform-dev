@@ -157,6 +157,7 @@ function _remove_path_context($contextName,$path){
 /**
  * Implementation of hook_block_info().
  */
+ /*
 function multisite_drupal_toolbox_block_info() {
 
   $blocks['createcontent'] = array(
@@ -164,10 +165,13 @@ function multisite_drupal_toolbox_block_info() {
   );
   return $blocks;
 }
- 
+ */
+	 
+	 
 /**
  * Implementation of hook_block_view().
  */
+ /*
 function multisite_drupal_toolbox_block_view($delta='') {
   $block = array();
   switch ($delta) {
@@ -178,11 +182,14 @@ function multisite_drupal_toolbox_block_view($delta='') {
   }
   return $block;
 }
- 
+ */
+	 
+	 
 /**
  * custom html block
  * @return string
  */
+ /*
 function create_contents() {
   $og = og_context();
   if ($og) {
@@ -199,7 +206,7 @@ function create_contents() {
     return $addl;
   }
 }
-
+*/
 
 
 /*

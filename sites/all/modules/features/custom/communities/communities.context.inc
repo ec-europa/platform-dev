@@ -34,6 +34,18 @@ function communities_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'views-surveys_list-block_1' => array(
+          'module' => 'views',
+          'delta' => 'surveys_list-block_1',
+          'region' => 'sidebar_first',
+          'weight' => '-10',
+        ),
+        'multisite_og_button-og-contextual-links' => array(
+          'module' => 'multisite_og_button',
+          'delta' => 'og-contextual-links',
+          'region' => 'sidebar_first',
+          'weight' => '-9',
+        ),
         'views-communities_members-block_1' => array(
           'module' => 'views',
           'delta' => 'communities_members-block_1',
@@ -45,18 +57,6 @@ function communities_context_default_contexts() {
           'delta' => 'menu-communities-menu',
           'region' => 'sidebar_first',
           'weight' => '4',
-        ),
-        'multisite_og_button-og-contextual-links' => array(
-          'module' => 'multisite_og_button',
-          'delta' => 'og-contextual-links',
-          'region' => 'sidebar_first',
-          'weight' => '2',
-        ),
-        'multisite_drupal_toolbox-createcontent' => array(
-          'module' => 'multisite_drupal_toolbox',
-          'delta' => 'createcontent',
-          'region' => 'sidebar_first',
-          'weight' => '1',
         ),
       ),
     ),
