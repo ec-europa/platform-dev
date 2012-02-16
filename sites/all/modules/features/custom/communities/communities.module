@@ -200,11 +200,13 @@ function communities_node_insert($node) {
     // get the group related to the node
     $group = og_get_group('node', $node->nid);
 	
-    $community_manager_rid = get_og_rid("community_manager");
-	$administrator_member_rid = get_og_rid("administrator member");
-	// grant administrator member and community manager roles to the group author
-	og_role_grant($group->gid, $node->uid, $community_manager_rid);
-	og_role_grant($group->gid, $node->uid, $administrator_member_rid);
+	if(isset($group->gid)) {
+      $community_manager_rid = get_og_rid("community_manager");
+	  $administrator_member_rid = get_og_rid("administrator member");
+	  // grant administrator member and community manager roles to the group author
+	  og_role_grant($group->gid, $node->uid, $community_manager_rid);
+	  og_role_grant($group->gid, $node->uid, $administrator_member_rid);
+	}
   }
 }
 
