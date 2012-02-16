@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the newsletters feature.
+ */
+
+include_once('newsletters.features.inc');
