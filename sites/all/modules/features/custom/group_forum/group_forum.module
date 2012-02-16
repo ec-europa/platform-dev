@@ -10,26 +10,6 @@ include_once('group_forum_extra.inc');
 
 include_once( 'sites/all/modules/contributed/devel/krumo/class.krumo.php' );
 
-/*
-* hook_modules_enabled
-*
-function group_forum_modules_enabled($modules) {
-  if(in_array('group_forum', $modules)) {
-    drupal_set_message('The group forum feature is now active on your site.');
-  }
-}
- 
-/*
-* hook_modules_disabled
-*
-function group_forum_modules_disabled($modules) {
-  if(in_array('group_forum', $modules)) {
-    drupal_set_message('The group forum feature is now disabled on your site.');
-  }
-}*/
-
-
-
 /**
  * ==========================================================================
  * Start of development
@@ -82,7 +62,7 @@ function group_forum_form_alter(&$form, &$form_state, $form_id) {
  */
 function _group_forum_get_link_from_room() {
     $group = og_context();
-    $group_id = isset($group) ? $group->etid : '';
+    $group_id = $group ? $group->etid : '';
     
     $room_id = room_alias_load( room_alias_to_arg( '' ) );
     
@@ -113,27 +93,32 @@ function _group_forum_get_link_from_room() {
  * @return type 
  */
 function _group_forum_get_link_from_group() {
-    $group = og_context();
-    $group_id = isset($group) ? $group->etid : '';
-    
-    $attributes = array( 
-      'attributes' => array(
-        'type' => 'add',
-        ),
-      );
-    
-    $options = array( 
-      'query' => array( 
-        'gids_node[]' => $group_id,
-        ),
-      'absolute' => TRUE,
-      );
-    
-    $url = url( 'node/add/'.CT_ROOM, $options );
-    
-    return l( t('Add a new Room'), 
-      $url, 
-      $attributes );
+  $group = og_context();
+  $group_id = isset($group) ? $group->etid : '';
+  
+  if ( !isset( $group ) || !$group ) return;
+  
+  //we show the link only if the user has the rights to create a new forum room
+  if ( !og_user_access( $group->gid, 'create forum_room content' ) ) return;
+  
+  $attributes = array( 
+    'attributes' => array(
+      'type' => 'add',
+      ),
+    );
+  
+  $options = array( 
+    'query' => array( 
+      'gids_node[]' => $group_id,
+      ),
+    'absolute' => TRUE,
+    );
+  
+  $url = url( 'node/add/'.CT_ROOM, $options );
+  
+  return l( t('Add a new Room'), 
+    $url, 
+    $attributes );
 }
 
 /**
@@ -143,14 +128,10 @@ function _group_forum_get_link_from_group() {
 function group_forum_views_pre_render(&$view) {
   switch( $view->name ) {
     case 'forum_thread_list':
-      if ( user_access('create forum_thread content') ) {
+      //og_user_access($group_type, $gid, $string, $account = NULL, $skip_alter = FALSE)
+      $group = og_context();
+      if( og_user_access( $group->gid, 'create forum_thread content' ) ) {
         $view->header['area']->options['content'] = _group_forum_get_link_from_room();
-      }
-      break;
-    case 'forum_rooms_list':
-      //krumo( $view );
-      if ( user_access('create forum_room content') ) {
-        $view->header['area']->options['content'] = _group_forum_get_link_from_group();
       }
       break;
     default:
@@ -240,16 +221,6 @@ function _group_forum_get_rooms( $gid ) {
   $output .= theme( 'table', array( 'header' => $header, 'rows' => $rows ) );
   
   return $output;
-}
-
-function group_forum_views_pre_execute( &$view ) {
-  switch( $view->name ) {
-    case 'forum_rooms_list':
-      $view->query->has_aggregate = TRUE;
-      $view->query->groupby = 'node.nid';
-      
-      break;
-  }
 }
 
 /*
