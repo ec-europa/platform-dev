@@ -247,8 +247,8 @@ function multisite_drupal_toolbox_menu_alter($items) {
   $list_pages = array(
     'admin/structure/feature-set',
     'admin/workbench',
-    'node/%/edit',
-    'user/%/edit',
+    //'node/%/edit',
+    //'user/%/edit',
     'admin/content/comment',
     'admin/content/media',
     'admin/content/webform',
