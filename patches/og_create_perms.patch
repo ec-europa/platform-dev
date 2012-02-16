@@ -1,19 +1,21 @@
-Modify the module to use the og_context_determine_context to get the context
+Modify the module to use og_context_determine_context to choose the current context and not only with og_get_context_by_url
 Index: sites/all/modules/contributed/og_create_perms/og_create_perms.module
-============================================================================================================
+=======================================================================================================================================
 --- sites/all/modules/contributed/og_create_perms/og_create_perms.module	2012-02-16 08:47:32.000000000 +0100
-+++ sites/all/modules/contributed/og_create_perms/og_create_perms.module	2012-02-16 08:51:15.000000000 +0100
-@@ -9,7 +9,13 @@
++++ sites/all/modules/contributed/og_create_perms/og_create_perms.module	2012-02-16 11:02:41.000000000 +0100
+@@ -9,7 +9,15 @@
    $gids = array_values(og_get_context_by_url()); 
    $type = is_string($node) ? $node : $node->type;
    if ($op == 'create' && in_array($type, og_create_perms_list_bundles())) {
 -    foreach (og_get_context_by_url() as $gid) {
 +    
 +    // multisite update --------------------------------------------------------
-+    if(isset($_SESSION['og_context']))
-+      $contexts = array_merge(og_get_context_by_url(), array($_SESSION['og_context']));
-+    else
-+      $contexts = og_get_context_by_url();
++    $contexts = og_get_context_by_url();
++    if(count($contexts) == 0 && arg(0) == 'node' && is_numeric(arg(1)))  {
++        $gid = og_context_determine_context('node');
++        $contexts = array_merge(og_get_context_by_url(), array($gid));
++      }
++    }
 +    foreach ($contexts as $gid) {
        // loop through any of the provided gids, and only allow access if we can post to all of them
        $access = true; 

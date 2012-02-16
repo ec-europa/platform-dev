@@ -191,7 +191,6 @@ function group_name_load($arg) {
 
 
 
-
 /*
 * hook_node_insert
 */
