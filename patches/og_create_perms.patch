@@ -1,0 +1,17 @@
+Modify the module og_create_perms to use the og_context_determine_context function to detect the og context instead of using only og_get_context_by_url function
+Index: sites/all/modules/contributed/og_create_perms/og_create_perms.module
+=======================================================================================
+--- sites/all/modules/contributed/og_create_perms/og_create_perms.module	2012-02-16 08:18:57.000000000 +0100
++++ sites/all/modules/contributed/og_create_perms/og_create_perms.module	2012-02-16 08:19:54.000000000 +0100
+@@ -9,7 +9,10 @@
+   $gids = array_values(og_get_context_by_url()); 
+   $type = is_string($node) ? $node : $node->type;
+   if ($op == 'create' && in_array($type, og_create_perms_list_bundles())) {
+-    foreach (og_get_context_by_url() as $gid) {
++
++    // multisite update
++    $context = og_context_determine_context();
++    foreach (array_merge(og_get_context_by_url(), array($context->gid)) as $gid) {
+       // loop through any of the provided gids, and only allow access if we can post to all of them
+       $access = true; 
+       if (!og_user_access($gid, 'create ' . $type . ' content', $account)) {
