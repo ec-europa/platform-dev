@@ -69,3 +69,9 @@ feature_sets[group_forum][description] = 'Create and add forums in your Communit
 feature_sets[group_forum][icon] = 'feature-set-icons/forum.png'
 feature_sets[group_forum][enable][] = group_forum
 feature_sets[group_forum][disable][] = group_forum
+
+feature_sets[newsletters][title] = 'Newsletters'
+feature_sets[newsletters][description] = 'Publish and send newsletters to lists of subscribers'
+feature_sets[newsletters][icon] = 'feature-set-icons/newsletter.png'
+feature_sets[newsletters][enable][] = newsletters
+feature_sets[newsletters][disable][] = newsletters
