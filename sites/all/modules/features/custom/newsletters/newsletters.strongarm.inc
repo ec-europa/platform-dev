@@ -105,5 +105,19 @@ function newsletters_strongarm() {
   $strongarm->value = 1;
   $export['node_submitted_simplenews'] = $strongarm;
 
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'simplenews_content_type_simplenews';
+  $strongarm->value = TRUE;
+  $export['simplenews_content_type_simplenews'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'simplenews_vid';
+  $strongarm->value = '2';
+  $export['simplenews_vid'] = $strongarm;
+
   return $export;
 }
