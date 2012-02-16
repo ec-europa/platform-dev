@@ -97,12 +97,71 @@ function group_forum_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_forum_rooms');
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'timestamp' => 'title',
+    'title' => 'title',
+    'body' => 'title',
+    'nid' => 'nid',
+    'comment_count' => 'comment_count',
+    'last_comment_timestamp' => 'last_comment_timestamp',
+    'last_comment_name' => 'last_comment_timestamp',
+  );
+  $handler->display->display_options['style_options']['default'] = 'title';
+  $handler->display->display_options['style_options']['info'] = array(
+    'timestamp' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'title' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'body' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'nid' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'comment_count' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'last_comment_timestamp' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '<br />',
+      'empty_column' => 0,
+    ),
+    'last_comment_name' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  $handler->display->display_options['style_options']['override'] = 1;
+  $handler->display->display_options['style_options']['sticky'] = 0;
+  $handler->display->display_options['style_options']['empty_table'] = 0;
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['row_options']['hide_empty'] = 0;
-  $handler->display->display_options['row_options']['default_field_elements'] = 1;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['header'] = FALSE;
   /* Header: Global: Text area */
@@ -120,6 +179,30 @@ function group_forum_views_default_views() {
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['required'] = 1;
   $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Has new content */
+  $handler->display->display_options['fields']['timestamp']['id'] = 'timestamp';
+  $handler->display->display_options['fields']['timestamp']['table'] = 'history';
+  $handler->display->display_options['fields']['timestamp']['field'] = 'timestamp';
+  $handler->display->display_options['fields']['timestamp']['label'] = '';
+  $handler->display->display_options['fields']['timestamp']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['timestamp']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['timestamp']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['timestamp']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['timestamp']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['timestamp']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['timestamp']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['timestamp']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['timestamp']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['timestamp']['link_to_node'] = 0;
+  $handler->display->display_options['fields']['timestamp']['comments'] = 0;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -165,7 +248,98 @@ function group_forum_views_default_views() {
   $handler->display->display_options['fields']['body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
-  $handler->display->display_options['path'] = 'community/forum';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = 'Threads';
+  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['nid']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['nid']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['nid']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['nid']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['nid']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['nid']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['nid']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['nid']['link_to_node'] = 0;
+  /* Field: Content: Comment count */
+  $handler->display->display_options['fields']['comment_count']['id'] = 'comment_count';
+  $handler->display->display_options['fields']['comment_count']['table'] = 'node_comment_statistics';
+  $handler->display->display_options['fields']['comment_count']['field'] = 'comment_count';
+  $handler->display->display_options['fields']['comment_count']['label'] = 'Messages';
+  $handler->display->display_options['fields']['comment_count']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['comment_count']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['comment_count']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['comment_count']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['comment_count']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['comment_count']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['comment_count']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['comment_count']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['comment_count']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['comment_count']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['comment_count']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['comment_count']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['comment_count']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['comment_count']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['comment_count']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['comment_count']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['comment_count']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['comment_count']['format_plural'] = 0;
+  /* Field: Content: Last comment time */
+  $handler->display->display_options['fields']['last_comment_timestamp']['id'] = 'last_comment_timestamp';
+  $handler->display->display_options['fields']['last_comment_timestamp']['table'] = 'node_comment_statistics';
+  $handler->display->display_options['fields']['last_comment_timestamp']['field'] = 'last_comment_timestamp';
+  $handler->display->display_options['fields']['last_comment_timestamp']['label'] = 'Last Message';
+  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['last_comment_timestamp']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['last_comment_timestamp']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['last_comment_timestamp']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['last_comment_timestamp']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['last_comment_timestamp']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['last_comment_timestamp']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['last_comment_timestamp']['date_format'] = 'long';
+  /* Field: Content: Last comment author */
+  $handler->display->display_options['fields']['last_comment_name']['id'] = 'last_comment_name';
+  $handler->display->display_options['fields']['last_comment_name']['table'] = 'node_comment_statistics';
+  $handler->display->display_options['fields']['last_comment_name']['field'] = 'last_comment_name';
+  $handler->display->display_options['fields']['last_comment_name']['label'] = '';
+  $handler->display->display_options['fields']['last_comment_name']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['last_comment_name']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['last_comment_name']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['last_comment_name']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['last_comment_name']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['last_comment_name']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['last_comment_name']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['last_comment_name']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['last_comment_name']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['last_comment_name']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['last_comment_name']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['last_comment_name']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['last_comment_name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['last_comment_name']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['last_comment_name']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['last_comment_name']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['last_comment_name']['hide_alter_empty'] = 1;
+  $handler->display->display_options['path'] = 'NONE/%/forum';
 
   /* Display: References */
   $handler = $view->new_display('references', 'References', 'references_forum_rooms');
@@ -198,6 +372,11 @@ function group_forum_views_default_views() {
     t('Title'),
     t('community/%1/forum/[title]/thread'),
     t('Body'),
+    t('Threads'),
+    t('Messages'),
+    t('.'),
+    t(','),
+    t('Last Message'),
     t('References'),
   );
   $export['forum_rooms_list'] = $view;
@@ -298,7 +477,7 @@ function group_forum_views_default_views() {
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = FALSE;
-  $handler->display->display_options['empty']['area']['content'] = 'There are not yet any thread in this room 222';
+  $handler->display->display_options['empty']['area']['content'] = 'There are not yet any thread in this room';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   $handler->display->display_options['empty']['area']['tokenize'] = 0;
   /* Relationship: Content: Author */
@@ -526,7 +705,7 @@ function group_forum_views_default_views() {
     t('Asc'),
     t('Desc'),
     t('header content'),
-    t('There are not yet any thread in this room 222'),
+    t('There are not yet any thread in this room'),
     t('author'),
     t('New comments'),
     t('.'),

@@ -1,0 +1,101 @@
+<?php
+
+include_once('group_forum_extra.inc');
+
+/**
+ * @file
+ * Install the feature group_forum
+ */
+
+/**
+ * hook_install
+ */
+function group_forum_install() {
+  //Nothing yet
+}
+
+/**
+ * hook_uninstall
+ */
+function group_forum_uninstall() {
+  //Nothing yet
+}
+
+/**
+ * hook_enable
+ */
+function group_forum_enable() {
+  //Nothing yet
+  drupal_set_message( t( 'The group forum feature is now active on your site.' ) );
+  
+  _add_path_context( 'communities', 'community/*/forum*' );
+}
+
+/**
+ * hook_disable
+ */
+function group_forum_disable() {
+  _disable_content_type( CT_ROOM );
+  _disable_content_type( CT_THREAD );
+  
+  // Administrator
+  $adm_rid = get_rid('administrator');
+  user_role_revoke_permissions($adm_rid, array(
+    'edit own forum room content',
+    'edit any forum room content',
+    'delete own forum room content',
+    'delete any forum room content',
+    'create forum room content',
+    'edit own forum thread content',
+    'delete own forum thread content',
+    'edit any forum thread content',
+    'delete any forum thread content',
+    'create forum thread content',
+  ));
+    
+  // Contributor
+  $contrib_rid = get_rid('contributor');
+  user_role_revoke_permissions($contrib_rid, array(
+    'edit own forum thread content',
+    'delete own forum thread content',
+    'create forum thread content',
+  ));
+          
+  // Disable permissions to OG roles ------------------------------------------
+  // Community Manager
+  $cm_rid = get_og_rid('community_manager');
+  og_role_revoke_permissions($cm_rid, array(
+    'edit own forum room content',
+    'delete own forum room content',
+    'delete any forum room content',
+    'create forum room content',
+    'edit own forum thread content',
+    'delete own forum thread content',
+    'delete any forum thread content',
+    'create forum thread content',
+  ));
+    
+  // Administrator Member
+  $admm_rid = get_og_rid('administrator member');
+  og_role_revoke_permissions($admm_rid, array(
+    'edit own forum room content',
+    'delete own forum room content',
+    'delete any forum room content',
+    'create forum room content',
+    'edit own forum thread content',
+    'delete own forum thread content',
+    'delete any forum thread content',
+    'create forum thread content',
+  ));
+    
+  // Member
+  $contrib_rid = get_rid('member');
+  user_role_revoke_permissions($contrib_rid, array(
+    'edit own forum thread content',
+    'delete own forum thread content',
+    'create forum thread content',
+  ));
+    
+  drupal_set_message( t( 'The group forum feature is now disabled on your site.' ) );
+  _remove_path_context( 'communities', 'community/*/forum*' );
+}

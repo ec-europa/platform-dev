@@ -1,19 +1,18 @@
 <?php
 
-DEFINE( 'CT_THREAD', 'forum-thread' );
-DEFINE( 'CT_ROOM', 'forum-room' );
-
 /**
  * @file
  * Code for the Group Forum feature.
  */
 
 include_once('group_forum.features.inc');
+include_once('group_forum_extra.inc');
 
+include_once( 'sites/all/modules/contributed/devel/krumo/class.krumo.php' );
 
 /*
 * hook_modules_enabled
-*/
+*
 function group_forum_modules_enabled($modules) {
   if(in_array('group_forum', $modules)) {
     drupal_set_message('The group forum feature is now active on your site.');
@@ -22,174 +21,12 @@ function group_forum_modules_enabled($modules) {
  
 /*
 * hook_modules_disabled
-*/
+*
 function group_forum_modules_disabled($modules) {
   if(in_array('group_forum', $modules)) {
     drupal_set_message('The group forum feature is now disabled on your site.');
   }
-}
-
-/*
-* hook_node_insert
-*/
-
-function group_forum_node_type_insert($node) {
-  if ($node->type == CT_THREAD ) {
-    node_types_rebuild();
-
-    drupal_set_message("invalide cache og");
-    og_invalidate_cache();
-    
-    // Add permissions to roles -----------------------------------------------
-    // Administrator
-  $adm_rid = get_rid('administrator');
-    user_role_grant_permissions($adm_rid, array(  
-      'edit own forum thread content',
-      'delete own forum thread content',
-      'edit any forum thread content',
-      'delete any forum thread content',
-      'create forum thread content',
-    ));
-    
-    // Contributor
-    $contrib_rid = get_rid('contributor');
-    user_role_grant_permissions($contrib_rid, array(
-      'edit own forum thread content',
-      'delete own forum thread content',
-      'create forum thread content',
-    ));
-          
-    // Add permissions to OG roles --------------------------------------------
-    // Community Manager
-    $cm_rid = get_og_rid('community_manager');
-    og_role_grant_permissions($cm_rid, array(
-      'edit own forum thread content',
-      'delete own forum thread content',
-      'delete any forum thread content',
-      'create forum thread content',
-    ));
-    
-    // Administrator Member
-    $admm_rid = get_og_rid('administrator member');
-    og_role_grant_permissions($admm_rid, array(
-      'edit own forum thread content',
-      'delete own forum thread content',
-      'delete any forum thread content',
-      'create forum thread content',
-    ));
-    
-    // Member
-    $contrib_rid = get_rid('member');
-    og_role_grant_permissions($contrib_rid, array(
-    'edit own forum thread content',
-    'delete own forum thread content',
-    'create forum thread content',
-  ));
-  
-  } else if ($node->type == CT_ROOM ) {
-    node_types_rebuild();
-
-    drupal_set_message("invalide cache og");
-    og_invalidate_cache();
-    
-    // Add permissions to roles -----------------------------------------------
-    // Administrator
-  $adm_rid = get_rid('administrator');
-    user_role_grant_permissions($adm_rid, array(  
-      'edit own forum room content',
-      'edit any forum room content',
-      'delete own forum room content',
-      'delete any forum room content',
-      'create forum room content',
-    ));
-          
-    // Add permissions to OG roles -------------------------------------------- 
-    // Community Manager
-    $cm_rid = get_og_rid('community_manager');
-    og_role_grant_permissions($cm_rid, array(
-      'edit own forum room content',
-      'delete own forum room content',
-      'delete any forum room content',
-      'create forum room content',
-    ));
-    
-    // Administrator Member
-    $admm_rid = get_og_rid('administrator member');
-    og_role_grant_permissions($admm_rid, array(
-      'edit own forum room content',
-      'delete own forum room content',
-      'delete any forum room content',
-      'create forum room content',
-    ));
-  
-  }
-}
-
-function group_forum_disable() {
-  _disable_content_type( CT_ROOM );
-  _disable_content_type( CT_THREAD );
-  
-  // Administrator
-  $adm_rid = get_rid('administrator');
-  user_role_revoke_permissions($adm_rid, array(
-    'edit own forum room content',
-    'edit any forum room content',
-    'delete own forum room content',
-    'delete any forum room content',
-    'create forum room content',
-    'edit own forum thread content',
-    'delete own forum thread content',
-    'edit any forum thread content',
-    'delete any forum thread content',
-    'create forum thread content',
-  ));
-    
-  // Contributor
-  $contrib_rid = get_rid('contributor');
-  user_role_revoke_permissions($contrib_rid, array(
-    'edit own forum thread content',
-    'delete own forum thread content',
-    'create forum thread content',
-  ));
-          
-  // Disable permissions to OG roles ------------------------------------------
-  // Community Manager
-  $cm_rid = get_og_rid('community_manager');
-  og_role_revoke_permissions($cm_rid, array(
-    'edit own forum room content',
-    'delete own forum room content',
-    'delete any forum room content',
-    'create forum room content',
-    'edit own forum thread content',
-    'delete own forum thread content',
-    'delete any forum thread content',
-    'create forum thread content',
-  ));
-    
-  // Administrator Member
-  $admm_rid = get_og_rid('administrator member');
-  og_role_revoke_permissions($admm_rid, array(
-    'edit own forum room content',
-    'delete own forum room content',
-    'delete any forum room content',
-    'create forum room content',
-    'edit own forum thread content',
-    'delete own forum thread content',
-    'delete any forum thread content',
-    'create forum thread content',
-  ));
-    
-  // Member
-  $contrib_rid = get_rid('member');
-  user_role_revoke_permissions($contrib_rid, array(
-    'edit own forum thread content',
-    'delete own forum thread content',
-    'create forum thread content',
-  ));
-    
-}
-
-
+}*/
 
 
 
@@ -204,23 +41,25 @@ function group_forum_disable() {
 /*
 * hook_menu
 */
-function forum_menu() {
+function group_forum_menu() {
   $items = array();
  
-  $items['community/%group_name/forum_TMP'] = array(
-    'title' => 'forum_TMP',
-    'page callback' => 'views_page',
-    'page arguments' => array('forum_TMP_rooms_list', 'page_forum_TMP_rooms', 1),
-    'access callback' => TRUE,
+  $items['community/%group_name/forum'] = array(
+    'title' => 'Forum',
+    //'page callback' => 'views_page',
+    'page callback' => '_group_forum_get_rooms',
+    //'page arguments' => array('forum_rooms_list', 'page_forum_rooms', 1),
+    'page arguments' => array( 1 ),
+    'access callback' => TRUE,//Checker que l'utilisateur est membre
     'type' => MENU_NORMAL_ITEM,
     'menu_name' => 'menu-communities-menu',
     'weight' => 1,
   );
  
-  $items['community/%group_name/forum_TMP/%room_alias/thread'] = array(
-    'title' => 'forum_TMP',
+  $items['community/%group_name/forum/%room_alias/thread'] = array(
+    'title' => 'Forum',
     'page callback' => 'views_page',
-    'page arguments' => array('forum_TMP_thread_list', 'page_forum_TMP_threads', 3 ),
+    'page arguments' => array('forum_thread_list', 'page_forum_threads', 3 ),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
     'weight' => 1,
@@ -248,18 +87,18 @@ function _group_forum_get_link_from_room() {
     $room_id = room_alias_load( room_alias_to_arg( '' ) );
     
     $attributes = array( 
-        'attributes' => array(
-            'type' => 'add',
-            ),
-        );
+      'attributes' => array(
+        'type' => 'add',
+        ),
+      );
     
     $options = array( 
-        'query' => array( 
-            'gids_node[]' => $group_id,
-            'field_forum_TMP_room' => $room_id 
-            ),
-        'absolute' => TRUE,
-        );
+      'query' => array( 
+        'gids_node[]' => $group_id,
+        'field_forum_room' => $room_id 
+        ),
+      'absolute' => TRUE,
+      );
     
     $url = url( 'node/add/'.CT_THREAD, $options );
     
@@ -278,17 +117,17 @@ function _group_forum_get_link_from_group() {
     $group_id = isset($group) ? $group->etid : '';
     
     $attributes = array( 
-        'attributes' => array(
-            'type' => 'add',
-            ),
-        );
+      'attributes' => array(
+        'type' => 'add',
+        ),
+      );
     
     $options = array( 
-        'query' => array( 
-            'gids_node[]' => $group_id,
-            ),
-        'absolute' => TRUE,
-        );
+      'query' => array( 
+        'gids_node[]' => $group_id,
+        ),
+      'absolute' => TRUE,
+      );
     
     $url = url( 'node/add/'.CT_ROOM, $options );
     
@@ -302,22 +141,117 @@ function _group_forum_get_link_from_group() {
  * @param type $view 
  */
 function group_forum_views_pre_render(&$view) {
-    switch( $view->name ) {
-        case 'forum_thread_list':
-            if ( user_access('create forum_thread content') ) {
-                $view->header['area']->options['content'] = _group_forum_get_link_from_room();
-            }
-            break;
-        case 'forum_rooms_list':
-            if ( user_access('create forum_room content') ) {
-                $view->header['area']->options['content'] = _group_forum_get_link_from_group();
-            }
-            break;
-        default:
-            break;
-    }  
+  switch( $view->name ) {
+    case 'forum_thread_list':
+      if ( user_access('create forum_thread content') ) {
+        $view->header['area']->options['content'] = _group_forum_get_link_from_room();
+      }
+      break;
+    case 'forum_rooms_list':
+      //krumo( $view );
+      if ( user_access('create forum_room content') ) {
+        $view->header['area']->options['content'] = _group_forum_get_link_from_group();
+      }
+      break;
+    default:
+      break;
+  }  
 }
-	
+
+function _group_forum_get_rooms( $gid ) {
+  if( empty( $gid ) ){
+    //get context
+    $context = og_context();
+    if ( !empty( $context ) ) $gid = $context['gid'];
+    
+    //If we don't have any context, we just return the page
+    else return;
+  }
+  
+  drupal_set_title( t('List rooms') );
+  $explanation = variable_get( 'group_forum_room_texts', t('Below you can find rooms or thematic embedding discussion topics') );
+  $output = "<h2>{$explanation}</h2>";
+  $output .= _group_forum_get_link_from_group();
+  
+  
+  //building of the header
+  $header = array( 
+    'Title' => array( 
+      'data' => 'Title',
+      'field' => 'node_title' ,
+      ),
+    'Threads' => array( 
+      'data' => 'Threads',
+      'field' => 'num_topics',
+      'sort' => 'asc',
+      ),
+    'Messages' => array( 
+      'data' => 'Messages',
+      'field' => 'num_messages' ,
+      ),
+    'Last Message' => array( 
+      'data' => 'Last Message' ,
+      'field' => 'last_comment_timestamp',
+      ),
+    );
+    
+  $order = '';
+  if ( isset( $_GET['sort'] ) && preg_match( '/[asc|desc]/', $_GET['sort'] )  && isset( $_GET['order'] ) ) {
+    $order = ' ORDER BY '. $header[$_GET['order']]['field'].' '.$_GET['sort'];
+  }
+  
+  //I put the order directly in the request because the :order didn't function
+  $request = "SELECT node.nid AS node_nid, node.title AS node_title, node_body.body_value, COALESCE( COUNT(thread.nid), 0 ) AS num_topics, COALESCE( (SUM( comment_count) + COUNT(thread.nid)), 0 ) AS  num_messages,   last_comment_timestamp, last_comment_uid
+    -- Titre, body, nombre de topics, nombre de messages, dernier message (date et utilisateur), 
+    FROM {node} node
+    LEFT OUTER JOIN {field_data_body} node_body ON node_body.entity_id = node.nid
+    INNER JOIN {og_membership} og_membership_node ON node.nid = og_membership_node.etid AND og_membership_node.entity_type = 'node'
+    LEFT OUTER JOIN {field_data_field_forum_room} field_forum_room ON field_forum_room.field_forum_room_nid = node.nid
+    LEFT OUTER JOIN {node thread} ON thread.nid = field_forum_room.entity_id
+    LEFT OUTER JOIN {node_comment_statistics} stats ON stats.nid = thread.nid
+    WHERE (( (node.status = '1') AND (node.type IN  ('forum_room')) AND (og_membership_node.gid = :gid ) ))
+    GROUP BY node.nid {$order};";
+  
+  $data_result = db_query( $request, array( ':gid' => $gid ) );
+  
+  $rows = array();
+  foreach ( $data_result as $data_row ) {
+    $cell_title = l( $data_row->node_title, "node/{$data_row->node_nid}" ) . '<br />';
+    $cell_title .= $data_row->body_value;
+    
+    $cell_date = '';
+    if ( !empty( $data_row->last_comment_timestamp) ) {
+      $account = user_load( $data_row->last_comment_uid );
+      
+      //I put the date first and then the user
+      $cell_date = format_date( $data_row->last_comment_timestamp ) . '<br />' ;
+      $cell_date .= theme( 'username', array( 'account' => $account ) );
+    }
+    $rows[] = array( 
+      'data' => array( 
+        $cell_title, 
+        $data_row->num_topics, 
+        $data_row->num_messages, 
+        $cell_date,
+      )
+    );
+  }
+  
+  $output .= theme( 'table', array( 'header' => $header, 'rows' => $rows ) );
+  
+  return $output;
+}
+
+function group_forum_views_pre_execute( &$view ) {
+  switch( $view->name ) {
+    case 'forum_rooms_list':
+      $view->query->has_aggregate = TRUE;
+      $view->query->groupby = 'node.nid';
+      
+      break;
+  }
+}
+
 /*
 * _to_arg function
 */
@@ -333,7 +267,7 @@ function room_alias_to_arg($arg) {
             //In case of edit mode
             if ( $alias == FALSE ) return 0; 
             $alias = explode( '/', $alias );
-            return $alias[1];
+            return $alias[3];
         case 'community':
         case FALSE:
             //nothing
@@ -344,7 +278,7 @@ function room_alias_to_arg($arg) {
     }
   }
   else {
-      if( preg_match( "/.*forum\/([^\/]*)\/.*/", $_GET['q'], $matches ) ) {
+      if( preg_match( "/.*forum\/([^\/]*)(\/.*)+/", $_GET['q'], $matches ) ) {
         return $matches[1];
       } 
   }
@@ -357,12 +291,16 @@ function room_alias_to_arg($arg) {
 function room_alias_load($arg) {
   if( empty($arg) ) return 0;
   
+  if( preg_match( '/node\/(.*)/', $_GET['q'], $matches ) ) {
+    return $matches[1];
+  }
+  
   if ( preg_match( "/(.*$arg).*/", $_GET['q'], $matches ) ) {
     $source = drupal_lookup_path( 'source', $matches[1] );
     $source = explode("/", $source);
     if ( count($source) != 2 ) return 0;
-  return $source[1];  
-  } else {
-      return 0;
+    return $source[1];  
   }
+  
+  return 0;
 }
