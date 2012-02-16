@@ -128,6 +128,9 @@ projects[references][version] = "2.0"
 projects[devel][subdir] = "contributed"
 projects[devel][version] = "1.2"
 
+projects[simplenews][subdir] = "contributed"
+projects[simplenews][version] = "1.0-beta1"
+
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"

@@ -122,9 +122,11 @@ function wiki_element_info_alter(&$type) {
 
 function wiki_format_filter_process_format($element) {
   $element = filter_process_format($element);
-  // Change the default text format of the 'body' field to ' wiki'.
-  if ($element['#bundle'] == 'wiki' && $element['#field_name'] == 'body') {
-    $element['format']['format']['#default_value'] = 'wiki';
+  if(isset($element['#bundle'])) {
+    // Change the default text format of the 'body' field to ' wiki'.
+    if ($element['#bundle'] == 'wiki' && $element['#field_name'] == 'body') {
+      $element['format']['format']['#default_value'] = 'wiki';
+    }
   }
   return $element;
 }
