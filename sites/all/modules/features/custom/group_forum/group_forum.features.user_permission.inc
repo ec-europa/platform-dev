@@ -15,6 +15,8 @@ function group_forum_user_default_permissions() {
     'name' => 'create forum_room content',
     'roles' => array(),
   );
+  
+  include_once( 'group_forum.features.og_permission.inc' );
 
   return $permissions;
 }

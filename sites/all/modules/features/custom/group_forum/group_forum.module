@@ -217,8 +217,8 @@ function _group_forum_get_rooms( $gid ) {
       )
     );
   }
-  
-  $output .= theme( 'table', array( 'header' => $header, 'rows' => $rows ) );
+  $output .= count($rows) > 0 ? theme( 'table', array( 'header' => $header, 'rows' => $rows ) ) : 
+	t('There are not yet any room.');
   
   return $output;
 }

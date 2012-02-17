@@ -106,7 +106,7 @@ function group_forum_views_default_views() {
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = FALSE;
-  $handler->display->display_options['empty']['area']['content'] = 'There are not yet any thread in this room';
+  $handler->display->display_options['empty']['area']['content'] = 'There are not yet any corresponding thread in this room';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   $handler->display->display_options['empty']['area']['tokenize'] = 0;
   /* Relationship: Content: Author */
