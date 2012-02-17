@@ -59,6 +59,8 @@ function survey_enable() {
   _add_views_context("communities","surveys_list");
   _add_block_context('communities', 'surveys_list-block_1', 'views', 'surveys_list-block_1', 'sidebar_first');
   _add_content_type_context('communities','webform');
+  _add_path_context('communities','urvey_analysis/*');
+ 
   
   // change content type webform name to survey
   db_update('node_type')

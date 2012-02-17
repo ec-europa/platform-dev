@@ -254,7 +254,7 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
     'admin/content/webform',
     'admin/structure/block',
     'admin/structure/feature-set',
-    'admin/structure/taxonomy',
+    //'admin/structure/taxonomy',
     'admin/help',
   );
 
