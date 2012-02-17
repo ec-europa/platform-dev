@@ -131,6 +131,11 @@ projects[devel][version] = "1.2"
 projects[simplenews][subdir] = "contributed"
 projects[simplenews][version] = "1.0-beta1"
 
+projects[views_slideshow][subdir] = "contributed"
+projects[views_slideshow][version] = "3.0"
+
+projects[libraries][subdir] = "contributed"
+projects[libraries][version] = "1.0"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
