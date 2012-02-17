@@ -88,7 +88,7 @@
 
 <?php
 $no_left = FALSE;
-if (arg(0) == 'admin') {
+if (arg(0) == 'admin' || !$page['sidebar_first']) {
   $no_left = TRUE;
 }
 ?>
@@ -149,10 +149,14 @@ if (arg(0) == 'admin') {
       <li><?php print $site_name; ?></li>
     </ul>
   </div><!-- /#path -->
-  
+   
   <div class="layout-body">
     <div class="layout-wrapper">
       <div class="layout-wrapper-reset">
+	  
+        <?php if ($page['featured']): ?>
+			<?php print render($page['featured']); ?>
+        <?php endif; ?>	    
 
       <?php if ($messages): ?>
         <div id="messages">
@@ -175,9 +179,7 @@ if (arg(0) == 'admin') {
               <?php print render($page['tools']); ?>
             <?php endif; ?>
 
-            <?php if ($page['featured']): ?>
-              <?php print render($page['featured']); ?>
-            <?php endif; ?>
+
 
             <?php if ($page['highlighted']): ?><div id="highlighted"><?php print render($page['highlighted']); ?></div><?php endif; ?>
             <a id="main-content"></a>
@@ -213,7 +215,3 @@ if (arg(0) == 'admin') {
   <div class="layout-footer"> Last update: DD/MM/YYYY | <a href="#top-page">Top</a>
   </div><!-- /.layout-footer -->
 </div><!-- /#layout -->
-
-
-
-
