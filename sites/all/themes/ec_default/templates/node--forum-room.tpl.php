@@ -102,7 +102,9 @@
       hide($content['links']);
       print render($content);
       
-      print views_embed_view( 'forum_thread_list', 'page_forum_threads', $node->nid );
+      $view = views_get_view( 'forum_thread_list' );
+      $view->override_path = $view->override_url = $_GET['q'];
+      print $view->preview( 'page_forum_threads', array( $node->nid ) );
     ?>
   </div>
 
