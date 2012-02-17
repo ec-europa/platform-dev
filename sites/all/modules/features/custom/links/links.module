@@ -116,9 +116,22 @@ function links_views_pre_render(&$view) {
 
   if($view->name == 'links' && $view->current_display == 'page' && user_access('create links content')) {
     $output = '';
-
+    global $user;
     $og = og_context();
-    if ($og) { 
+    if ($og) {
+    
+      $gid = $og->gid;
+      $uid = $user->uid;
+      
+      $is_member = db_select('og_membership', 'ogm')
+      ->fields('ogm')
+      ->condition('gid', $gid,'=')
+      ->condition('etid', $uid,'=')
+      ->condition('entity_type', 'user','=')
+      ->execute()
+      ->fetchAssoc();
+    
+      if($is_member){
       $output .= l(t('Create a Link'), 'node/add/links', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'),'query' => array('gids_node[]' => $og->etid)));
     }
     //add menu to the exsiting  header
