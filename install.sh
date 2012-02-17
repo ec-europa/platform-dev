@@ -145,8 +145,11 @@ done
 #install and configure the drupal instance
 drush --php="/usr/bin/php" ${drush_options} si $install_profile --db-url=$db_url --account-name=$account_name --account-pass=$account_pass --site-name=${site_name} --site-mail=$site_mail  1>&2
 
+#flush cache and rebuild access
 drush cc all
 drush php-eval 'node_access_rebuild();'
+#inject data
+drush scr "${working_dir}/profiles/multisite_drupal_core/multisite_drupal_core_data.php"
 
 mkdir "${working_dir}/sites/default/files/private_files"
 chmod -R 777 "${working_dir}/sites/default/files"
