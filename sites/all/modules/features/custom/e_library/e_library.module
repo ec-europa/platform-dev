@@ -33,8 +33,6 @@ return $items;
  */
 function e_library_views_pre_render(&$view) {
 
-	drupal_set_message('hello view');
-print_r($view);
 	if($view->name=='e_library'){
 
 	  $group = og_context();
