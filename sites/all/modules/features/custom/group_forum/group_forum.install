@@ -29,6 +29,8 @@ function group_forum_enable() {
   drupal_set_message( t( 'The group forum feature is now active on your site.' ) );
   
   _add_path_context( 'communities', 'community/*/forum*' );
+  _add_content_type_context( 'communities',CT_ROOM );
+  _add_content_type_context( 'communities',CT_THREAD );
 }
 
 /**
@@ -98,4 +100,6 @@ function group_forum_disable() {
     
   drupal_set_message( t( 'The group forum feature is now disabled on your site.' ) );
   _remove_path_context( 'communities', 'community/*/forum*' );
+  _remove_content_type_context( 'communities',CT_ROOM );
+  _remove_content_type_context( 'communities', CT_THREAD );
 }
