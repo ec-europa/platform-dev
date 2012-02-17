@@ -26,6 +26,9 @@ function e_library_enable(){
 	_add_views_context('communities','e_library');
 	_add_views_context('communities','e_library:page');
 	_add_content_type_context('communities', 'document');
+	
+	//Activation message
+	drupal_set_message('E-library feature is now active on your site.');
 }
 
 
@@ -37,4 +40,7 @@ function e_library_disable(){
 	_remove_views_context('communities','e_library:page');
 	_remove_content_type_context('communities', 'document');
 	_disable_content_type('document');
+	
+	//Activation message
+	drupal_set_message('E-library feature is now disabled on your site.');
 }

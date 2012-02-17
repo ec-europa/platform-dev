@@ -40,5 +40,7 @@ function e_library_user_default_permissions() {
     'roles' => array(),
   );
 
+ include_once('e_library.features.og_permission.inc');    
+  
   return $permissions;
 }
