@@ -6,33 +6,7 @@
 
 include_once('events.features.inc');
 
-/**
-* Add block to the context
-*/
-function events_enable(){
-	_add_block_context('communities','views-calendar-upcoming_events','views','calendar-upcoming_events','sidebar_first');
-	_add_views_context('communities','calendar');
-	_add_views_context('communities','calendar:month');
-	_add_views_context('communities','calendar:week');
-	_add_views_context('communities','calendar:day');
-	_add_views_context('communities','calendar:year');
-	_add_content_type_context('communities', 'event');
-}
 
-
-/**
-* Remove block from the context
-*/
-function events_disable(){
-	_remove_block_context('communities','views-calendar-upcoming_events');
-	_remove_views_context('communities','calendar');
-	_remove_views_context('communities','calendar:month');
-	_remove_views_context('communities','calendar:week');
-	_remove_views_context('communities','calendar:day');
-	_remove_views_context('communities','calendar:year');
-	_remove_content_type_context('communities', 'event');
-	_disable_content_type('event');
-}
 
 
 /*
@@ -85,122 +59,15 @@ function events_menu() {
 return $items;}
 
 
-
-/*
-*setup permission
-*/
-function events_modules_enabled($modules){
-	if(in_array('events', $modules)) { 
-	  //Activation message
-	  drupal_set_message('Events feature is now active on your site.');
-	}
-}
-/**
-*
-*/
-function events_modules_disabled($modules) {
-  if(in_array('events', $modules)) {
-  
-	  // Administrator
-	  user_role_revoke_permissions(get_rid('administrator'), array(  
-		'edit own event content',
-		'edit any event content',
-		'delete own event content',
-		'delete any event content',
-		'create event content',
-	  ));
-		
-	  // Contributor
-	  user_role_revoke_permissions(get_rid('contributor'), array(
-		'edit own event content',
-		'edit any event content',
-		'delete own event content',
-		'delete any event content',
-		'create event content',
-	  ));
-			  
-	  // Disable permissions to OG roles ---------------------------------------------------------------  
-	  // Community Manager
-	  og_role_revoke_permissions(get_og_rid('community_manager'), array(
-		'update own event content',
-		'update any event content',
-		'delete own event content',
-		'delete any event content',
-	  ));
-		
-	  // Administrator Member
-	  og_role_revoke_permissions(get_og_rid('administrator member'), array(
-		'update own event content',
-		'update any event content',
-		'delete own event content',
-		'delete any event content',
-	  ));
-		
-	  drupal_flush_all_caches(); 
-      drupal_set_message('Events feature is now disabled on your site.');
-  }
-}
-
-/*
-* hook_node_type_insert
-*/
-
-function events_node_type_insert($node) {
-  if ($node->type == 'GRevent') {
-    node_types_rebuild();
-
-    drupal_set_message("invalide cache og");
-    og_invalidate_cache();
-    
-    // Add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-    // Administrator
-
-    user_role_grant_permissions(get_rid('administrator'), array(  
-      'edit own event content',
-      'edit any event content',
-      'delete own event content',
-      'delete any event content',
-      'create event content',
-    ));
-    
-    // Contributor
-
-    user_role_grant_permissions(get_rid('contributor'), array(
-      'edit own event content',
-      'edit any event content',
-      'delete own event content',
-      'delete any event content',
-      'create event content',
-    ));
-          
-  // Add permissions to OG roles ---------------------------------------------------------------  
-  // Community Manager
-  og_role_grant_permissions(get_og_rid('community_manager'), array(
-    'update own event content',
-    'update any event content',
-    'delete own event content',
-    'delete any event content',
-  ));
-    
-  // Administrator Member
-  og_role_grant_permissions(get_og_rid('administrator member'), array(
-    'update own event content',
-    'update any event content',
-    'delete own event content',
-    'delete any event content',
-  ));
-    
-  }
-}
-
-
-
 /**
  * Add a buttons in the views associated with this feature
  * @param type $view 
  */
 function events_views_pre_render(&$view) {
 if($view->name=='calendar'){
+
+  $group = og_context();
+
 		switch( $view->current_display ) {
 			case 'upcoming_events':
 				
@@ -209,7 +76,7 @@ if($view->name=='calendar'){
 			case 'week':
 			case 'day':
 			case 'year':
-				if ( user_access('create event content') ) {
+				if ( og_user_access($group->gid,'create event content') ) {
 					$view->header['area']->options['content'] = _events_get_link_from_group();
 				}
 				break;
@@ -218,7 +85,6 @@ if($view->name=='calendar'){
 		}  
 	}
 }
-
 
 
 function _events_get_link_from_group(){
