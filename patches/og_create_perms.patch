@@ -8,10 +8,10 @@ Index: sites/all/modules/contributed/og_create_perms/og_create_perms.module
    $type = is_string($node) ? $node : $node->type;
    if ($op == 'create' && in_array($type, og_create_perms_list_bundles())) {
 -    foreach (og_get_context_by_url() as $gid) {
-+    
++
 +    // multisite update --------------------------------------------------------
 +    $contexts = og_get_context_by_url();
-+    if( count($contexts) == 0 && arg(0) == 'node' && is_numeric(arg(1)) )  {
++    if( count($contexts) == 0 && ( ((arg(0) == 'node' && is_numeric(arg(1)))) || arg(0) == 'community' ))  {
 +      $group = og_context();
 +      $contexts = array_merge(og_get_context_by_url(), array($group->gid));
 +    }
