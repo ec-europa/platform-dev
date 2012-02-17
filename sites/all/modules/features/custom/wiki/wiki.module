@@ -29,9 +29,14 @@ function wiki_menu() {
 * hook_enable
 */
 function wiki_enable() {
+  // add elements to contexts
   _add_views_context("communities","wiki_list");
   _add_block_context('communities', 'wiki_list-block_1', 'views', 'wiki_list-block_1', 'sidebar_first');
   _add_content_type_context('communities','wiki');
+  
+  // add wiki content type to newsletters related contents
+  add_content_type_newsletters('wiki');
+  
 }
 
 

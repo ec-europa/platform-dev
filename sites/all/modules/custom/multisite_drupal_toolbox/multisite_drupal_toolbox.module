@@ -154,60 +154,6 @@ function _remove_path_context($contextName,$path){
 }
 
 
-/**
- * Implementation of hook_block_info().
- */
- /*
-function multisite_drupal_toolbox_block_info() {
-
-  $blocks['createcontent'] = array(
-    'info' => t('Create Content'),
-  );
-  return $blocks;
-}
- */
-	 
-	 
-/**
- * Implementation of hook_block_view().
- */
- /*
-function multisite_drupal_toolbox_block_view($delta='') {
-  $block = array();
-  switch ($delta) {
-    case 'createcontent':
-      $block['subject'] = t('Create Content');
-      $block['content'] = create_contents();
-      break;
-  }
-  return $block;
-}
- */
-	 
-	 
-/**
- * custom html block
- * @return string
- */
- /*
-function create_contents() {
-  $og = og_context();
-  if ($og) {
-    $addl = '<ul>';
-    if (module_exists('links'))
-      $addl .= '<li>' . l('Create links','node/add/links',array('query' => array('gids_node[]' => $og->etid))) . '</li>';
-    if (module_exists('events'))
-      $addl .= '<li>' . l('Create events','node/add/event',array('query' => array('gids_node[]' => $og->etid))) . '</li>';
-    if (module_exists('wiki'))
-      $addl .= '<li>' . l('Create wiki','node/add/wiki',array('query' => array('gids_node[]' => $og->etid))) . '</li>';   
-    if (module_exists('survey'))
-      $addl .= '<li>' . l('Create surkey','node/add/webform',array('query' => array('gids_node[]' => $og->etid))) . '</li>'; 	  
-    $addl .= '</ul>';
-    return $addl;
-  }
-}
-*/
-
 
 /*
 * get the rid of a og role name
@@ -218,9 +164,9 @@ function get_og_rid($role_name) {
     ->fields('r', array('rid'))
     ->execute()
     ->fetchAssoc();   
-
   return $r['rid'];
 }
+
 /*
 * get the rid of a role name
 */
@@ -230,12 +176,19 @@ function get_rid($role_name) {
     ->fields('r', array('rid'))
     ->execute()
     ->fetchAssoc();   
-
   return $r['rid'];
 }
 
 
-
+/*
+* add content type to newsletter related content field
+*/
+function add_content_type_newsletters($node_type) {
+  if($field = field_info_field('field_related_contents')) {
+    $field['settings']['referenceable_types'][$node_type] = $node_type;
+    field_update_field($field);
+  }
+}
 
 
 // method to switch theme
