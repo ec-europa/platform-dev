@@ -75,3 +75,9 @@ feature_sets[newsletters][description] = 'Publish and send newsletters to lists 
 feature_sets[newsletters][icon] = 'feature-set-icons/newsletter.png'
 feature_sets[newsletters][enable][] = newsletters
 feature_sets[newsletters][disable][] = newsletters
+
+feature_sets[e_library][title] = 'E-Library'
+feature_sets[e_library][description] = 'Uploda and share files with your communities'
+feature_sets[e_library][icon] = 'feature-set-icons/e_library.png'
+feature_sets[e_library][enable][] = e_library
+feature_sets[e_library][disable][] = e_library
