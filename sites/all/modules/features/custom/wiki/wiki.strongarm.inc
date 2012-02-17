@@ -95,8 +95,7 @@ function wiki_strongarm() {
   $strongarm->name = 'node_options_wiki';
   $strongarm->value = array(
     0 => 'status',
-    1 => 'promote',
-    2 => 'revision',
+    1 => 'revision',
   );
   $export['node_options_wiki'] = $strongarm;
 

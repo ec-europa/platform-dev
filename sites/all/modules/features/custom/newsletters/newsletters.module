@@ -14,3 +14,4 @@ function newsletters_enable() {
   _add_block_context('site_wide', '0', 'simplenews', '0', 'sidebar_first');
 }
 
+
