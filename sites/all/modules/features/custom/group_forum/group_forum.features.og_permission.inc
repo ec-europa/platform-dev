@@ -43,10 +43,10 @@ og_role_grant_permissions($cm_rid, array(
 ));
 
 // Member
-$contrib_rid = get_rid('member');
-og_role_grant_permissions($contrib_rid, array(
+$mbr = get_og_rid('member');
+og_role_grant_permissions($mbr, array(
+  'create forum_thread content',
   'update own forum_thread content',
   'delete own forum_thread content',
-  'create forum_thread content',
 ));
 

@@ -132,7 +132,7 @@ function group_forum_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'group_audience',
       'label' => 'Groups audience',
-      'required' => FALSE,
+      'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
@@ -149,6 +149,7 @@ function group_forum_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'og',
         'settings' => array(
           'opt_group' => 'auto',
@@ -199,7 +200,7 @@ function group_forum_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 1,
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -227,7 +228,7 @@ function group_forum_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '31',
+        'weight' => '4',
       ),
     ),
   );
@@ -260,12 +261,13 @@ function group_forum_field_default_fields() {
           'community' => 0,
           'forum_room' => 'forum_room',
           'forum_thread' => 0,
+          'links' => 0,
           'page' => 0,
         ),
         'view' => array(
           'args' => array(),
           'display_name' => 'references_forum_rooms',
-          'view_name' => 'forum_rooms_list',
+          'view_name' => 'forum_room_list',
         ),
       ),
       'translatable' => '0',
@@ -282,7 +284,7 @@ function group_forum_field_default_fields() {
           'module' => 'node_reference',
           'settings' => array(),
           'type' => 'node_reference_default',
-          'weight' => 2,
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -303,7 +305,7 @@ function group_forum_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '32',
+        'weight' => '2',
       ),
     ),
   );
@@ -346,7 +348,7 @@ function group_forum_field_default_fields() {
           'module' => 'og',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => 0,
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -381,7 +383,7 @@ function group_forum_field_default_fields() {
           'opt_group' => 'auto',
         ),
         'type' => 'group_audience',
-        'weight' => '0',
+        'weight' => '1',
       ),
       'widget_type' => 'group_audience',
     ),
