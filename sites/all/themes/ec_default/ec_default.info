@@ -1,7 +1,7 @@
 ; $Id: ec_default.info,v 1.5 2010/11/07 00:27:20 dries Exp $
 
 name = Ec_default
-description = Default templte with Europa banner
+description = Default template with Europa banner
 package = Core
 version = VERSION
 core = 7.x
@@ -17,6 +17,7 @@ regions[page_top] = Page top
 regions[page_bottom] = Page bottom
 regions[highlighted] = Highlighted
 regions[tools] = Tools
+regions[content_top] = Content Top
 
 regions[featured] = Featured
 regions[content] = Content

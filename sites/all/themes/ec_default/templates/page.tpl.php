@@ -181,7 +181,7 @@ if (arg(0) == 'admin' || !$page['sidebar_first']) {
 
 
 
-            <?php if ($page['highlighted']): ?><div id="highlighted"><?php print render($page['highlighted']); ?></div><?php endif; ?>
+            <?php if ($page['content_top']): ?><div id="content_top"><?php print render($page['content_top']); ?></div><?php endif; ?>
             <a id="main-content"></a>
             <?php print render($title_prefix); ?>
             <?php if ($title): ?>
