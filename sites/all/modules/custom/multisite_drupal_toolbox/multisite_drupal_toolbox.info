@@ -1,5 +1,5 @@
 name = multisite drupal toolbox
-description = An example module showing how to define a page to be displayed to the user at a given URL.
+description = toolbox for the multisite drupal plateform
 package = multisite drupal toolbox
 core = 7.x
 
