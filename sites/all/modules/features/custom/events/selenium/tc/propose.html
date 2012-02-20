@@ -4,16 +4,16 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>member_answer</title>
+<title>propose</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">member_answer</td></tr>
+<tr><td rowspan="1" colspan="3">propose</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde/en/node</td>
+	<td>/multisite_drupal_wde/en</td>
 	<td></td>
 </tr>
 <tr>
@@ -38,21 +38,6 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Home</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Public survey1</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Private survey2</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
 	<td>link=communities</td>
 	<td></td>
 </tr>
@@ -63,23 +48,53 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Public survey1</td>
+	<td>link=Event</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=edit-submitted-question1</td>
-	<td>blabla</td>
+	<td>id=edit-title</td>
+	<td>Public event 1</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>id=edit-submitted-question2-1</td>
+	<td>css=html.CSS1Compat</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>id=edit-submitted-question2-2</td>
+	<td>id=edit-field-event-date-und-0-show-todate</td>
 	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-event-date-und-0-value-datepicker-popup-0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=28</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-event-date-und-0-value2-datepicker-popup-0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=28</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-location-und-0-title</td>
+	<td>Meeting room</td>
+</tr>
+<tr>
+	<td>addSelection</td>
+	<td>id=edit-group-audience-und</td>
+	<td>label=third community</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -88,53 +103,53 @@
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>Thank you, your submission has been received.</td>
+	<td>Event Public event 1 has been created.</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Go back to the form</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Results</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Analysis</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Table</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=View</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextNotPresent</td>
-	<td>question1</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextNotPresent</td>
-	<td>question2</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Private survey2</td>
+	<td>link=Event</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=edit-submitted-question1</td>
-	<td>blablabla</td>
+	<td>id=edit-title</td>
+	<td>Private event 2</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=html.CSS1Compat</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-event-date-und-0-show-todate</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-event-date-und-0-value-datepicker-popup-0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=29</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-field-event-date-und-0-value2-datepicker-popup-0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=29</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-location-und-0-title</td>
+	<td>Meeting room</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -143,22 +158,22 @@
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>Thank you, your submission has been received.</td>
+	<td>Event Private event 2 has been created.</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Go back to the form</td>
+	<td>link=Events</td>
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=Results</td>
+	<td>verifyTextNotPresent</td>
+	<td>Public event 1</td>
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=Analysis</td>
+	<td>verifyTextNotPresent</td>
+	<td>Private event 2</td>
 	<td></td>
 </tr>
 </tbody></table>

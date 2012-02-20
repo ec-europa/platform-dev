@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>user_answer</title>
+<title>manage</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">user_answer</td></tr>
+<tr><td rowspan="1" colspan="3">manage</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -24,7 +24,7 @@
 <tr>
 	<td>type</td>
 	<td>id=edit-name</td>
-	<td>fmr</td>
+	<td>fmr_cm</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -38,43 +38,63 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Home</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Public survey1</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextNotPresent</td>
-	<td>Private survey2</td>
+	<td>link=communities</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Public survey1</td>
+	<td>link=third community</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=wiki</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=#node-65 &gt; h2 &gt; a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Edit</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=edit-submitted-question1</td>
-	<td>blabla</td>
+	<td>id=edit-body-und-0-value</td>
+	<td>Presentation of public wiki1 revised</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>id=edit-submitted-question2-1</td>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>id=edit-submitted-question2-4</td>
+	<td>clickAndWait</td>
+	<td>link=wiki</td>
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>id=edit-submitted-question2-3</td>
+	<td>verifyTextPresent</td>
+	<td>Presentation of public wiki1 revised</td>
 	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Wiki</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-title</td>
+	<td>CM wiki3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-body-und-0-value</td>
+	<td>Presentation of community manager's wiki3</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -83,67 +103,62 @@
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>Thank you, your submission has been received.</td>
+	<td>Wiki CM wiki3 has been created.</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Go back to the form</td>
+	<td>link=wiki</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Results</td>
+	<td>css=#node-66 &gt; h2 &gt; a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-body-und-0-value</td>
+	<td>Presentation of private wiki2<br />validated by CM</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Wiki private wiki2 has been updated.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Revisions</td>
 	<td></td>
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>fmr_mb</td>
+	<td>Revisions for private wiki2</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Home</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Public survey1</td>
+	<td>xpath=(//input[@id='edit-submit'])[2]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>You have already submitted this form. View your previous submissions.</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Home</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Log out</td>
+	<td>Changes to Body</td>
 	<td></td>
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>Public survey1</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextNotPresent</td>
-	<td>Private survey2</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Public survey1</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>You must login or register to view this form</td>
+	<td>validated by CM</td>
 	<td></td>
 </tr>
 </tbody></table>

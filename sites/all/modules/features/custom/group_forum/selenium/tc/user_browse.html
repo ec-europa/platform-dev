@@ -4,22 +4,27 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>delete</title>
+<title>user_browse</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">delete</td></tr>
+<tr><td rowspan="1" colspan="3">user_browse</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde/en</td>
+	<td>/multisite_drupal_wde/en/comment/4#comment-4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Log out</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=edit-name</td>
-	<td>fmr_cm</td>
+	<td>fmr</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -43,52 +48,32 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Private survey2</td>
+	<td>link=Forum</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Edit</td>
+	<td>link=Room1</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>id=edit-delete</td>
+	<td>link=Thread11</td>
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>id=edit-submit</td>
+	<td>verifyTextNotPresent</td>
+	<td>Add new comment</td>
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=communities</td>
+	<td>verifyTextPresent</td>
+	<td>Presentation of thread11</td>
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=third community</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Public survey1</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Edit</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=edit-delete</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=edit-submit</td>
+	<td>verifyTextPresent</td>
+	<td>Comment11</td>
 	<td></td>
 </tr>
 
