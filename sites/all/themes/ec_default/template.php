@@ -75,7 +75,7 @@ function ec_default_preprocess_html(&$variables) {
   drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-dropdown.js');
 
   // Add conditional stylesheets for IE
-  drupal_add_css(path_to_theme() . '/css/ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
+  drupal_add_css(path_to_theme() . '/css/ie.less', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
   drupal_add_css(path_to_theme() . '/css/ie6.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'IE 6', '!IE' => FALSE), 'preprocess' => FALSE));
 
   // Add EC stylesheets
@@ -84,7 +84,7 @@ function ec_default_preprocess_html(&$variables) {
 
   // Add hack stylesheet, to overide EC and bootstrap stylesheets if needed
   drupal_add_css(path_to_theme() . '/css/hack.css', array('group' => CSS_THEME));
-  drupal_add_css(path_to_theme() . '/css/hack-ie.css', array('group' => CSS_THEME));
+  drupal_add_css(path_to_theme() . '/css/hack-ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE)));
 
   // Add Less stylesheets
   //drupal_add_css(path_to_theme() . '/bootstrap/bootstrap.less', array('group' => CSS_THEME));
@@ -345,6 +345,15 @@ function ec_default_menu_local_tasks(&$variables) {
  * Hook form alter
  */
 function ec_default_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    case 'search_block_form':
+      //print_r($form);
+      $form['search_block_form']['#attributes']['class'][] = 'search-query';
+      break;
+    
+    default:
+      break;
+  }
   $form['#after_build'][] = 'ec_default_cck_alter';
 }
 
@@ -410,25 +419,29 @@ function ec_default_link( $variables ){
   if( isset($variables['options']['attributes']['type']) ) {
     switch ( $variables['options']['attributes']['type'] ) {
       case 'add':
-        $decoration .= '<i class="icon-plus icon-white" ></i>';
+        $decoration .= '<i class="icon-plus icon-white"></i>';
         $variables['options']['attributes']['class'] .= ' btn btn-success';
         break;
       case 'expand':
-        $decoration .= '<i class="icon-chevron-down" />';
+        $decoration .= '<i class="icon-chevron-down"></i>';
         $variables['options']['attributes']['class'] .= ' btn btn-small';
         break;
       case 'collapse':
-        $decoration .= '<i class="icon-chevron-up" />';
+        $decoration .= '<i class="icon-chevron-up"></i>';
         $variables['options']['attributes']['class'] .= ' btn btn-small';
         break;
       case 'delete':
-        $decoration .= '<i class="icon-trash icon-white" />';
+        $decoration .= '<i class="icon-trash icon-white"></i>';
         $variables['options']['attributes']['class'] .= ' btn btn-danger';
         break;
       case 'edit':
-        $decoration .= '<i class="icon-pencil icon-white" />';
+        $decoration .= '<i class="icon-pencil icon-white"></i>';
         $variables['options']['attributes']['class'] .= ' btn btn-warning';
         break;
+      case 'message':
+        $decoration .= '<i class="icon-envelope icon-white"></i>';
+        $variables['options']['attributes']['class'] .= ' btn btn-info';
+        break;        
       case 'neutral':
         $variables['options']['attributes']['class'] .= ' btn';
         break;   
