@@ -87,7 +87,7 @@ function news_disable(){
   ));
     
   drupal_flush_all_caches(); 
-  drupal_set_message('Links feature is now disabled on your site.');
+  drupal_set_message('News feature is now disabled on your site.');
 }
 
 

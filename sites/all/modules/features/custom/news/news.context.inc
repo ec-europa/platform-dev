@@ -32,8 +32,8 @@ function news_context_default_contexts() {
         'views-news-block_2' => array(
           'module' => 'views',
           'delta' => 'news-block_2',
-          'region' => 'content',
-          'weight' => '-10',
+          'region' => 'content_top',
+          'weight' => '9',
         ),
       ),
     ),
