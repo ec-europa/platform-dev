@@ -139,4 +139,5 @@ function links_views_pre_render(&$view) {
       $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
     }
   }
+ }
 }
