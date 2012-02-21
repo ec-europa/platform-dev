@@ -71,9 +71,10 @@ function ec_default_preprocess_html(&$variables) {
 
   // Add twitter bootsrap
   drupal_add_css(path_to_theme() . '/bootstrap/css/bootstrap.min.css', array('group' => CSS_THEME));
-  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap.min.js');
+  /*drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap.min.js');
   drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-dropdown.js');
-
+  drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-tab.js');*/
+  
   // Add conditional stylesheets for IE
   drupal_add_css(path_to_theme() . '/css/ie.less', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
   drupal_add_css(path_to_theme() . '/css/ie6.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'IE 6', '!IE' => FALSE), 'preprocess' => FALSE));
@@ -91,8 +92,9 @@ function ec_default_preprocess_html(&$variables) {
   drupal_add_css(path_to_theme() . '/css/style.less', array('group' => CSS_THEME));
   drupal_add_css(path_to_theme() . '/css/colors.less', array('group' => CSS_THEME));
 
-  // Add EC javascript
+  // Add javascripts
 	drupal_add_js('/wel/template-2012/scripts/ec.js', 'external');
+  drupal_add_js(path_to_theme() . '/scripts/scripts.js');
   
   // Add hack javascript, to overide EC javascript if needed
   drupal_add_js(path_to_theme() . '/scripts/hack.js');  
@@ -225,6 +227,17 @@ function ec_default_page_alter($page) {
       'content' =>  'Date of creation of the page'    
     )
   );
+  
+  //compatibility
+  /*$meta_date = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'http-equiv' => 'X-UA-Compatible',
+      'content' =>  'IE=edge'    
+    )
+  );*/
+
   drupal_add_html_head( $meta_date, 'meta_date' );   
 }
 

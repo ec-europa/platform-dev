@@ -89,13 +89,12 @@
   <?php endif; ?>
   <?php print render($title_suffix); ?>
   
-  <div class="meta submitted">
-  <?php
-      if ($display_submitted): 
-        print $submitted;
-      endif; 
-  ?>    
-  </div>
+  
+  <?php if ($display_submitted): ?>
+    <div class="meta submitted">
+      <?php print $submitted; ?>
+    </div>
+  <?php endif; ?>
       
   <div class="content clearfix"<?php print $content_attributes; ?>>
     <?php
@@ -103,12 +102,6 @@
       // We hide the comments and links now so that we can render them later.
       hide($content['comments']);
       hide($content['links']);
-      
-      /*$content['body']['#weight'] = 0;
-      $content['group_group']['#weight'] = 1;
-      $content['group_group'][0]['#attributes']['#markup'] = 'bla bla';*/
-      //print_r($content);
-      //print render($content);
       
       print render($content['body']);
     ?>

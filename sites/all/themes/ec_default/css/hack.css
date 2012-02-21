@@ -62,3 +62,6 @@ fieldset legend {
           border-radius: 4px; */
 	margin-top:18px;	  
 }
+.region-content .tabbable ul {
+  padding: 0;
+}
