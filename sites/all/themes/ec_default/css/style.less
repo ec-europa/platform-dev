@@ -1088,8 +1088,17 @@ a.btn {
 
 /* ---------------- news  ----------------- */
 #slider.news {
-  height: 200px;
+  display: block;
+  clear: both;
+  .block-views > .content {
+    height: 150px;
+  }
   .news_content {
     div.news { display: none; }
+  }
+  .news_list {
+    padding-left: 0;
+    margin-top: 0 !important;
+    height: 150px;
   }
 }
