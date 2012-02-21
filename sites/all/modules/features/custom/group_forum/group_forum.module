@@ -16,8 +16,6 @@ include_once( 'sites/all/modules/contributed/devel/krumo/class.krumo.php' );
  * ==========================================================================
  */
 
-
-
 /*
 * hook_menu
 */
@@ -48,11 +46,57 @@ function group_forum_menu() {
   return $items;
 }
 
+/**
+ * Implementation of hook_node_delete
+ * This method works on the 
+ * @var $node the node to be deleted
+ */
+function group_forum_node_delete( $node ) {
+  if ( $node->type != 'forum_room' ) return;
+  
+  //get all node id from the forum_room id
+  $request = "SELECT entity_id AS nid, title, type 
+    FROM {field_data_field_forum_room} AS field_room
+      INNER JOIN {node} AS thread ON field_room.entity_id = thread.nid
+    WHERE field_forum_room_nid = :room_id AND entity_type = 'node'";
+  
+  $data_result = db_query( $request, array( ':room_id' => $node->nid ) );
+  
+  if ( count($data_result) == 0 ) return;
+  
+  $nids = array();
+  foreach ( $data_result as $data_row ) {
+    //I define the text from the standard drupal mode
+    watchdog('content', '@type: deleted %title.', array('@type' => $data_row->type, '%title' => $data_row->title));
+    drupal_set_message(t('@type %title has been deleted.', array('@type' => node_type_get_name($data_row), '%title' => $data_row->title)));
+    $nids[] = $data_row->nid;
+  }
+  
+  //if we want further to unpublish the nodes, we can use the method node_unpublish_action( $node, $context) 
+  // @see http://api.drupal.org/api/drupal/modules!node!node.module/function/node_unpublish_action/7
+  node_delete_multiple($nids);
+}
 
+/**
+ * Implementation of hook_form_alter 
+ */
 function group_forum_form_alter(&$form, &$form_state, $form_id) {
-    if( $form_id != 'forum_thread_node_form' || !isset($_GET['field_forum_room']) ) return;
-    
-    $form['field_forum_room']['und']['#default_value'] = $_GET['field_forum_room'];
+  switch( $form_id ) {
+    // I set the default field_room if the id is set
+    case 'forum_thread_node_form':
+      if ( !isset($_GET['field_forum_room']) ) return;
+      $form['field_forum_room']['und']['#default_value'] = $_GET['field_forum_room'];
+      break;
+      
+    case 'node_delete_confirm':
+      if ( $form['#node']->type != 'forum_room' ) break;
+      
+      $form['description'] = array('#markup' => t( 'This action cannot be undone and will remove the associated thread(s).' ) );
+      break;
+      
+    default:
+      return;
+    }
 }
 
 /**
