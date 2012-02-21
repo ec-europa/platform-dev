@@ -1,0 +1,193 @@
+<?php
+
+/**
+ * Tests the functionality of the OG Button module.
+ */
+class OGAccessAdminTestCase extends DrupalWebTestCase {
+  protected $users;
+  protected $groups;
+  protected $content;
+  
+  public static function getInfo() {
+    return array(
+      'name' => 'Multisite organic groups access admin',
+      'description' => 'Ensure that the organic groups access admin module functions properly.',
+      'group' => 'Organic groups',
+    );
+  }
+
+  public function setUp() {
+    // Enable any modules required for the test
+    parent::setUp(array(
+    	'multisite_og_access_admin', 
+    	'og'
+    ));
+    
+    // create a group type
+    $this->drupalCreateContentType(array(
+    	'type' => 'groups',
+      'name' => 'groups', 
+    ));
+    og_create_field(OG_GROUP_FIELD, 'node', 'groups');
+    og_create_field(OG_ACCESS_FIELD, 'node', 'groups');
+    og_create_field(OG_ACCESS_ADMIN_FIELD, 'node', 'groups');        
+        
+    // Create some group content types
+    $this->drupalCreateContentType(array(
+    	'type' => 'group_content_a',
+      'name' => 'group_content_a', 
+    ));
+    og_create_field(OG_AUDIENCE_FIELD, 'node', 'group_content_a');
+    og_create_field(OG_CONTENT_ACCESS_FIELD, 'node', 'group_content_a');        
+
+    $this->drupalCreateContentType(array(
+    	'type' => 'group_content_b',
+      'name' => 'group_content_b', 
+    ));
+    og_create_field(OG_AUDIENCE_FIELD, 'node', 'group_content_b');
+    og_create_field(OG_CONTENT_ACCESS_FIELD, 'node', 'group_content_b');
+        
+    $this->drupalCreateContentType(array(
+    	'type' => 'group_content_c',
+      'name' => 'group_content_c', 
+    ));
+    og_create_field(OG_AUDIENCE_FIELD, 'node', 'group_content_c');
+    og_create_field(OG_CONTENT_ACCESS_FIELD, 'node', 'group_content_c');
+        
+    // Create a user who can edit groups.
+    $this->users['admin'] = $this->drupalCreateUser(array(
+      'access content',
+      'administer blocks',
+      'administer nodes',
+      'administer users',
+			'administer content types',
+      'create groups content',
+      'edit any groups content',
+			'create group_content_a content',
+			'create group_content_b content',                  
+      'edit any group_content_a content',                 
+      'edit any group_content_b content',                  
+      'administer group',
+    ));
+    $this->drupalLogin($this->users['admin']);    
+    
+    // Create some groups 
+    $settings = array();
+    $settings['type'] = 'groups';
+    $settings['title'] = 'Group A';
+    $settings[OG_GROUP_FIELD][LANGUAGE_NONE][0]['value'] = 1;
+    $settings[OG_ACCESS_FIELD][LANGUAGE_NONE][0]['value'] = OG_CONTENT_ACCESS_DEFAULT;
+    $settings[OG_ACCESS_ADMIN_FIELD][LANGUAGE_NONE][0]['value'] = OG_ACCESS_ADMIN_FIELD_ADMINS;   
+    $this->groups['groupa'] = $this->drupalCreateNode($settings);
+    
+    $settings = array();
+    $settings['type'] = 'groups';
+    $settings['title'] = 'Group B';
+    $settings[OG_GROUP_FIELD][LANGUAGE_NONE][0]['value'] = 1;
+    $settings[OG_ACCESS_FIELD][LANGUAGE_NONE][0]['value'] = OG_CONTENT_ACCESS_DEFAULT;
+    $settings[OG_ACCESS_ADMIN_FIELD][LANGUAGE_NONE][0]['value'] = OG_ACCESS_ADMIN_FIELD_ADMINS;   
+    $this->groups['groupb'] = $this->drupalCreateNode($settings);
+
+    // Create a user who can edit group_content_a and group_content_b
+    $this->users['usera'] = $this->drupalCreateUser(array(
+      'access content',
+      'create group_content_a content',
+			'create group_content_b content',                  
+      'edit any group_content_a content',                 
+      'edit any group_content_b content'
+    ));
+    
+    // Associate usera to the groupa.
+    $group = og_get_group('node',  $this->groups['groupa']->nid);
+    og_group($group->gid, array(
+    	'entity' => $this->users['usera']
+    ));
+        
+    $this->drupalLogout();
+  }
+
+  public function testOGAccessAdminTest1Module() {
+    global $user;
+    
+    // Test if the access admin field is available on the group nodes
+    $this->drupalLogin($this->users['admin']);
+    
+    // Test if we can pick it on group creation  
+    $node = node_load($this->groups['groupa']->nid);
+    $this->verbose(print_r($node, true));
+    $value = $node->{OG_ACCESS_ADMIN_FIELD}[LANGUAGE_NONE][0]['value'];
+    $this->assertEqual($value, OG_ACCESS_ADMIN_FIELD_ADMINS);
+
+    // Change its value
+    $node->{OG_ACCESS_ADMIN_FIELD}[LANGUAGE_NONE][0]['value'] = OG_ACCESS_ADMIN_FIELD_USERS;
+    node_save($node);
+    
+    // Test if the value is changed
+    $node = node_load($this->groups['groupa']->nid);
+    $value = $node->{OG_ACCESS_ADMIN_FIELD}[LANGUAGE_NONE][0]['value'];
+    $this->assertEqual($value, OG_ACCESS_ADMIN_FIELD_USERS);
+    // Change its value back to the original
+    $node->{OG_ACCESS_ADMIN_FIELD}[LANGUAGE_NONE][0]['value'] = OG_ACCESS_ADMIN_FIELD_ADMINS;
+    node_save($node);    
+  }
+  
+  public function testOGAccessAdminTest2Module() {
+    global $user;
+  
+    // Test if the access admin field is available on group creation or update
+    $this->drupalLogin($this->users['admin']);
+  
+    // Test if we can pick it on group creation
+    $this->drupalGet('node/add/groups');
+    $this->assertText(t('Group admin audience/visibility'), t('Found the \'Group admin audience/visibility\' field'));
+    $this->assertText(t('Any author/editor of the group.'), t('Found the all users option'));
+    $this->assertText(t('This group administrators only.'), t('Found the admins only option'));
+  
+    // Test if we can pick it on group edit
+    $this->drupalGet('node/'.$this->groups['groupa']->nid.'/edit');
+    $this->assertText(t('Group admin audience/visibility'), t('Found the \'Group admin audience/visibility\' field'));
+    $this->assertText(t('Any author/editor of the group.'), t('Found the all users option'));
+    $this->assertText(t('This group administrators only.'), t('Found the admins only option'));
+  }
+  
+  public function testOGAccessAdminTest3Module() {
+    global $user;
+    $this->drupalLogin($this->users['admin']);
+    
+    // Tests if the access/visibility fields are not hidden when an admin user edits a group content item
+    $this->drupalGet('node/add/group-content-a', array(
+   		'query'=>array(
+     		'gids_node[]' => $this->groups['groupa']->nid
+      )
+    ));
+    
+    $this->assertField('edit-group-audience-und', t('Content access field found'));
+    $this->assertField('edit-group-content-access-und', t('Audience field found'));
+  }
+  
+  public function testOGAccessAdminTest4Module() {
+    global $user;
+    $this->drupalLogin($this->users['usera']);
+  
+    // Tests if the access/visibility fields are hidden when a non admin user edits a group content item
+    $this->drupalGet('node/add/group-content-a', array(
+   		'query'=>array(
+     		'gids_node[]' => $this->groups['groupa']->nid
+    )
+    ));
+  
+    $this->assertNoField('edit-group-audience-und', t('Content access field not found'));
+    $this->assertNoField('edit-group-content-access-und', t('Audience field not found'));
+    
+    // Create some content
+    $edit = array (
+    	'title' => 'A new content',
+    );
+    $this->drupalPost(NULL, $edit, t('Save'));
+    
+    // verify the audience is set to groupa
+    $this->assertText('Group A', t('Contents belongs to audience Group A'));
+    $this->assertText(t('Use group defaults'), t('Visibility is set to group defaults'));
+  }
+ 
+}

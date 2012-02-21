@@ -1,0 +1,134 @@
+multisite_og_access_admin :
+
+Brief Description :
+Provides a field to limit access for the "group content audience/visibility" to admins only
+
+This is a port from the og_access_admin module of Drupal 6 
+as available on http://drupal.org/project/og_access_admins
+with some bugs in Drupal 7 solved. 
+Issue being solved:
+With this module you can force a member to only create items in the
+groups he is allowed to create items.
+However in the module you can still deselect all groups and then
+create an item - no error is given.
+The created item is neither shown in any group nor on the whole site.
+Only the admin can see the item.
+
+The bug seems to be caused by a Drupal 6 hook which is still used in
+Drupal 7 in stead of the new Drupal 7 hook.
+The code inside the hook : multisite_og_access_admin_node_validate 
+is changed to access Drupal 7 APIs.
+
+If the multisite_og_access_admin with the bug fix is accepted on
+http://drupal.org/project/og_access_admins
+then this module could be replaced with the version on this site.
+
+Version number : 7.x-1.0	
+
+State : tested
+
+The content type implemented by the module: 
+og_group groups :  content types marked as "group type" 
+in  Organic groups field settings add  
+"Group admin audience/visibility" to the group item.
+
+See below for a scenario on how this interacts with
+"Group visibility" and "Group content visibility".
+
+
+Database tables created or used: none
+
+Drupal variables created or used: none
+
+Views implemented: none
+
+Hooks implemented:
+      hook_install().
+      hook_uninstall().
+
+      hook_og_fields_info().
+      hook_form_alter().
+      hook_node_validate().
+
+
+Permissions implemented: none
+
+Project usage (in which FPFIS project):
+MULTISITE with organic groups
+
+Patches applied : none
+
+Dependencies :
+      Organic groups access control (enabled), 
+      Organic groups (enabled), 
+      Entity API (enabled), 
+      List (enabled), Field (enabled), 
+      Field SQL storage (enabled), 
+      Options (enabled), 
+      Organic groups context (enabled)
+
+Example :
+Scenario :
+Group Members can on only create content in the groups to which they belong.
+The content is not visible in the general site for anonymous users nor for users of other groups.
+The group is private.
+
+In og_groups_field_settings :
+Add fields to "Group"-type :
+Group visibility
+Group content visibility
+Group admin audience/visibility
+Group roles and permissions
+
+Add fields to content type e.g. Article : 
+Groups audience
+Group content visibility
+
+On the group 1 set :
+Group Visibility :  Private
+Group roles and permissions : Use Default
+Group admin audience/visibility : This group administrators only
+Group content visibility : Private - accessible only to group members
+On the groip 3 set :
+Group Visibility :  Public
+Group roles and permissions : any - make sure no permissions are given to user X
+Group admin audience/visibility : This group administrators only
+Group content visibility : any
+
+User X belongs to group 1 :
+and creates an "Article" ( Group content type ) in Group 1 :
+user can not select group or change group :  
+the content will be created in Group 1 - the context in which he creates the item
+and is only visible for members of this group!
+
+User X does not belong to group 3 :
+and tries to create an Article in Groupe 3
+user can not select group or change group :  
+trying to save the content gives error message : "Attempt to post to an illegal group"
+
+
+
+Simpletest :
+in multisite_og_access_admin.test
+testOGAccessAdminTest1Module() :
+// Test if the access admin field is available on the group nodes
+// Test if we can pick it on group creation
+// Change its value
+// Test if the value is changed
+// Change its value back to the original
+testOGAccessAdminTest2Module()
+// Test if the access admin field is saved
+// Test if we can pick it on group creation
+// Test if we can pick it on group edit
+testOGAccessAdminTest3Module() 
+// Tests if the access/visibility fields are not hidden when an admin user edits a group content item
+testOGAccessAdminTest4Module() 
+// Tests if the access/visibility fields are hidden when a non admin user edits a group content item
+// Create some content
+// verify the audience is set to groupa
+
+>>> Organic groups	 
+Ensure that the organic groups access admin module functions properly.
+128 passes, 0 fails, 0 exceptions, and 30 debug messages
+
+
