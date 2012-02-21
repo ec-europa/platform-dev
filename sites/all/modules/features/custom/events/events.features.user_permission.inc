@@ -31,7 +31,10 @@ function events_user_default_permissions() {
   // Exported permission: delete own event content
   $permissions['delete own event content'] = array(
     'name' => 'delete own event content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'node',
   );
 
   // Exported permission: edit any event content
@@ -46,12 +49,12 @@ function events_user_default_permissions() {
   // Exported permission: edit own event content
   $permissions['edit own event content'] = array(
     'name' => 'edit own event content',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'node',
   );
 
 include_once('events.features.og_permission.inc');   
- 
-  
-  
   return $permissions;
 }

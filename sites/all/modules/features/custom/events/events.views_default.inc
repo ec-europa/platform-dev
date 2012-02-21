@@ -130,7 +130,7 @@ function events_views_default_views() {
   $handler->display->display_options['arguments']['group']['field'] = 'group';
   $handler->display->display_options['arguments']['group']['relationship'] = 'og_membership_rel';
   $handler->display->display_options['arguments']['group']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['group']['title'] = '%1,%2';
+  $handler->display->display_options['arguments']['group']['title_enable'] = 1;
   $handler->display->display_options['arguments']['group']['default_argument_type'] = 'og_context';
   $handler->display->display_options['arguments']['group']['default_argument_skip_url'] = 0;
   $handler->display->display_options['arguments']['group']['summary']['number_of_records'] = '0';
