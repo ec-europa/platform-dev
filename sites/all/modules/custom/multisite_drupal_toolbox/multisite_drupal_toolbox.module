@@ -194,7 +194,7 @@ function add_content_type_newsletters($node_type) {
 // method to switch theme
 
 /*
-* hook__menu_alter
+* hook_menu_alter
 */	
 function multisite_drupal_toolbox_menu_alter(&$items) {
   $list_pages = array(

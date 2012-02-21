@@ -27,12 +27,6 @@ function survey_user_default_permissions() {
     // Administrator
 	$adm_rid = get_rid('administrator');  
 	user_role_grant_permissions($adm_rid, array_keys(module_invoke_all('permission')));
-    
-    // authenticated user
-    $au_rid = get_rid('authenticated user');
-    user_role_grant_permissions($au_rid, array(
-      'access all webform results',
-    ));
           
     // Add permissions to OG roles ---------------------------------------------------------------  
     // Community Manager
@@ -47,8 +41,8 @@ function survey_user_default_permissions() {
 
     $cmb_rid = get_og_rid('member');
     og_role_grant_permissions($cmb_rid, array(
-      'create webform content',
-      'delete own webform content',
+      //'create webform content',
+      //'delete own webform content',
       'update own webform content',
     ));
 
