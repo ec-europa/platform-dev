@@ -26,7 +26,7 @@ function news_content_defaults() {
       'und' => array(
         0 => array(
           'value' => '<p>test</p>
-  ',
+    ',
           'summary' => '',
           'format' => 'filtered_html',
           'safe_value' => '<p>test</p>
