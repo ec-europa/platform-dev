@@ -133,6 +133,10 @@ function communities_views_default_views() {
   $handler->display->display_options['fields']['body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
+  /* Field: Content: Group visibility */
+  $handler->display->display_options['fields']['group_access']['id'] = 'group_access';
+  $handler->display->display_options['fields']['group_access']['table'] = 'field_data_group_access';
+  $handler->display->display_options['fields']['group_access']['field'] = 'group_access';
   /* Field: Content: Group */
   $handler->display->display_options['fields']['group_group']['id'] = 'group_group';
   $handler->display->display_options['fields']['group_group']['table'] = 'field_data_group_group';
@@ -211,6 +215,119 @@ function communities_views_default_views() {
 
   /* Display: Page 2 */
   $handler = $view->new_display('page', 'Page 2', 'page_2');
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: thumbnail */
+  $handler->display->display_options['fields']['field_thumbnail']['id'] = 'field_thumbnail';
+  $handler->display->display_options['fields']['field_thumbnail']['table'] = 'field_data_field_thumbnail';
+  $handler->display->display_options['fields']['field_thumbnail']['field'] = 'field_thumbnail';
+  $handler->display->display_options['fields']['field_thumbnail']['label'] = '';
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_thumbnail']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['field_thumbnail']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_thumbnail']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_thumbnail']['settings'] = array(
+    'image_style' => 'communities_thumbnail',
+    'image_link' => 'content',
+  );
+  $handler->display->display_options['fields']['field_thumbnail']['field_api_classes'] = 0;
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['title']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['title']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['title']['link_to_node'] = 1;
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['label'] = 'Description';
+  $handler->display->display_options['fields']['body']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['max_length'] = '100';
+  $handler->display->display_options['fields']['body']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['trim'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['body']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['body']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['body']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
+  /* Field: Content: Group visibility */
+  $handler->display->display_options['fields']['group_access']['id'] = 'group_access';
+  $handler->display->display_options['fields']['group_access']['table'] = 'field_data_group_access';
+  $handler->display->display_options['fields']['group_access']['field'] = 'group_access';
+  $handler->display->display_options['fields']['group_access']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['group_access']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['group_access']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['group_access']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['group_access']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['group_access']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['group_access']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['group_access']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['group_access']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['group_access']['field_api_classes'] = 0;
+  /* Field: Content: Group */
+  $handler->display->display_options['fields']['group_group']['id'] = 'group_group';
+  $handler->display->display_options['fields']['group_group']['table'] = 'field_data_group_group';
+  $handler->display->display_options['fields']['group_group']['field'] = 'group_group';
+  $handler->display->display_options['fields']['group_group']['label'] = '';
+  $handler->display->display_options['fields']['group_group']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['group_group']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['group_group']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['group_group']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_group']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['group_group']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['group_group']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['group_group']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['group_group']['type'] = 'og_group_subscribe';
+  $handler->display->display_options['fields']['group_group']['field_api_classes'] = 0;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Title */
   $handler->display->display_options['arguments']['title']['id'] = 'title';
@@ -235,6 +352,101 @@ function communities_views_default_views() {
 
   /* Display: Page 3 */
   $handler = $view->new_display('page', 'Page 3', 'page_3');
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: thumbnail */
+  $handler->display->display_options['fields']['field_thumbnail']['id'] = 'field_thumbnail';
+  $handler->display->display_options['fields']['field_thumbnail']['table'] = 'field_data_field_thumbnail';
+  $handler->display->display_options['fields']['field_thumbnail']['field'] = 'field_thumbnail';
+  $handler->display->display_options['fields']['field_thumbnail']['label'] = '';
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_thumbnail']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['field_thumbnail']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['field_thumbnail']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_thumbnail']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_thumbnail']['settings'] = array(
+    'image_style' => 'communities_thumbnail',
+    'image_link' => 'content',
+  );
+  $handler->display->display_options['fields']['field_thumbnail']['field_api_classes'] = 0;
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['title']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['title']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['title']['link_to_node'] = 1;
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['label'] = 'Description';
+  $handler->display->display_options['fields']['body']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['max_length'] = '100';
+  $handler->display->display_options['fields']['body']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['trim'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['body']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['body']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['body']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
+  /* Field: Content: Group visibility */
+  $handler->display->display_options['fields']['group_access']['id'] = 'group_access';
+  $handler->display->display_options['fields']['group_access']['table'] = 'field_data_group_access';
+  $handler->display->display_options['fields']['group_access']['field'] = 'group_access';
+  /* Field: Content: Group */
+  $handler->display->display_options['fields']['group_group']['id'] = 'group_group';
+  $handler->display->display_options['fields']['group_group']['table'] = 'field_data_group_group';
+  $handler->display->display_options['fields']['group_group']['field'] = 'group_group';
+  $handler->display->display_options['fields']['group_group']['label'] = '';
+  $handler->display->display_options['fields']['group_group']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['group_group']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['group_group']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['group_group']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['group_group']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['group_group']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['group_group']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['group_group']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['group_group']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['group_group']['type'] = 'og_group_subscribe';
+  $handler->display->display_options['fields']['group_group']['field_api_classes'] = 0;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Author uid */
   $handler->display->display_options['arguments']['uid']['id'] = 'uid';
@@ -283,6 +495,7 @@ function communities_views_default_views() {
     t('group'),
     t('Title'),
     t('Description'),
+    t('Group visibility'),
     t('All'),
     t('Group: Group\'s state'),
     t('Page'),

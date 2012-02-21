@@ -11,20 +11,7 @@ include_once('communities_moderation.inc');
 * hook_disable
 */
 function communities_disable() {
-  _disable_content_type('community');
-  
-   // revoke permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-  $result = db_select('role', 'r')
-    ->condition('name', "contributor",'=')
-    ->fields('r', array('rid'))
-    ->execute()
-    ->fetchAssoc();
-
-  user_role_revoke_permissions($result['rid'], array(  
-    'create community content',
-	'delete own community content',
-	'edit own community content',  
-  ));  
+  _disable_content_type('community'); 
 }
 
 
@@ -129,6 +116,7 @@ function communities_node_type_insert($info) {
       'unsubscribe',
       'update group', 
       'administer group',
+	  'Moderate group content', // custom permission from the module multisite_drupal_workbench_moderation
     ));  
   }	
 }

@@ -13,7 +13,7 @@ function wiki_menu() {
   $items = array();
  
   $items['community/%group_name/wiki'] = array(
-    'title' => 'wiki',
+    'title' => 'wikis',
     'page callback' => 'views_page',
     'page arguments' => array('wiki_list', 'page_1', 1),
     'access callback' => TRUE,
