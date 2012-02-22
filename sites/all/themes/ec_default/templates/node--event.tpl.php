@@ -97,21 +97,58 @@
   <?php endif; ?>
       
   <div class="content clearfix"<?php print $content_attributes; ?>>
+
     <?php
+      $fields = array(
+        'body'  => 'body',
+        'hide'  => array('comments', 'links'),
+        'group' => array('group_audience', 'group_content_access')
+      );
+            
       // We hide several elements now so that we can render them later.
-      hide($content['comments']);
-      hide($content['links']);
-      hide($content['group_audience']);
-      hide($content['group_content_access']);
-      
+      foreach ($fields as $key => $value) {
+        if (is_array($value)) {
+          foreach ($value as $id) {
+            hide($content[$id]);
+          }        
+        } else {
+          hide($content[$value]);
+        }
+      }
+    ?>
+    
+    <?php if (isset($fields['body'])) { ?>
+    <fieldset>
+    <?php
+      if (is_array($fields['body'])) {
+        foreach ($fields['body'] as $id) {
+          print render($content[$id]);
+        }        
+      } else {
+        print render($content[$fields['body']]);
+      }      
+    ?>    
+    </fieldset>
+    <?php } ?>
+    
+    <?php
       print render($content);
     ?>
-      <div class="meta submitted group well">
+    
+    <?php if (isset($fields['group'])) { ?>
+    <div class="meta submitted group well">
     <?php
-      print render($content['group_audience']);
-      print render($content['group_content_access']);
+      if (is_array($fields['group'])) {
+        foreach ($fields['group'] as $id) {
+          print render($content[$id]);
+        }        
+      } else {
+        print render($content[$fields['group']]);
+      }      
     ?>
-      </div>
+    </div>
+    <?php } ?>
+
   </div>
 
   <?php

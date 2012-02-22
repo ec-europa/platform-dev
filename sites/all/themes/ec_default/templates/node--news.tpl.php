@@ -100,9 +100,11 @@
 
     <?php
       $fields = array(
-        'hide'  => array('comments', 'links')
+        'body'  => 'body',
+        'hide'  => array('comments', 'links'),
+        'group' => array('group_audience', 'group_content_access')
       );
-            
+
       // We hide several elements now so that we can render them later.
       foreach ($fields as $key => $value) {
         if (is_array($value)) {
