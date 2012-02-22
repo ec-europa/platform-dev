@@ -101,15 +101,15 @@
       // We hide several elements now so that we can render them later.
       hide($content['comments']);
       hide($content['links']);
-      hide($content['group_group']);
-      hide($content['group_access']);
+      hide($content['group_audience']);
+      hide($content['group_content_access']);
       
       print render($content);
     ?>
       <div class="meta submitted group well">
     <?php
-      print render($content['group_group']);
-      print render($content['group_access']);
+      print render($content['group_audience']);
+      print render($content['group_content_access']);
     ?>
       </div>
   </div>

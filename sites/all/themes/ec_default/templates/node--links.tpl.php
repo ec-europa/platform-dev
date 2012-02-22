@@ -97,10 +97,13 @@
 
   <div class="content clearfix"<?php print $content_attributes; ?>>
     <?php
-      // We hide the comments and links now so that we can render them later.
+      // We hide several elements now so that we can render them later.
       hide($content['comments']);
       hide($content['links']);
-      print render($content['field_link']);
+      hide($content['group_audience']);
+      hide($content['group_content_access']);
+      
+      print render($content);
     ?>
       <div class="meta submitted group well">
     <?php
