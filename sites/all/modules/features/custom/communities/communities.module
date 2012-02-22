@@ -232,3 +232,20 @@ function communities_block_view_alter(&$data, $block) {
     }
   }
 }
+
+
+/*
+* hook_node_view
+* 
+* when a user request a membership to a community, he's request is in state 'pending'. Since he's request is still in pending state, when he's view the homepage 
+* of this community a message is display to inform him.
+*/
+function communities_node_view($node, $view_mode, $langcode) {
+  if($node->type == 'community') {
+    $group = og_get_group('node', $node->nid);
+    $check_pending_state = og_is_member($group->gid, 'user', NULL, array(OG_STATE_PENDING));
+    if($check_pending_state) {
+      drupal_set_message(t("Your membership to this group is pending and waiting for community manager's approval"));
+    }
+  }
+}
