@@ -88,28 +88,26 @@
     </h2>
   <?php endif; ?>
   <?php print render($title_suffix); ?>
-  
-  
+
   <?php if ($display_submitted): ?>
     <div class="meta submitted">
       <?php print $submitted; ?>
     </div>
   <?php endif; ?>
-      
+
   <div class="content clearfix"<?php print $content_attributes; ?>>
     <?php
       // We hide the comments and links now so that we can render them later.
       hide($content['comments']);
       hide($content['links']);
-      
-      print render($content['body']);
+      print render($content['field_link']);
     ?>
       <div class="meta submitted group well">
     <?php
-      print render($content['group_group']);
-      print render($content['group_access']);
+      print render($content['group_audience']);
+      print render($content['group_content_access']);
     ?>
-      </div>
+      </div>    
   </div>
 
   <?php
@@ -122,7 +120,7 @@
     $links = render($content['links']);
     if ($links):
   ?>
-    <div class="link-wrapper right">
+    <div class="link-wrapper">
       <?php print $links; ?>
     </div>
   <?php endif; ?>
