@@ -13,20 +13,20 @@ Syntax : $(basename $0) [ARGS] SITE-NAME\n
 \t-?,-h, --help\t\tPrint this message\n
 \t-v, --verbose\t\tSet the script in verbose mode\n
 \t-f, --force\t\tForce the installation without any request to user input\n
-\t\t\t(Take care, it might delete automatically \n
+\t\t\t\t(Take care, it might delete automatically your database)\n
 Connection information\n
 \t-u, --db-user\t\tSet the database user\n
 \t-p, --db-pass\t\tSet the database password\n
-\t-H, --db-host\t\tSet the database host\n\n
+\t-H, --db-host\t\tSet the database host\n
 \t-P, --db-port\t\tSet the database port\n\n
 Configuration of the site\n
-\t-d,           \t\tDefine drush options
+\t-d, \t\t\tDefine drush options\n
 \t-r, --web-root\t\tDefine the web root\n
 \t-a, --account\t\tDefine the account name for the administrator\n
 \t-e, --account-email\tDefine the email address for the administrator\n
-\t-m, --site-email\t\tDefine the site email\n
+\t-m, --site-email\tDefine the site email\n
 \t-b, --base-url\t\tDefine the base URL of the site\n
-\t-i, --install-profile\t\tDefine the installation profile to use\n"
+\t-i, --install-profile\tDefine the installation profile to use\n"
 
 
 # Configuration of the script
