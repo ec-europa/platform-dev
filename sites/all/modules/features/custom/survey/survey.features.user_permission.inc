@@ -23,41 +23,38 @@ function survey_user_default_permissions() {
 
 
   // custom permissions
-    // Add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-    // Administrator
-	$adm_rid = get_rid('administrator');  
-	user_role_grant_permissions($adm_rid, array_keys(module_invoke_all('permission')));
+  // Add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
+  // Administrator
+  $adm_rid = get_rid('administrator');  
+  user_role_grant_permissions($adm_rid, array_keys(module_invoke_all('permission')));
           
-    // Add permissions to OG roles ---------------------------------------------------------------  
-    // Community Manager
-    $cm_rid = get_og_rid('community_manager');
-    og_role_grant_permissions($cm_rid, array(
-      'create webform content',
-      'delete any webform content',
-      'delete own webform content',
-      'update any webform content',
-      'update own webform content',
-    ));
+  // Add permissions to OG roles ---------------------------------------------------------------  
+  // Community Manager
+  $cm_rid = get_og_rid('community_manager');
+  og_role_grant_permissions($cm_rid, array(
+    'create webform content',
+    'delete any webform content',
+    'delete own webform content',
+    'update any webform content',
+    'update own webform content',
+  ));
 
-    $cmb_rid = get_og_rid('member');
-    og_role_grant_permissions($cmb_rid, array(
-      //'create webform content',
-      //'delete own webform content',
-      'update own webform content',
-    ));
+  $cmb_rid = get_og_rid('member');
+  og_role_grant_permissions($cmb_rid, array(
+    //'create webform content',
+    //'delete own webform content',
+    'update own webform content',
+  ));
 
-    // Administrator Member
-	$admm_rid = get_og_rid('administrator member');
-    og_role_grant_permissions($admm_rid, array(
-      'create webform content',
-      'delete any webform content',
-      'delete own webform content',
-      'update any webform content',
-      'update own webform content',
-    ));
-
-
-
+  // Administrator Member
+  $admm_rid = get_og_rid('administrator member');
+  og_role_grant_permissions($admm_rid, array(
+    'create webform content',
+    'delete any webform content',
+    'delete own webform content',
+    'update any webform content',
+    'update own webform content',
+  ));
 
   return $permissions;
 }

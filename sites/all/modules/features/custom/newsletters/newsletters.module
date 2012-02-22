@@ -21,6 +21,9 @@ function newsletters_enable() {
 function newsletters_disable() {
   // remove simplenews block to the site_wide context
   _remove_block_context('site_wide', '0');
+  
+  // disable the content type simplenews
+  _disable_content_type('simplenews');
 }
 
 
