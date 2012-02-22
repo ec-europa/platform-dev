@@ -1,7 +1,7 @@
 name = "Newsletters"
 description = "publish and send newsletters to lists of subscribers"
 core = "7.x"
-package = "Multisite_features"
+package = "Features"
 php = "5.2.4"
 version = "7.x-1.0"
 project = "newsletters"

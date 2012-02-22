@@ -15,3 +15,12 @@ function newsletters_enable() {
 }
 
 
+/*
+* hook_disable
+*/
+function newsletters_disable() {
+  // remove simplenews block to the site_wide context
+  _remove_block_context('site_wide', '0');
+}
+
+
