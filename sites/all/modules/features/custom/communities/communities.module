@@ -11,7 +11,9 @@ include_once('communities_moderation.inc');
 * hook_disable
 */
 function communities_disable() {
+  _remove_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
   _disable_content_type('community'); 
+  
 }
 
 
@@ -21,6 +23,7 @@ function communities_disable() {
 function communities_enable() {
   // create og role -------------------------------------------------------------------------------------------------------------------------------
   $community_manager_role = og_create_global_role("community_manager");
+  _add_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
 }
 
 
