@@ -13,7 +13,7 @@ include_once('news.features.inc');
 function news_enable(){
 
   //Add block in context
-  _add_block_context('communities','news-block_1','views','news-block_1', 'sidebar_first');
+ // _add_block_context('communities','news-block_1','views','news-block_1', 'sidebar_first');
   _add_views_context('communities','news');
   _add_content_type_context('communities','news');
   
@@ -30,7 +30,7 @@ function news_enable(){
 function news_disable(){
 
   // Remove block
-  _remove_block_context('communities', 'news-block_1');
+ // _remove_block_context('communities', 'news-block_1');
   _remove_views_context('communities', 'news');
   _remove_content_type_context('communities','news');
 

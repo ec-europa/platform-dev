@@ -13,7 +13,7 @@ include_once('links.features.inc');
 function links_enable(){
 
   //Add block in context
-  _add_block_context('communities','links-block','views','links-block', 'sidebar_first');
+  //_add_block_context('communities','links-block','views','links-block', 'sidebar_first');
   _add_views_context('communities','links');
   _add_content_type_context('communities','links');
   
@@ -30,7 +30,7 @@ function links_enable(){
 function links_disable(){
 
   // Remove block
-  _remove_block_context('communities', 'links-block');
+ // _remove_block_context('communities', 'links-block');
   _remove_views_context('communities', 'links');
   _remove_content_type_context('communities','links');
 
@@ -96,7 +96,7 @@ function links_menu() {
   $items = array();
  
   $items['community/%group_name/links'] = array(
-    'title' => 'links',
+    'title' => 'Links',
     'page callback' => 'views_page',
     'page arguments' => array('links', 'page', 1),
     'access callback' => TRUE,
@@ -132,12 +132,12 @@ function links_views_pre_render(&$view) {
       ->fetchAssoc();
     
       if($is_member){
-      $output .= l(t('Create a Link'), 'node/add/links', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'),'query' => array('gids_node[]' => $og->etid)));
-    }
-    //add menu to the exsiting  header
-    if($view->header['area']){
-      $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+        $output .= l(t('Create a Link'), 'node/add/links', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'),'query' => array('gids_node[]' => $og->etid)));
+      }
+      //add menu to the exsiting  header
+      if($view->header['area']){
+        $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+      }
     }
   }
- }
 }
