@@ -100,15 +100,6 @@
 
     <?php
       switch ($type) {
-        case 'event':
-        case 'news':
-          $fields = array(
-            'body'  => array('body'),
-            'hide'  => array('comments', 'links'),
-            'group' => array('group_audience', 'group_content_access')
-          );
-          break;
-          
         case 'community':
           $fields = array(
             'body'  => array('body'),
@@ -126,7 +117,9 @@
           
         default:
           $fields = array(
-            'hide'  => array('comments', 'links')
+            'body'  => array('body'),
+            'hide'  => array('comments', 'links'),
+            'group' => array('group_audience', 'group_content_access')
           );        
           break;
       }

@@ -65,3 +65,6 @@ fieldset legend {
 .region-content .tabbable ul {
   padding: 0;
 }
+.nav-list .nav-list {
+  padding: 0;
+}
