@@ -171,6 +171,14 @@ function communities_views_default_views() {
   $handler->display->display_options['arguments']['uid']['field'] = 'uid';
   $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
+  /* Filter criterion: OG group: State */
+  $handler->display->display_options['filters']['state']['id'] = 'state';
+  $handler->display->display_options['filters']['state']['table'] = 'og';
+  $handler->display->display_options['filters']['state']['field'] = 'state';
+  $handler->display->display_options['filters']['state']['relationship'] = 'og_rel';
+  $handler->display->display_options['filters']['state']['value'] = array(
+    1 => '1',
+  );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
