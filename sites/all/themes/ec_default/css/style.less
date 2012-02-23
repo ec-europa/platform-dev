@@ -1090,12 +1090,21 @@ a.btn {
   display: block;
   clear: both;
   .attachment {
-    position: absolute;
-    right: 0;
+    .view-content:after {
+      display: none;
+    }    
+    .tab-content {
+      overflow: visible;
+    }
   }
   .block-views > .content {
     height: 150px;
     padding-left: 10px;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;    
+    overflow: hidden;
+    text-align: justify;
     h3 {
       margin-top: 0;
       padding-top: 0;
@@ -1108,7 +1117,8 @@ a.btn {
     padding-left: 0;
     margin-top: 0 !important;
     height: 150px;
-    position: relative;
-    top: -1px;
+    .views-row-first a {
+      border-top: none;
+    }
   }
 }
