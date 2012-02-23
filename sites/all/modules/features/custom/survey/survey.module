@@ -14,7 +14,7 @@ function survey_menu() {
   $items = array();
  
   $items['community/%group_name/survey'] = array(
-    'title' => 'survey',
+    'title' => 'Survey',
     'page callback' => 'views_page',
     'page arguments' => array('surveys_list', 'page_1', 1),
     'access callback' => TRUE,
