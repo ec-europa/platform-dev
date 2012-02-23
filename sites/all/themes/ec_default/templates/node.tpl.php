@@ -99,9 +99,37 @@
   <div class="content clearfix"<?php print $content_attributes; ?>>
 
     <?php
-      $fields = array(
-        'hide'  => array('comments', 'links')
-      );
+      switch ($type) {
+        case 'event':
+        case 'news':
+          $fields = array(
+            'body'  => array('body'),
+            'hide'  => array('comments', 'links'),
+            'group' => array('group_audience', 'group_content_access')
+          );
+          break;
+          
+        case 'community':
+          $fields = array(
+            'body'  => array('body'),
+            'hide'  => array('comments', 'links'),
+            'group' => array('group_group', 'group_access')
+          );        
+          break;
+          
+        case 'links':
+          $fields = array(
+            'hide'  => array('comments', 'links'),
+            'group' => array('group_audience', 'group_content_access')
+          );        
+          break;
+          
+        default:
+          $fields = array(
+            'hide'  => array('comments', 'links')
+          );        
+          break;
+      }
             
       // We hide several elements now so that we can render them later.
       foreach ($fields as $key => $value) {
@@ -115,16 +143,23 @@
       }
     ?>
     
-    <?php if (isset($fields['body'])) { ?>
+    <?php 
+    $display_body = false;
+    if (isset($fields['body'])) {
+      foreach ($fields['body'] as $id) {
+        if (isset($content[$id]['#access'])) {
+          $display_body = true;
+          break;
+        }
+      }
+    }
+    
+    if ($display_body) { ?>
     <fieldset>
     <?php
-      if (is_array($fields['body'])) {
-        foreach ($fields['body'] as $id) {
-          print render($content[$id]);
-        }        
-      } else {
-        print render($content[$fields['body']]);
-      }      
+      foreach ($fields['body'] as $id) {
+        print render($content[$id]);
+      }    
     ?>    
     </fieldset>
     <?php } ?>
@@ -133,16 +168,23 @@
       print render($content);
     ?>
     
-    <?php if (isset($fields['group'])) { ?>
+    <?php 
+    $display_group = false;
+    if (isset($fields['group'])) {
+      foreach ($fields['group'] as $id) {
+        if (isset($content[$id]['#access'])) {
+          $display_group = true;
+          break;
+        }
+      }
+    }
+    
+    if ($display_group) { ?>
     <div class="meta submitted group well">
     <?php
-      if (is_array($fields['group'])) {
-        foreach ($fields['group'] as $id) {
-          print render($content[$id]);
-        }        
-      } else {
-        print render($content[$fields['group']]);
-      }      
+      foreach ($fields['group'] as $id) {
+        print render($content[$id]);
+      }        
     ?>
     </div>
     <?php } ?>
