@@ -37,7 +37,7 @@ function communities_views_pre_render(&$view) {
     $len = count($alphabet);
     foreach($alphabet as $letter) {
       if(count(arg()) > 1)
-        $url = arg(0)."/".arg(1)."/".$letter;
+        $url = arg(0)."/".arg(1)."/".$user->uid."/".$letter;
       else
         $url = arg(0)."/".$letter;
       
