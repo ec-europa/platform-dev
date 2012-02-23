@@ -98,7 +98,7 @@ function news_menu() {
   $items = array();
  
   $items['community/%group_name/news'] = array(
-    'title' => 'news',
+    'title' => 'News',
     'page callback' => 'views_page',
     'page arguments' => array('news', 'page', 1),
     'access callback' => TRUE,
