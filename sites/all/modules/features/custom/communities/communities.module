@@ -29,6 +29,8 @@ function communities_enable() {
 * hook_views_pre_render
 */
 function communities_views_pre_render(&$view) {
+  global $user;
+	
   if($view->name == 'communities_directory' || $view->name == 'communities_directory_my') {
     $alphabet = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
     $output = '';
