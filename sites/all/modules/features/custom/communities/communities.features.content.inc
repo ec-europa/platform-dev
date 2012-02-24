@@ -26,7 +26,7 @@ function communities_content_defaults() {
       'und' => array(
         0 => array(
           'value' => '<p>This is a example community.</p>
-    ',
+      ',
           'summary' => '',
           'format' => 'filtered_html',
           'safe_value' => '<p>This is a example community.</p>
@@ -53,7 +53,7 @@ function communities_content_defaults() {
       'und' => array(
         0 => array(
           'value' => '<p>This is another community test.</p>
-    ',
+      ',
           'summary' => '',
           'format' => 'filtered_html',
           'safe_value' => '<p>This is another community test.</p>
