@@ -178,7 +178,7 @@ function communities_field_default_fields() {
       ),
       'module' => 'image',
       'settings' => array(
-        'default_image' => '2',
+        'default_image' => '1',
         'uri_scheme' => 'public',
       ),
       'translatable' => '0',
