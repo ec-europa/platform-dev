@@ -277,7 +277,6 @@ function news_views_default_views() {
   $handler->display->display_options['fields']['field_news_picture']['table'] = 'field_data_field_news_picture';
   $handler->display->display_options['fields']['field_news_picture']['field'] = 'field_news_picture';
   $handler->display->display_options['fields']['field_news_picture']['label'] = '';
-  $handler->display->display_options['fields']['field_news_picture']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_news_picture']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['field_news_picture']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['field_news_picture']['alter']['absolute'] = 0;
@@ -291,14 +290,14 @@ function news_views_default_views() {
   $handler->display->display_options['fields']['field_news_picture']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['field_news_picture']['alter']['html'] = 0;
   $handler->display->display_options['fields']['field_news_picture']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_news_picture']['element_default_classes'] = 0;
+  $handler->display->display_options['fields']['field_news_picture']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['field_news_picture']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_news_picture']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_news_picture']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_news_picture']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_news_picture']['settings'] = array(
     'image_style' => 'thumbnail',
-    'image_link' => 'content',
+    'image_link' => '',
   );
   $handler->display->display_options['fields']['field_news_picture']['field_api_classes'] = 0;
   /* Field: Content: Nid */
@@ -357,7 +356,7 @@ function news_views_default_views() {
   $handler->display->display_options['fields']['body']['alter']['alter_text'] = 1;
   $handler->display->display_options['fields']['body']['alter']['text'] = '<div class="news" id="[nid]">
 <h3>[title]</h3>
-[field_news_picture] 
+[field_news_picture]
 [body]
 </div>';
   $handler->display->display_options['fields']['body']['alter']['make_link'] = 0;
@@ -470,7 +469,7 @@ function news_views_default_views() {
     t('Top News'),
     t('<div class="news" id="[nid]">
 <h3>[title]</h3>
-[field_news_picture] 
+[field_news_picture]
 [body]
 </div>'),
     t('Top news Attachment'),

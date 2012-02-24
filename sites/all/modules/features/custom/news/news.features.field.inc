@@ -199,7 +199,7 @@ function news_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'hidden',
+          'label' => 'above',
           'module' => 'image',
           'settings' => array(
             'image_link' => '',
@@ -224,7 +224,7 @@ function news_field_default_fields() {
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '10 mb',
-        'max_resolution' => '640x480',
+        'max_resolution' => '',
         'min_resolution' => '',
         'title_field' => 0,
         'user_register_form' => FALSE,
@@ -238,7 +238,6 @@ function news_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            0 => 0,
             'audio' => 0,
             'default' => 0,
             'image' => 'image',
@@ -373,7 +372,7 @@ function news_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => '5',
+          'weight' => 5,
         ),
         'teaser' => array(
           'label' => 'above',
