@@ -111,3 +111,9 @@ body,
   width: 940px;
   min-width: 920px;
 }
+.f_right {
+  float: right;
+}
+.f_left {
+  float: left;
+}

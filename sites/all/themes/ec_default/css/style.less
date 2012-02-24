@@ -294,6 +294,7 @@ ul.tips {
   }
   &.group {
     float: right;
+    clear: left;
   }
 }
 .submitted .user-picture img {
@@ -748,6 +749,12 @@ html.js input.throbbing {
 html.js input.form-autocomplete {
   background-position: 100% 6px;
 }
+.no_label .field-label {
+  display: none;
+}
+.no_label .field {
+  padding-bottom: 0;
+}
 
 /* -------------- Other Overrides ------------- */
 
@@ -1078,14 +1085,8 @@ a.btn {
   clear: left;
   padding-bottom: 10px;
 }
-.profile .no_label .field-label {
-  display: none;
-}
-.profile .no_label .field {
-  padding-bottom: 0;
-}
 
-/* ---------------- news  ----------------- */
+/* ---------------- News  ----------------- */
 #slider.news {
   display: block;
   clear: both;
@@ -1101,6 +1102,9 @@ a.btn {
     h3 {
       margin-top: 0;
       padding-top: 0;
+    }
+    .picture {
+      float: left;
     }
   }
   .content > .view-news > .news_content {
@@ -1121,5 +1125,12 @@ a.btn {
     margin-top: 0 !important;
     margin-left: 0 !important;
     height: 149px;
+  }
+}
+
+/* ---------------- Communities  ----------------- */
+.node-community {
+  .thumb {
+    margin: 11px 10px;
   }
 }

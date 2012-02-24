@@ -88,90 +88,61 @@
     </h2>
   <?php endif; ?>
   <?php print render($title_suffix); ?>
-  
-  
-  <?php if ($display_submitted): ?>
-    <div class="meta submitted">
-      <?php print $submitted; ?>
-    </div>
-  <?php endif; ?>
       
   <div class="content clearfix"<?php print $content_attributes; ?>>
 
     <?php
-      $output = '';
-      
-      switch ($type) {
-        case 'links':
-          $fields = array(
-            'hide'  => array('comments', 'links'),
-            'group' => array('group_audience', 'group_content_access')
-          );        
-          break;
-          
-        case 'news':
-          $fields = array(
-            'picture' => array('field_news_picture'),
-            'body'    => array('body'),
-            'hide'    => array('comments', 'links'),
-            'group'   => array('group_audience', 'group_content_access')
-          );        
-          break;
-
-        default:
-          $fields = array(
-            'body'  => array('body'),
-            'hide'  => array('comments', 'links'),
-            'group' => array('group_audience', 'group_content_access')
-          );        
-          break;
-      }
-
+      $fields = array(
+        'body'  => array('body'),
+        'hide'  => array('comments', 'links', 'field_thumbnail'),
+        'group' => array('group_group', 'group_access')
+      );
+            
       // We hide several elements now so that we can render them later.
       foreach ($fields as $key => $value) {
         foreach ($value as $id) {
           hide($content[$id]);
         }        
       }
+    ?>
+    
+    <div class="no_label f_left thumb">
+      <?php 
+        print render($content['field_thumbnail']);
+        //block_render('search', 'form')
+      ?>
+    </div>
+  
+      <?php 
+      $display_body = false;
+      if (isset($fields['body'])) {
+        foreach ($fields['body'] as $id) {
+          if (isset($content[$id]['#access'])) {
+            $display_body = true;
+            break;
+          }
+        }
+      }
+      
+      if ($display_body) { ?>
+      <fieldset>
+      <?php
+        foreach ($fields['body'] as $id) {
+          print render($content[$id]);
+        }    
+      ?>    
+      </fieldset>
+      <?php } ?>
 
-    //display body
-    $display_body = false;
-    if (isset($fields['body'])) {
-      foreach ($fields['body'] as $id) {
-        if (isset($content[$id]['#access'])) {
-          $display_body = true;
-          break;
-        }
-      }
-    }
-    if ($display_body) {
-      $output .= '<fieldset>';
-      foreach ($fields['body'] as $id) {
-        $output .= render($content[$id]);
-      }       
-      $output .= '</fieldset>';
-    }
     
-    //display picture
-    $display_picture = false;
-    if (isset($fields['picture'])) {
-      foreach ($fields['picture'] as $id) {
-        if (isset($content[$id]['#access'])) {
-          $display_picture = true;
-          break;
-        }
-      }
-    }
-    if ($display_picture) { 
-      foreach ($fields['picture'] as $id) {
-        $output .= render($content[$id]);
-      }     
-    } 
+
+      <?php
+        print render($content);
+      ?>
+
+
     
-    //display non hidden fields
-    $output .= render($content);
-    
-    //display groups
+    <?php 
     $display_group = false;
     if (isset($fields['group'])) {
       foreach ($fields['group'] as $id) {
@@ -181,16 +152,16 @@
         }
       }
     }
-    if ($display_group) { 
-      $output .= '<div class="meta submitted group well">';
-        foreach ($fields['group'] as $id) {
-          $output .=  render($content[$id]);
-        }        
-      $output .= '</div>';
-    } 
     
-    print $output;
+    if ($display_group) { ?>
+    <div class="meta submitted group well">
+    <?php
+      foreach ($fields['group'] as $id) {
+        print render($content[$id]);
+      }        
     ?>
+    </div>
+    <?php } ?>
 
   </div>
 

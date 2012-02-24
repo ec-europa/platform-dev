@@ -46,7 +46,7 @@
 ?>
   <?php print render($title_prefix); ?>
 <?php if ($block->subject): ?>
-<li class="nav-header">
+<li id="<?php print $block_html_id; ?>" class="nav-header">
 <?php print $block->subject ?>
 </li>
 <?php endif;?>
