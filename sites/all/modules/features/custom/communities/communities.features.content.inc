@@ -19,7 +19,7 @@ function communities_content_defaults() {
     'type' => 'community',
     'language' => 'en',
     'created' => '1327420321',
-    'comment' => '2',
+    'comment' => '1',
     'translate' => '0',
     'machine_name' => 'first community',
     'body' => array(
@@ -46,7 +46,7 @@ function communities_content_defaults() {
     'type' => 'community',
     'language' => 'en',
     'created' => '1327479443',
-    'comment' => '2',
+    'comment' => '1',
     'translate' => '0',
     'machine_name' => 'second community',
     'body' => array(
