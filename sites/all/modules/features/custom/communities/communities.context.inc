@@ -25,6 +25,13 @@ function communities_context_default_contexts() {
         'node_form' => '1',
       ),
     ),
+    'path' => array(
+      'values' => array(
+        'node/*/group' => 'node/*/group',
+        'node/*/moderation' => 'node/*/moderation',
+        'group/node/*' => 'group/node/*',
+      ),
+    ),
   );
   $context->reactions = array(
     'block' => array(

@@ -85,6 +85,19 @@ function communities_init() {
     $gid = $node->group_audience['und'][0]['gid'];
     og_context(og_load($gid));    
   }
+  
+  if(arg(0) == 'node' && is_numeric(arg(1)) && (arg(2) == 'group' || arg(2) == 'moderation')) {
+      $group = og_get_group('node', arg(1));
+      if(isset($group))
+         og_context($group);
+  }
+  
+  if(arg(0) == 'group' && arg(1) == 'node' && is_numeric(arg(2))) {
+    $group = og_get_group('node', arg(2));
+    if(isset($group))
+      og_context($group);
+  }
+ 
 }
 
 
