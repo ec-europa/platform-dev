@@ -51,6 +51,12 @@ function multisite_drupal_core_install() {
     'view moderation history',
   ));   
   
+  // permissions to the authentificated user
+  $au_rid = get_rid('authenticated user');
+  user_role_grant_permissions($au_rid, array(  
+	  'view revisions',
+      'revert revisions',
+  )); 
 
   
   // define the theme used ------------------------------------------------------------------------------------------------------------------------------------------------------
