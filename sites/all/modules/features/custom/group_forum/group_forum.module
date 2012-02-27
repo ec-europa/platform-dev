@@ -23,7 +23,7 @@ function group_forum_menu() {
   $items = array();
  
   $items['community/%group_name/forum'] = array(
-    'title' => 'Forum',
+    'title' => t( 'Forum' ),
     //'page callback' => 'views_page',
     'page callback' => '_group_forum_get_rooms',
     //'page arguments' => array('forum_rooms_list', 'page_forum_rooms', 1),
@@ -35,7 +35,7 @@ function group_forum_menu() {
   );
  
   $items['community/%group_name/forum/%room_alias/thread'] = array(
-    'title' => 'Forum',
+    'title' => t( 'Forum' ),
     'page callback' => 'views_page',
     'page arguments' => array('forum_thread_list', 'page_forum_threads', 3 ),
     'access callback' => TRUE,

@@ -50,4 +50,7 @@ features[variable][] = "pathauto_node_forum_room_pattern"
 features[variable][] = "pathauto_node_forum_thread_pattern"
 features[views_view][] = "forum_room_list"
 features[views_view][] = "forum_thread_list"
+
 ﻿core = "7.x"
+files[] = group_forum.test
+testing_api = 2.x
