@@ -106,16 +106,16 @@
     </div>
 
     <div class="comments comment-text">
-    <div class="comments comment-arrow"></div>
-    <?php
-    // We hide the comments and links now so that we can render them later.
-    hide($content['comments']);
-    //$add = $content['links'];
-    hide($content['links']);
-    hide($content['group_audience']);
-    hide($content['field_forum_room']);
-    print render($content); 
-    ?>
+      <div class="comments comment-arrow">
+      </div>
+      <?php
+        // We hide the comments and links now so that we can render them later.
+        hide($content['comments']);
+        hide($content['links']);
+        hide($content['group_audience']);
+        hide($content['field_forum_room']);
+        print render($content); 
+      ?>
     </div>
   </div>
 </div>
