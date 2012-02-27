@@ -199,7 +199,7 @@ function communities_menu() {
   $items['community/%group_name/view'] = array(
     //'title arguments' => array(1),
 	//'title callback' => '_communities_title_item',
-    'title' => t('home page'),
+    'title' => t('Home page'),
     'page arguments' => array(1),
     'access callback' => TRUE,
     'page callback' => '_redirection',
