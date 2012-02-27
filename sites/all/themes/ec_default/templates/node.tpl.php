@@ -78,6 +78,44 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
+ 
+$output = '';
+ 
+  switch ($type) {
+    case 'links':
+      $fields = array(
+        'hide'  => array('comments', 'links'),
+        'group' => array('group_audience', 'group_content_access')
+      );        
+      break;
+      
+    case 'news':
+      $fields = array(
+        'picture' => array('field_news_picture'),
+        'body'    => array('body'),
+        'hide'    => array('comments', 'links'),
+        'group'   => array('group_audience', 'group_content_access')
+      );        
+      break;
+      
+    case 'community':
+      $display_submitted = FALSE;
+      $fields = array(
+        'picture' => array('field_thumbnail'),
+        'body'  => array('body'),
+        'hide'  => array('comments', 'links', 'field_thumbnail'),
+        'group' => array('group_group', 'group_access')
+      );
+      break;
+
+    default:
+      $fields = array(
+        'body'  => array('body'),
+        'hide'  => array('comments', 'links'),
+        'group' => array('group_audience', 'group_content_access')
+      );        
+      break;
+  }
 ?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 
@@ -98,35 +136,7 @@
       
   <div class="content clearfix"<?php print $content_attributes; ?>>
 
-    <?php
-      $output = '';
-      
-      switch ($type) {
-        case 'links':
-          $fields = array(
-            'hide'  => array('comments', 'links'),
-            'group' => array('group_audience', 'group_content_access')
-          );        
-          break;
-          
-        case 'news':
-          $fields = array(
-            'picture' => array('field_news_picture'),
-            'body'    => array('body'),
-            'hide'    => array('comments', 'links'),
-            'group'   => array('group_audience', 'group_content_access')
-          );        
-          break;
-
-        default:
-          $fields = array(
-            'body'  => array('body'),
-            'hide'  => array('comments', 'links'),
-            'group' => array('group_audience', 'group_content_access')
-          );        
-          break;
-      }
-
+    <?php      
       // We hide several elements now so that we can render them later.
       foreach ($fields as $key => $value) {
         foreach ($value as $id) {
@@ -134,6 +144,22 @@
         }        
       }
 
+    //display picture
+    $display_picture = false;
+    if (isset($fields['picture'])) {
+      foreach ($fields['picture'] as $id) {
+        if (isset($content[$id]['#access'])) {
+          $display_picture = true;
+          break;
+        }
+      }
+    }
+    if ($display_picture) { 
+      foreach ($fields['picture'] as $id) {
+        $output .= '<div class="no_label center">' . render($content[$id]) . '</div>';
+      }     
+    } 
+    
     //display body
     $display_body = false;
     if (isset($fields['body'])) {
@@ -151,22 +177,6 @@
       }       
       $output .= '</fieldset>';
     }
-    
-    //display picture
-    $display_picture = false;
-    if (isset($fields['picture'])) {
-      foreach ($fields['picture'] as $id) {
-        if (isset($content[$id]['#access'])) {
-          $display_picture = true;
-          break;
-        }
-      }
-    }
-    if ($display_picture) { 
-      foreach ($fields['picture'] as $id) {
-        $output .= render($content[$id]);
-      }     
-    } 
     
     //display non hidden fields
     $output .= render($content);
@@ -188,6 +198,11 @@
         }        
       $output .= '</div>';
     } 
+    
+    //display workbench block
+    $output .= '<div class="f_left meta submitted well alt">';
+    $output .= block_render('workbench', 'block');
+    $output .= '</div>';    
     
     print $output;
     ?>

@@ -117,3 +117,7 @@ body,
 .f_left {
   float: left;
 }
+.center {
+  margin: 0 auto;
+  text-align: center;
+}
