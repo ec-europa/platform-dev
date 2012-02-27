@@ -9,41 +9,23 @@ core = "7.x"
 project = "multisite_drupal_toolbox"
 datestamp = "1322093758"
 
-feature_sets[debut_link][title] = 'Links'
-feature_sets[debut_link][description] = 'Create and manage links'
-feature_sets[debut_link][icon] = 'feature-set-icons/links.png'
-feature_sets[debut_link][enable][] = debut_link
-feature_sets[debut_link][disable][] = debut_link
+feature_sets[links][title] = 'Links'
+feature_sets[links][description] = 'Create and manage links'
+feature_sets[links][icon] = 'feature-set-icons/links.png'
+feature_sets[links][enable][] = links
+feature_sets[links][disable][] = links
 
-feature_sets[debut_forum][title] = 'Forums'
-feature_sets[debut_forum][description] = 'Create and manage forums'
-feature_sets[debut_forum][icon] = 'feature-set-icons/forum.png'
-feature_sets[debut_forum][enable][] = debut_forum
-feature_sets[debut_forum][disable][] = debut_forum
-
-feature_sets[debut_article][title] = 'Articles'
-feature_sets[debut_article][description] = 'Create and manage advanced articles'
-feature_sets[debut_article][icon] = 'feature-set-icons/forum.png'
-feature_sets[debut_article][enable][] = debut_article
-feature_sets[debut_article][disable][] = debut_article
-
-feature_sets[debut_event][title] = 'Events'
-feature_sets[debut_event][description] = 'Create and add events calendar'
-feature_sets[debut_event][icon] = 'feature-set-icons/events.png'
-feature_sets[debut_event][enable][] = events
-feature_sets[debut_event][disable][] = events
+feature_sets[news][title] = 'News'
+feature_sets[news][description] = 'Create and add news'
+feature_sets[news][icon] = 'feature-set-icons/news.png'
+feature_sets[news][enable][] = news
+feature_sets[news][disable][] = news
 
 feature_sets[ec_profiles][title] = 'EC Profiles'
-feature_sets[ec_profiles][description] = 'Create and add links in your Community'
+feature_sets[ec_profiles][description] = 'Create and add links'
 feature_sets[ec_profiles][icon] = 'feature-set-icons/ec_profiles.png'
 feature_sets[ec_profiles][enable][] = ec_profiles
 feature_sets[ec_profiles][disable][] = ec_profiles
-
-feature_sets[newsletters][title] = 'Newsletters'
-feature_sets[newsletters][description] = 'Publish and send newsletters to lists of subscribers'
-feature_sets[newsletters][icon] = 'feature-set-icons/newsletter.png'
-feature_sets[newsletters][enable][] = newsletters
-feature_sets[newsletters][disable][] = newsletters
 
 feature_sets[sitemap][title] = 'Sitemap'
 feature_sets[sitemap][description] = 'Build a sitemap and make it available for your visitors'
@@ -56,3 +38,15 @@ feature_sets[f_a_q][description] = 'FAQ features'
 feature_sets[f_a_q][icon] = 'feature-set-icons/faq.png'
 feature_sets[f_a_q][enable][] = f_a_q
 feature_sets[f_a_q][disable][] = f_a_q
+
+feature_sets[wiki][title] = 'Wikis'
+feature_sets[wiki][description] = 'Create and add wikis'
+feature_sets[wiki][icon] = 'feature-set-icons/wiki.png'
+feature_sets[wiki][enable][] = wiki
+feature_sets[wiki][disable][] = wiki
+
+feature_sets[survey][title] = 'Surveys'
+feature_sets[survey][description] = 'Create and add surveys'
+feature_sets[survey][icon] = 'feature-set-icons/survey.png'
+feature_sets[survey][enable][] = survey
+feature_sets[survey][disable][] = survey

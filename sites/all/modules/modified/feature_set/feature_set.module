@@ -132,8 +132,8 @@ function feature_set_enable_feature_set($feature_set) {
   }
   
   // multisite fix, need to clear cache
-  drupal_flush_all_caches();
-  node_access_rebuild();
+  //drupal_flush_all_caches();
+  //node_access_rebuild();
   
 }
 
@@ -336,6 +336,7 @@ function get_require($module) {
 function feature_set_exit() {
   if($_GET['q'] == 'admin/structure/feature-set') {
     drupal_flush_all_caches();
+	node_access_rebuild();
   }
 }
 

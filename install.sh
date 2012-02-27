@@ -122,6 +122,19 @@ cp -R sites/all/themes ${site_name}/sites/all
 cp -R sites/default/files/ ${site_name}/sites/default/files/
 #cp -R sites/all/libraries ${site_name}/sites/all
 
+if [ "${install_profile}" = "multisite_drupal_standard" ] ; then
+  rm -Rf ${site_name}/sites/all/modules/features/custom/communities
+  rm -Rf ${site_name}/sites/all/modules/features/custom/e_libraries
+  rm -Rf ${site_name}/sites/all/modules/features/custom/events
+  rm -Rf ${site_name}/sites/all/modules/features/custom/group_forum
+  rm -Rf ${site_name}/sites/all/modules/features/custom/links
+  rm -Rf ${site_name}/sites/all/modules/features/custom/news
+  rm -Rf ${site_name}/sites/all/modules/features/custom/survey  
+  rm -Rf ${site_name}/sites/all/modules/features/custom/wiki  
+else
+  rm -Rf ${site_name}/sites/all/modules/features/custom/standard
+fi
+
 # we assume the script is in the patches directory
 patch_dir=$(readlink -f patches)
 

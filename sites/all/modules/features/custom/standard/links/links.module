@@ -1,0 +1,80 @@
+<?php
+/**
+ * @file
+ * Code for the Links feature.
+ */
+
+include_once('links.features.inc');
+
+/*
+ * hook_enable 
+ * Edit communities context to add a block
+ */
+function links_enable(){
+
+  //Add block in context
+
+  drupal_set_message('Links feature is now active on your site.');
+
+}
+
+
+/*
+ * hook_disable 
+ * Edit communities context to remove block
+ * Remove permissions
+ */
+function links_disable(){
+
+  // Remove block
+ // _remove_block_context('communities', 'links-block');
+  _remove_views_context('communities', 'links');
+  _remove_content_type_context('communities','links');
+
+  /*** Remove permissions ***/
+  _disable_content_type('links');
+  
+  // Administrator
+  $adm_rid = get_rid('administrator');
+  user_role_revoke_permissions($adm_rid, array(
+    'edit own links content',
+    'edit any links content',
+    'delete own links content',
+    'delete any links content',
+    'create links content',
+  ));
+    
+  // Contributor
+  $ctb_rid = get_rid('contributor');      
+  user_role_revoke_permissions($ctb_rid, array(
+    'edit own links content',
+    'edit any links content',
+    'delete own links content',
+    'delete any links content',
+    'create links content',
+  ));
+          
+  drupal_set_message('Links feature is now disabled on your site.');
+}
+
+
+
+
+/*
+* hook_views_pre_render
+*/
+function links_views_pre_render(&$view) {
+
+  if($view->name == 'links' && $view->current_display == 'page' && user_access('create links content')) {
+    $output = '';
+    global $user;
+
+    if(user_access("create links content")){
+        $output .= l(t('Create a Link'), 'node/add/links', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'),'query' => array('gids_node[]' => $og->etid)));
+    }
+    //add menu to the exsiting  header
+    if($view->header['area']){
+      $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+    }
+  }
+}
