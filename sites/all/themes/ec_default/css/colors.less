@@ -204,3 +204,72 @@ a {
     background-color: @block_bg_color;
   }
 }
+
+/* ---------------- Events  ----------------- */
+.calendar-calendar {
+  .month-view .full {
+    td.multi-day div.monthview {
+      background-color: @primary_tab_bg_color; 
+      border: #000 1px solid;
+      a { 
+        color: @primary_tab_text_color;
+        text-shadow: 1px 1px #000000;
+      }      
+      .cutoff {
+        background-color: @primary_tab_bg_color !important; 
+      }
+    }
+    td.single-day div.monthview {
+      border: #000 1px solid;
+      a { 
+        color: @primary_tab_text_color;
+        text-shadow: 1px 1px #000000;
+      }    
+      .cutoff {
+        background-color: @primary_tab_bg_color !important; 
+      }
+    }
+  }
+  .week-view .full {
+    td.multi-day div.weekview {
+      background-color: @primary_tab_bg_color; 
+      border: #000 1px solid;
+      a { 
+        color: @primary_tab_text_color;
+        text-shadow: 1px 1px #000000;
+      }
+      .cutoff {
+        background-color: @primary_tab_bg_color !important; 
+      }      
+    }
+    td.single-day div.weekview {
+      background-color: @primary_tab_bg_color; 
+      border: #000 1px solid;
+      a { 
+        color: @primary_tab_text_color;
+        text-shadow: 1px 1px #000000;
+      }
+      .cutoff {
+        background-color: @primary_tab_bg_color !important; 
+      }      
+    }
+  }
+  .day-view .full {
+    div.single-day div.dayview { 
+      background-color: @primary_tab_bg_color; 
+      border-color: #000;
+      a { 
+        color: @primary_tab_text_color;
+        text-shadow: 1px 1px #000000;
+      }
+      .cutoff {
+        background-color: @primary_tab_bg_color !important; 
+      }      
+    }
+  }
+  .year-view {
+    td table td {
+      text-align: center;
+    }
+  }
+}
