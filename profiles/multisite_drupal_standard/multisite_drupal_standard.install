@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ */
+
+function multisite_drupal_standard_install() {
+  include_once DRUPAL_ROOT . '/profiles/standard/standard.install';
+  
+  standard_install();
+
+
+  // add dummy terms in 'tags' vocabulary -------------------------------------------------------------------------------------------------------------------------
+  $term = new stdClass();
+  $term->name = "sport";
+  $term->vid = 1;
+  taxonomy_term_save($term);
+
+  $term = new stdClass();
+  $term->name = "economic";
+  $term->vid = 1;
+  taxonomy_term_save($term);
+
+  // create new roles -------------------------------------------------------------------------------------------------------------------------------------------------------
+  $role = new stdClass();
+  $role->name = 'contributor';
+  user_role_save($role);  
+  
+  // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
+  // permissions related to articles content type
+  user_role_grant_permissions($role->rid, array(  
+    'create article content',
+	'delete own article content',
+	'edit own article content',  
+  )); 
+  
+  // permissions related to workbench moderation
+  user_role_grant_permissions($role->rid, array(  
+    'create article content',
+	'delete own article content',
+	'edit own article content',
+    'view own unpublished content',
+	'view revisions',
+	'access workbench',
+    'use workbench_moderation my drafts tab',
+    'use workbench_moderation needs review tab',
+    'view moderation messages', 
+	'moderate content from draft to needs_review',
+    'view moderation history',
+  ));   
+  
+  // permissions to the authentificated user
+  $au_rid = get_rid('authenticated user');
+  user_role_grant_permissions($au_rid, array(  
+	  'view revisions',
+      'revert revisions',
+  )); 
+
+  
+  // define the theme used ------------------------------------------------------------------------------------------------------------------------------------------------------
+  $enable = array(
+  'theme_default' => 'ec_default', // should be the our CCE theme
+  'admin_theme' => 'seven',
+  );
+  theme_enable($enable);
+ 
+  foreach ($enable as $var => $theme) {
+    if (!is_numeric($var)) {
+      variable_set($var, $theme);
+    }
+  }
+  theme_disable(array('bartik')); // Disable the default Bartik theme
+  
+
+  // setup settings ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  
+  // language settings
+	  
+  // set the url language prefix to 'en'
+  db_update('languages')
+      ->fields(array('prefix' => 'en'))
+      ->condition('language', 'en')
+      ->execute(); 
+	  
+  // set the default language negociation
+  $lni = language_negotiation_info();
+  $ln['language-default'] = $lni['language-default'];
+  $ln['locale-url'] = $lni['locale-url'];
+  language_negotiation_set('language', $ln);
+  
+  //Disable cloned Search Form Block
+  $dis_search = db_update('block') // Table name no longer needs {}
+    ->fields(array(
+    'region' => '-1',
+    ))
+    ->condition('module', 'search', '=')
+    ->condition('delta', 'form', '=')
+    ->execute();
+  
+}

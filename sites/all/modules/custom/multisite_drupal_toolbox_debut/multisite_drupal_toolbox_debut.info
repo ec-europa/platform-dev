@@ -1,0 +1,58 @@
+name = multisite drupal debut
+description = toolbox for the multisite drupal plateform for using the debut features
+package = multisite drupal toolbox
+core = 7.x
+
+; Information added by drupal.org packaging script on 2011-11-24
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "multisite_drupal_toolbox"
+datestamp = "1322093758"
+
+feature_sets[debut_link][title] = 'Links'
+feature_sets[debut_link][description] = 'Create and manage links'
+feature_sets[debut_link][icon] = 'feature-set-icons/links.png'
+feature_sets[debut_link][enable][] = debut_link
+feature_sets[debut_link][disable][] = debut_link
+
+feature_sets[debut_forum][title] = 'Forums'
+feature_sets[debut_forum][description] = 'Create and manage forums'
+feature_sets[debut_forum][icon] = 'feature-set-icons/forum.png'
+feature_sets[debut_forum][enable][] = debut_forum
+feature_sets[debut_forum][disable][] = debut_forum
+
+feature_sets[debut_article][title] = 'Articles'
+feature_sets[debut_article][description] = 'Create and manage advanced articles'
+feature_sets[debut_article][icon] = 'feature-set-icons/forum.png'
+feature_sets[debut_article][enable][] = debut_article
+feature_sets[debut_article][disable][] = debut_article
+
+feature_sets[debut_event][title] = 'Events'
+feature_sets[debut_event][description] = 'Create and add events calendar'
+feature_sets[debut_event][icon] = 'feature-set-icons/events.png'
+feature_sets[debut_event][enable][] = events
+feature_sets[debut_event][disable][] = events
+
+feature_sets[ec_profiles][title] = 'EC Profiles'
+feature_sets[ec_profiles][description] = 'Create and add links in your Community'
+feature_sets[ec_profiles][icon] = 'feature-set-icons/ec_profiles.png'
+feature_sets[ec_profiles][enable][] = ec_profiles
+feature_sets[ec_profiles][disable][] = ec_profiles
+
+feature_sets[newsletters][title] = 'Newsletters'
+feature_sets[newsletters][description] = 'Publish and send newsletters to lists of subscribers'
+feature_sets[newsletters][icon] = 'feature-set-icons/newsletter.png'
+feature_sets[newsletters][enable][] = newsletters
+feature_sets[newsletters][disable][] = newsletters
+
+feature_sets[sitemap][title] = 'Sitemap'
+feature_sets[sitemap][description] = 'Build a sitemap and make it available for your visitors'
+feature_sets[sitemap][icon] = 'feature-set-icons/sitemap.png'
+feature_sets[sitemap][enable][] = sitemap
+feature_sets[sitemap][disable][] = sitemap
+
+feature_sets[f_a_q][title] = 'FAQ'
+feature_sets[f_a_q][description] = 'FAQ features'
+feature_sets[f_a_q][icon] = 'feature-set-icons/faq.png'
+feature_sets[f_a_q][enable][] = f_a_q
+feature_sets[f_a_q][disable][] = f_a_q

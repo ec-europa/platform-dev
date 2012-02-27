@@ -106,7 +106,7 @@ fi
 __echo "Set drush options: ${drush_options}"
 
 #build the drupal instance
-drush ${drush_options} make profiles/multisite_drupal_core/build.make ${site_name} 1>&2
+drush ${drush_options} make profiles/$install_profile/build.make ${site_name} 1>&2
 
 mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "drop database ${site_name};" 1>&2
 mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "create database ${site_name};" 1>&2
@@ -115,6 +115,7 @@ chmod -R 777 ${site_name}/sites/default
 cp -R profiles/multisite_drupal_core ${site_name}/profiles
 cp -R profiles/subsite_standard ${site_name}/profiles
 cp -R profiles/subsite_communities ${site_name}/profiles
+cp -R profiles/multisite_drupal_standard ${site_name}/profiles
 cp -R sites/all/modules/ ${site_name}/sites/all
 cp -R sites/all/modules/features ${site_name}/sites/all/modules
 cp -R sites/all/themes ${site_name}/sites/all
@@ -149,7 +150,7 @@ drush --php="/usr/bin/php" ${drush_options} si $install_profile --db-url=$db_url
 drush cc all
 drush php-eval 'node_access_rebuild();'
 #inject data
-drush scr "${working_dir}/profiles/multisite_drupal_core/multisite_drupal_core_data.php"
+drush scr "${working_dir}/profiles/${install_profile}/inject_data.php"
 
 mkdir "${working_dir}/sites/default/files/private_files"
 chmod -R 777 "${working_dir}/sites/default/files"
