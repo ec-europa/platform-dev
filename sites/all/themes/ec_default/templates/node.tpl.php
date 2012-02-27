@@ -200,9 +200,12 @@ $output = '';
     } 
     
     //display workbench block
-    $output .= '<div class="f_left meta submitted well alt">';
-    $output .= block_render('workbench', 'block');
-    $output .= '</div>';    
+    $display_workbench = block_render('workbench', 'block');
+    if ($display_workbench) {
+      $output .= '<div class="f_left meta submitted well alt">';
+      $output .= $display_workbench;
+      $output .= '</div>';    
+    }
     
     print $output;
     ?>
