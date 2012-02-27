@@ -1,0 +1,168 @@
+<?php
+
+    // member = 2
+    // administrator member = 3
+    // community_manager = 4
+    
+DEFINE( 'ROLE_MEMBER', 2 );
+DEFINE( 'ROLE_ADMIN_ROLE', 3 );
+DEFINE( 'ROLE_COMMUNITY_MANAGER', 4 );
+
+/**
+ * Tests the functionality of the OG Button module.
+ */
+class GroupForumTest extends DrupalWebTestCase {
+  protected $users;
+  protected $community;
+  //protected $profile = 'subsite_communities';
+  
+  public static function getInfo() {
+    return array(
+      'name' => 'Feature Forum Group Tests',
+      'description' => 'Ensure that the feature forum group runs as expected.',
+      'group' => 'DEC Features',
+    );
+  }
+
+  public function setUp() {
+    //global $user;
+    // Enable any modules required for the test
+    $modules = array(
+      'context',
+      'og',
+      'og_access',
+      'og_create_perms',
+      'views',
+      'views_ui', 
+      'node_reference',
+      'token', 
+      'pathauto',
+      'communities', 
+      'group_forum',
+      );
+    parent::setUp( $modules );
+    
+    // I don't understand why it doesn't function above...
+    foreach( $modules as $module ) {
+      if ( !module_exists( $module ) ) {
+        module_enable( array( $module ), TRUE );
+        $this->verbose( 'Activation of '.$module );
+      }
+    }
+    
+    //grant the permissions for the forums
+    include_once( 'group_forum.features.og_permission.inc' );
+    
+    // Specific feature set 
+    drupal_flush_all_caches();
+    
+    // Create a group
+    $data = array( 
+      'type' => 'community',
+      'title' => 'simpletest community',
+      'workbench_moderation_state_new' => 'published',
+    );
+    $data[OG_GROUP_FIELD][LANGUAGE_NONE][0]['value'] = 1;
+    $this->community = $this->drupalCreateNode( $data );
+    
+    // Change the path which is not correct
+    $node_path = 'node/' . $this->community->nid;
+    path_delete( array( 'source' => $node_path ) );
+    $path = array( 
+      'source' => $node_path,
+      'alias' => 'community/simpletest-community',
+      'language' => 'en',
+      );
+    path_save( $path );
+    
+    // Return a loaded group entity if exists or create a new one.
+    $group = og_get_group( 'node',  $this->community->nid );
+    $this->community->gid = $group->gid;
+    
+    // Create a user who will have the right to create rooms
+    $this->users['admin'] = $this->drupalCreateUser();
+    
+    // Give the user the administer role
+    $user = og_group( $this->community->gid, array( 'entity_type' => 'user', 'entity' => $this->users['admin'] ) );
+    og_role_grant( $this->community->gid, $this->users['admin']->uid, get_og_rid( 'administrator member' ) );
+    $roles = og_get_user_roles( $this->community->gid, $user->uid );
+    
+    $this->users['manager'] = $this->drupalCreateUser();
+    // Give the user the role ID
+    og_role_grant( $this->community->gid, $this->users['manager']->uid, ROLE_COMMUNITY_MANAGER );
+    
+    $this->users['member'] = $this->drupalCreateUser();
+    // Give the user the role ID
+    og_role_grant( $this->community->gid, $this->users['member']->uid, ROLE_MEMBER );
+  }
+  
+  public function testGroupForumFeatureAdmin() {
+    // Login as admin
+    $this->drupalLogin($this->users['admin']);
+    global $user;
+    $user = user_load( $this->users['admin']->uid );
+    
+    // Connect to the community
+    $path = drupal_get_path_alias( 'node/'.$this->community->nid );
+    $this->drupalGet( $path );
+    
+    // Check that we have the capability to
+    // - See the forum link
+    if ( $this->_testForumAvailability() ){
+      $this->clickLink( t( 'Forum' ) );
+    } else {
+      return;
+    }
+    
+    // Click on the Forum link and check that we have the default text
+    $this->assertText( t('There are not yet any room.'), t('Found the default message') );
+    if ( $this->assertLink( t('Add a new Room'), 0, t('Found the link to accede to the creation of a Room') ) ) {
+      $this->clickLink( t('Add a new Room') );
+    
+      // Create a room
+      $edit = array( 
+        'title' => $this->randomName( 32 ),
+      //  'body' => $this->randomName( 64 ),
+      );
+      $this->drupalPost( NULL, $edit, t('Save') );
+      
+    } else {
+      $user_roles = og_get_user_roles( $this->community->gid, $user->uid );
+      $og_rid =  get_og_rid( 'administrator member' );
+      $this->assertTrue( 
+        in_array( $og_rid, $user_roles ), 
+        t( 'Check if the user has the correct role' ) );
+      
+      $this->verbose( serialize( og_role_permissions( array( $og_rid => $og_rid ) ) ) );
+      // $role_permissions = og_role_permissions( array( $og_rid ) );
+      // $this->assertTrue( 
+        // in_array( 'create forum_room content', $role_permissions[$og_rid] ), 
+        // t( 'Check if the role has the correct permission' ) );
+      
+      $this->assertTrue( 
+        og_user_access( $this->community->gid, 'create forum_room content', $user ), 
+        t( 'Check if the user has the correct rights on the community' )
+      );
+    }
+    
+    // The room should be created
+    if ( $this->_testForumAvailability() ){
+      $this->clickLink( 'Forum' );
+      $this->assertNoText( t('There are not yet any room.'), t('Found the default message') );
+    }
+    
+    $this->drupalLogout();
+  }
+  
+  public function _testForumAvailability() {
+    return $this->assertLink( 'Forum', 0, t('Found the link to accede to the Forum.'));
+  }
+  
+  public function _testRoomCreation() {
+    return $this->assertLink( 'Forum Room', 0, t('Found the OG Button link to accede to the creation of a Room.'));
+  }
+  
+  public function _testThreadCreation() {
+    return $this->assertLink( 'Forum Thread', 0, t('Found the OG Button link to accede to the creation of a Thread.'));
+  }
+}
