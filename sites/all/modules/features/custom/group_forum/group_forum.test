@@ -4,9 +4,6 @@
     // administrator member = 3
     // community_manager = 4
     
-DEFINE( 'ROLE_MEMBER', 2 );
-DEFINE( 'ROLE_ADMIN_ROLE', 3 );
-DEFINE( 'ROLE_COMMUNITY_MANAGER', 4 );
 
 /**
  * Tests the functionality of the OG Button module.
@@ -51,7 +48,7 @@ class GroupForumTest extends DrupalWebTestCase {
     }
     
     //grant the permissions for the forums
-    include_once( 'group_forum.features.og_permission.inc' );
+    _group_forum_grant_roles();
     
     // Specific feature set 
     drupal_flush_all_caches();
@@ -83,17 +80,18 @@ class GroupForumTest extends DrupalWebTestCase {
     $this->users['admin'] = $this->drupalCreateUser();
     
     // Give the user the administer role
-    $user = og_group( $this->community->gid, array( 'entity_type' => 'user', 'entity' => $this->users['admin'] ) );
+    og_group( $this->community->gid, array( 'entity_type' => 'user', 'entity' => $this->users['admin'] ) );
     og_role_grant( $this->community->gid, $this->users['admin']->uid, get_og_rid( 'administrator member' ) );
-    $roles = og_get_user_roles( $this->community->gid, $user->uid );
     
     $this->users['manager'] = $this->drupalCreateUser();
     // Give the user the role ID
-    og_role_grant( $this->community->gid, $this->users['manager']->uid, ROLE_COMMUNITY_MANAGER );
+    og_group( $this->community->gid, array( 'entity_type' => 'user', 'entity' => $this->users['manager'] ) );
+    og_role_grant( $this->community->gid, $this->users['manager']->uid, get_og_rid( 'community_manager' ) );
     
     $this->users['member'] = $this->drupalCreateUser();
     // Give the user the role ID
-    og_role_grant( $this->community->gid, $this->users['member']->uid, ROLE_MEMBER );
+    og_group( $this->community->gid, array( 'entity_type' => 'user', 'entity' => $this->users['member'] ) );
+    og_role_grant( $this->community->gid, $this->users['member']->uid, get_og_rid( 'member' ) );
   }
   
   public function testGroupForumFeatureAdmin() {
@@ -121,7 +119,7 @@ class GroupForumTest extends DrupalWebTestCase {
     
       // Create a room
       $edit = array( 
-        'title' => $this->randomName( 32 ),
+        'title' => 'First Room',
       //  'body' => $this->randomName( 64 ),
       );
       $this->drupalPost( NULL, $edit, t('Save') );
@@ -133,12 +131,6 @@ class GroupForumTest extends DrupalWebTestCase {
         in_array( $og_rid, $user_roles ), 
         t( 'Check if the user has the correct role' ) );
       
-      $this->verbose( serialize( og_role_permissions( array( $og_rid => $og_rid ) ) ) );
-      // $role_permissions = og_role_permissions( array( $og_rid ) );
-      // $this->assertTrue( 
-        // in_array( 'create forum_room content', $role_permissions[$og_rid] ), 
-        // t( 'Check if the role has the correct permission' ) );
-      
       $this->assertTrue( 
         og_user_access( $this->community->gid, 'create forum_room content', $user ), 
         t( 'Check if the user has the correct rights on the community' )
@@ -149,6 +141,12 @@ class GroupForumTest extends DrupalWebTestCase {
     if ( $this->_testForumAvailability() ){
       $this->clickLink( 'Forum' );
       $this->assertNoText( t('There are not yet any room.'), t('Found the default message') );
+      
+      if ( $this->assertLink( 'First Room', 0, t('check that I can accede to the first room' ) ) ) {
+        $this->clickLink( 'First Room' );
+        $this->assertLink( t('Add a new thread'), 0, t( 'Check that I can create a thread' ) );
+      }
+      
     }
     
     $this->drupalLogout();
@@ -156,13 +154,5 @@ class GroupForumTest extends DrupalWebTestCase {
   
   public function _testForumAvailability() {
     return $this->assertLink( 'Forum', 0, t('Found the link to accede to the Forum.'));
-  }
-  
-  public function _testRoomCreation() {
-    return $this->assertLink( 'Forum Room', 0, t('Found the OG Button link to accede to the creation of a Room.'));
-  }
-  
-  public function _testThreadCreation() {
-    return $this->assertLink( 'Forum Thread', 0, t('Found the OG Button link to accede to the creation of a Thread.'));
   }
 }
