@@ -94,7 +94,7 @@ function ec_default_preprocess_html(&$variables) {
 
   // Add javascripts
 	drupal_add_js('/wel/template-2012/scripts/ec.js', 'external');
-  drupal_add_js(path_to_theme() . '/scripts/scripts.js');
+	drupal_add_js(path_to_theme() . '/scripts/scripts.js');
   
   // Add hack javascript, to overide EC javascript if needed
   drupal_add_js(path_to_theme() . '/scripts/hack.js');  
@@ -472,6 +472,45 @@ function ec_default_link( $variables ){
     $decoration . ($variables['options']['html'] ? 
       $variables['text'] : check_plain($variables['text'])) . 
     '</a>'.$btn_group_after.$action_bar_after;
+  return $output;
+}
+
+/**
+ * Returns HTML for a dropdown.
+ * @param type $variables 
+ */
+function ec_default_dropdown($variables) {
+
+  $itemList=current($variables);
+  $items = $itemList['#items'];
+
+  if (!empty($items)) {
+  
+	$output = "";
+  
+    foreach ($items as $i => $item) {
+      $children = array();
+      $data = '';
+      if (is_array($item)) {
+        foreach ($item as $key => $value) {
+          if ($key == 'data') {
+            $data = $value;
+          }
+          elseif ($key == 'children') {
+            $children = $value;
+          }
+          else {
+            $attributes[$key] = $value;
+          }
+        }
+      }
+      else {
+        $data = $item;
+      }
+ 
+      $output .= '<li>' . $data . "</li>\n";
+    }
+  }
   return $output;
 }
 

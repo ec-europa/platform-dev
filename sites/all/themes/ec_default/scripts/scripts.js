@@ -54,6 +54,12 @@ jQuery(function($){
     }    
     /* /News slider */
   
+	/* Dropdown*/	
+	$('[data-toggle="dropdown"]').click(function () {
+			  $(this).parent().toggleClass('open');
+	});	
+	/*/Dropdown*/
+  
 	});
 
 }); 
