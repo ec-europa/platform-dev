@@ -480,38 +480,35 @@ function ec_default_link( $variables ){
  * @param type $variables 
  */
 function ec_default_dropdown($variables) {
+print_r($variables);
 
-  $itemList=current($variables);
-  $items = $itemList['#items'];
+ // $itemList=current($variables);
+   
+  $items = $variables['items'];
+  $attributes = array();
 
+  $output="";
   if (!empty($items)) {
-  
-	$output = "";
-  
+    $output .= "<ul class='dropdown-menu'>";
+    $num_items = count($items);
     foreach ($items as $i => $item) {
-      $children = array();
       $data = '';
       if (is_array($item)) {
         foreach ($item as $key => $value) {
           if ($key == 'data') {
             $data = $value;
-          }
-          elseif ($key == 'children') {
-            $children = $value;
-          }
-          else {
-            $attributes[$key] = $value;
+			//print_r($data);
           }
         }
       }
       else {
         $data = $item;
       }
- 
       $output .= '<li>' . $data . "</li>\n";
     }
+    $output .= "</ul>";
   }
-  return $output;
+  return $output;  
 }
 
 /**

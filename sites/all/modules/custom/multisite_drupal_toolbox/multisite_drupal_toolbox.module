@@ -231,7 +231,11 @@ function multisite_cce_theme() {
 */
 function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
     $items = array(
-        'dropdown' => array()
+        'dropdown' => array(
+			'variables'=>array(
+				'items'=>array(),
+			),
+		)
     );
     return $items;
 }
