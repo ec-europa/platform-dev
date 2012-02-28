@@ -133,7 +133,7 @@ function wiki_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'group_audience',
       'label' => 'Groups audience',
-      'required' => FALSE,
+      'required' => TRUE,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
