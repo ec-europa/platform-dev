@@ -240,3 +240,14 @@ function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
     );
     return $items;
 }
+
+/*
+* helper to disable a block
+*/
+function _disable_block($module, $delta) {
+  db_update('block')
+  ->fields(array('status' => '0'))
+  ->condition('module', $module, '=')
+  ->condition('delta', $delta, '=')
+  ->execute();
+}

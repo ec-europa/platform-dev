@@ -51,7 +51,7 @@ function cce_basic_config_enable() {
   }
 
 	
-  // add 2 blocks in site-wide context
+  // add 2 blocks in site-wide context -------------------------------------------------------------------------------
   $context=module_invoke('context','load','site_wide'); 
   $blockToAdd1 = array(
     'module' => 'system',
@@ -69,4 +69,14 @@ function cce_basic_config_enable() {
   $context->reactions['block']['blocks']['form']=$blockToAdd2;	  
   module_invoke('context','save',$context);	
 	
+
+}
+
+/*
+* hook_modules_enabled
+*/
+function cce_basic_config_modules_enabled($modules) {
+  if(in_array('cce_basic_config', $modules)) { 
+
+  }
 }

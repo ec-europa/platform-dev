@@ -84,13 +84,13 @@ function multisite_drupal_core_install() {
       ->condition('language', 'en')
       ->execute(); 
 	  
-  // set the default language negociation
+  // set the default language negociation --------------------------------------------------------------------------
   $lni = language_negotiation_info();
   $ln['language-default'] = $lni['language-default'];
   $ln['locale-url'] = $lni['locale-url'];
   language_negotiation_set('language', $ln);
   
-  //Disable cloned Search Form Block
+  //Disable cloned Search Form Block --------------------------------------------------------------------------
   $dis_search = db_update('block') // Table name no longer needs {}
     ->fields(array(
     'region' => '-1',
@@ -99,4 +99,26 @@ function multisite_drupal_core_install() {
     ->condition('delta', 'form', '=')
     ->execute();
   
+  // disable block -------------------------------------------------------------------------------
+  db_update('block')
+  ->fields(array('region' => ''))
+  ->condition('module', 'system', '=')
+  ->condition('delta', 'navigation', '=')
+  ->execute();
+
+  db_update('block')
+  ->fields(array('region' => ''))
+  ->condition('module', 'user', '=')
+  ->condition('delta', 'login', '=')
+  ->execute();
+  
+  // add login link in the user menu -------------------------------------------------------------------------------
+  $item = array(
+    'link_path' => 'user/login',
+    'link_title' => t('login'),
+    'menu_name' => 'user-menu',
+  );
+  menu_link_save($item);  
+  
+ 
 }
