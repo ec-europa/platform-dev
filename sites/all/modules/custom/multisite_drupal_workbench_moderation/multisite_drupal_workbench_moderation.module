@@ -63,14 +63,3 @@ function multisite_drupal_workbench_moderation_workbench_moderation_states_allow
     }
   }
 }
-
-/*
-* hook_enable
-*/
-function multisite_drupal_workbench_moderation_enable() {
-  db_update('block')
-  ->fields(array('status' => '0'))
-  ->condition('module', 'workbench', '=')
-  ->condition('delta', 'block', '=')
-  ->execute();
-}

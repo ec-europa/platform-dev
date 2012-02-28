@@ -112,6 +112,12 @@ function multisite_drupal_core_install() {
   ->condition('delta', 'login', '=')
   ->execute();
   
+  db_update('block')
+  ->fields(array('status' => '0'))
+  ->condition('module', 'workbench', '=')
+  ->condition('delta', 'block', '=')
+  ->execute();
+
   // add login link in the user menu -------------------------------------------------------------------------------
   $item = array(
     'link_path' => 'user/login',
