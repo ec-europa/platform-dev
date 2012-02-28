@@ -360,7 +360,6 @@ function ec_default_menu_local_tasks(&$variables) {
 function ec_default_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'search_block_form':
-      //print_r($form);
       $form['search_block_form']['#attributes']['class'][] = 'search-query';
       break;
     

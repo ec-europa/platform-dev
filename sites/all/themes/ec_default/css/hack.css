@@ -38,9 +38,6 @@ fieldset legend {
   padding-left: 0;
   width: auto;
 }
-.btn-info, .btn-warning, .btn-primary, .btn-success, .btn-success {
-  color: #fff !important;
-}
 #block-search-form .form-actions {
   background-color: transparent;
   border-top: none;
@@ -70,4 +67,14 @@ fieldset legend {
 }
 .dropdown-menu a {
   color: #027AC6;
+}
+blockquote {
+  border-left: 5px solid #EEEEEE;
+  margin: 0 0 18px;
+  padding: 0 0 0 15px;
+  font-size: 1em;
+}
+blockquote p {
+  font-size: 1em;
+  line-height: 1.5em;
 }
