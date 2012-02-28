@@ -1,0 +1,51 @@
+<?php
+/**
+ * @file
+ * Code for the Events feature.
+ */
+
+include_once('events.features.inc');
+
+
+/**
+ * Add a buttons in the views associated with this feature
+ * @param type $view 
+ */
+function events_views_pre_render(&$view) {
+if($view->name=='calendar'){
+		switch( $view->current_display ) {
+			case 'upcoming_events':
+				
+				break;
+			case 'month':
+			case 'week':
+			case 'day':
+			case 'year':
+				if ( user_access('create event content') ) {
+					$view->header['area']->options['content'] = _events_get_link_from_group();
+				}
+				break;
+			default:
+				break;
+		}  
+	}
+}
+
+
+function _events_get_link_from_group(){
+
+    $attributes = array( 
+        'attributes' => array(
+            'type' => 'add',
+			'action_bar' => 'single'
+            ),
+        );
+    
+    $options = array();
+    
+    $url = url( 'node/add/event', $options );
+    
+    return l( t('Add a new Event'), 
+      $url, 
+      $attributes );
+}

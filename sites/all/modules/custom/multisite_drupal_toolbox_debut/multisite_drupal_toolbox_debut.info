@@ -51,6 +51,12 @@ feature_sets[survey][icon] = 'feature-set-icons/survey.png'
 feature_sets[survey][enable][] = survey
 feature_sets[survey][disable][] = survey
 
+feature_sets[events][title] = 'Events'
+feature_sets[events][description] = 'Create and add events calendar in your Community'
+feature_sets[events][icon] = 'feature-set-icons/events.png'
+feature_sets[events][enable][] = events
+feature_sets[events][disable][] = events
+
 feature_sets[newsletters][title] = 'Newsletters'
 feature_sets[newsletters][description] = 'Publish and send newsletters to lists of subscribers'
 feature_sets[newsletters][icon] = 'feature-set-icons/newsletter.png'
