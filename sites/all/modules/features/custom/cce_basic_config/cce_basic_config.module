@@ -72,11 +72,4 @@ function cce_basic_config_enable() {
 
 }
 
-/*
-* hook_modules_enabled
-*/
-function cce_basic_config_modules_enabled($modules) {
-  if(in_array('cce_basic_config', $modules)) { 
 
-  }
-}

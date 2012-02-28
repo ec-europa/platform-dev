@@ -113,7 +113,7 @@ function multisite_drupal_core_install() {
   ->execute();
   
   db_update('block')
-  ->fields(array('status' => '0'))
+  ->fields(array('region' => ''))
   ->condition('module', 'workbench', '=')
   ->condition('delta', 'block', '=')
   ->execute();
