@@ -202,7 +202,7 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
     'admin/workbench',
     //'node/%/edit',
     //'user/%/edit',
-	'user/%',
+	//'user/%',
     'admin/content/comment',
     'admin/content/media',
     'admin/content/webform',
