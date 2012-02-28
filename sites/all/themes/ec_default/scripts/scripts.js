@@ -55,8 +55,9 @@ jQuery(function($){
     /* /News slider */
   
 	/* Dropdown*/	
-	$('[data-toggle="dropdown"]').click(function () {
-			  $(this).parent().toggleClass('open');
+	$('[data-toggle="dropdown"]').click(function(e) {
+		e.preventDefault();
+		$(this).parent().toggleClass('open');
 	});	
 	/*/Dropdown*/
   

@@ -480,9 +480,6 @@ function ec_default_link( $variables ){
  * @param type $variables 
  */
 function ec_default_dropdown($variables) {
-print_r($variables);
-
- // $itemList=current($variables);
    
   $items = $variables['items'];
   $attributes = array();
