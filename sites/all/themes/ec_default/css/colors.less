@@ -121,6 +121,27 @@ table {
   }
 }
 
+a {
+  &.btn-danger { 
+    color: #fff !important;
+    &:hover { color: #fdd !important; };
+    &:active { color: #fdd !important; };
+    &:focus { color: #fdd !important; };      
+  }
+  &.btn-success { 
+    color: #fff !important;
+    &:hover { color: #dfd !important; };
+    &:active { color: #dfd !important; };
+    &:focus { color: #dfd !important; };      
+  }    
+  &.btn-warning { 
+    color: #fff !important;
+    &:hover { color: #fed !important; };
+    &:active { color: #fed !important; };
+    &:focus { color: #fed !important; };      
+  }
+}
+
 .nav-tabs {
   border-color: darken(@body_color,15%);
   li > a {

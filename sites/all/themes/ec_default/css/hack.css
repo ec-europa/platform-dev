@@ -68,3 +68,6 @@ fieldset legend {
 .nav-list .nav-list {
   padding: 0;
 }
+.dropdown-menu a {
+  color: #027AC6;
+}
