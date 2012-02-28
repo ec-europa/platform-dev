@@ -86,8 +86,9 @@ function newsletters_user_default_permissions() {
     'name' => 'subscribe to newsletters',
     'roles' => array(
       0 => 'administrator',
-      1 => 'authenticated user',
-      2 => 'contributor',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
+      3 => 'contributor',
     ),
     'module' => 'simplenews',
   );

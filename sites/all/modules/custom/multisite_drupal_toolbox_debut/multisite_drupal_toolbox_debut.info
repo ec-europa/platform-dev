@@ -50,3 +50,15 @@ feature_sets[survey][description] = 'Create and add surveys'
 feature_sets[survey][icon] = 'feature-set-icons/survey.png'
 feature_sets[survey][enable][] = survey
 feature_sets[survey][disable][] = survey
+
+feature_sets[newsletters][title] = 'Newsletters'
+feature_sets[newsletters][description] = 'Publish and send newsletters to lists of subscribers'
+feature_sets[newsletters][icon] = 'feature-set-icons/newsletter.png'
+feature_sets[newsletters][enable][] = newsletters
+feature_sets[newsletters][disable][] = newsletters
+
+feature_sets[sitemap][title] = 'Sitemap'
+feature_sets[sitemap][description] = 'Build a sitemap and make it available for your visitors'
+feature_sets[sitemap][icon] = 'feature-set-icons/sitemap.png'
+feature_sets[sitemap][enable][] = sitemap
+feature_sets[sitemap][disable][] = sitemap
