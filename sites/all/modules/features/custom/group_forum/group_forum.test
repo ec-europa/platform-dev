@@ -17,7 +17,7 @@ class GroupForumTest extends DrupalWebTestCase {
     return array(
       'name' => 'Feature Forum Group Tests',
       'description' => 'Ensure that the feature forum group runs as expected.',
-      'group' => 'DEC Features',
+      'group' => 'DEC_Features',
     );
   }
 
@@ -25,30 +25,30 @@ class GroupForumTest extends DrupalWebTestCase {
     //global $user;
     // Enable any modules required for the test
     $modules = array(
-      'context',
-      'og',
-      'og_access',
-      'og_create_perms',
-      'views',
-      'views_ui', 
-      'node_reference',
-      'token', 
-      'pathauto',
-      'communities', 
+      // 'context',
+      // 'og',
+      // 'og_access',
+      // 'og_create_perms',
+      // 'views',
+      // 'views_ui', 
+      // 'node_reference',
+      // 'token', 
+      // 'pathauto',
+      // 'communities', 
+      'ec_profiles', 
       'group_forum',
       );
+      
+    features_install_modules( $modules );
+    
     parent::setUp( $modules );
     
-    // I don't understand why it doesn't function above...
-    foreach( $modules as $module ) {
-      if ( !module_exists( $module ) ) {
-        module_enable( array( $module ), TRUE );
-        $this->verbose( 'Activation of '.$module );
-      }
-    }
-    
-    //grant the permissions for the forums
+    // Grant the permissions for the forums
     _group_forum_grant_roles();
+    
+    // Define the theme
+    theme_enable( array( 'ec_default' ) );
+    variable_set('theme_default', 'ec_default' );
     
     // Specific feature set 
     drupal_flush_all_caches();
@@ -145,6 +145,17 @@ class GroupForumTest extends DrupalWebTestCase {
       if ( $this->assertLink( 'First Room', 0, t('check that I can accede to the first room' ) ) ) {
         $this->clickLink( 'First Room' );
         $this->assertLink( t('Add a new thread'), 0, t( 'Check that I can create a thread' ) );
+        
+        // Go to the creation of thread form
+        $this->clickLink( t('Add a new thread') );
+        
+        // Create a form
+        $edit = array( 
+          'title' => $this->randomName( 32 ),
+        );
+        $this->drupalPost( NULL, $edit, t( 'Save' ) );
+        
+        
       }
       
     }

@@ -16,7 +16,9 @@ function group_forum_user_default_permissions() {
     'roles' => array(),
   );
   
-  include_once( 'group_forum.features.og_permission.inc' );
+  // We should call the function _group_forum_grant_roles();
+  _group_forum_grant_roles();
+  //include_once( 'group_forum.features.og_permission.inc' );
 
   return $permissions;
 }
