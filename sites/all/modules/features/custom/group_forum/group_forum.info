@@ -1,6 +1,6 @@
 name = "Group Forum"
 description = "Add a forum to your community"
-package = "Features"
+package = "Multisite_features"
 php = "5.2.4"
 version = "7.x-1.0"
 project = "group_forum"
