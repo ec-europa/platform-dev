@@ -224,3 +224,44 @@ function multisite_drupal_toolbox_debut_menu_alter(&$items) {
 function multisite_cce_theme() {
 	return variable_get('default_theme','ec_default');
 }
+
+
+/**
+* Hook theme 
+*/
+function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
+    $items = array(
+        'dropdown' => array(
+			'variables'=>array(
+				'items'=>array(),
+			),
+		)
+    );
+    return $items;
+}
+
+/*
+* helper to disable a block
+*/
+function _disable_block($module, $delta) {
+  db_update('block')
+  ->fields(array('status' => '0'))
+  ->condition('module', $module, '=')
+  ->condition('delta', $delta, '=')
+  ->execute();
+}
+
+
+
+/*
+* hook_node_view
+*/
+function multisite_drupal_toolbox_node_view($node, $view_mode, $langcode) {
+  if(module_exists('workbench_moderation')) {
+    db_update('block')
+    ->fields(array('region' => ''))
+    ->condition('module', 'workbench', '=')
+    ->condition('delta', 'block', '=')
+    ->execute();
+  }
+}
