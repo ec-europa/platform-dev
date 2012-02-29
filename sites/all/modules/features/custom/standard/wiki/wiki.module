@@ -68,7 +68,7 @@ function wiki_disable(){
 * This code is taken from the Better Formats module.
 */
 
-
+/*
 function wiki_element_info_alter(&$type) {
   if (isset($type['text_format']['#process'])) {
     foreach ($type['text_format']['#process'] as &$callback) {
@@ -78,7 +78,7 @@ function wiki_element_info_alter(&$type) {
     }
   }
 }
-
+*/
 
 /*
 * hook_filter_process_format
