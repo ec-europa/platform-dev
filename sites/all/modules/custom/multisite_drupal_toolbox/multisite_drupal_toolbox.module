@@ -258,7 +258,7 @@ function _disable_block($module, $delta) {
 * hook_node_view
 */
 function multisite_drupal_toolbox_node_view($node, $view_mode, $langcode) {
-  if(module_exists('workbench_moderartion')) {
+  if(module_exists('workbench_moderation')) {
     db_update('block')
     ->fields(array('region' => ''))
     ->condition('module', 'workbench', '=')
