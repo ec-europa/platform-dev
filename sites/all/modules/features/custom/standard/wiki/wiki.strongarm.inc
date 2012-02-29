@@ -94,7 +94,7 @@ function wiki_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'node_options_wiki';
   $strongarm->value = array(
-    0 => 'status',
+    0 => 'moderation',
     1 => 'revision',
   );
   $export['node_options_wiki'] = $strongarm;
@@ -127,5 +127,12 @@ function wiki_strongarm() {
   $strongarm->value = 1;
   $export['show_diff_inline_wiki'] = $strongarm;
 
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'workbench_moderation_default_state_wiki';
+  $strongarm->value = 'draft';
+  $export['workbench_moderation_default_state_wiki'] = $strongarm;
+  
   return $export;
 }
