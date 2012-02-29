@@ -38,9 +38,6 @@ dependencies[] = context_ui
 dependencies[] = context_layouts
 
 dependencies[] = date
-dependencies[] = date_popup
-dependencies[] = date_repeat
-dependencies[] = date_repeat_field
 dependencies[] = diff
 dependencies[] = features
 dependencies[] = fivestar
