@@ -97,7 +97,6 @@ function wiki_format_filter_process_format($element) {
 
 
 
-
 /*
 * hook_views_pre_render
 */
