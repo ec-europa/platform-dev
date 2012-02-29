@@ -266,3 +266,23 @@ function multisite_drupal_toolbox_node_view($node, $view_mode, $langcode) {
     ->execute();
   }
 }
+
+
+
+/*
+* hook_form_alter
+*/
+function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
+  global $user;
+  if($user->uid != 1) {
+    switch ($form_id) {
+      case 'system_modules':
+		unset($form['modules']['Core']['php']); // prevent users to give the permission to inject PHP in input text area
+		unset($form['modules']['Development']); // prevent users to give access to the devel modules
+		break;
+	  case 'user_admin_permissions':
+		unset($form['permission']['administer modules']); // prevent users to give  the permission "administer modules"
+	    break;
+    }
+  }
+}
