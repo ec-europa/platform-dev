@@ -564,8 +564,8 @@ function class_replace($match) {
       return '<i class="icon-file"></i>';
     break;
     
-    case "Webform":
-      return '<i class="icon-list-all"></i>';
+    case "Survey":
+      return '<i class="icon-question-sign"></i>';
     break;
     
     case "Wiki":
