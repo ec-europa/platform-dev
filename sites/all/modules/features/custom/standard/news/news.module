@@ -85,7 +85,7 @@ function news_views_pre_render(&$view) {
     global $user;
     
     if(user_access("create news content")){
-      $output .= l(t('Create a News'), 'node/add/news', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'),'query' => array('gids_node[]' => $og->etid)));
+      $output .= l(t('Create a News'), 'node/add/news', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
     }
     
     //add menu to the exsiting  header

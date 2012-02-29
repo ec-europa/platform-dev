@@ -30,10 +30,6 @@ function e_library_views_pre_render(&$view) {
 
 
 function _e_library_get_link_from_group(){
-
-    $group = og_context();
-    $group_id = isset($group) ? $group->etid : '';
-    
     $attributes = array( 
         'attributes' => array(
             'type' => 'add',
@@ -41,14 +37,7 @@ function _e_library_get_link_from_group(){
             ),
         );
     
-    $options = array( 
-        'query' => array( 
-            'gids_node[]' => $group_id,
-            ),
-        'absolute' => TRUE,
-        );
-    
-    $url = url( 'node/add/document', $options );
+    $url = url( 'node/add/document');
     
     return l( t('Add a new Document'), 
       $url, 
