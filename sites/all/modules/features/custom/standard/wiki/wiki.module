@@ -83,18 +83,18 @@ function wiki_element_info_alter(&$type) {
 /*
 * hook_filter_process_format
 */
-
+/*
 function wiki_format_filter_process_format($element) {
   $element = filter_process_format($element);
   if(isset($element['#bundle'])) {
     // Change the default text format of the 'body' field to ' wiki'.
     if ($element['#bundle'] == 'wiki' && $element['#field_name'] == 'body') {
-      $element['format']['format']['#default_value'] = 'Filtered HTML';
+      $element['format']['format']['#default_value'] = 'wiki';
     }
   }
   return $element;
 }
-
+*/
 
 
 /*
