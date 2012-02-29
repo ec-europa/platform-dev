@@ -58,6 +58,10 @@ function multisite_drupal_core_install() {
       'revert revisions',
   )); 
 
+  $adm_rid = get_rid('administrator'); 
+  user_role_revoke_permissions($adm_rid, array(
+    'administer modules',
+  ));  
   
   // define the theme used ------------------------------------------------------------------------------------------------------------------------------------------------------
   $enable = array(
