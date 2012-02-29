@@ -360,6 +360,7 @@ function ec_default_menu_local_tasks(&$variables) {
 function ec_default_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'search_block_form':
+      //print_r($form);
       $form['search_block_form']['#attributes']['class'][] = 'search-query';
       break;
     
@@ -516,6 +517,64 @@ function block_render($module, $block_id) {
   $build = _block_get_renderable_array($block_content);
   $block_rendered = drupal_render($build);
   return $block_rendered;
+}
+
+
+function icon_type_classes($subject) {
+	$pattern = '@<i class="icon-(.+)"></i>@';
+	$resexp = preg_replace_callback($pattern, 'class_replace', $subject);
+  return $resexp;
+}
+
+function class_replace($match) {
+  switch ($match[1]) {
+    case "Article":
+      return '<i class="icon-file"></i>';
+    break;
+    
+    case "community":
+      return '<i class="icon-home"></i>';
+    break;
+    
+    case "Document":
+      return '<i class="icon-book"></i>';
+    break;
+    
+    case "Event":
+      return '<i class="icon-calendar"></i>';
+    break;
+    
+    case "Forum Room":
+      return '<i class="icon-th-list"></i>';
+    break;
+    
+    case "Forum Thread":
+      return '<i class="icon-list"></i>';
+    break;
+    
+    case "Links":
+      return '<i class="icon-tag"></i>';
+    break;
+    
+    case "News":
+      return '<i class="icon-info-sign"></i>';
+    break;
+    
+    case "Page":
+      return '<i class="icon-file"></i>';
+    break;
+    
+    case "Webform":
+      return '<i class="icon-list-all"></i>';
+    break;
+    
+    case "Wiki":
+      return '<i class="icon-th"></i>';
+    break;
+    
+    default:
+    break;
+  }
 }
 
 ?>
