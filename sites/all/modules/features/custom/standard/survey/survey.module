@@ -81,7 +81,7 @@ function survey_views_pre_render(&$view) {
   if($view->name == 'surveys_list' && $view->current_display == 'page_1') {
     if(user_access('create webform content'))  {
       $output = l(t('Create a new survey'),'node/add/webform',array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
-      $view->header['area']->options['content'] = $output;
+      $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
 	}
   }
 }
