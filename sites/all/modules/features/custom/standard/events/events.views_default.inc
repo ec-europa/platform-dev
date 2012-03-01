@@ -120,7 +120,7 @@ $handler->display->display_options['arguments']['date_argument']['date_fields'] 
 );
 $handler->display->display_options['path'] = 'calendar/month';
 $handler->display->display_options['menu']['type'] = 'default tab';
-$handler->display->display_options['menu']['title'] = 'events';
+$handler->display->display_options['menu']['title'] = 'Month';
 $handler->display->display_options['menu']['weight'] = '0';
 $handler->display->display_options['menu']['name'] = 'main-menu';
 $handler->display->display_options['menu']['context'] = 0;
