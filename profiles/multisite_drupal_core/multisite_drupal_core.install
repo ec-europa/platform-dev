@@ -49,13 +49,24 @@ function multisite_drupal_core_install() {
     'view moderation messages', 
 	'moderate content from draft to needs_review',
     'view moderation history',
+    'revert revisions',	
   ));   
   
   // permissions to the authentificated user
   $au_rid = get_rid('authenticated user');
   user_role_grant_permissions($au_rid, array(  
-	  'view revisions',
-      'revert revisions',
+    'create article content',
+	'delete own article content',
+	'edit own article content',
+    'view own unpublished content',
+	'view revisions',
+	'access workbench',
+    'use workbench_moderation my drafts tab',
+    'use workbench_moderation needs review tab',
+    'view moderation messages', 
+	'moderate content from draft to needs_review',
+    'view moderation history',
+    'revert revisions',	
   )); 
 
   $adm_rid = get_rid('administrator'); 
