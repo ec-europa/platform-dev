@@ -44,21 +44,20 @@
  * @ingroup themeable
  */
 ?>
-
-  <p class="off-screen">Additional tools</p>
-  <ul class="reset-list" id="additional-tools">
-    <li class="print"> <a class="link-components" href="javascript:tools.printPage();" title="Print version"><img alt="Print version" src="/wel/template-2012/images/print.gif"><span class="s">&nbsp;</span></a> </li>
-    <li class="font-decrease"> <a class="link-components" href="javascript:tools.decreaseFontSize();" title="Decrease text"><img alt="Decrease text" src="/wel/template-2012/images/font-decrease.gif"><span class="s">&nbsp;</span></a> </li>
-    <li class="font-increase"> <a class="link-components" href="javascript:tools.increaseFontSize();" title="Increase text"><img alt="Increase text" src="/wel/template-2012/images/font-increase.gif"><span class="s">&nbsp;</span></a> </li>
-  </ul>    
   
   <ul id="<?php print $block_html_id; ?>" class="unstyled inline">
   <?php 
     $menu = menu_navigation_links("user-menu");
     $items = "";
-    
+    $attributes = array(
+      'attributes' => array(
+        'type' => '',
+        'class' => array('btn','btn-mini')
+      )
+    );
+      
     foreach ($menu as $item_id) {
-      $items .= '<li>'.l($item_id['title'],$item_id['href']).'</li>';
+      $items .= '<li>'.l($item_id['title'],$item_id['href'], $attributes).'</li>';
     }
     
     print $items;

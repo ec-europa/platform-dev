@@ -42,11 +42,6 @@ body,
 .region-featured{
   margin: 0 0 0 0;
 }
-.region-tools {
-  float: right;
-  width: 200px;
-  display: block;
-}
 #search-block-form {
   text-align: right;
 }
@@ -120,4 +115,23 @@ body,
 .center {
   margin: 0 auto;
   text-align: center;
+}
+
+/* ---------------- Region top  ----------------- */
+.region-content-top {
+  margin-bottom: 20px;
+}
+
+/* ---------------- Region tools  ----------------- */
+.region-tools {
+  float: right;
+  width: 200px;
+  display: block;
+  text-align: right;
+}
+
+/* ---------------- User menu  ----------------- */
+#block-system-user-menu {
+  margin-bottom: 5px;
+  display: inline-block;
 }
