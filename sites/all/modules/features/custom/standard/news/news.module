@@ -14,7 +14,7 @@ function news_enable(){
 
   //Add block in context
   //_add_block_context('site_wide','news-block_1','views','news-block_1', 'sidebar_first');
-  _add_block_context('homepage','news-block_2','views','news-block_2', 'content_top');
+  _add_block_context('homepage','news-top_news','views','news-top_news', 'content_top');
   drupal_set_message('News feature is now active on your site.');
 
 }
@@ -56,7 +56,7 @@ function news_disable(){
   drupal_flush_all_caches(); 
   drupal_set_message('News feature is now disabled on your site.');
   
-   _remove_block_context('homepage','news-block_2');
+   _remove_block_context('homepage','news-top_news');
    _remove_block_context('site_wide','news-block_1');
 }
 
