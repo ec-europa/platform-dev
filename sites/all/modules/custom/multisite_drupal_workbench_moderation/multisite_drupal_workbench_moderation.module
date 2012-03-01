@@ -57,9 +57,11 @@ function multisite_drupal_workbench_moderation_workbench_moderation_access_alter
 function multisite_drupal_workbench_moderation_workbench_moderation_states_allowed_alter(&$account, &$node_type=NULL, &$return=NULL) {
   $group = og_context();
   if(isset($group->gid)) {
-	$node = node_load(arg(1));
-    if(og_user_access($group->gid, 'Moderate group content') && $node->type != 'community') { // give access to all states but not on community type
-      $return = TRUE;
-    }
+	if(arg(0) == 'node' && is_numeric(arg(1))) {
+	  $node = node_load(arg(1));
+      if(og_user_access($group->gid, 'Moderate group content') && $node->type != 'community') { // give access to all states but not on community type
+        $return = TRUE;
+      }
+	}
   }
 }
