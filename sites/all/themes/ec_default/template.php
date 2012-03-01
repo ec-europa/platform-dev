@@ -565,11 +565,15 @@ function class_replace($match) {
     break;
     
     case "Survey":
-      return '<i class="icon-question-sign"></i>';
+      return '<i class="icon-list-alt"></i>';
     break;
     
     case "Wiki":
       return '<i class="icon-th"></i>';
+    break;
+    
+    case "F.A.Q":
+      return '<i class="icon-question-sign"></i>';
     break;
     
     default:
