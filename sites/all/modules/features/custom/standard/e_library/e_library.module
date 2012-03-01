@@ -18,7 +18,7 @@ function e_library_views_pre_render(&$view) {
 			switch( $view->current_display ) {
 				case 'page':
 
-					if ( user_access(,'create document content') ) {
+					if ( user_access('create document content') ) {
 						$view->header['area']->options['content'] = _e_library_get_link_from_group();
 					}
 					break;
