@@ -124,7 +124,7 @@ cp -R sites/default/files/ ${site_name}/sites/default/files/
 
 if [ "${install_profile}" = "multisite_drupal_standard" ] ; then
   rm -Rf ${site_name}/sites/all/modules/features/custom/communities
-  rm -Rf ${site_name}/sites/all/modules/features/custom/e_libraries
+  rm -Rf ${site_name}/sites/all/modules/features/custom/e_library
   rm -Rf ${site_name}/sites/all/modules/features/custom/events
   rm -Rf ${site_name}/sites/all/modules/features/custom/group_forum
   rm -Rf ${site_name}/sites/all/modules/features/custom/links

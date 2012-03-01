@@ -68,6 +68,7 @@ dependencies[] = translation
 dependencies[] = pathauto
 
 dependencies[] = multisite_drupal_toolbox
+dependencies[] = multisite_drupal_features_set
 
 
 ;features
