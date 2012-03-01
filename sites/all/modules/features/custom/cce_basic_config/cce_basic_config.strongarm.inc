@@ -65,7 +65,185 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'theme_default';
   $strongarm->value = 'ec_default';
   $export['theme_default'] = $strongarm;
-  
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_editor_form_configuration';
+  $strongarm->value = array(
+    'one' => array(
+      'title' => 'Font',
+      'properties' => array(
+        0 => 'font-family',
+        1 => 'font-style',
+        2 => 'font-weight',
+        3 => 'font-size-wrapper',
+        4 => 'color',
+        5 => 'text-align',
+        6 => 'text-decoration',
+        7 => 'vertical-align',
+      ),
+    ),
+    'two' => array(
+      'title' => 'Background',
+      'properties' => array(
+        0 => 'background-color',
+        1 => 'background-image',
+        2 => 'background-repeat',
+        3 => 'background-position',
+        4 => 'background-attachment',
+      ),
+    ),
+    'three' => array(
+      'title' => 'Spacing',
+      'properties' => array(
+        0 => 'padding',
+        1 => 'margin',
+        2 => 'border',
+        3 => 'border-style',
+        4 => 'border-color',
+        5 => 'border-collapse',
+        6 => 'border-spacing',
+      ),
+    ),
+    'four' => array(
+      'title' => 'Other',
+      'properties' => array(
+        0 => 'height',
+        1 => 'width',
+      ),
+    ),
+  );
+  $export['sweaver_editor_form_configuration'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugins_weight';
+  $strongarm->value = array(
+    'sweaver_plugin_editor' => '-49',
+    'sweaver_plugin_styles' => '-48',
+    'sweaver_plugin_customcss' => '-47',
+    'sweaver_plugin_images' => '-45',
+    'sweaver_plugin_themeswitch' => '-44',
+    'sweaver_plugin_themesettings' => '-43',
+    'sweaver_plugin_themeclasses' => '-42',
+    'sweaver_plugin_fontface' => '-41',
+    'sweaver_plugin_kb' => '-39',
+    'sweaver_plugin_palettes' => '-46',
+  );
+  $export['sweaver_plugins_weight'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_handle_images';
+  $strongarm->value = 'sweaver_plugin_images';
+  $export['sweaver_plugin_handle_images'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin';
+  $strongarm->value = TRUE;
+  $export['sweaver_plugin_status_sweaver_plugin'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_customcss';
+  $strongarm->value = 1;
+  $export['sweaver_plugin_status_sweaver_plugin_customcss'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_editor';
+  $strongarm->value = 1;
+  $export['sweaver_plugin_status_sweaver_plugin_editor'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_fontface';
+  $strongarm->value = 0;
+  $export['sweaver_plugin_status_sweaver_plugin_fontface'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_images';
+  $strongarm->value = 1;
+  $export['sweaver_plugin_status_sweaver_plugin_images'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_kb';
+  $strongarm->value = 0;
+  $export['sweaver_plugin_status_sweaver_plugin_kb'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_palettes';
+  $strongarm->value = 0;
+  $export['sweaver_plugin_status_sweaver_plugin_palettes'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_styles';
+  $strongarm->value = 1;
+  $export['sweaver_plugin_status_sweaver_plugin_styles'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_themeclasses';
+  $strongarm->value = 1;
+  $export['sweaver_plugin_status_sweaver_plugin_themeclasses'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_themesettings';
+  $strongarm->value = 0;
+  $export['sweaver_plugin_status_sweaver_plugin_themesettings'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_themeswitch';
+  $strongarm->value = 0;
+  $export['sweaver_plugin_status_sweaver_plugin_themeswitch'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_selector_order';
+  $strongarm->value = array(
+    'body' => -100,
+    'h1' => -99,
+    'h2' => -98,
+    'h3' => -97,
+    'li' => -96,
+    'link' => -95,
+    'ol' => -94,
+    'p' => -93,
+    'ul' => -92,
+    'form' => -91,
+    'label' => -90,
+    'input' => -89,
+    'textarea' => -88,
+    'submit' => -87,
+    'allids' => -86,
+    'allclasses' => -85,
+    'alltags' => -84,
+    'span' => -83,
+    'div' => -82,
+  );
+  $export['sweaver_selector_order'] = $strongarm;  
   
   return $export;
 }
