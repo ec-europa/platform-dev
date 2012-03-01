@@ -121,12 +121,12 @@ $handler->display->display_options['arguments']['date_argument']['date_fields'] 
 $handler->display->display_options['path'] = 'calendar/month';
 $handler->display->display_options['menu']['type'] = 'default tab';
 $handler->display->display_options['menu']['title'] = 'events';
-$handler->display->display_options['menu']['weight'] = '1';
+$handler->display->display_options['menu']['weight'] = '0';
 $handler->display->display_options['menu']['name'] = 'main-menu';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['tab_options']['type'] = 'normal';
 $handler->display->display_options['tab_options']['title'] = 'Events';
-$handler->display->display_options['tab_options']['weight'] = '0';
+$handler->display->display_options['tab_options']['weight'] = '1';
 $handler->display->display_options['tab_options']['name'] = 'main-menu';
 
 /* Display: Week */
