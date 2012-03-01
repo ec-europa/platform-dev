@@ -28,8 +28,8 @@ function links_disable(){
 
   // Remove block
  // _remove_block_context('communities', 'links-block');
-  _remove_views_context('communities', 'links');
-  _remove_content_type_context('communities','links');
+ // _remove_views_context('communities', 'links');
+ // _remove_content_type_context('communities','links');
 
   /*** Remove permissions ***/
   _disable_content_type('links');
@@ -70,8 +70,9 @@ function links_views_pre_render(&$view) {
     global $user;
 
     if(user_access("create links content")){
-        $output .= l(t('Create a Link'), 'node/add/links', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'),'query' => array('gids_node[]' => $og->etid)));
+        $output .= l(t('Create a Link'), 'node/add/links', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
     }
+	
     //add menu to the exsiting  header
     if($view->header['area']){
       $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
