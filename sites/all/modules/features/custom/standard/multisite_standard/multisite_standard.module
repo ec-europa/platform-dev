@@ -1,0 +1,31 @@
+<?php
+/**
+ * @file
+ * Code for the Multisite Standard feature.
+ */
+
+include_once('multisite_standard.features.inc');
+
+/*
+ * hook_enable 
+ * Edit communities context to add a block
+ */
+function multisite_standard_enable(){
+
+  //Add block in context
+  _add_block_context('site_wide','multisite_standard-block_latest','views','multisite_standard-block_latest', 'content');
+
+}
+
+
+/*
+ * hook_disable 
+ * Edit communities context to remove block
+ * Remove permissions
+ */
+function multisite_standard(){
+
+  // Remove block
+  _remove_block_context('site_wide', 'multisite_standard-block_latest');
+  
+}
