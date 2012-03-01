@@ -12,7 +12,8 @@
 <?php if (!empty($title)) : ?>
   <h3><?php print $title; ?></h3>
 <?php endif; ?>
-<table class="table table-condensed <?php if ($classes) { print $classes; } ?>"<?php print $attributes; ?>>
+<fieldset class="grid3">
+<table class="<?php if ($classes) { print $classes; } ?>"<?php print $attributes; ?>>
   <tbody>
     <?php foreach ($rows as $row_number => $columns): ?>
       <tr class="<?php print $row_classes[$row_number]; ?>">
@@ -25,3 +26,4 @@
     <?php endforeach; ?>
   </tbody>
 </table>
+</fieldset>
