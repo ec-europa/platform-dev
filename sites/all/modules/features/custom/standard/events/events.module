@@ -22,30 +22,14 @@ if($view->name=='calendar'){
 			case 'day':
 			case 'year':
 				if ( user_access('create event content') ) {
-					$view->header['area']->options['content'] = _events_get_link_from_group();
+					$output= l(t('Create an Event'), 
+							'node/add/event',
+							array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
+					$view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
 				}
 				break;
 			default:
 				break;
 		}  
 	}
-}
-
-
-function _events_get_link_from_group(){
-
-    $attributes = array( 
-        'attributes' => array(
-            'type' => 'add',
-			'action_bar' => 'single'
-            ),
-        );
-    
-    $options = array();
-    
-    $url = url( 'node/add/event', $options );
-    
-    return l( t('Add a new Event'), 
-      $url, 
-      $attributes );
 }
