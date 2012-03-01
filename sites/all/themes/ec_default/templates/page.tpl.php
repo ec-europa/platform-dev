@@ -197,7 +197,7 @@ if (arg(0) == 'admin' || !$page['sidebar_first']) {
               </ul>
             <?php endif; ?>
             
-            <?php if ($page['content_top']): ?><div id="slider" class="news clearfix tabbable tabs-right well alt"><?php print render($page['content_top']); ?></div><?php endif; ?>
+            <?php if ($page['content_top']): ?><?php print render($page['content_top']); ?><?php endif; ?>
 
             <?php print render($page['content']); ?>
             <?php print $feed_icons; ?>
