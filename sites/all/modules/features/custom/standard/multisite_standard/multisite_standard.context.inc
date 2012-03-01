@@ -32,6 +32,12 @@ function multisite_standard_context_default_contexts() {
           'region' => 'content_top',
           'weight' => '-10',
         ),
+        'news-top_news' => array(
+          'module' => 'views',
+          'delta' => 'news-top_news',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
       ),
     ),
   );
