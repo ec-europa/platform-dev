@@ -19,7 +19,7 @@ function e_library_views_pre_render(&$view) {
 				case 'page':
 
 					if ( user_access('create document content') ) {
-						$view->header['area']->options['content'] = _e_library_get_link_from_group();
+						$view->header['area']->options['content'] = $view->header['area']->options['content']._e_library_get_link();
 					}
 					break;
 				default:
@@ -29,7 +29,7 @@ function e_library_views_pre_render(&$view) {
 }
 
 
-function _e_library_get_link_from_group(){
+function _e_library_get_link(){
     $attributes = array( 
         'attributes' => array(
             'type' => 'add',
