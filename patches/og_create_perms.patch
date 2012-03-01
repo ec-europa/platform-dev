@@ -1,9 +1,6 @@
-Modify the module to use og_context_determine_context to choose the current context and not only with og_get_context_by_url
-Index: sites/all/modules/contributed/og_create_perms/og_create_perms.module
-=======================================================================================================================================
---- sites/all/modules/contributed/og_create_perms/og_create_perms.module	2012-02-16 08:47:32.000000000 +0100
-+++ sites/all/modules/contributed/og_create_perms/og_create_perms.module	2012-02-16 11:02:41.000000000 +0100
-@@ -9,7 +9,14 @@
+--- og_create_perms.module.old	2011-02-01 14:20:34.000000000 +0100
++++ og_create_perms.module	2012-03-01 14:48:26.000000000 +0100
+@@ -9,7 +9,15 @@
    $gids = array_values(og_get_context_by_url()); 
    $type = is_string($node) ? $node : $node->type;
    if ($op == 'create' && in_array($type, og_create_perms_list_bundles())) {
