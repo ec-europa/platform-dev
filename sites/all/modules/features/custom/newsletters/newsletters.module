@@ -32,7 +32,7 @@ function newsletters_disable() {
 */
 function newsletters_menu() {
   $items['my_subscriptions'] = array(
-    'title' => t('newsletters'),
+    'title' => t('Newsletters'),
     'access callback' => TRUE,
     'page callback' => '_my_subscriptions',
     'type' => MENU_NORMAL_ITEM,
