@@ -243,7 +243,7 @@ function news_views_default_views() {
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
 
   /* Display: Community Top news */
-  $handler = $view->new_display('block', 'Community Top news', 'block_2');
+  $handler = $view->new_display('block', 'Community Top news', 'top_news');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Top News';
   $handler->display->display_options['defaults']['pager'] = FALSE;
@@ -432,7 +432,7 @@ function news_views_default_views() {
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['title']['link_to_node'] = 0;
   $handler->display->display_options['displays'] = array(
-    'block_2' => 'block_2',
+    'top_news' => 'top_news',
     'default' => 0,
     'page' => 0,
     'block_1' => 0,
