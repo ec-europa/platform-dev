@@ -40,7 +40,6 @@ function news_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Read the latest news</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   /* Relationship: Broken/missing handler */
@@ -196,6 +195,15 @@ function news_views_default_views() {
 
   /* Display: News list page */
   $handler = $view->new_display('page', 'News list page', 'page');
+  $handler->display->display_options['defaults']['header'] = FALSE;
+/* Header: Global: Text area */
+$handler->display->display_options['header']['area']['id'] = 'area';
+$handler->display->display_options['header']['area']['table'] = 'views';
+$handler->display->display_options['header']['area']['field'] = 'area';
+$handler->display->display_options['header']['area']['empty'] = TRUE;
+$handler->display->display_options['header']['area']['content'] = '<h2>Read the latest news</h2>';
+$handler->display->display_options['header']['area']['format'] = 'full_html';
+$handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['path'] = 'community/news';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'News';
