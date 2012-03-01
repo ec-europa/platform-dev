@@ -29,7 +29,7 @@ function multisite_standard_context_default_contexts() {
         'views-multisite_standard-block_latest' => array(
           'module' => 'views',
           'delta' => 'multisite_standard-block_latest',
-          'region' => 'content',
+          'region' => 'content_top',
           'weight' => '-10',
         ),
       ),
