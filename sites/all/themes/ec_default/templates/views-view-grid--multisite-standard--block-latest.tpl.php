@@ -12,7 +12,7 @@
 <?php if (!empty($title)) : ?>
   <h3><?php print $title; ?></h3>
 <?php endif; ?>
-<table class="table table-striped <?php if ($classes) { print $classes; } ?>"<?php print $attributes; ?>>
+<table class="table table-condensed <?php if ($classes) { print $classes; } ?>"<?php print $attributes; ?>>
   <tbody>
     <?php foreach ($rows as $row_number => $columns): ?>
       <tr class="<?php print $row_classes[$row_number]; ?>">
