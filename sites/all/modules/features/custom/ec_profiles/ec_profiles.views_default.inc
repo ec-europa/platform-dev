@@ -91,7 +91,7 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['label'] = 'Description';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = 'Browse the people directory to acces user profiles';
+  $handler->display->display_options['header']['area']['content'] = '<h2>Browse the people directory to acces user profiles</h2>';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   /* Field: User: Picture */
@@ -276,7 +276,7 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['tab_options']['type'] = 'normal';
   $handler->display->display_options['tab_options']['title'] = 'People';
-  $handler->display->display_options['tab_options']['weight'] = '0';
+  $handler->display->display_options['tab_options']['weight'] = '15';
   $handler->display->display_options['tab_options']['name'] = 'main-menu';
   $translatables['people'] = array(
     t('Master'),
