@@ -80,6 +80,7 @@ $handler->display->display_options['header']['area']['id'] = 'area';
 $handler->display->display_options['header']['area']['table'] = 'views';
 $handler->display->display_options['header']['area']['field'] = 'area';
 $handler->display->display_options['header']['area']['empty'] = TRUE;
+$handler->display->display_options['header']['area']['content'] = 'Direct link to external resources';
 $handler->display->display_options['header']['area']['format'] = 'full_html';
 $handler->display->display_options['header']['area']['tokenize'] = 0;
 /* Relationship: Group membership: Node group membership */
