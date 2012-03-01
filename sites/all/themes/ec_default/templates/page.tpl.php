@@ -179,6 +179,8 @@ if (arg(0) == 'admin' || !$page['sidebar_first']) {
               <?php print render($page['tools']); ?>
             <?php endif; ?>
             
+            <?php if ($page['content_top']): ?><?php print render($page['content_top']); ?><?php endif; ?>
+            
             <a id="main-content"></a>
             <?php print render($title_prefix); ?>
             <?php if ($title): ?>
@@ -197,7 +199,7 @@ if (arg(0) == 'admin' || !$page['sidebar_first']) {
               </ul>
             <?php endif; ?>
             
-            <?php if ($page['content_top']): ?><?php print render($page['content_top']); ?><?php endif; ?>
+            
 
             <?php print render($page['content']); ?>
             <?php print $feed_icons; ?>
