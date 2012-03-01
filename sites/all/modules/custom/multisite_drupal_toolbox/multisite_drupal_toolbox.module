@@ -14,12 +14,6 @@ function multisite_drupal_toolbox_boot() {
 }
   
   
-/*
-* hook_feature_set_api
-*/ 
-function multisite_drupal_toolbox_feature_set_api() {
-  return array('version' => '1.0');
-}
 
 function _disable_content_type($type) {
   $type_info = node_type_load($type);
@@ -266,8 +260,6 @@ function multisite_drupal_toolbox_node_view($node, $view_mode, $langcode) {
     ->execute();
   }
 }
-
-
 
 /*
 * hook_form_alter
