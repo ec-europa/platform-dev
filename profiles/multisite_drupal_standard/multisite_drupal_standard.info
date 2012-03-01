@@ -72,6 +72,7 @@ dependencies[] = multisite_drupal_toolbox_debut
 ;features
 dependencies[] = content_examples
 dependencies[] = cce_basic_config
+dependencies[] = multisite_standard
 
 files[] = multisite_drupal_standard.profile
 
