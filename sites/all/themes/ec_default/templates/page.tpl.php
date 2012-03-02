@@ -91,6 +91,8 @@ $no_left = FALSE;
 if (arg(0) == 'admin' || !$page['sidebar_first']) {
   $no_left = TRUE;
 }
+
+global $base_url;
 ?>
 
 <a id="top-page" name="top-page"></a>
@@ -115,7 +117,7 @@ if (arg(0) == 'admin' || !$page['sidebar_first']) {
   <div id="header">
     <a href="<?php print $front_page; ?>">
 
-      <img alt="European Commission logo" id="banner-flag" src="/wel/template-2012/images/logo/logo_en.gif">
+      <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2012/images/logo/logo_en.gif">
       
       <p id="banner-title-text"><?php print $site_name; ?></p>
       <span class="title-en" id="banner-image-title"></span>
