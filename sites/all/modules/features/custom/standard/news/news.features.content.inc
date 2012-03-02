@@ -15,7 +15,7 @@ function news_content_defaults() {
     'title' => 'my news 1',
     'status' => '1',
     'promote' => '0',
-    'sticky' => '0',
+    'sticky' => '1',
     'type' => 'news',
     'language' => 'en',
     'created' => '1328886129',
@@ -48,7 +48,7 @@ function news_content_defaults() {
           'filesize' => '38046',
           'status' => '1',
           'type' => 'image',
-          'uuid' => 'e3e76f72-b0b4-c204-f9cd-4d23d86bc2ed',
+          'uuid' => 'a1ea0b04-deb0-b824-e55a-9b799a5b017f',
           'rdf_mapping' => array(),
           'image' => 'ÿØÿà' . "\0" . 'JFIF' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . '' . "\0" . 'ÿþ' . "\0" . ';CREATOR: gd-jpeg v1.0 (using IJG JPEG v62), quality = 75
   ÿÛ' . "\0" . 'C' . "\0" . '		
