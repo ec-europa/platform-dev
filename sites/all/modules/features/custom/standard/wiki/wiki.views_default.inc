@@ -72,7 +72,7 @@ function wiki_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->display->display_options['defaults']['empty'] = FALSE;
-  $handler->display->display_options['path'] = 'community/wiki';
+  $handler->display->display_options['path'] = 'wiki';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Wikis';
   $handler->display->display_options['menu']['weight'] = '15';

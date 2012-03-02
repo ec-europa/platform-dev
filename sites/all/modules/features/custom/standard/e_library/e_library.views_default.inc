@@ -216,7 +216,7 @@ $handler->display->display_options['filters']['type']['group'] = 0;
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
 $handler->display->display_options['defaults']['arguments'] = FALSE;
-$handler->display->display_options['path'] = 'community/e_library';
+$handler->display->display_options['path'] = 'e_library';
 $handler->display->display_options['menu']['type'] = 'normal';
 $handler->display->display_options['menu']['title'] = 'E-library';
 $handler->display->display_options['menu']['weight'] = '15';
