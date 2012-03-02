@@ -552,7 +552,9 @@ function news_views_default_views() {
   $handler->display->display_options['filters']['field_top_news_value']['id'] = 'field_top_news_value';
   $handler->display->display_options['filters']['field_top_news_value']['table'] = 'field_data_field_top_news';
   $handler->display->display_options['filters']['field_top_news_value']['field'] = 'field_top_news_value';
-  $handler->display->display_options['filters']['field_top_news_value']['operator'] = 'not empty';
+  $handler->display->display_options['filters']['field_top_news_value']['value'] = array(
+    1 => '1',
+  );
   $handler->display->display_options['filters']['field_top_news_value']['group'] = 1;
 
   /* Display: Top news Attachment */
@@ -641,7 +643,9 @@ function news_views_default_views() {
   $handler->display->display_options['filters']['field_top_news_value']['id'] = 'field_top_news_value';
   $handler->display->display_options['filters']['field_top_news_value']['table'] = 'field_data_field_top_news';
   $handler->display->display_options['filters']['field_top_news_value']['field'] = 'field_top_news_value';
-  $handler->display->display_options['filters']['field_top_news_value']['operator'] = 'not empty';
+  $handler->display->display_options['filters']['field_top_news_value']['value'] = array(
+    1 => '1',
+  );
   $handler->display->display_options['filters']['field_top_news_value']['group'] = 1;
   $handler->display->display_options['displays'] = array(
     'top_news' => 'top_news',
