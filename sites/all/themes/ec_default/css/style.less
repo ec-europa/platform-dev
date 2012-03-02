@@ -1078,6 +1078,17 @@ a.btn {
       overflow: visible;
     }
   }
+  .content {
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    h3 {
+      font-size: 1.2em;
+      color: #027AC6;
+      
+      &:hover {
+        color: #003366;
+      }
+    }
+  }  
   .content > .view-news > .news_content {
     -webkit-border-radius: 4px 0 0 4px;
        -moz-border-radius: 4px 0 0 4px;
@@ -1138,10 +1149,12 @@ div.workbench-info-block {
     td { 
       width: 33%; 
       padding: 10px 15px;
+      vertical-align: top;
     }
     th { 
       width: 33%; 
       padding: 10px 15px;
+      vertical-align: top;
     }
   }
 }
