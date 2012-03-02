@@ -60,6 +60,5 @@ function news_user_default_permissions() {
     'module' => 'node',
   );
 
-          
   return $permissions;
 }

@@ -238,8 +238,8 @@ function news_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            0 => 0,
             'audio' => 0,
+            0 => 0,
             'default' => 0,
             'image' => 'image',
             'video' => 0,
@@ -252,7 +252,6 @@ function news_field_default_fields() {
     ),
   );
 
- 
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
