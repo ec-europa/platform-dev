@@ -11,6 +11,7 @@ include_once('news.features.inc');
  * Edit communities context to add a block
  */
 function news_enable(){
+
   //Add block in context
   //_add_block_context('site_wide','news-block_1','views','news-block_1', 'sidebar_first');
   _add_block_context('homepage','news-top_news','views','news-top_news', 'content_top');
@@ -51,11 +52,12 @@ function news_disable(){
     'create news content',
   ));
           
+
   drupal_flush_all_caches(); 
   drupal_set_message('News feature is now disabled on your site.');
   
    _remove_block_context('homepage','news-top_news');
-   //_remove_block_context('site_wide','news-block_1');
+   _remove_block_context('site_wide','news-block_1');
 }
 
 

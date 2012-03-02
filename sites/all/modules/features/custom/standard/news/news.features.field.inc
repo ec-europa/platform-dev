@@ -68,6 +68,7 @@ function news_field_default_fields() {
       'settings' => array(
         'display_summary' => TRUE,
         'text_processing' => 1,
+        'user_field_privacy' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -151,6 +152,7 @@ function news_field_default_fields() {
         'title_maxlength' => '255',
         'title_value' => '',
         'url' => 0,
+        'user_field_privacy' => FALSE,
         'user_register_form' => FALSE,
         'validate_url' => 0,
       ),
@@ -227,6 +229,7 @@ function news_field_default_fields() {
         'max_resolution' => '640x480',
         'min_resolution' => '',
         'title_field' => 0,
+        'user_field_privacy' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -238,11 +241,11 @@ function news_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'image' => 'image',
-            'video' => 0,
-            0 => 0,
             'audio' => 0,
             'default' => 0,
+            0 => 0,
+            'image' => 'image',
+            'video' => 0,
           ),
           'progress_indicator' => 'throbber',
         ),
@@ -252,10 +255,80 @@ function news_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-news-field_top_news'
+  $fields['node-news-field_top_news'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_top_news',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => '',
+          1 => '',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'news',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 4,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_top_news',
+      'label' => 'It is a Top News',
+      'required' => 0,
+      'settings' => array(
+        'user_field_privacy' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 1,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '31',
+      ),
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
   t('Enter a link related to your news content.');
+  t('It is a Top News');
   t('Link');
   t('Picture');
 
