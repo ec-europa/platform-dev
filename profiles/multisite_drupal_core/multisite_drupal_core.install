@@ -153,6 +153,7 @@ function multisite_drupal_core_install() {
   );
   menu_link_save($item);
   
+  /*
   $item = array(
     'link_path' => 'node/add',
     'link_title' => t('add content'),
@@ -160,5 +161,6 @@ function multisite_drupal_core_install() {
     'weight' => '9998'
   );
   menu_link_save($item); 
-  
+  */
+	  
 }
