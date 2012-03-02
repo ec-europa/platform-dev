@@ -72,6 +72,8 @@ function multisite_drupal_core_install() {
   $adm_rid = get_rid('administrator'); 
   user_role_revoke_permissions($adm_rid, array(
     'administer modules',
+    'administer features',	
+    'manage features',		
   ));  
   
   // define the theme used ------------------------------------------------------------------------------------------------------------------------------------------------------
