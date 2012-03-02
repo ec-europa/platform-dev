@@ -52,7 +52,10 @@ function survey_enable() {
   db_update('node_type')
     ->fields(array('name' => 'Survey'))
     ->condition('type', 'webform' , "=")
-    ->execute();  
+    ->execute(); 
+
+  // enable example contents
+  module_enable(array("survey_contents"));
 }
 
 
@@ -66,7 +69,8 @@ function survey_disable(){
   // diable the content type webform
   _disable_content_type('webform');
            
-  
+  // disable example contents
+  module_disable(array("survey_contents"));
 }
 
 
