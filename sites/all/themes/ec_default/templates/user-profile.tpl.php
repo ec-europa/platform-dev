@@ -41,7 +41,7 @@
   ?>
   
   <fieldset>
-  <legend>Basic information</legend>
+  <legend>Identity</legend>
     <div class="span2">
   <?php 
     print render($user_profile['user_picture']);
@@ -70,7 +70,7 @@
   </fieldset>
   
   <fieldset>
-  <legend>Professional information</legend>
+  <legend>Additional information</legend>
   <?php 
     foreach ($user_profile as $key => $value) {
       if (!in_array($key,$basic)) {
