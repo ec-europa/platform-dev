@@ -147,7 +147,7 @@ function multisite_drupal_core_install() {
     'link_path' => 'admin/workbench',
     'link_title' => t('my workbench'),
     'menu_name' => 'main-menu',
-    'weight' => 9999
+    'weight' => '9999'
   );
   menu_link_save($item);
   
@@ -155,7 +155,7 @@ function multisite_drupal_core_install() {
     'link_path' => 'node/add',
     'link_title' => t('add content'),
     'menu_name' => 'main-menu',
-    'weight' => 9999
+    'weight' => '9998'
   );
   menu_link_save($item); 
   
