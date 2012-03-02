@@ -1,0 +1,8 @@
+name = "link content default"
+description = "provide some dummie content"
+core = "7.x"
+package = "Features"
+version = "7.x-1.0"
+project = "link_content_default"
+features[content][] = "link_eurostat"
+features[content][] = "link_official_journal"
