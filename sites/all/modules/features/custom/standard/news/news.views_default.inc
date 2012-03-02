@@ -538,7 +538,7 @@ function news_views_default_views() {
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 0;
+  $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
@@ -547,11 +547,13 @@ function news_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'news' => 'news',
   );
-  /* Filter criterion: Content: Sticky */
-  $handler->display->display_options['filters']['sticky']['id'] = 'sticky';
-  $handler->display->display_options['filters']['sticky']['table'] = 'node';
-  $handler->display->display_options['filters']['sticky']['field'] = 'sticky';
-  $handler->display->display_options['filters']['sticky']['value'] = '1';
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Content: It is a Top News (field_top_news) */
+  $handler->display->display_options['filters']['field_top_news_value']['id'] = 'field_top_news_value';
+  $handler->display->display_options['filters']['field_top_news_value']['table'] = 'field_data_field_top_news';
+  $handler->display->display_options['filters']['field_top_news_value']['field'] = 'field_top_news_value';
+  $handler->display->display_options['filters']['field_top_news_value']['operator'] = 'not empty';
+  $handler->display->display_options['filters']['field_top_news_value']['group'] = 1;
 
   /* Display: Top news Attachment */
   $handler = $view->new_display('attachment', 'Top news Attachment', 'attachment_1');
@@ -625,7 +627,7 @@ function news_views_default_views() {
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 0;
+  $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
@@ -634,11 +636,13 @@ function news_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'news' => 'news',
   );
-  /* Filter criterion: Content: Sticky */
-  $handler->display->display_options['filters']['sticky']['id'] = 'sticky';
-  $handler->display->display_options['filters']['sticky']['table'] = 'node';
-  $handler->display->display_options['filters']['sticky']['field'] = 'sticky';
-  $handler->display->display_options['filters']['sticky']['value'] = '1';
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Content: It is a Top News (field_top_news) */
+  $handler->display->display_options['filters']['field_top_news_value']['id'] = 'field_top_news_value';
+  $handler->display->display_options['filters']['field_top_news_value']['table'] = 'field_data_field_top_news';
+  $handler->display->display_options['filters']['field_top_news_value']['field'] = 'field_top_news_value';
+  $handler->display->display_options['filters']['field_top_news_value']['operator'] = 'not empty';
+  $handler->display->display_options['filters']['field_top_news_value']['group'] = 1;
   $handler->display->display_options['displays'] = array(
     'top_news' => 'top_news',
     'default' => 0,
