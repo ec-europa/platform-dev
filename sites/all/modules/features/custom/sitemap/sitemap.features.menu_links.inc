@@ -13,7 +13,7 @@ function sitemap_menu_default_menu_links() {
   // Exported menu link: main-menu:sitemap
   $menu_links['main-menu:sitemap'] = array(
     'menu_name' => 'main-menu',
-    'link_path' => 'sitemap',
+    'link_path' => 'sitemap/all',
     'router_path' => 'sitemap',
     'link_title' => 'Site map',
     'options' => array(
@@ -26,7 +26,7 @@ function sitemap_menu_default_menu_links() {
     'external' => '0',
     'has_children' => '0',
     'expanded' => '0',
-    'weight' => '0',
+    'weight' => '10000',
   );
   // Translatables
   // Included for use with string extractors like potx.
