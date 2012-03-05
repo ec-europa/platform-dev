@@ -18,6 +18,9 @@ function wiki_enable() {
 
   // add wiki content type to newsletters related contents
   add_content_type_newsletters('wiki');
+  
+  // enable example contents
+  module_enable(array("wiki_content"));
 }
 
 
@@ -52,7 +55,8 @@ function wiki_disable(){
     'create wiki content',
   ));
           
-
+  // disable example contents
+  module_disable(array("wiki_content"));
   
 }
 

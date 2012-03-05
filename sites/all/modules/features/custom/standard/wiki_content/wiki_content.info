@@ -1,0 +1,7 @@
+name = "wiki_content"
+description = "contents examples for wikis"
+core = "7.x"
+package = "Multisite Standard Features"
+version = "7.x-1.0"
+project = "wiki_content"
+features[content][] = "wiki_cheesecake"
