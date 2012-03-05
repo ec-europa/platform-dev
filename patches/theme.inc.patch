@@ -1,0 +1,39 @@
+Modify the module Calendar to prevent notice on Day display and Week display ($view->style_options['groupby_times'] missing)
+Index: /sites/all/modules/contributed/calendar/theme/theme.inc
+=======================================================================================================================================
+--- sites/all/modules/contributed/calendar/theme/theme.inc	2012-03-05 14:00:42.000000000 +0100
++++ sites/all/modules/contributed/calendar/theme/theme.inc	2012-03-05 16:26:59.000000000 +0100
+@@ -264,6 +264,11 @@
+     foreach ($grouped_items[$start_time]['values'] as $column => &$items) {
+       foreach ($items as $index => &$item) {
+         if ($display_overlap) {
++        /*modification mct*/
++          if (!in_array('groupby_times', $view->style_options)) {
++            $view->style_options['groupby_times'] = 'hour';
++          }
++         /*fin modification mct*/
+           switch ($view->style_options['groupby_times']) {
+             case 'half':
+               $group_time = 30;
+@@ -280,6 +285,7 @@
+           $offset = round((date_format($item->date_start, 'i') - $start_minute) / $divisor);
+           $duration = round(($item->date_end->format('U') - $item->date_start->format('U')) / 60 / $divisor);
+           $item->class = 'd_' . $duration . ' o_' . $offset . ' i_' . $item->indent . ' md_' . min($item->max_depth, 5);
++
+         }
+         $grouped_items[$start_time]['values'][$column][$index] = theme('calendar_item', array('view' => $view, 'rendered_fields' => $item->rendered_fields, 'item' => $item));
+       }
+@@ -474,6 +480,13 @@
+       foreach ($grouped_items[$start_time]['values'] as $wday => &$items) {
+         foreach ($items as &$item) {
+           if ($display_overlap) {
++          
++          /*modification mct*/
++          if (!in_array('groupby_times', $view->style_options)) {
++            $view->style_options['groupby_times'] = 'hour';
++          }
++          /*fin modification mct*/
++         
+             switch ($view->style_options['groupby_times']) {
+               case 'half':
+                 $group_time = 30;
