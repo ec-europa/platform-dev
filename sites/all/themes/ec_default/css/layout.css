@@ -136,3 +136,19 @@ body,
   margin-bottom: 5px;
   display: inline-block;
 }
+
+/* ---------------- Node details  ----------------- */
+.node .content > .field {
+  clear: left;
+  float: left;
+  margin-bottom: 5px;
+}
+.meta {
+  clear: both;
+}
+.layout-content .workbench {
+  margin-top: 5px;
+}
+.layout-content .well .content {
+  margin-top: 0;
+}

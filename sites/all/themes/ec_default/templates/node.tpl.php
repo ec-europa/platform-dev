@@ -84,6 +84,8 @@ $output = '';
   switch ($type) {
     case 'links':
       $fields = array(
+        'picture' => array(),
+        'body'    => array(),
         'hide'  => array('comments', 'links'),
         'group' => array('group_audience', 'group_content_access')
       );        
@@ -110,6 +112,7 @@ $output = '';
 
     default:
       $fields = array(
+        'picture' => array(),
         'body'  => array('body'),
         'hide'  => array('comments', 'links'),
         'group' => array('group_audience', 'group_content_access')
@@ -179,7 +182,20 @@ $output = '';
     }
     
     //display non hidden fields
-    $output .= render($content);
+    foreach ($content as $key => $value) {
+      if (!in_array($key,$fields['picture']) &&
+          !in_array($key,$fields['body']) &&
+          !in_array($key,$fields['hide']) &&
+          !in_array($key,$fields['group'])) {
+        $field = '<div class="field clerfix">';
+        $field .= '<div class="span2 field-label">'.$value['#title'].'</div>';
+        //$field .= '<div class="span7 no_label">'.render($value).' ('.$value['#field_type'].')</div>';
+        $field .= '<div class="span7 no_label">'.render($value).'</div>';
+        $field .= '</div>';
+        
+        $output .= $field;
+      }
+    }
     
     //display groups
     $display_group = false;
@@ -202,7 +218,7 @@ $output = '';
     //display workbench block
     $display_workbench = block_render('workbench', 'block');
     if ($display_workbench) {
-      $output .= '<div class="f_left meta submitted well alt">';
+      $output .= '<div class="f_left meta submitted well alt workbench">';
       $output .= $display_workbench;
       $output .= '</div>';    
     }
