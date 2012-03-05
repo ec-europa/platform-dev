@@ -74,9 +74,9 @@ function multisite_drupal_core_install() {
     'administer modules',
     'administer features',	
     'manage features',	
-	'administer shortcuts',
-	'customize shortcut links',
-	'switch shortcut sets',
+	//'administer shortcuts',
+	//'customize shortcut links',
+	//'switch shortcut sets',
   ));  
   
   // define the theme used ------------------------------------------------------------------------------------------------------------------------------------------------------
