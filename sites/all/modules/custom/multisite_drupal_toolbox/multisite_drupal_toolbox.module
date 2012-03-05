@@ -274,6 +274,14 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
 		break;
 	  case 'user_admin_permissions':
 		unset($form['permission']['administer modules']); // prevent users to give  the permission "administer modules"
+        unset($form['permission']['administer features']);
+        unset($form['permission']['manage features']);
+
+        foreach(array_keys(user_roles()) as $rid) { // hide checkboxes in the permissions admin page
+          unset($form['checkboxes'][$rid]['#options']['administer modules']);
+          unset($form['checkboxes'][$rid]['#options']['administer features']);
+          unset($form['checkboxes'][$rid]['#options']['manage features']);
+        }
 	    break;
     }
   }

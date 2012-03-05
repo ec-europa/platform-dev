@@ -81,8 +81,8 @@ function multisite_drupal_core_install() {
   
   // define the theme used ------------------------------------------------------------------------------------------------------------------------------------------------------
   $enable = array(
-  'theme_default' => 'ec_default', // should be the our CCE theme
-  'admin_theme' => 'seven',
+    'theme_default' => 'ec_default', // should be the our CCE theme
+    'admin_theme' => 'seven',
   );
   theme_enable($enable);
  
@@ -100,9 +100,9 @@ function multisite_drupal_core_install() {
 	  
   // set the url language prefix to 'en'
   db_update('languages')
-      ->fields(array('prefix' => 'en'))
-      ->condition('language', 'en')
-      ->execute(); 
+    ->fields(array('prefix' => 'en'))
+    ->condition('language', 'en')
+    ->execute(); 
 	  
   // set the default language negociation --------------------------------------------------------------------------
   $lni = language_negotiation_info();
