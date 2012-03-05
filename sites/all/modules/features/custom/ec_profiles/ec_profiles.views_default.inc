@@ -35,51 +35,56 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '20';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
-    'views_bulk_operations' => 'views_bulk_operations',
+    'picture' => 'picture',
     'name' => 'name',
-    'status' => 'status',
+    'field_firstname' => 'field_firstname',
+    'field_lastname' => 'field_lastname',
     'created' => 'created',
-    'rid' => 'rid',
     'access' => 'access',
-    'edit_node' => 'edit_node',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
-    'views_bulk_operations' => array(
+    'picture' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
+      'empty_column' => 0,
     ),
     'name' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
+      'empty_column' => 0,
     ),
-    'status' => array(
+    'field_firstname' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_lastname' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
+      'empty_column' => 0,
     ),
     'created' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-    ),
-    'rid' => array(
-      'align' => '',
-      'separator' => '',
+      'empty_column' => 0,
     ),
     'access' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
-    ),
-    'edit_node' => array(
-      'align' => '',
-      'separator' => '',
+      'empty_column' => 0,
     ),
   );
   $handler->display->display_options['style_options']['override'] = 1;
@@ -139,28 +144,6 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['fields']['name']['empty_zero'] = 0;
   $handler->display->display_options['fields']['name']['link_to_user'] = 1;
   $handler->display->display_options['fields']['name']['overwrite_anonymous'] = 0;
-  /* Field: User: firstname */
-  $handler->display->display_options['fields']['field_firstname']['id'] = 'field_firstname';
-  $handler->display->display_options['fields']['field_firstname']['table'] = 'field_data_field_firstname';
-  $handler->display->display_options['fields']['field_firstname']['field'] = 'field_firstname';
-  $handler->display->display_options['fields']['field_firstname']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['field_firstname']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['field_firstname']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['field_firstname']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['field_firstname']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['field_firstname']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['field_firstname']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['field_firstname']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['field_firstname']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['field_firstname']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['field_firstname']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['field_firstname']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['field_firstname']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['field_firstname']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['field_firstname']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['field_firstname']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['field_firstname']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_firstname']['field_api_classes'] = 0;
   /* Field: User: lastname */
   $handler->display->display_options['fields']['field_lastname']['id'] = 'field_lastname';
   $handler->display->display_options['fields']['field_lastname']['table'] = 'field_data_field_lastname';
@@ -183,6 +166,28 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['fields']['field_lastname']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_lastname']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_lastname']['field_api_classes'] = 0;
+  /* Field: User: firstname */
+  $handler->display->display_options['fields']['field_firstname']['id'] = 'field_firstname';
+  $handler->display->display_options['fields']['field_firstname']['table'] = 'field_data_field_firstname';
+  $handler->display->display_options['fields']['field_firstname']['field'] = 'field_firstname';
+  $handler->display->display_options['fields']['field_firstname']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['field_firstname']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['field_firstname']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['field_firstname']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['field_firstname']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['field_firstname']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['field_firstname']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['field_firstname']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['field_firstname']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['field_firstname']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['field_firstname']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['field_firstname']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['field_firstname']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['field_firstname']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['field_firstname']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['field_firstname']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['field_firstname']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_firstname']['field_api_classes'] = 0;
   /* Field: User: Created date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'users';
@@ -291,11 +296,11 @@ function ec_profiles_views_default_views() {
     t('- All -'),
     t('Offset'),
     t('Description'),
-    t('Browse the people directory to acces user profiles'),
+    t('<h2>Browse the people directory to acces user profiles </h2>'),
     t('Picture'),
     t('Username'),
-    t('firstname'),
     t('lastname'),
+    t('firstname'),
     t('Member for'),
     t('Last access'),
     t('Name'),
