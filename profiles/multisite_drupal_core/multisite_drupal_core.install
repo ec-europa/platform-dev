@@ -93,6 +93,16 @@ function multisite_drupal_core_install() {
   }
   theme_disable(array('bartik')); // Disable the default Bartik theme
   
+  // provide default images ----------------------------------------------------------------------------------------------------------------------------
+  $file = new stdClass();
+  $file->fid = NULL;
+  $file->uri = "public://default_images/user_default.png";
+  $file->filename = "user_default.png";
+  $file->filemime = file_get_mimetype($file->uri);
+  $file->uid = 1;
+  $file->status = FILE_STATUS_PERMANENT;
+  $f = file_save($file);	  
+	  
 
   // setup settings ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
   
@@ -110,6 +120,8 @@ function multisite_drupal_core_install() {
   $ln['locale-url'] = $lni['locale-url'];
   language_negotiation_set('language', $ln);
   
+  
+  // blocks settings ----------------------------------------------------------------------------------------------------------------------------------------------------
   //Disable cloned Search Form Block --------------------------------------------------------------------------
   $dis_search = db_update('block') // Table name no longer needs {}
     ->fields(array(
