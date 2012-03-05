@@ -376,6 +376,7 @@ function ec_default_form_alter(&$form, &$form_state, $form_id) {
 function ec_default_cck_alter($form, &$form_state) {
   if (!user_access('administer nodes')) {
     $form['comment_body']['und'][0]['format']['#access'] = 0;
+    $form['body']['und'][0]['format']['#access'] = 0;
   }
   return $form;
 }
