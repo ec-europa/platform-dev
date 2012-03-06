@@ -144,8 +144,8 @@ projects[simplenews][version] = "1.0-beta1"
 projects[webform][subdir] = "contributed"
 projects[webform][version] = "3.15"
 
-;projects[tableofcontents][subdir] = "contributed"
-;projects[tableofcontents][version] = "1.x-dev"
+projects[tableofcontents][subdir] = "contributed"
+projects[tableofcontents][version] = "1.x-dev"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
