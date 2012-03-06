@@ -25,8 +25,7 @@ function wiki_content_content_defaults() {
     'body' => array(
       'und' => array(
         0 => array(
-          'value' => '<h2>
-  	<img alt="" src="http://coffeescorner.files.wordpress.com/2011/11/cheesecake.jpg" style="width: 300px; height: 200px; " /></h2>
+          'value' => '<p><img alt="" src="http://coffeescorner.files.wordpress.com/2011/11/cheesecake.jpg" style="width: 300px; height: 200px; " /></p>
   <h2>
   	Ingredient</h2>
   <div>
@@ -85,8 +84,7 @@ function wiki_content_content_defaults() {
   ',
           'summary' => '',
           'format' => 'full_html',
-          'safe_value' => '<h2>
-  	<img alt="" src="http://coffeescorner.files.wordpress.com/2011/11/cheesecake.jpg" style="width: 300px; height: 200px; " /></h2>
+          'safe_value' => '<p><img alt="" src="http://coffeescorner.files.wordpress.com/2011/11/cheesecake.jpg" style="width: 300px; height: 200px; " /></p>
   <h2>
   	Ingredient</h2>
   <div>
