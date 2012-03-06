@@ -106,6 +106,13 @@ function news_content_default_content_defaults() {
         ),
       ),
     ),
+    'field_top_news' => array(
+      'und' => array(
+        0 => array(
+          'value' => '1',
+        ),
+      ),
+    ),
   );
 
   $content['news_portugal'] = (object) array(
@@ -140,6 +147,13 @@ function news_content_default_content_defaults() {
           'url' => 'http://www.ecb.int/press/pr/date/2012/html/pr120228_1.en.html',
           'title' => 'source',
           'attributes' => array(),
+        ),
+      ),
+    ),
+    'field_top_news' => array(
+      'und' => array(
+        0 => array(
+          'value' => '1',
         ),
       ),
     ),
