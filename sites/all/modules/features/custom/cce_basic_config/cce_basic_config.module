@@ -60,13 +60,13 @@ function cce_basic_config_enable() {
 	'weight' => 1,
   ); 
   $context->reactions['block']['blocks']['user-menu']=$blockToAdd1;	
-  $blockToAdd2 = array(
+  /*$blockToAdd2 = array(
     'module' => 'search',
     'delta' =>  'form',
     'region' => 'tools',
     'weight' => 2,
   ); 
-  $context->reactions['block']['blocks']['form']=$blockToAdd2;	  
+  $context->reactions['block']['blocks']['form']=$blockToAdd2;	  */
   module_invoke('context','save',$context);	
 	
 
