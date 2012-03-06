@@ -26,6 +26,8 @@ function wiki_content_content_defaults() {
       'und' => array(
         0 => array(
           'value' => '<h2>
+  	<img alt="" src="http://coffeescorner.files.wordpress.com/2011/11/cheesecake.jpg" style="width: 300px; height: 200px; " /></h2>
+  <h2>
   	Ingredient</h2>
   <div>
   	<hr />
@@ -84,6 +86,8 @@ function wiki_content_content_defaults() {
           'summary' => '',
           'format' => 'full_html',
           'safe_value' => '<h2>
+  	<img alt="" src="http://coffeescorner.files.wordpress.com/2011/11/cheesecake.jpg" style="width: 300px; height: 200px; " /></h2>
+  <h2>
   	Ingredient</h2>
   <div>
   <hr /><ul><li>
