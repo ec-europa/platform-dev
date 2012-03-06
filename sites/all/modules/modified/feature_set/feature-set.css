@@ -39,9 +39,10 @@
   margin-top: 5px;
 }
 
-#feature-set-admin-form tr.even,
-#feature-set-admin-form tr.odd {
+#feature-set-admin-form tbody tr.even,
+#feature-set-admin-form tbody tr.odd {
   border-width: 0 1px 1px;
+  cursor: pointer;
 }
 
 #feature-set-admin-form td.disabled {
@@ -121,7 +122,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .pending .cb-enable.selected { background-position: 0 -60px; }
 .pending .cb-enable.selected span { background-position: left -210px; color: #fff; width: 30px; }
 
-.form-disabled .cb-enable, .form-disabled .cb-disable { cursor: not-allowed; }
+.form-disabled, .form-disabled .cb-enable, .form-disabled .cb-disable { cursor: not-allowed; }
 .form-disabled .cb-disable.selected { background-position: 0 -30px; }
 .form-disabled .cb-disable.selected span { background-position: right -330px; color: #fff; }
 .form-disabled .cb-enable.selected { background-position: 0 -30px; }

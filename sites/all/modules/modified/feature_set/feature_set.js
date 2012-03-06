@@ -4,6 +4,13 @@ jQuery(function($){
     $("#feature-set-admin-form .form-type-checkbox").each(function() {
       $(this).addClass('switch');  
     });
+    
+    //Add class to row if button is disabled
+    $("#feature-set-admin-form tr").each(function() {
+      if ($(this).find('.switch').is('.form-disabled')) {
+        $(this).addClass('form-disabled');
+      }
+    });  
   
     //Add switcher before checkbox and hide checkbox
     $("#feature-set-admin-form .form-checkbox").each(function() {
@@ -20,22 +27,24 @@ jQuery(function($){
       $(this).css('opacity',0);
     });
 
-    //Manage click on switcher 
-    $('.switch').click(function() {
-    
+    //Manage click on a row
+    $('#feature-set-admin-form tr').click(function() {
+      //get switcher
+      var switcher = $(this).find('.switch');
+      
       //check if button is disabled
-      if (!$(this).is('.form-disabled')) {    
+      if (!($(this).is('.form-disabled'))) {    
       
         //add pending status
-        $(this).toggleClass('pending');
+        switcher.toggleClass('pending');
         
         //change button
-        $(this).children('label').each(function() {
+        switcher.children('label').each(function() {
           $(this).toggleClass('selected');
         });
         
         //check or uncheck checkbox
-        checkbox = $(this).children('.form-checkbox');
+        checkbox = switcher.children('.form-checkbox');
         if (checkbox.attr('checked')) {
           checkbox.attr('checked', false);
         } else {
