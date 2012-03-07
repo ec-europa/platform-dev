@@ -216,6 +216,6 @@ global $base_url;
     </div><!-- /.layout-right -->
   </div><!-- /.layout-body -->
   
-  <div class="layout-footer"> Last update: DD/MM/YYYY | <a href="#top-page">Top</a>
+  <div class="layout-footer"> <?php print t('Last update:') . ' ' . date('d/m/Y');?> | <a href="#top-page">Top</a>
   </div><!-- /.layout-footer -->
 </div><!-- /#layout -->

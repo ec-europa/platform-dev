@@ -224,7 +224,7 @@ function ec_default_page_alter($page) {
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'date',
-      'content' =>  'Date of creation of the page'    
+      'content' =>  date('d/m/Y')   
     )
   );
   
