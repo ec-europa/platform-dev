@@ -33,7 +33,6 @@
  */
 ?>
 <div class="profile"<?php print $attributes; ?>>
-  <?php //print render($user_profile); ?>
   <?php 
     //list basic fields
     $basic = array('field_firstname', 'field_lastname', 'user_picture', 'summary');
@@ -48,14 +47,6 @@
   ?>
     </div>
     <div class="span7">
-  <?
-    /*foreach ($user_profile as $key => $value) {
-      if (in_array($key,$basic)) {
-        print render($value);
-      }
-    }*/
-    
-  ?>
     <?php
       $output .= '<h3>' . $user_profile['field_firstname'][0]['#markup'] . ' ' . $user_profile['field_lastname'][0]['#markup'] . '</h3>';
       
@@ -69,6 +60,17 @@
     </div>
   </fieldset>
   
+  <?php 
+    $display_additionnal = FALSE;
+    foreach ($user_profile as $key => $value) {
+      if (!in_array($key,$basic)) {
+        $display_additionnal = TRUE;
+        break;
+      }
+    }
+  ?>    
+  
+  <?php if ($display_additionnal) { ?>
   <fieldset>
   <legend>Additional information</legend>
   <?php 
@@ -85,5 +87,6 @@
     }
   ?>  
   </fieldset>  
+  <?php } ?>
   
 </div>
