@@ -182,22 +182,36 @@ $output = '';
     }
     
     //display non hidden fields
+    $display_other = FALSE;
     foreach ($content as $key => $value) {
       if (!in_array($key,$fields['picture']) &&
           !in_array($key,$fields['body']) &&
           !in_array($key,$fields['hide']) &&
           !in_array($key,$fields['group'])) {
-        $field = '<div class="field clerfix">';
-        $field .= '<div class="span2 field-label">'.$value['#title'].'</div>';
-        if ($variables['no_left']) {
-          $field .= '<div class="span9 no_label">'.render($value).'</div>';
-        } else {
-          $field .= '<div class="span7 no_label">'.render($value).'</div>';
-        }
-        $field .= '</div>';
-        
-        $output .= $field;
+        $display_other = TRUE;
+        break;
       }
+    }    
+    if ($display_body) {
+      $output .= '<blockquote class="f_left">';    
+      foreach ($content as $key => $value) {
+        if (!in_array($key,$fields['picture']) &&
+            !in_array($key,$fields['body']) &&
+            !in_array($key,$fields['hide']) &&
+            !in_array($key,$fields['group'])) {
+          $field = '<div class="field clerfix">';
+          $field .= '<div class="span2 field-label">'.$value['#title'].'</div>';
+          if ($variables['no_left']) {
+            $field .= '<div class="span9 no_label">'.render($value).'</div>';
+          } else {
+            $field .= '<div class="span7 no_label">'.render($value).'</div>';
+          }
+          $field .= '</div>';
+          
+          $output .= $field;
+        }
+      }
+      $output .= '</blockquote>'; 
     }
     
     //display groups

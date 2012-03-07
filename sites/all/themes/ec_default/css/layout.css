@@ -138,10 +138,14 @@ body,
 }
 
 /* ---------------- Node details  ----------------- */
-.node .content > .field {
+.node .content blockquote > .field {
   clear: left;
   float: left;
   margin-bottom: 5px;
+}
+.node .content blockquote {
+  margin: 5px 0;
+  padding: 0;
 }
 .meta {
   clear: both;
