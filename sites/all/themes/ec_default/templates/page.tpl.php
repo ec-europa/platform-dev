@@ -87,11 +87,6 @@
 ?>
 
 <?php
-$no_left = FALSE;
-if (arg(0) == 'admin' || !$page['sidebar_first']) {
-  $no_left = TRUE;
-}
-
 global $base_url;
 ?>
 
@@ -112,7 +107,7 @@ global $base_url;
         </li>
       </ul>-->
       
-<div class="layout layout-noright<?php if ($no_left) print ' layout-noleft'; ?>" id="layout">
+<div class="layout layout-noright<?php if ($variables['no_left']) print ' layout-noleft'; ?>" id="layout">
   
   <div id="header">
     <a href="<?php print $front_page; ?>">

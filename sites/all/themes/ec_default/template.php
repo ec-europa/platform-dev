@@ -115,6 +115,7 @@ function ec_default_process_html(&$variables) {
  * Override or insert variables into the page template.
  */
 function ec_default_process_page(&$variables) {
+
   // Hook into color.module.
   if (module_exists('color')) {
     _color_page_alter($variables);
@@ -267,6 +268,18 @@ function ec_default_process_maintenance_page(&$variables) {
     // If toggle_site_slogan is FALSE, the site_slogan will be empty, so we rebuild it.
     $variables['site_slogan'] = filter_xss_admin(variable_get('site_slogan', ''));
   }
+}
+
+/**
+ * Override or insert variables into the template.
+ */
+function ec_default_preprocess(&$variables) {
+  global $page;
+  
+  $variables['no_left'] = FALSE;
+  if (arg(0) == 'admin' || !$page['sidebar_first']) {
+    $variables['no_left'] = TRUE;
+  }  
 }
 
 /**
