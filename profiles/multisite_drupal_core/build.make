@@ -110,9 +110,6 @@ projects[calendar][version] = "3.0-alpha2"
 projects[og_create_perms][subdir] = "contributed"
 projects[og_create_perms][version] = "1.0"
 
-projects[tableofcontents][subdir] = "contributed"
-projects[tableofcontents][version] = "1.x-dev"
-
 ;projects[freelinking][subdir] = "contributed"
 ;projects[freelinking][version] = "3.1"
 

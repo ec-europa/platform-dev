@@ -1,7 +1,7 @@
 (function ($) {
 
 $(document).ready(function() {
-  $('.node-type-wiki .node-wiki>.content').prepend('<fieldset><ul id="toc"/></fieldset>');
+  $('.node-type-wiki .node-wiki>.content fieldset').prepend('<ul id="toc"/>');
     $("#toc").tableOfContents(
       $(".node-type-wiki .node-wiki>.content"),      // Scoped to div#wrapper
       {
@@ -11,5 +11,10 @@ $(document).ready(function() {
       }
     ); 
 
+    if($("#toc li").length > 0) {
+      $("#toc").addClass('well');
+    }
+	
+	
   });
 }(jQuery));
