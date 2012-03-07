@@ -365,7 +365,7 @@ $handler->display->display_options['fields']['field_event_date']['table'] = 'fie
 $handler->display->display_options['fields']['field_event_date']['field'] = 'field_event_date';
 $handler->display->display_options['fields']['field_event_date']['label'] = '';
 $handler->display->display_options['fields']['field_event_date']['alter']['alter_text'] = 1;
-$handler->display->display_options['fields']['field_event_date']['alter']['text'] = '<p class="meta">[field_event_date]</p>';
+$handler->display->display_options['fields']['field_event_date']['alter']['text'] = '<blockquote class="date">[field_event_date]</blockquote >';
 $handler->display->display_options['fields']['field_event_date']['alter']['make_link'] = 0;
 $handler->display->display_options['fields']['field_event_date']['alter']['absolute'] = 0;
 $handler->display->display_options['fields']['field_event_date']['alter']['external'] = 0;
@@ -498,9 +498,10 @@ $translatables['calendar'] = array(
   t('Upcoming'),
   t('Upcoming events block'),
   t('<i class="icon-[type]"></i>[title]'),
-  t('<p class="meta">[field_event_date]</p>'),
+  t('<blockquote class="date">[field_event_date]</blockquote >'),
   t('Tags'),
 );
+
 
 
   
