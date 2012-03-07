@@ -22,7 +22,7 @@ function events_uninstall() {
 * Add block to the context
 */
 function events_enable(){
-	//_add_block_context('site_wide','views-calendar-upcoming_events','views','calendar-upcoming_events','sidebar_first');
+	_add_block_context('homepage','views-calendar-upcoming_events','views','calendar-upcoming_events','content_top');
 
 	//Activation message
 	drupal_set_message('Events feature is now active on your site.');
@@ -33,7 +33,7 @@ function events_enable(){
 * Remove block from the context
 */
 function events_disable(){
-	//_remove_block_context('site_wide','views-calendar-upcoming_events');
+	_remove_block_context('homepage','views-calendar-upcoming_events');
 	_disable_content_type('event');
 	
 	drupal_flush_all_caches(); 
