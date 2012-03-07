@@ -124,13 +124,8 @@ global $base_url;
 
       <p class="off-screen">Service tools</p>
       <ul class="reset-list" id="services">
-        <li><a class="first" href="http://ec.europa.eu/atoz_en.htm"><?php print t('A-Z Index'); ?></a></li>
-        <li><a href="http://ec.europa.eu/sitemap/index_en.htm"><?php print t('Sitemap'); ?></a></li>
-        <li><a href="http://ec.europa.eu/abouteuropa/index_en.htm"><?php print t('About this site'); ?></a></li>
-        <li><a href="http://ec.europa.eu/abouteuropa/faq/index_en.htm"><?php print t('FAQ'); ?></a></li>
-        <li><a href="http://ec.europa.eu/geninfo/whatsnew_en.htm"><?php print t("What's New"); ?></a></li>
+        <li><a class="first" accesskey="3" href="<?php print $base_url . '/contact'; ?>"><?php print t('Contact'); ?></a></li>
         <li><a accesskey="2" href="http://ec.europa.eu/geninfo/legal_notices_en.htm"><?php print t('Legal notice'); ?></a></li>
-        <li><a accesskey="3" href="http://ec.europa.eu/contact/index_en.htm"><?php print t('Contact'); ?></a></li>
         <li><a accesskey="4" href="http://ec.europa.eu/geninfo/query/search_en.html"><?php print t('Search'); ?></a></li>
       </ul>
     </a>
