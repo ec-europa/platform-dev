@@ -79,6 +79,13 @@ function multisite_drupal_core_install() {
 	//'switch shortcut sets',
   ));  
   
+  // permissions to the anonymous
+  $anu_rid = get_rid('anonymous user');
+  user_role_grant_permissions($anu_rid, array(  
+    'post comments',
+  )); 
+  
+  
   // define the theme used ------------------------------------------------------------------------------------------------------------------------------------------------------
   $enable = array(
     'theme_default' => 'ec_default', // should be the our CCE theme
