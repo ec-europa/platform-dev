@@ -14,7 +14,7 @@ include_once('wiki.features.inc');
 function wiki_enable() {
   // add elements to contexts
 
-  _add_block_context('homepage', 'wiki_list-block_1', 'views', 'wiki_list-block_1', 'content_top');
+  //_add_block_context('homepage', 'wiki_list-block_1', 'views', 'wiki_list-block_1', 'content_top');
 
   // add wiki content type to newsletters related contents
   add_content_type_newsletters('wiki');
