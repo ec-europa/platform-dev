@@ -363,7 +363,9 @@ $handler->display->display_options['fields']['title']['link_to_node'] = 1;
 $handler->display->display_options['fields']['field_event_date']['id'] = 'field_event_date';
 $handler->display->display_options['fields']['field_event_date']['table'] = 'field_data_field_event_date';
 $handler->display->display_options['fields']['field_event_date']['field'] = 'field_event_date';
-$handler->display->display_options['fields']['field_event_date']['alter']['alter_text'] = 0;
+$handler->display->display_options['fields']['field_event_date']['label'] = '';
+$handler->display->display_options['fields']['field_event_date']['alter']['alter_text'] = 1;
+$handler->display->display_options['fields']['field_event_date']['alter']['text'] = '<p class="meta">[field_event_date]</p>';
 $handler->display->display_options['fields']['field_event_date']['alter']['make_link'] = 0;
 $handler->display->display_options['fields']['field_event_date']['alter']['absolute'] = 0;
 $handler->display->display_options['fields']['field_event_date']['alter']['external'] = 0;
@@ -375,8 +377,8 @@ $handler->display->display_options['fields']['field_event_date']['alter']['ellip
 $handler->display->display_options['fields']['field_event_date']['alter']['strip_tags'] = 0;
 $handler->display->display_options['fields']['field_event_date']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['field_event_date']['alter']['html'] = 0;
-$handler->display->display_options['fields']['field_event_date']['element_label_colon'] = 1;
-$handler->display->display_options['fields']['field_event_date']['element_default_classes'] = 1;
+$handler->display->display_options['fields']['field_event_date']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_event_date']['element_default_classes'] = 0;
 $handler->display->display_options['fields']['field_event_date']['hide_empty'] = 0;
 $handler->display->display_options['fields']['field_event_date']['empty_zero'] = 0;
 $handler->display->display_options['fields']['field_event_date']['hide_alter_empty'] = 1;
@@ -434,8 +436,8 @@ $handler->display->display_options['fields']['term_node_tid']['alter']['strip_ta
 $handler->display->display_options['fields']['term_node_tid']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['term_node_tid']['alter']['html'] = 0;
 $handler->display->display_options['fields']['term_node_tid']['element_label_colon'] = 1;
-$handler->display->display_options['fields']['term_node_tid']['element_default_classes'] = 1;
-$handler->display->display_options['fields']['term_node_tid']['hide_empty'] = 0;
+$handler->display->display_options['fields']['term_node_tid']['element_default_classes'] = 0;
+$handler->display->display_options['fields']['term_node_tid']['hide_empty'] = 1;
 $handler->display->display_options['fields']['term_node_tid']['empty_zero'] = 0;
 $handler->display->display_options['fields']['term_node_tid']['hide_alter_empty'] = 1;
 $handler->display->display_options['fields']['term_node_tid']['separator'] = '|  ';
@@ -443,6 +445,7 @@ $handler->display->display_options['fields']['term_node_tid']['link_to_taxonomy'
 $handler->display->display_options['fields']['term_node_tid']['limit'] = 1;
 $handler->display->display_options['fields']['term_node_tid']['vocabularies'] = array(
   'tags' => 'tags',
+  'newsletter' => 0,
 );
 $handler->display->display_options['defaults']['filters'] = FALSE;
 /* Filter criterion: Content: Published */
@@ -495,8 +498,10 @@ $translatables['calendar'] = array(
   t('Upcoming'),
   t('Upcoming events block'),
   t('<i class="icon-[type]"></i>[title]'),
+  t('<p class="meta">[field_event_date]</p>'),
   t('Tags'),
 );
+
 
   
   
