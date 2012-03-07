@@ -68,3 +68,9 @@ feature_sets[e_library][description] = 'Allows contributors to publish documents
 feature_sets[e_library][icon] = 'feature-set-icons/e_library.png'
 feature_sets[e_library][enable][] = e_library
 feature_sets[e_library][disable][] = e_library
+
+feature_sets[contact_form][title] = 'Contact form'
+feature_sets[contact_form][description] = 'Allows to contact support by email'
+feature_sets[contact_form][icon] = 'feature-set-icons/contact.png'
+feature_sets[contact_form][enable][] = contact_form
+feature_sets[contact_form][disable][] = contact_form
