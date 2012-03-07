@@ -22,7 +22,7 @@ feature_sets[news][enable][] = news
 feature_sets[news][disable][] = news
 
 feature_sets[ec_profiles][title] = 'Extend Profiles'
-feature_sets[ec_profiles][description] = 'Gives a possibility for the administrator to manage information about user's profile on the site. He can add some additional fields and define whether the information must be filled by a new user or not, or if user can hide the information or not.'
+feature_sets[ec_profiles][description] = 'Gives a possibility for the administrator to manage information about user\'s profile on the site. He can add some additional fields and define whether the information must be filled by a new user or not, or if user can hide the information or not.'
 feature_sets[ec_profiles][icon] = 'feature-set-icons/ec_profiles.png'
 feature_sets[ec_profiles][enable][] = ec_profiles
 feature_sets[ec_profiles][disable][] = ec_profiles
