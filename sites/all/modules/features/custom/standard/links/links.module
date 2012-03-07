@@ -12,7 +12,7 @@ include_once('links.features.inc');
  */
 function links_enable(){
 
-  //Add block in context
+  module_enable(array('links_content_default'));
 
   drupal_set_message('Links feature is now active on your site.');
 
@@ -25,7 +25,7 @@ function links_enable(){
  * Remove permissions
  */
 function links_disable(){
-
+ module_disable(array('links_content_default'));
   // Remove block
  // _remove_block_context('communities', 'links-block');
  // _remove_views_context('communities', 'links');
