@@ -16,7 +16,7 @@ function news_enable(){
   //_add_block_context('site_wide','news-block_1','views','news-block_1', 'sidebar_first');
   _add_block_context('homepage','news-top_news','views','news-top_news', 'content_top');
   drupal_set_message('News feature is now active on your site.');
-  module_enable(array('news_content_default'));
+  //module_enable(array('news_content_default'));
 }
 
 
