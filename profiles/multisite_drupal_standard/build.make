@@ -24,7 +24,7 @@ projects[date][subdir] = "contributed"
 projects[date][version] = "2.0-alpha5"
 
 projects[defaultcontent][subdir] = "contributed"
-projects[defaultcontent][version] = "1.0-alpha5"
+projects[defaultcontent][version] = "1.0-alpha6"
 
 projects[diff][subdir] = "contributed"
 projects[diff][version] = "2.0"
