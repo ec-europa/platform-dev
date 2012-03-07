@@ -29,3 +29,15 @@ function e_library_views_pre_render(&$view) {
 			}
 	}
 }
+
+function e_library_enable() {
+
+  module_enable(array('e_library_content_default'));
+
+}
+
+function e_library_disable() {
+
+  module_disable(array('e_library_content_default'));
+
+}
