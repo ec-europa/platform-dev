@@ -21,6 +21,16 @@ function wiki_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: delete any wiki content
+  $permissions['delete any wiki content'] = array(
+    'name' => 'delete any wiki content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: delete own wiki content
   $permissions['delete own wiki content'] = array(
     'name' => 'delete own wiki content',
@@ -28,6 +38,16 @@ function wiki_user_default_permissions() {
       0 => 'administrator',
       1 => 'authenticated user',
       2 => 'contributor',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: edit any wiki content
+  $permissions['edit any wiki content'] = array(
+    'name' => 'edit any wiki content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
     ),
     'module' => 'node',
   );
@@ -42,18 +62,17 @@ function wiki_user_default_permissions() {
     ),
     'module' => 'node',
   );
-  
+
   // Exported permission: use text format wiki
   $permissions['use text format wiki'] = array(
     'name' => 'use text format wiki',
     'roles' => array(
-      0 => 'anonymous user',
-      1 => 'authenticated user',
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
     ),
     'module' => 'filter',
   );
-
-
 
 
   // custom permissions
