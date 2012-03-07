@@ -120,5 +120,6 @@ function events_strongarm() {
   $strongarm->value = 'draft';
   $export['workbench_moderation_default_state_event'] = $strongarm;
 
+  
   return $export;
 }
