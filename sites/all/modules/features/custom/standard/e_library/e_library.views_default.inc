@@ -186,6 +186,7 @@ $handler->display->display_options['arguments']['group']['table'] = 'og_membersh
 $handler->display->display_options['arguments']['group']['field'] = 'group';
 $handler->display->display_options['arguments']['group']['relationship'] = 'og_membership_rel';
 $handler->display->display_options['arguments']['group']['default_action'] = 'default';
+$handler->display->display_options['arguments']['group']['default_argument_type'] = 'fixed';
 $handler->display->display_options['arguments']['group']['default_argument_skip_url'] = 0;
 $handler->display->display_options['arguments']['group']['summary']['number_of_records'] = '0';
 $handler->display->display_options['arguments']['group']['summary']['format'] = 'default_summary';
@@ -212,6 +213,11 @@ $handler->display->display_options['filters']['type']['value'] = array(
   'document' => 'document',
 );
 $handler->display->display_options['filters']['type']['group'] = 0;
+/* Filter criterion: Workbench Moderation: Published */
+$handler->display->display_options['filters']['published']['id'] = 'published';
+$handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
+$handler->display->display_options['filters']['published']['field'] = 'published';
+$handler->display->display_options['filters']['published']['value'] = '1';
 
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
@@ -282,7 +288,7 @@ $translatables['e_library'] = array(
   t('File'),
   t('File type'),
   t('Title'),
-  t('[filemime][title]'),
+  t('[filemime] [title]'),
   t('Author'),
   t('Last update'),
   t('Use count'),
@@ -293,6 +299,7 @@ $translatables['e_library'] = array(
   t('Attachment'),
   t('Attachment header'),
 );
+
   
   
   $export['e_library'] = $view;
