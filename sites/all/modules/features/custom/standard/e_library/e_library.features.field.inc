@@ -222,7 +222,7 @@ function e_library_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '33',
+        'weight' => '-2',
       ),
     ),
   );

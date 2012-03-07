@@ -322,7 +322,7 @@ function events_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '4',
+        'weight' => '-2',
       ),
     ),
   );
