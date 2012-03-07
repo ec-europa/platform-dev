@@ -22,6 +22,7 @@ function events_uninstall() {
 * Add block to the context
 */
 function events_enable(){
+  module_enable(array('event_content_default'));
 	_add_block_context('homepage','views-calendar-upcoming_events','views','calendar-upcoming_events','content_top');
 
 	//Activation message
@@ -33,11 +34,12 @@ function events_enable(){
 * Remove block from the context
 */
 function events_disable(){
+  module_disable(array('event_content_default'));
 	_remove_block_context('homepage','views-calendar-upcoming_events');
 	_disable_content_type('event');
 	
-	drupal_flush_all_caches(); 
-    drupal_set_message('Events feature is now disabled on your site.');	
+	drupal_flush_all_caches();
+  drupal_set_message('Events feature is now disabled on your site.');
 }
 
 
