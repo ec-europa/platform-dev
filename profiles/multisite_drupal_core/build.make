@@ -137,6 +137,9 @@ projects[simplenews][version] = "1.0-beta1"
 projects[print][subdir] = "contributed"
 projects[print][version] = "1.0-beta1"
 
+projects[features_override][subdir] = "contributed"
+projects[features_override][version] = "1.0-beta1"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"
