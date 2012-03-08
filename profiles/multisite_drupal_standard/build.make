@@ -99,7 +99,7 @@ projects[pathauto][subdir] = "contributed"
 projects[pathauto][version] = "1.0"
 
 projects[user_field_privacy][subdir] = "contributed"
-projects[user_field_privacy][version] = "1.1"
+projects[user_field_privacy][version] = "1.2"
 
 projects[calendar][subdir] = "contributed"
 projects[calendar][version] = "3.0-alpha2"
@@ -142,7 +142,7 @@ projects[simplenews][subdir] = "contributed"
 projects[simplenews][version] = "1.0-beta1"
 
 projects[webform][subdir] = "contributed"
-projects[webform][version] = "3.15"
+projects[webform][version] = "3.17"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"

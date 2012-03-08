@@ -1,5 +1,5 @@
-name = multisite drupal debut
-description = toolbox for the multisite drupal plateform for using the debut features
+name = multisite drupal features set standard
+description = settings for the features set for the standard profile
 package = multisite drupal toolbox
 core = 7.x
 

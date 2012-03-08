@@ -1,5 +1,5 @@
-name = multisite drupal toolbox
-description = toolbox for the multisite drupal plateform
+name = multisite drupal features set
+description = settings for the features set
 package = multisite drupal toolbox
 core = 7.x
 

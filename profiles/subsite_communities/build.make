@@ -102,7 +102,7 @@ projects[pathauto][subdir] = "contributed"
 projects[pathauto][version] = "1.0"
 
 projects[user_field_privacy][subdir] = "contributed"
-projects[user_field_privacy][version] = "1.1"
+projects[user_field_privacy][version] = "1.2"
 
 projects[calendar][subdir] = "contributed"
 projects[calendar][version] = "3.0-alpha2"
@@ -117,7 +117,7 @@ projects[og_create_perms][version] = "1.0"
 ;projects[simplewiki][version] = "1.x-dev"
 
 projects[webform][subdir] = "contributed"
-projects[webform][version] = "3.15"
+projects[webform][version] = "3.17"
 
 projects[references][subdir] = "contributed"
 projects[references][version] = "2.0"
