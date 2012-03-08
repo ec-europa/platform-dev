@@ -67,6 +67,8 @@ function multisite_drupal_core_install() {
 	'moderate content from draft to needs_review',
     'view moderation history',
     'revert revisions',	
+	'access print',
+	'access PDF version',
   )); 
 
   $adm_rid = get_rid('administrator'); 
@@ -83,6 +85,8 @@ function multisite_drupal_core_install() {
   $anu_rid = get_rid('anonymous user');
   user_role_grant_permissions($anu_rid, array(  
     'post comments',
+	'access print',
+	'access PDF version',
   )); 
   
   

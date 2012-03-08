@@ -168,12 +168,22 @@ drush scr "${working_dir}/profiles/${install_profile}/inject_data.php"
 mkdir "${working_dir}/sites/default/files/private_files"
 chmod -R 777 "${working_dir}/sites/default/files"
 
-#cd sites/all/libraries
+#install third party libraries
+#ckeditor
 cd "${working_dir}/sites/all/modules/contributed/ckeditor"
 rm -rf "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor"
 wget -P "${working_dir}/sites/all/modules/contributed/ckeditor/" http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.2/ckeditor_3.6.2.tar.gz  1>&2
 tar xzf "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor_3.6.2.tar.gz" 1>&2
 rm "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor_3.6.2.tar.gz"
+
+#tcpdf
+cd "${working_dir}/sites/all"
+mkdir libraries
+cd "${working_dir}/sites/all/libraries"
+wget -P "${working_dir}/sites/all/libraries/" http://sourceforge.net/projects/tcpdf/files/latest/download
+unzip "tcpdf_5_9_149.zip"
+rm "${working_dir}/sites/all/libraries/tcpdf_5_9_149.zip"
+
 
 if [ -d "${webroot}/${site_name}" ] ; then
 	__echo -n "Removing the folder $webroot/${site_name}..."
