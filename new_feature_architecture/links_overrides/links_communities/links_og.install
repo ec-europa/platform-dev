@@ -1,0 +1,77 @@
+<?php
+/**
+ * @file
+ * Install the feature links
+ */
+
+/**
+ * hook_install
+ */
+function links_og_install() {
+  //Nothing yet
+}
+
+/**
+ * hook_uninstall
+ */
+function links_og_uninstall() {
+  //Nothing yet
+}
+
+
+/*
+ * hook_enable 
+ * Edit communities context to add a block
+ */
+function links_og_enable(){
+
+  //Add block in context
+  //_add_block_context('communities','links-block','views','links-block', 'sidebar_first');
+  _add_views_context('communities','links');
+  _add_content_type_context('communities','links');
+  
+}
+
+
+/*
+ * hook_disable 
+ * Edit communities context to remove block
+ * Remove permissions
+ */
+function links_og_disable(){
+
+  // Remove block
+ // _remove_block_context('communities', 'links-block');
+  _remove_views_context('communities', 'links');
+  _remove_content_type_context('communities','links');
+          
+  // Disable permissions to OG roles ---------------------------------------------------------------  
+  // Community Manager
+  $cm_rid = get_og_rid('community_manager');
+  og_role_revoke_permissions($cm_rid, array(
+    'update own links content',
+    'update any links content',
+    'delete own links content',
+    'delete any links content',
+    'create links content',
+  ));
+    
+  // Administrator Member
+  $admm_rid = get_og_rid('administrator member');
+  og_role_revoke_permissions($admm_rid, array(
+    'update own links content',
+    'update any links content',
+    'delete own links content',
+    'delete any links content',
+    'create links content',
+  ));
+  
+  // Member
+  $mbr = get_og_rid('member');
+  og_role_revoke_permissions($mbr, array(
+      'create links content',
+      'update own links content',
+      'delete own links content',
+  ));
+ 
+}
