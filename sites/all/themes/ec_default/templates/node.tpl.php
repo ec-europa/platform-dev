@@ -192,7 +192,7 @@ $output = '';
         break;
       }
     }    
-    if ($display_body) {
+    if ($display_other) {
       $output .= '<blockquote class="f_left">';    
       foreach ($content as $key => $value) {
         if (!in_array($key,$fields['picture']) &&
