@@ -1,0 +1,6 @@
+name = "news_standard"
+description = "override news_core"
+core = "7.x"
+package = "Features"
+version = "7.x-1.0"
+project = "news_standard"

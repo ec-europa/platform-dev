@@ -1,0 +1,146 @@
+<?php
+/**
+ * @file
+ * Code for the News feature.
+ */
+
+include_once('news.features.inc');
+
+/*
+ * hook_enable 
+ * Edit communities context to add a block
+ */
+function news_enable(){
+
+  //Add block in context
+ // _add_block_context('communities','news-block_1','views','news-block_1', 'sidebar_first');
+  _add_views_context('communities','news');
+  _add_content_type_context('communities','news');
+  
+  drupal_set_message('News feature is now active on your site.');
+
+}
+
+
+/*
+ * hook_disable 
+ * Edit communities context to remove block
+ * Remove permissions
+ */
+function news_disable(){
+
+  // Remove block
+ // _remove_block_context('communities', 'news-block_1');
+  _remove_views_context('communities', 'news');
+  _remove_content_type_context('communities','news');
+
+  /*** Remove permissions ***/
+  _disable_content_type('news');
+  
+  // Administrator
+  $adm_rid = get_rid('administrator');
+  user_role_revoke_permissions($adm_rid, array(
+    'edit own news content',
+    'edit any news content',
+    'delete own news content',
+    'delete any news content',
+    'create news content',
+  ));
+    
+  // Contributor
+  $ctb_rid = get_rid('contributor');      
+  user_role_revoke_permissions($ctb_rid, array(
+    'edit own news content',
+    'edit any news content',
+    'delete own news content',
+    'delete any news content',
+    'create news content',
+  ));
+          
+  // Disable permissions to OG roles ---------------------------------------------------------------  
+  // Community Manager
+  $cm_rid = get_og_rid('community_manager');
+  og_role_revoke_permissions($cm_rid, array(
+    'update own news content',
+    'update any news content',
+    'delete own news content',
+    'delete any news content',
+    'create news content',
+  ));
+    
+  // Administrator Member
+  $admm_rid = get_og_rid('administrator member');
+  og_role_revoke_permissions($admm_rid, array(
+    'update own news content',
+    'update any news content',
+    'delete own news content',
+    'delete any news content',
+    'create news content',
+  ));
+  
+  // Member
+  $mbr = get_og_rid('member');
+  og_role_revoke_permissions($mbr, array(
+      'create news content',
+      'update own news content',
+      'delete own news content',
+  ));
+    
+  drupal_flush_all_caches(); 
+  drupal_set_message('News feature is now disabled on your site.');
+}
+
+
+/*
+* hook_menu
+*/
+function news_menu() {
+  $items = array();
+ 
+  $items['community/%group_name/news'] = array(
+    'title' => 'News',
+    'page callback' => 'views_page',
+    'page arguments' => array('news', 'page', 1),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+
+  return $items;
+}
+
+/*
+* hook_views_pre_render
+*/
+function news_views_pre_render(&$view) {
+
+  if($view->name == 'news' && $view->current_display == 'page') {
+    $output = '';
+    global $user;
+    
+    $og = og_context();
+    if ($og) {
+    
+      $gid = $og->gid;
+      $uid = $user->uid;
+      
+      $is_member = db_select('og_membership', 'ogm')
+      ->fields('ogm')
+      ->condition('gid', $gid,'=')
+      ->condition('etid', $uid,'=')
+      ->condition('entity_type', 'user','=')
+      ->execute()
+      ->fetchAssoc();
+    
+      if($is_member){
+      
+        $output .= l(t('Create a News'), 'node/add/news', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'),'query' => array('gids_node[]' => $og->etid)));
+      }
+    }
+    //add menu to the exsiting  header
+    if($view->header['area']){
+      $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+    }
+  }
+}

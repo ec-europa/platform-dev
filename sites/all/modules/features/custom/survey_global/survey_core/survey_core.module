@@ -1,0 +1,75 @@
+<?php
+/**
+ * @file
+ * Code for the Survey feature.
+ */
+
+include_once('survey_core.features.inc');
+
+
+/*
+* hook_menu
+*/
+function survey_core_menu() {
+  $items = array();
+ 
+  $items['survey_analysis/%'] = array(
+    'title' => 'Analysis',
+    'page callback' => 'survey_analysis',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'weight' => 5,
+  );
+
+  return $items;
+}
+
+
+/*
+* display analysis results of a webform
+*/
+function survey_analysis($nid) {
+  $node = node_load($nid);
+  $sids = array();
+  $components = $node->webform['components'];
+  $data = array();
+  foreach ($components as $cid => $component) {
+    if ($row_data = webform_component_invoke($component['type'], 'analysis', $component, $sids, FALSE)) {
+      $data[$cid] = $row_data;
+    }
+  }
+  return theme('webform_results_analysis', array('node' => $node, 'data' => $data, 'sids' => $sids, 'component' => NULL));
+}
+
+
+/*
+* hook_enable
+*/
+function survey_core_enable() {
+  //_add_block_context('site_wide', 'surveys_list-block_1', 'views', 'surveys_list-block_1', 'sidebar_first');
+
+  // change content type webform name to survey
+  db_update('node_type')
+    ->fields(array('name' => 'Survey'))
+    ->condition('type', 'webform' , "=")
+    ->execute(); 
+
+  // enable example contents
+  module_enable(array("survey_contents"));
+}
+
+
+/*
+ * Hook disable 
+ */
+function survey_core_disable(){
+  // Remove block
+  //_remove_block_context('site_wide', 'surveys_list-block_1');
+  
+  // diable the content type webform
+  _disable_content_type('webform');
+           
+  // disable example contents
+  module_disable(array("survey_contents"));
+}
+
