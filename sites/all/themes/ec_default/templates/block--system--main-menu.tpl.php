@@ -45,18 +45,24 @@
  */
 ?>
 
-  <ul id="<?php print $block_html_id; ?>" class="nav nav-pills">
-  <?php 
-    $menu = menu_navigation_links("main-menu");
-    $items = "";
-    
-    foreach ($menu as $item_id) {
-      $items .= '<li>'.l($item_id['title'],$item_id['href']).'</li>';
-    }
-    
-    print $items;
-  ?>    
-  </ul>  
+        <div id="main_menu" class="navbar">
+          <div class="navbar-inner">
+            <div class="container" style="width: auto;">
+              <ul id="<?php print $block_html_id; ?>" class="nav nav-pills">
+              <?php 
+                $menu = menu_navigation_links("main-menu");
+                $items = "";
+                
+                foreach ($menu as $item_id) {
+                  $items .= '<li>'.l($item_id['title'],$item_id['href']).'</li>';
+                }
+                
+                print $items;
+              ?>    
+              </ul>  
+            </div>
+          </div>
+        </div>  
 
 
 

@@ -92,22 +92,7 @@ global $base_url;
 
 <a id="top-page" name="top-page"></a>
 
-<!--<ul class="nav nav-pills">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">Profile</a></li>
-        <li class="dropdown">
-          <a href="#" data-toggle="dropdown" class="dropdown-toggle">Dropdown <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
-      </ul>-->
-      
-<div class="layout layout-noright<?php if ($variables['no_left']) print ' layout-noleft'; ?>" id="layout">
+<div class="layout layout-noright<?php if (isset($variables['no_left']) && $variables['no_left']) print ' layout-noleft'; ?>" id="layout">
   
   <div id="header">
     <a href="<?php print $front_page; ?>">
@@ -145,7 +130,7 @@ global $base_url;
   <div class="layout-body">
     <div class="layout-wrapper">
       <div class="layout-wrapper-reset">
-	  
+      
         <?php if ($page['featured']): ?>
 			<?php print render($page['featured']); ?>
         <?php endif; ?>	    
