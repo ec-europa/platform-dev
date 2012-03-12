@@ -12,7 +12,7 @@ include_once('survey_standard.views_alter.inc');
 * hook_views_pre_render
 */
 
-function survey_core_views_pre_render(&$view) {
+function survey_standard_views_pre_render(&$view) {
   if($view->name == 'surveys_list' && $view->current_display == 'page_1') {
     if(user_access('create webform content'))  {
       $output = l(t('Create a new survey'),'node/add/webform',array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
@@ -20,3 +20,4 @@ function survey_core_views_pre_render(&$view) {
 	}
   }
 }
+

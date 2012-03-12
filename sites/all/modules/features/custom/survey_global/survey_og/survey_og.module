@@ -4,8 +4,8 @@
  * Code for the Survey feature.
  */
 
-include_once('survey_og_og.features.inc');
-include_once('survey_og_og.views_alter.inc');
+include_once('survey_og.features.inc');
+include_once('survey_og.views_alter.inc');
 
 
 /*
@@ -88,3 +88,4 @@ function survey_og_views_pre_render(&$view) {
 	}
   }
 }
+

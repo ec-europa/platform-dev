@@ -7,7 +7,7 @@
 /**
  * Implements hook_content_defaults().
  */
-function news_content_defaults() {
+function news_og_content_defaults() {
   $content = array();
 
   $content['news1'] = (object) array(
@@ -782,3 +782,4 @@ GY^ÍI°ZÚ¼p M…UB²áB’åÎ~vÏ°ë1W´Ó¢’g„/}Ì†W ¹\'Œ±ÆIõ\'¦h¢¼\\ßL4’î¿C¢‹Öçç´¿µŽ
 
 return $content;
 }
+

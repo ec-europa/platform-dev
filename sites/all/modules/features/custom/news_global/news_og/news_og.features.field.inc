@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * survey.features.field.inc
+ * news.features.field.inc
  */
 
 /**
  * Implements hook_field_default_fields().
  */
-function survey_og_field_default_fields() {
+function news_og_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-webform-group_audience'
-  $fields['node-webform-group_audience'] = array(
+  // Exported field: 'node-news-group_audience'
+  $fields['node-news-group_audience'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '-1',
@@ -38,7 +38,7 @@ function survey_og_field_default_fields() {
       'type' => 'group',
     ),
     'field_instance' => array(
-      'bundle' => 'webform',
+      'bundle' => 'news',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -48,7 +48,7 @@ function survey_og_field_default_fields() {
           'module' => 'og',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => 1,
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -60,7 +60,7 @@ function survey_og_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'group_audience',
       'label' => 'Groups audience',
-      'required' => TRUE,
+      'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
@@ -77,19 +77,20 @@ function survey_og_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'og',
         'settings' => array(
           'opt_group' => 'auto',
         ),
         'type' => 'group_audience',
-        'weight' => 32,
+        'weight' => '5',
       ),
       'widget_type' => 'group_audience',
     ),
   );
 
-  // Exported field: 'node-webform-group_content_access'
-  $fields['node-webform-group_content_access'] = array(
+  // Exported field: 'node-news-group_content_access'
+  $fields['node-news-group_content_access'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -116,7 +117,7 @@ function survey_og_field_default_fields() {
       'type' => 'list_integer',
     ),
     'field_instance' => array(
-      'bundle' => 'webform',
+      'bundle' => 'news',
       'default_value' => array(
         0 => array(
           'value' => 0,
@@ -130,7 +131,7 @@ function survey_og_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 2,
+          'weight' => 5,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -160,7 +161,7 @@ function survey_og_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => 33,
+        'weight' => 31,
       ),
       'widget_type' => 'options_select',
     ),

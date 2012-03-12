@@ -6,3 +6,47 @@
 
 include_once('news_standard.features.inc');
 include_once('news_standard.views_alter.inc');
+
+
+/*
+ * hook_enable 
+ * Edit communities context to add a block
+ */
+function news_standard_enable(){
+  //Add block in context
+  _add_block_context('homepage','news-top_news','views','news-top_news', 'content_top');
+  drupal_set_message('News feature is now active on your site.');
+  module_enable(array('news_content_default'));
+}
+
+/*
+ * hook_disable 
+ * Edit communities context to remove block
+ * Remove permissions
+ */
+function news_standard_disable(){
+  drupal_set_message('News feature is now disabled on your site.');
+  _remove_block_context('homepage','news-top_news');
+}
+
+
+
+/*
+* hook_views_pre_render
+*/
+function news_standard_views_pre_render(&$view) {
+  if($view->name == 'news' && $view->current_display == 'page') {
+    $output = '';
+    global $user;
+    
+    if(user_access("create news content")){
+      $output .= l(t('Create a News'), 'node/add/news', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
+    }
+    
+    //add menu to the exsiting  header
+    if($view->header['area']){
+      $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+    }
+  }
+}
+

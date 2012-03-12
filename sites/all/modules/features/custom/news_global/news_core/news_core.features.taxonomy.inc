@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * wiki.features.taxonomy.inc
+ * news.features.taxonomy.inc
  */
 
 /**
  * Implements hook_taxonomy_default_vocabularies().
  */
-function wiki_core_taxonomy_default_vocabularies() {
+function news_core_taxonomy_default_vocabularies() {
   return array(
     'tags' => array(
       'name' => 'Tags',

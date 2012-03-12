@@ -7,7 +7,7 @@
 /**
  * Implements hook_context_default_contexts().
  */
-function news_context_default_contexts() {
+function news_og_context_default_contexts() {
   $export = array();
 
   $context = new stdClass;
@@ -48,3 +48,4 @@ function news_context_default_contexts() {
 
   return $export;
 }
+

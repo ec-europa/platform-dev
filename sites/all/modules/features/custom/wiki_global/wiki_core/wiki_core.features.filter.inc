@@ -49,3 +49,4 @@ function wiki_core_filter_default_formats() {
 
   return $formats;
 }
+

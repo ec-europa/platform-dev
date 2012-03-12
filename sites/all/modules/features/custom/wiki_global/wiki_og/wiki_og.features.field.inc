@@ -173,3 +173,4 @@ function wiki_og_field_default_fields() {
 
   return $fields;
 }
+

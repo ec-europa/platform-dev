@@ -7,7 +7,7 @@
 /**
  * Implements hook_views_default_views().
  */
-function news_views_default_views() {
+function news_core_views_default_views() {
   $export = array();
 
   $view = new view;
@@ -42,11 +42,6 @@ function news_views_default_views() {
   $handler->display->display_options['header']['area']['empty'] = TRUE;
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
-  /* Relationship: Broken/missing handler */
-  $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
-  $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
-  $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  $handler->display->display_options['relationships']['og_membership_rel']['required'] = 0;
   /* Field: Content: Picture */
   $handler->display->display_options['fields']['field_news_picture']['id'] = 'field_news_picture';
   $handler->display->display_options['fields']['field_news_picture']['table'] = 'field_data_field_news_picture';
@@ -341,12 +336,6 @@ function news_views_default_views() {
   $handler->display->display_options['fields']['body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
-  $handler->display->display_options['path'] = 'news';
-  $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'News';
-  $handler->display->display_options['menu']['weight'] = '0';
-  $handler->display->display_options['menu']['name'] = 'main-menu';
-  $handler->display->display_options['menu']['context'] = 0;
 
   /* Display: Latest News Block */
   $handler = $view->new_display('block', 'Latest News Block', 'block_1');
@@ -665,7 +654,6 @@ function news_views_default_views() {
     t('Items per page'),
     t('- All -'),
     t('Offset'),
-    t('og_membership_rel'),
     t('<small>[created]</small>'),
     t('News list page'),
     t('<h2>Read the latest news</h2>'),

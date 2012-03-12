@@ -44,3 +44,4 @@ function wiki_core_node_info() {
   );
   return $items;
 }
+

@@ -164,3 +164,4 @@ function wiki_core_field_default_fields() {
 
   return $fields;
 }
+

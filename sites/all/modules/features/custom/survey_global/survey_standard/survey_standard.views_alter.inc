@@ -4,9 +4,8 @@
 * Implementation of hook_views_default_views_alter().
 */
 function survey_standard_views_default_views_alter(&$views) {
-  // Alter only the 'view_name_of_interest' view.
   if (array_key_exists('surveys_list', $views)) {
-	$view=$views['surveys_list'];
+    $view=$views['surveys_list'];
 	 
     /* Display: Page */
     $handler = $view->new_display('page', 'Page', 'page_1');
@@ -20,3 +19,4 @@ function survey_standard_views_default_views_alter(&$views) {
 
   }
 }
+

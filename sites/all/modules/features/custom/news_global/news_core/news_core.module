@@ -1,0 +1,53 @@
+<?php
+/**
+ * @file
+ * Code for the News feature.
+ */
+
+include_once('news_core.features.inc');
+
+/*
+ * hook_enable 
+ * Edit communities context to add a block
+ */
+function news_core_enable(){
+  module_enable(array('news_content_default'));
+}
+
+
+/*
+ * hook_disable 
+ * Edit communities context to remove block
+ * Remove permissions
+ */
+function news_core_disable(){
+  module_disable(array('news_content_default'));
+ 
+  /*** Remove permissions ***/
+  _disable_content_type('news');
+  
+  // Administrator
+  $adm_rid = get_rid('administrator');
+  user_role_revoke_permissions($adm_rid, array(
+    'edit own news content',
+    'edit any news content',
+    'delete own news content',
+    'delete any news content',
+    'create news content',
+  ));
+    
+  // Contributor
+  $ctb_rid = get_rid('contributor');      
+  user_role_revoke_permissions($ctb_rid, array(
+    'edit own news content',
+    'edit any news content',
+    'delete own news content',
+    'delete any news content',
+    'create news content',
+  ));
+          
+  drupal_flush_all_caches(); 
+  drupal_set_message('News feature is now disabled on your site.');
+}
+
+

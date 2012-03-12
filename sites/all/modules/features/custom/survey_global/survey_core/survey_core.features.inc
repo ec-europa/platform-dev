@@ -40,3 +40,4 @@ function survey_core_node_info() {
   );
   return $items;
 }
+

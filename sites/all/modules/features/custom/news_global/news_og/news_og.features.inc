@@ -7,7 +7,7 @@
 /**
  * Implements hook_ctools_plugin_api().
  */
-function news_ctools_plugin_api() {
+function news_og_ctools_plugin_api() {
   list($module, $api) = func_get_args();
   if ($module == "context" && $api == "context") {
     return array("version" => "3");
@@ -21,7 +21,7 @@ function news_ctools_plugin_api() {
 /**
  * Implements hook_views_api().
  */
-function news_views_api() {
+function news_og_views_api() {
   list($module, $api) = func_get_args();
   if ($module == "views" && $api == "views_default") {
     return array("version" => "3.0");
@@ -31,7 +31,7 @@ function news_views_api() {
 /**
  * Implements hook_node_info().
  */
-function news_node_info() {
+function news_og_node_info() {
   $items = array(
     'news' => array(
       'name' => t('News'),
@@ -44,3 +44,4 @@ function news_node_info() {
   );
   return $items;
 }
+

@@ -42,3 +42,4 @@ function wiki_og_user_default_permissions() {
 
   return $permissions;
 }
+

@@ -4,14 +4,14 @@
  * Code for the News feature.
  */
 
-include_once('news.features.inc');
+include_once('news_og.features.inc');
+include_once('news_og.views_alter.inc');
 
 /*
  * hook_enable 
  * Edit communities context to add a block
  */
-function news_enable(){
-
+function news_og_enable(){
   //Add block in context
  // _add_block_context('communities','news-block_1','views','news-block_1', 'sidebar_first');
   _add_views_context('communities','news');
@@ -27,7 +27,7 @@ function news_enable(){
  * Edit communities context to remove block
  * Remove permissions
  */
-function news_disable(){
+function news_og_disable(){
 
   // Remove block
  // _remove_block_context('communities', 'news-block_1');
@@ -94,7 +94,7 @@ function news_disable(){
 /*
 * hook_menu
 */
-function news_menu() {
+function news_og_menu() {
   $items = array();
  
   $items['community/%group_name/news'] = array(
@@ -113,7 +113,7 @@ function news_menu() {
 /*
 * hook_views_pre_render
 */
-function news_views_pre_render(&$view) {
+function news_og_views_pre_render(&$view) {
 
   if($view->name == 'news' && $view->current_display == 'page') {
     $output = '';
@@ -144,3 +144,4 @@ function news_views_pre_render(&$view) {
     }
   }
 }
+

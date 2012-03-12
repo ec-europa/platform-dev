@@ -44,3 +44,4 @@ function news_standard_node_info() {
   );
   return $items;
 }
+

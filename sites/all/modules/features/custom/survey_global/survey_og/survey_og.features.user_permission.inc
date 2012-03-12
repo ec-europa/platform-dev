@@ -40,3 +40,4 @@ function survey_og_user_default_permissions() {
 
   return $permissions;
 }
+

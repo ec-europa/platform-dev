@@ -48,3 +48,4 @@ function wiki_core_context_default_contexts() {
 
   return $export;
 }
+

@@ -104,3 +104,4 @@ function survey_core_user_default_permissions() {
 
   return $permissions;
 }
+

@@ -38,4 +38,6 @@ features[variable][] = "node_preview_wiki"
 features[variable][] = "node_submitted_wiki"
 features[variable][] = "pathauto_node_wiki_pattern"
 features[variable][] = "show_diff_inline_wiki"
+features[variable][] = "workbench_moderation_default_state_wiki"
 features[views_view][] = "wiki_list"
+

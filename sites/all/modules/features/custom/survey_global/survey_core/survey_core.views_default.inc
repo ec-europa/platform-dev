@@ -270,3 +270,4 @@ function survey_core_views_default_views() {
 
   return $export;
 }
+
