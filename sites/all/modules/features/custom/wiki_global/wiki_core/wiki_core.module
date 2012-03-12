@@ -13,10 +13,7 @@ include_once('wiki_core.features.inc');
 */
 function wiki_core_enable() {
   // add wiki content type to newsletters related contents
-  add_content_type_newsletters('wiki');
-
-  // enable example contents
-  //module_enable(array("wiki_content"));  
+  add_content_type_newsletters('wiki'); 
 }
 
 
@@ -46,10 +43,6 @@ function wiki_core_disable(){
     'delete any wiki content',
     'create wiki content',
   ));
-          
-  // disable example contents
-  module_disable(array("wiki_content"));
-  
 }
 
 

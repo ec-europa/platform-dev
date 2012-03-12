@@ -1,0 +1,7 @@
+name = "survey_contents"
+description = "example contents for survey"
+core = "7.x"
+package = "Multisite Standard Features"
+version = "7.x-1.0"
+project = "survey_standard_contents"
+features[content][] = "survey1"

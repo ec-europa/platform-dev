@@ -53,9 +53,6 @@ function survey_core_enable() {
     ->fields(array('name' => 'Survey'))
     ->condition('type', 'webform' , "=")
     ->execute(); 
-
-  // enable example contents
-  module_enable(array("survey_contents"));
 }
 
 
