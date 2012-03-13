@@ -88,6 +88,11 @@
 
 <?php
 global $base_url;
+
+  $variables['no_left'] = FALSE;
+  if (arg(0) == 'admin' || !$page['sidebar_first']) {
+    $variables['no_left'] = TRUE;
+  }  
 ?>
 
 <a id="top-page" name="top-page"></a>
@@ -95,25 +100,25 @@ global $base_url;
 <div class="layout layout-noright<?php if (isset($variables['no_left']) && $variables['no_left']) print ' layout-noleft'; ?>" id="layout">
   
   <div id="header">
-    <a href="<?php print $front_page; ?>">
+    <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2012/images/logo/logo_en.gif">
+    
+    <!--<div id="main_title">Service mutlisite</div>
+    <div id="sub_title">Playground environment</div>-->   
+    
+    <p id="banner-title-text"><?php print $site_name; ?></p>
+    <span class="title-en" id="banner-image-title"></span>
+    
+    <p class="off-screen">Accessibility tools</p>
+    <ul class="reset-list" id="accessibility-menu">
+      <li><a accesskey="1" href="#content"><?php print t('Go to content'); ?></a></li>
+    </ul>
 
-      <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2012/images/logo/logo_en.gif">
-      
-      <p id="banner-title-text"><?php print $site_name; ?></p>
-      <span class="title-en" id="banner-image-title"></span>
-      
-      <p class="off-screen">Accessibility tools</p>
-      <ul class="reset-list" id="accessibility-menu">
-        <li><a accesskey="1" href="#content"><?php print t('Go to content'); ?></a></li>
-      </ul>
-
-      <p class="off-screen">Service tools</p>
-      <ul class="reset-list" id="services">
-        <li><a class="first" accesskey="3" href="<?php print $base_url . '/contact'; ?>"><?php print t('Contact'); ?></a></li>
-        <li><a accesskey="2" href="http://ec.europa.eu/geninfo/legal_notices_en.htm"><?php print t('Legal notice'); ?></a></li>
-        <li><a accesskey="4" href="http://ec.europa.eu/geninfo/query/search_en.html"><?php print t('Search'); ?></a></li>
-      </ul>
-    </a>
+    <p class="off-screen">Service tools</p>
+    <ul class="reset-list" id="services">
+      <li><a class="first" accesskey="3" href="<?php print $base_url . '/contact'; ?>"><?php print t('Contact'); ?></a></li>
+      <li><a accesskey="2" href="http://ec.europa.eu/geninfo/legal_notices_en.htm"><?php print t('Legal notice'); ?></a></li>
+      <li><a accesskey="4" href="http://ec.europa.eu/geninfo/query/search_en.html"><?php print t('Search'); ?></a></li>
+    </ul>
     
     <!-- language selector -->
     <?php print render($page['highlighted']); ?>    
