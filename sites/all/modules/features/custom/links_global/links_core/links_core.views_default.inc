@@ -374,12 +374,7 @@ $handler->display->display_options['fields']['delete_node']['element_default_cla
 $handler->display->display_options['fields']['delete_node']['hide_empty'] = 0;
 $handler->display->display_options['fields']['delete_node']['empty_zero'] = 0;
 $handler->display->display_options['fields']['delete_node']['hide_alter_empty'] = 1;
-$handler->display->display_options['path'] = 'links';
-$handler->display->display_options['menu']['type'] = 'normal';
-$handler->display->display_options['menu']['title'] = 'Links';
-$handler->display->display_options['menu']['weight'] = '0';
-$handler->display->display_options['menu']['name'] = 'main-menu';
-$handler->display->display_options['menu']['context'] = 0;
+
 
 /* Display: Block */
 $handler = $view->new_display('block', 'Block', 'block');
