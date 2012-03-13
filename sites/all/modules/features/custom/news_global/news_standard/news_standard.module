@@ -7,36 +7,6 @@
 include_once('news_standard.features.inc');
 include_once('news_standard.views_alter.inc');
 
-
-/*
- * hook_enable 
- * Edit communities context to add a block
- */
-function news_standard_enable(){
-  //Add block in context
-  _add_block_context('homepage','news-top_news','views','news-top_news', 'content_top');
-  drupal_set_message('News feature is now active on your site.');
-  
-  module_enable(array('news_standard_content'));  
-}
-
-
-
-
-/*
- * hook_disable 
- * Edit communities context to remove block
- * Remove permissions
- */
-function news_standard_disable(){
-  drupal_set_message('News feature is now disabled on your site.');
-  _remove_block_context('homepage','news-top_news');
-  
-  module_disable(array('news_standard_content'));    
-}
-
-
-
 /*
 * hook_views_pre_render
 */

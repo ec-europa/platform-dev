@@ -14,7 +14,7 @@ function news_core_install() {
 /**
  * hook_uninstall
  */
-function news_core__uninstall() {
+function news_core_uninstall() {
   //Nothing yet
 }
 
