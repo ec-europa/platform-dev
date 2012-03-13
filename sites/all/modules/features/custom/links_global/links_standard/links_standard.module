@@ -4,27 +4,7 @@
  * Code for the Links feature.
  */
 
-include_once('links_std.features.inc');
-
-
-
-/*
- * hook_enable 
- * Edit communities context to add a block
- */
-function links_standard_enable(){
-  module_enable(array('links_standard_content'));  
-}
-
-
-/*
- * hook_disable 
- * Edit communities context to add a block
- */
-function links_standard_disable(){
-  module_disable(array('links_standard_content'));  
-}
-
+include_once('links_standard.features.inc');
 
 
 /*

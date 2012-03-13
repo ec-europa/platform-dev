@@ -1,0 +1,40 @@
+<?php
+/**
+ * @file
+ * Install the feature links
+ */
+
+/**
+ * hook_install
+ */
+function links_standard_install() {
+  //Nothing yet
+}
+
+/**
+ * hook_uninstall
+ */
+function links_standard_uninstall() {
+  //Nothing yet
+}
+
+
+/*
+ * hook_enable 
+ * Edit communities context to add a block
+ */
+function links_standard_enable(){
+  module_enable(array('links_standard_content'));  
+}
+
+
+/*
+ * hook_disable 
+ * Edit communities context to add a block
+ */
+function links_standard_disable(){
+  module_disable(array('links_standard_content'));  
+}
+
+
+
