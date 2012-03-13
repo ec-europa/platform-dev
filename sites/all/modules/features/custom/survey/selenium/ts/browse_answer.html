@@ -4,27 +4,32 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>manage_create</title>
+<title>New Test</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">manage_create</td></tr>
+<tr><td rowspan="1" colspan="3">New Test</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde/?q=en/communities_directory</td>
+	<td>/multisite_drupal_wde/en/admin/workbench/needs-review</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Log out</td>
+	<td>xpath=(//a[contains(text(),'Log out')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=edit-name</td>
-	<td>admin</td>
+	<td>user05</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -38,58 +43,38 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=My workbench</td>
+	<td>link=Surveys</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>survey01</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Needs Review</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td>third community</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>css=tr.even &gt; td.views-field.views-field-moderation-actions &gt; ul.links &gt; li.1.last &gt; a</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTextNotPresent</td>
-	<td>third community</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td>Fourth community</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Published</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTextNotPresent</td>
-	<td>Fourth community</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Log out</td>
+	<td>link=survey01</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=edit-name</td>
-	<td>fmr_cm</td>
+	<td>id=edit-submitted-question1</td>
+	<td>blabla</td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>id=edit-pass</td>
-	<td>fmr</td>
+	<td>click</td>
+	<td>id=edit-submitted-question2-1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-submitted-question2-4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-submitted-question2-3</td>
+	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -97,43 +82,43 @@
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=communities</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td>third community</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td>Fourth community</td>
+	<td>verifyTextPresent</td>
+	<td>Thank you, your submission has been received.</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=my communities</td>
+	<td>link=Go back to the form</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>third community</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td>Fourth community</td>
+	<td>verifyTextPresent</td>
+	<td>You have already submitted this form. View your previous submissions.</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=third community</td>
+	<td>link=Results</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>Revision state: Published</td>
+	<td>verifyTextPresent</td>
+	<td>user05</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=survey01</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>You have already submitted this form. View your previous submissions.</td>
 	<td></td>
 </tr>
 </tbody></table>

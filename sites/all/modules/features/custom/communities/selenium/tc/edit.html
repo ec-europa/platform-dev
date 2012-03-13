@@ -13,7 +13,7 @@
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde/en/?q=en/community/third-community</td>
+	<td>/multisite_drupal_wde/?q=en/community/third-community</td>
 	<td></td>
 </tr>
 <tr>
@@ -72,6 +72,21 @@
 	<td></td>
 </tr>
 <tr>
+	<td>assertTextPresent</td>
+	<td>Revision state: Draft</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Revision state: Needs Review</td>
+	<td></td>
+</tr>
+<tr>
 	<td>clickAndWait</td>
 	<td>link=communities</td>
 	<td></td>
@@ -113,17 +128,12 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=third community</td>
+	<td>link=Published</td>
 	<td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>id=edit-state</td>
-	<td>label=Published</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=edit-submit</td>
+	<td>assertTextNotPresent</td>
+	<td>third community</td>
 	<td></td>
 </tr>
 <tr>
@@ -161,7 +171,6 @@
 	<td>new third community</td>
 	<td></td>
 </tr>
-
 </tbody></table>
 </body>
 </html>

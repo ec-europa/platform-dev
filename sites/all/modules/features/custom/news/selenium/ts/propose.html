@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>update_doc</title>
+<title>propose</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">update_doc</td></tr>
+<tr><td rowspan="1" colspan="3">propose</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -18,28 +18,18 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=communities</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=new third community</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Links</td>
+	<td>link=login</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=edit-title</td>
-	<td>Public link 3</td>
+	<td>id=edit-name</td>
+	<td>contrib01</td>
 </tr>
 <tr>
-	<td>addSelection</td>
-	<td>id=edit-group-audience-und</td>
-	<td>label=new third community</td>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -47,29 +37,24 @@
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>Links Public link 3 has been created</td>
+	<td>clickAndWait</td>
+	<td>link=News</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Links</td>
+	<td>link=Create a News</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=edit-title</td>
-	<td>Private link 4</td>
+	<td>news01</td>
 </tr>
 <tr>
-	<td>addSelection</td>
-	<td>id=edit-group-audience-und</td>
-	<td>label=new third community</td>
-</tr>
-<tr>
-	<td>select</td>
-	<td>id=edit-group-content-access-und</td>
-	<td>label=Private - accessible only to group members</td>
+	<td>click</td>
+	<td>css=body.cke_show_borders</td>
+	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -77,25 +62,26 @@
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>Links Private link 4 has been created</td>
+	<td>verifyTextPresent</td>
+	<td>News news01 has been created.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Revision state: Draft</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>xpath=(//a[contains(text(),'Links')])[2]</td>
+	<td>id=edit-submit</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>Public link 3</td>
+	<td>verifyTextPresent</td>
+	<td>Revision state: Needs Review</td>
 	<td></td>
 </tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td>Private link 4</td>
-	<td></td>
-</tr>
+
 </tbody></table>
 </body>
 </html>

@@ -4,42 +4,37 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>update_doc</title>
+<title>browse_edit</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">update_doc</td></tr>
+<tr><td rowspan="1" colspan="3">browse_edit</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde/en</td>
+	<td>/multisite_drupal_wde/en/admin/workbench/needs-review</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=communities</td>
+	<td>link=Log out</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=new third community</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Links</td>
+	<td>link=login</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=edit-title</td>
-	<td>Public link 3</td>
+	<td>id=edit-name</td>
+	<td>user07</td>
 </tr>
 <tr>
-	<td>addSelection</td>
-	<td>id=edit-group-audience-und</td>
-	<td>label=new third community</td>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -47,29 +42,39 @@
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>Links Public link 3 has been created</td>
+	<td>clickAndWait</td>
+	<td>link=Wikis</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>wiki01</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Links</td>
+	<td>link=wiki01</td>
 	<td></td>
 </tr>
 <tr>
-	<td>type</td>
-	<td>id=edit-title</td>
-	<td>Private link 4</td>
+	<td>verifyTextPresent</td>
+	<td>Revision state: Published</td>
+	<td></td>
 </tr>
 <tr>
-	<td>addSelection</td>
-	<td>id=edit-group-audience-und</td>
-	<td>label=new third community</td>
+	<td>clickAndWait</td>
+	<td>link=New draft</td>
+	<td></td>
 </tr>
 <tr>
-	<td>select</td>
-	<td>id=edit-group-content-access-und</td>
-	<td>label=Private - accessible only to group members</td>
+	<td>click</td>
+	<td>css=p</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=html.js</td>
+	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -77,25 +82,26 @@
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>Links Private link 4 has been created</td>
+	<td>verifyTextPresent</td>
+	<td>Wiki wiki01 has been updated.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Revision state: Draft</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>xpath=(//a[contains(text(),'Links')])[2]</td>
+	<td>id=edit-submit</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>Public link 3</td>
+	<td>verifyTextPresent</td>
+	<td>Revision state: Needs Review</td>
 	<td></td>
 </tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td>Private link 4</td>
-	<td></td>
-</tr>
+
 </tbody></table>
 </body>
 </html>

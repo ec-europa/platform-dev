@@ -13,7 +13,7 @@
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde/en/?q=en/community/third-community</td>
+	<td>/multisite_drupal_wde/?q=en/community/third-community</td>
 	<td></td>
 </tr>
 <tr>
@@ -43,12 +43,17 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>css=tr.odd.views-row-last &gt; td.views-field.views-field-group-group &gt; a</td>
+	<td>xpath=(//a[contains(text(),'Request group membership')])[3]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
 	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Your membership to this group is pending and waiting for community manager's approval</td>
 	<td></td>
 </tr>
 <tr>
@@ -61,7 +66,6 @@
 	<td>Unsubscribe from group</td>
 	<td></td>
 </tr>
-
 </tbody></table>
 </body>
 </html>

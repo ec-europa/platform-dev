@@ -4,58 +4,69 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>pres_page</title>
+<title>manage</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">pres_page</td></tr>
+<tr><td rowspan="1" colspan="3">manage</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde/?q=en/communities_directory/s</td>
+	<td>/multisite_drupal_wde/en/links/link01</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=second community</td>
+	<td>link=Log out</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>Revision state: Published</td>
+	<td>clickAndWait</td>
+	<td>link=login</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>second community</td>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>admin03</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>Request group membership</td>
+	<td>clickAndWait</td>
+	<td>link=my workbench</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>Add content</td>
+	<td>clickAndWait</td>
+	<td>link=Needs Review</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>My workbench</td>
+	<td>verifyTextPresent</td>
+	<td>event01</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>members list</td>
+	<td>clickAndWait</td>
+	<td>link=Published</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertTextPresent</td>
-	<td>Add new comment</td>
+	<td>verifyTextNotPresent</td>
+	<td>event01</td>
 	<td></td>
 </tr>
+
 </tbody></table>
 </body>
 </html>
