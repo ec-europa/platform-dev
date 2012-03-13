@@ -76,39 +76,5 @@ feature_sets[contact_form][enable][] = contact_form
 feature_sets[contact_form][disable][] = contact_form
 
 
-feature_sets[wiki_global][title] = 'Wikis global'
-feature_sets[wiki_global][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every user, can view the content of the wiki.'
-feature_sets[wiki_global][icon] = 'feature-set-icons/wiki.png'
-feature_sets[wiki_global][enable][] = wiki_standard
-feature_sets[wiki_global][disable][] = wiki_standard
 
-feature_sets[news_global][title] = 'News global'
-feature_sets[news_global][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every user, can view the content of the wiki.'
-feature_sets[news_global][icon] = 'feature-set-icons/wiki.png'
-feature_sets[news_global][enable][] = news_standard
-feature_sets[news_global][disable][] = news_standard
-
-feature_sets[survey_global][title] = 'Survey global'
-feature_sets[survey_global][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every user, can view the content of the wiki.'
-feature_sets[survey_global][icon] = 'feature-set-icons/wiki.png'
-feature_sets[survey_global][enable][] = survey_standard
-feature_sets[survey_global][disable][] = survey_standard
-
-feature_sets[news_global][title] = 'News global'
-feature_sets[news_global][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every user, can view the content of the wiki.'
-feature_sets[news_global][icon] = 'feature-set-icons/wiki.png'
-feature_sets[news_global][enable][] = news_standard
-feature_sets[news_global][disable][] = news_standard
-
-feature_sets[events_global][title] = 'Events global'
-feature_sets[events_global][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every user, can view the content of the wiki.'
-feature_sets[events_global][icon] = 'feature-set-icons/wiki.png'
-feature_sets[events_global][enable][] = events_standard
-feature_sets[events_global][disable][] = events_standard
-
-feature_sets[e_library_global][title] = 'E-libray global'
-feature_sets[e_library_global][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every user, can view the content of the wiki.'
-feature_sets[e_library_global][icon] = 'feature-set-icons/wiki.png'
-feature_sets[e_library_global][enable][] = e_library_standard
-feature_sets[e_library_global][disable][] = e_library_standard
 
