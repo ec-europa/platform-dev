@@ -11,7 +11,7 @@ include_once('e_library_standard.views_alter.inc');
  * Add a buttons in the views associated with this feature
  * @param type $view 
  */
-function e_library_views_pre_render(&$view) {
+function e_library_standard_views_pre_render(&$view) {
 
 	if($view->name=='e_library'){
 
