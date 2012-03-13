@@ -86,8 +86,8 @@ projects[link][version] = "1.0"
 projects[site_map][subdir] = "contributed"
 projects[site_map][version] = "1.0"
 
-projects[less][subdir] = "contributed"
-projects[less][version] = "2.4"
+;projects[less][subdir] = "contributed"
+;projects[less][version] = "2.4"
 
 projects[xmlsitemap][subdir] = "contributed"
 projects[xmlsitemap][version] = "2.0-rc1"
@@ -149,6 +149,9 @@ projects[print][version] = "1.0-beta1"
 
 ;projects[features_override][subdir] = "contributed"
 ;projects[features_override][version] = "1.0-beta1"
+
+projects[jquery_update][subdir] = "contributed"
+projects[jquery_update][version] = "2.2"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
