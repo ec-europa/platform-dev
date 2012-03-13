@@ -1,0 +1,43 @@
+<?php
+/**
+ * @file
+ * Install the feature events
+ */
+
+/**
+ * hook_install
+ */
+function events_core_install() {
+  //Nothing yet
+}
+
+/**
+ * hook_uninstall
+ */
+function events_core_uninstall() {
+  //Nothing yet
+}
+
+/**
+* Add block to the context
+*/
+function events_core_enable(){
+  //Activation message
+  drupal_set_message('Events feature is now active on your site.');
+}
+
+
+/**
+* Remove block from the context
+*/
+function events_core_disable(){
+  _disable_content_type('event');
+	
+  drupal_flush_all_caches();
+  drupal_set_message('Events feature is now disabled on your site.');
+}
+
+
+
+
+

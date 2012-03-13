@@ -1,0 +1,100 @@
+<?php
+
+/**
+* Implementation of hook_views_default_views_alter().
+*/
+function events_og_views_default_views_alter(&$views) {
+  if (array_key_exists('calendar', $views)) {
+	$view=$views['calendar'];
+	 
+    /* Display: Master */
+    $handler = $view->new_display('default', 'Master', 'default');
+
+    /* Relationship: Group membership: Node group membership */
+    $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
+    $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
+    $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
+    $handler->display->display_options['relationships']['og_membership_rel']['required'] = 1;
+	
+    /* Contextual filter: OG membership: Group gid */
+    $handler->display->display_options['arguments']['group']['id'] = 'group';
+    $handler->display->display_options['arguments']['group']['table'] = 'og_membership';
+    $handler->display->display_options['arguments']['group']['field'] = 'group';
+    $handler->display->display_options['arguments']['group']['relationship'] = 'og_membership_rel';
+    $handler->display->display_options['arguments']['group']['default_action'] = 'default';
+    $handler->display->display_options['arguments']['group']['default_argument_type'] = 'og_context';
+    $handler->display->display_options['arguments']['group']['default_argument_skip_url'] = 0;
+    $handler->display->display_options['arguments']['group']['summary']['number_of_records'] = '0';
+    $handler->display->display_options['arguments']['group']['summary']['format'] = 'default_summary';
+    $handler->display->display_options['arguments']['group']['summary_options']['items_per_page'] = '25';
+    $handler->display->display_options['arguments']['group']['break_phrase'] = 0;
+    $handler->display->display_options['arguments']['group']['not'] = 0;	
+
+    /* Display: Month */
+    $handler = $view->new_display('page', 'Month', 'month');	
+    /* Contextual filter: OG membership: Group gid */
+    $handler->display->display_options['arguments']['group']['id'] = 'group';
+    $handler->display->display_options['arguments']['group']['table'] = 'og_membership';
+    $handler->display->display_options['arguments']['group']['field'] = 'group';
+    $handler->display->display_options['arguments']['group']['relationship'] = 'og_membership_rel';
+    $handler->display->display_options['arguments']['group']['default_action'] = 'default';
+    $handler->display->display_options['arguments']['group']['title_enable'] = 1;
+    $handler->display->display_options['arguments']['group']['default_argument_type'] = 'og_context';
+    $handler->display->display_options['arguments']['group']['default_argument_skip_url'] = 0;
+    $handler->display->display_options['arguments']['group']['summary']['number_of_records'] = '0';
+    $handler->display->display_options['arguments']['group']['summary']['format'] = 'default_summary';
+    $handler->display->display_options['arguments']['group']['summary_options']['items_per_page'] = '25';
+    $handler->display->display_options['arguments']['group']['break_phrase'] = 0;
+    $handler->display->display_options['arguments']['group']['not'] = 0;	
+	
+    /* Display: Week */
+    $handler = $view->new_display('page', 'Week', 'week');	
+    /* Contextual filter: OG membership: Group gid */
+    $handler->display->display_options['arguments']['group']['id'] = 'group';
+    $handler->display->display_options['arguments']['group']['table'] = 'og_membership';
+    $handler->display->display_options['arguments']['group']['field'] = 'group';
+    $handler->display->display_options['arguments']['group']['relationship'] = 'og_membership_rel';
+    $handler->display->display_options['arguments']['group']['default_action'] = 'default';
+    $handler->display->display_options['arguments']['group']['default_argument_type'] = 'og_context';
+    $handler->display->display_options['arguments']['group']['default_argument_skip_url'] = 0;
+    $handler->display->display_options['arguments']['group']['summary']['number_of_records'] = '0';
+    $handler->display->display_options['arguments']['group']['summary']['format'] = 'default_summary';
+    $handler->display->display_options['arguments']['group']['summary_options']['items_per_page'] = '25';
+    $handler->display->display_options['arguments']['group']['break_phrase'] = 0;
+    $handler->display->display_options['arguments']['group']['not'] = 0;	
+	
+    /* Display: Day */
+    $handler = $view->new_display('page', 'Day', 'day');
+    /* Contextual filter: OG membership: Group gid */
+    $handler->display->display_options['arguments']['group']['id'] = 'group';
+    $handler->display->display_options['arguments']['group']['table'] = 'og_membership';
+    $handler->display->display_options['arguments']['group']['field'] = 'group';
+    $handler->display->display_options['arguments']['group']['relationship'] = 'og_membership_rel';
+    $handler->display->display_options['arguments']['group']['default_action'] = 'default';
+    $handler->display->display_options['arguments']['group']['default_argument_type'] = 'og_context';
+    $handler->display->display_options['arguments']['group']['default_argument_skip_url'] = 0;
+    $handler->display->display_options['arguments']['group']['summary']['number_of_records'] = '0';
+    $handler->display->display_options['arguments']['group']['summary']['format'] = 'default_summary';
+    $handler->display->display_options['arguments']['group']['summary_options']['items_per_page'] = '25';
+    $handler->display->display_options['arguments']['group']['break_phrase'] = 0;
+    $handler->display->display_options['arguments']['group']['not'] = 0;
+
+    /* Display: Year */
+    $handler = $view->new_display('page', 'Year', 'year');
+    /* Contextual filter: OG membership: Group gid */
+    $handler->display->display_options['arguments']['group']['id'] = 'group';
+    $handler->display->display_options['arguments']['group']['table'] = 'og_membership';
+    $handler->display->display_options['arguments']['group']['field'] = 'group';
+    $handler->display->display_options['arguments']['group']['relationship'] = 'og_membership_rel';
+    $handler->display->display_options['arguments']['group']['default_action'] = 'default';
+    $handler->display->display_options['arguments']['group']['default_argument_type'] = 'og_context';
+    $handler->display->display_options['arguments']['group']['default_argument_skip_url'] = 0;
+    $handler->display->display_options['arguments']['group']['summary']['number_of_records'] = '0';
+    $handler->display->display_options['arguments']['group']['summary']['format'] = 'default_summary';
+    $handler->display->display_options['arguments']['group']['summary_options']['items_per_page'] = '25';
+    $handler->display->display_options['arguments']['group']['break_phrase'] = 0;
+    $handler->display->display_options['arguments']['group']['not'] = 0;
+ 
+  }
+}
+

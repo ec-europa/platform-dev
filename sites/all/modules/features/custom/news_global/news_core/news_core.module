@@ -6,13 +6,6 @@
 
 include_once('news_core.features.inc');
 
-/*
- * hook_enable 
- * Edit communities context to add a block
- */
-function news_core_enable(){
-  module_enable(array('news_content_default'));
-}
 
 
 /*
@@ -21,8 +14,6 @@ function news_core_enable(){
  * Remove permissions
  */
 function news_core_disable(){
-  module_disable(array('news_content_default'));
- 
   /*** Remove permissions ***/
   _disable_content_type('news');
   

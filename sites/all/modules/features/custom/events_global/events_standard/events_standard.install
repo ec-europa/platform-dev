@@ -1,0 +1,41 @@
+<?php
+/**
+ * @file
+ * Install the feature events
+ */
+
+/**
+ * hook_install
+ */
+function events_standard_install() {
+  //Nothing yet
+}
+
+/**
+ * hook_uninstall
+ */
+function events_standard_uninstall() {
+  //Nothing yet
+}
+
+/**
+* Add block to the context
+*/
+function events_standard_enable(){
+  module_enable(array('events_standard_content'));
+  _add_block_context('homepage','views-calendar-upcoming_events','views','calendar-upcoming_events','content_top');
+}
+
+
+/**
+* Remove block from the context
+*/
+function events_standard_disable(){
+  module_disable(array('events_standard_content'));
+  _remove_block_context('homepage','views-calendar-upcoming_events');
+}
+
+
+
+
+

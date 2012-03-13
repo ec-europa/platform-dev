@@ -1,0 +1,11 @@
+name = "Events"
+description = "Add an events calendar to your communities"
+core = "7.x"
+package = "Multisite Standard Features"
+php = "5.2.4"
+version = "7.x-1.0"
+project = "events standard"
+dependencies[] = "events_core"
+features[ctools][] = "strongarm:strongarm:1"
+features[ctools][] = "views:views_default:3.0"
+

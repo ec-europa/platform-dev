@@ -68,7 +68,7 @@ dependencies[] = translation
 dependencies[] = pathauto
 dependencies[] = print
 dependencies[] = print_pdf
-dependencies[] = features_override
+;dependencies[] = features_override
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set
