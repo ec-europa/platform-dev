@@ -1,0 +1,186 @@
+<?php
+
+/**
+ * @file
+ * Handles compiling of .less files.
+ *
+ * The theme system allows for nearly all output of the Drupal system to be
+ * customized by user themes.
+ */
+
+define('LESS_PERMISSION', 'administer less');
+
+/**
+ * Implements hook_menu().
+ */
+function less_menu() {
+  $items = array();
+
+  $items['admin/config/development/less'] = array(
+    'title' => 'LESS settings',
+    'description' => 'Administer LESS settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('less_settings'),
+    'access arguments' => array(LESS_PERMISSION),
+    'file' => 'less.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function less_permission() {
+  return array(
+    LESS_PERMISSION => array(
+      'title' => t('Administer LESS'),
+      'description' => t('Access the LESS settings page and view debug messages.'),
+    ),
+  );
+}
+
+/**
+ * Builds the less cache
+ */
+function _less_pre_render($styles) {
+  
+  $lessphp_include = '';
+
+  if (module_exists('libraries')) {
+    if ($lessphp_path = libraries_get_path('lessphp')) {
+      if (file_exists($lessphp_path .'/lessc.inc.php')) {
+        $lessphp_include = $lessphp_path .'/lessc.inc.php';
+      }
+    }
+  }
+  
+  if (empty($lessphp_include)) {
+    $lessphp_include = 'lessphp/lessc.inc.php';
+  }
+  
+  $less_path = file_default_scheme() . '://less';
+
+  // Flush compiled LESS files if developer mode is enabled
+  if (variable_get('less_devel', FALSE)) {
+    file_unmanaged_delete_recursive($less_path);
+    if (user_access(LESS_PERMISSION) && flood_is_allowed('less_devel_warning', 1)) {
+      flood_register_event('less_devel_warning');
+      drupal_set_message(t('LESS files are being regenerated on every request. Remember to <a href="!url">turn off</a> this feature on production websites.', array("!url" => url('admin/config/development/less'))), 'status');
+    }
+  }
+
+  foreach ($styles['#items'] as $key => $info) {
+    $input_file = $info['data'];
+    if (drupal_substr($input_file, -5) == '.less') {
+      
+      $file_uri = file_uri_target($input_file);
+      $css_path = $less_path . '/' . dirname($file_uri ? $file_uri : $input_file);
+
+      if (!is_dir($css_path) && !file_prepare_directory($css_path, FILE_CREATE_DIRECTORY)) {
+        // There is a problem with the directory.
+        $param = array('%dir' => $css_path);
+        if (user_access(LESS_PERMISSION)) {
+          drupal_set_message(t('LESS could not create a directory in %dir', $param), 'error');
+        }
+        watchdog('LESS', t('LESS could not create a directory in %dir', $param), array(), WATCHDOG_ERROR);
+        return;
+      }
+
+      $output_file = $css_path . '/' . basename($input_file, '.less');
+      // correct file names of files not following the .css.less naming convention
+      if (drupal_substr($output_file, -4) != '.css') {
+        $output_file .= '.css';
+      }
+
+      if (!file_exists($output_file)) {
+        require_once($lessphp_include);
+
+        $less = new lessc();
+
+        $contents = drupal_load_stylesheet($input_file, FALSE);
+
+        // Build the base URL of this CSS file: start with the full URL.
+        $css_base_url = file_create_url($input_file);
+        // Move to the parent.
+        $css_base_url = substr($css_base_url, 0, strrpos($css_base_url, '/'));
+        // Simplify to a relative URL if the stylesheet URL starts with the
+        // base URL of the website.
+        if (substr($css_base_url, 0, strlen($GLOBALS['base_root'])) == $GLOBALS['base_root']) {
+          $css_base_url = substr($css_base_url, strlen($GLOBALS['base_root']));
+        }
+
+        _drupal_build_css_path(NULL, $css_base_url . '/');
+        // Prefix all paths within this CSS file, ignoring external and absolute paths.
+        $data = preg_replace_callback('/url\(\s*[\'"]?(?![a-z]+:|\/+)([^\'")]+)[\'"]?\s*\)/i', '_drupal_build_css_path', $contents);
+
+        try {
+          $output_data = $less->parse($data);
+          file_unmanaged_save_data($output_data, $output_file, FILE_EXISTS_REPLACE);
+        }
+        catch (Exception $e) {
+          $message = 'LESS ERROR: ' . $e->getMessage() . ', ' . $input_file;
+          watchdog('LESS', $message, array(), WATCHDOG_ERROR);
+          if (user_access(LESS_PERMISSION)) {
+            drupal_set_message($message, 'error');
+          }
+        }
+
+      }
+
+      if (file_exists($output_file)) {
+        $styles['#items'][$key]['data'] = $output_file;
+      }
+
+    }
+
+  }
+
+  return $styles;
+}
+
+/**
+ * Implements of hook_flush_caches().
+ *
+ * Flushes compiled LESS files during cache flush, except during cron.
+ *
+ * @return An array of cache table names.
+ */
+function less_flush_caches() {
+  if (!drupal_static('less_cron')) {
+    // Delete all generated files.
+    $less_path = file_default_scheme() . '://less';
+    file_unmanaged_delete_recursive($less_path);
+  }
+  return array();
+}
+
+/**
+ * Implementation of hook_cron_queue_info().
+ */
+function less_cron_queue_info() {
+  drupal_static('less_cron', TRUE);
+}
+
+/**
+ * Implementation of hook_requirements().
+ *
+ * @param $phase The phase in which hook_requirements is run: install or runtime.
+ */
+function less_requirements($phase) {
+  if ($phase == 'runtime' && variable_get('less_devel', FALSE)) {
+    return array(
+      'LESS' => array(
+        'title' => 'LESS',
+        'value' => 'Developer mode enabled',
+        'description' => t('LESS files are being regenerated on every request. Remember to <a href="!url">turn off</a> this feature on production websites.', array("!url" => url('admin/settings/less'))),
+        'severity' => REQUIREMENT_WARNING,
+      ),
+    );
+  }
+}
+
+function less_element_info_alter(&$type) {
+  array_unshift($type['styles']['#pre_render'], '_less_pre_render');
+}

@@ -71,32 +71,26 @@ function ec_default_preprocess_html(&$variables) {
 
   // Add twitter bootsrap
   drupal_add_css(path_to_theme() . '/bootstrap/css/bootstrap.min.css', array('group' => CSS_THEME));
+  //drupal_add_css(path_to_theme() . '/bootstrap/bootstrap.less', array('group' => CSS_THEME));
   drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap.min.js');
   drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-dropdown.js');
   drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-tab.js');
   
-  // Add conditional stylesheets for IE
-  drupal_add_css(path_to_theme() . '/css/ie.less', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
-  drupal_add_css(path_to_theme() . '/css/ie6.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'IE 6', '!IE' => FALSE), 'preprocess' => FALSE));
-
   // Add EC stylesheets
   drupal_add_css(path_to_theme() . '/wel/template-2012/stylesheets/ec.css', array('group' => CSS_THEME));
   drupal_add_css(path_to_theme() . '/wel/template-2012/stylesheets/ec-ie.css', array('group' => CSS_THEME, 'browsers' => array('!IE' => FALSE)));
 
-  // Add hack stylesheet, to overide EC and bootstrap stylesheets if needed
-  drupal_add_css(path_to_theme() . '/css/hack.less', array('group' => CSS_THEME));
-  drupal_add_css(path_to_theme() . '/css/hack-ie.less', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE)));
-
   // Add Less stylesheets
-  //drupal_add_css(path_to_theme() . '/bootstrap/bootstrap.less', array('group' => CSS_THEME));
-  drupal_add_css(path_to_theme() . '/css/style.less', array('group' => CSS_THEME));
-  drupal_add_css(path_to_theme() . '/css/colors.less', array('group' => CSS_THEME));
+  drupal_add_css(path_to_theme() . '/css/ec_default.less', array('group' => CSS_THEME));
+  
+  // Add conditional stylesheets for IE
+  drupal_add_css(path_to_theme() . '/css/ie.less', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
+  drupal_add_css(path_to_theme() . '/css/ie6.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'IE 6', '!IE' => FALSE), 'preprocess' => FALSE));
+  drupal_add_css(path_to_theme() . '/css/hack-ie.less', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE)));
 
   // Add javascripts
 	drupal_add_js(path_to_theme() . '/wel/template-2012/scripts/ec.js');
 	drupal_add_js(path_to_theme() . '/scripts/scripts.js');
-  
-  // Add hack javascript, to overide EC javascript if needed
   drupal_add_js(path_to_theme() . '/scripts/hack.js');  
 
 }

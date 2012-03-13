@@ -1,33 +1,3 @@
-/*----- Set 1 -----*/
-//main colors
-@body_color:  #ffffff; //#ffffff
-@text_color:  #3b3b3b; //#3b3b3b
-
-//header colors
-@h1_color: #113355; //#113355
-@h2_color: #336699; //#336699
-@h3_color: #003366; //#003366
-@h4_color: #003366; //#003366
-@h5_color: #336699; //#336699
-@h6_color: #003366; //#003366
-
-//links colors
-@link_color:               #027AC6; //#027AC6
-@link_hover_color:   #003366; //#003366
-@link_active_color: #003366; //#003366
-
-//block colors
-@block_bg_color:                    #F5F5F5; //#F5F5F5
-@block_text_color:                #3b3b3b; //#3b3b3b
-@block_link_color:                #027AC6; //#027AC6
-@block_link_hover_color:    #003366; //#003366
-@block_link_active_color:  #003366; //#003366
-
-//primary tabs colors
-@primary_tab_bg_color:      #0065a2; //#0065a2
-@primary_tab_text_color:  #ffffff; //#ffffff
-/*----- /Set 1 -----*/
-
 /* Hack for EC css */
 .title-en {
   background-image: url("../images/title/title_en.gif");
@@ -104,7 +74,8 @@ blockquote {
 .well {
   color: @block_text_color;
   background-color: @block_bg_color;
-  label { color: @block_text_color; }  
+  label { color: @block_text_color; } 
+  .box-shadow(0 1px 5px rgba(0, 0, 0, 0.08) inset);
   &.alt {
     background-color: #D9EDF7;
     border-color: #BCE8F1;
@@ -132,15 +103,7 @@ blockquote {
 .navbar {
   margin: 15px;
   .navbar-inner {
-    background-color: #ffffff;
-    background-image: -moz-linear-gradient(top, #ffffff, #f1f9fe);
-    background-image: -ms-linear-gradient(top, #ffffff, #f1f9fe);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f1f9fe));
-    background-image: -webkit-linear-gradient(top, #ffffff, #f1f9fe);
-    background-image: -o-linear-gradient(top, #ffffff, #f1f9fe);
-    background-image: linear-gradient(top, #ffffff, #f1f9fe);
-    background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f1f9fe', GradientType=0);
+    #gradient .vertical(#ffffff, #f1f9fe);
     .nav {
       padding: 0;
       .dropdown-toggle {
@@ -160,28 +123,19 @@ blockquote {
       text-shadow: none;
       border-left: 1px solid #F5F5F5;
       border-right: 1px solid #E5E5E5;  
-      -webkit-border-radius: 0;
-         -moz-border-radius: 0;
-              border-radius: 0;
-      /*.border_radius(0);*/
+      .border-radius(0);
       margin-right: 0;
       background-color: transparent;     
       &:hover { 
         color: #fff; 
         background: #0085D5;
-        -webkit-border-radius: 4px;
-           -moz-border-radius: 4px;
-                border-radius: 4px;
-        /*.border_radius;*/
+        .border-radius;
       }
       &.active { 
         color: #fff;
         background: #0065A2;
         text-shadow: 1px 1px #000;
-        -webkit-border-radius: 4px;
-           -moz-border-radius: 4px;
-                border-radius: 4px;
-        /*.border_radius;*/        
+        .border-radius;     
       }
     }
     .nav > li:first-child > a { border-left: none; }

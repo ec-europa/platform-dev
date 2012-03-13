@@ -1,10 +1,5 @@
 /* $Id: style.css,v 1.53 2011/01/04 06:23:29 dries Exp $ */
 
-.border_radius (@top_left: 4px, @top_right: 4px, @bottom_right: 4px, @bottom_left: 4px) {
-  -webkit-border-radius: @arguments;
-     -moz-border-radius: @arguments;
-          border-radius: @arguments;
-}
 .f_right {
   float: right;
 }
@@ -65,10 +60,7 @@ kbd {
   color: #666;
   display: inline-block;
   padding: 0 6px;
-  -webkit-border-radius: 5px;
-     -moz-border-radius: 5px;
-          border-radius: 5px;
-  /*.border_radius(5px);*/
+  .border-radius;
 }
 pre {
   background-color: #f2f2f2;
@@ -171,10 +163,7 @@ a.context-block-region {
   line-height: 1.7;
   padding: 1px 10px 2px 10px;
   text-decoration: none;
-  -webkit-border-radius: 0 0 10px 10px;
-     -moz-border-radius: 0 0 10px 10px;
-          border-radius: 0 0 10px 10px;
-  /*.border_radius(0,0,10px,10px);*/
+  .border-radius(0,0,10px,10px);
 }
 #skip-link a:hover,
 #skip-link a:active,
@@ -586,13 +575,8 @@ fieldset {
   border: 1px solid #cccccc;
   padding: 10px;
   margin: 10px 0;
-  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08) inset;
-     -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08) inset;
-          box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08) inset;  
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
-  /*.border_radius;*/
+  .box-shadow(0 1px 5px rgba(0, 0, 0, 0.08) inset);
+  .border-radius;
 }
 
 /* Contact Form */
@@ -1002,10 +986,7 @@ a.btn {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#eeeeee',GradientType=0 ); /* IE6-9 */
   background-image: linear-gradient(top, #f5f5f5 0%,#eeeeee 100%); /* W3C */
   border: 1px solid #e5e5e5;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
-  /*.border_radius;*/
+  .border-radius;
 }
 .subnav .nav {
   margin-bottom: 0;
@@ -1019,10 +1000,7 @@ a.btn {
   border-left: 1px solid #f5f5f5;
   border-right: 1px solid #e5e5e5;
   text-decoration: none;
-  -webkit-border-radius: 0;
-     -moz-border-radius: 0;
-          border-radius: 0;
-  /*.border_radius(0);*/
+  .border-radius(0);
 }
 .subnav .nav > .active > a,
 .subnav .nav > .active > a:hover {
@@ -1043,19 +1021,13 @@ a.btn {
 .subnav .nav > li:first-child > a:hover {
   border-left: 0;
   padding-left: 12px;
-  -webkit-border-radius: 4px 0 0 4px;
-     -moz-border-radius: 4px 0 0 4px;
-          border-radius: 4px 0 0 4px;
-  /*.border_radius(4px 0 0 4px);*/
+  .border-radius(5px 0 0 5px);
 }
 .subnav .nav > li:last-child > a {
   border-right: 0;
 }
 .subnav .dropdown-menu {
-  -webkit-border-radius: 0 0 4px 4px;
-     -moz-border-radius: 0 0 4px 4px;
-          border-radius: 0 0 4px 4px;
-  /*.border_radius(0 0 4px 4px);*/
+  .border-radius(0 0 5px 5px);
 }
 
 /* ---------------- user menu  ----------------- */
@@ -1101,10 +1073,7 @@ a.btn {
     }
   }  
   .content > .view-news > .news_content {
-    -webkit-border-radius: 4px 0 0 4px;
-       -moz-border-radius: 4px 0 0 4px;
-            border-radius: 4px 0 0 4px;
-    /*.border_radius(4px 0 0 4px);*/
+    .border-radius(5px 0 0 5px);
     div.news { 
       padding-left: 15px;
       padding-right: 15px;

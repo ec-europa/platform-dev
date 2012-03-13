@@ -151,7 +151,7 @@ global $base_url;
 
         <div class="layout-content">
           <div class="layout-content-reset"><a id="content" name="content"></a>
-          
+    
             <?php if ($page['tools']): ?>
               <?php print render($page['tools']); ?>
             <?php endif; ?>

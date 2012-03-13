@@ -1,0 +1,13 @@
+
+name = "LESS CSS Preprocessor"
+description = "Allows themes or modules to use LESS files."
+
+core = 7.x
+
+configure = admin/config/development/less
+; Information added by drupal.org packaging script on 2011-07-14
+version = "7.x-2.4"
+core = "7.x"
+project = "less"
+datestamp = "1310685419"
+
