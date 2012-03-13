@@ -15,6 +15,6 @@ features[variable][] = "pathauto_node_webform_pattern"
 name = "Survey"
 package = "Multisite OG Features" 
 php = "5.2.4"
-project = "survey"
+project = "survey_og"
 version = "7.x-1.0"
 

@@ -40,6 +40,6 @@ features[views_view][] = "surveys_list"
 name = "Survey"
 package = "Multisite Core Features" 
 php = "5.2.4"
-project = "survey"
+project = "survey_core"
 version = "7.x-1.0"
 
