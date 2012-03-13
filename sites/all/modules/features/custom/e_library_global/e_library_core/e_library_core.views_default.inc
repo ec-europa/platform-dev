@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * e_library.views_default.inc
+ * e_library_core.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function e_library_views_default_views() {
+function e_library_core_views_default_views() {
   $export = array();
 
 
