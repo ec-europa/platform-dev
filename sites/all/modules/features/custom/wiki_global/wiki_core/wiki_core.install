@@ -1,0 +1,39 @@
+<?php
+
+
+/*
+* hook_enable
+*/
+function wiki_core_enable() {
+  // add wiki content type to newsletters related contents
+  add_content_type_newsletters('wiki'); 
+}
+
+
+/*
+ * Hook disable 
+ */
+function wiki_core_disable(){
+  /*** Remove permissions ***/
+  _disable_content_type('wiki');
+  
+  // Administrator
+  $adm_rid = get_rid('administrator');
+  user_role_revoke_permissions($adm_rid, array(
+    'edit own wiki content',
+    'edit any wiki content',
+    'delete own wiki content',
+    'delete any wiki content',
+    'create wiki content',
+  ));
+    
+  // Contributor
+  $contrib_rid = get_rid('contributor');
+  user_role_revoke_permissions($contrib_rid, array(
+    'edit own wiki content',
+    'edit any wiki content',
+    'delete own wiki content',
+    'delete any wiki content',
+    'create wiki content',
+  ));
+}

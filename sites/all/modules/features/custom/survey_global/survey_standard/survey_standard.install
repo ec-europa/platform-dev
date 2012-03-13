@@ -1,0 +1,17 @@
+<?php
+
+/*
+* hook_enable
+*/
+function survey_core_enable() {
+  // enable example contents
+  module_enable(array("survey_standard_contents"));
+}
+
+/*
+ * Hook disable 
+ */
+function survey_core_disable(){
+  // disable example contents
+  module_disable(array("survey_standard_contents"));
+}

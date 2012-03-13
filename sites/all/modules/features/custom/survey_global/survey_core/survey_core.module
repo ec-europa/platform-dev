@@ -41,33 +41,3 @@ function survey_analysis($nid) {
   return theme('webform_results_analysis', array('node' => $node, 'data' => $data, 'sids' => $sids, 'component' => NULL));
 }
 
-
-/*
-* hook_enable
-*/
-function survey_core_enable() {
-  //_add_block_context('site_wide', 'surveys_list-block_1', 'views', 'surveys_list-block_1', 'sidebar_first');
-
-  // change content type webform name to survey
-  db_update('node_type')
-    ->fields(array('name' => 'Survey'))
-    ->condition('type', 'webform' , "=")
-    ->execute(); 
-}
-
-
-/*
- * Hook disable 
- */
-function survey_core_disable(){
-  // Remove block
-  //_remove_block_context('site_wide', 'surveys_list-block_1');
-  
-  // diable the content type webform
-  _disable_content_type('webform');
-           
-  // disable example contents
-  module_disable(array("survey_contents"));
-}
-
-
