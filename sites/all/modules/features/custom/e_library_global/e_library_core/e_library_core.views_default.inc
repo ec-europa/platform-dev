@@ -208,11 +208,7 @@ $handler->display->display_options['filters']['published']['table'] = 'workbench
 $handler->display->display_options['filters']['published']['field'] = 'published';
 $handler->display->display_options['filters']['published']['value'] = '1';
 
-/* Display: Attachment */
-$handler = $view->new_display('attachment', 'Attachment', 'attachment');
-$handler->display->display_options['pager']['type'] = 'none';
-$handler->display->display_options['pager']['options']['offset'] = '0';
-$handler->display->display_options['defaults']['header'] = FALSE;
+
 /* Header: Global: Text area */
 $handler->display->display_options['header']['area']['id'] = 'area';
 $handler->display->display_options['header']['area']['table'] = 'views';
