@@ -4,4 +4,4 @@
  * Code for the E-library feature.
  */
 
-include_once('e_library.features.inc');
+include_once('e_library_core.features.inc');
