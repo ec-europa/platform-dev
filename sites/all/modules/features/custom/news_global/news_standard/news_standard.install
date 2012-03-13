@@ -7,14 +7,14 @@
 /**
  * hook_install
  */
-function news_standard__install() {
+function news_standard_install() {
   //Nothing yet
 }
 
 /**
  * hook_uninstall
  */
-function news_standard__uninstall() {
+function news_standard_uninstall() {
   //Nothing yet
 }
 
@@ -29,8 +29,6 @@ function news_standard_enable(){
   
   module_enable(array('news_standard_content'));  
 }
-
-
 
 
 /*
