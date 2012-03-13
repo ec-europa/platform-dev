@@ -5,7 +5,7 @@
 function e_library_standard_views_default_views_alter(&$views) {
   if (array_key_exists('e_library', $views)) {
 	$view=$views['e_library'];
-
+    print ('DISPLAY ADDED');
     /* Display: Page */
     $handler = $view->new_display('page', 'Page', 'page');
     $handler->display->display_options['defaults']['arguments'] = FALSE;
@@ -16,6 +16,8 @@ function e_library_standard_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['name'] = 'main-menu';
     $handler->display->display_options['menu']['context'] = 0;
 
+  } else {
+    print ('DISPLAY NOT ADDED');
   }
 }
 
