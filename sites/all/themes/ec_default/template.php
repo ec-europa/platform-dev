@@ -276,10 +276,10 @@ function ec_default_process_maintenance_page(&$variables) {
 function ec_default_preprocess(&$variables) {
   global $page;
 
-  // $variables['no_left'] = FALSE;
-  // if (arg(0) == 'admin' || !$page['sidebar_first']) {
-    // $variables['no_left'] = TRUE;
-  // }  
+  $variables['no_left'] = FALSE;
+  if (arg(0) == 'admin' || !$page['sidebar_first']) {
+    $variables['no_left'] = TRUE;
+  }  
 }
 
 /**

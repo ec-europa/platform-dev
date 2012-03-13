@@ -88,11 +88,6 @@
 
 <?php
 global $base_url;
-
-  $variables['no_left'] = FALSE;
-  if (arg(0) == 'admin' || !$page['sidebar_first']) {
-    $variables['no_left'] = TRUE;
-  }  
 ?>
 
 <a id="top-page" name="top-page"></a>
