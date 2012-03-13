@@ -7,14 +7,14 @@
 /**
  * hook_install
  */
-function links_install() {
+function links_core_install() {
   //Nothing yet
 }
 
 /**
  * hook_uninstall
  */
-function links_uninstall() {
+function links_core_uninstall() {
   //Nothing yet
 }
 
@@ -24,7 +24,6 @@ function links_uninstall() {
  */
 function links_core_enable(){
   drupal_set_message('Links feature is now active on your site.');
-
 }
 
 
@@ -50,7 +49,7 @@ function links_core_disable(){
   ));
     
   // Contributor
-  $ctb_rid = get_rid('contributor');      
+  $ctb_rid = get_rid('contributor');
   user_role_revoke_permissions($ctb_rid, array(
     'edit own links content',
     'edit any links content',
