@@ -14,26 +14,27 @@ jQuery(function($){
   
     //Add switcher before checkbox and hide checkbox
     $("#feature-set-admin-form .form-checkbox").each(function() {
+      $this = $(this);
       //Check if the feature has been enabled
-      if ($(this).is(':checked')) {
+      if ($this.is(':checked')) {
         var html_before = '<label class="cb-enable selected"><span><i class="icon-ok icon-white"></i></span></label><label class="cb-disable"><span><i class="icon-remove icon-white"></i></span></label>';
-        /*var row = $(this).parents('tr');
-        row.addClass('gradient');*/
       } else {
         var html_before = '<label class="cb-enable"><span><i class="icon-ok icon-white"></i></span></label><label class="cb-disable selected"><span><i class="icon-remove icon-white"></i></span></label>';
       }     
       
-      $(this).before(html_before);
-      $(this).css('opacity',0);
+      $this
+        .before(html_before)
+        .css('opacity',0);
     });
 
     //Manage click on a row
-    $('#feature-set-admin-form tr').click(function() {
+    $('#feature-set-admin-form tr').on('click', function() {
       //get switcher
-      var switcher = $(this).find('.switch');
+      var $this = $(this),
+          switcher = $this.find('.switch');          
       
       //check if button is disabled
-      if (!($(this).is('.form-disabled'))) {    
+      if (!($this.is('.form-disabled'))) {    
       
         //add pending status
         switcher.toggleClass('pending');

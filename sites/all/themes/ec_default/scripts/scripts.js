@@ -1,6 +1,4 @@
 jQuery(function($){
-
-    
     
 	$(document).ready(function() {  //Once the page elements are fully loaded
    
@@ -27,7 +25,7 @@ jQuery(function($){
       i++;
     },5000); */
     
-    $('#slider .news_list li a').click(function(e) {
+    $('#slider .news_list li a').on('click', function(e) {
       e.preventDefault();
       changeNews($(this));
       return false;
@@ -52,13 +50,9 @@ jQuery(function($){
     }    
     /* /News slider */
   
-	/* Dropdown*/	
-	/*$('[data-toggle="dropdown"]').click(function(e) {
-		e.preventDefault();
-		$(this).parent().toggleClass('open');
-	});	*/
-  $('.dropdown-toggle').dropdown();
-	/*/Dropdown*/
+    /* Dropdown*/	
+    $('.dropdown-toggle').dropdown();
+    /*/Dropdown*/
   
 	});
 
