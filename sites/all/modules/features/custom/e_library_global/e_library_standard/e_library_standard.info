@@ -1,0 +1,6 @@
+core = "7.x"
+name = "e_library_standard"
+package = "Multisite Standard Features"
+project = "e_library_standard"
+version = "7.x-1.0"
+dependencies[] = "e_library_core"

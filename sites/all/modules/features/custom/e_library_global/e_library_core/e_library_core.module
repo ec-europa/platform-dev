@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the E-library feature.
+ */
+
+include_once('e_library.features.inc');
