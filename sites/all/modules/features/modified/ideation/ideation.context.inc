@@ -38,19 +38,19 @@ function ideation_context_default_contexts() {
           'module' => 'ideation',
           'delta' => 'ideation_box',
           'region' => 'content_top',
-          'weight' => '-16',
+          'weight' => '-10',
         ),
         'views-4fc346cc5920b0b8027cf39c18f31cb1' => array(
           'module' => 'views',
           'delta' => '4fc346cc5920b0b8027cf39c18f31cb1',
           'region' => 'content_top',
-          'weight' => '-15',
+          'weight' => '-9',
         ),
         'views-5996f5cc8467b404a194242c0f6379a8' => array(
           'module' => 'views',
           'delta' => '5996f5cc8467b404a194242c0f6379a8',
           'region' => 'content_top',
-          'weight' => '-14',
+          'weight' => '-8',
         ),
       ),
     ),
@@ -75,18 +75,7 @@ function ideation_context_default_contexts() {
       ),
     ),
   );
-  $context->reactions = array(
-    'block' => array(
-      'blocks' => array(
-        'ideation-ideation_box' => array(
-          'module' => 'ideation',
-          'delta' => 'ideation_box',
-          'region' => 'content',
-          'weight' => 0,
-        ),
-      ),
-    ),
-  );
+  $context->reactions = array();
   $context->condition_mode = 0;
 
   // Translatables
