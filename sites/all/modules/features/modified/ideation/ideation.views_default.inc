@@ -250,9 +250,15 @@ function ideation_views_default_views() {
 
   /* Display: Page: Ideas by Recent */
   $handler = $view->new_display('page', 'Page: Ideas by Recent', 'page_ideas_recent');
-  $handler->display->display_options['defaults']['exposed_block'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['path'] = 'ideas/recent';
+  $handler->display->display_options['menu']['type'] = 'normal';
+  $handler->display->display_options['menu']['title'] = 'Ideas';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
+  $handler->display->display_options['menu']['context'] = 0;
+  
+  
   $translatables['ideas_listing'] = array(
     t('Defaults'),
     t('Ideas'),
