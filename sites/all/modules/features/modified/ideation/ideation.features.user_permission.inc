@@ -24,7 +24,8 @@ function ideation_user_default_permissions() {
     'name' => 'create idea_site content',
     'roles' => array(
       0 => 'administrator',
-      1 => 'authenticated user',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
     ),
     'module' => 'node',
   );
@@ -44,7 +45,8 @@ function ideation_user_default_permissions() {
     'name' => 'delete own idea_site content',
     'roles' => array(
       0 => 'administrator',
-      1 => 'contributor',
+      1 => 'anonymous user',
+      2 => 'contributor',
     ),
     'module' => 'node',
   );
@@ -64,7 +66,8 @@ function ideation_user_default_permissions() {
     'name' => 'edit own idea_site content',
     'roles' => array(
       0 => 'administrator',
-      1 => 'contributor',
+      1 => 'anonymous user',
+      2 => 'contributor',
     ),
     'module' => 'node',
   );

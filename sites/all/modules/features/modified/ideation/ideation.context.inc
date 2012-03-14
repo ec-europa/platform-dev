@@ -17,14 +17,6 @@ function ideation_context_default_contexts() {
   $context->description = '';
   $context->tag = 'ideas';
   $context->conditions = array(
-    'node' => array(
-      'values' => array(
-        'idea_site' => 'idea_site',
-      ),
-      'options' => array(
-        'node_form' => '0',
-      ),
-    ),
     'views' => array(
       'values' => array(
         'ideas_listing' => 'ideas_listing',
