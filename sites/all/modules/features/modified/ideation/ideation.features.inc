@@ -34,3 +34,12 @@ function ideation_node_info() {
   );
   return $items;
 }
+
+/**
+ * Implementation of hook_views_api().
+ */
+function ideation_views_api() {
+  return array(
+    'api' => '3.0-alpha1',
+  );
+}
