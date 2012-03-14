@@ -70,6 +70,7 @@ dependencies[] = pathauto
 dependencies[] = print
 dependencies[] = print_pdf
 ;dependencies[] = features_override
+dependencies[] = jquery_update
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set
