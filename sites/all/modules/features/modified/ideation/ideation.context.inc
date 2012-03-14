@@ -34,29 +34,23 @@ function ideation_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'ideation-ideation_submit_idea' => array(
+        'ideation-ideation_box' => array(
           'module' => 'ideation',
-          'delta' => 'ideation_submit_idea',
-          'region' => 'sidebar_second',
-          'weight' => 0,
-        ),
-        'views-5996f5cc8467b404a194242c0f6379a8' => array(
-          'module' => 'views',
-          'delta' => '5996f5cc8467b404a194242c0f6379a8',
-          'region' => 'sidebar_second',
-          'weight' => 1,
-        ),
-        'views-ideas_watch-block_ideas_watch' => array(
-          'module' => 'views',
-          'delta' => 'ideas_watch-block_ideas_watch',
-          'region' => 'sidebar_second',
-          'weight' => 2,
+          'delta' => 'ideation_box',
+          'region' => 'content_top',
+          'weight' => '-16',
         ),
         'views-4fc346cc5920b0b8027cf39c18f31cb1' => array(
           'module' => 'views',
           'delta' => '4fc346cc5920b0b8027cf39c18f31cb1',
-          'region' => 'sidebar_second',
-          'weight' => 3,
+          'region' => 'content_top',
+          'weight' => '-15',
+        ),
+        'views-5996f5cc8467b404a194242c0f6379a8' => array(
+          'module' => 'views',
+          'delta' => '5996f5cc8467b404a194242c0f6379a8',
+          'region' => 'content_top',
+          'weight' => '-14',
         ),
       ),
     ),
