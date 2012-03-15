@@ -1,0 +1,20 @@
+<?php
+
+/*
+* hook_enable
+*/
+function idea_standard_enable() {
+  // enable example contents
+  //module_enable(array("idea_standard_content")); 
+}
+
+
+
+/*
+ * Hook disable 
+ */
+function idea_standard_disable(){
+  // disable example contents
+  //module_disable(array("idea_standard_content"));
+}
+

@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the idea_core feature.
+ */
+
+include_once('idea_core.features.inc');

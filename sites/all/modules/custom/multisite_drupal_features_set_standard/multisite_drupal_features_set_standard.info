@@ -75,11 +75,11 @@ feature_sets[contact_form][icon] = 'feature-set-icons/contact.png'
 feature_sets[contact_form][enable][] = contact_form
 feature_sets[contact_form][disable][] = contact_form
 
-feature_sets[ideation][title] = 'Ideation'
-feature_sets[ideation][description] = 'Suggest ideas, vote on and discuss already submitted ideas, surface most important/best ideas, as well as start discussions around ideas.'
-feature_sets[ideation][icon] = 'feature-set-icons/idea.png'
-feature_sets[ideation][enable][] = ideation
-feature_sets[ideation][disable][] = ideation
+feature_sets[idea_standard][title] = 'Idea'
+feature_sets[idea_standard][description] = 'Suggest ideas, vote on and discuss already submitted ideas, surface most important/best ideas, as well as start discussions around ideas.'
+feature_sets[idea_standard][icon] = 'feature-set-icons/idea.png'
+feature_sets[idea_standard][enable][] = idea_standard
+feature_sets[idea_standard][disable][] = idea_standard
 
 
 

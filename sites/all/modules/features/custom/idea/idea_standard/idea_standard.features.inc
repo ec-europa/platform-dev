@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * ideation.features.inc
+ * idea_standard.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function ideation_ctools_plugin_api() {
+function idea_standard_ctools_plugin_api() {
   list($module, $api) = func_get_args();
   if ($module == "context" && $api == "context") {
     return array("version" => "3");
@@ -19,14 +19,24 @@ function ideation_ctools_plugin_api() {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function idea_standard_views_api() {
+  list($module, $api) = func_get_args();
+  if ($module == "views" && $api == "views_default") {
+    return array("version" => "3.0");
+  }
+}
+
+/**
  * Implements hook_node_info().
  */
-function ideation_node_info() {
+function idea_standard_node_info() {
   $items = array(
-    'idea_site' => array(
+    'wiki' => array(
       'name' => t('Idea'),
       'base' => 'node_content',
-      'description' => t('A submission of an idea that can be posted, voted on, and commented upon.'),
+      'description' => t('content for the idea feature'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
@@ -35,11 +45,3 @@ function ideation_node_info() {
   return $items;
 }
 
-/**
- * Implementation of hook_views_api().
- */
-function ideation_views_api() {
-  return array(
-    'api' => '3.0-alpha1',
-  );
-}
