@@ -4,21 +4,21 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>as admin</title>
+<title>browse</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">as admin</td></tr>
+<tr><td rowspan="1" colspan="3">browse</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde/</td>
+	<td>/multisite_drupal_wde/?q=en</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Log out</td>
+	<td>xpath=(//a[contains(text(),'Log out')])[2]</td>
 	<td></td>
 </tr>
 <tr>
@@ -29,7 +29,7 @@
 <tr>
 	<td>type</td>
 	<td>id=edit-name</td>
-	<td>admin_pro</td>
+	<td>user_let</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -42,48 +42,53 @@
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>id=toolbar-link-admin-config</td>
+	<td>verifyTextPresent</td>
+	<td>Newsletters</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Account settings</td>
+	<td>link=Newsletters</td>
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=Manage fields</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=edit-fields-add-new-field-label</td>
-	<td>Country</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=edit-fields-add-new-field-field-name</td>
-	<td>country</td>
-</tr>
-<tr>
-	<td>select</td>
-	<td>id=edit-fields-add-new-field-type</td>
-	<td>label=Text</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=edit-submit</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=edit-submit</td>
+	<td>verifyTextPresent</td>
+	<td>newsletter01</td>
 	<td></td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>id=edit-instance-settings-user-field-privacy</td>
+	<td>id=edit-newsletters-5</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-update</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>The newsletter subscriptions for user_let@email.com have been updated.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=My account</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Subscribed to newsletter01</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=subscriptions</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-newsletters-5</td>
 	<td></td>
 </tr>
 <tr>
@@ -93,17 +98,12 @@
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>Saved Country configuration</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=edit-submit</td>
+	<td>The changes have been saved.</td>
 	<td></td>
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>Your settings have been saved.</td>
+	<td>Your newsletter subscriptions have been updated.</td>
 	<td></td>
 </tr>
 </tbody></table>

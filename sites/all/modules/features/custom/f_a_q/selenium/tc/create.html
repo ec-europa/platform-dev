@@ -12,18 +12,28 @@
 <tr><td rowspan="1" colspan="3">create</td></tr>
 </thead><tbody>
 <tr>
-	<td>open</td>
-	<td>/multisite_drupal_wde/en</td>
+	<td>clickAndWait</td>
+	<td>link=Log out</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>id=toolbar-link-admin-workbench</td>
+	<td>link=login</td>
 	<td></td>
 </tr>
 <tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>admin_faq</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
 	<td>clickAndWait</td>
-	<td>link=Create content</td>
+	<td>id=edit-submit</td>
 	<td></td>
 </tr>
 <tr>
@@ -32,9 +42,14 @@
 	<td></td>
 </tr>
 <tr>
+	<td>clickAndWait</td>
+	<td>link=Create a new FAQ</td>
+	<td></td>
+</tr>
+<tr>
 	<td>type</td>
 	<td>id=edit-title</td>
-	<td>Question test</td>
+	<td>FAQ01</td>
 </tr>
 <tr>
 	<td>click</td>
@@ -44,7 +59,7 @@
 <tr>
 	<td>type</td>
 	<td>id=edit-body-und-0-value</td>
-	<td>Answer test</td>
+	<td>Answer01</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -55,11 +70,6 @@
 	<td>clickAndWait</td>
 	<td>id=edit-submit</td>
 	<td></td>
-</tr>
-<tr>
-	<td>assertText</td>
-	<td>css=div.messages.status</td>
-	<td>Status message F.A.Q Question test has been created.</td>
 </tr>
 </tbody></table>
 </body>

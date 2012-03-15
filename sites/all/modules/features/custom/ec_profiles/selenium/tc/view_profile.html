@@ -13,7 +13,7 @@
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde/en</td>
+	<td>/multisite_drupal_wde/?q=en</td>
 	<td></td>
 </tr>
 <tr>
@@ -22,14 +22,19 @@
 	<td></td>
 </tr>
 <tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
 	<td>type</td>
 	<td>id=edit-name</td>
-	<td>fmr</td>
+	<td>user_pr1</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=edit-pass</td>
-	<td>fmr</td>
+	<td>pass</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -42,24 +47,9 @@
 	<td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>fmr_mb</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>fmr_cm</td>
-	<td></td>
-</tr>
-<tr>
 	<td>type</td>
 	<td>id=edit-uid-1</td>
-	<td>fmr_cm</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>css=li.selected &gt; div</td>
-	<td></td>
+	<td>user_pr2</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -67,28 +57,8 @@
 	<td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>fmr_cm</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextNotPresent</td>
-	<td>fmr_mb</td>
-	<td></td>
-</tr>
-<tr>
 	<td>clickAndWait</td>
-	<td>link=People</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=fmr_mb</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Country:</td>
+	<td>link=user_pr2</td>
 	<td></td>
 </tr>
 <tr>
@@ -98,17 +68,47 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=People</td>
+	<td>link=Log out</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=fmr_cm</td>
+	<td>link=login</td>
 	<td></td>
 </tr>
 <tr>
-	<td>verifyTextNotPresent</td>
-	<td>Country:</td>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>user_pr2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=People</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-uid-1</td>
+	<td>user_pr1</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit-people</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=user_pr1</td>
 	<td></td>
 </tr>
 <tr>

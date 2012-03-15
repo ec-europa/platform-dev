@@ -13,7 +13,32 @@
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde/en</td>
+	<td>/multisite_drupal_wde</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'Log out')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>admin_faq</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
 	<td></td>
 </tr>
 <tr>
@@ -23,18 +48,18 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Question test</td>
+	<td>link=FAQ01</td>
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
+	<td>clickAndWait</td>
 	<td>link=Edit</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=edit-title</td>
-	<td>Question test updated</td>
+	<td>FAQ01 updated</td>
 </tr>
 <tr>
 	<td>click</td>
@@ -44,7 +69,7 @@
 <tr>
 	<td>type</td>
 	<td>id=edit-body-und-0-value</td>
-	<td>&lt;p&gt;Answer test updated&lt;/p&gt;</td>
+	<td>&lt;p&gt;Answer01 updated&lt;/p&gt;</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -52,9 +77,9 @@
 	<td></td>
 </tr>
 <tr>
-	<td>assertText</td>
-	<td>css=div.messages.status</td>
-	<td>Status message F.A.Q Question test updated has been updated.</td>
+	<td>verifyTextPresent</td>
+	<td>F.A.Q FAQ01 updated has been updated.</td>
+	<td></td>
 </tr>
 </tbody></table>
 </body>
