@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the MediaGallery feature.
+ */
+
+include_once('mediagallery.features.inc');
