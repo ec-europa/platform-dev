@@ -52,8 +52,7 @@ jQuery(function($){
   
     /* Dropdown*/	
     $('.dropdown-toggle').dropdown();
-    /*/Dropdown*/
-  
+    /* /Dropdown*/
 	});
 
 }); 
