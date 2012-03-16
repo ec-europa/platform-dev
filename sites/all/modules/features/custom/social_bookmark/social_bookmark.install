@@ -1,0 +1,41 @@
+<?php
+/**
+ * @file
+ * Install the feature social bookmark
+ */
+
+/**
+ * hook_install
+ */
+function social_bookmark_install() {
+  //Nothing yet
+}
+
+/**
+ * hook_uninstall
+ */
+function social_bookmark_uninstall() {
+  //Nothing yet
+}
+
+/*
+ * hook_enable 
+ * Edit communities context to add a block
+ */
+function social_bookmark_enable(){
+ //Add block in context
+  _add_block_context('site_wide','social_bookmark-social-bookmark','social_bookmark','social-bookmark', 'content_top');
+  drupal_set_message('Social bookmark feature is now active on your site.');
+}
+
+
+/*
+ * hook_disable 
+ * Edit communities context to remove block
+ * Remove permissions
+ */
+function social_bookmark_disable(){  
+ //Remove block in context
+  _remove_block_context('site_wide','social-bookmark');
+  drupal_set_message('Social bookmark feature is now disabled on your site.');
+}
