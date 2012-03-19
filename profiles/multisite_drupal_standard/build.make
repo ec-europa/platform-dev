@@ -153,6 +153,12 @@ projects[print][version] = "1.0-beta1"
 projects[jquery_update][subdir] = "contributed"
 projects[jquery_update][version] = "2.2"
 
+projects[mailsystem][subdir] = "contributed"
+projects[mailsystem][version] = "2.33"
+
+projects[mimemail][subdir] = "contributed"
+projects[mimemail][version] = "1.x-dev"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"
