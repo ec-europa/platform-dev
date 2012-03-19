@@ -60,5 +60,15 @@ function idea_core_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: rate content
+  $permissions['rate content'] = array(
+    'name' => 'rate content',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'fivestar',
+  );
+
   return $permissions;
 }
