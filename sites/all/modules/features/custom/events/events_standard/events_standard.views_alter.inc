@@ -8,7 +8,8 @@ function events_standard_views_default_views_alter(&$views) {
 	$view=$views['calendar'];
 	 
     /* Display: Month */
-    $handler = $view->new_display('page', 'Month', 'month');
+    //$handler = $view->new_display('page', 'Month', 'month');
+    $handler = $view->display['month']->handler;
     $handler->display->display_options['path'] = 'calendar/month';
     $handler->display->display_options['menu']['type'] = 'default tab';
     $handler->display->display_options['menu']['title'] = 'Month';
@@ -21,7 +22,8 @@ function events_standard_views_default_views_alter(&$views) {
     $handler->display->display_options['tab_options']['name'] = 'main-menu';
 
     /* Display: Week */
-    $handler = $view->new_display('page', 'Week', 'week');
+    //$handler = $view->new_display('page', 'Week', 'week');
+    $handler = $view->display['week']->handler;
     $handler->display->display_options['path'] = 'calendar/week';
     $handler->display->display_options['menu']['type'] = 'tab';
     $handler->display->display_options['menu']['title'] = 'Week';
@@ -30,7 +32,8 @@ function events_standard_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['context'] = 0;
 
     /* Display: Day */
-    $handler = $view->new_display('page', 'Day', 'day');	
+    //$handler = $view->new_display('page', 'Day', 'day');	
+	$handler = $view->display['day']->handler;
     $handler->display->display_options['path'] = 'calendar/day';
     $handler->display->display_options['menu']['type'] = 'tab';
     $handler->display->display_options['menu']['title'] = 'Day';
@@ -39,7 +42,8 @@ function events_standard_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['context'] = 0;	
 	
     /* Display: Year */
-    $handler = $view->new_display('page', 'Year', 'year');	
+    //$handler = $view->new_display('page', 'Year', 'year');	
+	$handler = $view->display['year']->handler;
     $handler->display->display_options['path'] = 'calendar/year';
     $handler->display->display_options['menu']['type'] = 'tab';
     $handler->display->display_options['menu']['title'] = 'Year';
