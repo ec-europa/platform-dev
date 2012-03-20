@@ -14,7 +14,7 @@ function multisite_drupal_standard_install() {
   $contrib_rid = get_rid('contributor');
   user_role_grant_permissions($contrib_rid, array(  
     'view all unpublished content',
-	'moderate content from needs_review to published',
+	//'moderate content from needs_review to published',
 	'moderate content from needs_review to draft',
 	'edit any article content',
 	'delete any article content',

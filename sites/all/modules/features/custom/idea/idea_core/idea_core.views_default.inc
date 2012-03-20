@@ -32,9 +32,9 @@ function idea_core_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'title' => 'title',
+    'body' => 'body',
+    'value' => 'value',
     'name' => 'name',
-    'field_categories' => 'field_categories',
-    'field_status' => 'field_status',
     'field_watching' => 'field_watching',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
@@ -46,21 +46,21 @@ function idea_core_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
+    'body' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'value' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'name' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_categories' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_status' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -105,12 +105,61 @@ function idea_core_views_default_views() {
   $handler->display->display_options['relationships']['votingapi_cache']['votingapi'] = array(
     'value_type' => 'percent',
     'tag' => 'vote',
-    'function' => 'count',
+    'function' => 'average',
   );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body']['id'] = 'body';
+  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body']['field'] = 'body';
+  $handler->display->display_options['fields']['body']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['max_length'] = '200';
+  $handler->display->display_options['fields']['body']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['body']['alter']['trim'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['body']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['body']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['body']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
+  /* Field: Vote results: Value */
+  $handler->display->display_options['fields']['value']['id'] = 'value';
+  $handler->display->display_options['fields']['value']['table'] = 'votingapi_cache';
+  $handler->display->display_options['fields']['value']['field'] = 'value';
+  $handler->display->display_options['fields']['value']['relationship'] = 'votingapi_cache';
+  $handler->display->display_options['fields']['value']['label'] = 'Score (%)';
+  $handler->display->display_options['fields']['value']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['value']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['value']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['value']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['value']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['value']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['value']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['value']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['value']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['value']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['value']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['value']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['value']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['value']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['value']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['value']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['value']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['value']['set_precision'] = 0;
+  $handler->display->display_options['fields']['value']['precision'] = '0';
+  $handler->display->display_options['fields']['value']['format_plural'] = 0;
   /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
@@ -137,54 +186,11 @@ function idea_core_views_default_views() {
   $handler->display->display_options['fields']['name']['link_to_user'] = 1;
   $handler->display->display_options['fields']['name']['overwrite_anonymous'] = 0;
   $handler->display->display_options['fields']['name']['format_username'] = 1;
-  /* Field: Content: categories */
-  $handler->display->display_options['fields']['field_categories']['id'] = 'field_categories';
-  $handler->display->display_options['fields']['field_categories']['table'] = 'field_data_field_categories';
-  $handler->display->display_options['fields']['field_categories']['field'] = 'field_categories';
-  $handler->display->display_options['fields']['field_categories']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['field_categories']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['field_categories']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['field_categories']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['field_categories']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['field_categories']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['field_categories']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['field_categories']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['field_categories']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['field_categories']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['field_categories']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['field_categories']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['field_categories']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['field_categories']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['field_categories']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['field_categories']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['field_categories']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_categories']['field_api_classes'] = 0;
-  /* Field: Content: status */
-  $handler->display->display_options['fields']['field_status']['id'] = 'field_status';
-  $handler->display->display_options['fields']['field_status']['table'] = 'field_data_field_status';
-  $handler->display->display_options['fields']['field_status']['field'] = 'field_status';
-  $handler->display->display_options['fields']['field_status']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['field_status']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['field_status']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['field_status']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['field_status']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['field_status']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['field_status']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['field_status']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['field_status']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['field_status']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['field_status']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['field_status']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['field_status']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['field_status']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['field_status']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['field_status']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['field_status']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_status']['field_api_classes'] = 0;
   /* Field: Content: Idea we are watching */
   $handler->display->display_options['fields']['field_watching']['id'] = 'field_watching';
   $handler->display->display_options['fields']['field_watching']['table'] = 'field_data_field_watching';
   $handler->display->display_options['fields']['field_watching']['field'] = 'field_watching';
+  $handler->display->display_options['fields']['field_watching']['label'] = 'Watched';
   $handler->display->display_options['fields']['field_watching']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['field_watching']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['field_watching']['alter']['absolute'] = 0;
@@ -235,33 +241,27 @@ function idea_core_views_default_views() {
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['empty'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Vote results: Value */
+  $handler->display->display_options['sorts']['value']['id'] = 'value';
+  $handler->display->display_options['sorts']['value']['table'] = 'votingapi_cache';
+  $handler->display->display_options['sorts']['value']['field'] = 'value';
+  $handler->display->display_options['sorts']['value']['relationship'] = 'votingapi_cache';
+  $handler->display->display_options['sorts']['value']['order'] = 'DESC';
+  $handler->display->display_options['sorts']['value']['coalesce'] = 0;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
 
-  /* Display: Attachment */
-  $handler = $view->new_display('attachment', 'Attachment', 'attachment_1');
+  /* Display: Most rated */
+  $handler = $view->new_display('block', 'Most rated', 'block_most_rated_ideas');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Most rated ideas';
-  $handler->display->display_options['defaults']['css_class'] = FALSE;
-  $handler->display->display_options['css_class'] = 'well';
+  $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['header'] = FALSE;
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area']['id'] = 'area';
-  $handler->display->display_options['header']['area']['table'] = 'views';
-  $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h3>Most rated ideas</h3>';
-  $handler->display->display_options['header']['area']['format'] = 'full_html';
-  $handler->display->display_options['header']['area']['tokenize'] = 0;
-  $handler->display->display_options['displays'] = array(
-    'page_1' => 'page_1',
-    'default' => 0,
-  );
+  $handler->display->display_options['block_description'] = 'Most rated ideas';
   $translatables['idea_list'] = array(
     t('Defaults'),
     t('Ideas'),
@@ -279,14 +279,15 @@ function idea_core_views_default_views() {
     t('author'),
     t('Vote results'),
     t('Title'),
+    t('Body'),
+    t('Score (%)'),
+    t('.'),
+    t(','),
     t('Author'),
-    t('categories'),
-    t('status'),
-    t('Idea we are watching'),
+    t('Watched'),
     t('Page'),
-    t('Attachment'),
+    t('Most rated'),
     t('Most rated ideas'),
-    t('<h3>Most rated ideas</h3>'),
   );
   $export['idea_list'] = $view;
 
