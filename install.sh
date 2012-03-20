@@ -157,6 +157,7 @@ drush scr "${working_dir}/profiles/${install_profile}/inject_data.php"
 mkdir "${working_dir}/sites/default/files/private_files"
 chmod -R 777 "${working_dir}/sites/default/files"
 
+
 #install third party libraries
 #ckeditor
 #cd "${working_dir}/sites/all/modules/contributed/ckeditor"
