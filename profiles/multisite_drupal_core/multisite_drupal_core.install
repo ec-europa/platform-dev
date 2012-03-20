@@ -69,6 +69,7 @@ function multisite_drupal_core_install() {
     'revert revisions',	
 	'access print',
 	'access PDF version',
+  'access site-wide contact form',
   )); 
 
   $adm_rid = get_rid('administrator'); 
@@ -87,6 +88,7 @@ function multisite_drupal_core_install() {
     'post comments',
 	'access print',
 	'access PDF version',
+  'access site-wide contact form',
   )); 
   
   
