@@ -4,3 +4,19 @@
  */
 
 // Drupal needs this blank file.
+function mediagallery_feature_core_form_alter(&$form, &$form_state, $form_id){
+  if ($form_id = 'media_gallery_node_form') {  
+    
+    $form['media_gallery_image_info_where']['und']['#default_value'][0] = 'nothing';
+     $form['media_gallery_image_info_where']['#access'] = FALSE;
+
+    //drupal_set_message(print_r($form, TRUE));
+    
+   
+    // $form[media_gallery_rows]['#access']= FALSE;
+    // $form[media_gallery_columns]['#access']= FALSE;
+    //$form [media_gallery_lightbox_extras]['#access']= FALSE;
+    //$form [media_gallery_allow_download]['#access']= FALSE;
+    
+  }
+}
