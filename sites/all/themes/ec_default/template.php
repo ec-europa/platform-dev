@@ -659,9 +659,14 @@ function ec_default_media_gallery_teaser($variables) {
     // Add the meta information
     $output .= theme('media_gallery_meta', $meta_vars);
   }
-  $output .= $node->title;
-  $output .= $node->media_gallery_description['und'][0]['value'];
-
+  $output .= "<div id ='gallery_info'>";
+  $output .= "<h4>" .$node->title . "</h4>";
+  $output .= (strlen($node->media_gallery_description['und'][0]['value'])>150)
+  ?trim(substr($node->media_gallery_description['und'][0]['value'],0,150)). '...<br />'
+  :trim($node->media_gallery_description['und'][0]['value']). '<br />';
+    if ($meta_vars['description'])
+  $output .= 'This gallery contains '. trim($meta_vars['description']) . '.';
+  $output .= "</div>";
   return $output;
 }
 
