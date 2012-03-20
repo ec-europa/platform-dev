@@ -87,5 +87,9 @@ feature_sets[social_bookmark][icon] = 'feature-set-icons/social_bookmark.png'
 feature_sets[social_bookmark][enable][] = social_bookmark
 feature_sets[social_bookmark][disable][] = social_bookmark
 
-
+feature_sets[mediagallery_feature][title] = 'Media Galleries'
+feature_sets[mediagallery_feature][description] = 'Add Picture and Video galleries on your site.'
+feature_sets[mediagallery_feature][icon] = 'feature-set-icons/faq.png'
+feature_sets[mediagallery_feature][enable][] = mediagallery_feature
+feature_sets[mediagallery_feature][disable][] = mediagallery_feature
 
