@@ -81,3 +81,10 @@ feature_sets[e_library][description] = 'Upload and share files with your communi
 feature_sets[e_library][icon] = 'feature-set-icons/e_library.png'
 feature_sets[e_library][enable][] = e_library
 feature_sets[e_library][disable][] = e_library
+
+
+feature_sets[f_a_q][title] = 'Media Galleries'
+feature_sets[f_a_q][description] = 'Add Picture and Video galleries on your site.'
+feature_sets[f_a_q][icon] = 'feature-set-icons/faq.png'
+feature_sets[f_a_q][enable][] = mediagallery_feature
+feature_sets[f_a_q][disable][] = mediagallery_feature
