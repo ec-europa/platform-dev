@@ -8,8 +8,7 @@ function survey_standard_views_default_views_alter(&$views) {
     $view=$views['surveys_list'];
 	 
     /* Display: Page */
-    $handler = $view->new_display('page', 'Page', 'page_1');
-
+    $handler = $view->display['page_1']->handler;
     $handler->display->display_options['path'] = 'survey';
     $handler->display->display_options['menu']['type'] = 'normal';
     $handler->display->display_options['menu']['title'] = 'Surveys';

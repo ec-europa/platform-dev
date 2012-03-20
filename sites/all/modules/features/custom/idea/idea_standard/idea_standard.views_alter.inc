@@ -8,7 +8,7 @@ function idea_standard_views_default_views_alter(&$views) {
 	$view=$views['idea_list'];
 	 
     /* Display: Page */
-    $handler = $view->new_display('page', 'Page', 'page_1');
+    $handler = $view->display['page_1']->handler;
     $handler->display->display_options['defaults']['empty'] = FALSE;
     $handler->display->display_options['path'] = 'ideas';
     $handler->display->display_options['menu']['type'] = 'normal';

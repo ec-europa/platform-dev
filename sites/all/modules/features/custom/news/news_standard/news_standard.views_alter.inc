@@ -9,7 +9,7 @@ function news_standard_views_default_views_alter(&$views) {
     $view=$views['news'];
 	
     /* Display: News list page */
-    $handler = $view->new_display('page', 'News list page', 'page');
+    $handler = $view->display['page']->handler;
     $handler->display->display_options['path'] = 'news';
     $handler->display->display_options['menu']['type'] = 'normal';
     $handler->display->display_options['menu']['title'] = 'News';

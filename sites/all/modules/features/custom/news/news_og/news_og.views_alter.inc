@@ -8,7 +8,7 @@ function news_og_views_default_views_alter(&$views) {
     $view=$views['news'];
 	
     /* Display: Defaults */
-    $handler = $view->new_display('default', 'Defaults', 'default');
+    $handler = $view->display['default']->handler;
     /* Relationship: Group membership: Node group membership */
     $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
     $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
@@ -29,7 +29,7 @@ function news_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['group']['not'] = 0;
 	
     /* Display: Block */
-    $handler = $view->new_display('block', 'Block', 'block_1');	
+    $handler = $view->display['block_1']->handler;
     /* Contextual filter: OG membership: Group gid */
     $handler->display->display_options['arguments']['group']['id'] = 'group';
     $handler->display->display_options['arguments']['group']['table'] = 'og_membership';

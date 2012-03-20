@@ -7,7 +7,7 @@ function e_library_standard_views_default_views_alter(&$views) {
     $view=$views['e_library'];
 
     /* Display: Page */
-    $handler = $view->new_display('page', 'Page', 'page');
+    $handler = $view->display['page']->handler;
     $handler->display->display_options['defaults']['arguments'] = FALSE;
     $handler->display->display_options['path'] = 'e_library';
     $handler->display->display_options['menu']['type'] = 'normal';

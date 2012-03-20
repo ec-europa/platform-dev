@@ -8,8 +8,7 @@ function events_og_views_default_views_alter(&$views) {
 	$view=$views['calendar'];
 	 
     /* Display: Master */
-    $handler = $view->new_display('default', 'Master', 'default');
-
+    $handler = $view->display['default']->handler;
     /* Relationship: Group membership: Node group membership */
     $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
     $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
@@ -31,7 +30,7 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['group']['not'] = 0;	
 
     /* Display: Month */
-    $handler = $view->new_display('page', 'Month', 'month');	
+    $handler = $view->display['month']->handler;
     /* Contextual filter: OG membership: Group gid */
     $handler->display->display_options['arguments']['group']['id'] = 'group';
     $handler->display->display_options['arguments']['group']['table'] = 'og_membership';
@@ -48,7 +47,7 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['group']['not'] = 0;	
 	
     /* Display: Week */
-    $handler = $view->new_display('page', 'Week', 'week');	
+    $handler = $view->display['week']->handler;
     /* Contextual filter: OG membership: Group gid */
     $handler->display->display_options['arguments']['group']['id'] = 'group';
     $handler->display->display_options['arguments']['group']['table'] = 'og_membership';
@@ -64,7 +63,7 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['group']['not'] = 0;	
 	
     /* Display: Day */
-    $handler = $view->new_display('page', 'Day', 'day');
+    $handler = $view->display['day']->handler;
     /* Contextual filter: OG membership: Group gid */
     $handler->display->display_options['arguments']['group']['id'] = 'group';
     $handler->display->display_options['arguments']['group']['table'] = 'og_membership';
@@ -80,7 +79,7 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['group']['not'] = 0;
 
     /* Display: Year */
-    $handler = $view->new_display('page', 'Year', 'year');
+    $handler = $view->display['year']->handler;
     /* Contextual filter: OG membership: Group gid */
     $handler->display->display_options['arguments']['group']['id'] = 'group';
     $handler->display->display_options['arguments']['group']['table'] = 'og_membership';
