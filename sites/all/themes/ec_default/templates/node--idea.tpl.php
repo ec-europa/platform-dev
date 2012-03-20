@@ -78,48 +78,15 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
- 
+
   $output = '';
  
-  //get node type
-  switch ($type) {
-    case 'links':
-      $fields = array(
-        'picture' => array(),
-        'body'    => array(),
-        'hide'  => array('comments', 'links'),
-        'group' => array('group_audience', 'group_content_access')
-      );        
-      break;
-      
-    case 'news':
-      $fields = array(
-        'picture' => array('field_news_picture'),
-        'body'    => array('body'),
-        'hide'    => array('comments', 'links'),
-        'group'   => array('group_audience', 'group_content_access')
-      );        
-      break;
-      
-    case 'community':
-      $display_submitted = FALSE;
-      $fields = array(
-        'picture' => array('field_thumbnail'),
-        'body'  => array('body'),
-        'hide'  => array('comments', 'links', 'field_thumbnail'),
-        'group' => array('group_group', 'group_access')
-      );
-      break;
-
-    default:
-      $fields = array(
-        'picture' => array(),
-        'body'  => array('body'),
-        'hide'  => array('comments', 'links'),
-        'group' => array('group_audience', 'group_content_access')
-      );        
-      break;
-  }
+  $fields = array(
+    'picture' => array(),
+    'body'  => array('body'),
+    'hide'  => array('comments', 'links', 'field_watching', 'field_rating'),
+    'group' => array('group_audience', 'group_content_access')
+  );      
   
   //set size of fields 
   if ($variables['no_left']) {
@@ -130,7 +97,10 @@
     $span_large = 'span9';
     $span_title = 'span2';
     $span_small = 'span7';      
-  }     
+  } 
+    
+  $display_submitted = FALSE;
+  $content['field_watching']['#weight'] = 0;
 ?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 
@@ -203,12 +173,21 @@
         $display_other = TRUE;
         $fields['other'][$key] = $value['#weight'];
       }
-    }    
+    }
     if ($display_other) {
       //sort fields by weight
       asort($fields['other']);
-
-      $output .= '<blockquote class="f_left">';    
+      
+      //display highlighted fields
+      $output .= '<div class="no_label">';
+      if ($content['field_watching']['#object']->field_watching['und'][0]['value']) {        
+        $output .= '<span class="label label-success t_upper f_right"><i class="icon-eye-open icon-white"></i>'.t('watched').'</span>';
+      }
+      $output .= '<div class="f_left">'.render($content['field_rating']).'</div>';
+      $output .= '</div>';
+      
+      //display other fields
+      $output .= '<blockquote class="f_left">';       
       foreach ($fields['other'] as $key => $value) {
         $field = '<div class="field c_left">';
         if (isset($content[$key]['#title'])) {
@@ -221,7 +200,7 @@
         }
         $output .= $field;      
       }
-      $output .= '</blockquote>'; 
+      $output .= '</blockquote>';
     }
     
     //display groups
