@@ -10,7 +10,6 @@
 function e_library_core_views_default_views() {
   $export = array();
 
-
 $view = new view;
 $view->name = 'e_library';
 $view->description = 'A list of all content, by letter.';
