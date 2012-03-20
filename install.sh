@@ -120,7 +120,7 @@ cp -R sites/all/modules/ ${site_name}/sites/all
 cp -R sites/all/modules/features ${site_name}/sites/all/modules
 cp -R sites/all/themes ${site_name}/sites/all
 cp -R sites/default/files/ ${site_name}/sites/default/files/
-#cp -R sites/all/libraries ${site_name}/sites/all
+cp -R sites/all/libraries ${site_name}/sites/all
 
 
 
@@ -167,7 +167,7 @@ rm "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor_3.6.2-3_for_d
 
 #tcpdf
 cd "${working_dir}/sites/all"
-mkdir libraries
+#mkdir libraries
 cd "${working_dir}/sites/all/libraries"
 wget -P "${working_dir}/sites/all/libraries/" http://sourceforge.net/projects/tcpdf/files/latest/download
 unzip "tcpdf_5_9_150.zip"
