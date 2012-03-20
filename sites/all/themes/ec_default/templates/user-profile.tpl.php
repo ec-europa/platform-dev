@@ -52,7 +52,7 @@
       
       $output .= '<p><strong>' . t('Member since') . '</strong>: ' . date('d/m/Y',$user_profile['field_lastname']['#object']->created) . '</p>';
     
-      $output .= l(t('Contact this user'), '', array('attributes' => array('type' => 'message')));
+      $output .= l(t('Contact this user'), 'user/'.$elements['#account']->uid.'/contact', array('attributes' => array('type' => 'message')));
       
       print $output;
     ?>
