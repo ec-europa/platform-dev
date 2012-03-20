@@ -180,6 +180,17 @@ $handler->display->display_options['fields']['count']['hide_empty'] = 0;
 $handler->display->display_options['fields']['count']['empty_zero'] = 0;
 $handler->display->display_options['fields']['count']['hide_alter_empty'] = 1;
 $handler->display->display_options['fields']['count']['format_plural'] = 0;
+/* Contextual filter: Broken/missing handler */
+$handler->display->display_options['arguments']['group']['id'] = 'group';
+$handler->display->display_options['arguments']['group']['table'] = 'og_membership';
+$handler->display->display_options['arguments']['group']['field'] = 'group';
+$handler->display->display_options['arguments']['group']['relationship'] = 'og_membership_rel';
+$handler->display->display_options['arguments']['group']['default_action'] = 'default';
+$handler->display->display_options['arguments']['group']['default_argument_type'] = 'fixed';
+$handler->display->display_options['arguments']['group']['default_argument_skip_url'] = 0;
+$handler->display->display_options['arguments']['group']['summary']['number_of_records'] = '0';
+$handler->display->display_options['arguments']['group']['summary']['format'] = 'default_summary';
+$handler->display->display_options['arguments']['group']['summary_options']['items_per_page'] = '25';
 /* Contextual filter: Content: Title */
 $handler->display->display_options['arguments']['title']['id'] = 'title';
 $handler->display->display_options['arguments']['title']['table'] = 'node';
@@ -207,6 +218,7 @@ $handler->display->display_options['filters']['published']['id'] = 'published';
 $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
 $handler->display->display_options['filters']['published']['field'] = 'published';
 $handler->display->display_options['filters']['published']['value'] = '1';
+
 
 /* Display: Attachment */
 $handler = $view->new_display('attachment', 'Attachment', 'attachment');
@@ -280,7 +292,8 @@ $translatables['e_library'] = array(
 );
 
   
-  
+
+ 
   $export['e_library'] = $view;
 
   return $export;
