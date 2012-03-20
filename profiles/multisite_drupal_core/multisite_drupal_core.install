@@ -34,8 +34,6 @@ function multisite_drupal_core_install() {
     'create article content',
 	'delete own article content',
 	'edit own article content', 
-	'edit any article content',
-	'delete any article content',
   )); 
   
   // permissions related to workbench moderation

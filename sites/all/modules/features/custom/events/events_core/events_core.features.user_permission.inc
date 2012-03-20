@@ -15,8 +15,7 @@ function events_core_user_default_permissions() {
     'name' => 'create event content',
     'roles' => array(
       0 => 'administrator',
-      1 => 'authenticated user',
-      2 => 'contributor',
+      1 => 'contributor',
     ),
     'module' => 'node',
   );
@@ -36,8 +35,7 @@ function events_core_user_default_permissions() {
     'name' => 'delete own event content',
     'roles' => array(
       0 => 'administrator',
-      1 => 'authenticated user',
-      2 => 'contributor',
+      1 => 'contributor',
     ),
     'module' => 'node',
   );
@@ -57,8 +55,7 @@ function events_core_user_default_permissions() {
     'name' => 'edit own event content',
     'roles' => array(
       0 => 'administrator',
-      1 => 'authenticated user',
-      2 => 'contributor',
+      1 => 'contributor',
     ),
     'module' => 'node',
   );
