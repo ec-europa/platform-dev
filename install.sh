@@ -160,10 +160,10 @@ chmod -R 777 "${working_dir}/sites/default/files"
 #install third party libraries
 #ckeditor
 cd "${working_dir}/sites/all/modules/contributed/ckeditor"
-rm -rf "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor"
-wget -P "${working_dir}/sites/all/modules/contributed/ckeditor/" http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.2/ckeditor_3.6.2.tar.gz  1>&2
-tar xzf "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor_3.6.2.tar.gz" 1>&2
-rm "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor_3.6.2.tar.gz"
+#rm -rf "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor"
+wget -P "${working_dir}/sites/all/modules/contributed/ckeditor/" http://download.cksource.com/CKEditor%20for%20Drupal/CKEditor%203.6.2-3%20for%20Drupal/ckeditor_3.6.2-3_for_drupal_7.zip  1>&2
+unzip "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor_3.6.2-3_for_drupal_7.zip" 1>&2
+rm "${working_dir}/sites/all/modules/contributed/ckeditor/ckeditor_3.6.2-3_for_drupal_7.zip"
 
 #tcpdf
 cd "${working_dir}/sites/all"
