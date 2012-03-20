@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * mediagallery_feature.features.user_permission.inc
+ * mediagallery_feature_core.features.user_permission.inc
  */
 
 /**
  * Implements hook_user_default_permissions().
  */
-function mediagallery_feature_user_default_permissions() {
+function mediagallery_feature_core_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: create media_gallery content
