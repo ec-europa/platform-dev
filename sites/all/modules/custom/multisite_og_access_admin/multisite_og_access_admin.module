@@ -99,7 +99,9 @@ function multisite_og_access_admin_form_alter(&$form, &$form_state, $form_id) {
                 $key = array_search($gid, $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#default_value']);                
                 unset($form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#default_value'][$key]);
                 if(!in_array($gid, $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#hidden_selected_gids'])){
-                  $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#hidden_selected_gids'][] = $gid;
+                  if(isset($form['#node']->nid)){ // if node edit keep the id  
+                    $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#hidden_selected_gids'][] = $gid;
+                  }
                 }
               }
             }
@@ -119,7 +121,9 @@ function multisite_og_access_admin_form_alter(&$form, &$form_state, $form_id) {
               $key = array_search($gid, $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#default_value']);
               unset($form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#default_value'][$key]);
               if(!in_array($gid, $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#hidden_selected_gids'])){
-                $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#hidden_selected_gids'][] = $gid;
+                if(isset($form['#node']->nid)){ // if node edit keep the id                
+                  $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#hidden_selected_gids'][] = $gid;
+                }
               }
             }            
           }
