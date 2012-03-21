@@ -1183,13 +1183,33 @@ div.workbench-info-block {
 }
 
 /* ---------------- Media galleries  ----------------- */
-.node-media-gallery > .content {
-  position: relative;
+.media-gallery-collection {
+  .node-media-gallery > .content {
+    position: relative;
+  }
+  .meta-wrapper.hover {
+    display: none !important;
+    top: 200px;
+  }
+  fieldset {
+    margin-right: 5px;
+    margin-left: 5px;
+    padding-left: 0;
+    padding-right: 0;
+    #gallery_info {
+      padding: 0 13px;
+      h3 {
+        text-align: center;
+      }    
+      .meta {
+        margin-bottom: 0;
+        margin-top: 5px;
+        font-size: 0.8em;
+        border-top: #eee 1px solid;
+        text-align: right;
+      }
+    }  
+  }
 }
-.meta-wrapper.hover {
-  display: none !important;
-  top: 200px;
-}
-#gallery_info h3 {
-  text-align: center;
-}
+
+
