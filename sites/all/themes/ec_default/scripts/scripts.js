@@ -38,7 +38,7 @@ jQuery(function($){
     });*/
     
     
-    $('#slider .news_list li a').on('click', function(e) {
+    $('#slider .news_list li a').click(function(e) {
       e.preventDefault();
       changeNews($(this));
       return false;
@@ -66,10 +66,6 @@ jQuery(function($){
     interval: 4000
     })*/
     /* /News slider */
-  
-    /* Dropdown*/	
-    $('.dropdown-toggle').dropdown();
-    /* /Dropdown*/
 	});
 
 }); 

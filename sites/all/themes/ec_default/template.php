@@ -72,16 +72,16 @@ function ec_default_preprocess_html(&$variables) {
   // Add twitter bootsrap
   drupal_add_css(path_to_theme() . '/bootstrap/css/bootstrap.min.css', array('group' => CSS_THEME));
   //drupal_add_css(path_to_theme() . '/bootstrap/bootstrap.less', array('group' => CSS_THEME));
-  drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap.min.js', array('scope' => 'footer', 'weight' => 1));
-  drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-dropdown.js', array('scope' => 'footer', 'weight' => 2));
-  drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-tab.js', array('scope' => 'footer', 'weight' => 3));
-  drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-modal.js', array('scope' => 'footer', 'weight' => 4));
-  drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-carousel.js', array('scope' => 'footer', 'weight' => 5));
+  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap.min.js', array('scope' => 'footer', 'weight' => 1));
+  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-dropdown.js', array('scope' => 'footer', 'weight' => 2));
+  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-tab.js', array('scope' => 'footer', 'weight' => 3));
+  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-modal.js', array('scope' => 'footer', 'weight' => 4));
+  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-carousel.js', array('scope' => 'footer', 'weight' => 5));
   
   // Add image gallery
-  drupal_add_css(path_to_theme() . '/bootstrap/image-gallery/css/bootstrap-image-gallery.min.css', array('group' => CSS_THEME));
-  drupal_add_js(path_to_theme() . '/bootstrap/image-gallery/js/load-image.min.js', array('scope' => 'footer', 'weight' => 10));
-  drupal_add_js(path_to_theme() . '/bootstrap/image-gallery/js/bootstrap-image-gallery.min.js', array('scope' => 'footer', 'weight' => 11));
+  //drupal_add_css(path_to_theme() . '/bootstrap/image-gallery/css/bootstrap-image-gallery.min.css', array('group' => CSS_THEME));
+  //drupal_add_js(path_to_theme() . '/bootstrap/image-gallery/js/load-image.min.js', array('scope' => 'footer', 'weight' => 10));
+  //drupal_add_js(path_to_theme() . '/bootstrap/image-gallery/js/bootstrap-image-gallery.min.js', array('scope' => 'footer', 'weight' => 11));
 
   // Add EC stylesheets
   drupal_add_css(path_to_theme() . '/wel/template-2012/stylesheets/ec.css', array('group' => CSS_THEME));
@@ -660,7 +660,7 @@ function ec_default_media_gallery_teaser($variables) {
     $output .= theme('media_gallery_meta', $meta_vars);
   }
   $output .= "<div id ='gallery_info'>";
-  $output .= "<h4>" .$node->title . "</h4>";
+  $output .= "<h3>" .$node->title . "</h3>";
   $output .= (strlen($node->media_gallery_description['und'][0]['value'])>150)
   ?trim(substr($node->media_gallery_description['und'][0]['value'],0,150)). '...<br />'
   :trim($node->media_gallery_description['und'][0]['value']). '<br />';

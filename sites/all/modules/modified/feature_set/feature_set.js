@@ -33,7 +33,7 @@ jQuery(function($){
     });
 
     //Manage click on a row
-    $('#feature-set-admin-form').on('click', 'tr', function() {
+    $('#feature-set-admin-form tr').click(function() {
       $(this)
         .not('.form-disabled')
           .find('.switch')
