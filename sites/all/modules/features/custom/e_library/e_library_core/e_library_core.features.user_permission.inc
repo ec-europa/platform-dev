@@ -62,7 +62,10 @@ function e_library_core_user_default_permissions() {
     'administer modules',
   ));  
 
-
+  user_role_revoke_permissions($adm_rid, array(
+    'administer modules',
+    'administer features',	
+  )); 
 
   return $permissions;
 }

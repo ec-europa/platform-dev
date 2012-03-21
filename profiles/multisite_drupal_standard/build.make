@@ -33,7 +33,7 @@ projects[entity][subdir] = "contributed"
 projects[entity][version] = "1.0-rc1"
 
 projects[features][subdir] = "contributed"
-projects[features][version] = "1.0-beta6"
+projects[features][version] = "1.0-rc1"
 
 projects[media][subdir] = "contributed"
 projects[media][version] = "1.0-rc3"
