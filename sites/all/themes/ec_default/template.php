@@ -275,10 +275,9 @@ function ec_default_process_maintenance_page(&$variables) {
  * Override or insert variables into the template.
  */
 function ec_default_preprocess(&$variables) {
-  global $page;
 
   $variables['no_left'] = FALSE;
-  if (arg(0) == 'admin' || !$page['sidebar_first']) {
+  if (arg(0) == 'admin' || !isset($variables['page']['sidebar_first']) || !$variables['page']['sidebar_first']) {
     $variables['no_left'] = TRUE;
   }  
 }
@@ -340,18 +339,6 @@ function ec_default_field__taxonomy_term_reference($variables) {
 function ec_default_menu_local_tasks(&$variables) {
   $output = '';
 
-  /*if (!empty($variables['primary'])) {
-    $variables['primary']['#prefix'] = '<h2 class="element-invisible">' . t('Primary tabs') . '</h2>';
-    $variables['primary']['#prefix'] .= '<ul class="nav nav-tabs">';
-    $variables['primary']['#suffix'] = '</ul>';
-    $output .= drupal_render($variables['primary']);
-  }
-  if (!empty($variables['secondary'])) {
-    $variables['secondary']['#prefix'] = '<h2 class="element-invisible">' . t('Secondary tabs') . '</h2>';
-    $variables['secondary']['#prefix'] .= '<div class="subnav"><ul class="nav nav-pills">';
-    $variables['secondary']['#suffix'] = '</ul></div>';
-    $output .= drupal_render($variables['secondary']);
-  }*/
   if (!empty($variables['primary'])) {
     $variables['primary']['#prefix'] = '<h2 class="element-invisible">' . t('Primary tabs') . '</h2>';
     $variables['primary']['#prefix'] .= '<div class="subnav"><ul class="nav nav-pills">';
