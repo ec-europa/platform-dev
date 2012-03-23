@@ -221,3 +221,7 @@ global $base_url;
   <div class="layout-footer"> <?php print t('Last update:') . ' ' . date('d/m/Y');?> | <a href="#top-page">Top</a>
   </div><!-- /.layout-footer -->
 </div><!-- /#layout -->
+
+<script type="text/javascript">
+  var templatePath = "<?php print $base_url . '/' . path_to_theme(); ?>";
+</script>
