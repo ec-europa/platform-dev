@@ -1192,10 +1192,12 @@ div.workbench-info-block {
     top: 200px;
   }
   fieldset {
+    border-color: transparent;
     margin-right: 5px;
     margin-left: 5px;
     padding-left: 0;
     padding-right: 0;
+    .box-shadow(none);
     #gallery_info {
       padding: 0 13px;
       h3 {
@@ -1209,6 +1211,10 @@ div.workbench-info-block {
         text-align: right;
       }
     }  
+    &:hover {
+      border-color: #ccc;
+      .box-shadow(0 1px 5px rgba(0, 0, 0, 0.08) inset);
+    }
   }
 }
 

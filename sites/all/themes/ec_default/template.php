@@ -2,6 +2,21 @@
 // $Id: template.php,v 1.13 2010/12/14 01:04:27 dries Exp $
 
 /**
+ * Override or insert variables into the template.
+ */
+function ec_default_preprocess(&$variables) {
+  
+  //select template
+  $variables['template'] = 'ec'; //'ec' or 'europa'
+  
+  // display left sidebar, or not
+  $variables['no_left'] = FALSE;
+  if (arg(0) == 'admin' || !isset($variables['page']['sidebar_first']) || !$variables['page']['sidebar_first']) {
+    $variables['no_left'] = TRUE;
+  }    
+}
+
+/**
  * Add body classes if certain regions have content.
  */
 function ec_default_preprocess_html(&$variables) {
@@ -84,9 +99,23 @@ function ec_default_preprocess_html(&$variables) {
   //drupal_add_js(path_to_theme() . '/bootstrap/image-gallery/js/bootstrap-image-gallery.min.js', array('scope' => 'footer', 'weight' => 11));
 
   // Add EC stylesheets
-  drupal_add_css(path_to_theme() . '/wel/template-2012/stylesheets/ec.css', array('group' => CSS_THEME));
-  drupal_add_css(path_to_theme() . '/wel/template-2012/stylesheets/ec-ie.css', array('group' => CSS_THEME, 'browsers' => array('!IE' => FALSE)));
-
+  switch ($variables['template']) {
+    case 'ec':
+      drupal_add_css(path_to_theme() . '/wel/template-2012/stylesheets/ec.css', array('group' => CSS_THEME));
+      drupal_add_css(path_to_theme() . '/wel/template-2012/stylesheets/ec-ie.css', array('group' => CSS_THEME, 'browsers' => array('!IE' => FALSE)));
+      drupal_add_css(path_to_theme() . '/css/hack-ec.less', array('group' => CSS_THEME));
+      break;
+    
+    case 'europa':
+      drupal_add_css(path_to_theme() . '/wel/template-2011/stylesheets/europa.css', array('group' => CSS_THEME));
+      drupal_add_css(path_to_theme() . '/wel/template-2011/stylesheets/europa-ie.css', array('group' => CSS_THEME, 'browsers' => array('!IE' => FALSE)));
+      drupal_add_css(path_to_theme() . '/css/hack-europa.less', array('group' => CSS_THEME));
+      break;
+      
+    default:
+      break;
+  }
+  
   // Add Less stylesheets
   drupal_add_css(path_to_theme() . '/css/ec_default.less', array('group' => CSS_THEME));
   
@@ -269,17 +298,6 @@ function ec_default_process_maintenance_page(&$variables) {
     // If toggle_site_slogan is FALSE, the site_slogan will be empty, so we rebuild it.
     $variables['site_slogan'] = filter_xss_admin(variable_get('site_slogan', ''));
   }
-}
-
-/**
- * Override or insert variables into the template.
- */
-function ec_default_preprocess(&$variables) {
-
-  $variables['no_left'] = FALSE;
-  if (arg(0) == 'admin' || !isset($variables['page']['sidebar_first']) || !$variables['page']['sidebar_first']) {
-    $variables['no_left'] = TRUE;
-  }  
 }
 
 /**
