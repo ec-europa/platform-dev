@@ -159,6 +159,8 @@ drush cc all
 drush php-eval 'node_access_rebuild();'
 #inject data
 drush scr "${working_dir}/profiles/${install_profile}/inject_data.php"
+#solr indexation
+drush solr-index
 
 mkdir "${working_dir}/sites/default/files/private_files"
 chmod -R 777 "${working_dir}/sites/default/files"
@@ -177,8 +179,8 @@ cd "${working_dir}/sites/all"
 #mkdir libraries
 cd "${working_dir}/sites/all/libraries"
 wget -P "${working_dir}/sites/all/libraries/" http://sourceforge.net/projects/tcpdf/files/latest/download
-unzip "tcpdf_5_9_150.zip"
-rm "${working_dir}/sites/all/libraries/tcpdf_5_9_150.zip"
+unzip "tcpdf_5_9_151.zip"
+rm "${working_dir}/sites/all/libraries/tcpdf_5_9_151.zip"
 
 
 if [ -d "${webroot}/${site_name}" ] ; then

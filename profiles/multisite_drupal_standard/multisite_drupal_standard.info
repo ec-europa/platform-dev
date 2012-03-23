@@ -32,6 +32,7 @@ dependencies[] = ctools
 dependencies[] = token
 dependencies[] = apachesolr
 dependencies[] = apachesolr_search
+dependencies[] = facetapi
 ;dependencies[] = apachesolr_attachments
 dependencies[] = contact
 dependencies[] = context
@@ -78,6 +79,7 @@ dependencies[] = multisite_drupal_features_set_standard
 ;features
 dependencies[] = content_examples
 dependencies[] = cce_basic_config
+dependencies[] = solr_config
 dependencies[] = multisite_standard
 
 files[] = multisite_drupal_standard.profile

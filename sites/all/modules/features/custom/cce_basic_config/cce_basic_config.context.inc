@@ -55,5 +55,28 @@ function cce_basic_config_context_default_contexts() {
   t('site wide');
   $export['site_wide'] = $context;
 
+  $context = new stdClass;
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'search';
+  $context->description = 'context for search pages';
+  $context->tag = 'search';
+  $context->conditions = array(
+    'path' => array(
+      'values' => array(
+        'search/*' => 'search/*',
+      ),
+    ),
+  );
+  $context->reactions = array();
+  $context->condition_mode = 0;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('context for search pages');
+  t('search');
+  $export['search'] = $context;
+  
+  
   return $export;
 }
