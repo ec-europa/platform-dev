@@ -31,7 +31,9 @@ dependencies[] = captcha
 dependencies[] = entity
 dependencies[] = ctools
 dependencies[] = token
-;dependencies[] = apachesolr
+dependencies[] = apachesolr
+dependencies[] = apachesolr_search
+
 ;dependencies[] = apachesolr_attachments
 dependencies[] = contact
 dependencies[] = context

@@ -148,6 +148,12 @@ done
 #install and configure the drupal instance
 drush --php="/usr/bin/php" ${drush_options} si $install_profile --db-url=$db_url --account-name=$account_name --account-pass=$account_pass --site-name=${site_name} --site-mail=$site_mail  1>&2
 
+#solR config
+drush solr-set-env-url $solr_server_url
+drush sqlq "UPDATE apachesolr_environment SET name = '${solr_server_name}' WHERE env_id = 'solr'"
+drush sqlq "INSERT INTO apachesolr_index_bundles (env_id,entity_type,bundle) VALUES ('solr','node','page')"
+drush sqlq "INSERT INTO apachesolr_index_bundles (env_id,entity_type,bundle) VALUES ('solr','node','article')"
+
 #flush cache and rebuild access
 drush cc all
 drush php-eval 'node_access_rebuild();'

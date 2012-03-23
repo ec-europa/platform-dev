@@ -14,3 +14,6 @@ baseurl='www.site.com'
 verbose=0
 force=0
 install_profile='multisite_drupal_core'
+solr_server_url='http://biguonia.cc.cec.eu.int:8080/solr/multisite_dev'
+solr_server_name='multisite solr server'
+

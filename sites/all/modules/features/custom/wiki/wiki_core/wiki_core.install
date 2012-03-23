@@ -5,6 +5,9 @@
 * hook_enable
 */
 function wiki_core_enable() {
+  // solR configuration add bundle
+  config_solr_bundle('wiki','add');
+	
   // add wiki content type to newsletters related contents
   add_content_type_newsletters('wiki'); 
 }
@@ -14,6 +17,9 @@ function wiki_core_enable() {
  * Hook disable 
  */
 function wiki_core_disable(){
+  // solR configuration add bundle
+  config_solr_bundle('wiki','delete');
+	
   /*** Remove permissions ***/
   _disable_content_type('wiki');
   

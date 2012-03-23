@@ -287,6 +287,23 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
   }
 }
 
+/*
+* Solr config bundle
+*/
+function config_solr_bundle($bundle, $op) {
+  switch($op) {
+    case 'add':
+      db_insert('apachesolr_index_bundles')->fields(array(
+        'env_id' => 'solr',
+        'entity_type' => 'node',
+        'bundle' => $bundle,
+      ))->execute();		
+	  break;
+	case 'delete':
+	  db_delete('apachesolr_index_bundles')->condition('bundle', $bundle)->execute();
+	  break;
+  }	
+}
 
 
 

@@ -36,7 +36,7 @@ projects[features][subdir] = "contributed"
 projects[features][version] = "1.0-rc1"
 
 projects[media][subdir] = "contributed"
-projects[media][version] = "1.0-rc3"
+projects[media][version] = "2.x-dev"
 
 projects[fivestar][subdir] = "contributed"
 projects[fivestar][version] = "2.0-alpha1"
@@ -155,6 +155,12 @@ projects[media_gallery][version] = "1.0-beta7"
 projects[multiform][subdir] = "contributed"
 projects[multiform][version] = "1.0"
 
+projects[apachesolr][subdir] = "contributed"
+projects[apachesolr][version] = "1.x-dev"
+
+projects[file_entity][subdir] = "contributed"
+projects[file_entity][version] = "2.x-dev"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"
@@ -162,4 +168,5 @@ projects[multiform][version] = "1.0"
 ;libraries[ckeditor][directory_name] = "ckeditor"
 ;libraries[ckeditor][destination] = "libraries"
 ;libraries[ckeditor][overwrite] = TRUE
+
 

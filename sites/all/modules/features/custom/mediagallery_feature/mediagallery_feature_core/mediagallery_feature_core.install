@@ -1,0 +1,44 @@
+<?php
+/**
+ * @file
+ * Install the feature mediagallery_feature
+ */
+
+/**
+ * hook_install
+ */
+function mediagallery_feature_core_install() {
+  //Nothing yet
+}
+
+/**
+ * hook_uninstall
+ */
+function mediagallery_feature_core_uninstall() {
+  //Nothing yet
+}
+
+/*
+ * hook_enable 
+ */
+function mediagallery_feature_core_enable(){
+  // solR configuration add bundle
+  config_solr_bundle('media_gallery','add');
+	
+  $query = "UPDATE `field_revision_media_gallery_image_info_where` SET `media_gallery_image_info_where_value` = 'nothing' WHERE `field_revision_media_gallery_image_info_where`.`entity_type` = 'taxonomy_term'";
+  db_query($query);
+  drupal_set_message('Media Gallery feature is now active on your site.');
+  
+}
+
+
+/*
+ * hook_disable 
+ * Remove permissions
+ */
+function mediagallery_feature_core_disable(){   
+  // solR configuration add bundle
+  config_solr_bundle('media_gallery','delete');
+	
+  drupal_set_message('Media Gallery feature is now disabled on your site.');
+}

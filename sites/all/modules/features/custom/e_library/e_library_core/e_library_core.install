@@ -7,14 +7,14 @@
 /**
  * hook_install
  */
-function e_library_install() {
+function e_library_core_install() {
   //Nothing yet
 }
 
 /**
  * hook_uninstall
  */
-function e_library_uninstall() {
+function e_library_core_uninstall() {
   //Nothing yet
 }
 
@@ -22,17 +22,24 @@ function e_library_uninstall() {
 /**
 * Add block to the context
 */
-function e_library_enable(){
-	//Activation message
-	drupal_set_message('E-library feature is now active on your site.');
+function e_library_core_enable(){
+  // solR configuration add bundle
+  config_solr_bundle('document','add');	
+  
+  //Activation message
+  drupal_set_message('E-library feature is now active on your site.');
 }
 
 
 /**
 * Remove block from the context
 */
-function e_library_disable(){
-	_disable_content_type('document');
-	//Activation message
-	drupal_set_message('E-library feature is now disabled on your site.');
+function e_library_core_disable(){
+  // solR configuration add bundle
+  config_solr_bundle('document','delete');	
+	
+  _disable_content_type('document');
+  
+  //Activation message
+  drupal_set_message('E-library feature is now disabled on your site.');
 }

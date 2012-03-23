@@ -19,11 +19,23 @@ function news_core_uninstall() {
 }
 
 /*
+ * hook_enable 
+ */
+function news_core_enable() {
+  // solR configuration add bundle
+  config_solr_bundle('news','add');
+}
+
+
+/*
  * hook_disable 
  * Edit communities context to remove block
  * Remove permissions
  */
 function news_core_disable(){
+  // solR configuration add bundle
+  config_solr_bundle('news','delete');
+	
   module_disable(array('news_content_default'));
  
   /*** Remove permissions ***/
