@@ -72,6 +72,7 @@ dependencies[] = print
 dependencies[] = print_pdf
 ;dependencies[] = features_override
 ;dependencies[] = jquery_update
+dependencies[] = mediafield
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set
