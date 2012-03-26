@@ -596,6 +596,10 @@ function class_replace($match) {
       return '<i class="icon-question-sign"></i>';
     break;
     
+    case "Galleries":
+     return '<i class="icon-film"></i>';
+    break;
+    
     default:
     break;
   }
