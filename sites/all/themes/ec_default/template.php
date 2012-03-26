@@ -596,7 +596,7 @@ function class_replace($match) {
       return '<i class="icon-question-sign"></i>';
     break;
     
-    case "Galleries":
+    case "Gallery":
      return '<i class="icon-film"></i>';
     break;
     
