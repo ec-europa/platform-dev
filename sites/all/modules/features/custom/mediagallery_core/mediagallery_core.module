@@ -5,23 +5,3 @@
  */
 
 include_once 'mediagallery_core.features.inc';
-
-function mediagallery_core_enable() {
-
-  variable_set('enable_revisions_page_media_gallery', 1);
-  
-  
-  $value = array(
-    0 => 'moderation',
-    1 => 'revision',
-  );
-  variable_set('node_options_media_gallery', $value);
-
-  variable_set('node_preview_media_gallery', 1);
-  
-  variable_set('node_submitted_media_gallery', 0);
-  
-  variable_set('workbench_moderation_default_state_media_gallery', 'draft');
-
-
-}
