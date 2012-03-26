@@ -5,3 +5,4 @@
  */
 
 include_once 'mediagallery_core.features.inc';
+include_once 'mediagallery_core.views_alter.inc';

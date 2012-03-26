@@ -9,7 +9,7 @@ function mediagallery_core_views_default_views_alter(&$views) {
     $view=$views['multisite_standard'];
 	
     /* Display: Latest content block */
-    $handler = $view->display['block']->handler;
+    $handler = $view->display['block_latest']->handler;
 
     /* Field: Content: Description */
     $handler->display->display_options['fields']['media_gallery_description']['id'] = 'media_gallery_description';
