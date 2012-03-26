@@ -36,7 +36,7 @@ projects[features][subdir] = "contributed"
 projects[features][version] = "1.0-rc1"
 
 projects[media][subdir] = "contributed"
-projects[media][version] = "2.x-dev"
+projects[media][version] = "1.0"
 
 projects[fivestar][subdir] = "contributed"
 projects[fivestar][version] = "2.0-alpha1"
