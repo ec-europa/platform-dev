@@ -85,6 +85,6 @@ feature_sets[e_library][disable][] = e_library
 
 feature_sets[mediagallery_core][title] = 'Media Galleries'
 feature_sets[mediagallery_core][description] = 'Add Picture and Video galleries on your site.'
-feature_sets[mediagallery_core][icon] = 'feature-set-icons/faq.png'
+feature_sets[mediagallery_core][icon] = 'feature-set-icons/mediagallery.png'
 feature_sets[mediagallery_core][enable][] = mediagallery_core
 feature_sets[mediagallery_core][disable][] = mediagallery_core
