@@ -33,9 +33,10 @@ dependencies[] = ctools
 dependencies[] = token
 dependencies[] = apachesolr
 dependencies[] = apachesolr_search
+dependencies[] = apachesolr_multisitesearch
+;dependencies[] = apachesolr_attachments
 dependencies[] = facetapi
 
-;dependencies[] = apachesolr_attachments
 dependencies[] = contact
 dependencies[] = context
 dependencies[] = context_ui
