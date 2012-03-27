@@ -126,8 +126,9 @@ function ec_default_preprocess_html(&$variables) {
 
   // Add javascripts
 	drupal_add_js(path_to_theme() . '/wel/template-2012/scripts/ec.js', array('scope' => 'footer', 'weight' => 12));
-	drupal_add_js(path_to_theme() . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 13));
-  drupal_add_js(path_to_theme() . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 14));  
+	drupal_add_js(path_to_theme() . '/scripts/roundabout/jquery.roundabout.min.js', array('scope' => 'footer', 'weight' => 13));
+	drupal_add_js(path_to_theme() . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 14));
+  drupal_add_js(path_to_theme() . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 15));  
 
 }
 
