@@ -38,7 +38,7 @@ function mediagallery_core_views_default_views_alter(&$views) {
     $handler->display->display_options['defaults']['filters'] = FALSE;
 
     /* Display: Latest Media block */
-    $handler = $view->new_display('block', 'Latest Media block', 'block_latest_media');
+    $handler = $view->new_display('block', 'Latest Media block', 'medias_block');
     $handler->display->display_options['defaults']['title'] = FALSE;
     $handler->display->display_options['defaults']['pager'] = FALSE;
     $handler->display->display_options['pager']['type'] = 'some';
