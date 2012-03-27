@@ -36,8 +36,11 @@ function mediagallery_core_enable(){
   
   variable_set('node_submitted_media_gallery', 0);
   
-  variable_set('workbench_moderation_default_state_media_gallery', 'draft');
-
+  variable_set('workbench_moderation_default_state_media_gallery', 'draft');  
+  
+  //Add block in context
+  _add_block_context('homepage','multisite_standard-medias_block','views','multisite_standard-medias_block', 'content_top');
+  
   drupal_set_message('MediaGallery feature is now active on your site.');
   
 }

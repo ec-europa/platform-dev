@@ -161,6 +161,3 @@ function mediagallery_core_views_default_views_alter(&$views) {
   
   }
 }
-
-   //Add block in context
-  _add_block_context('homepage','multisite_standard-medias_block','views','multisite_standard-medias_block', 'content_top');
