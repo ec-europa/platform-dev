@@ -36,13 +36,10 @@ function mediagallery_core_views_default_views_alter(&$views) {
     $handler->display->display_options['fields']['media_gallery_description']['hide_alter_empty'] = 1;
     $handler->display->display_options['fields']['media_gallery_description']['field_api_classes'] = 0;
     $handler->display->display_options['defaults']['filters'] = FALSE;
-    
 
     /* Display: Latest Media block */
-    $handler = $view->new_display('block', 'Latest Media block', 'medias_block');
+    $handler = $view->new_display('block', 'Latest Media block', 'block_latest_media');
     $handler->display->display_options['defaults']['title'] = FALSE;
-    $handler->display->display_options['defaults']['use_more'] = FALSE;
-    $handler->display->display_options['use_more'] = TRUE;
     $handler->display->display_options['defaults']['pager'] = FALSE;
     $handler->display->display_options['pager']['type'] = 'some';
     $handler->display->display_options['pager']['options']['items_per_page'] = '10';
@@ -89,6 +86,8 @@ function mediagallery_core_views_default_views_alter(&$views) {
     $handler->display->display_options['fields']['title']['label'] = '';
     $handler->display->display_options['fields']['title']['exclude'] = TRUE;
     $handler->display->display_options['fields']['title']['alter']['alter_text'] = 0;
+    $handler->display->display_options['fields']['title']['alter']['text'] = '[media_gallery_media]
+    [title]';
     $handler->display->display_options['fields']['title']['alter']['make_link'] = 0;
     $handler->display->display_options['fields']['title']['alter']['absolute'] = 0;
     $handler->display->display_options['fields']['title']['alter']['external'] = 0;
@@ -112,8 +111,8 @@ function mediagallery_core_views_default_views_alter(&$views) {
     $handler->display->display_options['fields']['media_gallery_media']['field'] = 'media_gallery_media';
     $handler->display->display_options['fields']['media_gallery_media']['label'] = '';
     $handler->display->display_options['fields']['media_gallery_media']['alter']['alter_text'] = 1;
-    $handler->display->display_options['fields']['media_gallery_media']['alter']['text'] = '[media_gallery_media-title][title]';
-    $handler->display->display_options['fields']['media_gallery_media']['alter']['make_link'] = 0;
+    $handler->display->display_options['fields']['media_gallery_media']['alter']['text'] = '[media_gallery_media][title]';
+    $handler->display->display_options['fields']['media_gallery_media']['alter']['make_link'] = 1;
     $handler->display->display_options['fields']['media_gallery_media']['alter']['path'] = 'node/[nid]';
     $handler->display->display_options['fields']['media_gallery_media']['alter']['absolute'] = 0;
     $handler->display->display_options['fields']['media_gallery_media']['alter']['external'] = 0;
@@ -142,6 +141,7 @@ function mediagallery_core_views_default_views_alter(&$views) {
     $handler->display->display_options['fields']['media_gallery_media']['delta_offset'] = '0';
     $handler->display->display_options['fields']['media_gallery_media']['delta_reversed'] = 1;
     $handler->display->display_options['fields']['media_gallery_media']['delta_first_last'] = 0;
+    $handler->display->display_options['fields']['media_gallery_media']['separator'] = '';
     $handler->display->display_options['fields']['media_gallery_media']['field_api_classes'] = 0;
     $handler->display->display_options['defaults']['filters'] = FALSE;
     /* Filter criterion: Content: Published */
