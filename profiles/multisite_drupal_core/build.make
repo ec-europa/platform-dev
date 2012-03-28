@@ -164,6 +164,7 @@ projects[file_entity][version] = "2.x-dev"
 projects[facetapi][subdir] = "contributed"
 projects[facetapi][version] = "1.0-rc4"
 
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"

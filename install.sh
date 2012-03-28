@@ -179,8 +179,8 @@ cd "${working_dir}/sites/all"
 #mkdir libraries
 cd "${working_dir}/sites/all/libraries"
 wget -P "${working_dir}/sites/all/libraries/" http://sourceforge.net/projects/tcpdf/files/latest/download
-unzip "tcpdf_5_9_151.zip"
-rm "${working_dir}/sites/all/libraries/tcpdf_5_9_151.zip"
+unzip "tcpdf_5_9_152.zip"
+rm "${working_dir}/sites/all/libraries/tcpdf_5_9_152.zip"
 
 
 if [ -d "${webroot}/${site_name}" ] ; then
