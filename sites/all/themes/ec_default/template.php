@@ -91,7 +91,8 @@ function ec_default_preprocess_html(&$variables) {
   //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-dropdown.js', array('scope' => 'footer', 'weight' => 2));
   //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-tab.js', array('scope' => 'footer', 'weight' => 3));
   //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-modal.js', array('scope' => 'footer', 'weight' => 4));
-  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-carousel.js', array('scope' => 'footer', 'weight' => 5));
+  drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-transition.js', array('scope' => 'footer', 'weight' => 4));
+  drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-carousel.js', array('scope' => 'footer', 'weight' => 5));
   
   // Add image gallery
   //drupal_add_css(path_to_theme() . '/bootstrap/image-gallery/css/bootstrap-image-gallery.min.css', array('group' => CSS_THEME));
@@ -126,7 +127,6 @@ function ec_default_preprocess_html(&$variables) {
 
   // Add javascripts
 	drupal_add_js(path_to_theme() . '/wel/template-2012/scripts/ec.js', array('scope' => 'footer', 'weight' => 12));
-	drupal_add_js(path_to_theme() . '/scripts/roundabout/jquery.roundabout.min.js', array('scope' => 'footer', 'weight' => 13));
 	drupal_add_js(path_to_theme() . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 14));
   drupal_add_js(path_to_theme() . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 15));  
 

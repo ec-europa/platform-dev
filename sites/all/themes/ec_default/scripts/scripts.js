@@ -66,19 +66,9 @@ jQuery(function($){
     /* /News slider */
 		
     /* Gallery carrousel */
-    if ($('ul.carrousel').length != 0) {
-      $('ul.carrousel').roundabout({
-        btnNext: $('#next'),
-        btnPrev: $('#previous'),
-        /*btnToggleAutoplay: $('#play'),*/
-        minOpacity: 0.05,
-        autoplay: true,
-        autoplayDuration: 5000,
-        autoplayPauseOnHover: true,
-        responsive: true,
-        minScale: 0.1
-      });
-    }
+    $('.carousel').carousel({
+    interval: 5000
+    });
     /* /Gallery carrousel */
 	});
 

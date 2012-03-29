@@ -30,8 +30,8 @@
     this.options = $.extend({}, $.fn.carousel.defaults, options)
     this.options.slide && this.slide(this.options.slide)
     this.options.pause == 'hover' && this.$element
-      .mouseenter($.proxy(this.pause, this))
-      .mouseleave($.proxy(this.cycle, this))
+      .on('mouseenter', $.proxy(this.pause, this))
+      .on('mouseleave', $.proxy(this.cycle, this))
   }
 
   Carousel.prototype = {
@@ -149,7 +149,7 @@
   * ================= */
 
   $(function () {
-    $('body .carousel .carousel-control').click('[data-slide]', function ( e ) {
+    $('body').on('click.carousel.data-api', '[data-slide]', function ( e ) {
       var $this = $(this), href
         , $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
         , options = !$target.data('modal') && $.extend({}, $target.data(), $this.data())
