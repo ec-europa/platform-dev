@@ -259,9 +259,76 @@ function ec_default_page_alter($page) {
       'content' =>  date('d/m/Y')   
     )
   );
+  drupal_add_html_head( $meta_date, 'meta_date' );     
   
+  //og title
+  $meta_og_title = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'property' => 'og:title',
+      'content' =>  variable_get('site_name') . ' - ' . t('European Commission')
+    )
+  );
+  drupal_add_html_head( $meta_og_title, 'meta_og_title' ); 
+
+  //og type
+  $meta_og_type = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'property' => 'og:type',
+      'content' =>  'article'
+    )
+  );
+  drupal_add_html_head( $meta_og_type, 'meta_og_type' );
+  
+  //og site name
+  $meta_og_site_name = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'property' => 'og:site_name',
+      'content' =>  variable_get('site_name')
+    )
+  );
+  drupal_add_html_head( $meta_og_site_name, 'meta_og_site_name' );
+  
+  //fb admins
+  $meta_fb_admins = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'property' => 'fb:admins',
+      'content' =>  'USER_ID'
+    )
+  );
+  drupal_add_html_head( $meta_fb_admins, 'meta_fb_admins' );  
+  
+  //robots
+  $meta_robots = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'property' => 'robots',
+      'content' =>  'follow,index'
+    )
+  );
+  drupal_add_html_head( $meta_robots, 'meta_robots' );  
+  
+  //revisit after
+  $revisit_after = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'property' => 'revisit-after',
+      'content' =>  '15 Days'
+    )
+  );
+  drupal_add_html_head( $revisit_after, 'revisit-after' );  
+
   //compatibility
-  /*$meta_date = array(
+  /*$meta_comp = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
@@ -269,8 +336,6 @@ function ec_default_page_alter($page) {
       'content' =>  'IE=edge'    
     )
   );*/
-
-  drupal_add_html_head( $meta_date, 'meta_date' );   
 }
 
 /**
