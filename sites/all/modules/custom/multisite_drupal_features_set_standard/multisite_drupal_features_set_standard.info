@@ -93,3 +93,9 @@ feature_sets[mediagallery_core][icon] = 'feature-set-icons/mediagallery.png'
 feature_sets[mediagallery_core][enable][] = mediagallery_core
 feature_sets[mediagallery_core][disable][] = mediagallery_core
 
+feature_sets[notification][title] = 'Notifications'
+feature_sets[notification][description] = 'Provide the possibility to subscribe to contents and receive notifications.'
+feature_sets[notification][icon] = 'feature-set-icons/notification.png'
+feature_sets[notification][enable][] = notification
+feature_sets[notification][disable][] = notification
+

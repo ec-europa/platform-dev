@@ -28,20 +28,3 @@ function idea_standard_views_api() {
   }
 }
 
-/**
- * Implements hook_node_info().
- */
-function idea_standard_node_info() {
-  $items = array(
-    'wiki' => array(
-      'name' => t('Idea'),
-      'base' => 'node_content',
-      'description' => t('content for the idea feature'),
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-  );
-  return $items;
-}
-

@@ -174,6 +174,12 @@ projects[file_entity][version] = "2.x-dev"
 projects[facetapi][subdir] = "contributed"
 projects[facetapi][version] = "1.0-rc4"
 
+projects[notifications][subdir] = "contributed"
+projects[notifications][version] = "1.0-alpha2"
+
+projects[messaging][subdir] = "contributed"
+projects[messaging][version] = "1.0-alpha2"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"
