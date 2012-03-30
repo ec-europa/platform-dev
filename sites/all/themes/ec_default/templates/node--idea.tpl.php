@@ -84,7 +84,7 @@
   $fields = array(
     'picture' => array(),
     'body'  => array('body'),
-    'hide'  => array('comments', 'links', 'field_watching', 'field_rating'),
+    'hide'  => array('comments', 'links', 'field_watching', 'field_rating', 'print_links'),
     'group' => array('group_audience', 'group_content_access')
   );      
   

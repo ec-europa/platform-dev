@@ -64,20 +64,16 @@
  *   comment/reply/12345).
  *
  * Regions:
- * - $page['header']: Items for the header region.
- * - $page['featured']: Items for the featured region.
- * - $page['highlighted']: Items for the highlighted content region.
- * - $page['help']: Dynamic help text, mostly for admin pages.
+ * - $page['header']: Items for the header region (right side of banner)
+ * - $page['highlighted']: Items for the highlighted content region (language switcher)
+ * - $page['featured']: Items for the featured region (main menu, global information)
+ * - $page['help']: Dynamic help text, mostly for admin pages (between page title and content)
  * - $page['content']: The main content of the current page.
- * - $page['sidebar_first']: Items for the first sidebar.
- * - $page['triptych_first']: Items for the first triptych.
- * - $page['triptych_middle']: Items for the middle triptych.
- * - $page['triptych_last']: Items for the last triptych.
- * - $page['footer_firstcolumn']: Items for the first footer column.
- * - $page['footer_secondcolumn']: Items for the second footer column.
- * - $page['footer_thirdcolumn']: Items for the third footer column.
- * - $page['footer_fourthcolumn']: Items for the fourth footer column.
+ * - $page['sidebar_first']: Items for the sidebar first region (left sidebar)
+ * - $page['sidebar_second']: Items for the sidebar second region (right sidebar)
  * - $page['footer']: Items for the footer region.
+ * - $page['tools']: Items for the tools region (top right of page)
+ * - $page['tools_bottom']: Items for the bottom tools region (bottom right of page)
  *
  * @see template_preprocess()
  * @see template_preprocess_page()
@@ -92,7 +88,7 @@ global $base_url;
 
 <a id="top-page" name="top-page"></a>
 
-<div class="layout layout-noright<?php if (isset($variables['no_left']) && $variables['no_left']) print ' layout-noleft'; ?>" id="layout">
+<div class="layout <?php if (isset($variables['no_right']) && $variables['no_right']) print ' layout-noleft'; ?><?php if (isset($variables['no_left']) && $variables['no_left']) print ' layout-noleft'; ?>" id="layout">
   
   <div id="header">
 <?php 
@@ -102,7 +98,11 @@ global $base_url;
     <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2012/images/logo/logo_en.gif">
     
     <p id="banner-title-text"><?php print $site_name; ?></p>
-    <span class="title-en" id="banner-image-title"></span>    
+    <span class="title-en" id="banner-image-title"></span>  
+
+    <span id="banner-image-right">
+      <?php if ($page['header']): ?><?php print render($page['header']); ?><?php endif; ?>
+    </span>
 <?php    
       break;
       
@@ -117,6 +117,7 @@ global $base_url;
     </p>   
 
 		<div class="banner-right">
+      <?php if ($page['header']): ?><?php print render($page['header']); ?><?php endif; ?>
     </div>        
 <?php    
       break;
@@ -155,12 +156,13 @@ global $base_url;
   </div><!-- /#path -->
    
   <div class="layout-body">
+  
+    <?php if ($page['featured']): ?>
+      <?php print render($page['featured']); ?>
+    <?php endif; ?>	    
+    
     <div class="layout-wrapper">
       <div class="layout-wrapper-reset">
-      
-        <?php if ($page['featured']): ?>
-			<?php print render($page['featured']); ?>
-        <?php endif; ?>	    
 
       <?php if ($messages): ?>
         <div id="messages">
@@ -203,22 +205,31 @@ global $base_url;
               </ul>
             <?php endif; ?>
             
-            
-
             <?php print render($page['content']); ?>
             <?php print $feed_icons; ?>
+
+            <?php if ($page['tools_bottom']): ?>
+              <?php print render($page['tools_bottom']); ?>
+            <?php endif; ?>
 
           </div><!-- /.layout-content-reset -->
         </div><!-- /.layout-content -->
       </div><!-- /.layout-wrapper-reset -->
     </div><!-- /.layout-wrapper -->
-
+    
     <div class="layout-right">
-      <p>Right navigation</p>
+      <ul class="nav nav-list">
+      <?php if ($page['sidebar_second']): ?>
+        <?php print render($page['sidebar_second']); ?>
+      <?php endif; ?>
+      </ul>
     </div><!-- /.layout-right -->
-  </div><!-- /.layout-body -->
+        
+    </div><!-- /.layout-body -->
   
-  <div class="layout-footer"> <?php print t('Last update:') . ' ' . date('d/m/Y');?> | <a href="#top-page">Top</a>
+  <div class="layout-footer"> 
+  <?php if ($page['footer']): ?><?php print render($page['footer']); ?><?php endif; ?>
+  <?php print t('Last update:') . ' ' . date('d/m/Y');?> | <a href="#top-page">Top</a>
   </div><!-- /.layout-footer -->
 </div><!-- /#layout -->
 

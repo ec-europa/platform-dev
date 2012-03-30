@@ -126,6 +126,12 @@ body,
   text-align: right;
 }
 
+/* ---------------- Region tools bottom ----------------- */
+.region-tools-bottom {
+  display: block;
+  text-align: right;
+}
+
 /* ---------------- User menu  ----------------- */
 #block-system-user-menu {
   margin-bottom: 5px;

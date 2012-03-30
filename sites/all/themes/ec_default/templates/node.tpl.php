@@ -87,7 +87,7 @@
       $fields = array(
         'picture' => array(),
         'body'    => array(),
-        'hide'  => array('comments', 'links'),
+        'hide'  => array('comments', 'links', 'print_links'),
         'group' => array('group_audience', 'group_content_access')
       );        
       break;
@@ -96,7 +96,7 @@
       $fields = array(
         'picture' => array('field_news_picture'),
         'body'    => array('body'),
-        'hide'    => array('comments', 'links'),
+        'hide'    => array('comments', 'links', 'print_links'),
         'group'   => array('group_audience', 'group_content_access')
       );        
       break;
@@ -106,7 +106,7 @@
       $fields = array(
         'picture' => array('field_thumbnail'),
         'body'  => array('body'),
-        'hide'  => array('comments', 'links', 'field_thumbnail'),
+        'hide'  => array('comments', 'links', 'print_links', 'field_thumbnail'),
         'group' => array('group_group', 'group_access')
       );
       break;
@@ -115,7 +115,7 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hide'  => array('comments', 'links'),
+        'hide'  => array('comments', 'links', 'print_links'),
         'group' => array('group_audience', 'group_content_access')
       );        
       break;
