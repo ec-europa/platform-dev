@@ -11,13 +11,13 @@ function ec_default_preprocess(&$variables) {
   
   // display left sidebar, or not
   $variables['no_left'] = FALSE;
-  if (arg(0) == 'admin' || !isset($variables['page']['sidebar_first']) || !$variables['page']['sidebar_first']) {
+  if (!isset($variables['page']['sidebar_first']) || !$variables['page']['sidebar_first']) {
     $variables['no_left'] = TRUE;
   }    
   
   // display right sidebar, or not
   $variables['no_right'] = FALSE;
-  if (arg(0) == 'admin' || !isset($variables['page']['sidebar_second']) || !$variables['page']['sidebar_second']) {
+  if (!isset($variables['page']['sidebar_second']) || !$variables['page']['sidebar_second']) {
     $variables['no_right'] = TRUE;
   }     
 }
