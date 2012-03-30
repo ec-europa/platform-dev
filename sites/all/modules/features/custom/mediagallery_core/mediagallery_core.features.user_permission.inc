@@ -10,6 +10,15 @@
 function mediagallery_core_user_default_permissions() {
   $permissions = array();
 
+  // Exported permission: administer media galleries
+  $permissions['administer media galleries'] = array(
+    'name' => 'administer media galleries',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'media_gallery',
+  );
+
   // Exported permission: create media_gallery content
   $permissions['create media_gallery content'] = array(
     'name' => 'create media_gallery content',
@@ -56,6 +65,16 @@ function mediagallery_core_user_default_permissions() {
       1 => 'contributor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: import media
+  $permissions['import media'] = array(
+    'name' => 'import media',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+    ),
+    'module' => 'media',
   );
 
   return $permissions;
