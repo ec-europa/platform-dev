@@ -76,6 +76,18 @@ function mediagallery_core_user_default_permissions() {
     ),
     'module' => 'media',
   );
+  
+  // Exported permission: file_entity
+  $permissions['administer files'] = array(
+    'name' => 'administer files',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+    ),
+    'module' => 'file_entity',
+  );
+  
+  
 
   return $permissions;
 }
