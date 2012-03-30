@@ -1,0 +1,11 @@
+--- media_gallery.pages.inc	2012-03-29 08:35:19.000000000 +0200
++++ media_gallery.pages.inc.original	2012-03-28 17:22:38.000000000 +0200
+@@ -381,7 +381,7 @@
+   module_load_include('inc', 'media', 'includes/media.pages');
+ 
+   // Build and process the form.
+-  $form = media_file_page_edit_multiple($files);
++  $form = media_page_multiedit($files);
+ 
+   // Override the page title set by media_page_multiedit() and return the form.
+   drupal_set_title(t('<em>Edit media for</em> @title', array('@type' => $node->type, '@title' => $node->title)), PASS_THROUGH);
