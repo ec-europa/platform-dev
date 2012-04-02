@@ -70,6 +70,10 @@ jQuery(function($){
     interval: 5000
     });
     /* /Gallery carrousel */
+    
+    /* Menu dropdown */
+    $('.dropdown-toggle').dropdown();
+    /* /Menu dropdown */
 	});
 
 }); 

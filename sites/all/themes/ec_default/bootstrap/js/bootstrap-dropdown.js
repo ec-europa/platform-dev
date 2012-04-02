@@ -27,8 +27,11 @@
 
   var toggle = '[data-toggle="dropdown"]'
     , Dropdown = function ( element ) {
-        var $el = $(element).on('click.dropdown.data-api', this.toggle)
-        $('html').on('click.dropdown.data-api', function () {
+        //var $el = $(element).on('click.dropdown.data-api', this.toggle)
+        var $el = $(element).click(this.toggle);
+        
+        //$('html').on('click.dropdown.data-api', function () {
+        $('html .dropdown.data-api').click(function () {
           $el.parent().removeClass('open')
         })
       }
@@ -85,8 +88,10 @@
    * =================================== */
 
   $(function () {
-    $('html').on('click.dropdown.data-api', clearMenus)
-    $('body').on('click.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    //$('html').on('click.dropdown.data-api', clearMenus)
+    $('html .dropdown.data-api').click(clearMenus);
+    //$('body').on('click.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    $('body .dropdown.data-api').click(toggle, Dropdown.prototype.toggle);
   })
 
 }( window.jQuery );
