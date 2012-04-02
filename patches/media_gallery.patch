@@ -1,5 +1,5 @@
 --- media_gallery.pages.inc	2012-03-29 08:35:19.000000000 +0200
-+++ media_gallery.pages.inc.original	2012-03-28 17:22:38.000000000 +0200
++++ media_gallery.pages.inc	2012-03-28 17:22:38.000000000 +0200
 @@ -381,7 +381,7 @@
    module_load_include('inc', 'media', 'includes/media.pages');
  
