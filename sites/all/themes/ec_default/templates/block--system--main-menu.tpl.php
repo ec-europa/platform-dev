@@ -47,22 +47,19 @@
 
         <div id="main_menu" class="navbar">
           <div class="navbar-inner">
-            <div class="container" style="width: auto;">
-              <ul id="<?php print $block_html_id; ?>" class="nav nav-pills">
+            <div id="<?php print $block_html_id; ?>" class="container" style="width: auto;">
               <?php 
-                $menu = menu_navigation_links("main-menu");
+                /*$menu = menu_navigation_links("main-menu",5);
                 $items = "";
                 
                 foreach ($menu as $item_id) {
                   $items .= '<li>'.l($item_id['title'],$item_id['href']).'</li>';
                 }
                 
-                print $items;
-              ?>    
-              </ul>  
+                print $items;*/
+                
+              ?> 
+              <?php print_r($content) ?>   
             </div>
           </div>
-        </div>  
-
-
-
+        </div>

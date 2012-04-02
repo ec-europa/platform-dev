@@ -398,6 +398,59 @@ function ec_default_preprocess_block(&$variables) {
 function ec_default_menu_tree($variables) {
   return '<ul class="menu clearfix">' . $variables['tree'] . '</ul>';
 }
+function ec_default_menu_tree__main_menu($variables) {
+  if(strpos($variables['tree'], '<ul') === FALSE) {
+    return '<ul class="dropdown-menu">' . $variables['tree'] . '</ul>';
+  } else {
+    return '<ul class="nav nav-pills">' . $variables['tree'] . '</ul>';  
+  }
+}
+
+/**
+ * Implements theme_menu_link().
+ */
+function ec_default_menu_link(array $variables) {
+  $element = $variables['element'];
+  $sub_menu = '';
+
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+function ec_default_menu_link__main_menu(array $variables) {
+  $element = $variables['element'];
+  $sub_menu = '';
+  $name_id = strtolower(strip_tags($element['#title']));
+// remove colons and anything past colons
+  if (strpos($name_id, ':')) $name_id = substr ($name_id, 0, strpos($name_id, ':'));
+//Preserve alphanumerics, everything else goes away
+  $pattern = '/[^a-z]+/ ';
+  $name_id = preg_replace($pattern, '', $name_id);  
+
+  if (in_array('expanded',$element['#attributes']['class'])) {
+  //Menu item has sub-menu
+    $element['#attributes']['class'][] = 'dropdown';
+    $element['#attributes']['id'][] = $name_id;   
+    $element['#localized_options']['fragment'] = $name_id;
+    $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
+    $element['#localized_options']['attributes']['data-toggle'][] = 'dropdown';
+    
+    
+    $output = l($element['#title'], '', $element['#localized_options']);
+  } else {
+  //No sub-menu
+    $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  }
+  
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
 
 /**
  * Implements theme_field__field_type().
@@ -572,7 +625,7 @@ function ec_default_link( $variables ){
  * @param type $variables 
  */
 function ec_default_dropdown($variables) {
-   
+  
   $items = $variables['items'];
   $attributes = array();
 
