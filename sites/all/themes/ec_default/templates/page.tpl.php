@@ -88,7 +88,7 @@ global $base_url;
 
 <a id="top-page" name="top-page"></a>
 
-<div class="layout <?php if (isset($variables['no_right']) && $variables['no_right']) print ' layout-noleft'; ?><?php if (isset($variables['no_left']) && $variables['no_left']) print ' layout-noleft'; ?>" id="layout">
+<div class="layout <?php if (isset($variables['no_right']) && $variables['no_right']) print ' layout-noright'; ?><?php if (isset($variables['no_left']) && $variables['no_left']) print ' layout-noleft'; ?>" id="layout">
   
   <div id="header">
 <?php 
