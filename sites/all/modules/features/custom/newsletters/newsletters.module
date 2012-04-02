@@ -13,6 +13,8 @@ function newsletters_enable() {
   // add simplenews block to the site_wide context
   //_add_block_context('site_wide', '0', 'simplenews', '0', 'sidebar_first');
 	
+  module_enable(array("simplenews"));
+	
   // set by default newsletter format as HTML
   db_update('simplenews_category')
     ->fields(array('format' => 'html'))
