@@ -1,0 +1,20 @@
+Modify the module in order to add a new hook in the API (hook_workbench_moderation_transition)
+Index: includes/common.inc
+===================================================================
+--- includes/common.inc	2012-04-02 15:29:38.000000000 +0200
++++ includes.common.inc	2012-04-02 14:31:53.000000000 +0200
+@@ -6839,7 +6839,13 @@
+  */
+ function drupal_schema_fields_sql($table, $prefix = NULL) {
+   $schema = drupal_get_schema($table);
+-  $fields = array_keys($schema['fields']);
++
++  // multisite fix
++  if(is_array($schema['fields']))
++    $fields = array_keys($schema['fields']);
++  else
++    return array();
++
+   if ($prefix) {
+     $columns = array();
+     foreach ($fields as $field) {
