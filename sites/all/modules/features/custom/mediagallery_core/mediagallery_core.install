@@ -39,7 +39,9 @@ function mediagallery_core_enable(){
 
   variable_set('node_preview_media_gallery', 1);
   
-  variable_set('node_submitted_media_gallery', 0);
+  variable_set('node_submitted_media_gallery', 1);
+  
+  //variable_set('node_submitted_media_gallery', 0);
   
   variable_set('workbench_moderation_default_state_media_gallery', 'draft');  
   
