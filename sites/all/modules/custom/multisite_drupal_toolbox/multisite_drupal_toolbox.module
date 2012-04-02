@@ -313,7 +313,7 @@ function notification_content_type($content_type, $op) {
   switch($op) {
     case 'add':
 	  if(module_exists('notification')) {
-        $ct = variable_get("notifications_content_type");
+        $ct = variable_get("notifications_content_type", array());
         $ct += array($content_type => $content_type);
         variable_set("notifications_content_type", $ct);
       }
