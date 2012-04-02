@@ -1,5 +1,8 @@
---- media_gallery.pages.inc	2012-03-29 08:35:19.000000000 +0200
-+++ media_gallery.pages.inc	2012-03-28 17:22:38.000000000 +0200
+Modify the module to use og_context_determine_context to choose the current context and not only with og_get_context_by_url
+Index: sites/all/modules/contributed/og_create_perms/og_create_perms.module
+=======================================================================================================================================
+--- sites/all/modules/contributed/media_gallery/media_gallery.pages.inc	2012-03-29 08:35:19.000000000 +0200
++++ sites/all/modules/contributed/media_gallery/media_gallery.pages.inc	2012-03-28 17:22:38.000000000 +0200
 @@ -381,7 +381,7 @@
    module_load_include('inc', 'media', 'includes/media.pages');
  
