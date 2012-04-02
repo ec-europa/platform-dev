@@ -26,6 +26,9 @@ function links_core_enable(){
   // solR configuration add bundle
   config_solr_bundle('links','add');
 	
+  // add type to notification
+  notification_content_type('links','add');  
+  
   drupal_set_message('Links feature is now active on your site.');
 }
 
@@ -39,6 +42,9 @@ function links_core_disable(){
   // solR configuration add bundle
   config_solr_bundle('document','delete');
 
+  // remove type from notification
+  notification_content_type('links','delete');
+  
   /*** Remove permissions ***/
   _disable_content_type('links');
   

@@ -10,6 +10,9 @@ function wiki_core_enable() {
 	
   // add wiki content type to newsletters related contents
   add_content_type_newsletters('wiki'); 
+  
+  // add type to notification
+  notification_content_type('wiki','add');
 }
 
 
@@ -20,7 +23,9 @@ function wiki_core_disable(){
   // solR configuration add bundle
   config_solr_bundle('wiki','delete');
 	
-  /*** Remove permissions ***/
+  // remove type from notification
+  notification_content_type('wiki','delete');
+  
   _disable_content_type('wiki');
   
   // Administrator

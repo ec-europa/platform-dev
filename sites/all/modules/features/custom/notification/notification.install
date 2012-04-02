@@ -1,0 +1,30 @@
+<?php
+
+/*
+*  hook_enable
+*/
+
+function notification_enable() {
+  $types = array_key(node_type_get_types());
+  foreach($types as $type) {
+    // add type to notification
+    notification_content_type($type,'add');
+  }
+}
+
+
+
+/*
+*  hook_disable
+*/
+
+function notification_disable() {
+  $types = array_key(node_type_get_types());
+  foreach($types as $type) {
+    // remove type from notification
+    notification_content_type($type,'delete');
+  }	
+}
+
+
+

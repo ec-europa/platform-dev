@@ -17,7 +17,6 @@ function newsletters_enable() {
   db_update('simplenews_category')
     ->fields(array('format' => 'html'))
     ->execute(); 
-
 }
 
 

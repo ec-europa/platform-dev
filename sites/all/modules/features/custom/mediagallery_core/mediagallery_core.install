@@ -23,7 +23,12 @@ function mediagallery_core_uninstall() {
  * Edit communities context to add a block
  */
 function mediagallery_core_enable(){
-
+  // solR configuration add bundle
+  config_solr_bundle('media_gallery','add');
+	
+  // add type to notification
+  notification_content_type('media_gallery','add');
+	
   variable_set('enable_revisions_page_media_gallery', 1);
   
   $value = array(
@@ -52,7 +57,11 @@ function mediagallery_core_enable(){
  * Remove permissions
  */
 function mediagallery_core_disable(){
+  // solR configuration add bundle
+  config_solr_bundle('media_gallery','delete');
 
+  // remove type from notification
+  notification_content_type('media_gallery','delete');
   
   // Administrator
   $adm_rid = get_rid('administrator');

@@ -306,4 +306,26 @@ function config_solr_bundle($bundle, $op) {
 }
 
 
+/*
+* add content type to notification
+*/
+function notification_content_type($content_type, $op) {
+  switch($op) {
+    case 'add':
+	  if(module_exists('notification')) {
+        $ct = variable_get("notifications_content_type");
+        $ct += array($content_type => $content_type);
+        variable_set("notifications_content_type", $ct);
+      }
+	  break;
+    case 'delete':
+	  if(module_exists('notification')) {
+        $ct = variable_get("notifications_content_type");
+		$item = array_search(array($content_type => $content_type), $ct);
+		unset($ct[$item]);
+        variable_set("notifications_content_type", $ct);
+      }		
+	  break;
+  }
+}
 

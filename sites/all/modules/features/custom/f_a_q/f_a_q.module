@@ -35,6 +35,9 @@ function f_a_q_enable(){
  
   // solR configuration add bundle
   config_solr_bundle('f_a_q','add');
+  
+  // add type to notification
+  notification_content_type('f_a_q','add');  
 }
 
 function f_a_q_modules_enabled($modules) {
@@ -58,6 +61,9 @@ function f_a_q_disable() {
   // solR configuration add bundle
   config_solr_bundle('f_a_q','delete');
 	
+  // remove type from notification
+  notification_content_type('f_a_q','delete');
+  
   module_disable(array('faq_content_default'));
   _disable_content_type('f_a_q');
   

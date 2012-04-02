@@ -24,6 +24,9 @@ function news_core_uninstall() {
 function news_core_enable() {
   // solR configuration add bundle
   config_solr_bundle('news','add');
+  
+  // add type to notification
+  notification_content_type('news','add');
 }
 
 
@@ -36,6 +39,9 @@ function news_core_disable(){
   // solR configuration add bundle
   config_solr_bundle('news','delete');
 	
+  // remove type from notification
+  notification_content_type('news','delete');
+  
   module_disable(array('news_content_default'));
  
   /*** Remove permissions ***/

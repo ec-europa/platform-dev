@@ -25,6 +25,9 @@ function events_core_enable(){
   // solR configuration add bundle
   config_solr_bundle('event','add');	
 	
+  // add type to notification
+  notification_content_type('event','add');  
+  
   //Activation message
   drupal_set_message('Events feature is now active on your site.');
 }
@@ -37,6 +40,9 @@ function events_core_disable(){
   // solR configuration reomve bundle
   config_solr_bundle('event','delete');	
 	
+  // remove type from notification
+  notification_content_type('event','delete');
+  
   _disable_content_type('event');
 	
   drupal_flush_all_caches();
