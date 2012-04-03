@@ -1,4 +1,4 @@
-Modify the module in order to add a new hook in the API (hook_workbench_moderation_transition)
+Modify common.inc to avoid warning message with array_keys with the notifications module
 Index: includes/common.inc
 ===================================================================
 --- includes/common.inc	2012-04-02 15:29:38.000000000 +0200
