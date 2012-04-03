@@ -24,14 +24,11 @@ function feed_rss_core_uninstall() {
  */
 function feed_rss_core_enable(){
 
-
-
   $feed = array();
   $feed['url'] = 'http://europa.eu/newsroom/press-releases/index_en.rss';
   $feed['title'] = 'Press Releases';
   $feed['refresh'] = 3600;
   $feed['block'] = 5;
-  
   
   aggregator_save_feed($feed);
   
