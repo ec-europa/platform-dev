@@ -27,7 +27,7 @@ function feed_rss_core_enable(){
 
 
   $feed = array();
-  $feed['url'] = 'http://europa.eu/newsroom/press-releases/index_en.htm';
+  $feed['url'] = 'http://europa.eu/newsroom/press-releases/index_en.rss';
   $feed['title'] = 'Press Releases';
   $feed['refresh'] = 3600;
   $feed['block'] = 5;
@@ -39,7 +39,7 @@ function feed_rss_core_enable(){
   _add_block_context('homepage','feed-1','aggregator','feed-1', 'sidebar_second');
   
   drupal_set_message('RSS Feed feature is now active on your site.');
-  
+  drupal_cron_run();
 }
 
 
