@@ -4,5 +4,3 @@
  */
 
 // Drupal needs this blank file.
-
-drupal_add_feed('Press Releases','http://europa.eu/newsroom/press-releases/index_en.htm');

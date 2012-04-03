@@ -23,6 +23,8 @@ function feed_rss_core_uninstall() {
  * Edit communities context to add a block
  */
 function feed_rss_core_enable(){
+
+drupal_add_feed('http://europa.eu/newsroom/press-releases/index_en.htm', 'Press Releases');
   
   //Add block in context
   _add_block_context('homepage','feed-1','aggregator','feed-1', 'sidebar_second');
