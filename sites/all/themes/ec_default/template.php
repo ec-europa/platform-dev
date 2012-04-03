@@ -399,11 +399,11 @@ function ec_default_menu_tree($variables) {
   return '<ul class="menu clearfix">' . $variables['tree'] . '</ul>';
 }
 function ec_default_menu_tree__main_menu($variables) {
-  /*if(strpos($variables['tree'], '<ul') === FALSE) {
+  if(strpos($variables['tree'], 'main_menu_dropdown') && !strpos($variables['tree'], '<ul')) {
     return '<ul class="dropdown-menu">' . $variables['tree'] . '</ul>';
-  } else {*/
+  } else {
     return '<ul class="nav nav-pills">' . $variables['tree'] . '</ul>';  
-  //}
+  }
 }
 
 /**
@@ -446,6 +446,9 @@ function ec_default_menu_link__main_menu(array $variables) {
   }
   
   if ($element['#below']) {
+    $current = current($element['#below']);
+    $id = $current['#original_link']['mlid'];
+    $element['#below'][$id]['#attributes']['class'][] = 'main_menu_dropdown';
     $sub_menu = drupal_render($element['#below']);
   }
 
