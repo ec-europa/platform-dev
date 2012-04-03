@@ -399,11 +399,11 @@ function ec_default_menu_tree($variables) {
   return '<ul class="menu clearfix">' . $variables['tree'] . '</ul>';
 }
 function ec_default_menu_tree__main_menu($variables) {
-  if(strpos($variables['tree'], '<ul') === FALSE) {
+  /*if(strpos($variables['tree'], '<ul') === FALSE) {
     return '<ul class="dropdown-menu">' . $variables['tree'] . '</ul>';
-  } else {
+  } else {*/
     return '<ul class="nav nav-pills">' . $variables['tree'] . '</ul>';  
-  }
+  //}
 }
 
 /**
