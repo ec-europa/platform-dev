@@ -99,3 +99,9 @@ feature_sets[notification][icon] = 'feature-set-icons/notification.png'
 feature_sets[notification][enable][] = notification
 feature_sets[notification][disable][] = notification
 
+feature_sets[feed_rss_core][title] = 'Feed RSS'
+feature_sets[feed_rss_core][description] = 'Feed your site with rss'
+feature_sets[feed_rss_core][icon] = 'feature-set-icons/social_bookmark.png'
+feature_sets[feed_rss_core][enable][] = feed_rss_core
+feature_sets[feed_rss_core][disable][] = feed_rss_core
+
