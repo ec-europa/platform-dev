@@ -46,10 +46,14 @@
 ?>
   <?php print render($title_prefix); ?>
 <?php if ($block->subject): ?>
-<li id="<?php print $block_html_id; ?>" class="nav-header">
+<li id="<?php print $block_html_id; ?>" class="nav-header <?php print $classes; ?>">
 <?php print $block->subject ?>
 </li>
 <?php endif;?>
   <?php print render($title_suffix); ?>
 
-<?php print $content ?>
+<?php 
+  $content = str_replace('<ul>','<ul class="nav nav-list">',$content);
+  $content = str_replace('<ul class="menu clearfix">','<ul class="nav nav-list">',$content);
+  print $content;
+ ?>
