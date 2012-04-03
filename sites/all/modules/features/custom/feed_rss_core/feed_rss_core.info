@@ -1,6 +1,6 @@
 name = "feed_rss_core"
 core = "7.x"
-package = "Features"
+package = "Multisite Core Features"
 version = "7.x-1.0"
 project = "feed_rss_core"
 dependencies[] = "aggregator"
