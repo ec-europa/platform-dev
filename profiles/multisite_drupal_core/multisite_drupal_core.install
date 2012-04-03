@@ -173,7 +173,7 @@ function multisite_drupal_core_install() {
   menu_link_save($item);  
   
   
-  // add new links int he main menu -------------------------------------------------------------------------------
+  // add new links in the main menu -------------------------------------------------------------------------------
   $item = array(
     'link_path' => 'admin/workbench',
     'link_title' => t('my workbench'),
@@ -191,5 +191,20 @@ function multisite_drupal_core_install() {
   );
   menu_link_save($item); 
   */
+	 
 	  
+  // add new links in the main menu -------------------------------------------------------------------------------
+  $item = array(
+    'link_path' => 'search/site',
+    'link_title' => t('search'),
+    'menu_name' => 'main-menu',
+    'weight' => '19999'
+  );
+  menu_link_save($item);	  
+	  
+  // hide default search tab ---------------------------------------------------------------------------------------------
+  function cce_basic_config_menu_alter(&$items) {
+    $items['search/node']['access callback'] = FALSE;
+  }
+  
 }
