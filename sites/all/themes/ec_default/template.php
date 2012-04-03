@@ -431,12 +431,13 @@ function ec_default_menu_link__main_menu(array $variables) {
 
   if (in_array('expanded',$element['#attributes']['class'])) {
   //Menu item has sub-menu
+    $element['#title'] .= '<b class="caret"></b>';
     $element['#attributes']['class'][] = 'dropdown';
     $element['#attributes']['id'][] = $name_id;   
     $element['#localized_options']['fragment'] = $name_id;
     $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
     $element['#localized_options']['attributes']['data-toggle'][] = 'dropdown';
-    
+    $element['#localized_options']['html'] = TRUE;    
     
     $output = l($element['#title'], '', $element['#localized_options']);
   } else {
