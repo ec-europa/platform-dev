@@ -52,8 +52,10 @@
 <?php endif;?>
   <?php print render($title_suffix); ?>
 
+<li>
 <?php 
   $content = str_replace('<ul>','<ul class="nav nav-list">',$content);
   $content = str_replace('<ul class="menu clearfix">','<ul class="nav nav-list">',$content);
   print $content;
  ?>
+</li>
