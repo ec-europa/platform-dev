@@ -72,4 +72,7 @@ function cce_basic_config_enable() {
 
 }
 
-
+function cce_basic_config_menu_alter(&$items) {
+  // hide default search tab ---------------------------------------------------------------------------------------------  
+  $items['search/node']['access callback'] = FALSE;
+}

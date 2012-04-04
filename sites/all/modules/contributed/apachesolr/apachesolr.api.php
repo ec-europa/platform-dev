@@ -204,7 +204,7 @@ function hook_apachesolr_delete_by_query_alter($query) {
  * You should define a replacement for the status callback and return
  * 0 for nodes which you do not want to appear in the index and 1 for nodes
  * that you do. See http://drupal.org/node/1474906 for an example.
- *
+ * 
  * @param array $entity_info
  */
 function hook_apachesolr_entity_info_alter(&$entity_info) {
@@ -213,9 +213,8 @@ function hook_apachesolr_entity_info_alter(&$entity_info) {
   $entity_info['node'] = array();
   // Set this entity as indexable
   $entity_info['node']['indexable'] = TRUE;
-  // Validate each entity if it can be indexed or not. Multiple callbacks are
-  // allowed. If one of them returns false it won't be indexed
-  $entity_info['node']['status callback'][] = 'apachesolr_index_node_status_callback';
+  // Validate each entity if it can be indexed or not
+  $entity_info['node']['status callback'] = 'apachesolr_index_node_status_callback';
   // Build up a custom document.
   $entity_info['node']['document callback'][] = 'apachesolr_index_node_solr_document';
   // What to do when a reindex is issued. Most probably this will reset all the

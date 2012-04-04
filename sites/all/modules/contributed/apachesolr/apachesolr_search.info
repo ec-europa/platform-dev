@@ -11,9 +11,9 @@ files[] = apachesolr_search.module
 files[] = apachesolr_search.admin.inc
 files[] = apachesolr_search.pages.inc
 
-; Information added by drupal.org packaging script on 2012-04-03
-version = "7.x-1.0-beta17"
+; Information added by drupal.org packaging script on 2012-03-30
+version = "7.x-1.0-beta16+34-dev"
 core = "7.x"
 project = "apachesolr"
-datestamp = "1333466138"
+datestamp = "1333108968"
 

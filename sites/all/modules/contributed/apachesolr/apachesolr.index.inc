@@ -16,9 +16,7 @@ function apachesolr_index_entities($env_id, $limit) {
     $rows = apachesolr_index_get_entities_to_index($env_id, $entity_type, $limit);
     $documents = array();
     foreach ($rows as $row) {
-      if (!empty($row)) {
-        $documents = array_merge($documents, apachesolr_index_entity_to_documents($row, $env_id));
-      }
+      $documents = array_merge($documents, apachesolr_index_entity_to_documents($row, $env_id));
     }
 
     $indexed = apachesolr_index_send_to_solr($env_id, $documents);
@@ -28,13 +26,11 @@ function apachesolr_index_entities($env_id, $limit) {
       $max_changed = $index_position['last_changed'];
       $max_entity_id = $index_position['last_entity_id'];
       foreach ($rows as $row) {
-        if (!empty($row)) {
-          if ($row->changed > $max_changed) {
-            $max_changed = $row->changed;
-          }
-          if ($row->entity_id > $max_entity_id) {
-            $max_entity_id = $row->entity_id;
-          }
+        if ($row->changed > $max_changed) {
+          $max_changed = $row->changed;
+        }
+        if ($row->entity_id > $max_entity_id) {
+          $max_entity_id = $row->entity_id;
         }
       }
       apachesolr_set_last_index_position($env_id, $entity_type, $max_changed, $max_entity_id);
@@ -355,27 +351,8 @@ function apachesolr_index_get_entities_to_index($env_id, $entity_type, $limit) {
   $query->range(0, $limit);
   $records = $query->execute();
 
-  $status_callbacks = apachesolr_entity_get_callback($entity_type, 'status callback');
   foreach ($records as $record) {
-    // Check status callback before sending to the index
-    $status = TRUE;
-    foreach($status_callbacks as $status_callback) {
-      if (is_callable($status_callback)) {
-        // by placing $status in front we prevent calling any other callback
-        // after one status callback returned false
-        $status = $status && $status_callback($record->entity_id, $record->entity_type);
-      }
-    }
-
-    // Delete the entity from our index if the status callback returns 0
-    if ($status == 1) {
-      $rows[] = $record;
-    }
-    else {
-      // Discard this entry
-      $rows[] = NULL;
-      apachesolr_entity_delete($record->entity_id, $record->entity_type);
-    }
+    $rows[] = $record;
   }
   return $rows;
 }
@@ -430,14 +407,15 @@ function apachesolr_index_delete_bundles($env_id, $entity_type, $excluded_bundle
 /**
  * Delete an entity from the indexer.
  */
-function apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id) {
+function apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity) {
   static $failed = FALSE;
   if ($failed) {
     return FALSE;
   }
   try {
+    list($id) = entity_extract_ids($entity_type, $entity);
     $solr = apachesolr_get_solr($env_id);
-    $solr->deleteById(apachesolr_document_id($entity_id, $entity_type));
+    $solr->deleteById(apachesolr_document_id($id, $entity_type));
     apachesolr_set_last_index_updated($env_id, REQUEST_TIME);
     return TRUE;
   }
@@ -747,10 +725,9 @@ function apachesolr_index_node_solr_reindex($env_id) {
 /**
  * Status callback for ApacheSolr, for nodes.
  */
-function apachesolr_index_node_status_callback($entity_id, $entity_type) {
+function apachesolr_index_node_status_callback($node, $type) {
   // Make sure we have a boolean value.
   // Anything different from 1 becomes zero
-  $node = node_load($entity_id, NULL, TRUE);
   $status = ($node->status == 1 ? 1 : 0);
   return $status;
 }

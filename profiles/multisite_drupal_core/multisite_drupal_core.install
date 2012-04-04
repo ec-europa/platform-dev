@@ -202,9 +202,5 @@ function multisite_drupal_core_install() {
   );
   menu_link_save($item);	  
 	  
-  // hide default search tab ---------------------------------------------------------------------------------------------
-  function cce_basic_config_menu_alter(&$items) {
-    $items['search/node']['access callback'] = FALSE;
-  }
-  
+
 }
