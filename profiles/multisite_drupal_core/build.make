@@ -156,7 +156,7 @@ projects[multiform][subdir] = "contributed"
 projects[multiform][version] = "1.0"
 
 projects[apachesolr][subdir] = "contributed"
-projects[apachesolr][version] = "1.x-dev"
+projects[apachesolr][version] = "1.0-beta17"
 
 projects[file_entity][subdir] = "contributed"
 projects[file_entity][version] = "2.x-dev"
