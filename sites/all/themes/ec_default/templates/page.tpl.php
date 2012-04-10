@@ -170,7 +170,7 @@ global $base_url;
         </div><!-- /#messages -->
       <?php endif; ?>
 
-        <div class="layout-left">
+        <div class="layout-left region region-sidebar-first">
         <ul class="nav nav-list">
       <?php if ($page['sidebar_first']): ?>
         <?php print render($page['sidebar_first']); ?>
@@ -181,11 +181,17 @@ global $base_url;
         <div class="layout-content">
           <div class="layout-content-reset"><a id="content" name="content"></a>
     
-            <?php if ($page['tools']): ?>
-              <?php print render($page['tools']); ?>
-            <?php endif; ?>
+            <div class="region region-tools">
+              <?php if ($page['tools']): ?>
+              <ul class="links">               
+                <?php print render($page['tools']); ?>
+              </ul>
+              <?php endif; ?>
+            </div>
             
-            <?php if ($page['content_top']): ?><?php print render($page['content_top']); ?><?php endif; ?>
+            <?php if ($page['content_top']): ?>
+              <?php print render($page['content_top']); ?>
+            <?php endif; ?>
             
             <a id="main-content"></a>
             <?php print render($title_prefix); ?>
@@ -208,21 +214,25 @@ global $base_url;
             <?php print render($page['content']); ?>
             <?php print $feed_icons; ?>
 
-            <?php if ($page['tools_bottom']): ?>
-              <?php print render($page['tools_bottom']); ?>
-            <?php endif; ?>
+            <div class="region region-tools-bottom">
+              <?php if ($page['tools_bottom']): ?>
+              <ul class="links">               
+                <?php print render($page['tools_bottom']); ?>
+              </ul>
+              <?php endif; ?>
+            </div>
 
           </div><!-- /.layout-content-reset -->
         </div><!-- /.layout-content -->
       </div><!-- /.layout-wrapper-reset -->
     </div><!-- /.layout-wrapper -->
     
-    <div class="layout-right">
-      <ul class="nav nav-list">
+    <div class="layout-right region region-sidebar-second">
       <?php if ($page['sidebar_second']): ?>
+      <ul class="nav nav-list">      
         <?php print render($page['sidebar_second']); ?>
-      <?php endif; ?>
       </ul>
+      <?php endif; ?>
     </div><!-- /.layout-right -->
         
     </div><!-- /.layout-body -->
