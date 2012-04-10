@@ -145,6 +145,7 @@ body,
 .region-tools-bottom {
   display: block;
   text-align: right;
+  clear: both;
 }
 .region-tools-bottom .block {
   display: inline-block;
