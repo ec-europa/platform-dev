@@ -24,7 +24,7 @@ function social_bookmark_uninstall() {
  */
 function social_bookmark_enable(){
  //Add block in context
-  _add_block_context('site_wide','social_bookmark-social-bookmark','social_bookmark','social-bookmark', 'content_top');
+  _add_block_context('site_wide','social_bookmark-social-bookmark','social_bookmark','social-bookmark', 'tools_bottom');
   drupal_set_message('Social bookmark feature is now active on your site.');
 }
 
