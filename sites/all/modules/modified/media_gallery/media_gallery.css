@@ -598,12 +598,14 @@ a.media-gallery-thumb img,
 
 /* @group Overrides */
 
-a.contextual-links-trigger {
+ a.contextual-links-trigger {
+  display: none !important;
   background-position: 2px -18px;
 }
 
 a.contextual-links-trigger:hover,
 div.contextual-links-active a.contextual-links-trigger {
+  display: none !important;
   background-position: 2px 0;
 }
 
