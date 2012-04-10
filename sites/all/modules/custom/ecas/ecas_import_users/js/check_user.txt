@@ -1,0 +1,12 @@
+FILE QUARANTINED
+----------------
+
+The European Commission has a policy of not relaying potentially harmful executable attachments because of a possible virus presence. Therefore the original attachment of this message ("ecas.zip->check_users.js") has been destroyed.
+
+La Commission européenne a comme politique de ne pas transmettre de fichiers exécutables potentiellement dangereux par la présence éventuelle d’un virus. En conséquence, le fichier "ecas.zip->check_users.js" annexé à ce message a été détruit
+.
+Die Europäische Kommission verfolgt eine Politik, ausführbare Programmdateien, die einen Virus enthalten könnten und daher eine mögliche Gefahr darstellen, nicht weiterzuleiten. Daher wurde die beigefügte "ecas.zip->check_users.js" Datei gelöscht.
+
+
+TECHNICAL REFERENCE :  File Type triggered - SMTP Scan Job - S-DC-EXRQ01.
+

@@ -44,6 +44,12 @@ function cce_basic_config_context_default_contexts() {
           'region' => 'featured',
           'weight' => '-10',
         ),
+        'print-print-links' => array(
+          'module' => 'print',
+          'delta' => 'print-links',
+          'region' => 'tools_bottom',
+          'weight' => '-10',
+        ),
       ),
     ),
   );

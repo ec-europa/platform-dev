@@ -1,0 +1,178 @@
+<?php
+
+function ecas_extra_menu() {
+  global $user;
+  $items = array();
+
+  $items['admin/config/ecas/ecas_extra'] = array(
+    'title' => 'ECAS extra settings',
+    'description' => 'Configure ECAS extra',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ecas_extra_admin_settings'),
+    'access arguments' => array('administer ecas'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_action_info().
+ */
+function ecas_extra_action_info() {
+  return array(
+  'deny_account_action' => array(
+      'type' => 'user',
+      'label' => t('Deny the activation of a user account.'),
+      'configurable' => FALSE,
+      'triggers' => array(
+      		'node_insert',
+      		'node_presave',
+      		'node_update',
+      		'node_view',
+      		'comment_insert',
+          )
+      ),
+  );
+}
+
+function deny_account_action_form($context) {
+  $form['user_roles'] = array(
+  '#type' => 'checkboxes',
+  '#title' => t('Available roles'),
+  );
+  return $form;
+}
+
+function deny_account_action_submit($form, $form_state) {
+  $roles = array();
+
+  // keep only the selected roles
+  foreach ($form_state['values']['user_roles'] as $rid) {
+    if ($rid <> 0) {
+      // skip the roles that are not selected (with a value equal to 0)
+      $roles[] = $rid;
+    }
+  }
+
+  return array('manage_membership_add_rid' => $roles);
+}
+
+/**
+ * Implement the 'Deny the activation of a user account' action.
+ * @param $object user object to deny
+ * @param $context Context object
+ */
+function deny_account_action(&$object, $context) {
+  global $user, $base_url;
+
+  dsm($object);
+  
+  // avoid working with crap data
+  if (!$object || !$object->uid) {
+    return;
+  }
+
+  // avoid denying an already denied user
+  $result = db_query('SELECT COUNT(uid) FROM {denied_users} WHERE uid = :uid', array('uid' => $object->uid));
+  $count = $result->fetchField();
+  if ($count) {
+    return;
+  }
+
+  // store the given user in a dedicated table
+  $data = array(
+  	'uid' => $object->uid, 
+  	'denied_by' => empty($user)?1:$user->uid,
+  	'denied' => REQUEST_TIME,
+  );
+  if (!drupal_write_record('denied_users', $data)) {
+    drupal_set_message(t('Unable to deny user %s', $object->name), 'error');
+  }
+
+  // send a mail to the denied user
+  $params['context']['subject'] = t('deny activation of your account');
+  $params['context']['message'] = t('Your account has been denied.');
+
+  $from = variable_get('site_mail', 'system@noreply.com');
+
+  $lastname_field = ECAS_DEFAULT_PROFILE_LASTNAME_FIELD;
+  $params = array(
+    '!name' => $object->name,
+    '!lastname' => isset($object->$lastname_field)?$object->$lastname_field:'',
+    '!mail' => $object->mail,
+    '!site_url' => $base_url,
+    '!site_name' => variable_get('site_name', ''),
+  );
+
+  // send the mail by using hook mail
+  drupal_mail('ecas_extra', 'deny_account', $object->mail, language_default(), $params);
+}
+
+/**
+ * Implements hook_user_update().
+ */
+function ecas_extra_user_update($edit, $account, $category = NULL) {
+  if (is_object($account) && $category == 'account' && isset($edit['status']) && ($edit['status'] == 1)) {
+    // the user is being activated
+	$num_deleted = db_delete('denied_users')
+  	  ->condition('uid', $account->uid)
+  	  ->execute();
+  }
+}
+
+/**
+ * Implements hook_mail().
+ */
+function ecas_extra_mail($key, &$message, $params) {
+  $language = $message['language'];
+  $mail_from = variable_get('site_mail', 'system@noreply.com');
+  $message['From'] = $mail_from;
+  $message['headers'] = array(
+    'MIME-Version' => '1.0',
+    'Content-Type' => 'text/html; charset=UTF-8;',
+    'From' => $mail_from,
+  );
+
+  $body = variable_get('ecas_extra_deny_action_mail', '');
+  $message['subject'] = t(variable_get('ecas_extra_deny_action_subject', ''), $params, array('langcode'=>$language->language));
+  $message['body'] = t($body, $params, array('langcode'=>$language->language));
+}
+
+function ecas_extra_admin_settings() {
+  $form['param'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('ECAS extra module settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['param']['ecas_extra_deny_action_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Deny action mail subject'),
+    '#default_value' => variable_get('ecas_extra_deny_action_subject', t('Account activation denied')),
+    '#description' => t('subject of the mail sent to the denied accounts'),
+  );
+
+  $body = 'Dear <b>!lastname</b>,
+  <br /><br />
+  The activation request of the account <b>!name</b> for the site <a href="!site_url"><b>!site_name</b><a> has been denied.
+  <br /><br />';
+  $form['param']['ecas_extra_deny_action_mail'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Deny action mail body'),
+    '#default_value' => variable_get('ecas_extra_deny_action_mail', $body),
+    '#cols' => 60,
+    '#rows' => 5,
+    '#description' => t('Body of the mail sent to the denied accounts'),
+  );
+
+  return system_settings_form($form);
+}
+
+function ecas_extra_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'ecas_extra') . '/includes/views',
+  );
+}

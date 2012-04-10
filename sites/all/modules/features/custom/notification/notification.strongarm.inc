@@ -40,8 +40,9 @@ function notification_strongarm() {
   $strongarm->name = 'notifications_content_type';
   $strongarm->value = array(
     'article' => 'article',
-    'page' => 0,
-    'simplenews' => 0,
+    'page' => 'page',
+    'media_gallery' => 'media_gallery',
+    'news' => 'news',
   );
   $export['notifications_content_type'] = $strongarm;
 
@@ -58,9 +59,9 @@ function notification_strongarm() {
   $strongarm->name = 'notifications_option_subscription_types_content_thread';
   $strongarm->value = array(
     'enabled' => 1,
-    'subscriptions_block' => 0,
-    'node_links' => 1,
-    'teaser_links' => 1,
+    'subscriptions_block' => 1,
+    'node_links' => 0,
+    'teaser_links' => 0,
   );
   $export['notifications_option_subscription_types_content_thread'] = $strongarm;
 

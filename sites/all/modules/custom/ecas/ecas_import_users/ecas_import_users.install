@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ */
+
+function ecas_import_users_install() {
+
+}
+
+function ecas_import_users_uninstall() {
+  variable_del('ecas_import_users_default_status');
+}

@@ -1,0 +1,81 @@
+<?php
+/**
+ * This file contains all the constants used in the module for
+ * connecting to the ECAS server.
+ */
+
+$use_shared_fpfis = variable_get('ecas_use_shared_fpfis', FALSE);
+if($use_shared_fpfis){
+  // Here you can overwrite common constants specific or this installation
+  if ( !defined('FPFIS_COMMON_LIBRARIES_PATH') ) define('FPFIS_COMMON_LIBRARIES_PATH','/ec/prod/app/webroot/flex_home/libraries');
+
+  if ( !defined('FPFIS_SERVER_HOSTNAME') ) define('FPFIS_SERVER_HOSTNAME','webgate.ec.europa.eu');
+  if ( !defined('FPFIS_SERVER_PORT') ) define('FPFIS_SERVER_PORT','80');
+  if ( !defined('FPFIS_LDAP_USER_DN') ) define('FPFIS_LDAP_USER_DN', 'uid=iwt,ou=TrustedApps,o=cec.eu.int');
+  if ( !defined('FPFIS_LDAP_PASSWORD') ) define('FPFIS_LDAP_PASSWORD', 'XXXXXXXX');
+
+} else {
+  // Use the local FPFIS library
+  
+  if ( !defined('FPFIS_COMMON_LIBRARIES_PATH') ) define ('FPFIS_COMMON_LIBRARIES_PATH', drupal_get_path('module', 'ecas') . '/libraries');
+  
+  // All settings can be changed in the constants.php file 
+  // of the FPFIS_Common library or re-defined here: 
+
+  // TESTING
+  $TESTING = TRUE;
+  if($TESTING){
+    
+    // Replace localhost with the ip address of your local pc
+    // Test PC: 158.166.147.109
+    // Leave empty if you don't want any proxy redirect
+    //
+    if ( !defined('FPFIS_SERVER_HOSTNAME') ) define('FPFIS_SERVER_HOSTNAME',''); 
+    
+    /*
+     ECAS conf
+    */
+    if ( !defined('FPFIS_ECAS_URL') ) define('FPFIS_ECAS_URL', 'ecast.cc.cec.eu.int');
+    if ( !defined('FPFIS_ECAS_URI') ) define('FPFIS_ECAS_URI', '/cas');
+
+    /*
+     LDAP conf
+    */
+    if ( !defined('FPFIS_LDAP_SERVER_NAME') ) define('FPFIS_LDAP_SERVER_NAME', 'cedtest.cec.eu.int');
+    if ( !defined('FPFIS_LDAP_SERVER_PORT') ) define('FPFIS_LDAP_SERVER_PORT', '10389');
+    if ( !defined('FPFIS_LDAP_BASE_DN') ) define('FPFIS_LDAP_BASE_DN', 'ou=People,o=cec.eu.int');
+    if ( !defined('FPFIS_LDAP_BASE_DN_DG') ) define('FPFIS_LDAP_BASE_DN_DG', 'ou=Groups,o=cec.eu.int');
+    if ( !defined('FPFIS_LDAP_USER_DN') ) define('FPFIS_LDAP_USER_DN', 'uid=x50l131,ou=TrustedApps,o=cec.eu.int');
+    if ( !defined('FPFIS_LDAP_PASSWORD') ) define('FPFIS_LDAP_PASSWORD', 'x502831');
+  }
+
+}
+
+// Load the fpfis library
+if ( is_file(FPFIS_COMMON_LIBRARIES_PATH . '/FPFIS_Common/fpfis_common.php') ) {
+  include_once(FPFIS_COMMON_LIBRARIES_PATH . '/FPFIS_Common/fpfis_common.php');
+}
+
+/* Defines default values for various parameters */
+define('ECAS_DEFAULT_ASSURANCE_LEVEL', 'LOW');
+define('ECAS_DEFAULT_DOMAIN', '');
+define('ECAS_DEFAULT_ACCOUNT_REQUEST_URL', 'https://webgate.ec.europa.eu/aida/selfreg?service=%local_ecas_url%');
+define('ECAS_DEFAULT_CHANGE_PASSWORD_URL', 'https://webgate.ec.europa.eu/cas/ec/change/changePassword.do');
+
+define('ECAS_DEFAULT_DEBUG_LOGPATH', 'phpCas.log');
+
+define('ECAS_DEFAULT_LOGIN_MESSAGE', 'Logged in via ECAS as %ecas_username.');
+define('ECAS_DEFAULT_WARNING_MESSAGE', 'Your account is not yet approved');
+define('ECAS_DEFAULT_MAIL_ADDRESS', 'unknown.mail@address.net');
+
+define('ECAS_DEFAULT_PROFILE_FIRSTNAME_FIELD', 'field_firstname');
+define('ECAS_DEFAULT_PROFILE_LASTNAME_FIELD',  'field_lastname');
+define('ECAS_DEFAULT_PROFILE_ECAS_MAIL_FIELD', 'field_ecas_mail');
+
+define('ECAS_NO_LOGIN', 0);
+define('ECAS_LOGIN',    1);
+define('ECAS_GATEWAY',  2);
+
+define('ECAS_DEFAULT_PAGES', '');
+define('ECAS_LOGIN_EXLUDE_PAGES', 0);
+define('ECAS_LOGIN_INCLUDE_PAGES', 1);

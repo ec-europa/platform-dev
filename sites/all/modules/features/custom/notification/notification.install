@@ -10,6 +10,10 @@ function notification_enable() {
     // add type to notification
     notification_content_type($type,'add');
   }
+  
+  //Add block in context
+  _add_block_context('site_wide','subscriptions','notifications_ui','subscriptions', 'tools_bottom');
+  
 }
 
 

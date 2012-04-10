@@ -1,0 +1,173 @@
+<?php
+
+/**
+ * @file
+ * Tests for ecas_import_users.module.
+ */
+
+/**
+ * Test the administration pages.
+ */
+class EcasImportUsersAdminSettingsTest extends DrupalWebTestCase {
+
+  protected $web_user;
+  protected $admin_user;
+  
+  public static function getInfo() {
+    return array(
+      'name' => 'Import users admin',
+      'description' => 'Test the admin pages of ECAS import users module.',
+      'group' => 'ECAS',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array(
+      'ecas_import_users'
+    ));
+    
+    $this->web_user = $this->drupalCreateUser(array(
+      'create article content', 
+      'create page content'
+   	));
+
+    $this->admin_user = $this->drupalCreateUser(array(
+      'bypass node access', 
+      'administer nodes',
+      'administer ecas',
+      'access ecas import users function'
+    ));
+
+  }
+
+  /**
+   * Try to access the pages with the web user and admin user
+   */
+  function testMenuAccess() {
+    $this->drupalLogin($this->web_user);  
+  	$this->drupalGet('admin/config/ecas/ecas_import_users');
+  	$this->assertNoResponse(200, 'User without "administer ecas" permission does not have access to the ECAS Import Users administration pages');
+  	
+  	$this->drupalGet('admin/people/import');
+  	$this->assertNoResponse(200, 'User without "access ecas import users function" permission does not have access to the ECAS Import Users pages');
+  	 
+  	$this->drupalGet('<front>');  	
+  	
+    $this->drupalLogin($this->admin_user);  
+  	$this->drupalGet('admin/config/ecas/ecas_import_users');
+  	$this->assertResponse(200, 'User with "administer ecas" permission has access to the ECAS Import Users administration pages');
+
+  	$this->drupalGet('admin/people/import');
+  	$this->assertResponse(200, 'User with "access ecas import users function" permission has access to the ECAS Import Users pages');
+  }
+    
+  /**
+   * Verify settings are saved correctly
+   */
+  function testSavingSettings() {
+    $this->drupalLogin($this->admin_user);
+    $this->drupalGet('admin/config/ecas/ecas_import_users');
+  
+    $edit = array(
+      'ecas_import_users_default_status' => '0',
+    );
+    $this->drupalPost(NULL, $edit, 'Save configuration');
+
+    // Check the values are stored correctly
+    $this->assertFieldChecked('edit-ecas-import-users-default-status-0');
+    $this->assertNoFieldChecked('edit-ecas-import-users-default-status-1');
+            
+    $edit = array(
+      'ecas_import_users_default_status' => '1',
+    );
+    $this->drupalPost(NULL, $edit, 'Save configuration');
+        
+  }  
+}
+
+/**
+ * Test the functionality pages.
+ */
+class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
+
+  protected $web_user;
+  protected $ecas_user;
+  protected $admin_user;
+  
+  public static function getInfo() {
+    return array(
+      'name' => 'Import users functionality',
+      'description' => 'Test the functionality of ECAS Import Users module.',
+      'group' => 'ECAS',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array(
+      'ecas_import_users'
+    ));
+    
+    $this->web_user = $this->drupalCreateUser(array(
+      'create article content', 
+      'create page content'
+   	));
+    $this->ecas_user = $this->drupalCreateUser(array(
+      'create article content', 
+      'create page content'
+    ));
+	  $cas_authmap = db_insert('authmap')
+        ->fields(array(
+          'authname' => 'testuser',
+          'uid' => $this->ecas_user->uid,
+          'module' => 'ecas',
+        ))
+        ->execute();
+        
+    $this->admin_user = $this->drupalCreateUser(array(
+      'bypass node access', 
+      'administer nodes',
+      'administer ecas',
+			'access ecas import users function'      
+    ));
+  }
+
+  /**
+   * Try the search form, check the correct search link is generated
+   */
+  function testSearchForm() {
+    $this->drupalLogin($this->admin_user);  
+  	$this->drupalGet('admin/people/import');
+
+  	$edit = array(
+  	  	  'dg' => 'all-groups',
+  	  	  'name' => '',
+  	  	  'search-by' => 'by-lastname',
+  	  	  'mail' => '',
+  	  	  'country' => 'all-countries',  
+  	);
+  	$this->drupalPost(NULL, $edit, 'Save blocks');
+    $this->assertText(t('You must fill in at least one of the search fields.'));
+  	
+  	$edit = array(
+  	  'dg' => 'all-groups',
+  	  'name' => 'test',
+  	  'search-by' => 'by-lastname',
+  	  'mail' => '',
+  	  'country' => 'all-countries',  
+  	);
+  	$this->drupalPost(NULL, $edit, 'Save blocks');
+  	$this->assertUrl('admin/people/import/test/all-groups/by-lastname/all-countries/no-mail');
+  	
+  	$edit = array(
+  	  	  'dg' => 'all-groups',
+  	  	  'name' => '',
+  	  	  'search-by' => 'by-lastname',
+  	  	  'mail' => 'test@tester.be',
+  	  	  'country' => 'all-countries',  
+  	);
+  	$this->drupalPost(NULL, $edit, 'Save blocks');
+  	$this->assertUrl('admin/people/import/everybody/all-groups/by-lastname/all-countries/test%40tester.be');
+  }
+  
+  
+}

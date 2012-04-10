@@ -1,0 +1,74 @@
+<?php
+
+
+/**
+ * @file
+ * This file describes the way to setup the ecas_extra module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ecas_extra_install() {
+  variable_set('ecas_extra_deny_action_subject', st('Account activation denied'));
+  $body = 'Dear <b>!lastname</b>,
+  <br /><br />
+  The activation request of the account <b>!name</b> for the site <a href="!site_url"><b>!site_name</b><a> has been denied.
+  <br /><br />';
+  variable_set('ecas_extra_deny_action_mail', $body);
+}
+
+/**
+ * @return the first schema implementation.
+ */
+function _ecas_extra_base_schema() {
+  $schema['denied_users'] = array(
+    'description' => 'Stores id of denied users.',
+    'fields' => array(
+      'uid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique user ID.',
+      ),
+      'denied_by' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'description' => 'User ID who denied the other user.',
+      ),
+      'denied' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp for when user was denied.',
+      ),
+    ),
+    'primary key' => array('uid'),
+  );
+  return $schema;
+}
+
+/**
+ * Implements hook_schema().
+ */
+function ecas_extra_schema() {
+  return _ecas_extra_base_schema();
+}
+
+/**
+ * Updade #1: create the denied_users table
+ */
+function ecas_extra_update_1() {
+  $base_schema = _ecas_extra_base_schema();
+  db_create_table('denied_users', $base_schema['denied_users']);
+  return st('Denied users table was created');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ecas_extra_uninstall() {
+  variable_del('ecas_extra_deny_action_subject');
+  variable_del('ecas_extra_deny_action_mail');
+}

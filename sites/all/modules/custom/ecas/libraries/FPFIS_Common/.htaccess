@@ -1,0 +1,3 @@
+<IfModule mod_access.c>
+deny from all
+</IfModule>

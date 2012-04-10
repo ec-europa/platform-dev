@@ -1,0 +1,12 @@
+name = ECAS import users
+description = Create users accounts from ECAS accounts (in LDAP).
+package = "ECAS"
+core = 7.x
+php = 5.0
+dependencies[] = ecas
+
+version = "7.x-1.x-dev"
+
+stylesheets[all][] = css/ecas_import_users.css
+
+files[] = ecas_import_users.test

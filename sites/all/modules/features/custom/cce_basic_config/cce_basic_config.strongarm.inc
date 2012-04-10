@@ -94,7 +94,7 @@ function cce_basic_config_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'print_html_link_pos';
   $strongarm->value = array(
-    'link' => 'link',
+    'link' => 0,
     'corner' => 0,
   );
   $export['print_html_link_pos'] = $strongarm;
@@ -188,7 +188,7 @@ function cce_basic_config_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'print_pdf_link_pos';
   $strongarm->value = array(
-    'link' => 'link',
+    'link' => 0,
     'corner' => 0,
   );
   $export['print_pdf_link_pos'] = $strongarm;
