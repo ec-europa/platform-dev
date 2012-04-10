@@ -159,8 +159,8 @@ projects[mailsystem][version] = "2.33"
 projects[mimemail][subdir] = "contributed"
 projects[mimemail][version] = "1.x-dev"
 
-projects[media_gallery][subdir] = "contributed"
-projects[media_gallery][version] = "1.0-beta7"
+;projects[media_gallery][subdir] = "contributed"
+;projects[media_gallery][version] = "1.0-beta7"
 
 projects[multiform][subdir] = "contributed"
 projects[multiform][version] = "1.0"
