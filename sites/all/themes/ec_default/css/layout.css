@@ -187,3 +187,8 @@ body,
 .layout-content .well .content {
   margin-top: 0;
 }
+
+/* ---------------- print/pdf  ----------------- */
+#block-print-print-links span {
+  display: inline-block;
+}
