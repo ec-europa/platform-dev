@@ -4,21 +4,21 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>delete</title>
+<title>manage_restore</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">delete</td></tr>
+<tr><td rowspan="1" colspan="3">manage_restore</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde</td>
+	<td>/multisite_drupal_wde/en</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>xpath=(//a[contains(text(),'Log out')])[2]</td>
+	<td>link=Log out</td>
 	<td></td>
 </tr>
 <tr>
@@ -29,7 +29,7 @@
 <tr>
 	<td>type</td>
 	<td>id=edit-name</td>
-	<td>user_faq</td>
+	<td>contrib06</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -43,34 +43,30 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>id=toolbar-link-admin-workbench</td>
+	<td>link=my workbench</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=FAQ01 updated</td>
+	<td>link=Needs Review</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>wiki01</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Edit</td>
+	<td>link=Published</td>
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>id=edit-delete</td>
+	<td>verifyTextNotPresent</td>
+	<td>wiki01</td>
 	<td></td>
 </tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=edit-submit</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertText</td>
-	<td>css=div.messages.status</td>
-	<td>Status message F.A.Q FAQ01 updated has been deleted.</td>
-</tr>
+
 </tbody></table>
 </body>
 </html>

@@ -4,37 +4,42 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>delete</title>
+<title>create_public</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">delete</td></tr>
+<tr><td rowspan="1" colspan="3">create_public</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde</td>
+	<td>/multisite_drupal_wde/en/node</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>xpath=(//a[contains(text(),'Log out')])[2]</td>
+	<td>link=communities</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=login</td>
+	<td>link=third community</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Create links</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=edit-name</td>
-	<td>user_faq</td>
+	<td>id=edit-title</td>
+	<td>Public link 3</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=edit-pass</td>
-	<td>pass</td>
+	<td>id=edit-field-link-und-1-url</td>
+	<td>http://www.google.fr</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -42,34 +47,9 @@
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>id=toolbar-link-admin-workbench</td>
+	<td>assertTextPresent</td>
+	<td>Links Public link 3 has been created</td>
 	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=FAQ01 updated</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Edit</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=edit-delete</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=edit-submit</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertText</td>
-	<td>css=div.messages.status</td>
-	<td>Status message F.A.Q FAQ01 updated has been deleted.</td>
 </tr>
 </tbody></table>
 </body>
