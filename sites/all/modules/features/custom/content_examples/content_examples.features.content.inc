@@ -1,4 +1,4 @@
-// <?php
+<?php
 // /**
  // * @file
  // * content_examples.features.content.inc
