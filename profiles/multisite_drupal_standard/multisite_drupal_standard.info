@@ -74,6 +74,10 @@ dependencies[] = print_pdf
 ;dependencies[] = features_override
 ;dependencies[] = jquery_update
 dependencies[] = mediafield
+dependencies[] = ds
+dependencies[] = ds_forms
+dependencies[] = ds_extras
+dependencies[] = ds_search
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_standard

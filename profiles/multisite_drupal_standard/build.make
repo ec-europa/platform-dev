@@ -180,6 +180,9 @@ projects[notifications][version] = "1.0-alpha2"
 projects[messaging][subdir] = "contributed"
 projects[messaging][version] = "1.0-alpha2"
 
+projects[ds][subdir] = "contributed"
+projects[ds][version] = "1.5"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"

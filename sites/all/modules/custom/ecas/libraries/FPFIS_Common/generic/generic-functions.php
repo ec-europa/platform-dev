@@ -163,13 +163,14 @@ if (!function_exists('getLdapEntries'))
     {
       if(!ldap_bind($ldap, FPFIS_LDAP_USER_DN, FPFIS_LDAP_PASSWORD)){
         // TODO: remove these dsm messages
+		/*
         dsm(FPFIS_LDAP_SERVER_NAME, "FPFIS_LDAP_SERVER_NAME");
         dsm(FPFIS_LDAP_SERVER_PORT, "FPFIS_LDAP_SERVER_PORT");
         dsm(FPFIS_LDAP_USER_DN, "FPFIS_LDAP_USER_DN");
         dsm(FPFIS_LDAP_PASSWORD, "FPFIS_LDAP_PASSWORD");
         dsm(FPFIS_LDAP_BASE_DN, "FPFIS_LDAP_BASE_DN");
         dsm($filter, "filter");        
-        
+        */
         trigger_error('Could not connect with the LDAP server. Please check your settings.', E_USER_ERROR);
         //return; // TODO: uncomment this back in production
       }
