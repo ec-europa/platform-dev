@@ -1,0 +1,29 @@
+<?php
+/**
+ * @file
+ * Code for the ecas_env feature.
+ */
+
+include_once 'ecas_env.features.inc';
+
+function ecas_env_menu_alter(&$items) {
+  $items['ecas']['menu_name'] = "user-menu";
+  $items['ecaslogout']['menu_name'] = "user-menu";
+  $items['ecas']['type'] = MENU_NORMAL_ITEM;
+  $items['ecaslogout']['type'] = MENU_NORMAL_ITEM;  
+  
+  $items['user/logout']['access callback'] = 'normal_menu_logout_check';
+  $items['user/login']['access callback'] = 'normal_menu_check';
+}
+
+function normal_menu_logout_check() {
+  global $user;
+  $access_ecas = (isset($_SESSION['phpCAS']) && $_SESSION['phpCAS']['user'] === $user->name);
+  $access = (user_is_logged_in() && !$access_ecas);
+  return $access;
+}
+
+function normal_menu_check() {
+  $access = (user_is_anonymous() && !module_exists("ecas"));
+  return $access;
+}

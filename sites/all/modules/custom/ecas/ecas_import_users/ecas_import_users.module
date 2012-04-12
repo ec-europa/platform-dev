@@ -181,7 +181,7 @@ function ecas_import_user_ldap_user_form_validate($form, &$form_state) {
 }
 
 
-/// clean the content of the given value
+// clean the content of the given value
 function _ecas_import_users_clean_name_field($value) {
   if(empty($value)){
     $value = 'everybody';

@@ -18,12 +18,13 @@ if($use_shared_fpfis){
   // Use the local FPFIS library
   
   if ( !defined('FPFIS_COMMON_LIBRARIES_PATH') ) define ('FPFIS_COMMON_LIBRARIES_PATH', drupal_get_path('module', 'ecas') . '/libraries');
+  if ( !defined('FPFIS_SERVER_HOSTNAME') ) define('FPFIS_SERVER_HOSTNAME','');
   
   // All settings can be changed in the constants.php file 
   // of the FPFIS_Common library or re-defined here: 
 
   // TESTING
-  $TESTING = TRUE;
+  $TESTING = FALSE;
   if($TESTING){
     
     // Replace localhost with the ip address of your local pc

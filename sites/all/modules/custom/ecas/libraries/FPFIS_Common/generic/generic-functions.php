@@ -98,11 +98,12 @@ if (!function_exists('getLdapUserInfo'))
     ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
 
+	
     if (FPFIS_LDAP_USER_DN || FPFIS_LDAP_PASSWORD)
     {
       ldap_bind($ldap, FPFIS_LDAP_USER_DN, FPFIS_LDAP_PASSWORD);
     }
-
+  
     $search = ldap_search($ldap, FPFIS_LDAP_BASE_DN, FPFIS_LDAP_UID."=$uid");
     $ldap_result = ldap_get_entries($ldap, $search);
 

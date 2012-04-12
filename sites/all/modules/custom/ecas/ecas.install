@@ -6,6 +6,9 @@
 
 function ecas_install() {
   variable_set('ecas_warning_message', st('Your account is not yet approved'));
+  
+  variable_set('ecas_pages_method', 1);
+  variable_set('ecas_profile_core_enabled', TRUE);
 
   // check for Curl support
   if (!function_exists('curl_version')) {

@@ -49,6 +49,16 @@ function ecas_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
 
+  $items['admin/config/ecas/ecas'] = array(
+    'title' => 'ECAS settings',
+    'description' => 'Configure ECAS',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ecas_admin_settings'),
+    'access arguments' => array('administer ecas'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+
   if (function_exists('_ecas_menu')) {
     _ecas_menu($items);
   }

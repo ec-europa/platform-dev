@@ -355,6 +355,7 @@ function ecas_login_check() {
           'status' => variable_get('ecas_account_option', 1),
           'access' => time(),
           'auth_ecas' => 'ecas_' . $ecas_name,
+		  'timezone' => variable_get('date_default_timezone', ''),
       );
 
       $user_default['mail'] = variable_get('ecas_default_mail_address', ECAS_DEFAULT_MAIL_ADDRESS);
