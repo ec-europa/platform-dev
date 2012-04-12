@@ -4,37 +4,52 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>manage_create</title>
+<title>manage</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">manage_create</td></tr>
+<tr><td rowspan="1" colspan="3">manage</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde/en/wiki/wiki01</td>
+	<td>/multisite_drupal_wde/en/content/idea01</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Log out</td>
+	<td>link=Ideas</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=login</td>
+	<td>link=idea01</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Give it 4/5</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Average: 4 (1 vote)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Add new comment</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=cke_8_label</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=edit-name</td>
-	<td>admin06</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=edit-pass</td>
-	<td>pass</td>
+	<td>css=textarea.cke_source.cke_enable_context_menu</td>
+	<td>Excellent idea !</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -42,31 +57,10 @@
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=my workbench</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Needs Review</td>
-	<td></td>
-</tr>
-<tr>
 	<td>verifyTextPresent</td>
-	<td>wiki01</td>
+	<td>Excellent idea !</td>
 	<td></td>
 </tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Published</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextNotPresent</td>
-	<td>wiki01</td>
-	<td></td>
-</tr>
-
 </tbody></table>
 </body>
 </html>
