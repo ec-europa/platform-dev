@@ -84,6 +84,12 @@
 
 <?php
 global $base_url;
+
+if (arg(0) == 'splash'):
+  include('page-splash.tpl.php');
+  return;
+endif;
+
 ?>
 
 <a id="top-page" name="top-page"></a>

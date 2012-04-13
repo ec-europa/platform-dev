@@ -1250,3 +1250,43 @@ div.workbench-info-block {
   li.media-gallery-edit { display: none; }
   li.media-gallery-remove { display: none; }
 }
+
+/* ---------------- Splash screen  ----------------- */
+.splash {
+  //#gradient .horizontal(#369, #f1f9fe);
+  #gradient .vertical(#369, #f1f9fe);
+  #gradient .radial(#7AD, #369);
+  //#gradient .vertical-three-colors(#f1f9fe, #58B, 60%, #369);
+  //#gradient .directional(#369, #f1f9fe, 30deg);
+  //#gradient .striped(#369);
+  .container-fluid {
+    margin-top: 50px;
+    h1 {
+      color: #F5F5F5;
+      text-shadow: 1px 1px rgba(0, 0, 0, 0.3);
+    }
+    h2#label_language {
+      margin-top: 0;
+      padding-top: 0;
+    }
+    ul.languages {
+      padding-top: 8px;
+      li {
+        list-style: none;
+        a {
+          color: #113355;
+          font-size: 1.2em;
+          text-shadow: 0 0 #000;
+        }
+        span {
+          display: inline-block;
+          border: #369 1px solid;
+          padding: 2px 4px;
+          margin-right: 8px;
+          width: 20px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
