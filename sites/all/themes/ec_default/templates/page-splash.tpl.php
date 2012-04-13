@@ -88,9 +88,9 @@ global $base_url;
 
 <a id="top-page" name="top-page"></a>
 
-<div class="container-fluid">
+<div class="splash container-fluid">
   <div class="row-fluid">
-    <div class="span2">...</div>
+    <div class="span2">&nbsp;</div>
     <div class="span10">
       <div class="row-fluid">
       
@@ -112,7 +112,7 @@ global $base_url;
             $li .= '<li><a href="'.base_path().$lang->prefix.'" data-label="('.$lang->prefix.') '.t('Please choose a language').'"><span>'.$lang->language.'</span>'.$lang->native.'</a></li>';
           }
            ?>
-          <ul class="languages nav nav-list well">
+          <ul class="well languages nav nav-list">
             <li><h2 id="label_language">Please choose a language</h2></li>
           <?php print $li; ?>
           </ul>
