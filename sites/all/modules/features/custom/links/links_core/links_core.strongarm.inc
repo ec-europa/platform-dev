@@ -35,7 +35,7 @@ function links_core_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_form_location_links';
-  $strongarm->value = 0;
+  $strongarm->value = 1;
   $export['comment_form_location_links'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -56,7 +56,7 @@ function links_core_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_subject_field_links';
-  $strongarm->value = 0;
+  $strongarm->value = 1;
   $export['comment_subject_field_links'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -116,16 +116,16 @@ function links_core_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'workbench_moderation_default_state_links';
-  $strongarm->value = 'draft';
-  $export['workbench_moderation_default_state_links'] = $strongarm;
+  $strongarm->name = 'pathauto_node_links_pattern';
+  $strongarm->value = 'links/[node:title]';
+  $export['pathauto_node_links_pattern'] = $strongarm;
 
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_links_pattern';
-  $strongarm->value = 'links/[node:title]';
-  $export['pathauto_node_links_pattern'] = $strongarm;
-  
+  $strongarm->name = 'workbench_moderation_default_state_links';
+  $strongarm->value = 'draft';
+  $export['workbench_moderation_default_state_links'] = $strongarm;
+
   return $export;
 }
