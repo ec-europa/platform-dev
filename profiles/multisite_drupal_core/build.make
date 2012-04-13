@@ -33,7 +33,7 @@ projects[entity][subdir] = "contributed"
 projects[entity][version] = "1.0-rc1"
 
 projects[features][subdir] = "contributed"
-projects[features][version] = "1.x-dev"
+projects[features][version] = "1.0-rc1"
 
 projects[media][subdir] = "contributed"
 projects[media][version] = "2.x-dev"
@@ -66,7 +66,7 @@ projects[varnish][subdir] = "contributed"
 projects[varnish][version] = "1.0-beta1"
 
 projects[views][subdir] = "contributed"
-projects[views][version] = "3.1"
+projects[views][version] = "3.3"
 
 projects[views_datasource][subdir] = "contributed"
 projects[views_datasource][version] = "1.x-dev"

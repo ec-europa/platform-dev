@@ -32,5 +32,16 @@ function feed_rss_core_user_default_permissions() {
   );
 
 
+  // custom permissions
+
+  // Add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
+  // Administrator
+  $adm_rid = get_rid('administrator');  
+  user_role_revoke_permissions($adm_rid, array(
+    'administer modules',
+    'administer features',	
+	'manage features',
+  )); 
+
   return $permissions;
 }

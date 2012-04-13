@@ -82,6 +82,8 @@ function wiki_core_user_default_permissions() {
   user_role_grant_permissions($adm_rid, array_keys(module_invoke_all('permission')));
   user_role_revoke_permissions($adm_rid, array(
     'administer modules',
+    'administer features',
+	'manage features',
   ));  
 
   return $permissions;
