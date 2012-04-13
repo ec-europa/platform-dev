@@ -71,9 +71,6 @@
       <div class="comment-time">
         <?php print  format_date($comment->created, 'custom', 'd/m/Y H:i'); ?>
       </div>
-      <div class="comment-permalink">
-        <?php print $permalink; ?>
-      </div>
     </div>
   </div>
 
