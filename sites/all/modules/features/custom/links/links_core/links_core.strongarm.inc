@@ -94,8 +94,8 @@ function links_core_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'node_options_links';
   $strongarm->value = array(
-    0 => 'status',
-    1 => 'promote',
+    0 => 'moderation',
+    1 => 'revision',
   );
   $export['node_options_links'] = $strongarm;
 
