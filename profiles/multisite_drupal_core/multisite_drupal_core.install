@@ -182,7 +182,7 @@ function multisite_drupal_core_install() {
   // add new links in the main menu -------------------------------------------------------------------------------
   $item = array(
     'link_path' => 'admin/workbench',
-    'link_title' => t('my workbench'),
+    'link_title' => t('My workbench'),
     'menu_name' => 'main-menu',
     'weight' => '9999'
   );
@@ -202,7 +202,7 @@ function multisite_drupal_core_install() {
   // add new links in the main menu -------------------------------------------------------------------------------
   $item = array(
     'link_path' => 'search/site',
-    'link_title' => t('search'),
+    'link_title' => t('Search'),
     'menu_name' => 'main-menu',
     'weight' => '19999'
   );
