@@ -83,8 +83,8 @@ feature_sets[e_library][enable][] = e_library
 feature_sets[e_library][disable][] = e_library
 
 
-feature_sets[mediagallery_core][title] = 'Media Galleries'
-feature_sets[mediagallery_core][description] =  'Contributors can add picture galleries.'
-feature_sets[mediagallery_core][icon] = 'feature-set-icons/mediagallery.png'
-feature_sets[mediagallery_core][enable][] = gallerymedia_core
-feature_sets[mediagallery_core][disable][] = gallerymedia_core
+feature_sets[gallerymedia_core][title] = 'Media Galleries'
+feature_sets[gallerymedia_core][description] =  'Contributors can add picture galleries.'
+feature_sets[gallerymedia_core][icon] = 'feature-set-icons/mediagallery.png'
+feature_sets[gallerymedia_core][enable][] = gallerymedia_core
+feature_sets[gallerymedia_core][disable][] = gallerymedia_core
