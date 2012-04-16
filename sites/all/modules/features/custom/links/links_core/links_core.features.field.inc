@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * links.features.field.inc
+ * links_core.features.field.inc
  */
 
 /**
@@ -170,7 +170,6 @@ function links_core_field_default_fields() {
       ),
     ),
   );
-
 
   // Translatables
   // Included for use with string extractors like potx.
