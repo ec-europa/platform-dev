@@ -96,7 +96,7 @@ global $base_url;
       
         <!-- picture and title -->
         <div class="span4 center">
-          <img src="<?php print $base_url . '/' . path_to_theme(); ?>/images/eu-flag.gif" alt="European flag" />
+          <div id="logo"></div>
           <h1><?php print $site_name; ?></h1>
         </div>
         
