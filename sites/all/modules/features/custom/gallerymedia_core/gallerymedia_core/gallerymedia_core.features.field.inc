@@ -47,44 +47,54 @@ function gallerymedia_core_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_plain',
-          'weight' => '0',
+          'weight' => '1',
         ),
         'full' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '1',
+        ),
+        'media_large' => array(
           'label' => 'inline',
           'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '0',
-        ),
-        'media_large' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'type' => 'text_plain',
+          'weight' => '1',
         ),
         'media_link' => array(
-          'label' => 'above',
+          'label' => 'inline',
+          'module' => 'text',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'type' => 'text_plain',
+          'weight' => '1',
         ),
         'media_original' => array(
-          'label' => 'above',
+          'label' => 'inline',
+          'module' => 'text',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'type' => 'text_plain',
+          'weight' => '1',
         ),
         'media_preview' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 0,
+          'weight' => '1',
         ),
         'media_small' => array(
-          'label' => 'above',
+          'label' => 'inline',
+          'module' => 'text',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'type' => 'text_plain',
+          'weight' => '1',
+        ),
+        'token' => array(
+          'label' => 'inline',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '1',
         ),
       ),
       'entity_type' => 'file',
@@ -179,14 +189,14 @@ function gallerymedia_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-gallerymedia-field_picture_upload'
-  $fields['node-gallerymedia-field_picture_upload'] = array(
+  // Exported field: 'node-gallerymedia-field_multimedia'
+  $fields['node-gallerymedia-field_multimedia'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_picture_upload',
+      'field_name' => 'field_multimedia',
       'foreign keys' => array(
         'fid' => array(
           'columns' => array(
@@ -200,13 +210,14 @@ function gallerymedia_core_field_default_fields() {
           0 => 'fid',
         ),
       ),
-      'module' => 'image',
+      'module' => 'file',
       'settings' => array(
-        'default_image' => 0,
+        'display_default' => 0,
+        'display_field' => 0,
         'uri_scheme' => 'public',
       ),
       'translatable' => '0',
-      'type' => 'image',
+      'type' => 'file',
     ),
     'field_instance' => array(
       'bundle' => 'gallerymedia',
@@ -214,34 +225,24 @@ function gallerymedia_core_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
-          'module' => 'image',
+          'label' => 'hidden',
+          'module' => 'file_entity',
           'settings' => array(
-            'image_link' => 'content',
-            'image_style' => 'square_thumbnail',
+            'file_view_mode' => 'default',
           ),
-          'type' => 'image',
-          'weight' => '4',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'type' => 'file_rendered',
+          'weight' => '2',
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_picture_upload',
-      'label' => 'Upload a picture',
+      'field_name' => 'field_multimedia',
+      'label' => 'multimedia',
       'required' => 0,
       'settings' => array(
-        'alt_field' => 0,
+        'description_field' => 0,
         'file_directory' => '',
-        'file_extensions' => 'png gif jpg jpeg',
+        'file_extensions' => 'txt jpg bmp jpeg mpeg gif wmv avi pdf doc mp4',
         'max_filesize' => '20MB',
-        'max_resolution' => '',
-        'min_resolution' => '',
-        'title_field' => 0,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -253,6 +254,7 @@ function gallerymedia_core_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
+            0 => 0,
             'audio' => 0,
             'default' => 0,
             'image' => 'image',
@@ -275,7 +277,7 @@ function gallerymedia_core_field_default_fields() {
   // Included for use with string extractors like potx.
   t('Body');
   t('Picture Description');
-  t('Upload a picture');
+  t('multimedia');
 
   return $fields;
 }

@@ -19,6 +19,13 @@ function gallerymedia_core_ctools_plugin_api() {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function gallerymedia_core_views_api() {
+  return array("version" => "3.0");
+}
+
+/**
  * Implements hook_node_info().
  */
 function gallerymedia_core_node_info() {

@@ -40,7 +40,7 @@ function gallerymedia_core_file_default_displays() {
   $file_display->api_version = 1;
   $file_display->name = 'image__default__file_field_file_url_plain';
   $file_display->weight = -46;
-  $file_display->status = TRUE;
+  $file_display->status = FALSE;
   $file_display->settings = '';
   $export['image__default__file_field_file_url_plain'] = $file_display;
 
