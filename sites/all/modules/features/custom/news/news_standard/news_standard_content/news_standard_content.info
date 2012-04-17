@@ -1,7 +1,7 @@
 name = "news content default"
 description = "provide some dummie content"
 core = "7.x"
-package = "Features"
+package = "Multisite Standard Features"
 php = "5.2.4"
 version = "7.x-1.0"
 project = "news_standard_content"

@@ -4,3 +4,15 @@
  */
 
 // Drupal needs this blank file.
+
+function news_standard_content_enable() {
+  $node_types = array('news');
+  $results = db_select('node', 'n')
+              ->fields('n', array('nid'))
+              ->condition('type', $node_types, 'IN')
+              ->execute();
+  foreach ($results as $result) {
+	$node = node_load($result->nid);
+	workbench_moderation_moderate($node, "published");
+  }
+}
