@@ -429,7 +429,7 @@ function ec_default_menu_link__main_menu(array $variables) {
   $pattern = '/[^a-z]+/ ';
   $name_id = preg_replace($pattern, '', $name_id);  
 
-  if (in_array('expanded',$element['#attributes']['class'])) {
+  if (in_array('expanded',$element['#attributes']['class']) && !theme_get_setting('disable_dropdown_menu')) {
   //Menu item has sub-menu
     $element['#title'] .= '<b class="caret"></b>';
     $element['#attributes']['class'][] = 'dropdown';
@@ -635,7 +635,10 @@ function ec_default_dropdown($variables) {
 
   $output="";
   if (!empty($items)) {
-    $output .= "<ul class='dropdown-menu'>";
+	if(theme_get_setting('disable_dropdown_menu'))
+	  $output .= "<ul>";
+    else
+	  $output .= "<ul class='dropdown-menu'>";
     $num_items = count($items);
     foreach ($items as $i => $item) {
       $data = '';
