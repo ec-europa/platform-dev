@@ -119,25 +119,6 @@ projects[styles][version] = "2.0-alpha8"
 projects[advanced_forum][subdir] = "contributed"
 projects[advanced_forum][version] = "2.0-rc1"
 
-;projects[profile2][subdir] = "contributed"
-;projects[profile2][version] = "1.2"
-
-
-;projects[debut_media][subdir] = "contributed"
-;projects[debut_media][version] = "1.0-beta6"
-
-;projects[debut_link][subdir] = "contributed"
-;projects[debut_link][version] = "1.0-beta3"
-
-;projects[debut_forum][subdir] = "contributed"
-;projects[debut_forum][version] = "1.0-beta2"
-
-;projects[debut_article][subdir] = "contributed"
-;projects[debut_article][version] = "1.0-beta5"
-
-;projects[debut_event][subdir] = "contributed"
-;projects[debut_event][version] = "1.0-beta6"
-
 projects[simplenews][subdir] = "contributed"
 projects[simplenews][version] = "1.0-beta1"
 

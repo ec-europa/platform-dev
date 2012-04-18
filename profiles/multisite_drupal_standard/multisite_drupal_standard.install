@@ -16,8 +16,8 @@ function multisite_drupal_standard_install() {
     'view all unpublished content',
 	//'moderate content from needs_review to published',
 	'moderate content from needs_review to draft',
-	'edit any article content',
-	'delete any article content',
+	//'edit any article content',
+	//'delete any article content',
   )); 
   
 }
