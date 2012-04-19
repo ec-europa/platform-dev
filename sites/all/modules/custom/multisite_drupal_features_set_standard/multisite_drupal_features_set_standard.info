@@ -106,10 +106,14 @@ feature_sets[feed_rss_core][enable][] = feed_rss_core
 feature_sets[feed_rss_core][disable][] = feed_rss_core
 
 feature_sets[fat_footer][title] = 'Fat footer'
-feature_sets[fat_footer][description] = 'Provide a complete expanded main menu at the bottom of page.'
+feature_sets[fat_footer][description] = 'Provide a expanded main menu at the bottom of page.'
 feature_sets[fat_footer][icon] = 'feature-set-icons/fat_footer.png'
 feature_sets[fat_footer][enable][] = fat_footer
 feature_sets[fat_footer][disable][] = fat_footer
 
-
+feature_sets[splash_screen][title] = 'Splash screen'
+feature_sets[splash_screen][description] = 'Provide a home page for to choose language and store language in cookie.'
+feature_sets[splash_screen][icon] = 'feature-set-icons/splash.png'
+feature_sets[splash_screen][enable][] = splash_screen
+feature_sets[splash_screen][disable][] = splash_screen
 

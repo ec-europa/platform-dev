@@ -176,6 +176,9 @@ projects[ds][version] = "1.5"
 projects[menu_block][subdir] = "contributed"
 projects[menu_block][version] = "2.3"
 
+projects[locale_cookie][subdir] = "contributed"
+projects[locale_cookie][version] = "1.0"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"

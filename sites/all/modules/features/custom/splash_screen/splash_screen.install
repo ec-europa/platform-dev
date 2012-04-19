@@ -1,0 +1,22 @@
+<?php
+function splash_screen_enable() {
+  variable_set("splash_screen_url",'splash');
+  
+  // set the language negociation --------------------------------------------------------------------------
+  $lni = language_negotiation_info();
+  $ln['language-default'] = $lni['language-default'];
+  $ln['locale-url'] = $lni['locale-url'];
+  $ln['language-cookie'] = $lni['language-cookie'];
+  language_negotiation_set('language', $ln);
+  
+}
+
+function splash_screen_disable() {
+  variable_del("splash_screen_url");
+  
+  // set the language negociation --------------------------------------------------------------------------
+  $lni = language_negotiation_info();
+  $ln['language-default'] = $lni['language-default'];
+  $ln['locale-url'] = $lni['locale-url'];
+  language_negotiation_set('language', $ln);  
+}

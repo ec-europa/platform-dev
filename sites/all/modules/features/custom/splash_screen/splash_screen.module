@@ -1,0 +1,25 @@
+<?php
+/**
+ * @file
+ * Code for the Splash_screen feature.
+ */
+
+include_once 'splash_screen.features.inc';
+
+
+/*
+* hook_init
+*/
+function splash_screen_init() {	
+  global $language, $user;
+  if($user->uid != 1) {
+    $splash_screen_url = variable_get("splash_screen_url"); // TODO put these variables in a admin form settings
+    $cookie_name = variable_get("locale_cookie_language_negotiation_cookie_param");
+
+    if(empty($_COOKIE[$cookie_name])) {
+      //$cookie_data['time'] = time();
+      //setcookie($cookie_name, serialize($cookie_data), time()+60*60*24*900);
+      drupal_goto($splash_screen_url);
+    }
+  }
+}

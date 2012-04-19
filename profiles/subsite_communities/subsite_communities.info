@@ -79,6 +79,7 @@ dependencies[] = ds_forms
 dependencies[] = ds_extras
 dependencies[] = ds_search
 dependencies[] = menu_block
+dependencies[] = locale_cookie
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set
