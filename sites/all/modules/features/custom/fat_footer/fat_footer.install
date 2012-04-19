@@ -1,0 +1,8 @@
+<?php
+function fat_footer_enable() {
+  _add_block_context('site_wide','fat-footer','fat_footer','fat-footer', 'footer');
+}
+
+function fat_footer_disable() {
+  _remove_block_context('site_wide','fat-footer');
+}

@@ -105,3 +105,11 @@ feature_sets[feed_rss_core][icon] = 'feature-set-icons/feedrss.png'
 feature_sets[feed_rss_core][enable][] = feed_rss_core
 feature_sets[feed_rss_core][disable][] = feed_rss_core
 
+feature_sets[fat_footer][title] = 'Fat footer'
+feature_sets[fat_footer][description] = 'Provide a complete expanded main menu at the bottom of page.'
+feature_sets[fat_footer][icon] = 'feature-set-icons/fat_footer.png'
+feature_sets[fat_footer][enable][] = fat_footer
+feature_sets[fat_footer][disable][] = fat_footer
+
+
+
