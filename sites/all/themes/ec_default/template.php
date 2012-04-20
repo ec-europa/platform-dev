@@ -110,13 +110,13 @@ function ec_default_preprocess_html(&$variables) {
     case 'ec':
       drupal_add_css(path_to_theme() . '/wel/template-2012/stylesheets/ec.css', array('group' => CSS_THEME));
       drupal_add_css(path_to_theme() . '/wel/template-2012/stylesheets/ec-ie.css', array('group' => CSS_THEME, 'browsers' => array('!IE' => FALSE)));
-      drupal_add_css(path_to_theme() . '/css/hack-ec.less', array('group' => CSS_THEME));
+      drupal_add_css(path_to_theme() . '/css/less/hack-ec.less', array('group' => CSS_THEME));
       break;
     
     case 'europa':
       drupal_add_css(path_to_theme() . '/wel/template-2011/stylesheets/europa.css', array('group' => CSS_THEME));
       drupal_add_css(path_to_theme() . '/wel/template-2011/stylesheets/europa-ie.css', array('group' => CSS_THEME, 'browsers' => array('!IE' => FALSE)));
-      drupal_add_css(path_to_theme() . '/css/hack-europa.less', array('group' => CSS_THEME));
+      drupal_add_css(path_to_theme() . '/css/less/hack-europa.less', array('group' => CSS_THEME));
       break;
       
     default:
@@ -124,12 +124,12 @@ function ec_default_preprocess_html(&$variables) {
   }
   
   // Add Less stylesheets
-  drupal_add_css(path_to_theme() . '/css/ec_default.less', array('group' => CSS_THEME));
+  drupal_add_css(path_to_theme() . '/css/less/ec_default.less', array('group' => CSS_THEME));
   
   // Add conditional stylesheets for IE
-  drupal_add_css(path_to_theme() . '/css/ie.less', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
+  drupal_add_css(path_to_theme() . '/css/less/ie.less', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
   drupal_add_css(path_to_theme() . '/css/ie6.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'IE 6', '!IE' => FALSE), 'preprocess' => FALSE));
-  drupal_add_css(path_to_theme() . '/css/hack-ie.less', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE)));
+  drupal_add_css(path_to_theme() . '/css/less/hack-ie.less', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE)));
 
   // Add javascripts
 	drupal_add_js(path_to_theme() . '/wel/template-2012/scripts/ec.js', array('scope' => 'footer', 'weight' => 12));

@@ -1,62 +1,22 @@
-/* ---------- Color Module Styles ----------- */
-
-body,
-body.overlay,
-li,
-label { color: @text_color; }
-
-h1 {color: @h1_color; }
-h2 {color: @h2_color; }
-h3 {color: @h3_color; }
-h4 {color: @h4_color; }
-h5 {color: @h5_color; }
-h6 {color: @h6_color; }
-
-table {
-  tr {
-    &.odd { background-color: transparent; }
-    &.even  { background-color: transparent; }
-    td {
-      &.active { background-color: transparent; }
-    }
-  }
-}
-
-.comment {
-  .comment-arrow { border-color: @body_color; }
-}
-
-ul {
-  .secondary {
-    border-color: darken(@body_color,15%);
-    li { border-color: darken(@body_color,15%); }
-  }
-}
-
-a {
-  color: @link_color;
-  &:hover { color: @link_hover_color; }
-  &:focus { color: @link_hover_color; }
-  &:active { color: @link_active_color; }  
-  &:visited { color: @link_color; }
-}
-
-.meta { color: #999999; }
-
-/* ---------------- news  ----------------- */
-#slider.news {
-  .content > .view-news > .news_content {
-    background-color: @body_color;
-    border-left: 1px solid #DDDDDD;
-    border-top: 1px solid #DDDDDD;
-    border-bottom: 1px solid #DDDDDD;
-  }
-  .news_list {
-    background-color: #D9EDF7;
-  }
-}
-
 /* ---------------- Events  ----------------- */
+.view .date-nav-wrapper {
+  .date-prev {
+    background-color: transparent;
+    left: 0;
+    right: auto;
+  }
+  .date-next {
+    background-color: transparent;
+  }
+}
+
+#block-views-calendar-upcoming-events {
+  blockquote.date {
+    margin: 5px 0;
+    color: #999;
+  }
+}
+
 .calendar-calendar {
   .month-view .full {
     td.multi-day div.monthview {
@@ -122,10 +82,5 @@ a {
     td table td {
       text-align: center;
     }
-  }
-}
-#block-views-calendar-upcoming-events {
-  blockquote.date {
-    color: #999;
   }
 }
