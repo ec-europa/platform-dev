@@ -425,8 +425,8 @@ function ec_default_menu_link__main_menu(array $variables) {
   $name_id = strtolower(strip_tags($element['#title']));
 // remove colons and anything past colons
   if (strpos($name_id, ':')) $name_id = substr ($name_id, 0, strpos($name_id, ':'));
-//Preserve alphanumerics, everything else goes away
-  $pattern = '/[^a-z]+/ ';
+//Preserve alphanumerics and numbers, everything else goes away
+  $pattern = '/([^a-z]+)([^0-9]+)/';
   $name_id = preg_replace($pattern, '', $name_id);  
 
   if (in_array('expanded',$element['#attributes']['class']) && !theme_get_setting('disable_dropdown_menu')) {
