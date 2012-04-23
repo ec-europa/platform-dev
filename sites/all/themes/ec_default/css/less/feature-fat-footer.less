@@ -2,9 +2,7 @@
 .block-fat-footer {
   margin: 8px 0;
   text-align: left;
-  a {
-    text-decoration: none;
-  }
+
   h2 {
     display: none;
   }
@@ -14,8 +12,16 @@
     vertical-align: top;
     text-align: left;
     line-height: 23px;
-    padding: 0 8px;
-    margin-bottom: 8px;
+    margin: 4px;
+    a {
+      text-decoration: none;
+      display: block;
+      padding: 0 8px;
+      &:hover {
+        #gradient .vertical(#0085D5, #0075c5);
+        .border-radius;
+      }
+    }         
     ul {
       padding: 0 0 0 10px;
       margin: 0;
