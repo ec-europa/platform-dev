@@ -17,8 +17,6 @@ function splash_screen_init() {
     $cookie_name = variable_get("locale_cookie_language_negotiation_cookie_param");
 
     if(empty($_COOKIE[$cookie_name])) {
-      //$cookie_data['time'] = time();
-      //setcookie($cookie_name, serialize($cookie_data), time()+60*60*24*900);
       drupal_goto($splash_screen_url);
     }
   }
