@@ -170,6 +170,10 @@ projects[menu_block][version] = "2.3"
 projects[locale_cookie][subdir] = "contributed"
 projects[locale_cookie][version] = "1.0"
 
+projects[translation_overview][subdir] = "contributed"
+projects[translation_overview][version] = "2.0-beta1"
+
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"

@@ -34,6 +34,7 @@ features[variable][] = "date_api_version"
 features[variable][] = "date_default_timezone"
 features[variable][] = "date_first_day"
 features[variable][] = "file_private_path"
+features[variable][] = language_content_type_article
 features[variable][] = "node_admin_theme"
 features[variable][] = "node_options_page"
 features[variable][] = "node_submitted_page"

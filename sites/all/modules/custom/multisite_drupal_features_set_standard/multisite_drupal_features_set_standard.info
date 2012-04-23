@@ -117,3 +117,8 @@ feature_sets[splash_screen][icon] = 'feature-set-icons/splash.png'
 feature_sets[splash_screen][enable][] = splash_screen
 feature_sets[splash_screen][disable][] = splash_screen
 
+feature_sets[multilingual_tools][title] = 'Multilingual tools'
+feature_sets[multilingual_tools][description] = 'Provide tools to enhance the translation tasks.'
+feature_sets[multilingual_tools][icon] = 'feature-set-icons/multilingual.png'
+feature_sets[multilingual_tools][enable][] = multilingual_tools
+feature_sets[multilingual_tools][disable][] = multilingual_tools
