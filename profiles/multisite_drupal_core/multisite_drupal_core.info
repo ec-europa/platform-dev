@@ -82,6 +82,8 @@ dependencies[] = ds_extras
 dependencies[] = ds_search
 dependencies[] = menu_block
 dependencies[] = locale_cookie
+dependencies[] = i18n
+dependencies[] = i18n_sync
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set

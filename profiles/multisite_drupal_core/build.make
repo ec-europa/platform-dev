@@ -182,6 +182,14 @@ projects[locale_cookie][version] = "1.0"
 projects[translation_overview][subdir] = "contributed"
 projects[translation_overview][version] = "2.0-beta1"
 
+projects[i18n][subdir] = "contributed"
+projects[i18n][version] = "1.5"
+
+projects[variable][subdir] = "contributed"
+projects[variable][version] = "1.2"
+
+projects[translation_table][subdir] = "contributed"
+projects[translation_table][version] = "1.0-beta1"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"

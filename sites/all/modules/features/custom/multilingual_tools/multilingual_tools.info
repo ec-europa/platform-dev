@@ -5,4 +5,5 @@ package = Multisite_features
 version = 7.x-1.0
 project = multilingual_tools
 dependencies[] = translation_overview
+dependencies[] = translation_table
 features[features_api][] = api:1
