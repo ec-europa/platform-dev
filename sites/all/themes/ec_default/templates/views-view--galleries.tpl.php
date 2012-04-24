@@ -32,8 +32,8 @@
       print l(t('Create a Gallery'), 'node/add/gallerymedia', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'))); 
     }
   ?>
-
-<li class="<?php print $classes; ?>">
+  
+<div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
     <?php print $title; ?>
@@ -43,7 +43,6 @@
     <div class="view-header">
       <?php print $header; ?>
     </div>
-
   <?php endif; ?>
 
   <?php if ($exposed): ?>
@@ -62,7 +61,6 @@
     <div class="view-content">
       <?php print $rows; ?>
     </div>
-
   <?php elseif ($empty): ?>
     <div class="view-empty">
       <?php print $empty; ?>
@@ -95,4 +93,4 @@
     </div>
   <?php endif; ?>
 
-</li><?php /* class view */ ?>
+</div><?php /* class view */ ?>
