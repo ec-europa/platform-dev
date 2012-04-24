@@ -92,9 +92,9 @@ endif;
 
 ?>
 
-<a id="top-page" name="top-page"></a>
-
 <div class="layout <?php if (isset($variables['no_right']) && $variables['no_right']) print ' layout-noright'; ?><?php if (isset($variables['no_left']) && $variables['no_left']) print ' layout-noleft'; ?>" id="layout">
+  
+  <a id="top-page"></a>  
   
   <div id="header">
 <?php 
