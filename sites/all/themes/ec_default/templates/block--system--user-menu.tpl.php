@@ -44,7 +44,7 @@
  * @ingroup themeable
  */
 ?>
-  
+  <li class="nav">
   <ul id="<?php print $block_html_id; ?>" class="unstyled inline">
   <?php 
     $menu = menu_navigation_links("user-menu");
@@ -63,6 +63,7 @@
     print $items;
   ?>    
   </ul>  
+  </li>
 
 
 

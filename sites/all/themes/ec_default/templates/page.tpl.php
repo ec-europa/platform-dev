@@ -101,7 +101,7 @@ endif;
   switch ($variables['template']) {   
     case 'ec':
 ?>    
-    <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2012/images/logo/logo_en.gif">
+    <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2012/images/logo/logo_en.gif" />
     
     <p id="banner-title-text"><?php print $site_name; ?></p>
     <span class="title-en" id="banner-image-title"></span>  
@@ -177,15 +177,15 @@ endif;
       <?php endif; ?>
 
         <div class="layout-left region region-sidebar-first">
-        <ul class="nav nav-list">
       <?php if ($page['sidebar_first']): ?>
+      <ul class="nav nav-list">
         <?php print render($page['sidebar_first']); ?>
+      </ul>
       <?php endif; ?>
-        </ul>
-        </div><!-- /.layout-left -->	
+      </div><!-- /.layout-left -->	
 
         <div class="layout-content">
-          <div class="layout-content-reset"><a id="content" name="content"></a>
+          <div class="layout-content-reset"><a id="content"></a>
     
             <div class="region region-tools">
               <?php if ($page['tools']): ?>
