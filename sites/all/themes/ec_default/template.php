@@ -402,6 +402,7 @@ function ec_default_menu_tree__main_menu($variables) {
   if(strpos($variables['tree'], 'main_menu_dropdown') && !strpos($variables['tree'], '<ul')) {
     return '<ul class="dropdown-menu">' . $variables['tree'] . '</ul>';
   } else {
+    $variables['tree'] = str_replace('<ul class="nav nav-pills">','<ul class="dropdown-menu">',$variables['tree']);
     return '<ul class="nav nav-pills">' . $variables['tree'] . '</ul>';  
   }
 }
