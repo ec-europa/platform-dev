@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the gallerymedia_core feature.
- */
-
-include_once 'gallerymedia_core.features.inc';
