@@ -399,7 +399,7 @@ function ec_default_menu_tree($variables) {
   return '<ul class="menu clearfix">' . $variables['tree'] . '</ul>';
 }
 function ec_default_menu_tree__main_menu($variables) {
-  if(strpos($variables['tree'], 'main_menu_dropdown') && !strpos($variables['tree'], '<ul')) {
+  if(strpos($variables['tree'], 'main_menu_dropdown') && !strpos($variables['tree'], '<ul') && !theme_get_setting('disable_dropdown_menu')) {
     return '<ul class="dropdown-menu">' . $variables['tree'] . '</ul>';
   } else {
     $variables['tree'] = str_replace('<ul class="nav nav-pills">','<ul class="dropdown-menu">',$variables['tree']);
