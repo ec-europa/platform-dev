@@ -1,0 +1,32 @@
+<?php
+
+/*
+ * hook_enable 
+ * Edit communities context to add a block
+ */
+function gallerymedia_core_enable(){
+  // solR configuration add bundle
+  config_solr_bundle('gallerymedia','add');
+  
+  //Add block in context
+  _add_block_context('homepage','multisite_standard-medias_block','views','multisite_standard-medias_block', 'content_top');
+  
+  drupal_set_message('MediaGallery feature is now active on your site.');
+  
+}
+
+
+/*
+ * hook_disable 
+ * Edit communities context to remove block
+ * Remove permissions
+ */
+function gallerymedia_core_disable(){
+  // solR configuration add bundle
+  config_solr_bundle('gallerymedia','delete');
+
+  // remove type from notification
+  notification_content_type('gallerymedia','delete');          
+  
+  drupal_set_message('MediaGallery feature is now disabled on your site.');
+}
