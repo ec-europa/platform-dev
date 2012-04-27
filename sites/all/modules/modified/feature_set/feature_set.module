@@ -336,7 +336,7 @@ function get_require($module) {
 function feature_set_exit() {
   if($_GET['q'] == 'admin/structure/feature-set') {
     drupal_flush_all_caches();
-	node_access_rebuild();
+	//node_access_rebuild();
   }
 }
 

@@ -90,7 +90,8 @@ function multisite_drupal_core_install() {
     'post comments',
 	'access print',
 	'access PDF version',
-  'access site-wide contact form',
+    'access site-wide contact form',
+	'search content',
   )); 
   
   
