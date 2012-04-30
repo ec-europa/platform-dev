@@ -38,7 +38,7 @@ function gallerymedia_core_views_default_views_alter(&$views) {
     // $handler->display->display_options['defaults']['filters'] = FALSE;
 
         
-  
+
 /* Display: Latest Media block */
 $handler = $view->new_display('block', 'Latest Media block', 'medias_block');
 $handler->display->display_options['defaults']['title'] = FALSE;
@@ -147,6 +147,5 @@ $translatables['multisite_standard'] = array(
   t(' <i class="icon-[type]"></i>[title]'),
   t('Latest Media block'),
 );
-
 }
 }
