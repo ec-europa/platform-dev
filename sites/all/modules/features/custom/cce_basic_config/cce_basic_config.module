@@ -73,10 +73,10 @@ function cce_basic_config_enable() {
 /*
 * add blocks to context
 */
-  _add_block_context('site_wide','locale-language','locale','language','highlighted');	
-  _add_block_context('site_wide','system-main-menu','system','main-menu','featured');	
-  _add_block_context('communities','multisite_og_button-og-contextual-links','multisite_og_button','og-contextual-links', 'sidebar_first','-9');
- 
+  // _add_block_context('site_wide','locale-language','locale','language','highlighted');	
+  // _add_block_context('site_wide','system-main-menu','system','main-menu','featured');	
+  // _add_block_context('communities','multisite_og_button-og-contextual-links','multisite_og_button','og-contextual-links', 'sidebar_first','-9');
+ /* COMMENTED BY MCT: INSTALLATION ERROR  (cf. error.log in pms directory)*/
 }
 
 function cce_basic_config_menu_alter(&$items) {
