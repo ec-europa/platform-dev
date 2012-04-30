@@ -66,9 +66,12 @@ $handler->display->display_options['fields']['title']['alter']['trim_whitespace'
 $handler->display->display_options['fields']['title']['alter']['nl2br'] = 0;
 $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 0;
 $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 0;
+$handler->display->display_options['fields']['title']['alter']['more_link'] = 0;
 $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
 $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
 $handler->display->display_options['fields']['title']['alter']['html'] = 0;
+$handler->display->display_options['fields']['title']['element_type'] = 'p';
+$handler->display->display_options['fields']['title']['element_class'] = 'carousel-caption';
 $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['title']['element_default_classes'] = 0;
 $handler->display->display_options['fields']['title']['hide_empty'] = 0;
@@ -125,14 +128,30 @@ $handler->display->display_options['fields']['field_picture_upload']['empty_zero
 $handler->display->display_options['fields']['field_picture_upload']['hide_alter_empty'] = 1;
 $handler->display->display_options['fields']['field_picture_upload']['click_sort_column'] = 'fid';
 $handler->display->display_options['fields']['field_picture_upload']['settings'] = array(
-  'image_style' => 'thumbnail',
+  'image_style' => 'landscape',
   'image_link' => 'content',
 );
 $handler->display->display_options['fields']['field_picture_upload']['group_rows'] = 1;
+$handler->display->display_options['fields']['field_picture_upload']['delta_limit'] = '1';
 $handler->display->display_options['fields']['field_picture_upload']['delta_offset'] = '0';
 $handler->display->display_options['fields']['field_picture_upload']['delta_reversed'] = 0;
 $handler->display->display_options['fields']['field_picture_upload']['delta_first_last'] = 0;
 $handler->display->display_options['fields']['field_picture_upload']['field_api_classes'] = 0;
+$handler->display->display_options['defaults']['filters'] = FALSE;
+/* Filter criterion: Content: Published */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'node';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['value'] = 1;
+$handler->display->display_options['filters']['status']['group'] = 1;
+$handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+/* Filter criterion: Content: Type */
+$handler->display->display_options['filters']['type']['id'] = 'type';
+$handler->display->display_options['filters']['type']['table'] = 'node';
+$handler->display->display_options['filters']['type']['field'] = 'type';
+$handler->display->display_options['filters']['type']['value'] = array(
+  'gallerymedia' => 'gallerymedia',
+);
 $translatables['multisite_standard'] = array(
   t('Master'),
   t('Latest Content'),
@@ -147,5 +166,6 @@ $translatables['multisite_standard'] = array(
   t(' <i class="icon-[type]"></i>[title]'),
   t('Latest Media block'),
 );
+
 }
 }
