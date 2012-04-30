@@ -67,9 +67,25 @@ jQuery(function($){
 		
     /* Gallery carrousel */
     $('.carousel').carousel({
-    interval: 5000
+      interval: 5000
     });
     /* /Gallery carrousel */
+    
+    /* Gallery lightbox */
+    $('.modal .close').click(function(e) {
+      e.preventDefault();
+      $(this).closest('.modal').modal('hide');
+    });
+    
+    /*$("#single_1").fancybox({
+          helpers: {
+              title : {
+                  type : 'float'
+              }
+          }
+      });*/
+  
+    /* /Gallery lightbox */
     
     /* Menu dropdown */
     $('.dropdown-toggle').dropdown();

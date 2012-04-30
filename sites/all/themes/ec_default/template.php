@@ -93,18 +93,21 @@ function ec_default_preprocess_html(&$variables) {
   // Add twitter bootsrap
   drupal_add_css(path_to_theme() . '/bootstrap/css/bootstrap.min.css', array('group' => CSS_THEME));
   //drupal_add_css(path_to_theme() . '/bootstrap/bootstrap.less', array('group' => CSS_THEME));
-  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap.min.js', array('scope' => 'footer', 'weight' => 1));
-  drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-dropdown.js', array('scope' => 'footer', 'weight' => 2));
-  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-tab.js', array('scope' => 'footer', 'weight' => 3));
-  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-modal.js', array('scope' => 'footer', 'weight' => 4));
+  drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-dropdown.js', array('scope' => 'footer', 'weight' => 1));
+  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-tab.js', array('scope' => 'footer', 'weight' => 2));
+  drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-modal.js', array('scope' => 'footer', 'weight' => 3));
   drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-transition.js', array('scope' => 'footer', 'weight' => 4));
   drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-carousel.js', array('scope' => 'footer', 'weight' => 5));
   
   // Add image gallery
   //drupal_add_css(path_to_theme() . '/bootstrap/image-gallery/css/bootstrap-image-gallery.min.css', array('group' => CSS_THEME));
   //drupal_add_js(path_to_theme() . '/bootstrap/image-gallery/js/load-image.min.js', array('scope' => 'footer', 'weight' => 10));
-  //drupal_add_js(path_to_theme() . '/bootstrap/image-gallery/js/bootstrap-image-gallery.min.js', array('scope' => 'footer', 'weight' => 11));
+  //drupal_add_js(path_to_theme() . '/bootstrap/image-gallery/js/bootstrap-image-gallery.js', array('scope' => 'footer', 'weight' => 11));
 
+  // Add fancybox
+  //drupal_add_css(path_to_theme() . '/fancybox/jquery.fancybox.css', array('group' => CSS_THEME));
+  //drupal_add_js(path_to_theme() . '/fancybox/jquery.fancybox.pack.js', array('scope' => 'footer', 'weight' => 6));
+  
   // Add EC stylesheets
   switch ($variables['template']) {
     case 'ec':
@@ -132,9 +135,9 @@ function ec_default_preprocess_html(&$variables) {
   drupal_add_css(path_to_theme() . '/css/less/hack-ie.less', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE)));
 
   // Add javascripts
-	drupal_add_js(path_to_theme() . '/wel/template-2012/scripts/ec.js', array('scope' => 'footer', 'weight' => 12));
-	drupal_add_js(path_to_theme() . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 14));
-  drupal_add_js(path_to_theme() . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 15));  
+	drupal_add_js(path_to_theme() . '/wel/template-2012/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
+	drupal_add_js(path_to_theme() . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 11));
+  drupal_add_js(path_to_theme() . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 12));  
 
 }
 
@@ -729,7 +732,7 @@ function class_replace($match) {
       return '<i class="icon-question-sign"></i>';
     break;
     
-    case "Gallery":
+    case "GalleryMedia":
      return '<i class="icon-film"></i>';
     break;
     

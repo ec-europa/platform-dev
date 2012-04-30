@@ -161,16 +161,35 @@
       }       
       $output .= '</fieldset>';
     }
-    
+
     //display media items
     foreach ($content['field_picture_upload']['#items'] as $key => $item) {
+
+      $file = str_replace('public://','',$item['uri']);
+      
       if (($key % 4) == 0)
         $output .= '<div class="media_gallery row-fluid">';
         
       $output .= '<div class="span3 media_item">';
-        $output .= '<a href="'.$base_url.'/sites/default/files/'.str_replace('public://','',$item['uri']).'">';
-          $output .= '<p>'.$item['filename'].'</p>';
+      
+        $output .= '<div class="modal hide fade" id="modal'.$key.'" style="display: none;">';
+          $output .= '<div class="modal-header">';
+            $output .= '<button class="close" data-dismiss="modal" >×</button>';
+            $output .= '<h3>'.$item['filename'].'</h3>';
+          $output .= '</div>';
+          $output .= '<div class="modal-body">';
+            $output .= '<img src="'.$base_url.'/sites/default/files/'.$file.'" alt="'.$item['filename'].'" />';
+          $output .= '</div>';
+          $output .= '<div class="modal-footer">';
+            if (isset($item['field_picture_description']['und'][0]['value']))
+              $output .= '<p>'.$item['field_picture_description']['und'][0]['value'].'</p>';
+            $output .= '<a class="btn close" data-dismiss="modal" href="#">Close</a>';
+          $output .= '</div>';
+        $output .= '</div>';
+      
+        $output .= '<a href="#modal'.$key.'" data-toggle="modal">';
           $output .= '<img src="'.$base_url.'/sites/default/files/styles/square_thumbnail/public/'.str_replace('public://','',$item['uri']).'" alt="'.$item['filename'].'" />';
+          $output .= '<p class="carousel-caption">'.$item['filename'].'</p>';
         $output .= '</a>';
       $output .= '</div>';
       

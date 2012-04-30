@@ -229,28 +229,27 @@
         initGalleryEvents: function () {
             var $this = this,
                 modal = this.$element;
-            modal.find('.modal-image').on('click.modal-gallery', function (e) {
+            modal.find('.modal-image .modal-gallery').click(function (e) {
                 if (e.altKey) {
                     $this.prev(e);
                 } else {
                     $this.next(e);
                 }
             });
-            modal.find('.modal-prev').on('click.modal-gallery', function (e) {
+            modal.find('.modal-prev .modal-gallery').click(function (e) {
                 $this.prev(e);
             });
-            modal.find('.modal-next').on('click.modal-gallery', function (e) {
+            modal.find('.modal-next .modal-gallery').click(function (e) {
                 $this.next(e);
             });
-            modal.find('.modal-slideshow').on('click.modal-gallery', function (e) {
+            modal.find('.modal-slideshow .modal-gallery').click(function (e) {
                 $this.toggleSlideShow(e);
             });
-            $(document)
-                .on('keydown.modal-gallery', function (e) {
+            $('document .modal-gallery')
+                .keydown(function (e) {
                     $this.keyHandler(e);
                 })
-                .on(
-                    'mousewheel.modal-gallery, DOMMouseScroll.modal-gallery',
+                .mousewheel(
                     function (e) {
                         $this.wheelHandler(e);
                     }
@@ -313,8 +312,7 @@
         }
     });
     $(function () {
-        $(document.body).on(
-            'click.modal-gallery.data-api',
+        $('document.body.modal-gallery.data-api').click(
             '[data-toggle="modal-gallery"]',
             function (e) {
                 var $this = $(this),

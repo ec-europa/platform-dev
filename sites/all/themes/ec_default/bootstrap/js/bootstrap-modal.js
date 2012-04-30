@@ -101,7 +101,8 @@
   function hideWithTransition() {
     var that = this
       , timeout = setTimeout(function () {
-          that.$element.off($.support.transition.end)
+          //that.$element.off($.support.transition.end)
+          that.$element.hide()
           hideModal.call(that)
         }, 500)
 
@@ -161,11 +162,12 @@
   function escape() {
     var that = this
     if (this.isShown && this.options.keyboard) {
-      $(document).on('keyup.dismiss.modal', function ( e ) {
+      //$(document).on('keyup.dismiss.modal', function ( e ) {
+      $(document).keyup('dismiss.modal', function ( e ) {
         e.which == 27 && that.hide()
       })
     } else if (!this.isShown) {
-      $(document).off('keyup.dismiss.modal')
+      //$(document).off('keyup.dismiss.modal')
     }
   }
 
@@ -197,14 +199,23 @@
   * ============== */
 
   $(function () {
-    $('body').on('click.modal.data-api', '[data-toggle="modal"]', function ( e ) {
+    //$('body').on('click.modal.data-api', '[data-toggle="modal"]', function ( e ) {
+    $('body a[data-toggle="modal"]').click( function ( e ) {
       var $this = $(this), href
         , $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
         , option = $target.data('modal') ? 'toggle' : $.extend({}, $target.data(), $this.data())
 
       e.preventDefault()
       $target.modal(option)
-    })
+    });
+    /*$('body a[data-toggle="modal"] *').click( function ( e ) {
+      var $this = $(this), href
+        , $target = $($this.closest('a').attr('data-target') || (href = $this.closest('a').attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
+        , option = $target.data('modal') ? 'toggle' : $.extend({}, $target.data(), $this.data())
+
+      e.preventDefault()
+      $target.modal(option)
+    });*/
   })
 
 }( window.jQuery );
