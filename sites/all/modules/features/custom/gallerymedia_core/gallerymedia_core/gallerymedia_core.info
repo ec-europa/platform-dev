@@ -12,6 +12,7 @@ dependencies[] = image
 dependencies[] = media
 dependencies[] = strongarm
 dependencies[] = taxonomy
+dependencies[] = cck_pager
 features[ctools][] = file_entity:file_default_displays:1
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0

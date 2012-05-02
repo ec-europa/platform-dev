@@ -191,6 +191,9 @@ projects[variable][version] = "1.2"
 projects[translation_table][subdir] = "contributed"
 projects[translation_table][version] = "1.0-beta1"
 
+projects[cck_pager][subdir] = "contributed"
+projects[cck_pager][version] = "7.x-1.x-dev"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"
