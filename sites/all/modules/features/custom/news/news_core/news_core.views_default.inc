@@ -187,6 +187,16 @@ function news_core_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'news' => 'news',
   );
+  /* Filter criterion: Content translation: Language */
+  $handler->display->display_options['filters']['language']['id'] = 'language';
+  $handler->display->display_options['filters']['language']['table'] = 'node';
+  $handler->display->display_options['filters']['language']['field'] = 'language';
+  $handler->display->display_options['filters']['language']['value'] = array(
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+    'und' => 'und',
+  );
+
+
 
   /* Display: News list page */
   $handler = $view->new_display('page', 'News list page', 'page');
@@ -544,7 +554,17 @@ function news_core_views_default_views() {
     1 => '1',
   );
   $handler->display->display_options['filters']['field_top_news_value']['group'] = 1;
-
+  /* Filter criterion: Content translation: Language */
+  $handler->display->display_options['filters']['language']['id'] = 'language';
+  $handler->display->display_options['filters']['language']['table'] = 'node';
+  $handler->display->display_options['filters']['language']['field'] = 'language';
+  $handler->display->display_options['filters']['language']['value'] = array(
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+    'und' => 'und',
+  );
+  
+  
+  
   /* Display: Top news Attachment */
   $handler = $view->new_display('attachment', 'Top news Attachment', 'attachment_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
@@ -635,6 +655,16 @@ function news_core_views_default_views() {
     1 => '1',
   );
   $handler->display->display_options['filters']['field_top_news_value']['group'] = 1;
+  /* Filter criterion: Content translation: Language */
+  $handler->display->display_options['filters']['language']['id'] = 'language';
+  $handler->display->display_options['filters']['language']['table'] = 'node';
+  $handler->display->display_options['filters']['language']['field'] = 'language';
+  $handler->display->display_options['filters']['language']['value'] = array(
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+    'und' => 'und',
+  );
+  
+  
   $handler->display->display_options['displays'] = array(
     'top_news' => 'top_news',
     'default' => 0,
