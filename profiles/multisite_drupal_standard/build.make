@@ -54,7 +54,7 @@ projects[strongarm][subdir] = "contributed"
 projects[strongarm][version] = "2.0-rc1"
 
 projects[sweaver][subdir] = "contributed"
-projects[sweaver][version] = "1.1"
+projects[sweaver][version] = "1.3"
 
 projects[token][subdir] = "contributed"
 projects[token][version] = "1.0-beta7"
