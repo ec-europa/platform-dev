@@ -24,7 +24,7 @@
 <tr>
 	<td>type</td>
 	<td>id=edit-name</td>
-	<td>contrib02</td>
+	<td>user_ide1</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -38,23 +38,18 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Events</td>
+	<td>link=Ideas</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Create an Event</td>
+	<td>link=Create a new idea</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=edit-title</td>
-	<td>event01</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>css=body.cke_show_borders</td>
-	<td></td>
+	<td>idea01</td>
 </tr>
 <tr>
 	<td>click</td>
@@ -64,12 +59,22 @@
 <tr>
 	<td>type</td>
 	<td>css=textarea.cke_source.cke_enable_context_menu</td>
-	<td>Presentation of event01</td>
+	<td>Presentation of idea01</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>css=#event-node-form &gt; div</td>
+	<td>id=edit-field-watching-und</td>
 	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=edit-field-status-und</td>
+	<td>label=In Action</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=edit-field-categories-und</td>
+	<td>label=Communication</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -78,7 +83,7 @@
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>Event event01 has been created.</td>
+	<td>idea idea01 has been created.</td>
 	<td></td>
 </tr>
 <tr>
@@ -96,7 +101,6 @@
 	<td>Revision state: Needs Review</td>
 	<td></td>
 </tr>
-
 </tbody></table>
 </body>
 </html>
