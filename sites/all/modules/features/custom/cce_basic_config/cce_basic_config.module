@@ -75,7 +75,7 @@ function cce_basic_config_enable() {
 	'region' => 'highlighted',
 	'weight' => 1,
   ); 
-  $context->reactions['block']['blocks']['user-menu']=$blockToAdd3;		  
+  $context->reactions['block']['blocks']['language']=$blockToAdd3;		  
 	  
   $blockToAdd4 = array(
     'module' => 'system',
@@ -83,7 +83,7 @@ function cce_basic_config_enable() {
 	'region' => 'featured',
 	'weight' => 1,
   ); 
-  $context->reactions['block']['blocks']['user-menu']=$blockToAdd4;		  
+  $context->reactions['block']['blocks']['main-menu']=$blockToAdd4;		  
 	  
   module_invoke('context','save',$context);	
   
