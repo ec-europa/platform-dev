@@ -54,7 +54,7 @@ projects[strongarm][subdir] = "contributed"
 projects[strongarm][version] = "2.0-rc1"
 
 projects[sweaver][subdir] = "contributed"
-projects[sweaver][version] = "1.3"
+projects[sweaver][version] = "1.1"
 
 projects[token][subdir] = "contributed"
 projects[token][version] = "1.0-beta7"
@@ -183,7 +183,7 @@ projects[translation_table][subdir] = "contributed"
 projects[translation_table][version] = "1.0-beta1"
 
 projects[cck_pager][subdir] = "contributed"
-projects[cck_pager][version] = "7.x-1.x-dev"
+projects[cck_pager][version] = "1.x-dev"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
