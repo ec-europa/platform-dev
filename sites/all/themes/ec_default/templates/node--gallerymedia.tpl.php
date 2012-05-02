@@ -100,6 +100,23 @@
     $span_title = 'span2';
     $span_small = 'span7';      
   }     
+  
+  
+  /**/
+    if (user_access('create gallerymedia content')) {
+    print l(t('Add a Picture'), 'node/'. $node->nid.'/addmedia', array(
+          'attributes' => array(
+                      'type' => 'add', 
+                      'action_bar' => 'single',
+                      'btn_group' => 'single')));
+  
+  
+  }
+  /**/
+
+  $output =  drupal_get_form('add_media_form');
+  print render($output);
+  /**/
 ?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 
