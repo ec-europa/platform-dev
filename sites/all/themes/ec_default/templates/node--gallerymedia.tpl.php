@@ -114,8 +114,8 @@
   }
   /**/
 
-  $output =  drupal_get_form('add_media_form');
-  print render($output);
+  $addform =  drupal_get_form('add_media_form');
+  print render($addform);
   /**/
 ?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
