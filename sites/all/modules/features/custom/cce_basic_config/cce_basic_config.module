@@ -60,6 +60,7 @@ function cce_basic_config_enable() {
 	'weight' => 1,
   ); 
   $context->reactions['block']['blocks']['user-menu']=$blockToAdd1;	
+  
   /*$blockToAdd2 = array(
     'module' => 'search',
     'delta' =>  'form',
@@ -67,16 +68,29 @@ function cce_basic_config_enable() {
     'weight' => 2,
   ); 
   $context->reactions['block']['blocks']['form']=$blockToAdd2;	  */
+	  
+  $blockToAdd3 = array(
+    'module' => 'locale',
+    'delta' =>  'language',
+	'region' => 'highlighted',
+	'weight' => 1,
+  ); 
+  $context->reactions['block']['blocks']['user-menu']=$blockToAdd3;		  
+	  
+  $blockToAdd4 = array(
+    'module' => 'system',
+    'delta' =>  'main-menu',
+	'region' => 'featured',
+	'weight' => 1,
+  ); 
+  $context->reactions['block']['blocks']['user-menu']=$blockToAdd4;		  
+	  
   module_invoke('context','save',$context);	
-	
-
-/*
-* add blocks to context
-*/
-  // _add_block_context('site_wide','locale-language','locale','language','highlighted');	
-  // _add_block_context('site_wide','system-main-menu','system','main-menu','featured');	
+  
   // _add_block_context('communities','multisite_og_button-og-contextual-links','multisite_og_button','og-contextual-links', 'sidebar_first','-9');
- /* COMMENTED BY MCT: INSTALLATION ERROR  (cf. error.log in pms directory)*/
+  // _add_block_context('site_wide','locale-language','locale','language','highlighted');	
+  // _add_block_context('site_wide','system-main-menu','system','main-menu','featured');	  
+
 }
 
 function cce_basic_config_menu_alter(&$items) {
