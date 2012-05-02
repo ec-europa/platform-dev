@@ -195,7 +195,12 @@
       }       
       $output .= '</fieldset>';
     }
-
+    
+    //FILE PAGER
+    foreach ($content['field_picture_upload']['#cck_pager_pager'] as $key => $value) {
+    $output .= ' '.$value['data'];
+    }
+    
     //display media items
     foreach ($content['field_picture_upload']['#items'] as $key => $item) {
 
