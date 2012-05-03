@@ -76,16 +76,15 @@ jQuery(function($){
       e.preventDefault();
       $(this).closest('.modal').modal('hide');
     });
-    
-    /*$("#single_1").fancybox({
-          helpers: {
-              title : {
-                  type : 'float'
-              }
-          }
-      });*/
-  
     /* /Gallery lightbox */
+    
+    /* Gallery add media form */
+    $('.node-gallerymedia #add_picture').click(function(e) {
+      e.preventDefault();
+      $('#add-media-form').slideToggle('slow');
+      return false;
+    });
+    /* /Gallery add media form */
     
     /* Menu dropdown */
     $('.dropdown-toggle').dropdown();

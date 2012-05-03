@@ -512,10 +512,15 @@ function ec_default_menu_local_tasks(&$variables) {
 function ec_default_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'search_block_form':
-      //print_r($form);
       $form['search_block_form']['#attributes']['class'][] = 'search-query';
       break;
     
+    case 'add_media_form':
+    //print_r($form);
+      //$form['image']['#attributes']['class'][] = 'no_label';
+      $form['submit']['#attributes']['class'][] = 'btn';
+      break;
+      
     default:
       break;
   }
@@ -526,10 +531,19 @@ function ec_default_form_alter(&$form, &$form_state, $form_id) {
  * #after_build function to modify CCK fields
  */
 function ec_default_cck_alter($form, &$form_state) {
+  //hide format field
   if (!user_access('administer nodes')) {
     $form['comment_body']['und'][0]['format']['#access'] = 0;
     $form['body']['und'][0]['format']['#access'] = 0;
   }
+  
+  //media gallery
+  //if (isset($form['image']['#id']) && $form['image']['#id']='edit-mediagallery-image') {
+    /*$form['image']['edit']['#access'] = 0;
+    $form['image']['remove']['#access'] = 0;
+    $form['image']['select']['#attributes']['class'][] = 'btn';*/
+  //}
+  
   return $form;
 }
 
