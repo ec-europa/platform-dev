@@ -82,6 +82,7 @@ dependencies[] = menu_block
 dependencies[] = locale_cookie
 dependencies[] = i18n
 dependencies[] = i18n_sync
+dependencies[] = i18n_select
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_standard
