@@ -178,7 +178,7 @@ rm "${working_dir}/sites/all/modules/contributed/ckeditor_3.6.2-3_for_drupal_7.z
 cd "${working_dir}/sites/all"
 #mkdir libraries
 cd "${working_dir}/sites/all/libraries"
-wget -P "${working_dir}/sites/all/libraries/" http://sourceforge.net/projects/tcpdf/files/latest/download -O tcpdf.zip
+wget -P "${working_dir}/sites/all/libraries/" http://sourceforge.net/projects/tcpdf/files/latest/download?source=files -O tcpdf.zip
 unzip "tcpdf.zip"
 rm "${working_dir}/sites/all/libraries/tcpdf.zip"
 
