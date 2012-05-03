@@ -277,7 +277,7 @@ function gallerymedia_core_field_default_fields() {
         'cck_pager' => array(
           'full' => array(
             'enabled' => 1,
-            'limit' => '10',
+            'limit' => '16',
             'maxpagerpages' => '9',
             'pager_type' => '0',
             'query_param' => '',
