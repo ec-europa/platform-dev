@@ -112,20 +112,17 @@
   <?php print render($title_suffix); ?>
   
 <?php  
-  /**/
-    if (user_access('create gallerymedia content')) {
+  /*Add Picture button*/
+  if (user_access('create gallerymedia content')) {
     print l(t('Add a Picture'), 'node/'. $node->nid.'/addmedia', array(
           'attributes' => array(
                       'type' => 'add', 
                       'action_bar' => 'single',
                       'btn_group' => 'single',
                       'id' => 'add_picture'))); 
+    $add_form =  drupal_get_form('add_media_form');
+    print render($add_form);
   }
-  /**/
-
-  $add_form =  drupal_get_form('add_media_form');
-  print render($add_form);
-  /**/  
 ?>
   
   <?php if ($display_submitted): ?>
@@ -179,10 +176,11 @@
     }
     
     //FILE PAGER
-    foreach ($content['field_picture_upload']['#cck_pager_pager'] as $key => $value) {
-    $output .= ' '.$value['data'];
+    if(isset($content['field_picture_upload']['#cck_pager_pager'])){
+      foreach ($content['field_picture_upload']['#cck_pager_pager'] as $key => $value) {
+        $output .= ' '.$value['data'];
+      }
     }
-    
     //display media items
     foreach ($content['field_picture_upload']['#items'] as $key => $item) {
 
