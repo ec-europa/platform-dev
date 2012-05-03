@@ -161,8 +161,8 @@ projects[notifications][version] = "1.0-alpha2"
 projects[messaging][subdir] = "contributed"
 projects[messaging][version] = "1.0-alpha2"
 
-projects[ds][subdir] = "contributed"
-projects[ds][version] = "1.5"
+;projects[ds][subdir] = "contributed"
+;projects[ds][version] = "1.5"
 
 projects[menu_block][subdir] = "contributed"
 projects[menu_block][version] = "2.3"
