@@ -271,6 +271,15 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['filters']['uid_1']['expose']['identifier'] = 'uid_1';
   $handler->display->display_options['filters']['uid_1']['expose']['multiple'] = FALSE;
   $handler->display->display_options['filters']['uid_1']['expose']['reduce'] = 0;
+  /* Filter criterion: Content translation: Language */ 
+  $handler->display->display_options['filters']['language']['id'] = 'language'; 
+  $handler->display->display_options['filters']['language']['table'] = 'node'; 
+  $handler->display->display_options['filters']['language']['field'] = 'language'; 
+  $handler->display->display_options['filters']['language']['value'] =
+    array(   
+      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+      'und' => 'und', 
+    );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
@@ -283,6 +292,15 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['tab_options']['title'] = 'People';
   $handler->display->display_options['tab_options']['weight'] = '15';
   $handler->display->display_options['tab_options']['name'] = 'main-menu';
+  /* Filter criterion: Content translation: Language */ 
+  $handler->display->display_options['filters']['language']['id'] = 'language'; 
+  $handler->display->display_options['filters']['language']['table'] = 'node'; 
+  $handler->display->display_options['filters']['language']['field'] = 'language'; 
+  $handler->display->display_options['filters']['language']['value'] =
+    array(   
+      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+      'und' => 'und', 
+    );  
   $translatables['people'] = array(
     t('Master'),
     t('People'),
