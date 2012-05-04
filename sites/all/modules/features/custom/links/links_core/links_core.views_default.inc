@@ -383,7 +383,7 @@ function links_core_views_default_views() {
   
 /* Filter criterion: Content translation: Language */ 
 $handler->display->display_options['filters']['language']['id'] = 'language'; 
-$handler->display->display_options['filters']['language']['table'] = 'node'; 
+$handler->display->display_options['filters']['language']['table'] = 'views_entity_node'; 
 $handler->display->display_options['filters']['language']['field'] = 'language'; 
 $handler->display->display_options['filters']['language']['value'] =
   array(   
