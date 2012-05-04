@@ -379,7 +379,18 @@ function links_core_views_default_views() {
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
-
+  
+  
+/* Filter criterion: Content translation: Language */ 
+$handler->display->display_options['filters']['language']['id'] = 'language'; 
+$handler->display->display_options['filters']['language']['table'] = 'node'; 
+$handler->display->display_options['filters']['language']['field'] = 'language'; 
+$handler->display->display_options['filters']['language']['value'] =
+  array(   
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+    'und' => 'und', 
+  );
+  
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
   $handler->display->display_options['defaults']['use_more'] = FALSE;
@@ -443,6 +454,17 @@ function links_core_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['title']['link_to_node'] = 0;
+  
+/* Filter criterion: Content translation: Language */ 
+$handler->display->display_options['filters']['language']['id'] = 'language'; 
+$handler->display->display_options['filters']['language']['table'] = 'node'; 
+$handler->display->display_options['filters']['language']['field'] = 'language'; 
+$handler->display->display_options['filters']['language']['value'] =
+  array(   
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+    'und' => 'und', 
+  );
+  
   $translatables['links'] = array(
     t('Master'),
     t('Latest Links'),
