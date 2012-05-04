@@ -182,7 +182,10 @@
       }
     }
     //display media items
-    if(isset($content['field_picture_upload']['#items'])){
+    if(!isset($content['field_picture_upload']['#items'])){
+      $fid = db_result(db_query("SELECT fid FROM file_managed WHERE filename = '%s' LIMIT 1",'empty_gallery.png'));
+      $content['field_picture_upload']['#items'][0] = get_object_vars($fid); //MAGICK NUMBER 2: empty_gallery.png
+    }
       foreach ($content['field_picture_upload']['#items'] as $key => $item) {
 
         $file = str_replace('public://','',$item['uri']);
@@ -215,7 +218,6 @@
         if ((($key+1) % 4) == 0 || !isset($content['field_picture_upload']['#items'][$key+1]))
           $output .= '</div>';      
       }
-    }
     
     //display non hidden fields
     $display_other = FALSE;
