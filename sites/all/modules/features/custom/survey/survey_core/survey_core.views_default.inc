@@ -93,6 +93,15 @@ function survey_core_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'webform' => 'webform',
   );
+  /* Filter criterion: Content translation: Language */ 
+  $handler->display->display_options['filters']['language']['id'] = 'language'; 
+  $handler->display->display_options['filters']['language']['table'] = 'node'; 
+  $handler->display->display_options['filters']['language']['field'] = 'language'; 
+  $handler->display->display_options['filters']['language']['value'] =
+    array(   
+      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+      'und' => 'und', 
+    );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
@@ -201,6 +210,15 @@ function survey_core_views_default_views() {
   $handler->display->display_options['fields']['nothing']['hide_empty'] = 0;
   $handler->display->display_options['fields']['nothing']['empty_zero'] = 0;
   $handler->display->display_options['fields']['nothing']['hide_alter_empty'] = 0;
+  /* Filter criterion: Content translation: Language */ 
+  $handler->display->display_options['filters']['language']['id'] = 'language'; 
+  $handler->display->display_options['filters']['language']['table'] = 'node'; 
+  $handler->display->display_options['filters']['language']['field'] = 'language'; 
+  $handler->display->display_options['filters']['language']['value'] =
+    array(   
+      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+      'und' => 'und', 
+    );  
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
@@ -241,6 +259,15 @@ function survey_core_views_default_views() {
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Filter criterion: Content translation: Language */ 
+  $handler->display->display_options['filters']['language']['id'] = 'language'; 
+  $handler->display->display_options['filters']['language']['table'] = 'node'; 
+  $handler->display->display_options['filters']['language']['field'] = 'language'; 
+  $handler->display->display_options['filters']['language']['value'] =
+    array(   
+      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+      'und' => 'und', 
+    );  
   $translatables['surveys_list'] = array(
     t('Defaults'),
     t('Surveys'),
