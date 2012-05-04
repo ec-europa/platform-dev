@@ -217,6 +217,15 @@ $handler->display->display_options['filters']['published']['id'] = 'published';
 $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
 $handler->display->display_options['filters']['published']['field'] = 'published';
 $handler->display->display_options['filters']['published']['value'] = '1';
+/* Filter criterion: Content translation: Language */ 
+$handler->display->display_options['filters']['language']['id'] = 'language'; 
+$handler->display->display_options['filters']['language']['table'] = 'node'; 
+$handler->display->display_options['filters']['language']['field'] = 'language'; 
+$handler->display->display_options['filters']['language']['value'] =
+  array(   
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+    'und' => 'und', 
+  );
 
 
 /* Display: Attachment */
@@ -233,6 +242,15 @@ $handler->display->display_options['header']['area']['content'] = 'Attachment he
 $handler->display->display_options['header']['area']['format'] = 'full_html';
 $handler->display->display_options['header']['area']['tokenize'] = 0;
 $handler->display->display_options['defaults']['arguments'] = FALSE;
+/* Filter criterion: Content translation: Language */ 
+$handler->display->display_options['filters']['language']['id'] = 'language'; 
+$handler->display->display_options['filters']['language']['table'] = 'node'; 
+$handler->display->display_options['filters']['language']['field'] = 'language'; 
+$handler->display->display_options['filters']['language']['value'] =
+  array(   
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+    'und' => 'und', 
+  );
 /* Contextual filter: Content: Title */
 $handler->display->display_options['arguments']['title']['id'] = 'title';
 $handler->display->display_options['arguments']['title']['table'] = 'node';

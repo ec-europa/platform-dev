@@ -99,6 +99,15 @@ $handler->display->display_options['filters']['type']['field'] = 'type';
 $handler->display->display_options['filters']['type']['value'] = array(
   'event' => 'event',
 );
+/* Filter criterion: Content translation: Language */ 
+$handler->display->display_options['filters']['language']['id'] = 'language'; 
+$handler->display->display_options['filters']['language']['table'] = 'node'; 
+$handler->display->display_options['filters']['language']['field'] = 'language'; 
+$handler->display->display_options['filters']['language']['value'] =
+  array(   
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+    'und' => 'und', 
+  );
 
 /* Display: Month */
 $handler = $view->new_display('page', 'Month', 'month');
@@ -450,6 +459,15 @@ $handler->display->display_options['filters']['type']['value'] = array(
   'event' => 'event',
 );
 $handler->display->display_options['filters']['type']['group'] = 0;
+/* Filter criterion: Content translation: Language */ 
+$handler->display->display_options['filters']['language']['id'] = 'language'; 
+$handler->display->display_options['filters']['language']['table'] = 'node'; 
+$handler->display->display_options['filters']['language']['field'] = 'language'; 
+$handler->display->display_options['filters']['language']['value'] =
+  array(   
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+    'und' => 'und', 
+  );
 $handler->display->display_options['block_description'] = 'Upcoming events';
 $translatables['calendar'] = array(
   t('Master'),
