@@ -183,7 +183,7 @@
     }
     //display media items
     if(!isset($content['field_picture_upload']['#items'])){
-      $content['field_picture_upload']['#items'][0] = get_object_vars('2'); //MAGICK NUMBER 2: empty_gallery.png
+      $content['field_picture_upload']['#items'][0] = get_object_vars(file_load(2)); //MAGICK NUMBER 2: empty_gallery.png
     }
       foreach ($content['field_picture_upload']['#items'] as $key => $item) {
 
