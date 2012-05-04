@@ -20,12 +20,24 @@ function inject_data() {
   $account2->field_lastname['und'][0]['value'] = 'Name';
   user_save($account2);	
 
-  // set the main-menu as multilingual --------------------------------------------------------------------------------
+  // multilingual support -----------------------------------------------------------------------------------------
+  // set the main-menu as multilingual 
   db_update('menu_custom')
     ->fields(array('i18n_mode' => 5))
     ->condition('menu_name', 'main-menu')
     ->execute();
-  
+
+ $main_menu = menu_load("main-menu");
+ module_invoke_all('menu_update', $main-menu);
+
+  // allow menu items to be translatables
+  $links = menu_load_links('main-menu');
+  foreach ($links as $link) {
+    //$menu = module_invoke('i18n_menu', 'menu_link_update', $link);
+	//menu_link_save($link);
+	i18n_string_object_update('menu_link', $link);
+  }
+
   menu_cache_clear_all();
 
 }
