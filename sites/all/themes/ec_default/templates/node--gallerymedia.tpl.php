@@ -202,7 +202,6 @@
           $output .= '<div class="modal-footer">';
             if (isset($item['field_picture_description']['und'][0]['value']))
               $output .= '<p>'.$item['field_picture_description']['und'][0]['value'].'</p>';
-            $output .= '<a class="btn close" data-dismiss="modal" href="#">Close</a>';
           $output .= '</div>';
         $output .= '</div>';
       

@@ -72,10 +72,40 @@ jQuery(function($){
     /* /Gallery carrousel */
     
     /* Gallery lightbox */
-    $('.modal .close').click(function(e) {
-      e.preventDefault();
-      $(this).closest('.modal').modal('hide');
-    });
+    $(".fancybox").fancybox({
+      padding: 0,
+      closeBtn : false,
+      arrows : false,
+      autoSize: true,
+      fitToView: true,
+      openEffect: 'elastic',
+      closeEffect: 'elastic',
+      helpers		: {
+        title	: { type : 'inside' },
+        buttons	: {},
+      }
+    });    
+	$(".fancybox-thumb").fancybox({
+		prevEffect	: 'none',
+		nextEffect	: 'none',
+      autoPlay: true,
+      playSpeed: 2000,    
+		helpers	: {
+			title	: {
+				type: 'outside'
+			},
+			overlay	: {
+				opacity : 0.8,
+				css : {
+					'background-color' : '#000'
+				}
+			},
+			thumbs	: {
+				width	: 50,
+				height	: 50
+			}
+		}
+	});    
     /* /Gallery lightbox */
     
     /* Gallery add media form */

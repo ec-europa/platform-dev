@@ -105,8 +105,15 @@ function ec_default_preprocess_html(&$variables) {
   //drupal_add_js(path_to_theme() . '/bootstrap/image-gallery/js/bootstrap-image-gallery.js', array('scope' => 'footer', 'weight' => 11));
 
   // Add fancybox
-  //drupal_add_css(path_to_theme() . '/fancybox/jquery.fancybox.css', array('group' => CSS_THEME));
-  //drupal_add_js(path_to_theme() . '/fancybox/jquery.fancybox.pack.js', array('scope' => 'footer', 'weight' => 6));
+  drupal_add_css(path_to_theme() . '/fancybox/jquery.fancybox.css', array('group' => CSS_THEME));
+  drupal_add_js(path_to_theme() . '/fancybox/jquery.fancybox.pack.js', array('scope' => 'footer', 'weight' => 6));
+  drupal_add_css(path_to_theme() . '/fancybox/helpers/jquery.fancybox-buttons.css', array('group' => CSS_THEME));
+  drupal_add_js(path_to_theme() . '/fancybox/helpers/jquery.fancybox-buttons.js', array('scope' => 'footer', 'weight' => 7));
+  drupal_add_js(path_to_theme() . '/fancybox/helpers/jquery.fancybox-media.js', array('scope' => 'footer', 'weight' => 8));
+  drupal_add_css(path_to_theme() . '/fancybox/helpers/jquery.fancybox-thumbs.css', array('group' => CSS_THEME));
+  drupal_add_js(path_to_theme() . '/fancybox/helpers/jquery.fancybox-thumbs.js', array('scope' => 'footer', 'weight' => 9));
+  
+  
   
   // Add EC stylesheets
   switch ($variables['template']) {
@@ -136,8 +143,9 @@ function ec_default_preprocess_html(&$variables) {
 
   // Add javascripts
 	drupal_add_js(path_to_theme() . '/wel/template-2012/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
-	drupal_add_js(path_to_theme() . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 11));
-  drupal_add_js(path_to_theme() . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 12));  
+	drupal_add_js(path_to_theme() . '/scripts/jquery.mousewheel-3.0.6.pack.js', array('scope' => 'footer', 'weight' => 11));
+	drupal_add_js(path_to_theme() . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 12));
+  drupal_add_js(path_to_theme() . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 13));  
 
 }
 
@@ -753,85 +761,6 @@ function class_replace($match) {
     default:
     break;
   }
-}
-
-
-/**
- * Displays a gallery node as a teaser.
- *
- * The Galleries page displays a grid of gallery teasers. Each gallery teaser is
- * themed as a node using node.tpl.php or one if its overrides. Where that
- * template file calls @code render($content) @endcode, the output of this
- * function is returned.
- */
-function ec_default_media_gallery_teaser($variables) {
-//krumo($variables);
-//exit;
-
-  $element = $variables['element'];
-  $node = $element['#node'];
-
-  if (isset($element['media_gallery_media'][0])) {
-    $element['media_gallery_media'][0]['#theme'] = 'media_gallery_file_field_inline';
-    $image = drupal_render($element['media_gallery_media'][0]);
-  }
-  else {
-    $image = theme('image', array('path' => drupal_get_path('module', 'media_gallery') . '/images/empty_gallery.png'));
-  }
-
-  $link_vars = array();
-  $link_vars['image'] = $image;
-  $uri = entity_uri('node', $node);
-  $link_vars['link_path'] = $uri['path'];
-  $link_vars['classes'] = array('media-gallery-thumb');
-
-  $output = '<fieldset><div class="media-collection-item-wrapper"><img class="stack-image" src="' . base_path() . drupal_get_path('module', 'media_gallery') . '/images/stack_bg.png" />' . theme('media_gallery_item', $link_vars) . '</div>';
-
-  // Set the variables to theme the meta data if there is a term on the node
-  if (isset($node->term)) {
-    $term = $node->term;
-    $meta_vars = array();
-    $meta_vars['location'] = $term->media_gallery_image_info_where[LANGUAGE_NONE][0]['value'];
-    $meta_vars['title'] = $node->title;
-    $meta_vars['link_path'] = $link_vars['link_path'];
-    // Organize the file count by type. We only expect images and videos for
-    // now, so we put those first and group the others together into a general
-    // category at the end.
-    $type_count = media_gallery_get_media_type_count($node, 'media_gallery_media_original');
-    $description = array();
-    if (isset($type_count['image'])) {
-      $count = $type_count['image'];
-      $description[] = format_plural($count, '<span>@num image</span>', '<span>@num images</span>', array('@num' => $count));
-      unset($type_count['image']);
-    }
-    if (isset($type_count['video'])) {
-      $count = $type_count['video'];
-      $description[] = format_plural($count, '<span>@num video</span>', '<span>@num videos</span>', array('@num' => $count));
-      unset($type_count['video']);
-    }
-    if (!empty($type_count)) {
-      $count = array_sum($type_count);
-      $description[] = format_plural($count, '<span>@num other item</span>', '<span>@num other items</span>', array('@num' => $count));
-    }
-    $meta_vars['description'] = implode(', ', $description);
-
-    // Add the meta information
-    $output .= theme('media_gallery_meta', $meta_vars);
-  }
-  $output .= "<div id ='gallery_info'>";
-  $output .= "<h3>" .$node->title . "</h3>";
-  
-  if($node->media_gallery_description){
-    $output .= (strlen($node->media_gallery_description['und'][0]['value'])>150)
-    ?trim(substr($node->media_gallery_description['und'][0]['value'],0,150)). '...'
-    :trim($node->media_gallery_description['und'][0]['value']);
-  }
-  
-  if ($meta_vars['description'])
-    $output .= '<div class="meta">'. trim($meta_vars['description']) . '</div>';
- 
-  $output .= "</div></fieldset>";
-  return $output;
 }
 
 ?>
