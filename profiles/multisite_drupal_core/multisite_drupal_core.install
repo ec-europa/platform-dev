@@ -120,6 +120,17 @@ function multisite_drupal_core_install() {
   $file->status = FILE_STATUS_PERMANENT;
   $f = file_save($file);	  
   variable_set('user_picture_default', 'public://default_images/user_default.png');
+  
+  // default image for gallery media picture
+  $file = new stdClass();
+  $file->fid = NULL;
+  $file->uri = "public://default_images/empty_gallery.png";
+  $file->filename = "empty_gallery.png";
+  $file->filemime = file_get_mimetype($file->uri);
+  $file->uid = 1;
+  $file->status = FILE_STATUS_PERMANENT;
+  $f = file_save($file);	  
+  variable_set('empty_gallery_default', 'public://default_images/empty_gallery.png');
 
   // setup settings ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
   

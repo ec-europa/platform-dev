@@ -40,7 +40,7 @@ function gallerymedia_core_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'comment_node_gallerymedia',
-      'default_value' => NULL,
+      'default_value' => '2',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -99,7 +99,7 @@ function gallerymedia_core_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'image',
-      'default_value' => NULL,
+      'default_value' => '2',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -209,7 +209,7 @@ function gallerymedia_core_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'gallerymedia',
-      'default_value' => NULL,
+      'default_value' => '2',
       'deleted' => '0',
       'description' => '',
       'display' => array(
