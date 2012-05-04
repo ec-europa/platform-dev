@@ -191,6 +191,7 @@ function multisite_drupal_core_install() {
   );
   menu_link_save($item);
   
+  
   /*
   $item = array(
     'link_path' => 'node/add',
@@ -211,5 +212,4 @@ function multisite_drupal_core_install() {
   );
   menu_link_save($item);	  
 	  
-
 }

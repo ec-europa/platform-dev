@@ -20,5 +20,13 @@ function inject_data() {
   $account2->field_lastname['und'][0]['value'] = 'Name';
   user_save($account2);	
 
+  // set the main-menu as multilingual --------------------------------------------------------------------------------
+  db_update('menu_custom')
+    ->fields(array('i18n_mode' => 5))
+    ->condition('menu_name', 'main-menu')
+    ->execute();
+  
+  menu_cache_clear_all();
+
 }
 
