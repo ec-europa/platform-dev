@@ -164,6 +164,15 @@ function f_a_q_views_default_views() {
     'f_a_q' => 'f_a_q',
   );
   $handler->display->display_options['filters']['type']['group'] = 0;
+  /* Filter criterion: Content translation: Language */ 
+  $handler->display->display_options['filters']['language']['id'] = 'language'; 
+  $handler->display->display_options['filters']['language']['table'] = 'node'; 
+  $handler->display->display_options['filters']['language']['field'] = 'language'; 
+  $handler->display->display_options['filters']['language']['value'] =
+    array(   
+      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+      'und' => 'und', 
+    );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
@@ -276,6 +285,15 @@ function f_a_q_views_default_views() {
   $handler->display->display_options['menu']['title'] = 'F.A.Q';
   $handler->display->display_options['menu']['weight'] = '50';
   $handler->display->display_options['menu']['name'] = 'main-menu';
+  /* Filter criterion: Content translation: Language */ 
+  $handler->display->display_options['filters']['language']['id'] = 'language'; 
+  $handler->display->display_options['filters']['language']['table'] = 'node'; 
+  $handler->display->display_options['filters']['language']['field'] = 'language'; 
+  $handler->display->display_options['filters']['language']['value'] =
+    array(   
+      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+      'und' => 'und', 
+    );  
   $translatables['faq'] = array(
     t('Master'),
     t('F.A.Q'),
