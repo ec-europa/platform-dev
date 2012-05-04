@@ -72,6 +72,17 @@ function multisite_standard_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  
+  
+/* Filter criterion: Content translation: Language */ 
+$handler->display->display_options['filters']['language']['id'] = 'language'; 
+$handler->display->display_options['filters']['language']['table'] = 'node'; 
+$handler->display->display_options['filters']['language']['field'] = 'language'; 
+$handler->display->display_options['filters']['language']['value'] =
+  array(   
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
+    'und' => 'und', 
+  );
 
   /* Display: Latest Content block */
   $handler = $view->new_display('block', 'Latest Content block', 'block_latest');
