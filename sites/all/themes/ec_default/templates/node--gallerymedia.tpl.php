@@ -194,26 +194,19 @@
           
         $output .= '<div class="span3 media_item">';
         
-          $output .= '<div class="modal hide fade" id="modal'.$key.'" style="display: none;">';
-            $output .= '<div class="modal-header">';
-              $output .= '<button class="close" data-dismiss="modal" >×</button>';
-              $output .= '<h3>'.$item['filename'].'</h3>';
-            $output .= '</div>';
-            $output .= '<div class="modal-body">';
-              $output .= '<img src="'.$base_url.'/sites/default/files/'.$file.'" alt="'.$item['filename'].'" />';
-            $output .= '</div>';
-            $output .= '<div class="modal-footer">';
-              if (isset($item['field_picture_description']['und'][0]['value']))
-                $output .= '<p>'.$item['field_picture_description']['und'][0]['value'].'</p>';
-            $output .= '</div>';
+          $output .= '<div id="lightbox'.$key.'" class="lightbox" style="display: none;">';
+            $output .= '<img src="'.$base_url.'/sites/default/files/styles/preview/public/'.$file.'" alt="'.$item['filename'].'" />';
+            if (isset($item['field_picture_description']['und'][0]['value']))
+              $output .= '<p>'.$item['field_picture_description']['und'][0]['value'].'</p>';
+              $output .= '<p>'.l(t('View full size picture'),$base_url.'/sites/default/files/'.$file, array('attributes' => array('target'=>'_blank'))).'</p>';
           $output .= '</div>';
         
-          $output .= '<a href="#modal'.$key.'" data-toggle="modal">';
-            $output .= '<img src="'.$base_url.'/sites/default/files/styles/square_thumbnail/public/'.str_replace('public://','',$item['uri']).'" alt="'.$item['filename'].'" />';
+          $output .= '<a href="#lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$item['filename'].'">';
+            $output .= '<img src="'.$base_url.'/sites/default/files/styles/square_thumbnail/public/'.$file.'" alt="'.$item['filename'].'" />';
             $output .= '<p class="carousel-caption">'.$item['filename'].'</p>';
-          $output .= '</a>';
+          $output .= '</a>';        
         $output .= '</div>';
-        
+
         if ((($key+1) % 4) == 0 || !isset($content['field_picture_upload']['#items'][$key+1]))
           $output .= '</div>';      
       }

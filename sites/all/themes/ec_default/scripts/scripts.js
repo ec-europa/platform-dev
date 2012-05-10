@@ -81,31 +81,15 @@ jQuery(function($){
       openEffect: 'elastic',
       closeEffect: 'elastic',
       helpers		: {
-        title	: { type : 'inside' },
+        title	: { type : 'outside' },
         buttons	: {},
+        /*thumbs	: {
+          width	: 50,
+          height	: 50,
+          position: 'top',
+        }*/
       }
     });    
-	$(".fancybox-thumb").fancybox({
-		prevEffect	: 'none',
-		nextEffect	: 'none',
-      autoPlay: true,
-      playSpeed: 2000,    
-		helpers	: {
-			title	: {
-				type: 'outside'
-			},
-			overlay	: {
-				opacity : 0.8,
-				css : {
-					'background-color' : '#000'
-				}
-			},
-			thumbs	: {
-				width	: 50,
-				height	: 50
-			}
-		}
-	});    
     /* /Gallery lightbox */
     
     /* Gallery add media form */
