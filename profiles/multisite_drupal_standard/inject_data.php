@@ -43,5 +43,9 @@ function inject_data() {
 
   menu_cache_clear_all();
 */
+	
+  module_enable(array("i18n_taxonomy"));
 }
+
+
 
