@@ -154,7 +154,7 @@ function feature_set_disable_feature_set($feature_set) {
   }
   
   // multisite fix, need to clear cache
-  drupal_flush_all_caches();
+  //drupal_flush_all_caches();
 
 }
 
