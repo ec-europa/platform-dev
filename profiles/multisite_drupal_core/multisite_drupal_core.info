@@ -91,7 +91,7 @@ dependencies[] = i18n_block
 dependencies[] = i18n_menu
 ;dependencies[] = i18n_path
 ;dependencies[] = i18n_string
-;dependencies[] = i18n_taxonomy
+dependencies[] = i18n_taxonomy
 ;dependencies[] = i18n_variable
 ;dependencies[] = i18n_translation
 
