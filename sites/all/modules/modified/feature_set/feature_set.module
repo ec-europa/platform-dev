@@ -105,6 +105,8 @@ function feature_set_get_featuresets($install_state = NULL) {
       $sets += feature_set_parse_info($info, $install_profile, $path);
     }*/
   }
+  
+  ksort($sets);
   return $sets;
 }
 
