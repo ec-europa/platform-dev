@@ -54,7 +54,7 @@ function cce_basic_config_content_defaults() {
     Management will be done through the <strong>Workbench </strong>you can access thru this <a href="admin/workbench">link</a>.<br />
     For more information about the various functionalities, a contextual help exists and can be accessed thru the "Help" link. The help section depends on your localisation on the site and gives details about the page.<br />
      </p>
-  ',
+',
           'safe_summary' => '',
         ),
       ),

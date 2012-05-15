@@ -144,6 +144,7 @@ function cce_basic_config_field_default_fields() {
       'required' => FALSE,
       'settings' => array(
         'alt_field' => TRUE,
+        'default_image' => 0,
         'file_directory' => 'field/image',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
@@ -194,6 +195,7 @@ function cce_basic_config_field_default_fields() {
             'parent' => 0,
           ),
         ),
+        'options_list_callback' => 'i18n_taxonomy_allowed_values',
       ),
       'translatable' => '0',
       'type' => 'taxonomy_term_reference',
@@ -341,6 +343,7 @@ function cce_basic_config_field_default_fields() {
             'parent' => 0,
           ),
         ),
+        'options_list_callback' => 'i18n_taxonomy_allowed_values',
       ),
       'translatable' => '0',
       'type' => 'taxonomy_term_reference',

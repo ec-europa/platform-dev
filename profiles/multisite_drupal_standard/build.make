@@ -15,7 +15,7 @@ projects[captcha][subdir] = "contributed"
 projects[captcha][version] = "1.0-beta1"
 
 projects[ckeditor][subdir] = "contributed"
-projects[ckeditor][version] = "1.8"
+projects[ckeditor][version] = "1.9"
 
 projects[context][subdir] = "contributed"
 projects[context][version] = "3.0-beta2"
