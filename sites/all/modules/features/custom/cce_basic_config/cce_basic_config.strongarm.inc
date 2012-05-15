@@ -470,6 +470,14 @@ function cce_basic_config_strongarm() {
   );
   $export['sweaver_selector_order'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_skin';
+  $strongarm->value = 'grey';
+  $export['sweaver_skin'] = $strongarm;
+  
+  
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
