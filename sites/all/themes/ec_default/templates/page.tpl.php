@@ -158,6 +158,7 @@ endif;
     <ul class="reset-list">
       <li class="first"><a href="http://ec.europa.eu/index_en.htm"><?php print t('European Commission'); ?></a></li>
       <li><?php print $site_name; ?></li>
+	  <?php print $breadcrumb; ?>
     </ul>
   </div><!-- /#path -->
    
