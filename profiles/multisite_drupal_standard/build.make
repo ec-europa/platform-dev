@@ -185,6 +185,9 @@ projects[translation_table][version] = "1.0-beta1"
 projects[cck_pager][subdir] = "contributed"
 projects[cck_pager][version] = "1.x-dev"
 
+projects[custom_breadcrumbs][subdir] = "contributed"
+projects[custom_breadcrumbs][version] = "1.0-alpha1"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"

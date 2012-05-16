@@ -763,4 +763,23 @@ function class_replace($match) {
   }
 }
 
+
+/* Put Breadcrumbs in a  li structure */
+function ec_default_breadcrumb($variables) {
+  $breadcrumb = $variables['breadcrumb'];
+
+  if (!empty($breadcrumb)) {
+      $crumbs = '';
+
+      foreach($breadcrumb as $key=>$value) {
+		if($key!=0){
+           $crumbs .= '<li>'.$value.'</li>';
+		}
+	  }
+      $crumbs .= '';
+	  return $crumbs;
+    }
+
+  }
+  
 ?>
