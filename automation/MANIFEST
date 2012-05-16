@@ -1,0 +1,3 @@
+db: structures required to set up the multisite_supermaster database
+scheduler: a tool which deploys Drupal subsites registered in the multisite_supermaster database
+ishs: tools to communicate with the ISHS team
