@@ -10,6 +10,9 @@ function survey_core_enable() {
   // add type to notification
   notification_content_type('webform','add');
   
+  // add type to the simplenews related content
+  simplenews_related_content_type('webform', 'add');
+  
   //_add_block_context('site_wide', 'surveys_list-block_1', 'views', 'surveys_list-block_1', 'sidebar_first');
 
   // change content type webform name to survey
@@ -29,6 +32,9 @@ function survey_core_disable(){
 	
   // remove type from notification
   notification_content_type('webform','delete');
+  
+  // remove type to the simplenews related content
+  simplenews_related_content_type('webform', 'delete');
   
   // Remove block
   //_remove_block_context('site_wide', 'surveys_list-block_1');

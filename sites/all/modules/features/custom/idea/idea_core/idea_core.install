@@ -29,6 +29,9 @@ function idea_core_enable(){
   // add type to notification
   notification_content_type('idea','add');  
   
+  // add type to the simplenews related content
+  simplenews_related_content_type('idea', 'add');
+  
   //Activation message
   drupal_set_message('Idea feature is now active on your site.');
 }
@@ -43,6 +46,9 @@ function idea_core_disable(){
 	
   // remove type from notification
   notification_content_type('idea','delete');
+  
+  // remove type to the simplenews related content
+  simplenews_related_content_type('idea', 'delete');
   
   _disable_content_type('idea');
   

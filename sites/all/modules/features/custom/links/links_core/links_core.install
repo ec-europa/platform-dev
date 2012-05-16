@@ -29,6 +29,9 @@ function links_core_enable(){
   // add type to notification
   notification_content_type('links','add');  
   
+  // add type to the simplenews related content
+  simplenews_related_content_type('links', 'add');
+  
   drupal_set_message('Links feature is now active on your site.');
 }
 
@@ -44,6 +47,9 @@ function links_core_disable(){
 
   // remove type from notification
   notification_content_type('links','delete');
+  
+  // remove type to the simplenews related content
+  simplenews_related_content_type('links', 'delete');
   
   /*** Remove permissions ***/
   _disable_content_type('links');

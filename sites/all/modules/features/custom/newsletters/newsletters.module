@@ -28,7 +28,7 @@ function newsletters_disable() {
   _remove_block_context('site_wide', '0');
   
   // disable the content type simplenews
-  _disable_content_type('simplenews');
+  _disable_content_type('simplenews');  
 }
 
 
@@ -55,3 +55,18 @@ function _my_subscriptions() {
   return $block['content'];
 }
 
+
+
+/*
+*  allow to link all content types to the related_content field of the simplenews content
+*/
+function newsletters_field_create_field($field) {
+  if($field["field_name"] == 'field_related_contents') { 
+    $types = node_type_get_types();
+	
+    foreach($types as $type => $value) {
+	  if($type != 'simplenews')
+        simplenews_related_content_type($type, 'add');
+    }	
+  }
+}
