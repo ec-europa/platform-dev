@@ -16,6 +16,16 @@ function wiki_core_enable() {
   
   // add type to the simplenews related content
   simplenews_related_content_type('wiki', 'add');
+
+  //Add breadcrumb configuration
+    db_insert('custom_breadcrumb')
+    ->fields(array(
+      'titles' => 'wiki', // titles of the elements to display in the breadcrumb
+      'paths' => 'wiki/', // path of the elements to display in the breadcrumb
+      'visibility_php '=>'',
+      'node_type'=>'wiki', //the content type targeted by this rule
+    ))
+    ->execute();
 }
 
 

@@ -41,6 +41,19 @@ function f_a_q_enable(){
   
   // add type to the simplenews related content
   simplenews_related_content_type('f_a_q', 'add');
+
+  //Add breadcrumb configuration
+    db_insert('custom_breadcrumb')
+    ->fields(array(
+      'titles' => 'faq', // titles of the elements to display in the breadcrumb
+      'paths' => 'faq/', // path of the elements to display in the breadcrumb
+      'visibility_php '=>'',
+      'node_type'=>'f_a_q', //the content type targeted by this rule
+    ))
+    ->execute();
+
+  //Activation message
+  drupal_set_message('Faq is now active on your site.');
 }
 
 function f_a_q_modules_enabled($modules) {
