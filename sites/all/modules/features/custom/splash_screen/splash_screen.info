@@ -14,3 +14,4 @@ features[variable][] = language_negotiation_language_url
 features[variable][] = locale_cookie_language_negotiation_cookie_expire
 features[variable][] = locale_cookie_language_negotiation_cookie_param
 features[variable][] = locale_language_providers_weight_language
+scripts[] = splash.js

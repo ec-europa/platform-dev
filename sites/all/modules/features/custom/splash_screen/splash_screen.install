@@ -6,9 +6,10 @@ function splash_screen_enable() {
   $lni = language_negotiation_info();
   $ln['language-default'] = $lni['language-default'];
   $ln['locale-url'] = $lni['locale-url'];
+  $ln['locale-url']['weight'] = -10; 
   $ln['language-cookie'] = $lni['language-cookie'];
+  $ln['language-cookie']['weight'] = -8;
   language_negotiation_set('language', $ln);
-  
 }
 
 function splash_screen_disable() {

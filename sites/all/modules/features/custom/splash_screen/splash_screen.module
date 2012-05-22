@@ -11,7 +11,7 @@ include_once 'splash_screen.features.inc';
 * hook_init
 */
 function splash_screen_init() {	
-  global $language, $user;
+  global $language, $user, $base_url;
   if($user->uid != 1) {
     $splash_screen_url = variable_get("splash_screen_url"); // TODO put these variables in a admin form settings
     $cookie_name = variable_get("locale_cookie_language_negotiation_cookie_param");
@@ -19,5 +19,10 @@ function splash_screen_init() {
     if(empty($_COOKIE[$cookie_name])) {
       drupal_goto($splash_screen_url);
     }
+	else {
+		if($_GET['q'] == variable_get('site_frontpage', '')) {
+		  header("Location : $base_url/$language->prefix");
+		}
+	}
   }
 }
