@@ -19,10 +19,5 @@ function splash_screen_init() {
     if(empty($_COOKIE[$cookie_name])) {
       drupal_goto($splash_screen_url);
     }
-	else {
-		if($_GET['q'] == variable_get('site_frontpage', '')) {
-		  header("Location : $base_url/$language->prefix");
-		}
-	}
   }
 }
