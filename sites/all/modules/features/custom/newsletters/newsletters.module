@@ -10,19 +10,15 @@ include_once('newsletters.features.inc');
  * hook_enable
  */
 
-function newsletters_enable() {
-    // add simplenews block to the site_wide context
-    //_add_block_context('site_wide', '0', 'simplenews', '0', 'sidebar_first');
-    // set by default newsletter format as HTML
-    db_update('simplenews_category')
-            ->fields(array('format' => 'html'))
-            ->execute();
+function newsletters_init() {
+    
+}
 
-    //Add breadcrumb configuration
+function newsletters_enable() {
     db_insert('custom_breadcrumb')
             ->fields(array(
-                'titles' => 'newsletter [simplenew:simplenews_term_alias]', // titles of the elements to display in the breadcrumb
-                'paths' => '[simplenews:simplenews_term_alias]/', // path of the elements to display in the breadcrumb
+                'titles' => 'newsletter', // titles of the elements to display in the breadcrumb
+                'paths' => '[simplenews-breadcrump:path]', // path of the elements to display in the breadcrumb
                 'visibility_php ' => '',
                 'node_type' => 'simplenews', //the content type targeted by this rule
             ))
@@ -42,6 +38,14 @@ function newsletters_disable() {
 
     // disable the content type simplenews
     _disable_content_type('simplenews');
+    //remove the breadcrump relative to newsletter
+    db_delete('custom_breadcrumb')
+            ->condition('node_type', 'simplenews')
+            ->execute();
+
+
+    //Activation message
+    drupal_set_message('Newsletters feature is now disabled on your site.');
 }
 
 /*
@@ -69,26 +73,6 @@ function _my_subscriptions() {
     return $block['content'];
 }
 
-/**
- * Implementation of hook_token_value().
- */
-function newsletter_token_values($type, $object = NULL, $options = array()) {
-    $values = array();
-    $current_path = "";
-    switch ($type) {        
-        case 'all':
-        case 'simplenews':
-            $node = $object['node'];
-            if ($node || (arg(0) == 'node' && arg(2) != 'edit')) {
-                $system_path = 'node/' . arg(1);
-                $current_path = drupal_get_path_alias($system_path);
-            }
-            $values["simplenews_term_alias"] = $current_path; //return the path alias
-            break;
-    }
-    return $values;
-}
-
 /*
  *  allow to link all content types to the related_content field of the simplenews content
  */
@@ -102,4 +86,50 @@ function newsletters_field_create_field($field) {
                 simplenews_related_content_type($type, 'add');
         }
     }
+}
+
+/**
+ * Implementation of hook_token_info().
+ */
+function newsletters_token_info() {
+
+    $info['types']['simplenews-breadcrump'] = array(
+        'name' => t('Simplenews Breadcrump'),
+        'description' => t('Tokens related to breadcrump of newsletter.'),
+    );
+    $info['tokens']['simplenews-breadcrump']['path'] = array(
+        'name' => t('Simplenews breadcrump path'),
+        'description' => t("The breadcrump path of the newsletter."),
+    );
+    return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ *
+ */
+function newsletters_tokens($type, $tokens, $data = array(), $options = array()) {
+    $replacements = array();
+    global $language;
+    $sanitize = !empty($options['sanitize']);
+    // tokens for simplenews breadcrump
+    if ($type == 'simplenews-breadcrump' && !empty($data['node'])) {
+        //get the current node
+        $node = $data['node'];
+        foreach ($tokens as $name => $original) {
+            switch ($name) {
+                case 'path':
+                    //get the id of taxonomy
+                    $tid = $node->field_simplenews_term[$language->language][0]["tid"];
+                    //create a taxonomy path
+                    $tax_path = "taxonomy/term/$tid";
+                    //create a aliased path from taxonomy
+                    $path = drupal_get_path_alias($tax_path);
+                    //ready to return path
+                    $replacements[$original] = $path;
+                    break;
+            }
+        }
+    }
+    return $replacements;
 }
