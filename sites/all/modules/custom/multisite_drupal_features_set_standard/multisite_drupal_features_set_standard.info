@@ -136,3 +136,9 @@ feature_sets[multilingual_tools][description] = 'Provide tools to enhance the tr
 feature_sets[multilingual_tools][icon] = 'feature-set-icons/multilingual.png'
 feature_sets[multilingual_tools][enable][] = multilingual_tools
 feature_sets[multilingual_tools][disable][] = multilingual_tools
+
+feature_sets[likedislike][title] = 'Like/Dislike'
+feature_sets[likedislike][description] = 'This feature enables to display the "Like/Dislike buttons". Please visit: http://webtools.ec.europa.eu/like/examples/ in a way to access documentation, about how to install the buttons.'
+feature_sets[likedislike][icon] = 'feature-set-icons/likedislike.png'
+feature_sets[likedislike][enable][] = likedislike
+feature_sets[likedislike][disable][] = likedislike

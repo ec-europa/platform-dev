@@ -1,0 +1,11 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Add the js file needed to enable like/dislike button
+ */
+function likedislike_init(){
+    drupal_add_js('http://webtools.ec.europa.eu/like/js/likedislike.js', 'external');
+}

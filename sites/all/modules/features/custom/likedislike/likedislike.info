@@ -1,0 +1,7 @@
+name = likedislike
+description = Make usable the "Like/Dislike buttons". See http://webtools.ec.europa.eu/like/examples/
+core = 7.x
+package = Multisite_features
+version = 7.x-1.0
+project = likedislike
+features[features_api][] = api:1

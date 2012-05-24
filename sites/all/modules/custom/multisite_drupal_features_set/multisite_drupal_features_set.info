@@ -88,3 +88,5 @@ feature_sets[gallerymedia_core][description] =  'Contributors can add picture ga
 feature_sets[gallerymedia_core][icon] = 'feature-set-icons/mediagallery.png'
 feature_sets[gallerymedia_core][enable][] = gallerymedia_core
 feature_sets[gallerymedia_core][disable][] = gallerymedia_core
+
+
