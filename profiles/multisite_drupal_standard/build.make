@@ -78,7 +78,7 @@ projects[workbench][subdir] = "contributed"
 projects[workbench][version] = "1.1"
 
 projects[workbench_moderation][subdir] = "contributed"
-projects[workbench_moderation][version] = "1.1"
+projects[workbench_moderation][version] = "1.2"
 
 projects[link][subdir] = "contributed"
 projects[link][version] = "1.0"

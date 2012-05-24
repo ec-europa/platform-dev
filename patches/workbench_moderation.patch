@@ -3,7 +3,7 @@ Index: sites/all/modules/contributed/workbench_moderation/workbench_moderation.m
 ===================================================================
 --- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2012-01-14 00:12:30.000000000 +0100
 +++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2012-02-21 10:44:29.000000000 +0100
-@@ -1004,8 +1004,11 @@
+@@ -1006,8 +1006,11 @@
      return TRUE;
    }
  
@@ -13,17 +13,6 @@ Index: sites/all/modules/contributed/workbench_moderation/workbench_moderation.m
    // Default return.
 -  return FALSE;
 +  return $return;
- }
- 
- /**
-@@ -1538,6 +1541,10 @@
-   if (!empty($node->workbench_moderation['published'])) {
-     drupal_register_shutdown_function('workbench_moderation_store', $node);
-   }
-+
-+  // Multisite upgrade : Notify other modules that the state was changed.
-+  module_invoke_all('workbench_moderation_transition', $node, $old_revision->state, $state);
-+
  }
  
  /**
