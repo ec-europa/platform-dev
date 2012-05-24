@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install the feature events
@@ -8,64 +9,66 @@
  * hook_install
  */
 function events_core_install() {
-  //Nothing yet
+    //Nothing yet
 }
 
 /**
  * hook_uninstall
  */
 function events_core_uninstall() {
-  //Nothing yet
+    //Nothing yet
 }
 
 /**
-* Add block to the context
-*/
-function events_core_enable(){
-  // solR configuration add bundle
-  config_solr_bundle('event','add');	
-	
-  // add type to notification
-  notification_content_type('event','add');  
-  
-  // add type to the simplenews related content
-  simplenews_related_content_type('event', 'add');
+ * Add block to the context
+ */
+function events_core_enable() {
+    // solR configuration add bundle
+    config_solr_bundle('event', 'add');
 
-  //Add breadcrumb configuration
+    // add type to notification
+    notification_content_type('event', 'add');
+
+    // add type to the simplenews related content
+    simplenews_related_content_type('event', 'add');
+
+    //Add breadcrumb configuration
     db_insert('custom_breadcrumb')
-    ->fields(array(
-      'titles' => 'events', // titles of the elements to display in the breadcrumb
-      'paths' => 'calendar/', // path of the elements to display in the breadcrumb
-      'visibility_php '=>'',
-      'node_type'=>'event', //the content type targeted by this rule
-    ))
-    ->execute();
-  
-  //Activation message
-  drupal_set_message('Events feature is now active on your site.');
-}
+            ->fields(array(
+                'titles' => 'events', // titles of the elements to display in the breadcrumb
+                'paths' => 'calendar/', // path of the elements to display in the breadcrumb
+                'visibility_php ' => '',
+                'node_type' => 'event', //the content type targeted by this rule
+            ))
+            ->execute();
 
+    //Activation message
+    drupal_set_message('Events feature is now active on your site.');
+}
 
 /**
-* Remove block from the context
-*/
-function events_core_disable(){
-  // solR configuration reomve bundle
-  config_solr_bundle('event','delete');	
-	
-  // remove type from notification
-  notification_content_type('event','delete');
-  
-  // remove type to the simplenews related content
-  simplenews_related_content_type('event', 'delete');
-  
-  _disable_content_type('event');
-	
-  drupal_flush_all_caches();
-  drupal_set_message('Events feature is now disabled on your site.');
+ * Remove block from the context
+ */
+function events_core_disable() {
+    //remove the breadcrump related to
+    db_delete('custom_breadcrumb')
+            ->condition('node_type', 'event')
+            ->execute();
+
+    // solR configuration reomve bundle
+    config_solr_bundle('event', 'delete');
+
+    // remove type from notification
+    notification_content_type('event', 'delete');
+
+    // remove type to the simplenews related content
+    simplenews_related_content_type('event', 'delete');
+
+
+
+    _disable_content_type('event');
+
+    drupal_flush_all_caches();
+    drupal_set_message('Events feature is now disabled on your site.');
 }
-
-
-
-
 

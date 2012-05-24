@@ -52,6 +52,10 @@ function links_core_enable(){
  * Remove permissions
  */
 function links_core_disable(){
+   //remove the breadcrump related to
+    db_delete('custom_breadcrumb')
+            ->condition('node_type', 'links')
+            ->execute();
   // solR configuration add bundle
   config_solr_bundle('document','delete');
 

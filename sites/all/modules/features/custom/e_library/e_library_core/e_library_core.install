@@ -59,6 +59,11 @@ function e_library_core_disable(){
   
   // remove type to the simplenews related content
   simplenews_related_content_type('document', 'delete');
+
+  //remove the breadcrump relative to
+    db_delete('custom_breadcrumb')
+            ->condition('node_type', 'document')
+            ->execute();
   
   _disable_content_type('document');
   

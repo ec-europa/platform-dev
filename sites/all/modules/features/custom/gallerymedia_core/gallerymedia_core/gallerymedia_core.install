@@ -39,5 +39,11 @@ function gallerymedia_core_disable() {
     // remove type from notification
     notification_content_type('gallerymedia', 'delete');
 
+    //remove the breadcrump relative to 
+    db_delete('custom_breadcrumb')
+            ->condition('node_type', 'gallerymedia')
+            ->execute();
+
+    //Disabling message
     drupal_set_message('MediaGallery feature is now disabled on your site.');
 }

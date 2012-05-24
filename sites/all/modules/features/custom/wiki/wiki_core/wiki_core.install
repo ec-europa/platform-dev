@@ -33,6 +33,10 @@ function wiki_core_enable() {
  * Hook disable 
  */
 function wiki_core_disable(){
+  //remove the breadcrump related to
+    db_delete('custom_breadcrumb')
+            ->condition('node_type', 'wiki')
+            ->execute();
   // solR configuration add bundle
   config_solr_bundle('wiki','delete');
 	
