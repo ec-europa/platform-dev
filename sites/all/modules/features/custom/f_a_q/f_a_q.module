@@ -1,104 +1,141 @@
 <?php
+
 /**
  * @file
  * Code for the F.A.Q feature.
  */
-
 include_once('f_a_q.features.inc');
 
 /*
-* hook_views_pre_render
-*/
+ * hook_views_pre_render
+ */
+
 function f_a_q_views_pre_render(&$view) {
-  if($view->name == 'faq') {
-    //add a bit of jQuery to make it work
-	drupal_add_js(drupal_get_path('module', 'f_a_q') .'/faq.js');
-	
-  $output = '';
-  
-	//Build extra menu item for this view
-  $output .= l(t('Expand all'), '', array('attributes' => array('type' => 'expand', 'action_bar' => 'first', 'btn_group' => 'first', 'class' => 'action-expand')));
-  $output .= l(t('Collapse all'), '', array('attributes' => array('type' => 'collapse', 'btn_group' => 'last', 'class' => 'action-collapse')));
-  
-  if (user_access('administer nodes')) { 
-    $output .= l(t('Create a new FAQ'), 'node/add/f-a-q', array('attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
-  }
-  
-	//add menu to the exsiting  header
-    $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
-  }
+    if ($view->name == 'faq') {
+        //add a bit of jQuery to make it work
+        drupal_add_js(drupal_get_path('module', 'f_a_q') . '/faq.js');
+
+        $output = '';
+
+        //Build extra menu item for this view
+        $output .= l(t('Expand all'), '', array('attributes' => array('type' => 'expand', 'action_bar' => 'first', 'btn_group' => 'first', 'class' => 'action-expand')));
+        $output .= l(t('Collapse all'), '', array('attributes' => array('type' => 'collapse', 'btn_group' => 'last', 'class' => 'action-collapse')));
+
+        if (user_access('administer nodes')) {
+            $output .= l(t('Create a new FAQ'), 'node/add/f-a-q', array('attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
+        }
+
+        //add menu to the exsiting  header
+        $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
+    }
 }
 
-function f_a_q_enable(){
-  drupal_set_message('FAQ enabled');
-  module_enable(array('faq_content_default'));
- 
-  // solR configuration add bundle
-  config_solr_bundle('f_a_q','add');
-  
-  // add type to notification
-  notification_content_type('f_a_q','add');  
-  
-  // add type to the simplenews related content
-  simplenews_related_content_type('f_a_q', 'add');
+function f_a_q_enable() {
+    drupal_set_message('FAQ enabled');
+    module_enable(array('faq_content_default'));
 
-  //Add breadcrumb configuration
+    // solR configuration add bundle
+    config_solr_bundle('f_a_q', 'add');
+
+    // add type to notification
+    notification_content_type('f_a_q', 'add');
+
+    // add type to the simplenews related content
+    simplenews_related_content_type('f_a_q', 'add');
+
+    //Add breadcrumb configuration
     db_insert('custom_breadcrumb')
-    ->fields(array(
-      'titles' => 'faq', // titles of the elements to display in the breadcrumb
-      'paths' => 'faq/', // path of the elements to display in the breadcrumb
-      'visibility_php '=>'',
-      'node_type'=>'f_a_q', //the content type targeted by this rule
-    ))
-    ->execute();
+            ->fields(array(
+                'titles' => '[Breadcrumb_faq:f_a_q_title]', // titles of the elements to display in the breadcrumb
+                'paths' => 'faq/', // path of the elements to display in the breadcrumb
+                'visibility_php ' => '',
+                'node_type' => 'f_a_q', //the content type targeted by this rule
+            ))
+            ->execute();
 
-  //Activation message
-  drupal_set_message('Faq is now active on your site.');
+    //Activation message
+    drupal_set_message('Faq is now active on your site.');
 }
 
 function f_a_q_modules_enabled($modules) {
 
- node_types_rebuild();
+    node_types_rebuild();
 
- if(in_array('f_a_q', $modules)) { 
-  //Get role_id for the role
-  $role_name='contributor';
-  $roles = user_roles(TRUE);
-  $role_id = array_search($role_name, $roles);
-  
-  user_role_grant_permissions(4, array(
-    'create f_a_q content',
-    'edit any f_a_q content',
-    'delete any f_a_q content',
-  ));
+    if (in_array('f_a_q', $modules)) {
+        //Get role_id for the role
+        $role_name = 'contributor';
+        $roles = user_roles(TRUE);
+        $role_id = array_search($role_name, $roles);
+
+        user_role_grant_permissions(4, array(
+            'create f_a_q content',
+            'edit any f_a_q content',
+            'delete any f_a_q content',
+        ));
+    }
 }
-}
+
 function f_a_q_disable() {
-   //remove the breadcrump related to
+    //remove the Breadcrumb related to
     db_delete('custom_breadcrumb')
             ->condition('node_type', 'f_a_q')
             ->execute();
 
-  // solR configuration add bundle
-  config_solr_bundle('f_a_q','delete');
-	
-  // remove type from notification
-  notification_content_type('f_a_q','delete');
-  
-  // remove type to the simplenews related content
-  simplenews_related_content_type('f_a_q', 'delete');
-  
-  module_disable(array('faq_content_default'));
-  _disable_content_type('f_a_q');
-  
-   //Get role_id for the role
-  $role_name='contributor';
-  $roles = user_roles(TRUE);
-  $role_id = array_search($role_name, $roles);
-  
-	user_role_revoke_permissions($role_id, array(
-	  'create f_a_q content',
-	  'edit any f_a_q content',
-	  'delete any f_a_q content',
-	));
+    // solR configuration add bundle
+    config_solr_bundle('f_a_q', 'delete');
+
+    // remove type from notification
+    notification_content_type('f_a_q', 'delete');
+
+    // remove type to the simplenews related content
+    simplenews_related_content_type('f_a_q', 'delete');
+
+    module_disable(array('faq_content_default'));
+    _disable_content_type('f_a_q');
+
+    //Get role_id for the role
+    $role_name = 'contributor';
+    $roles = user_roles(TRUE);
+    $role_id = array_search($role_name, $roles);
+
+    user_role_revoke_permissions($role_id, array(
+        'create f_a_q content',
+        'edit any f_a_q content',
+        'delete any f_a_q content',
+    ));
+}
+
+/**
+ * Implementation of hook_token_info().
+ */
+function f_a_q_token_info() {
+    $info['types']['Breadcrumb_faq'] = array(
+        'name' => 'Breadcrumb_faq',
+        'description' => 'Tokens related to Breadcrumb.',
+    );
+    $info['tokens']['Breadcrumb_faq']["f_a_q_title"] = array(
+        'name' => t("f_a_q Breadcrumb title"),
+        'description' => t("The Breadcrumb title of the f_a_q."),
+    );
+    return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ *
+ */
+function f_a_q_tokens($type, $tokens, $data = array(), $options = array()) {
+    $replacements = array();
+    $sanitize = !empty($options['sanitize']);
+    // tokens for e_libray_core Breadcrumb
+    if ($type == 'Breadcrumb_faq') {
+        foreach ($tokens as $name => $original) {
+            switch ($name) {
+                case 'f_a_q_title':
+                    $replacements[$original] = t("f_a_q");
+                    break;
+            }
+        }
+    }
+    return $replacements;
 }

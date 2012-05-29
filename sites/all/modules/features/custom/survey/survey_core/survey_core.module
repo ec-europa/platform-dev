@@ -41,3 +41,37 @@ function survey_analysis($nid) {
   return theme('webform_results_analysis', array('node' => $node, 'data' => $data, 'sids' => $sids, 'component' => NULL));
 }
 
+/**
+ * Implementation of hook_token_info().
+ */
+function survey_core_token_info() {
+    $info['types']['Breadcrumb_survey'] = array(
+        'name' => 'Breadcrumb_survey',
+        'description' => 'Tokens related to Breadcrumb.',
+    );
+    $info['tokens']['Breadcrumb_survey']["survey_title"] = array(
+        'name' => t("survey Breadcrumb title"),
+        'description' => t("The Breadcrumb title of the survey."),
+    );
+    return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ *
+ */
+function survey_core_tokens($type, $tokens, $data = array(), $options = array()) {
+    $replacements = array();
+    $sanitize = !empty($options['sanitize']);    
+    // tokens for e_libray_core Breadcrumb
+    if ($type == 'Breadcrumb_survey') {
+        foreach ($tokens as $name => $original) {
+            switch ($name) {
+                case 'survey_title':
+                    $replacements[$original] = t("survey");
+                    break;
+            }
+        }
+    }
+    return $replacements;
+}

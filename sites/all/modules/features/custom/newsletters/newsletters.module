@@ -17,8 +17,8 @@ function newsletters_init() {
 function newsletters_enable() {
     db_insert('custom_breadcrumb')
             ->fields(array(
-                'titles' => 'newsletter', // titles of the elements to display in the breadcrumb
-                'paths' => '[simplenews-breadcrump:path]', // path of the elements to display in the breadcrumb
+                'titles' => '[Breadcrumb_newsletter:newsletter_title]', // titles of the elements to display in the breadcrumb
+                'paths' => '[newsletter-breadcrump:path]', // path of the elements to display in the breadcrumb
                 'visibility_php ' => '',
                 'node_type' => 'simplenews', //the content type targeted by this rule
             ))
@@ -93,13 +93,23 @@ function newsletters_field_create_field($field) {
  */
 function newsletters_token_info() {
 
-    $info['types']['simplenews-breadcrump'] = array(
-        'name' => t('Simplenews Breadcrump'),
-        'description' => t('Tokens related to breadcrump of newsletter.'),
+    $info['tokens']['newsletter-breadcrumb'] = array(
+        'name' => 'newsletter breadcrumb',
+        'description' => 'Tokens related to breadcrumb of newsletter.',
     );
-    $info['tokens']['simplenews-breadcrump']['path'] = array(
-        'name' => t('Simplenews breadcrump path'),
-        'description' => t("The breadcrump path of the newsletter."),
+
+    $info['tokens']['newsletter-breadcrumb']['path'] = array(
+        'name' => t('newsletter breadcrumb path'),
+        'description' => t("The breadcrumb path of the newsletter."),
+    );
+
+     $info['types']['Breadcrumb_newsletter'] = array(
+        'name' => 'Breadcrumb_newsletter',
+        'description' => 'Tokens related to Breadcrumb.',
+    );
+    $info['tokens']['Breadcrumb_newsletter']["newsletter_title"] = array(
+        'name' => t("newsletter Breadcrumb title"),
+        'description' => t("The Breadcrumb title of the newsletter."),
     );
     return $info;
 }
@@ -112,21 +122,31 @@ function newsletters_tokens($type, $tokens, $data = array(), $options = array())
     $replacements = array();
     global $language;
     $sanitize = !empty($options['sanitize']);
-    // tokens for simplenews breadcrump
-    if ($type == 'simplenews-breadcrump' && !empty($data['node'])) {
+    // tokens for newsletter breadcrumb
+    if ($type == 'newsletter-breadcrumb' && !empty($data['node'])) {
         //get the current node
         $node = $data['node'];
         foreach ($tokens as $name => $original) {
             switch ($name) {
                 case 'path':
                     //get the id of taxonomy
-                    $tid = $node->field_simplenews_term[$language->language][0]["tid"];
+                    $tid = $node->field_newsletter_term[$language->language][0]["tid"];
                     //create a taxonomy path
                     $tax_path = "taxonomy/term/$tid";
                     //create a aliased path from taxonomy
                     $path = drupal_get_path_alias($tax_path);
                     //ready to return path
                     $replacements[$original] = $path;
+                    break;
+            }
+        }
+    }
+
+    if ($type == 'Breadcrumb_newsletter') {
+        foreach ($tokens as $name => $original) {
+            switch ($name) {
+                case 'newsletter_title':
+                    $replacements[$original] = t("newsletter");
                     break;
             }
         }

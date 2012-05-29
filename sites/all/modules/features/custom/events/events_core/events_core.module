@@ -1,8 +1,40 @@
 <?php
+
 /**
  * @file
  * Code for the Events feature.
  */
-
 include_once('events_core.features.inc');
+
+/**
+ * Implementation of hook_token_info().
+ */
+function events_core_token_info() {
+    
+    $info['tokens']['Breadcrumb_events']["events_title"] = array(
+        'name' => t("events breadcrump title"),
+        'description' => t("The breadcrump title of the events."),
+    );
+    return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ *
+ */
+function events_core_tokens($type, $tokens, $data = array(), $options = array()) {
+    $replacements = array();
+    $sanitize = !empty($options['sanitize']);
+    // tokens for e_libray_core breadcrump
+    if ($type == 'Breadcrumb_events') {
+        foreach ($tokens as $name => $original) {
+            switch ($name) {
+                case 'events_title':
+                    $replacements[$original] = t("events");
+                    break;
+            }
+        }
+    }
+    return $replacements;
+}
 

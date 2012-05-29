@@ -35,7 +35,7 @@ function events_core_enable() {
     //Add breadcrumb configuration
     db_insert('custom_breadcrumb')
             ->fields(array(
-                'titles' => 'events', // titles of the elements to display in the breadcrumb
+                'titles' => '[Breadcrumb_event:events_title]', // titles of the elements to display in the breadcrumb
                 'paths' => 'calendar/', // path of the elements to display in the breadcrumb
                 'visibility_php ' => '',
                 'node_type' => 'event', //the content type targeted by this rule
@@ -71,4 +71,6 @@ function events_core_disable() {
     drupal_flush_all_caches();
     drupal_set_message('Events feature is now disabled on your site.');
 }
+
+
 

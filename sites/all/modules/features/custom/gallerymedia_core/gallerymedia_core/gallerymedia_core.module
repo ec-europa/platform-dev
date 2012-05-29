@@ -94,3 +94,38 @@ function add_media_form_submit($form, &$form_state) {
   $form_state['redirect'] = 'node/'.$nid;
  
 }
+
+/**
+ * Implementation of hook_token_info().
+ */
+function gallerymedia_core_token_info() {
+    $info['types']['Breadcrumb_gallery'] = array(
+        'name' => 'Breadcrumb_gallery',
+        'description' => 'Tokens related to Breadcrumb.',
+    );
+    $info['tokens']['Breadcrumb_gallery']["gallerymedia_title"] = array(
+        'name' => t("gallerymedia Breadcrumb title"),
+        'description' => t("The Breadcrumb title of the gallerymedia."),
+    );
+    return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ *
+ */
+function gallerymedia_core_tokens($type, $tokens, $data = array(), $options = array()) {
+    $replacements = array();
+    $sanitize = !empty($options['sanitize']);
+    // tokens for e_libray_core Breadcrumb
+    if ($type == 'Breadcrumb_gallery') {
+        foreach ($tokens as $name => $original) {
+            switch ($name) {
+                case 'gallerymedia_title':
+                    $replacements[$original] = t("gallerymedia");
+                    break;
+            }
+        }
+    }
+    return $replacements;
+}

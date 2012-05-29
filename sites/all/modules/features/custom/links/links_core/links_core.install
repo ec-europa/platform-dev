@@ -35,7 +35,7 @@ function links_core_enable(){
   //Add breadcrumb configuration
     db_insert('custom_breadcrumb')
     ->fields(array(
-      'titles' => 'links', // titles of the elements to display in the breadcrumb
+      'titles' => '	[Breadcrumb_links:links_title]', // titles of the elements to display in the breadcrumb
       'paths' => 'links/', // path of the elements to display in the breadcrumb
       'visibility_php '=>'',
       'node_type'=>'links', //the content type targeted by this rule
@@ -91,3 +91,5 @@ function links_core_disable(){
   
   drupal_set_message('Links feature is now disabled on your site.');
 }
+
+
