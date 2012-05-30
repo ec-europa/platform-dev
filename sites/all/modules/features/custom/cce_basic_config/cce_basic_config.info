@@ -92,3 +92,5 @@ features[variable][] = sweaver_plugins_weight
 features[variable][] = sweaver_selector_order
 features[variable][] = sweaver_skin
 features[variable][] = theme_default
+features[variable][] = i18n_select_nodes
+features[variable][] = i18n_select_taxonomy

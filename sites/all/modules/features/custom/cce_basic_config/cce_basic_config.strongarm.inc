@@ -478,5 +478,19 @@ function cce_basic_config_strongarm() {
   $strongarm->value = 'ec_default';
   $export['theme_default'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'i18n_select_nodes';
+  $strongarm->value = 0;
+  $export['i18n_select_nodes'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'i18n_select_taxonomy';
+  $strongarm->value = 0;
+  $export['i18n_select_taxonomy'] = $strongarm;
+ 
   return $export;
 }

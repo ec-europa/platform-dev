@@ -1,0 +1,18 @@
+<?php
+
+
+/*
+ * hook_enable 
+ */
+
+function news_core_enable() {
+  variable_set("multisite_drupal_language_negocation", 1);
+}
+
+/*
+ * hook_disable 
+ */
+
+function news_core_disable() {
+  variable_set("multisite_drupal_language_negocation", 0);
+}

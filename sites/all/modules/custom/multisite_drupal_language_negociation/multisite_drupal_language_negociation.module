@@ -1,0 +1,27 @@
+<?php
+/**
+ * Implementation of hook_query_node_access_alter().
+ *
+ * Rewrite node queries so language selection options are enforced.
+ */
+function multisite_drupal_language_negociation_query_node_access_alter(QueryAlterableInterface $query) {
+  if (!i18n_select_mode('nodes') && i18n_select_check_query($query) && ($table_alias = i18n_select_check_table($query, 'node', 'nid'))) {
+    $query->condition(db_or()->condition($table_alias . '.language', i18n_select_langcodes())->condition($table_alias . '.tnid',0));
+    // Mark query as altered
+    $query->addTag('i18n_select');
+  }
+}
+
+/**
+ * Implementation of hook_query_term_access_alter().
+ *
+ * Rewrite taxonomy term queries so language selection options are enforced.
+ */
+function multisite_drupal_language_negociation_query_term_access_alter(QueryAlterableInterface $query) {
+  if (module_exists('i18n_taxonomy') && !i18n_select_mode('taxonomy') && i18n_select_check_query($query) &&
+    ($table_alias = i18n_select_check_table($query, 'taxonomy_term_data', 'tid'))) {
+    $query->condition(db_or()->condition($table_alias . '.language', i18n_select_langcodes())->condition($table_alias . '.tnid',0));
+    // Mark query as altered
+    $query->addTag('i18n_select');
+  }
+}

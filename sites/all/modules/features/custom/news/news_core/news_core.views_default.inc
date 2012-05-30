@@ -173,12 +173,20 @@ function news_core_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  
+  
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
+  
+  
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 0;
+  $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
@@ -187,6 +195,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'news' => 'news',
   );
+  $handler->display->display_options['filters']['type']['group'] = 1;
   /* Filter criterion: Content translation: Language */
   $handler->display->display_options['filters']['language']['id'] = 'language';
   $handler->display->display_options['filters']['language']['table'] = 'node';
@@ -195,7 +204,13 @@ function news_core_views_default_views() {
     '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
     'und' => 'und',
   );
-
+  $handler->display->display_options['filters']['language']['group'] = 2;
+  /* Filter criterion: Content translation: Translation set node ID */
+  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
+  $handler->display->display_options['filters']['tnid']['table'] = 'node';
+  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
+  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
+  $handler->display->display_options['filters']['tnid']['group'] = 2;
 
 
   /* Display: News list page */
@@ -531,6 +546,12 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['nid_1']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['nid_1']['link_to_node'] = 0;
   $handler->display->display_options['defaults']['filters'] = FALSE;
+  
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
+  
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -562,8 +583,13 @@ function news_core_views_default_views() {
     '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
     'und' => 'und',
   );
-  
-  
+  $handler->display->display_options['filters']['language']['group'] = 2;
+  /* Filter criterion: Content translation: Translation set node ID */
+  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
+  $handler->display->display_options['filters']['tnid']['table'] = 'node';
+  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
+  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
+  $handler->display->display_options['filters']['tnid']['group'] = 2;  
   
   /* Display: Top news Attachment */
   $handler = $view->new_display('attachment', 'Top news Attachment', 'attachment_1');
@@ -632,6 +658,12 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['title']['link_to_node'] = 0;
   $handler->display->display_options['defaults']['filters'] = FALSE;
+  
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
+  
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -663,7 +695,13 @@ function news_core_views_default_views() {
     '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
     'und' => 'und',
   );
-  
+  $handler->display->display_options['filters']['language']['group'] = 2;
+  /* Filter criterion: Content translation: Translation set node ID */
+  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
+  $handler->display->display_options['filters']['tnid']['table'] = 'node';
+  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
+  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
+  $handler->display->display_options['filters']['tnid']['group'] = 2;  
   
   $handler->display->display_options['displays'] = array(
     'top_news' => 'top_news',
