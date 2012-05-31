@@ -218,7 +218,7 @@ function ec_default_page_alter($page) {
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'description',
-      'content' =>  'Content should be a sentence that describes the content of the page'    
+      'content' =>  variable_get('site_slogan')   
     )
   );
   drupal_add_html_head( $meta_description, 'meta_description' );  
@@ -310,6 +310,17 @@ function ec_default_page_alter($page) {
     )
   );
   drupal_add_html_head( $meta_og_site_name, 'meta_og_site_name' );
+  
+  //og description
+  $meta_og_site_name = array(
+    '#type' => 'html_tag',
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'property' => 'og:description',
+      'content' =>  variable_get('site_slogan')
+    )
+  );
+  drupal_add_html_head( $meta_og_site_name, 'meta_og_site_name' );  
   
   //fb admins
   $meta_fb_admins = array(
