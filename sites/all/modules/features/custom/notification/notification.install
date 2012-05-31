@@ -28,7 +28,6 @@ function notification_disable() {
     // remove type from notification
     notification_content_type($type,'delete');
   }	
-  module_disable(array("notifications_ui"), FALSE);
 }
 
 
