@@ -16,7 +16,7 @@ function news_core_default_rules_configuration() {
       "REQUIRES" : [ "rules", "rules_scheduler" ],
       "ON" : [ "node_insert", "node_update" ],
       "IF" : [
-        { "node_is_of_type" : { "node" : [ "node" ], "type" : { "value" : { "article" : "article" } } } }
+        { "node_is_of_type" : { "node" : [ "node" ], "type" : { "value" : { "news" : "news" } } } }
       ],
       "DO" : [
         { "schedule" : {
