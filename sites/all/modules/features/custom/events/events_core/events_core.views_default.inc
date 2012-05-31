@@ -85,12 +85,18 @@ $handler->display->display_options['fields']['field_event_date']['field'] = 'fie
 $handler->display->display_options['sorts']['changed']['id'] = 'changed';
 $handler->display->display_options['sorts']['changed']['table'] = 'node';
 $handler->display->display_options['sorts']['changed']['field'] = 'changed';
+
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
+
 /* Filter criterion: Content: Published */
 $handler->display->display_options['filters']['status']['id'] = 'status';
 $handler->display->display_options['filters']['status']['table'] = 'node';
 $handler->display->display_options['filters']['status']['field'] = 'status';
 $handler->display->display_options['filters']['status']['value'] = 1;
-$handler->display->display_options['filters']['status']['group'] = 0;
+$handler->display->display_options['filters']['status']['group'] = 1;
 $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
 /* Filter criterion: Content: Type */
 $handler->display->display_options['filters']['type']['id'] = 'type';
@@ -99,6 +105,7 @@ $handler->display->display_options['filters']['type']['field'] = 'type';
 $handler->display->display_options['filters']['type']['value'] = array(
   'event' => 'event',
 );
+$handler->display->display_options['filters']['type']['group'] = 1;
 /* Filter criterion: Content translation: Language */ 
 $handler->display->display_options['filters']['language']['id'] = 'language'; 
 $handler->display->display_options['filters']['language']['table'] = 'node'; 
@@ -108,6 +115,13 @@ $handler->display->display_options['filters']['language']['value'] =
     '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
     'und' => 'und', 
   );
+$handler->display->display_options['filters']['language']['group'] = 2;
+/* Filter criterion: Content translation: Translation set node ID */
+$handler->display->display_options['filters']['tnid']['id'] = 'tnid';
+$handler->display->display_options['filters']['tnid']['table'] = 'node';
+$handler->display->display_options['filters']['tnid']['field'] = 'tnid';
+$handler->display->display_options['filters']['tnid']['value']['value'] = '0';
+$handler->display->display_options['filters']['tnid']['group'] = 2; 
 
 /* Display: Month */
 $handler = $view->new_display('page', 'Month', 'month');
@@ -432,20 +446,26 @@ $handler->display->display_options['fields']['term_node_tid']['vocabularies'] = 
   'tags' => 'tags',
   'newsletter' => 0,
 );
+
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
+
 $handler->display->display_options['defaults']['filters'] = FALSE;
 /* Filter criterion: Content: Published */
 $handler->display->display_options['filters']['status']['id'] = 'status';
 $handler->display->display_options['filters']['status']['table'] = 'node';
 $handler->display->display_options['filters']['status']['field'] = 'status';
 $handler->display->display_options['filters']['status']['value'] = 1;
-$handler->display->display_options['filters']['status']['group'] = 0;
+$handler->display->display_options['filters']['status']['group'] = 1;
 $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
 /* Filter criterion: Date: Date (node) */
 $handler->display->display_options['filters']['date_filter']['id'] = 'date_filter';
 $handler->display->display_options['filters']['date_filter']['table'] = 'node';
 $handler->display->display_options['filters']['date_filter']['field'] = 'date_filter';
 $handler->display->display_options['filters']['date_filter']['operator'] = '>=';
-$handler->display->display_options['filters']['date_filter']['group'] = 0;
+$handler->display->display_options['filters']['date_filter']['group'] = 1;
 $handler->display->display_options['filters']['date_filter']['default_date'] = 'now';
 $handler->display->display_options['filters']['date_filter']['add_delta'] = 'yes';
 $handler->display->display_options['filters']['date_filter']['date_fields'] = array(
@@ -458,7 +478,7 @@ $handler->display->display_options['filters']['type']['field'] = 'type';
 $handler->display->display_options['filters']['type']['value'] = array(
   'event' => 'event',
 );
-$handler->display->display_options['filters']['type']['group'] = 0;
+$handler->display->display_options['filters']['type']['group'] = 1;
 /* Filter criterion: Content translation: Language */ 
 $handler->display->display_options['filters']['language']['id'] = 'language'; 
 $handler->display->display_options['filters']['language']['table'] = 'node'; 
@@ -468,6 +488,15 @@ $handler->display->display_options['filters']['language']['value'] =
     '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
     'und' => 'und', 
   );
+$handler->display->display_options['filters']['language']['group'] = 2;
+/* Filter criterion: Content translation: Translation set node ID */
+$handler->display->display_options['filters']['tnid']['id'] = 'tnid';
+$handler->display->display_options['filters']['tnid']['table'] = 'node';
+$handler->display->display_options['filters']['tnid']['field'] = 'tnid';
+$handler->display->display_options['filters']['tnid']['value']['value'] = '0';
+$handler->display->display_options['filters']['tnid']['group'] = 2;
+
+
 $handler->display->display_options['block_description'] = 'Upcoming events';
 $translatables['calendar'] = array(
   t('Master'),

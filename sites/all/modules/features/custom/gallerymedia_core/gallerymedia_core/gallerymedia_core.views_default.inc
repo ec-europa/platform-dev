@@ -128,6 +128,12 @@ function gallerymedia_core_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
+  
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -150,6 +156,14 @@ function gallerymedia_core_views_default_views() {
     '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
     'und' => 'und',
   );
+  $handler->display->display_options['filters']['language']['group'] = 2;
+  /* Filter criterion: Content translation: Translation set node ID */
+  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
+  $handler->display->display_options['filters']['tnid']['table'] = 'node';
+  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
+  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
+  $handler->display->display_options['filters']['tnid']['group'] = 2;
+
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');

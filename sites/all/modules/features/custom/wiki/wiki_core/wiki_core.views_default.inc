@@ -56,11 +56,18 @@ function wiki_core_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );  
+  
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = '1';
+  $handler->display->display_options['filters']['status']['group'] = 1;  
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -68,6 +75,7 @@ function wiki_core_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'wiki' => 'wiki',
   );
+  $handler->display->display_options['filters']['type']['group'] = 1;
 
   /* Filter criterion: Content translation: Language */
   $handler->display->display_options['filters']['language']['id'] = 'language';
@@ -77,7 +85,13 @@ function wiki_core_views_default_views() {
     '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
     'und' => 'und',
   );
-
+  $handler->display->display_options['filters']['language']['group'] = 2;
+  /* Filter criterion: Content translation: Translation set node ID */
+  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
+  $handler->display->display_options['filters']['tnid']['table'] = 'node';
+  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
+  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
+  $handler->display->display_options['filters']['tnid']['group'] = 2;
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');

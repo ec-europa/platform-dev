@@ -205,6 +205,12 @@ $handler->display->display_options['arguments']['title']['limit'] = '1';
 $handler->display->display_options['arguments']['title']['case'] = 'upper';
 $handler->display->display_options['arguments']['title']['path_case'] = 'lower';
 $handler->display->display_options['arguments']['title']['transform_dash'] = 0;
+
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
+
 /* Filter criterion: Content: Type */
 $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -212,12 +218,13 @@ $handler->display->display_options['filters']['type']['field'] = 'type';
 $handler->display->display_options['filters']['type']['value'] = array(
   'document' => 'document',
 );
-$handler->display->display_options['filters']['type']['group'] = 0;
+$handler->display->display_options['filters']['type']['group'] = 1;
 /* Filter criterion: Workbench Moderation: Published */
 $handler->display->display_options['filters']['published']['id'] = 'published';
 $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
 $handler->display->display_options['filters']['published']['field'] = 'published';
 $handler->display->display_options['filters']['published']['value'] = '1';
+$handler->display->display_options['filters']['published']['group'] = '1';
 /* Filter criterion: Content translation: Language */ 
 $handler->display->display_options['filters']['language']['id'] = 'language'; 
 $handler->display->display_options['filters']['language']['table'] = 'node'; 
@@ -227,6 +234,13 @@ $handler->display->display_options['filters']['language']['value'] =
     '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
     'und' => 'und', 
   );
+$handler->display->display_options['filters']['language']['group'] = 2;
+/* Filter criterion: Content translation: Translation set node ID */
+$handler->display->display_options['filters']['tnid']['id'] = 'tnid';
+$handler->display->display_options['filters']['tnid']['table'] = 'node';
+$handler->display->display_options['filters']['tnid']['field'] = 'tnid';
+$handler->display->display_options['filters']['tnid']['value']['value'] = '0';
+$handler->display->display_options['filters']['tnid']['group'] = 2; 
 
 
 /* Display: Attachment */
@@ -243,6 +257,12 @@ $handler->display->display_options['header']['area']['content'] = 'Attachment he
 $handler->display->display_options['header']['area']['format'] = 'full_html';
 $handler->display->display_options['header']['area']['tokenize'] = 0;
 $handler->display->display_options['defaults']['arguments'] = FALSE;
+
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
+
 /* Filter criterion: Content translation: Language */ 
 $handler->display->display_options['filters']['language']['id'] = 'language'; 
 $handler->display->display_options['filters']['language']['table'] = 'node'; 
@@ -252,6 +272,15 @@ $handler->display->display_options['filters']['language']['value'] =
     '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
     'und' => 'und', 
   );
+$handler->display->display_options['filters']['language']['group'] = 2;
+/* Filter criterion: Content translation: Translation set node ID */
+$handler->display->display_options['filters']['tnid']['id'] = 'tnid';
+$handler->display->display_options['filters']['tnid']['table'] = 'node';
+$handler->display->display_options['filters']['tnid']['field'] = 'tnid';
+$handler->display->display_options['filters']['tnid']['value']['value'] = '0';
+$handler->display->display_options['filters']['tnid']['group'] = 2; 
+
+
 /* Contextual filter: Content: Title */
 $handler->display->display_options['arguments']['title']['id'] = 'title';
 $handler->display->display_options['arguments']['title']['table'] = 'node';
