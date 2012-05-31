@@ -7,7 +7,7 @@
 /**
  * Implements hook_default_rules_configuration().
  */
-function news_default_rules_configuration() {
+function news_core_default_rules_configuration() {
   $items = array();
   $items['rules_manage_node_publication'] = entity_import('rules_config', '{ "rules_manage_node_publication" : {
       "LABEL" : "Manage Node Publication",
