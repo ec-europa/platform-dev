@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * news.views_default.inc
+ * news_core.views_default.inc
  */
 
 /**
@@ -173,14 +173,10 @@ function news_core_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  
-  
   $handler->display->display_options['filter_groups']['groups'] = array(
     1 => 'AND',
     2 => 'OR',
   );
-  
-  
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -211,7 +207,6 @@ function news_core_views_default_views() {
   $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
   $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
   $handler->display->display_options['filters']['tnid']['group'] = 2;
-
 
   /* Display: News list page */
   $handler = $view->new_display('page', 'News list page', 'page');
@@ -361,6 +356,12 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
+  $handler->display->display_options['path'] = 'news';
+  $handler->display->display_options['menu']['type'] = 'normal';
+  $handler->display->display_options['menu']['title'] = 'News';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
+  $handler->display->display_options['menu']['context'] = 0;
 
   /* Display: Latest News Block */
   $handler = $view->new_display('block', 'Latest News Block', 'block_1');
@@ -424,7 +425,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['alter']['alter_text'] = 1;
-  $handler->display->display_options['fields']['nid']['alter']['text'] = '<div class="news" id="[nid]">';
+  $handler->display->display_options['fields']['nid']['alter']['text'] = '<div class="news" id="news[nid]">';
   $handler->display->display_options['fields']['nid']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['nid']['alter']['absolute'] = 0;
   $handler->display->display_options['fields']['nid']['alter']['external'] = 0;
@@ -433,6 +434,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['nid']['alter']['nl2br'] = 0;
   $handler->display->display_options['fields']['nid']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['nid']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['nid']['alter']['more_link'] = 0;
   $handler->display->display_options['fields']['nid']['alter']['strip_tags'] = 0;
   $handler->display->display_options['fields']['nid']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['nid']['alter']['html'] = 0;
@@ -447,7 +449,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['alter_text'] = 1;
+  $handler->display->display_options['fields']['title']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['title']['alter']['text'] = '<h3>[title]</h3>';
   $handler->display->display_options['fields']['title']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['title']['alter']['absolute'] = 0;
@@ -457,9 +459,11 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['nl2br'] = 0;
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['title']['alter']['more_link'] = 0;
   $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
   $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['title']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['title']['element_type'] = 'h3';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = 0;
   $handler->display->display_options['fields']['title']['hide_empty'] = 0;
@@ -546,12 +550,6 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['nid_1']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['nid_1']['link_to_node'] = 0;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  
-  $handler->display->display_options['filter_groups']['groups'] = array(
-    1 => 'AND',
-    2 => 'OR',
-  );
-  
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -589,8 +587,8 @@ function news_core_views_default_views() {
   $handler->display->display_options['filters']['tnid']['table'] = 'node';
   $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
   $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
-  $handler->display->display_options['filters']['tnid']['group'] = 2;  
-  
+  $handler->display->display_options['filters']['tnid']['group'] = 2;
+
   /* Display: Top news Attachment */
   $handler = $view->new_display('attachment', 'Top news Attachment', 'attachment_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
@@ -639,7 +637,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['title']['alter']['make_link'] = 1;
-  $handler->display->display_options['fields']['title']['alter']['path'] = '#[nid] ';
+  $handler->display->display_options['fields']['title']['alter']['path'] = '#news[nid] ';
   $handler->display->display_options['fields']['title']['alter']['absolute'] = 1;
   $handler->display->display_options['fields']['title']['alter']['external'] = 0;
   $handler->display->display_options['fields']['title']['alter']['replace_spaces'] = 0;
@@ -648,6 +646,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['max_length'] = '50';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['title']['alter']['more_link'] = 0;
   $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
   $handler->display->display_options['fields']['title']['alter']['trim'] = 1;
   $handler->display->display_options['fields']['title']['alter']['html'] = 0;
@@ -658,12 +657,6 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['title']['link_to_node'] = 0;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  
-  $handler->display->display_options['filter_groups']['groups'] = array(
-    1 => 'AND',
-    2 => 'OR',
-  );
-  
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -701,8 +694,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['filters']['tnid']['table'] = 'node';
   $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
   $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
-  $handler->display->display_options['filters']['tnid']['group'] = 2;  
-  
+  $handler->display->display_options['filters']['tnid']['group'] = 2;
   $handler->display->display_options['displays'] = array(
     'top_news' => 'top_news',
     'default' => 0,
@@ -728,14 +720,14 @@ function news_core_views_default_views() {
     t('Latest News'),
     t('Community Top news'),
     t('Top News'),
-    t('<div class="news" id="[nid]">'),
+    t('<div class="news" id="news[nid]">'),
     t('<h3>[title]</h3>'),
     t('[field_news_picture] 
 [body]
 '),
     t('</div>'),
     t('Top news Attachment'),
-    t('#[nid] '),
+    t('#news[nid] '),
   );
   $export['news'] = $view;
 
