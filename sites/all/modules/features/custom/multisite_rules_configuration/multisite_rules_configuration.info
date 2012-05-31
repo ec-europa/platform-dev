@@ -1,0 +1,11 @@
+name = Multisite_Rules_Configuration
+description = Enable Rules, Rules UI Admin, and Rules Scheduler. Also add workflow states Archived and Validated.
+core = 7.x
+package = Multisite Core Features
+version = 7.x-1.0
+project = multisite_rules_configuration
+dependencies[] = entity_token
+dependencies[] = rules
+dependencies[] = rules_admin
+dependencies[] = rules_scheduler
+features[features_api][] = api:1

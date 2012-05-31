@@ -1,0 +1,66 @@
+<?php
+
+/*
+ * hook_enable 
+ * 
+ */
+
+function multisite_rules_configuration_enable() {
+
+//Add Archived and Validated Workflow States
+$arch_state = db_insert('workbench_moderation_states')
+->fields(array(
+  'name' => 'archived',
+  'label' => 'Archived',
+  'description' => 'Content is not published anymore',
+  'weight' => 0,
+))
+->execute();
+
+$vali_state = db_insert('workbench_moderation_states')
+->fields(array(
+  'name' => 'validated',
+  'label' => 'Validated',
+  'description' => 'Approved by administrator',
+  'weight' => 0,
+))
+->execute();
+
+//Add Archived and Validated corresponding transitions
+
+  $transitions = array(
+    array(
+      'from_name' => 'published',
+      'to_name' => 'archived',
+    ),
+    array(
+      'from_name' => 'needs_review',
+      'to_name' => 'validated',
+    ),
+    array(
+      'from_name' => 'validated',
+      'to_name' => 'published',
+    ),
+  );
+
+  // Save default transitions to the database.
+  $query = db_insert('workbench_moderation_transitions')
+    ->fields(array('from_name', 'to_name'));
+
+  foreach ($transitions as $transition) {
+    $query->values($transition);
+  }
+
+  $query->execute();
+
+}
+
+/*
+ * hook_disable
+ * Remove permissions
+ */
+
+function multisite_rules_configuration_disable() {
+//
+}
+
