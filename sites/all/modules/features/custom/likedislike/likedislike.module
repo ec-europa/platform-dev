@@ -9,3 +9,35 @@
 function likedislike_init(){
     drupal_add_js('http://webtools.ec.europa.eu/like/js/likedislike.js', 'external');
 }
+
+/**
+ * Implementation of hook_block_info().
+ */
+function likedislike_block_info() {
+  $blocks['likedislike'] = array(
+    'info' => t('likedislike'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implementation of hook_block_view().
+ */
+function likedislike_block_view($delta='') {
+  $block = array();
+  switch ($delta) {
+    case 'likedislike':
+      //$block['subject'] = t('Social bookmark');
+      $block['content'] = likedislike_contents();
+      break;
+  }
+  return $block;
+}
+
+/**
+ * custom html block
+ * @return string
+ */
+function likedislike_contents() {
+  return '<span class="like_dislike"></span>';
+}
