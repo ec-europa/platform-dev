@@ -13,7 +13,9 @@ foreach($languages[1] as $lang) {
 
   if ($lang->prefix) {
     if ($translations) {
-      $path = $lang->prefix.'/'.$translations[$lang->prefix];
+      $path = $lang->prefix;
+	  if(isset($translations[$lang->prefix]))
+		$path .= '/'.$translations[$lang->prefix];  
     } else { // no translations for this content
       $path = ($_GET['q'] == 'node' ? $lang->prefix.'/' : $lang->prefix.'/'.$_GET['q']);
     }
