@@ -27,5 +27,11 @@
  */
 ?>
 <?php if ($content): ?>
-  <?php print $content; ?>
+  <?php 
+  $content = str_replace(
+    '<a class=\'context-block-region\' id=\'context-block-region-tools_bottom\'>Tools Bottom</a>',
+    '<li class=\'nav\'><a class=\'context-block-region\' id=\'context-block-region-tools_bottom\'>Tools Bottom</a></li>',
+    $content);
+  print $content; 
+  ?>
 <?php endif; ?>
