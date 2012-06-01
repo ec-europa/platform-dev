@@ -119,7 +119,9 @@ feature_sets[feed_rss_core][title] = 'EU Press Releases'
 feature_sets[feed_rss_core][description] = 'Display a block on your homepage with EU Press Releases Information.'
 feature_sets[feed_rss_core][icon] = 'feature-set-icons/feedrss.png'
 feature_sets[feed_rss_core][enable][] = feed_rss_core
+feature_sets[feed_rss_core][enable][] = aggregator
 feature_sets[feed_rss_core][disable][] = feed_rss_core
+feature_sets[feed_rss_core][disable][] = aggregator
 
 feature_sets[fat_footer][title] = 'Fat footer'
 feature_sets[fat_footer][description] = 'Provide a expanded main menu at the bottom of page.'
