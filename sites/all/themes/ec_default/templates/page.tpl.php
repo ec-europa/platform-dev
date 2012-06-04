@@ -86,172 +86,177 @@
 global $base_url;
 
 if (arg(0) == 'splash'):
-  include('page-splash.tpl.php');
-  return;
+    include('page-splash.tpl.php');
+    return;
 endif;
-
 ?>
 
-<div class="layout <?php if (isset($variables['no_right']) && $variables['no_right']) print ' layout-noright'; ?><?php if (isset($variables['no_left']) && $variables['no_left']) print ' layout-noleft'; ?>" id="layout">
-  
-  <a id="top-page"></a>  
-  
-  <div id="header">
-<?php 
-  switch ($variables['template']) {   
-    case 'ec':
-?>    
-    <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2012/images/logo/logo_en.gif" />
-    
-    <p id="banner-title-text"><?php print $site_name; ?></p>
-    <span class="title-en" id="banner-image-title"></span>  
+<div class="layout <?php if (isset($variables['no_right']) && $variables['no_right'])
+    print ' layout-noright'; ?><?php if (isset($variables['no_left']) && $variables['no_left'])
+    print ' layout-noleft'; ?>" id="layout">
 
-    <span id="banner-image-right">
-      <?php if ($page['header']): ?><?php print render($page['header']); ?><?php endif; ?>
-    </span>
-<?php    
-      break;
-      
-    case 'europa':
-?>
-    <a class="banner-flag" href="http://europa.eu/index_en.htm" title="European Union homepage">
-      <img id="banner-flag" src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2011/images/europa-flag.gif" alt="European Union homepage. EU flag" width="67" height="60" border="0">
-    </a>
-    
-    <p class="banner-title">
-      <img src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2011/images/title/title_en.gif" alt="Title of the site" width="450" height="46">
-    </p>   
+    <a id="top-page"></a>
 
-		<div class="banner-right">
-      <?php if ($page['header']): ?><?php print render($page['header']); ?><?php endif; ?>
-    </div>        
-<?php    
-      break;
-      
-    default:
-      
-      break;
-  }
-?>
-    
-    <!--<div id="main_title">Service mutlisite</div>
-    <div id="sub_title">Playground environment</div>-->   
-    
-    <p class="off-screen">Accessibility tools</p>
-    <ul class="reset-list" id="accessibility-menu">
-      <li><a accesskey="1" href="#content"><?php print t('Go to content'); ?></a></li>
-    </ul>
+    <div id="header">
+        <?php
+        switch ($variables['template']) {
+            case 'ec':
+        ?>
+                <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2012/images/logo/logo_en.gif" />
 
-    <p class="off-screen">Service tools</p>
-    <ul class="reset-list" id="services">
-      <li><a class="first" accesskey="3" href="<?php print $base_url . '/contact'; ?>"><?php print t('Contact'); ?></a></li>
-      <li><a accesskey="2" href="http://ec.europa.eu/geninfo/legal_notices_en.htm"><?php print t('Legal notice'); ?></a></li>
-      <li><a accesskey="4" href="http://ec.europa.eu/geninfo/query/search_en.html"><?php print t('Search'); ?></a></li>
-    </ul>
-    
-    <!-- language selector -->
-    <?php print render($page['highlighted']); ?>    
-  </div><!-- /#header -->
+                <p id="banner-title-text"><?php print $site_name; ?></p>
+                <span class="title-en" id="banner-image-title"></span>
 
-  <div id="path">
-    <p class="off-screen">Navigation path</p>
-    <ul class="reset-list">
-      <li class="first"><a href="http://ec.europa.eu/index_en.htm"><?php print t('European Commission'); ?></a></li>
-      <li><?php print $site_name; ?></li>
-	  <?php print $breadcrumb; ?>
-    </ul>
-  </div><!-- /#path -->
-   
-  <div class="layout-body">
-  
-    <?php if ($page['featured']): ?>
-      <?php print render($page['featured']); ?>
-    <?php endif; ?>	    
-    
-    <div class="layout-wrapper">
-      <div class="layout-wrapper-reset">
+                <span id="banner-image-right">
+<?php if ($page['header']): ?><?php print render($page['header']); ?><?php endif; ?>
+                </span>
+        <?php
+                    break;
 
-      <?php if ($messages): ?>
-        <div id="messages">
-          <?php print $messages; ?>
-        </div><!-- /#messages -->
-      <?php endif; ?>
+                case 'europa':
+        ?>
+                    <a class="banner-flag" href="http://europa.eu/index_en.htm" title="European Union homepage">
+                        <img id="banner-flag" src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2011/images/europa-flag.gif" alt="European Union homepage. EU flag" width="67" height="60" border="0">
+                    </a>
 
-        <div class="layout-left region region-sidebar-first">
-      <?php if ($page['sidebar_first']): ?>
-      <ul class="nav nav-list">
-        <?php print render($page['sidebar_first']); ?>
-      </ul>
-      <?php endif; ?>
-      </div><!-- /.layout-left -->	
+                    <p class="banner-title">
+                        <img src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2011/images/title/title_en.gif" alt="Title of the site" width="450" height="46">
+                    </p>
 
-        <div class="layout-content">
-          <div class="layout-content-reset"><a id="content"></a>
-    
-            <div class="region region-tools">
-              <?php if ($page['tools']): ?>
-              <ul class="links">               
-                <?php print render($page['tools']); ?>
-              </ul>
-              <?php endif; ?>
-            </div>
-            
-            <?php if ($page['content_top']): ?>
-              <?php print render($page['content_top']); ?>
-            <?php endif; ?>
-            
-            <a id="main-content"></a>
-            <?php print render($title_prefix); ?>
-            <?php if ($title): ?>
-              <h1 class="title" id="page-title">
-                <?php print $title; ?>
-              </h1>
-            <?php endif; ?>
-            <?php print render($title_suffix); ?>
-            <?php if ($tabs): ?>
-                <?php print render($tabs); ?>
-            <?php endif; ?>
-            <?php print render($page['help']); ?>
-            <?php if ($action_links): ?>
-              <ul class="action-links">
-                <?php print render($action_links); ?>
-              </ul>
-            <?php endif; ?>
-            
-            <?php print render($page['content']); ?>
-            <?php print $feed_icons; ?>
+                    <div class="banner-right">
+<?php if ($page['header']): ?><?php print render($page['header']); ?><?php endif; ?>
+                    </div>
+        <?php
+                        break;
 
-            <div class="region region-tools-bottom">
-              <?php if ($page['tools_bottom']): ?>
-              <ul class="links">               
-                <?php print render($page['tools_bottom']); ?>
-              </ul>
-              <?php endif; ?>
-            </div>
+                    default:
 
-          </div><!-- /.layout-content-reset -->
-        </div><!-- /.layout-content -->
-      </div><!-- /.layout-wrapper-reset -->
-    </div><!-- /.layout-wrapper -->
-    
-    <div class="layout-right region region-sidebar-second">
-      <?php if ($page['sidebar_second']): ?>
-      <ul class="nav nav-list">      
-        <?php print render($page['sidebar_second']); ?>
-      </ul>
-      <?php endif; ?>
-    </div><!-- /.layout-right -->
-        
-    </div><!-- /.layout-body -->
-  
-  <div class="layout-footer"> 
-    <div class="layout-footer-wrapper navbar-inner">
-  <?php if ($page['footer']): ?><?php print render($page['footer']); ?><?php endif; ?>
-  <?php print t('Last update:') . ' ' . date('d/m/Y');?> | <a href="#top-page">Top</a>
-    </div>
-  </div><!-- /.layout-footer -->
-</div><!-- /#layout -->
+                        break;
+                }
+        ?>
 
-<script type="text/javascript">
-  var templatePath = "<?php print $base_url . '/' . path_to_theme(); ?>";
+                <!--<div id="main_title">Service mutlisite</div>
+                <div id="sub_title">Playground environment</div>-->
+
+                <p class="off-screen">Accessibility tools</p>
+                <ul class="reset-list" id="accessibility-menu">
+                    <li><a accesskey="1" href="#content"><?php print t('Go to content'); ?></a></li>
+                </ul>
+
+                <p class="off-screen">Service tools</p>
+                <ul class="reset-list" id="services">
+                    <li><a class="first" accesskey="3" href="<?php print $base_url . '/contact'; ?>"><?php print t('Contact'); ?></a></li>
+                    <li><a accesskey="2" href="http://ec.europa.eu/geninfo/legal_notices_en.htm"><?php print t('Legal notice'); ?></a></li>
+                    <li><a accesskey="4" href="http://ec.europa.eu/geninfo/query/search_en.html"><?php print t('Search'); ?></a></li>
+                </ul>
+
+                <!-- language selector -->
+<?php print render($page['highlighted']); ?>    
+            </div><!-- /#header -->
+
+            <div id="path">
+                <p class="off-screen">Navigation path</p>
+                <ul class="reset-list">
+                    <li class="first"><a href="http://ec.europa.eu/index_en.htm"><?php print t('European Commission'); ?></a></li>
+                    <li>
+                <?php global $language; ?>
+                <?php if (isset ($front_page)): ?>
+                    <?php print "<a href='$front_page'>$site_name</a>"; ?></li>
+                <?php endif; ?>
+                <?php print $breadcrumb; ?>
+                </ul>
+            </div><!-- /#path -->
+
+            <div class="layout-body">
+
+        <?php if ($page['featured']): ?>
+        <?php print render($page['featured']); ?>
+<?php endif; ?>	    
+
+                        <div class="layout-wrapper">
+                            <div class="layout-wrapper-reset">
+
+<?php if ($messages): ?>
+                            <div id="messages">
+<?php print $messages; ?>
+                        </div><!-- /#messages -->
+<?php endif; ?>
+
+                            <div class="layout-left region region-sidebar-first">
+<?php if ($page['sidebar_first']): ?>
+                                <ul class="nav nav-list">
+<?php print render($page['sidebar_first']); ?>
+                            </ul>
+<?php endif; ?>
+                            </div><!-- /.layout-left -->
+
+                            <div class="layout-content">
+                                <div class="layout-content-reset"><a id="content"></a>
+
+                                    <div class="region region-tools">
+<?php if ($page['tools']): ?>
+                                    <ul class="links">
+<?php print render($page['tools']); ?>
+                                </ul>
+<?php endif; ?>
+                                </div>
+
+                        <?php if ($page['content_top']): ?>
+                        <?php print render($page['content_top']); ?>
+<?php endif; ?>
+
+                                        <a id="main-content"></a>
+                        <?php print render($title_prefix); ?>
+<?php if ($title): ?>
+                                            <h1 class="title" id="page-title">
+<?php print $title; ?>
+                                        </h1>
+                        <?php endif; ?>
+                        <?php print render($title_suffix); ?>
+                        <?php if ($tabs): ?>
+                        <?php print render($tabs); ?>
+                        <?php endif; ?>
+                        <?php print render($page['help']); ?>
+<?php if ($action_links): ?>
+                                                    <ul class="action-links">
+<?php print render($action_links); ?>
+                                                </ul>
+<?php endif; ?>
+
+                        <?php print render($page['content']); ?>
+<?php print $feed_icons; ?>
+
+                                                    <div class="region region-tools-bottom">
+<?php if ($page['tools_bottom']): ?>
+                                                        <ul class="links">
+<?php print render($page['tools_bottom']); ?>
+                                                    </ul>
+<?php endif; ?>
+                                                    </div>
+
+                                                </div><!-- /.layout-content-reset -->
+                                            </div><!-- /.layout-content -->
+                                        </div><!-- /.layout-wrapper-reset -->
+                                    </div><!-- /.layout-wrapper -->
+
+                                    <div class="layout-right region region-sidebar-second">
+<?php if ($page['sidebar_second']): ?>
+                                                            <ul class="nav nav-list">
+<?php print render($page['sidebar_second']); ?>
+                                                        </ul>
+<?php endif; ?>
+                                                        </div><!-- /.layout-right -->
+
+                                                    </div><!-- /.layout-body -->
+
+                                                    <div class="layout-footer">
+                                                        <div class="layout-footer-wrapper navbar-inner">
+            <?php if ($page['footer']): ?><?php print render($page['footer']); ?><?php endif; ?>
+<?php print t('Last update:') . ' ' . date('d/m/Y'); ?> | <a href="#top-page">Top</a>
+                                                            </div>
+                                                        </div><!-- /.layout-footer -->
+                                                    </div><!-- /#layout -->
+
+                                                    <script type="text/javascript">
+                                                        var templatePath = "<?php print $base_url . '/' . path_to_theme(); ?>";
 </script>

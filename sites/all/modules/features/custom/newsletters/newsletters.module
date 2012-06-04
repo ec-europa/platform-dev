@@ -93,7 +93,7 @@ function newsletters_field_create_field($field) {
  */
 function newsletters_token_info() {
 
-    $info['tokens']['newsletter-breadcrumb'] = array(
+    $info['types']['newsletter-breadcrumb'] = array(
         'name' => 'newsletter breadcrumb',
         'description' => 'Tokens related to breadcrumb of newsletter.',
     );
@@ -103,7 +103,7 @@ function newsletters_token_info() {
         'description' => t("The breadcrumb path of the newsletter."),
     );
 
-     $info['types']['Breadcrumb_newsletter'] = array(
+    $info['types']['Breadcrumb_newsletter'] = array(
         'name' => 'Breadcrumb_newsletter',
         'description' => 'Tokens related to Breadcrumb.',
     );
@@ -121,16 +121,19 @@ function newsletters_token_info() {
 function newsletters_tokens($type, $tokens, $data = array(), $options = array()) {
     $replacements = array();
     global $language;
+    $node = $data['node'];
+
     $sanitize = !empty($options['sanitize']);
     // tokens for newsletter breadcrumb
-    if ($type == 'newsletter-breadcrumb' && !empty($data['node'])) {
+    if ($type == 'newsletter-breadcrump' && !empty($data['node'])) {
         //get the current node
-        $node = $data['node'];
+        //var_dump($node);
+
         foreach ($tokens as $name => $original) {
             switch ($name) {
                 case 'path':
                     //get the id of taxonomy
-                    $tid = $node->field_newsletter_term[$language->language][0]["tid"];
+                    $tid = $node->field_simplenews_term[$language->language][0]["tid"];
                     //create a taxonomy path
                     $tax_path = "taxonomy/term/$tid";
                     //create a aliased path from taxonomy
