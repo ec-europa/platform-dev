@@ -73,26 +73,27 @@ function add_media_form($form, &$form_state) {
 
 
 function add_media_form_submit($form, &$form_state) {
-  $nid = $form_state['input']['nid'];
+  if ($form_state['input']['fid']) { //Check if picture has been added before submitting
+    $nid = $form_state['input']['nid'];
 
-  $node = node_load($nid);
-  $file = file_load($form_state['input']['fid']); 
-  
-  // attach the file media to the node
-  $node->field_picture_upload[LANGUAGE_NONE][] = array(
-    'fid'=>$form_state['input']['fid'],
-    'display'=>1,
-    'description'=>'',
-  );
-  node_save($node);
+    $node = node_load($nid);
+    $file = file_load($form_state['input']['fid']); 
 
-  // populate the field description of the media file
-  $file->field_picture_description[LANGUAGE_NONE][0]['value'] = $form_state['input']['description'];
-  file_save($file);
+    // attach the file media to the node
+    $node->field_picture_upload[LANGUAGE_NONE][] = array(
+      'fid'=>$form_state['input']['fid'],
+      'display'=>1,
+      'description'=>'',
+    );
+    node_save($node);
 
-  // go to the node gallery page
-  $form_state['redirect'] = 'node/'.$nid;
- 
+    // populate the field description of the media file
+    $file->field_picture_description[LANGUAGE_NONE][0]['value'] = $form_state['input']['description'];
+    file_save($file);
+
+    // go to the node gallery page
+    $form_state['redirect'] = 'node/'.$nid;
+  } 
 }
 
 /**
