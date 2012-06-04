@@ -1,4 +1,33 @@
+//use jQuery 1.4.4
 jQuery(function($){
+
+	$(document).ready(function() {  //Once the page elements are fully loaded
+    /* Gallery lightbox */
+    $('.fancybox').fancybox({
+      padding: 0,
+      closeBtn : false,
+      arrows : false,
+      autoSize: true,
+      fitToView: true,
+      openEffect: 'elastic',
+      closeEffect: 'elastic',
+      helpers		: {
+        title	: { type : 'outside' },
+        buttons	: {},
+        /*thumbs	: {
+          width	: 50,
+          height	: 50,
+          position: 'top',
+        }*/
+      }
+    });    
+    /* /Gallery lightbox */
+});
+
+});
+
+//use jQuery 1.7.1
+(function($){
     
 	$(document).ready(function() {  //Once the page elements are fully loaded
    
@@ -71,26 +100,7 @@ jQuery(function($){
     });
     /* /Gallery carrousel */
     
-    /* Gallery lightbox */
-    $(".fancybox").fancybox({
-      padding: 0,
-      closeBtn : false,
-      arrows : false,
-      autoSize: true,
-      fitToView: true,
-      openEffect: 'elastic',
-      closeEffect: 'elastic',
-      helpers		: {
-        title	: { type : 'outside' },
-        buttons	: {},
-        /*thumbs	: {
-          width	: 50,
-          height	: 50,
-          position: 'top',
-        }*/
-      }
-    });    
-    /* /Gallery lightbox */
+
     
     /* Gallery add media form */
     $('.node-gallerymedia #add_picture').click(function(e) {
@@ -105,4 +115,4 @@ jQuery(function($){
     /* /Menu dropdown */
 	});
 
-}); 
+})(jq171); 
