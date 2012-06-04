@@ -57,6 +57,16 @@ function gallerymedia_core_user_default_permissions() {
     ),
     'module' => 'node',
   );
+  
+    // Exported permission: import media.
+  $permissions['import media'] = array(
+    'name' => 'import media',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+    ),
+    'module' => 'media',
+  );
 
   return $permissions;
 }
