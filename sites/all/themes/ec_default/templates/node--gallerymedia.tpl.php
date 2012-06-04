@@ -183,33 +183,43 @@
     }
     //display media items
     if(!isset($content['field_picture_upload']['#items'])){
-      $content['field_picture_upload']['#items'][0] = get_object_vars(file_load(2)); //MAGICK NUMBER 2: empty_gallery.png
+      $empty_pic = db_select('file_managed', 'fm')
+      ->fields('fm')
+      ->condition('filename', 'empty_gallery.png','=')
+      ->execute()
+      ->fetchAssoc();
+     
+      $content['field_picture_upload']['#items'][0] = $empty_pic;
     }
-      foreach ($content['field_picture_upload']['#items'] as $key => $item) {
+    
+    foreach ($content['field_picture_upload']['#items'] as $key => $item) {
 
-        $file = str_replace('public://','',$item['uri']);
+      $picture_square_thumbnail = image_style_url('square_thumbnail', $item['uri']);
+      $picture_large = image_style_url('large', $item['uri']);
+      $picture_medium = image_style_url('medium', $item['uri']);
+      
+      if (($key % 4) == 0)
+        $output .= '<div class="media_gallery row-fluid">';
         
-        if (($key % 4) == 0)
-          $output .= '<div class="media_gallery row-fluid">';
+      $output .= '<div class="span3 media_item">';
+      $output .= '<div id="lightbox'.$key.'" class="lightbox" style="display: none;">';
+      $output .= '<img src="'.$picture_medium.'" alt="'.$item['filename'].'" />';
           
-        $output .= '<div class="span3 media_item">';
-        
-          $output .= '<div id="lightbox'.$key.'" class="lightbox" style="display: none;">';
-            $output .= '<img src="'.$base_url.'/sites/default/files/styles/preview/public/'.$file.'" alt="'.$item['filename'].'" />';
-            if (isset($item['field_picture_description']['und'][0]['value']))
-              $output .= '<p>'.$item['field_picture_description']['und'][0]['value'].'</p>';
-              $output .= '<p>'.l(t('View full size picture'),$base_url.'/sites/default/files/'.$file, array('attributes' => array('target'=>'_blank'))).'</p>';
-          $output .= '</div>';
-        
-          $output .= '<a href="#lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$item['filename'].'">';
-            $output .= '<img src="'.$base_url.'/sites/default/files/styles/square_thumbnail/public/'.$file.'" alt="'.$item['filename'].'" />';
-            $output .= '<p class="carousel-caption">'.$item['filename'].'</p>';
-          $output .= '</a>';        
-        $output .= '</div>';
+         
+      if (isset($item['field_picture_description']['und'][0]['value']))
+        $output .= '<p>'.$item['field_picture_description']['und'][0]['value'].'</p>';
+      
+      $output .= '<p>'.l(t('View full size picture'),$picture_large, array('attributes' => array('target'=>'_blank'))).'</p>';
+      $output .= '</div>';
+      $output .= '<a href="#lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$item['filename'].'">';
+      $output .= '<img src="'.$picture_square_thumbnail.'" alt="'.$item['filename'].'" />';
+      $output .= '<p class="carousel-caption">'.$item['filename'].'</p>';
+      $output .= '</a>';        
+      $output .= '</div>';
 
-        if ((($key+1) % 4) == 0 || !isset($content['field_picture_upload']['#items'][$key+1]))
-          $output .= '</div>';      
-      }
+      if ((($key+1) % 4) == 0 || !isset($content['field_picture_upload']['#items'][$key+1]))
+        $output .= '</div>';      
+    }
     
     //display non hidden fields
     $display_other = FALSE;
