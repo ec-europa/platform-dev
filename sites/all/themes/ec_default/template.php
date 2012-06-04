@@ -91,9 +91,9 @@ function ec_default_preprocess_html(&$variables) {
   $variables['head_title'] = variable_get('site_name') . ' - ' . t('European Commission');
 
   // Add twitter bootsrap
-  //drupal_add_css(path_to_theme() . '/bootstrap/css/bootstrap.min.css', array('group' => CSS_THEME));
+  drupal_add_css(path_to_theme() . '/bootstrap/css/bootstrap.min.css', array('group' => CSS_THEME));
   //drupal_add_css(path_to_theme() . '/bootstrap/bootstrap.less', array('group' => CSS_THEME));
-  // drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-dropdown.js', array('scope' => 'footer', 'weight' => 1));
+  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-dropdown.js', array('scope' => 'footer', 'weight' => 1));
   //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-tab.js', array('scope' => 'footer', 'weight' => 2));
   //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-modal.js', array('scope' => 'footer', 'weight' => 3));
   //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-transition.js', array('scope' => 'footer', 'weight' => 4));

@@ -93,6 +93,8 @@ dependencies[] = i18n_menu
 dependencies[] = i18n_variable
 ;dependencies[] = i18n_translation
 dependencies[] = custom_breadcrumbs
+dependencies[] = libraries
+dependencies[] = jqmulti
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_standard
