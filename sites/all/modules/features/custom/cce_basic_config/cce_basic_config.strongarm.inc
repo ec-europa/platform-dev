@@ -485,6 +485,23 @@ function cce_basic_config_strongarm() {
   $strongarm->value = 0;
   $export['i18n_select_nodes'] = $strongarm;
 
- 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'jqmulti_libraries';
+  $strongarm->value = array(
+    'bootstrap' => 'bootstrap',
+    'colorbox' => 0,
+    'tcpdf' => 0,
+  );
+  $export['jqmulti_libraries'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'jqmulti_load_always';
+  $strongarm->value = 1;
+  $export['jqmulti_load_always'] = $strongarm;
+
   return $export;
 }

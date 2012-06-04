@@ -188,6 +188,13 @@ projects[cck_pager][version] = "1.x-dev"
 projects[custom_breadcrumbs][subdir] = "contributed"
 projects[custom_breadcrumbs][version] = "1.0-alpha1"
 
+projects[libraries][subdir] = "contributed"
+projects[libraries][version] = "1.0"
+
+projects[jqmulti][subdir] = "contributed"
+projects[jqmulti][version] = "1.0-beta1"
+
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"
