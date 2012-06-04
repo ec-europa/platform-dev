@@ -1,0 +1,132 @@
+<?php
+/**
+ * @file
+ * Code for the gallerymedia_core feature.
+ */
+
+include_once 'gallerymedia_core.features.inc';
+include_once 'gallerymedia_core.views_alter.inc';
+
+/*
+*  hook_menu
+*/
+function gallerymedia_core_menu() {
+  $items['node/%/addmedia'] = array(
+      'title' => 'add_media',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('add_media_form'),
+      'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/*
+*  generate a simple form to add media to a node mediagallery
+*/
+function add_media_form($form, &$form_state) {
+  $form = array();
+
+  $form['image'] = array(
+    '#type' => 'media',
+    '#title' => 'Image',
+    '#description' => '',
+    '#media_options' => array(
+      'global' => array(
+        'types' => array(
+          'image' => 'image',
+        ),
+        'enabledPlugins' => array(
+          'upload' => 'upload',
+          'media_default--media_browser_1' => 'media_default--media_browser_1',
+        ),
+        'schemes' => array(
+          'public' => 'public',
+        ),
+
+        //'file_directory' => 'media',
+        //'file_extensions' => 'png gif jpg jpeg',
+        //'max_filesize' => '1 MB',
+        'uri_scheme' => 'public',
+      ),
+    ),
+  );
+
+  $form['nid'] = array(
+    '#type' => 'hidden', 
+    '#value' => arg(1),
+  );
+
+  $form['description'] = array(
+    '#type' => 'textarea', 
+    '#title' => 'description',
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit', 
+    '#value' => 'Submit',
+  );
+
+  return $form;
+}
+
+
+
+function add_media_form_submit($form, &$form_state) {
+  if ($form_state['input']['fid']) { //Check if picture has been added before submitting
+    $nid = $form_state['input']['nid'];
+
+    $node = node_load($nid);
+    $file = file_load($form_state['input']['fid']); 
+
+    // attach the file media to the node
+    $node->field_picture_upload[LANGUAGE_NONE][] = array(
+      'fid'=>$form_state['input']['fid'],
+      'display'=>1,
+      'description'=>'',
+    );
+    node_save($node);
+
+    // populate the field description of the media file
+    $file->field_picture_description[LANGUAGE_NONE][0]['value'] = $form_state['input']['description'];
+    file_save($file);
+
+    // go to the node gallery page
+    $form_state['redirect'] = 'node/'.$nid;
+  } 
+}
+
+/**
+ * Implementation of hook_token_info().
+ */
+function gallerymedia_core_token_info() {
+    $info['types']['Breadcrumb_gallery'] = array(
+        'name' => 'Breadcrumb_gallery',
+        'description' => 'Tokens related to Breadcrumb.',
+    );
+    $info['tokens']['Breadcrumb_gallery']["gallerymedia_title"] = array(
+        'name' => t("gallerymedia Breadcrumb title"),
+        'description' => t("The Breadcrumb title of the gallerymedia."),
+    );
+    return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ *
+ */
+function gallerymedia_core_tokens($type, $tokens, $data = array(), $options = array()) {
+    $replacements = array();
+    $sanitize = !empty($options['sanitize']);
+    // tokens for e_libray_core Breadcrumb
+    if ($type == 'Breadcrumb_gallery') {
+        foreach ($tokens as $name => $original) {
+            switch ($name) {
+                case 'gallerymedia_title':
+                    $replacements[$original] = t("gallerymedia");
+                    break;
+            }
+        }
+    }
+    return $replacements;
+}
