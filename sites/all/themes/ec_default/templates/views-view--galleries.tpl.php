@@ -59,7 +59,17 @@
 
   <?php if ($rows): ?>
     <div class="view-content">
-      <?php print $rows; ?>
+      <?php     
+          $empty_pic = db_select('file_managed', 'fm')
+            ->fields('fm')
+            ->condition('filename', 'empty_gallery.png','=')
+            ->execute()
+            ->fetchAssoc();
+          $picture_square_thumbnail = image_style_url('square_thumbnail', $empty_pic['uri']);
+          $empty_img = '<div class="galleries-item-wrapper"><img src="'.$picture_square_thumbnail.'" alt="There is no content in this gallery, or it has not been validated yet." /></div>';
+          $rows = str_replace('[Empty_gallery]', $empty_img, $rows );
+          print $rows;
+      ?>
     </div>
   <?php elseif ($empty): ?>
     <div class="view-empty">
