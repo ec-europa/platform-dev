@@ -11,4 +11,3 @@ fix a bug when features are enabled "Notice: Undefined property: stdClass::$i18n
      case I18N_MODE_LANGUAGE:
        $update['language'] = $vocabulary->language;
        break;
-	   

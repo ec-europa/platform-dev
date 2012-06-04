@@ -208,10 +208,10 @@ function cce_basic_config_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
+          'module' => 'i18n_taxonomy',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
-          'weight' => 10,
+          'type' => 'i18n_taxonomy_term_reference_link',
+          'weight' => '10',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -240,6 +240,8 @@ function cce_basic_config_field_default_fields() {
       ),
     ),
   );
+
+
 
   // Exported field: 'node-page-body'
   $fields['node-page-body'] = array(
@@ -314,6 +316,7 @@ function cce_basic_config_field_default_fields() {
     ),
   );
 
+
   // Exported field: 'node-page-field_tags'
   $fields['node-page-field_tags'] = array(
     'field_config' => array(
@@ -356,10 +359,10 @@ function cce_basic_config_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
+          'module' => 'i18n_taxonomy',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
-          'weight' => 1,
+          'type' => 'i18n_taxonomy_term_reference_link',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -388,6 +391,9 @@ function cce_basic_config_field_default_fields() {
       ),
     ),
   );
+
+
+
 
   // Exported field: 'user-user-field_firstname'
   $fields['user-user-field_firstname'] = array(
