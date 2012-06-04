@@ -195,21 +195,21 @@
     foreach ($content['field_picture_upload']['#items'] as $key => $item) {
 
       $picture_square_thumbnail = image_style_url('square_thumbnail', $item['uri']);
-      $picture_large = image_style_url('large', $item['uri']);
-      $picture_medium = image_style_url('medium', $item['uri']);
+      $picture_preview = image_style_url('preview', $item['uri']);
+      $picture_original = image_style_url('original', $item['uri']);
       
       if (($key % 4) == 0)
         $output .= '<div class="media_gallery row-fluid">';
         
       $output .= '<div class="span3 media_item">';
       $output .= '<div id="lightbox'.$key.'" class="lightbox" style="display: none;">';
-      $output .= '<img src="'.$picture_medium.'" alt="'.$item['filename'].'" />';
+      $output .= '<img src="'.$picture_preview.'" alt="'.$item['filename'].'" />';
           
          
       if (isset($item['field_picture_description']['und'][0]['value']))
         $output .= '<p>'.$item['field_picture_description']['und'][0]['value'].'</p>';
       
-      $output .= '<p>'.l(t('View full size picture'),$picture_large, array('attributes' => array('target'=>'_blank'))).'</p>';
+      $output .= '<p>'.l(t('View full size picture'),$picture_original, array('attributes' => array('target'=>'_blank'))).'</p>';
       $output .= '</div>';
       $output .= '<a href="#lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$item['filename'].'">';
       $output .= '<img src="'.$picture_square_thumbnail.'" alt="'.$item['filename'].'" />';
