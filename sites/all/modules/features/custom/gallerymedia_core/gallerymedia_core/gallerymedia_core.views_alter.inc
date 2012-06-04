@@ -134,7 +134,7 @@ $handler->display->display_options['fields']['field_picture_upload']['settings']
 $handler->display->display_options['fields']['field_picture_upload']['group_rows'] = 1;
 $handler->display->display_options['fields']['field_picture_upload']['delta_limit'] = '1';
 $handler->display->display_options['fields']['field_picture_upload']['delta_offset'] = '0';
-$handler->display->display_options['fields']['field_picture_upload']['delta_reversed'] = 0;
+$handler->display->display_options['fields']['field_picture_upload']['delta_reversed'] = 1;
 $handler->display->display_options['fields']['field_picture_upload']['delta_first_last'] = 0;
 $handler->display->display_options['fields']['field_picture_upload']['field_api_classes'] = 0;
 $handler->display->display_options['defaults']['filters'] = FALSE;

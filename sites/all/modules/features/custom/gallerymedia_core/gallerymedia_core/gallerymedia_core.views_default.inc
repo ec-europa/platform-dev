@@ -191,7 +191,7 @@ function gallerymedia_core_views_default_views() {
   $handler->display->display_options['fields']['field_picture_upload']['alter']['html'] = 0;
   $handler->display->display_options['fields']['field_picture_upload']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_picture_upload']['element_default_classes'] = 0;
-  $handler->display->display_options['fields']['field_picture_upload']['empty'] = '<img src="sites/default/files/styles/square_thumbnail/public/default_images/empty_gallery.png"/>';
+  $handler->display->display_options['fields']['field_picture_upload']['empty'] = '[Empty_gallery]';
   $handler->display->display_options['fields']['field_picture_upload']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_picture_upload']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_picture_upload']['hide_alter_empty'] = 1;
@@ -282,7 +282,7 @@ function gallerymedia_core_views_default_views() {
     t('<div class="galleries-item-wrapper">
 [field_picture_upload]
 </div>'),
-    t('<img src="sites/default/files/styles/square_thumbnail/public/default_images/empty_gallery.png"/>'),
+    t('[Empty_gallery]'),
   );
   $export['galleries'] = $view;
 
