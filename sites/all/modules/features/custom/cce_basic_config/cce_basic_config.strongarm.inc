@@ -490,7 +490,7 @@ function cce_basic_config_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'jqmulti_libraries';
   $strongarm->value = array(
-    'bootstrap' => 'bootstrap',
+    'bootstrap' => 'bootstrap_plugins',
     'colorbox' => 0,
     'tcpdf' => 0,
   );
