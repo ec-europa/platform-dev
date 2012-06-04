@@ -15,6 +15,7 @@ dependencies[] = print
 dependencies[] = search
 dependencies[] = strongarm
 dependencies[] = taxonomy
+dependencies[] = jqmulti
 features[ckeditor_profile][] = Advanced
 features[ckeditor_profile][] = CKEditor Global Profile
 features[ckeditor_profile][] = Full
