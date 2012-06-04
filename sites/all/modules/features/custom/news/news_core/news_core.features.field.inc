@@ -383,10 +383,10 @@ function news_core_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
+          'module' => 'i18n_taxonomy',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
-          'weight' => 2,
+          'type' => 'i18n_taxonomy_term_reference_link',
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -415,6 +415,7 @@ function news_core_field_default_fields() {
       ),
     ),
   );
+
 
   // Exported field: 'node-news-field_top_news'
   $fields['node-news-field_top_news'] = array(

@@ -1,6 +1,4 @@
 core = "7.x"
-dependencies[] = "features"
-dependencies[] = "link"
 dependencies[] = "links_core"
 description = "Provide links."
 features[ctools][] = "views:views_default:3.0"

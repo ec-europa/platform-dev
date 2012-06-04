@@ -1,4 +1,4 @@
-name = "Events"
+name = "events_core"
 description = "Add an events calendar to your communities"
 core = "7.x"
 package = "Multisite Core Features"

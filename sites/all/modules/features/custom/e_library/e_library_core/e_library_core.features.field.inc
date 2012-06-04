@@ -154,7 +154,7 @@ function e_library_core_field_default_fields() {
     ),
   );
 
- // Exported field: 'node-document-field_tags'
+  // Exported field: 'node-document-field_tags'
   $fields['node-document-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
@@ -183,6 +183,7 @@ function e_library_core_field_default_fields() {
             'parent' => 0,
           ),
         ),
+        'options_list_callback' => 'i18n_taxonomy_allowed_values',
       ),
       'translatable' => '0',
       'type' => 'taxonomy_term_reference',
@@ -195,10 +196,10 @@ function e_library_core_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
+          'module' => 'i18n_taxonomy',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
-          'weight' => 1,
+          'type' => 'i18n_taxonomy_term_reference_link',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'above',

@@ -112,6 +112,7 @@ function wiki_core_field_default_fields() {
             'parent' => 0,
           ),
         ),
+        'options_list_callback' => 'i18n_taxonomy_allowed_values',
       ),
       'translatable' => '0',
       'type' => 'taxonomy_term_reference',
@@ -124,10 +125,10 @@ function wiki_core_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
+          'module' => 'i18n_taxonomy',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
-          'weight' => 2,
+          'type' => 'i18n_taxonomy_term_reference_link',
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -156,6 +157,7 @@ function wiki_core_field_default_fields() {
       ),
     ),
   );
+
 
   // Translatables
   // Included for use with string extractors like potx.
