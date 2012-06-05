@@ -121,14 +121,14 @@ function newsletters_token_info() {
 function newsletters_tokens($type, $tokens, $data = array(), $options = array()) {
     $replacements = array();
     global $language;
-    $node = $data['node'];
+    
 
     $sanitize = !empty($options['sanitize']);
     // tokens for newsletter breadcrumb
     if ($type == 'newsletter-breadcrump' && !empty($data['node'])) {
         //get the current node
         //var_dump($node);
-
+        $node = $data['node'];
         foreach ($tokens as $name => $original) {
             switch ($name) {
                 case 'path':
