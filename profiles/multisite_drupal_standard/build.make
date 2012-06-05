@@ -18,7 +18,7 @@ projects[ckeditor][subdir] = "contributed"
 projects[ckeditor][version] = "1.9"
 
 projects[context][subdir] = "contributed"
-projects[context][version] = "3.0-beta2"
+projects[context][version] = "3.0-beta3"
 
 projects[date][subdir] = "contributed"
 projects[date][version] = "2.0-alpha5"
