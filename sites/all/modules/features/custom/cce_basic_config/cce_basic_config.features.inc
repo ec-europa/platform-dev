@@ -49,12 +49,6 @@ function cce_basic_config_node_info() {
 function cce_basic_config_image_default_styles() {
   $styles = array();
 
-  // Exported image style: original
-  $styles['original'] = array(
-    'name' => 'original',
-    'effects' => array(),
-  );
-
   // Exported image style: preview
   $styles['preview'] = array(
     'name' => 'preview',

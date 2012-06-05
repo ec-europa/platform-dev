@@ -198,7 +198,7 @@ global $user;
 
       $picture_square_thumbnail = image_style_url('square_thumbnail', $item['uri']);
       $picture_preview = image_style_url('preview', $item['uri']);
-      $picture_original = image_style_url('original', $item['uri']);
+      $picture_original = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://','/',$item['uri']);
       
       if (($key % 4) == 0)
         $output .= '<div class="media_gallery row-fluid">';
