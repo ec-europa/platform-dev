@@ -5,7 +5,7 @@
  * hook_enable 
  */
 
-function news_core_enable() {
+function multisite_drupal_language_negociation_enable() {
   variable_set("multisite_drupal_language_negocation", 1);
 }
 
@@ -13,6 +13,6 @@ function news_core_enable() {
  * hook_disable 
  */
 
-function news_core_disable() {
+function multisite_drupal_language_negociation_disable() {
   variable_set("multisite_drupal_language_negocation", 0);
 }
