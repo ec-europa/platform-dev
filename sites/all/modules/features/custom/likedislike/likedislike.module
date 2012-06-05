@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  */
@@ -6,7 +7,7 @@
 /**
  * Add the js file needed to enable like/dislike button
  */
-function likedislike_init(){
+function likedislike_init() {
     drupal_add_js('http://ec.europa.eu/wel/like/js/likedislike.js', 'external');
 }
 
@@ -14,24 +15,24 @@ function likedislike_init(){
  * Implementation of hook_block_info().
  */
 function likedislike_block_info() {
-  $blocks['likedislike'] = array(
-    'info' => t('likedislike'),
-  );
-  return $blocks;
+    $blocks['likedislike'] = array(
+        'info' => t('likedislike'),
+    );
+    return $blocks;
 }
 
 /**
  * Implementation of hook_block_view().
  */
 function likedislike_block_view($delta='') {
-  $block = array();
-  switch ($delta) {
-    case 'likedislike':
-      //$block['subject'] = t('Social bookmark');
-      $block['content'] = likedislike_contents();
-      break;
-  }
-  return $block;
+    $block = array();
+    switch ($delta) {
+        case 'likedislike':
+            //$block['subject'] = t('Social bookmark');
+            $block['content'] = likedislike_contents();
+            break;
+    }
+    return $block;
 }
 
 /**
@@ -39,5 +40,27 @@ function likedislike_block_view($delta='') {
  * @return string
  */
 function likedislike_contents() {
-  return '<span class="like_dislike"></span>';
+
+    $current_url = curPageURL();
+    return '<span class="like_dislike">{"url":"' . $current_url . '"}</span>';
+}
+
+/**
+ * return the full current url
+ * @return string
+ */
+function curPageURL() {
+    $pageURL = 'http';
+    if (isset($_SERVER["HTTPS"])) {
+        if ($_SERVER["HTTPS"] == "on") {
+            $pageURL .= "s";
+        }
+    }
+    $pageURL .= "://";
+    if ($_SERVER["SERVER_PORT"] != "80") {
+        $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
+    } else {
+        $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+    }
+    return $pageURL;
 }
