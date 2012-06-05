@@ -112,8 +112,10 @@
   <?php print render($title_suffix); ?>
   
 <?php  
+global $user;
+
   /*Add Picture button*/
-  if (user_access('create gallerymedia content')) {
+  if ($uid == $user->uid) {
     print l(t('Add a Picture'), 'node/'. $node->nid.'/addmedia', array(
           'attributes' => array(
                       'type' => 'add', 
