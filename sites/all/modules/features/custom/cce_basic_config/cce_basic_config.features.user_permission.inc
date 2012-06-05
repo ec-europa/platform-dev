@@ -29,6 +29,16 @@ function cce_basic_config_user_default_permissions() {
     ),
     'module' => 'search',
   );
+  
+    // Exported permission: edit file.
+  $permissions['edit file'] = array(
+    'name' => 'edit file',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+    ),
+    'module' => 'file_entity',
+  );
 
   return $permissions;
 }
