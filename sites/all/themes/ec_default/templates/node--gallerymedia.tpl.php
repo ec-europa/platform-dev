@@ -211,7 +211,7 @@ global $user;
       if (isset($item['field_picture_description']['und'][0]['value']))
         $output .= '<p>'.$item['field_picture_description']['und'][0]['value'].'</p>';
 
-      $output .= '<p><a href="'.$base_url.$picture_original.'" title="'.$item['filename'].'" target="_blank">'.t('View full size picture').'</a></p>';
+      $output .= '<p><a href="'.$base_url.'/'.$picture_original.'" title="'.$item['filename'].'" target="_blank">'.t('View full size picture').'</a></p>';
       $output .= '</div>';
       $output .= '<a href="#lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$item['filename'].'">';
       $output .= '<img src="'.$picture_square_thumbnail.'" alt="'.$item['filename'].'" />';
