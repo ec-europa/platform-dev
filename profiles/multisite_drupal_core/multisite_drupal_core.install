@@ -30,13 +30,13 @@ function multisite_drupal_core_install() {
   
   // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
   // permissions related to articles content type
-  /*
+  
   user_role_grant_permissions($role->rid, array(  
     'create article content',
 	'delete own article content',
 	'edit own article content', 
   )); 
-*/
+
   
   // permissions related to workbench moderation
   user_role_grant_permissions($role->rid, array(  
@@ -57,9 +57,6 @@ function multisite_drupal_core_install() {
   // permissions to the authentificated user
   $au_rid = get_rid('authenticated user');
   user_role_grant_permissions($au_rid, array(  
-    //'create article content',
-	//'delete own article content',
-	//'edit own article content',
     'view own unpublished content',
 	'view revisions',
 	'access workbench',
