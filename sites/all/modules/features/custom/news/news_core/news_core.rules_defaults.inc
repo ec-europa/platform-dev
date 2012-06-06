@@ -13,8 +13,8 @@ function news_core_default_rules_configuration() {
       "LABEL" : "Manage Node Publication",
       "PLUGIN" : "reaction rule",
       "TAGS" : [ "Publication" ],
-      "REQUIRES" : [ "rules", "rules_scheduler" ],
-      "ON" : [ "node_insert", "node_update" ],
+      "REQUIRES" : [ "rules", "rules_scheduler", "workbench_moderation" ],
+      "ON" : [ "node_insert", "node_update", "workbench_moderation_after_moderation_transition" ],
       "IF" : [
         { "node_is_of_type" : { "node" : [ "node" ], "type" : { "value" : { "news" : "news" } } } }
       ],
