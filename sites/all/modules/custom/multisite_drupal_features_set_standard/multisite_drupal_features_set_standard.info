@@ -146,3 +146,9 @@ feature_sets[likedislike][description] = 'This feature enables to display the "L
 feature_sets[likedislike][icon] = 'feature-set-icons/likedislike.png'
 feature_sets[likedislike][enable][] = likedislike
 feature_sets[likedislike][disable][] = likedislike
+
+feature_sets[quicktabsandaccordeon][title] = 'Quick Tabs'
+feature_sets[quicktabsandaccordeon][description] = 'The Quick Tabs module allows you to create blocks of tabbed content, specifically views, blocks, nodes and other quicktabs. You can create a block on your site containing multiple tabs with corresponding content.'
+feature_sets[quicktabsandaccordeon][icon] = 'feature-set-icons/quicktabs.png'
+feature_sets[quicktabsandaccordeon][enable][] = quicktabsandaccordeon
+feature_sets[quicktabsandaccordeon][disable][] = quicktabsandaccordeon

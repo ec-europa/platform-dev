@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ */
+
+// Drupal needs this blank file.
+function quicktabsandaccordeon_enable() {
+
+    //Activation message
+    drupal_set_message('Quick Tabs feature is now active on your site.');
+}
+
+/*
+ * hook_disable
+ */
+
+function quicktabsandaccordeon_disable() {
+
+    //Activation message
+    drupal_set_message('Quick Tabs feature is now disabled on your site.');
+}
