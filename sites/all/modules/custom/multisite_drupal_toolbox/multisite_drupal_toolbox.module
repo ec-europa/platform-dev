@@ -12,7 +12,17 @@ function multisite_drupal_toolbox_boot() {
 	  $conf["language_count"] = 2; // set language_count to 2 to force the display of the language prefix	
   }
 }
-  
+
+/*
+* hook_init
+*/
+function multisite_drupal_toolbox_init() {
+	if(variable_get("language_count",1) == 1) {
+	  variable_set("language_count", 2); // set language_count to 2 to force the display of the language prefix and language switcher
+	}
+}
+
+
   
 
 function _disable_content_type($type) {
