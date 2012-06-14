@@ -65,8 +65,6 @@ function deny_account_action_submit($form, $form_state) {
  */
 function deny_account_action(&$object, $context) {
   global $user, $base_url;
-
-  dsm($object);
   
   // avoid working with crap data
   if (!$object || !$object->uid) {
@@ -87,26 +85,25 @@ function deny_account_action(&$object, $context) {
   	'denied' => REQUEST_TIME,
   );
   if (!drupal_write_record('denied_users', $data)) {
-    drupal_set_message(t('Unable to deny user %s', $object->name), 'error');
+    drupal_set_message(t('Unable to deny user %s', array($object->name)), 'error');
   }
 
   // send a mail to the denied user
   $params['context']['subject'] = t('deny activation of your account');
   $params['context']['message'] = t('Your account has been denied.');
 
-  $from = variable_get('site_mail', 'system@noreply.com');
-
-  $lastname_field = ECAS_DEFAULT_PROFILE_LASTNAME_FIELD;
+  $lastname_field = field_get_items('user', $object, ECAS_DEFAULT_PROFILE_LASTNAME_FIELD);
   $params = array(
     '!name' => $object->name,
-    '!lastname' => isset($object->$lastname_field)?$object->$lastname_field:'',
+    '!lastname' => isset($lastname_field[0])?$lastname_field[0]:'',
     '!mail' => $object->mail,
     '!site_url' => $base_url,
     '!site_name' => variable_get('site_name', ''),
   );
 
   // send the mail by using hook mail
-  drupal_mail('ecas_extra', 'deny_account', $object->mail, language_default(), $params);
+  drupal_mail('ecas_extra', 'deny_account', $object->mail, 
+      language_default(), $params);
 }
 
 /**
@@ -125,18 +122,21 @@ function ecas_extra_user_update($edit, $account, $category = NULL) {
  * Implements hook_mail().
  */
 function ecas_extra_mail($key, &$message, $params) {
-  $language = $message['language'];
-  $mail_from = variable_get('site_mail', 'system@noreply.com');
-  $message['From'] = $mail_from;
-  $message['headers'] = array(
-    'MIME-Version' => '1.0',
-    'Content-Type' => 'text/html; charset=UTF-8;',
-    'From' => $mail_from,
-  );
-
-  $body = variable_get('ecas_extra_deny_action_mail', '');
-  $message['subject'] = t(variable_get('ecas_extra_deny_action_subject', ''), $params, array('langcode'=>$language->language));
-  $message['body'] = t($body, $params, array('langcode'=>$language->language));
+  if($key == 'deny_account'){
+    $language = $message['language'];
+    $mail_from = variable_get('site_mail', 'system@noreply.com');
+    $message['from'] = $mail_from;
+    $message['headers'] = array(
+      'MIME-Version' => '1.0',
+      'Content-Type' => 'text/html; charset=UTF-8;',
+      'From' => $mail_from,
+      'Return-Path' => $mail_from,
+    );
+  
+    $body = variable_get('ecas_extra_deny_action_mail', '');
+    $message['subject'] = t(variable_get('ecas_extra_deny_action_subject', ''), $params, array('langcode'=>$language->language));    
+    $message['body'] = array(t($body, $params, array('langcode'=>$language->language)));
+  }
 }
 
 function ecas_extra_admin_settings() {

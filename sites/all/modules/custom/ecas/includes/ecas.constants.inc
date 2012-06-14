@@ -6,50 +6,31 @@
 
 $use_shared_fpfis = variable_get('ecas_use_shared_fpfis', FALSE);
 if($use_shared_fpfis){
-  // Here you can overwrite common constants specific or this installation
-  if ( !defined('FPFIS_COMMON_LIBRARIES_PATH') ) define('FPFIS_COMMON_LIBRARIES_PATH','/ec/prod/app/webroot/flex_home/libraries');
-
-  if ( !defined('FPFIS_SERVER_HOSTNAME') ) define('FPFIS_SERVER_HOSTNAME','webgate.ec.europa.eu');
-  if ( !defined('FPFIS_SERVER_PORT') ) define('FPFIS_SERVER_PORT','80');
-  if ( !defined('FPFIS_LDAP_USER_DN') ) define('FPFIS_LDAP_USER_DN', 'uid=iwt,ou=TrustedApps,o=cec.eu.int');
-  if ( !defined('FPFIS_LDAP_PASSWORD') ) define('FPFIS_LDAP_PASSWORD', 'XXXXXXXX');
+  // Point to the shared FPFIS library
+  if ( !defined('FPFIS_COMMON_LIBRARIES_PATH') ) define('FPFIS_COMMON_LIBRARIES_PATH','/ec/prod/app/webroot/flex_home/libraries');  
 
 } else {
-  // Use the local FPFIS library
-  
+  // Point to the local FPFIS library
   if ( !defined('FPFIS_COMMON_LIBRARIES_PATH') ) define ('FPFIS_COMMON_LIBRARIES_PATH', drupal_get_path('module', 'ecas') . '/libraries');
   if ( !defined('FPFIS_SERVER_HOSTNAME') ) define('FPFIS_SERVER_HOSTNAME','');
+  if ( !defined('FPFIS_SERVER_PORT') ) define('FPFIS_SERVER_PORT','');
+
+  /////////////////////////////////////////////////////////////////////////////////////////
+  // IMPORTANT: REMOVE TESTING SETTING BELOW
+  /*
+  if ( !defined('FPFIS_ECAS_URL') ) define('FPFIS_ECAS_URL', 'ecast.cc.cec.eu.int');
+  if ( !defined('FPFIS_ECAS_URI') ) define('FPFIS_ECAS_URI', '/cas');
+
+  if ( !defined('FPFIS_LDAP_SERVER_NAME') ) define('FPFIS_LDAP_SERVER_NAME', 'cedtest.cec.eu.int');
+  if ( !defined('FPFIS_LDAP_SERVER_PORT') ) define('FPFIS_LDAP_SERVER_PORT', '10389');
+  if ( !defined('FPFIS_LDAP_BASE_DN') ) define('FPFIS_LDAP_BASE_DN', 'ou=People,o=cec.eu.int');
+  if ( !defined('FPFIS_LDAP_BASE_DN_DG') ) define('FPFIS_LDAP_BASE_DN_DG', 'ou=Groups,o=cec.eu.int');
+  if ( !defined('FPFIS_LDAP_USER_DN') ) define('FPFIS_LDAP_USER_DN', '');
+  if ( !defined('FPFIS_LDAP_PASSWORD') ) define('FPFIS_LDAP_PASSWORD', '');
+  */
+  // END OF TEST SETTINGS
+  /////////////////////////////////////////////////////////////////////////////////////////
   
-  // All settings can be changed in the constants.php file 
-  // of the FPFIS_Common library or re-defined here: 
-
-  // TESTING
-  $TESTING = FALSE;
-  if($TESTING){
-    
-    // Replace localhost with the ip address of your local pc
-    // Test PC: 158.166.147.109
-    // Leave empty if you don't want any proxy redirect
-    //
-    if ( !defined('FPFIS_SERVER_HOSTNAME') ) define('FPFIS_SERVER_HOSTNAME',''); 
-    
-    /*
-     ECAS conf
-    */
-    if ( !defined('FPFIS_ECAS_URL') ) define('FPFIS_ECAS_URL', 'ecast.cc.cec.eu.int');
-    if ( !defined('FPFIS_ECAS_URI') ) define('FPFIS_ECAS_URI', '/cas');
-
-    /*
-     LDAP conf
-    */
-    if ( !defined('FPFIS_LDAP_SERVER_NAME') ) define('FPFIS_LDAP_SERVER_NAME', 'cedtest.cec.eu.int');
-    if ( !defined('FPFIS_LDAP_SERVER_PORT') ) define('FPFIS_LDAP_SERVER_PORT', '10389');
-    if ( !defined('FPFIS_LDAP_BASE_DN') ) define('FPFIS_LDAP_BASE_DN', 'ou=People,o=cec.eu.int');
-    if ( !defined('FPFIS_LDAP_BASE_DN_DG') ) define('FPFIS_LDAP_BASE_DN_DG', 'ou=Groups,o=cec.eu.int');
-    if ( !defined('FPFIS_LDAP_USER_DN') ) define('FPFIS_LDAP_USER_DN', 'uid=x50l131,ou=TrustedApps,o=cec.eu.int');
-    if ( !defined('FPFIS_LDAP_PASSWORD') ) define('FPFIS_LDAP_PASSWORD', 'x502831');
-  }
-
 }
 
 // Load the fpfis library

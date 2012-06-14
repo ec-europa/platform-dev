@@ -74,8 +74,8 @@ class EcasExtraAdminSettingsTest extends DrupalWebTestCase {
     $this->drupalGet('admin/config/ecas/ecas_extra');
   
     $edit = array(
-      'edit-ecas-extra-deny-action-subject' => 'test-subject',
-      'edit-ecas-extra-deny-action-mail' => 'test-mail',
+      'ecas_extra_deny_action_subject' => 'test-subject',
+      'ecas_extra_deny_action_mail' => 'test-mail',
     );
     $this->drupalPost(NULL, $edit, 'Save configuration');
 
@@ -238,10 +238,10 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
   	$this->assertNoText('ecas_user_active_denied',  'User ecas_user_active_denied was not listed');
 
     $this->drupalGet('admin/people/blocked_accounts', array('query' => array(
-      'uid' => $this->ecas_user_inactive_allowed,
+      'uid' => 'ecas_user_inactive_allowed',
       'mail' => '',
-      'user_denied' => '0',
-      'status' => '0'
+      'user_denied' => 'All',
+      'status' => 'All'
     )));
     
   	$this->assertText('ecas_user_inactive_allowed', 'User ecas_user_inactive_allowed was listed');
@@ -290,7 +290,7 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
     $this->assertText('web_user_active_allowed', 'User web_user_active_allowed was listed');
     $this->assertText('web_user_inactive_allowed', 'User web_user_inactive_allowed was listed');
     $this->assertText('ecas_user_active_allowed', 'User ecas_user_active_allowed was listed');
-    $this->assertText('ecas_user_inactive_allowed', 'User ecas_user_inactive_allowed not listed');
+    $this->assertText('ecas_user_inactive_allowed', 'User ecas_user_inactive_allowed listed');
 
     $this->assertNoText('web_user_active_denied',  'User web_user_active_denied was not listed');
     $this->assertNoText('web_user_inactive_denied',  'User web_user_inactive_denied was not listed');
@@ -300,25 +300,26 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
     // Block all web users
     $edit = array(
       'operation' => 'action::deny_account_action',
-      'views_bulk_operations[0]' => '1',
-      'views_bulk_operations[1]' => '1',      
+      'views_bulk_operations[2]' => '2',
+      'views_bulk_operations[3]' => '4',      
     );
     $this->drupalPost(NULL, $edit, 'Execute', array(), array(), 'views-form-blocked-accounts-page-1');    
-            
-    // List all non blocked users again
-    $this->drupalGet('admin/people/blocked_accounts', array('query' => array(
-          	      'uid' => '',
-          	      'mail' => '',
-          	      'user_denied' => '1',
-          	      'status' => 'All'
-    )));
+                
+    $this->assertText(t('You selected the following items'), 'Confirm page for deny action');
+    $this->assertText('web_user_active_allowed', 'User ecas_user_active_allowed listed');
+    $this->assertText('web_user_inactive_allowed', 'User ecas_user_inactive_allowed listed');    
     
+    $edit = array();
+    $this->drupalPost(NULL, $edit, 'Confirm');
+        
+    $this->assertText(t('Performed Deny the activation of a user account. on 2 items.'), 'Performed Deny the activation of a user account. on 2 items.');
     
     $this->assertText('ecas_user_active_allowed', 'User ecas_user_active_allowed was listed');
-    $this->assertText('ecas_user_inactive_allowed', 'User ecas_user_inactive_allowed not listed');
+    $this->assertText('ecas_user_inactive_allowed', 'User ecas_user_inactive_allowed was listed');
     
     $this->assertNoText('web_user_active_allowed', 'User web_user_active_allowed was not listed');
     $this->assertNoText('web_user_inactive_allowed', 'User web_user_inactive_allowed was not listed');
+    
     $this->assertNoText('web_user_active_denied',  'User web_user_active_denied was not listed');
     $this->assertNoText('web_user_inactive_denied',  'User web_user_inactive_denied was not listed');
     $this->assertNoText('ecas_user_active_denied',  'User ecas_user_active_denied was not listed');

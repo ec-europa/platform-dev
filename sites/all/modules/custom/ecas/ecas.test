@@ -106,7 +106,13 @@ class EcasAdminSettingsTest extends DrupalWebTestCase {
       'ecas_profile_core_ecas_email_field' => 'test_email',
       'ecas_pages_method' => ECAS_LOGIN_EXLUDE_PAGES,
       'ecas_pages' => 'test',
-      'ecas_use_shared_fpfis' => '1',
+      'ecas_use_shared_fpfis' => '1', 
+      // ==> This causes exceptions in the test because the ecas.inc file is no longer loaded.
+      // Reason is the menu has been build up already and is looking for the access callbacks.
+      // These are no longer defined (since the ecas.inc file isn't loaded). A bug in menu.inc 
+      // causes the item['access'] property to being not set, which later on causes an exception
+      // in core. Once the fix for this core bug is added to core, this test will run without 
+      // exceptions.        
     );
     $this->drupalPost(NULL, $edit, 'Save configuration');
 
@@ -129,31 +135,8 @@ class EcasAdminSettingsTest extends DrupalWebTestCase {
     $this->assertFieldChecked('edit-ecas-pages-method-0');
     $this->assertNoFieldChecked('edit-ecas-pages-method-1');
     $this->assertFieldById('edit-ecas-pages', 'test');
-    $this->assertFieldChecked('edit-ecas-use-shared-fpfis');
-    
-    // Reset to defaults
-    $edit = array(
-      'ecas_assurance_level' => ECAS_DEFAULT_ASSURANCE_LEVEL,
-      'ecas_domain' => ECAS_DEFAULT_DOMAIN,
-      'ecas_account_request_url' => ECAS_DEFAULT_ACCOUNT_REQUEST_URL,
-      'ecas_change_password_url' => ECAS_DEFAULT_CHANGE_PASSWORD_URL,
-      'ecas_phpcas_debug' => FALSE,
-      'ecas_account_option' => '1',
-      'ecas_login_message' => ECAS_DEFAULT_LOGIN_MESSAGE,
-      'ecas_warning_message' => ECAS_DEFAULT_WARNING_MESSAGE,
-      'ecas_update_mail_address' => '1',
-      'ecas_default_mail_address' => ECAS_DEFAULT_MAIL_ADDRESS,
-      'ecas_profile_core_enabled' => FALSE,
-      'ecas_profile_core_firstname_field' => ECAS_DEFAULT_PROFILE_FIRSTNAME_FIELD,
-      'ecas_profile_core_lastname_field' => ECAS_DEFAULT_PROFILE_LASTNAME_FIELD,
-      'ecas_profile_core_ecas_email_field' => ECAS_DEFAULT_PROFILE_ECAS_MAIL_FIELD,
-      'ecas_pages_method' => ECAS_LOGIN_INCLUDE_PAGES,
-      'ecas_pages' => ECAS_DEFAULT_PAGES,
-      'ecas_use_shared_fpfis' => FALSE,
-    );
-    $this->drupalPost(NULL, $edit, 'Save configuration');    
-    
-  }  
+    $this->assertFieldChecked('edit-ecas-use-shared-fpfis');    
+  }
 }
 
 /**

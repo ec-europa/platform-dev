@@ -98,12 +98,16 @@ if (!function_exists('getLdapUserInfo'))
     ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
 
-	
     if (FPFIS_LDAP_USER_DN || FPFIS_LDAP_PASSWORD)
     {
-      ldap_bind($ldap, FPFIS_LDAP_USER_DN, FPFIS_LDAP_PASSWORD);
+      if(!ldap_bind($ldap, FPFIS_LDAP_USER_DN, FPFIS_LDAP_PASSWORD)){
+        trigger_error('Could not connect with the LDAP server. Please check your settings.', E_USER_ERROR);
+        ldap_close($ldap);
+        restore_error_handler();
+        return false;            
+      }
     }
-  
+
     $search = ldap_search($ldap, FPFIS_LDAP_BASE_DN, FPFIS_LDAP_UID."=$uid");
     $ldap_result = ldap_get_entries($ldap, $search);
 
@@ -159,20 +163,12 @@ if (!function_exists('getLdapEntries'))
     ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
 
-    if (FPFIS_LDAP_USER_DN || FPFIS_LDAP_PASSWORD)
-    {
+    if (FPFIS_LDAP_USER_DN || FPFIS_LDAP_PASSWORD) {
       if(!ldap_bind($ldap, FPFIS_LDAP_USER_DN, FPFIS_LDAP_PASSWORD)){
-        // TODO: remove these dsm messages
-		/*
-        dsm(FPFIS_LDAP_SERVER_NAME, "FPFIS_LDAP_SERVER_NAME");
-        dsm(FPFIS_LDAP_SERVER_PORT, "FPFIS_LDAP_SERVER_PORT");
-        dsm(FPFIS_LDAP_USER_DN, "FPFIS_LDAP_USER_DN");
-        dsm(FPFIS_LDAP_PASSWORD, "FPFIS_LDAP_PASSWORD");
-        dsm(FPFIS_LDAP_BASE_DN, "FPFIS_LDAP_BASE_DN");
-        dsm($filter, "filter");        
-        */
         trigger_error('Could not connect with the LDAP server. Please check your settings.', E_USER_ERROR);
-        //return; // TODO: uncomment this back in production
+        ldap_close($ldap);
+        restore_error_handler();
+        return;
       }
     }
 

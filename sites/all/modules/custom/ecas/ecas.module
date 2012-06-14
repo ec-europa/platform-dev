@@ -20,7 +20,7 @@ if (!defined('FPFIS_COMMON_LIBRARIES_PATH')) {
   return TRUE;
 }
 
-if (!is_dir(constant('FPFIS_COMMON_LIBRARIES_PATH'))) {
+if (!is_dir(constant('FPFIS_COMMON_LIBRARIES_PATH'))) {  
   watchdog(
     'ecas',
     'The FPFIS_COMMON_LIBRARIES_PATH constant mentions a non-existing directory: :value. Thus, the ecas module will not be included.',

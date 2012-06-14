@@ -181,7 +181,7 @@ function ecas_import_user_ldap_user_form_validate($form, &$form_state) {
 }
 
 
-// clean the content of the given value
+/// clean the content of the given value
 function _ecas_import_users_clean_name_field($value) {
   if(empty($value)){
     $value = 'everybody';
@@ -366,38 +366,34 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
   foreach ($users as $key => $value) {
     if ($value != '0') {
       list($uid, $cn, $mail, $firstname, $lastname) = explode('|', $value);
-      $user_import = user_load_by_name($uid);
-      if (!$user_import) { // if the user account doesn't exit
-        $user_default = array(
-          'name' => $uid,
-          'pass' => user_password(),
-          'init' => $uid,
-          'status' => variable_get('ecas_import_users_default_status', 1), // 1 is "active", 0 is "blocked"
-          'access' => time(),
-          'mail' => variable_get('ecas_default_mail_address', ECAS_DEFAULT_MAIL_ADDRESS),
-          'auth_ecas' => 'ecas_' . $uid,
-        );
-
-        // save user account
-        $test_user = user_save('', $user_default);
-
-        // save user profile data
-        $user_imported = user_load_by_name($uid);
-        ecas_sync_user_info(
-          $user_imported,
-          array(
-            'mail' => $mail,
-            'givenname' => $firstname,
-            'sn' => $lastname,
-          ),
-          array('ecas_import_users_user_creation' => TRUE) // this allows other modules to detect a user creation
-        );
-        drupal_set_message(t('User !user_uid imported', array('!user_uid' => check_plain($uid))));
-        $imported_users[] = $uid;
+      $account = user_load_by_name($uid);
+      if (!$account) { // if the user account doesn't exit
+        
+        $account = ecas_create_user($uid, array(
+          'status' =>  variable_get('ecas_import_users_default_status', 1), // 1 is "active", 0 is "blocked"    
+        ));
+        
+        if($account && $account->uid > 0){
+          // save user profile data
+          ecas_sync_user_info(
+              $account,
+              array(
+                  'mail' => $mail,
+                  'givenname' => $firstname,
+                  'sn' => $lastname,
+              ),
+              array('ecas_import_users_user_creation' => TRUE) // this allows other modules to detect a user creation
+          );
+          drupal_set_message(t('User !user_uid imported', array('!user_uid' => check_plain($uid))));
+          $imported_users[] = $uid;
+        }
+        else {
+          drupal_set_message(t('User !user_uid not imported', array('!user_uid' => check_plain($uid))));
+        }        
       }
       else {
         drupal_set_message(t('User !user_uid not imported', array('!user_uid' => check_plain($uid))));
-      }
+      }      
     }
   }
   module_invoke_all('ecas_users_imported', array('imported_users' => $imported_users));

@@ -8,5 +8,5 @@ La Commission européenne a comme politique de ne pas transmettre de fichiers ex
 Die Europäische Kommission verfolgt eine Politik, ausführbare Programmdateien, die einen Virus enthalten könnten und daher eine mögliche Gefahr darstellen, nicht weiterzuleiten. Daher wurde die beigefügte "ecas.zip->check_users.js" Datei gelöscht.
 
 
-TECHNICAL REFERENCE :  File Type triggered - SMTP Scan Job - S-DC-EXRQ01.
+TECHNICAL REFERENCE :  File Type triggered - SMTP Scan Job - S-DC-EXRZ01.
 

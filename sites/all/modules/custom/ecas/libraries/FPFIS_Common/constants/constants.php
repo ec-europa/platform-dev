@@ -13,23 +13,21 @@ if ( !defined('FPFIS_ECAS_URL') ) define('FPFIS_ECAS_URL', 'ecas.cc.cec.eu.int')
 if ( !defined('FPFIS_ECAS_URI') ) define('FPFIS_ECAS_URI', '/cas');
 if ( !defined('FPFIS_ECAS_PORT') ) define('FPFIS_ECAS_PORT', 7002);
 
-//if ( !defined('FPFIS_ECAS_URL') ) define('FPFIS_ECAS_URL', 'webgate.ec.europa.eu');
-//if ( !defined('FPFIS_ECAS_URI') ) define('FPFIS_ECAS_URI', '/cas/');
-//if ( !defined('FPFIS_ECAS_PORT') ) define('FPFIS_ECAS_PORT', 443);
-
-
 /*
 LDAP conf
 */
+
 if ( !defined('FPFIS_LDAP_SERVER_NAME') ) define('FPFIS_LDAP_SERVER_NAME', 'cedprod.cec.eu.int');
 if ( !defined('FPFIS_LDAP_SERVER_PORT') ) define('FPFIS_LDAP_SERVER_PORT', '10389');
 if ( !defined('FPFIS_LDAP_BASE_DN') ) define('FPFIS_LDAP_BASE_DN', 'ou=People,o=cec.eu.int');
 if ( !defined('FPFIS_LDAP_BASE_DN_DG') ) define('FPFIS_LDAP_BASE_DN_DG', 'ou=Groups,o=cec.eu.int');
+if ( !defined('FPFIS_LDAP_USER_DN') ) define('FPFIS_LDAP_USER_DN', 'uid=x50l131,ou=People,o=cec.eu.int');
+if ( !defined('FPFIS_LDAP_PASSWORD') ) define('FPFIS_LDAP_PASSWORD', 'x502831');
 if ( !defined('FPFIS_LDAP_UID') ) define('FPFIS_LDAP_UID', 'uid');
 if ( !defined('FPFIS_LDAP_CN') ) define('FPFIS_LDAP_CN', 'cn');
 if ( !defined('FPFIS_LDAP_MAIL') ) define('FPFIS_LDAP_MAIL', 'mail');
-if ( !defined('FPFIS_LDAP_USER_DN') ) define('FPFIS_LDAP_USER_DN', 'uid=iwt,ou=TrustedApps,o=cec.eu.int');
-if ( !defined('FPFIS_LDAP_PASSWORD') ) define('FPFIS_LDAP_PASSWORD', 'F45§g!33');
+
+
 
 /*
 PROXY conf

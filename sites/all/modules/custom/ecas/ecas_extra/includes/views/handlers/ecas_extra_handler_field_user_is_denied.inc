@@ -75,10 +75,9 @@ class ecas_extra_handler_field_user_is_denied extends views_handler_field {
   }
 
   function option_definition() {
-
+    $options = parent::option_definition();
     $options['display_date'] = array('default' => '0');
-    $options['display_denier'] = array('default' => '0');
-  
+    $options['display_denier'] = array('default' => '0');  
     return $options;
   }  
   

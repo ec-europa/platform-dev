@@ -303,7 +303,8 @@ function ecas_sync_user_info(&$user, $user_info, $args) {
  * Uses ECAS to log in the user. Also updates her informations.
  */
 function ecas_login_check() {
-  global $user, $account;
+  global $user;
+  
   $force_login = _ecas_force_login();
   if ($user->uid) { // the user has an uid, and it is > 0 (which is anonymous user's uid)
     // do nothing because user is already logged into Drupal
@@ -311,7 +312,11 @@ function ecas_login_check() {
   elseif ($force_login != ECAS_NO_LOGIN) {
     $ecas_sync_user_info_args = array();
 
+    // Start a new drupal session
+    drupal_session_start(); // Added
+    
     ecas_save_page();
+
     $ecas_logout = isset($_SESSION['phpECAS_logout'])?$_SESSION['phpECAS_logout']:false;
     if ($force_login === ECAS_GATEWAY && ($ecas_logout == NULL || $ecas_logout == 'false')) {
       if ($_SERVER['QUERY_STRING'] == '' && strpos($_SERVER['PHP_SELF'], '?q=') === FALSE) {
@@ -338,56 +343,59 @@ function ecas_login_check() {
     if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY && ($ecas_logout == NULL || $ecas_logout == 'false')) || ($force_login === ECAS_LOGIN))) {
       $ecas_name = phpCAS::getUser();
       // try to log into Drupal
-      $user = user_load_by_name($ecas_name);
+      $account = user_load_by_name($ecas_name);
     }
     else {
       // these variables will be checked by later conditions
-      $user = NULL;
+      $account = FALSE;
       $ecas_name = NULL;
     }
 
     // If we don't have a user register them.
-    if ((empty($user) || !$user->uid) && ($ecas_name != NULL || $ecas_name != '')) {
-      $user_default = array(
+    if (!$account && !empty($ecas_name)) {
+      
+      $account = ecas_create_user($ecas_name); 
+      
+/*      $user_default = array(
           'name' => $ecas_name,
           'pass' => user_password(),
           'init' => $ecas_name,
           'status' => variable_get('ecas_account_option', 1),
           'access' => time(),
           'auth_ecas' => 'ecas_' . $ecas_name,
-		  'timezone' => variable_get('date_default_timezone', ''),
       );
 
       $user_default['mail'] = variable_get('ecas_default_mail_address', ECAS_DEFAULT_MAIL_ADDRESS);
 
       // Become user 1 to be able to save profile information
-      $old_state = drupal_save_session();
-      drupal_save_session(FALSE);
-      $user = user_load(1);
+      //drupal_save_session(FALSE);
+      //$user = user_load(1);
 
       // now save the user
-      $user = user_save('', $user_default);
+      $account = user_save(drupal_anonymous_user(), $user_default);
 
       // Register the user has ECAS authentication
       $cas_authmap = db_insert('authmap')
         ->fields(array(
           'authname' => $ecas_name,
-          'uid' => $user->uid,
+          'uid' => $account->uid,
           'module' => 'ecas',
         ))
         ->execute();
           
-      drupal_save_session($old_state);
+      //drupal_save_session(TRUE);
             
-      watchdog('user', 'new user: %n (ECAS)', array('%n' => $user->name), WATCHDOG_NOTICE, l(t('edit user'), sprintf('admin/user/edit/%d', $user->uid)));
-      if (($user->uid) && ($user->uid > 0) && $cas_authmap) {
-        user_module_invoke('login', $edit = NULL, $user);
-        //unset($_SESSION['ecas_goto']);
+      watchdog('user', 'new user: %n (ECAS)', array('%n' => $account->name), WATCHDOG_NOTICE, l(t('edit user'), sprintf('admin/user/edit/%d', $account->uid)));
+*/
+      if ($account && $account->uid > 0) {
+        /*user_module_invoke('login', $edit = NULL, $user);
+        unset($_SESSION['ecas_goto']);        
         watchdog('user', 'Session opened for %name.', array('%name' => $user->name));
-
-        drupal_goto(sprintf('user/%d/edit', $user->uid));
+*/
+        $_SESSION['ecas_goto'] = sprintf('user/%d/edit', $account->uid);
+//        drupal_goto(sprintf('user/%d/edit', $account->uid));
       }
-
+      
       // Set a session variable to denote this the initial login
       $_SESSION['ecas_first_login'] = TRUE;
 
@@ -397,32 +405,32 @@ function ecas_login_check() {
     }
 
     // final check to make sure we have a good user
-    if (!empty($user) && $user->uid && $user->uid > 0) {
+    if ($account && $account->uid > 0) {
       // activate auto-authentication
       $_SESSION['phpECAS_logout'] = 'false';
 
       // avoid calling ldap_* functions if they are not available
       if (function_exists('getLdapUserInfo')) {
         // retrieve informations about the user through LDAP
-        $user_info = getLdapUserInfo($user->name, array('sn', 'givenname', 'dg'));
+        $user_info = getLdapUserInfo($account->name, array('sn', 'givenname', 'dg'));
 
-        // load the user as an object
-        $user = user_load_by_name($user->name);
         // update her informations
         if (!empty($user_info)) {
-          ecas_sync_user_info($user, $user_info, $ecas_sync_user_info_args);
+          ecas_sync_user_info($account, $user_info, $ecas_sync_user_info_args);
         }
         else {
           drupal_set_message(
               t('Warning: no information could be found for username :username'),
-              array(':username' => $user->name)
+              array(':username' => $account->name)
           );
         }
       }
 
-      if ($user->status == 0) { // case when account is blocked
+      if ($account->status == 0) { // case when account is blocked        
         session_destroy();
+        
         $user = drupal_anonymous_user();
+        
         // since the user is blocked, we absolutely want to redirect the user
         // to the ecas warning page - thus, we unset any previously set destination
         if (isset($_REQUEST['destination'])) {
@@ -434,14 +442,15 @@ function ecas_login_check() {
         drupal_goto('ecas_warning_page');
       }
       else {
-        user_module_invoke('login', $edit = NULL, $user);
+        $user = $account;               
+        user_login_finalize();        
         drupal_set_message(t(variable_get('ecas_login_message', ECAS_DEFAULT_LOGIN_MESSAGE), array('%ecas_username' => $user->name)));
-        watchdog('user', 'Session opened for %name.', array('%name' => $user->name));
         ecas_login_page();
       }
     } // if we have a good user
     else {
-      $user = drupal_anonymous_user();
+      session_destroy();
+      $user = drupal_anonymous_user();      
     }
   } // End if user is already logged in else
 }
@@ -622,4 +631,44 @@ function _ecas_init_phpcas_client() {
   foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
     phpCas::setExtraCurlOption($key, $value);
   }
+}
+
+
+function ecas_create_user($ecas_name, $defaults = array()){
+  
+  $user_default = array_merge(array(
+      'name' => $ecas_name,
+      'pass' => user_password(),
+      'init' => $ecas_name,
+      'status' => variable_get('ecas_account_option', 1),
+      'access' => time(),
+      'auth_ecas' => 'ecas_' . $ecas_name,
+      'mail' => variable_get('ecas_default_mail_address', ECAS_DEFAULT_MAIL_ADDRESS)
+  ), $defaults);
+    
+  // Become user 1 to be able to save profile information
+  //drupal_save_session(FALSE);
+  //$user = user_load(1);
+  
+  // now save the user
+  $account = user_save(drupal_anonymous_user(), $user_default);
+  
+  // Register the user has ECAS authentication
+  $cas_authmap = db_insert('authmap')
+  ->fields(array(
+      'authname' => $ecas_name,
+      'uid' => $account->uid,
+      'module' => 'ecas',
+  ))
+  ->execute();
+  
+  //drupal_save_session(TRUE);
+  
+  watchdog('user', 'new user: %n (ECAS)', array('%n' => $account->name), WATCHDOG_NOTICE, l(t('edit user'), sprintf('admin/user/edit/%d', $account->uid)));
+  
+  if($account){
+    $account = user_load_by_name($account->name);
+  }
+  
+  return $account;  
 }
