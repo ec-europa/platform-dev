@@ -86,7 +86,7 @@
   $fields = array(
     'picture' => array(),
     'body'  => array('body'),
-    'hide'  => array('comments', 'links', 'print_links', 'field_picture_upload'),
+    'hide'  => array('comments', 'links', 'print_links', 'field_picture_upload', 'field_video_upload'),
     'group' => array('group_audience', 'group_content_access')
   );        
   
@@ -177,50 +177,102 @@ global $user;
       $output .= '</fieldset>';
     }
     
-    //FILE PAGER
+    //merge photos and videos
+    $media_items = array_merge($content['field_picture_upload']['#items'],$content['field_video_upload']['#items']);
+    
+    //sort table
+    usort($media_items, "custom_sort");
+    function custom_sort($a,$b) {
+      return $a['timestamp']>$b['timestamp'];
+    }    
+
+    //display pager
     if(isset($content['field_picture_upload']['#cck_pager_pager'])){
       foreach ($content['field_picture_upload']['#cck_pager_pager'] as $key => $value) {
         $output .= ' '.$value['data'];
       }
     }
+    
     //display media items
-    if(!isset($content['field_picture_upload']['#items'])){
+    if(!isset($media_items)){
       $empty_pic = db_select('file_managed', 'fm')
       ->fields('fm')
       ->condition('filename', 'empty_gallery.png','=')
       ->execute()
       ->fetchAssoc();
      
-      $content['field_picture_upload']['#items'][0] = $empty_pic;
+      $media_items[0] = $empty_pic;
     }
     
-    foreach ($content['field_picture_upload']['#items'] as $key => $item) {
-
-      $picture_square_thumbnail = image_style_url('square_thumbnail', $item['uri']);
-      $picture_preview = image_style_url('preview', $item['uri']);
-      $picture_original = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://','/',$item['uri']);
-      
+    foreach ($media_items as $key => $item) {
       if (($key % 4) == 0)
         $output .= '<div class="media_gallery row-fluid">';
         
-      $output .= '<div class="span3 media_item">';
-      $output .= '<div id="lightbox'.$key.'" class="lightbox" style="display: none;">';
-      $output .= '<img src="'.$picture_preview.'" alt="'.$item['filename'].'" />';
+      switch ($item['type']) {
+        case 'image':
+          $picture_square_thumbnail = image_style_url('square_thumbnail', $item['uri']);
+          $picture_preview = image_style_url('preview', $item['uri']);
+          $picture_original = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://','/',$item['uri']);        
           
-         
-      if (isset($item['field_picture_description']['und'][0]['value']))
-        $output .= '<p>'.$item['field_picture_description']['und'][0]['value'].'</p>';
+          $output .= '<div class="span3 media_item">';
+          $output .= '<div id="lightbox'.$key.'" class="lightbox" style="display: none;">';
+          $output .= '<img src="'.$picture_preview.'" alt="'.$item['filename'].'" />';
 
-      $output .= '<p><a href="'.$base_url.'/'.$picture_original.'" title="'.$item['filename'].'" target="_blank">'.t('View full size picture').'</a></p>';
-      $output .= '</div>';
-      $output .= '<a href="#lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$item['filename'].'">';
-      $output .= '<img src="'.$picture_square_thumbnail.'" alt="'.$item['filename'].'" />';
-      $output .= '<p class="carousel-caption">'.$item['filename'].'</p>';
-      $output .= '</a>';        
-      $output .= '</div>';
+          if (isset($item['field_picture_description']['und'][0]['value']))
+            $output .= '<p>'.$item['field_picture_description']['und'][0]['value'].'</p>';
 
-      if ((($key+1) % 4) == 0 || !isset($content['field_picture_upload']['#items'][$key+1]))
-        $output .= '</div>';      
+          $output .= '<p><a href="'.$base_url.'/'.$picture_original.'" title="'.$item['filename'].'" target="_blank">'.t('View full size picture').'</a></p>';
+          $output .= '</div>';
+          $output .= '<a href="#lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$item['filename'].'">';
+          $output .= '<img src="'.$picture_square_thumbnail.'" alt="'.$item['filename'].'" />';
+          $output .= '<p class="carousel-caption">'.$item['filename'].'</p>';
+          $output .= '</a>';        
+          $output .= '</div>';          
+        break;
+        
+        case 'video':
+          //$video_path = $base_url . '/' . variable_get('file_directory_path', $default = 'sites/default/files') . '/videos/original/' . $item['filename'];
+          $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://','/',$item['uri']);
+          $thumb = file_load($item['thumbnail']);
+          $video_square_thumbnail = image_style_url('square_thumbnail', $thumb->uri);
+          $video_preview = image_style_url('preview', $thumb->uri);;
+          
+          $output .= '<div class="span3 media_item">';
+          $output .= '<div id="video_lightbox'.$key.'" class="lightbox" style="display: none;">';
+          $output .= "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='800' height='600' id='single1' name='single1'>
+          <param name='movie' value='http://ec.europa.eu/wel/players/jwflvplayer/player.swf'>
+          <param name='allowfullscreen' value='true'>
+          <param name='allowscriptaccess' value='always'>
+          <param name='wmode' value='transparent'>
+          <param name='flashvars' value='file=".$video_path."&image=".$video_preview."&skin=http://ec.europa.eu/wel/players/jwflvplayer/skins/mainley.swf'>
+          <embed
+            type='application/x-shockwave-flash'
+            id='single2'
+            name='single2'
+            src='http://ec.europa.eu/wel/players/jwflvplayer/player.swf'
+            width='800'
+            height='600'
+            bgcolor='undefined'
+            allowscriptaccess='always'
+            allowfullscreen='true'
+            wmode='transparent'
+            flashvars='file=".$video_path."&image=".$video_preview."&skin=http://ec.europa.eu/wel/players/jwflvplayer/skins/mainley.swf'
+          />
+          </object>";
+          $output .= '</div>';
+          $output .= '<a href="#video_lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$item['filename'].'">';
+          $output .= '<img src="'.$video_square_thumbnail.'" alt="'.$item['filename'].'" />';
+          $output .= '<p class="carousel-caption">'.$item['filename'].'</p>';
+          $output .= '</a>';        
+          $output .= '</div>';          
+        break;
+        
+        default:
+        break;
+      }
+        
+      if ((($key+1) % 4) == 0 || !isset($media_items[$key+1]))
+        $output .= '</div>';         
     }
     
     //display non hidden fields
