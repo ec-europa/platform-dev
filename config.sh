@@ -16,8 +16,11 @@ baseurl='http://fpfis-dev.net1.cec.eu.int/multisite_drupal_mct_1'
 verbose=0
 force=0
 install_profile='multisite_drupal_standard'
-solr_server_url='http://fpfis-dev.net1.cec.eu.int:8080/solr'
+solr_server_url='http://fpfis-dev.net1.cec.eu.int:8080/solr/multisite'
 solr_server_name='multisite solr server'
+apachesolr_attachments_tika_jar='tika-app-1.1.jar'
+apachesolr_attachments_tika_path='/home/fpfis/util/bin'
+apachesolr_attachments_jav ='/usr/bin/java'
 
 if [ "$subsite_installation" == "yes" ]; then
 	subsite_name="$subsite"

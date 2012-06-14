@@ -26,6 +26,12 @@ function cce_basic_config_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'current_search-standard' => array(
+          'module' => 'current_search',
+          'delta' => 'standard',
+          'region' => 'sidebar_first',
+          'weight' => '-10',
+        ),
         'Facet API: Apache Solr environment: localhost server : Author' => array(
           'module' => 'facetapi',
           'delta' => 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j',
