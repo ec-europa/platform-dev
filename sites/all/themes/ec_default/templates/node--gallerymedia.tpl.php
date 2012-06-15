@@ -178,7 +178,15 @@ global $user;
     }
     
     //merge photos and videos
-    $media_items = array_merge($content['field_picture_upload']['#items'],$content['field_video_upload']['#items']);
+    if (isset($content['field_picture_upload']['#items']) && isset($content['field_video_upload']['#items'])) {
+      $media_items = array_merge($content['field_picture_upload']['#items'],$content['field_video_upload']['#items']);
+    } else if (isset($content['field_picture_upload']['#items'])) {
+      $media_items = $content['field_picture_upload']['#items'];
+    } else if (isset($content['field_video_upload']['#items'])) {
+      $media_items = $content['field_video_upload']['#items'];
+    } else {
+      $media_items = array();
+    }
     
     //sort table
     usort($media_items, "custom_sort");
@@ -194,7 +202,7 @@ global $user;
     }
     
     //display media items
-    if(!isset($media_items)){
+    if(!isset($media_items) || count($media_items) == 0){
       $empty_pic = db_select('file_managed', 'fm')
       ->fields('fm')
       ->condition('filename', 'empty_gallery.png','=')
