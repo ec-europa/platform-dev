@@ -200,6 +200,9 @@ projects[cck_pager][version] = "1.x-dev"
 projects[custom_breadcrumbs][subdir] = "contributed"
 projects[custom_breadcrumbs][version] = "1.0-alpha1"
 
+projects[video][subdir] = "contributed"
+projects[video][version] = "2.6"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"

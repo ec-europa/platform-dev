@@ -197,6 +197,9 @@ projects[libraries][version] = "1.0"
 projects[jqmulti][subdir] = "contributed"
 projects[jqmulti][version] = "1.0-beta1"
 
+projects[video][subdir] = "contributed"
+projects[video][version] = "2.6"
+
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
