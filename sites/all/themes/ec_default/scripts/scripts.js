@@ -40,9 +40,13 @@ jQuery(function($){
       
       //browse top news
       var topNews = new Array();
+      var totalHeight = 0;
       $('#slider .news_list li a').each(function() {
         topNews.push($(this));
+        totalHeight = totalHeight + $(this).height() + 21;
       });
+      if (totalHeight < 175) totalHeight = 175;
+      $('#slider.news .content > .view-news > .news_content div.news').height(totalHeight+1);
       
         var NbNews = topNews.length;
         var i = 1;
