@@ -72,3 +72,46 @@ function gallerymedia_core_node_info() {
   );
   return $items;
 }
+
+/**
+ * Implements hook_video_default_presets().
+ */
+function gallerymedia_core_video_default_presets() {
+  $items = array(
+    'default_video_conversion' => array(
+      'name' => 'default_video_conversion',
+      'description' => 'Default configuration for video conversion',
+      'settings' => array(
+        'video_extension' => 'flv',
+        'video_codec' => 'flv',
+        'video_preset' => 'none',
+        'video_quality' => '2',
+        'video_speed' => '2',
+        'wxh' => '640x480',
+        'video_aspectmode' => 'preserve',
+        'video_upscale' => 0,
+        'audio_codec' => 'aac',
+        'audio_quality' => '2',
+        'deinterlace' => 'detect',
+        'max_frame_rate' => '',
+        'frame_rate' => '',
+        'keyframe_interval' => '',
+        'video_bitrate' => '',
+        'bitrate_cap' => '',
+        'buffer_size' => '',
+        'one_pass' => 0,
+        'skip_video' => 0,
+        'audio_bitrate' => '',
+        'audio_channels' => '2',
+        'audio_sample_rate' => '',
+        'skip_audio' => 0,
+        'autolevels' => 0,
+        'deblock' => 0,
+        'denoise' => '0',
+        'clip_start' => '',
+        'clip_length' => '',
+      ),
+    ),
+  );
+  return $items;
+}
