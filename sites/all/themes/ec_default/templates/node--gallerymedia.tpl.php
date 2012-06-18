@@ -202,12 +202,13 @@ global $user;
     }
     
     //display media items
-    if(!isset($media_items) || count($media_items) == 0){
-      $empty_pic = db_select('file_managed', 'fm')
-      ->fields('fm')
-      ->condition('filename', 'empty_gallery.png','=')
-      ->execute()
-      ->fetchAssoc();
+    if(!isset($media_items) || count($media_items) == 0) {
+      global $base_url;
+      $empty_pic = array(
+        'type' => 'empty',
+        'uri' => $base_url . '/' . path_to_theme() . '/images/empty_gallery.png',
+        'filename' => t('empty gallery')
+      );     
      
       $media_items[0] = $empty_pic;
     }
@@ -283,7 +284,13 @@ global $user;
           $output .= '</div>';          
         break;
         
-        default:
+        case 'empty':
+          $output .= '<div class="span3 media_item">';
+          $output .= '<img src="'.$item['uri'].'" alt="'.$item['filename'].'" />';
+          $output .= '</div>';           
+        break;
+        
+        default:       
         break;
       }
         
