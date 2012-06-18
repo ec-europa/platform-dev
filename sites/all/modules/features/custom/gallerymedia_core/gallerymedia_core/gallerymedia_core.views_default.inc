@@ -276,6 +276,9 @@ function gallerymedia_core_views_default_views() {
 [field_picture_upload]
 </div>'),
     t('Page'),
+    t('<div class="galleries-item-wrapper">
+[field_picture_upload]
+</div>'),
     t('[Empty_gallery]'),
   );
   $export['galleries'] = $view;
