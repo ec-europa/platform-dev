@@ -242,14 +242,18 @@ global $user;
         case 'video':
           //$video_path = $base_url . '/' . variable_get('file_directory_path', $default = 'sites/default/files') . '/videos/original/' . $item['filename'];
 				  
-			$converted_fid = db_select('video_output', 'vd')
-			  ->fields('vd', array('output_fid'))
-			  ->condition('original_fid', $item['fid'],'=')
-			  ->execute()
-			  ->fetchAssoc();
-	  
-		  $converted_video = file_load($converted_fid['output_fid']);
-          $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://','/',$converted_video->uri);
+          $converted_fid = db_select('video_output', 'vd')
+            ->fields('vd', array('output_fid'))
+            ->condition('original_fid', $item['fid'],'=')
+            ->execute()
+            ->fetchAssoc();
+          
+          if (isset($converted_fid) && $converted_fid != null) {
+            $converted_video = file_load($converted_fid['output_fid']);
+            $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://','/',$converted_video->uri);
+          } else {
+            $video_path = $base_url . '/' . variable_get('file_directory_path', $default = 'sites/default/files') . '/videos/original/' . $item['filename'];
+          }
           $thumb = file_load($item['thumbnail']);
           $video_square_thumbnail = image_style_url('square_thumbnail', $thumb->uri);
           $video_preview = image_style_url('preview', $thumb->uri);;
