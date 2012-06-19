@@ -287,6 +287,52 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
 }
 
 /*
+* hook_user_delete
+*/
+function multisite_drupal_toolbox_user_delete($account) {
+  global $user;
+  if ($account->uid == 1 && $user->uid != 1) { // prevent user 1 delete
+    drupal_set_message(t('Superuser admin cannot be deleted.'), 'error');
+    return;
+  }
+}
+
+/*
+* hook_user_update
+*/
+function multisite_drupal_toolbox_user_update(&$edit, $account, $category) {
+  global $user;
+  if ($account->uid == 1 && $user->uid != 1) { // prevent user 1 update
+    drupal_set_message(t('Superuser admin cannot be modified.'), 'error');
+    return;
+  }
+}
+
+/*
+* hook_user_role_update
+*/
+function multisite_drupal_toolbox_user_role_update($role) {
+  global $user;
+  if ($role->rid <= 4 && $user->uid != 1) { // prevent user roles update
+    drupal_set_message(t('This role cannot be modified.'), 'error');
+    return;
+  }
+}
+
+/*
+* hook_user_role_delete
+*/
+function multisite_drupal_toolbox_user_role_delete($role) {
+  global $user;
+  if ($role->rid <= 4 && $user->uid != 1) { // prevent user roles delete
+    drupal_set_message(t('This role cannot be deleted.'), 'error');
+    return;
+  }
+}
+
+
+
+/*
 * Solr config bundle
 */
 function config_solr_bundle($bundle, $op) {
