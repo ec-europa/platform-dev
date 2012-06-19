@@ -46,4 +46,9 @@ features[variable][] = "workbench_moderation_default_state_news"
 features[views_view][] = "news"
 features[features_api][] = api:1
 dependencies[] = i18n_taxonomy
+dependencies[] = cce_basic_config
+dependencies[] = date
+features[field][] = node-news-field_publication_date
+features[field][] = node-news-field_tags
+features[field][] = node-news-field_unpublication_date
 

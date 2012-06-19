@@ -147,4 +147,10 @@ feature_sets[likedislike][icon] = 'feature-set-icons/likedislike.png'
 feature_sets[likedislike][enable][] = likedislike
 feature_sets[likedislike][disable][] = likedislike
 
+feature_sets[newsletters][title] = 'Newsletters'
+feature_sets[newsletters][description] = 'Publish and send newsletters to lists of subscribers'
+feature_sets[newsletters][icon] = 'feature-set-icons/newsletter.png'
+feature_sets[newsletters][enable][] = newsletters
+feature_sets[newsletters][disable][] = newsletters
+
 

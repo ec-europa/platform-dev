@@ -28,20 +28,4 @@ function wiki_standard_views_api() {
   }
 }
 
-/**
- * Implements hook_node_info().
- */
-function wiki_standard_node_info() {
-  $items = array(
-    'wiki' => array(
-      'name' => t('Wiki'),
-      'base' => 'node_content',
-      'description' => t('content for the wiki feature'),
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-  );
-  return $items;
-}
 
