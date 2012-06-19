@@ -289,10 +289,12 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
         //unset($form['roles'][3]);
         //unset($form['roles'][4]);
       case "user_admin_role": // prevent predefined roles updated for non admin
-        if($form['rid']['#value'] == 3 || $form['rid']['#value'] == 4) {
-          unset($form['actions']);
-          $form["name"]['#disabled'] = TRUE;
-        }
+	    if(isset($form['rid']['#value'])) {
+          if($form['rid']['#value'] == 3 || $form['rid']['#value'] == 4) {
+            unset($form['actions']);
+            $form["name"]['#disabled'] = TRUE;
+          }
+		}
 		break;
     }
   }
