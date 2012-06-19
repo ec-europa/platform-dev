@@ -14,6 +14,7 @@ function newsletters_field_default_fields() {
   $fields['node-simplenews-body'] = array(
     'field_config' => array(
       'active' => '1',
+      'locked'=>'1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -87,6 +88,7 @@ function newsletters_field_default_fields() {
   $fields['node-simplenews-field_related_contents'] = array(
     'field_config' => array(
       'active' => '1',
+      'locked'=>'1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -167,6 +169,7 @@ function newsletters_field_default_fields() {
   $fields['node-simplenews-field_simplenews_term'] = array(
     'field_config' => array(
       'active' => '1',
+      'locked'=>'1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -255,6 +258,7 @@ function newsletters_field_default_fields() {
   $fields['node-simplenews-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
+      'locked'=>'1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
