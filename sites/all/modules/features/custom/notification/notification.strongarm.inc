@@ -48,6 +48,9 @@ function notification_strongarm() {
         'idea' => 'idea',
         'links' => 'links',
         'news' => 'news',
+        'f_a_q' => 'f_a_q',
+        'webform' => 'webform',
+        'wiki' => 'wiki',
     );
     $export['notifications_content_type'] = $strongarm;
 

@@ -1,22 +1,22 @@
+<?php
 /*
-* hook_enable
+*  hook_enable
 */
+
 function sitemap_enable() {
-  // add an item in the main menu
-  db_update('menu_links')
-    ->fields(array('hidden' => '0'))
-    ->condition('link_path', 'sitemap/all' , "=")
-    ->execute();
+    drupal_set_message('Sitemap feature is now enabled on your site.');
 }
 
+
+
 /*
-* hook_disable
+*  hook_disable
 */
+
 function sitemap_disable() {
-  // add an item in the main menu
-  //menu_link_delete(NULL, 'sitemap/all');  // it doesn't work
-  db_update('menu_links')
-    ->fields(array('hidden' => '1'))
-    ->condition('link_path', 'sitemap/all' , "=")
-    ->execute();
+  
+   //Activation message
+    drupal_set_message('Sitemap feature is now disabled on your site.');
 }
+
+

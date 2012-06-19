@@ -25,14 +25,14 @@ function events_standard_views_api() {
 }
 
 /**
- * Implements hook_node_info().
+     * Implements hook_node_info().
  */
 function events_standard_node_info() {
   $items = array(
     'event' => array(
       'name' => t('Event'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => t('Event'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
