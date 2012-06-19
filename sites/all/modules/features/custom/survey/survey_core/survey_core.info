@@ -42,4 +42,5 @@ package = "Multisite Core Features"
 php = "5.2.4"
 project = "survey_core"
 version = "7.x-1.0"
-
+features[features_api][] = api:1
+dependencies[] = i18n_taxonomy

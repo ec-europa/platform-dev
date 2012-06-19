@@ -1,0 +1,101 @@
+<?php
+/**
+ * @file
+ * Install the feature f_a_q
+ */
+
+/**
+ * hook_install
+ */
+function f_a_q_install() {
+    //Nothing yet
+}
+
+/**
+ * hook_uninstall
+ */
+function f_a_q_uninstall() {
+    //Nothing yet
+}
+
+
+
+function f_a_q_enable() {
+    drupal_set_message('FAQ enabled');
+    module_enable(array('faq_content_default'));
+
+    // solR configuration add bundle
+    config_solr_bundle('f_a_q', 'add');
+
+    // add type to notification
+    notification_content_type('f_a_q', 'add');
+
+    // add type to the simplenews related content
+    simplenews_related_content_type('f_a_q', 'add');
+
+    //Add breadcrumb configuration
+    db_insert('custom_breadcrumb')
+            ->fields(array(
+                'titles' => '[Breadcrumb_faq:f_a_q_title]', // titles of the elements to display in the breadcrumb
+                'paths' => 'faq/', // path of the elements to display in the breadcrumb
+                'visibility_php ' => '',
+                'node_type' => 'f_a_q', //the content type targeted by this rule
+            ))
+            ->execute();
+
+    //Activation message
+    drupal_set_message('Faq is now active on your site.');
+
+}
+
+function f_a_q_modules_enabled($modules) {
+
+    node_types_rebuild();
+
+//    if (in_array('f_a_q', $modules)) {
+//        //Get role_id for the role
+//        $role_name = 'contributor';
+//        $roles = user_roles(TRUE);
+//        $role_id = array_search($role_name, $roles);
+//
+//        user_role_grant_permissions(4, array(
+//            'create f_a_q content',
+//            'edit any f_a_q content',
+//            'delete any f_a_q content',
+//        ));
+//    }
+}
+
+function f_a_q_disable() {
+    //remove the Breadcrumb related to
+    db_delete('custom_breadcrumb')
+            ->condition('node_type', 'f_a_q')
+            ->execute();
+
+    // solR configuration add bundle
+    config_solr_bundle('f_a_q', 'delete');
+
+    // remove type from notification
+    notification_content_type('f_a_q', 'delete');
+
+    // remove type to the simplenews related content
+    simplenews_related_content_type('f_a_q', 'delete');
+
+    module_disable(array('faq_content_default'));
+    _disable_content_type('f_a_q');
+
+    //Get role_id for the role
+    $role_name = 'contributor';
+    $roles = user_roles(TRUE);
+    $role_id = array_search($role_name, $roles);
+
+    user_role_revoke_permissions($role_id, array(
+        'create f_a_q content',
+        'edit any f_a_q content',
+        'delete any f_a_q content',
+    ));
+}
+
+
+
+?>

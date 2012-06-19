@@ -5,4 +5,5 @@ package = "Multisite Standard Features"
 version = "7.x-1.0"
 project = "survey_standard"
 dependencies[] = "survey_core"
-
+features[features_api][] = api:1
+dependencies[] = i18n_taxonomy

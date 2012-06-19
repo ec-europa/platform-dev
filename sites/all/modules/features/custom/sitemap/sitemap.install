@@ -1,0 +1,22 @@
+/*
+* hook_enable
+*/
+function sitemap_enable() {
+  // add an item in the main menu
+  db_update('menu_links')
+    ->fields(array('hidden' => '0'))
+    ->condition('link_path', 'sitemap/all' , "=")
+    ->execute();
+}
+
+/*
+* hook_disable
+*/
+function sitemap_disable() {
+  // add an item in the main menu
+  //menu_link_delete(NULL, 'sitemap/all');  // it doesn't work
+  db_update('menu_links')
+    ->fields(array('hidden' => '1'))
+    ->condition('link_path', 'sitemap/all' , "=")
+    ->execute();
+}

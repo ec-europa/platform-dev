@@ -16,4 +16,4 @@ features[field][] = "node-wiki-group_audience"
 features[field][] = "node-wiki-group_content_access"
 features[variable][] = "og_group_type_wiki"
 features[variable][] = "pathauto_node_wiki_pattern"
-
+features[features_api][] = api:1

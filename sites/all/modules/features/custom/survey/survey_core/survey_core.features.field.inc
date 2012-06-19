@@ -14,6 +14,7 @@ function survey_core_field_default_fields() {
   $fields['node-webform-body'] = array(
     'field_config' => array(
       'active' => '1',
+      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -86,6 +87,7 @@ function survey_core_field_default_fields() {
   $fields['node-webform-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
+      'locked' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),

@@ -1,9 +1,10 @@
 core = "7.x"
 dependencies[] = "features"
-features[content_menu_links][] = "main-menu:<front>"
 description = "Provide social bookmark button."
 name = "Social bookmark"
 package = "Multisite_features"
 php = "5.2.4"
 project = "social_bookmark"
 version = "7.x-1.0"
+features[features_api][] = api:1
+dependencies[] = i18n_taxonomy
