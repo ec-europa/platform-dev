@@ -14,6 +14,7 @@ function news_core_field_default_fields() {
   $fields['node-news-body'] = array(
     'field_config' => array(
       'active' => '1',
+        'locked'=> '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -88,6 +89,7 @@ function news_core_field_default_fields() {
   $fields['node-news-field_link'] = array(
     'field_config' => array(
       'active' => '1',
+        'locked'=> '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -171,6 +173,7 @@ function news_core_field_default_fields() {
   $fields['node-news-field_news_picture'] = array(
     'field_config' => array(
       'active' => '1',
+        'locked'=> '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -262,6 +265,7 @@ function news_core_field_default_fields() {
   $fields['node-news-field_publication_date'] = array(
     'field_config' => array(
       'active' => '1',
+        'locked'=> '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -346,6 +350,7 @@ function news_core_field_default_fields() {
   $fields['node-news-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
+        'locked'=> '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -423,6 +428,7 @@ function news_core_field_default_fields() {
   $fields['node-news-field_top_news'] = array(
     'field_config' => array(
       'active' => '1',
+        'locked'=> '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -491,6 +497,7 @@ function news_core_field_default_fields() {
   $fields['node-news-field_unpublication_date'] = array(
     'field_config' => array(
       'active' => '1',
+        'locked'=> '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),

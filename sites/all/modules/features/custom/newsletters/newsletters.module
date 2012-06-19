@@ -16,21 +16,21 @@ function newsletters_init() {
 
 
 
-///*
-// * hook_menu
-// */
-//
-//function newsletters_menu() {
-//    $items['my_subscriptions'] = array(
-//        'title' => t('Newsletters'),
-//        'access callback' => TRUE,
-//        'page callback' => '_my_subscriptions',
-//        'type' => MENU_NORMAL_ITEM,
-//        'menu_name' => 'main-menu',
-//        'weight' => 20,
-//    );
-//    return $items;
-//}
+/*
+ * hook_menu
+ */
+
+function newsletters_menu() {
+    $items['my_subscriptions'] = array(
+        'title' => t('Newsletters'),
+        'access callback' => TRUE,
+        'page callback' => '_my_subscriptions',
+        'type' => MENU_NORMAL_ITEM,
+        'menu_name' => 'main-menu',
+        'weight' => 20,
+    );
+    return $items;
+}
 
 /*
  * display the subcriptions management page
@@ -123,4 +123,21 @@ function newsletters_tokens($type, $tokens, $data = array(), $options = array())
         }
     }
     return $replacements;
+}
+
+
+function newsletters_disable() {
+    // remove simplenews block to the site_wide context
+    _remove_block_context('site_wide', '0');
+
+    // disable the content type simplenews
+    _disable_content_type('simplenews');
+    //remove the breadcrump relative to newsletter
+    db_delete('custom_breadcrumb')
+            ->condition('node_type', 'simplenews')
+            ->execute();
+
+
+    //Activation message
+    drupal_set_message('Newsletters feature is now disabled on your site.');
 }

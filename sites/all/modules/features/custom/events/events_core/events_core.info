@@ -37,3 +37,7 @@ features[variable][] = "node_preview_event"
 features[variable][] = "node_submitted_event"
 features[variable][] = "workbench_moderation_default_state_event"
 features[views_view][] = "calendar"
+dependencies[] = cce_basic_config
+dependencies[] = i18n_taxonomy
+dependencies[] = views
+features[features_api][] = api:1

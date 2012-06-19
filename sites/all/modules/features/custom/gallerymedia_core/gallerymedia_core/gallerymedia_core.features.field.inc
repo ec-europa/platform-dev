@@ -14,6 +14,7 @@ function gallerymedia_core_field_default_fields() {
   $fields['comment-comment_node_gallerymedia-comment_body'] = array(
     'field_config' => array(
       'active' => '1',
+      'locked'=> 1,
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -75,6 +76,7 @@ function gallerymedia_core_field_default_fields() {
   $fields['file-image-field_picture_description'] = array(
     'field_config' => array(
       'active' => '1',
+        'locked'=> 1,
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -183,6 +185,7 @@ function gallerymedia_core_field_default_fields() {
   $fields['node-gallerymedia-body'] = array(
     'field_config' => array(
       'active' => '1',
+        'locked'=> 1,
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -255,6 +258,7 @@ function gallerymedia_core_field_default_fields() {
   $fields['node-gallerymedia-field_picture_upload'] = array(
     'field_config' => array(
       'active' => '1',
+        'locked'=> 1,
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -399,6 +403,7 @@ function gallerymedia_core_field_default_fields() {
   $fields['node-gallerymedia-field_video_upload'] = array(
     'field_config' => array(
       'active' => '1',
+        'locked'=> 1,
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),

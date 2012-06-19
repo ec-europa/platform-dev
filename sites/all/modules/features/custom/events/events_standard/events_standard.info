@@ -10,4 +10,6 @@ features[ctools][] = "strongarm:strongarm:1"
 features[ctools][] = "views:views_default:3.0"
 dependencies[] = ctools
 features[features_api][] = api:1
+dependencies[] = i18n_taxonomy
+dependencies[] = views
 

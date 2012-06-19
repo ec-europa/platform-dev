@@ -32,7 +32,7 @@ function events_core_node_info() {
     'event' => array(
       'name' => t('Event'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => 'Event',
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
