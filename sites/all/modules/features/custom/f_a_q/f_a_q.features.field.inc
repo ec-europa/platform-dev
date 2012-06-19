@@ -155,12 +155,11 @@ function f_a_q_field_default_fields() {
       ),
     ),
   );
-
-
   // Translatables
   // Included for use with string extractors like potx.
   t('Answer');
   t('Tags');
+
 
   return $fields;
 }

@@ -15,6 +15,7 @@ function f_a_q_user_default_permissions() {
     'name' => 'create f_a_q content',
     'roles' => array(
       0 => 'administrator',
+
     ),
     'module' => 'node',
   );
@@ -54,18 +55,6 @@ function f_a_q_user_default_permissions() {
     ),
     'module' => 'node',
   );
-
-  // custom permissions
-
-  // Add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-  // Administrator
-  $adm_rid = get_rid('administrator');  
-  user_role_grant_permissions($adm_rid, array_keys(module_invoke_all('permission')));
-  user_role_revoke_permissions($adm_rid, array(
-    'administer modules',
-    'administer features',	
-	'manage features',
-  )); 
 
   return $permissions;
 }

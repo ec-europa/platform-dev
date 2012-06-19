@@ -33,6 +33,7 @@ function news_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -362,6 +363,7 @@ function news_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(

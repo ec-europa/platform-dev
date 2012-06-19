@@ -152,3 +152,9 @@ feature_sets[quicktabsandaccordeon][description] = 'The Quick Tabs module allows
 feature_sets[quicktabsandaccordeon][icon] = 'feature-set-icons/quicktabs.png'
 feature_sets[quicktabsandaccordeon][enable][] = quicktabsandaccordeon
 feature_sets[quicktabsandaccordeon][disable][] = quicktabsandaccordeon
+
+feature_sets[likedislike][title] = 'Test Social b'
+feature_sets[likedislike][description] = 'test socialb'
+feature_sets[likedislike][icon] = 'feature-set-icons/likedislike.png'
+feature_sets[likedislike][enable][] = socialb
+feature_sets[likedislike][disable][] = socialb

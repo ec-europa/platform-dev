@@ -28,3 +28,5 @@ features[variable][] = "notifications_option_subscribe_links"
 features[variable][] = "notifications_option_subscription_types_content_thread"
 features[variable][] = "notifications_option_subscription_types_content_type"
 features[variable][] = "notifications_option_unsubscribe_links"
+features[features_api][] = api:1
+dependencies[] = features

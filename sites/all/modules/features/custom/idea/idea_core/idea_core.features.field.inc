@@ -14,6 +14,7 @@ function idea_core_field_default_fields() {
   $fields['node-idea-body'] = array(
     'field_config' => array(
       'active' => '1',
+      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -86,6 +87,7 @@ function idea_core_field_default_fields() {
   $fields['node-idea-field_categories'] = array(
     'field_config' => array(
       'active' => '1',
+      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -152,6 +154,7 @@ function idea_core_field_default_fields() {
   $fields['node-idea-field_rating'] = array(
     'field_config' => array(
       'active' => '1',
+      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -216,6 +219,7 @@ function idea_core_field_default_fields() {
   $fields['node-idea-field_status'] = array(
     'field_config' => array(
       'active' => '1',
+      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -286,6 +290,7 @@ function idea_core_field_default_fields() {
   $fields['node-idea-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
+      'locked' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -361,6 +366,7 @@ function idea_core_field_default_fields() {
   $fields['node-idea-field_watching'] = array(
     'field_config' => array(
       'active' => '1',
+      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -421,6 +427,76 @@ function idea_core_field_default_fields() {
         ),
         'type' => 'options_onoff',
         'weight' => '4',
+      ),
+    ),
+  );
+
+
+  // Exported field: 'node-f_a_q-field_fpfis_newfield'
+  $fields['node-f_a_q-field_fpfis_newfield'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'locked' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_fpfis_newfield',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'f_a_q',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 2,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_fpfis_newfield',
+      'label' => 'newfield',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '31',
       ),
     ),
   );

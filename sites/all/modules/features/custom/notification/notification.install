@@ -13,7 +13,8 @@ function notification_enable() {
   
   //Add block in context
   _add_block_context('site_wide','subscriptions','notifications_ui','subscriptions', 'tools_bottom');
-  
+   //Activation message
+    drupal_set_message('Notification feature is now enabled on your site.');
 }
 
 
@@ -27,7 +28,10 @@ function notification_disable() {
   foreach($types as $type) {
     // remove type from notification
     notification_content_type($type,'delete');
-  }	
+
+  }
+   //Activation message
+    drupal_set_message('Notification feature is now disabled on your site.');
 }
 
 

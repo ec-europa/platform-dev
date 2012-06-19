@@ -33,4 +33,7 @@ features[views_view][] = "e_library"
 name = "e_library_core"
 package = "Multisite Core Features"
 project = "e_library"
+dependencies[] = i18n_taxonomy
+features[features_api][] = api:1
+;features[taxonomy][] = tags
 version = "7.x-1.0"

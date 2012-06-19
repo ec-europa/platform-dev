@@ -1,23 +1,33 @@
 <?php
+
 /**
  * @file
  * Code for the Splash_screen feature.
  */
-
 include_once 'splash_screen.features.inc';
 
 
 /*
-* hook_init
-*/
-function splash_screen_init() {	
-  global $language, $user, $base_url;
-  if($user->uid != 1) {
-    $splash_screen_url = variable_get("splash_screen_url"); // TODO put these variables in a admin form settings
-    $cookie_name = variable_get("locale_cookie_language_negotiation_cookie_param");
+ * hook_init
+ */
 
-    if(empty($_COOKIE[$cookie_name])) {
-      drupal_goto($splash_screen_url);
-    }
-  }
+function splash_screen_init() {
+    global $base_url;
+    $cookie_name = variable_get("locale_cookie_language_negotiation_cookie_param");
+    $splash_screen_url = variable_get("splash_screen_url"); // TODO put these variables in a admin form settings
+    drupal_add_js(array('splash_screen' => array(
+    'base_url' => $base_url,
+    'cookie_name' => $cookie_name,
+    'splash' => $splash_screen_url
+    )), 'setting');
+//    global $language, $user, $base_url;
+//    if ($user->uid != 1) {
+//        $splash_screen_url = variable_get("splash_screen_url"); // TODO put these variables in a admin form settings
+//        $cookie_name = variable_get("locale_cookie_language_negotiation_cookie_param");
+//        if (empty($_COOKIE[$cookie_name]) ) {
+//                drupal_goto($splash_screen_url);
+//        }
+//
+//    }
 }
+

@@ -8,4 +8,6 @@ project = "events standard"
 dependencies[] = "events_core"
 features[ctools][] = "strongarm:strongarm:1"
 features[ctools][] = "views:views_default:3.0"
+dependencies[] = ctools
+features[features_api][] = api:1
 
