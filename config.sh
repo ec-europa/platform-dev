@@ -51,3 +51,4 @@ drupal_sites_list="sites.php"
 # Note: we may provide a sites.php file next to this configuration file
 
 
+
