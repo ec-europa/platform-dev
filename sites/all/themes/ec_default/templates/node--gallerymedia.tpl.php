@@ -233,7 +233,7 @@ global $user;
           $output .= '<p><a href="'.$base_url.'/'.$picture_original.'" title="'.$item['filename'].'" target="_blank">'.t('View full size picture').'</a></p>';
           $output .= '</div>';
           $output .= '<a href="#lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$item['filename'].'">';
-          $output .= '<img src="'.$picture_square_thumbnail.'" alt="'.$item['filename'].'" />';
+          $output .= '<img src="'.$picture_square_thumbnail.'" alt="'.$item['filename'].'" title="" />';
           $output .= '<p class="carousel-caption">'.$item['filename'].'</p>';
           $output .= '</a>';        
           $output .= '</div>';          
@@ -256,7 +256,8 @@ global $user;
           }
           $thumb = file_load($item['thumbnail']);
           $video_square_thumbnail = image_style_url('square_thumbnail', $thumb->uri);
-          $video_preview = image_style_url('preview', $thumb->uri);;
+          $video_preview = image_style_url('preview', $thumb->uri);
+          $watermark = $base_url . '/' . path_to_theme() . '/images/video_icon.png';
           
           $output .= '<div class="span3 media_item">';
           $output .= '<div id="video_lightbox'.$key.'" class="lightbox" style="display: none;">';
@@ -282,7 +283,8 @@ global $user;
           </object>";
           $output .= '</div>';
           $output .= '<a href="#video_lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$item['filename'].'">';
-          $output .= '<img src="'.$video_square_thumbnail.'" alt="'.$item['filename'].'" />';
+          $output .= '<img class="watermark" src="'.$watermark.'" alt="'.$item['filename'].'" title="" />';
+          $output .= '<img src="'.$video_square_thumbnail.'" alt="'.$item['filename'].'" title="" />';
           $output .= '<p class="carousel-caption">'.$item['filename'].'</p>';
           $output .= '</a>';        
           $output .= '</div>';          
