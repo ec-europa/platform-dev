@@ -67,10 +67,17 @@
             ->fetchAssoc();
           $picture_square_thumbnail = image_style_url('square_thumbnail', $empty_pic['uri']);
           $empty_img = '<div class="galleries-item-wrapper"><img src="'.$picture_square_thumbnail.'" alt="There is no content in this gallery, or it has not been validated yet." /></div>';
-          $rows = str_replace('[Empty_gallery]', $empty_img, $rows );
+
+          //Check if the galleries are actually empty
+          $rows = str_replace('[Empty_gallery][Empty_gallery]', $empty_img, $rows );
+          //Check if there is only one picture
+          $rows = str_replace('[Empty_gallery]', '', $rows );
+
           print $rows;
+
       ?>
     </div>
+
   <?php elseif ($empty): ?>
     <div class="view-empty">
       <?php print $empty; ?>
@@ -104,3 +111,13 @@
   <?php endif; ?>
 
 </div><?php /* class view */ ?>
+
+<!-- Small bits of jquery to make it clean -->
+<script type="text/javascript">
+  //use jQuery 1.7.1
+  (function($){
+    $(document).ready(function() {  //Once the page elements are fully loaded
+      $('div.galleries-item-wrapper a:last').hide(); //hide the video thumbnails in galleries with pictur thumbnails
+    });
+  })(jq171); 
+</script>
