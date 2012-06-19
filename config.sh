@@ -20,7 +20,8 @@ solr_server_url='http://fpfis-dev.net1.cec.eu.int:8080/solr/multisite'
 solr_server_name='multisite solr server'
 apachesolr_attachments_tika_jar='tika-app-1.1.jar'
 apachesolr_attachments_tika_path='/home/fpfis/util/bin'
-apachesolr_attachments_jav ='/usr/bin/java'
+apachesolr_attachments_java='/usr/bin/java'
+FPFIS_common_libraries='/home/fpfis/util/libraries'
 
 if [ "$subsite_installation" == "yes" ]; then
 	subsite_name="$subsite"

@@ -7,7 +7,7 @@
 $use_shared_fpfis = variable_get('ecas_use_shared_fpfis', FALSE);
 if($use_shared_fpfis){
   // Point to the shared FPFIS library
-  if ( !defined('FPFIS_COMMON_LIBRARIES_PATH') ) define('FPFIS_COMMON_LIBRARIES_PATH','/ec/prod/app/webroot/flex_home/libraries');  
+  if ( !defined('FPFIS_COMMON_LIBRARIES_PATH') ) define('FPFIS_COMMON_LIBRARIES_PATH','/home/fpfis/util/libraries');  
 
 } else {
   // Point to the local FPFIS library

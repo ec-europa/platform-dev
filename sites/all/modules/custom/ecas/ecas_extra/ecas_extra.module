@@ -4,13 +4,14 @@ function ecas_extra_menu() {
   global $user;
   $items = array();
 
-  $items['admin/config/ecas/ecas_extra'] = array(
-    'title' => 'ECAS extra settings',
-    'description' => 'Configure ECAS extra',
+  $items['admin/config/ecas/extra'] = array(
+    'title' => 'Extra settings',
+    'description' => 'Configure additional ECAS settings',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ecas_extra_admin_settings'),
     'access arguments' => array('administer ecas'),
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
+    'weight' => 1
   );
 
   return $items;
@@ -65,7 +66,7 @@ function deny_account_action_submit($form, $form_state) {
  */
 function deny_account_action(&$object, $context) {
   global $user, $base_url;
-  
+
   // avoid working with crap data
   if (!$object || !$object->uid) {
     return;
@@ -80,7 +81,7 @@ function deny_account_action(&$object, $context) {
 
   // store the given user in a dedicated table
   $data = array(
-  	'uid' => $object->uid, 
+  	'uid' => $object->uid,
   	'denied_by' => empty($user)?1:$user->uid,
   	'denied' => REQUEST_TIME,
   );
@@ -102,7 +103,7 @@ function deny_account_action(&$object, $context) {
   );
 
   // send the mail by using hook mail
-  drupal_mail('ecas_extra', 'deny_account', $object->mail, 
+  drupal_mail('ecas_extra', 'deny_account', $object->mail,
       language_default(), $params);
 }
 
@@ -132,9 +133,9 @@ function ecas_extra_mail($key, &$message, $params) {
       'From' => $mail_from,
       'Return-Path' => $mail_from,
     );
-  
+
     $body = variable_get('ecas_extra_deny_action_mail', '');
-    $message['subject'] = t(variable_get('ecas_extra_deny_action_subject', ''), $params, array('langcode'=>$language->language));    
+    $message['subject'] = t(variable_get('ecas_extra_deny_action_subject', ''), $params, array('langcode'=>$language->language));
     $message['body'] = array(t($body, $params, array('langcode'=>$language->language)));
   }
 }

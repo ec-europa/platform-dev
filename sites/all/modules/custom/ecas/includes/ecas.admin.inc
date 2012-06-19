@@ -27,7 +27,7 @@ function ecas_help($section) {
 function ecas_permission() {
   return array(
     'administer ecas' => array(
-      'title' => t('Administer ECAS'), 
+      'title' => t('Administer ECAS'),
       'description' => t('Perform administration tasks for ECAS.'),
     ),
   );
@@ -41,16 +41,28 @@ function ecas_menu() {
   $items = array();
 
   $items['admin/config/ecas'] = array(
-    'title' => 'ECAS settings',
-    'description' => 'Configure ECAS',
+    'title' => 'ECAS',
+    'description' => 'Ecas configuration settings.',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer ecas'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'position' => 'right',
+    'weight' => -20,
+  );
+
+  $items['admin/config/ecas/settings'] = array(
+    'title' => 'Settings',
+    'description' => 'ECAS configuration settings',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ecas_admin_settings'),
     'access arguments' => array('administer ecas'),
-    'type' => MENU_NORMAL_ITEM,
+    'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
+    'weight' => -10,
   );
 
   if (function_exists('_ecas_menu')) {
-    _ecas_menu($items);   
+    _ecas_menu($items);
   }
 
   return $items;
@@ -158,11 +170,11 @@ function ecas_admin_settings() {
   // ECAS HAS these extra user profile fields
   // 'First name field'
   // 'Last name field'
-  // 'ECAS mail field' 
+  // 'ECAS mail field'
   //
   // Profile and content profile do no longer exist for Drupal 7
-  // Instead the recommended method of adding extra user fields 
-  // is done through the core fields API. Fields are now 
+  // Instead the recommended method of adding extra user fields
+  // is done through the core fields API. Fields are now
   // also available for core user profiles.
 
   // checkbox to enable or disable the whole integration stuff
@@ -186,14 +198,14 @@ function ecas_admin_settings() {
     '#default_value' => variable_get('ecas_profile_core_firstname_field', ECAS_DEFAULT_PROFILE_FIRSTNAME_FIELD),
     '#description' => t('Enter here the machinename of the field that will be filled with the firstname retrieved from ECAS. Leave empty if you do not want to retrieve it.'),
   );
-  
+
   $form['param']['profile_core_fieldset']['ecas_profile_core_lastname_field'] = array(
         '#type' => 'textfield',
         '#title' => t('Lastname field'),
         '#default_value' => variable_get('ecas_profile_core_lastname_field', ECAS_DEFAULT_PROFILE_LASTNAME_FIELD),
         '#description' => t('Enter here the machinename of the field that will be filled with the lastname retrieved from ECAS. Leave empty if you do not want to retrieve it.'),
-  );    
-  
+  );
+
   $form['param']['profile_core_fieldset']['ecas_profile_core_ecas_email_field'] = array(
     '#type' => 'textfield',
     '#title' => t('ECAS Mail address field'),
@@ -215,7 +227,7 @@ function ecas_admin_settings() {
       '#description' => t('If this option is checked, the ECAS module will trigger the FPFIS Group Sync module to sync the user.'),
     );
   }
-  
+
   $form['param']['ecas_pages_method'] = array(
       '#type' => 'radios',
       '#title' => t('Force ECAS authentication on specific pages'),
@@ -230,10 +242,10 @@ function ecas_admin_settings() {
       '#title' => '<span class="element-invisible">' . t('Pages') . '</span>',
       '#default_value' => variable_get('ecas_pages', ECAS_DEFAULT_PAGES),
       '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
-  );  
-    
+  );
+
   // FPFIS Common SETTINGS
-  
+
   // checkbox to enable or disable the whole FPFIS integration stuff
   $form['param']['ecas_use_shared_fpfis'] = array(
   		'#type' => 'checkbox',
@@ -241,7 +253,7 @@ function ecas_admin_settings() {
   		'#default_value' => variable_get('ecas_use_shared_fpfis', 0),
   		'#description' => t('If this option is checked, the ECAS module will attempt use the shared FPFIS Common library to connect to LDAP and the ECAS server. Otherwise a local implementation will be used.'),
   );
-      
+
   return system_settings_form($form);
 }
 

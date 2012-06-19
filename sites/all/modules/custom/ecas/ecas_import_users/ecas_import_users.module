@@ -11,10 +11,10 @@
 function ecas_import_users_permission() {
   return array(
     'access ecas import users function' => array(
-      'title' => t('Import ECAS users'), 
+      'title' => t('Import ECAS users'),
       'description' => t('Import users from the ECAS server into Drupal.'),
     ),
-  );  
+  );
 }
 
 /**
@@ -36,16 +36,17 @@ function ecas_import_users_menu() {
     'access arguments' => array('access ecas import users function'),
     'type' => MENU_LOCAL_TASK,
   );
-  
-  $items['admin/config/ecas/ecas_import_users'] = array(
+
+  $items['admin/config/ecas/import_users'] = array(
   	'title' => 'Import user settings',
   	'description' => 'Configure ECAS import user settings',
   	'page callback' => 'drupal_get_form',
   	'page arguments' => array('ecas_import_users_admin_settings'),
   	'access arguments' => array('administer ecas'),
-  	'type' => MENU_NORMAL_ITEM,
+  	'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
+    'weight' => 10,
   );
-    
+
   return $items;
 }
 
@@ -74,7 +75,7 @@ function ecas_import_users_admin_settings($form, &$form_state){
 	'#title' => t('ECAS Import users module settings'),
 	'#collapsible' => TRUE,
 	'#collapsed' => FALSE,
-  );	
+  );
 
   $options = array('1' => t('Active'), '0' => t('Blocked'));
   $form['param']['ecas_import_users_default_status'] = array(
@@ -84,7 +85,7 @@ function ecas_import_users_admin_settings($form, &$form_state){
 	'#options' => $options,
 	'#description' => t('Status of the user account after import by an administrator'),
   );
-  
+
   return system_settings_form($form);
 }
 
@@ -125,7 +126,7 @@ function ecas_import_user_ldap_user_form($form, &$form_state) {
   }
 
   ksort($rows_dg);
-  
+
   $form['dg'] = array(
     '#type' => 'select',
     '#title' => t('Search by group (LDAP DG)'),
@@ -162,7 +163,7 @@ function ecas_import_user_ldap_user_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Search by mail'),
     '#required' => FALSE,
-    '#description' => t('You can search by mail suffix, example : @ec.europa.eu'), 
+    '#description' => t('You can search by mail suffix, example : @ec.europa.eu'),
   );
 
   $form['submit'] = array(
@@ -185,13 +186,13 @@ function ecas_import_user_ldap_user_form_validate($form, &$form_state) {
 function _ecas_import_users_clean_name_field($value) {
   if(empty($value)){
     $value = 'everybody';
-  } else {  
+  } else {
     // replace every space or end of line by a comma
     $value = preg_replace('($|\s+)', ',', $value);
     // remove empty parts between commas
     $value = implode(',', preg_split('/,/', $value, -1, PREG_SPLIT_NO_EMPTY));
   }
-  
+
   return ($value);
 }
 
@@ -221,7 +222,7 @@ function ecas_import_users_show_user_content() {
 
   // display tabs
   $output = theme('tabs_tabset', menu_local_tasks());
-  $form = drupal_get_form('ecas_import_users_show_user_content_form', $import_arguments);  
+  $form = drupal_get_form('ecas_import_users_show_user_content_form', $import_arguments);
   $output .= drupal_render($form);
 
   return $output;
@@ -231,14 +232,14 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
   global $pager_page_array, $pager_total, $pager_total_items;
   $filters = '';
 
-  // extract will set $names, $dg, $search_by, $country and $mail  
+  // extract will set $names, $dg, $search_by, $country and $mail
   extract($arguments);
   if(!isset($names)) $names = 'everybody';
   if(!isset($dg)) $dg = 'all-groups';
   if(!isset($search_by)) $search_by = 'by-username';
   if(!isset($country)) $country = 'all-countries';
   if(!isset($mail)) $mail = 'no-mail';
-    
+
   if ($names != 'everybody') {
     $names = trim($names);
     $search_by = ($search_by == 'by-username') ? 'uid' : 'cn';
@@ -260,10 +261,10 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
     else {
       $filter_names = "($search_by=$names*)";
     }
-  
+
     $filters .= $filter_names;
   }
-  
+
   if ($country != 'all-countries')
     $filters .= "(c=$country*)";
 
@@ -311,7 +312,7 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
       '#markup' => '<a id="check_users_link_top" href="javascript:selectAllEcasUsers(true);">Check all users</a>',
       '#weight' => -42,
     );
-    
+
     $count = 0;
     for ($r=0 ; $r<$result['count']; $r++, $count++) {
       $row['cn'] = isset($result[$r]['cn'][0])?$result[$r]['cn'][0]:'';
@@ -324,14 +325,14 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
         // user needs a cn!
         break;
       }
-  
+
       $uid = isset($result[$r]['uid'][0])?$result[$r]['uid'][0]:'';
       $mail = isset($result[$r]['mail'][0])?$result[$r]['mail'][0]:'';
-      
+
       $lastname = isset($result[$r]['sn'][0])?$result[$r]['sn'][0]:'';
       $firstname = isset($result[$r]['givenname'][0])?$result[$r]['givenname'][0]:'';
       $country = isset($result[$r]['c'][0])?$result[$r]['c'][0]:'';
-      
+
       $form['fs'][$count] = array(
           '#type' => 'checkbox',
           '#title' => $row['cn'] . '<div>' . $mail . '</div><div><b>username : </b>' . $uid . '</div><div><b>DG</b> : ' . $row['dg'] . '</div><div><b>domain</b> : ' . $row['domain'] . '</div><div><b>country : </b>' . $country . '</div>',
@@ -345,7 +346,7 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
     if ($count > 10) {
       $form['fs']['check_all_bottom'] = array(
         '#markup' => '<a id="check_users_link_bottom" href="javascript:selectAllEcasUsers(true);">Check all users</a>',
-        '#weight' => 42, 
+        '#weight' => 42,
       );
     }
 
@@ -368,11 +369,11 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
       list($uid, $cn, $mail, $firstname, $lastname) = explode('|', $value);
       $account = user_load_by_name($uid);
       if (!$account) { // if the user account doesn't exit
-        
+
         $account = ecas_create_user($uid, array(
-          'status' =>  variable_get('ecas_import_users_default_status', 1), // 1 is "active", 0 is "blocked"    
+          'status' =>  variable_get('ecas_import_users_default_status', 1), // 1 is "active", 0 is "blocked"
         ));
-        
+
         if($account && $account->uid > 0){
           // save user profile data
           ecas_sync_user_info(
@@ -389,11 +390,11 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
         }
         else {
           drupal_set_message(t('User !user_uid not imported', array('!user_uid' => check_plain($uid))));
-        }        
+        }
       }
       else {
         drupal_set_message(t('User !user_uid not imported', array('!user_uid' => check_plain($uid))));
-      }      
+      }
     }
   }
   module_invoke_all('ecas_users_imported', array('imported_users' => $imported_users));
