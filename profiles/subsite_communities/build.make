@@ -211,4 +211,7 @@ projects[video][version] = "2.6"
 ;libraries[ckeditor][destination] = "libraries"
 ;libraries[ckeditor][overwrite] = TRUE
 
+projects[quicktabs][subdir] = "contributed"
+projects[quicktabs][version] = "3.4"
+
 
