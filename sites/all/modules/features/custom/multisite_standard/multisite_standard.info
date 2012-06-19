@@ -12,3 +12,4 @@ features[context][] = "homepage"
 features[ctools][] = "context:context:3"
 features[ctools][] = "views:views_default:3.0"
 features[views_view][] = "multisite_standard"
+features[features_api][] = api:1

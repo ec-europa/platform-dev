@@ -70,3 +70,4 @@ features[variable][] = video_use_default_thumb
 features[variable][] = video_use_preset_wxh
 features[video][] = default_video_conversion
 features[views_view][] = galleries
+features[features_api][] = api:1
