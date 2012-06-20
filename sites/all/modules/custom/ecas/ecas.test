@@ -12,7 +12,7 @@ class EcasAdminSettingsTest extends DrupalWebTestCase {
 
   protected $web_user;
   protected $admin_user;
-
+  
   public static function getInfo() {
     return array(
       'name' => 'Core admin settings',
@@ -25,14 +25,14 @@ class EcasAdminSettingsTest extends DrupalWebTestCase {
     parent::setUp(array(
       'ecas'
     ));
-
+    
     $this->web_user = $this->drupalCreateUser(array(
-      'create article content',
+      'create article content', 
       'create page content'
    	));
 
     $this->admin_user = $this->drupalCreateUser(array(
-      'bypass node access',
+      'bypass node access', 
       'administer nodes',
       'administer ecas'
     ));
@@ -43,33 +43,33 @@ class EcasAdminSettingsTest extends DrupalWebTestCase {
    * Try to access the pages with the web user and admin user
    */
   function testMenuAccess() {
-    $this->drupalLogin($this->web_user);
-  	$this->drupalGet('admin/config/ecas/settings');
+    $this->drupalLogin($this->web_user);  
+  	$this->drupalGet('admin/config/ecas');
   	$this->assertNoResponse(200, 'User without "administer ecas" permission does not have access to the ECAS administration pages');
-
-  	$this->drupalGet('<front>');
-
-    $this->drupalLogin($this->admin_user);
-  	$this->drupalGet('admin/config/ecas/settings');
+  
+  	$this->drupalGet('<front>');  	
+  	
+    $this->drupalLogin($this->admin_user);  
+  	$this->drupalGet('admin/config/ecas');
   	$this->assertResponse(200, 'User with "administer ecas" permission has access to the ECAS administration pages');
   }
-
+  
   /**
    * Verify the defaults are set
    */
   function testDefaultSettings() {
     $this->drupalLogin($this->admin_user);
-    $this->drupalGet('admin/config/ecas/settings');
+    $this->drupalGet('admin/config/ecas');
 
-    $this->assertFieldById('edit-ecas-assurance-level', ECAS_DEFAULT_ASSURANCE_LEVEL);
+    $this->assertFieldById('edit-ecas-assurance-level', ECAS_DEFAULT_ASSURANCE_LEVEL);    
     $this->assertFieldById('edit-ecas-domain', ECAS_DEFAULT_DOMAIN);
     $this->assertFieldById('edit-ecas-account-request-url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL);
     $this->assertFieldById('edit-ecas-change-password-url', ECAS_DEFAULT_CHANGE_PASSWORD_URL);
-    $this->assertNoFieldChecked('edit-ecas-phpcas-debug');
+    $this->assertNoFieldChecked('edit-ecas-phpcas-debug');    
     $this->assertFieldChecked('edit-ecas-account-option-1');
     $this->assertNoFieldChecked('edit-ecas-account-option-0');
     $this->assertFieldById('edit-ecas-login-message', ECAS_DEFAULT_LOGIN_MESSAGE);
-    $this->assertFieldById('edit-ecas-warning-message', ECAS_DEFAULT_WARNING_MESSAGE);
+    $this->assertFieldById('edit-ecas-warning-message', ECAS_DEFAULT_WARNING_MESSAGE); 
     $this->assertFieldChecked('edit-ecas-update-mail-address');
     $this->assertFieldById('edit-ecas-default-mail-address', ECAS_DEFAULT_MAIL_ADDRESS);
     $this->assertNoFieldChecked('edit-ecas-profile-core-enabled');
@@ -81,14 +81,14 @@ class EcasAdminSettingsTest extends DrupalWebTestCase {
     $this->assertFieldById('edit-ecas-pages', ECAS_DEFAULT_PAGES);
     $this->assertNoFieldChecked('edit-ecas-use-shared-fpfis');
   }
-
+  
   /**
    * Verify settings are saved correctly
    */
   function testSavingSettings() {
     $this->drupalLogin($this->admin_user);
-    $this->drupalGet('admin/config/ecas/settings');
-
+    $this->drupalGet('admin/config/ecas');
+  
     $edit = array(
       'ecas_assurance_level' => 'TOP',
       'ecas_domain' => "eu.europa.ec",
@@ -106,13 +106,13 @@ class EcasAdminSettingsTest extends DrupalWebTestCase {
       'ecas_profile_core_ecas_email_field' => 'test_email',
       'ecas_pages_method' => ECAS_LOGIN_EXLUDE_PAGES,
       'ecas_pages' => 'test',
-      'ecas_use_shared_fpfis' => '1',
+      'ecas_use_shared_fpfis' => '1', 
       // ==> This causes exceptions in the test because the ecas.inc file is no longer loaded.
       // Reason is the menu has been build up already and is looking for the access callbacks.
-      // These are no longer defined (since the ecas.inc file isn't loaded). A bug in menu.inc
+      // These are no longer defined (since the ecas.inc file isn't loaded). A bug in menu.inc 
       // causes the item['access'] property to being not set, which later on causes an exception
-      // in core. Once the fix for this core bug is added to core, this test will run without
-      // exceptions.
+      // in core. Once the fix for this core bug is added to core, this test will run without 
+      // exceptions.        
     );
     $this->drupalPost(NULL, $edit, 'Save configuration');
 
@@ -135,7 +135,7 @@ class EcasAdminSettingsTest extends DrupalWebTestCase {
     $this->assertFieldChecked('edit-ecas-pages-method-0');
     $this->assertNoFieldChecked('edit-ecas-pages-method-1');
     $this->assertFieldById('edit-ecas-pages', 'test');
-    $this->assertFieldChecked('edit-ecas-use-shared-fpfis');
+    $this->assertFieldChecked('edit-ecas-use-shared-fpfis');    
   }
 }
 
@@ -147,7 +147,7 @@ class EcasFunctionalTest extends DrupalWebTestCase {
   protected $web_user;
   protected $ecas_user;
   protected $admin_user;
-
+  
   public static function getInfo() {
     return array(
       'name' => 'Core functionality',
@@ -160,13 +160,13 @@ class EcasFunctionalTest extends DrupalWebTestCase {
     parent::setUp(array(
       'ecas'
     ));
-
+    
     $this->web_user = $this->drupalCreateUser(array(
-      'create article content',
+      'create article content', 
       'create page content'
    	));
     $this->ecas_user = $this->drupalCreateUser(array(
-      'create article content',
+      'create article content', 
       'create page content'
     ));
 	$cas_authmap = db_insert('authmap')
@@ -176,9 +176,9 @@ class EcasFunctionalTest extends DrupalWebTestCase {
           'module' => 'ecas',
         ))
         ->execute();
-
+        
     $this->admin_user = $this->drupalCreateUser(array(
-      'bypass node access',
+      'bypass node access', 
       'administer nodes',
       'administer ecas',
       'administer blocks'
@@ -189,39 +189,39 @@ class EcasFunctionalTest extends DrupalWebTestCase {
    * Try to set the ECAS User login block
    */
   function testEcasBlock() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->admin_user);  
   	$this->drupalGet('admin/structure/block');
-
+  
   	$this->assertText(t('ECAS User login'), 'The ECAS login block was found.');
 
   	$edit = array(
   	  'blocks[ecas_ecas][region]' => 'sidebar_first',
-  	  'blocks[user_login][region]' => '-1',
+  	  'blocks[user_login][region]' => '-1',  	  
   	);
   	$this->drupalPost(NULL, $edit, 'Save blocks');
-
-  	$this->drupalGet('<front>');
+  	
+  	$this->drupalGet('<front>');  	
   	$this->assertText('User Login', 'Authenticated admin user: The ECAS login block is available in the sidebar.');
   	$this->assertLinkByHref('ecaslogout', 0, 'Authenticated admin user: The ECAS block displays the ecas logout link.');
-
-  	$this->drupalLogout();
+  	  	
+  	$this->drupalLogout();  	
   	$this->assertText('User Login', 'Anonymous user: The ECAS login block is available in the sidebar.');
   	$this->assertLinkByHref('ecas', 0, 'Anonymous user: The ECAS block displays the ecas login link.');
 
 	$this->drupalLogin($this->web_user);
   	$this->assertText('User Login', 'Authenticated web user: The ECAS login block is available in the sidebar.');
-  	$this->assertLinkByHref('ecaslogout', 0, 'Authenticated web user: The ECAS block displays the ecas logout link.');
+  	$this->assertLinkByHref('ecaslogout', 0, 'Authenticated web user: The ECAS block displays the ecas logout link.');  	
   }
-
+  
   /**
    * See if ecas redirects to the ecas server
    */
   function testEcasLogin() {
     global $base_url;
-    $this->drupalLogin($this->admin_user);
-  	$this->drupalGet('ecas');
+    $this->drupalLogin($this->admin_user);  
+  	$this->drupalGet('ecas');	
 	$this->assertResponse(403);
-
+	
 	$this->drupalLogout();
   	$this->drupalGet('ecas');
 	$this->assertResponse(200);
@@ -230,45 +230,45 @@ class EcasFunctionalTest extends DrupalWebTestCase {
 
 
     $this->drupalLogin($this->web_user);
-    $this->drupalGet('user/' . ($this->web_user->uid) . '/edit');
+    $this->drupalGet('user/' . ($this->web_user->uid) . '/edit');  
 
 	$this->assertField('edit-current-pass', 'Current password field is present.');
 	$this->assertField('edit-pass-pass1', 'Password field is present');
 	$this->assertField('edit-pass-pass2', 'Password confirm field is present.');
-	$this->assertFieldEnabled('edit-mail');
+	$this->assertFieldEnabled('edit-mail'); 
     $this->assertNoText(t('This account is managed by ECAS. Its password can be changed using'), 'The user edit form is not changed by the ECAS module for a normal drupal user.');
 
 
-    $this->drupalLogin($this->ecas_user);
-    $this->drupalGet('user/' . ($this->ecas_user->uid) . '/edit');
+    $this->drupalLogin($this->ecas_user);    
+    $this->drupalGet('user/' . ($this->ecas_user->uid) . '/edit');  
 
 	$this->assertNoField('edit-current-pass', 'Current password field is hidden.');
 	$this->assertNoField('edit-pass-pass1', 'Password field is hidden.');
 	$this->assertNoField('edit-pass-pass2', 'Password confirm field is hidden.');
 	$this->assertFieldDisabled('edit-mail');
-
+		                
     $this->assertText(t('This account is managed by ECAS. Its password can be changed using'), 'The user edit form was succesfully altered by the ECAS module for ECAS users.');
-
+    
   }
 
   protected function assertFieldDisabled($id, $message = '') {
     $elements = $this->xpath('//input[@id=:id]', array(':id' => $id));
     return $this->assertTrue(isset($elements[0]) && isset($elements[0]['disabled']), $message ? $message : t('Checkbox field @id is disabled.', array('@id' => $id)), t('Browser'));
-  }
+  } 
   protected function assertFieldEnabled($id, $message = '') {
     $elements = $this->xpath('//input[@id=:id]', array(':id' => $id));
     return $this->assertTrue(isset($elements[0]) && !isset($elements[0]['disabled']), $message ? $message : t('Checkbox field @id is enabled.', array('@id' => $id)), t('Browser'));
-  }
-
+  } 
+  
   /**
    * ecaslogout is not accessible for normal drupal users
    */
   function testEcasLogout() {
- 	global $base_url;
-    $this->drupalLogin($this->admin_user);
-  	$this->drupalGet('ecaslogout');
+ 	global $base_url;  
+    $this->drupalLogin($this->admin_user);  
+  	$this->drupalGet('ecaslogout');	
 	$this->assertResponse(403);
-
+	
 	$this->drupalLogout();
   	$this->drupalGet('ecaslogout');
 	$this->assertResponse(200);
@@ -285,7 +285,7 @@ class EcasAuthenticationTest extends DrupalWebTestCase {
   protected $web_user;
   protected $ecas_user;
   protected $admin_user;
-
+  
   public static function getInfo() {
     return array(
       'name' => 'Core authentication',
@@ -298,9 +298,9 @@ class EcasAuthenticationTest extends DrupalWebTestCase {
     parent::setUp(array(
       'ecas'
     ));
-
+    
     $this->admin_user = $this->drupalCreateUser(array(
-      'bypass node access',
+      'bypass node access', 
       'administer nodes',
       'administer ecas',
       'administer blocks'
@@ -312,13 +312,13 @@ class EcasAuthenticationTest extends DrupalWebTestCase {
    */
   function testExcludingPagesSettings() {
   	global $base_url;
-
+  	  
   	//////
   	// A: First test excluding no pages from authentication
   	// This means all pages need authentication
   	//
     $this->drupalLogin($this->admin_user);
-    $this->drupalGet('admin/config/ecas/settings');
+    $this->drupalGet('admin/config/ecas');
     $edit = array(
       'ecas_pages_method' => ECAS_LOGIN_EXLUDE_PAGES,
       'ecas_pages' => '',
@@ -328,10 +328,10 @@ class EcasAuthenticationTest extends DrupalWebTestCase {
 	// Goto the front page (=protected)
 	$this->drupalGet('<front>');
 	$this->assertUrl('<front>', array(), 'Authenticated users are not redirected.');
-
+ 
  	// anonymous
 	$this->drupalLogout();
-
+	
 	// Goto the front page (=protected)
 	$this->drupalGet('<front>');
 	$port = (is_numeric(constant('FPFIS_ECAS_PORT')) ? ':'.FPFIS_ECAS_PORT : '');
@@ -341,13 +341,13 @@ class EcasAuthenticationTest extends DrupalWebTestCase {
   	// B: Test excluding the user pages from authentication
   	// This means front page needs authentication, user pages don't
     $this->drupalLogin($this->admin_user);
-    $this->drupalGet('admin/config/ecas/settings');
+    $this->drupalGet('admin/config/ecas');
     $edit = array(
       'ecas_pages_method' => ECAS_LOGIN_EXLUDE_PAGES,
       'ecas_pages' => '<front>',
     );
     $this->drupalPost(NULL, $edit, 'Save configuration');
-
+        
 	// AS ADMIN
 	// Goto the front page (=not protected)
 	$this->drupalGet('<front>');
@@ -355,24 +355,24 @@ class EcasAuthenticationTest extends DrupalWebTestCase {
 
  	// anonymous
 	$this->drupalLogout();
-
+	
 	// Goto the front page (=not protected)
 	$this->drupalGet('<front>');
 	$this->assertUrl('<front>', array(), 'Anonymous user is not redirected, because the page is un-protected.');
   }
-
+  
   /**
    * Verify pages are protected correctly
    */
   function testIncludingPagesSettings() {
   	global $base_url;
-
+  	  
   	//////
   	// A: First test including no pages for authentication
   	// This means no page requires authentication
   	//
     $this->drupalLogin($this->admin_user);
-    $this->drupalGet('admin/config/ecas/settings');
+    $this->drupalGet('admin/config/ecas');
     $edit = array(
       'ecas_pages_method' => ECAS_LOGIN_INCLUDE_PAGES,
       'ecas_pages' => '',
@@ -382,10 +382,10 @@ class EcasAuthenticationTest extends DrupalWebTestCase {
 	// Goto the front page (=protected)
 	$this->drupalGet('<front>');
 	$this->assertUrl('<front>', array(), 'Authenticated users are not redirected.');
-
+ 
  	// anonymous
 	$this->drupalLogout();
-
+	
 	// Goto the front page (=protected)
 	$this->drupalGet('<front>');
 	$this->assertUrl('<front>', array(), 'Anonymous user is not redirected, because the page is un-protected.');
@@ -394,13 +394,13 @@ class EcasAuthenticationTest extends DrupalWebTestCase {
   	// B: Test excluding the user pages from authentication
   	// This means front page needs authentication
     $this->drupalLogin($this->admin_user);
-    $this->drupalGet('admin/config/ecas/settings');
+    $this->drupalGet('admin/config/ecas');
     $edit = array(
       'ecas_pages_method' => ECAS_LOGIN_INCLUDE_PAGES,
       'ecas_pages' => '<front>',
     );
     $this->drupalPost(NULL, $edit, 'Save configuration');
-
+        
 	// AS ADMIN
 	// Goto the front page (=not protected)
 	$this->drupalGet('<front>');
@@ -408,11 +408,11 @@ class EcasAuthenticationTest extends DrupalWebTestCase {
 
  	// anonymous
 	$this->drupalLogout();
-
+	
 	// Goto the front page (=not protected)
 	$this->drupalGet('<front>');
 	$port = (is_numeric(constant('FPFIS_ECAS_PORT')) ? ':'.FPFIS_ECAS_PORT : '');
 	$this->assertUrl('https://' . FPFIS_ECAS_URL . $port . FPFIS_ECAS_URI . '/login?service='. rawurlencode($base_url.'/'), array(), 'Authentication is required and user is redirected to the ECAS login.');
-  }
-
+  }  
+  
 }
