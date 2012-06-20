@@ -112,12 +112,19 @@
 
 </div><?php /* class view */ ?>
 
+
 <!-- Small bits of jquery to make it clean -->
 <script type="text/javascript">
   //use jQuery 1.7.1
   (function($){
     $(document).ready(function() {  //Once the page elements are fully loaded
-      $('div.galleries-item-wrapper a:last').hide(); //hide the video thumbnails in galleries with pictur thumbnails
+      $row=$('div.galleries-item-wrapper');
+      //hide the video thumbnails in galleries with pictur thumbnails
+      $row.each(function() {
+       if($(this).find('a').size()>1){
+        $(this).find('a:last').hide();
+        }
+      });
     });
   })(jq171); 
 </script>
