@@ -66,7 +66,7 @@
             ->execute()
             ->fetchAssoc();
           $picture_square_thumbnail = image_style_url('square_thumbnail', $empty_pic['uri']);
-          $empty_img = '<div class="galleries-item-wrapper"><img src="'.$picture_square_thumbnail.'" alt="There is no content in this gallery, or it has not been validated yet." /></div>';
+          $empty_img = '<img src="'.$picture_square_thumbnail.'" alt="There is no content in this gallery, or it has not been validated yet." />';
 
           //Check if the galleries are actually empty
           $rows = str_replace('[Empty_gallery][Empty_gallery]', $empty_img, $rows );
