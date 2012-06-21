@@ -15,7 +15,7 @@ function theme_fat_footer_links($variables) {
   $links = $variables['links'];
   foreach($links as $key => $link) {
     $output .= "<div class=\"fat_footer_item\">";
-    $output .= l($link['link']['title'], $link['link']['href'], $link);
+    $output .= l(t($link['link']['title']), $link['link']['href'], $link);
 
     if(isset($link['sub_items'])) {
       $output .= theme('links', array('links' => $link['sub_items']));
@@ -76,7 +76,7 @@ function fat_footer_content() {
       $class = '';
       $l = $item['link']['localized_options'];
       $l['href'] = $item['link']['href'];
-      $l['title'] = $item['link']['title'];
+      $l['title'] = t($item['link']['title']);
       $links['menu-' . $item['link']['mlid'] . $class]['link'] = $l;
 
       if ($item['below']) {
@@ -85,7 +85,7 @@ function fat_footer_content() {
           $class = '';
           $l = $sub_item['link']['localized_options'];
           $l['href'] = $sub_item['link']['href'];
-          $l['title'] = $sub_item['link']['title'];
+          $l['title'] = t($sub_item['link']['title']);
           $sub_links['menu-' . $sub_item['link']['mlid'] . $class] = $l;   
         }
         $links['menu-' . $item['link']['mlid'] . $class]['sub_items'] = $sub_links;
