@@ -112,19 +112,19 @@
   <?php print render($title_suffix); ?>
   
 <?php  
-global $user;
+// global $user;
 
-  /*Add Picture button*/
-  if ($uid == $user->uid) {
-    print l(t('Add a Picture'), 'node/'. $node->nid.'/addmedia', array(
-          'attributes' => array(
-                      'type' => 'add', 
-                      'action_bar' => 'single',
-                      'btn_group' => 'single',
-                      'id' => 'add_picture'))); 
-    $add_form =  drupal_get_form('add_media_form');
-    print render($add_form);
-  }
+  // /*Add Picture button*/
+  // if ($uid == $user->uid) {
+    // print l(t('Add a Picture'), 'node/'. $node->nid.'/addmedia', array(
+          // 'attributes' => array(
+                      // 'type' => 'add', 
+                      // 'action_bar' => 'single',
+                      // 'btn_group' => 'single',
+                      // 'id' => 'add_picture'))); 
+    // $add_form =  drupal_get_form('add_media_form');
+    // print render($add_form);
+  // }
 ?>
   
   <?php if ($display_submitted): ?>
