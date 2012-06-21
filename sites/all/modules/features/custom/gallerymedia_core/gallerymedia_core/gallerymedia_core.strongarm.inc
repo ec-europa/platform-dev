@@ -124,14 +124,14 @@ media/browser*';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'video_autobuffering';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['video_autobuffering'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'video_autoplay';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['video_autoplay'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -182,7 +182,7 @@ media/browser*';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'video_thumbnail_count';
-  $strongarm->value = '2';
+  $strongarm->value = '5';
   $export['video_thumbnail_count'] = $strongarm;
 
   $strongarm = new stdClass();
