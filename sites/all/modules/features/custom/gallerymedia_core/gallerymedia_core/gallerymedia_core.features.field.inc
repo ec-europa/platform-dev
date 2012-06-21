@@ -10,11 +10,10 @@
 function gallerymedia_core_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'comment-comment_node_gallerymedia-comment_body'
+  // Exported field: 'comment-comment_node_gallerymedia-comment_body'.
   $fields['comment-comment_node_gallerymedia-comment_body'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked'=> 1,
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -34,6 +33,7 @@ function gallerymedia_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -72,11 +72,10 @@ function gallerymedia_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'file-image-field_picture_description'
+  // Exported field: 'file-image-field_picture_description'.
   $fields['file-image-field_picture_description'] = array(
     'field_config' => array(
       'active' => '1',
-        'locked'=> 1,
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -94,6 +93,7 @@ function gallerymedia_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -181,11 +181,10 @@ function gallerymedia_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-gallerymedia-body'
+  // Exported field: 'node-gallerymedia-body'.
   $fields['node-gallerymedia-body'] = array(
     'field_config' => array(
       'active' => '1',
-        'locked'=> 1,
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -205,6 +204,7 @@ function gallerymedia_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -254,11 +254,10 @@ function gallerymedia_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-gallerymedia-field_picture_upload'
+  // Exported field: 'node-gallerymedia-field_picture_upload'.
   $fields['node-gallerymedia-field_picture_upload'] = array(
     'field_config' => array(
       'active' => '1',
-        'locked'=> 1,
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -276,6 +275,7 @@ function gallerymedia_core_field_default_fields() {
           0 => 'fid',
         ),
       ),
+      'locked' => '1',
       'module' => 'image',
       'settings' => array(
         'cck_pager' => array(
@@ -399,11 +399,10 @@ function gallerymedia_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-gallerymedia-field_video_upload'
+  // Exported field: 'node-gallerymedia-field_video_upload'.
   $fields['node-gallerymedia-field_video_upload'] = array(
     'field_config' => array(
       'active' => '1',
-        'locked'=> 1,
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -421,6 +420,7 @@ function gallerymedia_core_field_default_fields() {
           0 => 'fid',
         ),
       ),
+      'locked' => '1',
       'module' => 'video',
       'settings' => array(
         'autoconversion' => 1,

@@ -31,7 +31,7 @@ function gallerymedia_core_views_api() {
 function gallerymedia_core_image_default_styles() {
   $styles = array();
 
-  // Exported image style: landscape
+  // Exported image style: landscape.
   $styles['landscape'] = array(
     'name' => 'landscape',
     'effects' => array(

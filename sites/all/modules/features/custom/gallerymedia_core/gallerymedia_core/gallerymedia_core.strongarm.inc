@@ -109,6 +109,20 @@ function gallerymedia_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_paths';
+  $strongarm->value = 'admin*
+node/add*
+node/*/edit
+node/*/panel*
+panels/ajax*
+user/*/edit
+batch*
+media/browser*';
+  $export['sweaver_paths'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'video_autobuffering';
   $strongarm->value = 1;
   $export['video_autobuffering'] = $strongarm;
@@ -191,20 +205,6 @@ function gallerymedia_core_strongarm() {
   $strongarm->name = 'video_use_preset_wxh';
   $strongarm->value = 1;
   $export['video_use_preset_wxh'] = $strongarm;
-  
-        $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'sweaver_paths';
-  $strongarm->value = 'admin*
-node/add*
-node/*/edit
-node/*/panel*
-panels/ajax*
-user/*/edit
-batch*
-media/browser*';
-  $export['sweaver_paths'] = $strongarm;
 
   return $export;
 }
