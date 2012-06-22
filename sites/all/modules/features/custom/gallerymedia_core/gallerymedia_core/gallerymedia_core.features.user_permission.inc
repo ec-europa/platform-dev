@@ -10,6 +10,33 @@
 function gallerymedia_core_user_default_permissions() {
   $permissions = array();
 
+  // Exported permission: administer video presets.
+  $permissions['administer video presets'] = array(
+    'name' => 'administer video presets',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'video',
+  );
+
+  // Exported permission: bypass conversion video.
+  $permissions['bypass conversion video'] = array(
+    'name' => 'bypass conversion video',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'video',
+  );
+
+  // Exported permission: convert on submission.
+  $permissions['convert on submission'] = array(
+    'name' => 'convert on submission',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'video',
+  );
+
   // Exported permission: create gallerymedia content.
   $permissions['create gallerymedia content'] = array(
     'name' => 'create gallerymedia content',
@@ -57,8 +84,8 @@ function gallerymedia_core_user_default_permissions() {
     ),
     'module' => 'node',
   );
-  
-    // Exported permission: import media.
+
+  // Exported permission: import media.
   $permissions['import media'] = array(
     'name' => 'import media',
     'roles' => array(
@@ -66,6 +93,34 @@ function gallerymedia_core_user_default_permissions() {
       1 => 'contributor',
     ),
     'module' => 'media',
+  );
+
+  // Exported permission: override player dimensions.
+  $permissions['override player dimensions'] = array(
+    'name' => 'override player dimensions',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'video',
+  );
+
+  // Exported permission: re convert video.
+  $permissions['re convert video'] = array(
+    'name' => 're convert video',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+    ),
+    'module' => 'video',
+  );
+
+  // Exported permission: use default thumb.
+  $permissions['use default thumb'] = array(
+    'name' => 'use default thumb',
+    'roles' => array(
+      0 => 'administrator',
+    ),
+    'module' => 'video',
   );
 
   return $permissions;
