@@ -90,7 +90,7 @@ function ec_default_preprocess_html(&$variables) {
   // Update page title
   $variables['head_title'] = variable_get('site_name') . ' - ' . t('European Commission');
 
-  // Add twitter bootsrap
+  // Add twitter bootstrap
   drupal_add_css(path_to_theme() . '/bootstrap/css/bootstrap.min.css', array('group' => CSS_THEME));
   drupal_add_css(path_to_theme() . '/bootstrap/css/bootstrap-responsive.min.css', array('group' => CSS_THEME));  
   //drupal_add_css(path_to_theme() . '/bootstrap/bootstrap.less', array('group' => CSS_THEME));
@@ -100,10 +100,8 @@ function ec_default_preprocess_html(&$variables) {
   //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-transition.js', array('scope' => 'footer', 'weight' => 4));
   //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-carousel.js', array('scope' => 'footer', 'weight' => 5));
   
-  // Add image gallery
-  //drupal_add_css(path_to_theme() . '/bootstrap/image-gallery/css/bootstrap-image-gallery.min.css', array('group' => CSS_THEME));
-  //drupal_add_js(path_to_theme() . '/bootstrap/image-gallery/js/load-image.min.js', array('scope' => 'footer', 'weight' => 10));
-  //drupal_add_js(path_to_theme() . '/bootstrap/image-gallery/js/bootstrap-image-gallery.js', array('scope' => 'footer', 'weight' => 11));
+  // Add Jquery UI custom
+  drupal_add_css(path_to_theme() . '/jquery-ui/css/jquery-ui.custom.css', array('group' => CSS_THEME));
 
   // Add fancybox
   drupal_add_css(path_to_theme() . '/fancybox/jquery.fancybox.css', array('group' => CSS_THEME));
@@ -113,9 +111,7 @@ function ec_default_preprocess_html(&$variables) {
   drupal_add_js(path_to_theme() . '/fancybox/helpers/jquery.fancybox-media.js', array('scope' => 'footer', 'weight' => 8));
   drupal_add_css(path_to_theme() . '/fancybox/helpers/jquery.fancybox-thumbs.css', array('group' => CSS_THEME));
   drupal_add_js(path_to_theme() . '/fancybox/helpers/jquery.fancybox-thumbs.js', array('scope' => 'footer', 'weight' => 9));
-  
-  
-  
+
   // Add EC stylesheets
   switch ($variables['template']) {
     case 'ec':
@@ -775,23 +771,21 @@ function class_replace($match) {
   }
 }
 
-
 /* Put Breadcrumbs in a  li structure */
 function ec_default_breadcrumb($variables) {
   $breadcrumb = $variables['breadcrumb'];
 
   if (!empty($breadcrumb)) {
-      $crumbs = '';
+    $crumbs = '';
 
-      foreach($breadcrumb as $key=>$value) {
-		if($key!=0){
-           $crumbs .= '<li>'.$value.'</li>';
-		}
+    foreach($breadcrumb as $key=>$value) {
+      if($key!=0){
+        $crumbs .= '<li>'.$value.'</li>';
+      }
 	  }
-      $crumbs .= '';
+    $crumbs .= '';
 	  return $crumbs;
-    }
-
   }
-  
+}  
+
 ?>
