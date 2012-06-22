@@ -436,6 +436,7 @@ function ec_default_menu_link(array $variables) {
   if ($element['#below']) {
     $sub_menu = drupal_render($element['#below']);
   }
+  $element['#localized_options']['html'] = TRUE;
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
@@ -458,10 +459,10 @@ function ec_default_menu_link__main_menu(array $variables) {
     $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
     $element['#localized_options']['attributes']['data-toggle'][] = 'dropdown';
     $element['#localized_options']['html'] = TRUE;    
-    
     $output = l($element['#title'], '', $element['#localized_options']);
   } else {
   //No sub-menu
+    $element['#localized_options']['html'] = TRUE;
     $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   }
   
