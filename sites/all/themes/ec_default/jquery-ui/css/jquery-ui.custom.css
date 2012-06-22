@@ -47,7 +47,7 @@
  *
  * http://docs.jquery.com/UI/Theming/API
  *
- * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana,Arial,sans-serif&fwDefault=normal&fsDefault=1.1em&cornerRadius=5px&bgColorHeader=ddeeff&bgTextureHeader=06_inset_hard.png&bgImgOpacityHeader=50&borderColorHeader=cccccc&fcHeader=3b3b3b&iconColorHeader=3b3b3b&bgColorContent=ffffff&bgTextureContent=01_flat.png&bgImgOpacityContent=75&borderColorContent=cccccc&fcContent=3b3b3b&iconColorContent=3b3b3b&bgColorDefault=eeeeee&bgTextureDefault=03_highlight_soft.png&bgImgOpacityDefault=75&borderColorDefault=cccccc&fcDefault=4f4f4f&iconColorDefault=888888&bgColorHover=dddddd&bgTextureHover=03_highlight_soft.png&bgImgOpacityHover=75&borderColorHover=bbbbbb&fcHover=3b3b3b&iconColorHover=3b3b3b&bgColorActive=ffffff&bgTextureActive=01_flat.png&bgImgOpacityActive=100&borderColorActive=cccccc&fcActive=3b3b3b&iconColorActive=3b3b3b&bgColorHighlight=d9edf7&bgTextureHighlight=01_flat.png&bgImgOpacityHighlight=100&borderColorHighlight=bce8f1&fcHighlight=3a87ad&iconColorHighlight=3a87ad&bgColorError=f2dede&bgTextureError=01_flat.png&bgImgOpacityError=100&borderColorError=eed3d7&fcError=b94a48&iconColorError=b94a48&bgColorOverlay=000000&bgTextureOverlay=01_flat.png&bgImgOpacityOverlay=100&opacityOverlay=80&bgColorShadow=000000&bgTextureShadow=01_flat.png&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=0px&offsetTopShadow=3px&offsetLeftShadow=3px&cornerRadiusShadow=4px
+ * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana,Arial,sans-serif&fwDefault=normal&fsDefault=1.1em&cornerRadius=5px&bgColorHeader=e2f1ff&bgTextureHeader=06_inset_hard.png&bgImgOpacityHeader=50&borderColorHeader=e5e5e5&fcHeader=3b3b3b&iconColorHeader=3b3b3b&bgColorContent=ffffff&bgTextureContent=01_flat.png&bgImgOpacityContent=75&borderColorContent=e5e5e5&fcContent=3b3b3b&iconColorContent=3b3b3b&bgColorDefault=f5f5f5&bgTextureDefault=03_highlight_soft.png&bgImgOpacityDefault=75&borderColorDefault=e5e5e5&fcDefault=027ac6&iconColorDefault=888888&bgColorHover=f0f0f0&bgTextureHover=03_highlight_soft.png&bgImgOpacityHover=75&borderColorHover=e0e0e0&fcHover=003366&iconColorHover=3b3b3b&bgColorActive=ffffff&bgTextureActive=01_flat.png&bgImgOpacityActive=100&borderColorActive=e5e5e5&fcActive=3b3b3b&iconColorActive=3b3b3b&bgColorHighlight=d9edf7&bgTextureHighlight=01_flat.png&bgImgOpacityHighlight=100&borderColorHighlight=bce8f1&fcHighlight=3a87ad&iconColorHighlight=3a87ad&bgColorError=f2dede&bgTextureError=01_flat.png&bgImgOpacityError=100&borderColorError=eed3d7&fcError=b94a48&iconColorError=b94a48&bgColorOverlay=000000&bgTextureOverlay=01_flat.png&bgImgOpacityOverlay=100&opacityOverlay=80&bgColorShadow=000000&bgTextureShadow=01_flat.png&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=0px&offsetTopShadow=3px&offsetLeftShadow=3px&cornerRadiusShadow=4px
  */
 
 
@@ -56,18 +56,18 @@
 .ui-widget { font-family: Verdana,Arial,sans-serif; font-size: 1.1em; }
 .ui-widget .ui-widget { font-size: 1em; }
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif; font-size: 1em; }
-.ui-widget-content { border: 1px solid #cccccc; background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x; color: #3b3b3b; }
+.ui-widget-content { border: 1px solid #e5e5e5; background: #ffffff url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x; color: #3b3b3b; }
 .ui-widget-content a { color: #3b3b3b; }
-.ui-widget-header { border: 1px solid #cccccc; background: #ddeeff url(images/ui-bg_inset-hard_50_ddeeff_1x100.png) 50% 50% repeat-x; color: #3b3b3b; font-weight: bold; }
+.ui-widget-header { border: 1px solid #e5e5e5; background: #e2f1ff url(images/ui-bg_inset-hard_50_e2f1ff_1x100.png) 50% 50% repeat-x; color: #3b3b3b; font-weight: bold; }
 .ui-widget-header a { color: #3b3b3b; }
 
 /* Interaction states
 ----------------------------------*/
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #cccccc; background: #eeeeee url(images/ui-bg_highlight-soft_75_eeeeee_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #4f4f4f; }
-.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #4f4f4f; text-decoration: none; }
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #bbbbbb; background: #dddddd url(images/ui-bg_highlight-soft_75_dddddd_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #3b3b3b; }
-.ui-state-hover a, .ui-state-hover a:hover { color: #3b3b3b; text-decoration: none; }
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #cccccc; background: #ffffff url(images/ui-bg_flat_100_ffffff_40x100.png) 50% 50% repeat-x; font-weight: normal; color: #3b3b3b; }
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #e5e5e5; background: #f5f5f5 url(images/ui-bg_highlight-soft_75_f5f5f5_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #027ac6; }
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #027ac6; text-decoration: none; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #e0e0e0; background: #f0f0f0 url(images/ui-bg_highlight-soft_75_f0f0f0_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #003366; }
+.ui-state-hover a, .ui-state-hover a:hover { color: #003366; text-decoration: none; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #e5e5e5; background: #ffffff url(images/ui-bg_flat_100_ffffff_40x100.png) 50% 50% repeat-x; font-weight: normal; color: #3b3b3b; }
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #3b3b3b; text-decoration: none; }
 .ui-widget :active { outline: none; }
 
