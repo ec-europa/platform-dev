@@ -18,6 +18,7 @@ function likedislike_block_info() {
     $blocks['likedislike'] = array(
         'info' => t('likedislike'),
     );
+    
     return $blocks;
 }
 
@@ -40,9 +41,9 @@ function likedislike_block_view($delta='') {
  * @return string
  */
 function likedislike_contents() {
-
+    global $language;
     $current_url = curPageURL();
-    return '<span class="like_dislike">{"url":"' . $current_url . '"}</span>';
+    return '<span class="like_dislike">{"url":"' . $current_url . '" ,"lang":"'.$language->language.'"}</span>';
 }
 
 /**
