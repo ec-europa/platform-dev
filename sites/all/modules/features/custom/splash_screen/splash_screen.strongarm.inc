@@ -15,12 +15,6 @@ function splash_screen_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'language_negotiation_language';
   $strongarm->value = array(
-    'language-cookie' => array(
-      'callbacks' => array(
-        'language' => 'locale_cookie_language_from_cookie',
-      ),
-      'file' => 'sites/all/modules/locale_cookie/includes/locale_cookie.inc',
-    ),
     'locale-url' => array(
       'callbacks' => array(
         'language' => 'locale_language_from_url',
@@ -28,6 +22,12 @@ function splash_screen_strongarm() {
         'url_rewrite' => 'locale_language_url_rewrite_url',
       ),
       'file' => 'includes/locale.inc',
+    ),
+    'language-cookie' => array(
+      'callbacks' => array(
+        'language' => 'locale_cookie_language_from_cookie',
+      ),
+      'file' => 'sites/all/modules/contributed/locale_cookie/includes/locale_cookie.inc',
     ),
     'language-default' => array(
       'callbacks' => array(

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * survey_contents.features.content.inc
+ * survey_standard_contents.features.content.inc
  */
 
 /**
@@ -11,7 +11,7 @@ function survey_standard_contents_content_defaults() {
   $content = array();
 
   $content['survey1'] = (object) array(
-    'exported_path' => 'community/survey/movie-quizz',
+    'exported_path' => 'content/movie-quizz',
     'webform' => array(
       'confirmation' => '',
       'confirmation_format' => NULL,
@@ -203,7 +203,7 @@ function survey_standard_contents_content_defaults() {
           'summary' => '',
           'format' => 'filtered_html',
           'safe_value' => '<p>Quizz about movies</p>
-  ',
+',
           'safe_summary' => '',
         ),
       ),

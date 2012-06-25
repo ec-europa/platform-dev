@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * survey.features.taxonomy.inc
+ * survey_core.features.taxonomy.inc
  */
 
 /**
@@ -16,6 +16,8 @@ function survey_core_taxonomy_default_vocabularies() {
       'hierarchy' => '0',
       'module' => 'taxonomy',
       'weight' => '0',
+      'language' => 'und',
+      'i18n_mode' => '0',
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',
@@ -34,4 +36,3 @@ function survey_core_taxonomy_default_vocabularies() {
     ),
   );
 }
-

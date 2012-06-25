@@ -10,11 +10,10 @@
 function news_core_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-news-body'
+  // Exported field: 'node-news-body'.
   $fields['node-news-body'] = array(
     'field_config' => array(
       'active' => '1',
-        'locked'=> '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -85,17 +84,17 @@ function news_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-news-field_link'
+  // Exported field: 'node-news-field_link'.
   $fields['node-news-field_link'] = array(
     'field_config' => array(
       'active' => '1',
-        'locked'=> '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_link',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '1',
       'module' => 'link',
       'settings' => array(
         'attributes' => array(
@@ -169,11 +168,10 @@ function news_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-news-field_news_picture'
+  // Exported field: 'node-news-field_news_picture'.
   $fields['node-news-field_news_picture'] = array(
     'field_config' => array(
       'active' => '1',
-        'locked'=> '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -191,6 +189,7 @@ function news_core_field_default_fields() {
           0 => 'fid',
         ),
       ),
+      'locked' => '1',
       'module' => 'image',
       'settings' => array(
         'default_image' => 0,
@@ -246,11 +245,11 @@ function news_core_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'image' => 'image',
-            'video' => 0,
-            0 => 0,
             'audio' => 0,
             'default' => 0,
+            0 => 0,
+            'image' => 'image',
+            'video' => 0,
           ),
           'browser_plugins' => array(),
           'progress_indicator' => 'throbber',
@@ -261,17 +260,17 @@ function news_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-news-field_publication_date'
+  // Exported field: 'node-news-field_publication_date'.
   $fields['node-news-field_publication_date'] = array(
     'field_config' => array(
       'active' => '1',
-        'locked'=> '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_publication_date',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '1',
       'module' => 'date',
       'settings' => array(
         'granularity' => array(
@@ -346,11 +345,10 @@ function news_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-news-field_tags'
+  // Exported field: 'node-news-field_tags'.
   $fields['node-news-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
-        'locked'=> '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -423,12 +421,10 @@ function news_core_field_default_fields() {
     ),
   );
 
-
-  // Exported field: 'node-news-field_top_news'
+  // Exported field: 'node-news-field_top_news'.
   $fields['node-news-field_top_news'] = array(
     'field_config' => array(
       'active' => '1',
-        'locked'=> '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -439,6 +435,7 @@ function news_core_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '1',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -493,17 +490,17 @@ function news_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-news-field_unpublication_date'
+  // Exported field: 'node-news-field_unpublication_date'.
   $fields['node-news-field_unpublication_date'] = array(
     'field_config' => array(
       'active' => '1',
-        'locked'=> '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_unpublication_date',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '1',
       'module' => 'date',
       'settings' => array(
         'granularity' => array(

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * survey.features.field.inc
+ * survey_core.features.field.inc
  */
 
 /**
@@ -10,11 +10,10 @@
 function survey_core_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-webform-body'
+  // Exported field: 'node-webform-body'.
   $fields['node-webform-body'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -34,6 +33,7 @@ function survey_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -83,11 +83,10 @@ function survey_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-webform-field_tags'
+  // Exported field: 'node-webform-field_tags'.
   $fields['node-webform-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -105,6 +104,7 @@ function survey_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -159,8 +159,6 @@ function survey_core_field_default_fields() {
     ),
   );
 
-
-
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
@@ -168,4 +166,3 @@ function survey_core_field_default_fields() {
 
   return $fields;
 }
-

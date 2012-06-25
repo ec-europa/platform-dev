@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * rules_pubication.rules_defaults.inc
+ * news_core.rules_defaults.inc
  */
 
 /**
@@ -14,7 +14,11 @@ function news_core_default_rules_configuration() {
       "PLUGIN" : "reaction rule",
       "TAGS" : [ "Publication" ],
       "REQUIRES" : [ "rules", "rules_scheduler", "workbench_moderation" ],
-      "ON" : [ "node_insert", "node_update", "workbench_moderation_after_moderation_transition" ],
+      "ON" : [
+        "node_insert",
+        "node_update",
+        "workbench_moderation_after_moderation_transition"
+      ],
       "IF" : [
         { "node_is_of_type" : { "node" : [ "node" ], "type" : { "value" : { "news" : "news" } } } }
       ],

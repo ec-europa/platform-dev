@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * survey.views_default.inc
+ * survey_core.views_default.inc
  */
 
 /**
@@ -81,18 +81,16 @@ function survey_core_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  
   $handler->display->display_options['filter_groups']['groups'] = array(
     1 => 'AND',
     2 => 'OR',
   );
-  
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = '1';
-  $handler->display->display_options['filters']['status']['group'] = 1; 
+  $handler->display->display_options['filters']['status']['group'] = 1;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -101,15 +99,14 @@ function survey_core_views_default_views() {
     'webform' => 'webform',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content translation: Language */ 
-  $handler->display->display_options['filters']['language']['id'] = 'language'; 
-  $handler->display->display_options['filters']['language']['table'] = 'node'; 
-  $handler->display->display_options['filters']['language']['field'] = 'language'; 
-  $handler->display->display_options['filters']['language']['value'] =
-    array(   
-      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
-      'und' => 'und', 
-    );
+  /* Filter criterion: Content translation: Language */
+  $handler->display->display_options['filters']['language']['id'] = 'language';
+  $handler->display->display_options['filters']['language']['table'] = 'node';
+  $handler->display->display_options['filters']['language']['field'] = 'language';
+  $handler->display->display_options['filters']['language']['value'] = array(
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+    'und' => 'und',
+  );
   $handler->display->display_options['filters']['language']['group'] = 2;
   /* Filter criterion: Content translation: Translation set node ID */
   $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
@@ -117,7 +114,6 @@ function survey_core_views_default_views() {
   $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
   $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
   $handler->display->display_options['filters']['tnid']['group'] = 2;
-
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
@@ -226,28 +222,12 @@ function survey_core_views_default_views() {
   $handler->display->display_options['fields']['nothing']['hide_empty'] = 0;
   $handler->display->display_options['fields']['nothing']['empty_zero'] = 0;
   $handler->display->display_options['fields']['nothing']['hide_alter_empty'] = 0;
-  
-  $handler->display->display_options['filter_groups']['groups'] = array(
-    1 => 'AND',
-    2 => 'OR',
-  );  
-  
-  /* Filter criterion: Content translation: Language */ 
-  $handler->display->display_options['filters']['language']['id'] = 'language'; 
-  $handler->display->display_options['filters']['language']['table'] = 'node'; 
-  $handler->display->display_options['filters']['language']['field'] = 'language'; 
-  $handler->display->display_options['filters']['language']['value'] =
-    array(   
-      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
-      'und' => 'und', 
-    );  
-  $handler->display->display_options['filters']['language']['group'] = 2;
-  /* Filter criterion: Content translation: Translation set node ID */
-  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['table'] = 'node';
-  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
-  $handler->display->display_options['filters']['tnid']['group'] = 2;
+  $handler->display->display_options['path'] = 'survey';
+  $handler->display->display_options['menu']['type'] = 'normal';
+  $handler->display->display_options['menu']['title'] = 'Surveys';
+  $handler->display->display_options['menu']['weight'] = '15';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
+  $handler->display->display_options['menu']['context'] = 0;
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
@@ -288,29 +268,6 @@ function survey_core_views_default_views() {
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  
-  $handler->display->display_options['filter_groups']['groups'] = array(
-    1 => 'AND',
-    2 => 'OR',
-  );  
-  
-  /* Filter criterion: Content translation: Language */ 
-  $handler->display->display_options['filters']['language']['id'] = 'language'; 
-  $handler->display->display_options['filters']['language']['table'] = 'node'; 
-  $handler->display->display_options['filters']['language']['field'] = 'language'; 
-  $handler->display->display_options['filters']['language']['value'] =
-    array(   
-      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
-      'und' => 'und', 
-    );  
-  $handler->display->display_options['filters']['language']['group'] = 2;
-  /* Filter criterion: Content translation: Translation set node ID */
-  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['table'] = 'node';
-  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
-  $handler->display->display_options['filters']['tnid']['group'] = 2;
-
   $translatables['surveys_list'] = array(
     t('Defaults'),
     t('Surveys'),
@@ -323,6 +280,7 @@ function survey_core_views_default_views() {
     t('Items per page'),
     t('- All -'),
     t('Offset'),
+    t('<h2>Participate or review surveys</h2>'),
     t('There is no content in this group.'),
     t('Title'),
     t('Body'),
@@ -340,4 +298,3 @@ function survey_core_views_default_views() {
 
   return $export;
 }
-
