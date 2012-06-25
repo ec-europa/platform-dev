@@ -177,30 +177,22 @@
       $output .= '</fieldset>';
     }
     
-    //merge photos and videos
-    if (isset($content['field_picture_upload']['#items']) && isset($content['field_video_upload']['#items'])) {
-      $media_items = array_merge($content['field_picture_upload']['#items'],$content['field_video_upload']['#items']);
-    } else if (isset($content['field_picture_upload']['#items'])) {
-      $media_items = $content['field_picture_upload']['#items'];
-    } else if (isset($content['field_video_upload']['#items'])) {
-      $media_items = $content['field_video_upload']['#items'];
-    } else {
-      $media_items = array();
-    }
-    
-    //sort table
-    usort($media_items, "custom_sort");
-    function custom_sort($a,$b) {
-      return $a['timestamp']>$b['timestamp'];
-    }    
 
-    //display pager
-    if(isset($content['field_picture_upload']['#cck_pager_pager'])){
-      foreach ($content['field_picture_upload']['#cck_pager_pager'] as $key => $value) {
-        $output .= ' '.$value['data'];
+    $media_items = array();
+    
+    if (module_exists('gallerymedia_core')) {
+      $media_objects_items = gallerymedia_core_pager($node->nid);    
+      foreach ($media_objects_items as $key => $item) {
+      $media_items[] = get_object_vars($item);
       }
     }
     
+    //sort table    
+    function custom_sort($a,$b) {
+      return $a['timestamp']>$b['timestamp'];
+    }   
+    usort($media_items, "custom_sort");    
+
     //display media items
     if(!isset($media_items) || count($media_items) == 0) {
       global $base_url;
@@ -254,7 +246,7 @@
           } else {
             $video_path = $base_url . '/' . variable_get('file_directory_path', $default = 'sites/default/files') . '/videos/original/' . $item['filename'];
           }
-          $thumb = file_load($item['thumbnail']);
+          $thumb = file_load($item['field_video_upload_thumbnail']);
           $video_square_thumbnail = image_style_url('square_thumbnail', $thumb->uri);
           $video_preview = image_style_url('preview', $thumb->uri);
           $watermark = $base_url . '/' . path_to_theme() . '/images/video_icon.png';
@@ -303,6 +295,14 @@
       if ((($key+1) % 4) == 0 || !isset($media_items[$key+1]))
         $output .= '</div>';         
     }
+    
+    	$htmlpager = theme('pager',
+				array(
+					'tags' => array(),
+          'element' => 'gallerypager'
+				)
+			);
+   $output .= $htmlpager;
     
     //display non hidden fields
     $display_other = FALSE;
@@ -381,6 +381,6 @@
     </div>
   <?php endif; ?>
 
-  <?php print render($content['comments']); ?>
-
+  <?php print render($content['comments']);?>
+  
 </div>
