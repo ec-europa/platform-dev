@@ -90,6 +90,11 @@ function block_carousel_contents($which_block) {
       //sort table
       usort($media_items, "custom_sort");
 
+
+      //dirty fix
+      $media_items=serialize($media_items);
+
+
       return array('#markup' => $media_items);
     case 'carousel_empty':
       return;
