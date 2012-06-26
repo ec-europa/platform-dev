@@ -270,26 +270,15 @@
           
           $output .= '<div class="span3 media_item">';
           $output .= '<div id="video_lightbox'.$key.'" class="lightbox" style="display: none;">';
-          $output .= "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='800' height='600' id='single1' name='single1'>
-          <param name='movie' value='http://ec.europa.eu/wel/players/jwflvplayer/player.swf'>
-          <param name='allowfullscreen' value='true'>
-          <param name='allowscriptaccess' value='always'>
-          <param name='wmode' value='transparent'>
-          <param name='flashvars' value='file=".$video_path."&image=".$video_preview."&skin=http://ec.europa.eu/wel/players/jwflvplayer/skins/mainley.swf'>
-          <embed
-            type='application/x-shockwave-flash'
-            id='single2'
-            name='single2'
-            src='http://ec.europa.eu/wel/players/jwflvplayer/player.swf'
-            width='800'
-            height='600'
-            bgcolor='undefined'
-            allowscriptaccess='always'
-            allowfullscreen='true'
-            wmode='transparent'
-            flashvars='file=".$video_path."&image=".$video_preview."&skin=http://ec.europa.eu/wel/players/jwflvplayer/skins/mainley.swf'
-          />
-          </object>";
+          $output .= '<embed name="player'.$key.'" id="player'.$key.'"
+            type="application/x-shockwave-flash" 
+            pluginspage="http://www.macromedia.com/go/getflashplayer" 
+            width="800" height="600" 
+            src="http://ec.europa.eu/wel/players/jwflvplayer/player.swf"
+            allowfullscreen="true"
+            allowscriptaccess="always"  
+            flashvars="file='.$video_path.'&fullscreen=true&image='.$video_preview.'&skin=http://ec.europa.eu/wel/players/jwflvplayer/skins/mainley.swf">
+            </embed>';     
           $output .= '</div>';
           $output .= '<a href="#video_lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$local_data['filename'].'">';
           $output .= '<img class="watermark" src="'.$watermark.'" alt="'.$local_data['filename'].'" title="" />';
