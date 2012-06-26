@@ -41,35 +41,3 @@ function gallerymedia_core_tokens($type, $tokens, $data = array(), $options = ar
     }
     return $replacements;
 }
-
-function gallerymedia_core_pager ($nid) {
-
-	$query = db_select('file_usage', 'fu')
-    ->extend('PagerDefault') 	//Pager Extender
-    ->limit(16)
-    ->element('gallerypager');
-  $query->leftJoin('file_managed', 'fmd', 'fmd.fid=fu.fid');
-  $query->leftJoin('field_data_field_video_upload', 'fvu', 'fvu.field_video_upload_fid=fmd.fid');
-  $query->leftJoin('field_data_field_picture_upload', 'fpu', 'fpu.field_picture_upload_fid=fmd.fid');
-  $or = db_or()->condition('fvu.entity_id', $nid,'=')->condition('fpu.entity_id', $nid,'=');
-  $query->condition($or);
-        
-  $query->fields ('fmd', array (
-    'uri',
-    'type',
-    'timestamp',
-    'filename',
-    'fid',
-  ));
-  
-  $query->fields ('fvu', array (
-    'field_video_upload_thumbnail'
-  ));  				
-  
-	$results = $query
-				->execute()
-        ->fetchAllAssoc('fid');
-	
-			
-	return ($results);
-}

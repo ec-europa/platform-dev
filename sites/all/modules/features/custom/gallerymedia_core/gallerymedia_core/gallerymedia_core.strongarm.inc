@@ -158,6 +158,20 @@ media/browser*';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'video_cron';
+  $strongarm->value = 1;
+  $export['video_cron'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_ffmpeg_instances';
+  $strongarm->value = '5';
+  $export['video_ffmpeg_instances'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'video_ffmpeg_path';
   $strongarm->value = '/usr/bin/ffmpeg';
   $export['video_ffmpeg_path'] = $strongarm;
@@ -177,6 +191,13 @@ media/browser*';
   $strongarm->name = 'video_publish_on_complete';
   $strongarm->value = FALSE;
   $export['video_publish_on_complete'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_queue_timeout';
+  $strongarm->value = '900';
+  $export['video_queue_timeout'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
