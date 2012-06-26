@@ -111,22 +111,6 @@
   <?php endif; ?>
   <?php print render($title_suffix); ?>
   
-<?php  
-// global $user;
-
-  // /*Add Picture button*/
-  // if ($uid == $user->uid) {
-    // print l(t('Add a Picture'), 'node/'. $node->nid.'/addmedia', array(
-          // 'attributes' => array(
-                      // 'type' => 'add', 
-                      // 'action_bar' => 'single',
-                      // 'btn_group' => 'single',
-                      // 'id' => 'add_picture'))); 
-    // $add_form =  drupal_get_form('add_media_form');
-    // print render($add_form);
-  // }
-?>
-  
   <?php if ($display_submitted): ?>
     <div class="meta submitted">
       <?php print $submitted; ?>
@@ -178,65 +162,98 @@
     }
     
 
-    $media_items = array();
-    
-    if (module_exists('gallerymedia_core')) {
-      $media_objects_items = gallerymedia_core_pager($node->nid);    
-      foreach ($media_objects_items as $key => $item) {
-      $media_items[] = get_object_vars($item);
+        
+    //merge photos and videos
+    if (isset($content['field_picture_upload']['#items']) && isset($content['field_video_upload']['#items'])) {
+      $form_items = array_merge($content['field_picture_upload']['#items'],$content['field_video_upload']['#items']);
+    } else if (isset($content['field_picture_upload']['#items'])) {
+      $form_items = $content['field_picture_upload']['#items'];
+    } else if (isset($content['field_video_upload']['#items'])) {
+      $form_items = $content['field_video_upload']['#items'];
+    } else {
+      $form_items = array();
+    }
+
+    //get available fids to build pager + sort form data array by fid
+    $fids = array();
+    $forms_items_by_id = array();
+    if ($form_items) {
+      foreach ($form_items as $value){
+        $fids[] = $value['fid'];
+        $forms_items_by_id[$value['fid']]= $value; 
       }
     }
     
-    //sort table    
-    function custom_sort($a,$b) {
-      return $a['timestamp']>$b['timestamp'];
-    }   
-    usort($media_items, "custom_sort");    
+    //initialize gallery data
+    $media_items = array();
 
-    //display media items
+    //build request for Pages and pager build
+    $query = db_select('file_managed', 'fmd')
+      ->extend('PagerDefault') 	//Pager Extender
+      ->limit(16)
+      ->element(0);
+    $query
+      ->condition('fid', $fids, 'IN')
+      ->fields ('fmd', array (
+        'fid'
+      ))
+      ->orderby('timestamp', 'ASC');  
+    $results = $query
+          ->execute();
+        
+    if ($results) {
+      foreach ($results as $key => $item) {
+        $media_items[] = get_object_vars($item);
+      }
+    }
+
+    //if no pictures display empty_pic
     if(!isset($media_items) || count($media_items) == 0) {
       global $base_url;
       $empty_pic = array(
         'type' => 'empty',
         'uri' => $base_url . '/' . path_to_theme() . '/images/empty_gallery.png',
         'filename' => t('empty gallery')
-      );     
+      );
      
       $media_items[0] = $empty_pic;
     }
-    
+    //display media items
     foreach ($media_items as $key => $item) {
       if (($key % 4) == 0)
         $output .= '<div class="media_gallery row-fluid">';
         
-      switch ($item['type']) {
+        //alias
+        $local_data = $forms_items_by_id[$item['fid']];
+        
+      switch ($local_data['type']) {
         case 'image':
-          $picture_square_thumbnail = image_style_url('square_thumbnail', $item['uri']);
-          $picture_preview = image_style_url('preview', $item['uri']);
-          $picture_original = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://','/',$item['uri']);        
+          $picture_square_thumbnail = image_style_url('square_thumbnail', $local_data['uri']);
+          $picture_preview = image_style_url('preview', $local_data['uri']);
+          $picture_original = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://','/',$local_data['uri']);        
           
           $output .= '<div class="span3 media_item">';
           $output .= '<div id="lightbox'.$key.'" class="lightbox" style="display: none;">';
-          $output .= '<img src="'.$picture_preview.'" alt="'.$item['filename'].'" />';
+          $output .= '<img src="'.$picture_preview.'" alt="'.$local_data['filename'].'" />';
 
-          if (isset($item['field_picture_description']['und'][0]['value']))
-            $output .= '<p>'.$item['field_picture_description']['und'][0]['value'].'</p>';
+          if (isset($local_data['field_picture_description']['und'][0]['value']))
+            $output .= '<p>'.$local_data['field_picture_description']['und'][0]['value'].'</p>';
 
-          $output .= '<p><a href="'.$base_url.'/'.$picture_original.'" title="'.$item['filename'].'" target="_blank">'.t('View full size picture').'</a></p>';
+          $output .= '<p><a href="'.$base_url.'/'.$picture_original.'" title="'.$local_data['filename'].'" target="_blank">'.t('View full size picture').'</a></p>';
           $output .= '</div>';
-          $output .= '<a href="#lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$item['filename'].'">';
-          $output .= '<img src="'.$picture_square_thumbnail.'" alt="'.$item['filename'].'" title="" />';
-          $output .= '<p class="carousel-caption">'.$item['filename'].'</p>';
+          $output .= '<a href="#lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$local_data['filename'].'">';
+          $output .= '<img src="'.$picture_square_thumbnail.'" alt="'.$local_data['filename'].'" title="" />';
+          $output .= '<p class="carousel-caption">'.$local_data['filename'].'</p>';
           $output .= '</a>';        
           $output .= '</div>';          
         break;
         
         case 'video':
-          //$video_path = $base_url . '/' . variable_get('file_directory_path', $default = 'sites/default/files') . '/videos/original/' . $item['filename'];
+          //$video_path = $base_url . '/' . variable_get('file_directory_path', $default = 'sites/default/files') . '/videos/original/' . $local_data['filename'];
 				  
           $converted_fid = db_select('video_output', 'vd')
             ->fields('vd', array('output_fid'))
-            ->condition('original_fid', $item['fid'],'=')
+            ->condition('original_fid', $local_data['fid'],'=')
             ->execute()
             ->fetchAssoc();
           
@@ -244,9 +261,9 @@
             $converted_video = file_load($converted_fid['output_fid']);
             $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://','/',$converted_video->uri);
           } else {
-            $video_path = $base_url . '/' . variable_get('file_directory_path', $default = 'sites/default/files') . '/videos/original/' . $item['filename'];
+            $video_path = $base_url . '/' . variable_get('file_directory_path', $default = 'sites/default/files') . '/videos/original/' . $local_data['filename'];
           }
-          $thumb = file_load($item['field_video_upload_thumbnail']);
+          $thumb = file_load($local_data['thumbnail']);
           $video_square_thumbnail = image_style_url('square_thumbnail', $thumb->uri);
           $video_preview = image_style_url('preview', $thumb->uri);
           $watermark = $base_url . '/' . path_to_theme() . '/images/video_icon.png';
@@ -274,17 +291,17 @@
           />
           </object>";
           $output .= '</div>';
-          $output .= '<a href="#video_lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$item['filename'].'">';
-          $output .= '<img class="watermark" src="'.$watermark.'" alt="'.$item['filename'].'" title="" />';
-          $output .= '<img src="'.$video_square_thumbnail.'" alt="'.$item['filename'].'" title="" />';
-          $output .= '<p class="carousel-caption">'.$item['filename'].'</p>';
+          $output .= '<a href="#video_lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$local_data['filename'].'">';
+          $output .= '<img class="watermark" src="'.$watermark.'" alt="'.$local_data['filename'].'" title="" />';
+          $output .= '<img src="'.$video_square_thumbnail.'" alt="'.$local_data['filename'].'" title="" />';
+          $output .= '<p class="carousel-caption">'.$local_data['filename'].'</p>';
           $output .= '</a>';        
           $output .= '</div>';          
         break;
         
         case 'empty':
           $output .= '<div class="span3 media_item">';
-          $output .= '<img src="'.$item['uri'].'" alt="'.$item['filename'].'" />';
+          $output .= '<img src="'.$local_data['uri'].'" alt="'.$local_data['filename'].'" />';
           $output .= '</div>';           
         break;
         
@@ -299,10 +316,11 @@
     	$htmlpager = theme('pager',
 				array(
 					'tags' => array(),
-          'element' => 'gallerypager'
+          'element' => 0,
 				)
 			);
-   $output .= $htmlpager;
+      
+      $output .= $htmlpager;
     
     //display non hidden fields
     $display_other = FALSE;
