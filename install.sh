@@ -116,6 +116,7 @@ cp -R profiles/multisite_drupal_core ${site_name}/profiles
 cp -R profiles/subsite_standard ${site_name}/profiles
 cp -R profiles/subsite_communities ${site_name}/profiles
 cp -R profiles/multisite_drupal_standard ${site_name}/profiles
+cp -R profiles/multisite_drupal_communities ${site_name}/profiles
 cp -R sites/all/modules/ ${site_name}/sites/all
 cp -R sites/all/modules/features ${site_name}/sites/all/modules
 cp -R sites/all/themes ${site_name}/sites/all
