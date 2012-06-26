@@ -105,8 +105,8 @@ function feature_set_get_featuresets($install_state = NULL) {
       $sets += feature_set_parse_info($info, $install_profile, $path);
     }*/
   }
-  
   ksort($sets);
+
   return $sets;
 }
 
@@ -129,10 +129,10 @@ function feature_set_get_featureset($feature_set) {
  */
 function feature_set_enable_feature_set($feature_set) {
   if (!empty($feature_set['enable'])) {
-    if(!module_exists($feature_set['enable'][0])) { // do not enable a module already enabled
+    //if(!module_exists($feature_set['enable'][0])) { // do not enable a module already enabled
       module_enable($feature_set['enable']);
 	  //drupal_set_message("feature(s) added");
-	}
+	//}
   }
   
   // multisite fix, need to clear cache
@@ -146,10 +146,10 @@ function feature_set_enable_feature_set($feature_set) {
  */
 function feature_set_disable_feature_set($feature_set) {
   if (!empty($feature_set['disable'])) {
-    if(module_exists($feature_set['enable'][0])) { // do not disable a module already disabled
+    //if(module_exists($feature_set['enable'][0])) { // do not disable a module already disabled
       module_disable($feature_set['disable']);
 	  //drupal_set_message("feature(s) disabled");
-	}
+	//}
   }
   if (!empty($feature_set['uninstall'])) {
     drupal_uninstall_modules($feature_set['uninstall']);
@@ -365,3 +365,50 @@ function feature_set_preprocess_html(&$variables) {
 
 
 	
+
+function batch_featureset_op($feature_set_action, $operation_details, &$context) {
+  $context['results'][] = $feature_set_action['feature']['title'];
+  $context['message'] = $feature_set_action['feature']['title']." ".$feature_set_action['value'];
+
+  // proccess enable/disable features here
+  if($feature_set_action['value'] == 'enable')
+    feature_set_enable_feature_set($feature_set_action['feature']);
+  else
+    feature_set_disable_feature_set($feature_set_action['feature']);
+
+  _batch_update_http_requests();
+}
+
+
+function _batch_update_http_requests() {
+  $_SESSION['http_request_count']++;
+}
+
+
+function batch_featureset_finished($success, $results, $operations) {
+/*
+  if ($success) {
+    drupal_set_message(t('@count features processed', array('@count' => count($results))));
+  }
+  else {
+    $error_operation = reset($operations);
+    drupal_set_message(t('An error occurred while processing @operation with arguments : @args', array('@operation' => $error_operation[0], '@args' => print_r($error_operation[0], TRUE))));
+  }
+*/
+}
+
+
+function _feature_set_batch($features_actions) {
+  $num_operations = count($features_actions);
+  drupal_set_message(t('Creating an array of @num operations', array('@num' => $num_operations)));
+
+  $operations = array();
+  for ($i = 0; $i < $num_operations; $i++) {
+    $operations[] = array('batch_featureset_op', array($features_actions[$i], ""));
+  }
+  $batch = array(
+    'operations' => $operations, 
+    'finished' => 'batch_featureset_finished',
+  );
+  return $batch;
+}

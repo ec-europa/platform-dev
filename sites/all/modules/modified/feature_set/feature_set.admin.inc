@@ -126,22 +126,34 @@ function theme_feature_set_admin_form($form) {
  * This only processes feature sets that are in a known state.
  */
 function feature_set_admin_form_submit($form, &$form_state) {
-$featuresets = feature_set_get_featuresets();
+  $features_actions = array();
+
+  $featuresets = feature_set_get_featuresets();
   foreach($form_state['values'] as $key => $value) {
     if (strpos($key, 'featureset-') === 0) {
       $featureset = str_replace('featureset-', '', $key);
       // only operate if its in an 'OK' status
-      if ( isset($featuresets[$featureset]) && $featuresets[$featureset]['status'] != 0) {
-         if ($form_state['values'][$key]) {
-          feature_set_enable_feature_set($featuresets[$featureset]);
-         }
-         else {
-          feature_set_disable_feature_set($featuresets[$featureset]);
-         }
+      if (isset($featuresets[$featureset]) && $featuresets[$featureset]['status'] != 0) {
+        if ($form_state['values'][$key]) {
+          //feature_set_enable_feature_set($featuresets[$featureset]);
+		  if(!module_exists($featureset)) // do not enable a module already enabled
+            $features_actions[] = array("feature" => $featuresets[$featureset], "value" => 'enable');
+        }
+        else {
+          //feature_set_disable_feature_set($featuresets[$featureset]);
+          if(module_exists($featureset)) // do not disable a module already disabled
+            $features_actions[] = array("feature" => $featuresets[$featureset], "value" => 'disable');
+        }
       }
     }    
   }
+
+  // use batch system to enable features
+  $_SESSION['http_request_count'] = 0;
+  $batch = _feature_set_batch($features_actions);
+  batch_set($batch);
 }
+
 
 /**
  * feature_set_disable_url
