@@ -1,0 +1,101 @@
+<?php
+/**
+ * @file
+ * Module file for block_carousel
+ */
+
+
+/**
+ * Implements hook_block_info().
+ */
+function block_carousel_block_info() {
+ 
+  $blocks['carousel_configurable'] = array(
+    'info' => t('Mediagallery: carousel'),
+    'cache' => DRUPAL_CACHE_PER_ROLE, 
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_configure().
+ *
+ * This hook declares configuration options for blocks provided by this module.
+ */
+function block_carousel_block_configure($delta = '') {
+
+  $form = array();
+  if ($delta == 'carousel_configurable') {
+    $form['block_carousel_string'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Gallery nid'),
+      '#size' => 4,
+      '#description' => t('This gallery content will be displayed in the carousel.'),
+      '#default_value' => variable_get('block_carousel_string',  t('empty')),
+    );
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ *
+ * This hook declares how the configured options for a block
+ * provided by this module are saved.
+ */
+function block_carousel_block_save($delta = '', $edit = array()) {
+  if ($delta == 'carousel_configurable') {
+    variable_set('block_carousel_string', $edit['block_carousel_string']);
+  }
+  return;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * This hook generates the contents of the blocks themselves.
+ */
+function block_carousel_block_view($delta = '') {
+  switch ($delta) {
+    case 'carousel_configurable':
+      $block['subject'] = t('Title of first block (carousel_configurable)');
+      $block['content'] = block_carousel_contents($delta);
+      break;
+  }
+  return $block;
+}
+
+/**
+ * A module-defined block content function.
+ */
+function block_carousel_contents($which_block) {
+  switch ($which_block) {
+    case 'carousel_configurable':
+
+      $gall=node_load(variable_get('block_carousel_string'));
+
+      $media_items= array();
+
+      //merge photos and videos
+      if (isset($gall->field_picture_upload['und']) && isset($gall->field_video_upload['und'])) {
+        $media_items = array_merge($gall->field_picture_upload['und'],$gall->field_video_upload['und']);
+      } else if (isset($gall->field_picture_upload['und'])) {
+        $media_items = $gall->field_picture_upload['und'];
+      } else if (isset($gall->field_video_upload['und'])) {
+        $media_items = $gall->field_video_upload['und'];
+      } else {
+        $media_items = array();
+      }
+      
+      //sort table
+      usort($media_items, "custom_sort");
+
+      return array('#markup' => $media_items);
+    case 'carousel_empty':
+      return;
+  }
+}
+
+function custom_sort($a,$b) {
+        return $a['timestamp']>$b['timestamp'];
+      }   

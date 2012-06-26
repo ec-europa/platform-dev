@@ -1,0 +1,13 @@
+name = Block Carousel
+description = An example outlining how a module can define blocks.
+package = carousel modules
+core = 7.x
+dependencies[] = block
+files[] = block_carousel.test
+
+; Information added by drupal.org packaging script on 2012-05-26
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "carousel"
+datestamp = "1337991209"
+
