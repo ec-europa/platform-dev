@@ -400,7 +400,7 @@ function batch_featureset_finished($success, $results, $operations) {
 
 function _feature_set_batch($features_actions) {
   $num_operations = count($features_actions);
-  drupal_set_message(t('Creating an array of @num operations', array('@num' => $num_operations)));
+  //drupal_set_message(t('Creating an array of @num operations', array('@num' => $num_operations)));
 
   $operations = array();
   for ($i = 0; $i < $num_operations; $i++) {
