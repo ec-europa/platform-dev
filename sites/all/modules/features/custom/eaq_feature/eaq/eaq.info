@@ -1,0 +1,11 @@
+name = Ask a Question
+description = Ask a Question
+core = 7.x
+package = Multisite_features
+version = 7.x-1.0
+project = eaq
+
+dependencies[] = views
+
+files[] = eaq.views.inc
+files[] = eaq_field_questions_operations.inc

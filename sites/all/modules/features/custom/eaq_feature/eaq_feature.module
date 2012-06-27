@@ -1,0 +1,635 @@
+<?php
+/**
+ * @file
+ * Code for the Ask a Question feature.
+ */
+
+include_once 'eaq_feature.features.inc';
+include_once 'eaq_feature.formatters.inc';
+include_once 'eaq_feature.rules.inc';
+
+function eaq_feature_enable() {
+  drupal_set_message(t('Ask a Question enabled'));
+  
+  //Activation message
+  drupal_set_message(t('Ask a Question is now active on your site.'));
+}
+
+function eaq_feature_disable() {
+  _disable_content_type('ask_a_question');
+  
+  //Activation message
+  drupal_set_message(t('Ask a Question is now disabled on your site.'));
+}
+
+/**
+ * Implements hook_menu().
+ */
+function eaq_feature_menu() {
+  $items['ask-a-question'] = array(
+    'title' => 'Ask a Question',
+    'page callback' => 'eaq_feature_questions_add',
+    'access arguments' => array('access content'),
+  );
+
+  $items['admin/config/ask-a-question/view/%question'] = array(
+    'title' => 'View Question',
+    'page callback' => 'eaq_feature_questions_view',
+    'page arguments' => array(4),
+    'access arguments' => array('access ask a question'),
+  );
+  
+  $items['admin/config/ask-a-question/handle/%question'] = array(
+    'title' => 'Handle Question',
+    'page callback' => 'eaq_feature_questions_handle',
+    'page arguments' => array(4),
+    'access callback' => 'eaq_feature_question_access',
+    'access arguments' => array(4, 'handle'),
+  );
+  
+  $items['admin/config/ask-a-question/reassign/%question'] = array(
+    'title' => 'Reassign Question',
+    'page callback' => 'eaq_feature_questions_reassign',
+    'page arguments' => array(4),
+    'access arguments' => array('administer ask a question reassign'), 
+  );
+  
+  $items['admin/config/ask-a-question'] = array(
+    'title' => 'Ask a Question',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access ask a question'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'position' => 'right',
+    'weight' => -100,
+  );
+  
+  $items['admin/config/ask-a-question/list'] = array(
+    'title' => 'Overview',
+    'description' => 'Ask a Question overview.',
+    'page callback' => 'eaq_feature_questions_list',
+    'access arguments' => array('access ask a question'),
+    'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
+    'weight' => 0,
+  );
+  
+  $items['admin/config/ask-a-question/rules'] = array(
+    'title' => 'Rules',
+    'description' => 'Manage the question assignment rules.',
+    'page callback' => 'eaq_feature_rules_list',
+    'access arguments' => array('administer ask a question rules'), 
+    'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
+    'weight' => 0,
+    'file' => 'eaq_feature.rules.inc',
+  );
+  
+  $items['admin/config/ask-a-question/rules/add'] = array(
+    'title' => 'Add new rule',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('eaq_feature_rules_add'),
+    'access arguments' => array('administer ask a question rules'),
+    'type' => MENU_LOCAL_ACTION,
+    'weight' => 0,
+    'file' => 'eaq_feature.rules.inc',
+  );
+  
+  $items['admin/config/ask-a-question/rules/%/edit'] = array(
+    'title' => 'Edit rule',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('eaq_feature_rules_edit', 4),
+    'access arguments' => array('administer ask a question rules'),
+    'file' => 'eaq_feature.rules.inc',
+  );
+  
+  $items['admin/config/ask-a-question/rules/%/delete'] = array(
+    'title' => 'Delete rule',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('eaq_feature_rules_delete', 4),
+    'access arguments' => array('administer ask a question rules'),
+    'file' => 'eaq_feature.rules.inc',
+  );
+  
+  $items['admin/config/ask-a-question/settings'] = array(
+    'title' => 'Settings',
+    'description' => 'Configure the Ask a Question settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('eaq_feature_general_settings_form'),
+    'access arguments' => array('administer ask a question'), 
+    'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
+    'weight' => 0,
+    'file' => 'eaq_feature.settings.inc',
+  );
+  
+  $items['admin/config/ask-a-question/settings/general'] = array(
+    'title' => 'General',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => 0,
+  );
+
+  $items['admin/config/ask-a-question/settings/mails'] = array(
+    'title' => 'Mails',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('eaq_feature_mail_settings_form'),
+    'access arguments' => array('administer ask a question'), 
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 0,
+    'file' => 'eaq_feature.settings.inc',
+  );
+  
+  $items['ask-a-question/autocomplete/users'] = array(
+    'page callback' => '_eaq_feature_autocomplete_users',
+    'access arguments' => array('administer ask a question rules'),
+    'type' => MENU_CALLBACK,
+  );
+  
+  $items['admin/workbench/ask-a-question'] = array(
+    'title' => 'Ask a Question',
+    'description' => 'Ask a Question overview.',
+    'page callback' => 'eaq_feature_redirect',
+    'access arguments' => array('access ask a question'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 100,
+  );
+  
+  return $items;
+}
+
+
+/**
+ * Implements hook_menu_alter().
+ */
+function eaq_feature_menu_alter(&$items) {
+  $items['node/add/ask-a-question']['access callback'] = FALSE;
+}
+
+/*
+ *  Check if we have the permission to handle the question
+ */
+function question_load($nid) {
+  $node = node_load($nid);
+  if ($node && $node->type == 'ask_a_question') {
+    return $node;
+  }
+  return FALSE;
+}
+
+/*
+ *  Check if we have the permission to handle the question
+ */
+function eaq_feature_question_access($node, $action) {
+  switch ($action) {
+    case 'handle':
+      global $user;
+      if (user_access('access ask a question')) {
+        if (isset($node->field_assigned_user_uid[LANGUAGE_NONE][0]['value']) && $node->field_assigned_user_uid[LANGUAGE_NONE][0]['value'] == $user->uid) {
+          return TRUE;
+        }
+      }
+      break;
+  }
+  
+  return FALSE;
+}
+
+/**
+ * Implements hook_admin_paths().
+ */
+function eaq_feature_admin_paths() {
+ $paths = array(
+    'ask-a-question' => TRUE,
+  );
+
+  return $paths;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function eaq_feature_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    case 'ask_a_question_node_form':
+      // Fill in default values
+      $theme_id = (isset($_GET['theme'])) ? $_GET['theme']: 'any';
+      $form['field_theme'][$form['field_theme']['#language']]['#default_value'] = array($theme_id);
+      
+      $related_country_id = (isset($_GET['related_country'])) ? $_GET['related_country']: 'any';
+      $form['field_related_country'][$form['field_related_country']['#language']]['#default_value'] = array($related_country_id);
+      
+      global $language;
+      $language_id = (isset($_GET['language'])) ? $_GET['language']: $language->language;
+      $form['field_language'][$form['field_language']['#language']]['#default_value'] = array($language_id);
+      
+      $form['title']['#required'] = FALSE;
+      $form['title']['#access'] = FALSE;
+      // Disable Fields
+      if (!user_access('administer ask a question')) {
+        $form['field_language']['#access'] = FALSE;
+        $form['field_handled']['#access'] = FALSE;
+        $form['field_creation_timestamp']['#access'] = FALSE;
+        $form['field_assigned_timestamp']['#access'] = FALSE;
+        $form['field_assigned_user_uid']['#access'] = FALSE;
+        $form['field_answer']['#access'] = FALSE;
+        $form['field_answer_timestamp']['#access'] = FALSE;
+        $form['field_answer_user_uid']['#access'] = FALSE;
+      }
+      break;
+      
+    case 'views_exposed_form':
+      if ($form['#id'] === 'views-exposed-form-ask-a-question-default') {
+        $options = eaq_feature_get_users_list('Any', TRUE);
+        $form['assignee']['#type'] = 'select';
+        $form['assignee']['#options'] = $options;
+        if (isset($form['assignee']['#size'])) {
+          unset($form['assignee']['#size']);
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function eaq_feature_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['handle'] = array(
+    'label' => t('Handle view'),
+    'custom settings' => TRUE,
+  );
+  $entity_info['node']['view modes']['reassign'] = array(
+    'label' => t('Reassign view'),
+    'custom settings' => TRUE,
+  );
+} 
+
+function eaq_feature_questions_list() {
+  global $user;
+    
+  $view = views_get_view('ask_a_question', 'default');
+  $view->override_path = $_GET['q'];
+  if (isset($user->uid)) {
+    $users = eaq_feature_get_users_list(NULL, TRUE);
+    if (array_key_exists($user->uid, $users)) {
+      $view->display['default']->display_options['filters']['field_assigned_user_uid_value']['value'] = $user->uid;      
+    }
+  }
+  $output = $view->execute_display('default');
+
+  return $output;  
+}
+
+function eaq_feature_questions_add() {
+  module_load_include('inc', 'node', 'node.pages');
+  
+  $form = node_add("ask_a_question");
+  drupal_set_title(t('Ask a Question'));
+
+  return drupal_render($form);
+}
+
+function eaq_feature_questions_view($node) {
+  return node_view($node);
+}
+
+function eaq_feature_questions_handle($node) {
+  return node_view($node, 'handle');
+}
+
+function eaq_feature_questions_handle_form($form, &$form_state) {
+  $nid = arg(4);
+  
+  $options = eaq_feature_get_users_list('Any');
+  $form['field_answer'] = array(
+    '#title' => t('Answer'),
+    '#type' => 'textarea',
+    '#required' => TRUE,
+  );
+  
+  $form['nid'] = array(
+    '#type' => 'hidden',
+    '#value' => $nid,
+  );
+  
+  $form['operation'] = array(
+    '#type' => 'hidden',
+    '#value' => 'handle',
+  );
+  
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+    '#submit' => array('eaq_feature_questions_save'),
+  );
+  $form['actions']['cancel'] = array(
+    '#markup' => l(t('Cancel'), 'admin/config/ask-a-question/list'),
+  );
+  
+  return $form;
+}
+
+function eaq_feature_questions_reassign($node) {
+  return node_view($node, 'reassign');
+}
+
+function eaq_feature_questions_reassign_form($form, &$form_state) {
+  $nid = arg(4);
+  
+  $options = eaq_feature_get_users_list('Any', FALSE);
+  $form['field_assigned_user_uid'] = array(
+    '#title' => t('Reassign to'),
+    '#type' => 'select',
+    '#options' => $options,
+    '#required' => TRUE,
+  );
+  
+  $form['nid'] = array(
+    '#type' => 'hidden',
+    '#value' => $nid,
+  );
+  
+  $form['operation'] = array(
+    '#type' => 'hidden',
+    '#value' => 'reassign',
+  );
+  
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+    '#submit' => array('eaq_feature_questions_save'),
+  );
+  $form['actions']['cancel'] = array(
+    '#markup' => l(t('Cancel'), 'admin/config/ask-a-question/list'),
+  );
+  
+  return $form;
+}
+
+function eaq_feature_questions_save($form, &$form_state) {
+  $values = $form_state['values'];
+
+  switch ($form_state['values']['operation']) {
+    case 'handle':
+      global $user;
+      $node = node_load($values['nid']);
+      $node->field_handled[LANGUAGE_NONE][0]['value'] = 1;
+      $node->field_answer[LANGUAGE_NONE][0] = array(
+        'value' => ($values['field_answer'] != '') ? $values['field_answer']: '',
+        'format' => '',
+      );
+      $node->field_answer_timestamp[LANGUAGE_NONE][0]['value'] = REQUEST_TIME;
+      $node->field_answer_user_uid[LANGUAGE_NONE][0] = array(
+        'value' => ($user->uid != '') ? $user->uid: '',
+        'format' => '',
+      );
+      
+      eaq_feature_send_mail($node, 'handle');
+      
+      node_save($node);
+      
+      $message = t('Question is handled.');
+      break;
+    case 'reassign':
+      $node = node_load($values['nid']);
+      $node->field_assigned_timestamp[LANGUAGE_NONE][0]['value'] = REQUEST_TIME;
+      $node->field_assigned_user_uid[LANGUAGE_NONE][0] = array(
+        'value' => ($values['field_assigned_user_uid'] != '') ? $values['field_assigned_user_uid']: '',
+        'format' => '',
+      );
+      
+      eaq_feature_send_mail($node, 'reassign');
+      
+      node_save($node);
+      
+      $message = t('Question is reassigned.');
+      break;
+  }
+
+  drupal_set_message($message);
+  
+  $form_state['redirect'] = 'admin/config/ask-a-question/list';
+}
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function eaq_feature_field_extra_fields() {
+  $extra = array();
+  
+  $extra['node']['ask_a_question'] = array(
+    'display' => array(
+      'field_handled_form' => array(
+        'label' => t('Form Handle Question'),
+        'description' => t('Form Handle Question'),
+        'weight' => 100,
+      ),
+      'field_reassign_form' => array(
+        'label' => t('Form Reassign Question'),
+        'description' => t('Form Reassign Question'),
+        'weight' => 100,
+      ),
+    ),
+  );
+
+  return $extra;
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function eaq_feature_node_view($node, $view_mode, $langcode) {
+  switch ($node->type) {
+    case 'ask_a_question':
+      if ($view_mode == 'handle') {
+        $node->content['field_handled_form'] = array(
+          '#markup' => drupal_render(drupal_get_form('eaq_feature_questions_handle_form')),
+          'weight' => 100,
+          '#node' => $node,
+          '#view_mode' => $view_mode,
+        );
+      }
+      if ($view_mode == 'reassign') {
+        $node->content['field_reassign_form'] = array(
+          '#markup' => drupal_render(drupal_get_form('eaq_feature_questions_reassign_form')),
+          'weight' => 100,
+          '#node' => $node,
+          '#view_mode' => $view_mode,
+        );
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_node_validate().
+ */
+function eaq_feature_node_validate($node, $form, &$form_state) {
+  if ($node->type == 'ask_a_question' && empty($node->nid)) {
+    $mail = $form_state['values']['field_email'][LANGUAGE_NONE][0]['value'];
+    if (!valid_email_address($mail)) {
+      form_set_error('', t('Please fill in a valid email address'));
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function eaq_feature_node_insert($node) {
+  if ($node->type === 'ask_a_question') {
+    eaq_feature_send_mail($node, 'question');
+    
+    // Message
+    $message = variable_get('eaq_feature_message', t('Thanks for filling in our Ask a Question form.'));
+    drupal_set_message($message);
+    // Redirect
+    $goto = variable_get('eaq_feature_redirect_page', '');
+    drupal_goto($goto);
+  }
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function eaq_feature_node_presave($node) {
+  if ($node->type === 'ask_a_question' && empty($node->nid)) {
+    // UPDATE Title
+    $theme = $node->field_theme[LANGUAGE_NONE][0]['value'];
+    $related_country = $node->field_related_country[LANGUAGE_NONE][0]['value'];
+    $node->title = 'Question: ' . $theme . ' || ' . $related_country;
+    
+    // FIll in creation timestamp
+    $node->field_creation_timestamp[LANGUAGE_NONE][0]['value'] = REQUEST_TIME;
+    
+    // FILL in assignee + timestamp
+    $node->field_assigned_timestamp[LANGUAGE_NONE][0]['value'] = REQUEST_TIME;
+    $user_id = eaq_feature_rules_get_user($node);
+    $node->field_assigned_user_uid[LANGUAGE_NONE][0] = array(
+      'value' => ($user_id['user_id'] != '') ? $user_id['user_id']: variable_get('eaq_feature_default_assignee_user', ''),
+      'format' => '',
+    );
+  }
+}
+
+function eaq_feature_send_mail($node, $action) {
+  if (isset($node)) {
+    $params['node'] = $node;
+  
+    $emails = array();
+    if (isset($node->field_email[LANGUAGE_NONE][0]['value']) && $action != 'reassign') {
+      $emails[] = $node->field_email[LANGUAGE_NONE][0]['value'];
+    }
+    if (isset($node->field_assigned_user_uid[LANGUAGE_NONE][0]['value'])) {
+      $user = user_load($node->field_assigned_user_uid[LANGUAGE_NONE][0]['value']);
+      $emails[] = $user->mail;
+    }
+    $to = implode(', ', $emails);
+    
+    $language = 'default';
+    if (isset($node->field_language[LANGUAGE_NONE][0]['value'])) {
+      $language = $node->field_language[LANGUAGE_NONE][0]['value'];
+    }
+    
+    $from = variable_get('eaq_feature_mail_default_email', '');
+    
+    drupal_mail('eaq_feature', $action, $to, $language, $params, $from);
+  }
+}
+
+function eaq_feature_mail($key, &$message, $params) {
+  $node = $params['node'];
+  $language = $message['language'];
+
+  switch ($key) {
+    case 'question':
+      $subject = token_replace(variable_get('eaq_feature_mail_' . $language . '_question_subject', ''), array('node' => $node));
+      $body = token_replace(variable_get('eaq_feature_mail_' . $language . '_question_body', ''), array('node' => $node));
+      
+      if (empty($subject)) {
+        $subject = token_replace(variable_get('eaq_feature_mail_default_question_subject', 'Question'), array('node' => $node));
+      }
+      if (empty($body)) {
+        $body = token_replace(variable_get('eaq_feature_mail_default_question_body', 'Question: [node:field-question]'), array('node' => $node));
+      }
+      $message['subject'] = $subject;
+      $message['body'][] = $body;
+      break;
+    case 'handle':
+      $subject = token_replace(variable_get('eaq_feature_mail_' . $language . '_handle_subject', ''), array('node' => $node));
+      $body = token_replace(variable_get('eaq_feature_mail_' . $language . '_handle_body', ''), array('node' => $node));
+      
+      if (empty($subject)) {
+        $subject = token_replace(variable_get('eaq_feature_mail_default_handle_subject', 'Question handled'), array('node' => $node));
+      }
+      if (empty($body)) {
+        $body = token_replace(variable_get('eaq_feature_mail_default_handle_body', 'Question: [node:field-question]'), array('node' => $node));
+      }
+      $message['subject'] = $subject;
+      $message['body'][] = $body;
+      break;
+    case 'reassign':
+      $subject = token_replace(variable_get('eaq_feature_mail_' . $language . '_reassign_subject', ''), array('node' => $node));
+      $body = token_replace(variable_get('eaq_feature_mail_' . $language . '_reassign_body', ''), array('node' => $node));
+      
+      if (empty($subject)) {
+        $subject = token_replace(variable_get('eaq_feature_mail_default_reassign_subject', 'Question reassigned'), array('node' => $node));
+      }
+      if (empty($body)) {
+        $body = token_replace(variable_get('eaq_feature_mail_default_reassign_body', 'Question: [node:field-question]'), array('node' => $node));
+      }
+      $message['subject'] = $subject;      
+      $message['body'][] = $body;
+      break;
+    default:
+      $subject = token_replace(variable_get('eaq_feature_mail_default_question_subject', 'Question'), array('node' => $node));
+      $body = token_replace(variable_get('eaq_feature_mail_default_question_body', 'Question: [node:field-question]'), array('node' => $node));
+      
+      $message['subject'] = $subject;
+      $message['body'][] = $body;
+      break;
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function eaq_feature_block_info() {
+  // This example comes from node.module.
+  $blocks['ask_a_question'] = array(
+    'info' => t('Block: Ask a Question'), 
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function eaq_feature_block_view($delta = '') {
+  // This example is adapted from node.module.
+  $block = array();
+
+  switch ($delta) {
+    case 'ask_a_question':
+      $block['subject'] = t('Ask a Question');
+      $block['content'] = eaq_feature_question_block();
+      
+      break;
+  }
+  
+  return $block;
+}
+
+function eaq_feature_question_block() {
+  $url[] = l('Ask a Question', 'ask-a-question', array('query' => array('language' => 'en')));
+  $url[] = l('Ask a Question', 'ask-a-question', array('query' => array('theme' => 'studying', 'language' => 'en')));
+  $url[] = l('Ask a Question', 'ask-a-question', array('query' => array('related_country' => 'fr', 'language' => 'en')));
+  $url[] = l('Ask a Question', 'ask-a-question', array('query' => array('theme' => 'studying', 'related_country' => 'fr', 'language' => 'en')));
+  
+  return theme('item_list', array('items' => $url, 'type' => 'ul'));
+}
+
+function eaq_feature_redirect() {
+  drupal_goto('admin/config/ask-a-question');
+}

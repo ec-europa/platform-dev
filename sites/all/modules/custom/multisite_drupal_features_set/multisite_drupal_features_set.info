@@ -82,11 +82,14 @@ feature_sets[e_library][icon] = 'feature-set-icons/e_library.png'
 feature_sets[e_library][enable][] = e_library
 feature_sets[e_library][disable][] = e_library
 
-
 feature_sets[gallerymedia_core][title] = 'Media Galleries'
 feature_sets[gallerymedia_core][description] =  'Contributors can add picture galleries.'
 feature_sets[gallerymedia_core][icon] = 'feature-set-icons/mediagallery.png'
 feature_sets[gallerymedia_core][enable][] = gallerymedia_core
 feature_sets[gallerymedia_core][disable][] = gallerymedia_core
 
-
+feature_sets[eaq_feature][title] = 'Ask a question'
+feature_sets[eaq_feature][description] = 'Allow to handle a questions/answers system with assigment rules'
+feature_sets[eaq_feature][icon] = 'feature-set-icons/eaq.png'
+feature_sets[eaq_feature][enable][] = eaq_feature
+feature_sets[eaq_feature][disable][] = eaq_feature
