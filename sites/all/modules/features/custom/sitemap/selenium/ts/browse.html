@@ -3,34 +3,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>read</title>
+<link rel="selenium.base" href="http://172.24.135.81/mumultisite_drupal_tbr/" />
+<title>Browse</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">read</td></tr>
+<tr><td rowspan="1" colspan="3">Browse</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/mumultisite_drupal_tbr</td>
+	<td>/mumultisite_drupal_tbr/en</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=F.A.Q</td>
+	<td>link=Site map</td>
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>link=FAQ01</td>
+	<td>highlight</td>
+	<td>//body[contains(@class,'page-sitemap')]</td>
 	<td></td>
 </tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td>Answer01</td>
-	<td></td>
-</tr>
+
 </tbody></table>
 </body>
 </html>

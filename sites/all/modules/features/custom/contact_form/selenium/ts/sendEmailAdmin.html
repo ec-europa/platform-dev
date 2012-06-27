@@ -3,22 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>delete</title>
+<link rel="selenium.base" href="http://172.24.135.81/" />
+<title>sendEmailAdmin</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">delete</td></tr>
+<tr><td rowspan="1" colspan="3">sendEmailAdmin</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/mumultisite_drupal_tbr</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>xpath=(//a[contains(text(),'Log out')])[2]</td>
+	<td>/multisite_drupal_tbr/en</td>
 	<td></td>
 </tr>
 <tr>
@@ -43,22 +38,22 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>id=toolbar-link-admin-workbench</td>
+	<td>link=Contact</td>
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=FAQ01 updated</td>
-	<td></td>
+	<td>type</td>
+	<td>id=edit-subject</td>
+	<td>a subject</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=Edit</td>
-	<td></td>
+	<td>type</td>
+	<td>id=edit-message</td>
+	<td>a message</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>id=edit-delete</td>
+	<td>click</td>
+	<td>id=edit-copy</td>
 	<td></td>
 </tr>
 <tr>
@@ -66,11 +61,7 @@
 	<td>id=edit-submit</td>
 	<td></td>
 </tr>
-<tr>
-	<td>assertText</td>
-	<td>css=div.messages.status</td>
-	<td>Status message F.A.Q FAQ01 updated has been deleted.</td>
-</tr>
+
 </tbody></table>
 </body>
 </html>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * idea_core.features.user_permission.inc
@@ -8,70 +9,66 @@
  * Implements hook_user_default_permissions().
  */
 function idea_core_user_default_permissions() {
-  $permissions = array();
+    $permissions = array();
+    
+    // Exported permission: rate content
+    $permissions['rate content'] = array(
+        'name' => 'rate content',
+        'roles' => array(
+            0 => 'authenticated user',
+            1 => 'anonymous user',
+        ),
+        'module' => 'Fivestar',
+    );
 
-  // Exported permission: create idea content
-  $permissions['create idea content'] = array(
-    'name' => 'create idea content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
-    ),
-    'module' => 'node',
-  );
+    // Exported permission: create idea content
+    $permissions['create idea content'] = array(
+        'name' => 'create idea content',
+        'roles' => array(
+            0 => 'authenticated user',
+        ),
+        'module' => 'node',
+    );
 
-  // Exported permission: delete any idea content
-  $permissions['delete any idea content'] = array(
-    'name' => 'delete any idea content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-    ),
-    'module' => 'node',
-  );
+    // Exported permission: delete any idea content
+    $permissions['delete any idea content'] = array(
+        'name' => 'delete any idea content',
+        'roles' => array(
+            0 => 'authenticated user',
+        ),
+        'module' => 'node',
+    );
 
-  // Exported permission: delete own idea content
-  $permissions['delete own idea content'] = array(
-    'name' => 'delete own idea content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
-    ),
-    'module' => 'node',
-  );
+    // Exported permission: delete own idea content
+    $permissions['delete own idea content'] = array(
+        'name' => 'delete own idea content',
+        'roles' => array(
+            0 => 'authenticated user',
+        ),
+        'module' => 'node',
+    );
 
-  // Exported permission: edit any idea content
-  $permissions['edit any idea content'] = array(
-    'name' => 'edit any idea content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-    ),
-    'module' => 'node',
-  );
+    // Exported permission: edit any idea content
+    $permissions['edit any idea content'] = array(
+        'name' => 'edit any idea content',
+        'roles' => array(
+            0 => 'authenticated user',
+        ),
+        'module' => 'node',
+    );
 
-  // Exported permission: edit own idea content
-  $permissions['edit own idea content'] = array(
-    'name' => 'edit own idea content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
-    ),
-    'module' => 'node',
-  );
+    // Exported permission: edit own idea content
+    $permissions['edit own idea content'] = array(
+        'name' => 'edit own idea content',
+        'roles' => array(
+            0 => 'authenticated user',
+        ),
+        'module' => 'node',
+    );
 
-  // Exported permission: rate content
-  $permissions['rate content'] = array(
-    'name' => 'rate content',
-    'roles' => array(
-      0 => 'administrator',
-	  1 => 'anonymous user',
-      2 => 'authenticated user',
-    ),
-    'module' => 'fivestar',
-  );
+    
 
 
-  
-  return $permissions;
+
+    return $permissions;
 }

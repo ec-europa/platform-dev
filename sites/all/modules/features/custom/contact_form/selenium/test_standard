@@ -11,7 +11,10 @@
 <tr><td><a href="ts/InitAdmin.html">InitAdmin</a></td></tr>
 <tr><td><a href="ts/CheckPreFilledAdmin.html">CheckPreFilledAdmin</a></td></tr>
 <tr><td><a href="ts/CheckPreFilledContrib01.html">CheckPreFilledContrib01</a></td></tr>
-<tr><td><a href="ts/CheckNotPreFilledAnonymous.html">CheckNotPrefilledAnonymous</a></td></tr>
+<tr><td><a href="ts/CheckNotPreFilledAnonymous.html">CheckNotPreFilledAnonymous</a></td></tr>
+<tr><td><a href="ts/sendEmailAdmin.html">sendEmailAdmin</a></td></tr>
+<tr><td><a href="ts/sendEmailAnonymous.html">sendEmailAnonymous</a></td></tr>
+<tr><td><a href="ts/sendEmailContributor.html">sendEmailContributor</a></td></tr>
 </tbody></table>
 </body>
 </html>

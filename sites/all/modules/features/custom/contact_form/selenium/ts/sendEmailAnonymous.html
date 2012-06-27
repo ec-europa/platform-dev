@@ -3,17 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="http://158.167.34.191/multisite_drupal_wde/en" />
-<title>delete</title>
+<link rel="selenium.base" href="http://172.24.135.81/" />
+<title>sendEmailAnonymous</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">delete</td></tr>
+<tr><td rowspan="1" colspan="3">sendEmailAnonymous</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/mumultisite_drupal_tbr</td>
+	<td>/multisite_drupal_tbr/en</td>
 	<td></td>
 </tr>
 <tr>
@@ -23,54 +23,35 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=login</td>
+	<td>link=Contact</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=edit-name</td>
-	<td>admin</td>
+	<td>my name</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=edit-pass</td>
-	<td>pass</td>
+	<td>id=edit-mail</td>
+	<td>test@test.fr</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-subject</td>
+	<td>a subject</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-message</td>
+	<td>a message</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
 	<td>id=edit-submit</td>
 	<td></td>
 </tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=toolbar-link-admin-workbench</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=FAQ01 updated</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Edit</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=edit-delete</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=edit-submit</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertText</td>
-	<td>css=div.messages.status</td>
-	<td>Status message F.A.Q FAQ01 updated has been deleted.</td>
-</tr>
+
 </tbody></table>
 </body>
 </html>
