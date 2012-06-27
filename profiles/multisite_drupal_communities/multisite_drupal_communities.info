@@ -100,7 +100,7 @@ dependencies[] = quicktabs
 dependencies[] = og
 
 dependencies[] = multisite_drupal_toolbox
-dependencies[] = multisite_drupal_features_set_standard
+dependencies[] = multisite_drupal_features_set_og
 
 ;features
 dependencies[] = content_examples
