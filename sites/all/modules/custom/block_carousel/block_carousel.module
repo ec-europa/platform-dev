@@ -69,12 +69,17 @@ function block_carousel_block_view($delta = '') {
  * A module-defined block content function.
  */
 function block_carousel_contents($which_block) {
+global $base_url;
+
   switch ($which_block) {
     case 'carousel_configurable':
 
-      $gall=node_load(variable_get('block_carousel_string'));
-
+      $gall = node_load(variable_get('block_carousel_string'));
+      $path = $base_url.'/'.(isset($gall->path['alias']) ? $gall->path['alias'] : $gall->path['source']);
+          
       $media_items= array();
+      $return = '';
+      $first = TRUE;
 
       //merge photos and videos
       if (isset($gall->field_picture_upload['und']) && isset($gall->field_video_upload['und'])) {
@@ -90,12 +95,46 @@ function block_carousel_contents($which_block) {
       //sort table
       usort($media_items, "custom_sort");
 
+      $return .= '<div class=" carousel slide" id="block-carousel-'.$gall->nid.'">';
+        $return .= '<div class="carousel-inner">';
+        
+        foreach ($media_items as $id => $item):   
+          $return .= '<div class="item ' . ($first ? "active" : "") . '">';
 
-      //dirty fix
-      $media_items=serialize($media_items);
+          
+          switch ($item['type']) {
+            case 'image':
+              $thumb = image_style_url('landscape', $item['uri']);
+              $return .= '<a href="'.$path.'">';
+                $return .= '<img src="' . $thumb . '" alt="' . $item['filename'] . '" />';
+                $return .= '<p class="carousel-caption">' . (isset($item['field_picture_description']['und'][0]['safe_value']) ? $item['field_picture_description']['und'][0]['safe_value'] : $item['filename']) . '</p>';
+              $return .= '</a>';
+            break;
+            
+            case 'video':
+              $thumb = image_style_url('landscape', file_load($item['thumbnail'])->uri);
+              $return .= '<a href="'.$path.'">';
+                $return .= '<img src="' . $thumb . '" alt="' . $item['filename'] . '" />';
+                $return .= '<p class="carousel-caption">' . $item['filename'] . '</p>';
+              $return .= '</a>';
+            break;
+            
+            default:
+            break;
+          }
 
+          $return .= '</div>';
+           
+          $first = FALSE; 
+        endforeach;        
 
-      return array('#markup' => $media_items);
+        $return .= '</div>';
+        
+        $return .= '<a class="carousel-control left" href="#block-carousel-'.$gall->nid.'" data-slide="prev">&lsaquo;</a>';
+        $return .= '<a class="carousel-control right" href="#block-carousel-'.$gall->nid.'" data-slide="next">&rsaquo;</a>';      
+      $return .= '</div>';
+
+      return array('#markup' => $return);
     case 'carousel_empty':
       return;
   }
