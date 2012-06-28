@@ -223,11 +223,6 @@ function survey_core_views_default_views() {
   $handler->display->display_options['fields']['nothing']['empty_zero'] = 0;
   $handler->display->display_options['fields']['nothing']['hide_alter_empty'] = 0;
   $handler->display->display_options['path'] = 'survey';
-  $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'Surveys';
-  $handler->display->display_options['menu']['weight'] = '15';
-  $handler->display->display_options['menu']['name'] = 'main-menu';
-  $handler->display->display_options['menu']['context'] = 0;
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
