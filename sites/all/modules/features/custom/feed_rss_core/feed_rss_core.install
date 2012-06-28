@@ -46,6 +46,9 @@ function feed_rss_core_enable(){
  * Remove permissions
  */
 function feed_rss_core_disable(){
-  
+
+    //Add block in context
+  _remove_block_context('homepage','feed-1');
   drupal_set_message('RSS Feed feature is now disabled on your site.');
+  drupal_cron_run();
 }
