@@ -2,27 +2,45 @@
 jQuery(function($){
 
 	$(document).ready(function() {  //Once the page elements are fully loaded
-    /* Gallery lightbox */
-    $('.fancybox').fancybox({
-      padding: 0,
-      closeBtn : false,
-      arrows : false,
-      autoSize: true,
-      fitToView: true,
-      openEffect: 'elastic',
-      closeEffect: 'elastic',
-      helpers		: {
-        title	: { type : 'outside' },
-        buttons	: {},
-        /*thumbs	: {
-          width	: 50,
-          height	: 50,
-          position: 'top',
-        }*/
-      }
-    });    
+
+      $('.fancybox').fancybox({
+        padding:      0,
+        closeBtn:     false,
+        arrows:       false,
+        autoSize:     true,
+        fitToView:    true,
+        openEffect:   'elastic',
+        closeEffect:  'elastic',
+        helpers: {
+          title:     { type : 'outside' },
+          buttons:   {},
+        },
+        beforeClose: function() {
+           stopPlayer();
+        },
+        beforeLoad: function() {
+          stopPlayer();
+        },
+
+      });   
+   // });
     /* /Gallery lightbox */
-});
+  });
+
+
+
+
+  function stopPlayer(){
+
+    var id= $('.fancybox-opened').find(".lightbox").children().attr('id');
+
+        var isVideo = false;
+        if ($.browser.msie !=true && id != null && id.indexOf("player") >= 0) {
+          isVideo = true;
+          var player= document.getElementById(id);
+          player.sendEvent('STOP');
+        } 
+  }
 
 });
 
