@@ -60,5 +60,8 @@ function survey_core_disable() {
 
     // disable example contents
     module_disable(array("survey_contents"));
+
+            //Activation message
+    drupal_set_message('Survey is now disabled on your site.');
 }
 
