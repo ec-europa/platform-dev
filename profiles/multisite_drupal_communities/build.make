@@ -80,6 +80,9 @@ projects[workbench][version] = "1.1"
 projects[workbench_moderation][subdir] = "contributed"
 projects[workbench_moderation][version] = "1.2"
 
+projects[workbench_access][subdir] = "contributed"
+projects[workbench_access][version] = "1.x-dev"
+
 projects[link][subdir] = "contributed"
 projects[link][version] = "1.0"
 
