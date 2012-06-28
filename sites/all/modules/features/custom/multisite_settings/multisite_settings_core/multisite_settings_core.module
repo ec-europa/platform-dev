@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Multisite Core feature.
+ */
+
+include_once('multisite_settings_core.features.inc');

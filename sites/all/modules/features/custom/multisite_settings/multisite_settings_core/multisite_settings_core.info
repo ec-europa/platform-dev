@@ -1,0 +1,15 @@
+name = Multisite settings core
+description = Standard blocks and default functionalities
+core = 7.x
+package = Multisite Core Features
+php = 5.2.4
+version = 7.x-1.0
+project = multisite_settings_core
+dependencies[] = context
+dependencies[] = ctools
+dependencies[] = views
+features[context][] = homepage
+features[ctools][] = context:context:3
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:1
+features[views_view][] = multisite_settings_core
