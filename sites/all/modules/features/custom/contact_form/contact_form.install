@@ -8,21 +8,21 @@
 /**
  * hook_install
  */
-function contact_form_core_install() {
+function contact_form_install() {
     //Nothing yet
 }
 
 /**
  * hook_uninstall
  */
-function contact_form_core_uninstall() {
+function contact_form_uninstall() {
     //Nothing yet
 }
 
 /**
  * Add block to the context
  */
-function contact_form_core_enable() {
+function contact_form_enable() {
     //Activation message
     drupal_set_message('Contact form feature is now active on your site.');
 }
@@ -30,9 +30,9 @@ function contact_form_core_enable() {
 /**
  * Remove block from the context
  */
-function contact_form_core_disable() {
+function contact_form_disable() {
     //Activation message
-    drupal_set_message('contact form feature is now disabled on your site.');
+    drupal_set_message('Contact form feature is now disabled on your site.');
 }
 
 
