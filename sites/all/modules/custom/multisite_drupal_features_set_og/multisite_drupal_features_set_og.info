@@ -90,9 +90,9 @@ feature_sets[contact_form][disable][] = contact_form
 feature_sets[idea_standard][title] = 'Idea'
 feature_sets[idea_standard][description] = 'Suggest ideas, vote on and discuss already submitted ideas, surface most important/best ideas.'
 feature_sets[idea_standard][icon] = 'feature-set-icons/idea.png'
-feature_sets[idea_standard][enable][] = idea_og
+feature_sets[idea_standard][enable][] = idea_standard
 feature_sets[idea_standard][enable][] = idea_core
-feature_sets[idea_standard][disable][] = idea_og
+feature_sets[idea_standard][disable][] = idea_standard
 feature_sets[idea_standard][disable][] = idea_core
 
 feature_sets[social_bookmark][title] = 'Social bookmark'
