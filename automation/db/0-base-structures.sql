@@ -5,6 +5,17 @@
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ multisite_supermaster /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE multisite_supermaster;
 
+-- We may have very similar objects within different environments.
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE IF NOT EXISTS environments (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  name varchar(128) NOT NULL,
+  comment text,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Known environments';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 -- We have web servers.
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -104,16 +115,20 @@ CREATE TABLE IF NOT EXISTS drupal_master_sites (
 CREATE TABLE IF NOT EXISTS drupal_subsites (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(128) NOT NULL,
+  environment int(11) NOT NULL,
   url_pattern varchar(512) NOT NULL,
   database_name varchar(128) NOT NULL,
   database_account int(11) NOT NULL,
   master int(11) NOT NULL COMMENT 'Parent Drupal master site',
   install_policy varchar(128) DEFAULT NULL,
   PRIMARY KEY (id),
+  UNIQUE KEY name (name, environment),
   KEY master (master),
   KEY database_account (database_account),
+  KEY environment (environment),
   CONSTRAINT drupal_subsites_ibfk_1 FOREIGN KEY (database_account) REFERENCES database_accounts (id),
-  CONSTRAINT drupal_subsites_ibfk_2 FOREIGN KEY (master) REFERENCES drupal_master_sites (id)
+  CONSTRAINT drupal_subsites_ibfk_2 FOREIGN KEY (master) REFERENCES drupal_master_sites (id),
+  CONSTRAINT drupal_subsites_ibfk_3 FOREIGN KEY (environment) REFERENCES environments (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Known Drupal subsites';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
