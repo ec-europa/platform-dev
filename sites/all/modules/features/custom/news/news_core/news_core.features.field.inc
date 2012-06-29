@@ -118,7 +118,7 @@ function news_core_field_default_fields() {
       'bundle' => 'news',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'Enter a link related to your news content.',
+      'description' => 'Enter a link related to your news content. Please enter a complete link, begining with "http(s)://"',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -142,21 +142,20 @@ function news_core_field_default_fields() {
         'attributes' => array(
           'class' => '',
           'configurable_title' => 0,
-          'rel' => '',
-          'target' => 'default',
+          'rel' => 'nofollow',
+          'target' => '_blank',
           'title' => '',
         ),
         'display' => array(
           'url_cutoff' => '80',
         ),
         'enable_tokens' => 1,
-        'title' => 'optional',
+        'title' => 'required',
         'title_maxlength' => '255',
         'title_value' => '',
         'url' => 0,
-        'user_field_privacy' => FALSE,
         'user_register_form' => FALSE,
-        'validate_url' => 0,
+        'validate_url' => 1,
       ),
       'widget' => array(
         'active' => 0,
@@ -245,11 +244,11 @@ function news_core_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'browser_plugins' => array(),
           'progress_indicator' => 'throbber',
@@ -578,7 +577,7 @@ function news_core_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
-  t('Enter a link related to your news content.');
+  t('Enter a link related to your news content. Please enter a complete link, beginning with "http(s)://"');
   t('It is a Top News');
   t('Link');
   t('Picture');
