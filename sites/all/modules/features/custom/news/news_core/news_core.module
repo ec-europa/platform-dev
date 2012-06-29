@@ -150,11 +150,23 @@ function linkit_scan_url($url) {
       $path_info['path'] = variable_get('site_frontpage', 'node');
     }
 
-    // Check if the path already is an alias.
+     // Check if the path already is an alias.
     if (!$processed_path = drupal_lookup_path('source', $path_info['path'])) {
       // Not an alias, so keep the original value. //FALSE
-      //test url path alias then: 
-      $processed_path = $path_info['path'];
+      //test url path alias then:
+      
+      $query = db_select('menu_router', 'mrt');
+      $result = $query
+          ->condition('path', '%'.$path_info['path'] . '%','LIKE')
+          ->fields('mrt', array('path'))
+          ->execute()
+          ->fetchAll();
+          
+      if (isset($result[0])) {
+        $processed_path = $path_info['path'];
+      } else {
+        form_set_error('field_link', 'Not a valid internal url');
+      }
     }
 
     // Add the "real" system path (not the alias) if the current user have
