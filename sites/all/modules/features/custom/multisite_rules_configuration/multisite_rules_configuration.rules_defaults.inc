@@ -9,7 +9,7 @@
  */
 function cce_basic_config_default_rules_configuration() {
   $items = array();
-  $items['rules_manage_node_publication'] = entity_import('rules_config', '{ "rules_manage_node_publication" : {
+  $items['rules_manage_article_node_publication'] = entity_import('rules_config', '{ "rules_manage_article_node_publication" : {
       "LABEL" : "Manage Article Node Publication",
       "PLUGIN" : "reaction rule",
       "TAGS" : [ "Publication" ],
@@ -24,14 +24,14 @@ function cce_basic_config_default_rules_configuration() {
       ],
       "DO" : [
         { "schedule" : {
-            "component" : "rules_publish_content_rule_",
+            "component" : "rules_publish_article_content_rule_",
             "date" : [ "node:field-article-publication-date" ],
             "identifier" : "node_id_[node:nid]",
             "param_node" : [ "node" ]
           }
         },
         { "schedule" : {
-            "component" : "rules_unpublish_content_rule_",
+            "component" : "rules_unpublish_article_content_rule_",
             "date" : [ "node:field-article-unpublication-date" ],
             "identifier" : "unpub_node_id_[node:nid]",
             "param_node" : [ "node" ]
@@ -40,7 +40,7 @@ function cce_basic_config_default_rules_configuration() {
       ]
     }
   }');
-  $items['rules_publish_content_rule_'] = entity_import('rules_config', '{ "rules_publish_content_rule_" : {
+  $items['rules_publish_article_content_rule_'] = entity_import('rules_config', '{ "rules_publish_article_content_rule_" : {
       "LABEL" : "Publish Article content {rule}",
       "PLUGIN" : "rule",
       "REQUIRES" : [ "rules", "workbench_moderation" ],
@@ -66,7 +66,7 @@ function cce_basic_config_default_rules_configuration() {
       ]
     }
   }');
-  $items['rules_unpublish_content_rule_'] = entity_import('rules_config', '{ "rules_unpublish_content_rule_" : {
+  $items['rules_unpublish_article_content_rule_'] = entity_import('rules_config', '{ "rules_unpublish_article_content_rule_" : {
       "LABEL" : "UNpublish Article content {rule}",
       "PLUGIN" : "rule",
       "REQUIRES" : [ "rules", "workbench_moderation" ],
