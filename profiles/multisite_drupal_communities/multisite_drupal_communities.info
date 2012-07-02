@@ -109,7 +109,7 @@ dependencies[] = solr_config
 dependencies[] = multisite_settings_core
 dependencies[] = multisite_rules_configuration
 ;dependencies[] = communities
-;dependencies[] = article_extended
+dependencies[] = article_extended
 
 files[] = multisite_drupal_communities.profile
 
