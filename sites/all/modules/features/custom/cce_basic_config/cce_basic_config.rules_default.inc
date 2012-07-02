@@ -7,7 +7,7 @@
 /**
  * Implements hook_default_rules_configuration().
  */
-function article_core_default_rules_configuration() {
+function cce_basic_config_default_rules_configuration() {
   $items = array();
   $items['rules_manage_node_publication'] = entity_import('rules_config', '{ "rules_manage_node_publication" : {
       "LABEL" : "Manage Article Node Publication",
