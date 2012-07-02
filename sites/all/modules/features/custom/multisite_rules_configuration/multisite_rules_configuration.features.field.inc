@@ -7,7 +7,7 @@
 /**
  * Implements hook_field_default_fields().
  */
-function article_field_default_fields() {
+function multisite_rules_configuration_field_default_fields() {
   $fields = array();
 
   // Exported field: 'node-article-field_article_publication_date'.
