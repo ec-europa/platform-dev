@@ -6,6 +6,7 @@ project = article_extended
 dependencies[] = multisite_rules_configuration
 dependencies[] = rules_scheduler
 dependencies[] = workbench_moderation
+dependencies[] = strongarm
 features[features_api][] = api:1
 features[rules_config][] = rules_manage_article_node_publication
 features[rules_config][] = rules_publish_article
