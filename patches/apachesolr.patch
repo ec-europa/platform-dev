@@ -1,0 +1,19 @@
+Index: sites/all/modules/contributed/apachesolr/apachesolr.module
+===================================================================
+--- sites/all/modules/contributed/apachesolr/apachesolr.module
++++ sites/all/modules/contributed/apachesolr/apachesolr.module
+@@ -1732,9 +1732,11 @@
+   foreach ($entity_info as $entity_type => $info) {
+     if ($info['apachesolr']['indexable']) {
+       $supported = apachesolr_get_index_bundles($env_id, $entity_type);
+-      foreach (array_keys($info['bundles']) as $bundle) {
+-        if (in_array($bundle, $supported)) {
+-          $entity_info[$entity_type]['bundles'][$bundle]['apachesolr']['index'] = TRUE;
++      if(isset($info['bundles'])) {
++        foreach (array_keys($info['bundles']) as $bundle) {
++          if (in_array($bundle, $supported)) {
++            $entity_info[$entity_type]['bundles'][$bundle]['apachesolr']['index'] = TRUE;
++          }
+         }
+       }
+     }

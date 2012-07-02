@@ -25,5 +25,5 @@ function communities_install() {
   $field['settings']['default_image'] = $f->fid;
   field_update_field($field);
   */
-	  
+	
 }

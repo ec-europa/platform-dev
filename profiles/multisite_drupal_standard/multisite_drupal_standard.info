@@ -26,6 +26,8 @@ dependencies[] = file
 dependencies[] = rdf
 dependencies[] = locale
 
+dependencies[] = multisite_drupal_toolbox
+
 dependencies[] = captcha
 dependencies[] = entity
 dependencies[] = ctools
@@ -33,7 +35,7 @@ dependencies[] = token
 dependencies[] = apachesolr
 dependencies[] = apachesolr_search
 dependencies[] = apachesolr_multisitesearch
-;dependencies[] = apachesolr_attachments
+dependencies[] = apachesolr_attachments
 dependencies[] = facetapi
 dependencies[] = current_search
 dependencies[] = contact

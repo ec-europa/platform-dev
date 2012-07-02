@@ -1,0 +1,75 @@
+<?php
+function solr_config_enable() {
+  // add solr facet blocks to the search context
+  $blocks = module_invoke_all('block_info');
+  foreach($blocks as $key => $value) {
+    if(is_string($value['info'])) {
+      if(substr($value['info'], 0, 5) == 'Facet') {
+		_add_block_context('search',$value['info'],'facetapi',$key, 'sidebar_first');
+      }
+    }
+  }
+
+
+  // settings for file bundles implemented by file_entity
+  db_insert('apachesolr_index_bundles')->fields(array(
+    'env_id' => 'solr',
+    'entity_type' => 'file',
+    'bundle' => 'application',
+  ))->execute();
+  db_insert('apachesolr_index_bundles')->fields(array(
+    'env_id' => 'solr',
+    'entity_type' => 'file',
+    'bundle' => 'audio',
+  ))->execute();
+  db_insert('apachesolr_index_bundles')->fields(array(
+    'env_id' => 'solr',
+    'entity_type' => 'file',
+    'bundle' => 'image',
+  ))->execute();
+  db_insert('apachesolr_index_bundles')->fields(array(
+    'env_id' => 'solr',
+    'entity_type' => 'file',
+    'bundle' => 'text',
+  ))->execute();
+  db_insert('apachesolr_index_bundles')->fields(array(
+    'env_id' => 'solr',
+    'entity_type' => 'file',
+    'bundle' => 'video',
+  ))->execute();
+  db_insert('apachesolr_index_bundles')->fields(array(
+    'env_id' => 'solr',
+    'entity_type' => 'file',
+    'bundle' => 'file',
+  ))->execute();
+}
+
+
+function solr_config_disable() {
+  // settings for file bundles implemented by file_entity
+  db_delete('apachesolr_index_bundles')->condition(array(
+    'env_id' => 'solr',
+    'entity_type' => 'file',
+    'bundle' => 'application',
+  ))->execute();
+  db_delete('apachesolr_index_bundles')->condition(array(
+    'env_id' => 'solr',
+    'entity_type' => 'file',
+    'bundle' => 'audio',
+  ))->execute();
+  db_delete('apachesolr_index_bundles')->condition(array(
+    'env_id' => 'solr',
+    'entity_type' => 'file',
+    'bundle' => 'image',
+  ))->execute();
+  db_delete('apachesolr_index_bundles')->condition(array(
+    'env_id' => 'solr',
+    'entity_type' => 'file',
+    'bundle' => 'text',
+  ))->execute();
+  db_delete('apachesolr_index_bundles')->condition(array(
+    'env_id' => 'solr',
+    'entity_type' => 'file',
+    'bundle' => 'video',
+  ))->execute();
+}

@@ -164,7 +164,7 @@ drush scr "${working_dir}/profiles/${install_profile}/inject_data.php"
 #set solr tika variables
 drush vset apachesolr_attachments_tika_jar "${apachesolr_attachments_tika_jar}"
 drush vset apachesolr_attachments_tika_path "${apachesolr_attachments_tika_path}"
-
+drush vset apachesolr_attachments_java "${apachesolr_attachments_java}"
 
 #solr indexation
 drush solr-index
