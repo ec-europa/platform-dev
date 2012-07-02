@@ -12,7 +12,11 @@ include_once 'splash_screen.features.inc';
  */
 
 function splash_screen_init() {
-    global $base_url;
+    global $base_url, $user;
+    $isadmin = 0;
+    if (in_array('administrator', array_values($user->roles))) {
+	$isadmin = 1;
+    }
     $cookie_name = variable_get("locale_cookie_language_negotiation_cookie_param");
     $path = drupal_get_path('module', 'splash_screen');
     drupal_add_js($path . '/splash.js', array('weight' => 1));
@@ -20,6 +24,7 @@ function splash_screen_init() {
     $splash_screen_url = variable_get("splash_screen_url"); // TODO put these variables in a admin form settings
     drupal_add_js(array('splash_screen' => array(
     'base_url' => $base_url,
+    'isadmin' => $isadmin,
     'cookie_name' => $cookie_name,
     'splash' => $splash_screen_url
     )), 'setting');
