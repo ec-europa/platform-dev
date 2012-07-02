@@ -1,13 +1,12 @@
 name = Article extended
-description = Extend Articles content type with an autopublication process
 core = 7.x
 package = Features
 version = 7.x-1.0
 project = article_extended
-dependencies[] = entity
-dependencies[] = rules
+dependencies[] = multisite_rules_configuration
 dependencies[] = rules_scheduler
 dependencies[] = workbench_moderation
-dependencies[] = multisite_rules_configuration
 features[features_api][] = api:1
 features[rules_config][] = rules_manage_article_node_publication
+features[rules_config][] = rules_publish_article
+features[rules_config][] = rules_unpublish_article

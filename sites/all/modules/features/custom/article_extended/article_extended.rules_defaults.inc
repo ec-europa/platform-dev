@@ -40,5 +40,57 @@ function article_extended_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_publish_article'] = entity_import('rules_config', '{ "rules_publish_article" : {
+      "LABEL" : "Publish article",
+      "PLUGIN" : "rule",
+      "REQUIRES" : [ "rules", "workbench_moderation" ],
+      "USES VARIABLES" : { "node" : { "label" : "node", "type" : "node" } },
+      "IF" : [
+        { "node_is_of_type" : { "node" : [ "node" ], "type" : { "value" : { "article" : "article" } } } },
+        { "NOT data_is_empty" : { "data" : [ "node:field-article-publication-date" ] } },
+        { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "validated" } },
+        { "data_is" : {
+            "data" : [ "node:field-article-publication-date" ],
+            "op" : "\\u003E",
+            "value" : "now"
+          }
+        }
+      ],
+      "DO" : [
+        { "workbench_moderation_set_state" : {
+            "node" : [ "node" ],
+            "moderation_state" : "published",
+            "force_transition" : 1
+          }
+        }
+      ]
+    }
+  }');
+  $items['rules_unpublish_article'] = entity_import('rules_config', '{ "rules_unpublish_article" : {
+      "LABEL" : "UNpublish article",
+      "PLUGIN" : "rule",
+      "REQUIRES" : [ "rules", "workbench_moderation" ],
+      "USES VARIABLES" : { "node" : { "label" : "node", "type" : "node" } },
+      "IF" : [
+        { "node_is_of_type" : { "node" : [ "node" ], "type" : { "value" : { "article" : "article" } } } },
+        { "NOT data_is_empty" : { "data" : [ "node:field-article-unpublish-on" ] } },
+        { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "published" } },
+        { "data_is" : {
+            "data" : [ "node:field-article-unpublish-on" ],
+            "op" : "\\u003E",
+            "value" : "now"
+          }
+        }
+      ],
+      "DO" : [
+        { "workbench_moderation_set_state" : {
+            "node" : [ "node" ],
+            "moderation_state" : "archived",
+            "force_transition" : 1
+          }
+        }
+      ]
+    }
+  }');
   return $items;
 }
