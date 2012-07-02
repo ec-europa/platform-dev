@@ -25,14 +25,14 @@ function news_core_default_rules_configuration() {
       "DO" : [
         { "schedule" : {
             "component" : "rules_publish_content_rule_",
-            "date" : [ "node:field-publication-date" ],
+            "date" : [ "node:field-news-publication-date" ],
             "identifier" : "node_id_[node:nid]",
             "param_node" : [ "node" ]
           }
         },
         { "schedule" : {
             "component" : "rules_unpublish_content_rule_",
-            "date" : [ "node:field-unpublication-date" ],
+            "date" : [ "node:field-news-unpublication-date" ],
             "identifier" : "unpub_node_id_[node:nid]",
             "param_node" : [ "node" ]
           }
@@ -47,9 +47,9 @@ function news_core_default_rules_configuration() {
       "USES VARIABLES" : { "node" : { "label" : "node", "type" : "node" } },
       "IF" : [
         { "node_is_of_type" : { "node" : [ "node" ], "type" : { "value" : { "news" : "news" } } } },
-        { "NOT data_is_empty" : { "data" : [ "node:field-publication-date" ] } },
+        { "NOT data_is_empty" : { "data" : [ "node:field-news-publication-date" ] } },
         { "data_is" : {
-            "data" : [ "node:field-publication-date" ],
+            "data" : [ "node:field-news-publication-date" ],
             "op" : "\\u003C",
             "value" : "now"
           }
@@ -73,9 +73,9 @@ function news_core_default_rules_configuration() {
       "USES VARIABLES" : { "node" : { "label" : "node", "type" : "node" } },
       "IF" : [
         { "node_is_of_type" : { "node" : [ "node" ], "type" : { "value" : { "news" : "news" } } } },
-        { "NOT data_is_empty" : { "data" : [ "node:field-unpublication-date" ] } },
+        { "NOT data_is_empty" : { "data" : [ "node:field-news-unpublication-date" ] } },
         { "data_is" : {
-            "data" : [ "node:field-unpublication-date" ],
+            "data" : [ "node:field-news-unpublication-date" ],
             "op" : "\\u003C",
             "value" : "now"
           }

@@ -259,14 +259,14 @@ function news_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-news-field_publication_date'.
-  $fields['node-news-field_publication_date'] = array(
+  // Exported field: 'node-news-field_news_publication_date'.
+  $fields['node-news-field_news_publication_date'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_publication_date',
+      'field_name' => 'field_news_publication_date',
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '1',
@@ -315,7 +315,7 @@ function news_core_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_publication_date',
+      'field_name' => 'field_news_publication_date',
       'label' => 'Publication date',
       'required' => 1,
       'settings' => array(
@@ -489,14 +489,14 @@ function news_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-news-field_unpublication_date'.
-  $fields['node-news-field_unpublication_date'] = array(
+  // Exported field: 'node-news-field_news_unpublication_date'.
+  $fields['node-news-field_news_unpublication_date'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_unpublication_date',
+      'field_name' => 'field_news_unpublication_date',
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '1',
@@ -545,7 +545,7 @@ function news_core_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_unpublication_date',
+      'field_name' => 'field_news_unpublication_date',
       'label' => 'Unpublish on',
       'required' => 0,
       'settings' => array(
