@@ -16,7 +16,6 @@ dependencies[] = search
 dependencies[] = strongarm
 dependencies[] = taxonomy
 dependencies[] = jqmulti
-dependencies[] = rules_scheduler
 features[ckeditor_profile][] = Advanced
 features[ckeditor_profile][] = CKEditor Global Profile
 features[ckeditor_profile][] = Full
@@ -98,7 +97,4 @@ features[variable][] = sweaver_selector_order
 features[variable][] = sweaver_skin
 features[variable][] = theme_default
 features[variable][] = i18n_select_nodes
-features[rules_config][] = rules_manage_node_publication
-features[rules_config][] = rules_publish_content_rule_
-features[rules_config][] = rules_unpublish_content_rule_
 
