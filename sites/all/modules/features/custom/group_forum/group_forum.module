@@ -126,7 +126,7 @@ function _group_forum_get_link_from_room() {
     
     $url = url( 'node/add/'.CT_THREAD, $options );
     
-    return l( t('Add a new thread'), 
+    return l( t('Add a new topic'), 
       $url, 
       $attributes );
 }
