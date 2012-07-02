@@ -5,6 +5,7 @@ package = Multisite Core Features
 version = 7.x-1.0
 project = multisite_rules_configuration
 dependencies[] = entity_token
+dependencies[] = workbench_moderation
 dependencies[] = rules
 dependencies[] = rules_admin
 dependencies[] = rules_scheduler
