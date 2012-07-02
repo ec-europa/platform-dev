@@ -184,10 +184,8 @@
       }
     }
     
-    //initialize gallery data
-    $media_items = array();
-
     //build request for Pages and pager build
+    if(!empty($fids)){
     $query = db_select('file_managed', 'fmd')
       ->extend('PagerDefault') 	//Pager Extender
       ->limit(16)
@@ -200,8 +198,11 @@
       ->orderby('timestamp', 'ASC');  
     $results = $query
           ->execute();
-        
-    if ($results) {
+    }
+    
+    //initialize gallery data
+    $media_items = array();
+    if (isset($results) && !empty($results)) {
       foreach ($results as $key => $item) {
         $media_items[] = get_object_vars($item);
       }
@@ -223,8 +224,12 @@
       if (($key % 4) == 0)
         $output .= '<div class="media_gallery row-fluid">';
         
-        //alias
+      //variable alias
+      if ($item['type'] != 'empty') {
         $local_data = $forms_items_by_id[$item['fid']];
+      } else {
+        $local_data = $item;
+      }
         
       switch ($local_data['type']) {
         case 'image':
