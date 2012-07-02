@@ -24,14 +24,14 @@ function article_extended_default_rules_configuration() {
       ],
       "DO" : [
         { "schedule" : {
-            "component" : "rules_publish_content_rule_",
+            "component" : "rules_publish_article",
             "date" : [ "node:field-article-publication-date" ],
             "identifier" : "node_id_[node:nid]",
             "param_node" : [ "node" ]
           }
         },
         { "schedule" : {
-            "component" : "rules_unpublish_content_rule_",
+            "component" : "rules_unpublish_article",
             "date" : [ "node:field-article-unpublish-on" ],
             "identifier" : "unpub_node_id_[node:nid]",
             "param_node" : [ "node" ]
