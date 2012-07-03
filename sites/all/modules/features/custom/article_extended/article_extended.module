@@ -3,3 +3,4 @@
  * @file
  * Drupal needs this blank file.
  */
+ include_once('article_extended.features.inc');
