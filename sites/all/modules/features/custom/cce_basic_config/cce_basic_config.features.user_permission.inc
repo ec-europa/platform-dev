@@ -15,7 +15,8 @@ function cce_basic_config_user_default_permissions() {
     'name' => 'search content',
     'roles' => array(
       0 => 'administrator',
-      1 => 'authenticated user',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
     ),
     'module' => 'search',
   );
@@ -25,7 +26,8 @@ function cce_basic_config_user_default_permissions() {
     'name' => 'use advanced search',
     'roles' => array(
       0 => 'administrator',
-      1 => 'authenticated user',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
     ),
     'module' => 'search',
   );
