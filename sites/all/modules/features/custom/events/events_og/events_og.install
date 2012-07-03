@@ -31,8 +31,7 @@ function events_og_enable(){
   _add_content_type_context('communities', 'event');
   _add_path_context('communities', 'calendar/*');
 	
-  //Activation message
-  drupal_set_message('Events feature is now active on your site.');
+
 }
 
 
@@ -86,7 +85,7 @@ function events_og_disable(){
   ));
 		
   drupal_flush_all_caches(); 
-  drupal_set_message('Events feature is now disabled on your site.');	
+ 
 }
 
 
