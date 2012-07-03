@@ -1,7 +1,7 @@
 Index: sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module
 ===================================================================
---- sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module
-+++ sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module
+--- sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module	2012-02-16 08:47:32.000000000 +0100
++++ sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module	2012-02-16 11:02:41.000000000 +0100
 @@ -455,6 +455,7 @@
  }
  
