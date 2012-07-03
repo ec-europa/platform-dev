@@ -25,6 +25,7 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['title'] = 'People';
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
+    1 => '1',
     2 => '2',
   );
   $handler->display->display_options['cache']['type'] = 'none';
