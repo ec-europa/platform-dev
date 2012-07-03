@@ -41,3 +41,12 @@ function gallerymedia_core_tokens($type, $tokens, $data = array(), $options = ar
     }
     return $replacements;
 }
+
+/**
+ * Implementation of (form_id) hook_form_alter().
+ */
+function gallerymedia_core_form_gallerymedia_node_form_alter(&$form, &$form_state) {
+
+  $form['field_video_upload']['#access'] = false;
+
+}
