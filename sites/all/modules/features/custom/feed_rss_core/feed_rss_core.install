@@ -46,8 +46,18 @@ function feed_rss_core_enable(){
  * Remove permissions
  */
 function feed_rss_core_disable(){
+  // remove feed and its items
+  $feed = db_select('aggregator_feed', 'a')
+    ->condition('title', 'Press Releases','=')
+    ->fields('a')
+    ->execute()
+    ->fetchObject();
+  aggregator_remove($feed);
+  db_delete('aggregator_feed')
+    ->condition('fid', $feed->fid)
+    ->execute();
 
-    //Add block in context
+  //Add block in context
   _remove_block_context('homepage','feed-1');
   drupal_set_message('RSS Feed feature is now disabled on your site.');
   drupal_cron_run();
