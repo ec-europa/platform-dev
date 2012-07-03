@@ -250,7 +250,7 @@ function cce_basic_config_field_default_fields() {
       'field_name' => 'field_article_publication_date',
       'foreign keys' => array(),
       'indexes' => array(),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'date',
       'settings' => array(
         'granularity' => array(
@@ -335,7 +335,7 @@ function cce_basic_config_field_default_fields() {
       'field_name' => 'field_article_unpublish_on',
       'foreign keys' => array(),
       'indexes' => array(),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'date',
       'settings' => array(
         'granularity' => array(
