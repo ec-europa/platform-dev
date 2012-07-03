@@ -51,7 +51,7 @@ function article_extended_default_rules_configuration() {
         { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "validated" } },
         { "data_is" : {
             "data" : [ "node:field-article-publication-date" ],
-            "op" : "\\u003E",
+            "op" : "\\u003C",
             "value" : "now"
           }
         }
@@ -77,7 +77,7 @@ function article_extended_default_rules_configuration() {
         { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "published" } },
         { "data_is" : {
             "data" : [ "node:field-article-unpublish-on" ],
-            "op" : "\\u003E",
+            "op" : "\\u003C",
             "value" : "now"
           }
         }
