@@ -26,14 +26,14 @@ function news_core_default_rules_configuration() {
         { "schedule" : {
             "component" : "rules_publish_content_rule_",
             "date" : [ "node:field-news-publication-date" ],
-            "identifier" : "node_id_[node:nid]",
+            "identifier" : "publish_nid_[node:nid]_rev_id_[node:vid]",
             "param_node" : [ "node" ]
           }
         },
         { "schedule" : {
             "component" : "rules_unpublish_content_rule_",
             "date" : [ "node:field-news-unpublication-date" ],
-            "identifier" : "unpub_node_id_[node:nid]",
+            "identifier" : "unpublish_nid_[node:nid]_rev_id_[node:vid]",
             "param_node" : [ "node" ]
           }
         }
