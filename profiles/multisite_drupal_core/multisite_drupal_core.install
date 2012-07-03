@@ -70,6 +70,7 @@ function multisite_drupal_core_install() {
 	'access PDF version',
     'access site-wide contact form',
     'access user contact forms',
+    'access user profiles',
   )); 
 
   $adm_rid = get_rid('administrator'); 
@@ -92,6 +93,7 @@ function multisite_drupal_core_install() {
     'access user contact forms',
 	'search content',
 	'use advanced search',
+	'access user profiles',
   )); 
   
   
