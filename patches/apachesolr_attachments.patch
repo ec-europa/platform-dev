@@ -1,7 +1,7 @@
 Index: sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module
 =================================================================================================================================
---- sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module.old	2012-07-02 12:47:59.000000000 +0200
-+++ sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module.new	2012-07-03 10:21:06.000000000 +0200
+--- sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module	2012-07-02 12:47:59.000000000 +0200
++++ sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module	2012-07-03 10:21:06.000000000 +0200
 @@ -453,6 +453,7 @@
    // TODO: If you are a entity magician, please improve
    if (isset($parent_entity->type)) {
