@@ -16,7 +16,7 @@ jQuery(function($){
           buttons:   {},
         },
         beforeClose: function() {
-           stopPlayer();
+          stopPlayer();
         },
         beforeLoad: function() {
           stopPlayer();
@@ -26,9 +26,6 @@ jQuery(function($){
    // });
     /* /Gallery lightbox */
   });
-
-
-
 
   function stopPlayer(){
 
