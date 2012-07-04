@@ -225,10 +225,10 @@
         $output .= '<div class="media_gallery row-fluid">';
         
       //variable alias
-      if ($item['type'] != 'empty') {
-        $local_data = $forms_items_by_id[$item['fid']];
-      } else {
+      if (isset($item['type']) && $item['type'] == 'empty') {
         $local_data = $item;
+      } else {        
+        $local_data = $forms_items_by_id[$item['fid']];
       }
         
       switch ($local_data['type']) {
