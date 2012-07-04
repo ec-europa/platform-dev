@@ -41,7 +41,7 @@ function gallerymedia_core_views_default_views_alter(&$views) {
 
 
 /* Display: Latest Media block */
-$handler = $view->new_display('block', 'Latest Media block', 'media');
+$handler = $view->new_display('block', 'Latest Media block', 'block_m');
 $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['defaults']['style_plugin'] = FALSE;
 $handler->display->display_options['style_plugin'] = 'default';
