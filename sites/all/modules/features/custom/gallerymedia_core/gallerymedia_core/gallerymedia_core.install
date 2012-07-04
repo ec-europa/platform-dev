@@ -10,7 +10,7 @@ function gallerymedia_core_enable() {
     config_solr_bundle('gallerymedia', 'add');
 
     //Add block in context
-    _add_block_context('homepage', 'multisite_settings_core-medias_block', 'views', 'multisite_settings_core-medias_block', 'content_top');
+    _add_block_context('homepage', 'multisite_settings_core-media', 'views', 'multisite_settings_core-media', 'content_top');
 
     //Add breadcrumb configuration
     db_insert('custom_breadcrumb')
