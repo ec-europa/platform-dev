@@ -5,8 +5,8 @@
 */
 function gallerymedia_core_views_default_views_alter(&$views) {
   // Alter only the 'view_name_of_interest' view.
-  if (array_key_exists('multisite_settings_core', $views)) {
-    $view=$views['multisite_settings_core'];
+  if (array_key_exists('galleries', $views)) {
+    $view=$views['galleries'];
 	
     /* Display: Latest content block */
    // $handler = $view->display['block_latest']->handler;
