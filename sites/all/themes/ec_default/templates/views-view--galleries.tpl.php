@@ -28,7 +28,7 @@
 ?>
 
   <?php 
-print("hello5");
+
  
     if (user_access('create gallerymedia content') && strpos($classes, "medias_block") == false ) {
       print l(t('Create a Gallery'), 'node/add/gallerymedia', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'))); 
