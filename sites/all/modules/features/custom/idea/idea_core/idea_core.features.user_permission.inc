@@ -18,7 +18,7 @@ function idea_core_user_default_permissions() {
             0 => 'authenticated user',
             1 => 'anonymous user',
         ),
-        'module' => 'Fivestar',
+        'module' => 'fivestar',
     );
 
     // Exported permission: create idea content
