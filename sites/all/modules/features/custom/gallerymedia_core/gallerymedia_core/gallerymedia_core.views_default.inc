@@ -495,6 +495,12 @@ $handler->display->display_options['filters']['type']['field'] = 'type';
 $handler->display->display_options['filters']['type']['value'] = array(
   'gallerymedia' => 'gallerymedia',
 );
+/* Filter criterion: Content: Picture upload (field_picture_upload:fid) */
+$handler->display->display_options['filters']['field_picture_upload_fid']['id'] = 'field_picture_upload_fid';
+$handler->display->display_options['filters']['field_picture_upload_fid']['table'] = 'field_data_field_picture_upload';
+$handler->display->display_options['filters']['field_picture_upload_fid']['field'] = 'field_picture_upload_fid';
+$handler->display->display_options['filters']['field_picture_upload_fid']['operator'] = 'not empty';
+
 $handler->display->display_options['filters']['type']['group'] = 1;
 $translatables['galleries'] = array(
     t('Master'),
