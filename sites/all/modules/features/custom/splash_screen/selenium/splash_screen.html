@@ -12,21 +12,30 @@
 <tr><td rowspan="1" colspan="3">Splash_sreen_redirection</td></tr>
 </thead><tbody>
 <tr>
+	<td>open</td>
+	<td>/multisite_drupal_test/</td>
+	<td></td>
+</tr>
+<tr>
 	<td>deleteAllVisibleCookies</td>
 	<td></td>
 	<td></td>
 </tr>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_tbr/</td>
+	<td>/multisite_drupal_test/</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>//li[3]/a/span</td>
+	<td>css=span</td>
 	<td></td>
 </tr>
-
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>Please choose a language</td>
+</tr>
 </tbody></table>
 </body>
 </html>

@@ -11,9 +11,50 @@
 <thead>
 <tr><td rowspan="1" colspan="3">init</td></tr>
 </thead><tbody>
+<!--Ensure you have activated the feature and are not log in. Prepare a test file named document_example.txt in a sample directory-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>administrator</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=toolbar-link-admin-structure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Feature Set</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//tr[@id='__sizzle__']/td[2]/div/label[2]/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Log out</td>
+	<td></td>
+</tr>
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_tbr3/en</td>
+	<td>/multisite_drupal_test/en</td>
 	<td></td>
 </tr>
 <tr>
@@ -129,7 +170,7 @@
 <tr>
 	<td>type</td>
 	<td>id=edit-name</td>
-	<td>admin</td>
+	<td>administrator</td>
 </tr>
 <tr>
 	<td>type</td>

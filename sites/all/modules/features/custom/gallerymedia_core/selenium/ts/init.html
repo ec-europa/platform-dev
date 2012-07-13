@@ -11,9 +11,10 @@
 <thead>
 <tr><td rowspan="1" colspan="3">init</td></tr>
 </thead><tbody>
+<!--Ensure you have activated the media galery.begin the test beiing not log in.-->
 <tr>
 	<td>open</td>
-	<td>/multisite_drupal_wde/en</td>
+	<td>/multisite_drupal_test/en</td>
 	<td></td>
 </tr>
 <tr>
@@ -22,8 +23,28 @@
 	<td></td>
 </tr>
 <tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>administrator</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
 	<td>clickAndWait</td>
-	<td>link=Create new account</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=toolbar-link-admin-people</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Add user</td>
 	<td></td>
 </tr>
 <tr>
@@ -43,22 +64,22 @@
 </tr>
 <tr>
 	<td>type</td>
+	<td>id=edit-pass-pass1</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass-pass2</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>type</td>
 	<td>id=edit-field-firstname-und-0-value</td>
 	<td>Admin</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
 	<td>id=edit-submit</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=login</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Create new account</td>
 	<td></td>
 </tr>
 <tr>
@@ -82,18 +103,18 @@
 	<td>Contrib</td>
 </tr>
 <tr>
+	<td>type</td>
+	<td>id=edit-pass-pass2</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass-pass1</td>
+	<td>pass</td>
+</tr>
+<tr>
 	<td>clickAndWait</td>
 	<td>id=edit-submit</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=login</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Create new account</td>
 	<td></td>
 </tr>
 <tr>
@@ -117,8 +138,23 @@
 	<td>User</td>
 </tr>
 <tr>
+	<td>type</td>
+	<td>id=edit-pass-pass1</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass-pass2</td>
+	<td>pass</td>
+</tr>
+<tr>
 	<td>clickAndWait</td>
 	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Log out</td>
 	<td></td>
 </tr>
 <tr>
@@ -129,7 +165,7 @@
 <tr>
 	<td>type</td>
 	<td>id=edit-name</td>
-	<td>admin</td>
+	<td>administrator</td>
 </tr>
 <tr>
 	<td>type</td>
