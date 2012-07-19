@@ -266,7 +266,7 @@
             $converted_video = file_load($converted_fid['output_fid']);
             $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://','/',$converted_video->uri);
           } else {
-            $video_path = $base_url . '/' . variable_get('file_directory_path', $default = 'sites/default/files') . '/videos/original/' . $local_data['filename'];
+            $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . '/videos/original/' . $local_data['filename'];
           }
           $thumb = file_load($local_data['thumbnail']);
           $video_square_thumbnail = image_style_url('square_thumbnail', $thumb->uri);
