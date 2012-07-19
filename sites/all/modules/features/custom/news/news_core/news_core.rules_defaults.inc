@@ -57,8 +57,13 @@ function news_core_default_rules_configuration() {
         { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "validated" } }
       ],
       "DO" : [
+        { "workbench_moderation_load_current_revision" : {
+            "USING" : { "node" : [ "node" ] },
+            "PROVIDE" : { "node_revision" : { "node_revision" : "Current node revision" } }
+          }
+        },
         { "workbench_moderation_set_state" : {
-            "node" : [ "node" ],
+            "node" : [ "node-revision" ],
             "moderation_state" : "published",
             "force_transition" : 1
           }
@@ -83,7 +88,7 @@ function news_core_default_rules_configuration() {
         { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "published" } }
       ],
       "DO" : [
-        { "workbench_moderation_set_state" : {
+        { "workbench_moderation_set_state_and_unpublish" : {
             "node" : [ "node" ],
             "moderation_state" : "archived",
             "force_transition" : 1
