@@ -132,13 +132,6 @@ function gallerymedia_core_views_default_views() {
     1 => 'AND',
     2 => 'OR',
   );
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -146,6 +139,13 @@ function gallerymedia_core_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'gallerymedia' => 'gallerymedia',
   );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Workbench Moderation: Published */
+  $handler->display->display_options['filters']['published']['id'] = 'published';
+  $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
+  $handler->display->display_options['filters']['published']['field'] = 'published';
+  $handler->display->display_options['filters']['published']['value'] = '1';
+  $handler->display->display_options['filters']['published']['group'] = 1;
   /* Filter criterion: Content translation: Language */
   $handler->display->display_options['filters']['language']['id'] = 'language';
   $handler->display->display_options['filters']['language']['table'] = 'node';
@@ -481,13 +481,6 @@ $handler->display->display_options['fields']['nothing']['hide_empty'] = 0;
 $handler->display->display_options['fields']['nothing']['empty_zero'] = 0;
 $handler->display->display_options['fields']['nothing']['hide_alter_empty'] = 0;
 $handler->display->display_options['defaults']['filters'] = FALSE;
-/* Filter criterion: Content: Published */
-$handler->display->display_options['filters']['status']['id'] = 'status';
-$handler->display->display_options['filters']['status']['table'] = 'node';
-$handler->display->display_options['filters']['status']['field'] = 'status';
-$handler->display->display_options['filters']['status']['value'] = 1;
-$handler->display->display_options['filters']['status']['group'] = 1;
-$handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
 /* Filter criterion: Content: Type */
 $handler->display->display_options['filters']['type']['id'] = 'type';
 $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -495,14 +488,21 @@ $handler->display->display_options['filters']['type']['field'] = 'type';
 $handler->display->display_options['filters']['type']['value'] = array(
   'gallerymedia' => 'gallerymedia',
 );
+$handler->display->display_options['filters']['type']['group'] = 1;
 /* Filter criterion: Content: Picture upload (field_picture_upload:fid) */
 $handler->display->display_options['filters']['field_picture_upload_fid']['id'] = 'field_picture_upload_fid';
 $handler->display->display_options['filters']['field_picture_upload_fid']['table'] = 'field_data_field_picture_upload';
 $handler->display->display_options['filters']['field_picture_upload_fid']['field'] = 'field_picture_upload_fid';
 $handler->display->display_options['filters']['field_picture_upload_fid']['operator'] = 'not empty';
-
-$handler->display->display_options['filters']['type']['group'] = 1;
+$handler->display->display_options['filters']['field_picture_upload_fid']['group'] = 1;
+/* Filter criterion: Workbench Moderation: Published */
+$handler->display->display_options['filters']['published']['id'] = 'published';
+$handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
+$handler->display->display_options['filters']['published']['field'] = 'published';
+$handler->display->display_options['filters']['published']['value'] = '1';
+$handler->display->display_options['filters']['published']['group'] = 1;
 $translatables['galleries'] = array(
+  
     t('Master'),
     t('Galleries'),
     t('more'),
@@ -523,7 +523,6 @@ $translatables['galleries'] = array(
 [field_picture_upload][field_video_upload] 
 </div>'),
     t('Latest Media block'),
-    t('[Empty_gallery]'),
     t('[field_picture_upload][field_video_upload]'),
   );
   $export['galleries'] = $view;
