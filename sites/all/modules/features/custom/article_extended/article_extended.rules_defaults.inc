@@ -57,12 +57,12 @@ function article_extended_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "workbench_moderation_set_state" : {
-            "node" : [ "node" ],
-            "moderation_state" : "published",
-            "force_transition" : 1
+        { "workbench_moderation_load_current_revision" : {
+            "USING" : { "node" : [ "node" ] },
+            "PROVIDE" : { "node_revision" : { "node_revision" : "Current node revision" } }
           }
-        }
+        },
+        { "node_publish" : { "node" : [ "node" ] } }
       ]
     }
   }');
@@ -83,7 +83,7 @@ function article_extended_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "workbench_moderation_set_state" : {
+        { "workbench_moderation_set_state_and_unpublish" : {
             "node" : [ "node" ],
             "moderation_state" : "archived",
             "force_transition" : 1
