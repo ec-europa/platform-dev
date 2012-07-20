@@ -62,7 +62,12 @@ function article_extended_default_rules_configuration() {
             "PROVIDE" : { "node_revision" : { "node_revision" : "Current node revision" } }
           }
         },
-        { "node_publish" : { "node" : [ "node" ] } }
+        { "workbench_moderation_set_state" : {
+            "node" : [ "node-revision" ],
+            "moderation_state" : "published",
+            "force_transition" : 1
+          }
+        }
       ]
     }
   }');
