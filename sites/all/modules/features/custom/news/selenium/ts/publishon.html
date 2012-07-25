@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://fpfis-dev/" />
+<title>publish on</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">publish on</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/multisite_drupal_test/en</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//body</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>contributor</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=News</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Create a News</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-title</td>
+	<td>News 01 test unpublish</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-workbench-moderation-state-new</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=edit-workbench-moderation-state-new</td>
+	<td>label=Needs Review</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=option[value=&quot;needs_review&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Log out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>contributor</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=News</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=My workbench</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=News 01 test unpublish</td>
+	<td></td>
+</tr>
+<!--chose a date to publish and unpublish-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Edit draft</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-news-publication-date-und-0-value-date</td>
+	<td>07/17/2012 - 10:15</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-news-unpublication-date-und-0-value-date</td>
+	<td>07/17/2012 - 10:30</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Log out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>administrator</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=My workbench</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Needs Review</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Validated</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'Log out')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=News</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextNotPresent</td>
+	<td></td>
+	<td>News 01 test unpublish</td>
+</tr>
+<!--Wait until date of publication has passed-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=News</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>News 01 test unpublish</td>
+</tr>
+</tbody></table>
+</body>
+</html>
