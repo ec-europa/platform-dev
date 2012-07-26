@@ -206,6 +206,11 @@ projects[jqmulti][version] = "1.0-beta1"
 projects[video][subdir] = "contributed"
 projects[video][version] = "2.6"
 
+projects[node_export][subdir] = "contributed"
+projects[node_export][version] = "3.0-rc3"
+
+projects[quicktabs][subdir] = "contributed"
+projects[quicktabs][version] = "3.4"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
@@ -215,6 +220,5 @@ projects[video][version] = "2.6"
 ;libraries[ckeditor][destination] = "libraries"
 ;libraries[ckeditor][overwrite] = TRUE
 
-projects[quicktabs][subdir] = "contributed"
-projects[quicktabs][version] = "3.4"
+
 

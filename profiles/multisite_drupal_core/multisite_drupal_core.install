@@ -51,7 +51,7 @@ function multisite_drupal_core_install() {
     'view moderation messages', 
 	'moderate content from draft to needs_review',
     'view moderation history',
-    'revert revisions',	
+    'revert revisions',
   ));   
   
   // permissions to the authentificated user
