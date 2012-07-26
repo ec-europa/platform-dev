@@ -100,6 +100,7 @@ dependencies[] = libraries
 ;dependencies[] = jqmulti
 dependencies[] = quicktabs
 dependencies[] = og
+dependencies[] = node_export
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_og
