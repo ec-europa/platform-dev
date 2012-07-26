@@ -368,13 +368,16 @@ function feature_set_preprocess_html(&$variables) {
 
 function batch_featureset_op($feature_set_action, $operation_details, &$context) {
   $context['results'][] = $feature_set_action['feature']['title'];
-  $context['message'] = $feature_set_action['feature']['title']." ".$feature_set_action['value'];
-
+ 
   // proccess enable/disable features here
-  if($feature_set_action['value'] == 'enable')
+  if($feature_set_action['value'] == 'enable') {
+	$context['message'] = $feature_set_action['feature']['title']." enabling";
     feature_set_enable_feature_set($feature_set_action['feature']);
-  else
+  }
+  else  {
+	$context['message'] = $feature_set_action['feature']['title']." disabling";
     feature_set_disable_feature_set($feature_set_action['feature']);
+  }
 
   _batch_update_http_requests();
 }
