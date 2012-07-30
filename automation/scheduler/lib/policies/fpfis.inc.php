@@ -117,8 +117,8 @@ function fpfis_require_database(&$subsite) {
 	$default_machines = array('localhost', 'fpfis-mgmt.cc.cec.eu.int', '158.167.34.197');
 	$mail_returnpath = 'xavier.guerrin@ext.ec.europa.eu';
 	$mail_from = 'xavier.guerrin@ext.ec.europa.eu';
-	$mail_to = 'xavier@tuxfamily.org';
-	$mail_cc = 'xavier.guerrin@ext.ec.europa.eu';
+	$mail_to = 'ec-helpdesk-it@ec.europa.eu';
+	$mail_cc = 'xavier.guerrin@ext.ec.europa.eu, thomas.klock@ext.ec.europa.eu, rosa.ordinana-calabuig@ec.europa.eu';
 	$mail_subject = 'Multisite: database creation request';
 	$mail_body = '[Ticket to DIGIT ISHS WebDesk]
 
@@ -127,6 +127,7 @@ Hello,
 Could you create the following database and user account on @mysql_instance?
   * username: @mysql_username
   * password: please choose a strong password and provide us with it through @db_provider_ihm_url
+    * Note: the TLS certificate is not valid (self-signed): this is normal.
   * client machines: @client_machines
   * with all privileges on a new database named @mysql_db_name
 
@@ -149,7 +150,7 @@ The FPFIS team';
 	// fetch information required to compose the mail
 	$tokens['mysql_instance'] = sprintf('%s:%s', $subsite->databaseInstance()->hostname(), $subsite->databaseInstance()->port());
 	$tokens['mysql_username'] = $subsite->databaseUsername();
-	$tokens['db_provider_ihm_url'] = 'http://fpfis-mgmt.cc.cec.eu.int:7890/ishs/provide_mysql_password';
+	$tokens['db_provider_ihm_url'] = 'https://fpfis-mgmt.cc.cec.eu.int:7890/ishs/provide_mysql_password';
 	$web_hostnames = $default_machines;
 	foreach ($subsite->master()->cluster()->webServers() as $web_server) {
 		$web_hostnames[] = $web_server['hostname'];
@@ -535,7 +536,6 @@ function fpfis_configure_apachesolr(&$subsite) {
 
 function fpfis_clear_subsite_caches(&$subsite) {
 	/// TODO create a configuration file for the policy
-	$solr_server_url = 'http://biguonia.cc.cec.eu.int:8080/solr/multisite';
 	$solr_server_name = 'multisite solr server';
 	$install_profile = 'multisite_drupal_standard';
 	
