@@ -1,0 +1,17 @@
+Index: sites/all/modules/contributed/locale_cookie/locale_cookie.module
+========================================================================
+--- sites/all/modules/contributed/locale_cookie/locale_cookie.module 2012-07-05 15:03:54.000000000 +0200
++++ sites/all/modules/contributed/locale_cookie/locale_cookie.module 2012-07-31 10:14:32.231202000 +0200
+@@ -22,8 +22,10 @@
+   else {
+     $langcode = $language->language;
+   }
+-  $expire = REQUEST_TIME + (86400 * variable_get('locale_cookie_language_negotiation_cookie_expire', 7));
+-  setcookie($param, $langcode, $expire, $base_path);
++  if (!isset($_COOKIE[$param])) {
++    $expire = REQUEST_TIME + (86400 * variable_get('locale_cookie_language_negotiation_cookie_expire', 7));
++    setcookie($param, $langcode, $expire, $base_path);
++  }
+ }
+
+ function locale_cookie_language_negotiation_info() {
