@@ -231,6 +231,18 @@
         $local_data = $forms_items_by_id[$item['fid']];
       }
         $short_name = (strlen($local_data['filename']) > 35)?substr($local_data['filename'],0,30).'[...]':$local_data['filename'];
+      
+      //Get tags if any provided
+      if (isset($local_data['field_tags'])) {
+        $cop = $local_data['field_tags']['und'];
+        $montag = '';
+        foreach($cop as $buif => $tid_array){           
+          //$montag[] = l(taxonomy_term_load($tid_array['tid'])->name, 'taxonomy/term/'.$tid_array['tid']);TODO List content porperly
+          $montag[] = taxonomy_term_load($tid_array['tid'])->name;
+        }
+        $tags = '<br />Tags: ' . implode(', ' , $montag).'.';
+      }  
+            
       switch ($local_data['type']) {
         case 'image':
           $picture_square_thumbnail = image_style_url('square_thumbnail', $local_data['uri']);
@@ -242,8 +254,8 @@
           $output .= '<img src="'.$picture_preview.'" alt="'.$local_data['filename'].'" />';
 
           if (isset($local_data['field_picture_description']['und'][0]['value']))
-            $output .= '<p>'.$local_data['field_picture_description']['und'][0]['value'].'</p>';
-
+            $output .= '<p>'.$local_data['field_picture_description']['und'][0]['value'].$tags.'</p>';
+       
           $output .= '<p><a href="'.$base_url.'/'.$picture_original.'" title="'.$local_data['filename'].'" target="_blank">'.t('View full size picture').'</a></p>';
           $output .= '</div>';
           $output .= '<a href="#lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$local_data['filename'].'">';
