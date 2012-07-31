@@ -24,20 +24,19 @@ function multisite_drupal_core_install() {
   taxonomy_term_save($term);
 
   // create new roles -------------------------------------------------------------------------------------------------------------------------------------------------------
+  // contributor role
   $role = new stdClass();
   $role->name = 'contributor';
   user_role_save($role);  
   
   // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
   // permissions related to articles content type
-  
   user_role_grant_permissions($role->rid, array(  
     'create article content',
 	'delete own article content',
 	'edit own article content', 
   )); 
 
-  
   // permissions related to workbench moderation
   user_role_grant_permissions($role->rid, array(  
     //'create article content',
@@ -54,7 +53,7 @@ function multisite_drupal_core_install() {
     'revert revisions',
   ));   
   
-  // permissions to the authentificated user
+  // authentificated user role
   $au_rid = get_rid('authenticated user');
   user_role_grant_permissions($au_rid, array(  
     'view own unpublished content',
@@ -73,6 +72,7 @@ function multisite_drupal_core_install() {
     'access user profiles',
   )); 
 
+  // administrator role
   $adm_rid = get_rid('administrator'); 
   user_role_revoke_permissions($adm_rid, array(
     'administer modules',
@@ -83,7 +83,7 @@ function multisite_drupal_core_install() {
 	//'switch shortcut sets',
   ));  
   
-  // permissions to the anonymous
+  // anonymous role
   $anu_rid = get_rid('anonymous user');
   user_role_grant_permissions($anu_rid, array(  
     'post comments',
@@ -96,7 +96,27 @@ function multisite_drupal_core_install() {
 	'access user profiles',
   )); 
   
+  // editor role
+  $role = new stdClass();
+  $role->name = 'editor';
+  user_role_save($role); 
+ 
+  user_role_grant_permissions($role->rid, array(  
+    'create article content',
+	'delete any article content',
+	'delete own article content',
+	'delete revisions',
+	'edit any article content',
+	'edit own article content',
+	'export nodes',
+	'moderate content from needs_review to draft',
+	'moderate content from needs_review to published',
+	'moderate content from needs_review to validated',
+	'moderate content from published to archived',
+	'moderate content from validated to published',
+  ));  
   
+
   // define the theme used ------------------------------------------------------------------------------------------------------------------------------------------------------
   $enable = array(
     'theme_default' => 'ec_default', // should be the our CCE theme

@@ -26,6 +26,7 @@ function survey_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'webform',
   );
@@ -36,6 +37,7 @@ function survey_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'webform',
   );
@@ -46,6 +48,7 @@ function survey_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );
@@ -56,6 +59,7 @@ function survey_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );
@@ -65,6 +69,7 @@ function survey_core_user_default_permissions() {
     'name' => 'delete own webform submissions',
     'roles' => array(
       0 => 'administrator',
+      1 => 'editor',
     ),
     'module' => 'webform',
   );
@@ -75,6 +80,7 @@ function survey_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );

@@ -16,6 +16,7 @@ function events_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );
@@ -26,6 +27,7 @@ function events_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );
@@ -36,6 +38,7 @@ function events_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );
@@ -46,6 +49,7 @@ function events_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );
@@ -56,6 +60,7 @@ function events_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );

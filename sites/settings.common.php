@@ -13,6 +13,9 @@
    $base_url = 'https://webgate.ec.europa.eu/multisite';
    ini_set('session.cookie_path', '/multisite');
  }
+ 
+ $conf['file_private_path'] = sprintf('sites/%s/files', $multisite_subsite); 
+ 
  $conf['apachesolr_attachments_java'] = realpath(dirname(__FILE__) . '/../../../util/java/current/bin/java');
  $conf['cache'] = 1;
  $conf['file_chmod_directory'] = 02775;

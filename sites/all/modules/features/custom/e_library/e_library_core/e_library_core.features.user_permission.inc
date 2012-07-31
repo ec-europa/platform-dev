@@ -16,7 +16,8 @@ function e_library_core_user_default_permissions() {
         'name' => 'create document content',
         'roles' => array(
             0 => 'contributor',
-            1 => 'administrator'
+            1 => 'administrator',
+            2 => 'editor',
         ),
         'module' => 'node',
     );
@@ -27,6 +28,7 @@ function e_library_core_user_default_permissions() {
         'name' => 'delete any document content',
         'roles' => array(
             0 => 'administrator',
+            1 => 'editor',
         ),
     );
 
@@ -35,7 +37,8 @@ function e_library_core_user_default_permissions() {
         'name' => 'delete own document content',
         'roles' => array(
             0 => 'contributor',
-            1 => 'administrator'
+            1 => 'administrator',
+            2 => 'editor',
         ),
         'module' => 'node',
     );
@@ -45,6 +48,7 @@ function e_library_core_user_default_permissions() {
         'name' => 'edit any document content',
         'roles' => array(
             0 => 'administrator',
+            1 => 'editor',
         ),
         'module' => 'node',
     );
@@ -54,7 +58,8 @@ function e_library_core_user_default_permissions() {
         'name' => 'edit own document content',
         'roles' => array(
             0 => 'contributor',
-            1 => 'administrator'
+            1 => 'administrator',
+            2 => 'editor',
         ),
         'module' => 'node',
     );

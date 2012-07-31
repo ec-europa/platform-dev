@@ -15,7 +15,6 @@ function f_a_q_user_default_permissions() {
     'name' => 'create f_a_q content',
     'roles' => array(
       0 => 'administrator',
-
     ),
     'module' => 'node',
   );

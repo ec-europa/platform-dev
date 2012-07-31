@@ -43,6 +43,7 @@ function gallerymedia_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );
@@ -52,6 +53,7 @@ function gallerymedia_core_user_default_permissions() {
     'name' => 'delete any gallerymedia content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'editor',
     ),
     'module' => 'node',
   );
@@ -62,6 +64,7 @@ function gallerymedia_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );
@@ -71,6 +74,7 @@ function gallerymedia_core_user_default_permissions() {
     'name' => 'edit any gallerymedia content',
     'roles' => array(
       0 => 'administrator',
+      1 => 'editor',
     ),
     'module' => 'node',
   );
@@ -81,6 +85,7 @@ function gallerymedia_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );
@@ -91,6 +96,7 @@ function gallerymedia_core_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'media',
   );

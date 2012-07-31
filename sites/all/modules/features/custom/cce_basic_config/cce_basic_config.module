@@ -16,26 +16,38 @@ function cce_basic_config_enable() {
   $account = new StdClass();
   $account->is_new = TRUE;
   $account->status = TRUE;
-  $account->name = 'administrator';
+  $account->name = 'user_administrator';
   $account->pass = user_hash_password('pass');
   $account->mail = 'administrator@test.com';
   $account->init = 'administrator@test.com';
   $account->roles[3] = 'administrator';
   $account->field_firstname['und'][0]['value'] = 'John';
   $account->field_lastname['und'][0]['value'] = 'Smith'; 
-  user_save($account);  
+  user_save($account);
     
   $account1 = new StdClass();
   $account1->is_new = TRUE;
   $account1->status = TRUE;
-  $account1->name = 'contributor';
+  $account1->name = 'user_contributor';
   $account1->pass = user_hash_password('pass');
   $account1->mail = 'contributor@test.com';
   $account1->init = 'contributor@test.com';
   $account1->roles[4] = 'contributor';
   $account1->field_firstname['und'][0]['value'] = 'John';
   $account1->field_lastname['und'][0]['value'] = 'Doe';  
-  user_save($account1);  
+  user_save($account1);
+  
+  $account2 = new StdClass();
+  $account2->is_new = TRUE;
+  $account2->status = TRUE;
+  $account2->name = 'user_editor';
+  $account2->pass = user_hash_password('pass');
+  $account2->mail = 'editor@test.com';
+  $account2->init = 'editor@test.com';
+  $account2->roles[5] = 'editor';
+  $account2->field_firstname['und'][0]['value'] = 'John';
+  $account2->field_lastname['und'][0]['value'] = 'Blake';  
+  user_save($account2);
 
     
   // affect dummy contents to the user 'administrator' ---------------------------------------------------------------------------------------------------------------

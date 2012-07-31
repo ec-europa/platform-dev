@@ -16,6 +16,7 @@ function newsletters_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'simplenews',
   );
@@ -26,6 +27,7 @@ function newsletters_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'simplenews',
   );
@@ -47,6 +49,7 @@ function newsletters_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );
@@ -57,6 +60,7 @@ function newsletters_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );
@@ -67,6 +71,7 @@ function newsletters_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'node',
   );
@@ -77,6 +82,7 @@ function newsletters_user_default_permissions() {
     'roles' => array(
       0 => 'administrator',
       1 => 'contributor',
+      2 => 'editor',
     ),
     'module' => 'simplenews',
   );
