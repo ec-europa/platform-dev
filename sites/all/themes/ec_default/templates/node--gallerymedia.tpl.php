@@ -230,7 +230,7 @@
       } else {        
         $local_data = $forms_items_by_id[$item['fid']];
       }
-        
+        $short_name = (strlen($local_data['filename']) > 35)?substr($local_data['filename'],0,30).'[...]':$local_data['filename'];
       switch ($local_data['type']) {
         case 'image':
           $picture_square_thumbnail = image_style_url('square_thumbnail', $local_data['uri']);
@@ -248,7 +248,7 @@
           $output .= '</div>';
           $output .= '<a href="#lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$local_data['filename'].'">';
           $output .= '<img src="'.$picture_square_thumbnail.'" alt="'.$local_data['filename'].'" title="" />';
-          $output .= '<p class="carousel-caption">'.$local_data['filename'].'</p>';
+          $output .= '<p class="carousel-caption">'.$short_name.'</p>';
           $output .= '</a>';        
           $output .= '</div>';          
         break;
@@ -288,7 +288,7 @@
           $output .= '<a href="#video_lightbox'.$key.'" class="fancybox" rel="gallery" title="'.$local_data['filename'].'">';
           $output .= '<img class="watermark" src="'.$watermark.'" alt="'.$local_data['filename'].'" title="" />';
           $output .= '<img src="'.$video_square_thumbnail.'" alt="'.$local_data['filename'].'" title="" />';
-          $output .= '<p class="carousel-caption">'.$local_data['filename'].'</p>';
+          $output .= '<p class="carousel-caption">'.$short_name.'</p>';
           $output .= '</a>';        
           $output .= '</div>';          
         break;
