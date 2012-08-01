@@ -233,7 +233,7 @@
         $short_name = (strlen($local_data['filename']) > 35)?substr($local_data['filename'],0,30).'[...]':$local_data['filename'];
       
       //Get tags if any provided
-      if (isset($local_data['field_tags'])) {
+      if (isset($local_data['field_tags']['und'][0])) {
         $cop = $local_data['field_tags']['und'];
         $montag = '';
         foreach($cop as $buif => $tid_array){           
