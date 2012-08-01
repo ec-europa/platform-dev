@@ -455,6 +455,13 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_themeswitch';
   $strongarm->value = 0;
   $export['sweaver_plugin_status_sweaver_plugin_themeswitch'] = $strongarm;
+  
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_advanced';
+  $strongarm->value = 1;
+  $export['sweaver_plugin_status_sweaver_plugin_advanced'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
