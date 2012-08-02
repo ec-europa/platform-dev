@@ -168,6 +168,20 @@ body,
   display: inline-block;
 }
 
+/* ------------ Default Block Menu ----------------- */
+.layout-left  ul li.block-menu ul li a {
+    padding-left: 15px;
+}
+.layout-left  ul li.block-menu ul li li a {
+    padding-left: 20px;
+}
+.layout-left  ul li.block-menu ul li ul li ul li a {
+    padding-left: 25px;
+}
+.layout-left  ul li.block-menu ul li ul li ul li ul li a{
+    padding-left: 30px;
+}
+
 /* ---------------- Node details  ----------------- */
 .node .content blockquote > .field {
   clear: left;
