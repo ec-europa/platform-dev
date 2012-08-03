@@ -31,6 +31,8 @@ function contact_form_enable() {
  * Remove block from the context
  */
 function contact_form_disable() {
+	menu_link_delete(NULL, 'contact');
+	
     //Activation message
     drupal_set_message('Contact form feature is now disabled on your site.');
 }
