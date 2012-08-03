@@ -57,7 +57,7 @@ function links_core_disable(){
             ->condition('node_type', 'links')
             ->execute();
   // solR configuration add bundle
-  config_solr_bundle('document','delete');
+  config_solr_bundle('links','delete');
 
   // remove type from notification
   notification_content_type('links','delete');
