@@ -400,6 +400,7 @@ function batch_featureset_finished($success, $results, $operations) {
   }
 */
   drupal_flush_all_caches();
+  node_access_rebuild();
 }
 
 
