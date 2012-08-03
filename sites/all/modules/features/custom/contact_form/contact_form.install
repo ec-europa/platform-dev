@@ -23,18 +23,26 @@ function contact_form_uninstall() {
  * Add block to the context
  */
 function contact_form_enable() {
-    //Activation message
-    drupal_set_message('Contact form feature is now active on your site.');
+  $item = array(
+    'link_path' => 'contact',
+    'link_title' => t('Contact support'),
+    'menu_name' => 'main-menu',
+    'weight' => '50'
+  );
+  menu_link_save($item);
+  
+  //Activation message
+  drupal_set_message('Contact form feature is now active on your site.');
 }
 
 /**
  * Remove block from the context
  */
 function contact_form_disable() {
-	menu_link_delete(NULL, 'contact');
+  menu_link_delete(NULL, 'contact');
 	
-    //Activation message
-    drupal_set_message('Contact form feature is now disabled on your site.');
+  //Activation message
+  drupal_set_message('Contact form feature is now disabled on your site.');
 }
 
 
