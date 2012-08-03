@@ -2,7 +2,7 @@
 core = 7.x
 
 api = 2
-projects[drupal][version] = "7.14"
+projects[drupal][version] = "7.15"
 
 ; Modules
 projects[views_bulk_operations][subdir] = "contributed"
@@ -120,7 +120,7 @@ projects[og_create_perms][version] = "1.0"
 ;projects[simplewiki][version] = "1.x-dev"
 
 projects[webform][subdir] = "contributed"
-projects[webform][version] = "3.17"
+projects[webform][version] = "3.18"
 
 projects[references][subdir] = "contributed"
 projects[references][version] = "2.0"
@@ -171,13 +171,10 @@ projects[facetapi][subdir] = "contributed"
 projects[facetapi][version] = "1.0-rc4"
 
 projects[notifications][subdir] = "contributed"
-projects[notifications][version] = "1.0-alpha2"
+projects[notifications][version] = "1.x-dev"
 
 projects[messaging][subdir] = "contributed"
-projects[messaging][version] = "1.0-alpha2"
-
-;projects[ds][subdir] = "contributed"
-;projects[ds][version] = "1.5"
+projects[messaging][version] = "1.x-dev"
 
 projects[menu_block][subdir] = "contributed"
 projects[menu_block][version] = "2.3"
@@ -189,7 +186,7 @@ projects[translation_overview][subdir] = "contributed"
 projects[translation_overview][version] = "2.0-beta1"
 
 projects[i18n][subdir] = "contributed"
-projects[i18n][version] = "1.5"
+projects[i18n][version] = "1.7"
 
 projects[variable][subdir] = "contributed"
 projects[variable][version] = "1.2"
