@@ -339,13 +339,14 @@ function get_require($module) {
 /*
 * hook_exit
 */
+/*
 function feature_set_exit() {
   if($_GET['q'] == 'admin/structure/feature-set') {
     drupal_flush_all_caches();
 	node_access_rebuild();
   }
 }
-
+*/
 
 
 
@@ -398,6 +399,7 @@ function batch_featureset_finished($success, $results, $operations) {
     drupal_set_message(t('An error occurred while processing @operation with arguments : @args', array('@operation' => $error_operation[0], '@args' => print_r($error_operation[0], TRUE))));
   }
 */
+  drupal_flush_all_caches();
 }
 
 
