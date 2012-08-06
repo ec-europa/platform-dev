@@ -17,6 +17,5 @@ dependencies[] = xmlsitemap_user
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
 features[menu_custom][] = main-menu
-features[menu_links][] = main-menu:sitemap
 features[user_permission][] = access site map
 features[user_permission][] = administer xmlsitemap
