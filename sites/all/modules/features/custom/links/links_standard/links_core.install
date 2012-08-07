@@ -24,7 +24,7 @@ function links_standard_uninstall() {
  * Edit communities context to add a block
  */
 function links_standard_enable(){
-  module_enable(array('links_standard_content'));  
+  //module_enable(array('links_standard_content'));  
 }
 
 
@@ -33,7 +33,7 @@ function links_standard_enable(){
  * Edit communities context to add a block
  */
 function links_standard_disable(){
-  module_disable(array('links_standard_content'));  
+  //module_disable(array('links_standard_content'));  
 }
 
 

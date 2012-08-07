@@ -5,7 +5,7 @@
 */
 function survey_standard_enable() {
   // enable example contents
-  module_enable(array("survey_standard_contents"));
+  //module_enable(array("survey_standard_contents"));
 }
 
 /*
@@ -13,5 +13,5 @@ function survey_standard_enable() {
  */
 function survey_standard_disable(){
   // disable example contents
-  module_disable(array("survey_standard_contents"));
+  //module_disable(array("survey_standard_contents"));
 }

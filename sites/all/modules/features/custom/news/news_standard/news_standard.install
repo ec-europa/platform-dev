@@ -26,7 +26,7 @@ function news_standard_enable(){
   //Add block in context
   _add_block_context('homepage','news-top_news','views','news-top_news', 'content_top');
   
-  module_enable(array('news_standard_content'));  
+  //module_enable(array('news_standard_content'));  
 }
 
 
@@ -38,5 +38,5 @@ function news_standard_enable(){
 function news_standard_disable(){
 
   _remove_block_context('homepage','news-top_news');  
-  module_disable(array('news_standard_content'));    
+  //module_disable(array('news_standard_content'));    
 }
