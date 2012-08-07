@@ -70,6 +70,7 @@ function multisite_drupal_core_install() {
     'access site-wide contact form',
     'access user contact forms',
     'access user profiles',
+    'use text format full_html',
   )); 
 
   // administrator role
