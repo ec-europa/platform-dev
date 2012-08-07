@@ -1,0 +1,12 @@
+name = manage_local
+description = manage_local
+core = 7.x
+package = Features
+version = 7.x-1.0
+project = manage_local
+features[features_api][] = api:1
+
+feature_sets[dynamic_map_of_content][title] = 'Dynamic Map of Content'
+feature_sets[dynamic_map_of_content][description] = 'Feature that provides a dynamic map on the site showing nodes based on relations defined using Research Areas and Keywords Taxonomies. The hierarchy is as follows: JRC -> Research Areas -> Topics -> Scientific Tools, Research Facilities, Actions. After each click the center node's parent is shown among the children. The map's url is: root_url/dynamic_map_of_content. It includes the following content types: Research Area, Topic Page, Action, Research Facility, Scientific Tool.'
+feature_sets[dynamic_map_of_content][enable][] = dynamic_map_of_content
+feature_sets[dynamic_map_of_content][disable][] = dynamic_map_of_content

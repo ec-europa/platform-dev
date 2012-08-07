@@ -1,0 +1,11 @@
+<?php
+/**
+ * @file
+ * Drupal needs this blank file.
+ */
+
+ 
+  function manage_local_feature_set_api() {
+    return array('version' => '1.0');
+  }
+  
