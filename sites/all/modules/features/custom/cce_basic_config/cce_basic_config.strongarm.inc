@@ -528,6 +528,13 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'jqmulti_load_always';
   $strongarm->value = 1;
   $export['jqmulti_load_always'] = $strongarm;
+  
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'filter_fallback_format';
+  $strongarm->value = 'plain_text';
+  $export['filter_fallback_format'] = $strongarm;
 
   return $export;
 }

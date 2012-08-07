@@ -97,4 +97,7 @@ features[variable][] = sweaver_selector_order
 features[variable][] = sweaver_skin
 features[variable][] = theme_default
 features[variable][] = i18n_select_nodes
-
+features[filter][] = filtered_html
+features[filter][] = full_html
+features[filter][] = plain_text
+features[variable][] = filter_fallback_format
