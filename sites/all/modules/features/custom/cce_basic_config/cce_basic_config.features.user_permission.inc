@@ -43,5 +43,29 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'file_entity',
   );
 
+    // Exported permission: use text format filtered_html.
+  $permissions['use text format filtered_html'] = array(
+    'name' => 'use text format filtered_html',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'anonymous user',
+      2 => 'authenticated user',
+      3 => 'contributor',
+      4 => 'editor',
+    ),
+    'module' => 'filter',
+  );
+
+  // Exported permission: use text format full_html.
+  $permissions['use text format full_html'] = array(
+    'name' => 'use text format full_html',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+      2 => 'contributor',
+      3 => 'editor',
+    ),
+    'module' => 'filter',
+  );
   return $permissions;
 }
