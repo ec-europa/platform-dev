@@ -220,7 +220,7 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
 }
 
 function multisite_cce_theme() {
-	return variable_get('default_theme','ec_default');
+	return variable_get('theme_default','ec_default');
 }
 
 /**
