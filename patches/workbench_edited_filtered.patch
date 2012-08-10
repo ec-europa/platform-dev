@@ -1,8 +1,8 @@
 Modify the workbench view My Edits to see only latest revision
-Index: sites/all/modules/contributed/workbench/views/worbench_edited.view.inc
+Index: sites/all/modules/contributed/workbench/views/workbench_edited.view.inc
 ===================================================================
---- sites/all/modules/contributed/workbench/views/worbench_edited.view.inc
-+++ sites/all/modules/contributed/workbench/views/worbench_edited.view.inc
+--- sites/all/modules/contributed/workbench/views/workbench_edited.view.inc
++++ sites/all/modules/contributed/workbench/views/workbench_edited.view.inc
 @@ -208,9 +208,9 @@
  $handler->display->display_options['fields']['changed']['hide_empty'] = 0;
  $handler->display->display_options['fields']['changed']['empty_zero'] = 0;
