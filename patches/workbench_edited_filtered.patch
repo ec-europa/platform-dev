@@ -1,0 +1,29 @@
+Modify the workbench view My Edits to see only latest revision
+Index: sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
+===================================================================
+--- sites/all/modules/contributed/workbench/views/worbench_edited_filtered.view.inc
++++ sites/all/modules/contributed/workbench/views/worbench_edited_filtered.view.inc
+@@ -208,9 +208,9 @@
+ $handler->display->display_options['fields']['changed']['hide_empty'] = 0;
+ $handler->display->display_options['fields']['changed']['empty_zero'] = 0;
+ $handler->display->display_options['fields']['changed']['date_format'] = 'time ago';
+-/* Field: Content: Edit link */
++/* Field: Node: Edit link */
+ $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
+-$handler->display->display_options['fields']['edit_node']['table'] = 'node';
++$handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
+ $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
+ $handler->display->display_options['fields']['edit_node']['label'] = 'Actions';
+ $handler->display->display_options['fields']['edit_node']['alter']['alter_text'] = 0;
+@@ -264,6 +264,11 @@
+ $handler->display->display_options['filters']['status']['expose']['label'] = 'Published';
+ $handler->display->display_options['filters']['status']['expose']['identifier'] = 'published';
+ $handler->display->display_options['filters']['status']['expose']['remember'] = 1;
++/* Filter criterion: Workbench Moderation: Current */
++$handler->display->display_options['filters']['current']['id'] = 'current';
++$handler->display->display_options['filters']['current']['table'] = 'workbench_moderation_node_history';
++$handler->display->display_options['filters']['current']['field'] = 'current';
++$handler->display->display_options['filters']['current']['value'] = '1';
+ 
+ /* Display: Page */
+ $handler = $view->new_display('page', 'Page', 'page_1');
