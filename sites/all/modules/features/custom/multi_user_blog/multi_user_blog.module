@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Multi-user blog feature.
+ */
+
+include_once 'multi_user_blog.features.inc';

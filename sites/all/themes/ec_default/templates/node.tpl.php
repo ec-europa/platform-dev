@@ -11,6 +11,7 @@
  *   or print a subset such as render($content['field_example']). Use
  *   hide($content['field_example']) to temporarily suppress the printing of a
  *   given element.
+ * - $display_user_picture: Whether node author's picture should be displayed.
  * - $user_picture: The node author's picture from user-picture.tpl.php.
  * - $date: Formatted creation date. Preprocess functions can reformat it by
  *   calling format_date() with the desired parameters on the $created variable.
@@ -80,23 +81,26 @@
  */
  
   $output = '';
+  $display_user_picture = TRUE;
  
   //get node type
   switch ($type) {
     case 'links':
+      $display_user_picture = FALSE;
       $fields = array(
         'picture' => array(),
         'body'    => array(),
-        'hide'  => array('comments', 'links', 'print_links'),
+        'hidden'  => array('comments', 'links', 'print_links'),
         'group' => array('group_audience', 'group_content_access')
       );        
       break;
       
     case 'news':
+      $display_user_picture = FALSE;
       $fields = array(
         'picture' => array('field_news_picture'),
         'body'    => array('body'),
-        'hide'    => array('comments', 'links', 'print_links'),
+        'hidden'    => array('comments', 'links', 'print_links'),
         'group'   => array('group_audience', 'group_content_access')
       );        
       break;
@@ -106,31 +110,35 @@
       $fields = array(
         'picture' => array('field_thumbnail'),
         'body'  => array('body'),
-        'hide'  => array('comments', 'links', 'print_links', 'field_thumbnail'),
+        'hidden'  => array('comments', 'links', 'print_links', 'field_thumbnail'),
         'group' => array('group_group', 'group_access')
       );
       break;
 
-    default:
+    case 'blog_post':
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hide'  => array('comments', 'links', 'print_links'),
+        'hidden'  => array('comments', 'links', 'print_links'),
+        'group' => array('group_audience', 'group_content_access')
+      );        
+      break;
+      
+    default:
+      $display_user_picture = FALSE;
+      $fields = array(
+        'picture' => array(),
+        'body'  => array('body'),
+        'hidden'  => array('comments', 'links', 'print_links'),
         'group' => array('group_audience', 'group_content_access')
       );        
       break;
   }
   
   //set size of fields 
-  if ($variables['no_left']) {
-    $span_large = 'span11';
-    $span_title = 'span2';
-    $span_small = 'span9';
-  } else {
-    $span_large = 'span9';
-    $span_title = 'span2';
-    $span_small = 'span7';      
-  }     
+  $span_large = 'span12';
+  $span_title = 'span2';
+  $span_small = 'span10';
 ?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 
@@ -141,17 +149,19 @@
     </h2>
   <?php endif; ?>
   <?php print render($title_suffix); ?>
-  
-  
+
   <?php if ($display_submitted): ?>
     <div class="meta submitted">
+      <?php if ($display_user_picture): ?>
+        <?php print $user_picture; ?>
+      <?php endif; ?>      
       <?php print $submitted; ?>
     </div>
   <?php endif; ?>
       
   <div class="content clearfix"<?php print $content_attributes; ?>>
 
-    <?php      
+    <?php          
       // We hide several elements now so that we can render them later.
       foreach ($fields as $key => $value) {
         foreach ($value as $id) {
@@ -159,98 +169,86 @@
         }        
       }
 
-    //display picture
-    $display_picture = false;
-    if (isset($fields['picture'])) {
-      foreach ($fields['picture'] as $id) {
-        if (isset($content[$id]['#access'])) {
-          $display_picture = true;
-          break;
+      //display non hidden fields
+      $display_content = FALSE;
+      foreach ($content as $key => $value) {
+        if (!in_array($key,$fields['hidden']) &&
+            !in_array($key,$fields['group'])) {
+          $display_content = TRUE;
+          $fields['content'][$key] = $value['#weight'];
         }
-      }
-    }
-    if ($display_picture) { 
-      foreach ($fields['picture'] as $id) {
-        $output .= '<div class="no_label center">' . render($content[$id]) . '</div>';
-      }     
-    } 
-    
-    //display body
-    $display_body = false;
-    if (isset($fields['body'])) {
-      foreach ($fields['body'] as $id) {
-        if (isset($content[$id]['#access'])) {
-          $display_body = true;
-          break;
-        }
-      }
-    }
-    if ($display_body) {
-      $output .= '<fieldset>';
-      foreach ($fields['body'] as $id) {
-        $output .= render($content[$id]);
-      }       
-      $output .= '</fieldset>';
-    }
-    
-    //display non hidden fields
-    $display_other = FALSE;
-    foreach ($content as $key => $value) {
-      if (!in_array($key,$fields['picture']) &&
-          !in_array($key,$fields['body']) &&
-          !in_array($key,$fields['hide']) &&
-          !in_array($key,$fields['group'])) {
-        $display_other = TRUE;
-        $fields['other'][$key] = $value['#weight'];
-      }
-    }    
-    if ($display_other) {
-      //sort fields by weight
-      asort($fields['other']);
+      }    
+      if ($display_content) { 
+        //sort fields by weight
+        asort($fields['content']);
+        
+        foreach ($fields['content'] as $key => $value) {
+          $field = '<div class="row-fluid field c_left">';
+          
+          switch ($content[$key]['#label_display']) {
+            case 'hidden':
+              $field .= '<div class="'.$span_large.'">'.render($content[$key]).'</div>';
+            break;
+            
+            case 'above':
+              if (isset($content[$key]['#title'])) {
+                $field .= '<div class="'.$span_large.' field-label">'.$content[$key]['#title'].'</div></div>';
+                $field .= '<div class="row-fluid"><div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
+              } else {
+                $field .= '<div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
+              }          
+            break;
+            
+            case 'inline':
+            default:
+              if (isset($content[$key]['#title'])) {
+                $field .= '<div class="'.$span_title.' field-label">'.$content[$key]['#title'].'</div>';
+                $field .= '<div class="'.$span_small.' no_label">'.render($content[$key]).'</div>';                        
+              } else {
+                $field .= '<div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
+              }          
+            break;
+          }
 
-      $output .= '<blockquote class="f_left">';    
-      foreach ($fields['other'] as $key => $value) {
-        $field = '<div class="field c_left">';
-        if (isset($content[$key]['#title'])) {
-          $field .= '<div class="'.$span_title.' field-label">'.$content[$key]['#title'].'</div>';
-          $field .= '<div class="'.$span_small.' no_label">'.render($content[$key]).'</div>';
           $field .= '</div>';
-        } else {
-          $field .= '<div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
-          $field .= '</div>';
-        }
-        $output .= $field;      
-      }
-      $output .= '</blockquote>'; 
-    }
-    
-    //display groups
-    $display_group = false;
-    if (isset($fields['group'])) {
-      foreach ($fields['group'] as $id) {
-        if (isset($content[$id]['#access'])) {
-          $display_group = true;
-          break;
+          
+          if (in_array($content[$key]['#field_name'],$fields['body'])) {
+            $output .= '<fieldset>'.$field.'</fieldset>';
+          } else if (in_array($content[$key]['#field_name'],$fields['picture'])) {
+            $output .= '<div class="no_label center">'.$field.'</div>';
+          } else {
+            $output .= $field;
+          }
         }
       }
-    }
-    if ($display_group) { 
-      $output .= '<div class="meta submitted group well">';
+      
+      //display groups
+      $display_group = false;
+      if (isset($fields['group'])) {
         foreach ($fields['group'] as $id) {
-          $output .=  render($content[$id]);
-        }        
-      $output .= '</div>';
-    } 
-    
-    //display workbench block
-    $display_workbench = block_render('workbench', 'block');
-    if ($display_workbench) {
-      $output .= '<div class="f_left meta submitted well alt workbench">';
-      $output .= $display_workbench;
-      $output .= '</div>';    
-    }
-    
-    print $output;
+          if (isset($content[$id]['#access'])) {
+            $display_group = true;
+            break;
+          }
+        }
+      }
+      if ($display_group) { 
+        $output .= '<div class="meta submitted group well">';
+          foreach ($fields['group'] as $id) {
+            $output .=  render($content[$id]);
+          }        
+        $output .= '</div>';
+      } 
+      
+      //display workbench block
+      $display_workbench = block_render('workbench', 'block');
+      if ($display_workbench) {
+        $output .= '<div class="f_left meta submitted well alt workbench">';
+        $output .= $display_workbench;
+        $output .= '</div>';    
+      }
+      
+      print $output;
     ?>
 
   </div>

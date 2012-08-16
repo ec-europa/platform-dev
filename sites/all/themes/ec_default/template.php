@@ -766,6 +766,10 @@ function class_replace($match) {
     case "GalleryMedia":
      return '<i class="icon-film"></i>';
     break;
+
+    case "Blog post":
+     return '<i class="icon-book"></i>';
+    break;
     
     default:
     break;
