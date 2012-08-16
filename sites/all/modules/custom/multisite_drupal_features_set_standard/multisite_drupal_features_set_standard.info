@@ -153,4 +153,8 @@ feature_sets[newsletters][icon] = 'feature-set-icons/newsletter.png'
 feature_sets[newsletters][enable][] = newsletters
 feature_sets[newsletters][disable][] = newsletters
 
-
+feature_sets[multi_user_blog][title] = 'Multi-user blog'
+feature_sets[multi_user_blog][description] = 'Multi-user blog'
+feature_sets[multi_user_blog][icon] = 'feature-set-icons/newsletter.png'
+feature_sets[multi_user_blog][enable][] = multi_user_blog
+feature_sets[multi_user_blog][disable][] = multi_user_blog

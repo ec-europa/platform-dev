@@ -323,7 +323,7 @@ function multi_user_blog_views_default_views() {
   $handler->display->display_options['filters']['tnid']['group'] = 2;
 
   /* Display: Blog list page */
-  $handler = $view->new_display('page', 'Blog list page', 'page');
+  $handler = $view->new_display('page', 'Blog list page', 'blog_list_page');
   $handler->display->display_options['path'] = 'blog';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Blog';
@@ -332,7 +332,7 @@ function multi_user_blog_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
 
   /* Display: User blog page */
-  $handler = $view->new_display('page', 'User blog page', 'page_1');
+  $handler = $view->new_display('page', 'User blog page', 'user_blog_page');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = '%1';
   $handler->display->display_options['defaults']['header'] = FALSE;

@@ -33,7 +33,7 @@ function multi_user_blog_field_default_fields() {
           0 => 'format',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -94,7 +94,7 @@ function multi_user_blog_field_default_fields() {
       'field_name' => 'field_rating',
       'foreign keys' => array(),
       'indexes' => array(),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'fivestar',
       'settings' => array(
         'axis' => 'vote',
@@ -170,7 +170,7 @@ function multi_user_blog_field_default_fields() {
           0 => 'tid',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(

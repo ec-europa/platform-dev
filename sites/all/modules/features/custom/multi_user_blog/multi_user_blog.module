@@ -5,3 +5,63 @@
  */
 
 include_once 'multi_user_blog.features.inc';
+
+/*
+* hook_disable
+*/
+function multi_user_blog_disable() {
+  _disable_content_type('blog_post'); 
+  
+  // solR configuration add bundle
+  config_solr_bundle('blog_post', 'delete');  
+  
+  // remove type from notification 
+  notification_content_type('blog_post','delete');  
+  
+  // add type to the simplenews related content 
+  simplenews_related_content_type('blog_post', 'delete');  
+  
+}
+
+/*
+* hook_enable
+*/
+function multi_user_blog_enable() {
+  // solR configuration add bundle
+  config_solr_bundle('blog_post', 'add'); 
+  
+  // add type to notification 
+  notification_content_type('blog_post','add');  
+  
+  // add type to the simplenews related content 
+  simplenews_related_content_type('blog_post', 'add');  
+}
+
+/*
+* hook_views_pre_render
+*/
+function multi_user_blog_views_pre_render(&$view) {
+  if($view->name=='blog'){
+    switch( $view->current_display ) {
+      case 'blog_list_page':
+        if ( user_access('create blog_post content') ) {
+          $output= l(t('Create blog post'), 
+              'node/add/blog-post',
+          array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
+          $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+        }      
+	    break;
+      
+      case 'user_blog_page':
+        if ( user_access('create blog_post content') ) {
+          $output= l(t('Create blog post'), 
+              'node/add/blog-post',
+          array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
+          $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+        }
+	    break;
+	  default:
+	    break;
+    }  
+  }
+}
