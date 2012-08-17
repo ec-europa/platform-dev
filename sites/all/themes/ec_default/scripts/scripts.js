@@ -13,17 +13,15 @@ jQuery(function($){
         closeEffect:  'elastic',
         helpers: {
           title:     { type : 'outside' },
-          buttons:   {},
+          buttons:   {}
         },
         beforeClose: function() {
           stopPlayer();
         },
         beforeLoad: function() {
           stopPlayer();
-        },
-
-      });   
-   // });
+        }
+      });
     /* /Gallery lightbox */
   });
 
