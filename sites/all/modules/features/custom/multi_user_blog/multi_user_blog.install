@@ -1,0 +1,46 @@
+<?php            
+/*
+* hook_disable
+*/
+function multi_user_blog_disable() {
+  _disable_content_type('blog_post'); 
+  
+  // solR configuration add bundle
+  config_solr_bundle('blog_post', 'delete');  
+  
+  // remove type from notification 
+  notification_content_type('blog_post','delete');  
+  
+  // add type to the simplenews related content 
+  simplenews_related_content_type('blog_post', 'delete');  
+  
+  //remove the breadcrump related to
+  db_delete('custom_breadcrumb')
+          ->condition('node_type', 'blog_post')
+          ->execute();  
+}
+
+/*
+* hook_enable
+*/
+function multi_user_blog_enable() {
+  // solR configuration add bundle
+  config_solr_bundle('blog_post', 'add'); 
+  
+  // add type to notification 
+  notification_content_type('blog_post','add');  
+  
+  // add type to the simplenews related content 
+  simplenews_related_content_type('blog_post', 'add');  
+
+  //Add breadcrumb configuration
+  db_insert('custom_breadcrumb')
+          ->fields(array(
+              'titles' => '[Breadcrumb_blog_post:multi_user_blog_title]', // titles of the elements to display in the breadcrumb
+              'paths' => 'blog/', // path of the elements to display in the breadcrumb
+              'visibility_php ' => '',
+              'node_type' => 'blog_post', //the content type targeted by this rule
+          ))
+          ->execute();  
+}           
+?>

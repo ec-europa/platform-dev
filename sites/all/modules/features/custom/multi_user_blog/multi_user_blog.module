@@ -7,45 +7,16 @@
 include_once 'multi_user_blog.features.inc';
 
 /*
-* hook_disable
-*/
-function multi_user_blog_disable() {
-  _disable_content_type('blog_post'); 
-  
-  // solR configuration add bundle
-  config_solr_bundle('blog_post', 'delete');  
-  
-  // remove type from notification 
-  notification_content_type('blog_post','delete');  
-  
-  // add type to the simplenews related content 
-  simplenews_related_content_type('blog_post', 'delete');  
-  
-}
-
-/*
-* hook_enable
-*/
-function multi_user_blog_enable() {
-  // solR configuration add bundle
-  config_solr_bundle('blog_post', 'add'); 
-  
-  // add type to notification 
-  notification_content_type('blog_post','add');  
-  
-  // add type to the simplenews related content 
-  simplenews_related_content_type('blog_post', 'add');  
-}
-
-/*
 * hook_views_pre_render
 */
 function multi_user_blog_views_pre_render(&$view) {
+  global $user;
+  
   if($view->name=='blog'){
     switch( $view->current_display ) {
       case 'blog_list_page':
         if ( user_access('create blog_post content') ) {
-          $output= l(t('Create blog post'), 
+          $output = l(t('Create blog post'), 
               'node/add/blog-post',
           array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
           $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
@@ -53,8 +24,8 @@ function multi_user_blog_views_pre_render(&$view) {
 	    break;
       
       case 'user_blog_page':
-        if ( user_access('create blog_post content') ) {
-          $output= l(t('Create blog post'), 
+        if ( user_access('create blog_post content') && arg(1) == $user->uid ) {
+          $output = l(t('Create blog post'), 
               'node/add/blog-post',
           array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
           $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
@@ -64,4 +35,39 @@ function multi_user_blog_views_pre_render(&$view) {
 	    break;
     }  
   }
+}
+
+
+/**
+ * Implementation of hook_token_info().
+ */
+function multi_user_blog_token_info() {
+    $info['types']['Breadcrumb_multi_user_blog'] = array(
+        'name' => 'Breadcrumb_multi_user_blog',
+        'description' => 'Tokens related to Breadcrumb.',
+    );
+    $info['tokens']['Breadcrumb_multi_user_blog']["multi_user_blog_title"] = array(
+        'name' => t("Multi user blog Breadcrumb title"),
+        'description' => t("The Breadcrumb title of the multi user blog."),
+    );
+    return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function multi_user_blog_tokens($type, $tokens, $data = array(), $options = array()) {
+    $replacements = array();
+    $sanitize = !empty($options['sanitize']);
+    // tokens for e_libray_core Breadcrumb
+    if ($type == 'Breadcrumb_multi_user_blog') {
+        foreach ($tokens as $name => $original) {
+            switch ($name) {
+                case 'multi_user_blog_title':
+                    $replacements[$original] = t("blog");
+                    break;
+            }
+        }
+    }
+    return $replacements;
 }

@@ -175,7 +175,9 @@
         if (!in_array($key,$fields['hidden']) &&
             !in_array($key,$fields['group'])) {
           $display_content = TRUE;
-          $fields['content'][$key] = $value['#weight'];
+          if (isset($value['#weight'])) {
+            $fields['content'][$key] = $value['#weight'];
+          }
         }
       }    
       if ($display_content) { 
@@ -183,38 +185,41 @@
         asort($fields['content']);
         
         foreach ($fields['content'] as $key => $value) {
-          $field = '<div class="row-fluid field c_left">';
-          
-          switch ($content[$key]['#label_display']) {
-            case 'hidden':
-              $field .= '<div class="'.$span_large.'">'.render($content[$key]).'</div>';
-            break;
-            
-            case 'above':
-              if (isset($content[$key]['#title'])) {
-                $field .= '<div class="'.$span_large.' field-label">'.$content[$key]['#title'].'</div></div>';
-                $field .= '<div class="row-fluid"><div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
-              } else {
-                $field .= '<div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
-              }          
-            break;
-            
-            case 'inline':
-            default:
-              if (isset($content[$key]['#title'])) {
-                $field .= '<div class="'.$span_title.' field-label">'.$content[$key]['#title'].'</div>';
-                $field .= '<div class="'.$span_small.' no_label">'.render($content[$key]).'</div>';                        
-              } else {
-                $field .= '<div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
-              }          
-            break;
-          }
+          if (isset($content[$key]['#label_display'])) {
+            $field = '<div class="row-fluid field c_left">';
 
-          $field .= '</div>';
+            switch ($content[$key]['#label_display']) {
+              case 'hidden':
+                $field .= '<div class="'.$span_large.'">'.render($content[$key]).'</div>';
+              break;
+              
+              case 'above':
+                if (isset($content[$key]['#title'])) {
+                  $field .= '<div class="'.$span_large.' field-label">'.$content[$key]['#title'].'</div></div>';
+                  $field .= '<div class="row-fluid"><div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
+                } else {
+                  $field .= '<div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
+                }          
+              break;
+              
+              case 'inline':
+              default:
+                if (isset($content[$key]['#title'])) {
+                  $field .= '<div class="'.$span_title.' field-label">'.$content[$key]['#title'].'</div>';
+                  $field .= '<div class="'.$span_small.' no_label">'.render($content[$key]).'</div>';                        
+                } else {
+                  $field .= '<div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
+                }          
+              break;
+            }
+
+            $field .= '</div>';
+          }          
           
-          if (in_array($content[$key]['#field_name'],$fields['body'])) {
+          
+          if (isset($content[$key]['#field_name']) && in_array($content[$key]['#field_name'],$fields['body'])) {
             $output .= '<fieldset>'.$field.'</fieldset>';
-          } else if (in_array($content[$key]['#field_name'],$fields['picture'])) {
+          } else if (isset($content[$key]['#field_name']) && in_array($content[$key]['#field_name'],$fields['picture'])) {
             $output .= '<div class="no_label center">'.$field.'</div>';
           } else {
             $output .= $field;
