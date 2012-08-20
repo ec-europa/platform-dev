@@ -139,6 +139,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['created']['alter']['strip_tags'] = 0;
   $handler->display->display_options['fields']['created']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['created']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['created']['element_class'] = 'meta';
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['created']['hide_empty'] = 0;
