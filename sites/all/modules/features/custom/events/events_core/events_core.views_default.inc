@@ -286,6 +286,8 @@ $handler->display->display_options['block_description'] = 'Events calendar';
 
 /* Display: Upcoming */
 $handler = $view->new_display('block', 'Upcoming', 'upcoming_events');
+$handler->display->display_options['defaults']['css_class'] = FALSE;
+$handler->display->display_options['css_class'] = 'fieldset';
 $handler->display->display_options['display_description'] = 'Upcoming events block';
 $handler->display->display_options['defaults']['pager'] = FALSE;
 $handler->display->display_options['pager']['type'] = 'some';
