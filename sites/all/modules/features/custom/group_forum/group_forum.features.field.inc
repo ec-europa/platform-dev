@@ -116,7 +116,7 @@ function group_forum_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'og',
           'settings' => array(),
           'type' => 'og_list_default',
@@ -280,7 +280,7 @@ function group_forum_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'node_reference',
           'settings' => array(),
           'type' => 'node_reference_default',
@@ -344,7 +344,7 @@ function group_forum_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'og',
           'settings' => array(),
           'type' => 'og_list_default',
