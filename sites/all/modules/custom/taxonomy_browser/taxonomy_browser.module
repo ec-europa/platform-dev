@@ -1,0 +1,109 @@
+<?php
+/**
+ * Implements hook_menu().
+ */
+function taxonomy_browser_menu() {
+  $items['admin/config/taxonomy_browser'] = array(
+    'title' => 'Taxonomy browser',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('form_taxonomy_browser_settings'),
+    'access callback' => TRUE,
+    'file' => 'taxonomy_browser.admin.inc',
+  );
+  $items['admin/config/taxonomy_browser/settings'] = array(
+    'title' => 'Taxonomy browser settings',
+    'description' => 'Configure the taxonomy browser module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('form_taxonomy_browser_settings'),
+    'access callback' => TRUE,
+    'file' => 'taxonomy_browser.admin.inc',
+  ); 
+  return $items;
+}
+
+
+
+function taxonomy_get_parents_tree($tid, &$parents_tree) {
+  $parent = taxonomy_get_parents($tid);
+  if(count($parent) > 0) {
+    $keys = array_keys($parent);
+	taxonomy_get_parents_tree($keys[0], $parents_tree);
+  }
+  $term = taxonomy_term_load($tid);
+  $parents_tree[] = $term;
+}
+
+function taxonomy_create_tree($vid, $path, $ajax=FALSE, $selected=0) {
+  $tree = taxonomy_get_tree($vid);
+  $output = "";
+  $depth = 0;
+  
+  $output .= '<div id="tb_browser_tree"><ul>';
+  foreach ($tree as $term) {
+	$class_css = ($term->tid == $selected) ? 'jstree-clicked' : '';
+	  
+    if ($term->depth > $depth) {	
+      $output .= '<ul>';
+      $depth = $term->depth;
+    }
+    if ($term->depth < $depth) {
+      $output .= '</li></ul>';
+      $depth = $term->depth;
+    }
+     if ($term->depth == $depth) {
+      $output .= '</li>';
+    }   
+    if($ajax)
+      $link = l($term->name, $path.'/'.$term->tid, array('attributes' => array('class' => array('use-ajax'))));
+    else
+      $link = l($term->name, $path.'/'.$term->tid, array('attributes' => array('class' => array($class_css))));  
+    $output .= '<li id="term_'.$term->tid.'">'.$link;
+  }
+  $output .= '</ul></div>';
+  return $output;
+}
+
+
+
+function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
+  $displays = array();
+  foreach(variable_get('taxonomy_browser_'.$view->name, array()) as $display_id => $display) {
+    if($display)
+	  $displays[] = $display_id;  
+  }
+
+  if(in_array($view->current_display, $displays))  {
+    drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/taxonomy_browser.css');
+    drupal_add_js('sites/all/libraries/jstree/jquery.jstree.js');
+    drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser.js');
+    drupal_add_library('system', 'drupal.ajax');
+ 
+    $view_path = $view->get_path();
+ 
+    $vid = variable_get('taxonomy_browser_vocabulary');
+    $vocabulary = taxonomy_vocabulary_load($vid);
+    $parents_tree = array();
+    $breadcrumb = "";
+    
+    $selected = isset($view->args[0]) ? $view->args[0] : 0;
+    
+    if($selected > 0) {
+      taxonomy_get_parents_tree($selected, $parents_tree, TRUE);
+      foreach($parents_tree as $parent) {
+	    $link = l($parent->name, $view_path.'/'.$parent->tid);
+	    $breadcrumb .= " > ".$link;
+	  }
+    }
+    
+    $output1 = '<div id="tb_wrapper">';
+    $output1 .= '<div id="tb_breadcrumb">'.$vocabulary->name.$breadcrumb.'</div>';
+    $output1 .= '<div id="tb_browser"><h1>'.$vocabulary->name.'</h1>';
+    $output1 .= taxonomy_create_tree($vid, $view_path, FALSE, $selected);
+    $output1 .= '</div>';
+  
+    $output1 .= '<div id="tb_view">'.$output.'</div>';    
+      	  
+    $output = $output1;
+  }	
+
+}
