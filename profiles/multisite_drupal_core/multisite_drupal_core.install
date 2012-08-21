@@ -33,22 +33,22 @@ function multisite_drupal_core_install() {
   // permissions related to articles content type
   user_role_grant_permissions($role->rid, array(  
     'create article content',
-	'delete own article content',
-	'edit own article content', 
+    'delete own article content',
+    'edit own article content', 
   )); 
 
   // permissions related to workbench moderation
   user_role_grant_permissions($role->rid, array(  
     //'create article content',
-	//'delete own article content',
-	//'edit own article content',
+    //'delete own article content',
+    //'edit own article content',
     'view own unpublished content',
-	'view revisions',
-	'access workbench',
+    'view revisions',
+    'access workbench',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
     'view moderation messages', 
-	'moderate content from draft to needs_review',
+    'moderate content from draft to needs_review',
     'view moderation history',
     'revert revisions',
   ));   
@@ -57,20 +57,21 @@ function multisite_drupal_core_install() {
   $au_rid = get_rid('authenticated user');
   user_role_grant_permissions($au_rid, array(  
     'view own unpublished content',
-	'view revisions',
-	'access workbench',
+    'view revisions',
+    'access workbench',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
     'view moderation messages', 
-	'moderate content from draft to needs_review',
+    'moderate content from draft to needs_review',
     'view moderation history',
     'revert revisions',	
-	'access print',
-	'access PDF version',
+    'access print',
+    'access PDF version',
     'access site-wide contact form',
     'access user contact forms',
     'access user profiles',
     'use text format full_html',
+    'rate content',
   )); 
 
   // administrator role
@@ -88,13 +89,14 @@ function multisite_drupal_core_install() {
   $anu_rid = get_rid('anonymous user');
   user_role_grant_permissions($anu_rid, array(  
     'post comments',
-	'access print',
-	'access PDF version',
+    'access print',
+    'access PDF version',
     'access site-wide contact form',
     'access user contact forms',
-	'search content',
-	'use advanced search',
-	'access user profiles',
+    'search content',
+    'use advanced search',
+    'access user profiles',
+    'rate content',
   )); 
   
   // editor role
@@ -104,17 +106,17 @@ function multisite_drupal_core_install() {
  
   user_role_grant_permissions($role->rid, array(  
     'create article content',
-	'delete any article content',
-	'delete own article content',
-	'delete revisions',
-	'edit any article content',
-	'edit own article content',
-	'export nodes',
-	'moderate content from needs_review to draft',
-	'moderate content from needs_review to published',
-	'moderate content from needs_review to validated',
-	'moderate content from published to archived',
-	'moderate content from validated to published',
+    'delete any article content',
+    'delete own article content',
+    'delete revisions',
+    'edit any article content',
+    'edit own article content',
+    'export nodes',
+    'moderate content from needs_review to draft',
+    'moderate content from needs_review to published',
+    'moderate content from needs_review to validated',
+    'moderate content from published to archived',
+    'moderate content from validated to published',
   ));  
   
 
