@@ -358,74 +358,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
-  /* Field: Content revision: Log message */
-  $handler->display->display_options['fields']['log']['id'] = 'log';
-  $handler->display->display_options['fields']['log']['table'] = 'node_revision';
-  $handler->display->display_options['fields']['log']['field'] = 'log';
-  $handler->display->display_options['fields']['log']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['log']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['log']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['log']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['log']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['log']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['log']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['log']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['log']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['log']['alter']['more_link'] = 0;
-  $handler->display->display_options['fields']['log']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['log']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['log']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['log']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['log']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['log']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['log']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['log']['hide_alter_empty'] = 1;
-  /* Field: Content revision: Title */
-  $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
-  $handler->display->display_options['fields']['title_1']['table'] = 'node_revision';
-  $handler->display->display_options['fields']['title_1']['field'] = 'title';
-  $handler->display->display_options['fields']['title_1']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['title_1']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['title_1']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['title_1']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['title_1']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['title_1']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['title_1']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['title_1']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['title_1']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['title_1']['alter']['more_link'] = 0;
-  $handler->display->display_options['fields']['title_1']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['title_1']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['title_1']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['title_1']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['title_1']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['title_1']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['title_1']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['title_1']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['title_1']['link_to_node'] = 0;
-  $handler->display->display_options['fields']['title_1']['link_to_node_revision'] = 0;
-  /* Field: Content revision: Vid */
-  $handler->display->display_options['fields']['vid']['id'] = 'vid';
-  $handler->display->display_options['fields']['vid']['table'] = 'node_revision';
-  $handler->display->display_options['fields']['vid']['field'] = 'vid';
-  $handler->display->display_options['fields']['vid']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['vid']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['vid']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['vid']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['vid']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['vid']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['vid']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['vid']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['vid']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['vid']['alter']['more_link'] = 0;
-  $handler->display->display_options['fields']['vid']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['vid']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['vid']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['vid']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['vid']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['vid']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['vid']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['vid']['hide_alter_empty'] = 1;
+
   $handler->display->display_options['filter_groups']['groups'] = array(
     1 => 'AND',
     2 => 'OR',
@@ -865,9 +798,6 @@ function news_core_views_default_views() {
     t('<small>[created]</small>'),
     t('News list page'),
     t('<h2>Read the latest news</h2>'),
-    t('Log message'),
-    t('Title'),
-    t('Vid'),
     t('Language'),
     t('Translation set node ID'),
     t('Published'),
