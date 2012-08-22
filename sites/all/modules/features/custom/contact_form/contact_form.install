@@ -31,6 +31,16 @@ function contact_form_enable() {
   );
   menu_link_save($item);
   
+
+  //Set default contact form
+  $site_mail = variable_get('site_mail', ini_get('sendmail_from'));
+  $contact_mail = db_update('contact')
+  ->fields(array(
+    'recipients' => $site_mail,
+  ))
+  ->condition('cid', 1, '=')
+  ->execute();
+  
   //Activation message
   drupal_set_message('Contact form feature is now active on your site.');
 }
