@@ -240,7 +240,7 @@
           //$montag[] = l(taxonomy_term_load($tid_array['tid'])->name, 'taxonomy/term/'.$tid_array['tid']);TODO List content porperly
           $montag[] = taxonomy_term_load($tid_array['tid'])->name;
         }
-        $tags = '<br />Tags: ' . implode(', ' , $montag).'.';
+        $tags = 'Tags: ' . implode(', ' , $montag).'.';
       }  
             
       switch ($local_data['type']) {
@@ -253,8 +253,13 @@
           $output .= '<div id="lightbox'.$key.'" class="lightbox" style="display: none;">';
           $output .= '<img src="'.$picture_preview.'" alt="'.$local_data['filename'].'" />';
 
-          if (isset($local_data['field_picture_description']['und'][0]['value']))
-            $output .= '<p>'.$local_data['field_picture_description']['und'][0]['value'].$tags.'</p>';
+          if (isset($local_data['field_picture_description']['und'][0]['value'])) {
+            $output .= '<p>'.$local_data['field_picture_description']['und'][0]['value'].'</p>';
+          }
+            
+          if (!empty($tags)) {
+            $output .= '<p>'.$tags.'</p>';
+          }
        
           $output .= '<p><a href="'.$base_url.'/'.$picture_original.'" title="'.$local_data['filename'].'" target="_blank">'.t('View full size picture').'</a></p>';
           $output .= '</div>';
