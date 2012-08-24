@@ -1,0 +1,13 @@
+Index: sites/all/modules/contributed/print.module
+===================================================================
+--- sites/all/modules/contributed/print.module	2012-08-24 10:25:03.251285439 +0200
++++ sites/all/modules/contributed/print.module	2012-08-24 10:24:13.332402168 +0200
+@@ -295,7 +295,7 @@
+         $node = node_load($nid);
+         if (!node_access('view', $node)) {
+           // If the user doesn't have access to the node, don't show any links
+-          $block['content'] == '';
++          $block['content'] = '';
+           return;
+         }
+       }
