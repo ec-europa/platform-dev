@@ -19,6 +19,7 @@ dependencies[] = jqmulti
 features[ckeditor_profile][] = Advanced
 features[ckeditor_profile][] = CKEditor Global Profile
 features[ckeditor_profile][] = Full
+features[ckeditor_profile][] = Basic
 features[content][] = welcome_message
 features[context][] = search
 features[context][] = site_wide
