@@ -89,16 +89,6 @@ function ec_default_preprocess_html(&$variables) {
 
   // Update page title
   $variables['head_title'] = variable_get('site_name') . ' - ' . t('European Commission');
-
-  // Add twitter bootstrap
-  drupal_add_css(path_to_theme() . '/bootstrap/css/bootstrap.min.css', array('group' => CSS_THEME));
-  drupal_add_css(path_to_theme() . '/bootstrap/css/bootstrap-responsive.min.css', array('group' => CSS_THEME));  
-  //drupal_add_css(path_to_theme() . '/bootstrap/bootstrap.less', array('group' => CSS_THEME));
-  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-dropdown.js', array('scope' => 'footer', 'weight' => 1));
-  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-tab.js', array('scope' => 'footer', 'weight' => 2));
-  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-modal.js', array('scope' => 'footer', 'weight' => 3));
-  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-transition.js', array('scope' => 'footer', 'weight' => 4));
-  //drupal_add_js(path_to_theme() . '/bootstrap/js/bootstrap-carousel.js', array('scope' => 'footer', 'weight' => 5));
   
   // Add Jquery UI custom
   drupal_add_css(path_to_theme() . '/jquery-ui/css/jquery-ui.custom.css', array('group' => CSS_THEME));
@@ -112,7 +102,7 @@ function ec_default_preprocess_html(&$variables) {
   drupal_add_css(path_to_theme() . '/fancybox/helpers/jquery.fancybox-thumbs.css', array('group' => CSS_THEME));
   drupal_add_js(path_to_theme() . '/fancybox/helpers/jquery.fancybox-thumbs.js', array('scope' => 'footer', 'weight' => 9));
 
-  // Add EC stylesheets
+  // Add specific stylesheets
   switch ($variables['template']) {
     case 'ec':
       drupal_add_css(path_to_theme() . '/wel/template-2012/stylesheets/ec.css', array('group' => CSS_THEME));
@@ -130,8 +120,8 @@ function ec_default_preprocess_html(&$variables) {
       break;
   }
   
-  // Add Less stylesheets
-  drupal_add_css(path_to_theme() . '/css/less/ec_default.less', array('group' => CSS_THEME));
+  // Add main stylesheets
+  drupal_add_css(path_to_theme() . '/css/ec_default.css', array('group' => CSS_THEME));  
   
   // Add conditional stylesheets for IE
   drupal_add_css(path_to_theme() . '/css/less/ie.less', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
@@ -582,13 +572,13 @@ function ec_default_link( $variables ){
   if( isset($variables['options']['attributes']['action_bar']) ) {
     switch ( $variables['options']['attributes']['action_bar'] ) {
       case 'first':
-        $action_bar_before .= '<div class="well btn-toolbar action_bar">';
+        $action_bar_before .= '<div class="form-actions btn-toolbar action_bar">';
         break;
       case 'last':
         $action_bar_after .= '</div>';
         break;
       case 'single':
-        $action_bar_before .= '<div class="well btn-toolbar action_bar">';
+        $action_bar_before .= '<div class="form-actions btn-toolbar action_bar">';
         $action_bar_after .= '</div>';
         break;        
       default:

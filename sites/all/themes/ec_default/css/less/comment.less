@@ -44,7 +44,7 @@
       line-height: 1.6;    
     }
     .comment-arrow {
-      background: url(../../images/comment-arrow.gif) no-repeat 0 center transparent; /* LTR */
+      background: url(../images/comment-arrow.gif) no-repeat 0 center transparent; /* LTR */
       border-left: 1px solid;
       border-right: 1px solid;
       height: 40px;
@@ -52,7 +52,7 @@
       margin-top: 10px;
       position: absolute;
       width: 20px;    
-      border-color: @body_color;
+      border-color: @bodyBackground;
     }
     .comment-text {
       padding: 10px 25px;
@@ -93,7 +93,7 @@
   input,
   .form-select {
     margin: 0;
-    .border-radius;  
+    .border-radius(5px);  
   }
   .form-type-textarea label {
     float: none;  
@@ -122,7 +122,7 @@
     margin-left: 120px; /* LTR */  
   }
   .form-textarea {
-    .border-radius(5px,5px,0,0);
+    .border-radius(5px 5px 0 0);
   }
   fieldset.filter-wrapper .fieldset-wrapper,
   .text-format-wrapper .form-item {

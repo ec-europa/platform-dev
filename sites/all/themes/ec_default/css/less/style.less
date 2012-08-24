@@ -22,7 +22,7 @@ body {
 body,
 body.overlay,
 li,
-label { color: @text_color; }
+label { color: @textColor; }
 
 del {
   text-decoration: line-through;
@@ -68,7 +68,7 @@ kbd {
   color: #666;
   display: inline-block;
   padding: 0 6px;
-  .border-radius;
+  .border-radius(5px);
 }
 pre {
   background-color: #f2f2f2;
@@ -94,31 +94,20 @@ a.feed-icon {
 }
 
 /* ------------------ Heading Styles ------------------ */
-h1 {color: @h1_color; }
-h2 {color: @h2_color; }
-h3 {color: @h3_color; }
-h4 {color: @h4_color; }
-h5 {color: @h5_color; }
-h6 {color: @h6_color; }
+h1 {color: #113355; }
+h2 {color: #336699; }
+h3 {color: #003366; }
+h4 {color: #003366; }
+h5 {color: #336699; }
+h6 {color: #003366; }
 
 /* ------------------ Links Styles ------------------ */
 a {
-  color: @link_color;
-  &:hover { color: @link_hover_color; }
-  &:focus { color: @link_hover_color; }
-  &:active { color: @link_active_color; }  
-  &:visited { color: @link_color; }
-}
-
-/* ------------------ Table Styles ------------------ */
-table {
-  tr {
-    &.odd { background-color: transparent; }
-    &.even  { background-color: transparent; }
-    td {
-      &.active { background-color: transparent; }
-    }
-  }
+  color: @linkColor;
+  &:hover { color: @linkColorHover; }
+  &:focus { color: @linkColorHover; }
+  &:active { color: @linkColorHover; }  
+  &:visited { color: @linkColor; }
 }
 
 /* ------------------ List Styles ------------------ */
@@ -149,8 +138,8 @@ a.context-block-region {
 }
 ul {
   .secondary {
-    border-color: darken(@body_color,15%);
-    li { border-color: darken(@body_color,15%); }
+    border-color: darken(@bodyBackground,15%);
+    li { border-color: darken(@bodyBackground,15%); }
   }
   li.block-print {
     list-style: none !important;
@@ -202,7 +191,7 @@ ul {
   line-height: 1.7;
   padding: 1px 10px 2px 10px;
   text-decoration: none;
-  .border-radius(0,0,10px,10px);
+  .border-radius(0 0 10px 10px);
 }
 #skip-link a:hover,
 #skip-link a:active,
@@ -401,7 +390,10 @@ fieldset,
   padding: 10px 13px;
   margin: 10px 0;
   .box-shadow(0 1px 5px rgba(0, 0, 0, 0.08) inset);
-  .border-radius;
+  .border-radius(5px);
+  p {
+    margin-bottom: 0;
+  }
 }
 
 /* Contact Form */
