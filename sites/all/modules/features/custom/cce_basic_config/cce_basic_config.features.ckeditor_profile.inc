@@ -313,7 +313,7 @@ function cce_basic_config_ckeditor_profile_defaults() {
         ),
       ),
       'input_formats' => array(
-        'comment_format' => 'Basic HTML',
+        'basic_html' => 'Basic HTML',
       ),
     ),
   );
