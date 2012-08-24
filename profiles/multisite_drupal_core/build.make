@@ -219,7 +219,10 @@ projects[views_xml_backend][subdir] = "contributed"
 projects[views_xml_backend][version] = "1.0-alpha3"
 
 projects[field_group][subdir] = "contributed"
-projects[field_group][version] = "7.x-2.x-dev"
+projects[field_group][version] = "2.x-dev"
+
+projects[ckeditor_link][subdir] = "contributed"
+projects[ckeditor_link][version] = "2.2"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
