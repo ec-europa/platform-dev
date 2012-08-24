@@ -239,7 +239,7 @@ function cce_basic_config_ckeditor_profile_defaults() {
         'full_html' => 'Full HTML',
       ),
     ),
-  ),
+ 
       'Basic' => array(
       'name' => 'Basic',
       'settings' => array(
