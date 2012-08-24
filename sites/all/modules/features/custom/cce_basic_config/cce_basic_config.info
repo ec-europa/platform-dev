@@ -101,4 +101,5 @@ features[variable][] = i18n_select_nodes
 features[filter][] = filtered_html
 features[filter][] = full_html
 features[filter][] = plain_text
+features[filter][] = basic_html
 features[variable][] = filter_fallback_format
