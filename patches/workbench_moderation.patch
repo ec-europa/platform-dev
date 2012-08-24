@@ -16,3 +16,15 @@ Index: sites/all/modules/contributed/workbench_moderation/workbench_moderation.m
  }
  
  /**
+--- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2012-01-14 00:12:30.000000000 +0100
++++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2012-02-21 10:44:29.000000000 +0100
+@@ -461,7 +461,9 @@
+ $handler->display->display_options['filters']['state']['field'] = 'state';
+ $handler->display->display_options['filters']['state']['value'] = array(
+   'draft' => 'draft',
+-  'needs_review' => 'needs_review',
+ );
+-$handler->display->display_options['filters']['state']['exposed'] = TRUE;
+ $handler->display->display_options['filters']['state']['expose']['operator_id'] = 'state_op';
+ $handler->display->display_options['filters']['state']['expose']['label'] = 'State';
+ $handler->display->display_options['filters']['state']['expose']['operator'] = 'state_op';
