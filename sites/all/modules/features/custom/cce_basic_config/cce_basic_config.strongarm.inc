@@ -55,6 +55,20 @@ function cce_basic_config_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'filter_fallback_format';
+  $strongarm->value = 'plain_text';
+  $export['filter_fallback_format'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'i18n_select_nodes';
+  $strongarm->value = 0;
+  $export['i18n_select_nodes'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_article';
   $strongarm->value = '2';
   $export['language_content_type_article'] = $strongarm;
@@ -301,8 +315,7 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'search_default_module';
   $strongarm->value = 'apachesolr_search';
   $export['search_default_module'] = $strongarm;
-  
-  
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -455,13 +468,6 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_themeswitch';
   $strongarm->value = 0;
   $export['sweaver_plugin_status_sweaver_plugin_themeswitch'] = $strongarm;
-  
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_advanced';
-  $strongarm->value = 1;
-  $export['sweaver_plugin_status_sweaver_plugin_advanced'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -503,38 +509,6 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'theme_default';
   $strongarm->value = 'ec_default';
   $export['theme_default'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'i18n_select_nodes';
-  $strongarm->value = 0;
-  $export['i18n_select_nodes'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'jqmulti_libraries';
-  $strongarm->value = array(
-    'bootstrap' => 'bootstrap_plugins',
-    'colorbox' => 0,
-    'tcpdf' => 0,
-  );
-  $export['jqmulti_libraries'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'jqmulti_load_always';
-  $strongarm->value = 1;
-  $export['jqmulti_load_always'] = $strongarm;
-  
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'filter_fallback_format';
-  $strongarm->value = 'plain_text';
-  $export['filter_fallback_format'] = $strongarm;
 
   return $export;
 }

@@ -31,21 +31,10 @@ function cce_basic_config_user_default_permissions() {
     ),
     'module' => 'search',
   );
-  
-    // Exported permission: edit file.
-  $permissions['edit file'] = array(
-    'name' => 'edit file',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
-    ),
-    'module' => 'file_entity',
-  );
 
-    // Exported permission: use text format filtered_html.
-  $permissions['use text format filtered_html'] = array(
-    'name' => 'use text format filtered_html',
+  // Exported permission: use text format basic_html.
+  $permissions['use text format basic_html'] = array(
+    'name' => 'use text format basic_html',
     'roles' => array(
       0 => 'administrator',
       1 => 'anonymous user',
@@ -56,16 +45,5 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'filter',
   );
 
-  // Exported permission: use text format full_html.
-  $permissions['use text format full_html'] = array(
-    'name' => 'use text format full_html',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
-      2 => 'contributor',
-      3 => 'editor',
-    ),
-    'module' => 'filter',
-  );
   return $permissions;
 }

@@ -16,13 +16,13 @@ function cce_basic_config_filter_default_formats() {
     'name' => 'Basic HTML',
     'cache' => '1',
     'status' => '1',
-    'weight' => '-11',
+    'weight' => '5',
     'filters' => array(
       'filter_url' => array(
         'weight' => '0',
         'status' => '1',
         'settings' => array(
-          'filter_url_length' => 72,
+          'filter_url_length' => '72',
         ),
       ),
       'filter_html' => array(
