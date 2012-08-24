@@ -218,6 +218,9 @@ projects[quicktabs][version] = "3.4"
 projects[views_xml_backend][subdir] = "contributed"
 projects[views_xml_backend][version] = "1.0-alpha3"
 
+projects[field_group][subdir] = "contributed"
+projects[field_group][version] = "7.x-2.x-dev"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"

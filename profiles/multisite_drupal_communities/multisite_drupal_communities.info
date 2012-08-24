@@ -101,6 +101,7 @@ dependencies[] = libraries
 dependencies[] = quicktabs
 dependencies[] = og
 dependencies[] = node_export
+dependencies[] = field_group
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_og
