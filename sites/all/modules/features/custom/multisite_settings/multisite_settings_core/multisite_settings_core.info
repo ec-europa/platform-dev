@@ -13,3 +13,5 @@ features[ctools][] = context:context:3
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:1
 features[views_view][] = multisite_settings_core
+features[filter][] = basic_html
+features[ckeditor_profile][] = Basic
