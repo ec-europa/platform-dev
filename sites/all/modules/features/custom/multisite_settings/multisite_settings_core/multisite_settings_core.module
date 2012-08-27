@@ -5,3 +5,10 @@
  */
 
 include_once('multisite_settings_core.features.inc');
+
+function multisite_settings_core_enable() {
+
+
+drupal_set_message('Requete executée');
+
+}
