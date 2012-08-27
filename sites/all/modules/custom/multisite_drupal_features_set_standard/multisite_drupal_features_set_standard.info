@@ -49,7 +49,7 @@ feature_sets[wiki_standard][icon] = 'feature-set-icons/wiki.png'
 feature_sets[wiki_standard][enable][] = multisite_drupal_wiki_toc
 feature_sets[wiki_standard][enable][] = wiki_standard
 feature_sets[wiki_standard][enable][] = wiki_core
-feature_sets[wiki_standard][enable][] = multisite_drupal_wiki_toc
+feature_sets[wiki_standard][disable][] = multisite_drupal_wiki_toc
 feature_sets[wiki_standard][disable][] = wiki_standard
 feature_sets[wiki_standard][disable][] = wiki_core
 
