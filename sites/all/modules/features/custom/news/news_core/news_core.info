@@ -7,6 +7,7 @@ version = 7.x-1.0
 project = news_core
 dependencies[] = cce_basic_config
 dependencies[] = date
+dependencies[] = date_popup
 dependencies[] = features
 dependencies[] = i18n_taxonomy
 dependencies[] = link
