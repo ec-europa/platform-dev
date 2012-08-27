@@ -7,7 +7,7 @@
 /**
  * Implements hook_ckeditor_profile_defaults().
  */
-function cce_basic_config_ckeditor_profile_defaults() {
+function multisite_standard_core_ckeditor_profile_defaults() {
   $data = array(
     'Basic' => array(
       'name' => 'Basic',
