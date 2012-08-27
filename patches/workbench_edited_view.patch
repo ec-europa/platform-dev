@@ -1,24 +1,32 @@
-Modify the workbench view My Edits to see only latest revision
 Index: sites/all/modules/contributed/workbench/views/workbench_edited.view.inc
 ===================================================================
 --- sites/all/modules/contributed/workbench/views/workbench_edited.view.inc
 +++ sites/all/modules/contributed/workbench/views/workbench_edited.view.inc
-@@ -95,7 +95,7 @@ $handler->display->display_options['footer']['area']['table'] = 'views';
+@@ -95,14 +95,15 @@
  $handler->display->display_options['footer']['area']['field'] = 'area';
  $handler->display->display_options['footer']['area']['empty'] = TRUE;
  $handler->display->display_options['footer']['area']['content'] = 'Edited something recently and it\'s not in this list? If a content type isn\'t revisioned and you didn\'t create it, it will not show up in this list when you edit it. You can find it in the \'Content I Can Edit\' tab.';
 -$handler->display->display_options['footer']['area']['format'] = '1';
 +$handler->display->display_options['footer']['area']['format'] = 'plain_text';
++$handler->display->display_options['footer']['area']['tokenize'] = 0;
  /* No results behavior: Global: Text area */
  $handler->display->display_options['empty']['area']['id'] = 'area';
  $handler->display->display_options['empty']['area']['table'] = 'views';
-@@ -287,7 +287,7 @@ $handler->display->display_options['header']['area']['table'] = 'views';
+ $handler->display->display_options['empty']['area']['field'] = 'area';
+ $handler->display->display_options['empty']['area']['empty'] = FALSE;
+ $handler->display->display_options['empty']['area']['content'] = 'You haven\'t created or edited any content.';
+-$handler->display->display_options['empty']['area']['format'] = '1';
++$handler->display->display_options['empty']['area']['format'] = 'plain_text';
+ /* Relationship: Content revision: User */
+ $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+ $handler->display->display_options['relationships']['uid']['table'] = 'node_revision';
+@@ -292,7 +293,8 @@
  $handler->display->display_options['header']['area']['field'] = 'area';
  $handler->display->display_options['header']['area']['empty'] = FALSE;
  $handler->display->display_options['header']['area']['content'] = 'Five of the most recently updated pieces of content.';
 -$handler->display->display_options['header']['area']['format'] = '1';
 +$handler->display->display_options['header']['area']['format'] = 'plain_text';
++$handler->display->display_options['header']['area']['tokenize'] = 0;
  $handler->display->display_options['defaults']['footer'] = FALSE;
  $handler->display->display_options['defaults']['filters'] = FALSE;
  /* Filter criterion: User: Current */
-
