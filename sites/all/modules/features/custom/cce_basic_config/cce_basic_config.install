@@ -104,6 +104,15 @@ function cce_basic_config_enable() {
 	  
   module_invoke('context','save',$context);	
 
+  
+     $html_update = db_insert('ckeditor_input_format') // Table name no longer needs {}
+->fields(array(
+  'name' => 'Test01',
+  'format' => 'test001',
+))
+->execute();
+
+
 }
 
 /**
