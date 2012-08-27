@@ -8,6 +8,7 @@ include_once('multisite_settings_core.features.inc');
 
 function multisite_settings_core_enable() {
 
+db_query("UPDATE ckeditor_input_format SET format = 'basic_html' WHERE name = 'Basic'");
 
 drupal_set_message('Requete executée');
 
