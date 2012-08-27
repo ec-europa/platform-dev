@@ -85,14 +85,6 @@ function cce_basic_config_enable() {
 	'weight' => 1,
   ); 
   $context->reactions['block']['blocks']['user-menu']=$blockToAdd1;	
-  
-  /*$blockToAdd2 = array(
-    'module' => 'search',
-    'delta' =>  'form',
-    'region' => 'tools',
-    'weight' => 2,
-  ); 
-  $context->reactions['block']['blocks']['form']=$blockToAdd2;	  */
 	  
   $blockToAdd3 = array(
     'module' => 'locale',
@@ -111,25 +103,8 @@ function cce_basic_config_enable() {
   $context->reactions['block']['blocks']['main-menu']=$blockToAdd4;		  
 	  
   module_invoke('context','save',$context);	
-  
-  // _add_block_context('communities','multisite_og_button-og-contextual-links','multisite_og_button','og-contextual-links', 'sidebar_first','-9');
-  // _add_block_context('site_wide','locale-language','locale','language','highlighted');	
-  // _add_block_context('site_wide','system-main-menu','system','main-menu','featured');	  
 
-  // set the main-menu as multilingual --------------------------------------------------------------------------------
-  //db_update('menu_custom')
-  //  ->fields(array('i18n_mode' => 5))
-  //  ->condition('menu_name', 'main-menu')
-  //  ->execute();
-  
-  // db_query("INSERT INTO {ckeditor_input_format} (name, format) VALUES(:name, :format)", array(':name' => 'Basic', ':format' => 'basic_html'));
-
-   $html_update = db_insert('ckeditor_input_format') // Table name no longer needs {}
-->fields(array(
-  'name' => 'Basic',
-  'format' => 'basic_html',
-))
-->execute();
+db_query("INSERT INTO `multisite_drupal_mct_24`.`ckeditor_input_format` (`name`, `format`) VALUES ('Basic', 'basic_html');");
    
 }
 
