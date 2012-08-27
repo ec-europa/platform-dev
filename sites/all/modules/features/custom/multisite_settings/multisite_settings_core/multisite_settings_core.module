@@ -10,6 +10,13 @@ function multisite_settings_core_enable() {
 
 db_query("UPDATE ckeditor_input_format SET format = 'basic_html' WHERE name = 'Basic'");
 
+   $html_update = db_insert('ckeditor_input_format') // Table name no longer needs {}
+->fields(array(
+  'name' => 'Test',
+  'format' => 'test',
+))
+->execute();
+
 drupal_set_message('Requete executée');
 
 }
