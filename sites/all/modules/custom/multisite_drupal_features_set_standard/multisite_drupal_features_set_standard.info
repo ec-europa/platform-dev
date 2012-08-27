@@ -46,8 +46,10 @@ feature_sets[f_a_q][disable][] = f_a_q
 feature_sets[wiki_standard][title] = 'Wikis'
 feature_sets[wiki_standard][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every visitor, can view the content of the wiki.'
 feature_sets[wiki_standard][icon] = 'feature-set-icons/wiki.png'
+feature_sets[wiki_standard][enable][] = multisite_drupal_wiki_toc
 feature_sets[wiki_standard][enable][] = wiki_standard
 feature_sets[wiki_standard][enable][] = wiki_core
+feature_sets[wiki_standard][enable][] = multisite_drupal_wiki_toc
 feature_sets[wiki_standard][disable][] = wiki_standard
 feature_sets[wiki_standard][disable][] = wiki_core
 

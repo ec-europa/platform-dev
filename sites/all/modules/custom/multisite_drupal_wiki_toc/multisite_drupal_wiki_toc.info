@@ -8,6 +8,3 @@ version = "7.x-1.x-dev"
 core = "7.x"
 project = "multisite_drupal_toolbox"
 datestamp = "1322093758"
-
-scripts[] = multisite_drupal_wiki_toc.js
-scripts[] = jquery.tableofcontents.min.js
