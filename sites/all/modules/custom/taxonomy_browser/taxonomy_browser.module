@@ -38,7 +38,7 @@ function taxonomy_create_tree($vid, $path, $ajax=FALSE, $selected=0) {
   $output = "";
   $depth = 0;
   
-  $output .= '<div id="tb_browser_tree"><ul>';
+  $output .= '<div id="tb_browser_tree" class="well"><ul>';
   foreach ($tree as $term) {
 	$class_css = ($term->tid == $selected) ? 'jstree-clicked' : '';
 	  
