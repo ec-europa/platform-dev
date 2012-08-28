@@ -2,7 +2,7 @@
 $(document).ready(function(){
 	$("#tb_browser_tree").jstree({ 
 		"themes" : {
-			"theme" : "default",
+			"theme" : "ec-default",
 			"dots" : true,
 			"icons" : true
 		},
