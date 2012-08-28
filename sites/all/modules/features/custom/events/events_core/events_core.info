@@ -15,6 +15,7 @@ features[field][] = "node-event-body"
 features[field][] = "node-event-field_event_date"
 features[field][] = "node-event-field_location"
 features[field][] = "node-event-field_tags"
+features[field][] = comment-comment_node_event-comment_body
 features[node][] = "event"
 features[user_permission][] = "create event content"
 features[user_permission][] = "delete any event content"
