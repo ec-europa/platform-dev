@@ -21,6 +21,7 @@ features[field][] = "node-idea-field_rating"
 features[field][] = "node-idea-field_status"
 features[field][] = "node-idea-field_tags"
 features[field][] = "node-idea-field_watching"
+features[field][] = comment-comment_node_idea-comment_body
 features[node][] = "idea"
 features[user_permission][] = "create idea content"
 features[user_permission][] = "delete any idea content"
