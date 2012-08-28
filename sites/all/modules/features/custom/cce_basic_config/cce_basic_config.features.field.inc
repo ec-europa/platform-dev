@@ -609,7 +609,7 @@ function cce_basic_config_field_default_fields() {
       ),
       'entity_type' => 'user',
       'field_name' => 'field_firstname',
-      'label' => 'firstname',
+      'label' => 'First Name',
       'required' => 1,
       'settings' => array(
         'text_processing' => '0',
@@ -673,7 +673,7 @@ function cce_basic_config_field_default_fields() {
       ),
       'entity_type' => 'user',
       'field_name' => 'field_lastname',
-      'label' => 'lastname',
+      'label' => 'Last Name',
       'required' => 1,
       'settings' => array(
         'text_processing' => '0',
