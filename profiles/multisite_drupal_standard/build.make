@@ -215,6 +215,9 @@ projects[field_group][version] = "2.x-dev"
 projects[ckeditor_link][subdir] = "contributed"
 projects[ckeditor_link][version] = "2.2"
 
+projects[better_formats][subdir] = "contributed"
+projects[better_formats][version] = "1.0-beta1"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"
