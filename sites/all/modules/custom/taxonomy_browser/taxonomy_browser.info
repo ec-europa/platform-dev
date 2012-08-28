@@ -1,11 +1,10 @@
 name = Taxonomy browser
-description = allow to filter view
-package = Custom
+description = allow to filter view with a taxonomy tree
+package = multisite drupal toolbox
 core = 7.x
 configure = admin/config/taxonomy_browser/settings
 files[] = taxonomy_browser.test
 
-; Information added by drupal.org packaging script on 2012-07-21
 version = "7.x-1.x-dev"
 core = "7.x"
 project = "taxonomy browser"
