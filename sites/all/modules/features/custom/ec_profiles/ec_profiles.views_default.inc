@@ -260,7 +260,8 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['filters']['status']['expose']['operator'] = 'status_op';
   $handler->display->display_options['filters']['status']['expose']['identifier'] = 'status';
   $handler->display->display_options['filters']['status']['expose']['multiple'] = FALSE;
-  /* Filter criterion: User: Name */
+
+  /* Filter criterion: User: Name 
   $handler->display->display_options['filters']['uid_1']['id'] = 'uid_1';
   $handler->display->display_options['filters']['uid_1']['table'] = 'users';
   $handler->display->display_options['filters']['uid_1']['field'] = 'uid';
@@ -271,7 +272,33 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['filters']['uid_1']['expose']['operator'] = 'uid_1_op';
   $handler->display->display_options['filters']['uid_1']['expose']['identifier'] = 'uid_1';
   $handler->display->display_options['filters']['uid_1']['expose']['multiple'] = FALSE;
-  $handler->display->display_options['filters']['uid_1']['expose']['reduce'] = 0;
+  $handler->display->display_options['filters']['uid_1']['expose']['reduce'] = 0;*/
+  
+  /* Filter criterion: User: First Name (field_firstname) */
+  $handler->display->display_options['filters']['field_firstname_value']['id'] = 'field_firstname_value';
+  $handler->display->display_options['filters']['field_firstname_value']['table'] = 'field_data_field_firstname';
+  $handler->display->display_options['filters']['field_firstname_value']['field'] = 'field_firstname_value';
+  $handler->display->display_options['filters']['field_firstname_value']['operator'] = 'contains';
+  $handler->display->display_options['filters']['field_firstname_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_firstname_value']['expose']['operator_id'] = 'field_firstname_value_op';
+  $handler->display->display_options['filters']['field_firstname_value']['expose']['label'] = 'First Name';
+  $handler->display->display_options['filters']['field_firstname_value']['expose']['operator'] = 'field_firstname_value_op';
+  $handler->display->display_options['filters']['field_firstname_value']['expose']['identifier'] = 'field_firstname_value';
+  $handler->display->display_options['filters']['field_firstname_value']['expose']['required'] = 0;
+  $handler->display->display_options['filters']['field_firstname_value']['expose']['multiple'] = FALSE;
+  /* Filter criterion: User: Last Name (field_lastname) */
+  $handler->display->display_options['filters']['field_lastname_value']['id'] = 'field_lastname_value';
+  $handler->display->display_options['filters']['field_lastname_value']['table'] = 'field_data_field_lastname';
+  $handler->display->display_options['filters']['field_lastname_value']['field'] = 'field_lastname_value';
+  $handler->display->display_options['filters']['field_lastname_value']['operator'] = 'contains';
+  $handler->display->display_options['filters']['field_lastname_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_lastname_value']['expose']['operator_id'] = 'field_lastname_value_op';
+  $handler->display->display_options['filters']['field_lastname_value']['expose']['label'] = 'Last Name';
+  $handler->display->display_options['filters']['field_lastname_value']['expose']['operator'] = 'field_lastname_value_op';
+  $handler->display->display_options['filters']['field_lastname_value']['expose']['identifier'] = 'field_lastname_value';
+  $handler->display->display_options['filters']['field_lastname_value']['expose']['required'] = 0;
+  $handler->display->display_options['filters']['field_lastname_value']['expose']['multiple'] = FALSE;
+  
   /* Filter criterion: Content translation: Language */ 
   $handler->display->display_options['filters']['language']['id'] = 'language'; 
   $handler->display->display_options['filters']['language']['table'] = 'node'; 
