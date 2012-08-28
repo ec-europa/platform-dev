@@ -15,6 +15,7 @@ dependencies[] = webform
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:1
+features[field][] = comment-comment_node_webform-comment_body
 features[field][] = node-webform-body
 features[field][] = node-webform-field_tags
 features[node][] = webform

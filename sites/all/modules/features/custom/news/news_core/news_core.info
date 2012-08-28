@@ -21,6 +21,7 @@ dependencies[] = workbench_moderation
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:1
+features[field][] = comment-comment_node_news-comment_body
 features[field][] = node-news-body
 features[field][] = node-news-field_link
 features[field][] = node-news-field_news_picture
