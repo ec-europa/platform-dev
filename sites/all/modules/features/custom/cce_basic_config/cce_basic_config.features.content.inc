@@ -40,7 +40,7 @@ function cce_basic_config_content_defaults() {
     <p>&nbsp;</p>
     ',
           'summary' => '',
-          'format' => 'filtered_html',
+          'format' => 'full_html',
           'safe_value' => '<p>Notice:<br />
     You have to login in order to perform any of the action described below &gt;&gt; <a href="user">Login</a><br />
      <br />
