@@ -21,6 +21,9 @@ function gallerymedia_core_enable() {
                 'node_type' => 'gallerymedia', //the content type targeted by this rule
             ))
             ->execute();
+            
+    //Enable block Carousel
+    module_enable('block_carousel');
 
     //Activation message
     drupal_set_message('MediaGallery feature is now active on your site.');
@@ -43,7 +46,9 @@ function gallerymedia_core_disable() {
     db_delete('custom_breadcrumb')
             ->condition('node_type', 'gallerymedia')
             ->execute();
-
+    //Disable block Carousel
+    module_disable('block_carousel');
+            
     //Disabling message
     drupal_set_message('MediaGallery feature is now disabled on your site.');
 }
