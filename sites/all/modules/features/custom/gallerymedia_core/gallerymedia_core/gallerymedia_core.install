@@ -23,7 +23,7 @@ function gallerymedia_core_enable() {
             ->execute();
             
     //Enable block Carousel
-    module_enable('block_carousel');
+    module_enable(array('block_carousel'),FALSE);
 
     //Activation message
     drupal_set_message('MediaGallery feature is now active on your site.');
@@ -47,7 +47,7 @@ function gallerymedia_core_disable() {
             ->condition('node_type', 'gallerymedia')
             ->execute();
     //Disable block Carousel
-    module_disable('block_carousel');
+    module_disable(array('block_carousel'),FALSE);
             
     //Disabling message
     drupal_set_message('MediaGallery feature is now disabled on your site.');
