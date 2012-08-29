@@ -515,9 +515,10 @@ function cce_basic_config_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'jqmulti_libraries';
   $strongarm->value = array(
-    'bootstrap' => 'bootstrap_plugins',
-    'colorbox' => 0,
+    'bootstrap' => 'bootstrap',
     'tcpdf' => 0,
+    'colorbox' => 0,
+    'jstree' => 0,
   );
   $export['jqmulti_libraries'] = $strongarm;
 
@@ -526,7 +527,14 @@ function cce_basic_config_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'jqmulti_load_always';
   $strongarm->value = 1;
-  $export['jqmulti_load_always'] = $strongarm;  
+  $export['jqmulti_load_always'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_advanced';
+  $strongarm->value = 1;
+  $export['sweaver_plugin_status_sweaver_plugin_advanced'] = $strongarm;  
   
   return $export;
 }
