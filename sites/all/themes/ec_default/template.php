@@ -188,13 +188,43 @@ function ec_default_process_page(&$variables) {
  * Alter page header 
  */
 function ec_default_page_alter($page) {
+  global $language;
+  if (arg(0) == 'node') {
+    $node = node_load(arg(1));
+  }
+  
+  $description = variable_get('site_slogan');
+  if (empty($description)) {
+    $description = variable_get('site_name');
+  }  
+  if (!empty($node)) {
+    $description = $node->title . ' - ' . $description;
+  }
+  
+  $title = variable_get('site_name') . ' - ' . t('European Commission');
+  if (!empty($node)) {
+    $title = $node->title . ' - ' . $title;
+  }  
+  
+  $tags = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('tags')->vid);
+  $keywords = '';
+  foreach ($tags as $key => $value) {
+    $keywords .= $value->name . ', ';
+  }
+  $keywords .= 'European Comission, European Union, EU';
+  
+  $type = 'website';
+  if (!empty($node)) {
+    $type = $node->type;
+  }  
+  
   //Content-Language
   $meta_content_language = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'http-equiv' => 'Content-Language',
-      'content' =>  'en'    
+      'content' =>  $language->language    
     )
   );
   drupal_add_html_head( $meta_content_language, 'meta_content_language' );
@@ -205,7 +235,7 @@ function ec_default_page_alter($page) {
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'description',
-      'content' =>  variable_get('site_slogan')   
+      'content' => $description   
     )
   );
   drupal_add_html_head( $meta_description, 'meta_description' );  
@@ -216,7 +246,7 @@ function ec_default_page_alter($page) {
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'reference',
-      'content' =>  'SITE_NAME'    
+      'content' =>  variable_get('site_name')    
     )
   );
   drupal_add_html_head( $meta_reference, 'meta_reference' );    
@@ -249,7 +279,7 @@ function ec_default_page_alter($page) {
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'keywords',
-      'content' =>  'One or more of the commission specific keywords + European Comission, European Union, EU'    
+      'content' =>  $keywords  
     )
   );
   drupal_add_html_head( $meta_keywords, 'meta_keywords' ); 
@@ -271,7 +301,7 @@ function ec_default_page_alter($page) {
     '#tag' => 'meta',
     '#attributes' => array(
       'property' => 'og:title',
-      'content' =>  variable_get('site_name') . ' - ' . t('European Commission')
+      'content' =>  $title
     )
   );
   drupal_add_html_head( $meta_og_title, 'meta_og_title' ); 
@@ -282,7 +312,7 @@ function ec_default_page_alter($page) {
     '#tag' => 'meta',
     '#attributes' => array(
       'property' => 'og:type',
-      'content' =>  'article'
+      'content' =>  $type
     )
   );
   drupal_add_html_head( $meta_og_type, 'meta_og_type' );
@@ -299,15 +329,15 @@ function ec_default_page_alter($page) {
   drupal_add_html_head( $meta_og_site_name, 'meta_og_site_name' );
   
   //og description
-  $meta_og_site_name = array(
+  $meta_og_description = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'property' => 'og:description',
-      'content' =>  variable_get('site_slogan')
+      'content' =>  $description
     )
   );
-  drupal_add_html_head( $meta_og_site_name, 'meta_og_site_name' );  
+  drupal_add_html_head( $meta_og_description, 'meta_og_description' );  
   
   //fb admins
   $meta_fb_admins = array(
