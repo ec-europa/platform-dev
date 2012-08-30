@@ -437,12 +437,15 @@ function ec_default_preprocess_block(&$variables) {
 function ec_default_menu_tree($variables) {
   return '<ul class="menu clearfix">' . $variables['tree'] . '</ul>';
 }
+
 function ec_default_menu_tree__main_menu($variables) {
-  if(strpos($variables['tree'], 'main_menu_dropdown') && !strpos($variables['tree'], '<ul') && !theme_get_setting('disable_dropdown_menu')) {
-    return '<ul class="dropdown-menu">' . $variables['tree'] . '</ul>';
-  } else {
+  if (strpos($variables['tree'], 'main_menu_dropdown')) {
+  //there is a dropdown in this tree (using a specific term "main_menu_dropdown" to avoid mistakes)
     $variables['tree'] = str_replace('<ul class="nav nav-pills">','<ul class="dropdown-menu">',$variables['tree']);
     return '<ul class="nav nav-pills">' . $variables['tree'] . '</ul>';  
+  } else {
+  //there is no dropdown in this tree, simply return it in a <ul>
+    return '<ul class="nav nav-pills">' . $variables['tree'] . '</ul>';
   }
 }
 
@@ -460,40 +463,59 @@ function ec_default_menu_link(array $variables) {
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
+
 function ec_default_menu_link__main_menu(array $variables) {
   $element = $variables['element'];
-  $sub_menu = '';
-  $name_id = strtolower(strip_tags($element['#title']));
+  $dropdown = '';
+  $name_id = strtolower(strip_tags(str_replace(' ','',$element['#title'])));
 // remove colons and anything past colons
   if (strpos($name_id, ':')) $name_id = substr ($name_id, 0, strpos($name_id, ':'));
 //Preserve alphanumerics and numbers, everything else goes away
   $pattern = '/([^a-z]+)([^0-9]+)/';
   $name_id = preg_replace($pattern, '', $name_id);  
 
-  if (in_array('expanded',$element['#attributes']['class']) && !theme_get_setting('disable_dropdown_menu')) {
-  //Menu item has sub-menu
-    $element['#title'] .= '<b class="caret"></b>';
-    $element['#attributes']['class'][] = 'dropdown';
+  if ($element['#below'] && !theme_get_setting('disable_dropdown_menu')) {
+  //Menu item has dropdown
+    if (!in_array('dropdown-submenu',$element['#attributes']['class'])) {
+      $element['#title'] .= '<b class="caret"></b>';
+    }
+
+    //get first child item (we only need to add a class to the first item)
+    $current = current($element['#below']);
+    $id = $current['#original_link']['mlid'];
+    
+    //add class to specify it is a dropdown
+    $element['#below'][$id]['#attributes']['class'][] = 'main_menu_dropdown';
+    if (!in_array('dropdown-submenu',$element['#attributes']['class'])) {
+      $element['#attributes']['class'][] = 'dropdown';
+    }
+    
+    //test if there is a sub-dropdown
+    foreach ($element['#below'] as $key => $value) {
+      if (is_numeric($key) && $value['#below']) {
+        $sub_current = current($value['#below']);
+        $sub_id = $sub_current['#original_link']['mlid'];      
+        //add class to specify it is a sub-dropdown
+        $element['#below'][$key]['#below'][$sub_id]['#attributes']['class'][] = 'main_menu_sub_dropdown';
+        $element['#below'][$key]['#attributes']['class'][] = 'dropdown-submenu';
+      }
+    }   
+    
     $element['#attributes']['id'][] = $name_id;   
     $element['#localized_options']['fragment'] = $name_id;
     $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
     $element['#localized_options']['attributes']['data-toggle'][] = 'dropdown';
     $element['#localized_options']['html'] = TRUE;    
     $output = l($element['#title'], '', $element['#localized_options']);
+    
+    $dropdown = drupal_render($element['#below']);
   } else {
-  //No sub-menu
+  //No dropdown
     $element['#localized_options']['html'] = TRUE;
     $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   }
-  
-  if ($element['#below']) {
-    $current = current($element['#below']);
-    $id = $current['#original_link']['mlid'];
-    $element['#below'][$id]['#attributes']['class'][] = 'main_menu_dropdown';
-    $sub_menu = drupal_render($element['#below']);
-  }
 
-  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $dropdown . "</li>\n";
 }
 
 
