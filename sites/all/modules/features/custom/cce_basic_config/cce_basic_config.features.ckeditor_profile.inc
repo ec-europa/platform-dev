@@ -271,7 +271,13 @@ function cce_basic_config_ckeditor_profile_defaults() {
         'scayt_autoStartup' => 'f',
         'theme_config_js' => 'f',
         'js_conf' => '',
-        'loadPlugins' => array(
+        'loadPlugins' => array(	
+            'ckeditor_link' => array(
+            'name' => 'drupal_path',
+            'desc' => 'CKEditor Link - A plugin to easily create links to Drupal internal paths',
+            'path' => '%base_path%sites/all/modules/contributed/ckeditor_link/plugins/link/',
+            'buttons' => FALSE,
+          ),        
           'drupalbreaks' => array(
             'name' => 'drupalbreaks',
             'desc' => 'Plugin for inserting Drupal teaser and page breaks.',
