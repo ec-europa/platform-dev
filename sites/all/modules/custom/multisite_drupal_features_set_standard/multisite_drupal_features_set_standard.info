@@ -26,7 +26,7 @@ feature_sets[news_standard][disable][] = news_standard
 feature_sets[news_standard][disable][] = news_core
 
 feature_sets[ec_profiles][title] = 'Extend Profiles'
-feature_sets[ec_profiles][description] = 'Gives a possibility for the administrator to manage information about visitor\'s profile on the site. He can add some additional fields and define whether the information must be filled by a new visitor or not, or if visitor can hide the information or not.'
+feature_sets[ec_profiles][description] = 'Create a directory page.'
 feature_sets[ec_profiles][icon] = 'feature-set-icons/ec_profiles.png'
 feature_sets[ec_profiles][enable][] = ec_profiles
 feature_sets[ec_profiles][disable][] = ec_profiles
