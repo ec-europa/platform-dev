@@ -209,7 +209,7 @@ function multi_user_blog_field_default_fields() {
           'settings' => array(
             'expose' => 1,
             'style' => 'average',
-            'text' => 'none',
+            'text' => 'average',
             'widget' => array(
               'fivestar_widget' => 'default',
             ),
