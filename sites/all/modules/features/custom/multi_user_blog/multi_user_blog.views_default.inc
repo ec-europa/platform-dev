@@ -106,7 +106,7 @@ function multi_user_blog_views_default_views() {
     ),
     'expose' => 1,
     'style' => 'average',
-    'text' => 'none',
+    'text' => 'average',
   );
   $handler->display->display_options['fields']['field_rating']['field_api_classes'] = 0;
   /* Field: User: Picture */
