@@ -391,7 +391,11 @@ fieldset,
   margin: 10px 0;
   .box-shadow(0 1px 5px rgba(0, 0, 0, 0.08) inset);
   .border-radius(5px);
+  height: auto !important;
   p {
+    margin-bottom: 0;
+  }
+  legend {
     margin-bottom: 0;
   }
   &.collapsed {
@@ -401,7 +405,14 @@ fieldset,
     .box-shadow(none);
     .border-radius(0px);
     legend {
-      width: 100%;
+      a {
+        display: block;
+      }
+      .fieldset-legend {
+        .summary {
+          display: none;
+        }
+      }
     }
   }
 }
