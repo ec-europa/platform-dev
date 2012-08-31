@@ -884,6 +884,7 @@ ul.links{color:#68696b;font-size:0.9em;}
 .grid4 table{width:100%;}.grid4 table td{width:25%;padding:10px 15px;vertical-align:top;}
 .grid4 table th{width:25%;padding:10px 15px;vertical-align:top;}
 fieldset,.fieldset{border:1px solid #cccccc;padding:10px 13px;margin:10px 0;-webkit-box-shadow:0 1px 5px rgba(0, 0, 0, 0.08) inset;-moz-box-shadow:0 1px 5px rgba(0, 0, 0, 0.08) inset;box-shadow:0 1px 5px rgba(0, 0, 0, 0.08) inset;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;}fieldset p,.fieldset p{margin-bottom:0;}
+fieldset.collapsed,.fieldset.collapsed{padding:0 13px;margin-bottom:0;border:none;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;-webkit-border-radius:0px;-moz-border-radius:0px;border-radius:0px;}fieldset.collapsed legend,.fieldset.collapsed legend{width:100%;}
 .contact-form #edit-name{width:75%;}
 .contact-form #edit-mail{width:75%;}
 .contact-form #edit-subject{width:75%;}
