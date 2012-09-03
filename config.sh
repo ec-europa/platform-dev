@@ -36,6 +36,7 @@ fi
 # php-cli command
 php="php"
 
+
 # used to create the URL pattern from the subsite name (%s) - the best
 # explanation for this parameter is bootstrap.inc's conf_path() function
 cluster_subsite_url_pattern='fpfis-dev.net1.cec.eu.int.multisite_drupal_mct_1.%s';
