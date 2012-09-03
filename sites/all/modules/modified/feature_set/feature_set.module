@@ -384,8 +384,9 @@ function batch_featureset_op($feature_set_action, $operation_details, &$context)
       $info_file = drupal_get_path('module', $module_to_disable)."/". $module_to_disable.".info";
       $info = drupal_parse_info_file($info_file);
 
+      
       if(isset($info['features']['node'])) { // the feature implements a content type
-        $check_nodes = 0;
+        $check_node = 0;
         $node_type_warning = array();
         foreach($info['features']['node'] as $node_type) {
           $result = db_select('node', 'n')
