@@ -72,7 +72,7 @@ projects[views_datasource][subdir] = "contributed"
 projects[views_datasource][version] = "1.x-dev"
 
 projects[votingapi][subdir] = "contributed"
-projects[votingapi][version] = "2.4"
+projects[votingapi][version] = "2.6"
 
 projects[workbench][subdir] = "contributed"
 projects[workbench][version] = "1.1"
