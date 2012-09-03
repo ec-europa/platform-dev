@@ -298,7 +298,7 @@ function cce_basic_config_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_article_publication_date',
       'label' => 'Publication date',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'default_value' => 'now',
         'default_value2' => 'blank',
