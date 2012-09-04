@@ -189,7 +189,7 @@ projects[i18n][subdir] = "contributed"
 projects[i18n][version] = "1.7"
 
 projects[variable][subdir] = "contributed"
-projects[variable][version] = "1.2"
+projects[variable][version] = "2.1"
 
 projects[translation_table][subdir] = "contributed"
 projects[translation_table][version] = "1.0-beta1"
