@@ -30,7 +30,6 @@ features[ckeditor_profile][] = Full
 features[content][] = welcome_message
 features[context][] = search
 features[context][] = site_wide
-features[context][] = homepage
 features[ctools][] = context:context:3
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
