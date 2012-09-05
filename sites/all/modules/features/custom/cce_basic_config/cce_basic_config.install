@@ -144,12 +144,13 @@ function cce_basic_config_enable() {
 
   $node->exported_path = 'content/welcome-your-site1';
   $node->status = '1';
+  $node->uid = '0';
   $node->promote = '0';
   $node->sticky = '0';
   $node->created = '1330594184';
   $node->comment = '1';
   $node->translate = '0';
-  $node->machine_name = 'welcome_message1';
+  $node->machine_name = 'welcome_message';
   $node->body[$node->language][0]['value'] = 
 	'<p>Notice:</p>
     <p>You have to login in order to perform any of the action described below &gt;&gt; <a href="user">Login</a></p>
@@ -175,7 +176,8 @@ function cce_basic_config_enable() {
  * Remove block from the context
  */
 function cce_basic_config_disable() {
-    //Nothing yet
+    //delete content -----------------------------
+    node_delete(1);
 }
 
 
