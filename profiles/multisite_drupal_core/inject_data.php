@@ -41,7 +41,7 @@ function inject_data() {
   node_object_prepare($node);
   
   $node->title    = 'Welcome to your site !';
-  $node->language = "LANGUAGE_NONE";
+  $node->language = LANGUAGE_NONE;
 
   $node->path = array('alias' => 'content/welcome-your-site');
   $node->status = '1';
@@ -53,7 +53,7 @@ function inject_data() {
   $node->translate = '0';
   $node->revision = 1;
   
- /* 
+ 
   $node->body[$node->language][0]['value'] = 
 	'<p>Notice:</p>
     <p>You have to login in order to perform any of the action described below &gt;&gt; <a href="user">Login</a></p>
@@ -71,13 +71,7 @@ function inject_data() {
     ';
   $node->body[$node->language][0]['summary'] = '';
   $node->body[$node->language][0]['format']  = 'full_html';
-*/
 
-  $node->body[$node->language][0]['value']   = "ooooo";
-  $node->body[$node->language][0]['summary'] = "";
-  $node->body[$node->language][0]['format']  = 'full_html';
-
-  // I prefer using pathauto, which would override the below path
   $path = 'content/welcome-your-site';
   $node->path = array('alias' => $path);
 
@@ -85,5 +79,7 @@ function inject_data() {
     node_save($node);
     echo "Node saved!\n";
   }  
+  
+   
 }
 
