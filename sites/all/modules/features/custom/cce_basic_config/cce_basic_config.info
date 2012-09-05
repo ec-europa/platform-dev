@@ -12,6 +12,7 @@ dependencies[] = current_search
 dependencies[] = date
 dependencies[] = facetapi
 dependencies[] = features
+dependencies[] = file_entity
 dependencies[] = i18n_taxonomy
 dependencies[] = image
 dependencies[] = jqmulti

@@ -209,8 +209,8 @@ projects[node_export][version] = "3.0-rc3"
 projects[quicktabs][subdir] = "contributed"
 projects[quicktabs][version] = "3.4"
 
-projects[views_xml_backend][subdir] = "contributed"
-projects[views_xml_backend][version] = "1.0-alpha3"
+;projects[views_xml_backend][subdir] = "contributed"
+;projects[views_xml_backend][version] = "1.0-alpha3"
 
 projects[field_group][subdir] = "contributed"
 projects[field_group][version] = "2.x-dev"
