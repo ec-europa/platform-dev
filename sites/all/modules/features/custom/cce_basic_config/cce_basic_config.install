@@ -148,7 +148,7 @@ function cce_basic_config_enable() {
   $node->sticky = '0';
   $node->created = '1330594184';
   $node->comment = '1';
-  $node->translate = '0',
+  $node->translate = '0';
   $node->machine_name = 'welcome_message1';
   $node->body[$node->language][0]['value'] = 
 	'<p>Notice:</p>
