@@ -142,8 +142,7 @@ function cce_basic_config_enable() {
   $node->title    = 'Welcome to your site !';
   $node->language = LANGUAGE_NONE;
 
-  $node->path = 'content/welcome-your-site';
-  $node->exported_path = 'content/welcome-your-site';
+  $node->path = array('alias' => 'content/welcome-your-site');
   $node->status = '1';
   $node->uid = '0';
   $node->promote = '0';
@@ -152,6 +151,8 @@ function cce_basic_config_enable() {
   $node->comment = '1';
   $node->translate = '0';
   $node->machine_name = 'welcome_message';
+  $node->revision = 1;
+  
   $node->body[$node->language][0]['value'] = 
 	'<p>Notice:</p>
     <p>You have to login in order to perform any of the action described below &gt;&gt; <a href="user">Login</a></p>
