@@ -168,7 +168,7 @@ function cce_basic_config_enable() {
   $node->body[$node->language][0]['summary'] = '';
   $node->body[$node->language][0]['format']  = 'full_html';
 
-  $node_save($node);
+  node_save($node);
 }
 
 /**
