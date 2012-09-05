@@ -9,14 +9,91 @@
  * hook_install
  */
 function idea_core_install() {
-    //Nothing yet
+  // create a vocabulary dedicated to the idea categories	
+  $vocabulary = (object) array(
+    'name' => t('Idea categories'),
+    'machine_name' => 'idea_categories',
+    'module' => 'idea_core',
+  );
+  taxonomy_vocabulary_save($vocabulary);
+  
+  // add default categories
+  $vocabulary = taxonomy_vocabulary_machine_name_load('idea_categories');
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => t('Communication'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => t('Improvements'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => t('Legislation'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => t('Resources'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => t('Services'),
+  ); 
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => t('Other'),
+  );   
+  taxonomy_term_save($term);
+  
+  // create a vocabulary dedicated to the idea status	
+  $vocabulary = (object) array(
+    'name' => t('Idea status'),
+    'machine_name' => 'idea_status',
+    'module' => 'idea_core',
+  );
+  taxonomy_vocabulary_save($vocabulary);
+  
+  // add default categories
+  $vocabulary = taxonomy_vocabulary_machine_name_load('idea_status');
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => t('Current Activity'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => t('In Action'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => t('No Status'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => t('Unable to Implement'),
+  );
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => t('Under Review'),
+  ); 
+  taxonomy_term_save($term);
+ 
 }
 
 /**
  * hook_uninstall
  */
 function idea_core_uninstall() {
-    //Nothing yet
+  $vocabulary = taxonomy_vocabulary_machine_name_load('idea_categories');
+  taxonomy_vocabulary_delete($vocabulary->vid);
 }
 
 /**

@@ -10,7 +10,7 @@
 function idea_core_field_default_fields() {
   $fields = array();
 
-   // Exported field: 'comment-comment_node_idea-comment_body'.
+  // Exported field: 'comment-comment_node_idea-comment_body'.
   $fields['comment-comment_node_idea-comment_body'] = array(
     'field_config' => array(
       'active' => '1',
@@ -33,7 +33,7 @@ function idea_core_field_default_fields() {
           0 => 'format',
         ),
       ),
-      'locked' => '1',
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -100,11 +100,10 @@ function idea_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-idea-body'
+  // Exported field: 'node-idea-body'.
   $fields['node-idea-body'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -124,6 +123,7 @@ function idea_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -140,7 +140,7 @@ function idea_core_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 0,
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -173,35 +173,40 @@ function idea_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-idea-field_categories'
+  // Exported field: 'node-idea-field_categories'.
   $fields['node-idea-field_categories'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_categories',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
         ),
       ),
-      'module' => 'list',
+      'indexes' => array(
+        'tid' => array(
+          0 => 'tid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
-          'Communication' => 'Communication',
-          'Improvements' => 'Improvements',
-          'Legislation' => 'Legislation',
-          'Resources' => 'Resources',
-          'Services' => 'Services',
-          'Other' => 'Other',
+          0 => array(
+            'vocabulary' => 'idea_categories',
+            'parent' => '0',
+          ),
         ),
-        'allowed_values_function' => '',
+        'options_list_callback' => 'i18n_taxonomy_allowed_values',
       ),
       'translatable' => '0',
-      'type' => 'list_text',
+      'type' => 'taxonomy_term_reference',
     ),
     'field_instance' => array(
       'bundle' => 'idea',
@@ -211,10 +216,10 @@ function idea_core_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'inline',
-          'module' => 'list',
+          'module' => 'i18n_taxonomy',
           'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 3,
+          'type' => 'i18n_taxonomy_term_reference_link',
+          'weight' => '6',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -225,8 +230,8 @@ function idea_core_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_categories',
-      'label' => 'categories',
-      'required' => 0,
+      'label' => 'Categories',
+      'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
@@ -235,22 +240,22 @@ function idea_core_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '6',
+        'weight' => '31',
       ),
     ),
   );
 
-  // Exported field: 'node-idea-field_rating'
+  // Exported field: 'node-idea-field_rating'.
   $fields['node-idea-field_rating'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_rating',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'fivestar',
       'settings' => array(
         'axis' => 'vote',
@@ -276,7 +281,7 @@ function idea_core_field_default_fields() {
             ),
           ),
           'type' => 'fivestar_formatter_default',
-          'weight' => 4,
+          'weight' => '4',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -305,51 +310,53 @@ function idea_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-idea-field_status'
+  // Exported field: 'node-idea-field_status'.
   $fields['node-idea-field_status'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_status',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
         ),
       ),
-      'module' => 'list',
+      'indexes' => array(
+        'tid' => array(
+          0 => 'tid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
-          'Current Activity' => 'Current Activity',
-          'In Action' => 'In Action',
-          'No Status' => 'No Status',
-          'Unable to Implement' => 'Unable to Implement',
-          'Under Review' => 'Under Review',
+          0 => array(
+            'vocabulary' => 'idea_status',
+            'parent' => '0',
+          ),
         ),
-        'allowed_values_function' => '',
+        'options_list_callback' => 'i18n_taxonomy_allowed_values',
       ),
       'translatable' => '0',
-      'type' => 'list_text',
+      'type' => 'taxonomy_term_reference',
     ),
     'field_instance' => array(
       'bundle' => 'idea',
-      'default_value' => array(
-        0 => array(
-          'value' => 'No Status',
-        ),
-      ),
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'inline',
-          'module' => 'list',
+          'module' => 'i18n_taxonomy',
           'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 2,
+          'type' => 'i18n_taxonomy_term_reference_link',
+          'weight' => '7',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -360,7 +367,7 @@ function idea_core_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_status',
-      'label' => 'status',
+      'label' => 'Status',
       'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -370,17 +377,15 @@ function idea_core_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '5',
+        'weight' => '32',
       ),
     ),
   );
 
-
-  // Exported field: 'node-idea-field_tags'
+  // Exported field: 'node-idea-field_tags'.
   $fields['node-idea-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -398,6 +403,7 @@ function idea_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -451,12 +457,10 @@ function idea_core_field_default_fields() {
     ),
   );
 
-
-  // Exported field: 'node-idea-field_watching'
+  // Exported field: 'node-idea-field_watching'.
   $fields['node-idea-field_watching'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -467,6 +471,7 @@ function idea_core_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -493,7 +498,7 @@ function idea_core_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 5,
+          'weight' => '5',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -521,17 +526,15 @@ function idea_core_field_default_fields() {
     ),
   );
 
-
-  
-
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Categories');
+  t('Comment');
   t('Idea we are watching');
+  t('Status');
   t('Tags');
-  t('categories');
   t('rating');
-  t('status');
 
   return $fields;
 }
