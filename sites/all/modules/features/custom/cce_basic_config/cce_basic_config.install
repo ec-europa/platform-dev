@@ -140,17 +140,16 @@ function cce_basic_config_enable() {
   node_object_prepare($node);
   
   $node->title    = 'Welcome to your site !';
-  $node->language = LANGUAGE_NONE;
+  $node->language = "en";
 
   $node->path = array('alias' => 'content/welcome-your-site');
   $node->status = '1';
-  $node->uid = '0';
+  $node->uid = '1';
   $node->promote = '0';
   $node->sticky = '0';
   $node->created = '1330594184';
   $node->comment = '1';
   $node->translate = '0';
-  $node->machine_name = 'welcome_message';
   $node->revision = 1;
   
  /* 
@@ -174,7 +173,7 @@ function cce_basic_config_enable() {
 */
 
 $node->body[$node->language][0]['value']   = "ooooo";
-$node->body[$node->language][0]['summary'] = text_summary("ooooo");
+$node->body[$node->language][0]['summary'] = "";
 $node->body[$node->language][0]['format']  = 'full_html';
 
 // I prefer using pathauto, which would override the below path
