@@ -142,7 +142,8 @@ function cce_basic_config_enable() {
   $node->title    = 'Welcome to your site !';
   $node->language = LANGUAGE_NONE;
 
-  $node->exported_path = 'content/welcome-your-site1';
+  $node->path = 'content/welcome-your-site';
+  $node->exported_path = 'content/welcome-your-site';
   $node->status = '1';
   $node->uid = '0';
   $node->promote = '0';
