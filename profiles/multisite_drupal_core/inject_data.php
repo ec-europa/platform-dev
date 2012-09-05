@@ -34,7 +34,6 @@ function inject_data() {
     ->execute();
  
  
-  // create content
   // create content -----------------------------------------
   
   $node = new stdClass();
@@ -42,7 +41,7 @@ function inject_data() {
   node_object_prepare($node);
   
   $node->title    = 'Welcome to your site !';
-  $node->language = "en";
+  $node->language = "LANGUAGE_NONE";
 
   $node->path = array('alias' => 'content/welcome-your-site');
   $node->status = '1';
