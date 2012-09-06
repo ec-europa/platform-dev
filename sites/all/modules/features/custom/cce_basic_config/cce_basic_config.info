@@ -23,6 +23,7 @@ dependencies[] = search
 dependencies[] = strongarm
 dependencies[] = taxonomy
 dependencies[] = better_formats
+dependencies[] = date_popup
 features[ckeditor_profile][] = Advanced
 features[ckeditor_profile][] = Basic
 features[ckeditor_profile][] = CKEditor Global Profile
