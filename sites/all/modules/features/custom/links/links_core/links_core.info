@@ -36,7 +36,6 @@ features[variable][] = menu_parent_links
 features[variable][] = node_options_links
 features[variable][] = node_preview_links
 features[variable][] = node_submitted_links
-features[variable][] = pathauto_node_links_pattern
 features[variable][] = workbench_moderation_default_state_links
 features[views_view][] = links
 dependencies[] = i18n_taxonomy
