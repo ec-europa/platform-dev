@@ -136,6 +136,16 @@ function cce_basic_config_user_default_permissions() {
     'roles' => array(),
     'module' => 'better_formats',
   );
+  
+    // Exported permission: access site in maintenance mode.
+  $permissions['access site in maintenance mode'] = array(
+    'name' => 'access site in maintenance mode',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+    ),
+    'module' => 'system',
+  );
 
   return $permissions;
 }
