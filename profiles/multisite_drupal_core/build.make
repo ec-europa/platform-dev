@@ -57,7 +57,7 @@ projects[sweaver][subdir] = "contributed"
 projects[sweaver][version] = "1.3"
 
 projects[token][subdir] = "contributed"
-projects[token][version] = "1.0-beta7"
+projects[token][version] = "1.2"
 
 projects[uuid][subdir] = "contributed"
 projects[uuid][version] = "1.0-alpha2"
@@ -66,7 +66,7 @@ projects[varnish][subdir] = "contributed"
 projects[varnish][version] = "1.0-beta1"
 
 projects[views][subdir] = "contributed"
-projects[views][version] = "3.3"
+projects[views][version] = "3.5"
 
 projects[views_datasource][subdir] = "contributed"
 projects[views_datasource][version] = "1.x-dev"
@@ -138,7 +138,7 @@ projects[simplenews][version] = "1.0-beta1"
 ;projects[libraries][version] = "1.0"
 
 projects[print][subdir] = "contributed"
-projects[print][version] = "1.0-beta1"
+projects[print][version] = "1.2"
 
 ;projects[features_override][subdir] = "contributed"
 ;projects[features_override][version] = "1.0-beta1"
