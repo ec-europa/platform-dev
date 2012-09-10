@@ -132,7 +132,7 @@ projects[webform][subdir] = "contributed"
 projects[webform][version] = "3.18"
 
 projects[print][subdir] = "contributed"
-projects[print][version] = "1.0-beta1"
+projects[print][version] = "1.2"
 
 ;projects[features_override][subdir] = "contributed"
 ;projects[features_override][version] = "1.0-beta1"
