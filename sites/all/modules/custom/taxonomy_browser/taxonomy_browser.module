@@ -38,21 +38,22 @@ function taxonomy_create_tree($vid, $path, $ajax=FALSE, $selected=0) {
   $output = "";
   $depth = 0;
   
-  $output .= '<div id="tb_browser_tree" class="well"><ul>';
+  $output .= '<div id="tb_browser_tree"><ul>';
   foreach ($tree as $term) {
 	$class_css = ($term->tid == $selected) ? 'jstree-clicked' : '';
 	  
-    if ($term->depth > $depth) {	
+    if($term->depth > $depth) {	
       $output .= '<ul>';
-      $depth = $term->depth;
     }
-    if ($term->depth < $depth) {
-      $output .= '</li></ul>';
-      $depth = $term->depth;
+    if($term->depth < $depth) {
+      $diff = $depth-$term->depth;
+      for($i=0; $i<$diff; $i++)
+        $output .= '</li></ul>';
     }
-     if ($term->depth == $depth) {
+    if($term->depth == $depth) {
       $output .= '</li>';
-    }   
+    } 
+    $depth = $term->depth; 
     if($ajax)
       $link = l($term->name, $path.'/'.$term->tid, array('attributes' => array('class' => array('use-ajax'))));
     else
