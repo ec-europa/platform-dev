@@ -58,7 +58,8 @@
             <?php print $messages; ?>
           </div></div> <!-- /.section, /#messages -->
         <?php endif; ?>
-      </div></div> <!-- /.section, /#content -->
+		<div style="font-size: small; float:right;"><br />Allowed users (ie: Administrators) can log in <a href="<?php print base_path(). $language->language.'/'; ?>user/login"> here </a>.
+      </div></div></div> <!-- /.section, /#content -->
     </div></div> <!-- /#main, /#main-wrapper -->
 
   </div></div> <!-- /#page, /#page-wrapper -->
