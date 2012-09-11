@@ -398,7 +398,7 @@ function fpfis_subsite_install(&$subsite) {
 function fpfis_change_admin_password(&$subsite) {
 	/// TODO create a configuration file for the policy
 	$admin_username = 'admin';
-	$definitive_admin_password = '$FPFISpass001';
+	$definitive_admin_password = 'change_me';
 	
 	$reports = array();
 	$next_state = 'admin_password_changed';
