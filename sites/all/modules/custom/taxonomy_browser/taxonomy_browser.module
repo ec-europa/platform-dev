@@ -38,7 +38,7 @@ function taxonomy_create_tree($vid, $path, $ajax=FALSE, $selected=0) {
   $output = "";
   $depth = 0;
   
-  $output .= '<div id="tb_browser_tree"><ul>';
+  $output .= '<div id="tb_browser_tree" class="well"><ul>';
   foreach ($tree as $term) {
 	$class_css = ($term->tid == $selected) ? 'jstree-clicked' : '';
 	  
@@ -75,6 +75,7 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
 
   if(in_array($view->current_display, $displays))  {
     drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/taxonomy_browser.css');
+    drupal_add_js('misc/jquery.cookie.js');
     drupal_add_js('sites/all/libraries/jstree/jquery.jstree.js');
     drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser.js');
     drupal_add_library('system', 'drupal.ajax');
