@@ -37,4 +37,4 @@ project = "e_library"
 dependencies[] = i18n_taxonomy
 features[features_api][] = api:1
 ;features[taxonomy][] = tags
-version = "7.x-1.0"
+version = "7.x-1.1"
