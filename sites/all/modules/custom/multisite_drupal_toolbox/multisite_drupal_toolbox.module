@@ -372,5 +372,25 @@ function simplenews_related_content_type($content_type, $op) {
   //}
 }
 
+/*
+ * hook_alter_page 
+*/
+function multisite_drupal_toolbox_page_alter(&$page) {
+  global $user;
+  if(variable_get('alert_message_enable', FALSE) && $user->uid > 0) {
+    $message = array(
+      '#weight' => -1000, 
+      '#type' => 'markup', 
+      '#markup' => variable_get('alert_message_body', ""),
+      '#prefix' => '<div id="alter_message" class="messages warning">',
+      '#suffix' => '</div>',
+    );	  
 
+    $elt = array('alert_message' => $message);
+    if(array_key_exists('content_top', $page))
+      array_unshift($page['content_top'], $elt);
+    else
+      $page['content_top']['alert_message'] = $message;
+  }
+}
 
