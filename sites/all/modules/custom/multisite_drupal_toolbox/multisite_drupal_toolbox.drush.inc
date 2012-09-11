@@ -17,7 +17,7 @@ function drupal_multisite_toolbox_drush_command() {
   return $items;
 }
 
-function drush_drupal_multisite_toolbox($switch = "enable") {
+function drush_alert_message($switch = "enable") {
   module_load_include('inc', 'multisite_drupal_toolbox', 'alert_message');
   $message = get_message();
   
