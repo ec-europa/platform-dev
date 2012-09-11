@@ -513,9 +513,8 @@ function fpfis_adjust_subsite_settings(&$subsite) {
 }
 
 function fpfis_configure_apachesolr(&$subsite) {
-	/// TODO create a configuration file for the policy
-	$solr_server_url = 'http://biguonia.cc.cec.eu.int:8080/solr/multisite';
-	$solr_server_name = 'multisite solr server';
+	$solr_server_url = $subsite->solrInstance()->url();
+	$solr_server_name = $subsite->solrInstance()->name();
 	
 	$reports = array();
 	$commands = array(

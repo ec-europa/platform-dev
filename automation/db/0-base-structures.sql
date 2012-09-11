@@ -27,6 +27,14 @@ CREATE TABLE IF NOT EXISTS web_servers (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+-- We have Apache Solr instances.
+CREATE TABLE `solr_instances` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(512) DEFAULT NULL,
+  `name` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- We also have database instances...
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -97,14 +105,17 @@ CREATE TABLE IF NOT EXISTS drupal_master_sites (
   rewritemap_local_path varchar(1024) NOT NULL COMMENT 'path to the RewriteMap files as mounted on the management server',
   default_subsite_url_pattern varchar(512) NOT NULL COMMENT 'default URL pattern leading Drupal to recognize a subsite',
   default_subsite_install_policy varchar(128) NOT NULL,
+  default_subsite_solr_id int(11) DEFAULT NULL,
   database_name varchar(128) NOT NULL COMMENT 'Name of the master database',
   database_account int(11) NOT NULL COMMENT 'account to access the master database',
   PRIMARY KEY (id),
   UNIQUE KEY name (name),
   KEY database_account (database_account),
   KEY cluster_id (cluster_id),
+  KEY default_subsite_solr_id (default_subsite_solr_id),
   CONSTRAINT drupal_master_sites_ibfk_1 FOREIGN KEY (database_account) REFERENCES database_accounts (id),
-  CONSTRAINT drupal_master_sites_ibfk_2 FOREIGN KEY (cluster_id) REFERENCES clusters (id)
+  CONSTRAINT drupal_master_sites_ibfk_2 FOREIGN KEY (cluster_id) REFERENCES clusters (id),
+  CONSTRAINT drupal_master_sites_ibfk_3 FOREIGN KEY (default_subsite_solr_id) REFERENCES solr_instances (id),
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -121,14 +132,17 @@ CREATE TABLE IF NOT EXISTS drupal_subsites (
   database_account int(11) NOT NULL,
   master int(11) NOT NULL COMMENT 'Parent Drupal master site',
   install_policy varchar(128) DEFAULT NULL,
+  solr_id int(11) DEFAULT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY name (name, environment),
   KEY master (master),
   KEY database_account (database_account),
   KEY environment (environment),
+  KEY solr_id (solr_id),
   CONSTRAINT drupal_subsites_ibfk_1 FOREIGN KEY (database_account) REFERENCES database_accounts (id),
   CONSTRAINT drupal_subsites_ibfk_2 FOREIGN KEY (master) REFERENCES drupal_master_sites (id),
-  CONSTRAINT drupal_subsites_ibfk_3 FOREIGN KEY (environment) REFERENCES environments (id)
+  CONSTRAINT drupal_subsites_ibfk_3 FOREIGN KEY (environment) REFERENCES environments (id),
+  CONSTRAINT drupal_subsites_ibfk_4 FOREIGN KEY (solr_id) REFERENCES solr_instances (id),
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Known Drupal subsites';
 /*!40101 SET character_set_client = @saved_cs_client */;
 

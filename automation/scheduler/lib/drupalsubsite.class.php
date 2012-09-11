@@ -1,10 +1,11 @@
 <?php
 require_once('lib/site.class.php');
 require_once('lib/drupalmastersite.class.php');
+require_once('lib/solrinstance.class.php');
 class DrupalSubSite extends Site {
 	public function __construct($array) {
 		parent::__construct($array);
-		foreach (array('url_pattern', 'master', 'state', 'install_policy') as $member) {
+		foreach (array('url_pattern', 'master', 'state', 'install_policy', 'solr_id') as $member) {
 			$intern_member = $member . '_';
 			$this->$intern_member = $array[$member];
 		}
@@ -48,6 +49,18 @@ class DrupalSubSite extends Site {
 		return trim($this->install_policy_);
 	}
 	
+	public function solrInstance() {
+		if (!is_object($this->solr_id_)) {
+			if (is_numeric($this->solr_id_)) {
+				$solr_instance = SolrInstance::fetchInstanceById($this->solr_id_);
+			} else {
+				$solr_instance = $this->master()->defaultSolrInstance();
+			}
+			if (is_object($solr_instance)) $this->solr_id_ = $solr_instance;
+		}
+		return $this->solr_id_;
+	}
+	
 	public function master() {
 		if (is_numeric($this->master_)) {
 			$master = DrupalMasterSite::fetchMasterSiteById($this->master_);
@@ -88,6 +101,7 @@ class DrupalSubSite extends Site {
 	
 	protected $url_pattern_;
 	protected $install_policy_;
+	protected $solr_id_;
 	protected $master_;
 	protected $state_;
 	protected $last_update_;
