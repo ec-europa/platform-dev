@@ -84,8 +84,16 @@ function wiki_core_user_default_permissions() {
   user_role_revoke_permissions($adm_rid, array(
     'administer modules',
     'administer features',
-	'manage features',
-  ));  
+    'manage features',
+    'show format selection for comment',
+    'show format selection for file',
+    'show format selection for node',
+    'show format selection for rules_config',
+    'show format selection for taxonomy_term',
+    'show format selection for user',
+    'show format tips',
+    'show more format tips link',
+  ));
 
   return $permissions;
 }
