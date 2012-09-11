@@ -1,5 +1,5 @@
 <?php
-function alert_message_drush_command() {
+function drupal_multisite_toolbox_drush_command() {
   $items = array();
 
   $items['alert_message'] = array(
@@ -17,8 +17,8 @@ function alert_message_drush_command() {
   return $items;
 }
 
-function drush_alert_message($switch = "enable") {
-  module_load_include('inc', 'ckeditor_browser', 'alert_message');
+function drush_drupal_multisite_toolbox($switch = "enable") {
+  module_load_include('inc', 'multisite_drupal_toolbox', 'alert_message');
   $message = get_message();
   
   if($switch == "enable") {
