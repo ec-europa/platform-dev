@@ -5,27 +5,24 @@
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ multisite_supermaster /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE multisite_supermaster;
 
--- We may have very similar objects within different environments.
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+
+-- We may have very similar objects within different environments.
 CREATE TABLE IF NOT EXISTS environments (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(128) NOT NULL,
   comment text,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Known environments';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 -- We have web servers.
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE IF NOT EXISTS web_servers (
   id int(11) NOT NULL AUTO_INCREMENT,
   hostname varchar(256) DEFAULT NULL,
   port smallint(5) unsigned DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 -- We have Apache Solr instances.
 CREATE TABLE `solr_instances` (
@@ -36,8 +33,6 @@ CREATE TABLE `solr_instances` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- We also have database instances...
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE IF NOT EXISTS database_instances (
   id int(11) NOT NULL AUTO_INCREMENT,
   hostname varchar(256) NOT NULL,
@@ -45,11 +40,8 @@ CREATE TABLE IF NOT EXISTS database_instances (
   type varchar(32) DEFAULT 'mysql',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 -- ... and accounts, each account being related to a specific database instance.
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE IF NOT EXISTS database_accounts (
   id int(11) NOT NULL AUTO_INCREMENT,
   user varchar(256) NOT NULL,
@@ -60,11 +52,8 @@ CREATE TABLE IF NOT EXISTS database_accounts (
   KEY database_instance (database_instance),
   CONSTRAINT database_accounts_ibfk_1 FOREIGN KEY (database_instance) REFERENCES database_instances (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Known MySQL accounts';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 -- We have clusters. Each cluster references one default database instance...
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE IF NOT EXISTS clusters (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(256) NOT NULL COMMENT 'cluster name',
@@ -75,11 +64,8 @@ CREATE TABLE IF NOT EXISTS clusters (
   KEY mysql_instance (mysql_instance),
   CONSTRAINT clusters_ibfk_1 FOREIGN KEY (mysql_instance) REFERENCES database_instances (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 -- ... and 0 to n web servers.
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE IF NOT EXISTS clusters_servers (
   cluster_id int(11) NOT NULL,
   web_server_id int(11) NOT NULL,
@@ -94,8 +80,6 @@ CREATE TABLE IF NOT EXISTS clusters_servers (
 -- on a specific cluster, and owns a database he reaches using a database
 -- account... which may be on a database instance different from the cluster's
 -- default.
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE IF NOT EXISTS drupal_master_sites (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(128) NOT NULL,
@@ -121,8 +105,6 @@ CREATE TABLE IF NOT EXISTS drupal_master_sites (
 
 -- Drupal subsites have a master site as parent. They are also free to rely on
 -- a database instance different from their parent's cluster's default.
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE IF NOT EXISTS drupal_subsites (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(128) NOT NULL,
@@ -144,12 +126,9 @@ CREATE TABLE IF NOT EXISTS drupal_subsites (
   CONSTRAINT drupal_subsites_ibfk_3 FOREIGN KEY (environment) REFERENCES environments (id),
   CONSTRAINT drupal_subsites_ibfk_4 FOREIGN KEY (solr_id) REFERENCES solr_instances (id),
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Known Drupal subsites';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 -- This table stores subsites states (are they freshly declared, fully installed
 -- or in a failed state?).
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE IF NOT EXISTS workflow_states (
   subsite_id int(11) NOT NULL,
   state varchar(256) NOT NULL DEFAULT 'declared',
@@ -158,4 +137,5 @@ CREATE TABLE IF NOT EXISTS workflow_states (
   PRIMARY KEY (subsite_id),
   CONSTRAINT workflow_states_ibfk_1 FOREIGN KEY (subsite_id) REFERENCES drupal_subsites (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='State of known Drupal subsites';
+
 /*!40101 SET character_set_client = @saved_cs_client */;
