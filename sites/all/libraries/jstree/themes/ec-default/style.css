@@ -8,8 +8,8 @@
 .jstree-ec-default ins { background-image:url("d.png"); background-repeat:no-repeat; background-color:transparent; }
 .jstree-ec-default li { display: block; background-position:-90px 0; background-repeat:repeat-y; }
 .jstree-ec-default li.jstree-last { background:transparent; }
-.jstree-ec-default .jstree-open > ins { background-position:-72px 0; }
-.jstree-ec-default .jstree-closed > ins { background-position:-54px 0; }
+.jstree-ec-default .jstree-open > ins { background-position:-72px 0; cursor: pointer; }
+.jstree-ec-default .jstree-closed > ins { background-position:-54px 0; cursor: pointer; }
 .jstree-ec-default .jstree-leaf > ins { background-position:-36px 0; }
 
 #tb_browser .jstree-ec-default .jstree-hovered { background:#e7f4f9; padding:3px 5px 3px 1px; }
