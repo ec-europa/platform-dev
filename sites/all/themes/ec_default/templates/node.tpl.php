@@ -195,6 +195,7 @@
               
               case 'above':
                 if (isset($content[$key]['#title'])) {
+                  $content[$key]['#label_display'] = 'hidden';
                   $field .= '<div class="'.$span_large.' field-label">'.$content[$key]['#title'].'</div></div>';
                   $field .= '<div class="row-fluid"><div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
                 } else {
@@ -205,6 +206,7 @@
               case 'inline':
               default:
                 if (isset($content[$key]['#title'])) {
+                  $content[$key]['#label_display'] = 'hidden';
                   $field .= '<div class="'.$span_title.' field-label">'.$content[$key]['#title'].'</div>';
                   $field .= '<div class="'.$span_small.' no_label">'.render($content[$key]).'</div>';                        
                 } else {
