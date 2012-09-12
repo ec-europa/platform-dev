@@ -110,8 +110,8 @@ projects[calendar][version] = "3.0-alpha2"
 projects[og_create_perms][subdir] = "contributed"
 projects[og_create_perms][version] = "1.0"
 
-projects[references][subdir] = "contributed"
-projects[references][version] = "2.0"
+;projects[references][subdir] = "contributed"
+;projects[references][version] = "2.0"
 
 projects[devel][subdir] = "contributed"
 projects[devel][version] = "1.2"

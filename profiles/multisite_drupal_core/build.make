@@ -122,8 +122,8 @@ projects[og_create_perms][version] = "1.0"
 projects[webform][subdir] = "contributed"
 projects[webform][version] = "3.18"
 
-projects[references][subdir] = "contributed"
-projects[references][version] = "2.0"
+;projects[references][subdir] = "contributed"
+;projects[references][version] = "2.0"
 
 projects[devel][subdir] = "contributed"
 projects[devel][version] = "1.2"
