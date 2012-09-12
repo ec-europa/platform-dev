@@ -17,32 +17,37 @@ function form_taxonomy_browser_settings($form, &$form_state) {
   $result_views = db_select('views_view', 'v')
     ->fields('v', array('vid', 'name', 'human_name'))
     ->execute();
-  while($record = $result_views->fetchAssoc()) {
-    $items_view[$record['name']] = $record['human_name'];
+    
+  if($result_views->rowCount() == 0) {
+    drupal_set_message(t('No eligible views found for taxonomy browser'), 'warning');
   }
-  
-
-  
-  $form['taxonomy_browser_description'] = array(
-    '#type' => 'item',
-    '#title' => t('For each view, choose the display to alter.'),
-  );
-  foreach($items_view as $view_name => $view) {
-    $diplays = _taxonomy_browser_get_display($view_name);
-    
-    $form[$view_name] = array(
-      '#type' => 'fieldset', 
-      '#title' => t($view), 
-      '#collapsible' => TRUE, 
-      '#collapsed' => TRUE,
+  else {
+    while($record = $result_views->fetchAssoc()) {
+      $items_view[$record['name']] = $record['human_name'];
+    }
+ 
+    $form['taxonomy_browser_description'] = array(
+      '#type' => 'item',
+      '#title' => t('For each view, choose the displays where the taxonomy browser must appear.'),
     );
+    foreach($items_view as $view_name => $view) {
+      $diplays = _taxonomy_browser_get_display($view_name);
     
-    $form[$view_name]['taxonomy_browser_'.$view_name] = array(
-      '#type' => 'checkboxes',
-      '#options' => $diplays,
-      '#default_value' => variable_get('taxonomy_browser_'.$view_name, array()),
-    ); 	  
+      $form[$view_name] = array(
+        '#type' => 'fieldset', 
+        '#title' => t($view), 
+        '#collapsible' => TRUE, 
+        '#collapsed' => TRUE,
+      );
+    
+      $form[$view_name]['taxonomy_browser_'.$view_name] = array(
+        '#type' => 'checkboxes',
+        '#options' => $diplays,
+        '#default_value' => variable_get('taxonomy_browser_'.$view_name, array()),
+      ); 	  
 
+    }
+  
   }
   
   return system_settings_form($form);
