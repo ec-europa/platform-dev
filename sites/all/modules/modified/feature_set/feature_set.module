@@ -377,8 +377,8 @@ function batch_featureset_op($feature_set_action, $operation_details, &$context)
   }
   else  {
 	$context['message'] = $feature_set_action['feature']['title']." disabling";
-
-    // before to disable a feature set, we have to check if all features included implement content types and 
+	$check_node = 0;
+    // Before disabling a feature set, we have to check if included features implement content types and 
     // then if it remains nodes with theses content types
     foreach($feature_set_action['feature']['disable'] as $module_to_disable) {
       $info_file = drupal_get_path('module', $module_to_disable)."/". $module_to_disable.".info";
@@ -386,7 +386,7 @@ function batch_featureset_op($feature_set_action, $operation_details, &$context)
 
       
       if(isset($info['features']['node'])) { // the feature implements a content type
-        $check_node = 0;
+        
         $node_type_warning = array();
         foreach($info['features']['node'] as $node_type) {
           $result = db_select('node', 'n')
@@ -399,19 +399,17 @@ function batch_featureset_op($feature_set_action, $operation_details, &$context)
             $node_type_warning[] = $node_type;
           }
         }
+		
+      }
+	  
+    }
 
-        if($check_node > 0) {
-           drupal_set_message("<b>WARNING</b><br/>".$feature_set_action['feature']['title']." not disabled, you have to remove all <b>".implode(" ",$node_type_warning)."</b> contents.", 'warning');
-        }
-        else {
-          feature_set_disable_feature_set($feature_set_action['feature']);    
-        }
-      }
-      else  {
-        feature_set_disable_feature_set($feature_set_action['feature']);
-      }
-    } 
-    
+	if($check_node > 0) {
+	   drupal_set_message("<b>WARNING</b><br/>".$feature_set_action['feature']['title']." not disabled, you have to remove all <b>".implode(" ",$node_type_warning)."</b> contents.", 'warning');
+	} else {
+	  feature_set_disable_feature_set($feature_set_action['feature']);
+	}
+	
   }
 
   _batch_update_http_requests();
