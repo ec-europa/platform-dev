@@ -179,44 +179,56 @@ function newsletters_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-simplenews-field_related_contents'
+ 
+ 
+  // Exported field: 'node-simplenews-field_related_contents'.
   $fields['node-simplenews-field_related_contents'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked'=>'1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_related_contents',
       'foreign keys' => array(
-        'nid' => array(
+        'node' => array(
           'columns' => array(
-            'nid' => 'nid',
+            'target_id' => 'nid',
           ),
           'table' => 'node',
         ),
       ),
       'indexes' => array(
-        'nid' => array(
-          0 => 'nid',
+        'target_id' => array(
+          0 => 'target_id',
         ),
       ),
-      'module' => 'node_reference',
+      'locked' => '0',
+      'module' => 'entityreference',
       'settings' => array(
+        'handler' => 'base',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'sort' => array(
+            'direction' => 'ASC',
+            'field' => 'body:value',
+            'property' => 'nid',
+            'type' => 'none',
+          ),
+          'target_bundles' => array(),
+        ),
+        'handler_submit' => 'Change handler',
         'referenceable_types' => array(
           'article' => 'article',
-          'community' => 0,
-          'page' => 0,
-          'simplenews' => 0,
+          'page' => 'page',
         ),
-        'view' => array(
-          'args' => array(),
-          'display_name' => '',
-          'view_name' => '',
-        ),
+        'target_type' => 'node',
       ),
       'translatable' => '0',
-      'type' => 'node_reference',
+      'type' => 'entityreference',
     ),
     'field_instance' => array(
       'bundle' => 'simplenews',
@@ -225,11 +237,13 @@ function newsletters_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
-          'module' => 'node_reference',
-          'settings' => array(),
-          'type' => 'node_reference_default',
-          'weight' => 2,
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => 4,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -243,23 +257,25 @@ function newsletters_field_default_fields() {
       'label' => 'related contents',
       'required' => 0,
       'settings' => array(
-        'user_field_privacy' => FALSE,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'node_reference',
+        'module' => 'entityreference',
         'settings' => array(
-          'autocomplete_match' => 'contains',
-          'autocomplete_path' => 'node_reference/autocomplete',
+          'match_operator' => 'CONTAINS',
+          'path' => '',
           'size' => '60',
         ),
-        'type' => 'node_reference_autocomplete',
-        'weight' => '5',
+        'type' => 'entityreference_autocomplete',
+        'weight' => '31',
       ),
     ),
   );
-
+ 
+ 
+ 
+ 
   // Exported field: 'node-simplenews-field_simplenews_term'
   $fields['node-simplenews-field_simplenews_term'] = array(
     'field_config' => array(

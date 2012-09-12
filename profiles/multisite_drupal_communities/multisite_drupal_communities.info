@@ -104,6 +104,7 @@ dependencies[] = node_export
 dependencies[] = field_group
 dependencies[] = ckeditor_link
 dependencies[] = better_formats
+dependencies[] = entityreference
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_og

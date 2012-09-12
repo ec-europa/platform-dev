@@ -19,7 +19,7 @@ function form_taxonomy_browser_settings($form, &$form_state) {
     ->execute();
     
   if($result_views->rowCount() == 0) {
-    drupal_set_message(t('No eligible views found for taxonomy browser'), 'warning');
+    drupal_set_message(t('No eligible views found in database for taxonomy browser'), 'warning');
   }
   else {
     while($record = $result_views->fetchAssoc()) {
