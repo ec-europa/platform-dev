@@ -122,8 +122,10 @@ function cce_basic_config_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'print_html_link_pos';
   $strongarm->value = array(
+  	'block' => 'block',	
     'link' => 0,
     'corner' => 0,
+  	'help' => 0,
   );
   $export['print_html_link_pos'] = $strongarm;
 
