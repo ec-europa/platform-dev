@@ -134,8 +134,8 @@ projects[print][version] = "1.2"
 ;projects[features_override][subdir] = "contributed"
 ;projects[features_override][version] = "1.0-beta1"
 
-projects[jquery_update][subdir] = "contributed"
-projects[jquery_update][version] = "2.2"
+;projects[jquery_update][subdir] = "contributed"
+;projects[jquery_update][version] = "2.2"
 
 projects[mailsystem][subdir] = "contributed"
 projects[mailsystem][version] = "2.33"
