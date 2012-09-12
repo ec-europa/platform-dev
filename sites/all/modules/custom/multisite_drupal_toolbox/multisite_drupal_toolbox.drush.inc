@@ -1,5 +1,5 @@
 <?php
-function drupal_multisite_toolbox_drush_command() {
+function multisite_drupal_toolbox_drush_command() {
   $items = array();
 
   $items['alert_message'] = array(
@@ -8,7 +8,8 @@ function drupal_multisite_toolbox_drush_command() {
       'switch' => 'enable/disable : Enable or disable the alert message.',
     ),
     'examples' => array(
-      'drush alert_message enable' => 'Display the alert message.',
+      'drush alert_message enable' => 'Display the alert message on the current instance.',
+      'drush @sites alert_message enable' => 'Display the alert message on all the subsites and master site.',      
     ),
     'aliases' => array('am'),
      'bootstrap' => DRUSH_BOOTSTRAP_DRUSH, // No bootstrap at all.
@@ -17,7 +18,7 @@ function drupal_multisite_toolbox_drush_command() {
   return $items;
 }
 
-function drush_alert_message($switch = "enable") {
+function drush_multisite_drupal_toolbox_alert_message($switch = "enable") {
   module_load_include('inc', 'multisite_drupal_toolbox', 'alert_message');
   $message = get_message();
   
