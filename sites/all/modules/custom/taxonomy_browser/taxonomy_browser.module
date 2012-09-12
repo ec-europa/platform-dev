@@ -103,7 +103,7 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
     $output1 .= taxonomy_create_tree($vid, $view_path, FALSE, $selected);
     $output1 .= '</div>';
   
-    $output1 .= '<div id="tb_view">'.$output.'</div>';    
+    $output1 .= '<div id="tb_view">'.$output.'</div></div>';    
       	  
     $output = $output1;
   }	
