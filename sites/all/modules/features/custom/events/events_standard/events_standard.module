@@ -5,30 +5,18 @@
  */
 
 include_once('events_standard.features.inc');
-include_once('events_standard.views_alter.inc');
+
 
 /**
  * Add a buttons in the views associated with this feature
  * @param type $view 
  */
 function events_standard_views_pre_render(&$view) {
-  if($view->name=='calendar'){
-    switch( $view->current_display ) {
-      case 'upcoming_events':
-	    break;
-	  case 'month':
-	  case 'week':
-	  case 'day':
-	  case 'year':
-	    if ( user_access('create event content') ) {
+  	    if ( user_access('create event content') ) {
 	      $output= l(t('Create an Event'), 
             'node/add/event',
 		    array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
-		    $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+		    $view->header['area']->options['content'] = $output;
 	    }
-	    break;
-	  default:
-	    break;
-    }  
-  }
+
 }

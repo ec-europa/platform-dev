@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * events.features.inc
+ * events_core.features.inc
  */
 
 /**
@@ -18,10 +18,7 @@ function events_core_ctools_plugin_api() {
  * Implements hook_views_api().
  */
 function events_core_views_api() {
-  list($module, $api) = func_get_args();
-  if ($module == "views" && $api == "views_default") {
-    return array("version" => "3.0");
-  }
+  return array("version" => "3.0");
 }
 
 /**
@@ -32,7 +29,7 @@ function events_core_node_info() {
     'event' => array(
       'name' => t('Event'),
       'base' => 'node_content',
-      'description' => 'Event',
+      'description' => t('Event'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',

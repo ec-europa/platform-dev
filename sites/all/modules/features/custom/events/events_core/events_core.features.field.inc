@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * events.features.field.inc
+ * events_core.features.field.inc
  */
 
 /**
@@ -9,7 +9,7 @@
  */
 function events_core_field_default_fields() {
   $fields = array();
-  
+
   // Exported field: 'comment-comment_node_event-comment_body'.
   $fields['comment-comment_node_event-comment_body'] = array(
     'field_config' => array(
@@ -100,11 +100,10 @@ function events_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-event-body'
+  // Exported field: 'node-event-body'.
   $fields['node-event-body'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -124,6 +123,7 @@ function events_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -174,17 +174,17 @@ function events_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-event-field_event_date'
+  // Exported field: 'node-event-field_event_date'.
   $fields['node-event-field_event_date'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_event_date',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '1',
       'module' => 'date',
       'settings' => array(
         'enddate' => 1,
@@ -262,17 +262,17 @@ function events_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-event-field_location'
+  // Exported field: 'node-event-field_location'.
   $fields['node-event-field_location'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_location',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '1',
       'module' => 'link',
       'settings' => array(
         'attributes' => array(
@@ -346,11 +346,10 @@ function events_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-event-field_tags'
+  // Exported field: 'node-event-field_tags'.
   $fields['node-event-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -368,6 +367,7 @@ function events_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -422,12 +422,10 @@ function events_core_field_default_fields() {
     ),
   );
 
-
-
-
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Comment');
   t('Dates');
   t('Select the start and end dates for this event.');
   t('Tags');
