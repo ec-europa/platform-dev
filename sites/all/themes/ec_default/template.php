@@ -813,6 +813,14 @@ function class_replace($match) {
     case "Blog post":
      return '<i class="icon-book"></i>';
     break;
+
+    case "idea":
+     return '<i class="icon-bullhorn"></i>';
+    break;
+
+    case "Simplenews newsletter":
+     return '<i class="icon-envelope"></i>';
+    break;
     
     default:
     break;
