@@ -8,6 +8,9 @@ function survey_og_enable() {
   //_add_block_context('communities', 'surveys_list-block_1', 'views', 'surveys_list-block_1', 'sidebar_first');
   _add_content_type_context('communities','webform');
   _add_path_context('communities','urvey_analysis/*');
+  
+  // override drupal variable defined in core feature
+  variable_set('pathauto_node_webform_pattern', 'community/[node:group_audience]/survey/[node:title]');
 }
 
 
@@ -43,4 +46,6 @@ function survey_og_disable(){
     'update own webform content',
   ));  
   
+  // delete drupal variables
+  variable_del('pathauto_node_webform_pattern');
 }

@@ -1,4 +1,4 @@
-name = "News"
+name = "news_og"
 description = "Add news to your community"
 core = "7.x"
 package = "Multisite OG Features"
