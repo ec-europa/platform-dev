@@ -180,7 +180,7 @@
           }
         }
       }    
-      if ($display_content) { 
+      if ($display_content && !empty($fields['content'])) { 
         //sort fields by weight
         asort($fields['content']);
         
