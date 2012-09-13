@@ -19,6 +19,5 @@ features[ctools][] = "strongarm:strongarm:1"
 features[ctools][] = "views:views_default:3.0"
 features[field][] = "node-news-group_audience"
 features[field][] = "node-news-group_content_access"
-features[variable][] = "pathauto_node_news_pattern"
 features[variable][] = "og_group_type_news"
 
