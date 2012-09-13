@@ -11,9 +11,9 @@ include_once('events_core.features.inc');
  */
 function events_core_token_info() {
     
-    $info['tokens']['Breadcrumb_events']["events_title"] = array(
-        'name' => t("events breadcrump title"),
-        'description' => t("The breadcrump title of the events."),
+    $info['tokens']['Breadcrumb_events']['events_title'] = array(
+        'name' => t("events breadcrumb title"),
+        'description' => t("The breadcrumb title of the events."),
     );
     return $info;
 }
