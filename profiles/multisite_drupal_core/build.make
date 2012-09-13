@@ -231,7 +231,7 @@ projects[better_formats][subdir] = "contributed"
 projects[better_formats][version] = "1.0-beta1"
 
 projects[entityreference][subdir] = "contributed"
-projects[entityreference][version] = "7.x-1.x-dev"
+projects[entityreference][version] = "1.x-dev"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
