@@ -362,6 +362,7 @@ function ec_default_page_alter($page) {
   drupal_add_html_head( $meta_robots, 'meta_robots' );  
   
   //revisit after
+
   $revisit_after = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
@@ -766,7 +767,7 @@ function class_replace($match) {
     break;
     
     case "Document":
-      return '<i class="icon-book"></i>';
+      return '<i class="icon-list-alt"></i>';
     break;
     
     case "Event":
