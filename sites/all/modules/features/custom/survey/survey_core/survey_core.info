@@ -19,7 +19,6 @@ features[field][] = comment-comment_node_webform-comment_body
 features[field][] = node-webform-body
 features[field][] = node-webform-field_tags
 features[node][] = webform
-features[taxonomy][] = tags
 features[user_permission][] = access all webform results
 features[user_permission][] = access own webform results
 features[user_permission][] = access own webform submissions

@@ -6,11 +6,14 @@
 function wiki_og_enable() {
   // add elements to contexts
   _add_views_context("communities","wiki_list");
-//  _add_block_context('communities', 'wiki_list-block_1', 'views', 'wiki_list-block_1', 'sidebar_first');
+  //  _add_block_context('communities', 'wiki_list-block_1', 'views', 'wiki_list-block_1', 'sidebar_first');
   _add_content_type_context('communities','wiki');
   
   // add wiki content type to newsletters related contents
   add_content_type_newsletters('wiki');
+  
+  // override drupal variables defined in core feature
+  variable_set('pathauto_node_wiki_pattern', 'community/[node:group_audience]/wiki/[node:title]');
 }
 
 
@@ -47,4 +50,6 @@ function wiki_og_disable(){
     'delete any wiki content',
   ));
     
+  // delete drupal variables
+  variable_del('pathauto_node_wiki_pattern');
 }
