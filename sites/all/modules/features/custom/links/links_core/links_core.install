@@ -30,7 +30,7 @@ function links_core_enable(){
   notification_content_type('links','add');  
   
   // add type to the simplenews related content
-  simplenews_related_content_type('links', 'add');
+  //simplenews_related_content_type('links', 'add');
 
   //Add breadcrumb configuration
     db_insert('custom_breadcrumb')
@@ -63,7 +63,7 @@ function links_core_disable(){
   notification_content_type('links','delete');
   
   // remove type to the simplenews related content
-  simplenews_related_content_type('links', 'delete');
+  //simplenews_related_content_type('links', 'delete');
   
   /*** Remove permissions ***/
   _disable_content_type('links');

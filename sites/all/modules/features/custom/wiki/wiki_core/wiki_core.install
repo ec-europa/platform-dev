@@ -15,7 +15,7 @@ function wiki_core_enable() {
   notification_content_type('wiki','add');
   
   // add type to the simplenews related content
-  simplenews_related_content_type('wiki', 'add');
+  //simplenews_related_content_type('wiki', 'add');
 
   //Add breadcrumb configuration
     db_insert('custom_breadcrumb')
@@ -46,7 +46,7 @@ function wiki_core_disable(){
   notification_content_type('wiki','delete');
   
   // remove type to the simplenews related content
-  simplenews_related_content_type('wiki', 'remove');
+  //simplenews_related_content_type('wiki', 'remove');
   
   _disable_content_type('wiki');
   

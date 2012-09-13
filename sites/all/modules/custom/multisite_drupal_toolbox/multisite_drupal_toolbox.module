@@ -349,7 +349,7 @@ function notification_content_type($content_type, $op) {
 
 
 /*
-* add content type to the "related-content" field of the simplenews content type
+* add content type to the "related-contents" field of the simplenews content type
 */
 function simplenews_related_content_type($content_type, $op) {
   //if(module_exists('newsletters')) { // check if the feature newsletter is enabled
@@ -357,14 +357,14 @@ function simplenews_related_content_type($content_type, $op) {
       case 'add':
         $field = field_read_fields(array('field_name' => "field_related_contents"));
         if($field) {
-		  $field["field_related_contents"]["settings"]["referenceable_types"][$content_type] = $content_type;
+		  $field["field_related_contents"]["settings"]["handler_settings"]["target_bundles"][$content_type] = $content_type;
           field_update_field($field["field_related_contents"]);
 		}
 	    break;
 	  case 'delete':
 		$field = field_read_fields(array('field_name' => "field_related_contents"));  
 		if($field) {
-          unset($field["field_related_contents"]["settings"]["referenceable_types"][$content_type]);
+          unset($field["field_related_contents"]["settings"]["handler_settings"]["target_bundles"][$content_type]);
           field_update_field($field["field_related_contents"]);	
 		}
 	    break;

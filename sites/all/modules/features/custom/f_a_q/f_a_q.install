@@ -31,7 +31,7 @@ function f_a_q_enable() {
     notification_content_type('f_a_q', 'add');
 
     // add type to the simplenews related content
-    simplenews_related_content_type('f_a_q', 'add');
+    //simplenews_related_content_type('f_a_q', 'add');
 
     //Add breadcrumb configuration
     db_insert('custom_breadcrumb')
@@ -79,7 +79,7 @@ function f_a_q_disable() {
     notification_content_type('f_a_q', 'delete');
 
     // remove type to the simplenews related content
-    simplenews_related_content_type('f_a_q', 'delete');
+    //simplenews_related_content_type('f_a_q', 'delete');
 
     //module_disable(array('faq_content_default'));
     _disable_content_type('f_a_q');

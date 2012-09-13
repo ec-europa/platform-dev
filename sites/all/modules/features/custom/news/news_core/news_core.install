@@ -40,7 +40,7 @@ function news_core_enable() {
             ->execute();
 
     // add type to the simplenews related content
-    simplenews_related_content_type('news', 'add');
+    //simplenews_related_content_type('news', 'add');
 
     //Activation message
     drupal_set_message('News feature is now active on your site.');
@@ -64,7 +64,7 @@ function news_core_disable() {
     notification_content_type('news', 'delete');
 
     // remove type to the simplenews related content
-    simplenews_related_content_type('news', 'delete');
+    //simplenews_related_content_type('news', 'delete');
 
     module_disable(array('news_content_default'));
 
