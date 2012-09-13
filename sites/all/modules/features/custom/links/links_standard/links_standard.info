@@ -9,4 +9,4 @@ package = "Multisite Standard Features"
 php = "5.2.4"
 project = "links_standard"
 version = "7.x-1.0"
-features[variable][] = pathauto_node_links_pattern
+
