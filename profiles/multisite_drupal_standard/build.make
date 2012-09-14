@@ -99,7 +99,7 @@ projects[backup_migrate][subdir] = "contributed"
 projects[backup_migrate][version] = "2.2"
 
 projects[pathauto][subdir] = "contributed"
-projects[pathauto][version] = "1.0"
+projects[pathauto][version] = "1.2"
 
 projects[user_field_privacy][subdir] = "contributed"
 projects[user_field_privacy][version] = "1.2"
