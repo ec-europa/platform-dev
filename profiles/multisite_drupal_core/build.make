@@ -113,6 +113,9 @@ projects[fullcalendar][version] = "2.0-beta3"
 projects[colors][subdir] = "contributed"
 projects[colors][version] = "1.0-beta2"
 
+projects[colorbox][subdir] = "contributed"
+projects[colorbox][version] = "1.3"
+
 projects[og_create_perms][subdir] = "contributed"
 projects[og_create_perms][version] = "1.0"
 

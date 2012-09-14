@@ -107,8 +107,14 @@ projects[pathauto][version] = "1.2"
 projects[user_field_privacy][subdir] = "contributed"
 projects[user_field_privacy][version] = "1.2"
 
-projects[calendar][subdir] = "contributed"
-projects[calendar][version] = "3.0-alpha2"
+projects[fullcalendar][subdir] = "contributed"
+projects[fullcalendar][version] = "2.0-beta3"
+
+projects[colors][subdir] = "contributed"
+projects[colors][version] = "1.0-beta2"
+
+projects[colorbox][subdir] = "contributed"
+projects[colorbox][version] = "1.3"
 
 projects[og_create_perms][subdir] = "contributed"
 projects[og_create_perms][version] = "1.0"
