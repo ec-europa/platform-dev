@@ -1,5 +1,5 @@
---- i18n_taxonomy.origine	2012-09-14 15:47:08.835066208 +0200
-+++ i18n_taxonomy.module	2012-09-14 15:48:38.000000000 +0200
+--- sites/all/modules/contributed/i18n/i18n_taxonomy/i18n_taxonomy.module	2012-09-14 15:47:08.835066208 +0200
++++ sites/all/modules/contributed/i18n/i18n_taxonomy/i18n_taxonomy.module	2012-09-14 15:48:38.000000000 +0200
 @@ -627,7 +627,7 @@
   */
  function i18n_taxonomy_taxonomy_vocabulary_update($vocabulary) {
