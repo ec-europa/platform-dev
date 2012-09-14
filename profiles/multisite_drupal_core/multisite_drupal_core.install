@@ -117,6 +117,12 @@ function multisite_drupal_core_install() {
     'moderate content from needs_review to validated',
     'moderate content from published to archived',
     'moderate content from validated to published',
+    'moderate content from draft to needs_review',
+    'use workbench_moderation my drafts tab',
+    'use workbench_moderation needs review tab',
+    'revert revisions',
+    'view own unpublished content',
+    'view all unpublished content',
   ));  
   
 
