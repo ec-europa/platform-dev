@@ -37,6 +37,8 @@
     //list basic fields
     $basic = array('field_firstname', 'field_lastname', 'user_picture', 'summary');
     $output = '';
+
+    $profile_user = user_load(arg(1));
   ?>
   
   <fieldset>
@@ -48,9 +50,19 @@
     </div>
     <div class="span7">
     <?php
-      $output .= '<h3>' . $user_profile['field_firstname'][0]['#markup'] . ' ' . $user_profile['field_lastname'][0]['#markup'] . '</h3>';
+      $identity = '';
+      if (isset($user_profile['field_firstname'][0]['#markup'])) {
+        $identity .= $user_profile['field_firstname'][0]['#markup'];
+      }
+      if (isset($user_profile['field_lastname'][0]['#markup'])) {
+        if ($identity != '') {
+          $identity .= ' ';
+        }
+        $identity .= $user_profile['field_lastname'][0]['#markup'];
+      }      
+      $output .= '<h3>' . $identity . '</h3>';
       
-      $output .= '<p><strong>' . t('Member since') . '</strong>: ' . date('d/m/Y',$user_profile['field_lastname']['#object']->created) . '</p>';
+      $output .= '<p><strong>' . t('Member since') . '</strong>: ' . date('d/m/Y',$profile_user->created) . '</p>';
     
       $output .= l(t('Contact this user'), 'user/'.$elements['#account']->uid.'/contact', array('attributes' => array('type' => 'message')));
       
