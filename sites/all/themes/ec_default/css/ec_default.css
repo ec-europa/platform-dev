@@ -1074,6 +1074,7 @@ h4{font-size:130%;font-weight:normal;}
 h5{font-size:120%;font-weight:normal;}
 .navbar{margin:15px;}.navbar .nav>li>a:hover,.navbar .nav>li>a:focus{text-shadow:none;}
 .navbar .nav>li>a.active{text-shadow:0 0 1px rgba(0, 0, 0, 0.5);background:#00609c;color:#ffffff;}
+.navbar ul.dropdown-menu ul.dropdown-menu .dropdown-submenu>a:after,.navbar ul.dropdown-menu ul.dropdown-menu ul.dropdown-menu{display:none !important;}
 .btn-danger{color:#fff !important;text-decoration:none;}.btn-danger:hover{color:#fdd !important;}
 .btn-danger:active{color:#fdd !important;}
 .btn-danger:focus{color:#fdd !important;}
