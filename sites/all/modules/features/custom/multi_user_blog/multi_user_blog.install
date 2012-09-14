@@ -17,7 +17,10 @@ function multi_user_blog_disable() {
   //remove the breadcrump related to
   db_delete('custom_breadcrumb')
           ->condition('node_type', 'blog_post')
-          ->execute();  
+          ->execute();
+          
+  //Activation message
+  drupal_set_message('multi user blogs feature is now active on your site.');  
 }
 
 /*
@@ -42,5 +45,8 @@ function multi_user_blog_enable() {
               'node_type' => 'blog_post', //the content type targeted by this rule
           ))
           ->execute();  
+
+  //Activation message
+  drupal_set_message('multi user blogs feature is now disable on your site.');
 }           
 ?>
