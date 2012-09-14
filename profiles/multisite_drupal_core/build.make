@@ -51,7 +51,7 @@ projects[rules][subdir] = "contributed"
 projects[rules][version] = "2.1"
 
 projects[strongarm][subdir] = "contributed"
-projects[strongarm][version] = "2.0-rc1"
+projects[strongarm][version] = "2.0"
 
 projects[sweaver][subdir] = "contributed"
 projects[sweaver][version] = "1.3"
