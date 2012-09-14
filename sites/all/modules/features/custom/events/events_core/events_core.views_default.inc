@@ -114,7 +114,7 @@ function events_core_views_default_views() {
   $handler->display->display_options['style_options']['colorbox']['colorboxWidth'] = '60%';
   $handler->display->display_options['style_options']['colorbox']['colorboxHeight'] = '60%';
   $handler->display->display_options['style_options']['firstDay'] = '1';
-  $handler->display->display_options['style_options']['theme'] = FALSE;  
+  $handler->display->display_options['style_options']['theme'] = FALSE;
   $handler->display->display_options['style_options']['sameWindow'] = TRUE;
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
