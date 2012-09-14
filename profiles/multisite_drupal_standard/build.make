@@ -227,6 +227,9 @@ projects[better_formats][version] = "1.0-beta1"
 projects[entityreference][subdir] = "contributed"
 projects[entityreference][version] = "1.x-dev"
 
+projects[configuration][subdir] = "contributed"
+projects[configuration][version] = "2.x-dev"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"
