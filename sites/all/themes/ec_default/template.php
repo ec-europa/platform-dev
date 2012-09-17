@@ -268,7 +268,7 @@ function ec_default_page_alter($page) {
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'classification',
-      'content' =>  'Numeric code from the alphabetical classification list common to all the institutions'    
+      'content' =>  variable_get('meta_configuration', '01')
     )
   );
   drupal_add_html_head( $meta_classification, 'meta_classification' );      
