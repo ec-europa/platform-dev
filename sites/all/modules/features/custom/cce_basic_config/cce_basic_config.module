@@ -9,6 +9,52 @@ include_once('cce_basic_config.features.inc');
 
 
 function cce_basic_config_menu_alter(&$items) {
-  // hide default search tab ---------------------------------------------------------------------------------------------  
+  // hide default search tab --------------------------------------------------------------------------------------------- 
   $items['search/node']['access callback'] = FALSE;
 }
+
+function cce_basic_config_form_system_site_information_settings_alter(&$form, &$form_state, $form_id) {
+	
+  //Get Taxonomy classification vid
+  $vid_classification = db_select('taxonomy_vocabulary', 't')
+           -> fields('t')
+           -> condition('machine_name','classification','=')
+           -> execute()
+           ->fetchAll();
+  //Get Taxonomy tree
+  $classification = taxonomy_get_tree($vid_classification[0]->vid);
+	
+  foreach ($classification as $key => $obj_term) {
+   $list[$obj_term->name] = $obj_term->name . ' - ' .strip_tags($obj_term->description);
+  }
+	 
+  //Create fieldset 'META Data'
+  $form['meta'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('META data'),
+    '#weight' => 10,
+    '#collapsible' => FALSE
+  );
+	
+  //Create select field 
+	$form['meta']['classification'] = array(
+    '#type' => 'select',
+    '#title' => t('META data: IPG Classification'),
+    '#options' => $list,
+    '#default_value' => variable_get('meta_configuration', 0),
+    '#description' => t('Choose the classification for your website. This classification respects IPG guideline: http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm'),
+  );
+
+  //Get the 'code' and set meta_configuration variable
+  if(isset($form_state['input']['op']) && $form_state['input']['op'] == 'Save configuration'){
+    if (isset($form_state['input']['classification'])){
+      $pattern = '@(^[0-9]+).*@';
+      $subject = $form_state['input']['classification'];
+      $result = preg_match($pattern, $subject, $matches);
+
+      variable_set('meta_configuration', $matches[1]);     
+    }
+  }
+   
+}
+
