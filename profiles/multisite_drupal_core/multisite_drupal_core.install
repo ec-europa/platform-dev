@@ -13,26 +13,16 @@ function multisite_drupal_core_install() {
 
 
   // add dummy terms in 'tags' vocabulary -------------------------------------------------------------------------------------------------------------------------
+   $vocabulary = taxonomy_vocabulary_machine_name_load('tags');
   $term = new stdClass();
   $term->name = "sport";
-  $term->vid = 1;
+  $term->vid = $vocabulary->vid;
   taxonomy_term_save($term);
 
   $term = new stdClass();
   $term->name = "economic";
-  $term->vid = 1;
+  $term->vid = $vocabulary->vid;
   taxonomy_term_save($term);
-  
-  // // add IPG classification terms
-  
-  // $term = new stdClass();
-  // $term->name = '01';
-  // $term->description = 'Agriculture, farming';
-  // $term->vid = 2;
-  // taxonomy_term_save($term);
-  
-  
-  
 
   // create new roles -------------------------------------------------------------------------------------------------------------------------------------------------------
   // contributor role

@@ -22,7 +22,14 @@ function cce_basic_config_install() {
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('01'),
-    //'description' => t('Agriculture, farming')
+    'description' => t('Agriculture, farming'),
+  );
+   taxonomy_term_save($term);
+   
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => t('02'),
+    'description' => t('Agriculture, farming'),
   );
    taxonomy_term_save($term);
 }
