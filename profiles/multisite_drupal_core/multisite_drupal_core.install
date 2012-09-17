@@ -23,13 +23,13 @@ function multisite_drupal_core_install() {
   $term->vid = 1;
   taxonomy_term_save($term);
   
-  // add IPG classification terms
+  // // add IPG classification terms
   
-  $term = new stdClass();
-  $term->name = '01';
-  $term->description = 'Agriculture, farming';
-  $term->vid = 2;
-  taxonomy_term_save($term);
+  // $term = new stdClass();
+  // $term->name = '01';
+  // $term->description = 'Agriculture, farming';
+  // $term->vid = 2;
+  // taxonomy_term_save($term);
   
   
   
