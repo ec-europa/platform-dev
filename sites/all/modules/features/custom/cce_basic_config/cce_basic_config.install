@@ -18,11 +18,11 @@ function cce_basic_config_install() {
   taxonomy_vocabulary_save($vocabulary);
   
   // add default categories
-  $vocabulary = taxonomy_vocabulary_machine_name_load('idea_categories');
+  $vocabulary = taxonomy_vocabulary_machine_name_load('classification');
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('01'),
-    'description' => t('Agriculture, farming'),
+    //'description' => t('Agriculture, farming')
   );
    taxonomy_term_save($term);
 }
