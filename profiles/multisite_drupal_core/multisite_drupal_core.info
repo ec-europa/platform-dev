@@ -71,7 +71,6 @@ dependencies[] = views_bulk_operations
 dependencies[] = votingapi
 dependencies[] = uuid
 dependencies[] = feature_set
-dependencies[] = less
 dependencies[] = translation
 dependencies[] = pathauto
 dependencies[] = print
