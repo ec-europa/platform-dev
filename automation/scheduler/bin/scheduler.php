@@ -8,6 +8,9 @@ define('STATE_DONE', 'done');
 // each time this script is run, every incomplete subsite will get the right to run up to $max_steps steps
 define('MAX_SUBSITE_STEPS_PER_RUN', 1);
 require('conf/supermaster.inc.php');
+if (file_exists('conf/supermaster.local.inc.php')) {
+	require('conf/supermaster.local.inc.php');
+}
 require('lib/drupalsubsite.class.php');
 
 connect_to_supermaster_database();
