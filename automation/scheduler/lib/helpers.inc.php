@@ -25,16 +25,22 @@ function connect_to_supermaster_database() {
 
 function load_install_policy($policy_name) {
 	$policy_conf = 'conf/policies/' . $policy_name . '.inc.php';
+	$policy_local_conf = 'conf/policies/' . $policy_name . '.local.inc.php';
 	$policy_file = 'lib/policies/'  . $policy_name . '.inc.php';
 	if (!file_exists($policy_file)) {
 		return FALSE;
 	}
 	require_once($policy_file);
 	
+	// most policies will ship a default configuration file...
 	if (file_exists($policy_conf)) {
 		require_once($policy_conf);
 	}
 	
+	// ... and most administrators will override it "locally".
+	if (file_exists($policy_local_conf)) {
+		require_once($policy_local_conf);
+	}
 	return function_exists($policy_name . '_install_policy_get_steps');
 }
 

@@ -1,4 +1,8 @@
 <?php
+require_once('lib/policyconfig.inc.php');
+class FPFISPolicyConfig extends PolicyConfig {
+	// well, nothing special at the moment.
+};
 
 function fpfis_install_policy_get_steps($subsite) {
 	return(
@@ -113,29 +117,13 @@ function fpfis_check_dbinstance(&$subsite) {
 }
 
 function fpfis_require_database(&$subsite) {
-	/// TODO create a configuration file for the policy
-	$default_machines = array('localhost', 'fpfis-mgmt.cc.cec.eu.int', '158.167.34.197');
-	$mail_returnpath = 'xavier.guerrin@ext.ec.europa.eu';
-	$mail_from = 'xavier.guerrin@ext.ec.europa.eu';
-	$mail_to = 'ec-helpdesk-it@ec.europa.eu';
-	$mail_cc = 'xavier.guerrin@ext.ec.europa.eu, thomas.klock@ext.ec.europa.eu, rosa.ordinana-calabuig@ec.europa.eu';
-	$mail_subject = 'Multisite: database creation request';
-	$mail_body = '[Ticket to DIGIT ISHS WebDesk]
-
-Hello,
-
-Could you create the following database and user account on @mysql_instance?
-  * username: @mysql_username
-  * password: please choose a strong password and provide us with it through @db_provider_ihm_url
-    * Note: the TLS certificate is not valid (self-signed): this is normal.
-  * client machines: @client_machines
-  * with all privileges on a new database named @mysql_db_name
-
-Please also grant all privileges on the created database to fpfis@fpfis-mgmt.cc.cec.eu.int and fpfis@158.167.34.197. Thanks in advance.
-
-Regards,
-The FPFIS team';
-	
+	$default_machines = FPFISConfigPolicy::get('mysql_default_machines');
+	$mail_returnpath = FPFISConfigPolicy::get('mysql_creation_mail_returnpath');
+	$mail_from = FPFISConfigPolicy::get('mysql_creation_mail_from');
+	$mail_to = FPFISConfigPolicy::get('mysql_creation_mail_to');
+	$mail_cc = FPFISConfigPolicy::get('mysql_creation_mail_cc');
+	$mail_subject = FPFISConfigPolicy::get('mysql_creation_mail_subject');
+	$mail_body = FPFISConfigPolicy::get('mysql_creation_mail_body');
 	$data = $subsite->data();
 	
 	if (isset($data['ishs_db_creation_request'])) {
@@ -150,7 +138,6 @@ The FPFIS team';
 	// fetch information required to compose the mail
 	$tokens['mysql_instance'] = sprintf('%s:%s', $subsite->databaseInstance()->hostname(), $subsite->databaseInstance()->port());
 	$tokens['mysql_username'] = $subsite->databaseUsername();
-	$tokens['db_provider_ihm_url'] = 'https://fpfis-mgmt.cc.cec.eu.int:7890/ishs/provide_mysql_password';
 	$web_hostnames = $default_machines;
 	foreach ($subsite->master()->cluster()->webServers() as $web_server) {
 		$web_hostnames[] = $web_server['hostname'];
@@ -186,14 +173,11 @@ The FPFIS team';
 }
 
 function fpfis_check_required_database(&$subsite) {
-	/// TODO create a configuration file for the policy
-	$reminder_delay = 86400;
-	$reminder_from = 'xavier.guerrin@ext.ec.europa.eu';
-	$reminder_to = 'xavier.guerrin@ext.ec.europa.eu';
-	$reminder_subject = 'Multisite: database creation request still pending for %s (reminder #%d)';
-	$reminder_body = 'Hello,
-	
-It appears the database creation request is still pending for the "@subsite_name" subsite.';
+	$reminder_delay = FPFISConfigPolicy::get('mysql_creation_reminder_delay');
+	$reminder_from = FPFISConfigPolicy::get('mysql_creation_reminder_from');
+	$reminder_to = FPFISConfigPolicy::get('mysql_creation_reminder_to');
+	$reminder_subject = FPFISConfigPolicy::get('mysql_creation_reminder_subject');
+	$reminder_body = FPFISConfigPolicy::get('mysql_creation_reminder_body');
 	
 	if (strlen($subsite->databasePassword())) {
 		// the password was provided
@@ -340,21 +324,20 @@ function fpfis_create_files_dir(&$subsite) {
 }
 
 function fpfis_subsite_install(&$subsite) {
-	/// TODO create a configuration file for the policy
-	$drush_log_dir = '/ec/local/home/fpfis/applications/multisite/scheduler/logs';
+	$drush_log_dir = FPFISConfigPolicy::get('drush_log_dir');
 	$next_state = 'subsite_installed';
 	
 	$reports = array();
 	
 	// prepare the drush command to be forked
 	$tokens = array(
-		'install_profile' => 'multisite_drupal_standard',
+		'install_profile' => FPFISConfigPolicy::get('default_install_profile', 'multisite_drupal_standard'),
 		'subsites_directory' => $subsite->name(),
 		'subsite_db_url' => $subsite->connectionString(),
-		'account_name' => 'admin',
-		'account_pass' => 'pass',
+		'account_name' => FPFISConfigPolicy::get('admin_account_name'),
+		'account_pass' => FPFISConfigPolicy::get('admin_account_initial_password'),
 		'site_name' =>  $subsite->name(),
-		'site_mail' => 'cyril.champagne@ext.ec.europa.eu',
+		'site_mail' => FPFISConfigPolicy::get('site_mail')
 	);
 	$command = 'drush si @install_profile --yes --sites-subdir=@subsites_directory --db-url="@subsite_db_url" --account-name=@account_name --account-pass=@account_pass --site-name=@site_name --site-mail=@site_mail';
 	foreach ($tokens as $token => $value) {
@@ -396,9 +379,8 @@ function fpfis_subsite_install(&$subsite) {
 }
 
 function fpfis_change_admin_password(&$subsite) {
-	/// TODO create a configuration file for the policy
-	$admin_username = 'admin';
-	$definitive_admin_password = 'change_me';
+	$admin_username = FPFISConfigPolicy::get('admin_account_name');
+	$definitive_admin_password = FPFISConfigPolicy::get('admin_account_final_password');
 	
 	$reports = array();
 	$next_state = 'admin_password_changed';
@@ -534,9 +516,7 @@ function fpfis_configure_apachesolr(&$subsite) {
 }
 
 function fpfis_clear_subsite_caches(&$subsite) {
-	/// TODO create a configuration file for the policy
-	$solr_server_name = 'multisite solr server';
-	$install_profile = 'multisite_drupal_standard';
+	$install_profile = FPFISConfigPolicy::get('default_install_profile', 'multisite_drupal_standard');
 	
 	$reports = array();
 	$commands = array(
