@@ -1,4 +1,9 @@
 #!/bin/bash
+if [ "$#" -lt 2 ];
+then
+  echo "usage: $0 <profile> <site name>"
+  exit 42
+fi
 
 source config.sh
 
@@ -83,6 +88,12 @@ while getopts "u:p:H:P:a:e:d:r:n:b:i:vfh?-:" option; do
 done
 
 site_name=$BASH_ARGV
+if [ -z "${site_name}" ];
+then
+  echo "WARNING: no site name was given !!"
+  exit 42
+fi
+
 db_url="mysqli://${db_user}:${db_pass}@${db_host}:${db_port}/${site_name}"
 __echo "Set DB URL to ${db_url}"
 
