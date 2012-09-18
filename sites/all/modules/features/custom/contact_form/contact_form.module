@@ -3,4 +3,25 @@
  * @file
  */
 
-// Drupal needs this blank file.
+/**
+ * Implements hook_mail_alter(&$message).
+ */
+function contact_form_mail_alter(&$message) {
+  if ($message['id'] == 'contact_page_copy') {
+    $language = $message['language'];
+    $variables = array(
+      '!site-name' => variable_get('site_name', 'Drupal'),
+      '!subject' => $message['params']['subject'],
+      '!category' => isset($message['params']['category']['category']) ? $message['params']['category']['category'] : '',
+      '!form-url' => url($_GET['q'], array('absolute' => TRUE, 'language' => $language)),
+      '!sender-name' => format_username($message['params']['sender']),
+      '!sender-url' => $message['params']['sender']->uid ? url('user/' . $message['params']['sender']->uid, array('absolute' => TRUE, 'language' => $language)) : $message['params']['sender']->mail,
+    );    
+
+    $body[0] = t('Here is a copy of the email you sent to support on !site-name:', $variables, array('langcode' => $language->language));
+    foreach ($message['body'] as $line) {
+      $body[] = $line;
+    }
+    $message['body'] = $body;
+  }
+}
