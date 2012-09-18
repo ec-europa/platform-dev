@@ -16,7 +16,7 @@ function events_standard_views_pre_render(&$view) {
 	      $output= l(t('Create an Event'), 
             'node/add/event',
 		    array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
-		    $view->header['area']->options['content'] = $output;
+		    $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
 
 	}
 }
