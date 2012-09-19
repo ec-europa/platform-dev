@@ -13,20 +13,3 @@ function article_extended_ctools_plugin_api() {
     return array("version" => "1");
   }
 }
-
-/**
- * Implements hook_node_info().
- */
-function cce_basic_config_node_info() {
-  $items = array(
-    'article' => array(
-      'name' => t('Article'),
-      'base' => 'node_content',
-      'description' => t('Use <em>articles</em> for time-sensitive content like press releases.'),
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-  );
-  return $items;
-}
