@@ -101,10 +101,9 @@ Index: includes/common.inc
  /**
   * @} End of "HTTP handling".
   */
-diff --git a/sites/default/default.settings.php b/sites/default/default.settings.php
-index 0ae34a2..2e5654b 100644
---- a/sites/default/default.settings.php
-+++ b/sites/default/default.settings.php
+Index: sites/default/default.settings.php
+--- sites/default/default.settings.php
++++ sites/default/default.settings.php
 @@ -506,6 +506,24 @@ $conf['404_fast_html'] = '<html xmlns="http://www.w3.org/1999/xhtml"><head><titl
  # drupal_fast_404();
  
