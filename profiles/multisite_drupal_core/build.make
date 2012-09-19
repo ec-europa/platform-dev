@@ -9,7 +9,7 @@ projects[views_bulk_operations][subdir] = "contributed"
 projects[views_bulk_operations][version] = "3.0-beta3"
 
 projects[ctools][subdir] = "contributed"
-projects[ctools][version] = "1.0"
+projects[ctools][version] = "1.2"
 
 projects[captcha][subdir] = "contributed"
 projects[captcha][version] = "1.0-beta1"
@@ -45,7 +45,7 @@ projects[hidden_captcha][subdir] = "contributed"
 projects[hidden_captcha][version] = "1.0"
 
 projects[password_policy][subdir] = "contributed"
-projects[password_policy][version] = "1.0-beta2"
+projects[password_policy][version] = "1.2"
 
 projects[rules][subdir] = "contributed"
 projects[rules][version] = "2.2"
