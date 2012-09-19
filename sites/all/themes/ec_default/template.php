@@ -262,16 +262,23 @@ function ec_default_page_alter($page) {
   );
   drupal_add_html_head( $meta_creator, 'meta_creator' );      
   
-  //classification
-  $meta_classification = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'name' => 'classification',
-      'content' =>  variable_get('meta_configuration', '01')
-    )
-  );
-  drupal_add_html_head( $meta_classification, 'meta_classification' );      
+  //IPG classification
+  $classification = variable_get('meta_configuration', 'none');
+    if ($classification != 'none') {
+    $meta_classification = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'classification',
+        'content' =>  variable_get('meta_configuration', 'none')
+      )
+    );
+    drupal_add_html_head($meta_classification, 'meta_classification');      
+  } else {
+    if (user_access('administer site configuration')){
+      drupal_set_message('Please select the IPG classification of your site ' . l('here.','admin/config/system/site-information'), 'warning');
+    }
+  }
   
   //keywords
   $meta_keywords = array(

@@ -39,10 +39,12 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
   //Create select field 
 	$form['meta']['classification'] = array(
     '#type' => 'select',
-    '#title' => t('META data: IPG Classification'),
+    '#title' => t('IPG Classification'),
     '#options' => $list,
-    '#default_value' => variable_get('meta_configuration', 0),
-    '#description' => t('Choose the classification for your website. This classification respects IPG guideline: http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm'),
+    '#required' => true,
+    '#empty_option' => 'none',
+    '#default_value' => variable_get('meta_configuration', 'none'),
+    '#description' => t('Choose the classification for your website. This classification respects the ' .  l(t('IPG guidelines'),'http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm')),
   );
 
   //Get the 'code' and set meta_configuration variable
@@ -51,10 +53,11 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
       $pattern = '@(^[0-9]+).*@';
       $subject = $form_state['input']['classification'];
       $result = preg_match($pattern, $subject, $matches);
-
-      variable_set('meta_configuration', $matches[1]);     
+      if(isset($matches[1])){
+        variable_set('meta_configuration', $matches[1]);
+      }
     }
   }
-   
+
 }
 

@@ -372,7 +372,7 @@ function cce_basic_config_enable() {
 // ))
 // ->execute();
 
-  variable_set('meta_configuration', '01');     
+
 }
 
 /**
