@@ -119,12 +119,10 @@ index 0ae34a2..2e5654b 100644
 + * proxy_exceptions variable is an array of host names to be accessed directly,
 + * not via proxy.
 + */
-+# $conf['proxy_server'] = '';
-+# $conf['proxy_port'] = 8080;
-+# $conf['proxy_username'] = '';
-+# $conf['proxy_password'] = '';
-+# $conf['proxy_user_agent'] = '';
-+# $conf['proxy_exceptions'] = array('127.0.0.1', 'localhost');
++ $proxy_settings = dirname(__FILE__) . '/proxy.settings.php';
++ if (file_exists($proxy_settings)) {
++   include $proxy_settings;
++ }
 +
 +/**
   * Authorized file system operations:
