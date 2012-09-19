@@ -20,7 +20,9 @@ function fpfis_install_policy_get_steps($subsite) {
 			'drop_tables_failed' => 'fpfis_do_nothing',
 			'database_ready' => 'fpfis_create_files_dir',
 			'files_dir_creation_failed' => 'fpfis_do_nothing',
-			'files_dir_created' => 'fpfis_subsite_install',
+			'files_dir_created' => 'fpfis_install_default_files',
+			'default_files_failed' => 'fpfis_do_nothing',
+			'default_files_installed' => 'fpfis_subsite_install',
 			'subsite_install_failed' => 'fpfis_do_nothing',
 			'subsite_installed' => 'fpfis_change_admin_password',
 			'admin_password_failed' => 'fpfis_do_nothing',
@@ -281,7 +283,7 @@ function fpfis_drop_tables(&$subsite) {
 			foreach($tables_list as $table) {
 				$result = $subsite_db_conn->query(sprintf('DROP TABLE %s;', $subsite_db_conn->real_escape_string($table)));
 				if ($result !== TRUE) {
-					$reports[] = sprintf('a problem occured when dropping table %s', $table);
+					$reports[] = sprintf('a problem occurred when dropping table %s', $table);
 				}
 			}
 		}
@@ -320,6 +322,30 @@ function fpfis_create_files_dir(&$subsite) {
 	$return = array('report' => $reports);
 	if (count($reports)) $return['break'] = TRUE;
 	$return['new_state'] = count($reports) ? 'files_dir_creation_failed' : 'files_dir_created';
+	return $return;
+}
+
+function fpfis_install_default_files(&$subsite) {
+	$reports = array();
+	$source = sprintf('%s/default/files/default_images', $subsite->master()->path('sites'));
+	$destination = sprintf('%s/%s/files/', $subsite->master()->path('files'), $subsite->name());
+	
+	// we simply fork a cp command and expect 0 to be returned
+	$command = sprintf("cp -a %s %s", escapeshellarg($source), escapeshellarg($destination));
+	$copy = execute_command($command);
+	if ($copy['code'] !== 0) {
+		$reports[] = sprintf(
+			"The following error(s) occurred when copying %s into %s:\n%s\nReturn-Code: %d",
+			$source,
+			$destination,
+			$copy['output'],
+			$copy['code']
+		);
+	}
+	
+	$return = array('report' => $reports);
+	if (count($reports)) $return['break'] = TRUE;
+	$return['new_state'] = count($reports) ? 'default_files_failed' : 'default_files_installed';
 	return $return;
 }
 
