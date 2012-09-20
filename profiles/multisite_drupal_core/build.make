@@ -217,7 +217,7 @@ projects[video][subdir] = "contributed"
 projects[video][version] = "2.6"
 
 projects[node_export][subdir] = "contributed"
-projects[node_export][version] = "3.0-rc3"
+projects[node_export][version] = "3.0"
 
 projects[quicktabs][subdir] = "contributed"
 projects[quicktabs][version] = "3.4"
