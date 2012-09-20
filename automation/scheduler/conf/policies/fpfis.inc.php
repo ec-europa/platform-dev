@@ -8,15 +8,15 @@
 // MySQL user accounts are restricted to client machines (automatically
 // determined by the policy) plus some machines you may specify here (for
 // management purpose, typically).
-FPFISConfigPolicy::set('mysql_default_machines', array('localhost', 'management-machine.local.domain'));
+FPFISPolicyConfig::set('mysql_default_machines', array('localhost', 'management-machine.local.domain'));
 
 // control the mail sent to require the creation of a database
-FPFISConfigPolicy::set('mysql_creation_mail_returnpath', 'multisite-team@organization.com');
-FPFISConfigPolicy::set('mysql_creation_mail_from', 'multisite-team@organization.com');
-FPFISConfigPolicy::set('mysql_creation_mail_to', 'helpdesk@organization.com');
-FPFISConfigPolicy::set('mysql_creation_mail_cc', 'multisite-team@organization.com, john.smith@organization.com, alice@organization.com, bob@organization.com');
-FPFISConfigPolicy::set('mysql_creation_mail_subject', 'Multisite: database creation request');
-FPFISConfigPolicy::set('mysql_creation_mail_body', '[Ticket to the MySQL team]
+FPFISPolicyConfig::set('mysql_creation_mail_returnpath', 'multisite-team@organization.com');
+FPFISPolicyConfig::set('mysql_creation_mail_from', 'multisite-team@organization.com');
+FPFISPolicyConfig::set('mysql_creation_mail_to', 'helpdesk@organization.com');
+FPFISPolicyConfig::set('mysql_creation_mail_cc', 'multisite-team@organization.com, john.smith@organization.com, alice@organization.com, bob@organization.com');
+FPFISPolicyConfig::set('mysql_creation_mail_subject', 'Multisite: database creation request');
+FPFISPolicyConfig::set('mysql_creation_mail_body', '[Ticket to the MySQL team]
 
 Hello,
 
@@ -33,21 +33,21 @@ Regards,
 The Multisite team');
 
 // control the mail sent when it appears the database was not created after a specific delay
-FPFISConfigPolicy::set('mysql_creation_reminder_delay', 86400);
-FPFISConfigPolicy::set('mysql_creation_reminder_from', 'multisite-team@organization.com');
-FPFISConfigPolicy::set('mysql_creation_reminder_to', 'multisite-team@organization.com');
-FPFISConfigPolicy::set('mysql_creation_reminder_subject', 'Multisite: database creation request still pending for %s (reminder #%d)');
-FPFISConfigPolicy::set('mysql_creation_reminder_body ', 'Hello,
+FPFISPolicyConfig::set('mysql_creation_reminder_delay', 86400);
+FPFISPolicyConfig::set('mysql_creation_reminder_from', 'multisite-team@organization.com');
+FPFISPolicyConfig::set('mysql_creation_reminder_to', 'multisite-team@organization.com');
+FPFISPolicyConfig::set('mysql_creation_reminder_subject', 'Multisite: database creation request still pending for %s (reminder #%d)');
+FPFISPolicyConfig::set('mysql_creation_reminder_body ', 'Hello,
 
  It appears the database creation request is still pending for the "@subsite_name" subsite.');
 
 // control the drush install phase
-FPFISConfigPolicy::set('drush_log_dir', realpath('logs'));
-FPFISConfigPolicy::set('default_install_profile', 'multisite_drupal_standard');
-FPFISConfigPolicy::set('admin_account_name', 'admin');
-FPFISConfigPolicy::set('admin_account_initial_password', 'fill me');
-FPFISConfigPolicy::set('site_mail', 'multisite-team@organization.com');
+FPFISPolicyConfig::set('drush_log_dir', realpath('logs'));
+FPFISPolicyConfig::set('default_install_profile', 'multisite_drupal_standard');
+FPFISPolicyConfig::set('admin_account_name', 'admin');
+FPFISPolicyConfig::set('admin_account_initial_password', 'fill me');
+FPFISPolicyConfig::set('site_mail', 'multisite-team@organization.com');
 
 // the admin password is changed right after the drush install
-FPFISConfigPolicy::set('admin_account_final_password', 'redefine me in fpfis.local.inc.php (seriously!)');
+FPFISPolicyConfig::set('admin_account_final_password', 'redefine me in fpfis.local.inc.php (seriously!)');
 

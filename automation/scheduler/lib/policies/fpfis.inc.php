@@ -119,13 +119,13 @@ function fpfis_check_dbinstance(&$subsite) {
 }
 
 function fpfis_require_database(&$subsite) {
-	$default_machines = FPFISConfigPolicy::get('mysql_default_machines');
-	$mail_returnpath = FPFISConfigPolicy::get('mysql_creation_mail_returnpath');
-	$mail_from = FPFISConfigPolicy::get('mysql_creation_mail_from');
-	$mail_to = FPFISConfigPolicy::get('mysql_creation_mail_to');
-	$mail_cc = FPFISConfigPolicy::get('mysql_creation_mail_cc');
-	$mail_subject = FPFISConfigPolicy::get('mysql_creation_mail_subject');
-	$mail_body = FPFISConfigPolicy::get('mysql_creation_mail_body');
+	$default_machines = FPFISPolicyConfig::get('mysql_default_machines');
+	$mail_returnpath = FPFISPolicyConfig::get('mysql_creation_mail_returnpath');
+	$mail_from = FPFISPolicyConfig::get('mysql_creation_mail_from');
+	$mail_to = FPFISPolicyConfig::get('mysql_creation_mail_to');
+	$mail_cc = FPFISPolicyConfig::get('mysql_creation_mail_cc');
+	$mail_subject = FPFISPolicyConfig::get('mysql_creation_mail_subject');
+	$mail_body = FPFISPolicyConfig::get('mysql_creation_mail_body');
 	$data = $subsite->data();
 	
 	if (isset($data['ishs_db_creation_request'])) {
@@ -175,11 +175,11 @@ function fpfis_require_database(&$subsite) {
 }
 
 function fpfis_check_required_database(&$subsite) {
-	$reminder_delay = FPFISConfigPolicy::get('mysql_creation_reminder_delay');
-	$reminder_from = FPFISConfigPolicy::get('mysql_creation_reminder_from');
-	$reminder_to = FPFISConfigPolicy::get('mysql_creation_reminder_to');
-	$reminder_subject = FPFISConfigPolicy::get('mysql_creation_reminder_subject');
-	$reminder_body = FPFISConfigPolicy::get('mysql_creation_reminder_body');
+	$reminder_delay = FPFISPolicyConfig::get('mysql_creation_reminder_delay');
+	$reminder_from = FPFISPolicyConfig::get('mysql_creation_reminder_from');
+	$reminder_to = FPFISPolicyConfig::get('mysql_creation_reminder_to');
+	$reminder_subject = FPFISPolicyConfig::get('mysql_creation_reminder_subject');
+	$reminder_body = FPFISPolicyConfig::get('mysql_creation_reminder_body');
 	
 	if (strlen($subsite->databasePassword())) {
 		// the password was provided
@@ -350,20 +350,20 @@ function fpfis_install_default_files(&$subsite) {
 }
 
 function fpfis_subsite_install(&$subsite) {
-	$drush_log_dir = FPFISConfigPolicy::get('drush_log_dir');
+	$drush_log_dir = FPFISPolicyConfig::get('drush_log_dir');
 	$next_state = 'subsite_installed';
 	
 	$reports = array();
 	
 	// prepare the drush command to be forked
 	$tokens = array(
-		'install_profile' => FPFISConfigPolicy::get('default_install_profile', 'multisite_drupal_standard'),
+		'install_profile' => FPFISPolicyConfig::get('default_install_profile', 'multisite_drupal_standard'),
 		'subsites_directory' => $subsite->name(),
 		'subsite_db_url' => $subsite->connectionString(),
-		'account_name' => FPFISConfigPolicy::get('admin_account_name'),
-		'account_pass' => FPFISConfigPolicy::get('admin_account_initial_password'),
+		'account_name' => FPFISPolicyConfig::get('admin_account_name'),
+		'account_pass' => FPFISPolicyConfig::get('admin_account_initial_password'),
 		'site_name' =>  $subsite->name(),
-		'site_mail' => FPFISConfigPolicy::get('site_mail')
+		'site_mail' => FPFISPolicyConfig::get('site_mail')
 	);
 	$command = 'drush si @install_profile --yes --sites-subdir=@subsites_directory --db-url="@subsite_db_url" --account-name=@account_name --account-pass=@account_pass --site-name=@site_name --site-mail=@site_mail';
 	foreach ($tokens as $token => $value) {
@@ -405,8 +405,8 @@ function fpfis_subsite_install(&$subsite) {
 }
 
 function fpfis_change_admin_password(&$subsite) {
-	$admin_username = FPFISConfigPolicy::get('admin_account_name');
-	$definitive_admin_password = FPFISConfigPolicy::get('admin_account_final_password');
+	$admin_username = FPFISPolicyConfig::get('admin_account_name');
+	$definitive_admin_password = FPFISPolicyConfig::get('admin_account_final_password');
 	
 	$reports = array();
 	$next_state = 'admin_password_changed';
@@ -542,7 +542,7 @@ function fpfis_configure_apachesolr(&$subsite) {
 }
 
 function fpfis_clear_subsite_caches(&$subsite) {
-	$install_profile = FPFISConfigPolicy::get('default_install_profile', 'multisite_drupal_standard');
+	$install_profile = FPFISPolicyConfig::get('default_install_profile', 'multisite_drupal_standard');
 	
 	$reports = array();
 	$commands = array(
