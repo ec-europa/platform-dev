@@ -746,9 +746,9 @@ function Header(calendar, options) {
 							var icon = options.theme ? smartProperty(options.buttonIcons, buttonName) : null; // why are we using smartProperty here?
 							var text = smartProperty(options.buttonText, buttonName); // why are we using smartProperty here?
 							var button = $(
-								"<span class='fc-button fc-button-" + buttonName + " " + tm + "-state-default'>" +
-									"<span class='fc-button-inner'>" +
-										"<span class='fc-button-content'>" +
+								"<span class='btn fc-button-" + buttonName + " " + tm + "-state-default'>" +
+									"<span class=''>" +
+										"<span class=''>" +
 											(icon ?
 												"<span class='fc-icon-wrap'>" +
 													"<span class='ui-icon ui-icon-" + icon + "'/>" +
@@ -763,14 +763,14 @@ function Header(calendar, options) {
 							if (button) {
 								button
 									.click(function() {
-										if (!button.hasClass(tm + '-state-disabled')) {
+										if (!button.hasClass('disabled')) {
 											buttonClick();
 										}
 									})
 									.mousedown(function() {
 										button
-											.not('.' + tm + '-state-active')
-											.not('.' + tm + '-state-disabled')
+											.not('.btn-primary')
+											.not('.disabled')
 											.addClass(tm + '-state-down');
 									})
 									.mouseup(function() {
@@ -779,8 +779,8 @@ function Header(calendar, options) {
 									.hover(
 										function() {
 											button
-												.not('.' + tm + '-state-active')
-												.not('.' + tm + '-state-disabled')
+												.not('.btn-primary')
+												.not('.disabled')
 												.addClass(tm + '-state-hover');
 										},
 										function() {
@@ -815,25 +815,25 @@ function Header(calendar, options) {
 	
 	function activateButton(buttonName) {
 		element.find('span.fc-button-' + buttonName)
-			.addClass(tm + '-state-active');
+			.addClass('btn-primary');
 	}
 	
 	
 	function deactivateButton(buttonName) {
 		element.find('span.fc-button-' + buttonName)
-			.removeClass(tm + '-state-active');
+			.removeClass('btn-primary');
 	}
 	
 	
 	function disableButton(buttonName) {
 		element.find('span.fc-button-' + buttonName)
-			.addClass(tm + '-state-disabled');
+			.addClass('disabled');
 	}
 	
 	
 	function enableButton(buttonName) {
 		element.find('span.fc-button-' + buttonName)
-			.removeClass(tm + '-state-disabled');
+			.removeClass('disabled');
 	}
 
 

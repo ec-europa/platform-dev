@@ -198,7 +198,7 @@ html .fc,
 	}
 	
 .fc-state-default .fc-button-effect span {
-	position: absolute;
+	/*position: absolute;
 	top: -100px;
 	left: 0;
 	width: 500px;
@@ -208,7 +208,7 @@ html .fc,
 	border-color: #fff;
 	background: #444;
 	opacity: .09;
-	filter: alpha(opacity=9);
+	filter: alpha(opacity=9);*/
 	}
 	
 /* button states (determines colors)  */
