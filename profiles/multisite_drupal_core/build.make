@@ -57,7 +57,7 @@ projects[sweaver][subdir] = "contributed"
 projects[sweaver][version] = "1.3"
 
 projects[token][subdir] = "contributed"
-projects[token][version] = "1.2"
+projects[token][version] = "1.3"
 
 projects[uuid][subdir] = "contributed"
 projects[uuid][version] = "1.0-alpha2"
