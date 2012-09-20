@@ -74,6 +74,9 @@ projects[views_datasource][version] = "1.x-dev"
 projects[votingapi][subdir] = "contributed"
 projects[votingapi][version] = "2.6"
 
+projects[rate][subdir] = "contributed"
+projects[rate][version] = "1.4"
+
 projects[workbench][subdir] = "contributed"
 projects[workbench][version] = "1.1"
 
