@@ -9,9 +9,11 @@
  * Implements hook_init().
  * Traps a page load to see if authentication is required.
  */
+/*MOVED TO THE ecas_login_page() */
+/*
 function ecas_init() {
   ecas_login_check();
-}
+}*/
 
 /**
  * @param $user A user object
@@ -151,6 +153,7 @@ function account_request() {
 }
 
 function ecas_login_page() {
+  ecas_login_check();
   global $user;
 
   $destination = variable_get('site_frontpage', 'node');

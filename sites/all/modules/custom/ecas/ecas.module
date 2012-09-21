@@ -14,11 +14,13 @@ $admin_ecas_module_include = drupal_get_path('module', 'ecas') . '/includes/ecas
 include_once($admin_ecas_module_include);
 
 /* includes the libraries provided by FPFIS */
+/*USELESS ALREADY DONE IN CONSTANTS FILE*/
+/*
 if (!defined('FPFIS_COMMON_LIBRARIES_PATH')) {
   // this module is useless without the FPFIS_Common libraries, so we abort the
   // module inclusion
   return TRUE;
-}
+}*/
 
 if (!is_dir(constant('FPFIS_COMMON_LIBRARIES_PATH'))) {  
   watchdog(

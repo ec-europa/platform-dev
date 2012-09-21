@@ -34,10 +34,12 @@ if($use_shared_fpfis){
 }
 
 // Load the fpfis library
+/*USELESS ALREADY DONE IN THE MODULE ! */
+/*
 if ( is_file(FPFIS_COMMON_LIBRARIES_PATH . '/FPFIS_Common/fpfis_common.php') ) {
   include_once(FPFIS_COMMON_LIBRARIES_PATH . '/FPFIS_Common/fpfis_common.php');
 }
-
+*/
 /* Defines default values for various parameters */
 define('ECAS_DEFAULT_ASSURANCE_LEVEL', 'LOW');
 define('ECAS_DEFAULT_DOMAIN', '');
