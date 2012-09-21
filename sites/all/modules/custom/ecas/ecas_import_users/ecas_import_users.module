@@ -38,12 +38,12 @@ function ecas_import_users_menu() {
   );
 
   $items['admin/config/ecas/import_users'] = array(
-  	'title' => 'Import user settings',
-  	'description' => 'Configure ECAS import user settings',
-  	'page callback' => 'drupal_get_form',
-  	'page arguments' => array('ecas_import_users_admin_settings'),
-  	'access arguments' => array('administer ecas'),
-  	'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
+    'title' => 'Import user settings',
+    'description' => 'Configure ECAS import user settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ecas_import_users_admin_settings'),
+    'access arguments' => array('administer ecas'),
+    'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
     'weight' => 10,
   );
 
@@ -69,21 +69,21 @@ function ecas_import_users_mail_to_arg($arg) {
 /**
  * Generate the 'admin/config/ecas/ecas_import_users' page.
  */
-function ecas_import_users_admin_settings($form, &$form_state){
+function ecas_import_users_admin_settings($form, &$form_state) {
   $form['param'] = array(
-	'#type' => 'fieldset',
-	'#title' => t('ECAS Import users module settings'),
-	'#collapsible' => TRUE,
-	'#collapsed' => FALSE,
+    '#type' => 'fieldset',
+    '#title' => t('ECAS Import users module settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
 
   $options = array('1' => t('Active'), '0' => t('Blocked'));
   $form['param']['ecas_import_users_default_status'] = array(
-	'#type' => 'radios',
-	'#title' => sprintf('%s (%s)', t('User account status'), l(t('admin import'), 'admin/people/import')),
-	'#default_value' => variable_get('ecas_import_users_default_status', 1),
-	'#options' => $options,
-	'#description' => t('Status of the user account after import by an administrator'),
+    '#type' => 'radios',
+    '#title' => sprintf('%s (%s)', t('User account status'), l(t('admin import'), 'admin/people/import')),
+    '#default_value' => variable_get('ecas_import_users_default_status', 1),
+    '#options' => $options,
+    '#description' => t('Status of the user account after import by an administrator'),
   );
 
   return system_settings_form($form);
@@ -130,7 +130,7 @@ function ecas_import_user_ldap_user_form($form, &$form_state) {
   $form['dg'] = array(
     '#type' => 'select',
     '#title' => t('Search by group (LDAP DG)'),
-    '#options' => array_merge(array('none'=>t('No group'), 'all-groups' => t('In all groups')), $rows_dg),
+    '#options' => array_merge(array('none' => t('No group'), 'all-groups' => t('In all groups')), $rows_dg),
     '#required' => FALSE,
     '#default_value' => 'all-groups',
   );
@@ -184,9 +184,9 @@ function ecas_import_user_ldap_user_form_validate($form, &$form_state) {
 
 /// clean the content of the given value
 function _ecas_import_users_clean_name_field($value) {
-  if(empty($value)){
-    $value = 'everybody';
-  } else {
+  if(empty($value)) {
+    $value = 'everybody';} 
+  else {
     // replace every space or end of line by a comma
     $value = preg_replace('($|\s+)', ',', $value);
     // remove empty parts between commas
@@ -234,11 +234,11 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
 
   // extract will set $names, $dg, $search_by, $country and $mail
   extract($arguments);
-  if(!isset($names)) $names = 'everybody';
-  if(!isset($dg)) $dg = 'all-groups';
-  if(!isset($search_by)) $search_by = 'by-username';
-  if(!isset($country)) $country = 'all-countries';
-  if(!isset($mail)) $mail = 'no-mail';
+  if (!isset($names)) $names = 'everybody';
+  if (!isset($dg)) $dg = 'all-groups';
+  if (!isset($search_by)) $search_by = 'by-username';
+  if (!isset($country)) $country = 'all-countries';
+  if (!isset($mail)) $mail = 'no-mail';
 
   if ($names != 'everybody') {
     $names = trim($names);
@@ -276,13 +276,15 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
               '(&' . $filters . '(|(employeeType=f)(employeeType=E)(employeeType=n))(recordStatus=a))',
               array('cn', 'givenname', 'dg', 'c', 'departmentnumber', 'o', 'uid', 'mail', 'sn')
     );
-  } else {
-    if($dg == 'none') {
+  } 
+  else {
+    if ($dg == 'none') {
       $result = getLdapEntries(FPFIS_LDAP_BASE_DN,
                 '(&' . $filters . '(!(dg=*))(|(employeeType=f)(employeeType=E)(employeeType=n))(recordStatus=a))',
                 array('cn', 'givenname', 'dg', 'c', 'departmentnumber', 'o', 'uid', 'mail', 'sn')
       );
-    } else {
+    } 
+    else {
       $result = getLdapEntries(FPFIS_LDAP_BASE_DN,
                 '(&' . $filters . '(dg=' . $dg . ')(|(employeeType=f)(employeeType=E)(employeeType=n))(recordStatus=a))',
                 array('cn', 'givenname', 'dg', 'c', 'departmentnumber', 'o', 'uid', 'mail', 'sn')
@@ -374,7 +376,7 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
           'status' =>  variable_get('ecas_import_users_default_status', 1), // 1 is "active", 0 is "blocked"
         ));
 
-        if($account && $account->uid > 0){
+        if ($account && $account->uid > 0){
           // save user profile data
           ecas_sync_user_info(
               $account,
