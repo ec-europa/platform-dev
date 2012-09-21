@@ -27,13 +27,13 @@ function ecas_extra_action_info() {
       'label' => t('Deny the activation of a user account.'),
       'configurable' => FALSE,
       'triggers' => array(
-      		'node_insert',
-      		'node_presave',
-      		'node_update',
-      		'node_view',
-      		'comment_insert',
-          )
-      ),
+        'node_insert',
+      	'node_presave',
+      	'node_update',
+      	'node_view',
+      	'comment_insert',
+      )
+    ),
   );
 }
 
@@ -81,9 +81,9 @@ function deny_account_action(&$object, $context) {
 
   // store the given user in a dedicated table
   $data = array(
-  	'uid' => $object->uid,
-  	'denied_by' => empty($user)?1:$user->uid,
-  	'denied' => REQUEST_TIME,
+    'uid' => $object->uid,
+    'denied_by' => empty($user)?1:$user->uid,
+    'denied' => REQUEST_TIME,
   );
   if (!drupal_write_record('denied_users', $data)) {
     drupal_set_message(t('Unable to deny user %s', array($object->name)), 'error');
@@ -113,9 +113,9 @@ function deny_account_action(&$object, $context) {
 function ecas_extra_user_update($edit, $account, $category = NULL) {
   if (is_object($account) && $category == 'account' && isset($edit['status']) && ($edit['status'] == 1)) {
     // the user is being activated
-	$num_deleted = db_delete('denied_users')
-  	  ->condition('uid', $account->uid)
-  	  ->execute();
+    $num_deleted = db_delete('denied_users')
+      ->condition('uid', $account->uid)
+      ->execute();
   }
 }
 
@@ -123,7 +123,7 @@ function ecas_extra_user_update($edit, $account, $category = NULL) {
  * Implements hook_mail().
  */
 function ecas_extra_mail($key, &$message, $params) {
-  if($key == 'deny_account'){
+  if ($key == 'deny_account') {
     $language = $message['language'];
     $mail_from = variable_get('site_mail', 'system@noreply.com');
     $message['from'] = $mail_from;
