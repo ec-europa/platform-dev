@@ -8,25 +8,21 @@ include_once('multisite_settings_core.features.inc');
 
 function multisite_settings_core_enable() {
 
+  $html_update = db_insert('ckeditor_input_format') // Table name no longer needs {}
+    ->fields(array(
+      'name' => 'Test02',
+      'format' => 'test02',
+  ))
+  ->execute();
 
+  $html_update = db_insert('ckeditor_input_format') // Table name no longer needs {}
+    ->fields(array(
+      'name' => 'Basic',
+      'format' => 'basic_html',
+  ))
+  ->execute();
 
-   $html_update = db_insert('ckeditor_input_format') // Table name no longer needs {}
-->fields(array(
-  'name' => 'Test02',
-  'format' => 'test02',
-))
-->execute();
-
-
-   $html_update = db_insert('ckeditor_input_format') // Table name no longer needs {}
-->fields(array(
-  'name' => 'Basic',
-  'format' => 'basic_html',
-))
-->execute();
-
-db_query("UPDATE ckeditor_input_format SET format = 'basic_html' WHERE name = 'Basic'");
-
-drupal_set_message('Requete executée');
+  db_query("UPDATE {ckeditor_input_format} SET format = 'basic_html' WHERE name = 'Basic'");
+  drupal_set_message(t('Request completed'),'status');
 
 }
