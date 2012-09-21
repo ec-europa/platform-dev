@@ -28,10 +28,10 @@ function ecas_extra_action_info() {
       'configurable' => FALSE,
       'triggers' => array(
         'node_insert',
-      	'node_presave',
-      	'node_update',
-      	'node_view',
-      	'comment_insert',
+        'node_presave',
+        'node_update',
+        'node_view',
+        'comment_insert',
       )
     ),
   );
@@ -135,8 +135,8 @@ function ecas_extra_mail($key, &$message, $params) {
     );
 
     $body = variable_get('ecas_extra_deny_action_mail', '');
-    $message['subject'] = t(variable_get('ecas_extra_deny_action_subject', ''), $params, array('langcode'=>$language->language));
-    $message['body'] = array(t($body, $params, array('langcode'=>$language->language)));
+    $message['subject'] = t(variable_get('ecas_extra_deny_action_subject', ''), $params, array('langcode' => $language->language));
+    $message['body'] = array(t($body, $params, array('langcode' => $language->language)));
   }
 }
 
