@@ -33,38 +33,74 @@ function taxonomy_get_parents_tree($tid, &$parents_tree) {
   $parents_tree[] = $term;
 }
 
-function taxonomy_create_tree($vid, $path, $ajax=FALSE, $selected=0) {
-  $tree = taxonomy_get_tree($vid);
-  $output = "";
-  $depth = 0;
-  
-  $output .= '<div id="tb_browser_tree" class="well"><ul>';
-  foreach ($tree as $term) {
-	$class_css = ($term->tid == $selected) ? 'jstree-clicked' : '';
-	  
-    if($term->depth > $depth) {	
-      $output .= '<ul>';
-    }
-    if($term->depth < $depth) {
-      $diff = $depth-$term->depth;
-      for($i=0; $i<$diff; $i++)
-        $output .= '</li></ul>';
-    }
-    if($term->depth == $depth) {
-      $output .= '</li>';
-    } 
-    $depth = $term->depth; 
-    if($ajax)
-      $link = l($term->name, $path.'/'.$term->tid, array('attributes' => array('class' => array('use-ajax'))));
-    else
-      $link = l($term->name, $path.'/'.$term->tid, array('attributes' => array('class' => array($class_css))));  
-    $output .= '<li id="term_'.$term->tid.'">'.$link;
+function taxonomy_get_nested_tree($terms = array(), $max_depth = NULL, $parent = 0, $parents_index = array(), $depth = 0) {
+  if (is_int($terms)) {
+    $terms = taxonomy_get_tree($terms);
   }
-  $output .= '</ul></div>';
+
+  foreach($terms as $term) {
+
+    foreach($term->parents as $term_parent) {
+      if ($term_parent == $parent) {
+        $return[$term->tid] = $term;
+      }
+      else {
+        $parents_index[$term_parent][$term->tid] = $term;
+      }
+    }
+  }
+
+  foreach($return as &$term) {
+    if (isset($parents_index[$term->tid]) && (is_null($max_depth) || $depth < $max_depth)) {
+      $term->children = taxonomy_get_nested_tree($parents_index[$term->tid], $max_depth, $term->tid, $parents_index, $depth + 1);
+    }
+  }
+
+  return $return;
+}
+
+function output_taxonomy_nested_tree($tree,$path) {
+
+    if (count($tree)) {
+
+        $output = '<ul class="taxonomy-tree">';
+        foreach ($tree as $term) {
+
+            $output .= '<li id="term_'.$term->tid.'">';
+            $output .= l($term->name, $path.'/'.$term->tid, array('attributes' => array('class' => array())));              
+
+            if (isset($term->children)) {
+                $output .= output_taxonomy_nested_tree($term->children,$path);
+            }
+            $output .= '</li>';
+        }
+        $output .= '</ul>';
+    }
+
+    return $output;
+}
+
+function taxonomy_create_tree($vid, $path, $ajax=FALSE, $selected=0) {
+  $tree = taxonomy_get_nested_tree(intval($vid));
+
+  $output = '<div id="tb_browser_tree" class="well">';
+  $output .= output_taxonomy_nested_tree($tree,$path);
+  $output .= '</div>';
+
   return $output;
 }
 
-
+function recurse_tree($parent, $tree) {
+   $result = array();
+   foreach ($tree as $key => $item) {
+      if ($parent == $item->parents[0]) {
+         $result[] = array(
+            'children' => recurse_tree($item+1, $tree)
+         );      
+      }
+   }
+   return $result;
+}
 
 function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
   $displays = array();

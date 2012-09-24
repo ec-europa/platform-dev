@@ -4,17 +4,22 @@
  * Supported plugins: ui (hovered, clicked), checkbox, contextmenu, search
  */
 
+.jstree-ec-default a { display: block; overflow: hidden; -ms-text-overflow: ellipsis; text-overflow: ellipsis; }
+.jstree-ec-default a:hover { background-color: #007fcf; color: #fff; border-radius: 5px;}
+.jstree-ec-default a.active,
+.jstree-ec-default a.active:hover {background-color: #00609C; color: #fff; border-radius: 5px;}
 .jstree-ec-default li, 
 .jstree-ec-default ins { background-image:url("d.png"); background-repeat:no-repeat; background-color:transparent; }
-.jstree-ec-default li { display: block; background-position:-90px 0; background-repeat:repeat-y; }
+.jstree-ec-default ins { width: 16px; height: 16px; }
+.jstree-ec-default li { display: block; background-position:-90px 0; background-repeat:repeat-y;}
 .jstree-ec-default li.jstree-last { background:transparent; }
-.jstree-ec-default .jstree-open > ins { background-position:-72px 0; cursor: pointer; }
-.jstree-ec-default .jstree-closed > ins { background-position:-54px 0; cursor: pointer; }
-.jstree-ec-default .jstree-leaf > ins { background-position:-36px 0; }
+.jstree-ec-default .jstree-open > ins { background-position:-74px 0; cursor: pointer; float: left;}
+.jstree-ec-default .jstree-closed > ins { background-position:-56px 0; cursor: pointer; float: left;}
+.jstree-ec-default .jstree-leaf > ins { background-position:-38px 0; }
 
 #tb_browser .jstree-ec-default .jstree-hovered { background:#e7f4f9; padding:3px 5px 3px 1px; }
 #tb_browser .jstree-ec-default .jstree-clicked { background:#00609C; padding:3px 5px 3px 1px; color: #fff; font-weight: normal; text-shadow:0 0 1px rgba(0, 0, 0, 0.5); -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: @radius;border-radius:5px; }
-#tb_browser .jstree-ec-default a .jstree-icon { background-position:-56px -19px; }
+#tb_browser .jstree-ec-default a .jstree-icon { background-position:-56px -19px; display: none;}
 #tb_browser .jstree-ec-default a.jstree-loading .jstree-icon { background:url("throbber.gif") center center no-repeat !important; }
 
 .jstree-ec-default .jstree-no-dots li, 
@@ -62,7 +67,7 @@
 #jstree-marker.jstree-ec-default { _background-image:url("d.gif"); }
 .jstree-ec-default .jstree-open ins { _background-position:-72px 0; }
 .jstree-ec-default .jstree-closed ins { _background-position:-54px 0; }
-.jstree-ec-default .jstree-leaf ins { _background-position:-36px 0; }
+.jstree-ec-default .jstree-leaf ins { _background-position:-36px 0; float: left;}
 .jstree-ec-default a ins.jstree-icon { _background-position:-56px -19px; }
 #vakata-contextmenu.jstree-ec-default-context ins { _display:none; }
 #vakata-contextmenu.jstree-ec-default-context li { _zoom:1; }
