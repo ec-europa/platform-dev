@@ -16,6 +16,17 @@ class DrupalSubSite extends Site {
 		$this->last_update_ = strtotime($array['last_update']);
 	}
 	
+	public static function fetchSubSiteById($id) {
+		global $db_conn;
+		$query = 'SELECT s.*, w.* FROM drupal_subsites s JOIN workflow_states w ON s.id = w.subsite_id AND s.id = %d;';
+		$query = sprintf($query, mysqli_real_escape_string($db_conn, $id));
+		$res = mysqli_query($db_conn, $query);
+		if (!$res || !mysqli_num_rows($res)) return null;
+		$row = mysqli_fetch_assoc($res);
+		$master_object = new DrupalSubSite($row);
+		return $master_object;
+	}
+	
 	public static function fetchIncompleteSubSites() {
 		global $db_conn;
 		$results = array();
