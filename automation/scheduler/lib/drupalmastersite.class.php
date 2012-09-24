@@ -5,6 +5,10 @@ require_once('lib/solrinstance.class.php');
 class DrupalMasterSite extends Site {
 	private static $cache = array();
 	
+	public static function flushCache() {
+		self::$cache = array();
+	}
+	
 	public function __construct($array) {
 		parent::__construct($array);
 		foreach (array('cluster_id', 'sites_local_path', 'files_local_path', 'rewritemap_local_path', 'default_subsite_url_pattern', 'default_subsite_install_policy', 'default_subsite_solr_id') as $member) {
@@ -15,7 +19,7 @@ class DrupalMasterSite extends Site {
 	
 	
 	public static function fetchMasterSiteById($id) {
-		if (isset($cache[$id])) return $cache[$id];
+		if (isset(self::$cache[$id])) return self::$cache[$id];
 		
 		global $db_conn;
 		$query = 'SELECT m.* FROM drupal_master_sites m WHERE id = %d;';
@@ -24,7 +28,7 @@ class DrupalMasterSite extends Site {
 		if (!$res || !mysqli_num_rows($res)) return null;
 		$row = mysqli_fetch_assoc($res);
 		$master_object = new DrupalMasterSite($row);
-		$cache[$id] = $master_object;
+		self::$cache[$id] = $master_object;
 		return $master_object;
 	}
 	

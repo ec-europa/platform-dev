@@ -2,9 +2,13 @@
 class SolrInstance {
 	private static $cache = array();
 	
+	public static function flushCache() {
+		self::$cache = array();
+	}
+	
 	public static function fetchInstanceById($id) {
 		global $db_conn;
-		if (isset($cache[$id])) return $cache[$id];
+		if (isset(self::$cache[$id])) return self::$cache[$id];
 		
 		$query = 'SELECT si.* FROM solr_instances si WHERE id = %d;';
 		$query = sprintf($query, mysqli_real_escape_string($db_conn, $id));
@@ -12,7 +16,7 @@ class SolrInstance {
 		if (!$res || !mysqli_num_rows($res)) return null;
 		$row = mysqli_fetch_assoc($res);
 		$db_object = SolrInstance::initFromArray($row);
-		$cache[$id] = $db_object;
+		self::$cache[$id] = $db_object;
 		return $db_object;
 	}
 	
