@@ -69,6 +69,25 @@ function cce_basic_config_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'jqmulti_libraries';
+  $strongarm->value = array(
+    'bootstrap' => 'bootstrap',
+    'tcpdf' => 0,
+    'colorbox' => 0,
+    'jstree' => 0,
+  );
+  $export['jqmulti_libraries'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'jqmulti_load_always';
+  $strongarm->value = 1;
+  $export['jqmulti_load_always'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_article';
   $strongarm->value = '2';
   $export['language_content_type_article'] = $strongarm;
@@ -122,10 +141,10 @@ function cce_basic_config_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'print_html_link_pos';
   $strongarm->value = array(
-  	'block' => 'block',	
+    'block' => 'block',
     'link' => 0,
     'corner' => 0,
-  	'help' => 0,
+    'help' => 0,
   );
   $export['print_html_link_pos'] = $strongarm;
 
@@ -135,6 +154,130 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'print_html_show_link';
   $strongarm->value = '2';
   $export['print_html_show_link'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_book_link';
+  $strongarm->value = '1';
+  $export['print_mail_book_link'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_display_sys_urllist';
+  $strongarm->value = 0;
+  $export['print_mail_display_sys_urllist'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_hourly_threshold';
+  $strongarm->value = '3';
+  $export['print_mail_hourly_threshold'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_job_queue';
+  $strongarm->value = 0;
+  $export['print_mail_job_queue'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_link_class';
+  $strongarm->value = 'print-mail';
+  $export['print_mail_link_class'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_link_pos';
+  $strongarm->value = array(
+    'block' => 'block',
+    'link' => 0,
+    'corner' => 0,
+    'help' => 0,
+  );
+  $export['print_mail_link_pos'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_link_teaser';
+  $strongarm->value = 0;
+  $export['print_mail_link_teaser'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_link_use_alias';
+  $strongarm->value = 0;
+  $export['print_mail_link_use_alias'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_node_link_pages';
+  $strongarm->value = '';
+  $export['print_mail_node_link_pages'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_node_link_visibility';
+  $strongarm->value = '0';
+  $export['print_mail_node_link_visibility'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_send_option_default';
+  $strongarm->value = 'sendpage';
+  $export['print_mail_send_option_default'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_show_link';
+  $strongarm->value = '2';
+  $export['print_mail_show_link'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_sys_link_pages';
+  $strongarm->value = '';
+  $export['print_mail_sys_link_pages'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_sys_link_visibility';
+  $strongarm->value = '1';
+  $export['print_mail_sys_link_visibility'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_teaser_choice';
+  $strongarm->value = 0;
+  $export['print_mail_teaser_choice'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_teaser_default';
+  $strongarm->value = 1;
+  $export['print_mail_teaser_default'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_use_reply_to';
+  $strongarm->value = 1;
+  $export['print_mail_use_reply_to'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -218,10 +361,10 @@ function cce_basic_config_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'print_pdf_link_pos';
   $strongarm->value = array(
-  	'block' => 'block',
+    'block' => 'block',
     'link' => 0,
     'corner' => 0,
-  	'help' => 0,
+    'help' => 0,
   );
   $export['print_pdf_link_pos'] = $strongarm;
 
@@ -406,6 +549,13 @@ function cce_basic_config_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_advanced';
+  $strongarm->value = 1;
+  $export['sweaver_plugin_status_sweaver_plugin_advanced'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_customcss';
   $strongarm->value = 1;
   $export['sweaver_plugin_status_sweaver_plugin_customcss'] = $strongarm;
@@ -514,31 +664,5 @@ function cce_basic_config_strongarm() {
   $strongarm->value = 'ec_default';
   $export['theme_default'] = $strongarm;
 
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'jqmulti_libraries';
-  $strongarm->value = array(
-    'bootstrap' => 'bootstrap',
-    'tcpdf' => 0,
-    'colorbox' => 0,
-    'jstree' => 0,
-  );
-  $export['jqmulti_libraries'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'jqmulti_load_always';
-  $strongarm->value = 1;
-  $export['jqmulti_load_always'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'sweaver_plugin_status_sweaver_plugin_advanced';
-  $strongarm->value = 1;
-  $export['sweaver_plugin_status_sweaver_plugin_advanced'] = $strongarm;  
-  
   return $export;
 }
