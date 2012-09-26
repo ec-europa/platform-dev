@@ -117,7 +117,6 @@ function cce_basic_config_context_default_contexts() {
   t('global context');
   t('site wide');
   $export['site_wide'] = $context;
-  
 
   return $export;
 }
