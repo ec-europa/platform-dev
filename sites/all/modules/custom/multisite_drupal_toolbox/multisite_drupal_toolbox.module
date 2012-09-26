@@ -271,11 +271,12 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
   if($user->uid != 1) {
     switch ($form_id) {
       case 'system_modules':
-		unset($form['modules']['Core']['php']); // prevent users to give the permission to inject PHP in input text area
-		unset($form['modules']['Development']); // prevent users to give access to the devel modules
-		break;
-	  case 'user_admin_permissions':
-		unset($form['permission']['administer modules']); // prevent users to give  the permission "administer modules"
+        unset($form['modules']['Core']['php']); // prevent users to give the permission to inject PHP in input text area
+        unset($form['modules']['Development']); // prevent users to give access to the devel modules
+      break;
+
+      case 'user_admin_permissions':
+        unset($form['permission']['administer modules']); // prevent users to give  the permission "administer modules"
         unset($form['permission']['administer features']);
         unset($form['permission']['manage features']);
 
@@ -284,24 +285,36 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
           unset($form['checkboxes'][$rid]['#options']['administer features']);
           unset($form['checkboxes'][$rid]['#options']['manage features']);
         }
-	    break;
+      break;
+
       case "user_admin_account":
         unset($form['accounts']['#options'][1]); // hide admin user 1
-        break;
+      break;
+
       case "user_admin_roles":
         //unset($form['roles'][3]);
         //unset($form['roles'][4]);
       case "user_admin_role": // prevent predefined roles updated for non admin
-	    if(isset($form['rid'])) {
+        if(isset($form['rid'])) {
           if($form['rid']['#value'] == 3 || $form['rid']['#value'] == 4) {
             unset($form['actions']);
             $form["name"]['#disabled'] = TRUE;
           }
-		}
-		break;
+        }
+      break;
     }
   }
-  
+
+  switch ($form_id) {
+    case 'menu_edit_item':
+      //check the "Show as expanded" box
+      if (isset($form['original_item']['#value']['expanded']) && (isset($form['original_item']['#value']['mlid']) && $form['original_item']['#value']['mlid'] != 0)) {
+        $form['expanded']['#default_value'] = $form['original_item']['#value']['expanded'];
+      } else {
+        $form['expanded']['#default_value'] = 1;
+      }
+    break;
+  }
 }
 
 
