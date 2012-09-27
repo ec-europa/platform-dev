@@ -156,6 +156,8 @@ function multi_user_blog_views_default_views() {
   $handler->display->display_options['fields']['created']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['created']['alter']['html'] = 0;
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['created']['custom_date_format'] = 'l, d/m/Y';  
   $handler->display->display_options['fields']['created']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['created']['hide_empty'] = 0;
   $handler->display->display_options['fields']['created']['empty_zero'] = 0;
@@ -168,9 +170,9 @@ function multi_user_blog_views_default_views() {
   $handler->display->display_options['fields']['name']['relationship'] = 'uid';
   $handler->display->display_options['fields']['name']['label'] = '';
   $handler->display->display_options['fields']['name']['alter']['alter_text'] = 1;
-  $handler->display->display_options['fields']['name']['alter']['text'] = '<div class="row-fluid">
+  $handler->display->display_options['fields']['name']['alter']['text'] = '<div class="row-fluid meta">
 <div class="span1">[picture]</div>
-<div class="span11">Posted on [created] by [name]</div>
+<div class="span11">Published by [name] on [created]</div>
 </div>';
   $handler->display->display_options['fields']['name']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['name']['alter']['absolute'] = 0;

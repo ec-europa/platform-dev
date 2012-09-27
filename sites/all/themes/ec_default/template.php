@@ -5,7 +5,7 @@
  * Override or insert variables into the template.
  */
 function ec_default_preprocess(&$variables) {
-  
+
   //select template
   $variables['template'] = 'ec'; //'ec' or 'europa'
   
@@ -423,7 +423,8 @@ function ec_default_process_maintenance_page(&$variables) {
  * Override or insert variables into the node template.
  */
 function ec_default_preprocess_node(&$variables) {
-  $variables['submitted'] = t('published by !username on !datetime', array('!username' => $variables['name'], '!datetime' => $variables['date']));
+  $custom_date = format_date($variables['created'], 'custom', 'l, d/m/Y');
+  $variables['submitted'] = t('Published by !username on !datetime', array('!username' => $variables['name'], '!datetime' => $custom_date));
   if ($variables['view_mode'] == 'full' && node_is_page($variables['node'])) {
     $variables['classes_array'][] = 'node-full';
   }
