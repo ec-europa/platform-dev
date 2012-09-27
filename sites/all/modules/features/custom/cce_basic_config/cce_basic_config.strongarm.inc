@@ -241,7 +241,7 @@ function cce_basic_config_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'print_mail_show_link';
-  $strongarm->value = '2';
+  $strongarm->value = 0;
   $export['print_mail_show_link'] = $strongarm;
 
   $strongarm = new stdClass();
