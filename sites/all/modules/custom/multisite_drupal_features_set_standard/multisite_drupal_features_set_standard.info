@@ -160,3 +160,9 @@ feature_sets[multi_user_blog][description] = 'Multi-user blog'
 feature_sets[multi_user_blog][icon] = 'feature-set-icons/blog.png'
 feature_sets[multi_user_blog][enable][] = multi_user_blog
 feature_sets[multi_user_blog][disable][] = multi_user_blog
+
+feature_sets[node_pager][title] = 'Node pager'
+feature_sets[node_pager][description] = 'The node pager allows to add a pager to browse between nodes of the same content type based on a predefined field'
+feature_sets[node_pager][icon] = 'feature-set-icons/node_pager.png'
+feature_sets[node_pager][enable][] = node_pager
+feature_sets[node_pager][disable][] = node_pager

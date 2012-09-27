@@ -42,13 +42,13 @@ function node_pager_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'older';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '← Older';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '&larr; Older';
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
   $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = 'newer';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Newer →';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Newer &rarr;';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -99,14 +99,14 @@ function node_pager_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'newer';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Newer →';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Newer &rarr;';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
   $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = 'older';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '← Older';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '&larr; Older';
   $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Post date */
@@ -128,9 +128,9 @@ function node_pager_views_default_views() {
     t('Desc'),
     t('Nid'),
     t('older'),
-    t('← Older'),
+    t('&larr; Older'),
     t('newer'),
-    t('Newer →'),
+    t('Newer &rarr;'),
     t('Articles browser'),
     t('node/[nid]'),
   );
@@ -168,13 +168,13 @@ function node_pager_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'older';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '← Older';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '&larr; Older';
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
   $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = 'newer';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Newer →';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Newer &rarr;';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -196,7 +196,7 @@ function node_pager_views_default_views() {
   );
 
   /* Display: News browser */
-  $handler = $view->new_display('freepager', 'News browser', 'freepager_1');
+  $handler = $view->new_display('freepager', 'Events browser', 'freepager_1');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
@@ -228,7 +228,7 @@ function node_pager_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'newer';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Next →';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Next &rarr;';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nothing']['element_default_classes'] = FALSE;
   /* Field: Global: Custom text */
@@ -236,7 +236,7 @@ function node_pager_views_default_views() {
   $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = 'older';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '← Previous';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '&larr; Previous';
   $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Dates -  start date (field_event_date) */
@@ -258,13 +258,13 @@ function node_pager_views_default_views() {
     t('Desc'),
     t('Nid'),
     t('older'),
-    t('← Older'),
+    t('&larr;  Older'),
     t('newer'),
-    t('Newer →'),
+    t('Newer &rarr;'),
     t('News browser'),
     t('node/[nid]'),
-    t('Next →'),
-    t('← Previous'),
+    t('Next &rarr;'),
+    t('&larr; Previous'),
   );
   $export['events_pager'] = $view;
 
@@ -300,13 +300,13 @@ function node_pager_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'older';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '← Older';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '&larr; Older';
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
   $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = 'newer';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Newer →';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Newer &rarr;';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -357,14 +357,14 @@ function node_pager_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'newer';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Newer →';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Newer &rarr;';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
   $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = 'older';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '← Older';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '&larr; Older';
   $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Post date */
@@ -386,9 +386,9 @@ function node_pager_views_default_views() {
     t('Desc'),
     t('Nid'),
     t('older'),
-    t('← Older'),
+    t('&larr; Older'),
     t('newer'),
-    t('Newer →'),
+    t('Newer &rarr;'),
     t('News browser'),
     t('node/[nid]'),
   );
@@ -426,13 +426,13 @@ function node_pager_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'older';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '← Older';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '&larr; Older';
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
   $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = 'newer';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Newer →';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Newer &rarr;';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -483,14 +483,14 @@ function node_pager_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'newer';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Newer →';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Newer &rarr;';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
   $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
   $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing_1']['label'] = 'older';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '← Older';
+  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '&larr; Older';
   $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Post date */
@@ -512,9 +512,9 @@ function node_pager_views_default_views() {
     t('Desc'),
     t('Nid'),
     t('older'),
-    t('← Older'),
+    t('&larr; Older'),
     t('newer'),
-    t('Newer →'),
+    t('Newer &rarr;'),
     t('Page browser'),
     t('node/[nid]'),
   );
