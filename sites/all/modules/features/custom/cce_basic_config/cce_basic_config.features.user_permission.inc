@@ -21,17 +21,6 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'print_pdf',
   );
 
-  // Exported permission: access send by email.
-  $permissions['access send by email'] = array(
-  		'name' => 'access send by email',
-  		'roles' => array(
-  				0 => 'administrator',
-  				1 => 'anonymous user',
-  				2 => 'authenticated user',
-  		),
-  		'module' => 'print_mail',
-  );
-  
   // Exported permission: access comments.
   $permissions['access comments'] = array(
     'name' => 'access comments',
