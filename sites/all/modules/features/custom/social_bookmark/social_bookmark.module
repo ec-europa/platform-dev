@@ -35,7 +35,7 @@ function social_bookmark_block_view($delta='') {
 function social_bookmark_contents() {
   global $language;
   return '
-		<script src="http://ec.europa.eu/wel/socialbookmark/share.js" type="text/javascript"></script>
+		<script src="'.path_to_theme().'/ibeginshare/share.js" type="text/javascript"></script>
 
 		<div id="share-tool-right">
 			<script type="text/javascript">
