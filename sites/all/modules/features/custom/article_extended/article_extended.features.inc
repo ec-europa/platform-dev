@@ -17,6 +17,7 @@ function article_extended_ctools_plugin_api() {
 /**
  * Implements hook_node_info().
  */
+/*
 function article_extended_node_info() {
   $items = array(
     'article' => array(
@@ -30,3 +31,4 @@ function article_extended_node_info() {
   );
   return $items;
 }
+*/
