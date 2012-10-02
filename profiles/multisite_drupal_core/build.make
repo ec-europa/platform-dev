@@ -35,9 +35,6 @@ projects[entity][version] = "1.0-rc3"
 projects[features][subdir] = "contributed"
 projects[features][version] = "1.0"
 
-;projects[media][subdir] = "contributed"
-;projects[media][version] = "2.x-dev"
-
 projects[fivestar][subdir] = "contributed"
 projects[fivestar][version] = "2.0-alpha1"
 
@@ -89,18 +86,11 @@ projects[workbench_access][version] = "1.x-dev"
 projects[link][subdir] = "contributed"
 projects[link][version] = "1.0"
 
-projects[og][subdir] = "contributed"
-projects[og][version] = "1.4"
-
 projects[site_map][subdir] = "contributed"
 projects[site_map][version] = "1.0"
 
-
 projects[xmlsitemap][subdir] = "contributed"
 projects[xmlsitemap][version] = "2.0-rc1"
-
-projects[backup_migrate][subdir] = "contributed"
-projects[backup_migrate][version] = "2.2"
 
 projects[pathauto][subdir] = "contributed"
 projects[pathauto][version] = "1.2"
@@ -117,20 +107,8 @@ projects[colors][version] = "1.0-beta2"
 projects[colorbox][subdir] = "contributed"
 projects[colorbox][version] = "1.3"
 
-projects[og_create_perms][subdir] = "contributed"
-projects[og_create_perms][version] = "1.0"
-
-;projects[freelinking][subdir] = "contributed"
-;projects[freelinking][version] = "3.1"
-
-;projects[simplewiki][subdir] = "contributed"
-;projects[simplewiki][version] = "1.x-dev"
-
 projects[webform][subdir] = "contributed"
 projects[webform][version] = "3.18"
-
-;projects[references][subdir] = "contributed"
-;projects[references][version] = "2.0"
 
 projects[devel][subdir] = "contributed"
 projects[devel][version] = "1.2"
@@ -138,20 +116,8 @@ projects[devel][version] = "1.2"
 projects[simplenews][subdir] = "contributed"
 projects[simplenews][version] = "1.0-beta1"
 
-;projects[views_slideshow][subdir] = "contributed"
-;projects[views_slideshow][version] = "3.0"
-
-;projects[libraries][subdir] = "contributed"
-;projects[libraries][version] = "1.0"
-
 projects[print][subdir] = "contributed"
 projects[print][version] = "1.2"
-
-;projects[features_override][subdir] = "contributed"
-;projects[features_override][version] = "1.0-beta1"
-
-;projects[jquery_update][subdir] = "contributed"
-;projects[jquery_update][version] = "2.2"
 
 projects[mailsystem][subdir] = "contributed"
 projects[mailsystem][version] = "2.33"
@@ -159,20 +125,11 @@ projects[mailsystem][version] = "2.33"
 projects[mimemail][subdir] = "contributed"
 projects[mimemail][version] = "1.x-dev"
 
-;projects[media_gallery][subdir] = "contributed"
-;projects[media_gallery][version] = "1.0-beta7"
-
-projects[multiform][subdir] = "contributed"
-projects[multiform][version] = "1.0"
-
 projects[apachesolr][subdir] = "contributed"
 projects[apachesolr][version] = "1.x-dev"
 
 projects[apachesolr_attachments][subdir] = "contributed"
 projects[apachesolr_attachments][version] = "1.1"
-
-;projects[file_entity][subdir] = "contributed"
-;projects[file_entity][version] = "2.x-dev"
 
 projects[facetapi][subdir] = "contributed"
 projects[facetapi][version] = "1.0-rc4"
@@ -201,9 +158,6 @@ projects[variable][version] = "2.1"
 projects[translation_table][subdir] = "contributed"
 projects[translation_table][version] = "1.0-beta1"
 
-projects[cck_pager][subdir] = "contributed"
-projects[cck_pager][version] = "1.x-dev"
-
 projects[custom_breadcrumbs][subdir] = "contributed"
 projects[custom_breadcrumbs][version] = "1.0-alpha1"
 
@@ -222,9 +176,6 @@ projects[node_export][version] = "3.0"
 projects[quicktabs][subdir] = "contributed"
 projects[quicktabs][version] = "3.4"
 
-;projects[views_xml_backend][subdir] = "contributed"
-;projects[views_xml_backend][version] = "1.0-alpha3"
-
 projects[field_group][subdir] = "contributed"
 projects[field_group][version] = "2.x-dev"
 
@@ -242,6 +193,9 @@ projects[configuration][version] = "2.x-dev"
 
 projects[freepager][subdir] = "contributed"
 projects[freepager][version] = "2.x-dev"
+
+projects[devel][subdir] = "contributed"
+projects[devel][version] = "1.2"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
