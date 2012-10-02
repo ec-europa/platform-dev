@@ -201,6 +201,9 @@ projects[entityreference][version] = "1.x-dev"
 projects[configuration][subdir] = "contributed"
 projects[configuration][version] = "2.x-dev"
 
+projects[advanced_forum][subdir] = "contributed"
+projects[advanced_forum][version] = "2.0-rc1"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"
