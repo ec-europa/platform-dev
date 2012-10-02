@@ -164,6 +164,11 @@ function ecas_login_page() {
     unset($_SESSION['ecas_goto']);
   }
 
+  $force_proto = variable_get('ecas_force_proto', FALSE);
+  if (strlen($force_proto)) {
+    $destination = preg_replace('/^(https?:\/\/)/', $force_proto . '://', $destination);
+  }
+
   drupal_goto($destination);
 }
 
@@ -185,6 +190,12 @@ function ecas_logout($full_logout = FALSE) {
   $user = user_load(0);
 
   unset($_SESSION['ecas_goto']);
+  // Removes the optional sticky cookie
+  $http_cookie_name = variable_get('ecas_sticky_cookie_name', 'drupal_stick_to_https');
+  if (strlen($http_cookie_name)) {
+    global $base_path;
+    setcookie($http_cookie_name, 'deleted', time() - 86400, $base_path , '.' . $_SERVER['HTTP_HOST'], FALSE, TRUE);
+  }
 
   if ($full_logout) {
     _ecas_init_phpcas_client();
@@ -208,7 +219,8 @@ function ecas_save_page() {
   if (!isset($_SESSION['ecas_goto'])) {
     if (arg(0) == 'ecas') {
       // Saving the ecas page does not make sense, use HTTP referer (absolute URL) instead.
-      $_SESSION['ecas_goto'] = $_SERVER['HTTP_REFERER'];
+      $referer = (isset($_GET['referer'])) ? $_GET['referer'] : $_SERVER['HTTP_REFERER'];
+      $_SESSION['ecas_goto'] = $referer;
     }
     else {
       // Save the Drupal path (i.e. not an absolute URL).
@@ -433,6 +445,16 @@ function ecas_login_check() {
       else {
         $user = $account;               
         user_login_finalize();        
+
+        // Optionally set a non-secure cookie meaning "the user has logged in
+        // using HTTPS and should not use HTTP for the duration of this
+        // session".
+        $http_cookie_name = variable_get('ecas_sticky_cookie_name', 'drupal_stick_to_https');
+        if (strlen($http_cookie_name)) {
+          global $base_path;
+          setcookie($http_cookie_name, variable_get('ecas_sticky_cookie_value', 'y') /* dummy value */, 0 /* disappear when the browser closes */, $base_path , '.' . $_SERVER['HTTP_HOST'], FALSE, TRUE);
+        }
+
         drupal_set_message(t(variable_get('ecas_login_message', ECAS_DEFAULT_LOGIN_MESSAGE), array('%ecas_username' => $user->name)));
         ecas_login_page();
       }
