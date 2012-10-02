@@ -183,9 +183,6 @@ function ecas_logout($full_logout = FALSE) {
 
   // We have to use $GLOBALS to unset a global variable:
   $user = user_load(0);
-  
-  // disable auto-authentication
-  $_SESSION['phpECAS_logout'] = 'true';
 
   unset($_SESSION['ecas_goto']);
 
@@ -207,15 +204,14 @@ function ecas_logout($full_logout = FALSE) {
  * Saves the page that the user was on when login was requested or required.
  */
 function ecas_save_page() {
-
+  // The page is saved only if it is not done already.
   if (!isset($_SESSION['ecas_goto'])) {
     if (arg(0) == 'ecas') {
-      //we're were destined to the CAS login page, so set
-      //the page to the referrer.
-      $_SESSION['ecas_goto'] = $_SERVER['HTTP_REFERER']; // http_referer doesn't work
+      // Saving the ecas page does not make sense, use HTTP referer (absolute URL) instead.
+      $_SESSION['ecas_goto'] = $_SERVER['HTTP_REFERER'];
     }
     else {
-      //We're destined for another page, so save the group.
+      // Save the Drupal path (i.e. not an absolute URL).
       $_SESSION['ecas_goto'] = $_GET['q'];
     }
   }
@@ -316,16 +312,9 @@ function ecas_login_check() {
     $ecas_sync_user_info_args = array();
 
     // Start a new drupal session
-    drupal_session_start(); // Added
+    drupal_session_start();
     
     ecas_save_page();
-
-    $ecas_logout = isset($_SESSION['phpECAS_logout'])?$_SESSION['phpECAS_logout']:false;
-    if ($force_login === ECAS_GATEWAY && ($ecas_logout == NULL || $ecas_logout == 'false')) {
-      if ($_SERVER['QUERY_STRING'] == '' && strpos($_SERVER['PHP_SELF'], '?q=') === FALSE) {
-        $_SERVER['PHP_SELF'] .= '?q=' . $GLOBALS['_GET']['q'];
-      }
-    }
 
     _ecas_init_phpcas_client();
 
@@ -409,9 +398,6 @@ function ecas_login_check() {
 
     // final check to make sure we have a good user
     if ($account && $account->uid > 0) {
-      // activate auto-authentication
-      $_SESSION['phpECAS_logout'] = 'false';
-
       // avoid calling ldap_* functions if they are not available
       if (function_exists('getLdapUserInfo')) {
         // retrieve informations about the user through LDAP
