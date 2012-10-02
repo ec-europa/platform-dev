@@ -616,8 +616,7 @@ function _ecas_init_phpcas_client() {
     $logpath = variable_get('ecas_phpcas_debug_logpath', constant('ECAS_DEFAULT_DEBUG_LOGPATH'));
     // as specified in ecas_admin_settings(), we do not check whether the logpath is writable or not
     if (drupal_strlen($logpath)) {
-      $GLOBALS['PHPCAS_DEBUG']['filename'] = $logpath;
-      $GLOBALS['PHPCAS_DEBUG']['indent'] = 2; // arbitrarily set to Drupal indent width
+      phpCAS::setDebug($logpath);
     }
   }
 
