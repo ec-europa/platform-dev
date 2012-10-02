@@ -194,6 +194,9 @@ projects[freepager][version] = "2.x-dev"
 projects[devel][subdir] = "contributed"
 projects[devel][version] = "1.2"
 
+;projects[advanced_forum][subdir] = "contributed"
+;projects[advanced_forum][version] = "2.0-rc1"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"
