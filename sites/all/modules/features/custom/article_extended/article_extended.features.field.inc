@@ -33,7 +33,7 @@ function article_extended_field_default_fields() {
           0 => 'format',
         ),
       ),
-      'locked' => '1',
+      'locked' => 0,
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
