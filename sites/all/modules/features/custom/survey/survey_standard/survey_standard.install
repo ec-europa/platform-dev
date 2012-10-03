@@ -6,12 +6,22 @@
 function survey_standard_enable() {
   // enable example contents
   //module_enable(array("survey_standard_contents"));
+  
+  // override drupal variables defined in core feature
+  variable_set('pathauto_node_webform_pattern', 'survey/[node:title]');
+  variable_set('pathauto_node_webform_en_pattern', '');
+  variable_set('pathauto_node_webform_und_pattern', '');
 }
 
 /*
- * Hook disable 
- */
+* Hook disable 
+*/
 function survey_standard_disable(){
   // disable example contents
   //module_disable(array("survey_standard_contents"));
+  
+  // delete drupal variables
+  variable_del('pathauto_node_webform_pattern');
+  variable_del('pathauto_node_webform_en_pattern');
+  variable_del('pathauto_node_webform_und_pattern');
 }
