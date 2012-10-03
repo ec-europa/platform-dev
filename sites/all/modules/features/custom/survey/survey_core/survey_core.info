@@ -40,6 +40,5 @@ features[variable][] = menu_parent_webform
 features[variable][] = node_options_webform
 features[variable][] = node_preview_webform
 features[variable][] = node_submitted_webform
-features[variable][] = pathauto_node_webform_pattern
 features[variable][] = workbench_moderation_default_state_webform
 features[views_view][] = surveys_list
