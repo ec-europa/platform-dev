@@ -4,7 +4,7 @@
         if(Drupal.settings.splash_screen.isadmin==0)        
         {
             if (ckie == null && are_cookies_enabled()==true  ){ //Check to see if a cookie with name of "query" exists
-                window.location.replace(Drupal.settings.splash_screen.splash);
+                window.location.replace("/" + Drupal.settings.splash_screen.splash);
                 createCookie("splash","splash",365);
             }
             else if(are_cookies_enabled()==true && window.location==Drupal.settings.splash_screen.base_url)
