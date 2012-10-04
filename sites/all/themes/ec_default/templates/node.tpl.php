@@ -185,8 +185,9 @@
         asort($fields['content']);
         
         foreach ($fields['content'] as $key => $value) {
+          $field = '';
           if (isset($content[$key]['#label_display'])) {
-            $field = '<div class="row-fluid field c_left">';
+            $field .= '<div class="row-fluid field c_left">';
 
             switch ($content[$key]['#label_display']) {
               case 'hidden':
