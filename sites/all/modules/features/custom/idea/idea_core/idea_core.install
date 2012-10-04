@@ -112,7 +112,7 @@ function idea_core_enable() {
     //Add breadcrumb configuration
     db_insert('custom_breadcrumb')
             ->fields(array(
-                'titles' => 'Breadcrumb_idea:idea_title', // titles of the elements to display in the breadcrumb
+                'titles' => '[Breadcrumb_idea:idea_title]', // titles of the elements to display in the breadcrumb
                 'paths' => 'ideas/', // path of the elements to display in the breadcrumb
                 'visibility_php ' => '',
                 'node_type' => 'idea', //the content type targeted by this rule
