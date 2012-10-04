@@ -293,8 +293,10 @@ function ecas_sync_user_group_sync(&$user, $user_info) {
 function ecas_sync_user_info(&$user, $user_info, $args) {
   // update the user mail in the users table
   if (variable_get('ecas_update_mail_address', TRUE)) {
+	$picture = $user->picture; // fix : save file object replaced by fid by user_save function
     user_save($user, array('mail' => $user_info['mail']));
     $user->mail = $user_info['mail'];
+    $user->picture = $picture;
   }
 
   // update extra core user fields
