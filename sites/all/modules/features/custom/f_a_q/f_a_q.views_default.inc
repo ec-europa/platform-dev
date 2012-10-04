@@ -33,7 +33,15 @@ function f_a_q_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['type'] = 'ol';
   $handler->display->display_options['style_options']['class'] = 'nav nav-tabs nav-stacked';
+  $handler->display->display_options['style_options']['grouping'] = array(
+    0 => array(
+      'field' => 'term_node_tid',
+      'rendered' => 1,
+      'rendered_strip' => 0,
+    ),
+  );  
   $handler->display->display_options['row_plugin'] = 'fields';
+
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
@@ -303,6 +311,21 @@ function f_a_q_views_default_views() {
   $handler->display->display_options['filter_groups']['groups'] = array(
     1 => 'AND',
     2 => 'OR',
+  );  
+  /* Field: Content: All taxonomy terms */
+  $handler->display->display_options['fields']['term_node_tid']['id'] = 'term_node_tid';
+  $handler->display->display_options['fields']['term_node_tid']['table'] = 'node';
+  $handler->display->display_options['fields']['term_node_tid']['field'] = 'term_node_tid';
+  $handler->display->display_options['fields']['term_node_tid']['label'] = '';
+  $handler->display->display_options['fields']['term_node_tid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['term_node_tid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['term_node_tid']['limit'] = TRUE;
+  $handler->display->display_options['fields']['term_node_tid']['vocabularies'] = array(
+    'faq_categories' => 'faq_categories',
+    'classification' => 0,
+    'idea_categories' => 0,
+    'idea_status' => 0,
+    'tags' => 0,
   );  
   
   /* Filter criterion: Content translation: Language */ 

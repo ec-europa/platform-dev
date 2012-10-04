@@ -8,14 +8,21 @@
  * hook_install
  */
 function f_a_q_install() {
-    //Nothing yet
+  // create a vocabulary dedicated to the faq categories   
+  $vocabulary = (object) array(
+    'name' => t('FAQ categories'),
+    'machine_name' => 'faq_categories',
+    'module' => 'faq',
+  );
+  taxonomy_vocabulary_save($vocabulary);
 }
 
 /**
  * hook_uninstall
  */
 function f_a_q_uninstall() {
-    //Nothing yet
+  $vocabulary = taxonomy_vocabulary_machine_name_load('faq_categories');
+  taxonomy_vocabulary_delete($vocabulary->vid);
 }
 
 
