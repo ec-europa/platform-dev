@@ -313,10 +313,18 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
       } else {
         $form['expanded']['#default_value'] = 1;
       }
-    break;
+      break;
+    case 'comment_admin_overview':
+      $form['#submit'][] = 'workbench_redirect_submit';
+      break;
   }
 }
 
+function workbench_redirect_submit($form, &$form_state) {
+  $form_state['redirect'] = array(
+    'admin/workbench/comment',
+  );
+}
 
 /*
 * Solr config bundle
@@ -407,3 +415,31 @@ function multisite_drupal_toolbox_page_alter(&$page) {
   }
 }
 
+
+/*
+ * hook_menu 
+*/
+function multisite_drupal_toolbox_menu() {
+  // add comments tab to the workbench menu
+  $items['admin/workbench/comment'] = array(
+    'title' => 'Comments',
+    'description' => 'List and edit site comments and the comment approval queue.',
+    'page callback' => 'comment_admin',
+    'access arguments' => array('administer comments'),
+    'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
+    'file' => '../../../../../modules/comment/comment.admin.inc',
+  );
+  $items['admin/workbench/comment/new'] = array(
+    'title' => 'Published comments',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+  $items['admin/workbench/comment/approval'] = array(
+    'title' => 'Unapproved comments',
+    'title callback' => 'comment_count_unpublished',
+    'page arguments' => array('approval'),
+    'access arguments' => array('administer comments'),
+    'type' => MENU_LOCAL_TASK,
+  );
+  return $items;
+}
