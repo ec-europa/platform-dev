@@ -21,7 +21,7 @@ projects[context][subdir] = "contributed"
 projects[context][version] = "3.0-beta3"
 
 projects[date][subdir] = "contributed"
-projects[date][version] = "2.0-alpha5"
+projects[date][version] = "2.6"
 
 projects[defaultcontent][subdir] = "contributed"
 projects[defaultcontent][version] = "1.0-alpha6"
@@ -57,7 +57,7 @@ projects[token][subdir] = "contributed"
 projects[token][version] = "1.3"
 
 projects[uuid][subdir] = "contributed"
-projects[uuid][version] = "1.0-alpha2"
+projects[uuid][version] = "1.0-alpha3"
 
 projects[varnish][subdir] = "contributed"
 projects[varnish][version] = "1.0-beta1"
@@ -108,7 +108,7 @@ projects[colorbox][subdir] = "contributed"
 projects[colorbox][version] = "1.3"
 
 projects[simplenews][subdir] = "contributed"
-projects[simplenews][version] = "1.0-beta1"
+projects[simplenews][version] = "1.0"
 
 projects[webform][subdir] = "contributed"
 projects[webform][version] = "3.18"
@@ -123,7 +123,7 @@ projects[mimemail][subdir] = "contributed"
 projects[mimemail][version] = "1.x-dev"
 
 projects[apachesolr][subdir] = "contributed"
-projects[apachesolr][version] = "1.x-dev"
+projects[apachesolr][version] = "1.0-rc5"
 
 projects[apachesolr_attachments][subdir] = "contributed"
 projects[apachesolr_attachments][version] = "1.1"
@@ -159,7 +159,7 @@ projects[custom_breadcrumbs][subdir] = "contributed"
 projects[custom_breadcrumbs][version] = "1.0-alpha1"
 
 projects[libraries][subdir] = "contributed"
-projects[libraries][version] = "1.0"
+projects[libraries][version] = "2.0"
 
 projects[jqmulti][subdir] = "contributed"
 projects[jqmulti][version] = "1.0-beta1"
