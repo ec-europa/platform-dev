@@ -54,7 +54,7 @@ projects[sweaver][subdir] = "contributed"
 projects[sweaver][version] = "1.3"
 
 projects[token][subdir] = "contributed"
-projects[token][version] = "1.3"
+projects[token][version] = "1.4"
 
 projects[uuid][subdir] = "contributed"
 projects[uuid][version] = "1.0-alpha3"
@@ -196,6 +196,12 @@ projects[devel][version] = "1.2"
 
 ;projects[advanced_forum][subdir] = "contributed"
 ;projects[advanced_forum][version] = "2.0-rc1"
+
+projects[media][subdir] = "contributed"
+projects[media][version] = "2.x-dev"
+
+projects[file_entity][subdir] = "contributed"
+projects[file_entity][version] = "2.x-dev"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
