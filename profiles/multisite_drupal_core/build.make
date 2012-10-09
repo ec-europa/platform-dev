@@ -114,13 +114,13 @@ projects[devel][subdir] = "contributed"
 projects[devel][version] = "1.2"
 
 projects[simplenews][subdir] = "contributed"
-projects[simplenews][version] = "1.0"
+projects[simplenews][version] = "1.x-dev"
 
 projects[print][subdir] = "contributed"
 projects[print][version] = "1.2"
 
 projects[mailsystem][subdir] = "contributed"
-projects[mailsystem][version] = "2.33"
+projects[mailsystem][version] = "2.34"
 
 projects[mimemail][subdir] = "contributed"
 projects[mimemail][version] = "1.x-dev"

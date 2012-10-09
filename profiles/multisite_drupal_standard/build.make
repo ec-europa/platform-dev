@@ -108,7 +108,7 @@ projects[colorbox][subdir] = "contributed"
 projects[colorbox][version] = "1.3"
 
 projects[simplenews][subdir] = "contributed"
-projects[simplenews][version] = "1.0"
+projects[simplenews][version] = "1.x-dev"
 
 projects[webform][subdir] = "contributed"
 projects[webform][version] = "3.18"
@@ -117,7 +117,7 @@ projects[print][subdir] = "contributed"
 projects[print][version] = "1.2"
 
 projects[mailsystem][subdir] = "contributed"
-projects[mailsystem][version] = "2.33"
+projects[mailsystem][version] = "2.34"
 
 projects[mimemail][subdir] = "contributed"
 projects[mimemail][version] = "1.x-dev"
