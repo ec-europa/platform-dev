@@ -47,6 +47,15 @@ function multi_user_blog_views_default_views() {
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   $handler->display->display_options['relationships']['uid']['required'] = 0;
+  /* Relationship: Content: Vote results */
+  $handler->display->display_options['relationships']['votingapi_cache']['id'] = 'votingapi_cache';
+  $handler->display->display_options['relationships']['votingapi_cache']['table'] = 'node';
+  $handler->display->display_options['relationships']['votingapi_cache']['field'] = 'votingapi_cache';
+  $handler->display->display_options['relationships']['votingapi_cache']['votingapi'] = array(
+    'value_type' => 'percent',
+    'tag' => 'rate_fivestar',
+    'function' => 'average',
+  );  
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -72,43 +81,20 @@ function multi_user_blog_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
-  /* Field: Content: Rating */
-  $handler->display->display_options['fields']['field_rating']['id'] = 'field_rating';
-  $handler->display->display_options['fields']['field_rating']['table'] = 'field_data_field_rating';
-  $handler->display->display_options['fields']['field_rating']['field'] = 'field_rating';
-  $handler->display->display_options['fields']['field_rating']['label'] = '';
-  $handler->display->display_options['fields']['field_rating']['alter']['alter_text'] = 1;
-  $handler->display->display_options['fields']['field_rating']['alter']['text'] = '<div class="row-fluid">
+  /* Field: Vote results: Value */
+  $handler->display->display_options['fields']['value']['id'] = 'value';
+  $handler->display->display_options['fields']['value']['table'] = 'votingapi_cache';
+  $handler->display->display_options['fields']['value']['field'] = 'value';
+  $handler->display->display_options['fields']['value']['relationship'] = 'votingapi_cache';
+  $handler->display->display_options['fields']['value']['label'] = '';
+  $handler->display->display_options['fields']['value']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['value']['alter']['text'] = '<div class="row-fluid">
 <div class="span10"><h3>[title]</h3></div>
-<div class="span2">[field_rating]</div>
+<div class="span2">[value]</div>
 </div>';
-  $handler->display->display_options['fields']['field_rating']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['field_rating']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['field_rating']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['field_rating']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['field_rating']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['field_rating']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['field_rating']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['field_rating']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['field_rating']['alter']['more_link'] = 0;
-  $handler->display->display_options['fields']['field_rating']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['field_rating']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['field_rating']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['field_rating']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_rating']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['field_rating']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['field_rating']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['field_rating']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_rating']['click_sort_column'] = 'rating';
-  $handler->display->display_options['fields']['field_rating']['settings'] = array(
-    'widget' => array(
-      'fivestar_widget' => 'default',
-    ),
-    'expose' => 1,
-    'style' => 'average',
-    'text' => 'average',
-  );
-  $handler->display->display_options['fields']['field_rating']['field_api_classes'] = 0;
+  $handler->display->display_options['fields']['value']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['value']['precision'] = '0';
+  $handler->display->display_options['fields']['value']['appearance'] = 'rate_views_widget_compact';
   /* Field: User: Picture */
   $handler->display->display_options['fields']['picture']['id'] = 'picture';
   $handler->display->display_options['fields']['picture']['table'] = 'users';

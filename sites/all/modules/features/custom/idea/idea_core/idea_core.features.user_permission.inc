@@ -11,16 +11,6 @@
 function idea_core_user_default_permissions() {
     $permissions = array();
     
-    // Exported permission: rate content
-    $permissions['rate content'] = array(
-        'name' => 'rate content',
-        'roles' => array(
-            0 => 'authenticated user',
-            1 => 'anonymous user',
-        ),
-        'module' => 'fivestar',
-    );
-
     // Exported permission: create idea content
     $permissions['create idea content'] = array(
         'name' => 'create idea content',
