@@ -39,7 +39,7 @@ class views_xml_backend_handler_filter_numeric extends views_handler_filter_nume
   }
 
   function generate() {
-    $operator = $this->options['operator'];
+    $operator = $this->options['expose'] ? $this->operator : $this->options['operator'];
     $xpath = $this->options['xpath_selector'];
 
     if ($operator == 'between') {
@@ -58,5 +58,9 @@ class views_xml_backend_handler_filter_numeric extends views_handler_filter_nume
     }
     $title = ($short && isset($this->definition['title short'])) ? $this->definition['title short'] : $this->definition['title'];
     return t('!xpath: !title', array('!xpath' => $this->options['xpath_selector'], '!title' => $title));
+  }
+
+  function __toString() {
+    return $this->generate();
   }
 }

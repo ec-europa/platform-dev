@@ -2,49 +2,61 @@
 
 /**
  * @file
- * Query plugin for views_xml_backend.
+ * Query plugin for views_xml_backend.module.
  */
 class views_xml_backend_plugin_query_xml extends views_plugin_query {
 
   /**
-   * Generate a query and a countquery from all of the information supplied to
+   * Document and initialize the attributes we use.
+   */
+  public $filter = array();
+  public $argument = array();
+  public $orderby = array();
+  public $where = array();
+  public $fields = array();
+  public $options = array();
+  public $group_operator = 'AND';
+  public $pager;
+  public $limit;
+  public $offset;
+
+  /**
+   * Generates a query and a countquery from all of the information supplied to
    * the object.
    *
-   * @param $get_count
-   *   Provide a countquery if this is true, otherwise provide a normal query.
+   * @param bool $get_count
+   *   (Optional) Provide a countquery if this is true, otherwise provide a
+   *   normal query. Defaults to FALSE.
    */
   function query($get_count = FALSE) {
     $row_xpath = $this->options['row_xpath'];
 
-    $wheres = array();
-    if (!empty($this->filter)) {
+    if ($this->filter) {
       $filters = array();
-      foreach ($this->filter as $filter) {
-        $filters[$filter->options['xpath_operator']] = $filter->generate();
+
+      foreach ($this->filter as $group_id => $group) {
+
+        // $group is an array of views_xml_backend_handler_filter()'s. They
+        // implement __toString(), so imploding calls their generate() method.
+        if (count($group) == 1) {
+          $filters[] = reset($group);
+        }
+        else {
+          // Type could be 'AND' or 'OR'.
+          $op = strtolower($this->where[$group_id]['type']);
+          $filters[] = '(' . implode(" $op ", $group) . ')';
+        }
       }
-      $filter_string = '(' . array_shift($filters);
-      foreach($filters as $operator => $filter){
-        $filter_string .= " $operator $filter";
-      }
-      $filter_string .= ')';
-      $wheres[] = $filter_string;
+
+      $op = strtolower($this->group_operator);
+      $row_xpath .=  '[' . implode(" $op ", $filters) . ']';
     }
 
-    if (!empty($this->argument)) {
-      $arguments = array();
-      foreach ($this->argument as $argument) {
-        $arguments[] = $argument->generate();
-      }
-      $wheres[] = '(' . implode(' and ', $arguments) . ')';
+    if ($this->argument) {
+      $row_xpath .=  '[' . implode(' and ', $this->argument) . ']';
     }
 
-    if(!empty($wheres)){
-      $where = '[' .  implode(' and ', $wheres) . ']';
-    } else {
-      $where = '';
-    }
-
-    return $row_xpath . $where;
+    return $row_xpath;
   }
 
   /**
@@ -57,7 +69,6 @@ class views_xml_backend_plugin_query_xml extends views_plugin_query {
     $this->pager->query();
 
     $view->build_info['query'] = $this->query();
-    //dsm($view->build_info['query']); // TODO: Enable this to see the generated xpath
     $view->build_info['count_query'] = 'count(' . $view->build_info['query'] . ')';
     $view->build_info['query_args'] = array();
   }
@@ -121,17 +132,18 @@ class views_xml_backend_plugin_query_xml extends views_plugin_query {
     // doesn't finish.
     $view->execute_time = NULL;
 
-    // Make sure that an xml file exists.
-    // This could happen if you come from the add wizard to the actual views
-    // edit page.
+    // Make sure that an xml file exists. This could happen if you come from the
+    // add wizard to the actual views edit page.
     if (empty($this->options['xml_file'])) {
       return FALSE;
     }
 
     $data = new stdClass();
     try {
-      $xml_file = $this->replace_arguments($view, $this->options['xml_file']);
-      $data->contents = $this->fetch_file($xml_file);
+      // Do token replacement. At this point, only argument values are
+      // available.
+      $path = $this->replace_arguments($view, $this->options['xml_file'],  $this->options['encoding_method']);
+      $data->contents = $this->fetch_file($path);
     }
     catch (Exception $e) {
       drupal_set_message(t('Views XML Backend: ' . $e->getMessage()), 'error');
@@ -160,10 +172,14 @@ class views_xml_backend_plugin_query_xml extends views_plugin_query {
     $this->errorStop($use, $this->options['show_errors']);
   }
 
-  function replace_arguments($view, $string){
-    if(isset($view->build_info['substitutions']) && count($view->build_info['substitutions'])>0){
-      $substitutions = $view->build_info['substitutions'];
-      $string = str_replace(array_keys($substitutions), array_values($substitutions), $string);
+  function replace_arguments($view, $string, $encoding_method){
+    if (!empty($view->build_info['substitutions'])) {
+      if($encoding_method) {
+        $encoded_substitutions = array_map($encoding_method, $view->build_info['substitutions']);
+      } else {
+        $encoded_substitutions = $view->build_info['substitutions'];
+      }
+      return strtr($string, $encoded_substitutions);
     }
     return $string;
   }
@@ -179,13 +195,28 @@ class views_xml_backend_plugin_query_xml extends views_plugin_query {
     }
 
     $xpath = new DOMXPath($doc);
-    // Make php functions available in xpath (use for filtering)
-    $xpath->registerNamespace("php", "http://php.net/xpath");
-    $xpath->registerPHPFunctions();
+
+    // Make PHP functions available in XPath (use for filtering).
+    $xpath->registerNamespace('php', 'http://php.net/xpath');
+    $xpath->registerPHPFunctions(array(
+      'views_xml_backend_filter_text_op_equal',
+      'views_xml_backend_filter_text_op_equal',
+      'views_xml_backend_filter_text_op_contains',
+      'views_xml_backend_filter_text_op_word',
+      'views_xml_backend_filter_text_op_allwords',
+      'views_xml_backend_filter_text_op_starts',
+      'views_xml_backend_filter_text_op_starts',
+      'views_xml_backend_filter_text_op_ends',
+      'views_xml_backend_filter_text_op_ends',
+      'views_xml_backend_filter_text_op_contains',
+      'views_xml_backend_filter_text_op_shorter',
+      'views_xml_backend_filter_text_op_longer',
+      'op_empty',
+    ));
 
     // Create a simplexml object so that we can use
     // SimpleXMLElement::getNamespaces().
-    // Does anyone know a better way to do it?
+    // Does anyone know a better way to do this?
     $simple = simplexml_import_dom($doc);
     if (!$simple) {
       return;
@@ -221,6 +252,9 @@ class views_xml_backend_plugin_query_xml extends views_plugin_query {
       // Let the pager modify the query to add limits.
       $this->pager->pre_execute($view->build_info['query']);
 
+      // Used to keep track of query misses when previewing.
+      $in_preview = !empty($view->live_preview);
+
       // Get the rows.
       $rows = $xpath->query($view->build_info['query']);
 
@@ -235,7 +269,11 @@ class views_xml_backend_plugin_query_xml extends views_plugin_query {
             continue;
           }
           $node_list = $xpath->evaluate($field_key, $row);
-          if ($node_list && $node_list->length>0) { // It can happen that a field is not present, but the path is valid, in that case the evaluate function returns an empty list
+
+          // It can happen that a field is not present, but the path is valid.
+          // In that case, the evaluate function returns an empty list.
+          if ($node_list && $node_list->length > 0) {
+
             // Allow multiple values in a field.
             if ($field['multiple']) {
 
@@ -253,23 +291,44 @@ class views_xml_backend_plugin_query_xml extends views_plugin_query {
             // Make sure all of the fields are set. Allows us to do less error
             // checking later on.
             $item->$field_key = NULL;
+
+            // Track empty results during preview for later assistance.
+            if ($in_preview) {
+              if (!isset($duds[$field_key])) {
+                $duds[$field_key] = 0;
+              }
+              $duds[$field_key]++;
+            }
           }
         }
         $result[] = $item;
       }
 
-      if (!empty($this->orderby)) {
-        // Array reverse, because the most specific are first.
-        foreach (array_reverse($this->orderby) as $orderby) {
-          $orderby->sort($result);
+      // Give some feedback if we are previewing and a field is not returning
+      // any values.
+      if ($in_preview) {
+        $count = count($result);
+        foreach ($duds as $field_key => $empty_count) {
+          if ($count == $empty_count) {
+            drupal_set_message(t('Field %field never returned a valid result.', array('%field' => $field_key)), 'warning');
+          }
         }
       }
 
-      /* Now limit the query to the page requested */
-      if (!empty($this->limit) || !empty($this->offset)) {
-        $result = array_slice($result, $this->offset, $this->limit, true);
+      if (!empty($this->orderby)) {
+        // Array reverse, because the most specific are first.
+        foreach (array_reverse($this->orderby) as $orderby) {
+          if ($orderby == 'rand') {
+            shuffle($result);
+          }
+          else {
+            $orderby->sort($result);
+          }
+        }
       }
-
+      if (!empty($this->limit) || !empty($this->offset)) {
+        $result = array_slice($result, $this->offset, $this->limit, TRUE);
+      }
       $view->result = $result;
       $view->total_rows = count($result);
 
@@ -304,15 +363,17 @@ class views_xml_backend_plugin_query_xml extends views_plugin_query {
       '#type' => 'textfield',
       '#title' => t('XML File'),
       '#default_value' => $this->options['xml_file'],
-      '#description' => t("The URL or path to the XML file."),
+      '#description' => t('The URL or path to the XML file.'),
       '#maxlength' => 1024,
+      '#size' => 100,
     );
     $form['row_xpath'] = array(
       '#type' => 'textfield',
       '#title' => t('Row Xpath'),
       '#default_value' => $this->options['row_xpath'],
-      '#description' => t("An xpath function that selects rows."),
+      '#description' => t('An xpath function that selects rows.'),
       '#required' => TRUE,
+      '#size' => 100,
     );
     $form['default_namespace'] = array(
       '#type' => 'textfield',
@@ -320,6 +381,7 @@ class views_xml_backend_plugin_query_xml extends views_plugin_query {
       '#default_value' => $this->options['default_namespace'],
       '#description' => t("If the xml contains a default namespace, it will be accessible as 'default:element'. If you want something different, declare it here."),
       '#required' => FALSE,
+      '#size' => 100,
     );
     $form['show_errors'] = array(
       '#type' => 'checkbox',
@@ -328,6 +390,19 @@ class views_xml_backend_plugin_query_xml extends views_plugin_query {
       '#description' => t('If there were any errors during XML parsing, display them. It is recommended to leave this on during development.'),
       '#required' => FALSE,
     );
+
+    $form['encoding_method'] = array(
+        '#type' => 'select',
+        '#title' => t('Encode arguments'),
+        '#options' => array(
+          0 => "raw value (don't encode)",
+          'urlencode' => 'urlencode',
+          'rawurlencode' => 'rawurlencode',
+        ),
+        '#default_value' => $this->options['encoding_method'],
+        '#description' => t('Encode arguments before using them in the XML File path or url.'),
+        '#required' => FALSE,
+    );
   }
 
   function add_field($table, $field, $alias = '', $params = array()) {
@@ -335,9 +410,6 @@ class views_xml_backend_plugin_query_xml extends views_plugin_query {
 
     // Add field info array.
     if (empty($this->fields[$field])) {
-      if(is_null($params)){
-        $params = array();
-      }
       $this->fields[$field] = array(
       'field' => $field,
       'table' => $table,
@@ -349,24 +421,17 @@ class views_xml_backend_plugin_query_xml extends views_plugin_query {
   }
 
   function add_orderby($orderby) {
-
-    if(is_null($orderby)){
-      return;
-    }
-
-    $this->add_field($orderby->table_alias, $orderby->options['xpath_selector'], '', $orderby->options);
-
     $this->orderby[] = $orderby;
   }
 
   function add_filter($filter) {
-    $this->filter[] = $filter;
+    $this->filter[$filter->options['group']][] = $filter;
   }
-
 
   function add_argument($argument) {
     $this->argument[] = $argument;
   }
+
 
   /**
    * Return info to base the uniqueness of the result on.
@@ -413,7 +478,7 @@ class views_xml_backend_plugin_query_xml extends views_plugin_query {
             break;
 
         }
-        $message = t('Views XML Backend: %error on line %num. Error code: %code', array('%error' => trim($error->message), '%num' => $error->line, '%code' => $error->code));
+        $message = t('%error on line %num. Error code: %code', array('%error' => trim($error->message), '%num' => $error->line, '%code' => $error->code));
         drupal_set_message($message, $type, FALSE);
       }
     }

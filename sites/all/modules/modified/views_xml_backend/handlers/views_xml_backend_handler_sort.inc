@@ -26,11 +26,17 @@ class views_xml_backend_handler_sort extends views_handler_sort {
    * Called to add the sort to a query.
    */
   function query() {
+    $this->query->add_field($this->table_alias, $this->options['xpath_selector'], '', $this->options);
     $this->query->add_orderby($this);
   }
 
   function sort(&$result) {
     $this->field = $this->options['xpath_selector'];
+
+    // Do not try to sort multiple-valued fields. Can we some how?
+    if (!empty($this->options['multiple'])) {
+      return;
+    }
     if (strtolower($this->options['order']) == 'asc') {
       usort($result, array($this, 'sort_asc'));
     }
@@ -42,13 +48,12 @@ class views_xml_backend_handler_sort extends views_handler_sort {
   function sort_asc($a, $b) {
     $a_value = isset($a->{$this->field}) ? $a->{$this->field} : '';
     $b_value = isset($b->{$this->field}) ? $b->{$this->field} : '';
+
     return strcasecmp($a_value, $b_value);
   }
 
   function sort_desc($a, $b) {
-    $a_value = isset($a->{$this->field}) ? $a->{$this->field} : '';
-    $b_value = isset($b->{$this->field}) ? $b->{$this->field} : '';
-    return -strcasecmp($a_value, $b_value);
+    return -$this->sort_asc($a, $b);
   }
 
   function ui_name($short = FALSE) {

@@ -49,14 +49,19 @@ class views_xml_backend_handler_field_date extends views_xml_backend_handler_fie
   }
 
   function render($values) {
-    $value = strtotime($this->get_value($values));
+    $value = $this->get_value($values);
+
+    // We assume if the date is numeric, then it already is a unix timestamp.
+    if (!is_numeric($value)) {
+      $value = strtotime($value);
+    }
     $format = $this->options['date_format'];
     if (in_array($format, array('custom', 'raw time ago', 'time ago', 'raw time hence', 'time hence', 'raw time span', 'time span', 'raw time span', 'inverse time span', 'time span'))) {
       $custom_format = $this->options['custom_date_format'];
     }
 
     if ($value) {
-      $time_diff = REQUEST_TIME - $value; // will be positive for a datetime in the past (ago), and negative for a datetime in the future (hence)
+      $time_diff = REQUEST_TIME - $value; // Will be positive for a datetime in the past (ago), and negative for a datetime in the future (hence).
       switch ($format) {
         case 'raw time ago':
           return format_interval($time_diff, is_numeric($custom_format) ? $custom_format : 2);

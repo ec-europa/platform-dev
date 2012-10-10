@@ -8,12 +8,15 @@ class views_xml_backend_handler_filter extends views_handler_filter_string {
   // exposed filter options
   var $no_single = TRUE;
 
+  function __toString() {
+    return $this->generate();
+  }
+
   function option_definition() {
     $options = parent::option_definition();
 
+    $options['xpath_strict'] = array('default' => FALSE);
     $options['xpath_selector'] = array('default' => '');
-    $options['xpath_strict'] = array('default' => 0);
-    $options['xpath_operator'] = array('default' => 'and');
 
     return $options;
   }
@@ -121,7 +124,6 @@ class views_xml_backend_handler_filter extends views_handler_filter_string {
 
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
-
     $form['xpath_selector'] = array(
       '#type' => 'textfield',
       '#title' => 'XPath selector',
@@ -129,27 +131,13 @@ class views_xml_backend_handler_filter extends views_handler_filter_string {
       '#default_value' => $this->options['xpath_selector'],
       '#required' => TRUE,
     );
-     $form['xpath_strict'] = array(
-        '#type' => 'checkbox',
-        '#title' => 'Strict comparison',
-        '#description' => t('Should the compare function be strict (case-sensitive) or loose (case-insensitive).'),
-        '#default_value' => $this->options['strict'],
-        '#required' => FALSE,
+    $form['xpath_strict'] = array(
+      '#type' => 'checkbox',
+      '#title' => 'Strict comparison',
+      '#description' => t('Should the compare function be strict (case-sensitive) or loose (case-insensitive).'),
+      '#default_value' => $this->options['strict'],
+      '#required' => FALSE,
     );
-
-    $options = array(
-      'and' => 'AND',
-      'or' => 'OR'
-    );
-     $form['xpath_operator'] = array(
-        '#type' => 'select',
-        '#title' => 'Operator',
-        '#description' => t('How this filter needs to be combined with other filters'),
-        '#default_value' => $this->options['operator'],
-        '#options' => $options,
-        '#required' => FALSE,
-    );
-
   }
 
   /**
@@ -164,31 +152,26 @@ class views_xml_backend_handler_filter extends views_handler_filter_string {
   }
 
   function generate() {
-
+    $operator = $this->options['expose'] ? $this->operator : $this->options['operator'];
     $xpath = $this->options['xpath_selector'];
+    $value = $this->value;
+
     $strict = $this->options['xpath_strict'];
-
-    if($this->options['expose']){
-      $operator = $this->operator;
-      $value = $this->value;
-    } else {
-      $operator = $this->options['operator'];
-      $value = $this->options['value'];
-    }
-
     $operators = $this->operators();
     $method = $operators[$operator]['method'];
-    $negate = (strpos($operator, '!') === 0);
-
-    if(function_exists($method)){
+    $negate = (int) (strpos($operator, '!') === 0);
+    if (function_exists($method)) {
       $value = htmlspecialchars($value, ENT_QUOTES);
-      return $xpath . "[php:functionString('$method', ., \"$value\", " . ($strict?1:0) . ", " . ($negate?1:0) . ")]";
-    } else {
+      return $xpath . "[php:functionString('$method', ., \"$value\", " . ($strict ? 1 : 0) . ", $negate)]";
+    }
+    else {
+      // Awesome string escape.
       $value = '"' . str_replace('"', '\"', $value) . '"';
       if ($negate) {
         $operator = ltrim($operator, '!');
         return "not($operator($xpath,$value))";
-      } else {
+      }
+      else {
         return "$operator($xpath,$value)";
       }
     }
@@ -204,85 +187,90 @@ class views_xml_backend_handler_filter extends views_handler_filter_string {
   }
 }
 
-// TEXT FILTER OPERATOR METHODS
-function views_xml_backend_filter_text_op_equal($value, $search, $strict, $negate){
+function views_xml_backend_filter_text_op_equal($value, $search, $strict, $negate) {
   $search = htmlentities($search, ENT_QUOTES);
-  if($strict){
-    $result = (strcmp($value, $search)===0);
-  } else {
-    $result = (strcasecmp($value, $search)===0);
+  if ($strict) {
+    $result = (strcmp($value, $search) === 0);
   }
-  return $negate?!$result:$result;
-}
-
-function views_xml_backend_filter_text_op_contains($value, $search, $strict, $negate){
-  $search = htmlentities($search, ENT_QUOTES);
-  if($strict){
-    $result = (strpos($value, $search)!==false);
-  } else {
-    $result = (stripos($value, $search)!==false);
+  else {
+    $result = (strcasecmp($value, $search) === 0);
   }
-  return $negate?!$result:$result;
+  return $negate ? !$result : $result;
 }
 
-function views_xml_backend_filter_text_op_starts($value, $search, $strict, $negate){
+function views_xml_backend_filter_text_op_contains($value, $search, $strict, $negate) {
   $search = htmlentities($search, ENT_QUOTES);
-  if($strict){
-    $result = (strpos($value, $search)===0);
-  } else {
-    $result = (stripos($value, $search)===0);
+  if ($strict) {
+    $result = (strpos($value, $search) !== false);
   }
-  return $negate?!$result:$result;
-}
-
-function views_xml_backend_filter_text_op_ends($value, $search, $strict, $negate){
-  $search = htmlentities($search, ENT_QUOTES);
-  if($strict){
-    $result = (strrpos($value, $search)===(strlen($value)-strlen($search)));
-  } else {
-    $result = (strripos($value, $search)===(strlen($value)-strlen($search)));
+  else {
+    $result = (stripos($value, $search) !== false);
   }
-  return $negate?!$result:$result;
+  return $negate ? !$result : $result;
 }
 
-function views_xml_backend_filter_text_op_shorter($value, $search, $strict, $negate){
+function views_xml_backend_filter_text_op_starts($value, $search, $strict, $negate) {
   $search = htmlentities($search, ENT_QUOTES);
-  $result = (strlen($value)<strlen($search));
-  return $negate?!$result:$result;
+  if ($strict) {
+    $result = (strpos($value, $search) === 0);
+  }
+  else {
+    $result = (stripos($value, $search) === 0);
+  }
+  return $negate ? !$result : $result;
 }
 
-function views_xml_backend_filter_text_op_longer($value, $search, $strict, $negate){
+function views_xml_backend_filter_text_op_ends($value, $search, $strict, $negate) {
   $search = htmlentities($search, ENT_QUOTES);
-  $result = (strlen($value)>strlen($search));
-  return $negate?!$result:$result;
+  if ($strict) {
+    $result = (strrpos($value, $search) === (strlen($value) - strlen($search)));
+  }
+  else {
+    $result = (strripos($value, $search) === (strlen($value) - strlen($search)));
+  }
+  return $negate ? !$result : $result;
 }
 
-function views_xml_backend_filter_text_op_word($value, $search, $strict, $negate){
+function views_xml_backend_filter_text_op_shorter($value, $search, $strict, $negate) {
+  $search = htmlentities($search, ENT_QUOTES);
+  $result = (strlen($value) < strlen($search));
+  return $negate ? !$result : $result;
+}
+
+function views_xml_backend_filter_text_op_longer($value, $search, $strict, $negate) {
+  $search = htmlentities($search, ENT_QUOTES);
+  $result = (strlen($value) > strlen($search));
+  return $negate ? !$result : $result;
+}
+
+function views_xml_backend_filter_text_op_word($value, $search, $strict, $negate) {
   $search = htmlentities($search, ENT_QUOTES);
   $searches = explode($search, " ");
   $result = false;
-  foreach($searches as $search){
+  foreach ($searches as $search) {
     $search = trim($search, " \'\"\n\t\r");
-    if($strict){
-      $result |= (strpos($value, $search)!==false);
-    } else {
-      $result |= (stripos($value, $search)!==false);
+    if ($strict) {
+      $result |= (strpos($value, $search) !== false);
+    }
+    else {
+      $result |= (stripos($value, $search) !== false);
     }
   }
-  return $negate?!$result:$result;
+  return $negate ? !$result : $result;
 }
 
-function views_xml_backend_filter_text_op_allwords($value, $search, $strict, $negate){
+function views_xml_backend_filter_text_op_allwords($value, $search, $strict, $negate) {
   $search = htmlentities($search, ENT_QUOTES);
   $searches = explode($search, " ");
   $result = false;
-  foreach($searches as $search){
+  foreach ($searches as $search) {
     $search = trim($search, " \'\"\n\t\r");
-    if($strict){
-      $result &= (strpos($value, $search)!==false);
-    } else {
-      $result &= (stripos($value, $search)!==false);
+    if ($strict) {
+      $result &= (strpos($value, $search) !== false);
+    }
+    else {
+      $result &= (stripos($value, $search) !== false);
     }
   }
-  return $negate?!$result:$result;
+  return $negate ? !$result : $result;
 }

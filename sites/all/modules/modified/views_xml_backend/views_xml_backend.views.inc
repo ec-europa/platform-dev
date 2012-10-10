@@ -17,6 +17,14 @@ function views_xml_backend_views_data() {
     'query class' => 'views_xml_backend',
   );
 
+  $data['xml']['passthru'] = array(
+    'title' => t('Pass through'),
+    'help' => t('This argument handler does not filter any values. It can be used to pass in values from an argument into token replacements.'),
+    'argument' => array(
+     'handler' => 'views_xml_backend_handler_argument_passthrough',
+    ),
+  );
+
   $data['xml']['text'] = array(
     'title' => t('Text'),
     'help' => t('Text in the XML file.'),
@@ -31,7 +39,7 @@ function views_xml_backend_views_data() {
       'handler' => 'views_xml_backend_handler_sort',
     ),
     'argument' => array(
-      'handler' => 'views_xml_backend_handler_argument',
+     'handler' => 'views_xml_backend_handler_argument',
     ),
   );
 
@@ -40,11 +48,11 @@ function views_xml_backend_views_data() {
     'help' => t('Date in the XML file.'),
     'field' => array(
       'handler' => 'views_xml_backend_handler_field_date',
-      'click sortable' => FALSE,
+      'click sortable' => TRUE,
     ),
-    //'argument' => array(
-    //  'handler' => 'views_xml_backend_handler_argument',
-    //),
+    'sort' => array(
+      'handler' => 'views_xml_backend_handler_sort_date',
+    ),
   );
 
   $data['xml']['numeric'] = array(
@@ -59,9 +67,9 @@ function views_xml_backend_views_data() {
     'sort' => array(
       'handler' => 'views_xml_backend_handler_sort_numeric',
     ),
-    //'argument' => array(
-    //  'handler' => 'views_xml_backend_handler_argument',
-    //),
+    'argument' => array(
+     'handler' => 'views_xml_backend_handler_argument_numeric',
+    ),
   );
 
   $data['xml']['markup'] = array(
