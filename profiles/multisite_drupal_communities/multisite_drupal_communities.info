@@ -44,6 +44,7 @@ dependencies[] = context_layouts
 dependencies[] = date
 dependencies[] = diff
 dependencies[] = features
+dependencies[] = fivestar
 dependencies[] = rate
 dependencies[] = hidden_captcha
 dependencies[] = media
