@@ -53,7 +53,7 @@ function multi_user_blog_views_default_views() {
   $handler->display->display_options['relationships']['votingapi_cache']['field'] = 'votingapi_cache';
   $handler->display->display_options['relationships']['votingapi_cache']['votingapi'] = array(
     'value_type' => 'percent',
-    'tag' => 'rate_fivestar',
+    'tag' => 'vote',
     'function' => 'average',
   );  
   /* Field: Content: Title */

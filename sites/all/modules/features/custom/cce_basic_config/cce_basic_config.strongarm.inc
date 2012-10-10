@@ -664,5 +664,68 @@ function cce_basic_config_strongarm() {
   $strongarm->value = 'ec_default';
   $export['theme_default'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'rate_widgets';
+  $strongarm->value = array(
+    1 => (object) array(
+      'name' => 'rate_fivestar',
+      'tag' => 'vote',
+      'title' => 'rate_fivestar',
+      'node_types' => array(),
+      'comment_types' => array(),
+      'options' => array(
+        0 => array(
+          0 => '0',
+          1 => '1',
+        ),
+        1 => array(
+          0 => '25',
+          1 => '2',
+        ),
+        2 => array(
+          0 => '50',
+          1 => '3',
+        ),
+        3 => array(
+          0 => '75',
+          1 => '4',
+        ),
+        4 => array(
+          0 => '100',
+          1 => '5',
+        ),
+      ),
+      'template' => 'fivestar',
+      'node_display' => '1',
+      'teaser_display' => FALSE,
+      'comment_display' => '2',
+      'node_display_mode' => '1',
+      'teaser_display_mode' => '1',
+      'comment_display_mode' => '1',
+      'roles' => array(
+        3 => 0,
+        1 => 0,
+        2 => 0,
+        4 => 0,
+        5 => 0,
+      ),
+      'allow_voting_by_author' => 1,
+      'noperm_behaviour' => '1',
+      'displayed' => '1',
+      'displayed_just_voted' => '2',
+      'description' => '',
+      'description_in_compact' => TRUE,
+      'delete_vote_on_second_click' => '0',
+      'value_type' => 'percent',
+      'theme' => 'rate_template_fivestar',
+      'css' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.css',
+      'js' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.js',
+      'translate' => TRUE,
+    ),
+  );
+  $export['rate_widgets'] = $strongarm;
+  
   return $export;
 }
