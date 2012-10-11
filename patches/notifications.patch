@@ -28,3 +28,14 @@
        }
        $options[] = notifications_build_link('unsubscribe', array('title' => t('Cancel all your subscriptions')), 'user', $user, 'link');
        $output .= theme('item_list', $options);
+--- sites/all/modules/contributed/notifications/notifications.module	2012-10-11 14:55:54.978766829 +0200
++++ sites/all/modules/contributed/notifications/notifications.module	2012-10-11 14:56:29.000000000 +0200
+@@ -1429,3 +1429,8 @@
+   $event->send_all();
+   $event->done();
+ }
++
++function notifications_menu_alter(&$items) {
++  $items['user/%user/notifications/content_thread']['access callback'] = FALSE;
++  $items['user/%user/notifications/content_type']['access callback'] = FALSE;
++}
