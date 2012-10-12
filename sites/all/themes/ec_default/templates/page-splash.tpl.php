@@ -113,7 +113,7 @@ global $base_url;
           }
            ?>
           <ul class="well languages nav nav-list">
-            <li><h2 id="label_language">Please choose a language</h2></li>
+            <li><h2 id="label_language"><?php print variable_get("splash_screen_language_msg"); ?></h2></li>
           <?php print $li; ?>
           </ul>
         </div>

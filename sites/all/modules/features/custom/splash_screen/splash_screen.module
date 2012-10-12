@@ -39,3 +39,50 @@ function splash_screen_init() {
 //    }
 }
 
+
+/**
+ * Implements hook_menu().
+ */
+function splash_screen_menu() {
+  $items['admin/config/splash_screen'] = array(
+    'title' => 'Splash screen settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('form_splash_screen_settings'),
+    'access arguments' => array('administer splash screen'),
+  );
+  $items['admin/config/splash_screen/settings'] = array(
+    'title' => 'Splash screen settings',
+    'description' => 'Configure the splash screen module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('form_splash_screen_settings'),
+    'access arguments' => array('administer splash screen'),
+  ); 
+  return $items;
+}
+
+
+function form_splash_settings($form, &$form_state) {
+  $form['splash_screen_url'] = array(
+    '#type' => 'text',
+    '#title' => t('splash screen url'),
+    '#default_value' => variable_get("splash_screen_url"),
+  ); 
+  $form['splash_screen_language_msg'] = array(
+    '#type' => 'text',
+    '#title' => t('splash screen language choice'),
+    '#default_value' => variable_get("splash_screen_language_msg"),
+  ); 
+  return system_settings_form($form);
+}
+
+/**
+ * Implements hook_permission().
+ */
+function hook_permission() {
+  return array(
+    'administer splash screen' => array(
+      'title' => t('Administer slash screen'), 
+      'description' => t('Administrer full settings of the splash screen module.'),
+    ),
+  );
+}
