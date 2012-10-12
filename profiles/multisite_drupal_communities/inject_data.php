@@ -107,7 +107,12 @@ function inject_data() {
     echo "Node saved!\n";
   }  
   
-  
+  // change article content type description
+  db_update('node_type')
+    ->fields(array('description'=>'Use articles for time-sensitive content.'))
+    ->condition('type', 'article')
+    ->execute();
+  node_type_cache_reset();
 }
 
 
