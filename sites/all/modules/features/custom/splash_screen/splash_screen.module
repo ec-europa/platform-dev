@@ -63,12 +63,12 @@ function splash_screen_menu() {
 
 function form_splash_screen_settings($form, &$form_state) {
   $form['splash_screen_url'] = array(
-    '#type' => 'text',
+    '#type' => 'textfield',
     '#title' => t('splash screen url'),
     '#default_value' => variable_get("splash_screen_url"),
   ); 
   $form['splash_screen_language_msg'] = array(
-    '#type' => 'text',
+    '#type' => 'textfield',
     '#title' => t('splash screen language choice'),
     '#default_value' => variable_get("splash_screen_language_msg"),
   ); 
