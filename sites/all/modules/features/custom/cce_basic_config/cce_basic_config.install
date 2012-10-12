@@ -249,13 +249,6 @@ function cce_basic_config_install() {
   );
   taxonomy_term_save($term);
 
-  // change article content type description
-  db_update('node_type')
-    ->fields(array('description'=>'Use articles for time-sensitive content.'))
-    ->condition('type', 'article')
-    ->execute();
-  node_type_cache_reset();
-
 }
 
 /**
