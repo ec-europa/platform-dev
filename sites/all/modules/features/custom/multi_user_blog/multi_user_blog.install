@@ -19,6 +19,9 @@ function multi_user_blog_disable() {
           ->condition('node_type', 'blog_post')
           ->execute();
           
+  //Remove rating
+  rate_content_type('blog_post','remove');
+
   //Activation message
   drupal_set_message('multi user blogs feature is now disable on your site.');  
 }
@@ -45,6 +48,9 @@ function multi_user_blog_enable() {
               'node_type' => 'blog_post', //the content type targeted by this rule
           ))
           ->execute();  
+
+  //Add rating
+  rate_content_type('blog_post','add');
 
   //Activation message
   drupal_set_message('multi user blogs feature is now enable on your site.');

@@ -394,6 +394,41 @@ function simplenews_related_content_type($content_type, $op) {
 }
 
 /*
+* add content type to rate widget
+*/
+function rate_content_type($content_type, $op) {
+  switch($op) {
+    case 'add':
+      if(module_exists('rate')) {
+        $rw = variable_get("rate_widgets", array());
+        foreach ($rw as $key => $value) {
+          if ('rate_fivestar' == $value->name) {
+            $value->node_types[] = $content_type;
+          }
+        }
+        variable_set("rate_widgets", $rw); 
+      }
+    break;
+
+    case 'delete':
+      if(module_exists('rate')) {
+        $rw = variable_get("rate_widgets", array());
+        foreach ($rw as $key => $value) {
+          if ('rate_fivestar' == $value->name) {
+            foreach ($value->node_types as $id => $item) {
+              if ($content_type == $item) {
+                unset($value->node_types[$id]);
+              }
+            }
+          }
+        }
+        variable_set("rate_widgets", $rw); 
+      }
+    break;
+  }
+}
+
+/*
  * hook_alter_page 
 */
 function multisite_drupal_toolbox_page_alter(&$page) {

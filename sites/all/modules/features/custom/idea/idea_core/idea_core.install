@@ -9,7 +9,7 @@
  * hook_install
  */
 function idea_core_install() {
-  // create a vocabulary dedicated to the idea categories	
+  // create a vocabulary dedicated to the idea categories 
   $vocabulary = (object) array(
     'name' => t('Idea categories'),
     'machine_name' => 'idea_categories',
@@ -50,7 +50,7 @@ function idea_core_install() {
   );   
   taxonomy_term_save($term);
   
-  // create a vocabulary dedicated to the idea status	
+  // create a vocabulary dedicated to the idea status 
   $vocabulary = (object) array(
     'name' => t('Idea status'),
     'machine_name' => 'idea_status',
@@ -119,6 +119,9 @@ function idea_core_enable() {
             ))
             ->execute();
 
+    //Add rating
+    rate_content_type('idea','add');
+
     //Activation message
     drupal_set_message('Idea feature is now active on your site.');
 }
@@ -142,6 +145,9 @@ function idea_core_disable() {
     //idea_related_content_type('idea', 'delete'); TBR seems that this function not exists
 
     _disable_content_type('idea');
+
+    //Remove rating
+    rate_content_type('idea','remove');
 
     //Activation message
     drupal_set_message('Idea feature is now disabled on your site.');

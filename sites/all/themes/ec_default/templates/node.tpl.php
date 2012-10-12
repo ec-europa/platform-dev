@@ -161,7 +161,7 @@
       
   <div class="content clearfix"<?php print $content_attributes; ?>>
 
-    <?php          
+    <?php         
       // We hide several elements now so that we can render them later.
       foreach ($fields as $key => $value) {
         foreach ($value as $id) {
@@ -217,6 +217,8 @@
             }
 
             $field .= '</div>';
+          } else {
+            $field .= '<div class="row-fluid"><div class="'.$span_large.' no_label">'.render($content[$key]).'</div></div>';
           }          
           
           
