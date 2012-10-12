@@ -15,7 +15,7 @@ function splash_screen_init() {
     global $base_url, $user;
     $isadmin = 0;
     if (in_array('administrator', array_values($user->roles))) {
-	$isadmin = 1;
+	  $isadmin = 1;
     }
     $cookie_name = variable_get("locale_cookie_language_negotiation_cookie_param");
     $path = drupal_get_path('module', 'splash_screen');
@@ -23,10 +23,10 @@ function splash_screen_init() {
     
     $splash_screen_url = variable_get("splash_screen_url"); // TODO put these variables in a admin form settings
     drupal_add_js(array('splash_screen' => array(
-    'base_url' => $base_url,
-    'isadmin' => $isadmin,
-    'cookie_name' => $cookie_name,
-    'splash' => $splash_screen_url
+      'base_url' => $base_url,
+      'isadmin' => $isadmin,
+      'cookie_name' => $cookie_name,
+      'splash' => $splash_screen_url
     )), 'setting');
 //    global $language, $user, $base_url;
 //    if ($user->uid != 1) {
@@ -62,11 +62,13 @@ function splash_screen_menu() {
 
 
 function form_splash_screen_settings($form, &$form_state) {
+  /*	
   $form['splash_screen_url'] = array(
     '#type' => 'textfield',
     '#title' => t('splash screen url'),
     '#default_value' => variable_get("splash_screen_url"),
   ); 
+  */
   $form['splash_screen_language_msg'] = array(
     '#type' => 'textfield',
     '#title' => t('splash screen language choice'),

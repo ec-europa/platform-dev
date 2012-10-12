@@ -109,7 +109,7 @@ global $base_url;
 
           foreach($languages[1] as $lang) {
             //add enabled languages
-            $li .= '<li><a href="'.base_path().$lang->prefix.'" data-label="('.$lang->prefix.') '.t('Please choose a language').'"><span>'.$lang->language.'</span>'.$lang->native.'</a></li>';
+            $li .= '<li><a href="'.base_path().$lang->prefix.'" data-label="('.$lang->prefix.') '.t(variable_get("splash_screen_language_msg")).'"><span>'.$lang->language.'</span>'.$lang->native.'</a></li>';
           }
            ?>
           <ul class="well languages nav nav-list">
