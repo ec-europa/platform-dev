@@ -253,7 +253,7 @@ function cce_basic_config_install() {
   $content_type = node_type_load('article');
   $content_type->description = 'Use articles for time-sensitive content.';
   node_type_save($content_type); 
-   
+  drupal_flush_all_caches(); 
 }
 
 /**
