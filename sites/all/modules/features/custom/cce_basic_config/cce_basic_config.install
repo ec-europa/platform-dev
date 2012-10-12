@@ -24,202 +24,202 @@ function cce_basic_config_install() {
     'name' => t('01'),
     'description' => t('Agriculture, farming'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('02'),
     'description' => t('Budget, financing, fraud'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('03'),
     'description' => t('European citizenship, right to vote, ombudsman, protection of privacy'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('04'),
     'description' => t('Information society, communication, information, audiovisual, telecommunications, public opinion'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('05'),
     'description' => t('Competition, state aid'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('06'),
     'description' => t('Consumers, distribution, civil defence, nuclear safety, food safety'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
      $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('07'),
     'description' => t('Culture, tourism, sport'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('08'),
     'description' => t('Education, teaching, vocational training, youth'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('09'),
     'description' => t('Enlargement, accession of new states'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('10'),
     'description' => t('Employment, work'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('11'),
     'description' => t('Energy'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('12'),
     'description' => t('Type of business, company law'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('13'),
     'description' => t('Environment'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('14'),
     'description' => t('Tax system'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('15'),
     'description' => t('Industry'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('16'),
     'description' => t('Institutions'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('17'),
     'description' => t('Justice and home affairs, asylum, judicial cooperation, police cooperation, Schengen, visa, immigration, external frontiers, fight against crime, drugs, terrorism'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('18'),
     'description' => t('Free movement of capital, finance'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('19'),
     'description' => t('Free movement of goods, customs, public contracts, standardization'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('20'),
     'description' => t('Free movement of persons, right of establishment, workers'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('21'),
     'description' => t('Free movement of services, insurance, banks, credit, right of establishment, savings, public contracts'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('22'),
     'description' => t('Fisheries'),
   );
-   taxonomy_term_save($term);
-     $term = (object) array(
+  taxonomy_term_save($term);
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('23'),
     'description' => t('Regional policy, OCT'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('24'),
     'description' => t('Social policy, public health'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('25'),
     'description' => t('Research & development'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('26'),
     'description' => t('External relations, CFSP, development cooperation, humanitarian aid'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('27'),
     'description' => t('Trans-European networks'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('28'),
     'description' => t('Respect for human rights, racism, xenophobia'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('29'),
     'description' => t('Transport'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
      $term = (object) array(
     'vid' => $vocabulary->vid,
@@ -228,28 +228,31 @@ function cce_basic_config_install() {
   );
    taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('31'),
     'description' => t('Statistics'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('32'),
     'description' => t('Language, multilingualism, translation, interpretation'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
    
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => t('33'),
     'description' => t('Administration, management and human resources policy'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
 
-   
+  // change article content type description
+  $content_type = node_type_load('article');
+  $content_type->description = 'Use articles for time-sensitive content.';
+  node_type_save($content_type); 
    
 }
 
