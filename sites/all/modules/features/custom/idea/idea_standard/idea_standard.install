@@ -13,7 +13,7 @@ function idea_standard_enable() {
 /*
  * Hook disable 
  */
-function idea_standard_disable(){
+function idea_standard_disable() {
   // disable example contents
   //module_disable(array("idea_standard_content"));
 }

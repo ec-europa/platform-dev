@@ -5,8 +5,8 @@
 */
 function idea_standard_views_default_views_alter(&$views) {
   if (array_key_exists('idea_list', $views)) {
-	$view=$views['idea_list'];
-	 
+    $view=$views['idea_list'];
+
     /* Display: Page */
     $handler = $view->display['page_1']->handler;
     $handler->display->display_options['defaults']['empty'] = FALSE;

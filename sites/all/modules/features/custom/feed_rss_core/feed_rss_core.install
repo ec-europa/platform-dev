@@ -22,7 +22,7 @@ function feed_rss_core_uninstall() {
  * hook_enable 
  * Edit communities context to add a block
  */
-function feed_rss_core_enable(){
+function feed_rss_core_enable() {
 
   $feed = array();
   $feed['url'] = 'http://europa.eu/newsroom/press-releases/index_en.rss';
@@ -32,13 +32,13 @@ function feed_rss_core_enable(){
   
   aggregator_save_feed($feed);
   $feed = db_select('aggregator_feed', 'a')
-    ->condition('title', 'Press Releases','=')
+    ->condition('title', 'Press Releases', '=')
     ->fields('a')
     ->execute()
     ->fetchObject();
   
   //Add block in context
-  _add_block_context('homepage','feed-'.$feed->fid,'aggregator','feed-'.$feed->fid, 'sidebar_second');
+  _add_block_context('homepage', 'feed-'.$feed->fid,'aggregator', 'feed-'.$feed->fid, 'sidebar_second');
   
   drupal_set_message('RSS Feed feature is now active on your site.');
   drupal_cron_run();
@@ -63,7 +63,7 @@ function feed_rss_core_disable(){
     ->execute();
 
   //Add block in context
-  _remove_block_context('homepage','feed-1');
-  drupal_set_message('RSS Feed feature is now disabled on your site.');
+  _remove_block_context('homepage', 'feed-1');
+  drupal_set_message(t('RSS Feed feature is now disabled on your site.'));
   drupal_cron_run();
 }

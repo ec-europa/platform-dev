@@ -23,12 +23,12 @@ function links_og_uninstall() {
  * hook_enable 
  * Edit communities context to add a block
  */
-function links_og_enable(){
+function links_og_enable() {
 
   //Add block in context
   //_add_block_context('communities','links-block','views','links-block', 'sidebar_first');
-  _add_views_context('communities','links');
-  _add_content_type_context('communities','links');
+  _add_views_context('communities', 'links');
+  _add_content_type_context('communities', 'links');
   
 }
 
@@ -38,12 +38,12 @@ function links_og_enable(){
  * Edit communities context to remove block
  * Remove permissions
  */
-function links_og_disable(){
+function links_og_disable() {
 
   // Remove block
  // _remove_block_context('communities', 'links-block');
   _remove_views_context('communities', 'links');
-  _remove_content_type_context('communities','links');
+  _remove_content_type_context('communities', 'links');
           
   // Disable permissions to OG roles ---------------------------------------------------------------  
   // Community Manager

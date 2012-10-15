@@ -39,8 +39,8 @@ function feed_rss_core_user_default_permissions() {
   $adm_rid = get_rid('administrator');  
   user_role_revoke_permissions($adm_rid, array(
     'administer modules',
-    'administer features',	
-	'manage features',
+    'administer features',
+    'manage features',
   )); 
 
   return $permissions;
