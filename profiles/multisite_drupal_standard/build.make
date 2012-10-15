@@ -123,7 +123,7 @@ projects[mimemail][subdir] = "contributed"
 projects[mimemail][version] = "1.x-dev"
 
 projects[apachesolr][subdir] = "contributed"
-projects[apachesolr][version] = "1.0-rc5"
+projects[apachesolr][version] = "1.0"
 
 projects[apachesolr_attachments][subdir] = "contributed"
 projects[apachesolr_attachments][version] = "1.1"

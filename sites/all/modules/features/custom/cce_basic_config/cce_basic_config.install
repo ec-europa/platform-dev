@@ -11,7 +11,7 @@
 function cce_basic_config_install() {
     // create a vocabulary dedicated to the idea categories	
   $vocabulary = (object) array(
-    'name' => t('classification'),
+    'name' => st('classification'),
     'machine_name' => 'classification',
     'module' => 'cce_basic_config',
   );
@@ -21,231 +21,231 @@ function cce_basic_config_install() {
   $vocabulary = taxonomy_vocabulary_machine_name_load('classification');
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('01'),
-    'description' => t('Agriculture, farming'),
+    'name' => st('01'),
+    'description' => st('Agriculture, farming'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('02'),
-    'description' => t('Budget, financing, fraud'),
+    'name' => st('02'),
+    'description' => st('Budget, financing, fraud'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('03'),
-    'description' => t('European citizenship, right to vote, ombudsman, protection of privacy'),
+    'name' => st('03'),
+    'description' => st('European citizenship, right to vote, ombudsman, protection of privacy'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('04'),
-    'description' => t('Information society, communication, information, audiovisual, telecommunications, public opinion'),
+    'name' => st('04'),
+    'description' => st('Information society, communication, information, audiovisual, telecommunications, public opinion'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('05'),
-    'description' => t('Competition, state aid'),
+    'name' => st('05'),
+    'description' => st('Competition, state aid'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('06'),
-    'description' => t('Consumers, distribution, civil defence, nuclear safety, food safety'),
+    'name' => st('06'),
+    'description' => st('Consumers, distribution, civil defence, nuclear safety, food safety'),
   );
   taxonomy_term_save($term);
    
      $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('07'),
+    'name' => st('07'),
     'description' => t('Culture, tourism, sport'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('08'),
-    'description' => t('Education, teaching, vocational training, youth'),
+    'name' => st('08'),
+    'description' => st('Education, teaching, vocational training, youth'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('09'),
-    'description' => t('Enlargement, accession of new states'),
+    'name' => st('09'),
+    'description' => st('Enlargement, accession of new states'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('10'),
-    'description' => t('Employment, work'),
+    'name' => st('10'),
+    'description' => st('Employment, work'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('11'),
-    'description' => t('Energy'),
+    'name' => st('11'),
+    'description' => st('Energy'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('12'),
-    'description' => t('Type of business, company law'),
+    'name' => st('12'),
+    'description' => st('Type of business, company law'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('13'),
-    'description' => t('Environment'),
+    'name' => st('13'),
+    'description' => st('Environment'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('14'),
-    'description' => t('Tax system'),
+    'name' => st('14'),
+    'description' => st('Tax system'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('15'),
-    'description' => t('Industry'),
+    'name' => st('15'),
+    'description' => st('Industry'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('16'),
-    'description' => t('Institutions'),
+    'name' => st('16'),
+    'description' => st('Institutions'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('17'),
-    'description' => t('Justice and home affairs, asylum, judicial cooperation, police cooperation, Schengen, visa, immigration, external frontiers, fight against crime, drugs, terrorism'),
+    'name' => st('17'),
+    'description' => st('Justice and home affairs, asylum, judicial cooperation, police cooperation, Schengen, visa, immigration, external frontiers, fight against crime, drugs, terrorism'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('18'),
-    'description' => t('Free movement of capital, finance'),
+    'name' => st('18'),
+    'description' => st('Free movement of capital, finance'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('19'),
-    'description' => t('Free movement of goods, customs, public contracts, standardization'),
+    'name' => st('19'),
+    'description' => st('Free movement of goods, customs, public contracts, standardization'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('20'),
-    'description' => t('Free movement of persons, right of establishment, workers'),
+    'name' => st('20'),
+    'description' => st('Free movement of persons, right of establishment, workers'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('21'),
-    'description' => t('Free movement of services, insurance, banks, credit, right of establishment, savings, public contracts'),
+    'name' => st('21'),
+    'description' => st('Free movement of services, insurance, banks, credit, right of establishment, savings, public contracts'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('22'),
-    'description' => t('Fisheries'),
+    'name' => st('22'),
+    'description' => st('Fisheries'),
   );
   taxonomy_term_save($term);
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('23'),
-    'description' => t('Regional policy, OCT'),
-  );
-  taxonomy_term_save($term);
-   
-  $term = (object) array(
-    'vid' => $vocabulary->vid,
-    'name' => t('24'),
-    'description' => t('Social policy, public health'),
+    'name' => st('23'),
+    'description' => st('Regional policy, OCT'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('25'),
-    'description' => t('Research & development'),
+    'name' => st('24'),
+    'description' => st('Social policy, public health'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('26'),
-    'description' => t('External relations, CFSP, development cooperation, humanitarian aid'),
+    'name' => st('25'),
+    'description' => st('Research & development'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('27'),
-    'description' => t('Trans-European networks'),
+    'name' => st('26'),
+    'description' => st('External relations, CFSP, development cooperation, humanitarian aid'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('28'),
-    'description' => t('Respect for human rights, racism, xenophobia'),
+    'name' => st('27'),
+    'description' => st('Trans-European networks'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('29'),
-    'description' => t('Transport'),
+    'name' => st('28'),
+    'description' => st('Respect for human rights, racism, xenophobia'),
+  );
+  taxonomy_term_save($term);
+   
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('29'),
+    'description' => st('Transport'),
   );
   taxonomy_term_save($term);
    
      $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('30'),
-    'description' => t('Economic and monetary union, euro, single currency'),
+    'name' => st('30'),
+    'description' => st('Economic and monetary union, euro, single currency'),
   );
    taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('31'),
-    'description' => t('Statistics'),
+    'name' => st('31'),
+    'description' => st('Statistics'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('32'),
-    'description' => t('Language, multilingualism, translation, interpretation'),
+    'name' => st('32'),
+    'description' => st('Language, multilingualism, translation, interpretation'),
   );
   taxonomy_term_save($term);
    
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('33'),
-    'description' => t('Administration, management and human resources policy'),
+    'name' => st('33'),
+    'description' => st('Administration, management and human resources policy'),
   );
   taxonomy_term_save($term);
 
@@ -265,7 +265,7 @@ function cce_basic_config_enable() {
   include_once DRUPAL_ROOT . '/includes/password.inc';
 
   // add users acccounts -----------------------------------------------------------------------------------------------------------------------------------------------------
-  $account = new StdClass();
+  $account = new stdClass();
   $account->is_new = TRUE;
   $account->status = TRUE;
   $account->name = 'user_administrator';
@@ -277,7 +277,7 @@ function cce_basic_config_enable() {
   $account->field_lastname['und'][0]['value'] = 'Smith'; 
   user_save($account);
     
-  $account1 = new StdClass();
+  $account1 = new stdClass();
   $account1->is_new = TRUE;
   $account1->status = TRUE;
   $account1->name = 'user_contributor';
@@ -289,7 +289,7 @@ function cce_basic_config_enable() {
   $account1->field_lastname['und'][0]['value'] = 'Doe';  
   user_save($account1);
   
-  $account2 = new StdClass();
+  $account2 = new stdClass();
   $account2->is_new = TRUE;
   $account2->status = TRUE;
   $account2->name = 'user_editor';
@@ -308,23 +308,23 @@ function cce_basic_config_enable() {
     ->fields('n', array('nid', 'title', 'uid'));
   $results = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
 
-  foreach($results as $result) {
+  foreach ($results as $result) {
     $node = node_load($result['nid']);
     $node->uid = $account->uid;
     node_save($node);
   }
 
-	
+
   // add 2 blocks in site-wide context -------------------------------------------------------------------------------
-  $context=module_invoke('context','load','site_wide'); 
+  $context=module_invoke('context', 'load', 'site_wide'); 
   $blockToAdd1 = array(
     'module' => 'system',
     'delta' =>  'user-menu',
-	'region' => 'tools',
-	'weight' => 1,
+    'region' => 'tools',
+    'weight' => 1,
   ); 
   $context->reactions['block']['blocks']['user-menu']=$blockToAdd1;	
-  
+
   /*$blockToAdd2 = array(
     'module' => 'search',
     'delta' =>  'form',
@@ -332,24 +332,24 @@ function cce_basic_config_enable() {
     'weight' => 2,
   ); 
   $context->reactions['block']['blocks']['form']=$blockToAdd2;	  */
-	  
+
   $blockToAdd3 = array(
     'module' => 'locale',
     'delta' =>  'language',
-	'region' => 'highlighted',
-	'weight' => 1,
+    'region' => 'highlighted',
+    'weight' => 1,
   ); 
   $context->reactions['block']['blocks']['language']=$blockToAdd3;		  
-	  
+  
   $blockToAdd4 = array(
     'module' => 'system',
     'delta' =>  'main-menu',
-	'region' => 'featured',
-	'weight' => 1,
+    'region' => 'featured',
+    'weight' => 1,
   ); 
   $context->reactions['block']['blocks']['main-menu']=$blockToAdd4;		  
-	  
-  module_invoke('context','save',$context);	
+
+  module_invoke('context', 'save', $context);	
   
   // _add_block_context('communities','multisite_og_button-og-contextual-links','multisite_og_button','og-contextual-links', 'sidebar_first','-9');
   // _add_block_context('site_wide','locale-language','locale','language','highlighted');	

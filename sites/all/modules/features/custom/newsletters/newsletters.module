@@ -22,7 +22,7 @@ function newsletters_init() {
 
 function newsletters_menu() {
     $items['my_subscriptions'] = array(
-        'title' => t('Newsletters'),
+        'title' => 'Newsletters'',
         'access callback' => TRUE,
         'page callback' => '_my_subscriptions',
         'type' => MENU_NORMAL_ITEM,

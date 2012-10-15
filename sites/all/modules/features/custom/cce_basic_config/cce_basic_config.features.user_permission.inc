@@ -45,12 +45,12 @@ function cce_basic_config_user_default_permissions() {
 
   // Exported permission: access send by email.
   $permissions['access send by email'] = array(
-  		'name' => 'access send by email',
-  		'roles' => array(
-  				0 => 'administrator',
-  				1 => 'authenticated user',
-  		),
-  		'module' => 'print_mail',
+    'name' => 'access send by email',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'print_mail',
   );
   
   // Exported permission: access site-wide contact form.

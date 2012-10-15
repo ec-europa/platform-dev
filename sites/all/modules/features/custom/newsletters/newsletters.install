@@ -15,7 +15,7 @@ function newsletters_enable() {
             ->execute();
 
     //Activation message
-    drupal_set_message('Newsletters feature is now active on your site.');
+    drupal_set_message(t('Newsletters feature is now active on your site.'));
     
     /*
     // add content types to the simplenews related content
@@ -47,7 +47,7 @@ function newsletters_disable() {
             ->execute();
             
     //Activation message
-    drupal_set_message('Newsletters feature is now disabled on your site.');
+    drupal_set_message(t('Newsletters feature is now disabled on your site.'));
     
     /*
     // delete content types to the simplenews related content
@@ -57,4 +57,3 @@ function newsletters_disable() {
     
 }
 
-?>

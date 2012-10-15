@@ -14,20 +14,19 @@ function cce_basic_config_menu_alter(&$items) {
 }
 
 function cce_basic_config_form_system_site_information_settings_alter(&$form, &$form_state, $form_id) {
-	
   //Get Taxonomy classification vid
   $vid_classification = db_select('taxonomy_vocabulary', 't')
            -> fields('t')
-           -> condition('machine_name','classification','=')
+           -> condition('machine_name', 'classification', '=')
            -> execute()
            ->fetchAll();
   //Get Taxonomy tree
   $classification = taxonomy_get_tree($vid_classification[0]->vid);
-	
+
   foreach ($classification as $key => $obj_term) {
-   $list[$obj_term->name] = $obj_term->name . ' - ' .strip_tags($obj_term->description);
+   $list[$obj_term->name] = $obj_term->name . ' - ' . strip_tags($obj_term->description);
   }
-	 
+
   //Create fieldset 'META Data'
   $form['meta'] = array(
     '#type' => 'fieldset',
@@ -35,25 +34,25 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
     '#weight' => 10,
     '#collapsible' => FALSE
   );
-	
+  
   //Create select field 
-	$form['meta']['classification'] = array(
+  $form['meta']['classification'] = array(
     '#type' => 'select',
     '#title' => t('IPG Classification'),
     '#options' => $list,
-    '#required' => true,
+    '#required' => TRUE,
     '#empty_option' => 'none',
     '#default_value' => variable_get('meta_configuration', 'none'),
-    '#description' => t('Choose the classification for your website. This classification respects the ' .  l(t('IPG guidelines'),'http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm')),
+    '#description' => t('Choose the classification for your website. This classification respects the ' . l(t('IPG guidelines'), 'http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm')),
   );
 
   //Get the 'code' and set meta_configuration variable
-  if(isset($form_state['input']['op']) && $form_state['input']['op'] == 'Save configuration'){
-    if (isset($form_state['input']['classification'])){
+  if (isset($form_state['input']['op']) && $form_state['input']['op'] == 'Save configuration') {
+    if (isset($form_state['input']['classification'])) {
       $pattern = '@(^[0-9]+).*@';
       $subject = $form_state['input']['classification'];
       $result = preg_match($pattern, $subject, $matches);
-      if(isset($matches[1])){
+      if (isset($matches[1])) {
         variable_set('meta_configuration', $matches[1]);
       }
     }

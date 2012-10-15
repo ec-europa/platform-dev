@@ -5,5 +5,5 @@ description = "Provides single sign-on ECAS"
 
 files[] = ecas.test
 
-version = "7.x-1.x-dev"
+version = "7.x-1.1"
 project = "ecas"
