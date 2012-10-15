@@ -64,7 +64,7 @@ function cce_basic_config_install() {
      $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('07'),
-    'description' => t('Culture, tourism, sport'),
+    'description' => st('Culture, tourism, sport'),
   );
   taxonomy_term_save($term);
    
@@ -323,7 +323,7 @@ function cce_basic_config_enable() {
     'region' => 'tools',
     'weight' => 1,
   ); 
-  $context->reactions['block']['blocks']['user-menu']=$block_to_add1;	
+  $context->reactions['block']['blocks']['user-menu']=$block_to_add1;
 
   /*$block_to_add2 = array(
     'module' => 'search',
@@ -339,7 +339,7 @@ function cce_basic_config_enable() {
     'region' => 'highlighted',
     'weight' => 1,
   ); 
-  $context->reactions['block']['blocks']['language']=$block_to_add3;		  
+  $context->reactions['block']['blocks']['language']=$block_to_add3;  
   
   $block_to_add4 = array(
     'module' => 'system',
@@ -347,9 +347,9 @@ function cce_basic_config_enable() {
     'region' => 'featured',
     'weight' => 1,
   ); 
-  $context->reactions['block']['blocks']['main-menu']=$block_to_add;		  
+  $context->reactions['block']['blocks']['main-menu']=$block_to_add;  
 
-  module_invoke('context', 'save', $context);	
+  module_invoke('context', 'save', $context);
   
   // _add_block_context('communities','multisite_og_button-og-contextual-links','multisite_og_button','og-contextual-links', 'sidebar_first','-9');
   // _add_block_context('site_wide','locale-language','locale','language','highlighted');	

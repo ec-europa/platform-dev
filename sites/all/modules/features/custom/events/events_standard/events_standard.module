@@ -12,11 +12,10 @@ include_once('events_standard.features.inc');
  * @param type $view 
  */
 function events_standard_views_pre_render(&$view) {
-     if($view->name=='calendar' && user_access('create event content')){
-	      $output= l(t('Create an Event'), 
-            'node/add/event',
-		    array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
-		    $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
-
-	}
+  if ($view->name=='calendar' && user_access('create event content')) {
+    $output = l(t('Create an Event'), 
+      'node/add/event',
+      array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
+    $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
+  }
 }

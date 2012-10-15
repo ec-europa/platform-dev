@@ -177,7 +177,7 @@ function f_a_q_field_default_fields() {
   $fields['node-f_a_q-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked'=> '1',
+      'locked' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),

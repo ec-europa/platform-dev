@@ -64,39 +64,39 @@ function events_og_menu() {
  * @param type $view 
  */
 function events_og_views_pre_render(&$view) {
-  if($view->name=='calendar'){
+  if ($view->name=='calendar') {
 
   $group = og_context();
 
-		switch( $view->current_display ) {
-			case 'upcoming_events':
-				
-				break;
-			case 'month':
-			case 'week':
-			case 'day':
-			case 'year':
-				if ( og_user_access($group->gid,'create event content') ) {
-					$view->header['area']->options['content'] = _events_get_link_from_group();
-				}
-				break;
-			default:
-				break;
-		}  
-	}
+    switch( $view->current_display ) {
+      case 'upcoming_events':
+
+        break;
+      case 'month':
+      case 'week':
+      case 'day':
+      case 'year':
+        if ( og_user_access($group->gid,'create event content') ) {
+          $view->header['area']->options['content'] = _events_get_link_from_group();
+        }
+        break;
+      default:
+        break;
+      }  
+  }
 }
 
-function _events_get_link_from_group(){
+function _events_get_link_from_group() {
 
     $group = og_context();
     $group_id = isset($group) ? $group->etid : '';
     
     $attributes = array( 
-        'attributes' => array(
-            'type' => 'add',
-			'action_bar' => 'single'
-            ),
-        );
+      'attributes' => array(
+        'type' => 'add',
+        'action_bar' => 'single'
+      ),
+    );
     
     $options = array( 
         'query' => array( 

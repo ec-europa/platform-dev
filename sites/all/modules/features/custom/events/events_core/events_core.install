@@ -43,7 +43,7 @@ function events_core_enable() {
             ->execute();
 
     //Activation message
-    drupal_set_message('Events feature is now active on your site.');
+    drupal_set_message(t('Events feature is now active on your site.'));
 }
 
 /**
@@ -69,7 +69,7 @@ function events_core_disable() {
     _disable_content_type('event');
 
     drupal_flush_all_caches();
-    drupal_set_message('Events feature is now disabled on your site.');
+    drupal_set_message(t('Events feature is now disabled on your site.'));
 }
 
 

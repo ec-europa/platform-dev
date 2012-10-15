@@ -21,17 +21,15 @@ function events_og_uninstall() {
 /**
 * Add block to the context
 */
-function events_og_enable(){
-  _add_block_context('communities','views-calendar-upcoming_events','views','calendar-upcoming_events','sidebar_first');
-  _add_views_context('communities','calendar');
-  _add_views_context('communities','calendar:month');
-  _add_views_context('communities','calendar:week');
-  _add_views_context('communities','calendar:day');
-  _add_views_context('communities','calendar:year');
+function events_og_enable() {
+  _add_block_context('communities', 'views-calendar-upcoming_events', 'views', 'calendar-upcoming_events', 'sidebar_first');
+  _add_views_context('communities', 'calendar');
+  _add_views_context('communities', 'calendar:month');
+  _add_views_context('communities', 'calendar:week');
+  _add_views_context('communities', 'calendar:day');
+  _add_views_context('communities', 'calendar:year');
   _add_content_type_context('communities', 'event');
   _add_path_context('communities', 'calendar/*');
-	
-
 }
 
 
@@ -39,51 +37,51 @@ function events_og_enable(){
 * Remove block from the context
 */
 function events_og_disable(){
-  _remove_block_context('communities','views-calendar-upcoming_events');
-  _remove_views_context('communities','calendar');
-  _remove_views_context('communities','calendar:month');
-  _remove_views_context('communities','calendar:week');
-  _remove_views_context('communities','calendar:day');
-  _remove_views_context('communities','calendar:year');
+  _remove_block_context('communities', 'views-calendar-upcoming_events');
+  _remove_views_context('communities', 'calendar');
+  _remove_views_context('communities', 'calendar:month');
+  _remove_views_context('communities', 'calendar:week');
+  _remove_views_context('communities', 'calendar:day');
+  _remove_views_context('communities', 'calendar:year');
   _remove_content_type_context('communities', 'event');
   _remove_path_context('communities', 'calendar/*');
   _disable_content_type('event');
-	
+
   // Administrator
   user_role_revoke_permissions(get_rid('administrator'), array(  
     'edit own event content',
     'edit any event content',
-	'delete own event content',
-	'delete any event content',
-	'create event content',
+    'delete own event content',
+    'delete any event content',
+    'create event content',
   ));
-		
+
   // Contributor
   user_role_revoke_permissions(get_rid('contributor'), array(
     'edit own event content',
     'edit any event content',
-	'delete own event content',
-	'delete any event content',
-	'create event content',
+    'delete own event content',
+    'delete any event content',
+    'create event content',
   ));
-			  
+
   // Disable permissions to OG roles ---------------------------------------------------------------  
   // Community Manager
   og_role_revoke_permissions(get_og_rid('community_manager'), array(
     'update own event content',
     'update any event content',
-	'delete own event content',
-	'delete any event content',
+    'delete own event content',
+    'delete any event content',
   ));
-		
+
   // Administrator Member
   og_role_revoke_permissions(get_og_rid('administrator member'), array(
     'update own event content',
     'update any event content',
-	'delete own event content',
-	'delete any event content',
+    'delete own event content',
+    'delete any event content',
   ));
-		
+
   drupal_flush_all_caches(); 
  
 }

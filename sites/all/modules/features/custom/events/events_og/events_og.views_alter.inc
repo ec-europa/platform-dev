@@ -5,8 +5,8 @@
 */
 function events_og_views_default_views_alter(&$views) {
   if (array_key_exists('calendar', $views)) {
-	$view=$views['calendar'];
-	 
+    $view=$views['calendar'];
+
     /* Display: Master */
     $handler = $view->display['default']->handler;
     /* Relationship: Group membership: Node group membership */
@@ -14,7 +14,7 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
     $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
     $handler->display->display_options['relationships']['og_membership_rel']['required'] = 1;
-	
+
     /* Contextual filter: OG membership: Group gid */
     $handler->display->display_options['arguments']['group']['id'] = 'group';
     $handler->display->display_options['arguments']['group']['table'] = 'og_membership';
@@ -45,7 +45,7 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['group']['summary_options']['items_per_page'] = '25';
     $handler->display->display_options['arguments']['group']['break_phrase'] = 0;
     $handler->display->display_options['arguments']['group']['not'] = 0;	
-	
+
     /* Display: Week */
     $handler = $view->display['week']->handler;
     /* Contextual filter: OG membership: Group gid */
@@ -61,7 +61,7 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['group']['summary_options']['items_per_page'] = '25';
     $handler->display->display_options['arguments']['group']['break_phrase'] = 0;
     $handler->display->display_options['arguments']['group']['not'] = 0;	
-	
+
     /* Display: Day */
     $handler = $view->display['day']->handler;
     /* Contextual filter: OG membership: Group gid */

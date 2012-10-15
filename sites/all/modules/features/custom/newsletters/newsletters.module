@@ -63,7 +63,7 @@ function newsletters_token_info() {
 
     $info['types']['newsletter-breadcrumb'] = array(
         'name' => 'newsletter breadcrumb',
-        'description' => 'Tokens related to breadcrumb of newsletter.',
+        'description' => 'Tokens related to breadcrumb of newsletter',
     );
 
     $info['tokens']['newsletter-breadcrumb']['path'] = array(
@@ -77,7 +77,7 @@ function newsletters_token_info() {
     );
     $info['tokens']['Breadcrumb_newsletter']["newsletter_title"] = array(
         'name' => t("newsletter Breadcrumb title"),
-        'description' => t("The Breadcrumb title of the newsletter."),
+        'description' => t("The Breadcrumb title of the newsletter"),
     );
     return $info;
 }
