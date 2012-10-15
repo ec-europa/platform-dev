@@ -317,37 +317,37 @@ function cce_basic_config_enable() {
 
   // add 2 blocks in site-wide context -------------------------------------------------------------------------------
   $context=module_invoke('context', 'load', 'site_wide'); 
-  $blockToAdd1 = array(
+  $block_to_add1 = array(
     'module' => 'system',
     'delta' =>  'user-menu',
     'region' => 'tools',
     'weight' => 1,
   ); 
-  $context->reactions['block']['blocks']['user-menu']=$blockToAdd1;	
+  $context->reactions['block']['blocks']['user-menu']=$block_to_add1;	
 
-  /*$blockToAdd2 = array(
+  /*$block_to_add2 = array(
     'module' => 'search',
     'delta' =>  'form',
     'region' => 'tools',
     'weight' => 2,
   ); 
-  $context->reactions['block']['blocks']['form']=$blockToAdd2;	  */
+  $context->reactions['block']['blocks']['form']=$block_to_add2;	  */
 
-  $blockToAdd3 = array(
+  $block_to_add3 = array(
     'module' => 'locale',
     'delta' =>  'language',
     'region' => 'highlighted',
     'weight' => 1,
   ); 
-  $context->reactions['block']['blocks']['language']=$blockToAdd3;		  
+  $context->reactions['block']['blocks']['language']=$block_to_add3;		  
   
-  $blockToAdd4 = array(
+  $block_to_add4 = array(
     'module' => 'system',
     'delta' =>  'main-menu',
     'region' => 'featured',
     'weight' => 1,
   ); 
-  $context->reactions['block']['blocks']['main-menu']=$blockToAdd4;		  
+  $context->reactions['block']['blocks']['main-menu']=$block_to_add;		  
 
   module_invoke('context', 'save', $context);	
   
@@ -369,7 +369,6 @@ function cce_basic_config_enable() {
   // 'format' => 'basic_html',
 // ))
 // ->execute();
-
 
 }
 
