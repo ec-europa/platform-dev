@@ -45,7 +45,7 @@ projects[password_policy][subdir] = "contributed"
 projects[password_policy][version] = "1.2"
 
 projects[rules][subdir] = "contributed"
-projects[rules][version] = "2.2"
+projects[rules][version] = "2.x-dev"
 
 projects[strongarm][subdir] = "contributed"
 projects[strongarm][version] = "2.0"
