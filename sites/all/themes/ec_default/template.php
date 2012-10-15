@@ -211,7 +211,7 @@ function ec_default_page_alter($page) {
   foreach ($tags as $key => $value) {
     $keywords .= $value->name . ', ';
   }
-  $keywords .= 'European Comission, European Union, EU';
+  $keywords .= 'European Commission, European Union, EU';
   
   $type = 'website';
   if (!empty($node)) {
