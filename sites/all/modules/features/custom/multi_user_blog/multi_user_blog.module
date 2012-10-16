@@ -13,7 +13,7 @@ function multi_user_blog_views_pre_render(&$view) {
   global $user;
   
   if ($view->name=='blog') {
-    switch($view->current_display) {
+    switch ($view->current_display) {
       case 'blog_list_page':
         if ( user_access('create blog_post content') ) {
           $output = l(t('Create blog post'), 

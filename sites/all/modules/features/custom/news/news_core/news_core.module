@@ -49,7 +49,7 @@ function news_core_form_news_node_form_alter(&$form, &$form_state, $form_id) {
 }
 
 function custom_valid(&$form, &$form_state) {
-  if (isset($form['field_link']['und'][0]['url']['#value']) && (bool)$form['field_link']['und'][0]['url']['#value'] ){
+  if (isset($form['field_link']['und'][0]['url']['#value']) && (bool)$form['field_link']['und'][0]['url']['#value'] ) {
     $result_scan = linkit_scan_url($form['field_link']['und'][0]['url']['#value']);
   }
 }
@@ -129,8 +129,8 @@ function linkit_scan_url($url) {
     //mct:Handle Multilingual internal urls
     $langs = array();
     $lang_list = language_list();
-    foreach($lang_list as $key => $value){
-      $langs[] = '/'. $key .'/';
+    foreach ($lang_list as $key => $value) {
+      $langs[] = '/' . $key . '/';
     }
     $path_info['path'] = str_replace($langs, '/', $path_info['path']);
   
@@ -157,14 +157,15 @@ function linkit_scan_url($url) {
       
       $query = db_select('menu_router', 'mrt');
       $result = $query
-          ->condition('path', '%'.$path_info['path'] . '%','LIKE')
+          ->condition('path', '%' . $path_info['path'] . '%','LIKE')
           ->fields('mrt', array('path'))
           ->execute()
           ->fetchAll();
           
       if (isset($result[0])) {
         $processed_path = $path_info['path'];
-      } else {
+      } 
+      else {
         form_set_error('field_link', 'Not a valid internal url');
       }
     }
