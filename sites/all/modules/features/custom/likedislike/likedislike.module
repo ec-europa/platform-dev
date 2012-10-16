@@ -43,7 +43,7 @@ function likedislike_block_view($delta='') {
 function likedislike_contents() {
     global $language;
     $current_url = curPageURL();
-    return '<span class="like_dislike">{"url":"' . $current_url . '" ,"lang":"'.$language->language.'"}</span>';
+    return '<span class="like_dislike">{"url":"' . $current_url . '" ,"lang":"' . $language->language . '"}</span>';
 }
 
 /**
