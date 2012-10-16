@@ -18,7 +18,7 @@ function splash_screen_enable() {
 
 function splash_screen_disable() {
   variable_del("splash_screen_url");
-  variable_det("splash_screen_language_msg");
+  variable_del("splash_screen_language_msg");
   
   // set the language negociation --------------------------------------------------------------------------
   $lni = language_negotiation_info();
