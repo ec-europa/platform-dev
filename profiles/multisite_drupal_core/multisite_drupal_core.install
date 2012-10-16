@@ -72,7 +72,6 @@ function multisite_drupal_core_install() {
     'access user contact forms',
     'access user profiles',
     'use text format full_html',
-    'rate content',
   )); 
 
   // administrator role
@@ -97,7 +96,6 @@ function multisite_drupal_core_install() {
     'search content',
     'use advanced search',
     'access user profiles',
-    'rate content',
   )); 
   
   // editor role
