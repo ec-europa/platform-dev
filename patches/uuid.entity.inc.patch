@@ -1,0 +1,30 @@
+--- sites/all/modules/contributed/uuid/uuid.entity.inc	2012-10-16 16:39:45.845843468 +0200
++++ sites/all/modules/contributed/uuid/uuid.entity.inc	2012-10-16 16:42:08.000000000 +0200
+@@ -89,20 +89,20 @@
+  * which automatically gives us token and Rules integration.
+  */
+ function uuid_entity_property_info_alter(&$info) {
+-  foreach (entity_get_info() as $entity_type => $info) {
+-    if (isset($info['uuid']) && $info['uuid'] == TRUE && !empty($info['entity keys']['uuid'])) {
+-      $info[$entity_type]['properties'][$info['entity keys']['uuid']] = array(
++   foreach (entity_get_info() as $entity_type => $value) {
++     if (isset($value['uuid']) && $value['uuid'] == TRUE && !empty($value['entity keys']['uuid'])) {
++       $info[$entity_type]['properties'][$value['entity keys']['uuid']] = array(
+         'label' => t('UUID'),
+         'type' => 'text',
+         'description' => t('The universally unique ID.'),
+-        'schema field' => $info['entity keys']['uuid'],
++        'schema field' => $value['entity keys']['uuid'],
+       );
+-      if (!empty($info['entity keys']['revision uuid'])) {
+-        $info[$entity_type]['properties'][$info['entity keys']['revision uuid']] = array(
++      if (!empty($value['entity keys']['revision uuid'])) {
++        $info[$entity_type]['properties'][$value['entity keys']['revision uuid']] = array(
+           'label' => t('Revision UUID'),
+           'type' => 'text',
+           'description' => t("The revision's universally unique ID."),
+-          'schema field' => $info['entity keys']['revision uuid'],
++          'schema field' => $value['entity keys']['revision uuid'],
+         );
+       }
+     }
