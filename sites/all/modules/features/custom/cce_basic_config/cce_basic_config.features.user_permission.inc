@@ -170,17 +170,6 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'comment',
   );
 
-  // Exported permission: rate content.
-  $permissions['rate content'] = array(
-    'name' => 'rate content',
-    'roles' => array(
-      0 => 'administrator',
-      1 => 'anonymous user',
-      2 => 'authenticated user',
-    ),
-    'module' => 'fivestar',
-  );
-
   // Exported permission: revert revisions.
   $permissions['revert revisions'] = array(
     'name' => 'revert revisions',
