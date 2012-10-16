@@ -30,7 +30,7 @@ projects[diff][subdir] = "contributed"
 projects[diff][version] = "2.0"
 
 projects[entity][subdir] = "contributed"
-projects[entity][version] = "1.x-dev"
+projects[entity][version] = "1.0-rc3"
 
 projects[features][subdir] = "contributed"
 projects[features][version] = "1.0"
