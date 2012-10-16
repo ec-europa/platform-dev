@@ -13,11 +13,11 @@ function theme_fat_footer_links($variables) {
   $output = "";
  
   $links = $variables['links'];
-  foreach($links as $key => $link) {
+  foreach ($links as $key => $link) {
     $output .= "<div class=\"fat_footer_item\">";
     $output .= l(t($link['link']['title']), $link['link']['href'], $link);
 
-    if(isset($link['sub_items'])) {
+    if (isset($link['sub_items'])) {
       $output .= theme('links', array('links' => $link['sub_items']));
     }
     $output .= "</div>";
