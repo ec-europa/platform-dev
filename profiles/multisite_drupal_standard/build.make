@@ -42,7 +42,7 @@ projects[password_policy][subdir] = "contributed"
 projects[password_policy][version] = "1.2"
 
 projects[rules][subdir] = "contributed"
-projects[rules][version] = "2.1"
+projects[rules][version] = "2.2"
 
 projects[strongarm][subdir] = "contributed"
 projects[strongarm][version] = "2.0"
@@ -54,7 +54,7 @@ projects[token][subdir] = "contributed"
 projects[token][version] = "1.4"
 
 projects[uuid][subdir] = "contributed"
-projects[uuid][version] = "1.0-alpha3"
+projects[uuid][version] = "1.x-dev"
 
 projects[varnish][subdir] = "contributed"
 projects[varnish][version] = "1.0-beta1"
