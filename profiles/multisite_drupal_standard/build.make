@@ -21,7 +21,7 @@ projects[context][subdir] = "contributed"
 projects[context][version] = "3.0-beta3"
 
 projects[date][subdir] = "contributed"
-projects[date][version] = "2.6"
+projects[date][version] = "2.x-dev"
 
 projects[defaultcontent][subdir] = "contributed"
 projects[defaultcontent][version] = "1.0-alpha6"
