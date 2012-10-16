@@ -35,9 +35,6 @@ projects[entity][version] = "1.0-rc3"
 projects[features][subdir] = "contributed"
 projects[features][version] = "1.0"
 
-projects[fivestar][subdir] = "contributed"
-projects[fivestar][version] = "2.0-alpha1"
-
 projects[hidden_captcha][subdir] = "contributed"
 projects[hidden_captcha][version] = "1.0"
 
