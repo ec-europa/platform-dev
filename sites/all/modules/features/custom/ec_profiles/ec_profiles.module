@@ -8,7 +8,7 @@ include_once('ec_profiles.features.inc');
 
 function ec_profiles_modules_enabled($modules) {
   if (in_array('ec_profiles', $modules)) { 
-    drupal_set_message('EC Profiles feature is now active on your site.');
+    drupal_set_message(t('EC Profiles feature is now active on your site.'));
 
     //Get role_id for the role
     $role_id = array_search('authenticated user', user_roles(TRUE));  
@@ -28,5 +28,5 @@ function ec_profiles_disable() {
     'access user profiles',
   ));
 
-  drupal_set_message('EC Profiles feature is now disabled on your site.');	
+  drupal_set_message(t('EC Profiles feature is now disabled on your site.'));	
 }

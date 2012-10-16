@@ -75,7 +75,7 @@ global $base_url;
     case 'carousel_configurable':
 
       $gall = node_load(variable_get('block_carousel_string'));
-      $path = $base_url.'/'.(isset($gall->path['alias']) ? $gall->path['alias'] : $gall->path['source']);
+      $path = $base_url . '/'.(isset($gall->path['alias']) ? $gall->path['alias'] : $gall->path['source']);
           
       $media_items= array();
       $return = '';
@@ -83,19 +83,22 @@ global $base_url;
 
       //merge photos and videos
       if (isset($gall->field_picture_upload['und']) && isset($gall->field_video_upload['und'])) {
-        $media_items = array_merge($gall->field_picture_upload['und'],$gall->field_video_upload['und']);
-      } else if (isset($gall->field_picture_upload['und'])) {
+        $media_items = array_merge($gall->field_picture_upload['und'], $gall->field_video_upload['und']);
+      } 
+      else if (isset($gall->field_picture_upload['und'])) {
         $media_items = $gall->field_picture_upload['und'];
-      } else if (isset($gall->field_video_upload['und'])) {
+      } 
+      else if (isset($gall->field_video_upload['und'])) {
         $media_items = $gall->field_video_upload['und'];
-      } else {
+      } 
+      else {
         $media_items = array();
       }
       
       //sort table
       usort($media_items, "custom_sort");
 
-      $return .= '<div class=" carousel slide" id="block-carousel-'.$gall->nid.'">';
+      $return .= '<div class=" carousel slide" id="block-carousel-' . $gall->nid . '">';
         $return .= '<div class="carousel-inner">';
         
         foreach ($media_items as $id => $item):   
@@ -105,7 +108,7 @@ global $base_url;
           switch ($item['type']) {
             case 'image':
               $thumb = image_style_url('landscape', $item['uri']);
-              $return .= '<a href="'.$path.'">';
+              $return .= '<a href="' . $path . '">';
                 $return .= '<img src="' . $thumb . '" alt="' . $item['filename'] . '" />';
                 $return .= '<p class="carousel-caption">' . (isset($item['field_picture_description']['und'][0]['safe_value']) ? $item['field_picture_description']['und'][0]['safe_value'] : $item['filename']) . '</p>';
               $return .= '</a>';
@@ -113,7 +116,7 @@ global $base_url;
             
             case 'video':
               $thumb = image_style_url('landscape', file_load($item['thumbnail'])->uri);
-              $return .= '<a href="'.$path.'">';
+              $return .= '<a href="' . $path . '">';
                 $return .= '<img src="' . $thumb . '" alt="' . $item['filename'] . '" />';
                 $return .= '<p class="carousel-caption">' . $item['filename'] . '</p>';
               $return .= '</a>';
@@ -130,8 +133,8 @@ global $base_url;
 
         $return .= '</div>';
         
-        $return .= '<a class="carousel-control left" href="#block-carousel-'.$gall->nid.'" data-slide="prev">&lsaquo;</a>';
-        $return .= '<a class="carousel-control right" href="#block-carousel-'.$gall->nid.'" data-slide="next">&rsaquo;</a>';      
+        $return .= '<a class="carousel-control left" href="#block-carousel-' . $gall->nid . '" data-slide="prev">&lsaquo;</a>';
+        $return .= '<a class="carousel-control right" href="#block-carousel-' . $gall->nid . '" data-slide="next">&rsaquo;</a>';      
       $return .= '</div>';
 
       return array('#markup' => $return);
@@ -140,6 +143,6 @@ global $base_url;
   }
 }
 
-function custom_sort($a,$b) {
+function custom_sort($a, $b) {
         return $a['timestamp']>$b['timestamp'];
       }   

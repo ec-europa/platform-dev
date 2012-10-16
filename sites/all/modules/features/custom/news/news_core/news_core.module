@@ -157,7 +157,7 @@ function linkit_scan_url($url) {
       
       $query = db_select('menu_router', 'mrt');
       $result = $query
-          ->condition('path', '%' . $path_info['path'] . '%','LIKE')
+          ->condition('path', '%' . $path_info['path'] . '%', 'LIKE')
           ->fields('mrt', array('path'))
           ->execute()
           ->fetchAll();

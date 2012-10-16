@@ -39,7 +39,7 @@ function _disable_content_type($type) {
 /**
 * Utility function to add block to a context
 */
-function _add_block_context($contextName, $blockTitle, $module,$delta, $region,$weight='-10') {
+function _add_block_context($contextName, $blockTitle, $module,$delta, $region, $weight='-10') {
   //Load context
   $context=module_invoke('context', 'load', $contextName); 
   //Make some modifications
@@ -99,7 +99,7 @@ function _remove_views_context($contextName, $viewTitle) {
 */
 function _add_content_type_context($contextName, $contentType) {
   //Load context
-  $context=module_invoke('context','load', $contextName); 
+  $context=module_invoke('context', 'load', $contextName); 
   //Add modification to the context
   $context->conditions['node']['values'][$contentType]=$contentType;
   //Update the context
@@ -134,7 +134,7 @@ function _add_path_context($contextName, $path) {
 /**
 * Utility function to remove path from context
 */
-function _remove_path_context($contextName, $path){
+function _remove_path_context($contextName, $path) {
   //Load context
   $context=module_invoke('context', 'load', $contextName);
   //Remove element from the context
@@ -150,7 +150,7 @@ function _remove_path_context($contextName, $path){
 */
 function get_og_rid($role_name) {
   $r = db_select('og_role', 'r')
-    ->condition('name', $role_name,'=')
+    ->condition('name', $role_name, '=')
     ->fields('r', array('rid'))
     ->execute()
     ->fetchAssoc();   
@@ -185,7 +185,7 @@ function add_content_type_newsletters($node_type) {
 
 /*
 * hook_menu_alter
-*/	
+*/
 function multisite_drupal_toolbox_menu_alter(&$items) {
   $list_pages = array(
     'admin/structure/feature-set',
@@ -202,10 +202,10 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
     'admin/help',
   );
 
-  foreach($list_pages as $page) {
+  foreach ($list_pages as $page) {
     $result = db_select('menu_router', 'mr')
       ->fields('mr', array('path'))
-      ->condition('path', $page.'%','LIKE')
+      ->condition('path', $page . '%', 'LIKE')
       ->execute();
     while($record = $result->fetchAssoc()) {
       $items[$record['path']]['theme callback'] = 'multisite_cce_theme';
@@ -217,7 +217,7 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
 }
 
 function multisite_cce_theme() {
-  return variable_get('theme_default','ec_default');
+  return variable_get('theme_default', 'ec_default');
 }
 
 /**
@@ -227,7 +227,7 @@ function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
   $items = array(
     'dropdown' => array(
       'variables'=>array(
-         'items'=>array(),
+         'items' => array(),
       ),
     )
   );
@@ -277,7 +277,7 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
         unset($form['permission']['administer features']);
         unset($form['permission']['manage features']);
 
-        foreach(array_keys(user_roles()) as $rid) { // hide checkboxes in the permissions admin page
+        foreach (array_keys(user_roles()) as $rid) { // hide checkboxes in the permissions admin page
           unset($form['checkboxes'][$rid]['#options']['administer modules']);
           unset($form['checkboxes'][$rid]['#options']['administer features']);
           unset($form['checkboxes'][$rid]['#options']['manage features']);
@@ -292,8 +292,8 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
         //unset($form['roles'][3]);
         //unset($form['roles'][4]);
       case "user_admin_role": // prevent predefined roles updated for non admin
-        if(isset($form['rid'])) {
-          if($form['rid']['#value'] == 3 || $form['rid']['#value'] == 4) {
+        if (isset($form['rid'])) {
+          if ($form['rid']['#value'] == 3 || $form['rid']['#value'] == 4) {
             unset($form['actions']);
             $form["name"]['#disabled'] = TRUE;
           }
@@ -307,7 +307,8 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
       //check the "Show as expanded" box
       if (isset($form['original_item']['#value']['expanded']) && (isset($form['original_item']['#value']['mlid']) && $form['original_item']['#value']['mlid'] != 0)) {
         $form['expanded']['#default_value'] = $form['original_item']['#value']['expanded'];
-      } else {
+      } 
+      else {
         $form['expanded']['#default_value'] = 1;
       }
       break;
@@ -381,7 +382,7 @@ function simplenews_related_content_type($content_type, $op) {
         break;
       case 'delete':
         $field = field_read_fields(array('field_name' => "field_related_contents"));  
-        if($field) {
+        if ($field) {
           unset($field["field_related_contents"]["settings"]["handler_settings"]["target_bundles"][$content_type]);
           field_update_field($field["field_related_contents"]);
         }
@@ -440,7 +441,7 @@ function multisite_drupal_toolbox_page_alter(&$page) {
     );	  
 
     $elt = array('alert_message' => $message);
-    if(array_key_exists('content_top', $page))
+    if (array_key_exists('content_top', $page))
       array_unshift($page['content_top'], $elt);
     else
       $page['content_top']['alert_message'] = $message;

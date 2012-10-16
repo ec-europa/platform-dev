@@ -11,17 +11,17 @@ include_once('news_standard.views_alter.inc');
 * hook_views_pre_render
 */
 function news_standard_views_pre_render(&$view) {
-  if($view->name == 'news' && $view->current_display == 'page') {
+  if ($view->name == 'news' && $view->current_display == 'page') {
     $output = '';
     global $user;
     
-    if(user_access("create news content")){
+    if (user_access("create news content")) {
       $output .= l(t('Create a News'), 'node/add/news', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
     }
     
     //add menu to the exsiting  header
-    if($view->header['area']){
-      $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+    if ($view->header['area']) {
+      $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
     }
   }
 }
