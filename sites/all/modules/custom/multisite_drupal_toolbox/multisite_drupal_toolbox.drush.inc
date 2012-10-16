@@ -22,7 +22,7 @@ function drush_multisite_drupal_toolbox_alert_message($switch = "enable") {
   module_load_include('inc', 'multisite_drupal_toolbox', 'alert_message');
   $message = get_message();
   
-  if($switch == "enable") {
+  if ($switch == "enable") {
     variable_set('alert_message_enable', TRUE);
     variable_set('alert_message_body', $message);
     print "alert message enabled\n";

@@ -9,7 +9,7 @@ function multi_user_blog_disable() {
   config_solr_bundle('blog_post', 'delete');  
   
   // remove type from notification 
-  notification_content_type('blog_post','delete');  
+  notification_content_type('blog_post', 'delete');  
   
   // add type to the simplenews related content 
   simplenews_related_content_type('blog_post', 'delete');  
@@ -20,10 +20,10 @@ function multi_user_blog_disable() {
           ->execute();
           
   //Remove rating
-  rate_content_type('blog_post','remove');
+  rate_content_type('blog_post', 'remove');
 
   //Activation message
-  drupal_set_message('multi user blogs feature is now disable on your site.');  
+  drupal_set_message(t('multi user blogs feature is now disable on your site.'));  
 }
 
 /*
@@ -34,7 +34,7 @@ function multi_user_blog_enable() {
   config_solr_bundle('blog_post', 'add'); 
   
   // add type to notification 
-  notification_content_type('blog_post','add');  
+  notification_content_type('blog_post', 'add');  
   
   // add type to the simplenews related content 
   simplenews_related_content_type('blog_post', 'add');  
@@ -50,9 +50,9 @@ function multi_user_blog_enable() {
           ->execute();  
 
   //Add rating
-  rate_content_type('blog_post','add');
+  rate_content_type('blog_post', 'add');
 
   //Activation message
-  drupal_set_message('multi user blogs feature is now enable on your site.');
+  drupal_set_message(t('multi user blogs feature is now enable on your site.'));
 }           
 ?>

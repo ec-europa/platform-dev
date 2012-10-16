@@ -12,27 +12,27 @@ include_once 'multi_user_blog.features.inc';
 function multi_user_blog_views_pre_render(&$view) {
   global $user;
   
-  if($view->name=='blog'){
-    switch( $view->current_display ) {
+  if ($view->name=='blog') {
+    switch($view->current_display) {
       case 'blog_list_page':
         if ( user_access('create blog_post content') ) {
           $output = l(t('Create blog post'), 
               'node/add/blog-post',
           array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
-          $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+          $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
         }      
-	    break;
+        break;
       
       case 'user_blog_page':
         if ( user_access('create blog_post content') && arg(1) == $user->uid ) {
           $output = l(t('Create blog post'), 
               'node/add/blog-post',
           array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
-          $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+          $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
         }
-	    break;
-	  default:
-	    break;
+        break;
+      default:
+        break;
     }  
   }
 }

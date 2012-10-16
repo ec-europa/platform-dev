@@ -4,12 +4,12 @@
 */
 function multisite_drupal_toolbox_boot() {
   global $conf;
-  if(!isset($conf["language_count"])) {
-	$conf["language_count"] = 2;	
+  if (!isset($conf["language_count"])) {
+    $conf["language_count"] = 2;
   }
   else {
-	if($conf["language_count"] == 1 && $conf["language_default"]->language == 'en')
-	  $conf["language_count"] = 2; // set language_count to 2 to force the display of the language prefix	
+    if ($conf["language_count"] == 1 && $conf["language_default"]->language == 'en')
+      $conf["language_count"] = 2; // set language_count to 2 to force the display of the language prefix
   }
 }
 
@@ -17,9 +17,9 @@ function multisite_drupal_toolbox_boot() {
 * hook_init
 */
 function multisite_drupal_toolbox_init() {
-	if(variable_get("language_count",1) == 1) {
-	  variable_set("language_count", 2); // set language_count to 2 to force the display of the language prefix and language switcher
-	}
+  if (variable_get("language_count", 1) == 1) {
+    variable_set("language_count", 2); // set language_count to 2 to force the display of the language prefix and language switcher
+  }
 }
 
 
@@ -39,107 +39,104 @@ function _disable_content_type($type) {
 /**
 * Utility function to add block to a context
 */
-function _add_block_context($contextName,$blockTitle,$module,$delta, $region,$weight='-10'){
-	//Load context
-	$context=module_invoke('context','load',$contextName); 
-	//Make some modifications
-	$blockToAdd = array(
-			'module' => $module,
-			'delta' =>  $delta,
-			'region' => $region,
-			'weight' => $weight,
-					); 
-	//Add modification to the context
-	$context->reactions['block']['blocks'][$blockTitle]=$blockToAdd;	
-	//Update the context
-	module_invoke('context','save',$context);
+function _add_block_context($contextName, $blockTitle, $module,$delta, $region,$weight='-10') {
+  //Load context
+  $context=module_invoke('context', 'load', $contextName); 
+  //Make some modifications
+  $blockToAdd = array(
+    'module' => $module,
+    'delta' =>  $delta,
+    'region' => $region,
+    'weight' => $weight,
+  ); 
+  //Add modification to the context
+  $context->reactions['block']['blocks'][$blockTitle]=$blockToAdd;
+  //Update the context
+  module_invoke('context', 'save', $context);
 }
 
 
 /**
 * Utility function to remove block from context
 */
-function _remove_block_context($contextName,$blockTitle){	 
-	//Load context
-	$context=module_invoke('context','load',$contextName);	 
-	//Remove element from the context
-	unset($context->reactions['block']['blocks'][$blockTitle]);   
-	//Update the context
-	module_invoke('context','save',$context);
+function _remove_block_context($contextName, $blockTitle) {
+  //Load context
+  $context=module_invoke('context', 'load', $contextName); 
+  //Remove element from the context
+  unset($context->reactions['block']['blocks'][$blockTitle]);   
+  //Update the context
+  module_invoke('context', 'save', $context);
 }
 
 
 /**
 * Utility function to add view to a context
 */
-function _add_views_context($contextName,$viewTitle){
-	//Load context
-	$context=module_invoke('context','load',$contextName); 
-	//Add modification to the context
-	$context->conditions['views']['values'][$viewTitle]=$viewTitle;	
-	//Update the context
-	module_invoke('context','save',$context);
+function _add_views_context($contextName, $viewTitle) {
+  //Load context
+  $context=module_invoke('context', 'load', $contextName); 
+  //Add modification to the context
+  $context->conditions['views']['values'][$viewTitle]=$viewTitle;
+  //Update the context
+  module_invoke('context', 'save', $context);
 }
 
 
 /**
 * Utility function to remove block from context
 */
-function _remove_views_context($contextName,$viewTitle){	 
-	//Load context
-	$context=module_invoke('context','load',$contextName);	 
-	//Remove element from the context
-	unset($context->conditions['views']['values'][$viewTitle]);   
-	//Update the context
-	module_invoke('context','save',$context);
+function _remove_views_context($contextName, $viewTitle) {
+  //Load context
+  $context=module_invoke('context', 'load', $contextName); 
+  //Remove element from the context
+  unset($context->conditions['views']['values'][$viewTitle]);   
+  //Update the context
+  module_invoke('context', 'save', $context);
 }
 
 /**
 * Utility function to add content type from context
 */
-function _add_content_type_context($contextName, $contentType){
-
-	//Load context
-	$context=module_invoke('context','load',$contextName); 
+function _add_content_type_context($contextName, $contentType) {
+  //Load context
+  $context=module_invoke('context','load', $contextName); 
   //Add modification to the context
-	$context->conditions['node']['values'][$contentType]=$contentType;
-	//Update the context
-	module_invoke('context','save',$context);  
+  $context->conditions['node']['values'][$contentType]=$contentType;
+  //Update the context
+  module_invoke('context', 'save', $context);  
 }
 
 /**
 * Utility function to remove content type from context
 */
-function _remove_content_type_context($contextName,$contentType){
-	
+function _remove_content_type_context($contextName, $contentType) {
   //Load context
-	$context=module_invoke('context','load',$contextName);	 
-	//Remove element from the context
-	unset($context->conditions['node']['values'][$contentType]);   
-	//Update the context
-	module_invoke('context', 'save', $context);
-
+  $context=module_invoke('context', 'load', $contextName);
+  //Remove element from the context
+  unset($context->conditions['node']['values'][$contentType]);   
+  //Update the context
+  module_invoke('context', 'save', $context);
 }
 
 
 /**
 * Utility function to add path condition to a context
 */
-function _add_path_context($contextName,$path){
-	//Load context
-	$context=module_invoke('context','load',$contextName); 
-	//Add modification to the context
-	$context->conditions['path']['values'][$path]=$path;	
-	//Update the context
-	module_invoke('context','save',$context);
+function _add_path_context($contextName, $path) {
+  //Load context
+  $context=module_invoke('context', 'load', $contextName); 
+  //Add modification to the context
+  $context->conditions['path']['values'][$path]=$path;
+  //Update the context
+  module_invoke('context', 'save', $context);
 }
 
 /**
 * Utility function to remove path from context
 */
-function _remove_path_context($contextName,$path){
+function _remove_path_context($contextName, $path){
   //Load context
-  $context=module_invoke('context','load',$contextName);	 
+  $context=module_invoke('context', 'load', $contextName);
   //Remove element from the context
   unset($context->conditions['path']['values'][$path]);   
   //Update the context
@@ -165,7 +162,7 @@ function get_og_rid($role_name) {
 */
 function get_rid($role_name) {
   $r = db_select('role', 'r')
-    ->condition('name', $role_name,'=')
+    ->condition('name', $role_name, '=')
     ->fields('r', array('rid'))
     ->execute()
     ->fetchAssoc();   
@@ -177,7 +174,7 @@ function get_rid($role_name) {
 * add content type to newsletter related content field
 */
 function add_content_type_newsletters($node_type) {
-  if($field = field_info_field('field_related_contents')) {
+  if ($field = field_info_field('field_related_contents')) {
     $field['settings']['referenceable_types'][$node_type] = $node_type;
     field_update_field($field);
   }
@@ -195,7 +192,7 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
     'admin/workbench',
     //'node/%/edit',
     //'user/%/edit',
-	//'user/%',
+    //'user/%',
     'admin/content/comment',
     'admin/content/media',
     'admin/content/webform',
@@ -220,21 +217,21 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
 }
 
 function multisite_cce_theme() {
-	return variable_get('theme_default','ec_default');
+  return variable_get('theme_default','ec_default');
 }
 
 /**
 * Hook theme 
 */
 function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
-    $items = array(
-        'dropdown' => array(
-			'variables'=>array(
-				'items'=>array(),
-			),
-		)
-    );
-    return $items;
+  $items = array(
+    'dropdown' => array(
+      'variables'=>array(
+         'items'=>array(),
+      ),
+    )
+  );
+  return $items;
 }
 
 /*
@@ -254,7 +251,7 @@ function _disable_block($module, $delta) {
 * hook_node_view
 */
 function multisite_drupal_toolbox_node_view($node, $view_mode, $langcode) {
-  if(module_exists('workbench_moderation')) {
+  if (module_exists('workbench_moderation')) {
     db_update('block')
     ->fields(array('region' => ''))
     ->condition('module', 'workbench', '=')
@@ -268,7 +265,7 @@ function multisite_drupal_toolbox_node_view($node, $view_mode, $langcode) {
 */
 function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
   global $user;
-  if($user->uid != 1) {
+  if ($user->uid != 1) {
     switch ($form_id) {
       case 'system_modules':
         unset($form['modules']['Core']['php']); // prevent users to give the permission to inject PHP in input text area
@@ -330,18 +327,18 @@ function workbench_redirect_submit($form, &$form_state) {
 * Solr config bundle
 */
 function config_solr_bundle($bundle, $op) {
-  switch($op) {
+  switch ($op) {
     case 'add':
       db_insert('apachesolr_index_bundles')->fields(array(
         'env_id' => 'solr',
         'entity_type' => 'node',
         'bundle' => $bundle,
-      ))->execute();		
-	  break;
-	case 'delete':
-	  db_delete('apachesolr_index_bundles')->condition('bundle', $bundle)->execute();
-	  break;
-  }	
+      ))->execute();
+      break;
+    case 'delete':
+      db_delete('apachesolr_index_bundles')->condition('bundle', $bundle)->execute();
+      break;
+  }
 }
 
 
@@ -349,22 +346,22 @@ function config_solr_bundle($bundle, $op) {
 * add content type to notification
 */
 function notification_content_type($content_type, $op) {
-  switch($op) {
+  switch ($op) {
     case 'add':
-	  if(module_exists('notification')) {
+      if (module_exists('notification')) {
         $ct = variable_get("notifications_content_type", array());
         $ct += array($content_type => $content_type);
         variable_set("notifications_content_type", $ct);
       }
-	  break;
+      break;
     case 'delete':
-	  if(module_exists('notification')) {
+      if (module_exists('notification')) {
         $ct = variable_get("notifications_content_type");
-		$item = array_search(array($content_type => $content_type), $ct);
-		unset($ct[$item]);
+        $item = array_search(array($content_type => $content_type), $ct);
+        unset($ct[$item]);
         variable_set("notifications_content_type", $ct);
-      }		
-	  break;
+      }
+      break;
   }
 }
 
@@ -374,21 +371,21 @@ function notification_content_type($content_type, $op) {
 */
 function simplenews_related_content_type($content_type, $op) {
   //if(module_exists('newsletters')) { // check if the feature newsletter is enabled
-    switch($op) {
+    switch ($op) {
       case 'add':
         $field = field_read_fields(array('field_name' => "field_related_contents"));
-        if($field) {
-		  $field["field_related_contents"]["settings"]["handler_settings"]["target_bundles"][$content_type] = $content_type;
+        if ($field) {
+          $field["field_related_contents"]["settings"]["handler_settings"]["target_bundles"][$content_type] = $content_type;
           field_update_field($field["field_related_contents"]);
-		}
-	    break;
-	  case 'delete':
-		$field = field_read_fields(array('field_name' => "field_related_contents"));  
-		if($field) {
+        }
+        break;
+      case 'delete':
+        $field = field_read_fields(array('field_name' => "field_related_contents"));  
+        if($field) {
           unset($field["field_related_contents"]["settings"]["handler_settings"]["target_bundles"][$content_type]);
-          field_update_field($field["field_related_contents"]);	
-		}
-	    break;
+          field_update_field($field["field_related_contents"]);
+        }
+        break;
     }
   //}
 }
@@ -397,9 +394,9 @@ function simplenews_related_content_type($content_type, $op) {
 * add content type to rate widget
 */
 function rate_content_type($content_type, $op) {
-  switch($op) {
+  switch ($op) {
     case 'add':
-      if(module_exists('rate')) {
+      if (module_exists('rate')) {
         $rw = variable_get("rate_widgets", array());
         foreach ($rw as $key => $value) {
           if ('rate_fivestar' == $value->name) {
@@ -411,7 +408,7 @@ function rate_content_type($content_type, $op) {
     break;
 
     case 'delete':
-      if(module_exists('rate')) {
+      if (module_exists('rate')) {
         $rw = variable_get("rate_widgets", array());
         foreach ($rw as $key => $value) {
           if ('rate_fivestar' == $value->name) {
@@ -433,7 +430,7 @@ function rate_content_type($content_type, $op) {
 */
 function multisite_drupal_toolbox_page_alter(&$page) {
   global $user;
-  if(variable_get('alert_message_enable', FALSE) && $user->uid > 0) {
+  if (variable_get('alert_message_enable', FALSE) && $user->uid > 0) {
     $message = array(
       '#weight' => -1000, 
       '#type' => 'markup', 
