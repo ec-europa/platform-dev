@@ -64,7 +64,6 @@ features[user_permission][] = moderate content from draft to needs_review
 features[user_permission][] = moderate content from needs_review to draft
 features[user_permission][] = moderate content from needs_review to published
 features[user_permission][] = post comments
-features[user_permission][] = rate content
 features[user_permission][] = revert revisions
 features[user_permission][] = search content
 features[user_permission][] = show format selection for comment
