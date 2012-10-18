@@ -1,4 +1,11 @@
 <?php
+/**
+ * @file
+ * Default theme settings.
+ */
+?>
+
+<?php
 /*
 * add toogle option to theme settings to enable/disable dropdown menu
 */

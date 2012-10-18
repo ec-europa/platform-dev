@@ -1,38 +1,36 @@
-; $Id: ec_default.info,v 1.5 2010/11/07 00:27:20 dries Exp $
-
 name = Ec_default
 description = Default template with Europa banner
 package = Core
 version = "7.x-1.1"
-core = 7.x
+core = "7.x"
 
-stylesheets[all][] = css/layout.css
-stylesheets[all][] = css/style.css
-stylesheets[all][] = css/colors.css
-stylesheets[print][] = css/print.css
+stylesheets["all"][] = "css/layout.css"
+stylesheets["all"][] = "css/style.css"
+stylesheets["all"][] = "css/colors.css"
+stylesheets["print"][] = "css/print.css"
 
-regions[header] = Header
-regions[help] = Help
-regions[highlighted] = Highlighted
-regions[tools] = Tools
-regions[tools_bottom] = Tools Bottom
-regions[content_top] = Content Top
+regions["header"] = "Header"
+regions["help"] = "Help"
+regions["highlighted"] = "Highlighted"
+regions["tools"] = "Tools"
+regions["tools_bottom"] = "Tools Bottom"
+regions["content_top"] = "Content Top"
 
-regions[featured] = Featured
-regions[content] = Content
-regions[sidebar_first] = Sidebar left
-regions[sidebar_second] = Sidebar right
+regions["featured"] = "Featured"
+regions["content"] = "Content"
+regions["sidebar_first"] = "Sidebar left"
+regions["sidebar_second"] = "Sidebar right"
 
-regions[footer] = Footer
+regions["footer"] = "Footer"
 
-settings[shortcut_module_link] = 0
+settings["shortcut_module_link"] = 0
 
 
-; Information added by drupal.org packaging script on 2011-01-05
+; Information added by drupal . org packaging script on 2011-01-05
 project = "drupal"
 datestamp = "1294208756"
 
 
-; Information added by Acquia.com packaging script
+; Information added by Acquia . com packaging script
 acquia = "1"
 

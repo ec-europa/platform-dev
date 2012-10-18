@@ -1,3 +1,10 @@
+<?php
+/**
+ * @file
+ * Default theme implementation to display a table.
+ */
+?>
+
 <?php 
   $header = $variables['header'];
   $rows = $variables['rows'];

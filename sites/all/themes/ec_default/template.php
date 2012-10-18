@@ -1,4 +1,11 @@
 <?php
+/**
+ * @file
+ * Default theme functions.
+ */
+?>
+
+<?php
 // $Id: template.php,v 1.13 2010/12/14 01:04:27 dries Exp $
 
 /**
@@ -129,9 +136,9 @@ function ec_default_preprocess_html(&$variables) {
   drupal_add_css(path_to_theme() . '/css/hack-ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE)));
 
   // Add javascripts
-	drupal_add_js(path_to_theme() . '/wel/template-2012/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
-	drupal_add_js(path_to_theme() . '/scripts/jquery.mousewheel-3.0.6.pack.js', array('scope' => 'footer', 'weight' => 11));
-	drupal_add_js(path_to_theme() . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 12));
+  drupal_add_js(path_to_theme() . '/wel/template-2012/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
+  drupal_add_js(path_to_theme() . '/scripts/jquery.mousewheel-3.0.6.pack.js', array('scope' => 'footer', 'weight' => 11));
+  drupal_add_js(path_to_theme() . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 12));
   drupal_add_js(path_to_theme() . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 13));  
 
 }
@@ -274,9 +281,10 @@ function ec_default_page_alter($page) {
       )
     );
     drupal_add_html_head($meta_classification, 'meta_classification');      
-  } else {
-    if (user_access('administer site configuration')){
-      drupal_set_message('Please select the IPG classification of your site ' . l('here.','admin/config/system/site-information'), 'warning');
+  } 
+  else {
+    if (user_access('administer site configuration')) {
+      drupal_set_message(t('Please select the IPG classification of your site') . ' ' . l(t('here.'), 'admin/config/system/site-information'), 'warning');
     }
   }
   
@@ -450,9 +458,10 @@ function ec_default_menu_tree($variables) {
 function ec_default_menu_tree__main_menu($variables) {
   if (strpos($variables['tree'], 'main_menu_dropdown')) {
   //there is a dropdown in this tree (using a specific term "main_menu_dropdown" to avoid mistakes)
-    $variables['tree'] = str_replace('<ul class="nav nav-pills">','<ul class="dropdown-menu">',$variables['tree']);
+    $variables['tree'] = str_replace('<ul class="nav nav-pills">', '<ul class="dropdown-menu">', $variables['tree']);
     return '<ul class="nav nav-pills">' . $variables['tree'] . '</ul>';  
-  } else {
+  } 
+  else {
   //there is no dropdown in this tree, simply return it in a <ul>
     return '<ul class="nav nav-pills">' . $variables['tree'] . '</ul>';
   }
@@ -476,7 +485,7 @@ function ec_default_menu_link(array $variables) {
 function ec_default_menu_link__main_menu(array $variables) {
   $element = $variables['element'];
   $dropdown = '';
-  $name_id = strtolower(strip_tags(str_replace(' ','',$element['#title'])));
+  $name_id = strtolower(strip_tags(str_replace(' ', '', $element['#title'])));
 // remove colons and anything past colons
   if (strpos($name_id, ':')) $name_id = substr ($name_id, 0, strpos($name_id, ':'));
 //Preserve alphanumerics and numbers, everything else goes away
@@ -485,7 +494,7 @@ function ec_default_menu_link__main_menu(array $variables) {
 
   if ($element['#below'] && !theme_get_setting('disable_dropdown_menu')) {
   //Menu item has dropdown
-    if (!in_array('dropdown-submenu',$element['#attributes']['class'])) {
+    if (!in_array('dropdown-submenu', $element['#attributes']['class'])) {
       $element['#title'] .= '<b class="caret"></b>';
     }
 
@@ -495,7 +504,7 @@ function ec_default_menu_link__main_menu(array $variables) {
     
     //add class to specify it is a dropdown
     $element['#below'][$id]['#attributes']['class'][] = 'main_menu_dropdown';
-    if (!in_array('dropdown-submenu',$element['#attributes']['class'])) {
+    if (!in_array('dropdown-submenu', $element['#attributes']['class'])) {
       $element['#attributes']['class'][] = 'dropdown';
     }
     
@@ -518,7 +527,8 @@ function ec_default_menu_link__main_menu(array $variables) {
     $output = l($element['#title'], '', $element['#localized_options']);
     
     $dropdown = drupal_render($element['#below']);
-  } else {
+  } 
+  else {
   //No dropdown
     $element['#localized_options']['html'] = TRUE;
     $output = l($element['#title'], $element['#href'], $element['#localized_options']);
@@ -619,7 +629,7 @@ function ec_default_cck_alter($form, &$form_state) {
  * Returns HTML for a link.
  * @param type $variables 
  */
-function ec_default_link( $variables ){
+function ec_default_link( $variables ) {
   $decoration = '';
   $action_bar_before = '';
   $action_bar_after = '';
@@ -630,7 +640,7 @@ function ec_default_link( $variables ){
     $variables['options']['attributes']['class'] = '';
   }
   
-  if( isset($variables['options']['attributes']['action_bar']) ) {
+  if (isset($variables['options']['attributes']['action_bar'])) {
     switch ( $variables['options']['attributes']['action_bar'] ) {
       case 'first':
         $action_bar_before .= '<div class="form-actions btn-toolbar action_bar">';
@@ -647,7 +657,7 @@ function ec_default_link( $variables ){
     }
   }
   
-  if( isset($variables['options']['attributes']['btn_group']) ) {
+  if (isset($variables['options']['attributes']['btn_group'])) {
     switch ( $variables['options']['attributes']['btn_group'] ) {
       case 'first':
         $btn_group_before .= '<div class="btn-group">';
@@ -664,8 +674,8 @@ function ec_default_link( $variables ){
     }
   }  
   
-  if( isset($variables['options']['attributes']['type']) ) {
-    switch ( $variables['options']['attributes']['type'] ) {
+  if (isset($variables['options']['attributes']['type'])) {
+    switch ($variables['options']['attributes']['type']) {
       case 'add':
         $decoration .= '<i class="icon-plus icon-white"></i>';
         $variables['options']['attributes']['class'] .= ' btn btn-success';
@@ -701,12 +711,12 @@ function ec_default_link( $variables ){
     }
   }
   
-  $output = $action_bar_before.$btn_group_before.'<a href="' . 
+  $output = $action_bar_before . $btn_group_before . '<a href="' . 
     check_plain(url($variables['path'], $variables['options'])) . '"' . 
     drupal_attributes($variables['options']['attributes']) . '>' . 
     $decoration . ($variables['options']['html'] ? 
       $variables['text'] : check_plain($variables['text'])) . 
-    '</a>'.$btn_group_after.$action_bar_after;
+    '</a>' . $btn_group_after . $action_bar_after;
   return $output;
 }
 
@@ -721,10 +731,10 @@ function ec_default_dropdown($variables) {
 
   $output="";
   if (!empty($items)) {
-	if(theme_get_setting('disable_dropdown_menu'))
-	  $output .= "<ul>";
+  if (theme_get_setting('disable_dropdown_menu'))
+    $output .= "<ul>";
     else
-	  $output .= "<ul class='dropdown-menu'>";
+    $output .= "<ul class='dropdown-menu'>";
     $num_items = count($items);
     foreach ($items as $i => $item) {
       $data = '';
@@ -732,7 +742,6 @@ function ec_default_dropdown($variables) {
         foreach ($item as $key => $value) {
           if ($key == 'data') {
             $data = $value;
-			//print_r($data);
           }
         }
       }
@@ -759,8 +768,8 @@ function block_render($module, $block_id) {
 
 
 function icon_type_classes($subject) {
-	$pattern = '@<i class="icon-(.+)"></i>@';
-	$resexp = preg_replace_callback($pattern, 'class_replace', $subject);
+  $pattern = '@<i class="icon-(.+)"></i>@';
+  $resexp = preg_replace_callback($pattern, 'class_replace', $subject);
   return $resexp;
 }
 
@@ -842,14 +851,12 @@ function ec_default_breadcrumb($variables) {
   if (!empty($breadcrumb)) {
     $crumbs = '';
 
-    foreach($breadcrumb as $key=>$value) {
-      if($key!=0){
-        $crumbs .= '<li>'.$value.'</li>';
+    foreach ($breadcrumb as $key => $value) {
+      if ($key!=0) {
+        $crumbs .= '<li>' . $value . '</li>';
       }
-	  }
+    }
     $crumbs .= '';
-	  return $crumbs;
+    return $crumbs;
   }
 }  
-
-?>
