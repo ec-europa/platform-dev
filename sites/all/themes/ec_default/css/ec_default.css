@@ -899,6 +899,7 @@ html.js input.form-autocomplete{background-position:100% 4px;}
 html.js input.throbbing{background-position:100% -16px;}
 .no_label .field-label,.no_label label{display:none;}
 .no_label .field{padding-bottom:0;}
+.region-content .rate-widget ul{margin:0;padding:0;}
 div.password-suggestions{border:0;}
 .ui-widget-overlay{background:#222222;opacity:0.7;}
 div.vertical-tabs .vertical-tabs-panes fieldset.vertical-tabs-pane{padding:1em;}
