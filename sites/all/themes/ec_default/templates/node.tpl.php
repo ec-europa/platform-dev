@@ -82,6 +82,8 @@
  
   $output = '';
   $display_user_picture = TRUE;
+  $prefixe = '';
+  $suffixe = '';
  
   //get node type
   switch ($type) {
@@ -123,6 +125,21 @@
         'group' => array('group_audience', 'group_content_access')
       );        
       break;
+
+    case 'idea':
+      $display_submitted = FALSE;    
+      $fields = array(
+        'picture' => array(),
+        'body'  => array('body'),
+        'hidden'  => array('comments', 'links', 'field_watching', 'print_links'),
+        'group' => array('group_audience', 'group_content_access')
+      );  
+      if ($content['field_watching']['#object']->field_watching['und'][0]['value']) {   
+        $suffixe .= '<div class="no_label">';     
+        $suffixe .= '<span class="label label-success t_upper f_right"><i class="icon-eye-open icon-white"></i>'.t('watched').'</span>';
+        $suffixe .= '</div>';
+      }
+      break;      
       
     default:
       $display_user_picture = FALSE;
@@ -181,9 +198,12 @@
         }
       }    
       if ($display_content && !empty($fields['content'])) { 
+        //display highlighted fields
+
         //sort fields by weight
         asort($fields['content']);
-        
+
+        $output .= $prefixe;
         foreach ($fields['content'] as $key => $value) {
           $field = '';
           if (isset($content[$key]['#label_display'])) {
@@ -230,6 +250,7 @@
             $output .= $field;
           }
         }
+        $output .= $suffixe;       
       }
       
       //display groups
