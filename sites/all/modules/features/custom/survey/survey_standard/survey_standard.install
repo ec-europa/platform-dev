@@ -16,7 +16,7 @@ function survey_standard_enable() {
 /*
 * Hook disable 
 */
-function survey_standard_disable(){
+function survey_standard_disable() {
   // disable example contents
   //module_disable(array("survey_standard_contents"));
   

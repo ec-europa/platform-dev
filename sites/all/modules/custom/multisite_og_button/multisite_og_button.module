@@ -28,9 +28,9 @@ function multisite_og_button_block_view($delta='') {
 /**
  * Helper function to fetch the links
  */
-function _multisite_og_button_contextual_links(){
+function _multisite_og_button_contextual_links() {
   $context = og_context();    
-  if($context){
+  if ($context) {
     $links = og_node_create_links($context->gid);
     $links['og_node_create_links']['#theme']='dropdown';
     return $links;

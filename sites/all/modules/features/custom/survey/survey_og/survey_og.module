@@ -32,10 +32,10 @@ function survey_og_menu() {
 function survey_og_views_pre_render(&$view) {
   if($view->name == 'surveys_list' && $view->current_display == 'page_1') {
     if(user_access('create webform content'))  {
-	  $og = og_context();
-      $output = l(t('Create a new survey'),'node/add/webform',array('query' => array('gids_node[]' => $og->etid), 'attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
+      $og = og_context();
+      $output = l(t('Create a new survey'), 'node/add/webform', array('query' => array('gids_node[]' => $og->etid), 'attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
       $view->header['area']->options['content'] = $output;
-	}
+    }
   }
 }
 

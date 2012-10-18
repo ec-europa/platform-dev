@@ -32,7 +32,7 @@ function survey_core_enable() {
             ->execute();
 
     //Activation message
-    drupal_set_message('Survey feature is now active on your site.');
+    drupal_set_message(st('Survey feature is now active on your site.'));
 }
 
 /*
@@ -62,6 +62,6 @@ function survey_core_disable() {
     module_disable(array("survey_contents"));
 
     //Activation message
-    drupal_set_message('Survey is now disabled on your site.');
+    drupal_set_message(st('Survey is now disabled on your site.'));
 }
 

@@ -2,10 +2,10 @@
 function solr_config_enable() {
   // add solr facet blocks to the search context
   $blocks = module_invoke_all('block_info');
-  foreach($blocks as $key => $value) {
-    if(is_string($value['info'])) {
-      if(substr($value['info'], 0, 5) == 'Facet') {
-        _add_block_context('search',$value['info'],'facetapi',$key, 'sidebar_first');
+  foreach ($blocks as $key => $value) {
+    if (is_string($value['info'])) {
+      if (substr($value['info'], 0, 5) == 'Facet') {
+        _add_block_context('search', $value['info'], 'facetapi', $key, 'sidebar_first');
       }
     }
   }

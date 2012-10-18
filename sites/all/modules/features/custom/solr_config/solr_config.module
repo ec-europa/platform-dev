@@ -6,3 +6,12 @@
 
 include_once 'solr_config.features.inc';
 
+
+
+function solr_config_apachesolr_exclude($entity_id, $entity_type, $row, $env_id) {
+  // Never index media entities to core_1
+  if ($entity_type == 'media' && $env_id == 'core_1') {
+    return TRUE;
+  }
+  return FALSE;
+}

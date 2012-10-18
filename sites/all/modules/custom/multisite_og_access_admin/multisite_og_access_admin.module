@@ -59,7 +59,7 @@ function multisite_og_access_admin_og_fields_info() {
 /**
  * Implements hook_form_alter().
  */
-function _multisite_og_access_admin_form_alter_helper($gid){
+function _multisite_og_access_admin_form_alter_helper($gid) {
   global $user;
   
   $group = og_load($gid);
@@ -76,21 +76,21 @@ function multisite_og_access_admin_form_alter(&$form, &$form_state, $form_id) {
   global $user;
   
   // Alter the node creation/edition form.
-  if (isset($form['#node']) && $form_id == $form['#node']->type .'_node_form') {
+  if (isset($form['#node']) && $form_id == $form['#node']->type . '_node_form') {
   
     // Node admins and og admins should never be restricted.
     if (user_access('administer nodes') || user_access('administer organic groups'))
       return;
         
     // Disable groups where user is not group admin.
-    if(isset($form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]["#options"])){
+    if (isset($form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]["#options"])) {
       $audience_options = $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]["#options"];
 
-      foreach($audience_options as $gid_or_category => $groups_or_label){
-        if(is_array($groups_or_label)){
+      foreach ($audience_options as $gid_or_category => $groups_or_label) {
+        if (is_array($groups_or_label)) {
           $groups = $groups_or_label;
-          foreach($groups as $gid => $label){
-            if(_multisite_og_access_admin_form_alter_helper($gid)){
+          foreach ($groups as $gid => $label) {
+            if (_multisite_og_access_admin_form_alter_helper($gid)) {
               // Remove from selectable options
               unset($form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#options'][$gid_or_category][$gid]);
               // If it was available as a default value remove it from default value and consider 
@@ -98,21 +98,21 @@ function multisite_og_access_admin_form_alter(&$form, &$form_state, $form_id) {
               if (in_array($gid, $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#default_value'])) {
                 $key = array_search($gid, $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#default_value']);                
                 unset($form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#default_value'][$key]);
-                if(!in_array($gid, $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#hidden_selected_gids'])){
-                  if(isset($form['#node']->nid)){ // if node edit keep the id  
+                if (!in_array($gid, $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#hidden_selected_gids'])) {
+                  if (isset($form['#node']->nid)) { // if node edit keep the id  
                     $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#hidden_selected_gids'][] = $gid;
                   }
                 }
               }
             }
           }
-          if(empty($form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#options'][$gid_or_category])){
+          if (empty($form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#options'][$gid_or_category])) {
             unset($form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#options'][$gid_or_category]);
           }       
         } else {
           $gid = $gid_or_category;
           $label = $groups_or_label;
-          if(_multisite_og_access_admin_form_alter_helper($gid)){
+          if (_multisite_og_access_admin_form_alter_helper($gid)) {
             // Remove from selectable options
             unset($form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#options'][$gid]);
             // If it was available as a default value remove it from default value and consider
@@ -121,7 +121,7 @@ function multisite_og_access_admin_form_alter(&$form, &$form_state, $form_id) {
               $key = array_search($gid, $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#default_value']);
               unset($form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#default_value'][$key]);
               if(!in_array($gid, $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#hidden_selected_gids'])){
-                if(isset($form['#node']->nid)){ // if node edit keep the id                
+                if (isset($form['#node']->nid)) { // if node edit keep the id                
                   $form[OG_AUDIENCE_FIELD][LANGUAGE_NONE]['#hidden_selected_gids'][] = $gid;
                 }
               }
@@ -136,11 +136,12 @@ function multisite_og_access_admin_form_alter(&$form, &$form_state, $form_id) {
     }
 
     // Get default settings for visibility
-    if(isset($form[OG_CONTENT_ACCESS_FIELD][LANGUAGE_NONE])){  
+    if (isset($form[OG_CONTENT_ACCESS_FIELD][LANGUAGE_NONE])) {  
       $node = node_load($form['nid']['#value']);
       if (is_object($node)) {
         $access = $node->{OG_CONTENT_ACCESS_FIELD}[LANGUAGE_NONE][0]['value'];
-      } else {
+      } 
+      else {
         $access = OG_CONTENT_ACCESS_DEFAULT;
       }
       $form[OG_CONTENT_ACCESS_FIELD][LANGUAGE_NONE]['#default_value'] = array($access);
@@ -160,13 +161,13 @@ function multisite_og_access_admin_form_alter(&$form, &$form_state, $form_id) {
 function multisite_og_access_admin_node_validate($node, $form, &$form_state) {
   global $user;
  
-  if(user_access('administer nodes') || user_access('administer organic groups')){
+  if (user_access('administer nodes') || user_access('administer organic groups')) {
     return;
   }
 
-  if(!isset($form_state['values'][OG_CONTENT_ACCESS_FIELD])
+  if (!isset($form_state['values'][OG_CONTENT_ACCESS_FIELD])
   || !isset($form_state['values'][OG_AUDIENCE_FIELD])
-  ){
+  ) {
     return;
   }
   
@@ -175,27 +176,28 @@ function multisite_og_access_admin_node_validate($node, $form, &$form_state) {
 
   // Validate that public is checked only for groups where user
   // is group admin in a node creation.
-  if($visibility==OG_CONTENT_ACCESS_PUBLIC && !$form['#node']->nid) {
+  if ($visibility==OG_CONTENT_ACCESS_PUBLIC && !$form['#node']->nid) {
     if (!empty($audiences)) {
       // Check if user is admin of at leat one of these groups.      
       $is_grp_admin = FALSE;
       $groups = array();
-      foreach($audiences as $index => $value){
+      foreach ($audiences as $index => $value) {
         $gid = $value['gid'];
         $group = og_load($gid);
         $groups[$gid]=$group->label;// store for error reporting
         
         $group_node = entity_load_single($group->entity_type, $group->etid);         
-        if((isset($group_node->{OG_ACCESS_ADMIN_FIELD}[LANGUAGE_NONE][0]['value']))
-        &&($group_node->{OG_ACCESS_ADMIN_FIELD}[LANGUAGE_NONE][0]['value']==OG_ACCESS_ADMIN_FIELD_ADMINS)){          
+        if ((isset($group_node->{OG_ACCESS_ADMIN_FIELD}[LANGUAGE_NONE][0]['value']))
+        &&($group_node->{OG_ACCESS_ADMIN_FIELD}[LANGUAGE_NONE][0]['value']==OG_ACCESS_ADMIN_FIELD_ADMINS)) {          
           $rids = og_get_user_roles($gid);
           $roles = og_get_user_roles_name($rids);        
           $is_grp_admin |= (in_array(OG_ADMINISTRATOR_ROLE, $roles));
-        } else {
+        } 
+        else {
           $is_grp_admin |= TRUE; // there is a group where as a normal user you are allowed to post public
         }
       }
-      if(!$is_grp_admin){
+      if (!$is_grp_admin) {
         form_set_error('og_public', format_plural(count($groups), 'You must be group administrator of group @groups to create a public post inside this group.', 'You must be group administrator of at least one of @groups to create a public post inside theses groups.', array('@groups' => implode(', ',$groups))));
       }   
     }
@@ -203,31 +205,33 @@ function multisite_og_access_admin_node_validate($node, $form, &$form_state) {
   
   // Validate that if public is unchecked at least one group
   // has to be checked in a node creation.
-  else if($visibility==OG_CONTENT_ACCESS_PRIVATE && !$form['#node']->nid){
+  else if ($visibility==OG_CONTENT_ACCESS_PRIVATE && !$form['#node']->nid) {
     //If we have forced groups, do nothing
     //if(!hiddenselected gids)
-    if(empty($audiences)){
+    if (empty($audiences)) {
       form_set_error('title', t('You must <a href="@join">join a group</a> before posting a %type.', array('@join' => url('og'), '%type' => node_get_types('name', $node->type))));
-    } else {
+    } 
+    else {
       // Check if user is admin of at leat one of these groups.
       $is_grp_admin = FALSE;
       $groups = array();
-      foreach($audiences as $index => $value){
+      foreach ($audiences as $index => $value) {
         $gid = $value['gid'];
         $group = og_load($gid);
         $groups[$gid]=$group->label;
         
         $group_node = entity_load_single($group->entity_type, $group->etid);
-        if((isset($group_node->{OG_ACCESS_ADMIN_FIELD}[LANGUAGE_NONE][0]['value']))
-        &&($group_node->{OG_ACCESS_ADMIN_FIELD}[LANGUAGE_NONE][0]['value']==OG_ACCESS_ADMIN_FIELD_ADMINS)){
+        if ((isset($group_node->{OG_ACCESS_ADMIN_FIELD}[LANGUAGE_NONE][0]['value']))
+        &&($group_node->{OG_ACCESS_ADMIN_FIELD}[LANGUAGE_NONE][0]['value']==OG_ACCESS_ADMIN_FIELD_ADMINS)) {
           $rids = og_get_user_roles($gid);
           $roles = og_get_user_roles_name($rids);
           $is_grp_admin |= (in_array(OG_ADMINISTRATOR_ROLE, $roles));
-        } else {
+        } 
+        else {
           $is_grp_admin |= TRUE; // there is a group where as a normal user you are allowed to post private
         }
       }
-      if(!$is_grp_admin){
+      if (!$is_grp_admin) {
         form_set_error('og_public', format_plural(count($groups), 'You can only create a post inside a group, please check @groups.', 'You can only create a post inside a group, please check at least one group among @groups.', array('@groups' => implode(', ', $groups))));
       }     
     }

@@ -6,7 +6,7 @@
 function survey_og_views_default_views_alter(&$views) {
   if (array_key_exists('surveys_list', $views)) {
     $view=$views['surveys_list'];
-	 
+
     /* Display: Defaults */
     $handler = $view->display['default']->handler;
     /* Relationship: Group membership: Node group membership */
@@ -27,7 +27,7 @@ function survey_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['group']['summary_options']['items_per_page'] = '25';
     $handler->display->display_options['arguments']['group']['break_phrase'] = 0;
     $handler->display->display_options['arguments']['group']['not'] = 0;
-	
+
   }
 }
 
