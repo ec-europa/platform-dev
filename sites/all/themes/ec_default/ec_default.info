@@ -9,19 +9,19 @@ stylesheets["all"][] = "css/style.css"
 stylesheets["all"][] = "css/colors.css"
 stylesheets["print"][] = "css/print.css"
 
-regions["header"] = "Header"
-regions["help"] = "Help"
-regions["highlighted"] = "Highlighted"
-regions["tools"] = "Tools"
-regions["tools_bottom"] = "Tools Bottom"
-regions["content_top"] = "Content Top"
+regions[header] = "Header"
+regions[help] = "Help"
+regions[highlighted] = "Highlighted"
+regions[tools] = "Tools"
+regions[tools_bottom] = "Tools Bottom"
+regions[content_top] = "Content Top"
 
-regions["featured"] = "Featured"
-regions["content"] = "Content"
-regions["sidebar_first"] = "Sidebar left"
-regions["sidebar_second"] = "Sidebar right"
+regions[featured] = "Featured"
+regions[content] = "Content"
+regions[sidebar_first] = "Sidebar left"
+regions[sidebar_second] = "Sidebar right"
 
-regions["footer"] = "Footer"
+regions[footer] = "Footer"
 
 settings["shortcut_module_link"] = 0
 
