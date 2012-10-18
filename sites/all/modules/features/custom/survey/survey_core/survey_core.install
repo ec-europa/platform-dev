@@ -6,7 +6,7 @@
 
 function survey_core_enable() {
     // solR configuration add bundle
-    config_solr_bundle('webform', 'add');
+    //config_solr_bundle('webform', 'add');
 
     // add type to notification
     notification_content_type('webform', 'add');
@@ -45,7 +45,7 @@ function survey_core_disable() {
             ->condition('node_type', 'webform')
             ->execute();
     // solR configuration add bundle
-    config_solr_bundle('webform', 'delete');
+    //config_solr_bundle('webform', 'delete');
 
     // remove type from notification
     notification_content_type('webform', 'delete');
