@@ -84,6 +84,7 @@
   $display_user_picture = TRUE;
   $prefixe = '';
   $suffixe = '';
+  $display_label = FALSE;
  
   //get node type
   switch ($type) {
@@ -140,9 +141,19 @@
         $suffixe .= '</div>';
       }
       break;      
-      
-    default:
+
+    case 'webform':
       $display_user_picture = FALSE;
+      $fields = array(
+        'picture' => array(),
+        'body'  => array('body'),
+        'hidden'  => array('comments', 'links', 'print_links'),
+        'group' => array('group_audience', 'group_content_access')
+      );        
+      $display_label = TRUE;
+      break;
+
+    default:
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
@@ -198,8 +209,6 @@
         }
       }    
       if ($display_content && !empty($fields['content'])) { 
-        //display highlighted fields
-
         //sort fields by weight
         asort($fields['content']);
 
@@ -237,10 +246,11 @@
             }
 
             $field .= '</div>';
-          } else {
+          } else if ($display_label) {
+            $field .= '<div class="row-fluid"><div class="'.$span_large.'">'.render($content[$key]).'</div></div>';
+          } else  {
             $field .= '<div class="row-fluid"><div class="'.$span_large.' no_label">'.render($content[$key]).'</div></div>';
           }          
-          
           
           if (isset($content[$key]['#field_name']) && in_array($content[$key]['#field_name'],$fields['body'])) {
             $output .= '<fieldset>'.$field.'</fieldset>';
