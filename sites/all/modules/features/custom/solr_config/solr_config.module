@@ -17,6 +17,7 @@ function solr_config_apachesolr_exclude($entity_id, $entity_type, $row, $env_id)
       }
       else {
         apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id."-node-".$node->nid); // remove file from solr index
+        drupal_set_message("entity $entity_type $entity_id removed from solr index");
         return TRUE;
       }
     }
@@ -25,11 +26,10 @@ function solr_config_apachesolr_exclude($entity_id, $entity_type, $row, $env_id)
     }
     else {
       apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id."-node-".$node->nid); // remove file from solr index
+      drupal_set_message("entity $entity_type $entity_id removed from solr index");
       return TRUE;
     }
   }
-
-  drupal_set_message("entity $entity_type $entity_id removed from solr index");
   return FALSE;
 
 }
