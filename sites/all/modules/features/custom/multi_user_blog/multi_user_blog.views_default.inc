@@ -364,10 +364,10 @@ function multi_user_blog_views_default_views() {
     t('Offset'),
     t('<h2>Post from the editorial team</h2>'),
     t('author'),
-    t('<div class="row-fluid">
+   /* t('<div class="row-fluid">
 <div class="span10"><h3>[title]</h3></div>
 <div class="span2">[field_rating]</div>
-</div>'),
+</div>'),*/
     t('<div class="row-fluid">
 <div class="span1">[picture]</div>
 <div class="span11">Posted on [created] by [name]</div>
