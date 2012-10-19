@@ -12,12 +12,11 @@
         }
         
         $('ul.languages li a').click(function() {
-            $lg = $(this).find("span").html();
+            var lg = $(this).find("span").html();
 
-            $.cookie(Drupal.settings.splash_screen.cookie_name, $lg, {
-                expires: 365
-            });
-	  
+            createCookie(Drupal.settings.splash_screen.cookie_name, lg, -1);
+            createCookie(Drupal.settings.splash_screen.cookie_name, lg, 365);
+
             return true;
         });
 	  	
@@ -42,7 +41,7 @@ function createCookie(name,value,days) {
         var expires = "; expires="+date.toGMTString();
     }
     else var expires = "";
-    document.cookie = name+"="+value+expires+"; path=/";
+    document.cookie = name+"="+value+expires+"; path="+Drupal.settings.splash_screen.base_url+"/";
 }
 
 function are_cookies_enabled()
