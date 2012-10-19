@@ -6,12 +6,30 @@
 
 include_once 'solr_config.features.inc';
 
-
-
 function solr_config_apachesolr_exclude($entity_id, $entity_type, $row, $env_id) {
-  // Never index media entities to core_1
-  if ($entity_type == 'media' && $env_id == 'core_1') {
-    return TRUE;
+  if($entity_type == 'file') {
+    $node = node_load($row->parent_entity_id);
+
+    if(isset($node->workbench_moderation)) { // node moderate with workbench moderation
+      $workflow = $node->workbench_moderation;
+      if(isset($workflow['published'])) { // node parent is published
+        return FALSE;      
+      }
+      else {
+        apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id."-node-".$node->nid); // remove file from solr index
+        return TRUE;
+      }
+    }
+    else if($node->status == 1) { // standard drupal workflow : node parent is published
+      return FALSE;  
+    }
+    else {
+      apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id."-node-".$node->nid); // remove file from solr index
+      return TRUE;
+    }
   }
+
+  drupal_set_message("entity $entity_type $entity_id removed from solr index");
   return FALSE;
+
 }
