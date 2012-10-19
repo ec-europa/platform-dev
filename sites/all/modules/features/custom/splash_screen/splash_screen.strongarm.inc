@@ -84,7 +84,7 @@ function splash_screen_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'locale_cookie_language_negotiation_cookie_param';
-  $strongarm->value = 'ecweb_cookie_language';
+  $strongarm->value = 'language';
   $export['locale_cookie_language_negotiation_cookie_param'] = $strongarm;
 
   $strongarm = new stdClass();
