@@ -8,7 +8,6 @@
  * Implements hook_strongarm().
  */
 function cce_basic_config_strongarm() {
-  global $base_url;
   $export = array();
 
   $strongarm = new stdClass();
@@ -184,7 +183,7 @@ function cce_basic_config_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'language_cookie_path';
-  $strongarm->value = $base_url . '/';
+  $strongarm->value = '/';
   $export['language_cookie_path'] = $strongarm;
 
   $strongarm = new stdClass();
