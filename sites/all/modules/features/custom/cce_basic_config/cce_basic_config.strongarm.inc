@@ -8,6 +8,7 @@
  * Implements hook_strongarm().
  */
 function cce_basic_config_strongarm() {
+  global $base_url;
   $export = array();
 
   $strongarm = new stdClass();
