@@ -104,6 +104,7 @@ features[variable][] = language_cookie_domain
 features[variable][] = language_cookie_param
 features[variable][] = language_cookie_path
 features[variable][] = language_cookie_time
+features[variable][] = locale_language_providers_weight_language
 features[variable][] = node_admin_theme
 features[variable][] = node_options_page
 features[variable][] = node_submitted_page
