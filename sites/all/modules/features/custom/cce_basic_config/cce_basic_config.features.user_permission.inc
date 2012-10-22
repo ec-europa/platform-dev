@@ -375,5 +375,26 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: access broken links report.
+  $permissions['access broken links report'] = array(
+    'name' => 'access broken links report',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'editor',
+    ),
+    'module' => 'linkchecker',
+  );
+
+  // Exported permission: access own broken links report.
+  $permissions['access own broken links report'] = array(
+    'name' => 'access own broken links report',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+      2 => 'editor',
+    ),
+    'module' => 'linkchecker',
+  );
+
   return $permissions;
 }

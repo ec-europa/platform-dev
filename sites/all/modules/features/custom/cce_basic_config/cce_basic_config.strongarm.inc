@@ -793,5 +793,69 @@ function cce_basic_config_strongarm() {
   );
   $export['rate_widgets'] = $strongarm;
   
+  
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_check_links_interval';
+  $strongarm->value = '259200';
+  $export['linkchecker_check_links_interval'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_check_links_types';
+  $strongarm->value = '0';
+  $export['linkchecker_check_links_types'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_disable_link_check_for_urls';
+  $strongarm->value = 'example.com
+example.net
+example.org';
+  $export['linkchecker_disable_link_check_for_urls'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_extract_from_a';
+  $strongarm->value = 1;
+  $export['linkchecker_extract_from_a'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_extract_from_img';
+  $strongarm->value = 1;
+  $export['linkchecker_extract_from_img'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_scan_blocks';
+  $strongarm->value = 0;
+  $export['linkchecker_scan_blocks'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_scan_comments';
+  $strongarm->value = 0;
+  $export['linkchecker_scan_comments'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_scan_nodetypes';
+  $strongarm->value = array(
+    'article' => 'article',
+    'page' => 'page',
+  );
+  $export['linkchecker_scan_nodetypes'] = $strongarm;
+
+  
+  
   return $export;
 }
