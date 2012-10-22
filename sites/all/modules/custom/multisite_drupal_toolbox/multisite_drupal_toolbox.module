@@ -499,8 +499,6 @@ function multisite_drupal_toolbox_menu() {
   return $items;
 }
 
-
-
 function linkchecker_user_report_page_workbench() {
   global $user;
   module_load_include('inc', 'linkchecker', 'linkchecker.pages');
@@ -511,4 +509,18 @@ function _linkchecker_user_access_own_broken_links_report_workbench() {
   global $user;
   module_load_include('inc', 'linkchecker', 'linkchecker.pages');  
   return _linkchecker_user_access_own_broken_links_report($user);
+}
+
+// helper function to add/delete a content type to scan by linkchecker module
+function _content_type_linkchecker($type, $op) {
+  $node_type_scan = variable_get("linkchecker_scan_nodetypes",array());
+  switch ($op) {
+    case 'add':
+      $node_type_scan[$type] = $type;
+      break;
+    case 'delete':
+      unset($node_type_scan[$type]);
+      break;
+  }
+  variable_set("linkchecker_scan_nodetypes", $node_type_scan);
 }
