@@ -46,6 +46,10 @@ function ecas_form_alter(&$form, &$form_state, $form_id) {
       // ... and "E-mail address" fields from the 'user/%/edit' page
       // $form['account']['mail']['#access'] = FALSE;
       $form['account']['mail']['#disabled'] = TRUE;
+      
+      // disable the firstname and lastname fields
+      $form['field_firstname']['#disabled'] = TRUE;
+      $form['field_lastname']['#disabled'] = TRUE;
 
       $ecas_ch_pw_url = variable_get('ecas_change_password_url', ECAS_DEFAULT_CHANGE_PASSWORD_URL);
       $form['account']['ecas_information_label'] = array(

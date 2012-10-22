@@ -27,7 +27,7 @@ function wiki_og_user_default_permissions() {
     'create wiki content',
     'update own wiki content',
     'delete own wiki content',
-    'update any wiki content',	
+    'update any wiki content',
   ));
 
   // Administrator Member

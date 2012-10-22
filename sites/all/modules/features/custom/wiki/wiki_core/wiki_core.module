@@ -77,6 +77,3 @@ function wiki_core_tokens($type, $tokens, $data = array(), $options = array()) {
     }
     return $replacements;
 }
-
-	
-	

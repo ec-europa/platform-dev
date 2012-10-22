@@ -69,10 +69,10 @@ function wiki_og_format_filter_process_format($element) {
 * hook_views_pre_render
 */
 function wiki_og_views_pre_render(&$view) {
-  if($view->name == 'wiki_list' && $view->current_display == 'page_1') {
+  if ($view->name == 'wiki_list' && $view->current_display == 'page_1') {
     $og = og_context();
-    if(og_user_access($og->gid, 'create wiki content'))  {
-      $output = l(t('Create a new wiki'),'node/add/wiki',array('query' => array('gids_node[]' => $og->etid), 'attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
+    if (og_user_access($og->gid, 'create wiki content'))  {
+      $output = l(t('Create a new wiki'), 'node/add/wiki', array('query' => array('gids_node[]' => $og->etid), 'attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
       $view->header['area']->options['content'] = $output;
     }
   }

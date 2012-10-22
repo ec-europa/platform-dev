@@ -5,9 +5,9 @@
 */
 function wiki_og_enable() {
   // add elements to contexts
-  _add_views_context("communities","wiki_list");
+  _add_views_context("communities", "wiki_list");
   //  _add_block_context('communities', 'wiki_list-block_1', 'views', 'wiki_list-block_1', 'sidebar_first');
-  _add_content_type_context('communities','wiki');
+  _add_content_type_context('communities', 'wiki');
   
   // add wiki content type to newsletters related contents
   add_content_type_newsletters('wiki');
@@ -22,11 +22,11 @@ function wiki_og_enable() {
 /*
  * Hook disable 
  */
-function wiki_og_disable(){
+function wiki_og_disable() {
   // Remove block
   _remove_views_context("communities", "wiki_list");
   //_remove_block_context('communities', 'wiki_list-block_1');
-  _remove_content_type_context('communities','wiki');
+  _remove_content_type_context('communities', 'wiki');
 
   /*** Remove permissions ***/
   _disable_content_type('wiki');

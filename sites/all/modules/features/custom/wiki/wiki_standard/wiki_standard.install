@@ -6,7 +6,7 @@
 function wiki_standard_enable() {
   // add elements to contexts
   //_add_block_context('homepage', 'wiki_core_list-block_1', 'views', 'wiki_list-block_1', 'content_top');
-	
+
   // enable example contents
   //module_enable(array("wiki_standard_content")); 
 }
@@ -16,10 +16,10 @@ function wiki_standard_enable() {
 /*
  * Hook disable 
  */
-function wiki_standard_disable(){
+function wiki_standard_disable() {
   // Remove block
   //_remove_block_context('homepage', 'wiki_list-block_1');
-	
+
   // disable example contents
   //module_disable(array("wiki_standard_content"));
 }

@@ -48,7 +48,7 @@ function wiki_core_user_default_permissions() {
     'name' => 'edit any wiki content',
     'roles' => array(
       0 => 'administrator',
-	  1 => 'authenticated user',
+      1 => 'authenticated user',
       2 => 'contributor',
     ),
     'module' => 'node',
