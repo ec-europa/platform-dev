@@ -6,37 +6,37 @@
  */
 include_once 'splash_screen.features.inc';
 
-
 /*
  * hook_init
  */
 
 function splash_screen_init() {
-    global $base_url, $user;
-    $isadmin = 0;
-    if (in_array('administrator', array_values($user->roles))) {
-      $isadmin = 1;
+  global $base_url, $user;
+
+  $is_admin = 0;
+  if (in_array('administrator', array_values($user->roles))) {
+    $is_admin = 1;
+  }
+
+  $cookie_name = variable_get("language_cookie_param");
+  $splash_screen_url = variable_get("splash_screen_url"); // TODO put these variables in a admin form settings
+
+  if (!$is_admin) {
+    if (count($_COOKIE) > 0) {
+      if (!isset($_COOKIE['splash'])) {
+        if (!isset($_GET['splash'])) {
+          setcookie('splash', 1, time()+31536000);
+          drupal_goto($splash_screen_url, array('query'=>array('splash'=>true)));
+        }
+      }
     }
-    $cookie_name = variable_get("locale_cookie_language_negotiation_cookie_param");
-    $path = drupal_get_path('module', 'splash_screen');
-    drupal_add_js($path . '/splash.js', array('weight' => 1));
-    
-    $splash_screen_url = variable_get("splash_screen_url"); // TODO put these variables in a admin form settings
-    drupal_add_js(array('splash_screen' => array(
-      'base_url' => $base_url,
-      'isadmin' => $isadmin,
-      'cookie_name' => $cookie_name,
-      'splash' => $splash_screen_url
-    )), 'setting');
-//    global $language, $user, $base_url;
-//    if ($user->uid != 1) {
-//        $splash_screen_url = variable_get("splash_screen_url"); // TODO put these variables in a admin form settings
-//        $cookie_name = variable_get("locale_cookie_language_negotiation_cookie_param");
-//        if (empty($_COOKIE[$cookie_name]) ) {
-//                drupal_goto($splash_screen_url);
-//        }
-//
-//    }
+    else {
+      if (!isset($_GET['cookies'])) {
+        setcookie('test_cookies', 1, time()+60);
+        header('Location:' . $base_url . '/' . request_path() . '?cookies=true');
+      }
+    }
+  }
 }
 
 
@@ -62,13 +62,6 @@ function splash_screen_menu() {
 
 
 function form_splash_screen_settings($form, &$form_state) {
-  /*	
-  $form['splash_screen_url'] = array(
-    '#type' => 'textfield',
-    '#title' => t('splash screen url'),
-    '#default_value' => variable_get("splash_screen_url"),
-  ); 
-  */
   $form['splash_screen_language_msg'] = array(
     '#type' => 'textfield',
     '#title' => t('splash screen language choice'),
