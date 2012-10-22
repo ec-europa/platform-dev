@@ -324,6 +324,14 @@ function workbench_redirect_submit($form, &$form_state) {
   );
 }
 
+function multisite_drupal_toolbox_form_node_admin_content_alter(&$form, &$form_state, $form_id) {
+  // hide publish and unpublish options from the admin content form
+  // publish and unpublish actions must only be done thru the workbench
+  unset($form['admin']['options']['operation']['#options']['publish']);
+  unset($form['admin']['options']['operation']['#options']['unpublish']);
+}
+
+
 /*
 * Solr config bundle
 */
@@ -476,3 +484,4 @@ function multisite_drupal_toolbox_menu() {
   );
   return $items;
 }
+
