@@ -23,27 +23,30 @@ function news_core_uninstall() {
  */
 
 function news_core_enable() {
-    // solR configuration add bundle
-    config_solr_bundle('news', 'add');
+  // solR configuration add bundle
+  config_solr_bundle('news', 'add');
 
-    // add type to notification
-    notification_content_type('news', 'add');
+  // add type to notification
+  notification_content_type('news', 'add');
 
-    //Add breadcrumb configuration
-    db_insert('custom_breadcrumb')
-            ->fields(array(
-                'titles' => '[Breadcrumb_news:news_title]', // titles of the elements to display in the breadcrumb
-                'paths' => 'news/', // path of the elements to display in the breadcrumb
-                'visibility_php ' => '',
-                'node_type' => 'news', //the content type targeted by this rule
-            ))
-            ->execute();
+  // add type to linkchecker scan
+  _content_type_linkchecker('news', 'add');
 
-    // add type to the simplenews related content
-    //simplenews_related_content_type('news', 'add');
+  //Add breadcrumb configuration
+  db_insert('custom_breadcrumb')
+    ->fields(array(
+      'titles' => '[Breadcrumb_news:news_title]', // titles of the elements to display in the breadcrumb
+      'paths' => 'news/', // path of the elements to display in the breadcrumb
+      'visibility_php ' => '',
+      'node_type' => 'news', //the content type targeted by this rule
+    ))
+    ->execute();
 
-    //Activation message
-    drupal_set_message('News feature is now active on your site.');
+  // add type to the simplenews related content
+  //simplenews_related_content_type('news', 'add');
+
+  //Activation message
+  drupal_set_message('News feature is now active on your site.');
 }
 
 /*
@@ -53,44 +56,47 @@ function news_core_enable() {
  */
 
 function news_core_disable() {
-    //remove the breadcrump related to
-    db_delete('custom_breadcrumb')
-            ->condition('node_type', 'news')
-            ->execute();
-    // solR configuration add bundle
-    config_solr_bundle('news', 'delete');
+  //remove the breadcrump related to
+  db_delete('custom_breadcrumb')
+    ->condition('node_type', 'news')
+    ->execute();
+  // solR configuration add bundle
+  config_solr_bundle('news', 'delete');
 
-    // remove type from notification
-    notification_content_type('news', 'delete');
+  // remove type from notification
+  notification_content_type('news', 'delete');
 
-    // remove type to the simplenews related content
-    //simplenews_related_content_type('news', 'delete');
+  // remove type to linkchecker scan
+  _content_type_linkchecker('news', 'remove');
 
-    module_disable(array('news_content_default'));
+  // remove type to the simplenews related content
+  //simplenews_related_content_type('news', 'delete');
 
-    /*     * * Remove permissions ** */
-    _disable_content_type('news');
+  module_disable(array('news_content_default'));
 
-    // Administrator
-    $adm_rid = get_rid('administrator');
-    user_role_revoke_permissions($adm_rid, array(
-        'edit own news content',
-        'edit any news content',
-        'delete own news content',
-        'delete any news content',
-        'create news content',
-    ));
+  /*     * * Remove permissions ** */
+  _disable_content_type('news');
 
-    // Contributor
-    $ctb_rid = get_rid('contributor');
-    user_role_revoke_permissions($ctb_rid, array(
-        'edit own news content',
-        'edit any news content',
-        'delete own news content',
-        'delete any news content',
-        'create news content',
-    ));
+  // Administrator
+  $adm_rid = get_rid('administrator');
+  user_role_revoke_permissions($adm_rid, array(
+    'edit own news content',
+    'edit any news content',
+    'delete own news content',
+    'delete any news content',
+    'create news content',
+  ));
 
-    drupal_flush_all_caches();
-    drupal_set_message('News feature is now disabled on your site.');
+  // Contributor
+  $ctb_rid = get_rid('contributor');
+  user_role_revoke_permissions($ctb_rid, array(
+    'edit own news content',
+    'edit any news content',
+    'delete own news content',
+    'delete any news content',
+    'create news content',
+  ));
+
+  drupal_flush_all_caches();
+  drupal_set_message('News feature is now disabled on your site.');
 }

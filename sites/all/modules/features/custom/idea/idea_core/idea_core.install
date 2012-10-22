@@ -106,6 +106,9 @@ function idea_core_enable() {
   // add type to notification
   notification_content_type('idea', 'add');
 
+  // add type to linkchecker scan
+  _content_type_linkchecker('idea', 'add');
+
   // add type to the idea related content
   //idea_related_content_type('idea', 'add'); TBR comment cause function does not exists
 
@@ -139,6 +142,9 @@ function idea_core_disable() {
 
   // remove type from notification
   notification_content_type('idea', 'delete');
+
+  // remove type to linkchecker scan
+  _content_type_linkchecker('idea', 'delete');
 
   // remove type to the idea related content
   //idea_related_content_type('idea', 'delete'); TBR seems that this function not exists

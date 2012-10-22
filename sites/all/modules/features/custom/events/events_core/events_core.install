@@ -29,6 +29,9 @@ function events_core_enable() {
     // add type to notification
     notification_content_type('event', 'add');
 
+  // add type to linkchecker scan
+  _content_type_linkchecker('event', 'add');
+
     // add type to the simplenews related content
     //simplenews_related_content_type('event', 'add');
 
@@ -50,26 +53,27 @@ function events_core_enable() {
  * Remove block from the context
  */
 function events_core_disable() {
-    //remove the breadcrump related to
-    db_delete('custom_breadcrumb')
-            ->condition('node_type', 'event')
-            ->execute();
+  //remove the breadcrump related to
+  db_delete('custom_breadcrumb')
+    ->condition('node_type', 'event')
+    ->execute();
 
-    // solR configuration reomve bundle
-    config_solr_bundle('event', 'delete');
+  // solR configuration reomve bundle
+  config_solr_bundle('event', 'delete');
 
-    // remove type from notification
-    notification_content_type('event', 'delete');
+  // remove type from notification
+  notification_content_type('event', 'delete');
 
-    // remove type to the simplenews related content
-    //simplenews_related_content_type('event', 'delete');
+  // remove type to linkchecker scan
+  _content_type_linkchecker('event', 'delete');
 
+  // remove type to the simplenews related content
+  //simplenews_related_content_type('event', 'delete');
 
+  _disable_content_type('event');
 
-    _disable_content_type('event');
-
-    drupal_flush_all_caches();
-    drupal_set_message(t('Events feature is now disabled on your site.'));
+  drupal_flush_all_caches();
+  drupal_set_message(t('Events feature is now disabled on your site.'));
 }
 
 

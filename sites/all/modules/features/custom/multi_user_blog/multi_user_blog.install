@@ -11,13 +11,16 @@ function multi_user_blog_disable() {
   // remove type from notification 
   notification_content_type('blog_post', 'delete');  
   
-  // add type to the simplenews related content 
+  // remove type to the simplenews related content 
   simplenews_related_content_type('blog_post', 'delete');  
+  
+  // remove type to linkchecker scan
+  _content_type_linkchecker('blog_post', 'delete');
   
   //remove the breadcrump related to
   db_delete('custom_breadcrumb')
-          ->condition('node_type', 'blog_post')
-          ->execute();
+    ->condition('node_type', 'blog_post')
+    ->execute();
           
   //Remove rating
   rate_content_type('blog_post', 'remove');
@@ -39,15 +42,18 @@ function multi_user_blog_enable() {
   // add type to the simplenews related content 
   simplenews_related_content_type('blog_post', 'add');  
 
+  // add type to linkchecker scan
+  _content_type_linkchecker('blog_post', 'add');
+
   //Add breadcrumb configuration
   db_insert('custom_breadcrumb')
-          ->fields(array(
-              'titles' => '[Breadcrumb_blog_post:multi_user_blog_title]', // titles of the elements to display in the breadcrumb
-              'paths' => 'blog/', // path of the elements to display in the breadcrumb
-              'visibility_php ' => '',
-              'node_type' => 'blog_post', //the content type targeted by this rule
-          ))
-          ->execute();  
+    ->fields(array(
+      'titles' => '[Breadcrumb_blog_post:multi_user_blog_title]', // titles of the elements to display in the breadcrumb
+      'paths' => 'blog/', // path of the elements to display in the breadcrumb
+      'visibility_php ' => '',
+      'node_type' => 'blog_post', //the content type targeted by this rule
+    ))
+    ->execute();  
 
   //Add rating
   rate_content_type('blog_post', 'add');
