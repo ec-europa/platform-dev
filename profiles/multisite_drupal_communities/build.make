@@ -204,6 +204,9 @@ projects[media][version] = "2.x-dev"
 projects[file_entity][subdir] = "contributed"
 projects[file_entity][version] = "2.x-dev"
 
+projects[linkchecker][subdir] = "contributed"
+projects[linkchecker][version] = "1.x-dev"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"

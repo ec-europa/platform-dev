@@ -106,6 +106,7 @@ dependencies[] = field_group
 dependencies[] = ckeditor_link
 dependencies[] = better_formats
 dependencies[] = entityreference
+dependencies[] = linkchecker
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set
