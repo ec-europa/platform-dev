@@ -39,7 +39,7 @@ function _disable_content_type($type) {
 /**
 * Utility function to add block to a context
 */
-function _add_block_context($contextName, $blockTitle, $module,$delta, $region, $weight='-10') {
+function _add_block_context($contextName, $blockTitle, $module, $delta, $region, $weight='-10') {
   //Load context
   $context=module_invoke('context', 'load', $contextName); 
   //Make some modifications
@@ -118,7 +118,6 @@ function _remove_content_type_context($contextName, $contentType) {
   module_invoke('context', 'save', $context);
 }
 
-
 /**
 * Utility function to add path condition to a context
 */
@@ -142,8 +141,6 @@ function _remove_path_context($contextName, $path) {
   //Update the context
   module_invoke('context', 'save', $context);
 }
-
-
 
 /*
 * get the rid of a og role name
@@ -180,7 +177,6 @@ function add_content_type_newsletters($node_type) {
   }
 }
 
-
 // method to switch theme
 
 /*
@@ -207,7 +203,7 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
       ->fields('mr', array('path'))
       ->condition('path', $page . '%', 'LIKE')
       ->execute();
-    while($record = $result->fetchAssoc()) {
+    while ($record = $result->fetchAssoc()) {
       $items[$record['path']]['theme callback'] = 'multisite_cce_theme';
     }
   }
@@ -229,7 +225,7 @@ function multisite_cce_theme() {
 function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
   $items = array(
     'dropdown' => array(
-      'variables'=>array(
+      'variables' => array(
          'items' => array(),
       ),
     )
@@ -334,7 +330,6 @@ function multisite_drupal_toolbox_form_node_admin_content_alter(&$form, &$form_s
   unset($form['admin']['options']['operation']['#options']['unpublish']);
 }
 
-
 /*
 * Solr config bundle
 */
@@ -352,7 +347,6 @@ function config_solr_bundle($bundle, $op) {
       break;
   }
 }
-
 
 /*
 * add content type to notification
@@ -449,7 +443,7 @@ function multisite_drupal_toolbox_page_alter(&$page) {
       '#markup' => variable_get('alert_message_body', ""),
       '#prefix' => '<div id="alter_message" class="messages warning">',
       '#suffix' => '</div>',
-    );	  
+    );
 
     $elt = array('alert_message' => $message);
     if (array_key_exists('content_top', $page))
@@ -458,7 +452,6 @@ function multisite_drupal_toolbox_page_alter(&$page) {
       $page['content_top']['alert_message'] = $message;
   }
 }
-
 
 /*
  * hook_menu 
@@ -513,7 +506,7 @@ function _linkchecker_user_access_own_broken_links_report_workbench() {
 
 // helper function to add/delete a content type to scan by linkchecker module
 function _content_type_linkchecker($type, $op) {
-  $node_type_scan = variable_get("linkchecker_scan_nodetypes",array());
+  $node_type_scan = variable_get("linkchecker_scan_nodetypes", array());
   switch ($op) {
     case 'add':
       $node_type_scan[$type] = $type;
