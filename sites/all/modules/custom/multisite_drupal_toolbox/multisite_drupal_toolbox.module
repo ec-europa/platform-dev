@@ -214,6 +214,9 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
   
   // block node import with node_export module
   $items['node/add/node_export']['access callback'] = FALSE;
+  
+  // hide broken links tab in the my account page
+  $items['user/%user/linkchecker']['access callback'] = FALSE;
 }
 
 function multisite_cce_theme() {
@@ -482,6 +485,30 @@ function multisite_drupal_toolbox_menu() {
     'access arguments' => array('administer comments'),
     'type' => MENU_LOCAL_TASK,
   );
+  
+  // add linkchecker tab (broken links) to the workbench menu
+  $items['admin/workbench/linkchecker'] = array(
+    'access callback' => '_linkchecker_user_access_own_broken_links_report_workbench',
+    'description' => 'Shows a list of broken links in content.',
+    'page callback' => 'linkchecker_user_report_page_workbench',
+    'title' => 'Broken links',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 3,
+  );
+
   return $items;
 }
 
+
+
+function linkchecker_user_report_page_workbench() {
+  global $user;
+  module_load_include('inc', 'linkchecker', 'linkchecker.pages');
+  return linkchecker_user_report_page($user);
+}
+
+function _linkchecker_user_access_own_broken_links_report_workbench() {
+  global $user;
+  module_load_include('inc', 'linkchecker', 'linkchecker.pages');  
+  return _linkchecker_user_access_own_broken_links_report($user);
+}
