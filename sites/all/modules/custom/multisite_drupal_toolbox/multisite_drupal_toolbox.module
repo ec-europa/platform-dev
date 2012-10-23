@@ -489,6 +489,21 @@ function multisite_drupal_toolbox_menu() {
     'weight' => 3,
   );
 
+  // add menu entries for admin security settings
+  $items['admin/config/security'] = array(
+    'title' => 'Security settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('form_security_settings'),
+    'access arguments' => array('administer site configuration'),
+  );
+  $items['admin/config/security/settings'] = array(
+    'title' => 'Security settings',
+    'description' => 'Configure security settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('form_security_settings'),
+    'access arguments' => array('administer site configuration'),
+  ); 
+
   return $items;
 }
 
@@ -516,4 +531,47 @@ function _content_type_linkchecker($type, $op) {
       break;
   }
   variable_set("linkchecker_scan_nodetypes", $node_type_scan);
+}
+
+// security form settings
+function form_security_settings($form, &$form_state) {
+  $form['security_allowed_tags'] = array(
+    '#type' => 'textarea',
+    '#title' => t('allowed tags'),
+    '#default_value' => variable_get('security_allowed_tags'),
+    '#description' => t('One tag per line.'),
+  ); 
+  
+  $form['security_bypassed_nodes'] = array(
+    '#type' => 'textarea',
+    '#title' => t('nodes to bypass'),
+    '#default_value' => variable_get('security_bypassed_nodes'),
+    '#description' => t('Insert the nid of nodes that must not be filtered to check xss attacks.<br/>One nid per line.'),
+  );   
+
+print_r(variable_get("security_allowed_tags", array()));
+
+$tags = variable_get("security_allowed_tags", array());
+print_r(explode("\n", $tags));
+
+  return system_settings_form($form);
+  
+}
+
+
+function multisite_drupal_toolbox_node_presave($node) {
+  // security process to prevent xss attack in node contents
+  // check if the node must be bypass
+  $nodes_bypass = explode("\n", variable_get("security_bypassed_nodes", array()));
+  $tags_allowed = explode("\n", variable_get("security_allowed_tags", array()));
+
+  foreach($tags_allowed as $id => $tag) {
+    $tags_allowed[$id] = trim($tag);
+  }
+
+  if(!in_array($node->nid, $nodes_bypass)) {
+    drupal_set_message("DEBUG : XSS");
+    drupal_set_message(print_r($tags_allowed, TRUE));
+    $node->body['und'][0]['value'] = filter_xss($node->body['und'][0]['value'], $tags_allowed); // use the drupal filter_xss function to filter xss attacks
+  }
 }
