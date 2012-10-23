@@ -812,7 +812,7 @@ function news_core_views_default_views() {
 '),
     t('</div>'),
     t('Top news Attachment'),
-    t('#news[nid] '),
+    t('#news[nid]'),
   );
   $export['news'] = $view;
 
