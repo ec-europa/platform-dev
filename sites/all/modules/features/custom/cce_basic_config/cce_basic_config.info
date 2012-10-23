@@ -164,5 +164,6 @@ features[variable][] = linkchecker_disable_link_check_for_urls
 features[variable][] = linkchecker_extract_from_a
 features[variable][] = linkchecker_extract_from_img
 features[variable][] = linkchecker_scan_blocks
+features[variable][] = linkchecker_ignore_response_codes
 features[variable][] = linkchecker_scan_comments
 features[variable][] = linkchecker_scan_nodetypes

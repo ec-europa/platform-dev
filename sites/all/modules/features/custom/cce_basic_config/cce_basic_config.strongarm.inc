@@ -883,6 +883,19 @@ example.org';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_ignore_response_codes';
+  $strongarm->value = '200
+206
+302
+304
+401
+301
+403';
+  $export['linkchecker_ignore_response_codes'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'linkchecker_scan_comments';
   $strongarm->value = 0;
   $export['linkchecker_scan_comments'] = $strongarm;
