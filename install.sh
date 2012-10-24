@@ -130,7 +130,7 @@ cp -R sites/all/modules/ ${site_name}/sites/all
 cp -R sites/all/modules/features ${site_name}/sites/all/modules
 cp -R sites/all/themes ${site_name}/sites/all
 cp -R sites/default/files/ ${site_name}/sites/default/files/
-#cp sites/default/proxy.settings.php ${site_name}/sites/default/
+cp sites/default/proxy.settings.php ${site_name}/sites/default/
 cp -R sites/all/libraries ${site_name}/sites/all
 cp -R deploy_scripts ${site_name}
 
