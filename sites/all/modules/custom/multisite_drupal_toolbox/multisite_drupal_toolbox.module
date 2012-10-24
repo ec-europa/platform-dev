@@ -571,9 +571,9 @@ function multisite_drupal_toolbox_node_presave($node) {
   //$test = array('a', 'h3');
 
   if(!in_array($node->nid, $nodes_bypass)) {
-    drupal_set_message("DEBUG : XSS");
-    drupal_set_message(print_r($tags_allowed, TRUE));
-    drupal_set_message(print_r($test, TRUE));
+    //drupal_set_message("DEBUG : XSS");
+    //drupal_set_message(print_r($tags_allowed, TRUE));
+    //drupal_set_message(print_r($test, TRUE));
     $node->body['und'][0]['value'] = filter_xss($node->body['und'][0]['value'], $tags_allowed); // use the drupal filter_xss function to filter xss attacks
   }
 }
