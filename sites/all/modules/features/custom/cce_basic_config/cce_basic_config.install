@@ -249,6 +249,8 @@ function cce_basic_config_install() {
   );
   taxonomy_term_save($term);
 
+  // delete mails from the update manager module
+  variable_del("update_notify_emails");
 }
 
 /**
