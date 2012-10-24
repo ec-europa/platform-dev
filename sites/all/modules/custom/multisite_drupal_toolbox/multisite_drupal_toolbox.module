@@ -558,7 +558,7 @@ print_r(explode("\n", $tags));
   
 }
 
-
+/*
 function multisite_drupal_toolbox_node_presave($node) {
   // security process to prevent xss attack in node contents
   // check if the node must be bypass
@@ -575,3 +575,4 @@ function multisite_drupal_toolbox_node_presave($node) {
     $node->body['und'][0]['value'] = filter_xss($node->body['und'][0]['value'], $tags_allowed); // use the drupal filter_xss function to filter xss attacks
   }
 }
+*/
