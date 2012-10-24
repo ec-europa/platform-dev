@@ -110,9 +110,6 @@ function inject_data() {
   //delete mails from the update manager module
   variable_del("update_notify_emails");
   
-  // remove links from linkchecker scanning
-  db_delete("linkchecker_node");
-  db_delete("linkchecker_link");
 }
 
 

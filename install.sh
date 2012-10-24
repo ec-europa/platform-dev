@@ -204,6 +204,9 @@ wget -P "${working_dir}/sites/all/libraries/" http://sourceforge.net/projects/tc
 unzip "tcpdf.zip"
 rm "${working_dir}/sites/all/libraries/tcpdf.zip"
 
+# remove links from linkchecker scanning
+drush sqlq "delete FROM linkchecker_node"
+drush sqlq "delete FROM linkchecker_link"
 
 if [ -d "${webroot}/${site_name}" ] ; then
 	__echo -n "Removing the folder $webroot/${site_name}..."
