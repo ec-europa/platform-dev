@@ -6,6 +6,3 @@ php = 5.2.4
 version = 7.x-1.0
 project = splash_screen
 dependencies[] = language_cookie
-dependencies[] = strongarm
-features[ctools][] = strongarm:strongarm:1
-features[features_api][] = api:1

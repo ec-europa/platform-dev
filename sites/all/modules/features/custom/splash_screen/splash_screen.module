@@ -4,7 +4,6 @@
  * @file
  * Code for the Splash_screen feature.
  */
-include_once 'splash_screen.features.inc';
 
 /*
  * hook_init
