@@ -248,9 +248,6 @@ function cce_basic_config_install() {
     'description' => st('Administration, management and human resources policy'),
   );
   taxonomy_term_save($term);
-
-  // delete mails from the update manager module
-  variable_del("update_notify_emails");
 }
 
 /**
