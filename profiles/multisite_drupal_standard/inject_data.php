@@ -111,6 +111,8 @@ function inject_data() {
   //delete mails from the update manager module
   variable_del("update_notify_emails");
  
+  // clear links from the linkchecker scanning
+  drush_linkchecker_clear();
 }
 
 
