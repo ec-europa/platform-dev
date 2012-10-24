@@ -910,7 +910,84 @@ example.org';
   );
   $export['linkchecker_scan_nodetypes'] = $strongarm;
 
-  
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'security_allowed_tags';
+  $strongarm->value = 'a
+abbr
+area
+audio
+b
+base
+blockquote
+br
+button
+canvas
+caption
+center
+cite
+code
+col
+colgroup
+dd
+div
+dl
+em
+embed
+fieldset
+figcaption
+figure
+font
+form
+h2
+h3
+h4
+h5
+h6
+hr
+i
+img
+input
+label
+legend
+li
+map
+mark
+ol
+option
+p
+pre
+q
+rp
+rt
+s
+section
+select
+small
+source
+span
+strike
+strong
+style
+sub
+summary
+sup
+table
+tbody
+td
+textarea
+tfoot
+th
+thead
+time
+tr
+track
+tt
+u
+ul
+';
+  $export['security_allowed_tags'] = $strongarm;
   
   return $export;
 }

@@ -167,3 +167,4 @@ features[variable][] = linkchecker_scan_blocks
 features[variable][] = linkchecker_ignore_response_codes
 features[variable][] = linkchecker_scan_comments
 features[variable][] = linkchecker_scan_nodetypes
+features[variable][] = security_allowed_tags
