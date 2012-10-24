@@ -165,9 +165,6 @@ drush sqlq "UPDATE apachesolr_environment SET name = '${solr_server_name}' WHERE
 drush sqlq "INSERT INTO apachesolr_index_bundles (env_id,entity_type,bundle) VALUES ('solr','node','page')"
 drush sqlq "INSERT INTO apachesolr_index_bundles (env_id,entity_type,bundle) VALUES ('solr','node','article')"
 
-#delete mails from the update manager module
-drush variable_delete update_notify_emails
-
 #flush cache and rebuild access
 drush cc all
 drush php-eval 'node_access_rebuild();'

@@ -106,7 +106,10 @@ function inject_data() {
     node_save($node);
     echo "Node saved!\n";
   }  
-  
+ 
+  //delete mails from the update manager module
+  variable_del("update_notify_emails");
+ 
 }
 
 
