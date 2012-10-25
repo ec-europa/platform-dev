@@ -560,7 +560,7 @@ print_r(explode("\n", $tags));
 
 function multisite_drupal_toolbox_node_presave($node) {
   // security process to prevent xss attack in node contents
-  // check if the node must be bypass
+  
   $nodes_bypass = explode("\n", variable_get("security_bypassed_nodes", array()));
   $tags_allowed = explode("\n", variable_get("security_allowed_tags", array()));
 
@@ -568,12 +568,8 @@ function multisite_drupal_toolbox_node_presave($node) {
     $tags_allowed[$id] = trim($tag);
   }
 
-  //$test = array('a', 'h3');
-
+  // check if the node must be bypass
   if(!in_array($node->nid, $nodes_bypass)) {
-    //drupal_set_message("DEBUG : XSS");
-    //drupal_set_message(print_r($tags_allowed, TRUE));
-    //drupal_set_message(print_r($test, TRUE));
     $node->body['und'][0]['value'] = filter_xss($node->body['und'][0]['value'], $tags_allowed); // use the drupal filter_xss function to filter xss attacks
   }
 }
