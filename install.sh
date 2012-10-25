@@ -171,7 +171,7 @@ drush php-eval 'node_access_rebuild();'
 #inject data
 drush vset tmp_base_url "/${site_name}"
 drush scr "${working_dir}/profiles/${install_profile}/inject_data.php"
-drush vdel --exact tmp_base_url
+drush vdel --exact --yes tmp_base_url
 
 #set solr tika variables
 drush vset apachesolr_attachments_tika_jar "${apachesolr_attachments_tika_jar}"
