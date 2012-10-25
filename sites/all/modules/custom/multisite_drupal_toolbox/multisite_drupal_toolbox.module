@@ -568,3 +568,8 @@ function multisite_drupal_toolbox_node_presave($node) {
     $node->body['und'][0]['value'] = filter_xss($node->body['und'][0]['value'], $tags_allowed); // use the drupal filter_xss function to filter xss attacks
   }
 }
+
+// sanitize urls
+function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $path_language) {
+  $path = check_url($path);
+}
