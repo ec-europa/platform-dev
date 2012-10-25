@@ -549,11 +549,6 @@ function form_security_settings($form, &$form_state) {
     '#description' => t('Insert the nid of nodes that must not be filtered to check xss attacks.<br/>One nid per line.'),
   );   
 
-print_r(variable_get("security_allowed_tags", array()));
-
-$tags = variable_get("security_allowed_tags", array());
-print_r(explode("\n", $tags));
-
   return system_settings_form($form);
   
 }
