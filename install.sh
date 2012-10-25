@@ -213,8 +213,8 @@ if [ -d "${webroot}/${site_name}" ] ; then
 fi
 
 #remove links from the linkchecker scanning process
-drush sqlq "linkchecker_link"
-drush sqlq "linkchecker_node"
+drush sqlq "delete FROM linkchecker_link"
+drush sqlq "delete FROM linkchecker_node"
 
 mv "${working_dir}" $webroot
 

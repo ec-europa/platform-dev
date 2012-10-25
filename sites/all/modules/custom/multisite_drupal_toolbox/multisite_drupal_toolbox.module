@@ -561,8 +561,8 @@ print_r(explode("\n", $tags));
 function multisite_drupal_toolbox_node_presave($node) {
   // security process to prevent xss attack in node contents
   
-  $nodes_bypass = explode("\n", variable_get("security_bypassed_nodes", array()));
-  $tags_allowed = explode("\n", variable_get("security_allowed_tags", array()));
+  $nodes_bypass = explode("\n", variable_get("security_bypassed_nodes", ""));
+  $tags_allowed = explode("\n", variable_get("security_allowed_tags", ""));
 
   foreach($tags_allowed as $id => $tag) {
     $tags_allowed[$id] = trim($tag);
