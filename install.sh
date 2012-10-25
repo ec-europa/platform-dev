@@ -171,7 +171,7 @@ drush php-eval 'node_access_rebuild();'
 #inject data
 drush vset tmp_base_url "/${site_name}"
 drush scr "${working_dir}/profiles/${install_profile}/inject_data.php"
-drush vdel tmp_base_url
+drush vdel --exact tmp_base_url
 
 #set solr tika variables
 drush vset apachesolr_attachments_tika_jar "${apachesolr_attachments_tika_jar}"
@@ -211,6 +211,10 @@ if [ -d "${webroot}/${site_name}" ] ; then
 	rm -rf "${webroot}/${site_name}";
 	__echo done
 fi
+
+#remove links from the linkchecker scanning process
+drush sqlq "linkchecker_link"
+drush sqlq "linkchecker_node"
 
 mv "${working_dir}" $webroot
 
