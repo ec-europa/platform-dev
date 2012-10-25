@@ -168,8 +168,6 @@ drush sqlq "INSERT INTO apachesolr_index_bundles (env_id,entity_type,bundle) VAL
 #flush cache and rebuild access
 drush cc all
 drush php-eval 'node_access_rebuild();'
-#inject data
-drush scr "${working_dir}/profiles/${install_profile}/inject_data.php"
 
 #set solr tika variables
 drush vset apachesolr_attachments_tika_jar "${apachesolr_attachments_tika_jar}"
@@ -212,3 +210,5 @@ fi
 
 mv "${working_dir}" $webroot
 
+#inject data
+drush scr "${working_dir}/profiles/${install_profile}/inject_data.php"
