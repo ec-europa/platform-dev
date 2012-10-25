@@ -210,5 +210,6 @@ fi
 
 mv "${working_dir}" $webroot
 
+cd "${webroot}/${site_name}"
 #inject data
-drush scr "${webroot}/profiles/${install_profile}/inject_data.php"
+drush scr "${webroot}/${site_name}/profiles/${install_profile}/inject_data.php"
