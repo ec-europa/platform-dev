@@ -28,8 +28,23 @@
 ?>
 
   <?php 
+  //Replace nid by number of items in gallery  
+  function nb_items_count($matches) {
+    $node = node_load($matches[1]);
+    $nb_pictures = 0;
+    $nb_video = 0;
 
- 
+    if (isset($node->field_picture_upload['und'])):
+      $nb_pictures = sizeof($node->field_picture_upload['und']);
+    endif;
+
+    if (isset($node->field_video_upload['und'])):
+      $nb_video = sizeof($node->field_video_upload['und']);
+    endif;  
+
+    return '<div class="meta">' . ($nb_pictures + $nb_video) . ' ' . t('items') . '</div>';
+  }
+
     if (user_access('create gallerymedia content') && strpos($classes, "medias_block") == false ) {
       print l(t('Create a Gallery'), 'node/add/gallerymedia', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'))); 
     }
@@ -74,6 +89,8 @@
           $rows = str_replace('[Empty_gallery][Empty_gallery]', $empty_img, $rows );
           //Check if there is only one picture
           $rows = str_replace('[Empty_gallery]', '', $rows );
+          //Replace nid by number of items in gallery
+          $rows = preg_replace_callback('#<div id="nb_items">([0-9]+)</div>#', "nb_items_count" , $rows);
 
           print $rows;
 
