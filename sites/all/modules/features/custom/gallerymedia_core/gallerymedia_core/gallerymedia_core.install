@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Install the feature gallery media
+ */
 
 /*
  * hook_enable 
