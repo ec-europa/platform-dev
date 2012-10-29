@@ -198,7 +198,7 @@ projects[devel][subdir] = "contributed"
 projects[devel][version] = "1.2"
 
 projects[media][subdir] = "contributed"
-projects[media][version] = "2.0-unstable6"
+projects[media][version] = "2.x-dev"
 
 projects[file_entity][subdir] = "contributed"
 projects[file_entity][version] = "2.x-dev"
