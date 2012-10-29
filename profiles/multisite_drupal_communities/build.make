@@ -205,7 +205,7 @@ projects[media][subdir] = "contributed"
 projects[media][version] = "2.0-unstable6"
 
 projects[file_entity][subdir] = "contributed"
-projects[file_entity][version] = "2.0-unstable6"
+projects[file_entity][version] = "2.x-dev"
 
 projects[linkchecker][subdir] = "contributed"
 projects[linkchecker][version] = "1.x-dev"
