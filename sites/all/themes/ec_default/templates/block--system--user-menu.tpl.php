@@ -43,6 +43,8 @@
  *
  * @ingroup themeable
  */
+
+global $user;
 ?>
   <li class="nav">
   <ul id="<?php print $block_html_id; ?>" class="unstyled inline">
@@ -57,6 +59,9 @@
     );
       
     foreach ($menu as $item_id) {
+      if (t('My account') == $item_id['title']) {
+        $item_id['title'] .= ' (' . $user->name . ')';
+      }
       $items .= '<li>'.l($item_id['title'],$item_id['href'], $attributes).'</li>';
     }
     
