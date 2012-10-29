@@ -37,7 +37,7 @@ FPFISPolicyConfig::set('mysql_creation_reminder_delay', 86400);
 FPFISPolicyConfig::set('mysql_creation_reminder_from', 'multisite-team@organization.com');
 FPFISPolicyConfig::set('mysql_creation_reminder_to', 'multisite-team@organization.com');
 FPFISPolicyConfig::set('mysql_creation_reminder_subject', 'Multisite: database creation request still pending for %s (reminder #%d)');
-FPFISPolicyConfig::set('mysql_creation_reminder_body ', 'Hello,
+FPFISPolicyConfig::set('mysql_creation_reminder_body', 'Hello,
 
  It appears the database creation request is still pending for the "@subsite_name" subsite.');
 
