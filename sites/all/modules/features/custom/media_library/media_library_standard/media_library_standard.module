@@ -12,19 +12,19 @@ include_once('media_library_standard.views_alter.inc');
  * @param type $view 
  */
 function media_library_standard_views_pre_render(&$view) {
-
   if ($view->name=='media_library') {
     switch ( $view->current_display ) {
       case 'page':
-        if ( user_access('create document content') ) {
-          $output= l(
-            t('Upload a new Madia'),
+        if ( user_access('edit file') ) {
+          $output = l(
+            t('Upload a new Media'),
             'file/add',
             array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'))
           );
-          $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+          $view->header['area']->options['content'] = $output;
         }
         break;
+        
       default:
         break;
     }
