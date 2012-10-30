@@ -63,6 +63,16 @@ function media_library_core_views_default_views() {
       'empty_column' => 0,
     ),
   );
+  
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['empty'] = TRUE;
+  $handler->display->display_options['header']['area']['content'] = 'Attachment header';
+  $handler->display->display_options['header']['area']['format'] = 'full_html';
+  $handler->display->display_options['header']['area']['tokenize'] = 0;
+  
   /* Relationship: File: User who uploaded */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'file_managed';
@@ -137,7 +147,7 @@ function media_library_core_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $translatables['elibrary'] = array(
+  $translatables['media_library'] = array(
     t('Master'),
     t('media library'),
     t('more'),
@@ -162,7 +172,7 @@ function media_library_core_views_default_views() {
     t('Categories'),
     t('Page'),
   );
-  $export['elibrary'] = $view;
+  $export['media_library'] = $view;
 
   return $export;
 }

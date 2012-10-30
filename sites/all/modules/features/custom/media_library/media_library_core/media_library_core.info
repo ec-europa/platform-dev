@@ -27,4 +27,4 @@ features[field][] = file-text-field_media_tags
 features[field][] = file-text-field_tags
 features[taxonomy][] = media_tags
 features[user_permission][] = view file
-features[views_view][] = elibrary
+features[views_view][] = media_library
