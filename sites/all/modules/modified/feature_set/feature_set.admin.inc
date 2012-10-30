@@ -20,6 +20,7 @@ function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
           'featureset' => $details['title'],
           'description' => $details['description'].get_require($featureset),
           'icon' => empty($details['icon']) ? '' : $details['icon'],
+          'category' => empty($details['category']) ? '' : $details['category'],
         ),
       );
       
@@ -78,7 +79,6 @@ function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
 function theme_feature_set_admin_form($form) {
   $form = array_pop($form);
   drupal_add_css(drupal_get_path('module', 'feature_set') . '/feature-set.css');
-  //$header = array('', 'Feature Set', 'status');
   $header = array('Feature Set', 'Status');
   
   $rows = array();
@@ -110,11 +110,25 @@ function theme_feature_set_admin_form($form) {
           //array('data' => $form[$key]['#featuresetinfo']['status'], 'class' => array($form[$key]['#featuresetinfo']['class'], 'messages')),
         ),
       );
-      $rows[] = $row;
-      
+
+      // set category if available
+      if (!empty($form[$key]['#featuresetinfo']['category'])) {
+        $rows[$form[$key]['#featuresetinfo']['category']][] = $row;
+      }
+      else {
+        $rows['Uncategorized'][] = $row;
+      }      
     }
   }
-  $output = theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('class' => array('table','table-striped'))));
+
+  ksort($rows);
+
+  $output = '<ul class="nav nav nav-tabs nav-stacked">';
+  foreach ($rows as $key => $value) {
+    $output .= '<li><a class="feature-set-category">' . t($key) . '</a><div class="feature-set-content">' . theme('table', array('header' => $header, 'rows' => $value, 'attributes' => array('class' => array('table', 'table-striped')))) . '</div></li>';
+  }
+  $output .= '</ul>';
+
   $output .= drupal_render_children($form);
   
   return $output;

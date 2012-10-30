@@ -1,5 +1,11 @@
 jQuery(function($){ 
   $(document).ready( function(){ 
+    //Toggle visibility of feature set tables
+    $("#feature-set-admin-form .feature-set-category").click(function(){
+      $(this).next(".feature-set-content").slideToggle("slow");
+      $(this).toggleClass("active");
+    });
+        
     //Add class to switcher column
     $("#feature-set-admin-form .form-type-checkbox").addClass('switch');
     
