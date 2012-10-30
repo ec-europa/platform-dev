@@ -11,7 +11,7 @@ function media_library_core_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'elibrary';
+  $view->name = 'media_library';
   $view->description = '';
   $view->tag = 'library';
   $view->base_table = 'file_managed';
