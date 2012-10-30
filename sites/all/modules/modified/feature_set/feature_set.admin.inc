@@ -1,4 +1,8 @@
 <?php 
+/**
+ * @file
+ * Feature set administrtion functions
+ */
 
 /**
  * Define the administration form
@@ -9,16 +13,15 @@ function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
   $form = array();
   // Really too bad tableselect has no easy way to disable a single checkbox...
   if (!empty($featuresets)) {
-    foreach($featuresets as $featureset => $details) {
+    foreach ($featuresets as $featureset => $details) {
       $elementname = 'featureset-' . $featureset;
       $form[$elementname] = array(
         '#type' => 'checkbox',
         '#disabled' => (empty($details['status']) || is_requiredby($featureset) || requires($featureset) ) ? TRUE : FALSE, // disabled the widget if its in an inconsistent
-	 //'#disabled' => ($details['status']>1) ? TRUE : FALSE, // disabled the widget if its in an inconsistent
         '#default_value' => (FEATURE_SET_ENABLED & $details['status']) ? 1 : 0,
         '#featuresetinfo' => array(
           'featureset' => $details['title'],
-          'description' => $details['description'].get_require($featureset),
+          'description' => $details['description'] . get_require($featureset),
           'icon' => empty($details['icon']) ? '' : $details['icon'],
           'category' => empty($details['category']) ? '' : $details['category'],
         ),
@@ -82,7 +85,7 @@ function theme_feature_set_admin_form($form) {
   $header = array('Feature Set', 'Status');
   
   $rows = array();
-  foreach(element_children($form) as $key) {
+  foreach (element_children($form) as $key) {
     if (strpos($key, 'featureset-') === 0) {
       // set the icon if available.
       if (!empty($form[$key]['#featuresetinfo']['icon'])) {
@@ -143,19 +146,19 @@ function feature_set_admin_form_submit($form, &$form_state) {
   $features_actions = array();
 
   $featuresets = feature_set_get_featuresets();
-  foreach($form_state['values'] as $key => $value) {
+  foreach ($form_state['values'] as $key => $value) {
     if (strpos($key, 'featureset-') === 0) {
       $featureset = str_replace('featureset-', '', $key);
       // only operate if its in an 'OK' status
       if (isset($featuresets[$featureset]) && $featuresets[$featureset]['status'] != 0) {
         if ($form_state['values'][$key]) {
           //feature_set_enable_feature_set($featuresets[$featureset]);
-		  if(!module_exists($featureset)) // do not enable a module already enabled
+          if (!module_exists($featureset)) // do not enable a module already enabled
             $features_actions[] = array("feature" => $featuresets[$featureset], "value" => 'enable');
         }
         else {
           //feature_set_disable_feature_set($featuresets[$featureset]);
-          if(module_exists($featureset)) // do not disable a module already disabled
+          if (module_exists($featureset)) // do not disable a module already disabled
             $features_actions[] = array("feature" => $featuresets[$featureset], "value" => 'disable');
         }
       }

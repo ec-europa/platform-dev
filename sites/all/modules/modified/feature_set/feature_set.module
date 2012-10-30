@@ -326,7 +326,7 @@ function get_require($module) {
   $list_requires = array_keys($modules[$module]->requires);
 
   $output = '<div id="require">';
-  foreach($list_features as $value)  {
+  foreach ($list_features as $value) {
     if (in_array($value, $list_requires))
       $output .= t("requires") . " : " . $featuresets[$value]["title"] . " ";    
   }
@@ -369,7 +369,7 @@ function batch_featureset_op($feature_set_action, $operation_details, &$context)
   $context['results'][] = $feature_set_action['feature']['title'];
  
   // proccess enable/disable features here
-  if($feature_set_action['value'] == 'enable') {
+  if ($feature_set_action['value'] == 'enable') {
     $context['message'] = $feature_set_action['feature']['title'] . " enabling";
     feature_set_enable_feature_set($feature_set_action['feature']);
   }
@@ -399,10 +399,10 @@ function batch_featureset_op($feature_set_action, $operation_details, &$context)
       }
     }
     if ($check_node > 0) {
-      drupal_set_message("<b>WARNING</b><br/>" . check_plain($feature_set_action['feature']['title']) . " not disabled, you have to remove all <b>" . implode(" ", $node_type_warning) . "</b> contents.", 'warning');
+      drupal_set_message(check_plain("<b>WARNING</b><br/>" . $feature_set_action['feature']['title'] . " not disabled, you have to remove all <b>" . implode(" ", $node_type_warning) . "</b> contents."), 'warning');
     } 
     else {
-	  feature_set_disable_feature_set($feature_set_action['feature']);
+    feature_set_disable_feature_set($feature_set_action['feature']);
     }
   }
   _batch_update_http_requests();
