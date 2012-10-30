@@ -12,7 +12,7 @@ include_once('media_library_standard.views_alter.inc');
  * @param type $view 
  */
 function media_library_standard_views_pre_render(&$view) {
-  if ($view->name=='media_library') {
+  if ($view->name == 'media_library') {
     switch ( $view->current_display ) {
       case 'page':
         if ( user_access('edit file') ) {
