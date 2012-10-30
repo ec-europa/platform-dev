@@ -44,9 +44,19 @@
  * @ingroup themeable
  */
 
-global $user;
 ?>
   <li class="nav">
+  <?php 
+  global $user;
+
+  if (!empty($user) && 0 != $user->uid) {
+    $full_user = user_load($user->uid);
+    $name = (isset($full_user->field_firstname['und'][0]['value']) && isset($full_user->field_lastname['und'][0]['value']) ? $full_user->field_firstname['und'][0]['value'] . ' ' . $full_user->field_lastname['und'][0]['value'] : $user->name);
+
+    print ("<div class='username'>" . t('Welcome, ') . '<strong>' . $name . '</strong></div>');
+  }
+  ?>
+    
   <ul id="<?php print $block_html_id; ?>" class="unstyled inline">
   <?php 
     $menu = menu_navigation_links("user-menu");
@@ -59,9 +69,6 @@ global $user;
     );
       
     foreach ($menu as $item_id) {
-      if (t('My account') == $item_id['title']) {
-        $item_id['title'] .= ' (' . $user->name . ')';
-      }
       $items .= '<li>'.l($item_id['title'],$item_id['href'], $attributes).'</li>';
     }
     
