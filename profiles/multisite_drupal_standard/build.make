@@ -209,6 +209,9 @@ projects[linkchecker][version] = "1.x-dev"
 projects[realname][subdir] = "contributed"
 projects[realname][version] = "1.0"
 
+projects[coder][subdir] = "contributed"
+projects[coder][version] = "1.1"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"
