@@ -385,7 +385,7 @@ function news_core_field_default_fields() {
     'field_instance' => array(
       'bundle' => 'news',
       'deleted' => '0',
-      'description' => 'The news will be published on that date, if its workflow status is set to "Validated"',
+      'description' => 'This content will be published on that date, if its workflow status is set to "Validated"',
       'display' => array(
         'default' => array(
           'label' => 'inline',
@@ -470,7 +470,7 @@ function news_core_field_default_fields() {
     'field_instance' => array(
       'bundle' => 'news',
       'deleted' => '0',
-      'description' => 'The news will be unpublished on that date, and its workflow status will be set to "Archived"',
+      'description' => 'This content will be unpublished on that date, and its workflow status will be set to "Archived"',
       'display' => array(
         'default' => array(
           'label' => 'inline',
