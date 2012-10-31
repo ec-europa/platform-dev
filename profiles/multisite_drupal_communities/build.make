@@ -210,6 +210,9 @@ projects[file_entity][version] = "2.0-unstable6"
 projects[linkchecker][subdir] = "contributed"
 projects[linkchecker][version] = "1.x-dev"
 
+projects[realname][subdir] = "contributed"
+projects[realname][version] = "1.0"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"

@@ -207,7 +207,7 @@ projects[linkchecker][subdir] = "contributed"
 projects[linkchecker][version] = "1.x-dev"
 
 projects[realname][subdir] = "contributed"
-projects[realname][version] = "7.x-1.0"
+projects[realname][version] = "1.0"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"

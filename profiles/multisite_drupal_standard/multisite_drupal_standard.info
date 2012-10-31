@@ -108,6 +108,7 @@ dependencies[] = better_formats
 dependencies[] = entityreference
 dependencies[] = linkchecker
 dependencies[] = advanced_help
+dependencies[] = realname
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_standard
