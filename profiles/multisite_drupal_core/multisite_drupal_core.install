@@ -36,6 +36,7 @@ function multisite_drupal_core_install() {
     'create article content',
     'delete own article content',
     'edit own article content', 
+    'edit file'
   )); 
 
   // permissions related to workbench moderation
@@ -122,6 +123,7 @@ function multisite_drupal_core_install() {
     'revert revisions',
     'view own unpublished content',
     'view all unpublished content',
+    'edit file',
   ));  
   
 
