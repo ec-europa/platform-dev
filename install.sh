@@ -196,7 +196,7 @@ cd "${working_dir}/sites/all/libraries"
 
 #ckeditor
 wget -P "${working_dir}/sites/all/libraries/" http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.5/ckeditor_3.6.5.zip  1>&2
-unzip "${working_dir}/sites/all/librairies/ckeditor_3.6.5.zip" 1>&2
+unzip "${working_dir}/sites/all/libraries/ckeditor_3.6.5.zip" 1>&2
 rm "${working_dir}/sites/all/libraries/ckeditor_3.6.5.zip"
 
 #tcpdf
