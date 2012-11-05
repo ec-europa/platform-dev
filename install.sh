@@ -200,11 +200,11 @@ unzip "${working_dir}/sites/all/libraries/ckeditor_3.6.5.zip" 1>&2
 rm "${working_dir}/sites/all/libraries/ckeditor_3.6.5.zip"
 
 #tcpdf
-cd "${working_dir}/sites/all"
-wget -P "${working_dir}/sites/all/libraries/" http://sourceforge.net/projects/tcpdf/files/latest/download?source=files -O tcpdf.zip
-cd "${working_dir}/sites/all/libraries"
-unzip "tcpdf.zip"
-rm "${working_dir}/sites/all/libraries/tcpdf.zip"
+#cd "${working_dir}/sites/all"
+#wget -P "${working_dir}/sites/all/libraries/" http://sourceforge.net/projects/tcpdf/files/latest/download?source=files -O tcpdf.zip
+#cd "${working_dir}/sites/all/libraries"
+#unzip "tcpdf.zip"
+#rm "${working_dir}/sites/all/libraries/tcpdf.zip"
 
 if [ -d "${webroot}/${site_name}" ] ; then
 	__echo -n "Removing the folder $webroot/${site_name}..."
