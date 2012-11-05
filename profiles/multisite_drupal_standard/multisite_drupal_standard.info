@@ -60,7 +60,6 @@ dependencies[] = sweaver
 dependencies[] = defaultcontent
 dependencies[] = workbench
 dependencies[] = workbench_moderation 
-dependencies[] = ckeditor
 dependencies[] = varnish
 dependencies[] = views
 dependencies[] = views_ui
@@ -110,6 +109,7 @@ dependencies[] = entityreference
 dependencies[] = linkchecker
 dependencies[] = advanced_help
 dependencies[] = realname
+dependencies[] = wysiwyg
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_standard

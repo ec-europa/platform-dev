@@ -212,6 +212,9 @@ projects[realname][version] = "1.0"
 projects[coder][subdir] = "contributed"
 projects[coder][version] = "1.1"
 
+projects[wysiwyg][subdir] = "contributed"
+projects[wysiwyg][version] = "2.2"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"

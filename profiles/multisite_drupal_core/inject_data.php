@@ -29,13 +29,14 @@ function inject_data() {
   user_save($account3);	  
 
   //custom Filter and custom Ckeditor profile activation for comments
+  /*
   $html_update = db_insert('ckeditor_input_format') // Table name no longer needs {}
     ->fields(array(
       'name' => 'Basic',
       'format' => 'basic_html',
     ))
     ->execute();
- 
+  */
  
   // create content -----------------------------------------
   

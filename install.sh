@@ -191,18 +191,19 @@ mkdir "${working_dir}/sites/default/files/private_files"
 chmod -R 777 "${working_dir}/sites/default/files"
 
 #install third party libraries
+#mkdir libraries
+cd "${working_dir}/sites/all/libraries"
+
 #ckeditor
-cd "${working_dir}/sites/all/modules/contributed"
-rm -rf "${working_dir}/sites/all/modules/contributed/ckeditor"
-wget -P "${working_dir}/sites/all/modules/contributed/" http://download.cksource.com/CKEditor%20for%20Drupal/CKEditor%203.6.3%20for%20Drupal/ckeditor_3.6.3_for_drupal_7.zip  1>&2
-unzip "${working_dir}/sites/all/modules/contributed/ckeditor_3.6.3_for_drupal_7.zip" 1>&2
-rm "${working_dir}/sites/all/modules/contributed/ckeditor_3.6.3_for_drupal_7.zip"
+wget -P "${working_dir}/sites/all/libraries/" http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.5/ckeditor_3.6.5.zip  1>&2
+unzip "${working_dir}/sites/all/libraires/ckeditor_3.6.5.zip" 1>&2
+rm "${working_dir}/sites/all/libraries/ckeditor_3.6.5.zip"
 
 #tcpdf
 cd "${working_dir}/sites/all"
-#mkdir libraries
-cd "${working_dir}/sites/all/libraries"
+
 wget -P "${working_dir}/sites/all/libraries/" http://sourceforge.net/projects/tcpdf/files/latest/download?source=files -O tcpdf.zip
+cd "${working_dir}/sites/all/libraries"
 unzip "tcpdf.zip"
 rm "${working_dir}/sites/all/libraries/tcpdf.zip"
 
