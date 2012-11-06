@@ -338,10 +338,114 @@ $translatables['e_library'] = array(
   t('Attachment header'),
 );
 
-  
-
- 
   $export['e_library'] = $view;
+
+
+
+
+  $view = new view();
+  $view->name = 'elibrary_browser_tab';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'file_managed';
+  $view->human_name = 'elibrary_browser_tab';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'E-library browser';
+  $handler->display->display_options['use_ajax'] = TRUE;
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['style_plugin'] = 'media_browser';
+  /* Relationship: File: Content using Document */
+  $handler->display->display_options['relationships']['reverse_field_document_node']['id'] = 'reverse_field_document_node';
+  $handler->display->display_options['relationships']['reverse_field_document_node']['table'] = 'file_managed';
+  $handler->display->display_options['relationships']['reverse_field_document_node']['field'] = 'reverse_field_document_node';
+  /* Field: File: Name */
+  $handler->display->display_options['fields']['filename']['id'] = 'filename';
+  $handler->display->display_options['fields']['filename']['table'] = 'file_managed';
+  $handler->display->display_options['fields']['filename']['field'] = 'filename';
+  $handler->display->display_options['fields']['filename']['label'] = '';
+  $handler->display->display_options['fields']['filename']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['filename']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['filename']['link_to_file'] = TRUE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['relationship'] = 'reverse_field_document_node';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'document' => 'document',
+  );
+  /* Filter criterion: Workbench Moderation: State */
+  $handler->display->display_options['filters']['state']['id'] = 'state';
+  $handler->display->display_options['filters']['state']['table'] = 'workbench_moderation_node_history';
+  $handler->display->display_options['filters']['state']['field'] = 'state';
+  $handler->display->display_options['filters']['state']['relationship'] = 'reverse_field_document_node';
+  $handler->display->display_options['filters']['state']['value'] = array(
+    'published' => 'published',
+  );
+  /* Filter criterion: Content: Media tags (field_media_tags) */
+  $handler->display->display_options['filters']['field_media_tags_tid']['id'] = 'field_media_tags_tid';
+  $handler->display->display_options['filters']['field_media_tags_tid']['table'] = 'field_data_field_media_tags';
+  $handler->display->display_options['filters']['field_media_tags_tid']['field'] = 'field_media_tags_tid';
+  $handler->display->display_options['filters']['field_media_tags_tid']['relationship'] = 'reverse_field_document_node';
+  $handler->display->display_options['filters']['field_media_tags_tid']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_media_tags_tid']['expose']['operator_id'] = 'field_media_tags_tid_op';
+  $handler->display->display_options['filters']['field_media_tags_tid']['expose']['label'] = 'Media tags (field_media_tags)';
+  $handler->display->display_options['filters']['field_media_tags_tid']['expose']['operator'] = 'field_media_tags_tid_op';
+  $handler->display->display_options['filters']['field_media_tags_tid']['expose']['identifier'] = 'field_media_tags_tid';
+  $handler->display->display_options['filters']['field_media_tags_tid']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+  );
+  $handler->display->display_options['filters']['field_media_tags_tid']['type'] = 'select';
+  $handler->display->display_options['filters']['field_media_tags_tid']['vocabulary'] = 'media_tags';
+  $handler->display->display_options['filters']['field_media_tags_tid']['hierarchy'] = 1;
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['path'] = 'elibrary-browser-tab';
+
+  /* Display: Media browser tab */
+  $handler = $view->new_display('media_browser', 'Media browser tab', 'media_browser_1');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $translatables['elibrary_browser_tab'] = array(
+    t('Master'),
+    t('E-library browser'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('field_document'),
+    t('Media tags (field_media_tags)'),
+    t('Page'),
+    t('Media browser tab'),
+  );
+  $export['elibrary_browser_tab'] = $view;
+
+
 
   return $export;
 }

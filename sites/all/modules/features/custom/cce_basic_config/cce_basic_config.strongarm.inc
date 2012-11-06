@@ -1023,6 +1023,7 @@ ul
   $strongarm->value = array(
     0 => 'upload',
     1 => 'media_default--media_browser_my_files',
+    2 => 'elibrary_browser_tab--media_browser_1',
   );
   $export['media__wysiwyg_browser_plugins'] = $strongarm;
 
