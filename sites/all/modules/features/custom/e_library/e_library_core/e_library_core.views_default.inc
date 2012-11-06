@@ -243,6 +243,28 @@ $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
 $handler->display->display_options['filters']['tnid']['group'] = 2; 
 
 
+    /* Filter criterion: Content: Media tags (field_media_tags) */
+    $handler->display->display_options['filters']['field_media_tags_tid']['id'] = 'field_media_tags_tid';
+    $handler->display->display_options['filters']['field_media_tags_tid']['table'] = 'field_data_field_media_tags';
+    $handler->display->display_options['filters']['field_media_tags_tid']['field'] = 'field_media_tags_tid';
+    $handler->display->display_options['filters']['field_media_tags_tid']['exposed'] = TRUE;
+    $handler->display->display_options['filters']['field_media_tags_tid']['expose']['operator_id'] = 'field_media_tags_tid_op';
+    $handler->display->display_options['filters']['field_media_tags_tid']['expose']['label'] = 'Media tags';
+    $handler->display->display_options['filters']['field_media_tags_tid']['expose']['operator'] = 'field_media_tags_tid_op';
+    $handler->display->display_options['filters']['field_media_tags_tid']['expose']['identifier'] = 'field_media_tags_tid';
+    $handler->display->display_options['filters']['field_media_tags_tid']['expose']['remember_roles'] = array(
+      2 => '2',
+      1 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+    );
+    $handler->display->display_options['filters']['field_media_tags_tid']['type'] = 'select';
+    $handler->display->display_options['filters']['field_media_tags_tid']['vocabulary'] = 'media_tags';
+    $handler->display->display_options['filters']['field_media_tags_tid']['hierarchy'] = 1;
+
+
+
 /* Display: Attachment */
 $handler = $view->new_display('attachment', 'Attachment', 'attachment');
 $handler->display->display_options['pager']['type'] = 'none';
