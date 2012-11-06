@@ -253,6 +253,7 @@ function cce_basic_config_install() {
   // manually save file display in database
   // the feature settings are not properly injected in database
   // this process must be temporary
+  db_delete('file_display')->execute();
   $exports = cce_basic_config_file_default_displays();
   foreach($exports as $id_export => $settings_export) {
     db_insert('file_display')
