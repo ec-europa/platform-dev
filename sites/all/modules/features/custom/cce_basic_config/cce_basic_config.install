@@ -259,7 +259,7 @@ function cce_basic_config_install() {
       ->fields(array(
         'name' => $id_export,
         'weight' => 0,
-        'status' => $settings_export->status,
+        'status' => ($settings_export->status)?1:0,
         'settings' => serialize($settings_export->settings),
       ))
       ->execute();
