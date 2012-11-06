@@ -248,13 +248,37 @@ function cce_basic_config_install() {
     'description' => st('Administration, management and human resources policy'),
   );
   taxonomy_term_save($term);
+  
+  
+  // manually save file display in database
+  // the feature settings are not properly injected in database
+  // this process must be temporary
+  $exports = cce_basic_config_file_default_displays();
+  foreach($exports as $id_export => $settings_export) {
+    db_insert('file_display')
+      ->fields(array(
+        'name' => $id_export,
+        'weight' => 0,
+        'status' => $settings_export->status,
+        'settings' => serialize($settings_export->settings),
+      ))
+      ->execute();
+  }
+  
 }
 
 /**
  * hook_uninstall
  */
 function cce_basic_config_uninstall() {
-    //Nothing yet
+  // manually remove config for file display
+  // this process must be temporary
+  $exports = cce_basic_config_file_default_displays();
+  foreach($exports as $id_export => $settings_export) {
+    db_delete('file_display')
+      ->condition('name', $id_export)
+      ->execute();
+  }
 }
 
 /*
