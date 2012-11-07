@@ -90,4 +90,7 @@ function cce_basic_config_update_7140() {
         ->execute();
     }
   }
+  
+  // remove the mail address to the update modules notification
+  variable_del('update_notify_emails');
 }
