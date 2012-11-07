@@ -10,31 +10,12 @@
  */
 
 function splash_screen_init() {
-  global $base_url, $user;
-
-  $is_admin = 0;
-  if (in_array('administrator', array_values($user->roles))) {
-    $is_admin = 1;
-  }
-
-  $cookie_name = variable_get("language_cookie_param");
-  $splash_screen_url = variable_get("splash_screen_url"); // TODO put these variables in a admin form settings
-
-  if (!$is_admin) {
-    if (count($_COOKIE) > 0) {
-      if (!isset($_COOKIE['splash'])) {
-        if (!isset($_GET['splash'])) {
-          setcookie('splash', 1, time()+31536000);
-          drupal_goto($splash_screen_url, array('query' => array('splash' => TRUE)));
-        }
-      }
-    }
-    else {
-      if (!isset($_GET['cookies'])) {
-        setcookie('test_cookies', 1, time()+60);
-        header('Location:' . $base_url . '/' . request_path() . '?cookies=true');
-      }
-    }
+  $cookie_name = variable_get('language_cookie_param','language');
+  $splash_screen_url = variable_get("splash_screen_url");
+  
+  if (!isset($_COOKIE[$cookie_name]) && drupal_is_front_page()) {
+    language_cookie_set('NULL');
+    drupal_goto($splash_screen_url);
   }
 }
 
@@ -72,7 +53,7 @@ function form_splash_screen_settings($form, &$form_state) {
 /**
  * Implements hook_permission().
  */
-function hook_permission() {
+function splash_screen_permission() {
   return array(
     'administer splash screen' => array(
       'title' => t('Administer splash screen'), 
