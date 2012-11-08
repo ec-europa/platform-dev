@@ -12,9 +12,10 @@
 function splash_screen_init() {
   $cookie_name = variable_get('language_cookie_param','language');
   $splash_screen_url = variable_get("splash_screen_url");
+  $front = variable_get('site_frontpage', 'node');
+  $current = drupal_get_path_alias();
   
-  if (!isset($_COOKIE[$cookie_name]) && drupal_is_front_page()) {
-    language_cookie_set('NULL');
+  if (($front == $current) && !isset($_COOKIE[$cookie_name])) {
     drupal_goto($splash_screen_url);
   }
 }
