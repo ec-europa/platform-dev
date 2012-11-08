@@ -213,6 +213,17 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
   
   // hide broken links tab in the my account page
   $items['user/%user/linkchecker']['access callback'] = FALSE;
+  
+  // only super admin can configure apache solR
+  $items['admin/config/search/apachesolr']['access callback'] = 'is_admin';
+}
+
+function is_admin() {
+  global $user;
+  print_r($user);
+  if($user->uid == 1)
+    return TRUE;
+  return FALSE;
 }
 
 function multisite_cce_theme() {

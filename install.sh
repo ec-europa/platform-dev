@@ -201,7 +201,7 @@ rm "${working_dir}/sites/all/libraries/ckeditor_3.6.5.zip"
 
 #tcpdf
 cd "${working_dir}/sites/all"
-wget -P "${working_dir}/sites/all/libraries/" http://sourceforge.net/projects/tcpdf/files/latest/download?source=files -O tcpdf.zip
+wget -P "${working_dir}/sites/all/libraries/" http://sourceforge.net/projects/tcpdf/files/tcpdf_5_9_197.zip/download -O tcpdf.zip
 cd "${working_dir}/sites/all/libraries"
 unzip "tcpdf.zip"
 rm "${working_dir}/sites/all/libraries/tcpdf.zip"
