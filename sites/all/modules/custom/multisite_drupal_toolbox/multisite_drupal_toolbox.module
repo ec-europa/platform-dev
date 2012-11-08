@@ -220,7 +220,7 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
 
 function is_admin() {
   global $user;
-  print_r($user);
+
   if($user->uid == 1)
     return TRUE;
   return FALSE;
