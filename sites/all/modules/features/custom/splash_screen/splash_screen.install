@@ -11,7 +11,7 @@ function splash_screen_enable() {
   variable_set('splash_screen_url', 'splash');
   variable_set('splash_screen_language_msg', 'Please choose a language');
 
-  //Activation message
+  // Activation message.
   drupal_set_message(t('Splash screen is now active on your site.'));
 }
 
@@ -22,6 +22,6 @@ function splash_screen_disable() {
   variable_del('splash_screen_url');
   variable_del('splash_screen_language_msg');
 
-  //Activation message
+  // Desactivation message.
   drupal_set_message(t('Splash screen is now disabled on your site.'));
 }
