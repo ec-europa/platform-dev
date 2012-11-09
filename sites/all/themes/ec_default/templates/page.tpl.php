@@ -85,10 +85,6 @@
 <?php
 global $base_url;
 
-if (arg(0) == 'splash'):
-  include('page-splash.tpl.php');
-  return;
-endif;
 ?>
 
 <div class="layout <?php if (isset($variables['no_right']) && $variables['no_right']) print ' layout-noright'; ?><?php if (isset($variables['no_left']) && $variables['no_left']) print ' layout-noleft'; ?>" id="layout">
@@ -107,7 +103,7 @@ endif;
     <span id="banner-image-right">
   <?php if ($page['header']): ?><?php print render($page['header']); ?><?php endif; ?>
     </span>
-    
+
   <?php
     break;
 
@@ -124,7 +120,7 @@ endif;
     <div class="banner-right">
   <?php if ($page['header']): ?><?php print render($page['header']); ?><?php endif; ?>
     </div>
-    
+
   <?php
     break;
 
@@ -149,8 +145,8 @@ endif;
     </ul>
 
     <!-- language selector -->
-    <?php print render($page['highlighted']); ?>    
-    
+    <?php print render($page['highlighted']); ?>
+
   </div><!-- /#header -->
 
   <div id="path">
@@ -169,7 +165,7 @@ endif;
   <div class="layout-body">
   <?php if ($page['featured']): ?>
     <?php print render($page['featured']); ?>
-  <?php endif; ?>	    
+  <?php endif; ?>
 
     <div class="layout-wrapper">
       <div class="layout-wrapper-reset">
@@ -204,7 +200,7 @@ endif;
             <?php endif; ?>
 
             <a id="main-content"></a>
-            
+
             <?php print render($title_prefix); ?>
             <?php if ($title): ?>
               <h1 class="title" id="page-title">
@@ -212,13 +208,13 @@ endif;
               </h1>
             <?php endif; ?>
             <?php print render($title_suffix); ?>
-            
+
             <?php if ($tabs): ?>
               <?php print render($tabs); ?>
             <?php endif; ?>
-            
+
             <?php print render($page['help']); ?>
-            
+
             <?php if ($action_links): ?>
               <ul class="action-links">
                 <?php print render($action_links); ?>
@@ -226,7 +222,7 @@ endif;
             <?php endif; ?>
 
             <?php print render($page['content']); ?>
-            
+
             <?php print $feed_icons; ?>
 
             <div class="region region-tools-bottom">
