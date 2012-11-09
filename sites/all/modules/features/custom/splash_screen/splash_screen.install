@@ -4,18 +4,24 @@
  * Install the feature splash screen
  */
 
+/**
+ * Implements hook_enable().
+ */
 function splash_screen_enable() {
-  variable_set("splash_screen_url", 'splash');
-  variable_set("splash_screen_language_msg", 'Please choose a language');
-  
+  variable_set('splash_screen_url', 'splash');
+  variable_set('splash_screen_language_msg', 'Please choose a language');
+
   //Activation message
   drupal_set_message(t('Splash screen is now active on your site.'));
 }
 
+/**
+ * Implements hook_disable().
+ */
 function splash_screen_disable() {
-  variable_del("splash_screen_url");
-  variable_del("splash_screen_language_msg");
-  
+  variable_del('splash_screen_url');
+  variable_del('splash_screen_language_msg');
+
   //Activation message
   drupal_set_message(t('Splash screen is now disabled on your site.'));
 }

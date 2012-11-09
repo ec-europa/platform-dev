@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Tests for splash_screen.module.
+ */
+
+/**
+ * Defines a base class for testing the "Ask a question" module.
+ */
+class Splash_ScreenWebTestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Splash screen',
+      'description' => 'Test the splash screen feature.',
+      'group' => 'Features',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('splash_screen');
+  }
+
+  public function testAcl() {
+  }
+}
