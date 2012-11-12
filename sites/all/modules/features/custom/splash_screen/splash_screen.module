@@ -8,6 +8,7 @@
 /*
  * Implements hook_init()
  */
+
 function splash_screen_init() {
   if (function_exists('drush_main')) return;
   $cookie_name = variable_get('language_cookie_param', 'language');
@@ -15,7 +16,7 @@ function splash_screen_init() {
   $front = variable_get('site_frontpage', 'node');
   $current = drupal_get_path_alias();
 
-  if (($front == $current) && !isset($_COOKIE[$cookie_name])) {
+  if (($front == $current) && !isset($_COOKIE[$cookie_name]) && !empty($_COOKIE)) {
     drupal_goto($splash_screen_url);
   }
 }
@@ -89,10 +90,11 @@ function splash_screen_preprocess_splash(&$vars) {
   foreach ($languages[1] as $lang) {
     //add enabled languages
     $html .= '<li><a href="/' . base_path() . $lang->prefix . '" data-label="('
-           . $lang->prefix . ') ' . t('Please choose a language', array(), array('langcode' => $langcode)) . '"><span>'
+           . $lang->prefix . ') ' . t('Please choose a language', array(), array('langcode' => $lang->language)) . '"><span>'
            . $lang->language . '</span>' . $lang->native . '</a></li>';
   }
   $vars['languages_list'] = $html;
+  $vars['site_name'] = variable_get('sitename');
 
   drupal_add_js(drupal_get_path('module', 'splash_screen') . '/splash_screen.js');
 }
