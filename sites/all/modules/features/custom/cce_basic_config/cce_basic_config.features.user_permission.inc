@@ -184,58 +184,89 @@ function cce_basic_config_user_default_permissions() {
   // Exported permission: show format selection for comment.
   $permissions['show format selection for comment'] = array(
     'name' => 'show format selection for comment',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+      2 => 'editor',
+    ),
     'module' => 'better_formats',
   );
 
   // Exported permission: show format selection for file.
   $permissions['show format selection for file'] = array(
     'name' => 'show format selection for file',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+      2 => 'editor',
+    ),
     'module' => 'better_formats',
   );
 
   // Exported permission: show format selection for node.
   $permissions['show format selection for node'] = array(
     'name' => 'show format selection for node',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+      2 => 'editor',
+    ),
     'module' => 'better_formats',
   );
 
   // Exported permission: show format selection for rules_config.
   $permissions['show format selection for rules_config'] = array(
     'name' => 'show format selection for rules_config',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+    ),
     'module' => 'better_formats',
   );
 
   // Exported permission: show format selection for taxonomy_term.
   $permissions['show format selection for taxonomy_term'] = array(
     'name' => 'show format selection for taxonomy_term',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+      2 => 'editor',
+    ),
     'module' => 'better_formats',
   );
 
   // Exported permission: show format selection for user.
   $permissions['show format selection for user'] = array(
     'name' => 'show format selection for user',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+      2 => 'editor',
+    ),
     'module' => 'better_formats',
   );
 
   // Exported permission: show format tips.
   $permissions['show format tips'] = array(
     'name' => 'show format tips',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+      2 => 'editor',
+    ),
     'module' => 'better_formats',
   );
 
   // Exported permission: show more format tips link.
   $permissions['show more format tips link'] = array(
     'name' => 'show more format tips link',
-    'roles' => array(),
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'contributor',
+      2 => 'editor',
+    ),
     'module' => 'better_formats',
   );
+
 
   // Exported permission: use advanced search.
   $permissions['use advanced search'] = array(
