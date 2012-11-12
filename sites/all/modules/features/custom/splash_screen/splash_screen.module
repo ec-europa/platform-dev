@@ -72,8 +72,29 @@ function splash_screen_theme($existing, $type, $theme, $path) {
     'splash' => array(
       'template' => 'splash',
       'path' => $path . '/theme',
+      'variables' => array(
+        'languages_list' => '',
+      ),
     ),
   );
+}
+
+/**
+ * Implements hook_preprocess().
+ */
+function splash_screen_preprocess_splash(&$vars) {
+  global $language;
+  $languages = language_list('enabled');
+  $html = '';
+  foreach ($languages[1] as $lang) {
+    //add enabled languages
+    $html .= '<li><a href="' . base_path() . $lang->prefix . '" data-label="('
+           . $lang->prefix . ') ' . t('Please choose a language') . '"><span>'
+           . $lang->language . '</span>' . $lang->native . '</a></li>';
+  }
+  $vars['languages_list'] = $html;
+
+  drupal_add_js(drupal_get_path('module', 'splash_screen') . '/splash_screen.js');
 }
 
 /**

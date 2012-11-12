@@ -102,35 +102,12 @@ global $base_url;
 
         <!-- language list -->
         <div class="span4">
-          <?php
-          global $language;
-          $languages = language_list('enabled');
-          $li = "";
-
-          foreach($languages[1] as $lang) {
-            //add enabled languages
-            $li .= '<li><a href="'.base_path().$lang->prefix.'" data-label="('.$lang->prefix.') '.t('Please choose a language').'"><span>'.$lang->language.'</span>'.$lang->native.'</a></li>';
-          }
-           ?>
           <ul class="well languages nav nav-list">
             <li><h2 id="label_language">Please choose a language</h2></li>
-          <?php print $li; ?>
+            <?php print $languages_list; ?>
           </ul>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<script type="text/javascript">
-  var templatePath = "<?php print $base_url . '/' . path_to_theme(); ?>";
-
-  jQuery(function($){
-    $(document).ready(function() {
-      $('ul.languages li a').hover(function() {
-        $('#label_language').text($(this).attr('data-label'));
-      });
-
-    });
-  });
-</script>
