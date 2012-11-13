@@ -7,3 +7,4 @@ version = 7.x-1.0
 project = splash_screen
 dependencies[] = language_cookie
 features[features_api][] = api:1
+files[] = tests/splash_screen.test

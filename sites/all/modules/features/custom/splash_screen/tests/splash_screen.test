@@ -13,7 +13,7 @@ class Splash_ScreenWebTestCase extends DrupalWebTestCase {
     return array(
       'name' => 'Splash screen',
       'description' => 'Test the splash screen feature.',
-      'group' => 'Features',
+      'group' => 'Splash screen',
     );
   }
 
@@ -21,6 +21,15 @@ class Splash_ScreenWebTestCase extends DrupalWebTestCase {
     parent::setUp('splash_screen');
   }
 
-  public function testAcl() {
+  protected function assertTitleIsPresent(){
+      $elements = $this->xpath("//h1");
+      return $this->assertTrue(isset($elements[0]), t('The page contains a h1 title'));
+  }
+
+
+  public function testPageShouldBeAccessible() {
+    $this->drupalGet('splash');
+    $this->assertResponse(200);
+    $this->assertTitleIsPresent();
   }
 }
