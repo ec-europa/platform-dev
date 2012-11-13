@@ -243,7 +243,14 @@
         $tags = 'Tags: ' . implode(', ' , $montag).'.';
       }  
             
-      switch ($local_data['type']) {
+      if (isset($local_data['filemime'])) {
+        $type = explode('/', $local_data['filemime']);
+      } 
+      else {
+        $type[0] = 'undefined';
+      }
+      
+      switch ($type[0]) {
         case 'image':
           $picture_square_thumbnail = image_style_url('square_thumbnail', $local_data['uri']);
           $picture_preview = image_style_url('preview', $local_data['uri']);
