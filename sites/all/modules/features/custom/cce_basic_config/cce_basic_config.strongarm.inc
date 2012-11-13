@@ -632,19 +632,18 @@ function cce_basic_config_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'sweaver_paths';
-  $strongarm->value = 
-    'admin*
-    node/add*
-    node/*/edit
-    node/*/panel*
-    panels/ajax*
-    user/*/edit
-    batch*
-    wysiwyg_imageupload/*
-    media/*
-    file/*
-    taxonomy/*
-    imce';
+  $strongarm->value = 'admin*
+node/add*
+node/*/edit
+node/*/panel*
+panels/ajax*
+user/*/edit
+batch*
+wysiwyg_imageupload/*
+media/*
+file/*
+taxonomy/*
+imce';
   $export['sweaver_paths'] = $strongarm;
 
   $strongarm = new stdClass();
