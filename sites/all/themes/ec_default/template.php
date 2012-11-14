@@ -611,8 +611,11 @@ function ec_default_form_alter(&$form, &$form_state, $form_id) {
 function ec_default_cck_alter($form, &$form_state) {
   //hide format field
   if (!user_access('administer nodes')) {
-    $form['comment_body']['und'][0]['format']['#access'] = 0;
-    $form['body']['und'][0]['format']['#access'] = 0;
+    $form['comment_body']['und'][0]['format']['#prefix'] = "<div class='hide'>";
+    $form['comment_body']['und'][0]['format']['#suffix'] = "</div>";
+
+    $form['body']['und'][0]['format']['#prefix'] = "<div class='hide'>";
+    $form['body']['und'][0]['format']['#suffix'] = "</div>";
   }
   
   //media gallery
