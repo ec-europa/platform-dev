@@ -1,5 +1,5 @@
 name = Splash_screen
-description = provide a homepage to choose language and store language in cookie
+description = Provide a homepage to choose language and store language in cookie.
 core = 7.x
 package = Multisite_features
 php = 5.2.4
