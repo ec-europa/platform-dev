@@ -31,7 +31,7 @@
         </div>
 
         <!-- language list -->
-        <div class="span4">
+        <div class="span6">
           <ul class="well languages nav nav-list">
             <li><h2 id="label_language"><?php print t('Please choose a language'); ?></h2></li>
             <?php print $languages_list; ?>
