@@ -7,15 +7,15 @@ source "${HOME}/.bash_profile"
 source "${script_dir}/lib/functions.sh"
 
 function usage {
-	output "Usage: $0 <drupal-directory> change-role|restore-role <target>"
+	output "Usage: $0 change-role|restore-role <drupal-directory> <target>"
 	output '    drupal-directory is a Drupal base directory, i.e. a directory hosting the index.php file'
 	output '    target is either a list of 1 to n subsites, or "@sites" for all known subsites'
 }
 
 # Simple arguments check
-drupal_path=$1
-shift
 action=$1
+shift
+drupal_path=$1
 shift
 target=$@
 [ -z "${drupal_path}" ] && usage && exit 50
