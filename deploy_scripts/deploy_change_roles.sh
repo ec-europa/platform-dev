@@ -29,19 +29,19 @@ function do_action {
 	# change role
 	if [ "${action}" == 'change-role' ]; then
 		# duplicate users_roles table
-		echo drush_sql_query 'CREATE TABLE users_roles_backup LIKE users_roles;' || return
-		echo drush_sql_query 'INSERT INTO users_roles_backup SELECT * FROM users_roles;' || return
+		drush_sql_query 'CREATE TABLE users_roles_backup LIKE users_roles;' || return
+		drush_sql_query 'INSERT INTO users_roles_backup SELECT * FROM users_roles;' || return
 		# change all users roles / affect maintenance roles
-		echo drush scr "${script_dir}/lib/deploy_cancel_roles.php" || return
+		drush scr "${script_dir}/lib/deploy_cancel_roles.php" || return
 		echo 'Roles changed'
 	fi
 
 	# restore role
 	if [ "${action}" == 'restore-role' ]; then
 		# retore users role
-		echo drush_sql_query 'TRUNCATE users_roles;' || return
-		echo drush_sql_query 'INSERT INTO users_roles SELECT * FROM users_roles_backup;' || return
-		echo drush_sql_query 'DROP TABLE users_roles_backup' || return
+		drush_sql_query 'TRUNCATE users_roles;' || return
+		drush_sql_query 'INSERT INTO users_roles SELECT * FROM users_roles_backup;' || return
+		drush_sql_query 'DROP TABLE users_roles_backup' || return
 		echo 'Roles restored'
 	fi
 
