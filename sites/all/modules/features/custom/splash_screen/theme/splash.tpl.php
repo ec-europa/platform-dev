@@ -35,3 +35,6 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+  var templatePath = "<?php print $base_url . '/' . path_to_theme(); ?>";
+</script>
