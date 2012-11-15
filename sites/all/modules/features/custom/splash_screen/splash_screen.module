@@ -89,7 +89,7 @@ function splash_screen_preprocess_splash(&$vars) {
   $html = '';
   foreach ($languages[1] as $lang) {
     //add enabled languages
-    $html .= '<li><a href="'.$base_url.'/'.$lang->prefix . '" data-label="('
+    $html .= '<li><a href="' . $base_url . '/'.$lang->prefix . '" data-label="('
            . $lang->prefix . ') ' . t('Please choose a language', array(), array('langcode' => $lang->language)) . '"><span>'
            . $lang->language . '</span>' . $lang->native . '</a></li>';
   }

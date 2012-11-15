@@ -21,7 +21,7 @@ class Splash_ScreenWebTestCase extends DrupalWebTestCase {
     parent::setUp('splash_screen');
   }
 
-  protected function assertTitleIsPresent(){
+  protected function assertTitleIsPresent() {
       $elements = $this->xpath("//h1");
       return $this->assertTrue(isset($elements[0]), t('The page contains a h1 title'));
   }
