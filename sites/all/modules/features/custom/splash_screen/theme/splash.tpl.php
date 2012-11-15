@@ -8,6 +8,7 @@
  *
  * - $site_name: the site name.
  * - $languages_list: the language list.
+ * - $base_url: the base_url of the site instance.
  *
  * @see template_preprocess()
  * @see template_preprocess_page()
