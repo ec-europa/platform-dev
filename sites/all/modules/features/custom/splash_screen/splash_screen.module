@@ -84,11 +84,12 @@ function splash_screen_theme($existing, $type, $theme, $path) {
  */
 function splash_screen_preprocess_splash(&$vars) {
   global $language;
+  global $base_url;
   $languages = language_list('enabled');
   $html = '';
   foreach ($languages[1] as $lang) {
     //add enabled languages
-    $html .= '<li><a href="/' . base_path() . $lang->prefix . '" data-label="('
+    $html .= '<li><a href="'.$base_url.'/'.$lang->prefix . '" data-label="('
            . $lang->prefix . ') ' . t('Please choose a language', array(), array('langcode' => $lang->language)) . '"><span>'
            . $lang->language . '</span>' . $lang->native . '</a></li>';
   }
