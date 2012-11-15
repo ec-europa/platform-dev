@@ -1,28 +1,29 @@
 #!/bin/bash
-source $HOME/.bash_profile
-function exitWithErrorMessage {
-    rc=$1
-    shift
-    echo $@
-    exit $rc
-}
+# set -x
+current_script="$(readlink -f $0)"
+script_dir="$(dirname "${current_script}")"
+
+source "${HOME}/.bash_profile"
+source "${script_dir}/lib/functions.sh"
+
 function usage {
-    echo "Usage: $0 <config-name> "
+	output "Usage: $0 <drupal-directory> <target>"
+	output '    drupal-directory is a Drupal base directory, i.e. a directory hosting the index.php file'
+	output '    target is either a list of 1 to n subsites, or "@sites" for all known subsites'
 }
 
+# Simple arguments check
+drupal_path=$1
+shift
+target=$@
+[ -z "${drupal_path}" ] && usage && exit 50
+[ -z "${target}" ] && usage && exit 48
 
-master_path=$1
-[ -z "${master_path}" ] && usage && exit 50
-       
-cd  "${master_path}/sites" || exitWithErrorMessage 40 "Unable to chdir to ${master_path}/sites"
-php -r 'include("sites.php"); 
-foreach($sites as $s) print "$s\n";' 2> /dev/null | sort -u | while read subsite; do
-        cd "$subsite" || continue        
-		drush fl | grep Enabled | sed '1d' | perl -ple 's,([^ ]) ([^ ]),\1_\2,g'  | awk '{print $2}' >> feature_list.txt
-		for line in $(cat feature_list.txt)
-		do		   
-           drush fr --force --yes "$line"
-		done
-		rm -f feature_list.txt
-        cd  "${master_path}/sites"
-done
+function do_action {
+	grep_features 'Enabled' | while read feature; do
+		run_drush features-revert --force --yes "${feature}"
+	done
+}
+
+loop_on_target_subsites "${drupal_path}" ${target} | timestamped_output
+exit 0

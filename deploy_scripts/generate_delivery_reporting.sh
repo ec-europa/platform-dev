@@ -1,53 +1,72 @@
 #!/bin/bash
-source $HOME/.bash_profile
+# set -x
+current_script="$(readlink -f $0)"
+script_dir="$(dirname "${current_script}")"
 
-function exitWithErrorMessage {
-    rc=$1
-    shift
-    echo $@
-    exit $rc
-}
+source "${HOME}/.bash_profile"
+source "${script_dir}/lib/functions.sh"
 
 function usage {
-    echo "Usage: $0 <config-name> <reporting-directory>"
+	output "Usage: $0 <drupal-directory> <reporting-directory> <target>"
+	output '    drupal-directory is a Drupal base directory, i.e. a directory hosting the index.php file'
+	output '    reporting-directory is the directory where reports shall be generated'
+	output '    target is either a list of 1 to n subsites, or "@sites" for all known subsites'
 }
-report_directory=$2
 
-if [ -d "$report_directory" ]; then
-	echo "$report_directory";
-	
-else
-	
-	echo "Unknowned directory $report_directory";
-       usage
-	exit 50		      
+# Simple arguments check
+drupal_path=$1
+shift
+report_directory=$1
+shift
+target=$@
+[ -z "${drupal_path}" ] && usage && exit 50
+[ -z "${target}" ] && usage && exit 48
+[ -z "${report_directory}" ] && usage && exit 46
+
+# Check the provided report directory
+if [ ! -d "$report_directory" ]; then
+	exitWithErrorMessage 44 "The provided report directory ($report_directory) does not appear to exist."
 fi
+# Ensure this path is absolute so we can chdir without this path to lose its sense
+report_directory=$(readlink -f "${report_directory}")
 
-master_path=$1
-[ -z "${master_path}" ] && usage && exit 50
-       
-cd  "${master_path}/sites" || exitWithErrorMessage 40 "Unable to chdir to ${master_path}/sites"
-php -r 'include("sites.php"); 
-foreach($sites as $s) print "$s\n";' 2> /dev/null | sort -u | while read subsite; do
-        cd "$subsite" || continue              
-		drush fl | grep "Needs review" | cut -f 1 | perl -ple 's,([^ ]) ([^ ]),\1_\2,g'  | awk '{print $2}' >> feature_list_nr.txt
-		for line in $(cat feature_list_nr.txt)
-		do
-			echo $line;
-			for param in "$@"
-			do
-				if [ $# -gt 2 ]; then
-                               	if [ "$param" == $line ]; then
-                                     echo "$line	found as Needs review" >> $2/delivery_reporting_"$subsite"_`date +%y%m%d`.txt
-                                     drush fd $line >> $2/delivery_reporting_"$subsite"_`date +%y%m%d`.txt
-					fi
+function do_action {
+	drupal_path=$1
+	subsite=$2
 
-				fi
-			done
-		   
-		done
-		rm -f feature_list_nr.txt	
+	report_file="${report_directory}/delivery_reporting_${subsite}_$(date '+%Y%m%d').txt"
+	touch "${report_file}"
+	if [ $? -ne 0 ]; then
+		echo "Error: cannot write to the report file ${report_file}."
+		subsite_status="nok"
+		return
+	fi
 
-        	cd  "${master_path}/sites"
+	# Report header
+	(
+		echo "# DRUPAL DELIVERY REPORT"
+		echo "# This report was generated on $(date '+%Y-%m-%d') at $(date '+%H:%M:%S')"
+		echo "# for the Drupal multisite instance under "
+		echo "# ${drupal_path}"
+		echo "# more specifically for the subsite named \"${subsite}\"".
+		echo ""
+	) > "${report_file}"
+
+	# features-diff any feature that needs review
+	grep_features 'Needs review' | while read feature; do
+		(
+			echo "The \"${feature}\" feature needs review."
+			echo "Running drush features-diff for feature \"${feature}\"..."
+		) | tee -a "${report_file}"
+		run_drush features-diff "${feature}" | report_output >> "${report_file}"
+		rc=$?
+		if [ $rc -ne 0 ]; then
+			echo "Error: drush features-diff ${feature} returned non-zero (${rc})"
+			subsite_status="nok"
+		fi
+		echo ""
 	done
-echo "End of process"
+}
+
+loop_on_target_subsites "${drupal_path}" ${target} | timestamped_output
+exit 0
