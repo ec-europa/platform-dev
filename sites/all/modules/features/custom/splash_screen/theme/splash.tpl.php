@@ -20,24 +20,18 @@
 
 <div class="splash container-fluid">
   <div class="row-fluid">
-    <div class="span2">&nbsp;</div>
-    <div class="span10">
-      <div class="row-fluid">
+    <!-- picture and title -->
+    <div class="span3 offset2 center">
+      <div id="logo"></div>
+      <h1><?php print $site_name; ?></h1>
+    </div>
 
-        <!-- picture and title -->
-        <div class="span4 center">
-          <div id="logo"></div>
-          <h1><?php print $site_name; ?></h1>
-        </div>
-
-        <!-- language list -->
-        <div class="span6">
-          <ul class="well languages nav nav-list">
-            <li><h2 id="label_language"><?php print t('Please choose a language'); ?></h2></li>
-            <?php print $languages_list; ?>
-          </ul>
-        </div>
-      </div>
+    <!-- language list -->
+    <div class="span5">
+      <ul class="well languages nav nav-list">
+        <li><h2 id="label_language"><?php print t('Please choose a language'); ?></h2></li>
+        <?php print $languages_list; ?>
+      </ul>
     </div>
   </div>
 </div>
