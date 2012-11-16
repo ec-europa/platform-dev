@@ -279,7 +279,12 @@ function requires($module) {
   $requires = 0;
   
   $modules = system_rebuild_module_data();
-  $list_requires = array_keys($modules[$module]->requires);
+  
+  if(is_array($modules[$module]->requires))
+    $list_requires = array_keys($modules[$module]->requires);
+  else
+    $list_requires = array();
+    
   $list_feature = array_keys(feature_set_get_featuresets());
   $list_module_enabled = module_list();
   
@@ -323,7 +328,10 @@ function get_require($module) {
 
   $featuresets = feature_set_get_featuresets();
   $list_features = array_keys($featuresets);
-  $list_requires = array_keys($modules[$module]->requires);
+  if(is_array($modules[$module]->requires))
+    $list_requires = array_keys($modules[$module]->requires);
+  else
+    $list_requires = array();
 
   $output = '<div id="require">';
   foreach ($list_features as $value) {
