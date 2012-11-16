@@ -178,12 +178,6 @@ drush vset apachesolr_attachments_tika_jar "${apachesolr_attachments_tika_jar}"
 drush vset apachesolr_attachments_tika_path "${apachesolr_attachments_tika_path}"
 drush vset apachesolr_attachments_java "${apachesolr_attachments_java}"
 
-#solr indexation
-drush solr-index
-
-#run cron
-drush cron
-
 #set FPFIS_common libraires path
 #drush php-eval "define('FPFIS_COMMON_LIBRARIES_PATH',${FPFIS_common_libraries});"
 
@@ -218,3 +212,10 @@ drush sqlq "delete FROM linkchecker_node"
 
 mv "${working_dir}" $webroot
 
+cd "${webroot}/${site_name}"
+
+#solr indexation
+drush solr-index
+
+#run cron
+drush cron
