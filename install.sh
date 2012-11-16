@@ -215,7 +215,7 @@ mv "${working_dir}" $webroot
 cd "${webroot}/${site_name}"
 
 #solr indexation
-drush solr-index
+#drush solr-index
 
 #run cron
-drush cron
+#drush cron
