@@ -21,7 +21,7 @@ projects[captcha][version] = "1.0-beta1"
 ;projects[ckeditor][version] = "1.9"
 
 projects[context][subdir] = "contributed"
-projects[context][version] = "3.0-beta3"
+projects[context][version] = "3.0-beta4"
 
 projects[date][subdir] = "contributed"
 projects[date][version] = "2.x-dev"
