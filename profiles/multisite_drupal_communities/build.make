@@ -142,7 +142,7 @@ projects[apachesolr_attachments][subdir] = "contributed"
 projects[apachesolr_attachments][version] = "1.2"
 
 projects[facetapi][subdir] = "contributed"
-projects[facetapi][version] = "1.0-rc4"
+projects[facetapi][version] = "1.2"
 
 projects[notifications][subdir] = "contributed"
 projects[notifications][version] = "1.x-dev"
