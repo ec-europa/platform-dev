@@ -119,11 +119,10 @@ function inject_data() {
   // manually insert the password policy in database
   // this process is temporary since the module password_policy
   $exports = cce_basic_config_default_password_policy();
-  $obj_exports = unserialize($exports->config);
   db_insert('password_policy')
     ->fields(array(
       'name' => 'ten_characters',
-      'config' => serialize($obj_exports),
+      'config' => $exports->config,
     ))
     ->execute();
 }
