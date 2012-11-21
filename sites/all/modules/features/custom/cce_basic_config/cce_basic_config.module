@@ -73,7 +73,7 @@ function cce_basic_config_form_media_format_form_alter(&$form) {
 
 
 function cce_basic_config_update_7140() {
-  // manually save file document display in database
+  // manually save file document displays in database
   // the feature settings are not properly injected in database
   // this process must be temporary
   db_delete('file_display')->execute();
@@ -93,4 +93,10 @@ function cce_basic_config_update_7140() {
   
   // remove the mail address to the update modules notification
   variable_del('update_notify_emails');
+  
+  // disable update management module permissions for administrator role
+  $adm_rid = get_rid('administrator'); 
+  user_role_revoke_permissions($adm_rid, array(
+    'administer software updates',
+  )); 
 }
