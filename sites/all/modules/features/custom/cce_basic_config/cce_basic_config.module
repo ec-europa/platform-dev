@@ -100,4 +100,14 @@ function cce_basic_config_update_7140() {
     'administer software updates',
   ));
   
+  // manually insert the password policy in database
+  // this process is temporary since the module password_policy
+  $exports = cce_basic_config_default_password_policy();
+  db_insert('password_policy')
+    ->fields(array(
+      'name' => 'ten_characters',
+      'config' => $exports->config,
+    ))
+    ->execute();
+  
 }
