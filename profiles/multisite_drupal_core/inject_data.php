@@ -93,7 +93,7 @@ function inject_data() {
   db_insert('password_policy')
     ->fields(array(
       'name' => 'ten_characters',
-      'config' => $exports->config,
+      'config' => $exports['ten_characters']->config,
     ))
     ->execute();
   
