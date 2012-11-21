@@ -115,6 +115,15 @@ function inject_data() {
   //delete mails from the update manager module
   variable_del("update_notify_emails");
   
+  // manually insert the password policy in database
+  // this process is temporary since the module password_policy
+  $exports = cce_basic_config_default_password_policy();
+  db_insert('password_policy')
+    ->fields(array(
+      'name' => 'ten_characters',
+      'config' => $exports->config,
+    ))
+    ->execute();
 }
 
 
