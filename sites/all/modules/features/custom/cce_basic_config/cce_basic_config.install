@@ -270,7 +270,6 @@ function cce_basic_config_install() {
 
   // manually insert the password policy in database
   // this process is temporary since the module password_policy
-  /*
   $exports = cce_basic_config_default_password_policy();
   db_insert('password_policy')
     ->fields(array(
@@ -278,7 +277,7 @@ function cce_basic_config_install() {
       'config' => $exports->config,
     ))
     ->execute();
-  */
+  
 }
 
 /**
