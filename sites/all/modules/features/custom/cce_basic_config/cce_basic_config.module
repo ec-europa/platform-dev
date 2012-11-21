@@ -98,5 +98,8 @@ function cce_basic_config_update_7140() {
   $adm_rid = get_rid('administrator'); 
   user_role_revoke_permissions($adm_rid, array(
     'administer software updates',
-  )); 
+  ));
+  
+  // disable update manager module
+  module_disable(array("update"));
 }
