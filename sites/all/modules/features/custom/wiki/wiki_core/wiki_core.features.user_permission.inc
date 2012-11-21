@@ -76,25 +76,6 @@ function wiki_core_user_default_permissions() {
     'module' => 'filter',
   );
 
-  // custom permissions
-  // Add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-  // Administrator
-  $adm_rid = get_rid('administrator');  
-  user_role_grant_permissions($adm_rid, array_keys(module_invoke_all('permission')));
-  user_role_revoke_permissions($adm_rid, array(
-    'administer modules',
-    'administer features',
-    'manage features',
-    'show format selection for comment',
-    'show format selection for file',
-    'show format selection for node',
-    'show format selection for rules_config',
-    'show format selection for taxonomy_term',
-    'show format selection for user',
-    'show format tips',
-    'show more format tips link',
-  ));
-
   return $permissions;
 }
 
