@@ -398,9 +398,6 @@ function cce_basic_config_enable() {
 // ))
 // ->execute();
 
-  // disable update manager module
-  module_disable(array("update"));
-
 }
 
 /**
