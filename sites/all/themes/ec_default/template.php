@@ -213,11 +213,15 @@ function ec_default_page_alter($page) {
     $title = $node->title . ' - ' . $title;
   }  
   
-  $tags = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('tags')->vid);
   $keywords = '';
-  foreach ($tags as $key => $value) {
-    $keywords .= $value->name . ', ';
-  }
+  if (!empty($node)) {
+    $tags = field_view_field('node', $node, 'field_tags');
+    if (isset($tags['#items'])) {
+      foreach ($tags['#items'] as $key => $value) {
+        $keywords .= $value['taxonomy_term']->name . ', ';
+      }
+    }
+  }  
   $keywords .= 'European Commission, European Union, EU';
   
   $type = 'website';
