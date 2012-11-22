@@ -109,8 +109,8 @@ global $base_url;
             case 'image':
               $thumb = image_style_url('landscape', $item['uri']);
               $return .= '<a href="' . $path . '">';
-                $return .= '<img src="' . $thumb . '" alt="' . $item['filename'] . '" />';
-                $return .= '<p class="carousel-caption">' . (isset($item['field_picture_description']['und'][0]['safe_value']) ? $item['field_picture_description']['und'][0]['safe_value'] : $item['filename']) . '</p>';
+                $return .= '<img src="' . $thumb . '" alt="' . check_plain($item['filename']) . '" />';
+                $return .= '<p class="carousel-caption">' . (isset($item['field_picture_description']['und'][0]['safe_value']) ? filter_xss($item['field_picture_description']['und'][0]['safe_value']) : check_plain($item['filename']) . '</p>';
               $return .= '</a>';
             break;
             
@@ -118,7 +118,7 @@ global $base_url;
               $thumb = image_style_url('landscape', file_load($item['thumbnail'])->uri);
               $return .= '<a href="' . $path . '">';
                 $return .= '<img src="' . $thumb . '" alt="' . $item['filename'] . '" />';
-                $return .= '<p class="carousel-caption">' . $item['filename'] . '</p>';
+                $return .= '<p class="carousel-caption">' . check_plain($item['filename']) . '</p>';
               $return .= '</a>';
             break;
             
@@ -144,5 +144,5 @@ global $base_url;
 }
 
 function custom_sort($a, $b) {
-        return $a['timestamp']>$b['timestamp'];
-      }   
+  return $a['timestamp']>$b['timestamp'];
+}   
