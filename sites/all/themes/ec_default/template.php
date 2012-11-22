@@ -214,7 +214,7 @@ function ec_default_page_alter($page) {
   }  
   
   $keywords = '';
-  if (!empty($node)) {
+  if (!empty($node) && !empty($node->field_tags)) {
     $tags = field_view_field('node', $node, 'field_tags');
     if (isset($tags['#items'])) {
       foreach ($tags['#items'] as $key => $value) {
