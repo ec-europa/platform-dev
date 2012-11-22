@@ -105,7 +105,7 @@ function cce_basic_config_update_7140() {
   db_insert('password_policy')
     ->fields(array(
       'name' => 'ten_characters',
-      'config' => $exports->config,
+      'config' => $exports['ten_characters']->config,
     ))
     ->execute();
   

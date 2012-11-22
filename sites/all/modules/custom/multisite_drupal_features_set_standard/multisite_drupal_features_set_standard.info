@@ -133,14 +133,14 @@ feature_sets[gallerymedia_core][icon] = 'feature-set-icons/mediagallery.png'
 feature_sets[gallerymedia_core][enable][] = gallerymedia_core
 feature_sets[gallerymedia_core][disable][] = gallerymedia_core
 
-feature_sets[notification][title] = 'Notifications'
-feature_sets[notification][description] = 'Provide the possibility to subscribe to contents and receive notifications.'
-feature_sets[notification][category] = 'Users management'
-feature_sets[notification][icon] = 'feature-set-icons/notification.png'
-feature_sets[notification][enable][] = notification
-feature_sets[notification][enable][] = notifications
-feature_sets[notification][disable][] = notification
-feature_sets[notification][disable][] = notifications
+;feature_sets[notification][title] = 'Notifications'
+;feature_sets[notification][description] = 'Provide the possibility to subscribe to contents and receive notifications.'
+;feature_sets[notification][category] = 'Users management'
+;feature_sets[notification][icon] = 'feature-set-icons/notification.png'
+;feature_sets[notification][enable][] = notification
+;feature_sets[notification][enable][] = notifications
+;feature_sets[notification][disable][] = notification
+;feature_sets[notification][disable][] = notifications
 
 feature_sets[feed_rss_core][title] = 'EU Press Releases'
 feature_sets[feed_rss_core][description] = 'Display a block on your homepage with EU Press Releases Information.'
