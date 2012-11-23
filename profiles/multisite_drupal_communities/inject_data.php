@@ -121,7 +121,7 @@ function inject_data() {
   db_delete('password_policy')->execute();
   db_insert('password_policy')
     ->fields(array(
-      'name' => 'ten_characters',
+      'name' => 'Example policy',
       'config' => $exports['Example policy']->config,
     ))
     ->execute();
