@@ -50,6 +50,7 @@ echo "creating 'files' subdirectory for ${subsite}"
 local_subsite_files_directory="${subsite_dir}/files"
 fix_perms ${local_subsite_files_directory}
 mkdir -p ${local_subsite_files_directory} || exit_with_message 120 "Unable to create ${local_subsite_files_directory} in $(pwd)"
+mkdir -p "${local_subsite_files_directory}/private_files" || exit_with_message 118 "Unable to create ${local_subsite_files_directory}/private_files in $(pwd)"
 fix_perms ${local_subsite_files_directory}
 
 echo "Filling 'files' subdirectory with default images"
