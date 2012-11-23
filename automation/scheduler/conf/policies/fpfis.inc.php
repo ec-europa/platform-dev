@@ -47,6 +47,7 @@ FPFISPolicyConfig::set('default_install_profile', 'multisite_drupal_standard');
 FPFISPolicyConfig::set('admin_account_name', 'admin');
 FPFISPolicyConfig::set('admin_account_initial_password', 'fill me');
 FPFISPolicyConfig::set('site_mail', 'multisite-team@organization.com');
+FPFISPolicyConfig::set('private_files_relpath', 'private_files');
 
 // the admin password is changed right after the drush install
 FPFISPolicyConfig::set('admin_account_final_password', 'redefine me in fpfis.local.inc.php (seriously!)');

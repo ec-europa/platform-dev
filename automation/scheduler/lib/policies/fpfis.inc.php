@@ -305,6 +305,13 @@ function fpfis_create_files_dir(&$subsite) {
 		$reports[] = sprintf('Unable to create files directory ( %s ) for subsite %s', $files_directory_path, $subsite->name());
 	}
 	
+	/// create the directory that will host the subsite's private files
+	$private_files_directory_path = sprintf('%s/%s', $files_directory_path, FPFISPolicyConfig::get('private_files_relpath'));
+	mkpath($private_files_directory_path);
+	if (!is_dir($private_files_directory_path)) {
+		$reports[] = sprintf('Unable to create private files directory ( %s ) for subsite %s', $private_files_directory_path, $subsite->name());
+	}
+	
 	/// create the directory that will host the subsite itself (settings.php + symlink to files directory)
 	$subsite_directory_path = sprintf('%s/%s', $subsite->master()->path('sites'), $subsite->name());
 	mkpath($subsite_directory_path);
