@@ -11,7 +11,7 @@ include_once('newsletters.features.inc');
  */
 
 function newsletters_init() {
-    
+
 }
 
 
@@ -21,15 +21,14 @@ function newsletters_init() {
  */
 
 function newsletters_menu() {
-    $items['my_subscriptions'] = array(
-        'title' => 'Newsletters'',
-        'access callback' => TRUE,
-        'page callback' => '_my_subscriptions',
-        'type' => MENU_NORMAL_ITEM,
-        'menu_name' => 'main-menu',
-        'weight' => 20,
-    );
-    return $items;
+  $items['my_subscriptions'] = array('title' => 'Newsletters',
+      'access callback' => TRUE,
+      'page callback' => '_my_subscriptions',
+      'type' => MENU_NORMAL_ITEM,
+      'menu_name' => 'main-menu',
+      'weight' => 20,
+      );
+  return $items;
 }
 
 /*
@@ -37,8 +36,8 @@ function newsletters_menu() {
  */
 
 function _my_subscriptions() {
-    $block = module_invoke('simplenews', 'block_view', '0');
-    return $block['content'];
+  $block = module_invoke('simplenews', 'block_view', '0');
+  return $block['content'];
 }
 
 /*
@@ -46,40 +45,38 @@ function _my_subscriptions() {
  */
 
 function newsletters_field_create_field($field) {
-    if ($field["field_name"] == 'field_related_contents') {
-        $types = node_type_get_types();
-
-        foreach ($types as $type => $value) {
-            if ($type != 'simplenews')
-                simplenews_related_content_type($type, 'add');
-        }
+  if ($field["field_name"] == 'field_related_contents') {
+    $types = node_type_get_types();
+    foreach ($types as $type => $value) {
+      if ($type != 'simplenews') simplenews_related_content_type($type, 'add');
     }
+  }
 }
 
 /**
  * Implementation of hook_token_info().
  */
 function newsletters_token_info() {
+  $info['types']['newsletter-breadcrumb'] = array(
+      'name' => 'newsletter breadcrumb',
+      'description' => 'Tokens related to breadcrumb of newsletter',
+  );
 
-    $info['types']['newsletter-breadcrumb'] = array(
-        'name' => 'newsletter breadcrumb',
-        'description' => 'Tokens related to breadcrumb of newsletter',
-    );
+  $info['tokens']['newsletter-breadcrumb']['path'] = array(
+      'name' => t('newsletter breadcrumb path'),
+      'description' => t("The breadcrumb path of the newsletter."),
+  );
 
-    $info['tokens']['newsletter-breadcrumb']['path'] = array(
-        'name' => t('newsletter breadcrumb path'),
-        'description' => t("The breadcrumb path of the newsletter."),
-    );
-
-    $info['types']['Breadcrumb_newsletter'] = array(
+  $info['types']['Breadcrumb_newsletter'] = array(
         'name' => 'Breadcrumb_newsletter',
         'description' => 'Tokens related to Breadcrumb.',
-    );
-    $info['tokens']['Breadcrumb_newsletter']["newsletter_title"] = array(
-        'name' => t("newsletter Breadcrumb title"),
-        'description' => t("The Breadcrumb title of the newsletter"),
-    );
-    return $info;
+  );
+
+  $info['tokens']['Breadcrumb_newsletter']["newsletter_title"] = array(
+      'name' => t("newsletter Breadcrumb title"),
+      'description' => t("The Breadcrumb title of the newsletter"),
+  );
+  return $info;
 }
 
 /**
@@ -89,7 +86,7 @@ function newsletters_token_info() {
 function newsletters_tokens($type, $tokens, $data = array(), $options = array()) {
     $replacements = array();
     global $language;
-    
+
 
     $sanitize = !empty($options['sanitize']);
     // tokens for newsletter breadcrumb
