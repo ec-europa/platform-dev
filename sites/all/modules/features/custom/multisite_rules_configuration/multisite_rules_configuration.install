@@ -13,7 +13,7 @@ $arch_state = db_insert('workbench_moderation_states')
   'name' => 'archived',
   'label' => 'Archived',
   'description' => 'Content is not published anymore',
-  'weight' => 0,
+  'weight' => 100,
 ))
 ->execute();
 
@@ -22,7 +22,7 @@ $vali_state = db_insert('workbench_moderation_states')
   'name' => 'validated',
   'label' => 'Validated',
   'description' => 'Approved by administrator',
-  'weight' => 0,
+  'weight' => 10,
 ))
 ->execute();
 
