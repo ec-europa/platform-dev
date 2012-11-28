@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Tests for idea_standard.module.
+ */
+
+/**
+ * Defines a base class for testing the "idea_core" module.
+ */
+class Idea_StandardWebTestCase extends DrupalWebTestCase {
+
+  protected $web_user;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Ideation',
+      'description' => 'Test the ideation feature.',
+      'group' => 'Multisite - User feedback'
+    );
+  }
+
+ public function setUp() {
+    parent::setUp(array(
+      'idea_core',
+      'idea_standard'
+    ));
+
+    $this->web_user = $this->drupalCreateUser(array(
+        'create idea content'
+        ));
+
+  }
+
+  public function testIdeaShouldBeAccessible() {
+    $this->drupalLogin($this->web_user);
+
+  }
+}
