@@ -10,7 +10,7 @@
  */
 function idea_core_user_default_permissions() {
     $permissions = array();
-    
+
     // Exported permission: create idea content
     $permissions['create idea content'] = array(
         'name' => 'create idea content',
@@ -55,10 +55,6 @@ function idea_core_user_default_permissions() {
         ),
         'module' => 'node',
     );
-
-    
-
-
 
     return $permissions;
 }

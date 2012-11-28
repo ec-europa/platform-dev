@@ -9,14 +9,14 @@
  * hook_install
  */
 function idea_core_install() {
-  // create a vocabulary dedicated to the idea categories 
+  // create a vocabulary dedicated to the idea categories
   $vocabulary = (object) array(
     'name' => st('Idea categories'),
     'machine_name' => 'idea_categories',
     'module' => 'idea_core',
   );
   taxonomy_vocabulary_save($vocabulary);
-  
+
   // add default categories
   $vocabulary = taxonomy_vocabulary_machine_name_load('idea_categories');
   $term = (object) array(
@@ -42,22 +42,22 @@ function idea_core_install() {
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Services'),
-  ); 
+  );
    taxonomy_term_save($term);
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Other'),
-  );   
+  );
   taxonomy_term_save($term);
-  
-  // create a vocabulary dedicated to the idea status 
+
+  // create a vocabulary dedicated to the idea status
   $vocabulary = (object) array(
     'name' => st('Idea status'),
     'machine_name' => 'idea_status',
     'module' => 'idea_core',
   );
   taxonomy_vocabulary_save($vocabulary);
-  
+
   // add default categories
   $vocabulary = taxonomy_vocabulary_machine_name_load('idea_status');
 
@@ -83,9 +83,9 @@ function idea_core_install() {
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Under Review'),
-  ); 
+  );
   taxonomy_term_save($term);
- 
+
 }
 
 /**
@@ -157,5 +157,3 @@ function idea_core_disable() {
   //Activation message
   drupal_set_message(t('Idea feature is now disabled on your site.'));
 }
-
-

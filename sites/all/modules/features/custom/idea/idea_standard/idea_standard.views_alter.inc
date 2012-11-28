@@ -1,5 +1,4 @@
 <?php
-
 /**
 * Implementation of hook_views_default_views_alter().
 */
@@ -18,4 +17,3 @@ function idea_standard_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['context'] = 0;
   }
 }
-

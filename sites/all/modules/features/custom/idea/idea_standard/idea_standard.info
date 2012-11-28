@@ -6,3 +6,4 @@ version = "7.x-1.0"
 project = "idea_standard"
 dependencies[] = "idea_core"
 features[features_api][] = api:1
+files[] = tests/idea_standard.test

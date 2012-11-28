@@ -216,18 +216,18 @@ function idea_core_views_default_views() {
   $handler->display->display_options['sorts']['value']['relationship'] = 'votingapi_cache';
   $handler->display->display_options['sorts']['value']['order'] = 'DESC';
   $handler->display->display_options['sorts']['value']['coalesce'] = 0;
-  
+
   $handler->display->display_options['filter_groups']['groups'] = array(
     1 => 'AND',
     2 => 'OR',
-  );  
-  
+  );
+
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = '1';
-  $handler->display->display_options['filters']['status']['group'] = '1';  
+  $handler->display->display_options['filters']['status']['group'] = '1';
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -236,14 +236,14 @@ function idea_core_views_default_views() {
     'idea' => 'idea',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content translation: Language */ 
-$handler->display->display_options['filters']['language']['id'] = 'language'; 
-$handler->display->display_options['filters']['language']['table'] = 'node'; 
-$handler->display->display_options['filters']['language']['field'] = 'language'; 
+  /* Filter criterion: Content translation: Language */
+$handler->display->display_options['filters']['language']['id'] = 'language';
+$handler->display->display_options['filters']['language']['table'] = 'node';
+$handler->display->display_options['filters']['language']['field'] = 'language';
 $handler->display->display_options['filters']['language']['value'] =
-  array(   
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
-    'und' => 'und', 
+  array(
+    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+    'und' => 'und',
   );
   $handler->display->display_options['filters']['language']['group'] = 2;
   /* Filter criterion: Content translation: Translation set node ID */

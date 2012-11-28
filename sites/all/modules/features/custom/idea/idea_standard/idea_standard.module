@@ -18,5 +18,3 @@ function idea_standard_views_pre_render(&$view) {
     }
   }
 }
-
-
