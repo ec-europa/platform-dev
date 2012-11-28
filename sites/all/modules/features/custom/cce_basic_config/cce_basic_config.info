@@ -29,6 +29,7 @@ features[ckeditor_profile][] = CKEditor Global Profile
 features[ckeditor_profile][] = Full
 features[context][] = search
 features[context][] = site_wide
+features[ctools][] = file_entity:file_default_displays:1
 features[ctools][] = context:context:3
 features[ctools][] = password_policy:default_password_policy:1
 features[ctools][] = strongarm:strongarm:1
