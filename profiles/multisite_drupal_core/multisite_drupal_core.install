@@ -216,6 +216,15 @@ function multisite_drupal_core_install() {
   ->condition('delta', 'powered-by', '=')
   ->execute();
 
+  db_insert('block')
+  ->fields(array(
+    'module' => 'system',
+    'delta' => 'powered-by',
+    'theme' => 'ec_resp',
+    'region' => '',
+  ))
+  ->execute();  
+
   // add login link in the user menu -------------------------------------------------------------------------------
   $item = array(
     'link_path' => 'user/login',
