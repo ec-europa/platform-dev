@@ -1,0 +1,163 @@
+/* ----------------- Comments ----------------- */
+#comments {
+  margin-top: 0;
+  .comment {
+    margin-bottom: 20px;
+    display: table;
+    vertical-align: top;  
+    h2.title {
+      margin-bottom: 1em;
+    }
+    div.user-picture img {
+      margin-left: 0;
+    }  
+    .attribution {
+      display: table-cell;
+      padding: 0 30px 0 0; /* LTR */
+      vertical-align: top;
+      overflow: hidden;   
+      img {
+        margin: 0;
+        border: 1px solid #d3d7d9;      
+      }
+      .username {
+        white-space: nowrap;      
+      }
+    }
+    .submitted {
+      p {
+        margin: 4px 0;
+        font-size: 1em;
+        line-height: 1.2;      
+      }
+      .comment-time {
+        font-size: 0.9em;
+        color: #68696b;      
+      }
+      .comment-permalink {
+        font-size: 0.9em;
+        text-transform: lowercase;      
+      }
+    }
+    .content {
+      font-size: 1em;
+      line-height: 1.6;    
+    }
+    .comment-arrow {
+      background: url(../images/comment-arrow.gif) no-repeat 0 center transparent; /* LTR */
+      border-left: 1px solid;
+      border-right: 1px solid;
+      height: 40px;
+      margin-left: -47px; /* LTR */
+      margin-top: 10px;
+      position: absolute;
+      width: 20px;    
+      border-color: @bodyBackground;
+    }
+    .comment-text {
+      padding: 10px 25px;
+      border: 1px solid #d3d7d9;
+      display: table-cell;
+      vertical-align: top;
+      position: relative;
+      width: 100%;    
+    }
+    .indented  {
+      margin-left: 40px; /* LTR */    
+    }
+    ul.links {
+      padding: 0 0 0.25em 0;
+      li {
+        padding: 0 0.5em 0 0; /* LTR */
+      }
+    }
+  }
+  
+  .comment-unpublished {
+    margin-right: 5px; /* LTR */
+    padding: 5px 2px 5px 5px; /* LTR */
+    .comment-text .comment-arrow {
+      border-left: 1px solid #fff4f4;
+      border-right: 1px solid #fff4f4;    
+    }
+  }
+}
+
+
+/* ---------------- Comment form  ----------------- */
+.comment-form {
+  label {
+    float: left; /* LTR */
+    width: 120px;
+  }
+  input,
+  .form-select {
+    margin: 0;
+    .border-radius(5px);  
+  }
+  .form-type-textarea label {
+    float: none;  
+  }
+  .form-item,
+  .form-radios,
+  .form-type-checkbox,
+  .form-select {
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .form-type-checkbox,
+  .form-radios {
+    margin-left: 120px; /* LTR */
+    label {
+      float: none;
+      margin-top: 0;    
+    }
+  }
+  input.form-file {
+    width: auto;
+  }
+  .form-item .description  {
+    font-size: 0.9em;
+    line-height: 1.2;
+    margin-left: 120px; /* LTR */  
+  }
+  .form-textarea {
+    .border-radius(5px 5px 0 0);
+  }
+  fieldset.filter-wrapper .fieldset-wrapper,
+  .text-format-wrapper .form-item {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  fieldset.filter-wrapper .tips {
+    font-size: 0.9em;  
+  }
+}
+
+.filter-wrapper {
+  label {
+    width: auto;
+    float: none;  
+  }
+  .form-select {
+    min-width: 120px;  
+  }
+}
+
+#comment-body-add-more-wrapper .form-type-textarea label {
+  margin-bottom: 0.4em;
+}
+
+#edit-actions input {
+  margin-right: 0.6em; /* LTR */
+}
+
+.text-format-wrapper > a.ckeditor_links { display: none !important; }
+.text-format-wrapper > fieldset.filter-wrapper.form-wrapper div.form-type-select { /*display: none;*/ }
+
+.vertical-tabs .form-type-textfield input {
+  -moz-box-sizing: content-box;
+}
+html.js input.form-autocomplete {
+  background-position: 100% 6px;
+}

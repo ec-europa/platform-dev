@@ -1,0 +1,40 @@
+/* ----------------- Fat footer ----------------- */
+.block-fat-footer {
+  margin: 8px 0;
+  text-align: left;
+
+  h2 {
+    display: none;
+  }
+  div.fat_footer_item {
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    line-height: 23px;
+    margin: 4px;
+    a {
+      text-decoration: none;
+      display: block;
+      padding: 2px 8px;
+      &:hover {
+        .border-radius(5px);
+        color: #fff;
+        #gradient .vertical(#0085D5, #0075c5);
+      }
+    }         
+    ul {
+      padding: 0 0 0 5px;
+      margin: 0;
+      border-left: 2px solid #396EA2;
+      text-align: left;
+      font-size: 1em;
+      li {
+        list-style: none;
+        line-height: 23px;
+        a {
+          padding: 2px 4px;
+        }
+      }
+    }
+  }
+}
