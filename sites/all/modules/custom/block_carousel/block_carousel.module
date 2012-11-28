@@ -117,7 +117,7 @@ global $base_url;
             case 'video':
               $thumb = image_style_url('landscape', file_load($item['thumbnail'])->uri);
               $return .= '<a href="' . $path . '">';
-                $return .= '<img src="' . $thumb . '" alt="' . $item['filename'] . '" />';
+                $return .= '<img src="' . $thumb . '" alt="' . check_plain($item['filename']) . '" />';
                 $return .= '<p class="carousel-caption">' . check_plain($item['filename']) . '</p>';
               $return .= '</a>';
             break;
