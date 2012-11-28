@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the media_library_core feature.
- */
-
-include_once 'media_library_core.features.inc';

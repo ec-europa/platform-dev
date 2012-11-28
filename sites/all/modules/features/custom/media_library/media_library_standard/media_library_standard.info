@@ -1,8 +1,0 @@
-core = "7.x"
-name = "media_library_standard"
-package = "Multisite Standard Features"
-project = "media_library_standard"
-version = "7.x-1.0"
-dependencies[] = "media_library_core"
-features[ctools][] = views:views_default:3.0
-features[features_api][] = api:1
