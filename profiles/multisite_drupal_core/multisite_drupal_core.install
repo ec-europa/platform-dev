@@ -224,7 +224,7 @@ function multisite_drupal_core_install() {
       'theme' => $theme, 
       'status' => 1, 
       'weight' => 10, 
-      'region' => 'footer', 
+      'region' => '', 
       'pages' => '', 
       'cache' => -1,
     ),
