@@ -60,13 +60,13 @@ global $base_url;
             <div id="<?php print $block_html_id; ?>" class="container">
 
               <button id="sidebar-button" class="btn btn-navbar visible-phone">
-                <div class="arrow-down"></div>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>                
               </button><!-- /#sidebar-button --> 
 
-              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+              <a id="menu-button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <div class="arrow-down"></div>
               </a>
 
               <a class="brand hidden-desktop" href="<?php print $base_url . '/'; ?>">

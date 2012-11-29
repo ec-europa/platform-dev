@@ -135,7 +135,12 @@ jQuery(function($){
       $('#sidebar-button > div').toggleClass("arrow-down");
       $('#sidebar-button > div').toggleClass("arrow-up");
     });
-    /* /Responsive left sidebar */    
+    /* /Responsive left sidebar */ 
+
+    $('#menu-button').on("click", function() {
+      $('#menu-button > div').toggleClass("arrow-down");
+      $('#menu-button > div').toggleClass("arrow-up");
+    });       
 	});
 
 })(jq171); 
