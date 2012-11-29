@@ -111,6 +111,7 @@ dependencies[] = linkchecker
 dependencies[] = advanced_help
 dependencies[] = realname
 dependencies[] = wysiwyg
+dependencies[] = tmgmt
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set
