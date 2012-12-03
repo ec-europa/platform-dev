@@ -101,11 +101,10 @@ function cce_basic_config_context_default_contexts() {
   $context->condition_mode = 0;
 
   // Translatables
-  // Included for use with string extractors like potx.
   t('global context');
   t('site wide');
   $export['site_wide'] = $context;
   
-
   return $export;
+  
 }
