@@ -361,6 +361,7 @@ function cce_basic_config_enable() {
   );
   $context->reactions['block']['blocks']['form']=$block_to_add2;	  */
 
+  /*
   $block_to_add3 = array(
     'module' => 'locale',
     'delta' =>  'language',
@@ -376,6 +377,7 @@ function cce_basic_config_enable() {
     'weight' => 1,
   );
   $context->reactions['block']['blocks']['main-menu']=$block_to_add4;
+  */
 
   module_invoke('context', 'save', $context);
 
