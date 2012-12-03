@@ -95,18 +95,6 @@ function cce_basic_config_context_default_contexts() {
           'region' => 'tools_bottom',
           'weight' => '-10',
         ),
-        'language' => array(
-          'module' => 'locale',
-          'delta' => 'language',
-          'region' => 'highlighted',
-          'weight' => 1,
-        ),
-        'main-menu' => array(
-          'module' => 'system',
-          'delta' => 'main-menu',
-          'region' => 'featured',
-          'weight' => 1,
-        ),
       ),
     ),
   );
