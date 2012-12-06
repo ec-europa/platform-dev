@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/rate.module	2012-12-06 12:20:35.233711138 +0100
-+++ sites/all/modules/contributed/rate.module	2012-12-06 12:16:39.009638017 +0100
+--- sites/all/modules/contributed/rate/rate.module	2012-12-06 12:20:35.233711138 +0100
++++ sites/all/modules/contributed/rate/rate.module	2012-12-06 12:16:39.009638017 +0100
 @@ -345,7 +345,7 @@
      'description' => '',
    );
