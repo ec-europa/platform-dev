@@ -1,0 +1,11 @@
+--- sites/all/modules/contributed/rate.module.old	2012-12-06 12:20:35.233711138 +0100
++++ sites/all/modules/contributed/rate.module	2012-12-06 12:16:39.009638017 +0100
+@@ -345,7 +345,7 @@
+     'description' => '',
+   );
+   if (($widget->mode != RATE_COMPACT && $widget->mode != RATE_COMPACT_DISABLED) || $widget->description_in_compact) {
+-    $display_options['description'] = check_plain($widget->description);
++    $display_options['description'] = t(check_plain($widget->description));
+   }
+ 
+   $widget_html = theme($theme, array('links' => $links, 'results' => $results, 'mode' => $widget->mode, 'just_voted' => $just_voted, 'content_type' => $content_type, 'content_id' => $content_id, 'display_options' => $display_options));
