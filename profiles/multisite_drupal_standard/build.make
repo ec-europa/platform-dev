@@ -218,6 +218,9 @@ projects[wysiwyg][version] = "2.2"
 projects[tmgmt][subdir] = "contributed"
 projects[tmgmt][version] = "1.0-alpha2"
 
+projects[apachesolr_multilingual][subdir] = "contributed"
+projects[apachesolr_multilingual][version] = "1.0-alpha2"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"
