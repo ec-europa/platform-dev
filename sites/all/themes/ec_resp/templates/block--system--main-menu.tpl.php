@@ -59,11 +59,13 @@ global $base_url;
           <div class="navbar-inner">
             <div id="<?php print $block_html_id; ?>" class="container">
 
+              <?php //if ($variables['has_right_sidebar']): ?>
               <button id="sidebar-button" class="btn btn-navbar visible-phone">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>                
               </button><!-- /#sidebar-button --> 
+              <?php //endif; ?>
 
               <a id="menu-button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                 <div class="arrow-down"></div>
