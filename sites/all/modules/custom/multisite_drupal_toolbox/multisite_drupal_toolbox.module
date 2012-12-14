@@ -494,7 +494,7 @@ function multisite_drupal_toolbox_menu() {
   
   // add linkchecker tab (broken links) to the workbench menu
   $items['admin/workbench/linkchecker'] = array(
-    'access callback' => '_linkchecker_user_access_own_broken_links_report_workbench',
+    'access callback' => '_linkchecker_user_access_account_broken_links_report_workbench',
     'description' => 'Shows a list of broken links in content.',
     'page callback' => 'linkchecker_user_report_page_workbench',
     'title' => 'Broken links',
@@ -526,10 +526,10 @@ function linkchecker_user_report_page_workbench() {
   return linkchecker_user_report_page($user);
 }
 
-function _linkchecker_user_access_own_broken_links_report_workbench() {
+function _linkchecker_user_access_account_broken_links_report_workbench() {
   global $user;
   module_load_include('inc', 'linkchecker', 'linkchecker.pages');  
-  return _linkchecker_user_access_own_broken_links_report($user);
+  return _linkchecker_user_access_account_broken_links_report($user);
 }
 
 // helper function to add/delete a content type to scan by linkchecker module
