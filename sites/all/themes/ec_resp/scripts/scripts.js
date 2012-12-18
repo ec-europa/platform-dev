@@ -3,6 +3,10 @@ jQuery(function($){
 
 	$(document).ready(function() {  //Once the page elements are fully loaded
 
+    window.addEventListener('resize', manageWindowSize, false);
+
+    manageWindowSize();
+
       $('.fancybox').fancybox({
         padding:      0,
         closeBtn:     false,
@@ -25,16 +29,27 @@ jQuery(function($){
     /* /Gallery lightbox */
   });
 
-  function stopPlayer(){
-
+  function stopPlayer() {
     var id= $('.fancybox-opened').find(".lightbox").children().attr('id');
 
-        var isVideo = false;
-        if ($.browser.msie !=true && id != null && id.indexOf("player") >= 0) {
-          isVideo = true;
-          var player= document.getElementById(id);
-          player.sendEvent('STOP');
-        } 
+    var isVideo = false;
+    if ($.browser.msie !=true && id != null && id.indexOf("player") >= 0) {
+      isVideo = true;
+      var player= document.getElementById(id);
+      player.sendEvent('STOP');
+    } 
+  }
+
+  function manageWindowSize(e) {
+    if ("matchMedia" in window) {
+      if (window.matchMedia("(max-width: 979px)").matches) {
+      // Mobile version
+        $('#main-menu-mobile').prependTo('#main-menu');
+      } else if (window.matchMedia("(min-width: 980px)").matches) {
+      // Desktop version
+        $('#main-menu-desktop').prependTo('#main-menu');
+      }
+    }
   }
 
 });

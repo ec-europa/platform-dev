@@ -47,38 +47,40 @@
 global $base_url;
 ?>
 
-        <div class="navbar navbar-static-top visible-desktop">
-          <div class="navbar-inner">
-            <div id="<?php print $block_html_id; ?>" class="container">
-              <?php print_r($content) ?>   
-            </div>
-          </div>
-        </div>
-
-        <div class="navbar navbar-fixed-top hidden-desktop" style="position: fixed">
-          <div class="navbar-inner">
-            <div id="<?php print $block_html_id; ?>" class="container">
-
-              <?php //if ($variables['has_right_sidebar']): ?>
-              <button id="sidebar-button" class="btn btn-navbar visible-phone">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>                
-              </button><!-- /#sidebar-button --> 
-              <?php //endif; ?>
-
-              <a id="menu-button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <div class="arrow-down"></div>
-              </a>
-
-              <a class="brand hidden-desktop" href="<?php print $base_url . '/'; ?>">
-                <?php print variable_get('site_name', ''); ?>
-              </a>
-
-              <div class="nav-collapse collapse">
+        <div id="main-menu">
+          <div id="main-menu-desktop" class="navbar navbar-static-top visible-desktop">
+            <div class="navbar-inner">
+              <div id="<?php print $block_html_id; ?>" class="container">
                 <?php print_r($content) ?>   
               </div>
             </div>
-          </div>          
+          </div>
+
+          <div id="main-menu-mobile" class="navbar navbar-fixed-top hidden-desktop" style="position: fixed">
+            <div class="navbar-inner">
+              <div id="<?php print $block_html_id; ?>" class="container">
+
+                <?php //if ($variables['has_right_sidebar']): ?>
+                <button id="sidebar-button" class="btn btn-navbar visible-phone">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>                
+                </button><!-- /#sidebar-button --> 
+                <?php //endif; ?>
+
+                <a id="menu-button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                  <div class="arrow-down"></div>
+                </a>
+
+                <a class="brand hidden-desktop" href="<?php print $base_url . '/'; ?>">
+                  <?php print variable_get('site_name', ''); ?>
+                </a>
+
+                <div class="nav-collapse collapse">
+                  <?php print_r($content) ?>   
+                </div>
+              </div>
+            </div>          
+          </div>
         </div>
-   
+        
