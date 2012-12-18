@@ -1,38 +1,6 @@
 <?php
-
 /**
  * @file
- * Code for the ec_world_countries feature.
  */
 
-/*
- * Implements hook_init().
- */
-function ec_world_countries_init() {
-
-}
-
-/**
- * Implements hook_menu().
- */
-function ec_world_countries_menu() {
-  $items['admin/config/world_countries'] = array(
-    'title' => 'Settings page for the EC world countries',
-  );
-
-  return $items;
-}
-
-
-
-/**
- * Implements hook_permission().
- */
-function ec_world_countries_permission() {
-  return array(
-    'administer EC world countries' => array(
-      'title' => t('Administer EC world countries'),
-      'description' => t('Administrer full settings of the EC world countries module.'),
-    ),
-  );
-}
+// Drupal needs this blank file.

@@ -10,9 +10,10 @@
 function ec_world_countries_enable() {
 
   $vocabulary = taxonomy_vocabulary_machine_name_load('european_countries');
-  if($vocabulary){
+  if ($vocabulary) {
     $vid=$vocabulary->vid;
-  } else {
+  }
+  else {
     $vocabulary = array(
         'name' => t('EC_world_countries'),
         'machine_name' => 'categories',
@@ -27,12 +28,12 @@ function ec_world_countries_enable() {
   };
 
   include_once('includes/countries.php');
-  foreach($country_array as $continent => $countries) {
+  foreach ($country_array as $continent => $countries) {
 
       $term = (object) array( 'vid' => $vid, 'name' => st($continent), );
       taxonomy_term_save($term);
       $tid = $term->tid;
-      foreach ($countries as $country => $cy_name){
+      foreach ($countries as $country => $cy_name) {
         $subterm = (object) array(
             'vid' => $vid,
             'name' => t($cy_name),
