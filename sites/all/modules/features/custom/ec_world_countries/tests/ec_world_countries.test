@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Tests for ec_world_countries.module.
+ */
+
+/**
+ * Defines a base class for testing the "Ask a question" module.
+ */
+class EC_WorldCountriesWebTestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'EC world countries feature',
+      'description' => 'Test the EC world countries feature feature.',
+      'group' => 'EC world countries feature',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('ec_world_countries');
+  }
+
+ }

@@ -1,0 +1,22 @@
+<?php
+/**
+ * @file
+ * Install the feature EC world countries feature
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function splash_screen_enable() {
+  // Activation message.
+  drupal_set_message(t('EC world countries feature is now active on your site.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function ec_world_countries_disable() {
+
+  // Desactivation message.
+  drupal_set_message(t('EC world countries feature is now disabled on your site.'));
+}

@@ -1,0 +1,9 @@
+name = World Countries
+description = A list of World countries valid for EC.
+core = 7.x
+package = Multisite_features
+php = 5.2.4
+version = 7.x-1.0
+project = ec_world_countries
+features[features_api][] = api:1
+files[] = tests/ec_world_countries.test
