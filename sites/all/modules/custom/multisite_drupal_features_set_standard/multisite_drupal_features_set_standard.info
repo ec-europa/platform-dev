@@ -27,6 +27,13 @@ feature_sets[news_standard][enable][] = news_core
 feature_sets[news_standard][disable][] = news_standard
 feature_sets[news_standard][disable][] = news_core
 
+feature_sets[ec_world_countries][title] = 'EC World Countries'
+feature_sets[ec_world_countries][description] = 'A list of World countries valid for EC.'
+feature_sets[ec_world_countries][category] = 'Information to users'
+feature_sets[ec_world_countries][icon] = 'feature-set-icons/world_countries_icon.png'
+feature_sets[ec_world_countries][enable][] = ec_world_countries
+feature_sets[ec_world_countries][disable][] = ec_world_countries
+
 feature_sets[ec_profiles][title] = 'Extend Profiles'
 feature_sets[ec_profiles][description] = 'Create a directory page.'
 feature_sets[ec_profiles][category] = 'Users management'
