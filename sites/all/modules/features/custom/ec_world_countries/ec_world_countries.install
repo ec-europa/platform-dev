@@ -9,14 +9,14 @@
  */
 function ec_world_countries_enable() {
 
-  $vocabulary = taxonomy_vocabulary_machine_name_load('european_countries');
+  $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
   if ($vocabulary) {
     $vid=$vocabulary->vid;
   }
   else {
     $vocabulary = array(
-        'name' => t('EC_world_countries'),
-        'machine_name' => 'categories',
+        'name' => t('EC World Countries'),
+        'machine_name' => 'ec_world_countries',
         'description' => t('A list of the world countries'),
         'hierarchy' => 1,
         'module' => 'ec_world_countries', // or nothing
