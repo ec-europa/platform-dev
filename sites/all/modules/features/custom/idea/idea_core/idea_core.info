@@ -47,3 +47,4 @@ features[variable][] = node_options_idea
 features[variable][] = node_preview_idea
 features[variable][] = node_submitted_idea
 features[views_view][] = idea_list
+files[] = tests/idea_core.test

@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Tests for idea_core.module.
+ */
+
+/**
+ * Defines a base class for testing the "idea_core" module.
+ */
+class Idea_CoreWebTestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ideation',
+      'description' => 'Test the ideation Core feature.',
+      'group' => 'Multisite - User feedback',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp('idea_core');
+    $this->privileged_user = $this->drupalCreateUser(array('administer taxonomy'));
+    $this->drupalLogin($this->privileged_user);
+
+  }
+
+  public function testIdeaTypeShouldBeAccessible() {
+    $this->drupalGet('admin/structure/types/manage/idea');
+    $this->assertResponse(200);
+  }
+}

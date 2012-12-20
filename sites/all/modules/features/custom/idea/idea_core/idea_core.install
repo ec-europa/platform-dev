@@ -78,7 +78,7 @@ function idea_core_install() {
    taxonomy_term_save($term);
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => t('Unable to Implement'),
+    'name' => st('Unable to Implement'),
   );
   $term = (object) array(
     'vid' => $vocabulary->vid,
@@ -152,7 +152,7 @@ function idea_core_disable() {
   _disable_content_type('idea');
 
   //Remove rating
-  rate_content_type('idea','remove');
+  rate_content_type('idea', 'remove');
 
   //Activation message
   drupal_set_message(t('Idea feature is now disabled on your site.'));
