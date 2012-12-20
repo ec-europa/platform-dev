@@ -2,7 +2,7 @@
 core = 7.x
 
 api = 2
-projects[drupal][version] = "7.17"
+projects[drupal][version] = "7.18"
 
 ; Modules
 projects[views_bulk_operations][subdir] = "contributed"
@@ -21,7 +21,7 @@ projects[captcha][version] = "1.0-beta1"
 ;projects[ckeditor][version] = "1.9"
 
 projects[context][subdir] = "contributed"
-projects[context][version] = "3.0-beta4"
+projects[context][version] = "3.0-beta6"
 
 projects[date][subdir] = "contributed"
 projects[date][version] = "2.6"
@@ -30,7 +30,7 @@ projects[defaultcontent][subdir] = "contributed"
 projects[defaultcontent][version] = "1.0-alpha6"
 
 projects[diff][subdir] = "contributed"
-projects[diff][version] = "2.0"
+projects[diff][version] = "3.2"
 
 projects[entity][subdir] = "contributed"
 projects[entity][version] = "1.0-rc3"

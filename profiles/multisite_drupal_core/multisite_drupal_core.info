@@ -127,7 +127,7 @@ dependencies[] = article_extended
 files[] = multisite_drupal_core.profile
 
 ; Information added by drupal.org packaging script on 2011-12-05
-version = "7.17"
+version = "7.18"
 project = "drupal"
 datestamp = "1323125439"
 
