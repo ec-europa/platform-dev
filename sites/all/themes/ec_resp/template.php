@@ -18,13 +18,13 @@ function ec_resp_preprocess(&$variables) {
   
   // display left sidebar, or not
   $variables['no_left'] = FALSE;
-  if (!isset($variables['page']['sidebar_first']) || !$variables['page']['sidebar_first']) {
+  if (!isset($variables['page']['sidebar_left']) || !$variables['page']['sidebar_left']) {
     $variables['no_left'] = TRUE;
   }    
   
   // display right sidebar, or not
   $variables['no_right'] = FALSE;
-  if (!isset($variables['page']['sidebar_second']) || !$variables['page']['sidebar_second']) {
+  if (!isset($variables['page']['sidebar_right']) || !$variables['page']['sidebar_right']) {
     $variables['no_right'] = TRUE;
   }     
 }

@@ -64,16 +64,21 @@
  *   comment/reply/12345).
  *
  * Regions:
- * - $page['header']: Items for the header region (right side of banner)
- * - $page['highlighted']: Items for the highlighted content region (language switcher)
- * - $page['featured']: Items for the featured region (main menu, global information)
- * - $page['help']: Dynamic help text, mostly for admin pages (between page title and content)
+ * - $page['header_top']: Displayed at the top line of the header -> language switcher, links, ...
+ * - $page['header_right']: Displayed in the right part of the header -> logo, search box, ...
+ *
+ * - $page['featured']: Displayed below the header, take full width of screen -> main menu, global information, ...
+ * - $page['tools']: Displayed on top right of content area, before the page title -> login/logout buttons, author information, ...
+ *
+ * - $page['sidebar_left']: Displayed on left of the content, if not empty -> navigation, pictures, ... 
+ * - $page['sidebar_right']: Displayed on right of the content, if not empty -> latest content, calendar, ... 
+ *
+ * - $page['content_top']: Displayed in middle column, right before the page title -> carousel, important news, ...  
+ * - $page['help']: Displayed between page title and content -> information about the page, contextual help, ... 
  * - $page['content']: The main content of the current page.
- * - $page['sidebar_first']: Items for the sidebar first region (left sidebar)
- * - $page['sidebar_second']: Items for the sidebar second region (right sidebar)
- * - $page['footer']: Items for the footer region.
- * - $page['tools']: Items for the tools region (top right of page)
- * - $page['tools_bottom']: Items for the bottom tools region (bottom right of page)
+ * - $page['content_bottom']: Displayed below the content, in middle column -> print button, share tools, ...
+ *
+ * - $page['footer']: Displayed at bottom of the page, on full width -> latest update, copyright, ...
  *
  * @see template_preprocess()
  * @see template_preprocess_page()
@@ -87,12 +92,12 @@ global $base_url;
 
 //calculate size of regions
 $nb_column            = 1;
-if ($page['sidebar_first']) $nb_column++;
-if ($page['sidebar_second']) $nb_column++;
+if ($page['sidebar_left']) $nb_column++;
+if ($page['sidebar_right']) $nb_column++;
 
-$span_sidebar_first   = ($page['sidebar_first'] ? 5 - $nb_column : 0);
-$span_sidebar_second  = ($page['sidebar_second'] ? 5 - $nb_column : 0);
-$span_content         = 12 - $span_sidebar_first - $span_sidebar_second;
+$span_sidebar_left    = ($page['sidebar_left'] ? 5 - $nb_column : 0);
+$span_sidebar_right   = ($page['sidebar_right'] ? 5 - $nb_column : 0);
+$span_content         = 12 - $span_sidebar_left - $span_sidebar_right;
 $span_tools           = 4;
 $span_messages        = 12 - $span_tools;
 ?>
@@ -108,7 +113,11 @@ $span_messages        = 12 - $span_tools;
       <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . path_to_theme(); ?>/images/logo/logo_en.gif" />
 
       <span id="banner-image-right">
-    <?php if ($page['header']): ?><?php print render($page['header']); ?><?php endif; ?>
+        <?php if ($page['header_right']): ?>
+        <div class="region region-header_right">
+          <?php print render($page['header_right']); ?>
+        </div><!-- /.region-header_right -->
+        <?php endif; ?>
       </span>
     
     <?php
@@ -125,12 +134,12 @@ $span_messages        = 12 - $span_tools;
       </p>
 
       <div class="banner-right">
-        <?php if ($page['header']): ?>
-        <div class="region region-header">
+        <?php if ($page['header_right']): ?>
+        <div class="region region-header_right">
           <ul class="links unstyled">
-            <?php print render($page['header']); ?>
+            <?php print render($page['header_right']); ?>
           </ul>
-        </div><!-- /.region-header -->
+        </div><!-- /.region-header_right -->
         <?php endif; ?>
       </div>
       
@@ -145,21 +154,20 @@ $span_messages        = 12 - $span_tools;
       <div id="main-title"><?php print $site_name; ?></div>
       <div id="sub-title"><?php print $site_slogan; ?></div>
 
-      <p class="off-screen">Service tools</p>
-      <ul class="reset-list" id="services">
-        <li><a class="first" accesskey="3" href="<?php print $base_url . '/contact'; ?>"><?php print t('Contact'); ?></a></li>
-        <li><a accesskey="2" href="http://ec.europa.eu/geninfo/legal_notices_en.htm"><?php print t('Legal notice'); ?></a></li>
-        <li><a accesskey="4" href="http://ec.europa.eu/geninfo/query/search_en.html"><?php print t('Search'); ?></a></li>
-      </ul>
+      <div class="region region-header_top">
+        <p class="off-screen">Service tools</p>
+        <ul class="reset-list" id="services">
+          <li><a class="first" accesskey="3" href="<?php print $base_url . '/contact'; ?>"><?php print t('Contact'); ?></a></li>
+          <li><a accesskey="2" href="http://ec.europa.eu/geninfo/legal_notices_en.htm"><?php print t('Legal notice'); ?></a></li>
+          <li><a accesskey="4" href="http://ec.europa.eu/geninfo/query/search_en.html"><?php print t('Search'); ?></a></li>
+        </ul>
+        <?php if ($page['header_top']): ?>
+          <?php print render($page['header_top']); ?>
+        <?php endif; ?>
+      </div><!-- /.region-header_top -->
 
     </div>
   </div><!-- /#layout-header -->  
-
-  <?php if ($page['highlighted']): ?>
-  <div class="region region-highlighted">
-     <?php print render($page['highlighted']); ?> 
-  </div><!-- /.region-highlighted -->
-  <?php endif; ?>
 
   <div id="path" class="visible-desktop">
     <p class="off-screen">Navigation path</p>
@@ -181,10 +189,10 @@ $span_messages        = 12 - $span_tools;
   <?php endif; ?> 
 
   <div id="layout-body" class="container">
-    <?php if ($page['sidebar_first']): ?>
-      <div id="responsive-sidebar" class="region region-sidebar-first visible-phone">
+    <?php if ($page['sidebar_left']): ?>
+      <div id="responsive-sidebar" class="region region-sidebar_left visible-phone">
         <ul class="nav nav-list">
-          <?php print render($page['sidebar_first']); ?>
+          <?php print render($page['sidebar_left']); ?>
         </ul>
       </div><!-- /#responsive-sidebar-->   
     <?php endif; ?>
@@ -206,12 +214,12 @@ $span_messages        = 12 - $span_tools;
     </div>
 
     <div class="row-fluid">
-      <?php if ($page['sidebar_first']): ?>
-      <div class="region region-sidebar-first span<?php print ($span_sidebar_first); ?> hidden-phone">
+      <?php if ($page['sidebar_left']): ?>
+      <div class="region region-sidebar_left span<?php print ($span_sidebar_left); ?> hidden-phone">
         <ul class="nav nav-list">
-          <?php print render($page['sidebar_first']); ?>
+          <?php print render($page['sidebar_left']); ?>
         </ul>
-      </div><!-- /.region-sidebar-first -->     
+      </div><!-- /.region-sidebar_left -->     
       <?php endif; ?>     
 
       <div class="span<?php print $span_content; ?>">
@@ -252,21 +260,21 @@ $span_messages        = 12 - $span_tools;
         
         <?php print $feed_icons; ?>
 
-        <div class="region region-tools-bottom">
-        <?php if ($page['tools_bottom']): ?>
+        <div class="region region-content_bottom">
+        <?php if ($page['content_bottom']): ?>
           <ul class="links">
-            <?php print render($page['tools_bottom']); ?>
+            <?php print render($page['content_bottom']); ?>
           </ul>
         <?php endif; ?>
-        </div><!-- /.region-tools-bottom -->
+        </div><!-- /.region-content_bottom -->
       </div>
 
-      <?php if ($page['sidebar_second']): ?>
-      <div class="region region-sidebar-second span<?php print ($span_sidebar_second); ?> hidden-phone">
+      <?php if ($page['sidebar_right']): ?>
+      <div class="region region-sidebar_right span<?php print ($span_sidebar_right); ?> hidden-phone">
         <ul class="nav nav-list">
-          <?php print render($page['sidebar_second']); ?>
+          <?php print render($page['sidebar_right']); ?>
         </ul>
-      </div><!-- /.region-sidebar-second -->  
+      </div><!-- /.region-sidebar_right -->  
       <?php endif; ?> 
     </div>
   </div><!-- /#layout-body -->    

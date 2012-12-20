@@ -9,17 +9,19 @@ stylesheets[all][] = "css/style.css"
 stylesheets[all][] = "css/colors.css"
 stylesheets[print][] = "css/print.css"
 
-regions[header] = "Header"
-regions[help] = "Help"
-regions[highlighted] = "Highlighted"
-regions[tools] = "Tools"
-regions[tools_bottom] = "Tools Bottom"
-regions[content_top] = "Content Top"
+regions[header_top] = "Header Top"
+regions[header_right] = "Header right"
 
 regions[featured] = "Featured"
+regions[tools] = "Tools"
+
+regions[sidebar_left] = "Sidebar left"
+regions[sidebar_right] = "Sidebar right"
+
+regions[content_top] = "Content Top"
+regions[help] = "Help"
 regions[content] = "Content"
-regions[sidebar_first] = "Sidebar left"
-regions[sidebar_second] = "Sidebar right"
+regions[content_bottom] = "Content Bottom"
 
 regions[footer] = "Footer"
 
