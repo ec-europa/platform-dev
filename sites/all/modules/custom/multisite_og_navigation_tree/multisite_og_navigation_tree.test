@@ -145,7 +145,7 @@ class OGNavigationTreeDrupalWebTestCase extends DrupalWebTestCase {
     //------------
     // Assign the block to a region
     $edit = array(
-    	'blocks[multisite_og_navigation_tree_mont-navigation][region]' => 'sidebar_first'
+    	'blocks[multisite_og_navigation_tree_mont-navigation][region]' => 'sidebar_left'
     );
     $this->drupalPost('admin/structure/block', $edit, 'Save blocks');
 

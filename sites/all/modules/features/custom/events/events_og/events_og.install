@@ -22,7 +22,13 @@ function events_og_uninstall() {
 * Add block to the context
 */
 function events_og_enable() {
-  _add_block_context('communities', 'views-calendar-upcoming_events', 'views', 'calendar-upcoming_events', 'sidebar_first');
+  global $theme_key;
+
+  if ($theme_key == 'ec_resp') {
+    _add_block_context('communities', 'views-calendar-upcoming_events', 'views', 'calendar-upcoming_events', 'sidebar_left');
+  } else {
+    _add_block_context('communities', 'views-calendar-upcoming_events', 'views', 'calendar-upcoming_events', 'sidebar_first');
+  }  
   _add_views_context('communities', 'calendar');
   _add_views_context('communities', 'calendar:month');
   _add_views_context('communities', 'calendar:week');

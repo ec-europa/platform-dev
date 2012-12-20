@@ -195,7 +195,7 @@ class EcasFunctionalTest extends DrupalWebTestCase {
   	$this->assertText(t('ECAS User login'), 'The ECAS login block was found.');
 
   	$edit = array(
-  	  'blocks[ecas_ecas][region]' => 'sidebar_first',
+  	  'blocks[ecas_ecas][region]' => 'sidebar_left',
   	  'blocks[user_login][region]' => '-1',  	  
   	);
   	$this->drupalPost(NULL, $edit, 'Save blocks');

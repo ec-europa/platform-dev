@@ -12,9 +12,16 @@ function notification_enable() {
   }
   
   //Add block in context
-  _add_block_context('site_wide','subscriptions','notifications_ui','subscriptions', 'tools_bottom');
-   //Activation message
-    drupal_set_message('Notification feature is now enabled on your site.');
+  global $theme_key;
+
+  if ($theme_key == 'ec_resp') {
+    _add_block_context('site_wide','subscriptions','notifications_ui','subscriptions', 'content_bottom');
+  } else {
+    _add_block_context('site_wide','subscriptions','notifications_ui','subscriptions', 'tools_bottom');
+  }    
+  
+  //Activation message
+  drupal_set_message('Notification feature is now enabled on your site.');
 }
 
 
