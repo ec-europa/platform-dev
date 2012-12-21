@@ -50,7 +50,7 @@ global $base_url;
         <div id="main-menu">
           <div id="main-menu-desktop" class="navbar navbar-static-top visible-desktop">
             <div class="navbar-inner">
-              <div id="<?php print $block_html_id; ?>" class="container">
+              <div id="block-system-main-menu-desktop" class="container">
                 <?php print_r($content) ?>   
               </div>
             </div>
@@ -58,7 +58,7 @@ global $base_url;
 
           <div id="main-menu-mobile" class="navbar navbar-fixed-top hidden-desktop" style="position: fixed">
             <div class="navbar-inner">
-              <div id="<?php print $block_html_id; ?>" class="container">
+              <div id="block-system-main-menu-mobile" class="container">
 
                 <?php //if ($variables['has_right_sidebar']): ?>
                 <button id="sidebar-button" class="btn btn-navbar visible-phone">

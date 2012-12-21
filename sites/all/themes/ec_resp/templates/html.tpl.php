@@ -6,9 +6,9 @@
 ?>
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php print $language->language; ?>" version="XHTML+RDFa 1.0" dir="<?php print $language->dir; ?>"<?php print $rdf_namespaces; ?> xmlns:fb="http://www.facebook.com/2008/fbml">
+<html>
 
-<head profile="<?php print $grddl_profile; ?>">
+<head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
