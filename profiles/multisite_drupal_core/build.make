@@ -194,9 +194,6 @@ projects[configuration][version] = "2.x-dev"
 projects[freepager][subdir] = "contributed"
 projects[freepager][version] = "2.x-dev"
 
-projects[devel][subdir] = "contributed"
-projects[devel][version] = "1.2"
-
 projects[media][subdir] = "contributed"
 projects[media][version] = "2.0-unstable7"
 
