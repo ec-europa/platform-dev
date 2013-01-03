@@ -1,1 +1,1 @@
-includes[multisite] = "../multisite.make"
+includes[] = "../multisite.make"

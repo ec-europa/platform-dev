@@ -1,1 +1,1 @@
-includes[multisite] = "drupal-org.make"
+includes[] = "drupal-org.make"
