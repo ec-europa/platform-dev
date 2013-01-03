@@ -141,6 +141,8 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['fields']['name']['alter']['html'] = 0;
   $handler->display->display_options['fields']['name']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['name']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['name']['element_class'] = 'hidden-phone';
+  $handler->display->display_options['fields']['name']['element_label_class'] = 'hidden-phone';  
   $handler->display->display_options['fields']['name']['hide_empty'] = 0;
   $handler->display->display_options['fields']['name']['empty_zero'] = 0;
   $handler->display->display_options['fields']['name']['link_to_user'] = 1;
@@ -207,6 +209,8 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['fields']['created']['alter']['html'] = 0;
   $handler->display->display_options['fields']['created']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['created']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['created']['element_class'] = 'hidden-phone';
+  $handler->display->display_options['fields']['created']['element_label_class'] = 'hidden-phone';  
   $handler->display->display_options['fields']['created']['hide_empty'] = 0;
   $handler->display->display_options['fields']['created']['empty_zero'] = 0;
   $handler->display->display_options['fields']['created']['date_format'] = 'raw time span';
@@ -227,6 +231,8 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['fields']['access']['alter']['html'] = 0;
   $handler->display->display_options['fields']['access']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['access']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['access']['element_class'] = 'hidden-phone';
+  $handler->display->display_options['fields']['access']['element_label_class'] = 'hidden-phone';    
   $handler->display->display_options['fields']['access']['hide_empty'] = 0;
   $handler->display->display_options['fields']['access']['empty_zero'] = 0;
   $handler->display->display_options['fields']['access']['date_format'] = 'time ago';
