@@ -8,6 +8,9 @@ projects[drupal][version] = "7.18"
 projects[views_bulk_operations][subdir] = "contributed"
 projects[views_bulk_operations][version] = "3.0"
 
+projects[views_litepager][subdir] = "contributed"
+projects[views_litepager][version] = "3.0"
+
 projects[advanced_help][subdir] = "contributed"
 projects[advanced_help][version] = "1.0"
 

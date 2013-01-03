@@ -195,6 +195,9 @@ projects[views_bulk_operations][version] = "3.0"
 projects[views_datasource][subdir] = "contributed"
 projects[views_datasource][version] = "1.x-dev"
 
+projects[views_litepager][subdir] = "contributed"
+projects[views_litepager][version] = "3.0"
+
 projects[votingapi][subdir] = "contributed"
 projects[votingapi][version] = "2.10"
 
