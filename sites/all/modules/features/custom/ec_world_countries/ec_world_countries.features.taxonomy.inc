@@ -10,8 +10,8 @@
 function ec_world_countries_taxonomy_default_vocabularies() {
   return array(
     'european_countries' => array(
-      'name' => 'EC_world_countries',
-      'machine_name' => 'european_countries',
+      'name' => 'EC World Countries',
+      'machine_name' => 'ec_world_countries',
       'description' => 'A list of the world countries',
       'hierarchy' => '0',
       'module' => 'taxonomy',
