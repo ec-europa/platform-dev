@@ -66,7 +66,7 @@ function fpfis_check_master(&$subsite) {
 		} else {
 			/// TODO check ability to write in that directory?
 			
-			foreach (array('sites.php', 'sites.list.php', 'settings.common.php') as $file) {
+			foreach (array('sites.php', 'sites.list.php', 'settings.common.php', 'settings.common.post.php') as $file) {
 				if (!is_file($local_master_sites . '/' . $file)) {
 					$reports[] = sprintf('the "%s" file does not appear to exist', $file);
 				}
@@ -501,7 +501,8 @@ function fpfis_register_subsite_rewritemap(&$subsite) {
 }
 
 function fpfis_adjust_subsite_settings(&$subsite) {
-	/// ajuster le settings.php : variable $multisite_subsite + include settings.common.php
+	/// Adjuste the settings.php file: insert the $multisite_subsite variable
+	/// along with include statements for settings.common* files.
 	$settings_path = $subsite->master()->path('sites') . '/' . $subsite->name() . '/settings.php';
 	
 	$reports = array();
@@ -516,8 +517,9 @@ function fpfis_adjust_subsite_settings(&$subsite) {
 		$configuration = stream_get_contents($settings_fh); // read the rest of the file
 		fseek($settings_fh, strlen($first_line));
 		fprintf($settings_fh, '$multisite_subsite = \'%s\';' . "\n", $subsite->name());
-		fprintf($settings_fh, 'include(dirname(__FILE__) . \'/../settings.common.php\');' . "\n", $subsite->name());
+		fprintf($settings_fh, 'include(dirname(__FILE__) . \'/../settings.common.php\');' . "\n");
 		fwrite($settings_fh, $configuration);
+		fprintf($settings_fh, 'include(dirname(__FILE__) . \'/../settings.common.post.php\');' . "\n");
 		fclose($settings_fh);
 	}
 	
