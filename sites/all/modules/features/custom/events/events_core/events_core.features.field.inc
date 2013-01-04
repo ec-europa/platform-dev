@@ -296,7 +296,7 @@ function events_core_field_default_fields() {
       'bundle' => 'event',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'For external url, please enter a complete link begining with "http(s)://"',
       'display' => array(
         'default' => array(
           'label' => 'inline',
