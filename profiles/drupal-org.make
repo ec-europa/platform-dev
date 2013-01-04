@@ -105,7 +105,7 @@ projects[link][subdir] = "contributed"
 projects[link][version] = "1.0"
 
 projects[linkchecker][subdir] = "contributed"
-projects[linkchecker][version] = "1.x-dev"
+projects[linkchecker][version] = "1.0"
 
 projects[mailsystem][subdir] = "contributed"
 projects[mailsystem][version] = "2.34"
