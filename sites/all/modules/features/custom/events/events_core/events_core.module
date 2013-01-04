@@ -39,12 +39,12 @@ function events_core_tokens($type, $tokens, $data = array(), $options = array())
 }
 
 
-function events_core_form_events_node_form_alter(&$form, &$form_state, $form_id) {
+function events_core_form_event_node_form_alter(&$form, &$form_state, $form_id) {
     $form['#validate'][] = 'custom_valid_events_link';
 }
 
 function custom_valid_events_link(&$form, &$form_state) {
   if (isset($form['field_location']['und'][0]['url']['#value']) && (bool)$form['field_location']['und'][0]['url']['#value'] ) {
-    $result_scan = linkit_scan_url($form['field_location']['und'][0]['url']['#value']);
+    $result_scan = linkit_scan_url($form['field_location']['und'][0]['url']['#value'], 'field_location');
   }
 }
