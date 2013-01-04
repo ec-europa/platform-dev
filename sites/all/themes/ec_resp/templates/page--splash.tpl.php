@@ -1,3 +1,10 @@
+<?php
+/**
+ * @file
+ * Splash screen.
+ */
+?>
+
 <?php print render($page['content']); ?>
 
 <?php global $base_url; ?>
