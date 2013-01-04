@@ -43,12 +43,10 @@ function news_core_tokens($type, $tokens, $data = array(), $options = array()) {
 
 
 function news_core_form_news_node_form_alter(&$form, &$form_state, $form_id) {
-   
-    $form['#validate'][] = 'custom_valid';  //news_core_news_node_form_validate
-  
+    $form['#validate'][] = 'custom_valid_news_link';  //news_core_news_node_form_validate
 }
 
-function custom_valid(&$form, &$form_state) {
+function custom_valid_news_link(&$form, &$form_state) {
   if (isset($form['field_link']['und'][0]['url']['#value']) && (bool)$form['field_link']['und'][0]['url']['#value'] ) {
     $result_scan = linkit_scan_url($form['field_link']['und'][0]['url']['#value']);
   }
