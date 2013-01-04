@@ -1,7 +1,7 @@
 includes[multisite] = "../multisite.make"
 
 projects[og][subdir] = "contributed"
-projects[og][version] = "1.4"
+projects[og][version] = "2.0-rc1"
 
 projects[og_create_perms][subdir] = "contributed"
 projects[og_create_perms][version] = "1.0"
