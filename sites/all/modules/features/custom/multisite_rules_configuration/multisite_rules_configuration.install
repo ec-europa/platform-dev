@@ -6,6 +6,21 @@
  */
 
 function multisite_rules_configuration_enable() {
+}
+
+/*
+ * hook_disable
+ * Remove permissions
+ */
+
+function multisite_rules_configuration_disable() {
+//
+}
+
+/*
+ * hook_N_update
+ */
+function multisite_rules_configuration_update_7110() {
 
 //Add Archived and Validated Workflow States
 $arch_state = db_insert('workbench_moderation_states')
@@ -54,13 +69,3 @@ $vali_state = db_insert('workbench_moderation_states')
   $query->execute();
 
 }
-
-/*
- * hook_disable
- * Remove permissions
- */
-
-function multisite_rules_configuration_disable() {
-//
-}
-
