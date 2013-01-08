@@ -1,4 +1,12 @@
 <?php
+/**
+ * alter html code (to add js and css).
+ */
+function multisite_drupal_toolbox_preprocess_html(&$variables) {
+  // Add CSS
+  drupal_add_css(drupal_get_path('module', 'multisite_drupal_toolbox') . '/style.css', array('group' => CSS_THEME));
+}
+
 /*
 * hook_boot
 */
