@@ -1,0 +1,96 @@
+@font-face {
+	font-family: 'multisite-icons';
+	src:url('fonts/multisite-icons.eot');
+	src:url('fonts/multisite-icons.eot?#iefix') format('embedded-opentype'),
+		url('fonts/multisite-icons.svg#multisite-icons') format('svg'),
+		url('fonts/multisite-icons.woff') format('woff'),
+		url('fonts/multisite-icons.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+	font-family: 'multisite-icons';
+	content: attr(data-icon);
+	speak: none;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+[class^="multisite-icon-"]:before, [class*=" multisite-icon-"]:before {
+	font-family: 'multisite-icons';
+	font-style: normal;
+	speak: none;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+.multisite-icon-vcard:before {
+	content: "\e015";
+}
+.multisite-icon-checkbox:before {
+	content: "\e014";
+}
+.multisite-icon-thumbs-up:before {
+	content: "\e013";
+}
+.multisite-icon-share:before {
+	content: "\e012";
+}
+.multisite-icon-light-bulb:before {
+	content: "\e011";
+}
+.multisite-icon-mail:before {
+	content: "\e010";
+}
+.multisite-icon-directions:before {
+	content: "\e00f";
+}
+.multisite-icon-code:before {
+	content: "\e00e";
+}
+.multisite-icon-list:before {
+	content: "\e00d";
+}
+.multisite-icon-publish:before {
+	content: "\e00c";
+}
+.multisite-icon-language:before {
+	content: "\e00b";
+}
+.multisite-icon-pictures:before {
+	content: "\e00a";
+}
+.multisite-icon-archive:before {
+	content: "\e009";
+}
+.multisite-icon-paperplane:before {
+	content: "\e008";
+}
+.multisite-icon-megaphone:before {
+	content: "\e007";
+}
+.multisite-icon-feed:before {
+	content: "\e006";
+}
+.multisite-icon-question:before {
+	content: "\e005";
+}
+.multisite-icon-link:before {
+	content: "\e001";
+}
+.multisite-icon-earth:before {
+	content: "\e004";
+}
+.multisite-icon-copy:before {
+	content: "\e002";
+}
+.multisite-icon-book:before {
+	content: "\e003";
+}
+.multisite-icon-calendar:before {
+	content: "\e000";
+}

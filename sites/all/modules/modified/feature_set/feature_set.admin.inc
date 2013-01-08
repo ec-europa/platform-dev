@@ -23,6 +23,7 @@ function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
           'featureset' => $details['title'],
           'description' => $details['description'] . get_require($featureset),
           'icon' => empty($details['icon']) ? '' : $details['icon'],
+          'font' => empty($details['font']) ? '' : $details['font'],
           'category' => empty($details['category']) ? '' : $details['category'],
         ),
       );
@@ -98,6 +99,9 @@ function theme_feature_set_admin_form($form) {
       }
       else {
         $icon = '';
+      }
+      if (!empty($form[$key]['#featuresetinfo']['font'])) {
+        $icon = '<div class="feature-set-image '. $form[$key]['#featuresetinfo']['font'] . '"></div>';
       }
       $featureset = '<div class="feature-set">';
       $featureset .= '<span class="name">' . $form[$key]['#featuresetinfo']['featureset'] . '</span>';
