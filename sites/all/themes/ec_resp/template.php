@@ -721,27 +721,19 @@ function icon_type_classes($subject) {
 function class_replace($match) {
   switch ($match[1]) {
     case "Article":
-      return '<i class="icon-file"></i>';
+      return '<i class="multisite-icon-file"></i>';
     break;
     
     case "community":
-      return '<i class="icon-home"></i>';
+      return '<i class="multisite-icon-group"></i>';
     break;
     
     case "Document":
-      return '<i class="icon-list-alt"></i>';
+      return '<i class="multisite-icon-newspaper"></i>';
     break;
     
     case "Event":
       return '<i class="multisite-icon-calendar"></i>';
-    break;
-    
-    case "Forum Room":
-      return '<i class="icon-th-list"></i>';
-    break;
-    
-    case "Forum Thread":
-      return '<i class="icon-list"></i>';
     break;
     
     case "Links":
@@ -753,15 +745,15 @@ function class_replace($match) {
     break;
     
     case "Page":
-      return '<i class="icon-file"></i>';
+      return '<i class="multisite-icon-file"></i>';
     break;
     
     case "Survey":
-      return '<i class="multisite-icon-checkbox"></i>';
+      return '<i class="multisite-icon-check"></i>';
     break;
     
     case "Wiki":
-      return '<i class="multisite-icon-copy"></i>';
+      return '<i class="multisite-icon-edit"></i>';
     break;
     
     case "F.A.Q":
@@ -769,19 +761,19 @@ function class_replace($match) {
     break;
     
     case "GalleryMedia":
-     return '<i class="multisite-icon-pictures"></i>';
+      return '<i class="multisite-icon-pictures"></i>';
     break;
 
     case "Blog post":
-     return '<i class="multisite-icon-book"></i>';
+      return '<i class="multisite-icon-book"></i>';
     break;
 
     case "idea":
-     return '<i class="multisite-icon-light-bulb"></i>';
+      return '<i class="multisite-icon-light-bulb"></i>';
     break;
 
     case "Simplenews newsletter":
-     return '<i class="multisite-icon-paperplane"></i>';
+      return '<i class="multisite-icon-paperplane"></i>';
     break;
     
     default:
