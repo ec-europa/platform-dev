@@ -24,9 +24,7 @@ function news_standard_uninstall() {
  */
 function news_standard_enable(){
   //Add block in context
-  _add_block_context('homepage','news-top_news','views','news-top_news', 'content_top');
-  
-  //module_enable(array('news_standard_content'));  
+  _add_block_context('homepage','news-top_news','views','news-top_news', 'content_top'); 
 }
 
 
@@ -36,7 +34,5 @@ function news_standard_enable(){
  * Remove permissions
  */
 function news_standard_disable(){
-
-  _remove_block_context('homepage','news-top_news');  
-  //module_disable(array('news_standard_content'));    
+  _remove_block_context('homepage','news-top_news');     
 }
