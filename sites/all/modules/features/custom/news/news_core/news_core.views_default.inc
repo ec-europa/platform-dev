@@ -42,34 +42,6 @@ function news_core_views_default_views() {
   $handler->display->display_options['header']['area']['empty'] = TRUE;
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
-  /* Field: Content: Picture */
-  $handler->display->display_options['fields']['field_news_picture']['id'] = 'field_news_picture';
-  $handler->display->display_options['fields']['field_news_picture']['table'] = 'field_data_field_news_picture';
-  $handler->display->display_options['fields']['field_news_picture']['field'] = 'field_news_picture';
-  $handler->display->display_options['fields']['field_news_picture']['label'] = '';
-  $handler->display->display_options['fields']['field_news_picture']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_news_picture']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['field_news_picture']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_news_picture']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_news_picture']['settings'] = array(
-    'image_style' => 'thumbnail',
-    'image_link' => '',
-  );
-  $handler->display->display_options['fields']['field_news_picture']['field_api_classes'] = 0;
   /* Field: Content: Body */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
@@ -250,34 +222,6 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
-  /* Field: Content: Link */
-  $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
-  $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
-  $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
-  $handler->display->display_options['fields']['field_link']['label'] = '';
-  $handler->display->display_options['fields']['field_link']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['field_link']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['field_link']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['field_link']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['field_link']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['field_link']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['field_link']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['field_link']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['field_link']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['field_link']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['field_link']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['field_link']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_link']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['field_link']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['field_link']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['field_link']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
-  $handler->display->display_options['fields']['field_link']['group_rows'] = 1;
-  $handler->display->display_options['fields']['field_link']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_link']['delta_reversed'] = 0;
-  $handler->display->display_options['fields']['field_link']['delta_first_last'] = 0;
-  $handler->display->display_options['fields']['field_link']['field_api_classes'] = 0;
   /* Field: Content: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
@@ -303,62 +247,70 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['created']['empty_zero'] = 0;
   $handler->display->display_options['fields']['created']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['created']['date_format'] = 'short';
-  /* Field: Content: Picture */
-  $handler->display->display_options['fields']['field_news_picture']['id'] = 'field_news_picture';
-  $handler->display->display_options['fields']['field_news_picture']['table'] = 'field_data_field_news_picture';
-  $handler->display->display_options['fields']['field_news_picture']['field'] = 'field_news_picture';
-  $handler->display->display_options['fields']['field_news_picture']['label'] = '';
-  $handler->display->display_options['fields']['field_news_picture']['exclude'] = TRUE;  
-  $handler->display->display_options['fields']['field_news_picture']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_news_picture']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['field_news_picture']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['field_news_picture']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_news_picture']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_news_picture']['settings'] = array(
-    'image_style' => 'thumbnail',
-    'image_link' => '',
-  );
-  $handler->display->display_options['fields']['field_news_picture']['field_api_classes'] = 0;
   /* Field: Content: Body */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
   $handler->display->display_options['fields']['body']['field'] = 'body';
   $handler->display->display_options['fields']['body']['label'] = '';
-  $handler->display->display_options['fields']['body']['alter']['alter_text'] = 1;
-  $handler->display->display_options['fields']['body']['alter']['text'] = '<div class="center">[field_news_picture]</div>[body]';
+  $handler->display->display_options['fields']['body']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['body']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['body']['alter']['absolute'] = 0;
   $handler->display->display_options['fields']['body']['alter']['external'] = 0;
   $handler->display->display_options['fields']['body']['alter']['replace_spaces'] = 0;
   $handler->display->display_options['fields']['body']['alter']['trim_whitespace'] = 0;
   $handler->display->display_options['fields']['body']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['max_length'] = '400';
+  $handler->display->display_options['fields']['body']['alter']['max_length'] = '600';
   $handler->display->display_options['fields']['body']['alter']['word_boundary'] = 1;
   $handler->display->display_options['fields']['body']['alter']['ellipsis'] = 1;
   $handler->display->display_options['fields']['body']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['body']['alter']['trim'] = 1;
+  $handler->display->display_options['fields']['body']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['body']['alter']['html'] = 1;
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['body']['element_wrapper_class'] = 'fieldset';
+  $handler->display->display_options['fields']['body']['element_wrapper_class'] = 'fieldset clearfix';
   $handler->display->display_options['fields']['body']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['body']['hide_empty'] = 0;
   $handler->display->display_options['fields']['body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
 
+  $handler->display->display_options['fields']['body']['type'] = 'text_summary_or_trimmed';
+  $handler->display->display_options['fields']['body']['settings'] = array(
+    'trim_length' => '600',
+  );
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Field: Content: Link */
+  $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
+  $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
+  $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
+  $handler->display->display_options['fields']['field_link']['label'] = 'Related link';
+  $handler->display->display_options['fields']['field_link']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['field_link']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['field_link']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['field_link']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['field_link']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['field_link']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['field_link']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['field_link']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['field_link']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['field_link']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['field_link']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['field_link']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_link']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['field_link']['hide_empty'] = 1;
+  $handler->display->display_options['fields']['field_link']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['field_link']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
+  $handler->display->display_options['fields']['field_link']['group_rows'] = 1;
+  $handler->display->display_options['fields']['field_link']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_link']['delta_reversed'] = 0;
+  $handler->display->display_options['fields']['field_link']['delta_first_last'] = 0;
+  $handler->display->display_options['fields']['field_link']['field_api_classes'] = 0;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['filter_groups']['groups'] = array(
     1 => 'AND',
     2 => 'OR',
@@ -798,6 +750,7 @@ function news_core_views_default_views() {
     t('<small>[created]</small>'),
     t('News list page'),
     t('<h2>Read the latest news</h2>'),
+    t('Related link'),
     t('Language'),
     t('Translation set node ID'),
     t('Published'),
