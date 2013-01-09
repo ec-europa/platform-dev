@@ -33,7 +33,7 @@ function idea_core_field_default_fields() {
           0 => 'format',
         ),
       ),
-      'locked' => '1',
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -123,7 +123,7 @@ function idea_core_field_default_fields() {
           0 => 'format',
         ),
       ),
-      'locked' => '1',
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -173,14 +173,14 @@ function idea_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-idea-field_categories'.
-  $fields['node-idea-field_categories'] = array(
+  // Exported field: 'node-idea-field_categories_taxonomy'.
+  $fields['node-idea-field_categories_taxonomy'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_categories',
+      'field_name' => 'field_categories_taxonomy',
       'foreign keys' => array(
         'tid' => array(
           'columns' => array(
@@ -194,7 +194,7 @@ function idea_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
-      'locked' => '1',
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -215,11 +215,11 @@ function idea_core_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'above',
           'module' => 'i18n_taxonomy',
           'settings' => array(),
           'type' => 'i18n_taxonomy_term_reference_link',
-          'weight' => '6',
+          'weight' => 8,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -229,7 +229,7 @@ function idea_core_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_categories',
+      'field_name' => 'field_categories_taxonomy',
       'label' => 'Categories',
       'required' => 1,
       'settings' => array(
@@ -240,19 +240,19 @@ function idea_core_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '31',
+        'weight' => '33',
       ),
     ),
   );
 
-  // Exported field: 'node-idea-field_status'.
-  $fields['node-idea-field_status'] = array(
+  // Exported field: 'node-idea-field_status_taxonomy'.
+  $fields['node-idea-field_status_taxonomy'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_status',
+      'field_name' => 'field_status_taxonomy',
       'foreign keys' => array(
         'tid' => array(
           'columns' => array(
@@ -266,7 +266,7 @@ function idea_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
-      'locked' => '1',
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -287,11 +287,11 @@ function idea_core_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'above',
           'module' => 'i18n_taxonomy',
           'settings' => array(),
           'type' => 'i18n_taxonomy_term_reference_link',
-          'weight' => '7',
+          'weight' => 9,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -301,7 +301,7 @@ function idea_core_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_status',
+      'field_name' => 'field_status_taxonomy',
       'label' => 'Status',
       'required' => 1,
       'settings' => array(
@@ -312,7 +312,7 @@ function idea_core_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '32',
+        'weight' => '34',
       ),
     ),
   );
@@ -338,7 +338,7 @@ function idea_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
-      'locked' => '1',
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -406,7 +406,7 @@ function idea_core_field_default_fields() {
           0 => 'value',
         ),
       ),
-      'locked' => '1',
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
