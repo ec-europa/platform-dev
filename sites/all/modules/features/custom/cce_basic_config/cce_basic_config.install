@@ -9,7 +9,7 @@
  * hook_install
  */
 function cce_basic_config_install() {
-    // create a vocabulary dedicated to the idea categories
+  // create a vocabulary dedicated to the classification
   $vocabulary = (object) array(
     'name' => st('classification'),
     'machine_name' => 'classification',
@@ -248,9 +248,8 @@ function cce_basic_config_install() {
     'description' => st('Administration, management and human resources policy'),
   );
   taxonomy_term_save($term);
-
-
-  // manually save file document display in database
+  
+  // manually save file document displays in database
   // the feature settings are not properly injected in database
   // this process must be temporary
   db_delete('file_display')->execute();
@@ -267,7 +266,17 @@ function cce_basic_config_install() {
         ->execute();
     }
   }
-
+  
+  // manually insert the password policy in database
+  // this process is temporary since the module password_policy
+  $exports = cce_basic_config_default_password_policy();
+  db_delete('password_policy')->execute();
+  db_insert('password_policy')
+    ->fields(array(
+      'name' => 'Example policy',
+      'config' => $exports['Example policy']->config,
+    ))
+    ->execute();  
 }
 
 /**
@@ -392,3 +401,284 @@ function cce_basic_config_disable() {
 }
 
 
+
+
+function cce_basic_config_update_7140() {
+  // create a vocabulary dedicated to the classification
+  $vocabulary = (object) array(
+    'name' => st('classification'),
+    'machine_name' => 'classification',
+    'module' => 'cce_basic_config',
+  );
+  taxonomy_vocabulary_save($vocabulary);
+
+  // add default categories
+  $vocabulary = taxonomy_vocabulary_machine_name_load('classification');
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('01'),
+    'description' => st('Agriculture, farming'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('02'),
+    'description' => st('Budget, financing, fraud'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('03'),
+    'description' => st('European citizenship, right to vote, ombudsman, protection of privacy'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('04'),
+    'description' => st('Information society, communication, information, audiovisual, telecommunications, public opinion'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('05'),
+    'description' => st('Competition, state aid'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('06'),
+    'description' => st('Consumers, distribution, civil defence, nuclear safety, food safety'),
+  );
+  taxonomy_term_save($term);
+
+     $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('07'),
+    'description' => st('Culture, tourism, sport'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('08'),
+    'description' => st('Education, teaching, vocational training, youth'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('09'),
+    'description' => st('Enlargement, accession of new states'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('10'),
+    'description' => st('Employment, work'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('11'),
+    'description' => st('Energy'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('12'),
+    'description' => st('Type of business, company law'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('13'),
+    'description' => st('Environment'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('14'),
+    'description' => st('Tax system'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('15'),
+    'description' => st('Industry'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('16'),
+    'description' => st('Institutions'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('17'),
+    'description' => st('Justice and home affairs, asylum, judicial cooperation, police cooperation, Schengen, visa, immigration, external frontiers, fight against crime, drugs, terrorism'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('18'),
+    'description' => st('Free movement of capital, finance'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('19'),
+    'description' => st('Free movement of goods, customs, public contracts, standardization'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('20'),
+    'description' => st('Free movement of persons, right of establishment, workers'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('21'),
+    'description' => st('Free movement of services, insurance, banks, credit, right of establishment, savings, public contracts'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('22'),
+    'description' => st('Fisheries'),
+  );
+  taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('23'),
+    'description' => st('Regional policy, OCT'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('24'),
+    'description' => st('Social policy, public health'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('25'),
+    'description' => st('Research & development'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('26'),
+    'description' => st('External relations, CFSP, development cooperation, humanitarian aid'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('27'),
+    'description' => st('Trans-European networks'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('28'),
+    'description' => st('Respect for human rights, racism, xenophobia'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('29'),
+    'description' => st('Transport'),
+  );
+  taxonomy_term_save($term);
+
+     $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('30'),
+    'description' => st('Economic and monetary union, euro, single currency'),
+  );
+   taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('31'),
+    'description' => st('Statistics'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('32'),
+    'description' => st('Language, multilingualism, translation, interpretation'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('33'),
+    'description' => st('Administration, management and human resources policy'),
+  );
+  taxonomy_term_save($term);
+  
+  // manually save file document displays in database
+  // the feature settings are not properly injected in database
+  // this process must be temporary
+  db_delete('file_display')->execute();
+  $exports = cce_basic_config_file_default_displays();
+  foreach($exports as $id_export => $settings_export) {
+    if(substr($id_export, 0, 8) == 'document') {
+      db_insert('file_display')
+        ->fields(array(
+          'name' => $id_export,
+          'weight' => 0,
+          'status' => ($settings_export->status)?1:0,
+          'settings' => serialize($settings_export->settings),
+        ))
+        ->execute();
+    }
+  }
+  
+  // remove the mail address to the update modules notification
+  variable_del('update_notify_emails');
+  
+  // disable update management module permissions for administrator role
+  $adm_rid = get_rid('administrator'); 
+  user_role_revoke_permissions($adm_rid, array(
+    'administer software updates',
+  ));
+  
+  // manually insert the password policy in database
+  // this process is temporary since the module password_policy
+  $exports = cce_basic_config_default_password_policy();
+  db_delete('password_policy')->execute();
+  db_insert('password_policy')
+    ->fields(array(
+      'name' => 'Example policy',
+      'config' => $exports['Example policy']->config,
+    ))
+    ->execute();
+}

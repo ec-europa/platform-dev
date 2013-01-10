@@ -21,3 +21,68 @@ function multisite_drupal_standard_install() {
   )); 
   
 }
+
+
+/*
+ * hook_update_N
+ */
+function multisite_drupal_standard_update_7100() {
+  // editor role
+  $role = db_select('role', 'r')
+    ->condition('name', 'editor', '=')
+    ->fields('r')
+    ->execute()
+    ->fetchObject();   
+  if(!$role) {
+    $role = new stdClass();
+    $role->name = 'editor';
+    user_role_save($role); 
+  }
+
+  user_role_grant_permissions($role->rid, array(  
+    'create article content',
+    'delete any article content',
+    'delete own article content',
+    'delete revisions',
+    'edit any article content',
+    'edit own article content',
+    'export nodes',
+    'moderate content from needs_review to draft',
+    'moderate content from needs_review to published',
+    'moderate content from needs_review to validated',
+    'moderate content from published to archived',
+    'moderate content from validated to published',
+    'moderate content from draft to needs_review',
+    'use workbench_moderation my drafts tab',
+    'use workbench_moderation needs review tab',
+    'revert revisions',
+    'view own unpublished content',
+    'view all unpublished content',
+  ));  
+  
+  // administrator role
+  $adm_rid = get_rid('administrator'); 
+  user_role_revoke_permissions($adm_rid, array(
+    'administer software updates',
+  ));
+  
+  // remove blocks for ec_resp theme
+  $theme = 'ec_resp';
+  $blocks = array(
+    array(
+      'module' => 'system', 
+      'delta' => 'powered-by', 
+      'theme' => $theme, 
+      'status' => 1, 
+      'weight' => 10, 
+      'region' => '', 
+      'pages' => '', 
+      'cache' => -1,
+    ),
+  );
+  $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache'));
+  foreach ($blocks as $block) {
+    $query->values($block);
+  }
+  $query->execute();
+}

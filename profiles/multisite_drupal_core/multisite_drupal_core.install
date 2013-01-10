@@ -275,3 +275,6 @@ function multisite_drupal_core_install() {
   menu_link_save($item);	  
 	  
 }
+
+
+
