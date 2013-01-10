@@ -299,8 +299,9 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['field_link']['alter']['strip_tags'] = 0;
   $handler->display->display_options['fields']['field_link']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['field_link']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['field_link']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_link']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['field_link']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_link']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['field_link']['element_default_classes'] = 0;
   $handler->display->display_options['fields']['field_link']['hide_empty'] = 1;
   $handler->display->display_options['fields']['field_link']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_link']['hide_alter_empty'] = 1;
