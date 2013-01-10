@@ -102,7 +102,7 @@ projects[libraries][subdir] = "contributed"
 projects[libraries][version] = "2.0"
 
 projects[link][subdir] = "contributed"
-projects[link][version] = "1.0"
+projects[link][version] = "1.x-dev"
 
 projects[linkchecker][subdir] = "contributed"
 projects[linkchecker][version] = "1.0"
@@ -186,7 +186,7 @@ projects[varnish][subdir] = "contributed"
 projects[varnish][version] = "1.0-beta1"
 
 projects[video][subdir] = "contributed"
-projects[video][version] = "2.6"
+projects[video][version] = "2.8"
 
 projects[views][subdir] = "contributed"
 projects[views][version] = "3.5"
