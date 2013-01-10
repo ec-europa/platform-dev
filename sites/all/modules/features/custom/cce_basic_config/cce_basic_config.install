@@ -405,12 +405,14 @@ function cce_basic_config_disable() {
 
 function cce_basic_config_update_7140() {
   // create a vocabulary dedicated to the classification
+  /*
   $vocabulary = (object) array(
     'name' => st('classification'),
     'machine_name' => 'classification',
     'module' => 'cce_basic_config',
   );
   taxonomy_vocabulary_save($vocabulary);
+  */
 
   // add default categories
   $vocabulary = taxonomy_vocabulary_machine_name_load('classification');
