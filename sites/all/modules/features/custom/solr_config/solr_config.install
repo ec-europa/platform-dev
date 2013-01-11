@@ -92,3 +92,14 @@ function solr_config_disable() {
     'bundle' => 'document',
   ))->execute();  
 }
+
+/*
+ * hook_update_N 
+ */
+function solr_config_update_7110() {
+  db_insert('apachesolr_index_bundles')->fields(array(
+    'env_id' => 'solr',
+    'entity_type' => 'file',
+    'bundle' => 'document',
+  ))->execute(); 
+}

@@ -157,3 +157,72 @@ function idea_core_disable() {
   //Activation message
   drupal_set_message(t('Idea feature is now disabled on your site.'));
 }
+
+/*
+ * hook_update_N
+ */
+function idea_core_update_7120() {
+  // add default categories
+  $vocabulary = taxonomy_vocabulary_machine_name_load('idea_categories');
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('Communication'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('Improvements'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('Legislation'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('Resources'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('Services'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('Other'),
+  );
+  taxonomy_term_save($term);
+
+
+
+  // add default categories
+  $vocabulary = taxonomy_vocabulary_machine_name_load('idea_status');
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('Current Activity'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('In Action'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('No Status'),
+  );
+   taxonomy_term_save($term);
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('Unable to Implement'),
+  );
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => st('Under Review'),
+  );
+  taxonomy_term_save($term);
+
+}
