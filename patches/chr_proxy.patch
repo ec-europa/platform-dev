@@ -1,0 +1,12 @@
+diff --git sites/all/modules/contributed/chr/chr.module sites/all/modules/contributed/chr/chr.module
+index c1330c9..37917bd 100644
+--- sites/all/modules/contributed/chr/chr.module
++++ sites/all/modules/contributed/chr/chr.module
+@@ -82,7 +82,7 @@ function curl_http_request($url, array $options = array()) {
+   $proxy = ('https' == $uri['scheme']) ? $options['https_proxy'] : $options['http_proxy'];
+ 
+   // Nullify the proxy if the host to send the request to is part of the proxy's exceptions.
+-  if ((!empty($proxy['exceptions'])) && (array_key_exists($uri['host'], $proxy['exceptions']))) {
++  if ((!empty($proxy['exceptions'])) && (in_array($uri['host'], $proxy['exceptions']))) {
+     $proxy = NULL;
+   }
