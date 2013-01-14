@@ -240,7 +240,7 @@ $handler->display->display_options['filters']['language']['value'] =
     'field_tags' => 'title',
     'field_link' => 'field_link',
     'edit_node' => 'edit_node',
-    'delete_node' => 'edit_node',
+    'delete_node' => 'delete_node',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
@@ -265,13 +265,13 @@ $handler->display->display_options['filters']['language']['value'] =
     ),
     'edit_node' => array(
       'align' => 'views-align-right',
-      'separator' => ' | ',
-      'empty_column' => 0,
+      'separator' => '',
+      'empty_column' => 1,
     ),
     'delete_node' => array(
-      'align' => '',
+      'align' => 'views-align-right',
       'separator' => '',
-      'empty_column' => 0,
+      'empty_column' => 1,
     ),
   );
   $handler->display->display_options['style_options']['override'] = 1;
