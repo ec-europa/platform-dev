@@ -15,18 +15,6 @@ function ec_resp_preprocess(&$variables) {
 
   //select template
   $variables['template'] = 'ec'; //'ec' or 'europa'
-  
-  // display left sidebar, or not
-  $variables['no_left'] = FALSE;
-  if (!isset($variables['page']['sidebar_left']) || !$variables['page']['sidebar_left']) {
-    $variables['no_left'] = TRUE;
-  }    
-  
-  // display right sidebar, or not
-  $variables['no_right'] = FALSE;
-  if (!isset($variables['page']['sidebar_right']) || !$variables['page']['sidebar_right']) {
-    $variables['no_right'] = TRUE;
-  }     
 }
 
 /**
@@ -48,6 +36,20 @@ function ec_resp_preprocess_html(&$variables) {
     || !empty($variables['page']['footer_thirdcolumn'])
     || !empty($variables['page']['footer_fourthcolumn'])) {
     $variables['classes_array'][] = 'footer-columns';
+  }
+
+  // display left sidebar, or not
+  if (empty($variables['page']['sidebar_left'])) {
+    variable_set('has_left_sidebar',0);
+  } else {
+    variable_set('has_left_sidebar',1);
+  }
+
+  // display right sidebar, or not
+  if (empty($variables['page']['sidebar_right'])) {
+    variable_set('has_right_sidebar',0);
+  } else {
+    variable_set('has_right_sidebar',1);
   }
 
   // Update page title

@@ -145,10 +145,10 @@ jQuery(function($){
     /* /Menu dropdown */
 
     /* Responsive left sidebar */
+    $('#responsive-sidebar > ul').hide();
     $('#sidebar-button').on("click", function() {
       $('#responsive-sidebar > ul').toggle();
-      $('#sidebar-button > div').toggleClass("arrow-down");
-      $('#sidebar-button > div').toggleClass("arrow-up");
+      $('#layout-body').toggle();
     });
     /* /Responsive left sidebar */ 
 

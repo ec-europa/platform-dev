@@ -188,15 +188,15 @@ $span_messages        = 12 - $span_tools;
   </div><!-- /.region-featured -->
   <?php endif; ?> 
 
-  <div id="layout-body" class="container">
-    <?php if ($page['sidebar_left']): ?>
-      <div id="responsive-sidebar" class="region region-sidebar_left visible-phone">
-        <ul class="nav nav-list">
-          <?php print render($page['sidebar_left']); ?>
-        </ul>
-      </div><!-- /#responsive-sidebar-->   
-    <?php endif; ?>
+  <?php if ($page['sidebar_left']): ?>
+    <div id="responsive-sidebar" class="region region-sidebar_left visible-phone">
+      <ul class="nav nav-list">
+        <?php print render($page['sidebar_left']); ?>
+      </ul>
+    </div><!-- /#responsive-sidebar-->   
+  <?php endif; ?>
 
+  <div id="layout-body" class="container">
     <div class="row-fluid">
       <div id="messages" class="span<?php print $span_messages; ?>">
         <?php if ($messages): ?>

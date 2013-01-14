@@ -45,6 +45,8 @@
  */
 
 global $base_url;
+
+$has_left_sidebar = variable_get('has_left_sidebar');
 ?>
 
         <div id="main-menu">
@@ -60,13 +62,13 @@ global $base_url;
             <div class="navbar-inner">
               <div id="block-system-main-menu-mobile" class="container">
 
-                <?php //if ($variables['has_right_sidebar']): ?>
+                <?php if ($has_left_sidebar) { ?>
                 <button id="sidebar-button" class="btn btn-navbar visible-phone">
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>                
                 </button><!-- /#sidebar-button --> 
-                <?php //endif; ?>
+                <?php } ?>
 
                 <a id="menu-button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                   <div class="arrow-down"></div>
