@@ -30,7 +30,7 @@ function multisite_rules_configuration_update_7110() {
     ->execute()
     ->fetchObject();
   
-  if(!result) {
+  if(!$result) {
     $arch_state = db_insert('workbench_moderation_states')
       ->fields(array(
         'name' => 'archived',
@@ -47,7 +47,7 @@ function multisite_rules_configuration_update_7110() {
     ->execute()
     ->fetchObject();
   
-  if(!result) {
+  if(!$result) {
     $vali_state = db_insert('workbench_moderation_states')
       ->fields(array(
         'name' => 'validated',
