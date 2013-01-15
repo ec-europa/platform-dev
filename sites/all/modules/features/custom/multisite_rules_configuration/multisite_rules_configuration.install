@@ -18,31 +18,47 @@ function multisite_rules_configuration_disable() {
 //
 }
 
-/*
- * hook_N_update
+/**
+ * Add Archived and Validated Workflow States
  */
 function multisite_rules_configuration_update_7110() {
 
-//Add Archived and Validated Workflow States
-$arch_state = db_insert('workbench_moderation_states')
-->fields(array(
-  'name' => 'archived',
-  'label' => 'Archived',
-  'description' => 'Content is not published anymore',
-  'weight' => 100,
-))
-->execute();
+  //Add Archived and Validated Workflow States
+  $result = db_select('workbench_moderation_states', 'wms')
+    ->fields('wms')
+    ->condition('name', 'archived', '=')
+    ->execute()
+    ->fetchObject();
+  
+  if(!result) {
+    $arch_state = db_insert('workbench_moderation_states')
+      ->fields(array(
+        'name' => 'archived',
+        'label' => 'Archived',
+        'description' => 'Content is not published anymore',
+        'weight' => 100,
+      ))
+      ->execute();
+  }
+  
+  $result = db_select('workbench_moderation_states', 'wms')
+    ->fields('wms')
+    ->condition('name', 'validated', '=')
+    ->execute()
+    ->fetchObject();
+  
+  if(!result) {
+    $vali_state = db_insert('workbench_moderation_states')
+      ->fields(array(
+        'name' => 'validated',
+        'label' => 'Validated',
+        'description' => 'Approved by administrator',
+        'weight' => 10,
+      ))
+      ->execute();
+  }
 
-$vali_state = db_insert('workbench_moderation_states')
-->fields(array(
-  'name' => 'validated',
-  'label' => 'Validated',
-  'description' => 'Approved by administrator',
-  'weight' => 10,
-))
-->execute();
-
-//Add Archived and Validated corresponding transitions
+  //Add Archived and Validated corresponding transitions
 
   $transitions = array(
     array(

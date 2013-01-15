@@ -407,7 +407,9 @@ function cce_basic_config_disable() {
 
 
 
-
+/*
+ * hook_update_N
+ */
 function cce_basic_config_update_7140() {
   // create a vocabulary dedicated to the classification
   /*
@@ -678,10 +680,29 @@ function cce_basic_config_update_7140() {
     'administer software updates',
   ));
   
+}
+
+
+/**
+ * add password_policy rules and handle password_policy 2.x upgrade
+ */
+function cce_basic_config_update_7150() {
   // manually insert the password policy in database
   // this process is temporary since the module password_policy
   $exports = cce_basic_config_default_password_policy();
-  db_delete('password_policy')->execute();
+  //db_delete('password_policy')->execute();
+  
+  $schema = password_policy_schema();
+  db_drop_table('password_policy');
+  db_drop_table('password_policy_expiration');
+  db_drop_table('password_policy_force_change');
+  db_drop_table('password_policy_history');
+  db_drop_table('password_policy_role');  
+  
+  db_create_table('password_policy', $schema['password_policy']);
+  db_create_table('password_policy_history', $schema['password_policy_history']);
+  db_create_table('password_policy_notice_history', $schema['password_policy_notice_history']);
+  
   db_insert('password_policy')
     ->fields(array(
       'name' => 'Example policy',
