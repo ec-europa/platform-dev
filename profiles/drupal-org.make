@@ -182,8 +182,8 @@ projects[uuid][version] = "1.x-dev"
 projects[variable][subdir] = "contributed"
 projects[variable][version] = "2.1"
 
-projects[varnish][subdir] = "contributed"
-projects[varnish][version] = "1.0-beta1"
+;projects[varnish][subdir] = "contributed"
+;projects[varnish][version] = "1.0-beta1"
 
 projects[video][subdir] = "contributed"
 projects[video][version] = "2.8"
