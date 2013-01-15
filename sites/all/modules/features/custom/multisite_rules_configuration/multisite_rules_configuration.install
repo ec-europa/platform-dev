@@ -80,7 +80,16 @@ function multisite_rules_configuration_update_7110() {
     ->fields(array('from_name', 'to_name'));
 
   foreach ($transitions as $transition) {
-    $query->values($transition);
+    
+    $result = db_select('workbench_moderation_transitions', 'wmt')
+      ->fields('wmt')
+      ->condition('from_name', $transition['from_name'], '=')
+      ->condition('to_name', $transition['to_name'], '=')
+      ->execute()
+      ->fetchObject(); 
+    
+    if(!$result)
+      $query->values($transition);
   }
 
   $query->execute();
