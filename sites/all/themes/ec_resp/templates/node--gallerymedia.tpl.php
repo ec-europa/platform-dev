@@ -91,15 +91,9 @@
   );        
   
   //set size of fields 
-  if ($variables['no_left']) {
-    $span_large = 'span11';
-    $span_title = 'span2';
-    $span_small = 'span9';
-  } else {
-    $span_large = 'span9';
-    $span_title = 'span2';
-    $span_small = 'span7';      
-  }     
+  $span_large = 'span11';
+  $span_title = 'span2';
+  $span_small = 'span9';
 ?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 

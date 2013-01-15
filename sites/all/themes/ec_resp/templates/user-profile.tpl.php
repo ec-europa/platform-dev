@@ -90,11 +90,7 @@
       if (!in_array($key,$basic)) {
         $field = '<div class="field">';
         $field .= '<div class="span2 field-label">'.$value['#title'].'</div>';
-        if ($variables['no_left']) {
-          $field .= '<div class="span9 no_label">'.render($value).'</div>';
-        } else {
-          $field .= '<div class="span7 no_label">'.render($value).'</div>';
-        }
+        $field .= '<div class="span9 no_label">'.render($value).'</div>';
         $field .= '</div>';
         
         print $field;
