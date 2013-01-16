@@ -378,7 +378,7 @@ function fpfis_subsite_install(&$subsite) {
 	}
 	
 	// open a log file to store the drush output
-	$drush_log_file = sprintf('%s/susbite_install.%s.%s.log', $drush_log_dir, $subsite->name(), date('Ymd.His'));
+	$drush_log_file = sprintf('%s/subsite_install.%s.%s.log', $drush_log_dir, $subsite->name(), date('Ymd.His'));
 	$log_fh = fopen($drush_log_file, 'w');
 	if (!$log_fh) {
 		$reports[] = sprintf('Unable to open log file %s -- drush execution will not be logged.', $drush_log_file);
