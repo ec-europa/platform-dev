@@ -407,8 +407,8 @@ function cce_basic_config_disable() {
 
 
 
-/*
- * hook_update_N
+/**
+ * add classification vocabulary, add file diplays settings
  */
 function cce_basic_config_update_7140() {
   // create a vocabulary dedicated to the classification
@@ -659,16 +659,14 @@ function cce_basic_config_update_7140() {
   db_delete('file_display')->execute();
   $exports = cce_basic_config_file_default_displays();
   foreach($exports as $id_export => $settings_export) {
-    if(substr($id_export, 0, 8) == 'document') {
-      db_insert('file_display')
-        ->fields(array(
-          'name' => $id_export,
-          'weight' => 0,
-          'status' => ($settings_export->status)?1:0,
-          'settings' => serialize($settings_export->settings),
-        ))
-        ->execute();
-    }
+    db_insert('file_display')
+      ->fields(array(
+        'name' => $id_export,
+        'weight' => 0,
+        'status' => ($settings_export->status)?1:0,
+        'settings' => serialize($settings_export->settings),
+      ))
+      ->execute();
   }
   
   // remove the mail address to the update modules notification
