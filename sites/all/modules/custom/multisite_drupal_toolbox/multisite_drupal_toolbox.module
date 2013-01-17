@@ -319,6 +319,20 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
           }
         }
       break;
+      case "workbench_moderation_admin_states_form": // prevent administrator from changing existing workflow states
+        $states = $form['states'];
+        foreach($states as $state_id => $state) {
+          if(isset($state['delete']))
+            $form['states'][$state_id]['delete']['#disabled'] = TRUE;
+        }
+      break;
+      case "workbench_moderation_admin_transitions_form": // prevent administrator from changing existing workflow transitions
+        $transitions = $form['transitions'];
+        foreach($transitions as $transition_id => $transition) {
+          if(isset($transition['delete']))
+            $form['transitions'][$transition_id]['delete']['#disabled'] = TRUE;
+        }      
+      break;
     }
   }
 
