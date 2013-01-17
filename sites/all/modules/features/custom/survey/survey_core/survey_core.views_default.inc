@@ -196,6 +196,8 @@ function survey_core_views_default_views() {
   $handler->display->display_options['fields']['webform_submission_count_node']['alter']['html'] = 0;
   $handler->display->display_options['fields']['webform_submission_count_node']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['webform_submission_count_node']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['webform_submission_count_node']['element_class'] = 'hidden-phone';
+  $handler->display->display_options['fields']['webform_submission_count_node']['element_label_class'] = 'hidden-phone';  
   $handler->display->display_options['fields']['webform_submission_count_node']['hide_empty'] = 0;
   $handler->display->display_options['fields']['webform_submission_count_node']['empty_zero'] = 0;
   $handler->display->display_options['fields']['webform_submission_count_node']['hide_alter_empty'] = 1;
@@ -219,6 +221,8 @@ function survey_core_views_default_views() {
   $handler->display->display_options['fields']['nothing']['alter']['html'] = 0;
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['nothing']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['nothing']['element_class'] = 'hidden-phone';
+  $handler->display->display_options['fields']['nothing']['element_label_class'] = 'hidden-phone';  
   $handler->display->display_options['fields']['nothing']['hide_empty'] = 0;
   $handler->display->display_options['fields']['nothing']['empty_zero'] = 0;
   $handler->display->display_options['fields']['nothing']['hide_alter_empty'] = 0;
