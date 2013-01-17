@@ -680,7 +680,6 @@ function cce_basic_config_update_7140() {
   
 }
 
-
 /**
  * add password_policy rules and handle password_policy 2.x upgrade
  */
