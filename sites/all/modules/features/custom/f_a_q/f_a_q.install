@@ -32,16 +32,16 @@ function f_a_q_enable() {
   //module_enable(array('faq_content_default'));
 
   // solR configuration add bundle
-  config_solr_bundle('f_a_q', 'add');
+  multisite_drupal_toolbox_config_solr_bundle('f_a_q', 'add');
 
   // add type to notification
-  notification_content_type('f_a_q', 'add');
+  multisite_drupal_toolbox_notification_content_type('f_a_q', 'add');
 
   // add type to linkchecker scan
-  _content_type_linkchecker('f_a_q', 'add');
+  multisite_drupal_toolbox_content_type_linkchecker('f_a_q', 'add');
 
   // add type to the simplenews related content
-  //simplenews_related_content_type('f_a_q', 'add');
+  //multisite_drupal_toolbox_simplenews_related_content_type('f_a_q', 'add');
 
   //Add breadcrumb configuration
   db_insert('custom_breadcrumb')
@@ -81,19 +81,19 @@ function f_a_q_disable() {
     ->execute();
 
   // solR configuration add bundle
-  config_solr_bundle('f_a_q', 'delete');
+  multisite_drupal_toolbox_config_solr_bundle('f_a_q', 'delete');
 
   // remove type from notification
-  notification_content_type('f_a_q', 'delete');
+  multisite_drupal_toolbox_notification_content_type('f_a_q', 'delete');
 
   // remove type to the simplenews related content
-  //simplenews_related_content_type('f_a_q', 'delete');
+  //multisite_drupal_toolbox_simplenews_related_content_type('f_a_q', 'delete');
 
   //module_disable(array('faq_content_default'));
-  _disable_content_type('f_a_q');
+  multisite_drupal_toolbox_disable_content_type('f_a_q');
 
   // remove type to linkchecker scan
-  _content_type_linkchecker('f_a_q', 'delete');
+  multisite_drupal_toolbox_content_type_linkchecker('f_a_q', 'delete');
 
   //Get role_id for the role
   $role_name = 'contributor';

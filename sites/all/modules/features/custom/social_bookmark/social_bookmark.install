@@ -27,9 +27,9 @@ function social_bookmark_enable() {
   global $theme_key;
 
   if ($theme_key == 'ec_resp') {
-		_add_block_context('site_wide','social_bookmark-social-bookmark','social_bookmark','social-bookmark', 'content_bottom');
+		multisite_drupal_toolbox_add_block_context('site_wide','social_bookmark-social-bookmark','social_bookmark','social-bookmark', 'content_bottom');
   } else {
-		_add_block_context('site_wide','social_bookmark-social-bookmark','social_bookmark','social-bookmark', 'tools_bottom');
+		multisite_drupal_toolbox_add_block_context('site_wide','social_bookmark-social-bookmark','social_bookmark','social-bookmark', 'tools_bottom');
   }  
   
   drupal_set_message('Social bookmark feature is now active on your site.');
@@ -43,6 +43,6 @@ function social_bookmark_enable() {
  */
 function social_bookmark_disable() {  
   //Remove block in context
-  _remove_block_context('site_wide','social-bookmark');
+  multisite_drupal_toolbox_remove_block_context('site_wide','social-bookmark');
   drupal_set_message('Social bookmark feature is now disabled on your site.');
 }

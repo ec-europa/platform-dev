@@ -12,11 +12,11 @@ include_once('communities_moderation.inc');
 * hook_disable
 */
 function communities_disable() {
-  //_remove_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
-  _disable_content_type('community'); 
+  //multisite_drupal_toolbox_remove_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
+  multisite_drupal_toolbox_disable_content_type('community'); 
   
   // solR configuration add bundle
-  config_solr_bundle('community', 'delete');
+  multisite_drupal_toolbox_config_solr_bundle('community', 'delete');
 }
 
 
@@ -26,7 +26,7 @@ function communities_disable() {
 function communities_enable() {
   // create og role -------------------------------------------------------------------------------------------------------------------------------
   $community_manager_role = og_create_global_role("community_manager");
- // _add_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
+ // multisite_drupal_toolbox_add_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
 
   // solR configuration add bundle
   db_insert('apachesolr_index_bundles')->fields(array(
@@ -121,7 +121,7 @@ function communities_node_type_insert($info) {
 	node_types_rebuild();
 	  
     // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-	$au_rid = get_rid('authenticated user');
+	$au_rid = multisite_drupal_toolbox_get_rid('authenticated user');
     user_role_grant_permissions($au_rid, array(  
       'create community content',
 	  'delete own community content',
@@ -137,7 +137,7 @@ function communities_node_type_insert($info) {
     )); 	
   
     // add permissions to OG roles ----------------------------------------------------------------------------------------------------------------------------------------------  
-	$cm_rid = get_og_rid('community_manager');  
+	$cm_rid = multisite_drupal_toolbox_get_og_rid('community_manager');  
     og_role_grant_permissions($cm_rid, array(  
       'add user',
       'approve and deny subscription',
@@ -191,8 +191,8 @@ function communities_node_insert($node) {
     $group = og_get_group('node', $node->nid);
 	
 	if(isset($group->gid)) {
-      $community_manager_rid = get_og_rid("community_manager");
-	  $administrator_member_rid = get_og_rid("administrator member");
+      $community_manager_rid = multisite_drupal_toolbox_get_og_rid("community_manager");
+	  $administrator_member_rid = multisite_drupal_toolbox_get_og_rid("administrator member");
 	  // grant administrator member and community manager roles to the group author
 	  og_role_grant($group->gid, $node->uid, $community_manager_rid);
 	  og_role_grant($group->gid, $node->uid, $administrator_member_rid);

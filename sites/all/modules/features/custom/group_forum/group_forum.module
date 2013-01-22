@@ -331,7 +331,7 @@ function room_alias_load($arg) {
 function _group_forum_grant_roles() {
   // Add permissions associated to Room Management --------------------------------------------
   // Administrator Member
-  $admm_rid = get_og_rid('administrator member');
+  $admm_rid = multisite_drupal_toolbox_get_og_rid('administrator member');
   og_role_grant_permissions($admm_rid, array(
     'create forum_room content',
     'update own forum_room content',
@@ -340,7 +340,7 @@ function _group_forum_grant_roles() {
   ));
 
   // Community Manager
-  $cm_rid = get_og_rid('community_manager');
+  $cm_rid = multisite_drupal_toolbox_get_og_rid('community_manager');
   og_role_grant_permissions($cm_rid, array(
     'create forum_room content',
     'update own forum_room content',
@@ -350,7 +350,7 @@ function _group_forum_grant_roles() {
 
   // Add permissions associated to Thread Management --------------------------------------------
   // Administrator Member
-  $admm_rid = get_og_rid('administrator member');
+  $admm_rid = multisite_drupal_toolbox_get_og_rid('administrator member');
   og_role_grant_permissions($admm_rid, array(
     'create forum_thread content',
     'update own forum_thread content',
@@ -359,7 +359,7 @@ function _group_forum_grant_roles() {
   ));
 
   // Community Manager
-  $cm_rid = get_og_rid('community_manager');
+  $cm_rid = multisite_drupal_toolbox_get_og_rid('community_manager');
   og_role_grant_permissions($cm_rid, array(
     'create forum_thread content',
     'update own forum_thread content',
@@ -368,7 +368,7 @@ function _group_forum_grant_roles() {
   ));
 
   // Member
-  $mbr = get_og_rid('member');
+  $mbr = multisite_drupal_toolbox_get_og_rid('member');
   og_role_grant_permissions($mbr, array(
     'create forum_thread content',
     'update own forum_thread content',

@@ -81,17 +81,17 @@ class GroupForumTest extends DrupalWebTestCase {
     
     // Give the user the administer role
     og_group( $this->community->gid, array( 'entity_type' => 'user', 'entity' => $this->users['admin'] ) );
-    og_role_grant( $this->community->gid, $this->users['admin']->uid, get_og_rid( 'administrator member' ) );
+    og_role_grant( $this->community->gid, $this->users['admin']->uid, multisite_drupal_toolbox_get_og_rid( 'administrator member' ) );
     
     $this->users['manager'] = $this->drupalCreateUser();
     // Give the user the role ID
     og_group( $this->community->gid, array( 'entity_type' => 'user', 'entity' => $this->users['manager'] ) );
-    og_role_grant( $this->community->gid, $this->users['manager']->uid, get_og_rid( 'community_manager' ) );
+    og_role_grant( $this->community->gid, $this->users['manager']->uid, multisite_drupal_toolbox_get_og_rid( 'community_manager' ) );
     
     $this->users['member'] = $this->drupalCreateUser();
     // Give the user the role ID
     og_group( $this->community->gid, array( 'entity_type' => 'user', 'entity' => $this->users['member'] ) );
-    og_role_grant( $this->community->gid, $this->users['member']->uid, get_og_rid( 'member' ) );
+    og_role_grant( $this->community->gid, $this->users['member']->uid, multisite_drupal_toolbox_get_og_rid( 'member' ) );
   }
   
   public function testGroupForumFeatureAdmin() {
@@ -126,7 +126,7 @@ class GroupForumTest extends DrupalWebTestCase {
       
     } else {
       $user_roles = og_get_user_roles( $this->community->gid, $user->uid );
-      $og_rid =  get_og_rid( 'administrator member' );
+      $og_rid =  multisite_drupal_toolbox_get_og_rid( 'administrator member' );
       $this->assertTrue( 
         in_array( $og_rid, $user_roles ), 
         t( 'Check if the user has the correct role' ) );

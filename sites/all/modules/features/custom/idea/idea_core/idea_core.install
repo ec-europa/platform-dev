@@ -101,13 +101,13 @@ function idea_core_uninstall() {
  */
 function idea_core_enable() {
   // solR configuration add bundle
-  config_solr_bundle('idea', 'add');
+  multisite_drupal_toolbox_config_solr_bundle('idea', 'add');
 
   // add type to notification
-  notification_content_type('idea', 'add');
+  multisite_drupal_toolbox_notification_content_type('idea', 'add');
 
   // add type to linkchecker scan
-  _content_type_linkchecker('idea', 'add');
+  multisite_drupal_toolbox_content_type_linkchecker('idea', 'add');
 
   // add type to the idea related content
   //idea_related_content_type('idea', 'add'); TBR comment cause function does not exists
@@ -123,7 +123,7 @@ function idea_core_enable() {
     ->execute();
 
   //Add rating
-  rate_content_type('idea', 'add');
+  multisite_drupal_toolbox_rate_content_type('idea', 'add');
 
   //Activation message
   drupal_set_message(t('Idea feature is now active on your site.'));
@@ -138,21 +138,21 @@ function idea_core_disable() {
     ->condition('node_type', 'idea')
     ->execute();
   // solR configuration add bundle
-  config_solr_bundle('idea', 'delete');
+  multisite_drupal_toolbox_config_solr_bundle('idea', 'delete');
 
   // remove type from notification
-  notification_content_type('idea', 'delete');
+  multisite_drupal_toolbox_notification_content_type('idea', 'delete');
 
   // remove type to linkchecker scan
-  _content_type_linkchecker('idea', 'delete');
+  multisite_drupal_toolbox_content_type_linkchecker('idea', 'delete');
 
   // remove type to the idea related content
   //idea_related_content_type('idea', 'delete'); TBR seems that this function not exists
 
-  _disable_content_type('idea');
+  multisite_drupal_toolbox_disable_content_type('idea');
 
   //Remove rating
-  rate_content_type('idea', 'remove');
+  multisite_drupal_toolbox_rate_content_type('idea', 'remove');
 
   //Activation message
   drupal_set_message(t('Idea feature is now disabled on your site.'));

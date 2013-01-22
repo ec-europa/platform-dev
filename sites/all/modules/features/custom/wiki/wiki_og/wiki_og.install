@@ -5,12 +5,12 @@
 */
 function wiki_og_enable() {
   // add elements to contexts
-  _add_views_context("communities", "wiki_list");
-  //  _add_block_context('communities', 'wiki_list-block_1', 'views', 'wiki_list-block_1', 'sidebar_first');
-  _add_content_type_context('communities', 'wiki');
+  multisite_drupal_toolbox_add_views_context("communities", "wiki_list");
+  //  multisite_drupal_toolbox_add_block_context('communities', 'wiki_list-block_1', 'views', 'wiki_list-block_1', 'sidebar_first');
+  multisite_drupal_toolbox_add_content_type_context('communities', 'wiki');
   
   // add wiki content type to newsletters related contents
-  add_content_type_newsletters('wiki');
+  multisite_drupal_toolbox_add_content_type_newsletters('wiki');
   
   // override drupal variables defined in core feature
   variable_set('pathauto_node_wiki_pattern', 'community/[node:group_audience]/wiki/[node:title]');
@@ -24,16 +24,16 @@ function wiki_og_enable() {
  */
 function wiki_og_disable() {
   // Remove block
-  _remove_views_context("communities", "wiki_list");
-  //_remove_block_context('communities', 'wiki_list-block_1');
-  _remove_content_type_context('communities', 'wiki');
+  multisite_drupal_toolbox_remove_views_context("communities", "wiki_list");
+  //multisite_drupal_toolbox_remove_block_context('communities', 'wiki_list-block_1');
+  multisite_drupal_toolbox_remove_content_type_context('communities', 'wiki');
 
   /*** Remove permissions ***/
-  _disable_content_type('wiki');
+  multisite_drupal_toolbox_disable_content_type('wiki');
        
   // Disable permissions to OG roles ---------------------------------------------------------------  
   // Community Manager
-  $cm_rid = get_og_rid('community_manager');
+  $cm_rid = multisite_drupal_toolbox_get_og_rid('community_manager');
   og_role_revoke_permissions($cm_rid, array(
     'update own wiki content',
     'update any wiki content',
@@ -42,7 +42,7 @@ function wiki_og_disable() {
   ));
     
   // Administrator Member
-  $admm_rid = get_og_rid('administrator member');
+  $admm_rid = multisite_drupal_toolbox_get_og_rid('administrator member');
   og_role_revoke_permissions($admm_rid, array(
     'update own wiki content',
     'update any wiki content',
