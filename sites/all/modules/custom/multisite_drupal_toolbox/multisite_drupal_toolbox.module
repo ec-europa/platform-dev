@@ -30,10 +30,10 @@ function multisite_drupal_toolbox_init() {
   }
 }
 
-
-  
-
-function _disable_content_type($type) {
+/**
+* Utility function to disable a content type
+*/
+function multisite_drupal_toolbox_disable_content_type($type) {
   $type_info = node_type_load($type);
   $type_info->module = 'node';
   $type_info->custom = 1;
@@ -41,6 +41,9 @@ function _disable_content_type($type) {
   $type_info->locked = 0;
   $type_info->disabled = 1;
   node_type_save($type_info);
+}
+function _disable_content_type($type) {
+  multisite_drupal_toolbox_disable_content_type($type);
 }
 
 
