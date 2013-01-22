@@ -26,9 +26,9 @@ function links_og_uninstall() {
 function links_og_enable() {
 
   //Add block in context
-  //_add_block_context('communities','links-block','views','links-block', 'sidebar_first');
-  _add_views_context('communities', 'links');
-  _add_content_type_context('communities', 'links');
+  //multisite_drupal_toolbox_add_block_context('communities','links-block','views','links-block', 'sidebar_first');
+  multisite_drupal_toolbox_add_views_context('communities', 'links');
+  multisite_drupal_toolbox_add_content_type_context('communities', 'links');
   
 }
 
@@ -41,13 +41,13 @@ function links_og_enable() {
 function links_og_disable() {
 
   // Remove block
- // _remove_block_context('communities', 'links-block');
-  _remove_views_context('communities', 'links');
-  _remove_content_type_context('communities', 'links');
+ // multisite_drupal_toolbox_remove_block_context('communities', 'links-block');
+  multisite_drupal_toolbox_remove_views_context('communities', 'links');
+  multisite_drupal_toolbox_remove_content_type_context('communities', 'links');
           
   // Disable permissions to OG roles ---------------------------------------------------------------  
   // Community Manager
-  $cm_rid = get_og_rid('community_manager');
+  $cm_rid = multisite_drupal_toolbox_get_og_rid('community_manager');
   og_role_revoke_permissions($cm_rid, array(
     'update own links content',
     'update any links content',
@@ -57,7 +57,7 @@ function links_og_disable() {
   ));
     
   // Administrator Member
-  $admm_rid = get_og_rid('administrator member');
+  $admm_rid = multisite_drupal_toolbox_get_og_rid('administrator member');
   og_role_revoke_permissions($admm_rid, array(
     'update own links content',
     'update any links content',
@@ -67,7 +67,7 @@ function links_og_disable() {
   ));
   
   // Member
-  $mbr = get_og_rid('member');
+  $mbr = multisite_drupal_toolbox_get_og_rid('member');
   og_role_revoke_permissions($mbr, array(
       'create links content',
       'update own links content',

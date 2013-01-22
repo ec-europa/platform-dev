@@ -6,9 +6,9 @@
  */
 function news_og_enable(){
   //Add block in context
-  // _add_block_context('communities','news-block_1','views','news-block_1', 'sidebar_first');
-  _add_views_context('communities','news');
-  _add_content_type_context('communities','news');
+  // multisite_drupal_toolbox_add_block_context('communities','news-block_1','views','news-block_1', 'sidebar_first');
+  multisite_drupal_toolbox_add_views_context('communities','news');
+  multisite_drupal_toolbox_add_content_type_context('communities','news');
   
   // override drupal variables defined in core news_core feature
   variable_set('pathauto_node_news_pattern', 'community/[node:group_audience]/news/[node:title]');
@@ -24,15 +24,15 @@ function news_og_enable(){
 function news_og_disable(){
 
   // Remove block
- // _remove_block_context('communities', 'news-block_1');
-  _remove_views_context('communities', 'news');
-  _remove_content_type_context('communities','news');
+ // multisite_drupal_toolbox_remove_block_context('communities', 'news-block_1');
+  multisite_drupal_toolbox_remove_views_context('communities', 'news');
+  multisite_drupal_toolbox_remove_content_type_context('communities','news');
 
   /*** Remove permissions ***/
-  _disable_content_type('news');
+  multisite_drupal_toolbox_disable_content_type('news');
   
   // Administrator
-  $adm_rid = get_rid('administrator');
+  $adm_rid = multisite_drupal_toolbox_get_rid('administrator');
   user_role_revoke_permissions($adm_rid, array(
     'edit own news content',
     'edit any news content',
@@ -42,7 +42,7 @@ function news_og_disable(){
   ));
     
   // Contributor
-  $ctb_rid = get_rid('contributor');      
+  $ctb_rid = multisite_drupal_toolbox_get_rid('contributor');      
   user_role_revoke_permissions($ctb_rid, array(
     'edit own news content',
     'edit any news content',
@@ -53,7 +53,7 @@ function news_og_disable(){
           
   // Disable permissions to OG roles ---------------------------------------------------------------  
   // Community Manager
-  $cm_rid = get_og_rid('community_manager');
+  $cm_rid = multisite_drupal_toolbox_get_og_rid('community_manager');
   og_role_revoke_permissions($cm_rid, array(
     'update own news content',
     'update any news content',
@@ -63,7 +63,7 @@ function news_og_disable(){
   ));
     
   // Administrator Member
-  $admm_rid = get_og_rid('administrator member');
+  $admm_rid = multisite_drupal_toolbox_get_og_rid('administrator member');
   og_role_revoke_permissions($admm_rid, array(
     'update own news content',
     'update any news content',
@@ -73,7 +73,7 @@ function news_og_disable(){
   ));
   
   // Member
-  $mbr = get_og_rid('member');
+  $mbr = multisite_drupal_toolbox_get_og_rid('member');
   og_role_revoke_permissions($mbr, array(
       'create news content',
       'update own news content',

@@ -25,17 +25,17 @@ function events_og_enable() {
   global $theme_key;
 
   if ($theme_key == 'ec_resp') {
-    _add_block_context('communities', 'views-calendar-upcoming_events', 'views', 'calendar-upcoming_events', 'sidebar_left');
+    multisite_drupal_toolbox_add_block_context('communities', 'views-calendar-upcoming_events', 'views', 'calendar-upcoming_events', 'sidebar_left');
   } else {
-    _add_block_context('communities', 'views-calendar-upcoming_events', 'views', 'calendar-upcoming_events', 'sidebar_first');
+    multisite_drupal_toolbox_add_block_context('communities', 'views-calendar-upcoming_events', 'views', 'calendar-upcoming_events', 'sidebar_first');
   }  
-  _add_views_context('communities', 'calendar');
-  _add_views_context('communities', 'calendar:month');
-  _add_views_context('communities', 'calendar:week');
-  _add_views_context('communities', 'calendar:day');
-  _add_views_context('communities', 'calendar:year');
-  _add_content_type_context('communities', 'event');
-  _add_path_context('communities', 'calendar/*');
+  multisite_drupal_toolbox_add_views_context('communities', 'calendar');
+  multisite_drupal_toolbox_add_views_context('communities', 'calendar:month');
+  multisite_drupal_toolbox_add_views_context('communities', 'calendar:week');
+  multisite_drupal_toolbox_add_views_context('communities', 'calendar:day');
+  multisite_drupal_toolbox_add_views_context('communities', 'calendar:year');
+  multisite_drupal_toolbox_add_content_type_context('communities', 'event');
+  multisite_drupal_toolbox_add_path_context('communities', 'calendar/*');
 }
 
 
@@ -43,18 +43,18 @@ function events_og_enable() {
 * Remove block from the context
 */
 function events_og_disable(){
-  _remove_block_context('communities', 'views-calendar-upcoming_events');
-  _remove_views_context('communities', 'calendar');
-  _remove_views_context('communities', 'calendar:month');
-  _remove_views_context('communities', 'calendar:week');
-  _remove_views_context('communities', 'calendar:day');
-  _remove_views_context('communities', 'calendar:year');
-  _remove_content_type_context('communities', 'event');
-  _remove_path_context('communities', 'calendar/*');
-  _disable_content_type('event');
+  multisite_drupal_toolbox_remove_block_context('communities', 'views-calendar-upcoming_events');
+  multisite_drupal_toolbox_remove_views_context('communities', 'calendar');
+  multisite_drupal_toolbox_remove_views_context('communities', 'calendar:month');
+  multisite_drupal_toolbox_remove_views_context('communities', 'calendar:week');
+  multisite_drupal_toolbox_remove_views_context('communities', 'calendar:day');
+  multisite_drupal_toolbox_remove_views_context('communities', 'calendar:year');
+  multisite_drupal_toolbox_remove_content_type_context('communities', 'event');
+  multisite_drupal_toolbox_remove_path_context('communities', 'calendar/*');
+  multisite_drupal_toolbox_disable_content_type('event');
 
   // Administrator
-  user_role_revoke_permissions(get_rid('administrator'), array(  
+  user_role_revoke_permissions(multisite_drupal_toolbox_get_rid('administrator'), array(  
     'edit own event content',
     'edit any event content',
     'delete own event content',
@@ -63,7 +63,7 @@ function events_og_disable(){
   ));
 
   // Contributor
-  user_role_revoke_permissions(get_rid('contributor'), array(
+  user_role_revoke_permissions(multisite_drupal_toolbox_get_rid('contributor'), array(
     'edit own event content',
     'edit any event content',
     'delete own event content',
@@ -73,7 +73,7 @@ function events_og_disable(){
 
   // Disable permissions to OG roles ---------------------------------------------------------------  
   // Community Manager
-  og_role_revoke_permissions(get_og_rid('community_manager'), array(
+  og_role_revoke_permissions(multisite_drupal_toolbox_get_og_rid('community_manager'), array(
     'update own event content',
     'update any event content',
     'delete own event content',
@@ -81,7 +81,7 @@ function events_og_disable(){
   ));
 
   // Administrator Member
-  og_role_revoke_permissions(get_og_rid('administrator member'), array(
+  og_role_revoke_permissions(multisite_drupal_toolbox_get_og_rid('administrator member'), array(
     'update own event content',
     'update any event content',
     'delete own event content',

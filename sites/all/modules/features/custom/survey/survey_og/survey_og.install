@@ -4,10 +4,10 @@
 * hook_enable
 */
 function survey_og_enable() {
-  _add_views_context("communities", "surveys_list");
-  //_add_block_context('communities', 'surveys_list-block_1', 'views', 'surveys_list-block_1', 'sidebar_first');
-  _add_content_type_context('communities', 'webform');
-  _add_path_context('communities', 'urvey_analysis/*');
+  multisite_drupal_toolbox_add_views_context("communities", "surveys_list");
+  //multisite_drupal_toolbox_add_block_context('communities', 'surveys_list-block_1', 'views', 'surveys_list-block_1', 'sidebar_first');
+  multisite_drupal_toolbox_add_content_type_context('communities', 'webform');
+  multisite_drupal_toolbox_add_path_context('communities', 'urvey_analysis/*');
   
   // override drupal variable defined in core feature
   variable_set('pathauto_node_webform_pattern', 'community/[node:group_audience]/survey/[node:title]');
@@ -20,13 +20,13 @@ function survey_og_enable() {
 function survey_og_disable() {
 
   // Remove block
-  _remove_views_context("communities", "surveys_list");
-  //_remove_block_context('communities', 'surveys_list-block_1');
-  _remove_content_type_context('communities', 'webform');
+  multisite_drupal_toolbox_remove_views_context("communities", "surveys_list");
+  //multisite_drupal_toolbox_remove_block_context('communities', 'surveys_list-block_1');
+  multisite_drupal_toolbox_remove_content_type_context('communities', 'webform');
   
   // Remove permissions to OG roles ---------------------------------------------------------------  
   // Community Manager
-  $cm_rid = get_og_rid('community_manager');
+  $cm_rid = multisite_drupal_toolbox_get_og_rid('community_manager');
 
   og_role_revoke_permissions($cm_rid, array(
     'create webform content',
@@ -37,7 +37,7 @@ function survey_og_disable() {
   ));
     
   // Administrator Member
-  $admm_rid = get_og_rid('administrator member');
+  $admm_rid = multisite_drupal_toolbox_get_og_rid('administrator member');
   og_role_revoke_permissions($admm_rid, array(
     'create webform content',
     'delete any webform content',

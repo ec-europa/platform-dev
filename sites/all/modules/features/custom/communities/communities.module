@@ -12,11 +12,11 @@ include_once('communities_moderation.inc');
 * hook_disable
 */
 function communities_disable() {
-  //_remove_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
-  _disable_content_type('community'); 
+  //multisite_drupal_toolbox_remove_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
+  multisite_drupal_toolbox_disable_content_type('community'); 
   
   // solR configuration add bundle
-  config_solr_bundle('community', 'delete');
+  multisite_drupal_toolbox_config_solr_bundle('community', 'delete');
 }
 
 
@@ -26,7 +26,7 @@ function communities_disable() {
 function communities_enable() {
   // create og role -------------------------------------------------------------------------------------------------------------------------------
   $community_manager_role = og_create_global_role("community_manager");
- // _add_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
+ // multisite_drupal_toolbox_add_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
 
   // solR configuration add bundle
   db_insert('apachesolr_index_bundles')->fields(array(
@@ -43,7 +43,7 @@ function communities_enable() {
 */
 function communities_views_pre_render(&$view) {
   global $user;
-	
+  
   if($view->name == 'communities_directory' || $view->name == 'communities_directory_my') {
     $alphabet = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
     $output = '';
@@ -87,7 +87,7 @@ function communities_init() {
     $alias = drupal_get_normal_path("community/".str_replace(" ","-",arg(1)));
     $param = explode("/", $alias);
     $group = og_get_group('node', $param[1]);
-	og_context($group);
+  og_context($group);
   }
   // set og context on surveys results analysis
   if(arg(0) == 'survey_analysis') { 
@@ -118,38 +118,38 @@ function communities_init() {
 */
 function communities_node_type_insert($info) {
   if($info->type == 'community') {
-	node_types_rebuild();
-	  
+  node_types_rebuild();
+    
     // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-	$au_rid = get_rid('authenticated user');
+  $au_rid = multisite_drupal_toolbox_get_rid('authenticated user');
     user_role_grant_permissions($au_rid, array(  
       'create community content',
-	  'delete own community content',
-	  'edit own community content',
+    'delete own community content',
+    'edit own community content',
       'view own unpublished content',
-	  'view revisions',
-	  'access workbench',
+    'view revisions',
+    'access workbench',
       'use workbench_moderation my drafts tab',
       'use workbench_moderation needs review tab',
       'view moderation messages', 
-	  'moderate content from draft to needs_review',
+    'moderate content from draft to needs_review',
       'view moderation history',
-    )); 	
+    ));   
   
     // add permissions to OG roles ----------------------------------------------------------------------------------------------------------------------------------------------  
-	$cm_rid = get_og_rid('community_manager');  
+  $cm_rid = multisite_drupal_toolbox_get_og_rid('community_manager');  
     og_role_grant_permissions($cm_rid, array(  
       'add user',
       'approve and deny subscription',
       'unsubscribe',
       'update group', 
       'administer group',
-	  'Moderate group content', // custom permission from the module multisite_drupal_workbench_moderation
+    'Moderate group content', // custom permission from the module multisite_drupal_workbench_moderation
     ));  
-  }	
+  } 
 }
 
-	
+  
 /*
 * _to_arg function
 */
@@ -172,7 +172,7 @@ function group_name_load($arg) {
   $alias = drupal_get_normal_path("community/".str_replace(" ","-",$arg)); // get real path to get node id
   $param = explode("/", $alias);
   $group = og_get_group('node', $param[1]); // load community
-	  
+    
   //og_context($group);
   
   return $group->gid;
@@ -189,14 +189,14 @@ function communities_node_insert($node) {
   if($node->type == 'community') {
     // get the group related to the node
     $group = og_get_group('node', $node->nid);
-	
-	if(isset($group->gid)) {
-      $community_manager_rid = get_og_rid("community_manager");
-	  $administrator_member_rid = get_og_rid("administrator member");
-	  // grant administrator member and community manager roles to the group author
-	  og_role_grant($group->gid, $node->uid, $community_manager_rid);
-	  og_role_grant($group->gid, $node->uid, $administrator_member_rid);
-	}
+  
+  if(isset($group->gid)) {
+      $community_manager_rid = multisite_drupal_toolbox_get_og_rid("community_manager");
+    $administrator_member_rid = multisite_drupal_toolbox_get_og_rid("administrator member");
+    // grant administrator member and community manager roles to the group author
+    og_role_grant($group->gid, $node->uid, $community_manager_rid);
+    og_role_grant($group->gid, $node->uid, $administrator_member_rid);
+  }
   }
 }
 
@@ -208,7 +208,7 @@ function communities_node_insert($node) {
 function communities_menu() {
   $items['community/%group_name/view'] = array(
     //'title arguments' => array(1),
-	//'title callback' => '_communities_title_item',
+  //'title callback' => '_communities_title_item',
     'title' => t('Home page'),
     'page arguments' => array(1),
     'access callback' => TRUE,
@@ -226,7 +226,7 @@ function communities_menu() {
 function _redirection($arg) {
   drupal_goto('community/'.group_name_to_arg($arg));
 }
-	
+  
 /*
 * dynalically change menu item title
 */
@@ -234,10 +234,10 @@ function _redirection($arg) {
 function _communities_title_item($arg) {
   $n = db_select('og', 'og')
     ->fields('og', array('etid'))
-	->condition('gid', $arg, '=')
-	->condition('entity_type', 'node', '=')
-	->execute()
-	->fetchAssoc();
+  ->condition('gid', $arg, '=')
+  ->condition('entity_type', 'node', '=')
+  ->execute()
+  ->fetchAssoc();
   if(isset($n['etid']))  {
     $node = node_load($n['etid']);
     return $node->title." homepage";
