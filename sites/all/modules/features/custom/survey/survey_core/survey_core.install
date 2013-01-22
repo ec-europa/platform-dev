@@ -6,18 +6,18 @@
 
 function survey_core_enable() {
   // solR configuration add bundle
-  //multisite_drupal_toolbox_config_solr_bundle('webform', 'add');
+  //config_solr_bundle('webform', 'add');
 
   // add type to notification
-  multisite_drupal_toolbox_notification_content_type('webform', 'add');
+  notification_content_type('webform', 'add');
 
   // add type to the simplenews related content
-  //multisite_drupal_toolbox_simplenews_related_content_type('webform', 'add');
+  //simplenews_related_content_type('webform', 'add');
 
   // add type to linkchecker scan
-  multisite_drupal_toolbox_content_type_linkchecker('webform', 'add');
+  _content_type_linkchecker('webform', 'add');
 
-  //multisite_drupal_toolbox_add_block_context('site_wide', 'surveys_list-block_1', 'views', 'surveys_list-block_1', 'sidebar_first');
+  //_add_block_context('site_wide', 'surveys_list-block_1', 'views', 'surveys_list-block_1', 'sidebar_first');
   // change content type webform name to survey
   db_update('node_type')
     ->fields(array('name' => 'Survey'))
@@ -48,21 +48,21 @@ function survey_core_disable() {
             ->condition('node_type', 'webform')
             ->execute();
     // solR configuration add bundle
-    //multisite_drupal_toolbox_config_solr_bundle('webform', 'delete');
+    //config_solr_bundle('webform', 'delete');
 
     // remove type from notification
-    multisite_drupal_toolbox_notification_content_type('webform', 'delete');
+    notification_content_type('webform', 'delete');
 
     // remove type to the simplenews related content
-    //multisite_drupal_toolbox_simplenews_related_content_type('webform', 'delete');
+    //simplenews_related_content_type('webform', 'delete');
 
   // remove type to linkchecker scan
-  multisite_drupal_toolbox_content_type_linkchecker('webform', 'delete');
+  _content_type_linkchecker('webform', 'delete');
 
     // Remove block
-    //multisite_drupal_toolbox_remove_block_context('site_wide', 'surveys_list-block_1');
+    //_remove_block_context('site_wide', 'surveys_list-block_1');
     // diable the content type webform
-    multisite_drupal_toolbox_disable_content_type('webform');
+    _disable_content_type('webform');
 
     // disable example contents
     module_disable(array("survey_contents"));

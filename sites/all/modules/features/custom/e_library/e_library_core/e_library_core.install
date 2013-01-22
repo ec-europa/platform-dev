@@ -24,13 +24,13 @@ function e_library_core_uninstall() {
  */
 function e_library_core_enable() {
   // solR configuration add bundle
-  multisite_drupal_toolbox_config_solr_bundle('document', 'add');
+  config_solr_bundle('document', 'add');
 
   // add type to notification
-  multisite_drupal_toolbox_notification_content_type('document', 'add');
+  notification_content_type('document', 'add');
 
   // add type to the simplenews related content
-  //multisite_drupal_toolbox_simplenews_related_content_type('document', 'add');
+  //simplenews_related_content_type('document', 'add');
 
   //Add breadcrumb configuration
   db_insert('custom_breadcrumb')
@@ -76,20 +76,20 @@ function e_library_core_enable() {
  */
 function e_library_core_disable() {
   // solR configuration delete bundle
-  multisite_drupal_toolbox_config_solr_bundle('document', 'delete');
+  config_solr_bundle('document', 'delete');
 
   // remove type from notification
-  multisite_drupal_toolbox_notification_content_type('document', 'delete');
+  notification_content_type('document', 'delete');
 
   // remove type to the simplenews related content
-  //multisite_drupal_toolbox_simplenews_related_content_type('document', 'delete');
+  //simplenews_related_content_type('document', 'delete');
 
   //remove the breadcrump relative to
   db_delete('custom_breadcrumb')
     ->condition('node_type', 'document')
     ->execute();
 
-  multisite_drupal_toolbox_disable_content_type('document');
+  _disable_content_type('document');
 
   $vocabulary = taxonomy_vocabulary_machine_name_load('media_tags');
   taxonomy_vocabulary_delete($vocabulary->vid);

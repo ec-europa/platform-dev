@@ -41,9 +41,9 @@ function feed_rss_core_enable() {
   global $theme_key;
 
   if ($theme_key == 'ec_resp') {
-    multisite_drupal_toolbox_add_block_context('homepage', 'feed-'.$feed->fid,'aggregator', 'feed-'.$feed->fid, 'sidebar_right');
+    _add_block_context('homepage', 'feed-'.$feed->fid,'aggregator', 'feed-'.$feed->fid, 'sidebar_right');
   } else {
-    multisite_drupal_toolbox_add_block_context('homepage', 'feed-'.$feed->fid,'aggregator', 'feed-'.$feed->fid, 'sidebar_second');
+    _add_block_context('homepage', 'feed-'.$feed->fid,'aggregator', 'feed-'.$feed->fid, 'sidebar_second');
   }    
   
   
@@ -70,7 +70,7 @@ function feed_rss_core_disable(){
     ->execute();
 
   //Add block in context
-  multisite_drupal_toolbox_remove_block_context('homepage', 'feed-1');
+  _remove_block_context('homepage', 'feed-1');
   drupal_set_message(t('RSS Feed feature is now disabled on your site.'));
   drupal_cron_run();
 }

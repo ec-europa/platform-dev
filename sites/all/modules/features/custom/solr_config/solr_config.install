@@ -8,9 +8,9 @@ function solr_config_enable() {
         global $theme_key;
 
         if ($theme_key == 'ec_resp') {
-          multisite_drupal_toolbox_add_block_context('search', $value['info'], 'facetapi', $key, 'sidebar_left');
+          _add_block_context('search', $value['info'], 'facetapi', $key, 'sidebar_left');
         } else {
-          multisite_drupal_toolbox_add_block_context('search', $value['info'], 'facetapi', $key, 'sidebar_first');
+          _add_block_context('search', $value['info'], 'facetapi', $key, 'sidebar_first');
         }        
         
       }

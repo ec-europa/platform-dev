@@ -378,9 +378,9 @@ function cce_basic_config_enable() {
 
   module_invoke('context', 'save', $context);
 
-  // multisite_drupal_toolbox_add_block_context('communities','multisite_og_button-og-contextual-links','multisite_og_button','og-contextual-links', 'sidebar_first','-9');
-  // multisite_drupal_toolbox_add_block_context('site_wide','locale-language','locale','language','highlighted');
-  // multisite_drupal_toolbox_add_block_context('site_wide','system-main-menu','system','main-menu','featured');
+  // _add_block_context('communities','multisite_og_button-og-contextual-links','multisite_og_button','og-contextual-links', 'sidebar_first','-9');
+  // _add_block_context('site_wide','locale-language','locale','language','highlighted');
+  // _add_block_context('site_wide','system-main-menu','system','main-menu','featured');
 
   // set the main-menu as multilingual --------------------------------------------------------------------------------
   //db_update('menu_custom')
@@ -673,7 +673,7 @@ function cce_basic_config_update_7140() {
   variable_del('update_notify_emails');
   
   // disable update management module permissions for administrator role
-  $adm_rid = multisite_drupal_toolbox_get_rid('administrator'); 
+  $adm_rid = get_rid('administrator'); 
   user_role_revoke_permissions($adm_rid, array(
     'administer software updates',
   ));

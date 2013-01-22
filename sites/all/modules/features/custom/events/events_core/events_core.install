@@ -24,16 +24,16 @@ function events_core_uninstall() {
  */
 function events_core_enable() {
     // solR configuration add bundle
-    multisite_drupal_toolbox_config_solr_bundle('event', 'add');
+    config_solr_bundle('event', 'add');
 
     // add type to notification
-    multisite_drupal_toolbox_notification_content_type('event', 'add');
+    notification_content_type('event', 'add');
 
   // add type to linkchecker scan
-  multisite_drupal_toolbox_content_type_linkchecker('event', 'add');
+  _content_type_linkchecker('event', 'add');
 
     // add type to the simplenews related content
-    //multisite_drupal_toolbox_simplenews_related_content_type('event', 'add');
+    //simplenews_related_content_type('event', 'add');
 
     //Add breadcrumb configuration
     db_insert('custom_breadcrumb')
@@ -59,18 +59,18 @@ function events_core_disable() {
     ->execute();
 
   // solR configuration reomve bundle
-  multisite_drupal_toolbox_config_solr_bundle('event', 'delete');
+  config_solr_bundle('event', 'delete');
 
   // remove type from notification
-  multisite_drupal_toolbox_notification_content_type('event', 'delete');
+  notification_content_type('event', 'delete');
 
   // remove type to linkchecker scan
-  multisite_drupal_toolbox_content_type_linkchecker('event', 'delete');
+  _content_type_linkchecker('event', 'delete');
 
   // remove type to the simplenews related content
-  //multisite_drupal_toolbox_simplenews_related_content_type('event', 'delete');
+  //simplenews_related_content_type('event', 'delete');
 
-  multisite_drupal_toolbox_disable_content_type('event');
+  _disable_content_type('event');
 
   drupal_flush_all_caches();
   drupal_set_message(t('Events feature is now disabled on your site.'));

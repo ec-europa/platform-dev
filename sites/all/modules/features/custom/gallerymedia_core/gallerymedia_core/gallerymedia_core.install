@@ -11,10 +11,10 @@
 
 function gallerymedia_core_enable() {
     // solR configuration add bundle
-    multisite_drupal_toolbox_config_solr_bundle('gallerymedia', 'add');
+    config_solr_bundle('gallerymedia', 'add');
 
     //Add block in context
-    multisite_drupal_toolbox_add_block_context('homepage', 'galleries-medias_block', 'views', 'galleries-medias_block', 'content_top');
+    _add_block_context('homepage', 'galleries-medias_block', 'views', 'galleries-medias_block', 'content_top');
 
     //Add breadcrumb configuration
     db_insert('custom_breadcrumb')
@@ -41,10 +41,10 @@ function gallerymedia_core_enable() {
 
 function gallerymedia_core_disable() {
     // solR configuration add bundle
-    multisite_drupal_toolbox_config_solr_bundle('gallerymedia', 'delete');
+    config_solr_bundle('gallerymedia', 'delete');
 
     // remove type from notification
-    multisite_drupal_toolbox_notification_content_type('gallerymedia', 'delete');
+    notification_content_type('gallerymedia', 'delete');
 
     //remove the breadcrump relative to 
     db_delete('custom_breadcrumb')

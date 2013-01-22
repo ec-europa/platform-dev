@@ -19,8 +19,8 @@ function newsletters_enable() {
     
     /*
     // add content types to the simplenews related content
-    multisite_drupal_toolbox_simplenews_related_content_type('article', 'add');
-    multisite_drupal_toolbox_simplenews_related_content_type('page', 'add');
+    simplenews_related_content_type('article', 'add');
+    simplenews_related_content_type('page', 'add');
     */
     
     // put HTML format by default for mail
@@ -37,10 +37,10 @@ function newsletters_enable() {
 
 function newsletters_disable() {
     // remove simplenews block to the site_wide context
-    multisite_drupal_toolbox_remove_block_context('site_wide', '0');
+    _remove_block_context('site_wide', '0');
 
     // disable the content type simplenews
-    multisite_drupal_toolbox_disable_content_type('simplenews');
+    _disable_content_type('simplenews');
     //remove the breadcrump relative to newsletter
     db_delete('custom_breadcrumb')
             ->condition('node_type', 'simplenews')
@@ -51,8 +51,8 @@ function newsletters_disable() {
     
     /*
     // delete content types to the simplenews related content
-    multisite_drupal_toolbox_simplenews_related_content_type('article', 'delete');
-    multisite_drupal_toolbox_simplenews_related_content_type('page', 'delete');
+    simplenews_related_content_type('article', 'delete');
+    simplenews_related_content_type('page', 'delete');
     */
     
 }
