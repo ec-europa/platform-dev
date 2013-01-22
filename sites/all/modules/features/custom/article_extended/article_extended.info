@@ -25,4 +25,3 @@ features[variable][] = node_options_article
 features[variable][] = node_preview_article
 features[variable][] = node_submitted_article
 features[variable][] = workbench_moderation_default_state_article
-files[] = tests/article_extended.test
