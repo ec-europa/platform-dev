@@ -46,11 +46,10 @@ function _disable_content_type($type) {
   multisite_drupal_toolbox_disable_content_type($type);
 }
 
-
 /**
 * Utility function to add block to a context
 */
-function _add_block_context($contextName, $blockTitle, $module, $delta, $region, $weight='-10') {
+function multisite_drupal_toolbox_add_block_context($contextName, $blockTitle, $module, $delta, $region, $weight='-10') {
   //Load context
   $context=module_invoke('context', 'load', $contextName); 
   //Make some modifications
@@ -65,12 +64,14 @@ function _add_block_context($contextName, $blockTitle, $module, $delta, $region,
   //Update the context
   module_invoke('context', 'save', $context);
 }
-
+function _add_block_context($contextName, $blockTitle, $module, $delta, $region, $weight='-10') {
+  multisite_drupal_toolbox_add_block_context($contextName, $blockTitle, $module, $delta, $region, $weight);
+}
 
 /**
 * Utility function to remove block from context
 */
-function _remove_block_context($contextName, $blockTitle) {
+function multisite_drupal_toolbox_remove_block_context($contextName, $blockTitle) {
   //Load context
   $context=module_invoke('context', 'load', $contextName); 
   //Remove element from the context
@@ -78,12 +79,14 @@ function _remove_block_context($contextName, $blockTitle) {
   //Update the context
   module_invoke('context', 'save', $context);
 }
-
+function _remove_block_context($contextName, $blockTitle) {
+  multisite_drupal_toolbox_remove_block_context($contextName, $blockTitle);
+}
 
 /**
 * Utility function to add view to a context
 */
-function _add_views_context($contextName, $viewTitle) {
+function multisite_drupal_toolbox_add_views_context($contextName, $viewTitle) {
   //Load context
   $context=module_invoke('context', 'load', $contextName); 
   //Add modification to the context
@@ -91,12 +94,14 @@ function _add_views_context($contextName, $viewTitle) {
   //Update the context
   module_invoke('context', 'save', $context);
 }
-
+function _add_views_context($contextName, $viewTitle) {
+  multisite_drupal_toolbox_add_views_context($contextName, $viewTitle);
+}
 
 /**
 * Utility function to remove block from context
 */
-function _remove_views_context($contextName, $viewTitle) {
+function multisite_drupal_toolbox_remove_views_context($contextName, $viewTitle) {
   //Load context
   $context=module_invoke('context', 'load', $contextName); 
   //Remove element from the context
@@ -104,11 +109,14 @@ function _remove_views_context($contextName, $viewTitle) {
   //Update the context
   module_invoke('context', 'save', $context);
 }
+function _remove_views_context($contextName, $viewTitle) {
+  multisite_drupal_toolbox_remove_views_context($contextName, $viewTitle);
+}
 
 /**
 * Utility function to add content type from context
 */
-function _add_content_type_context($contextName, $contentType) {
+function multisite_drupal_toolbox_add_content_type_context($contextName, $contentType) {
   //Load context
   $context=module_invoke('context', 'load', $contextName); 
   //Add modification to the context
@@ -116,11 +124,14 @@ function _add_content_type_context($contextName, $contentType) {
   //Update the context
   module_invoke('context', 'save', $context);  
 }
+function _add_content_type_context($contextName, $contentType) {
+  multisite_drupal_toolbox_add_content_type_context($contextName, $contentType);
+}
 
 /**
 * Utility function to remove content type from context
 */
-function _remove_content_type_context($contextName, $contentType) {
+function multisite_drupal_toolbox_remove_content_type_context($contextName, $contentType) {
   //Load context
   $context=module_invoke('context', 'load', $contextName);
   //Remove element from the context
@@ -128,11 +139,14 @@ function _remove_content_type_context($contextName, $contentType) {
   //Update the context
   module_invoke('context', 'save', $context);
 }
+function _remove_content_type_context($contextName, $contentType) {
+  multisite_drupal_toolbox_remove_content_type_context($contextName, $contentType);
+}
 
 /**
 * Utility function to add path condition to a context
 */
-function _add_path_context($contextName, $path) {
+function multisite_drupal_toolbox_add_path_context($contextName, $path) {
   //Load context
   $context=module_invoke('context', 'load', $contextName); 
   //Add modification to the context
@@ -140,11 +154,14 @@ function _add_path_context($contextName, $path) {
   //Update the context
   module_invoke('context', 'save', $context);
 }
+function _add_path_context($contextName, $path) {
+  multisite_drupal_toolbox_add_path_context($contextName, $path);
+}
 
 /**
 * Utility function to remove path from context
 */
-function _remove_path_context($contextName, $path) {
+function multisite_drupal_toolbox_remove_path_context($contextName, $path) {
   //Load context
   $context=module_invoke('context', 'load', $contextName);
   //Remove element from the context
@@ -152,11 +169,14 @@ function _remove_path_context($contextName, $path) {
   //Update the context
   module_invoke('context', 'save', $context);
 }
+function _remove_path_context($contextName, $path) {
+  multisite_drupal_toolbox_remove_path_context($contextName, $path);
+}
 
 /*
 * get the rid of a og role name
 */
-function get_og_rid($role_name) {
+function multisite_drupal_toolbox_get_og_rid($role_name) {
   $r = db_select('og_role', 'r')
     ->condition('name', $role_name, '=')
     ->fields('r', array('rid'))
@@ -164,11 +184,14 @@ function get_og_rid($role_name) {
     ->fetchAssoc();   
   return $r['rid'];
 }
+function get_og_rid($role_name) {
+  return multisite_drupal_toolbox_get_og_rid($role_name);
+}
 
 /*
 * get the rid of a role name
 */
-function get_rid($role_name) {
+function multisite_drupal_toolbox_get_rid($role_name) {
   $r = db_select('role', 'r')
     ->condition('name', $role_name, '=')
     ->fields('r', array('rid'))
@@ -176,19 +199,22 @@ function get_rid($role_name) {
     ->fetchAssoc();   
   return $r['rid'];
 }
-
+function get_rid($role_name) {
+  return multisite_drupal_toolbox_get_rid($role_name);
+}
 
 /*
 * add content type to newsletter related content field
 */
-function add_content_type_newsletters($node_type) {
+function multisite_drupal_toolbox_add_content_type_newsletters($node_type) {
   if ($field = field_info_field('field_related_contents')) {
     $field['settings']['referenceable_types'][$node_type] = $node_type;
     field_update_field($field);
   }
 }
-
-// method to switch theme
+function add_content_type_newsletters($node_type) {
+  multisite_drupal_toolbox_add_content_type_newsletters($node_type);
+}
 
 /*
 * hook_menu_alter
