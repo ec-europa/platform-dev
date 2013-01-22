@@ -255,16 +255,30 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
   $items['admin/config/search/apachesolr']['access callback'] = 'is_admin';
 }
 
-function is_admin() {
+/**
+* Check if the user is super admin
+* ?not used?
+*/
+function multisite_drupal_toolbox_is_admin() {
   global $user;
 
   if($user->uid == 1)
     return TRUE;
   return FALSE;
 }
+function is_admin() {
+  return multisite_drupal_toolbox_is_admin();
+}
 
-function multisite_cce_theme() {
+/**
+* Check if current theme is ec_default theme 
+* ?not used?
+*/
+function multisite_drupal_toolbox_cce_theme() {
   return variable_get('theme_default', 'ec_default');
+}
+function multisite_cce_theme() {
+  return multisite_drupal_toolbox_cce_theme();
 }
 
 /**
@@ -282,17 +296,18 @@ function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
 }
 
 /*
-* helper to disable a block
+* Helper to disable a block
 */
-function _disable_block($module, $delta) {
+function multisite_drupal_toolbox_disable_block($module, $delta) {
   db_update('block')
   ->fields(array('status' => '0'))
   ->condition('module', $module, '=')
   ->condition('delta', $delta, '=')
   ->execute();
 }
-
-
+function _disable_block($module, $delta) {
+  multisite_drupal_toolbox_disable_block($module, $delta);
+}
 
 /*
 * hook_node_view
@@ -381,12 +396,18 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
   }
 }
 
+/*
+* emeryro
+*/
 function workbench_redirect_submit($form, &$form_state) {
   $form_state['redirect'] = array(
     'admin/workbench/comment',
   );
 }
 
+/*
+* 
+*/
 function multisite_drupal_toolbox_form_node_admin_content_alter(&$form, &$form_state, $form_id) {
   // hide publish and unpublish options from the admin content form
   // publish and unpublish actions must only be done thru the workbench
@@ -397,7 +418,7 @@ function multisite_drupal_toolbox_form_node_admin_content_alter(&$form, &$form_s
 /*
 * Solr config bundle
 */
-function config_solr_bundle($bundle, $op) {
+function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
   switch ($op) {
     case 'add':
       db_insert('apachesolr_index_bundles')->fields(array(
@@ -411,11 +432,14 @@ function config_solr_bundle($bundle, $op) {
       break;
   }
 }
+function config_solr_bundle($bundle, $op) {
+  multisite_drupal_toolbox_config_solr_bundle($bundle, $op);
+}
 
 /*
 * add content type to notification
 */
-function notification_content_type($content_type, $op) {
+function multisite_drupal_toolbox_notification_content_type($content_type, $op) {
   switch ($op) {
     case 'add':
       if (module_exists('notification')) {
@@ -434,12 +458,14 @@ function notification_content_type($content_type, $op) {
       break;
   }
 }
-
+function notification_content_type($content_type, $op) {
+  multisite_drupal_toolbox_notification_content_type($content_type, $op);
+}
 
 /*
 * add content type to the "related-contents" field of the simplenews content type
 */
-function simplenews_related_content_type($content_type, $op) {
+function multisite_drupal_toolbox_simplenews_related_content_type($content_type, $op) {
   //if(module_exists('newsletters')) { // check if the feature newsletter is enabled
     switch ($op) {
       case 'add':
@@ -459,11 +485,14 @@ function simplenews_related_content_type($content_type, $op) {
     }
   //}
 }
+function simplenews_related_content_type($content_type, $op) {
+  multisite_drupal_toolbox_simplenews_related_content_type($content_type, $op);
+}
 
 /*
 * add content type to rate widget
 */
-function rate_content_type($content_type, $op) {
+function multisite_drupal_toolbox_rate_content_type($content_type, $op) {
   switch ($op) {
     case 'add':
       if (module_exists('rate')) {
@@ -493,6 +522,9 @@ function rate_content_type($content_type, $op) {
       }
     break;
   }
+}
+function rate_content_type($content_type, $op) {
+  multisite_drupal_toolbox_rate_content_type($content_type, $op);
 }
 
 /*
@@ -545,7 +577,7 @@ function multisite_drupal_toolbox_menu() {
   
   // add linkchecker tab (broken links) to the workbench menu
   $items['admin/workbench/linkchecker'] = array(
-    'access callback' => '_linkchecker_user_access_account_broken_links_report_workbench',
+    'access callback' => 'multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_report_workbench',
     'description' => 'Shows a list of broken links in content.',
     'page callback' => 'linkchecker_user_report_page_workbench',
     'title' => 'Broken links',
@@ -557,34 +589,48 @@ function multisite_drupal_toolbox_menu() {
   $items['admin/config/security'] = array(
     'title' => 'Security settings',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('form_security_settings'),
+    'page arguments' => array('multisite_drupal_toolbox_form_security_settings'),
     'access arguments' => array('administer site configuration'),
   );
   $items['admin/config/security/settings'] = array(
     'title' => 'Security settings',
     'description' => 'Configure security settings',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('form_security_settings'),
+    'page arguments' => array('multisite_drupal_toolbox_form_security_settings'),
     'access arguments' => array('administer site configuration'),
   ); 
 
   return $items;
 }
 
-function linkchecker_user_report_page_workbench() {
+/*
+ * 
+*/
+function multisite_drupal_toolbox_linkchecker_user_report_page_workbench() {
   global $user;
   module_load_include('inc', 'linkchecker', 'linkchecker.pages');
   return linkchecker_user_report_page($user);
 }
+function linkchecker_user_report_page_workbench() {
+  return multisite_drupal_toolbox_linkchecker_user_report_page_workbench();
+}
 
-function _linkchecker_user_access_account_broken_links_report_workbench() {
+/*
+ * 
+*/
+function multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_report_workbench() {
   global $user;
   module_load_include('inc', 'linkchecker', 'linkchecker.pages');  
   return _linkchecker_user_access_account_broken_links_report($user);
 }
+function _linkchecker_user_access_account_broken_links_report_workbench() {
+  return multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_report_workbench();
+}
 
-// helper function to add/delete a content type to scan by linkchecker module
-function _content_type_linkchecker($type, $op) {
+/*
+ * Helper function to add/delete a content type to scan by linkchecker module
+*/
+function multisite_drupal_toolbox_content_type_linkchecker($type, $op) {
   $node_type_scan = variable_get("linkchecker_scan_nodetypes", array());
   switch ($op) {
     case 'add':
@@ -596,7 +642,34 @@ function _content_type_linkchecker($type, $op) {
   }
   variable_set("linkchecker_scan_nodetypes", $node_type_scan);
 }
+function _content_type_linkchecker($type, $op) {
+  multisite_drupal_toolbox_content_type_linkchecker($type, $op);
+}
 
+/*
+ * security form settings
+ * emeryro
+*/
+/*function multisite_drupal_toolbox_form_security_settings($form, &$form_state) {
+  $form['security_allowed_tags'] = array(
+    '#type' => 'textarea',
+    '#title' => t('allowed tags'),
+    '#default_value' => variable_get('security_allowed_tags'),
+    '#description' => t('One tag per line.'),
+  ); 
+  
+  $form['security_bypassed_nodes'] = array(
+    '#type' => 'textarea',
+    '#title' => t('nodes to bypass'),
+    '#default_value' => variable_get('security_bypassed_nodes'),
+    '#description' => t('Insert the nid of nodes that must not be filtered to check xss attacks.<br/>One nid per line.'),
+  );   
+
+  return system_settings_form($form);
+}
+function form_security_settings($form, &$form_state) {
+  return multisite_drupal_toolbox_form_security_settings($form, &$form_state);
+}*/
 // security form settings
 function form_security_settings($form, &$form_state) {
   $form['security_allowed_tags'] = array(
@@ -636,7 +709,9 @@ function multisite_drupal_toolbox_node_presave($node) {
   }
 }
 
-// sanitize urls
+/*
+ * sanitize urls
+ */
 function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $path_language) {
   $path = check_url($path);
 }
@@ -666,7 +741,7 @@ function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $pat
  *     dangerous. E.g. "http://user:pass@example.org/settings?evilaction=true"
  *     will become "http://example.org/settings".
  */
-function linkit_scan_url($url, $field) {
+function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
 //Note this function has been heavily modified: To see original see linkit.module. 
   global $base_url; 
   // We will not use the drupal wrapper function 'drupal_pasre_url' as that
@@ -779,4 +854,6 @@ function linkit_scan_url($url, $field) {
 
   return $path_info;
 }
-
+function linkit_scan_url($url, $field) {
+  return multisite_drupal_toolbox_linkit_scan_url($url, $field);
+}
