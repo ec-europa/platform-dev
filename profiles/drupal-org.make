@@ -56,8 +56,8 @@ projects[date][version] = "2.6"
 projects[defaultcontent][subdir] = "contributed"
 projects[defaultcontent][version] = "1.0-alpha6"
 
-projects[devel][subdir] = "contributed"
-projects[devel][version] = "1.2"
+;projects[devel][subdir] = "contributed"
+;projects[devel][version] = "1.2"
 
 projects[diff][subdir] = "contributed"
 projects[diff][version] = "3.2"
