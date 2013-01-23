@@ -23,50 +23,25 @@ function cce_basic_config_context_default_contexts() {
       ),
     ),
   );
-  /* to be uncommented after next update 07/01/13 */
-  /*$context->reactions = array(
-    'block' => array(
-      'blocks' => array(
-        'current_search-standard' => array(
-          'module' => 'current_search',
-          'delta' => 'standard',
-          'region' => 'sidebar_left',
-          'weight' => '-10',
-        ),
-        'Facet API: Apache Solr environment: localhost server : Author' => array(
-          'module' => 'facetapi',
-          'delta' => 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j',
-          'region' => 'sidebar_left',
-          'weight' => '-10',
-        ),
-        'Facet API: Apache Solr environment: localhost server : Content type' => array(
-          'module' => 'facetapi',
-          'delta' => 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu',
-          'region' => 'sidebar_left',
-          'weight' => '-10',
-        ),
-      ),
-    ),
-  );*/
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
         'current_search-standard' => array(
           'module' => 'current_search',
           'delta' => 'standard',
-          'region' => 'sidebar_first',
+          'region' => 'sidebar_left',
           'weight' => '-10',
         ),
         'Facet API: Apache Solr environment: localhost server : Author' => array(
           'module' => 'facetapi',
           'delta' => 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j',
-          'region' => 'sidebar_first',
+          'region' => 'sidebar_left',
           'weight' => '-10',
         ),
         'Facet API: Apache Solr environment: localhost server : Content type' => array(
           'module' => 'facetapi',
           'delta' => 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu',
-          'region' => 'sidebar_first',
+          'region' => 'sidebar_left',
           'weight' => '-10',
         ),
       ),
@@ -93,8 +68,7 @@ function cce_basic_config_context_default_contexts() {
       ),
     ),
   );
-  /* to be uncommented after next update 07/01/13 */
-  /*$context->reactions = array(
+  $context->reactions = array(
     'block' => array(
       'blocks' => array(
         'user-menu' => array(
@@ -119,36 +93,6 @@ function cce_basic_config_context_default_contexts() {
           'module' => 'print',
           'delta' => 'print-links',
           'region' => 'content_bottom',
-          'weight' => '-10',
-        ),
-      ),
-    ),
-  );*/
-  $context->reactions = array(
-    'block' => array(
-      'blocks' => array(
-        'user-menu' => array(
-          'module' => 'system',
-          'delta' => 'user-menu',
-          'region' => 'tools',
-          'weight' => 1,
-        ),
-        'locale-language' => array(
-          'module' => 'locale',
-          'delta' => 'language',
-          'region' => 'highlighted',
-          'weight' => '-10',
-        ),
-        'system-main-menu' => array(
-          'module' => 'system',
-          'delta' => 'main-menu',
-          'region' => 'featured',
-          'weight' => '-10',
-        ),
-        'print-print-links' => array(
-          'module' => 'print',
-          'delta' => 'print-links',
-          'region' => 'tools_bottom',
           'weight' => '-10',
         ),
       ),
