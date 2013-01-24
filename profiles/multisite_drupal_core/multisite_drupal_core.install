@@ -216,11 +216,12 @@ function multisite_drupal_core_install() {
   ->condition('delta', 'powered-by', '=')
   ->execute();
 
+  $theme = 'ec_resp';
   $blocks = array(
     array(
       'module' => 'system', 
       'delta' => 'powered-by', 
-      'theme' => $enable['theme_default'], 
+      'theme' => $theme, 
       'status' => 1, 
       'weight' => 10, 
       'region' => '', 
