@@ -26,6 +26,9 @@ projects[better_formats][version] = "1.0-beta1"
 projects[captcha][subdir] = "contributed"
 projects[captcha][version] = "1.0-beta1"
 
+projects[chr][subdir] = "contributed"
+projects[chr][version] = "1.5"
+
 projects[ckeditor_link][subdir] = "contributed"
 projects[ckeditor_link][version] = "2.2"
 
@@ -221,8 +224,6 @@ projects[wysiwyg][version] = "2.2"
 projects[xmlsitemap][subdir] = "contributed"
 projects[xmlsitemap][version] = "2.0-rc1"
 
-projects[chr][subdir] = "contributed"
-projects[chr][version] = "1.5"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
