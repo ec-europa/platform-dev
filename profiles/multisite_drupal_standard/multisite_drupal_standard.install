@@ -65,24 +65,4 @@ function multisite_drupal_standard_update_7100() {
   user_role_revoke_permissions($adm_rid, array(
     'administer software updates',
   ));
-  
-  // remove blocks for ec_resp theme
-  /*$theme = 'ec_resp';
-  $blocks = array(
-    array(
-      'module' => 'system', 
-      'delta' => 'powered-by', 
-      'theme' => $theme, 
-      'status' => 1, 
-      'weight' => 10, 
-      'region' => '', 
-      'pages' => '', 
-      'cache' => -1,
-    ),
-  );
-  $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache'));
-  foreach ($blocks as $block) {
-    $query->values($block);
-  }
-  $query->execute();*/
 }
