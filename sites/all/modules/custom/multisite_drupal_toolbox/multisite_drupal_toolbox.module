@@ -397,20 +397,15 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
 }
 
 /*
-* emeryro
+* 
 */
-/*function multisite_drupal_toolbox_workbench_redirect_submit($form, &$form_state) {
+function multisite_drupal_toolbox_workbench_redirect_submit($form, &$form_state) {
   $form_state['redirect'] = array(
     'admin/workbench/comment',
   );
 }
 function workbench_redirect_submit($form, &$form_state) {
-  multisite_drupal_toolbox_workbench_redirect_submit($form, &$form_state);
-}*/
-function workbench_redirect_submit($form, &$form_state) {
-  $form_state['redirect'] = array(
-    'admin/workbench/comment',
-  );
+  multisite_drupal_toolbox_workbench_redirect_submit($form, $form_state);
 }
 
 /*
@@ -656,7 +651,6 @@ function _content_type_linkchecker($type, $op) {
 
 /*
  * security form settings
- * emeryro
 */
 function multisite_drupal_toolbox_form_security_settings($form, &$form_state) {
   $form['security_allowed_tags'] = array(
