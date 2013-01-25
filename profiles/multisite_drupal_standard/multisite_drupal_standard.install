@@ -67,7 +67,7 @@ function multisite_drupal_standard_update_7100() {
   ));
   
   // remove blocks for ec_resp theme
-  $theme = 'ec_resp';
+  /*$theme = 'ec_resp';
   $blocks = array(
     array(
       'module' => 'system', 
@@ -84,5 +84,5 @@ function multisite_drupal_standard_update_7100() {
   foreach ($blocks as $block) {
     $query->values($block);
   }
-  $query->execute();
+  $query->execute();*/
 }

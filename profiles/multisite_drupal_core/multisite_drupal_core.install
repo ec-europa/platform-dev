@@ -129,7 +129,7 @@ function multisite_drupal_core_install() {
 
   // define the theme used ------------------------------------------------------------------------------------------------------------------------------------------------------
   $enable = array(
-    'theme_default' => 'ec_default', // should be the our CCE theme
+    'theme_default' => 'ec_resp', // should be the our CCE theme
     'admin_theme' => 'seven',
   );
   theme_enable($enable);
@@ -216,7 +216,7 @@ function multisite_drupal_core_install() {
   ->condition('delta', 'powered-by', '=')
   ->execute();
 
-  $theme = 'ec_resp';
+  /*$theme = 'ec_resp';
   $blocks = array(
     array(
       'module' => 'system', 
@@ -233,7 +233,7 @@ function multisite_drupal_core_install() {
   foreach ($blocks as $block) {
     $query->values($block);
   }
-  $query->execute();
+  $query->execute();*/
 
   // add login link in the user menu -------------------------------------------------------------------------------
   $item = array(
