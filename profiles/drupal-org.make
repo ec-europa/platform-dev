@@ -189,7 +189,7 @@ projects[variable][version] = "2.1"
 ;projects[varnish][version] = "1.0-beta1"
 
 projects[video][subdir] = "contributed"
-projects[video][version] = "2.8"
+projects[video][version] = "2.9"
 
 projects[views][subdir] = "contributed"
 projects[views][version] = "3.5"
