@@ -53,7 +53,12 @@ function ec_resp_preprocess_html(&$variables) {
   }
 
   // Update page title
-  $variables['head_title'] = variable_get('site_name') . ' - ' . t('European Commission');
+  if (arg(0) == 'node') {
+    $node = node_load(arg(1));
+    $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
+  } else {
+    $variables['head_title'] = variable_get('site_name') . ' - ' . t('European Commission');
+  }  
   
   // Add conditional stylesheets for IE
   drupal_add_css(path_to_theme() . '/css/ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
@@ -121,6 +126,7 @@ function ec_resp_page_alter($page) {
   global $language;
   if (arg(0) == 'node') {
     $node = node_load(arg(1));
+    $node_title = filter_xss($node->title);
   }
   
   $description = variable_get('site_slogan');
@@ -128,12 +134,12 @@ function ec_resp_page_alter($page) {
     $description = variable_get('site_name');
   }  
   if (!empty($node)) {
-    $description = $node->title . ' - ' . $description;
+    $description = $node_title . ' - ' . $description;
   }
   
   $title = variable_get('site_name') . ' - ' . t('European Commission');
   if (!empty($node)) {
-    $title = $node->title . ' - ' . $title;
+    $title = $node_title . ' - ' . $title;
   }  
   
   $keywords = '';
@@ -316,7 +322,7 @@ function ec_resp_page_alter($page) {
   drupal_add_html_head( $revisit_after, 'revisit-after' );  
 
   //viewport
-  $revisit_after = array(
+  $viewport = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
@@ -324,7 +330,7 @@ function ec_resp_page_alter($page) {
       'content' =>  'width=device-width, initial-scale=1.0'
     )
   );
-  drupal_add_html_head( $revisit_after, 'revisit-after' );    
+  drupal_add_html_head( $viewport, 'viewport' );    
 }
 
 /**
