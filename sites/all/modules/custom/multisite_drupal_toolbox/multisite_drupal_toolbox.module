@@ -3,8 +3,20 @@
  * alter html code (to add js and css).
  */
 function multisite_drupal_toolbox_preprocess_html(&$variables) {
-  // Add CSS
+  // Add icons font
   drupal_add_css(drupal_get_path('module', 'multisite_drupal_toolbox') . '/icons/style.css', array('basename' => 'icons-font'));
+
+  // Add Fancybox
+  $path = libraries_get_path('fancybox');
+  if ($path) {
+    drupal_add_css($path . '/jquery.fancybox.css');
+    drupal_add_js($path . '/jquery.fancybox.pack.js');
+    drupal_add_css($path . '/helpers/jquery.fancybox-buttons.css');
+    drupal_add_js($path . '/helpers/jquery.fancybox-buttons.js');
+    drupal_add_js($path . '/helpers/jquery.fancybox-media.js');
+    drupal_add_css($path . '/helpers/jquery.fancybox-thumbs.css');
+    drupal_add_js($path . '/helpers/jquery.fancybox-thumbs.js');   
+  }
 }
 
 /*

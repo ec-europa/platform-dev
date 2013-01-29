@@ -57,15 +57,6 @@ function ec_resp_preprocess_html(&$variables) {
   
   // Add Jquery UI custom
   drupal_add_css(path_to_theme() . '/jquery-ui/css/jquery-ui.custom.css', array('group' => CSS_THEME));
-
-  // Add fancybox
-  drupal_add_css(path_to_theme() . '/fancybox/jquery.fancybox.css', array('group' => CSS_THEME));
-  drupal_add_js(path_to_theme() . '/fancybox/jquery.fancybox.pack.js', array('scope' => 'footer', 'weight' => 6));
-  drupal_add_css(path_to_theme() . '/fancybox/helpers/jquery.fancybox-buttons.css', array('group' => CSS_THEME));
-  drupal_add_js(path_to_theme() . '/fancybox/helpers/jquery.fancybox-buttons.js', array('scope' => 'footer', 'weight' => 7));
-  drupal_add_js(path_to_theme() . '/fancybox/helpers/jquery.fancybox-media.js', array('scope' => 'footer', 'weight' => 8));
-  drupal_add_css(path_to_theme() . '/fancybox/helpers/jquery.fancybox-thumbs.css', array('group' => CSS_THEME));
-  drupal_add_js(path_to_theme() . '/fancybox/helpers/jquery.fancybox-thumbs.js', array('scope' => 'footer', 'weight' => 9));
   
   // Add main stylesheets
   drupal_add_css(path_to_theme() . '/css/ec_resp.css', array('group' => CSS_THEME));
@@ -471,6 +462,7 @@ function ec_resp_menu_link__main_menu(array $variables) {
     $output = l($element['#title'], '', $element['#localized_options']);
     
     $dropdown = drupal_render($element['#below']);
+
   } 
   else {
   //No dropdown
