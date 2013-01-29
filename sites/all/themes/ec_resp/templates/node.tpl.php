@@ -282,7 +282,7 @@
       } 
       
       //display workbench block
-      $display_workbench = block_render('workbench', 'block');
+      $display_workbench = ec_resp_block_render('workbench', 'block');
       if ($display_workbench) {
         $output .= '<div class="f_left meta submitted well alt workbench">';
         $output .= $display_workbench;

@@ -40,23 +40,26 @@ function ec_resp_preprocess_html(&$variables) {
 
   // display left sidebar, or not
   if (empty($variables['page']['sidebar_left'])) {
-    variable_set('has_left_sidebar',0);
-  } else {
-    variable_set('has_left_sidebar',1);
+    variable_set('has_left_sidebar', 0);
+  } 
+  else {
+    variable_set('has_left_sidebar', 1);
   }
 
   // display right sidebar, or not
   if (empty($variables['page']['sidebar_right'])) {
-    variable_set('has_right_sidebar',0);
-  } else {
-    variable_set('has_right_sidebar',1);
+    variable_set('has_right_sidebar', 0);
+  } 
+  else {
+    variable_set('has_right_sidebar', 1);
   }
 
   // Update page title
   if (arg(0) == 'node') {
     $node = node_load(arg(1));
     $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
-  } else {
+  } 
+  else {
     $variables['head_title'] = variable_get('site_name') . ' - ' . t('European Commission');
   }  
   
@@ -696,7 +699,7 @@ function ec_resp_dropdown($variables) {
 /**
  * render a block (to be displayed in a template file)
  */
-function block_render($module, $block_id) {
+function ec_resp_block_render($module, $block_id) {
   $block = block_load($module, $block_id);
   $block_content = _block_render_blocks(array($block));
   $build = _block_get_renderable_array($block_content);
@@ -705,13 +708,13 @@ function block_render($module, $block_id) {
 }
 
 
-function icon_type_classes($subject) {
+function ec_resp_icon_type_classes($subject) {
   $pattern = '@<i class="icon-(.+)"></i>@';
-  $resexp = preg_replace_callback($pattern, 'class_replace', $subject);
+  $resexp = preg_replace_callback($pattern, 'ec_resp_class_replace', $subject);
   return $resexp;
 }
 
-function class_replace($match) {
+function ec_resp_class_replace($match) {
   switch ($match[1]) {
     case "Article":
       return '<i class="multisite-icon-file"></i>';

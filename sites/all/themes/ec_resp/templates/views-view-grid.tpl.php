@@ -37,7 +37,7 @@ $span[12] = array(1,1,1,1,1,1,1,1,1,1,1,1);
   <div class="<?php print $row_classes[$row_number]; ?> row-fluid"> 
     <?php foreach ($columns as $column_number => $item): ?>
       <div class="span<?php print $span[$nb_row][$column_number]; ?>">
-        <?php print icon_type_classes($item); ?>
+        <?php print ec_resp_icon_type_classes($item); ?>
       </div>
     <?php endforeach; ?>
   </div>

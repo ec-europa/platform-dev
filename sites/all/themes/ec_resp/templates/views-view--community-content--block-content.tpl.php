@@ -53,7 +53,7 @@
 
   <?php if ($rows): ?>
     <div class="view-content">
-      <?php print icon_type_classes($rows); ?>
+      <?php print ec_resp_icon_type_classes($rows); ?>
     </div>
   <?php elseif ($empty): ?>
     <div class="view-empty">
