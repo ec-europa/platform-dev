@@ -5,8 +5,9 @@ version = "7.x-1.1"
 core = "7.x"
 
 stylesheets[all][] = "css/layout.css"
-stylesheets[all][] = "css/style.css"
+stylesheets[all][] = "css/ec_resp.css"
 stylesheets[all][] = "css/colors.css"
+stylesheets[all][] = "jquery-ui/css/jquery-ui.custom.css"
 stylesheets[print][] = "css/print.css"
 
 regions[header_top] = "Header Top"

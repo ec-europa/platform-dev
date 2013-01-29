@@ -55,16 +55,8 @@ function ec_resp_preprocess_html(&$variables) {
   // Update page title
   $variables['head_title'] = variable_get('site_name') . ' - ' . t('European Commission');
   
-  // Add Jquery UI custom
-  drupal_add_css(path_to_theme() . '/jquery-ui/css/jquery-ui.custom.css', array('group' => CSS_THEME));
-  
-  // Add main stylesheets
-  drupal_add_css(path_to_theme() . '/css/ec_resp.css', array('group' => CSS_THEME));
-  
   // Add conditional stylesheets for IE
   drupal_add_css(path_to_theme() . '/css/ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
-  drupal_add_css(path_to_theme() . '/css/ie6.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'IE 6', '!IE' => FALSE), 'preprocess' => FALSE));
-  drupal_add_css(path_to_theme() . '/css/hack-ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE)));
 
   // Add javascripts
   drupal_add_js(path_to_theme() . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
@@ -251,6 +243,7 @@ function ec_resp_page_alter($page) {
     '#tag' => 'meta',
     '#attributes' => array(
       'property' => 'og:title',
+
       'content' =>  $title
     )
   );
