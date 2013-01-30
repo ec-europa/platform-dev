@@ -90,6 +90,8 @@
     'group' => array('group_audience', 'group_content_access')
   );        
   
+  $pager_size = 8;
+
   //set size of fields 
   $span_large = 'span11';
   $span_title = 'span2';
@@ -114,12 +116,12 @@
   <div class="content clearfix"<?php print $content_attributes; ?>>
 
     <?php      
-      // We hide several elements now so that we can render them later.
-      foreach ($fields as $key => $value) {
-        foreach ($value as $id) {
-          hide($content[$id]);
-        }        
-      }
+    // We hide several elements now so that we can render them later.
+    foreach ($fields as $key => $value) {
+      foreach ($value as $id) {
+        hide($content[$id]);
+      }        
+    }
 
     //display picture
     $display_picture = false;
@@ -155,55 +157,33 @@
       $output .= '</fieldset>';
     }
     
-
-        
     //merge photos and videos
     if (isset($content['field_picture_upload']['#items']) && isset($content['field_video_upload']['#items'])) {
-      $form_items = array_merge($content['field_picture_upload']['#items'],$content['field_video_upload']['#items']);
+      $media_items = array_merge($content['field_picture_upload']['#items'],$content['field_video_upload']['#items']);
     } else if (isset($content['field_picture_upload']['#items'])) {
-      $form_items = $content['field_picture_upload']['#items'];
+      $media_items = $content['field_picture_upload']['#items'];
     } else if (isset($content['field_video_upload']['#items'])) {
-      $form_items = $content['field_video_upload']['#items'];
+      $media_items = $content['field_video_upload']['#items'];
     } else {
-      $form_items = array();
+      $media_items = array();
     }
 
-    //get available fids to build pager + sort form data array by fid
-    $fids = array();
-    $forms_items_by_id = array();
-    if ($form_items) {
-      foreach ($form_items as $value){
-        $fids[] = $value['fid'];
-        $forms_items_by_id[$value['fid']]= $value; 
+    //sort media items by fid
+    $sorted_media_items = array();
+    if ($media_items) {
+      foreach ($media_items as $value){
+        $sorted_media_items[$value['fid']]= $value; 
       }
+      ksort($sorted_media_items);
     }
-    
-    //build request for Pages and pager build
-    if(!empty($fids)){
-    $query = db_select('file_managed', 'fmd')
-      ->extend('PagerDefault') 	//Pager Extender
-      ->limit(16)
-      ->element(0);
-    $query
-      ->condition('fid', $fids, 'IN')
-      ->fields ('fmd', array (
-        'fid'
-      ))
-      ->orderby('timestamp', 'ASC');  
-    $results = $query
-          ->execute();
-    }
-    
-    //initialize gallery data
-    $media_items = array();
-    if (isset($results) && !empty($results)) {
-      foreach ($results as $key => $item) {
-        $media_items[] = get_object_vars($item);
-      }
-    }
+
+    //manage pager
+    pager_default_initialize(count($sorted_media_items), $pager_size);
+    $pager_page = pager_find_page();
+    $sorted_media_items = array_slice($sorted_media_items, $pager_page * $pager_size, $pager_size);
 
     //if no pictures display empty_pic
-    if(!isset($media_items) || count($media_items) == 0) {
+    if(!isset($sorted_media_items) || count($sorted_media_items) == 0) {
       global $base_url;
       $empty_pic = array(
         'type' => 'empty',
@@ -211,22 +191,23 @@
         'filename' => t('empty gallery')
       );
      
-      $media_items[0] = $empty_pic;
+      $sorted_media_items[0] = $empty_pic;
     }
+
     //display media items
-    foreach ($media_items as $key => $item) {
+    foreach ($sorted_media_items as $key => $item) {
       if (($key % 4) == 0) {
         $output .= '<div class="media_gallery row-fluid">';
         $output .= '<ul class="thumbnails">';
       }
-        
+
       //variable alias
       if (isset($item['type']) && $item['type'] == 'empty') {
         $local_data = $item;
       } else {        
-        $local_data = $forms_items_by_id[$item['fid']];
+        $local_data = $sorted_media_items[$key];
       }
-        $short_name = (strlen($local_data['filename']) > 35)?substr($local_data['filename'],0,30).'[...]':$local_data['filename'];
+      $short_name = (strlen($local_data['filename']) > 35)?substr($local_data['filename'],0,30).'[...]':$local_data['filename'];
       
       //Get tags if any provided
       if (isset($local_data['field_tags']['und'][0])) {
@@ -327,7 +308,7 @@
         break;
       }
         
-      if ((($key+1) % 4) == 0 || !isset($media_items[$key+1])) {
+      if ((($key+1) % 4) == 0 || !isset($sorted_media_items[$key+1])) {
         $output .= '</ul>';         
         $output .= '</div>';
       }
