@@ -207,17 +207,16 @@
       } else {        
         $local_data = $sorted_media_items[$key];
       }
-      $short_name = (strlen($local_data['filename']) > 35)?substr($local_data['filename'],0,30).'[...]':$local_data['filename'];
+      $short_name = (strlen(filter_xss($local_data['filename'])) > 35) ? substr(filter_xss($local_data['filename']),0,30).'[...]': filter_xss($local_data['filename']);
       
       //Get tags if any provided
       if (isset($local_data['field_tags']['und'][0])) {
         $cop = $local_data['field_tags']['und'];
-        $montag = '';
-        foreach($cop as $buif => $tid_array){           
-          //$montag[] = l(taxonomy_term_load($tid_array['tid'])->name, 'taxonomy/term/'.$tid_array['tid']);TODO List content porperly
-          $montag[] = taxonomy_term_load($tid_array['tid'])->name;
+        $mytag = '';
+        foreach ($cop as $buif => $tid_array) {
+          $mytag[] = taxonomy_term_load($tid_array['tid'])->name;
         }
-        $tags = 'Tags: ' . implode(', ' , $montag).'.';
+        $tags = 'Tags: ' . implode(', ' , $mytag).'.';
       }  
             
       if (isset($local_data['filemime'])) {
@@ -234,7 +233,7 @@
           $picture_preview = image_style_url('preview', $local_data['uri']);
           $picture_original = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://','/',$local_data['uri']);     
 
-          $alt_text = (!empty($local_data['field_file_image_alt_text']['und'][0]['safe_value']) ? $local_data['field_file_image_alt_text']['und'][0]['safe_value'] : $local_data['filename']);
+          $alt_text = (!empty($local_data['field_file_image_alt_text']['und'][0]['safe_value']) ? $local_data['field_file_image_alt_text']['und'][0]['safe_value'] : filter_xss($local_data['filename']));
           $title_texte = (!empty($local_data['field_file_image_title_text']['und'][0]['safe_value']) ? $local_data['field_file_image_title_text']['und'][0]['safe_value'] : '');   
           
           $output .= '<li class="span3">';
@@ -242,16 +241,16 @@
           $output .= '<img src="' . $picture_preview . '" alt="' . $alt_text . '" title="' . $title_texte . '"/>';
 
           if (isset($local_data['field_picture_description']['und'][0]['value'])) {
-            $output .= '<p>' . $local_data['field_picture_description']['und'][0]['value'] . '</p>';
+            $output .= '<p>' . filter_xss($local_data['field_picture_description']['und'][0]['value']) . '</p>';
           }
             
           if (!empty($tags)) {
             $output .= '<p>' . $tags . '</p>';
           }
        
-          $output .= '<p><a href="' . $base_url . '/' . $picture_original . '" title="' . $local_data['filename'] . '" target="_blank">' . t('View full size picture') . '</a></p>';
+          $output .= '<p><a href="' . $base_url . '/' . $picture_original . '" title="' . filter_xss($local_data['filename']) . '" target="_blank">' . t('View full size picture') . '</a></p>';
           $output .= '</div>';
-          $output .= '<a href="#lightbox' . $key . '" class="fancybox thumbnail" rel="gallery" title="' . $local_data['filename'] . '">';
+          $output .= '<a href="#lightbox' . $key . '" class="fancybox thumbnail" rel="gallery" title="' . filter_xss($local_data['filename']) . '">';
           $output .= '<img src="' . $picture_square_thumbnail . '" alt="' . $alt_text . '" title="' . $title_texte . '" />';
           $output .= '<p class="carousel-caption">' . $short_name . '</p>';
           $output .= '</a>';        
