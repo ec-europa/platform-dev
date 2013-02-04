@@ -34,7 +34,9 @@ function fpfis_install_policy_get_steps($subsite) {
 			'subsite_settings_adjusted_failed' => 'fpfis_do_nothing',
 			'subsite_settings_adjusted' => 'fpfis_configure_apachesolr',
 			'apachesolr_configure_failed' => 'fpfis_do_nothing',
-			'apachesolr_configured' => 'fpfis_clear_subsite_caches',
+			'apachesolr_configured' => 'fpfis_enable_varnish',
+			'varnish_enable_failed' => 'fpfis_do_nothing',
+			'varnish_enabled' => 'fpfis_clear_subsite_caches',
 			'caches_clear_failed' => 'fpfis_do_nothing',
 			'caches_cleared' => 'fpfis_push_files_to_web_servers',
 			'files_push_failed' => 'fpfis_do_nothing',
@@ -547,6 +549,14 @@ function fpfis_configure_apachesolr(&$subsite) {
 	$return = array('report' => $reports);
 	if (count($reports)) $return['break'] = TRUE;
 	$return['new_state'] = count($reports) ? 'apachesolr_configure_failed' : 'apachesolr_configured';
+	return $return;
+}
+
+function fpfis_enable_varnish(&$subsite) {
+	$execution = drush_subsite($subsite, 'en varnish');
+	$return = array('report' => $execution['reports']);
+	if (count($execution['reports'])) $return['break'] = TRUE;
+	$return['new_state'] = count($execution['reports']) ? 'varnish_enable_failed' : 'varnish_enabled';
 	return $return;
 }
 
