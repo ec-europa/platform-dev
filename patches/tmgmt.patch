@@ -1,0 +1,15 @@
+--- sites/all/modules/contributed/tmgmt/tmgmt.module	2013-02-04 17:14:42.303916094 +0100
++++ sites/all/modules/contributed/tmgmt/tmgmt.module	2013-02-04 17:13:52.218976288 +0100
+@@ -691,6 +691,12 @@
+  *   A job message entity or FALSE if the query didn't yield any results.
+  */
+ function tmgmt_message_load($mid) {
++  // If $mid is object or array - do nothing
++  // (fixing conflict with message_load() function in message module).
++  if(is_array($mid) || is_object($mid)) {
++    return NULL;
++  }
++
+   $jobs = tmgmt_message_load_multiple(array($mid));
+   return $jobs ? reset($jobs) : FALSE;
+ }
