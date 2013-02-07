@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = core
-projects[drupal][version] = "7.18"
+projects[drupal][version] = "7.19"
 
 ; ====================
 ; Contributed modules
@@ -219,10 +219,10 @@ projects[webform][subdir] = "contributed"
 projects[webform][version] = "3.18"
 
 projects[workbench][subdir] = "contributed"
-projects[workbench][version] = "1.1"
+projects[workbench][version] = "1.2"
 
 projects[workbench_moderation][subdir] = "contributed"
-projects[workbench_moderation][version] = "1.2"
+projects[workbench_moderation][version] = "1.3"
 
 projects[workbench_access][subdir] = "contributed"
 projects[workbench_access][version] = "1.x-dev"
@@ -233,6 +233,8 @@ projects[wysiwyg][version] = "2.2"
 projects[xmlsitemap][subdir] = "contributed"
 projects[xmlsitemap][version] = "2.0-rc1"
 
+projects[message][subdir] = "contributed"
+projects[message][version] = "1.7"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
