@@ -852,3 +852,18 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
 function linkit_scan_url($url, $field) {
   return multisite_drupal_toolbox_linkit_scan_url($url, $field);
 }
+
+
+/**
+ * hook_media_token_to_markup_alter
+ * 
+ * use fancybox for all image insert in content with the "insert media" button of the wysiwyg
+ * 
+ */
+function multisite_drupal_toolbox_media_token_to_markup_alter(&$element, &$tag_info, &$settings) {
+  if ($element['content']['file']['#theme'] == 'image_style') {
+    $element['content']['#prefix'] = '<div><a href="'.file_create_url($element['content']['file']['#file']->uri).'" class="fancybox">';
+    $element['content']['#suffix'] = '<a/></div>';
+  }
+}
+
