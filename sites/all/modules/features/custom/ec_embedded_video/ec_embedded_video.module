@@ -1,0 +1,27 @@
+<?php
+/**
+ * @file
+ * Code for the Multisite Embedded Video feature.
+ */
+
+include_once 'ec_embedded_video.features.inc';
+
+/**
+ * Implements hook_file_type().
+ *
+ * @see http://drupal.org/node/1245686
+ */
+
+function ec_embedded_video_file_type($file) {
+  if ($file->filemime == 'video/youtube') {
+    return array('video');
+  }
+
+  if ($file->filemime == 'video/vimeo') {
+    return array('video');
+  }
+
+  if ($file->filemime == 'video/dailymotion') {
+    return array('video');
+  }
+}
