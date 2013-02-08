@@ -27,9 +27,6 @@ function communities_enable() {
     'bundle' => 'community',
   ))->execute();
   
-  // add type to linkchecker scan
-  multisite_drupal_toolbox_content_type_linkchecker('community', 'add');
-  
   drupal_set_message(t('Communities feature is now active on your site.'));
 }
 
