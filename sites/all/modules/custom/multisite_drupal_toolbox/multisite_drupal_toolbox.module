@@ -376,18 +376,23 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
         }
       break;
       case "workbench_moderation_admin_states_form": // prevent administrator from changing existing workflow states
+        $blocked_states = array('draft', 'validated', 'published', 'needs_review', 'archived');
         $states = $form['states'];
         foreach($states as $state_id => $state) {
-          if(isset($state['delete']))
+          if(isset($state['delete']) && in_array($state_id, $blocked_states))
             $form['states'][$state_id]['delete']['#disabled'] = TRUE;
         }
       break;
       case "workbench_moderation_admin_transitions_form": // prevent administrator from changing existing workflow transitions
+        $blocked_transitions = array('published_archived','draft_needs_review','needs_review_published','needs_review_draft','needs_review_valida    ted','validated_published');
         $transitions = $form['transitions'];
         foreach($transitions as $transition_id => $transition) {
-          if(isset($transition['delete']))
-            $form['transitions'][$transition_id]['delete']['#disabled'] = TRUE;
-        }      
+          if(isset($transition['delete'])) {
+            $transition_name = $transition['transition']['#value']->from_name.'_'.$transition['transition']['#value']->to_name;
+            if(in_array($transition_name, $blocked_transitions))
+              $form['transitions'][$transition_id]['delete']['#disabled'] = TRUE;
+          }
+        }
       break;
     }
   }
