@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the Organic groups buttons module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function multisite_og_access_admin_install() {
+  drupal_set_message(st("Organic groups access admin installed"));
+  db_query("UPDATE {system} SET weight = 2 WHERE name = 'multisite_og_access_admins'");
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function multisite_og_access_admin_uninstall() {
+  drupal_set_message(st("Organic groups access admin uninstalled"));
+}

@@ -1,0 +1,51 @@
+<?php
+
+/*
+* hook_enable
+*/
+function survey_og_enable() {
+  multisite_drupal_toolbox_add_views_context("communities", "surveys_list");
+  //multisite_drupal_toolbox_add_block_context('communities', 'surveys_list-block_1', 'views', 'surveys_list-block_1', 'sidebar_first');
+  multisite_drupal_toolbox_add_content_type_context('communities', 'webform');
+  multisite_drupal_toolbox_add_path_context('communities', 'urvey_analysis/*');
+  
+  // override drupal variable defined in core feature
+  variable_set('pathauto_node_webform_pattern', 'community/[node:group_audience]/survey/[node:title]');
+}
+
+
+/*
+ * Hook disable 
+ */
+function survey_og_disable() {
+
+  // Remove block
+  multisite_drupal_toolbox_remove_views_context("communities", "surveys_list");
+  //multisite_drupal_toolbox_remove_block_context('communities', 'surveys_list-block_1');
+  multisite_drupal_toolbox_remove_content_type_context('communities', 'webform');
+  
+  // Remove permissions to OG roles ---------------------------------------------------------------  
+  // Community Manager
+  $cm_rid = multisite_drupal_toolbox_get_og_rid('community_manager');
+
+  og_role_revoke_permissions($cm_rid, array(
+    'create webform content',
+    'delete any webform content',
+    'delete own webform content',
+    'update any webform content',
+    'update own webform content',
+  ));
+    
+  // Administrator Member
+  $admm_rid = multisite_drupal_toolbox_get_og_rid('administrator member');
+  og_role_revoke_permissions($admm_rid, array(
+    'create webform content',
+    'delete any webform content',
+    'delete own webform content',
+    'update any webform content',
+    'update own webform content',
+  ));  
+  
+  // delete drupal variables
+  variable_del('pathauto_node_webform_pattern');
+}

@@ -1,0 +1,98 @@
+<?php
+/**
+ * @file
+ * Install the feature events
+ */
+
+/**
+ * hook_install
+ */
+function events_og_install() {
+  //Nothing yet
+}
+
+/**
+ * hook_uninstall
+ */
+function events_og_uninstall() {
+  //Nothing yet
+}
+
+/**
+* Add block to the context
+*/
+function events_og_enable() {
+  global $theme_key;
+
+  if ($theme_key == 'ec_resp') {
+    multisite_drupal_toolbox_add_block_context('communities', 'views-calendar-upcoming_events', 'views', 'calendar-upcoming_events', 'sidebar_left');
+  } else {
+    multisite_drupal_toolbox_add_block_context('communities', 'views-calendar-upcoming_events', 'views', 'calendar-upcoming_events', 'sidebar_first');
+  }  
+  multisite_drupal_toolbox_add_views_context('communities', 'calendar');
+  multisite_drupal_toolbox_add_views_context('communities', 'calendar:month');
+  multisite_drupal_toolbox_add_views_context('communities', 'calendar:week');
+  multisite_drupal_toolbox_add_views_context('communities', 'calendar:day');
+  multisite_drupal_toolbox_add_views_context('communities', 'calendar:year');
+  multisite_drupal_toolbox_add_content_type_context('communities', 'event');
+  multisite_drupal_toolbox_add_path_context('communities', 'calendar/*');
+}
+
+
+/**
+* Remove block from the context
+*/
+function events_og_disable(){
+  multisite_drupal_toolbox_remove_block_context('communities', 'views-calendar-upcoming_events');
+  multisite_drupal_toolbox_remove_views_context('communities', 'calendar');
+  multisite_drupal_toolbox_remove_views_context('communities', 'calendar:month');
+  multisite_drupal_toolbox_remove_views_context('communities', 'calendar:week');
+  multisite_drupal_toolbox_remove_views_context('communities', 'calendar:day');
+  multisite_drupal_toolbox_remove_views_context('communities', 'calendar:year');
+  multisite_drupal_toolbox_remove_content_type_context('communities', 'event');
+  multisite_drupal_toolbox_remove_path_context('communities', 'calendar/*');
+  multisite_drupal_toolbox_disable_content_type('event');
+
+  // Administrator
+  user_role_revoke_permissions(multisite_drupal_toolbox_get_rid('administrator'), array(  
+    'edit own event content',
+    'edit any event content',
+    'delete own event content',
+    'delete any event content',
+    'create event content',
+  ));
+
+  // Contributor
+  user_role_revoke_permissions(multisite_drupal_toolbox_get_rid('contributor'), array(
+    'edit own event content',
+    'edit any event content',
+    'delete own event content',
+    'delete any event content',
+    'create event content',
+  ));
+
+  // Disable permissions to OG roles ---------------------------------------------------------------  
+  // Community Manager
+  og_role_revoke_permissions(multisite_drupal_toolbox_get_og_rid('community_manager'), array(
+    'update own event content',
+    'update any event content',
+    'delete own event content',
+    'delete any event content',
+  ));
+
+  // Administrator Member
+  og_role_revoke_permissions(multisite_drupal_toolbox_get_og_rid('administrator member'), array(
+    'update own event content',
+    'update any event content',
+    'delete own event content',
+    'delete any event content',
+  ));
+
+  drupal_flush_all_caches(); 
+ 
+}
+
+
+
+
+

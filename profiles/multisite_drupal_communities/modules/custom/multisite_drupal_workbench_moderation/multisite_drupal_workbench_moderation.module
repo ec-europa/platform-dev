@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * Implements hook_node_access().
+ */
+function multisite_drupal_workbench_moderation_node_access($node, $op, $account) {
+  if (is_string($node)) {
+    return NODE_ACCESS_IGNORE;
+  }
+  
+  $group = og_get_entity_groups('node', $node);
+  if (count($group) > 0) {
+    if (og_user_access(current($group), 'Moderate group content')) {
+      return NODE_ACCESS_ALLOW; // allow all permissions for a community manager in his groups
+    }
+  }
+ 
+  return NODE_ACCESS_IGNORE;
+}
+
+
+/**
+ * Implements hook_og_permission().
+ */
+function multisite_drupal_workbench_moderation_og_permission() {
+  // get a list of content types that can be added to a group
+  $perms = array();
+  
+  $perm1 = array(
+    "Moderate group content" => array(
+      'title' => t('Allow the user to moderate (publish, change stats) the contents in the group'),
+    ),
+  );
+  
+  $perms += $perm1;
+  
+  return $perms;
+}
+
+
+
+/*
+* hook_workbench_moderation_access_alter
+*/
+function multisite_drupal_workbench_moderation_workbench_moderation_access_alter(&$access, &$op, &$node) {
+  $group = og_get_entity_groups('node', $node);
+  if(count($group) > 0)  {
+    if(og_user_access(current($group), 'Moderate group content')) {
+      $access = 1;
+    }
+  }
+}
+
+/*
+* hook_workbench_moderation_states_allowed_alter
+*/
+function multisite_drupal_workbench_moderation_workbench_moderation_states_allowed_alter(&$account, &$node_type=NULL, &$return=NULL) {
+  $group = og_context();
+  if (isset($group->gid)) {
+    if (arg(0) == 'node' && is_numeric(arg(1))) {
+      $node = node_load(arg(1));
+      if (og_user_access($group->gid, 'Moderate group content') && $node->type != 'community') { // give access to all states but not on community type
+        $return = TRUE;
+      }
+    }
+  }
+}

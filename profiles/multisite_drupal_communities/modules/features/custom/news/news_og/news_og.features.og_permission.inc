@@ -1,0 +1,44 @@
+<?php
+/**
+ * @file
+ * news.features.user_permission.inc
+ */
+
+/**
+ * Implements hook_user_default_permissions().
+ */
+function news_og_user_default_permissions() {
+  $permissions = array();
+          
+  // Add permissions to OG roles ---------------------------------------------------------------
+  // Community Manager
+  $cm_rid = multisite_drupal_toolbox_get_og_rid('community_manager');
+  og_role_grant_permissions($cm_rid, array(
+    'create news content',
+    'update own news content',
+    'update any news content',
+    'delete own news content',
+    'delete any news content',
+  ));
+
+  // Administrator Member
+  $admm_rid = multisite_drupal_toolbox_get_og_rid('administrator member');
+  og_role_grant_permissions($admm_rid, array(
+    'create news content',
+    'update own news content',
+    'update any news content',
+    'delete own news content',
+    'delete any news content',
+  ));
+
+  // Member
+  $mbr = multisite_drupal_toolbox_get_og_rid('member');
+  og_role_grant_permissions($mbr, array(
+    'create news content',
+    'update own news content',
+    'delete own news content',
+  ));
+
+  return $permissions;
+}
+

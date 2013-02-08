@@ -1,0 +1,77 @@
+<?php
+/**
+ * @file
+ * Code for the E-library feature.
+ */
+
+include_once('e_library_og.features.inc');
+
+
+/*
+* hook_menu
+*/
+function e_library_menu() {
+
+  $items = array();
+ 
+  $items['community/%group_name/e_library'] = array(
+    'title' => 'E-Library',
+    'page callback' => 'views_page',
+    'page arguments' => array('e_library', 'page', 1),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+ 
+return $items;
+}
+
+/**
+ * Add a buttons in the views associated with this feature
+ * @param type $view 
+ */
+function e_library_views_pre_render(&$view) {
+
+	if($view->name=='e_library'){
+
+	  $group = og_context();
+			switch( $view->current_display ) {
+				case 'page':
+
+					if ( og_user_access($group->gid,'create document content') ) {
+						$view->header['area']->options['content'] = _e_library_get_link_from_group();
+					}
+					break;
+				default:
+					break;
+			}
+	}
+}
+
+
+function _e_library_get_link_from_group(){
+
+    $group = og_context();
+    $group_id = isset($group) ? $group->etid : '';
+    
+    $attributes = array( 
+        'attributes' => array(
+            'type' => 'add',
+			'action_bar' => 'single'
+            ),
+        );
+    
+    $options = array( 
+        'query' => array( 
+            'gids_node[]' => $group_id,
+            ),
+        'absolute' => TRUE,
+        );
+    
+    $url = url( 'node/add/document', $options );
+    
+    return l( t('Add a new Document'), 
+      $url, 
+      $attributes );
+}

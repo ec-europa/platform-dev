@@ -1,0 +1,459 @@
+<?php
+define('TBL_GROUP_TAXONOMY_RELATION', 'multisite_og_navigation_tree_grouptaxonomy');
+
+require_once ('multisite_og_navigation_tree.api.inc');
+
+define('OG_TAXONOMY_FIELD', 'group_taxonomy');
+
+/*
+ *  Implementation of hook_permission()
+ */
+function multisite_og_navigation_tree_permission() {
+  $perm = array();
+  $perm['administer OG Navigation Tree'] = array(
+    'title' => t('Administer OG Navigation Tree'),
+    'description' => t('Administer OG Navigation Tree'),
+  );
+  return $perm;
+}
+
+/*
+ *  Implementation of hook_og_fields_info()
+ */
+function _mont_taxonomy_field_allowed_values() {
+  $vid = variable_get('multisite_og_navigation_tree_vid', 0);
+  if ($vid) {
+    $vocab = taxonomy_vocabulary_load($vid);
+  }
+
+  $settings = array(
+    'settings' => array(
+      'allowed_values' => array(
+        0 => array(
+          'vocabulary' => $vocab->machine_name,
+          'parent' => 0
+        )
+      )
+    )
+  );
+
+  $context = og_context_determine_context();
+  if ($context) {
+    $gid = $context->gid;
+    $nid = $context->etid;
+    $group_taxonomy = _mont_group_taxonomy_load($nid);
+    if (is_object($group_taxonomy)) {
+      $vocab = taxonomy_vocabulary_load($group_taxonomy->vid);
+      $settings['settings']['allowed_values'][0] = array(
+        'vocabulary' => $vocab->machine_name,
+        'parent' => $group_taxonomy->tid,
+      );
+    }
+  }
+  $values = taxonomy_allowed_values($settings);
+  return $values;
+}
+
+/*
+ *  Implementation of hook_og_fields_info()
+ */
+function multisite_og_navigation_tree_og_fields_info() {
+  $vid = variable_get('multisite_og_navigation_tree_vid', 0);
+
+  if ($vid) {
+    $vocab = taxonomy_vocabulary_load($vid);
+    $machine_name = $vocab->machine_name;
+    $items[OG_TAXONOMY_FIELD] = array(
+      'type' => array('group content'),
+      'description' => t('Determine to which content group taxonomy is added'),
+      'entity' => array('node'),
+      'field' => array(
+        'field_name' => OG_TAXONOMY_FIELD,
+        'no_ui' => TRUE,
+        'type' => 'taxonomy_term_reference',
+        'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+        'settings' => array(
+          'allowed_values' => array( array(
+              'vocabulary' => $machine_name,
+              'parent' => '0'
+            )),
+          'options_list_callback' => '_mont_taxonomy_field_allowed_values'
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Group Taxonomy'),
+        'required' => FALSE,
+        'default_value' => array(0 => array('tid' => 0)),
+        'default_formatter' => 'taxonomy_term_reference_link',
+        'widget_type' => 'options_select',
+        'behaviors' => array(
+          'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+          'default value' => FIELD_BEHAVIOR_CUSTOM,
+        ),
+        'view modes' => array(
+          'full' => array(
+            'label' => 'above',
+            'type' => 'list_default',
+          ),
+          'teaser' => array(
+            'label' => 'above',
+            'type' => 'list_default',
+          ),
+        ),
+      ),
+    );
+    return $items;
+  }
+}
+
+/*
+ *  Implementation of hook_permission()
+ */
+function mont_node_load($nid) {
+  $node = node_load($nid);
+  $vid = _mont_group_taxonomy_enabled($node);
+  if ($vid) {
+    RETURN $node;
+  }
+  return FALSE;
+}
+
+/**
+ * Implements hook_admin_paths().
+ */
+function multisite_og_navigation_tree_admin_paths() {
+  if (variable_get('node_admin_theme')) {
+    $paths = array(
+      'node/*/mont_vocabulary' => TRUE,
+      'node/*/mont_vocabulary/add_term' => TRUE,
+      'node/*/mont_vocabulary/edit_term/*' => TRUE,
+    );
+    return $paths;
+  }
+}
+
+/*
+ *  Implementation of hook_menu()
+ */
+function multisite_og_navigation_tree_menu() {
+  $items = array();
+
+  $items['admin/config/group/multisite_og_navigation_tree'] = array(
+    'title' => 'OG Navigation Tree',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('multisite_og_navigation_tree_settings'),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer OG Navigation Tree'),
+    'file' => 'multisite_og_navigation_tree.settings.inc',
+  );
+
+  $items['admin/config/group/multisite_og_navigation_tree/settings'] = array(
+    'title' => 'OG Navigation Tree',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+
+  $items['node/%mont_node/vocabulary'] = array(
+    'title' => 'Group taxonomy tree',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array(
+      '_mont_overview_terms',
+      1
+    ),
+    'access callback' => '_mont_access_vocabulary',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'multisite_og_navigation_tree.taxonomy.inc',
+  );
+
+  $items['node/%mont_node/vocabulary/overview'] = array(
+    'title' => 'Group taxonomy tree',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+    'file' => 'multisite_og_navigation_tree.taxonomy.inc',
+  );
+
+  $items['node/%mont_node/vocabulary/add_term'] = array(
+    'title' => 'Add taxonomy term',
+    'page callback' => '_mont_group_taxonomy_add_term',
+    'page arguments' => array(1),
+    'access callback' => '_mont_access_vocabulary',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+    'file' => 'multisite_og_navigation_tree.taxonomy.inc',
+  );
+
+  $items['node/%mont_node/vocabulary/edit_term/%'] = array(
+    'title' => 'Edit taxonomy term',
+    'page callback' => '_mont_group_taxonomy_edit_term',
+    'page arguments' => array(1, 4),
+    'access callback' => '_mont_access_vocabulary',
+    'access arguments' => array(1),
+    'type' => MENU_CONTEXT_PAGE,
+    'file' => 'multisite_og_navigation_tree.taxonomy.inc',
+  );
+
+  $items['node/%mont_node/vocabulary/view/%'] = array(
+    'title' => 'Edit taxonomy term',
+    'page callback' => '_mont_group_taxonomy_view_term',
+    'page arguments' => array(1, 4),
+    'access callback' => '_mont_access_vocabulary',
+    'access arguments' => array(1),
+    'type' => MENU_CONTEXT_PAGE,
+    'file' => 'multisite_og_navigation_tree.taxonomy.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_views_api()
+ */
+function multisite_og_navigation_tree_views_api() {
+  return array(
+    'api' => '3',
+    'path' => drupal_get_path('module', 'multisite_og_navigation_tree') . '/views',
+  );
+}
+
+/****************************
+ *
+ *    ACCESS CALLBACKS
+ *
+ ****************************/
+
+function _mont_access_vocabulary($node) {
+  global $user;
+    
+  if (!_mont_is_group($node)) {
+    return FALSE;
+  }
+  
+  if ($access = og_node_access($node, 'update', $user)) {
+    if ($access != NODE_ACCESS_DENY) {
+      return TRUE;
+    }
+  }
+
+  if ($user->uid == $node->uid) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * Implementation of hook_theme()
+ *
+ * Render some basic output for this module.
+ */
+function multisite_og_navigation_tree_theme() {
+  return array(
+    'mont_group_settings' => array(
+      'render element' => 'form',
+      'file' => 'multisite_og_navigation_tree.theme.inc'
+    ),
+    'mont_group_vocabulary' => array(
+      'render element' => 'form',
+      'file' => 'multisite_og_navigation_tree.theme.inc'
+    ),
+    'mont_taxonomy_overview_terms' => array(
+      'render element' => 'form',
+      'file' => 'multisite_og_navigation_tree.theme.inc'
+    ),
+  );
+}
+
+/*
+ *  Implementation of hook_node_insert()
+ */
+
+function multisite_og_navigation_tree_node_insert($node) {
+  if ($group_taxonomy_vid = _mont_group_taxonomy_enabled($node)) {
+    if (_mont_is_group($node)) {
+    _mont_group_taxonomy_insert($node, $group_taxonomy_vid);
+    }
+  }
+}
+
+/*
+ *  Implementation of hook_node_update()
+ */
+
+function multisite_og_navigation_tree_node_update($node) {
+  $node_type = $node->type;
+  $nid = $node->nid;
+    
+  if (og_is_group_type('node', $node_type) && $group_taxonomy_vid = _mont_group_taxonomy_enabled($node)) {
+    if (_mont_is_group($node) && !_mont_group_taxonomy_load($node->nid)) {
+      _mont_group_taxonomy_insert($node, $group_taxonomy_vid);
+    }
+  }
+}
+
+/*
+ * Implementation of hook_node_delete().
+ */
+function multisite_og_navigation_tree_node_delete($node) {
+  db_delete('multisite_og_navigation_tree_grouptaxonomy')->condition('nid', $node->nid)->execute();
+}
+
+/*
+ * Implementation of hook_taxonomy_term_delete().
+ */
+function multisite_og_navigation_tree_taxonomy_term_delete($term) {
+  $tid = $term->tid;
+  db_delete('multisite_og_navigation_tree_grouptaxonomy')->condition('tid', $tid)->execute();
+}
+
+/*
+ * Implementation of hook_taxonomy_vocabulary_delete().
+ */
+function multisite_og_navigation_tree_taxonomy_vocabulary_delete($vocabulary) {
+  $vid = $vocabulary->vid;
+  db_delete('multisite_og_navigation_tree_grouptaxonomy')->condition('vid', $vid)->execute();
+}
+
+/*
+ * Implementation of hook_og_context_negotiation_info();
+ */
+function multisite_og_navigation_tree_og_context_negotiation_info() {
+  $providers = array();
+  $providers['group_taxonomy'] = array(
+    'name' => t('Group taxonomy'),
+    'description' => t("Determine context by group taxonomy term"),
+    'callback' => '_mont_og_context_handler',
+    'menu path' => array('taxonomy/term/%'),
+  );
+  return $providers;
+}
+
+
+/**
+ * Implements hook_block_info().
+ */
+function multisite_og_navigation_tree_block_info() {
+  $blocks['mont-navigation'] = array('info' => t('OG Navigation Tree'), );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function multisite_og_navigation_tree_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'mont-navigation' :
+      return (_mont_block_taxonomy_navigation());
+      break;
+  }
+  return $block;
+}
+
+/*********************************************
+ * 
+ *          HELPERS
+ * 
+ *********************************************/
+
+/*
+ * Check if we are on a taxonomy page and if the taxonomy term belongs to the group taxonomy vocabulary
+ */
+function _mont_og_context_handler() {
+  $group_vocab = variable_get('multisite_og_navigation_tree_vid', 0);
+  $term = menu_get_object('taxonomy_term', 2);
+  
+  if (!is_object($term)) {
+    $tid = arg(2);
+    $term = taxonomy_term_load($tid);
+  }
+    
+  if (is_object($term) && ($group_vocab == $term->vid)) {
+    $parents = taxonomy_get_parents_all($term->tid);
+    $parent = array_pop($parents);
+    if ($grouptaxonomy = _mont_group_taxonomy_load_by_term($parent->tid)) {
+      $nid = $grouptaxonomy->nid;
+      $node = node_load($nid);
+      return _group_context_handler_entity('node', $node);
+    };
+  }
+
+  return array();
+}
+
+
+
+/**
+ * Helper function to fetch the links
+ */
+function _mont_block_taxonomy_navigation() {
+  $context = og_context_determine_context();
+  if ($context) {
+    $gid = $context->gid;
+    $nid = $context->etid;
+    $group_taxonomy = _mont_group_taxonomy_load($nid);
+    if ($group_taxonomy) {
+      $root_term = $group_taxonomy->tid;
+      $tree = taxonomy_get_tree($group_taxonomy->vid, $root_term);
+      $child_elements = array();
+      $root_elements = array();
+      
+      $current_term_id = FALSE;
+      $current_term = menu_get_object('taxonomy_term', 2);
+      $active_class = array();
+      if ($current_term) {
+        $active_parents = taxonomy_get_parents_all($current_term->tid);
+        array_pop($active_parents);
+        foreach ($active_parents as $active_parent) {
+          $active_class[] = $active_parent->tid ;
+        }
+      }
+      
+      foreach ($tree as $term) {
+        $parents = $term->parents;
+        if (current($parents) != $root_term) {
+          $child_elements[$parents[0]][$term->tid] = $term;
+        }
+        else {
+          $root_elements[$term->tid] = $term;
+        }
+      }
+      
+      $items = array();
+      
+      foreach ($root_elements as $tid => $term) {
+        $item = _mont_block_item_list_children($root_elements, $child_elements, $term, $active_class);
+        $items[] = $item;
+      }
+      $node  = node_load($nid);
+      if (count($items)) {
+        $block['subject'] = l(t($node->title), 'node/' . $nid);
+        $block['content'] = theme('item_list', array('items' => $items, 'attributes' => array('class' => 'menu')));
+        return $block;
+      }
+    }
+  }
+return FALSE;
+}
+
+function _mont_block_item_list_children($root_elements, $child_elements, $term, $active_class) {
+  if (array_key_exists($term->tid, $child_elements)) {
+    $item = array();
+    $item['data'] = l(t($term->name), 'taxonomy/term/' . $term->tid, array('attributes' => array('class' => array('collapsed'))));
+    
+    if (in_array($term->tid, $active_class)) {
+      $item['class'] = array('expanded', 'active-trail');
+      $item['children'] = array();  
+      foreach ($child_elements[$term->tid] as $child) {
+        $item['children'][] = _mont_block_item_list_children($root_elements, $child_elements, $child, $active_class);
+      }
+    }
+    else {
+      $item['class'] = array('collapsed');
+    }
+  }
+  else {
+    $item = array(l($term->name, 'taxonomy/term/' . $term->tid, array('attributes' => array('class' => array('collapsed')))));
+  }
+  return $item;
+}
