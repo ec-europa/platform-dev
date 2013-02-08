@@ -7,37 +7,6 @@
 include_once('communities.features.inc');
 include_once('communities_moderation.inc');
 
-
-/*
-* hook_disable
-*/
-function communities_disable() {
-  //multisite_drupal_toolbox_remove_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
-  multisite_drupal_toolbox_disable_content_type('community'); 
-  
-  // solR configuration add bundle
-  multisite_drupal_toolbox_config_solr_bundle('community', 'delete');
-}
-
-
-/*
-* hook_enable
-*/
-function communities_enable() {
-  // create og role -------------------------------------------------------------------------------------------------------------------------------
-  $community_manager_role = og_create_global_role("community_manager");
- // multisite_drupal_toolbox_add_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
-
-  // solR configuration add bundle
-  db_insert('apachesolr_index_bundles')->fields(array(
-    'env_id' => 'solr',
-    'entity_type' => 'node',
-    'bundle' => 'community',
-  ))->execute();
-}
-
-
-
 /*
 * hook_views_pre_render
 */
@@ -87,7 +56,7 @@ function communities_init() {
     $alias = drupal_get_normal_path("community/".str_replace(" ","-",arg(1)));
     $param = explode("/", $alias);
     $group = og_get_group('node', $param[1]);
-  og_context($group);
+    og_context($group);
   }
   // set og context on surveys results analysis
   if(arg(0) == 'survey_analysis') { 
@@ -97,9 +66,9 @@ function communities_init() {
   }
   
   if(arg(0) == 'node' && is_numeric(arg(1)) && (arg(2) == 'group' || arg(2) == 'moderation')) {
-      $group = og_get_group('node', arg(1));
-      if(isset($group))
-         og_context($group);
+    $group = og_get_group('node', arg(1));
+    if(isset($group))
+      og_context($group);
   }
   
   if(arg(0) == 'group' && arg(1) == 'node' && is_numeric(arg(2))) {
@@ -191,7 +160,7 @@ function communities_node_insert($node) {
     $group = og_get_group('node', $node->nid);
   
   if(isset($group->gid)) {
-      $community_manager_rid = multisite_drupal_toolbox_get_og_rid("community_manager");
+    $community_manager_rid = multisite_drupal_toolbox_get_og_rid("community_manager");
     $administrator_member_rid = multisite_drupal_toolbox_get_og_rid("administrator member");
     // grant administrator member and community manager roles to the group author
     og_role_grant($group->gid, $node->uid, $community_manager_rid);
