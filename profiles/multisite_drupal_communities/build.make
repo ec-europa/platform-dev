@@ -4,7 +4,7 @@ projects[og][subdir] = "contributed"
 projects[og][version] = "2.0-rc1"
 
 projects[og_menu][subdir] = "contributed"
-projects[og_menu][version] = "2.1"
+projects[og_menu][version] = "3.x-dev"
 
 projects[workbench_og][subdir] = "contributed"
 projects[workbench_og][version] = "2.0-beta1"
