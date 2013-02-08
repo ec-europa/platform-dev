@@ -10,11 +10,13 @@
 function communities_menu_default_menu_custom() {
   $menus = array();
 
-  // Exported menu: menu-communities-menu
+  // Exported menu: menu-communities-menu.
   $menus['menu-communities-menu'] = array(
     'menu_name' => 'menu-communities-menu',
     'title' => 'Communities menu',
     'description' => 'Contextual menu for communities functions',
+    'language' => 'und',
+    'i18n_mode' => '0',
   );
   // Translatables
   // Included for use with string extractors like potx.

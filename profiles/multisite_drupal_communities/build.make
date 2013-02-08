@@ -3,8 +3,11 @@ includes[multisite] = "../multisite.make"
 projects[og][subdir] = "contributed"
 projects[og][version] = "2.0-rc1"
 
-projects[styles][subdir] = "contributed"
-projects[styles][version] = "2.0-alpha8"
+projects[og_menu][subdir] = "contributed"
+projects[og_menu][version] = "2.1"
+
+projects[workbench_og][subdir] = "contributed"
+projects[workbench_og][version] = "2.0-beta1"
 
 ;libraries
 ;libraries[ckeditor][download][type]= "get"

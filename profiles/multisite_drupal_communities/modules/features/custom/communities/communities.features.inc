@@ -22,10 +22,7 @@ function communities_ctools_plugin_api() {
  * Implements hook_views_api().
  */
 function communities_views_api() {
-  list($module, $api) = func_get_args();
-  if ($module == "views" && $api == "views_default") {
-    return array("version" => "3.0");
-  }
+  return array("api" => "3.0");
 }
 
 /**
@@ -34,7 +31,7 @@ function communities_views_api() {
 function communities_image_default_styles() {
   $styles = array();
 
-  // Exported image style: communities_thumbnail
+  // Exported image style: communities_thumbnail.
   $styles['communities_thumbnail'] = array(
     'name' => 'communities_thumbnail',
     'effects' => array(

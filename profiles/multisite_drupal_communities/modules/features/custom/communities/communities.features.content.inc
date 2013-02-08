@@ -30,7 +30,7 @@ function communities_content_defaults() {
           'summary' => '',
           'format' => 'filtered_html',
           'safe_value' => '<p>This is a example community.</p>
-  ',
+',
           'safe_summary' => '',
         ),
       ),
@@ -57,7 +57,7 @@ function communities_content_defaults() {
           'summary' => '',
           'format' => 'filtered_html',
           'safe_value' => '<p>This is another community test.</p>
-  ',
+',
           'safe_summary' => '',
         ),
       ),
