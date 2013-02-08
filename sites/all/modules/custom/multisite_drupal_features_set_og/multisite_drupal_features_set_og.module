@@ -1,7 +1,0 @@
-<?php
-/*
-* hook_feature_set_api
-*/ 
-function multisite_drupal_features_set_og_feature_set_api() {
-  return array('version' => '1.0');
-}
