@@ -51,6 +51,7 @@ function communities_views_pre_render(&$view) {
 function communities_init() {
   drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
   
+  /*
   // set og context on comunities views
   if(arg(0) == 'community') {
     $alias = drupal_get_normal_path("community/".str_replace(" ","-",arg(1)));
@@ -76,6 +77,7 @@ function communities_init() {
     if(isset($group))
       og_context($group);
   }
+  */
  
 }
 
@@ -84,6 +86,8 @@ function communities_init() {
 /*
 * _to_arg function
 */
+
+
 function group_name_to_arg($arg=null) {
   $context = og_context();
   if(isset($context->etid)) {
@@ -94,9 +98,12 @@ function group_name_to_arg($arg=null) {
     return 'none';
 }
 
+
+
 /*
 * _load function
 */
+/*
 function group_name_load($arg) {
   if($arg == 'none')
     return 0;
@@ -108,7 +115,7 @@ function group_name_load($arg) {
   
   return $group->gid;
 }
-
+*/
 
 
 
@@ -179,6 +186,7 @@ function communities_block_view_alter(&$data, $block) {
 * when a user request a membership to a community, he's request is in state 'pending'. Since he's request is still in pending state, when he's view the homepage 
 * of this community a message is display to inform him.
 */
+/*
 function communities_node_view($node, $view_mode, $langcode) {
   if($node->type == 'community') {
     $group = og_get_group('node', $node->nid);
@@ -188,3 +196,4 @@ function communities_node_view($node, $view_mode, $langcode) {
     }
   }
 }
+*/
