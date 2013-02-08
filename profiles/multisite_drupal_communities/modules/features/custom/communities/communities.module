@@ -80,44 +80,6 @@ function communities_init() {
 }
 
 
-
-
-/*
-* hook_node_type_insert
-*/
-function communities_node_type_insert($info) {
-  if($info->type == 'community') {
-  node_types_rebuild();
-    
-    // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-  $au_rid = multisite_drupal_toolbox_get_rid('authenticated user');
-    user_role_grant_permissions($au_rid, array(  
-      'create community content',
-    'delete own community content',
-    'edit own community content',
-      'view own unpublished content',
-    'view revisions',
-    'access workbench',
-      'use workbench_moderation my drafts tab',
-      'use workbench_moderation needs review tab',
-      'view moderation messages', 
-    'moderate content from draft to needs_review',
-      'view moderation history',
-    ));   
-  
-    // add permissions to OG roles ----------------------------------------------------------------------------------------------------------------------------------------------  
-  $cm_rid = multisite_drupal_toolbox_get_og_rid('community_manager');  
-    og_role_grant_permissions($cm_rid, array(  
-      'add user',
-      'approve and deny subscription',
-      'unsubscribe',
-      'update group', 
-      'administer group',
-    'Moderate group content', // custom permission from the module multisite_drupal_workbench_moderation
-    ));  
-  } 
-}
-
   
 /*
 * _to_arg function
@@ -148,26 +110,6 @@ function group_name_load($arg) {
 }
 
 
-
-
-
-/*
-* hook_node_insert
-*/
-function communities_node_insert($node) {
-  if($node->type == 'community') {
-    // get the group related to the node
-    $group = og_get_group('node', $node->nid);
-  
-  if(isset($group->gid)) {
-    $community_manager_rid = multisite_drupal_toolbox_get_og_rid("community_manager");
-    $administrator_member_rid = multisite_drupal_toolbox_get_og_rid("administrator member");
-    // grant administrator member and community manager roles to the group author
-    og_role_grant($group->gid, $node->uid, $community_manager_rid);
-    og_role_grant($group->gid, $node->uid, $administrator_member_rid);
-  }
-  }
-}
 
 
 
@@ -203,10 +145,10 @@ function _redirection($arg) {
 function _communities_title_item($arg) {
   $n = db_select('og', 'og')
     ->fields('og', array('etid'))
-  ->condition('gid', $arg, '=')
-  ->condition('entity_type', 'node', '=')
-  ->execute()
-  ->fetchAssoc();
+    ->condition('gid', $arg, '=')
+    ->condition('entity_type', 'node', '=')
+    ->execute()
+    ->fetchAssoc();
   if(isset($n['etid']))  {
     $node = node_load($n['etid']);
     return $node->title." homepage";

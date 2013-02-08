@@ -74,6 +74,7 @@ dependencies[] = translation
 dependencies[] = pathauto
 dependencies[] = print
 dependencies[] = print_pdf
+dependencies[] = print_mail
 ;dependencies[] = features_override
 ;dependencies[] = jquery_update
 dependencies[] = mediafield
