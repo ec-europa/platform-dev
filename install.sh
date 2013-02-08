@@ -124,8 +124,8 @@ mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "create d
 
 chmod -R 777 ${site_name}/sites/default 
 cp -R profiles/multisite_drupal_core ${site_name}/profiles
-cp -R profiles/multisite_drupal_standard ${site_name}/profiles
-cp -R profiles/multisite_drupal_communities ${site_name}/profiles
+cp -R profiles/$install_profile ${site_name}/profiles
+
 cp -R sites/all/modules/ ${site_name}/sites/all
 cp -R sites/all/modules/features ${site_name}/sites/all/modules
 cp -R sites/all/themes ${site_name}/sites/all
