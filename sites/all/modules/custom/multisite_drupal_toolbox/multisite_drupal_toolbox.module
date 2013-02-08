@@ -384,7 +384,7 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
         }
       break;
       case "workbench_moderation_admin_transitions_form": // prevent administrator from changing existing workflow transitions
-        $blocked_transitions = array('published_archived','draft_needs_review','needs_review_published','needs_review_draft','needs_review_valida    ted','validated_published');
+        $blocked_transitions = array('published_archived','draft_needs_review','needs_review_published','needs_review_draft','needs_review_validated','validated_published');
         $transitions = $form['transitions'];
         foreach($transitions as $transition_id => $transition) {
           if(isset($transition['delete'])) {
