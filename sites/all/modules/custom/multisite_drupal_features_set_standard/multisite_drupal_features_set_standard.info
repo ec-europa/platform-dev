@@ -46,15 +46,14 @@ feature_sets[e_library_standard][disable][] = e_library_core
 feature_sets[ec_embedded_video][title] = 'Embedded videos'
 feature_sets[ec_embedded_video][description] = 'Allows to embed videos from Youtube, dailymotion or vimeo.'
 feature_sets[ec_embedded_video][category] = 'Media'
+feature_sets[ec_embedded_video][icon] = 'feature-set-icons/e_library.png'
 feature_sets[ec_embedded_video][font] = 'multisite-icon-camera'
 feature_sets[ec_embedded_video][enable][] = media_dailymotion
 feature_sets[ec_embedded_video][enable][] = media_vimeo
 feature_sets[ec_embedded_video][enable][] = media_youtube
-feature_sets[ec_embedded_video][enable][] = mediafield
 feature_sets[ec_embedded_video][disable][] = media_dailymotion
 feature_sets[ec_embedded_video][disable][] = media_vimeo
 feature_sets[ec_embedded_video][disable][] = media_youtube
-feature_sets[ec_embedded_video][disable][] = mediafield
 
 feature_sets[feed_rss_core][title] = 'EU Press Releases'
 feature_sets[feed_rss_core][description] = 'Display a block on your homepage with EU Press Releases Information.'
