@@ -28,6 +28,7 @@ dependencies[] = views
 dependencies[] = workbench
 dependencies[] = workbench_moderation
 dependencies[] = workbench_og
+dependencies[] = entityreference_prepopulate
 features[content][] = first community
 features[content][] = second community
 features[context][] = communities

@@ -236,6 +236,9 @@ projects[xmlsitemap][version] = "2.0-rc1"
 projects[message][subdir] = "contributed"
 projects[message][version] = "1.7"
 
+projects[entityreference_prepopulate][subdir] = "contributed"
+projects[entityreference_prepopulate][version] = "1.2"
+
 ;libraries
 ;libraries[ckeditor][download][type]= "get"
 ;libraries[ckeditor][download][file_type] = "tar.gz"

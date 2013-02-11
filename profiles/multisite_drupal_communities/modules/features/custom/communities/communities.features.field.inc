@@ -119,8 +119,14 @@ function communities_field_default_fields() {
             'og_behavior' => array(
               'status' => TRUE,
             ),
+            'views-select-list' => array(
+              'status' => 0,
+            ),
           ),
           'membership_type' => 'og_membership_type_default',
+          'sort' => array(
+            'type' => 'none',
+          ),
           'target_bundles' => array(),
         ),
         'handler_submit' => 'Change handler',
@@ -132,6 +138,7 @@ function communities_field_default_fields() {
     'field_instance' => array(
       'bundle' => 'article',
       'default_value' => NULL,
+      'default_value_function' => 'entityreference_prepopulate_field_default_value',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -152,7 +159,7 @@ function communities_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'og_group_ref',
       'label' => 'Groups audience',
-      'required' => FALSE,
+      'required' => 0,
       'settings' => array(
         'behaviors' => array(
           'og_widget' => array(
@@ -163,6 +170,14 @@ function communities_field_default_fields() {
               'widget_type' => 'options_select',
             ),
             'status' => TRUE,
+          ),
+          'prepopulate' => array(
+            'action' => 'none',
+            'action_on_edit' => 0,
+            'fallback' => 'none',
+            'og_context' => 1,
+            'skip_perm' => '0',
+            'status' => 1,
           ),
         ),
         'user_register_form' => FALSE,
@@ -180,6 +195,7 @@ function communities_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 0,
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
@@ -412,11 +428,11 @@ function communities_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'browser_plugins' => array(),
           'progress_indicator' => 'throbber',

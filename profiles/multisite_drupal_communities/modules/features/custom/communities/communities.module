@@ -184,7 +184,7 @@ function communities_block_view_alter(&$data, $block) {
 function communities_node_view($node, $view_mode, $langcode) {
   if($node->type == 'community') {
     $context = og_context();
-    $check_pending_state = og_is_member($context['gid'], 'user', NULL, array(OG_STATE_PENDING));
+    $check_pending_state = og_is_member('node', $context['gid'], 'user', NULL, array(OG_STATE_PENDING));
     if($check_pending_state) {
       drupal_set_message(t("Your membership to this group is pending and waiting for community manager's approval"));
     }
