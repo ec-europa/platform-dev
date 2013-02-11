@@ -19,6 +19,7 @@ function communities_context_default_contexts() {
   $context->conditions = array(
     'node' => array(
       'values' => array(
+        'article' => 'article',      
         'community' => 'community',
       ),
       'options' => array(

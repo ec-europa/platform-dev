@@ -90,8 +90,8 @@ function communities_init() {
 
 function group_name_to_arg($arg=null) {
   $context = og_context();
-  if(isset($context->etid)) {
-    $node = node_load($context->etid);
+  if(isset($context['gid'])) {
+    $node = node_load($context['gid']);
     return str_replace(" ","-",$node->title);
   }
   else
@@ -103,7 +103,6 @@ function group_name_to_arg($arg=null) {
 /*
 * _load function
 */
-/*
 function group_name_load($arg) {
   if($arg == 'none')
     return 0;
@@ -115,7 +114,7 @@ function group_name_load($arg) {
   
   return $group->gid;
 }
-*/
+
 
 
 
@@ -142,7 +141,7 @@ function communities_menu() {
 * redirection to a community page with the gid $arg
 */
 function _redirection($arg) {
-  drupal_goto('community/'.group_name_to_arg($arg));
+  drupal_goto('community/'.$arg);
 }
   
 /*
@@ -172,8 +171,8 @@ function _communities_title_item($arg) {
 function communities_block_view_alter(&$data, $block) {
   if($block->delta == 'menu-communities-menu') {
     $context  = og_context();
-    if(isset($context->etid)) {
-      $node = node_load($context->etid);
+    if(isset($context['gid'])) {
+      $node = node_load($context['gid']);
       $data['subject'] = $node->title;
     }
   }
