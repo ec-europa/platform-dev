@@ -26,14 +26,21 @@ class EmbeddedVideosWebTestCase extends DrupalWebTestCase {
       'create page content',
   );
 
-  function setUp() {
-    parent::setUp('media', 'ec_embedded_video');
+  public function setUp() {
+    parent::setUp('ec_embedded_video');
 
     $this->web_user = $this->drupalCreateUser($this->permissions);
     $this->drupalLogin($this->web_user);
   }
 
-  function createVideoField($node_type = 'page', $settings = array()) {
+  public function testPageShouldBeAccessible() {
+    $this->drupalGet('admin/structure/types/manage');
+    $this->assertResponse(200, 'User whith the right access can update content types');
+    $this->createVideoField();
+
+  }
+
+  public function createVideoField($node_type = 'page', $settings = array()) {
     $name = strtolower($this->randomName());
     $edit = array(
         'fields[_add_new_field][label]' => $name,
@@ -44,6 +51,7 @@ class EmbeddedVideosWebTestCase extends DrupalWebTestCase {
     $field_name = 'field_'. $name;
     $this->drupalPost('admin/structure/types/manage/'. $node_type .'/fields', $edit, t('Save'));
     $this->drupalPost(NULL, array(), t('Save field settings'));
+  //  $settings = array('media_internet' => TRUE);
     $this->drupalPost(NULL, $settings, t('Save settings'));
 
     // Is field created?
@@ -54,5 +62,13 @@ class EmbeddedVideosWebTestCase extends DrupalWebTestCase {
     return $field_name;
   }
 
+  /**
+   * A simple test that just creates a new node type, adds a link field to it, creates a new node of that type, and makes sure
+   * that the node is being displayed.
+   */
+
+  function videoCanBeAdded() {
+    createVideoField('page');
+  }
 
  }
