@@ -11,7 +11,7 @@ function events_og_field_default_fields() {
   $fields = array();
 
   // Exported field: 'node-event-group_content_access'.
-  $fields['node-article-group_content_access'] = array(
+  $fields['node-event-group_content_access'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -39,7 +39,7 @@ function events_og_field_default_fields() {
       'type' => 'list_integer',
     ),
     'field_instance' => array(
-      'bundle' => 'article',
+      'bundle' => 'event',
       'default_value' => array(
         0 => array(
           'value' => 0,
@@ -90,7 +90,7 @@ function events_og_field_default_fields() {
   );
 
   // Exported field: 'node-event-og_group_ref'.
-  $fields['node-article-og_group_ref'] = array(
+  $fields['node-event-og_group_ref'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '-1',
@@ -136,7 +136,7 @@ function events_og_field_default_fields() {
       'type' => 'entityreference',
     ),
     'field_instance' => array(
-      'bundle' => 'article',
+      'bundle' => 'event',
       'default_value' => NULL,
       'default_value_function' => 'entityreference_prepopulate_field_default_value',
       'deleted' => '0',

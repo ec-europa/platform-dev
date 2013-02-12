@@ -10,86 +10,7 @@
 function news_og_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-news-group_audience'
-  $fields['node-news-group_audience'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '-1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'group_audience',
-      'foreign keys' => array(
-        'og' => array(
-          'columns' => array(
-            'gid' => 'gid',
-          ),
-          'table' => 'og',
-        ),
-      ),
-      'indexes' => array(
-        'gid' => array(
-          0 => 'gid',
-        ),
-      ),
-      'module' => 'og',
-      'no_ui' => TRUE,
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'group',
-    ),
-    'field_instance' => array(
-      'bundle' => 'news',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'og',
-          'settings' => array(),
-          'type' => 'og_list_default',
-          'weight' => '0',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'group_audience',
-      'label' => 'Groups audience',
-      'required' => 1,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'view modes' => array(
-        'full' => array(
-          'custom settings' => FALSE,
-          'label' => 'Full',
-          'type' => 'og_list_default',
-        ),
-        'teaser' => array(
-          'custom settings' => FALSE,
-          'label' => 'Teaser',
-          'type' => 'og_list_default',
-        ),
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'og',
-        'settings' => array(
-          'opt_group' => 'auto',
-        ),
-        'type' => 'group_audience',
-        'weight' => '5',
-      ),
-      'widget_type' => 'group_audience',
-    ),
-  );
-
-  // Exported field: 'node-news-group_content_access'
+  // Exported field: 'node-news-group_content_access'.
   $fields['node-news-group_content_access'] = array(
     'field_config' => array(
       'active' => '1',
@@ -103,6 +24,7 @@ function news_og_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'no_ui' => TRUE,
       'settings' => array(
@@ -131,7 +53,7 @@ function news_og_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 5,
+          'weight' => 14,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -161,9 +83,124 @@ function news_og_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => 31,
+        'weight' => 35,
       ),
       'widget_type' => 'options_select',
+    ),
+  );
+
+  // Exported field: 'node-news-og_group_ref'.
+  $fields['node-news-og_group_ref'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'og_group_ref',
+      'foreign keys' => array(
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'handler' => 'og',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'og_behavior' => array(
+              'status' => TRUE,
+            ),
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'membership_type' => 'og_membership_type_default',
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(),
+        ),
+        'handler_submit' => 'Change handler',
+        'target_type' => 'node',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'news',
+      'default_value' => NULL,
+      'default_value_function' => 'entityreference_prepopulate_field_default_value',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'og_ui',
+          'settings' => array(),
+          'type' => 'og_list_default',
+          'weight' => 13,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'og_group_ref',
+      'label' => 'Groups audience',
+      'required' => 0,
+      'settings' => array(
+        'behaviors' => array(
+          'og_widget' => array(
+            'admin' => array(
+              'widget_type' => 'entityreference_autocomplete',
+            ),
+            'default' => array(
+              'widget_type' => 'options_select',
+            ),
+            'status' => TRUE,
+          ),
+          'prepopulate' => array(
+            'action' => 'none',
+            'action_on_edit' => 0,
+            'fallback' => 'none',
+            'og_context' => 1,
+            'skip_perm' => '0',
+            'status' => 1,
+          ),
+        ),
+        'user_register_form' => FALSE,
+      ),
+      'view modes' => array(
+        'full' => array(
+          'custom settings' => FALSE,
+          'label' => 'Full',
+          'type' => 'og_list_default',
+        ),
+        'teaser' => array(
+          'custom settings' => FALSE,
+          'label' => 'Teaser',
+          'type' => 'og_list_default',
+        ),
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'og',
+        'settings' => array(),
+        'type' => 'og_complex',
+        'weight' => 34,
+      ),
     ),
   );
 
