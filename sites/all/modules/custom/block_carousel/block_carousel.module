@@ -99,6 +99,20 @@ global $base_url;
       usort($media_items, "custom_sort");
 
       $return .= '<div class=" carousel slide" id="block-carousel-' . $gall->nid . '">';
+        //carousel slider
+        $return .= '<ol class="carousel-indicators">';
+        foreach ($media_items as $id => $item): 
+        
+          $return .= '<li data-target="#block-carousel-' . $gall->nid . '" data-slide-to="' . $id . '" class="' . ($first ? "active" : "") . '"></li>';
+          
+          $first = FALSE; 
+        endforeach;  
+
+        $return .= '</ol>';
+
+        $first = TRUE; 
+
+        //carousel content        
         $return .= '<div class="carousel-inner">';
         
         foreach ($media_items as $id => $item):   
