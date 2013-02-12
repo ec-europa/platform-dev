@@ -10,45 +10,50 @@
 function events_og_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-event-group_audience'
-  $fields['node-event-group_audience'] = array(
+  // Exported field: 'node-event-group_content_access'.
+  $fields['node-article-group_content_access'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '-1',
+      'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'group_audience',
-      'foreign keys' => array(
-        'og' => array(
-          'columns' => array(
-            'gid' => 'gid',
-          ),
-          'table' => 'og',
-        ),
-      ),
+      'field_name' => 'group_content_access',
+      'foreign keys' => array(),
       'indexes' => array(
-        'gid' => array(
-          0 => 'gid',
+        'value' => array(
+          0 => 'value',
         ),
       ),
-      'module' => 'og',
+      'locked' => '0',
+      'module' => 'list',
       'no_ui' => TRUE,
-      'settings' => array(),
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'Use group defaults',
+          1 => 'Public - accessible to all site users',
+          2 => 'Private - accessible only to group members',
+        ),
+        'allowed_values_function' => '',
+      ),
       'translatable' => '0',
-      'type' => 'group',
+      'type' => 'list_integer',
     ),
     'field_instance' => array(
-      'bundle' => 'event',
-      'default_value' => NULL,
+      'bundle' => 'article',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'og',
+          'module' => 'list',
           'settings' => array(),
-          'type' => 'og_list_default',
-          'weight' => 2,
+          'type' => 'list_default',
+          'weight' => 14,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -58,11 +63,123 @@ function events_og_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'group_audience',
-      'label' => 'Groups audience',
-      'required' => 1,
+      'field_name' => 'group_content_access',
+      'label' => 'Group content visibility',
+      'required' => TRUE,
       'settings' => array(
-        'user_field_privacy' => FALSE,
+        'user_register_form' => FALSE,
+      ),
+      'view modes' => array(
+        'full' => array(
+          'label' => 'above',
+          'type' => 'list_default',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'type' => 'list_default',
+        ),
+      ),
+      'widget' => array(
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => 35,
+      ),
+      'widget_type' => 'options_select',
+    ),
+  );
+
+  // Exported field: 'node-event-og_group_ref'.
+  $fields['node-article-og_group_ref'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'og_group_ref',
+      'foreign keys' => array(
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'handler' => 'og',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'og_behavior' => array(
+              'status' => TRUE,
+            ),
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'membership_type' => 'og_membership_type_default',
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(),
+        ),
+        'handler_submit' => 'Change handler',
+        'target_type' => 'node',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'article',
+      'default_value' => NULL,
+      'default_value_function' => 'entityreference_prepopulate_field_default_value',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'og_ui',
+          'settings' => array(),
+          'type' => 'og_list_default',
+          'weight' => 13,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'og_group_ref',
+      'label' => 'Groups audience',
+      'required' => 0,
+      'settings' => array(
+        'behaviors' => array(
+          'og_widget' => array(
+            'admin' => array(
+              'widget_type' => 'entityreference_autocomplete',
+            ),
+            'default' => array(
+              'widget_type' => 'options_select',
+            ),
+            'status' => TRUE,
+          ),
+          'prepopulate' => array(
+            'action' => 'none',
+            'action_on_edit' => 0,
+            'fallback' => 'none',
+            'og_context' => 1,
+            'skip_perm' => '0',
+            'status' => 1,
+          ),
+        ),
         'user_register_form' => FALSE,
       ),
       'view modes' => array(
@@ -78,83 +195,11 @@ function events_og_field_default_fields() {
         ),
       ),
       'widget' => array(
-        'active' => 1,
+        'active' => 0,
         'module' => 'og',
-        'settings' => array(
-          'opt_group' => 'never',
-        ),
-        'type' => 'group_audience',
-        'weight' => '5',
-      ),
-      'widget_type' => 'group_audience',
-    ),
-  );
-
-  // Exported field: 'node-event-group_content_access'
-  $fields['node-event-group_content_access'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'group_content_access',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'no_ui' => TRUE,
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'Use group defaults',
-          1 => 'Public - accessible to all site users',
-          2 => 'Private - accessible only to group members',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_integer',
-    ),
-    'field_instance' => array(
-      'bundle' => 'event',
-      'default_value' => array(
-        0 => array(
-          'value' => '0',
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 5,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'group_content_access',
-      'label' => 'Group content visibility',
-      'required' => 1,
-      'settings' => array(
-        'user_field_privacy' => FALSE,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
         'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '6',
+        'type' => 'og_complex',
+        'weight' => 34,
       ),
     ),
   );
