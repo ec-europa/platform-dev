@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * news.features.field.inc
+ * news_og.features.field.inc
  */
 
 /**
@@ -211,4 +211,3 @@ function news_og_field_default_fields() {
 
   return $fields;
 }
-
