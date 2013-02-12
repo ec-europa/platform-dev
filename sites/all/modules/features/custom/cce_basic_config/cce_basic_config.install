@@ -696,9 +696,12 @@ function cce_basic_config_update_7150() {
   db_drop_table('password_policy_history');
   db_drop_table('password_policy_role');  
   
-  db_create_table('password_policy', $schema['password_policy']);
-  db_create_table('password_policy_history', $schema['password_policy_history']);
-  db_create_table('password_policy_notice_history', $schema['password_policy_notice_history']);
+  if(!db_table_exists('password_policy'))
+    db_create_table('password_policy', $schema['password_policy']);
+  if(!db_table_exists('password_policy_history'))  
+    db_create_table('password_policy_history', $schema['password_policy_history']);
+  if(!db_table_exists('password_policy_notice_history'))
+    db_create_table('password_policy_notice_history', $schema['password_policy_notice_history']);
   
   db_insert('password_policy')
     ->fields(array(
