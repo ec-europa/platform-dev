@@ -7,8 +7,8 @@ function news_og_views_default_views_alter(&$views) {
   if (array_key_exists('news', $views)) {
     $view=$views['news'];
 
-    /* Display: Defaults */
-    $handler = $view->new_display('default', 'Master', 'default');    
+    /* Display: Defaults */ 
+    $handler = $view->display['default']->handler;  
     /* Relationship: OG membership: OG membership from Node */
     $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
     $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
@@ -29,8 +29,7 @@ function news_og_views_default_views_alter(&$views) {
       2 => 'OR',
     );
 
-    
-    $handler = $view->new_display('page', 'News list page', 'page');
+    $handler = $view->display['page']->handler;
     /* Contextual filter: OG membership: Group ID */
     $handler->display->display_options['arguments']['gid']['id'] = 'gid';
     $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';

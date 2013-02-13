@@ -362,7 +362,8 @@ function news_core_views_default_views() {
   $handler->display->display_options['filters']['published']['expose']['identifier'] = 'published';
   $handler->display->display_options['filters']['published']['expose']['required'] = 1;
   $handler->display->display_options['filters']['published']['expose']['multiple'] = FALSE;
-
+  $handler->display->display_options['path'] = 'news_master';
+  
   /* Display: Latest News Block */
   $handler = $view->new_display('block', 'Latest News Block', 'block_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
