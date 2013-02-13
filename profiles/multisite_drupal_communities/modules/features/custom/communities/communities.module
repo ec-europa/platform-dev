@@ -104,19 +104,18 @@ function group_name_to_arg($arg=null) {
 /*
 * _load function
 */
-/*
 function group_name_load($arg) {
   if($arg == 'none')
     return 0;
   $alias = drupal_get_normal_path("community/".str_replace(" ","-",$arg)); // get real path to get node id
   $param = explode("/", $alias);
-  $group = og_get_group('node', $param[1]); // load community
+  $group = node_load($param[1]); // load community
     
   //og_context($group);
   
-  return $group->gid;
+  return $group->nid;
 }
-*/
+
 
 
 /*

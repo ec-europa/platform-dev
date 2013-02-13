@@ -39,11 +39,8 @@ function news_og_views_pre_render(&$view) {
     
     $og = og_context();
     
-    print_r($og);
-    
     if ($og) {
-    
-      $gid = $og->gid;
+      $gid = $og['gid'];
       $uid = $user->uid;
       
       $is_member = db_select('og_membership', 'ogm')
@@ -56,7 +53,7 @@ function news_og_views_pre_render(&$view) {
     
       if($is_member){
       
-        $output .= l(t('Create a News'), 'node/add/news', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'),'query' => array('gids_node[]' => $og->etid)));
+        $output .= l(t('Create a News'), 'node/add/news', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'),'query' => array('og_group_ref' => $og['gid'])));
       }
     }
     //add menu to the exsiting  header
