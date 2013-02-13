@@ -37,7 +37,7 @@ function links_og_views_pre_render(&$view) {
     global $user;
     $og = og_context();
     if ($og) {
-      $gid = $og->gid;
+      $gid = $og['gid'];
       $uid = $user->uid;
       
       $is_member = db_select('og_membership', 'ogm')
@@ -49,7 +49,7 @@ function links_og_views_pre_render(&$view) {
       ->fetchAssoc();
     
       if($is_member){
-        $output .= l(t('Create a Link'), 'node/add/links', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'), 'query' => array('gids_node[]' => $og->etid)));
+        $output .= l(t('Create a Link'), 'node/add/links', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'), 'query' => array('og_group_ref' => $og['gid'])));
       }
       //add menu to the exsiting  header
       if ($view->header['area']) {
