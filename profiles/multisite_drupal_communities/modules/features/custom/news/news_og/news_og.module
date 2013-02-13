@@ -38,6 +38,9 @@ function news_og_views_pre_render(&$view) {
     global $user;
     
     $og = og_context();
+    
+    print_r($og);
+    
     if ($og) {
     
       $gid = $og->gid;

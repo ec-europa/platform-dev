@@ -51,14 +51,16 @@ function communities_views_pre_render(&$view) {
 function communities_init() {
   drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
   
-  /*
+  
   // set og context on comunities views
   if(arg(0) == 'community') {
     $alias = drupal_get_normal_path("community/".str_replace(" ","-",arg(1)));
     $param = explode("/", $alias);
-    $group = og_get_group('node', $param[1]);
-    og_context($group);
+    $group = node_load($param[1]);
+    if (og_is_group('node', $group->nid) && isset(arg(2)))
+      og_context('node', $group);
   }
+  /*
   // set og context on surveys results analysis
   if(arg(0) == 'survey_analysis') { 
     $node = node_load(arg(1));
