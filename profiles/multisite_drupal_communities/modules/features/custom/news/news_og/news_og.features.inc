@@ -28,20 +28,3 @@ function news_og_views_api() {
   }
 }
 
-/**
- * Implements hook_node_info().
- */
-function news_og_node_info() {
-  $items = array(
-    'news' => array(
-      'name' => t('News'),
-      'base' => 'node_content',
-      'description' => t('Add some News to your community.'),
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-  );
-  return $items;
-}
-
