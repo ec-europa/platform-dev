@@ -397,11 +397,6 @@ $handler->display->display_options['filters']['language']['value'] =
   $handler->display->display_options['fields']['delete_node']['empty_zero'] = 0;
   $handler->display->display_options['fields']['delete_node']['hide_alter_empty'] = 1;
   $handler->display->display_options['path'] = 'links';
-  $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'Links';
-  $handler->display->display_options['menu']['weight'] = '0';
-  $handler->display->display_options['menu']['name'] = 'main-menu';
-  $handler->display->display_options['menu']['context'] = 0;
   
   $handler->display->display_options['filter_groups']['groups'] = array(
     1 => 'AND',
