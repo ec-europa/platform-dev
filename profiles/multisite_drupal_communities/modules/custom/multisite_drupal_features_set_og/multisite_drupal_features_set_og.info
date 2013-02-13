@@ -24,8 +24,8 @@ feature_sets[news_og][description] = 'Allows contributors to publish news articl
 feature_sets[news_og][category] = 'Information to users'
 feature_sets[news_og][icon] = 'feature-set-icons/news.png'
 feature_sets[news_og][font] = 'multisite-icon-megaphone'
-feature_sets[news_og][enable][] = news_og
 feature_sets[news_og][enable][] = news_core
+feature_sets[news_og][enable][] = news_og
 feature_sets[news_og][disable][] = news_og
 feature_sets[news_og][disable][] = news_core
 
