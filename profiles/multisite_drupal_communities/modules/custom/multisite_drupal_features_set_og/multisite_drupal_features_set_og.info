@@ -14,8 +14,8 @@ feature_sets[links_og][description] = 'Allows contributors to store a bookmark/U
 feature_sets[links_og][category] = 'Communication'
 feature_sets[links_og][icon] = 'feature-set-icons/links.png'
 feature_sets[links_og][font] = 'multisite-icon-link'
-feature_sets[links_og][enable][] = links_og
 feature_sets[links_og][enable][] = links_core
+feature_sets[links_og][enable][] = links_og
 feature_sets[links_og][disable][] = links_og
 feature_sets[links_og][disable][] = links_core
 
