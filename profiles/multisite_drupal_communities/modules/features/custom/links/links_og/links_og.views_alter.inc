@@ -10,13 +10,6 @@ function links_og_views_default_views_alter(&$views) {
 
     /* Display: Master */
     $handler = $view->display['default']->handler;
-    $handler->display->display_options['access']['type'] = 'og_context';
-    $handler->display->display_options['query']['type'] = 'views_query';
-    $handler->display->display_options['query']['options']['query_comment'] = FALSE;
-    $handler->display->display_options['path'] = 'community/links';
-    $handler->display->display_options['menu']['type'] = 'none';
-
-
 
   }
 }
