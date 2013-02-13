@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * news.context.inc
+ * news_og.context.inc
  */
 
 /**
@@ -10,7 +10,7 @@
 function news_og_context_default_contexts() {
   $export = array();
 
-  $context = new stdClass;
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'community_homepage';
@@ -48,4 +48,3 @@ function news_og_context_default_contexts() {
 
   return $export;
 }
-

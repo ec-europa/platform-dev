@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * news.strongarm.inc
+ * news_og.strongarm.inc
  */
 
 /**
@@ -10,7 +10,7 @@
 function news_og_strongarm() {
   $export = array();
 
-  $strongarm = new stdClass;
+  $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'og_group_type_news';
@@ -19,4 +19,3 @@ function news_og_strongarm() {
 
   return $export;
 }
-
