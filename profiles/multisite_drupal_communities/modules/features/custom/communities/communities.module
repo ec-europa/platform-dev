@@ -57,7 +57,7 @@ function communities_init() {
     $alias = drupal_get_normal_path("community/".str_replace(" ","-",arg(1)));
     $param = explode("/", $alias);
     $group = node_load($param[1]);
-    if (og_is_group('node', $group->nid) && isset(arg(2)))
+    if (og_is_group('node', $group->nid))
       og_context('node', $group);
   }
   /*
