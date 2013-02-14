@@ -21,10 +21,6 @@ function news_og_og_features_default_permissions() {
 
   // Exported og permission: 'node:community:delete any news content'
   $permissions['node:community:delete any news content'] = array(
-    'roles' => array(
-      'administrator member' => 'administrator member',
-      'community_manager' => 'community_manager',
-    ),
   );
 
   // Exported og permission: 'node:community:delete own news content'
