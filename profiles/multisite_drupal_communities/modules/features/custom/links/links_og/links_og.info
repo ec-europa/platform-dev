@@ -7,6 +7,7 @@ dependencies[] = "views"
 dependencies[] = "links_core"
 dependencies[] = "ctools"
 description = "Provide links in your group."
+features[features_api][] = api:1
 features[ctools][] = "strongarm:strongarm:1"
 features[field][] = "node-links-og_group_ref"
 features[field][] = "node-links-group_content_access"
