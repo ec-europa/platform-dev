@@ -49,17 +49,26 @@ function communities_og_features_default_permissions() {
 
   // Exported og permission: 'node:community:create article content'
   $permissions['node:community:create article content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'community_manager' => 'community_manager',
+    ),
   );
 
   // Exported og permission: 'node:community:delete any article content'
   $permissions['node:community:delete any article content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'community_manager' => 'community_manager',
+    ),
   );
 
   // Exported og permission: 'node:community:delete own article content'
   $permissions['node:community:delete own article content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'community_manager' => 'community_manager',
+    ),
   );
 
   // Exported og permission: 'node:community:manage members'
@@ -157,7 +166,10 @@ function communities_og_features_default_permissions() {
 
   // Exported og permission: 'node:community:update any article content'
   $permissions['node:community:update any article content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'community_manager' => 'community_manager',
+    ),
   );
 
   // Exported og permission: 'node:community:update group'
@@ -170,7 +182,10 @@ function communities_og_features_default_permissions() {
 
   // Exported og permission: 'node:community:update own article content'
   $permissions['node:community:update own article content'] = array(
-    'roles' => array(),
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'community_manager' => 'community_manager',
+    ),
   );
 
   return $permissions;
