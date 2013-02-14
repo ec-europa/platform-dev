@@ -52,6 +52,7 @@ function communities_og_features_default_permissions() {
     'roles' => array(
       'administrator member' => 'administrator member',
       'community_manager' => 'community_manager',
+      'member' => 'member',
     ),
   );
 
@@ -68,6 +69,7 @@ function communities_og_features_default_permissions() {
     'roles' => array(
       'administrator member' => 'administrator member',
       'community_manager' => 'community_manager',
+      'member' => 'member',
     ),
   );
 
@@ -185,6 +187,7 @@ function communities_og_features_default_permissions() {
     'roles' => array(
       'administrator member' => 'administrator member',
       'community_manager' => 'community_manager',
+      'member' => 'member',
     ),
   );
 
