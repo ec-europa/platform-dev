@@ -53,3 +53,8 @@ function links_og_disable() {
   multisite_drupal_toolbox_remove_content_type_context('communities', 'links');
           
 }
+
+function links_og_update_7100() {
+  // force revert to import og permissions settings
+  features_revert(array('links_og' => 'og_featurres_permission'));
+}
