@@ -37,6 +37,9 @@ function links_og_enable() {
     'delete own links content',
   ));
   
+  // force revert to import og permissions settings
+  features_revert(array('links_og' => 'og_featurres_permission'));
+  
   drupal_flush_all_caches();
 }
 
@@ -52,9 +55,4 @@ function links_og_disable() {
   multisite_drupal_toolbox_remove_views_context('communities', 'links');
   multisite_drupal_toolbox_remove_content_type_context('communities', 'links');
           
-}
-
-function links_og_update_7100() {
-  // force revert to import og permissions settings
-  features_revert(array('links_og' => 'og_featurres_permission'));
 }
