@@ -46,13 +46,12 @@ function links_og_disable() {
           
 }
 
-function links_og_init() {
-
-}
-
+/**
+ * hook_modules_enabled
+ */
 function links_og_modules_enabled($modules) {
   if (in_array('links_og', $modules)) {
-    drupal_set_message("-----------------------------REVERT---------------------------------");
+    // force feature revert to update og permissions
     features_revert(array('links_og' => array('og_features_permission')));  
   }
 }
