@@ -17,6 +17,7 @@ features[og_features_permission][] = node:community:delete any links content
 features[og_features_permission][] = node:community:delete own links content
 features[og_features_permission][] = node:community:update any links content
 features[og_features_permission][] = node:community:update own links content
+features[og_features_role][] = node:community:community_manager
 name = "Links og"
 package = "Multisite OG Features"
 php = "5.2.4"
