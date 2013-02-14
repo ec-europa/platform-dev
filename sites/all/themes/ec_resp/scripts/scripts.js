@@ -3,7 +3,9 @@ jQuery(function($){
 
 	$(document).ready(function() {  //Once the page elements are fully loaded
 
-    window.addEventListener('resize', manageWindowSize, false);
+    if (!($.browser.msie)) {
+      window.addEventListener('resize', manageWindowSize, false);
+    }
 
     manageWindowSize();
 
