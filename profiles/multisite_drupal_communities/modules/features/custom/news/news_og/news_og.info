@@ -16,7 +16,6 @@ dependencies[] = og_ui
 dependencies[] = options
 dependencies[] = strongarm
 dependencies[] = views
-features[ctools][] = context:context:3
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:1

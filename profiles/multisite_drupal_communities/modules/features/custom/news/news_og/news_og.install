@@ -24,7 +24,6 @@ function news_og_enable(){
  * Remove permissions
  */
 function news_og_disable(){
-
   // Remove block
  // multisite_drupal_toolbox_remove_block_context('communities', 'news-block_1');
   multisite_drupal_toolbox_remove_views_context('communities', 'news');
