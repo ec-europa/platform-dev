@@ -37,9 +37,6 @@ function links_og_enable() {
     'delete own links content',
   ));
   
-  // force revert to import og permissions settings
-  features_revert(array('links_og' => array('og_features_permission')));
-  
   drupal_flush_all_caches();
 }
 
@@ -57,4 +54,7 @@ function links_og_disable() {
           
 }
 
-
+function links_og_update_7100() {
+  // force revert to import og permissions settings
+  features_revert(array('links_og' => array('og_features_permission')));
+}
