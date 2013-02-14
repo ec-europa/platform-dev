@@ -29,6 +29,14 @@ function links_og_enable() {
   multisite_drupal_toolbox_add_views_context('communities', 'links');
   multisite_drupal_toolbox_add_content_type_context('communities', 'links');
   
+  // grant permissiosns to og role Member
+  $cmb_rid = multisite_drupal_toolbox_get_og_rid('member');
+  og_role_grant_permissions($cmb_rid, array(
+    'create links content',
+    'update own links content',
+    'delete own links content',
+  ));
+  
   drupal_flush_all_caches();
 }
 
