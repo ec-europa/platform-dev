@@ -29,9 +29,6 @@ function links_og_enable() {
   multisite_drupal_toolbox_add_views_context('communities', 'links');
   multisite_drupal_toolbox_add_content_type_context('communities', 'links');
   
-  drupal_set_message("-----------------------------REVERT---------------------------------");
-  features_revert(array('links_og' => array('og_features_permission')));  
-  
   drupal_flush_all_caches();
 }
 
@@ -51,4 +48,11 @@ function links_og_disable() {
 
 function links_og_init() {
 
+}
+
+function links_og_modules_enabled($modules) {
+  if (in_array('links_og', $modules)) {
+    drupal_set_message("-----------------------------REVERT---------------------------------");
+    features_revert(array('links_og' => array('og_features_permission')));  
+  }
 }
