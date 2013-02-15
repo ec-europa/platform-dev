@@ -10,5 +10,5 @@
  * @ingroup block_carousel
  */
 function block_carousel_uninstall() {
-  variable_del('block_carousel_string');
+
 }
