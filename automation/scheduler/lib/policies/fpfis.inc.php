@@ -157,7 +157,7 @@ function fpfis_require_database(&$subsite) {
 	// send the mail
 	$headers = 'From: ' . $mail_from . "\n";
 	if (strlen($mail_cc)) $headers .= 'Cc: ' . $mail_cc;
-	$parameters = '-f ' . $mail_from;
+	$parameters = '-f ' . $mail_returnpath;
 	mail($mail_to, $mail_subject, $mail_body, $headers, $parameters);
 	
 	// store the sent mail
