@@ -151,7 +151,8 @@ function fpfis_require_database(&$subsite) {
 	
 	// compose the mail
 	foreach ($tokens as $name => $value) {
-		$mail_body = str_replace('@' . $name, $value, $mail_body);
+		$mail_body    = str_replace('@' . $name, $value, $mail_body);
+		$mail_subject = str_replace('@' . $name, $value, $mail_subject);
 	}
 	
 	// send the mail
