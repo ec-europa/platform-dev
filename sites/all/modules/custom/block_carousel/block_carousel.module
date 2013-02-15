@@ -4,7 +4,6 @@
  * Module file for block_carousel
  */
 
-
 /**
  * Implements hook_menu().
  */
@@ -13,7 +12,6 @@ function block_carousel_menu() {
     // Add the link in block admin, for default theme
     $items['admin/structure/block/add-block-carousel-block'] = array(
       'title' => 'Add carousel block',
-      'description' => 'Add a new carousel block.',
       'page callback' => 'drupal_get_form',
       'page arguments' => array('block_carousel_add_block_form'),
       'access arguments' => array('administer blocks'),
@@ -27,7 +25,6 @@ function block_carousel_menu() {
       if ($key != $default_theme) {
         $items['admin/structure/block/list/' . $key . '/add-block-arousel-block'] = array(
           'title' => 'Add carousel block',
-          'description' => 'Add a new carousel block.',
           'page callback' => 'drupal_get_form',
           'page arguments' => array('block_carousel_add_block_form'),
           'access arguments' => array('administer blocks'),
@@ -37,7 +34,6 @@ function block_carousel_menu() {
     }
     // Manage deletion link
     $items['admin/structure/block/delete-block-carousel'] = array(
-      'title' => 'Delete carousel block',
       'page callback' => 'drupal_get_form',
       'page arguments' => array('block_carousel_delete'),
       'access arguments' => array('administer blocks'),
@@ -55,10 +51,6 @@ function block_carousel_menu() {
 function block_carousel_add_block_form($form, &$form_state) {
   module_load_include('inc', 'block', 'block.admin');
   $form = block_admin_configure($form, $form_state, 'block_carousel', NULL);
-
-  // Other modules should be able to use hook_form_block_add_block_form_alter()
-  // to modify this form, so add a base form ID.
-  $form_state['build_info']['base_form_id'] = 'block_add_block_carousel_form';
 
   // Prevent block_add_block_form_validate/submit() from being automatically
   // added because of the base form ID by providing these handlers manually.
@@ -181,10 +173,8 @@ function block_carousel_block_info() {
     $deltas[] = $delta;
   }
   foreach ($deltas as $delta) {
-    $blocks[$delta]['info'] = 'Carousel block ' . strval($delta);
-    // Menu blocks can't be cached because each menu item can have
-    // a custom access callback. menu.inc manages its own caching.
-    $blocks[$delta]['cache'] = DRUPAL_NO_CACHE;
+    $blocks[$delta]['info'] = 'Mediagallery carousel block ' . strval($delta);
+    $blocks[$delta]['cache'] = DRUPAL_CACHE_PER_ROLE;
   }
 
   return $blocks;
@@ -201,7 +191,7 @@ function block_carousel_block_configure($delta = '') {
 
   if (in_array($delta, $deltas) || !$delta) {
     if (!$delta) {
-      $delta = max($deltas) + 1;
+      $delta = ($deltas ? max($deltas) + 1 : 1);
     }
     $form["block_carousel_{$delta}_gid"] = array(
       '#type' => 'textfield',
@@ -253,6 +243,8 @@ global $base_url;
   $deltas = variable_get('block_carousel_ids', array());
 
   if (in_array($delta, $deltas)) {
+
+    if (variable_get("block_carousel_{$delta}_gid") == 'empty') return;
 
     $gall = node_load(variable_get("block_carousel_{$delta}_gid"));
     $path = $base_url . '/'.(isset($gall->path['alias']) ? $gall->path['alias'] : $gall->path['source']);
