@@ -19,3 +19,22 @@ function ec_embedded_video_install() {
   $upload_directory = '';
   variable_set('media__wysiwyg_upload_directory', $upload_directory);
 }
+
+/**
+ * Implements hook_enable().
+ */
+function ec_world_countries_enable() {
+  // Activation message.
+  drupal_set_message(t('EC embedded videos feature is now enable on your site.'));
+
+
+}
+
+/**
+ * Implements hook_disable().
+ */
+function ec_embedded_video_disable() {
+
+  // Desactivation message.
+  drupal_set_message(t('EC embedded videos feature is now disabled on your site.'));
+}
