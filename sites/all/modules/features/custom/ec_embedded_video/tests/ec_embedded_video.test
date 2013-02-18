@@ -48,8 +48,8 @@ class EmbeddedVideosWebTestCase extends DrupalWebTestCase {
         'fields[_add_new_field][type]' => 'media',
         'fields[_add_new_field][widget_type]' => 'media_generic',
     );
-    $field_name = 'field_'. $name;
-    $this->drupalPost('admin/structure/types/manage/'. $node_type .'/fields', $edit, t('Save'));
+    $field_name = 'field_' . $name;
+    $this->drupalPost('admin/structure/types/manage/'. $node_type . '/fields', $edit, t('Save'));
     $this->drupalPost(NULL, array(), t('Save field settings'));
   //  $settings = array('media_internet' => TRUE);
     $this->drupalPost(NULL, $settings, t('Save settings'));
