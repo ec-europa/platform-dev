@@ -32,7 +32,8 @@ function _multisite_og_button_contextual_links() {
   $context = og_context();    
   if ($context) {
     $links = og_node_create_links('node', $context['gid'], 'og_group_ref');
-    $links['og_node_create_links']['#theme']='dropdown';
+    if($links)
+      $links['og_node_create_links']['#theme']='dropdown';
     return $links;
   }
 }

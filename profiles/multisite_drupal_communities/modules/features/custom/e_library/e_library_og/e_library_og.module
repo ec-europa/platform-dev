@@ -35,7 +35,7 @@ function e_library_og_views_pre_render(&$view) {
     $group = og_context();
     switch( $view->current_display ) {
       case 'page':
-        if ( og_user_access($group->gid,'create document content') ) {
+        if ( og_user_access('node', $group['gid'],'create document content') ) {
           $view->header['area']->options['content'] = _e_library_get_link_from_group();
         }
         break;
@@ -48,7 +48,7 @@ function e_library_og_views_pre_render(&$view) {
 
 function _e_library_get_link_from_group(){
   $group = og_context();
-  $group_id = isset($group) ? $group->etid : '';
+  $group_id = isset($group) ? $group['gid'] : '';
     
   $attributes = array( 
     'attributes' => array(
@@ -59,7 +59,7 @@ function _e_library_get_link_from_group(){
     
   $options = array( 
     'query' => array( 
-      'gids_node[]' => $group_id,
+      'og_group_ref' => $group_id,
     ),
     'absolute' => TRUE,
   );
