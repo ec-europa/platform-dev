@@ -4,6 +4,26 @@
  * Install, update and uninstall functions for the ec_embedded_video module.
 
 /**
+
+* Implements hook_install().
+
+*/
+
+function ec_embedded_video_install() {
+  $extensions = "jpg jpeg gif png txt doc docx xls xlsx pdf ppt pptx pps ppsx odt ods odp mp3 mov mp4 m4a m4v mpeg avi ogg oga ogv wmv ico";
+  variable_set('media__file_extensions', $extensions);
+
+  $allowed_types = array('video');
+  variable_set('media__wysiwyg_allowed_types', $allowed_types);
+
+  $browser_plugins = array('media_internet');
+  variable_set('media__wysiwyg_browser_plugins', $browser_plugins);
+
+  $upload_directory = '';
+  variable_set('media__wysiwyg_upload_directory', $upload_directory);
+}
+
+/**
  * Implements hook_enable().
  */
 function ec_world_countries_enable() {
