@@ -140,7 +140,8 @@ function communities_menu() {
 * redirection to a community page with the gid $arg
 */
 function _redirection($arg) {
-  drupal_goto('community/'.$arg);
+  
+  drupal_goto('community/'.group_name_to_arg($arg));
 }
   
 /*
