@@ -13,13 +13,6 @@ function e_library_og_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'og_group_type_document';
-  $strongarm->value = 'omitted';
-  $export['og_group_type_document'] = $strongarm;
-  
-  $strongarm = new stdClass;
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_document_pattern';
   $strongarm->value = 'community/[node:group_audience]/document/[node:title]';
   $export['pathauto_node_document_pattern'] = $strongarm;

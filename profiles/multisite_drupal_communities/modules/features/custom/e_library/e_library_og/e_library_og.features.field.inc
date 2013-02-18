@@ -10,189 +10,65 @@
 function e_library_og_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-document-body'
-  $fields['node-document-body'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(
-        0 => 'node',
-      ),
-      'field_name' => 'body',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'text_with_summary',
-    ),
-    'field_instance' => array(
-      'bundle' => 'document',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 1,
-        ),
-        'teaser' => array(
-          'label' => 'hidden',
-          'module' => 'text',
-          'settings' => array(
-            'trim_length' => 600,
-          ),
-          'type' => 'text_summary_or_trimmed',
-          'weight' => 1,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'body',
-      'label' => 'Body',
-      'required' => FALSE,
-      'settings' => array(
-        'display_summary' => TRUE,
-        'text_processing' => 1,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'module' => 'text',
-        'settings' => array(
-          'rows' => 20,
-          'summary_rows' => 5,
-        ),
-        'type' => 'text_textarea_with_summary',
-        'weight' => '31',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-document-field_document'
-  $fields['node-document-field_document'] = array(
+  // Exported field: 'node-document-og_group_ref'.
+  $fields['node-document-og_group_ref'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_document',
+      'field_name' => 'og_group_ref',
       'foreign keys' => array(
-        'fid' => array(
+        'node' => array(
           'columns' => array(
-            'fid' => 'fid',
+            'target_id' => 'nid',
           ),
-          'table' => 'file_managed',
+          'table' => 'node',
         ),
       ),
       'indexes' => array(
-        'fid' => array(
-          0 => 'fid',
+        'target_id' => array(
+          0 => 'target_id',
         ),
       ),
-      'module' => 'file',
+      'locked' => '0',
+      'module' => 'entityreference',
       'settings' => array(
-        'display_default' => 0,
-        'display_field' => 1,
-        'uri_scheme' => 'private',
-      ),
-      'translatable' => '0',
-      'type' => 'file',
-    ),
-    'field_instance' => array(
-      'bundle' => 'document',
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'file',
-          'settings' => array(),
-          'type' => 'file_default',
-          'weight' => 2,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_document',
-      'label' => 'Document',
-      'required' => 1,
-      'settings' => array(
-        'description_field' => 1,
-        'file_directory' => 'ged',
-        'file_extensions' => 'txt doc xls pdf ppt docx xlsx pptx',
-        'max_filesize' => '',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'file',
-        'settings' => array(
-          'progress_indicator' => 'throbber',
-        ),
-        'type' => 'file_generic',
-        'weight' => '32',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-document-group_audience'
-  $fields['node-document-group_audience'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '-1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'group_audience',
-      'foreign keys' => array(
-        'og' => array(
-          'columns' => array(
-            'gid' => 'gid',
+        'handler' => 'og',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'og_behavior' => array(
+              'status' => TRUE,
+            ),
+            'views-select-list' => array(
+              'status' => 0,
+            ),
           ),
-          'table' => 'og',
+          'membership_type' => 'og_membership_type_default',
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(),
         ),
+        'handler_submit' => 'Change handler',
+        'target_type' => 'node',
       ),
-      'indexes' => array(
-        'gid' => array(
-          0 => 'gid',
-        ),
-      ),
-      'module' => 'og',
-      'no_ui' => TRUE,
-      'settings' => array(),
       'translatable' => '0',
-      'type' => 'group',
+      'type' => 'entityreference',
     ),
     'field_instance' => array(
       'bundle' => 'document',
       'default_value' => NULL,
+      'default_value_function' => 'entityreference_prepopulate_field_default_value',
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'og',
+          'module' => 'og_ui',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => 0,
+          'weight' => 13,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -202,10 +78,29 @@ function e_library_og_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'group_audience',
+      'field_name' => 'og_group_ref',
       'label' => 'Groups audience',
-      'required' => TRUE,
+      'required' => 0,
       'settings' => array(
+        'behaviors' => array(
+          'og_widget' => array(
+            'admin' => array(
+              'widget_type' => 'entityreference_autocomplete',
+            ),
+            'default' => array(
+              'widget_type' => 'options_select',
+            ),
+            'status' => TRUE,
+          ),
+          'prepopulate' => array(
+            'action' => 'none',
+            'action_on_edit' => 0,
+            'fallback' => 'none',
+            'og_context' => 1,
+            'skip_perm' => '0',
+            'status' => 1,
+          ),
+        ),
         'user_register_form' => FALSE,
       ),
       'view modes' => array(
@@ -221,18 +116,14 @@ function e_library_og_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 0,
         'module' => 'og',
-        'settings' => array(
-          'opt_group' => 'auto',
-        ),
-        'type' => 'group_audience',
-        'weight' => '0',
+        'settings' => array(),
+        'type' => 'og_complex',
+        'weight' => 34,
       ),
-      'widget_type' => 'group_audience',
     ),
   );
-
-
 
 
   // Exported field: 'node-document-group_content_access'
@@ -316,8 +207,6 @@ function e_library_og_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Body');
-  t('Document');
   t('Groups audience');
   t('Group content visibility');
 
