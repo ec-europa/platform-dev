@@ -76,8 +76,8 @@ feature_sets[survey_og][description] = 'Allows administrators to question site v
 feature_sets[survey_og][category] = 'Users feedback'
 feature_sets[survey_og][icon] = 'feature-set-icons/survey.png'
 feature_sets[survey_og][font] = 'multisite-icon-check'
-feature_sets[survey_og][enable][] = survey_og
 feature_sets[survey_og][enable][] = survey_core
+feature_sets[survey_og][enable][] = survey_og
 feature_sets[survey_og][disable][] = survey_og
 feature_sets[survey_og][disable][] = survey_core
 
@@ -86,8 +86,8 @@ feature_sets[events_og][description] = 'Allows contributors to define an event i
 feature_sets[events_og][category] = 'Communication'
 feature_sets[events_og][icon] = 'feature-set-icons/events.png'
 feature_sets[events_og][font] = 'multisite-icon-calendar'
-feature_sets[events_og][enable][] = events_og
 feature_sets[events_og][enable][] = events_core
+feature_sets[events_og][enable][] = events_og
 feature_sets[events_og][disable][] = events_og
 feature_sets[events_og][disable][] = events_core
 
@@ -96,8 +96,8 @@ feature_sets[e_library_og][description] = 'Allows contributors to publish docume
 feature_sets[e_library_og][category] = 'Media'
 feature_sets[e_library_og][icon] = 'feature-set-icons/e_library.png'
 feature_sets[e_library_og][font] = 'multisite-icon-archive'
-feature_sets[e_library_og][enable][] = e_library_og
 feature_sets[e_library_og][enable][] = e_library_core
+feature_sets[e_library_og][enable][] = e_library_og
 feature_sets[e_library_og][disable][] = e_library_og
 feature_sets[e_library_og][disable][] = e_library_core
 

@@ -11,9 +11,7 @@ include_once('e_library_og.features.inc');
 * hook_menu
 */
 function e_library_menu() {
-
   $items = array();
- 
   $items['community/%group_name/e_library'] = array(
     'title' => 'E-Library',
     'page callback' => 'views_page',
@@ -23,8 +21,7 @@ function e_library_menu() {
     'menu_name' => 'menu-communities-menu',
     'weight' => 1,
   );
- 
-return $items;
+  return $items;
 }
 
 /**
