@@ -27,10 +27,12 @@ function e_library_og_views_default_views_alter(&$views) {
       2 => 'OR',
     );
 
+
     /* Display: Page */
     $handler = $view->new_display('page', 'Page', 'page');
     $handler->display->display_options['defaults']['arguments'] = FALSE;
     $handler->display->display_options['path'] = 'e_library';
+
 
     /* Contextual filter: OG membership: Group ID */
     $handler->display->display_options['arguments']['gid']['id'] = 'gid';
@@ -41,7 +43,7 @@ function e_library_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
-    $handler->display->display_options['path'] = 'community/e_libray';
+    $handler->display->display_options['path'] = 'community/e_library';
   }
 }
 

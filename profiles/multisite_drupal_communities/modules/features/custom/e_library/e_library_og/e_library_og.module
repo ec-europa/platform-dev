@@ -10,7 +10,7 @@ include_once('e_library_og.views_alter.inc');
 /*
 * hook_menu
 */
-function e_library_menu() {
+function e_library_og_menu() {
   $items = array();
   $items['community/%group_name/e_library'] = array(
     'title' => 'E-Library',
@@ -24,11 +24,12 @@ function e_library_menu() {
   return $items;
 }
 
+
 /**
  * Add a buttons in the views associated with this feature
  * @param type $view 
  */
-function e_library_views_pre_render(&$view) {
+function e_library_og_views_pre_render(&$view) {
 
   if($view->name=='e_library'){
     $group = og_context();

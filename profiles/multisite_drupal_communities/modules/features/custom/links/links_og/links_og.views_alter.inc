@@ -16,6 +16,7 @@ function links_og_views_default_views_alter(&$views) {
     $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
     $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
 
+    $handler = $view->display['page']->handler;
     /* Contextual filter: OG membership: Group ID */
     $handler->display->display_options['arguments']['gid']['id'] = 'gid';
     $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
