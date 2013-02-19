@@ -68,15 +68,14 @@ function events_og_views_pre_render(&$view) {
 
   $group = og_context();
 
-    switch( $view->current_display ) {
-      case 'upcoming_events':
-
+  switch( $view->current_display ) {
+    case 'upcoming_events':
         break;
       case 'month':
       case 'week':
       case 'day':
       case 'year':
-        if ( og_user_access($group->gid,'create event content') ) {
+        if ( og_user_access($group['gid'],'create event content') ) {
           $view->header['area']->options['content'] = _events_get_link_from_group();
         }
         break;
@@ -87,9 +86,8 @@ function events_og_views_pre_render(&$view) {
 }
 
 function _events_get_link_from_group() {
-
     $group = og_context();
-    $group_id = isset($group) ? $group->etid : '';
+    $group_id = isset($group) ? $group['gid'] : '';
     
     $attributes = array( 
       'attributes' => array(
