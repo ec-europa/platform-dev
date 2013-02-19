@@ -2,11 +2,11 @@
 /**
  * @file
  * Install, update and uninstall functions for the ec_embedded_video module.
+*/
 
 /**
 * Implements hook_install().
 */
-
 function ec_embedded_video_install() {
 //Do nothing
 }
@@ -14,7 +14,6 @@ function ec_embedded_video_install() {
 /**
  * Implements hook_uninstall().
  */
-
 function ec_embedded_video_uninstall() {
   //Do nothing
 }
@@ -22,18 +21,15 @@ function ec_embedded_video_uninstall() {
 /**
  * Implements hook_enable().
  */
-function ec_world_countries_enable() {
+function ec_embedded_video_enable() {
   // Activation message.
   drupal_set_message(t('EC embedded videos feature is now enable on your site.'));
-
-
 }
 
 /**
  * Implements hook_disable().
  */
 function ec_embedded_video_disable() {
-
   // Desactivation message.
   drupal_set_message(t('EC embedded videos feature is now disabled on your site.'));
 }

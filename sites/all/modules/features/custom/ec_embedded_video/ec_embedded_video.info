@@ -1,4 +1,4 @@
-name = Embedded Video
+name = EC Embedded Video
 description = Allows to embed videos from Youtube, dailymotion or vimeo
 core = 7.x
 package = Multisite_features
