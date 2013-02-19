@@ -24,37 +24,7 @@ function events_og_menu() {
     'menu_name' => 'menu-communities-menu',
     'weight' => 1,
   );
- 
-   $items['community/%group_name/calendar/week'] = array(
-    'title' => 'Week',
-    'page callback' => 'views_page',
-    'page arguments' => array('calendar', 'week', 1),
-    'access callback' => TRUE,
-    'type' => MENU_LOCAL_TASK,
-    'menu_name' => 'menu-communities-menu',
-    'weight' => 1,
-  );
-  
-   $items['community/%group_name/calendar/day'] = array(
-    'title' => 'Day',
-    'page callback' => 'views_page',
-    'page arguments' => array('calendar', 'day', 1),
-    'access callback' => TRUE,
-    'type' => MENU_LOCAL_TASK,
-    'menu_name' => 'menu-communities-menu',
-    'weight' => 1,
-  );
-  
-   $items['community/%group_name/calendar/year'] = array(
-    'title' => 'Year',
-    'page callback' => 'views_page',
-    'page arguments' => array('calendar', 'year', 1),
-    'access callback' => TRUE,
-    'type' => MENU_LOCAL_TASK,
-    'menu_name' => 'menu-communities-menu',
-    'weight' => 1,
-  );
- 
+
   return $items;
 }
 
