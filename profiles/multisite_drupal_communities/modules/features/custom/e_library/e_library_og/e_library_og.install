@@ -44,3 +44,14 @@ function e_library_og_disable(){
   //Activation message
   drupal_set_message('E-library feature is now disabled on your site.');
 }
+
+
+/**
+ * hook_modules_enabled
+ */
+function e_library_og_modules_enabled($modules) {
+  if (in_array('e_library_og', $modules)) {
+    // force feature revert to update og permissions
+    features_revert(array('e_library_og' => array('og_features_permission')));  
+  }
+}
