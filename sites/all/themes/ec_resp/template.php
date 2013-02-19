@@ -127,7 +127,8 @@ function ec_resp_page_alter($page) {
   global $language;
   if (arg(0) == 'node') {
     $node = node_load(arg(1));
-    $node_title = filter_xss($node->title);
+    if(isset($node->title))
+      $node_title = filter_xss($node->title);
   }
   
   $description = variable_get('site_slogan');
