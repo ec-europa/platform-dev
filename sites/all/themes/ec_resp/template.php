@@ -426,6 +426,7 @@ function ec_resp_menu_link__main_menu(array $variables) {
 //Preserve alphanumerics and numbers, everything else goes away
   $pattern = '/([^a-z]+)([^0-9]+)/';
   $name_id = preg_replace($pattern, '', $name_id);  
+  $element['#attributes']['class'][] = 'item' . $element['#original_link']['mlid'];
 
   if ($element['#below'] && !theme_get_setting('disable_dropdown_menu')) {
   //Menu item has dropdown

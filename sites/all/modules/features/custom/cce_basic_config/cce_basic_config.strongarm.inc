@@ -649,6 +649,43 @@ imce';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_ctools_allowed_properties';
+  $strongarm->value = '-moz-border-radius
+-webkit-border-radius
+border-top-right-radius
+border-bottom-right-radius
+border-bottom-left-radius
+border-top-left-radius
+webkit-border-top-right-radius
+webkit-border-bottom-right-radius
+webkit-border-bottom-left-radius
+webkit-border-top-left-radius
+moz-border-radius-topright
+moz-border-radius-bottomright
+moz-border-radius-bottomleft
+moz-border-radius-topleft
+position
+top
+left
+bottom
+right
+border-collapse
+border-spacing
+list-style-image
+list-style-type
+min-width
+max-width
+min-height
+max-height
+visibility
+text-shadow
+content
+z-index';
+  $export['sweaver_ctools_allowed_properties'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'sweaver_plugins_weight';
   $strongarm->value = array(
     'sweaver_plugin' => -51,
