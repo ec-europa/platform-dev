@@ -98,5 +98,3 @@ function e_library_core_disable() {
   drupal_set_message('E-library feature is now disabled on your site.');
 }
 
-
-
