@@ -47,6 +47,6 @@ function gallerymedia_core_tokens($type, $tokens, $data = array(), $options = ar
  */
 function gallerymedia_core_form_gallerymedia_node_form_alter(&$form, &$form_state) {
 
-  $form['field_video_upload']['#access'] = FALSE;
+  $form['field_video_upload']['#access'] = TRUE;
 
 }

@@ -22,7 +22,7 @@ function gallerymedia_core_ctools_plugin_api() {
  * Implements hook_views_api().
  */
 function gallerymedia_core_views_api() {
-  return array("version" => "3.0");
+  return array("api" => "3.0");
 }
 
 /**
@@ -53,6 +53,44 @@ function gallerymedia_core_image_default_styles() {
     ),
   );
 
+  // Exported image style: video_thumbnail.
+  $styles['video_thumbnail'] = array(
+    'name' => 'video_thumbnail',
+    'effects' => array(
+      1 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => '',
+          'height' => '180',
+          'upscale' => 1,
+        ),
+        'weight' => '1',
+      ),
+      2 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '180',
+          'height' => '180',
+        ),
+        'weight' => '2',
+      ),
+    ),
+  );
+
   return $styles;
 }
 
@@ -78,6 +116,51 @@ function gallerymedia_core_node_info() {
  */
 function gallerymedia_core_video_default_presets() {
   $items = array(
+    'default_flash_conversion' => array(
+      'name' => 'default_flash_conversion',
+      'description' => 'FLV transcoding for flash videos',
+      'settings' => array(
+        'video_extension' => 'flv',
+        'video_codec' => 'flv',
+        'video_preset' => '',
+        'video_quality' => '3',
+        'video_speed' => '3',
+        'wxh' => '640x360',
+        'video_aspectmode' => 'preserve',
+        'video_upscale' => 0,
+        'audio_codec' => 'libmp3lame',
+        'audio_quality' => '3',
+        'deinterlace' => 'detect',
+        'max_frame_rate' => '',
+        'frame_rate' => '',
+        'keyframe_interval' => '',
+        'video_bitrate' => '566',
+        'bitrate_cap' => '',
+        'buffer_size' => '',
+        'one_pass' => 1,
+        'skip_video' => 0,
+        'pixel_format' => '',
+        'h264_profile' => '',
+        'audio_bitrate' => '',
+        'audio_channels' => '2',
+        'audio_sample_rate' => '44100',
+        'skip_audio' => 0,
+        'video_watermark_enabled' => 0,
+        'video_watermark_fid' => 0,
+        'video_watermark_x' => '5',
+        'video_watermark_y' => '5',
+        'video_watermark_width' => '',
+        'video_watermark_height' => '',
+        'video_watermark_origin' => 'content',
+        'autolevels' => 0,
+        'deblock' => 0,
+        'denoise' => '',
+        'clip_start' => '',
+        'clip_length' => '',
+      ),
+      'overridden' => FALSE,
+      'module' => NULL,
+    ),
     'default_video_conversion' => array(
       'name' => 'default_video_conversion',
       'description' => 'Default configuration for video conversion',
@@ -111,6 +194,8 @@ function gallerymedia_core_video_default_presets() {
         'clip_start' => '',
         'clip_length' => '',
       ),
+      'module' => 'gallerymedia_core',
+      'overridden' => FALSE,
     ),
   );
   return $items;

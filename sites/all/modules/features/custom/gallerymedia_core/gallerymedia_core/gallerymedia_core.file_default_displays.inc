@@ -31,7 +31,6 @@ function gallerymedia_core_file_default_displays() {
   );
   $export['image__default__file_field_editable'] = $file_display;
 
-
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'image__media_preview__file_field_file_default';

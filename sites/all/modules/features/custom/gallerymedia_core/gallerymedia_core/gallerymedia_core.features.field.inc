@@ -72,6 +72,166 @@ function gallerymedia_core_field_default_fields() {
     ),
   );
 
+  // Exported field: 'file-image-field_file_image_alt_text'.
+  $fields['file-image-field_file_image_alt_text'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_file_image_alt_text',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'image',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'full' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'preview' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'file',
+      'field_name' => 'field_file_image_alt_text',
+      'label' => 'Alt Text',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '-4',
+      ),
+    ),
+  );
+
+  // Exported field: 'file-image-field_file_image_title_text'.
+  $fields['file-image-field_file_image_title_text'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_file_image_title_text',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'image',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'Title text attribute',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 1,
+        ),
+        'full' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'preview' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'file',
+      'field_name' => 'field_file_image_title_text',
+      'label' => 'Title Text',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '-3',
+      ),
+    ),
+  );
+
   // Exported field: 'file-image-field_picture_description'.
   $fields['file-image-field_picture_description'] = array(
     'field_config' => array(
@@ -152,6 +312,18 @@ function gallerymedia_core_field_default_fields() {
           'settings' => array(),
           'type' => 'text_plain',
           'weight' => '1',
+        ),
+        'preview' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'token' => array(
           'label' => 'inline',
@@ -259,6 +431,18 @@ function gallerymedia_core_field_default_fields() {
           'type' => 'hidden',
           'weight' => 0,
         ),
+        'preview' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'file',
       'field_name' => 'field_tags',
@@ -358,6 +542,18 @@ function gallerymedia_core_field_default_fields() {
           'type' => 'hidden',
           'weight' => 0,
         ),
+        'preview' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'file',
       'field_name' => 'field_tags',
@@ -449,6 +645,18 @@ function gallerymedia_core_field_default_fields() {
           'type' => 'hidden',
           'weight' => 0,
         ),
+        'preview' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'file',
       'field_name' => 'field_video_description',
@@ -466,6 +674,100 @@ function gallerymedia_core_field_default_fields() {
         ),
         'type' => 'text_textarea',
         'weight' => '-4',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-article-field_video'.
+  $fields['node-article-field_video'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_video',
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'video',
+      'settings' => array(
+        'autoconversion' => 1,
+        'autothumbnail' => 'auto',
+        'default_video_thumbnail' => array(
+          'fid' => 0,
+          'remove_button' => 'Remove',
+          'upload' => '',
+          'upload_button' => 'Upload',
+        ),
+        'presets' => array(
+          'default_flash_conversion' => 'default_flash_conversion',
+          'default_video_conversion' => 0,
+        ),
+        'preview_video_thumb_style' => 'video_thumbnail',
+        'thumbnail_format' => 'jpg',
+        'uri_scheme' => 'public',
+        'uri_scheme_converted' => 'public',
+        'uri_scheme_thumbnails' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'video',
+    ),
+    'field_instance' => array(
+      'bundle' => 'article',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'video',
+          'settings' => array(
+            'poster_image_style' => 'video_thumbnail',
+            'widthxheight' => '640x360',
+          ),
+          'type' => 'video_formatter_player',
+          'weight' => '13',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'module' => 'video',
+          'settings' => array(
+            'image_link' => 'content',
+            'image_style' => 'video_thumbnail',
+          ),
+          'type' => 'video_formatter_thumbnail',
+          'weight' => '3',
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_video',
+      'label' => 'Video',
+      'required' => 0,
+      'settings' => array(
+        'default_dimensions' => '640x360',
+        'file_directory' => 'videos/original',
+        'file_extensions' => 'mp4 ogg avi mov wmv flv ogv webm',
+        'max_filesize' => '',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'video',
+        'settings' => array(
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'video_upload',
+        'weight' => '34',
       ),
     ),
   );
@@ -519,7 +821,7 @@ function gallerymedia_core_field_default_fields() {
             'trim_length' => 600,
           ),
           'type' => 'text_summary_or_trimmed',
-          'weight' => 0,
+          'weight' => '0',
         ),
       ),
       'entity_type' => 'node',
@@ -582,7 +884,7 @@ function gallerymedia_core_field_default_fields() {
           'label' => 'hidden',
           'module' => 'image',
           'settings' => array(
-            'image_link' => 'file',
+            'image_link' => 'content',
             'image_style' => 'square_thumbnail',
           ),
           'type' => 'image',
@@ -592,7 +894,7 @@ function gallerymedia_core_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 0,
+          'weight' => '2',
         ),
       ),
       'entity_type' => 'node',
@@ -669,7 +971,11 @@ function gallerymedia_core_field_default_fields() {
           'upload' => '',
           'upload_button' => 'Upload',
         ),
-        'preview_video_thumb_style' => 'square_thumbnail',
+        'presets' => array(
+          'default_flash_conversion' => 'default_flash_conversion',
+          'default_video_conversion' => 0,
+        ),
+        'preview_video_thumb_style' => 'video_thumbnail',
         'thumbnail_format' => 'png',
         'uri_scheme' => 'public',
         'uri_scheme_converted' => 'public',
@@ -687,16 +993,21 @@ function gallerymedia_core_field_default_fields() {
           'label' => 'inline',
           'module' => 'video',
           'settings' => array(
-            'widthxheight' => '640x360',
+            'image_link' => 'content',
+            'image_style' => 'video_thumbnail',
           ),
-          'type' => 'video_formatter_player',
-          'weight' => 2,
+          'type' => 'video_formatter_thumbnail',
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
+          'module' => 'video',
+          'settings' => array(
+            'image_link' => 'content',
+            'image_style' => 'video_thumbnail',
+          ),
+          'type' => 'video_formatter_thumbnail',
+          'weight' => '1',
         ),
       ),
       'entity_type' => 'node',
@@ -724,11 +1035,15 @@ function gallerymedia_core_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Alt Text');
   t('Body');
   t('Comment');
   t('Picture Description');
   t('Picture upload');
   t('Tags');
+  t('Title Text');
+  t('Title text attribute');
+  t('Video');
   t('Video Description');
   t('Video upload');
 

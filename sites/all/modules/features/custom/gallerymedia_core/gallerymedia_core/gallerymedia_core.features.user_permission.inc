@@ -14,7 +14,7 @@ function gallerymedia_core_user_default_permissions() {
   $permissions['administer video presets'] = array(
     'name' => 'administer video presets',
     'roles' => array(
-      0 => 'administrator',
+      'administrator' => 'administrator',
     ),
     'module' => 'video',
   );
@@ -23,7 +23,7 @@ function gallerymedia_core_user_default_permissions() {
   $permissions['bypass conversion video'] = array(
     'name' => 'bypass conversion video',
     'roles' => array(
-      0 => 'administrator',
+      'administrator' => 'administrator',
     ),
     'module' => 'video',
   );
@@ -32,7 +32,7 @@ function gallerymedia_core_user_default_permissions() {
   $permissions['convert on submission'] = array(
     'name' => 'convert on submission',
     'roles' => array(
-      0 => 'administrator',
+      'administrator' => 'administrator',
     ),
     'module' => 'video',
   );
@@ -41,9 +41,9 @@ function gallerymedia_core_user_default_permissions() {
   $permissions['create gallerymedia content'] = array(
     'name' => 'create gallerymedia content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -52,8 +52,8 @@ function gallerymedia_core_user_default_permissions() {
   $permissions['delete any gallerymedia content'] = array(
     'name' => 'delete any gallerymedia content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
+      'administrator' => 'administrator',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -62,9 +62,9 @@ function gallerymedia_core_user_default_permissions() {
   $permissions['delete own gallerymedia content'] = array(
     'name' => 'delete own gallerymedia content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -73,8 +73,8 @@ function gallerymedia_core_user_default_permissions() {
   $permissions['edit any gallerymedia content'] = array(
     'name' => 'edit any gallerymedia content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
+      'administrator' => 'administrator',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -83,9 +83,9 @@ function gallerymedia_core_user_default_permissions() {
   $permissions['edit own gallerymedia content'] = array(
     'name' => 'edit own gallerymedia content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -94,9 +94,9 @@ function gallerymedia_core_user_default_permissions() {
   $permissions['import media'] = array(
     'name' => 'import media',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'media',
   );
@@ -105,7 +105,7 @@ function gallerymedia_core_user_default_permissions() {
   $permissions['override player dimensions'] = array(
     'name' => 'override player dimensions',
     'roles' => array(
-      0 => 'administrator',
+      'administrator' => 'administrator',
     ),
     'module' => 'video',
   );
@@ -114,8 +114,8 @@ function gallerymedia_core_user_default_permissions() {
   $permissions['re convert video'] = array(
     'name' => 're convert video',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
     ),
     'module' => 'video',
   );
@@ -124,7 +124,7 @@ function gallerymedia_core_user_default_permissions() {
   $permissions['use default thumb'] = array(
     'name' => 'use default thumb',
     'roles' => array(
-      0 => 'administrator',
+      'administrator' => 'administrator',
     ),
     'module' => 'video',
   );
