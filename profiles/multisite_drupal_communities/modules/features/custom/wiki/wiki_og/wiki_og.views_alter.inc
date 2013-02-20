@@ -44,7 +44,7 @@ function wiki_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
 
     /* Display: Page 2 */
-    $handler = $view->display['page_2']->handler;
+    $handler = $view->new_display('page', 'Page 2', 'page_2');
     $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
     $handler->display->display_options['defaults']['arguments'] = FALSE;
     /* Contextual filter: OG membership: Group ID */

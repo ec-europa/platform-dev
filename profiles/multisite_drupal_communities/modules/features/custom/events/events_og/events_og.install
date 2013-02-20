@@ -56,7 +56,6 @@ function events_og_disable(){
   multisite_drupal_toolbox_disable_content_type('event');
 
   drupal_flush_all_caches(); 
- 
 }
 
 
