@@ -51,7 +51,6 @@ function communities_views_pre_render(&$view) {
 function communities_init() {
   drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
   
-  
   // set og context on comunities views
   if(arg(0) == 'community') {
     $alias = drupal_get_normal_path("community/".str_replace(" ","-",arg(1)));
@@ -60,6 +59,7 @@ function communities_init() {
     if (og_is_group('node', $group->nid))
       og_context('node', $group);
   }
+  
   /*
   // set og context on surveys results analysis
   if(arg(0) == 'survey_analysis') { 

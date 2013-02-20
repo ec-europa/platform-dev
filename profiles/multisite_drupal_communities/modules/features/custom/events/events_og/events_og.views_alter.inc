@@ -7,30 +7,13 @@ function events_og_views_default_views_alter(&$views) {
   if (array_key_exists('calendar', $views)) {
     $view=$views['calendar'];
 
-    /* Display: Master */
-    $handler = $view->display['default']->handler;
-    /* Relationship: Group membership: Node group membership */
-    $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
-    $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
-    $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-    $handler->display->display_options['relationships']['og_membership_rel']['required'] = 1;
-
-    /* Contextual filter: OG membership: Group ID */
-    $handler->display->display_options['arguments']['gid']['id'] = 'gid';
-    $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
-    $handler->display->display_options['arguments']['gid']['field'] = 'gid';
-    $handler->display->display_options['arguments']['gid']['default_action'] = 'default';
-    $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'og_context';
-    $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
-    $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
-    $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
-    $handler->display->display_options['filter_groups']['groups'] = array(
-      1 => 'AND',
-      2 => 'OR',
-    );
 
 
-
+    $handler = $view->display['month']->handler;
+    unset($handler->display->display_options['path']);
+    unset($handler->display->display_options['menu']);
+    unset($handler->display->display_options['tab_options']);
+    
   }
 }
 
