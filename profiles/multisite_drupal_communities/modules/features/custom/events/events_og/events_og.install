@@ -60,6 +60,14 @@ function events_og_disable(){
 }
 
 
-
+/**
+ * hook_modules_enabled
+ */
+function events_og_modules_enabled($modules) {
+  if (in_array('events_og', $modules)) {
+    // force feature revert to update og permissions
+    features_revert(array('events_og' => array('og_features_permission')));  
+  }
+}
 
 
