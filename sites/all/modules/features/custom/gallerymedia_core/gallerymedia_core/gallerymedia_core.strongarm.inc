@@ -162,7 +162,7 @@ function gallerymedia_core_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'video_autoplay';
-  $strongarm->value = 0;
+  $strongarm->value = 1;
   $export['video_autoplay'] = $strongarm;
 
   $strongarm = new stdClass();
