@@ -10,47 +10,66 @@
 function wiki_og_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-wiki-group_audience'
-  $fields['node-wiki-group_audience'] = array(
+
+  // Exported field: 'node-wiki-og_group_ref'.
+  $fields['node-wiki-og_group_ref'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
-      'locked' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'group_audience',
+      'field_name' => 'og_group_ref',
       'foreign keys' => array(
-        'og' => array(
+        'node' => array(
           'columns' => array(
-            'gid' => 'gid',
+            'target_id' => 'nid',
           ),
-          'table' => 'og',
+          'table' => 'node',
         ),
       ),
       'indexes' => array(
-        'gid' => array(
-          0 => 'gid',
+        'target_id' => array(
+          0 => 'target_id',
         ),
       ),
-      'module' => 'og',
-      'no_ui' => TRUE,
-      'settings' => array(),
+      'locked' => '0',
+      'module' => 'entityreference',
+      'settings' => array(
+        'handler' => 'og',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'og_behavior' => array(
+              'status' => TRUE,
+            ),
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'membership_type' => 'og_membership_type_default',
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(),
+        ),
+        'handler_submit' => 'Change handler',
+        'target_type' => 'node',
+      ),
       'translatable' => '0',
-      'type' => 'group',
+      'type' => 'entityreference',
     ),
     'field_instance' => array(
       'bundle' => 'wiki',
       'default_value' => NULL,
+      'default_value_function' => 'entityreference_prepopulate_field_default_value',
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'og',
+          'module' => 'og_ui',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => 3,
+          'weight' => 13,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -60,10 +79,29 @@ function wiki_og_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'group_audience',
+      'field_name' => 'og_group_ref',
       'label' => 'Groups audience',
-      'required' => FALSE,
+      'required' => 0,
       'settings' => array(
+        'behaviors' => array(
+          'og_widget' => array(
+            'admin' => array(
+              'widget_type' => 'entityreference_autocomplete',
+            ),
+            'default' => array(
+              'widget_type' => 'options_select',
+            ),
+            'status' => TRUE,
+          ),
+          'prepopulate' => array(
+            'action' => 'none',
+            'action_on_edit' => 0,
+            'fallback' => 'none',
+            'og_context' => 1,
+            'skip_perm' => '0',
+            'status' => 1,
+          ),
+        ),
         'user_register_form' => FALSE,
       ),
       'view modes' => array(
@@ -79,16 +117,15 @@ function wiki_og_field_default_fields() {
         ),
       ),
       'widget' => array(
+        'active' => 0,
         'module' => 'og',
-        'settings' => array(
-          'opt_group' => 'auto',
-        ),
-        'type' => 'group_audience',
-        'weight' => 32,
+        'settings' => array(),
+        'type' => 'og_complex',
+        'weight' => 34,
       ),
-      'widget_type' => 'group_audience',
     ),
   );
+
 
   // Exported field: 'node-wiki-group_content_access'
   $fields['node-wiki-group_content_access'] = array(

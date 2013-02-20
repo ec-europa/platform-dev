@@ -8,12 +8,10 @@ function wiki_og_views_default_views_alter(&$views) {
     $view=$views['wiki_list'];
 
     /* Display: Defaults */
-    $handler = $view->display['default']->handler;
-
+    //$handler = $view->display['default']->handler;
 
     /* Display: Block */
-    $handler = $view->display['block_1']->handler;
-
+    //$handler = $view->display['block_1']->handler;
 
   }
 }

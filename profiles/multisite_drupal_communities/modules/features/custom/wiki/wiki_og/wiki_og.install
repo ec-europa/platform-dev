@@ -14,6 +14,8 @@ function wiki_og_enable() {
   
   // override drupal variables defined in core feature
   variable_set('pathauto_node_wiki_pattern', 'community/[node:group_audience]/wiki/[node:title]');
+  
+  drupal_flush_all_caches();
 }
 
 
