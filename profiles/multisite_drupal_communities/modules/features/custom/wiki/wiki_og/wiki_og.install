@@ -36,3 +36,15 @@ function wiki_og_disable() {
   // delete drupal variables
   variable_del('pathauto_node_wiki_pattern');
 }
+
+
+/**
+ * hook_modules_enabled
+ */
+function wiki_og_modules_enabled($modules) {
+  if (in_array('wiki_og', $modules)) {
+    // force feature revert to update og permissions
+    features_revert(array('wiki_og' => array('og_features_permission')));  
+  }
+}
+
