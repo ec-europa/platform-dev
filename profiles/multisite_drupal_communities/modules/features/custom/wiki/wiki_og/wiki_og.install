@@ -31,25 +31,6 @@ function wiki_og_disable() {
   /*** Remove permissions ***/
   multisite_drupal_toolbox_disable_content_type('wiki');
        
-  // Disable permissions to OG roles ---------------------------------------------------------------  
-  // Community Manager
-  $cm_rid = multisite_drupal_toolbox_get_og_rid('community_manager');
-  og_role_revoke_permissions($cm_rid, array(
-    'update own wiki content',
-    'update any wiki content',
-    'delete own wiki content',
-    'delete any wiki content',
-  ));
-    
-  // Administrator Member
-  $admm_rid = multisite_drupal_toolbox_get_og_rid('administrator member');
-  og_role_revoke_permissions($admm_rid, array(
-    'update own wiki content',
-    'update any wiki content',
-    'delete own wiki content',
-    'delete any wiki content',
-  ));
-    
   // delete drupal variables
   variable_del('pathauto_node_wiki_pattern');
 }
