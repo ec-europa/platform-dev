@@ -206,6 +206,15 @@ function gallerymedia_core_preprocess_node(&$variables) {
       }
     }
 
+    $htmlpager = theme('pager',
+      array(
+        'tags' => array(),
+        'element' => 0,
+      )
+    );
+    
+    $output .= $htmlpager;    
+
     $variables['gallerymedia_items'] = $output;
   }
 }
