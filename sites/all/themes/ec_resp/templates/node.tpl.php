@@ -79,7 +79,7 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
- 
+
   $output = '';
   $display_user_picture = TRUE;
   $prefixe = '';
@@ -89,33 +89,33 @@
   //get node type
   switch ($type) {
     case 'links':
-      $display_user_picture = FALSE;
       $fields = array(
         'picture' => array(),
         'body'    => array(),
         'hidden'  => array('comments', 'links', 'print_links'),
         'group' => array('group_audience', 'group_content_access')
-      );        
+      );
+      $display_user_picture = FALSE;
       break;
       
     case 'news':
-      $display_user_picture = FALSE;
       $fields = array(
         'picture' => array('field_news_picture'),
         'body'    => array('body'),
         'hidden'    => array('comments', 'links', 'print_links'),
         'group'   => array('group_audience', 'group_content_access')
-      );        
+      );
+      $display_user_picture = FALSE;
       break;
       
-    case 'community':
-      $display_submitted = FALSE;
+    case 'community':     
       $fields = array(
         'picture' => array('field_thumbnail'),
         'body'  => array('body'),
         'hidden'  => array('comments', 'links', 'print_links', 'field_thumbnail'),
         'group' => array('group_group', 'group_access')
       );
+      $display_submitted = FALSE;
       break;
 
     case 'blog_post':
@@ -128,13 +128,13 @@
       break;
 
     case 'idea':
-      $display_submitted = FALSE;    
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
         'hidden'  => array('comments', 'links', 'field_watching', 'print_links'),
         'group' => array('group_audience', 'group_content_access')
-      );  
+      );
+      $display_submitted = FALSE;
       if ($content['field_watching']['#object']->field_watching['und'][0]['value']) {   
         $suffixe .= '<div class="no_label">';     
         $suffixe .= '<span class="label label-success t_upper f_right"><i class="icon-eye-open icon-white"></i>'.t('watched').'</span>';
@@ -143,15 +143,25 @@
       break;      
 
     case 'webform':
-      $display_user_picture = FALSE;
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
         'hidden'  => array('comments', 'links', 'print_links'),
         'group' => array('group_audience', 'group_content_access')
-      );        
+      );
+      $display_user_picture = FALSE;
       $display_label = TRUE;
       break;
+
+    case 'gallerymedia':
+      $fields = array(
+        'picture' => array(),
+        'body'  => array('body'),
+        'hidden'  => array('field_video_upload', 'field_picture_upload', 'comments', 'links', 'print_links'),
+        'group' => array('group_audience', 'group_content_access')
+      );
+      $prefixe = $gallerymedia_items;
+      break;      
 
     default:
       $fields = array(
@@ -197,6 +207,8 @@
         }        
       }
 
+      $output .= $prefixe;
+
       //display non hidden fields
       $display_content = FALSE;
       foreach ($content as $key => $value) {
@@ -212,7 +224,6 @@
         //sort fields by weight
         asort($fields['content']);
 
-        $output .= $prefixe;
         foreach ($fields['content'] as $key => $value) {
           $field = '';
           if (isset($content[$key]['#label_display'])) {
@@ -260,9 +271,10 @@
             $output .= $field;
           }
         }
-        $output .= $suffixe;       
       }
       
+      $output .= $suffixe;
+
       //display groups
       $display_group = false;
       if (isset($fields['group'])) {
