@@ -52,19 +52,22 @@ function gallerymedia_core_preprocess_node(&$variables) {
 
     //merge photos and videos
     if (isset($variables['field_picture_upload']) && isset($variables['field_video_upload'])) {
-      $media_items = array_merge($variables['field_picture_upload'],$variables['field_video_upload']);
-    } else if (isset($variables['field_picture_upload'])) {
+      $media_items = array_merge($variables['field_picture_upload'], $variables['field_video_upload']);
+    } 
+    elseif (isset($variables['field_picture_upload'])) {
       $media_items = $variables['field_picture_upload'];
-    } else if (isset($variables['field_video_upload'])) {
+    } 
+    elseif (isset($variables['field_video_upload'])) {
       $media_items = $variables['field_video_upload'];
-    } else {
+    } 
+    else {
       $media_items = array();
     }    
 
     //sort media items by fid
     $sorted_media_items = array();
     if ($media_items) {
-      foreach ($media_items as $value){
+      foreach ($media_items as $value) {
         $sorted_media_items[$value['fid']]= $value; 
       }
       ksort($sorted_media_items);
@@ -76,7 +79,7 @@ function gallerymedia_core_preprocess_node(&$variables) {
     $sorted_media_items = array_slice($sorted_media_items, $pager_page * $pager_size, $pager_size);
 
     //if no pictures display empty_pic
-    if(!isset($sorted_media_items) || count($sorted_media_items) == 0) {
+    if (!isset($sorted_media_items) || count($sorted_media_items) == 0) {
       global $base_url;
       $empty_pic = array(
         'type' => 'empty',
@@ -97,10 +100,11 @@ function gallerymedia_core_preprocess_node(&$variables) {
       //variable alias
       if (isset($item['type']) && $item['type'] == 'empty') {
         $local_data = $item;
-      } else {        
+      } 
+      else {        
         $local_data = $sorted_media_items[$key];
       }
-      $short_name = (strlen(filter_xss($local_data['filename'])) > 35) ? substr(filter_xss($local_data['filename']),0,30).'[...]': filter_xss($local_data['filename']);
+      $short_name = (strlen(filter_xss($local_data['filename'])) > 35) ? substr(filter_xss($local_data['filename']), 0, 30) . '[...]' : filter_xss($local_data['filename']);
       
       //Get tags if any provided
       if (isset($local_data['field_tags']['und'][0])) {
@@ -109,7 +113,7 @@ function gallerymedia_core_preprocess_node(&$variables) {
         foreach ($cop as $buif => $tid_array) {
           $mytag[] = taxonomy_term_load($tid_array['tid'])->name;
         }
-        $tags = 'Tags: ' . implode(', ' , $mytag).'.';
+        $tags = 'Tags: ' . implode(', ' , $mytag) . '.';
       }  
             
       if (isset($local_data['filemime'])) {
@@ -124,7 +128,7 @@ function gallerymedia_core_preprocess_node(&$variables) {
 
           $picture_square_thumbnail = image_style_url('square_thumbnail', $local_data['uri']);
           $picture_preview = image_style_url('preview', $local_data['uri']);
-          $picture_original = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://','/',$local_data['uri']);     
+          $picture_original = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://', '/', $local_data['uri']);     
 
           $alt_text = (!empty($local_data['field_file_image_alt_text']['und'][0]['safe_value']) ? $local_data['field_file_image_alt_text']['und'][0]['safe_value'] : filter_xss($local_data['filename']));
           $title_texte = (!empty($local_data['field_file_image_title_text']['und'][0]['safe_value']) ? $local_data['field_file_image_title_text']['und'][0]['safe_value'] : '');   
@@ -155,14 +159,15 @@ function gallerymedia_core_preprocess_node(&$variables) {
           
           $converted_fid = db_select('video_output', 'vd')
             ->fields('vd', array('output_fid'))
-            ->condition('original_fid', $local_data['fid'],'=')
+            ->condition('original_fid', $local_data['fid'], '=')
             ->execute()
             ->fetchAssoc();
           
-          if (isset($converted_fid) && $converted_fid != null) {
+          if (isset($converted_fid) && $converted_fid != NULL) {
             $converted_video = file_load($converted_fid['output_fid']);
-            $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://','/',$converted_video->uri);
-          } else {
+            $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://', '/', $converted_video->uri);
+          } 
+          else {
             $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . '/videos/original/' . $local_data['filename'];
           }
           $thumb = file_load($local_data['thumbnail']);
@@ -171,28 +176,28 @@ function gallerymedia_core_preprocess_node(&$variables) {
           $watermark = $base_url . '/' . path_to_theme() . '/images/video_icon.png';
           
           $output .= '<li class="span3">';
-          $output .= '<div id="video_lightbox'.$key.'" class="lightbox" style="display: none;">';
-          $output .= '<embed name="player'.$key.'" id="player'.$key.'"
+          $output .= '<div id="video_lightbox' . $key . '" class="lightbox" style="display: none;">';
+          $output .= '<embed name="player' . $key . '" id="player' . $key . '"
             type="application/x-shockwave-flash" 
             pluginspage="http://www.macromedia.com/go/getflashplayer" 
-            width="800" height="600" 
+            width="100%" height="100%" 
             src="http://ec.europa.eu/wel/players/jwflvplayer/player.swf"
             allowfullscreen="true"
             allowscriptaccess="always"  
-            flashvars="file='.$video_path.'&fullscreen=true&image='.$video_preview.'&skin=http://ec.europa.eu/wel/players/jwflvplayer/skins/mainley.swf">
+            flashvars="file=' . $video_path . '&fullscreen=true&image=' . $video_preview . '&skin=http://ec.europa.eu/wel/players/jwflvplayer/skins/mainley.swf">
             </embed>';     
           $output .= '</div>';
-          $output .= '<a href="#video_lightbox'.$key.'" class="fancybox thumbnail" rel="gallery" title="'.$local_data['filename'].'">';
-          $output .= '<img class="watermark" src="'.$watermark.'" alt="'.$local_data['filename'].'" title="" />';
-          $output .= '<img src="'.$video_square_thumbnail.'" alt="'.$local_data['filename'].'" title="" />';
-          $output .= '<p class="carousel-caption">'.$short_name.'</p>';
+          $output .= '<a href="#video_lightbox' . $key . '" class="fancybox thumbnail" rel="gallery" title="' . $local_data['filename'] . '">';
+          $output .= '<img class="watermark" src="' . $watermark . '" alt="' . $local_data['filename'] . '" title="" />';
+          $output .= '<img src="' . $video_square_thumbnail . '" alt="' . $local_data['filename'] . '" title="" />';
+          $output .= '<p class="carousel-caption">' . $short_name . '</p>';
           $output .= '</a>';        
           $output .= '</li>';          
         break;
         
         case 'empty':
           $output .= '<div class="span3 media_item">';
-          $output .= '<img src="'.$local_data['uri'].'" alt="'.$local_data['filename'].'" />';
+          $output .= '<img src="' . $local_data['uri'] . '" alt="' . $local_data['filename'] . '" />';
           $output .= '</div>';           
         break;
         
