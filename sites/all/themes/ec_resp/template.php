@@ -53,7 +53,7 @@ function ec_resp_preprocess_html(&$variables) {
   }
 
   // Update page title
-  if (arg(0) == 'node') {
+  if (arg(0) == 'node' && is_numeric(arg(1))) {
     $node = node_load(arg(1));
     $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
   } 
