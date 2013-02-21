@@ -180,7 +180,7 @@ function gallerymedia_core_preprocess_node(&$variables) {
           $output .= '<embed name="player' . $key . '" id="player' . $key . '"
             type="application/x-shockwave-flash" 
             pluginspage="http://www.macromedia.com/go/getflashplayer" 
-            width="100%" height="100%" 
+            width="800" height="600" 
             src="http://ec.europa.eu/wel/players/jwflvplayer/player.swf"
             allowfullscreen="true"
             allowscriptaccess="always"  
