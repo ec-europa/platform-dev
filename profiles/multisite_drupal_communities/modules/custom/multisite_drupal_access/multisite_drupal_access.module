@@ -2,6 +2,7 @@
 /**
  * Implements hook_node_access().
  */
+/*
 function multisite_drupal_access_node_access($node, $op, $account) {
   if (is_string($node)) {
     return NODE_ACCESS_IGNORE;
@@ -13,7 +14,7 @@ function multisite_drupal_access_node_access($node, $op, $account) {
  
   return NODE_ACCESS_IGNORE;
 }
-
+*/
 
 /**
  * Implements hook_node_grants().
@@ -21,25 +22,24 @@ function multisite_drupal_access_node_access($node, $op, $account) {
 function multisite_drupal_access_node_grants($account, $op) {
   $grants = array();
   
-  // allow any users to view private communities in the communities directory
+  // allow any users to view private communities in the communities directory view
   if(arg(0) == 'communities_directory') {
-    if ($op == 'view' && $groups = og_get_all_group()) {
-      foreach ($groups as $gid => $value) {
-        $grants[OG_ACCESS_AUTHENTICATED_REALM][] = $gid;
+    $group_type = 'node';   
+    $query = new EntityFieldQuery();
+    $return = $query
+      ->entityCondition('entity_type', $group_type)
+      ->fieldCondition(OG_GROUP_FIELD, 'value', 1, '=')
+      ->addMetaData('account', user_load(1))
+      ->execute();
+    $groups = array_keys($return[$group_type]);
+
+    if ($op == 'view' && $groups) {
+      foreach ($groups as $gid) {
+        $realm = OG_ACCESS_REALM . ':' . $group_type;
+        $grants[$realm][] = $gid;
       }
     }
   }
   return $grants;
 }
-
-
-/*
-function multisite_drupal_access_node_access_records($node) {
-	$grants = array();
-	
-	print "<br>node_access_record<br>";
-	return $grants;
-}
-*/
-
 
