@@ -2,7 +2,38 @@
 /**
  * @file
  */
+function social_bookmark_init() {
 
+  drupal_add_js('sites/all/libraries/ibeginshare/share.js');
+}
+
+/**
+ * Implements hook_library().
+ * @return string
+ */
+function social_bookmark_library() {
+  $libraries['ibeginshare'] = array(
+    'title' => 'ibeginshare',
+    'website' => '',
+    'version' => '1.2',
+    'js' => array(
+      'sites/all/libraries/ibeginshare/share.js' => array(
+          'weight' => 100,
+          'group' => JS_LIBRARY,
+          'type' => 'file',
+          'media' => 'screen',
+      ),
+    ),
+    'css' => array(
+      'sites/all/libraries/ibeginshare/share.css' => array(),
+    ),
+     'css' => array(
+      'sites/all/libraries/ibeginshare/share-print.css' => array(),
+    ),
+  );
+
+  return $libraries;
+}
 
 /**
  * Implementation of hook_block_info().
@@ -13,7 +44,7 @@ function social_bookmark_block_info() {
   );
   return $blocks;
 }
- 
+
 /**
  * Implementation of hook_block_view().
  */
@@ -27,17 +58,15 @@ function social_bookmark_block_view($delta='') {
   }
   return $block;
 }
- 
+
 /**
  * custom html block
  * @return string
  */
 function social_bookmark_contents() {
   global $language;
-  return '
-	<script src="'.$GLOBALS['base_path'].''.drupal_get_path('theme', 'ec_default').'/ibeginshare/share.js" type="text/javascript"></script>
-
-		<div id="share-tool-right">
+  return
+		'<div id="share-tool-right">
 			<script type="text/javascript">
 			iBeginShare.attachLink("share-tool-right",{
 				share_counter_display: "true",
