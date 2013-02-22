@@ -37,10 +37,9 @@ function _mont_taxonomy_field_allowed_values() {
     )
   );
 
-  $context = og_context_determine_context();
+  $context = og_context();
   if ($context) {
-    $gid = $context->gid;
-    $nid = $context->etid;
+    $nid = $context['gid'];
     $group_taxonomy = _mont_group_taxonomy_load($nid);
     if (is_object($group_taxonomy)) {
       $vocab = taxonomy_vocabulary_load($group_taxonomy->vid);
@@ -387,10 +386,9 @@ function _mont_og_context_handler() {
  * Helper function to fetch the links
  */
 function _mont_block_taxonomy_navigation() {
-  $context = og_context_determine_context();
+  $context = og_context();
   if ($context) {
-    $gid = $context->gid;
-    $nid = $context->etid;
+    $nid = $context['gid'];
     $group_taxonomy = _mont_group_taxonomy_load($nid);
     if ($group_taxonomy) {
       $root_term = $group_taxonomy->tid;
@@ -427,7 +425,7 @@ function _mont_block_taxonomy_navigation() {
       }
       $node  = node_load($nid);
       if (count($items)) {
-        $block['subject'] = l(t($node->title), 'node/' . $nid);
+        $block['subject'] = t('navigation');
         $block['content'] = theme('item_list', array('items' => $items, 'attributes' => array('class' => 'menu')));
         return $block;
       }
