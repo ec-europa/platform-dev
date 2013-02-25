@@ -18,7 +18,6 @@ dependencies[] = multisite_og_button
 dependencies[] = og
 dependencies[] = og_access
 dependencies[] = og_context
-dependencies[] = og_menu
 dependencies[] = og_ui
 dependencies[] = options
 dependencies[] = strongarm
