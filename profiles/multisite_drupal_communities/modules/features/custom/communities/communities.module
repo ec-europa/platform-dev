@@ -185,6 +185,8 @@ function communities_block_view_alter(&$data, $block) {
       $node = node_load($context['gid']);
       $data['subject'] = $node->title;
     }
+    else
+      $data['content'] = array();
   }
 }
 
