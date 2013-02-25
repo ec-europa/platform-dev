@@ -26,6 +26,8 @@ dependencies[] = file
 dependencies[] = rdf
 dependencies[] = locale
 
+dependencies[] = multisite_drupal_toolbox
+
 dependencies[] = captcha
 dependencies[] = entity
 dependencies[] = ctools
@@ -117,7 +119,6 @@ dependencies[] = apachesolr_multilingual
 dependencies[] = chr
 dependencies[] = entityreference_prepopulate
 
-dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_og
 dependencies[] = multisite_drupal_access
 

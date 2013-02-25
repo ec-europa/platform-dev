@@ -20,7 +20,7 @@ function communities_disable() {
 function communities_enable() {
   // multisite_drupal_toolbox_add_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
 
-  multisite_drupal_toolbox_add_views_context('articles_list','news');
+  multisite_drupal_toolbox_add_views_context('communities', 'articles_list');
 
   // solR configuration add bundle
   db_insert('apachesolr_index_bundles')->fields(array(
