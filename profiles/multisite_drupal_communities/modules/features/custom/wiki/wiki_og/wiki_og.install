@@ -13,7 +13,7 @@ function wiki_og_enable() {
   multisite_drupal_toolbox_add_content_type_newsletters('wiki');
   
   // override drupal variables defined in core feature
-  variable_set('pathauto_node_wiki_pattern', 'community/[node:group_audience]/wiki/[node:title]');
+  variable_set('pathauto_node_wiki_pattern', 'community/[node:og_group_ref]/wiki/[node:title]');
   
   drupal_flush_all_caches();
 }

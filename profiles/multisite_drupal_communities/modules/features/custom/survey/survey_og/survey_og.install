@@ -10,7 +10,7 @@ function survey_og_enable() {
   multisite_drupal_toolbox_add_path_context('communities', 'urvey_analysis/*');
   
   // override drupal variable defined in core feature
-  variable_set('pathauto_node_webform_pattern', 'community/[node:group_audience]/survey/[node:title]');
+  variable_set('pathauto_node_webform_pattern', 'community/[node:og_group_ref]/survey/[node:title]');
   
   drupal_flush_all_caches();
 }
