@@ -120,8 +120,8 @@ function gallerymedia_core_video_default_presets() {
         'clip_start' => '',
         'clip_length' => '',
       ),
-      'overridden' => FALSE,
-      'module' => NULL,
+      'overridden' => TRUE,
+      'module' => 'gallerymedia_core',
     ),
     'default_video_conversion' => array(
       'name' => 'default_video_conversion',
