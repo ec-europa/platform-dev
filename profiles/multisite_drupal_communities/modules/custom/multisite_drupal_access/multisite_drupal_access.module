@@ -2,7 +2,7 @@
 /**
  * Implements hook_node_access().
  */
-/*
+
 function multisite_drupal_access_node_access($node, $op, $account) {
   if (is_string($node)) {
     return NODE_ACCESS_IGNORE;
@@ -14,7 +14,7 @@ function multisite_drupal_access_node_access($node, $op, $account) {
  
   return NODE_ACCESS_IGNORE;
 }
-*/
+
 
 /**
  * Implements hook_node_grants().
