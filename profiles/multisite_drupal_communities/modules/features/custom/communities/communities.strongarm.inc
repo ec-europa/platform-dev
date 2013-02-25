@@ -154,6 +154,13 @@ function communities_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_article_pattern';
+  $strongarm->value = 'community/[node:og_group_ref]/articles/[node:title]';
+  $export['pathauto_node_article_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'workbench_moderation_default_state_community';
   $strongarm->value = 'draft';
   $export['workbench_moderation_default_state_community'] = $strongarm;
