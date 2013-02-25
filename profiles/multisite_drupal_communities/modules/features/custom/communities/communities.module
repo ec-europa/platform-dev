@@ -133,6 +133,17 @@ function communities_menu() {
     'menu_name' => 'menu-communities-menu',
     'weight' => -10,
   );
+  
+  $items['community/%group_name/article'] = array(
+    'title' => 'Events',
+    'page callback' => 'views_page',
+    'page arguments' => array('article', 'page_1', 1),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+  
   return $items;
 }
 
