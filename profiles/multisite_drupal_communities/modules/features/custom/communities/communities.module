@@ -135,9 +135,9 @@ function communities_menu() {
   );
   
   $items['community/%group_name/article'] = array(
-    'title' => 'Events',
+    'title' => 'Articles',
     'page callback' => 'views_page',
-    'page arguments' => array('article', 'page_1', 1),
+    'page arguments' => array('article', 'page', 1),
     'access callback' => TRUE,
     'type' => MENU_NORMAL_ITEM,
     'menu_name' => 'menu-communities-menu',
