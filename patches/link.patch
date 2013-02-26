@@ -1,4 +1,4 @@
---- sites/all/modules/contributed/link/link.module.old	2013-01-03 13:38:24.311009307 +0100
+--- sites/all/modules/contributed/link/link.module	2013-01-03 13:38:24.311009307 +0100
 +++ sites/all/modules/contributed/link/link.module	2013-01-03 12:01:14.000000000 +0100
 @@ -329,6 +329,9 @@
    // Trim whitespace from URL.
