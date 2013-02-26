@@ -6,8 +6,8 @@
  */
 
 /**
- * hook_install
- */
+* Implements hook_install().
+*/
 function cce_basic_config_install() {
   // create a vocabulary dedicated to the classification
   $vocabulary = (object) array(
@@ -248,7 +248,7 @@ function cce_basic_config_install() {
     'description' => st('Administration, management and human resources policy'),
   );
   taxonomy_term_save($term);
-  
+
   // manually save file document displays in database
   // the feature settings are not properly injected in database
   // this process must be temporary
@@ -266,27 +266,11 @@ function cce_basic_config_install() {
         ->execute();
     }
   }
-  
-
-  // manually insert the password policy in database
-  // this process is temporary since the module password_policy
-  /*
-  $exports = cce_basic_config_default_password_policy();
-  db_delete('password_policy')->execute();
-  db_insert('password_policy')
-    ->fields(array(
-      'name' => 'Example policy',
-      'config' => $exports['Example policy']->config,
-    ))
-    ->execute(); 
-  */
-
- 
 }
 
 /**
- * hook_uninstall
- */
+* Implements hook_uninstall().
+*/
 function cce_basic_config_uninstall() {
   // manually remove config for file document display
   // this process must be temporary
@@ -300,8 +284,8 @@ function cce_basic_config_uninstall() {
   }
 }
 
-/*
-* hook_enable
+/**
+* Implements hook_enable().
 */
 function cce_basic_config_enable() {
   include_once DRUPAL_ROOT . '/includes/password.inc';
@@ -367,15 +351,6 @@ function cce_basic_config_enable() {
   );
   $context->reactions['block']['blocks']['user-menu']=$block_to_add1;
 
-  /*$block_to_add2 = array(
-    'module' => 'search',
-    'delta' =>  'form',
-    'region' => 'tools',
-    'weight' => 2,
-  );
-  $context->reactions['block']['blocks']['form']=$block_to_add2;
-  */
-
   module_invoke('context', 'save', $context);
 
   // multisite_drupal_toolbox_add_block_context('communities','multisite_og_button-og-contextual-links','multisite_og_button','og-contextual-links', 'sidebar_first','-9');
@@ -412,15 +387,6 @@ function cce_basic_config_disable() {
  */
 function cce_basic_config_update_7140() {
   // create a vocabulary dedicated to the classification
-  /*
-  $vocabulary = (object) array(
-    'name' => st('classification'),
-    'machine_name' => 'classification',
-    'module' => 'cce_basic_config',
-  );
-  taxonomy_vocabulary_save($vocabulary);
-  */
-
   // add default categories
   $vocabulary = taxonomy_vocabulary_machine_name_load('classification');
   $term = (object) array(
@@ -652,7 +618,7 @@ function cce_basic_config_update_7140() {
     'description' => st('Administration, management and human resources policy'),
   );
   taxonomy_term_save($term);
-  
+
   // manually save file document displays in database
   // the feature settings are not properly injected in database
   // this process must be temporary
@@ -668,16 +634,16 @@ function cce_basic_config_update_7140() {
       ))
       ->execute();
   }
-  
+
   // remove the mail address to the update modules notification
   variable_del('update_notify_emails');
-  
+
   // disable update management module permissions for administrator role
-  $adm_rid = multisite_drupal_toolbox_get_rid('administrator'); 
+  $adm_rid = multisite_drupal_toolbox_get_rid('administrator');
   user_role_revoke_permissions($adm_rid, array(
     'administer software updates',
   ));
-  
+
 }
 
 /**
@@ -688,21 +654,21 @@ function cce_basic_config_update_7150() {
   // this process is temporary since the module password_policy
   $exports = cce_basic_config_default_password_policy();
   //db_delete('password_policy')->execute();
-  
+
   $schema = password_policy_schema();
   db_drop_table('password_policy');
   db_drop_table('password_policy_expiration');
   db_drop_table('password_policy_force_change');
   db_drop_table('password_policy_history');
-  db_drop_table('password_policy_role');  
-  
+  db_drop_table('password_policy_role');
+
   if(!db_table_exists('password_policy'))
     db_create_table('password_policy', $schema['password_policy']);
-  if(!db_table_exists('password_policy_history'))  
+  if(!db_table_exists('password_policy_history'))
     db_create_table('password_policy_history', $schema['password_policy_history']);
   if(!db_table_exists('password_policy_notice_history'))
     db_create_table('password_policy_notice_history', $schema['password_policy_notice_history']);
-  
+
   db_insert('password_policy')
     ->fields(array(
       'name' => 'Example policy',
