@@ -19,11 +19,11 @@ function multisite_translations_field_default_fields() {
       'entity_types' => array(),
       'field_name' => 'field_job_reference',
       'foreign keys' => array(
-        'node' => array(
+        'tmgmt_job' => array(
           'columns' => array(
-            'target_id' => 'nid',
+            'target_id' => 'tjid',
           ),
-          'table' => 'node',
+          'table' => 'tmgmt_job',
         ),
       ),
       'indexes' => array(
