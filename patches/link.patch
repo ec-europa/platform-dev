@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/link/link.module	2013-01-03 13:38:24.311009307 +0100
-+++ sites/all/modules/contributed/link/link.module	2013-01-03 12:01:14.000000000 +0100
+--- sites/all/modules/contributed/link/link.module	2013-02-26 14:02:16.000000000 +0100
++++ sites/all/modules/contributed/link/link.module	2013-02-26 14:11:23.000000000 +0100
 @@ -345,6 +345,9 @@
    // Trim whitespace from URL.
    $item['url'] = trim($item['url']);
