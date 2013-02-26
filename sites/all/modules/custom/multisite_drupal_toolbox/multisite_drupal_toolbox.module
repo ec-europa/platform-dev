@@ -11,7 +11,8 @@ function multisite_drupal_toolbox_menu() {
       'page callback' => 'comment_admin',
       'access arguments' => array('administer comments'),
       'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
-      'file' => '../../../../../modules/comment/comment.admin.inc',
+      'file' => 'comment.admin.inc',
+      'file path' => drupal_get_path('module', 'comment'),
   );
   $items['admin/workbench/comment/new'] = array(
       'title' => 'Published comments',
@@ -264,6 +265,9 @@ function multisite_drupal_toolbox_get_rid($role_name) {
     ->fetchAssoc();
   return $r['rid'];
 }
+/**
+ * Obsolete
+ */
 function get_rid($role_name) {
   return multisite_drupal_toolbox_get_rid($role_name);
 }
@@ -277,6 +281,9 @@ function multisite_drupal_toolbox_add_content_type_newsletters($node_type) {
     field_update_field($field);
   }
 }
+/**
+ * Obsolete
+ */
 function add_content_type_newsletters($node_type) {
   multisite_drupal_toolbox_add_content_type_newsletters($node_type);
 }
@@ -327,6 +334,9 @@ function multisite_drupal_toolbox_is_admin() {
     return TRUE;
   return FALSE;
 }
+/**
+ * Obsolete
+ */
 function is_admin() {
   return multisite_drupal_toolbox_is_admin();
 }
@@ -338,6 +348,9 @@ function is_admin() {
 function multisite_drupal_toolbox_cce_theme() {
   return variable_get('theme_default', 'ec_default');
 }
+/**
+ * Obsolete
+ */
 function multisite_cce_theme() {
   return multisite_drupal_toolbox_cce_theme();
 }
@@ -366,6 +379,9 @@ function multisite_drupal_toolbox_disable_block($module, $delta) {
   ->condition('delta', $delta, '=')
   ->execute();
 }
+/**
+ * Obsolete
+ */
 function _disable_block($module, $delta) {
   multisite_drupal_toolbox_disable_block($module, $delta);
 }
@@ -470,6 +486,9 @@ function multisite_drupal_toolbox_workbench_redirect_submit($form, &$form_state)
     'admin/workbench/comment',
   );
 }
+/**
+ * Obsolete
+ */
 function workbench_redirect_submit($form, &$form_state) {
   multisite_drupal_toolbox_workbench_redirect_submit($form, $form_state);
 }
@@ -501,6 +520,9 @@ function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
       break;
   }
 }
+/**
+ * Obsolete
+ */
 function config_solr_bundle($bundle, $op) {
   multisite_drupal_toolbox_config_solr_bundle($bundle, $op);
 }
@@ -527,6 +549,9 @@ function multisite_drupal_toolbox_notification_content_type($content_type, $op) 
       break;
   }
 }
+/**
+ * Obsolete
+ */
 function notification_content_type($content_type, $op) {
   multisite_drupal_toolbox_notification_content_type($content_type, $op);
 }
@@ -553,6 +578,9 @@ function multisite_drupal_toolbox_simplenews_related_content_type($content_type,
         break;
     }
 }
+/**
+ * Obsolete
+ */
 function simplenews_related_content_type($content_type, $op) {
   multisite_drupal_toolbox_simplenews_related_content_type($content_type, $op);
 }
@@ -591,6 +619,9 @@ function multisite_drupal_toolbox_rate_content_type($content_type, $op) {
     break;
   }
 }
+/**
+ * Obsolete
+ */
 function rate_content_type($content_type, $op) {
   multisite_drupal_toolbox_rate_content_type($content_type, $op);
 }
@@ -626,6 +657,9 @@ function multisite_drupal_toolbox_linkchecker_user_report_page_workbench() {
   module_load_include('inc', 'linkchecker', 'linkchecker.pages');
   return linkchecker_user_report_page($user);
 }
+/**
+ * Obsolete
+ */
 function linkchecker_user_report_page_workbench() {
   return multisite_drupal_toolbox_linkchecker_user_report_page_workbench();
 }
@@ -638,6 +672,9 @@ function multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_r
   module_load_include('inc', 'linkchecker', 'linkchecker.pages');
   return _linkchecker_user_access_account_broken_links_report($user);
 }
+/**
+ * Obsolete
+ */
 function _linkchecker_user_access_account_broken_links_report_workbench() {
   return multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_report_workbench();
 }
@@ -657,6 +694,9 @@ function multisite_drupal_toolbox_content_type_linkchecker($type, $op) {
   }
   variable_set("linkchecker_scan_nodetypes", $node_type_scan);
 }
+/**
+ * Obsolete
+ */
 function _content_type_linkchecker($type, $op) {
   multisite_drupal_toolbox_content_type_linkchecker($type, $op);
 }
@@ -681,6 +721,9 @@ function multisite_drupal_toolbox_form_security_settings($form, &$form_state) {
 
   return system_settings_form($form);
 }
+/**
+ * Obsolete
+ */
 function form_security_settings($form, &$form_state) {
   return multisite_drupal_toolbox_form_security_settings($form, $form_state);
 }
@@ -849,6 +892,9 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
 
   return $path_info;
 }
+/**
+ * Obsolete
+ */
 function linkit_scan_url($url, $field) {
   return multisite_drupal_toolbox_linkit_scan_url($url, $field);
 }
