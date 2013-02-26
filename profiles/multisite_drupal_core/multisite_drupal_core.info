@@ -18,15 +18,11 @@ dependencies[] = path
 dependencies[] = taxonomy
 dependencies[] = dblog
 dependencies[] = search
-;dependencies[] = shortcut
-
 dependencies[] = toolbar
-;dependencies[] = overlay
 dependencies[] = field_ui
 dependencies[] = file
 dependencies[] = rdf
 dependencies[] = locale
-
 dependencies[] = captcha
 dependencies[] = entity
 dependencies[] = ctools
@@ -52,23 +48,14 @@ dependencies[] = image_captcha
 dependencies[] = file_entity
 dependencies[] = media
 dependencies[] = password_policy
-;dependencies[] = rules
-;dependencies[] = references
-;dependencies[] = node_reference
-;dependencies[] = user_reference
 dependencies[] = strongarm
 dependencies[] = sweaver
 dependencies[] = defaultcontent
 dependencies[] = workbench
 dependencies[] = workbench_moderation 
-;dependencies[] = varnish
 dependencies[] = views
 dependencies[] = views_ui
 dependencies[] = views_bulk_operations
-;dependencies[] = views_xml
-;dependencies[] = views_xhtml
-;dependencies[] = views_rdf
-;dependencies[] = views_json
 dependencies[] = votingapi
 dependencies[] = uuid
 dependencies[] = feature_set
@@ -123,7 +110,6 @@ dependencies[] = content_examples
 dependencies[] = cce_basic_config
 dependencies[] = solr_config
 dependencies[] = multisite_rules_configuration
-dependencies[] = article_extended
 
 files[] = multisite_drupal_core.profile
 
