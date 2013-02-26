@@ -16,7 +16,6 @@ function cce_basic_config_field_default_fields() {
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
-      'locked' => '1',
       'entity_types' => array(
         0 => 'node',
       ),
@@ -34,6 +33,7 @@ function cce_basic_config_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -105,6 +105,7 @@ function cce_basic_config_field_default_fields() {
           0 => 'fid',
         ),
       ),
+      'locked' => '0',
       'module' => 'image',
       'settings' => array(
         'default_image' => FALSE,
@@ -188,6 +189,7 @@ function cce_basic_config_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -267,6 +269,7 @@ function cce_basic_config_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -339,6 +342,7 @@ function cce_basic_config_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '0',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -415,6 +419,7 @@ function cce_basic_config_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -478,6 +483,7 @@ function cce_basic_config_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -524,11 +530,11 @@ function cce_basic_config_field_default_fields() {
   // Included for use with string extractors like potx.
   t('Body');
   t('Enter a comma-separated list of words to describe your content.');
+  t('First name');
   t('Image');
+  t('Last name');
   t('Tags');
   t('Upload an image to go with this article.');
-  t('First name');
-  t('Last name');
 
   return $fields;
 }

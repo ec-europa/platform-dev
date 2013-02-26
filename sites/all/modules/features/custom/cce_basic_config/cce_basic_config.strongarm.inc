@@ -102,72 +102,6 @@ function cce_basic_config_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'language_negotiation_language';
-  $strongarm->value = array(
-    'locale-url' => array(
-      'callbacks' => array(
-        'language' => 'locale_language_from_url',
-        'switcher' => 'locale_language_switcher_url',
-        'url_rewrite' => 'locale_language_url_rewrite_url',
-      ),
-      'file' => 'includes/locale.inc',
-    ),
-    'language_cookie' => array(
-      'callbacks' => array(
-        'language' => 'language_cookie_language',
-        'switcher' => 'language_cookie_language_switcher',
-        'url_rewrite' => 'language_cookie_language_rewrite',
-      ),
-      'file' => 'sites/all/modules/contributed/language_cookie/language_cookie.module',
-      'cache' => 0,
-    ),
-    'language-default' => array(
-      'callbacks' => array(
-        'language' => 'language_from_default',
-      ),
-    ),
-  );
-  $export['language_negotiation_language'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'language_negotiation_language_content';
-  $strongarm->value = array(
-    'locale-interface' => array(
-      'callbacks' => array(
-        'language' => 'locale_language_from_interface',
-      ),
-      'file' => 'includes/locale.inc',
-    ),
-  );
-  $export['language_negotiation_language_content'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'language_negotiation_language_url';
-  $strongarm->value = array(
-    'locale-url' => array(
-      'callbacks' => array(
-        'language' => 'locale_language_from_url',
-        'switcher' => 'locale_language_switcher_url',
-        'url_rewrite' => 'locale_language_url_rewrite_url',
-      ),
-      'file' => 'includes/locale.inc',
-    ),
-    'locale-url-fallback' => array(
-      'callbacks' => array(
-        'language' => 'locale_language_url_fallback',
-      ),
-      'file' => 'includes/locale.inc',
-    ),
-  );
-  $export['language_negotiation_language_url'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'language_cookie_domain';
   $strongarm->value = '';
   $export['language_cookie_domain'] = $strongarm;
@@ -192,7 +126,73 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'language_cookie_time';
   $strongarm->value = '31536000';
   $export['language_cookie_time'] = $strongarm;
-  
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'language_negotiation_language';
+  $strongarm->value = array(
+      'locale-url' => array(
+          'callbacks' => array(
+              'language' => 'locale_language_from_url',
+              'switcher' => 'locale_language_switcher_url',
+              'url_rewrite' => 'locale_language_url_rewrite_url',
+          ),
+          'file' => 'includes/locale.inc',
+      ),
+      'language_cookie' => array(
+          'callbacks' => array(
+              'language' => 'language_cookie_language',
+              'switcher' => 'language_cookie_language_switcher',
+              'url_rewrite' => 'language_cookie_language_rewrite',
+          ),
+          'file' => 'sites/all/modules/contributed/language_cookie/language_cookie.module',
+          'cache' => 0,
+      ),
+      'language-default' => array(
+          'callbacks' => array(
+              'language' => 'language_from_default',
+          ),
+      ),
+  );
+  $export['language_negotiation_language'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'language_negotiation_language_content';
+  $strongarm->value = array(
+      'locale-interface' => array(
+          'callbacks' => array(
+              'language' => 'locale_language_from_interface',
+          ),
+          'file' => 'includes/locale.inc',
+      ),
+  );
+  $export['language_negotiation_language_content'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'language_negotiation_language_url';
+  $strongarm->value = array(
+      'locale-url' => array(
+          'callbacks' => array(
+              'language' => 'locale_language_from_url',
+              'switcher' => 'locale_language_switcher_url',
+              'url_rewrite' => 'locale_language_url_rewrite_url',
+          ),
+          'file' => 'includes/locale.inc',
+      ),
+      'locale-url-fallback' => array(
+          'callbacks' => array(
+              'language' => 'locale_language_url_fallback',
+          ),
+          'file' => 'includes/locale.inc',
+      ),
+  );
+  $export['language_negotiation_language_url'] = $strongarm;
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -206,7 +206,7 @@ function cce_basic_config_strongarm() {
     'language-default' => '10',
   );
   $export['locale_language_providers_weight_language'] = $strongarm;
-   
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -552,6 +552,68 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'print_pdf_wkhtmltopdf_options';
   $strongarm->value = '--footer-font-size 7 --footer-right \'[page]\'';
   $export['print_pdf_wkhtmltopdf_options'] = $strongarm;
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'rate_widgets';
+  $strongarm->value = array(
+      1 => (object) array(
+          'name' => 'rate_fivestar',
+          'tag' => 'vote',
+          'title' => 'rate_fivestar',
+          'node_types' => array(),
+          'comment_types' => array(),
+          'options' => array(
+              0 => array(
+                  0 => '0',
+                  1 => '1',
+              ),
+              1 => array(
+                  0 => '25',
+                  1 => '2',
+              ),
+              2 => array(
+                  0 => '50',
+                  1 => '3',
+              ),
+              3 => array(
+                  0 => '75',
+                  1 => '4',
+              ),
+              4 => array(
+                  0 => '100',
+                  1 => '5',
+              ),
+          ),
+          'template' => 'fivestar',
+          'node_display' => '1',
+          'teaser_display' => FALSE,
+          'comment_display' => '2',
+          'node_display_mode' => '1',
+          'teaser_display_mode' => '1',
+          'comment_display_mode' => '1',
+          'roles' => array(
+              3 => 0,
+              1 => 0,
+              2 => 0,
+              4 => 0,
+              5 => 0,
+          ),
+          'allow_voting_by_author' => 1,
+          'noperm_behaviour' => '1',
+          'displayed' => '1',
+          'displayed_just_voted' => '2',
+          'description' => '',
+          'description_in_compact' => TRUE,
+          'delete_vote_on_second_click' => '0',
+          'value_type' => 'percent',
+          'theme' => 'rate_template_fivestar',
+          'css' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.css',
+          'js' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.js',
+          'translate' => TRUE,
+      ),
+  );
+  $export['rate_widgets'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -559,7 +621,7 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'realname_pattern';
   $strongarm->value = '[user:field-firstname] [user:field-lastname]';
   $export['realname_pattern'] = $strongarm;
-  
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -834,70 +896,8 @@ z-index';
   $strongarm->value = 'ec_resp';
   $export['theme_default'] = $strongarm;
 
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'rate_widgets';
-  $strongarm->value = array(
-    1 => (object) array(
-      'name' => 'rate_fivestar',
-      'tag' => 'vote',
-      'title' => 'rate_fivestar',
-      'node_types' => array(),
-      'comment_types' => array(),
-      'options' => array(
-        0 => array(
-          0 => '0',
-          1 => '1',
-        ),
-        1 => array(
-          0 => '25',
-          1 => '2',
-        ),
-        2 => array(
-          0 => '50',
-          1 => '3',
-        ),
-        3 => array(
-          0 => '75',
-          1 => '4',
-        ),
-        4 => array(
-          0 => '100',
-          1 => '5',
-        ),
-      ),
-      'template' => 'fivestar',
-      'node_display' => '1',
-      'teaser_display' => FALSE,
-      'comment_display' => '2',
-      'node_display_mode' => '1',
-      'teaser_display_mode' => '1',
-      'comment_display_mode' => '1',
-      'roles' => array(
-        3 => 0,
-        1 => 0,
-        2 => 0,
-        4 => 0,
-        5 => 0,
-      ),
-      'allow_voting_by_author' => 1,
-      'noperm_behaviour' => '1',
-      'displayed' => '1',
-      'displayed_just_voted' => '2',
-      'description' => '',
-      'description_in_compact' => TRUE,
-      'delete_vote_on_second_click' => '0',
-      'value_type' => 'percent',
-      'theme' => 'rate_template_fivestar',
-      'css' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.css',
-      'js' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.js',
-      'translate' => TRUE,
-    ),
-  );
-  $export['rate_widgets'] = $strongarm;
-  
-  
+
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -1051,7 +1051,7 @@ u
 ul
 ';
   $export['security_allowed_tags'] = $strongarm;
-  
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -1088,6 +1088,6 @@ ul
   $strongarm->name = 'media__wysiwyg_upload_directory';
   $strongarm->value = '';
   $export['media__wysiwyg_upload_directory'] = $strongarm;
-  
+
   return $export;
 }
