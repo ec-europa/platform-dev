@@ -604,7 +604,7 @@ function cce_basic_config_field_default_fields() {
       ),
       'entity_type' => 'user',
       'field_name' => 'field_firstname',
-      'label' => 'Firstname',
+      'label' => 'First name',
       'required' => 1,
       'settings' => array(
         'text_processing' => '0',
@@ -667,7 +667,7 @@ function cce_basic_config_field_default_fields() {
       ),
       'entity_type' => 'user',
       'field_name' => 'field_lastname',
-      'label' => 'Last Name',
+      'label' => 'Last name',
       'required' => 1,
       'settings' => array(
         'text_processing' => '0',
@@ -693,8 +693,8 @@ function cce_basic_config_field_default_fields() {
   t('Image');
   t('Tags');
   t('Upload an image to go with this article.');
-  t('First Name');
-  t('Last Name');
+  t('First name');
+  t('Last name');
   t('Publication date');
   t('Unpublish on');
 
