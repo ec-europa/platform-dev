@@ -24,6 +24,7 @@ function gallerymedia_core_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Galleries';
   $handler->display->display_options['css_class'] = 'grid4';
+  $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -165,6 +166,7 @@ function gallerymedia_core_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Video upload */
   $handler->display->display_options['fields']['field_video_upload']['id'] = 'field_video_upload';
@@ -245,7 +247,7 @@ function gallerymedia_core_views_default_views() {
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = '';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div class="galleries-item-wrapper">
-[field_picture_upload][field_video_upload] 
+[field_picture_upload][field_video_upload]
 </div>';
   $handler->display->display_options['fields']['nothing']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['nothing']['alter']['absolute'] = 0;
@@ -335,11 +337,12 @@ function gallerymedia_core_views_default_views() {
   $handler->display->display_options['menu']['weight'] = '1';
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
-  $handler->display->display_options['tab_options']['weight'] = '0'; 
+  $handler->display->display_options['tab_options']['weight'] = '0';
 
   /* Display: Latest Media block */
   $handler = $view->new_display('block', 'Latest Media block', 'medias_block');
   $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['row_class'] = 'item';
@@ -530,14 +533,19 @@ function gallerymedia_core_views_default_views() {
     t('Items per page'),
     t('- All -'),
     t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('<div class="galleries-item-wrapper">
 [field_picture_upload]
 </div>'),
     t('Page'),
     t('[Empty_gallery]'),
     t('<div class="galleries-item-wrapper">
-[field_picture_upload][field_video_upload] 
+[field_picture_upload][field_video_upload]
 </div>'),
+    t('<div id="nb_items">[nid]</div>'),
     t('Latest Media block'),
     t('[field_picture_upload][field_video_upload]'),
   );
