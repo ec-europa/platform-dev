@@ -1,5 +1,5 @@
 name = ECWEB Translator
-description = TMGMT implementation for the EYP site.
+description = TMGMT implementation for the multisite plateform.
 package = Translation Management
 core = 7.x
 dependencies[] = tmgmt
