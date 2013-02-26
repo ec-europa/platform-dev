@@ -35,13 +35,13 @@ function cce_basic_config_context_default_contexts() {
         'Facet API: Apache Solr environment: localhost server : Author' => array(
           'module' => 'facetapi',
           'delta' => 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j',
-          'region' => 'sidebar_left',
+          'region' => 'sidebar_first',
           'weight' => '-10',
         ),
         'Facet API: Apache Solr environment: localhost server : Content type' => array(
           'module' => 'facetapi',
           'delta' => 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu',
-          'region' => 'sidebar_left',
+          'region' => 'sidebar_first',
           'weight' => '-10',
         ),
       ),
@@ -101,10 +101,10 @@ function cce_basic_config_context_default_contexts() {
   $context->condition_mode = 0;
 
   // Translatables
+  // Included for use with string extractors like potx.
   t('global context');
   t('site wide');
   $export['site_wide'] = $context;
-  
+
   return $export;
-  
 }

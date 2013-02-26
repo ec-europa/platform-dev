@@ -132,28 +132,28 @@ function cce_basic_config_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'language_negotiation_language';
   $strongarm->value = array(
-      'locale-url' => array(
-          'callbacks' => array(
-              'language' => 'locale_language_from_url',
-              'switcher' => 'locale_language_switcher_url',
-              'url_rewrite' => 'locale_language_url_rewrite_url',
-          ),
-          'file' => 'includes/locale.inc',
+    'locale-url' => array(
+      'callbacks' => array(
+        'language' => 'locale_language_from_url',
+        'switcher' => 'locale_language_switcher_url',
+        'url_rewrite' => 'locale_language_url_rewrite_url',
       ),
-      'language_cookie' => array(
-          'callbacks' => array(
-              'language' => 'language_cookie_language',
-              'switcher' => 'language_cookie_language_switcher',
-              'url_rewrite' => 'language_cookie_language_rewrite',
-          ),
-          'file' => 'sites/all/modules/contributed/language_cookie/language_cookie.module',
-          'cache' => 0,
+      'file' => 'includes/locale.inc',
+    ),
+    'language_cookie' => array(
+      'callbacks' => array(
+        'language' => 'language_cookie_language',
+        'switcher' => 'language_cookie_language_switcher',
+        'url_rewrite' => 'language_cookie_language_rewrite',
       ),
-      'language-default' => array(
-          'callbacks' => array(
-              'language' => 'language_from_default',
-          ),
+      'file' => 'sites/all/modules/contributed/language_cookie/language_cookie.module',
+      'cache' => 0,
+    ),
+    'language-default' => array(
+      'callbacks' => array(
+        'language' => 'language_from_default',
       ),
+    ),
   );
   $export['language_negotiation_language'] = $strongarm;
 
@@ -162,12 +162,12 @@ function cce_basic_config_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'language_negotiation_language_content';
   $strongarm->value = array(
-      'locale-interface' => array(
-          'callbacks' => array(
-              'language' => 'locale_language_from_interface',
-          ),
-          'file' => 'includes/locale.inc',
+    'locale-interface' => array(
+      'callbacks' => array(
+        'language' => 'locale_language_from_interface',
       ),
+      'file' => 'includes/locale.inc',
+    ),
   );
   $export['language_negotiation_language_content'] = $strongarm;
 
@@ -176,22 +176,96 @@ function cce_basic_config_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'language_negotiation_language_url';
   $strongarm->value = array(
-      'locale-url' => array(
-          'callbacks' => array(
-              'language' => 'locale_language_from_url',
-              'switcher' => 'locale_language_switcher_url',
-              'url_rewrite' => 'locale_language_url_rewrite_url',
-          ),
-          'file' => 'includes/locale.inc',
+    'locale-url' => array(
+      'callbacks' => array(
+        'language' => 'locale_language_from_url',
+        'switcher' => 'locale_language_switcher_url',
+        'url_rewrite' => 'locale_language_url_rewrite_url',
       ),
-      'locale-url-fallback' => array(
-          'callbacks' => array(
-              'language' => 'locale_language_url_fallback',
-          ),
-          'file' => 'includes/locale.inc',
+      'file' => 'includes/locale.inc',
+    ),
+    'locale-url-fallback' => array(
+      'callbacks' => array(
+        'language' => 'locale_language_url_fallback',
       ),
+      'file' => 'includes/locale.inc',
+    ),
   );
   $export['language_negotiation_language_url'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_check_links_interval';
+  $strongarm->value = '259200';
+  $export['linkchecker_check_links_interval'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_check_links_types';
+  $strongarm->value = '0';
+  $export['linkchecker_check_links_types'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_disable_link_check_for_urls';
+  $strongarm->value = 'example.com
+example.net
+example.org';
+  $export['linkchecker_disable_link_check_for_urls'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_extract_from_a';
+  $strongarm->value = 1;
+  $export['linkchecker_extract_from_a'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_extract_from_img';
+  $strongarm->value = 1;
+  $export['linkchecker_extract_from_img'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_ignore_response_codes';
+  $strongarm->value = '200
+206
+302
+304
+401
+301
+403';
+  $export['linkchecker_ignore_response_codes'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_scan_blocks';
+  $strongarm->value = 0;
+  $export['linkchecker_scan_blocks'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_scan_comments';
+  $strongarm->value = 0;
+  $export['linkchecker_scan_comments'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_scan_nodetypes';
+  $strongarm->value = array(
+    'article' => 'article',
+    'page' => 'page',
+  );
+  $export['linkchecker_scan_nodetypes'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -206,6 +280,43 @@ function cce_basic_config_strongarm() {
     'language-default' => '10',
   );
   $export['locale_language_providers_weight_language'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'media__file_extensions';
+  $strongarm->value = 'jpg jpeg gif png txt doc docx xls xlsx pdf ppt pptx pps ppsx odt ods odp mp3 mov mp4 m4a m4v mpeg avi ogg oga ogv wmv ico';
+  $export['media__file_extensions'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'media__wysiwyg_allowed_types';
+  $strongarm->value = array(
+    0 => 'image',
+    1 => 'video',
+    2 => 'audio',
+    3 => 'document',
+  );
+  $export['media__wysiwyg_allowed_types'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'media__wysiwyg_browser_plugins';
+  $strongarm->value = array(
+    0 => 'upload',
+    1 => 'media_default--media_browser_my_files',
+    2 => 'elibrary_browser_tab--media_browser_1',
+  );
+  $export['media__wysiwyg_browser_plugins'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'media__wysiwyg_upload_directory';
+  $strongarm->value = '';
+  $export['media__wysiwyg_upload_directory'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -262,130 +373,6 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'print_html_show_link';
   $strongarm->value = '2';
   $export['print_html_show_link'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_book_link';
-  $strongarm->value = '1';
-  $export['print_mail_book_link'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_display_sys_urllist';
-  $strongarm->value = 0;
-  $export['print_mail_display_sys_urllist'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_hourly_threshold';
-  $strongarm->value = '3';
-  $export['print_mail_hourly_threshold'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_job_queue';
-  $strongarm->value = 0;
-  $export['print_mail_job_queue'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_link_class';
-  $strongarm->value = 'print-mail';
-  $export['print_mail_link_class'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_link_pos';
-  $strongarm->value = array(
-    'block' => 0,
-    'link' => 0,
-    'corner' => 0,
-    'help' => 0,
-  );
-  $export['print_mail_link_pos'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_link_teaser';
-  $strongarm->value = 0;
-  $export['print_mail_link_teaser'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_link_use_alias';
-  $strongarm->value = 0;
-  $export['print_mail_link_use_alias'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_node_link_pages';
-  $strongarm->value = '';
-  $export['print_mail_node_link_pages'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_node_link_visibility';
-  $strongarm->value = '0';
-  $export['print_mail_node_link_visibility'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_send_option_default';
-  $strongarm->value = 'sendpage';
-  $export['print_mail_send_option_default'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_show_link';
-  $strongarm->value = '2';
-  $export['print_mail_show_link'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_sys_link_pages';
-  $strongarm->value = '';
-  $export['print_mail_sys_link_pages'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_sys_link_visibility';
-  $strongarm->value = '1';
-  $export['print_mail_sys_link_visibility'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_teaser_choice';
-  $strongarm->value = 0;
-  $export['print_mail_teaser_choice'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_teaser_default';
-  $strongarm->value = 1;
-  $export['print_mail_teaser_default'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_mail_use_reply_to';
-  $strongarm->value = 1;
-  $export['print_mail_use_reply_to'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -552,75 +539,6 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'print_pdf_wkhtmltopdf_options';
   $strongarm->value = '--footer-font-size 7 --footer-right \'[page]\'';
   $export['print_pdf_wkhtmltopdf_options'] = $strongarm;
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'rate_widgets';
-  $strongarm->value = array(
-      1 => (object) array(
-          'name' => 'rate_fivestar',
-          'tag' => 'vote',
-          'title' => 'rate_fivestar',
-          'node_types' => array(),
-          'comment_types' => array(),
-          'options' => array(
-              0 => array(
-                  0 => '0',
-                  1 => '1',
-              ),
-              1 => array(
-                  0 => '25',
-                  1 => '2',
-              ),
-              2 => array(
-                  0 => '50',
-                  1 => '3',
-              ),
-              3 => array(
-                  0 => '75',
-                  1 => '4',
-              ),
-              4 => array(
-                  0 => '100',
-                  1 => '5',
-              ),
-          ),
-          'template' => 'fivestar',
-          'node_display' => '1',
-          'teaser_display' => FALSE,
-          'comment_display' => '2',
-          'node_display_mode' => '1',
-          'teaser_display_mode' => '1',
-          'comment_display_mode' => '1',
-          'roles' => array(
-              3 => 0,
-              1 => 0,
-              2 => 0,
-              4 => 0,
-              5 => 0,
-          ),
-          'allow_voting_by_author' => 1,
-          'noperm_behaviour' => '1',
-          'displayed' => '1',
-          'displayed_just_voted' => '2',
-          'description' => '',
-          'description_in_compact' => TRUE,
-          'delete_vote_on_second_click' => '0',
-          'value_type' => 'percent',
-          'theme' => 'rate_template_fivestar',
-          'css' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.css',
-          'js' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.js',
-          'translate' => TRUE,
-      ),
-  );
-  $export['rate_widgets'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'realname_pattern';
-  $strongarm->value = '[user:field-firstname] [user:field-lastname]';
-  $export['realname_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -639,6 +557,86 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'search_default_module';
   $strongarm->value = 'apachesolr_search';
   $export['search_default_module'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'security_allowed_tags';
+  $strongarm->value = 'a
+abbr
+area
+audio
+b
+base
+blockquote
+br
+button
+canvas
+caption
+center
+cite
+code
+col
+colgroup
+dd
+div
+dl
+em
+embed
+fieldset
+figcaption
+figure
+font
+form
+h2
+h3
+h4
+h5
+h6
+hr
+i
+iframe
+img
+input
+label
+legend
+li
+map
+mark
+ol
+option
+p
+pre
+q
+rp
+rt
+s
+section
+select
+small
+source
+span
+strike
+strong
+style
+sub
+summary
+sup
+table
+tbody
+td
+textarea
+tfoot
+th
+thead
+time
+tr
+track
+tt
+u
+ul
+';
+  $export['security_allowed_tags'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -689,61 +687,6 @@ function cce_basic_config_strongarm() {
     ),
   );
   $export['sweaver_editor_form_configuration'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'sweaver_paths';
-  $strongarm->value = 'admin*
-node/add*
-node/*/edit
-node/*/panel*
-panels/ajax*
-user/*/edit
-batch*
-wysiwyg_imageupload/*
-media/*
-file/*
-taxonomy/*
-imce';
-  $export['sweaver_paths'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'sweaver_ctools_allowed_properties';
-  $strongarm->value = '-moz-border-radius
--webkit-border-radius
-border-top-right-radius
-border-bottom-right-radius
-border-bottom-left-radius
-border-top-left-radius
-webkit-border-top-right-radius
-webkit-border-bottom-right-radius
-webkit-border-bottom-left-radius
-webkit-border-top-left-radius
-moz-border-radius-topright
-moz-border-radius-bottomright
-moz-border-radius-bottomleft
-moz-border-radius-topleft
-position
-top
-left
-bottom
-right
-border-collapse
-border-spacing
-list-style-image
-list-style-type
-min-width
-max-width
-min-height
-max-height
-visibility
-text-shadow
-content
-z-index';
-  $export['sweaver_ctools_allowed_properties'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -895,199 +838,6 @@ z-index';
   $strongarm->name = 'theme_default';
   $strongarm->value = 'ec_resp';
   $export['theme_default'] = $strongarm;
-
-
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'linkchecker_check_links_interval';
-  $strongarm->value = '259200';
-  $export['linkchecker_check_links_interval'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'linkchecker_check_links_types';
-  $strongarm->value = '0';
-  $export['linkchecker_check_links_types'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'linkchecker_disable_link_check_for_urls';
-  $strongarm->value = 'example.com
-example.net
-example.org';
-  $export['linkchecker_disable_link_check_for_urls'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'linkchecker_extract_from_a';
-  $strongarm->value = 1;
-  $export['linkchecker_extract_from_a'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'linkchecker_extract_from_img';
-  $strongarm->value = 1;
-  $export['linkchecker_extract_from_img'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'linkchecker_scan_blocks';
-  $strongarm->value = 0;
-  $export['linkchecker_scan_blocks'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'linkchecker_ignore_response_codes';
-  $strongarm->value = '200
-206
-302
-304
-401
-301
-403';
-  $export['linkchecker_ignore_response_codes'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'linkchecker_scan_comments';
-  $strongarm->value = 0;
-  $export['linkchecker_scan_comments'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'linkchecker_scan_nodetypes';
-  $strongarm->value = array(
-    'article' => 'article',
-    'page' => 'page',
-  );
-  $export['linkchecker_scan_nodetypes'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'security_allowed_tags';
-  $strongarm->value = 'a
-abbr
-area
-audio
-b
-base
-blockquote
-br
-button
-canvas
-caption
-center
-cite
-code
-col
-colgroup
-dd
-div
-dl
-em
-embed
-fieldset
-figcaption
-figure
-font
-form
-h2
-h3
-h4
-h5
-h6
-hr
-i
-iframe
-img
-input
-label
-legend
-li
-map
-mark
-ol
-option
-p
-pre
-q
-rp
-rt
-s
-section
-select
-small
-source
-span
-strike
-strong
-style
-sub
-summary
-sup
-table
-tbody
-td
-textarea
-tfoot
-th
-thead
-time
-tr
-track
-tt
-u
-ul
-';
-  $export['security_allowed_tags'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'media__file_extensions';
-  $strongarm->value = 'jpg jpeg gif png txt doc docx xls xlsx pdf ppt pptx pps ppsx odt ods odp mp3 mov mp4 m4a m4v mpeg avi ogg oga ogv wmv ico';
-  $export['media__file_extensions'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'media__wysiwyg_allowed_types';
-  $strongarm->value = array(
-    0 => 'image',
-    1 => 'video',
-    2 => 'audio',
-    3 => 'document',
-  );
-  $export['media__wysiwyg_allowed_types'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'media__wysiwyg_browser_plugins';
-  $strongarm->value = array(
-    0 => 'upload',
-    1 => 'media_default--media_browser_my_files',
-    2 => 'elibrary_browser_tab--media_browser_1',
-  );
-  $export['media__wysiwyg_browser_plugins'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'media__wysiwyg_upload_directory';
-  $strongarm->value = '';
-  $export['media__wysiwyg_upload_directory'] = $strongarm;
 
   return $export;
 }

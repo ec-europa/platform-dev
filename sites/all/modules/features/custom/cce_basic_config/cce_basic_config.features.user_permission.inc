@@ -23,12 +23,12 @@ function cce_basic_config_user_default_permissions() {
 
   // Exported permission: access broken links report.
   $permissions['access broken links report'] = array(
-      'name' => 'access broken links report',
-      'roles' => array(
-          'administrator' => 'administrator',
-          'editor' => 'editor',
-      ),
-      'module' => 'linkchecker',
+    'name' => 'access broken links report',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'editor' => 'editor',
+    ),
+    'module' => 'linkchecker',
   );
 
   // Exported permission: access comments.
@@ -44,13 +44,13 @@ function cce_basic_config_user_default_permissions() {
 
   // Exported permission: access own broken links report.
   $permissions['access own broken links report'] = array(
-      'name' => 'access own broken links report',
-      'roles' => array(
-          'administrator' => 'administrator',
-          'contributor' => 'contributor',
-          'editor' => 'editor',
-      ),
-      'module' => 'linkchecker',
+    'name' => 'access own broken links report',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
+    ),
+    'module' => 'linkchecker',
   );
 
   // Exported permission: access print.
@@ -68,8 +68,8 @@ function cce_basic_config_user_default_permissions() {
   $permissions['access send by email'] = array(
     'name' => 'access send by email',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'authenticated user',
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'print_mail',
   );
@@ -118,37 +118,90 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'workbench',
   );
 
+  // Exported permission: create article content.
+  $permissions['create article content'] = array(
+    'name' => 'create article content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: create files.
   $permissions['create files'] = array(
-      'name' => 'create files',
-      'roles' => array(
-          'administrator' => 'administrator',
-          'contributor' => 'contributor',
-          'editor' => 'editor',
-      ),
-      'module' => 'file_entity',
+    'name' => 'create files',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
+    ),
+    'module' => 'file_entity',
+  );
+
+  // Exported permission: delete any article content.
+  $permissions['delete any article content'] = array(
+    'name' => 'delete any article content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'editor' => 'editor',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: delete own article content.
+  $permissions['delete own article content'] = array(
+    'name' => 'delete own article content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
+    ),
+    'module' => 'node',
   );
 
   // Exported permission: delete own files.
   $permissions['delete own files'] = array(
-      'name' => 'delete own files',
-      'roles' => array(
-          'administrator' => 'administrator',
-          'contributor' => 'contributor',
-          'editor' => 'editor',
-      ),
-      'module' => 'file_entity',
+    'name' => 'delete own files',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
+    ),
+    'module' => 'file_entity',
+  );
+
+  // Exported permission: edit any article content.
+  $permissions['edit any article content'] = array(
+    'name' => 'edit any article content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'editor' => 'editor',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: edit own article content.
+  $permissions['edit own article content'] = array(
+    'name' => 'edit own article content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
+    ),
+    'module' => 'node',
   );
 
   // Exported permission: edit own files.
   $permissions['edit own files'] = array(
-      'name' => 'edit own files',
-      'roles' => array(
-          'administrator' => 'administrator',
-          'contributor' => 'contributor',
-          'editor' => 'editor',
-      ),
-      'module' => 'file_entity',
+    'name' => 'edit own files',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
+    ),
+    'module' => 'file_entity',
   );
 
   // Exported permission: export nodes.
@@ -321,7 +374,6 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'better_formats',
   );
 
-
   // Exported permission: use advanced search.
   $permissions['use advanced search'] = array(
     'name' => 'use advanced search',
@@ -406,13 +458,13 @@ function cce_basic_config_user_default_permissions() {
 
   // Exported permission: view files.
   $permissions['view files'] = array(
-      'name' => 'view files',
-      'roles' => array(
-          'administrator' => 'administrator',
-          'anonymous user' => 'anonymous user',
-          'authenticated user' => 'authenticated user',
-      ),
-      'module' => 'file_entity',
+    'name' => 'view files',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
+    ),
+    'module' => 'file_entity',
   );
 
   // Exported permission: view moderation history.
@@ -428,35 +480,35 @@ function cce_basic_config_user_default_permissions() {
 
   // Exported permission: view moderation messages.
   $permissions['view moderation messages'] = array(
-      'name' => 'view moderation messages',
-      'roles' => array(
-          'administrator' => 'administrator',
-          'authenticated user' => 'authenticated user',
-          'contributor' => 'contributor',
-      ),
-      'module' => 'workbench_moderation',
+    'name' => 'view moderation messages',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
+      'contributor' => 'contributor',
+    ),
+    'module' => 'workbench_moderation',
   );
 
   // Exported permission: view own files.
   $permissions['view own files'] = array(
-      'name' => 'view own files',
-      'roles' => array(
-          'administrator' => 'administrator',
-          'contributor' => 'contributor',
-          'editor' => 'editor',
-      ),
-      'module' => 'file_entity',
+    'name' => 'view own files',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
+    ),
+    'module' => 'file_entity',
   );
 
   // Exported permission: view own private files.
   $permissions['view own private files'] = array(
-      'name' => 'view own private files',
-      'roles' => array(
-          'administrator' => 'administrator',
-          'contributor' => 'contributor',
-          'editor' => 'editor',
-      ),
-      'module' => 'file_entity',
+    'name' => 'view own private files',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
+    ),
+    'module' => 'file_entity',
   );
 
   // Exported permission: view own unpublished content.

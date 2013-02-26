@@ -10,7 +10,131 @@
 function cce_basic_config_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-article-body'
+  // Exported field: 'comment-comment_node_article-comment_body'.
+  $fields['comment-comment_node_article-comment_body'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(
+        0 => 'comment',
+      ),
+      'field_name' => 'comment_body',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'comment_node_article',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'comment',
+      'field_name' => 'comment_body',
+      'label' => 'Comment',
+      'required' => TRUE,
+      'settings' => array(
+        'text_processing' => 1,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'module' => 'text',
+        'settings' => array(
+          'rows' => 5,
+        ),
+        'type' => 'text_textarea',
+        'weight' => 0,
+      ),
+    ),
+  );
+
+  // Exported field: 'comment-comment_node_page-comment_body'.
+  $fields['comment-comment_node_page-comment_body'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(
+        0 => 'comment',
+      ),
+      'field_name' => 'comment_body',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'comment_node_page',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'comment',
+      'field_name' => 'comment_body',
+      'label' => 'Comment',
+      'required' => TRUE,
+      'settings' => array(
+        'text_processing' => 1,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'module' => 'text',
+        'settings' => array(
+          'rows' => 5,
+        ),
+        'type' => 'text_textarea',
+        'weight' => 0,
+      ),
+    ),
+  );
+
+  // Exported field: 'node-article-body'.
   $fields['node-article-body'] = array(
     'field_config' => array(
       'active' => '1',
@@ -84,7 +208,7 @@ function cce_basic_config_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-article-field_image'
+  // Exported field: 'node-article-field_image'.
   $fields['node-article-field_image'] = array(
     'field_config' => array(
       'active' => '1',
@@ -168,7 +292,7 @@ function cce_basic_config_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-article-field_tags'
+  // Exported field: 'node-article-field_tags'.
   $fields['node-article-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
@@ -244,14 +368,12 @@ function cce_basic_config_field_default_fields() {
     ),
   );
 
-
-  // Exported field: 'node-page-body'
+  // Exported field: 'node-page-body'.
   $fields['node-page-body'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
-      'locked' => '1',
       'entity_types' => array(
         0 => 'node',
       ),
@@ -320,8 +442,7 @@ function cce_basic_config_field_default_fields() {
     ),
   );
 
-
-  // Exported field: 'node-page-field_tags'
+  // Exported field: 'node-page-field_tags'.
   $fields['node-page-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
@@ -397,8 +518,7 @@ function cce_basic_config_field_default_fields() {
     ),
   );
 
-
-  // Exported field: 'user-user-field_firstname'
+  // Exported field: 'user-user-field_firstname'.
   $fields['user-user-field_firstname'] = array(
     'field_config' => array(
       'active' => '1',
@@ -462,7 +582,7 @@ function cce_basic_config_field_default_fields() {
     ),
   );
 
-  // Exported field: 'user-user-field_lastname'
+  // Exported field: 'user-user-field_lastname'.
   $fields['user-user-field_lastname'] = array(
     'field_config' => array(
       'active' => '1',
@@ -529,6 +649,7 @@ function cce_basic_config_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Comment');
   t('Enter a comma-separated list of words to describe your content.');
   t('First name');
   t('Image');

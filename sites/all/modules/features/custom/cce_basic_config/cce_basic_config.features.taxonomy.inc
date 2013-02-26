@@ -9,7 +9,7 @@
  */
 function cce_basic_config_taxonomy_default_vocabularies() {
   return array(
-  'classification' => array(
+    'classification' => array(
       'name' => 'classification',
       'machine_name' => 'classification',
       'description' => 'Classification IPG compliant.',
