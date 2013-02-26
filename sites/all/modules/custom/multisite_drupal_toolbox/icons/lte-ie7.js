@@ -6,9 +6,10 @@ window.onload = function() {
 		el.innerHTML = '<span style="font-family: \'multisite-icons\'">' + entity + '</span>' + html;
 	}
 	var icons = {
+			'multisite-icon-flag' : '&#xe000;',
 			'multisite-icon-reorder' : '&#xf0c9;',
 			'multisite-icon-home' : '&#xe002;',
-			'multisite-icon-cogs' : '&#xe000;',
+			'multisite-icon-cogs' : '&#xe001;',
 			'multisite-icon-comments-alt' : '&#xf0e6;',
 			'multisite-icon-flow-branch' : '&#xe016;',
 			'multisite-icon-vcard' : '&#xe015;',
@@ -26,8 +27,8 @@ window.onload = function() {
 			'multisite-icon-megaphone' : '&#xe007;',
 			'multisite-icon-feed' : '&#xe006;',
 			'multisite-icon-question' : '&#xe005;',
-			'multisite-icon-link' : '&#xe001;',
-			'multisite-icon-earth' : '&#xe004;',
+			'multisite-icon-link' : '&#xe004;',
+			'multisite-icon-earth' : '&#xe00d;',
 			'multisite-icon-check' : '&#xf046;',
 			'multisite-icon-file' : '&#xf016;',
 			'multisite-icon-newspaper' : '&#xe017;',

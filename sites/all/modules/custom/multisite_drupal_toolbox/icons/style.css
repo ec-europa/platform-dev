@@ -25,13 +25,16 @@ Instead of a list of all class selectors,
 you can use the generic selector below, but it's slower:
 [class*="multisite-icon-"]:before {
 */
-.multisite-icon-reorder:before, .multisite-icon-home:before, .multisite-icon-cogs:before, .multisite-icon-comments-alt:before, .multisite-icon-flow-branch:before, .multisite-icon-vcard:before, .multisite-icon-thumbs-up:before, .multisite-icon-share:before, .multisite-icon-light-bulb:before, .multisite-icon-mail:before, .multisite-icon-directions:before, .multisite-icon-code:before, .multisite-icon-publish:before, .multisite-icon-language:before, .multisite-icon-pictures:before, .multisite-icon-archive:before, .multisite-icon-paperplane:before, .multisite-icon-megaphone:before, .multisite-icon-feed:before, .multisite-icon-question:before, .multisite-icon-link:before, .multisite-icon-earth:before, .multisite-icon-check:before, .multisite-icon-file:before, .multisite-icon-newspaper:before, .multisite-icon-calendar:before, .multisite-icon-book:before, .multisite-icon-edit:before, .multisite-icon-group:before, .multisite-icon-camera:before {
+.multisite-icon-flag:before, .multisite-icon-reorder:before, .multisite-icon-home:before, .multisite-icon-cogs:before, .multisite-icon-comments-alt:before, .multisite-icon-flow-branch:before, .multisite-icon-vcard:before, .multisite-icon-thumbs-up:before, .multisite-icon-share:before, .multisite-icon-light-bulb:before, .multisite-icon-mail:before, .multisite-icon-directions:before, .multisite-icon-code:before, .multisite-icon-publish:before, .multisite-icon-language:before, .multisite-icon-pictures:before, .multisite-icon-archive:before, .multisite-icon-paperplane:before, .multisite-icon-megaphone:before, .multisite-icon-feed:before, .multisite-icon-question:before, .multisite-icon-link:before, .multisite-icon-earth:before, .multisite-icon-check:before, .multisite-icon-file:before, .multisite-icon-newspaper:before, .multisite-icon-calendar:before, .multisite-icon-book:before, .multisite-icon-edit:before, .multisite-icon-group:before, .multisite-icon-camera:before {
 	font-family: 'multisite-icons';
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
+}
+.multisite-icon-flag:before {
+	content: "\e000";
 }
 .multisite-icon-reorder:before {
 	content: "\f0c9";
@@ -40,7 +43,7 @@ you can use the generic selector below, but it's slower:
 	content: "\e002";
 }
 .multisite-icon-cogs:before {
-	content: "\e000";
+	content: "\e001";
 }
 .multisite-icon-comments-alt:before {
 	content: "\f0e6";
@@ -94,10 +97,10 @@ you can use the generic selector below, but it's slower:
 	content: "\e005";
 }
 .multisite-icon-link:before {
-	content: "\e001";
+	content: "\e004";
 }
 .multisite-icon-earth:before {
-	content: "\e004";
+	content: "\e00d";
 }
 .multisite-icon-check:before {
 	content: "\f046";

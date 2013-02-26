@@ -219,3 +219,11 @@ feature_sets[wiki_standard][enable][] = wiki_core
 feature_sets[wiki_standard][disable][] = multisite_drupal_wiki_toc
 feature_sets[wiki_standard][disable][] = wiki_standard
 feature_sets[wiki_standard][disable][] = wiki_core
+
+feature_sets[multisite_translations][title] = 'Multisite translations'
+feature_sets[multisite_translations][description] = 'Provide a system for translation requests management.'
+feature_sets[multisite_translations][category] = 'Multilingualism'
+feature_sets[multisite_translations][icon] = 'feature-set-icons/splash.png'
+feature_sets[multisite_translations][font] = 'multisite-icon-flag'
+feature_sets[multisite_translations][enable][] = multisite_translations
+feature_sets[multisite_translations][disable][] = multisite_translations
