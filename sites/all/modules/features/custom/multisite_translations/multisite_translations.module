@@ -208,7 +208,7 @@ function multisite_translations_menu() {
     'title' => 'Build translation roles',
     'description' => 'Settings related to translation roles',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('eyp_translation_form'),
+    'page arguments' => array('multisite_translation_form'),
     'access arguments' => array('administer tmgmt'),
     'type' => MENU_LOCAL_TASK,
   ); 
@@ -218,12 +218,12 @@ function multisite_translations_menu() {
 */
 
 
-function eyp_translation_form($form, &$form_state) {
+function multisite_translation_form($form, &$form_state) {
   $form['submit'] = array('#type' => 'submit', '#value' => t('Rebuild translation roles'));
   return $form;
 }
 
-function eyp_translation_form_submit($form, &$form_state) {
+function multisite_translation_form_submit($form, &$form_state) {
   create_translation_roles();
   drupal_set_message(t('Translation roles have been rebuild.'));
 }

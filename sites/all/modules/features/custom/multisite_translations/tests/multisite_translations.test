@@ -2,11 +2,12 @@
 
 /**
  * @file
- * Tests for eyp_translations.module.
+ * Tests for multisite_translations.module.
  */
 
+
 /**
- * Defines a base class for testing the "eyp_translations" module.
+ * Defines a base class for testing the "multisite_translations" module.
  */
 class Multisite_TranslationsWebTestCase extends DrupalWebTestCase {
   
@@ -19,7 +20,7 @@ class Multisite_TranslationsWebTestCase extends DrupalWebTestCase {
     return array(
       'name' => 'multisite translations',
       'description' => 'Test the multisite translations feature (install, worflow...).',
-      'group' => 'ECWEB',
+      'group' => 'Multisite translations',
     );
   }
 
@@ -44,7 +45,7 @@ class Multisite_TranslationsWebTestCase extends DrupalWebTestCase {
     $this->admin_user = $this->drupalCreateUserWithRole("administrator");
   }
 
-  function testEypTranslationInstall() {
+  function testMultisiteTranslationInstall() {
     $this->drupalLogin($this->admin_user);
     
     // check if the ecweb translator is created
@@ -81,7 +82,7 @@ class Multisite_TranslationsWebTestCase extends DrupalWebTestCase {
     $this->assertRaw('Job Items', 'Translator can access the job.');
     
     $this->drupalGet('admin/config/regional/tmgmt/items/' . $item1->tjiid . '/review'); 
-    $this->assertRaw('page1_EYP_translations', 'Translator can review the content to translate.');
+    $this->assertRaw('page1_translations', 'Translator can review the content to translate.');
   }
   
   /**
