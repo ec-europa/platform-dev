@@ -33,6 +33,12 @@ function communities_context_default_contexts() {
         'group/node/*' => 'group/node/*',
       ),
     ),
+    'views' => array(
+      'values' => array(
+        'articles_list' => 'articles_list',
+        'communities_directory' => 'communities_directory',
+      ),
+    ),
   );
   $context->reactions = array(
     'block' => array(
