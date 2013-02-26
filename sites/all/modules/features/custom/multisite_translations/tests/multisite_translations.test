@@ -8,7 +8,7 @@
 /**
  * Defines a base class for testing the "eyp_translations" module.
  */
-class Eyp_TranslationsWebTestCase extends DrupalWebTestCase {
+class Multisite_TranslationsWebTestCase extends DrupalWebTestCase {
   
   protected $translator_french_user;
   protected $admin_user;
@@ -17,9 +17,9 @@ class Eyp_TranslationsWebTestCase extends DrupalWebTestCase {
   
   public static function getInfo() {
     return array(
-      'name' => 'EYP translations',
-      'description' => 'Test the EYP translations feature (install, worflow...).',
-      'group' => 'EYP',
+      'name' => 'multisite translations',
+      'description' => 'Test the multisite translations feature (install, worflow...).',
+      'group' => 'ECWEB',
     );
   }
 
@@ -38,7 +38,7 @@ class Eyp_TranslationsWebTestCase extends DrupalWebTestCase {
       'tmgmt_ui',
       'workbench',
       'workbench_moderation',
-      'eyp_translations',
+      'multisite_translations',
     ));
   
     $this->admin_user = $this->drupalCreateUserWithRole("administrator");
@@ -61,7 +61,7 @@ class Eyp_TranslationsWebTestCase extends DrupalWebTestCase {
     $this->translator_french_user = $this->drupalCreateUserWithRole("translator_french");  
     
     // test translation jobs process 
-    $node = $this->drupalCreateNode(array('type' => 'page', 'title' => 'page1_EYP_translations'));   
+    $node = $this->drupalCreateNode(array('type' => 'page', 'title' => 'page1_translations'));   
     $job = $this->createJob('en', 'fr', 'translate');
     $job->requestTranslation();
     
