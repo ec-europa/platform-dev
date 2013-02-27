@@ -32,6 +32,17 @@ function links_og_views_default_views_alter(&$views) {
       2 => 'OR',
     );
 
+    $handler = $view->display['page']->handler;
+    $handler->display->display_options['defaults']['arguments'] = FALSE;
+    /* Contextual filter: OG membership: Group ID */
+    $handler->display->display_options['arguments']['gid']['id'] = 'gid';
+    $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
+    $handler->display->display_options['arguments']['gid']['field'] = 'gid';
+    $handler->display->display_options['arguments']['gid']['default_action'] = 'default';
+    $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'node';
+    $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
+    $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
+    $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
 
   }
 }
