@@ -152,6 +152,7 @@ function communities_views_default_views() {
   $handler->display->display_options['fields']['group_access']['id'] = 'group_access';
   $handler->display->display_options['fields']['group_access']['table'] = 'field_data_group_access';
   $handler->display->display_options['fields']['group_access']['field'] = 'group_access';
+  $handler->display->display_options['fields']['group_access']['exclude'] = TRUE;
   /* Field: Content: Group */
   $handler->display->display_options['fields']['group_group']['id'] = 'group_group';
   $handler->display->display_options['fields']['group_group']['table'] = 'field_data_group_group';

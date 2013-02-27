@@ -13,37 +13,48 @@ include_once('communities_moderation.inc');
 function communities_views_pre_render(&$view) {
   global $user;
   
-  if($view->name == 'communities_directory' || $view->name == 'communities_directory_my') {
-    $alphabet = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+  if ($view->name == 'communities_directory' || $view->name == 'communities_directory_my') {
+    // add alphabetical index
+    $alphabet = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
     $output = '';
     
     $i = 0;
     $len = count($alphabet);
-    foreach($alphabet as $letter) {
-      if(count(arg()) > 1)
-        $url = arg(0)."/".arg(1)."/".$user->uid."/".$letter;
+    foreach ($alphabet as $letter) {
+      if (count(arg()) > 1)
+        $url = arg(0) . "/" . arg(1) . "/" . $user->uid . "/" . $letter;
       else
-        $url = arg(0)."/".$letter;
+        $url = arg(0) . "/" . $letter;
       
       if ($i == 0) { // first
-        $output .= l($letter,$url,array('attributes' => array('type' => 'small', 'action_bar' => 'first', 'btn_group' => 'first')));
-      } else if ($i == $len - 1) { // last
-        $output .= l($letter,$url,array('attributes' => array('type' => 'small', 'btn_group' => 'last')));
-      } else {
-        $output .= l($letter,$url,array('attributes' => array('type' => 'small')));
+        $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'action_bar' => 'first', 'btn_group' => 'first', 'class' => 'hidden-phone')));
+      } 
+      elseif ($i == $len - 1) { // last
+        $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'btn_group' => 'last', 'class' => 'hidden-phone')));
+      } 
+      else {
+        $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'class' => 'hidden-phone')));
       }
       $i++;
     }
     
-    if(user_access('create community content'))  {
-      $output.= l(t('Create a new community'),'node/add/community',array('attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
+    // add create community button
+    if (user_access('create community content')) {
+      $output .= l(t('Create a new community'), 'node/add/community', array('attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
     }
     
+    // update view header
     $view->header['area']->options['content'] = $output;
+
+    // add picture for private communities
+    foreach ($view->result as $row) {
+
+      if ($row->field_group_access[0]['raw']['value'] == 1) { // private commmunity
+        $row->field_body[0]['rendered']['#markup'] = '<i class="icon-lock"></i> ' . $row->field_body[0]['rendered']['#markup'];        
+      }
+    }
   }
 }
-
-
 
 /*
 * hook_init
@@ -52,8 +63,8 @@ function communities_init() {
   drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
   
   // set og context on comunities views
-  if(arg(0) == 'community') {
-    $alias = drupal_get_normal_path("community/".str_replace(" ","-",arg(1)));
+  if (arg(0) == 'community') {
+    $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", arg(1)));
     $param = explode("/", $alias);
     $group = node_load($param[1]);
     if (og_is_group('node', $group->nid))
@@ -90,11 +101,11 @@ function communities_init() {
 */
 
 
-function group_name_to_arg($arg=null) {
+function group_name_to_arg($arg=NULL) {
   $context = og_context();
-  if(isset($context['gid'])) {
+  if (isset($context['gid'])) {
     $node = node_load($context['gid']);
-    return str_replace(" ","-",$node->title);
+    return str_replace(" ", "-", $node->title);
   }
   else
     return 'none';
@@ -105,9 +116,9 @@ function group_name_to_arg($arg=null) {
 * _load function
 */
 function group_name_load($arg) {
-  if($arg == 'none')
+  if ($arg == 'none')
     return 0;
-  $alias = drupal_get_normal_path("community/".str_replace(" ","-",$arg)); // get real path to get node id
+  $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", $arg)); // get real path to get node id
   $param = explode("/", $alias);
   $group = node_load($param[1]); // load community
     
@@ -125,7 +136,7 @@ function communities_menu() {
   $items['community/%group_name/view'] = array(
     //'title arguments' => array(1),
   //'title callback' => '_communities_title_item',
-    'title' => t('Home page'),
+    'title' => 'Home page',
     'page arguments' => array(1),
     'access callback' => TRUE,
     'page callback' => '_redirection',
@@ -152,7 +163,8 @@ function communities_menu() {
 */
 function _redirection($arg) {
   
-  drupal_goto('community/'.group_name_to_arg($arg));
+  drupal_goto('community/' . group_name_to_arg($arg));
+
 }
   
 /*
@@ -166,12 +178,12 @@ function _communities_title_item($arg) {
     ->condition('entity_type', 'node', '=')
     ->execute()
     ->fetchAssoc();
-  if(isset($n['etid']))  {
+  if (isset($n['etid']))  {
     $node = node_load($n['etid']);
-    return $node->title." homepage";
+    return $node->title . " homepage";
   }
   else
-    return null;
+    return NULL;
 }
 
 
@@ -179,9 +191,9 @@ function _communities_title_item($arg) {
 * hook_block_view_alter
 */
 function communities_block_view_alter(&$data, $block) {
-  if($block->delta == 'menu-communities-menu') {
+  if ($block->delta == 'menu-communities-menu') {
     $context  = og_context();
-    if(isset($context['gid'])) {
+    if (isset($context['gid'])) {
       $node = node_load($context['gid']);
       $data['subject'] = $node->title;
     }
@@ -197,10 +209,10 @@ function communities_block_view_alter(&$data, $block) {
 * of this community a message is display to inform him.
 */
 function communities_node_view($node, $view_mode, $langcode) {
-  if($node->type == 'community') {
+  if ($node->type == 'community') {
     $context = og_context();
     $check_pending_state = og_is_member('node', $context['gid'], 'user', NULL, array(OG_STATE_PENDING));
-    if($check_pending_state) {
+    if ($check_pending_state) {
       drupal_set_message(t("Your membership to this group is pending and waiting for community manager's approval"));
     }
   }
