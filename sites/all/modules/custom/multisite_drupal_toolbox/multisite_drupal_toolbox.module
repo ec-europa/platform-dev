@@ -74,7 +74,7 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
 }
 
 /**
-* Implements hook_boot().
+* Implements hook_boot(). Force en prefix language in url even if there is one language
 */
 function multisite_drupal_toolbox_boot() {
   global $conf;
@@ -83,17 +83,93 @@ function multisite_drupal_toolbox_boot() {
   }
   else {
     if ($conf["language_count"] == 1 && $conf["language_default"]->language == 'en')
-      $conf["language_count"] = 2; // set language_count to 2 to force the display of the language prefix
+      $conf["language_count"] = 2;
   }
 }
 
 /**
-* Implements hook_init().
+* Implements hook_init(). Set language_count to 2 to force the display of the language prefix and language switcher
 */
 function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
-    variable_set("language_count", 2); // set language_count to 2 to force the display of the language prefix and language switcher
+    variable_set("language_count", 2);
   }
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function multisite_drupal_toolbox_menu_alter(&$items) {
+  $list_pages = array(
+      'admin/structure/feature-set',
+      'admin/workbench',
+      'admin/content/comment',
+      'admin/content/media',
+      'admin/content/webform',
+      'admin/structure/block',
+      'admin/structure/feature-set',
+      'admin/help',
+  );
+
+  foreach ($list_pages as $page) {
+    $result = db_select('menu_router', 'mr')
+    ->fields('mr', array('path'))
+    ->condition('path', $page . '%', 'LIKE')
+    ->execute();
+    while ($record = $result->fetchAssoc()) {
+      $items[$record['path']]['theme callback'] = 'multisite_cce_theme';
+    }
+  }
+  // block node import with node_export module
+  $items['node/add/node_export']['access callback'] = FALSE;
+  // hide broken links tab in the my account page
+  $items['user/%user/linkchecker']['access callback'] = FALSE;
+  // only super admin can configure apache solR
+  $items['admin/config/search/apachesolr']['access callback'] = 'is_admin';
+}
+
+/**
+ * Implements hook_theme().
+ */
+function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
+  $items = array(
+      'dropdown' => array(
+          'variables' => array(
+              'items' => array(),
+          ),
+      )
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_media_token_to_markup_alter(). Use fancybox for all image insert in content with the "insert media" button of the wysiwyg.
+ */
+function multisite_drupal_toolbox_media_token_to_markup_alter(&$element, &$tag_info, &$settings) {
+  if ($element['content']['file']['#theme'] == 'image_style') {
+    $element['content']['#prefix'] = '<div><a href="'.file_create_url($element['content']['file']['#file']->uri).'" class="fancybox">';
+    $element['content']['#suffix'] = '<a/></div>';
+  }
+}
+
+/**
+ * Implements hook_node_view(). Remove workbench blocks from their region.
+ */
+function multisite_drupal_toolbox_node_view($node, $view_mode, $langcode) {
+  if (module_exists('workbench_moderation')) {
+    db_update('block')
+    ->fields(array('region' => ''))
+    ->condition('module', 'workbench', '=')
+    ->condition('delta', 'block', '=')
+    ->execute();
+  }
+}
+
+/**
+ * Implements hook_url_inbound_alter(). Santizie URL inputs.
+ */
+function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $path_language) {
+  if(!($path == '<front>')) $path = check_url($path);
 }
 
 /**
@@ -289,41 +365,6 @@ function add_content_type_newsletters($node_type) {
 }
 
 /**
-* Implements hook_menu_alter().
-*/
-function multisite_drupal_toolbox_menu_alter(&$items) {
-  $list_pages = array(
-    'admin/structure/feature-set',
-    'admin/workbench',
-    'admin/content/comment',
-    'admin/content/media',
-    'admin/content/webform',
-    'admin/structure/block',
-    'admin/structure/feature-set',
-    'admin/help',
-  );
-
-  foreach ($list_pages as $page) {
-    $result = db_select('menu_router', 'mr')
-      ->fields('mr', array('path'))
-      ->condition('path', $page . '%', 'LIKE')
-      ->execute();
-    while ($record = $result->fetchAssoc()) {
-      $items[$record['path']]['theme callback'] = 'multisite_cce_theme';
-    }
-  }
-
-  // block node import with node_export module
-  $items['node/add/node_export']['access callback'] = FALSE;
-
-  // hide broken links tab in the my account page
-  $items['user/%user/linkchecker']['access callback'] = FALSE;
-
-  // only super admin can configure apache solR
-  $items['admin/config/search/apachesolr']['access callback'] = 'is_admin';
-}
-
-/**
 * Check if the user is super admin
 * ?not used?
 */
@@ -355,19 +396,6 @@ function multisite_cce_theme() {
   return multisite_drupal_toolbox_cce_theme();
 }
 
-/**
-* Implements hook_theme().
-*/
-function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
-  $items = array(
-    'dropdown' => array(
-      'variables' => array(
-         'items' => array(),
-      ),
-    )
-  );
-  return $items;
-}
 
 /**
  * Public function to disable a block
@@ -386,18 +414,6 @@ function _disable_block($module, $delta) {
   multisite_drupal_toolbox_disable_block($module, $delta);
 }
 
-/**
-* Implements hook_node_view().
-*/
-function multisite_drupal_toolbox_node_view($node, $view_mode, $langcode) {
-  if (module_exists('workbench_moderation')) {
-    db_update('block')
-    ->fields(array('region' => ''))
-    ->condition('module', 'workbench', '=')
-    ->condition('delta', 'block', '=')
-    ->execute();
-  }
-}
 
 /**
 * Implements hook_form_alter().
@@ -747,12 +763,6 @@ function multisite_drupal_toolbox_node_presave($node) {
   }
 }
 
-/**
- * Implements hook_url_inbound_alter(). Santizie URL inputs.
- */
-function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $path_language) {
-  if(!($path == '<front>')) $path = check_url($path);
-}
 
 /**
  * Retrieve relevant information about a URL. Specifically this function is
@@ -899,13 +909,4 @@ function linkit_scan_url($url, $field) {
   return multisite_drupal_toolbox_linkit_scan_url($url, $field);
 }
 
-/**
- * Implements hook_media_token_to_markup_alter(). Use fancybox for all image insert in content with the "insert media" button of the wysiwyg.
- */
-function multisite_drupal_toolbox_media_token_to_markup_alter(&$element, &$tag_info, &$settings) {
-  if ($element['content']['file']['#theme'] == 'image_style') {
-    $element['content']['#prefix'] = '<a href="'.file_create_url($element['content']['file']['#file']->uri).'" class="fancybox">';
-    $element['content']['#suffix'] = '<a/>';
-  }
-}
 
