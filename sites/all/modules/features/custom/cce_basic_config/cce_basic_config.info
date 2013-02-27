@@ -201,6 +201,7 @@ features[variable][] = pathauto_node_community_pattern
 features[variable][] = print_html_link_class
 features[variable][] = print_html_link_pos
 features[variable][] = print_html_show_link
+features[variable][] = print_mail_link_pos
 features[variable][] = print_pdf_autoconfig
 features[variable][] = print_pdf_book_link
 features[variable][] = print_pdf_content_disposition

@@ -467,6 +467,18 @@ example.org';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'print_mail_link_pos';
+  $strongarm->value = array(
+    'block' => 'block',
+    'link' => 0,
+    'corner' => 0,
+    'help' => 0,
+  );
+  $export['print_mail_link_pos'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'print_pdf_autoconfig';
   $strongarm->value = 1;
   $export['print_pdf_autoconfig'] = $strongarm;
