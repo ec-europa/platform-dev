@@ -275,7 +275,7 @@
       
       $output .= $suffixe;
 
-      //display groups
+      //display groups & workbench blocks
       $display_group = false;
       if (isset($fields['group'])) {
         foreach ($fields['group'] as $id) {
@@ -285,20 +285,41 @@
           }
         }
       }
-      if ($display_group) { 
-        $output .= '<div class="meta submitted group well">';
+      $display_workbench = ec_resp_block_render('workbench', 'block');
+
+      if ($display_group || $display_workbench) {
+        $output .= '<div class="row-fluid">';
+        if ($display_group) {
+          if ($display_workbench) {
+            $group_span = 6;
+          }
+          else {
+            $group_span = 12;
+          }
+
+          $output .= '<div class="span' . $group_span . ' well muted well-small">';
           foreach ($fields['group'] as $id) {
             $output .=  render($content[$id]);
-          }        
+          }
+          $output .= '</div>';
+        }
+
+        if ($display_workbench) {
+          $workbench_class = '';
+          if ($display_group) {
+            $workbench_span = 6;
+          } 
+          else {
+            $workbench_span = 12;
+            $workbench_class .= 'offset6 ';
+          }
+          $workbench_class .= 'span' . $workbench_span . ' well well-small muted';
+
+          $output .= '<div class="' . $workbench_class . '">';
+          $output .= $display_workbench;
+          $output .= '</div>';  
+        }        
         $output .= '</div>';
-      } 
-      
-      //display workbench block
-      $display_workbench = ec_resp_block_render('workbench', 'block');
-      if ($display_workbench) {
-        $output .= '<div class="f_left meta submitted well alt workbench">';
-        $output .= $display_workbench;
-        $output .= '</div>';    
       }
       
       print $output;
