@@ -53,9 +53,9 @@ function multisite_drupal_toolbox_menu() {
 }
 
 /**
-* Implements hook_preprocess_html().
-* Alter html code (to add js and css).
-*/
+ * Implements hook_preprocess_html().
+ * Alter html code (to add js and css).
+ */
 function multisite_drupal_toolbox_preprocess_html(&$variables) {
   // Add icons font
   drupal_add_css(drupal_get_path('module', 'multisite_drupal_toolbox') . '/icons/style.css', array('basename' => 'icons-font'));
@@ -74,8 +74,8 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
 }
 
 /**
-* Implements hook_boot(). Force en prefix language in url even if there is one language
-*/
+ * Implements hook_boot(). Force en prefix language in url even if there is one language
+ */
 function multisite_drupal_toolbox_boot() {
   global $conf;
   if (!isset($conf["language_count"])) {
@@ -88,8 +88,8 @@ function multisite_drupal_toolbox_boot() {
 }
 
 /**
-* Implements hook_init(). Set language_count to 2 to force the display of the language prefix and language switcher
-*/
+ * Implements hook_init(). Set language_count to 2 to force the display of the language prefix and language switcher
+ */
 function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
     variable_set("language_count", 2);
@@ -174,8 +174,7 @@ function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $pat
 
 /**
  * Implements hook_form_alter().
- */
-function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
+ */function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
   global $user;
   if ($user->uid != 1) {
     switch ($form_id) {
@@ -250,8 +249,8 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
 }
 
 /**
-* Public function to disable a content type
-*/
+ * Public function to disable a content type
+ */
 function multisite_drupal_toolbox_disable_content_type($type) {
   $type_info = node_type_load($type);
   $type_info->module = 'node';
@@ -266,8 +265,8 @@ function _disable_content_type($type) {
 }
 
 /**
-* Public function to add block to a context
-*/
+ * Public function to add block to a context
+ */
 function multisite_drupal_toolbox_add_block_context($contextName, $blockTitle, $module, $delta, $region, $weight='-10') {
   //Load context
   $context=module_invoke('context', 'load', $contextName);
@@ -288,8 +287,8 @@ function _add_block_context($contextName, $blockTitle, $module, $delta, $region,
 }
 
 /**
-* Public function to remove block from context
-*/
+ * Public function to remove block from context
+ */
 function multisite_drupal_toolbox_remove_block_context($contextName, $blockTitle) {
   //Load context
   $context=module_invoke('context', 'load', $contextName);
@@ -303,8 +302,8 @@ function _remove_block_context($contextName, $blockTitle) {
 }
 
 /**
-* Public function to add view to a context
-*/
+ * Public function to add view to a context
+ */
 function multisite_drupal_toolbox_add_views_context($contextName, $viewTitle) {
   //Load context
   $context=module_invoke('context', 'load', $contextName);
@@ -318,8 +317,8 @@ function _add_views_context($contextName, $viewTitle) {
 }
 
 /**
-* Public function to remove block from context
-*/
+ * Public function to remove block from context
+ */
 function multisite_drupal_toolbox_remove_views_context($contextName, $viewTitle) {
   //Load context
   $context=module_invoke('context', 'load', $contextName);
@@ -333,8 +332,8 @@ function _remove_views_context($contextName, $viewTitle) {
 }
 
 /**
-* Public function to add content type from context
-*/
+ * Public function to add content type from context
+ */
 function multisite_drupal_toolbox_add_content_type_context($contextName, $contentType) {
   //Load context
   $context=module_invoke('context', 'load', $contextName);
@@ -348,8 +347,8 @@ function _add_content_type_context($contextName, $contentType) {
 }
 
 /**
-* Public function to remove content type from context
-*/
+ * Public function to remove content type from context
+ */
 function multisite_drupal_toolbox_remove_content_type_context($contextName, $contentType) {
   //Load context
   $context=module_invoke('context', 'load', $contextName);
@@ -363,8 +362,8 @@ function _remove_content_type_context($contextName, $contentType) {
 }
 
 /**
-* Public function to add path condition to a context
-*/
+ * Public function to add path condition to a context
+ */
 function multisite_drupal_toolbox_add_path_context($contextName, $path) {
   //Load context
   $context=module_invoke('context', 'load', $contextName);
@@ -378,8 +377,8 @@ function _add_path_context($contextName, $path) {
 }
 
 /**
-* Public function to remove path from context
-*/
+ * Public function to remove path from context
+ */
 function multisite_drupal_toolbox_remove_path_context($contextName, $path) {
   //Load context
   $context=module_invoke('context', 'load', $contextName);
@@ -392,6 +391,15 @@ function _remove_path_context($contextName, $path) {
   multisite_drupal_toolbox_remove_path_context($contextName, $path);
 }
 
+/**
+ * Public function to deactivate a context
+ */
+function multisite_drupal_toolbox_remove_context($contextName) {
+  $context = context_load($contextName);
+  if ($context) {
+    ctools_export_set_object_status($context);
+  }
+}
 
 /**
  * Public function to add content type to newsletter related content field
@@ -480,8 +488,8 @@ function notification_content_type($content_type, $op) {
 }
 
 /*
-* get the rid of a og role name
-*/
+ * get the rid of a og role name
+ */
 function multisite_drupal_toolbox_get_og_rid($role_name) {
   $r = db_select('og_role', 'r')
     ->condition('name', $role_name, '=')
@@ -495,8 +503,8 @@ function get_og_rid($role_name) {
 }
 
 /*
-* get the rid of a role name
-*/
+ * get the rid of a role name
+ */
 function multisite_drupal_toolbox_get_rid($role_name) {
   $r = db_select('role', 'r')
     ->condition('name', $role_name, '=')
@@ -514,9 +522,9 @@ function get_rid($role_name) {
 }
 
 /**
-* Check if the user is super admin
-* ?not used?
-*/
+ * Check if the user is super admin
+ * ?not used?
+ */
 function multisite_drupal_toolbox_is_admin() {
   global $user;
 
@@ -532,9 +540,9 @@ function is_admin() {
 }
 
 /**
-* Check if current theme is ec_default theme
-* ?not used?
-*/
+ * Check if current theme is ec_default theme
+ * ?not used?
+ */
 function multisite_drupal_toolbox_cce_theme() {
   return variable_get('theme_default', 'ec_default');
 }
@@ -548,8 +556,8 @@ function multisite_cce_theme() {
 
 
 /**
-*
-*/
+ *
+ */
 function multisite_drupal_toolbox_workbench_redirect_submit($form, &$form_state) {
   $form_state['redirect'] = array(
     'admin/workbench/comment',
@@ -563,8 +571,8 @@ function workbench_redirect_submit($form, &$form_state) {
 }
 
 /**
-*
-*/
+ *
+ */
 function multisite_drupal_toolbox_form_node_admin_content_alter(&$form, &$form_state, $form_id) {
   // hide publish and unpublish options from the admin content form
   // publish and unpublish actions must only be done thru the workbench
@@ -643,8 +651,8 @@ function rate_content_type($content_type, $op) {
 }
 
 /**
-* Implements hook_page_alter().
-*/
+ * Implements hook_page_alter().
+ */
 function multisite_drupal_toolbox_page_alter(&$page) {
   global $user;
   if (variable_get('alert_message_enable', FALSE) && $user->uid > 0) {
@@ -666,8 +674,8 @@ function multisite_drupal_toolbox_page_alter(&$page) {
 
 
 /**
-* Adds the linkchecked user report page to the workbench.
-*/
+ * Adds the linkchecked user report page to the workbench.
+ */
 function multisite_drupal_toolbox_linkchecker_user_report_page_workbench() {
   global $user;
   module_load_include('inc', 'linkchecker', 'linkchecker.pages');
@@ -682,7 +690,7 @@ function linkchecker_user_report_page_workbench() {
 
 /*
  *
-*/
+ */
 function multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_report_workbench() {
   global $user;
   module_load_include('inc', 'linkchecker', 'linkchecker.pages');
@@ -719,7 +727,7 @@ function _content_type_linkchecker($type, $op) {
 
 /*
  * security form settings
-*/
+ */
 function multisite_drupal_toolbox_form_security_settings($form, &$form_state) {
   $form['security_allowed_tags'] = array(
     '#type' => 'textarea',
