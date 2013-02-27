@@ -160,7 +160,7 @@
         'hidden'  => array('field_video_upload', 'field_picture_upload', 'comments', 'links', 'print_links'),
         'group' => array('group_audience', 'group_content_access')
       );
-      $prefixe = $gallerymedia_items;
+      $suffixe = $gallerymedia_items;
       break;      
 
     default:
