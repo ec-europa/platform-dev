@@ -85,7 +85,7 @@ function gallerymedia_core_video_default_presets() {
         'video_extension' => 'flv',
         'video_codec' => 'flv',
         'video_preset' => '',
-        'video_quality' => '3',
+        'video_quality' => '4',
         'video_speed' => '3',
         'wxh' => '640x360',
         'video_aspectmode' => 'preserve',
