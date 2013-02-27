@@ -27,6 +27,13 @@ function cce_basic_config_ctools_plugin_api() {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function cce_basic_config_views_api() {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_image_default_styles().
  */
 function cce_basic_config_image_default_styles() {

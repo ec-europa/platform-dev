@@ -12,7 +12,6 @@ function cce_basic_config_default_rules_configuration() {
   $items['rules_manage_article_node_publication'] = entity_import('rules_config', '{ "rules_manage_article_node_publication" : {
       "LABEL" : "Manage Article Node Publication",
       "PLUGIN" : "reaction rule",
-      "ACTIVE" : true,
       "TAGS" : [ "Publication" ],
       "REQUIRES" : [ "rules", "rules_scheduler", "workbench_moderation" ],
       "ON" : [
