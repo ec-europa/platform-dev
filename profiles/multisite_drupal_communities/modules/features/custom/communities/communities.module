@@ -12,12 +12,12 @@ include_once('communities_moderation.inc');
 */
 function communities_views_pre_render(&$view) {
   global $user;
-  
+
   if ($view->name == 'communities_directory' || $view->name == 'communities_directory_my') {
     // add alphabetical index
     $alphabet = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
     $output = '';
-    
+
     $i = 0;
     $len = count($alphabet);
     foreach ($alphabet as $letter) {
@@ -25,24 +25,24 @@ function communities_views_pre_render(&$view) {
         $url = arg(0) . "/" . arg(1) . "/" . $user->uid . "/" . $letter;
       else
         $url = arg(0) . "/" . $letter;
-      
+
       if ($i == 0) { // first
         $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'action_bar' => 'first', 'btn_group' => 'first', 'class' => 'hidden-phone')));
-      } 
+      }
       elseif ($i == $len - 1) { // last
         $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'btn_group' => 'last', 'class' => 'hidden-phone')));
-      } 
+      }
       else {
         $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'class' => 'hidden-phone')));
       }
       $i++;
     }
-    
+
     // add create community button
     if (user_access('create community content')) {
       $output .= l(t('Create a new community'), 'node/add/community', array('attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
     }
-    
+
     // update view header
     $view->header['area']->options['content'] = $output;
 
@@ -50,7 +50,7 @@ function communities_views_pre_render(&$view) {
     foreach ($view->result as $row) {
 
       if (isset($row->field_group_access[0]['raw']['value']) && $row->field_group_access[0]['raw']['value'] == 1) { // private commmunity
-        $row->field_body[0]['rendered']['#markup'] = '<i class="icon-lock"></i> ' . $row->field_body[0]['rendered']['#markup'];        
+        $row->field_body[0]['rendered']['#markup'] = '<i class="icon-lock"></i> ' . $row->field_body[0]['rendered']['#markup'];
       }
     }
   }
@@ -61,7 +61,7 @@ function communities_views_pre_render(&$view) {
 */
 function communities_init() {
   drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
-  
+
   // set og context on comunities views
   if (arg(0) == 'community') {
     $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", arg(1)));
@@ -70,32 +70,32 @@ function communities_init() {
     if (og_is_group('node', $group->nid))
       og_context('node', $group);
   }
-  
+
   /*
   // set og context on surveys results analysis
-  if(arg(0) == 'survey_analysis') { 
+  if(arg(0) == 'survey_analysis') {
     $node = node_load(arg(1));
     $gid = $node->group_audience['und'][0]['gid'];
-    og_context(og_load($gid));    
+    og_context(og_load($gid));
   }
-  
+
   if(arg(0) == 'node' && is_numeric(arg(1)) && (arg(2) == 'group' || arg(2) == 'moderation')) {
     $group = og_get_group('node', arg(1));
     if(isset($group))
       og_context($group);
   }
-  
+
   if(arg(0) == 'group' && arg(1) == 'node' && is_numeric(arg(2))) {
     $group = og_get_group('node', arg(2));
     if(isset($group))
       og_context($group);
   }
   */
- 
+
 }
 
 
-  
+
 /*
 * _to_arg function
 */
@@ -116,14 +116,15 @@ function group_name_to_arg($arg=NULL) {
 * _load function
 */
 function group_name_load($arg) {
-  if ($arg == 'none')
+  if ($arg == 'none') {
     return 0;
+  }
   $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", $arg)); // get real path to get node id
   $param = explode("/", $alias);
   $group = node_load($param[1]); // load community
-    
+
   //og_context($group);
-  
+
   return $group->nid;
 }
 
@@ -144,7 +145,7 @@ function communities_menu() {
     'menu_name' => 'menu-communities-menu',
     'weight' => -10,
   );
-  
+
   $items['community/%group_name/article'] = array(
     'title' => 'Articles',
     'page callback' => 'views_page',
@@ -154,7 +155,7 @@ function communities_menu() {
     'menu_name' => 'menu-communities-menu',
     'weight' => 1,
   );
-  
+
   return $items;
 }
 
@@ -162,11 +163,11 @@ function communities_menu() {
 * redirection to a community page with the gid $arg
 */
 function _redirection($arg) {
-  
+
   drupal_goto('community/' . group_name_to_arg($arg));
 
 }
-  
+
 /*
 * dynalically change menu item title
 */
@@ -204,8 +205,8 @@ function communities_block_view_alter(&$data, $block) {
 
 /*
 * hook_node_view
-* 
-* when a user request a membership to a community, he's request is in state 'pending'. Since he's request is still in pending state, when he's view the homepage 
+*
+* when a user request a membership to a community, he's request is in state 'pending'. Since he's request is still in pending state, when he's view the homepage
 * of this community a message is display to inform him.
 */
 function communities_node_view($node, $view_mode, $langcode) {
