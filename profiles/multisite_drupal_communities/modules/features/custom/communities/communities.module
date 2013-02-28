@@ -49,7 +49,7 @@ function communities_views_pre_render(&$view) {
     // add picture for private communities
     foreach ($view->result as $row) {
 
-      if ($row->field_group_access[0]['raw']['value'] == 1) { // private commmunity
+      if (isset($row->field_group_access[0]['raw']['value']) && $row->field_group_access[0]['raw']['value'] == 1) { // private commmunity
         $row->field_body[0]['rendered']['#markup'] = '<i class="icon-lock"></i> ' . $row->field_body[0]['rendered']['#markup'];        
       }
     }
