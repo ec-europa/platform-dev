@@ -148,6 +148,8 @@ function communities_views_default_views() {
   $handler->display->display_options['fields']['body']['label'] = 'Description';
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '100';
   $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
+  $handler->display->display_options['fields']['body']['element_class'] = 'hidden-phone';
+  $handler->display->display_options['fields']['body']['element_label_class'] = 'hidden-phone';  
   /* Field: Content: Group visibility */
   $handler->display->display_options['fields']['group_access']['id'] = 'group_access';
   $handler->display->display_options['fields']['group_access']['table'] = 'field_data_group_access';
