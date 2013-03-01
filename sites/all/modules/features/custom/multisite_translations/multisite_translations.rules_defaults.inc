@@ -14,7 +14,7 @@ function multisite_translations_default_rules_configuration() {
       "PLUGIN" : "reaction rule",
       "TAGS" : [ "job translation" ],
       "REQUIRES" : [ "rules", "multisite_translations", "tmgmt" ],
-      "ON" : [ "tmgmt_job_insert" ],
+      "ON" : [ "tmgmt_job_update" ],
       "DO" : [
         { "entity_create" : {
             "USING" : {

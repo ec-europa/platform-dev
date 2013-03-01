@@ -170,6 +170,10 @@ function multisite_translations_rules_action_info() {
 function rules_action_mail_to_related_translation_role($subject, $message, $from = NULL, $settings, RulesState $state, RulesPlugin $element) {
   $tmgmt_job = $state->variables['tmgmt_job']->value();
   
+  // stop if the target language is not yet set and the job not submitted
+  if($tmgmt_job->target_language == null || $tmgmt_job->state == 0)
+    return;
+  
   $translator_role_name = get_related_translation_role($tmgmt_job->target_language);
   $translator_role = db_query("SELECT rid FROM {role} WHERE name = :p1", array(':p1' => $translator_role_name))->fetchObject();
   $from = !empty($from) ? str_replace(array("\r", "\n"), '', $from) : NULL;
