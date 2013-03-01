@@ -2,6 +2,7 @@ name = multisite OG navigation tree
 description = "OG Navigation tree"
 package = "Organic groups"
 core = 7.x
+version = "7.x-1.0"
 
 configure = admin/config/group/multisite_og_navigation_tree
 

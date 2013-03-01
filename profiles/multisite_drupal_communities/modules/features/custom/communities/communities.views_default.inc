@@ -56,6 +56,7 @@ function communities_views_default_views() {
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['empty'] = TRUE;
   $handler->display->display_options['header']['area']['content'] = 'header content';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Relationship: Broken/missing handler */

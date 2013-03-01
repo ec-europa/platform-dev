@@ -31,6 +31,10 @@ function multisite_drupal_access_node_grants($account, $op) {
       ->fieldCondition(OG_GROUP_FIELD, 'value', 1, '=')
       ->addMetaData('account', user_load(1))
       ->execute();
+      
+    if(!$return)
+      return;
+      
     $groups = array_keys($return[$group_type]);
 
     if ($op == 'view' && $groups) {
