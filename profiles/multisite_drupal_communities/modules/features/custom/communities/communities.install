@@ -25,9 +25,9 @@ function communities_enable() {
   // multisite_drupal_toolbox_add_block_context('communities','community_content-block_content','views','community_content-block_content', 'sidebar_first');
 
   // add article views in community context
-  $context = module_invoke('context', 'load', 'communities'); 
-  $context->conditions['views']['values']['articles_list']='articles_list';
-  module_invoke('context', 'save', $context);
+  //$context = module_invoke('context', 'load', 'communities'); 
+  //$context->conditions['views']['values']['articles_list']='articles_list';
+  //module_invoke('context', 'save', $context);
 
   // solR configuration add bundle
   db_insert('apachesolr_index_bundles')->fields(array(

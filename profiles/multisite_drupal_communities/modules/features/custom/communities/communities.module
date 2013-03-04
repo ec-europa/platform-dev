@@ -136,7 +136,7 @@ function group_name_load($arg) {
 function communities_menu() {
   $items['community/%group_name/view'] = array(
     //'title arguments' => array(1),
-  //'title callback' => '_communities_title_item',
+    //'title callback' => '_communities_title_item',
     'title' => 'Home page',
     'page arguments' => array(1),
     'access callback' => TRUE,

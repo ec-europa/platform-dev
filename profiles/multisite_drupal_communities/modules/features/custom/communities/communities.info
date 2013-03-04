@@ -94,3 +94,4 @@ features[views_view][] = communities_directory
 features[views_view][] = communities_directory_my
 features[views_view][] = communities_members
 features[views_view][] = community_content
+features[views_view][] = articles_list
