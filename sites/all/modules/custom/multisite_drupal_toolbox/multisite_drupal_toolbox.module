@@ -174,7 +174,8 @@ function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $pat
 
 /**
  * Implements hook_form_alter().
- */function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
+ */
+function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
   global $user;
   if ($user->uid != 1) {
     switch ($form_id) {
@@ -245,6 +246,28 @@ function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $pat
     case 'comment_admin_overview':
       $form['#submit'][] = 'workbench_redirect_submit';
       break;
+  }
+}
+
+/**
+ * Implements hook_page_alter().
+ */
+function multisite_drupal_toolbox_page_alter(&$page) {
+  global $user;
+  if (variable_get('alert_message_enable', FALSE) && $user->uid > 0) {
+    $message = array(
+        '#weight' => -1000,
+        '#type' => 'markup',
+        '#markup' => variable_get('alert_message_body', ""),
+        '#prefix' => '<div id="alter_message" class="messages warning">',
+        '#suffix' => '</div>',
+    );
+
+    $elt = array('alert_message' => $message);
+    if (array_key_exists('content_top', $page))
+      array_unshift($page['content_top'], $elt);
+    else
+      $page['content_top']['alert_message'] = $message;
   }
 }
 
@@ -487,8 +510,8 @@ function notification_content_type($content_type, $op) {
   multisite_drupal_toolbox_notification_content_type($content_type, $op);
 }
 
-/*
- * get the rid of a og role name
+/**
+ * Custom function. Get the rid for communities.
  */
 function multisite_drupal_toolbox_get_og_rid($role_name) {
   $r = db_select('og_role', 'r')
@@ -502,8 +525,8 @@ function get_og_rid($role_name) {
   return multisite_drupal_toolbox_get_og_rid($role_name);
 }
 
-/*
- * get the rid of a role name
+/**
+ * Custom function. Get the rid.
  */
 function multisite_drupal_toolbox_get_rid($role_name) {
   $r = db_select('role', 'r')
@@ -522,7 +545,7 @@ function get_rid($role_name) {
 }
 
 /**
- * Check if the user is super admin
+ * Custom function. Check if the user is super admin
  * ?not used?
  */
 function multisite_drupal_toolbox_is_admin() {
@@ -553,10 +576,8 @@ function multisite_cce_theme() {
   return multisite_drupal_toolbox_cce_theme();
 }
 
-
-
 /**
- *
+ * Custom function : redirects to comments tab in workbench.
  */
 function multisite_drupal_toolbox_workbench_redirect_submit($form, &$form_state) {
   $form_state['redirect'] = array(
@@ -571,11 +592,9 @@ function workbench_redirect_submit($form, &$form_state) {
 }
 
 /**
- *
+ * Custom function : hide publish and unpublish options from the admin content form. Should only be done through workbench.
  */
 function multisite_drupal_toolbox_form_node_admin_content_alter(&$form, &$form_state, $form_id) {
-  // hide publish and unpublish options from the admin content form
-  // publish and unpublish actions must only be done thru the workbench
   unset($form['admin']['options']['operation']['#options']['publish']);
   unset($form['admin']['options']['operation']['#options']['unpublish']);
 }
@@ -648,28 +667,6 @@ function multisite_drupal_toolbox_rate_content_type($content_type, $op) {
  */
 function rate_content_type($content_type, $op) {
   multisite_drupal_toolbox_rate_content_type($content_type, $op);
-}
-
-/**
- * Implements hook_page_alter().
- */
-function multisite_drupal_toolbox_page_alter(&$page) {
-  global $user;
-  if (variable_get('alert_message_enable', FALSE) && $user->uid > 0) {
-    $message = array(
-      '#weight' => -1000,
-      '#type' => 'markup',
-      '#markup' => variable_get('alert_message_body', ""),
-      '#prefix' => '<div id="alter_message" class="messages warning">',
-      '#suffix' => '</div>',
-    );
-
-    $elt = array('alert_message' => $message);
-    if (array_key_exists('content_top', $page))
-      array_unshift($page['content_top'], $elt);
-    else
-      $page['content_top']['alert_message'] = $message;
-  }
 }
 
 
