@@ -21,7 +21,10 @@ function communities_views_pre_render(&$view) {
     $i = 0;
     $len = count($alphabet);
     foreach ($alphabet as $letter) {
-      $url = arg(0) . "/" . $letter;
+      if(count(arg()) > 1)
+        $url = arg(0)."/".arg(1)."/".$letter;
+      else
+        $url = arg(0)."/".$letter;
 
       if ($i == 0) { // first
         $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'action_bar' => 'first', 'btn_group' => 'first', 'class' => array('hidden-phone'))));
