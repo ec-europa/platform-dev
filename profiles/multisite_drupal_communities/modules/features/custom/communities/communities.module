@@ -24,13 +24,13 @@ function communities_views_pre_render(&$view) {
       $url = arg(0) . "/" . $letter;
 
       if ($i == 0) { // first
-        $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'action_bar' => 'first', 'btn_group' => 'first', 'class' => 'hidden-phone')));
+        $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'action_bar' => 'first', 'btn_group' => 'first', 'class' => array('hidden-phone'))));
       }
       elseif ($i == $len - 1) { // last
-        $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'btn_group' => 'last', 'class' => 'hidden-phone')));
+        $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'btn_group' => 'last', 'class' => array('hidden-phone'))));
       }
       else {
-        $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'class' => 'hidden-phone')));
+        $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'class' => array('hidden-phone'))));
       }
       $i++;
     }
@@ -61,7 +61,7 @@ function communities_init() {
 
   // set og context on comunities views
   if (arg(0) == 'community') {
-    $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", arg(1)));
+    $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", arg(1)), 'en');
     $param = explode("/", $alias);
     $group = node_load($param[1]);
     if (og_is_group('node', $group->nid))
