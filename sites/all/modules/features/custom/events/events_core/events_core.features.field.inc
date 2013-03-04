@@ -427,7 +427,6 @@ function events_core_field_default_fields() {
   t('Body');
   t('Comment');
   t('Dates');
-  t('For external url, please enter a complete link begining with "http(s)://"');
   t('Select the start and end dates for this event.');
   t('Tags');
   t('location');
