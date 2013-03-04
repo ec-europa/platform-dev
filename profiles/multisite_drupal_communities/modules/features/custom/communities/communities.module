@@ -21,8 +21,8 @@ function communities_views_pre_render(&$view) {
     $i = 0;
     $len = count($alphabet);
     foreach ($alphabet as $letter) {
-      if(count(arg()) > 1)
-        $url = arg(0)."/".arg(1)."/".$letter;
+      if(arg(1) == 'my')
+        $url = arg(0)."/my/".$letter;
       else
         $url = arg(0)."/".$letter;
 
