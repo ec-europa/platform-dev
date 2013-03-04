@@ -15,7 +15,7 @@ function splash_screen_init() {
   $front = variable_get('site_frontpage', 'node');
   //Cases where users save site_frontpage's path io of alias.
   $front = drupal_get_path_alias($front);
-  $current = drupal_get_path_alias()
+  $current = drupal_get_path_alias();
 
   if (($front == $current) && !isset($_COOKIE[$cookie_name]) && ($GLOBALS['language']->provider == 'language-default')) {
     language_cookie_set(language_default());
