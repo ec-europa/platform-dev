@@ -13,7 +13,7 @@ function splash_screen_init() {
   $cookie_name = variable_get('language_cookie_param', 'language');
   $splash_screen_url = variable_get('splash_screen_url');
   $front = variable_get('site_frontpage', 'node');
-  $current = current_path();
+  $current = drupal_get_path_alias();
 
   if (($front == $current) && !isset($_COOKIE[$cookie_name]) && ($GLOBALS['language']->provider == 'language-default')) {
     language_cookie_set(language_default());
