@@ -119,7 +119,10 @@ function group_name_load($arg) {
   if ($arg == 'none') {
     return 0;
   }
-  $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", $arg)); // get real path to get node id
+  
+  // get real path to get node id
+  $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", $arg), 'en'); 
+  
   $param = explode("/", $alias);
   $group = node_load($param[1]); // load community
 
