@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Multisite Toolbox drush commands to activate an update warning message.
+ */
+
 function multisite_drupal_toolbox_drush_command() {
   $items = array();
 
@@ -9,7 +15,7 @@ function multisite_drupal_toolbox_drush_command() {
     ),
     'examples' => array(
       'drush alert_message enable' => 'Display the alert message on the current instance.',
-      'drush @sites alert_message enable' => 'Display the alert message on all the subsites and master site.',      
+      'drush @sites alert_message enable' => 'Display the alert message on all the subsites and master site.',
     ),
     'aliases' => array('am'),
      'bootstrap' => DRUSH_BOOTSTRAP_DRUSH, // No bootstrap at all.
@@ -21,7 +27,7 @@ function multisite_drupal_toolbox_drush_command() {
 function drush_multisite_drupal_toolbox_alert_message($switch = "enable") {
   module_load_include('inc', 'multisite_drupal_toolbox', 'alert_message');
   $message = get_message();
-  
+
   if ($switch == "enable") {
     variable_set('alert_message_enable', TRUE);
     variable_set('alert_message_body', $message);
