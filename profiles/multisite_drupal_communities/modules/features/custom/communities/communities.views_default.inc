@@ -398,7 +398,10 @@ function communities_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'my communities';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['access']['type'] = 'role';
+  $handler->display->display_options['access']['role'] = array(
+    2 => '2',
+  );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
@@ -511,6 +514,16 @@ function communities_views_default_views() {
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
   $handler->display->display_options['sorts']['title']['field'] = 'title';
+  /* Contextual filter: OG membership: Entity id */
+  $handler->display->display_options['arguments']['etid']['id'] = 'etid';
+  $handler->display->display_options['arguments']['etid']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['etid']['field'] = 'etid';
+  $handler->display->display_options['arguments']['etid']['relationship'] = 'og_membership_rel_group';
+  $handler->display->display_options['arguments']['etid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['etid']['default_argument_type'] = 'current_user';
+  $handler->display->display_options['arguments']['etid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['etid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['etid']['summary_options']['items_per_page'] = '25';
   /* Contextual filter: Content: Title */
   $handler->display->display_options['arguments']['title']['id'] = 'title';
   $handler->display->display_options['arguments']['title']['table'] = 'node';
@@ -523,27 +536,6 @@ function communities_views_default_views() {
   $handler->display->display_options['arguments']['title']['limit'] = '1';
   $handler->display->display_options['arguments']['title']['case'] = 'upper';
   $handler->display->display_options['arguments']['title']['path_case'] = 'lower';
-  /* Contextual filter: OG membership: Entity id */
-  $handler->display->display_options['arguments']['etid']['id'] = 'etid';
-  $handler->display->display_options['arguments']['etid']['table'] = 'og_membership';
-  $handler->display->display_options['arguments']['etid']['field'] = 'etid';
-  $handler->display->display_options['arguments']['etid']['relationship'] = 'og_membership_rel_group';
-  $handler->display->display_options['arguments']['etid']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['etid']['default_argument_type'] = 'current_user';
-  $handler->display->display_options['arguments']['etid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['etid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['etid']['summary_options']['items_per_page'] = '25';
-  /* Contextual filter: OG membership: Group ID */
-  $handler->display->display_options['arguments']['gid']['id'] = 'gid';
-  $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
-  $handler->display->display_options['arguments']['gid']['field'] = 'gid';
-  $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel_group';
-  $handler->display->display_options['arguments']['gid']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'og_user_groups';
-  $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['gid']['break_phrase'] = TRUE;
   /* Filter criterion: Content: Group (group_group) */
   $handler->display->display_options['filters']['group_group_value']['id'] = 'group_group_value';
   $handler->display->display_options['filters']['group_group_value']['table'] = 'field_data_group_group';
