@@ -22,7 +22,7 @@ function communities_views_pre_render(&$view) {
     $len = count($alphabet);
     foreach ($alphabet as $letter) {
       if(arg(1) == 'my')
-        $url = arg(0)."/my/".$letter;
+        $url = arg(0)."/my/".$user->uid."/".$letter;
       else
         $url = arg(0)."/".$letter;
 
