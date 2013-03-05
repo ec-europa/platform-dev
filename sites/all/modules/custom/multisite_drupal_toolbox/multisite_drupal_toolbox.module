@@ -763,8 +763,9 @@ function multisite_drupal_toolbox_node_presave($node) {
   }
 
   // check if the node must be bypass
-  if(!in_array($node->nid, $nodes_bypass)) {
-    $node->body['und'][0]['value'] = filter_xss($node->body['und'][0]['value'], $tags_allowed); // use the drupal filter_xss function to filter xss attacks
+  if(isset($node->nid) && !in_array($node->nid, $nodes_bypass)) {
+    if(isset($node->body['und'][0]))
+      $node->body['und'][0]['value'] = filter_xss($node->body['und'][0]['value'], $tags_allowed); // use the drupal filter_xss function to filter xss attacks
   }
 }
 
