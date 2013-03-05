@@ -1,0 +1,14 @@
+Change in the terminology of the status of documents to avoid confusion
+Index: sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
+===================================================================
+--- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
++++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
+@@ -1781,7 +1781,7 @@ function workbench_moderation_messages($context, $node = NULL) {
+       'message' => check_plain(workbench_moderation_state_label($state['my_revision']->state)),
+     );
+     $info_block_messages[] = array(
+-      'label' => t('Current draft'),
++      'label' => t('Most recent revision'),
+       'message' => !empty($revision_current) ? t('Yes') : t('No'),
+     );
+
