@@ -948,5 +948,162 @@ ul
   $strongarm->value = 'draft';
   $export['workbench_moderation_default_state_article'] = $strongarm;
 
+    $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_autobuffering';
+  $strongarm->value = 1;
+  $export['video_autobuffering'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_autoplay';
+  $strongarm->value = 0;
+  $export['video_autoplay'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_bypass_conversion';
+  $strongarm->value = 0;
+  $export['video_bypass_conversion'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_convertor';
+  $strongarm->value = 'TranscoderAbstractionFactoryFfmpeg';
+  $export['video_convertor'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_convert_on_save';
+  $strongarm->value = 1;
+  $export['video_convert_on_save'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_cron';
+  $strongarm->value = 0;
+  $export['video_cron'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_dimensions';
+  $strongarm->value = '320x180
+320x240
+384x216
+384x288
+400x225
+400x300
+432x243
+432x324
+480x200
+480x270
+480x360
+512x288
+560x315
+560x420
+640x360
+640x480
+648x486
+720x405
+720x480
+720x486
+720x540
+720x576
+768x576
+852x480
+864x486
+960x400
+960x540
+960x720
+1024x576
+1280x720
+1280x960
+1280x1080
+1440x1080
+1920x800
+1920x1080';
+  $export['video_dimensions'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_ffmpeg_instances';
+  $strongarm->value = '5';
+  $export['video_ffmpeg_instances'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_ffmpeg_path';
+  $strongarm->value = '/usr/bin/ffmpeg';
+  $export['video_ffmpeg_path'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_preset';
+  $strongarm->value = array(
+    0 => 'default_flash_conversion',
+  );
+  $export['video_preset'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_publish_on_complete';
+  $strongarm->value = FALSE;
+  $export['video_publish_on_complete'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_queue_timeout';
+  $strongarm->value = '900';
+  $export['video_queue_timeout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_thumbnail_count';
+  $strongarm->value = '3';
+  $export['video_thumbnail_count'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_thumbnail_path';
+  $strongarm->value = 'videos/thumbnails';
+  $export['video_thumbnail_path'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_transcode_timeout';
+  $strongarm->value = '10';
+  $export['video_transcode_timeout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_use_default_thumb';
+  $strongarm->value = 0;
+  $export['video_use_default_thumb'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'video_use_preset_wxh';
+  $strongarm->value = 1;
+  $export['video_use_preset_wxh'] = $strongarm;
+
+
+
   return $export;
 }
