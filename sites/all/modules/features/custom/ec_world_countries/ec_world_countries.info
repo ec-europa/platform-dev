@@ -6,7 +6,6 @@ php = 5.2.4
 version = 7.x-1.0
 project = ec_world_countries
 dependencies[] = features
-dependencies[] = taxonomy
 features[features_api][] = api:1
 features[taxonomy][] = european_countries
 files[] = tests/ec_world_countries.test
