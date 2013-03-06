@@ -1,8 +1,9 @@
 name = Fat_footer
-description = provide a complete expanded main menu at the bottom of page
+description = Provide a complete expanded main menu at the bottom of page.
 core = 7.x
 package = Multisite_features
 version = 7.x-1.0
 project = fat_footer
+php = 5.2.4
 dependencies[] = workbench_moderation
 features[features_api][] = api:1

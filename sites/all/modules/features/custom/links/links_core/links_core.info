@@ -8,7 +8,6 @@ project = links_core
 dependencies[] = features
 dependencies[] = link
 dependencies[] = strongarm
-dependencies[] = taxonomy
 dependencies[] = views
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
