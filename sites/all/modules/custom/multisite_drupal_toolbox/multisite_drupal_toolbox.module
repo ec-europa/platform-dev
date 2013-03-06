@@ -968,3 +968,51 @@ function linkit_scan_url($url, $field) {
 }
 
 
+
+/*
+ * hook_token_info
+ * provide a new token for node [node:title-source-translation]
+ * to provide get the title of the source node 
+ */
+function multisite_drupal_toolbox_token_info() {
+  $node['title-source-translation'] = array(
+    'name' => t("Title source"),
+    'description' => t("Title of the translation source."),
+  );
+  return array(
+    'tokens' => array('node' => $node),
+  );
+}
+
+
+/**
+ * hook_tokens
+ */
+function multisite_drupal_toolbox_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  if ($type == 'node' && !empty($data['node'])) {
+    $node = $data['node'];
+
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'title-source-translation':
+          $language_default = language_default();
+          if($node->language == LANGUAGE_NONE || $node->language == $language_default->language) {
+            $replacements[$original] = $node->title;
+          }
+          else {
+            $translations = translation_node_get_translations($node->tnid);
+            if ($translations == NULL && $node->is_new == TRUE) {
+              $replacements[$original] = $node->translation_source->title;
+            }
+            else {
+              $replacements[$original] = $translations[$default_lang_code]->title;
+            }
+          }
+          break;
+      }
+    }
+  }
+  return $replacements;
+}
+
