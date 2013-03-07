@@ -180,5 +180,4 @@ function cce_basic_config_preprocess_node(&$variables) {
 
     $variables['article_items'] = $output;
   }
-
 }
