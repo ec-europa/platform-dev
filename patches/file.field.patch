@@ -1,8 +1,5 @@
 --- modules/file/file.field.inc 2012-09-27 15:19:29.785668692 +0200
 +++ modules/file/file.field.inc 2012-10-18 12:20:53.000000000 +0200
-index 1189704..319cd58 100644
---- a/modules/file/file.field.inc
-+++ b/modules/file/file.field.inc
 @@ -261,8 +261,16 @@ function file_field_update($entity_type, $entity, $field, $instance, $langcode,
      $current_fids[] = $item['fid'];
    }
