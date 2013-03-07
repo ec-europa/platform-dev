@@ -11,7 +11,6 @@
  */
 class Multisite_QAWebTestCase extends DrupalWebTestCase {
 
-
   public static function getInfo() {
     return array(
       'name' => 'Multisite QA tests',
@@ -85,7 +84,10 @@ class Multisite_QAWebTestCase extends DrupalWebTestCase {
     $module = 'links_standard';
     $path = drupal_get_path('module', $module) . '/' . $module . '.install';
     $data = file_get_contents($path);
-    $this->assertTrue(strpos($data, '_install'), 'The module contains a hook_install');
+    $this->assertTrue(strpos($data, $module.'_install'), 'The module contains a hook_install');
+    $this->assertTrue(strpos($data, $module.'_install'), 'The module contains a hook_uninstall');
+    $this->assertTrue(strpos($data, $module.'_enable'), 'The module contains a hook_enable');
+    $this->assertTrue(strpos($data, $module.'_disable'), 'The module contains a hook_disable');
   }
 
 }
