@@ -134,8 +134,8 @@ function cce_basic_config_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-article-body'.
-  $fields['node-article-body'] = array(
+  // Exported field: 'node-article-field_article_body'.
+  $fields['node-article-field_article_body'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -143,7 +143,7 @@ function cce_basic_config_field_default_fields() {
       'entity_types' => array(
         0 => 'node',
       ),
-      'field_name' => 'body',
+      'field_name' => 'field_article_body',
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -178,7 +178,6 @@ function cce_basic_config_field_default_fields() {
         ),
         'teaser' => array(
           'label' => 'hidden',
-          'module' => 'text',
           'settings' => array(
             'trim_length' => 600,
           ),
@@ -187,23 +186,49 @@ function cce_basic_config_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'body',
+      'field_name' => 'field_article_body',
       'label' => 'Body',
-      'required' => FALSE,
+      'required' => 0,
       'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'basic_html' => 'basic_html',
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'basic_html' => array(
+                'weight' => '5',
+              ),
+              'filtered_html' => array(
+                'weight' => '-9',
+              ),
+              'full_html' => array(
+                'weight' => '-10',
+              ),
+              'plain_text' => array(
+                'weight' => '-8',
+              ),
+            ),
+          ),
+        ),
         'display_summary' => TRUE,
-        'text_processing' => 1,
-        'user_field_privacy' => FALSE,
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'text',
         'settings' => array(
-          'rows' => 20,
+          'rows' => '20',
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => 31,
+        'weight' => '31',
       ),
     ),
   );
@@ -533,7 +558,7 @@ function cce_basic_config_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => -4,
+        'weight' => '-4',
       ),
     ),
   );
