@@ -9,7 +9,7 @@ include_once('cce_basic_config.file_default_displays.inc');
 include_once('cce_basic_config.default_password_policy.inc');
 
 function cce_basic_config_menu_alter(&$items) {
-  // hide default search tab --------------------------------------------------------------------------------------------- 
+  // hide default search tab ---------------------------------------------------------------------------------------------
   $items['search/node']['access callback'] = FALSE;
 }
 
@@ -34,8 +34,8 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
     '#weight' => 10,
     '#collapsible' => FALSE
   );
-  
-  //Create select field 
+
+  //Create select field
   $form['meta']['classification'] = array(
     '#type' => 'select',
     '#title' => t('IPG Classification'),
@@ -62,12 +62,10 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
 
 function cce_basic_config_form_media_format_form_alter(&$form) {
   // when putting a media in content with wysiwyg we just allow the default view mode for media document
-  if($form['#media']->type == 'document') { 
+  if($form['#media']->type == 'document') {
     unset($form['options']['format']['#options']['teaser']);
     unset($form['options']['format']['#options']['preview']);
     unset($form['#formats']['preview']);
     unset($form['#formats']['teaser']);
   }
 }
-
-
