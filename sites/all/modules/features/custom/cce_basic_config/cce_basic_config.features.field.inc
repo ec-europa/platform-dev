@@ -1067,8 +1067,8 @@ function cce_basic_config_field_default_fields() {
           'default_flash_conversion' => 'default_flash_conversion',
           'default_video_conversion' => 0,
         ),
-        'preview_video_thumb_style' => 'video_thumbnail',
-        'thumbnail_format' => 'jpg',
+        'preview_video_thumb_style' => 'square_thumbnail',
+        'thumbnail_format' => 'png',
         'uri_scheme' => 'public',
         'uri_scheme_converted' => 'public',
         'uri_scheme_thumbnails' => 'public',
@@ -1085,7 +1085,7 @@ function cce_basic_config_field_default_fields() {
           'label' => 'above',
           'module' => 'video',
           'settings' => array(
-            'poster_image_style' => 'video_thumbnail',
+            'poster_image_style' => 'square_thumbnail',
             'widthxheight' => '640x360',
           ),
           'type' => 'video_formatter_player',
@@ -1096,7 +1096,7 @@ function cce_basic_config_field_default_fields() {
           'module' => 'video',
           'settings' => array(
             'image_link' => 'content',
-            'image_style' => 'video_thumbnail',
+            'image_style' => 'square_thumbnail',
           ),
           'type' => 'video_formatter_thumbnail',
           'weight' => '3',
