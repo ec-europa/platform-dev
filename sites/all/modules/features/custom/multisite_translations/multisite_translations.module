@@ -25,6 +25,23 @@ function multisite_translations_form_alter(&$form, &$form_state, $form_id) {
       $form['#submit'][] = 'create_translation_roles';
       break;
   }
+  
+  if (substr($form_id, -9) == 'node_form') {
+    // disable the language field since there are pending job translation items on this node
+    if(isset($form['nid']['#value'])) {
+      $query = new EntityFieldQuery();
+      $return = (boolean) $query
+        ->entityCondition('entity_type', 'tmgmt_job_item')
+        ->propertyCondition('item_type', 'node')
+        ->propertyCondition('item_id', $form['nid']['#value'])
+        ->propertyCondition('state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
+        ->execute();
+
+      if($return)
+        $form['language']['#disabled'] = TRUE;
+    }
+  }
+
 }
 
 /*
