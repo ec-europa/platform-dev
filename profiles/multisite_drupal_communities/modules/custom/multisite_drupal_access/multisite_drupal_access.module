@@ -3,6 +3,7 @@
  * Implements hook_node_access().
  */
 
+/*
 function multisite_drupal_access_node_access($node, $op, $account) {
   if (is_string($node)) {
     return NODE_ACCESS_IGNORE;
@@ -14,15 +15,16 @@ function multisite_drupal_access_node_access($node, $op, $account) {
  
   return NODE_ACCESS_IGNORE;
 }
-
+*/
 
 /**
  * Implements hook_node_grants().
  */
+/*
 function multisite_drupal_access_node_grants($account, $op) {
   $grants = array();
   
-  // allow any users to view private communities in the communities directory view
+  // allow tempopary any users to view private communities on specific url
   if(arg(0) == 'communities_directory') {
     $group_type = 'node';   
     $query = new EntityFieldQuery();
@@ -45,5 +47,27 @@ function multisite_drupal_access_node_grants($account, $op) {
     }
   }
   return $grants;
+}
+*/
+
+/*
+ * hook_node_access_records
+ */
+function multisite_drupal_access_node_access_records($node) {
+  // give the right for any users to view community type
+  if($node->type == 'community')  {
+    $group_type = 'node';
+    $grants[] = array (
+      'realm' => 'all',
+      'gid' => 0,
+      'grant_view' => 1,
+      'grant_update' => 0,
+      'grant_delete' => 0,
+      'priority' => 0,
+    );
+    return !empty($grants) ? $grants : array();
+  }
+  else
+    return;
 }
 
