@@ -99,6 +99,27 @@ function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
     variable_set("language_count", 2);
   }
+  //redirect to /lg when a cookie exists
+  if (function_exists('drush_main')) return;
+  $enabled_lg = language_list('enabled');
+
+  //if more than 1 language is enabled
+  if(count($enabled_lg[1]) > 1) {
+    $default_lg = language_default()->language;
+    $cookie_name = variable_get('language_cookie_param', 'language');
+    $front = variable_get('site_frontpage', 'node');
+    $front = drupal_get_path_alias($front);
+    $current = drupal_get_path_alias();
+
+    //we are on front page, and there is a cookie, redirect to the /lg page (except if locale is already available)
+    if(!($GLOBALS['language']->provider == 'locale-url')) {
+      if(($front == $current) && isset($_COOKIE[$cookie_name])) {
+        drupal_goto($front . '/' . $_COOKIE[$cookie_name]);
+      } elseif (($front == $current) && !($GLOBALS['language']->provider == 'locale-url')) {
+        drupal_goto($front . '/' . $default_lg);
+      }
+    }
+  }
 }
 
 /**
@@ -972,7 +993,7 @@ function linkit_scan_url($url, $field) {
 /*
  * hook_token_info
  * provide a new token for node [node:title-source-translation]
- * to provide get the title of the source node 
+ * to provide get the title of the source node
  */
 function multisite_drupal_toolbox_token_info() {
   $node['title-source-translation'] = array(
