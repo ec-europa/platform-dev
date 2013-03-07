@@ -308,10 +308,10 @@
           $workbench_class = '';
           if ($display_group) {
             $workbench_span = 6;
-            $workbench_class .= 'offset6 ';
           } 
           else {
-            $workbench_span = 12;
+            $workbench_span = 6;
+            $workbench_class .= 'offset6 ';
           }
           $workbench_class .= 'span' . $workbench_span . ' well well-small muted';
 
