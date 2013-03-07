@@ -138,7 +138,7 @@ function cce_basic_config_video_default_presets() {
         'clip_length' => '',
       ),
       'overridden' => TRUE,
-      'module' => 'gallerymedia_core',
+      'module' => 'cce_basic_config',
     ),
     'default_video_conversion' => array(
       'name' => 'default_video_conversion',
@@ -173,7 +173,7 @@ function cce_basic_config_video_default_presets() {
         'clip_start' => '',
         'clip_length' => '',
       ),
-      'module' => 'gallerymedia_core',
+      'module' => 'cce_basic_config',
       'overridden' => FALSE,
     ),
   );

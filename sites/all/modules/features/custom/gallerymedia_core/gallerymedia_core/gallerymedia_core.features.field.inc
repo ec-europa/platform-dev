@@ -231,7 +231,7 @@ function gallerymedia_core_field_default_fields() {
           'label' => 'inline',
           'module' => 'video',
           'settings' => array(
-            'poster_image_style' => '',
+            'poster_image_style' => 'square_thumbnail',
             'widthxheight' => '640x360',
           ),
           'type' => 'video_formatter_player',
