@@ -54,6 +54,22 @@ function communities_views_pre_render(&$view) {
       }
     }
   }
+  
+  if ($view->name == "articles_list") {
+    $output = '';
+    $og = og_context();
+    if ($og) {
+      $gid = $og['gid'];
+      
+      if ( og_user_access('node', $og['gid'],'create article content') ) {
+        $output .= l(t('Create a Article'), 'node/add/article', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'), 'query' => array('og_group_ref' => $og['gid'])));
+      }
+      //add menu to the exsiting header
+      if ($view->header['area']) {
+        $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
+      }
+    }    
+  }
 }
 
 /*
