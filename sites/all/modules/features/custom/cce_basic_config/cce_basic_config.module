@@ -243,17 +243,6 @@ if ('gallerymedia' != $variables['type']) {
     );
 
     $output .= $htmlpager;
-    $output2 = 'bla bla';
-    $variables['gallerymedia_items'] = $output;
-    $variables['bla'] = $output2;
-    echopre($variables['bla']);
-    echopre($variables['gallerymedia_items']);
+    $variables['video_items'] = $output;
   }
 }
-
-  function echopre($var) {
-    print '<pre>';
-    print_r($var);
-    print '</pre';
-    return $var;
-  }
