@@ -15,6 +15,7 @@ function multisite_translations_default_rules_configuration() {
       "TAGS" : [ "job translation" ],
       "REQUIRES" : [ "rules", "multisite_translations", "tmgmt" ],
       "ON" : [ "tmgmt_job_update" ],
+      "IF" : [ { "data_is" : { "data" : [ "tmgmt-job:state" ], "value" : "1" } } ],
       "DO" : [
         { "entity_create" : {
             "USING" : {
