@@ -75,9 +75,32 @@ function cce_basic_config_form_media_format_form_alter(&$form) {
  * Implementation of hook_preprocess_node().
 */
 function cce_basic_config_preprocess_node(&$variables) {
-  if ('article' == $variables['type']) {
+if ('gallerymedia' != $variables['type']) {
     global $base_url;
     $output = '';
+    $pager_size = 8;
+
+
+    if (isset($variables['field_video'])) {
+      $media_items = $variables['field_video'];
+    }
+    else {
+      $media_items = array();
+    }
+
+    //sort media items by fid
+    $sorted_media_items = array();
+    if ($media_items) {
+      foreach ($media_items as $value) {
+        $sorted_media_items[$value['fid']]= $value;
+      }
+      ksort($sorted_media_items);
+    }
+
+    //manage pager
+    pager_default_initialize(count($sorted_media_items), $pager_size);
+    $pager_page = pager_find_page();
+    $sorted_media_items = array_slice($sorted_media_items, $pager_page * $pager_size, $pager_size);
 
     //if no pictures display empty_pic
     if (!isset($sorted_media_items) || count($sorted_media_items) == 0) {
@@ -94,7 +117,7 @@ function cce_basic_config_preprocess_node(&$variables) {
     //display media items
     foreach ($sorted_media_items as $key => $item) {
       if (($key % 4) == 0) {
-        $output .= '<div class="row-fluid">';
+        $output .= '<div class="media_gallery row-fluid">';
         $output .= '<ul class="thumbnails">';
       }
 
@@ -125,7 +148,37 @@ function cce_basic_config_preprocess_node(&$variables) {
       }
 
       switch ($type[0]) {
-          case 'video':
+        case 'image':
+
+          $picture_square_thumbnail = image_style_url('square_thumbnail', $local_data['uri']);
+          $picture_preview = image_style_url('preview', $local_data['uri']);
+          $picture_original = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://', '/', $local_data['uri']);
+
+          $alt_text = (!empty($local_data['field_file_image_alt_text']['und'][0]['safe_value']) ? $local_data['field_file_image_alt_text']['und'][0]['safe_value'] : filter_xss($local_data['filename']));
+          $title_texte = (!empty($local_data['field_file_image_title_text']['und'][0]['safe_value']) ? $local_data['field_file_image_title_text']['und'][0]['safe_value'] : '');
+
+          $output .= '<li class="span3">';
+          $output .= '<div id="lightbox' . $key . '" class="lightbox" style="display: none;">';
+          $output .= '<img src="' . $picture_preview . '" alt="' . $alt_text . '" title="' . $title_texte . '"/>';
+
+          if (isset($local_data['field_picture_description']['und'][0]['value'])) {
+            $output .= '<p>' . filter_xss($local_data['field_picture_description']['und'][0]['value']) . '</p>';
+          }
+
+          if (!empty($tags)) {
+            $output .= '<p>' . $tags . '</p>';
+          }
+
+          $output .= '<p><a href="' . $base_url . '/' . $picture_original . '" title="' . filter_xss($local_data['filename']) . '" target="_blank">' . t('View full size picture') . '</a></p>';
+          $output .= '</div>';
+          $output .= '<a href="#lightbox' . $key . '" class="fancybox thumbnail" rel="gallery" title="' . filter_xss($local_data['filename']) . '">';
+          $output .= '<img src="' . $picture_square_thumbnail . '" alt="' . $alt_text . '" title="' . $title_texte . '" />';
+          $output .= '<p class="carousel-caption">' . $short_name . '</p>';
+          $output .= '</a>';
+          $output .= '</li>';
+        break;
+
+        case 'video':
           //$video_path = $base_url . '/' . variable_get('file_directory_path', $default = 'sites/default/files') . '/videos/original/' . $local_data['filename'];
 
           $converted_fid = db_select('video_output', 'vd')
@@ -176,8 +229,31 @@ function cce_basic_config_preprocess_node(&$variables) {
         break;
       }
 
+      if ((($key+1) % 4) == 0 || !isset($sorted_media_items[$key+1])) {
+        $output .= '</ul>';
+        $output .= '</div>';
+      }
     }
 
-    $variables['article_items'] = $output;
+    $htmlpager = theme('pager',
+      array(
+        'tags' => array(),
+        'element' => 0,
+      )
+    );
+
+    $output .= $htmlpager;
+    $output2 = 'bla bla';
+    $variables['gallerymedia_items'] = $output;
+    $variables['bla'] = $output2;
+    echopre($variables['bla']);
+    echopre($variables['gallerymedia_items']);
   }
 }
+
+  function echopre($var) {
+    print '<pre>';
+    print_r($var);
+    print '</pre';
+    return $var;
+  }
