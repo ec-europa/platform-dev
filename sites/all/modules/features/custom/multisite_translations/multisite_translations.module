@@ -24,8 +24,26 @@ function multisite_translations_form_alter(&$form, &$form_state, $form_id) {
       // generate translation roles after adding new languages
       $form['#submit'][] = 'create_translation_roles';
       break;
+    case "views_form_tmgmt_node_source_overview_page":
+      // tmgmt admin node source page : disable content that have pending job translation requests
+      foreach($form['views_bulk_operations'] as $key => $value) {
+        if(isset($value['#return_value'])) {
+          $query = new EntityFieldQuery();
+          $return = (boolean) $query
+            ->entityCondition('entity_type', 'tmgmt_job_item')
+            ->propertyCondition('item_type', 'node')
+            ->propertyCondition('item_id', $value['#return_value'])
+            ->propertyCondition('state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
+            ->execute();
+          if($return)
+            $form['views_bulk_operations'][$key]['#disabled'] = TRUE;
+        }
+      }
+      break;
   }
   
+
+    
   if (substr($form_id, -9) == 'node_form') {
     // disable the language field since there are pending job translation items on this node
     if(isset($form['nid']['#value'])) {
