@@ -85,7 +85,6 @@
   $prefixe = '';
   $suffixe = '';
   $display_label = FALSE;
- 
   //get node type
   switch ($type) {
     case 'links':
@@ -97,7 +96,7 @@
       );
       $display_user_picture = FALSE;
       break;
-      
+
     case 'news':
       $fields = array(
         'picture' => array('field_news_picture'),
@@ -107,8 +106,8 @@
       );
       $display_user_picture = FALSE;
       break;
-      
-    case 'community':     
+
+    case 'community':
       $fields = array(
         'picture' => array('field_thumbnail'),
         'body'  => array('body'),
@@ -124,7 +123,7 @@
         'body'  => array('body'),
         'hidden'  => array('comments', 'links', 'print_links'),
         'group' => array('group_audience', 'group_content_access')
-      );        
+      );
       break;
 
     case 'idea':
@@ -135,12 +134,12 @@
         'group' => array('group_audience', 'group_content_access')
       );
       $display_submitted = FALSE;
-      if ($content['field_watching']['#object']->field_watching['und'][0]['value']) {   
-        $suffixe .= '<div class="no_label">';     
+      if ($content['field_watching']['#object']->field_watching['und'][0]['value']) {
+        $suffixe .= '<div class="no_label">';
         $suffixe .= '<span class="label label-success t_upper f_right"><i class="icon-eye-open icon-white"></i>'.t('watched').'</span>';
         $suffixe .= '</div>';
       }
-      break;      
+      break;
 
     case 'webform':
       $fields = array(
@@ -161,7 +160,7 @@
         'group' => array('group_audience', 'group_content_access')
       );
       $suffixe = $gallerymedia_items;
-      break;      
+      break;
 
     default:
       $fields = array(
@@ -169,11 +168,12 @@
         'body'  => array('body'),
         'hidden'  => array('comments', 'links', 'print_links'),
         'group' => array('group_audience', 'group_content_access')
-      );        
+      );
+      $suffixe = $video_items;
       break;
   }
-  
-  //set size of fields 
+
+  //set size of fields
   $span_large = 'span12';
   $span_title = 'span2';
   $span_small = 'span10';
@@ -192,19 +192,19 @@
     <div class="meta submitted">
       <?php if ($display_user_picture): ?>
         <?php print $user_picture; ?>
-      <?php endif; ?>      
+      <?php endif; ?>
       <?php print $submitted; ?>
     </div>
   <?php endif; ?>
-      
+
   <div class="content clearfix"<?php print $content_attributes; ?>>
 
-    <?php         
+    <?php
       // We hide several elements now so that we can render them later.
       foreach ($fields as $key => $value) {
         foreach ($value as $id) {
           hide($content[$id]);
-        }        
+        }
       }
 
       $output .= $prefixe;
@@ -219,8 +219,8 @@
             $fields['content'][$key] = $value['#weight'];
           }
         }
-      }    
-      if ($display_content && !empty($fields['content'])) { 
+      }
+      if ($display_content && !empty($fields['content'])) {
         //sort fields by weight
         asort($fields['content']);
 
@@ -233,7 +233,7 @@
               case 'hidden':
                 $field .= '<div class="'.$span_large.'">'.render($content[$key]).'</div>';
               break;
-              
+
               case 'above':
                 if (isset($content[$key]['#title'])) {
                   $content[$key]['#label_display'] = 'hidden';
@@ -241,18 +241,18 @@
                   $field .= '<div class="row-fluid"><div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
                 } else {
                   $field .= '<div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
-                }          
+                }
               break;
-              
+
               case 'inline':
               default:
                 if (isset($content[$key]['#title'])) {
                   $content[$key]['#label_display'] = 'hidden';
                   $field .= '<div class="'.$span_title.' field-label">'.$content[$key]['#title'].'</div>';
-                  $field .= '<div class="'.$span_small.' no_label">'.render($content[$key]).'</div>';                        
+                  $field .= '<div class="'.$span_small.' no_label">'.render($content[$key]).'</div>';
                 } else {
                   $field .= '<div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
-                }          
+                }
               break;
             }
 
@@ -261,8 +261,8 @@
             $field .= '<div class="row-fluid"><div class="'.$span_large.'">'.render($content[$key]).'</div></div>';
           } else  {
             $field .= '<div class="row-fluid"><div class="'.$span_large.' no_label">'.render($content[$key]).'</div></div>';
-          }          
-          
+          }
+
           if (isset($content[$key]['#field_name']) && in_array($content[$key]['#field_name'],$fields['body'])) {
             $output .= '<fieldset>'.$field.'</fieldset>';
           } else if (isset($content[$key]['#field_name']) && in_array($content[$key]['#field_name'],$fields['picture'])) {
@@ -272,7 +272,7 @@
           }
         }
       }
-      
+
       $output .= $suffixe;
 
       //display groups & workbench blocks
@@ -308,7 +308,7 @@
           $workbench_class = '';
           if ($display_group) {
             $workbench_span = 6;
-          } 
+          }
           else {
             $workbench_span = 6;
             $workbench_class .= 'offset6 ';
@@ -317,11 +317,11 @@
 
           $output .= '<div class="' . $workbench_class . '">';
           $output .= $display_workbench;
-          $output .= '</div>';  
-        }        
+          $output .= '</div>';
+        }
         $output .= '</div>';
       }
-      
+
       print $output;
     ?>
 
