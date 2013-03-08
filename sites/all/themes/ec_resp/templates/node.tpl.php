@@ -112,7 +112,7 @@
       $fields = array(
         'picture' => array('field_thumbnail'),
         'body'  => array('body'),
-        'hidden'  => array('comments', 'links', 'print_links', 'field_thumbnail'),
+        'hidden'  => array('comments', 'links', 'print_links', 'field_thumbnail','og_roles_permissions'),
         'group' => array('group_group', 'group_access')
       );
       $display_submitted = FALSE;
