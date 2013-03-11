@@ -11,39 +11,39 @@
 .clickable { cursor: pointer; }
 .off-screen {left: -9999px; position: absolute; top: -9999px; margin: 0; padding: 0;}
 .arrow-up {
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  
+
   border-bottom: 8px solid #F5F5F5;
   .box-shadow(0 1px 0 rgba(0,0,0,.25));
 }
 .arrow-down {
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  
+
   border-top: 8px solid #F5F5F5;
   .box-shadow(0 -1px 0 rgba(0,0,0,.25));
 
 }
 .arrow-right {
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
-  
+
   border-left: 5px solid black;
 }
 .arrow-left {
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent; 
-  
-  border-right: 5px solid black; 
+  border-bottom: 5px solid transparent;
+
+  border-right: 5px solid black;
 }
 
 /* ---------- Overall Specifications ---------- */
@@ -142,7 +142,7 @@ a {
   color: @linkColor;
   &:hover { color: @linkColorHover; }
   &:focus { color: @linkColorHover; }
-  &:active { color: @linkColorHover; }  
+  &:active { color: @linkColorHover; }
   &:visited { color: @linkColor; }
 }
 
@@ -460,6 +460,11 @@ div.vertical-tabs .vertical-tabs-panes fieldset.vertical-tabs-pane {
   padding: 1em;
 }
 
+.fancybox-close {
+	position: fixed !important;
+	top: 15px !important;
+	right: 15px !important;
+}
 /* -------------- Shortcut Links -------------- */
 
 .shortcut-wrapper {
