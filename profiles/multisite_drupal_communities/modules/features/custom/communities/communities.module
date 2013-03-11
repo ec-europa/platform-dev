@@ -70,6 +70,16 @@ function communities_views_pre_render(&$view) {
       }
     }    
   }
+
+  if ($view->name == "communities_members") {
+    $og = og_context();
+    if ($og) {
+      $gid = $og['gid']; 
+      if (!og_is_member('node',$gid)) {
+        $view->result = array();
+      }
+    }    
+  }  
 }
 
 /*
