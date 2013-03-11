@@ -69,7 +69,7 @@ function multisite_translations_form_alter(&$form, &$form_state, $form_id) {
             ->propertyCondition('item_type', 'node')
             ->propertyCondition('item_id', $value['#return_value'])
             ->propertyCondition('state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
-            =>count()
+            ->count()
             ->execute();
           if($return == $count_enabled_languages) // if they are a pending translation for each enabled languages => disable checkbox
             $form['views_bulk_operations'][$key]['#disabled'] = TRUE;
