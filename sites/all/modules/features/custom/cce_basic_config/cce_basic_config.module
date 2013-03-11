@@ -80,8 +80,14 @@ if ('gallerymedia' != $variables['type']) {
     $output = '';
     $pager_size = 8;
 
-
-    if (isset($variables['field_video'])) {
+    //merge photos and videos
+    if (isset($variables['field_picture_upload']) && isset($variables['field_video'])) {
+      $media_items = array_merge($variables['field_picture_upload'], $variables['field_video']);
+    }
+    elseif (isset($variables['field_picture_upload'])) {
+      $media_items = $variables['field_picture_upload'];
+    }
+    elseif (isset($variables['field_video'])) {
       $media_items = $variables['field_video'];
     }
     else {
@@ -243,6 +249,7 @@ if ('gallerymedia' != $variables['type']) {
     );
 
     $output .= $htmlpager;
-    $variables['video_items'] = $output;
+
+    $variables['gallerymedia_items'] = $output;
   }
 }
