@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Tests for eyp_dev.module.
+ * Tests for PROJECTFEATURE_STARTERKIT.module.
  * ECWeb MULTISITE QA
  */
 
@@ -14,7 +14,7 @@ class Multisite_QAWebTestCase extends DrupalWebTestCase {
   public static function getInfo() {
     return array(
       'name' => 'STARTERKIT tests',
-      'description' => 'Test the multisite features to ensure it follows QA requirements.',
+      'description' => 'Test the STARTERKIT features to ensure it follows QA requirements.',
       'group' => 'Multisite QA',
     );
   }
@@ -24,12 +24,12 @@ class Multisite_QAWebTestCase extends DrupalWebTestCase {
    * TestFile <featurename>.info
    */
   function testInfoFile() {
-    $module = 'links_standard';
+    $module = basename(__FILE__ , ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.info';
     $info = drupal_parse_info_file($path);
 
     // Add name information. Ex: name=Newsletters.
-    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.');
+    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module );
 
     // Add description information.
     // Ex: description = Publish and send newsletters to lists of subscribers.
@@ -81,7 +81,7 @@ class Multisite_QAWebTestCase extends DrupalWebTestCase {
   }
 
  function testInstallFile() {
-    $module = 'links_standard';
+    $module = basename(__FILE__ , ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.install';
     $data = file_get_contents($path);
     $this->assertTrue(strpos($data, $module.'_install'), 'The module contains a hook_install');

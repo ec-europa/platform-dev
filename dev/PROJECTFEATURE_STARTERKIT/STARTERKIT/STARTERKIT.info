@@ -6,4 +6,6 @@ version = 7.x-1.0
 php = 5.2.4
 project = STARTERKIT_project_name
 
+features[features_api][] = api:1
+
 files[] = tests/STARTERKIT.test
