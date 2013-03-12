@@ -55,4 +55,24 @@ function ec_world_countries_disable() {
 
   // Desactivation message.
   drupal_set_message(t('EC world countries feature is now disabled on your site.'));
+  //@TODO Check that the voc is not used and if it is not, run uninstall_hook in the feature.
+}
+
+/**
+ * Implements hook_install().
+ */
+function ec_world_countries_install() {
+
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ec_world_countries_uninstall() {
+  $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
+  if ($vocabulary) {
+    $vid=$vocabulary->vid;
+    taxonomy_vocabulary_delete($vid);
+  }
+
 }
