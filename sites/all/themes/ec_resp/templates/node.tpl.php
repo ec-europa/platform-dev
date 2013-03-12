@@ -164,6 +164,16 @@
       $suffixe = $gallerymedia_items;
       break;
 
+      case 'page':
+      $fields = array(
+        'picture' => array(),
+        'body'  => array('body'),
+        'hidden'  => array('field_video', 'field_picture_upload', 'comments', 'links', 'print_links'),
+        'group' => array('group_audience', 'group_content_access')
+      );
+      $suffixe = $gallerymedia_items;
+      break;
+
     default:
       $fields = array(
         'picture' => array(),

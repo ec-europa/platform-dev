@@ -1030,12 +1030,14 @@ function cce_basic_config_field_default_fields() {
       ),
     ),
   );
+/**
+ * Commented out for tesing !!!!!!!!!!
 
   // Exported field: 'node-article-field_video'.
   $fields['node-article-field_video'] = array(
     'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
+      'active' => '0',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_video',
@@ -1125,7 +1127,7 @@ function cce_basic_config_field_default_fields() {
     ),
   );
 
-
+ */
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
