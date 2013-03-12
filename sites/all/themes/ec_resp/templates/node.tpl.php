@@ -101,10 +101,11 @@
       $fields = array(
         'picture' => array('field_news_picture'),
         'body'    => array('body'),
-        'hidden'    => array('comments', 'links', 'print_links'),
+        'hidden'    => array('comments', 'links', 'print_links', 'field_video_upload', 'field_video'),
         'group'   => array('group_audience', 'group_content_access')
       );
       $display_user_picture = FALSE;
+      $suffixe = $gallerymedia_items;
       break;
 
     case 'community':
@@ -114,7 +115,6 @@
         'hidden'  => array('comments', 'links', 'print_links', 'field_thumbnail','og_roles_permissions'),
         'group' => array('group_group', 'group_access')
       );
-      $suffixe = $gallerymedia_items;
       $display_submitted = FALSE;
 
       break;
