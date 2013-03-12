@@ -75,26 +75,39 @@ function cce_basic_config_form_media_format_form_alter(&$form) {
  * Implementation of hook_preprocess_node().
 */
 function cce_basic_config_preprocess_node(&$variables) {
-if ('gallerymedia' != $variables['type']) {
-    global $base_url;
-    $output = '';
-    $pager_size = 8;
-
+  //init
+  global $base_url;
+  $output = '';
+  $pager_size = 8;
+if ('gallerymedia' == $variables['type']) {
     //merge photos and videos
-    if (isset($variables['field_picture_upload']) && isset($variables['field_video'])) {
-      $media_items = array_merge($variables['field_picture_upload'], $variables['field_video']);
+    if (isset($variables['field_picture_upload']) && isset($variables['field_video_upload'])) {
+      $media_items = array_merge($variables['field_picture_upload'], $variables['field_video_upload']);
     }
     elseif (isset($variables['field_picture_upload'])) {
       $media_items = $variables['field_picture_upload'];
     }
-    elseif (isset($variables['field_video'])) {
-      $media_items = $variables['field_video'];
+    elseif (isset($variables['field_video_upload'])) {
+      $media_items = $variables['field_video_upload'];
     }
     else {
       $media_items = array();
     }
 
-    //sort media items by fid
+}
+//for the rest of content types
+else {
+   if (isset($variables['field_video'])) {
+     $media_items = $variables['field_video'];
+   }
+   else {
+      $media_items = array();
+    }
+
+}
+
+
+   //sort media items by fid
     $sorted_media_items = array();
     if ($media_items) {
       foreach ($media_items as $value) {
@@ -155,11 +168,11 @@ if ('gallerymedia' != $variables['type']) {
 
       switch ($type[0]) {
         case 'image':
-
+          if(!empty($local_data['uri'])) {
           $picture_square_thumbnail = image_style_url('square_thumbnail', $local_data['uri']);
           $picture_preview = image_style_url('preview', $local_data['uri']);
           $picture_original = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://', '/', $local_data['uri']);
-
+          }
           $alt_text = (!empty($local_data['field_file_image_alt_text']['und'][0]['safe_value']) ? $local_data['field_file_image_alt_text']['und'][0]['safe_value'] : filter_xss($local_data['filename']));
           $title_texte = (!empty($local_data['field_file_image_title_text']['und'][0]['safe_value']) ? $local_data['field_file_image_title_text']['und'][0]['safe_value'] : '');
 
@@ -201,8 +214,10 @@ if ('gallerymedia' != $variables['type']) {
             $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . '/videos/original/' . $local_data['filename'];
           }
           $thumb = file_load($local_data['thumbnail']);
+          if(!empty($thumb)) {
           $video_square_thumbnail = image_style_url('square_thumbnail', $thumb->uri);
           $video_preview = image_style_url('preview', $thumb->uri);
+          }
           $watermark = $base_url . '/' . path_to_theme() . '/images/video_icon.png';
 
           $output .= '<li class="span3">';
@@ -251,5 +266,5 @@ if ('gallerymedia' != $variables['type']) {
     $output .= $htmlpager;
 
     $variables['gallerymedia_items'] = $output;
-  }
+
 }
