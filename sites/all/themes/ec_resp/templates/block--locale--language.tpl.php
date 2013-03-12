@@ -53,33 +53,25 @@ $li = "";
 
 $li = '<li class="selected" lang="'.$language->language.'" title="'.$language->native.'"><span class="off-screen">Current language:</span> '.$language->language.'</li>';
 
+
+//get path of translated content
+$translations = translation_path_get_translations($_GET['q']);
+
 foreach($languages[1] as $lang) {
-
-  //get path of translated content
-  $translations = translation_path_get_translations($_GET['q']);
-
-  if ($lang->prefix) {
-    if ($translations) {
-      $path = $lang->prefix;
-	  if(isset($translations[$lang->prefix]))
-		$path .= '/'.$translations[$lang->prefix];  
-    } else { // no translations for this content
-      $path = ($_GET['q'] == 'node' ? $lang->prefix.'/' : $lang->prefix.'/'.$_GET['q']);
-    }
-  } else { //default language, no prefix
-    if ($translations) {
-      $path = $translations[$lang->language];
-    } else { // no translations for this content
-      $path = ($_GET['q'] == 'node' ? '' : $_GET['q']);
-    }
+  if(isset($translations[$lang->prefix])) {
+    $path = $translations[$lang->prefix];
   }
-  //$path = ($translations ? '/'.$translations[$lang->prefix] : '');
-  
+  else {
+    $path = $_GET['q'];
+  }
+  // get the related url alias
+  $path = $lang->prefix."/".drupal_get_path_alias($path, $lang->prefix);
+
   //add enabled languages
   $li .= '<li><a href="'.base_path().$path.'" hreflang="'.$lang->language.'" lang="'.$lang->language.'" title="'.$lang->native.'">'.$lang->language.'</a></li>';
 }
- ?>
-	<ul class="reset-list language-selector" id="language-selector">
+  ?>
+  <ul class="reset-list language-selector" id="language-selector">
   <?php print $li; ?>
   </ul>
 <!-- LANGUAGE DROP-DOWN SECTION -->
