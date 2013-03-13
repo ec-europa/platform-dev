@@ -58,7 +58,6 @@ features[field][] = node-article-body
 features[field][] = node-article-field_article_publication_date
 features[field][] = node-article-field_article_unpublish_on
 features[field][] = node-article-field_image
-;features[field][] = node-article-field_video
 features[field][] = node-article-field_tags
 features[field][] = file-video-field_tags
 features[field][] = file-video-field_video_description
