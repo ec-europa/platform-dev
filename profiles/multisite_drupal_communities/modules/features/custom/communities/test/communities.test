@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * @file
+ * Tests for communities.module.
+ */
+
+
+/**
+ * Defines a base class for testing the "communities" module.
+ */
+class CommunitiesWebTestCase extends DrupalWebTestCase {
+  
+  protected $community_user;
+  protected $admin_user;
+  
+  protected $profile = 'multisite_drupal_communities';
+  
+  public $field_names = array();
+  
+  public static function getInfo() {
+    return array(
+      'name' => 'Communities',
+      'description' => 'Test the communities feature.',
+      'group' => 'Multisite communities',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array(
+      'better_formats',
+    ));
+  
+    $this->admin_user = $this->drupalCreateUserWithRole("administrator");
+  }
+
+  function testCommunitiesInstall() {
+    //$this->drupalLogin($this->admin_user);
+    //$this->drupalGet('http://fpfis-dev/multisite_drupal_cce2/en/admin/modules');
+    //$this->assertRaw('communities', 'Communities enabled and accessible.');
+
+    //$this->drupalGet('communities_directory');
+   // $this->assertResponse(200);
+    //$this->assertRaw('all communities', 'Communities enabled and accessible.');
+  }
+  
+  
+  /**
+  * Creates a user with the give role.
+  **/
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+  
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+  
+    // Assign the role.
+    $user->roles[$index] = $role;
+  
+    // Return the user we have created.
+    return user_save($user);
+  }
+  
+}
+
+
+
