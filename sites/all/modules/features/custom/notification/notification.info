@@ -30,3 +30,4 @@ features[variable][] = "notifications_option_subscription_types_content_type"
 features[variable][] = "notifications_option_unsubscribe_links"
 features[features_api][] = api:1
 dependencies[] = features
+files[]= tests/notification.test

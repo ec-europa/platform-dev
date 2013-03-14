@@ -7,3 +7,4 @@ version = 7.x-1.0
 project = news_standard
 dependencies[] = news_core
 features[features_api][] = api:1
+files[] = tests/news_core.test
