@@ -39,3 +39,4 @@ features[variable][] = workbench_moderation_default_state_links
 features[variable][] = pathauto_node_links_pattern
 features[views_view][] = links
 dependencies[] = i18n_taxonomy
+files[] = tests/links_core.test

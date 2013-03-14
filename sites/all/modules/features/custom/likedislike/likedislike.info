@@ -6,3 +6,4 @@ version = 7.x-1.0
 php = 5.2.4
 project = likedislike
 features[features_api][] = api:1
+files[] = tests/likedislike.test
