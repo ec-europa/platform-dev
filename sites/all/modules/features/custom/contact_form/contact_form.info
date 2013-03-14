@@ -8,3 +8,4 @@ php = 5.2.4
 features[features_api][] = api:1
 dependencies[] = features
 dependencies[] = contact
+files[] = tests/contact_form.test

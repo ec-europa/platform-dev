@@ -40,3 +40,4 @@ features[views_view][] = e_library
 features[views_view][] = elibrary_browser_tab
 dependencies[] = i18n_taxonomy
 features[features_api][] = api:1
+files[] = tests/e_library.test

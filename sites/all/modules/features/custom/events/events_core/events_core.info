@@ -44,3 +44,4 @@ features[variable][] = workbench_moderation_default_state_event
 features[views_view][] = calendar
 features_exclude[dependencies][fullcalendar] = fullcalendar
 features_exclude[dependencies][views] = views
+files[] = tests/events_core.test

@@ -10,3 +10,4 @@ description = Provides a page listing users.
 features[ctools][] = views:views_default:3.0
 features[views_view][] = people
 features[features_api][] = api:1
+files[] = tests/ec_profiles.test

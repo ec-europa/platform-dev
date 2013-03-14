@@ -280,3 +280,4 @@ features[variable][] = video_use_preset_wxh
 features[video][] = default_flash_conversion
 features[video][] = default_video_conversion
 features[wysiwyg][] = full_html
+files[] = tests/cce_basic_config.test
