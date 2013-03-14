@@ -7,16 +7,16 @@
 function wiki_core_enable() {
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('wiki', 'add');
-  
+
   // add wiki content type to newsletters related contents
-  multisite_drupal_toolbox_add_content_type_newsletters('wiki'); 
-  
+  multisite_drupal_toolbox_add_content_type_newsletters('wiki');
+
   // add type to notification
   multisite_drupal_toolbox_notification_content_type('wiki', 'add');
-  
+
   // add type to linkchecker scan
   multisite_drupal_toolbox_content_type_linkchecker('wiki', 'add');
-  
+
   // add type to the simplenews related content
   //multisite_drupal_toolbox_simplenews_related_content_type('wiki', 'add');
 
@@ -29,13 +29,13 @@ function wiki_core_enable() {
       'node_type' => 'wiki', //the content type targeted by this rule
     ))
     ->execute();
-    
+
     drupal_set_message(st('Wiki feature is now active on your site.'));
 }
 
 
 /*
- * Hook disable 
+ * Hook disable
  */
 function wiki_core_disable() {
   //remove the breadcrump related to
@@ -44,18 +44,18 @@ function wiki_core_disable() {
             ->execute();
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('wiki', 'delete');
-  
+
   // remove type from notification
   multisite_drupal_toolbox_notification_content_type('wiki', 'delete');
-  
+
   // remove type to linkchecker scan
   multisite_drupal_toolbox_content_type_linkchecker('wiki', 'delete');
-  
+
   // remove type to the simplenews related content
   //multisite_drupal_toolbox_simplenews_related_content_type('wiki', 'remove');
-  
+
   multisite_drupal_toolbox_disable_content_type('wiki');
-  
+
   // Administrator
   $adm_rid = multisite_drupal_toolbox_get_rid('administrator');
   user_role_revoke_permissions($adm_rid, array(
@@ -65,7 +65,7 @@ function wiki_core_disable() {
     'delete any wiki content',
     'create wiki content',
   ));
-    
+
   // Contributor
   $contrib_rid = multisite_drupal_toolbox_get_rid('contributor');
   user_role_revoke_permissions($contrib_rid, array(
@@ -75,6 +75,20 @@ function wiki_core_disable() {
     'delete any wiki content',
     'create wiki content',
   ));
-  
+
   drupal_set_message(st('Wiki feature is now disable on your site.'));
+}
+
+/**
+ * Implements hook_install().
+ */
+function wiki_core_install() {
+  //Install scripts here
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function wiki_core_uninstall() {
+  //Uninstall scripts here
 }

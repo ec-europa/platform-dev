@@ -10,7 +10,6 @@ dependencies[] = "diff"
 dependencies[] = "features"
 dependencies[] = "multisite_drupal_wiki_toc"
 dependencies[] = "strongarm"
-dependencies[] = "taxonomy"
 dependencies[] = "views"
 features[context][] = "wiki"
 features[ctools][] = "context:context:3"
@@ -49,4 +48,4 @@ features[views_view][] = "wiki_list"
 features[features_api][] = api:1
 dependencies[] = cce_basic_config
 dependencies[] = i18n_taxonomy
-
+files[] = tests/wiki_core.test

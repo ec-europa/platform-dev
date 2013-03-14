@@ -2,19 +2,19 @@
 
 /**
  * @file
- * Tests for PROJECTFEATURE_STARTERKIT.module.
+ * Tests for PROJECTFEATURE_social_bookmark.module.
  * ECWeb MULTISITE QA
  */
 
 /**
- * Defines a base class for testing the "Splash screen" module.
+ * Defines a base class for testing the "multisite_translations" module.
  */
-class Multisite_splash_QAWebTestCase extends DrupalWebTestCase {
+class Multisite_social_bookmarkQAWebTestCase extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(
-      'name' => 'Splash_screen QA tests',
-      'description' => 'Test the splash_screen features to ensure it follows QA requirements.',
+      'name' => 'Social bookmark QA tests',
+      'description' => 'Test the social_bookmark features to ensure it follows QA requirements.',
       'group' => 'Multisite QA',
     );
   }
@@ -89,33 +89,6 @@ class Multisite_splash_QAWebTestCase extends DrupalWebTestCase {
     $this->assertTrue(strpos($data, $module.'_enable'), 'The module contains a hook_enable');
     $this->assertTrue(strpos($data, $module.'_disable'), 'The module contains a hook_disable');
   }
-}
-
-/**
- * Defines a base class for testing the "Splash screen" module.
- */
-class Splash_ScreenWebTestCase extends DrupalWebTestCase {
-  public static function getInfo() {
-    return array(
-      'name' => 'Splash screen unit tests',
-      'description' => 'Test the splash screen feature.',
-      'group' => 'Multisite multilingual',
-    );
-  }
-
-  public function setUp() {
-    parent::setUp('splash_screen');
-  }
-
-  protected function assertTitleIsPresent() {
-      $elements = $this->xpath("//h1");
-      return $this->assertTrue(isset($elements[0]), t('The page contains a h1 title'));
-  }
 
 
-  public function testPageShouldBeAccessible() {
-    $this->drupalGet('splash');
-    $this->assertResponse(200);
-    $this->assertTitleIsPresent();
-  }
 }

@@ -11,8 +11,8 @@ function solr_config_enable() {
           multisite_drupal_toolbox_add_block_context('search', $value['info'], 'facetapi', $key, 'sidebar_left');
         } else {
           multisite_drupal_toolbox_add_block_context('search', $value['info'], 'facetapi', $key, 'sidebar_first');
-        }        
-        
+        }
+
       }
     }
   }
@@ -49,12 +49,12 @@ function solr_config_enable() {
     'entity_type' => 'file',
     'bundle' => 'file',
   ))->execute();
-  
+
   db_insert('apachesolr_index_bundles')->fields(array(
     'env_id' => 'solr',
     'entity_type' => 'file',
     'bundle' => 'document',
-  ))->execute();  
+  ))->execute();
 }
 
 
@@ -85,21 +85,35 @@ function solr_config_disable() {
     'entity_type' => 'file',
     'bundle' => 'video',
   ))->execute();
-  
+
   db_delete('apachesolr_index_bundles')->condition(array(
     'env_id' => 'solr',
     'entity_type' => 'file',
     'bundle' => 'document',
-  ))->execute();  
+  ))->execute();
 }
 
 /*
- * hook_update_N 
+ * hook_update_N
  */
 function solr_config_update_7110() {
   db_insert('apachesolr_index_bundles')->fields(array(
     'env_id' => 'solr',
     'entity_type' => 'file',
     'bundle' => 'document',
-  ))->execute(); 
+  ))->execute();
+}
+
+/**
+ * Implements hook_install().
+ */
+function solr_config_install() {
+  //Install scripts here
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function solr_config_uninstall() {
+  //Uninstall scripts here
 }
