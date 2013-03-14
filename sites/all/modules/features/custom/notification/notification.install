@@ -10,7 +10,7 @@ function notification_enable() {
     // add type to notification
     multisite_drupal_toolbox_notification_content_type($type,'add');
   }
-  
+
   //Add block in context
   global $theme_key;
 
@@ -18,8 +18,8 @@ function notification_enable() {
     multisite_drupal_toolbox_add_block_context('site_wide','subscriptions','notifications_ui','subscriptions', 'content_bottom');
   } else {
     multisite_drupal_toolbox_add_block_context('site_wide','subscriptions','notifications_ui','subscriptions', 'tools_bottom');
-  }    
-  
+  }
+
   //Activation message
   drupal_set_message('Notification feature is now enabled on your site.');
 }
@@ -43,3 +43,16 @@ function notification_disable() {
 
 
 
+/**
+ * Implements hook_install().
+ */
+function notification_install() {
+  //Install scripts here
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function notification_uninstall() {
+  //Uninstall scripts here
+}

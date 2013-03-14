@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -16,13 +16,13 @@ function newsletters_enable() {
 
     //Activation message
     drupal_set_message(t('Newsletters feature is now active on your site.'));
-    
+
     /*
     // add content types to the simplenews related content
     multisite_drupal_toolbox_simplenews_related_content_type('article', 'add');
     multisite_drupal_toolbox_simplenews_related_content_type('page', 'add');
     */
-    
+
     // put HTML format by default for mail
     db_update('simplenews_category')
       ->fields(array(
@@ -45,15 +45,28 @@ function newsletters_disable() {
     db_delete('custom_breadcrumb')
             ->condition('node_type', 'simplenews')
             ->execute();
-            
+
     //Activation message
     drupal_set_message(t('Newsletters feature is now disabled on your site.'));
-    
+
     /*
     // delete content types to the simplenews related content
     multisite_drupal_toolbox_simplenews_related_content_type('article', 'delete');
     multisite_drupal_toolbox_simplenews_related_content_type('page', 'delete');
     */
-    
+
 }
 
+/**
+ * Implements hook_install().
+ */
+function newsletters_install() {
+  //Install scripts here
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function newsletters_uninstall() {
+  //Uninstall scripts here
+}

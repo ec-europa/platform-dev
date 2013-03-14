@@ -11,7 +11,7 @@ function sitemap_enable() {
     'weight' => '40'
   );
   menu_link_save($item);
-	
+
   drupal_set_message('Sitemap feature is now enabled on your site.');
 }
 
@@ -23,9 +23,22 @@ function sitemap_enable() {
 
 function sitemap_disable() {
   menu_link_delete(NULL, 'sitemap');
-  
+
   //Activation message
   drupal_set_message('Sitemap feature is now disabled on your site.');
 }
 
 
+/**
+ * Implements hook_install().
+ */
+function sitemap_install() {
+  //Install scripts here
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function sitemap_uninstall() {
+  //Uninstall scripts here
+}

@@ -7,7 +7,6 @@ version = 7.x-1.0
 project = sitemap
 dependencies[] = ctools
 dependencies[] = features
-dependencies[] = menu
 dependencies[] = site_map
 dependencies[] = strongarm
 dependencies[] = xmlsitemap

@@ -3,6 +3,7 @@ description = "provide notifications/subscriptions functionnalities"
 core = "7.x"
 package = "Multisite_features"
 version = "7.x-1.0"
+php = 5.2.4
 project = "notification"
 dependencies[] = "ctools"
 dependencies[] = "messaging"
