@@ -28,20 +28,60 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
 
   function setUp() {
     parent::setUp(array(
-      'better_formats',
     ));
   
     $this->admin_user = $this->drupalCreateUserWithRole("administrator");
   }
 
   function testCommunitiesInstall() {
-    //$this->drupalLogin($this->admin_user);
-    //$this->drupalGet('http://fpfis-dev/multisite_drupal_cce2/en/admin/modules');
-    //$this->assertRaw('communities', 'Communities enabled and accessible.');
-
-    //$this->drupalGet('communities_directory');
-   // $this->assertResponse(200);
-    //$this->assertRaw('all communities', 'Communities enabled and accessible.');
+    // check the communities directory view
+    $this->drupalGet('communities_directory');
+    $this->assertResponse(200);
+    $this->assertRaw('view-communities-directory', 'Communities enabled and accessible.');
+    
+    // check the community creation
+    $this->drupalLogin($this->admin_user);
+    
+    /*
+    $node_array = array(
+      'title' => 'Community test1',
+      'body[und][0][value]' => 'Community body',
+    );
+    $this->drupalPost('node/add/community', $node_array, t('Save'));
+    */
+    $settings = array(
+      'type' => 'community',
+      'title' => 'Community test1',
+      'body' => array(LANGUAGE_NONE => array(array('Community body'))),
+    );
+    $node = $this->drupalCreateNode($settings);
+    $this->drupalGet('community/community-test1');
+    
+    $this->assertRaw('Community test1', t('Community created.'));
+    $this->assertRaw('Home page', t('Community block created.'));
+    $this->assertRaw('members list', t('Community block members list created.'));
+  
+    // create an article in the community
+    /*
+    $node_array = array(
+      'title' => 'Article test1',
+      'body[und][0][value]' => 'Article body',
+      'og_group_ref[und][0][target_id]' => $node->nid,
+    );
+    $this->drupalPost('node/add/article', $node_array, t('Save'));
+    */
+    $field = array();
+    $field[LANGUAGE_NONE][0]['target_id'] = $node->nid;
+    $settings = array(
+      'type' => 'article',
+      'title' => 'Article test1',
+      'body' => array(LANGUAGE_NONE => array(array('Article body'))),
+      'og_group_ref' => $field,
+    );
+    $node = $this->drupalCreateNode($settings);
+    $this->drupalGet('community/community-test1/articles/article-test1');    
+    
+    $this->assertRaw('Article test1', t('Article created.'));
   }
   
   
