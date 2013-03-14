@@ -20,7 +20,7 @@ class Multisite_TranslationsWebTestCase extends DrupalWebTestCase {
     return array(
       'name' => 'multisite translations',
       'description' => 'Test the multisite translations feature (install, worflow...).',
-      'group' => 'Multisite translations',
+      'group' => 'Multisite multilingual',
     );
   }
 
