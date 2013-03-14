@@ -7,3 +7,4 @@ project = multilingual_tools
 dependencies[] = translation_overview
 dependencies[] = translation_table
 features[features_api][] = api:1
+files[] = tests/multilingual_tools.test

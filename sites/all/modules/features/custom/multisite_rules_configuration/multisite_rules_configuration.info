@@ -13,3 +13,4 @@ features[features_api][] = api:1
 features[user_permission][] = moderate content from needs_review to validated
 features[user_permission][] = moderate content from published to archived
 features[user_permission][] = moderate content from validated to published
+files[]= tests/multisite_rules_configuration.test
