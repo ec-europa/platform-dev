@@ -13,3 +13,17 @@ function fat_footer_disable() {
     //Activation message
     drupal_set_message('Fat footer is now disabled on your site.');
 }
+
+/**
+ * Implements hook_install().
+ */
+function fat_footer_install() {
+  //Install scripts here
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function fat_footer_uninstall() {
+  //Uninstall scripts here
+}

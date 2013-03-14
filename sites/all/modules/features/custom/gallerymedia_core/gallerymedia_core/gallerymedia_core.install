@@ -5,7 +5,7 @@
  */
 
 /*
- * hook_enable 
+ * hook_enable
  * Edit communities context to add a block
  */
 
@@ -25,7 +25,7 @@ function gallerymedia_core_enable() {
                 'node_type' => 'gallerymedia', //the content type targeted by this rule
             ))
             ->execute();
-            
+
     //Enable block Carousel
     module_enable(array('block_carousel'), FALSE);
 
@@ -34,7 +34,7 @@ function gallerymedia_core_enable() {
 }
 
 /*
- * hook_disable 
+ * hook_disable
  * Edit communities context to remove block
  * Remove permissions
  */
@@ -46,14 +46,27 @@ function gallerymedia_core_disable() {
     // remove type from notification
     multisite_drupal_toolbox_notification_content_type('gallerymedia', 'delete');
 
-    //remove the breadcrump relative to 
+    //remove the breadcrump relative to
     db_delete('custom_breadcrumb')
             ->condition('node_type', 'gallerymedia')
             ->execute();
     //Disable block Carousel
     module_disable(array('block_carousel'), FALSE);
-            
+
     //Disabling message
     drupal_set_message(t('MediaGallery feature is now disabled on your site.'));
 }
 
+/**
+ * Implements hook_install().
+ */
+function gallerymedia_core_install() {
+  //Install scripts here
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function gallerymedia_core_uninstall() {
+  //Uninstall scripts here
+}
