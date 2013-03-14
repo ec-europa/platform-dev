@@ -9,3 +9,4 @@ dependencies[] = aggregator
 features[features_api][] = api:1
 features[user_permission][] = access news feeds
 features[user_permission][] = administer news feeds
+files[] = tests/feed_rss_core.test

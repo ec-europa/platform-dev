@@ -7,3 +7,4 @@ project = fat_footer
 php = 5.2.4
 dependencies[] = workbench_moderation
 features[features_api][] = api:1
+files[] = tests/fat_footer.test

@@ -49,3 +49,4 @@ features[views_view][] = galleries
 features_exclude[dependencies][i18n_taxonomy] = i18n_taxonomy
 features_exclude[dependencies][strongarm] = strongarm
 features_exclude[dependencies][taxonomy] = taxonomy
+files[] = tests/gallerymedia_core.test
