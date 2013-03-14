@@ -9,7 +9,6 @@ dependencies[] = cce_basic_config
 dependencies[] = features
 dependencies[] = i18n_taxonomy
 dependencies[] = strongarm
-dependencies[] = taxonomy
 dependencies[] = views
 dependencies[] = webform
 features[ctools][] = strongarm:strongarm:1
