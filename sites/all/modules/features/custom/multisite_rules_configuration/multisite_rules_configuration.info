@@ -3,6 +3,7 @@ description = Enable Rules, Rules UI Admin, and Rules Scheduler. Also add workfl
 core = 7.x
 package = Multisite Core Features
 version = 7.x-1.1
+php = 5.2.4
 project = multisite_rules_configuration
 dependencies[] = entity_token
 dependencies[] = workbench_moderation
