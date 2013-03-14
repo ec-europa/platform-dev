@@ -42,3 +42,4 @@ features[variable][] = node_preview_webform
 features[variable][] = node_submitted_webform
 features[variable][] = workbench_moderation_default_state_webform
 features[views_view][] = surveys_list
+files[] = tests/survey_core.test
