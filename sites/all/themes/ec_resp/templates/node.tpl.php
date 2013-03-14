@@ -101,11 +101,10 @@
       $fields = array(
         'picture' => array('field_news_picture'),
         'body'    => array('body'),
-        'hidden'    => array('comments', 'links', 'print_links', 'field_video_upload', 'field_video'),
+        'hidden'    => array('comments', 'links', 'print_links'),
         'group'   => array('group_audience', 'group_content_access')
       );
       $display_user_picture = FALSE;
-      $suffixe = $gallerymedia_items;
       break;
 
     case 'community':
@@ -168,21 +167,19 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('field_video', 'field_picture_upload', 'comments', 'links', 'print_links'),
+        'hidden'  => array('field_picture_upload', 'comments', 'links', 'print_links'),
         'group' => array('group_audience', 'group_content_access')
       );
-      $suffixe = $gallerymedia_items;
       break;
 
     default:
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('comments', 'links', 'print_links', 'field_video_upload', 'field_video'),
+        'hidden'  => array('comments', 'links', 'print_links'),
         'group' => array('group_audience', 'group_content_access')
       );
       //$suffixe = $video_items;
-      $suffixe = $gallerymedia_items;
       break;
   }
 
