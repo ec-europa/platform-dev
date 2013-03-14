@@ -13,6 +13,7 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
   
   protected $community_user;
   protected $admin_user;
+  protected $contributor_user;
   
   protected $profile = 'multisite_drupal_communities';
   
@@ -21,8 +22,8 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
   public static function getInfo() {
     return array(
       'name' => 'Communities',
-      'description' => 'Test the communities feature.',
-      'group' => 'Multisite communities',
+      'description' => 'Test the communities feature (install, creation).',
+      'group' => 'Multisite - Communities',
     );
   }
 
@@ -31,6 +32,7 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
     ));
   
     $this->admin_user = $this->drupalCreateUserWithRole("administrator");
+    $this->contributor_user = $this->drupalCreateUserWithRole("contributor");
   }
 
   function testCommunitiesInstall() {
@@ -62,14 +64,6 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
     $this->assertRaw('members list', t('Community block members list created.'));
   
     // create an article in the community
-    /*
-    $node_array = array(
-      'title' => 'Article test1',
-      'body[und][0][value]' => 'Article body',
-      'og_group_ref[und][0][target_id]' => $node->nid,
-    );
-    $this->drupalPost('node/add/article', $node_array, t('Save'));
-    */
     $field = array();
     $field[LANGUAGE_NONE][0]['target_id'] = $node->nid;
     $settings = array(
@@ -82,8 +76,25 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
     $this->drupalGet('community/community-test1/articles/article-test1');    
     
     $this->assertRaw('Article test1', t('Article created.'));
+    
+    // test my communities view
+    $this->drupalGet('communities_directory/my');
+    $this->assertResponse(200);
+    $this->assertRaw('Community test1', t('Community created found in my communities.'));
+    
+    // test membership
+    $this->drupalLogin($this->contributor_user);
+    $this->drupalGet('communities_directory');
+    $this->clickLink(t('Request group membership'));
+    
+    $form_array = array(
+      'og_membership_request[und][0][value]' => 'Please register me !',
+    );
+    $this->drupalPost(NULL, $form_array, t('Join'));
+    $this->assertRaw('Your membership to this group is pending', 'Membership in pending state.');    
   }
   
+
   
   /**
   * Creates a user with the give role.
