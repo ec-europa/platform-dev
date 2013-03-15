@@ -77,10 +77,70 @@ function cce_basic_config_form_media_format_form_alter(&$form) {
  * @param type $hook
  */
 
-function cce_basic_config_preprocess_field(&$variables, $hook) {
-/*
+function cce_basic_config_preprocess_field(&$variables) {
+
   //echopre($variables);
-$element = $variables['items'];
-//echopre($element);
-*/
+  $fields = $variables['items'];
+
+
+  //LOOP VIDEO FIELDS
+foreach ($fields as $delta => $item) {
+
+  if (isset($fields[$delta]['#item']['filemime'])) {
+    $video = $fields[$delta]['#item'];
+    $type = explode('/', $video['filemime']);
+    if ($type[0] == 'video') {
+          $converted_fid = db_select('video_output', 'vd')
+            ->fields('vd', array('output_fid'))
+            ->condition('original_fid', $video['fid'], '=')
+            ->execute()
+            ->fetchAssoc();
+
+          if (isset($converted_fid) && $converted_fid != NULL) {
+            $converted_video = file_load($converted_fid['output_fid']);
+            $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://', '/', $converted_video->uri);
+          }
+          else {
+            $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . '/videos/original/' . $video['filename'];
+          }
+
+
+          $thumb = file_load($video['thumbnail']);
+
+          if(!empty($thumb)) {
+          $video_square_thumbnail = image_style_url('square_thumbnail', $thumb->uri);
+          $video_preview = image_style_url('preview', $thumb->uri);
+          }
+
+          $watermark = $base_url . '/' . path_to_theme() . '/images/video_icon.png';
+
+          $output .= '<li class="span3">';
+          $output .= '<div id="video_lightbox' . $delta . '" class="lightbox" style="display: none;">';
+          $output .= '<embed name="player' . $delta . '" id="player' . $delta . '"
+            type="application/x-shockwave-flash"
+            pluginspage="http://www.macromedia.com/go/getflashplayer"
+            width="800" height="600"
+            src="http://ec.europa.eu/wel/players/jwflvplayer/player.swf"
+            allowfullscreen="true"
+            allowscriptaccess="always"
+            flashvars="file=' . $video_path . '&fullscreen=true&image=' . $video_preview . '&skin=http://ec.europa.eu/wel/players/jwflvplayer/skins/mainley.swf">
+            </embed>';
+          $output .= '</div>';
+
+          $output .= '<a href="#video_lightbox' . $delta . '" class="fancybox thumbnail" rel="gallery" title="' . $video['filename'] . '">';
+          $output .= '<img class="watermark" src="' . $watermark . '" alt="' . $video['filename'] . '" title="" />';
+          $output .= '<img src="' . $video_square_thumbnail . '" alt="' . $video['filename'] . '" title="" />';
+          $output .= '<p class="carousel-caption">' . $short_name . '</p>';
+          $output .= '</a>';
+          $output .= '</li>';
+
+
+    }
+  }
+
+}
+
+$variables['videos'] = $output;
+  //LOOP
+
 }
