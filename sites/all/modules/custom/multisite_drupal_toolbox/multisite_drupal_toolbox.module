@@ -1019,7 +1019,7 @@ function multisite_drupal_toolbox_tokens($type, $tokens, array $data = array(), 
  * Useful custom debug function
  */
 
-function echopre($variable, $description = NULL, $background_color = lightgrey) {
+function echopre($variable, $description = NULL, $background_color = 'lightgrey') {
     echo '<pre>';
     echo '<h2 class=background="' . $background_color . '">' . $description . '</h2>';
     echo '<span>Type: ' . gettype($variable) . '</span><hr/>';
