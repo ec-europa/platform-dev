@@ -21,3 +21,4 @@ features[variable][] = field_bundle_settings_file__audio
 features[variable][] = field_bundle_settings_file__default
 features[variable][] = field_bundle_settings_file__image
 features[variable][] = field_bundle_settings_file__video
+files[] = tests/solr_config.test
