@@ -49,7 +49,6 @@ See http://api.drupal.org/api/function/theme_field/7 for details.
 After copying this file to your theme's folder and customizing it, remove this
 HTML comment.
 -->
-<div class="node-gallerymedia">
 <div class="media_gallery row-fluid">
   <ul class="thumbnails">
 
@@ -130,4 +129,3 @@ HTML comment.
 
   </ul>
 </div>
-  </div>
