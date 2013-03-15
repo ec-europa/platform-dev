@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the node_pager module.
+ *
+ * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
+ */
+
+include_once 'node_pager.install.inc';
+
+/**
+ * Implements hook_enable().
+ */
+function node_pager_enable() {
+  drupal_set_message(t('node_pager %v feature is now active on your site.', array('%v' => _node_pager_get_version())));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function node_pager_disable() {
+  //Example
+  //multisite_drupal_toolbox_disable_content_type('kit');
+
+  drupal_set_message(t('node_pager %v feature is now inactive on your site.', array('%v' => _node_pager_get_version())));
+}
+
+/**
+ * Implements hook_install().
+ */
+function node_pager_install() {
+  //Install scripts here
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function node_pager_uninstall() {
+  //Uninstall scripts here
+}
