@@ -18,3 +18,4 @@ features[features_api][] = api:1
 features[menu_custom][] = main-menu
 features[user_permission][] = access site map
 features[user_permission][] = administer xmlsitemap
+files[] = tests/sitemap.test

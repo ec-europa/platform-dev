@@ -1,7 +1,16 @@
 <?php
-/*
-*  hook_enable
-*/
+/**
+ * @file
+ * Install, update and uninstall functions for the sitemap module.
+ *
+ * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
+ */
+
+include_once 'sitemap.install.inc';
+
+/**
+ * Implements hook_enable().
+ */
 
 function sitemap_enable() {
   $item = array(
@@ -12,20 +21,18 @@ function sitemap_enable() {
   );
   menu_link_save($item);
 
-  drupal_set_message('Sitemap feature is now enabled on your site.');
+   drupal_set_message(t('STARTERKIT %v feature is now active on your site.', array('%v' => _STARTERKIT_get_version())));
 }
 
-
-
-/*
-*  hook_disable
-*/
+/**
+ * Implements hook_disable().
+ */
 
 function sitemap_disable() {
   menu_link_delete(NULL, 'sitemap');
 
   //Activation message
-  drupal_set_message('Sitemap feature is now disabled on your site.');
+ drupal_set_message(t('STARTERKIT %v feature is now inactive on your site.', array('%v' => _STARTERKIT_get_version())));
 }
 
 
