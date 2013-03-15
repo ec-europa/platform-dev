@@ -1,11 +1,11 @@
 name = Links standard
+description = Provide links.
 package = Multisite Standard Features
 php = 5.2.4
 project = links_standard
 version = 7.x-1.0
 core = 7.x
 dependencies[] = links_core
-description = Provide links.
 dependencies[] = strongarm
 features[features_api][] = api:1
 features[ctools][] = strongarm:strongarm:1

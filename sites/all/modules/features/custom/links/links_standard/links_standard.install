@@ -7,19 +7,19 @@
  * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
  */
 
-include_once 'links_core.install.inc';
+include_once 'links_standard.install.inc';
 
 /**
  * Implements hook_enable().
  */
-function links_core_enable() {
+function links_standard_enable() {
   drupal_set_message(t('links_core %v feature is now active on your site.', array('%v' => _links_core_get_version())));
 }
 
 /**
  * Implements hook_disable().
  */
-function links_core_disable() {
+function links_standard_disable() {
   //Example
   //multisite_drupal_toolbox_disable_content_type('kit');
 
@@ -29,13 +29,13 @@ function links_core_disable() {
 /**
  * Implements hook_install().
  */
-function links_core_install() {
+function links_standard_install() {
   //Install scripts here
 }
 
 /**
  * Implements hook_uninstall().
  */
-function links_core_uninstall() {
+function links_standard_uninstall() {
   //Uninstall scripts here
 }
