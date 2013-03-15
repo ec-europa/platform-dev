@@ -13,7 +13,7 @@ class Multisite_survey_coreQAWebTestCase extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(
-      'name' => 'survey_core tests',
+      'name' => 'survey_core QA tests',
       'description' => 'Test the survey_core features to ensure it follows QA requirements.',
       'group' => 'Multisite QA',
     );
