@@ -78,7 +78,9 @@ function cce_basic_config_form_media_format_form_alter(&$form) {
  */
 
 function cce_basic_config_preprocess_field(&$variables) {
-
+  //init
+  global $base_url;
+  $output = '';
   //echopre($variables);
   $fields = $variables['items'];
 
