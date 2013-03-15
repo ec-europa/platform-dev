@@ -7,3 +7,4 @@ project = "survey_standard"
 dependencies[] = "survey_core"
 features[features_api][] = api:1
 dependencies[] = i18n_taxonomy
+files[] = tests/survey_standard.test
