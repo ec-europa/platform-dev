@@ -1,9 +1,66 @@
 <?php
 /**
+ * Implements hook_language_negotiation_info().
+ */
+function multisite_drupal_language_negociation_language_negotiation_info() {
+  //$file = 'includes/locale.inc';
+  $providers = array();
+  $providers[LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX] = array(
+    'types' => array(LANGUAGE_TYPE_CONTENT, LANGUAGE_TYPE_INTERFACE, LANGUAGE_TYPE_URL),
+    'callbacks' => array(
+      'language' => 'multisite_language_provider_callback',
+      'url_rewrite' => 'multisite_url_rewrite_callback',
+     ),
+    //'file' => $file,
+    'weight' => -8,
+    'name' => t('URL suffix'),
+    'description' => t('Determine the language from the URL path suffix.'),
+    'config' => 'admin/config/regional/language/configure/url-suffix',
+  );
+  return $providers;
+}
+
+
+/**
+ * hook_menu
+ */
+function multisite_drupal_language_negociation_menu() {
+  $items['admin/config/regional/language/configure/url-suffix'] = array(
+    'title' => 'Language suffix delimiter',
+    'description' => 'Settings to choose the language suffix delimiter in the url',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('multisite_drupal_language_negociation_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
+  ); 
+  return $items;
+}
+
+function multisite_drupal_language_negociation_form($form, &$form_state) {
+  $form['language_suffix_delimiter'] = array(
+    '#type' => 'textfield',
+    '#maxlength' => 3,
+    '#title' => t('language suffix delimiter'),
+    '#default_value' => variable_get('language_suffix_delimiter','_'),
+    '#description' => 'Ex : character like an underscore or hyphen..',
+  );
+  return system_settings_form($form);
+}
+
+
+
+/**
  * Implementation of hook_query_node_access_alter().
  *
  * Rewrite node queries so language selection options are enforced.
  */
+ 
+/*
+ * 
+ * no more used
+ * instead of using a hook_query_node_access_alter, we add the language filter explicitly in views
+ * 
+ * 
 function multisite_drupal_language_negociation_query_node_access_alter(QueryAlterableInterface $query) {
   if (!i18n_select_mode('nodes') && i18n_select_check_query($query) && ($table_alias = i18n_select_check_table($query, 'node', 'nid'))) {
     $query->condition(db_or()->condition($table_alias . '.language', i18n_select_langcodes())->condition($table_alias . '.tnid',0));
@@ -11,3 +68,4 @@ function multisite_drupal_language_negociation_query_node_access_alter(QueryAlte
     $query->addTag('i18n_select');
   }
 }
+*/

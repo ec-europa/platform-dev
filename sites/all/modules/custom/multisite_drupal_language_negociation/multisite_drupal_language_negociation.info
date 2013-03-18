@@ -5,7 +5,7 @@ package = multisite drupal toolbox
 core = 7.x
 
 ; Information added by drupal.org packaging script on 2011-11-24
-version = "7.x-1.x-dev"
+version = "7.x-1.0"
 core = "7.x"
-project = "multisite_drupal_toolbox"
+project = "multisite_drupal_language_negociation"
 datestamp = "1322093758"

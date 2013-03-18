@@ -64,9 +64,18 @@ foreach($languages[1] as $lang) {
   else {
     $path = $_GET['q'];
   }
+  
   // get the related url alias
-  $path = $lang->prefix."/".drupal_get_path_alias($path, $lang->prefix);
-
+  // check if the multisite language negotiation with suffix url is enabled
+  $language_negociation = variable_get('language_negotiation_language');
+  if(isset($language_negociation['locale-url-suffix'])) {
+    $suffix = variable_get('language_suffix_delimiter','_');
+    $path = drupal_get_path_alias($path, $lang->prefix).$suffix.$lang->prefix;   
+  }
+  else {
+    $path = $lang->prefix."/".drupal_get_path_alias($path, $lang->prefix);
+  }
+    
   //add enabled languages
   $li .= '<li><a href="'.base_path().$path.'" hreflang="'.$lang->language.'" lang="'.$lang->language.'" title="'.$lang->native.'">'.$lang->language.'</a></li>';
 }
