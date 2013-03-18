@@ -9,11 +9,11 @@
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
-class Multisite_STARTERKIT_QAWebTestCase extends DrupalWebTestCase {
+class Multisite_STARTERKITQAWebTestCase extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(
-      'name' => 'STARTERKIT tests',
+      'name' => 'STARTERKIT QA tests',
       'description' => 'Test the STARTERKIT features to ensure it follows QA requirements.',
       'group' => 'Multisite QA',
     );
