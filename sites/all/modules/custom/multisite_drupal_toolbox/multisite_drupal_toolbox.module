@@ -1051,14 +1051,15 @@ function multisite_language_provider_callback($languages) {
 
 
 function language_url_split_suffix($path, $languages) {
-  $args = empty($path) ? array() : explode('_', $path);
+  $suffix = variable_get('language_suffix_delimiter','_');
+  $args = empty($path) ? array() : explode($suffix, $path);
   $suffix = array_pop($args);
 
   // Search prefix within enabled languages.
   foreach ($languages as $language) {
     if (!empty($language->prefix) && $language->prefix == $suffix) {
       // Rebuild $path with the language removed.
-      return array($language, implode('_', $args));
+      return array($language, implode($suffix, $args));
     }
   }
   return array(FALSE, $path);
@@ -1095,7 +1096,6 @@ function multisite_url_rewrite_callback(&$path, &$options) {
     if (!empty($options['language']->prefix)) {
       //$options['prefix'] = $options['language']->prefix . '/';
       $suffix = variable_get('language_suffix_delimiter','_');
-      
       if ($path == '<front>') {
         $fp = variable_get('site_frontpage', 'node');
         $path = $fp.$suffix.$options['language']->prefix;
