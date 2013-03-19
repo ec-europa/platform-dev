@@ -51,6 +51,14 @@ feature_sets[ec_embedded_video][font] = 'multisite-icon-camera'
 feature_sets[ec_embedded_video][enable][] = ec_embedded_video
 feature_sets[ec_embedded_video][disable][] = ec_embedded_video
 
+feature_sets[ec_content_slider][title] = 'EC Content slider'
+feature_sets[ec_content_slider][description] = 'Allows to include content in a slider.'
+feature_sets[ec_content_slider][category] = 'Communication'
+feature_sets[ec_content_slider][icon] = 'feature-set-icons/e_library.png'
+feature_sets[ec_content_slider][font] = 'multisite-icon-code'
+feature_sets[ec_content_slider][enable][] = ec_content_slider
+feature_sets[ec_content_slider][disable][] = ec_content_slider
+
 feature_sets[feed_rss_core][title] = 'EU Press Releases'
 feature_sets[feed_rss_core][description] = 'Display a block on your homepage with EU Press Releases Information.'
 feature_sets[feed_rss_core][category] = 'Information to users'
