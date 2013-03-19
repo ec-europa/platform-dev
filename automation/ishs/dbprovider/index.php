@@ -63,9 +63,8 @@ if (!$link) {
 	</head>
 	<body>
 		<div id="top-message" class="top-message"><?php echo @$topmessage; ?></div>
-			<div id="info-message" class="info-message"><?php echo @$infomessage; ?></div>
-			<div id="error-message" class="error-message"><?php echo @$errormessage; ?></div>
-		</div>
+		<div id="info-message" class="info-message"><?php echo @$infomessage; ?></div>
+		<div id="error-message" class="error-message"><?php echo @$errormessage; ?></div>
 		<div id="form-area" class="form-area">
 <?php foreach ($plas as $pla): ?>
 			<form id="password-form-<?php echo $pla['id']; ?>" method="post" action="<?php echo @$form_action; ?>">
