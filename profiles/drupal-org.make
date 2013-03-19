@@ -83,6 +83,9 @@ projects[field_group][version] = "2.x-dev"
 projects[file_entity][subdir] = "contributed"
 projects[file_entity][version] = "2.0-unstable7"
 
+projects[flexslider][subdir] = "contributed"
+projects[flexslider][version] = "2.0-alpha1"
+
 projects[freepager][subdir] = "contributed"
 projects[freepager][version] = "2.x-dev"
 
