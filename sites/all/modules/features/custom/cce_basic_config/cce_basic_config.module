@@ -77,12 +77,12 @@ function cce_basic_config_form_media_format_form_alter(&$form) {
  * @param type $hook
  */
 
-function cce_basic_config_preprocess_field(&$variables, $hook) {
+function cce_basic_config_preprocess_field(&$variables) {
   global $base_url, $theme;
 
   if ('video' == $variables['element']['#field_type']) {
     if (isset($variables['element']['#items'])) {
-      $output = '<ul>';
+      $output = '';
       $field = $variables['element']['#field_name'];
       $delta = 0;
       $themepath = drupal_get_path('theme', $theme);
@@ -126,7 +126,6 @@ function cce_basic_config_preprocess_field(&$variables, $hook) {
 
         $delta++;
       }
-      $output .= '</ul>';
 
       if (isset($variables['videos'])) {
         $variables['videos'] .= $output;

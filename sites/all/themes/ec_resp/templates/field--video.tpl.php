@@ -48,5 +48,7 @@ After copying this file to your theme's folder and customizing it, remove this
 HTML comment.
 -->
 <div class="media_gallery row-fluid">
-  <?php print render($videos); ?>
+	<ul class="thumbnails">
+  	<?php print render($videos); ?>
+  </ul>
 </div>
