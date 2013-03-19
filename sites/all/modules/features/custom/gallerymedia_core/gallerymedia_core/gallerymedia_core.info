@@ -22,6 +22,7 @@ features[features_api][] = api:1
 
 features[field][] = node-gallerymedia-body
 features[field][] = node-gallerymedia-field_picture_upload
+features[field][] = node-gallerymedia-field_video_upload
 features[image][] = landscape
 features[node][] = gallerymedia
 

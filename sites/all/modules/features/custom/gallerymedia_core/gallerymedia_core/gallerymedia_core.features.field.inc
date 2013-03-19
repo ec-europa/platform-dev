@@ -177,6 +177,97 @@ function gallerymedia_core_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-gallerymedia-field_video_upload'.
+  
+  $fields['node-gallerymedia-field_video_upload'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_video_upload',
+      'foreign keys' => array(
+        'fid' => array(
+          'columns' => array(
+            'fid' => 'fid',
+          ),
+          'table' => 'file_managed',
+        ),
+      ),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'locked' => '1',
+      'module' => 'video',
+      'settings' => array(
+        'autoconversion' => 1,
+        'autothumbnail' => 'auto',
+        'default_video_thumbnail' => array(
+          'fid' => 0,
+          'remove_button' => 'Remove',
+          'upload' => '',
+          'upload_button' => 'Upload',
+        ),
+        'presets' => array(
+          'default_flash_conversion' => 'default_flash_conversion',
+          'default_video_conversion' => 0,
+        ),
+        'preview_video_thumb_style' => 'square_thumbnail',
+        'thumbnail_format' => 'png',
+        'uri_scheme' => 'public',
+        'uri_scheme_converted' => 'public',
+        'uri_scheme_thumbnails' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'video',
+    ),
+    'field_instance' => array(
+      'bundle' => 'gallerymedia',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'video',
+          'settings' => array(
+            'poster_image_style' => 'square_thumbnail',
+            'widthxheight' => '640x360',
+          ),
+          'type' => 'video_formatter_player',
+          'weight' => 2,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_video_upload',
+      'label' => 'Video upload',
+      'required' => 0,
+      'settings' => array(
+        'default_dimensions' => '640x360',
+        'file_directory' => 'videos/original',
+        'file_extensions' => 'mp4 ogg avi mov wmv flv ogv webm',
+        'max_filesize' => '',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'video',
+        'settings' => array(
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'video_upload',
+        'weight' => '33',
+      ),
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
