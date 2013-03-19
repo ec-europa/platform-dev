@@ -102,7 +102,7 @@ function drush_subsite($subsite, $command) {
 	if (!$return['chdir']) {
 		$return['reports'][] = sprintf('unable to change working directory to %s', $wd);
 	} else {
-		$command = 'drush ' . $command;
+		$command = 'drush ' . $command . ' --yes';
 		$command_execution = execute_command($command);
 		if ($command_execution['code'] !== 0) {
 			$return['reports'][] = sprintf('the following drush command exited with status code %d for subsite %s: %s', $command_execution['code'], $subsite->name(), $command);
