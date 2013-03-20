@@ -221,6 +221,9 @@ projects[views_litepager][version] = "3.0"
 projects[views_slideshow][subdir] = "contributed"
 projects[views_slideshow][version] = "3.0"
 
+projects[views_slideshow_slider][subdir] = "contributed"
+projects[views_slideshow_slider][version] = "3.0"
+
 projects[votingapi][subdir] = "contributed"
 projects[votingapi][version] = "2.10"
 
