@@ -31,7 +31,7 @@ function ec_content_slider_field_default_fields() {
           0 => 'fid',
         ),
       ),
-      'locked' => '1',
+      'locked' => '0',
       'module' => 'image',
       'settings' => array(
         'default_image' => 0,
