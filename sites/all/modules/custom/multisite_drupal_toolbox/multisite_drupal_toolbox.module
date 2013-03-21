@@ -1051,15 +1051,15 @@ function multisite_language_provider_callback($languages) {
 
 
 function language_url_split_suffix($path, $languages) {
-  $suffix = variable_get('language_suffix_delimiter','_');
-  $args = empty($path) ? array() : explode($suffix, $path);
+  $delimiter = variable_get('language_suffix_delimiter','_');
+  $args = empty($path) ? array() : explode($delimiter, $path);
   $suffix = array_pop($args);
 
   // Search prefix within enabled languages.
   foreach ($languages as $language) {
     if (!empty($language->prefix) && $language->prefix == $suffix) {
       // Rebuild $path with the language removed.
-      return array($language, implode($suffix, $args));
+      return array($language, implode($delimiter, $args));
     }
   }
   return array(FALSE, $path);
