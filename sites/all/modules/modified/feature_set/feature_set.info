@@ -8,6 +8,3 @@ version = "7.x-1.0-beta1"
 core = "7.x"
 project = "feature_set"
 datestamp = "1323389208"
-
-dependencies[] = "multisite_drupal_toolbox";
-
