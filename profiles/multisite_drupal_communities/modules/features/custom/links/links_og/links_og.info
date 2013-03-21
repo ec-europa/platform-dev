@@ -22,3 +22,4 @@ package = "Multisite OG Features"
 php = "5.2.4"
 project = "links_og"
 version = "7.x-1.0"
+files[]= tests/links_og.test
