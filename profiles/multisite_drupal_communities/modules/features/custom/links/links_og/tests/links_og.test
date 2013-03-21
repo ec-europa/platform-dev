@@ -55,6 +55,10 @@ class Multisite_links_ogQAWebTestCase extends DrupalWebTestCase {
       'taxonomy' => NULL,
     );
     $node = $this->drupalCreateNode($sampleCommunity);
+    //Logout
+    //Login as group member
+    //$this->drupalLogout();
+    //$this->drupalLogin($this->contributor_user);
 
     //Create a link
     $sampleLink = array(
@@ -69,6 +73,11 @@ class Multisite_links_ogQAWebTestCase extends DrupalWebTestCase {
     $this->drupalGet('community/sample-community/links/sample-link');
     $this->assertResponse(200);
     $this->assertRaw('Sample Community', t('Community created found in my communities.'));
+
+    //This if we have a valid link inside
+    $this->clickLink(t('http://www.my.url.com'));
+    $this->assertResponse(200);
+    //$this->assertRaw('Sample Community', t('Community created found in my communities.'));
   }
 
 
