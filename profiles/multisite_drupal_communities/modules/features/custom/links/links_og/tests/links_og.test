@@ -60,27 +60,33 @@ class Multisite_links_ogQAWebTestCase extends DrupalWebTestCase {
     //$this->drupalLogout();
     //$this->drupalLogin($this->contributor_user);
 
-    //Create a link
+    //Create a link in the created community
+    $field = array();
+    $field[LANGUAGE_NONE][0]['target_id'] = $node->nid;
+
     $sampleLink = array(
       'type' => 'link',
-      'title' => 'A Sample Link',
+      'title' => 'Sample Link',
       'link' => 'http://www.my.url.com',
       'body' => array(LANGUAGE_NONE => array(array('Link body'))),
+      'og_group_ref' => $field,
     );
-    $oglink_created = $this->drupalCreateNode($sampleLink);
+    $node = $this->drupalCreateNode($sampleLink);
 
-    //Access Link
+    //Access Link Page was displayed
     $this->drupalGet('community/sample-community/links/sample-link');
     $this->assertResponse(200);
-    $this->assertRaw('Sample Community', t('Community created found in my communities.'));
+    $this->assertTitle('Sample Link', t('Sample Link created.'));
 
     //This if we have a valid link inside
     $this->clickLink(t('http://www.my.url.com'));
-    $this->assertResponse(200);
-    //$this->assertRaw('Sample Community', t('Community created found in my communities.'));
+     //User can create a new link using the button provided on the content page
+    $this->clickLink(t('Create a Link'));
   }
 
-
+//@todo
+//when testing if a page have been displayed replace assertRaw
+//create title using random
 
 
 
