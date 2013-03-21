@@ -9,7 +9,7 @@ function multisite_drupal_language_negociation_language_negotiation_info() {
     'types' => array(LANGUAGE_TYPE_CONTENT, LANGUAGE_TYPE_INTERFACE, LANGUAGE_TYPE_URL),
     'callbacks' => array(
       'language' => 'multisite_language_provider_callback',
-      'url_rewrite' => 'multisite_url_rewrite_callback',
+      //'url_rewrite' => 'multisite_url_rewrite_callback',
      ),
     //'file' => $file,
     'weight' => -8,
@@ -46,6 +46,63 @@ function multisite_drupal_language_negociation_form($form, &$form_state) {
   );
   return system_settings_form($form);
 }
+
+
+/*
+ * custom hook_url_custom_alter
+ * handle suffix language in url
+ */
+function multisite_drupal_language_negociation_url_custom_alter(&$path, &$options, $original_path) {
+  static $drupal_static_fast;
+  if (!isset($drupal_static_fast)) {
+    $drupal_static_fast['languages'] = &drupal_static(__FUNCTION__);
+  }
+  $languages = &$drupal_static_fast['languages'];
+
+  if (!isset($languages)) {
+    $languages = language_list('enabled');
+    $languages = array_flip(array_keys($languages[1]));
+  }
+
+  // Language can be passed as an option, or we go for current URL language.
+  if (!isset($options['language'])) {
+    global $language_url;
+    $options['language'] = $language_url;
+  }
+  // We allow only enabled languages here.
+  elseif (!isset($languages[$options['language']->language])) {
+    unset($options['language']);
+    return;
+  }
+
+  if (isset($options['language'])) {
+    if (!empty($options['language']->prefix)) {
+      //$options['prefix'] = $options['language']->prefix . '/';
+      $suffix = variable_get('language_suffix_delimiter','_');
+      if ($path == '<front>') {
+        $fp = variable_get('site_frontpage', 'node');
+        $path = $fp.$suffix.$options['language']->prefix;
+      }
+      else
+        $path .= $suffix.$options['language']->prefix;
+    }
+  }
+
+}
+ 
+ 
+/*
+ * hook_language_types_info_alter
+ */
+function multisite_drupal_language_negociation_language_types_info_alter(&$language_types) {
+  $defined_providers = language_negotiation_info();
+  if(isset($defined_providers[LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX])) {
+    // put the locale-url-suffix as priority provider for language type url
+    array_unshift($language_types[LANGUAGE_TYPE_URL]['fixed'] ,'locale-url-suffix');
+  }
+}
+
+
 
 
 

@@ -1069,6 +1069,7 @@ function language_url_split_suffix($path, $languages) {
 /**
   * Rewrite URLs for the URL language provider.
   */
+/*
 function multisite_url_rewrite_callback(&$path, &$options) {
   static $drupal_static_fast;
   if (!isset($drupal_static_fast)) {
@@ -1106,4 +1107,4 @@ function multisite_url_rewrite_callback(&$path, &$options) {
     }
   }
 }
-
+*/
