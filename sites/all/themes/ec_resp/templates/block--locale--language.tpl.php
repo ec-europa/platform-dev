@@ -71,7 +71,7 @@ foreach($languages[1] as $lang) {
   $language_negociation = variable_get('language_negotiation_language');
   if(isset($language_negociation['locale-url-suffix'])) {
     $suffix = variable_get('language_suffix_delimiter','_');
-    $alias = drupal_get_path_alias($path, $lang->prefix).$suffix.$lang->prefix;   
+    $alias = drupal_get_path_alias($path, $lang->prefix);   
     if($alias != $path)
       $path = $alias.$suffix.$lang->prefix;
     else

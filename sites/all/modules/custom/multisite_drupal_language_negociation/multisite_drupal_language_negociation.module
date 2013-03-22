@@ -92,7 +92,6 @@ function multisite_drupal_language_negociation_url_custom_alter(&$path, &$option
 
 }
  
- 
 /*
  * hook_language_types_info_alter
  */
@@ -104,8 +103,18 @@ function multisite_drupal_language_negociation_language_types_info_alter(&$langu
   }
 }
 
-
-
+/**
+ * Implements hook_form_alter().
+ */
+function multisite_drupal_language_negociation_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'locale_languages_configure_form':
+      $language_negociation = variable_get('language_negotiation_language');
+      if(isset($language_negociation['locale-url-suffix'])) //  disable URL method if URL-suffix method is enabled
+        $form['language']['enabled']['locale-url']['#disabled'] = TRUE;
+      break;
+  }
+}
 
 
 /**
@@ -128,3 +137,4 @@ function multisite_drupal_language_negociation_query_node_access_alter(QueryAlte
   }
 }
 */
+
