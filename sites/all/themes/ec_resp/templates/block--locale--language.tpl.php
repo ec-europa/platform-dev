@@ -56,6 +56,7 @@ $li = '<li class="selected" lang="'.$language->language.'" title="'.$language->n
 
 //get path of translated content
 $translations = translation_path_get_translations($_GET['q']);
+$language_default = language_default();
 
 foreach($languages[1] as $lang) {
   if(isset($translations[$lang->prefix])) {
@@ -70,7 +71,11 @@ foreach($languages[1] as $lang) {
   $language_negociation = variable_get('language_negotiation_language');
   if(isset($language_negociation['locale-url-suffix'])) {
     $suffix = variable_get('language_suffix_delimiter','_');
-    $path = drupal_get_path_alias($path, $lang->prefix).$suffix.$lang->prefix;   
+    $alias = drupal_get_path_alias($path, $lang->prefix).$suffix.$lang->prefix;   
+    if($source != $path)
+      $path = $alias.$suffix.$lang->prefix;
+    else
+      $path = drupal_get_path_alias($path, $language_default->language).$suffix.$language_default->language;
   }
   else {
     $path = $lang->prefix."/".drupal_get_path_alias($path, $lang->prefix);
