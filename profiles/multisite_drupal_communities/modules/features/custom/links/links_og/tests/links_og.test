@@ -2,36 +2,37 @@
 
 /**
  * @file
- * Tests for PROJECTFEATURE_links_og.module.
- * ECWeb MULTISITE QA
+ * Tests for communities.module.
  */
 
 /**
- * Test OG Links
+ * Defines a base class for testing the "communities" module.
  */
-class Multisite_links_ogQAWebTestCase extends DrupalWebTestCase {
+class links_ogWebTestCase extends DrupalWebTestCase {
 
-  protected $community_user;
-  protected $admin_user;
-  protected $contributor_user;
+  protected $privileged_user;
+
   protected $profile = 'multisite_drupal_communities';
 
   public static function getInfo() {
     return array(
-        'name' => 'links OG',
-        'description' => 'Test the links_og features to ensure it follows QA requirements.',
+        'name' => 'links_og',
+        'description' => 'Test the communities feature.',
         'group' => 'Multisite - Communities',
     );
   }
 
   function setUp() {
-    parent::setUp(array(
-    ));
-   $this->admin_user = $this->drupalCreateUserWithRole("administrator");
-    $this->contributor_user = $this->drupalCreateUserWithRole("contributor");
+    $this->privileged_user = new stdClass();
+    // Enable modules
+    parent::setUp();
+
+    // Login a user that has access to the content sync server admin settings
+    $this->privileged_user = $this->drupalCreateUserWithRole("administrator");
+    $this->drupalLogin($this->privileged_user);
   }
 
-  function testCommunitiesInstall() {
+  function testCommunitiesLink() {
 
     // check the communities directory URL
     $this->drupalGet('communities_directory');
@@ -42,10 +43,9 @@ class Multisite_links_ogQAWebTestCase extends DrupalWebTestCase {
 
 
     // COMUNITY CREATION
-    //Login as admin
-    $this->drupalLogin($this->admin_user);
+
     //Create content of community type
-    $sampleCommunity = array(
+    $settings = array(
       'type' => 'community',
       'title' => 'Sample Community',
       'body' => array(LANGUAGE_NONE => array(array('Community body'))),
@@ -54,7 +54,9 @@ class Multisite_links_ogQAWebTestCase extends DrupalWebTestCase {
       'revisions' => NULL,
       'taxonomy' => NULL,
     );
-    $node = $this->drupalCreateNode($sampleCommunity);
+    $node = $this->drupalCreateNode($settings);
+    $this->drupalGet('community/sample-community');
+    $this->assertRaw('Sample Community', t('Community created.'));
     //Logout
     //Login as group member
     //$this->drupalLogout();
@@ -64,14 +66,16 @@ class Multisite_links_ogQAWebTestCase extends DrupalWebTestCase {
     $field = array();
     $field[LANGUAGE_NONE][0]['target_id'] = $node->nid;
 
-    $sampleLink = array(
-      'type' => 'link',
+    module_enable(array('links_og'), $enable_dependencies = TRUE);
+
+    $settings = array(
+      'type' => 'links',
       'title' => 'Sample Link',
-      'link' => 'http://www.my.url.com',
+      'link' => 'http://www.google.com',
       'body' => array(LANGUAGE_NONE => array(array('Link body'))),
       'og_group_ref' => $field,
     );
-    $node = $this->drupalCreateNode($sampleLink);
+    $node = $this->drupalCreateNode($settings);
 
     //Access Link Page was displayed
     $this->drupalGet('community/sample-community/links/sample-link');
@@ -79,20 +83,14 @@ class Multisite_links_ogQAWebTestCase extends DrupalWebTestCase {
     $this->assertTitle('Sample Link', t('Sample Link created.'));
 
     //This if we have a valid link inside
-    $this->clickLink(t('http://www.my.url.com'));
+    $this->clickLink(t('http://www.google.com'));
      //User can create a new link using the button provided on the content page
     $this->clickLink(t('Create a Link'));
   }
 
-//@todo
-//when testing if a page have been displayed replace assertRaw
-//create title using random
-
-
-
   /**
-  * Creates a user with the give role.
-  **/
+   * Creates a user with the give role.
+   * */
   public function drupalCreateUserWithRole($role) {
     // Get all of the roles in the system.
     $roles = user_roles();
@@ -113,11 +111,4 @@ class Multisite_links_ogQAWebTestCase extends DrupalWebTestCase {
     return user_save($user);
   }
 
-
-
-
-
-
 }
-
-
