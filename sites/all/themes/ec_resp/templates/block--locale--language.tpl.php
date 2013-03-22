@@ -75,7 +75,7 @@ foreach($languages[1] as $lang) {
     if($alias != $path)
       $path = $alias.$suffix.$lang->prefix;
     else
-      $path = drupal_get_path_alias($translations[$language_default->language], $language_default->language).$suffix.$language_default->language;
+      $path = drupal_get_path_alias(isset($translations[$language_default->language])?$translations[$language_default->language]:$path, $language_default->language).$suffix.$language_default->language;
   }
   else {
     $path = $lang->prefix."/".drupal_get_path_alias($path, $lang->prefix);
