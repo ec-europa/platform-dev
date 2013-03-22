@@ -1,3 +1,5 @@
+prevent sanitize function to remove html tag attibutes
+===================================================================
 --- includes/common.inc	2012-04-02 15:29:38.000000000 +0200
 +++ includes.common.inc	2012-04-02 14:31:53.000000000 +0200
 @@ -1520,10 +1520,10 @@
