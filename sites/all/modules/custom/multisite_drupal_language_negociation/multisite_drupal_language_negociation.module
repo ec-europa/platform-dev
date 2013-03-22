@@ -1,4 +1,6 @@
 <?php
+if(!defined('LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX'))
+  define('LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX', 'locale-url-suffix');
 /**
  * Implements hook_language_negotiation_info().
  */
