@@ -1,0 +1,10 @@
+--- includes/common.inc	2012-04-02 15:29:38.000000000 +0200
++++ includes.common.inc	2012-04-02 14:31:53.000000000 +0200
+@@ -2259,6 +2259,7 @@
+   // With Clean URLs.
+   if (!empty($GLOBALS['conf']['clean_url'])) {
+     $path = drupal_encode_path($prefix . $path);
++    drupal_alter('url_custom', $path, $options, $original_path);
+     if ($options['query']) {
+       return $base . $path . '?' . drupal_http_build_query($options['query']) . $options['fragment'];
+     }

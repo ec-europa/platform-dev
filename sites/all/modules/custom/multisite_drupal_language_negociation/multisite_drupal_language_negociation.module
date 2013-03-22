@@ -3,7 +3,7 @@
  * Implements hook_language_negotiation_info().
  */
 function multisite_drupal_language_negociation_language_negotiation_info() {
-  //$file = 'includes/locale.inc';
+  $file = drupal_get_path('module', 'multisite_drupal_language_negociation') . '/multisite_drupal_language_negociation.inc';
   $providers = array();
   $providers[LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX] = array(
     'types' => array(LANGUAGE_TYPE_CONTENT, LANGUAGE_TYPE_INTERFACE, LANGUAGE_TYPE_URL),
@@ -11,7 +11,7 @@ function multisite_drupal_language_negociation_language_negotiation_info() {
       'language' => 'multisite_language_provider_callback',
       //'url_rewrite' => 'multisite_url_rewrite_callback',
      ),
-    //'file' => $file,
+    'file' => $file,
     'weight' => -8,
     'name' => t('URL suffix'),
     'description' => t('Determine the language from the URL path suffix.'),
