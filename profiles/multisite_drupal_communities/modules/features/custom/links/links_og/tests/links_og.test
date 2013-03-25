@@ -57,16 +57,14 @@ class links_ogWebTestCase extends DrupalWebTestCase {
     $node = $this->drupalCreateNode($settings);
     $this->drupalGet('community/sample-community');
     $this->assertRaw('Sample Community', t('Community created.'));
-    //Logout
-    //Login as group member
-    //$this->drupalLogout();
-    //$this->drupalLogin($this->contributor_user);
-
+    
+    module_enable(array("links_og"));
+    $this->drupalGet('community/sample-community');
+    $this->assertRaw('node/add/links', t('Links feature enabled'));
+    
     //Create a link in the created community
     $field = array();
     $field[LANGUAGE_NONE][0]['target_id'] = $node->nid;
-
-    module_enable(array('links_og'), $enable_dependencies = TRUE);
 
     $settings = array(
       'type' => 'links',
@@ -80,12 +78,8 @@ class links_ogWebTestCase extends DrupalWebTestCase {
     //Access Link Page was displayed
     $this->drupalGet('community/sample-community/links/sample-link');
     $this->assertResponse(200);
-    $this->assertTitle('Sample Link', t('Sample Link created.'));
-
-    //This if we have a valid link inside
-    $this->clickLink(t('http://www.google.com'));
-     //User can create a new link using the button provided on the content page
-    $this->clickLink(t('Create a Link'));
+    $this->assertRaw('Sample Link', t('Sample Link created.'));
+    $this->assertRaw('http://www.my.url.com', t('Link url available.'));
   }
 
   /**
