@@ -58,11 +58,14 @@ class links_ogWebTestCase extends DrupalWebTestCase {
     $this->drupalGet('community/sample-community');
     $this->assertRaw('Sample Community', t('Community created.'));
     
+    
+    // LINK CREATION in the created community
+    
     module_enable(array("links_og"));
     $this->drupalGet('community/sample-community');
     $this->assertRaw('node/add/links', t('Links feature enabled'));
+    $this->assertRaw('community/Sample-Community/links', t('Link to the links page available.'));
     
-    //Create a link in the created community
     $field = array();
     $field[LANGUAGE_NONE][0]['target_id'] = $node->nid;
 
