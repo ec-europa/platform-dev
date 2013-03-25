@@ -63,7 +63,8 @@ class links_ogWebTestCase extends DrupalWebTestCase {
     
     module_enable(array("links_og"));
     $this->drupalGet('community/sample-community');
-    $this->assertRaw('node/add/links', t('Links_og feature enabled'));
+    $this->assertTrue(module_exists('links_og'), t('Links_og feature enabled.'));
+    $this->assertRaw('node/add/links', t('Link to create links available'));
     $this->assertRaw('community/Sample-Community/links', t('Link to the links page available.'));
     
     $field = array();
