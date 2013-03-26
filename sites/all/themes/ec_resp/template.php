@@ -528,7 +528,12 @@ function ec_resp_menu_local_tasks(&$variables) {
 function ec_resp_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'search_block_form':
-      $form['search_block_form']['#attributes']['class'][] = 'search-query';
+      $form['search_block_form']['#attributes']['placeholder'][] = t('Search');
+
+      $form['actions']['submit']['#type'] = 'image_button';
+      $form['actions']['submit']['#src'] = base_path() . path_to_theme() . '/images/search-button.png';
+      $form['actions']['submit']['#attributes']['class'][] = 'btn';
+      //$form['actions']['submit']['#value'] = '<i class="icon-search"></i>';
       break;
     
     case 'add_media_form':

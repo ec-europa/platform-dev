@@ -44,15 +44,15 @@
       line-height: 1.6;    
     }
     .comment-arrow {
-      background: url(../images/comment-arrow.gif) no-repeat 0 center transparent; /* LTR */
-      border-left: 1px solid;
-      border-right: 1px solid;
-      height: 40px;
-      margin-left: -47px; /* LTR */
+      margin-left: -45px; /* LTR */
       margin-top: 10px;
       position: absolute;
-      width: 20px;    
-      border-color: @bodyBackground;
+      width: 0px;
+      height: 0px;
+      border-style: solid;
+      border-width: 20px 20px 20px 0;
+      border-color: transparent #ffffff transparent transparent;
+      background: url(../images/comment-arrow.gif) no-repeat 0 center transparent; /* LTR */
     }
     .comment-text {
       padding: 10px 25px;
@@ -60,7 +60,8 @@
       display: table-cell;
       vertical-align: top;
       position: relative;
-      width: 100%;    
+      width: 100%; 
+      background-color: #fff;   
     }
     .indented  {
       margin-left: 40px; /* LTR */    

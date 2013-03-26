@@ -307,7 +307,7 @@
             $group_span = 12;
           }
 
-          $output .= '<div class="span' . $group_span . ' well muted well-small">';
+          $output .= '<div class="span' . $group_span . ' well well-small">';
           foreach ($fields['group'] as $id) {
             $output .=  render($content[$id]);
           }
@@ -323,7 +323,7 @@
             $workbench_span = 6;
             $workbench_class .= 'offset6 ';
           }
-          $workbench_class .= 'span' . $workbench_span . ' well well-small muted';
+          $workbench_class .= 'span' . $workbench_span . ' well well-small';
 
           $output .= '<div class="' . $workbench_class . '">';
           $output .= $display_workbench;

@@ -114,9 +114,7 @@ $span_messages        = 12 - $span_tools;
 
       <span id="banner-image-right">
         <?php if ($page['header_right']): ?>
-        <div class="region region-header_right">
           <?php print render($page['header_right']); ?>
-        </div><!-- /.region-header_right -->
         <?php endif; ?>
       </span>
     
@@ -135,11 +133,9 @@ $span_messages        = 12 - $span_tools;
 
       <div class="banner-right">
         <?php if ($page['header_right']): ?>
-        <div class="region region-header_right">
           <ul class="links unstyled">
             <?php print render($page['header_right']); ?>
           </ul>
-        </div><!-- /.region-header_right -->
         <?php endif; ?>
       </div>
       
@@ -190,7 +186,7 @@ $span_messages        = 12 - $span_tools;
 
   <?php if ($page['sidebar_left']): ?>
     <div id="responsive-sidebar" class="region region-sidebar_left visible-phone">
-      <ul class="nav nav-list">
+      <ul class="nav nav-list card">
         <?php print render($page['sidebar_left']); ?>
       </ul>
     </div><!-- /#responsive-sidebar-->   
@@ -213,10 +209,18 @@ $span_messages        = 12 - $span_tools;
       <?php endif; ?>
     </div>
 
+      <?php print render($title_prefix); ?>
+      <?php if ($title): ?>
+        <h1 class="title" id="page-title">
+          <?php print $title; ?>
+        </h1>
+      <?php endif; ?>
+      <?php print render($title_suffix); ?>
+        
     <div class="row-fluid">
       <?php if ($page['sidebar_left']): ?>
       <div class="region region-sidebar_left span<?php print ($span_sidebar_left); ?> hidden-phone">
-        <ul class="nav nav-list">
+        <ul class="nav nav-list card">
           <?php print render($page['sidebar_left']); ?>
         </ul>
       </div><!-- /.region-sidebar_left -->     
@@ -234,14 +238,6 @@ $span_messages        = 12 - $span_tools;
 
         <a id="main-content"></a>
 
-        <?php print render($title_prefix); ?>
-        <?php if ($title): ?>
-          <h1 class="title" id="page-title">
-            <?php print $title; ?>
-          </h1>
-        <?php endif; ?>
-        <?php print render($title_suffix); ?>
-
         <?php if ($tabs): ?>
           <div class="tabs">
             <?php print render($tabs); ?>
@@ -256,7 +252,9 @@ $span_messages        = 12 - $span_tools;
           </ul>
         <?php endif; ?>
 
-        <?php print render($page['content']); ?>
+        <div class="region region-content">
+          <?php print render($page['content']); ?>
+        </div>
         
         <?php print $feed_icons; ?>
 
@@ -271,7 +269,7 @@ $span_messages        = 12 - $span_tools;
 
       <?php if ($page['sidebar_right']): ?>
       <div class="region region-sidebar_right span<?php print ($span_sidebar_right); ?> hidden-phone">
-        <ul class="nav nav-list">
+        <ul class="nav nav-list card">
           <?php print render($page['sidebar_right']); ?>
         </ul>
       </div><!-- /.region-sidebar_right -->  
@@ -279,15 +277,11 @@ $span_messages        = 12 - $span_tools;
     </div>
   </div><!-- /#layout-body -->    
 
-  <div id="layout-footer" class="navbar navbar-static-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <?php if ($page['footer']): ?>
-          <?php print render($page['footer']); ?>
-        <?php endif; ?>
-        <?php print t('Last update:') . ' ' . date('d/m/Y'); ?> | <a href="#top-page">Top</a>
-      </div>
-    </div>
+  <div id="layout-footer">
+    <?php if ($page['footer']): ?>
+      <?php print render($page['footer']); ?>
+    <?php endif; ?>
+    <?php print t('Last update:') . ' ' . date('d/m/Y'); ?> | <a href="#top-page">Top</a>
   </div><!-- /#layout-footer -->      
 
 <script type="text/javascript">

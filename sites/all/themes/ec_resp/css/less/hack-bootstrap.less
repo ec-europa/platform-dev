@@ -26,8 +26,9 @@ blockquote {
 
 /* ---------------- Heading  ----------------- */
 h1 {
-  font-size: 180%;
+  font-size: 35px;
   font-weight: normal;
+  line-height: 45px;
 }
 h2 {
   font-size: 150%;
@@ -48,16 +49,38 @@ h5 {
 
 /* ---------------- Nav bar  ----------------- */
 .navbar {
-  .nav > li > a {
-    &:hover,
-    &:focus {
-      text-shadow: none;
+  border-top: 1px solid @navbarBorder;
+  .nav > li {
+    > a {
+      border-left: 1px solid lighten(@navbarBackgroundHighlight, 2%);
+      border-right: 1px solid @navbarBorder;
+      .border-radius(0);
+      margin-right: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-top: 13px;
+      padding-bottom: 13px;
+      &:hover,
+      &:focus {
+        text-shadow: none;
+        border-left-color: darken(@navbarLinkBackgroundHover, 2%);
+      }
+      &.active {
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+        #gradient .vertical(@navbarLinkBackgroundActive, @navbarBorder);
+        color: @white;
+        border-left-color: @navbarBorder;
+        position: relative;
+        top: -1px;
+        line-height: 15px;
+      }
     }
-    &.active {
-      text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
-      background: @navbarLinkBackgroundActive;
-      color: @white;
+    &.first a {
+      border-left: none;
     }
+    &.last a {
+      border-right: none;
+    }    
   }
   ul.dropdown-menu ul.dropdown-menu {
     .dropdown-submenu > a:after,
@@ -263,5 +286,18 @@ h5 {
     .filled {
       height: 16px;
     }
+  }
+}
+
+/* ---------------- Medias  ----------------- */
+.thumbnail {
+  background-color: @white;
+  box-shadow: 4px 6px 6px -6px #333333;
+}
+
+/* ---------------- Wells  ----------------- */
+.well {
+  a {
+    color: @white;
   }
 }

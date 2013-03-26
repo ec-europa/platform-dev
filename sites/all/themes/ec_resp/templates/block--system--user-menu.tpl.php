@@ -45,7 +45,7 @@
  */
 
 ?>
-  <li class="nav">
+  <li>
   <?php 
   global $user;
 
@@ -64,7 +64,7 @@
     $attributes = array(
       'attributes' => array(
         'type' => '',
-        'class' => array('btn','btn-mini')
+        'class' => array('btn')
       )
     );
       

@@ -54,6 +54,7 @@ body {
   padding: 0;
   border: 0;
   outline: 0;
+  #gradient .radial(#ddd, @grayLighter);
 }
 body,
 body.overlay,
@@ -234,7 +235,7 @@ ul {
   line-height: 1.6;
 }
 .meta {
-  color: #999999;
+  color: #666666;
   font-size: 0.9em;
   margin-bottom: -5px;
   .form-item {
@@ -301,16 +302,15 @@ ul.links {
   border-right: 1px solid #fff4f4;
 }
 
-/* -------------- Form Elements   ------------- */
-
+/* ----------------- Cards & fieldset------------------ */
 fieldset,
 .fieldset {
-  border: 1px solid #cccccc;
-  padding: 10px 13px;
-  margin: 10px 0;
-  .box-shadow(0 1px 5px rgba(0, 0, 0, 0.08) inset);
-  .border-radius(5px);
+  padding: 10px 10px 20px 10px;
+  margin: 0 0 20px 0;
+  .box-shadow(4px 6px 6px -6px @grayDark);
+  .border-radius(3px);
   height: auto !important;
+  background-color: @white;
   p {
     margin-bottom: 0;
   }
@@ -336,6 +336,21 @@ fieldset,
   }
 }
 
+.card {
+  background-color: @white;
+  padding: 10px 10px 20px 10px;
+  .border-radius(3px);
+  .box-shadow(4px 6px 6px -6px @grayDark);
+  margin-bottom: 20px;
+  fieldset,
+  .fieldset {
+    .box-shadow(none);
+    padding: 0;
+    margin: 0;
+  }
+}
+
+/* -------------- Form Elements   ------------- */
 .form-actions {
   background-color: transparent;
   border-top: none;
@@ -514,9 +529,9 @@ tr.even, tr.odd {
   width: auto;
 }
 
-/* ---------------- Region top  ----------------- */
+/* ---------------- Region content top  ----------------- */
 .region-content_top {
-  margin-bottom: 20px;
+
 }
 
 /* ---------------- Region tools  ----------------- */
@@ -524,23 +539,10 @@ tr.even, tr.odd {
   float: right;
   display: block;
   text-align: right;
-  margin-top: 15px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.region-tools .block {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 5px;
-}
-.region-tools .block ul {
-  margin: 0;
-  padding: 0;
-}
-.region-tools .block ul li {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  margin-top: 5px;
+  > ul {
+    margin-bottom: 0;
+  }  
 }
 
 /* ---------------- Region content bottom ----------------- */
@@ -548,30 +550,20 @@ tr.even, tr.odd {
   display: block;
   text-align: right;
   clear: both;
-}
-.region-content_bottom .block {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 5px;
-}
-.region-content_bottom .block ul {
-  margin: 0;
-  padding: 0;
-}
-.region-content_bottom .block ul li {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  > ul {
+    margin-bottom: 0;
+    li {
+      list-style: none;
+    }
+  }
 }
 
 /* ---------- Region Footer ----------- */
 #layout-footer {
-  border-top: 1px solid #98CEFF;
+  border-top: 2px solid #0165A3;
   text-align: center;
   margin-top: 15px;
-  > .navbar-inner {
-    min-height: 1px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-  }
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: @grayLighter;
 }
