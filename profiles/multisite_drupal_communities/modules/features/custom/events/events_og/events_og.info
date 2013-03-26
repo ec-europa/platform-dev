@@ -18,3 +18,4 @@ features[og_features_permission][] = node:community:update own event content
 features[field][] = "node-event-og_group_ref"
 features[field][] = "node-event-group_content_access"
 features[variable][] = "pathauto_node_event_pattern"
+files[] = tests/events_og.test

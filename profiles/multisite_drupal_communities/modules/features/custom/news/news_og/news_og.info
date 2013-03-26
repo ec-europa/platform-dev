@@ -26,3 +26,4 @@ features[og_features_permission][] = node:community:delete any news content
 features[og_features_permission][] = node:community:delete own news content
 features[og_features_permission][] = node:community:update any news content
 features[og_features_permission][] = node:community:update own news content
+files[] = tests/news_og.test

@@ -26,4 +26,4 @@ features[og_features_permission][] = node:community:delete any webform content
 features[og_features_permission][] = node:community:delete own webform content
 features[og_features_permission][] = node:community:update any webform content
 features[og_features_permission][] = node:community:update own webform content
-
+files[] = tests/survey_og.test

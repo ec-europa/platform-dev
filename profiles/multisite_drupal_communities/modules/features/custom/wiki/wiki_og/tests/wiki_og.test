@@ -12,7 +12,6 @@ class wiki_ogWebTestCase extends DrupalWebTestCase {
 
   protected $privileged_user;
 
-
   protected $profile = 'multisite_drupal_communities';
 
   public static function getInfo() {
@@ -24,12 +23,12 @@ class wiki_ogWebTestCase extends DrupalWebTestCase {
   }
 
   function setUp() {
+    $this->privileged_user = new stdClass();
     // Enable modules
     parent::setUp();
 
     // Login a user that has access to the content sync server admin settings
     $this->privileged_user = $this->drupalCreateUserWithRole("administrator");
-
     $this->drupalLogin($this->privileged_user);
   }
 
@@ -49,66 +48,50 @@ class wiki_ogWebTestCase extends DrupalWebTestCase {
     $settings = array(
       'type' => 'community',
       'title' => 'Sample Community',
-      'body' => array(LANGUAGE_NONE => array(array($this->randomName(64)))),
+      'body' => array(LANGUAGE_NONE => array(array('Community body'))),
       'moderate' => 1,
       'status' => 1,
       'revisions' => NULL,
       'taxonomy' => NULL,
     );
     $node = $this->drupalCreateNode($settings);
-    $this->verbose('Community Node created: ' . print_r($node, TRUE));
     $this->drupalGet('community/sample-community');
     $this->assertRaw('Sample Community', t('Community created.'));
 
-    //Logout
-    //Create a link in the created community
+
+    // LINK CREATION in the created community
+
+    module_enable(array("wiki_og"));
+    $this->drupalGet('community/sample-community');
+    $this->assertTrue(module_exists('wiki_og'), t('wiki_og feature enabled.'));
+    $this->assertRaw('node/add/wiki', t('Link to create wiki available'));
+    $this->assertRaw('community/Sample-Community/wiki', t('Link to the wiki page available.'));
+
     $field = array();
     $field[LANGUAGE_NONE][0]['target_id'] = $node->nid;
 
-    module_enable(array('wiki_og'));
-
-    $wiki = array(
+    $settings = array(
       'type' => 'wiki',
-      'title' => 'Sample wiki',
-      'body' => array(LANGUAGE_NONE => array(array($this->randomName(64)))),
-      'og_group_ref' => $field,
-    );
-    $node_wiki = $this->drupalCreateNode($wiki);
-
-    //Access the page
-    $this->drupalGet('community/sample-community/wiki/sample-wiki');
-    $this->assertResponse(200);
-
-    module_enable(array('links_og'));
-
-    $newlink = array(
-      'type' => 'links',
-      'title' => 'Sample Link',
-      'link' => 'http://www.my.google.com',
+      'title' => 'Wiki Title',
       'body' => array(LANGUAGE_NONE => array(array('Link body'))),
       'og_group_ref' => $field,
     );
-    $nodelink = $this->drupalCreateNode($newlink);
-    $this->verbose('Link Node created: ' . print_r($nodelink, TRUE));
+    $node = $this->drupalCreateNode($settings);
+    $this->verbose('Wiki Node created: ' . print_r($node, TRUE));
 
-
-
+    //Access Link Page was displayed
+    $this->drupalGet('community/sample-community/wiki/wiki-title');
+    $this->assertResponse(200);
     //Chech the presence of h1
     $elements = $this->xpath("//h1");
-    $this->assertTrue(isset($elements[0]), t('The link page contains a h1 title'));
+    $this->assertTrue(isset($elements[0]), t('The wiki page contains a h1 title'));
+    $this->assertRaw('Wiki Title', t('Title found.'));
 
-    //Check the text
-    $this->assertRaw('Sample wiki', t('Sample Wiki created.'));
-    //Check the title
-    $this->assertText(t("@title", array('@title' => $wiki['title'])), "Found title");
-
-    $this->drupalLogout();
-}
+  }
 
   /**
    * Creates a user with the give role.
-   *
-   */
+   * */
   public function drupalCreateUserWithRole($role) {
     // Get all of the roles in the system.
     $roles = user_roles();
@@ -128,4 +111,5 @@ class wiki_ogWebTestCase extends DrupalWebTestCase {
     // Return the user we have created.
     return user_save($user);
   }
+
 }

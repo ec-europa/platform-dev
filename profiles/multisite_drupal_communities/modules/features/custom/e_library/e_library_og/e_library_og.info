@@ -25,5 +25,6 @@ features[og_features_permission][] = node:community:delete own document content
 features[og_features_permission][] = node:community:update any document content
 features[og_features_permission][] = node:community:update own document content
 features[variable][] = pathauto_node_document_pattern
+files[] = tests/e_library_og.test
 
 
