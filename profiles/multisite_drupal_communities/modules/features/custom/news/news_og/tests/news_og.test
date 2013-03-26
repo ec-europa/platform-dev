@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * @file
+ * Tests for communities.module.
+ */
+
+/**
+ * Defines a base class for testing the "communities" module.
+ */
+class wiki_ogWebTestCase extends DrupalWebTestCase {
+
+  protected $privileged_user;
+  protected $community_user;
+
+  protected $profile = 'multisite_drupal_communities';
+
+  public static function getInfo() {
+    return array(
+        'name' => 'wiki_og',
+        'description' => 'Test the communities feature.',
+        'group' => 'Multisite - Communities',
+    );
+  }
+
+  function setUp() {
+    $this->privileged_user = new stdClass();
+    // Enable modules
+    parent::setUp();
+
+    // Login a user that has access to the content sync server admin settings
+    $this->privileged_user = $this->drupalCreateUserWithRole("administrator");
+    $this->community_user = $this->drupalCreateUserWithRole("contributor");
+    $this->drupalLogin($this->privileged_user);
+  }
+
+  function testCommunitiesWiki() {
+
+    // check the communities directory URL
+    $this->drupalGet('communities_directory');
+    //OK code 200
+    $this->assertResponse(200);
+    //Check the presence of HTML class: view-communities-directory
+    $this->assertRaw('view-communities-directory', 'Communities enabled and accessible.');
+
+
+    // COMUNITY CREATION
+
+    //Create content of community type
+    $settings = array(
+      'type' => 'community',
+      'title' => 'Sample Community',
+      'body' => array(LANGUAGE_NONE => array(array($this->randomName(64)))),
+      'moderate' => 1,
+      'status' => 1,
+      'revisions' => NULL,
+      'taxonomy' => NULL,
+    );
+    $node = $this->drupalCreateNode($settings);
+    $this->verbose('Community Node created: ' . print_r($node, TRUE));
+    $this->drupalGet('community/sample-community');
+    $this->assertRaw('Sample Community', t('Community created.'));
+    $this->verbose('Node created: ' . var_dump($node, TRUE));
+    //Logout
+    //Create a link in the created community
+    $field = array();
+    $field[LANGUAGE_NONE][0]['target_id'] = $node->nid;
+
+    module_enable(array('wiki_og'));
+
+    $wiki = array(
+      'type' => 'wiki',
+      'title' => 'Sample wiki',
+      'body' => array(LANGUAGE_NONE => array(array($this->randomName(64)))),
+      'og_group_ref' => $field,
+      'status' => 1,
+    );
+    $node_wiki = $this->drupalCreateNode($wiki);
+    $this->verbose('Node Wiki created: ' . var_dump($node_wiki, TRUE));
+
+    //Access the page
+    $this->drupalGet('community/sample-community/links/sample-wiki');
+    $this->assertResponse(200);
+
+    //Chech the presence of h1
+    $elements = $this->xpath("//h1");
+    $this->assertTrue(isset($elements[0]), t('The link page contains a h1 title'));
+
+    //Check the text
+    $this->assertRaw('Sample Wiki', t('Sample Wiki created.'));
+    //Check the title
+    $this->assertText(t("@title", array('@title' => $wiki['title'])), "Found title");
+
+    $this->drupalLogout();
+}
+
+  /**
+   * Creates a user with the give role.
+   *
+   */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
+  }
+}
