@@ -83,9 +83,8 @@ class survey_ogWebTestCase extends DrupalWebTestCase {
     $this->verbose('survey Node created: ' . '</pre>'.print_r($node, TRUE).'</pre>');
     $this->verbose('survey Node created: ' . '</pre>'.print_r($settings['title'], TRUE).'</pre>');
 /*
-    $this->drupalGet("community/sample-community/{$node->nid}/webform");
-    $this->assertResponse(200);
-    $this->assertRaw('page-node-webform', 'Webform is accesible to current user.');
+
+
     $this->assertRaw(t('Add'), 'Add more fields button is present.');
     $edit = array();
     $edit['add-name'] = $this->randomName(8);
@@ -103,6 +102,10 @@ class survey_ogWebTestCase extends DrupalWebTestCase {
     //$this->assertRaw('survey Title', t('Title found.'));
     $this->assertText(t("@title", array('@title' => $settings['title'])), "Found title");
     $this->assertRaw('Webform', t('Link to Webform found.'));
+
+    $this->drupalGet("node/{$node->nid}/webform");
+    $this->assertResponse(200);
+    $this->assertRaw('page-node-webform', 'Webform is accesible to current user.');
 
   }
 
