@@ -353,8 +353,6 @@ function cce_basic_config_enable() {
 
   module_invoke('context', 'save', $context);
 
-  multisite_drupal_toolbox_add_block_context('site_wide','search','search','search', 'header_right');
-  
   // multisite_drupal_toolbox_add_block_context('communities','multisite_og_button-og-contextual-links','multisite_og_button','og-contextual-links', 'sidebar_first','-9');
   // multisite_drupal_toolbox_add_block_context('site_wide','locale-language','locale','language','highlighted');
   // multisite_drupal_toolbox_add_block_context('site_wide','system-main-menu','system','main-menu','featured');
