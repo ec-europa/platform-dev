@@ -48,6 +48,7 @@ function ecas_uninstall() {
   variable_del('ecas_profile_core_firstname_field');
   variable_del('ecas_profile_core_lastname_field');
   variable_del('ecas_profile_core_ecas_email_field');
+  variable_del('ecas_profile_core_ecas_creator_field');
   variable_del('ecas_group_sync_enabled');  
   variable_del('ecas_pages_method');
   variable_del('ecas_pages');

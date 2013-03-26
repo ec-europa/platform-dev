@@ -63,6 +63,7 @@ features[field][] = file-video-field_tags
 features[field][] = file-video-field_video_description
 features[field][] = node-page-body
 features[field][] = node-page-field_tags
+features[field][] = user-user-field_creator
 features[field][] = user-user-field_firstname
 features[field][] = user-user-field_lastname
 features[file_display][] = document__default__file_field_file_default

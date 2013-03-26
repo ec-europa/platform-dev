@@ -50,6 +50,9 @@ function ecas_form_alter(&$form, &$form_state, $form_id) {
       // disable the firstname and lastname fields
       $form['field_firstname']['#disabled'] = TRUE;
       $form['field_lastname']['#disabled'] = TRUE;
+      
+      // disable the creator field
+      $form['field_creator']['#disabled'] = TRUE;
 
       $ecas_ch_pw_url = variable_get('ecas_change_password_url', ECAS_DEFAULT_CHANGE_PASSWORD_URL);
       $form['account']['ecas_information_label'] = array(
@@ -242,6 +245,7 @@ function ecas_sync_profile_core(&$user, $user_info) {
   $field_firstname = trim(variable_get('ecas_profile_core_firstname_field', 'field_firstname'));
   $field_lastname = trim(variable_get('ecas_profile_core_lastname_field',  'field_lastname' ));
   $field_ecasmail = trim(variable_get('ecas_profile_core_ecas_email_field', 'field_ecas_mail'));
+  $field_ecascreator = trim(variable_get('ecas_profile_core_ecas_creator_field', 'field_creator'));
   
   // Can be used for all entity types
   $edit = (array) $user;
@@ -256,7 +260,10 @@ function ecas_sync_profile_core(&$user, $user_info) {
   if(!empty($field_ecasmail) && isset($edit[$field_ecasmail])) {
    $edit[$field_ecasmail][LANGUAGE_NONE][0]['value'] = $user_info['mail'];
   }
-   
+  if(!empty($field_ecascreator) && isset($edit[$field_ecascreator])) {
+   $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['sourceorganisation'].'/'.$user_info['departmentnumber'];
+  }  
+  
   // save changes 
   user_save($user, $edit);
 }
@@ -297,7 +304,7 @@ function ecas_sync_user_group_sync(&$user, $user_info) {
 function ecas_sync_user_info(&$user, $user_info, $args) {
   // update the user mail in the users table
   if (variable_get('ecas_update_mail_address', TRUE)) {
-	$picture = $user->picture; // fix : save file object replaced by fid by user_save function
+    $picture = $user->picture; // fix : save file object replaced by fid by user_save function
     user_save($user, array('mail' => $user_info['mail']));
     $user->mail = $user_info['mail'];
     $user->picture = $picture;
@@ -419,7 +426,7 @@ function ecas_login_check() {
       // avoid calling ldap_* functions if they are not available
       if (function_exists('getLdapUserInfo')) {
         // retrieve informations about the user through LDAP
-        $user_info = getLdapUserInfo($account->name, array('sn', 'givenname', 'dg'));
+        $user_info = getLdapUserInfo($account->name, array('sn', 'givenname', 'dg', 'sourceorganisation', 'departmentnumber'));
 
         // update her informations
         if (!empty($user_info)) {
