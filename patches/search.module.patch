@@ -1,0 +1,11 @@
+--- modules/search/search.module	2013-03-25 12:20:35.233711138 +0100
++++ modules/search/search.module	2013-03-25 12:16:39.009638017 +0100
+@@ -1069,7 +1069,7 @@
+  foreach (element_children($variables['form']) as $key) {
+-   $type = $variables['form'][$key]['#type'];
++   $type = (isset($variables['form'][$key]['#type']) ? $variables['form'][$key]['#type'] : '');
+    if ($type == 'hidden' || $type == 'token') {
+      $hidden[] = drupal_render($variables['form'][$key]);
+    }
+    else {
+      $variables['search'][$key] = drupal_render($variables['form'][$key]);

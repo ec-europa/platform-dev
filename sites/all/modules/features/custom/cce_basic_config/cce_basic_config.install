@@ -676,3 +676,11 @@ function cce_basic_config_update_7150() {
     ))
     ->execute();
 }
+
+/**
+ * add search block
+ */
+function cce_basic_config_update_7160() {
+    //Add block in context
+    multisite_drupal_toolbox_add_block_context('site_wide','search_block_form','search','search', 'header_right');
+}
