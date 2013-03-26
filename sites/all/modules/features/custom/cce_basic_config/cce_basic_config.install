@@ -351,6 +351,14 @@ function cce_basic_config_enable() {
   );
   $context->reactions['block']['blocks']['user-menu']=$block_to_add1;
 
+  $block_to_add2 = array(
+    'module' => 'search',
+    'delta' =>  'form',
+    'region' => 'header_right',
+    'weight' => 1,
+  );  
+  $context->reactions['block']['blocks']['form']=$block_to_add2;
+
   module_invoke('context', 'save', $context);
 
   // multisite_drupal_toolbox_add_block_context('communities','multisite_og_button-og-contextual-links','multisite_og_button','og-contextual-links', 'sidebar_first','-9');
@@ -681,6 +689,16 @@ function cce_basic_config_update_7150() {
  * add search block
  */
 function cce_basic_config_update_7160() {
-    //Add block in context
-    multisite_drupal_toolbox_add_block_context('site_wide','search','search','search', 'header_right');
+  // add block site-wide context -------------------------------------------------------------------------------
+  $context=module_invoke('context', 'load', 'site_wide');
+
+  $block_to_add = array(
+    'module' => 'search',
+    'delta' =>  'form',
+    'region' => 'header_right',
+    'weight' => 1,
+  );  
+  $context->reactions['block']['blocks']['form']=$block_to_add;
+
+  module_invoke('context', 'save', $context);
 }
