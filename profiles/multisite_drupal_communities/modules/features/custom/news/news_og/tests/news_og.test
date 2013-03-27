@@ -73,7 +73,7 @@ class news_ogWebTestCase extends DrupalWebTestCase {
     $this->drupalLogin($this->community_user);
 
 
-//Request membership
+   //Request membership
     $this->drupalGet('communities_directory');
     $this->clickLink(t('Request group membership'));
 
@@ -85,9 +85,24 @@ class news_ogWebTestCase extends DrupalWebTestCase {
     $this->drupalPost(NULL, $form_array, t('Join'));
     $this->assertRaw('Your membership to this group is pending', 'Membership in pending state.');
     $this->drupalLogout();
+
+    //Grant Access
+
     $this->drupalLogin($this->privileged_user);
     $this->assertTrue($node, t('Node ID @nid is a group.', array('@nid' => $node->nid)));
-    $this->assertRaw($this->community_user->name, 'User added to the group.');
+
+    $this->assertTrue(module_exists('og'), t('og feature enabled.'));
+     if (module_exists('og')) {
+
+    //$this->assertEqual($request, $og_membership->og_membership_request[LANGUAGE_NONE][0]['value'], t('User request was saved in group membership.'));
+    og_role_grant_permissions($this->community_user->name, array('edit group' => 0, 'administer group' => 1));
+    $og_membership = og_is_member('community', $node->nid, $entity_type = 'user', $entity = NULL, $states = array(OG_STATE_ACTIVE));
+
+     }
+
+
+
+
     $this->drupalLogout();
 
 
@@ -97,8 +112,7 @@ class news_ogWebTestCase extends DrupalWebTestCase {
     $this->drupalGet('node/add/news');
     $this->assertResponse(200);
     $this->assertRaw('node-news-form', 'Add news form accessible.');
-    $this->assertRaw('community/Sample-Community/news', t('Link to the news page available.'));
-    $field = array();
+      $field = array();
     $field[LANGUAGE_NONE][0]['target_id'] = $node->nid;
 
     $settings = array(
@@ -117,7 +131,6 @@ class news_ogWebTestCase extends DrupalWebTestCase {
     $elements = $this->xpath("//h1");
     $this->assertTrue(isset($elements[0]), t('The news page contains a h1 title'));
     $this->assertRaw('news Title', t('Title found.'));
-    $this->assertRaw(t('Add a new comment'), t('group user can add commentaries.'));
     $this->assertRaw('block-print-print-links', t('group user can share links, see pdf version.'));
   }
 
