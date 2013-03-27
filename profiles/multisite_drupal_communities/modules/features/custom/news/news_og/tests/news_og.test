@@ -8,16 +8,15 @@
 /**
  * Defines a base class for testing the "communities" module.
  */
-class wiki_ogWebTestCase extends DrupalWebTestCase {
+class news_ogWebTestCase extends DrupalWebTestCase {
 
   protected $privileged_user;
   protected $community_user;
-
   protected $profile = 'multisite_drupal_communities';
 
   public static function getInfo() {
     return array(
-        'name' => 'wiki_og',
+        'name' => 'news_og',
         'description' => 'Test the communities feature.',
         'group' => 'Multisite - Communities',
     );
@@ -34,7 +33,7 @@ class wiki_ogWebTestCase extends DrupalWebTestCase {
     $this->drupalLogin($this->privileged_user);
   }
 
-  function testCommunitiesWiki() {
+  function testCommunitiesnews() {
 
     // check the communities directory URL
     $this->drupalGet('communities_directory');
@@ -45,59 +44,86 @@ class wiki_ogWebTestCase extends DrupalWebTestCase {
 
 
     // COMUNITY CREATION
-
     //Create content of community type
     $settings = array(
-      'type' => 'community',
-      'title' => 'Sample Community',
-      'body' => array(LANGUAGE_NONE => array(array($this->randomName(64)))),
-      'moderate' => 1,
-      'status' => 1,
-      'revisions' => NULL,
-      'taxonomy' => NULL,
+        'type' => 'community',
+        'title' => 'Sample Community',
+        'body' => array(LANGUAGE_NONE => array(array('Community body'))),
+        'moderate' => 1,
+        'status' => 1,
+        'revisions' => NULL,
+        'taxonomy' => NULL,
     );
     $node = $this->drupalCreateNode($settings);
-    $this->verbose('Community Node created: ' . print_r($node, TRUE));
     $this->drupalGet('community/sample-community');
     $this->assertRaw('Sample Community', t('Community created.'));
-    $this->verbose('Node created: ' . var_dump($node, TRUE));
-    //Logout
-    //Create a link in the created community
+    $this->assertTrue($node, t('Node ID @nid is a group.', array('@nid' => $node->nid)));
+
+
+    // LINK CREATION in the created community
+
+    module_enable(array("news_og"));
+    $this->drupalGet('community/sample-community');
+    $this->assertResponse(200);
+    $this->assertTrue(module_exists('news_og'), t('news_og feature enabled.'));
+    $this->drupalGet('node/add/news');
+    $this->assertResponse(200);
+    $this->assertRaw('node-news-form', 'Add news form accessible.');
+    $this->drupalLogout();
+    $this->drupalLogin($this->community_user);
+
+
+//Request membership
+    $this->drupalGet('communities_directory');
+    $this->clickLink(t('Request group membership'));
+
+    //Could be 'I want to be registered'
+    $request = $this->randomString();
+    $form_array = array(
+        'og_membership_request[und][0][value]' => $request,
+    );
+    $this->drupalPost(NULL, $form_array, t('Join'));
+    $this->assertRaw('Your membership to this group is pending', 'Membership in pending state.');
+    $this->drupalLogout();
+    $this->drupalLogin($this->privileged_user);
+    $this->assertTrue($node, t('Node ID @nid is a group.', array('@nid' => $node->nid)));
+
+    $this->drupalLogout();
+
+
+    $this->drupalLogin($this->community_user);
+    $this->verbose('ROLEs --------------------> : ' . print_r(user_roles(), TRUE));
+    
+    $this->drupalGet('node/add/news');
+    $this->assertResponse(200);
+    $this->assertRaw('node-news-form', 'Add news form accessible.');
+    $this->assertRaw('community/Sample-Community/news', t('Link to the news page available.'));
     $field = array();
     $field[LANGUAGE_NONE][0]['target_id'] = $node->nid;
 
-    module_enable(array('wiki_og'));
-
-    $wiki = array(
-      'type' => 'wiki',
-      'title' => 'Sample wiki',
-      'body' => array(LANGUAGE_NONE => array(array($this->randomName(64)))),
-      'og_group_ref' => $field,
-      'status' => 1,
+    $settings = array(
+        'type' => 'news',
+        'title' => 'news Title',
+        'body' => array(LANGUAGE_NONE => array(array('Link body'))),
+        'og_group_ref' => $field,
     );
-    $node_wiki = $this->drupalCreateNode($wiki);
-    $this->verbose('Node Wiki created: ' . var_dump($node_wiki, TRUE));
+    $node = $this->drupalCreateNode($settings);
+    $this->verbose('news Node created: ' . print_r($node, TRUE));
 
-    //Access the page
-    $this->drupalGet('community/sample-community/links/sample-wiki');
+    //Access Link Page was displayed
+    $this->drupalGet('community/sample-community/news/news-title');
     $this->assertResponse(200);
-
     //Chech the presence of h1
     $elements = $this->xpath("//h1");
-    $this->assertTrue(isset($elements[0]), t('The link page contains a h1 title'));
-
-    //Check the text
-    $this->assertRaw('Sample Wiki', t('Sample Wiki created.'));
-    //Check the title
-    $this->assertText(t("@title", array('@title' => $wiki['title'])), "Found title");
-
-    $this->drupalLogout();
-}
+    $this->assertTrue(isset($elements[0]), t('The news page contains a h1 title'));
+    $this->assertRaw('news Title', t('Title found.'));
+    $this->assertRaw(t('Add a new comment'), t('group user can add commentaries.'));
+    $this->assertRaw('block-print-print-links', t('group user can share links, see pdf version.'));
+  }
 
   /**
    * Creates a user with the give role.
-   *
-   */
+   * */
   public function drupalCreateUserWithRole($role) {
     // Get all of the roles in the system.
     $roles = user_roles();
@@ -117,4 +143,5 @@ class wiki_ogWebTestCase extends DrupalWebTestCase {
     // Return the user we have created.
     return user_save($user);
   }
+
 }
