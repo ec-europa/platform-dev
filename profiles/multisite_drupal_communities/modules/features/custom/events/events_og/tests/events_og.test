@@ -57,7 +57,7 @@ class events_ogWebTestCase extends DrupalWebTestCase {
     $node = $this->drupalCreateNode($settings);
     $this->drupalGet('community/sample-community');
     $this->assertRaw('Sample Community', t('Community created.'));
-
+$this->assertTrue($node, t('Node ID @nid is a group.', array('@nid' => $node->nid)));
 
     // LINK CREATION in the created community
 
@@ -72,20 +72,24 @@ class events_ogWebTestCase extends DrupalWebTestCase {
 
     $settings = array(
       'type' => 'events',
-      'title' => 'events Title',
-      'body' => array(LANGUAGE_NONE => array(array('Link body'))),
+      'title' => 'Event Title',
+      'body' => array(LANGUAGE_NONE => array(array($this->randomName(64)))),
       'og_group_ref' => $field,
     );
     $node = $this->drupalCreateNode($settings);
     $this->verbose('events Node created: ' . print_r($node, TRUE));
 
     //Access Link Page was displayed
-    $this->drupalGet('community/sample-community/events/events-title');
+    $this->drupalGet('community/sample-community/events/event-title');
     $this->assertResponse(200);
     //Chech the presence of h1
     $elements = $this->xpath("//h1");
     $this->assertTrue(isset($elements[0]), t('The events page contains a h1 title'));
-    $this->assertRaw('events Title', t('Title found.'));
+    $this->assertRaw(t('Event Title'), 'Event title found');
+    $this->assertRaw(t('Add new comment'), 'Comment link found');
+    $this->clickLink(t('Add new comment'));
+    $this->assertRaw(t('%user', array('%user' => $this->privileged_user)), t('The author of the article is on the page'));
+
 
   }
 

@@ -55,8 +55,8 @@ class wiki_ogWebTestCase extends DrupalWebTestCase {
       'taxonomy' => NULL,
     );
     $node = $this->drupalCreateNode($settings);
-    $this->drupalGet('community/sample-community');
-    $this->assertRaw('Sample Community', t('Community created.'));
+
+    $this->assertTrue($node, t('Node ID @nid is a group.', array('@nid' => $node->nid)));
 
 
     // LINK CREATION in the created community

@@ -8,7 +8,7 @@
 /**
  * Defines a base class for testing the "communities" module.
  */
-class wiki_ogWebTestCase extends DrupalWebTestCase {
+class e_library_ogWebTestCase extends DrupalWebTestCase {
 
   protected $privileged_user;
 
@@ -16,7 +16,7 @@ class wiki_ogWebTestCase extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(
-        'name' => 'wiki_og',
+        'name' => 'e_library_og',
         'description' => 'Test the communities feature.',
         'group' => 'Multisite - Communities',
     );
@@ -32,7 +32,7 @@ class wiki_ogWebTestCase extends DrupalWebTestCase {
     $this->drupalLogin($this->privileged_user);
   }
 
-  function testCommunitiesWiki() {
+  function testCommunitiesE_library() {
 
     // check the communities directory URL
     $this->drupalGet('communities_directory');
@@ -58,34 +58,44 @@ class wiki_ogWebTestCase extends DrupalWebTestCase {
     $this->drupalGet('community/sample-community');
     $this->assertRaw('Sample Community', t('Community created.'));
 
-
+    $this->assertTrue($node, t('Node ID @nid is a group.', array('@nid' => $node->nid)));
     // LINK CREATION in the created community
 
-    module_enable(array("wiki_og"));
+    module_enable(array("e_library_og"));
     $this->drupalGet('community/sample-community');
-    $this->assertTrue(module_exists('wiki_og'), t('wiki_og feature enabled.'));
-    $this->assertRaw('node/add/wiki', t('Link to create wiki available'));
-    $this->assertRaw('community/Sample-Community/wiki', t('Link to the wiki page available.'));
+    $this->assertTrue(module_exists('e_library_og'), t('e_library_og feature enabled.'));
+
+    $this->assertRaw('community/Sample-Community/e_library', t('Link to the e_library page available.'));
 
     $field = array();
     $field[LANGUAGE_NONE][0]['target_id'] = $node->nid;
 
     $settings = array(
-      'type' => 'wiki',
-      'title' => 'Wiki Title',
+      'type' => 'document',
+      'title' => 'e_library Title',
       'body' => array(LANGUAGE_NONE => array(array('Link body'))),
       'og_group_ref' => $field,
     );
+        $this->drupalGet('node/add/document');
+    $this->assertResponse(200);
+    $this->assertRaw('node-document-form', 'Add documents form accessible.');
     $node = $this->drupalCreateNode($settings);
-    $this->verbose('Wiki Node created: ' . print_r($node, TRUE));
+    $this->verbose('e_library Node created: ' . print_r($node, TRUE));
 
     //Access Link Page was displayed
-    $this->drupalGet('community/sample-community/wiki/wiki-title');
+    $this->drupalGet('community/sample-community/e_library/e_library-title');
     $this->assertResponse(200);
     //Chech the presence of h1
     $elements = $this->xpath("//h1");
-    $this->assertTrue(isset($elements[0]), t('The wiki page contains a h1 title'));
-    $this->assertRaw('Wiki Title', t('Title found.'));
+    $this->assertTrue(isset($elements[0]), t('The e_library page contains a h1 title'));
+    $this->assertRaw('e_library Title', t('Title found.'));
+    $this->assertRaw(t('Add a new Document'), t('Button to add a new document found.'));
+    $this->clickLink(t('Add a new Document'));
+    $this->drupalGet('node/add/document');
+    $this->assertResponse(200);
+    $this->assertRaw('node-form', 'Communities enabled and accessible.');
+
+
 
   }
 

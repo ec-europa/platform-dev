@@ -87,13 +87,13 @@ class news_ogWebTestCase extends DrupalWebTestCase {
     $this->drupalLogout();
     $this->drupalLogin($this->privileged_user);
     $this->assertTrue($node, t('Node ID @nid is a group.', array('@nid' => $node->nid)));
-
+    $this->assertRaw($this->community_user->name, 'User added to the group.');
     $this->drupalLogout();
 
 
     $this->drupalLogin($this->community_user);
     $this->verbose('ROLEs --------------------> : ' . print_r(user_roles(), TRUE));
-    
+
     $this->drupalGet('node/add/news');
     $this->assertResponse(200);
     $this->assertRaw('node-news-form', 'Add news form accessible.');
