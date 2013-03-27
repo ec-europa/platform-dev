@@ -24,11 +24,14 @@ class survey_ogWebTestCase extends DrupalWebTestCase {
 
   function setUp() {
     $this->privileged_user = new stdClass();
+    $this->community_user = new stdClass();
     // Enable modules
     parent::setUp();
-
+    module_enable(array("og"));
     // Login a user that has access to the content sync server admin settings
     $this->privileged_user = $this->drupalCreateUserWithRole("administrator");
+    $this->community_user = $this->drupalCreateUserWithRole("contributor");
+
     $this->drupalLogin($this->privileged_user);
   }
 
@@ -56,6 +59,7 @@ class survey_ogWebTestCase extends DrupalWebTestCase {
     );
     $node = $this->drupalCreateNode($settings);
     $this->drupalGet('community/sample-community');
+    $this->verbose('events Node created: ' . print("<pre>".print_r($node,true)."</pre>"));
     $this->assertRaw('Sample Community', t('Community created.'));
 
 
@@ -67,9 +71,43 @@ class survey_ogWebTestCase extends DrupalWebTestCase {
     $this->assertRaw('node/add/webform', t('Link to create survey available'));
     $this->assertRaw('community/Sample-Community/survey', t('Link to the survey page available.'));
 
+
+    $this->drupalLogout();
+    $this->drupalLogin($this->community_user);
+
+    //Request membership
+    $this->drupalGet('communities_directory');
+    $this->clickLink(t('Request group membership'));
+
+    //Could be 'I want to be registered'
+    $request = $this->randomString();
+    $form_array = array(
+      'og_membership_request[und][0][value]' => $request,
+    );
+    $this->drupalPost(NULL, $form_array, t('Join'));
+    $this->assertRaw('Your membership to this group is pending', 'Membership in pending state.');
+    $this->drupalLogout();
+    $this->drupalLogin($this->privileged_user);
+    //Grant membership
+    //$group = og_get_group('node', $nid);
+    $this->assertTrue($node, t('Node ID @nid is a group.', array('@nid' => $node->nid)));
+
+//group id, entity_type, user id
+    $community_user = $this->community_user;
+    $this->verbose('Community user: ' . print("<pre>".print_r($community_user,true)."</pre>"));
+
+    $this->assertTrue(module_exists('og'), t('og feature enabled.'));
+     if (module_exists('og')) {
+    //$og_membership = og_get_group_membership($node->nid, 'user', $community_user->uid);
+    //$this->assertEqual($request, $og_membership->og_membership_request[LANGUAGE_NONE][0]['value'], t('User request was saved in group membership.'));
+  }
+
+      //a group user can access his own list
+    $this->drupalGet('communities_directory/my');
+    $this->assertResponse(200);
+    $this->assertRaw('Sample Community', t('Contributor can see community created found in my communities.'));
     $field = array();
     $field[LANGUAGE_NONE][0]['target_id'] = $node->nid;
-
     $settings = array(
       'type' => 'webform',
       'title' => 'Survey Title',
@@ -80,33 +118,32 @@ class survey_ogWebTestCase extends DrupalWebTestCase {
       'taxonomy' => NULL,
     );
     $node = $this->drupalCreateNode($settings);
+
     $this->verbose('survey Node created: ' . '</pre>'.print_r($node, TRUE).'</pre>');
     $this->verbose('survey Node created: ' . '</pre>'.print_r($settings['title'], TRUE).'</pre>');
-/*
-
-
+    //$this->assertRaw(t('%user', array('%user' => $this->privileged_user)), t('The author of the article is on the page'));
+    $this->drupalGet("node/{$node->nid}/webform");
+    $this->assertResponse(200);
+    $this->assertRaw('page-node-webform', 'Webform is accesible to current user.');
     $this->assertRaw(t('Add'), 'Add more fields button is present.');
     $edit = array();
-    $edit['add-name'] = $this->randomName(8);
-
+    $edit['survey_field'] = $this->randomName(8);
+    /*
     $this->drupalPost("node/{$node->nid}/webform/components", $edit, t('Add'));
-    $this->drupalPost("node/{$node->nid}/webform/components/new/textfield", $edit, t('Save component'));
-    $this->drupalPost("node/{$node->nid}/webform/components", $edit, t('Save'));
-*/
+    $this->drupalPost("node/{$node->nid}/webform/components/new/textfield", array(), t('Save component'));
+    $this->drupalPost("node/{$node->nid}/webform/components", array(), t('Save'));
+    */
+    $this->drupalLogout();
+    $this->drupalLogin($this->community_user);
+    $this->verbose('ROLEs --------------------> : ' . print_r(user_roles(), TRUE));
     //Access Link Page was displayed
     $this->drupalGet('community/sample-community/survey/survey-title');
     $this->assertResponse(200);
     //Chech the presence of h1
     $elements = $this->xpath("//h1");
     $this->assertTrue(isset($elements[0]), t('The survey page contains a h1 title'));
-    //$this->assertRaw('survey Title', t('Title found.'));
     $this->assertText(t("@title", array('@title' => $settings['title'])), "Found title");
-    $this->assertRaw('Webform', t('Link to Webform found.'));
-
-    $this->drupalGet("node/{$node->nid}/webform");
-    $this->assertResponse(200);
-    $this->assertRaw('page-node-webform', 'Webform is accesible to current user.');
-
+    $this->assertRaw('Results', t('Survey results are available to group user.'));
   }
 
   /**
