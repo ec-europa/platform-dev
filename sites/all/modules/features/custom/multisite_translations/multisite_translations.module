@@ -76,6 +76,16 @@ function multisite_translations_form_alter(&$form, &$form_state, $form_id) {
         }
       }
       break;
+      case 'tmgmt_node_ui_node_form':
+        $node = node_load(arg(1));
+        // hide request translation on node translation (display only on source node)
+        if($node->tnid != $node->nid) {
+          foreach($form['languages']['#options'] as $id => $option) {
+            $form['languages'][$id] = array('#disabled' => TRUE, '#type' => 'checkbox');
+          }
+          $form['actions']['#attributes']['class'][] = 'element-invisible';
+        }
+        break;
   }
   
   if (substr($form_id, -9) == 'node_form') {
