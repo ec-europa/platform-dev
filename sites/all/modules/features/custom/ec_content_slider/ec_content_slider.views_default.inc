@@ -107,10 +107,10 @@ function ec_content_slider_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div id="transparency">
-<h2>[title]</h2>
-<br/>[body]
-</div>';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<p class="carousel-caption">
+[title]<br />
+[body]
+</p>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
