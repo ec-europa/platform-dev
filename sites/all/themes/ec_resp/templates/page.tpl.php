@@ -278,10 +278,12 @@ $span_messages        = 12 - $span_tools;
   </div><!-- /#layout-body -->    
 
   <div id="layout-footer">
-    <?php if ($page['footer']): ?>
-      <?php print render($page['footer']); ?>
-    <?php endif; ?>
-    <?php print t('Last update:') . ' ' . date('d/m/Y'); ?> | <a href="#top-page">Top</a>
+    <div class="container">
+      <?php if ($page['footer']): ?>
+        <?php print render($page['footer']); ?>
+      <?php endif; ?>
+      <?php print t('Last update:') . ' ' . date('d/m/Y'); ?> | <a href="#top-page">Top</a>
+    </div>
   </div><!-- /#layout-footer -->      
 
 <script type="text/javascript">
