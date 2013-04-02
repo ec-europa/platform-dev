@@ -1,12 +1,11 @@
 --- sites/all/modules/contributed/link/link.module	2013-02-26 14:02:16.000000000 +0100
 +++ sites/all/modules/contributed/link/link.module	2013-02-26 14:11:23.000000000 +0100
-@@ -345,6 +345,9 @@
-   // Trim whitespace from URL.
-   $item['url'] = trim($item['url']);
- 
-+  // add protocol if it's missing
-+  $item['url'] = link_cleanup_url($item['url']);
-+
-   // If no attributes are set then make sure $item['attributes'] is an empty
-   // array, so $field['attributes'] can override it.
-   if (empty($item['attributes'])) {
+@@ -1302,7 +1302,7 @@ function link_field_item_property_info() {
+  * Implements hook_field_update_instance().
+  */
+ function link_field_update_instance($instance, $prior_instance) {
+-  if (function_exists('i18n_string_update') && $prior_instance['settings']['title_value'] != $instance['settings']['title_value']) {
++  if (function_exists('i18n_string_update') && $instance['widget']['type'] == 'link_field' && $prior_instance['settings']['title_value'] != $instance['settings']['title_value']) {
+     $i18n_string_name = "field:{$instance['field_name']}:{$instance['bundle']}:title_value";
+     i18n_string_update($i18n_string_name, $instance['settings']['title_value']);
+   }
