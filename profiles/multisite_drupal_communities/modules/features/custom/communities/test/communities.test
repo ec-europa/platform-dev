@@ -44,7 +44,6 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
 
     // check the community creation
     $this->drupalLogin($this->admin_user);
-
     /*
     $node_array = array(
       'title' => 'Community test1',
@@ -76,7 +75,6 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
     );
     $node2 = $this->drupalCreateNode($settings);
     $this->drupalGet('community/community-test1/articles/article-test1');
-
     $this->assertRaw('Article test1', t('Article created.'));
 
     // test my communities view
@@ -95,6 +93,11 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
     $this->assertResponse(200);
     //$this->verbose(print_r($this->editor_user, TRUE));
     $this->assertRaw($this->editor_user->name, 'User added to the group.');
+    
+    // give a og role (community _manager) to this user
+    og_role_grant('node', $node1->nid, $this->editor_user->uid, 4);
+    $this->drupalGet('group/node/'.$node1->nid.'/admin/people');
+    $this->assertNoUniqueText("community_manager", 'New user is a community manager.');
 
     // test membership request
     $this->drupalLogin($this->contributor_user);
@@ -107,7 +110,6 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
     $this->drupalPost(NULL, $form_array, t('Join'));
     $this->assertRaw('Your membership to this group is pending', 'Membership in pending state.');
   }
-
 
 
   /**
