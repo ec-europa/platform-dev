@@ -79,7 +79,7 @@ function multisite_translations_form_alter(&$form, &$form_state, $form_id) {
       case 'tmgmt_node_ui_node_form':
         $node = node_load(arg(1));
         // hide request translation on node translation (display only on source node)
-        if($node->tnid != $node->nid) {
+        if($node->tnid != $node->nid && $node->tnid != 0) {
           foreach($form['languages']['#options'] as $id => $option) {
             $form['languages'][$id] = array('#disabled' => TRUE, '#type' => 'checkbox');
           }
