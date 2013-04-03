@@ -255,7 +255,7 @@ projects[entityreference_prepopulate][version] = "1.2"
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "tar.gz"
-libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.2/ckeditor_3.6.5.tar.gz"
+libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.5/ckeditor_3.6.5.tar.gz"
 libraries[ckeditor][download][sha1] = "7e10cb67600e73ff066168e89049d9959924b26b"
 libraries[ckeditor][directory_name] = "ckeditor"
 
