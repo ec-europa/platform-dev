@@ -252,6 +252,8 @@ projects[entityreference_prepopulate][subdir] = "contributed"
 projects[entityreference_prepopulate][version] = "1.2"
 
 ;libraries
+
+;ckeditor 3.6.5
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "tar.gz"
@@ -260,7 +262,7 @@ libraries[ckeditor][download][sha1] = "7e10cb67600e73ff066168e89049d9959924b26b"
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ;tcpdf 5.9.172
-libraries[tcpdf][download][type] = "git"
-libraries[tcpdf][download][url] = "http://git.code.sf.net/p/tcpdf/code"
-libraries[tcpdf][download][revision] = "56af758c98f19d7b8a92f9aeff16998d4d23444c"
-libraries[tcpdf][directory_name] = "tcpdf"
+;libraries[tcpdf][download][type] = "git"
+;libraries[tcpdf][download][url] = "http://git.code.sf.net/p/tcpdf/code"
+;libraries[tcpdf][download][revision] = "56af758c98f19d7b8a92f9aeff16998d4d23444c"
+;libraries[tcpdf][directory_name] = "tcpdf"
