@@ -184,6 +184,12 @@ drush vset apachesolr_attachments_java "${apachesolr_attachments_java}"
 mkdir "${working_dir}/sites/default/files/private_files"
 chmod -R 777 "${working_dir}/sites/default/files"
 
+if [ -d "${webroot}/${site_name}" ] ; then
+	__echo -n "Removing the folder $webroot/${site_name}..."
+	rm -rf "${webroot}/${site_name}";
+	__echo done
+fi
+
 #remove links from the linkchecker scanning process
 drush sqlq "delete FROM linkchecker_link"
 drush sqlq "delete FROM linkchecker_node"
