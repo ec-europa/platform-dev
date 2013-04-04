@@ -31,7 +31,9 @@ function language_url_split_suffix($path, $languages) {
   foreach ($languages as $language) {
     if (!empty($language->prefix) && $language->prefix == $suffix) {
       // Rebuild $path with the language removed.
-      return array($language, implode($delimiter, $args));
+      $path = implode($delimiter, $args);
+      $path = ($path == 'index')?'': $path; // handle the path homepage
+      return array($language, $path);
     }
   }
   return array(FALSE, $path);

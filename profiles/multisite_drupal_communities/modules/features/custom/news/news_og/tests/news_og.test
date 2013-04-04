@@ -17,7 +17,7 @@ class news_ogWebTestCase extends DrupalWebTestCase {
   public static function getInfo() {
     return array(
         'name' => 'news_og',
-        'description' => 'Test the communities feature.',
+        'description' => 'Test the news_og feature.',
         'group' => 'Multisite - Communities',
     );
   }

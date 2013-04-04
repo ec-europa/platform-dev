@@ -80,13 +80,12 @@ function multisite_drupal_language_negociation_url_custom_alter(&$path, &$option
   if (isset($options['language'])) {
     if (!empty($options['language']->prefix)) {
       //$options['prefix'] = $options['language']->prefix . '/';
-      $suffix = variable_get('language_suffix_delimiter','_');
-      if ($path == '<front>') {
-        $fp = variable_get('site_frontpage', 'node');
-        $path = $fp.$suffix.$options['language']->prefix;
+      $delimiter = variable_get('language_suffix_delimiter','_');
+      if ($path == '<front>' || $path == '') { // handle the homepage url
+        $path = ($options['language']->prefix == 'en')?'':'index'.$delimeter.$options['language']->prefix; // no path and suffix for the home page in english
       }
       else
-        $path .= $suffix.$options['language']->prefix;
+        $path .= $delimiter.$options['language']->prefix;
     }
   }
 
