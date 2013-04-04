@@ -70,12 +70,17 @@ foreach($languages[1] as $lang) {
   // check if the multisite language negotiation with suffix url is enabled
   $language_negociation = variable_get('language_negotiation_language');
   if(isset($language_negociation['locale-url-suffix'])) {
-    $suffix = variable_get('language_suffix_delimiter','_');
+    $delimiter = variable_get('language_suffix_delimiter','_');
     $alias = drupal_get_path_alias($path, $lang->prefix);
-    if($alias != $path)
-      $path = $alias.$suffix.$lang->prefix;
-    else
-      $path = drupal_get_path_alias(isset($translations[$language_default->language])?$translations[$language_default->language]:$path, $language_default->language).$suffix.$language_default->language;
+    
+    if($alias == variable_get('site_frontpage','node')) // homepage special case
+      $path = ($lang->prefix == 'en')?'':'index'.$delimiter.$lang->prefix;
+    else  {
+      if($alias != $path)
+        $path = $alias.$delimiter.$lang->prefix;
+      else
+        $path = drupal_get_path_alias(isset($translations[$language_default->language])?$translations[$language_default->language]:$path, $language_default->language).$delimiter.$language_default->language;
+    }
   }
   else {
     $path = $lang->prefix."/".drupal_get_path_alias($path, $lang->prefix);
