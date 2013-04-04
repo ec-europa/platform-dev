@@ -56,39 +56,40 @@ function multisite_drupal_language_negociation_form($form, &$form_state) {
  */
 function multisite_drupal_language_negociation_url_custom_alter(&$path, &$options, $original_path) {
   static $drupal_static_fast;
-  if (!isset($drupal_static_fast)) {
-    $drupal_static_fast['languages'] = &drupal_static(__FUNCTION__);
-  }
-  $languages = &$drupal_static_fast['languages'];
+  if (language_negotiation_get_any(LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX)) {  // only if URL suffix provider is enabled
+    if (!isset($drupal_static_fast)) {
+      $drupal_static_fast['languages'] = &drupal_static(__FUNCTION__);
+    }
+    $languages = &$drupal_static_fast['languages'];
 
-  if (!isset($languages)) {
-    $languages = language_list('enabled');
-    $languages = array_flip(array_keys($languages[1]));
-  }
+    if (!isset($languages)) {
+      $languages = language_list('enabled');
+      $languages = array_flip(array_keys($languages[1]));
+    }
 
-  // Language can be passed as an option, or we go for current URL language.
-  if (!isset($options['language'])) {
-    global $language_url;
-    $options['language'] = $language_url;
-  }
-  // We allow only enabled languages here.
-  elseif (!isset($languages[$options['language']->language])) {
-    unset($options['language']);
-    return;
-  }
+    // Language can be passed as an option, or we go for current URL language.
+    if (!isset($options['language'])) {
+      global $language_url;
+      $options['language'] = $language_url;
+    }
+    // We allow only enabled languages here.
+    elseif (!isset($languages[$options['language']->language])) {
+      unset($options['language']);
+      return;
+    }
 
-  if (isset($options['language'])) {
-    if (!empty($options['language']->prefix)) {
-      //$options['prefix'] = $options['language']->prefix . '/';
-      $delimiter = variable_get('language_suffix_delimiter','_');
-      if ($path == '<front>' || $path == '') { // handle the homepage url
-        $path = ($options['language']->prefix == 'en')?'':'index'.$delimeter.$options['language']->prefix; // no path and suffix for the home page in english
+    if (isset($options['language'])) {
+      if (!empty($options['language']->prefix)) {
+        //$options['prefix'] = $options['language']->prefix . '/';
+        $delimiter = variable_get('language_suffix_delimiter','_');
+        if ($path == '<front>' || $path == '') { // handle the homepage url
+          $path = ($options['language']->prefix == 'en')?'':'index'.$delimiter.$options['language']->prefix; // no path and suffix for the home page in english
+        }
+        else
+          $path .= $delimiter.$options['language']->prefix;
       }
-      else
-        $path .= $delimiter.$options['language']->prefix;
     }
   }
-
 }
  
 /*
