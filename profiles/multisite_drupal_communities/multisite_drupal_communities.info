@@ -134,7 +134,7 @@ dependencies[] = communities
 files[] = multisite_drupal_communities.profile
 
 ;Information added by drupal.org packaging script on 2011-12-05
-version = "7.21"
+version = "7.22"
 project = "drupal"
 datestamp = "1323125439"
 
