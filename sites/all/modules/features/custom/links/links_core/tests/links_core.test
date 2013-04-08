@@ -10,6 +10,8 @@
  * Defines a base class for testing the "multisite_translations" module.
  */
 class Multisite_links_coreQAWebTestCase extends DrupalWebTestCase {
+   protected $privileged_user;
+   protected $user_contributor;
 
   public static function getInfo() {
     return array(
@@ -17,6 +19,20 @@ class Multisite_links_coreQAWebTestCase extends DrupalWebTestCase {
       'description' => 'Test the links_core features to ensure it follows QA requirements.',
       'group' => 'Multisite QA',
     );
+  }
+
+  public function setUp() {
+    parent::setUp('webform', 'features', 'cce_basic_config', 'link', 'views', 'strongarm', 'multisite_drupal_toolbox');
+    //module_enable('links_core', $enable_dependencies = TRUE);
+
+    $this->privileged_user = $this->drupalCreateUserWithRole("administrator");
+    $this->user_contributor = $this->drupalCreateUserWithRole("contributor");
+
+  }
+
+  function testLinksCore() {
+    module_enable(array("links_core"));
+    $this->assertTrue(module_exists('links_core'), t('links_core feature enabled.'));
   }
 
   /**
@@ -88,6 +104,29 @@ class Multisite_links_coreQAWebTestCase extends DrupalWebTestCase {
     $this->assertTrue(strpos($data, $module.'_uninstall'), 'The module contains a hook_uninstall');
     $this->assertTrue(strpos($data, $module.'_enable'), 'The module contains a hook_enable');
     $this->assertTrue(strpos($data, $module.'_disable'), 'The module contains a hook_disable');
+  }
+
+    /**
+   * Creates a user with the give role.
+   * */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
   }
 
 
