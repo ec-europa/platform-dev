@@ -1,4 +1,9 @@
 <?php
+/**
+ * @file
+ * multisite_drupal_language negociation.inc
+ */
+
 define('LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX', 'locale-url-suffix');
 /**
   * callback functions for the multisite language negotiation providers, module : multisite_drupal_language_negociation
@@ -20,7 +25,7 @@ function multisite_language_provider_callback($languages) {
 }
 
 /*
- * extract the suffix from the path 
+ * extract the suffix from the path
  */
 function language_url_split_suffix($path, $languages) {
   $delimiter = variable_get('language_suffix_delimiter','_');
@@ -66,7 +71,7 @@ function multisite_url_rewrite_callback(&$path, &$options) {
     unset($options['language']);
     return;
   }
- 
+
   if (isset($options['language'])) {
     if (!empty($options['language']->prefix)) {
       //$options['prefix'] = $options['language']->prefix . '/';
@@ -77,7 +82,7 @@ function multisite_url_rewrite_callback(&$path, &$options) {
       }
       else
         $path .= $suffix.$options['language']->prefix;
-      
+
     }
   }
 }
