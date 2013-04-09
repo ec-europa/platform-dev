@@ -254,8 +254,8 @@ function cce_basic_config_install() {
   // this process must be temporary
   db_delete('file_display')->execute();
   $exports = cce_basic_config_file_default_displays();
-  foreach($exports as $id_export => $settings_export) {
-    if(substr($id_export, 0, 8) == 'document') {
+  foreach ($exports as $id_export => $settings_export) {
+    if (substr($id_export, 0, 8) == 'document') {
       db_insert('file_display')
         ->fields(array(
           'name' => $id_export,
@@ -275,8 +275,8 @@ function cce_basic_config_uninstall() {
   // manually remove config for file document display
   // this process must be temporary
   $exports = cce_basic_config_file_default_displays();
-  foreach($exports as $id_export => $settings_export) {
-    if(substr($id_export, 0, 8) == 'document') {
+  foreach ($exports as $id_export => $settings_export) {
+    if (substr($id_export, 0, 8) == 'document') {
       db_delete('file_display')
         ->condition('name', $id_export)
         ->execute();
@@ -632,7 +632,7 @@ function cce_basic_config_update_7140() {
   // this process must be temporary
   db_delete('file_display')->execute();
   $exports = cce_basic_config_file_default_displays();
-  foreach($exports as $id_export => $settings_export) {
+  foreach ($exports as $id_export => $settings_export) {
     db_insert('file_display')
       ->fields(array(
         'name' => $id_export,
@@ -670,11 +670,11 @@ function cce_basic_config_update_7150() {
   db_drop_table('password_policy_history');
   db_drop_table('password_policy_role');
 
-  if(!db_table_exists('password_policy'))
+  if (!db_table_exists('password_policy'))
     db_create_table('password_policy', $schema['password_policy']);
-  if(!db_table_exists('password_policy_history'))
+  if (!db_table_exists('password_policy_history'))
     db_create_table('password_policy_history', $schema['password_policy_history']);
-  if(!db_table_exists('password_policy_notice_history'))
+  if (!db_table_exists('password_policy_notice_history'))
     db_create_table('password_policy_notice_history', $schema['password_policy_notice_history']);
 
   db_insert('password_policy')

@@ -66,11 +66,11 @@ function output_taxonomy_nested_tree($tree, $path) {
         $output = '<ul class="taxonomy-tree">';
         foreach ($tree as $term) {
 
-            $output .= '<li id="term_' . $term->tid.'">';
-            $output .= l($term->name, $path.'/' . $term->tid, array('attributes' => array('class' => array())));              
+            $output .= '<li id="term_' . $term->tid . '">';
+            $output .= l($term->name, $path . '/' . $term->tid, array('attributes' => array('class' => array())));              
 
             if (isset($term->children)) {
-                $output .= output_taxonomy_nested_tree($term->children,$path);
+                $output .= output_taxonomy_nested_tree($term->children, $path);
             }
             $output .= '</li>';
         }
@@ -104,8 +104,8 @@ function recurse_tree($parent, $tree) {
 
 function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
   $displays = array();
-  foreach (variable_get('taxonomy_browser_'.$view->name, array()) as $display_id => $display) {
-    if($display)
+  foreach (variable_get('taxonomy_browser_' . $view->name, array()) as $display_id => $display) {
+    if ($display)
       $displays[] = $display_id;  
   }
 
@@ -134,12 +134,12 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
     }
     
     $output1 = '<div id="tb_wrapper">';
-    $output1 .= '<div id="tb_breadcrumb">'.$vocabulary->name . $breadcrumb . '</div>';
+    $output1 .= '<div id="tb_breadcrumb">' . $vocabulary->name . $breadcrumb . '</div>';
     $output1 .= '<div id="tb_browser"><h1>' . $vocabulary->name . '</h1>';
     $output1 .= taxonomy_create_tree($vid, $view_path, FALSE, $selected);
     $output1 .= '</div>';
   
-    $output1 .= '<div id="tb_view">' . $output.'</div></div>';    
+    $output1 .= '<div id="tb_view">' . $output . '</div></div>';    
 
     $output = $output1;
   }

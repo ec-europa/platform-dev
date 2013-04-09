@@ -62,7 +62,7 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
 
 function cce_basic_config_form_media_format_form_alter(&$form) {
   // when putting a media in content with wysiwyg we just allow the default view mode for media document
-  if($form['#media']->type == 'document') {
+  if ($form['#media']->type == 'document') {
     unset($form['options']['format']['#options']['teaser']);
     unset($form['options']['format']['#options']['preview']);
     unset($form['#formats']['preview']);
@@ -165,7 +165,7 @@ function cce_basic_config_preprocess_field(&$variables) {
 
 function cce_basic_config_field_info_alter(&$info) {
   $vid = &$info['video'];
-  if(isset($vid)) {
+  if (isset($vid)) {
     $vid['settings']['thumbnail_format'] = 'png';
   }
 }

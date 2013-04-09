@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Taxonomy browser admin.inc file
+ */
 function form_taxonomy_browser_settings($form, &$form_state) {
   $vocabularies = taxonomy_get_vocabularies();
   foreach ($vocabularies as $vid => $vocabulary) {
@@ -62,7 +66,7 @@ function _taxonomy_browser_get_display($key = '') {
   $result = $query->execute();
     
   $items_view_display = array();
-  while($record = $result->fetchAssoc()) {
+  while ($record = $result->fetchAssoc()) {
     $items_view_display[$record['id']] = $record['display_title'];
   }
   return $items_view_display;
