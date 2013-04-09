@@ -6,16 +6,113 @@
  * ECWeb MULTISITE QA
  */
 
+class surveyStandard extends DrupalWebTestCase {
+  protected $privileged_user;
+  protected $contributor_user;
+  protected $profile = 'multisite_drupal_communities';
+    public static function getInfo() {
+    return array(
+        'name' => 'survey_standard tests',
+        'description' => 'Test the survey_standard features functionality.',
+        'group' => 'Multisite Standard',
+    );
+  }
+
+
+  public function setUp() {
+    parent::setUp(array('survey_core', 'survey_standard'));
+    // Login a user that has access to the content sync server admin settings
+    $this->privileged_user = $this->drupalCreateUserWithRole("administrator");
+    $this->contributor_user = $this->drupalCreateUserWithRole("contributor");
+
+    $this->drupalLogin($this->privileged_user);
+   }
+
+  function testSurveyStandard() {
+    $this->assertTrue(module_exists('survey_standard'), t('survey_standard feature enabled.'));
+    $this->drupalGet('survey');
+    $this->drupalLogout();
+    $this->drupalLogin($this->contributor_user);
+    $settings = array(
+      'type' => 'webform',
+      'title' => 'Survey Title',
+      'body' => array(LANGUAGE_NONE => array(array('Link body'))),
+      'status' => 1,
+      'revisions' => NULL,
+      'taxonomy' => NULL,
+    );
+    $node = $this->drupalCreateNode($settings);
+
+    $this->drupalGet('survey');
+
+    $this->assertRaw('node/add/webform', t('Link to create survey available'));
+    $this->assertRaw(t('Create a new survey'), t('Button to create a new survey is available'));
+    $this->clickLink(t('Create a new survey'));
+
+
+    $this->assertResponse(200);
+    $this->drupalLogout();
+    $this->drupalLogin($this->privileged_user);
+
+    $this->verbose('Survey Node created: ' . '</pre>' . print_r($node, TRUE) . '</pre>');
+    $this->verbose('Survey Node created: ' . '</pre>' . print_r($settings['title'], TRUE) . '</pre>');
+    $this->drupalGet("node/{$node->nid}/webform");
+    $this->assertResponse(200);
+
+    $this->assertRaw('page-node-webform', 'Webform is accesible to contributor user.');
+    $this->assertText(t("@title", array('@title' => $settings['title'])), 'Title is present and accesible to contributor user.');
+    $this->assertRaw(t('Add'), 'Add more fields button is present.');
+
+    //Access Link Page was displayed
+    $this->drupalGet('survey/survey-title');
+    $this->assertResponse(200);
+    //Chech the presence of h1
+    $elements = $this->xpath("//h1");
+    $this->assertTrue(isset($elements[0]), t('The survey page contains a h1 title'));
+
+    $this->assertRaw(t('Results'), t('Survey results are available to group user.'));
+    $this->assertRaw(t('Webform'), t('Survey edit webform is available to group user.'));
+    $this->drupalLogout();
+
+  }
+
+    /**
+   * Creates a user with the give role.
+   * */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
+  }
+
+}
+
+
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
 class Multisite_survey_standardQAWebTestCase extends DrupalWebTestCase {
 
+
   public static function getInfo() {
     return array(
-      'name' => 'survey_standard QA tests',
-      'description' => 'Test the survey_standard features to ensure it follows QA requirements.',
-      'group' => 'Multisite QA',
+        'name' => 'survey_standard QA tests',
+        'description' => 'Test the survey_standard BASIC QA requirements.',
+        'group' => 'Multisite QA',
     );
   }
 
@@ -24,12 +121,12 @@ class Multisite_survey_standardQAWebTestCase extends DrupalWebTestCase {
    * TestFile <featurename>.info
    */
   function testInfoFile() {
-    $module = basename(__FILE__ , ".test");
+    $module = basename(__FILE__, ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.info';
     $info = drupal_parse_info_file($path);
 
     // Add name information. Ex: name=Newsletters.
-    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module );
+    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module);
 
     // Add description information.
     // Ex: description = Publish and send newsletters to lists of subscribers.
@@ -64,7 +161,7 @@ class Multisite_survey_standardQAWebTestCase extends DrupalWebTestCase {
     if (array_key_exists('dependencies', $info)) {
       // dependencies[] = "menu"
 
-      $this->assertFalse(in_array('menu', $info['dependencies']),'There is no reference to the menu dependency.');
+      $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
 
       // Remove taxonomy dependencies
       // dependencies[] = "taxonomy"
@@ -72,7 +169,6 @@ class Multisite_survey_standardQAWebTestCase extends DrupalWebTestCase {
     }
     // Check other dependencies (modules + features) to be sure they are needed
     // FIXME: manual check?
-
     // Remove tags taxonomy:
     // features[taxonomy][] = "tags"
     if (array_key_exists('features', $info) && array_key_exists('taxonomy', $info['features'])) {
@@ -80,15 +176,14 @@ class Multisite_survey_standardQAWebTestCase extends DrupalWebTestCase {
     }
   }
 
- function testInstallFile() {
-    $module = basename(__FILE__ , ".test");
+  function testInstallFile() {
+    $module = basename(__FILE__, ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.install';
     $data = file_get_contents($path);
-    $this->assertTrue(strpos($data, $module.'_install'), 'The module contains a hook_install');
-    $this->assertTrue(strpos($data, $module.'_uninstall'), 'The module contains a hook_uninstall');
-    $this->assertTrue(strpos($data, $module.'_enable'), 'The module contains a hook_enable');
-    $this->assertTrue(strpos($data, $module.'_disable'), 'The module contains a hook_disable');
+    $this->assertTrue(strpos($data, $module . '_install'), 'The module contains a hook_install');
+    $this->assertTrue(strpos($data, $module . '_uninstall'), 'The module contains a hook_uninstall');
+    $this->assertTrue(strpos($data, $module . '_enable'), 'The module contains a hook_enable');
+    $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
   }
-
 
 }
