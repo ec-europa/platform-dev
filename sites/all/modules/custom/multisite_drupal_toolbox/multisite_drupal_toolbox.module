@@ -152,7 +152,7 @@ function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
  */
 function multisite_drupal_toolbox_media_token_to_markup_alter(&$element, &$tag_info, &$settings) {
   if ($element['content']['file']['#theme'] == 'image_style') {
-    $element['content']['#prefix'] = '<div><a href="'.file_create_url($element['content']['file']['#file']->uri).'" class="fancybox">';
+    $element['content']['#prefix'] = '<div><a href="' . file_create_url($element['content']['file']['#file']->uri) . '" class="fancybox">';
     $element['content']['#suffix'] = '<a/></div>';
   }
 }
@@ -174,7 +174,7 @@ function multisite_drupal_toolbox_node_view($node, $view_mode, $langcode) {
  * Implements hook_url_inbound_alter(). Santizie URL inputs.
  */
 function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $path_language) {
-  if(!($path == '<front>')) $path = check_url($path);
+  if (!($path == '<front>')) $path = check_url($path);
 }
 
 /**
@@ -219,19 +219,19 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
       case "workbench_moderation_admin_states_form": // prevent administrator from changing existing workflow states
         $blocked_states = array('draft', 'validated', 'published', 'needs_review', 'archived');
         $states = $form['states'];
-        foreach($states as $state_id => $state) {
-          if(isset($state['delete']) && in_array($state_id, $blocked_states))
+        foreach ($states as $state_id => $state) {
+          if (isset($state['delete']) && in_array($state_id, $blocked_states))
             $form['states'][$state_id]['delete']['#disabled'] = TRUE;
         }
         break;
 
       case "workbench_moderation_admin_transitions_form": // prevent administrator from changing existing workflow transitions
-        $blocked_transitions = array('published_archived','draft_needs_review','needs_review_published','needs_review_draft','needs_review_validated','validated_published');
+        $blocked_transitions = array('published_archived', 'draft_needs_review', 'needs_review_published', 'needs_review_draft', 'needs_review_validated', 'validated_published');
         $transitions = $form['transitions'];
-        foreach($transitions as $transition_id => $transition) {
-          if(isset($transition['delete'])) {
+        foreach ($transitions as $transition_id => $transition) {
+          if (isset($transition['delete'])) {
             $transition_name = $transition['transition']['#value']->from_name.'_'.$transition['transition']['#value']->to_name;
-            if(in_array($transition_name, $blocked_transitions))
+            if (in_array($transition_name, $blocked_transitions))
               $form['transitions'][$transition_id]['delete']['#disabled'] = TRUE;
           }
         }
@@ -263,13 +263,13 @@ function multisite_drupal_toolbox_node_presave($node) {
   $nodes_bypass = explode("\n", variable_get("security_bypassed_nodes", ""));
   $tags_allowed = explode("\n", variable_get("security_allowed_tags", ""));
 
-  foreach($tags_allowed as $id => $tag) {
+  foreach ($tags_allowed as $id => $tag) {
     $tags_allowed[$id] = trim($tag);
   }
 
   // check if the node must be bypass
-  if(isset($node->nid) && !in_array($node->nid, $nodes_bypass)) {
-    if(isset($node->body['und'][0]))
+  if (isset($node->nid) && !in_array($node->nid, $nodes_bypass)) {
+    if (isset($node->body['und'][0]))
     $node->body['und'][0]['value'] = filter_xss($node->body['und'][0]['value'], $tags_allowed); // use the drupal filter_xss function to filter xss attacks
   }
 }
@@ -619,7 +619,7 @@ function get_rid($role_name) {
 function multisite_drupal_toolbox_is_admin() {
   global $user;
 
-  if($user->uid == 1)
+  if ($user->uid == 1)
     return TRUE;
   return FALSE;
 }
@@ -1010,7 +1010,7 @@ function multisite_drupal_toolbox_tokens($type, $tokens, array $data = array(), 
       switch ($name) {
         case 'title-source-translation':
           $language_default = language_default();
-          if($node->language == LANGUAGE_NONE || $node->language == $language_default->language) {
+          if ($node->language == LANGUAGE_NONE || $node->language == $language_default->language) {
             $replacements[$original] = $node->title;
           }
           else {

@@ -1,4 +1,9 @@
 <?php
+/**
+ * @file
+ * Displays the default message for updates
+ */
+ 
 function get_message() {
   $message = '
 <p style="margin-left:144.0pt;"><em>Dear webmaster,</em></p>

@@ -29,7 +29,7 @@ class EcasAdminSettingsTest extends DrupalWebTestCase {
     $this->web_user = $this->drupalCreateUser(array(
       'create article content',
       'create page content'
-   	));
+    ));
 
     $this->admin_user = $this->drupalCreateUser(array(
       'bypass node access',
@@ -44,14 +44,14 @@ class EcasAdminSettingsTest extends DrupalWebTestCase {
    */
   function testMenuAccess() {
     $this->drupalLogin($this->web_user);
-  	$this->drupalGet('admin/config/ecas');
-  	$this->assertNoResponse(200, 'User without "administer ecas" permission does not have access to the ECAS administration pages');
+    $this->drupalGet('admin/config/ecas');
+    $this->assertNoResponse(200, 'User without "administer ecas" permission does not have access to the ECAS administration pages');
 
-  	$this->drupalGet('<front>');
+    $this->drupalGet('<front>');
 
     $this->drupalLogin($this->admin_user);
-  	$this->drupalGet('admin/config/ecas');
-  	$this->assertResponse(200, 'User with "administer ecas" permission has access to the ECAS administration pages');
+    $this->drupalGet('admin/config/ecas');
+    $this->assertResponse(200, 'User with "administer ecas" permission has access to the ECAS administration pages');
   }
 
   /**
@@ -164,12 +164,12 @@ class EcasFunctionalTest extends DrupalWebTestCase {
     $this->web_user = $this->drupalCreateUser(array(
       'create article content',
       'create page content'
-   	));
+    ));
     $this->ecas_user = $this->drupalCreateUser(array(
       'create article content',
       'create page content'
     ));
-	$cas_authmap = db_insert('authmap')
+    $cas_authmap = db_insert('authmap')
         ->fields(array(
           'authname' => 'testuser',
           'uid' => $this->ecas_user->uid,
@@ -190,19 +190,19 @@ class EcasFunctionalTest extends DrupalWebTestCase {
    */
   function testEcasBlock() {
     $this->drupalLogin($this->admin_user);
-  	$this->drupalGet('admin/structure/block');
+    $this->drupalGet('admin/structure/block');
+    
+    $this->assertText(t('ECAS User login'), 'The ECAS login block was found.');
 
-  	$this->assertText(t('ECAS User login'), 'The ECAS login block was found.');
+    $edit = array(
+      'blocks[ecas_ecas][region]' => 'sidebar_left',
+      'blocks[user_login][region]' => '-1',
+    );
+    $this->drupalPost(NULL, $edit, 'Save blocks');
 
-  	$edit = array(
-  	  'blocks[ecas_ecas][region]' => 'sidebar_left',
-  	  'blocks[user_login][region]' => '-1',
-  	);
-  	$this->drupalPost(NULL, $edit, 'Save blocks');
-
-  	$this->drupalGet('<front>');
-  	$this->assertText('User Login', 'Authenticated admin user: The ECAS login block is available in the sidebar.');
-  	$this->assertLinkByHref('ecaslogout', 0, 'Authenticated admin user: The ECAS block displays the ecas logout link.');
+    $this->drupalGet('<front>');
+    $this->assertText('User Login', 'Authenticated admin user: The ECAS login block is available in the sidebar.');
+    $this->assertLinkByHref('ecaslogout', 0, 'Authenticated admin user: The ECAS block displays the ecas logout link.');
 
   	$this->drupalLogout();
   	$this->assertText('User Login', 'Anonymous user: The ECAS login block is available in the sidebar.');
