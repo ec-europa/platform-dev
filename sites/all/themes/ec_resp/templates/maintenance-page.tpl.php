@@ -35,7 +35,7 @@
           <?php if ($site_name): ?>
             <div id="site-name"<?php if ($hide_site_name) : print ' class="element-invisible"'; endif; ?>>
               <strong>
-                <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print $site_name; ?></span></a>
+                <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print filter_xss($site_name); ?></span></a>
               </strong>
             </div>
           <?php endif; ?>
@@ -51,11 +51,11 @@
     <div id="main-wrapper"><div id="main" class="clearfix">
       <div id="content" class="column"><div class="section">
         <a id="main-content"></a>
-        <?php if ($title): ?><h1 class="title" id="page-title"><?php print $title; ?></h1><?php endif; ?>
+        <?php if ($title): ?><h1 class="title" id="page-title"><?php print filter_xss($title); ?></h1><?php endif; ?>
         <?php print $content; ?>
         <?php if ($messages): ?>
           <div id="messages"><div class="section clearfix">
-            <?php print $messages; ?>
+            <?php print filter_xss_admin($messages); ?>
           </div></div> <!-- /.section, /#messages -->
         <?php endif; ?>
 		<div style="font-size: small; float:right;"><br />Allowed users (ie: Administrators) can log in <a href="<?php print base_path(). $language->language.'/'; ?>user/login"> here </a>.
