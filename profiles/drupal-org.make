@@ -268,7 +268,7 @@ libraries[ckeditor][directory_name] = "ckeditor"
 ;libraries[tcpdf][directory_name] = "tcpdf"
 
 libraries[tcpdf][download][type] = "get"
-libraries[tcpdf][download][url] = "http://sourceforge.net/projects/tcpdf/files/latest/download"
+libraries[tcpdf][download][url] = "http://sourceforge.net/projects/tcpdf/files/tcpdf_6_0_010.zip/download"
 libraries[tcpdf][destination] = "libraries"
 libraries[tcpdf][directory_name] = "tcpdf"
 
