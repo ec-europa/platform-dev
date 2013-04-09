@@ -1,18 +1,21 @@
 <?php
-
+/**
+ * @file
+ * multisite_drupal_language negociation.install file
+ */
 
 /*
- * hook_enable 
+ * hook_enable
  */
 
 function multisite_drupal_language_negociation_enable() {
   //variable_set("multisite_drupal_language_negocation", 1);
   variable_set("language_suffix_delimiter", "_");
-  
+
 }
 
 /*
- * hook_disable 
+ * hook_disable
  */
 
 function multisite_drupal_language_negociation_disable() {

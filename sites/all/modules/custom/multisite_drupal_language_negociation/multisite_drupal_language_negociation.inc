@@ -28,7 +28,7 @@ function multisite_language_provider_callback($languages) {
  * extract the suffix from the path
  */
 function language_url_split_suffix($path, $languages) {
-  $delimiter = variable_get('language_suffix_delimiter','_');
+  $delimiter = variable_get('language_suffix_delimiter', '_');
   $args = empty($path) ? array() : explode($delimiter, $path);
   $suffix = array_pop($args);
 

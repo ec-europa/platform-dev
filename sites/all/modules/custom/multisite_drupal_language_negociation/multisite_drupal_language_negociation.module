@@ -48,7 +48,7 @@ function multisite_drupal_language_negociation_form($form, &$form_state) {
     '#type' => 'textfield',
     '#maxlength' => 3,
     '#title' => t('language suffix delimiter'),
-    '#default_value' => variable_get('language_suffix_delimiter','_'),
+    '#default_value' => variable_get('language_suffix_delimiter', '_'),
     '#description' => 'Ex : character like an underscore or hyphen..',
   );
   return system_settings_form($form);
@@ -86,12 +86,12 @@ function multisite_drupal_language_negociation_url_custom_alter(&$path, &$option
     if (isset($options['language'])) {
       if (!empty($options['language']->prefix)) {
         //$options['prefix'] = $options['language']->prefix . '/';
-        $delimiter = variable_get('language_suffix_delimiter','_');
+        $delimiter = variable_get('language_suffix_delimiter', '_');
         if ($path == '<front>' || $path == '') { // handle the homepage url
-          $path = ($options['language']->prefix == 'en')?'':'index'.$delimiter.$options['language']->prefix; // no path and suffix for the home page in english
+          $path = ($options['language']->prefix == 'en')?'':'index' . $delimiter.$options['language']->prefix; // no path and suffix for the home page in english
         }
         else
-          $path .= $delimiter.$options['language']->prefix;
+          $path .= $delimiter . $options['language']->prefix;
       }
     }
   }
@@ -104,7 +104,7 @@ function multisite_drupal_language_negociation_language_types_info_alter(&$langu
   $defined_providers = language_negotiation_info();
   if(isset($defined_providers[LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX])) {
     // put the locale-url-suffix as priority provider for language type url
-    array_unshift($language_types[LANGUAGE_TYPE_URL]['fixed'] ,'locale-url-suffix');
+    array_unshift($language_types[LANGUAGE_TYPE_URL]['fixed'], 'locale-url-suffix');
   }
 }
 
