@@ -1,0 +1,81 @@
+body {
+  background-color: #fff;
+  background-image: none;
+}
+.navbar-inner,
+#layout-footer {
+  background-color: #E2F1FF;
+  background-image: -moz-linear-gradient(top,#EAF5FF,#D6EBFF);
+  background-image: -webkit-gradient(linear,0 0,0 100%,from(#EAF5FF),to(#D6EBFF));
+  background-image: -webkit-linear-gradient(top,#EAF5FF,#D6EBFF);
+  background-image: -o-linear-gradient(top,#EAF5FF,#D6EBFF);
+  background-image: linear-gradient(to bottom,#EAF5FF,#D6EBFF);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffEAF5FF',endColorstr='#ffD6EBFF',GradientType=0);
+  border-bottom: 1px solid #98CEFF;
+}
+.navbar .nav > li > a {
+  border-radius: 5px;
+  border: none;
+  padding-top: 11px;
+  padding-bottom: 11px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-right: 2px;
+  color: #0088CC;
+  text-shadow: none;
+}
+.navbar .nav > li > a:hover,
+.navbar .nav > li > a:focus {
+  background-color: #007FCF;
+}
+.navbar .nav > li > a.active {
+  background-color: #00609C;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff00609C',endColorstr='#ff00609C',GradientType=0);
+  color: #FFFFFF;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+}
+.fieldset,
+fieldset {
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08) inset;
+  border: 1px solid #CCCCCC;
+}
+.card {
+  box-shadow: none;
+}
+.subnav {
+  background-color: #F2F2F2;
+  background-image: -moz-linear-gradient(top,#F5F5F5,#EEEEEE);
+  background-image: -webkit-gradient(linear,0 0,0 100%,from(#F5F5F5),to(#EEEEEE));
+  background-image: -webkit-linear-gradient(top,#F5F5F5,#EEEEEE);
+  background-image: -o-linear-gradient(top,#F5F5F5,#EEEEEE);
+  background-image: linear-gradient(to bottom,#F5F5F5,#EEEEEE);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffF5F5F5',endColorstr='#ffEEEEEE',GradientType=0);
+}
+.subnav .nav > li > a {
+  border-right-color: #DDDDDD;
+  border-left-color: #F5F5F5;
+  color: #0088CC;
+}
+.subnav .nav > li > a.active,
+.subnav .nav > li > a.active:hover,
+.subnav .nav > li > a.active:focus {
+  background-color: #E9E9E9;
+}
+h1 {
+  font-size: 180%;
+  line-height: 36px;
+}
+#layout-footer {
+  border-top: 1px solid #98CEFF;
+}
+.well {
+  background-color: #E2F1FF;
+  border-color: #98CEFF;
+}
+.well a {
+  color: #0088CC;
+}
