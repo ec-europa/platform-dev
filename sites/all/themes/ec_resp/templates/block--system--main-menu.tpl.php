@@ -75,7 +75,7 @@ $has_left_sidebar = variable_get('has_left_sidebar');
                 </a>
 
                 <a class="brand hidden-desktop" href="<?php print $base_url . '/'; ?>">
-                  <?php print variable_get('site_name', ''); ?>
+                  <?php print filter_xss(variable_get('site_name', '')); ?>
                 </a>
 
                 <div class="nav-collapse collapse">

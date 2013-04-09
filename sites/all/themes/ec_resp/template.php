@@ -58,7 +58,7 @@ function ec_resp_preprocess_html(&$variables) {
     $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
   } 
   else {
-    $variables['head_title'] = variable_get('site_name') . ' - ' . t('European Commission');
+    $variables['head_title'] = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
   }  
   
   // Add conditional stylesheets for IE
@@ -97,11 +97,11 @@ function ec_resp_process_page(&$variables) {
   $variables['hide_site_slogan'] = theme_get_setting('toggle_slogan') ? FALSE : TRUE;
   if ($variables['hide_site_name']) {
     // If toggle_name is FALSE, the site_name will be empty, so we rebuild it.
-    $variables['site_name'] = filter_xss_admin(variable_get('site_name', 'Drupal'));
+    $variables['site_name'] = filter_xss(variable_get('site_name', 'Drupal'));
   }
   if ($variables['hide_site_slogan']) {
     // If toggle_site_slogan is FALSE, the site_slogan will be empty, so we rebuild it.
-    $variables['site_slogan'] = filter_xss_admin(variable_get('site_slogan', ''));
+    $variables['site_slogan'] = filter_xss(variable_get('site_slogan', ''));
   }
   // Since the title and the shortcut link are both block level elements,
   // positioning them next to each other is much simpler with a wrapper div.
@@ -133,13 +133,13 @@ function ec_resp_page_alter($page) {
   
   $description = variable_get('site_slogan');
   if (empty($description)) {
-    $description = variable_get('site_name');
+    $description = filter_xss(variable_get('site_name'));
   }  
   if (!empty($node)) {
     $description = $node_title . ' - ' . $description;
   }
   
-  $title = variable_get('site_name') . ' - ' . t('European Commission');
+  $title = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
   if (!empty($node)) {
     $title = $node_title . ' - ' . $title;
   }  
@@ -188,7 +188,7 @@ function ec_resp_page_alter($page) {
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'reference',
-      'content' =>  variable_get('site_name')    
+      'content' =>  filter_xss(variable_get('site_name'))    
     )
   );
   drupal_add_html_head( $meta_reference, 'meta_reference' );    
@@ -274,7 +274,7 @@ function ec_resp_page_alter($page) {
     '#tag' => 'meta',
     '#attributes' => array(
       'property' => 'og:site_name',
-      'content' =>  variable_get('site_name')
+      'content' =>  filter_xss(variable_get('site_name'))
     )
   );
   drupal_add_html_head( $meta_og_site_name, 'meta_og_site_name' );
@@ -355,11 +355,11 @@ function ec_resp_process_maintenance_page(&$variables) {
   $variables['hide_site_slogan'] = theme_get_setting('toggle_slogan') ? FALSE : TRUE;
   if ($variables['hide_site_name']) {
     // If toggle_name is FALSE, the site_name will be empty, so we rebuild it.
-    $variables['site_name'] = filter_xss_admin(variable_get('site_name', 'Drupal'));
+    $variables['site_name'] = filter_xss(variable_get('site_name', 'Drupal'));
   }
   if ($variables['hide_site_slogan']) {
     // If toggle_site_slogan is FALSE, the site_slogan will be empty, so we rebuild it.
-    $variables['site_slogan'] = filter_xss_admin(variable_get('site_slogan', ''));
+    $variables['site_slogan'] = filter_xss(variable_get('site_slogan', ''));
   }
 }
 
