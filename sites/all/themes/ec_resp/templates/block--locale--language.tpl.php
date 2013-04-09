@@ -87,7 +87,7 @@ foreach($languages[1] as $lang) {
   }
     
   //add enabled languages
-  $li .= '<li><a href="'.base_path().$path.'" hreflang="'.$lang->language.'" lang="'.$lang->language.'" title="'.$lang->native.'">'.$lang->language.'</a></li>';
+  $li .= '<li><a href="'.base_path().filter_xss($path).'" hreflang="'.$lang->language.'" lang="'.$lang->language.'" title="'.$lang->native.'">'.$lang->language.'</a></li>';
 }
   ?>
   <ul class="reset-list language-selector" id="language-selector">
