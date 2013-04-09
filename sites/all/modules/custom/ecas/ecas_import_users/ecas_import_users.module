@@ -184,8 +184,8 @@ function ecas_import_user_ldap_user_form_validate($form, &$form_state) {
 
 /// clean the content of the given value
 function _ecas_import_users_clean_name_field($value) {
-  if(empty($value)) {
-    $value = 'everybody';} 
+  if (empty($value)) {
+    $value = 'everybody';}
   else {
     // replace every space or end of line by a comma
     $value = preg_replace('($|\s+)', ',', $value);
@@ -276,14 +276,14 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
               '(&' . $filters . '(|(employeeType=f)(employeeType=E)(employeeType=n))(recordStatus=a))',
               array('cn', 'givenname', 'dg', 'c', 'departmentnumber', 'o', 'uid', 'mail', 'sn')
     );
-  } 
+  }
   else {
     if ($dg == 'none') {
       $result = getLdapEntries(FPFIS_LDAP_BASE_DN,
                 '(&' . $filters . '(!(dg=*))(|(employeeType=f)(employeeType=E)(employeeType=n))(recordStatus=a))',
                 array('cn', 'givenname', 'dg', 'c', 'departmentnumber', 'o', 'uid', 'mail', 'sn')
       );
-    } 
+    }
     else {
       $result = getLdapEntries(FPFIS_LDAP_BASE_DN,
                 '(&' . $filters . '(dg=' . $dg . ')(|(employeeType=f)(employeeType=E)(employeeType=n))(recordStatus=a))',
@@ -376,7 +376,7 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
           'status' =>  variable_get('ecas_import_users_default_status', 1), // 1 is "active", 0 is "blocked"
         ));
 
-        if ($account && $account->uid > 0){
+        if ($account && $account->uid > 0) {
           // save user profile data
           ecas_sync_user_info(
               $account,
