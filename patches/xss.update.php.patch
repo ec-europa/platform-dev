@@ -1,0 +1,11 @@
+--- update.php	2013-04-10 10:24:20.198700305 +0200
++++ update.php	2013-04-10 14:45:12.000000000 +0200
+@@ -270,7 +270,7 @@
+   $output .= "</ol>\n";
+   $output .= "<p>When you have performed the steps above, you may proceed.</p>\n";
+   $form_action = check_url(drupal_current_script_url(array('op' => 'selection', 'token' => $token)));
+-  $output .= '<form method="post" action="' . $form_action . '"><p><input type="submit" value="Continue" class="form-submit" /></p></form>';
++  $output .= '<form method="post" action="' . filter_xss($form_action) . '"><p><input type="submit" value="Continue" class="form-submit" /></p></form>';
+   $output .= "\n";
+   return $output;
+ }
