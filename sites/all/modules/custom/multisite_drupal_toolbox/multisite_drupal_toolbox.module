@@ -259,20 +259,42 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
  */
 function multisite_drupal_toolbox_node_presave($node) {
   // security process to prevent xss attack in node contents
+  // sanitize for the node save
+  if(isset($node->nid) && isset($node->body['und'][0])) {
+    $node->body['und'][0]['value'] = multisite_drupal_toolbox_sanitize($node->body['und'][0]['value'], $node->nid);
+  }
+}
 
+/**
+ * hook_node_view_alter
+ */
+function multisite_drupal_toolbox_node_view_alter(&$build) {
+  // security process to prevent xss attack in node contents
+  // sanitize for the node preview
+  if(isset($build['#node']->body['und'][0]['value'])) {
+    $build['body'][0]['#markup'] = multisite_drupal_toolbox_sanitize($build['body'][0]['#markup'], $build['#node']->nid);
+  }
+}
+
+/**
+ * custom sanitize function
+ */
+function multisite_drupal_toolbox_sanitize($content, $nid) {
+  // security process to prevent xss attack in node contents
   $nodes_bypass = explode("\n", variable_get("security_bypassed_nodes", ""));
   $tags_allowed = explode("\n", variable_get("security_allowed_tags", ""));
 
-  foreach ($tags_allowed as $id => $tag) {
+  foreach($tags_allowed as $id => $tag) {
     $tags_allowed[$id] = trim($tag);
   }
-
+  
   // check if the node must be bypass
-  if (isset($node->nid) && !in_array($node->nid, $nodes_bypass)) {
-    if (isset($node->body['und'][0]))
-    $node->body['und'][0]['value'] = filter_xss($node->body['und'][0]['value'], $tags_allowed); // use the drupal filter_xss function to filter xss attacks
+  if(!in_array($nid, $nodes_bypass) || is_null($nid)) {
+    $content = filter_xss($content, $tags_allowed); // use the drupal filter_xss function to filter xss attacks
   }
+  return $content;  
 }
+
 
 
 /**
