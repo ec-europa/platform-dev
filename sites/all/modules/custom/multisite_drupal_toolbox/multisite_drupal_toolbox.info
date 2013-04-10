@@ -2,6 +2,18 @@ name = Multisite drupal toolbox
 description = Toolbox for the multisite drupal plateform
 package = multisite drupal toolbox
 core = 7.x
+
+dependencies[] = apachesolr
+dependencies[] = ctools
+dependencies[] = context
+dependencies[] = custom_breadcrumbs
+dependencies[] = linkchecker
+dependencies[] = simplenews
+dependencies[] = views
+dependencies[] = workbench
+;dependencies[] = og
+
+
 version = 7.x-1.3
 core = 7.x
 project = multisite_drupal_toolbox
