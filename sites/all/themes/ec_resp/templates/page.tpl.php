@@ -172,7 +172,7 @@ $span_messages        = 12 - $span_tools;
       <li>
         <?php global $language; ?>
         <?php if (isset ($front_page)): ?>
-          <?php print "<a href='$front_page'>$site_name</a>"; ?></li>
+          <?php print "<a href='" . filter_xss($front_page) . "'>$site_name</a>"; ?></li>
         <?php endif; ?>
         <?php print $breadcrumb; ?>
     </ul>
