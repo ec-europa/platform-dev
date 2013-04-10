@@ -35,7 +35,7 @@
           <?php if ($site_name): ?>
             <div id="site-name"<?php if ($hide_site_name) : print ' class="element-invisible"'; endif; ?>>
               <strong>
-                <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print filter_xss($site_name); ?></span></a>
+                <a href="<?php print filter_xss($front_page); ?>" title="<?php print t('Home'); ?>" rel="home"><span><?php print filter_xss($site_name); ?></span></a>
               </strong>
             </div>
           <?php endif; ?>
