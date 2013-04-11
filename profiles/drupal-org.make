@@ -252,10 +252,10 @@ projects[entityreference_prepopulate][subdir] = "contributed"
 projects[entityreference_prepopulate][version] = "1.2"
 
 projects[mail_edit][subdir] = "contributed"
-projects[mail_edit][version] = "7.x-1.0"
+projects[mail_edit][version] = "1.0"
 
 projects[subscriptions][subdir] = "contributed"
-projects[subscriptions][version] = "7.x-1.1"
+projects[subscriptions][version] = "1.1"
 
 ;libraries
 
