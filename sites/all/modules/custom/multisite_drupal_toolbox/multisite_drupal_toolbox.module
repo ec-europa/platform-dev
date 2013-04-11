@@ -287,12 +287,12 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
   foreach($tags_allowed as $id => $tag) {
     $tags_allowed[$id] = trim($tag);
   }
-  
+
   // check if the node must be bypass
   if(!in_array($nid, $nodes_bypass) || is_null($nid)) {
     $content = filter_xss($content, $tags_allowed); // use the drupal filter_xss function to filter xss attacks
   }
-  return $content;  
+  return $content;
 }
 
 
@@ -341,6 +341,7 @@ function _disable_content_type($type) {
 
 /**
  * Public function to add block to a context
+ * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_add_block_context($contextName, $blockTitle, $module, $delta, $region, $weight='-10') {
   //Load context
@@ -367,6 +368,7 @@ function _add_block_context($contextName, $blockTitle, $module, $delta, $region,
 
 /**
  * Public function to remove block from context
+ * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_remove_block_context($contextName, $blockTitle) {
   //Load context
@@ -386,6 +388,7 @@ function _remove_block_context($contextName, $blockTitle) {
 
 /**
  * Public function to add view to a context
+ * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_add_views_context($contextName, $viewTitle) {
   //Load context
@@ -405,6 +408,7 @@ function _add_views_context($contextName, $viewTitle) {
 
 /**
  * Public function to remove block from context
+ * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_remove_views_context($contextName, $viewTitle) {
   //Load context
@@ -424,6 +428,7 @@ function _remove_views_context($contextName, $viewTitle) {
 
 /**
  * Public function to add content type from context
+ * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_add_content_type_context($contextName, $contentType) {
   //Load context
@@ -443,6 +448,7 @@ function _add_content_type_context($contextName, $contentType) {
 
 /**
  * Public function to remove content type from context
+ * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_remove_content_type_context($contextName, $contentType) {
   //Load context
@@ -462,6 +468,7 @@ function _remove_content_type_context($contextName, $contentType) {
 
 /**
  * Public function to add path condition to a context
+ * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_add_path_context($contextName, $path) {
   //Load context
@@ -481,6 +488,7 @@ function _add_path_context($contextName, $path) {
 
 /**
  * Public function to remove path from context.
+ * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_remove_path_context($contextName, $path) {
   //Load context
@@ -500,6 +508,7 @@ function _remove_path_context($contextName, $path) {
 
 /**
  * Public function to deactivate a context.
+ * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_remove_context($contextName) {
   $context = context_load($contextName);
@@ -510,6 +519,7 @@ function multisite_drupal_toolbox_remove_context($contextName) {
 
 /**
  * Public function to add content type to newsletter related content field
+ * You need to add the feature newsletters as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_add_content_type_newsletters($node_type) {
   if ($field = field_info_field('field_related_contents')) {
@@ -544,6 +554,7 @@ function _disable_block($module, $delta) {
 
 /**
  * Public function to add or delete nodes from the index
+ * You need to add the module apachesolr as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
   switch ($op) {
@@ -569,6 +580,7 @@ function config_solr_bundle($bundle, $op) {
 
 /**
  * Public function to add content type to notification.
+ * You need to add the module notifications as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_notification_content_type($content_type, $op) {
   switch ($op) {
@@ -692,6 +704,7 @@ function multisite_drupal_toolbox_form_node_admin_content_alter(&$form, &$form_s
 
 /**
  * Public function to add content type to the "related-contents" field of the simplenews content type
+ * You need to add the feature newsletters as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_simplenews_related_content_type($content_type, $op) {
     switch ($op) {
@@ -714,6 +727,7 @@ function multisite_drupal_toolbox_simplenews_related_content_type($content_type,
 
 /**
  * Obsolete. Use multisite_drupal_toolbox_simplenews_related_content_type() instead.
+ * You need to add the module rate as a dependancy to your feature.
  */
 function simplenews_related_content_type($content_type, $op) {
   multisite_drupal_toolbox_simplenews_related_content_type($content_type, $op);
@@ -721,6 +735,7 @@ function simplenews_related_content_type($content_type, $op) {
 
 /**
  * Public function to add content type to the rate widget
+ * You need to add the module rate as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_rate_content_type($content_type, $op) {
   switch ($op) {
@@ -763,6 +778,7 @@ function rate_content_type($content_type, $op) {
 
 /**
  * Adds the linkchecked user report page to the workbench.
+ * You need to add the module linkchecker as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_linkchecker_user_report_page_workbench() {
   global $user;
@@ -779,6 +795,7 @@ function linkchecker_user_report_page_workbench() {
 
 /**
  * Set permissions to access link checker.
+ * You need to add the module linkchecker as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_report_workbench() {
   global $user;
@@ -795,6 +812,7 @@ function _linkchecker_user_access_account_broken_links_report_workbench() {
 
 /**
  * Public function to add content type to be checked by linkchecker
+ * You need to add the module linkchecker as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_content_type_linkchecker($type, $op) {
   $node_type_scan = variable_get("linkchecker_scan_nodetypes", array());
