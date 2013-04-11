@@ -12,11 +12,9 @@ function fat_footer_enable() {
 }
 
 function fat_footer_disable() {
-  multisite_drupal_toolbox_remove_block_context('site_wide','fat-footer');
-
-
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'fat-footer');
     //Activation message
-    drupal_set_message('Fat footer is now disabled on your site.');
+    drupal_set_message(t('Fat footer is now disabled on your site.'));
 }
 
 /**
