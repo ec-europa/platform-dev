@@ -251,6 +251,12 @@ projects[message][version] = "1.7"
 projects[entityreference_prepopulate][subdir] = "contributed"
 projects[entityreference_prepopulate][version] = "1.2"
 
+projects[mail_edit][subdir] = "contributed"
+projects[mail_edit][version] = "7.x-1.0"
+
+projects[subscriptions][subdir] = "contributed"
+projects[subscriptions][version] = "7.x-1.1"
+
 ;libraries
 
 ;ckeditor 3.6.5
@@ -262,13 +268,8 @@ libraries[ckeditor][download][sha1] = "7e10cb67600e73ff066168e89049d9959924b26b"
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ;tcpdf 5.9.172
-;libraries[tcpdf][download][type] = "git"
-;libraries[tcpdf][download][url] = "http://git.code.sf.net/p/tcpdf/code"
-;libraries[tcpdf][download][revision] = "56af758c98f19d7b8a92f9aeff16998d4d23444c"
-;libraries[tcpdf][directory_name] = "tcpdf"
-
 libraries[tcpdf][download][type] = "get"
-libraries[tcpdf][download][url] = "http://sourceforge.net/projects/tcpdf/files/tcpdf_6_0_010.zip/download"
+libraries[tcpdf][download][url] = "http://sourceforge.net/projects/tcpdf/files/latest/download"
 libraries[tcpdf][destination] = "libraries"
 libraries[tcpdf][directory_name] = "tcpdf"
 

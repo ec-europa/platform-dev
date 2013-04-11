@@ -1,0 +1,10 @@
+name = Organic Groups Subscriptions
+description = Allows users to subscribe to all content (nodes) posted to an organic group.
+package = Organic groups
+
+dependencies[] = subscriptions
+dependencies[] = subscriptions_content
+dependencies[] = og
+
+core = 7.x
+version = "7.x-1.0"
