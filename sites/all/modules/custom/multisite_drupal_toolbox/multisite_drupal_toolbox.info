@@ -3,14 +3,14 @@ description = Toolbox for the multisite drupal plateform
 package = multisite drupal toolbox
 core = 7.x
 
-dependencies[] = apachesolr
-dependencies[] = ctools
-dependencies[] = context
-dependencies[] = custom_breadcrumbs
-dependencies[] = linkchecker
-dependencies[] = simplenews
-dependencies[] = views
-dependencies[] = workbench
+;dependencies[] = apachesolr
+;dependencies[] = ctools
+;dependencies[] = context
+;dependencies[] = custom_breadcrumbs
+;dependencies[] = linkchecker
+;dependencies[] = simplenews
+;dependencies[] = views
+;dependencies[] = workbench
 ;dependencies[] = og
 
 
