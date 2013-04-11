@@ -1,4 +1,9 @@
 <?php
+/**
+ * @file
+ * fat_footer.install file
+ */
+
 function fat_footer_enable() {
   multisite_drupal_toolbox_add_block_context('site_wide','fat-footer','fat_footer','fat-footer', 'footer');
 
