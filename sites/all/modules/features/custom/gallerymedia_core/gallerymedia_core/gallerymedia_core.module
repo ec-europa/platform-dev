@@ -133,7 +133,7 @@ if ('gallerymedia' == $variables['type']) {
 
       switch ($type[0]) {
         case 'image':
-          if(!empty($local_data['uri'])) {
+          if (!empty($local_data['uri'])) {
           $picture_square_thumbnail = image_style_url('square_thumbnail', $local_data['uri']);
           $picture_preview = image_style_url('preview', $local_data['uri']);
           $picture_original = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://', '/', $local_data['uri']);
@@ -173,7 +173,7 @@ if ('gallerymedia' == $variables['type']) {
           $output .= $videos['videos'];
 
           //unset item, to prevent duplicate
-          unset($videos['element']['#items'][$key]);          
+          unset($videos['element']['#items'][$key]);
           unset($videos['videos']);
 
         break;
