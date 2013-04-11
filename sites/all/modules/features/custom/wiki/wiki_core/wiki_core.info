@@ -17,6 +17,7 @@ dependencies[] = multisite_drupal_toolbox
 dependencies[] = apachesolr
 dependencies[] = notifications
 dependencies[] = linkchecker
+dependencies[] = custom_breadcrumbs
 features[context][] = wiki
 features[ctools][] = context:context:3
 features[ctools][] = strongarm:strongarm:1
