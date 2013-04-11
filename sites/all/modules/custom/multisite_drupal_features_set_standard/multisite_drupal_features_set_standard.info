@@ -147,14 +147,13 @@ feature_sets[multi_user_blog][font] = 'multisite-icon-book'
 feature_sets[multi_user_blog][enable][] = multi_user_blog
 feature_sets[multi_user_blog][disable][] = multi_user_blog
 
-feature_sets[notification][title] = 'Notifications'
-feature_sets[notification][description] = 'Provide the possibility to subscribe to contents and receive notifications.'
-feature_sets[notification][category] = 'Users management'
-feature_sets[notification][icon] = 'feature-set-icons/notification.png'
-feature_sets[notification][enable][] = multisite_notifications_core
-feature_sets[notification][enable][] = multisite_notifications_core
-feature_sets[notification][disable][] = multisite_notifications_core
-feature_sets[notification][disable][] = multisite_notifications_core
+feature_sets[multisite_notifications_core][title] = 'Notifications'
+feature_sets[multisite_notifications_core][description] = 'Provide the possibility to subscribe to contents and receive notifications.'
+feature_sets[multisite_notifications_core][category] = 'Users management'
+feature_sets[multisite_notifications_core][icon] = 'feature-set-icons/notification.png'
+feature_sets[multisite_notifications_core][enable][] = multisite_notifications_core
+feature_sets[multisite_notifications_core][disable][] = multisite_notifications_core
+feature_sets[multisite_notifications_core][font] = 'multisite-icon-pictures'
 
 feature_sets[news_standard][title] = 'News'
 feature_sets[news_standard][description] = 'Allows contributors to publish news article he wishes to share with the other visitors. Every visitor can view the content of the news throught the news slider on homepage.'
