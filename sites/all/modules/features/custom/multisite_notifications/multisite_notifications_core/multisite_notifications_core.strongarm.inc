@@ -119,9 +119,7 @@ function multisite_notifications_core_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'subscriptions_unlisted_content_types';
-  $strongarm->value = array(
-    'community' => 'community',
-  );
+  $strongarm->value = array();
   $export['subscriptions_unlisted_content_types'] = $strongarm;
 
   $strongarm = new stdClass();
