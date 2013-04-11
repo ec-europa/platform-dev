@@ -7,25 +7,25 @@
 include_once 'solr_config.features.inc';
 
 function solr_config_apachesolr_exclude($entity_id, $entity_type, $row, $env_id) {
-  if($entity_type == 'file') {
+  if ($entity_type == 'file') {
     $node = node_load($row->parent_entity_id);
 
-    if(isset($node->workbench_moderation)) { // node moderate with workbench moderation
+    if (isset($node->workbench_moderation)) { // node moderate with workbench moderation
       $workflow = $node->workbench_moderation;
       if(isset($workflow['published'])) { // node parent is published
-        return FALSE;      
+        return FALSE;
       }
       else {
-        apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id."-node-".$node->nid); // remove file from solr index
-        drupal_set_message("entity $entity_type $entity_id removed from solr index");
+        apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id . "-node-" . $node->nid); // remove file from solr index
+        drupal_set_message(t('Entity @type @id removed from solr index', array('@type' => $entity_type, '@id' => $entity_id)));
         return TRUE;
       }
     }
-    else if($node->status == 1) { // standard drupal workflow : node parent is published
-      return FALSE;  
+    else if ($node->status == 1) { // standard drupal workflow : node parent is published
+      return FALSE;
     }
     else {
-      apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id."-node-".$node->nid); // remove file from solr index
+      apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id . "-node-" . $node->nid); // remove file from solr index
       drupal_set_message("entity $entity_type $entity_id removed from solr index");
       return TRUE;
     }

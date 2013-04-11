@@ -1,4 +1,9 @@
 <?php
+/**
+ * @file
+ * solr_config.install file
+ */
+
 function solr_config_enable() {
   // add solr facet blocks to the search context
   $blocks = module_invoke_all('block_info');
@@ -9,7 +14,8 @@ function solr_config_enable() {
 
         if ($theme_key == 'ec_resp') {
           multisite_drupal_toolbox_add_block_context('search', $value['info'], 'facetapi', $key, 'sidebar_left');
-        } else {
+        }
+        else {
           multisite_drupal_toolbox_add_block_context('search', $value['info'], 'facetapi', $key, 'sidebar_first');
         }
 
