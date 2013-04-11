@@ -70,7 +70,7 @@ function multisite_translations_form_alter(&$form, &$form_state, $form_id) {
             ->propertyCondition('state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
             ->count()
             ->execute();
-          if($return == $count_enabled_languages) // if they are a pending translation for each enabled languages => disable checkbox
+          if ($return == $count_enabled_languages) // if they are a pending translation for each enabled languages => disable checkbox
             $form['views_bulk_operations'][$key]['#disabled'] = TRUE;
         }
       }
@@ -98,7 +98,7 @@ function multisite_translations_form_alter(&$form, &$form_state, $form_id) {
         ->propertyCondition('state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
         ->execute();
 
-      if($return)
+      if ($return)
         $form['language']['#disabled'] = TRUE;
     }
   }
@@ -249,7 +249,7 @@ function rules_action_mail_to_related_translation_role($subject, $message, $from
   $tmgmt_job = $state->variables['tmgmt_job']->value();
 
   // stop if the target language is not yet set and the job not submitted
-  if ($tmgmt_job->target_language == null || $tmgmt_job->state == 0)
+  if ($tmgmt_job->target_language == NULL || $tmgmt_job->state == 0)
     return;
 
   $translator_role_name = get_related_translation_role($tmgmt_job->target_language);
