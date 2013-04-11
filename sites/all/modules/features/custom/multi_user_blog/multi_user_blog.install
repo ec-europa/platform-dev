@@ -1,4 +1,7 @@
 <?php
+/**
+ * @file multi_user install file.
+ */
 /*
 * hook_disable
 */

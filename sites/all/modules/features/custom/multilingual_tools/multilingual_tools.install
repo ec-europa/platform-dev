@@ -33,8 +33,8 @@ function multilingual_tools_enable() {
 function multilingual_tools_disable() {
   //Temporary fix to solve the problem of language sync when module is disabled and a language is added.
   //@TODO : create a function multilingual tools and add a check on the module_disable function
-  module_disable(array('translation_overview','translation_table'), FALSE);
-  drupal_uninstall_modules(array('translation_overview','translation_table'), FALSE);
+  module_disable(array('translation_overview', 'translation_table'), FALSE);
+  drupal_uninstall_modules(array('translation_overview', 'translation_table'), FALSE);
 
     //Activation message
     drupal_set_message(t('Multilingual tools feature is now disabled on your site.'));
