@@ -204,11 +204,11 @@ class EcasFunctionalTest extends DrupalWebTestCase {
     $this->assertText('User Login', 'Authenticated admin user: The ECAS login block is available in the sidebar.');
     $this->assertLinkByHref('ecaslogout', 0, 'Authenticated admin user: The ECAS block displays the ecas logout link.');
 
-  	$this->drupalLogout();
+    $this->drupalLogout();
   	$this->assertText('User Login', 'Anonymous user: The ECAS login block is available in the sidebar.');
   	$this->assertLinkByHref('ecas', 0, 'Anonymous user: The ECAS block displays the ecas login link.');
 
-	$this->drupalLogin($this->web_user);
+  	$this->drupalLogin($this->web_user);
   	$this->assertText('User Login', 'Authenticated web user: The ECAS login block is available in the sidebar.');
   	$this->assertLinkByHref('ecaslogout', 0, 'Authenticated web user: The ECAS block displays the ecas logout link.');
   }
@@ -219,36 +219,30 @@ class EcasFunctionalTest extends DrupalWebTestCase {
   function testEcasLogin() {
     global $base_url;
     $this->drupalLogin($this->admin_user);
-  	$this->drupalGet('ecas');
-	$this->assertResponse(403);
+    $this->drupalGet('ecas');
+    $this->assertResponse(403);
 
-	$this->drupalLogout();
-  	$this->drupalGet('ecas');
-	$this->assertResponse(200);
-	$port = (is_numeric(constant('FPFIS_ECAS_PORT')) ? ':'.FPFIS_ECAS_PORT : '');
-	$this->assertUrl('https://' . FPFIS_ECAS_URL . $port . FPFIS_ECAS_URI . '/login?service=' . rawurlencode($base_url . '/ecas'));
-
+    $this->drupalLogout();
+    $this->drupalGet('ecas');
+    $this->assertResponse(200);
+    $port = (is_numeric(constant('FPFIS_ECAS_PORT')) ? ':'.FPFIS_ECAS_PORT : '');
+    $this->assertUrl('https://' . FPFIS_ECAS_URL . $port . FPFIS_ECAS_URI . '/login?service=' . rawurlencode($base_url . '/ecas'));
 
     $this->drupalLogin($this->web_user);
     $this->drupalGet('user/' . ($this->web_user->uid) . '/edit');
 
-	$this->assertField('edit-current-pass', 'Current password field is present.');
-	$this->assertField('edit-pass-pass1', 'Password field is present');
-	$this->assertField('edit-pass-pass2', 'Password confirm field is present.');
-	$this->assertFieldEnabled('edit-mail');
+    $this->assertField('edit-current-pass', 'Current password field is present.');
+    $this->assertField('edit-pass-pass1', 'Password field is present');
+    $this->assertField('edit-pass-pass2', 'Password confirm field is present.');
+    $this->assertFieldEnabled('edit-mail');
     $this->assertNoText(t('This account is managed by ECAS. Its password can be changed using'), 'The user edit form is not changed by the ECAS module for a normal drupal user.');
-
-
     $this->drupalLogin($this->ecas_user);
     $this->drupalGet('user/' . ($this->ecas_user->uid) . '/edit');
-
-	$this->assertNoField('edit-current-pass', 'Current password field is hidden.');
-	$this->assertNoField('edit-pass-pass1', 'Password field is hidden.');
-	$this->assertNoField('edit-pass-pass2', 'Password confirm field is hidden.');
-	$this->assertFieldDisabled('edit-mail');
-
+    $this->assertNoField('edit-current-pass', 'Current password field is hidden.');
+    $this->assertNoField('edit-pass-pass1', 'Password field is hidden.');
+    $this->assertNoField('edit-pass-pass2', 'Password confirm field is hidden.');
+    $this->assertFieldDisabled('edit-mail');
     $this->assertText(t('This account is managed by ECAS. Its password can be changed using'), 'The user edit form was succesfully altered by the ECAS module for ECAS users.');
-
   }
 
   protected function assertFieldDisabled($id, $message = '') {
