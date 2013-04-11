@@ -191,7 +191,7 @@ class EcasFunctionalTest extends DrupalWebTestCase {
   function testEcasBlock() {
     $this->drupalLogin($this->admin_user);
     $this->drupalGet('admin/structure/block');
-    
+
     $this->assertText(t('ECAS User login'), 'The ECAS login block was found.');
 
     $edit = array(
@@ -258,14 +258,13 @@ class EcasFunctionalTest extends DrupalWebTestCase {
    * ecaslogout is not accessible for normal drupal users
    */
   function testEcasLogout() {
- 	global $base_url;
+    global $base_url;
     $this->drupalLogin($this->admin_user);
-  	$this->drupalGet('ecaslogout');
-	$this->assertResponse(403);
-
-	$this->drupalLogout();
-  	$this->drupalGet('ecaslogout');
-	$this->assertResponse(200);
+    $this->drupalGet('ecaslogout');
+    $this->assertResponse(403);
+    $this->drupalLogout();
+    $this->drupalGet('ecaslogout');
+    $this->assertResponse(200);
 	$port = (is_numeric(constant('FPFIS_ECAS_PORT')) ? ':'.FPFIS_ECAS_PORT : '');
 	$this->assertUrl('https://' . FPFIS_ECAS_URL . $port . FPFIS_ECAS_URI . '/login?service=' . rawurlencode($base_url . '/ecaslogout'));
   }
@@ -307,17 +306,16 @@ class EcasAuthenticationTest extends DrupalWebTestCase {
   function testExcludingPagesSettings() {
   	global $base_url;
 
-  	//////
   	// A: First test excluding no pages from authentication
   	// This means all pages need authentication
-  	//
-    $this->drupalLogin($this->admin_user);
-    $this->drupalGet('admin/config/ecas');
-    $edit = array(
-      'ecas_pages_method' => ECAS_LOGIN_EXLUDE_PAGES,
-      'ecas_pages' => '',
-    );
-    $this->drupalPost(NULL, $edit, 'Save configuration');
+
+  	$this->drupalLogin($this->admin_user);
+  	$this->drupalGet('admin/config/ecas');
+  	$edit = array(
+  	    'ecas_pages_method' => ECAS_LOGIN_EXLUDE_PAGES,
+  	    'ecas_pages' => '',
+  	    );
+  	$this->drupalPost(NULL, $edit, 'Save configuration');
 
 	// Goto the front page (=protected)
 	$this->drupalGet('<front>');
