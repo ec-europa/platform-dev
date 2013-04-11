@@ -1,6 +1,10 @@
 <?php
+/**
+ * @file
+ * Code for the multisite_rules_configuration install.
+ */
 
-/*
+/**
  * hook_enable
  *
  */
@@ -9,7 +13,7 @@ function multisite_rules_configuration_enable() {
   multisite_rules_configuration_update_7110();
 }
 
-/*
+/**
  * hook_disable
  * Remove permissions
  */
@@ -30,7 +34,7 @@ function multisite_rules_configuration_update_7110() {
     ->execute()
     ->fetchObject();
 
-  if(!$result) {
+  if (!$result) {
     $arch_state = db_insert('workbench_moderation_states')
       ->fields(array(
         'name' => 'archived',
@@ -47,7 +51,7 @@ function multisite_rules_configuration_update_7110() {
     ->execute()
     ->fetchObject();
 
-  if(!$result) {
+  if (!$result) {
     $vali_state = db_insert('workbench_moderation_states')
       ->fields(array(
         'name' => 'validated',
@@ -88,7 +92,7 @@ function multisite_rules_configuration_update_7110() {
       ->execute()
       ->fetchObject();
 
-    if(!$result)
+    if (!$result)
       $query->values($transition);
   }
 

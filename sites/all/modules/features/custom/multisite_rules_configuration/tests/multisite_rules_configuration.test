@@ -64,7 +64,7 @@ class Multisite_multisite_rules_configurationQAWebTestCase extends DrupalWebTest
     if (array_key_exists('dependencies', $info)) {
       // dependencies[] = "menu"
 
-      $this->assertFalse(in_array('menu', $info['dependencies']),'There is no reference to the menu dependency.');
+      $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
 
       // Remove taxonomy dependencies
       // dependencies[] = "taxonomy"
