@@ -9,7 +9,9 @@
 class surveyStandard extends DrupalWebTestCase {
   protected $privileged_user;
   protected $contributor_user;
-  protected $profile = 'multisite_drupal_communities';
+
+
+
     public static function getInfo() {
     return array(
         'name' => 'survey_standard tests',
@@ -21,58 +23,57 @@ class surveyStandard extends DrupalWebTestCase {
 
   public function setUp() {
     parent::setUp(array('survey_core', 'survey_standard'));
-    // Login a user that has access to the content sync server admin settings
     $this->privileged_user = $this->drupalCreateUserWithRole("administrator");
     $this->contributor_user = $this->drupalCreateUserWithRole("contributor");
-
     $this->drupalLogin($this->privileged_user);
+
+
    }
 
   function testSurveyStandard() {
-    $this->assertTrue(module_exists('survey_standard'), t('survey_standard feature enabled.'));
+    //init
+    $this->feature_name = 'survey_standard';
+    $feature_name = $this->feature_name;
+
+    //Check the presence of module
+    $this->assertTrue(module_exists($feature_name), t('%feature_name feature enabled.', array('%feature_name' => $this->feature_name)));
     $this->drupalGet('survey');
-    $this->drupalLogout();
-    $this->drupalLogin($this->contributor_user);
+    $this->assertResponse(200 , 'User is allowed to access the page');
+
+    //Content type creation
     $settings = array(
       'type' => 'webform',
-      'title' => 'Survey Title',
-      'body' => array(LANGUAGE_NONE => array(array('Link body'))),
+      'title' => $this->randomName(8),
+      'body' => array(LANGUAGE_NONE => array(array($this->randomName(128)))),
       'status' => 1,
       'revisions' => NULL,
       'taxonomy' => NULL,
     );
     $node = $this->drupalCreateNode($settings);
 
-    $this->drupalGet('survey');
-
-    $this->assertRaw('node/add/webform', t('Link to create survey available'));
-    $this->assertRaw(t('Create a new survey'), t('Button to create a new survey is available'));
-    $this->clickLink(t('Create a new survey'));
-
-
-    $this->assertResponse(200);
-    $this->drupalLogout();
-    $this->drupalLogin($this->privileged_user);
 
     $this->verbose('Survey Node created: ' . '</pre>' . print_r($node, TRUE) . '</pre>');
     $this->verbose('Survey Node created: ' . '</pre>' . print_r($settings['title'], TRUE) . '</pre>');
-    $this->drupalGet("node/{$node->nid}/webform");
-    $this->assertResponse(200);
 
-    $this->assertRaw('page-node-webform', 'Webform is accesible to contributor user.');
+    //Permission to access the created content
+    $this->drupalGet('survey');
+    $this->assertResponse(200 , 'User is allowed to access the page');
+    $this->assertRaw('node/add/webform', t('Link to create %feature_name available', array('%feature_name' => $this->feature_name)));
+    $this->assertRaw(t('Create a new survey'), t('Button to create a new %feature_name is available',array('%feature_name' => $this->feature_name)));
+    $this->clickLink(t('Create a new survey'));
+    $this->drupalGet("node/{$node->nid}/webform");
+    $this->assertResponse(200, 'Webform is accesible to user');
     $this->assertText(t("@title", array('@title' => $settings['title'])), 'Title is present and accesible to contributor user.');
     $this->assertRaw(t('Add'), 'Add more fields button is present.');
-
+    $this->drupalLogin($this->contributor_user);
     //Access Link Page was displayed
     $this->drupalGet('survey/survey-title');
-    $this->assertResponse(200);
+    $this->assertResponse(200, 'Contributor is allowed to access the survey');
     //Chech the presence of h1
     $elements = $this->xpath("//h1");
     $this->assertTrue(isset($elements[0]), t('The survey page contains a h1 title'));
-
-    $this->assertRaw(t('Results'), t('Survey results are available to group user.'));
-    $this->assertRaw(t('Webform'), t('Survey edit webform is available to group user.'));
-    $this->drupalLogout();
+    $this->assertRaw(t('Results'), t('%feature_name results are available to contributor.', array('%feature_name' => $this->feature_name)));
+    //$this->drupalPost('admin/structure/block/add', $post, t('Submit'));
 
   }
 
