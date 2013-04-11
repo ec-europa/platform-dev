@@ -151,10 +151,10 @@ class EmbeddedVideosWebTestCase extends DrupalWebTestCase {
      $module = basename(__FILE__ , ".test");
      $path = drupal_get_path('module', $module) . '/' . $module . '.install';
      $data = file_get_contents($path);
-     $this->assertTrue(strpos($data, $module.'_install'), 'The module contains a hook_install');
-     $this->assertTrue(strpos($data, $module.'_uninstall'), 'The module contains a hook_uninstall');
-     $this->assertTrue(strpos($data, $module.'_enable'), 'The module contains a hook_enable');
-     $this->assertTrue(strpos($data, $module.'_disable'), 'The module contains a hook_disable');
+     $this->assertTrue(strpos($data, $module . '_install'), 'The module contains a hook_install');
+     $this->assertTrue(strpos($data, $module . '_uninstall'), 'The module contains a hook_uninstall');
+     $this->assertTrue(strpos($data, $module . '_enable'), 'The module contains a hook_enable');
+     $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
    }
 
 
