@@ -32,7 +32,7 @@ function multisite_translations_form_alter(&$form, &$form_state, $form_id) {
       $language_list = language_list();
       // check if these nodes are related to other jobs translations
       while ($job_node = $job_nodes->fetchObject()) {
-        $query = db_select('tmgmt_job_item','tji');
+        $query = db_select('tmgmt_job_item', 'tji');
         $query->innerJoin('tmgmt_job', 'tj', 'tj.tjid = tji.tjid');
         $results = $query->condition('tji.item_id', $job_node->item_id)
           ->condition('tji.state', TMGMT_JOB_ITEM_STATE_REVIEW)
@@ -47,8 +47,7 @@ function multisite_translations_form_alter(&$form, &$form_state, $form_id) {
         }
       }
       if ($check_job_translation) {
-        $output = '<b>Translation jobs in progress !</b><br><ul>' . $output . '</ul>';
-        drupal_set_message($output, 'warning');
+        drupal_set_message(t('<b>Translation jobs in progress !</b><br><ul> !output</ul>', array('!output' => $output)), 'warning');
       }
 
       break;

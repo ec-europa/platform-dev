@@ -1,27 +1,31 @@
 <?php
-
-/*
+/**
+ * @file
+ * Code for the notification install file.
+ */
+/**
 *  hook_enable
 */
 
 function notification_enable() {
   $types = array_keys(node_type_get_types());
-  foreach($types as $type) {
+  foreach ($types as $type) {
     // add type to notification
-    multisite_drupal_toolbox_notification_content_type($type,'add');
+    multisite_drupal_toolbox_notification_content_type($type, 'add');
   }
 
   //Add block in context
   global $theme_key;
 
   if ($theme_key == 'ec_resp') {
-    multisite_drupal_toolbox_add_block_context('site_wide','subscriptions','notifications_ui','subscriptions', 'content_bottom');
-  } else {
-    multisite_drupal_toolbox_add_block_context('site_wide','subscriptions','notifications_ui','subscriptions', 'tools_bottom');
+    multisite_drupal_toolbox_add_block_context('site_wide', 'subscriptions', 'notifications_ui', 'subscriptions', 'content_bottom');
+  }
+  else {
+    multisite_drupal_toolbox_add_block_context('site_wide', 'subscriptions', 'notifications_ui', 'subscriptions', 'tools_bottom');
   }
 
   //Activation message
-  drupal_set_message('Notification feature is now enabled on your site.');
+  drupal_set_message(t('Notification feature is now enabled on your site.'));
 }
 
 
@@ -32,13 +36,13 @@ function notification_enable() {
 
 function notification_disable() {
   $types = array_keys(node_type_get_types());
-  foreach($types as $type) {
+  foreach ($types as $type) {
     // remove type from notification
-    multisite_drupal_toolbox_notification_content_type($type,'delete');
+    multisite_drupal_toolbox_notification_content_type($type, 'delete');
 
   }
    //Activation message
-    drupal_set_message('Notification feature is now disabled on your site.');
+    drupal_set_message(t('Notification feature is now disabled on your site.'));
 }
 
 

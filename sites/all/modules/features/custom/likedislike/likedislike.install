@@ -28,7 +28,8 @@ function likedislike_enable() {
 
   if ($theme_key == 'ec_resp') {
     multisite_drupal_toolbox_add_block_context('site_wide', 'likedislike', 'likedislike', 'likedislike', 'content_bottom');
-  } else {
+  }
+  else {
     multisite_drupal_toolbox_add_block_context('site_wide', 'likedislike', 'likedislike', 'likedislike', 'tools_bottom');
   }
 
@@ -42,6 +43,6 @@ function likedislike_enable() {
  * Remove permissions
  */
 function likedislike_disable() {
-  multisite_drupal_toolbox_remove_block_context('site_wide','likedislike');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'likedislike');
   drupal_set_message(t('Like/dislike feature is now disabled on your site.'));
 }
