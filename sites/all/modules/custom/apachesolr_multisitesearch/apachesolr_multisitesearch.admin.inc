@@ -74,7 +74,7 @@ function apachesolr_multisitesearch_delete_indexes($form, &$form_state) {
     if ($hash) {
       $query = "hash:$hash";
       $solr->deleteByQuery($query);
-      drupal_set_message(t('The index for !hash has been deleted.', array('!hash' => $hash)));
+      drupal_set_message(t('The index for @hash has been deleted.', array('@hash' => $hash)));
       if (apachesolr_site_hash() == $hash) {
         //Todo : we might want to execute apachesolr_node_check_index_table();
         apachesolr_set_last_index_updated($env_id, time());
