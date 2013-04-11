@@ -7,6 +7,7 @@ version = 7.x-1.1
 project = survey_core
 dependencies[] = cce_basic_config
 dependencies[] = features
+dependencies[] = notifications
 dependencies[] = i18n_taxonomy
 dependencies[] = strongarm
 dependencies[] = views
