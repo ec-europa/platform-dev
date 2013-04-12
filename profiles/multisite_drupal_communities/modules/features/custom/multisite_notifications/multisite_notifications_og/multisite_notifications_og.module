@@ -3,3 +3,28 @@
  * @file
  * Drupal needs this blank file.
  */
+
+
+function multisite_notifications_og_init() {
+  drupal_set_message(t('Notifications feature is now active on your site.'));
+  
+  // override variables
+  variable_set('subscriptions_unlisted_content_types', array('community' => 'community'));
+
+  // autosubscribe administrators to community content type
+  $admin_rid = 0-multisite_drupal_toolbox_get_rid('administrator');
+  db_insert('subscriptions')
+    ->fields(array(
+      'module' => 'node',
+      'field' => 'type',
+      'value' => 'community',
+      'recipient_uid' => $admin_rid,
+      'send_interval' => 3600,
+      'author_uid' => -1,
+      'send_updates' => 1,
+      'send_comments' => 1,
+    ))
+    ->execute();
+    
+  drupal_set_message("DEBUG : ".$admin_rid);
+}
