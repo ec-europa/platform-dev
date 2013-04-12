@@ -34,26 +34,33 @@ function multisite_notifications_og_enable() {
       'module' => 'node',
       'field' => 'type',
       'value' => 'community',
-      'recipient_uid' => $admin_rid,
-      'send_interval' => 3600,
-      'author_uid' => -1,
-      'send_updates' => 1,
-      'send_comments' => 1,
-    ))
-    ->execute();
-    
-  db_insert('subscriptions')
-    ->fields(array(
-      'module' => 'node',
-      'field' => 'type',
-      'value' => 'community',
       'recipient_uid' => 0-$admin_rid,
       'send_interval' => 3600,
       'author_uid' => -1,
       'send_updates' => 1,
       'send_comments' => 1,
     ))
-    ->execute();    
+    ->execute();
+
+  // autosubscribe existing administrators to community content type
+  $result = db_select('users_roles', 'ur')
+    ->fields('ur')
+    ->condition('ur.rid', $admin_rid, '=')
+    ->execute();
+  foreach ($result as $record) {
+    db_insert('subscriptions')
+      ->fields(array(
+        'module' => 'node',
+        'field' => 'type',
+        'value' => 'community',
+        'recipient_uid' => $record->uid,
+        'send_interval' => 3600,
+        'author_uid' => -1,
+        'send_updates' => 1,
+        'send_comments' => 1,
+      ))
+      ->execute();
+  }; 
 }
 
 
