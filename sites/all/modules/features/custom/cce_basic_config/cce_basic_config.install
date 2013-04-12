@@ -21,230 +21,230 @@ function cce_basic_config_install() {
   $vocabulary = taxonomy_vocabulary_machine_name_load('classification');
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('01'),
+    'name' => st('01000'),
     'description' => st('Agriculture, farming'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('02'),
+    'name' => st('02000'),
     'description' => st('Budget, financing, fraud'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('03'),
+    'name' => st('03000'),
     'description' => st('European citizenship, right to vote, ombudsman, protection of privacy'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('04'),
+    'name' => st('04000'),
     'description' => st('Information society, communication, information, audiovisual, telecommunications, public opinion'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('05'),
+    'name' => st('05000'),
     'description' => st('Competition, state aid'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('06'),
+    'name' => st('06000'),
     'description' => st('Consumers, distribution, civil defence, nuclear safety, food safety'),
   );
   taxonomy_term_save($term);
 
      $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('07'),
+    'name' => st('07000'),
     'description' => st('Culture, tourism, sport'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('08'),
+    'name' => st('08000'),
     'description' => st('Education, teaching, vocational training, youth'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('09'),
+    'name' => st('09000'),
     'description' => st('Enlargement, accession of new states'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('10'),
+    'name' => st('10000'),
     'description' => st('Employment, work'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('11'),
+    'name' => st('11000'),
     'description' => st('Energy'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('12'),
+    'name' => st('12000'),
     'description' => st('Type of business, company law'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('13'),
+    'name' => st('13000'),
     'description' => st('Environment'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('14'),
+    'name' => st('14000'),
     'description' => st('Tax system'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('15'),
+    'name' => st('15000'),
     'description' => st('Industry'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('16'),
+    'name' => st('16000'),
     'description' => st('Institutions'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('17'),
+    'name' => st('17000'),
     'description' => st('Justice and home affairs, asylum, judicial cooperation, police cooperation, Schengen, visa, immigration, external frontiers, fight against crime, drugs, terrorism'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('18'),
+    'name' => st('18000'),
     'description' => st('Free movement of capital, finance'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('19'),
+    'name' => st('19000'),
     'description' => st('Free movement of goods, customs, public contracts, standardization'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('20'),
+    'name' => st('20000'),
     'description' => st('Free movement of persons, right of establishment, workers'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('21'),
+    'name' => st('21000'),
     'description' => st('Free movement of services, insurance, banks, credit, right of establishment, savings, public contracts'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('22'),
+    'name' => st('22000'),
     'description' => st('Fisheries'),
   );
   taxonomy_term_save($term);
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('23'),
+    'name' => st('23000'),
     'description' => st('Regional policy, OCT'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('24'),
+    'name' => st('24000'),
     'description' => st('Social policy, public health'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('25'),
+    'name' => st('25000'),
     'description' => st('Research & development'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('26'),
+    'name' => st('26000'),
     'description' => st('External relations, CFSP, development cooperation, humanitarian aid'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('27'),
+    'name' => st('27000'),
     'description' => st('Trans-European networks'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('28'),
+    'name' => st('28000'),
     'description' => st('Respect for human rights, racism, xenophobia'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('29'),
+    'name' => st('29000'),
     'description' => st('Transport'),
   );
   taxonomy_term_save($term);
 
      $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('30'),
+    'name' => st('30000'),
     'description' => st('Economic and monetary union, euro, single currency'),
   );
    taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('31'),
+    'name' => st('31000'),
     'description' => st('Statistics'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('32'),
+    'name' => st('32000'),
     'description' => st('Language, multilingualism, translation, interpretation'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('33'),
+    'name' => st('33000'),
     'description' => st('Administration, management and human resources policy'),
   );
   taxonomy_term_save($term);
@@ -701,4 +701,27 @@ function cce_basic_config_update_7160() {
   $context->reactions['block']['blocks']['form']=$block_to_add;
 
   module_invoke('context', 'save', $context);
+}
+
+
+/**
+ * update classification vocabulary ids
+ */
+function cce_basic_config_update_7170() {
+ 
+	//Get the "classification" vid
+	$classification=NULL;
+	
+	//http://api.drupal.org/api/drupal/modules!taxonomy!taxonomy.module/function/taxonomy_get_vocabularies/7 
+	$vocabularies = taxonomy_get_vocabularies(NULL);
+	foreach ($vocabularies as $vocab_object) {
+		if ($vocab_object->name == "classification") {
+		  $classification= $vocab_object->name;
+		}
+
+	//update  `taxonomy_term_data`  set name=concat(name, '000') WHERE vid=1 
+	$results = db_query("update  `taxonomy_term_data`  set name=concat(name, '000') WHERE vid=1 ");
+	
+	return;
+	}
 }
