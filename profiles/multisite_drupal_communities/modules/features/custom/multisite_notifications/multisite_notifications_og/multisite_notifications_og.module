@@ -4,6 +4,6 @@
  * Code for the Notifications feature.
  */
 
-//include_once('multisite_notifications_og.features.inc');
+include_once('multisite_notifications_og.features.inc');
 //include_once('multisite_notifications_og.views_alter.inc');
 
