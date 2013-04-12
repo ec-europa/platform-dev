@@ -1,0 +1,11 @@
+--- modules/search/search-result.tpl.php	2013-04-12 14:28:30.000000000 +0200
++++ modules/search/search-result.tpl.php	2013-04-12 14:28:54.000000000 +0200
+@@ -67,7 +67,7 @@
+ <li class="<?php print $classes; ?>"<?php print $attributes; ?>>
+   <?php print render($title_prefix); ?>
+   <h3 class="title"<?php print $title_attributes; ?>>
+-    <a href="<?php print $url; ?>"><?php print $title; ?></a>
++    <a href="<?php print filter_xss($url); ?>"><?php print $title; ?></a>
+   </h3>
+   <?php print render($title_suffix); ?>
+   <div class="search-snippet-info">
