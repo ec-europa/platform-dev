@@ -23,6 +23,7 @@ function multisite_notifications_core_uninstall() {
  * hook_enable 
  */
 function multisite_notifications_core_enable() {
+  // provide default settings values for subscriptions
   db_update('subscriptions_user')
     ->fields(array(
       'digest' => 0,
