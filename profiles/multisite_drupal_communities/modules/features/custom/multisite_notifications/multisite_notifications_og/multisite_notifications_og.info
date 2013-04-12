@@ -3,6 +3,6 @@ description = provide notifications/subscriptions functionnalities for organic g
 core = 7.x
 package = Multisite OG Features
 version = 7.x-1.0
-project = multisite_notifications_og1
+project = multisite_notifications_og
 dependencies[] = multisite_notifications_core
 features[features_api][] = api:1
