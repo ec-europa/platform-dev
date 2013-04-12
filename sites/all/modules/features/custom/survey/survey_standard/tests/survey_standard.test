@@ -66,6 +66,16 @@ class surveyStandard extends DrupalWebTestCase {
     $this->assertText(t("@title", array('@title' => $settings['title'])), 'Title is present and accesible to contributor user.');
     $this->assertRaw(t('Add'), 'Add more fields button is present.');
     $this->drupalLogin($this->contributor_user);
+        //Content type creation
+    $settings = array(
+      'type' => 'webform',
+      'title' => $this->randomName(8),
+      'body' => array(LANGUAGE_NONE => array(array($this->randomName(128)))),
+      'status' => 1,
+      'revisions' => NULL,
+      'taxonomy' => NULL,
+    );
+    $node = $this->drupalCreateNode($settings);
     //Access Link Page was displayed
     $this->drupalGet('survey/survey-title');
     $this->assertResponse(200, 'Contributor is allowed to access the survey');
