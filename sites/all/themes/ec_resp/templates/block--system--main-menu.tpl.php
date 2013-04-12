@@ -74,7 +74,10 @@ $has_left_sidebar = variable_get('has_left_sidebar');
                   <div class="arrow-down"></div>
                 </a>
 
+                <img src="<?php print $base_url . '/' . path_to_theme(); ?>/images/eu-flag_small.jpg" alt="European Commission logo" id="banner-flag-small" />
+
                 <a class="brand hidden-desktop" href="<?php print $base_url . '/'; ?>">
+
                   <?php print filter_xss(variable_get('site_name', '')); ?>
                 </a>
 
