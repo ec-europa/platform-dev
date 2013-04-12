@@ -1,0 +1,11 @@
+--- sites/all/modules/contributed/file_entity/file_entity.tpl.php	2013-04-12 08:31:02.713940097 +0200
++++ sites/all/modules/contributed/file_entity/file_entity.tpl.php	2013-04-12 08:41:29.000000000 +0200
+@@ -70,7 +70,7 @@
+ 
+   <?php if (!$page): ?>
+     <?php print render($title_prefix); ?>
+-    <h2<?php print $title_attributes; ?>><a href="<?php print $file_url; ?>"><?php print $label; ?></a></h2>
++    <h2<?php print $title_attributes; ?>><a href="<?php print filter_xss($file_url); ?>"><?php print $label; ?></a></h2>
+     <?php print render($title_suffix); ?>
+   <?php endif; ?>
+ 
