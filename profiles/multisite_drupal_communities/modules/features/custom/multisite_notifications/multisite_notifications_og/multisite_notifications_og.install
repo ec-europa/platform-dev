@@ -28,7 +28,7 @@ function multisite_notifications_og_enable() {
   variable_set('subscriptions_unlisted_content_types', array('community' => 'community'));
 
   // autosubscribe administrators to community content type
-  /*
+  
   $admin_rid = multisite_drupal_toolbox_get_rid('administrator');
   db_insert('subscriptions')
     ->fields(array(
@@ -62,7 +62,7 @@ function multisite_notifications_og_enable() {
       ))
       ->execute();
   };
-  */
+
 }
 
 
