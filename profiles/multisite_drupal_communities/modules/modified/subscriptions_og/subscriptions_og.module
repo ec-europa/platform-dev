@@ -86,15 +86,18 @@ function subscriptions_og_subscriptions($op, $arg0 = NULL, $arg1 = NULL, $arg2 =
       // $arg1 is the current node
       $options = array();
       if (og_is_group('node', $arg1)) {
-        $options['group_audience'][] = array(
-          'name' => t('To content posted in %name', array('%name' => $arg1->title)),
-          'link' => 'node/' . $arg1->nid,
-          'params' => array(
-            'module' => 'node',
-            'field' => 'group_audience',
-            'value' => $arg1->nid,
-          ),
-        );
+        // Check if user is a member for private group
+        if(og_is_member('node', $arg1->nid) || $arg1->group_access['und'][0]['value'] == 1) {
+          $options['group_audience'][] = array(
+            'name' => t('To content posted in %name', array('%name' => $arg1->title)),
+            'link' => 'node/' . $arg1->nid,
+            'params' => array(
+              'module' => 'node',
+              'field' => 'group_audience',
+              'value' => $arg1->nid,
+            ),
+          );
+        }
       }
       return $options;
   }
@@ -133,6 +136,10 @@ function subscriptions_og_page(array $form, $uid) {
   foreach ($groups as $group) {
     // Check that the user is allowed to view this group.
     if(!node_access('view', $group)){
+      continue;
+    }
+    // Check if user is a member for private group
+    if(!og_is_member('node', $group->nid) && $group->group_access['und'][0]['value'] == 1) {
       continue;
     }
 
@@ -197,4 +204,23 @@ function subscriptions_og_disable() {
   ->condition('module', 'node')
   ->condition('field', 'group_audience')
   ->execute();
+}
+
+/*
+ * hook_subscriptions_node_options_alter
+ * 
+ * hide subscriptions options for private groups for non members
+ * 
+ */
+function subscriptions_og_subscriptions_node_options_alter(&$node_options) {
+  foreach($node_options as $id => $node_option) {
+    if($id == 'nid') {
+      $node = node_load($node_option[0]['params']['value']);
+      if (og_is_group('node', $node)) {
+        if (!og_is_member('node', $node->nid) && $node->group_access['und'][0]['value'] == 1)
+          $node_options = array();
+          break;
+      }
+    }
+  }
 }
