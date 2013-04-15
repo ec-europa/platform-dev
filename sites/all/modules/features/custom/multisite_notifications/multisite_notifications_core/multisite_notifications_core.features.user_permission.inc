@@ -57,6 +57,16 @@ function multisite_notifications_core_user_default_permissions() {
     'module' => 'subscriptions',
   );
 
+  // Exported permission: subscribe to taxonomy terms.
+  $permissions['subscribe to taxonomy terms'] = array(
+    'name' => 'subscribe to taxonomy terms',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
+    ),
+    'module' => 'subscriptions',
+  );
+
   // Exported permission: suspend own subscriptions.
   $permissions['suspend own subscriptions'] = array(
     'name' => 'suspend own subscriptions',
