@@ -28,6 +28,7 @@ dependencies[] = workbench
 dependencies[] = workbench_moderation
 dependencies[] = workbench_og
 dependencies[] = entityreference_prepopulate
+dependencies[] = cce_basic_config
 features[context][] = communities
 features[ctools][] = context:context:3
 features[ctools][] = strongarm:strongarm:1
