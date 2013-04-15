@@ -12,3 +12,4 @@ dependencies[] = rules
 features[features_api][] = api:1
 features[rules_config][] = rules_og_member_subscribe_active_
 features[rules_config][] = rules_og_member_subscribe_pending_
+features[user_permission][] = og subscribe
