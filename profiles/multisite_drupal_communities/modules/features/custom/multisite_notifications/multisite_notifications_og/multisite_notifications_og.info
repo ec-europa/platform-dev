@@ -8,6 +8,7 @@ project = multisite_notifications_og
 dependencies[] = entity
 dependencies[] = multisite_notifications_core
 dependencies[] = og
+dependencies[] = subscriptions_og
 dependencies[] = rules
 features[features_api][] = api:1
 features[rules_config][] = rules_og_member_subscribe_active_
