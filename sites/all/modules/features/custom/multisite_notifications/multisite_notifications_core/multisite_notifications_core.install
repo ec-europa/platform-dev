@@ -24,6 +24,7 @@ function multisite_notifications_core_uninstall() {
  */
 function multisite_notifications_core_enable() {
   // provide default settings values for subscriptions
+  /*
   db_update('subscriptions_user')
     ->fields(array(
       'digest' => 0,
@@ -41,7 +42,7 @@ function multisite_notifications_core_enable() {
     ))
     ->condition('uid', "-2")
     ->execute();
-
+  */
   drupal_set_message(t('Notifications feature is now active on your site.'));
 }
 
