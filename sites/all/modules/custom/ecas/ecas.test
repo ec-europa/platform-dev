@@ -205,7 +205,7 @@ class EcasFunctionalTest extends DrupalWebTestCase {
     $this->assertLinkByHref('ecaslogout', 0, 'Authenticated admin user: The ECAS block displays the ecas logout link.');
 
     $this->drupalLogout();
-  	$this->assertText('User Login', 'Anonymous user: The ECAS login block is available in the sidebar.');
+    $this->assertText('User Login', 'Anonymous user: The ECAS login block is available in the sidebar.');
   	$this->assertLinkByHref('ecas', 0, 'Anonymous user: The ECAS block displays the ecas login link.');
 
   	$this->drupalLogin($this->web_user);
@@ -225,7 +225,7 @@ class EcasFunctionalTest extends DrupalWebTestCase {
     $this->drupalLogout();
     $this->drupalGet('ecas');
     $this->assertResponse(200);
-    $port = (is_numeric(constant('FPFIS_ECAS_PORT')) ? ':'.FPFIS_ECAS_PORT : '');
+    $port = (is_numeric(constant('FPFIS_ECAS_PORT')) ? ':' . FPFIS_ECAS_PORT : '');
     $this->assertUrl('https://' . FPFIS_ECAS_URL . $port . FPFIS_ECAS_URI . '/login?service=' . rawurlencode($base_url . '/ecas'));
 
     $this->drupalLogin($this->web_user);
@@ -265,7 +265,7 @@ class EcasFunctionalTest extends DrupalWebTestCase {
     $this->drupalLogout();
     $this->drupalGet('ecaslogout');
     $this->assertResponse(200);
-	$port = (is_numeric(constant('FPFIS_ECAS_PORT')) ? ':'.FPFIS_ECAS_PORT : '');
+	$port = (is_numeric(constant('FPFIS_ECAS_PORT')) ? ':' . FPFIS_ECAS_PORT : '');
 	$this->assertUrl('https://' . FPFIS_ECAS_URL . $port . FPFIS_ECAS_URI . '/login?service=' . rawurlencode($base_url . '/ecaslogout'));
   }
 }
@@ -304,62 +304,62 @@ class EcasAuthenticationTest extends DrupalWebTestCase {
    * Verify pages are protected correctly
    */
   function testExcludingPagesSettings() {
-  	global $base_url;
+    global $base_url;
 
-  	// A: First test excluding no pages from authentication
-  	// This means all pages need authentication
+    // A: First test excluding no pages from authentication
+    // This means all pages need authentication
 
-  	$this->drupalLogin($this->admin_user);
-  	$this->drupalGet('admin/config/ecas');
-  	$edit = array(
-  	    'ecas_pages_method' => ECAS_LOGIN_EXLUDE_PAGES,
-  	    'ecas_pages' => '',
-  	    );
-  	$this->drupalPost(NULL, $edit, 'Save configuration');
-
-	// Goto the front page (=protected)
-	$this->drupalGet('<front>');
-	$this->assertUrl('<front>', array(), 'Authenticated users are not redirected.');
-
- 	// anonymous
-	$this->drupalLogout();
-
-	// Goto the front page (=protected)
-	$this->drupalGet('<front>');
-	$port = (is_numeric(constant('FPFIS_ECAS_PORT')) ? ':'.FPFIS_ECAS_PORT : '');
-	$this->assertUrl('https://' . FPFIS_ECAS_URL . $port . FPFIS_ECAS_URI . '/login?service=' . rawurlencode($base_url . '/'), array(), 'Authentication is required and user is redirected to the ECAS login.');
-
-  	//////
-  	// B: Test excluding the user pages from authentication
-  	// This means front page needs authentication, user pages don't
     $this->drupalLogin($this->admin_user);
     $this->drupalGet('admin/config/ecas');
+    $edit = array(
+        'ecas_pages_method' => ECAS_LOGIN_EXLUDE_PAGES,
+        'ecas_pages' => '',
+        );
+    $this->drupalPost(NULL, $edit, 'Save configuration');
+
+    // Goto the front page (=protected)
+    $this->drupalGet('<front>');
+    $this->assertUrl('<front>', array(), 'Authenticated users are not redirected.');
+
+    // anonymous
+    $this->drupalLogout();
+
+    // Goto the front page (=protected)
+    $this->drupalGet('<front>');
+	$port = (is_numeric(constant('FPFIS_ECAS_PORT')) ? ':' . FPFIS_ECAS_PORT : '');
+	$this->assertUrl('https://' . FPFIS_ECAS_URL . $port . FPFIS_ECAS_URI . '/login?service=' . rawurlencode($base_url . '/'), array(), 'Authentication is required and user is redirected to the ECAS login.');
+
+	//
+	// B: Test excluding the user pages from authentication
+	// This means front page needs authentication, user pages don't
+	$this->drupalLogin($this->admin_user);
+	$this->drupalGet('admin/config/ecas');
     $edit = array(
       'ecas_pages_method' => ECAS_LOGIN_EXLUDE_PAGES,
       'ecas_pages' => '<front>',
     );
     $this->drupalPost(NULL, $edit, 'Save configuration');
 
-	// AS ADMIN
-	// Goto the front page (=not protected)
-	$this->drupalGet('<front>');
-	$this->assertUrl('<front>', array(), 'Authenticated users are not redirected.');
+    // AS ADMIN
+    // Goto the front page (=not protected)
+    $this->drupalGet('<front>');
+    $this->assertUrl('<front>', array(), 'Authenticated users are not redirected.');
 
- 	// anonymous
-	$this->drupalLogout();
+    // anonymous
+    $this->drupalLogout();
 
-	// Goto the front page (=not protected)
-	$this->drupalGet('<front>');
-	$this->assertUrl('<front>', array(), 'Anonymous user is not redirected, because the page is un-protected.');
+    // Goto the front page (=not protected)
+    $this->drupalGet('<front>');
+    $this->assertUrl('<front>', array(), 'Anonymous user is not redirected, because the page is un-protected.');
   }
 
   /**
    * Verify pages are protected correctly
    */
   function testIncludingPagesSettings() {
-  	global $base_url;
+    global $base_url;
 
-  	//////
+    //
   	// A: First test including no pages for authentication
   	// This means no page requires authentication
   	//
