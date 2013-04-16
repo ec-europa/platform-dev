@@ -21,7 +21,7 @@ function sitemap_enable() {
   );
   menu_link_save($item);
 
-   drupal_set_message(t('STARTERKIT %v feature is now active on your site.', array('%v' => _STARTERKIT_get_version())));
+   drupal_set_message(t('Sitemap %v feature is now active on your site.', array('%v' => _sitemap_get_version())));
 }
 
 /**
@@ -32,7 +32,7 @@ function sitemap_disable() {
   menu_link_delete(NULL, 'sitemap');
 
   //Activation message
- drupal_set_message(t('STARTERKIT %v feature is now inactive on your site.', array('%v' => _STARTERKIT_get_version())));
+ drupal_set_message(t('Sitemap %v feature is now inactive on your site.', array('%v' => _sitemap_get_version())));
 }
 
 
