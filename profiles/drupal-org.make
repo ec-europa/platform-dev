@@ -12,7 +12,7 @@ projects[advanced_help][subdir] = "contributed"
 projects[advanced_help][version] = "1.0"
 
 projects[apachesolr][subdir] = "contributed"
-projects[apachesolr][version] = "1.1"
+projects[apachesolr][version] = "1.2"
 
 projects[apachesolr_attachments][subdir] = "contributed"
 projects[apachesolr_attachments][version] = "1.2"
