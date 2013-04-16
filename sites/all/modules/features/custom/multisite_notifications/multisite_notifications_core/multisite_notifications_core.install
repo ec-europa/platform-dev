@@ -24,11 +24,10 @@ function multisite_notifications_core_uninstall() {
  */
 function multisite_notifications_core_enable() {
   // provide default settings values for subscriptions
-  /*
   db_update('subscriptions_user')
     ->fields(array(
       'digest' => 0,
-      'send_interval' => 3600,
+      'send_interval' => 1,
       'send_updates' => 1,
       'send_comments' => 1,
       'send_interval_visible' => 1,
@@ -37,11 +36,12 @@ function multisite_notifications_core_enable() {
       'autosub_on_post' => 0,
       'autosub_on_update' => 0,
       'autosub_on_comment' => 0,
-      'send_self' => 0,
+      'send_self' => 1,
+      'suspended' => 0
     ))
     ->condition('uid', "-2")
     ->execute();
-  */
+
   drupal_set_message(t('Notifications feature is now active on your site.'));
 }
 
