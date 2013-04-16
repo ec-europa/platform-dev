@@ -12,7 +12,6 @@ dependencies[] = strongarm
 dependencies[] = subscriptions
 dependencies[] = subscriptions_content
 dependencies[] = subscriptions_mail
-dependencies[] = subscriptions_og
 dependencies[] = subscriptions_ui
 dependencies[] = subscriptions_taxonomy
 dependencies[] = token
