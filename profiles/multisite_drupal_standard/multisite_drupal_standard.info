@@ -112,7 +112,7 @@ dependencies[] = advanced_help
 dependencies[] = realname
 dependencies[] = wysiwyg
 dependencies[] = tmgmt
-dependencies[] = apachesolr_multilingual
+;dependencies[] = apachesolr_multilingual
 dependencies[] = chr
 
 dependencies[] = multisite_drupal_toolbox
