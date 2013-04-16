@@ -185,7 +185,7 @@ function group_forum_views_pre_render(&$view) {
  * Internal function to get the room number from the gid
  */
 function _group_forum_get_rooms($gid) {
-  if (empty($gid)){
+  if (empty($gid)) {
     //get context
     $context = og_context();
     if (!empty($context)) $gid = $context['gid'];
