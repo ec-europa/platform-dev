@@ -41,10 +41,10 @@ function feed_rss_core_enable() {
   global $theme_key;
 
   if ($theme_key == 'ec_resp') {
-    multisite_drupal_toolbox_add_block_context('homepage', 'feed-' . $feed->fid,'aggregator', 'feed-' . $feed->fid, 'sidebar_right');
+    multisite_drupal_toolbox_add_block_context('homepage', 'feed-' . $feed->fid, 'aggregator', 'feed-' . $feed->fid, 'sidebar_right');
   }
   else {
-    multisite_drupal_toolbox_add_block_context('homepage', 'feed-' . $feed->fid,'aggregator', 'feed-' . $feed->fid, 'sidebar_second');
+    multisite_drupal_toolbox_add_block_context('homepage', 'feed-' . $feed->fid, 'aggregator', 'feed-' . $feed->fid, 'sidebar_second');
   }
 
 
@@ -58,10 +58,10 @@ function feed_rss_core_enable() {
  * Edit communities context to remove block
  * Remove permissions
  */
-function feed_rss_core_disable(){
+function feed_rss_core_disable() {
   // remove feed and its items
   $feed = db_select('aggregator_feed', 'a')
-    ->condition('title', 'Press Releases','=')
+    ->condition('title', 'Press Releases', '=')
     ->fields('a')
     ->execute()
     ->fetchObject();

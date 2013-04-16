@@ -49,7 +49,7 @@ class EmbeddedVideosWebTestCase extends DrupalWebTestCase {
         'fields[_add_new_field][widget_type]' => 'media_generic',
     );
     $field_name = 'field_' . $name;
-    $this->drupalPost('admin/structure/types/manage/'. $node_type . '/fields', $edit, t('Save'));
+    $this->drupalPost('admin/structure/types/manage/' . $node_type . '/fields', $edit, t('Save'));
     $this->drupalPost(NULL, array(), t('Save field settings'));
   //  $settings = array('media_internet' => TRUE);
     $this->drupalPost(NULL, $settings, t('Save settings'));
@@ -131,7 +131,7 @@ class EmbeddedVideosWebTestCase extends DrupalWebTestCase {
      if (array_key_exists('dependencies', $info)) {
        // dependencies[] = "menu"
 
-       $this->assertFalse(in_array('menu', $info['dependencies']),'There is no reference to the menu dependency.');
+       $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
 
        // Remove taxonomy dependencies
        // dependencies[] = "taxonomy"

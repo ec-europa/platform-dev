@@ -10,8 +10,8 @@ function ecas_env_menu_alter(&$items) {
   $items['ecas']['menu_name'] = "user-menu";
   $items['ecaslogout']['menu_name'] = "user-menu";
   $items['ecas']['type'] = MENU_NORMAL_ITEM;
-  $items['ecaslogout']['type'] = MENU_NORMAL_ITEM;  
-  
+  $items['ecaslogout']['type'] = MENU_NORMAL_ITEM;
+
   $items['user/logout']['access callback'] = 'normal_menu_logout_check';
   $items['user/login']['access callback'] = 'normal_menu_check';
 }
@@ -32,6 +32,6 @@ function ecas_env_node_view_alter(&$build) {
   global $base_url;
   if (isset($build['links']['comment']['#links']['comment_forbidden'])) {
     //alter login links in the comment area to redirect to ecas
-    $build['links']['comment']['#links']['comment_forbidden']['title'] = '<a href="' . $base_url . '/ecas">Log in</a> or <a href="https://webgate.ec.europa.eu/aida/selfreg?service='.$base_url.'/ecas">register</a> to post comments';
+    $build['links']['comment']['#links']['comment_forbidden']['title'] = '<a href="' . $base_url . '/ecas">Log in</a> or <a href="https://webgate.ec.europa.eu/aida/selfreg?service=' . $base_url . '/ecas">register</a> to post comments';
   }
 }

@@ -79,7 +79,7 @@ function group_forum_node_delete( $node ) {
  * Implementation of hook_form_alter
  */
 function group_forum_form_alter(&$form, &$form_state, $form_id) {
-  switch( $form_id ) {
+  switch ( $form_id ) {
     // I set the default field_room if the id is set
     case 'forum_thread_node_form':
       if ( !isset($_GET['field_forum_room']) ) return;
@@ -184,7 +184,7 @@ function group_forum_views_pre_render(&$view) {
 /**
  * Internal function to get the room number from the gid
  */
-function _group_forum_get_rooms( $gid ) {
+function _group_forum_get_rooms($gid) {
   if (empty($gid)){
     //get context
     $context = og_context();
@@ -223,7 +223,7 @@ function _group_forum_get_rooms( $gid ) {
 
   $order = '';
   if ( isset( $_GET['sort'] ) && preg_match( '/[asc|desc]/', $_GET['sort'] )  && isset( $_GET['order'] ) ) {
-    $order = ' ORDER BY '. $header[$_GET['order']]['field'].' '.$_GET['sort'];
+    $order = ' ORDER BY ' . $header[$_GET['order']]['field'] . ' ' . $_GET['sort'];
   }
 
   //I put the order directly in the request because the :order didn't function
@@ -276,12 +276,12 @@ function room_alias_to_arg($arg) {
     if ( arg(1) == 'add' ) return;
     $nid = arg(1);
     $node = node_load($nid);
-    switch( $node->type ) {
+    switch ($node->type) {
         case 'forum_room':
         case 'forum_thread':
-            $alias = drupal_lookup_path( 'alias', $_GET['q'] );
+            $alias = drupal_lookup_path('alias', $_GET['q']);
             //In case of edit mode
-            if ( $alias == FALSE ) return 0;
+            if ($alias == FALSE) return 0;
             $alias = explode( '/', $alias );
             return $alias[3];
         case 'community':
@@ -289,12 +289,12 @@ function room_alias_to_arg($arg) {
             //nothing
             break;
         default:
-            krumo( $node );
+            krumo($node);
             break;
     }
   }
   else {
-      if( preg_match( "/.*forum\/([^\/]*)(\/.*)+/", $_GET['q'], $matches ) ) {
+      if (preg_match( "/.*forum\/([^\/]*)(\/.*)+/", $_GET['q'], $matches)) {
         return $matches[1];
       }
   }
@@ -305,13 +305,13 @@ function room_alias_to_arg($arg) {
 * _load function
 */
 function room_alias_load($arg) {
-  if( empty($arg) ) return 0;
+  if (empty($arg)) return 0;
 
-  if( preg_match( '/node\/(.*)/', $_GET['q'], $matches ) ) {
+  if (preg_match('/node\/(.*)/', $_GET['q'], $matches)) {
     return $matches[1];
   }
 
-  if ( preg_match( "/(.*$arg).*/", $_GET['q'], $matches ) ) {
+  if (preg_match( "/(.*$arg).*/", $_GET['q'], $matches)) {
     $source = drupal_lookup_path( 'source', $matches[1] );
     $source = explode("/", $source);
     if ( count($source) != 2 ) return 0;

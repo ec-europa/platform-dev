@@ -5,10 +5,10 @@
  */
 
 function fat_footer_enable() {
-  multisite_drupal_toolbox_add_block_context('site_wide','fat-footer','fat_footer','fat-footer', 'footer');
+  multisite_drupal_toolbox_add_block_context('site_wide', 'fat-footer', 'fat_footer', 'fat-footer', 'footer');
 
     //Activation message
-    drupal_set_message('Fat footer is now enabled on your site.');
+    drupal_set_message(t('Fat footer is now enabled on your site.'));
 }
 
 function fat_footer_disable() {
