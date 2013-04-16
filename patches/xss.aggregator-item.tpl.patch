@@ -1,0 +1,17 @@
+--- modules/aggregator/aggregator-item.tpl.php	2013-04-15 15:26:23.054930141 +0200
++++ modules/aggregator/aggregator-item.tpl.php	2013-04-16 09:07:57.000000000 +0200
+@@ -22,12 +22,12 @@
+ ?>
+ <div class="feed-item">
+   <h3 class="feed-item-title">
+-    <a href="<?php print $feed_url; ?>"><?php print $feed_title; ?></a>
++    <a href="<?php print filter_xss($feed_url); ?>"><?php print filter_xss($feed_title); ?></a>
+   </h3>
+ 
+   <div class="feed-item-meta">
+   <?php if ($source_url): ?>
+-    <a href="<?php print $source_url; ?>" class="feed-item-source"><?php print $source_title; ?></a> -
++    <a href="<?php print filter_xss($source_url); ?>" class="feed-item-source"><?php print filter_xss($source_title); ?></a> -
+   <?php endif; ?>
+     <span class="feed-item-date"><?php print $source_date; ?></span>
+   </div>

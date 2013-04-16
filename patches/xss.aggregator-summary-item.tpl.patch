@@ -1,0 +1,14 @@
+--- modules/aggregator/aggregator-summary-item.tpl.php	2013-04-15 15:26:23.054930141 +0200
++++ modules/aggregator/aggregator-summary-item.tpl.php	2013-04-16 09:09:48.000000000 +0200
+@@ -17,9 +17,9 @@
+  * @ingroup themeable
+  */
+ ?>
+-<a href="<?php print $feed_url; ?>"><?php print $feed_title; ?></a>
++<a href="<?php print filter_xss($feed_url); ?>"><?php print filter_xss($feed_title); ?></a>
+ <span class="age"><?php print $feed_age; ?></span>
+ 
+ <?php if ($source_url): ?>,
+-  <span class="source"><a href="<?php print $source_url; ?>"><?php print $source_title; ?></a></span>
++  <span class="source"><a href="<?php print filter_xss($source_url); ?>"><?php print filter_xss($source_title); ?></a></span>
+ <?php endif; ?>
