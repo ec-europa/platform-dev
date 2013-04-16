@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @file
+ *   Provides a multi-site search admin for Apache Solr module
+ */
 /**
  * Creates the form that allows the user to select which facets will be enabled.
  *

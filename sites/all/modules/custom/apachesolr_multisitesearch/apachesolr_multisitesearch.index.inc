@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ *   Provides a multi-site search index for use with the Apache Solr module
+ */
+
 function apachesolr_multisitesearch_refresh_metadata() {
   // Update meta data 1x per hour max.
   // Fetch meta data 1x per 5 minutes max.
