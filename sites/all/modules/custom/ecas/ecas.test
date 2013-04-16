@@ -403,7 +403,7 @@ class EcasAuthenticationTest extends DrupalWebTestCase {
 
 	// Goto the front page (=not protected)
 	$this->drupalGet('<front>');
-	$port = (is_numeric(constant('FPFIS_ECAS_PORT')) ? ':'.FPFIS_ECAS_PORT : '');
+	$port = (is_numeric(constant('FPFIS_ECAS_PORT')) ? ':' . FPFIS_ECAS_PORT : '');
 	$this->assertUrl('https://' . FPFIS_ECAS_URL . $port . FPFIS_ECAS_URI . '/login?service=' . rawurlencode($base_url . '/'), array(), 'Authentication is required and user is redirected to the ECAS login.');
   }
 

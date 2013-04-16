@@ -106,7 +106,7 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
         );
   }
 
-  protected function createUser($rid, $name, $status, $denied, $ecas=false) {
+  protected function createUser($rid, $name, $status, $denied, $ecas = FALSE) {
     $edit = array();
     $edit['name']   = $name;
     $edit['mail']   = $edit['name'] . '@example.com';
@@ -125,11 +125,11 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
 
     // Add the raw password so that we can log in as this user.
     $account->pass_raw = $edit['pass'];
-    if($denied == DENIED){
-      deny_account_action($account, null);
+    if ($denied == DENIED) {
+      deny_account_action($account, NULL);
      }
 
-    if($ecas){
+    if ($ecas) {
       $cas_authmap = db_insert('authmap')
        ->fields(array(
            'authname' => $name,
@@ -158,10 +158,10 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
     $this->web_user_active_denied = $this->createUser($rid, 'web_user_active_denied', ACTIVE, DENIED);
     $this->web_user_inactive_allowed = $this->createUser($rid, 'web_user_inactive_allowed', INACTIVE, ALLOWED);
     $this->web_user_inactive_denied = $this->createUser($rid, 'web_user_inactive_denied', INACTIVE, DENIED);
-    $this->ecas_user_active_allowed = $this->createUser($rid, 'ecas_user_active_allowed', ACTIVE, ALLOWED, true);
-    $this->ecas_user_active_denied = $this->createUser($rid, 'ecas_user_active_denied', ACTIVE, DENIED, true);
-    $this->ecas_user_inactive_allowed = $this->createUser($rid, 'ecas_user_inactive_allowed', INACTIVE, ALLOWED, true);
-    $this->ecas_user_inactive_denied = $this->createUser($rid, 'ecas_user_inactive_denied', INACTIVE, DENIED, true);
+    $this->ecas_user_active_allowed = $this->createUser($rid, 'ecas_user_active_allowed', ACTIVE, ALLOWED, TRUE);
+    $this->ecas_user_active_denied = $this->createUser($rid, 'ecas_user_active_denied', ACTIVE, DENIED, TRUE);
+    $this->ecas_user_inactive_allowed = $this->createUser($rid, 'ecas_user_inactive_allowed', INACTIVE, ALLOWED, TRUE);
+    $this->ecas_user_inactive_denied = $this->createUser($rid, 'ecas_user_inactive_denied', INACTIVE, DENIED, TRUE);
 
     $this->admin_user = $this->drupalCreateUser(array(
       'administer site configuration',
@@ -230,7 +230,7 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
     $this->assertNoText('ecas_user_inactive_allowed', 'User ecas_user_inactive_allowed was not listed');
     $this->assertNoText('ecas_user_active_allowed', 'User ecas_user_active_allowed was not listed');
     $this->assertNoText('ecas_user_active_denied',  'User ecas_user_active_denied was not listed');
-    
+
     $this->drupalGet('admin/people/blocked_accounts', array('query' => array(
       'uid' => 'ecas_user_inactive_allowed',
       'mail' => '',
