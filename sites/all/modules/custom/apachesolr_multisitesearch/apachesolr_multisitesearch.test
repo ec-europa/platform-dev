@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ *   Provides tests for multi-site search implementation for use with the Apache Solr module
+ */
 
 class MultisiteSolrOfflineDrupalWebTestCase extends DrupalWebTestCase {
   /**
@@ -23,19 +27,19 @@ class MultisiteSolrOfflineDrupalWebTestCase extends DrupalWebTestCase {
    */
   function setUp() {
     parent::setUp(array(
-    	'apachesolr', 
-    	'apachesolr_search', 
-    	'search', 
-    	'apachesolr_test', 
-    	'facetapi',
-    	'apachesolr_multisitesearch'
-    ));
-    
+        'apachesolr',
+        'apachesolr_search',
+        'search',
+        'apachesolr_test',
+        'facetapi',
+        'apachesolr_multisitesearch'
+        ));
+
     // Create a basic user, which is subject to moderation.
     $permissions = array(
-      'access content',
-      'search content',
-    );
+        'access content',
+        'search content',
+        );
     $basic_user = $this->drupalCreateUser($permissions);
 
     // Create an admin user that can bypass revision moderation.
@@ -65,7 +69,7 @@ class MultisiteSolrOfflineDrupalWebTestCase extends DrupalWebTestCase {
 
     // Check multisite apachesolr settings are added to the form
     $this->drupalGet('admin/config/search/apachesolr/settings/solr/edit');
-    $this->assertText(t('Make this Solr search environment multisite capable'), 'Multisite search can be enabled.');  
+    $this->assertText(t('Make this Solr search environment multisite capable'), 'Multisite search can be enabled.');
     $this->assertNoFieldChecked('edit-make-multisite');
 
     // Enable multisite apachesolr search
@@ -73,43 +77,43 @@ class MultisiteSolrOfflineDrupalWebTestCase extends DrupalWebTestCase {
     $edit['make_multisite'] = '1';
     $this->drupalPost($this->getUrl(), $edit, t('Save'));
     $this->drupalGet('admin/config/search/apachesolr/settings/solr/edit');
-    $this->assertFieldChecked('edit-make-multisite');   
-    
+    $this->assertFieldChecked('edit-make-multisite');
+
     // Test if the multisite tab is present
     $this->drupalGet('admin/config/search/apachesolr');
     $this->assertText(t('Multisite'), t('Multisite settings tab is present.'));
     $this->assertLinkByHref('admin/config/search/apachesolr/multisite-filters', 0, t('The correct url was found for the Multisite settings tab'));
     $this->drupalGet('admin/config/search/apachesolr/multisite-filters');
-    $this->assertResponse(200);    
-    
-    // Test the metadata refresh        
+    $this->assertResponse(200);
+
+    // Test the metadata refresh
     $edit = array();
     $this->drupalPost($this->getUrl(), $edit, t('Refresh metadata now'));
     $this->assertResponse(200);
     $this->assertText(t('The metadata has been refreshed.'), t('Metadata can be refreshed'));
-    
+
     // Test the site facet block is not available
     $this->drupalGet('admin/structure/block');
     $this->assertNoText(t('Facet API: Apache Solr environment: localhost server : Site'), t('Site facet block is not yet present'));
-    
+
     // Test if the facets are available
     $this->drupalGet('admin/config/search/apachesolr/settings/solr/facets');
     $this->assertResponse(200);
     $this->assertText(t('Filter by Site (Multisite).'), 'Multisite is enabled for the Site facet');
     $this->assertText(t('Filter by Tags (Multisite).'), 'Multisite is enabled for the Tags facet');
-    $this->assertText(t('Filter by content type (Multisite).'), 'Multisite is enabled for the Content-type facet');    
-    
+    $this->assertText(t('Filter by content type (Multisite).'), 'Multisite is enabled for the Content-type facet');
+
     $this->assertField('edit-enabled-facets-hash', t('Site facet option present'));
     $this->assertNoFieldChecked('edit-enabled-facets-hash');
-            
+
     // Enable the facet
     $edit = array();
-    $edit['enabled_facets[hash]'] = 'hash';    
+    $edit['enabled_facets[hash]'] = 'hash';
     $this->drupalPost($this->getUrl(), $edit, t('Save configuration'));
     $this->assertResponse(200);
-    $this->assertText(t('The configuration options have been saved.'), t('The configuration options have been saved.')); 
+    $this->assertText(t('The configuration options have been saved.'), t('The configuration options have been saved.'));
     $this->assertFieldChecked('edit-enabled-facets-hash');
-        
+
     // Test the site facet block is available now
     $this->drupalGet('admin/structure/block');
     $this->assertText(t('Facet API: Apache Solr environment: localhost server : Site'), t('Site facet block is present'));
