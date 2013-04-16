@@ -88,7 +88,7 @@ function multisite_drupal_language_negociation_url_custom_alter(&$path, &$option
         //$options['prefix'] = $options['language']->prefix . '/';
         $delimiter = variable_get('language_suffix_delimiter', '_');
         if ($path == '<front>' || $path == '') { // handle the homepage url
-          $path = ($options['language']->prefix == 'en')?'':'index' . $delimiter.$options['language']->prefix; // no path and suffix for the home page in english
+          $path = ($options['language']->prefix == 'en')?'':'index' . $delimiter . $options['language']->prefix; // no path and suffix for the home page in english
         }
         else
           $path .= $delimiter . $options['language']->prefix;
@@ -102,7 +102,7 @@ function multisite_drupal_language_negociation_url_custom_alter(&$path, &$option
  */
 function multisite_drupal_language_negociation_language_types_info_alter(&$language_types) {
   $defined_providers = language_negotiation_info();
-  if(isset($defined_providers[LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX])) {
+  if (isset($defined_providers[LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX])) {
     // put the locale-url-suffix as priority provider for language type url
     array_unshift($language_types[LANGUAGE_TYPE_URL]['fixed'], 'locale-url-suffix');
   }
@@ -115,7 +115,7 @@ function multisite_drupal_language_negociation_form_alter(&$form, $form_state, $
   switch ($form_id) {
     case 'locale_languages_configure_form':
       $language_negociation = variable_get('language_negotiation_language');
-      if(isset($language_negociation['locale-url-suffix'])) //  disable URL method if URL-suffix method is enabled
+      if (isset($language_negociation['locale-url-suffix'])) //  disable URL method if URL-suffix method is enabled
         $form['language']['enabled']['locale-url']['#disabled'] = TRUE;
       break;
   }
