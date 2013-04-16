@@ -143,7 +143,7 @@ class GroupForumTest extends DrupalWebTestCase {
     }
 
     // The room should be created
-    if ($this->_testForumAvailability()){
+    if ($this->_testForumAvailability()) {
       $this->clickLink('Forum');
       $this->assertNoText(t('There are not yet any room.'), t('Found the default message'));
 

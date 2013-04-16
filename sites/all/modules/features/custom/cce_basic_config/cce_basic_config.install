@@ -356,7 +356,7 @@ function cce_basic_config_enable() {
     'delta' =>  'form',
     'region' => 'header_right',
     'weight' => 1,
-  );  
+  );
   $context->reactions['block']['blocks']['form']=$block_to_add2;
 
   module_invoke('context', 'save', $context);
@@ -697,7 +697,7 @@ function cce_basic_config_update_7160() {
     'delta' =>  'form',
     'region' => 'header_right',
     'weight' => 1,
-  );  
+  );
   $context->reactions['block']['blocks']['form']=$block_to_add;
 
   module_invoke('context', 'save', $context);
@@ -708,20 +708,19 @@ function cce_basic_config_update_7160() {
  * update classification vocabulary ids
  */
 function cce_basic_config_update_7170() {
- 
-	//Get the "classification" vid
-	$classification=NULL;
-	
-	//http://api.drupal.org/api/drupal/modules!taxonomy!taxonomy.module/function/taxonomy_get_vocabularies/7 
-	$vocabularies = taxonomy_get_vocabularies(NULL);
-	foreach ($vocabularies as $vocab_object) {
-		if ($vocab_object->name == "classification") {
-		  $classification= $vocab_object->name;
-		}
 
-	//update  `taxonomy_term_data`  set name=concat(name, '000') WHERE vid=1 
-	$results = db_query("update  `taxonomy_term_data`  set name=concat(name, '000') WHERE vid=1 ");
-	
-	return;
-	}
+  //Get the "classification" vid
+  $classification=NULL;
+
+  //http://api.drupal.org/api/drupal/modules!taxonomy!taxonomy.module/function/taxonomy_get_vocabularies/7
+  $vocabularies = taxonomy_get_vocabularies(NULL);
+  foreach ($vocabularies as $vocab_object) {
+    if ($vocab_object->name == "classification") {
+      $classification= $vocab_object->name;
+    }
+
+  //update  `taxonomy_term_data`  set name=concat(name, '000') WHERE vid=1
+  $results = db_query("update  `taxonomy_term_data`  set name=concat(name, '000') WHERE vid=1 ");
+  return;
+  }
 }
