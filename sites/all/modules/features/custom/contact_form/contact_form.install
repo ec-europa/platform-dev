@@ -4,6 +4,7 @@
  * @file
  * Install the feature contact_form
  */
+include_once 'contact_form.install.inc';
 
 /**
  * hook_install
