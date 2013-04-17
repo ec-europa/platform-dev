@@ -9,6 +9,70 @@
  */
 function multisite_notifications_og_default_rules_configuration() {
   $items = array();
+  $items['rules_multisite_og_member_blocked'] = entity_import('rules_config', '{ "rules_multisite_og_member_blocked" : {
+      "LABEL" : "multisite OG member blocked",
+      "PLUGIN" : "reaction rule",
+      "TAGS" : [ "multisite notifications" ],
+      "REQUIRES" : [ "rules", "og" ],
+      "ON" : [ "og_user_blocked" ],
+      "IF" : [
+        { "entity_is_of_type" : { "entity" : [ "og-membership:group" ], "type" : "node" } }
+      ],
+      "DO" : [
+        { "variable_add" : {
+            "USING" : { "type" : "node", "value" : [ "og-membership:group" ] },
+            "PROVIDE" : { "variable_added" : { "group" : "Added variable" } }
+          }
+        },
+        { "mail" : {
+            "to" : [ "account:mail" ],
+            "subject" : "Your membership has been blocked for \\u0027[group:title]\\u0027\\r\\n",
+            "message" : "[account:name],\\r\\n\\r\\nYour membership has been blocked for \\u0027[group:title]\\u0027 located at [group:url]",
+            "language" : [ "" ]
+          }
+        },
+        { "mail" : {
+            "to" : [ "group:author:mail" ],
+            "subject" : "[account:name] blocked for [group:title]",
+            "message" : "[group:author:name],\\r\\n\\r\\n[account:name] blocked for [group:title] in [group:url]",
+            "language" : [ "" ]
+          }
+        }
+      ]
+    }
+  }');
+  $items['rules_multisite_og_member_remove'] = entity_import('rules_config', '{ "rules_multisite_og_member_remove" : {
+      "LABEL" : "multisite OG member remove",
+      "PLUGIN" : "reaction rule",
+      "TAGS" : [ "multisite notifications" ],
+      "REQUIRES" : [ "rules", "og" ],
+      "ON" : [ "og_user_delete" ],
+      "IF" : [
+        { "entity_is_of_type" : { "entity" : [ "og-membership:group" ], "type" : "node" } }
+      ],
+      "DO" : [
+        { "variable_add" : {
+            "USING" : { "type" : "node", "value" : [ "og-membership:group" ] },
+            "PROVIDE" : { "variable_added" : { "group" : "Added variable" } }
+          }
+        },
+        { "mail" : {
+            "to" : [ "account:mail" ],
+            "subject" : "Group \\u0027[group:title]\\u0027 removal\\r\\n",
+            "message" : "[account:name],\\r\\n\\r\\nYou have been removed from \\u0027[group:title]\\u0027",
+            "language" : [ "" ]
+          }
+        },
+        { "mail" : {
+            "to" : [ "group:author:mail" ],
+            "subject" : "[account:name] removed from [group:title]",
+            "message" : "[group:author:name],\\r\\n\\r\\n[account:name] removed from [group:title] in [group:url]",
+            "language" : [ "" ]
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_og_member_subscribe_active_'] = entity_import('rules_config', '{ "rules_og_member_subscribe_active_" : {
       "LABEL" : "multisite OG member subscribe (Active)",
       "PLUGIN" : "reaction rule",
