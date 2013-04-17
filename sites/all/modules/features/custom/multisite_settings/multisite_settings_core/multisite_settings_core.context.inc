@@ -9,9 +9,9 @@
  */
 function multisite_settings_core_context_default_contexts() {
   $export = array();
-
+/*
   $context = new stdClass();
-  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->disabled = FALSE; 
   $context->api_version = 3;
   $context->name = 'homepage';
   $context->description = 'context for the home page';
@@ -41,7 +41,7 @@ function multisite_settings_core_context_default_contexts() {
   // Included for use with string extractors like potx.
   t('context for the home page');
   t('homepage');
-  $export['homepage'] = $context;
+  $export['homepage'] = $context;*/
 
   return $export;
 }

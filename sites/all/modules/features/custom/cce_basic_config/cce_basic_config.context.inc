@@ -9,9 +9,9 @@
  */
 function cce_basic_config_context_default_contexts() {
   $export = array();
-
+/*
   $context = new stdClass();
-  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->disabled = FALSE; 
   $context->api_version = 3;
   $context->name = 'search';
   $context->description = 'context for search pages';
@@ -56,7 +56,7 @@ function cce_basic_config_context_default_contexts() {
   $export['search'] = $context;
 
   $context = new stdClass();
-  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->disabled = FALSE; 
   $context->api_version = 3;
   $context->name = 'site_wide';
   $context->description = 'global context';
@@ -104,7 +104,7 @@ function cce_basic_config_context_default_contexts() {
   // Included for use with string extractors like potx.
   t('global context');
   t('site wide');
-  $export['site_wide'] = $context;
+  $export['site_wide'] = $context;*/
 
   return $export;
 }
