@@ -70,14 +70,18 @@ function multisite_notifications_core_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'subscriptions_omitted_taxa';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    1 => '1',
+  );
   $export['subscriptions_omitted_taxa'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'subscriptions_restricted_taxa';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    1 => '1',
+  );
   $export['subscriptions_restricted_taxa'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -119,7 +123,9 @@ function multisite_notifications_core_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'subscriptions_unlisted_content_types';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    'community' => 'community',
+  );
   $export['subscriptions_unlisted_content_types'] = $strongarm;
 
   $strongarm = new stdClass();
