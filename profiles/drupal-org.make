@@ -146,6 +146,9 @@ projects[node_export][version] = "3.0"
 projects[notifications][subdir] = "contributed"
 projects[notifications][version] = "1.x-dev"
 
+projects[om_maximenu][subdir] = "contributed"
+projects[om_maximenu][version] = "1.44"
+
 projects[password_policy][subdir] = "contributed"
 projects[password_policy][version] = "2.x-dev"
 
@@ -244,6 +247,9 @@ projects[wysiwyg][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contributed"
 projects[xmlsitemap][version] = "2.0-rc1"
+
+projects[xml_field][subdir] = "contributed"
+projects[xml_field][version] = "1.5"
 
 projects[message][subdir] = "contributed"
 projects[message][version] = "1.7"
