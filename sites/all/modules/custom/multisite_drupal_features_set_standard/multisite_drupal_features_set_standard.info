@@ -59,16 +59,6 @@ feature_sets[ec_content_slider][font] = 'multisite-icon-code'
 feature_sets[ec_content_slider][enable][] = ec_content_slider
 feature_sets[ec_content_slider][disable][] = ec_content_slider
 
-feature_sets[feed_rss_core][title] = 'EU Press Releases'
-feature_sets[feed_rss_core][description] = 'Display a block on your homepage with EU Press Releases Information.'
-feature_sets[feed_rss_core][category] = 'Information to users'
-feature_sets[feed_rss_core][icon] = ''
-feature_sets[feed_rss_core][font] = 'multisite-icon-feed'
-feature_sets[feed_rss_core][enable][] = feed_rss_core
-feature_sets[feed_rss_core][enable][] = aggregator
-feature_sets[feed_rss_core][disable][] = feed_rss_core
-feature_sets[feed_rss_core][disable][] = aggregator
-
 feature_sets[events_standard][title] = 'Events'
 feature_sets[events_standard][description] = 'Allows contributors to define an event in the calendar. An event is used to store the information about something happening somewhere at a specific day or period of time. Every visitor can view the content of an event throuht the calendar.'
 feature_sets[events_standard][category] = 'Communication'
@@ -78,6 +68,16 @@ feature_sets[events_standard][enable][] = events_standard
 feature_sets[events_standard][enable][] = events_core
 feature_sets[events_standard][disable][] = events_standard
 feature_sets[events_standard][disable][] = events_core
+
+feature_sets[feed_rss_core][title] = 'EU Press Releases'
+feature_sets[feed_rss_core][description] = 'Display a block on your homepage with EU Press Releases Information.'
+feature_sets[feed_rss_core][category] = 'Information to users'
+feature_sets[feed_rss_core][icon] = ''
+feature_sets[feed_rss_core][font] = 'multisite-icon-feed'
+feature_sets[feed_rss_core][enable][] = feed_rss_core
+feature_sets[feed_rss_core][enable][] = aggregator
+feature_sets[feed_rss_core][disable][] = feed_rss_core
+feature_sets[feed_rss_core][disable][] = aggregator
 
 feature_sets[f_a_q][title] = 'FAQ'
 feature_sets[f_a_q][description] = 'Allows administrators to post answers to frequently asked questions. This content is available for every visitor on the site, directly from its homepage.'
@@ -234,3 +234,35 @@ feature_sets[multisite_translations][icon] = ''
 feature_sets[multisite_translations][font] = 'multisite-icon-flag'
 feature_sets[multisite_translations][enable][] = multisite_translations
 feature_sets[multisite_translations][disable][] = multisite_translations
+
+feature_sets[multisite_charts][title] = 'Multisite Charts'
+feature_sets[multisite_charts][description] = 'Create multiple customized charts based on FusionCharts API'
+feature_sets[multisite_charts][category] = 'Communication'
+feature_sets[multisite_charts][icon] = ''
+feature_sets[multisite_charts][font] = 'multisite-icon-pie'
+feature_sets[multisite_charts][enable][] = multisite_charts
+feature_sets[multisite_charts][disable][] = multisite_charts
+
+feature_sets[multisite_maps][title] = 'Multisite Maps'
+feature_sets[multisite_maps][description] = 'Create multiple customized maps based on FusionMaps API'
+feature_sets[multisite_maps][category] = 'Communication'
+feature_sets[multisite_maps][icon] = ''
+feature_sets[multisite_maps][font] = 'multisite-icon-location'
+feature_sets[multisite_maps][enable][] = multisite_maps
+feature_sets[multisite_maps][disable][] = multisite_maps
+
+feature_sets[multisite_megamenu][title] = 'Multisite Mega menu'
+feature_sets[multisite_megamenu][description] = 'Two-level main menu capable of displaying blocks with links and content (including text and images).'
+feature_sets[multisite_megamenu][category] = 'Navigation'
+feature_sets[multisite_megamenu][icon] = ''
+feature_sets[multisite_megamenu][font] = 'multisite-icon-list'
+feature_sets[multisite_megamenu][enable][] = multisite_megamenu
+feature_sets[multisite_megamenu][disable][] = multisite_megamenu
+
+feature_sets[multisite_metatags][title] = 'Multisite Meta tags'
+feature_sets[multisite_metatags][description] = 'Add metatag information to nodes, that respects the IPG guidelines'
+feature_sets[multisite_metatags][category] = 'Communication'
+feature_sets[multisite_metatags][icon] = ''
+feature_sets[multisite_metatags][font] = 'multisite-icon-pie'
+feature_sets[multisite_metatags][enable][] = multisite_metatags
+feature_sets[multisite_metatags][disable][] = multisite_metatags
