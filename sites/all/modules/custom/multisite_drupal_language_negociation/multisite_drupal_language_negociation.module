@@ -119,6 +119,16 @@ function multisite_drupal_language_negociation_form_alter(&$form, $form_state, $
         $form['language']['enabled']['locale-url']['#disabled'] = TRUE;
       break;
   }
+  if (substr($form_id, -9) == 'node_form') {
+    $language_default = language_default();
+    // hide all language except neutral language and default language in node form
+    if (isset($form['language']) {
+      foreach($form['language']['#options'] as $lg => $language) {
+        if($lg != $language_default->language && $lg != LANGUAGE_NONE)
+          unset($form['language']['#options'][$lg]);
+      }  
+    }
+  }
 }
 
 

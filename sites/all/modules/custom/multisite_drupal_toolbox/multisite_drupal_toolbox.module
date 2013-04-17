@@ -1059,7 +1059,7 @@ function multisite_drupal_toolbox_tokens($type, $tokens, array $data = array(), 
               $replacements[$original] = $node->translation_source->title;
             }
             else {
-              $replacements[$original] = $translations[$language_default->language]->title;
+              $replacements[$original] = (isset($translations[$language_default->language]->title))?$translations[$language_default->language]->title:$node->title;
             }
           }
           break;
