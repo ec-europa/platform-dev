@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * Code for the Mega Menu feature.
+ */
+
+/**
+ * Implements hook_init().
+ */
+function multisite_megamenu_init() {
+  // Ensure our CSS file is loaded after other modules' CSS files
+  drupal_add_css(drupal_get_path('module', 'multisite_megamenu') . '/css/multisite_megamenu.css', array('group' => CSS_DEFAULT, 'every_page' => TRUE, 'weight' => 1000));
+}

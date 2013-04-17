@@ -1,0 +1,111 @@
+/* $Id$ */
+/**
+ * @file
+ * OM Maximenu css
+ *
+ * Overwritte original CSS OM Maximenu: om_maximenu/css/om_maximenu.css
+ * .om-maximenu ul.om-menu li.om-leaf { position: relative; z-index: 5; } 
+ * Review that these attributes (position: relative; z-index: 5;) are manually commented in the original file css (om_maximenu / css / om_maximenu.css)
+ * so that the width of each submenu is set depending on the
+ * width of the menu instead of relying on each menu item.
+ *
+ */
+
+/* Hidden Menu Title */
+.block-om-maximenu h2 { display:none}
+
+/* Stylize main OM Maximenu items  */
+.block-om-maximenu{ float:left; width:100%;  text-align:center; background:#eaf5ff url(./images/bkg_menu.gif) 100% 0 repeat-x;}
+.om-maximenu.om-maximenu-block ul.om-menu { 
+	display: block; position: relative;  z-index: 20;  /* Enable absolute positioning for children and pseudo elements */
+	 width:940px; float:none; margin:0 auto; text-align:left; 
+	 height:auto !important; min-height:40px; /* Minimum <ul> height <ul> */
+}
+	.om-maximenu .om-maximenu-middle-right .block { display:block; float:left}
+		.om-maximenu ul.om-menu li.om-leaf a { color:#0088CC}
+        .om-maximenu ul.om-menu li.om-leaf a.active { color:#0088CC}
+		.om-maximenu ul.om-menu li.om-leaf .om-link 		{ color:#0088CC; padding:5px 10px; border-right:1px solid #fff; cursor:pointer} 
+        .om-maximenu ul.om-menu li.om-leaf.first .om-link   { border-left:1px solid #fff;}
+		.om-maximenu ul.om-menu li.om-leaf .om-link:hover  	{ color:#fff; background:#007fcf}
+
+/* Stylize OM Maximenu Submenus */
+.om-maximenu .om-maximenu-open { visibility:hidden;}
+.om-maximenu .om-maximenu-content .block { margin-bottom:1%;} /* Submenus */
+	.om-maximenu .om-maximenu-content .block li div span a{ text-decoration: none !important; }
+	.om-maximenu .om-maximenu-content .block  .om-maximenu-middle div div .block{border-right: 0px !important;}
+
+.om-maximenu .om-maximenu-middle-right { display:block; float:left; 	font-size:100%; color:#08c; width:100%;} /* Enable full width Submenu */
+	.om-maximenu .om-maximenu-middle-right .field-content a{text-decoration:none;}
+	.om-maximenu .om-maximenu-middle-right .item-list a:visited{color: #08c;}
+	.om-maximenu .om-maximenu-middle-right .field-content img{margin-top:10px; margin-bottom:10px; width: 160px;}
+    .om-maximenu .om-maximenu-middle-right ul {list-style-type: none; margin:0}
+    .om-maximenu .om-maximenu-middle-right ul li.leaf,
+    .om-maximenu .om-maximenu-middle-right ul li.collapsed,
+    .om-maximenu .om-maximenu-middle-right ul li.expanded   {list-style-image: none;}
+    .om-maximenu .om-maximenu-middle-right ul li{ list-style-type:none; padding:0; margin:0; padding-left:15px;  background:url(./images/bullet_dark.png) no-repeat 0 6px } 
+
+/* Atrributtes could be overwritten by sweaver */ 
+.om-maximenu .om-maximenu-content { left:2%; top:40px} /* same top that height '.om-maximenu ul.om-menu' */
+.om-maximenu .om-maximenu-middle-right .block h3.title  { line-height:1.2; font-size:100%; font-weight:bold; padding:0 10px}
+.om-maximenu .om-maximenu-middle-right .block { border-right:1px solid #08c;}
+.om-maximenu .om-maximenu-middle-right .block.last { border-right:0}
+.om-maximenu .om-maximenu-middle-right .block .content { padding:0 10px}
+.om-maximenu.om-maximenu-block ul.om-menu {  /*  Default style OM Maximenu */
+	background:#eaf5ff url(./images/bkg_menu.gif) 100% 0 repeat-x;
+	-webkit-border-radius: 0px 5px 5px 0px;
+	border-radius: 0px 5px 5px 0px;
+}
+.om-maximenu .om-maximenu-middle-right { /* Default style Submenu */
+	padding:20px 0 10px;
+	background:#d6ebff url(./images/bkg_menu.gif) 100% 0 repeat-x;
+	-webkit-border-radius: 0px 0px 5px 5px;
+	border-radius: 0px 0px 5px 5px;
+}
+
+
+/* IE7 */
+*+html .om-maximenu ul.om-menu { height:40px}
+*+html .om-maximenu .om-maximenu-content { width:auto; } 
+*+html .om-maximenu .om-maximenu-middle-right { width: auto; margin-left: 20px; padding-left: 0; } 
+
+
+/* RESPONSIVE OM Maximenu GRID */
+	.om-maximenu .om-maximenu-middle-right{ width: 100%}
+	.om-maximenu .om-maximenu-middle-right:after { clear: both}
+	.om-maximenu .om-maximenu-middle-right:before, .om-maximenu .om-maximenu-middle-right:after { content: ""; display: table; line-height: 0;}
+	.om-maximenu .om-maximenu-middle-right .block {  /* Enable specific width and margins for submenu blocks */
+		display: block;
+		margin-left: 2.564102564102564%; /* default margin left for each block */
+		*margin-left: 2.5109110747408616%;
+		-webkit-box-sizing: border-box; /* box model:'border-box' -> element width is the combined width of the border, padding and content area of the box */
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	.om-maximenu .om-maximenu-middle-right .block.first { margin-left:0}
+
+	/* Stylize OM Maximenu for Landscape phones and down */
+	@media (max-width: 599px) { 
+		.om-maximenu.om-maximenu-block ul.om-menu  { width:100%;}
+		.om-maximenu ul.om-menu { margin-bottom:10px; border-bottom:5px solid #d6ebff; background:#eaf5ff url(./images/bkg_menu.gif) 100% 0 repeat-x;}
+		.om-maximenu ul.om-menu li.om-leaf { clear:both; width:100%; padding:0; height:auto !important; min-height:40px; border-bottom:1px solid #98ceff; }
+		.om-maximenu ul.om-menu li.om-leaf .om-link { padding:5px; background:url(./images/arrows_menu.png) 95% -30% no-repeat; border:0; display:block; width:100%}
+		.om-maximenu ul.om-menu li.om-leaf .om-link:hover { padding:5px; background:#007fcf url(./images/arrows_menu.png) 95% 120% no-repeat; border:0; display:block; width:100%}
+		.om-maximenu .om-maximenu-content { clear:both; position:relative; width:100% !important; top:0; left:0}
+		.om-maximenu .om-maximenu-middle-right { padding:0; border-radius:0; background-image:none; background-color:#fff}
+		.om-maximenu .om-maximenu-middle-right .block  { clear:both; float:left; width:100%; margin:0; padding-bottom:5px; border-bottom:1px solid #ddd}
+		.om-maximenu .om-maximenu-middle-right .block.last { border-bottom:0}
+		.om-maximenu .om-maximenu-middle-right .block h3 { font-size:120%; line-height:1.3}
+		#block-system-user-menu { clear:both; float:right; margin-top:10px; margin-right:-20px; margin-bottom:0}
+		h1#page-title { margin:0 0 9px}
+	}
+
+	/* Stylize OM Maximenu for Tablets and Desktops */
+	@media (min-width: 600px) and (max-width: 939px) {
+		.om-maximenu.om-maximenu-block ul.om-menu   { width:724px}
+	}
+	@media (min-width: 940px) and (max-width: 1210px) {
+		.om-maximenu.om-maximenu-block ul.om-menu   { width:940px}
+	}
+	@media (min-width: 1211px) {
+		.om-maximenu.om-maximenu-block ul.om-menu   { width:1170px}
+	}

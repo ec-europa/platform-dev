@@ -1,0 +1,211 @@
+<?php
+/**
+ * @file
+ * Code for the Multisite Maps feature.
+ */
+
+/**
+ * Implements hook_page_alter().
+ */
+function multisite_metatags_page_alter($page) {
+
+  if (arg(0) == 'node' && is_numeric(arg(1))) {
+    $node = node_load(arg(1));
+
+    // Meta Classification
+    if (!empty($node->field_meta_classification['und']) && $node->field_meta_classification['und'][0]['tid'] > 0) {
+      $tax = taxonomy_term_load($node->field_meta_classification['und'][0]['tid']);
+      $meta_classification = array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+        'name' => 'classification',
+        'content' => $tax->name
+        )
+      );
+      drupal_add_html_head( $meta_classification, 'meta_nodeclassification');
+    }
+
+    // Meta Description
+    if (!empty($node->field_meta_description)) {
+      $meta_description = array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+            'name' => 'description',
+            'content' => $node->field_meta_description['und'][0]['value']
+        )
+      );
+      drupal_add_html_head( $meta_description, 'meta_nodedescription');
+    }
+
+    // Meta Date
+    // Published
+    if ($node->status == 1) {
+      $date = date(('d/m/Y'), $node->created);
+    }
+    else {
+    // Not published
+      $date = date(('d/m/Y'), $node->changed);
+    }
+    $meta_date = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'Date',
+        'content' => $date
+      ),
+    );
+    drupal_add_html_head($meta_date, 'meta_nodedate');
+  }
+
+  // Meta Creator
+  $creator = variable_get('meta_creator');
+  if ($creator) {
+    $meta_creator = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'Creator',
+        'content' => drupal_strtoupper($creator)
+      ),
+    );
+    drupal_add_html_head($meta_creator, 'meta_sitewidecreator');
+  }
+
+  // Meta Reference
+  $reference_prefix = variable_get('meta_reference');
+  if ($reference_prefix) {
+    global $language;
+    $path = current_path();
+
+    if (!empty($node)) {
+      $path = drupal_lookup_path('alias', $path);
+    }
+    $reference = drupal_strtoupper($reference_prefix . '/' . $path . '/' . $language->language);
+
+    $meta_reference = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'Reference',
+        'content' => $reference
+      ),
+    );
+    drupal_add_html_head($meta_reference, 'meta_ipgreference');
+  }
+
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function multisite_metatags_form_alter(&$form, &$form_state, $form_id) {
+  if (arg(0) == 'node' && array_key_exists('field_meta_classification', $form)) {
+    //Get Taxonomy classification vid
+    $vid_classification = db_select('taxonomy_vocabulary', 't')
+      -> fields('t')
+      -> condition('machine_name', 'classification', '=')
+      -> execute()
+      ->fetchAll();
+    //Get Taxonomy tree
+    $classification = taxonomy_get_tree($vid_classification[0]->vid);
+
+    //Change the select to show name and description
+    $list[0] = 'none';
+    foreach ($classification as $key => $obj_term) {
+      $list[$obj_term->tid] = $obj_term->name . ' - ' . strip_tags($obj_term->description);
+    }
+    $form['field_meta_classification']['und']['#options'] = $list;
+    $form['#validate'][] = '_multisite_metatags_classification_validate';
+  }
+
+}
+
+/**
+ * Validates for metatag field values in node forms
+ *
+ * @see multisite_metatags_form_alter()
+ */
+function _multisite_metatags_classification_validate($form, &$form_state) {
+  if ($form_state['values']['field_meta_classification']['und'][0]['tid'] == 0) {
+    if ($form['field_meta_classification']['und']['#required'] == 1) {
+      form_set_error('field_meta_classification', t('IPG Classification field is required.'));
+    }
+    else {
+      if (arg(1) != 'add') {
+        $node = node_load($form['field_meta_classification']['und']['#entity']->vid);
+        unset($node->field_meta_classification);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_html_head_alter().
+ */
+function multisite_metatags_html_head_alter(&$head_elements) {
+  //join the metatags information
+
+  if (array_key_exists('meta_classification', $head_elements) && array_key_exists('meta_nodeclassification', $head_elements)) {
+    if ($head_elements['meta_classification']['#attributes']['content'] != $head_elements['meta_nodeclassification']['#attributes']['content']) {
+      $classification = $head_elements['meta_classification']['#attributes']['content'] . ',' . $head_elements['meta_nodeclassification']['#attributes']['content'];
+      $head_elements['meta_classification']['#attributes']['content'] = $classification;
+    }
+    unset($head_elements['meta_nodeclassification']);
+  }
+
+  if (array_key_exists('meta_nodedescription', $head_elements)) {
+    $head_elements['meta_description']['#attributes']['content'] = $head_elements['meta_nodedescription']['#attributes']['content'];
+    $head_elements['meta_og_description']['#attributes']['content'] = $head_elements['meta_nodedescription']['#attributes']['content'];
+    unset($head_elements['meta_nodedescription']);
+  }
+
+  if (array_key_exists('meta_nodedate', $head_elements)) {
+    $head_elements['meta_date']['#attributes']['content'] = $head_elements['meta_nodedate']['#attributes']['content'];
+    unset($head_elements['meta_nodedate']);
+  }
+
+  if (array_key_exists('meta_ipgreference', $head_elements)) {
+    $head_elements['meta_reference']['#attributes']['content'] = $head_elements['meta_ipgreference']['#attributes']['content'];
+    unset($head_elements['meta_ipgreference']);
+  }
+
+  if (array_key_exists('meta_sitewidecreator', $head_elements)) {
+    $head_elements['meta_creator']['#attributes']['content'] = $head_elements['meta_sitewidecreator']['#attributes']['content'];
+    unset($head_elements['meta_sitewidecreator']);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function multisite_metatags_form_system_site_information_settings_alter(&$form, &$form_state, $form_id) {
+  //Create textfields
+  $form['meta']['reference'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Reference prefix'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('meta_reference'),
+    '#description' => t('Usually the acronym of the DG / Site name (max. 30 characters).<br/>This text will supply information to METADATA "Reference".<br/>See the <a href="http://ec.europa.eu/ipg/content/optimise/metadata/annex1_en.htm#section_1" target="_blank">IPG guidelines</a> for more information.'),
+    '#maxlength' => 30,
+    '#weight' => 10,
+  );
+  $form['meta']['creator'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Creator'),
+    '#required' => FALSE,
+    '#default_value' => variable_get('meta_creator'),
+    '#description' => t('Ex. COMM/DG/UNIT (max. 30 characters).<br/>This text will supply information to METADATA "Creator".<br/>See the <a href="http://ec.europa.eu/ipg/content/optimise/metadata/annex1_en.htm#section_2" target="_blank">IPG guidelines</a> for more information.'),
+    '#maxlength' => 30,
+    '#weight' => 30,
+  );
+
+  //Get the 'code' and set meta_configuration variable
+  if (isset($form_state['input']['op']) && $form_state['input']['op'] == 'Save configuration') {
+    if (isset($form_state['input']['reference']) && isset($form_state['input']['creator'])) {
+      variable_set('meta_reference', $form_state['input']['reference']);
+      variable_set('meta_creator', $form_state['input']['creator']);
+    }
+  }
+}

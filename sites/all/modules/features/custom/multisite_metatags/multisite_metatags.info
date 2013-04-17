@@ -1,0 +1,13 @@
+name = Multisite Metatags
+description = Add metatag information to nodes, that respects the IPG guidelines
+core = 7.x
+package = Multisite_features
+php = 5.2.4
+version = 7.x-1.0
+project = multisite_metatags
+dependencies[] = features
+dependencies[] = options
+dependencies[] = text
+features[features_api][] = api:1
+features[field][] = node-contenttype-field_meta_classification
+features[field][] = node-contenttype-field_meta_description
