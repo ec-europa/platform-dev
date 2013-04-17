@@ -5,7 +5,57 @@
  * Tests for PROJECTFEATURE_sitemap.module.
  * ECWeb MULTISITE QA
  */
+class sitemapCore extends DrupalWebTestCase {
+  protected $administrator;
+  protected $contributor;
+  public static function getInfo() {
+    return array(
+      'name' => 'Sitemap QA tests',
+      'description' => 'Test the sitemap features to ensure it follows QA requirements.',
+      'group' => 'Multisite Core Features',
+    );
+  }
 
+  function setUp() {
+    parent::setUp(array(
+      'sitemap',
+      'xmlsitemap',
+    ));
+
+    $this->contributor = $this->drupalCreateUser(array(
+        'create article content',
+        'access site map',
+        ));
+
+    $this->administrator = $this->drupalCreateUser(array(
+       'create article content',
+       'access site map',
+       'administer xmlsitemap'
+    ));
+
+  }
+ function testSitemap() {
+   $this->drupalLogin($this->administrator);
+   $this->createSampleNodes(5);
+   //access sitemap
+   $edit['url'] = 'sitemap';
+   $this->drupalGet($edit['url']);
+   $this->assertResponse(array(200), format_string('URL !url is accessible', array('!url' => $edit['url'])));
+ }
+
+   function createSampleNodes($count = 5) {
+    $langcode = LANGUAGE_NONE;
+    // Post $count article nodes.
+    for ($i = 0; $i < $count; $i++) {
+      $edit = array();
+      $edit['title'] = $this->randomName();
+      $edit["body[$langcode][0][value]"] = $this->randomName();
+      $this->drupalPost('node/add/article', $edit, t('Save'));
+    }
+   }
+
+
+}
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
