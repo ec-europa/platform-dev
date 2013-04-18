@@ -302,7 +302,8 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
  */
 function multisite_drupal_toolbox_page_alter(&$page) {
   global $user;
-  if (variable_get('alert_message_enable', FALSE) && $user->uid > 0) {
+  $rid = multisite_drupal_toolbox_get_rid('administrator');
+  if (variable_get('alert_message_enable', FALSE) && isset($user->roles[$rid])) {
     $message = array(
         '#weight' => -1000,
         '#type' => 'markup',
