@@ -273,7 +273,7 @@ libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEd
 libraries[ckeditor][download][sha1] = "7e10cb67600e73ff066168e89049d9959924b26b"
 libraries[ckeditor][directory_name] = "ckeditor"
 
-;tcpdf 5.9.172
+;tcpdf
 libraries[tcpdf][download][type] = "get"
 libraries[tcpdf][download][url] = "http://sourceforge.net/projects/tcpdf/files/latest/download"
 libraries[tcpdf][destination] = "libraries"

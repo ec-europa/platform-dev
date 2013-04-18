@@ -11,7 +11,8 @@ $list_uids = db_select('users', 'u')->fields('u', array('uid'));
 $result_uids = $list_uids->execute();  
 
 // affect editor role to users with administrator role
-$maintenance_roles = array($editor_rid => 'editor');
+//$maintenance_roles = array($editor_rid => 'editor');
+$maintenance_roles = array($contributor_rid => 'contributor');
 
 while ($record = $result_uids->fetchAssoc()) {
   if ($record['uid'] > 1) {
