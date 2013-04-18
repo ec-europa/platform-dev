@@ -219,7 +219,7 @@ function subscriptions_og_subscriptions_node_options_alter(&$node_options) {
       $node = node_load($node_option[0]['params']['value']);
       if (og_is_group('node', $node)) {
         //if (!og_is_member('node', $node->nid) && $node->group_access['und'][0]['value'] == 1)
-        if (!og_is_member('node', $group->nid))
+        if (!og_is_member('node', $node->nid))
           $node_options = array();
         break;
       }
