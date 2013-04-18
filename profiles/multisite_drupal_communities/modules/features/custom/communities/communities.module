@@ -128,10 +128,11 @@ function communities_init() {
 
 
 function group_name_to_arg($arg=NULL) {
+  module_load_include('inc', 'pathauto', 'pathauto');
   $context = og_context();
   if (isset($context['gid'])) {
     $node = node_load($context['gid']);
-    return str_replace(" ", "-", $node->title);
+    return pathauto_cleanstring($node->title);
   }
   else
     return 'none';
@@ -147,7 +148,7 @@ function group_name_load($arg) {
   }
   
   // get real path to get node id
-  $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", $arg), 'en'); 
+  $alias = drupal_get_normal_path("community/" . $arg, 'en'); 
   
   $param = explode("/", $alias);
   $group = node_load($param[1]); // load community
