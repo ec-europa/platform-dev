@@ -257,6 +257,9 @@ function communities_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'community_node_form':
       $form['group_group']['#access'] = FALSE; // hide group field of the group content
+      $form['title']['#size'] = 80;
+      $form['title']['#maxlength'] = 80;
+      $form['title']['#description'] = t('max 80 characters');
       break;
   }
 }
