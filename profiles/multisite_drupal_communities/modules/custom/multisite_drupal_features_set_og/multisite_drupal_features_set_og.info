@@ -9,77 +9,14 @@ core = "7.x"
 project = "multisite_drupal_toolbox"
 datestamp = "1322093758"
 
-feature_sets[links_og][title] = 'Links'
-feature_sets[links_og][description] = 'Allows contributors to store a bookmark/URL to another website they wish to share with visitors.'
-feature_sets[links_og][category] = 'Communication'
-feature_sets[links_og][icon] = ''
-feature_sets[links_og][font] = 'multisite-icon-link'
-feature_sets[links_og][enable][] = links_core
-feature_sets[links_og][enable][] = links_og
-feature_sets[links_og][disable][] = links_og
-feature_sets[links_og][disable][] = links_core
-
-feature_sets[news_og][title] = 'News'
-feature_sets[news_og][description] = 'Allows contributors to publish news article he wishes to share with the other visitors. Every visitor can view the content of the news throught the news slider on homepage.'
-feature_sets[news_og][category] = 'Information to users'
-feature_sets[news_og][icon] = ''
-feature_sets[news_og][font] = 'multisite-icon-megaphone'
-feature_sets[news_og][enable][] = news_core
-feature_sets[news_og][enable][] = news_og
-feature_sets[news_og][disable][] = news_og
-feature_sets[news_og][disable][] = news_core
-
-feature_sets[ec_world_countries][title] = 'EC World Countries'
-feature_sets[ec_world_countries][description] = 'A list of World countries valid for EC.'
-feature_sets[ec_world_countries][category] = 'Information to users'
-feature_sets[ec_world_countries][icon] = ''
-feature_sets[ec_world_countries][font] = 'multisite-icon-earth'
-feature_sets[ec_world_countries][enable][] = ec_world_countries
-feature_sets[ec_world_countries][disable][] = ec_world_countries
-
-feature_sets[ec_profiles][title] = 'Extend Profiles'
-feature_sets[ec_profiles][description] = 'Gives a possibility for the administrator to manage information about visitor\'s profile on the site. He can add some additional fields and define whether the information must be filled by a new visitor or not, or if visitor can hide the information or not.'
-feature_sets[ec_profiles][category] = 'Users management'
-feature_sets[ec_profiles][icon] = ''
-feature_sets[ec_profiles][font] = 'multisite-icon-vcard'
-feature_sets[ec_profiles][enable][] = ec_profiles
-feature_sets[ec_profiles][disable][] = ec_profiles
-
-feature_sets[sitemap][title] = 'Sitemap'
-feature_sets[sitemap][description] = 'Helps visitors (mainly new visitors) to have a quick overview of how the site is organized and what the site proposes to visitors.'
-feature_sets[sitemap][category] = 'Navigation'
-feature_sets[sitemap][icon] = ''
-feature_sets[sitemap][font] = 'multisite-icon-directions'
-feature_sets[sitemap][enable][] = sitemap
-feature_sets[sitemap][disable][] = sitemap
-
-feature_sets[f_a_q][title] = 'FAQ'
-feature_sets[f_a_q][description] = 'Allows administrators to post answers to frequently asked questions. This content is available for every visitor on the site, directly from its homepage.'
-feature_sets[f_a_q][category] = 'Information to users'
-feature_sets[f_a_q][icon] = ''
-feature_sets[f_a_q][font] = 'multisite-icon-question'
-feature_sets[f_a_q][enable][] = f_a_q
-feature_sets[f_a_q][disable][] = f_a_q
-
-feature_sets[wiki_og][title] = 'Wikis'
-feature_sets[wiki_og][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every visitor, can view the content of the wiki.'
-feature_sets[wiki_og][category] = 'Communication'
-feature_sets[wiki_og][icon] = ''
-feature_sets[wiki_og][font] = 'multisite-icon-edit'
-feature_sets[wiki_og][enable][] = wiki_og
-feature_sets[wiki_og][enable][] = wiki_core
-feature_sets[wiki_og][disable][] = wiki_og
-feature_sets[wiki_og][disable][] = wiki_core
-
-feature_sets[survey_og][title] = 'Surveys'
-feature_sets[survey_og][description] = 'Allows administrators to question site visitors. Every visitor concerned by the poll/survey can respond as many times as allowed by the survey initiator. Results are stored and some statistics are generated and can be browsed by visitors.'
-feature_sets[survey_og][category] = 'Users feedback'
-feature_sets[survey_og][icon] = ''
-feature_sets[survey_og][font] = 'multisite-icon-check'
-feature_sets[survey_og][enable][] = survey_core
-feature_sets[survey_og][enable][] = survey_og
-feature_sets[survey_og][disable][] = survey_og
-feature_sets[survey_og][disable][] = survey_core
+; Communication
+feature_sets[ec_content_slider][title] = 'EC Content slider'
+feature_sets[ec_content_slider][description] = 'Allows to include content in a slider.'
+feature_sets[ec_content_slider][category] = 'Communication'
+feature_sets[ec_content_slider][icon] = ''
+feature_sets[ec_content_slider][font] = 'multisite-icon-code'
+feature_sets[ec_content_slider][enable][] = ec_content_slider
+feature_sets[ec_content_slider][disable][] = ec_content_slider
 
 feature_sets[events_og][title] = 'Events'
 feature_sets[events_og][description] = 'Allows contributors to define an event in the calendar. An event is used to store the information about something happening somewhere at a specific day or period of time. Every visitor can view the content of an event throuht the calendar.'
@@ -91,6 +28,82 @@ feature_sets[events_og][enable][] = events_og
 feature_sets[events_og][disable][] = events_og
 feature_sets[events_og][disable][] = events_core
 
+feature_sets[links_og][title] = 'Links'
+feature_sets[links_og][description] = 'Allows contributors to store a bookmark/URL to another website they wish to share with visitors.'
+feature_sets[links_og][category] = 'Communication'
+feature_sets[links_og][icon] = ''
+feature_sets[links_og][font] = 'multisite-icon-link'
+feature_sets[links_og][enable][] = links_core
+feature_sets[links_og][enable][] = links_og
+feature_sets[links_og][disable][] = links_og
+feature_sets[links_og][disable][] = links_core
+
+feature_sets[multi_user_blog][title] = 'Multi-user blog'
+feature_sets[multi_user_blog][description] = 'Allows contributors to create their own blog.'
+feature_sets[multi_user_blog][category] = 'Communication'
+feature_sets[multi_user_blog][icon] = ''
+feature_sets[multi_user_blog][font] = 'multisite-icon-book'
+feature_sets[multi_user_blog][enable][] = multi_user_blog
+feature_sets[multi_user_blog][disable][] = multi_user_blog
+
+feature_sets[wiki_og][title] = 'Wikis'
+feature_sets[wiki_og][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every visitor, can view the content of the wiki.'
+feature_sets[wiki_og][category] = 'Communication'
+feature_sets[wiki_og][icon] = ''
+feature_sets[wiki_og][font] = 'multisite-icon-edit'
+feature_sets[wiki_og][enable][] = wiki_og
+feature_sets[wiki_og][enable][] = wiki_core
+feature_sets[wiki_og][disable][] = wiki_og
+feature_sets[wiki_og][disable][] = wiki_core
+
+
+; Information to user
+feature_sets[feed_rss_core][title] = 'EU Press Releases'
+feature_sets[feed_rss_core][description] = 'Display a block on your homepage with EU Press Releases Information.'
+feature_sets[feed_rss_core][category] = 'Information to users'
+feature_sets[feed_rss_core][icon] = ''
+feature_sets[feed_rss_core][font] = 'multisite-icon-feed'
+feature_sets[feed_rss_core][enable][] = feed_rss_core
+feature_sets[feed_rss_core][enable][] = aggregator
+feature_sets[feed_rss_core][disable][] = feed_rss_core
+feature_sets[feed_rss_core][disable][] = aggregator
+
+feature_sets[ec_world_countries][title] = 'EC World Countries'
+feature_sets[ec_world_countries][description] = 'A list of World countries valid for EC.'
+feature_sets[ec_world_countries][category] = 'Information to users'
+feature_sets[ec_world_countries][icon] = ''
+feature_sets[ec_world_countries][font] = 'multisite-icon-earth'
+feature_sets[ec_world_countries][enable][] = ec_world_countries
+feature_sets[ec_world_countries][disable][] = ec_world_countries
+
+feature_sets[f_a_q][title] = 'FAQ'
+feature_sets[f_a_q][description] = 'Allows administrators to post answers to frequently asked questions. This content is available for every visitor on the site, directly from its homepage.'
+feature_sets[f_a_q][category] = 'Information to users'
+feature_sets[f_a_q][icon] = ''
+feature_sets[f_a_q][font] = 'multisite-icon-question'
+feature_sets[f_a_q][enable][] = f_a_q
+feature_sets[f_a_q][disable][] = f_a_q
+
+feature_sets[news_og][title] = 'News'
+feature_sets[news_og][description] = 'Allows contributors to publish news article he wishes to share with the other visitors. Every visitor can view the content of the news throught the news slider on homepage.'
+feature_sets[news_og][category] = 'Information to users'
+feature_sets[news_og][icon] = ''
+feature_sets[news_og][font] = 'multisite-icon-megaphone'
+feature_sets[news_og][enable][] = news_core
+feature_sets[news_og][enable][] = news_og
+feature_sets[news_og][disable][] = news_og
+feature_sets[news_og][disable][] = news_core
+
+feature_sets[newsletters][title] = 'Newsletters'
+feature_sets[newsletters][description] = 'Publish and send newsletters to lists of subscribers.'
+feature_sets[newsletters][category] = 'Information to users'
+feature_sets[newsletters][icon] = ''
+feature_sets[newsletters][font] = 'multisite-icon-paperplane'
+feature_sets[newsletters][enable][] = newsletters
+feature_sets[newsletters][disable][] = newsletters
+
+
+; Media
 feature_sets[e_library_og][title] = 'E-Library'
 feature_sets[e_library_og][description] = 'Allows contributors to publish documents represented as uploaded files in various possible formats (pdf, xls, doc...). Documents will be stored in a space named E-Library. Every visitor can have access to the documents in the E-Library.'
 feature_sets[e_library_og][category] = 'Media'
@@ -101,6 +114,76 @@ feature_sets[e_library_og][enable][] = e_library_og
 feature_sets[e_library_og][disable][] = e_library_og
 feature_sets[e_library_og][disable][] = e_library_core
 
+feature_sets[ec_embedded_video][title] = 'Embedded videos'
+feature_sets[ec_embedded_video][description] = 'Allows to embed videos from Youtube, dailymotion or vimeo.'
+feature_sets[ec_embedded_video][category] = 'Media'
+feature_sets[ec_embedded_video][icon] = ''
+feature_sets[ec_embedded_video][font] = 'multisite-icon-camera'
+feature_sets[ec_embedded_video][enable][] = ec_embedded_video
+feature_sets[ec_embedded_video][disable][] = ec_embedded_video
+
+feature_sets[gallerymedia_core][title] = 'Media Galleries'
+feature_sets[gallerymedia_core][description] = 'Contributors can add picture galleries.'
+feature_sets[gallerymedia_core][category] = 'Media'
+feature_sets[gallerymedia_core][icon] = ''
+feature_sets[gallerymedia_core][font] = 'multisite-icon-pictures'
+feature_sets[gallerymedia_core][enable][] = gallerymedia_core
+feature_sets[gallerymedia_core][disable][] = gallerymedia_core
+
+
+; Multilingualism
+feature_sets[multilingual_tools][title] = 'Multilingual tools'
+feature_sets[multilingual_tools][description] = 'Provide tools to enhance the translation tasks.'
+feature_sets[multilingual_tools][category] = 'Multilingualism'
+feature_sets[multilingual_tools][icon] = ''
+feature_sets[multilingual_tools][font] = 'multisite-icon-language'
+feature_sets[multilingual_tools][enable][] = multilingual_tools
+feature_sets[multilingual_tools][disable][] = multilingual_tools
+
+feature_sets[multisite_translations][title] = 'Multisite translations'
+feature_sets[multisite_translations][description] = 'Provide a system for translation requests management.'
+feature_sets[multisite_translations][category] = 'Multilingualism'
+feature_sets[multisite_translations][icon] = ''
+feature_sets[multisite_translations][font] = 'multisite-icon-flag'
+feature_sets[multisite_translations][enable][] = multisite_translations
+feature_sets[multisite_translations][disable][] = multisite_translations
+
+feature_sets[splash_screen][title] = 'Splash screen'
+feature_sets[splash_screen][description] = 'Provide a home page to choose language and store language in cookie.'
+feature_sets[splash_screen][category] = 'Multilingualism'
+feature_sets[splash_screen][icon] = ''
+feature_sets[splash_screen][font] = 'multisite-icon-publish'
+feature_sets[splash_screen][enable][] = splash_screen
+feature_sets[splash_screen][disable][] = splash_screen
+
+
+; Navigation
+feature_sets[fat_footer][title] = 'Fat footer'
+feature_sets[fat_footer][description] = 'Provide a expanded main menu at the bottom of page.'
+feature_sets[fat_footer][category] = 'Navigation'
+feature_sets[fat_footer][icon] = ''
+feature_sets[fat_footer][font] = 'multisite-icon-reorder'
+feature_sets[fat_footer][enable][] = fat_footer
+feature_sets[fat_footer][disable][] = fat_footer
+
+feature_sets[node_pager][title] = 'Node pager'
+feature_sets[node_pager][description] = 'The node pager allows to add a pager to browse between nodes of the same content type based on a predefined field.'
+feature_sets[node_pager][category] = 'Navigation'
+feature_sets[node_pager][icon] = ''
+feature_sets[node_pager][font] = 'multisite-icon-menu'
+feature_sets[node_pager][enable][] = node_pager
+feature_sets[node_pager][disable][] = node_pager
+
+feature_sets[sitemap][title] = 'Sitemap'
+feature_sets[sitemap][description] = 'Helps visitors (mainly new visitors) to have a quick overview of how the site is organized and what the site proposes to visitors.'
+feature_sets[sitemap][category] = 'Navigation'
+feature_sets[sitemap][icon] = ''
+feature_sets[sitemap][font] = 'multisite-icon-directions'
+feature_sets[sitemap][enable][] = sitemap
+feature_sets[sitemap][disable][] = sitemap
+
+
+; Users feedback
 feature_sets[contact_form][title] = 'Contact form'
 feature_sets[contact_form][description] = 'Allows to contact support by email.'
 feature_sets[contact_form][category] = 'Users feedback'
@@ -119,6 +202,14 @@ feature_sets[idea_standard][enable][] = idea_core
 feature_sets[idea_standard][disable][] = idea_standard
 feature_sets[idea_standard][disable][] = idea_core
 
+feature_sets[likedislike][title] = 'Like/Dislike'
+feature_sets[likedislike][description] = 'This feature enables to display the "Like/Dislike buttons". Please visit: http://webtools.ec.europa.eu/like/examples/ in a way to access documentation, about how to install the buttons.'
+feature_sets[likedislike][category] = 'Users feedback'
+feature_sets[likedislike][icon] = ''
+feature_sets[likedislike][font] = 'multisite-icon-thumbs-up'
+feature_sets[likedislike][enable][] = likedislike
+feature_sets[likedislike][disable][] = likedislike
+
 feature_sets[social_bookmark][title] = 'Social bookmark'
 feature_sets[social_bookmark][description] = 'Let your visitor share your site content on social network.'
 feature_sets[social_bookmark][category] = 'Users feedback'
@@ -127,13 +218,25 @@ feature_sets[social_bookmark][font] = 'multisite-icon-share'
 feature_sets[social_bookmark][enable][] = social_bookmark
 feature_sets[social_bookmark][disable][] = social_bookmark
 
-feature_sets[gallerymedia_core][title] = 'Media Galleries'
-feature_sets[gallerymedia_core][description] = 'Contributors can add picture galleries.'
-feature_sets[gallerymedia_core][category] = 'Media'
-feature_sets[gallerymedia_core][icon] = ''
-feature_sets[gallerymedia_core][font] = 'multisite-icon-pictures'
-feature_sets[gallerymedia_core][enable][] = gallerymedia_core
-feature_sets[gallerymedia_core][disable][] = gallerymedia_core
+feature_sets[survey_og][title] = 'Surveys'
+feature_sets[survey_og][description] = 'Allows administrators to question site visitors. Every visitor concerned by the poll/survey can respond as many times as allowed by the survey initiator. Results are stored and some statistics are generated and can be browsed by visitors.'
+feature_sets[survey_og][category] = 'Users feedback'
+feature_sets[survey_og][icon] = ''
+feature_sets[survey_og][font] = 'multisite-icon-check'
+feature_sets[survey_og][enable][] = survey_core
+feature_sets[survey_og][enable][] = survey_og
+feature_sets[survey_og][disable][] = survey_og
+feature_sets[survey_og][disable][] = survey_core
+
+
+; Users management
+feature_sets[ec_profiles][title] = 'Extend Profiles'
+feature_sets[ec_profiles][description] = 'Gives a possibility for the administrator to manage information about visitor\'s profile on the site. He can add some additional fields and define whether the information must be filled by a new visitor or not, or if visitor can hide the information or not.'
+feature_sets[ec_profiles][category] = 'Users management'
+feature_sets[ec_profiles][icon] = ''
+feature_sets[ec_profiles][font] = 'multisite-icon-vcard'
+feature_sets[ec_profiles][enable][] = ec_profiles
+feature_sets[ec_profiles][disable][] = ec_profiles
 
 feature_sets[multisite_notifications_og][title] = 'Notifications'
 feature_sets[multisite_notifications_og][description] = 'Provide the possibility to subscribe to contents and receive notifications.'
@@ -144,93 +247,3 @@ feature_sets[multisite_notifications_og][enable][] = multisite_notifications_cor
 feature_sets[multisite_notifications_og][enable][] = multisite_notifications_og
 feature_sets[multisite_notifications_og][disable][] = multisite_notifications_og
 feature_sets[multisite_notifications_og][disable][] = multisite_notifications_core
-
-feature_sets[feed_rss_core][title] = 'EU Press Releases'
-feature_sets[feed_rss_core][description] = 'Display a block on your homepage with EU Press Releases Information.'
-feature_sets[feed_rss_core][category] = 'Information to users'
-feature_sets[feed_rss_core][icon] = ''
-feature_sets[feed_rss_core][font] = 'multisite-icon-feed'
-feature_sets[feed_rss_core][enable][] = feed_rss_core
-feature_sets[feed_rss_core][enable][] = aggregator
-feature_sets[feed_rss_core][disable][] = feed_rss_core
-feature_sets[feed_rss_core][disable][] = aggregator
-
-feature_sets[fat_footer][title] = 'Fat footer'
-feature_sets[fat_footer][description] = 'Provide a expanded main menu at the bottom of page.'
-feature_sets[fat_footer][category] = 'Navigation'
-feature_sets[fat_footer][icon] = ''
-feature_sets[fat_footer][font] = 'multisite-icon-reorder'
-feature_sets[fat_footer][enable][] = fat_footer
-feature_sets[fat_footer][disable][] = fat_footer
-
-feature_sets[splash_screen][title] = 'Splash screen'
-feature_sets[splash_screen][description] = 'Provide a home page to choose language and store language in cookie.'
-feature_sets[splash_screen][category] = 'Multilingualism'
-feature_sets[splash_screen][icon] = ''
-feature_sets[splash_screen][font] = 'multisite-icon-publish'
-feature_sets[splash_screen][enable][] = splash_screen
-feature_sets[splash_screen][disable][] = splash_screen
-
-feature_sets[multilingual_tools][title] = 'Multilingual tools'
-feature_sets[multilingual_tools][description] = 'Provide tools to enhance the translation tasks.'
-feature_sets[multilingual_tools][category] = 'Multilingualism'
-feature_sets[multilingual_tools][icon] = ''
-feature_sets[multilingual_tools][font] = 'multisite-icon-language'
-feature_sets[multilingual_tools][enable][] = multilingual_tools
-feature_sets[multilingual_tools][disable][] = multilingual_tools
-
-feature_sets[likedislike][title] = 'Like/Dislike'
-feature_sets[likedislike][description] = 'This feature enables to display the "Like/Dislike buttons". Please visit: http://webtools.ec.europa.eu/like/examples/ in a way to access documentation, about how to install the buttons.'
-feature_sets[likedislike][category] = 'Users feedback'
-feature_sets[likedislike][icon] = ''
-feature_sets[likedislike][font] = 'multisite-icon-thumbs-up'
-feature_sets[likedislike][enable][] = likedislike
-feature_sets[likedislike][disable][] = likedislike
-
-feature_sets[newsletters][title] = 'Newsletters'
-feature_sets[newsletters][description] = 'Publish and send newsletters to lists of subscribers.'
-feature_sets[newsletters][category] = 'Information to users'
-feature_sets[newsletters][icon] = ''
-feature_sets[newsletters][font] = 'multisite-icon-paperplane'
-feature_sets[newsletters][enable][] = newsletters
-feature_sets[newsletters][disable][] = newsletters
-
-feature_sets[multi_user_blog][title] = 'Multi-user blog'
-feature_sets[multi_user_blog][description] = 'Allows contributors to create their own blog.'
-feature_sets[multi_user_blog][category] = 'Communication'
-feature_sets[multi_user_blog][icon] = ''
-feature_sets[multi_user_blog][font] = 'multisite-icon-book'
-feature_sets[multi_user_blog][enable][] = multi_user_blog
-feature_sets[multi_user_blog][disable][] = multi_user_blog
-
-feature_sets[node_pager][title] = 'Node pager'
-feature_sets[node_pager][description] = 'The node pager allows to add a pager to browse between nodes of the same content type based on a predefined field.'
-feature_sets[node_pager][category] = 'Navigation'
-feature_sets[node_pager][icon] = ''
-feature_sets[node_pager][font] = 'multisite-icon-menu'
-feature_sets[node_pager][enable][] = node_pager
-feature_sets[node_pager][disable][] = node_pager
-
-feature_sets[multisite_translations][title] = 'Multisite translations'
-feature_sets[multisite_translations][description] = 'Provide a system for translation requests management.'
-feature_sets[multisite_translations][category] = 'Multilingualism'
-feature_sets[multisite_translations][icon] = ''
-feature_sets[multisite_translations][font] = 'multisite-icon-flag'
-feature_sets[multisite_translations][enable][] = multisite_translations
-feature_sets[multisite_translations][disable][] = multisite_translations
-
-feature_sets[ec_embedded_video][title] = 'Embedded videos'
-feature_sets[ec_embedded_video][description] = 'Allows to embed videos from Youtube, dailymotion or vimeo.'
-feature_sets[ec_embedded_video][category] = 'Media'
-feature_sets[ec_embedded_video][icon] = ''
-feature_sets[ec_embedded_video][font] = 'multisite-icon-camera'
-feature_sets[ec_embedded_video][enable][] = ec_embedded_video
-feature_sets[ec_embedded_video][disable][] = ec_embedded_video
-
-feature_sets[ec_content_slider][title] = 'EC Content slider'
-feature_sets[ec_content_slider][description] = 'Allows to include content in a slider.'
-feature_sets[ec_content_slider][category] = 'Communication'
-feature_sets[ec_content_slider][icon] = ''
-feature_sets[ec_content_slider][font] = 'multisite-icon-code'
-feature_sets[ec_content_slider][enable][] = ec_content_slider
-feature_sets[ec_content_slider][disable][] = ec_content_slider
