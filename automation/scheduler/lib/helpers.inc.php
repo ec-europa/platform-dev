@@ -1,6 +1,6 @@
 <?php
 function say($string) {
-	printf("[%s] %s\n", date('%F:%T'), $string);
+	printf("[%s] %s\n", date('Y-m-d:H:i:s'), $string);
 }
 
 function exitWithMessage($rc, $string) {
