@@ -19,6 +19,7 @@ foreach(DrupalSubSite::fetchIncompleteSubSites() as $incomplete_subsite) {
 	$install_policy = $incomplete_subsite->installPolicy();
 	if (!load_install_policy($install_policy)) {
 		// error management (boring yet must-have)
+		say("Unable to load policy %s for %s.", $install_policy, $incomplete_subsite->name());
 		continue;
 	}
 	
