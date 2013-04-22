@@ -13,6 +13,7 @@ if (file_exists('conf/supermaster.local.inc.php')) {
 }
 require('lib/drupalsubsite.class.php');
 
+prevent_concurrent_executions();
 connect_to_supermaster_database();
 foreach(DrupalSubSite::fetchIncompleteSubSites() as $incomplete_subsite) {
 	$install_policy = $incomplete_subsite->installPolicy();

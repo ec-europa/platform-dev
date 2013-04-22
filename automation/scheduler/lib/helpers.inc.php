@@ -8,6 +8,80 @@ function exitWithMessage($rc, $string) {
 	exit($rc);
 }
 
+function read_pid_from_file($filepath) {
+	$return = -1;
+	$pid_fh = fopen($filepath, 'r');
+	if ($pid_fh !== FALSE) {
+		$firstline = fgets($pid_fh);
+		if ($firstline !== FALSE) {
+			$matches = array();
+			if (preg_match('/^([0-9]+)/', $firstline, $matches)) {
+				$return = $matches[1];
+			}
+		}
+		fclose($pid_fh);
+	}
+	return $return;
+}
+
+function age_of_file($filepath) {
+	return time() - filectime($filepath);
+}
+
+function remove_pid_file($pid_file) {
+	if (!unlink($pid_file)) {
+		say(sprintf("Error: unable to remove pid file %s", $pid_file));
+	}
+}
+
+function prevent_concurrent_executions() {
+	$pid_file = $GLOBALS['scheduler_pid_file'];
+	$long_execution_delay = $GLOBALS['scheduler_long_execution_delay'];
+	
+	if (file_exists($pid_file)) {
+		$pid = read_pid_from_file($pid_file);
+		if ($pid != -1 && is_dir('/proc/' . $pid)) {
+			// the scheduler is already running
+			if (age_of_file($pid_file) > $long_execution_delay) {
+				// ... for quite a suspect amount of time: print a message before exiting
+				exitWithMessage(
+					0,
+					sprintf(
+						'Warning: another instance of the scheduler is running for more than %d seconds.', 
+						$long_execution_delay
+					)
+				);
+			}
+			else {
+				// ... for a reasonable amount of time: exit silently
+				exit(0);
+			}
+		}
+		else {
+			$comment = ($pid == -1) ? 'mentioning no valid pid' : sprintf('mentioning pid %d -- perhaps the scheduler crashed?', $pid);
+			say(sprintf('Warning: deleting obsolete file %s (%s).', $pid_file, $comment));
+			if (!unlink($pid_file)) {
+				exitWithMessage(16, sprintf("Error: unable to remove obsolete file %s", $pid_file));
+			}
+		}
+	}
+	// at this point, either we exited or the pid file does not exist
+	$pid_fh = fopen($pid_file, 'w');
+	if ($pid_fh === FALSE) {
+		exitWithMessage(15, sprintf("Error: unable to write pid file %s", $pid_file));
+	}
+	if (!fwrite($pid_fh, getmypid())) {
+		exitWithMessage(14, sprintf("Error: unable to write data to pid file %s", $pid_file));
+	}
+	if (fclose($pid_fh) === FALSE) {
+		exitWithMessage(13, sprintf("Error: unable to close pid file %s", $pid_file));
+	}
+	
+	// at this point, we successfully created our pid file
+	// we now register a shutdown function in charge of deleting it
+	register_shutdown_function('remove_pid_file', $pid_file);
+}
+
 function connect_to_supermaster_database() {
 	global $supermaster_server;
 	global $supermaster_user;
