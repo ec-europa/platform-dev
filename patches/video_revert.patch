@@ -1,0 +1,10 @@
+--- sites/all/modules/contributed/video/video.features.inc	2013-04-22 09:11:50.186658751 +0200
++++ sites/all/modules/contributed/video/video.features.inc	2013-04-22 09:12:23.030264403 +0200
+@@ -44,6 +44,7 @@
+  */
+ function video_features_revert($module) {
+   if ($default_presets = features_get_default('video', $module)) {
++    module_load_include('inc', 'video_ui', 'video.preset');
+     foreach (array_keys($default_presets) as $default_preset) {
+       video_preset_delete($default_preset);
+     }
