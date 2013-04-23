@@ -72,7 +72,7 @@ projects[entityreference][subdir] = "contributed"
 projects[entityreference][version] = "1.x-dev"
 
 projects[facetapi][subdir] = "contributed"
-projects[facetapi][version] = "1.2"
+projects[facetapi][version] = "1.3"
 
 projects[features][subdir] = "contributed"
 projects[features][version] = "2.0-beta1"
