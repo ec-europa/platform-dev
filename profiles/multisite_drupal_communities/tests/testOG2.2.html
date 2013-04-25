@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://fpfis-dev.net1.cec.eu.int/" />
+<title>testOG2.2</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">testOG2.2</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/multisite_drupal_communities/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>user_administrator</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Communities</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Communities</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Create a new community</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-title</td>
+	<td>Demo community</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Publishing optionsCurrent: Draft</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-workbench-moderation-state-new</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=edit-workbench-moderation-state-new</td>
+	<td>label=Published</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=option[value=&quot;published&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'Log out')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>user-contributor</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>user_contributor</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Communities</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'Request group membership')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-og-membership-request-und-0-value</td>
+	<td>I need to get in!</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Log out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>user_administrator</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Communities</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=my communities</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Demo community</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Group</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=People</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-views-bulk-operations-1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-operation</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=edit-operation</td>
+	<td>label=Modify membership status</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=option[value=&quot;action::og_set_state_action&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit--2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=toolbar-link-admin-structure</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Feature Set</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//tr[@id='__sizzle__']/td[2]/div/label/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//tr[@id='__sizzle__']/td[2]/div/label/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'Log out')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>user-contributor</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>user_contributor</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Communities</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Demo community</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//a[contains(text(),'Create content')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=div.btn-group.open &gt; ul.dropdown-menu &gt; li &gt; a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-title</td>
+	<td>Article</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-image-und-0-upload</td>
+	<td>C:\Users\farcaov\Desktop\2wks.PNG</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=body.cke_show_borders</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//a[contains(text(),'Create content')])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'News')])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-title</td>
+	<td>News</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=html.CSS1Compat</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-workbench-moderation-state-new</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=edit-workbench-moderation-state-new</td>
+	<td>label=Needs Review</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=option[value=&quot;needs_review&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Log out</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>user_administator</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-name</td>
+	<td>user_administrator</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-pass</td>
+	<td>pass</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=toolbar-link-admin-content</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-nodes-7</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-nodes-6</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit--2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Log out</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
