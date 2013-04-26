@@ -217,3 +217,4 @@ drush solr-index
 
 #run cron
 drush cron
+
