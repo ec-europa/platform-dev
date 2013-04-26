@@ -63,7 +63,7 @@ function theme_multisite_chart($variables) {
   $path = 'http://europa.eu/wel/fusioncharts/';//multisite_charts_get_library_path() . 'FusionCharts XT/';
   $charts_path = $path . 'v0321/';
 
-  include_once(multisite_maps_get_library_path() . 'Code/PHP/Includes/FusionCharts.php');
+  include_once(multisite_charts_get_library_path() . 'Code/PHP/Includes/FusionCharts.php');
   //check that the fusioncharts package was installed
   if (!function_exists('renderChart')) {
     return t('Please install the Fusion Charts package from InfoSoft as per instructions in the readme.');
