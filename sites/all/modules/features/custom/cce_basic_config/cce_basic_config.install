@@ -716,11 +716,11 @@ function cce_basic_config_update_7170() {
   $vocabularies = taxonomy_get_vocabularies(NULL);
   foreach ($vocabularies as $vocab_object) {
     if ($vocab_object->name == "classification") {
-      $classification= $vocab_object->name;
+      $classification= $vocab_object->vid;
     }
 
   //update  `taxonomy_term_data`  set name=concat(name, '000') WHERE vid=1
-  $results = db_query("update  `taxonomy_term_data`  set name=concat(name, '000') WHERE vid=1 ");
+  $results = db_query("update  `taxonomy_term_data`  set name=concat(name, '000') WHERE vid=".$classification);
   return;
   }
 }
