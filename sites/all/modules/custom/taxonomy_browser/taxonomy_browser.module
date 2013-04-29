@@ -83,7 +83,7 @@ function output_taxonomy_nested_tree($tree, $path) {
 function taxonomy_create_tree($vid, $path, $ajax=FALSE, $selected=0) {
   $tree = taxonomy_get_nested_tree(intval($vid));
 
-  $output = '<div id="tb_browser_tree" class="well">';
+  $output = '<div id="tb_browser_tree" class="well well-alt well-small">';
   $output .= output_taxonomy_nested_tree($tree, $path);
   $output .= '</div>';
 
@@ -121,25 +121,36 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
     $vid = variable_get('taxonomy_browser_vocabulary');
     $vocabulary = taxonomy_vocabulary_load($vid);
     $parents_tree = array();
-    $breadcrumb = "";
+    $breadcrumb = drupal_get_breadcrumb();
     
     $selected = isset($view->args[0]) ? $view->args[0] : 0;
+    $selected_term = '';
+    $header = '';
     
     if ($selected > 0) {
+      $selected_term = taxonomy_term_load($selected);
       taxonomy_get_parents_tree($selected, $parents_tree, TRUE);
       foreach ($parents_tree as $parent) {
         $link = l($parent->name, $view_path . '/' . $parent->tid);
-        $breadcrumb .= " > " . $link;
+        $breadcrumb[] = $link;
       }
     }
-    
-    $output1 = '<div id="tb_wrapper">';
-    $output1 .= '<div id="tb_breadcrumb">' . $vocabulary->name . $breadcrumb . '</div>';
-    $output1 .= '<div id="tb_browser"><h1>' . $vocabulary->name . '</h1>';
+    drupal_set_breadcrumb($breadcrumb);
+
+    if ($selected_term) {
+      $header .= '<fieldset id="tb_header"><h1>' . $selected_term->name . '</h1>';
+      if (isset($selected_term->description)) {
+        $header .= '<p>' . $selected_term->description . '</p>';
+      }
+      $header .= '</fieldset><hr />';
+    }    
+
+    $output1 = '<div id="tb_wrapper" class="row-fluid">';
+    $output1 .= '<div id="tb_browser" class="span3"><h1>' . $vocabulary->name . '</h1>';
     $output1 .= taxonomy_create_tree($vid, $view_path, FALSE, $selected);
     $output1 .= '</div>';
   
-    $output1 .= '<div id="tb_view">' . $output . '</div></div>';    
+    $output1 .= '<div id="tb_view" class="span9">' . $header . $output . '</div></div>';    
 
     $output = $output1;
   }

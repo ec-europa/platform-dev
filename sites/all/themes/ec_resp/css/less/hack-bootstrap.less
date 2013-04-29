@@ -297,7 +297,13 @@ h5 {
 
 /* ---------------- Wells  ----------------- */
 .well {
+  #gradient .vertical(lighten(@grayLight,15%), @grayLight);
   a {
     color: @white;
+  }
+  &.well-alt {
+    #gradient .vertical(@navbarBackgroundHighlight, @navbarBackground);
+    color: #fff;
+    border-color: @navbarBorder;
   }
 }
