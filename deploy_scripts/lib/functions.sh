@@ -137,6 +137,12 @@ function grep_features {
 	drush features-list | grep "${pattern}" | perl -ple 's,([^ ]) ([^ ]),\1_\2,g' | awk '{print $2}'
 }
 
+# get only shared features, except a given list as parameter
+function get_shared_features {
+	excluded_features=$(perl -e 'print join(q[, ], map { q["] . $_ . q["] } @ARGV);' "$@")
+	drush sql-query --extra="-N" "SELECT name FROM system WHERE filename LIKE 'sites/all/modules/features%' AND status = 1 AND name NOT IN (${excluded_features});"
+}
+
 # We also export the COLUMNS e.v. to prevent drush from wrapping its output
 # since this might confuse our parsing, especially within grep_features.
 export COLUMNS=150
