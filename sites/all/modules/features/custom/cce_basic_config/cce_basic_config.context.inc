@@ -55,6 +55,8 @@ function cce_basic_config_context_default_contexts() {
   t('search');
   $export['search'] = $context;
 
+
+
   $context = new stdClass();
   $context->disabled = FALSE; 
   $context->api_version = 3;
