@@ -11,7 +11,7 @@ function multisite_settings_core_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();
-  $context->disabled = FALSE; 
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'homepage';
   $context->description = 'context for the home page';
@@ -43,10 +43,8 @@ function multisite_settings_core_context_default_contexts() {
   t('homepage');
   $export['homepage'] = $context;
 
-
-
   $context = new stdClass();
-  $context->disabled = FALSE; 
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'search';
   $context->description = 'context for search pages';
@@ -90,10 +88,8 @@ function multisite_settings_core_context_default_contexts() {
   t('search');
   $export['search'] = $context;
 
-
-
   $context = new stdClass();
-  $context->disabled = FALSE; 
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'site_wide';
   $context->description = 'global context';
@@ -132,6 +128,12 @@ function multisite_settings_core_context_default_contexts() {
           'region' => 'content_bottom',
           'weight' => '-10',
         ),
+        'form' => array(
+          'module' => 'search',
+          'delta' => 'form',
+          'region' => 'header_right',
+          'weight' => 1,
+        ),
       ),
     ),
   );
@@ -142,7 +144,6 @@ function multisite_settings_core_context_default_contexts() {
   t('global context');
   t('site wide');
   $export['site_wide'] = $context;
-
 
   return $export;
 }
