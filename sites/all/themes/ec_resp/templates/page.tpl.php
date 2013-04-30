@@ -100,6 +100,19 @@ $span_sidebar_right   = ($page['sidebar_right'] ? 5 - $nb_column : 0);
 $span_content         = 12 - $span_sidebar_left - $span_sidebar_right;
 $span_tools           = 4;
 $span_messages        = 12 - $span_tools;
+
+//format regions
+$region_header_right = $page['header_right'] ? render($page['header_right']) : '';
+$region_header_top = $page['header_top'] ? render($page['header_top']) : '';
+$region_featured = $page['featured'] ? render($page['featured']) : '';
+$region_sidebar_left = $page['sidebar_left'] ? render($page['sidebar_left']) : '';
+$region_tools = $page['tools'] ? render($page['tools']) : '';
+$region_content_top = $page['content_top'] ? render($page['content_top']) : '';
+$region_help = $page['help'] ? render($page['help']) : '';
+$region_content = $page['content'] ? render($page['content']) : '';
+$region_content_bottom = $page['content_bottom'] ? render($page['content_bottom']) : '';
+$region_sidebar_right = $page['sidebar_right'] ? render($page['sidebar_right']) : '';
+$region_footer = $page['footer'] ? render($page['footer']) : '';
 ?>
 
   <a id="top-page"></a>
@@ -110,12 +123,10 @@ $span_messages        = 12 - $span_tools;
     switch ($variables['template']) {
       case 'ec':
   ?>
-      <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . path_to_theme(); ?>/images/logo/logo_en.gif" />
+      <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . drupal_get_path('theme', 'ec_resp'); ?>/images/logo/logo_en.gif" />
 
       <span id="banner-image-right">
-        <?php if ($page['header_right']): ?>
-          <?php print render($page['header_right']); ?>
-        <?php endif; ?>
+        <?php print $region_header_right; ?>
       </span>
     
     <?php
@@ -124,19 +135,15 @@ $span_messages        = 12 - $span_tools;
       case 'europa':
     ?>
       <a class="banner-flag" href="http://europa.eu/index_en.htm" title="European Union homepage">
-        <img id="banner-flag" src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2011/images/europa-flag.gif" alt="European Union homepage. EU flag" width="67" height="60" border="0">
+        <img id="banner-flag" src="<?php print $base_url . '/' . drupal_get_path('theme', 'ec_resp'); ?>/wel/template-2011/images/europa-flag.gif" alt="European Union homepage. EU flag" width="67" height="60" border="0">
       </a>
 
       <p class="banner-title">
-        <img src="<?php print $base_url . '/' . path_to_theme(); ?>/wel/template-2011/images/title/title_en.gif" alt="Title of the site" width="450" height="46">
+        <img src="<?php print $base_url . '/' . drupal_get_path('theme', 'ec_resp'); ?>/wel/template-2011/images/title/title_en.gif" alt="Title of the site" width="450" height="46">
       </p>
 
       <div class="banner-right">
-        <?php if ($page['header_right']): ?>
-          <ul class="links unstyled">
-            <?php print render($page['header_right']); ?>
-          </ul>
-        <?php endif; ?>
+        <?php print $region_header_right; ?>
       </div>
       
     <?php
@@ -150,17 +157,13 @@ $span_messages        = 12 - $span_tools;
       <div id="main-title"><?php print $site_name; ?></div>
       <div id="sub-title"><?php print $site_slogan; ?></div>
 
-      <div class="region region-header_top">
-        <p class="off-screen">Service tools</p>
-        <ul class="reset-list" id="services">
-          <li><a class="first" accesskey="3" href="<?php print $base_url . '/contact'; ?>"><?php print t('Contact'); ?></a></li>
-          <li><a accesskey="2" href="http://ec.europa.eu/geninfo/legal_notices_en.htm"><?php print t('Legal notice'); ?></a></li>
-          <li><a accesskey="4" href="http://ec.europa.eu/geninfo/query/search_en.html"><?php print t('Search'); ?></a></li>
-        </ul>
-        <?php if ($page['header_top']): ?>
-          <?php print render($page['header_top']); ?>
-        <?php endif; ?>
-      </div><!-- /.region-header_top -->
+      <p class="off-screen">Service tools</p>
+      <ul class="reset-list" id="services">
+        <li><a class="first" accesskey="3" href="<?php print $base_url . '/contact'; ?>"><?php print t('Contact'); ?></a></li>
+        <li><a accesskey="2" href="http://ec.europa.eu/geninfo/legal_notices_en.htm"><?php print t('Legal notice'); ?></a></li>
+        <li><a accesskey="4" href="http://ec.europa.eu/geninfo/query/search_en.html"><?php print t('Search'); ?></a></li>
+      </ul>
+      <?php print $region_header_top; ?>
 
     </div>
   </div><!-- /#layout-header -->  
@@ -178,16 +181,12 @@ $span_messages        = 12 - $span_tools;
     </ul>
   </div><!-- /#path --> 
 
-  <?php if ($page['featured']): ?>
-  <div class="region region-featured">
-    <?php print render($page['featured']); ?>  
-  </div><!-- /.region-featured -->
-  <?php endif; ?> 
+  <?php print $region_featured; ?>
 
   <?php if ($page['sidebar_left']): ?>
-    <div id="responsive-sidebar" class="region region-sidebar_left visible-phone">
+    <div id="responsive-sidebar" class="visible-phone">
       <ul class="nav nav-list card">
-        <?php print render($page['sidebar_left']); ?>
+        <?php print $region_sidebar_left; ?>
       </ul>
     </div><!-- /#responsive-sidebar-->   
   <?php endif; ?>
@@ -201,11 +200,11 @@ $span_messages        = 12 - $span_tools;
       </div><!-- /#messages -->
 
       <?php if ($page['tools']): ?>
-      <div class="region region-tools span<?php print $span_tools; ?>">
+      <div class="span<?php print $span_tools; ?>">
         <ul class="links unstyled">
-          <?php print render($page['tools']); ?>
+          <?php print $region_tools; ?>
         </ul>
-      </div><!-- /.region-tools -->
+      </div>
       <?php endif; ?>
     </div>
 
@@ -219,22 +218,18 @@ $span_messages        = 12 - $span_tools;
         
     <div class="row-fluid">
       <?php if ($page['sidebar_left']): ?>
-      <div class="region region-sidebar_left span<?php print ($span_sidebar_left); ?> hidden-phone">
+      <div class="span<?php print ($span_sidebar_left); ?> hidden-phone">
         <ul class="nav nav-list card">
-          <?php print render($page['sidebar_left']); ?>
+          <?php print $region_sidebar_left; ?>
         </ul>
-      </div><!-- /.region-sidebar_left -->     
+      </div>
       <?php endif; ?>     
 
       <div class="span<?php print $span_content; ?>">
         
         <a id="content"></a>
 
-        <div class="region region-content_top">
-        <?php if ($page['content_top']): ?>
-          <?php print render($page['content_top']); ?>
-        <?php endif; ?>
-        </div><!-- /.region-content_top -->
+        <?php print $region_content_top; ?>
 
         <a id="main-content"></a>
 
@@ -244,7 +239,7 @@ $span_messages        = 12 - $span_tools;
           </div>
         <?php endif; ?>
 
-        <?php print render($page['help']); ?>
+        <?php print $region_help; ?>
         
         <?php if ($action_links): ?>
           <ul class="action-links">
@@ -252,40 +247,34 @@ $span_messages        = 12 - $span_tools;
           </ul>
         <?php endif; ?>
 
-        <div class="region region-content">
-          <?php print render($page['content']); ?>
-        </div>
+        <?php print $region_content; ?>
         
         <?php print $feed_icons; ?>
 
-        <div class="region region-content_bottom">
         <?php if ($page['content_bottom']): ?>
           <ul class="links">
-            <?php print render($page['content_bottom']); ?>
+            <?php print $region_content_bottom; ?>
           </ul>
         <?php endif; ?>
-        </div><!-- /.region-content_bottom -->
       </div>
 
       <?php if ($page['sidebar_right']): ?>
-      <div class="region region-sidebar_right span<?php print ($span_sidebar_right); ?> hidden-phone">
+      <div class="span<?php print ($span_sidebar_right); ?> hidden-phone">
         <ul class="nav nav-list card">
-          <?php print render($page['sidebar_right']); ?>
+          <?php print $region_sidebar_right; ?>
         </ul>
-      </div><!-- /.region-sidebar_right -->  
-      <?php endif; ?> 
+      </div>  
+      <?php endif; ?>
     </div>
-  </div><!-- /#layout-body -->    
+  </div><!-- /#layout-body -->
 
   <div id="layout-footer">
     <div class="container">
-      <?php if ($page['footer']): ?>
-        <?php print render($page['footer']); ?>
-      <?php endif; ?>
+      <?php print $region_footer; ?>      
       <?php print t('Last update:') . ' ' . date('d/m/Y'); ?> | <a href="#top-page">Top</a>
     </div>
   </div><!-- /#layout-footer -->      
 
 <script type="text/javascript">
-  var templatePath = "<?php print $base_url . '/' . path_to_theme(); ?>";
+  var templatePath = "<?php print $base_url . '/' . drupal_get_path('theme', 'ec_resp'); ?>";
 </script>

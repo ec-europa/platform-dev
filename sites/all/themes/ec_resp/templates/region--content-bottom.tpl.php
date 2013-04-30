@@ -27,6 +27,7 @@
  */
 ?>
 <?php if ($content): ?>
+	<div class="<?php print $classes; ?>">
   <?php 
   $content = str_replace(
     '<a class=\'context-block-region\' id=\'context-block-region-content_bottom\'>Content Bottom</a>',
@@ -34,4 +35,5 @@
     $content);
   print $content; 
   ?>
+  </div>
 <?php endif; ?>
