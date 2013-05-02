@@ -43,3 +43,4 @@ features[variable][] = subscriptions_unlisted_content_types
 features[variable][] = subscriptions_watchall
 features[variable][] = subscriptions_watchgood
 features[variable][] = subscriptions_watchstats
+stylesheets[all][] = css/multisite_notifications_core.css
