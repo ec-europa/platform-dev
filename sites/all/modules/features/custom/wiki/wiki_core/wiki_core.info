@@ -15,7 +15,6 @@ dependencies[] = cce_basic_config
 dependencies[] = i18n_taxonomy
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = apachesolr
-dependencies[] = notifications
 dependencies[] = linkchecker
 dependencies[] = custom_breadcrumbs
 features[context][] = wiki
