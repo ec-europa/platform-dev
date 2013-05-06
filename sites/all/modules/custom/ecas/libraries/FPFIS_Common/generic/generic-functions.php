@@ -120,9 +120,9 @@ if (!function_exists('getLdapUserInfo'))
       if($extra != null)
       {
         foreach($extra as $extra_value)
-        {
-          $result[$extra_value] = $ldap_result[0][$extra_value][0];
-        }
+			  {
+				  $result[$extra_value] = (isset($ldap_result[0][$extra_value]) ? $ldap_result[0][$extra_value][0] : '');
+			  }
       }
     }
 
