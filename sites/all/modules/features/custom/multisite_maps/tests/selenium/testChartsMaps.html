@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://fpfis-dev.net1.cec.eu.int/" />
+<title>testChartsMaps</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">testChartsMaps</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/multisite_drupal_farcaov/en/admin/structure/feature-set</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//tr[@id='__sizzle__']/td[2]/div/label/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//tr[@id='__sizzle__']/td[2]/div/label/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[contains(text(),'Home')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=toolbar-link-admin-content</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Add content</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Chart</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-title</td>
+	<td>Sample Chart</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-chart-xml-data-source-und-0-xml</td>
+	<td>&lt;chart&gt;<br />	&lt;categories&gt;<br />		&lt;category label=&quot;Value1&quot; /&gt;<br />		&lt;category label=&quot;Value2&quot; /&gt;<br />	&lt;/categories&gt;<br />	&lt;dataset SeriesName=&quot;Series_1&quot;&gt;<br />		&lt;set value=&quot;10&quot; /&gt;<br />		&lt;set value=&quot;1&quot; /&gt;<br />	&lt;/dataset&gt;<br />	&lt;dataset SeriesName=&quot;Series_2&quot;&gt;<br />		&lt;set value=&quot;13&quot; /&gt;<br />		&lt;set value=&quot;2&quot; /&gt;<br />	&lt;/dataset&gt;<br />	&lt;dataset SeriesName=&quot;Series_3&quot;&gt;<br />		&lt;set value=&quot;10&quot; /&gt;<br />		&lt;set value=&quot;3&quot; /&gt;<br />	&lt;/dataset&gt;<br />	&lt;dataset SeriesName=&quot;Series_4&quot;&gt;<br />		&lt;set value=&quot;18&quot; /&gt;<br />		&lt;set value=&quot;4&quot; /&gt;<br />	&lt;/dataset&gt;<br />	&lt;dataset SeriesName=&quot;Series_5&quot;&gt;<br />		&lt;set value=&quot;12&quot; /&gt;<br />		&lt;set value=&quot;5&quot; /&gt;<br />	&lt;/dataset&gt;<br />&lt;/chart&gt;</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=li.vertical-tab-button.last &gt; a &gt; strong</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-status</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=edit-field-chart-type-und</td>
+	<td>label=Combination Charts - Stacked Column3D + Line single Y Axis</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=toolbar-link-admin-content</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Add content</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Map</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-title</td>
+	<td>Sample Map</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=edit-field-map-type-und</td>
+	<td>label=Europe</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>name=mapSelector</td>
+	<td>label=Europe</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=maintabnav4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=maintabnav3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForPopUp</td>
+	<td>MarkerSelectWin</td>
+	<td>30000</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>name=MarkerSelectWin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=id</td>
+	<td>Sample</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=label</td>
+	<td>Sample Label</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=btnMarkerCreate</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=maintabnav5</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=maintabnav4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=edit-field-map-xml-data-source-und-0-xml</td>
+	<td>&lt;map animation='0' showShadow='0' showBevel='0' showLabels='0' showMarkerLabels='1' fillColor='F1f1f1' borderColor='000000' baseFont='Verdana' baseFontSize='10' markerBorderColor='000000' markerBgColor='FF5904' markerRadius='6' legendPosition='bottom' useHoverColor='1' showMarkerToolTip='1'&nbsp;&nbsp;&gt;<br />	&lt;data&gt;<br />		&lt;entity id='001'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='002'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='003'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='004'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='005'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='006'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='007'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='008'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='009'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='010'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='011'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='012'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='013'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='014'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='015'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='016'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='017'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='018'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='019'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='020'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='021'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='022'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='023'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='024'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='025'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='026'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='028'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='029'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='030'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='031'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='032'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='033'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='034'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='035'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='036'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='037'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='038'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='039'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='040'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='041'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='042'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='043'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='044'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='045'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='046'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='047'&nbsp;&nbsp;/&gt;<br />		&lt;entity id='048'&nbsp;&nbsp;/&gt;<br />	&lt;/data&gt;<br />	&lt;markers&gt;<br />		&lt;definition&gt;<br />			&lt;marker id='Sample' x='184.28' y='155.43' label='Sample Label'&nbsp;&nbsp;/&gt;<br />		&lt;/definition&gt;<br />		&lt;application&gt;<br />			&lt;marker id='Sample' shapeId='circle'&nbsp;&nbsp;/&gt;<br />		&lt;/application&gt;<br />	&lt;/markers&gt;<br />&lt;/map&gt;</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=li.vertical-tab-button.last &gt; a &gt; strong</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=edit-status</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=edit-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=x</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
