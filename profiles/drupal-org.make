@@ -263,6 +263,9 @@ projects[mail_edit][version] = "1.0"
 projects[subscriptions][subdir] = "contributed"
 projects[subscriptions][version] = "1.1"
 
+projects[potx][subdir] = "contributed"
+projects[potx][version] = "1.0"
+
 ;libraries
 
 ;ckeditor 3.6.5

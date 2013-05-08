@@ -118,6 +118,7 @@ dependencies[] = chr
 dependencies[] = entityreference_prepopulate
 dependencies[] = video
 dependencies[] = better_formats
+dependencies[] = potx
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_og
