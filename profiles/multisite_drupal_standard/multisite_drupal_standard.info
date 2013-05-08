@@ -114,7 +114,7 @@ dependencies[] = wysiwyg
 dependencies[] = tmgmt
 ;dependencies[] = apachesolr_multilingual
 dependencies[] = chr
-dependencies[] = potx
+dependencies[] = l10n_update
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_standard
