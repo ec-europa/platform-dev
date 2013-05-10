@@ -4,6 +4,8 @@
 	installation policy. Administrators should not modify this file directly.
 	Instead, they should override adequate values in a fpfis.local.inc.php file.
 */
+// reset the configuration singleton to get rid of any variant-related setting.
+FPFISPolicyConfig::reset();
 
 // MySQL user accounts are restricted to client machines (automatically
 // determined by the policy) plus some machines you may specify here (for
