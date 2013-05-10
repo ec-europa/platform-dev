@@ -22,7 +22,7 @@ abstract class PolicyConfig {
 			}
 		}
 	}
-
+	
 	private static function registerInstance($instance_object) {
 		$given_class = get_class($instance_object);
 		if ($given_class === FALSE) return;
@@ -30,7 +30,7 @@ abstract class PolicyConfig {
 			self::$instances[$given_class] = $instance_object;
 		}
 	}
-
+	
 	public static function set($setting, $value) {
 		$instance = self::getInstance();
 		if ($instance) return $instance->setSetting($setting, $value);
@@ -42,20 +42,29 @@ abstract class PolicyConfig {
 		if ($instance) return $instance->getSetting($setting, $fallback_value);
 		return null;
 	}
-
+	
+	public static function reset() {
+		$instance = self::getInstance();
+		if ($instance) $instance->resetSettings();
+	}
+	
 	public function setSetting($setting, $value) {
 		$previous_value = $this->get($setting);
 		$this->settings[$setting] = $value;
 		return $previous_value;
 	}
-
+	
 	public function getSetting($setting, $fallback_value = null) {
 		if (isset($this->settings[$setting])) {
 			return($this->settings[$setting]);
 		}
 		return $fallback_value;
 	}
-
+	
+	public function resetSettings() {
+		$this->settings = array();
+	}
+	
 	protected $settings;
 	private static $instances;
 };
