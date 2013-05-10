@@ -15,11 +15,12 @@ require('lib/drupalsubsite.class.php');
 
 prevent_concurrent_executions();
 connect_to_supermaster_database();
-foreach(DrupalSubSite::fetchIncompleteSubSites() as $incomplete_subsite) {
+foreach (DrupalSubSite::fetchIncompleteSubSites() as $incomplete_subsite) {
 	$install_policy = $incomplete_subsite->installPolicy();
-	if (!load_install_policy($install_policy)) {
+	$install_variant = $incomplete_subsite->installVariant();
+	if (!load_install_policy($install_policy, $install_variant)) {
 		// error management (boring yet must-have)
-		say("Unable to load policy %s for %s.", $install_policy, $incomplete_subsite->name());
+		say(sprintf("Unable to load policy %s for subsite %s.", format_policy_name($install_policy, $install_variant), $incomplete_subsite->name()));
 		continue;
 	}
 	

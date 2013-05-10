@@ -97,25 +97,45 @@ function connect_to_supermaster_database() {
 	}
 }
 
-function load_install_policy($policy_name) {
-	$policy_conf = 'conf/policies/' . $policy_name . '.inc.php';
-	$policy_local_conf = 'conf/policies/' . $policy_name . '.local.inc.php';
+function load_install_policy($policy_name, $variant_name = '') {
+	$conf_files = array();
+	
+	// most policies will ship a default configuration file...
+	$conf_files[] = 'conf/policies/' . $policy_name . '.inc.php';
+	
+	// ... and most administrators will override it "locally".
+	$conf_files[] = 'conf/policies/' . $policy_name . '.local.inc.php';
+	
+	// we also take into account a variant of that configuration, if any
+	if (strlen(trim($variant_name))) {
+		$policy_variant_name = trim($variant_name);
+		$conf_files[] = 'conf/policies/' . $policy_name . '-' . $variant_name . '.inc.php';
+		// we keep the ability to have a local version
+		$conf_files[] = 'conf/policies/' . $policy_name . '-' . $variant_name . '.local.inc.php';
+	}
+	
 	$policy_file = 'lib/policies/'  . $policy_name . '.inc.php';
 	if (!file_exists($policy_file)) {
 		return FALSE;
 	}
 	require_once($policy_file);
 	
-	// most policies will ship a default configuration file...
-	if (file_exists($policy_conf)) {
-		require_once($policy_conf);
+	
+	foreach ($conf_files as $conf_file) {
+		if (file_exists($conf_file)) {
+			require($conf_file);
+		}
 	}
 	
-	// ... and most administrators will override it "locally".
-	if (file_exists($policy_local_conf)) {
-		require_once($policy_local_conf);
-	}
 	return function_exists($policy_name . '_install_policy_get_steps');
+}
+
+function format_policy_name($policy_name, $variant_name = '') {
+	$formatted_name = $policy_name;
+	if (strlen(trim($variant_name))) {
+		$formatted_name .= '-' . $variant_name;
+	}
+	return $formatted_name;
 }
 
 function mkpath($path) {
