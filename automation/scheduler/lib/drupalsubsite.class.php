@@ -5,7 +5,7 @@ require_once('lib/solrinstance.class.php');
 class DrupalSubSite extends Site {
 	public function __construct($array) {
 		parent::__construct($array);
-		foreach (array('url_pattern', 'master', 'state', 'install_policy', 'solr_id') as $member) {
+		foreach (array('url_pattern', 'master', 'state', 'install_policy', 'install_variant', 'solr_id') as $member) {
 			$intern_member = $member . '_';
 			$this->$intern_member = $array[$member];
 		}
@@ -60,6 +60,13 @@ class DrupalSubSite extends Site {
 		return trim($this->install_policy_);
 	}
 	
+	public function installVariant() {
+		if (!strlen(trim($this->install_policy_))) {
+			return $this->master()->defaultInstallVariant();
+		}
+		return trim($this->install_variant_);
+	}
+
 	public function solrInstance() {
 		if (!is_object($this->solr_id_)) {
 			if (is_numeric($this->solr_id_)) {
@@ -112,6 +119,7 @@ class DrupalSubSite extends Site {
 	
 	protected $url_pattern_;
 	protected $install_policy_;
+	protected $install_variant_;
 	protected $solr_id_;
 	protected $master_;
 	protected $state_;

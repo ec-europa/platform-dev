@@ -11,7 +11,7 @@ class DrupalMasterSite extends Site {
 	
 	public function __construct($array) {
 		parent::__construct($array);
-		foreach (array('cluster_id', 'sites_local_path', 'files_local_path', 'rewritemap_local_path', 'default_subsite_url_pattern', 'default_subsite_install_policy', 'default_subsite_solr_id') as $member) {
+		foreach (array('cluster_id', 'sites_local_path', 'files_local_path', 'rewritemap_local_path', 'default_subsite_url_pattern', 'default_subsite_install_policy', 'default_subsite_install_variant', 'default_subsite_solr_id') as $member) {
 			$intern_member = $member . '_';
 			$this->$intern_member = $array[$member];
 		}
@@ -46,6 +46,10 @@ class DrupalMasterSite extends Site {
 		return $this->default_subsite_install_policy_;
 	}
 	
+	public function defaultInstallVariant() {
+		return $this->default_subsite_install_variant_;
+	}
+	
 	public function cluster() {
 		if (is_numeric($this->cluster_id_)) {
 			$cluster = Cluster::fetchClusterById($this->cluster_id_);
@@ -70,5 +74,6 @@ class DrupalMasterSite extends Site {
 	protected $rewritemap_local_path_;
 	protected $default_subsite_url_pattern_;
 	protected $default_subsite_install_policy_;
+	protected $default_subsite_install_variant_;
 	protected $default_subsite_solr_id_;
 }
