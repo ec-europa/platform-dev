@@ -277,9 +277,9 @@ libraries[ckeditor][download][sha1] = "7e10cb67600e73ff066168e89049d9959924b26b"
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ;tcpdf
-libraries[tcpdf][download][type] = "get"
-libraries[tcpdf][download][url] = "http://sourceforge.net/projects/tcpdf/files/latest/download"
-libraries[tcpdf][destination] = "libraries"
-libraries[tcpdf][directory_name] = "tcpdf"
+;libraries[tcpdf][download][type] = "get"
+;libraries[tcpdf][download][url] = "http://sourceforge.net/projects/tcpdf/files/latest/download"
+;libraries[tcpdf][destination] = "libraries"
+;libraries[tcpdf][directory_name] = "tcpdf"
 
 
