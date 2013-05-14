@@ -247,6 +247,7 @@ features[variable][] = sweaver_plugin_status_sweaver_plugin_themesettings
 features[variable][] = sweaver_plugin_status_sweaver_plugin_themeswitch
 features[variable][] = sweaver_plugins_weight
 features[variable][] = sweaver_selector_order
+features[variable][] = sweaver_ctools_allowed_properties
 features[variable][] = sweaver_skin
 features[variable][] = workbench_moderation_default_state_article
 features[variable][] = video_autobuffering
