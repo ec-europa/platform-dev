@@ -279,7 +279,6 @@ libraries[ckeditor][directory_name] = "ckeditor"
 ;tcpdf 6.0.013
 libraries[tcpdf][download][type] = "git"
 libraries[tcpdf][download][url] = "http://git.code.sf.net/p/tcpdf/code"
-;libraries[tcpdf][download][revision] = "5a2f2197e0be3c64ed218eb7d874cb5c96d7cd13"
 libraries[tcpdf][download][tag] = "6.0.013"
 libraries[tcpdf][directory_name] = "tcpdf"
 libraries[tcpdf][destination] = "libraries"
