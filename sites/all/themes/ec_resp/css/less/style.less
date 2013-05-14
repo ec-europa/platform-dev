@@ -207,17 +207,23 @@ ul {
 .node .content {
   font-size: 1em;
 }
-.node-teaser .content {
-  font-size: 1em;
-}
-.node-teaser h2 {
-  margin-top: 0;
-  padding-top: 0.5em;
-  clear: both;
-}
 .node-teaser {
-  margin-bottom: 30px;
+  margin-bottom: 0;
   padding-bottom: 15px;
+  h2 {
+    margin-top: 0;
+    padding-top: 0.5em;
+    clear: both;
+  }
+  .content {
+    font-size: 1em;
+    clear: none;
+    line-height: 1.6;
+  }
+  fieldset,
+  .fieldset {
+    margin-bottom: 10px;
+  }
 }
 .node-sticky {
   background: #f9f9f9;
@@ -229,10 +235,6 @@ ul {
   background: none;
   border: none;
   padding: 0;
-}
-.node-teaser .content {
-  clear: none;
-  line-height: 1.6;
 }
 .meta {
   color: #666666;
@@ -305,7 +307,7 @@ ul.links {
 /* ----------------- Cards & fieldset------------------ */
 fieldset,
 .fieldset {
-  padding: 10px 10px 20px 10px;
+  padding: 10px 10px 10px 10px;
   margin: 0 0 20px 0;
   .box-shadow(4px 6px 6px -6px @grayDark);
   .border-radius(3px);
