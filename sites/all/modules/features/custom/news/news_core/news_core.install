@@ -26,9 +26,6 @@ function news_core_enable() {
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('news', 'add');
 
-  // add type to notification
-  multisite_drupal_toolbox_notification_content_type('news', 'add');
-
   // add type to linkchecker scan
   multisite_drupal_toolbox_content_type_linkchecker('news', 'add');
 
@@ -62,9 +59,6 @@ function news_core_disable() {
     ->execute();
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('news', 'delete');
-
-  // remove type from notification
-  multisite_drupal_toolbox_notification_content_type('news', 'delete');
 
   // remove type to linkchecker scan
   multisite_drupal_toolbox_content_type_linkchecker('news', 'remove');

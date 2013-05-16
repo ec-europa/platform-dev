@@ -26,9 +26,6 @@ function multisite_charts_enable() {
   // solR configuration add bundle
   config_solr_bundle('chart', 'add');
 
-  // add type to notification
-  notification_content_type('chart', 'add');
-
   // add type to linkchecker scan
   _content_type_linkchecker('chart', 'add');
 
@@ -45,9 +42,6 @@ function multisite_charts_enable() {
 function multisite_charts_disable() {
   // solR configuration delete bundle
   config_solr_bundle('chart', 'delete');
-
-  // remove type from notification
-  notification_content_type('chart', 'delete');
 
   // remove type to linkchecker scan
   _content_type_linkchecker('chart', 'delete');

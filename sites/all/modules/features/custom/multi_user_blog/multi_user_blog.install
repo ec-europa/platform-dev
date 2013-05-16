@@ -11,9 +11,6 @@ function multi_user_blog_disable() {
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('blog_post', 'delete');
 
-  // remove type from notification
-  multisite_drupal_toolbox_notification_content_type('blog_post', 'delete');
-
   // remove type to the simplenews related content
   multisite_drupal_toolbox_simplenews_related_content_type('blog_post', 'delete');
 
@@ -38,9 +35,6 @@ function multi_user_blog_disable() {
 function multi_user_blog_enable() {
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('blog_post', 'add');
-
-  // add type to notification
-  multisite_drupal_toolbox_notification_content_type('blog_post', 'add');
 
   // add type to the simplenews related content
   multisite_drupal_toolbox_simplenews_related_content_type('blog_post', 'add');

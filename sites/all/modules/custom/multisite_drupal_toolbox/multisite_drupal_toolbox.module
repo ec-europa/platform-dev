@@ -583,27 +583,10 @@ function config_solr_bundle($bundle, $op) {
 }
 
 /**
- * Public function to add content type to notification.
- * You need to add the module notifications as a dependancy to your feature.
+ * No longer in use
  */
 function multisite_drupal_toolbox_notification_content_type($content_type, $op) {
-  switch ($op) {
-    case 'add':
-      if (module_exists('notification')) {
-        $ct = variable_get("notifications_content_type", array());
-        $ct += array($content_type => $content_type);
-        variable_set("notifications_content_type", $ct);
-      }
-      break;
-    case 'delete':
-      if (module_exists('notification')) {
-        $ct = variable_get("notifications_content_type");
-        $item = array_search(array($content_type => $content_type), $ct);
-        unset($ct[$item]);
-        variable_set("notifications_content_type", $ct);
-      }
-      break;
-  }
+
 }
 /**
  * Obsolete. Use multisite_drupal_toolbox_notification_content_type() instead.

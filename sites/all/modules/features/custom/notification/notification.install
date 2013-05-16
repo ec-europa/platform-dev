@@ -8,12 +8,6 @@
 */
 
 function notification_enable() {
-  $types = array_keys(node_type_get_types());
-  foreach ($types as $type) {
-    // add type to notification
-    multisite_drupal_toolbox_notification_content_type($type, 'add');
-  }
-
   //Add block in context
   global $theme_key;
 
@@ -35,12 +29,6 @@ function notification_enable() {
 */
 
 function notification_disable() {
-  $types = array_keys(node_type_get_types());
-  foreach ($types as $type) {
-    // remove type from notification
-    multisite_drupal_toolbox_notification_content_type($type, 'delete');
-
-  }
    //Activation message
     drupal_set_message(t('Notification feature is now disabled on your site.'));
 }

@@ -25,9 +25,6 @@ function links_core_uninstall() {
 function links_core_enable() {
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('links', 'add');
-
-  // add type to notification
-  multisite_drupal_toolbox_notification_content_type('links', 'add');  
   
   // add type to linkchecker scan
   multisite_drupal_toolbox_content_type_linkchecker('links', 'add');
@@ -61,9 +58,6 @@ function links_core_disable() {
     ->execute();
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('links', 'delete');
-
-  // remove type from notification
-  multisite_drupal_toolbox_notification_content_type('links', 'delete');
   
   // remove type to linkchecker scan
   multisite_drupal_toolbox_content_type_linkchecker('links', 'delete');

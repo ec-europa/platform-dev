@@ -12,9 +12,6 @@ function survey_core_enable() {
   // solR configuration add bundle
   //multisite_drupal_toolbox_config_solr_bundle('webform', 'add');
 
-  // add type to notification
-  multisite_drupal_toolbox_notification_content_type('webform', 'add');
-
   // add type to the simplenews related content
   //multisite_drupal_toolbox_simplenews_related_content_type('webform', 'add');
 
@@ -53,9 +50,6 @@ function survey_core_disable() {
             ->execute();
     // solR configuration add bundle
     //multisite_drupal_toolbox_config_solr_bundle('webform', 'delete');
-
-    // remove type from notification
-    multisite_drupal_toolbox_notification_content_type('webform', 'delete');
 
     // remove type to the simplenews related content
     //multisite_drupal_toolbox_simplenews_related_content_type('webform', 'delete');
