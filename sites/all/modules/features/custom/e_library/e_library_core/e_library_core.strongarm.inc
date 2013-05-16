@@ -112,5 +112,28 @@ function e_library_core_strongarm() {
   $strongarm->value = 'draft';
   $export['workbench_moderation_default_state_document'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'media_node__mimetype_document';
+  $strongarm->value = 'IMAGE/JPEGG';
+  $export['media_node__mimetype_document'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'media_node__types';
+  $strongarm->value = array(
+    'document' => 'document',
+  );
+  $export['media_node__types'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'media_node__type_document_field';
+  $strongarm->value = 'node';
+  $export['media_node__type_document_field'] = $strongarm;
+
   return $export;
 }

@@ -7,7 +7,7 @@
 include_once('e_library_core.features.inc');
 
 /**
- * Implementation of hook_token_info().
+ * Implements hook_token_info().
  */
 function e_library_core_token_info() {
     $info['types']['Breadcrumb_el'] = array(
@@ -43,28 +43,47 @@ function e_library_core_tokens($type, $tokens, $data = array(), $options = array
 
 
 function e_library_core_update_7120() {
-  // create a vocabulary dedicated to the media tags 
+  // create a vocabulary dedicated to the media tags
   $vocabulary = (object) array(
     'name' => st('Media tags'),
     'machine_name' => 'media_tags',
     'module' => 'media_library_core',
   );
   taxonomy_vocabulary_save($vocabulary);
-  
+
   // add default tags
   $vocabulary = taxonomy_vocabulary_machine_name_load('media_tags');
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Photos'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Documents'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Reports'),
   );
+}
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ */
+function e_library_core_views_pre_render(&$view) {
+  // when using the "Media: node" module, the file_usage_count field appears to be twice as much as it should be
+  switch ($view->name) {
+    case 'e_library':
+      if (isset($view->query->fields['file_usage_count'])) {
+        foreach ($view->result as $row) {
+          if (isset($row->file_usage_count)) {
+            $row->file_usage_count /= 2;
+          }
+        }
+      }
+      break;
+  }
 }

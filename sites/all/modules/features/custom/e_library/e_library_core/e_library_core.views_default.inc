@@ -227,7 +227,7 @@ $handler->display->display_options['filters']['published']['table'] = 'workbench
 $handler->display->display_options['filters']['published']['field'] = 'published';
 $handler->display->display_options['filters']['published']['value'] = '1';
 $handler->display->display_options['filters']['published']['group'] = '1';
-/* Filter criterion: Content translation: Language */ 
+/* Filter criterion: Content translation: Language */
 $handler->display->display_options['filters']['language']['id'] = 'language'; 
 $handler->display->display_options['filters']['language']['table'] = 'node'; 
 $handler->display->display_options['filters']['language']['field'] = 'language'; 
@@ -266,6 +266,13 @@ $handler->display->display_options['filters']['tnid']['group'] = 2;
     $handler->display->display_options['filters']['field_media_tags_tid']['hierarchy'] = 1;
 
 
+/* Filter criterion: File: Mime type */
+$handler->display->display_options['filters']['filemime']['id'] = 'filemime';
+$handler->display->display_options['filters']['filemime']['table'] = 'file_managed';
+$handler->display->display_options['filters']['filemime']['field'] = 'filemime';
+$handler->display->display_options['filters']['filemime']['relationship'] = 'node_to_file';
+$handler->display->display_options['filters']['filemime']['operator'] = '!=';
+$handler->display->display_options['filters']['filemime']['value'] = 'IMAGE/JPEGG';
 
 /* Display: Attachment */
 $handler = $view->new_display('attachment', 'Attachment', 'attachment');
@@ -287,7 +294,7 @@ $handler->display->display_options['defaults']['arguments'] = FALSE;
     2 => 'OR',
   );
 
-/* Filter criterion: Content translation: Language */ 
+/* Filter criterion: Content translation: Language */
 $handler->display->display_options['filters']['language']['id'] = 'language'; 
 $handler->display->display_options['filters']['language']['table'] = 'node'; 
 $handler->display->display_options['filters']['language']['field'] = 'language'; 
@@ -393,6 +400,10 @@ $translatables['e_library'] = array(
   $handler->display->display_options['relationships']['reverse_field_document_node']['id'] = 'reverse_field_document_node';
   $handler->display->display_options['relationships']['reverse_field_document_node']['table'] = 'file_managed';
   $handler->display->display_options['relationships']['reverse_field_document_node']['field'] = 'reverse_field_document_node';
+  /* Relationship: File Usage: Content */
+  $handler->display->display_options['relationships']['file_to_node']['id'] = 'file_to_node';
+  $handler->display->display_options['relationships']['file_to_node']['table'] = 'file_usage';
+  $handler->display->display_options['relationships']['file_to_node']['field'] = 'file_to_node';
   /* Field: File: Name */
   $handler->display->display_options['fields']['filename']['id'] = 'filename';
   $handler->display->display_options['fields']['filename']['table'] = 'file_managed';
@@ -401,27 +412,16 @@ $translatables['e_library'] = array(
   $handler->display->display_options['fields']['filename']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['filename']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['filename']['link_to_file'] = TRUE;
-  /* Filter criterion: Content: Type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'node';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['relationship'] = 'reverse_field_document_node';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'document' => 'document',
-  );
-  /* Filter criterion: Workbench Moderation: State */
-  $handler->display->display_options['filters']['state']['id'] = 'state';
-  $handler->display->display_options['filters']['state']['table'] = 'workbench_moderation_node_history';
-  $handler->display->display_options['filters']['state']['field'] = 'state';
-  $handler->display->display_options['filters']['state']['relationship'] = 'reverse_field_document_node';
-  $handler->display->display_options['filters']['state']['value'] = array(
-    'published' => 'published',
-  );
+  /* Sort criterion: File: Upload date */
+  $handler->display->display_options['sorts']['timestamp']['id'] = 'timestamp';
+  $handler->display->display_options['sorts']['timestamp']['table'] = 'file_managed';
+  $handler->display->display_options['sorts']['timestamp']['field'] = 'timestamp';
+  $handler->display->display_options['sorts']['timestamp']['order'] = 'DESC';
   /* Filter criterion: Content: Media tags (field_media_tags) */
   $handler->display->display_options['filters']['field_media_tags_tid']['id'] = 'field_media_tags_tid';
   $handler->display->display_options['filters']['field_media_tags_tid']['table'] = 'field_data_field_media_tags';
   $handler->display->display_options['filters']['field_media_tags_tid']['field'] = 'field_media_tags_tid';
-  $handler->display->display_options['filters']['field_media_tags_tid']['relationship'] = 'reverse_field_document_node';
+  $handler->display->display_options['filters']['field_media_tags_tid']['relationship'] = 'file_to_node';
   $handler->display->display_options['filters']['field_media_tags_tid']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_media_tags_tid']['expose']['operator_id'] = 'field_media_tags_tid_op';
   $handler->display->display_options['filters']['field_media_tags_tid']['expose']['label'] = 'Media tags';
@@ -437,6 +437,25 @@ $translatables['e_library'] = array(
   $handler->display->display_options['filters']['field_media_tags_tid']['type'] = 'select';
   $handler->display->display_options['filters']['field_media_tags_tid']['vocabulary'] = 'media_tags';
   $handler->display->display_options['filters']['field_media_tags_tid']['hierarchy'] = 1;
+  /* Filter criterion: Workbench Moderation: Published */
+  $handler->display->display_options['filters']['published']['id'] = 'published';
+  $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
+  $handler->display->display_options['filters']['published']['field'] = 'published';
+  $handler->display->display_options['filters']['published']['relationship'] = 'file_to_node';
+  $handler->display->display_options['filters']['published']['value'] = '1';
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['relationship'] = 'file_to_node';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'document' => 'document',
+  );
+  /* Filter criterion: File: Mime type */
+  $handler->display->display_options['filters']['filemime']['id'] = 'filemime';
+  $handler->display->display_options['filters']['filemime']['table'] = 'file_managed';
+  $handler->display->display_options['filters']['filemime']['field'] = 'filemime';
+  $handler->display->display_options['filters']['filemime']['value'] = 'IMAGE/JPEGG';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
@@ -463,83 +482,12 @@ $translatables['e_library'] = array(
     t('next ›'),
     t('last »'),
     t('field_document'),
-    t('Media tags (field_media_tags)'),
+    t('Content'),
+    t('Media tags'),
     t('Page'),
     t('Media browser tab'),
   );
   $export['elibrary_browser_tab'] = $view;
 
-
-
   return $export;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

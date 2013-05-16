@@ -6,21 +6,21 @@
  */
 
 /**
- * hook_install
+ * Implements hook_install().
  */
 function e_library_core_install() {
   //Nothing yet
 }
 
 /**
- * hook_uninstall
+ * Implements hook_uninstall().
  */
 function e_library_core_uninstall() {
   //Nothing yet
 }
 
 /**
- * Add block to the context
+ * Implements hook_enable().
  */
 function e_library_core_enable() {
   // solR configuration add bundle
@@ -42,37 +42,38 @@ function e_library_core_enable() {
     ))
     ->execute();
 
-  // create a vocabulary dedicated to the media tags 
+  // create a vocabulary dedicated to the media tags
   $vocabulary = (object) array(
     'name' => st('Media tags'),
     'machine_name' => 'media_tags',
     'module' => 'media_library_core',
   );
   taxonomy_vocabulary_save($vocabulary);
-  
+
   // add default tags
   $vocabulary = taxonomy_vocabulary_machine_name_load('media_tags');
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Photos'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Documents'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Reports'),
   );
 
   //Activation message
-  drupal_set_message('E-library feature is now active on your site.');
+  drupal_set_message(t('E-library feature is now active on your site.'));
+  drupal_set_message(t('You may want to "Rebuild all media referencing nodes". Go to the ' . l(t('"Media: node" module setup page'), 'admin/config/media/media_node', array('attributes' => array('target' => '_blank'))) . ' and click the "Rebuild" button.'));
 }
 
 /**
- * Remove block from the context
+ * Implements hook_disable().
  */
 function e_library_core_disable() {
   // solR configuration delete bundle
@@ -95,6 +96,17 @@ function e_library_core_disable() {
   taxonomy_vocabulary_delete($vocabulary->vid);
 
   //Activation message
-  drupal_set_message('E-library feature is now disabled on your site.');
+  drupal_set_message(t('E-library feature is now disabled on your site.'));
+
+  $type = 'document';
+  $types_conf = media_node_variable_get('types');
+  if ($types_conf && $types_conf[$type]) {
+    // unset the "Media: node" module configuration for the document content-type
+    $types_conf[$type] = 0;
+    media_node_variable_set('types', $types_conf);
+    drupal_set_message(t('You may want to "Rebuild all media referencing nodes". Go to the ' . l(t('"Media: node" module setup page'), 'admin/config/media/media_node', array('attributes' => array('target' => '_blank'))) . ' and click the "Rebuild" button.'));
+  }
+
 }
+
 
