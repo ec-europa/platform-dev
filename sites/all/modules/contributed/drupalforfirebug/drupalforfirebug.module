@@ -1,0 +1,657 @@
+<?php 
+
+/**
+* Implementation of hook_init()
+*/
+function drupalforfirebug_init() {
+  // Do nothing 
+}
+
+/**
+ * Implementation of hook_example()
+ */
+function drupalforfirebug_exit() {
+  $dff = TRUE;
+
+  // Try not to break non html pages. [from new devel.module]                     
+  if (function_exists('drupal_get_http_header')) {
+    $header = drupal_get_http_header('content-type');
+    if ($header) {
+      $formats = array('xml', 'javascript', 'json', 'plain', 'image', 'application', 'csv', 'x-comma-separated-values');
+      foreach ($formats as $format) {
+        if (strstr($header, $format)) {
+          $dff = FALSE;
+        }
+      }
+    }
+  }                    
+
+  // Exclude AJAX Functionality from Ctools
+  if (arg(1) == 'ajax' || arg(3) == 'ajax') {
+    $dff = FALSE;
+  }
+
+  // Try not to break non html pages. [from new devel.module]                     
+  if (function_exists('drupal_get_http_header')) {
+    $header = drupal_get_http_header('content-type');
+    if ($header) {
+      $formats = array('xml', 'javascript', 'json', 'plain', 'image', 'application', 'csv', 'x-comma-separated-values');
+      foreach ($formats as $format) {
+        if (strstr($header, $format)) {
+          $dff = FALSE;
+        }
+      }
+    }
+  }
+
+  // Check with Devel if Installed
+  if (module_exists('devel')) {
+    if (drupal_is_cli()) {
+      $dff = FALSE;
+    }
+  }
+  
+  global $_drupalforfirebug_enable_output;
+  if($_drupalforfirebug_enable_output !== TRUE) {
+    $dff = FALSE;
+  }
+
+  if ($dff) {
+    // Load Relevant Files and Register Shutdown
+    drupal_load('module', 'user');
+    register_shutdown_function('drupalforfirebug_shutdown');
+
+    // Load the SQL Query Information
+    global $queries;
+    $queries = Database::getLog('devel', 'default');
+  }
+}
+
+/**
+ * Implementation of hook_menu()
+ */
+function drupalforfirebug_menu() {
+  $items['admin/firebug/exec'] = array(
+    'page callback' => 'drupalforfirebug_get_exec_php_callback',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+*  Implementation of hook_nodes() 
+* TODO - are there other hooks we want to track?
+*/
+function drupalforfirebug_node_delete($node) {
+  drupalforfirebug_node_process($node, 'delete');
+}
+function drupalforfirebug_node_insert($node) {
+  drupalforfirebug_node_process($node, 'insert');
+}
+function drupalforfirebug_node_load($nodes, $types) {
+  foreach($nodes as $node) {
+    // TOOD - make this work
+    drupalforfirebug_node_process($node, 'load');
+  }
+}
+function drupalforfirebug_node_update($node) {
+  drupalforfirebug_node_process($node, 'update');
+}
+function drupalforfirebug_node_validate($node) {
+  drupalforfirebug_node_process($node, 'validate');
+}
+function drupalforfirebug_node_view($node) {
+  drupalforfirebug_node_process($node, 'view');
+}
+
+/**
+* Processing function for Node API
+*/
+function drupalforfirebug_node_process(&$node, $op) {
+  global $dfp_runtime;
+  if (!user_access('Access Firebug Debug')) {
+    return;
+  }
+  $nid = (isset($node->nid)) ? $node->nid : '*'. t('NEW') . '*';
+  $data = drupalforfirebug_array_compare((array) $dfp_runtime['drupalforfirebug_nodes']['original'][$node->type][$nid], (array) $node);
+  $output = drupalforfirebug_field_object('node', $nid, $op, $data);
+  drupalforfirebug_log($output, 'hook_nodeapi');
+}
+
+/**
+* Implementation of hook_views_pre_view();
+*/
+function drupalforfirebug_views_pre_view(&$view, &$display_id) {
+  global $dfp_runtime;
+  if (!user_access('Access Firebug Debug')) {
+    return;
+  }
+  $data = drupalforfirebug_array_compare((array) $dfp_runtime['drupalforfirebug_views']['original'][$view->name], (array) $view);
+  $output = drupalforfirebug_field_object('view', $view->name, NULL, $data);
+  drupalforfirebug_log($output, 'hook_views');
+}
+
+/**
+* Implementation of hook_page_alter()
+*/
+function drupalforfirebug_page_alter(&$page) {
+  global $dfp_runtime;
+  global $_drupalforfirebug_enable_output;
+  $_drupalforfirebug_enable_output = TRUE;
+  // TODO - make this work without recursion problems
+  // $data = drupalforfirebug_array_compare((array) $dfp_runtime['drupalforfirebug_page']['original']['page'], (array) $page);
+  // $output = drupalforfirebug_field_object('page', 'page', NULL, $data);
+  $output = t('Page Alter Support is Not Yet Implemented');
+  drupalforfirebug_log($output, 'hook_page_alter');
+}
+
+/**
+*  Implementation of hook_form_alter()
+*/
+function drupalforfirebug_form_alter(&$form, &$form_state, $form_id) {
+  global $dfp_runtime;
+  if (!user_access('Access Firebug Debug')) {
+    return;
+  }
+  if ($form_id != 'drupalforfirebug_execute_form') {
+    $form_modified = (array) $form;
+    $data = drupalforfirebug_array_compare($dfp_runtime['drupalforfirebug_forms']['original'][$form_id], $form_modified);
+    $output = drupalforfirebug_field_object('form', $form_id, NULL, $data);
+    drupalforfirebug_log($output, 'hook_form_alter');
+  }
+}
+
+/**
+* Implementation of hook_users()
+*/
+function drupalforfirebug_user_insert(&$edit, $account, $category) {
+  drupalforfirebug_user_processing('insert', $account);
+}
+function drupalforfirebug_user_load($users) {
+  foreach($users as $account) {
+    drupalforfirebug_user_processing('insert', $account);
+  }
+}
+// TODO - more user hook stuff
+
+/**
+* Processor for Hook Usering
+*/
+function drupalforfirebug_user_processing($op, &$account) {
+  global $dfp_runtime;
+  if (!user_access('Access Firebug Debug')) {
+    return;
+  }
+  if (isset($account->uid)) { 
+    $uid = $account->uid;
+    $name = $account->name;
+  } else {
+    $uid = '*' . t('NEW') . '*';
+    $name = '*' . t('NEW') . '*';
+  }
+  if (is_object($account)) {
+    $account_clone = clone($account);
+    $account_clone->pass = '**' . t('Not shown for security reasons') . '**';
+    $data = drupalforfirebug_array_compare((array) $account_clone, (array) $account_clone);
+    $output = drupalforfirebug_field_object('user', $uid, $op, $data);
+    drupalforfirebug_log($output, 'hook_user');
+  }
+}
+
+/**
+* API Function to Record a Message to the Drupal Firebug Log
+*/
+function drupalforfirebug_log($message, $type = 'general') {
+  global $dfp_runtime;
+  $dfp_runtime['firebug_messages'][$type][] = $message;
+}
+
+/**
+* Command Function to Record a Data Element to the Drupal Firebug Log
+*/
+function firep($element, $title = NULL) {
+  if ($title) {
+    drupalforfirebug_log('<strong>'.$title.':</strong>');
+  }
+  drupalforfirebug_log('<PRE>'. print_r($element, true) . '<br><br></PRE>', 'general');
+}
+
+/**
+* Output Function to Return the Results of the Log
+*/
+function drupalforfirebug_get($panetype) {
+  global $dfp_runtime;
+  $output = '';
+  if (isset($dfp_runtime['firebug_messages'][$panetype])) {
+    foreach($dfp_runtime['firebug_messages'][$panetype] as $message) {
+      $output .= '<div>' . $message .'</div>';
+    }
+    unset($dfp_runtime['firebug_messages'][$panetype]);
+    return $output;
+  }
+}
+
+/**
+* Output Function to Return the Results of the SQL Log
+*/
+function drupalforfirebug_get_sql_log() {
+  $output = '<fieldset>';
+  if (!module_exists('devel')) {
+    $output .= '<legend>' . t('Devel Module is Not Installed') . '</legend>';
+    $output .= t('Please install and enable the Devel Module to display the SQL queries.');
+  } elseif (!variable_get('devel_query_display', 0)) {
+    $output .= '<legend>' . t('Query Logging is Not Enabled') . '</legend>';
+    $output .= t('Please enable "Display query info" in the Devel Module Settings (devel/settings) to use this feature.');
+  } else {
+    if (function_exists('theme_get_registry') && theme_get_registry()) {
+      global $queries;
+      list($counts, $query_summary) = devel_query_summary($queries);
+      $output .= '<legend>' . t('SQL Query Log') . '</legend>';
+      $output .= $query_summary;
+      $output .= drupalforfirebug_devel_query_table($queries, $counts);
+    }
+  }
+  $output .= '</fieldset>'; 
+  return $output;
+}
+
+/** 
+* Generates an Execute PHP Drupal For Firebug Form
+**/
+function drupalforfirebug_execute_form() {
+  $form['code'] = array(
+    '#type' => 'textarea',
+    '#rows' => 2,
+    '#description' => t('Enter PHP code for execution. Do not use <code>&lt;?php ?&gt;</code> tags.')
+  );
+  $form['token'] = array(
+    '#type' => 'hidden',
+    '#value' => drupal_get_token(),
+  );
+  $form['op'] = array('#type' => 'submit', '#value' => t('Execute'));
+  $form['#redirect'] = FALSE;
+  $form['#action'] = url('admin/firebug/exec', array('absolute' => TRUE));
+  $form['#skip_duplicate_check'] = TRUE;
+  return $form; 
+}
+
+function drupalforfirebug_get_php_exec_area() {
+  $output = '<object style="width:100%;frameborder:0;height:100%;margin-bottom:-3px;" type="text/html" data="' . url('admin/firebug/exec', array('absolute' => TRUE)) . '"></object>';
+  return $output;
+}
+
+function drupalforfirebug_get_php_exec($code = NULL, $token = NULL) {
+  $output = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+  $output .= '<html><head><title>Execute PHP Code</title>';
+  $output .= drupal_get_js();
+  $output .= '</head><body>';
+  $output .= '<fieldset>';
+  if (!user_access('Execute Firebug PHP') || (!is_null($code) && !drupal_valid_token($token))) {
+    $output .= '<legend>' . t('Execute Firebug PHP') . '</legend>';
+    $output .= t('You do not have the proper permissions to use this functionality.');
+    $output .= '</fieldset></body></html>';
+    print $output;
+    exit();
+  } else {
+    if (!$code) {
+      $output .= '<legend>' . t('Execute Firebug PHP') . '</legend>';
+      $dff_exec_form = drupal_get_form('drupalforfirebug_execute_form');
+      $output .= drupal_render($dff_exec_form);
+      $output .= '</fieldset></body></html>';
+      print $output;
+      exit();
+    } else {
+      $output = '<legend>' . t('PHP Code Execution Results') . '</legend>';
+
+      // Run the PHP command, get output in variable
+      ob_start();
+      eval($code);
+      $eval_result = ob_get_contents();
+      ob_end_clean();
+
+      $output .= '<PRE>' . $eval_result . '</PRE>';
+      $output .= '</fieldset></body></html>';
+      print $output;
+      exit();
+    }
+  }
+}
+
+/**
+ * Outputs a Execute PHP Form
+ */
+function drupalforfirebug_get_exec_php_callback() {
+  $code = (isset($_POST['code'])) ? $_POST['code'] : NULL;
+  $token = (isset($_POST['token'])) ? $_POST['token'] : NULL;
+  return drupalforfirebug_get_php_exec($code, $token);
+}
+
+/**
+* Output Function to Return Hidden Div Containers in Footer
+*/
+function drupalforfirebug_shutdown() {
+  if (!user_access('Access Firebug Debug')) {
+    return;
+  }
+  $output = '<div style="display: none" id="drupalforfirebug_general">';
+  $output .= '<fieldset>';
+  $output .= '<legend>' . t('Drupal for Firebug General Messages') . '</legend>';
+  $general_messages = drupalforfirebug_get('general');
+  $output .= $general_messages;
+  if (!$general_messages) {
+    $output .= t('There were no messages sent to the general log. Please use "firep($item, $optional_title)" to output messages to this console.');
+  }
+  $output .= '</div>';
+  $output .= '<div style="display: none" id="drupalforfirebug_sql">';
+  $output .= drupalforfirebug_get_sql_log();
+  $output .= '</div>';
+  $output .= '<div style="display: none" id="drupalforfirebug_hook_form_alter">';
+  $output .= $form_alter_output = drupalforfirebug_get('hook_form_alter');
+  if (!$form_alter_output) { $output .= t('There was no form altering.'); }
+  $output .= '</div>';
+  $output .= '<div style="display: none" id="drupalforfirebug_hook_user">';
+  $output .= $user_output = drupalforfirebug_get('hook_user');
+  if (!$user_output) { $output .= t('There was no user processing.'); }
+  $output .= '</div>';
+  $output .= '<div style="display: none" id="drupalforfirebug_hook_nodeapi">';
+  $output .= $node_api_output = drupalforfirebug_get('hook_nodeapi');
+  if (!$node_api_output) { $output .= t('There was no node processing.'); }
+  $output .= '</div>';
+  $output .= '<div style="display: none" id="drupalforfirebug_hook_views">';
+  if (module_exists('views')) {
+    $output .= $views_output = drupalforfirebug_get('hook_views');
+    if (!$views_output) { $output .= t('There was no views processing.'); }
+  } else {
+    $output .= t('The views module is not installed.');
+  }
+  $output .= '</div>';
+  $output .= '<div style="display: none" id="drupalforfirebug_hook_page_alter">';
+  $output .= $page_output = drupalforfirebug_get('hook_page_alter');
+  if (!$page_output) { $output .= t('There was no page processing.'); }
+  $output .= '</div>';
+  $output .= '<div style="display: none" id="drupalforfirebug_php">';
+  $output .= drupalforfirebug_get_php_exec_area();
+  $output .= '</div>';
+  print $output;
+  unset($GLOBALS['dfp_runtime']);
+}
+
+/**
+* Implementation of hook_permission()
+*/
+function drupalforfirebug_permission() {
+  return array(
+    'Access Firebug Debug' => array(
+      'title' => t('Access Firebug Debug'),
+    ),
+    'Execute Firebug PHP' => array(
+      'title' => t('Execute Firebug PHP'),
+    ),
+  );
+}
+
+/**
+* Generalized Array Comparision Function
+*/
+function drupalforfirebug_array_compare($a, $b) {
+  $data = drupalforfirebug_array_compare_code($a, $b);
+  $style = drupalforfirebug_array_highlight_code($data);
+  return $style;
+}
+
+/**
+* Specialized Function to Return an Array Row
+*/
+function drupalforfirebug_array_row_build($key, $value, $style, $depth) {
+  $spacing = '';
+  for ($x = 0; $x <= $depth; $x++) {
+    $spacing .= '&nbsp;&nbsp;&nbsp;&nbsp;';
+  }
+  switch ($style) {
+    case 'ADDED':
+      $color = '<span style="color: green;">';
+      $colorend = '</span>';
+      break;
+    case 'REMOVED':
+      $color = '<span style="color: red;">';
+      $colorend = '</span>';
+      break;
+    case 'SAME':
+      $color = '<span style="color: black;">';
+      $colorend = '</span>';
+      break;
+    case 'DIFFERENT':
+      $color = '<span style="color: orange;">';
+      $colorend = '</span>';
+      break;
+    default: // suppose to be for objects
+      $color = '<span style="color: grey;">'.$style;
+      $colorend = '</span>';
+      break;
+  }
+
+  $output = '';
+  if (is_array($value) || is_object($value)) {
+    if ($style == 'DIFFERENT') { // do not highlight if contained item is just changed. 
+      $color = '';
+      $colorend = '';
+    }
+    if (is_array($value)) {
+      $output .= "<div>$spacing $color [$key] => array ( $colorend </div>";
+    } else {
+      $output .= '<div>$spacing <span style="color: grey;"> [' . $key .'] => stdClass (' . $colorend .'</div>';
+    }
+    $output .= drupalforfirebug_array_highlight_code($value, $depth + 1);
+    $output .= "<div>$spacing $color ) $colorend </div>";
+  } else {
+    if (isset($key) || isset($value)) {
+      if (is_resource($value)) {
+        $output .= "<div>$spacing $color [$key] => RESOURCE $colorend </div>";
+      } else {
+        $output .= "<div>$spacing $color [$key] => [" . check_plain($value) . "] $colorend </div>";
+      }
+    }
+  }
+  return $output;
+}
+
+/**
+* Specialized Array Data Style Function
+*/
+function drupalforfirebug_array_highlight_code($data, $depth = 0) {
+  // Smartly Handling Recursion for Objects
+  if (is_object($data)) {
+    $data = (array) $data;
+    static $refChain = array();
+    foreach ($refChain as $refVal) {
+      if ($refVal === $data) {
+        $data = array('**' . t('Recursion Detected') . '**');
+      }
+    }
+    array_push($refChain, $data);
+  }
+
+  $output = '';
+  foreach($data as $key => $value) {
+    if ((string) $key != '#firebug_style') {
+      if (isset($data['#firebug_style']) && isset($data['#firebug_style'][$key])) {
+        $output .= drupalforfirebug_array_row_build($key, $value, $data['#firebug_style'][$key], $depth);
+      }
+    }
+  }
+  return $output;
+}
+
+/**
+* Specialized Array Data Comparision Code
+*/
+function drupalforfirebug_array_compare_code($a, $b, $c = array(), $history = array()) {
+  // Create the Compared Data Object
+  $maxcount = count($a) > count($b) ? count($a) : count($b);
+  $akeys = is_array($a) ? array_keys($a) : array();
+  $bkeys = is_array($b) ? array_keys($b) : array();
+  for ($x = 0; $x < $maxcount; $x++) {
+    // Set the Proper Styling
+    if (isset($akeys[$x]) && array_key_exists($akeys[$x], array_flip($bkeys))) { // is it in B array?
+      if ($a[$akeys[$x]] === $b[$akeys[$x]]) {
+        $c['#firebug_style'][$akeys[$x]] = 'SAME';
+      } else {
+        $c['#firebug_style'][$akeys[$x]] = 'DIFFERENT';
+      }
+    } else { // not in B array, must be removed
+      if (isset($akeys[$x])) {
+        $c['#firebug_style'][$akeys[$x]] = 'REMOVED';
+      }
+    }
+
+    // Set the Proper Element
+    if (isset($akeys[$x]) && is_array($a[$akeys[$x]]) && $bkeys) { // is b a valid array
+      if (isset($c[$akeys[$x]])) {
+        $aval = &$a[$akeys[$x]];
+        $bval = &$b[$akeys[$x]];
+        $cval = &$c[$akeys[$x]];
+        $c[$akeys[$x]] = drupalforfirebug_array_compare_code($aval, $bval, $cval);
+      } else {
+        $aval = &$a[$akeys[$x]];
+        $bval = &$b[$akeys[$x]];
+        $c[$akeys[$x]] = drupalforfirebug_array_compare_code($aval, $bval, array());
+      }
+    } else {
+      if (isset($akeys[$x]) && array_key_exists($akeys[$x], array_flip($bkeys))) { // is it in B array?
+        if ($a[$akeys[$x]] === $b[$akeys[$x]]) {
+          $c[$akeys[$x]] = $a[$akeys[$x]];
+        } else {
+          $c[$akeys[$x]] = $b[$akeys[$x]];
+        }
+      } else { // not in B array, must be removed
+        if (isset($akeys[$x])) {
+          $c[$akeys[$x]] = $a[$akeys[$x]];
+        }
+      }
+    }
+    if (isset($bkeys[$x]) && isset($b[$bkeys[$x]])) { // does b have a valid argument
+      // Set the Proper Styling
+      if (array_key_exists($bkeys[$x], array_flip($akeys))) { // is it in A array? 
+        // exists in the A array, already processed
+      } else {
+        $c[$bkeys[$x]] = $b[$bkeys[$x]];
+        $c['#firebug_style'][$bkeys[$x]] = 'ADDED';
+      }
+
+      // Set the Proper Element
+      $aval = &$a[$bkeys[$x]];
+      $bval = &$b[$bkeys[$x]];
+      $cval = &$c[$bkeys[$x]];
+      if (isset($bval) && is_array($bval) && isset($aval) && isset($cval)) { // is b a valid array
+        $c[$bkeys[$x]] = drupalforfirebug_array_compare_code($aval, $bval, $cval);
+      }
+    }
+  }
+  return $c;
+}
+
+// Array Handling Helper Function
+function do_offset($level) {
+  $offset = "";             // offset for subarry 
+  for ($i=1; $i<$level;$i++) {
+    $offset = $offset . "<td></td>";
+  }
+  return $offset;
+}
+
+// Array Handling Helper Function
+function drupalforfirebug_show_array($array, $level, $sub){
+  $output = '';
+  if (is_array($array) == 1){          // check if input is an array
+    foreach($array as $key_val => $value) {
+      $offset = "";
+      if (is_array($value) == 1){   // array is multidimensional
+        $output .= "<tr>";
+        $offset = do_offset($level);
+        $output .= $offset . "<td>" . $key_val . "</td>";
+        $output .= drupalforfirebug_show_array($value, $level+1, 1);
+      }
+      else{                        // (sub)array is not multidim
+        if ($sub != 1){          // first entry for subarray
+          $output .= "<tr nosub>";
+          $offset = do_offset($level);
+        }
+        $sub = 0;
+        $output .= $offset . "<td main ".$sub." width=\"120\">" . $key_val .
+          "</td><td width=\"120\">" . $value . "</td>";
+        $output .= "</tr>\n";
+      }
+    } //foreach $array
+  }
+  return $output;
+}
+
+// Function to Show an Array
+function html_drupalforfirebug_show_array($array){
+  $output = "<table cellspacing=\"0\" border=\"2\">\n";
+  $output .= drupalforfirebug_show_array($array, 1, 0);
+  $output .= "</table>\n";
+  return $output;
+}
+
+
+/**
+ * Function for fieldsets that wrap object dumps
+ *
+ * For efficiency and consistent behavior in firebug window
+ * Use to be a theme function, but that broke things
+ */
+function drupalforfirebug_field_object($marker, $id, $op = NULL, $data) {
+  $output = '<fieldset class="toggler">';
+  $output .= '<legend><strong><a href="#"><em>' . $op . '</em> $'. $marker .'->'. $id . '</a></strong></legend>';
+  $output .= '<div class="content" style="display: none;">';
+  $output .= '<div>' . '&nbsp;$'. $marker .' = (' . '</div>';
+  $output .= $data;
+  $output .= '<div>' . '&nbsp;);</div>';
+  $output .= '</div>';
+  $output .= '</fieldset>';
+
+  return $output;
+}
+
+/**
+* Replication of Devel Query Display (but as a table instead of CSS styled div structure)
+* This is done to work with the Firefox extension which has a harder time loading CSS
+*/
+function drupalforfirebug_devel_query_table($queries, $counts) {
+  $version = devel_get_core_version(VERSION);
+  $header = array ('ms', '#', 'where', 'query');
+  $i = 0;
+  $api = variable_get('devel_api_url', 'api.drupal.org');
+  foreach ($queries as $query) {
+    $function = !empty($query['caller']['class']) ? $query['caller']['class'] . '::' : '';
+    $function .= $query['caller']['function'];
+    $count = isset($counts[$query['query']]) ? $counts[$query['query']] : 0;
+
+    $diff = round($query['time'] * 1000, 2);
+    if ($diff > variable_get('devel_execution', 5)) {
+      $cell[$i][] = array ('data' => $diff, 'class' => 'marker');
+    }
+    else {
+      $cell[$i][] = $diff;
+    }
+    $cell[$i][] = $count;
+    $cell[$i][] = l($function, "http://$api/api/function/$function/$version");
+    // EXPLAIN only valid for select queries.
+    // 3 divs for each variation of the query. Last 2 are hidden by default.
+    $placeholders = '<div class="dev-placeholders">' . check_plain($query['query']) . "</div>\n";
+    $args = '<div class="dev-arguments" style="display: none;"></div>' . "\n";
+    $explain = '<div class="dev-explain" style="display: none;"></div>' . "\n";
+    $cell[$i][] = array(
+      'id' => "devel-query-$i",
+      'data' => $placeholders . $args . $explain,
+    );
+    $i++;
+    unset($diff, $count, $ops);
+  }
+  if (variable_get('devel_query_sort', DEVEL_QUERY_SORT_BY_SOURCE)) {
+    usort($cell, '_devel_table_sort');
+  }
+  return theme('table', array('header' => $header, 'rows' => $cell));
+} 

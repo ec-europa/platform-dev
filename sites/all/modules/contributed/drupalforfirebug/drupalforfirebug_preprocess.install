@@ -1,0 +1,23 @@
+<?php
+
+/**
+* Implementation of hook_install()
+*/
+function drupalforfirebug_preprocess_install() {
+  db_update('system')
+    ->fields(array('weight' => -100000))
+    ->condition('name', 'drupalforfirebug_preprocess')
+    ->execute();
+}
+
+/**
+ * Set Correct Weight for DFF Preprocess Module
+ */
+function drupalforfirebug_preprocess_update_7000() {
+  $ret = array();
+  db_update('system')
+    ->fields(array('weight' => -100000))
+    ->condition('name', 'drupalforfirebug')
+    ->execute();
+  return $ret;
+}

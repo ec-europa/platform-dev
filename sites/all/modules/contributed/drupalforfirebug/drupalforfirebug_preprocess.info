@@ -1,0 +1,12 @@
+name = Drupal for Firebug Preprocessor
+description = A helper extension for the Drupal for Firebug Firefox extension to do preprocessing of forms
+package = Development
+core = 7.x
+files[] = drupalforfirebug_preprocess.info
+
+; Information added by drupal.org packaging script on 2012-11-01
+version = "7.x-1.4"
+core = "7.x"
+project = "drupalforfirebug"
+datestamp = "1351752371"
+

@@ -1,0 +1,76 @@
+<?php
+
+/**
+* Implementation of hook_init()
+*/
+function drupalforfirebug_preprocess_init() {
+  global $dfp_runtime;
+  $dfp_runtime = array();
+}
+
+/**
+*  Implementation of hook_form_alter()
+*/
+function drupalforfirebug_preprocess_form_alter(&$form, &$form_state, $form_id) {
+  global $dfp_runtime;
+  $dfp_runtime['drupalforfirebug_forms']['original'][$form_id] = $form;
+}
+
+
+/**
+*  Implementation of hook_nodes() 
+*  TODO - are there other hooks we want to track?
+*/
+function drupalforfirebug_preprocess_node_delete($node) {
+  drupalforfirebug_preprocess_node_process($node, 'delete');
+}
+function drupalforfirebug_preprocess_node_insert($node) {
+  drupalforfirebug_preprocess_node_process($node, 'insert');
+}
+function drupalforfirebug_preprocess_node_load($nodes, $types) {
+  foreach($nodes as $node) {
+    drupalforfirebug_preprocess_node_process($node, 'load');
+  }
+}
+function drupalforfirebug_preprocess_node_update($node) {
+  drupalforfirebug_preprocess_node_process($node, 'update');
+}
+function drupalforfirebug_preprocess_node_validate($node) {
+  drupalforfirebug_preprocess_node_process($node, 'validate');
+}
+function drupalforfirebug_preprocess_node_view($node) {
+  drupalforfirebug_preprocess_node_process($node, 'view');
+}
+
+/**
+* Helper Function to Process Node Information
+*/
+function drupalforfirebug_preprocess_node_process($node, $op) {
+  global $dfp_runtime;
+  if (isset($node->nid)) {
+    $nid = $node->nid;
+  } else { 
+    $nid = '*'.t('NEW').'*';
+  }
+  if ($node->created) { // only save information about real nodes
+    $node_clone = clone($node);
+    $dfp_runtime['drupalforfirebug_nodes']['original'][$node->type][$nid] = $node_clone;
+  } 
+}
+
+/**
+* Implementation of hook_page_alter()
+*/
+function drupalforfirebug_preprocess_page_alter(&$page) {
+  global $dfp_runtime;
+  $dfp_runtime['drupalforfirebug_page']['original']['page'] = $page;
+}
+
+/**
+* Implementation of hook_views_pre_query()
+*/
+function drupalforfirebug_preprocess_views_pre_view(&$view, &$display_id, &$args) {
+  global $dfp_runtime;
+  $view_clone = clone($view);
+  $dfp_runtime['drupalforfirebug_views']['original'][$view->name] = $view_clone;
+}

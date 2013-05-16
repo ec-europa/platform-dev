@@ -1,0 +1,13 @@
+name = Theme developer
+description = Essential theme API information for theme developers
+package = Development
+dependencies[] = devel
+dependencies[] = simplehtmldom
+core = 7.x
+files[] = devel_themer.module
+; Information added by drupal.org packaging script on 2012-08-31
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "devel_themer"
+datestamp = "1346372271"
+

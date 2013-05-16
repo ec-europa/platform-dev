@@ -1,0 +1,23 @@
+<?php
+
+/**
+* Implementation of hook_instal()
+*/
+function drupalforfirebug_install() {
+  db_update('system')
+    ->fields(array('weight' => 100000))
+    ->condition('name', 'drupalforfirebug')
+    ->execute();
+}
+
+/**
+ * Set Correct Weight for DFF Module
+ */
+function drupalforfirebug_update_7000() {
+  $ret = array();
+  db_update('system')
+   ->fields(array('weight' => 100000))
+   ->condition('name', 'drupalforfirebug')
+   ->execute();
+  return $ret;
+}

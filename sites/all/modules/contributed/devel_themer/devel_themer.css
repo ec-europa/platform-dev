@@ -1,0 +1,179 @@
+span.devel-themer-wrapper {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+#themer-fixeder {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  z-index: 100000;
+}
+
+#themer-relativer {
+  position: relative;
+}
+
+#themer-popup {
+  background-color: #333;
+  border: 1px solid #000;
+  color: #fff;
+  display: none;
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, Geneva, sans-serif;
+  font-size: 10px;
+  opacity: .9;
+  filter: alpha(opacity=90);
+  position: absolute;
+  right: 0;
+  text-align: left;
+  width: 400px;
+  z-index: 100001;
+}
+
+#themer-popup h2,
+#themer-popup h3,
+#themer-popup h4 {
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, Geneva, sans-serif;
+}
+
+#themer-popup a,
+#themer-popup a:visited,
+#themer-popup span.parent {
+  border-bottom: 1px dotted #666;
+  color: #fff;
+  cursor: pointer;
+  font-weight: normal;
+  margin-bottom: -4px;
+  text-decoration: none;
+}
+
+#themer-popup .topper {
+  background: #666 url(themer-bar.png) repeat-x;
+  cursor: move;
+  height: 20px;
+  padding: 0 5px;
+  text-align: center;
+}
+
+#themer-popup .close {
+  cursor: pointer;
+  float: right;
+}
+
+#themer-popup .starter {
+  font-size: 2em;
+}
+
+#themer-popup #parents {
+  background-color: #222;
+  color: #999;
+  padding-top: 5px;
+}
+
+#themer-popup .row {
+  border-top: 1px solid #777;
+  padding: 0 5px 5px;
+}
+
+#themer-popup dl {
+  margin: 0;
+}
+
+#themer-popup dd {
+  display: block;
+  margin: 0 0 0 15px;
+}
+
+#themer-popup dd.candidates .delimiter,
+#themer-popup dd.preprocessors .delimiter {
+  color: #999;
+}
+
+#themer-popup .devel-obj-output,
+#themer-popup .krumo-root {
+  max-height: 250px;
+  overflow: auto;
+}
+
+#themer-popup .devel-obj-output dt {
+  cursor: pointer;
+}
+
+#themer-popup .devel-obj-output dd {
+  display: none;
+}
+
+#themer-popup .devel-obj-output .field {
+  color: #ccc;
+}
+
+#themer-popup .info .key {
+  font-size: 18px;
+}
+
+#themer-popup .info dt,
+#themer-popup .info .dt {
+  color: #999;
+}
+
+#themer-popup h4 {
+  color: #999;
+  font-size: 10px;
+  font-weight: normal;
+  margin: 0;
+  text-align: center;
+}
+
+#themer-popup .item-list ul li {
+  background: none;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 .5em;
+  text-indent: -.5em;
+}
+
+#themer-popup .item-list ul li:before {
+  content: "- ";
+}
+
+#themer-popup img.throbber {
+  left: 3px;
+  position: absolute;
+  top: 2px;
+}
+
+#themer-toggle {
+  background: #333;
+  border-right: 1px solid #000;
+  border-top: 1px solid #000;
+  bottom: 0;
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  left: 0;
+  opacity: .8;
+  padding: 3px 5px;
+  position: fixed;
+  z-index: 100002;
+}
+
+#themer-popup div.krumo-element {
+  background: #222;
+}
+
+#themer-popup div.krumo-expand {
+  background: #999;
+}
+
+#themer-popup div.krumo-hover {
+  background: #000;
+}
+
+#themer-popup div.krumo-preview {
+  background: #494949;
+}
+
+#themer-popup li.krumo-footnote {
+  display: none;
+}
