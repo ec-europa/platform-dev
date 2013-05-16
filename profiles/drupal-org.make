@@ -266,6 +266,9 @@ projects[subscriptions][version] = "1.1"
 projects[l10n_update][subdir] = "contributed"
 projects[l10n_update][version] = "1.0-beta3"
 
+projects[media_node][subdir] = "contributed"
+projects[media_node][version] = "1.0-rc2"
+
 ;libraries
 
 ;ckeditor 3.6.5
