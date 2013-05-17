@@ -46,6 +46,30 @@ feature_sets[multi_user_blog][font] = 'multisite-icon-book'
 feature_sets[multi_user_blog][enable][] = multi_user_blog
 feature_sets[multi_user_blog][disable][] = multi_user_blog
 
+feature_sets[multisite_charts][title] = 'Multisite Charts'
+feature_sets[multisite_charts][description] = 'Create multiple customized charts based on FusionCharts API'
+feature_sets[multisite_charts][category] = 'Communication'
+feature_sets[multisite_charts][icon] = ''
+feature_sets[multisite_charts][font] = 'multisite-icon-pie'
+feature_sets[multisite_charts][enable][] = multisite_charts
+feature_sets[multisite_charts][disable][] = multisite_charts
+
+feature_sets[multisite_maps][title] = 'Multisite Maps'
+feature_sets[multisite_maps][description] = 'Create multiple customized maps based on FusionMaps API'
+feature_sets[multisite_maps][category] = 'Communication'
+feature_sets[multisite_maps][icon] = ''
+feature_sets[multisite_maps][font] = 'multisite-icon-location'
+feature_sets[multisite_maps][enable][] = multisite_maps
+feature_sets[multisite_maps][disable][] = multisite_maps
+
+feature_sets[multisite_metatags][title] = 'Multisite Meta tags'
+feature_sets[multisite_metatags][description] = 'Add metatag information to nodes, that respects the IPG guidelines'
+feature_sets[multisite_metatags][category] = 'Communication'
+feature_sets[multisite_metatags][icon] = ''
+feature_sets[multisite_metatags][font] = 'multisite-icon-bookmarks'
+feature_sets[multisite_metatags][enable][] = multisite_metatags
+feature_sets[multisite_metatags][disable][] = multisite_metatags
+
 feature_sets[wiki_og][title] = 'Wikis'
 feature_sets[wiki_og][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every visitor, can view the content of the wiki.'
 feature_sets[wiki_og][category] = 'Communication'
