@@ -23,6 +23,9 @@ blockquote {
 .meta {
   margin-bottom: 0;
 }
+.container {
+  position: relative;
+}
 
 /* ---------------- Heading  ----------------- */
 h1 {
@@ -207,8 +210,8 @@ h5 {
 
 /* ---------------- Sidebar  ----------------- */
 /* Force responsive display when block is in sidebar */
-.region-sidebar_left,
-.region-sidebar_right {
+.region-sidebar-left,
+.region-sidebar-right {
   .row-fluid {
     width: 100%;
   }
@@ -221,7 +224,10 @@ h5 {
     width: auto;
     margin: 0;
   }
-  
+  li.nav-header {
+    clear: both;
+  }
+
   .navbar .container {
     width: auto;
     padding: 0;
