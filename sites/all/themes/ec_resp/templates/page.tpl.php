@@ -169,16 +169,18 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
   </div><!-- /#layout-header -->  
 
   <div id="path" class="visible-desktop">
-    <p class="off-screen">Navigation path</p>
-    <ul class="reset-list">
-      <li class="first"><a href="http://ec.europa.eu/index_en.htm"><?php print t('European Commission'); ?></a></li>
-      <li>
-        <?php global $language; ?>
-        <?php if (isset ($front_page)): ?>
-          <?php print "<a href='" . filter_xss($front_page) . "'>$site_name</a>"; ?></li>
-        <?php endif; ?>
-        <?php print $breadcrumb; ?>
-    </ul>
+    <div class="container">
+      <p class="off-screen">Navigation path</p>
+      <ul class="reset-list">
+        <li class="first"><a href="http://ec.europa.eu/index_en.htm"><?php print t('European Commission'); ?></a></li>
+        <li>
+          <?php global $language; ?>
+          <?php if (isset ($front_page)): ?>
+            <?php print "<a href='" . filter_xss($front_page) . "'>$site_name</a>"; ?></li>
+          <?php endif; ?>
+          <?php print $breadcrumb; ?>
+      </ul>
+    </div>
   </div><!-- /#path --> 
 
   <?php print $region_featured; ?>
