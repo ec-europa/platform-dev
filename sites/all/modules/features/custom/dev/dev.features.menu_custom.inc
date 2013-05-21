@@ -6,7 +6,7 @@
 
 /**
  * Implements hook_menu_default_menu_custom().
-
+ */
 function dev_menu_default_menu_custom() {
   $menus = array();
 
@@ -36,4 +36,3 @@ function dev_menu_default_menu_custom() {
 
   return $menus;
 }
- */
