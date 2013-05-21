@@ -176,33 +176,3 @@ class Multisite_splash_QAWebTestCase extends DrupalWebTestCase {
   }
 
 }
-
-/**
- * Defines a base class for testing the "Splash screen" module.
- */
-class Splash_ScreenWebTestCase extends DrupalWebTestCase {
-
-  public static function getInfo() {
-    return array(
-        'name' => 'Splash screen unit tests',
-        'description' => 'Test the splash screen feature.',
-        'group' => 'Multisite multilingual',
-    );
-  }
-
-  public function setUp() {
-    parent::setUp('splash_screen');
-  }
-
-  protected function assertTitleIsPresent() {
-    $elements = $this->xpath("//h1");
-    return $this->assertTrue(isset($elements[0]), t('The page contains a h1 title'));
-  }
-
-  public function testPageShouldBeAccessible() {
-    $this->drupalGet('splash');
-    $this->assertResponse(200);
-    $this->assertTitleIsPresent();
-  }
-
-}
