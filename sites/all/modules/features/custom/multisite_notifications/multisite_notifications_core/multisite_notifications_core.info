@@ -44,3 +44,4 @@ features[variable][] = subscriptions_watchall
 features[variable][] = subscriptions_watchgood
 features[variable][] = subscriptions_watchstats
 stylesheets[all][] = css/multisite_notifications_core.css
+files[] = tests/multisite_notifications_core.test
