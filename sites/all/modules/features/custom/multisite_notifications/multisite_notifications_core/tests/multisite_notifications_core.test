@@ -45,13 +45,28 @@ class multisiteNotification extends DrupalWebTestCase {
   function testNotifications() {
 
     //access notifications page
+    $node1 = $this->drupalCreateNode(array('type' => 'page', 'title' => 'page to for node 1'));
+    $node2 = $this->drupalCreateNode(array('type' => 'page', 'title' => 'page to for node 2'));
 
     $edit['url'] = 'admin/config/system/subscriptions';
     $this->drupalGet($edit['url']);
     $this->assertResponse(array(200), format_string('Settings Page: !url is accessible', array('!url' => $edit['url'])));
     $this->assertRaw('subscriptions-settings-form', 'Settings Form is present');
-  }
+    $settings = array(
+        'subscriptions_blocked_nodes' => '1',
+    );
+    $this->drupalPost(NULL, $settings, t('Save configuration'));
+    $this->assertText(t('The configuration options have been saved.'), 'Forms setttings saved: Node 1 should be blocked.');
 
+
+    $this->drupalGet('node/'.$node1->nid);
+    $this->assertNoRaw('subscriptions[1]', 'Option to subscribe to the page is not available');
+    $this->assertNoRaw('subscriptions[2]', 'Option to subscribe to the page content type is not available');
+
+    $this->drupalGet('node/'.$node2->nid);
+    $this->assertRaw('subscriptions[1]', 'Option to subscribe to the page is present');
+    $this->assertRaw('subscriptions[2]', 'Option to subscribe to the page content type is present');
+  }
 
 }
 
