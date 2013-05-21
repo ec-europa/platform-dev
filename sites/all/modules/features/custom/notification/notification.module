@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the notification1 feature.
- */
-
-include_once 'notification.features.inc';
