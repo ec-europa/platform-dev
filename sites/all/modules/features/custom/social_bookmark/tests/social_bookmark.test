@@ -5,6 +5,223 @@
  * Tests for PROJECTFEATURE_social_bookmark.module.
  * ECWeb MULTISITE QA
  */
+class socialBookmark extends DrupalWebTestCase {
+
+  protected $adminrole;
+  protected $anonymous;
+
+  public static function getInfo() {
+    return array(
+        'name' => 'Social Bookmark QA test',
+        'description' => 'Social Bookmark QA tests 1.0 beta1',
+        'group' => 'AAA',
+    );
+  }
+
+  public function setUp() {
+    //parent::setUp(array('block, taxonomy, context, features, multisite_drupal_toolbox, social_bookmark'));
+    parent::setUp(array('social_bookmark'));
+$this->adminrole = $this->drupalCreateUserWithRole('administrator');
+
+/*
+    $this->adminrole = $this->drupalCreateUser(array(
+        'access administration pages',
+        'access content',
+        'create article content',
+        'administer blocks',
+    ));
+*/
+    $this->anonymous = $this->drupalCreateUser(array(
+        'access content',
+    ));
+
+    $this->drupalLogin($this->adminrole);
+    $this->setTheme('ec_resp');
+    $this->regions = array();
+    $this->regions[] = 'content';
+  }
+
+  function testSocialBookmark() {
+    //init
+    $this->feature_name = 'social_bookmark';
+    $feature_name = $this->feature_name;
+
+
+
+
+
+    //Check the presence of module
+    $this->assertTrue(module_exists($feature_name), t('%feature_name feature enabled.', array('%feature_name' => $this->feature_name)));
+    $this->drupalGet('<front>');
+    $this->drupalGet('/');
+
+    //$this->drupalLogout();
+    //$this->drupalLogin($this->anonymous);
+    //$block = module_invoke("the_module_name", "block_view", the_block_delta);
+    //$block = module_invoke("social_bookmark", "block_view", 'social-bookmark');
+    //$block = module_invoke('social_bookmark', 'block_view', 1);
+    //$this->verbose('block invoked: ' . '</pre>' . print_r($block, TRUE) . '</pre>');
+    //drupal_add_region_content("the_region_name", theme("block", $block));
+    //public function setBlock($module, $delta, $region, $theme, $pages, $visibility)
+    //$this->setBlock('social_bookmark', 'social-bookmark', 'content', 'ec-resp', '', 0);
+    //drupal_add_region_content('content_bottom', theme('block', $block));
+
+    //module_load_include('module', 'social_bookmark', 'social_bookmark');
+    //$blocky = module_invoke("social_bookmark", "block_view", 'social-bookmark');
+    //$this->verbose('block: ' . '</pre>' . print_r($blocky) . '</pre>');
+
+    $block_content = social_bookmark_contents();
+    $this->verbose('block invoked: ' . '</pre>' . print_r($block_content, TRUE) . '</pre>');
+    global $language;
+    $block = array();
+    $block['module'] = 'social_bookmark';
+    $block['delta'] = 'social-bookmark';
+    $block['title'] = 'Social Bookmark';
+    //$block['content'] = '$block_content';
+    $block['content'] = check_plain('<div id="share-tool-right"><script type="text/javascript">iBeginShare.attachLink("share-tool-right",{share_counter_display: "true", share_lang: "' . $language->language . '"});</script></div>');
+    $block['region'] = 'footer';
+
+    $bid = db_query("SELECT bid FROM {block} WHERE module = :module AND delta = :delta", array(
+        ':module' => $block['module'],
+        ':delta' => $block['delta'],
+            ))->fetchField();
+
+
+
+
+    $this->verbose('bid fetched: ' . '</pre>' . print_r($bid, TRUE) . '</pre>');
+    $this->verbose('block invoked: ' . '</pre>' . print_r($block, TRUE) . '</pre>');
+    // Check to see if the block was created by checking that it's in the database.
+    $this->assertNotNull($bid, 'Block found in database');
+
+    //$this->moveBlockToRegion($block, 'content');
+
+
+
+    $edit = array();
+    $edit['blocks[social_bookmark_social-bookmark][region]'] = 'footer';
+    $edit['blocks[system_user-menu][region]'] = 'footer';
+    $edit['blocks[user_online][region]'] = 'help';
+    $this->drupalPost('admin/structure/block', $edit, t('Save blocks'));
+    $this->assertResponse(200);
+    $this->assertText(t('The block settings have been updated.'), t('Social block was enabled'));
+
+
+    $this->createSampleNodes(1);
+
+
+
+
+
+    $this->drupalGet('node/1');
+    $this->assertRaw('share_button_container', 'The block Share is accesible to anonymous user');
+    $this->assertRaw('share_counter_container', 'Anonymous user can check the counter');
+    $this->clickLink('Share');
+    $box_id = 'share_box';
+    $xpath .= "[@id='" . $box_id . "']";
+    $elements = $this->xpath($xpath);
+    $this->assertTrue($elements[0], 'The container with social networks links is active');
+  }
+
+  public function setTheme($new_theme) {
+    db_update('system')
+            ->fields(array('status' => 1))
+            ->condition('type', 'theme')
+            ->condition('name', $new_theme)
+            ->execute();
+    variable_set('theme_default', $new_theme);
+    unset($GLOBALS['theme']);
+    drupal_theme_initialize();
+  }
+
+  public function setBlock($module, $delta, $region, $theme, $pages, $visibility) {
+    drupal_set_message("Activating block $module:$delta\n");
+    cache_clear_all();
+    db_update('block')
+            ->fields(array(
+                'pages' => trim($pages),
+                'region' => $region,
+                'visibility' => $visibility,
+            ))
+            ->condition('module', $module)
+            ->condition('delta', $delta)
+            ->condition('theme', $theme)
+            ->execute();
+    cache_clear_all();
+  }
+
+  public function moveBlockToRegion($block, $region) {
+    // Set the created block to a specific region.
+    $edit = array();
+    $edit['blocks[' . $block['module'] . '_' . $block['delta'] . '][region]'] = $region;
+    $this->drupalPost('admin/structure/block', $edit, t('Save blocks'));
+
+    // Confirm that the block was moved to the proper region.
+    $this->assertText(t('The block settings have been updated.'), format_string('Block successfully moved to %region_name region.', array('%region_name' => $region)));
+
+    // Confirm that the block is being displayed.
+    $this->drupalGet('node');
+    $this->assertText(t($block['title']), 'Block successfully being displayed on the page.');
+
+    // Confirm that the custom block was found at the proper region.
+    $xpath = $this->buildXPathQuery('//div[@class=:region-class]//div[@id=:block-id]/*', array(
+        ':region-class' => 'region region-' . str_replace('_', '-', $region),
+        ':block-id' => 'block-' . $block['module'] . '-' . $block['delta'],
+    ));
+    $this->assertFieldByXPath($xpath, NULL, format_string('Custom block found in %region_name region.', array('%region_name' => $region)));
+  }
+
+  public function createSampleNodes($count = 5) {
+    $langcode = LANGUAGE_NONE;
+    // Post $count article nodes.
+    for ($i = 0; $i < $count; $i++) {
+      $edit = array();
+      $edit['title'] = $this->randomName();
+      $edit["body[$langcode][0][value]"] = $this->randomName();
+      $this->drupalPost('node/add/article', $edit, t('Save'));
+    }
+  }
+
+    function social_bookmark_contents() {
+  global $language;
+  return
+  'bla bla';
+}
+
+
+  function social_bookmark_contents2() {
+  global $language;
+  return
+  '<div id="share-tool-right">
+      <script type="text/javascript">iBeginShare.attachLink("share-tool-right",{share_counter_display: "true", share_lang: "' . $language->language . '"});</script>
+   </div>';
+}
+
+    /**
+   * Creates a user with the give role.
+   * */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
+  }
+
+
+}
 
 /**
  * Prerequisites. Test the .info file
@@ -91,69 +308,3 @@ class socialBookmarkPrerequisites extends DrupalWebTestCase {
 
 }
 
-class socialBookmark extends DrupalWebTestCase {
-
-  protected $adminrole;
-  protected $anonymous;
-
-  public static function getInfo() {
-    return array(
-        'name' => 'Social Bookmark QA test',
-        'description' => 'Social Bookmark QA tests 1.0 beta8',
-        'group' => 'AAAA Multisite QA',
-    );
-  }
-
-  public function setUp() {
-    //parent::setUp(array('block, taxonomy, context, features, multisite_drupal_toolbox, social_bookmark'));
-    parent::setUp(array('social_bookmark'));
-
-
-
-    $this->adminrole = $this->drupalCreateUser(array(
-        'access administration pages',
-        'access content',
-        'create article content',
-        'administer blocks',
-    ));
-
-    $this->drupalLogin($this->adminrole);
-    $this->anonymous = $this->drupalCreateUser(array(
-        'access content',
-    ));
-  }
-
-  function testSocialBookmark() {
-    //init
-    $this->feature_name = 'social_bookmark';
-    $feature_name = $this->feature_name;
-
-    //Check the presence of module
-    $this->assertTrue(module_exists($feature_name), t('%feature_name feature enabled.', array('%feature_name' => $this->feature_name)));
-    $this->drupalGet('<front>');
-    $this->drupalGet('/');
-    $this->createSampleNodes(1);
-    $this->drupalLogout();
-    $this->drupalLogin($this->anonymous);
-    $this->drupalGet('node/1');
-    $this->assertRaw('share_button_container', 'The block Share is accesible to anonymous user');
-    $this->assertRaw('share_counter_container', 'Anonymous user can check the counter');
-    $this->clickLink('Share');
-    $box_id = 'share_box';
-    $xpath .= "[@id='" . $box_id . "']";
-    $elements = $this->xpath($xpath);
-    $this->assertTrue($elements[0], 'The container with social networks links is active');
-  }
-
-  function createSampleNodes($count = 5) {
-    $langcode = LANGUAGE_NONE;
-    // Post $count article nodes.
-    for ($i = 0; $i < $count; $i++) {
-      $edit = array();
-      $edit['title'] = $this->randomName();
-      $edit["body[$langcode][0][value]"] = $this->randomName();
-      $this->drupalPost('node/add/article', $edit, t('Save'));
-    }
-  }
-
-}
