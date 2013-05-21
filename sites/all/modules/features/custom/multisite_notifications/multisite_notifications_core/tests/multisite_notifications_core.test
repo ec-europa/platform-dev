@@ -37,6 +37,7 @@ class multisiteNotification extends DrupalWebTestCase {
         'administer user subscriptions',
         'access content',
         'bulk-administer user subscriptions',
+        'administer site configuration',
     ));
     $this->drupalLogin($this->administrator);
   }
