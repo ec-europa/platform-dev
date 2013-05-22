@@ -195,11 +195,11 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
 
   <div id="layout-body" class="container">
     <div class="row-fluid">
+      <?php if ($messages): ?>
       <div id="messages" class="span<?php print $span_messages; ?>">
-        <?php if ($messages): ?>
           <?php print $messages; ?>
-        <?php endif; ?>
       </div><!-- /#messages -->
+      <?php endif; ?>
 
       <?php if ($page['tools']): ?>
       <div class="span<?php print $span_tools; ?>">
@@ -261,7 +261,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       </div>
 
       <?php if ($page['sidebar_right']): ?>
-      <div class="span<?php print ($span_sidebar_right); ?> hidden-phone">
+      <div class="span<?php print ($span_sidebar_right); ?> hidden-phone sidebar-right">
         <ul class="nav nav-list card">
           <?php print $region_sidebar_right; ?>
         </ul>
