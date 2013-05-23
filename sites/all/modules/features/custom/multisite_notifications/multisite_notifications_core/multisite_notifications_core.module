@@ -5,3 +5,10 @@
  */
 
 include_once 'multisite_notifications_core.features.inc';
+
+ function multisite_notifications_core_subscriptions_queue_alter(&$event) {
+   // only send notification if the state of the content is published
+   if($event['node']->workbench_moderation_state_new != 'published')  {
+     $event = null;
+  }
+ }
