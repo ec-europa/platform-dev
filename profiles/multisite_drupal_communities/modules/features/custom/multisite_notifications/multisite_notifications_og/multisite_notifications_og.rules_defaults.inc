@@ -73,6 +73,38 @@ function multisite_notifications_og_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_multisite_og_membership_approved'] = entity_import('rules_config', '{ "rules_multisite_og_membership_approved" : {
+      "LABEL" : "multisite OG membership approved",
+      "PLUGIN" : "reaction rule",
+      "TAGS" : [ "multisite notifications" ],
+      "REQUIRES" : [ "rules", "og" ],
+      "ON" : [ "og_user_approved" ],
+      "IF" : [
+        { "entity_is_of_type" : { "entity" : [ "og-membership:group" ], "type" : "node" } }
+      ],
+      "DO" : [
+        { "variable_add" : {
+            "USING" : { "type" : "node", "value" : [ "og-membership:group" ] },
+            "PROVIDE" : { "variable_added" : { "group" : "Added variable" } }
+          }
+        },
+        { "mail" : {
+            "to" : [ "account:mail" ],
+            "subject" : "Your membership request was approved for \\u0027[group:title]\\u0027",
+            "message" : "[account:name],\\r\\n\\r\\nYou are now a member in the group \\u0027[group:title]\\u0027 located at [group:url]",
+            "language" : [ "" ]
+          }
+        },
+        { "mail" : {
+            "to" : [ "group:author:mail" ],
+            "subject" : "[account:name] joined [group:title]",
+            "message" : "[group:author:name],\\r\\n\\r\\n[account:name] joined [group:title] in [group:url]",
+            "language" : [ "" ]
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_og_member_subscribe_active_'] = entity_import('rules_config', '{ "rules_og_member_subscribe_active_" : {
       "LABEL" : "multisite OG member subscribe (Active)",
       "PLUGIN" : "reaction rule",
