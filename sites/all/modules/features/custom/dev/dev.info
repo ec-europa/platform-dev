@@ -35,4 +35,4 @@ features[menu_links][] = management:admin/config/development/devel
 ;features[menu_links][] = management:admin/config/development/devel_themer
 features[user_permission][] = access devel information
 features[user_permission][] = execute php code
-features[user_role][] = administrator
+;features[user_role][] = administrator

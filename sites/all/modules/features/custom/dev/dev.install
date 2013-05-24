@@ -15,9 +15,6 @@ include_once 'dev.install.inc';
 
 function dev_enable() {
 
-  //multisite_drupal_toolbox_add_block_context($contextName,$blockTitle,$module,$delta, $region,$weight='-10');
-  multisite_drupal_toolbox_add_block_context('site_wide','Development', 'devel', '1', 'sidebar_first',$weight='-10');
-
   drupal_set_message(t('dev %v feature is now active on your site.', array('%v' => _dev_get_version())));
 }
 
@@ -25,9 +22,6 @@ function dev_enable() {
  * Implements hook_disable().
  */
 function dev_disable() {
-  //Example
-  //multisite_drupal_toolbox_disable_content_type('kit');
-  multisite_drupal_toolbox_remove_block_context('side_wide', 'Development');
 
   drupal_set_message(t('dev %v feature is now inactive on your site.', array('%v' => _dev_get_version())));
 }
