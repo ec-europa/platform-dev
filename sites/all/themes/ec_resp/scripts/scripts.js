@@ -157,7 +157,16 @@ jQuery(function($){
     $('#menu-button').on("click", function() {
       $('#menu-button > div').toggleClass("arrow-down");
       $('#menu-button > div').toggleClass("arrow-up");
-    });       
+    });
+
+    /* Font size buttons */
+    $('#text_size_big').click(function (){
+      $('link[data-name="switcher"]').attr('href',templatePath + '/css/text_size_big.css');
+    });
+    $('#text_size_small').click(function (){
+      $('link[data-name="switcher"]').attr('href',templatePath + '/css/text_size_small.css');
+    });
+    /* /Font size buttons */
 	});
 
 })(jq171); 

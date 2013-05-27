@@ -61,6 +61,20 @@ function ec_resp_preprocess_html(&$variables) {
     $variables['head_title'] = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
   }  
   
+  // Add specific css for font size switcher
+  // it has to be done here, to add custom data
+  global $base_url;
+  $element = array(
+    '#tag' => 'link', 
+    '#attributes' => array( 
+      'href' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/css/text_size_small.css', 
+      'rel' => 'stylesheet',
+      'type' => 'text/css',
+      'data-name' => 'switcher',
+    )
+  );
+  drupal_add_html_head($element, 'font_size_switcher');
+
   // Add conditional stylesheets for IE
   drupal_add_css(path_to_theme() . '/css/ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
 

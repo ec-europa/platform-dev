@@ -6,7 +6,6 @@ core = "7.x"
 
 stylesheets[all][] = "css/layout.css"
 stylesheets[all][] = "css/ec_resp.css"
-stylesheets[all][] = "css/colors.css"
 stylesheets[all][] = "jquery-ui/css/jquery-ui.custom.css"
 stylesheets[print][] = "css/print.css"
 
