@@ -17,7 +17,7 @@ function sitemap_enable() {
     'link_path' => 'sitemap',
     'link_title' => t('Site map'),
     'menu_name' => 'main-menu',
-    'weight' => '40'
+    'weight' => '50'
   );
   menu_link_save($item);
 
