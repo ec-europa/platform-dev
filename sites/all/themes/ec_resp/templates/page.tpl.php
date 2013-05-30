@@ -186,7 +186,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
   <?php print $region_featured; ?>
 
   <?php
-    switch ($variables['responsive_sidebar']) {
+    switch (variable_get('responsive_sidebar')) {
       case 'left':
   ?>
   <?php if ($page['sidebar_left']): ?>

@@ -14,7 +14,7 @@ function ec_resp_preprocess(&$variables) {
   $variables['template'] = 'ec'; //'ec' or 'europa'
 
   //select responsive sidebar
-  $variables['responsive_sidebar'] = 'left'; //'left' or 'right'
+  variable_set('responsive_sidebar', 'left'); //'left' or 'right'
 }
 
 /**
