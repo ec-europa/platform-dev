@@ -185,6 +185,10 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
 
   <?php print $region_featured; ?>
 
+  <?php
+    switch ($variables['responsive_sidebar']) {
+      case 'left':
+  ?>
   <?php if ($page['sidebar_left']): ?>
     <div id="responsive-sidebar" class="visible-phone">
       <ul class="nav nav-list card">
@@ -192,6 +196,26 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       </ul>
     </div><!-- /#responsive-sidebar-->   
   <?php endif; ?>
+    <?php
+      break;
+
+      case 'right':
+    ?>
+  <?php if ($page['sidebar_right']): ?>
+    <div id="responsive-sidebar" class="visible-phone">
+      <ul class="nav nav-list card">
+        <?php print $region_sidebar_right; ?>
+      </ul>
+    </div><!-- /#responsive-sidebar-->   
+  <?php endif; ?>
+    <?php
+      break;
+
+      default:
+      break;
+    }
+    ?>      
+
 
   <div id="layout-body" class="container">
     <div class="row-fluid">

@@ -10,9 +10,11 @@
  * Override or insert variables into the template.
  */
 function ec_resp_preprocess(&$variables) {
-
   //select template
   $variables['template'] = 'ec'; //'ec' or 'europa'
+
+  //select responsive sidebar
+  $variables['responsive_sidebar'] = 'left'; //'left' or 'right'
 }
 
 /**
