@@ -81,7 +81,7 @@ function solr_config_disable() {
   db_delete('apachesolr_index_bundles')
     ->condition('env_id', 'solr')
     ->condition('entity_type','file')
-    ->condition'bundle', 'text')
+    ->condition('bundle', 'text')
     ->execute();
   db_delete('apachesolr_index_bundles')
     ->condition('env_id', 'solr')
