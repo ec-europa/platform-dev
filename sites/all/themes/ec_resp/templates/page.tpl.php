@@ -192,7 +192,10 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
   <?php if ($page['sidebar_left']): ?>
     <div id="responsive-sidebar" class="visible-phone">
       <ul class="nav nav-list card">
-        <?php print $region_sidebar_left; ?>
+        <?php 
+        $region_sidebar_left_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_left);
+        print $region_sidebar_left_responsive; 
+        ?>
       </ul>
     </div><!-- /#responsive-sidebar-->   
   <?php endif; ?>
@@ -204,7 +207,10 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
   <?php if ($page['sidebar_right']): ?>
     <div id="responsive-sidebar" class="visible-phone">
       <ul class="nav nav-list card">
-        <?php print $region_sidebar_right; ?>
+        <?php 
+        $region_sidebar_right_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_right);
+        print $region_sidebar_right_responsive; 
+        ?>
       </ul>
     </div><!-- /#responsive-sidebar-->   
   <?php endif; ?>
