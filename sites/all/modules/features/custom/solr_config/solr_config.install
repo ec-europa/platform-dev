@@ -6,24 +6,21 @@
 
 function solr_config_enable() {
   // add solr facet blocks to the search context
-  $blocks = module_invoke_all('block_info');
-  foreach ($blocks as $key => $value) {
-    if (is_string($value['info'])) {
-      if (substr($value['info'], 0, 5) == 'Facet') {
-        global $theme_key;
+  global $theme_key;
 
-        if ($theme_key == 'ec_resp') {
-          multisite_drupal_toolbox_add_block_context('search', $value['info'], 'facetapi', $key, 'sidebar_left');
-        }
-        else {
-          multisite_drupal_toolbox_add_block_context('search', $value['info'], 'facetapi', $key, 'sidebar_first');
-        }
-
-      }
-    }
+  if ($theme_key == 'ec_resp') {
+    $region = 'sidebar_left';
+  }
+  else {
+    $region = 'sidebar_first';
   }
 
-
+  multisite_drupal_toolbox_add_block_context('search', $value['info'], 'facetapi', $key, $region);
+  multisite_drupal_toolbox_add_block_context('search', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'facetapi', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', $region);
+  multisite_drupal_toolbox_add_block_context('search', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'facetapi', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', $region);
+  multisite_drupal_toolbox_add_block_context('search', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'facetapi', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', $region);
+  multisite_drupal_toolbox_add_block_context('search', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'facetapi', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', $region);
+    
   // settings for file bundles implemented by file_entity
   db_insert('apachesolr_index_bundles')->fields(array(
     'env_id' => 'solr',
@@ -66,37 +63,43 @@ function solr_config_enable() {
 
 function solr_config_disable() {
   // settings for file bundles implemented by file_entity
-  db_delete('apachesolr_index_bundles')->condition(array(
-    'env_id' => 'solr',
-    'entity_type' => 'file',
-    'bundle' => 'application',
-  ))->execute();
-  db_delete('apachesolr_index_bundles')->condition(array(
-    'env_id' => 'solr',
-    'entity_type' => 'file',
-    'bundle' => 'audio',
-  ))->execute();
-  db_delete('apachesolr_index_bundles')->condition(array(
-    'env_id' => 'solr',
-    'entity_type' => 'file',
-    'bundle' => 'image',
-  ))->execute();
-  db_delete('apachesolr_index_bundles')->condition(array(
-    'env_id' => 'solr',
-    'entity_type' => 'file',
-    'bundle' => 'text',
-  ))->execute();
-  db_delete('apachesolr_index_bundles')->condition(array(
-    'env_id' => 'solr',
-    'entity_type' => 'file',
-    'bundle' => 'video',
-  ))->execute();
+  db_delete('apachesolr_index_bundles')
+    ->condition('env_id', 'solr')
+    ->condition('entity_type', 'file')
+    ->condition('bundle', 'application')
+    ->execute();
+  db_delete('apachesolr_index_bundles')
+    ->condition('env_id', 'solr')
+    ->condition('entity_type', 'file')
+    ->condition('bundle', 'audio')
+    ->execute();
+  db_delete('apachesolr_index_bundles')
+    ->condition('env_id','solr')
+    ->condition('entity_type', 'file')
+    ->condition('bundle', 'image')
+    ->execute();
+  db_delete('apachesolr_index_bundles')
+    ->condition('env_id', 'solr')
+    ->condition('entity_type','file')
+    ->condition'bundle', 'text')
+    ->execute();
+  db_delete('apachesolr_index_bundles')
+    ->condition('env_id', 'solr')
+    ->condition('entity_type', 'file')
+    ->condition('bundle', 'video')
+    ->execute();
 
-  db_delete('apachesolr_index_bundles')->condition(array(
-    'env_id' => 'solr',
-    'entity_type' => 'file',
-    'bundle' => 'document',
-  ))->execute();
+  db_delete('apachesolr_index_bundles')
+    ->condition('env_id', 'solr')
+    ->condition('entity_type', 'file')
+    ->condition('bundle', 'file')
+    ->execute();
+
+  db_delete('apachesolr_index_bundles')
+    ->condition('env_id', 'solr')
+    ->condition('entity_type', 'file')
+    ->condition('bundle', 'document')
+    ->execute();
 }
 
 /*
