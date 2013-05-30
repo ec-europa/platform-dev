@@ -270,7 +270,7 @@ projects[media_node][subdir] = "contributed"
 projects[media_node][version] = "1.0-rc2"
 
 projects[apachesolr_multisitesearch][subdir] = "contributed"
-projects[apachesolr_multisitesearch][version] = "1.0""
+projects[apachesolr_multisitesearch][version] = "1.0"
 
 
 
