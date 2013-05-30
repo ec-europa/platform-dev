@@ -10,7 +10,7 @@
 function solr_config_facetapi_default_facet_settings() {
   $export = array();
 
-  $facet = new stdClass;
+  $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
   $facet->name = 'apachesolr@solr:block:author';
@@ -44,7 +44,7 @@ function solr_config_facetapi_default_facet_settings() {
   );
   $export['apachesolr@solr:block:author'] = $facet;
 
-  $facet = new stdClass;
+  $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
   $facet->name = 'apachesolr@solr:block:bundle';
@@ -78,7 +78,7 @@ function solr_config_facetapi_default_facet_settings() {
   );
   $export['apachesolr@solr:block:bundle'] = $facet;
 
-  $facet = new stdClass;
+  $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
   $facet->name = 'apachesolr@solr:block:changed';
@@ -109,7 +109,7 @@ function solr_config_facetapi_default_facet_settings() {
   );
   $export['apachesolr@solr:block:changed'] = $facet;
 
-  $facet = new stdClass;
+  $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
   $facet->name = 'apachesolr@solr:block:created';
@@ -140,7 +140,7 @@ function solr_config_facetapi_default_facet_settings() {
   );
   $export['apachesolr@solr:block:created'] = $facet;
 
-  $facet = new stdClass;
+  $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
   $facet->name = 'apachesolr@solr:block:im_field_tags';
@@ -174,14 +174,14 @@ function solr_config_facetapi_default_facet_settings() {
   );
   $export['apachesolr@solr:block:im_field_tags'] = $facet;
 
-  $facet = new stdClass;
+  $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
   $facet->name = 'apachesolr@solr:block:language';
   $facet->searcher = 'apachesolr@solr';
   $facet->realm = 'block';
   $facet->facet = 'language';
-  $facet->enabled = FALSE;
+  $facet->enabled = TRUE;
   $facet->settings = array(
     'weight' => 0,
     'widget' => 'facetapi_links',
