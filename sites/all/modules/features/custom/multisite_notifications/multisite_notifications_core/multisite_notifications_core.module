@@ -1,118 +1,14 @@
 <?php
 /**
- * @file
- * Code for the multisite_notifications_core feature.
- */
+* @file
+* Code for the multisite_notifications_core feature.
+*/
 
 include_once 'multisite_notifications_core.features.inc';
 
-/**
- * Implements hook_block_info().
- */
-function multisite_notifications_core_block_info() {
-  return array(
-      //delta
-      'notification_block' => array(
-          'info' => t('Subscription Block'),
-          'cache' => DRUPAL_CACHE_PER_PAGE,
-      ),
-  );
-}
-
-
-/**
- * Implements hook_block_view().
- */
-function multisite_notifications_core_block_view($delta = '') {
-  $block = array();
-  switch ($delta) {
-    case 'notification_block':
-      $block['subject'] = t('Subscribe to newest content');
-      $block['content'] = drupal_render(drupal_get_form('multisite_notifications_core_form'));
-      break;
-    default:
-      break;
-  }
-  return $block;
-}
-
-
-/**
- * Subscribe to new content form
- *
- * @param type $form
- * @param type $form_state
- * @return array
- *
- * @see multisite_notifications_core_form_validate()
- * @see multisite_notifications_core_form_submit()
- *
- *
- */
-function multisite_notifications_core_form($form, &$form_states) {
-  //global $user;
-
-  $mail = '';
-  //$form = array();
-  $form['subscriptions']['mail'] = array(
-      '#type' => 'textfield',
-      '#value' => '',
-      '#size' => 30,
-      '#maxlength' => 128,
-      '#defaultvalue' => 'Fill in with your email address',
-
-      );
-
-  $form['subscriptions']['subscribe'] = array(
-      '#type' => 'submit',
-      '#value' => t('Subscribe'),
-      '#weight' => 20,
-    );
-    $form['subscriptions']['unsubscribe'] = array(
-      '#type' => 'submit',
-      '#value' => t('Unsubscribe'),
-      '#weight' => 30,
-    );
-
-    $form['#validate'][] = 'multisite_notifications_core_form_validate';
-    $form['#submit'][] = 'multisite_notifications_core_form_submit';
-
-
-  return $form;
-}
-/**
- *
- * @param type $form
- * @param type $form_state
- */
-function multisite_notifications_core_form_validate($form, &$form_state) {
-  $valid_email = valid_email_address($form_state['values']['mail']);
-  if (!$valid_email) {
-    form_set_error('mail', t('The e-mail address you supplied is not valid.'));
-  }
-
-}
-
-function multisite_notifications_core_form_submit($form, &$form_state) {
-  //@todo doublecheck
-  $mail = $form_state['values']['mail'];
-
-  //$account = multisite_notifications_core_user_by_mail($mail);
-
-  switch ($form_state['values']['op']) {
-    case t('Subscribe'):
-      // move multisite_notifications_core_subscribe_user($mail, $tid, $confirm, 'website');
-      //send email
-      drupal_set_message(t('You will receive a confirmation e-mail shortly containing further instructions on how to complete your subscription.'), 'status');
-
-
-      break;
-    case t('Unsubscribe'):
-      //move multisite_notifications_core_unsubscribe_user($mail, $tid, $confirm, 'website');
-      drupal_set_message(t('You will receive a confirmation e-mail shortly containing further instructions on how to cancel your subscription.'), 'status');
-      break;
-    default:
-      break;
-  }
-
+function multisite_notifications_core_subscriptions_queue_alter(&$event) {
+  // only send notification if the state of the content is published
+  if($event['node']->workbench_moderation_state_new != 'published')  {
+    $event = null;
+ }
 }
