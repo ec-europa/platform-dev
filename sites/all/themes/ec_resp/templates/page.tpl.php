@@ -173,10 +173,9 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       <p class="off-screen">Navigation path</p>
       <ul class="reset-list">
         <li class="first"><a href="http://ec.europa.eu/index_en.htm"><?php print t('European Commission'); ?></a></li>
-        <li>
           <?php global $language; ?>
           <?php if (isset ($front_page)): ?>
-            <?php print "<a href='" . filter_xss($front_page) . "'>$site_name</a>"; ?></li>
+            <li class="home"><?php print "<a href='" . filter_xss($front_page) . "'>$site_name</a>"; ?></li>
           <?php endif; ?>
           <?php print $breadcrumb; ?>
       </ul>

@@ -802,15 +802,13 @@ function ec_resp_class_replace($match) {
 function ec_resp_breadcrumb($variables) {
   $breadcrumb = $variables['breadcrumb'];
 
+  $crumbs = '';
   if (!empty($breadcrumb)) {
-    $crumbs = '';
-
     foreach ($breadcrumb as $key => $value) {
       if ($key!=0) {
         $crumbs .= '<li>' . $value . '</li>';
       }
     }
-    $crumbs .= '';
-    return $crumbs;
   }
+  return $crumbs;
 }  
