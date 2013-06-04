@@ -20,6 +20,9 @@ projects[apachesolr_attachments][version] = "1.2"
 projects[apachesolr_multilingual][subdir] = "contributed"
 projects[apachesolr_multilingual][version] = "1.0-alpha2"
 
+projects[apachesolr_multisitesearch][subdir] = "contributed"
+projects[apachesolr_multisitesearch][version] = "1.0"
+
 projects[better_formats][subdir] = "contributed"
 projects[better_formats][version] = "1.0-beta1"
 
@@ -71,6 +74,9 @@ projects[entity][version] = "1.0"
 projects[entityreference][subdir] = "contributed"
 projects[entityreference][version] = "1.x-dev"
 
+projects[entityreference_prepopulate][subdir] = "contributed"
+projects[entityreference_prepopulate][version] = "1.2"
+
 projects[facetapi][subdir] = "contributed"
 projects[facetapi][version] = "1.3"
 
@@ -104,6 +110,9 @@ projects[i18n][version] = "1.7"
 projects[jqmulti][subdir] = "contributed"
 projects[jqmulti][version] = "1.0-beta1"
 
+projects[l10n_update][subdir] = "contributed"
+projects[l10n_update][version] = "1.0-beta3"
+
 projects[language_cookie][subdir] = "contributed"
 projects[language_cookie][version] = "1.6"
 
@@ -116,6 +125,9 @@ projects[link][version] = "1.1"
 projects[linkchecker][subdir] = "contributed"
 projects[linkchecker][version] = "1.0"
 
+projects[mail_edit][subdir] = "contributed"
+projects[mail_edit][version] = "1.0"
+
 projects[mailsystem][subdir] = "contributed"
 projects[mailsystem][version] = "2.34"
 
@@ -125,6 +137,9 @@ projects[media][version] = "2.0-unstable7"
 projects[media_dailymotion][subdir] = "contributed"
 projects[media_dailymotion][version] = "1.0"
 
+projects[media_node][subdir] = "contributed"
+projects[media_node][version] = "1.0-rc2"
+
 projects[media_vimeo][subdir] = "contributed"
 projects[media_vimeo][version] = "1.0-beta5"
 
@@ -133,6 +148,9 @@ projects[media_youtube][version] = "2.0-rc1"
 
 projects[menu_block][subdir] = "contributed"
 projects[menu_block][version] = "2.3"
+
+projects[message][subdir] = "contributed"
+projects[message][version] = "1.7"
 
 projects[messaging][subdir] = "contributed"
 projects[messaging][version] = "1.x-dev"
@@ -178,6 +196,9 @@ projects[site_map][version] = "1.0"
 
 projects[strongarm][subdir] = "contributed"
 projects[strongarm][version] = "2.0"
+
+projects[subscriptions][subdir] = "contributed"
+projects[subscriptions][version] = "1.1"
 
 projects[sweaver][subdir] = "contributed"
 projects[sweaver][version] = "1.3"
@@ -250,27 +271,6 @@ projects[xmlsitemap][version] = "2.0-rc1"
 
 projects[xml_field][subdir] = "contributed"
 projects[xml_field][version] = "1.5"
-
-projects[message][subdir] = "contributed"
-projects[message][version] = "1.7"
-
-projects[entityreference_prepopulate][subdir] = "contributed"
-projects[entityreference_prepopulate][version] = "1.2"
-
-projects[mail_edit][subdir] = "contributed"
-projects[mail_edit][version] = "1.0"
-
-projects[subscriptions][subdir] = "contributed"
-projects[subscriptions][version] = "1.1"
-
-projects[l10n_update][subdir] = "contributed"
-projects[l10n_update][version] = "1.0-beta3"
-
-projects[media_node][subdir] = "contributed"
-projects[media_node][version] = "1.0-rc2"
-
-projects[apachesolr_multisitesearch][subdir] = "contributed"
-projects[apachesolr_multisitesearch][version] = "1.0"
 
 
 
