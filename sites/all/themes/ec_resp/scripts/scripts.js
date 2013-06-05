@@ -160,10 +160,10 @@ jQuery(function($){
     });
 
     /* Font size buttons */
-    $('#text_size_big').click(function (){
+    $('.text_size_big').on("click", function() {
       $('link[data-name="switcher"]').attr('href',templatePath + '/css/text_size_big.css');
     });
-    $('#text_size_small').click(function (){
+    $('.text_size_small').on("click", function() {
       $('link[data-name="switcher"]').attr('href',templatePath + '/css/text_size_small.css');
     });
     /* /Font size buttons */
