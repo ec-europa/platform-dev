@@ -30,8 +30,9 @@ function multisite_notifications_core_menu() {
       'description' => 'Confirmation for subscribing',
       'page callback' => 'drupal_get_form',
       'page arguments' => array('multisite_notifications_core_subscribe_form'),
-      'access callback' => 'user_access',
-      'access arguments' => array('view subscription block'),
+      'access callback' => TRUE,
+      //'access callback' => 'user_access',
+      //'access arguments' => array('view subscription block'),
       'weight' => 0,
       'type' => MENU_CALLBACK,
   );
@@ -287,6 +288,7 @@ function _create_anonymous_account($mail) {
       'pass' => $password,
       'status' => 0, //STATUS BLOCK FOR NOW, 1 AFTER CONFIRMATION
       'init' => $mail, //address used for initial account creation
+      //'language'//to add user language
       'roles' => array(
           DRUPAL_AUTHENTICATED_RID => 'authenticated user',
           6 => 'subscriber', //@todo Test if the roles exists
@@ -320,10 +322,12 @@ function _delete_anonymous_account($mail, $waiting_confirmation = NULL, $uid = N
             //->condition('mail', $mail, '=')
             ->condition('uid', $uid, '=')
             ->execute();
-
     if ($user_deleted > 0) {
+
+
       drupal_set_message(t('You have confirmed your unsubscription.'), 'status');
     }
+    drupal_goto();
   }
   if ($waiting_confirmation) {
     return $blocked;
@@ -331,7 +335,7 @@ function _delete_anonymous_account($mail, $waiting_confirmation = NULL, $uid = N
 }
 
 /**
- *
+ * Subscription Landing Page
  * @param type $form
  * @param type $form_states
  */
@@ -347,7 +351,7 @@ function multisite_notifications_core_subscribe_form($form, &$form_states) {
 
   $form['subscribe']['subscribe'] = array(
       '#type' => 'submit',
-      '#value' => t('Subscribe'),
+      '#value' => t('Confirm'),
       '#weight' => 30,
   );
 
@@ -368,9 +372,11 @@ function multisite_notifications_core_unsubscribe_form($form, &$form_states) {
 
   $form['unsubscribe']['unsubscribe'] = array(
       '#type' => 'submit',
-      '#value' => t('Unsubscribe'),
+      '#value' => t('Confirm'),
       '#weight' => 30,
   );
+  //@todo replace drupal_goto
+  //$form_state['redirect'] = '/';
 
 
   $form['#submit'][] = 'multisite_notifications_core_unsubscribe_form_submit';
@@ -386,11 +392,12 @@ function multisite_notifications_core_subscribe_form_submit($form, &$form_states
           ->fields(array('status' => 1))
           ->condition('uid', $uid, '=')
           ->execute();
+  $notifications = _multisite_notifications_core_insert_notification_defaults($uid);
   if ($active > 0) {
     drupal_set_message(t('Congratulations, you have confirmed your subscription.'), 'status');
   }
   //update subscription_update table.
-  $notifications = _multisite_notifications_core_insert_notification_defaults($uid);
+  drupal_goto();
 }
 
 function multisite_notifications_core_unsubscribe_form_submit($form, &$form_states) {
@@ -441,5 +448,27 @@ function _multisite_notifications_core_insert_notification_defaults($uid) {
     ))
     ->condition('uid', $uid)
     ->execute();
+/*
+    db_insert('subscriptions')
+    ->fields(array(
+      'module' => 'node',
+      'field' => 'type',
+      'value' => 'article',
+      'recipient_uid' => $uid,
+      'send_interval' => 1,
+      'author_uid' => -1, //?? probably need to add as many entries as authors are.
+      'send_updates' => 1,
+      'send_comments' => 1,
 
+    ))
+    ->execute();
+*/
+}
+
+function multisite_notifications_core_form_alter(&$form, $form_state, $form_id) {
+  //will only display the form id from the page
+  //drupal_set_message("Form ID is : " . $form_id);
+  if ($form_id == 'subscriptions-page-form') {
+    //check
+  }
 }
