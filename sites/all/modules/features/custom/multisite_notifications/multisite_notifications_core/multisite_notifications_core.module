@@ -1,14 +1,417 @@
 <?php
-/**
-* @file
-* Code for the multisite_notifications_core feature.
-*/
 
+/**
+ * @file
+ * Code for the multisite_notifications_core feature.
+ * Ovidiu.FARCAS [at] ext.ec.europa.eu
+ */
 include_once 'multisite_notifications_core.features.inc';
 
-function multisite_notifications_core_subscriptions_queue_alter(&$event) {
-  // only send notification if the state of the content is published
-  if($event['node']->workbench_moderation_state_new != 'published')  {
-    $event = null;
- }
+/**
+ * Implements hook_perm().
+ */
+function multisite_notifications_core_permission() {
+  return array(
+      'view subscription block' => array(
+          'title' => t('View Subscription Block'),
+          'description' => t('Permission to view the subscriptions block'),
+      ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function multisite_notifications_core_menu() {
+  $items = array();
+  //landing page : you need uid as argument
+  $items['subscribe'] = array(
+      'title' => 'Subscribe',
+      'description' => 'Confirmation for subscribing',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('multisite_notifications_core_subscribe_form'),
+      'access callback' => 'user_access',
+      'access arguments' => array('view subscription block'),
+      'weight' => 0,
+      'type' => MENU_CALLBACK,
+  );
+  //landing page : you need snid as argument
+  $items['unsubscribe'] = array(
+      'title' => 'Unsubscribe',
+      'description' => 'Confirmation for unsubscribing',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('multisite_notifications_core_unsubscribe_form'),
+      'access callback' => 'user_access',
+      'access arguments' => array('view subscription block'),
+      'weight' => 0,
+      'type' => MENU_CALLBACK,
+  );
+
+
+  $items['admin/config/system/subscriptions/subscription-block'] = array(
+      'title' => 'Subscription Block',
+      'description' => 'Configure the subscription block settings.',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('multisite_notifications_core_general_settings'),
+      'access arguments' => array('administer user subscriptions'), // see subscriptions module
+      'weight' => -10,
+      'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
+      'file' => 'includes/multisite_notifications_core.settings.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function multisite_notifications_core_block_info() {
+  return array(
+      //delta
+      'notification_block' => array(
+          'info' => t('Subscription Block'),
+          'cache' => DRUPAL_CACHE_PER_PAGE,
+      ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function multisite_notifications_core_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'notification_block':
+      if (user_access('view subscription block')) {
+        $block['subject'] = t('Subscribe to new articles');
+        $block['content'] = drupal_render(drupal_get_form('multisite_notifications_core_form'));
+      }
+      break;
+    default:
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Subscribe to new content form
+ *
+ * @param type $form
+ * @param type $form_state
+ * @return array
+ *
+ * @see multisite_notifications_core_form_validate()
+ * @see multisite_notifications_core_form_submit()
+ *
+ *
+ */
+function multisite_notifications_core_form() {
+
+  $form = array();
+  $form['mail'] = array(
+      '#type' => 'textfield',
+      //'#value' => '',
+      '#size' => 30,
+      '#maxlength' => 128,
+      '#default_value' => 'Fill in with your email address',
+      '#required' => TRUE,
+          //'#element_validate' => array('simple_subscription_email_validate'), //no longer needed see validation below
+  );
+
+  $form['subscribe'] = array(
+      '#type' => 'submit',
+      '#value' => t('Subscribe'),
+      '#weight' => 20,
+  );
+  $form['unsubscribe'] = array(
+      '#type' => 'submit',
+      '#value' => t('Unsubscribe'),
+      '#weight' => 30,
+  );
+
+  $form['#validate'][] = 'multisite_notifications_core_form_validate';
+  $form['#submit'][] = 'multisite_notifications_core_form_submit';
+
+  return $form;
+}
+
+/**
+ *
+ * @param type $form
+ * @param type $form_state
+ */
+function multisite_notifications_core_form_validate($form, &$form_state) {
+  //dpm($form_state['values']);
+
+  $email_to_check = $form_state['values']['mail'];
+  $is_valid_email = valid_email_address($email_to_check);
+
+
+  //dpm($form_state['values']);
+  if (!$is_valid_email) {
+    form_set_error('mail', t('The e-mail address you supplied is not valid.'));
+  }
+  // count return the number of rows tha match / if return 0 then nothing match
+  $is_email_saved = db_query("SELECT COUNT(*) FROM {users} WHERE mail = :mail", array(':mail' => $email_to_check))->fetchField();
+  switch ($form_state['values']['op']) {
+    case t('Subscribe'):
+      //Check if the email already exists in table users
+      if ($is_email_saved >= 1) {
+        form_set_error('mail', t('You are already a subscriber!'));
+      }
+
+      break;
+
+    case t('Unsubscribe'):
+      //Check if the email already exists in table users
+      if ($is_email_saved < 1) {
+        form_set_error('mail', t('You are not yet a subscriber.'));
+      }
+
+      break;
+
+    default:
+      break;
+  }
+}
+
+function multisite_notifications_core_form_submit($form, &$form_state) {
+  //@todo doublecheck
+  global $language;
+  $mail = $form_state['values']['mail'];
+
+  //$account = multisite_notifications_core_user_by_mail($mail);
+
+  switch ($form_state['values']['op']) {
+    case t('Subscribe'):
+      //Create an account programmatically
+
+      $account = _create_anonymous_account($mail);
+      //dpm($account, 'Created account');
+      //Save into variables the user email
+      variable_set('multisite_notification_core_user_email', $mail);
+      //@todo send confirmation mail
+      $uid = $account->uid;
+      $name = $account->name;
+      $pass = $account->pass;
+      //@todo make $params an associative array
+      //make a custom function to send mail.
+      $sent = drupal_mail(
+              'multisite_notifications_core', 'subscription', //key
+              $account->mail, //to
+              user_preferred_language($account), array($form_state['values'], $uid, $name, $pass), //params array, need id to pass in the email link tail
+              variable_get('site_mail', NULL), // from
+              TRUE //If TRUE, drupal_mail() will call drupal_mail_system()->mail() to deliver the message, and store the result in $message['result']. Modules implementing hook_mail_alter() may cancel sending by setting $message['send'] to FALSE.
+      );
+      //dpm($sent, 'Mail sent to user');
+
+
+      if ($account && !empty($sent['result'])) {
+        drupal_set_message(t('You will receive a confirmation e-mail shortly containing further instructions on how to complete your subscription.'), 'status');
+      }
+
+      break;
+    case t('Unsubscribe'):
+
+      $email = variable_get('multisite_notification_core_user_email', '');
+      //@todo send confirmation mail
+      //dpm($email, 'email');//OK
+      //Set user status to blocked, then ask for user confirmation
+      $blocked = _delete_anonymous_account($mail, 'block');
+      $account = user_load_by_mail($mail);
+
+      $uid = $account->uid;
+
+      $sent = drupal_mail(
+              'multisite_notifications_core', 'unsubscription', //key
+              $account->mail, //to
+              user_preferred_language($account), array($form_state['values'], $uid), //params array, need id to pass in the email link tail
+              variable_get('site_mail', NULL), // from
+              TRUE //If TRUE, drupal_mail() will call drupal_mail_system()->mail() to deliver the message, and store the result in $message['result']. Modules implementing hook_mail_alter() may cancel sending by setting $message['send'] to FALSE.
+      );
+      //see sent['result']
+      if (!empty($sent['result'])) {
+        drupal_set_message(t('You will receive a confirmation e-mail shortly containing further instructions on how to complete your unsubscription.'), 'status');
+      }
+
+      break;
+    default:
+      break;
+  }
+}
+
+/**
+ * Implements hook_mail().
+ * Now when drupal_mail() is called and passed $key and $module,
+ * the appropriate body and subject will be filled in before the mail is sent.
+ */
+function multisite_notifications_core_mail($key, &$message, $params) {
+  global $language;
+  global $base_url;
+
+  switch ($key) {
+    case 'subscription':
+      $message['subject'] = variable_get('subscribe_subject_' . $language->language, 'Please confirm your subscription');
+      $message['body'][] = variable_get('subscribe_message_' . $language->language, 'Please confirm your subscription by clicking the link provided by this mail.');
+      //@todo integrate with tokens
+      //@todo make $params an associative array
+      $message['body'][] = $base_url . '/subscribe/' . $params[1]; //uid
+      //$message['body'][] = 'After confirmation you will be able to configure your subscription settings by using the following credentials:';
+      //$message['body'][] = 'host: '. $base_url . '/user';
+      //$message['body'][] = 'user: '. $params[2];
+      //$message['body'][] = 'password: '. $params[3];//in clar!
+      break;
+
+    case 'unsubscription':
+      $message['subject'] = variable_get('unsubscribe_subject_' . $language->language, 'Please confirm your unsubscription');
+      $message['body'][] = variable_get('unsubscribe_message_' . $language->language, 'Please confirm your unsubscription by clicking the link provided by this mail.');
+      $message['body'][] = $base_url . '/unsubscribe/' . $params[1]; //uid
+      break;
+  }
+}
+
+/**
+ *
+ * @param type $mail
+ * @return type
+ */
+function _create_anonymous_account($mail) {
+  //Generates random password
+  $password = user_password(8);
+  //This will take what is before @
+  $name = strstr(trim($mail), '@', true);
+  //note you can save it as object as well
+  $fields = array(
+      'name' => $name . '-' . rand(1, 10), // prevent user name colission for email address with same prefix
+      'mail' => $mail,
+      'pass' => $password,
+      'status' => 0, //STATUS BLOCK FOR NOW, 1 AFTER CONFIRMATION
+      'init' => $mail, //address used for initial account creation
+      'roles' => array(
+          DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+          6 => 'subscriber', //@todo Test if the roles exists
+      ),
+      'timezone' => variable_get('date_default_timezone', ''),
+  );
+
+  $account = user_save('', $fields);
+  //drupal_mail('multisite_notifications_core', 'register_no_approval_required', $mail, NULL, array('account' => $account), variable_get('site_mail', 'noreply@rebuttal.com'));
+  return $account;
+}
+
+/**
+ * Helper function to delete the account
+ * @param type $mail
+ * @param type $waiting_confirmation
+ * @return type
+ */
+function _delete_anonymous_account($mail, $waiting_confirmation = NULL, $uid = NULL) {
+
+  //Block user until user confirms
+  if ($waiting_confirmation) {
+    $blocked = db_update('users')
+            ->fields(array('status' => 0))
+            ->condition('mail', $mail, '=')
+            ->execute();
+    //Note: this can be done using user_load /user_save as well
+    //dpm($blocked, 'blocked: confirmation delete');
+  } else {
+    $user_deleted = db_delete('users')
+            //->condition('mail', $mail, '=')
+            ->condition('uid', $uid, '=')
+            ->execute();
+
+    if ($user_deleted > 0) {
+      drupal_set_message(t('You have confirmed your unsubscription.'), 'status');
+    }
+  }
+  if ($waiting_confirmation) {
+    return $blocked;
+  }
+}
+
+/**
+ *
+ * @param type $form
+ * @param type $form_states
+ */
+function multisite_notifications_core_subscribe_form($form, &$form_states) {
+
+  $form = array();
+  $form['subscribe']['confirmation_text'] = array(
+      '#type' => 'markup',
+      '#prefix' => '<h3>',
+      '#suffix' => '</h3>',
+      '#markup' => t('Please confirm your subscription'),
+  );
+
+  $form['subscribe']['subscribe'] = array(
+      '#type' => 'submit',
+      '#value' => t('Subscribe'),
+      '#weight' => 30,
+  );
+
+
+  $form['#submit'][] = 'multisite_notifications_core_subscribe_form_submit';
+
+  return $form;
+}
+
+function multisite_notifications_core_unsubscribe_form($form, &$form_states) {
+  $form = array();
+  $form['unsubscribe']['confirmation_text'] = array(
+      '#type' => 'markup',
+      '#prefix' => '<h3>',
+      '#suffix' => '</h3>',
+      '#markup' => t('Please confirm your unsubscription'),
+  );
+
+  $form['unsubscribe']['unsubscribe'] = array(
+      '#type' => 'submit',
+      '#value' => t('Unsubscribe'),
+      '#weight' => 30,
+  );
+
+
+  $form['#submit'][] = 'multisite_notifications_core_unsubscribe_form_submit';
+
+  return $form;
+}
+
+function multisite_notifications_core_subscribe_form_submit($form, &$form_states) {
+
+  $uid = arg(1);
+  //User confirmed, activate the account
+  $active = db_update('users')
+          ->fields(array('status' => 1))
+          ->condition('uid', $uid, '=')
+          ->execute();
+  if ($active > 0) {
+    drupal_set_message(t('Congratulations, you have confirmed your subscription.'), 'status');
+  }
+}
+
+function multisite_notifications_core_unsubscribe_form_submit($form, &$form_states) {
+  $uid = arg(1);
+
+  /* $user_deleted = db_delete('users')
+    ->condition('uid', $uid, '=')
+    ->execute();
+    dpm($user_deleted); */
+  _delete_anonymous_account(null, null, $uid);
+}
+
+/**
+ * Helper function to get user by email.
+ * @param type $mail
+ * @return boolean
+ */
+function _multisite_notifications_core_load_user_by_mail($mail) {
+  $query = db_select('users', 'u');
+  $uid = $query->fields('u', array('uid'))->condition('u.uid', $mail)->execute()->fetchField();
+  if ($uid) {
+    return user_load($uid);
+  } else {
+    return FALSE;
+  }
 }
