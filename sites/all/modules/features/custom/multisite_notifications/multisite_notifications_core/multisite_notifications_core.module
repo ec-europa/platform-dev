@@ -389,6 +389,8 @@ function multisite_notifications_core_subscribe_form_submit($form, &$form_states
   if ($active > 0) {
     drupal_set_message(t('Congratulations, you have confirmed your subscription.'), 'status');
   }
+  //update subscription_update table.
+  $notifications = _multisite_notifications_core_insert_notification_defaults($uid);
 }
 
 function multisite_notifications_core_unsubscribe_form_submit($form, &$form_states) {
@@ -414,4 +416,30 @@ function _multisite_notifications_core_load_user_by_mail($mail) {
   } else {
     return FALSE;
   }
+}
+/*
+ * User who filled in the form is entitled to receive the updates
+ */
+function _multisite_notifications_core_insert_notification_defaults($uid) {
+
+    // provide default settings values for subscriptions
+
+  db_update('subscriptions_user')
+    ->fields(array(
+      'digest' => 0,
+      'send_interval' => 1,
+      'send_updates' => 1,
+      'send_comments' => 1,
+      'send_interval_visible' => 1,
+      'send_updates_visible' => 1,
+      'send_comments_visible' => 1,
+      'autosub_on_post' => 0,
+      'autosub_on_update' => 0,
+      'autosub_on_comment' => 0,
+      'send_self' => 1,
+      'suspended' => 0
+    ))
+    ->condition('uid', $uid)
+    ->execute();
+
 }
