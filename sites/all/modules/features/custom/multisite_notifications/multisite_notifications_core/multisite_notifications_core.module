@@ -448,7 +448,7 @@ function _multisite_notifications_core_insert_notification_defaults($uid) {
     ))
     ->condition('uid', $uid)
     ->execute();
-/*
+
     db_insert('subscriptions')
     ->fields(array(
       'module' => 'node',
@@ -462,7 +462,7 @@ function _multisite_notifications_core_insert_notification_defaults($uid) {
 
     ))
     ->execute();
-*/
+
 }
 
 function multisite_notifications_core_form_alter(&$form, $form_state, $form_id) {
