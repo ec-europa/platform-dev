@@ -4,18 +4,34 @@
  * Supported plugins: ui (hovered, clicked), checkbox, contextmenu, search
  */
 
+.jstree-ec-default { background-color: #015F99; background-image: none; filter:progid:DXImageTransform.Microsoft.gradient(enabled=false); border-color: #074A8B; padding: 4px;}
 .jstree-ec-default a { display: block; overflow: hidden; -ms-text-overflow: ellipsis; text-overflow: ellipsis; color: #fff;}
 .jstree-ec-default a:hover { background-color: #074581; color: #fff; border-radius: 4px;}
 .jstree-ec-default a.active,
-.jstree-ec-default a.active:hover {background-color: #043F72; color: #fff; border-radius: 4px;}
+.jstree-ec-default a.active:hover { background-color: #043F72; color: #fff; border-radius: 4px;}
 .jstree-ec-default li, 
-.jstree-ec-default ins { background-image:url("d.png"); background-repeat:no-repeat; background-color:transparent; }
-.jstree-ec-default ins { width: 16px; height: 16px; }
-.jstree-ec-default li { display: block; background-position:-90px 0; background-repeat:repeat-y;}
-.jstree-ec-default li.jstree-last { background:transparent; }
+.jstree-ec-default ins { background-image:url("d.png"); background-repeat:no-repeat; background-color:transparent;}
+.jstree-ec-default ins { width: 16px; height: 16px;}
+.jstree-ec-default li { display: block; background-position:-90px 0; background-repeat:repeat-y; margin-left: 3px;}
+.jstree-ec-default li.jstree-last { background:transparent;}
 .jstree-ec-default .jstree-open > ins { background-position:-74px 0; cursor: pointer; float: left;}
 .jstree-ec-default .jstree-closed > ins { background-position:-56px 0; cursor: pointer; float: left;}
-.jstree-ec-default .jstree-leaf > ins { background-position:-38px 0; }
+.jstree-ec-default .jstree-leaf > ins { background-position:-38px 0;}
+
+.jstree-ec-default > ul > li { margin-left: 0;}
+.jstree-ec-default ul.taxonomy-tree { background-color: #1B6FB8; border-radius: 4px; border: 1px solid #074A8B;}
+.jstree-ec-default ul.taxonomy-tree a:hover { border-radius: 4px 0 0 4px;}
+.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree { background-color: #3489CB; border-color: #015F99; border-radius: 4px 0 0 4px; border-right-width: 0;}
+.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #5E9ED3; border-color: #1B6FB8;}
+.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #9BC9EB; border-color: #3489CB;}
+.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a { color: #333;}
+.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a:hover { color: #fff;}
+.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #C3E5FC; border-color: #5E9ED3;}
+.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a { color: #333;}
+.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a:hover { color: #fff;}
+.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #F9F9FF; border-color: #9BC9EB;}
+.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a { color: #333;}
+.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a:hover { color: #fff;}
 
 #tb_browser .jstree-ec-default .jstree-hovered { background:#e7f4f9; padding:3px 5px 3px 1px; }
 #tb_browser .jstree-ec-default .jstree-clicked { background:#00609C; padding:3px 5px 3px 1px; color: #fff; font-weight: normal; text-shadow:0 0 1px rgba(0, 0, 0, 0.5); -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: @radius;border-radius:5px; }
