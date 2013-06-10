@@ -287,15 +287,19 @@ function _create_anonymous_account($mail) {
       'pass' => $password,
       'status' => 0, //STATUS BLOCK FOR NOW, 1 AFTER CONFIRMATION
       'init' => $mail, //address used for initial account creation
+      'access' => REQUEST_TIME,
+      'login' => REQUEST_TIME,
       //'language'//to add user language
       'roles' => array(
           DRUPAL_AUTHENTICATED_RID => 'authenticated user',
           6 => 'subscriber', //@todo Test if the roles exists
       ),
+
       'timezone' => variable_get('date_default_timezone', ''),
   );
 
   $account = user_save('', $fields);
+  dpm($account);
   //drupal_mail('multisite_notifications_core', 'register_no_approval_required', $mail, NULL, array('account' => $account), variable_get('site_mail', 'noreply@rebuttal.com'));
   return $account;
 }
