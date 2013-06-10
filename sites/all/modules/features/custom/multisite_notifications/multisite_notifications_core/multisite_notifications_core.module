@@ -289,7 +289,7 @@ function _create_anonymous_account($mail) {
   $name = strstr(trim($mail), '@', true);
   //note you can save it as object as well
   $fields = array(
-      'name' => $name . '-' . rand(1, 10), // prevent user name colission for email address with same prefix
+      'name' => $name . '-' . mt_rand(3, 6), // prevent user name colission for email address with same prefix
       'mail' => $mail,
       'pass' => $password,
       'status' => 0, //STATUS BLOCK FOR NOW, 1 AFTER CONFIRMATION
@@ -404,7 +404,7 @@ function multisite_notifications_core_subscribe_form_submit($form, &$form_states
           ->execute();
   $notifications = _multisite_notifications_core_insert_notification_defaults($uid);
   if ($active > 0) {
-    drupal_set_message(t('Congratulations, you have confirmed your subscription.'), 'status');
+    drupal_set_message(t('Congratulations, you have confirmed your subscription. From now on you will receive notification on new updates'), 'status');
   }
   //update subscription_update table.
   drupal_goto();
