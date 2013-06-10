@@ -8,6 +8,13 @@
 include_once 'multisite_notifications_core.features.inc';
 
 /**
+ * Implements hook_init().
+ */
+function multisite_notifications_core_init() {
+  drupal_add_js(drupal_get_path('module', 'multisite_notifications_core') . '/js/multisite_notifications_core.js');
+  drupal_add_css(drupal_get_path('module', 'multisite_notifications_core') . '/css/multisite_notifications_core.css');
+}
+/**
  * Implements hook_perm().
  */
 function multisite_notifications_core_permission() {
@@ -289,7 +296,7 @@ function _create_anonymous_account($mail) {
       'init' => $mail, //address used for initial account creation
       'access' => REQUEST_TIME,
       'login' => REQUEST_TIME,
-      //'language'//to add user language
+      'language'=> 'en', //language_default can sometimes return an object!
       'roles' => array(
           DRUPAL_AUTHENTICATED_RID => 'authenticated user',
           6 => 'subscriber', //@todo Test if the roles exists
@@ -299,7 +306,7 @@ function _create_anonymous_account($mail) {
   );
 
   $account = user_save('', $fields);
-  dpm($account);
+
   //drupal_mail('multisite_notifications_core', 'register_no_approval_required', $mail, NULL, array('account' => $account), variable_get('site_mail', 'noreply@rebuttal.com'));
   return $account;
 }
@@ -466,12 +473,4 @@ function _multisite_notifications_core_insert_notification_defaults($uid) {
     ))
     ->execute();
 
-}
-
-function multisite_notifications_core_form_alter(&$form, $form_state, $form_id) {
-  //will only display the form id from the page
-  //drupal_set_message("Form ID is : " . $form_id);
-  if ($form_id == 'subscriptions-page-form') {
-    //check
-  }
 }
