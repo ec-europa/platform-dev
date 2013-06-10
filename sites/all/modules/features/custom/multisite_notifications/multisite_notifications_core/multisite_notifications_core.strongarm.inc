@@ -35,7 +35,9 @@ function multisite_notifications_core_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'subscriptions_blocked_content_types';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    0 => '0',
+  );
   $export['subscriptions_blocked_content_types'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -130,7 +132,9 @@ function multisite_notifications_core_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'subscriptions_static_content_types';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    0 => '0',
+  );
   $export['subscriptions_static_content_types'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -138,7 +142,7 @@ function multisite_notifications_core_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'subscriptions_unlisted_content_types';
   $strongarm->value = array(
-    'community' => 'community',
+    0 => '0',
   );
   $export['subscriptions_unlisted_content_types'] = $strongarm;
 

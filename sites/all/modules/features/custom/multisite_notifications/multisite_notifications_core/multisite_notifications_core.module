@@ -197,14 +197,13 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
       $pass = $account->pass;
       //@todo make $params an associative array
       //make a custom function to send mail.
-      $sent = drupal_mail(
+$sent = drupal_mail(
               'multisite_notifications_core', 'subscription', //key
               $account->mail, //to
               user_preferred_language($account), array($form_state['values'], $uid, $name, $pass), //params array, need id to pass in the email link tail
               variable_get('site_mail', NULL), // from
               TRUE //If TRUE, drupal_mail() will call drupal_mail_system()->mail() to deliver the message, and store the result in $message['result']. Modules implementing hook_mail_alter() may cancel sending by setting $message['send'] to FALSE.
       );
-      //dpm($sent, 'Mail sent to user');
 
 
       if ($account && !empty($sent['result'])) {
@@ -214,7 +213,7 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
       break;
     case t('Unsubscribe'):
 
-      $email = variable_get('multisite_notification_core_user_email', '');
+     // $email = variable_get('multisite_notification_core_user_email', '');
       //@todo send confirmation mail
       //dpm($email, 'email');//OK
       //Set user status to blocked, then ask for user confirmation

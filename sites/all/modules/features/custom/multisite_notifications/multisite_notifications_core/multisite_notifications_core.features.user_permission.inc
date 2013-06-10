@@ -81,10 +81,9 @@ function multisite_notifications_core_user_default_permissions() {
   $permissions['view subscription block'] = array(
     'name' => 'view subscription block',
     'roles' => array(
-      'administrator' => 'administrator',
       'anonymous user' => 'anonymous user',
     ),
-    'module' => 'subscriptions',
+    'module' => 'multisite_notifications_core',
   );
 
   return $permissions;
