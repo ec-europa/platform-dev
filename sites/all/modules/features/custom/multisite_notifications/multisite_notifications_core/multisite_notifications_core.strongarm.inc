@@ -13,6 +13,20 @@ function multisite_notifications_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'subscribe_message_en';
+  $strongarm->value = 'Please confirm your subscription by clicking the link provided by this mail.';
+  $export['subscribe_message_en'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'subscribe_subject_en';
+  $strongarm->value = 'Please confirm your subscription';
+  $export['subscribe_subject_en'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'subscriptions_avoid_empty_subscribe_links';
   $strongarm->value = 0;
   $export['subscriptions_avoid_empty_subscribe_links'] = $strongarm;
@@ -148,6 +162,20 @@ function multisite_notifications_core_strongarm() {
   $strongarm->name = 'subscriptions_watchstats';
   $strongarm->value = 1;
   $export['subscriptions_watchstats'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'unsubscribe_message_en';
+  $strongarm->value = 'Please confirm your unsubscription by clicking the link provided by this mail.';
+  $export['unsubscribe_message_en'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'unsubscribe_subject_en';
+  $strongarm->value = 'Please confirm your unsubscription';
+  $export['unsubscribe_subject_en'] = $strongarm;
 
   return $export;
 }

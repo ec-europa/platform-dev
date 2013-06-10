@@ -28,6 +28,15 @@ function multisite_notifications_core_user_default_permissions() {
     'module' => 'subscriptions',
   );
 
+  // Exported permission: bypass workbench moderation.
+  $permissions['bypass workbench moderation'] = array(
+    'name' => 'bypass workbench moderation',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'workbench_moderation',
+  );
+
   // Exported permission: subscribe to all content types.
   $permissions['subscribe to all content types'] = array(
     'name' => 'subscribe to all content types',
@@ -42,6 +51,7 @@ function multisite_notifications_core_user_default_permissions() {
     'name' => 'subscribe to content',
     'roles' => array(
       'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'subscriptions',
@@ -52,6 +62,7 @@ function multisite_notifications_core_user_default_permissions() {
     'name' => 'subscribe to content types',
     'roles' => array(
       'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'subscriptions',
@@ -62,6 +73,7 @@ function multisite_notifications_core_user_default_permissions() {
     'name' => 'subscribe to taxonomy terms',
     'roles' => array(
       'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'subscriptions',
@@ -75,6 +87,16 @@ function multisite_notifications_core_user_default_permissions() {
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'subscriptions',
+  );
+
+  // Exported permission: view subscription block.
+  $permissions['view subscription block'] = array(
+    'name' => 'view subscription block',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
+    ),
+    'module' => 'Subscriptions anonymous',
   );
 
   return $permissions;
