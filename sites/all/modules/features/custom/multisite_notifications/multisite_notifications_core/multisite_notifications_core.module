@@ -149,13 +149,10 @@ function multisite_notifications_core_form() {
  * @param type $form_state
  */
 function multisite_notifications_core_form_validate($form, &$form_state) {
-  //dpm($form_state['values']);
 
   $email_to_check = $form_state['values']['mail'];
   $is_valid_email = valid_email_address($email_to_check);
 
-
-  //dpm($form_state['values']);
   if (!$is_valid_email) {
     form_set_error('mail', t('The e-mail address you supplied is not valid.'));
   }
@@ -184,11 +181,8 @@ function multisite_notifications_core_form_validate($form, &$form_state) {
 }
 
 function multisite_notifications_core_form_submit($form, &$form_state) {
-  //@todo doublecheck
   global $language;
   $mail = $form_state['values']['mail'];
-
-  //$account = multisite_notifications_core_user_by_mail($mail);
 
   switch ($form_state['values']['op']) {
     case t('Subscribe'):
@@ -221,8 +215,6 @@ $sent = drupal_mail(
     case t('Unsubscribe'):
 
      // $email = variable_get('multisite_notification_core_user_email', '');
-      //@todo send confirmation mail
-      //dpm($email, 'email');//OK
       //Set user status to blocked, then ask for user confirmation
       $blocked = _delete_anonymous_account($mail, 'block');
       $account = user_load_by_mail($mail);
@@ -326,7 +318,6 @@ function _delete_anonymous_account($mail, $waiting_confirmation = NULL, $uid = N
             ->condition('mail', $mail, '=')
             ->execute();
     //Note: this can be done using user_load /user_save as well
-    //dpm($blocked, 'blocked: confirmation delete');
   } else {
     $user_deleted = db_delete('users')
             //->condition('mail', $mail, '=')
