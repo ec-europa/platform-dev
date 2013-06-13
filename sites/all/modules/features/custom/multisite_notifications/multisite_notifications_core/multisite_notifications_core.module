@@ -196,7 +196,6 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
       $uid = $account->uid;
       $name = $account->name;
       $pass = $account->pass;
-      //@todo make $params an associative array
       //make a custom function to send mail.
 $sent = drupal_mail(
               'multisite_notifications_core', 'subscription', //key
@@ -278,10 +277,12 @@ function _create_anonymous_account($mail) {
   //Generates random password
   $password = user_password(8);
   //This will take what is before @
-  $name = strstr(trim($mail), '@', true);
+  //$name = strstr(trim($mail), '@', true);
+  $name = md5($mail);
   //note you can save it as object as well
   $fields = array(
-      'name' => $name . '-' . mt_rand(3, 6), // prevent user name colission for email address with same prefix
+      //'name' => $name . '-' . mt_rand(3, 6), // prevent user name colission for email address with same prefix
+      'name' => $name,
       'mail' => $mail,
       'pass' => $password,
       'status' => 0, //STATUS BLOCK FOR NOW, 1 AFTER CONFIRMATION
