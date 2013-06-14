@@ -31,6 +31,9 @@ function language_url_split_suffix($path, $languages) {
   $delimiter = variable_get('language_suffix_delimiter', '_');
   $args = empty($path) ? array() : explode($delimiter, $path);
   $suffix = array_pop($args);
+  // handle if there are extra parameters after the suffix
+  $extra_params = explode("/", $suffix);
+  $suffix = array_shift($extra_params);
 
   // Search prefix within enabled languages.
   foreach ($languages as $language) {
@@ -38,6 +41,10 @@ function language_url_split_suffix($path, $languages) {
       // Rebuild $path with the language removed.
       $path = implode($delimiter, $args);
       $path = ($path == 'index')?'': $path; // handle the path homepage
+      // add extra params after suffix
+      if(count($extra_params) > 0) {
+        $path .= "/".implode("/", $extra_params); 
+      }
       return array($language, $path);
     }
   }
