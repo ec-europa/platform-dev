@@ -61,13 +61,36 @@
   <?php 
     $menu = menu_navigation_links("user-menu");
     $items = "";
+
+    // Manage redirection after login
+    $status = drupal_get_http_header('status');
+    if (strpos($status, '403') !== FALSE) {
+      $dest = drupal_get_destination();
+    }
+    elseif (strpos($status, '404') !== FALSE) {
+      $dest = array('destination' => 'home');
+    }
+    elseif (strpos($_GET['q'], 'user/register') !== FALSE) {
+      $dest = array('destination' => 'home');
+    }
+    elseif (strpos($_GET['q'], 'user/login') !== FALSE) {
+      $dest = array('destination' => 'home');
+    }
+    elseif (strpos($_GET['q'], 'user/logout') !== FALSE) {
+      $dest = array('destination' => 'home');
+    }
+    else {
+      $dest = array('destination' => drupal_get_path_alias());
+    }
+
     $attributes = array(
       'attributes' => array(
         'type' => '',
         'class' => array('btn')
-      )
+      ),
+      'query' => $dest
     );
-      
+    
     foreach ($menu as $item_id) {
       $items .= '<li>'.l($item_id['title'],$item_id['href'], $attributes).'</li>';
     }
@@ -76,6 +99,3 @@
   ?>    
   </ul>  
   </li>
-
-
-
