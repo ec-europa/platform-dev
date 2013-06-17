@@ -95,8 +95,8 @@ $nb_column            = 1;
 if ($page['sidebar_left']) $nb_column++;
 if ($page['sidebar_right']) $nb_column++;
 
-$span_sidebar_left    = ($page['sidebar_left'] ? 5 - $nb_column : 0);
-$span_sidebar_right   = ($page['sidebar_right'] ? 5 - $nb_column : 0);
+$span_sidebar_left    = ($page['sidebar_left'] ? 3 : 0);
+$span_sidebar_right   = ($page['sidebar_right'] ? 3 : 0);
 $span_content         = 12 - $span_sidebar_left - $span_sidebar_right;
 $span_tools           = 4;
 $span_messages        = 12 - $span_tools;
