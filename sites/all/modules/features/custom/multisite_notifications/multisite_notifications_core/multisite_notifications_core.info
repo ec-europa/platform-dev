@@ -10,7 +10,6 @@ dependencies[] = ctools
 dependencies[] = defaultcontent
 dependencies[] = features
 dependencies[] = mail_edit
-dependencies[] = menu
 dependencies[] = strongarm
 dependencies[] = subscriptions
 dependencies[] = subscriptions_content
