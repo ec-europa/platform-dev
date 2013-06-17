@@ -15,7 +15,7 @@
 jQuery(function($){
 
   $(document).ready(function() {  //Once the page elements are fully loaded
-    var Input = $('input[name=mail]');
+    var Input = $('#multisite-notifications-core-form input[name=mail]');
     var default_value = Input.val();
 
     $(Input).focus(function() {
