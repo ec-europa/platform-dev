@@ -10,6 +10,25 @@
 function multisite_notifications_core_menu_default_menu_links() {
   $menu_links = array();
 
+  // Exported menu link: management:admin/config/system/mail-edit
+  $menu_links['management:admin/config/system/mail-edit'] = array(
+    'menu_name' => 'management',
+    'link_path' => 'admin/config/system/mail-edit',
+    'router_path' => 'admin/config/system/mail-edit',
+    'link_title' => 'Mail templates',
+    'options' => array(
+      'attributes' => array(
+        'title' => 'Edit mails being sent out by Drupal.',
+      ),
+    ),
+    'module' => 'system',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => 0,
+    'parent_path' => 'admin/config/system',
+  );
   // Exported menu link: management:admin/config/system/subscriptions
   $menu_links['management:admin/config/system/subscriptions'] = array(
     'menu_name' => 'management',
@@ -50,6 +69,7 @@ function multisite_notifications_core_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
+  t('Mail templates');
   t('Subscription Block');
   t('Subscriptions');
 
