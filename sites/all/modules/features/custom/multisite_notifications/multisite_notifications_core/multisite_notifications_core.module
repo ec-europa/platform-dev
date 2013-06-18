@@ -451,6 +451,7 @@ function _multisite_notifications_core_insert_notification_defaults($uid) {
     ->condition('uid', $uid)
     ->execute();
 
+/* moved to hook_enable
     db_insert('subscriptions')
     ->fields(array(
       'module' => 'node',
@@ -464,5 +465,7 @@ function _multisite_notifications_core_insert_notification_defaults($uid) {
 
     ))
     ->execute();
+ *
+ */
 
 }
