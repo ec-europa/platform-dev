@@ -24,7 +24,7 @@ function _multisite_notifications_core_mail_template() {
   $template = new stdClass();
   //
   $template->subject='[[site:name]] [subs:type] subscription for {{[current-user:roles:last] == subscriber?subscriber:[current-user:name]}}: [node:title]';
-  $template->body = '{{MAIL@| Greetingsx, {{[current-user:roles:last] == subscriber?subscriber:[current-user:name]}}.
+  $template->body = '{{MAIL@| Greetings, {{[current-user:roles:last] == subscriber?subscriber:[current-user:name]}}.
 |
 | Your subscription on [site:name]
 | notifies you of {{[subs:is-new]==0?:a new post:
