@@ -194,6 +194,8 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       <ul class="nav nav-list card">
         <?php 
         $region_sidebar_left_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_left);
+        $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
+
         print $region_sidebar_left_responsive; 
         ?>
       </ul>
@@ -209,6 +211,8 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       <ul class="nav nav-list card">
         <?php 
         $region_sidebar_right_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_right);
+        $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
+
         print $region_sidebar_right_responsive; 
         ?>
       </ul>
@@ -250,7 +254,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
         
     <div class="row-fluid">
       <?php if ($page['sidebar_left']): ?>
-      <div class="span<?php print ($span_sidebar_left); ?> hidden-phone">
+      <div class="span<?php print ($span_sidebar_left); ?> sidebar-left hidden-phone">
         <ul class="nav nav-list card">
           <?php print $region_sidebar_left; ?>
         </ul>
