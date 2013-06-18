@@ -20,11 +20,11 @@ function multisite_notifications_core_uninstall() {
 
 
 /*
- * hook_enable 
+ * hook_enable
  */
 function multisite_notifications_core_enable() {
   // provide default settings values for subscriptions
-  
+
   db_update('subscriptions_user')
     ->fields(array(
       'digest' => 0,
@@ -42,12 +42,31 @@ function multisite_notifications_core_enable() {
     ))
     ->condition('uid', "-2")
     ->execute();
-  
+
+  //subscriber users (uid = 6) have notifications enabled by default for each content type
+    $content_types = node_type_get_types();
+    //dpm($content_types);
+    foreach($content_types as $content_type) {
+      db_insert('subscriptions')
+    ->fields(array(
+      'module' => 'node',
+      'field' => 'type',
+      'value' => $content_type->type,//'article',
+      'recipient_uid' => -6,
+      'send_interval' => 1,
+      'author_uid' => -1,
+      'send_updates' => 1,
+      'send_comments' => 1,
+
+    ))
+    ->execute();
+    }
+
   drupal_set_message(t('Notifications feature is now active on your site.'));
 }
 
 /*
- * hook_disable 
+ * hook_disable
  */
 function multisite_notifications_core_disable() {
   drupal_set_message(t('Notifications feature is now disabled on your site.'));
