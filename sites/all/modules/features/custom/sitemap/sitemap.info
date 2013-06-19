@@ -11,6 +11,7 @@ dependencies[] = site_map
 dependencies[] = strongarm
 dependencies[] = xmlsitemap
 dependencies[] = xmlsitemap_engines
+dependencies[] = xmlsitemap_node
 dependencies[] = xmlsitemap_taxonomy
 dependencies[] = xmlsitemap_user
 features[ctools][] = strongarm:strongarm:1
