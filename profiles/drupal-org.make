@@ -80,6 +80,9 @@ projects[entityreference_prepopulate][version] = "1.2"
 projects[facetapi][subdir] = "contributed"
 projects[facetapi][version] = "1.3"
 
+projects[fblikebutton][subdir] = "contributed"
+projects[fblikebutton][version] = "2.3"
+
 projects[features][subdir] = "contributed"
 projects[features][version] = "2.0-rc1"
 
@@ -214,6 +217,9 @@ projects[translation_overview][version] = "2.0-beta1"
 
 projects[translation_table][subdir] = "contributed"
 projects[translation_table][version] = "1.0-beta1"
+
+projects[tweetbutton][subdir] = "contributed"
+projects[tweetbutton][version] = "2.0-beta1"
 
 projects[user_field_privacy][subdir] = "contributed"
 projects[user_field_privacy][version] = "1.2"
