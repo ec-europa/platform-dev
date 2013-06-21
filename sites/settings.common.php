@@ -138,7 +138,19 @@ $conf['proxy_port'] = 8012;
 $conf['proxy_username'] = 'j50l033';
 $conf['proxy_password'] = 'cU2M>!:7';
 $conf['proxy_user_agent'] = 'Drupal Multisite (msp0)';
-$conf['proxy_exceptions'] = array('127.0.0.1', 'localhost', 'biguonia.cc.cec.eu.int', '158.167.39.277', 'dbprod-dmrz.jrc.org', '139.191.254.129','intragate.acceptance.ec.europa.eu');
+$conf['proxy_exceptions'] = array('fpfis-dev.net1.cec.eu.int','intragate.ec.europa.eu', '127.0.0.1', 'localhost', 'biguonia.cc.cec.eu.int', '158.167.39.277', 'dbprod-dmrz.jrc.org', '139.191.254.129','intragate.acceptance.ec.europa.eu');
 
 // Make Feeds module to not use cURL
 $conf['feeds_never_use_curl'] = true;
+
+// Proxy configuration as read by the chr (Curl HTTP Request) module
+$conf['drupal_http_request_function'] = 'curl_http_request';
+$conf['https_proxy'] = $conf['http_proxy'] = array(
+  'server' => '158.169.9.13', // pslux.ec.europa.eu
+  'port' => '8012',
+  'username' => 'j50l033',
+  'password' => 'cU2M>!:7',
+  'exceptions' => array('fpfis-dev.net1.cec.eu.int','intragate.ec.europa.eu', '127.0.0.1', 'localhost', 'biguonia.cc.cec.eu.int', '158.167.39.277', 'dbprod-dmrz.jrc.org', '139.191.254.129', 'intragate.acceptance.ec.europa.eu', 'intragate.ec.europa.eu'),
+);
+
+
