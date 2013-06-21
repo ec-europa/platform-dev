@@ -11,76 +11,61 @@ function multisite_notifications_core_install() {
     //Nothing yet
 }
 
-/**
- * hook_uninstall
- */
-function multisite_notifications_core_uninstall() {
-    //Nothing yet
-}
-/*
- * @todo module_load_include('module', 'multisite_notifications_core');
- */
-
 /*
  * hook_enable
- */
+*/
 function multisite_notifications_core_enable() {
-
-
-  // provide default settings values for subscriptions
+  //provide default settings values for subscriptions
   db_update('subscriptions_user')
-    ->fields(array(
-      'digest' => 0,
-      'send_interval' => 1,
-      'send_updates' => 1,
-      'send_comments' => 1,
-      'send_interval_visible' => 1,
-      'send_updates_visible' => 1,
-      'send_comments_visible' => 1,
-      'autosub_on_post' => 0,
-      'autosub_on_update' => 0,
-      'autosub_on_comment' => 0,
-      'send_self' => 1,
-      'suspended' => 0
-    ))
-    ->condition('uid', "-2")
-    ->execute();
+          ->fields(array(
+              'digest' => 0,
+              'send_interval' => 1,
+              'send_updates' => 1,
+              'send_comments' => 1,
+              'send_interval_visible' => 1,
+              'send_updates_visible' => 1,
+              'send_comments_visible' => 1,
+              'autosub_on_post' => 0,
+              'autosub_on_update' => 0,
+              'autosub_on_comment' => 0,
+              'send_self' => 1,
+              'suspended' => 0
+          ))
+          ->condition('uid', "-2")
+          ->execute();
 
   //subscriber users (uid = 6) have notifications enabled by default for each content type
-    $content_types = node_type_get_types();
-    foreach($content_types as $content_type) {
-      db_insert('subscriptions')
-    ->fields(array(
-      'module' => 'node',
-      'field' => 'type',
-      'value' => $content_type->type,
-      'recipient_uid' => -6,
-      'send_interval' => 1,
-      'author_uid' => -1,
-      'send_updates' => 1,
-      'send_comments' => 1,
+  $content_types = node_type_get_types();
+  foreach ($content_types as $content_type) {
+    db_insert('subscriptions')
+            ->fields(array(
+                'module' => 'node',
+                'field' => 'type',
+                'value' => $content_type->type,
+                'recipient_uid' => -6,
+                'send_interval' => 1,
+                'author_uid' => -1,
+                'send_updates' => 1,
+                'send_comments' => 1,
+            ))
+            ->execute();
 
-    ))
-    ->execute();
-
-      //if (db_table_exists('mail_edit') && !db_field_exists('mail_edit', 'subject')) {
-      $tpl = _multisite_notifications_core_mail_template();
+    //if (db_table_exists('mail_edit') && !db_field_exists('mail_edit', 'subject')) {
+    $tpl = _multisite_notifications_core_mail_template();
 
 
-      db_insert('mail_edit')
-      ->fields(array(
-          'id' => 'subscriptions_mail_node-type-'.$content_type->type,
-          'language' => 'en',
-          'description' => 'Notifications for Article content type subscriptions',
-          'subject' => $tpl->subject,
-          'body' => $tpl->body,
-          'subscriptions_comment_body' => $tpl->comment,
-      ))
-      ->execute();
+    db_insert('mail_edit')
+            ->fields(array(
+                'id' => 'subscriptions_mail_node-type-' . $content_type->type,
+                'language' => 'en',
+                'description' => 'Notifications for Article content type subscriptions',
+                'subject' => $tpl->subject,
+                'body' => $tpl->body,
+                'subscriptions_comment_body' => $tpl->comment,
+            ))
+            ->execute();
     //}
-
-
-    }
+  }
 
   drupal_set_message(t('Notifications feature is now active on your site.'));
 }
@@ -90,15 +75,18 @@ function multisite_notifications_core_enable() {
  */
 function multisite_notifications_core_disable() {
 
-      $content_types = node_type_get_types();
-    foreach($content_types as $content_type) {
-      //if (db_table_exists('mail_edit') && !db_field_exists('mail_edit', 'subject')) {
-      $tpl = _multisite_notifications_core_mail_template();
-
-     $custom_template_deleted = db_delete('mail_edit')
-  ->condition('id', 'subscriptions_mail_node-type-'.$content_type->type)
-  ->execute();
-
-    }
+  $content_types = node_type_get_types();
+  foreach ($content_types as $content_type) {
+    $custom_template_deleted = db_delete('mail_edit')
+            ->condition('id', 'subscriptions_mail_node-type-' . $content_type->type)
+            ->execute();
+  }
   drupal_set_message(t('Notifications feature is now disabled on your site.'));
+}
+
+/**
+ * hook_uninstall
+ */
+function multisite_notifications_core_uninstall() {
+    //Nothing yet
 }
