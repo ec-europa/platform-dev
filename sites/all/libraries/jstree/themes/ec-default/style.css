@@ -23,6 +23,8 @@
 .jstree-ec-default ul.taxonomy-tree a:hover { border-radius: 4px 0 0 4px;}
 .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree { background-color: #3489CB; border-color: #015F99; border-radius: 4px 0 0 4px; border-right-width: 0;}
 .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #5E9ED3; border-color: #1B6FB8;}
+.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a { color: #333;}
+.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a:hover { color: #fff;}
 .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #9BC9EB; border-color: #3489CB;}
 .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a { color: #333;}
 .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a:hover { color: #fff;}
