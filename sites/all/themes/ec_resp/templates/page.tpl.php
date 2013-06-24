@@ -265,6 +265,12 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
         
         <a id="content"></a>
 
+        <?php if ($title): ?>
+          <h1 class="title" id="content-title">
+            <?php print $title; ?>
+          </h1>
+        <?php endif; ?>
+
         <?php print $region_content_top; ?>
 
         <a id="main-content"></a>
