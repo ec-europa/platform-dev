@@ -1,0 +1,10 @@
+#mapdiv {
+	float: right;
+	margin-right: 20%;
+	border: 1px solid #ccc;
+}
+
+#mapContainer #myMapId {
+	border: 1px solid #ccc;
+	align: center;
+}
