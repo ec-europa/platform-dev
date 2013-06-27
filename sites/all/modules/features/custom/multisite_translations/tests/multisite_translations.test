@@ -62,7 +62,12 @@ class Multisite_TranslationsWebTestCase extends DrupalWebTestCase {
     $this->translator_french_user = $this->drupalCreateUserWithRole("translator_french");
 
     // test translation jobs process
-    $node = $this->drupalCreateNode(array('type' => 'page', 'title' => 'page1_translations', 'langcode' => 'en'));
+    variable_set('language_content_type_page', 2);
+    $node = $this->drupalCreateNode(array('type' => 'page', 'title' => 'page1_translations'));
+    $edit = array();
+    $edit['language'] = 'en';
+    $this->drupalPost('node/' . $node->nid . '/edit', $edit, t('Save'));
+    
     $job = $this->createJob('en', 'fr', 'translate');
     $job->requestTranslation();
 
@@ -85,8 +90,8 @@ class Multisite_TranslationsWebTestCase extends DrupalWebTestCase {
     $this->assertRaw('page1_translations', 'Translator can review the content to translate.');
     
     // check if a translator see the button "request translation" button on the node created
-    $this->drupalGet('node/'.$node->nid);
-    $this->assertRaw('page1_translations', 'Translation request button is visible');
+    $this->drupalGet('node/'.$node->nid.'/translate');
+    $this->assertRaw('Request translation', 'Translation request button is visible');
     
   }
 
