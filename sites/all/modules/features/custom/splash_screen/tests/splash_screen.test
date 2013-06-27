@@ -14,7 +14,7 @@ class splashScreen extends DrupalWebTestCase {
     return array(
         'name' => 'Splash Screen Functional Test tests',
         'description' => 'Splash Screen Functional Test. 1.0',
-        'group' => 'Multisite multilingual',
+        'group' => 'Multisite splash screen',
     );
   }
 
