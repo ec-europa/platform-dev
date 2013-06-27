@@ -37,7 +37,7 @@ $permissions = array(
   //'administer themes',
   //'administer tmgmt',
   //'administer url aliases',
-  'administer users',
+  //'administer users',
   //'administer uuid',
   //'administer video presets',
   //'administer views',
