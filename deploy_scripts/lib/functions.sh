@@ -106,6 +106,27 @@ function loop_on_target_subsites {
 	done
 }
 
+# clone of the loop_on_target_subsites function dedicated for reporting
+function loop_on_target_subsites_report {
+   drupal_path=$1
+   shift
+   target=$@
+   # treat each target subsite
+   echo "||site||nodes||comments||node types||users||watchdog||modules enabled||"
+   get_target_subsites "${drupal_path}" $target | while read subsite; do
+       change_to_drupal_sites_directory "${drupal_path}"
+       cd "${subsite}" &> /dev/null
+       if [ $? -ne 0 ]; then
+           echo "  Unable to change directory to ${subsite} (former subsite deleted or bad target specified?), skipping."
+           continue
+       fi
+       do_action "${drupal_path}" "${subsite}" 2>&1
+   done
+}
+
+
+
+
 # Run a query as drush sql-query would, but does so by relying on the mysql CLI
 # client which achieves a better work when it comes to exit with a significant
 # return code.
