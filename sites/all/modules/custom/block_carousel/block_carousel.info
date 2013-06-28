@@ -1,13 +1,10 @@
 name = Block Carousel
-description = An custom module to add a carrousel.
-package = multisite drupal toolbox
+description = Create a block to display a gallery.
+package = Multisite_features
 core = 7.x
+version = 7.x-2.0
+php = 5.2.4
+project = block_carousel
 dependencies[] = block
-files[] = block_carousel.test
-
-; Information added by drupal.org packaging script on 2012-05-26
-version = "7.x-1.x-dev"
-core = "7.x"
-project = "carousel"
-datestamp = "1337991209"
-
+features[features_api][] = api:1
+files[] = tests/block_carousel.test

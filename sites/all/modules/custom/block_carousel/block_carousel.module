@@ -121,7 +121,7 @@ function block_carousel_form_block_admin_display_form_alter(&$form, $form_state)
   $blocks = module_invoke_all('block_carousel_blocks');
   foreach (variable_get('block_carousel_ids', array()) as $delta) {
     if (empty($blocks[$delta])) {
-      $form['blocks']['block_carousel_' . $delta]['delete'] = array('#type' => 'link', '#title' => t('delete'), '#href' => 'admin/structure/block/delete-block-carousel/' . $delta);
+      $form['blocks']['block_carousel_' . $delta]['delete'] = array('#type' => 'link', '#title' => check_plain('delete'), '#href' => 'admin/structure/block/delete-block-carousel/' . $delta);
     }
   }
 }
@@ -193,12 +193,22 @@ function block_carousel_block_configure($delta = '') {
     if (!$delta) {
       $delta = ($deltas ? max($deltas) + 1 : 1);
     }
+
+    // Get all available galleries
+    $nids = db_select('node', 'n')
+      ->fields('n', array('nid', 'title'))
+      ->condition('n.type', 'gallerymedia')
+      ->execute()
+      ->fetchAllKeyed();
+
+    // Create field 'Gallery' with all available galleries
     $form["block_carousel_{$delta}_gid"] = array(
-      '#type' => 'textfield',
-      '#title' => t('Gallery nid'),
-      '#size' => 4,
+      '#type' => 'select',
+      '#title' => t('Gallery'),
+      '#options' => $nids,
       '#description' => t('This gallery content will be displayed in the carousel.'),
       '#default_value' => variable_get("block_carousel_{$delta}_gid",  t('empty')),
+      '#required' => TRUE,
     );
   }
   return $form;
@@ -247,8 +257,8 @@ global $base_url;
     if (variable_get("block_carousel_{$delta}_gid") == 'empty') return;
 
     $gall = node_load(variable_get("block_carousel_{$delta}_gid"));
-    $path = $base_url . '/'.(isset($gall->path['alias']) ? $gall->path['alias'] : $gall->path['source']);
-        
+    $path = $base_url . '/' . (isset($gall->path['alias']) ? $gall->path['alias'] : $gall->path['source']);
+
     $media_items= array();
     $return = '';
     $first = TRUE;
@@ -256,41 +266,41 @@ global $base_url;
     //merge photos and videos
     if (isset($gall->field_picture_upload['und']) && isset($gall->field_video_upload['und'])) {
       $media_items = array_merge($gall->field_picture_upload['und'], $gall->field_video_upload['und']);
-    } 
-    else if (isset($gall->field_picture_upload['und'])) {
+    }
+    elseif (isset($gall->field_picture_upload['und'])) {
       $media_items = $gall->field_picture_upload['und'];
-    } 
-    else if (isset($gall->field_video_upload['und'])) {
+    }
+    elseif (isset($gall->field_video_upload['und'])) {
       $media_items = $gall->field_video_upload['und'];
-    } 
+    }
     else {
       $media_items = array();
     }
-    
+
     //sort table
     usort($media_items, "block_carousel_custom_sort");
 
     $return .= '<div class=" carousel slide" id="block-carousel-' . $gall->nid . '">';
       //carousel slider
       $return .= '<ol class="carousel-indicators">';
-      foreach ($media_items as $id => $item): 
-      
+      foreach ($media_items as $id => $item):
+
         $return .= '<li data-target="#block-carousel-' . $gall->nid . '" data-slide-to="' . $id . '" class="' . ($first ? "active" : "") . '"></li>';
-        
-        $first = FALSE; 
-      endforeach;  
+
+        $first = FALSE;
+      endforeach;
 
       $return .= '</ol>';
 
-      $first = TRUE; 
+      $first = TRUE;
 
-      //carousel content        
+      //carousel content
       $return .= '<div class="carousel-inner">';
-      
-      foreach ($media_items as $id => $item):   
+
+      foreach ($media_items as $id => $item):
         $return .= '<div class="item ' . ($first ? "active" : "") . '">';
 
-        
+
         switch ($item['type']) {
           case 'image':
             $thumb = image_style_url('landscape', $item['uri']);
@@ -299,7 +309,7 @@ global $base_url;
               $return .= '<p class="carousel-caption">' . (isset($item['field_picture_description']['und'][0]['safe_value']) ? filter_xss($item['field_picture_description']['und'][0]['safe_value']) : check_plain($item['filename'])) . '</p>';
             $return .= '</a>';
           break;
-          
+
           case 'video':
             $thumb = image_style_url('landscape', file_load($item['thumbnail'])->uri);
             $return .= '<a href="' . $path . '">';
@@ -307,26 +317,29 @@ global $base_url;
               $return .= '<p class="carousel-caption">' . check_plain($item['filename']) . '</p>';
             $return .= '</a>';
           break;
-          
+
           default:
           break;
         }
 
         $return .= '</div>';
-         
-        $first = FALSE; 
-      endforeach;        
+
+        $first = FALSE;
+      endforeach;
 
       $return .= '</div>';
-      
+
       $return .= '<a class="carousel-control left" href="#block-carousel-' . $gall->nid . '" data-slide="prev">&lsaquo;</a>';
-      $return .= '<a class="carousel-control right" href="#block-carousel-' . $gall->nid . '" data-slide="next">&rsaquo;</a>';      
+      $return .= '<a class="carousel-control right" href="#block-carousel-' . $gall->nid . '" data-slide="next">&rsaquo;</a>';
     $return .= '</div>';
 
     return array('#markup' => $return);
   }
 }
 
+/**
+ * Custom sort function.
+ */
 function block_carousel_custom_sort($a, $b) {
   return $a['timestamp'] > $b['timestamp'];
-}   
+}
