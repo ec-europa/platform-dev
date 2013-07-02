@@ -1,10 +1,91 @@
 <?php
-
 /**
  * @file
- * Tests for multisite Notifications.module.
- * ECWeb MULTISITE QA
+ * Test case for testing the block example module.
  */
+class anonymousNotitication extends DrupalWebTestCase {
+  protected $administrator;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Anonymous Notification',
+      'description' => 'Test the configuration options and block created by Notifications module.',
+      'group' => 'AAA',
+    );
+  }
+
+  /**
+   * Enable modules and create user with specific permissions.
+   */
+  function setUp() {
+    parent::setUp('multisite_notifications_core');
+    $this->administrator = $this->drupalCreateUser(array(
+        'access administration pages',
+        'access all views',
+        'access content',
+        'administer user subscriptions',
+        'bulk-administer user subscriptions',
+        'administer site configuration',
+        'create article content',
+        'administer blocks',
+        ));
+    $this->drupalLogin($this->administrator);
+  }
+
+  /**
+   * Login user, create an example node, and test block functionality through
+   * the admin and user interfaces.
+   */
+  function testSubscriptionBlockBasic() {
+    // Login the admin user.
+
+    // Verify that new content is shown
+
+
+    // Create a new block and make sure it gets uppercased.
+    $post = array(
+      'title' => t('Subscribe to new articles'),
+      'info' => t('configurable block to be uppercased'),
+      'body[value]' => drupal_render(drupal_get_form('multisite_notifications_core_form')),
+      'regions[bartik]' => 'sidebar_first',
+    );
+    $this->drupalPost('admin/structure/block/add', $post, t('Save block'));
+
+    // Enable the search block on top of sidebar_first.
+    $block_options = array(
+      'blocks[multisite_notifications_core_notification_block][region]' => 'sidebar_first',
+      'blocks[multisite_notifications_core_notification_block][weight]' => -9,
+    );
+    $this->drupalPost('admin/structure/block', $block_options, t('Save blocks'));
+    $this->assertRaw(t('The block settings have been updated.'), 'The block settings have been updated.');
+
+    $this->assertFieldByName('mail', 'sidebar_first', 'Subscription block is enabled in the first sidebar successfully verified.');
+  }
+
+ function testValidationFields() {
+   $this->drupalGet('<front>');
+    //Test validation against wrong email address
+    $wrong_data = array('search_block_form' => 'InvalidMailwrongserver.com');
+    $this->drupalPost('node', $wrong_data, t('Subscribe'));
+    $this->assertRaw(t(''), '');
+
+    //Test anonymous subscription
+    $correct_data = array('search_block_form' => 'Ovidiu.FARCAS@ext.ec.europa.eu');
+    $this->drupalPost('node', $correct_data, t('Subscribe'));
+    $this->assertRaw(t(''), '');
+
+    //Test the fill in of an existing address
+    $correct_data = array('search_block_form' => 'Ovidiu.FARCAS@ext.ec.europa.eu');
+    $this->drupalPost('node', $correct_data, t('Subscribe'));
+    $this->assertRaw(t('You are already a subscriber!'), 'Validation against subscription with an existing email OK');
+
+    $wrong_data = array('search_block_form' => '');
+    $this->drupalPost('node', $wrong_data, t('Unsubscribe'));
+    $this->assertRaw(t('You are not yet a subscriber.'), 'Unsubscribe on empty field');
+
+ }
+}
+
 class multisiteNotification extends DrupalWebTestCase {
 
   protected $administrator;
@@ -12,9 +93,9 @@ class multisiteNotification extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(
-        'name' => 'Multisite notification Functional Test tests',
-        'description' => 'Multisite notification Functional Test. 1.0',
-        'group' => 'Multisite - User feedback',
+        'name' => 'Notification',
+        'description' => 'Notification Feature. 1.0',
+        'group' => 'AAA',
         );
   }
 
