@@ -84,7 +84,7 @@ projects[fblikebutton][subdir] = "contributed"
 projects[fblikebutton][version] = "2.3"
 
 projects[features][subdir] = "contributed"
-projects[features][version] = "2.0-rc1"
+projects[features][version] = "2.0-beta1"
 
 projects[field_group][subdir] = "contributed"
 projects[field_group][version] = "2.x-dev"
