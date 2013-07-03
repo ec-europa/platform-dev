@@ -50,7 +50,7 @@ class EcasExtraAdminSettingsTest extends DrupalWebTestCase {
    */
   function testMenuAccess() {
     $this->drupalLogin($this->web_user);
-    $this->drupalGet('admin/config/ecas/ecas_extra');
+    $this->drupalGet('admin/config/ecas/extra');
     $this->assertNoResponse(200, 'User without "administer ecas" permission does not have access to the ECAS Extra administration pages');
 
     $this->drupalGet('admin/people/blocked_accounts');
@@ -69,7 +69,7 @@ class EcasExtraAdminSettingsTest extends DrupalWebTestCase {
    */
   function testSavingSettings() {
     $this->drupalLogin($this->admin_user);
-    $this->drupalGet('admin/config/ecas/ecas_extra');
+    $this->drupalGet('admin/config/ecas/extra');
 
     $edit = array(
         'ecas_extra_deny_action_subject' => 'test-subject',
@@ -299,7 +299,7 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
     );
     $this->drupalPost(NULL, $edit, 'Execute', array(), array(), 'views-form-blocked-accounts-page-1');
 
-    $this->assertText(t('You selected the following items'), 'Confirm page for deny action');
+    $this->assertText(t('You selected the following'), 'Confirm page for deny action');
     $this->assertText('web_user_active_allowed', 'User ecas_user_active_allowed listed');
     $this->assertText('web_user_inactive_allowed', 'User ecas_user_inactive_allowed listed');
 

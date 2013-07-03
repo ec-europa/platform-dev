@@ -45,7 +45,7 @@ class EcasImportUsersAdminSettingsTest extends DrupalWebTestCase {
    */
   function testMenuAccess() {
     $this->drupalLogin($this->web_user);
-    $this->drupalGet('admin/config/ecas/ecas_import_users');
+    $this->drupalGet('admin/config/ecas/import_users');
   	$this->assertNoResponse(200, 'User without "administer ecas" permission does not have access to the ECAS Import Users administration pages');
 
   	$this->drupalGet('admin/people/import');
@@ -53,7 +53,7 @@ class EcasImportUsersAdminSettingsTest extends DrupalWebTestCase {
 
   	$this->drupalGet('<front>');
   	$this->drupalLogin($this->admin_user);
-  	$this->drupalGet('admin/config/ecas/ecas_import_users');
+  	$this->drupalGet('admin/config/ecas/import_users');
   	$this->assertResponse(200, 'User with "administer ecas" permission has access to the ECAS Import Users administration pages');
 
   	$this->drupalGet('admin/people/import');
@@ -65,7 +65,7 @@ class EcasImportUsersAdminSettingsTest extends DrupalWebTestCase {
    */
   function testSavingSettings() {
     $this->drupalLogin($this->admin_user);
-    $this->drupalGet('admin/config/ecas/ecas_import_users');
+    $this->drupalGet('admin/config/ecas/import_users');
     $edit = array(
         'ecas_import_users_default_status' => '0',
         );
@@ -162,7 +162,7 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
     ));
 	  $cas_authmap = db_insert('authmap')
         ->fields(array(
-          'authname' => 'testuser',
+          'authname' => $this->ecas_user->name,
           'uid' => $this->ecas_user->uid,
           'module' => 'ecas',
         ))
@@ -209,13 +209,13 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
 
     $edit = array(
         'dg' => 'all-groups',
-        'lastname' => 'barroso',
+        'lastname' => 'champagne',
         'search_by' => 'by-lastname',
         'mail' => '',
         'country' => 'all-countries',
         );
   	$this->drupalPost(NULL, $edit, 'Search');
-  	$this->assertUrl('admin/people/import/barroso/all-groups/by-lastname/all-countries/no-mail');
+  	$this->assertUrl('admin/people/import/champagne/all-groups/by-lastname/all-countries/no-mail');
   	$this->assertText(t('List users LDAP'), 'Results found');
 
   	// Search by email
@@ -224,11 +224,11 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
         'dg' => 'all-groups',
         'lastname' => '',
         'search_by' => 'by-lastname',
-        'mail' => 'jose-manuel.barroso@ec.europa.eu',
+        'mail' => 'CYRIL.CHAMPAGNE@ext.ec.europa.eu',
         'country' => 'all-countries',
         );
     $this->drupalPost(NULL, $edit, 'Search');
-    $this->assertUrl('admin/people/import/everybody/all-groups/by-lastname/all-countries/jose-manuel.barroso@ec.europa.eu');
+    $this->assertUrl('admin/people/import/everybody/all-groups/by-lastname/all-countries/CYRIL.CHAMPAGNE@ext.ec.europa.eu');
     $this->assertText(t('List users LDAP'), 'Results found');
 
   	// Search by country
@@ -252,7 +252,7 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
     $this->drupalLogin($this->admin_user);
 
     // Enable the profile integration
-    $this->drupalGet('admin/config/ecas');
+    $this->drupalGet('admin/config/ecas/settings');
     $edit = array(
         'ecas_profile_core_enabled' => '1',
     );
@@ -260,10 +260,10 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
 
     // Enter name that returns some results and import the first user found
     $lookup = array(
-        'name' => 'barrojl',
-        'firstname' => 'Jose Manuel',
-        'lastname' => 'BARROSO',
-        'email' => 'jose-manuel.barroso@ec.europa.eu',
+        'name' => 'champcy',
+        'firstname' => 'Cyril',
+        'lastname' => 'CHAMPAGNE',
+        'email' => 'Cyril.CHAMPAGNE@ext.ec.europa.eu',
     ); // Change this if the user is not present on the test server
 
     $this->drupalGet('admin/people/import');
@@ -317,14 +317,14 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
     $this->drupalLogin($this->admin_user);
 
     // Enable the profile integration
-    $this->drupalGet('admin/config/ecas');
+    $this->drupalGet('admin/config/ecas/settings');
     $edit = array(
         'ecas_profile_core_enabled' => '1',
     );
     $this->drupalPost(NULL, $edit, 'Save configuration');
 
     // Set default status to blocked
-    $this->drupalGet('admin/config/ecas/ecas_import_users');
+    $this->drupalGet('admin/config/ecas/import_users');
     $edit = array(
         'ecas_import_users_default_status' => '0',
     );
@@ -332,10 +332,10 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
 
     // Enter name that returns some results and import the first user found
     $lookup = array(
-        'name' => 'barrojl',
-        'firstname' => 'Jose Manuel',
-        'lastname' => 'BARROSO',
-        'email' => 'jose-manuel.barroso@ec.europa.eu',
+        'name' => 'champcy',
+        'firstname' => 'Cyril',
+        'lastname' => 'CHAMPAGNE',
+        'email' => 'Cyril.CHAMPAGNE@ext.ec.europa.eu',
     ); // Change this if the user is not present on the test server
 
     $this->drupalGet('admin/people/import');
