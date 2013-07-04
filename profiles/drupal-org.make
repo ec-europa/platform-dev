@@ -237,7 +237,7 @@ projects[video][subdir] = "contributed"
 projects[video][version] = "2.9"
 
 projects[views][subdir] = "contributed"
-projects[views][version] = "3.5"
+projects[views][version] = "3.7"
 
 projects[views_bulk_operations][subdir] = "contributed"
 projects[views_bulk_operations][version] = "3.0"
