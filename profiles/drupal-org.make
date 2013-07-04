@@ -134,6 +134,9 @@ projects[mail_edit][version] = "1.0"
 projects[mailsystem][subdir] = "contributed"
 projects[mailsystem][version] = "2.34"
 
+projects[maxlength][subdir] = "contributed"
+projects[maxlength][version] = "7.x-3.0-beta1"
+
 projects[media][subdir] = "contributed"
 projects[media][version] = "2.0-unstable7"
 
