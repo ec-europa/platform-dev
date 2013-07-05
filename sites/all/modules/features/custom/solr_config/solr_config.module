@@ -33,3 +33,10 @@ function solr_config_apachesolr_exclude($entity_id, $entity_type, $row, $env_id)
   return FALSE;
 
 }
+
+
+function solr_config_apachesolr_query_alter($query) {
+  global $language;
+  $query->addFilter('ss_language', "(und OR ".$language->language.")"); // by default set the facet language to current language and neutral language
+}
+
