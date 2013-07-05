@@ -35,7 +35,15 @@ window.onload = function() {
 			'multisite-icon-calendar' : '&#xf073;',
 			'multisite-icon-book' : '&#xf02d;',
 			'multisite-icon-edit' : '&#xf044;',
-			'multisite-icon-keyboard' : '&#xe039;'
+			'multisite-icon-keyboard' : '&#xe039;',
+			'multisite-icon-group' : '&#xf0c0;',
+			'multisite-icon-camera' : '&#xe003;',
+			'multisite-icon-location' : '&#xe018;',
+			'multisite-icon-menu' : '&#xe014;',
+			'multisite-icon-pie' : '&#xe019;',
+			'multisite-icon-list' : '&#xe01a;',
+			'multisite-icon-bookmarks' : '&#xe01b;',
+			'multisite-icon-notification' : '&#xe01c;'
 		},
 		els = document.getElementsByTagName('*'),
 		i, attr, html, c, el;
