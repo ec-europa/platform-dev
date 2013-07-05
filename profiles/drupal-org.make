@@ -167,9 +167,6 @@ projects[mimemail][version] = "1.x-dev"
 projects[node_export][subdir] = "contributed"
 projects[node_export][version] = "3.0"
 
-projects[notifications][subdir] = "contributed"
-projects[notifications][version] = "1.x-dev"
-
 projects[om_maximenu][subdir] = "contributed"
 projects[om_maximenu][version] = "1.44"
 
