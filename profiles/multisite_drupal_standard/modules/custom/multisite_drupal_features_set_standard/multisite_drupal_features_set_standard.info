@@ -128,6 +128,14 @@ feature_sets[newsletters][font] = 'multisite-icon-paperplane'
 feature_sets[newsletters][enable][] = newsletters
 feature_sets[newsletters][disable][] = newsletters
 
+feature_sets[multisite_maxlength][title] = 'Multisite Maxlength (countdown)'
+feature_sets[multisite_maxlength][description] = 'Provides a dynamic countdown on text fields.'
+feature_sets[multisite_maxlength][category] = 'Information to users'
+feature_sets[multisite_maxlength][icon] = ''
+feature_sets[multisite_maxlength][font] = 'multisite-icon-keyboard'
+feature_sets[multisite_maxlength][enable][] = multisite_maxlength
+feature_sets[multisite_maxlength][disable][] = multisite_maxlength
+
 
 ; Media
 feature_sets[e_library_standard][title] = 'E-Library'
@@ -279,39 +287,3 @@ feature_sets[multisite_notifications_core][icon] = ''
 feature_sets[multisite_notifications_core][font] = 'multisite-icon-notification'
 feature_sets[multisite_notifications_core][enable][] = multisite_notifications_core
 feature_sets[multisite_notifications_core][disable][] = multisite_notifications_core
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
