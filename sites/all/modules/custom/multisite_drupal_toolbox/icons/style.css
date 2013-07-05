@@ -27,7 +27,7 @@ Instead of a list of all class selectors,
 you can use the generic selector below, but it's slower:
 [class*="multisite-icon-"] {
 */
-.multisite-icon-flag, .multisite-icon-reorder, .multisite-icon-home, .multisite-icon-cogs, .multisite-icon-comments-alt, .multisite-icon-flow-branch, .multisite-icon-vcard, .multisite-icon-thumbs-up, .multisite-icon-share, .multisite-icon-light-bulb, .multisite-icon-mail, .multisite-icon-directions, .multisite-icon-code, .multisite-icon-publish, .multisite-icon-language, .multisite-icon-pictures, .multisite-icon-archive, .multisite-icon-paperplane, .multisite-icon-megaphone, .multisite-icon-feed, .multisite-icon-question, .multisite-icon-link, .multisite-icon-earth, .multisite-icon-check, .multisite-icon-file, .multisite-icon-newspaper, .multisite-icon-calendar, .multisite-icon-book, .multisite-icon-edit, .multisite-icon-group, .multisite-icon-camera, .multisite-icon-location, .multisite-icon-menu, .multisite-icon-pie, .multisite-icon-list, .multisite-icon-bookmarks, .multisite-icon-notification {
+.multisite-icon-flag, .multisite-icon-reorder, .multisite-icon-home, .multisite-icon-cogs, .multisite-icon-comments-alt, .multisite-icon-flow-branch, .multisite-icon-vcard, .multisite-icon-thumbs-up, .multisite-icon-share, .multisite-icon-light-bulb, .multisite-icon-mail, .multisite-icon-directions, .multisite-icon-code, .multisite-icon-publish, .multisite-icon-language, .multisite-icon-pictures, .multisite-icon-archive, .multisite-icon-paperplane, .multisite-icon-megaphone, .multisite-icon-feed, .multisite-icon-question, .multisite-icon-link, .multisite-icon-earth, .multisite-icon-check, .multisite-icon-file, .multisite-icon-newspaper, .multisite-icon-calendar, .multisite-icon-book, .multisite-icon-edit, .multisite-icon-keyboard {
 	font-family: 'multisite-icons';
 	speak: none;
 	font-style: normal;
@@ -124,27 +124,6 @@ you can use the generic selector below, but it's slower:
 .multisite-icon-edit:before {
 	content: "\f044";
 }
-.multisite-icon-group:before {
-	content: "\f0c0";
-}
-.multisite-icon-camera:before {
-	content: "\e003";
-}
-.multisite-icon-location:before {
-	content: "\e018";
-}
-.multisite-icon-menu:before {
-	content: "\e014";
-}
-.multisite-icon-pie:before {
-	content: "\e019";
-}
-.multisite-icon-list:before {
-	content: "\e01a";
-}
-.multisite-icon-bookmarks:before {
-	content: "\e01b";
-}
-.multisite-icon-notification:before {
-	content: "\e01c";
+.multisite-icon-keyboard:before {
+	content: "\e039";
 }
