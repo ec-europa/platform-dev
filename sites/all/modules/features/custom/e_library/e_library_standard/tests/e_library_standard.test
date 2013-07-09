@@ -92,3 +92,64 @@ class Multisite_e_library_standardQAWebTestCase extends DrupalWebTestCase {
 
 
 }
+
+
+class Multisite_e_library_standardFunctionalWebTestCase extends DrupalWebTestCase {
+  protected $privileged_user;
+  protected $contributor_user;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'E library standard functional tests',
+      'description' => 'Test the e_library_standard features',
+      'group' => 'Multisite Standard',
+    );
+  }
+  
+  public function setUp() {
+    parent::setUp(array('apachesolr', 'custom_breadcrumbs', 'e_library_core', 'e_library_standard'));
+    $this->privileged_user = $this->drupalCreateUserWithRole("administrator");
+    $this->contributor_user = $this->drupalCreateUserWithRole("contributor");
+    $this->drupalLogin($this->privileged_user);
+  }  
+  
+  function testELibraryStandard() {
+    //Content type creation
+    $field_name = 'field_document';
+    $edit = array(
+      'title' => 'my first document',
+    );
+    $edit['files[' . $field_name . '_' . LANGUAGE_NONE . '_0]'] = drupal_realpath('sites/all/modules/features/custom/e_library/e_library_standard/tests/test_file.pdf');
+    $this->drupalPost('node/add/document', $edit, t('Save'));
+    $this->assertRaw('my first document', 'Document created');
+    $this->assertLink('test_file.pdf', 0, 'Link to uploaded document accessible');
+    $this->clickLink('test_file.pdf');
+
+  }
+
+  /**
+  * Creates a user with the give role.
+  * */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
+  }
+  
+  
+}
+

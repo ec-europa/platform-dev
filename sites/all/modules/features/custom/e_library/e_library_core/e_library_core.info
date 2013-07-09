@@ -1,4 +1,6 @@
 core = "7.x"
+dependencies[] = "cce_basic_config"
+dependencies[] = "multisite_drupal_toolbox"
 dependencies[] = "features"
 dependencies[] = "file"
 dependencies[] = "strongarm"
