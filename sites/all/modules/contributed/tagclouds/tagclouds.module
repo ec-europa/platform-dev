@@ -1,0 +1,537 @@
+<?php
+/**
+ * Implements hook_help().
+ */
+function tagcloudss_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#tagcloudss':
+      return t('Tagclouds offers dynamic urls. <br/>Visit example.com/tagclouds/list/2,1,5 to get the vocabularies 2,1 and 5 listed as tag groups. <br/>Visit example.com/tagclouds/chunk/2,1,5 to get a tag cloud of the terms in the vocabularies 2,1 and 5.<br/> Note that we limit to five vocabularies.');
+  }
+}
+
+/**
+ * Implements hook_init().
+ */
+function tagclouds_init() {
+  drupal_add_css(drupal_get_path('module', 'tagclouds') . '/tagclouds.css');
+}
+
+/**
+ * Implements hook_menu().
+ */
+function tagclouds_menu() {
+  $items = array();
+
+  $items['admin/config/content/tagclouds'] = array(
+    'title' => 'TagClouds configuration',
+    'description' => 'Configure the tag clouds. Set the order, the number of tags, and the depth of the clouds.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tagclouds_settings'),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer taxonomy'),
+  );
+  $items['tagclouds'] = array(
+    'title' => 'Tags',
+    'page callback' => 'tagclouds_page_chunk',
+    'page arguments' => array(NULL),
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'type' => MENU_SUGGESTED_ITEM,
+  );
+  $items['tagclouds/list/%tagclouds_vocs'] = array(
+    'title' => 'Tags',
+    'page callback' => 'tagclouds_page_list',
+    'page arguments' => array(2),
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['tagclouds/chunk/%tagclouds_vocs'] = array(
+    'title' => 'Tags',
+    'page callback' => 'tagclouds_page_chunk',
+    'page arguments' => array(2),
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'type' => MENU_SUGGESTED_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Menu callback. Admin setting page for tagclouds.
+ */
+function tagclouds_settings() {
+  $options = array(
+        'title,asc' => t('by title, ascending'), 'title,desc' => t('by title, descending'),
+        'count,asc' => t('by count, ascending'), 'count,desc' => t('by count, descending'),
+        'random,none' => t('random'));
+
+  $form['tagclouds_sort_order'] = array(
+    '#type' => 'radios',
+    '#title' => t('Tagclouds sort order'),
+    '#options' => $options,
+    '#default_value' => variable_get('tagclouds_sort_order', 'title,asc'),
+    '#description' => t('Determines the sort order of the tags on the freetagging page.'),
+  );
+  $options_display = array('style' => t('Display Tags with Style'), 'count' => t('Display Tags with Count'));
+  $form['tagclouds_display_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Tagclouds Display Type'),
+    '#options' => $options_display,
+    '#default_value' => variable_get('tagclouds_display_type', 'style'),
+    '#description' => t('Determines the style of the page.'),
+  );
+  $form['tagclouds_display_node_link'] = array(
+   '#type' => 'checkbox',
+   '#title' => t('Link term to node when only one content is tagged'),
+   '#default_value' => variable_get('tagclouds_display_node_link', true),
+   '#description' => t('When there is only one content tagged with a certain term, link that term to this node instead of the term list page.'),
+  );
+  $form['tagclouds_page_amount'] = array(
+    '#type' => 'textfield',
+    '#size' => 5,
+    '#title' => t('Amount of tags on the pages'),
+    '#default_value' => variable_get('tagclouds_page_amount', '60'),
+    '#description' => t("The amount of tags that will show up in a cloud on the
+      pages. Enter '0' to display all tags. Amount of tags in blocks must be
+      configured in the block settings of the various cloud blocks."),
+  );
+  $form['tagclouds_levels'] = array(
+    '#type' => 'textfield',
+    '#size' => 5,
+    '#title' => t('Number of levels'),
+    '#default_value' => variable_get('tagclouds_levels', 6),
+    '#description' => t('The number of levels between the least popular
+      tags and the most popular ones. Different levels will be assigned a different
+      class to be themed in tagclouds.css'),
+  );
+
+  $lang = language_list('enabled');
+  if(!empty($lang) && count($lang[1]) > 1){
+    $form['tagclouds_language_separation'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Separation of Tags per language'),
+        '#default_value' => variable_get('tagclouds_language_separation', 0),
+        '#description' => t('If you have more than one language installed this setting would allow you to separate the tags for each language.'),
+    );
+  }
+
+  return system_settings_form($form);
+}
+
+/**
+ * Menu callback renders a tagclouds page.
+ */
+function tagclouds_page_chunk($vocs) {
+  if ($vocs == NULL) {
+    foreach (taxonomy_get_vocabularies(NULL) as $vocabulary) {
+      $vocs[] = $vocabulary->vid;
+    }
+  }
+
+  $tags = tagclouds_get_tags($vocs, variable_get('tagclouds_levels', 6), variable_get('tagclouds_page_amount', '60'));
+
+  $tags = tagclouds_sort_tags($tags);
+  $output = theme('tagclouds_weighted', array('terms' => $tags));
+
+  if (!$output) {
+    return drupal_not_found();
+  }
+
+  $output = "<div class=\"wrapper tagclouds\">$output</div>";
+
+  return $output;
+}
+
+/**
+ * Menu callback renders a tagclouds page with listed items: each vocabulary.
+ */
+function tagclouds_page_list($vocs) {
+
+  if ($vocs == NULL) {
+    return drupal_not_found();
+  }
+
+  $output = '';
+  foreach ($vocs as $vid) {
+    $vocabulary = taxonomy_vocabulary_load($vid);
+
+    if ($vocabulary == FALSE) {
+      return drupal_not_found();
+    }
+
+    // Clean out vocabulary, so that we don't have to leave security to our
+    // theme layer.
+    $vocabulary->description = filter_xss_admin($vocabulary->description);
+    $vocabulary->name = filter_xss_admin($vocabulary->name);
+
+    $tags = tagclouds_get_tags(array($vocabulary->vid), variable_get('tagclouds_levels', 6), variable_get('tagclouds_page_amount', '60'));
+    $tags = tagclouds_sort_tags($tags);
+
+    $output .= theme('tagclouds_list_box', array('vocabulary' => $vocabulary, 'tags' => $tags));
+  }
+
+  if (!$output) {
+    return drupal_not_found();
+  }
+
+  $output = "<div class=\"wrapper tagclouds\">$output</div>";
+  return $output;
+}
+
+/**
+ * Function that gets the information from the database, passes it along to the
+ * weight builder and returns these weighted tags. Note that the tags are
+ * unordered at this stage, hence they need ordering either by calling our api
+ * or by your own ordering data.
+ *
+ * @param $vids
+ *   Vocabulary ids representing the vocabularies where you want the tags from.
+ * @param $steps
+ *   The amount of tag-sizes you will be using. If you give "12" you still get
+ *   six different "weights". Defaults to 6 and is optional.
+ * @param $size
+ *   The number of tags that will be returned.
+ * @param $display OPTIONAL
+ *   The type of display "style"=weighted,"count"=numbered display
+ *
+ * @return
+ *   An <em>unordered</em> array with tags-objects, containing the attribute
+ *   $tag->weight.
+ */
+function tagclouds_get_tags($vids, $steps = 6, $size = 60, $display = NULL) {
+
+  // Build the options so we can cache multiple versions.
+  global $language;
+  $options = implode('_', $vids) . '_' . $language->language . '_' . $steps . '_' . $size . "_" . $display;
+  // Check if the cache exists.
+  $cache_name = 'tagclouds_cache_' . $options;
+  $cache = cache_get($cache_name, 'cache_page');
+
+  $tags = array();
+  // Make sure cache has data.
+  if (isset($cache->data)) {
+    $tags = $cache->data;
+  }
+  else {
+
+    if (!is_array($vids) || count($vids) == 0) {
+      return array();
+    }
+
+    $query = db_select('taxonomy_term_data', 'td');
+    $query->addExpression('COUNT(*)', 'count');
+    $query->fields('td',array('tid', 'vid', 'name', 'description'));
+    $query->fields('tn',array('nid'));
+    $query->join('taxonomy_index', 'tn', 'td.tid = tn.tid');
+    $query->join('node', 'n', 'tn.nid = n.nid');
+    if (variable_get('tagclouds_language_separation', 0)) $query->condition('n.language', $language->language);
+    $query->condition('td.vid', $vids);
+    $query->condition('n.status', 1);
+    $query->groupBy('td.tid')->groupBy('td.vid')->groupBy('td.name');
+    $query->groupBy('td.description HAVING count > 0');
+    $query->orderBy('count', 'DESC');
+    if ($size > 0) $query->range(0, $size);
+    $result = $query->execute();
+
+    foreach ($result as $tag) {
+      $tags[$tag->tid] = $tag;
+    }
+    if ($display == NULL) $display = variable_get('tagclouds_display_type', 'style');
+    $tags = tagclouds_build_weighted_tags($tags, $steps);
+
+    cache_set($cache_name, $tags, 'cache_page', CACHE_TEMPORARY);
+  }
+
+  return $tags;
+}
+
+/**
+ * API that returns an array with weighted tags.
+ *
+ * This is the hard part. People with better ideas are very very welcome to send
+ * these to ber@webschuur.com. Distribution is one thing that needs attention.
+ *
+ * @param $tags
+ *   A list of <em>objects</em> with the following attributes: $tag->count,
+ *   $tag->tid, $tag->name and $tag->vid. Each Tag will be calculated and
+ *   turned into a tag. Refer to tagclouds_get__tags() for an example.
+ * @param $steps
+ *   The amount of tag-sizes you will be using. If you give "12" you still get
+ *   six different "weights". Defaults to 6 and is optional.
+ * @return
+ *   An <em>unordered</em> array with tags-objects, containing the attribute
+ *   $tag->weight.
+ */
+function tagclouds_build_weighted_tags($tags, $steps = 6) {
+  // Find minimum and maximum log-count. By our MatheMagician Steven Wittens aka
+  // UnConeD.
+  $tags_tmp = array();
+  $min = 1e9;
+  $max = -1e9;
+  foreach ($tags as $id => $tag) {
+    $tag->number_of_posts = $tag->count;
+    $tag->weightcount = log($tag->count);
+    $min = min($min, $tag->weightcount);
+    $max = max($max, $tag->weightcount);
+    $tags_tmp[$id] = $tag;
+  }
+  // Note: we need to ensure the range is slightly too large to make sure even
+  // the largest element is rounded down.
+  $range = max(.01, $max - $min) * 1.0001;
+  foreach ($tags_tmp as $key => $value) {
+    $tags[$key]->weight = 1 + floor($steps * ($value->weightcount - $min) / $range);
+  }
+  return $tags;
+}
+
+/**
+ * API function to order a set of tags.
+ *
+ * $Sort = NULL, "title, asc", "title, desc", "count, asc", "count, desc"
+ * @todo If you feel like making this more modular, please send me patches.
+ */
+function tagclouds_sort_tags($tags, $sort = NULL) {
+  if ($sort == NULL) {
+    $sort = 'title,asc';
+    list($sort, $order) = explode(',', variable_get('tagclouds_sort_order', $sort));
+  }
+ else {
+   list($sort, $order) = explode(',', $sort);
+ }
+
+  switch ($sort) {
+    case 'title':
+      usort($tags, "_tagclouds_sort_by_title");
+      break;
+    case 'count':
+      usort($tags, "_tagclouds_sort_by_count");
+      break;
+    case 'random':
+      shuffle($tags);
+      break;
+  }
+  if ($order == 'desc') {
+    $tags = array_reverse($tags);
+  }
+  return $tags;
+}
+
+/**
+ * Callback for usort, sort by count.
+ */
+function _tagclouds_sort_by_title($a, $b) {
+  return strnatcasecmp($a->name, $b->name);
+}
+
+function _tagclouds_sort_by_count($a, $b) {
+  return $a->count > $b->count;
+}
+
+/**
+ * Theme function that renders the HTML for the tags.
+ *
+ * @ingroup themable
+ */
+function theme_tagclouds_weighted(array $vars) {
+  $terms = $vars['terms'];
+
+  $output = '';
+  $display = variable_get('tagclouds_display_type', 'style');
+
+  if (module_exists('i18n_taxonomy')) {
+    $language = i18n_language();
+  }
+
+  if ($display=='style') {
+    foreach ($terms as $term) {
+      if (module_exists('i18n_taxonomy')) {
+        $term_name = i18n_taxonomy_term_name($term, $language->language);
+        $term_desc = tagclouds_i18n_taxonomy_term_description($term, $language->language);
+      } else {
+        $term_name = $term->name;
+        $term_desc = $term->description;
+      }
+      $output .= tagclouds_display_term_link_weight($term_name, $term->tid, $term->weight, $term_desc);
+    }
+  }
+  else {
+    foreach ($terms as $term) {
+      if (module_exists('i18n_taxonomy')) {
+        $term_name = i18n_taxonomy_term_name($term, $language->language);
+        $term_desc = tagclouds_i18n_taxonomy_term_description($term, $language->language);
+      } else {
+        $term_name = $term->name;
+        $term_desc = $term->description;
+      }
+      if ($term->count==1 && variable_get("tagclouds_display_node_link", false)) {
+         $output .= tagclouds_display_node_link_count($term_name, $term->tid, $term->nid, $term->count, $term_desc);
+      }
+      else {
+         $output .= tagclouds_display_term_link_count($term_name, $term->tid, $term->count, $term_desc);
+      }
+    }
+  }
+  return $output;
+}
+
+/**
+ * Display Single Tag with Style
+ *
+ */
+function tagclouds_display_term_link_weight($name, $tid, $weight, $description) {
+  if ($term = taxonomy_term_load($tid)) {
+    $uri = entity_uri('taxonomy_term', $term);
+    $uri['options']['attributes']['class'][] = 'tagclouds';
+    $uri['options']['attributes']['class'][] = 'level' . $weight;
+    $uri['options']['attributes']['title'] = $description;
+    return "<span class='tagclouds-term'>" . l($name, $uri['path'], $uri['options']) . "</span>\n";
+  }
+}
+
+/**
+ * Display Single Tag with Style
+ *
+ */
+function tagclouds_display_node_link_count($name, $tid, $nid, $count, $description) {
+  if ($term = taxonomy_term_load($tid) && $node = node_load($nid)) {
+    $uri = entity_uri('node', $node);
+    $uri['options']['attributes']['class'][] = 'tagclouds';
+    $uri['options']['attributes']['title'] = $description;
+    return "<span class='tagclouds-term'>" . l($name, $uri['path'], $uri['options']) . " (" . $count . ")" . "</span>\n";
+  }
+}
+
+function tagclouds_display_term_link_count($name, $tid, $count, $description) {
+  if ($term = taxonomy_term_load($tid)) {
+    $uri = entity_uri('taxonomy_term', $term);
+    $uri['options']['attributes']['class'][] = 'tagclouds';
+    $uri['options']['attributes']['title'] = $description;
+    return "<span class='tagclouds-term'>" . l($name, $uri['path'], $uri['options']) . " (" . $count . ")" . "</span>\n";
+  }
+}
+
+/**
+ * Theme function that renders an entry in tagclouds/list/ views.
+ *
+ * @param $vocabulary
+ *   A full vocabulary object.
+ * @param $tags
+ *   An array with weighted tag objects.
+ * @ingroup themable
+ */
+function theme_tagclouds_list_box(array $vars) {
+  if (module_exists('i18n_taxonomy')) {
+    $language = i18n_language();
+  }
+
+  $vocabulary = $vars['vocabulary'];
+  $tags = $vars['tags'];
+
+  if (module_exists('i18n_taxonomy')) {
+    $voc_name = i18n_taxonomy_vocabulary_name($vocabulary, $language->language);
+    $voc_desc = tagclouds_i18n_taxonomy_vocabulary_description($vocabulary, $language->language);
+  } else {
+    $voc_name = $vocabulary->name;
+    $voc_desc = $vocabulary->description;
+  }
+
+  $content = theme('tagclouds_weighted', array('terms' => $tags));
+  $output = '';
+  if ($vocabulary->description) {
+    $content = '<div>' . $voc_desc . '</div>' . $content;
+  }
+  $output .= '<h2>' . $voc_name . '</h2><div>' . $content . '</div>';
+
+  return $output;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function tagclouds_block_info() {
+  $blocks = array();
+  foreach (taxonomy_get_vocabularies() as $voc) {
+    $blocks[$voc->vid] = array();
+    $blocks[$voc->vid]['info'] = variable_get('tagclouds_block_title_' . $voc->vid, t('Tags in @voc', array('@voc' => $voc->name)));
+    $blocks[$voc->vid]['cache'] = DRUPAL_CACHE_GLOBAL;
+  }
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function tagclouds_block_view($delta = '') {
+  $blocks = array();
+  if ($voc = taxonomy_vocabulary_load($delta)) {
+    $blocks['subject'] = variable_get('tagclouds_block_title_' . $delta, t('Tags in @voc',
+            array('@voc' => $voc->name)));
+    $tags = tagclouds_get_tags(array($delta), variable_get('tagclouds_levels', 6), variable_get('tagclouds_block_tags_' . $delta, 12));
+
+    //$tags = tagclouds_sort_tags($tags, "hook_block_view");;
+    $tags = tagclouds_sort_tags($tags);
+
+    $blocks['content'] = theme('tagclouds_weighted', array('terms' => $tags)); //return a chunk of 12 tags
+    if (count($tags) >= variable_get('tagclouds_block_tags_' . $delta, 12) && variable_get('tagclouds_block_tags_' . $delta, 12) > 0) {
+      $blocks['content'] .= theme('more_link', array('title' => t('more tags'), 'url' => "tagclouds/chunk/{$voc->vid}"));
+    }
+  }
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function tagclouds_block_configure($delta = '') {
+  $form = array();
+
+  $form['tags'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Tags to show'),
+    '#default_value' => variable_get('tagclouds_block_tags_' . $delta, 12),
+    '#maxlength' => 3,
+    '#description' => t("The number of tags to show in this block. Enter '0' to display all tags."),
+  );
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function tagclouds_block_save($delta = '', $edit = array()) {
+  variable_set('tagclouds_block_tags_' . $delta, $edit['tags']);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function tagclouds_theme() {
+  return array(
+    'tagclouds_list_box' => array('arguments' => array('vocabulary' => NULL, 'tags' => NULL)),
+    'tagclouds_weighted' => array('arguments' => array('terms' => array()))
+  );
+}
+
+/**
+ * Implements hook_load()
+ */
+function tagclouds_vocs_load($ids){
+  return explode(',',$ids);
+}
+
+/**
+ * Get localized term description unfiltered.
+ * Adapted from i18n_taxonomy_term_name(). Should moved to i18n, issue http://drupal.org/node/1704658.
+ */
+function tagclouds_i18n_taxonomy_term_description($term, $langcode = NULL) {
+  return i18n_taxonomy_vocabulary_mode($term->vid, I18N_MODE_LOCALIZE) ? i18n_string(array('taxonomy', 'term', $term->tid, 'description'), $term->description, array('langcode' => $langcode, 'sanitize' => FALSE)) : $term->description;
+}
+
+/**
+ * Get localized vocabulary description.
+ * Adapted from i18n_taxonomy_vocabulary_name(). Should moved to i18n, issue http://drupal.org/node/1704658.
+ */
+function tagclouds_i18n_taxonomy_vocabulary_description($vocabulary, $langcode = NULL) {
+  return i18n_object_langcode($vocabulary) ? $vocabulary->description : i18n_string(array('taxonomy', 'vocabulary', $vocabulary->vid, 'description'), $vocabulary->description, array('langcode' => $langcode));
+}
