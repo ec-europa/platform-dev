@@ -78,13 +78,13 @@ function ec_resp_preprocess_html(&$variables) {
   drupal_add_html_head($element, 'font_size_switcher');
 
   // Add conditional stylesheets for IE
-  drupal_add_css(path_to_theme() . '/css/ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
+  drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
 
   // Add javascripts
-  drupal_add_js(path_to_theme() . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
-  drupal_add_js(path_to_theme() . '/scripts/jquery.mousewheel-3.0.6.pack.js', array('scope' => 'footer', 'weight' => 11));
-  drupal_add_js(path_to_theme() . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 12));
-  drupal_add_js(path_to_theme() . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 13));  
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel-3.0.6.pack.js', array('scope' => 'footer', 'weight' => 11));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 12));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 13));  
 
 }
 
@@ -548,7 +548,7 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
       $form['search_block_form']['#attributes']['placeholder'][] = t('Search');
 
       $form['actions']['submit']['#type'] = 'image_button';
-      $form['actions']['submit']['#src'] = base_path() . path_to_theme() . '/images/search-button.png';
+      $form['actions']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.png';
       $form['actions']['submit']['#attributes']['class'][] = 'btn';
       //$form['actions']['submit']['#value'] = '<i class="icon-search"></i>';
       break;
