@@ -114,17 +114,32 @@ class Multisite_e_library_standardFunctionalWebTestCase extends DrupalWebTestCas
   }  
   
   function testELibraryStandard() {
-    //Content type creation
+    //check the e_library page
+    $this->drupalGet('e_library');
+    $this->assertResponse(200, 'The e_library is accessible');
+    $this->assertRaw('Browse library of document', 'The e_library page is created');
+    
+    //content type creation
     $field_name = 'field_document';
     $edit = array(
       'title' => 'my first document',
     );
     $edit['files[' . $field_name . '_' . LANGUAGE_NONE . '_0]'] = drupal_realpath('sites/all/modules/features/custom/e_library/e_library_standard/tests/test_file.pdf');
     $this->drupalPost('node/add/document', $edit, t('Save'));
+        
     $this->assertRaw('my first document', 'Document created');
     $this->assertLink('test_file.pdf', 0, 'Link to uploaded document accessible');
     $this->clickLink('test_file.pdf');
+    $this->assertResponse(200, 'The document uploaded is accessible');
 
+    //get the node object
+    $node = $this->drupalGetNodeByTitle('my first document');
+    //change workflow state to published
+    $moderate = array('state' => workbench_moderation_state_published());
+    $this->drupalPost("node/{$node->nid}/moderation", $moderate, t('Apply'));
+    
+    $this->drupalGet('e_library');
+    $this->assertLink('my first document', 0, 'The document created is visible in the e_library');
   }
 
   /**
