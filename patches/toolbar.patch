@@ -1,0 +1,12 @@
+--- modules/toolbar/toolbar.module	2013-07-11 11:07:35.364014561 +0200
++++ modules/toolbar/toolbar.module	2013-07-11 11:08:09.241054881 +0200
+@@ -272,6 +272,9 @@
+   }
+   $build['toolbar_drawer_classes'] = implode(' ', $toolbar_drawer_classes);
+ 
++  // custom hook to alter the toolbar
++  drupal_alter('toolbar_view', $build);
++
+   return $build;
+ }
+ 

@@ -35,3 +35,12 @@ function ecas_env_node_view_alter(&$build) {
     $build['links']['comment']['#links']['comment_forbidden']['title'] = '<a href="' . $base_url . '/ecas">Log in</a> or <a href="https://webgate.ec.europa.eu/aida/selfreg?service=' . $base_url . '/ecas">register</a> to post comments';
   }
 }
+
+function ecas_env_toolbar_view_alter(&$build) {
+  global $user;
+  // alter the logout link of the admin toolbar when the user is connected with ecas
+  if (isset($_SESSION['phpCAS']) && $_SESSION['phpCAS']['user'] === $user->name) { 
+    $build['toolbar_user']['#links']['logout']['title'] = t("Ecas logout");
+    $build['toolbar_user']['#links']['logout']['href'] = "ecaslogout";
+  }
+}
