@@ -35,8 +35,8 @@ projects[chr][version] = "1.5"
 projects[ckeditor_link][subdir] = "contributed"
 projects[ckeditor_link][version] = "2.2"
 
-projects[coder][subdir] = "contributed"
-projects[coder][version] = "2.0-beta2"
+;projects[coder][subdir] = "contributed"
+;projects[coder][version] = "2.0-beta2"
 
 projects[colors][subdir] = "contributed"
 projects[colors][version] = "1.0-beta2"
@@ -135,7 +135,7 @@ projects[mailsystem][subdir] = "contributed"
 projects[mailsystem][version] = "2.34"
 
 projects[maxlength][subdir] = "contributed"
-projects[maxlength][version] = "7.x-3.0-beta1"
+projects[maxlength][version] = "3.0-beta1"
 
 projects[media][subdir] = "contributed"
 projects[media][version] = "2.0-unstable7"

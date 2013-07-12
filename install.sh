@@ -31,11 +31,12 @@ Configuration of the site\n
 \t-e, --account-email\tDefine the email address for the administrator\n
 \t-m, --site-email\tDefine the site email\n
 \t-b, --base-url\t\tDefine the base URL of the site\n
-\t-i, --install-profile\tDefine the installation profile to use\n"
+\t-i, --install-profile\tDefine the installation profile to use\n
+\t-k, --devel\tInclude devel build make\n"
 
 
 # Configuration of the script
-while getopts "u:p:H:P:a:e:d:r:n:b:i:vfh?-:" option; do
+while getopts "u:p:H:P:a:e:d:r:n:b:i:vfhk?-:" option; do
         #Management of the --options
         if [ "$option" = "-" ]; then
                 case $OPTARG in
@@ -52,6 +53,7 @@ while getopts "u:p:H:P:a:e:d:r:n:b:i:vfh?-:" option; do
                         site-email) option=m ;;
                         base-url) option=b ;;
 						install_profile) option=i ;;
+						devel) option=k ;;
                         *)
                                 echo "[ERROR] Unknown option --$OPTARG"
                                 exit 1
@@ -71,6 +73,7 @@ while getopts "u:p:H:P:a:e:d:r:n:b:i:vfh?-:" option; do
                 b) baseurl=$OPTARG ;;
                 v) verbose=1 ;;
 				f) force=1 ;;
+				k) devel=1 ;;
 				i) install_profile=$OPTARG ;;
                 \?|h)
                         echo -e $usage
@@ -110,6 +113,13 @@ if [ -d "${working_dir}" ] ; then
 	__echo "done"
 fi
 
+# Include devel build make
+if [ "${devel}" = 1 ] ; then
+    echo $'\r' >> profiles/multisite.make
+	echo "includes[] = \"devel.make\"" >> profiles/multisite.make
+fi
+__echo "Devel build make included"
+
 # Set up the drush option
 if [ "${force}" = 1 ] ; then
 	drush_options="${drush_options} -y"
@@ -117,7 +127,15 @@ fi
 __echo "Set drush options: ${drush_options}"
 
 #build the drupal instance
-drush ${drush_options} make profiles/$install_profile/build.make ${site_name} 1>&2
+set -x
+drush ${drush_options} make --force-complete profiles/$install_profile/build.make ${site_name} 1>&2
+echo "drush make exited with code $?"
+set +x
+
+# Remove devel build make
+if [ "${devel}" = 1 ] ; then
+    sed -i '$ d' profiles/multisite.make
+fi
 
 mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "drop database ${site_name};" 1>&2
 mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "create database ${site_name};" 1>&2
@@ -182,7 +200,7 @@ drush vset apachesolr_attachments_java "${apachesolr_attachments_java}"
 #drush php-eval "define('FPFIS_COMMON_LIBRARIES_PATH',${FPFIS_common_libraries});"
 
 mkdir "${working_dir}/sites/default/files/private_files"
-chmod -R 777 "${working_dir}/sites/default/files"
+chmod -R 777 "${working_dir}/sites"
 
 if [ -d "${webroot}/${site_name}" ] ; then
 	__echo -n "Removing the folder $webroot/${site_name}..."
