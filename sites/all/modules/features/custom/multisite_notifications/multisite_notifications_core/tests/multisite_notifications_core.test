@@ -3,14 +3,16 @@
  * @file
  * Test case for testing the block example module.
  */
-class anonymousNotitication extends DrupalWebTestCase {
+class anonymousNotification extends DrupalWebTestCase {
   protected $administrator;
+  protected $privileged_user;
+  protected $visitor;
 
   public static function getInfo() {
     return array(
       'name' => 'Anonymous Notification',
-      'description' => 'Test the configuration options and block created by Notifications module.',
-      'group' => 'AAA',
+      'description' => 'Test the configuration options and block created by Notifications module. 1.0b',
+      'group' => 'Multisite Core Features',
     );
   }
 
@@ -19,7 +21,7 @@ class anonymousNotitication extends DrupalWebTestCase {
    */
   function setUp() {
     parent::setUp('multisite_notifications_core');
-    $this->administrator = $this->drupalCreateUser(array(
+    $this->privileged_user = $this->drupalCreateUser(array(
         'access administration pages',
         'access all views',
         'access content',
@@ -28,62 +30,108 @@ class anonymousNotitication extends DrupalWebTestCase {
         'administer site configuration',
         'create article content',
         'administer blocks',
+        'view subscription block',
         ));
-    $this->drupalLogin($this->administrator);
+    $this->administrator = $this->drupalCreateUserWithRole("administrator");
+    $this->visitor = $this->drupalCreateUser(array('access content', 'view subscription block'));
   }
 
   /**
    * Login user, create an example node, and test block functionality through
    * the admin and user interfaces.
+   *
+   * Test block activation
+   *
    */
   function testSubscriptionBlockBasic() {
     // Login the admin user.
 
     // Verify that new content is shown
+$this->drupalLogin($this->administrator);
 
 
-    // Create a new block and make sure it gets uppercased.
-    $post = array(
-      'title' => t('Subscribe to new articles'),
-      'info' => t('configurable block to be uppercased'),
-      'body[value]' => drupal_render(drupal_get_form('multisite_notifications_core_form')),
-      'regions[bartik]' => 'sidebar_first',
+    //Create article
+      $settings = array(
+      'type' => 'article',
+      'title' => 'test',
+      'body' => array(LANGUAGE_NONE => array(array($this->randomName(128)))),
+      'status' => 1,
+      'revisions' => NULL,
+      'taxonomy' => NULL,
     );
-    $this->drupalPost('admin/structure/block/add', $post, t('Save block'));
+    $node = $this->drupalCreateNode($settings);
 
-    // Enable the search block on top of sidebar_first.
-    $block_options = array(
-      'blocks[multisite_notifications_core_notification_block][region]' => 'sidebar_first',
-      'blocks[multisite_notifications_core_notification_block][weight]' => -9,
-    );
+    $this->drupalGet('node/1');
+        //Moderate from Draft to Published
+    $moderation = array();
+    $moderation['state'] = 'published';
+    $this->drupalPost(NULL, $moderation, t('Apply'));
+
+
+    $this->drupalGet('admin/structure/block');
+        // Enable the search block on top of sidebar_first.
+    $block_options = array();
+    $block_options['blocks[multisite_notifications_core_notification_block][region]'] = 'sidebar_first';
     $this->drupalPost('admin/structure/block', $block_options, t('Save blocks'));
     $this->assertRaw(t('The block settings have been updated.'), 'The block settings have been updated.');
 
-    $this->assertFieldByName('mail', 'sidebar_first', 'Subscription block is enabled in the first sidebar successfully verified.');
+
+    $this->drupalLogin($this->visitor);
+
+
+    $this->drupalGet('node/1');
+    $this->assertRaw(t('multisite-notifications-core-form'), 'Subscription block is enabled. Form is available.');
+    $wrong_data = array();
+    $wrong_data['mail'] = 'InvalidMailwrongserver.com';
+    $this->drupalPost('node', $wrong_data, t('Subscribe'));
+
+
+
+    $wrong_data = array('mail' => 'InvalidMailwrongserver.com');
+    $this->drupalPost(NULL, $wrong_data, t('Subscribe'));
+    $this->assertRaw(t('The e-mail address you supplied is not valid'), 'Validation against wrong formed mail OK');
+    $this->assertTrue(!count($this->drupalGetMails()), 'No email was sent.');
+
+
+    $wrong_data = array('mail' => '');
+    $this->drupalPost(NULL, $wrong_data, t('Unsubscribe'));
+    $this->assertTrue(!count($this->drupalGetMails()), 'No email was sent.');
+
+    //Finally! Test anonymous subscription
+    $correct_data = array('mail' => 'Ovidiu.FARCAS@ext.ec.europa.eu');
+    $this->drupalPost(NULL, $correct_data, t('Subscribe'));
+    $this->assertRaw(t('You will receive a confirmation e-mail shortly containing further instructions on how to complete your subscription.'), 'Confirmation notice that You will receive a confirmation e-mail shortly...OK');
+    debug($this->drupalGetMails());
+    $this->cronRun();
+    $this->assertTrue(count($this->drupalGetMails()), 'Confirmation email was sent.');
+
+
+
   }
 
- function testValidationFields() {
-   $this->drupalGet('<front>');
-    //Test validation against wrong email address
-    $wrong_data = array('search_block_form' => 'InvalidMailwrongserver.com');
-    $this->drupalPost('node', $wrong_data, t('Subscribe'));
-    $this->assertRaw(t(''), '');
+    /**
+  * Creates a user with the give role.
+  * */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
 
-    //Test anonymous subscription
-    $correct_data = array('search_block_form' => 'Ovidiu.FARCAS@ext.ec.europa.eu');
-    $this->drupalPost('node', $correct_data, t('Subscribe'));
-    $this->assertRaw(t(''), '');
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
 
-    //Test the fill in of an existing address
-    $correct_data = array('search_block_form' => 'Ovidiu.FARCAS@ext.ec.europa.eu');
-    $this->drupalPost('node', $correct_data, t('Subscribe'));
-    $this->assertRaw(t('You are already a subscriber!'), 'Validation against subscription with an existing email OK');
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
 
-    $wrong_data = array('search_block_form' => '');
-    $this->drupalPost('node', $wrong_data, t('Unsubscribe'));
-    $this->assertRaw(t('You are not yet a subscriber.'), 'Unsubscribe on empty field');
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
 
- }
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
+  }
+
 }
 
 class multisiteNotification extends DrupalWebTestCase {
@@ -95,7 +143,7 @@ class multisiteNotification extends DrupalWebTestCase {
     return array(
         'name' => 'Notification',
         'description' => 'Notification Feature. 1.0',
-        'group' => 'AAA',
+        'group' => 'Multisite Core Features',
         );
   }
 
