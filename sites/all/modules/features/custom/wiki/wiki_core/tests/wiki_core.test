@@ -97,7 +97,7 @@ class Multisite_wiki_core_QAWebTestCase extends DrupalWebTestCase {
  * Defines a base class for testing the Wiki feature.
  */
 class MultisiteWikiStandardFeatureTest extends DrupalWebTestCase {
-  protected $web_user;
+  protected $privileged_user;
 
   /**
    * Info for the simpleTest UI.
@@ -106,7 +106,7 @@ class MultisiteWikiStandardFeatureTest extends DrupalWebTestCase {
     return array(
         'name' => 'wiki_standard feature test',
         'description' => 'Test the wiki_standard feature to ensure it works as intended.',
-        'group' => 'Multisite Feature Test',
+        'group' => 'Multisite Core Features',
     );
   }
 
@@ -121,8 +121,8 @@ class MultisiteWikiStandardFeatureTest extends DrupalWebTestCase {
    * Create a regular user and login function.
    */
   function wikiUserLogin() {
-    $this->web_user = $this->drupalCreateUser(array('create wiki content'));;
-    $this->drupalLogin($this->web_user);
+    $this->privileged_user = $this->drupalCreateUser(array('create wiki content'));;
+    $this->drupalLogin($this->privileged_user);
   }
 
   /**
