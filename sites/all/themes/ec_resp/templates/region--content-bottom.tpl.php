@@ -28,6 +28,7 @@
 ?>
 <?php if ($content): ?>
 	<div class="<?php print $classes; ?>">
+    <ul class="links">
   <?php 
   $content = str_replace(
     '<a class=\'context-block-region\' id=\'context-block-region-content_bottom\'>Content Bottom</a>',
@@ -35,5 +36,6 @@
     $content);
   print $content; 
   ?>
+    </ul>
   </div>
 <?php endif; ?>

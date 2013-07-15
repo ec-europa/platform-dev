@@ -294,15 +294,14 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
         <?php print $feed_icons; ?>
 
         <?php if ($page['content_bottom']): ?>
-          <ul class="links">
-            <?php print $region_content_bottom; ?>
-          </ul>
+          <?php print $region_content_bottom; ?>
         <?php endif; ?>
       </div>
 
       <?php if ($page['sidebar_right']): ?>
       <div class="span<?php print ($span_sidebar_right); ?> hidden-phone sidebar-right">
         <ul class="nav nav-list card">
+
           <?php print $region_sidebar_right; ?>
         </ul>
       </div>  
