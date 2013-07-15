@@ -92,3 +92,76 @@ class Multisite_wiki_core_QAWebTestCase extends DrupalWebTestCase {
 
 
 }
+
+/**
+ * Defines a base class for testing the Wiki feature.
+ */
+class MultisiteWikiStandardFeatureTest extends DrupalWebTestCase {
+  protected $web_user;
+
+  /**
+   * Info for the simpleTest UI.
+   */
+  public static function getInfo() {
+    return array(
+        'name' => 'wiki_standard feature test',
+        'description' => 'Test the wiki_standard feature to ensure it works as intended.',
+        'group' => 'Multisite Feature Test',
+    );
+  }
+
+  /**
+   * Configure the environment, enable the required modules.
+   */
+  function setUp() {
+    parent::setUp(array('wiki_standard'));
+  }
+
+  /**
+   * Create a regular user and login function.
+   */
+  function wikiUserLogin() {
+    $this->web_user = $this->drupalCreateUser(array('create wiki content'));;
+    $this->drupalLogin($this->web_user);
+  }
+
+  /**
+   * Check content type and fields.
+   */
+  function testWikiInstallation() {
+    //Checkout there is a content type called wiki.
+    $node_type = node_type_get_type('wiki');
+    $this->assertTrue($node_type, 'There is a Wiki content type.', 'API');
+
+    //Checkout wiki has a body field.
+    $body = field_info_instance('node', 'body', 'wiki');
+    $this->assertTrue($body, 'Wiki content type has a body field.', 'API');
+  }
+
+  /**
+   * Check the access to the content creation depending on roles.
+   */
+  function testWikiAccess() {
+
+    // Verify that anonymous users can't create wiki nodes.
+    $this->drupalGet('node/add/wiki');
+    $this->assertResponse(403, 'Anonymous Access -> Expected Fail');
+
+    $this->wikiUserLogin();
+    // Verify that authenticated users with permissions can create wiki nodes.
+    $this->drupalGet('node/add/wiki');
+    $this->assertResponse(200, 'Authenticated Access -> Expected OK');
+  }
+
+  /**
+   * Create a "test" node and check it.
+   */
+  function testWikiCreate() {
+    $this->wikiUserLogin();
+    $edit = array();
+    $edit['title'] = $this->randomName(8);
+    $edit['body'][LANGUAGE_NONE][0]['value'] = $this->randomName(128);
+    $this->drupalPost('node/add/wiki', $edit, t('Save'));
+    $this->assertText(t('Wiki @title has been created.', array('@title' => $edit['title'])), 'A Wiki test node has been successfully created', 'API');
+  }
+}
