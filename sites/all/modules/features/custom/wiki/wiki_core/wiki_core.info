@@ -19,6 +19,7 @@ dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_wiki_toc
 dependencies[] = node
 dependencies[] = strongarm
+dependencies[] = translation
 dependencies[] = taxonomy
 dependencies[] = text
 dependencies[] = views
