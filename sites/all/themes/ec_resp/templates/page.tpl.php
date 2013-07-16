@@ -117,7 +117,11 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
 
   <a id="top-page"></a>
 
-  <div id="layout-header" class="visible-desktop">
+  <div class="container">
+    <?php print $region_header_top; ?>
+  </div>
+
+  <div id="layout-header" class="hidden-phone">
     <div class="container">
   <?php
     switch ($variables['template']) {
@@ -164,12 +168,10 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
         <li><?php print l(t('Contact'), 'http://ec.europa.eu/contact/index_en.htm', array('attributes' => array('accesskey' => array('3')))); ?></li>
         <li><?php print l(t('Search'), 'http://ec.europa.eu/geninfo/query/search_en.html', array('attributes' => array('class' => array('last'), 'accesskey' => array('4')))); ?></li>
       </ul>
-      <?php print $region_header_top; ?>
-
     </div>
   </div><!-- /#layout-header -->  
 
-  <div id="path" class="visible-desktop">
+  <div id="path" class="hidden-phone">
     <div class="container">
       <p class="off-screen">Navigation path</p>
       <ul class="reset-list">

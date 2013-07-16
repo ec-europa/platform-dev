@@ -52,7 +52,7 @@ $responsive_sidebar = variable_get('responsive_sidebar');
 ?>
 
         <div id="main-menu">
-          <div id="main-menu-desktop" class="navbar navbar-static-top visible-desktop">
+          <div id="main-menu-desktop" class="navbar navbar-static-top hidden-phone">
             <div class="navbar-inner">
               <div id="block-system-main-menu-desktop" class="container">
                 <?php print_r($content) ?>   
@@ -60,7 +60,7 @@ $responsive_sidebar = variable_get('responsive_sidebar');
             </div>
           </div>
 
-          <div id="main-menu-mobile" class="navbar navbar-fixed-top hidden-desktop" style="position: fixed">
+          <div id="main-menu-mobile" class="navbar navbar-fixed-top visible-phone" style="position: fixed">
             <div class="navbar-inner">
               <div id="block-system-main-menu-mobile" class="container">
 
@@ -78,7 +78,7 @@ $responsive_sidebar = variable_get('responsive_sidebar');
 
                 <img src="<?php print $base_url . '/' . path_to_theme(); ?>/images/eu-flag_small.jpg" alt="European Commission logo" id="banner-flag-small" />
 
-                <a class="brand hidden-desktop" href="<?php print $base_url . '/'; ?>">
+                <a class="brand" href="<?php print $base_url . '/'; ?>">
 
                   <?php print filter_xss(variable_get('site_name', '')); ?>
                 </a>
