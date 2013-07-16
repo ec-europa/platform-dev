@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * wiki.features.inc
+ * wiki_core.features.inc
  */
 
 /**
@@ -22,10 +22,7 @@ function wiki_core_ctools_plugin_api() {
  * Implements hook_views_api().
  */
 function wiki_core_views_api() {
-  list($module, $api) = func_get_args();
-  if ($module == "views" && $api == "views_default") {
-    return array("version" => "3.0");
-  }
+  return array("api" => "3.0");
 }
 
 /**
@@ -44,4 +41,3 @@ function wiki_core_node_info() {
   );
   return $items;
 }
-

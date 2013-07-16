@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * wiki.features.filter.inc
+ * wiki_core.features.filter.inc
  */
 
 /**
@@ -10,7 +10,7 @@
 function wiki_core_filter_default_formats() {
   $formats = array();
 
-  // Exported format: wiki
+  // Exported format: wiki.
   $formats['wiki'] = array(
     'format' => 'wiki',
     'name' => 'wiki',
@@ -49,4 +49,3 @@ function wiki_core_filter_default_formats() {
 
   return $formats;
 }
-

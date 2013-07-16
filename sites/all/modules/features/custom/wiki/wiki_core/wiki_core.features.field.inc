@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * wiki.features.field.inc
+ * wiki_core.features.field.inc
  */
 
 /**
@@ -9,7 +9,7 @@
  */
 function wiki_core_field_default_fields() {
   $fields = array();
-  
+
   // Exported field: 'comment-comment_node_wiki-comment_body'.
   $fields['comment-comment_node_wiki-comment_body'] = array(
     'field_config' => array(
@@ -103,13 +103,11 @@ function wiki_core_field_default_fields() {
       ),
     ),
   );
-  
 
-  // Exported field: 'node-wiki-body'
+  // Exported field: 'node-wiki-body'.
   $fields['node-wiki-body'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -129,6 +127,7 @@ function wiki_core_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -179,11 +178,10 @@ function wiki_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-wiki-field_tags'
+  // Exported field: 'node-wiki-field_tags'.
   $fields['node-wiki-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -201,6 +199,7 @@ function wiki_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -255,12 +254,11 @@ function wiki_core_field_default_fields() {
     ),
   );
 
-
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Comment');
   t('Tags');
 
   return $fields;
 }
-
