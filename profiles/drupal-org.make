@@ -108,7 +108,7 @@ projects[hidden_captcha][subdir] = "contributed"
 projects[hidden_captcha][version] = "1.0"
 
 projects[i18n][subdir] = "contributed"
-projects[i18n][version] = "1.7"
+projects[i18n][version] = "1.9"
 
 projects[jqmulti][subdir] = "contributed"
 projects[jqmulti][version] = "1.0-beta1"
