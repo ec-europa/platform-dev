@@ -146,18 +146,18 @@ jQuery(function($){
     $('.dropdown-toggle').dropdown();
     /* /Menu dropdown */
 
-    /* Responsive left sidebar */
+    /* Responsive menu */
     $('#responsive-sidebar > ul').hide();
     $('#sidebar-button').on("click", function() {
       $('#responsive-sidebar > ul').toggle();
       $('#layout-body').toggle();
     });
-    /* /Responsive left sidebar */ 
 
     $('#menu-button').on("click", function() {
       $('#menu-button > div').toggleClass("arrow-down");
       $('#menu-button > div').toggleClass("arrow-up");
     });
+    /* /Responsive menu */ 
 
     /* Font size buttons */
     $('.text_size_big').on("click", function() {

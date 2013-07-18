@@ -26,8 +26,8 @@
   }
   .language-selector-close, 
   .language-selector-open {
-    position: fixed;
-    top: 5px;
+    position: absolute;
+    top: -117px;
     right: 5px;
     margin: 0;
     z-index: 1031;
@@ -66,16 +66,20 @@
 
 @media (max-width: 479px) {
   body {
-    padding-top: 104px !important;
+    padding-top: 118px !important;
   }
   #main-menu-mobile {
     #block-system-main-menu-mobile {
       a.brand {
         font-size: 20px;  
         padding: 25px 0 10px 0; 
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 200px;
+        position: absolute;
+        display: inline-block;
       }
       #banner-flag-small {
-        width: 70px;
         margin: 0 5px 5px;
       }
     }
@@ -83,6 +87,7 @@
   .language-selector-close, 
   .language-selector-open {
     padding: 1px;
+    top: -112px;
   }  
 }
 

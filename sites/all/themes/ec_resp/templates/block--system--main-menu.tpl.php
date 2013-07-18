@@ -70,12 +70,12 @@ $responsive_sidebar = variable_get('responsive_sidebar');
                   <?php print filter_xss(variable_get('site_name', '')); ?>
                 </a>
 
-                <div class="nav-collapse collapse">
+                <div class="nav-collapse collapse" data-spy="affix" data-offset-top="80">
                   <?php print_r($content) ?>   
                 </div>
               </div>
               
-              <div id="block-system-accessibility-menu-mobile" class="container">
+              <div id="block-system-accessibility-menu-mobile" class="container" data-spy="affix" data-offset-top="80">
                 <?php if (($responsive_sidebar == "left" && $has_left_sidebar) || ($responsive_sidebar == "right" && $has_right_sidebar)) { ?>
                 <button id="sidebar-button" class="btn btn-navbar visible-phone">
                   <span class="icon-bar"></span>
