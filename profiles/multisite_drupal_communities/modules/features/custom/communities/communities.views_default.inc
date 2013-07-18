@@ -810,7 +810,7 @@ function communities_views_default_views() {
     t('OG membership from node'),
     t('All'),
     t('Community Content'),
-    t(' <i class="icon-[type]"></i>[title]'),
+    t('<i class="icon-[type]"></i>[title]'),
   );
   $export['community_content'] = $view;
 

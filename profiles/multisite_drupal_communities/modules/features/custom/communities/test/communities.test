@@ -89,14 +89,14 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
       'state' => OG_STATE_ACTIVE,
     );
     og_group('node', $node1->nid, $membership);
-    $this->drupalGet('group/node/'.$node1->nid.'/admin/people');
+    $this->drupalGet('group/node/' . $node1->nid . '/admin/people');
     $this->assertResponse(200);
     //$this->verbose(print_r($this->editor_user, TRUE));
     $this->assertRaw($this->editor_user->name, 'User added to the group.');
     
     // give a og role (community _manager) to this user
     og_role_grant('node', $node1->nid, $this->editor_user->uid, 4);
-    $this->drupalGet('group/node/'.$node1->nid.'/admin/people');
+    $this->drupalGet('group/node/' . $node1->nid . '/admin/people');
     $this->assertNoUniqueText("community_manager", 'New user is a community manager.');
 
     // test membership request

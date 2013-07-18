@@ -21,10 +21,10 @@ function communities_views_pre_render(&$view) {
     $i = 0;
     $len = count($alphabet);
     foreach ($alphabet as $letter) {
-      if(arg(1) == 'my')
-        $url = arg(0)."/my/".$user->uid."/".$letter;
+      if (arg(1) == 'my')
+        $url = arg(0) . "/my/" . $user->uid . "/" . $letter;
       else
-        $url = arg(0)."/".$letter;
+        $url = arg(0) . "/" . $letter;
 
       if ($i == 0) { // first
         $output .= l($letter, $url, array('attributes' => array('type' => 'small', 'action_bar' => 'first', 'btn_group' => 'first', 'class' => array('hidden-phone'))));
@@ -61,7 +61,7 @@ function communities_views_pre_render(&$view) {
     if ($og) {
       $gid = $og['gid'];
       
-      if ( og_user_access('node', $og['gid'],'create article content') ) {
+      if (og_user_access('node', $og['gid'], 'create article content') ) {
         $output .= l(t('Create a Article'), 'node/add/article', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'), 'query' => array('og_group_ref' => $og['gid'])));
       }
       //add menu to the exsiting header
@@ -75,7 +75,7 @@ function communities_views_pre_render(&$view) {
     $og = og_context();
     if ($og) {
       $gid = $og['gid']; 
-      if (!og_is_member('node',$gid)) {
+      if (!og_is_member('node', $gid)) {
         $view->result = array();
       }
     }    
@@ -117,7 +117,224 @@ function communities_init() {
       og_context($group);
   }
   */
+  if (arg(0)=='node' && is_numeric(arg(1))) {
+    // if inside a node page, get the group from the path and store in session
+    $group_name = _communities_get_group_name_from_path(request_path());
+    if ($group_name) {
+      $group_nid = @group_name_load($group_name);
+      if ($group_nid) {
+        // check that the found group is one of the groups the node is linked to
+        $groups = og_get_entity_groups('node', arg(1), array());
+        if ($groups && isset($groups['node']) && in_array($group_nid, $groups['node'])) {
+          // save to session so that it will be returned in future calls to og_context()
+          $_SESSION['og_context']['gid'] = $group_nid;
+        }
+      }
+    }
+  }
 
+}
+
+/**
+ * helper function to detect group name in a path
+ */
+function _communities_get_group_name_from_path($path) {
+  $group_name = FALSE;
+  // asuming a path pattern of "community/[node:og_group_ref]/articles/[node:title]"
+  $patt = '/^community\/([^\/]+)(\/.*)?$/';
+  if (preg_match($patt, $path, $matches)) {
+    $group_name = $matches[1];
+  }
+  return $group_name;
+}
+
+/**
+ * helper function to create node aliases
+ */
+function _communities_create_alias($node, $op) {
+  $checked_url = 'update' != $op ? pathauto_pattern_load_by_entity('node', $node->type, $node->language) : $node->path['alias'];
+  $group_name = _communities_get_group_name_from_path($checked_url);
+
+  // generate one alias for each group linked in the node
+  if ($group_name) {
+  
+    $node_source = 'update' != $op ? 'node/' . $node->nid : $node->path['source'];
+    $node_language = 'update' != $op ? $node->language : $node->path['language'];
+  
+    // for each linked group, leave only that group alone linked in the node and obtain the node alias
+    module_load_include('inc', 'pathauto');
+    $og_group_ref = $node->og_group_ref[LANGUAGE_NONE];
+    foreach ($og_group_ref as $v) {
+      $node->og_group_ref[LANGUAGE_NONE] = array($v);
+      $new_path = pathauto_create_alias('node', $op, $node_source, array('node' => $node), $node->type, $node->language);
+      if ($new_path) {
+        if (is_string($new_path)) {
+          $new_paths[] = $new_path;
+        }
+        elseif (is_array($new_path) && isset($new_path['alias'])) {
+          $new_paths[] = $new_path['alias'];
+        }
+      }
+    }
+    $node->og_group_ref[LANGUAGE_NONE] = $og_group_ref;
+
+    // remove current aliases
+    path_delete(array('source' => $node_source));
+    if (isset($new_paths)) {
+      // save the aliases obtained
+      $node->path['pathauto'] = FALSE;
+      $path = array(
+        'pathauto' => FALSE,
+        'source' => $node_source,
+        'language' => $node_language,
+      );
+      foreach ($new_paths as $p) {
+        $path['pid'] = '';
+        $path['alias'] = $p;
+        path_save($path);
+      }
+    }
+
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function communities_node_insert($node) {
+  if (isset($node->og_group_ref[LANGUAGE_NONE]) && is_array($node->og_group_ref[LANGUAGE_NONE])) {
+    _communities_create_alias($node, 'insert');
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function communities_node_update($node) {
+  if (isset($node->og_group_ref[LANGUAGE_NONE]) && is_array($node->og_group_ref[LANGUAGE_NONE])) {
+    _communities_create_alias($node, 'update');
+  }
+}
+
+/**
+ * Implements hook_pathauto().
+ */
+function communities_pathauto($op) {
+  $settings = new stdClass();
+  $settings->module = 'communities';
+  $settings->groupheader = t('Communities contents paths');
+  $settings->patterndescr = t('Default path pattern');
+  $settings->patterndefault = pathauto_pattern_load_by_entity('node', 'article', LANGUAGE_NONE);
+  $settings->token_type = 'node';
+  $settings->batch_update_callback = 'communities_pathauto_bulkupdate'; 
+  return $settings;
+}
+
+/**
+ * Implements hook_pathauto_bulkupdate().
+ */
+function communities_pathauto_bulkupdate() {
+  // find all node ids for contents (i.e. not communities)
+  $query = db_select('node', 'n');
+  $query
+    ->condition('n.type', 'community', '<>')
+    ->fields('n', array('nid'));
+  $results = $query->execute()->fetchCol();
+  $count = 0;
+  foreach ($results as $nid) {
+    $node = node_load($nid);
+    if (isset($node->og_group_ref[LANGUAGE_NONE]) && is_array($node->og_group_ref[LANGUAGE_NONE])) {
+      _communities_create_alias($node, 'bulkupdate');
+    }
+    $count++;
+  }
+  drupal_set_message($count . ' community contents nodes were updated.');
+}
+
+/**
+ * Implements hook_url_outbound_alter().
+ */
+function communities_url_outbound_alter(&$path, &$options, $original_path) {
+  $new_path = _communities_get_url_in_group($path, $original_path);
+  if ($new_path) {
+    $path = $new_path;
+    $options['alias'] = $path;
+  }
+}
+
+/**
+ * helper function to find proper node alias for a group
+ */
+function _communities_get_url_in_group($path, $original_path) {
+  static $paths_group, $paths, $gid, $group_name, $group_nid, $group_path;
+  
+  if (FALSE !== strpos($original_path, 'node/')) {
+    if (!isset($paths[$original_path])) {
+      $paths[$original_path] = NULL;
+
+      if (!isset($group_name)) {
+        // get the current group from the url
+        $group_name = _communities_get_group_name_from_path(request_path());
+      }
+      if (!$group_name) {
+        // give og_context a chance and get the current group
+        $group_name = group_name_to_arg();
+        if ('none'==$group_name) {
+          $group_name = '';
+        }
+      }
+      if ($group_name) {
+        if (!isset($group_nid)) {
+          $group_nid = @group_name_load($group_name);
+        }
+
+        if (!isset($gid)) {
+          $gid = NULL;
+          $context = og_context();
+          if (isset($context['gid'])) {
+            $gid = $context['gid'];
+          }
+        }
+        if ($gid) {
+          if ($group_nid && $group_nid == $gid) {
+            if (!isset($group_path)) {
+              // get the group path
+              $group_path = NULL;
+              $group_node = node_load($gid);
+              if ($group_node && isset($group_node->path['alias'])) {
+                $group_path = $group_node->path['alias'];
+              }
+            }
+            if ($group_path) {
+              // get all the aliases for this $original_path
+              $select = db_select('url_alias');
+              $select->condition('source', $original_path);
+              $paths[$original_path] = $select->fields('url_alias', array('pid', 'alias'))->execute()->fetchAllKeyed(0, 1);
+            }
+          }
+        }
+      }
+    }
+    // if multiple aliases we need to choose the appropiate one for the current group
+    if (is_array($paths[$original_path]) && count($paths[$original_path])>1) {
+      if (!isset($paths_group[$group_path][$original_path])) {
+        $paths_group[$group_path][$original_path] = NULL;
+        // find the node alias that matches with the current group path
+        foreach ($paths[$original_path] as $pid => $alias) {
+          if (0===strpos($alias, $group_path)) {
+            $paths_group[$group_path][$original_path] = $alias;
+            break;
+          }
+        }
+      }
+      // if there is a candidate node alias for the current group, force its use
+      if ($paths_group[$group_path][$original_path]) {
+        $new_path = $paths_group[$group_path][$original_path];
+      }
+    }
+  }
+
+  return isset($new_path) ? $new_path : FALSE;
 }
 
 
@@ -257,9 +474,6 @@ function communities_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'community_node_form':
       $form['group_group']['#access'] = FALSE; // hide group field of the group content
-      $form['title']['#size'] = 80;
-      $form['title']['#maxlength'] = 80;
-      $form['title']['#description'] = t('max 80 characters');
       break;
   }
 }
