@@ -63,7 +63,19 @@ $responsive_sidebar = variable_get('responsive_sidebar');
           <div id="main-menu-mobile" class="navbar navbar-fixed-top visible-phone" style="position: fixed">
             <div class="navbar-inner">
               <div id="block-system-main-menu-mobile" class="container">
+                <img src="<?php print $base_url . '/' . path_to_theme(); ?>/images/logo/logo_en.gif" alt="European Commission logo" id="banner-flag-small" />
 
+                <a class="brand" href="<?php print $base_url . '/'; ?>">
+
+                  <?php print filter_xss(variable_get('site_name', '')); ?>
+                </a>
+
+                <div class="nav-collapse collapse">
+                  <?php print_r($content) ?>   
+                </div>
+              </div>
+              
+              <div id="block-system-accessibility-menu-mobile" class="container">
                 <?php if (($responsive_sidebar == "left" && $has_left_sidebar) || ($responsive_sidebar == "right" && $has_right_sidebar)) { ?>
                 <button id="sidebar-button" class="btn btn-navbar visible-phone">
                   <span class="icon-bar"></span>
@@ -75,17 +87,6 @@ $responsive_sidebar = variable_get('responsive_sidebar');
                 <a id="menu-button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                   <div class="arrow-down"></div>
                 </a>
-
-                <img src="<?php print $base_url . '/' . path_to_theme(); ?>/images/eu-flag_small.jpg" alt="European Commission logo" id="banner-flag-small" />
-
-                <a class="brand" href="<?php print $base_url . '/'; ?>">
-
-                  <?php print filter_xss(variable_get('site_name', '')); ?>
-                </a>
-
-                <div class="nav-collapse collapse">
-                  <?php print_r($content) ?>   
-                </div>
               </div>
             </div>          
           </div>

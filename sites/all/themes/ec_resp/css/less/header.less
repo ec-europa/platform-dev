@@ -31,10 +31,52 @@
   src: local(ec_font), url('../fonts/ECSquareSansPro-Regular.ttf') format('opentype');
 }
 
-#banner-flag-small {
-  float: left;
-  height: 20px;
-  padding-top: 10px;
+#main-menu-mobile {
+  border-top: none;
+  .navbar-inner {
+    padding: 0;
+    background-image: none;
+    background-color: #fff;
+    filter:progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  }
+  #block-system-main-menu-mobile {
+    padding-top: 10px;
+    a.brand {
+      font-size: 26px;
+      padding-top: 27px;
+      color: #0065A2;
+    }
+    #banner-flag-small {
+      float: left;
+      width: 90px;
+      margin: 0px 10px 10px
+    }
+    .nav-collapse {
+      background-color: #0065A2;
+    }
+  }
+  #block-system-accessibility-menu-mobile {
+    background-color: #0065A2;
+    #menu-button {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      margin-bottom: 5px;
+    }
+
+    #sidebar-button {
+      float: left;
+    }    
+  }
+}
+
+#responsive-sidebar > div {
+  background: #fff;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  display: none;
+  border-right: #eee 2px solid;
+  border-bottom: #eee 2px solid;
 }
   
 #layout-header {
