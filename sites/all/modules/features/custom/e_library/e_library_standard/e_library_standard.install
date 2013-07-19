@@ -7,7 +7,7 @@
  * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
  */
 
-include_once 'e_library_standard.inc';
+include_once 'e_library_standard.install.inc';
 
 /**
  * Implements hook_enable().

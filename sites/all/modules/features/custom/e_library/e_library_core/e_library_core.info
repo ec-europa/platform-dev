@@ -11,6 +11,7 @@ dependencies[] = custom_breadcrumbs
 dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = file
+dependencies[] = entityreference_prepopulate
 dependencies[] = i18n_taxonomy
 dependencies[] = media_node
 dependencies[] = multisite_drupal_toolbox
@@ -52,5 +53,3 @@ features[variable][] = "media_node__types"
 features[views_view][] = "e_library"
 features[views_view][] = "elibrary_browser_tab"
 features[features_api][] = api:1
-
-
