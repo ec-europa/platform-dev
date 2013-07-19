@@ -19,12 +19,34 @@ class Idea_CoreWebTestCase extends DrupalWebTestCase {
 
   public function setUp() {
     parent::setUp('idea_core');
-    $this->privileged_user = $this->drupalCreateUser(array('administer taxonomy'));
-    $this->drupalLogin($this->privileged_user);
+    $this->user_administrator = $this->drupalCreateUserWithRole("administrator");
+  }
 
+  /**
+   * Creates a user with the given role.
+   **/
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
   }
 
   public function testIdeaTypeShouldBeAccessible() {
+    $this->drupalLogin($this->user_administrator);
     $this->drupalGet('admin/structure/types/manage/idea');
     $this->assertResponse(200);
   }
