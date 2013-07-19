@@ -105,20 +105,20 @@ class Multisite_e_library_standardFunctionalWebTestCase extends DrupalWebTestCas
       'group' => 'Multisite Standard',
     );
   }
-  
+
   public function setUp() {
-    parent::setUp(array('apachesolr', 'custom_breadcrumbs', 'e_library_core', 'e_library_standard'));
+    parent::setUp(array('e_library_core', 'e_library_standard'));
     $this->privileged_user = $this->drupalCreateUserWithRole("administrator");
     $this->contributor_user = $this->drupalCreateUserWithRole("contributor");
     $this->drupalLogin($this->privileged_user);
-  }  
-  
+  }
+
   function testELibraryStandard() {
     //check the e_library page
     $this->drupalGet('e_library');
     $this->assertResponse(200, 'The e_library is accessible');
     $this->assertRaw('Browse library of document', 'The e_library page is created');
-    
+
     //content type creation
     $field_name = 'field_document';
     $edit = array(
@@ -126,7 +126,7 @@ class Multisite_e_library_standardFunctionalWebTestCase extends DrupalWebTestCas
     );
     $edit['files[' . $field_name . '_' . LANGUAGE_NONE . '_0]'] = drupal_realpath('sites/all/modules/features/custom/e_library/e_library_standard/tests/test_file.pdf');
     $this->drupalPost('node/add/document', $edit, t('Save'));
-        
+
     $this->assertRaw('my first document', 'Document created');
     $this->assertLink('test_file.pdf', 0, 'Link to uploaded document accessible');
     $this->clickLink('test_file.pdf');
@@ -137,7 +137,7 @@ class Multisite_e_library_standardFunctionalWebTestCase extends DrupalWebTestCas
     //change workflow state to published
     $moderate = array('state' => workbench_moderation_state_published());
     $this->drupalPost("node/{$node->nid}/moderation", $moderate, t('Apply'));
-    
+
     $this->drupalGet('e_library');
     $this->assertLink('my first document', 0, 'The document created is visible in the e_library');
   }
@@ -164,7 +164,7 @@ class Multisite_e_library_standardFunctionalWebTestCase extends DrupalWebTestCas
     // Return the user we have created.
     return user_save($user);
   }
-  
-  
+
+
 }
 
