@@ -278,6 +278,8 @@ projects[xmlsitemap][version] = "2.0-rc1"
 projects[xml_field][subdir] = "contributed"
 projects[xml_field][version] = "1.5"
 
+projects[views_data_export][subdir] = "contributed"
+projects[views_data_export][version] = "3.0-beta6"
 
 
 ;libraries
