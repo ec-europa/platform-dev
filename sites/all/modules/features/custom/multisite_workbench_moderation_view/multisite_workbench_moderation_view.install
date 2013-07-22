@@ -1,0 +1,157 @@
+<?php
+
+/**
+ * @file
+ * Install the feature Multisite Workbench Moderation View
+ */
+
+include_once 'multisite_workbench_moderation_view.install.inc';
+
+/**
+ * Implements hook_install().
+ */
+function multisite_workbench_moderation_view_install() {
+
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function multisite_workbench_moderation_view_uninstall() {
+  // Not implemented yet.
+}
+
+/**
+ * Implements hook_enable().
+ */
+function multisite_workbench_moderation_view_enable() {
+  _multisite_workbench_moderation_view_add_display();
+  // No menu entry
+  $view = views_get_view('workbench_moderation', TRUE);
+  // Fetch view to change the workflow state in bulk
+  //$view_bulk = views_get_view('workbench_vbo', TRUE);
+
+  // Remove 'Needs review page' and 'Drafts page' view displays menu tab
+  unset($view->display['drafts_page']->display_options['menu']['type']);
+  unset($view->display['needs_review_page']->display_options['menu']['type']);
+  views_save_view($view);
+  // Add translatables
+  t('Workflow');
+  t('This list displays content in the selected state that you can moderate. Currently there is no such content.');
+  t('Workflow state');
+  // Activation message
+  drupal_set_message(t('Multisite Workbench Moderation View %v feature is now active on your site.', array('%v' => _multisite_workbench_moderation_view_get_version())));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function multisite_workbench_moderation_view_disable() {
+  _multisite_workbench_moderation_view_delete_display();
+  // Restore 'Needs review page' and 'Drafts page' view displays menu tab
+  $view = views_get_view('workbench_moderation', TRUE);
+  $view->display['drafts_page']->display_options['menu']['type'] = 'tab';
+  $view->display['needs_review_page']->display_options['menu']['type'] = 'tab';
+  views_save_view($view);
+  // Deactivation message
+  drupal_set_message(t('Multisite Workbench Moderation View %v feature is now inactive on your site.', array('%v' => _multisite_workbench_moderation_view_get_version())));
+}
+
+/**
+ * Helper to add view display.
+ */
+function _multisite_workbench_moderation_view_add_display() {
+  $view = views_get_view('workbench_moderation', TRUE);
+
+  /* Display: Workflow */
+  $handler = $view->new_display('page', 'Workflow', 'workflow_page');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Workflow';
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
+  $handler->display->display_options['defaults']['access'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'use workbench_moderation needs review tab';
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'This list displays content in the selected state that you can moderate. Currently there is no such content.';
+  $handler->display->display_options['empty']['area']['format'] = 'plain_text';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Workbench Moderation: Current */
+  $handler->display->display_options['filters']['current']['id'] = 'current';
+  $handler->display->display_options['filters']['current']['table'] = 'workbench_moderation_node_history';
+  $handler->display->display_options['filters']['current']['field'] = 'current';
+  $handler->display->display_options['filters']['current']['value'] = '1';
+  /* Filter criterion: Workbench Moderation: State */
+  $handler->display->display_options['filters']['state']['id'] = 'state';
+  $handler->display->display_options['filters']['state']['table'] = 'workbench_moderation_node_history';
+  $handler->display->display_options['filters']['state']['field'] = 'state';
+  $handler->display->display_options['filters']['state']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['state']['expose']['operator_id'] = 'state_op';
+  $handler->display->display_options['filters']['state']['expose']['label'] = 'Workflow state';
+  $handler->display->display_options['filters']['state']['expose']['operator'] = 'state_op';
+  $handler->display->display_options['filters']['state']['expose']['identifier'] = 'state';
+  $handler->display->display_options['filters']['state']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+  );
+  /* Filter criterion: Content: Title */
+  $handler->display->display_options['filters']['title']['id'] = 'title';
+  $handler->display->display_options['filters']['title']['table'] = 'node';
+  $handler->display->display_options['filters']['title']['field'] = 'title';
+  $handler->display->display_options['filters']['title']['relationship'] = 'nid';
+  $handler->display->display_options['filters']['title']['operator'] = 'contains';
+  $handler->display->display_options['filters']['title']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['title']['expose']['operator_id'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['label'] = 'Title';
+  $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
+  $handler->display->display_options['filters']['title']['expose']['remember'] = TRUE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['relationship'] = 'nid';
+  $handler->display->display_options['filters']['type']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
+  $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
+  $handler->display->display_options['filters']['type']['expose']['remember'] = TRUE;
+  $handler->display->display_options['path'] = 'admin/workbench/workflow';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Workflow';
+  $handler->display->display_options['menu']['weight'] = '99';
+  $handler->display->display_options['menu']['context'] = 0;
+
+  views_save_view($view);
+
+}
+
+/**
+ * Helper to remove view display.
+ */
+function _multisite_workbench_moderation_view_delete_display() {
+  $view = views_get_view('workbench_moderation', TRUE);
+  // Remove 'Workflow page' view displays menu tab
+  if (isset($view->display['workflow_page']->display_options['menu']['type'])) {
+    unset($view->display['workflow_page']->display_options['menu']['type']);
+  }
+  // Delete 'Workflow' view display
+  db_delete('views_display')
+    ->condition('id', 'workflow_page')
+    ->condition('vid', $view->vid)
+    ->execute();
+
+  // Empty cache now
+  if (function_exists('views_invalidate_cache')) {
+    views_invalidate_cache();
+  }
+}

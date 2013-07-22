@@ -1,0 +1,15 @@
+name = Multisite Workbench Moderation View
+description = Add a new tab to existing view to allow to display content of any workflow state. User can choose this workflow state.
+core = 7.x
+package = Multisite_features
+php = 5.2.4
+version = 7.x-1.1
+project = multisite_workbench_moderation_view
+dependencies[] = ctools
+dependencies[] = features
+dependencies[] = views
+dependencies[] = workbench_moderation
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:1
+features[views_view][] = workbench_vbo
+files[] = tests/multisite_workbench_moderation_view.test

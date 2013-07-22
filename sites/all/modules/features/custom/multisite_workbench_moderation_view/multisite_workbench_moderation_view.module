@@ -1,0 +1,11 @@
+<?php
+/**
+ * @file
+ * Code for the Multisite Workbench Moderation View feature.
+ */
+
+include_once 'multisite_workbench_moderation_view.features.inc';
+/**
+ * @file
+ * Code for the multisite_workbench_moderation_view feature.
+ */
