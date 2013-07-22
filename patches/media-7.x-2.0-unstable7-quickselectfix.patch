@@ -1,0 +1,41 @@
+diff -rupN media2/includes/media.theme.inc media/includes/media.theme.inc
+--- media2/includes/media.theme.inc	2012-11-11 03:10:00.000000000 +0100
++++ media/includes/media.theme.inc	2013-06-13 14:54:20.000000000 +0200
+@@ -181,8 +181,14 @@ function theme_media_thumbnail($variable
+   $element = $variables['element'];
+   $destination = drupal_get_destination();
+ 
+-  // Wrappers to go around the thumbnail
+-  $prefix = '<div class="media-item" title="' . $element['#name'] . '"><div class="media-thumbnail">';
++
++  // Wrappers to go around the thumbnail.
++  $attributes = array(
++    'title' => $element['#name'],
++    'class' => 'media-item',
++    'data-fid' => $element['#file']->fid,
++  );
++  $prefix = '<div ' . drupal_attributes($attributes) . '><div class="media-thumbnail">';
+   $suffix = '</div></div>';
+ 
+   // Arguments for the thumbnail link
+diff -rupN media2/js/plugins/media.views.js media/js/plugins/media.views.js
+--- media2/js/plugins/media.views.js	2012-11-11 03:10:00.000000000 +0100
++++ media/js/plugins/media.views.js	2013-06-13 14:55:28.000000000 +0200
+@@ -67,7 +67,7 @@ Drupal.media.browser.views.select = func
+ Drupal.media.browser.views.setup = function(view) {
+   // Catch the click on a media item
+   $('.view-content .media-item', view).bind('click', function () {
+-    var fid = $(this).closest('a[data-fid]').data('fid'),
++    var fid = $(this).closest('.media-item[data-fid]').data('fid'),
+       selectedFiles = new Array();
+ 
+     // Remove all currently selected files
+@@ -98,7 +98,7 @@ Drupal.media.browser.views.setup = funct
+           selectedFiles.push(Drupal.media.browser.selectedMedia[index]);
+ 
+           // Mark it as selected
+-          $('.view-content *[data-fid=' + currentFid + '] .media-item', view).addClass('selected');
++          $('.view-content *[data-fid=' + currentFid + '].media-item', view).addClass('selected');
+         }
+       }
+     }
