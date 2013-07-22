@@ -298,7 +298,7 @@ function communities_field_default_fields() {
           0 => 'tid',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -334,7 +334,7 @@ function communities_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_tags',
-      'label' => 'tags',
+      'label' => 'Tags',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -373,7 +373,7 @@ function communities_field_default_fields() {
           0 => 'fid',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'image',
       'settings' => array(
         'default_image' => '1',
@@ -406,7 +406,7 @@ function communities_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_thumbnail',
-      'label' => 'thumbnail',
+      'label' => 'Thumbnail',
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
