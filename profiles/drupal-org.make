@@ -210,7 +210,7 @@ projects[tmgmt][subdir] = "contributed"
 projects[tmgmt][version] = "1.0-alpha2"
 
 projects[token][subdir] = "contributed"
-projects[token][version] = "1.4"
+projects[token][version] = "1.5"
 
 projects[translation_overview][subdir] = "contributed"
 projects[translation_overview][version] = "2.0-beta1"
@@ -240,7 +240,7 @@ projects[views][subdir] = "contributed"
 projects[views][version] = "3.7"
 
 projects[views_bulk_operations][subdir] = "contributed"
-projects[views_bulk_operations][version] = "3.0"
+projects[views_bulk_operations][version] = "3.1"
 
 projects[views_datasource][subdir] = "contributed"
 projects[views_datasource][version] = "1.x-dev"
