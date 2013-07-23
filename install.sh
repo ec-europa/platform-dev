@@ -187,7 +187,7 @@ drush sqlq "INSERT INTO apachesolr_index_bundles (env_id,entity_type,bundle) VAL
 drush cc all
 drush php-eval 'node_access_rebuild();'
 #inject data
-drush vset tmp_base_url "/${site_name}"
+drush vset tmp_base_url "{$subdirectory}/${site_name}"
 drush scr "${working_dir}/profiles/${install_profile}/inject_data.php"
 drush vdel --exact --yes tmp_base_url
 

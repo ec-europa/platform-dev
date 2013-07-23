@@ -2,6 +2,7 @@
 
 #Default values
 webroot='fillme'
+subdirectory='fillme' #fill only if the site must be installed in a subdirectory of the webroot
 db_user='fillme'
 db_pass='fillme'
 db_host='localhost'
