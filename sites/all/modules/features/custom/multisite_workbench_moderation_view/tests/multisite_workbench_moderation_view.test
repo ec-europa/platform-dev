@@ -41,13 +41,11 @@ class Multisite_multisite_workbench_moderationQAWebTestCase extends DrupalWebTes
 
     // Add core information
     // Ex core = 7.x
-
     $this->assertTrue(array_key_exists('core', $info), 'The Drupal core version is available.');
     $this->assertEqual($info['core'], '7.x');
 
     // Add php information
     // Ex: php = 5.2.4
-
     $this->assertTrue(array_key_exists('php', $info), 'The PHP version info is available.');
     $this->assertEqual($info['php'], '5.2.4');
 
@@ -60,10 +58,8 @@ class Multisite_multisite_workbench_moderationQAWebTestCase extends DrupalWebTes
     $this->assertEqual($info['features']['features_api'][0], 'api:1', 'The Feature API dependency is available.');
 
     // Remove menu dependencies:
-
     if (array_key_exists('dependencies', $info)) {
       // dependencies[] = "menu"
-
       $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
 
       // Remove taxonomy dependencies
