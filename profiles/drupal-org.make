@@ -287,6 +287,9 @@ projects[autosave][version] = "2.2"
 projects[customerror][subdir] = "customerror"
 projects[customerror][version] = "1.0-rc1"
 
+projects[menu_token][subdir] = "contributed"
+projects[menu_token][version] = "1.0-beta5"
+
 ;libraries
 
 ;ckeditor 4.1.2
