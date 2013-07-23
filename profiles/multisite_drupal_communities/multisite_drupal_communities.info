@@ -120,6 +120,7 @@ dependencies[] = video
 dependencies[] = better_formats
 ;dependencies[] = l10n_update
 dependencies[] = media_node
+dependencies[] = menu_token
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_og

@@ -103,6 +103,7 @@ dependencies[] = apachesolr_multilingual
 dependencies[] = chr
 ;dependencies[] = l10n_update
 dependencies[] = media_node
+dependencies[] = menu_token
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set
