@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * multisite_custom_error definition module.
+ */
+
+/**
+ * Implements hook_form_alter to restrict the access to the PHP filter option in the config form.
+ */
+function multisite_custom_error_form_customerror_admin_settings_alter(&$form, &$form_state, $form_id) {
+  $form['customerror_403_group']['customerror_403_php']['#access'] = 0;
+  $form['customerror_404_group']['customerror_404_php']['#access'] = 0;
+  }

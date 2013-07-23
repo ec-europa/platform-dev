@@ -284,6 +284,8 @@ projects[views_data_export][version] = "3.0-beta6"
 projects[autosave][subdir] = "autosave"
 projects[autosave][version] = "2.2"
 
+projects[customerror][subdir] = "customerror"
+projects[customerror][version] = "1.0-rc1"
 
 ;libraries
 
