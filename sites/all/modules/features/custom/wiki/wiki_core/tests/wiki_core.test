@@ -97,15 +97,13 @@ class Multisite_wiki_core_QAWebTestCase extends DrupalWebTestCase {
  * Defines a base class for testing the Wiki feature.
  */
 class MultisiteWikiStandardFeatureTest extends DrupalWebTestCase {
-  protected $privileged_user;
-
   /**
    * Info for the simpleTest UI.
    */
   public static function getInfo() {
     return array(
-        'name' => 'wiki_standard feature test',
-        'description' => 'Test the wiki_standard feature to ensure it works as intended.',
+        'name' => 'wiki_core feature test',
+        'description' => 'Test the wiki_core feature to ensure it works as intended.',
         'group' => 'Multisite Core Features',
     );
   }
@@ -114,15 +112,31 @@ class MultisiteWikiStandardFeatureTest extends DrupalWebTestCase {
    * Configure the environment, enable the required modules.
    */
   function setUp() {
-    parent::setUp(array('wiki_standard'));
+    parent::setUp(array('wiki_core'));
+    $this->user_contributor = $this->drupalCreateUserWithRole("user_contributor");
   }
 
   /**
-   * Create a regular user and login function.
-   */
-  function wikiUserLogin() {
-    $this->privileged_user = $this->drupalCreateUser(array('create wiki content'));;
-    $this->drupalLogin($this->privileged_user);
+   * Creates a user with the given role.
+   **/
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
   }
 
   /**
@@ -147,7 +161,7 @@ class MultisiteWikiStandardFeatureTest extends DrupalWebTestCase {
     $this->drupalGet('node/add/wiki');
     $this->assertResponse(403, 'Anonymous Access -> Expected Fail');
 
-    $this->wikiUserLogin();
+    $this->drupalLogin($this->user_contributor);
     // Verify that authenticated users with permissions can create wiki nodes.
     $this->drupalGet('node/add/wiki');
     $this->assertResponse(200, 'Authenticated Access -> Expected OK');
@@ -157,11 +171,21 @@ class MultisiteWikiStandardFeatureTest extends DrupalWebTestCase {
    * Create a "test" node and check it.
    */
   function testWikiCreate() {
-    $this->wikiUserLogin();
-    $edit = array();
-    $edit['title'] = $this->randomName(8);
-    $edit['body'][LANGUAGE_NONE][0]['value'] = $this->randomName(128);
-    $this->drupalPost('node/add/wiki', $edit, t('Save'));
-    $this->assertText(t('Wiki @title has been created.', array('@title' => $edit['title'])), 'A Wiki test node has been successfully created', 'API');
+    $this->drupalLogin($this->user_contributor);
+    $title =  $this->randomName(8);
+
+    $settings = array(
+        'body' => array(LANGUAGE_NONE => array(array($this->randomName(128)))),
+        'title' => $title,
+        'type' => 'wiki',
+        'status' => 1,
+        'revisions' => NULL,
+        'language' => LANGUAGE_NONE,
+    );
+    $node = $this->drupalCreateNode($settings);
+
+    $this->drupalGet('node/'.$node->nid);
+    $this->assertResponse(array(200), format_string('Settings Page: !url is accessible', array('!url' => 'node/'.$node->nid)));
+
   }
 }

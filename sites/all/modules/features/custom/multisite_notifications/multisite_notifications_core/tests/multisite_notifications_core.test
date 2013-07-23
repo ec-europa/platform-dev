@@ -47,11 +47,11 @@ class anonymousNotification extends DrupalWebTestCase {
     // Login the admin user.
 
     // Verify that new content is shown
-$this->drupalLogin($this->administrator);
+    $this->drupalLogin($this->administrator);
 
 
     //Create article
-      $settings = array(
+    $settings = array(
       'type' => 'article',
       'title' => 'test',
       'body' => array(LANGUAGE_NONE => array(array($this->randomName(128)))),
