@@ -1,0 +1,11 @@
+name = Multisite autosave
+description = If the user's browser dies while editing a node, the edits will be presented to the user the next time they return to the node form.
+package = Multisite_features
+core = 7.x
+version = 7.x-1.0
+php = 5.2.4
+project = multisite_autosave
+dependencies[] = autosave(=7.x-2.2)
+features[features_api][] = api:1
+files[] = tests/multisite_autosave.test
+files[] = tests/multisite_autosave_extra.test

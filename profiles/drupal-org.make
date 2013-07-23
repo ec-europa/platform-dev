@@ -281,6 +281,9 @@ projects[xml_field][version] = "1.5"
 projects[views_data_export][subdir] = "contributed"
 projects[views_data_export][version] = "3.0-beta6"
 
+projects[autosave][subdir] = "autosave"
+projects[autosave][version] = "2.2"
+
 
 ;libraries
 

@@ -125,6 +125,7 @@ dependencies[] = content_examples
 dependencies[] = cce_basic_config
 dependencies[] = multisite_settings_core
 dependencies[] = multisite_rules_configuration
+dependencies[] = multisite_autosave
 dependencies[] = solr_config
 
 files[] = multisite_drupal_standard.profile

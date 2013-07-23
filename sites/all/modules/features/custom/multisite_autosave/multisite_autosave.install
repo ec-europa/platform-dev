@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Install the feature multisite_autosave
+ */
+
+include_once 'multisite_autosave.install.inc';
+
+/**
+ * Implements hook_enable().
+ */
+function multisite_autosave_enable() {
+  //Activation message
+  drupal_set_message(t('Multisite Autosave %v feature is now active on your site.', array('%v' => _multisite_autosave_get_version())));
+  //Enable Autosave
+  //module_enable(array('autosave'), TRUE);
+}
+
+/**
+ * Implements hook_disable().
+ */
+function multisite_autosave_disable() {
+  //Deactivation message
+  drupal_set_message(t('Multisite Autosave %v feature is now inactive on your site.', array('%v' => _multisite_autosave_get_version())));
+  //Disable Autosave
+  //module_disable(array('autosave'), FALSE);
+}
+
+/**
+ * Implements hook_install().
+ */
+function multisite_autosave_install() {
+  // Get autosave's weight
+  $weight = db_select('system', 's')
+              ->fields('s', array('weight'))
+              ->condition('name', 'autosave', '=')
+              ->execute()
+              ->fetchField();
+
+  // Update multisite_autosave's weight (autosave + 1)
+  db_update('system')
+    ->fields(array('weight' => $weight +1))
+    ->condition('name', 'multisite_autosave', '=')
+    ->execute();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function multisite_autosave_uninstall() {
+  //Nothing yet
+}
