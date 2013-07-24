@@ -5,6 +5,7 @@ package = Multisite_features
 version = 7.x-1.0-beta1
 php = 5.2.4
 project = multi_user_blog
+dependencies[] = custom_breadcrumbs
 dependencies[] = cce_basic_config
 dependencies[] = ctools
 dependencies[] = features
