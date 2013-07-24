@@ -13,6 +13,7 @@ dependencies[] = rate
 dependencies[] = node
 dependencies[] = strongarm
 dependencies[] = text
+dependencies[] = translation
 dependencies[] = views
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
