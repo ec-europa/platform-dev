@@ -1,9 +1,16 @@
-Modify the module in order to add a new hook in the API (hook_workbench_moderation_transition)
-Index: sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
-===================================================================
 --- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2012-01-14 00:12:30.000000000 +0100
 +++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2012-02-21 10:44:29.000000000 +0100
-@@ -1006,8 +1006,11 @@
+
+@@ -856,7 +856,7 @@
+   if ($form['options']['#access']) {
+     $form['options']['log'] = $form['revision_information']['log'];
+     $form['options']['log']['#title'] = t('Moderation notes');
+-    $form['options']['workbench_moderation_state_new'] = $form['revision_information']['workbench_moderation_state_new'];
++    $form['options']['workbench_moderation_state_new'] = (isset($form['revision_information']['workbench_moderation_state_new']) ? $form['revision_information']['workbench_moderation_state_new'] : '');
+ 
+     // Unset the old placement of the Revision log.
+     unset($form['revision_information']['log']);
+@@ -997,8 +997,11 @@
      return TRUE;
    }
  
@@ -16,4 +23,3 @@ Index: sites/all/modules/contributed/workbench_moderation/workbench_moderation.m
  }
  
  /**
- 
