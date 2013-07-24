@@ -23,6 +23,9 @@ projects[apachesolr_multilingual][version] = "1.0-alpha2"
 projects[apachesolr_multisitesearch][subdir] = "contributed"
 projects[apachesolr_multisitesearch][version] = "1.0"
 
+projects[autosave][subdir] = "contributed"
+projects[autosave][version] = "2.2"
+
 projects[better_formats][subdir] = "contributed"
 projects[better_formats][version] = "1.0-beta1"
 
@@ -34,9 +37,6 @@ projects[chr][version] = "1.5"
 
 projects[ckeditor_link][subdir] = "contributed"
 projects[ckeditor_link][version] = "2.2"
-
-;projects[coder][subdir] = "contributed"
-;projects[coder][version] = "2.0-beta2"
 
 projects[colors][subdir] = "contributed"
 projects[colors][version] = "1.0-beta2"
@@ -56,14 +56,14 @@ projects[ctools][version] = "1.3"
 projects[custom_breadcrumbs][subdir] = "contributed"
 projects[custom_breadcrumbs][version] = "1.0-alpha1"
 
+projects[customerror][subdir] = "contributed"
+projects[customerror][version] = "1.0-rc1"
+
 projects[date][subdir] = "contributed"
 projects[date][version] = "2.6"
 
 projects[defaultcontent][subdir] = "contributed"
 projects[defaultcontent][version] = "1.0-alpha6"
-
-;projects[devel][subdir] = "contributed"
-;projects[devel][version] = "1.2"
 
 projects[diff][subdir] = "contributed"
 projects[diff][version] = "3.2"
@@ -155,6 +155,9 @@ projects[media_youtube][version] = "2.0-rc1"
 projects[menu_block][subdir] = "contributed"
 projects[menu_block][version] = "2.3"
 
+projects[menu_token][subdir] = "contributed"
+projects[menu_token][version] = "1.0-beta5"
+
 projects[message][subdir] = "contributed"
 projects[message][version] = "1.7"
 
@@ -245,6 +248,9 @@ projects[views_bulk_operations][version] = "3.1"
 projects[views_datasource][subdir] = "contributed"
 projects[views_datasource][version] = "1.x-dev"
 
+projects[views_data_export][subdir] = "contributed"
+projects[views_data_export][version] = "3.0-beta6"
+
 projects[views_litepager][subdir] = "contributed"
 projects[views_litepager][version] = "3.0"
 
@@ -277,18 +283,6 @@ projects[xmlsitemap][version] = "2.0-rc1"
 
 projects[xml_field][subdir] = "contributed"
 projects[xml_field][version] = "1.5"
-
-projects[views_data_export][subdir] = "contributed"
-projects[views_data_export][version] = "3.0-beta6"
-
-projects[autosave][subdir] = "autosave"
-projects[autosave][version] = "2.2"
-
-projects[customerror][subdir] = "customerror"
-projects[customerror][version] = "1.0-rc1"
-
-projects[menu_token][subdir] = "contributed"
-projects[menu_token][version] = "1.0-beta5"
 
 ;libraries
 
