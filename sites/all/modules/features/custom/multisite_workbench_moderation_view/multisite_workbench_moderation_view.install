@@ -25,7 +25,9 @@ function multisite_workbench_moderation_view_uninstall() {
  * Implements hook_enable().
  */
 function multisite_workbench_moderation_view_enable() {
-  _multisite_workbench_moderation_view_add_display();
+
+  //_multisite_workbench_moderation_view_add_display();
+
   // No menu entry
   $view = views_get_view('workbench_moderation', TRUE);
   // Remove 'Needs review page' and 'Drafts page' view displays menu tab
