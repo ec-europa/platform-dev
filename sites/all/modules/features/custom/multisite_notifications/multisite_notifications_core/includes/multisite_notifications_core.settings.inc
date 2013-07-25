@@ -92,15 +92,17 @@ function _multisite_notifications_core_mail_template() {
 }}{{![subs:is-published]#| ***** This post is unpublished! *****
 }}{{![subs:category:tid]?:{{[subs:category:tid]==[subs:forum:tid]?:| Category: [subs:category:name]
 }}}}{{![subs:forum:tid]?:| Forum: [subs:forum:name]
-}}{{![node:author:name]?:| Author: [node:author:name]
-}}| Title: [node:title]
+}}
+
+<h2>[node:title]</h2>
+{{![node:author:name]?:| Author: [node:author:name]}}
 {{![subs:terms:field_tags:count]?:| [subs:terms:field_tags:first:vocabulary:name]: {{[subs:terms:field_tags:count]#{{!!#0#, }}[subs:terms:field_tags:index:#0:name]}}
 }}{{![subs:is-old]?&nbsp;
 [node:body]:{{![subs:has-distinct-summary]?&nbsp;
 [node:body]:| Summary:
 &nbsp;
 [node:summary]}}}}
-| LINK: [node:url]
+| Article link: [node:url]
 {{![subs:is-old]#{{!![subs:files:field_files:count]#| Attached files:
 {{[subs:files:field_files:count]#| [subs:files:field_files:index:#0:url]
 }}}}}}{{![subs:comments:count]?| ---------------------------------------------------
@@ -110,10 +112,10 @@ function _multisite_notifications_core_mail_template() {
 [subs:comments:join:
 ]
 }}| Direct unsubscribe link ([subs:type]):
-| [subs:unsubscribe-url]
+| [site:url]unsubscribe/[current-user:uid]
 {{MAIL@| This is an automated message. Please do NOT reply to the sender address!
-| To manage your subscriptions go to
-| [subs:manage-url]
+{{[current-user:roles:last] == subscriber? :"To manage your subscriptions go to: [subs:manage-url]"}}
+
 }}';
   $template->comment='| {{[subs:is-new]?New:Updated}} {{[subs:is-published]?:UNPUBLISHED }}comment:
 | Author: [comment:author:name]
