@@ -17,7 +17,7 @@ function events_og_menu() {
   $items['community/%group_name/calendar'] = array(
     'title' => 'Events',
     'page callback' => 'views_page',
-    'page arguments' => array('calendar', 'page_1', 1),
+    'page arguments' => array('calendar', 'month', 1),
     'access callback' => TRUE,
     'type' => MENU_NORMAL_ITEM,
     'menu_name' => 'menu-communities-menu',
@@ -35,21 +35,23 @@ function events_og_menu() {
 function events_og_views_pre_render(&$view) {
   if ($view->name=='calendar') {
     $group = og_context();
-
-    switch( $view->current_display ) {
-       case 'upcoming_events':
-          break;
-        case 'month':
-        case 'week':
-        case 'day':
-        case 'year':
-          if ( og_user_access('node', $group['gid'],'create event content') ) {
-            $view->header['area']->options['content'] = _events_get_link_from_group();
-          }
-          break;
-        default:
-          break;
-      }  
+    if(isset($group['gid'])) {
+      switch( $view->current_display ) {
+         case 'upcoming_events':
+            break;
+          case 'month':
+          case 'week':
+          case 'day':
+          case 'year':
+          case 'page_1':
+            if ( og_user_access('node', $group['gid'],'create event content') ) {
+              $view->header['area']->options['content'] .= _events_get_link_from_group();
+            }
+            break;
+          default:
+            break;
+        }  
+      }
     }
   }
 
@@ -66,7 +68,7 @@ function _events_get_link_from_group() {
     
     $options = array( 
         'query' => array( 
-            'gids_node[]' => $group_id,
+            'og_group_ref' => $group_id,
             ),
         'absolute' => TRUE,
         );
