@@ -48,9 +48,13 @@ function communities_views_pre_render(&$view) {
 
     // add picture for private communities
     foreach ($view->result as $row) {
-
       if (isset($row->field_group_access[0]['raw']['value']) && $row->field_group_access[0]['raw']['value'] == 1) { // private commmunity
-        $row->field_body[0]['rendered']['#markup'] = '<i class="icon-lock"></i> ' . $row->field_body[0]['rendered']['#markup'];
+        if(isset($row->field_body[0]['rendered']['#markup'])) {
+          $row->field_body[0]['rendered']['#markup'] = '<i class="icon-lock"></i> ' . $row->field_body[0]['rendered']['#markup'];
+        }
+        else {
+          $row->field_body[0]['rendered']['#markup'] = '<i class="icon-lock"></i> ';
+        }
       }
     }
   }
@@ -458,7 +462,7 @@ function communities_block_view_alter(&$data, $block) {
 */
 function communities_node_view($node, $view_mode, $langcode) {
   if ($node->type == 'community') {
-    $context = og_context();
+    $context = $node->nid;
     $check_pending_state = og_is_member('node', $context['gid'], 'user', NULL, array(OG_STATE_PENDING));
     if ($check_pending_state) {
       drupal_set_message(t("Your membership to this group is pending and waiting for community manager's approval"));
