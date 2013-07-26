@@ -10,7 +10,7 @@ function multisite_drupal_workbench_moderation_node_access($node, $op, $account)
   
   $group = og_get_entity_groups('node', $node);
   if (count($group) > 0) {
-    if (og_user_access(current($group), 'Moderate group content')) {
+    if (og_user_access('group', current($group), 'Moderate group content')) {
       return NODE_ACCESS_ALLOW; // allow all permissions for a community manager in his groups
     }
   }
