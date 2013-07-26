@@ -85,18 +85,7 @@ function multisite_notifications_core_disable() {
   //Disable block
    multisite_drupal_toolbox_remove_block_context('site_wide', 'notification_block');
   //Disable module
-/*
-    db_update('system')
-          ->fields(array(
-              'status' => 0,
-              ))
-          ->condition('name', "subscriptions_mail")
-          ->condition('name', "subscriptions_taxonomy")
-          ->condition('name', "subscriptions_ui")
-          ->condition('name', "subscriptions_content")
-          ->condition('name', "subscriptions")
-          ->execute();
-*/
+
     module_disable(array('subscriptions_mail', 'subscriptions_ui', 'subscriptions_taxonomy'), FALSE);
     module_disable(array('subscriptions_content'), FALSE);
     module_disable(array('subscriptions'), FALSE);
