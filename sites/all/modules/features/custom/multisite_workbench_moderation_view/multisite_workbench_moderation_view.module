@@ -247,7 +247,7 @@ function _multisite_workbench_moderation_view_alter_view() {
         ),
         'action::workbench_moderation_set_state_action' => array(
             'selected' => 1,
-            'postpone_processing' => 1,
+            'postpone_processing' => 0,
             'skip_confirmation' => 1,
             'override_label' => 1,
             'label' => 'Change moderation state',
@@ -616,7 +616,7 @@ function _multisite_workbench_moderation_view_alter_view() {
 function multisite_workbench_moderation_view_form_alter(&$form) {
 
   if (!empty($form['force_transition']) && isset($form['force_transition'])) {
-    unset($form['force_transition']);
+    $form['force_transition']['#type'] = 'hidden';
   }
 }
 
