@@ -125,6 +125,7 @@ dependencies[] = menu_token
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_og
 dependencies[] = multisite_drupal_access
+dependencies[] = multisite_drupal_workbench_moderation
 
 ;features
 dependencies[] = content_examples
@@ -135,6 +136,7 @@ dependencies[] = multisite_autosave
 dependencies[] = multisite_custom_error
 dependencies[] = solr_config
 dependencies[] = communities
+
 
 files[] = multisite_drupal_communities.profile
 
