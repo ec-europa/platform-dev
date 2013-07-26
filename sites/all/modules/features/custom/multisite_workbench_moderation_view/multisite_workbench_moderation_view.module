@@ -126,10 +126,10 @@ function _multisite_workbench_moderation_view_alter_view() {
   $handler->display->display_options['relationships']['uid']['table'] = 'node_revision';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   /* Field: Bulk operations: Content revision */
-
+  // Get role by name
   $rid = array_search('administrator', user_roles());
 
-  if ($user->uid == 1) {
+  if ($rid == 3) {
 
     //$handler->display->display_options['fields']['views_bulk_operations']['exclude'] = TRUE;
 
