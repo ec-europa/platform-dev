@@ -81,28 +81,28 @@ function multisite_notifications_core_general_settings() {
 function _multisite_notifications_core_mail_template() {
   $template = new stdClass();
   //
-  $template->subject='[[site:name]] [subs:type] subscription for {{[current-user:roles:last] == subscriber?subscriber:[current-user:name]}}: [node:title]';
-  $template->body = '{{MAIL@| Greetings, {{[current-user:roles:last] == subscriber?subscriber:[current-user:name]}}.
-|
-| Your subscription on [site:name]
-| notifies you of {{[subs:is-new]==0?:a new post:
-}}{{[subs:is-updated]#an updated post:
-}}{{[subs:is-old]#new comments on:
-}}|
+  $template->subject='[site:name] updates : [node:title]';
+  $template->body = '{{MAIL@ Dear {{[current-user:roles:last] == subscriber?subscriber:[current-user:name]}}.
+
+Your subscription on [site:name] notifies you of {{[subs:is-new]==0?:a new post:}}{{[subs:is-updated]#an updated post:}}{{[subs:is-old]#new comments on:
+}}
 }}{{![subs:is-published]#| ***** This post is unpublished! *****
 }}{{![subs:category:tid]?:{{[subs:category:tid]==[subs:forum:tid]?:| Category: [subs:category:name]
 }}}}{{![subs:forum:tid]?:| Forum: [subs:forum:name]
 }}
 
-<h2>[node:title]</h2>
-{{![node:author:name]?:| Author: [node:author:name]}}
+----------------------------------------------------------------------------------------
+[node:title]
+{{![node:author:name]?:By: [node:author:name]}}
+----------------------------------------------------------------------------------------
+
 {{![subs:terms:field_tags:count]?:| [subs:terms:field_tags:first:vocabulary:name]: {{[subs:terms:field_tags:count]#{{!!#0#, }}[subs:terms:field_tags:index:#0:name]}}
 }}{{![subs:is-old]?&nbsp;
 [node:body]:{{![subs:has-distinct-summary]?&nbsp;
 [node:body]:| Summary:
 &nbsp;
 [node:summary]}}}}
-| Article link: [node:url]
+| Online version: [node:url]
 {{![subs:is-old]#{{!![subs:files:field_files:count]#| Attached files:
 {{[subs:files:field_files:count]#| [subs:files:field_files:index:#0:url]
 }}}}}}{{![subs:comments:count]?| ---------------------------------------------------
