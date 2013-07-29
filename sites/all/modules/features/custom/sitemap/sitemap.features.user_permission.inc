@@ -14,9 +14,9 @@ function sitemap_user_default_permissions() {
   $permissions['access site map'] = array(
     'name' => 'access site map',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'anonymous user',
-      2 => 'authenticated user',
+      'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'site_map',
   );
@@ -25,7 +25,7 @@ function sitemap_user_default_permissions() {
   $permissions['administer xmlsitemap'] = array(
     'name' => 'administer xmlsitemap',
     'roles' => array(
-      0 => 'administrator',
+      'administrator' => 'administrator',
     ),
     'module' => 'xmlsitemap',
   );
