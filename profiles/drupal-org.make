@@ -69,13 +69,13 @@ projects[diff][subdir] = "contributed"
 projects[diff][version] = "3.2"
 
 projects[entity][subdir] = "contributed"
-projects[entity][version] = "1.0"
+projects[entity][version] = "1.1"
 
 projects[entityreference][subdir] = "contributed"
 projects[entityreference][version] = "1.x-dev"
 
 projects[entityreference_prepopulate][subdir] = "contributed"
-projects[entityreference_prepopulate][version] = "1.2"
+projects[entityreference_prepopulate][version] = "1.3"
 
 projects[facetapi][subdir] = "contributed"
 projects[facetapi][version] = "1.3"
