@@ -838,7 +838,7 @@ function cce_basic_config_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '8',
+        'weight' => '-100',
       ),
     ),
   );
@@ -902,7 +902,7 @@ function cce_basic_config_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '7',
+        'weight' => '-99',
       ),
     ),
   );
