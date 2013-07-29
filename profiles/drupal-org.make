@@ -291,7 +291,7 @@ libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "tar.gz"
 libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.2/ckeditor_4.2_full.zip"
-libraries[ckeditor][download][sha1] = "5488577e4f04e6e7c32478111772e007289df6a1"
+libraries[ckeditor][download][sha1] = "95d90f96e31faf24a3474274592c64ae3e6de343"
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ;tcpdf 6.0.013
