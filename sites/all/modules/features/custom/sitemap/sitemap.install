@@ -20,7 +20,15 @@ function sitemap_enable() {
     'weight' => '50'
   );
   menu_link_save($item);
-  drupal_set_message(t('Sitemap %v feature is now active on your site.', array('%v' => _sitemap_get_version())));
+  $cron_true = drupal_cron_run();
+  if ($cron_true) {
+    drupal_set_message(t('Cron run successfully.'));
+    drupal_set_message(t('Sitemap %v feature is now active on your site.', array('%v' => _sitemap_get_version())));
+  }
+  else {
+    drupal_set_message(t('Cron run failed.'), 'error');
+  }
+
 }
 
 /**
