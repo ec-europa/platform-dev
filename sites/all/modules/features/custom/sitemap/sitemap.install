@@ -20,8 +20,7 @@ function sitemap_enable() {
     'weight' => '50'
   );
   menu_link_save($item);
-
-   drupal_set_message(t('Sitemap %v feature is now active on your site.', array('%v' => _sitemap_get_version())));
+  drupal_set_message(t('Sitemap %v feature is now active on your site.', array('%v' => _sitemap_get_version())));
 }
 
 /**
@@ -30,9 +29,10 @@ function sitemap_enable() {
 
 function sitemap_disable() {
   menu_link_delete(NULL, 'sitemap');
-
+  module_disable(array('xmlsitemap'), FALSE);
+  drupal_uninstall_modules(array('xmlsitemap'), TRUE);
   //Activation message
- drupal_set_message(t('Sitemap %v feature is now inactive on your site.', array('%v' => _sitemap_get_version())));
+  drupal_set_message(t('Sitemap %v feature is now inactive on your site.', array('%v' => _sitemap_get_version())));
 }
 
 
