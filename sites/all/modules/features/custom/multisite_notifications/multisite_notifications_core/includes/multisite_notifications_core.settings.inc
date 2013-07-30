@@ -91,17 +91,12 @@ Your subscription on [site:name] notifies you of {{[subs:is-new]==0?:a new post:
 }}}}{{![subs:forum:tid]?:| Forum: [subs:forum:name]
 }}
 
-----------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
 [node:title]
-{{![node:author:name]?:By: [node:author:name]}}
-----------------------------------------------------------------------------------------
+{{![node:author:name]?:by: [node:author:name]}}
+--------------------------------------------------------------------------------------------
+{{![subs:has-distinct-summary]?&nbsp;[node:body]:Summary:&nbsp;[node:summary]}}
 
-{{![subs:terms:field_tags:count]?:| [subs:terms:field_tags:first:vocabulary:name]: {{[subs:terms:field_tags:count]#{{!!#0#, }}[subs:terms:field_tags:index:#0:name]}}
-}}{{![subs:is-old]?&nbsp;
-[node:body]:{{![subs:has-distinct-summary]?&nbsp;
-[node:body]:| Summary:
-&nbsp;
-[node:summary]}}}}
 | Online version: [node:url]
 {{![subs:is-old]#{{!![subs:files:field_files:count]#| Attached files:
 {{[subs:files:field_files:count]#| [subs:files:field_files:index:#0:url]
@@ -122,7 +117,7 @@ Your subscription on [site:name] notifies you of {{[subs:is-new]==0?:a new post:
 | Title: [comment:title]
 &nbsp;
 [comment:body]
-| LINK: [comment:url]
+| Link: [comment:url]
 {{!![subs:files:field_files:count]#| Attached files:
 {{[subs:files:field_files:count]#| [subs:files:field_files:index:#0:url]
 }}}}| ---------------------------------------------------';
