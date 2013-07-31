@@ -134,7 +134,7 @@ function _multisite_workbench_moderation_view_alter_view() {
   /**
    *  The authenticated user is supposed to see the VBO options
    */
-  if (in_array('authenticated user', $roles)) {
+  if (in_array('administrator', $roles)) {
 
     //$handler->display->display_options['fields']['views_bulk_operations']['exclude'] = TRUE;
 
@@ -623,17 +623,7 @@ function _multisite_workbench_moderation_view_alter_view() {
 }
 
 function multisite_workbench_moderation_view_form_alter(&$form) {
-  global $user;
   if(isset($form['#form_id']) && $form['#form_id'] == 'views_form_workbench_moderation_moderate_all_page') {
-   $roles = $user->roles;
-
-  if (!in_array('administrator', $roles) && in_array('contributor', $roles)) {
-    $form['state']['#options'] = array(
-        'draft' => 'Draft',
-        'needs_review' => 'Needs Review',
-    );
-  }
-
   if (!empty($form['force_transition']) && isset($form['force_transition'])) {
     $form['force_transition']['#type'] = 'hidden';
   }
