@@ -127,9 +127,14 @@ function _multisite_workbench_moderation_view_alter_view() {
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   /* Field: Bulk operations: Content revision */
   // Get role by name
-  $rid = array_search('administrator', user_roles());
+  //$rid = array_search('administrator', user_roles()); //3 administrator
 
-  if ($rid == 3) {
+  $roles = $user->roles;
+
+  /**
+   *  The authenticated user is supposed to see the VBO options
+   */
+  if (in_array('authenticated user', $roles)) {
 
     //$handler->display->display_options['fields']['views_bulk_operations']['exclude'] = TRUE;
 
@@ -281,7 +286,10 @@ function _multisite_workbench_moderation_view_alter_view() {
             'label' => '',
         ),
     );
-  }//else
+  }
+
+
+
 
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -384,12 +392,13 @@ function _multisite_workbench_moderation_view_alter_view() {
   $handler->display->display_options['filters']['state']['id'] = 'state';
   $handler->display->display_options['filters']['state']['table'] = 'workbench_moderation_node_history';
   $handler->display->display_options['filters']['state']['field'] = 'state';
-  $handler->display->display_options['filters']['state']['value'] = array(
-      'all' => 'all',
-      'draft' => 'draft',
-      'needs_review' => 'needs_review',
-      'published' => 'published',
-  );
+
+    $handler->display->display_options['filters']['state']['value'] = array(
+        'all' => 'all',
+        'draft' => 'draft',
+        'needs_review' => 'needs_review',
+        'published' => 'published',
+    );
   $handler->display->display_options['filters']['state']['exposed'] = TRUE;
   $handler->display->display_options['filters']['state']['expose']['operator_id'] = 'state_op';
   $handler->display->display_options['filters']['state']['expose']['label'] = 'State';
@@ -614,9 +623,19 @@ function _multisite_workbench_moderation_view_alter_view() {
 }
 
 function multisite_workbench_moderation_view_form_alter(&$form) {
+  global $user;
+  if(isset($form['#form_id']) && $form['#form_id'] == 'views_form_workbench_moderation_moderate_all_page') {
+   $roles = $user->roles;
+
+  if (!in_array('administrator', $roles) && in_array('contributor', $roles)) {
+    $form['state']['#options'] = array(
+        'draft' => 'Draft',
+        'needs_review' => 'Needs Review',
+    );
+  }
 
   if (!empty($form['force_transition']) && isset($form['force_transition'])) {
     $form['force_transition']['#type'] = 'hidden';
   }
 }
-
+}
