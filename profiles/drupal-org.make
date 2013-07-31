@@ -36,7 +36,7 @@ projects[chr][subdir] = "contributed"
 projects[chr][version] = "1.5"
 
 projects[ckeditor_link][subdir] = "contributed"
-projects[ckeditor_link][version] = "2.2"
+projects[ckeditor_link][version] = "2.3"
 
 projects[colors][subdir] = "contributed"
 projects[colors][version] = "1.0-beta2"
