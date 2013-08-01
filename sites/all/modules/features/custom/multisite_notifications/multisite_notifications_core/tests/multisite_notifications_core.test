@@ -1,18 +1,20 @@
 <?php
+
 /**
  * @file
  * Test case for testing the block example module.
  */
 class anonymousNotification extends DrupalWebTestCase {
+
   protected $administrator;
   protected $privileged_user;
   protected $visitor;
 
   public static function getInfo() {
     return array(
-      'name' => 'Anonymous Notification',
-      'description' => 'Test the configuration options and block created by Notifications module. 1.0b',
-      'group' => 'Multisite Core Features',
+        'name' => 'Anonymous Notification',
+        'description' => 'Test the configuration options and block created by Notifications module. 1.0f',
+        'group' => 'Multisite Core Features',
     );
   }
 
@@ -20,7 +22,7 @@ class anonymousNotification extends DrupalWebTestCase {
    * Enable modules and create user with specific permissions.
    */
   function setUp() {
-    parent::setUp('multisite_notifications_core');
+    parent::setUp('multisite_notifications_core', 'mail_logger');
     $this->privileged_user = $this->drupalCreateUser(array(
         'access administration pages',
         'access all views',
@@ -31,7 +33,7 @@ class anonymousNotification extends DrupalWebTestCase {
         'create article content',
         'administer blocks',
         'view subscription block',
-        ));
+    ));
     $this->administrator = $this->drupalCreateUserWithRole("administrator");
     $this->visitor = $this->drupalCreateUser(array('access content', 'view subscription block'));
   }
@@ -45,31 +47,31 @@ class anonymousNotification extends DrupalWebTestCase {
    */
   function testSubscriptionBlockBasic() {
     // Login the admin user.
-
+    $mail = 'Ovidiu.FARCAS@ext.ec.europa.eu';
     // Verify that new content is shown
     $this->drupalLogin($this->administrator);
 
 
     //Create article
     $settings = array(
-      'type' => 'article',
-      'title' => 'test',
-      'body' => array(LANGUAGE_NONE => array(array($this->randomName(128)))),
-      'status' => 1,
-      'revisions' => NULL,
-      'taxonomy' => NULL,
+        'type' => 'article',
+        'title' => 'test',
+        'body' => array(LANGUAGE_NONE => array(array($this->randomName(128)))),
+        'status' => 1,
+        'revisions' => NULL,
+        'taxonomy' => NULL,
     );
     $node = $this->drupalCreateNode($settings);
 
     $this->drupalGet('node/1');
-        //Moderate from Draft to Published
+    //Moderate from Draft to Published
     $moderation = array();
     $moderation['state'] = 'published';
     $this->drupalPost(NULL, $moderation, t('Apply'));
 
 
     $this->drupalGet('admin/structure/block');
-        // Enable the search block on top of sidebar_first.
+    // Enable the search block on top of sidebar_first.
     $block_options = array();
     $block_options['blocks[multisite_notifications_core_notification_block][region]'] = 'sidebar_first';
     $this->drupalPost('admin/structure/block', $block_options, t('Save blocks'));
@@ -98,20 +100,84 @@ class anonymousNotification extends DrupalWebTestCase {
     $this->assertTrue(!count($this->drupalGetMails()), 'No email was sent.');
 
     //Finally! Test anonymous subscription
-    $correct_data = array('mail' => 'Ovidiu.FARCAS@ext.ec.europa.eu');
+    $correct_data = array('mail' => $mail);
     $this->drupalPost(NULL, $correct_data, t('Subscribe'));
     $this->assertRaw(t('You will receive a confirmation e-mail shortly containing further instructions on how to complete your subscription.'), 'Confirmation notice that You will receive a confirmation e-mail shortly...OK');
-    debug($this->drupalGetMails());
+
+
+    $this->drupalLogin($this->administrator);
     $this->cronRun();
     $this->assertTrue(count($this->drupalGetMails()), 'Confirmation email was sent.');
 
+    $this->drupalLogout();
+    global $user;
+    $uid = $user->uid;
+
+    $this->drupalGet('subscribe/' . $uid);
+
+   $roles = $user->roles;
+   //$roles[6] = 'subscriber';
 
 
+     $this->verbose('current user roles: ' . '</pre>' . print_r($roles, TRUE) . '</pre>');
+
+    //$this->assertResponse(200, 'Subscription confirmation page is accesible');
+    //$confirmation = array();
+    //$this->drupalPost('subscribe/'.$uid, $confirmation, t('Confirm'));
+
+    $this->drupalLogin($this->administrator);
+    $confirmed = db_update('users')
+            ->fields(array('status' => 1))
+            ->condition('mail', $mail, '=')
+            ->execute();
+    $this->assertTrue($confirmed, 'User confirmed as subscriber.');
+
+    $current_user = db_select('users', 'u')
+            ->fields('u')
+            ->condition('mail', $mail, '=')
+            ->execute()
+            ->fetchAssoc();
+    $this->verbose('current user: ' . '</pre>' . print_r($current_user, TRUE) . '</pre>');
+      $this->assertTrue($current_user, 'User status is  1.');
+
+    //$this->assertRaw(t('Congratulations, you have confirmed your subscription.'), 'Confirmation message is visible');
+    //Create article in order to get notification
+    $settings = array(
+        'type' => 'article',
+        'title' => 'another test',
+        'body' => array(LANGUAGE_NONE => array(array($this->randomName(128)))),
+        'status' => 1,
+        'workbench_moderation_state_new' => 'published',
+        'taxonomy' => NULL,
+        'promote' => 1,
+        'subscriptions_notify' => '1',
+    );
+    $node = $this->drupalCreateNode($settings);
+    $this->drupalGet('node/2');
+    $this->verbose('Survey Node created: ' . '</pre>' . print_r($node, TRUE) . '</pre>');
+
+$this->drupalGet('admin/content');
+ $send_sub = array(
+     'operation' => 'promote',
+     'nodes[2]' => 'checked',
+     );
+    $this->drupalPost(NULL, $send_sub, t('Update'));
+$this->assertRaw(t('The update has been performed.'), 'The update has been performed.');
+$this->drupalGet('admin/reports/mail-logger');
+
+
+    $this->cronRun();
+    $this->drupalGet('admin/reports/mail-logger');
+
+
+
+    $this->assertTrue(count($this->drupalGetMails()), 'MAIL.');
+    debug($this->drupalGetMails());
   }
 
-    /**
-  * Creates a user with the give role.
-  * */
+  /**
+   * Creates a user with the give role.
+   * */
   public function drupalCreateUserWithRole($role) {
     // Get all of the roles in the system.
     $roles = user_roles();
@@ -144,7 +210,7 @@ class multisiteNotification extends DrupalWebTestCase {
         'name' => 'Notification',
         'description' => 'Notification Feature. 1.0',
         'group' => 'Multisite Core Features',
-        );
+    );
   }
 
   function setUp() {
@@ -188,11 +254,11 @@ class multisiteNotification extends DrupalWebTestCase {
     $this->assertText(t('The configuration options have been saved.'), 'Forms setttings saved: Node 1 should be blocked.');
 
 
-    $this->drupalGet('node/'.$node1->nid);
+    $this->drupalGet('node/' . $node1->nid);
     $this->assertNoRaw('subscriptions[1]', 'Option to subscribe to the page is not available');
     $this->assertNoRaw('subscriptions[2]', 'Option to subscribe to the page content type is not available');
 
-    $this->drupalGet('node/'.$node2->nid);
+    $this->drupalGet('node/' . $node2->nid);
     $this->assertRaw('subscriptions[1]', 'Option to subscribe to the page is present');
     $this->assertRaw('subscriptions[2]', 'Option to subscribe to the page content type is present');
 
@@ -202,12 +268,12 @@ class multisiteNotification extends DrupalWebTestCase {
     $this->drupalPost(NULL, $settings, t('Save'));
     $this->drupalLogout();
 
-    $this->drupalGet('node/'.$node2->nid);
+    $this->drupalGet('node/' . $node2->nid);
     $this->assertNoRaw('subscriptions[1]', 'Option to subscribe to the page is not available to anonymous users.');
     $this->assertNoRaw('subscriptions[2]', 'Option to subscribe to the page content type is not available to anonymous users.');
 
     $this->drupalLogin($this->visitor);
-    $this->drupalGet('node/'.$node2->nid);
+    $this->drupalGet('node/' . $node2->nid);
 
     $this->assertNoFieldChecked('edit-subscriptions-1', 'The user has not subscribed to this content.');
     $this->assertNoFieldChecked('edit-subscriptions-2', 'The user has not subscribed to this content type.');
