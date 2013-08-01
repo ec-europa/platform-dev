@@ -5,9 +5,14 @@ require_once('lib/solrinstance.class.php');
 class DrupalSubSite extends Site {
 	public function __construct($array) {
 		parent::__construct($array);
-		foreach (array('url_pattern', 'master', 'state', 'install_policy', 'install_variant', 'solr_id') as $member) {
+		foreach (array('url_pattern', 'master', 'state', 'install_policy', 'install_variant', 'solr_id', 'notes') as $member) {
 			$intern_member = $member . '_';
 			$this->$intern_member = $array[$member];
+		}
+		// contacts are simple comma-separated email addresses
+		foreach (array('owner_contact', 'technical_contact') as $member) {
+			$intern_member = $member . '_';
+			$this->$intern_member = explode(',', $array[$member]);
 		}
 		$this->data_ = array();
 		if (strlen($array['data'])) {
@@ -79,6 +84,18 @@ class DrupalSubSite extends Site {
 		return $this->solr_id_;
 	}
 	
+	public function notes() {
+		return $this->notes_;
+	}
+	
+	public function ownerContacts() {
+		return $this->owner_contact_;
+	}
+	
+	public function technicalContacts() {
+		return $this->technical_contact_;
+	}
+	
 	public function master() {
 		if (is_numeric($this->master_)) {
 			$master = DrupalMasterSite::fetchMasterSiteById($this->master_);
@@ -121,6 +138,9 @@ class DrupalSubSite extends Site {
 	protected $install_policy_;
 	protected $install_variant_;
 	protected $solr_id_;
+	protected $notes_;
+	protected $owner_contact_;
+	protected $technical_contact_;
 	protected $master_;
 	protected $state_;
 	protected $last_update_;
