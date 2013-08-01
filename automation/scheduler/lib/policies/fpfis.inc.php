@@ -26,7 +26,9 @@ function fpfis_install_policy_get_steps($subsite) {
 			'subsite_install_failed' => 'fpfis_do_nothing',
 			'subsite_installed' => 'fpfis_change_admin_password',
 			'admin_password_failed' => 'fpfis_do_nothing',
-			'admin_password_changed' => 'fpfis_register_subsite_master',
+			'admin_password_changed' => 'fpfis_change_default_users_passwords',
+			'default_users_passwords_failed' => 'fpfis_do_nothing',
+			'default_users_passwords_changed' => 'fpfis_register_subsite_master',
 			'subsite_registered_master_failed' => 'fpfis_do_nothing',
 			'subsite_registered_master' => 'fpfis_register_subsite_rewritemap',
 			'subsite_registered_rewritemap_failed' => 'fpfis_do_nothing',
@@ -442,6 +444,104 @@ function fpfis_change_admin_password(&$subsite) {
 	return $return;
 }
 
+/**
+	Change passwords of the default users
+*/
+function fpfis_change_default_users_passwords(&$subsite) {
+	$param_name = 'default_users_uids';
+	$default_users_uids = FPFISPolicyConfig::get($param_name, array(2, 3, 4));
+	
+	$reports = array();
+	$success_state = 'default_users_passwords_changed';
+	$fail_state = 'default_users_passwords_failed';
+	
+	// require the config parameter to be valid
+	if (!is_array($default_users_uids)) {
+		$reports[] = sprintf('The %s parameter should be an array.', $param_name);
+		return array('report' => $reports, 'new_state' => $fail_state, 'break' => TRUE);
+	}
+	
+	// require the array to contain only integers > 1
+	$default_users_uids = array_filter(
+		$default_users_uids, 
+		function($value) {
+			return(is_int($value) && $value > 1);
+		}
+	);
+	
+	// ensure there is something to do but do not fail if nothing is to be changed
+	if (!count($default_users_uids)) {
+		return array('report' => $reports, 'new_state' => $success_state);
+	}
+	
+	// Generate a small PHP program that will change the passwords as expected
+	// and provide feedback by outputting a serialized array.
+	$change_passwords_php_code = '
+		error_reporting(0);
+		$result = array("reports" => array(), "changed_passwords" => array());
+		foreach (' . var_export($default_users_uids, TRUE) . ' as $uid) {
+			$user = user_load($uid);
+			if (!$user) {
+				$result["reports"][] = sprintf("error: could not load user with uid %d", $uid);
+				continue;
+			}
+			if (!strlen(trim($user->name))) {
+				$result["reports"][] = sprintf("error: user with uid %d has an empty username", $uid);
+				continue;
+			}
+			$new_password = user_password(12);
+			$save = user_save($user, array("pass" => $new_password));
+			if ($save === FALSE) {
+				$result["reports"][] = sprintf("error: could not save user with uid %d", $uid);
+			}
+			else {
+				$result["changed_passwords"][trim($user->name)] = $new_password;
+			}
+		}
+		printf("%s\n", serialize($result));';
+	
+	// execute that program with drush php-eval
+	$exec = drush_subsite($subsite, 'php-eval ' . escapeshellarg($change_passwords_php_code));
+	
+	// get reports from the execution itself
+	$reports = array_merge($reports, $exec['reports']);
+	
+	// assume the whole thing failed
+	$next_state = $fail_state;
+	
+	// get output/result from the program
+	if (!isset($exec['output']) || !strlen(trim($exec['output']))) {
+		$reports[] = 'got no output from the changing password script';
+	}
+	else {
+		$result = unserialize($exec['output']);
+		if ($result === FALSE) {
+			$reports[] = 'unable to unserialize the output of the changing password script';
+		}
+		else {
+			// get reports from the program
+			$reports = array_merge($reports, $result['reports']);
+			
+			// store changed passwords for future use, typically sending them by mail after the site is created
+			$data = $subsite->data();
+			if (!isset($data['changed_passwords'])) {
+				$data['changed_passwords'] = array();
+			}
+			$data['changed_passwords'] = array_merge($data['changed_passwords'], $result['changed_passwords']);
+			$subsite->setData($data);
+			
+			// compare the number of changed passwords with our expectations to determine whether the operation succeeded.
+			if (count($result['changed_passwords']) !== count($default_users_uids)) {
+				$reports[] = sprintf('error: changed %d passwords instead of %d', count($result['changed_passwords']), count($default_users_uids));
+			}
+			else {
+				$next_state = $success_state;
+			}
+		}
+	}
+	return array('report' => $reports, 'new_state' => $next_state, 'break' => ($next_state == $fail_state));
+}
+
 function fpfis_register_subsite_master(&$subsite) {
 	/// add the new subsite to the master's sites.list.php
 	$reports = array();
@@ -608,6 +708,51 @@ function fpfis_push_files_to_web_servers(&$subsite) {
 }
 
 function fpfis_finalize_subsite_installation(&$subsite) {
-	// send mail to client ? test something?
-	return(array('new_state' => constant('STATE_DONE')));
+	$reports = array();
+	
+	// we do not want the scheduler to send an email to the client before the
+	// FPFIS team has checked the created subsite; so we simply report the
+	// subsite must be checked, along with some useful information.
+	$message  = 'The @master_name "@site_name" subsite was created.' . "\n";
+	$message .= 'The default accounts for this subsite are:' . "\n";
+	$message .= '@default_accounts' . "\n\n";
+	$message .= 'All of this should be checked before informing the following people:' . "\n";
+	$message .= '@owner_contacts_list' . "\n";
+	$message .= '@technical_contacts_list' . "\n";
+	
+	// basic tokens
+	$tokens = array(
+		'site_name' => $subsite->name(),
+		'master_name' => $subsite->master()->name(),
+		'install_profile' => FPFISPolicyConfig::get('default_install_profile', 'multisite_drupal_standard'),
+		'default_accounts' => '',
+		'owner_contacts_list' => '',
+		'technical_contacts_list' => '',
+	);
+	
+	// remove passwords stored in the database to compose the @default_accounts token
+	$data = $subsite->data();
+	if (isset($data['changed_passwords']) && is_array($data['changed_passwords'])) {
+		foreach ($data['changed_passwords'] as $account => $password) {
+			$tokens['default_accounts'] .= sprintf("  * %s: %s\n", $account, $password);
+		}
+	}
+	unset($data['changed_passwords']);
+	$subsite->setData($data);
+	
+	// format contacts into lists
+	foreach ($subsite->ownerContacts() as $owner) {
+		$tokens['owner_contacts_list'] .= sprintf("  * %s\n", $owner);
+	}
+	foreach ($subsite->technicalContacts() as $tech) {
+		$tokens['technical_contacts_list'] .= sprintf("  * %s\n", $tech);
+	}
+	
+	// proceed with tokens replacement
+	foreach ($tokens as $token => $value) {
+		$message = str_replace('@' . $token, $value, $message);
+	}
+	$reports[] = $message;
+	
+	return(array('report' => $reports, 'new_state' => constant('STATE_DONE')));
 }
