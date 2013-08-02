@@ -31,7 +31,6 @@ function ec_content_slider_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'slideshow';
-  $handler->display->display_options['style_options']['flexslider_views_slideshow']['caption_field'] = 'none';
   $handler->display->display_options['style_options']['slideshow_type'] = 'flexslider_views_slideshow';
   $handler->display->display_options['style_options']['slideshow_skin'] = 'default';
   $handler->display->display_options['style_options']['skin_info'] = array(
@@ -140,9 +139,9 @@ function ec_content_slider_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('<div id="transparency">
-<h2>[title]</h2>
-<br/>[body]
+    t('<div class="carousel-caption">
+[title]<br />
+[body]
 </div>'),
     t('Block'),
   );

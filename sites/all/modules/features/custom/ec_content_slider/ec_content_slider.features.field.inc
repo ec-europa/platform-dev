@@ -41,7 +41,7 @@ function ec_content_slider_field_default_fields() {
       'type' => 'image',
     ),
     'field_instance' => array(
-      'bundle' => 'test_contenttype',
+      'bundle' => 'contenttype',
       'deleted' => '0',
       'description' => '',
       'display' => array(
