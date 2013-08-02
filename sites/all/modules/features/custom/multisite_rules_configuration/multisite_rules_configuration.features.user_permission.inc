@@ -14,8 +14,8 @@ function multisite_rules_configuration_user_default_permissions() {
   $permissions['moderate content from needs_review to validated'] = array(
     'name' => 'moderate content from needs_review to validated',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
+      'administrator' => 'administrator',
+      'editor' => 'editor',
     ),
     'module' => 'workbench_moderation',
   );
@@ -24,8 +24,8 @@ function multisite_rules_configuration_user_default_permissions() {
   $permissions['moderate content from published to archived'] = array(
     'name' => 'moderate content from published to archived',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
+      'administrator' => 'administrator',
+      'editor' => 'editor',
     ),
     'module' => 'workbench_moderation',
   );
@@ -34,8 +34,8 @@ function multisite_rules_configuration_user_default_permissions() {
   $permissions['moderate content from validated to published'] = array(
     'name' => 'moderate content from validated to published',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'editor',
+      'administrator' => 'administrator',
+      'editor' => 'editor',
     ),
     'module' => 'workbench_moderation',
   );
