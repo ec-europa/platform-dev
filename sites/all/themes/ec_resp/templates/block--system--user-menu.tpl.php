@@ -89,7 +89,7 @@
     
     foreach ($menu as $item_id) {
       // Add redirection for login, logout and register
-      if ($item_id['href'] == 'user/login' || $item_id['href'] == 'user/logout' || $item_id['href'] == 'user/register') {
+      if ($item_id['href'] == 'user/login' || $item_id['href'] == 'user/register') {
         $attributes['query']['destination'] = $dest;
       }
 
