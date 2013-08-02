@@ -73,9 +73,6 @@
     elseif (strpos($_GET['q'], 'user/login') !== FALSE) {
       $dest = 'home';
     }
-    elseif (strpos($_GET['q'], 'user/logout') !== FALSE) {
-      $dest = 'home';
-    }
     else {
       $dest = drupal_get_path_alias();
     }
