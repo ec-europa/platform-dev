@@ -14,9 +14,9 @@ function links_core_user_default_permissions() {
   $permissions['create links content'] = array(
     'name' => 'create links content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -25,9 +25,9 @@ function links_core_user_default_permissions() {
   $permissions['delete any links content'] = array(
     'name' => 'delete any links content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -36,9 +36,9 @@ function links_core_user_default_permissions() {
   $permissions['delete own links content'] = array(
     'name' => 'delete own links content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -47,9 +47,9 @@ function links_core_user_default_permissions() {
   $permissions['edit any links content'] = array(
     'name' => 'edit any links content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -58,9 +58,9 @@ function links_core_user_default_permissions() {
   $permissions['edit own links content'] = array(
     'name' => 'edit own links content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );

@@ -99,18 +99,18 @@ function links_core_field_default_fields() {
       ),
     ),
   );
-  
-  // Exported field: 'node-links-field_link'
+
+  // Exported field: 'node-links-field_link'.
   $fields['node-links-field_link'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_link',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '1',
       'module' => 'link',
       'settings' => array(
         'attributes' => array(
@@ -188,11 +188,10 @@ function links_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-links-field_tags'
+  // Exported field: 'node-links-field_tags'.
   $fields['node-links-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -210,6 +209,7 @@ function links_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -264,9 +264,9 @@ function links_core_field_default_fields() {
     ),
   );
 
-
   // Translatables
   // Included for use with string extractors like potx.
+  t('Comment');
   t('Tags');
   t('link');
 
