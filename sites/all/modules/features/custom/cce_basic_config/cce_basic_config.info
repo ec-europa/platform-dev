@@ -172,6 +172,7 @@ features[variable][] = comment_subject_field_article
 features[variable][] = date_api_version
 features[variable][] = date_default_timezone
 features[variable][] = date_first_day
+features[variable][] = drupal_http_request_function
 features[variable][] = file_private_path
 features[variable][] = filter_fallback_format
 features[variable][] = i18n_select_nodes
