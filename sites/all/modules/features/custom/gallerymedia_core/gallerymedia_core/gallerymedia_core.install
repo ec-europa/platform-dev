@@ -42,6 +42,7 @@ function gallerymedia_core_enable() {
 function gallerymedia_core_disable() {
     // solR configuration add bundle
     multisite_drupal_toolbox_config_solr_bundle('gallerymedia', 'delete');
+    multisite_drupal_toolbox_disable_content_type('gallerymedia');
 
     //remove the breadcrump relative to
     db_delete('custom_breadcrumb')
