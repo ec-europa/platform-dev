@@ -104,7 +104,6 @@ function multi_user_blog_field_default_fields() {
     ),
   );
 
-  
   // Exported field: 'node-blog_post-body'.
   $fields['node-blog_post-body'] = array(
     'field_config' => array(
@@ -256,6 +255,7 @@ function multi_user_blog_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Comment');
   t('Post');
   t('Tags');
 
