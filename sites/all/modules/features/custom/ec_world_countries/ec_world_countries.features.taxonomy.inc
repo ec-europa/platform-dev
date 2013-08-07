@@ -9,7 +9,7 @@
  */
 function ec_world_countries_taxonomy_default_vocabularies() {
   return array(
-    'european_countries' => array(
+    'ec_world_countries' => array(
       'name' => 'EC World Countries',
       'machine_name' => 'ec_world_countries',
       'description' => 'A list of the world countries',
