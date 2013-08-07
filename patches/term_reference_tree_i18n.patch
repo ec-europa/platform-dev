@@ -26,9 +26,9 @@
        }
      }
    }
-index 1685a43..0aa3e72 100644
---- a/term_reference_tree.widget.inc
-+++ b/term_reference_tree.widget.inc
+
+--- sites/all/modules/contributed/term_reference_tree/term_reference_tree.widget.inc
++++ sites/all/modules/contributed/term_reference_tree/term_reference_tree.widget.inc
 @@ -286,9 +286,10 @@ function term_reference_tree_process_checkbox_tree($element, $form_state) {
        if ($element['#max_choices'] == 1 && !$required) {
          array_unshift($element['#options_tree'], (object) array(
