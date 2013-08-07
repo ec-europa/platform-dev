@@ -71,3 +71,42 @@ function multisite_drupal_access_node_access_records($node) {
     return;
 }
 
+
+
+function multisite_drupal_access_node_access_records($node) {
+  $grants = array();
+
+  // give the right for any users to view community type
+  if($node->type == 'community')  {
+    $group_type = 'node';
+    $grants[] = array (
+      'realm' => 'all',
+      'gid' => 0,
+      'grant_view' => 1,
+      'grant_update' => 0,
+      'grant_delete' => 0,
+      'priority' => 0,
+    );
+  }
+
+  // allow users to see their own unpublished contents
+  if($node->status == 0) {
+    $grants[] = array (
+      'realm' => 'unpublished',
+      'gid' => $node->uid,
+      'grant_view' => 1,
+      'grant_update' => 1,
+      'grant_delete' => 1,
+      'priority' => 0,
+    );
+  }
+
+  return $grants;
+}
+
+function multisite_drupal_access_node_grants($account, $op) {
+  // allow users to see their own unpublished contents
+  $grants['unpublished'] = array($account->uid);
+  return $grants;
+}
+
