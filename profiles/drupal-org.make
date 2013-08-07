@@ -209,6 +209,9 @@ projects[subscriptions][version] = "1.1"
 projects[sweaver][subdir] = "contributed"
 projects[sweaver][version] = "1.3"
 
+projects[term_reference_tree][subdir] = "contributed"
+projects[term_reference_tree][version] = "1.10"
+
 projects[tmgmt][subdir] = "contributed"
 projects[tmgmt][version] = "1.0-alpha2"
 
