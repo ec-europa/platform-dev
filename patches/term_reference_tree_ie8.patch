@@ -1,7 +1,7 @@
 diff --git a/term_reference_tree.css b/term_reference_tree.css
 index 5213ade..6e958f5 100644
---- a/term_reference_tree.css
-+++ b/term_reference_tree.css
+--- sites/all/modules/contributed/term_reference_tree/term_reference_tree.css
++++ sites/all/modules/contributed/term_reference_tree/term_reference_tree.css
 @@ -47,10 +47,14 @@
  
  .field-widget-term-reference-tree .form-item {

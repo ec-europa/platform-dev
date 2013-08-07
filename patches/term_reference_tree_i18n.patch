@@ -1,7 +1,7 @@
 diff --git a/term_reference_tree.module b/term_reference_tree.module
 index 7dbcf84..8f8c58b 100644
---- a/term_reference_tree.module
-+++ b/term_reference_tree.module
+--- sites/all/modules/contributed/term_reference_tree/term_reference_tree.module
++++ sites/all/modules/contributed/term_reference_tree/term_reference_tree.module
 @@ -139,7 +139,7 @@ function _term_reference_tree_get_children($tid, $vid) {
    $query = db_select('taxonomy_term_data', 't');
    $query->join('taxonomy_term_hierarchy', 'h', 't.tid = h.tid');
