@@ -137,7 +137,7 @@ function cce_basic_config_video_default_presets() {
         'clip_start' => '',
         'clip_length' => '',
       ),
-      'overridden' => TRUE,
+      'overridden' => FALSE,
       'module' => 'cce_basic_config',
     ),
 
