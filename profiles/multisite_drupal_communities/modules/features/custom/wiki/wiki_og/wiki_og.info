@@ -20,7 +20,6 @@ features[ctools][] = views:views_default:3.0
 features[features_api][] = api:1
 features[field][] = node-wiki-group_content_access
 features[field][] = node-wiki-og_group_ref
-features[node][] = wiki
 features[og_features_permission][] = node:community:create wiki content
 features[og_features_permission][] = node:community:delete any wiki content
 features[og_features_permission][] = node:community:delete own wiki content
