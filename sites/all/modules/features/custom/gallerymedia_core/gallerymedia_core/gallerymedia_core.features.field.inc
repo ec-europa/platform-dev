@@ -178,7 +178,7 @@ function gallerymedia_core_field_default_fields() {
   );
 
   // Exported field: 'node-gallerymedia-field_video_upload'.
-  
+
   $fields['node-gallerymedia-field_video_upload'] = array(
     'field_config' => array(
       'active' => '1',
@@ -212,8 +212,7 @@ function gallerymedia_core_field_default_fields() {
         ),
         'presets' => array(
           'default_flash_conversion' => 'default_flash_conversion',
-          'default_video_conversion' => 0,
-        ),
+         ),
         'preview_video_thumb_style' => 'square_thumbnail',
         'thumbnail_format' => 'png',
         'uri_scheme' => 'public',
