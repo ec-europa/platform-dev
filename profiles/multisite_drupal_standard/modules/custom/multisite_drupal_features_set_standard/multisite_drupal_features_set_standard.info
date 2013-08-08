@@ -70,6 +70,14 @@ feature_sets[multisite_metatags][font] = 'multisite-icon-bookmarks'
 feature_sets[multisite_metatags][enable][] = multisite_metatags
 feature_sets[multisite_metatags][disable][] = multisite_metatags
 
+feature_sets[multisite_multilingual_references][title] = 'Multisite Multilingual entity reference'
+feature_sets[multisite_multilingual_references][description] = 'Replaces link to node with link to translation in the user's language, or allows the user to choose from the available translations.'
+feature_sets[multisite_multilingual_references][category] = 'Communication'
+feature_sets[multisite_multilingual_references][icon] = ''
+feature_sets[multisite_multilingual_references][font] = 'multisite-icon-bubbles'
+feature_sets[multisite_multilingual_references][enable][] = multisite_multilingual_references
+feature_sets[multisite_multilingual_references][disable][] = multisite_multilingual_references
+
 feature_sets[wiki_standard][title] = 'Wikis'
 feature_sets[wiki_standard][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every visitor, can view the content of the wiki.'
 feature_sets[wiki_standard][category] = 'Communication'
