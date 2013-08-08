@@ -154,5 +154,73 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
 
     $output = $output1;
   }
-
 }
+  
+function taxonomy_browser_block_info() {
+  
+  $blocks['taxonomy_browser'] = array(
+    'info' => t('taxonomy_browser'),     
+    'weight' => 0,
+  );
+
+  return $blocks;
+}  
+
+function taxonomy_browser_block_view($delta = '') {
+  
+  $block = array();
+
+  switch ($delta) {
+    case 'taxonomy_browser':
+      $block['subject'] = t('taxonomy_browser');
+      $block['content'] = taxonomy_browser_create_block_content();
+     break;
+  }
+  return $block;
+}
+
+function taxonomy_browser_create_block_content(){
+
+    drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/taxonomy_browser.css');
+    drupal_add_js('misc/jquery.cookie.js');
+    drupal_add_js('sites/all/libraries/jstree/jquery.jstree.js');
+    drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser.js');
+    drupal_add_library('system', 'drupal.ajax');
+ 
+    $view_path = variable_get('site_frontpage', 'node');
+ 
+    $vid = variable_get('taxonomy_browser_vocabulary');
+    $vocabulary = taxonomy_vocabulary_load($vid);
+    $parents_tree = array();
+    $breadcrumb = drupal_get_breadcrumb();
+
+    $selected = isset($view->args[0]) ? $view->args[0] : 0;
+    $selected_term = '';
+    $header = '';
+    
+    if ($selected > 0) {
+      $selected_term = taxonomy_term_load($selected);
+      taxonomy_get_parents_tree($selected, $parents_tree, TRUE);
+      foreach ($parents_tree as $parent) {
+        $link = l($parent->name, $view_path . '/' . $parent->tid);
+        $breadcrumb[] = $link;
+      }
+    }
+    drupal_set_breadcrumb($breadcrumb);
+
+    if ($selected_term) {
+      $header .= '<fieldset id="tb_header"><h1>' . $selected_term->name . '</h1>';
+      if (isset($selected_term->description)) {
+        $header .= '<p>' . $selected_term->description . '</p>';
+      }
+      $header .= '</fieldset><hr />';
+    }       
+
+    $output1 = '<div id="tb_wrapper" class="row-fluid">';
+    $output1 .= '<div id="tb_browser"><h1>' . $vocabulary->name . '</h1>';
+    $output1 .= taxonomy_create_tree($vid, $view_path, FALSE, $selected);
+    $output1 .= '</div>';
+	
+	return array('#markup' => $output1);
+}
+
