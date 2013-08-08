@@ -27,7 +27,7 @@ Instead of a list of all class selectors,
 you can use the generic selector below, but it's slower:
 [class*="multisite-icon-"] {
 */
-.multisite-icon-flag, .multisite-icon-reorder, .multisite-icon-home, .multisite-icon-cogs, .multisite-icon-comments-alt, .multisite-icon-flow-branch, .multisite-icon-vcard, .multisite-icon-thumbs-up, .multisite-icon-share, .multisite-icon-light-bulb, .multisite-icon-mail, .multisite-icon-directions, .multisite-icon-code, .multisite-icon-publish, .multisite-icon-language, .multisite-icon-pictures, .multisite-icon-archive, .multisite-icon-paperplane, .multisite-icon-megaphone, .multisite-icon-feed, .multisite-icon-question, .multisite-icon-link, .multisite-icon-earth, .multisite-icon-check, .multisite-icon-file, .multisite-icon-newspaper, .multisite-icon-calendar, .multisite-icon-book, .multisite-icon-edit, .multisite-icon-keyboard, .multisite-icon-group, .multisite-icon-camera, .multisite-icon-location, .multisite-icon-menu, .multisite-icon-pie, .multisite-icon-list, .multisite-icon-bookmarks, .multisite-icon-notification {
+.multisite-icon-flag, .multisite-icon-reorder, .multisite-icon-home, .multisite-icon-cogs, .multisite-icon-comments-alt, .multisite-icon-flow-branch, .multisite-icon-vcard, .multisite-icon-thumbs-up, .multisite-icon-share, .multisite-icon-light-bulb, .multisite-icon-mail, .multisite-icon-directions, .multisite-icon-code, .multisite-icon-publish, .multisite-icon-language, .multisite-icon-pictures, .multisite-icon-archive, .multisite-icon-paperplane, .multisite-icon-megaphone, .multisite-icon-feed, .multisite-icon-question, .multisite-icon-link, .multisite-icon-earth, .multisite-icon-check, .multisite-icon-file, .multisite-icon-newspaper, .multisite-icon-calendar, .multisite-icon-book, .multisite-icon-edit, .multisite-icon-keyboard, .multisite-icon-group, .multisite-icon-camera, .multisite-icon-location, .multisite-icon-menu, .multisite-icon-pie, .multisite-icon-list, .multisite-icon-bookmarks, .multisite-icon-notification, .multisite-icon-bubbles {
 	font-family: 'multisite-icons';
 	speak: none;
 	font-style: normal;
@@ -150,4 +150,7 @@ you can use the generic selector below, but it's slower:
 }
 .multisite-icon-notification:before {
 	content: "\e01c";
+}
+.multisite-icon-bubbles:before {
+	content: "\e01e";
 }
