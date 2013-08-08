@@ -1,0 +1,13 @@
+name = Multisite multilingual references
+description = Replaces link to node with link to translation in the user's language, or allows the user to choose from the available translations.
+package = Multisite_features
+core = 7.x
+version = 7.x-1.0
+php = 5.2.4
+project = multisite_multilingual_references
+dependencies[] = features
+dependencies[] = "ctools"
+features[features_api][] = api:1
+stylesheets[all][] = "css/multisite_multilingual_references.css"
+scripts[] = "js/multisite_multilingual_references.js"
+files[] = tests/multisite_multilingual_references.test
