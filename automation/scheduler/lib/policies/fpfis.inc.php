@@ -610,7 +610,8 @@ function fpfis_adjust_subsite_settings(&$subsite) {
 	
 	$reports = array();
 	$next_state = 'subsite_settings_adjusted';
-	chmod($settings_path, 0660);
+	chgrp($settings_path, 'ossg');
+	chmod($settings_path, 0640);
 	$settings_fh = fopen($settings_path, 'r+');
 	if (!$settings_fh) {
 		$reports[] = sprintf('unable to open file %s', $settings_path);
