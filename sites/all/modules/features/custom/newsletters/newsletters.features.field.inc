@@ -9,7 +9,7 @@
  */
 function newsletters_field_default_fields() {
   $fields = array();
-  
+
   // Exported field: 'comment-comment_node_simplenews-comment_body'.
   $fields['comment-comment_node_simplenews-comment_body'] = array(
     'field_config' => array(
@@ -104,12 +104,10 @@ function newsletters_field_default_fields() {
     ),
   );
 
-
-  // Exported field: 'node-simplenews-body'
+  // Exported field: 'node-simplenews-body'.
   $fields['node-simplenews-body'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(
@@ -129,6 +127,7 @@ function newsletters_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -179,8 +178,6 @@ function newsletters_field_default_fields() {
     ),
   );
 
- 
- 
   // Exported field: 'node-simplenews-field_related_contents'.
   $fields['node-simplenews-field_related_contents'] = array(
     'field_config' => array(
@@ -272,15 +269,11 @@ function newsletters_field_default_fields() {
       ),
     ),
   );
- 
- 
- 
- 
-  // Exported field: 'node-simplenews-field_simplenews_term'
+
+  // Exported field: 'node-simplenews-field_simplenews_term'.
   $fields['node-simplenews-field_simplenews_term'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -298,6 +291,7 @@ function newsletters_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -306,6 +300,7 @@ function newsletters_field_default_fields() {
             'vocabulary' => 'newsletter',
           ),
         ),
+        'options_list_callback' => 'i18n_taxonomy_allowed_values',
       ),
       'translatable' => '1',
       'type' => 'taxonomy_term_reference',
@@ -365,11 +360,10 @@ function newsletters_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-simplenews-field_tags'
+  // Exported field: 'node-simplenews-field_tags'.
   $fields['node-simplenews-field_tags'] = array(
     'field_config' => array(
       'active' => '1',
-      'locked' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
@@ -387,6 +381,7 @@ function newsletters_field_default_fields() {
           0 => 'tid',
         ),
       ),
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -395,6 +390,7 @@ function newsletters_field_default_fields() {
             'parent' => 0,
           ),
         ),
+        'options_list_callback' => 'i18n_taxonomy_allowed_values',
       ),
       'translatable' => '0',
       'type' => 'taxonomy_term_reference',
@@ -443,6 +439,7 @@ function newsletters_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Comment');
   t('Newsletter category');
   t('Tags');
   t('related contents');

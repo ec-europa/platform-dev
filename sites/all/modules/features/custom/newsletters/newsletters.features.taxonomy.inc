@@ -13,10 +13,11 @@ function newsletters_taxonomy_default_vocabularies() {
       'name' => 'Newsletter',
       'machine_name' => 'newsletter',
       'description' => 'Simplenews newsletter categories.',
-      'language' => 'und',
       'hierarchy' => '0',
       'module' => 'simplenews',
       'weight' => '0',
+      'language' => 'und',
+      'i18n_mode' => '0',
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',
