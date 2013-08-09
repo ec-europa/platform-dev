@@ -62,14 +62,6 @@ feature_sets[multisite_maps][font] = 'multisite-icon-location'
 feature_sets[multisite_maps][enable][] = multisite_maps
 feature_sets[multisite_maps][disable][] = multisite_maps
 
-feature_sets[multisite_multilingual_references][title] = 'Multisite Multilingual entity reference'
-feature_sets[multisite_multilingual_references][description] = 'Replaces link to node with link to translation in the user's language, or allows the user to choose from the available translations.'
-feature_sets[multisite_multilingual_references][category] = 'Communication'
-feature_sets[multisite_multilingual_references][icon] = ''
-feature_sets[multisite_multilingual_references][font] = 'multisite-icon-bubbles'
-feature_sets[multisite_multilingual_references][enable][] = multisite_multilingual_references
-feature_sets[multisite_multilingual_references][disable][] = multisite_multilingual_references
-
 feature_sets[multisite_metatags][title] = 'Multisite Meta tags'
 feature_sets[multisite_metatags][description] = 'Add metatag information to nodes, that respects the IPG guidelines'
 feature_sets[multisite_metatags][category] = 'Communication'
@@ -164,6 +156,14 @@ feature_sets[gallerymedia_core][disable][] = gallerymedia_core
 
 
 ; Multilingualism
+feature_sets[multisite_multilingual_references][title] = 'Multisite Multilingual entity reference'
+feature_sets[multisite_multilingual_references][description] = 'Replaces link to node with link to translation in the user's language, or allows the user to choose from the available translations.'
+feature_sets[multisite_multilingual_references][category] = 'Multilingualism'
+feature_sets[multisite_multilingual_references][icon] = ''
+feature_sets[multisite_multilingual_references][font] = 'multisite-icon-bubbles'
+feature_sets[multisite_multilingual_references][enable][] = multisite_multilingual_references
+feature_sets[multisite_multilingual_references][disable][] = multisite_multilingual_references
+
 feature_sets[multilingual_tools][title] = 'Multilingual tools'
 feature_sets[multilingual_tools][description] = 'Provide tools to enhance the translation tasks.'
 feature_sets[multilingual_tools][category] = 'Multilingualism'
