@@ -1,6 +1,6 @@
-name = STARTERKIT project name
-description = STARTERKIT is a skeleton for FPFIS modules
-package = STARTERKIT package name
+name = STARTERKIT Project
+description = A skeleton for other features. For demo purposes only
+package = Features
 core = 7.x
 version = 7.x-1.0
 php = 5.2.4
