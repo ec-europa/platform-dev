@@ -89,6 +89,9 @@ projects[features][version] = "2.0-beta1"
 projects[field_group][subdir] = "contributed"
 projects[field_group][version] = "2.x-dev"
 
+projects[field_collection][subdir] = "contributed"
+projects[field_collection][version] = "1.0-beta5"
+
 projects[file_entity][subdir] = "contributed"
 projects[file_entity][version] = "2.0-unstable7"
 
