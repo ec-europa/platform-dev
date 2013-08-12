@@ -299,7 +299,7 @@ feature_sets[multisite_notifications_core][disable][] = multisite_notifications_
 
 ; Site management
 feature_sets[business_indicators][title] = 'Business indicators'
-feature_sets[business_indicators][description] = 'Provides a set of blocks with figures about a Multisite installation's user and content.'
+feature_sets[business_indicators][description] = 'Provides a set of blocks with figures about a Multisite installation\'s user and content. <span class="desc"><a href="https://webgate.ec.europa.eu/fpfis/wikis/x/fIlgAw">Lire la documentation</a></span>'
 feature_sets[business_indicators][category] = 'Site management'
 feature_sets[business_indicators][icon] = ''
 feature_sets[business_indicators][font] = 'multisite-icon-stats'
