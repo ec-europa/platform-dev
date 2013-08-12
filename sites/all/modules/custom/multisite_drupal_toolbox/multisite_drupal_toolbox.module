@@ -299,29 +299,30 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
 }
 
 
+/**
+ * Implements hook_theme_registry_alter
+ */
+function multisite_drupal_toolbox_theme_registry_alter(&$theme_registry) {
+  // use our own function to display status messages
+  $theme_registry['status_messages']['function'] = "multisite_drupal_toolbox_messages";
+}
 
 /**
- * Implements hook_page_alter().
+ * custom function to override the drupal status message
  */
-function multisite_drupal_toolbox_page_alter(&$page) {
+function multisite_drupal_toolbox_messages($variables) {
   global $user;
+  $message = "";
   $rid = multisite_drupal_toolbox_get_rid('administrator');
   if (variable_get('alert_message_enable', FALSE) && isset($user->roles[$rid])) {
-    $message = array(
-        '#weight' => -1000,
-        '#type' => 'markup',
-        '#markup' => variable_get('alert_message_body', ""),
-        '#prefix' => '<div id="alter_message" class="messages warning">',
-        '#suffix' => '</div>',
-    );
-
-    $elt = array('alert_message' => $message);
-    if (array_key_exists('content_top', $page))
-      array_unshift($page['content_top'], $elt);
-    else
-      $page['content_top']['alert_message'] = $message;
-  }
+    $message = '<div id="alter_message" class="messages warning">'.variable_get('alert_message_body', "").'</div>';
+ }
+ $output = theme_status_messages($variables);
+ $output = $message.$output;
+ return $output;
 }
+
+
 
 /**
  * Public function to disable a content type
