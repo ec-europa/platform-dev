@@ -44,7 +44,8 @@ window.onload = function() {
 			'multisite-icon-list' : '&#xe01a;',
 			'multisite-icon-bookmarks' : '&#xe01b;',
 			'multisite-icon-notification' : '&#xe01c;',
-			'multisite-icon-bubbles' : '&#xe01e;'
+			'multisite-icon-bubbles' : '&#xe01e;',
+			'multisite-icon-stats' : '&#xe01d;'
 		},
 		els = document.getElementsByTagName('*'),
 		i, attr, html, c, el;

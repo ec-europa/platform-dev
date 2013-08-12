@@ -279,3 +279,13 @@ feature_sets[multisite_notifications_og][enable][] = multisite_notifications_cor
 feature_sets[multisite_notifications_og][enable][] = multisite_notifications_og
 feature_sets[multisite_notifications_og][disable][] = multisite_notifications_og
 feature_sets[multisite_notifications_og][disable][] = multisite_notifications_core
+
+
+; Site management
+feature_sets[business_indicators][title] = 'Business indicators'
+feature_sets[business_indicators][description] = 'Provides a set of blocks with figures about a Multisite installation's user and content.'
+feature_sets[business_indicators][category] = 'Site management'
+feature_sets[business_indicators][icon] = ''
+feature_sets[business_indicators][font] = 'multisite-icon-stats'
+feature_sets[business_indicators][enable][] = business_indicators
+feature_sets[business_indicators][disable][] = business_indicators
