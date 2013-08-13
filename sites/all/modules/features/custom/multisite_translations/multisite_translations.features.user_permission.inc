@@ -18,8 +18,6 @@ function multisite_translations_user_default_permissions() {
       'editor' => 'editor',
       'translator' => 'translator',
       'translator_english' => 'translator_english',
-      'translator_french' => 'translator_french',
-      'translator_german' => 'translator_german',
     ),
     'module' => 'tmgmt',
   );
@@ -31,8 +29,6 @@ function multisite_translations_user_default_permissions() {
       'administrator' => 'administrator',
       'editor' => 'editor',
       'translator_english' => 'translator_english',
-      'translator_french' => 'translator_french',
-      'translator_german' => 'translator_german',
     ),
     'module' => 'tmgmt',
   );
@@ -44,8 +40,6 @@ function multisite_translations_user_default_permissions() {
       'administrator' => 'administrator',
       'editor' => 'editor',
       'translator_english' => 'translator_english',
-      'translator_french' => 'translator_french',
-      'translator_german' => 'translator_german',
     ),
     'module' => 'tmgmt',
   );
