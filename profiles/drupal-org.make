@@ -189,7 +189,7 @@ projects[quicktabs][subdir] = "contributed"
 projects[quicktabs][version] = "3.4"
 
 projects[rate][subdir] = "contributed"
-projects[rate][version] = "1.5"
+projects[rate][version] = "1.6"
 
 projects[realname][subdir] = "contributed"
 projects[realname][version] = "1.0"
