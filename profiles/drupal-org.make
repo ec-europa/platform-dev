@@ -192,7 +192,7 @@ projects[rate][subdir] = "contributed"
 projects[rate][version] = "1.6"
 
 projects[realname][subdir] = "contributed"
-projects[realname][version] = "1.0"
+projects[realname][version] = "1.1"
 
 projects[rules][subdir] = "contributed"
 projects[rules][version] = "2.3"
