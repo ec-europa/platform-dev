@@ -123,7 +123,7 @@ projects[language_cookie][subdir] = "contributed"
 projects[language_cookie][version] = "1.6"
 
 projects[libraries][subdir] = "contributed"
-projects[libraries][version] = "2.0"
+projects[libraries][version] = "2.1"
 
 projects[link][subdir] = "contributed"
 projects[link][version] = "1.1"
