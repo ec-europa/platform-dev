@@ -9,7 +9,7 @@
  */
 function news_core_field_default_fields() {
   $fields = array();
-  
+
   // Exported field: 'comment-comment_node_news-comment_body'.
   $fields['comment-comment_node_news-comment_body'] = array(
     'field_config' => array(
@@ -579,12 +579,14 @@ function news_core_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Comment');
   t('Enter a link related to your news content. Please enter a complete link, begining with "http(s)://"');
   t('It is a Top News');
   t('Link');
-  t('Picture');
   t('Publication date');
   t('Tags');
+  t('This content will be published on that date, if its workflow status is set to "Validated"');
+  t('This content will be unpublished on that date, and its workflow status will be set to "Archived"');
   t('Unpublish on');
 
   return $fields;

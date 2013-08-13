@@ -14,9 +14,9 @@ function news_core_user_default_permissions() {
   $permissions['create news content'] = array(
     'name' => 'create news content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -25,9 +25,9 @@ function news_core_user_default_permissions() {
   $permissions['delete any news content'] = array(
     'name' => 'delete any news content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -36,9 +36,9 @@ function news_core_user_default_permissions() {
   $permissions['delete own news content'] = array(
     'name' => 'delete own news content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -47,9 +47,9 @@ function news_core_user_default_permissions() {
   $permissions['edit any news content'] = array(
     'name' => 'edit any news content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
@@ -58,9 +58,9 @@ function news_core_user_default_permissions() {
   $permissions['edit own news content'] = array(
     'name' => 'edit own news content',
     'roles' => array(
-      0 => 'administrator',
-      1 => 'contributor',
-      2 => 'editor',
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
     ),
     'module' => 'node',
   );
