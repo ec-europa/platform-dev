@@ -1,7 +1,7 @@
 name = solr_config
 description = solr facets settings
 core = 7.x
-package = Multisite_features
+package = Multisite Core Features
 php = 5.2.4
 version = 7.x-1.2
 project = solr_config
