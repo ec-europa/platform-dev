@@ -364,12 +364,14 @@ function group_name_to_arg($arg=NULL) {
 * _load function
 */
 function group_name_load($arg) {
+  global $language;
+  
   if ($arg == 'none') {
     return 0;
   }
   
   // get real path to get node id
-  $alias = drupal_get_normal_path("community/" . $arg, 'en'); 
+  $alias = drupal_get_normal_path("community/" . $arg, $language->language); 
   
   if($alias != "community/" . $arg) { // if the url is an alias
     $param = explode("/", $alias);
