@@ -1,5 +1,5 @@
 name = EC Profiles
-package = Features
+package = Multisite Features
 php = 5.2.4
 project = ec_profiles
 version = 7.x-1.0
