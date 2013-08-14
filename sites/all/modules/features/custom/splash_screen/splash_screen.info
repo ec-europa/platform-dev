@@ -1,4 +1,4 @@
-name = Splash_screen
+name = Splash screen
 description = Provide a homepage to choose language and store language in cookie.
 core = 7.x
 package = Multisite Features

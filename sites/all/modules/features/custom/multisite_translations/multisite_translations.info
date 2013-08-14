@@ -1,4 +1,4 @@
-name = multisite_translations
+name = Multisite translations
 description = provide a system for translation requests management based on tmgmt module
 core = 7.x
 package = Multisite Features
