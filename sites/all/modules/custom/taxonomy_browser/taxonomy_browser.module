@@ -179,7 +179,7 @@ function taxonomy_browser_block_view($delta = '') {
   return $block;
 }
 
-function taxonomy_browser_create_block_content(){
+function taxonomy_browser_create_block_content() {
 
     drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/taxonomy_browser.css');
     drupal_add_js('misc/jquery.cookie.js');
@@ -220,7 +220,7 @@ function taxonomy_browser_create_block_content(){
     $output1 .= '<div id="tb_browser"><h1>' . $vocabulary->name . '</h1>';
     $output1 .= taxonomy_create_tree($vid, $view_path, FALSE, $selected);
     $output1 .= '</div>';
-	
-	return array('#markup' => $output1);
+
+  return array('#markup' => $output1);
 }
 

@@ -1,3 +1,9 @@
+/**
+ * @taxonomy_browser.js
+ * create a jstree object for the taxonomy_browser module
+ *  
+ */
+
 (function($){
 $(document).ready(function(){
 	$("#tb_browser_tree").jstree({ 
