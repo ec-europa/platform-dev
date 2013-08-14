@@ -11,7 +11,6 @@ dependencies[] = defaultcontent
 dependencies[] = features
 dependencies[] = mail_edit
 dependencies[] = menu
-dependencies[] = multisite_notifications_core
 dependencies[] = sitemap
 dependencies[] = strongarm
 dependencies[] = subscriptions
