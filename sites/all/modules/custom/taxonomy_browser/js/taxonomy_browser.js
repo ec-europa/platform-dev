@@ -1,4 +1,4 @@
-/*
+/**
  * @file
  * create a jstree object for the taxonomy_browser module
  *  
