@@ -371,12 +371,13 @@ function group_name_load($arg) {
   // get real path to get node id
   $alias = drupal_get_normal_path("community/" . $arg, 'en'); 
   
-  $param = explode("/", $alias);
-  $group = node_load($param[1]); // load community
-
-  //og_context($group);
-
-  return $group->nid;
+  if($alias != "community/" . $arg) { // if the url is an alias
+    $param = explode("/", $alias);
+    $group = node_load($param[1]); // load community
+    return $group->nid;
+  }
+  
+  return; // no og found in the url to determine the og context
 }
 
 
