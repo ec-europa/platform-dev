@@ -88,7 +88,16 @@ function multisite_maps_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
+          '0' => 'Please select a map below',
           '0' => '------------------------------------',
+		  'FCMap_Europe' => 'Europe',
+		  'FCMap_Europe2' => 'Europe (with overseas territories)',
+		  'FCMap_EuropeanCountries2.swf' => 'EU Members 27(with overseas territories)',
+		  'FCMap_EuropeanCountries' => 'EU Members 27',
+		  'FCMap_EuropeanCountries2_28' => 'EU Members 28(with overseas territories)',
+		  'FCMap_EuropeanCountries_28' => 'EU Members 28',
+		  'FCMap_EuropeanCountriesEFTA' => 'EU Members 27 + EFTA',	
+		  'FCMap_EuropeanCountriesEFTA_28' => 'EU Members 28 + EFTA',	
           '1' => '------World & Continents------',
           'FCMap_World' => 'World',
           'FCMap_WorldWithAntarctica' => 'World with Antarctica',
@@ -169,6 +178,14 @@ function multisite_maps_field_default_fields() {
           'FCMap_USASouthWestRegion' => 'USA South West Region',
           '6' => '  ',
           '7' => '------- Europe & Countries ------',
+		  'FCMap_Europe' => 'Europe',
+		  'FCMap_Europe2' => 'Europe (with overseas territories)',
+		  'FCMap_EuropeanCountries2.swf' => 'EU Members 27(with overseas territories)',
+		  'FCMap_EuropeanCountries' => 'EU Members 27',
+		  'FCMap_EuropeanCountries2_28' => 'EU Members 28(with overseas territories)',
+		  'FCMap_EuropeanCountries_28' => 'EU Members 28',
+		  'FCMap_EuropeanCountriesEFTA' => 'EU Members 27 + EFTA',	
+		  'FCMap_EuropeanCountriesEFTA_28' => 'EU Members 28 + EFTA',	
           'FCMap_Europewithcountries' => 'Europe (All Countries)',
           'FCMap_Europe2' => 'Europe (With all islands)',
           'FCMap_Albania' => 'Albania',
@@ -1119,7 +1136,7 @@ function multisite_maps_field_default_fields() {
       'bundle' => 'map',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'FusionMaps takes in data only in custom XML format. The XML can be auto-generated using the <a href="http://www.fusioncharts.com/demos/business/visual-map-builder/view/index.html" target="_blank">Visual Map Builder</a> which provides an online interface for convenient data entry.',
+      'description' => 'FusionMaps takes in data only in custom XML format. The XML can be auto-generated using the <a href="http://www.cc.cec/fpfis/fusionmaps/Tools/GUI/FusionMapsGUI.html" target="_blank">Visual Map Builder</a> which provides an online interface for convenient data entry.',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -1151,441 +1168,16 @@ function multisite_maps_field_default_fields() {
     ),
   );
 
-// Multisite Maps extended version
-// Exported field: 'field_collection_item-field_embedded_maps-field_maps_category'.
-  $fields['field_collection_item-field_embedded_maps-field_maps_category'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_maps_category',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          1 => 'World & Continents',
-          2 => 'US & Counties',
-          3 => 'US Regions',
-          4 => 'Europe & Countries',
-          5 => 'Europe By Regions',
-          6 => 'UK',
-          7 => 'North America',
-          8 => 'South America',
-          9 => 'Central America',
-          10 => 'Canada - Provinces & Territories',
-          11 => 'Asia',
-          12 => 'Middle East',
-          13 => 'Oceania',
-          14 => 'Africa & Countries',
-          15 => 'Africa Regions',
-          16 => 'Egypt',
-          17 => 'Brazil (States)',
-          18 => 'Caribbeans (Islands)',
-          19 => 'Mexico',
-          20 => 'Bulgaria Provinces',
-          21 => 'Denmark Regions',
-          22 => 'Hungary Regions',
-          23 => 'Czech Republic District',
-          24 => 'Albania Counties',
-          25 => 'Estonia Counties',
-          26 => 'Romania Regions',
-          27 => 'Poland Voivodeships',
-          28 => 'Norway Regions',
-          29 => 'Norway Counties',
-          30 => 'Slovakia Regions',
-          31 => 'Belgium (Regions)',
-          32 => 'Czech Republic (Regions)',
-          33 => 'France (Arrondisemants)',
-          34 => 'Germany (States)',
-          35 => 'Italy (Regions)',
-          36 => 'Sweden (Counties)',
-          37 => 'Switzerland (Cantons)',
-          38 => 'Austria (States)',
-          39 => 'Portugal (Districts)',
-          40 => 'Australia States',
-          41 => 'New Zealand Provinces',
-          42 => 'USA States Area Code',
-          43 => 'USA Congressional',
-          44 => 'USA DMA',
-          45 => 'TimeZone',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'field_embedded_maps',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '0',
-        ),
-      ),
-      'entity_type' => 'field_collection_item',
-      'field_name' => 'field_maps_category',
-      'label' => 'Category',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '0',
-      ),
-    ),
-  );
-
-  // Exported field: 'field_collection_item-field_embedded_maps-field_maps_map'.
-  $fields['field_collection_item-field_embedded_maps-field_maps_map'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_maps_map',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'field_embedded_maps',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '1',
-        ),
-      ),
-      'entity_type' => 'field_collection_item',
-      'field_name' => 'field_maps_map',
-      'label' => 'Map',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '1',
-      ),
-    ),
-  );
-
-  // Exported field: 'field_collection_item-field_embedded_maps-field_maps_regions'.
-  $fields['field_collection_item-field_embedded_maps-field_maps_regions'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '-1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_maps_regions',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'field_embedded_maps',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '2',
-        ),
-      ),
-      'entity_type' => 'field_collection_item',
-      'field_name' => 'field_maps_regions',
-      'label' => 'Regions',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '2',
-      ),
-    ),
-  );
-
-  // Exported field: 'field_collection_item-field_embedded_maps-field_maps_settings'.
-  $fields['field_collection_item-field_embedded_maps-field_maps_settings'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_maps_settings',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => 'False',
-          1 => 'True',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_boolean',
-    ),
-    'field_instance' => array(
-      'bundle' => 'field_embedded_maps',
-      'default_value' => array(
-        0 => array(
-          'value' => 1,
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '3',
-        ),
-      ),
-      'entity_type' => 'field_collection_item',
-      'field_name' => 'field_maps_settings',
-      'label' => 'Show Labels?',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(
-          'display_label' => 1,
-        ),
-        'type' => 'options_onoff',
-        'weight' => '3',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-contenttype-field_embedded_maps'.
-  $fields['node-contenttype-field_embedded_maps'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_embedded_maps',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'locked' => '0',
-      'module' => 'field_collection',
-      'settings' => array(
-        'hide_blank_items' => 1,
-        'path' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'field_collection',
-    ),
-    'field_instance' => array(
-      'bundle' => 'contenttype',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'field_collection',
-          'settings' => array(
-            'add' => 'Add',
-            'delete' => 'Delete',
-            'description' => TRUE,
-            'edit' => 'Edit',
-            'view_mode' => 'full',
-          ),
-          'type' => 'field_collection_view',
-          'weight' => '13',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_embedded_maps',
-      'label' => 'Fusion Maps',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 0,
-        'module' => 'field_collection',
-        'settings' => array(),
-        'type' => 'field_collection_embed',
-        'weight' => '34',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-contenttype-field_maps_node_reference'.
-  $fields['node-contenttype-field_maps_node_reference'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_maps_node_reference',
-      'foreign keys' => array(
-        'node' => array(
-          'columns' => array(
-            'target_id' => 'nid',
-          ),
-          'table' => 'node',
-        ),
-      ),
-      'indexes' => array(
-        'target_id' => array(
-          0 => 'target_id',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'entityreference',
-      'settings' => array(
-        'handler' => 'base',
-        'handler_settings' => array(
-          'behaviors' => array(
-            'views-select-list' => array(
-              'status' => 0,
-            ),
-          ),
-          'sort' => array(
-            'type' => 'none',
-          ),
-          'target_bundles' => array(
-            'map' => 'map',
-          ),
-        ),
-        'target_type' => 'node',
-      ),
-      'translatable' => '0',
-      'type' => 'entityreference',
-    ),
-    'field_instance' => array(
-      'bundle' => 'contenttype',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'entityreference',
-          'settings' => array(
-            'links' => 0,
-            'view_mode' => 'teaser',
-          ),
-          'type' => 'entityreference_entity_view',
-          'weight' => '19',
-        ),
-        'teaser' => array(
-          'label' => 'hidden',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_maps_node_reference',
-      'label' => 'Add existing map',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '9',
-      ),
-    ),
-  );
-
-
   // Translatables
   // Included for use with string extractors like potx.
   t('Data XML Source');
-  t('FusionMaps takes in data only in custom XML format. The XML can be auto-generated using the <a href="http://www.fusioncharts.com/demos/business/visual-map-builder/view/index.html" target="_blank">Visual Map Builder</a> which provides an online interface for convenient data entry.');
+  t('FusionMaps takes in data only in custom XML format. The XML can be auto-generated using the <a href="http://www.cc.cec/fpfis/fusionmaps/Tools/GUI/FusionMapsGUI.html" target="_blank">Visual Map Builder</a> which provides an online interface for convenient data entry.');
   t('Height');
   t('Height of the map (in pixels). It should be an integer number between 100 and 800.');
   t('Map type');
   t('Select a map type from the list.');
   t('Width');
   t('Width of the map (in pixels). It should be an integer number between 100 and 800.');
-
-  t('Add existing map');
-  t('Category');
-  t('Fusion Maps');
-  t('Map');
-  t('Regions');
-  t('Show Labels?');
 
   return $fields;
 }
