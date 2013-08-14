@@ -85,15 +85,6 @@ function multisite_notifications_core_user_default_permissions() {
     ),
     'module' => 'multisite_notifications_core',
   );
-  
-    // Exported permission: administer mail templates.
-  $permissions['administer mail templates'] = array(
-    'name' => 'administer mail templates',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'mail_edit',
-  );
 
   return $permissions;
 }

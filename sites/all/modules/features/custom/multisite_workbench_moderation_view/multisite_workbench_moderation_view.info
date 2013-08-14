@@ -1,6 +1,6 @@
 name = Multisite Workbench Moderation View
 description = A new UI for administrators for Workflow Management in bulk.
-package = Workbench
+package = Multisite Core Features
 core = 7.x
 version = 7.x-1.1
 php = 5.2.4

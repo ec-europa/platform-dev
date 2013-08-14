@@ -1,7 +1,7 @@
 name = Contact form
 description = Let user contact support
 core = 7.x
-package = Features
+package = Multisite Features
 version = 7.x-1.0
 project = contact_form
 php = 5.2.4

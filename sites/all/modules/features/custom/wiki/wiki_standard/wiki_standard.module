@@ -11,9 +11,9 @@ include_once('wiki_standard.views_alter.inc');
 */
 function wiki_standard_views_pre_render(&$view) {
   if($view->name == 'wiki_list' && $view->current_display == 'page_1') {
-    if (user_access('create wiki content'))  {
+   // if (user_access('create wiki content'))  {
       $output = l(t('Create a new wiki'), 'node/add/wiki', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
       $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
-    }
+   // }
   }
 }

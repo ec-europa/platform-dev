@@ -1,7 +1,7 @@
 name = EC Embedded Video
 description = Allows to embed videos from Youtube, dailymotion or vimeo
 core = 7.x
-package = Multisite_features
+package = Multisite Features
 php = 5.2.4
 version = 7.x-1.0
 dependencies[] = ctools

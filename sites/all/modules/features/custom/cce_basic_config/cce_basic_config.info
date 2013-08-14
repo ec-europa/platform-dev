@@ -1,7 +1,7 @@
 name = CCE_basic_config
 description = basic settings for multisite
 core = 7.x
-package = Multisite_features
+package = Multisite Core Features
 php = 5.2.4
 version = 7.x-1.7
 project = cce_basic_config

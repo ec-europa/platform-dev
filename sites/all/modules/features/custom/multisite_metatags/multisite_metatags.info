@@ -1,7 +1,7 @@
 name = Multisite Metatags
 description = Add metatag information to nodes, that respects the IPG guidelines
 core = 7.x
-package = Multisite_features
+package = Multisite Features
 php = 5.2.4
 version = 7.x-1.0
 project = multisite_metatags

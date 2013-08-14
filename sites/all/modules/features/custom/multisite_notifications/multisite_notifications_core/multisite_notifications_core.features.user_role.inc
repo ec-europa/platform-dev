@@ -13,7 +13,7 @@ function multisite_notifications_core_user_default_roles() {
   // Exported role: subscriber.
   $roles['subscriber'] = array(
     'name' => 'subscriber',
-    'weight' => 5,
+    'weight' => '5',
   );
 
   return $roles;

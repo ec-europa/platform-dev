@@ -1,6 +1,6 @@
 name = Multisite custom error
 description = Set up the activation / deactivation custom error module behavior
-package = Multisite_features
+package = Multisite Core Features
 core = 7.x
 version = 7.x-1.0
 php = 5.2.4

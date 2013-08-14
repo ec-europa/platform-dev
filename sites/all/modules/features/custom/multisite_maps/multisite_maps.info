@@ -1,7 +1,7 @@
 name = Multisite Maps
 description = It allows the user to create multiple customized maps based on FusionMaps API and insert them into a content type.
 core = 7.x
-package = Multisite_features
+package = Multisite Features
 php = 5.2.4
 version = 7.x-2.0
 project = multisite_maps
