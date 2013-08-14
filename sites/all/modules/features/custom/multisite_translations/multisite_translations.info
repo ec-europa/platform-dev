@@ -10,7 +10,6 @@ dependencies[] = entity
 dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = message
-dependencies[] = multisite_translations
 dependencies[] = rules
 dependencies[] = strongarm
 dependencies[] = tmgmt
