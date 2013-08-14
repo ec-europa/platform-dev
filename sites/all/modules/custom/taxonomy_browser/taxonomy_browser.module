@@ -1,5 +1,12 @@
 <?php
 /**
+ * @file
+ * allow to filter view with a taxonomy tree
+ *  
+ */
+
+
+/**
  * Implements hook_menu().
  */
 function taxonomy_browser_menu() {
