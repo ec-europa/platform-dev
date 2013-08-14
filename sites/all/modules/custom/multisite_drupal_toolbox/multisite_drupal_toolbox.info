@@ -1,6 +1,6 @@
 name = Multisite drupal toolbox
 description = Toolbox for the multisite drupal plateform
-package = multisite drupal toolbox
+package = Multisite Core Features
 core = 7.x
 
 ;dependencies[] = apachesolr
