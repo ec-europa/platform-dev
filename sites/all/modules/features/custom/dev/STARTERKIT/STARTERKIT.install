@@ -13,7 +13,23 @@ include_once 'STARTERKIT.install.inc';
  * Implements hook_enable().
  */
 function STARTERKIT_enable() {
+
+  // Add your custom block to the context
+  multisite_drupal_toolbox_add_block_context($contextName,$blockTitle,$module,$delta, $region,$weight='-10');
+
+  // Add a view to a context
+  multisite_drupal_toolbox_add_views_context($contextName,$viewTitle);
+
+  // Add your custom content type to the context
+  multisite_drupal_toolbox_add_content_type_context($contextName, $contentType);
+
+  // When a new feature provide a content type, you may want that this content type can be referred by a simplenews content
+  multisite_drupal_toolbox_simplenews_related_content_type('wiki', 'add');
+
+  // solR configuration add bundle
   config_solr_bundle('CONTENT_TYPE','add');
+
+  // Verbosity
   drupal_set_message(t('STARTERKIT %v feature is now active on your site.', array('%v' => _STARTERKIT_get_version())));
 }
 
@@ -21,9 +37,31 @@ function STARTERKIT_enable() {
  * Implements hook_disable().
  */
 function STARTERKIT_disable() {
-  //Example
-  //multisite_drupal_toolbox_disable_content_type('kit');
+
+  // Remove your custom block to the context
+  multisite_drupal_toolbox_remove_block_context($contextName,$blockTitle);
+
+  // Remove your view from the context
+  multisite_drupal_toolbox_remove_views_context($contextName,$viewTitle);
+
+  // If you add the content type you must also add the function multisite_drupal_toolbox_remove_content_type_context to disable the views:
+  multisite_drupal_toolbox_remove_content_type_context($contextName,$contentType);
+
+  // Add type to the simplenews related content
+  multisite_drupal_toolbox_simplenews_related_content_type('CONTENT_TYPE', delete);
+
+  // Remove your custom content type
+  multisite_drupal_toolbox_disable_content_type('CONTENT_TYPE');
+
+  // solR configuration delete bundle
   config_solr_bundle('CONTENT_TYPE','delete');
+
+  // Disable/Uninstall dependencies
+  if( module_exists('MODULE')) {
+    module_disable(array('MODULE'));
+    drupal_uninstall_modules(array('MODULE'));
+  }
+  // Verbosity
   drupal_set_message(t('STARTERKIT %v feature is now inactive on your site.', array('%v' => _STARTERKIT_get_version())));
 }
 
@@ -32,6 +70,7 @@ function STARTERKIT_disable() {
  */
 function STARTERKIT_install() {
   //Install scripts here
+
 }
 
 /**
