@@ -7,7 +7,7 @@ fi
 
 source config.sh
 
-function __echo {	
+function __echo {
 	if [ "${verbose}" = 1 ] ; then
 		echo $@
 	fi
@@ -140,7 +140,7 @@ fi
 mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "drop database ${site_name};" 1>&2
 mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "create database ${site_name};" 1>&2
 
-chmod -R 777 ${site_name}/sites/default 
+chmod -R 777 ${site_name}/sites/default
 cp -R profiles/multisite_drupal_core ${site_name}/profiles
 cp -R profiles/$install_profile ${site_name}/profiles
 
@@ -162,13 +162,13 @@ __echo "Applying patches from ${patch_dir} to ${site_name}"
 cd ${site_name}
 
 if [ $? != 0 ] ; then
-	__echo "Unable to change directory to ${site_name}" 
+	__echo "Unable to change directory to ${site_name}"
 	exit 20
 fi
 
 
 for patch_file in "${patch_dir}/"*.patch "${patch_dir}/"*.diff; do
-	test -f "${patch_file}" || continue 
+	test -f "${patch_file}" || continue
 	__echo -n "Attempting to apply ${patch_file}..."
 	patch -p0 -b -i "${patch_file}" 1>&2
 	__echo "done"
@@ -190,6 +190,9 @@ drush php-eval 'node_access_rebuild();'
 drush vset tmp_base_url "${subdirectory}/${site_name}"
 drush scr "${working_dir}/profiles/${install_profile}/inject_data.php"
 drush vdel --exact --yes tmp_base_url
+
+#set alias for CodeSniffer
+alias codercs='phpcs --standard=sites/all/modules/contributed/coder/coder_sniffer/Drupal/ruleset.xml --extensions=php,module,inc,install,test,profile,theme'
 
 #set solr tika variables
 drush vset apachesolr_attachments_tika_jar "${apachesolr_attachments_tika_jar}"
