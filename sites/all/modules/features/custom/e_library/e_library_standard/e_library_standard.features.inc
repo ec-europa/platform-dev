@@ -24,19 +24,4 @@ function e_library_standard_views_api() {
   }
 }
 
-/**
- * Implements hook_node_info().
- */
-function e_library_standard_node_info() {
-  $items = array(
-    'document' => array(
-      'name' => t('Document'),
-      'base' => 'node_content',
-      'description' => t('Upload document to your community'),
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-  );
-  return $items;
-}
+
