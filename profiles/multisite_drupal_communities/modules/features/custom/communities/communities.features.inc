@@ -62,7 +62,7 @@ function communities_image_default_styles() {
 function communities_node_info() {
   $items = array(
     'community' => array(
-      'name' => t('community'),
+      'name' => t('Community'),
       'base' => 'node_content',
       'description' => t('content type to handle groups'),
       'has_title' => '1',
