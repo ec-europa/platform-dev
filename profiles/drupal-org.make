@@ -267,7 +267,7 @@ projects[views_slideshow_slider][subdir] = "contributed"
 projects[views_slideshow_slider][version] = "3.0"
 
 projects[votingapi][subdir] = "contributed"
-projects[votingapi][version] = "2.10"
+projects[votingapi][version] = "2.11"
 
 projects[webform][subdir] = "contributed"
 projects[webform][version] = "3.18"
