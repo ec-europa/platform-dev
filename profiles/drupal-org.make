@@ -50,6 +50,9 @@ projects[configuration][version] = "2.x-dev"
 projects[context][subdir] = "contributed"
 projects[context][version] = "3.0-beta6"
 
+projects[coffee][subdir] = "contributed"
+projects[coffee][version] = "2.0"
+
 projects[ctools][subdir] = "contributed"
 projects[ctools][version] = "1.3"
 
