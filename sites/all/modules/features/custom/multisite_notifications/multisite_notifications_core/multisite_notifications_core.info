@@ -7,7 +7,6 @@ version = 7.x-1.0
 project = multisite_notifications_core
 dependencies[] = cce_basic_config
 dependencies[] = ctools
-dependencies[] = defaultcontent
 dependencies[] = features
 dependencies[] = mail_edit
 dependencies[] = menu

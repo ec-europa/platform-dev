@@ -65,9 +65,6 @@ projects[customerror][version] = "1.0-rc1"
 projects[date][subdir] = "contributed"
 projects[date][version] = "2.6"
 
-projects[defaultcontent][subdir] = "contributed"
-projects[defaultcontent][version] = "1.0-alpha6"
-
 projects[diff][subdir] = "contributed"
 projects[diff][version] = "3.2"
 

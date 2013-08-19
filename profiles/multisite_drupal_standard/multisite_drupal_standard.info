@@ -58,7 +58,6 @@ dependencies[] = password_policy
 ;dependencies[] = user_reference
 dependencies[] = strongarm
 dependencies[] = sweaver
-dependencies[] = defaultcontent
 dependencies[] = workbench
 dependencies[] = workbench_moderation
 dependencies[] = multisite_workbench_moderation_view

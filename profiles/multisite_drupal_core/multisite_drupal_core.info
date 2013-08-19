@@ -50,7 +50,6 @@ dependencies[] = media
 dependencies[] = password_policy
 dependencies[] = strongarm
 dependencies[] = sweaver
-dependencies[] = defaultcontent
 dependencies[] = workbench
 dependencies[] = workbench_moderation
 dependencies[] = multisite_workbench_moderation_view
