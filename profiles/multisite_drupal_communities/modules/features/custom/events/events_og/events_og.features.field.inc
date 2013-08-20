@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * events.features.field.inc
+ * events_og.features.field.inc
  */
 
 /**
