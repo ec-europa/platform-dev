@@ -215,7 +215,10 @@ function newsletters_field_default_fields() {
             'property' => 'nid',
             'type' => 'none',
           ),
-          'target_bundles' => array(),
+          'target_bundles' => array(
+            'article' => 'article',
+            'page' => 'page',
+          ),
         ),
         'handler_submit' => 'Change handler',
         'referenceable_types' => array(
