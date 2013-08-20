@@ -11,6 +11,10 @@
  */
 class MultisiteFeatureSetFeatureTest extends DrupalWebTestCase {
 
+  //protected $web_user;
+
+  protected $profile = 'multisite_drupal_standard';
+
   public static function getInfo() {
     return array(
       'name' => 'feature_set Feature test',
@@ -24,7 +28,9 @@ class MultisiteFeatureSetFeatureTest extends DrupalWebTestCase {
    */
   public function setUp() {
     // Enable any modules required for the test.
-    parent::setUp(array('feature_set'));
+    parent::setUp(array('feature_set', 'multisite_drupal_features_set_standard'));
+
+
   }
 
   /**
