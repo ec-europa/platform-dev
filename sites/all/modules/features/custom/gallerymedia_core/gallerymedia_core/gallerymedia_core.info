@@ -12,18 +12,17 @@ dependencies[] = image
 dependencies[] = media
 dependencies[] = node
 dependencies[] = text
+dependencies[] = video
 dependencies[] = views
 features[ctools][] = file_entity:file_default_displays:1
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:1
-
 features[field][] = node-gallerymedia-body
 features[field][] = node-gallerymedia-field_picture_upload
 features[field][] = node-gallerymedia-field_video_upload
 features[image][] = landscape
 features[node][] = gallerymedia
-
 features[user_permission][] = create gallerymedia content
 features[user_permission][] = delete any gallerymedia content
 features[user_permission][] = delete own gallerymedia content

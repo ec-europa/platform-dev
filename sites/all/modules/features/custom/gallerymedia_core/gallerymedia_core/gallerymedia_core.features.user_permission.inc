@@ -10,8 +10,6 @@
 function gallerymedia_core_user_default_permissions() {
   $permissions = array();
 
-
-
   // Exported permission: create gallerymedia content.
   $permissions['create gallerymedia content'] = array(
     'name' => 'create gallerymedia content',
@@ -63,17 +61,6 @@ function gallerymedia_core_user_default_permissions() {
       'editor' => 'editor',
     ),
     'module' => 'node',
-  );
-
-  // Exported permission: import media.
-  $permissions['import media'] = array(
-    'name' => 'import media',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'contributor' => 'contributor',
-      'editor' => 'editor',
-    ),
-    'module' => 'media',
   );
 
   return $permissions;

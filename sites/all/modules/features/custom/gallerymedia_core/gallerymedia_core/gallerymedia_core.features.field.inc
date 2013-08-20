@@ -10,7 +10,7 @@
 function gallerymedia_core_field_default_fields() {
   $fields = array();
 
-   // Exported field: 'node-gallerymedia-body'.
+  // Exported field: 'node-gallerymedia-body'.
   $fields['node-gallerymedia-body'] = array(
     'field_config' => array(
       'active' => '1',
@@ -178,7 +178,6 @@ function gallerymedia_core_field_default_fields() {
   );
 
   // Exported field: 'node-gallerymedia-field_video_upload'.
-
   $fields['node-gallerymedia-field_video_upload'] = array(
     'field_config' => array(
       'active' => '1',
@@ -212,7 +211,7 @@ function gallerymedia_core_field_default_fields() {
         ),
         'presets' => array(
           'default_flash_conversion' => 'default_flash_conversion',
-         ),
+        ),
         'preview_video_thumb_style' => 'square_thumbnail',
         'thumbnail_format' => 'png',
         'uri_scheme' => 'public',
@@ -271,7 +270,6 @@ function gallerymedia_core_field_default_fields() {
   // Included for use with string extractors like potx.
   t('Body');
   t('Picture upload');
-  t('Tags');
   t('Video upload');
 
   return $fields;

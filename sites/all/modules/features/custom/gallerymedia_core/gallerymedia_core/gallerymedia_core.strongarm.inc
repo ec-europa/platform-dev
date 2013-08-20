@@ -151,7 +151,5 @@ function gallerymedia_core_strongarm() {
   $strongarm->value = 0;
   $export['node_submitted_gallerymedia'] = $strongarm;
 
-
-
   return $export;
 }
