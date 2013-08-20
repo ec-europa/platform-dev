@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * events_og.features.inc
+ * events.features.inc
  */
 
 /**
@@ -18,5 +18,25 @@ function events_og_ctools_plugin_api() {
  * Implements hook_views_api().
  */
 function events_og_views_api() {
-  return array("api" => "3.0");
+  list($module, $api) = func_get_args();
+  if ($module == "views" && $api == "views_default") {
+    return array("version" => "3.0");
+  }
+}
+
+/**
+ * Implements hook_node_info().
+ */
+function events_og_node_info() {
+  $items = array(
+    'event' => array(
+      'name' => t('Event'),
+      'base' => 'node_content',
+      'description' => '',
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'help' => '',
+    ),
+  );
+  return $items;
 }
