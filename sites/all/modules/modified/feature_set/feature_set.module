@@ -1,14 +1,20 @@
 <?php
+
+/**
+ * @file
+ * Module file for Feature Set
+ */
+
 // Indicates if all the enable modules are enabled
 define('FEATURE_SET_ENABLED', 0x01);
 
 // Indicates if all the disable modules are disabled
 define('FEATURE_SET_DISABLED', 0x02);
 
-/*
-* TODO: keep a running tally of modules in the disable list and make sure that
-*       no other feature set has that module listed in its disable list
-*/
+/**
+ * @todo keep a running tally of modules in the disable list and make sure that
+ *       no other feature set has that module listed in its disable list
+ */
 
 /**
  * Implements hook_permission().
@@ -36,7 +42,7 @@ function feature_set_menu() {
     'file' => 'feature_set.admin.inc',
   );
   $items['admin/structure/feature-set/enable/%'] = array(
-    'title' => 'Feature Set Enable',
+    'title' => 'Feature set enable',
     'description' => 'Enable a feature set',
     'page callback' => 'feature_set_enable_url',
     'access callback' => 'user_access',
@@ -45,7 +51,7 @@ function feature_set_menu() {
   );
 
   $items['admin/structure/feature-set/disable/%'] = array(
-    'title' => 'Feature Set Disable',
+    'title' => 'Feature set disable',
     'description' => 'Disable a feature set',
     'page callback' => 'feature_set_disable_url',
     'access callback' => 'user_access',
@@ -55,6 +61,9 @@ function feature_set_menu() {
   return $items;
 }
 
+/**
+ * Function feature_set_parse_info().
+ */
 function feature_set_parse_info($info, $module, $path) {
   $sets = array();
   if (!empty($info['feature_sets'])) {
@@ -64,6 +73,13 @@ function feature_set_parse_info($info, $module, $path) {
 
       if (!empty($details['icon'])) {
         $details['icon'] = $path . '/' . $details['icon'];
+      }
+
+      if (!empty($details['dependencies'])) {
+        $details['meta'] = TRUE;
+      }
+      else {
+        $details['meta'] = FALSE;
       }
 
       // only add valid feature sets
@@ -98,12 +114,7 @@ function feature_set_get_featuresets($install_state = NULL) {
     else {
       $install_profile = variable_get('install_profile', '');
     }
-    /*
-    if (!empty($install_profile)) {
-      $info = install_profile_info($install_profile);
-      $path = 'profiles/' . $install_profile;
-      $sets += feature_set_parse_info($info, $install_profile, $path);
-    }*/
+
   }
   ksort($sets);
 
@@ -111,8 +122,12 @@ function feature_set_get_featuresets($install_state = NULL) {
 }
 
 /**
- * Returns an array of feature_set information for a particular featureset
- * or FALSE if that featureset does not exist
+ * Get information for a specific feature_set.
+ *
+ * @param string $feature_set the name of the feature_set to retrieve
+ * information for
+ * @return mixed array of feature_set information or FALSE if $feature_set
+ * doesn't exist
  */
 function feature_set_get_featureset($feature_set) {
   $sets = feature_set_get_featuresets();
@@ -125,48 +140,83 @@ function feature_set_get_featureset($feature_set) {
 }
 
 /**
- *
+ * Function feature_set_enable_feature_set().
  */
 function feature_set_enable_feature_set($feature_set) {
   if (!empty($feature_set['enable'])) {
-    //if(!module_exists($feature_set['enable'][0])) { // do not enable a module already enabled
-      module_enable($feature_set['enable']);
-      //drupal_set_message("feature(s) added");
-  //}
+    module_enable($feature_set['enable']);
   }
-
-  // multisite fix, need to clear cache
-  //drupal_flush_all_caches();
-  //node_access_rebuild();
-
 }
 
 /**
- *
+ * Function feature_set_disable_feature_set().
  */
 function feature_set_disable_feature_set($feature_set) {
   if (!empty($feature_set['disable'])) {
-    //if(module_exists($feature_set['enable'][0])) { // do not disable a module already disabled
-      module_disable($feature_set['disable']);
-    //drupal_set_message("feature(s) disabled");
-  //}
+    module_disable($feature_set['disable']);
   }
   if (!empty($feature_set['uninstall'])) {
     drupal_uninstall_modules($feature_set['uninstall']);
   }
+}
 
-  // multisite fix, need to clear cache
-  //drupal_flush_all_caches();
+/**
+ * Calculate the lists of meta feature_sets to enable and disable
+ *
+ * @param array $form_state a form_state array from feature_set_admin_form
+ *   or NULL if called from a non-submit handler.
+ * @return array with two sub-arrays of the corresponding feature sets to
+ * disable and enable. If $form_state is provided it will calculate the enable
+ * and disable sets with the form state in mind.
+ */
+function feature_set_get_meta_feature_sets($form_state = NULL) {
+  $feature_sets = feature_set_get_featuresets();
+  $sets = array(
+    'enable' => array(),
+    'disable' => array(),
+  );
 
+  foreach ($feature_sets as $set => $details) {
+    if ($details['meta'] && !empty($details['dependencies'])) {
+      $enable = TRUE;
+      foreach ($details['dependencies'] as $dependency) {
+        if (!empty($form_state['values'])) {
+          // use the submitted form to calculate meta-sets (during install we may stale status data)
+          if (empty($form_state['values']['featureset-' . $dependency])) {
+            $enable = FALSE;
+          }
+        }
+        else {
+          // use the existing state to calculate meta-sets
+          if ($feature_sets[$dependency]['status'] != FEATURE_SET_ENABLED) {
+            $enable = FALSE;
+          }
+        }
+      }
+
+      if ($enable) {
+        $sets['enable'][] = $set;
+      }
+      else {
+        $sets['disable'][] = $set;
+      }
+    }
+  }
+  return $sets;
 }
 
 /**
  * Given a feature_set return status
- * Since disable modules is a subset of enable modules
- * disable status and enable status are mutually exclusive
- * However, there is a third state of "inconsistent" indicated by not all of
- * the enable module being enabled and not all of the disable modules being
- * disabled.
+ *
+ * Since disable modules is a subset of enable modules disable status and
+ * enable status are mutually exclusive. However, there is a third state of
+ * "inconsistent" indicated by not all of the enable module being enabled and
+ * not all of the disable modules being disabled.
+ *
+ * @param string $feature_set the name of the feature set to get status for.
+ * @return bitmask if neither FEATURE_SET_ENABLED or FEATURE_SET_DISABLED
+ * bits are set then the feature_set is considered to be in and inconsistent
+ * state.
  */
 function feature_set_status($feature_set) {
   $status = 0x00;
@@ -198,34 +248,17 @@ function feature_set_status($feature_set) {
     }
   }
 
-
-  // -----------------------------------------------
-  // check dependencies, disable the checkbox if the feature is required by other modules of features
-  // -----------------------------------------------
-  /*
-  if (!empty($feature_set['enable'])) {
-    $dependencies = FALSE;
-    foreach ($feature_set['enable'] as $module) {
-      if (is_requiredby($module)) {
-        $dependencies = TRUE;
-        break;
-      }
-    }
-    if ($dependencies) {
-      $status = 2;
-    }
-  }
-*/
-
-
   return $status;
 }
 
 /**
  * Checks to ensure the feature_set is valid
+ *
  * Currently this only checks if the disable list of modules is a subset of
  * the enable set of modules. If the feature_set is invalid we throw a watchdog
  * error.
+ * @param string $feature_set the name of the feature_set to check.
+ * @return bool TRUE if the feature_set passes validation, FALSE otherwise.
  */
 function feature_set_check($feature_set) {
   if (!empty($feature_set['enable'])) {
@@ -251,9 +284,10 @@ function feature_set_theme($existing, $type, $theme, $path) {
   );
 }
 
-/*
-* return TRUE if features or modules require the module $module
-*/
+
+/**
+ * return TRUE if features or modules require the module $module
+ */
 function is_requiredby($module) {
   $is_required = 0;
 
@@ -272,15 +306,15 @@ function is_requiredby($module) {
 }
 
 
-/*
-* return TRUE if the module $module requires other features (that are disabled)
-*/
+/**
+ * return TRUE if the module $module requires other features (that are disabled)
+ */
 function requires($module) {
   $requires = 0;
 
   $modules = system_rebuild_module_data();
 
-  if(is_array($modules[$module]->requires))
+  if (is_array($modules[$module]->requires))
     $list_requires = array_keys($modules[$module]->requires);
   else
     $list_requires = array();
@@ -298,9 +332,9 @@ function requires($module) {
 
 
 
-/*
-* return the list of all the modules that are required by the module $module
-*/
+/**
+ * return the list of all the modules that are required by the module $module
+ */
 function get_requiredby($module) {
   $modules = system_rebuild_module_data();
   $required_by = $modules[$module]->required_by;
@@ -320,15 +354,15 @@ function get_requiredby($module) {
   return $output;
 }
 
-/*
-* return the list of all the modules that require the module $module
-*/
+/**
+ * return the list of all the modules that require the module $module
+ */
 function get_require($module) {
   $modules = system_rebuild_module_data();
 
   $featuresets = feature_set_get_featuresets();
   $list_features = array_keys($featuresets);
-  if(is_array($modules[$module]->requires))
+  if (is_array($modules[$module]->requires))
     $list_requires = array_keys($modules[$module]->requires);
   else
     $list_requires = array();
@@ -343,55 +377,37 @@ function get_require($module) {
 }
 
 
-
-/*
-* hook_exit
-*/
-/*
-function feature_set_exit() {
-  if($_GET['q'] == 'admin/structure/feature-set') {
-    drupal_flush_all_caches();
-	node_access_rebuild();
-  }
-}
-*/
-
-
-
 /**
  * alter html code (to add js and css).
  */
-
-
 function feature_set_preprocess_html(&$variables) {
   // Add javascripts
   drupal_add_js(drupal_get_path('module', 'feature_set') . '/feature_set.js');
 
   // Add CSS
   drupal_add_css(drupal_get_path('module', 'feature_set') . '/feature_set_ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'IE', '!IE' => FALSE), 'preprocess' => FALSE));
-
 }
 
-
+/**
+ * Function batch_featureset_op().
+ */
 function batch_featureset_op($feature_set_action, $operation_details, &$context) {
-  $context['results'][] = $feature_set_action['feature']['title'];
-
+  $context['results'][] = $feature_set_action['1']['0']['title'];
   // proccess enable/disable features here
-  if ($feature_set_action['value'] == 'enable') {
-    $context['message'] = $feature_set_action['feature']['title'] . " enabling";
-    feature_set_enable_feature_set($feature_set_action['feature']);
+  if ($feature_set_action['0'] == 'feature_set_enable_feature_set') {
+    $context['message'] = $feature_set_action['1']['0']['title'] . " enabling";
+    feature_set_enable_feature_set($feature_set_action['1']['0']);
   }
   else  {
-    $context['message'] = $feature_set_action['feature']['title'] . " disabling";
+    $context['message'] = $feature_set_action['1']['0']['title'] . " disabling";
     $check_node = 0;
     // Before disabling a feature set, we have to check if included features implement content types and
     // then if it remains nodes with theses content types
-    foreach ($feature_set_action['feature']['disable'] as $module_to_disable) {
+    foreach ($feature_set_action['1']['0']['disable'] as $module_to_disable) {
       $info_file = drupal_get_path('module', $module_to_disable) . "/" . $module_to_disable . ".info";
       $info = drupal_parse_info_file($info_file);
 
       if (isset($info['features']['node'])) { // the feature implements a content type
-
         $node_type_warning = array();
         foreach ($info['features']['node'] as $node_type) {
           $result = db_select('node', 'n')
@@ -406,41 +422,37 @@ function batch_featureset_op($feature_set_action, $operation_details, &$context)
         }
       }
     }
+
     if ($check_node > 0) {
-      drupal_set_message("<b>WARNING</b><br/>" . check_plain($feature_set_action['feature']['title']) . " not disabled, you have to remove all <b>" . implode(" ", $node_type_warning) . "</b> contents.", 'warning');
+      drupal_set_message(t("<b>WARNING</b><br/>" . check_plain($feature_set_action['1']['0']['title']) . " not disabled, you have to remove all <b>" . implode("", $node_type_warning) . "</b> contents."), 'warning');
     }
     else {
-      feature_set_disable_feature_set($feature_set_action['feature']);
+      feature_set_disable_feature_set($feature_set_action['1']['0']);
     }
   }
   _batch_update_http_requests();
 }
 
-
+/**
+ * Function _batch_update_http_requests().
+ */
 function _batch_update_http_requests() {
   $_SESSION['http_request_count']++;
 }
 
-
+/**
+ * Function batch_featureset_finished().
+ */
 function batch_featureset_finished($success, $results, $operations) {
-/*
-  if ($success) {
-    drupal_set_message(t('@count features processed', array('@count' => count($results))));
-  }
-  else {
-    $error_operation = reset($operations);
-    drupal_set_message(t('An error occurred while processing @operation with arguments : @args', array('@operation' => $error_operation[0], '@args' => print_r($error_operation[0], TRUE))));
-  }
-*/
   drupal_flush_all_caches();
   node_access_rebuild();
 }
 
-
+/**
+ * Function _feature_set_batch().
+ */
 function _feature_set_batch($features_actions) {
   $num_operations = count($features_actions);
-  //drupal_set_message(t('Creating an array of @num operations', array('@num' => $num_operations)));
-
   $operations = array();
   for ($i = 0; $i < $num_operations; $i++) {
     $operations[] = array('batch_featureset_op', array($features_actions[$i], ""));
