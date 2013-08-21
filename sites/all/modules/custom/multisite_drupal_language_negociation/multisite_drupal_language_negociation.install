@@ -4,7 +4,7 @@
  * multisite_drupal_language negociation.install file
  */
 
-/*
+/**
  * hook_enable
  */
 
@@ -14,7 +14,7 @@ function multisite_drupal_language_negociation_enable() {
 
 }
 
-/*
+/**
  * hook_disable
  */
 

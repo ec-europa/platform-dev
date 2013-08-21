@@ -42,8 +42,8 @@ function language_url_split_suffix($path, $languages) {
       $path = implode($delimiter, $args);
       $path = ($path == 'index')?'': $path; // handle the path homepage
       // add extra params after suffix
-      if(count($extra_params) > 0) {
-        $path .= "/".implode("/", $extra_params); 
+      if (count($extra_params) > 0) {
+        $path .= "/" . implode("/", $extra_params);
       }
       return array($language, $path);
     }
