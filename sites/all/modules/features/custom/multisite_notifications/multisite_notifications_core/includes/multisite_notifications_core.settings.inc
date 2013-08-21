@@ -1,8 +1,8 @@
 <?php
 
 /**
- *
- * @return type
+ * @file
+ * Code for the multisite_notifications_core settgins page.
  */
 
 function multisite_notifications_core_general_settings() {

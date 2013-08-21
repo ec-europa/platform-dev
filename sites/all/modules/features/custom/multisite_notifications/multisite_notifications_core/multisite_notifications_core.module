@@ -3,20 +3,20 @@
 /**
  * @file
  * Code for the multisite_notifications_core feature.
- * Ovidiu.FARCAS [at] ext.ec.europa.eu
  */
+
 include_once 'multisite_notifications_core.features.inc';
 
 function multisite_notifications_core_subscriptions_queue_alter(&$event) {
   // only send notification if the state of the content is published
-  if(isset($event['node']->workbench_moderation_state_new)) { // content has a worbench moderation workflow
-    if($event['node']->workbench_moderation_state_new != 'published')  {
-      $event = null;
+  if (isset($event['node']->workbench_moderation_state_new)) { // content has a worbench moderation workflow
+    if ($event['node']->workbench_moderation_state_new != 'published')  {
+      $event = NULL;
     }
   }
   else { // no workbench moderation workflow
-    if($event['node']->status != 1) {
-      $event = null;
+    if ($event['node']->status != 1) {
+      $event = NULL;
     }
   }
 }
@@ -303,7 +303,7 @@ function _create_anonymous_account($mail) {
       'init' => $mail, //address used for initial account creation
       'access' => REQUEST_TIME,
       'login' => REQUEST_TIME,
-      'language'=> 'en', //language_default can sometimes return an object!
+      'language' => 'en', //language_default can sometimes return an object!
       'roles' => array(
           DRUPAL_AUTHENTICATED_RID => 'authenticated user',
           6 => 'subscriber', //@todo Test if the roles exists
@@ -333,7 +333,8 @@ function _delete_anonymous_account($mail, $waiting_confirmation = NULL, $uid = N
             ->condition('mail', $mail, '=')
             ->execute();
     //Note: this can be done using user_load /user_save as well
-  } else {
+  }
+  else {
     $user_deleted = db_delete('users')
             //->condition('mail', $mail, '=')
             ->condition('uid', $uid, '=')
@@ -418,7 +419,7 @@ function multisite_notifications_core_subscribe_form_submit($form, &$form_states
 
 function multisite_notifications_core_unsubscribe_form_submit($form, &$form_states) {
   $uid = arg(1);
-  _delete_anonymous_account(null, null, $uid);
+  _delete_anonymous_account(NULL, NULL, $uid);
 }
 
 /**
@@ -431,7 +432,8 @@ function _multisite_notifications_core_load_user_by_mail($mail) {
   $uid = $query->fields('u', array('uid'))->condition('u.uid', $mail)->execute()->fetchField();
   if ($uid) {
     return user_load($uid);
-  } else {
+  }
+  else {
     return FALSE;
   }
 }
