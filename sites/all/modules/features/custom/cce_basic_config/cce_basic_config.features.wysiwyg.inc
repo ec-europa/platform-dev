@@ -45,6 +45,7 @@ function cce_basic_config_wysiwyg_default_profiles() {
           'ShowBlocks' => 1,
           'Font' => 1,
           'FontSize' => 1,
+          'Format' => 1,
           'Styles' => 1,
           'Table' => 1,
           'Smiley' => 1,
