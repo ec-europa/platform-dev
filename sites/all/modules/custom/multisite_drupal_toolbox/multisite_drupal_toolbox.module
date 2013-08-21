@@ -315,10 +315,10 @@ function multisite_drupal_toolbox_messages($variables) {
   $message = "";
   $rid = multisite_drupal_toolbox_get_rid('administrator');
   if (variable_get('alert_message_enable', FALSE) && isset($user->roles[$rid])) {
-    $message = '<div id="alter_message" class="messages warning">'.variable_get('alert_message_body', "").'</div>';
+    $message = '<div id="alter_message" class="messages warning">' . variable_get('alert_message_body', "") . '</div>';
  }
  $output = theme_status_messages($variables);
- $output = $message.$output;
+ $output = $message . $output;
  return $output;
 }
 
@@ -348,18 +348,18 @@ function _disable_content_type($type) {
  * Public function to add block to a context
  * You need to add the module context as a dependancy to your feature.
  */
-function multisite_drupal_toolbox_add_block_context($contextName, $blockTitle, $module, $delta, $region, $weight='-10') {
+function multisite_drupal_toolbox_add_block_context($context_name, $block_title, $module, $delta, $region, $weight='-10') {
   //Load context
-  $context=module_invoke('context', 'load', $contextName);
+  $context=module_invoke('context', 'load', $context_name);
   //Make some modifications
-  $blockToAdd = array(
+  $block_to_add = array(
     'module' => $module,
     'delta' =>  $delta,
     'region' => $region,
     'weight' => $weight,
   );
   //Add modification to the context
-  $context->reactions['block']['blocks'][$blockTitle]=$blockToAdd;
+  $context->reactions['block']['blocks'][$block_title] = $block_to_add;
   //Update the context
   module_invoke('context', 'save', $context);
 }
@@ -367,19 +367,19 @@ function multisite_drupal_toolbox_add_block_context($contextName, $blockTitle, $
 /**
  * Obsolete. Use multisite_drupal_toolbox_add_block_context() instead.
  */
-function _add_block_context($contextName, $blockTitle, $module, $delta, $region, $weight='-10') {
-  multisite_drupal_toolbox_add_block_context($contextName, $blockTitle, $module, $delta, $region, $weight);
+function _add_block_context($context_name, $block_title, $module, $delta, $region, $weight='-10') {
+  multisite_drupal_toolbox_add_block_context($context_name, $block_title, $module, $delta, $region, $weight);
 }
 
 /**
  * Public function to remove block from context
  * You need to add the module context as a dependancy to your feature.
  */
-function multisite_drupal_toolbox_remove_block_context($contextName, $blockTitle) {
+function multisite_drupal_toolbox_remove_block_context($context_name, $block_title) {
   //Load context
-  $context=module_invoke('context', 'load', $contextName);
+  $context = module_invoke('context', 'load', $context_name);
   //Remove element from the context
-  unset($context->reactions['block']['blocks'][$blockTitle]);
+  unset($context->reactions['block']['blocks'][$block_title]);
   //Update the context
   module_invoke('context', 'save', $context);
 }
@@ -387,19 +387,19 @@ function multisite_drupal_toolbox_remove_block_context($contextName, $blockTitle
 /**
  * Obsolete. Use multisite_drupal_toolbox_remove_block_context() instead.
  */
-function _remove_block_context($contextName, $blockTitle) {
-  multisite_drupal_toolbox_remove_block_context($contextName, $blockTitle);
+function _remove_block_context($context_name, $block_title) {
+  multisite_drupal_toolbox_remove_block_context($context_name, $block_title);
 }
 
 /**
  * Public function to add view to a context
  * You need to add the module context as a dependancy to your feature.
  */
-function multisite_drupal_toolbox_add_views_context($contextName, $viewTitle) {
+function multisite_drupal_toolbox_add_views_context($context_name, $view_title) {
   //Load context
-  $context=module_invoke('context', 'load', $contextName);
+  $context=module_invoke('context', 'load', $context_name);
   //Add modification to the context
-  $context->conditions['views']['values'][$viewTitle]=$viewTitle;
+  $context->conditions['views']['values'][$view_title] = $view_title;
   //Update the context
   module_invoke('context', 'save', $context);
 }
@@ -407,19 +407,19 @@ function multisite_drupal_toolbox_add_views_context($contextName, $viewTitle) {
 /**
  * Obsolete. Use multisite_drupal_toolbox_add_views_context() instead.
  */
-function _add_views_context($contextName, $viewTitle) {
-  multisite_drupal_toolbox_add_views_context($contextName, $viewTitle);
+function _add_views_context($context_name, $view_title) {
+  multisite_drupal_toolbox_add_views_context($context_name, $view_title);
 }
 
 /**
  * Public function to remove block from context
  * You need to add the module context as a dependancy to your feature.
  */
-function multisite_drupal_toolbox_remove_views_context($contextName, $viewTitle) {
+function multisite_drupal_toolbox_remove_views_context($context_name, $view_title) {
   //Load context
-  $context=module_invoke('context', 'load', $contextName);
+  $context = module_invoke('context', 'load', $context_name);
   //Remove element from the context
-  unset($context->conditions['views']['values'][$viewTitle]);
+  unset($context->conditions['views']['values'][$view_title]);
   //Update the context
   module_invoke('context', 'save', $context);
 }
@@ -427,19 +427,19 @@ function multisite_drupal_toolbox_remove_views_context($contextName, $viewTitle)
 /**
  * Obsolete. Use multisite_drupal_toolbox_remove_views_context() instead.
  */
-function _remove_views_context($contextName, $viewTitle) {
-  multisite_drupal_toolbox_remove_views_context($contextName, $viewTitle);
+function _remove_views_context($context_name, $view_title) {
+  multisite_drupal_toolbox_remove_views_context($context_name, $view_title);
 }
 
 /**
  * Public function to add content type from context
  * You need to add the module context as a dependancy to your feature.
  */
-function multisite_drupal_toolbox_add_content_type_context($contextName, $contentType) {
+function multisite_drupal_toolbox_add_content_type_context($context_name, $content_type) {
   //Load context
-  $context=module_invoke('context', 'load', $contextName);
+  $context = module_invoke('context', 'load', $context_name);
   //Add modification to the context
-  $context->conditions['node']['values'][$contentType]=$contentType;
+  $context->conditions['node']['values'][$content_type]=$content_type;
   //Update the context
   module_invoke('context', 'save', $context);
 }
@@ -447,19 +447,19 @@ function multisite_drupal_toolbox_add_content_type_context($contextName, $conten
 /**
  * Obsolete. Use multisite_drupal_toolbox_add_content_type_context() instead.
  */
-function _add_content_type_context($contextName, $contentType) {
-  multisite_drupal_toolbox_add_content_type_context($contextName, $contentType);
+function _add_content_type_context($context_name, $content_type) {
+  multisite_drupal_toolbox_add_content_type_context($context_name, $content_type);
 }
 
 /**
  * Public function to remove content type from context
  * You need to add the module context as a dependancy to your feature.
  */
-function multisite_drupal_toolbox_remove_content_type_context($contextName, $contentType) {
+function multisite_drupal_toolbox_remove_content_type_context($context_name, $content_type) {
   //Load context
-  $context=module_invoke('context', 'load', $contextName);
+  $context = module_invoke('context', 'load', $context_name);
   //Remove element from the context
-  unset($context->conditions['node']['values'][$contentType]);
+  unset($context->conditions['node']['values'][$content_type]);
   //Update the context
   module_invoke('context', 'save', $context);
 }
@@ -467,19 +467,19 @@ function multisite_drupal_toolbox_remove_content_type_context($contextName, $con
 /**
  * Obsolete. Use multisite_drupal_toolbox_remove_content_type_context() instead.
  */
-function _remove_content_type_context($contextName, $contentType) {
-  multisite_drupal_toolbox_remove_content_type_context($contextName, $contentType);
+function _remove_content_type_context($context_name, $content_type) {
+  multisite_drupal_toolbox_remove_content_type_context($context_name, $content_type);
 }
 
 /**
  * Public function to add path condition to a context
  * You need to add the module context as a dependancy to your feature.
  */
-function multisite_drupal_toolbox_add_path_context($contextName, $path) {
+function multisite_drupal_toolbox_add_path_context($context_name, $path) {
   //Load context
-  $context=module_invoke('context', 'load', $contextName);
+  $context = module_invoke('context', 'load', $context_name);
   //Add modification to the context
-  $context->conditions['path']['values'][$path]=$path;
+  $context->conditions['path']['values'][$path] = $path;
   //Update the context
   module_invoke('context', 'save', $context);
 }
@@ -487,17 +487,17 @@ function multisite_drupal_toolbox_add_path_context($contextName, $path) {
 /**
  * Obsolete. Use multisite_drupal_toolbox_add_path_context() instead.
  */
-function _add_path_context($contextName, $path) {
-  multisite_drupal_toolbox_add_path_context($contextName, $path);
+function _add_path_context($context_name, $path) {
+  multisite_drupal_toolbox_add_path_context($context_name, $path);
 }
 
 /**
  * Public function to remove path from context.
  * You need to add the module context as a dependancy to your feature.
  */
-function multisite_drupal_toolbox_remove_path_context($contextName, $path) {
+function multisite_drupal_toolbox_remove_path_context($context_name, $path) {
   //Load context
-  $context=module_invoke('context', 'load', $contextName);
+  $context = module_invoke('context', 'load', $context_name);
   //Remove element from the context
   unset($context->conditions['path']['values'][$path]);
   //Update the context
@@ -507,16 +507,16 @@ function multisite_drupal_toolbox_remove_path_context($contextName, $path) {
 /**
  * Obsolete. Use multisite_drupal_toolbox_remove_path_context() instead.
  */
-function _remove_path_context($contextName, $path) {
-  multisite_drupal_toolbox_remove_path_context($contextName, $path);
+function _remove_path_context($context_name, $path) {
+  multisite_drupal_toolbox_remove_path_context($context_name, $path);
 }
 
 /**
  * Public function to deactivate a context.
  * You need to add the module context as a dependancy to your feature.
  */
-function multisite_drupal_toolbox_remove_context($contextName) {
-  $context = context_load($contextName);
+function multisite_drupal_toolbox_remove_context($context_name) {
+  $context = context_load($context_name);
   if ($context) {
     ctools_export_set_object_status($context);
   }
