@@ -623,7 +623,7 @@ function _multisite_workbench_moderation_view_alter_view() {
 }
 
 function multisite_workbench_moderation_view_form_alter(&$form) {
-  if(isset($form['#form_id']) && $form['#form_id'] == 'views_form_workbench_moderation_moderate_all_page') {
+  if (isset($form['#form_id']) && $form['#form_id'] == 'views_form_workbench_moderation_moderate_all_page') {
   if (!empty($form['force_transition']) && isset($form['force_transition'])) {
     $form['force_transition']['#type'] = 'hidden';
   }
