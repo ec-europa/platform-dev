@@ -17,6 +17,7 @@ dependencies[] = subscriptions_mail
 dependencies[] = subscriptions_taxonomy
 dependencies[] = subscriptions_ui
 dependencies[] = token
+dependencies[] = translation
 stylesheets[all][] = css/multisite_notifications_core.css
 features[content_menu_links][] = management:admin/config/system/mail-edit
 features[content_menu_links][] = management:admin/config/system/subscriptions
