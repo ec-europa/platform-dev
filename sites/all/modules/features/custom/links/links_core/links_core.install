@@ -19,16 +19,16 @@ function links_core_uninstall() {
 }
 
 /*
- * hook_enable 
+ * hook_enable
  * Edit communities context to add a block
  */
 function links_core_enable() {
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('links', 'add');
-  
+
   // add type to linkchecker scan
   multisite_drupal_toolbox_content_type_linkchecker('links', 'add');
-  
+
   // add type to the simplenews related content
   //multisite_drupal_toolbox_simplenews_related_content_type('links', 'add');
 
@@ -37,17 +37,17 @@ function links_core_enable() {
     ->fields(array(
       'titles' => ' [Breadcrumb_links:links_title]', // titles of the elements to display in the breadcrumb
       'paths' => 'links/', // path of the elements to display in the breadcrumb
-      'visibility_php '=> '',
+      'visibility_php' => '',
       'node_type' => 'links', //the content type targeted by this rule
     ))
     ->execute();
-  
+
   drupal_set_message(t('Links feature is now active on your site.'));
 }
 
 
 /*
- * hook_disable 
+ * hook_disable
  * Edit communities context to remove block
  * Remove permissions
  */
@@ -58,16 +58,16 @@ function links_core_disable() {
     ->execute();
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('links', 'delete');
-  
+
   // remove type to linkchecker scan
   multisite_drupal_toolbox_content_type_linkchecker('links', 'delete');
-  
+
   // remove type to the simplenews related content
   //multisite_drupal_toolbox_simplenews_related_content_type('links', 'delete');
-  
+
   /*** Remove permissions ***/
   multisite_drupal_toolbox_disable_content_type('links');
-  
+
   // Administrator
   $adm_rid = multisite_drupal_toolbox_get_rid('administrator');
   user_role_revoke_permissions($adm_rid, array(
@@ -77,7 +77,7 @@ function links_core_disable() {
     'delete any links content',
     'create links content',
   ));
-    
+
   // Contributor
   $ctb_rid = multisite_drupal_toolbox_get_rid('contributor');
   user_role_revoke_permissions($ctb_rid, array(
@@ -87,7 +87,7 @@ function links_core_disable() {
     'delete any links content',
     'create links content',
   ));
-          
+
   drupal_set_message(t('Links feature is now disabled on your site.'));
 }
 
