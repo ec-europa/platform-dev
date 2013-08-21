@@ -41,6 +41,7 @@ function cce_basic_config_image_default_styles() {
 
   // Exported image style: preview.
   $styles['preview'] = array(
+    'label' => 'preview',
     'name' => 'preview',
     'effects' => array(
       1 => array(
