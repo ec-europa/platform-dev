@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install the feature news
@@ -19,7 +20,7 @@ function news_core_uninstall() {
 }
 
 /*
- * hook_enable 
+ * hook_enable
  */
 
 function news_core_enable() {
@@ -47,7 +48,7 @@ function news_core_enable() {
 }
 
 /*
- * hook_disable 
+ * hook_disable
  * Edit communities context to remove block
  * Remove permissions
  */
