@@ -1,7 +1,11 @@
 <?php
+/**
+ * @file
+ * Code for the installation of standard Survey feature.
+ */
 
-/*
-* hook_enable
+/**
+* Implements hook_enable
 */
 function survey_standard_enable() {
   // enable example contents
@@ -13,8 +17,8 @@ function survey_standard_enable() {
   variable_set('pathauto_node_webform_und_pattern', '');
 }
 
-/*
-* Hook disable
+/**
+* Implements hook_disable
 */
 function survey_standard_disable() {
   // disable example contents
