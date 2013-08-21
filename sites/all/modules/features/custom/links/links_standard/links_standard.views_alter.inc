@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Add a link to the main menu.
+ */
+
+/**
 * Implementation of hook_views_default_views_alter().
 */
 function links_standard_views_default_views_alter(&$views) {
