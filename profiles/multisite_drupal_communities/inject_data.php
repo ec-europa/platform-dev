@@ -7,7 +7,7 @@ function inject_data() {
   $tmp_base_url = variable_get("tmp_base_url");
   
   // populate users fields of dummy users
-  $account = user_load_by_name("admin");
+  $account = user_load(1);
   $account1 = user_load_by_name("user_administrator");
   $account2 = user_load_by_name("user_contributor");
   $account3 = user_load_by_name("user_editor"); 
