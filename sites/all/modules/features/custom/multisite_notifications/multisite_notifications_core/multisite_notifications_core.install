@@ -116,5 +116,11 @@ function multisite_notifications_update_7001() {
     $role = new stdClass();
     $role->name = 'subscriber';
     user_role_save($role);
+
+    $rid = $role->rid;
+    $subscriber_permissions = array(
+        'view subscription block' => TRUE, // Grant permission
+    );
+    user_role_change_permissions($rid, $subscriber_permissions);
   }
 }
