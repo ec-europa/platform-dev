@@ -28,15 +28,16 @@ function multisite_notifications_core_init() {
   drupal_add_js(drupal_get_path('module', 'multisite_notifications_core') . '/js/multisite_notifications_core.js');
   drupal_add_css(drupal_get_path('module', 'multisite_notifications_core') . '/css/multisite_notifications_core.css');
 }
+
 /**
  * Implements hook_perm().
  */
 function multisite_notifications_core_permission() {
   return array(
-      'view subscription block' => array(
-          'title' => t('View Subscription Block'),
-          'description' => t('Permission to view the subscriptions block'),
-      ),
+    'view subscription block' => array(
+      'title' => t('View Subscription Block'),
+      'description' => t('Permission to view the subscriptions block'),
+    ),
   );
 }
 
@@ -47,40 +48,37 @@ function multisite_notifications_core_menu() {
   $items = array();
   //landing page : you need uid as argument
   $items['subscribe'] = array(
-      'title' => 'Subscribe',
-      'description' => 'Confirmation for subscribing',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('multisite_notifications_core_subscribe_form'),
-      'access callback' => TRUE,
-      //'access callback' => 'user_access',
-      //'access arguments' => array('view subscription block'),
-      'weight' => 0,
-      'type' => MENU_CALLBACK,
+    'title' => 'Subscribe',
+    'description' => 'Confirmation for subscribing',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('multisite_notifications_core_subscribe_form'),
+    'access callback' => TRUE,
+    'weight' => 0,
+    'type' => MENU_CALLBACK,
   );
+
   //landing page : you need snid as argument
   $items['unsubscribe'] = array(
-      'title' => 'Unsubscribe',
-      'description' => 'Confirmation for unsubscribing',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('multisite_notifications_core_unsubscribe_form'),
-      'access callback' => 'user_access',
-      'access arguments' => array('view subscription block'),
-      'weight' => 0,
-      'type' => MENU_CALLBACK,
+    'title' => 'Unsubscribe',
+    'description' => 'Confirmation for unsubscribing',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('multisite_notifications_core_unsubscribe_form'),
+    'access callback' => 'user_access',
+    'access arguments' => array('view subscription block'),
+    'weight' => 0,
+    'type' => MENU_CALLBACK,
   );
-
 
   $items['admin/config/system/subscriptions/subscription-block'] = array(
-      'title' => 'Subscription Block',
-      'description' => 'Configure the subscription block settings.',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('multisite_notifications_core_general_settings'),
-      'access arguments' => array('administer user subscriptions'), // see subscriptions module
-      'weight' => -10,
-      'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
-      'file' => 'includes/multisite_notifications_core.settings.inc',
+    'title' => 'Subscription Block',
+    'description' => 'Configure the subscription block settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('multisite_notifications_core_general_settings'),
+    'access arguments' => array('administer user subscriptions'), // see subscriptions module
+    'weight' => -10,
+    'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
+    'file' => 'includes/multisite_notifications_core.settings.inc',
   );
-
   return $items;
 }
 
@@ -90,10 +88,10 @@ function multisite_notifications_core_menu() {
 function multisite_notifications_core_block_info() {
   return array(
       //delta
-      'notification_block' => array(
-          'info' => t('Subscription Block'),
-          'cache' => DRUPAL_CACHE_PER_PAGE,
-      ),
+    'notification_block' => array(
+      'info' => t('Subscription Block'),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    ),
   );
 }
 
@@ -131,23 +129,22 @@ function multisite_notifications_core_form() {
 
   $form = array();
   $form['mail'] = array(
-      '#type' => 'textfield',
-      //'#value' => '',
-      '#size' => 30,
-      '#maxlength' => 128,
-      '#default_value' => 'Fill in with your email address',
-      '#required' => TRUE,
+    '#type' => 'textfield',
+    '#size' => 30,
+    '#maxlength' => 128,
+    '#default_value' => 'Fill in with your email address',
+    '#required' => TRUE,
   );
 
   $form['subscribe'] = array(
-      '#type' => 'submit',
-      '#value' => t('Subscribe'),
-      '#weight' => 20,
+    '#type' => 'submit',
+    '#value' => t('Subscribe'),
+    '#weight' => 20,
   );
   $form['unsubscribe'] = array(
-      '#type' => 'submit',
-      '#value' => t('Unsubscribe'),
-      '#weight' => 30,
+    '#type' => 'submit',
+    '#value' => t('Unsubscribe'),
+    '#weight' => 30,
   );
 
   $form['#validate'][] = 'multisite_notifications_core_form_validate';
@@ -288,17 +285,17 @@ function _create_anonymous_account($mail) {
   $name = md5($mail);
   //note you can save it as object as well
   $fields = array(
-      'name' => $name,
-      'mail' => $mail,
-      'pass' => $password,
-      'status' => 0, //STATUS BLOCK FOR NOW, 1 AFTER CONFIRMATION
-      'init' => $mail, //address used for initial account creation
-      'access' => REQUEST_TIME,
-      'login' => REQUEST_TIME,
-      'language' => 'en', //language_default can sometimes return an object!
-      'roles' => array(
-          DRUPAL_AUTHENTICATED_RID => 'authenticated user',
-          6 => 'subscriber', //@todo Test if the roles exists
+    'name' => $name,
+    'mail' => $mail,
+    'pass' => $password,
+    'status' => 0, //STATUS BLOCK FOR NOW, 1 AFTER CONFIRMATION
+    'init' => $mail, //address used for initial account creation
+    'access' => REQUEST_TIME,
+    'login' => REQUEST_TIME,
+    'language' => 'en', //language_default can sometimes return an object!
+    'roles' => array(
+      DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+      6 => 'subscriber', //@todo Test if the roles exists
       ),
 
       'timezone' => variable_get('date_default_timezone', ''),
@@ -369,16 +366,16 @@ function multisite_notifications_core_subscribe_form($form, &$form_states) {
 function multisite_notifications_core_unsubscribe_form($form, &$form_states) {
   $form = array();
   $form['unsubscribe']['confirmation_text'] = array(
-      '#type' => 'markup',
-      '#prefix' => '<h3>',
-      '#suffix' => '</h3>',
-      '#markup' => t('Please confirm your unsubscription'),
+    '#type' => 'markup',
+    '#prefix' => '<h3>',
+    '#suffix' => '</h3>',
+    '#markup' => t('Please confirm your unsubscription'),
   );
 
   $form['unsubscribe']['unsubscribe'] = array(
-      '#type' => 'submit',
-      '#value' => t('Confirm'),
-      '#weight' => 30,
+    '#type' => 'submit',
+    '#value' => t('Confirm'),
+    '#weight' => 30,
   );
   //@todo replace drupal_goto
   //$form_state['redirect'] = '/';
@@ -425,13 +422,13 @@ function _multisite_notifications_core_load_user_by_mail($mail) {
     return FALSE;
   }
 }
-/*
+
+/**
  * User who filled in the form is entitled to receive the updates
  */
 function _multisite_notifications_core_insert_notification_defaults($uid) {
 
-    // provide default settings values for subscriptions
-
+  // provide default settings values for subscriptions
   db_update('subscriptions_user')
     ->fields(array(
       'digest' => 0,

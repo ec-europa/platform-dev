@@ -4,6 +4,7 @@
  * Install the Notifications news
  */
 include_once 'includes/multisite_notifications_core.settings.inc';
+
 /**
  * hook_install
  */
@@ -11,9 +12,9 @@ function multisite_notifications_core_install() {
     //Nothing yet
 }
 
-/*
+/**
  * hook_enable
-*/
+ */
 function multisite_notifications_core_enable() {
   //provide default settings values for subscriptions
   db_update('subscriptions_user')
@@ -50,7 +51,6 @@ function multisite_notifications_core_enable() {
             ))
             ->execute();
 
-    //if (db_table_exists('mail_edit') && !db_field_exists('mail_edit', 'subject')) {
     $tpl = _multisite_notifications_core_mail_template();
 
 
@@ -64,13 +64,13 @@ function multisite_notifications_core_enable() {
                 'subscriptions_comment_body' => $tpl->comment,
             ))
             ->execute();
-    //}
+
   }
 
   drupal_set_message(t('Notifications feature is now active on your site.'));
 }
 
-/*
+/**
  * hook_disable
  */
 function multisite_notifications_core_disable() {
@@ -94,13 +94,27 @@ function multisite_notifications_core_disable() {
   drupal_set_message(t('Notifications feature is now disabled on your site.'));
 }
 
-function multisite_notifications_update_7100() {
-
-}
-
 /**
  * hook_uninstall
  */
 function multisite_notifications_core_uninstall() {
     //Nothing yet
+}
+
+/**
+ * hook_update_N Generate the rid for subscriber role
+ */
+function multisite_notifications_update_7001() {
+  // subscriber role
+  $role = db_select('role', 'r')
+      ->condition('name', 'subscriber', '=')
+      ->fields('r')
+      ->execute()
+      ->fetchObject();
+
+  if(!$role) {
+    $role = new stdClass();
+    $role->name = 'subscriber';
+    user_role_save($role);
+  }
 }
