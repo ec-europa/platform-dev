@@ -6,44 +6,66 @@
  * ECWeb MULTISITE QA
  */
 class sitemapCore extends DrupalWebTestCase {
+
   protected $administrator;
-  protected $contributor;
+  protected $visitor;
+  protected $profile = 'standard';
+
   public static function getInfo() {
     return array(
-      'name' => 'Sitemap QA tests',
-      'description' => 'Test the sitemap features to ensure it follows QA requirements.',
-      'group' => 'Multisite Core Features',
+        'name' => 'Sitemap QA tests',
+        'description' => 'Test the sitemap features to ensure it follows QA requirements. 1.5',
+        'group' => 'Multisite Core Features',
     );
   }
 
   function setUp() {
-    parent::setUp(array(
-      'sitemap',
-      'xmlsitemap',
+
+    parent::setUp();
+    module_enable(array('sitemap'), TRUE);
+    drupal_flush_all_caches();
+    $this->visitor = $this->drupalCreateUser(array(
+        'access content',
     ));
-
-    $this->contributor = $this->drupalCreateUser(array(
-        'create article content',
-        'access site map',
-        ));
-
+    $this->administrator = new stdClass();
     $this->administrator = $this->drupalCreateUser(array(
-       'create article content',
-       'access site map',
-       'administer xmlsitemap'
+        'access administration pages',
+        'access content',
+        'create article content',
+        //investigate these permissions
+            //'access site map',
+            //'administer xmlsitemap',
     ));
-
+    $this->drupalLogin($this->administrator);
   }
- function testSitemap() {
-   $this->drupalLogin($this->administrator);
-   $this->createSampleNodes(5);
-   //access sitemap
-   $edit['url'] = 'sitemap';
-   $this->drupalGet($edit['url']);
-   $this->assertResponse(array(200), format_string('URL !url is accessible', array('!url' => $edit['url'])));
- }
 
-   function createSampleNodes($count = 5) {
+  /**
+   *
+   */
+  function testSitemap() {
+    // Fetch the curren profile
+    $profile = drupal_get_profile(); //standard
+    $this->verbose('Profile ' . '</pre>' . print_r($profile, TRUE) . '</pre>');
+
+    // Check the presence of module
+    $this->assertTrue(module_exists('sitemap'), t('%feature_name feature enabled.', array('%feature_name' => 'sitemap')));
+    $this->assertTrue(module_exists('site_map'), t('%module feature enabled.', array('%module' => 'site_map')));
+    $this->assertTrue(module_exists('xmlsitemap'), t('%module feature enabled.', array('%module' => 'xmlsitemap')));
+
+
+    $this->createSampleNodes($count = 3);
+
+    // Access the sitemap
+    $edit['url'] = 'sitemap';
+    $this->drupalGet($edit['url']);
+    $this->assertResponse(array(200), format_string('URL !url is accessible', array('!url' => $edit['url'])));
+  }
+
+  /**
+   * Create n nodes
+   * @param type $count
+   */
+    public function createSampleNodes($count = 3) {
     $langcode = LANGUAGE_NONE;
     // Post $count article nodes.
     for ($i = 0; $i < $count; $i++) {
@@ -52,10 +74,10 @@ class sitemapCore extends DrupalWebTestCase {
       $edit["body[$langcode][0][value]"] = $this->randomName();
       $this->drupalPost('node/add/article', $edit, t('Save'));
     }
-   }
-
+  }
 
 }
+
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
@@ -63,9 +85,9 @@ class Multisite_sitemapQAWebTestCase extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(
-      'name' => 'Sitemap QA tests',
-      'description' => 'Test the sitemap features to ensure it follows QA requirements.',
-      'group' => 'Multisite QA',
+        'name' => 'Sitemap QA tests',
+        'description' => 'Test the sitemap features to ensure it follows QA requirements.',
+        'group' => 'Multisite QA',
     );
   }
 
@@ -74,12 +96,12 @@ class Multisite_sitemapQAWebTestCase extends DrupalWebTestCase {
    * TestFile <featurename>.info
    */
   function testInfoFile() {
-    $module = basename(__FILE__ , ".test");
+    $module = basename(__FILE__, ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.info';
     $info = drupal_parse_info_file($path);
 
     // Add name information. Ex: name=Newsletters.
-    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module );
+    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module);
 
     // Add description information.
     // Ex: description = Publish and send newsletters to lists of subscribers.
@@ -122,7 +144,6 @@ class Multisite_sitemapQAWebTestCase extends DrupalWebTestCase {
     }
     // Check other dependencies (modules + features) to be sure they are needed
     // FIXME: manual check?
-
     // Remove tags taxonomy:
     // features[taxonomy][] = "tags"
     if (array_key_exists('features', $info) && array_key_exists('taxonomy', $info['features'])) {
@@ -130,8 +151,8 @@ class Multisite_sitemapQAWebTestCase extends DrupalWebTestCase {
     }
   }
 
- function testInstallFile() {
-    $module = basename(__FILE__ , ".test");
+  function testInstallFile() {
+    $module = basename(__FILE__, ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.install';
     $data = file_get_contents($path);
     $this->assertTrue(strpos($data, $module . '_install'), 'The module contains a hook_install');
@@ -139,6 +160,5 @@ class Multisite_sitemapQAWebTestCase extends DrupalWebTestCase {
     $this->assertTrue(strpos($data, $module . '_enable'), 'The module contains a hook_enable');
     $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
   }
-
 
 }
