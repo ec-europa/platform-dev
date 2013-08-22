@@ -90,18 +90,19 @@ class anonymousNotification extends DrupalWebTestCase {
     $this->drupalPost(NULL, $wrong_data, t('Subscribe'));//You are already a subscriber!
     $this->assertTrue(count($this->drupalGetMails()) < 2, 'OK: No email was sent. You are already a subscriber!');
     $this->assertRaw(t('You are already a subscriber!'), 'Message "You are already a subscriber!" displayed');
-    debug($this->drupalGetMails());
+   // debug($this->drupalGetMails());
 
     //ADMINISTRATOR - DEBUG
     $this->drupalLogin($this->administrator);
     $this->cronRun();
     $this->assertTrue(count($this->drupalGetMails()), 'Confirmation email was sent.');
     $this->drupalLogout();
-
+debug($this->administrator);
     //VISITOR - CONFIRM SUBSCRIPTION
-    global $user; $uid = $user->uid;
+   // global $user; $uid = $user->uid;
+
     //$this->drupalGet('subscribe/' . $uid);
-    $this->drupalGet('subscribe/'.$user->uid);
+  //  $this->drupalGet('subscribe/'.$user->uid);
     $this->assertResponse(200, 'Subscription confirmation page is accesible');
     $roles = $user->roles;
     $this->verbose('current user roles: ' . '</pre>' . print_r($roles, TRUE) . '</pre>');

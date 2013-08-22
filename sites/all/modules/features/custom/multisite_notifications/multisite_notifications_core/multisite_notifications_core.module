@@ -137,7 +137,6 @@ function multisite_notifications_core_form() {
       '#maxlength' => 128,
       '#default_value' => 'Fill in with your email address',
       '#required' => TRUE,
-          //'#element_validate' => array('simple_subscription_email_validate'), //no longer needed see validation below
   );
 
   $form['subscribe'] = array(
@@ -203,7 +202,6 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
       //Create an account programmatically
 
       $account = _create_anonymous_account($mail);
-      //dpm($account, 'Created account');
       //Save into variables the user email
       variable_set('multisite_notification_core_user_email', $mail);
       //@todo send confirmation mail
@@ -211,7 +209,7 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
       $name = $account->name;
       $pass = $account->pass;
       //make a custom function to send mail.
-$sent = drupal_mail(
+      $sent = drupal_mail(
               'multisite_notifications_core', 'subscription', //key
               $account->mail, //to
               user_preferred_language($account), array($form_state['values'], $uid, $name, $pass), //params array, need id to pass in the email link tail
@@ -227,7 +225,6 @@ $sent = drupal_mail(
       break;
     case t('Unsubscribe'):
 
-     // $email = variable_get('multisite_notification_core_user_email', '');
       //Set user status to blocked, then ask for user confirmation
       $blocked = _delete_anonymous_account($mail, 'block');
       $account = user_load_by_mail($mail);
@@ -268,10 +265,6 @@ function multisite_notifications_core_mail($key, &$message, $params) {
       //@todo integrate with tokens
       //@todo make $params an associative array
       $message['body'][] = $base_url . '/subscribe/' . $params[1]; //uid
-      //$message['body'][] = 'After confirmation you will be able to configure your subscription settings by using the following credentials:';
-      //$message['body'][] = 'host: '. $base_url . '/user';
-      //$message['body'][] = 'user: '. $params[2];
-      //$message['body'][] = 'password: '. $params[3];//in clar!
       break;
 
     case 'unsubscription':
@@ -295,7 +288,6 @@ function _create_anonymous_account($mail) {
   $name = md5($mail);
   //note you can save it as object as well
   $fields = array(
-      //'name' => $name . '-' . mt_rand(3, 6), // prevent user name colission for email address with same prefix
       'name' => $name,
       'mail' => $mail,
       'pass' => $password,
@@ -314,7 +306,6 @@ function _create_anonymous_account($mail) {
 
   $account = user_save('', $fields);
 
-  //drupal_mail('multisite_notifications_core', 'register_no_approval_required', $mail, NULL, array('account' => $account), variable_get('site_mail', 'noreply@rebuttal.com'));
   return $account;
 }
 
@@ -336,12 +327,9 @@ function _delete_anonymous_account($mail, $waiting_confirmation = NULL, $uid = N
   }
   else {
     $user_deleted = db_delete('users')
-            //->condition('mail', $mail, '=')
             ->condition('uid', $uid, '=')
             ->execute();
     if ($user_deleted > 0) {
-
-
       drupal_set_message(t('You have confirmed your unsubscription.'), 'status');
     }
     drupal_goto();
