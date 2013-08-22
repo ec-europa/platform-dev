@@ -42,42 +42,6 @@ function e_library_core_tokens($type, $tokens, $data = array(), $options = array
 }
 
 
-function e_library_core_update_7120() {
-  // check if the taxonomy media_tags already exists
-  $vocabulary = db_select('taxonomy_vocabulary', 'tv')
-                  ->fields('tv')
-                  ->condition('machine_name', 'media_tags','=')
-                  ->execute()
-                  ->fetchAssoc();
-
-  if(count($vocabulary) == 0) {
-    // create a vocabulary dedicated to the media tags
-    $vocabulary = (object) array(
-      'name' => st('Media tags'),
-      'machine_name' => 'media_tags',
-      'module' => 'media_library_core',
-    );
-    taxonomy_vocabulary_save($vocabulary);
-
-    // add default tags
-    $vocabulary = taxonomy_vocabulary_machine_name_load('media_tags');
-    $term = (object) array(
-      'vid' => $vocabulary->vid,
-      'name' => st('Photos'),
-    );
-    taxonomy_term_save($term);
-    $term = (object) array(
-      'vid' => $vocabulary->vid,
-      'name' => st('Documents'),
-    );
-    taxonomy_term_save($term);
-    $term = (object) array(
-      'vid' => $vocabulary->vid,
-      'name' => st('Reports'),
-    );
-  }
-}
-
 /**
  * Implements hook_views_pre_render().
  *
