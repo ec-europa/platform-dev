@@ -30,7 +30,7 @@ projects[better_formats][subdir] = "contributed"
 projects[better_formats][version] = "1.0-beta1"
 
 projects[captcha][subdir] = "contributed"
-projects[captcha][version] = "1.0-beta1"
+projects[captcha][version] = "1.0"
 
 projects[chr][subdir] = "contributed"
 projects[chr][version] = "1.5"
