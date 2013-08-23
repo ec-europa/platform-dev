@@ -280,10 +280,11 @@ function multisite_notifications_core_mail($key, &$message, $params) {
 function _create_anonymous_account($mail) {
   //Generates random password
   $password = user_password(8);
-  //This will take what is before @
-  //$name = strstr(trim($mail), '@', true);
   $name = md5($mail);
-  //note you can save it as object as well
+
+  $subscriber_role = user_role_load_by_name('subscriber');
+  $subscriber_rid = $subscriber_role->rid;
+
   $fields = array(
     'name' => $name,
     'mail' => $mail,
@@ -295,7 +296,7 @@ function _create_anonymous_account($mail) {
     'language' => 'en', //language_default can sometimes return an object!
     'roles' => array(
       DRUPAL_AUTHENTICATED_RID => 'authenticated user',
-      6 => 'subscriber', //@todo Test if the roles exists
+      $subscriber_rid => TRUE,
       ),
 
       'timezone' => variable_get('date_default_timezone', ''),

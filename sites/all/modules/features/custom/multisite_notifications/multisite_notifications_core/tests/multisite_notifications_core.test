@@ -97,7 +97,7 @@ class anonymousNotification extends DrupalWebTestCase {
     $this->cronRun();
     $this->assertTrue(count($this->drupalGetMails()), 'Confirmation email was sent.');
     $this->drupalLogout();
-debug($this->administrator);
+//debug($this->visitor);
     //VISITOR - CONFIRM SUBSCRIPTION
    // global $user; $uid = $user->uid;
 
