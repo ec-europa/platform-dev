@@ -198,7 +198,7 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
     case t('Subscribe'):
       //Create an account programmatically
 
-      $account = _create_anonymous_account($mail);
+      $account = _multisite_notifications_core_create_anonymous_account($mail);
       //Save into variables the user email
       variable_set('multisite_notification_core_user_email', $mail);
       //@todo send confirmation mail
@@ -223,7 +223,7 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
     case t('Unsubscribe'):
 
       //Set user status to blocked, then ask for user confirmation
-      $blocked = _delete_anonymous_account($mail, 'block');
+      $blocked = _multisite_notifications_core_delete_anonymous_account($mail, 'block');
       $account = user_load_by_mail($mail);
 
       $uid = $account->uid;
@@ -277,7 +277,7 @@ function multisite_notifications_core_mail($key, &$message, $params) {
  * @param type $mail
  * @return type
  */
-function _create_anonymous_account($mail) {
+function _multisite_notifications_core_create_anonymous_account($mail) {
   //Generates random password
   $password = user_password(8);
   $name = md5($mail);
@@ -313,7 +313,7 @@ function _create_anonymous_account($mail) {
  * @param type $waiting_confirmation
  * @return type
  */
-function _delete_anonymous_account($mail, $waiting_confirmation = NULL, $uid = NULL) {
+function _multisite_notifications_core_delete_anonymous_account($mail, $waiting_confirmation = NULL, $uid = NULL) {
 
   //Block user until user confirms
   if ($waiting_confirmation) {
@@ -321,7 +321,6 @@ function _delete_anonymous_account($mail, $waiting_confirmation = NULL, $uid = N
             ->fields(array('status' => 0))
             ->condition('mail', $mail, '=')
             ->execute();
-    //Note: this can be done using user_load /user_save as well
   }
   else {
     $user_deleted = db_delete('users')
@@ -364,6 +363,9 @@ function multisite_notifications_core_subscribe_form($form, &$form_states) {
   return $form;
 }
 
+/**
+ * Generate a form to confirm unsubscription
+ */
 function multisite_notifications_core_unsubscribe_form($form, &$form_states) {
   $form = array();
   $form['unsubscribe']['confirmation_text'] = array(
@@ -405,7 +407,7 @@ function multisite_notifications_core_subscribe_form_submit($form, &$form_states
 
 function multisite_notifications_core_unsubscribe_form_submit($form, &$form_states) {
   $uid = arg(1);
-  _delete_anonymous_account(NULL, NULL, $uid);
+  _multisite_notifications_core_delete_anonymous_account(NULL, NULL, $uid);
 }
 
 /**
