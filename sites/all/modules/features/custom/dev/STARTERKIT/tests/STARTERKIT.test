@@ -16,7 +16,7 @@ class STARTERKIT extends DrupalWebTestCase {
     return array(
         'name' => 'STARTERKIT QA test',
         'description' => 'Social Bookmark QA tests 1.0 beta1',
-        'group' => 'AAA',
+        'group' => 'STARTERKIT GROUP',
     );
   }
 
@@ -38,6 +38,9 @@ class STARTERKIT extends DrupalWebTestCase {
     $this->setTheme('ec_resp');
   }
 
+  /**
+   * Each function must start with prefix test
+   */
   function testSTARTERKIT() {
     //init
     $this->feature_name = 'STARTERKIT';
@@ -73,15 +76,16 @@ class STARTERKIT extends DrupalWebTestCase {
     unset($GLOBALS['theme']);
     drupal_theme_initialize();
   }
-/**
- *  Activates a block
- * @param type $module
- * @param type $delta
- * @param type $region
- * @param type $theme
- * @param type $pages
- * @param type $visibility
- */
+
+  /**
+   *  Activates a block
+   * @param type $module
+   * @param type $delta
+   * @param type $region
+   * @param type $theme
+   * @param type $pages
+   * @param type $visibility
+   */
   public function setBlock($module, $delta, $region, $theme, $pages, $visibility) {
     drupal_set_message("Activating block $module:$delta\n");
     cache_clear_all();
@@ -97,11 +101,12 @@ class STARTERKIT extends DrupalWebTestCase {
             ->execute();
     cache_clear_all();
   }
-/**
- * Assign a block to a region
- * @param type $block
- * @param type $region
- */
+
+  /**
+   * Assign a block to a region
+   * @param type $block
+   * @param type $region
+   */
   public function moveBlockToRegion($block, $region) {
     // Set the created block to a specific region.
     $edit = array();
@@ -119,10 +124,14 @@ class STARTERKIT extends DrupalWebTestCase {
     ));
     $this->assertFieldByXPath($xpath, NULL, format_string('Custom block found in %region_name region.', array('%region_name' => $region)));
   }
-/**
- * Create n nodes
- * @param type $count
- */
+
+  /**
+   * Create n nodes
+   * @param type $count
+   *
+   * Check
+   * $this->assert((bool) $node, 'Page "' . $node->nid . '" has been created.');
+   */
   public function createSampleNodes($count = 5) {
     $langcode = LANGUAGE_NONE;
     // Post $count article nodes.
@@ -133,12 +142,34 @@ class STARTERKIT extends DrupalWebTestCase {
       $this->drupalPost('node/add/article', $edit, t('Save'));
     }
   }
+  /**
+   *
+   * @param type $node
+   * @param type $comment
+   *
+   * Usage:
+      $this->drupalCreateComment($node);
+   */
+    function drupalCreateComment($node, $comment = array()) {
+     $comment += array(
+      'subject' => $this->randomName(8),
+      'comment' => $this->randomName(32),
+      'uid' => $node->uid,
+      'nid' => $node->nid,
+      'node_type' => 'comment_node_' . $node->type,
+      'status' => COMMENT_PUBLISHED,
+      'cid' => 0, 'pid' => 0,
+    );
+    $comment = (object) $comment;
+    comment_save($comment);
+    $this->assertTrue($comment->cid, "Successfully created comment: {$comment->cid} for node {$node->nid} ({$node->type}).");
+  }
 
-/**
- * Create a user with a specified role
- * @param type $role
- * @return type
- */
+  /**
+   * Create a user with a specified role
+   * @param type $role
+   * @return type
+   */
   public function drupalCreateUserWithRole($role) {
     // Get all of the roles in the system.
     $roles = user_roles();
@@ -152,6 +183,42 @@ class STARTERKIT extends DrupalWebTestCase {
     $user->roles[$index] = $role;
     // Return the user we have created.
     return user_save($user);
+  }
+  /*
+   * Example usage: $image = $this->createFile('image-' . rand() . '.jpg', 'image/png');
+   */
+
+    function createFile($filepath = NULL, $mime = 'text/plain', $contents = NULL, $scheme = NULL) {
+    if (!isset($filepath)) {
+      // Prefix with non-latin characters to ensure that all file-related
+      // tests work with international filenames.
+      $filepath = 'Файл для тестирования ' . $this->randomName();
+    }
+    if (!isset($scheme)) {
+      $scheme = file_default_scheme();
+    }
+    $filepath = $scheme . '://' . $filepath;
+
+    if (!isset($contents)) {
+      $contents = "file_put_contents() doesn't seem to appreciate empty strings so let's put in some data.";
+    }
+
+    file_put_contents($filepath, $contents);
+    $this->assertTrue(is_file($filepath), t('The test file exists on the disk.'), 'Create test file');
+
+    $file = new stdClass();
+    $file->uri = $filepath;
+    $file->filename = drupal_basename($file->uri);
+    $file->filemime = $mime;
+    $file->uid = 1;
+    $file->timestamp = REQUEST_TIME;
+    $file->filesize = filesize($file->uri);
+    $file->status = 0;
+    // Write the record directly rather than calling file_save() so we don't
+    // invoke the hooks.
+    $this->assertNotIdentical(drupal_write_record('file_managed', $file), FALSE, t('The file was added to the database.'), 'Create test file');
+
+    return $file;
   }
 
 }
