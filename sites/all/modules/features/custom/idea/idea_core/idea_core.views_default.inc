@@ -196,6 +196,12 @@ function idea_core_views_default_views() {
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['path'] = 'ideas';
+  $handler->display->display_options['menu']['type'] = 'normal';
+  $handler->display->display_options['menu']['title'] = 'Ideas';
+  $handler->display->display_options['menu']['weight'] = '15';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
+  $handler->display->display_options['menu']['context'] = 0;
 
   /* Display: Most rated */
   $handler = $view->new_display('block', 'Most rated', 'block_most_rated_ideas');
