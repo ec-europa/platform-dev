@@ -237,12 +237,7 @@ function e_library_core_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  $handler->display->display_options['path'] = 'e_library';
-  $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'E-library';
-  $handler->display->display_options['menu']['weight'] = '15';
-  $handler->display->display_options['menu']['name'] = 'main-menu';
-  $handler->display->display_options['menu']['context'] = 0;
+
   $translatables['e_library'] = array(
     t('Master'),
     t('E-Library'),
