@@ -47,13 +47,18 @@ function news_og_views_default_views_alter(&$views) {
     $handler->display->display_options['defaults']['filters'] = FALSE; 
   
   
-  
-  
-    /* display for the public news */
+/* display for the public news */
 /* Display: news_public */
 $handler = $view->new_display('page', 'news_public', 'page_1');
 $handler->display->display_options['defaults']['relationships'] = FALSE;
 $handler->display->display_options['defaults']['arguments'] = FALSE;
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'grid';
+$handler->display->display_options['style_options']['columns'] = '3';
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['row_plugin'] = 'fields';
+$handler->display->display_options['defaults']['row_options'] = FALSE;
 
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: Content: Title */
