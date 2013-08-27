@@ -54,6 +54,49 @@ function news_og_views_default_views_alter(&$views) {
 $handler = $view->new_display('page', 'news_public', 'page_1');
 $handler->display->display_options['defaults']['relationships'] = FALSE;
 $handler->display->display_options['defaults']['arguments'] = FALSE;
+
+$handler->display->display_options['defaults']['fields'] = FALSE;
+/* Field: Content: Title */
+$handler->display->display_options['fields']['title']['id'] = 'title';
+$handler->display->display_options['fields']['title']['table'] = 'node';
+$handler->display->display_options['fields']['title']['field'] = 'title';
+$handler->display->display_options['fields']['title']['label'] = '';
+$handler->display->display_options['fields']['title']['element_type'] = 'h3';
+$handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+/* Field: Content: Post date */
+$handler->display->display_options['fields']['created']['id'] = 'created';
+$handler->display->display_options['fields']['created']['table'] = 'node';
+$handler->display->display_options['fields']['created']['field'] = 'created';
+$handler->display->display_options['fields']['created']['label'] = '';
+$handler->display->display_options['fields']['created']['alter']['text'] = '<small>[created]</small>';
+$handler->display->display_options['fields']['created']['element_class'] = 'meta';
+$handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['created']['date_format'] = 'short';
+/* Field: Content: Body */
+$handler->display->display_options['fields']['body']['id'] = 'body';
+$handler->display->display_options['fields']['body']['table'] = 'field_data_body';
+$handler->display->display_options['fields']['body']['field'] = 'body';
+$handler->display->display_options['fields']['body']['label'] = '';
+$handler->display->display_options['fields']['body']['alter']['max_length'] = '600';
+$handler->display->display_options['fields']['body']['alter']['html'] = TRUE;
+$handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['body']['element_wrapper_class'] = 'fieldset clearfix';
+$handler->display->display_options['fields']['body']['type'] = 'text_summary_or_trimmed';
+$handler->display->display_options['fields']['body']['settings'] = array(
+  'trim_length' => '600',
+);
+/* Field: Content: Link */
+$handler->display->display_options['fields']['field_link']['id'] = 'field_link';
+$handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
+$handler->display->display_options['fields']['field_link']['field'] = 'field_link';
+$handler->display->display_options['fields']['field_link']['label'] = 'Related link';
+$handler->display->display_options['fields']['field_link']['element_type'] = '0';
+$handler->display->display_options['fields']['field_link']['element_default_classes'] = FALSE;
+$handler->display->display_options['fields']['field_link']['hide_empty'] = TRUE;
+$handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
+$handler->display->display_options['fields']['field_link']['delta_offset'] = '0';
+
+
 $handler->display->display_options['defaults']['filter_groups'] = FALSE;
 $handler->display->display_options['filter_groups']['groups'] = array(
   1 => 'AND',
