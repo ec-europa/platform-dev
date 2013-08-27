@@ -428,11 +428,11 @@ function communities_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'browser_plugins' => array(),
           'progress_indicator' => 'throbber',
@@ -692,8 +692,8 @@ function communities_field_default_fields() {
   t('Group roles and permissions');
   t('Group visibility');
   t('Groups audience');
-  t('tags');
-  t('thumbnail');
+  t('Tags');
+  t('Thumbnail');
 
   return $fields;
 }

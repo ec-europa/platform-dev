@@ -22,5 +22,6 @@ function communities_menu_default_menu_custom() {
   t('Communities menu');
   t('Contextual menu for communities functions');
 
+
   return $menus;
 }

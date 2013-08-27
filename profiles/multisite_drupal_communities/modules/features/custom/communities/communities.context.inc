@@ -19,7 +19,7 @@ function communities_context_default_contexts() {
   $context->conditions = array(
     'node' => array(
       'values' => array(
-        'article' => 'article',      
+        'article' => 'article',
         'community' => 'community',
       ),
       'options' => array(
@@ -66,6 +66,12 @@ function communities_context_default_contexts() {
           'delta' => 'communities_members-block_1',
           'region' => 'sidebar_left',
           'weight' => '-7',
+        ),
+        'views-og_pending_membership-block' => array(
+          'module' => 'views',
+          'delta' => 'og_pending_membership-block',
+          'region' => 'sidebar_left',
+          'weight' => '-6',
         ),
       ),
     ),
