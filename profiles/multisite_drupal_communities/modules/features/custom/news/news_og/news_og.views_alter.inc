@@ -46,6 +46,64 @@ function news_og_views_default_views_alter(&$views) {
     );  
     $handler->display->display_options['defaults']['filters'] = FALSE; 
   
+  
+  
+  
+    /* display for the public news */
+/* Display: news_public */
+$handler = $view->new_display('page', 'news_public', 'page_1');
+$handler->display->display_options['defaults']['relationships'] = FALSE;
+$handler->display->display_options['defaults']['arguments'] = FALSE;
+$handler->display->display_options['defaults']['filter_groups'] = FALSE;
+$handler->display->display_options['filter_groups']['groups'] = array(
+  1 => 'AND',
+  2 => 'OR',
+);
+$handler->display->display_options['defaults']['filters'] = FALSE;
+/* Filter criterion: Content: Type */
+$handler->display->display_options['filters']['type']['id'] = 'type';
+$handler->display->display_options['filters']['type']['table'] = 'node';
+$handler->display->display_options['filters']['type']['field'] = 'type';
+$handler->display->display_options['filters']['type']['value'] = array(
+  'news' => 'news',
+);
+$handler->display->display_options['filters']['type']['group'] = 1;
+/* Filter criterion: Content: Language */
+$handler->display->display_options['filters']['language']['id'] = 'language';
+$handler->display->display_options['filters']['language']['table'] = 'node';
+$handler->display->display_options['filters']['language']['field'] = 'language';
+$handler->display->display_options['filters']['language']['value'] = array(
+  '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+  'und' => 'und',
+);
+$handler->display->display_options['filters']['language']['group'] = 2;
+/* Filter criterion: Content translation: Translation set node ID */
+$handler->display->display_options['filters']['tnid']['id'] = 'tnid';
+$handler->display->display_options['filters']['tnid']['table'] = 'node';
+$handler->display->display_options['filters']['tnid']['field'] = 'tnid';
+$handler->display->display_options['filters']['tnid']['value']['value'] = '0';
+$handler->display->display_options['filters']['tnid']['group'] = 2;
+/* Filter criterion: Content: Group content visibility (group_content_access) */
+$handler->display->display_options['filters']['group_content_access_value']['id'] = 'group_content_access_value';
+$handler->display->display_options['filters']['group_content_access_value']['table'] = 'field_data_group_content_access';
+$handler->display->display_options['filters']['group_content_access_value']['field'] = 'group_content_access_value';
+$handler->display->display_options['filters']['group_content_access_value']['value'] = array(
+  1 => '1',
+);
+/* Filter criterion: Workbench Moderation: Published */
+$handler->display->display_options['filters']['published']['id'] = 'published';
+$handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
+$handler->display->display_options['filters']['published']['field'] = 'published';
+$handler->display->display_options['filters']['published']['value'] = '1';
+$handler->display->display_options['path'] = 'news';
+$handler->display->display_options['menu']['type'] = 'normal';
+$handler->display->display_options['menu']['title'] = 'News';
+$handler->display->display_options['menu']['weight'] = '0';
+$handler->display->display_options['menu']['name'] = 'main-menu';
+$handler->display->display_options['menu']['context'] = 0;
+$handler->display->display_options['menu']['context_only_inline'] = 0;
+
+
   }
 }
 
