@@ -300,7 +300,7 @@ function communities_views_default_views() {
   $handler->display->display_options['path'] = 'communities_directory';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Communities';
-  $handler->display->display_options['menu']['weight'] = '1';
+  $handler->display->display_options['menu']['weight'] = '-10';
   $handler->display->display_options['menu']['name'] = 'main-menu';
 
   /* Display: Feed */
