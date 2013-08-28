@@ -230,11 +230,11 @@ function multisite_drupal_core_install() {
     'link_path' => 'admin/workbench',
     'link_title' => t('My workbench'),
     'menu_name' => 'main-menu',
-    'weight' => '0'
+    'weight' => '-30'
   );
   menu_link_save($item);
   
-  // put the home link at the top left of the main-menu
+  // put the home link at the left of the main-menu
   db_update('menu_links')
     ->fields(array('weight' => '-50'))
     ->condition('link_title', 'Home', '=')
