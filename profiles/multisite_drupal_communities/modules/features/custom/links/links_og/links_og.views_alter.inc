@@ -68,6 +68,16 @@ function links_og_views_default_views_alter(&$views) {
     $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
     $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
     $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
+    /* Field: Content: Groups audience */
+    $handler->display->display_options['fields']['og_group_ref']['id'] = 'og_group_ref';
+    $handler->display->display_options['fields']['og_group_ref']['table'] = 'og_membership';
+    $handler->display->display_options['fields']['og_group_ref']['field'] = 'og_group_ref';
+    $handler->display->display_options['fields']['og_group_ref']['label'] = 'Community';
+    $handler->display->display_options['fields']['og_group_ref']['hide_empty'] = TRUE;
+    $handler->display->display_options['fields']['og_group_ref']['settings'] = array(
+      'link' => 1,
+    );
+    $handler->display->display_options['fields']['og_group_ref']['delta_offset'] = '0';
     $handler->display->display_options['defaults']['filter_groups'] = FALSE;
     $handler->display->display_options['filter_groups']['groups'] = array(
       1 => 'AND',

@@ -47,11 +47,8 @@ function news_og_views_default_views_alter(&$views) {
     $handler->display->display_options['defaults']['filters'] = FALSE; 
   
   
-    /* display for the public news */
     /* Display: news_public */
     $handler = $view->new_display('page', 'news_public', 'page_1');
-    $handler->display->display_options['defaults']['relationships'] = FALSE;
-    $handler->display->display_options['defaults']['arguments'] = FALSE;
     $handler->display->display_options['defaults']['style_plugin'] = FALSE;
     $handler->display->display_options['style_plugin'] = 'grid';
     $handler->display->display_options['style_options']['columns'] = '3';
@@ -59,7 +56,7 @@ function news_og_views_default_views_alter(&$views) {
     $handler->display->display_options['defaults']['row_plugin'] = FALSE;
     $handler->display->display_options['row_plugin'] = 'fields';
     $handler->display->display_options['defaults']['row_options'] = FALSE;
-    
+    $handler->display->display_options['defaults']['relationships'] = FALSE;
     $handler->display->display_options['defaults']['fields'] = FALSE;
     /* Field: Content: Title */
     $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -100,8 +97,17 @@ function news_og_views_default_views_alter(&$views) {
     $handler->display->display_options['fields']['field_link']['hide_empty'] = TRUE;
     $handler->display->display_options['fields']['field_link']['click_sort_column'] = 'url';
     $handler->display->display_options['fields']['field_link']['delta_offset'] = '0';
-    
-    
+    /* Field: Content: Groups audience */
+    $handler->display->display_options['fields']['og_group_ref']['id'] = 'og_group_ref';
+    $handler->display->display_options['fields']['og_group_ref']['table'] = 'og_membership';
+    $handler->display->display_options['fields']['og_group_ref']['field'] = 'og_group_ref';
+    $handler->display->display_options['fields']['og_group_ref']['label'] = 'Community';
+    $handler->display->display_options['fields']['og_group_ref']['hide_empty'] = TRUE;
+    $handler->display->display_options['fields']['og_group_ref']['settings'] = array(
+      'link' => 1,
+    );
+    $handler->display->display_options['fields']['og_group_ref']['delta_offset'] = '0';
+    $handler->display->display_options['defaults']['arguments'] = FALSE;
     $handler->display->display_options['defaults']['filter_groups'] = FALSE;
     $handler->display->display_options['filter_groups']['groups'] = array(
       1 => 'AND',
@@ -150,7 +156,6 @@ function news_og_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['name'] = 'main-menu';
     $handler->display->display_options['menu']['context'] = 0;
     $handler->display->display_options['menu']['context_only_inline'] = 0;
-
 
   }
 }
