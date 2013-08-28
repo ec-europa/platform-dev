@@ -43,7 +43,94 @@ function e_library_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
-    $handler->display->display_options['path'] = 'community/e_library';
+    
+    /* Display: e_library_public */
+    $handler = $view->new_display('page', 'e_library_public', 'page_1');
+    $handler->display->display_options['defaults']['relationships'] = FALSE;
+    /* Relationship: Content: Author */
+    $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+    $handler->display->display_options['relationships']['uid']['table'] = 'node';
+    $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+    /* Relationship: File Usage: File */
+    $handler->display->display_options['relationships']['node_to_file']['id'] = 'node_to_file';
+    $handler->display->display_options['relationships']['node_to_file']['table'] = 'file_usage';
+    $handler->display->display_options['relationships']['node_to_file']['field'] = 'node_to_file';
+    $handler->display->display_options['defaults']['arguments'] = FALSE;
+    $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+    $handler->display->display_options['filter_groups']['groups'] = array(
+      1 => 'AND',
+      2 => 'OR',
+    );
+    $handler->display->display_options['defaults']['filters'] = FALSE;
+    /* Filter criterion: Content: Type */
+    $handler->display->display_options['filters']['type']['id'] = 'type';
+    $handler->display->display_options['filters']['type']['table'] = 'node';
+    $handler->display->display_options['filters']['type']['field'] = 'type';
+    $handler->display->display_options['filters']['type']['value'] = array(
+      'document' => 'document',
+    );
+    $handler->display->display_options['filters']['type']['group'] = 1;
+    /* Filter criterion: Workbench Moderation: Published */
+    $handler->display->display_options['filters']['published']['id'] = 'published';
+    $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
+    $handler->display->display_options['filters']['published']['field'] = 'published';
+    $handler->display->display_options['filters']['published']['value'] = '1';
+    /* Filter criterion: Content: Language */
+    $handler->display->display_options['filters']['language']['id'] = 'language';
+    $handler->display->display_options['filters']['language']['table'] = 'node';
+    $handler->display->display_options['filters']['language']['field'] = 'language';
+    $handler->display->display_options['filters']['language']['value'] = array(
+      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+      'und' => 'und',
+    );
+    $handler->display->display_options['filters']['language']['group'] = 2;
+    /* Filter criterion: Content translation: Translation set node ID */
+    $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
+    $handler->display->display_options['filters']['tnid']['table'] = 'node';
+    $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
+    $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
+    $handler->display->display_options['filters']['tnid']['group'] = 2;
+    /* Filter criterion: Content: Media tags (field_media_tags) */
+    $handler->display->display_options['filters']['field_media_tags_tid']['id'] = 'field_media_tags_tid';
+    $handler->display->display_options['filters']['field_media_tags_tid']['table'] = 'field_data_field_media_tags';
+    $handler->display->display_options['filters']['field_media_tags_tid']['field'] = 'field_media_tags_tid';
+    $handler->display->display_options['filters']['field_media_tags_tid']['exposed'] = TRUE;
+    $handler->display->display_options['filters']['field_media_tags_tid']['expose']['operator_id'] = 'field_media_tags_tid_op';
+    $handler->display->display_options['filters']['field_media_tags_tid']['expose']['label'] = 'Media tags';
+    $handler->display->display_options['filters']['field_media_tags_tid']['expose']['operator'] = 'field_media_tags_tid_op';
+    $handler->display->display_options['filters']['field_media_tags_tid']['expose']['identifier'] = 'field_media_tags_tid';
+    $handler->display->display_options['filters']['field_media_tags_tid']['expose']['remember_roles'] = array(
+      2 => '2',
+      1 => 0,
+      3 => 0,
+      4 => 0,
+      5 => 0,
+    );
+    $handler->display->display_options['filters']['field_media_tags_tid']['type'] = 'select';
+    $handler->display->display_options['filters']['field_media_tags_tid']['vocabulary'] = 'media_tags';
+    $handler->display->display_options['filters']['field_media_tags_tid']['hierarchy'] = 1;
+    /* Filter criterion: File: Mime type */
+    $handler->display->display_options['filters']['filemime']['id'] = 'filemime';
+    $handler->display->display_options['filters']['filemime']['table'] = 'file_managed';
+    $handler->display->display_options['filters']['filemime']['field'] = 'filemime';
+    $handler->display->display_options['filters']['filemime']['relationship'] = 'node_to_file';
+    $handler->display->display_options['filters']['filemime']['operator'] = '!=';
+    $handler->display->display_options['filters']['filemime']['value'] = 'IMAGE/JPEGG';
+    /* Filter criterion: Content: Group content visibility (group_content_access) */
+    $handler->display->display_options['filters']['group_content_access_value']['id'] = 'group_content_access_value';
+    $handler->display->display_options['filters']['group_content_access_value']['table'] = 'field_data_group_content_access';
+    $handler->display->display_options['filters']['group_content_access_value']['field'] = 'group_content_access_value';
+    $handler->display->display_options['filters']['group_content_access_value']['value'] = array(
+      1 => '1',
+    );
+    $handler->display->display_options['path'] = 'e_library_public';
+    $handler->display->display_options['menu']['type'] = 'normal';
+    $handler->display->display_options['menu']['title'] = 'E-library';
+    $handler->display->display_options['menu']['weight'] = '0';
+    $handler->display->display_options['menu']['name'] = 'main-menu';
+    $handler->display->display_options['menu']['context'] = 0;
+    $handler->display->display_options['menu']['context_only_inline'] = 0;
+    
   }
   
   
