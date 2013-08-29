@@ -19,11 +19,11 @@ jQuery(function($){
       $this = $(this);
       //Check if the feature has been enabled
       if ($this.is(':checked')) {
-        var html_before = '<label class="cb-enable selected"><span><i class="icon-ok icon-white"></i></span></label><label class="cb-disable"><span><i class="icon-remove icon-white"></i></span></label>';
+        var html_before = '<label class="cb-enable selected"><span><i class="glyphicon glyphicon-ok icon-ok icon-white"></i></span></label><label class="cb-disable"><span><i class="glyphicon glyphicon-remove icon-remove icon-white"></i></span></label>';
       }
       else {
-        var html_before = '<label class="cb-enable"><span><i class="icon-ok icon-white"></i></span></label><label class="cb-disable selected"><span><i class="icon-remove icon-white"></i></span></label>';
-      }     
+        var html_before = '<label class="cb-enable"><span><i class="glyphicon glyphicon-ok icon-ok icon-white"></i></span></label><label class="cb-disable selected"><span><i class="glyphicon glyphicon-remove icon-remove icon-white"></i></span></label>';
+      }  
       
       $this
         .before(html_before)
@@ -31,7 +31,7 @@ jQuery(function($){
     });
 
     //Manage click on a row
-    $('#feature-set-admin-form tr td.switcher').click(function() {
+    $('#feature-set-admin-form tr').click(function() {
       $(this)
         .not('.form-disabled')
         .find('.switch')

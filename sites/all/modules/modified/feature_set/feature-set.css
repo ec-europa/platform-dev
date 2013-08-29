@@ -1,133 +1,68 @@
-#feature-set-admin-form .switch {
-  display: block;
-  width: 60px;
-  margin: 0 auto;
-  height: 30px;
+#feature-set-admin-form table td {
+  cursor: pointer;
+}
+#feature-set-admin-form thead {
+  display: none;
+}
+
+#feature-set-admin-form .list-group {
+  margin: 0;
+  padding: 0;
+}
+
+#feature-set-admin-form .list-group > li {
+  list-style: none;
+}
+#feature-set-admin-form .list-group > li > a.active {
+  background-color: #fff;
+  color: #0065a2;
+  border-color: #ddd;
 }
 
 #feature-set-admin-form .feature-set-image {
   float: left;
-  width: 0;
-  overflow: visible;
-}
-
-#feature-set-admin-form .feature-set-image img {
-  max-height: 35px;
-  max-width: 35px;
-  padding: 10px 0;
-  vertical-align: top;
-}
-
-#feature-set-admin-form .feature-set {
-  position: relative;
-  left: 55px;
-  margin-right: 55px;
+  font-size: 45px;
+  margin-right: 5px;
+  padding-right: 5px;
+  border-right: 1px solid #ddd;
+  width: 55px;
+  text-align: center;
 }
 
 #feature-set-admin-form #edit-submit {
   float: right;
 }
 
-#feature-set-admin-form .form-item input {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-}
-
-#feature-set-admin-form span.name {
+#feature-set-admin-form .feature-set .name {
   display: block;
   font-weight: bold;
-  margin-top: 5px;
-}
-
-#feature-set-admin-form tbody tr.even,
-#feature-set-admin-form tbody tr.odd {
-  border-width: 0 1px 1px;
-  cursor: pointer;
-}
-
-#feature-set-admin-form td.disabled {
-  border-color: #BEBFB9;
-  border-style: solid;
-  border-width: 0 1px;
-  color: #5A5A5A;
-  font-style: italic;
-}
-
-#feature-set-admin-form td.status {
-  background-color: #F8FFF0;
-  background-image: url("/misc/message-24-ok.png");
-  border-color: #BEBFB9;
-  border-style: solid;
-  border-width: 0 1px;
-  color: #234600;
-}
-
-#feature-set-admin-form td.warning {
-  background-image: url("/misc/message-24-warning.png");
-  border-color: #BEBFB9;
-  border-style: solid;
-  border-width: 0 1px;
-  color: #884400;
-  background-color: #FFFCE5;
-}
-
-#feature-set-admin-form td.messages {
-  background-position: 8px center;
-  background-repeat: no-repeat;
-  margin: 6px 0;
-  padding: 10px 10px 10px 50px;
 }
 
 #feature-set-admin-form td.switcher {
-  width: 100px;
+  width: 120px;
   text-align: center;
-}
-
-#feature-set-admin-form ul.links li {
-  display: inline;
-}
-
-#feature-set-admin-form tr.gradient > td.feature {
-background: #ffffff; /* Old browsers */
-background: -moz-linear-gradient(-45deg,  #ffffff 0%, #dbefb3 47%, #cdf285 70%, #e9f4d3 91%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#ffffff), color-stop(47%,#dbefb3), color-stop(70%,#cdf285), color-stop(91%,#e9f4d3)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(-45deg,  #ffffff 0%,#dbefb3 47%,#cdf285 70%,#e9f4d3 91%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(-45deg,  #ffffff 0%,#dbefb3 47%,#cdf285 70%,#e9f4d3 91%); /* Opera 11.10+ */
-background: -ms-linear-gradient(-45deg,  #ffffff 0%,#dbefb3 47%,#cdf285 70%,#e9f4d3 91%); /* IE10+ */
-background: linear-gradient(-45deg,  #ffffff 0%,#dbefb3 47%,#cdf285 70%,#e9f4d3 91%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#cdf285',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-}
-
-#feature-set-admin-form tr.gradient > td.switcher {
-  background-color: #E9F4D3;
 }
 
 /* -----
   On/Off switchers 
 ----- */
-.cb-enable, .cb-disable, .cb-enable span, .cb-disable span { background: url(switch.png) repeat-x; display: block; float: left; }
-.cb-enable span, .cb-disable span { height: 30px; line-height: 30px; display: block; background-repeat: no-repeat; font-weight: bold; color: #999; width: 30px;}
-.cb-enable span i, .cb-disable span i { display: block; margin: 8px auto; display: none; }
-.cb-enable span { background-position: left -150px; padding: 0; }
-.cb-disable span { background-position: right -300px; padding: 0; }
+#feature-set-admin-form .switch { display: block; width: auto; margin: 0 auto; height: auto; padding: 0; }
+.cb-enable, .cb-disable, .cb-enable span, .cb-disable span { display: block; float: left; }
+.cb-enable { border: #ddd 1px solid; border-radius: 4px 0 0 4px; }
+.cb-disable { border: #ddd 1px solid; border-radius: 0 4px 4px 0; }
+.cb-enable span, .cb-disable span { height: 45px; line-height: 45px; display: block; background-repeat: no-repeat; width: 50px; }
 
-.cb-disable.selected { background-position: 0 -120px; }
-.cb-disable.selected span { background-position: right -420px; color: #fff; width: 30px; }
-.cb-enable.selected { background-position: 0 -90px; }
-.cb-enable.selected span { background-position: left -240px; color: #fff; width: 30px; }
-.cb-enable.selected span i, .cb-disable.selected span i { display: block; }
+.cb-disable.selected { background-color: #d9534f; border-color: #832a2a; border-radius: 0 4px 4px 0; }
+.cb-enable.selected { background-color: #5cb85c; border-color: #699319; border-radius: 4px 0 0 4px; }
 
-.pending .cb-disable.selected { background-position: 0 -60px; }
-.pending .cb-disable.selected span { background-position: right -360px; color: #fff; width: 30px; }
-.pending .cb-enable.selected { background-position: 0 -60px; }
-.pending .cb-enable.selected span { background-position: left -210px; color: #fff; width: 30px; }
-
+.pending .cb-disable.selected { background-color: #f0ad4e; border-color: #c88916; border-radius: 0 4px 4px 0; }
+.pending .cb-enable.selected { background-color: #f0ad4e; border-color: #c88916; border-radius: 4px 0 0 4px; }
 
 .form-disabled, .form-disabled .cb-enable, .form-disabled .cb-disable { cursor: not-allowed; }
-.form-disabled .cb-disable.selected { background-position: 0 -30px; }
-.form-disabled .cb-disable.selected span { background-position: right -330px; color: #fff; }
-.form-disabled .cb-enable.selected { background-position: 0 -30px; }
-.form-disabled .cb-enable.selected span { background-position: left -180px; color: #fff; }
+.form-disabled .cb-disable.selected { background-color: #999; border-color: #767676; border-radius: 0 4px 4px 0; }
+.form-disabled .cb-enable.selected { background-color: #999; border-color: #767676; border-radius: 4px 0 0 4px; }
 
-.switch label { cursor: pointer; width: auto; margin: 0 !important}
+.switch label { cursor: pointer; width: auto; margin: 0 !important; }
+.odd .switch .glyphicon { color: #f9f9f9; }
+.even .switch .glyphicon { color: #fff; }
+.switch label.selected .glyphicon { color: #fff; font-size: 20px; }

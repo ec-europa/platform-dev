@@ -142,9 +142,9 @@ function theme_feature_set_admin_form($form) {
   }
   ksort($rows);
 
-  $output = '<ul class="nav nav nav-tabs nav-stacked">';
+  $output = '<ul class="list-group nav nav-tabs nav-stacked">';
   foreach ($rows as $key => $value) {
-    $output .= '<li><a class="feature-set-category">' . t($key) . '</a><div class="feature-set-content">' . theme('table', array('header' => $header, 'rows' => $value, 'attributes' => array('class' => array('table', 'table-striped')))) . '</div></li>';
+    $output .= '<li><a class="list-group-item feature-set-category">' . t($key) . '</a><div class="feature-set-content">' . theme('table', array('header' => $header, 'rows' => $value, 'attributes' => array('class' => array('table', 'table-striped')))) . '</div></li>';
   }
   $output .= '</ul>';
 
