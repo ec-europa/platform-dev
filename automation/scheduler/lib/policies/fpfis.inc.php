@@ -641,7 +641,8 @@ function fpfis_configure_apachesolr(&$subsite) {
 	$commands = array(
 		sprintf('solr-set-env-url "%s"', $solr_server_url),
 		sprintf('sql-query "%s"', "UPDATE apachesolr_environment SET name = '${solr_server_name}' WHERE env_id = 'solr';"),
-		sprintf('sql-query "%s"', "INSERT INTO apachesolr_index_bundles (env_id,entity_type,bundle) VALUES ('solr','node','page'), ('solr','node','article');"),
+		sprintf('sql-query "%s"', "INSERT INTO apachesolr_index_bundles (env_id,entity_type,bundle) VALUES ('solr','node','page');"),
+		sprintf('sql-query "%s"', "INSERT INTO apachesolr_index_bundles (env_id,entity_type,bundle) VALUES ('solr','node','article');"),
 	);
 	foreach ($commands as $command) {
 		$execution = drush_subsite($subsite, $command);
