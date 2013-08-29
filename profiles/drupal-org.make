@@ -103,9 +103,15 @@ projects[flexslider][version] = "2.0-alpha1"
 
 projects[flexslider_views_slideshow][subdir] = "contributed"
 projects[flexslider_views_slideshow][version] = "2.x-dev"
+projects[flexslider_views_slideshow][download][type] = "git"
+projects[flexslider_views_slideshow][download][url] = "git://drupalcode.org/project/flexslider_views_slideshow.git"
+projects[flexslider_views_slideshow][download][revision] = "0b1f8e7e24c168d1820ccded63c319327d57a97e"
 
 projects[freepager][subdir] = "contributed"
 projects[freepager][version] = "2.x-dev"
+projects[freepager][download][type] = "git"
+projects[freepager][download][url] = "git://drupalcode.org/project/freepager.git"
+projects[freepager][download][revision] = "698effdfaf7573426ce24acf0ec622bfbf75fc73"
 
 projects[fullcalendar][subdir] = "contributed"
 projects[fullcalendar][version] = "2.0"
