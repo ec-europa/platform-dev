@@ -47,6 +47,7 @@ function news_og_views_default_views_alter(&$views) {
     $handler->display->display_options['defaults']['filters'] = FALSE; 
   
   
+
     /* Display: news_public */
     $handler = $view->new_display('page', 'news_public', 'page_1');
     $handler->display->display_options['defaults']['style_plugin'] = FALSE;
@@ -87,7 +88,7 @@ function news_og_views_default_views_alter(&$views) {
     $handler->display->display_options['fields']['body']['settings'] = array(
       'trim_length' => '600',
     );
-    /* Field: Content: Link */
+    /* Field: Content: link */
     $handler->display->display_options['fields']['field_link']['id'] = 'field_link';
     $handler->display->display_options['fields']['field_link']['table'] = 'field_data_field_link';
     $handler->display->display_options['fields']['field_link']['field'] = 'field_link';
@@ -101,7 +102,7 @@ function news_og_views_default_views_alter(&$views) {
     $handler->display->display_options['fields']['og_group_ref']['id'] = 'og_group_ref';
     $handler->display->display_options['fields']['og_group_ref']['table'] = 'og_membership';
     $handler->display->display_options['fields']['og_group_ref']['field'] = 'og_group_ref';
-    $handler->display->display_options['fields']['og_group_ref']['label'] = 'Community';
+    $handler->display->display_options['fields']['og_group_ref']['label'] = 'Group';
     $handler->display->display_options['fields']['og_group_ref']['hide_empty'] = TRUE;
     $handler->display->display_options['fields']['og_group_ref']['settings'] = array(
       'link' => 1,
@@ -112,6 +113,7 @@ function news_og_views_default_views_alter(&$views) {
     $handler->display->display_options['filter_groups']['groups'] = array(
       1 => 'AND',
       2 => 'OR',
+      3 => 'OR',
     );
     $handler->display->display_options['defaults']['filters'] = FALSE;
     /* Filter criterion: Content: Type */
@@ -122,6 +124,12 @@ function news_og_views_default_views_alter(&$views) {
       'news' => 'news',
     );
     $handler->display->display_options['filters']['type']['group'] = 1;
+    /* Filter criterion: Workbench Moderation: Published */
+    $handler->display->display_options['filters']['published']['id'] = 'published';
+    $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
+    $handler->display->display_options['filters']['published']['field'] = 'published';
+    $handler->display->display_options['filters']['published']['value'] = '1';
+    $handler->display->display_options['filters']['published']['group'] = 1;
     /* Filter criterion: Content: Language */
     $handler->display->display_options['filters']['language']['id'] = 'language';
     $handler->display->display_options['filters']['language']['table'] = 'node';
@@ -144,11 +152,13 @@ function news_og_views_default_views_alter(&$views) {
     $handler->display->display_options['filters']['group_content_access_value']['value'] = array(
       1 => '1',
     );
-    /* Filter criterion: Workbench Moderation: Published */
-    $handler->display->display_options['filters']['published']['id'] = 'published';
-    $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
-    $handler->display->display_options['filters']['published']['field'] = 'published';
-    $handler->display->display_options['filters']['published']['value'] = '1';
+    $handler->display->display_options['filters']['group_content_access_value']['group'] = 3;
+    /* Filter criterion: Content: Groups audience (og_group_ref) */
+    $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['group'] = 3;
     $handler->display->display_options['path'] = 'news_public';
     $handler->display->display_options['menu']['type'] = 'normal';
     $handler->display->display_options['menu']['title'] = 'News';

@@ -72,7 +72,7 @@ function links_og_views_default_views_alter(&$views) {
     $handler->display->display_options['fields']['og_group_ref']['id'] = 'og_group_ref';
     $handler->display->display_options['fields']['og_group_ref']['table'] = 'og_membership';
     $handler->display->display_options['fields']['og_group_ref']['field'] = 'og_group_ref';
-    $handler->display->display_options['fields']['og_group_ref']['label'] = 'Community';
+    $handler->display->display_options['fields']['og_group_ref']['label'] = 'Group';
     $handler->display->display_options['fields']['og_group_ref']['hide_empty'] = TRUE;
     $handler->display->display_options['fields']['og_group_ref']['settings'] = array(
       'link' => 1,
@@ -82,6 +82,7 @@ function links_og_views_default_views_alter(&$views) {
     $handler->display->display_options['filter_groups']['groups'] = array(
       1 => 'AND',
       2 => 'OR',
+      3 => 'OR',
     );
     $handler->display->display_options['defaults']['filters'] = FALSE;
     /* Filter criterion: Content: Published */
@@ -121,6 +122,13 @@ function links_og_views_default_views_alter(&$views) {
     $handler->display->display_options['filters']['group_content_access_value']['value'] = array(
       1 => '1',
     );
+    $handler->display->display_options['filters']['group_content_access_value']['group'] = 3;
+    /* Filter criterion: Content: Groups audience (og_group_ref) */
+    $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['group'] = 3;
     $handler->display->display_options['path'] = 'links_public';
     $handler->display->display_options['menu']['type'] = 'normal';
     $handler->display->display_options['menu']['title'] = 'Links';
