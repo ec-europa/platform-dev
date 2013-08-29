@@ -73,6 +73,9 @@ projects[entity][version] = "1.1"
 
 projects[entityreference][subdir] = "contributed"
 projects[entityreference][version] = "1.x-dev"
+projects[entityreference][download][type] = "git"
+projects[entityreference][download][url] = "git://drupalcode.org/project/entityreference.git"
+projects[entityreference][download][revision] = "3cbeb1b9e49ede063834f33a33e3fa6a409bd0f4"
 
 projects[entityreference_prepopulate][subdir] = "contributed"
 projects[entityreference_prepopulate][version] = "1.3"
@@ -253,6 +256,9 @@ projects[views_bulk_operations][version] = "3.1"
 
 projects[views_datasource][subdir] = "contributed"
 projects[views_datasource][version] = "1.x-dev"
+projects[views_datasource][download][type] = "git"
+projects[views_datasource][download][url] = "git://drupalcode.org/project/views_datasource.git"
+projects[views_datasource][download][revision] = "a707e70cfb5846de6c8cd9b0a8ee03b14207e3b2"
 
 projects[views_data_export][subdir] = "contributed"
 projects[views_data_export][version] = "3.0-beta6"
@@ -313,3 +319,5 @@ libraries[cycle][download][url] = "https://raw.github.com/malsup/malsup.github.c
 libraries[cycle][directory_name] = "jquery.cycle"
 libraries[cycle][download][sha1] = "f71640db8972ed6d249f57ea8cce29c389c4a84f"
 libraries[cycle][destination] = "libraries"
+
+
