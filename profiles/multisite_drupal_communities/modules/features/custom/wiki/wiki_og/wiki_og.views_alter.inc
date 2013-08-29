@@ -58,6 +58,9 @@ function wiki_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
 
+
+
+
     /* Display: Wiki public */
     $handler = $view->new_display('page', 'Wiki public', 'page_3');
     $handler->display->display_options['defaults']['relationships'] = FALSE;
@@ -66,6 +69,7 @@ function wiki_og_views_default_views_alter(&$views) {
     $handler->display->display_options['filter_groups']['groups'] = array(
       1 => 'AND',
       2 => 'OR',
+      3 => 'OR',
     );
     $handler->display->display_options['defaults']['filters'] = FALSE;
     /* Filter criterion: Content: Published */
@@ -104,6 +108,13 @@ function wiki_og_views_default_views_alter(&$views) {
     $handler->display->display_options['filters']['group_content_access_value']['value'] = array(
       1 => '1',
     );
+    $handler->display->display_options['filters']['group_content_access_value']['group'] = 3;
+    /* Filter criterion: Content: Groups audience (og_group_ref) */
+    $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['group'] = 3;
     $handler->display->display_options['path'] = 'wiki_public';
     $handler->display->display_options['menu']['type'] = 'normal';
     $handler->display->display_options['menu']['title'] = 'Wiki';
@@ -111,6 +122,7 @@ function wiki_og_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['name'] = 'main-menu';
     $handler->display->display_options['menu']['context'] = 0;
     $handler->display->display_options['menu']['context_only_inline'] = 0;
+
 
 
   }
