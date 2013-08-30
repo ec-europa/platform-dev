@@ -51,12 +51,14 @@ function news_og_views_default_views_alter(&$views) {
     /* Display: Community Top news */
     $handler = $view->display['top_news']->handler;
     $handler->display->display_options['defaults']['relationships'] = FALSE;
+    $handler->display->display_options['defaults']['filters'] = FALSE;
     unset($handler->display->display_options['relationships']);
     unset($handler->display->display_options['arguments']);
   
     /* Display: Top news Attachment */
     $handler = $view->display['attachment_1']->handler;
     $handler->display->display_options['defaults']['relationships'] = FALSE;
+    $handler->display->display_options['defaults']['filters'] = FALSE;
     unset($handler->display->display_options['relationships']);
     unset($handler->display->display_options['arguments']);    
 
