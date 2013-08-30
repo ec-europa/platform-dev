@@ -13,6 +13,9 @@ function news_og_enable(){
   // override drupal variables defined in core news_core feature
   variable_set('pathauto_node_news_pattern', 'community/[node:og_group_ref]/news/[node:title]');
   
+  //Add block in context
+  multisite_drupal_toolbox_add_block_context('homepage', 'news-top_news', 'views', 'news-top_news', 'content_top');
+  
   drupal_flush_all_caches();
 }
 
@@ -32,6 +35,9 @@ function news_og_disable(){
   /* Disable content type */
   multisite_drupal_toolbox_disable_content_type('news');
     
+  //Remove block from context
+  multisite_drupal_toolbox_remove_block_context('homepage', 'news-top_news');
+    
   // delete drupal variables
   variable_del('pathauto_node_news_pattern');
     
@@ -48,3 +54,15 @@ function news_og_modules_enabled($modules) {
     features_revert(array('news_og' => array('og_features_permission')));  
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
