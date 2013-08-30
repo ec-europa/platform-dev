@@ -46,7 +46,20 @@ function news_og_views_default_views_alter(&$views) {
     );  
     $handler->display->display_options['defaults']['filters'] = FALSE; 
   
+
+
+    /* Display: Community Top news */
+    $handler = $view->display['top_news']->handler;
+    $handler->display->display_options['defaults']['relationships'] = FALSE;
+    unset($handler->display->display_options['relationships']);
+    unset($handler->display->display_options['arguments']);
   
+    /* Display: Top news Attachment */
+    $handler = $view->display['attachment_1']->handler;
+    $handler->display->display_options['defaults']['relationships'] = FALSE;
+    unset($handler->display->display_options['relationships']);
+    unset($handler->display->display_options['arguments']);    
+
 
     /* Display: news_public */
     $handler = $view->new_display('page', 'news_public', 'page_1');
@@ -166,20 +179,6 @@ function news_og_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['name'] = 'main-menu';
     $handler->display->display_options['menu']['context'] = 0;
     $handler->display->display_options['menu']['context_only_inline'] = 0;
-
-
-
-
-
-
-/* Display: Community Top news */
-$handler = $view->display['top_news']->handler;
-
-
-unset($handler->display->display_options['relationships']);
-unset($handler->display->display_options['arguments']);
-
-
 
 
   }
