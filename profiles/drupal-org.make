@@ -45,7 +45,7 @@ projects[colorbox][subdir] = "contributed"
 projects[colorbox][version] = "1.3"
 
 projects[configuration][subdir] = "contributed"
-projects[configuration][version] = "2.x-dev"
+projects[configuration][version] = "2.0-alpha3"
 
 projects[context][subdir] = "contributed"
 projects[context][version] = "3.0-beta6"
@@ -189,7 +189,7 @@ projects[om_maximenu][subdir] = "contributed"
 projects[om_maximenu][version] = "1.44"
 
 projects[password_policy][subdir] = "contributed"
-projects[password_policy][version] = "2.x-dev"
+projects[password_policy][version] = "2.0-alpha1"
 
 projects[pathauto][subdir] = "contributed"
 projects[pathauto][version] = "1.2"
@@ -249,7 +249,7 @@ projects[user_field_privacy][subdir] = "contributed"
 projects[user_field_privacy][version] = "1.2"
 
 projects[uuid][subdir] = "contributed"
-projects[uuid][version] = "1.x-dev"
+projects[uuid][version] = "1.0-alpha5"
 
 projects[variable][subdir] = "contributed"
 projects[variable][version] = "2.2"
@@ -297,7 +297,7 @@ projects[workbench_moderation][subdir] = "contributed"
 projects[workbench_moderation][version] = "1.3"
 
 projects[workbench_access][subdir] = "contributed"
-projects[workbench_access][version] = "1.x-dev"
+projects[workbench_access][version] = "1.2"
 
 projects[wysiwyg][subdir] = "contributed"
 projects[wysiwyg][version] = "2.2"
