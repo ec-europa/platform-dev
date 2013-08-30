@@ -174,11 +174,20 @@ function news_og_views_default_views_alter(&$views) {
 
 /* Display: Community Top news */
 $handler = $view->display['top_news']->handler;
+$handler->display->display_options['defaults']['title'] = FALSE;
+$handler->display->display_options['title'] = 'Top News';
+$handler->display->display_options['defaults']['pager'] = FALSE;
+$handler->display->display_options['pager']['type'] = 'some';
+$handler->display->display_options['pager']['options']['items_per_page'] = '5';
+$handler->display->display_options['pager']['options']['offset'] = '0';
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'default';
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['row_plugin'] = 'fields';
+$handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+$handler->display->display_options['defaults']['row_options'] = FALSE;
 $handler->display->display_options['defaults']['fields'] = FALSE;
-
-unset($handler->display->display_options['relationships']);
-unset($handler->display->display_options['arguments']);
-
 /* Field: Content: Nid */
 $handler->display->display_options['fields']['nid']['id'] = 'nid';
 $handler->display->display_options['fields']['nid']['table'] = 'node';
@@ -229,6 +238,11 @@ $handler->display->display_options['fields']['nid_1']['alter']['alter_text'] = T
 $handler->display->display_options['fields']['nid_1']['alter']['text'] = '</div>';
 $handler->display->display_options['fields']['nid_1']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['nid_1']['element_default_classes'] = FALSE;
+
+unset($handler->display->display_options['relationships']);
+unset($handler->display->display_options['arguments']);
+
+
 $handler->display->display_options['defaults']['arguments'] = FALSE;
 $handler->display->display_options['defaults']['filter_groups'] = FALSE;
 $handler->display->display_options['filter_groups']['groups'] = array(
