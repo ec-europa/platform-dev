@@ -1,8 +1,8 @@
 name = Multisite Workbench Moderation View
-description = A new UI for administrators for Workflow Management in bulk.
-package = Multisite Core Features
+description = Add a new tab to existing view to allow to display content of any workflow state. User can choose this workflow state.
+package = Workbench
 core = 7.x
-version = 7.x-1.1
+version = 7.x-1.0
 php = 5.2.4
 project = multisite_workbench_moderation_view
 dependencies[] = features
