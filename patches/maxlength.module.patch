@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/maxlength.module	2013-09-02 11:46:14.730544385 +0200
-+++ sites/all/modules/contributed/maxlength.module	2013-09-02 11:46:47.657545757 +0200
+--- sites/all/modules/contributed/maxlength/maxlength.module	2013-09-02 11:46:14.730544385 +0200
++++ sites/all/modules/contributed/maxlength/maxlength.module	2013-09-02 11:46:47.657545757 +0200
 @@ -185,7 +185,7 @@
   */
  function maxlength_form_alter(&$form, &$form_state, $form_id) {
