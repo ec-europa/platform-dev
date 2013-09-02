@@ -274,7 +274,7 @@ function multisite_drupal_toolbox_node_presave($node) {
 function multisite_drupal_toolbox_node_view_alter(&$build) {
   // security process to prevent xss attack in node contents
   // sanitize for the node preview
-  if (isset($build['#node']->body['und'][0]['value'])) {
+  if (isset($build['body']) && isset($build['#node']->body['und'][0]['value'])) {
     $build['body'][0]['#markup'] = multisite_drupal_toolbox_sanitize($build['body'][0]['#markup'], $build['#node']->nid);
   }
 }
