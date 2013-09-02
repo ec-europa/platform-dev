@@ -211,9 +211,9 @@ projects[rules][version] = "2.3"
 
 projects[simplenews][subdir] = "contributed"
 ;projects[simplenews][version] = "1.x-dev"
-projects[mimemail][download][type] = "git"
-projects[mimemail][download][url] = "http://git.drupal.org/project/simplenews.git"
-projects[mimemail][download][revision] = "7e7f9d97f167f3ff75935aedb3ff4db21edc3e3a"
+projects[simplenews][download][type] = "git"
+projects[simplenews][download][url] = "http://git.drupal.org/project/simplenews.git"
+projects[simplenews][download][revision] = "7e7f9d97f167f3ff75935aedb3ff4db21edc3e3a"
 
 projects[site_map][subdir] = "contributed"
 projects[site_map][version] = "1.0"
