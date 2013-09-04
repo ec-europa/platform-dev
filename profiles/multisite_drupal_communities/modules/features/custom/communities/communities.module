@@ -486,10 +486,11 @@ function communities_form_alter(&$form, $form_state, $form_id) {
   
   if (substr($form_id, -9) == 'node_form') { // if it's a node edit form
     $context = og_context();
-    if(isset($context['gid'])) { // we are in a og context
+    if(!isset($context['gid'])) { // we are in a og context
       if(isset($form['group_content_access'])) {  
         $form['group_content_access']['#attributes']['class'][] = 'element-hidden'; // hide content visibility field
         $form['group_content_access']["und"]['#default_value']  = "1"; // force public value for the visibility
+        $form['og_group_ref']['#attributes']['class'][] = 'element-hidden'; // hide group audience field
       }  
     }
   }
