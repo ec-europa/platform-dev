@@ -19,6 +19,7 @@ dependencies[] = views
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:1
+features[field][] = node-news-field_highlighted
 features[field][] = node-news-group_content_access
 features[field][] = node-news-og_group_ref
 features[og_features_permission][] = node:community:create news content

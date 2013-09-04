@@ -386,6 +386,53 @@ $handler->display->display_options['filters']['og_group_ref_target_id']['group']
     $handler->display->display_options['menu']['context_only_inline'] = 0;
 
 
+    /* Display: highlight */
+    $handler = $view->new_display('block', 'highlight', 'block_2');
+    $handler->display->display_options['defaults']['title'] = FALSE;
+    $handler->display->display_options['title'] = 'Highlighted news';
+    $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+    $handler->display->display_options['filter_groups']['groups'] = array(
+      1 => 'AND',
+      2 => 'OR',
+    );
+    $handler->display->display_options['defaults']['filters'] = FALSE;
+    /* Filter criterion: Content: Type */
+    $handler->display->display_options['filters']['type']['id'] = 'type';
+    $handler->display->display_options['filters']['type']['table'] = 'node';
+    $handler->display->display_options['filters']['type']['field'] = 'type';
+    $handler->display->display_options['filters']['type']['value'] = array(
+      'news' => 'news',
+    );
+    $handler->display->display_options['filters']['type']['group'] = 1;
+    /* Filter criterion: Content: Language */
+    $handler->display->display_options['filters']['language']['id'] = 'language';
+    $handler->display->display_options['filters']['language']['table'] = 'node';
+    $handler->display->display_options['filters']['language']['field'] = 'language';
+    $handler->display->display_options['filters']['language']['value'] = array(
+      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+      'und' => 'und',
+    );
+    $handler->display->display_options['filters']['language']['group'] = 2;
+    /* Filter criterion: Content translation: Translation set node ID */
+    $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
+    $handler->display->display_options['filters']['tnid']['table'] = 'node';
+    $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
+    $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
+    $handler->display->display_options['filters']['tnid']['group'] = 2;
+    /* Filter criterion: Workbench Moderation: Published */
+    $handler->display->display_options['filters']['published']['id'] = 'published';
+    $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
+    $handler->display->display_options['filters']['published']['field'] = 'published';
+    $handler->display->display_options['filters']['published']['value'] = '1';
+    /* Filter criterion: Content: Highlighted (field_highlighted) */
+    $handler->display->display_options['filters']['field_highlighted_value']['id'] = 'field_highlighted_value';
+    $handler->display->display_options['filters']['field_highlighted_value']['table'] = 'field_data_field_highlighted';
+    $handler->display->display_options['filters']['field_highlighted_value']['field'] = 'field_highlighted_value';
+    $handler->display->display_options['filters']['field_highlighted_value']['value'] = array(
+      1 => '1',
+    );
+
+
   }
 }
 
