@@ -1,20 +1,37 @@
 <?php
+
 /**
  * @file
  * Code for the multisite_workbench_moderation_view feature.
  */
 
-
 /**
  * Alter the views programmatically.
  * @param type $views
  */
-function multisite_moderation_view_views_default_views_alter(&$views) {
-   //dpm($views);
-   if (array_key_exists('workbench_moderation', $views)) {
-      //dpm($views['workbench_moderation']);
-     $views['workbench_moderation']->display['moderate_all_page']->display_options['title'] = 'XXX';
-   }
+function multisite_workbench_moderation_view_views_default_views_alter(&$views) {
+
+  /**
+   * The second condition is necessary as the vbo field is added to the default view, therefore we need
+   * to hide the field in other situations than 'Moderate All' view display.
+   */
+
+  dsm($views);
+
+
+  if (array_key_exists('workbench_moderation', $views)) {
+  $current_displays = $views['workbench_moderation']->display;
+    if(array_key_exists('moderate_all_page', $current_displays)) {
+    //$views['workbench_moderation']->display['default']->display_options['title'] = 'XXX'; //alternative
+
+    $roles = $user_roles();
+    dsm($roles);
+
+    if (in_array('administrator', $roles)) {
+      _multisite_workbench_moderation_view_display_vbo();
+    }
+    }
+  }
 }
 
 /**
@@ -23,8 +40,185 @@ function multisite_moderation_view_views_default_views_alter(&$views) {
  */
 function multisite_workbench_moderation_view_form_alter(&$form) {
   if (isset($form['#form_id']) && $form['#form_id'] == 'views_form_workbench_moderation_moderate_all_page') {
-  if (!empty($form['force_transition']) && isset($form['force_transition'])) {
-    $form['force_transition']['#type'] = 'hidden';
+    if (!empty($form['force_transition']) && isset($form['force_transition'])) {
+      $form['force_transition']['#type'] = 'hidden';
+    }
   }
+  /**
+   *
+   * @todo Each user should be able to manage in bulk his own content according to orkbench moderation states corresponding his role.
+   * Alter $form['state']['#options'] as follow
+   * e.g. for contributor
+   *     $form['state']['#options'] = array(
+    -        'draft' => 'Draft',
+    -        'needs_review' => 'Needs Review',
+    -    );
+   */
 }
+
+function _multisite_workbench_moderation_view_display_vbo() {
+
+//We are  getting the current default display and modify it.
+  $view = views_get_view('workbench_moderation', TRUE);
+
+  //Get handler
+  //$handler = & $view->display['default']->handler; //init is null
+  /**
+   * Get the needed views display
+   * Note: if you get default, this will be persistent.
+   *
+   */
+  $default_view = & $view->display['default']; //init is null
+//Add needed new VBO fields
+  $default_view->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
+  $default_view->display_options['fields']['views_bulk_operations']['table'] = 'node';
+  $default_view->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
+  $default_view->display_options['fields']['views_bulk_operations']['relationship'] = 'nid';
+  $default_view->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '1';
+  $default_view->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
+  $default_view->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
+  $default_view->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
+  $default_view->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
+      'action::node_assign_owner_action' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'action::views_bulk_operations_delete_item' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'action::views_bulk_operations_script_action' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'action::node_make_sticky_action' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'action::node_make_unsticky_action' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'action::views_bulk_operations_modify_action' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+          'settings' => array(
+              'show_all_tokens' => 1,
+              'display_values' => array(
+                  '_all_' => '_all_',
+              ),
+          ),
+      ),
+      'action::views_bulk_operations_argument_selector_action' => array(
+          'selected' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+          'settings' => array(
+              'url' => '',
+          ),
+      ),
+      'action::node_promote_action' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'rules_component::rules_publish_article' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'action::node_publish_action' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'action::node_unpromote_action' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'action::node_save_action' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'action::system_send_email_action' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'action::workbench_moderation_set_state_action' => array(
+          'selected' => 1,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 1,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'rules_component::rules_unpublish_article' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'action::node_unpublish_action' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'action::node_unpublish_by_keyword_action' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+      'action::pathauto_node_update_action' => array(
+          'selected' => 0,
+          'postpone_processing' => 0,
+          'skip_confirmation' => 0,
+          'override_label' => 0,
+          'label' => '',
+      ),
+  );
+
+  $fields = $default_view->display_options['fields'];
+  $checkboxes = $default_view->display_options['fields']['views_bulk_operations'];
+  array_unshift($fields, $checkboxes);
+  views_save_view($view);
+
+//}//fi
 }
