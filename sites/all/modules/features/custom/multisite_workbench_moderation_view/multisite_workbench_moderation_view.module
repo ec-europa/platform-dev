@@ -16,16 +16,16 @@ function multisite_workbench_moderation_view_views_default_views_alter(&$views) 
    * to hide the field in other situations than 'Moderate All' view display.
    */
 
-  dsm($views);
-
+  //dsm($views);
+  global $user;
 
   if (array_key_exists('workbench_moderation', $views)) {
   $current_displays = $views['workbench_moderation']->display;
     if(array_key_exists('moderate_all_page', $current_displays)) {
     //$views['workbench_moderation']->display['default']->display_options['title'] = 'XXX'; //alternative
 
-    $roles = $user_roles();
-    dsm($roles);
+    $roles = $user->roles;
+    //dsm($roles);
 
     if (in_array('administrator', $roles)) {
       _multisite_workbench_moderation_view_display_vbo();
@@ -215,9 +215,11 @@ function _multisite_workbench_moderation_view_display_vbo() {
       ),
   );
 
+  
   $fields = $default_view->display_options['fields'];
   $checkboxes = $default_view->display_options['fields']['views_bulk_operations'];
   array_unshift($fields, $checkboxes);
+
   views_save_view($view);
 
 //}//fi
