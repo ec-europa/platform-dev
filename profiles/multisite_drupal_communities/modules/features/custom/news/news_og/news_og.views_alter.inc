@@ -54,8 +54,8 @@ function news_og_views_default_views_alter(&$views) {
     //$handler->display->display_options['defaults']['filters'] = FALSE;
     //$handler->display->display_options['defaults']['arguments'] = FALSE;
     //$handler->display->display_options['defaults']['fields'] = FALSE;
-    $handler->display->display_options['relationships'] = array();
-    $handler->display->display_options['arguments'] = array();
+    //$handler->display->display_options['relationships'] = array();
+    //$handler->display->display_options['arguments'] = array();
     
 $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['title'] = 'Top News';
@@ -180,8 +180,8 @@ $handler->display->display_options['filters']['og_group_ref_target_id']['group']
     //$handler->display->display_options['defaults']['filters'] = FALSE;
     //$handler->display->display_options['defaults']['fields'] = FALSE;
     //$handler->display->display_options['defaults']['arguments'] = FALSE;
-    $handler->display->display_options['relationships'] = array();
-    $handler->display->display_options['arguments'] = array();    
+    //$handler->display->display_options['relationships'] = array();
+    //$handler->display->display_options['arguments'] = array();    
 
 $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['pager']['type'] = 'some';
