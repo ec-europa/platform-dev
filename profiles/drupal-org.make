@@ -248,6 +248,9 @@ projects[tweetbutton][version] = "2.0-beta1"
 projects[user_field_privacy][subdir] = "contributed"
 projects[user_field_privacy][version] = "1.2"
 
+projects[user_dashboard][subdir] = "contributed"
+projects[user_dashboard][version] = "1.3"
+
 projects[uuid][subdir] = "contributed"
 projects[uuid][version] = "1.0-alpha5"
 
