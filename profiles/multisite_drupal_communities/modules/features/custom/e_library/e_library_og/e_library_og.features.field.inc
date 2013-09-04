@@ -174,7 +174,7 @@ function e_library_og_field_default_fields() {
           'prepopulate' => array(
             'action' => 'none',
             'action_on_edit' => 0,
-            'fallback' => 'none',
+            'fallback' => 'hide',
             'og_context' => 1,
             'skip_perm' => '0',
             'status' => 1,
