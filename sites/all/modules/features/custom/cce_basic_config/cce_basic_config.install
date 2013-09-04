@@ -339,6 +339,18 @@ function cce_basic_config_install() {
     );
     variable_set("rate_widgets", $rate_widgets);
   
+    //force home and myworkbench menu items at left in main menu
+    db_update('menu_links')
+      ->fields(array('weight' => '-30'))
+      ->condition('link_title', 'My workbench', '=')
+      ->condition('menu_name', 'main-menu', '=')
+      ->execute();
+  
+    db_update('menu_links')
+      ->fields(array('weight' => '-50'))
+      ->condition('link_title', 'Home', '=')
+      ->condition('menu_name', 'main-menu', '=')
+      ->execute();
   
 }
 
