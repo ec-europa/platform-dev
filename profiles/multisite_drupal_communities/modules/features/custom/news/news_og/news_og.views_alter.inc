@@ -178,7 +178,7 @@ $handler->display->display_options['filters']['og_group_ref_target_id']['group']
     $handler = $view->display['attachment_1']->handler;
     //$handler->display->display_options['defaults']['relationships'] = FALSE;
     //$handler->display->display_options['defaults']['filters'] = FALSE;
-    /:$handler->display->display_options['defaults']['fields'] = FALSE;
+    //$handler->display->display_options['defaults']['fields'] = FALSE;
     //$handler->display->display_options['defaults']['arguments'] = FALSE;
     $handler->display->display_options['relationships'] = array();
     $handler->display->display_options['arguments'] = array();    
