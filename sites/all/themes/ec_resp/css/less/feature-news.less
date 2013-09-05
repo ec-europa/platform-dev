@@ -2,13 +2,6 @@
 #slider.news {
   display: block;
   clear: both;
-  margin-top: 20px;
-  padding: 10px;
-  h2 {
-    line-height: 24px;
-    padding-top: 0;
-    margin-top: 0;
-  }
   .attachment {
     .view-content:after {
       display: none;
@@ -18,7 +11,7 @@
     }
   }
   .content {
-    h3 {
+    h3 a {
       font-size: 1.2em;
       color: #027AC6;
       line-height: 1.3em;
@@ -46,18 +39,45 @@
       }    
     }    
   }  
-  .news_list {
+  .news_list.nav-tabs {
     padding-left: 0;
     margin-top: 0 !important;
     margin-left: 0 !important;
     height: 180px;
-    background-color: #D9EDF7;
     float: right;
     border-bottom: none;
-  }
-  .nav-tabs {
     > li {
       float: none;
+      > a {
+        color: @linkColor;
+        border-radius: 0;
+        border-top: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: none;
+        border-left: 1px solid #ddd;
+        background-color: #eee;
+        &:hover {
+          color: @textColor;
+        }
+      }
+      &.active {
+        > a {
+          color: @textColor;
+          border-left-color: #fff;
+          background-color: #fff;
+        }
+      }
+      &.views-row-first {
+        > a {
+          border-radius: 0 4px 0 0;
+        }
+      }
+      &.views-row-last {
+        > a {
+          border-radius: 0 0 4px 0;
+          border-bottom: 1px solid #ddd;
+        }
+      }      
     }
     .active > a,
     .active > a:hover {

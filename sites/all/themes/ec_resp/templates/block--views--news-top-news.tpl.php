@@ -44,7 +44,7 @@
  * @ingroup themeable
  */
 ?>
-<div id="slider" class="news clearfix tabbable tabs-right well alt">
+<div id="slider" class="news clearfix tabbable tabs-right">
   <div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
     <?php print render($title_prefix); ?>
