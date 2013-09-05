@@ -387,7 +387,7 @@ $handler->display->display_options['filters']['og_group_ref_target_id']['group']
 
 
     /* Display: highlight */
-    $handler = $view->new_display('block', 'highlight', 'block_2');
+    $handler = $view->new_display('block', 'highlight', 'highlight');
     $handler->display->display_options['defaults']['title'] = FALSE;
     $handler->display->display_options['title'] = 'Highlighted news';
     $handler->display->display_options['defaults']['style_plugin'] = FALSE;
