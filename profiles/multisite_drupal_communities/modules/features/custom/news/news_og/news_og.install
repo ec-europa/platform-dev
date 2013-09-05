@@ -15,7 +15,7 @@ function news_og_enable(){
   
   //Add block in context
   multisite_drupal_toolbox_add_block_context('homepage', 'news-top_news', 'views', 'news-top_news', 'content_top');
-  multisite_drupal_toolbox_add_block_context('communities', 'views-news-block_2', 'views', 'news-bloc_2', 'content_top');
+  multisite_drupal_toolbox_add_block_context('communities', 'views-news-highlight', 'views', 'news-highlight', 'content_top');
 
   drupal_flush_all_caches();
 }
@@ -29,7 +29,7 @@ function news_og_enable(){
  */
 function news_og_disable(){
   // Remove block
- // multisite_drupal_toolbox_remove_block_context('communities', 'news-block_1');
+  // multisite_drupal_toolbox_remove_block_context('communities', 'news-block_1');
   multisite_drupal_toolbox_remove_views_context('communities', 'news');
   multisite_drupal_toolbox_remove_content_type_context('communities','news');
 
@@ -38,7 +38,7 @@ function news_og_disable(){
     
   //Remove block from context
   multisite_drupal_toolbox_remove_block_context('homepage', 'news-top_news');
-  multisite_drupal_toolbox_remove_block_context('communities', 'views-news-block_2');
+  multisite_drupal_toolbox_remove_block_context('communities', 'views-news-highlight');
     
   // delete drupal variables
   variable_del('pathauto_node_news_pattern');
