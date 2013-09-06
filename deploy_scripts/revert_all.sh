@@ -20,7 +20,7 @@ target=$@
 [ -z "${target}" ] && usage && exit 48
 
 function do_action {
-	get_shared_features "multisite_settings_core" | while read feature; do
+	get_shared_features "multisite_settings_core cce_basic_config" | while read feature; do
 		run_drush features-revert --force --yes "${feature}"
 	done
 }
