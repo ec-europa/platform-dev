@@ -911,7 +911,7 @@ function cce_basic_config_update_7190() {
 /**
  * move menu item myworkbench from main menu to user menu
  */
-function cce_basic_config_update_7190() {
+function cce_basic_config_update_7191() {
   db_update('menu_links')
     ->fields(array(
       'weight' => '-30',
