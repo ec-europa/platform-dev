@@ -341,7 +341,11 @@ function cce_basic_config_install() {
   
     //force home and myworkbench menu items at left in main menu
     db_update('menu_links')
-      ->fields(array('weight' => '-30'))
+      ->fields(array(
+        'weight' => '-30',
+        'menu_name' => 'user-menu',
+        )
+      )
       ->condition('link_title', 'My workbench', '=')
       ->condition('menu_name', 'main-menu', '=')
       ->execute();
@@ -903,3 +907,20 @@ function cce_basic_config_update_7190() {
     ->condition('menu_name', 'main-menu', '=')
     ->execute();
 }
+
+/**
+ * move menu item myworkbench from main menu to user menu
+ */
+function cce_basic_config_update_7190() {
+  db_update('menu_links')
+    ->fields(array(
+      'weight' => '-30',
+      'menu_name' => 'user-menu',
+      )
+     )
+    ->condition('link_title', 'My workbench', '=')
+    ->condition('menu_name', 'main-menu', '=')
+    ->execute();
+}
+
+
