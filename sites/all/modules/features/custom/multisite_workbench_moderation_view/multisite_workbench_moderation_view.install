@@ -29,7 +29,7 @@ function multisite_workbench_moderation_view_enable() {
   //add a new view
   _multisite_workbench_moderation_view_add_display();
     //alter the default view
-  //_multisite_workbench_moderation_view_display_vbo();
+  _multisite_workbench_moderation_view_display_vbo();
 
   _multisite_workbench_moderation_view_remove_old_tabs();
 

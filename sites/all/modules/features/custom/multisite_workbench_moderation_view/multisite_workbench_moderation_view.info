@@ -8,6 +8,7 @@ project = multisite_workbench_moderation_view
 dependencies[] = features
 dependencies[] = workbench_moderation
 dependencies[] = views
+dependencies[] = views_bulk_operations
 features[features_api][] = api:1
 files[] = tests/multisite_workbench_moderation_view.test
 files[] = tests/multisite_workbench_moderation_view.extra.test
