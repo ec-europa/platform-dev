@@ -311,10 +311,6 @@ projects[xmlsitemap][version] = "2.0-rc1"
 projects[xml_field][subdir] = "contributed"
 projects[xml_field][version] = "1.5"
 
-projects[remove_upcase_accents][subdir] = "contributed"
-projects[remove_upcase_accents][version] = "2.0"
-
-
 ;libraries
 
 ;ckeditor 4.2.0
