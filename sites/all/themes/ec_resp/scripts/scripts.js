@@ -75,7 +75,7 @@ jQuery(function($){
         topNews.push($(this));
         totalHeight = totalHeight + $(this).height() + 21;
       });
-      if (totalHeight < 175) totalHeight = 175;
+      if (totalHeight < 180) totalHeight = 180;
       $('#slider.news .content > .view-news > .news_content div.news').height(totalHeight+1);
       
         var NbNews = topNews.length;
