@@ -7,14 +7,53 @@
 // $Id: template.php,v 1.13 2010/12/14 01:04:27 dries Exp $
 
 /**
- * Override or insert variables into the template.
+ * Override or insert variables into the maintenance page template.
  */
-function ec_resp_preprocess(&$variables) {
+function ec_resp_process_maintenance_page(&$variables) {
+  // Always print the site name and slogan, but if they are toggled off, we'll
+  // just hide them visually.
+  $variables['hide_site_name']   = theme_get_setting('toggle_name') ? FALSE : TRUE;
+  $variables['hide_site_slogan'] = theme_get_setting('toggle_slogan') ? FALSE : TRUE;
+  if ($variables['hide_site_name']) {
+    // If toggle_name is FALSE, the site_name will be empty, so we rebuild it.
+    $variables['site_name'] = filter_xss(variable_get('site_name', 'Drupal'));
+  }
+  if ($variables['hide_site_slogan']) {
+    // If toggle_site_slogan is FALSE, the site_slogan will be empty, so we rebuild it.
+    $variables['site_slogan'] = filter_xss(variable_get('site_slogan', ''));
+  }
+}
+
+/**
+ * Override or insert variables into the node template.
+ */
+function ec_resp_preprocess_node(&$variables) {
+  $custom_date = format_date($variables['created'], 'custom', 'l, d/m/Y');
+  $variables['submitted'] = t('Published by !username on !datetime', array('!username' => $variables['name'], '!datetime' => $custom_date));
+  if ($variables['view_mode'] == 'full' && node_is_page($variables['node'])) {
+    $variables['classes_array'][] = 'node-full';
+  }
+}
+
+/**
+ * Override or insert variables into the block template.
+ */
+function ec_resp_preprocess_block(&$variables) {
+  // In the header region visually hide block titles.
+  if ($variables['block']->region == 'header') {
+    $variables['title_attributes_array']['class'][] = 'element-invisible';
+  }
+}
+
+/**
+ * Override or insert variables into the page template.
+ */
+function ec_resp_preprocess_page(&$variables) {
   //select template
   $variables['template'] = 'ec'; //'ec' or 'europa'
 
   //select responsive sidebar
-  variable_set('responsive_sidebar', 'left'); //'left' or 'right'
+  $variables['responsive_sidebar'] = 'left'; //'left' or 'right'
 }
 
 /**
@@ -36,22 +75,6 @@ function ec_resp_preprocess_html(&$variables) {
     || !empty($variables['page']['footer_thirdcolumn'])
     || !empty($variables['page']['footer_fourthcolumn'])) {
     $variables['classes_array'][] = 'footer-columns';
-  }
-
-  // display left sidebar, or not
-  if (empty($variables['page']['sidebar_left'])) {
-    variable_set('has_left_sidebar', 0);
-  } 
-  else {
-    variable_set('has_left_sidebar', 1);
-  }
-
-  // display right sidebar, or not
-  if (empty($variables['page']['sidebar_right'])) {
-    variable_set('has_right_sidebar', 0);
-  } 
-  else {
-    variable_set('has_right_sidebar', 1);
   }
 
   // Update page title
@@ -248,6 +271,7 @@ function ec_resp_page_alter($page) {
       'name' => 'keywords',
       'content' =>  $keywords  
     )
+
   );
   drupal_add_html_head( $meta_keywords, 'meta_keywords' ); 
 
@@ -360,45 +384,6 @@ function ec_resp_preprocess_maintenance_page(&$variables) {
     unset($variables['site_name']);
   }
   drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/maintenance-page.css');
-}
-
-/**
- * Override or insert variables into the maintenance page template.
- */
-function ec_resp_process_maintenance_page(&$variables) {
-  // Always print the site name and slogan, but if they are toggled off, we'll
-  // just hide them visually.
-  $variables['hide_site_name']   = theme_get_setting('toggle_name') ? FALSE : TRUE;
-  $variables['hide_site_slogan'] = theme_get_setting('toggle_slogan') ? FALSE : TRUE;
-  if ($variables['hide_site_name']) {
-    // If toggle_name is FALSE, the site_name will be empty, so we rebuild it.
-    $variables['site_name'] = filter_xss(variable_get('site_name', 'Drupal'));
-  }
-  if ($variables['hide_site_slogan']) {
-    // If toggle_site_slogan is FALSE, the site_slogan will be empty, so we rebuild it.
-    $variables['site_slogan'] = filter_xss(variable_get('site_slogan', ''));
-  }
-}
-
-/**
- * Override or insert variables into the node template.
- */
-function ec_resp_preprocess_node(&$variables) {
-  $custom_date = format_date($variables['created'], 'custom', 'l, d/m/Y');
-  $variables['submitted'] = t('Published by !username on !datetime', array('!username' => $variables['name'], '!datetime' => $custom_date));
-  if ($variables['view_mode'] == 'full' && node_is_page($variables['node'])) {
-    $variables['classes_array'][] = 'node-full';
-  }
-}
-
-/**
- * Override or insert variables into the block template.
- */
-function ec_resp_preprocess_block(&$variables) {
-  // In the header region visually hide block titles.
-  if ($variables['block']->region == 'header') {
-    $variables['title_attributes_array']['class'][] = 'element-invisible';
-  }
 }
 
 /**
@@ -747,6 +732,7 @@ function ec_resp_class_replace($match) {
     break;
     
     case "Document":
+
       return '<i class="multisite-icon-newspaper"></i>';
     break;
     

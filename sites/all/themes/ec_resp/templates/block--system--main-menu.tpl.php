@@ -45,10 +45,6 @@
  */
 
 global $base_url;
-
-$has_left_sidebar = variable_get('has_left_sidebar');
-$has_right_sidebar = variable_get('has_right_sidebar');
-$responsive_sidebar = variable_get('responsive_sidebar');
 ?>
 
         <div id="main-menu">
@@ -76,13 +72,11 @@ $responsive_sidebar = variable_get('responsive_sidebar');
               </div>
               
               <div id="block-system-accessibility-menu-mobile" class="container" data-spy="affix" data-offset-top="80">
-                <?php if (($responsive_sidebar == "left" && $has_left_sidebar) || ($responsive_sidebar == "right" && $has_right_sidebar)) { ?>
                 <button id="sidebar-button" class="btn btn-navbar visible-phone">
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>                
                 </button><!-- /#sidebar-button --> 
-                <?php } ?>
 
                 <a id="menu-button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                   <div class="arrow-down"></div>
