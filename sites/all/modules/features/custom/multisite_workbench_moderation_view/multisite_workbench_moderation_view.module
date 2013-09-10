@@ -28,6 +28,22 @@ function multisite_workbench_moderation_view_views_pre_view(&$views) {
       unset($handler_default->options['fields']['views_bulk_operations']);
     }
   }
+
+  //Checkboxes on the first table column
+  $handler_default = $views->display['default']->handler;
+  $fields = $handler_default->options['fields'];
+
+
+  $last_field = end($fields);
+  $last_key = key($fields);
+  //PHP5 array_merge only accept type array
+  $last_element = array($last_key => $last_field);
+  array_pop($fields);
+  $fields = array_merge($last_element, $fields);
+
+  $views->display['default']->handler->options['fields'] = $fields;
+
+
 }
 
 function multisite_workbench_moderation_view_form_alter(&$form) {
