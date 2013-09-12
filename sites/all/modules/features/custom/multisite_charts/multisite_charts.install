@@ -23,16 +23,10 @@ function multisite_charts_uninstall() {
  * Implements hook_enable
  */
 function multisite_charts_enable() {
-  // solR configuration add bundle
-  config_solr_bundle('chart', 'add');
+  multisite_drupal_toolbox_config_solr_bundle('chart', 'add');
 
-  // add type to linkchecker scan
-  _content_type_linkchecker('chart', 'add');
+  multisite_drupal_toolbox_content_type_linkchecker('chart', 'add');
 
-  // add type to the simplenews related content
-  //simplenews_related_content_type('chart', 'add');
-
-  //Activation message
   drupal_set_message(t('Multisite Charts feature is now active on your site.'));
 }
 
@@ -40,16 +34,11 @@ function multisite_charts_enable() {
  * Implements hook_disable
  */
 function multisite_charts_disable() {
-  // solR configuration delete bundle
-  config_solr_bundle('chart', 'delete');
+  multisite_drupal_toolbox_config_solr_bundle('chart', 'delete');
 
-  // remove type to linkchecker scan
-  _content_type_linkchecker('chart', 'delete');
+  multisite_drupal_toolbox_content_type_linkchecker('chart', 'delete');
 
-  // remove type to the simplenews related content
-  //simplenews_related_content_type('chart', 'delete');
-
-  _disable_content_type('chart');
+  multisite_drupal_toolbox_disable_content_type('chart');
 
   //Activation message
   drupal_set_message(t('Multisite Charts feature is now disabled on your site.'));
