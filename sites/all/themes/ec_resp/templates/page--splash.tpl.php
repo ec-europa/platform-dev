@@ -5,7 +5,9 @@
  */
 ?>
 
+<div id="splash-block">
 <?php print render($page['content']); ?>
+</div>
 
 <?php global $base_url; ?>
 <script type="text/javascript">

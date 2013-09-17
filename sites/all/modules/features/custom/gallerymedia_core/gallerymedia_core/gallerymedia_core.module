@@ -98,12 +98,10 @@ if ('gallerymedia' == $variables['type']) {
       $sorted_media_items[0] = $empty_pic;
     }
 
+    $output .= '<div class="media_gallery row">';
+
     //display media items
     foreach ($sorted_media_items as $key => $item) {
-      if (($key % 4) == 0) {
-        $output .= '<div class="media_gallery row-fluid">';
-        $output .= '<ul class="thumbnails">';
-      }
 
       //variable alias
       if (isset($item['type']) && $item['type'] == 'empty') {
@@ -131,6 +129,8 @@ if ('gallerymedia' == $variables['type']) {
         $type[0] = 'undefined';
       }
 
+      $output .= '<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">';
+
       switch ($type[0]) {
         case 'image':
           if (!empty($local_data['uri'])) {
@@ -141,7 +141,7 @@ if ('gallerymedia' == $variables['type']) {
           $alt_text = (!empty($local_data['field_file_image_alt_text']['und'][0]['safe_value']) ? $local_data['field_file_image_alt_text']['und'][0]['safe_value'] : filter_xss($local_data['filename']));
           $title_texte = (!empty($local_data['field_file_image_title_text']['und'][0]['safe_value']) ? $local_data['field_file_image_title_text']['und'][0]['safe_value'] : '');
 
-          $output .= '<li class="span3">';
+          
           $output .= '<div id="lightbox' . $key . '" class="lightbox" style="display: none;">';
           $output .= '<img src="' . $picture_preview . '" alt="' . $alt_text . '" title="' . $title_texte . '"/>';
 
@@ -157,9 +157,8 @@ if ('gallerymedia' == $variables['type']) {
           $output .= '</div>';
           $output .= '<a href="#lightbox' . $key . '" class="fancybox thumbnail" rel="gallery" title="' . filter_xss($local_data['filename']) . '">';
           $output .= '<img src="' . $picture_square_thumbnail . '" alt="' . $alt_text . '" title="' . $title_texte . '" />';
-          $output .= '<p class="carousel-caption">' . $short_name . '</p>';
+          $output .= '<p class="text-center hidden-xs">' . $short_name . '</p>';
           $output .= '</a>';
-          $output .= '</li>';
         break;
 
         case 'video':
@@ -179,7 +178,7 @@ if ('gallerymedia' == $variables['type']) {
         break;
 
         case 'empty':
-          $output .= '<div class="span3 media_item">';
+          $output .= '<div class="media_item">';
           $output .= '<img src="' . $local_data['uri'] . '" alt="' . $local_data['filename'] . '" />';
           $output .= '</div>';
         break;
@@ -188,11 +187,22 @@ if ('gallerymedia' == $variables['type']) {
         break;
       }
 
+      $output .= '</div>';
+
       if ((($key+1) % 4) == 0 || !isset($sorted_media_items[$key+1])) {
-        $output .= '</ul>';
-        $output .= '</div>';
+        $output .= '<div class="clearfix visible-lg visible-md"></div>';
       }
+
+      if ((($key+1) % 3) == 0 || !isset($sorted_media_items[$key+1])) {
+        $output .= '<div class="clearfix visible-sm"></div>';
+      }      
+
+      if ((($key+1) % 2) == 0 || !isset($sorted_media_items[$key+1])) {
+        $output .= '<div class="clearfix visible-xs"></div>';
+      }         
     }
+
+    $output .= '</div>';
 
     $htmlpager = theme('pager',
       array(

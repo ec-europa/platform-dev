@@ -329,8 +329,8 @@ global $base_url;
 
       $return .= '</div>';
 
-      $return .= '<a class="carousel-control left" href="#block-carousel-' . $gall->nid . '" data-slide="prev">&lsaquo;</a>';
-      $return .= '<a class="carousel-control right" href="#block-carousel-' . $gall->nid . '" data-slide="next">&rsaquo;</a>';
+      $return .= '<a class="carousel-control left" href="#block-carousel-' . $gall->nid . '" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>';
+      $return .= '<a class="carousel-control right" href="#block-carousel-' . $gall->nid . '" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>';
     $return .= '</div>';
 
     return array('#markup' => $return);

@@ -20,16 +20,16 @@
 <a id="top-page" name="top-page"></a>
 
 <div class="splash container-fluid">
-  <div class="row-fluid">
+  <div class="row">
     <!-- picture and title -->
-    <div class="span3 offset2 center">
+    <div class="col-lg-3 offset2 center">
       <div id="logo"></div>
       <h1><?php print $site_name; ?></h1>
     </div>
 
     <!-- language list -->
-    <div class="span5">
-      <ul class="well languages nav nav-list">
+    <div class="col-lg-5">
+      <ul class="well languages">
         <li><h2 id="label_language"><?php print t('Please choose a language'); ?></h2></li>
         <?php print $languages_list; ?>
       </ul>

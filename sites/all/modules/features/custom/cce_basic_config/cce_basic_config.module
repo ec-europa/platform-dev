@@ -102,9 +102,6 @@ function cce_basic_config_preprocess_field(&$variables) {
           $video_preview = image_style_url('preview', $thumb->uri);
         }
 
-        $watermark = $base_url . '/' . $themepath . '/images/video_icon.png';
-
-        $output .= '<li class="span3">';
         $output .= '<div id="video_lightbox_' . $field . $delta . '" class="lightbox" style="display: none;">';
         $output .= '<embed name="player_' . $field . $delta . '" id="player_' . $field . $delta . '"
           type="application/x-shockwave-flash"
@@ -118,11 +115,12 @@ function cce_basic_config_preprocess_field(&$variables) {
         $output .= '</div>';
 
         $output .= '<a href="#video_lightbox_' . $field . $delta . '" class="fancybox thumbnail" rel="gallery" title="' . $value['filename'] . '">';
-        $output .= '<img class="watermark" src="' . $watermark . '" alt="' . $value['filename'] . '" title="" />';
+        $output .= '<div class="video-watermark">';
+        $output .= '<span class="glyphicon glyphicon-play watermark"></span>';
         $output .= '<img src="' . $video_square_thumbnail . '" alt="' . $value['filename'] . '" title="" />';
-        $output .= '<p class="carousel-caption">' . $value['filename'] . '</p>';
+        $output .= '</div>';
+        $output .= '<p class="text-center hidden-xs">' . $value['filename'] . '</p>';
         $output .= '</a>';
-        $output .= '</li>';
 
         $delta++;
       }

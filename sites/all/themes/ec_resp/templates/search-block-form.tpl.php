@@ -29,11 +29,15 @@
  * @see template_preprocess_search_block_form()
  */
 ?>
-<div class="input-append">
+<div class="input-group">
 <?php
 	print $search['search_block_form'];
+?>
+  <span class="input-group-btn">
+<?php
 	print $search['actions'];
 ?>
+  </span>
 </div>
 
 <?php

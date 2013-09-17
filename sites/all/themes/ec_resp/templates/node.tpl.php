@@ -137,7 +137,7 @@
       $display_submitted = FALSE;
       if ($content['field_watching']['#object']->field_watching['und'][0]['value']) {
         $suffixe .= '<div class="no_label">';
-        $suffixe .= '<span class="label label-success t_upper f_right"><i class="icon-eye-open icon-white"></i>'.t('watched').'</span>';
+        $suffixe .= '<span class="label label-success t_upper f_right"><span class="glyphicon glyphicon-eye-open"></span>'.t('watched').'</span>';
         $suffixe .= '</div>';
       }
       break;
@@ -182,11 +182,6 @@
       //$suffixe = $video_items;
       break;
   }
-
-  //set size of fields
-  $span_large = 'span12';
-  $span_title = 'span2';
-  $span_small = 'span10';
 ?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 
@@ -197,15 +192,6 @@
     </h2>
   <?php endif; ?>
   <?php print render($title_suffix); ?>
-
-  <?php if ($display_submitted): ?>
-    <div class="meta submitted">
-      <?php if ($display_user_picture): ?>
-        <?php print $user_picture; ?>
-      <?php endif; ?>
-      <?php print $submitted; ?>
-    </div>
-  <?php endif; ?>
 
   <div class="content clearfix"<?php print $content_attributes; ?>>
 
@@ -218,6 +204,19 @@
       }
 
       $output .= $prefixe;
+
+      //check if this content is private
+      if (isset($fields['group'])) {
+        foreach ($fields['group'] as $id) {
+          if (isset($content[$id]['#items'][0]['value']) && $content[$id]['#items'][0]['value'] == 2) {
+            $output .= '<div class="node-private label label-default clearfix">';
+              $output .= '<span class="glyphicon glyphicon-lock"></span>';
+              $output .= t('This content is private');
+            $output .= '</div>';
+            break;
+          }
+        }
+      }      
 
       //display non hidden fields
       $display_content = FALSE;
@@ -236,21 +235,37 @@
 
         foreach ($fields['content'] as $key => $value) {
           $field = '';
+
           if (isset($content[$key]['#label_display'])) {
-            $field .= '<div class="row-fluid field c_left">';
+
+            //check if it is the first field
+            $first = false;
+            reset($fields['content']);
+            if ($key === key($fields['content'])) {
+              $first = true;
+            }
+
+            //check if it is the last field
+            $last = false;
+            end($fields['content']);
+            if ($key === key($fields['content'])) {
+              $last = true;
+            }
+
+            $field .= '<div class="row field c_left' . ($first ? " first": "") . ($last ? " last": "") . '">';
 
             switch ($content[$key]['#label_display']) {
               case 'hidden':
-                $field .= '<div class="'.$span_large.'">'.render($content[$key]).'</div>';
+                $field .= '<div class="col-lg-12">'.render($content[$key]).'</div>';
               break;
 
               case 'above':
                 if (isset($content[$key]['#title'])) {
                   $content[$key]['#label_display'] = 'hidden';
-                  $field .= '<div class="'.$span_large.' field-label">'.$content[$key]['#title'].'</div></div>';
-                  $field .= '<div class="row-fluid"><div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
+                  $field .= '<div class="col-lg-12 field-label">'.$content[$key]['#title'].'</div></div>';
+                  $field .= '<div class="row"><div class="col-lg-12 no_label">'.render($content[$key]).'</div>';
                 } else {
-                  $field .= '<div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
+                  $field .= '<div class="col-lg-12 no_label">'.render($content[$key]).'</div>';
                 }
               break;
 
@@ -258,24 +273,22 @@
               default:
                 if (isset($content[$key]['#title'])) {
                   $content[$key]['#label_display'] = 'hidden';
-                  $field .= '<div class="'.$span_title.' field-label">'.$content[$key]['#title'].'</div>';
-                  $field .= '<div class="'.$span_small.' no_label">'.render($content[$key]).'</div>';
+                  $field .= '<div class="col-lg-2 field-label">'.$content[$key]['#title'].'</div>';
+                  $field .= '<div class="col-lg-10 no_label">'.render($content[$key]).'</div>';
                 } else {
-                  $field .= '<div class="'.$span_large.' no_label">'.render($content[$key]).'</div>';
+                  $field .= '<div class="col-lg-12 no_label">'.render($content[$key]).'</div>';
                 }
               break;
             }
 
             $field .= '</div>';
           } else if ($display_label) {
-            $field .= '<div class="row-fluid"><div class="'.$span_large.'">'.render($content[$key]).'</div></div>';
+            $field .= '<div class="row"><div class="col-lg-12">'.render($content[$key]).'</div></div>';
           } else  {
-            $field .= '<div class="row-fluid"><div class="'.$span_large.' no_label">'.render($content[$key]).'</div></div>';
+            $field .= '<div class="row"><div class="col-lg-12 no_label">'.render($content[$key]).'</div></div>';
           }
 
-          if (isset($content[$key]['#field_name']) && in_array($content[$key]['#field_name'],$fields['body'])) {
-            $output .= '<fieldset>'.$field.'</fieldset>';
-          } else if (isset($content[$key]['#field_name']) && in_array($content[$key]['#field_name'],$fields['picture'])) {
+          if (isset($content[$key]['#field_name']) && in_array($content[$key]['#field_name'],$fields['picture'])) {
             $output .= '<div class="no_label center">'.$field.'</div>';
           } else {
             $output .= $field;
@@ -285,52 +298,34 @@
 
       $output .= $suffixe;
 
-      //display groups & workbench blocks
-      $display_group = false;
-      if (isset($fields['group'])) {
-        foreach ($fields['group'] as $id) {
-          if (isset($content[$id]['#access'])) {
-            $display_group = true;
-            break;
-          }
-        }
-      }
+      //display information about node (group, date and author)
       $display_workbench = ec_resp_block_render('workbench', 'block');
 
-      if ($display_group || $display_workbench) {
-        $output .= '<div class="row-fluid">';
-        if ($display_group) {
-          if ($display_workbench) {
-            $group_span = 6;
-          }
-          else {
-            $group_span = 12;
-          }
-
-          $output .= '<div class="span' . $group_span . ' well well-small">';
-          foreach ($fields['group'] as $id) {
-            $output .=  render($content[$id]);
-          }
+      if ($display_submitted || $display_workbench) {
+        $output .= '<div class="row node-info">';
+        if ($display_workbench) {
+          $output .= '<div class="col-lg-6">';
+            $output .= '<div class="well well-sm node-workbench">';
+            $output .= $display_workbench;
+            $output .= '</div>';
           $output .= '</div>';
         }
 
-        if ($display_workbench) {
-          $workbench_class = '';
-          if ($display_group) {
-            $workbench_span = 6;
-          }
-          else {
-            $workbench_span = 6;
-            $workbench_class .= 'offset6 ';
-          }
-          $workbench_class .= 'span' . $workbench_span . ' well well-small';
-
-          $output .= '<div class="' . $workbench_class . '">';
-          $output .= $display_workbench;
+        if ($display_submitted) {
+          $output .= '<div class="col-lg-6' . ($display_workbench ? "" : " col-lg-offset-6") . '">';
+            $output .= '<div class="well well-sm node-submitted clearfix">';
+              //author picture
+              if ($display_user_picture) {
+                $output .= $user_picture;
+              }
+              //publication date
+              $output .= $submitted;
+            $output .= '</div>';
           $output .= '</div>';
         }
         $output .= '</div>';
       }
+
 
       print $output;
     ?>

@@ -290,7 +290,7 @@ $handler->display->display_options['filters']['og_group_ref_target_id']['group']
     $handler->display->display_options['fields']['created']['field'] = 'created';
     $handler->display->display_options['fields']['created']['label'] = '';
     $handler->display->display_options['fields']['created']['alter']['text'] = '<small>[created]</small>';
-    $handler->display->display_options['fields']['created']['element_class'] = 'meta';
+    $handler->display->display_options['fields']['created']['element_class'] = 'label label-default label-small';
     $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
     $handler->display->display_options['fields']['created']['date_format'] = 'short';
     /* Field: Content: Body */

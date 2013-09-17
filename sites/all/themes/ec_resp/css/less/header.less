@@ -31,65 +31,6 @@
   src: local(ec_font), url('../fonts/ECSquareSansPro-Regular.ttf') format('opentype');
 }
 
-#main-menu-mobile {
-  position: absolute !important;
-  border-top: none;
-  .navbar-inner {
-    padding: 0;
-    background-image: none;
-    background-color: transparent;
-    filter:progid:DXImageTransform.Microsoft.gradient(enabled=false);
-  }
-  #block-system-main-menu-mobile {
-    padding-top: 10px;
-    background-color: #fff;
-    width: 100%;
-    a.brand {
-      font-size: 26px;
-      padding-top: 27px;
-      color: #0065A2;
-    }
-    #banner-flag-small {
-      float: left;
-      width: 90px;
-      margin: 0px 10px 10px
-    }
-    .nav-collapse {
-      background-color: #0065A2;
-      &.affix {
-        width: 100%;
-        top: 40px;
-      }
-    }
-  }
-  #block-system-accessibility-menu-mobile {
-    background-color: #0065A2;
-    #menu-button {
-      padding-top: 10px;
-      padding-bottom: 10px;
-      margin-bottom: 5px;
-    }
-    #sidebar-button {
-      float: left;
-    }
-    &.affix {
-      position: fixed !important;
-      top: 0;
-      width: 100%;
-    }    
-  }
-}
-
-#responsive-sidebar > div {
-  background: #fff;
-  height: 100%;
-  position: absolute;
-  z-index: 10;
-  display: none;
-  border-right: #eee 2px solid;
-  border-bottom: #eee 2px solid;
-}
-  
 #layout-header {
   height:145px;
   width:100%;
@@ -186,6 +127,25 @@
   }
 }
 
+@media (max-width: @screen-xs-max) {
+  #layout-header {
+    height: 82px;
+    min-height: 82px;
+    #banner-flag {
+      width: 90px;
+      height: 62px;
+      left: 10px;
+      top: 10px;
+    }
+    #main-title {
+      font-size: 26px !important;
+      left: 115px;
+      top: 28px;
+      text-transform: none;
+    }
+  }
+}
+
 /* ------------------ Region header right ------------------ */
 .region-header-right {
   float: right;
@@ -211,6 +171,7 @@
       padding:0 0 0 12px;
       float:left;
       background:url("../images/breadcrumb.gif") transparent left center no-repeat;
+      color: #fff;
       &.first {
         background-image:none;
         padding-left:0;
@@ -273,11 +234,12 @@
   position:absolute;
   top:1px;
   right:1px;
-  z-index:99;
+  z-index:1040;
   overflow:hidden;
   width:130px;
   background-color:#fff;
   border:1px solid #9ab;
+  padding: 0;
 }
 .language-selector-close li {
   padding:1px;
@@ -340,6 +302,18 @@
   }
   .language-selector {
     display:none;
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  .language-selector-close, 
+  .language-selector-open {
+    padding: 3px;
+    font-size: 14px;
+    top: 5px;
+    right: 5px;
+    line-height: 18px;
+    width: 138px;
   }
 }  
 

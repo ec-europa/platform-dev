@@ -91,15 +91,16 @@
 global $base_url;
 
 //calculate size of regions
-$nb_column            = 1;
-if ($page['sidebar_left']) $nb_column++;
-if ($page['sidebar_right']) $nb_column++;
-
-$span_sidebar_left    = ($page['sidebar_left'] ? 3 : 0);
-$span_sidebar_right   = ($page['sidebar_right'] ? 3 : 0);
-$span_content         = 12 - $span_sidebar_left - $span_sidebar_right;
-$span_tools           = ($messages ? 4 : 12);
-$span_messages        = 12 - $span_tools;
+$col_sidebar_left_lg    = ($page['sidebar_left'] ? 3 : 0);
+$col_sidebar_left_md    = ($page['sidebar_left'] ? 4 : 0);
+$col_sidebar_right_lg   = ($page['sidebar_right'] ? 3 : 0);
+$col_sidebar_right_md   = ($page['sidebar_right'] ? ($page['sidebar_left'] ? 12 : 4) : 0);
+$col_content_lg         = 12 - $col_sidebar_left_lg - $col_sidebar_right_lg;
+$col_content_md         = ($page['sidebar_left'] ? 12 - $col_sidebar_left_md : ($page['sidebar_right'] ? 12 - $col_sidebar_right_md : 12));
+$col_tools_lg           = ($title ? 4 : 12);
+$col_tools_md           = ($title ? 4 : 12);
+$col_title_lg           = 12 - $col_tools_lg;
+$col_title_md           = 12 - $col_tools_md;
 
 //format regions
 $region_header_right = $page['header_right'] ? render($page['header_right']) : '';
@@ -121,7 +122,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
     <?php print $region_header_top; ?>
   </div>
 
-  <div id="layout-header" class="hidden-phone">
+  <div id="layout-header">
     <div class="container">
   <?php
     switch ($variables['template']) {
@@ -129,7 +130,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
   ?>
       <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . drupal_get_path('theme', 'ec_resp'); ?>/images/logo/logo_en.gif" />
 
-      <span id="banner-image-right">
+      <span id="banner-image-right" class="hidden-sm hidden-xs">
         <?php print $region_header_right; ?>
       </span>
     
@@ -162,7 +163,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       <div id="sub-title"><?php print $site_slogan; ?></div>
 
       <p class="off-screen">Service tools</p>
-      <ul class="reset-list" id="services">
+      <ul class="reset-list hidden-sm hidden-xs" id="services">
         <li><?php print l(t('About this site'), 'http://ec.europa.eu/about_en.htm', array('attributes' => array('class' => array('first'), 'accesskey' => array('1')))); ?></li>
         <li><?php print l(t('Legal notice'), 'http://ec.europa.eu/geninfo/legal_notices_en.htm', array('attributes' => array('accesskey' => array('2')))); ?></li>
         <li><?php print l(t('Contact'), 'http://ec.europa.eu/contact/index_en.htm', array('attributes' => array('accesskey' => array('3')))); ?></li>
@@ -171,7 +172,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
     </div>
   </div><!-- /#layout-header -->  
 
-  <div id="path" class="hidden-phone">
+  <div id="path" class="hidden-xs">
     <div class="container">
       <p class="off-screen">Navigation path</p>
       <ul class="reset-list">
@@ -188,19 +189,19 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
   <?php print $region_featured; ?>
 
   <?php
-    switch (variable_get('responsive_sidebar')) {
+    switch ($variables['responsive_sidebar']) {
       case 'left':
   ?>
   <?php if ($page['sidebar_left']): ?>
-    <div id="responsive-sidebar" class="visible-phone">
-      <ul class="nav nav-list card">
+    <div id="responsive-sidebar" class="visible-sm visible-xs">
+      <div class="container">
         <?php 
         $region_sidebar_left_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_left);
         $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
 
         print $region_sidebar_left_responsive; 
         ?>
-      </ul>
+      </div>
     </div><!-- /#responsive-sidebar-->   
   <?php endif; ?>
     <?php
@@ -209,19 +210,48 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       case 'right':
     ?>
   <?php if ($page['sidebar_right']): ?>
-    <div id="responsive-sidebar" class="visible-phone">
-      <ul class="nav nav-list card">
+    <div id="responsive-sidebar" class="visible-sm visible-xs">
+      <div class="container">
         <?php 
         $region_sidebar_right_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_right);
         $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
 
         print $region_sidebar_right_responsive; 
         ?>
-      </ul>
+      </div>
     </div><!-- /#responsive-sidebar-->   
   <?php endif; ?>
     <?php
       break;
+
+      case 'both':
+    ?>
+  <?php if ($page['sidebar_left']): ?>
+    <div id="responsive-sidebar" class="visible-sm visible-xs">
+      <div class="container">
+        <?php 
+        $region_sidebar_left_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_left);
+        $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
+
+        print $region_sidebar_left_responsive; 
+        ?>
+      </div>
+    </div><!-- /#responsive-sidebar-->   
+  <?php endif; ?>
+  <?php if ($page['sidebar_right']): ?>
+    <div id="responsive-sidebar" class="visible-sm visible-xs">
+      <div class="container">
+        <?php 
+        $region_sidebar_right_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_right);
+        $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
+
+        print $region_sidebar_right_responsive; 
+        ?>
+      </div>
+    </div><!-- /#responsive-sidebar-->   
+  <?php endif; ?>
+    <?php
+      break;      
 
       default:
       break;
@@ -230,40 +260,36 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
 
 
   <div id="layout-body" class="container">
-    <div class="row-fluid">
-      <?php if ($messages): ?>
-      <div id="messages" class="span<?php print $span_messages; ?>">
-          <?php print $messages; ?>
-      </div><!-- /#messages -->
-      <?php endif; ?>
-
-      <?php if ($page['tools']): ?>
-      <div class="span<?php print $span_tools; ?>">
-        <ul class="links unstyled">
-          <?php print $region_tools; ?>
-        </ul>
-      </div>
-      <?php endif; ?>
-    </div>
-
+    <div class="row">
       <?php print render($title_prefix); ?>
       <?php if ($title): ?>
-        <h1 class="title" id="page-title">
+        <h1 class="col-lg-<?php print $col_title_lg; ?> col-md-<?php print $col_title_md; ?>" id="page-title">
           <?php print $title; ?>
         </h1>
       <?php endif; ?>
       <?php print render($title_suffix); ?>
+
+      <?php if ($page['tools']): ?>
+      <div class="col-lg-<?php print $col_tools_lg; ?> col-md-<?php print $col_tools_md; ?>">
+        <?php print $region_tools; ?>
+      </div>
+      <?php endif; ?>
+    </div>
+
+    <?php if ($messages): ?>
+    <div id="messages">
+        <?php print $messages; ?>
+    </div><!-- /#messages -->
+    <?php endif; ?>
         
-    <div class="row-fluid">
+    <div class="row">
       <?php if ($page['sidebar_left']): ?>
-      <div class="span<?php print ($span_sidebar_left); ?> sidebar-left hidden-phone">
-        <ul class="nav nav-list card">
-          <?php print $region_sidebar_left; ?>
-        </ul>
+      <div class="col-lg-<?php print ($col_sidebar_left_lg); ?> col-md-<?php print ($col_sidebar_left_md); ?> sidebar-left hidden-sm hidden-xs">
+        <?php print $region_sidebar_left; ?>
       </div>
       <?php endif; ?>     
 
-      <div class="span<?php print $span_content; ?>">
+      <div class="col-lg-<?php print $col_content_lg; ?> col-md-<?php print $col_content_md; ?>">
         
         <a id="content"></a>
 
@@ -300,15 +326,19 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
         <?php endif; ?>
       </div>
 
-      <?php if ($page['sidebar_right']): ?>
-      <div class="span<?php print ($span_sidebar_right); ?> hidden-phone sidebar-right">
-        <ul class="nav nav-list card">
+      <div class="clearfix visible-md visible-xs"></div>
 
-          <?php print $region_sidebar_right; ?>
-        </ul>
+      <?php if ($page['sidebar_right']): ?>
+      <div class="col-lg-<?php print ($col_sidebar_right_lg); ?> col-md-<?php print ($col_sidebar_right_md); ?> hidden-sm hidden-xs sidebar-right">
+        <?php print $region_sidebar_right; ?>
       </div>  
       <?php endif; ?>
     </div>
+
+    <?php if ($col_sidebar_right_md == 12): ?>
+
+    <?php endif; ?>
+
   </div><!-- /#layout-body -->
 
   <div id="layout-footer">

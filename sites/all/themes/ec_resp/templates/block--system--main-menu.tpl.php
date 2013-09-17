@@ -47,42 +47,29 @@
 global $base_url;
 ?>
 
-        <div id="main-menu">
-          <div id="main-menu-desktop" class="navbar navbar-static-top hidden-phone">
-            <div class="navbar-inner">
-              <div id="block-system-main-menu-desktop" class="container">
-                <?php print_r($content) ?>   
-              </div>
-            </div>
-          </div>
+<div id="main-menu" class="<?php print $classes; ?>">
+  <div class="navbar navbar-default" data-spy="affix" data-offset-top="165">
+    <div class="container">
 
-          <div id="main-menu-mobile" class="navbar navbar-fixed-top visible-phone" style="position: fixed">
-            <div class="navbar-inner">
-              <div id="block-system-main-menu-mobile" class="container">
-                <img src="<?php print $base_url . '/' . path_to_theme(); ?>/images/logo/logo_en.gif" alt="European Commission logo" id="banner-flag-small" />
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button id="menu-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <div class="arrow-down"></div>
+        </button>
 
-                <a class="brand" href="<?php print $base_url . '/'; ?>">
+        <button id="sidebar-button" class="navbar-toggle visible-sm visible-xs">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                
+        </button><!-- /#sidebar-button --> 
+      </div>
 
-                  <?php print filter_xss(variable_get('site_name', '')); ?>
-                </a>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <?php print_r($content) ?>
+      </div>
 
-                <div class="nav-collapse collapse" data-spy="affix" data-offset-top="80">
-                  <?php print_r($content) ?>   
-                </div>
-              </div>
-              
-              <div id="block-system-accessibility-menu-mobile" class="container" data-spy="affix" data-offset-top="80">
-                <button id="sidebar-button" class="btn btn-navbar visible-phone">
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>                
-                </button><!-- /#sidebar-button --> 
-
-                <a id="menu-button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                  <div class="arrow-down"></div>
-                </a>
-              </div>
-            </div>          
-          </div>
-        </div>
+    </div><!-- /.container -->
+  </div><!-- /.navbar -->
+</div>
         

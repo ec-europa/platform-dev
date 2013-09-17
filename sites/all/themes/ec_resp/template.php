@@ -7,26 +7,17 @@
 // $Id: template.php,v 1.13 2010/12/14 01:04:27 dries Exp $
 
 /**
- * Override or insert variables into the maintenance page template.
+ * Preprocess hooks
  */
-function ec_resp_process_maintenance_page(&$variables) {
-  // Always print the site name and slogan, but if they are toggled off, we'll
-  // just hide them visually.
-  $variables['hide_site_name']   = theme_get_setting('toggle_name') ? FALSE : TRUE;
-  $variables['hide_site_slogan'] = theme_get_setting('toggle_slogan') ? FALSE : TRUE;
-  if ($variables['hide_site_name']) {
-    // If toggle_name is FALSE, the site_name will be empty, so we rebuild it.
-    $variables['site_name'] = filter_xss(variable_get('site_name', 'Drupal'));
-  }
-  if ($variables['hide_site_slogan']) {
-    // If toggle_site_slogan is FALSE, the site_slogan will be empty, so we rebuild it.
-    $variables['site_slogan'] = filter_xss(variable_get('site_slogan', ''));
-  }
+
+function ec_resp_preprocess(&$variables) {
+  //select template
+  $variables['template'] = 'ec'; //'ec' or 'europa'
+
+  //select responsive sidebar
+  $variables['responsive_sidebar'] = 'both'; //'left', 'right' or 'both'
 }
 
-/**
- * Override or insert variables into the node template.
- */
 function ec_resp_preprocess_node(&$variables) {
   $custom_date = format_date($variables['created'], 'custom', 'l, d/m/Y');
   $variables['submitted'] = t('Published by !username on !datetime', array('!username' => $variables['name'], '!datetime' => $custom_date));
@@ -35,9 +26,6 @@ function ec_resp_preprocess_node(&$variables) {
   }
 }
 
-/**
- * Override or insert variables into the block template.
- */
 function ec_resp_preprocess_block(&$variables) {
   // In the header region visually hide block titles.
   if ($variables['block']->region == 'header') {
@@ -45,20 +33,30 @@ function ec_resp_preprocess_block(&$variables) {
   }
 }
 
-/**
- * Override or insert variables into the page template.
- */
-function ec_resp_preprocess_page(&$variables) {
-  //select template
-  $variables['template'] = 'ec'; //'ec' or 'europa'
-
-  //select responsive sidebar
-  $variables['responsive_sidebar'] = 'left'; //'left' or 'right'
+function ec_resp_preprocess_select(&$variables) {
+  $variables['element']['#attributes']['class'][] = 'form-control';
+}
+function ec_resp_preprocess_textfield(&$variables) {
+  $variables['element']['#attributes']['class'][] = 'form-control';
+}
+function ec_resp_preprocess_password(&$variables) {
+  $variables['element']['#attributes']['class'][] = 'form-control';
+}
+function ec_resp_preprocess_textarea(&$variables) {
+  $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
-/**
- * Add body classes if certain regions have content.
- */
+function ec_resp_preprocess_username(&$variables) {
+  //$variables['attributes_array']['class'][] = 'list-group-item';
+}
+
+function ec_resp_preprocess_maintenance_page(&$variables) {
+  if (!$variables['db_is_active']) {
+    unset($variables['site_name']);
+  }
+  drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/maintenance-page.css');
+}
+
 function ec_resp_preprocess_html(&$variables) {
   if (!empty($variables['page']['featured'])) {
     $variables['classes_array'][] = 'featured';
@@ -108,12 +106,27 @@ function ec_resp_preprocess_html(&$variables) {
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel-3.0.6.pack.js', array('scope' => 'footer', 'weight' => 11));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 12));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 13));  
-
 }
 
+
 /**
- * Override or insert variables into the page template for HTML output.
+ * Process hooks
  */
+function ec_resp_process_maintenance_page(&$variables) {
+  // Always print the site name and slogan, but if they are toggled off, we'll
+  // just hide them visually.
+  $variables['hide_site_name']   = theme_get_setting('toggle_name') ? FALSE : TRUE;
+  $variables['hide_site_slogan'] = theme_get_setting('toggle_slogan') ? FALSE : TRUE;
+  if ($variables['hide_site_name']) {
+    // If toggle_name is FALSE, the site_name will be empty, so we rebuild it.
+    $variables['site_name'] = filter_xss(variable_get('site_name', 'Drupal'));
+  }
+  if ($variables['hide_site_slogan']) {
+    // If toggle_site_slogan is FALSE, the site_slogan will be empty, so we rebuild it.
+    $variables['site_slogan'] = filter_xss(variable_get('site_slogan', ''));
+  }
+}
+
 function ec_resp_process_html(&$variables) {
   // Hook into color.module.
   if (module_exists('color')) {
@@ -121,9 +134,6 @@ function ec_resp_process_html(&$variables) {
   }
 }
 
-/**
- * Override or insert variables into the page template.
- */
 function ec_resp_process_page(&$variables) {
   
   // Hook into color.module.
@@ -158,6 +168,7 @@ function ec_resp_process_page(&$variables) {
     $variables['title_suffix']['add_or_remove_shortcut']['#weight'] = -100;
   }
 }
+
 
 /**
  * Alter page header 
@@ -377,13 +388,122 @@ function ec_resp_page_alter($page) {
 }
 
 /**
- * Implements hook_preprocess_maintenance_page().
+ * Implements hook_block_view_alter().
  */
-function ec_resp_preprocess_maintenance_page(&$variables) {
-  if (!$variables['db_is_active']) {
-    unset($variables['site_name']);
+function ec_resp_block_view_alter(&$data, $block) {
+
+  if ($block->region == 'sidebar_left' || $block->region == 'sidebar_right') { 
+    // add classes to list 
+    $data['content'] = str_replace('<ul>','<ul class="list-group list-group-flush list-unstyled">',$data['content']);
+
+    // add classes to list items
+    if (!is_array($data['content'])) {
+      preg_match_all('/<a(.*?)>/s', $data['content'], $matches);
+
+      if (isset($matches[0])) {
+        foreach ($matches[0] as $link) {
+          if (strpos($link,' class="') !== false) {
+            $new_link = str_replace(' class="', ' class="list-group-item ', $link);
+          }
+          else if (strpos($link," class='") !== false) {
+            $new_link = str_replace(" class='", " class='list-group-item ", $link);
+          }
+          else {
+            $new_link = str_replace(' href=', ' class="list-group-item" href=', $link);
+          }
+          $data['content'] = str_replace($link, $new_link, $data['content']);
+        }
+      }   
+    }
   }
-  drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/maintenance-page.css');
+}
+
+
+
+/**
+ * Implements theme_form_element().
+ */
+function ec_resp_form_element($variables) {
+  $element = &$variables['element'];
+
+  // This function is invoked as theme wrapper, but the rendered form element
+  // may not necessarily have been processed by form_builder().
+  $element += array(
+    '#title_display' => 'before',
+  );
+
+  // Add element #id for #type 'item'.
+  if (isset($element['#markup']) && !empty($element['#id'])) {
+    $attributes['id'] = $element['#id'];
+  }
+  // Add element's #type and #name as class to aid with JS/CSS selectors.
+  $attributes['class'] = array('form-item');
+  if (!empty($element['#type'])) {
+    $type_clean = strtr($element['#type'], '_', '-');
+    $attributes['class'][] = 'form-type-' . $type_clean;
+    if ($type_clean === 'radio' || $type_clean === 'checkbox') {
+      $attributes['class'][] = $type_clean;
+    }
+  }
+  if (!empty($element['#name'])) {
+    $attributes['class'][] = 'form-item-' . strtr($element['#name'], array(' ' => '-', '_' => '-', '[' => '-', ']' => ''));
+  }
+  // Add a class for disabled elements to facilitate cross-browser styling.
+  if (!empty($element['#attributes']['disabled'])) {
+    $attributes['class'][] = 'form-disabled';
+  }
+  $output = '<div' . drupal_attributes($attributes) . '>' . "\n";
+
+  // If #title is not set, we don't display any label or required marker.
+  if (!isset($element['#title'])) {
+    $element['#title_display'] = 'none';
+  }
+  $prefix = isset($element['#field_prefix']) ? '<span class="field-prefix">' . $element['#field_prefix'] . '</span> ' : '';
+  $suffix = isset($element['#field_suffix']) ? ' <span class="field-suffix">' . $element['#field_suffix'] . '</span>' : '';
+
+  switch ($element['#title_display']) {
+    case 'before':
+    case 'invisible':
+      $output .= ' ' . theme('form_element_label', $variables);
+      $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
+      break;
+
+    case 'after':
+      $output .= ' ' . $prefix . $element['#children'] . $suffix;
+      $output .= ' ' . theme('form_element_label', $variables) . "\n";
+      break;
+
+    case 'none':
+    case 'attribute':
+      // Output no label and no required marker, only the children.
+      $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
+      break;
+  }
+
+  if (!empty($element['#description'])) {
+    $output .= '<div class="description">' . $element['#description'] . "</div>\n";
+  }
+
+  $output .= "</div>\n";
+
+  return $output;
+}
+
+/**
+ * Implements theme_button().
+ */
+function ec_resp_button($variables) {
+  $element = $variables['element'];
+  $element['#attributes']['type'] = 'submit';
+  element_set_attributes($element, array('id', 'name', 'value'));
+
+  $element['#attributes']['class'][] = 'form-' . $element['#button_type'];
+  $element['#attributes']['class'][] = 'btn btn-default';
+  if (!empty($element['#attributes']['disabled'])) {
+    $element['#attributes']['class'][] = 'form-button-disabled';
+  }
+
+  return '<input' . drupal_attributes($element['#attributes']) . ' />';
 }
 
 /**
@@ -396,12 +516,12 @@ function ec_resp_menu_tree($variables) {
 function ec_resp_menu_tree__main_menu($variables) {
   if (strpos($variables['tree'], 'main_menu_dropdown')) {
   //there is a dropdown in this tree (using a specific term "main_menu_dropdown" to avoid mistakes)
-    $variables['tree'] = str_replace('<ul class="nav nav-pills">', '<ul class="dropdown-menu">', $variables['tree']);
-    return '<ul class="nav nav-pills">' . $variables['tree'] . '</ul>';  
+    $variables['tree'] = str_replace('<ul class="nav navbar-nav">', '<ul class="dropdown-menu">', $variables['tree']);
+    return '<ul class="nav navbar-nav">' . $variables['tree'] . '</ul>';  
   } 
   else {
   //there is no dropdown in this tree, simply return it in a <ul>
-    return '<ul class="nav nav-pills">' . $variables['tree'] . '</ul>';
+    return '<ul class="nav navbar-nav">' . $variables['tree'] . '</ul>';
   }
 }
 
@@ -510,8 +630,8 @@ function ec_resp_menu_local_tasks(&$variables) {
 
   if (!empty($variables['primary'])) {
     $variables['primary']['#prefix'] = '<h2 class="element-invisible">' . t('Primary tabs') . '</h2>';
-    $variables['primary']['#prefix'] .= '<div class="subnav"><ul class="nav nav-pills">';
-    $variables['primary']['#suffix'] = '</ul></div>';
+    $variables['primary']['#prefix'] .= '<ul class="nav nav-tabs nav-justified">';
+    $variables['primary']['#suffix'] = '</ul>';
     $output .= drupal_render($variables['primary']);
   }
   if (!empty($variables['secondary'])) {
@@ -527,25 +647,41 @@ function ec_resp_menu_local_tasks(&$variables) {
 /**
  * Hook form alter
  */
-function ec_resp_form_alter(&$form, &$form_state, $form_id) {
+function ec_resp_form_alter(&$form, &$form_state, $form_id) { //print $form_id;
   switch ($form_id) {
     case 'search_block_form':
       $form['search_block_form']['#attributes']['placeholder'][] = t('Search');
 
       $form['actions']['submit']['#type'] = 'image_button';
       $form['actions']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.png';
-      $form['actions']['submit']['#attributes']['class'][] = 'btn';
+      $form['actions']['submit']['#attributes']['class'][] = 'btn btn-default btn-small';
       //$form['actions']['submit']['#value'] = '<i class="icon-search"></i>';
       break;
     
     case 'add_media_form':
-    //print_r($form);
-      //$form['image']['#attributes']['class'][] = 'no_label';
-      $form['submit']['#attributes']['class'][] = 'btn';
+      $form['submit']['#attributes']['class'][] = 'btn btn-default';
       break;
       
+    case 'comment_admin_overview':
+      $form['options']['submit']['#attributes']['class'][] = 'btn-small';
+      break;
+
+    case 'views_exposed_form':
+      if (isset($form['submit'])) {
+        $form['submit']['#attributes']['class'][] = 'btn-small';
+      }
+      break;
+
     default:
       break;
+  }
+
+  $content_types = node_type_get_types();
+  foreach ($content_types as $content_type) {
+    if ($form_id === $content_type->type . "_node_form") {
+      $form['actions']['submit']['#attributes']['class'][] = 'btn btn-default';
+      $form['actions']['preview']['#attributes']['class'][] = 'btn btn-default';
+    }
   }
   $form['#after_build'][] = 'ec_resp_cck_alter';
 }
@@ -562,13 +698,6 @@ function ec_resp_cck_alter($form, &$form_state) {
     $form['body']['und'][0]['format']['#prefix'] = "<div class='hide'>";
     $form['body']['und'][0]['format']['#suffix'] = "</div>";
   }
-  
-  //media gallery
-  //if (isset($form['image']['#id']) && $form['image']['#id']='edit-mediagallery-image') {
-    /*$form['image']['edit']['#access'] = 0;
-    $form['image']['remove']['#access'] = 0;
-    $form['image']['select']['#attributes']['class'][] = 'btn';*/
-  //}
   
   return $form;
 }
@@ -625,34 +754,34 @@ function ec_resp_link( $variables ) {
   if (isset($variables['options']['attributes']['type'])) {
     switch ($variables['options']['attributes']['type']) {
       case 'add':
-        $decoration .= '<i class="icon-plus icon-white"></i>';
+        $decoration .= '<span class="glyphicon glyphicon-plus"></span>';
         $variables['options']['attributes']['class'] .= ' btn btn-success';
         break;
       case 'expand':
-        $decoration .= '<i class="icon-chevron-down"></i>';
-        $variables['options']['attributes']['class'] .= ' btn btn-small';
+        $decoration .= '<span class="glyphicon glyphicon-chevron-down"></span>';
+        $variables['options']['attributes']['class'] .= ' btn btn-default btn-small';
         break;
       case 'collapse':
-        $decoration .= '<i class="icon-chevron-up"></i>';
-        $variables['options']['attributes']['class'] .= ' btn btn-small';
+        $decoration .= '<span class="glyphicon glyphicon-chevron-up"></span>';
+        $variables['options']['attributes']['class'] .= ' btn btn-default btn-small';
         break;
       case 'delete':
-        $decoration .= '<i class="icon-trash icon-white"></i>';
+        $decoration .= '<span class="glyphicon glyphicon-trash"></span>';
         $variables['options']['attributes']['class'] .= ' btn btn-danger';
         break;
       case 'edit':
-        $decoration .= '<i class="icon-pencil icon-white"></i>';
+        $decoration .= '<span class="glyphicon glyphicon-pencil"></span>';
         $variables['options']['attributes']['class'] .= ' btn btn-warning';
         break;
       case 'message':
-        $decoration .= '<i class="icon-envelope icon-white"></i>';
+        $decoration .= '<span class="glyphicon glyphicon-envelope"></span>';
         $variables['options']['attributes']['class'] .= ' btn btn-info';
         break;        
       case 'neutral':
-        $variables['options']['attributes']['class'] .= ' btn';
+        $variables['options']['attributes']['class'] .= ' btn btn-default';
         break;   
       case 'small':
-        $variables['options']['attributes']['class'] .= ' btn btn-small';
+        $variables['options']['attributes']['class'] .= ' btn btn-default btn-small';
         break;         
       default:
         break;

@@ -44,15 +44,60 @@
  * @ingroup themeable
  */
 ?>
-<div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
-  <?php print render($title_prefix); ?>
-<?php if ($block->subject): ?>
-  <h2<?php print $title_attributes; ?>><?php print $block->subject ?></h2>
-<?php endif;?>
-  <?php print render($title_suffix); ?>
+<?php
+  // list of all block than don't need a panel
+  $block_no_panel = array(
+    'search' => 'form',
+    'print' => 'print-links',
+    'workbench' => 'block',
+    'social_bookmark' => 'social-bookmark',
+  );
 
-  <div class="content"<?php print $content_attributes; ?>>
-    <?php print $content ?>
+  $block_no_title = array(
+    'fat_footer' => 'fat-footer',
+  );
+
+  $block_no_body_class = array(
+    'views' => 'community_content-block_content',
+  );
+
+  $panel = true;
+  foreach ($block_no_panel as $key => $value) {
+    if ($block->module == $key && $block->delta == $value) {
+      $panel = false;
+    }
+  }
+
+  $title = true;
+  foreach ($block_no_title as $key => $value) {
+    if ($block->module == $key && $block->delta == $value) {
+      $title = false;
+    }
+  }    
+
+  $body_class = true;
+  foreach ($block_no_body_class as $key => $value) {
+    if ($block->module == $key && $block->delta == $value) {
+      $body_class = false;
+    }
+  }      
+?>
+
+<div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?> <?php if ($panel) print 'panel panel-default clearfix'; ?>">
+  
+<?php print render($title_prefix); ?>
+<?php if ($title && $block->subject): ?>
+  <div class="<?php if ($panel) print 'panel-heading'; ?>">
+    <?php print $block->subject ?>
   </div>
+<?php endif;?>
+<?php print render($title_suffix); ?>
+
+  <div class="<?php if ($panel && $body_class) print 'panel-body'; ?> content"<?php print $content_attributes; ?>>
+  <?php 
+    print $content;
+   ?>
+  </div>
+
 </div>

@@ -6,89 +6,57 @@
  */
  
 /*! 
- * Bootstrap v2.3.1
+ * Bootstrap v3.0
  */
 // Core variables and mixins
-@import "../../bootstrap/less/variables.less"; // Modify this for custom colors, font-sizes, etc
+@import "../../bootstrap/less/variables.less";
 @import "../../bootstrap/less/mixins.less";
 
-// CSS Reset
-@import "../../bootstrap/less/reset.less";
+// Reset
+@import "../../bootstrap/less/normalize.less";
+@import "../../bootstrap/less/print.less";
 
-// Grid system and page structure
+// Core CSS
 @import "../../bootstrap/less/scaffolding.less";
-@import "../../bootstrap/less/grid.less";
-@import "../../bootstrap/less/layouts.less";
-
-// Base CSS
 @import "../../bootstrap/less/type.less";
 @import "../../bootstrap/less/code.less";
-@import "../../bootstrap/less/forms.less";
+@import "../../bootstrap/less/grid.less";
 @import "../../bootstrap/less/tables.less";
-
-// Components: common
-@import "../../bootstrap/less/sprites.less";
-@import "../../bootstrap/less/dropdowns.less";
-@import "../../bootstrap/less/wells.less";
-@import "../../bootstrap/less/component-animations.less";
-@import "../../bootstrap/less/close.less";
-
-// Components: Buttons & Alerts
+@import "../../bootstrap/less/forms.less";
 @import "../../bootstrap/less/buttons.less";
-@import "../../bootstrap/less/button-groups.less";
-@import "../../bootstrap/less/alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
 
-// Components: Nav
+// Components
+@import "../../bootstrap/less/component-animations.less";
+@import "../../bootstrap/less/glyphicons.less";
+@import "../../bootstrap/less/dropdowns.less";
+@import "../../bootstrap/less/button-groups.less";
+@import "../../bootstrap/less/input-groups.less";
 @import "../../bootstrap/less/navs.less";
 @import "../../bootstrap/less/navbar.less";
 @import "../../bootstrap/less/breadcrumbs.less";
 @import "../../bootstrap/less/pagination.less";
 @import "../../bootstrap/less/pager.less";
+@import "../../bootstrap/less/labels.less";
+@import "../../bootstrap/less/badges.less";
+@import "../../bootstrap/less/jumbotron.less";
+@import "../../bootstrap/less/thumbnails.less";
+@import "../../bootstrap/less/alerts.less";
+@import "../../bootstrap/less/progress-bars.less";
+@import "../../bootstrap/less/media.less";
+@import "../../bootstrap/less/list-group.less";
+@import "../../bootstrap/less/panels.less";
+@import "../../bootstrap/less/wells.less";
+@import "../../bootstrap/less/close.less";
 
-// Components: Popovers
+// Components w/ JavaScript
 @import "../../bootstrap/less/modals.less";
 @import "../../bootstrap/less/tooltip.less";
 @import "../../bootstrap/less/popovers.less";
-
-// Components: Misc
-@import "../../bootstrap/less/thumbnails.less";
-@import "../../bootstrap/less/media.less";
-@import "../../bootstrap/less/labels-badges.less";
-@import "../../bootstrap/less/progress-bars.less";
-@import "../../bootstrap/less/accordion.less";
 @import "../../bootstrap/less/carousel.less";
-@import "../../bootstrap/less/hero-unit.less";
 
 // Utility classes
-@import "../../bootstrap/less/utilities.less"; // Has to be last to override when necessary
-
-
-/*! 
- * Bootstrap responsive v2.3.1
- */
-// RESPONSIVE CLASSES
-// ------------------
-
+@import "../../bootstrap/less/utilities.less";
 @import "../../bootstrap/less/responsive-utilities.less";
-
-// MEDIA QUERIES
-// ------------------
-
-// Large desktops
-@import "../../bootstrap/less/responsive-1200px-min.less";
-
-// Tablets to regular desktops
-@import "../../bootstrap/less/responsive-768px-979px.less";
-
-// Phones to portrait tablets and narrow desktops
-@import "../../bootstrap/less/responsive-767px-max.less";
-
-// RESPONSIVE NAVBAR
-// ------------------
-
-// From 979px and below, show a button to toggle navbar contents
-@import "../../bootstrap/less/responsive-navbar.less";
- 
 
 /*! 
  * Ec default 
@@ -97,6 +65,7 @@
 @import "style.less"; // global look and feel
 
 @import "header.less"; // banner
+@import "node.less"; // nodes
 @import "menu.less"; // navigation and action menus
 @import "sidebar.less"; // left and right sidebars
 @import "comment.less"; // comment form and comments
@@ -108,7 +77,6 @@
 @import "feature-news.less"; // feature news
 @import "feature-communities.less"; // feature communities
 @import "feature-events.less"; // feature events
-@import "feature-set.less"; // feature set
 @import "feature-ideas.less"; // feature ideas
 @import "feature-media-galleries.less"; // feature media galleries
 @import "feature-fat-footer.less"; // feature fat footer
@@ -121,6 +89,4 @@
 @import "feature-notifications.less"; // feature notifications
 @import "feature-social-bookmark.less"; // feature notifications
 
-@import "responsive.less"; // specific rules for small devices
-@import "hack-bootstrap.less"; // hack bootstrap styles
 @import "hack-ec.less"; // hack EC styles

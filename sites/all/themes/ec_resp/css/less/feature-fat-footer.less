@@ -2,10 +2,6 @@
 .block-fat-footer {
   margin: 8px 0;
   text-align: left;
-
-  h2 {
-    display: none;
-  }
   div.fat_footer_item {
     display: inline-block;
     vertical-align: top;
@@ -16,16 +12,16 @@
       text-decoration: none;
       display: block;
       padding: 2px 8px;
+      color: #716b7a;
+      text-shadow: 0 1px 0 #fff;
       &:hover {
-        .border-radius(5px);
-        color: #fff;
-        #gradient .vertical(#0085D5, #0075c5);
+        background-color: @nav-link-hover-bg;
       }
     }         
     ul {
       padding: 0 0 0 5px;
       margin: 0;
-      border-left: 2px solid #396EA2;
+      border-left: 2px solid #716b7a;
       text-align: left;
       font-size: 1em;
       li {

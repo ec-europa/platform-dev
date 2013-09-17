@@ -45,24 +45,33 @@
  */
 ?>
 
+<div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?> panel panel-default">
+
+<?php print render($title_prefix); ?>
 <?php if ($block->subject): ?>
-<li id="<?php print $block_html_id; ?>" class="nav-header">
-<?php print $block->subject ?>
-</li>
+  <div class="panel-heading">
+  <?php print $block->subject ?>
+  </div>
 <?php endif;?>
+<?php print render($title_suffix); ?>
 
-<li>
-  <?php 
-    $menu = menu_navigation_links("menu-communities-menu");
-    
-    foreach ($menu as $item_id) {
-      $items[] = l($item_id['title'],$item_id['href']);
-    }
+<?php 
+  $menu = menu_navigation_links("menu-communities-menu");
 
-    $att = array(
-      'class' => 'nav nav-list', 
-    );  
-    
-    print theme('item_list', array('items' => $items, 'attributes' => $att));
-  ?>
-</li>
+  $items = array();
+  foreach ($menu as $item_id) {
+      $items[] = array(
+                  'title' => $item_id['title'],
+                  'href' => $item_id['href'],
+                  'attributes' => array('class' => array('list-group-item'))
+                  );
+  }
+
+  $att = array(
+    'class' => 'list-group list-group-flush list-unstyled', 
+  );  
+  
+  print theme('links', array('links' => $items, 'attributes' => $att));
+ ?>
+
+</div>

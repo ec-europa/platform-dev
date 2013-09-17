@@ -75,8 +75,8 @@ jQuery(function($){
         topNews.push($(this));
         totalHeight = totalHeight + $(this).height() + 21;
       });
-      if (totalHeight < 180) totalHeight = 180;
-      $('#slider.news .content > .view-news > .news_content div.news').height(totalHeight+1);
+      /*if (totalHeight < 180) totalHeight = 180;
+      $('#slider.news .content > .view-news > .news_content div.news').height(totalHeight+1);*/
       
         var NbNews = topNews.length;
         var i = 1;
@@ -147,9 +147,9 @@ jQuery(function($){
     /* /Menu dropdown */
 
     /* Responsive menu */
-    $('#responsive-sidebar > ul').hide();
+    $('#responsive-sidebar > div').hide();
     $('#sidebar-button').on("click", function() {
-      $('#responsive-sidebar > ul').toggle();
+      $('#responsive-sidebar > div').toggle();
       $('#layout-body').toggle();
     });
 

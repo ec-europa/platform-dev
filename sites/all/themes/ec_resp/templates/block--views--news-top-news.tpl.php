@@ -44,16 +44,18 @@
  * @ingroup themeable
  */
 ?>
-<div id="slider" class="news clearfix tabbable tabs-right alert alert-info alert-block">
-  <div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?>"<?php print $attributes; ?>>
+<div id="slider" class="news tabbable tabs-right">
+  <div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?>  panel panel-primary clearfix"<?php print $attributes; ?>>
 
-    <?php print render($title_prefix); ?>
+  <?php print render($title_prefix); ?>
   <?php if ($block->subject): ?>
-    <h2<?php print $title_attributes; ?>><?php print $block->subject ?></h2>
+    <div class="panel-heading">
+      <?php print $block->subject ?>
+    </div>
   <?php endif;?>
-    <?php print render($title_suffix); ?>
+  <?php print render($title_suffix); ?>
 
-    <div class="content"<?php print $content_attributes; ?>>
+    <div class="content panel-body"<?php print $content_attributes; ?>>
       <?php print $content ?>
     </div>
   </div>

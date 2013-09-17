@@ -43,12 +43,12 @@
   
   <fieldset>
   <legend>Identity</legend>
-    <div class="span2">
+    <div class="col-lg-2">
   <?php 
     print render($user_profile['user_picture']);
   ?>
     </div>
-    <div class="span7">
+    <div class="col-lg-7">
     <?php
       $identity = '';
       if (isset($user_profile['field_firstname'][0]['#markup'])) {
@@ -89,8 +89,8 @@
     foreach ($user_profile as $key => $value) {
       if (!in_array($key,$basic)) {
         $field = '<div class="field">';
-        $field .= '<div class="span2 field-label">'.$value['#title'].'</div>';
-        $field .= '<div class="span9 no_label">'.render($value).'</div>';
+        $field .= '<div class="col-lg-2 field-label">'.$value['#title'].'</div>';
+        $field .= '<div class="col-lg-9 no_label">'.render($value).'</div>';
         $field .= '</div>';
         
         print $field;

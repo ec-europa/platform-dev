@@ -45,8 +45,8 @@
  */
 
 ?>
-  <li>
-  <?php 
+
+<?php 
   global $user;
 
   if (!empty($user) && 0 != $user->uid) {
@@ -55,9 +55,11 @@
 
     print ("<div class='username'>" . t('Welcome, ') . '<strong>' . $name . '</strong></div>');
   }
-  ?>
+?>
     
-  <ul id="<?php print $block_html_id; ?>" class="unstyled inline">
+<div id="<?php print $block_html_id; ?>">
+
+  <ul id="<?php print $block_html_id; ?>" class="list-unstyled inline">
   <?php 
     $menu = menu_navigation_links("user-menu");
     $items = "";
@@ -73,6 +75,9 @@
     elseif (strpos($_GET['q'], 'user/login') !== FALSE) {
       $dest = 'home';
     }
+    elseif (strpos($_GET['q'], 'user/logout') !== FALSE) {
+      $dest = 'home';
+    }
     else {
       $dest = drupal_get_path_alias();
     }
@@ -80,13 +85,13 @@
     $attributes = array(
       'attributes' => array(
         'type' => '',
-        'class' => array('btn')
+        'class' => array('btn','btn-default')
       )
     );
     
     foreach ($menu as $item_id) {
       // Add redirection for login, logout and register
-      if ($item_id['href'] == 'user/login' || $item_id['href'] == 'user/register') {
+      if ($item_id['href'] == 'user/login' || $item_id['href'] == 'user/logout' || $item_id['href'] == 'user/register') {
         $attributes['query']['destination'] = $dest;
       }
 
@@ -96,4 +101,5 @@
     print $items;
   ?>    
   </ul>  
-  </li>
+
+</div>

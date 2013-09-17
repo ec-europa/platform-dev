@@ -1,38 +1,58 @@
-// LABELS
-// ------
+//
+// Labels
+// --------------------------------------------------
 
-// Base
 .label {
-  padding: 1px 4px 2px;
-  font-size: @baseFontSize * .846;
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
   font-weight: bold;
-  line-height: 13px; // ensure proper line-height if floated
-  color: @white;
-  vertical-align: middle;
+  line-height: 1;
+  color: @label-color;
+  text-align: center;
   white-space: nowrap;
-  text-shadow: 0 -1px 0 rgba(0,0,0,.25);
-  background-color: @grayLight;
-  .border-radius(3px);
-}
+  vertical-align: baseline;
+  border-radius: .25em;
 
-// Hover state
-.label:hover {
-  color: @white;
-  text-decoration: none;
+  // Add hover effects, but only for links
+  &[href] {
+    &:hover,
+    &:focus {
+      color: @label-link-hover-color;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+
+  // Empty labels collapse automatically (not available in IE8)
+  &:empty {
+    display: none;
+  }
 }
 
 // Colors
-.label-important        { background-color: @errorText; }
-.label-important:hover  { background-color: darken(@errorText, 10%); }
+// Contextual variations (linked labels get darker on :hover)
 
-.label-warning          { background-color: @orange; }
-.label-warning:hover    { background-color: darken(@orange, 10%); }
+.label-default {
+  .label-variant(@label-default-bg);
+}
 
-.label-success          { background-color: @successText; }
-.label-success:hover    { background-color: darken(@successText, 10%); }
+.label-primary {
+  .label-variant(@label-primary-bg);
+}
 
-.label-info             { background-color: @infoText; }
-.label-info:hover       { background-color: darken(@infoText, 10%); }
+.label-success {
+  .label-variant(@label-success-bg);
+}
 
-.label-inverse             { background-color: @grayDark; }
-.label-inverse:hover       { background-color: darken(@grayDark, 10%); }
+.label-info {
+  .label-variant(@label-info-bg);
+}
+
+.label-warning {
+  .label-variant(@label-warning-bg);
+}
+
+.label-danger {
+  .label-variant(@label-danger-bg);
+}

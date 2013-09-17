@@ -138,7 +138,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['created']['field'] = 'created';
   $handler->display->display_options['fields']['created']['label'] = '';
   $handler->display->display_options['fields']['created']['alter']['text'] = '<small>[created]</small>';
-  $handler->display->display_options['fields']['created']['element_class'] = 'meta';
+  $handler->display->display_options['fields']['created']['element_class'] = 'label label-default label-small';
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'short';
   /* Field: Content: Body */
@@ -297,8 +297,9 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['text'] = '<h3>[title]</h3>';
-  $handler->display->display_options['fields']['title']['element_type'] = 'h3';
+  $handler->display->display_options['fields']['title']['alter']['max_length'] = '150';
+  $handler->display->display_options['fields']['title']['alter']['trim'] = TRUE;
+  $handler->display->display_options['fields']['title']['element_type'] = 'h4';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   /* Field: Broken/missing handler */
@@ -382,7 +383,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
-  $handler->display->display_options['style_options']['class'] = 'news_list nav nav-tabs ';
+  $handler->display->display_options['style_options']['class'] = 'news_list list-group list-unstyled';
   $handler->display->display_options['style_options']['wrapper_class'] = '';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
@@ -405,6 +406,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['path'] = '#news[nid] ';
   $handler->display->display_options['fields']['title']['alter']['absolute'] = TRUE;
+  $handler->display->display_options['fields']['title']['alter']['link_class'] = 'list-group-item';
   $handler->display->display_options['fields']['title']['alter']['max_length'] = '50';
   $handler->display->display_options['fields']['title']['alter']['trim'] = TRUE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
