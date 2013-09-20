@@ -63,3 +63,17 @@ function news_og_views_pre_render(&$view) {
   }
 }
 
+
+/**
+ * Implements hook_form_alter().
+ */
+function news_og_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'news_node_form':
+      $desc = $form['field_top_news']['und']['#description'];
+      $form['field_top_news']['und']['#description'] = $desc." ".t('(The visibility of the news must be set to public to appear on the site homepage)');
+      break;
+  }
+}
+
+

@@ -541,7 +541,7 @@ function news_core_field_default_fields() {
         ),
       ),
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Expose the news on the site homepage',
       'display' => array(
         'default' => array(
           'label' => 'above',
