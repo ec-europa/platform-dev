@@ -655,9 +655,18 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) { //print $form_id;
       $form['actions']['submit']['#type'] = 'image_button';
       $form['actions']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.png';
       $form['actions']['submit']['#attributes']['class'][] = 'btn btn-default btn-small';
-      //$form['actions']['submit']['#value'] = '<i class="icon-search"></i>';
       break;
-    
+
+    case 'apachesolr_search_custom_page_search_form':
+    case 'search_form':
+      $form['basic']['#attributes']['class'][] = 'input-group';
+      $form['basic']['keys']['#title'] = '';
+      $form['basic']['keys']['#attributes']['placeholder'][] = t('Search');
+      $form['basic']['submit']['#type'] = 'image_button';
+      $form['basic']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.png';
+      $form['basic']['submit']['#attributes']['class'][] = 'btn btn-default btn-small';
+      break;
+
     case 'add_media_form':
       $form['submit']['#attributes']['class'][] = 'btn btn-default';
       break;

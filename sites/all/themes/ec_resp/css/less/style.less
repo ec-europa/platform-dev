@@ -276,6 +276,11 @@ ul {
   margin-left: 0;  
 }
 
+.container-inline div, 
+.container-inline label {
+  display: inline-block;
+}
+
 /* Disabled form elements */
 input.form-button-disabled,
 input.form-button-disabled:hover,
@@ -323,6 +328,10 @@ input.form-button-disabled:active,
 
 html.js input.form-autocomplete {
   background: transparent url(../images/throbber.png) 100% 6px no-repeat;
+}
+
+input[type="file"] {
+  display: inline-block;
 }
 
 /* -------------- Buttons -------------- */
