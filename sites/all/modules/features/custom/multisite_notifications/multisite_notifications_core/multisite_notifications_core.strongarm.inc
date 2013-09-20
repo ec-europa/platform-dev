@@ -118,7 +118,7 @@ function multisite_notifications_core_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'subscriptions_site_mail';
-  $strongarm->value = 'cyril.champagne@ext.ec.europa.eu';
+  $strongarm->value = 'DIGIT-FPFIS-SUPPORT@ec.europa.eu';
   $export['subscriptions_site_mail'] = $strongarm;
 
   $strongarm = new stdClass();
