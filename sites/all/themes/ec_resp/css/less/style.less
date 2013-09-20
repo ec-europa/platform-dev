@@ -296,14 +296,6 @@ input.form-button-disabled:active,
   color: #717171;
 }
 
-/* Animated throbber */
-html.js input.form-autocomplete {
-  background-position: 100% 4px; /* LTR */
-}
-html.js input.throbbing {
-  background-position: 100% -16px; /* LTR */
-}
-
 /* Labels */
 .form-item label {
   display: block;
@@ -327,6 +319,10 @@ html.js input.throbbing {
   &.label-small {
     display: inline-block;
   }
+}
+
+html.js input.form-autocomplete {
+  background: transparent url(../images/throbber.png) 100% 6px no-repeat;
 }
 
 /* -------------- Buttons -------------- */
