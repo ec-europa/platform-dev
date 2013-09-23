@@ -768,11 +768,11 @@ function ec_resp_link( $variables ) {
         break;
       case 'expand':
         $decoration .= '<span class="glyphicon glyphicon-chevron-down"></span>';
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-small';
+        $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
         break;
       case 'collapse':
         $decoration .= '<span class="glyphicon glyphicon-chevron-up"></span>';
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-small';
+        $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
         break;
       case 'delete':
         $decoration .= '<span class="glyphicon glyphicon-trash"></span>';
@@ -780,18 +780,28 @@ function ec_resp_link( $variables ) {
         break;
       case 'edit':
         $decoration .= '<span class="glyphicon glyphicon-pencil"></span>';
-        $variables['options']['attributes']['class'] .= ' btn btn-warning';
+        $variables['options']['attributes']['class'] .= ' btn btn-info';
         break;
       case 'message':
         $decoration .= '<span class="glyphicon glyphicon-envelope"></span>';
-        $variables['options']['attributes']['class'] .= ' btn btn-info';
+        $variables['options']['attributes']['class'] .= ' btn btn-primary';
         break;        
-      case 'neutral':
+      case 'login':
+        $decoration .= '<span class="glyphicon glyphicon-log-in"></span>';
         $variables['options']['attributes']['class'] .= ' btn btn-default';
-        break;   
-      case 'small':
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-small';
-        break;         
+        break;
+      case 'logout':
+        $decoration .= '<span class="glyphicon glyphicon-log-out"></span>';
+        $variables['options']['attributes']['class'] .= ' btn btn-default btn-xs';
+        break;
+      case 'user':
+        $decoration .= '<span class="glyphicon glyphicon-user"></span>';
+        $variables['options']['attributes']['class'] .= ' btn btn-default btn-xs';
+        break;
+      case 'workbench':
+        $decoration .= '<span class="glyphicon glyphicon-list-alt"></span>';
+        $variables['options']['attributes']['class'] .= ' btn btn-info btn-xs';
+        break;
       default:
         break;
     }

@@ -56,10 +56,8 @@
     print ("<div class='username'>" . t('Welcome, ') . '<strong>' . $name . '</strong></div>');
   }
 ?>
-    
-<div id="<?php print $block_html_id; ?>">
 
-  <ul id="<?php print $block_html_id; ?>" class="list-unstyled inline">
+<div id="<?php print $block_html_id; ?>" class="btn-group">
   <?php 
     $menu = menu_navigation_links("user-menu");
     $items = "";
@@ -75,9 +73,6 @@
     elseif (strpos($_GET['q'], 'user/login') !== FALSE) {
       $dest = 'home';
     }
-    elseif (strpos($_GET['q'], 'user/logout') !== FALSE) {
-      $dest = 'home';
-    }
     else {
       $dest = drupal_get_path_alias();
     }
@@ -91,15 +86,28 @@
     
     foreach ($menu as $item_id) {
       // Add redirection for login, logout and register
-      if ($item_id['href'] == 'user/login' || $item_id['href'] == 'user/logout' || $item_id['href'] == 'user/register') {
+      if ($item_id['href'] == 'user/login' || $item_id['href'] == 'user/register') {
         $attributes['query']['destination'] = $dest;
       }
 
-      $items .= '<li>'.l($item_id['title'],$item_id['href'], $attributes).'</li>';
+      // Add icon before menu item
+      // TODO: make it editable in administration
+      if ($item_id['href'] == 'user') {
+        $attributes['attributes']['type'] = 'user';
+      } 
+      elseif ($item_id['href'] == 'user/login') {
+        $attributes['attributes']['type'] = 'login';
+      }
+      elseif ($item_id['href'] == 'user/logout') {
+        $attributes['attributes']['type'] = 'logout';
+      }
+      elseif ($item_id['href'] == 'admin/workbench') {
+        $attributes['attributes']['type'] = 'workbench';
+      }
+
+      $items .= l($item_id['title'],$item_id['href'], $attributes);
     }
     
     print $items;
   ?>    
-  </ul>  
-
 </div>

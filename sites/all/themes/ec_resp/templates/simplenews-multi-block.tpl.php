@@ -23,7 +23,7 @@
 	$add_category = (user_access('administer taxonomy') ? 1 : 0);
 
 	$attributes_first = array('type' => 'add', 'action_bar' => 'first', 'btn_group' => 'first');
-	$attributes_last = array('type' => 'add_alt', 'action_bar' => 'last', 'btn_group' => 'last');
+	$attributes_last = array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'last');
 	$attributes_single = array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single');
 
 	if ($add_newsletter && $add_category) {

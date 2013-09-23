@@ -21,6 +21,7 @@
     float: left;
   }
   .navbar-nav > li > a {
+    text-transform:capitalize;
     &.active {
       background-color: #074A8B;
       color: #fff;
@@ -41,7 +42,6 @@
 }
 
 /* --------------- Secondary Menu ------------ */
-
 #secondary-menu-links {
   float: right; /* LTR */
   font-size: 0.9em;
@@ -52,15 +52,17 @@
   text-decoration: underline;
 }
 
-/* ---------------- action bar (expand/collapse/create)  ----------------- */
-.action_bar {
-  padding: 10px;
+/* ---------------- User menu ----------------- */
+#block-system-user-menu {
   a {
-    text-decoration: none;
+    text-transform:capitalize;
   }
 }
-a.btn {
-  text-decoration: none;
+
+/* ---------------- action bar (expand/collapse/create)  ----------------- */
+.action_bar {
+  background-color: @gray-lighter;
+  border-radius: @border-radius-base;
 }
 
 /* --------------- System Tabs  --------------- */
@@ -82,6 +84,17 @@ ul.nav-tabs {
         border-right: 1px solid @nav-tabs-border-color;
         border-left: 1px solid @nav-tabs-border-color;
         border-radius: @border-radius-base @border-radius-base 0 0;
+        background-color: #eee;
+        &:hover,
+        &:focus {
+          background-color: @nav-link-hover-bg;
+        }
+      }
+      &.active {
+        a {
+          background-color: #ddd;
+          border-color: #999;
+        }
       }
     }
   }
