@@ -255,13 +255,6 @@ ul {
 }
 
 /* -------------- Form Elements   ------------- */
-.form-actions {
-  background-color: transparent;
-  border-top: none;
-  padding: 0;
-  margin: 0;
-}
-
 .region-sidebar-left input, 
 .region-sidebar-left textarea, 
 .region-sidebar-left .uneditable-input,
@@ -304,6 +297,7 @@ input.form-button-disabled:active,
 /* Labels */
 .form-item label {
   display: block;
+  text-transform: capitalize;
   &.option {
     display: inline-block;
   }
@@ -321,9 +315,14 @@ input.form-button-disabled:active,
 }
 
 .label {
+  text-transform: capitalize;
   &.label-small {
     display: inline-block;
   }
+}
+
+.field-label {
+  text-transform: capitalize;
 }
 
 html.js input.form-autocomplete {
