@@ -52,6 +52,7 @@
     'print' => 'print-links',
     'workbench' => 'block',
     'social_bookmark' => 'social-bookmark',
+    'views' => 'view_ec_content_slider-block',
   );
 
   $block_no_title = array(

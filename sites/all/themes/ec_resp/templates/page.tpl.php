@@ -326,7 +326,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
         <?php endif; ?>
       </div>
 
-      <div class="clearfix visible-md visible-xs"></div>
+      <div class="clearfix visible-sm visible-xs"></div>
 
       <?php if ($page['sidebar_right']): ?>
       <div class="col-lg-<?php print ($col_sidebar_right_lg); ?> col-md-<?php print ($col_sidebar_right_md); ?> hidden-sm hidden-xs sidebar-right">

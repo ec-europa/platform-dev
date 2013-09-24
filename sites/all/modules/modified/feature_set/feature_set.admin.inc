@@ -77,7 +77,7 @@ function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
     '#attributes' => array(
       'class' => array(
         'btn',
-        'btn-large',
+        'btn-lg',
         'btn-success',
       ),
     ),
