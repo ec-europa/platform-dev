@@ -108,13 +108,10 @@ function multi_user_blog_views_default_views() {
   $handler->display->display_options['fields']['body']['label'] = '';
   $handler->display->display_options['fields']['body']['exclude'] = TRUE;
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '900';
+  $handler->display->display_options['fields']['body']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['body']['alter']['more_link_text'] = 'Read more';
-  $handler->display->display_options['fields']['body']['element_class'] = 'fieldset';
+  $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['body']['type'] = 'text_summary_or_trimmed';
-  $handler->display->display_options['fields']['body']['settings'] = array(
-    'trim_length' => '900',
-  );
   /* Field: Content: Path */
   $handler->display->display_options['fields']['path']['id'] = 'path';
   $handler->display->display_options['fields']['path']['table'] = 'node';
@@ -122,19 +119,19 @@ function multi_user_blog_views_default_views() {
   $handler->display->display_options['fields']['path']['label'] = '';
   $handler->display->display_options['fields']['path']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['path']['alter']['text'] = '<div class="media">
-  <div class="pull-right t_center">
+  <div class="pull-right text-center">
     [picture]
-    <div class="meta">
+    <div class="text-muted">
       [name]<br />
-      [created]
+      <span class="label label-default">[created]</span>
     </div>
   </div>
   <div class="media-body">
     <div class="pull-right">[value]</div>
     <h3 class="media-heading">[title]</h3>
-    <div class="fieldset t_left">
+    <div>
       [body]
-      <div class="t_right c_left c_right"><a href="[path]">Read more</a></div>
+      <div><a href="[path]">Read more</a></div>
     </div>
   </div>  
 </div>';
