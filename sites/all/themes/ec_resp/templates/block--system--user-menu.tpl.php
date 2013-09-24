@@ -47,7 +47,7 @@
 ?>
 
 <?php 
-  global $user;
+  global $user, $base_url;
 
   if (!empty($user) && 0 != $user->uid) {
     $full_user = user_load($user->uid);
@@ -89,6 +89,9 @@
       if ($item_id['href'] == 'user/login' || $item_id['href'] == 'user/register') {
         $attributes['query']['destination'] = $dest;
       }
+      if ($item_id['href'] == 'user/logout') {
+        $attributes['query']['destination'] = $base_url;
+      }      
 
       // Add icon before menu item
       // TODO: make it editable in administration
