@@ -418,8 +418,6 @@ function ec_resp_block_view_alter(&$data, $block) {
   }
 }
 
-
-
 /**
  * Implements theme_form_element().
  */
@@ -802,6 +800,9 @@ function ec_resp_link( $variables ) {
         $decoration .= '<span class="glyphicon glyphicon-list-alt"></span>';
         $variables['options']['attributes']['class'] .= ' btn btn-info btn-xs';
         break;
+      case 'small':
+        $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
+        break;        
       default:
         break;
     }
