@@ -182,6 +182,12 @@ function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $pat
  */
 function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
   global $user;
+
+  // Disable checkbox "promote to front page"
+  if (isset($form['options']['promote'])) {
+    unset($form['options']['promote']);
+  }
+
   if ($user->uid != 1) {
     switch ($form_id) {
       case 'system_modules':
