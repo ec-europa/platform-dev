@@ -397,6 +397,17 @@ input[type="file"] {
   }
 }
 
+.ui-state-default, 
+.ui-widget-content .ui-state-default, 
+.ui-widget-header .ui-state-default {
+  &.btn {
+    background-image: none;
+    &.btn-default {
+      background-color: @btn-default-bg;
+    }
+  }
+}
+
 /* -------------- Rating -------------- */
 .region-content .rate-widget ul {
   margin: 0;

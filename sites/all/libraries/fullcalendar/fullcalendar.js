@@ -746,7 +746,7 @@ function Header(calendar, options) {
 							var icon = options.theme ? smartProperty(options.buttonIcons, buttonName) : null; // why are we using smartProperty here?
 							var text = smartProperty(options.buttonText, buttonName); // why are we using smartProperty here?
 							var button = $(
-								"<span class='btn fc-button-" + buttonName + " " + tm + "-state-default'>" +
+								"<span class='btn btn-default fc-button-" + buttonName + "'>" +
 									"<span class=''>" +
 										"<span class=''>" +
 											(icon ?
@@ -777,12 +777,6 @@ function Header(calendar, options) {
 										button.removeClass(tm + '-state-down');
 									})
 									.hover(
-										function() {
-											button
-												.not('.btn-primary')
-												.not('.disabled')
-												.addClass(tm + '-state-hover');
-										},
 										function() {
 											button
 												.removeClass(tm + '-state-hover')
