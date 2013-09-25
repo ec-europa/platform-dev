@@ -10,9 +10,11 @@
  * @param type $views
  */
 function multisite_workbench_moderation_view_views_pre_view(&$views) {
-  global $user;
 
+  if($views->name == "workbench_moderation") {
+  global $user;
   $roles = $user->roles;
+
 
   if (!in_array('administrator', $roles)) {
     $is_admin_role = 0;
@@ -43,7 +45,7 @@ function multisite_workbench_moderation_view_views_pre_view(&$views) {
 
   $views->display['default']->handler->options['fields'] = $fields;
 
-
+}
 }
 
 function multisite_workbench_moderation_view_form_alter(&$form) {
