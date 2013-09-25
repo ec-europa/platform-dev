@@ -10,42 +10,38 @@
  * @param type $views
  */
 function multisite_workbench_moderation_view_views_pre_view(&$views) {
-
   if($views->name == "workbench_moderation") {
-  global $user;
-  $roles = $user->roles;
+    global $user;
+    $roles = $user->roles;
 
-
-  if (!in_array('administrator', $roles)) {
-    $is_admin_role = 0;
-  } else {
-    $is_admin_role = 1;
-  }
-
-  //Alter display default fields for prying non admin user's eyes
-    if (array_key_exists('default', $views->display)) {
-       if ($is_admin_role != 1) {
-      //&todo check if it needs to be by reference
-      $handler_default = $views->display['default']->handler;
-      unset($handler_default->options['fields']['views_bulk_operations']);
+    if (!in_array('administrator', $roles)) {
+      $is_admin_role = 0;
+    } else {
+      $is_admin_role = 1;
     }
+
+    //Alter display default fields for prying non admin user's eyes
+    if (array_key_exists('default', $views->display)) {
+      if ($is_admin_role != 1) {
+        //&todo check if it needs to be by reference
+        $handler_default = $views->display['default']->handler;
+        unset($handler_default->options['fields']['views_bulk_operations']);
+      }
+    }
+
+    //Checkboxes on the first table column
+    $handler_default = $views->display['default']->handler;
+    $fields = $handler_default->options['fields'];
+
+    $last_field = end($fields);
+    $last_key = key($fields);
+    //PHP5 array_merge only accept type array
+    $last_element = array($last_key => $last_field);
+    array_pop($fields);
+    $fields = array_merge($last_element, $fields);
+
+    $views->display['default']->handler->options['fields'] = $fields;
   }
-
-  //Checkboxes on the first table column
-  $handler_default = $views->display['default']->handler;
-  $fields = $handler_default->options['fields'];
-
-
-  $last_field = end($fields);
-  $last_key = key($fields);
-  //PHP5 array_merge only accept type array
-  $last_element = array($last_key => $last_field);
-  array_pop($fields);
-  $fields = array_merge($last_element, $fields);
-
-  $views->display['default']->handler->options['fields'] = $fields;
-
-}
 }
 
 function multisite_workbench_moderation_view_form_alter(&$form) {
