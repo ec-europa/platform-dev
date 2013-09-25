@@ -40,9 +40,33 @@ function sitemap_disable() {
   module_disable(array('xmlsitemap'), FALSE);
   module_disable(array('xmlsitemap_engines', 'xmlsitemap_node', 'xmlsitemap_taxonomy', 'xmlsitemap_user'), FALSE);
   drupal_uninstall_modules(array('xmlsitemap', 'xmlsitemap_engines', 'xmlsitemap_node', 'xmlsitemap_taxonomy', 'xmlsitemap_user'), TRUE);
+
+  variable_del('xmlsitemap_base_url');
+  variable_del('xmlsitemap_batch_limit');
+  variable_del('xmlsitemap_lastmod_format');
+  variable_del('xmlsitemap_generated_last');
+
+  variable_del('xmlsitemap_xsl');
+  variable_del('xmlsitemap_settings__active_tab');
+  variable_del('xmlsitemap_settings_taxonomy_term_tags');
+  variable_del('xmlsitemap_settings_node_page');
+  variable_del('xmlsitemap_settings_node_article');
+
+  variable_del('xmlsitemap_regenerate_needed');
+  variable_del('xmlsitemap_prefetch_aliases');
+  variable_del('xmlsitemap_path');
+
+  variable_del('xmlsitemap_minimum_lifetime');
+  variable_del('xmlsitemap_frontpage_priority');
+  variable_del('xmlsitemap_frontpage_changefreq');
+  variable_del('xmlsitemap_chunk_size');
+
+  menu_cache_clear_all();
+  cache_clear_all('variables', 'cache_bootstrap');
   //Activation message
   drupal_set_message(t('Sitemap %v feature is now inactive on your site.', array('%v' => _sitemap_get_version())));
 }
+
 
 
 /**
@@ -57,4 +81,16 @@ function sitemap_install() {
  */
 function sitemap_uninstall() {
   //Uninstall scripts here
+}
+/**
+ * Remove uneeded persistent variables
+ */
+function sitemap_update_7120() {
+  //a best practice is to use variable_del instead db_delete
+  variable_del('xmlsitemap_base_url');
+  variable_del('xmlsitemap_batch_limit');
+  variable_del('xmlsitemap_lastmod_format');
+  variable_del('xmlsitemap_generated_last');
+
+  cache_clear_all('variables', 'cache_bootstrap');
 }
