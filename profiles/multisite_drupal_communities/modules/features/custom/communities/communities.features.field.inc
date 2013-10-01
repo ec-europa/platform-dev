@@ -172,7 +172,7 @@ function communities_field_default_fields() {
             'status' => TRUE,
           ),
           'prepopulate' => array(
-            'action' => 'none',
+            'action' => 'hide',
             'action_on_edit' => 0,
             'fallback' => 'none',
             'og_context' => 1,
