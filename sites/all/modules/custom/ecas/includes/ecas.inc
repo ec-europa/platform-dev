@@ -359,8 +359,12 @@ function ecas_login_check() {
 
     if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY && ($ecas_logout == NULL || $ecas_logout == 'false')) || ($force_login === ECAS_LOGIN))) {
       $ecas_name = phpCAS::getUser();
+      
       // try to log into Drupal
       $account = user_load_by_name($ecas_name);
+      
+      // extra process to filter ecas user
+      drupal_alter('extra_filter', $ecas_name, $account, $_SESSION['ecas_goto']);
     }
     else {
       // these variables will be checked by later conditions
@@ -473,7 +477,7 @@ function ecas_login_check() {
       }
     } // if we have a good user
     else {
-      session_destroy();
+      unset($_SESSION['phpCAS']);
       $user = drupal_anonymous_user();      
     }
   } // End if user is already logged in else
