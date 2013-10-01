@@ -266,19 +266,19 @@ function cce_basic_config_install() {
         ->execute();
     }
   }
-  
-  
+
+
   // add a fivestar rate widget
   // check if rate widget already exists
   $rate_widgets = variable_get("rate_widgets");
   if(!$rate_widgets || count($rate_widgets) == 0) {
-    $rate_widgets = array();  
+    $rate_widgets = array();
   }
   else {
     foreach($rate_widgets as $rate_widget) {
       if($rate_widget->name == 'rate_fivestar') { // the widget fivestar already exists
         return;
-      }    
+      }
     }
   }
   $rate_widgets[1] = (object) array(
@@ -338,7 +338,7 @@ function cce_basic_config_install() {
       'translate' => TRUE,
     );
     variable_set("rate_widgets", $rate_widgets);
-  
+
     //force home and myworkbench menu items at left in main menu
     db_update('menu_links')
       ->fields(array(
@@ -349,13 +349,13 @@ function cce_basic_config_install() {
       ->condition('link_title', 'My workbench', '=')
       ->condition('menu_name', 'main-menu', '=')
       ->execute();
-  
+
     db_update('menu_links')
       ->fields(array('weight' => '-50'))
       ->condition('link_title', 'Home', '=')
       ->condition('menu_name', 'main-menu', '=')
       ->execute();
-  
+
 }
 
 /**
@@ -822,13 +822,13 @@ function cce_basic_config_update_7180() {
   // check if rate widget fivestar already exists
   $rate_widgets = variable_get("rate_widgets");
   if(!$rate_widgets || count($rate_widgets) == 0) {
-    $rate_widgets = array();  
+    $rate_widgets = array();
   }
   else {
     foreach($rate_widgets as $rate_widget) {
       if($rate_widget->name == 'rate_fivestar') { // the widget fivestar already exists
         return;
-      }    
+      }
     }
   }
   $rate_widgets[1] = (object) array(
@@ -922,5 +922,139 @@ function cce_basic_config_update_7191() {
     ->condition('menu_name', 'main-menu', '=')
     ->execute();
 }
+/**
+ * MIGRATION OF DATE FIELD [TO UNIX TIMESTAMP]
+ * ==================================================================================
+ */
+/**
+ * Add a new temporary date field to schema for safely date conversion to unix stamp.
+ * todo Uninstall these field
+ * @param type $schema
+ */
+
+function cce_basic_config_schema_alter(&$schema) {
+
+
+$tables = _cce_basic_config_get_date_tables();
+for ($i = 0; $i < count($tables); $i++) {
+//build temporary table fields for storing unix timestamp
+    if (isset($schema[$tables[$i]['table']])) {
+      $schema[$tables[$i]['table']]['fields'][$tables[$i]['field'] . '_temp'] = array(
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+      );
+    }
+  }
+}
+/**
+ * A structured array of date fields to be converted to UNIX timestamp format
+ * @return array
+ */
+function _cce_basic_config_get_date_tables() {
+
+    $date_tables = array (
+      '0' => array(
+          'table' => 'field_data_field_article_publication_date',
+          'field' => 'field_article_publication_date_value',
+      ),
+      '1' => array(
+          'table' => 'field_revision_field_article_publication_date',
+          'field' => 'field_article_publication_date_value',
+      ),
+     '2' => array(
+          'table' => 'field_data_field_article_unpublish_on',
+          'field' => 'field_article_unpublish_on_value',
+      ),
+     '3' => array(
+          'table' => 'field_revision_field_article_unpublish_on',
+          'field' => 'field_article_unpublish_on_value',
+      ),
+
+  );
+
+  return $date_tables;
+}
+
+/**
+ * DATE FIELD MIGRATION SCRIPT.
+ * Content types using date fields should be using timestamp instead datetime.
+ * No need to update schema in hook_install().
+ * On a clean installation the date fields are already set up.
+ *
+ */
+function cce_basic_config_update_7219() {
+  $schema['field_data_field_article_publication_date'] = array();
+  $schema['field_revision_field_article_publication_date'] = array();
+  $schema['field_data_field_article_unpublish_on'] = array();
+  $schema['field_revision_field_article_unpublish_on'] = array();
+
+  $schema['field_data_field_article_publication_date'] = drupal_get_schema('field_data_field_article_publication_date');
+  $schema['field_revision_field_article_publication_date'] = drupal_get_schema('field_revision_field_article_publication_date');
+  $schema['field_data_field_article_unpublish_on'] = drupal_get_schema('field_data_field_article_unpublish_on');
+  $schema['field_revision_field_article_unpublish_on'] = drupal_get_schema('field_revision_field_article_unpublish_on');
+
+
+
+  cce_basic_config_schema_alter($schema);
+
+  $tables = _cce_basic_config_get_date_tables();
+  //clear schema cache to avoid wrong checking
+
+  cache_clear_all('schema:', 'cache', TRUE);
+
+
+  foreach ($tables as $key => $value) {
+
+    $table = $value['table'];
+    $field = $value['field'];
+
+
+    //don't run script if the conversion has been already done
+    if ($schema[$table]['fields'][$field]['type'] == 'int') {
+      watchdog('system', t('Field has been already converted to UNIX timestamp: "@field"', array('@field' => $field)), NULL, WATCHDOG_WARNING);
+      drupal_set_message(t('Field @field has been already converted to UNIX timestamp.'), array('@field' => $field), 'warning');
+      if (db_field_exists($table, $field . '_temp')) {db_drop_field($table, $field . '_temp');
+
+      }
+    } else {
+
+      // we'll create a temp field, drop it if already exists
+      if (db_field_exists($table, $field . '_temp')) {
+        db_drop_field($table, $field . '_temp');
+        watchdog('system', t('UPDATE: The  field: "@field", already exists therefore was deleted and recreated.', array('@field' => $field)), NULL, WATCHDOG_WARNING);
+        drupal_set_message('Field already exists therefore deleted', 'status');
+      }
+      // create a temporary date field
+      $added = db_add_field($table, $field . '_temp', $schema[$table]['fields'][$field . '_temp']);
+      //dpm($field . '_temp');
+      // proceed on date conversion
+      if (db_field_exists($table, $field . '_temp') && db_field_exists($table, $field)) {
+
+        db_update($table)
+                ->expression($field . '_temp', "UNIX_TIMESTAMP($field)")
+                ->execute();
+        // delete old column
+        db_drop_field($table, $field);
+        db_change_field($table, $field . '_temp', $field, array('type' => 'int'));
+      } else {
+        watchdog('system', t('UPDATE: There is no such a field: "@field", attempt to create.', array('@field' => $field)), NULL, WATCHDOG_WARNING);
+        drupal_set_message('No temporary field(s)', 'error');
+      }
+    }//if !int
+  }//foreach
+}
+
+//update_N
+
+/**
+ *
+ * END MIGRATION
+ * ==================================================================================
+ */
+
+
+
+
 
 

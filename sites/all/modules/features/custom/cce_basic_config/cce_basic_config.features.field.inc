@@ -235,7 +235,7 @@ function cce_basic_config_field_default_fields() {
         'tz_handling' => 'site',
       ),
       'translatable' => '0',
-      'type' => 'datetime',
+      'type' => 'int', // was datetime See MULTISITE-982
     ),
     'field_instance' => array(
       'bundle' => 'article',
@@ -320,7 +320,7 @@ function cce_basic_config_field_default_fields() {
         'tz_handling' => 'site',
       ),
       'translatable' => '0',
-      'type' => 'datetime',
+      'type' => 'int', // was datetime See MULTISITE-982
     ),
     'field_instance' => array(
       'bundle' => 'article',
