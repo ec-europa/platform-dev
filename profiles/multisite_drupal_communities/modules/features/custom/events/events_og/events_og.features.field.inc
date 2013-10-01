@@ -172,7 +172,7 @@ function events_og_field_default_fields() {
             'status' => TRUE,
           ),
           'prepopulate' => array(
-            'action' => 'none',
+            'action' => 'hide',
             'action_on_edit' => 0,
             'fallback' => 'hide',
             'og_context' => 1,
