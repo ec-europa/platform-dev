@@ -203,7 +203,7 @@ function events_core_field_default_fields() {
         'tz_handling' => 'site',
       ),
       'translatable' => '0',
-      'type' => 'datetime',
+      'type' => 'int', // change from datetime: issue MULTISITE-983
     ),
     'field_instance' => array(
       'bundle' => 'event',
