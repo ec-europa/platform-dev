@@ -60,8 +60,9 @@ function theme_multisite_map($variables) {
     $jsid = 'Map_' . $map_id++;
   }
 
-  $path = 'http://www.cc.cec/fpfis/fusionmaps/';//'http://ec.europa.eu/wel/maps/fusion_maps/'; //multisite_maps_get_library_path() . 'FusionMaps XT/';
-  $maps_path = $path . 'Maps/';
+  $path = 'http://ec.europa.eu/wel/maps/fusion_maps/';
+  $js_path = $path . 'js/';
+
 
   include_once(multisite_maps_get_library_path() . 'Code/PHP/Includes/FusionMaps.php');
   //check that the fusionmaps package was installed
@@ -69,11 +70,13 @@ function theme_multisite_map($variables) {
     return t('Please install the Fusion Maps package from InfoSoft as per instructions in the readme.');
   }
 
-  drupal_add_js($path . '/JSClass/FusionMaps.js');//$maps_path . 'FusionCharts.js');
+  drupal_add_js($js_path . 'fusionmaps.js');
 
   // Get the path of drupal instance
   $path_drupal = base_path();
-  $swf_file = /*$path_drupal .*/ $maps_path . $info['type'] . '.swf';
+
+  //build the path to swf. Beware swf files have lowercase filenames
+  $swf_file = $path . 'swf/' . strtolower($info['type']) . '.swf';
 
   // I remove white spaces between xml tags and line breaks from the variable.
   $xml_data_source = escape($info['xml']);
