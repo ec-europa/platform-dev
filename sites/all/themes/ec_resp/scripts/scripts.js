@@ -149,8 +149,17 @@ jQuery(function($){
     /* Responsive menu */
     $('#responsive-sidebar > div').hide();
     $('#sidebar-button').on("click", function() {
-      $('#responsive-sidebar > div').toggle();
-      $('#layout-body').toggle();
+      $('#responsive-sidebar > div').slideToggle(300);
+      if ($('#layout-body').is('.reduced')) {
+        $('#layout-body').animate({
+          left:'0'
+        }, 300).removeClass('reduced');
+      }
+      else {
+        $('#layout-body').animate({
+          left:'85%'
+        }, 300).addClass('reduced');        
+      }
     });
 
     $('#menu-button').on("click", function() {
