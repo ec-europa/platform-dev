@@ -194,7 +194,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
   ?>
   <?php if ($page['sidebar_left']): ?>
     <div id="responsive-sidebar" class="visible-sm visible-xs">
-      <div class="container">
+      <div>
         <?php 
         $region_sidebar_left_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_left);
         $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
@@ -211,7 +211,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
     ?>
   <?php if ($page['sidebar_right']): ?>
     <div id="responsive-sidebar" class="visible-sm visible-xs">
-      <div class="container">
+      <div>
         <?php 
         $region_sidebar_right_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_right);
         $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
@@ -228,7 +228,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
     ?>
   <?php if ($page['sidebar_left']): ?>
     <div id="responsive-sidebar" class="visible-sm visible-xs">
-      <div class="container">
+      <div>
         <?php 
         $region_sidebar_left_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_left);
         $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
@@ -240,7 +240,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
   <?php endif; ?>
   <?php if ($page['sidebar_right']): ?>
     <div id="responsive-sidebar" class="visible-sm visible-xs">
-      <div class="container">
+      <div>
         <?php 
         $region_sidebar_right_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_right);
         $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
@@ -326,7 +326,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
         <?php endif; ?>
       </div>
 
-      <div class="clearfix visible-sm visible-xs"></div>
+      <div class="clearfix visible-sm visible-xs visible-md"></div>
 
       <?php if ($page['sidebar_right']): ?>
       <div class="col-lg-<?php print ($col_sidebar_right_lg); ?> col-md-<?php print ($col_sidebar_right_md); ?> hidden-sm hidden-xs sidebar-right">
