@@ -248,6 +248,7 @@ body.cke_editable {
   background-image: none !important;
   background-color: #fff !important;
   padding: 10px;
+  filter:progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 
 /* ----------------- Cards & fieldset------------------ */
@@ -338,7 +339,7 @@ input.form-button-disabled:active,
 }
 
 html.js input.form-autocomplete {
-  background: transparent url(../images/throbber.png) 100% 6px no-repeat;
+  background: @body-bg url(../images/throbber.png) 100% 6px no-repeat;
 }
 
 input[type="file"] {
