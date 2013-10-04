@@ -132,7 +132,7 @@ function multisite_notifications_core_form() {
     '#type' => 'textfield',
     '#size' => 30,
     '#maxlength' => 128,
-    '#default_value' => 'Fill in with your email address',
+    '#default_value' => 'Fill in your email address',
     '#required' => TRUE,
   );
 

@@ -35,7 +35,7 @@ function multisite_notifications_core_enable() {
           ->condition('uid', "-2")
           ->execute();
 
-  //subscriber users (uid = 6) have notifications enabled by default for each content type
+  //subscriber have notifications enabled by default for each content type
   $content_types = node_type_get_types();
   foreach ($content_types as $content_type) {
     db_insert('subscriptions')
