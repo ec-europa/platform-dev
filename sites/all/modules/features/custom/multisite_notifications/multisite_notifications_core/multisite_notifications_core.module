@@ -103,7 +103,7 @@ function multisite_notifications_core_block_view($delta = '') {
   switch ($delta) {
     case 'notification_block':
       if (user_access('view subscription block')) {
-        $block['subject'] = t('Subscribe to new articles');
+        $block['subject'] = t('Subscribe to new content');
         $block['content'] = drupal_render(drupal_get_form('multisite_notifications_core_form'));
       }
       break;
