@@ -288,7 +288,7 @@ function news_core_field_default_fields() {
         'tz_handling' => 'site',
       ),
       'translatable' => '0',
-      'type' => 'int', //was datetime
+      'type' => 'datetime',
     ),
     'field_instance' => array(
       'bundle' => 'news',
@@ -373,7 +373,7 @@ function news_core_field_default_fields() {
         'tz_handling' => 'site',
       ),
       'translatable' => '0',
-      'type' => 'int', //was datetime
+      'type' => 'datetime',
     ),
     'field_instance' => array(
       'bundle' => 'news',
