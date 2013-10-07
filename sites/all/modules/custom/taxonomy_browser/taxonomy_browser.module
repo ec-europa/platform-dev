@@ -45,6 +45,8 @@ function taxonomy_get_nested_tree($terms = array(), $max_depth = NULL, $parent =
     $terms = taxonomy_get_tree($terms);
   }
 
+  $return = array();
+
   foreach ($terms as $term) {
 
     foreach ($term->parents as $term_parent) {
@@ -90,7 +92,7 @@ function output_taxonomy_nested_tree($tree, $path) {
 function taxonomy_create_tree($vid, $path, $ajax=FALSE, $selected=0) {
   $tree = taxonomy_get_nested_tree(intval($vid));
 
-  $output = '<div id="tb_browser_tree" class="well well-alt well-small">';
+  $output = '<div id="tb_browser_tree">';
   $output .= output_taxonomy_nested_tree($tree, $path);
   $output .= '</div>';
 
@@ -152,12 +154,18 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
       $header .= '</fieldset><hr />';
     }    
 
-    $output1 = '<div id="tb_wrapper" class="row-fluid">';
-    $output1 .= '<div id="tb_browser" class="span3"><h1>' . $vocabulary->name . '</h1>';
-    $output1 .= taxonomy_create_tree($vid, $view_path, FALSE, $selected);
-    $output1 .= '</div>';
-  
-    $output1 .= '<div id="tb_view" class="span9">' . $header . $output . '</div></div>';    
+    $output1 = '<div id="tb_wrapper" class="row ">';
+      $output1 .= '<div id="tb_browser" class="col-lg-3 col-md-3 col-sm-4 col-xs-12">';
+        $output1 .= '<div class="panel panel-default clearfix ">';
+          $output1 .= '<div class="panel-heading">' . $vocabulary->name . '</div>';
+          $output1 .= '<div class="panel-body">' . taxonomy_create_tree($vid, $view_path, FALSE, $selected) . '</div>';
+        $output1 .= '</div>';
+      $output1 .= '</div>';
+
+      $output1 .= '<div class="clearfix visible-xs"></div>';
+
+      $output1 .= '<div id="tb_view" class="col-lg-9 col-md-9 col-sm-8 col-xs-12">' . $header . $output . '</div>';
+    $output .= '</div>';    
 
     $output = $output1;
   }
@@ -179,14 +187,18 @@ function taxonomy_browser_block_view($delta = '') {
 
   switch ($delta) {
     case 'taxonomy_browser':
+      $vid = variable_get('taxonomy_browser_vocabulary');
+      $vocabulary = taxonomy_vocabulary_load($vid);
+
       $block['subject'] = t('taxonomy_browser');
-      $block['content'] = taxonomy_browser_create_block_content();
+      $block['title'] = $vocabulary->name;
+      $block['content'] = taxonomy_browser_create_block_content($vid, $vocabulary);
      break;
   }
   return $block;
 }
 
-function taxonomy_browser_create_block_content() {
+function taxonomy_browser_create_block_content($vid, $vocabulary) {
 
     drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/taxonomy_browser.css');
     drupal_add_js('misc/jquery.cookie.js');
@@ -196,8 +208,6 @@ function taxonomy_browser_create_block_content() {
  
     $view_path = variable_get('site_frontpage', 'node');
  
-    $vid = variable_get('taxonomy_browser_vocabulary');
-    $vocabulary = taxonomy_vocabulary_load($vid);
     $parents_tree = array();
     $breadcrumb = drupal_get_breadcrumb();
 
@@ -221,13 +231,13 @@ function taxonomy_browser_create_block_content() {
         $header .= '<p>' . $selected_term->description . '</p>';
       }
       $header .= '</fieldset><hr />';
-    }       
+    }
 
-    $output1 = '<div id="tb_wrapper" class="row-fluid">';
-    $output1 .= '<div id="tb_browser"><h1>' . $vocabulary->name . '</h1>';
+    $output1 = '<div id="tb_wrapper">';
+    $output1 .= '<div id="tb_browser">';
     $output1 .= taxonomy_create_tree($vid, $view_path, FALSE, $selected);
-    $output1 .= '</div>';
+    $output1 .= '</div></div>';
 
-  return array('#markup' => $output1);
+  return array('#title' => 'test', '#markup' => $output1);
 }
 
