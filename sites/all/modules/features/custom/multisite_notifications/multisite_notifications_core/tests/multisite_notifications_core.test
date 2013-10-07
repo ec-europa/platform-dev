@@ -32,10 +32,9 @@ class anonymousNotification extends DrupalWebTestCase {
         'administer site configuration',
         'create article content',
         'administer blocks',
-        'view subscription block',
     ));
     $this->administrator = $this->drupalCreateUserWithRole("administrator");
-    $this->visitor = $this->drupalCreateUser(array('access content', 'view subscription block'));
+    $this->visitor = $this->drupalCreateUser(array('access content'));
   }
 
   /**
@@ -47,7 +46,7 @@ class anonymousNotification extends DrupalWebTestCase {
    */
   function testSubscriptionBlockBasic() {
     //CHANGE IT
-    $mail = 'Ovidiu.FARCAS@ext.ec.europa.eu';
+    $mail = 'DIGIT-FPFIS-SUPPORT@ec.europa.eu';
 
     //ADMINISTRATOR
     // Verify that new content is shown
