@@ -108,7 +108,7 @@ class anonymousNotification extends DrupalWebTestCase {
     $this->verbose('current user roles: ' . '</pre>' . print_r($roles, TRUE) . '</pre>');
 
     $confirmation = array();
-    $this->drupalPost('subscribe/'.$user->uid, $confirmation, t('Confirm'));
+    $this->drupalPost('subscribe/' . $user->uid, $confirmation, t('Confirm'));
     $this->assertRaw(t('Congratulations, you have confirmed your subscription.'), 'Confirmation message is visible');
 
     //DATABASE CHECK - NEW USER HAS STATUS ACTIVE
