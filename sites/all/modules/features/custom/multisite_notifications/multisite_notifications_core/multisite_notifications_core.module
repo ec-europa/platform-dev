@@ -30,18 +30,6 @@ function multisite_notifications_core_init() {
 }
 
 /**
- * Implements hook_perm().
- */
-function multisite_notifications_core_permission() {
-  return array(
-    'view subscription block' => array(
-      'title' => t('View Subscription Block'),
-      'description' => t('Permission to view the subscriptions block'),
-    ),
-  );
-}
-
-/**
  * Implements hook_menu().
  */
 function multisite_notifications_core_menu() {
@@ -99,10 +87,11 @@ function multisite_notifications_core_block_info() {
  * Implements hook_block_view().
  */
 function multisite_notifications_core_block_view($delta = '') {
+  global $user;
   $block = array();
   switch ($delta) {
     case 'notification_block':
-      if (user_access('view subscription block')) {
+      if ($user->uid=='0') {
         $block['subject'] = t('Subscribe to new content');
         $block['content'] = drupal_render(drupal_get_form('multisite_notifications_core_form'));
       }

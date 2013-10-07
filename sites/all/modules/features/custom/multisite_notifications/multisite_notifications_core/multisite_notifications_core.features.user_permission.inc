@@ -77,14 +77,5 @@ function multisite_notifications_core_user_default_permissions() {
     'module' => 'subscriptions',
   );
 
-  // Exported permission: view subscription block.
-  $permissions['view subscription block'] = array(
-    'name' => 'view subscription block',
-    'roles' => array(
-      'anonymous user' => 'anonymous user',
-    ),
-    'module' => 'multisite_notifications_core',
-  );
-
   return $permissions;
 }
