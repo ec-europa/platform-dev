@@ -161,9 +161,9 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete own files.
-  $permissions['delete own files'] = array(
-    'name' => 'delete own files',
+  // Exported permission: delete own image files.
+  $permissions['delete own image files'] = array(
+    'name' => 'delete own image files',
     'roles' => array(
       'administrator' => 'administrator',
       'contributor' => 'contributor',
