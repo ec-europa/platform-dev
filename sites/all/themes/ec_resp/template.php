@@ -394,7 +394,7 @@ function ec_resp_block_view_alter(&$data, $block) {
 
   if ($block->region == 'sidebar_left' || $block->region == 'sidebar_right') { 
     // add classes to list 
-    $data['content'] = str_replace('<ul>','<ul class="list-group list-group-flush list-unstyled">',$data['content']);
+    $data['content'] = (isset($data['content']) ? str_replace('<ul>','<ul class="list-group list-group-flush list-unstyled">',$data['content']) : '');
 
     // add classes to list items
     if (!is_array($data['content'])) {
