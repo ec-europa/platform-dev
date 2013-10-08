@@ -60,7 +60,8 @@ function theme_multisite_map($variables) {
     $jsid = 'Map_' . $map_id++;
   }
 
-  $path = 'http://ec.europa.eu/wel/maps/fusion_maps/';
+  $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')?'https':'http';
+  $path = $protocol.'://ec.europa.eu/wel/maps/fusion_maps/';
   $js_path = $path . 'js/';
 
 
