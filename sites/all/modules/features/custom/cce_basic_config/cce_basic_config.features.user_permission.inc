@@ -193,9 +193,9 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit own files.
-  $permissions['edit own files'] = array(
-    'name' => 'edit own files',
+  // Exported permission: edit own image files.
+  $permissions['edit own images files'] = array(
+    'name' => 'edit own image files',
     'roles' => array(
       'administrator' => 'administrator',
       'contributor' => 'contributor',
