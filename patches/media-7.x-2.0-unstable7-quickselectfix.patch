@@ -1,4 +1,3 @@
-diff -rupN media2/js/plugins/media.views.js media/js/plugins/media.views.js
 --- sites/all/modules/contributed/media/js/plugins/media.views.js	2012-11-11 03:10:00.000000000 +0100
 +++ sites/all/modules/contributed/media/js/plugins/media.views.js	2013-06-13 14:55:28.000000000 +0200
 @@ -67,7 +67,7 @@ Drupal.media.browser.views.select = func
