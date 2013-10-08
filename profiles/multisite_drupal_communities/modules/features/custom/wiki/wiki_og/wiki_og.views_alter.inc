@@ -63,6 +63,15 @@ function wiki_og_views_default_views_alter(&$views) {
 
     /* Display: Wiki public */
     $handler = $view->new_display('page', 'Wiki public', 'page_3');
+    
+    $handler->display->display_options['defaults']['empty'] = FALSE;
+    /* No results behavior: Global: Text area */
+    $handler->display->display_options['empty']['area']['id'] = 'area';
+    $handler->display->display_options['empty']['area']['table'] = 'views';
+    $handler->display->display_options['empty']['area']['field'] = 'area';
+    $handler->display->display_options['empty']['area']['empty'] = TRUE;
+    $handler->display->display_options['empty']['area']['content'] = 'No content found.';
+    $handler->display->display_options['empty']['area']['format'] = 'full_html';
     $handler->display->display_options['defaults']['relationships'] = FALSE;
     $handler->display->display_options['defaults']['arguments'] = FALSE;
     $handler->display->display_options['defaults']['filter_groups'] = FALSE;
