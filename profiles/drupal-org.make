@@ -99,7 +99,7 @@ projects[field_collection][subdir] = "contributed"
 projects[field_collection][version] = "1.0-beta5"
 
 projects[file_entity][subdir] = "contributed"
-projects[file_entity][version] = "2.0-unstable7"
+projects[file_entity][version] = "2.0-alpha2"
 
 projects[flexslider][subdir] = "contributed"
 projects[flexslider][version] = "2.0-alpha1"
@@ -153,7 +153,7 @@ projects[maxlength][subdir] = "contributed"
 projects[maxlength][version] = "3.0-beta1"
 
 projects[media][subdir] = "contributed"
-projects[media][version] = "2.0-unstable7"
+projects[media][version] = "2.0-alpha2"
 
 projects[media_dailymotion][subdir] = "contributed"
 projects[media_dailymotion][version] = "1.0"
