@@ -51,7 +51,7 @@
 .cb-enable, .cb-disable, .cb-enable span, .cb-disable span { display: block; float: left; }
 .cb-enable { border: #ddd 1px solid; border-radius: 4px 0 0 4px; }
 .cb-disable { border: #ddd 1px solid; border-radius: 0 4px 4px 0; }
-.cb-enable span, .cb-disable span { height: 45px; line-height: 45px; display: block; background-repeat: no-repeat; width: 50px; }
+.cb-enable span, .cb-disable span { height: 40px; line-height: 45px; display: block; background-repeat: no-repeat; width: 45px; }
 
 .cb-disable.selected { background-color: #d9534f; border-color: #832a2a; border-radius: 0 4px 4px 0; }
 .cb-enable.selected { background-color: #5cb85c; border-color: #699319; border-radius: 4px 0 0 4px; }
