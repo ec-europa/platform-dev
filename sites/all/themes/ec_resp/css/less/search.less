@@ -25,9 +25,17 @@
     .form-item-keys {
       margin-top: 0;
       margin-bottom: 0;
+      vertical-align: top;
     }
     #edit-submit {
       vertical-align: top;
+    }
+    .form-item-retain-filters {
+      margin: 0;
+      line-height: 34px;
+      #edit-retain-filters {
+        margin: 10px 5px 0 0;
+      }
     }
   }
 }
@@ -78,6 +86,7 @@ ol.search-results {
             &.facetapi-active {
               display: inline-block;
               .button-variant(@btn-danger-color; @btn-danger-bg; @btn-danger-border);
+              border-radius: @border-radius-large;
               margin-right: 5px;
             }
             &.last {
@@ -90,25 +99,35 @@ ol.search-results {
   }
 }
 
+/* --------------- Current search ---------------- */
 .block-current-search {
-  h3 {
-    margin: 0;
-    font-size: 1em;
-    font-weight: bold;
-  }
-  a {
-    display: inline-block;
-    padding: 2px 4px;
-    text-align: center;
-    .button-variant(@btn-danger-color; @btn-danger-bg; @btn-danger-border);
-    &:hover,
-    &:focus {
-      text-decoration: none;
-
+  .panel-body {
+    h3 {
+      margin: 0;
+      font-size: 1em;
+      font-weight: bold;
+    }
+    .item-list ul li {
+      list-style: none;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      a {
+        display: inline-block;
+        padding: 2px 4px;
+        margin-right: 4px;
+        text-align: center;
+        border-radius: @border-radius-small;
+        .button-variant(@btn-danger-color; @btn-danger-bg; @btn-danger-border);
+        &:hover,
+        &:focus {
+          text-decoration: none;
+        }
+      } 
     }    
   }
 }
 
+/* --------------- Search Sort ---------------- */
 #block-apachesolr-search-sort {
   .list-group-item.active {
     background-image: none;
