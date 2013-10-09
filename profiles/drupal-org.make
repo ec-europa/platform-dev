@@ -158,6 +158,9 @@ projects[media][version] = "2.0-alpha2"
 projects[media_dailymotion][subdir] = "contributed"
 projects[media_dailymotion][version] = "1.0"
 
+projects[media_flickr][subdir] = "contributed"
+projects[media_flickr][version] = "1.0-alpha3"
+
 projects[media_node][subdir] = "contributed"
 projects[media_node][version] = "1.0-rc2"
 
