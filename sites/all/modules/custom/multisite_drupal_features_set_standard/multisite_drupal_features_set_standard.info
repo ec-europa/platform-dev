@@ -156,6 +156,14 @@ feature_sets[ec_embedded_video][font] = 'multisite-icon-camera'
 feature_sets[ec_embedded_video][enable][] = ec_embedded_video
 feature_sets[ec_embedded_video][disable][] = ec_embedded_video
 
+feature_sets[ec_embedded_image][title] = 'Embedded images'
+feature_sets[ec_embedded_image][description] = 'Allows to embed images from Flickr. <span class="desc"><a href="https://webgate.ec.europa.eu/fpfis/wikis/x/8a_ZAw">Lire la documentation</a></span>'
+feature_sets[ec_embedded_image][category] = 'Media'
+feature_sets[ec_embedded_image][icon] = ''
+feature_sets[ec_embedded_image][font] = 'multisite-icon-pictures'
+feature_sets[ec_embedded_image][enable][] = ec_embedded_image
+feature_sets[ec_embedded_image][disable][] = ec_embedded_image
+
 feature_sets[gallerymedia_core][title] = 'Media Galleries'
 feature_sets[gallerymedia_core][description] = 'Contributors can add picture galleries. <span class="desc"><a href="https://webgate.ec.europa.eu/fpfis/wikis/x/qIbhAg">Lire la documentation</a></span>'
 feature_sets[gallerymedia_core][category] = 'Media'
