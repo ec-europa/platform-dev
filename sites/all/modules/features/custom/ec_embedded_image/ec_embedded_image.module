@@ -1,8 +1,10 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Code for the EC Embedded Image feature.
  */
+
+include_once 'ec_embedded_image.features.inc';
 
 /**
  * Implements hook_form_alter().
