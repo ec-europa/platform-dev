@@ -170,6 +170,9 @@ projects[media_vimeo][version] = "1.0-beta5"
 projects[media_youtube][subdir] = "contributed"
 projects[media_youtube][version] = "2.0-rc3"
 
+projects[menu_attributes][subdir] = "contributed"
+projects[menu_attributes][version] = "1.0-rc2"
+
 projects[menu_block][subdir] = "contributed"
 projects[menu_block][version] = "2.3"
 

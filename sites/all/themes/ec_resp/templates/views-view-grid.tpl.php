@@ -12,21 +12,6 @@
 $nb_row = count($rows[0]);
 if ($nb_row > 12) $nb_row = 12;
 
-/*$nb_row = array();
-
-$nb_row[1]['md'] = 1; $nb_row[1]['sm'] = 1; $nb_row[1]['xs'] = 1;
-$nb_row[2]['md'] = 2; $nb_row[2]['sm'] = 1; $nb_row[2]['xs'] = 1;
-$nb_row[3]['md'] = 2; $nb_row[3]['sm'] = 2; $nb_row[3]['xs'] = 1;
-$nb_row[4]['md'] = 3; $nb_row[4]['sm'] = 3; $nb_row[4]['xs'] = 2;
-$nb_row[5]['md'] = 4; $nb_row[5]['sm'] = 3; $nb_row[5]['xs'] = 2;
-$nb_row[6]['md'] = 4; $nb_row[6]['sm'] = 3; $nb_row[6]['xs'] = 2;
-$nb_row[7]['md'] = 5; $nb_row[7]['sm'] = 4; $nb_row[7]['xs'] = 3;
-$nb_row[8]['md'] = 6; $nb_row[8]['sm'] = 4; $nb_row[8]['xs'] = 3;
-$nb_row[9]['md'] = 7; $nb_row[9]['sm'] = 5; $nb_row[9]['xs'] = 4;
-$nb_row[10]['md'] = 8; $nb_row[10]['sm'] = 6; $nb_row[10]['xs'] = 4;
-$nb_row[11]['md'] = 10; $nb_row[11]['sm'] = 8; $nb_row[11]['xs'] = 6;
-$nb_row[12]['md'] = 10; $nb_row[12]['sm'] = 8; $nb_row[12]['xs'] = 6;*/
-
 //set length of each column, depending of number of element on one line
 $col = array();
 

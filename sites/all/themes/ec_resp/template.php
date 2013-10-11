@@ -108,6 +108,23 @@ function ec_resp_preprocess_html(&$variables) {
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 13));  
 }
 
+function ec_resp_preprocess_menu_link(&$variables) { 
+  //get icon links to menu item 
+  $icon = (isset($variables['element']['#localized_options']['attributes']['data-image']) ? $variables['element']['#localized_options']['attributes']['data-image'] : '');
+
+  //get display title option
+  $display_title = (isset($variables['element']['#localized_options']['attributes']['data-display-title']) ? $variables['element']['#localized_options']['attributes']['data-display-title'] : 1);
+
+  //add the icon
+  if ($icon) {
+    if ($display_title) {
+      $variables['element']['#title'] = '<span class="glyphicon glyphicon-' . $icon . '"></span>' . $variables['element']['#title'];
+    }
+    else {
+      $variables['element']['#title'] = '<span class="glyphicon glyphicon-' . $icon . ' menu-no-title"></span>';
+    }
+  }
+}
 
 /**
  * Process hooks
