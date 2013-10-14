@@ -103,10 +103,7 @@ function multisite_notifications_core_block_view($delta = '') {
 }
 
 /**
- * Subscribe to new content form
- *
- * @see multisite_notifications_core_form_validate()
- * @see multisite_notifications_core_form_submit()
+ * Call back function that returns the form to (un)subscribe as anonymous user.
  *
  */
 function multisite_notifications_core_form() {
@@ -148,11 +145,10 @@ function multisite_notifications_core_form_validate($form, &$form_state) {
   if (!$is_valid_email) {
     form_set_error('mail', t('The e-mail address you supplied is not valid.'));
   }
-  // Return the number of rows that matchs / if return 0 then nothing matches.
+  // Check if the email already exists in dB.
   $is_email_saved = db_query("SELECT COUNT(*) FROM {users} WHERE mail = :mail", array(':mail' => $email_to_check))->fetchField();
   switch ($form_state['values']['op']) {
     case t('Subscribe'):
-      //Check if the email already exists in table users.
       if ($is_email_saved >= 1) {
         form_set_error('mail', t('You are already a subscriber!'));
       }
@@ -160,7 +156,6 @@ function multisite_notifications_core_form_validate($form, &$form_state) {
       break;
 
     case t('Unsubscribe'):
-      //Check if the email already exists in table users.
       if ($is_email_saved < 1) {
         form_set_error('mail', t('You are not yet a subscriber.'));
       }
@@ -172,6 +167,9 @@ function multisite_notifications_core_form_validate($form, &$form_state) {
   }
 }
 
+/**
+ * Implements hook_form_submit().
+ */
 function multisite_notifications_core_form_submit($form, &$form_state) {
   global $language;
   $mail = $form_state['values']['mail'];
@@ -179,7 +177,7 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
   switch ($form_state['values']['op']) {
     case t('Subscribe'):
 
-      //Create an account programmatically.
+      //Create an 'anonymous' account programmatically.
       $account = _multisite_notifications_core_create_anonymous_account($mail);
       //Save into variables the user email.
       variable_set('multisite_notification_core_user_email', $mail);
@@ -190,14 +188,20 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
 
       //Make a custom function to send mail.
       $sent = drupal_mail(
-              'multisite_notifications_core', 'subscription', //key
-              $account->mail, //to
-              user_preferred_language($account), array($form_state['values'], $uid, $name, $pass), //params array, need id to pass in the email link tail
-              variable_get('site_mail', NULL),
-              //If TRUE, drupal_mail() will call drupal_mail_system()->mail() to deliver the message, and store the result in $message['result']. Modules implementing hook_mail_alter() may cancel sending by setting $message['send'] to FALSE.
-              TRUE
+          // Module.
+          'multisite_notifications_core',
+          // Key.
+          'subscription',
+          // To.
+          $account->mail,
+          // Language.
+          user_preferred_language($account),
+          array($form_state['values'], $uid, $name, $pass),
+          // From.
+          variable_get('site_mail', NULL),
+          //If TRUE, drupal_mail() will call drupal_mail_system()->mail() to deliver the message, and store the result in $message['result']. Modules implementing hook_mail_alter() may cancel sending by setting $message['send'] to FALSE.
+          TRUE
       );
-
 
       if ($account && !empty($sent['result'])) {
         drupal_set_message(t('You will receive a confirmation e-mail shortly containing further instructions on how to complete your subscription.'), 'status');
@@ -207,24 +211,33 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
 
     case t('Unsubscribe'):
 
-      //Set user status to blocked, then ask for user confirmation
+      //Set user status to blocked, then ask for user confirmation.
       $blocked = _multisite_notifications_core_delete_anonymous_account($mail, 'block');
       $account = user_load_by_mail($mail);
 
       $uid = $account->uid;
 
       $sent = drupal_mail(
-              'multisite_notifications_core', 'unsubscription', //key
-              $account->mail, //to
-              user_preferred_language($account), array($form_state['values'], $uid), //params array, need id to pass in the email link tail
-              variable_get('site_mail', NULL), // from
-              TRUE //If TRUE, drupal_mail() will call drupal_mail_system()->mail() to deliver the message, and store the result in $message['result']. Modules implementing hook_mail_alter() may cancel sending by setting $message['send'] to FALSE.
+          //Module.
+          'multisite_notifications_core',
+          // Key.
+          'unsubscription',
+          // To.
+          $account->mail,
+          // Language.
+          user_preferred_language($account),
+          array($form_state['values'], $uid),
+          // From.
+          variable_get('site_mail', NULL),
+          //If TRUE, drupal_mail() will call drupal_mail_system()->mail() to deliver the message, and store the result in $message['result']. Modules implementing hook_mail_alter() may cancel sending by setting $message['send'] to FALSE.
+          TRUE
       );
-      //see sent['result']
       if (!empty($sent['result'])) {
         drupal_set_message(t('You will receive a confirmation e-mail shortly containing further instructions on how to complete your unsubscription.'), 'status');
       }
-
+      else {
+        drupal_set_message(t('An error occurred when trying to send confirmation email.'), 'error');
+      }
       break;
 
     default:
@@ -235,6 +248,7 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
 
 /**
  * Implements hook_mail().
+ *
  * Now when drupal_mail() is called and passed $key and $module,
  * the appropriate body and subject will be filled in before the mail is sent.
  */
