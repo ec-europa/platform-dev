@@ -1,6 +1,6 @@
 name = Multisite Workbench Moderation View
 description = Adds the new Moderate All tabs which allows to perform bulk operations over moderation states.
-package = Workbench
+package = Multisite Core Features
 core = 7.x
 version = 7.x-1.1
 php = 5.2.4
