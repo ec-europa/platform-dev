@@ -124,6 +124,9 @@ function ec_resp_preprocess_menu_link(&$variables) {
       $variables['element']['#title'] = '<span class="glyphicon glyphicon-' . $icon . ' menu-no-title"></span>';
     }
   }
+
+  //add CSS class
+  $variables['element']['#localized_options']['attributes']['class'][] = 'list-group-item';
 }
 
 /**
@@ -525,7 +528,7 @@ function ec_resp_button($variables) {
  * Implements theme_menu_tree().
  */
 function ec_resp_menu_tree($variables) {
-  return '<ul class="menu clearfix">' . $variables['tree'] . '</ul>';
+  return '<ul class="menu clearfix list-group list-group-flush list-unstyled">' . $variables['tree'] . '</ul>';
 }
 
 function ec_resp_menu_tree__main_menu($variables) {

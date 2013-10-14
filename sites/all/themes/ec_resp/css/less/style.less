@@ -167,15 +167,6 @@ ul.menu li {
   margin: 1em 0;
   padding: 0 0 0.25em 2.5em; /* LTR */
 }
-.item-list ul {
-  &.list-group-flush {
-    margin: 15px -15px -15px;
-  }
-  li {
-    margin: 0;
-    padding: 0;
-  }
-}
 ul.tips {
   padding: 0 0 0 1.25em; /* LTR */
 }
@@ -190,27 +181,45 @@ ul {
 }
 
 .panel {
-  .list-group {
-    .list-group-item {
-      border-radius: 0;
-      border-bottom: 1px @list-group-border solid;
-      border-top: none;
-      border-left: none;
-      border-right: none;
-      &.active {
-        background-image: url(../images/arrows-right.gif);
-        background-repeat: no-repeat;
-        background-position: 0 50%;
-        border-color: @list-group-active-border !important;
-      }    
-      &:last-child {
-        border-bottom: 1px @list-group-border solid;
+  .panel-body {
+    .list-group {
+      margin: -15px -15px -15px;
+      li {
+        margin: 0;
+        padding: 0;
+        &.leaf {
+          list-style: none;
+        }
       }
-    }
-    .views-row-last > .list-group-item,
-    .last > .list-group-item {
-      border-radius: 0 0 @border-radius-base @border-radius-base;
-      margin-bottom: -2px;
+      a {
+        padding: 10px 15px;
+        display: block;
+        &.list-group-item {
+          padding: 10px 15px;
+          border-radius: 0;
+          border-bottom: 1px @list-group-border solid;
+          border-top: none;
+          border-left: none;
+          border-right: none;
+          &.active {
+            background-image: url(../images/arrows-right.gif);
+            background-repeat: no-repeat;
+            background-position: 0 50%;
+            border-color: @list-group-active-border !important;
+          }
+          &:last-child {
+            border-bottom: 1px @list-group-border solid;
+          }
+        }
+      }
+      .views-row-last > .list-group-item,
+      .last > .list-group-item {
+        border-radius: 0 0 @border-radius-base @border-radius-base;
+        margin-bottom: -2px;
+      }
+    }  
+    > p {
+      margin-bottom: 25px;
     }
   }
 }
@@ -432,16 +441,6 @@ input[type="file"] {
 .block {
   .list-group {
     margin-bottom: 0;
-  }
-}
-
-.panel-body {
-  > .view > .view-content > .item-list,
-  > .item-list {
-    margin-top: -31px;
-  }
-  > p {
-    margin-bottom: 41px;
   }
 }
 
