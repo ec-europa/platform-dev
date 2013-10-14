@@ -77,38 +77,49 @@
       $dest = drupal_get_path_alias();
     }
 
-    $attributes = array(
-      'attributes' => array(
-        'type' => '',
-        'class' => array('btn','btn-default')
-      )
-    );
-    
     foreach ($menu as $item_id) {
+      //get icon links to menu item 
+      $icon = (isset($item_id['attributes']['data-image']) ? $item_id['attributes']['data-image'] : '');
+
+      //get display title option
+      $display_title = (isset($item_id['attributes']['data-display-title']) ? $item_id['attributes']['data-display-title'] : 1);
+
+      //add the icon
+      if ($icon) {
+        if ($display_title) {
+          $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . '"></span>' . $item_id['title'];
+        }
+        else {
+          $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . ' menu-no-title"></span>';
+        }
+      }
+
       // Add redirection for login, logout and register
       if ($item_id['href'] == 'user/login' || $item_id['href'] == 'user/register') {
-        $attributes['query']['destination'] = $dest;
+        $item_id['query']['destination'] = $dest;
       }
       if ($item_id['href'] == 'user/logout') {
-        $attributes['query']['destination'] = $base_url;
-      }      
+        $item_id['query']['destination'] = $base_url;
+      }
 
       // Add icon before menu item
       // TODO: make it editable in administration
       if ($item_id['href'] == 'user') {
-        $attributes['attributes']['type'] = 'user';
+        $item_id['attributes']['type'] = 'user';
       } 
       elseif ($item_id['href'] == 'user/login') {
-        $attributes['attributes']['type'] = 'login';
+        $item_id['attributes']['type'] = 'login';
       }
       elseif ($item_id['href'] == 'user/logout') {
-        $attributes['attributes']['type'] = 'logout';
+        $item_id['attributes']['type'] = 'logout';
       }
       elseif ($item_id['href'] == 'admin/workbench') {
-        $attributes['attributes']['type'] = 'workbench';
+        $item_id['attributes']['type'] = 'workbench';
       }
 
-      $items .= l($item_id['title'],$item_id['href'], $attributes);
+      $item_id['html'] = TRUE;
+
+      $items .= l($item_id['title'],$item_id['href'], $item_id);
     }
     
     print $items;

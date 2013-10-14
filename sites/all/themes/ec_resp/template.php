@@ -801,22 +801,6 @@ function ec_resp_link( $variables ) {
         $decoration .= '<span class="glyphicon glyphicon-envelope"></span>';
         $variables['options']['attributes']['class'] .= ' btn btn-primary';
         break;        
-      case 'login':
-        $decoration .= '<span class="glyphicon glyphicon-log-in"></span>';
-        $variables['options']['attributes']['class'] .= ' btn btn-default';
-        break;
-      case 'logout':
-        $decoration .= '<span class="glyphicon glyphicon-log-out"></span>';
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-xs';
-        break;
-      case 'user':
-        $decoration .= '<span class="glyphicon glyphicon-user"></span>';
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-xs';
-        break;
-      case 'workbench':
-        $decoration .= '<span class="glyphicon glyphicon-list-alt"></span>';
-        $variables['options']['attributes']['class'] .= ' btn btn-info btn-xs';
-        break;
       case 'small':
         $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
         break;        
