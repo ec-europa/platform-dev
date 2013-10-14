@@ -260,8 +260,8 @@ function multisite_notifications_core_mail($key, &$message, $params) {
     case 'subscription':
       $message['subject'] = variable_get('subscribe_subject_' . $language->language, 'Please confirm your subscription');
       $message['body'][] = variable_get('subscribe_message_' . $language->language, 'Please confirm your subscription by clicking the link provided by this mail.');
-      //@todo integrate with tokens
-      //@todo make $params an associative array
+      //@todo integrate with tokens.
+      //@todo make $params an associative array.
       $message['body'][] = $base_url . '/subscribe/' . $params[1];
       break;
 
@@ -280,7 +280,7 @@ function multisite_notifications_core_mail($key, &$message, $params) {
  * @return type
  */
 function _multisite_notifications_core_create_anonymous_account($mail) {
-  //Generates random password
+  // Generates random password.
   $password = user_password(8);
   $name = md5($mail);
 
@@ -320,7 +320,7 @@ function _multisite_notifications_core_create_anonymous_account($mail) {
  */
 function _multisite_notifications_core_delete_anonymous_account($mail, $waiting_confirmation = NULL, $uid = NULL) {
 
-  //Block user until user confirms
+  // Block user until user confirms.
   if ($waiting_confirmation) {
     $blocked = db_update('users')
             ->fields(array('status' => 0))
@@ -334,6 +334,9 @@ function _multisite_notifications_core_delete_anonymous_account($mail, $waiting_
     if ($user_deleted > 0) {
       drupal_set_message(t('You have confirmed your unsubscription.'), 'status');
     }
+    else {
+      drupal_set_message(t('An error occurred during while unsubscribing your account.'), 'error');
+    }
     drupal_goto();
   }
   if ($waiting_confirmation) {
@@ -342,9 +345,7 @@ function _multisite_notifications_core_delete_anonymous_account($mail, $waiting_
 }
 
 /**
- * Subscription Landing Page
- * @param type $form
- * @param type $form_states
+ * Generate a form to confirm subscription.
  */
 function multisite_notifications_core_subscribe_form($form, &$form_states) {
 
@@ -369,7 +370,7 @@ function multisite_notifications_core_subscribe_form($form, &$form_states) {
 }
 
 /**
- * Generate a form to confirm unsubscription
+ * Generate a form to confirm unsubscription.
  */
 function multisite_notifications_core_unsubscribe_form($form, &$form_states) {
   $form = array();
@@ -388,16 +389,19 @@ function multisite_notifications_core_unsubscribe_form($form, &$form_states) {
   //@todo replace drupal_goto
   //$form_state['redirect'] = '/';
 
-
   $form['#submit'][] = 'multisite_notifications_core_unsubscribe_form_submit';
 
   return $form;
 }
 
+/**
+ * Implements hook_form_submit.
+ */
 function multisite_notifications_core_subscribe_form_submit($form, &$form_states) {
 
   $uid = arg(1);
-  //User confirmed, activate the account
+
+  // User confirmed, activate the account.
   $active = db_update('users')
           ->fields(array('status' => 1))
           ->condition('uid', $uid, '=')
@@ -406,7 +410,7 @@ function multisite_notifications_core_subscribe_form_submit($form, &$form_states
   if ($active > 0) {
     drupal_set_message(t('Congratulations, you have confirmed your subscription. From now on you will receive notification on new updates'), 'status');
   }
-  //update subscription_update table.
+  // Update subscription_update table.
   drupal_goto();
 }
 
@@ -432,11 +436,11 @@ function _multisite_notifications_core_load_user_by_mail($mail) {
 }
 
 /**
- * User who filled in the form is entitled to receive the updates
+ * User who filled in the form is entitled to receive the updates.
  */
 function _multisite_notifications_core_insert_notification_defaults($uid) {
 
-  // provide default settings values for subscriptions
+  // Provide default settings values for subscriptions.
   db_update('subscriptions_user')
     ->fields(array(
       'digest' => 0,

@@ -1,22 +1,22 @@
 <?php
 /**
  * @file
- * Install the Notifications news
+ * Install the Notifications feature.
  */
 include_once 'includes/multisite_notifications_core.settings.inc';
 
 /**
- * hook_install
+ * Implements hook_install().
  */
 function multisite_notifications_core_install() {
     //Nothing yet
 }
 
 /**
- * hook_enable
+ * Implements hook_enable().
  */
 function multisite_notifications_core_enable() {
-  //provide default settings values for subscriptions
+  //Provide default settings values for subscriptions.
   db_update('subscriptions_user')
           ->fields(array(
               'digest' => 0,
@@ -35,7 +35,7 @@ function multisite_notifications_core_enable() {
           ->condition('uid', "-2")
           ->execute();
 
-  //subscriber have notifications enabled by default for each content type
+  //Subscriber have notifications enabled by default for each content type.
   $content_types = node_type_get_types();
   foreach ($content_types as $content_type) {
     db_insert('subscriptions')
@@ -67,11 +67,11 @@ function multisite_notifications_core_enable() {
 
   }
 
-  drupal_set_message(t('Notifications feature is now active on your site.'));
+  drupal_set_message(t('Notifications feature is now active on your site.'), 'status');
 }
 
 /**
- * hook_disable
+ * Implements hook_disable().
  */
 function multisite_notifications_core_disable() {
 
@@ -82,30 +82,26 @@ function multisite_notifications_core_disable() {
             ->execute();
   }
 
-  //Disable block
-   multisite_drupal_toolbox_remove_block_context('site_wide', 'notification_block');
-  //Disable module
+  module_disable(array('subscriptions_mail', 'subscriptions_ui', 'subscriptions_taxonomy'), FALSE);
+  module_disable(array('subscriptions_content'), FALSE);
+  module_disable(array('subscriptions'), FALSE);
+  drupal_uninstall_modules(array('subscriptions'), TRUE);
 
-    module_disable(array('subscriptions_mail', 'subscriptions_ui', 'subscriptions_taxonomy'), FALSE);
-    module_disable(array('subscriptions_content'), FALSE);
-    module_disable(array('subscriptions'), FALSE);
-    drupal_uninstall_modules(array('subscriptions'), TRUE);
-
-  drupal_set_message(t('Notifications feature is now disabled on your site.'));
+  drupal_set_message(t('Notifications feature is now disabled on your site.') , 'status');
 }
 
 /**
- * hook_uninstall
+ * Implements hook_uninstall().
  */
 function multisite_notifications_core_uninstall() {
     //Nothing yet
 }
 
 /**
- * hook_update_N Generate the rid for subscriber role
+ * hook_update_N dynamic rid for subscriber role.
  */
 function multisite_notifications_update_7001() {
-  // subscriber role
+
   $role = db_select('role', 'r')
       ->condition('name', 'subscriber', '=')
       ->fields('r')
@@ -119,7 +115,7 @@ function multisite_notifications_update_7001() {
 
     $rid = $role->rid;
     $subscriber_permissions = array(
-        'view subscription block' => TRUE, // Grant permission
+        'view subscription block' => TRUE,
     );
     user_role_change_permissions($rid, $subscriber_permissions);
   }
