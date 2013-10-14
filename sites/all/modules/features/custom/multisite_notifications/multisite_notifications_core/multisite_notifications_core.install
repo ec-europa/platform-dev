@@ -86,7 +86,7 @@ function multisite_notifications_core_disable() {
   module_disable(array('subscriptions_content'), FALSE);
   module_disable(array('subscriptions'), FALSE);
   drupal_uninstall_modules(array('subscriptions'), TRUE);
-
+  user_role_delete('subscriber');
   drupal_set_message(t('Notifications feature is now disabled on your site.') , 'status');
 }
 
