@@ -14,7 +14,8 @@ function multisite_notifications_core_subscriptions_queue_alter(&$event) {
       $event = NULL;
     }
   }
-  else { // no workbench moderation workflow
+  else {
+    // no workbench moderation workflow
     if ($event['node']->status != 1) {
       $event = NULL;
     }
@@ -34,7 +35,7 @@ function multisite_notifications_core_init() {
  */
 function multisite_notifications_core_menu() {
   $items = array();
-  //landing page : you need uid as argument
+
   $items['subscribe'] = array(
     'title' => 'Subscribe',
     'description' => 'Confirmation for subscribing',
@@ -45,7 +46,6 @@ function multisite_notifications_core_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  //landing page : you need snid as argument
   $items['unsubscribe'] = array(
     'title' => 'Unsubscribe',
     'description' => 'Confirmation for unsubscribing',
@@ -62,7 +62,8 @@ function multisite_notifications_core_menu() {
     'description' => 'Configure the subscription block settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('multisite_notifications_core_general_settings'),
-    'access arguments' => array('administer user subscriptions'), // see subscriptions module
+    'access arguments' => array('administer user subscriptions'),
+    // See subscriptions module.
     'weight' => -10,
     'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
     'file' => 'includes/multisite_notifications_core.settings.inc',
@@ -75,9 +76,8 @@ function multisite_notifications_core_menu() {
  */
 function multisite_notifications_core_block_info() {
   return array(
-      //delta
     'notification_block' => array(
-      'info' => t('Subscription Block'),
+      'info' => t('Anonymous subscription Block'),
       'cache' => DRUPAL_CACHE_PER_PAGE,
     ),
   );
@@ -105,13 +105,8 @@ function multisite_notifications_core_block_view($delta = '') {
 /**
  * Subscribe to new content form
  *
- * @param type $form
- * @param type $form_state
- * @return array
- *
  * @see multisite_notifications_core_form_validate()
  * @see multisite_notifications_core_form_submit()
- *
  *
  */
 function multisite_notifications_core_form() {
@@ -143,9 +138,7 @@ function multisite_notifications_core_form() {
 }
 
 /**
- *
- * @param type $form
- * @param type $form_state
+ * Implements hook_form_validate().
  */
 function multisite_notifications_core_form_validate($form, &$form_state) {
 
@@ -155,11 +148,11 @@ function multisite_notifications_core_form_validate($form, &$form_state) {
   if (!$is_valid_email) {
     form_set_error('mail', t('The e-mail address you supplied is not valid.'));
   }
-  // count return the number of rows tha match / if return 0 then nothing match
+  // Return the number of rows that matchs / if return 0 then nothing matches.
   $is_email_saved = db_query("SELECT COUNT(*) FROM {users} WHERE mail = :mail", array(':mail' => $email_to_check))->fetchField();
   switch ($form_state['values']['op']) {
     case t('Subscribe'):
-      //Check if the email already exists in table users
+      //Check if the email already exists in table users.
       if ($is_email_saved >= 1) {
         form_set_error('mail', t('You are already a subscriber!'));
       }
@@ -167,7 +160,7 @@ function multisite_notifications_core_form_validate($form, &$form_state) {
       break;
 
     case t('Unsubscribe'):
-      //Check if the email already exists in table users
+      //Check if the email already exists in table users.
       if ($is_email_saved < 1) {
         form_set_error('mail', t('You are not yet a subscriber.'));
       }
@@ -185,22 +178,24 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
 
   switch ($form_state['values']['op']) {
     case t('Subscribe'):
-      //Create an account programmatically
 
+      //Create an account programmatically.
       $account = _multisite_notifications_core_create_anonymous_account($mail);
-      //Save into variables the user email
+      //Save into variables the user email.
       variable_set('multisite_notification_core_user_email', $mail);
-      //@todo send confirmation mail
+      //@todo send confirmation mail.
       $uid = $account->uid;
       $name = $account->name;
       $pass = $account->pass;
-      //make a custom function to send mail.
+
+      //Make a custom function to send mail.
       $sent = drupal_mail(
               'multisite_notifications_core', 'subscription', //key
               $account->mail, //to
               user_preferred_language($account), array($form_state['values'], $uid, $name, $pass), //params array, need id to pass in the email link tail
-              variable_get('site_mail', NULL), // from
-              TRUE //If TRUE, drupal_mail() will call drupal_mail_system()->mail() to deliver the message, and store the result in $message['result']. Modules implementing hook_mail_alter() may cancel sending by setting $message['send'] to FALSE.
+              variable_get('site_mail', NULL),
+              //If TRUE, drupal_mail() will call drupal_mail_system()->mail() to deliver the message, and store the result in $message['result']. Modules implementing hook_mail_alter() may cancel sending by setting $message['send'] to FALSE.
+              TRUE
       );
 
 
@@ -209,6 +204,7 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
       }
 
       break;
+
     case t('Unsubscribe'):
 
       //Set user status to blocked, then ask for user confirmation
@@ -230,8 +226,10 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
       }
 
       break;
+
     default:
       break;
+
   }
 }
 
@@ -250,14 +248,15 @@ function multisite_notifications_core_mail($key, &$message, $params) {
       $message['body'][] = variable_get('subscribe_message_' . $language->language, 'Please confirm your subscription by clicking the link provided by this mail.');
       //@todo integrate with tokens
       //@todo make $params an associative array
-      $message['body'][] = $base_url . '/subscribe/' . $params[1]; //uid
+      $message['body'][] = $base_url . '/subscribe/' . $params[1];
       break;
 
     case 'unsubscription':
       $message['subject'] = variable_get('unsubscribe_subject_' . $language->language, 'Please confirm your unsubscription');
       $message['body'][] = variable_get('unsubscribe_message_' . $language->language, 'Please confirm your unsubscription by clicking the link provided by this mail.');
-      $message['body'][] = $base_url . '/unsubscribe/' . $params[1]; //uid
+      $message['body'][] = $base_url . '/unsubscribe/' . $params[1];
       break;
+
   }
 }
 
@@ -278,11 +277,14 @@ function _multisite_notifications_core_create_anonymous_account($mail) {
     'name' => $name,
     'mail' => $mail,
     'pass' => $password,
-    'status' => 0, //STATUS BLOCK FOR NOW, 1 AFTER CONFIRMATION
-    'init' => $mail, //address used for initial account creation
+    'status' => 0,
+    // Status blocked for now, 1 after confirmation.
+    'init' => $mail,
+    // Address used for initial account creation.
     'access' => REQUEST_TIME,
     'login' => REQUEST_TIME,
-    'language' => 'en', //language_default can sometimes return an object!
+    'language' => 'en',
+    // Language_default can sometimes return an object.
     'roles' => array(
       DRUPAL_AUTHENTICATED_RID => 'authenticated user',
       $subscriber_rid => TRUE,
