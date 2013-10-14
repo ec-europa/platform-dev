@@ -97,26 +97,3 @@ function multisite_notifications_core_uninstall() {
     //Nothing yet
 }
 
-/**
- * hook_update_N dynamic rid for subscriber role.
- */
-function multisite_notifications_update_7001() {
-
-  $role = db_select('role', 'r')
-      ->condition('name', 'subscriber', '=')
-      ->fields('r')
-      ->execute()
-      ->fetchObject();
-
-  if(!$role) {
-    $role = new stdClass();
-    $role->name = 'subscriber';
-    user_role_save($role);
-
-    $rid = $role->rid;
-    $subscriber_permissions = array(
-        'view subscription block' => TRUE,
-    );
-    user_role_change_permissions($rid, $subscriber_permissions);
-  }
-}
