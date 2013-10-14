@@ -7,13 +7,12 @@
 class anonymousNotification extends DrupalWebTestCase {
 
   protected $administrator;
-  protected $privileged_user;
   protected $visitor;
 
   public static function getInfo() {
     return array(
         'name' => 'Anonymous Notification',
-        'description' => 'Test the configuration options and block created by Notifications module. 1.0h',
+        'description' => 'Test the configuration options and block created by Notifications module.',
         'group' => 'Multisite Core Features',
     );
   }
@@ -23,18 +22,8 @@ class anonymousNotification extends DrupalWebTestCase {
    */
   function setUp() {
     parent::setUp('multisite_notifications_core', 'mail_logger');
-    $this->privileged_user = $this->drupalCreateUser(array(
-        'access administration pages',
-        'access all views',
-        'access content',
-        'administer user subscriptions',
-        'bulk-administer user subscriptions',
-        'administer site configuration',
-        'create article content',
-        'administer blocks',
-    ));
     $this->administrator = $this->drupalCreateUserWithRole("administrator");
-    $this->visitor = $this->drupalCreateUser(array('access content'));
+    $this->visitor = $this->drupalCreateUserWithRole("anonymous");
   }
 
   /**
@@ -64,7 +53,7 @@ class anonymousNotification extends DrupalWebTestCase {
 
     //VISITOR
     $this->drupalLogin($this->visitor);
-    $this->drupalGet('node/1');
+    $this->drupalGet('/');
     $this->assertRaw(t('multisite-notifications-core-form'), 'Subscription block is enabled. Form is available.');
 
     //Case 1 NEGATIVE
