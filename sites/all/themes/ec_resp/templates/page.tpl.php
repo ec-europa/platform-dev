@@ -260,11 +260,17 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
   <div id="layout-body" class="container">
     <div class="row">
       <?php print render($title_prefix); ?>
+
       <?php if ($title): ?>
+        <?php $title_image = (isset($node->field_thumbnail['und'][0]['uri']) && $node->type == 'community' ? image_style_url('communities_thumbnail', $node->field_thumbnail['und'][0]['uri']) : '');?>
         <h1 class="col-lg-<?php print $col_title_lg; ?> col-md-<?php print $col_title_md; ?>" id="page-title">
+          <?php if ($title_image): ?>
+            <img src="<?php print $title_image; ?>" alt="<?php print $title; ?>" />
+          <?php endif; ?>
           <?php print $title; ?>
         </h1>
       <?php endif; ?>
+      
       <?php print render($title_suffix); ?>
 
       <?php if ($page['tools']): ?>
