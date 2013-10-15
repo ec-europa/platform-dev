@@ -154,7 +154,7 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
       $header .= '</fieldset><hr />';
     }    
 
-    $output1 = '<div id="tb_wrapper" class="row ">';
+    $output1 = '<div id="tb_wrapper" class="row">';
       $output1 .= '<div id="tb_browser" class="col-lg-3 col-md-3 col-sm-4 col-xs-12">';
         $output1 .= '<div class="panel panel-default clearfix ">';
           $output1 .= '<div class="panel-heading">' . $vocabulary->name . '</div>';
@@ -165,7 +165,7 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
       $output1 .= '<div class="clearfix visible-xs"></div>';
 
       $output1 .= '<div id="tb_view" class="col-lg-9 col-md-9 col-sm-8 col-xs-12">' . $header . $output . '</div>';
-    $output .= '</div>';    
+    $output1 .= '</div>';
 
     $output = $output1;
   }
