@@ -1,0 +1,138 @@
+<?php
+/**
+ * @file
+ * Code for the Multisite Forum Core feature.
+ */
+
+include_once 'multisite_forum_core.features.inc';
+
+/**
+ * Implements hook_init()
+ */
+function multisite_forum_core_init() {  
+  multisite_forum_core_replace_strings('init');
+}
+
+/**
+ * Implements hook_boot()
+ */
+function multisite_forum_core_boot() {
+  multisite_forum_core_replace_strings('boot');
+}
+
+/**
+ * Implements hook_permission()
+ */
+function multisite_forum_core_permission() {
+  return array(
+    'moderate forums' =>  array(
+      'title' => t('Moderate forums'),
+      'description' => t('Manage forum topics and comments.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_node_access()
+ */
+function multisite_forum_core_node_access($node, $op, $account) {
+  
+  if ($op == 'update' || $op == 'delete') {
+    if (user_access('moderate forums')) {
+      return NODE_ACCESS_ALLOW;
+    }
+  }
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Implements hook_menu_alter()
+ */
+function multisite_forum_core_menu_alter(&$items) {
+  $items['forum']['menu_name'] = 'main-menu';
+  $items['forum/%forum_forum']['menu_name'] = 'main-menu';
+ 
+  // Removing "Add container" link form forum management page 
+  unset($items['admin/structure/forum/add/container']);
+}
+
+/**
+ * Helper function: replace "Comment" string with "Reply".
+ */
+function multisite_forum_core_replace_strings($hook) {
+  global $conf;
+  
+  switch ($hook) {
+    
+    case 'boot';
+      if (strstr($_GET['q'], 'content/') !== FALSE) {
+        $source = db_select('url_alias', 'a')
+          ->fields('a', array('source'))
+          ->condition('a.alias', $_GET['q'])
+          ->execute()
+          ->fetch(PDO::FETCH_COLUMN);
+        if (strstr($source, 'node/') !== FALSE) {
+          list($a, $nid) = explode('/', $source);
+          $nid = (int) $nid;
+          $type = db_select('node', 'n')
+            ->fields('n', array('type'))
+            ->condition('n.nid', $nid)
+            ->execute()
+            ->fetch(PDO::FETCH_COLUMN);   
+          if ($type == 'forum') {
+            $conf['locale_custom_strings_en'][''] = array(
+              'Add new comment' => 'Add new reply',
+              'Comments' => 'Replies',
+              'Comment' => 'Reply',
+            );  
+          }
+        }    
+      }
+      break;
+      
+    case 'init':
+      $forum_context = FALSE;
+      $forum_context = $forum_context || $_GET['q'] == 'node/add/forum';
+      $forum_context = $forum_context || arg(0) == 'forum';
+      $forum_context = $forum_context || arg(3) == 'forum';
+      if (($menu_object = menu_get_object('node')) && isset($menu_object->type)) {
+        $forum_context = $forum_context || $menu_object->type == 'forum';
+      }
+
+      if ($forum_context) {
+        $conf['locale_custom_strings_en'][''] = array(
+          'Add new comment' => 'Add new reply',
+          'Comments' => 'Replies',
+          'Comment' => 'Reply',
+          'Full comment' => 'Full reply',
+          'Recent comments' => 'Recent replies',
+          'No comments available' => 'No replies available',
+          '1 comment' => '1 reply',
+          '@count comments' => '@count comments',
+          'Jump to the first comment of this posting.' => 'Jump to the first reply of this posting.',
+          'Add a new comment to this page.' => 'Add a new reply to this page.',
+          'Publish the selected comments' => 'Publish the selected replies',
+          'Delete the selected comments' => 'Delete the selected replies',
+          'Edit comment %comment' => 'Edit reply %comment',
+          'Are you sure you want to delete the comment %title?' => 'Are you sure you want to delete the reply %title?',
+          'Any replies to this comment will be lost. This action cannot be undone.' => 'Any replies to this reply will be lost. This action cannot be undone.',
+          'Comment settings' => 'Reply settings',
+          'Comments per page' => 'Replies per page',
+          'Allow comment title' => 'Allow reply title',
+          'Show reply form on the same page as comments' => 'Show reply form on the same page as other replies',
+          'Preview comment' => 'Preview reply',
+          'Comment settings' => 'Reply settings',
+          'Publish comment' => 'Publish reply',
+          'Unpublish comment' => 'Unpublish reply',
+          'Unpublish comment containing keyword(s)' => 'Unpublish reply containing keyword(s)',
+          'Save comment' => 'Save reply',
+          'Number of comments' => 'Number of replies',
+          '<a href="@login">Log in</a> to post comments' => '<a href="@login">Log in</a> to post replies',
+          '<a href="@login">Log in</a> or <a href="@register">register</a> to post comments' => '<a href="@login">Log in</a> or <a href="@register">register</a> to post replies',
+          'Users with the "Post comments" permission can post comments.' => 'Users with the "Post comments" permission can post replies.',
+          'Users cannot post comments.' => 'Users cannot post replies.',
+        );    
+      }  
+      break;
+  }
+}
