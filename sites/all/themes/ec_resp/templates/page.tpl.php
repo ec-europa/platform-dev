@@ -196,8 +196,8 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
     <div id="responsive-sidebar" class="visible-sm visible-xs">
       <div>
         <?php 
-        $region_sidebar_left_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_left);
-        $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
+        $region_sidebar_left_responsive = str_replace("share-tool","share-tool-responsive",$region_sidebar_left);
+        $region_sidebar_left_responsive = str_replace("tb_browser_tree","tb_browser_tree-responsive",$region_sidebar_left_responsive);
 
         print $region_sidebar_left_responsive; 
         ?>
@@ -213,8 +213,8 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
     <div id="responsive-sidebar" class="visible-sm visible-xs">
       <div>
         <?php 
-        $region_sidebar_right_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_right);
-        $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
+        $region_sidebar_right_responsive = str_replace("share-tool","share-tool-responsive",$region_sidebar_right);
+        $region_sidebar_right_responsive = str_replace("tb_browser_tree","tb_browser_tree-responsive",$region_sidebar_right_responsive);
 
         print $region_sidebar_right_responsive; 
         ?>
@@ -231,16 +231,16 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       <div>
     <?php if ($page['sidebar_left']): ?>
       <?php 
-      $region_sidebar_left_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_left);
-      $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
+      $region_sidebar_left_responsive = str_replace("share-tool","share-tool-responsive",$region_sidebar_left);
+      $region_sidebar_left_responsive = str_replace("tb_browser_tree","tb_browser_tree-responsive",$region_sidebar_left_responsive);
 
       print $region_sidebar_left_responsive; 
       ?>
     <?php endif; ?>
     <?php if ($page['sidebar_right']): ?>
       <?php 
-      $region_sidebar_right_responsive = str_replace('"share-tool"','"share-tool-responsive"',$region_sidebar_right);
-      $region_sidebar_left_responsive = str_replace('"tb_browser_tree"','"tb_browser_tree-responsive"',$region_sidebar_left);
+      $region_sidebar_right_responsive = str_replace("share-tool","share-tool-responsive",$region_sidebar_right);
+      $region_sidebar_right_responsive = str_replace("tb_browser_tree","tb_browser_tree-responsive",$region_sidebar_right_responsive);
 
       print $region_sidebar_right_responsive; 
       ?>

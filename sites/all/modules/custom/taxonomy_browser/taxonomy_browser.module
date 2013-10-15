@@ -188,12 +188,19 @@ function taxonomy_browser_block_view($delta = '') {
   switch ($delta) {
     case 'taxonomy_browser':
       $vid = variable_get('taxonomy_browser_vocabulary');
-      $vocabulary = taxonomy_vocabulary_load($vid);
+      if ($vid) {
+        $vocabulary = taxonomy_vocabulary_load($vid);
 
-      $block['subject'] = t('taxonomy_browser');
-      $block['title'] = $vocabulary->name;
-      $block['content'] = taxonomy_browser_create_block_content($vid, $vocabulary);
-     break;
+        $block['subject'] = t('taxonomy_browser');
+        $block['title'] = $vocabulary->name;
+        $block['content'] = taxonomy_browser_create_block_content($vid, $vocabulary);
+      }
+      else {
+        $block['subject'] = t('taxonomy_browser');
+        $block['title'] = t('Taxonomy browser');
+        $block['content'] = t('No taxonomy selected');
+      }
+    break;
   }
   return $block;
 }
