@@ -34,72 +34,75 @@ class anonymousNotification extends DrupalWebTestCase {
    *
    */
   function testSubscriptionBlockBasic() {
-    //CHANGE IT
     $mail = 'DIGIT-FPFIS-SUPPORT@ec.europa.eu';
 
-    //ADMINISTRATOR
-    // Verify that new content is shown
+    // Log as admin.
     $this->drupalLogin($this->administrator);
 
-
-    //ACTIVATE ANONYMOUS SUBSCRIPTION BLOCK
+    //Add the subscription block in the sidebar.
     $this->drupalGet('admin/structure/block');
 
-    // Enable the search block on top of sidebar_first.
+    // Enable the subscription block in sidebar_first.
     $block_options = array();
     $block_options['blocks[multisite_notifications_core_notification_block][region]'] = 'sidebar_first';
     $this->drupalPost('admin/structure/block', $block_options, t('Save blocks'));
     $this->assertRaw(t('The block settings have been updated.'), 'The block settings have been updated.');
 
-    //VISITOR
-    $this->drupalLogin($this->visitor);
-    $this->drupalGet('/');
+    $settings = array(
+        'type' => 'page',
+        'my_special_field' => 'glark',
+    );
+    $node = $this->drupalCreateNode($settings);
+    $this->assertEqual($node->type, 'page');
+
+    // Browse as visitor
+    $this->drupalLogout();
+    $this->drupalGet('node/' . $node->nid);
+    // Verify you see anonymous subscription block.
     $this->assertRaw(t('multisite-notifications-core-form'), 'Subscription block is enabled. Form is available.');
 
-    //Case 1 NEGATIVE
-    $wrong_data = array();
-    $wrong_data['mail'] = 'InvalidMailwrongserver.com';
+    //Case 1 enter wrong email
+    $wrong_data = array('mail' => 'InvalidMailwrongserver.com');
     $this->drupalPost('node', $wrong_data, t('Subscribe'));
     $this->assertTrue(!count($this->drupalGetMails()), 'OK: No email was sent when entering wrong email.');
     $this->assertRaw(t('The e-mail address you supplied is not valid'), 'Validation against wrong formed mail OK');
 
-    //Case 2 NEGATIVE
+    //Case 2 enter empty email
     $wrong_data = array('mail' => '');
     $this->drupalPost(NULL, $wrong_data, t('Unsubscribe'));
     $this->assertTrue(!count($this->drupalGetMails()), 'OK: No email was sent. Submitted empty field');
 
-    //Case 3 POSITIVE
+    //Case 3 enter right email
     $correct_data = array('mail' => $mail);
     $this->drupalPost(NULL, $correct_data, t('Subscribe'));
     $this->assertRaw(t('You will receive a confirmation e-mail shortly containing further instructions on how to complete your subscription.'), 'Confirmation notice that You will receive a confirmation e-mail shortly...OK');
 
-    //Case 4 NEGATIVE
+    //Case 4 enter existing email
     $wrong_data = array('mail' => $mail);
-    $this->drupalPost(NULL, $wrong_data, t('Subscribe'));//You are already a subscriber!
-    $this->assertTrue(count($this->drupalGetMails()) < 2, 'OK: No email was sent. You are already a subscriber!');
+    $this->drupalPost(NULL, $wrong_data, t('Subscribe'));
+    $this->assertTrue(count($this->drupalGetMails()) < 2, 'No email was sent. You are already a subscriber!');
     $this->assertRaw(t('You are already a subscriber!'), 'Message "You are already a subscriber!" displayed');
-   // debug($this->drupalGetMails());
 
     //ADMINISTRATOR - DEBUG
     $this->drupalLogin($this->administrator);
     $this->cronRun();
     $this->assertTrue(count($this->drupalGetMails()), 'Confirmation email was sent.');
     $this->drupalLogout();
-//debug($this->visitor);
-    //VISITOR - CONFIRM SUBSCRIPTION
-   // global $user; $uid = $user->uid;
 
-    //$this->drupalGet('subscribe/' . $uid);
-  //  $this->drupalGet('subscribe/'.$user->uid);
-    $this->assertResponse(200, 'Subscription confirmation page is accesible');
-    $roles = $user->roles;
-    $this->verbose('current user roles: ' . '</pre>' . print_r($roles, TRUE) . '</pre>');
+    //Get user id
+    $this->drupalLogin($this->administrator);
+    $user = db_select('users', 'u')
+    ->fields('u')
+    ->condition('status', 0 , '=')
+    ->condition('mail', $mail, '=')
+    ->execute()
+    ->fetchAssoc();
 
-    $confirmation = array();
-    $this->drupalPost('subscribe/' . $user->uid, $confirmation, t('Confirm'));
+    $edit = array();
+    $this->drupalPost('subscribe/' . $user['uid'], $edit, t('Confirm'));
     $this->assertRaw(t('Congratulations, you have confirmed your subscription.'), 'Confirmation message is visible');
 
-    //DATABASE CHECK - NEW USER HAS STATUS ACTIVE
+    //Check that new user is now active
     $this->drupalLogin($this->administrator);
     $confirmed = db_select('users', 'u')
             ->fields('u')
@@ -107,8 +110,9 @@ class anonymousNotification extends DrupalWebTestCase {
             ->condition('mail', $mail, '=')
             ->execute()
             ->fetchAssoc();
-
-     //DEFAULT ARTICLE
+     // Array is not empty
+     $this->assertTrue(isset($confirmed), 'User has confirmed his account.');
+     //Create article.
      $node1 = $this->drupalCreateNode(
             array(
                 'type' => 'article',
@@ -186,15 +190,7 @@ class multisiteNotification extends DrupalWebTestCase {
         'subscribe to taxonomy terms',
         'suspend own subscriptions',
     ));
-    /*
-    $this->administrator = $this->drupalCreateUser(array(
-        'access administration pages',
-        'administer user subscriptions',
-        'access content',
-        'bulk-administer user subscriptions',
-        'administer site configuration',
-    ));
-    */
+
     $this->administrator = $this->drupalCreateUserWithRole("administrator");
     $this->drupalLogin($this->administrator);
   }
@@ -262,16 +258,15 @@ class multisiteNotification extends DrupalWebTestCase {
 
     $this->verbose('Node created: ' . '</pre>' . print_r($node3, TRUE) . '</pre>');
 
-
     $this->drupalGet('node/' . $node3->nid);
     $this->assertResponse(200, 'Subscription content is accesible');
     $this->drupalLogout();
 
-     $this->drupalLogin($this->administrator);
-     $this->drupalGet('admin/content');
-     $this->assertRaw(t('Send subscriptions notifications '), 'The checkbox exists on the content page');
+    $this->drupalLogin($this->administrator);
+    $this->drupalGet('admin/content');
+    $this->assertRaw(t('Send subscriptions notifications '), 'The checkbox exists on the content page');
 
-     $this->cronRun();
+    $this->cronRun();
     $this->assertTrue(count($this->drupalGetMails()), 'SUBSCRIPTION MAIL SUCCESFULLY SENT.');
     debug($this->drupalGetMails());
     $this->drupalGet('admin/reports/mail-logger');
