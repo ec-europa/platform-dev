@@ -59,7 +59,7 @@ function communities_context_default_contexts() {
           'module' => 'menu',
           'delta' => 'menu-communities-menu',
           'region' => 'sidebar_left',
-          'weight' => '-8',
+          'weight' => '-20',
         ),
         'views-communities_members-block_1' => array(
           'module' => 'views',
