@@ -1,0 +1,405 @@
+<?php
+/**
+ * @file
+ * Code for the Multisite Forum Community feature.
+ */
+
+include_once 'multisite_forum_community.features.inc';
+
+
+/**
+ * Implements hook_init()
+ */
+function multisite_forum_community_init() {
+
+}
+
+/**
+ * Implements hook_og_permission().
+ */
+function multisite_forum_community_og_permission() {
+  $perms = array();
+  
+  $perms['access forum'] = array(
+    'title' => t('Access forum'),
+    'description' => t('Access group forum.'),
+    'default role' => array(OG_AUTHENTICATED_ROLE),
+  );
+  $perms['moderate forum'] = array(
+    'title' => t('Moderate forum'),
+    'description' => t('Moderate group forum.'),
+    'default role' => array(OG_ADMINISTRATOR_ROLE),
+  );
+  $perms['create forum content'] = array(
+    'title' => t('Create Forum topic content'),
+    'default role' => array(OG_AUTHENTICATED_ROLE),
+  );
+  $perms['update own forum content'] = array(
+    'title' => t('Update own Forum topic content'),
+    'default role' => array(OG_AUTHENTICATED_ROLE),
+  );
+  $perms['update any forum content'] = array(
+    'title' => t('Update any Forum topic content'),
+    'default role' => array(OG_ADMINISTRATOR_ROLE),
+  );
+  $perms['delete own forum content'] = array(
+    'title' => t('Delete own Forum topic content'),
+    'default role' => array(OG_AUTHENTICATED_ROLE),
+  );
+  $perms['delete any forum content'] = array(
+    'title' => t('Delete any Forum topic content'),
+    'default role' => array(OG_ADMINISTRATOR_ROLE),
+  );
+  return $perms;
+}
+
+/**
+ * Implements hook_menu()
+ */
+function multisite_forum_community_menu() {
+  
+  $items['forum-placeholder'] = array(
+    'title' => 'Forums',
+    'page callback' => 'drupal_goto',
+    'access callback' => 'multisite_forum_community_menu_community_access_callback',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'menu-communities-menu',
+  );
+  $items['node/%/group/forum'] = array(
+    'title' => 'Forums',
+    'page callback' => 'forum_page',
+    'access arguments' => array('access forum', 'node', 1),   
+    'title arguments' => array(1),
+    'access callback' => 'og_ui_user_access_group',
+    'title callback' => 'multisite_forum_community_title_callback',    
+    'file' => 'forum.pages.inc',
+    'file path' => drupal_get_path('module', 'forum'),    
+  );
+  $items['node/%/group/forum/%forum_forum'] = array(
+    'title' => 'Forums',
+    'page callback' => 'forum_page',
+    'page arguments' => array(4),
+    'access arguments' => array('access forum', 'node', 1),    
+    'title arguments' => array(1),
+    'access callback' => 'og_ui_user_access_group',
+    'title callback' => 'multisite_forum_community_title_callback',
+    'file' => 'forum.pages.inc',
+    'file path' => drupal_get_path('module', 'forum'),    
+  );
+  $items['group/node/%/admin/forum'] = array(
+    'title' => 'Forums',
+    'description' => 'Control forum hierarchy settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('forum_overview'),
+    'access callback' => 'og_ui_user_access_group',
+    'access arguments' => array('moderate forum', 'node', 2),
+    'title callback' => 'multisite_forum_community_title_callback',
+    'title arguments' => array(2),   
+    'file' => 'forum.admin.inc',
+    'file path' => drupal_get_path('module', 'forum'),    
+  );
+  $items['group/node/%/admin/forum/list'] = array(
+    'title' => 'List',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+    'file' => 'forum.admin.inc',
+    'file path' => drupal_get_path('module', 'forum'),    
+  );
+//  $items['group/node/%/admin/forum/add/container'] = array(
+//    'title' => 'Add container',
+//    'page callback' => 'forum_form_main',
+//    'page arguments' => array('container'),
+//    'type' => MENU_LOCAL_ACTION,
+//    'access callback' => 'og_ui_user_access_group',
+//    'access arguments' => array('moderate forum', 'node', 2),    
+//    'file' => 'forum.admin.inc',
+//    'file path' => drupal_get_path('module', 'forum'),    
+//  );
+  $items['group/node/%/admin/forum/add/forum'] = array(
+    'title' => 'Add forum',
+    'page callback' => 'forum_form_main',
+    'page arguments' => array('forum'),
+    'type' => MENU_LOCAL_ACTION,
+    'access callback' => 'og_ui_user_access_group',
+    'access arguments' => array('moderate forum', 'node', 2),    
+    'file' => 'forum.admin.inc',
+    'file path' => drupal_get_path('module', 'forum'),    
+  );
+  $items['group/node/%/admin/forum/edit/container/%taxonomy_term'] = array(
+    'title' => 'Edit container',
+    'page callback' => 'forum_form_main',
+    'page arguments' => array('container', 7),
+    'access callback' => 'og_ui_user_access_group',
+    'access arguments' => array('moderate forum', 'node', 2),    
+    'file' => 'forum.admin.inc',
+    'file path' => drupal_get_path('module', 'forum'),    
+  );
+  $items['group/node/%/admin/forum/edit/forum/%taxonomy_term'] = array(
+    'title' => 'Edit forum',
+    'page callback' => 'forum_form_main',
+    'page arguments' => array('forum', 7),
+    'access callback' => 'og_ui_user_access_group',
+    'access arguments' => array('moderate forum', 'node', 2),    
+    'file' => 'forum.admin.inc',
+    'file path' => drupal_get_path('module', 'forum'),    
+  );
+
+  return $items;
+}
+
+/**
+ * Menu access callback.
+ * @see: multisite_forum_community_menu()
+ */
+function multisite_forum_community_menu_community_access_callback() {  
+  $context = og_context();
+  if ($context) {
+    return og_ui_user_access_group('access forum', $context['group_type'], $context['gid']);
+  }
+  return FALSE;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter()
+ */
+function multisite_forum_community_form_alter(&$form, $form_state, $form_id) {
+  
+  if (($context = og_context())) {
+    if ($form_id == 'forum_overview') {
+      $form['#empty_text'] = t("No forums available.");
+      foreach (element_children($form) as $key) {
+        if (strstr($key, 'tid:') !== FALSE) {
+          $tid = $form[$key]['#term']['tid'];
+          $form[$key]['edit']['#href'] = "group/node/{$context['gid']}/admin/forum/edit/forum/{$tid}";
+        }
+      }
+    }  
+    if ($form_id == 'forum_form_forum' || $form_id == 'forum_form_container') {
+      $form['#submit'][] = 'multisite_forum_community_forum_form_main_submit';
+    }
+  }
+}
+
+/**
+ * Implements submit handler.
+ * @see: multisite_forum_community_form_alter()
+ */
+function multisite_forum_community_forum_form_main_submit($form, &$form_state) {
+  
+  if (($context = og_context())) {
+    $term = taxonomy_term_load($form_state['values']['tid']);
+    $term->og_group_ref[LANGUAGE_NONE][0]['target_id'] = $context['gid'];
+    taxonomy_term_save($term);
+    $form_state['redirect'] = "group/node/{$context['gid']}/admin/forum";    
+  }
+}
+
+/**
+ * Implements hook_url_outbound_alter()
+ */
+function multisite_forum_community_url_outbound_alter(&$path, &$options, $original_path) {
+  
+  if ($path == 'forum-placeholder') {
+    $context = og_context();
+    if ($context && $context['group_type'] == "node") {
+      $path = 'node/' . $context['gid'] . '/group/forum';
+    }
+  }
+}
+
+/**
+ * Implements hook_menu_alter()
+ */
+function multisite_forum_community_menu_alter(&$items) {
+  $items['forum/%forum_forum']['page callback'] = 'multisite_forum_community_forum_page';
+}
+
+/**
+ * Implements hook_node_view()
+ */
+function multisite_forum_community_node_view($node, $view_mode, $langcode) {
+  
+  $vid = variable_get('forum_nav_vocabulary', 0);
+  $vocabulary = taxonomy_vocabulary_load($vid);
+  if (_forum_node_check_node_type($node)) {
+    if ($view_mode == 'full' && node_is_page($node)) {
+      $forum_term = taxonomy_term_load($node->forum_tid);
+      $gid = multisite_forum_community_get_forum_term_git($forum_term);
+      if ($gid) {
+        $group_node = node_load($gid);
+        
+        $breadcrumb[] = l(t('Home'), NULL);
+        $breadcrumb[] = l($group_node->title, "node/{$gid}");
+        $breadcrumb[] = l($vocabulary->name, "node/{$gid}/group/forum");
+        if ($parents = taxonomy_get_parents_all($node->forum_tid)) {
+          $parents = array_reverse($parents);
+          foreach ($parents as $parent) {
+            $breadcrumb[] = l($parent->name, "node/{$gid}/group/forum/" . $parent->tid);
+          }
+        }
+        drupal_set_breadcrumb($breadcrumb);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter()
+ */
+function multisite_forum_community_module_implements_alter(&$module_list, $context) {
+  if ($context === "node_view") {
+    $temp = $module_list['multisite_forum_community'];
+    unset($module_list['multisite_forum_community']);
+    $module_list['multisite_forum_community'] = $temp;
+  }
+}
+
+/**
+ * Implements group forum "page callback".
+ * @see: multisite_forum_community_menu_alter()
+ */
+function multisite_forum_community_forum_page($forum_term = NULL) {
+  
+  if (isset($forum_term->og_group_ref) && isset($forum_term->og_group_ref[LANGUAGE_NONE][0]['target_id'])) {
+    $gid = multisite_forum_community_get_forum_term_git($forum_term);
+    drupal_goto("node/{$gid}/group/forum/{$forum_term->tid}");
+  }
+  module_load_include('inc', 'forum', 'forum.pages');
+  return forum_page($forum_term);  
+}
+
+
+/**
+ * Implements group forum "title callback".
+ * @see: multisite_forum_community_menu_()
+ */
+function multisite_forum_community_title_callback($gid) {
+  $path = arg(4) ? array(l(t('Forums'), "node/{$gid}/group/forum")) : array();
+  og_set_breadcrumb('node', $gid, $path);
+}
+
+/**
+ * Implements hook_og_context_negotiation_info().
+ */
+function multisite_forum_community_og_context_negotiation_info() {
+
+  $providers = array();
+  $providers['multisite_forum_community'] = array(
+    'name' => t('Multisite Forum Community'),
+    'description' => t('Determine context when in group forum paths.'),
+    'callback' => 'multisite_forum_community_og_context_negotiation_handler',
+    'menu path' => array_keys(multisite_forum_community_menu()),
+  );
+  return $providers;
+}
+
+/**
+ * Implements OG negotiation handler callback.
+ * @see: multisite_forum_community_og_context_negotiation_info()
+ */
+function multisite_forum_community_og_context_negotiation_handler() {
+
+  $gid = strstr($_GET['q'], 'admin') !== FALSE ?  arg(2) : arg(1);
+  $node = node_load($gid);
+  if (og_is_group('node', $node->nid)) {
+    return _group_context_handler_entity('node', $node);
+  }
+}
+
+
+/**
+ * Implements hook_og_ui_get_group_admin()
+ */
+function multisite_forum_community_og_ui_get_group_admin($group_type, $gid) {
+  $items = array();
+
+  if (og_user_access($group_type, $gid, 'moderate forum')) {
+    $items['forums'] = array(
+      'title' => t('Forums'),
+      'description' => t('Manage manage group forums.'),
+      'href' => 'admin/forum',
+    );
+  }
+  return $items;
+}
+
+/**
+ * Implements hook_query_term_access_alter()
+ */
+function multisite_forum_community_query_term_access_alter(QueryAlterableInterface $query) {
+  
+  // Only alter forum terms load query.
+  $is_forum_query = FALSE;
+  $vocabulary = taxonomy_vocabulary_machine_name_load('forums');
+  foreach ($query->conditions() as $condition) {
+    if ($condition['field'] == "t.vid" && $condition['value'] == $vocabulary->vid) {
+      $is_forum_query = TRUE;
+    }
+  }
+  
+  $is_forum_query = $is_forum_query || (arg(0) == 'forum' && !arg(1));
+  
+  if ($is_forum_query) {
+    $context = drupal_static('og_context', FALSE);
+    if ($context && $context['group_type'] == "node") {
+      $query->join('og_membership', 'og_membership', 't.tid = %alias.etid');
+      $query->condition('og_membership.gid', $context['gid']);
+      $query->condition('og_membership.entity_type', 'taxonomy_term');
+      $query->condition('og_membership.field_name', 'og_group_ref');
+      $query->distinct();
+    }
+    else {
+      $subquery = db_select('og_membership', 'o');
+      $subquery->fields('o', array('etid'));
+      $subquery->condition('o.entity_type', 'taxonomy_term');
+      $subquery->condition('o.field_name', 'og_group_ref');
+      
+      foreach ($query->getTables() as $table) {
+        if ($table['table'] == 'taxonomy_term_data') {
+          $query->condition($table['alias'] . '.tid', $subquery, 'NOT IN');
+          break;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Helper: get forum term GID.
+ */
+function multisite_forum_community_get_forum_term_git($forum_term) {
+  if (isset($forum_term->og_group_ref) && isset($forum_term->og_group_ref[LANGUAGE_NONE][0]['target_id'])) {
+    return $forum_term->og_group_ref[LANGUAGE_NONE][0]['target_id'];
+  }
+}
+
+/**
+ * Implements hook_node_insert()
+ */
+function multisite_forum_community_node_insert($node) {
+  // Create one default forum term per community.
+  if ($node->type == 'community') {
+    multisite_forum_community_create_default_forum_term($node->nid);
+  }
+}
+
+/**
+ * Called in hook_node_insert() to create one default forum term per community.
+ * 
+ * @param $nid
+ *    Community NID
+ * @return type
+ *   Status constant indicating whether term was inserted (SAVED_NEW) or updated
+ *   (SAVED_UPDATED). When inserting a new term, $term->tid will contain the
+ *   term ID of the newly created term.
+ */
+function multisite_forum_community_create_default_forum_term($nid) {
+  $vocabulary = taxonomy_vocabulary_machine_name_load('forums');
+  $term = new stdClass;
+  $term->vid = $vocabulary->vid;
+  $term->name = t('General discussion');
+  $term->description = '';
+  $term->parent = array(0);
+  $term->og_group_ref[LANGUAGE_NONE][0] = array('target_id' => $nid);
+  return taxonomy_term_save($term);  
+}

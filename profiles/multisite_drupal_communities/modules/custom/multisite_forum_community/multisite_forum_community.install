@@ -1,0 +1,147 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Business Indicators module.
+ *
+ * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
+ */
+
+include_once 'multisite_forum_community.install.inc';
+
+/**
+ * Implements hook_enable().
+ */
+function multisite_forum_community_enable() {
+  drupal_set_message(t('Multisite Forum Community %v feature is now active on your site.', array('%v' => _multisite_forum_community_get_version())));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function multisite_forum_community_disable() {
+  drupal_set_message(t('Multisite Forum Community %v feature is now inactive on your site.', array('%v' => _multisite_forum_community_get_version())));
+}
+
+/**
+ * Implements hook_install().
+ */
+function multisite_forum_community_install() {
+  
+  
+  $value = array('url' => array(), 'node' => array(), 'multisite_forum_community' => array());
+  variable_set('og_context_negotiation_group_context', $value);  
+  
+  module_load_include('inc', 'og', 'includes/og_features_role.features');
+  $permissions = multisite_forum_community_get_default_permissions();
+
+  $grant = array();
+  foreach ($permissions as $key => $details) {
+    list($group_type, $bundle, $perm) = explode(':', $key);
+
+    $roles = og_roles($group_type, $bundle, 0);
+    foreach ($roles as $rid => $rolename) {
+      if (in_array($rolename, $details['roles'])) {
+        $grant[$rid][] = $perm;
+      }
+    }
+  }
+
+  foreach ($grant as $rid => $permissions) {
+    og_role_grant_permissions($rid, $permissions);
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function multisite_forum_community_uninstall() {
+  module_load_include('inc', 'og', 'includes/og_features_role.features');
+  $permissions = multisite_forum_community_get_default_permissions();
+
+  $revoke = array();
+  foreach ($permissions as $key => $details) {
+    list($group_type, $bundle, $perm) = explode(':', $key);
+
+    $roles = og_roles($group_type, $bundle, 0);
+    foreach ($roles as $rid => $rolename) {
+      if (in_array($rolename, $details['roles'])) {
+        $revoke[$rid][] = $perm;
+      }
+    }
+  }
+
+  foreach ($revoke as $rid => $permissions) {
+    og_role_revoke_permissions($rid, $permissions);
+  }  
+}
+
+
+/**
+ * Set default permissions for communicty forum.
+ */
+function multisite_forum_community_get_default_permissions() {
+  $permissions = array();
+  
+  // Exported og permission: 'node:community:access forum'
+  $permissions['node:community:access forum'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'community_manager' => 'community_manager',
+      'member' => 'member',
+    ),
+  );
+
+  // Exported og permission: 'node:community:create forum content'
+  $permissions['node:community:create forum content'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'community_manager' => 'community_manager',
+      'member' => 'member',
+    ),
+  );
+
+  // Exported og permission: 'node:community:delete any forum content'
+  $permissions['node:community:delete any forum content'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'community_manager' => 'community_manager',
+    ),
+  );
+
+  // Exported og permission: 'node:community:delete own forum content'
+  $permissions['node:community:delete own forum content'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'community_manager' => 'community_manager',
+      'member' => 'member',
+    ),
+  );
+
+  // Exported og permission: 'node:community:moderate forum'
+  $permissions['node:community:moderate forum'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'community_manager' => 'community_manager',
+    ),
+  );
+
+  // Exported og permission: 'node:community:update any forum content'
+  $permissions['node:community:update any forum content'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'community_manager' => 'community_manager',
+    ),
+  );
+
+  // Exported og permission: 'node:community:update own forum content'
+  $permissions['node:community:update own forum content'] = array(
+    'roles' => array(
+      'administrator member' => 'administrator member',
+      'community_manager' => 'community_manager',
+      'member' => 'member',
+    ),
+  );    
+  
+  return $permissions;
+}

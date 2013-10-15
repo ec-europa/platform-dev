@@ -1,0 +1,202 @@
+<?php 
+
+/**
+ * Test Multisite Forum features to ensure it follows QA requirements.
+ */
+class MultisiteForumCommunityQAWebTestCase extends DrupalWebTestCase {
+  
+  protected $profile = 'multisite_drupal_communities';
+  
+  var $public_files_directory = NULL;
+  
+  public static function getInfo() {
+    return array(
+      'name' => 'Multisite Forum Community QA tests',
+      'description' => 'Test Multisite Forum Community feature to ensure it follows QA requirements.',
+      'group' => 'Multisite QA',
+    );
+  }
+  
+  function tearDown() {
+
+  }
+
+  function setUp() {
+    // parent::setUp(array('multisite_forum_community', 'multisite_forum_core'));   
+    $this->setup = TRUE;
+    
+    $this->user1 = $this->drupalCreateUser();
+    $this->user2 = $this->drupalCreateUser();
+
+    // Create group and group content node types.
+    $this->group_content_type = 'community';
+    $this->group_type = 'community';
+
+    // Create a group node and enable access.
+    $settings = array();
+    $settings['type'] = $this->group_type;
+    $settings[OG_GROUP_FIELD][LANGUAGE_NONE][0]['value'] = 1;
+    $settings[OG_ACCESS_FIELD][LANGUAGE_NONE][0]['value'] = 1;
+    $settings['uid'] = $this->user1->uid;
+    $this->group_node = $this->drupalCreateNode($settings);    
+  }
+  
+  function testGroupAccess() {
+    
+    // Test with group manager.
+    
+    $this->drupalLogin($this->user1);
+    $nid = $this->group_node->nid;
+    $options = array('query' => array('og_group_ref' => $nid));
+    
+    $this->drupalGet("node/{$nid}/group");
+    
+    // Check if group manager has access to forum management page.
+    $this->assertLink('Forums', 0, 'Group manager has access to forum management page');
+
+    // Manager can access forum management page.
+    $this->drupalGet("node/{$nid}/group/forum");
+    $this->assertResponse('200', t('Group member can view forum page.'));  
+
+    // Manager can access forum term creation page.
+    $this->drupalGet("group/node/{$nid}/admin/forum/add/forum");
+    $this->assertResponse('200', t('Group manager has access to forum term creation page.'));  
+    
+    $name = $this->randomName();
+    $this->drupalPost("group/node/{$nid}/admin/forum/add/forum", array('name' => $name), t('Save'));
+    
+    $term = array_shift(taxonomy_get_term_by_name($name));
+    
+    // Manager can access forum term editing page.
+    $this->drupalGet("group/node/{$nid}/admin/forum/edit/forum/{$term->tid}");
+    $this->assertResponse('200', t('Group manager has access to forum term editing page.'));  
+    
+    $name = $this->randomName();
+    $this->drupalPost("group/node/{$nid}/admin/forum/edit/forum/{$term->tid}", array('name' => $name), t('Save'));
+    
+    // Manager can post a forum topic.
+    $title = $this->randomName();
+    $edit = array(
+      'title' => $title,
+      'og_group_ref[und][0][default][]' => array($nid),
+      'taxonomy_forums[und]' => $term->tid,
+    );
+    $this->drupalPost('node/add/forum', $edit, t('Save'), $options);
+
+    // Manager can edit is own forum topics.
+    $this->assertLink('Edit', 0, 'Group manager can edit is own forum topics.');
+    
+    // Test now with normal member.
+    
+    $this->drupalLogin($this->user2);
+    $nid = $this->group_node->nid;
+
+    // Assert the user is not a group member.
+    $this->assertFalse(og_is_member('node', $nid, 'user', $this->user2), t('User is a not group member.'));
+
+    $og_membership = og_membership_create('node', $nid, 'user', $this->user2->uid, 'og_user_node');
+    og_membership_save($og_membership);
+    
+    // Assert the user is a group member.
+    $this->assertTrue(og_is_member('node', $nid, 'user', $this->user2), t('User is a group member.'));
+    
+    // Assert the user can view the group.
+    $this->drupalGet('node/' . $nid);
+    $this->assertResponse('200', t('Group member can view group node.'));
+
+    // Check if forum page link is placed on community page.
+    $this->assertLink('Forums', 0, 'Forum link on group page found');
+    
+    $this->drupalGet("node/{$nid}/group/forum");
+    $this->assertResponse('200', t('Group member can view forum page.'));  
+
+    // Check if group member can access forum topic creation page.
+    $this->drupalGet('node/add/forum', $options);
+    $this->assertResponse('200', t('Group member can access forum topic creation page.'));  
+    
+    // Manager can post a forum topic.
+    $title = $this->randomName();
+    $edit = array(
+      'title' => $title,
+      'og_group_ref[und][0][default][]' => array($nid),
+      'taxonomy_forums[und]' => $term->tid,
+    );
+    $this->drupalPost('node/add/forum', $edit, t('Save'), $options);
+
+    // Group member can edit is own forum topics.
+    $this->assertLink('Edit', 0, 'Group member can edit is own forum topics.');
+  }
+
+  function testTaxonomyIntegration() {
+    
+    $field = field_info_field('og_group_ref');
+    $status = isset($field['bundles']['taxonomy_term']) && in_array('forums', $field['bundles']['taxonomy_term']);
+    $this->assert($status, 'Field og_group_ref correctly added to Forums vocabulary');
+    
+    $status = isset($field['bundles']['node']) && in_array('forum', $field['bundles']['node']);
+    $this->assert($status, 'Field og_group_ref correctly added to Forum topic content type');
+
+    $field = field_info_field('group_content_access');
+    $status = isset($field['bundles']['node']) && in_array('forum', $field['bundles']['node']);
+    $this->assert($status, 'Field group_content_access correctly added to Forum topic content type');
+  }
+  
+  function testSoftConfiguration() {
+    
+    $value = variable_get('og_context_negotiation_group_context', array());
+    $this->assert(isset($value['multisite_forum_community']), 'multisite_forum_community negotiation found');
+    
+    $permissions = db_select('og_role_permission', 'o')
+      ->fields('o', array('rid'))
+      ->condition('o.module', 'multisite_forum_community')
+      ->execute()
+      ->fetchAll();
+    $this->assertFalse(empty($permissions), 'Forum permissions correctly imported into og_role_permission');
+  }
+  
+  /**
+   * Test Info File.
+   * TestFile <featurename>.info
+   */
+  function testInfoFile() {
+    
+    $module = basename(__FILE__ , ".test");
+    $path = drupal_get_path('module', $module) . '/' . $module . '.info';
+    $info = drupal_parse_info_file($path);
+
+    // Add name information. Ex: name=Newsletters.
+    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module );
+
+    // Add description information.
+    // Ex: description = Publish and send newsletters to lists of subscribers.
+    $this->assertTrue(array_key_exists('description', $info), 'The module\'s description is available.');
+
+    // Add package information.
+    // Ex: package = Multisite_features
+    $this->assertTrue(array_key_exists('package', $info), 'The module\'s package is available.');
+
+    // Add core information
+    // Ex core = 7.x
+    $this->assertTrue(array_key_exists('core', $info), 'The Drupal core version is available.');
+    $this->assertEqual($info['core'], '7.x');
+
+    // Add php information
+    // Ex: php = 5.2.4
+    $this->assertTrue(array_key_exists('php', $info), 'The PHP version info is available.');
+    $this->assertEqual($info['php'], '5.2.4');
+
+    // Add version information (check if the version number matches with this page title)
+    // Ex: version = 7.x-1.0
+    $this->assertTrue(array_key_exists('version', $info));
+
+    // Add feature information:
+    // features[features_api][] = api:1
+    $this->assertEqual($info['features']['features_api'][0], 'api:1', 'The Feature API dependency is available.');
+
+    // Remove tags taxonomy:
+    // features[taxonomy][] = "tags"
+    if (array_key_exists('features', $info) && array_key_exists('taxonomy', $info['features'])) {
+      $this->assertFalse(in_array('tags', $info['features']['taxonomy']), 'The dependency to the tags taxonomy has been removed.');
+    }
+  }
+}
