@@ -309,12 +309,20 @@ function fpfis_create_files_dir(&$subsite) {
 	if (!is_dir($files_directory_path)) {
 		$reports[] = sprintf('Unable to create files directory ( %s ) for subsite %s', $files_directory_path, $subsite->name());
 	}
+	else {
+		chgrp($files_directory_path, 'ossg');
+		chmod($files_directory_path, 02775); // u=rwx,g=rwxs,o=rx
+	}
 	
 	/// create the directory that will host the subsite's private files
 	$private_files_directory_path = sprintf('%s/%s', $files_directory_path, FPFISPolicyConfig::get('private_files_relpath'));
 	mkpath($private_files_directory_path);
 	if (!is_dir($private_files_directory_path)) {
 		$reports[] = sprintf('Unable to create private files directory ( %s ) for subsite %s', $private_files_directory_path, $subsite->name());
+	}
+	else {
+		chgrp($private_files_directory_path, 'ossg');
+		chmod($private_files_directory_path, 02770); // u=rwx,g=rwxs,o-rwx
 	}
 	
 	/// create the directory that will host the subsite itself (settings.php + symlink to files directory)
@@ -323,6 +331,8 @@ function fpfis_create_files_dir(&$subsite) {
 	if (!is_dir($files_directory_path)) {
 		$reports[] = sprintf('Unable to create subsite directory ( %s ) for subsite %s', $subsite_directory_path, $subsite->name());
 	} else {
+		// the default group is expected to be fine
+		chmod($subsite_directory_path, 0775); // u=rwx,g=rwx,o=rx
 		/// create the symlink to the files directory
 		if (!is_link($subsite_directory_path . '/files')) {
 			if (!symlink($files_directory_path, $subsite_directory_path . '/files')) {
@@ -611,7 +621,7 @@ function fpfis_adjust_subsite_settings(&$subsite) {
 	$reports = array();
 	$next_state = 'subsite_settings_adjusted';
 	chgrp($settings_path, 'ossg');
-	chmod($settings_path, 0640);
+	chmod($settings_path, 0640); // u=rw,g=r,o-rwx
 	$settings_fh = fopen($settings_path, 'r+');
 	if (!$settings_fh) {
 		$reports[] = sprintf('unable to open file %s', $settings_path);
