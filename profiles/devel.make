@@ -34,3 +34,5 @@ projects[simplehtmldom][version] = "1.12"
 projects[drupalforfirebug][subdir] = "contributed"
 projects[drupalforfirebug][version] = "1.4"
 
+projects[coffee][subdir] = "contributed"
+projects[coffee][version] = "2.0"
