@@ -7,11 +7,12 @@ core = 7.x
 ; Dependencies
 
 ; enable this for development
-projects[grammar_parser][type] = library
-projects[grammar_parser][download][type] = git
-projects[grammar_parser][download][url] = http://git.drupal.org/project/grammar_parser.git
-projects[grammar_parser][download][branch] = 7.x-1.x
-projects[grammar_parser][download][tag] = 1.2
+; install it in a libraries directory ("sites/all/libraries") not "enabled" it as a module.
+projects[grammar_parser][type] = "library"
+projects[grammar_parser][download][type] = "git"
+projects[grammar_parser][download][url] = "https://drupal.org/project/grammar_parser"
+projects[grammar_parser][download][branch] = "7.x-1.x"
+projects[grammar_parser][download][tag] = "1.2"
 
 projects[libraries][subdir] = "contributed"
 projects[libraries][version] = 2.0
