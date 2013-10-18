@@ -37,13 +37,16 @@
  */
 ?>
 <div id="comments" class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <?php if ($content['comments'] && $node->type != 'forum'): ?>
+  <?php if ($content['comments']): ?>
     <?php print render($title_prefix); ?>
-    <h3 class="title"><?php print t('Comments'); ?></h3>
+    <?php $title_text = ($node->type != 'forum' ? t('Comments') : t('Replies')); ?>
+    <h3 class="title"><?php print $title_text; ?></h3>
     <?php print render($title_suffix); ?>
   <?php endif; ?>
 
-  <?php print render($content['comments']); ?>
+  <ul class="media-list">
+    <?php print render($content['comments']); ?>
+  </ul>
 
   <?php if ($content['comment_form']): ?>
     <h3 class="title comment-form"><?php print t('Add new comment'); ?></h3>

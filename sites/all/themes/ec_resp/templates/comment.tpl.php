@@ -58,46 +58,49 @@
  * @see theme_comment()
  */
 ?>
-<div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
+<li class="<?php print $classes; ?> media"<?php print $attributes; ?>>
 
-  <div class="attribution">
-
+  <div class="attribution pull-right">
     <?php print $picture; ?>
 
     <div class="submitted">
       <div class="commenter-name">
-        <?php print $author; ?>
+        <small><?php print $author; ?></small>
       </div>
       <div class="comment-time">
-        <?php print  format_date($comment->created, 'custom', 'd/m/Y H:i'); ?>
+        <small class="text-muted"><?php print  format_date($comment->created, 'custom', 'd/m/Y H:i'); ?></small>
       </div>
     </div>
   </div>
 
-  <div class="comment-text">
+  <div class="comment-text media-body">
     <div class="comment-arrow"></div>
+    <div class="panel panel-info">
 
-    <?php if ($new): ?>
-      <span class="label label-info"><?php print $new; ?></span>
-    <?php endif; ?>
-
-    <?php print render($title_prefix); ?>
-    <h3<?php print $title_attributes; ?>><?php print $title; ?></h3>
-    <?php print render($title_suffix); ?>
-
-    <div class="content"<?php print $content_attributes; ?>>
-      <?php
-        // We hide the comments and links now so that we can render them later.
-        hide($content['links']);
-        print render($content);
-      ?>
-      <?php if ($signature): ?>
-      <div class="user-signature clearfix">
-        <?php print $signature; ?>
-      </div>
+      <?php if ($new): ?>
+        <span class="label label-info"><?php print $new; ?></span>
       <?php endif; ?>
-    </div> <!-- /.content -->
 
+      <?php print render($title_prefix); ?>
+      <div class="panel-heading">
+      <h4 class="panel-title"><?php print $title; ?></h4>
+      </div>
+      <?php print render($title_suffix); ?>
+
+      <div class="panel-body content"<?php print $content_attributes; ?>>
+        <?php
+          // We hide the comments and links now so that we can render them later.
+          hide($content['links']);
+          print render($content);
+        ?>
+        <?php if ($signature): ?>
+        <div class="user-signature clearfix">
+          <?php print $signature; ?>
+        </div>
+        <?php endif; ?>
+      </div> <!-- /.content -->
+
+    </div>
     <?php print render($content['links']); ?>
   </div> <!-- /.comment-text -->
-</div>
+</li>
