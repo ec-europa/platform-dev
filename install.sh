@@ -134,8 +134,11 @@ set +x
 
 # Remove devel build make
 if [ "${devel}" = 1 ] ; then
-    sed -i '$ d' profiles/multisite.make
+    line=$(head -n 1 profiles/multisite.make)
+    echo ${line} > profiles/multisite.make
 fi
+
+
 
 mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "drop database ${site_name};" 1>&2
 mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "create database ${site_name};" 1>&2
