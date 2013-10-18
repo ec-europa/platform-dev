@@ -250,7 +250,7 @@ feature_sets[contact_form][font] = 'multisite-icon-mail'
 feature_sets[contact_form][enable][] = contact_form
 feature_sets[contact_form][disable][] = contact_form
 
-feature_sets[idea_standard][title] = 'Idea'
+feature_sets[idea_standard][title] = 'Ideas'
 feature_sets[idea_standard][description] = 'Suggest ideas, vote on and discuss already submitted ideas, surface most important/best ideas. <span class="desc"><a href="https://webgate.ec.europa.eu/fpfis/wikis/x/mobhAg">Lire la documentation</a></span>'
 feature_sets[idea_standard][category] = 'Users feedback'
 feature_sets[idea_standard][icon] = ''

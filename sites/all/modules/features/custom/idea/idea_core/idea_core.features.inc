@@ -27,9 +27,9 @@ function idea_core_views_api() {
 function idea_core_node_info() {
   $items = array(
     'idea' => array(
-      'name' => t('idea'),
+      'name' => t('Idea'),
       'base' => 'node_content',
-      'description' => t('simple content type to suggest quickly an idea.'),
+      'description' => t('Use idea content type to suggest quickly an idea.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
