@@ -47,7 +47,7 @@ function multisite_megamenu_enable() {
   }
 
   //Activation message
-  drupal_set_message(t('Mega Menu feature is now active on your site.')); 
+  drupal_set_message(t('Mega Menu feature is now active on your site.'));
 }
 
 /**
@@ -71,7 +71,7 @@ function multisite_megamenu_disable() {
   // Add default menu block in region to context
   _add_block_context($context_name, 'system-main-menu', 'system', 'main-menu', $region);
   drupal_set_message(t('The default main menu has been inserted in the "@region" region of the "@context" context.', array('@region' => $region, '@context' => $context_name)));
-
+  variable_del('om_maximenu');
   //Activation message
   drupal_set_message(t('Mega Menu feature is now disabled on your site.'));
 }
@@ -118,7 +118,7 @@ function _multisite_megamenu_get_imported_menu($mlid = 'main-menu') {
         $menu_id = $m_id;
         // ensure skin option is set to no_style
         $_om_maximenu_variable[$m_id]['skin'] = 'no_style';
-        variable_set('om_maximenu', $_om_maximenu_variable);  
+        variable_set('om_maximenu', $_om_maximenu_variable);
         break;
       }
     }
@@ -136,15 +136,15 @@ function _multisite_megamenu_import_menu($mlid = 'main-menu') {
   // obtain main menu info and prepare data for import
   $form = $form_state = array();
   $form_state['values']['om_import']['menus'] = _multisite_megamenu_get_menu_info($mlid);
-  
-  // initialization of global variable with om_maximenu settings needed 
+
+  // initialization of global variable with om_maximenu settings needed
   global $_om_maximenu_variable;
   $_om_maximenu_variable = variable_get('om_maximenu');
-  
+
   // import main menu (but note: the global variable is not updated)
   require_once(drupal_get_path('module', 'om_maximenu') . '/inc/om_maximenu.import.inc');
   om_maximenu_import_submit($form, $form_state);
-  
+
   // load om_maximenu settings and look for the id of our new menu
   return _multisite_megamenu_get_imported_menu($mlid);
 }
