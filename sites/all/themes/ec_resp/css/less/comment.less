@@ -3,77 +3,39 @@
   ul.media-list {
     margin: 0;
     padding: 0;
-  }
-}
-
-
-/* ---------------- Comment form  ----------------- */
-.comment-form {
-  label {
-    float: left; /* LTR */
-    width: 120px;
-  }
-  input,
-  .form-select {
-    margin: 0;
-    border-radius: 5px;  
-  }
-  .form-type-textarea label {
-    float: none;  
-  }
-  .form-item,
-  .form-radios,
-  .form-type-checkbox,
-  .form-select {
-    margin-bottom: 10px;
-    overflow: hidden;
-  }
-  .form-type-checkbox,
-  .form-radios {
-    margin-left: 120px; /* LTR */
-    label {
-      float: none;
-      margin-top: 0;    
+    .attribution .user-picture img {
+      max-width: 80px;
+    }    
+    .comment-unpublished {
+      background-color: @body-bg;
+      .panel-body {
+        background-color: #eee;
+      }
+    }
+    .comment-links {
+      display: block;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
     }
   }
-  input.form-file {
-    width: auto;
-  }
-  .form-item .description  {
-    font-size: 0.9em;
-    line-height: 1.2;
-    margin-left: 120px; /* LTR */  
-  }
-  .form-textarea {
-    border-radius: 5px 5px 0 0;
-  }
-  fieldset.filter-wrapper .fieldset-wrapper,
-  .text-format-wrapper .form-item {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-  fieldset.filter-wrapper .tips {
-    font-size: 0.9em;  
+}
+
+@media (max-width: @screen-sm-max) {
+  #comments ul.media-list {
+    .attribution .user-picture img {
+      max-width: 50px;
+    }
   }
 }
 
-.filter-wrapper {
-  label {
-    width: auto;
-    float: none;  
-  }
-  .form-select {
-    min-width: 120px;  
-  }
-}
-
-#comment-body-add-more-wrapper .form-type-textarea label {
-  margin-bottom: 0.4em;
-}
-
-#edit-actions input {
-  margin-right: 0.6em; /* LTR */
+/* ---------------- Comment form  ----------------- */
+#comment-form {
+  .comment-preview {
+    background-color: @body-bg;
+    border-bottom: @brand-primary 2px solid;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }  
 }
 
 .text-format-wrapper > a.ckeditor_links { display: none !important; }
-.text-format-wrapper > fieldset.filter-wrapper.form-wrapper div.form-type-select { /*display: none;*/ }

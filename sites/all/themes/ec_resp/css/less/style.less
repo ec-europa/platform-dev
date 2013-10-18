@@ -159,16 +159,10 @@ span.glyphicon {
 .contextual-links-wrapper a {
   text-shadow: 0 0 0 !important;
 }
-ul.menu li {
-  margin: 0;
-}
 .region-content ul,
 .region-content ol {
   margin: 1em 0;
   padding: 0 0 0.25em 2.5em; /* LTR */
-}
-ul.tips {
-  padding: 0 0 0 1.25em; /* LTR */
 }
 a.context-block-region {
   display: none !important;
@@ -177,6 +171,20 @@ ul {
   .secondary {
     border-color: darken(@body-bg,15%);
     li { border-color: darken(@body-bg,15%); }
+  }
+  &.inline li {
+    &.first {
+      padding-left: 0;
+    }
+    &.last {
+      padding-right: 0;
+    }
+  }
+  &.menu li {
+    margin: 0;
+  }
+  &.tips {
+    padding: 0 0 0 1.25em; /* LTR */
   }
 }
 
@@ -296,6 +304,11 @@ body.cke_editable {
   display: inline-block;
 }
 
+#edit-actions {
+  .btn {
+    margin-right: 5px;
+  }
+}
 /* Disabled form elements */
 input.form-button-disabled,
 input.form-button-disabled:hover,

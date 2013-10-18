@@ -62,28 +62,19 @@
 
   <div class="attribution pull-right">
     <?php print $picture; ?>
-
-    <div class="submitted">
-      <div class="commenter-name">
-        <small><?php print $author; ?></small>
-      </div>
-      <div class="comment-time">
-        <small class="text-muted"><?php print  format_date($comment->created, 'custom', 'd/m/Y H:i'); ?></small>
-      </div>
-    </div>
   </div>
 
   <div class="comment-text media-body">
-    <div class="comment-arrow"></div>
     <div class="panel panel-info">
-
-      <?php if ($new): ?>
-        <span class="label label-info"><?php print $new; ?></span>
-      <?php endif; ?>
 
       <?php print render($title_prefix); ?>
       <div class="panel-heading">
-      <h4 class="panel-title"><?php print $title; ?></h4>
+      <h4 class="panel-title">
+        <?php if ($new): ?>
+        <span class="label label-info"><?php print $new; ?></span>
+        <?php endif; ?>
+        <?php print $title; ?>
+      </h4>
       </div>
       <?php print render($title_suffix); ?>
 
@@ -98,9 +89,23 @@
           <?php print $signature; ?>
         </div>
         <?php endif; ?>
-      </div> <!-- /.content -->
 
-    </div>
-    <?php print render($content['links']); ?>
+        <div class="comment-links row">
+          <div class="col-lg-6 col-md-5 col-sm-12 col-xs-12">
+            <?php print render($content['links']); ?>
+          </div>
+
+          <div class="clearfix visible-sm visible-xs"></div>
+
+          <div class="col-lg-6 col-md-7 col-sm-12 col-xs-12 submitted text-right">
+            <small>
+              <div class="commenter-name"><?php print $author; ?>,</div>
+              <div class="comment-time text-muted"><?php print  format_date($comment->created, 'custom', 'd/m/Y H:i'); ?></div>
+           </small>
+          </div>      
+          
+        </div> <!-- /.comment-links -->
+      </div> <!-- /.content -->
+    </div> <!-- /.panel -->
   </div> <!-- /.comment-text -->
 </li>

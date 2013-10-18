@@ -91,7 +91,7 @@
       $fields = array(
         'picture' => array(),
         'body'    => array(),
-        'hidden'  => array('comments', 'links', 'print_links'),
+        'hidden'  => array('comments', 'links', 'print_links', 'og_group_ref'),
         'group' => array('group_audience', 'group_content_access')
       );
       $display_user_picture = FALSE;
@@ -101,7 +101,7 @@
       $fields = array(
         'picture' => array('field_news_picture'),
         'body'    => array('body'),
-        'hidden'    => array('comments', 'links', 'print_links'),
+        'hidden'    => array('comments', 'links', 'print_links', 'og_group_ref'),
         'group'   => array('group_audience', 'group_content_access')
       );
       $display_user_picture = FALSE;
@@ -111,7 +111,7 @@
       $fields = array(
         'picture' => array('field_thumbnail'),
         'body'  => array('body'),
-        'hidden'  => array('comments', 'links', 'print_links', 'field_thumbnail','og_roles_permissions'),
+        'hidden'  => array('comments', 'links', 'print_links', 'field_thumbnail','og_roles_permissions', 'og_group_ref'),
         'group' => array('group_group', 'group_access')
       );
       $display_submitted = FALSE;
@@ -122,7 +122,7 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('comments', 'links', 'print_links'),
+        'hidden'  => array('comments', 'links', 'print_links', 'og_group_ref'),
         'group' => array('group_audience', 'group_content_access')
       );
       break;
@@ -131,7 +131,7 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('comments', 'links', 'field_watching', 'print_links'),
+        'hidden'  => array('comments', 'links', 'field_watching', 'print_links', 'og_group_ref'),
         'group' => array('group_audience', 'group_content_access')
       );
       $display_submitted = FALSE;
@@ -146,7 +146,7 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('comments', 'links', 'print_links'),
+        'hidden'  => array('comments', 'links', 'print_links', 'og_group_ref'),
         'group' => array('group_audience', 'group_content_access')
       );
       $display_user_picture = FALSE;
@@ -157,7 +157,7 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('field_video_upload', 'field_picture_upload', 'comments', 'links', 'print_links'),
+        'hidden'  => array('field_video_upload', 'field_picture_upload', 'comments', 'links', 'print_links', 'og_group_ref'),
         'group' => array('group_audience', 'group_content_access')
       );
       $suffixe = $gallerymedia_items;
@@ -167,7 +167,16 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('field_picture_upload', 'comments', 'links', 'print_links'),
+        'hidden'  => array('field_picture_upload', 'comments', 'links', 'print_links', 'og_group_ref'),
+        'group' => array('group_audience', 'group_content_access')
+      );
+      break;
+
+      case 'article':
+      $fields = array(
+        'picture' => array(),
+        'body'  => array('body'),
+        'hidden'  => array('comments', 'links', 'print_links', 'field_article_publication_date', 'og_group_ref'),
         'group' => array('group_audience', 'group_content_access')
       );
       break;
@@ -176,7 +185,7 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('comments', 'links', 'print_links'),
+        'hidden'  => array('comments', 'links', 'print_links', 'og_group_ref'),
         'group' => array('group_audience', 'group_content_access')
       );
       //$suffixe = $video_items;
@@ -195,7 +204,7 @@
 
   <div class="content clearfix"<?php print $content_attributes; ?>>
 
-    <?php
+    <?php 
       // We hide several elements now so that we can render them later.
       foreach ($fields as $key => $value) {
         foreach ($value as $id) {
@@ -252,7 +261,7 @@
               $last = true;
             }
 
-            $field .= '<div class="row field c_left' . ($first ? " first": "") . ($last ? " last": "") . '">';
+            $field .= '<div class="row c_left field field-' . $content[$key]['#field_name'] . ($first ? " first": "") . ($last ? " last": "") . '">';
 
             switch ($content[$key]['#label_display']) {
               case 'hidden':
@@ -313,14 +322,14 @@
 
         if ($display_submitted) {
           $output .= '<div class="col-lg-6' . ($display_workbench ? "" : " col-lg-offset-6") . '">';
-            $output .= '<div class="well well-sm node-submitted clearfix">';
+            $output .= '<div class="well well-sm node-submitted clearfix"><small>';
               //author picture
               if ($display_user_picture) {
                 $output .= $user_picture;
               }
               //publication date
               $output .= $submitted;
-            $output .= '</div>';
+            $output .= '</small></div>';
           $output .= '</div>';
         }
         $output .= '</div>';
