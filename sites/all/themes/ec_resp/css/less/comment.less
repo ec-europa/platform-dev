@@ -3,6 +3,9 @@
   ul.media-list {
     margin: 0;
     padding: 0;
+    .panel-body {
+      padding-bottom: 0;
+    }
     .attribution .user-picture img {
       max-width: 80px;
     }    
@@ -15,7 +18,10 @@
     .comment-links {
       display: block;
       border-top: 1px solid #ddd;
-      padding-top: 10px;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      background-color: #fafafa;
+      border-radius: 0 0 @border-radius-base @border-radius-base;
     }
   }
 }
