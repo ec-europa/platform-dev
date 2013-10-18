@@ -35,7 +35,8 @@ function multisite_custom_error_disable() {
   module_load_include('module', 'customerror');
   foreach (_customerror_enum_errors() as $code => $desc) {
     if (variable_get('site_' . $code, '') == 'customerror/' . $code) {
-      variable_del('site_' . $code, '');
+      variable_del('site_' . $code);
+      variable_del('customerror_' . $code . '_theme');
       drupal_set_message(t('Default %v error page has been restored.', array('%v' => $code)));
     }
   }
