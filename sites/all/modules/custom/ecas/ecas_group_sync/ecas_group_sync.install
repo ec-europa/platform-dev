@@ -1,0 +1,44 @@
+<?php
+function ecas_group_sync_schema() {
+  $schema['ecas_sync_mapping'] = array(
+    'fields' => array(
+      'LDAPfield' => array(
+        'type' => 'varchar',
+        'length' => '50',
+        'not null' => TRUE,
+      ),
+      'LDAPfield_value' => array(
+        'type' => 'varchar',
+        'length' => '50',
+        'not null' => TRUE,
+      ),
+      'synctype' => array(
+        'type' => 'varchar',
+        'length' => '20',
+        'not null' => TRUE,
+      ),
+      'synctype_value' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'indexes' => array(
+      'LDAPfield_index' => array('LDAPfield'),
+    ),
+  );
+
+  return $schema;
+}
+
+function ecas_group_sync_install() {
+  // Create my tables.
+  //drupal_install_schema('ecas_group_sync');
+}
+
+function group_sync_uninstall() {
+  // Drop my tables.
+  //drupal_uninstall_schema('ecas_group_sync');
+}
+
+
+?>

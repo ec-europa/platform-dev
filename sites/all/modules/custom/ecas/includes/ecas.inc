@@ -364,7 +364,7 @@ function ecas_login_check() {
       $account = user_load_by_name($ecas_name);
       
       // extra process to filter ecas user
-      drupal_alter('extra_filter', $ecas_name, $account, $_SESSION['ecas_goto']);
+      drupal_alter('ecas_extra_filter', $ecas_name, $account, $_SESSION['ecas_goto']);
     }
     else {
       // these variables will be checked by later conditions
@@ -430,7 +430,9 @@ function ecas_login_check() {
       // avoid calling ldap_* functions if they are not available
       if (function_exists('getLdapUserInfo')) {
         // retrieve informations about the user through LDAP
-        $user_info = getLdapUserInfo($account->name, array('sn', 'givenname', 'dg', 'sourceorganisation', 'departmentnumber'));
+        $LDAP_info = array('sn', 'givenname', 'dg', 'sourceorganisation', 'departmentnumber');
+        drupal_alter('ecas_LDAP_info', $LDAP_info);
+        $user_info = getLdapUserInfo($account->name, $LDAP_info);
 
         // update her informations
         if (!empty($user_info)) {
