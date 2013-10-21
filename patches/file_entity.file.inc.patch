@@ -1,5 +1,5 @@
---- file_entity.file.inc	2013-10-21 15:34:18.000000000 +0200
-+++ file_entity.file.inc	2013-10-21 15:35:43.000000000 +0200
+--- sites/all/modules/contributed/file_entity/file_entity.file.inc	2013-10-21 15:34:18.000000000 +0200
++++ sites/all/modules/contributed/file_entity/file_entity.file.inc	2013-10-21 15:35:43.000000000 +0200
 @@ -112,19 +112,18 @@
          ))
          ->execute();
