@@ -44,9 +44,6 @@ projects[colors][version] = "1.0-beta2"
 projects[colorbox][subdir] = "contributed"
 projects[colorbox][version] = "1.3"
 
-projects[configuration][subdir] = "contributed"
-projects[configuration][version] = "2.0-alpha3"
-
 projects[context][subdir] = "contributed"
 projects[context][version] = "3.0-beta6"
 
