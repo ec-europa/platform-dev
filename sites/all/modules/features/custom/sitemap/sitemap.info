@@ -28,5 +28,4 @@ features[variable][] = xmlsitemap_settings_node_article
 features[variable][] = xmlsitemap_settings_node_page
 features[variable][] = xmlsitemap_settings_taxonomy_term_tags
 features[variable][] = xmlsitemap_xsl
-features_exclude[dependencies][menu] = menu
 files[] = tests/sitemap.test
