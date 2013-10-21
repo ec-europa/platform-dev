@@ -270,7 +270,13 @@ projects[views_bulk_operations][subdir] = "contributed"
 projects[views_bulk_operations][version] = "3.1"
 
 projects[views_datasource][subdir] = "contributed"
-projects[views_datasource][version] = "1.x-dev"
+;projects[views_datasource][version] = "1.x-dev"
+projects[views_datasource][download][type] = "git"
+projects[views_datasource][download][url] = "http://git.drupal.org/project/views_datasource.git"
+;projects[views_datasource][download][revision] = "a707e70cfb5846de6c8cd9b0a8ee03b14207e3b2" //6.x
+projects[views_datasource][download][revision] = "f6b9bdb83f9ce1239f68ac544cadd1ee295b556e"
+;projects[views_datasource][download][revision] = "6e9b6b980fc2826b09391ae1c2ec0c5a85c6c24a"// 7.x
+
 
 projects[views_data_export][subdir] = "contributed"
 projects[views_data_export][version] = "3.0-beta6"
