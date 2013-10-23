@@ -27,8 +27,8 @@
  */
 ?>
 
-  <?php 
-  //Replace nid by number of items in gallery  
+  <?php
+  //Replace nid by number of items in gallery
   function nb_items_count($matches) {
     $node = node_load($matches[1]);
     $nb_pictures = 0;
@@ -40,16 +40,12 @@
 
     if (isset($node->field_video_upload['und'])):
       $nb_video = sizeof($node->field_video_upload['und']);
-    endif;  
+    endif;
 
     return '<div class="meta">' . ($nb_pictures + $nb_video) . ' ' . t('items') . '</div>';
   }
-
-    if (user_access('create gallerymedia content') && strpos($classes, "medias_block") == false ) {
-      print l(t('Create a Gallery'), 'node/add/gallerymedia', array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single'))); 
-    }
   ?>
-  
+
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
@@ -76,7 +72,7 @@
 
   <?php if ($rows): ?>
     <div class="view-content">
-      <?php     
+      <?php
           $empty_pic = db_select('file_managed', 'fm')
             ->fields('fm')
             ->condition('filename', 'empty_gallery.png','=')
@@ -145,5 +141,5 @@
         }
       });
     });
-  })(jq171); 
+  })(jq171);
 </script>
