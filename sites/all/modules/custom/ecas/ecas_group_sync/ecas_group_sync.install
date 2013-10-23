@@ -21,6 +21,11 @@ function ecas_group_sync_schema() {
         'type' => 'int',
         'not null' => TRUE,
       ),
+      'synctype_value_extra' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => '0',
+      ),      
     ),
     'indexes' => array(
       'LDAPfield_index' => array('LDAPfield'),

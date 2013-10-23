@@ -1,6 +1,5 @@
 <?php
 
-
 /*
  * create the mapping rules form
  */
@@ -22,17 +21,13 @@ function ecas_group_sync_mapping_form($form, &$form_state) {
 
   $none_option = array("0" => "none");
   $id_mapping = 0;
-  $id_role = 0;
-  $id_group = 0;
   
   $query = db_select('ecas_sync_mapping', 'esm');
   $query->condition('synctype', 'role','=');
   $query->fields('esm');
-  $query->join('role', 'r', 'esm.synctype_value = r.rid');
-  $query->fields('r',array('name'));
   $results = $query->execute();
               
-  while($row = $results->fetchAssoc()) {
+  while($row = $results->fetchAssoc()) { // add the form elements for the existing mapping rules
     $row_to_add = get_row($id_mapping, 'dg', 'role', $row['LDAPfield_value'], $row['synctype_value']);
     array_push($form['role_mapping'], $row_to_add);
     $id_mapping++;
@@ -40,17 +35,15 @@ function ecas_group_sync_mapping_form($form, &$form_state) {
 
   $form['role_mapping']['role_mapping_add_wrapper'] = array(
     '#type' => 'fieldset',
-    '#title' => t('New mapping'),
     '#prefix' => '<div id="add_role_mapping_wrapper" class="row_mapping">',
     '#suffix' => '</div>',
   );
 
   if (empty($form_state['extra_row'])) {
-    $form_state['extra_row'] = 1;
+    $form_state['extra_row'] = 0;
   }
-  for ($i = 0; $i < $form_state['extra_row']; $i++) {
-    $id = $id_role+$i;
-    $row_to_add = get_row("extra_".$id, 'dg', 'role');
+  for ($i = 0; $i < $form_state['extra_row']; $i++) { // add the form elements for the new mapping rules added via ajax
+    $row_to_add = get_row("extra_".$i, 'dg', 'role');
     array_push($form['role_mapping']['role_mapping_add_wrapper'], $row_to_add);
   }
 
@@ -62,6 +55,8 @@ function ecas_group_sync_mapping_form($form, &$form_state) {
     ),
     '#value' => t('Add role mapping'),
     '#submit' => array('add_role_mapping_submit'),
+    '#prefix' => '<div class = "row_mapping">',
+    '#suffix' => '</div>',
   );
 
   $form['submit'] = array(
@@ -99,10 +94,12 @@ function add_role_mapping_submit($form, &$form_state) {
 function ecas_group_sync_mapping_form_submit($form, &$form_state) {
   $values = $form_state['values'];
 
-  db_delete('ecas_sync_mapping')->execute();
+  db_delete('ecas_sync_mapping')
+    ->condition('synctype', 'role','=')
+    ->execute();
   
   for($i = 0; $i < $values['count_mapping']; $i++) {
-    if($values["LDAPfield_value_".$i] != '' && $values["synctype_value_".$i] != '' && $values["LDAPfield_value_".$i] != 'none' && $values["synctype_value_".$i] != 'none') {
+    if($values["LDAPfield_value_".$i] != '0' && $values["synctype_value_".$i] != '0') {
       $id = db_insert('ecas_sync_mapping')
       ->fields(array(
         'LDAPfield' => $values['LDAPfield_'.$i],
@@ -116,7 +113,7 @@ function ecas_group_sync_mapping_form_submit($form, &$form_state) {
   }
   
   for($i = 0; $i < $values['count_extra_mapping']; $i++) {
-    if($values["LDAPfield_value_extra_".$i] != '' && $values["synctype_value_extra_".$i] != '' && $values["LDAPfield_value_extra_".$i] != 'none' && $values["synctype_value_extra_".$i] != 'none') {
+    if($values["LDAPfield_value_extra_".$i] != '0' && $values["synctype_value_extra_".$i] != '0') {
       $id = db_insert('ecas_sync_mapping')
       ->fields(array(
         'LDAPfield' => $values['LDAPfield_extra_'.$i],
@@ -140,7 +137,7 @@ function get_row($id, $LDAPfield, $synctype, $LDAPfield_value = 0, $synctype_val
   $none_option = array("0" => "none");
   $form['LDAPfield_value_'.$id] = array(
     '#type' => 'select',
-    '#options' => array_merge($none_option, get_dg()),
+    '#options' => $none_option + get_dg(),
     '#default_value' => $LDAPfield_value,
     '#prefix' => '<div class = "row_mapping">',
     '#title' => $LDAPfield,
@@ -151,7 +148,7 @@ function get_row($id, $LDAPfield, $synctype, $LDAPfield_value = 0, $synctype_val
   );
   $form['synctype_value_'.$id] = array(
     '#type' => 'select',
-    '#options' => array_merge($none_option, user_roles()),
+    '#options' => $none_option + user_roles(),
     '#default_value' => $synctype_value,
     '#title' => $synctype,
   );
