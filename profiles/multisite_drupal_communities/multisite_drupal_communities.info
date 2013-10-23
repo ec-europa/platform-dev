@@ -123,6 +123,8 @@ dependencies[] = media_node
 dependencies[] = menu_token
 dependencies[] = menu_attributes
 
+dependencies[] = filefield_sources_plupload
+
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_og
 dependencies[] = multisite_drupal_access

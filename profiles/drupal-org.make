@@ -95,6 +95,12 @@ projects[field_collection][version] = "1.0-beta5"
 projects[file_entity][subdir] = "contributed"
 projects[file_entity][version] = "2.0-alpha2"
 
+projects[filefield_sources][subdir] = "contributed"
+projects[filefield_sources][version] = "1.8"
+
+projects[filefield_sources_plupload][subdir] = "contributed"
+projects[filefield_sources_plupload][version] = "1.1"
+
 projects[flexslider][subdir] = "contributed"
 projects[flexslider][version] = "2.0-alpha1"
 
@@ -193,6 +199,9 @@ projects[password_policy][version] = "2.0-alpha1"
 
 projects[pathauto][subdir] = "contributed"
 projects[pathauto][version] = "1.2"
+
+projects[plupload][subdir] = "contributed"
+projects[plupload][version] = "1.3"
 
 projects[print][subdir] = "contributed"
 projects[print][version] = "1.2"
@@ -336,4 +345,8 @@ libraries[cycle][directory_name] = "jquery.cycle"
 libraries[cycle][download][sha1] = "f71640db8972ed6d249f57ea8cce29c389c4a84f"
 libraries[cycle][destination] = "libraries"
 
-
+;plupload 1.5.7
+libraries[plupload][download][type] = "zip"
+libraries[plupload][download][url] = "http://plupload.com/downloads/plupload_1_5_7.zip"
+libraries[plupload][directory_name] = "plupload"
+libraries[plupload][destination] = "libraries"
