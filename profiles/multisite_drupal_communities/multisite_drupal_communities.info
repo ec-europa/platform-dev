@@ -60,7 +60,6 @@ dependencies[] = strongarm
 dependencies[] = sweaver
 dependencies[] = workbench
 dependencies[] = workbench_moderation
-dependencies[] = multisite_workbench_moderation_view
 ;dependencies[] = varnish
 dependencies[] = views
 dependencies[] = views_ui
@@ -129,6 +128,7 @@ dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_og
 dependencies[] = multisite_drupal_access
 ;dependencies[] = multisite_drupal_workbench_moderation
+dependencies[] = multisite_workbench_moderation_view
 
 ;features
 dependencies[] = content_examples

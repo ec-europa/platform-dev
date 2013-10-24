@@ -6,8 +6,6 @@ include_once('ecas_group_sync.admin.inc');
  * create the mapping rules form
  */
 function ecas_group_sync_mapping_group_form($form, &$form_state) {
-  //dsm($form_state);
-  
   $form['#attached']['css'] = array(
     drupal_get_path('module', 'ecas_group_sync') . '/css/ecas_group_sync.css',
   );
@@ -25,17 +23,13 @@ function ecas_group_sync_mapping_group_form($form, &$form_state) {
 
   $none_option = array("0" => "none");
   $id_mapping = 0;
-  $id_role = 0;
-  $id_group = 0;
   
   $query = db_select('ecas_sync_mapping', 'esm');
   $query->condition('synctype', 'group','=');
   $query->fields('esm');
-  //$query->join('role', 'r', 'esm.synctype_value = r.rid');
-  //$query->fields('r',array('name'));
   $results = $query->execute();
               
-  while($row = $results->fetchAssoc()) {
+  while($row = $results->fetchAssoc()) { // add the form elements for the existing mapping rules
     $row_to_add = get_row_group($id_mapping, 'dg', 'group', $row['LDAPfield_value'], $row['synctype_value'], $row['synctype_value_extra']);
     array_push($form['group_mapping'], $row_to_add);
     $id_mapping++;
@@ -43,7 +37,6 @@ function ecas_group_sync_mapping_group_form($form, &$form_state) {
 
   $form['group_mapping']['group_mapping_add_wrapper'] = array(
     '#type' => 'fieldset',
-    //'#title' => t('New mapping'),
     '#prefix' => '<div id="add_group_mapping_wrapper" class="row_mapping">',
     '#suffix' => '</div>',
   );
@@ -51,12 +44,11 @@ function ecas_group_sync_mapping_group_form($form, &$form_state) {
   if (empty($form_state['extra_row'])) {
     $form_state['extra_row'] = 0;
   }
-  for ($i = 0; $i < $form_state['extra_row']; $i++) {
-    $id = $id_role+$i;
-    if(isset($form_state['values']['LDAPfield_value_extra_'.$id]))
-      $row_to_add = get_row_group("extra_".$id, 'dg', 'group', $form_state['values']['LDAPfield_value_extra_'.$id], $form_state['values']['synctype_value_extra_'.$id], $form_state['values']['LDAPfield_extra_'.$id], $form_state['values']['synctype_extra_'.$id], $form_state['values']['synctype_extra_value_wrapper_extra_'.$id]);
+  for ($i = 0; $i < $form_state['extra_row']; $i++) { // add the form elements for the new mapping rules added via ajax
+    if(isset($form_state['values']['LDAPfield_value_extra_'.$i]))
+      $row_to_add = get_row_group("extra_".$i, 'dg', 'group', $form_state['values']['LDAPfield_value_extra_'.$i], $form_state['values']['synctype_value_extra_'.$i], $form_state['values']['LDAPfield_extra_'.$i], $form_state['values']['synctype_extra_'.$i], $form_state['values']['synctype_extra_value_wrapper_extra_'.$i]);
     else
-      $row_to_add = get_row_group("extra_".$id, 'dg', 'group');
+      $row_to_add = get_row_group("extra_".$i, 'dg', 'group');
     array_push($form['group_mapping']['group_mapping_add_wrapper'], $row_to_add);
   }
 
@@ -106,9 +98,6 @@ function add_group_mapping_submit($form, &$form_state) {
  */
 function ecas_group_sync_mapping_group_form_submit($form, &$form_state) {
   $values = $form_state['values'];
-
-  dsm($form);
-  dsm($form_state);
 
   db_delete('ecas_sync_mapping')
     ->condition('synctype', 'group','=')
@@ -190,7 +179,7 @@ function get_row_group($id, $LDAPfield, $synctype, $LDAPfield_value = 0, $syncty
     '#default_value' => $synctype_value_extra,
     '#states' => array(
       'disabled' => array(
-        ':input[name="synctype_value_'.$id.'"]' => array('value' => '0'),
+        ':input[name="synctype_value_'.$id.'"]' => array('value' => '0'), // disable the form element when no group is selected
       ),
     ),
   );
@@ -198,17 +187,21 @@ function get_row_group($id, $LDAPfield, $synctype, $LDAPfield_value = 0, $syncty
   return $form;
 }
 
-
+/*
+ * callback to update og roles select list regarding the group selected
+ */
 function update_og_roles($form, &$form_state) {
   $none_option = array("0" => 'none');
 
-  if(count($form_state['triggering_element']['#array_parents']) > 3) { // check if the callback come from the extra fields or from the existing fields
+  if(count($form_state['triggering_element']['#array_parents']) > 3) { // check if the callback comes from the extra fields or from the existing fields
     $id = $form_state['triggering_element']['#array_parents'][2];
+    // update the og roles select list
     $form['group_mapping']['group_mapping_add_wrapper'][$id]['synctype_extra_value_wrapper_extra_'.$id]['synctype_extra_value_extra_'.$id]['#options'] = $none_option + get_og_roles($form_state['triggering_element']['#value']);
     return $form['group_mapping']['group_mapping_add_wrapper'][$id]['synctype_extra_value_wrapper_extra_'.$id];
   }
   else {
     $id = $form_state['triggering_element']['#array_parents'][1];
+    // update the og roles select list
     $form['group_mapping'][$id]['synctype_extra_value_wrapper_'.$id]['synctype_extra_value_'.$id]['#options'] = $none_option + get_og_roles($form_state['triggering_element']['#value']);
     return $form['group_mapping'][$id]['synctype_extra_value_wrapper_'.$id];
   }

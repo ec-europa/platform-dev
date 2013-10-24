@@ -269,25 +269,6 @@ function ecas_sync_profile_core(&$user, $user_info) {
 }
 
 /**
- * Sync the roles of a given user based on LDAP informations,
- * using the group_sync module
- * @param $user A user object
- * @return false if sync failed, true otherwise
- */
-function ecas_sync_user_group_sync(&$user, $user_info) {
-  /* synchronization with LDAP */
-  require_once(drupal_get_path('module', 'group_sync') . '/LDAPInterface.inc');
-  $result = group_sync_account($user->name);
-  if ($result) {
-    watchdog('php', 'User roles synchronized with LDAP');
-  }
-  else {
-    watchdog('php', 'User roles not synchronized with LDAP');
-  }
-  return $result;
-}
-
-/**
  * Update various informations of a given user: core mail address, profile,
  * Content Profile, roles, ...
  * When all informations have been synced, this function invokes the
@@ -313,11 +294,6 @@ function ecas_sync_user_info(&$user, $user_info, $args) {
   // update extra core user fields
   if(variable_get('ecas_profile_core_enabled', FALSE)){
     ecas_sync_profile_core($user, $user_info);
-  }
-
-  // sync the roles of the user based on LDAP informations, using the group_sync module
-  if (module_exists('group_sync') && variable_get('ecas_group_sync_enabled', FALSE)) {
-    ecas_sync_user_group_sync($user);
   }
 
   module_invoke_all('info_ecas_update', $user, $user_info, $args);
