@@ -10,14 +10,14 @@ include_once 'contact_form.install.inc';
  * hook_install
  */
 function contact_form_install() {
-    //Nothing yet
+    variable_set('contact_form_maxlength', 500);
 }
 
 /**
  * hook_uninstall
  */
 function contact_form_uninstall() {
-    //Nothing yet
+    variable_del('contact_form_maxlength');
 }
 
 /**

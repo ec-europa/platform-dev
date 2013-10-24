@@ -16,7 +16,7 @@ function contact_form_mail_alter(&$message) {
       '!form-url' => url($_GET['q'], array('absolute' => TRUE, 'language' => $language)),
       '!sender-name' => format_username($message['params']['sender']),
       '!sender-url' => $message['params']['sender']->uid ? url('user/' . $message['params']['sender']->uid, array('absolute' => TRUE, 'language' => $language)) : $message['params']['sender']->mail,
-    );    
+    );
 
     $body[0] = t('Here is a copy of the email you sent to support on !site-name:', $variables, array('langcode' => $language->language));
     foreach ($message['body'] as $line) {
@@ -25,3 +25,58 @@ function contact_form_mail_alter(&$message) {
     $message['body'] = $body;
   }
 }
+/**
+ * Set the maximum limit of characters
+ * @param type $form
+ * @param type $form_state
+ * @param type $form_id
+ */
+function contact_form_form_alter(&$form, &$form_state, $form_id) {
+
+  if ($form_id == 'contact_site_form') {
+    $maximum_limit = (int) variable_get('contact_form_maxlength', 500);
+    if($maximum_limit && is_numeric($maximum_limit)) {
+    $form['message']['#title'] = $form['message']['#title'] . t(' (maximum @max characters)', array( '@max' => $maximum_limit));
+    $form['message']['#maxlength'] = $maximum_limit ;
+    }
+  }
+}
+
+function contact_form_menu() {
+  $items = array();
+
+  $items['admin/config/system/contact'] = array(
+    'title' => 'Contact Form Settings',
+    'description' => 'Configure the contact form settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('contact_form_general_settings'),
+    'access arguments' => array('administer site configuration'),
+    'weight' => -5,
+  );
+  return $items;
+}
+/**
+ * Administration form to set the maximum length
+ * @return type
+ */
+function contact_form_general_settings() {
+  $form['contact_form_information'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Contact form configuration'),
+  );
+  $form['contact_form_information']['contact_form_maxlength'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Message maximum length'),
+      '#default_value' => variable_get('contact_form_maxlength', 500),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Set the maximum variable by default.
+ */
+function contact_form_update_7100 () {
+  variable_set('contact_form_maxlength', 500);
+}
+
