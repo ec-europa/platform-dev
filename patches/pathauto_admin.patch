@@ -1,0 +1,20 @@
+diff --git a/pathauto.admin.inc b/pathauto.admin.inc
+index 9030f48..02c97d9 100644
+--- a/pathauto.admin.inc
++++ b/pathauto.admin.inc
+@@ -15,6 +15,7 @@
+  */
+ function pathauto_patterns_form($form, $form_state) {
+   // Call the hook on all modules - an array of 'settings' objects is returned
++  module_implements('pathauto', false, true);
+   $all_settings = module_invoke_all('pathauto', 'settings');
+   foreach ($all_settings as $settings) {
+     $module = $settings->module;
+@@ -270,6 +271,7 @@ function pathauto_bulk_update_form() {
+     '#default_value' => array(),
+   );
+ 
++  module_implements('pathauto', false, true);
+   $pathauto_settings = module_invoke_all('pathauto', 'settings');
+   foreach ($pathauto_settings as $settings) {
+     if (!empty($settings->batch_update_callback)) {
