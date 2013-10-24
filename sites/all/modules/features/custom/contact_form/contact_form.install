@@ -10,20 +10,21 @@ include_once 'contact_form.install.inc';
  * hook_install
  */
 function contact_form_install() {
-    variable_set('contact_form_maxlength', 500);
+
 }
 
 /**
  * hook_uninstall
  */
 function contact_form_uninstall() {
-    variable_del('contact_form_maxlength');
+
 }
 
 /**
  * Add block to the context
  */
 function contact_form_enable() {
+  variable_set('contact_form_maxlength', 500);
   $item = array(
     'link_path' => 'contact',
     'link_title' => t('Contact support'),
@@ -51,7 +52,7 @@ function contact_form_enable() {
  */
 function contact_form_disable() {
   menu_link_delete(NULL, 'contact');
-
+  variable_del('contact_form_maxlength');
   //Activation message
   drupal_set_message(t('Contact form feature is now disabled on your site.'));
 }
