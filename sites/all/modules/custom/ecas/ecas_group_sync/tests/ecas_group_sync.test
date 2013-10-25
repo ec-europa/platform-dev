@@ -52,11 +52,8 @@ class ecas_group_syncWebTestCase extends DrupalWebTestCase {
     $this->drupalGet('admin/config/ecas/group_sync');    
     // OK code 200
     $this->assertResponse(200);
-    
     $this->assertRaw('DIGIT', t('Mapping created.'));
-    $this->assertRaw('administrator', t('Mapping created.'));
-
-
+    $this->assertRaw('administrator', t('Mapping created.'));    
 
     // test the role sync process ------------------------------------------------
     $user_info = array(
@@ -75,19 +72,13 @@ class ecas_group_syncWebTestCase extends DrupalWebTestCase {
       'body' => array(LANGUAGE_NONE => array(array('Community body'))),
     );
     $node1 = $this->drupalCreateNode($settings);
-    // add user to the group
-    $membership = array(
-      'type' => 'user',
-      'entity' => $this->contributor_user,
-      'state' => OG_STATE_ACTIVE,
-    );
-    og_group('node', $node1->nid, $membership);
-    $membership = array(
-      'type' => 'user',
-      'entity' => $this->editor_user,
-      'state' => OG_STATE_ACTIVE,
-    );
-    og_group('node', $node1->nid, $membership);
+    $node1->og_register  = 0;
+    $node1->og_directory = 0;
+    $node1->og_private   = 1;
+    $node1->og_selective = 3;
+    node_save($node1);    
+    
+
 
     // create mapping rule
     $id = db_insert('ecas_sync_mapping')
@@ -109,8 +100,16 @@ class ecas_group_syncWebTestCase extends DrupalWebTestCase {
         'synctype_value_extra' => '3',
         )
       )
-      ->execute();      
-      
+      ->execute();  
+    
+    // check the ecas_group_sync settings
+    $this->drupalGet('admin/config/ecas/group_sync/group');
+    // OK code 200
+    $this->assertResponse(200);  
+    $this->assertRaw('community_manager', t('Mapping created.'));
+    $this->assertRaw('administrator', t('Mapping created.'));
+    
+    $this->drupalGet('group/node/' . $node1->nid . '/admin/people');  
     $user_info = array(
       'dg' => 'DIGIT',
     ); 
@@ -119,9 +118,24 @@ class ecas_group_syncWebTestCase extends DrupalWebTestCase {
       'dg' => 'MARE',
     ); 
     module_invoke('ecas_group_sync','info_ecas_update', $this->editor_user, $user_info, null);
+    
+    // add user to the group
+    $membership1 = array(
+      'type' => 'user',
+      'entity' => $this->contributor_user,
+      "membership type" => OG_MEMBERSHIP_TYPE_DEFAULT,
+    );
+    og_group('node', $node1->nid, $membership1);
+    $membership2 = array(
+      'type' => 'user',
+      'entity' => $this->editor_user,
+      "membership type" => OG_MEMBERSHIP_TYPE_DEFAULT,
+    );
+    og_group('node', $node1->nid, $membership2);
+    
     $this->drupalGet('group/node/' . $node1->nid . '/admin/people');
-    $this->assertRaw('community_manager', t('first group role has been correctly affected.'));
-    $this->assertRaw('administrator', t('second group role has been correctly affected.'));
+    $this->assertNoUniqueText('community_manager', t('first group role has been correctly affected.'));
+    $this->assertNoUniqueText('administrator', t('second group role has been correctly affected.'));
   }
 
 
