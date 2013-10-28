@@ -1,7 +1,5 @@
-diff --git a/pathauto.admin.inc b/pathauto.admin.inc
-index 9030f48..02c97d9 100644
---- a/pathauto.admin.inc
-+++ b/pathauto.admin.inc
+--- sites/all/modules/contributed/pathauto/pathauto.admin.inc
++++ sites/all/modules/contributed/pathauto/pathauto.admin.inc
 @@ -15,6 +15,7 @@
   */
  function pathauto_patterns_form($form, $form_state) {
