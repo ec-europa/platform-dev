@@ -2,9 +2,29 @@
 /**
  * @file
  * allow to filter view with a taxonomy tree
- *  
  */
 
+/**
+ * Implements hook_requirements().
+ */
+function taxonomy_browser_requirements($phase) {
+  $requirements = array();
+  $lpath = libraries_get_path('jstree');
+
+  if ($phase == 'runtime') {
+    if (!empty($lpath)) {
+      $requirements['taxonomy_browser']['severity'] = REQUIREMENT_OK;
+      $requirements['taxonomy_browser']['value'] = t('jsTree library found.');
+    }
+    else {
+      $requirements['taxonomy_browser']['severity'] = REQUIREMENT_ERROR;
+      $requirements['taxonomy_browser']['value'] = t('jsTree library not found.');
+      $requirements['taxonomy_browser']['description'] = t('Please download this library from <a href="@url">www.jstree.com</a> and copy it into the library directory.', array('@url' => 'http://www.jstree.com/'));
+    }
+    $requirements['taxonomy_browser']['title'] = t('Taxonomy browser');
+  }
+  return $requirements;
+}
 
 /**
  * Implements hook_menu().
@@ -13,34 +33,66 @@ function taxonomy_browser_menu() {
   $items['admin/config/taxonomy_browser'] = array(
     'title' => 'Taxonomy browser',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('form_taxonomy_browser_settings'),
-    'access callback' => TRUE,
+    'page arguments' => array('_taxonomy_browser_form_taxonomy_browser_settings'),
+    'access arguments' => array('access administration pages'),
     'file' => 'taxonomy_browser.admin.inc',
   );
   $items['admin/config/taxonomy_browser/settings'] = array(
-    'title' => 'Taxonomy browser settings',
+    'title' => 'Settings',
     'description' => 'Configure the taxonomy browser module',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('form_taxonomy_browser_settings'),
-    'access callback' => TRUE,
+    'page arguments' => array('_taxonomy_browser_form_taxonomy_browser_settings'),
+    'access arguments' => array('access administration pages'),
     'file' => 'taxonomy_browser.admin.inc',
-  ); 
+  );
+
   return $items;
 }
 
+/**
+ * Implements hook_form_alter().
+ */
+function taxonomy_browser_form_form_taxonomy_browser_settings_alter(&$form, &$form_state, $form_id) {
+  $form['#submit'][]='_taxonomy_browser_form_submit';
+}
 
+/**
+ * Handler Taxonomy browser form submit
+ */
+function _taxonomy_browser_form_submit($form, &$form_state) {
+  $vids_available = taxonomy_get_vocabularies();
+  $vids_selected = $form_state['input']['taxonomy_browser_vocabulary'];
 
-function taxonomy_get_parents_tree($tid, &$parents_tree) {
+  foreach ($vids_available as $v) {
+    if (!in_array($v->vid, $vids_selected, TRUE)) {
+      $bl = block_load('taxonomy_browser', 'taxonomy_browser_vocabulary_' . $v->vid);
+      if (isset($bl->bid))
+        // Delete block which vocabulary is not selected.
+        db_delete('block')
+        ->condition('module', 'taxonomy_browser')
+        ->condition('delta', $bl->delta)
+        ->execute();
+    }
+  }
+}
+
+/**
+ * Function _taxonomy_browser_taxonomy_get_parents_tree().
+ */
+function _taxonomy_browser_taxonomy_get_parents_tree($tid, &$parents_tree) {
   $parent = taxonomy_get_parents($tid);
   if (count($parent) > 0) {
     $keys = array_keys($parent);
-    taxonomy_get_parents_tree($keys[0], $parents_tree);
+    _taxonomy_browser_taxonomy_get_parents_tree($keys[0], $parents_tree);
   }
   $term = taxonomy_term_load($tid);
   $parents_tree[] = $term;
 }
 
-function taxonomy_get_nested_tree($terms = array(), $max_depth = NULL, $parent = 0, $parents_index = array(), $depth = 0) {
+/**
+ * Function _taxonomy_browser_taxonomy_get_nested_tree().
+ */
+function _taxonomy_browser_taxonomy_get_nested_tree($terms = array(), $max_depth = NULL, $parent = 0, $parents_index = array(), $depth = 0) {
   if (is_int($terms)) {
     $terms = taxonomy_get_tree($terms);
   }
@@ -61,25 +113,27 @@ function taxonomy_get_nested_tree($terms = array(), $max_depth = NULL, $parent =
 
   foreach ($return as &$term) {
     if (isset($parents_index[$term->tid]) && (is_null($max_depth) || $depth < $max_depth)) {
-      $term->children = taxonomy_get_nested_tree($parents_index[$term->tid], $max_depth, $term->tid, $parents_index, $depth + 1);
+      $term->children = _taxonomy_browser_taxonomy_get_nested_tree($parents_index[$term->tid], $max_depth, $term->tid, $parents_index, $depth + 1);
     }
   }
 
   return $return;
 }
 
-function output_taxonomy_nested_tree($tree, $path) {
-
+/**
+ * Function _taxonomy_browser_output_taxonomy_nested_tree().
+ */
+function _taxonomy_browser_output_taxonomy_nested_tree($tree, $path) {
     if (count($tree)) {
 
         $output = '<ul class="taxonomy-tree">';
         foreach ($tree as $term) {
 
             $output .= '<li id="term_' . $term->tid . '">';
-            $output .= l($term->name, $path . '/' . $term->tid, array('attributes' => array('class' => array())));              
+            $output .= l($term->name, $path . '/' . $term->tid, array('attributes' => array('class' => array())));
 
             if (isset($term->children)) {
-                $output .= output_taxonomy_nested_tree($term->children, $path);
+                $output .= _taxonomy_browser_output_taxonomy_nested_tree($term->children, $path);
             }
             $output .= '</li>';
         }
@@ -89,148 +143,76 @@ function output_taxonomy_nested_tree($tree, $path) {
     return $output;
 }
 
-function taxonomy_create_tree($vid, $path, $ajax=FALSE, $selected=0) {
-  $tree = taxonomy_get_nested_tree(intval($vid));
+/**
+ * Function _taxonomy_browser_taxonomy_create_tree().
+ */
+function _taxonomy_browser_taxonomy_create_tree($vid, $path, $ajax=FALSE, $selected=0) {
+  $tree = _taxonomy_browser_taxonomy_get_nested_tree(intval($vid));
 
-  $output = '<div id="tb_browser_tree">';
-  $output .= output_taxonomy_nested_tree($tree, $path);
+  $output = '<div id="tb_browser_tree_' . $vid . '" class="tb_browser_tree">';
+  $output .= _taxonomy_browser_output_taxonomy_nested_tree($tree, $path);
   $output .= '</div>';
 
   return $output;
 }
 
-function recurse_tree($parent, $tree) {
-   $result = array();
-   foreach ($tree as $key => $item) {
-      if ($parent == $item->parents[0]) {
-         $result[] = array(
-            'children' => recurse_tree($item+1, $tree)
-         );      
-      }
-   }
-   return $result;
-}
-
-function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
-  $displays = array();
-  foreach (variable_get('taxonomy_browser_' . $view->name, array()) as $display_id => $display) {
-    if ($display)
-      $displays[] = $display_id;  
-  }
-
-  if (in_array($view->current_display, $displays))  {
-    drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/taxonomy_browser.css');
-    drupal_add_js('misc/jquery.cookie.js');
-    drupal_add_js('sites/all/libraries/jstree/jquery.jstree.js');
-    drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser.js');
-    drupal_add_library('system', 'drupal.ajax');
- 
-    $view_path = $view->get_path();
- 
-    $vid = variable_get('taxonomy_browser_vocabulary');
-    $vocabulary = taxonomy_vocabulary_load($vid);
-    $parents_tree = array();
-    $breadcrumb = drupal_get_breadcrumb();
-    
-    $selected = isset($view->args[0]) ? $view->args[0] : 0;
-    $selected_term = '';
-    $header = '';
-    
-    if ($selected > 0) {
-      $selected_term = taxonomy_term_load($selected);
-      taxonomy_get_parents_tree($selected, $parents_tree, TRUE);
-      foreach ($parents_tree as $parent) {
-        $link = l($parent->name, $view_path . '/' . $parent->tid);
-        $breadcrumb[] = $link;
-      }
-    }
-    drupal_set_breadcrumb($breadcrumb);
-
-    if ($selected_term) {
-      $header .= '<fieldset id="tb_header"><h1>' . $selected_term->name . '</h1>';
-      if (isset($selected_term->description)) {
-        $header .= '<p>' . $selected_term->description . '</p>';
-      }
-      $header .= '</fieldset><hr />';
-    }    
-
-    $output1 = '<div id="tb_wrapper" class="row">';
-      $output1 .= '<div id="tb_browser" class="col-lg-3 col-md-3 col-sm-4 col-xs-12">';
-        $output1 .= '<div class="panel panel-default clearfix ">';
-          $output1 .= '<div class="panel-heading">' . $vocabulary->name . '</div>';
-          $output1 .= '<div class="panel-body">' . taxonomy_create_tree($vid, $view_path, FALSE, $selected) . '</div>';
-        $output1 .= '</div>';
-      $output1 .= '</div>';
-
-      $output1 .= '<div class="clearfix visible-xs"></div>';
-
-      $output1 .= '<div id="tb_view" class="col-lg-9 col-md-9 col-sm-8 col-xs-12">' . $header . $output . '</div>';
-    $output1 .= '</div>';
-
-    $output = $output1;
-  }
-}
-  
+/**
+ * Implements hook_block_info().
+ */
 function taxonomy_browser_block_info() {
-  
-  $blocks['taxonomy_browser'] = array(
-    'info' => t('taxonomy_browser'),     
-    'weight' => 0,
-  );
+  $vids = variable_get('taxonomy_browser_vocabulary');
+  $blocks = array();
+
+  foreach ($vids as $vid) {
+    if (!empty($vid)) {
+      $vocab = taxonomy_vocabulary_load($vid);
+      $block_name = str_replace(' ', '', $vocab->machine_name);
+      $blocks['taxonomy_browser_vocabulary_' . $vocab->vid] = array(
+        'info' => t('taxonomy_browser: ' . $vocab->name),
+      );
+    }
+  }
 
   return $blocks;
-}  
-
-function taxonomy_browser_block_view($delta = '') {
-  
-  $block = array();
-
-  switch ($delta) {
-    case 'taxonomy_browser':
-      $vid = variable_get('taxonomy_browser_vocabulary');
-      if ($vid) {
-        $vocabulary = taxonomy_vocabulary_load($vid);
-
-        $block['subject'] = t('taxonomy_browser');
-        $block['title'] = $vocabulary->name;
-        $block['content'] = taxonomy_browser_create_block_content($vid, $vocabulary);
-      }
-      else {
-        $block['subject'] = t('taxonomy_browser');
-        $block['title'] = t('Taxonomy browser');
-        $block['content'] = t('No taxonomy selected');
-      }
-    break;
-  }
-  return $block;
 }
 
-function taxonomy_browser_create_block_content($vid, $vocabulary) {
+/**
+ * Implements hook_block_view().
+ */
+function taxonomy_browser_block_view($delta = '') {
+  // Block will be only displayed in views
+  if ($view = views_get_page_view()) {
+    $vid = substr($delta, 28);
 
+    if (strpos($delta, 'taxonomy_browser_vocabulary_') === 0) {
+      $block = array();
+      $vocabulary = taxonomy_vocabulary_load($vid);
+      $block['title'] = $vocabulary->name;
+      $block['content'] = _taxonomy_browser_create_block_content($vid, $vocabulary);
+
+      return $block;
+    }
+  }
+}
+
+/**
+ * Function _taxonomy_browser_create_block_content().
+ */
+function _taxonomy_browser_create_block_content($vid, $vocabulary) {
     drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/taxonomy_browser.css');
     drupal_add_js('misc/jquery.cookie.js');
     drupal_add_js('sites/all/libraries/jstree/jquery.jstree.js');
     drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser.js');
     drupal_add_library('system', 'drupal.ajax');
- 
-    $view_path = variable_get('site_frontpage', 'node');
- 
+
+    $view = views_get_page_view();
+    $view_path = $view->get_path();
+
     $parents_tree = array();
-    $breadcrumb = drupal_get_breadcrumb();
 
     $selected = isset($view->args[0]) ? $view->args[0] : 0;
     $selected_term = '';
     $header = '';
-    
-    if ($selected > 0) {
-      $selected_term = taxonomy_term_load($selected);
-      taxonomy_get_parents_tree($selected, $parents_tree, TRUE);
-      foreach ($parents_tree as $parent) {
-        $link = l($parent->name, $view_path . '/' . $parent->tid);
-        $breadcrumb[] = $link;
-      }
-    }
-    drupal_set_breadcrumb($breadcrumb);
 
     if ($selected_term) {
       $header .= '<fieldset id="tb_header"><h1>' . $selected_term->name . '</h1>';
@@ -242,9 +224,45 @@ function taxonomy_browser_create_block_content($vid, $vocabulary) {
 
     $output1 = '<div id="tb_wrapper">';
     $output1 .= '<div id="tb_browser">';
-    $output1 .= taxonomy_create_tree($vid, $view_path, FALSE, $selected);
+    $output1 .= _taxonomy_browser_taxonomy_create_tree($vid, $view_path, FALSE, $selected);
     $output1 .= '</div></div>';
 
   return array('#title' => 'test', '#markup' => $output1);
 }
 
+/**
+ * Implements hook_views_post_render().
+ */
+function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
+    $selected = isset($view->args[0]) ? $view->args[0] : 0;
+    $selected_term = '';
+    $header = '';
+
+    $view_path = $view->get_path();
+    $link = l($view->name, $view_path);
+    $breadcrumb[] = $link;
+
+    if ($selected > 0) {
+      $selected_term = taxonomy_term_load($selected);
+      _taxonomy_browser_taxonomy_get_parents_tree($selected, $parents_tree, TRUE);
+      $link = l($view->name, $view_path);
+      $breadcrumb[] = $link;
+      foreach ($parents_tree as $parent) {
+        $link = l($parent->name, $view_path . '/' . $parent->tid);
+        $breadcrumb[] = $link;
+      }
+      array_pop($breadcrumb);
+    }
+
+    drupal_set_breadcrumb($breadcrumb);
+
+    if ($selected_term) {
+      $header .= '<fieldset id="tb_header"><h1>' . $selected_term->name . '</h1>';
+      if (isset($selected_term->description)) {
+        $header .= '<p>' . $selected_term->description . '</p>';
+      }
+      $header .= '</fieldset><hr />';
+    }
+
+    $output = $header . $output;
+}

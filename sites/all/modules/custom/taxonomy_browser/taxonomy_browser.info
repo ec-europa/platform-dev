@@ -1,12 +1,12 @@
 name = Taxonomy browser
-description = allow to filter view with a taxonomy tree
+description = Allow to filter views with a taxonomy tree.
 package = multisite drupal toolbox
 core = 7.x
+version = 7.x-2.0
+php = 5.2.4
+project = taxonomy_browser
+dependencies[] = views
+features[features_api][] = api:1
 configure = admin/config/taxonomy_browser/settings
-files[] = taxonomy_browser.test
-
-version = "7.x-1.x-dev"
-core = "7.x"
-project = "taxonomy browser"
-datestamp = "1342830256"
-
+files[] = tests/taxonomy_browser.test
+files[] = tests/taxonomy_browser.extra.test

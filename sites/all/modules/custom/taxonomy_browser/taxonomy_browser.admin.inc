@@ -3,75 +3,74 @@
  * @file
  * Taxonomy browser admin.inc file
  */
-function form_taxonomy_browser_settings($form, &$form_state) {
+
+/**
+ * Function form_taxonomy_browser_settings().
+ */
+function _taxonomy_browser_form_taxonomy_browser_settings($form, &$form_state) {
+  global $base_path;
+
   $vocabularies = taxonomy_get_vocabularies();
+
   foreach ($vocabularies as $vid => $vocabulary) {
     $items_vocabulary[$vid] = $vocabulary->name;
   }
 
-  $form['taxonomy_browser_vocabulary'] = array(
-    '#type' => 'select',
-    '#title' => t('vocabulary'),
-    '#options' => $items_vocabulary,
-    '#default_value' => variable_get('taxonomy_browser_vocabulary'),
-  ); 
-  
- 
-  $items_view = array();
-  $result_views = db_select('views_view', 'v')
-    ->fields('v', array('vid', 'name', 'human_name'))
-    ->execute();
-    
-  if ($result_views->rowCount() == 0) {
-    drupal_set_message(t('No eligible views found in database for taxonomy browser'), 'warning');
-  }
-  else {
-    while ($record = $result_views->fetchAssoc()) {
-      $items_view[$record['name']] = $record['human_name'];
-    }
- 
-    $form['taxonomy_browser_description'] = array(
-      '#type' => 'item',
-      '#title' => t('For each view, choose the displays where the taxonomy browser must appear.'),
+  $form['taxonomy_browser'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('TAXONOMY VOCABULARIES'),
+      '#description' => t('Select vocabularies to create blocks with their taxonomy terms. Each of these blocks will display the taxonomy vocabulary terms as a tree to browse through the related content.</p>'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
     );
-    foreach ($items_view as $view_name => $view) {
-      $diplays = _taxonomy_browser_get_display($view_name);
-    
-      $form[$view_name] = array(
-        '#type' => 'fieldset', 
-        '#title' => t($view), 
-        '#collapsible' => TRUE, 
-        '#collapsed' => TRUE,
-      );
-    
-      $form[$view_name]['taxonomy_browser_' . $view_name] = array(
-        '#type' => 'checkboxes',
-        '#options' => $diplays,
-        '#default_value' => variable_get('taxonomy_browser_' . $view_name, array()),
-      );
 
-    }
-  
+  $header = array(
+    'name' => t('Vocabulary name'),
+    'description' => t('Description'),
+    'edit' => t('Edit'),
+    );
+
+  $options = array();
+  foreach ($vocabularies as $vid => $vocabulary) {
+    $options[$vocabulary->vid] = array(
+      'name' => $vocabulary->name,
+      'description' => $vocabulary->description,
+      'edit' => array(
+        'data' => _taxonomy_browser_configure_block_link($vocabulary->vid),
+        ),
+    );
   }
-  
+
+  $form['taxonomy_browser']['taxonomy_browser_vocabulary'] = array(
+    '#type' => 'tableselect',
+    '#header' => $header,
+    '#options' => $options,
+    '#default_value' => variable_get('taxonomy_browser_vocabulary'),
+    );
+
   return system_settings_form($form);
 }
 
-function _taxonomy_browser_get_display($key = '') {
-  $query = db_select('views_display', 'vd');
-  $query->join('views_view', 'vv', 'vv.vid = vd.vid');
-  $query->fields('vd', array('id', 'display_title', 'display_plugin'));
-  $query->fields('vv', array('name'));
-  $query->condition('vv.name', $key);
-  $result = $query->execute();
-    
-  $items_view_display = array();
-  while ($record = $result->fetchAssoc()) {
-    $items_view_display[$record['id']] = $record['display_title'];
-  }
-  return $items_view_display;
-}
+/**
+ * Function _taxonomy_browser_configure_block_link().
+ */
+function _taxonomy_browser_configure_block_link($vid) {
+  if ($vids_var = variable_get('taxonomy_browser_vocabulary')) {
+    if ($vids_var[$vid] != 0) {
+      $link = array(
+              '#title' => 'configure block',
+              '#type' => 'link',
+              '#href' => 'admin/structure/block/manage/taxonomy_browser/taxonomy_browser_vocabulary_' . $vid . '/configure',
+            );
+    }
+    else{
+      $link = array(
+              '#title' => NULL,
+              '#type' => 'link',
+              '#href' => 'admin/structure/block/manage/taxonomy_browser/taxonomy_browser_vocabulary_' . $vid . '/configure',
+            );
+    }
 
-function taxonomy_browser_dependent_dropdown_callback($form, $form_state) {
-  return $form['taxonomy_browser_view_display'];
+    return $link;
+  }
 }
