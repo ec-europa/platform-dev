@@ -338,43 +338,6 @@ function cce_basic_config_install() {
     'translate' => TRUE,
   );
   variable_set("rate_widgets", $rate_widgets);
-
-  //force home and myworkbench menu items at left in main menu
-  db_update('menu_links')
-    ->fields(array(
-      'weight' => '-30',
-      'menu_name' => 'user-menu',
-      )
-    )
-    ->condition('link_title', 'My workbench', '=')
-    ->condition('menu_name', 'main-menu', '=')
-    ->execute();
-
-  db_update('menu_links')
-    ->fields(array('weight' => '-50'))
-    ->condition('link_title', 'Home', '=')
-    ->condition('menu_name', 'main-menu', '=')
-    ->execute();
-
-  //add default icon and classes for menu items
-  $ml_home = db_select('menu_links', 'ml')
-    -> fields('ml', array('options'))
-    -> condition('link_title', 'Home')
-    -> condition('menu_name', 'main-menu')
-    -> execute()
-    -> fetchField();
-
-  $options_home = unserialize($ml_home);
-  $options_home['attributes']['data-display-title'] = 0;
-  $options_home['attributes']['data-image'] = 'home';
-
-  db_update('menu_links')
-    -> fields(array('options' => serialize($options_home)))
-    -> condition('link_title', 'Home')
-    -> condition('menu_name', 'main-menu')
-    -> execute();
-
-  menu_cache_clear_all();    
 }
 
 /**
