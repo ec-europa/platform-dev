@@ -355,6 +355,26 @@ function cce_basic_config_install() {
     ->condition('link_title', 'Home', '=')
     ->condition('menu_name', 'main-menu', '=')
     ->execute();
+
+  //add default icon and classes for menu items
+  $ml_home = db_select('menu_links', 'ml')
+    -> fields('ml', array('options'))
+    -> condition('link_title', 'Home')
+    -> condition('menu_name', 'main-menu')
+    -> execute()
+    -> fetchField();
+
+  $options_home = unserialize($ml_home);
+  $options_home['attributes']['data-display-title'] = 0;
+  $options_home['attributes']['data-image'] = 'home';
+
+  db_update('menu_links')
+    -> fields(array('options' => serialize($options_home)))
+    -> condition('link_title', 'Home')
+    -> condition('menu_name', 'main-menu')
+    -> execute();
+
+  menu_cache_clear_all();    
 }
 
 /**
@@ -1052,7 +1072,3 @@ function cce_basic_config_update_7219() {
  * END MIGRATION
  * ==================================================================================
  */
-
-function cce_basic_config_update_7192() {
-
-}
