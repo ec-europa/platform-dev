@@ -1,0 +1,27 @@
+<?php
+/*
+ * get User info from the comref database
+ */
+function getComRefUserInfo($perid, $fields = array('no_sysper')) {
+  $data = 'per_id='.$perid."&fields=".implode(",", $fields);
+
+  $options = array(
+    'method' => 'POST',
+    'data' => $data,
+    //'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
+  );
+
+  $result = drupal_http_request(variable_get('url_oracle_services', ''), $options);
+
+  if($result->code == '200') {
+    $xmlobj = simplexml_load_string($result->data);
+    foreach($fields as $item) {
+      $values[$item] = (string)$xmlobj->$item;
+    }
+  }
+  else {
+    watchdog('connection issue with the oracle service'); 
+  }
+
+ return isset($values)?$values:null;
+}
