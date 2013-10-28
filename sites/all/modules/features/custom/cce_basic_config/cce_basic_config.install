@@ -355,15 +355,6 @@ function cce_basic_config_install() {
     ->condition('link_title', 'Home', '=')
     ->condition('menu_name', 'main-menu', '=')
     ->execute();
-
-  //add default icon and classes for menu items
-  $test = menu_link_load(353);
-  $test['options'] = array(
-    'attributes' => array(
-      'data-display-title' => 0,
-      'data-image' => 'home'));
-  menu_link_save($test);
-  menu_cache_clear_all();
 }
 
 /**
