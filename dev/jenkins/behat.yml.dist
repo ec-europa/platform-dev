@@ -1,0 +1,37 @@
+# behat.yml
+default:
+  paths:
+    features: '%behat.paths.base%/specs'
+    bootstrap: '%behat.paths.features%/bootstrap'
+  formatter:
+    name: pretty
+    parameters:
+      decorated:           true
+      verbose:             true
+      time:                true
+      language:            en
+      output_path:         null
+      multiline_arguments: true
+      output_styles:
+        comment: [ yellow, black, [  ] ]
+  filters:
+    tags: "~@ignore"
+  extensions:
+    Behat\MinkExtension\Extension:
+      base_url: ${drupal.uri}
+      goutte: ~
+      selenium2: ~
+    Drupal\DrupalExtension\Extension:
+      api_driver: 'drupal'
+      blackbox: ~
+      drush:
+        root: ${drupal.make.dir}
+      drupal:
+        drupal_root: ${drupal.make.dir}
+      region_map:
+        Content: "#body"
+        Tools: "#header .search"
+        Content Top: "#body"
+        Featured: ""
+        Sidebar left: "#bottom-container .left-content"
+        Tools Bottom: "#bottom-container .middl-content"
