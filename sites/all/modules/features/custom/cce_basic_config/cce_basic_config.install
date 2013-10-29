@@ -338,7 +338,9 @@ function cce_basic_config_install() {
     'translate' => TRUE,
   );
   variable_set("rate_widgets", $rate_widgets);
-}
+    // Convert the date fields from date to int
+   _cce_basic_config_migrate_date_field();
+   }
 
 /**
 * Implements hook_uninstall().
@@ -1057,14 +1059,7 @@ function _cce_basic_config_get_date_tables() {
   return $date_tables;
 }
 
-/**
- * DATE FIELD MIGRATION SCRIPT.
- * Content types using date fields should be using timestamp instead datetime.
- * No need to update schema in hook_install().
- * On a clean installation the date fields are already set up.
- *
- */
-function cce_basic_config_update_7219() {
+function _cce_basic_config_get_schema() {
   $schema['field_data_field_article_publication_date'] = array();
   $schema['field_revision_field_article_publication_date'] = array();
   $schema['field_data_field_article_unpublish_on'] = array();
@@ -1075,13 +1070,17 @@ function cce_basic_config_update_7219() {
   $schema['field_data_field_article_unpublish_on'] = drupal_get_schema('field_data_field_article_unpublish_on');
   $schema['field_revision_field_article_unpublish_on'] = drupal_get_schema('field_revision_field_article_unpublish_on');
 
+  return $schema;
+}
 
 
+function _cce_basic_config_migrate_date_field() {
+  $schema = _cce_basic_config_get_schema();
   cce_basic_config_schema_alter($schema);
 
   $tables = _cce_basic_config_get_date_tables();
-  //clear schema cache to avoid wrong checking
 
+  //clear schema cache to avoid wrong checking
   cache_clear_all('schema:', 'cache', TRUE);
 
 
@@ -1124,6 +1123,19 @@ function cce_basic_config_update_7219() {
       }
     }//if !int
   }//foreach
+}
+/**
+ * DATE FIELD MIGRATION SCRIPT.
+ * Content types using date fields should be using timestamp instead datetime.
+ * No need to update schema in hook_install().
+ * On a clean installation the date fields are already set up.
+ *
+ */
+function cce_basic_config_update_7192() {
+
+_cce_basic_config_migrate_date_field();
+
+
 }//update_N
 
 /**
