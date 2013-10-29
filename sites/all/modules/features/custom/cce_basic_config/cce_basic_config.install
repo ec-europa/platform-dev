@@ -1131,7 +1131,7 @@ function _cce_basic_config_migrate_date_field() {
  * On a clean installation the date fields are already set up.
  *
  */
-function cce_basic_config_update_7192() {
+function cce_basic_config_update_7193() {
 
 _cce_basic_config_migrate_date_field();
 
