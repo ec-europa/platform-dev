@@ -259,9 +259,6 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
           $form['message']['#maxlength'] = $maximum_limit;
           }
         }
-        else {
-          variable_set('contact_form_maxlength', 1000);
-        }
         break;
     }
   }
