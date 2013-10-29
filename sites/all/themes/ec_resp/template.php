@@ -197,8 +197,9 @@ function ec_resp_page_alter($page) {
   global $language;
   if (arg(0) == 'node') {
     $node = node_load(arg(1));
-    if(isset($node->title))
+    if(isset($node->title)) {
       $node_title = filter_xss($node->title);
+    }
   }
 
   $description = variable_get('site_slogan');
@@ -413,8 +414,8 @@ function ec_resp_page_alter($page) {
 function ec_resp_block_view_alter(&$data, $block) {
 
   if ($block->region == 'sidebar_left' || $block->region == 'sidebar_right') {
-    // add classes to list
-    $data['content'] = (isset($data['content']) ? str_replace('<ul>','<ul class="list-group list-group-flush list-unstyled">',$data['content']) : '');
+    // add classes to list.
+    $data['content'] = (isset($data['content']) ? str_replace('<ul>','<ul class="list-group list-group-flush list-unstyled">', $data['content']) : '');
 
     // add classes to list items
     if (!is_array($data['content'])) {
@@ -422,10 +423,10 @@ function ec_resp_block_view_alter(&$data, $block) {
 
       if (isset($matches[0])) {
         foreach ($matches[0] as $link) {
-          if (strpos($link,' class="') !== false) {
+          if (strpos($link, ' class="') !== FALSE) {
             $new_link = str_replace(' class="', ' class="list-group-item ', $link);
           }
-          else if (strpos($link," class='") !== false) {
+          elseif (strpos($link," class='") !== FALSE) {
             $new_link = str_replace(" class='", " class='list-group-item ", $link);
           }
           else {
