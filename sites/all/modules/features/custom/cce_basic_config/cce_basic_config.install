@@ -271,12 +271,12 @@ function cce_basic_config_install() {
   // add a fivestar rate widget
   // check if rate widget already exists
   $rate_widgets = variable_get("rate_widgets");
-  if(!$rate_widgets || count($rate_widgets) == 0) {
+  if (!$rate_widgets || count($rate_widgets) == 0) {
     $rate_widgets = array();
   }
   else {
-    foreach($rate_widgets as $rate_widget) {
-      if($rate_widget->name == 'rate_fivestar') { // the widget fivestar already exists
+    foreach ($rate_widgets as $rate_widget) {
+      if ($rate_widget->name == 'rate_fivestar') { // the widget fivestar already exists
         return;
       }
     }
@@ -792,7 +792,7 @@ function cce_basic_config_update_7170() {
     if ($vocab_object->name == "classification") {
       $classification= $vocab_object->vid;
       //$results = db_query("update  `taxonomy_term_data`  set name=concat(name, '000') WHERE vid=".$classification);
-      if($classification) {
+      if ($classification) {
         $results = db_query("UPDATE {taxonomy_term_data} SET NAME=concat(name, :name) WHERE vid=:vid", array(':name' => '000', ':vid' => $classification));
       }
       return;
@@ -808,12 +808,12 @@ function cce_basic_config_update_7170() {
 function cce_basic_config_update_7180() {
   // check if rate widget fivestar already exists
   $rate_widgets = variable_get("rate_widgets");
-  if(!$rate_widgets || count($rate_widgets) == 0) {
+  if (!$rate_widgets || count($rate_widgets) == 0) {
     $rate_widgets = array();
   }
   else {
     foreach($rate_widgets as $rate_widget) {
-      if($rate_widget->name == 'rate_fivestar') { // the widget fivestar already exists
+      if ($rate_widget->name == 'rate_fivestar') { // the widget fivestar already exists
         return;
       }
     }
