@@ -217,19 +217,29 @@ function multisite_drupal_core_install() {
   ->execute();
 
   // add login link in the user menu -------------------------------------------------------------------------------
+  $options = array();
+  $options['attributes']['class'][] = 'btn btn-default';
+  $options['attributes']['data-image'] = 'log-in';
+
   $item = array(
     'link_path' => 'user/login',
     'link_title' => t('Login'),
     'menu_name' => 'user-menu',
+    'options' => $options,
   );
   menu_link_save($item);
   
   // add workbench link to the user menu -------------------------------------------------------------------------------
+  $options = array();
+  $options['attributes']['class'][] = 'btn btn-info btn-xs';
+  $options['attributes']['data-image'] = 'list-alt';
+
   $item = array(
     'link_path' => 'admin/workbench',
     'link_title' => t('My workbench'),
     'menu_name' => 'user-menu',
     'weight' => '-30',
+    'options' => $options,
   );
   menu_link_save($item);
   
@@ -243,9 +253,35 @@ function multisite_drupal_core_install() {
   menu_link_save($item);
 
   // update home link in the main menu ---------------------------------------------------------------------------------------
+  $options = array();
+  $options['attributes']['data-display-title'] = 0;
+  $options['attributes']['data-image'] = 'home';
+
   db_update('menu_links')
-    -> fields(array('weight' => '-50'))
+    -> fields(array('options' => serialize($options), 'weight' => '-50'))
     -> condition('link_title', 'Home')
     -> condition('menu_name', 'main-menu')
-    -> execute(); 
+    -> execute();
+    
+  // update logout link in the user menu ---------------------------------------------------------------------------------------
+  $options = array();
+  $options['attributes']['class'][] = 'btn btn-default btn-xs';
+  $options['attributes']['data-image'] = 'log-out';
+
+  db_update('menu_links')
+    -> fields(array('options' => serialize($options)))
+    -> condition('link_title', 'Log out')
+    -> condition('menu_name', 'user-menu')
+    -> execute();     
+
+  // update my account link in the user menu ---------------------------------------------------------------------------------------
+  $options = array();
+  $options['attributes']['class'][] = 'btn btn-default btn-xs';
+  $options['attributes']['data-image'] = 'user';
+
+  db_update('menu_links')
+    -> fields(array('options' => serialize($options)))
+    -> condition('link_path', 'user')
+    -> condition('menu_name', 'user-menu')
+    -> execute();
 }
