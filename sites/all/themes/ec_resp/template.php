@@ -79,18 +79,18 @@ function ec_resp_preprocess_html(&$variables) {
   if (arg(0) == 'node' && is_numeric(arg(1))) {
     $node = node_load(arg(1));
     $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
-  } 
+  }
   else {
     $variables['head_title'] = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
-  }  
-  
+  }
+
   // Add specific css for font size switcher
   // it has to be done here, to add custom data
   global $base_url;
   $element = array(
-    '#tag' => 'link', 
-    '#attributes' => array( 
-      'href' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/css/text_size_small.css', 
+    '#tag' => 'link',
+    '#attributes' => array(
+      'href' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/css/text_size_small.css',
       'rel' => 'stylesheet',
       'type' => 'text/css',
       'data-name' => 'switcher',
@@ -105,11 +105,11 @@ function ec_resp_preprocess_html(&$variables) {
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel-3.0.6.pack.js', array('scope' => 'footer', 'weight' => 11));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 12));
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 13));  
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 13));
 }
 
-function ec_resp_preprocess_menu_link(&$variables) { 
-  //get icon links to menu item 
+function ec_resp_preprocess_menu_link(&$variables) {
+  //get icon links to menu item
   $icon = (isset($variables['element']['#localized_options']['attributes']['data-image']) ? $variables['element']['#localized_options']['attributes']['data-image'] : '');
 
   //get display title option
@@ -155,7 +155,7 @@ function ec_resp_process_html(&$variables) {
 }
 
 function ec_resp_process_page(&$variables) {
-  
+
   // Hook into color.module.
   if (module_exists('color')) {
     _color_page_alter($variables);
@@ -191,7 +191,7 @@ function ec_resp_process_page(&$variables) {
 
 
 /**
- * Alter page header 
+ * Alter page header
  */
 function ec_resp_page_alter($page) {
   global $language;
@@ -200,20 +200,20 @@ function ec_resp_page_alter($page) {
     if(isset($node->title))
       $node_title = filter_xss($node->title);
   }
-  
+
   $description = variable_get('site_slogan');
   if (empty($description)) {
     $description = filter_xss(variable_get('site_name'));
-  }  
+  }
   if (!empty($node)) {
     $description = $node_title . ' - ' . $description;
   }
-  
+
   $title = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
   if (!empty($node)) {
     $title = $node_title . ' - ' . $title;
-  }  
-  
+  }
+
   $keywords = '';
   if (!empty($node) && !empty($node->field_tags)) {
     $tags = field_view_field('node', $node, 'field_tags');
@@ -222,59 +222,59 @@ function ec_resp_page_alter($page) {
         $keywords .= $value['taxonomy_term']->name . ', ';
       }
     }
-  }  
-  $keywords .=  filter_xss(variable_get('site_name')).', ';
+  }
+  $keywords .=  filter_xss(variable_get('site_name')) . ', ';
   $keywords .= 'European Commission, European Union, EU';
-  
+
   $type = 'website';
   if (!empty($node)) {
     $type = $node->type;
-  }  
-  
+  }
+
   //Content-Language
   $meta_content_language = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'http-equiv' => 'Content-Language',
-      'content' =>  $language->language    
+      'content' =>  $language->language
     )
   );
   drupal_add_html_head( $meta_content_language, 'meta_content_language' );
-  
+
   //description
   $meta_description = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'description',
-      'content' => $description   
+      'content' => $description
     )
   );
-  drupal_add_html_head( $meta_description, 'meta_description' );  
-  
+  drupal_add_html_head( $meta_description, 'meta_description' );
+
   //reference
   $meta_reference = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'reference',
-      'content' =>  filter_xss(variable_get('site_name'))    
+      'content' =>  filter_xss(variable_get('site_name'))
     )
   );
-  drupal_add_html_head( $meta_reference, 'meta_reference' );    
-  
+  drupal_add_html_head( $meta_reference, 'meta_reference' );
+
   //creator
   $meta_creator = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'creator',
-      'content' =>  'COMM/DG/UNIT'    
+      'content' =>  'COMM/DG/UNIT'
     )
   );
-  drupal_add_html_head( $meta_creator, 'meta_creator' );      
-  
+  drupal_add_html_head( $meta_creator, 'meta_creator' );
+
   //IPG classification
   $classification = variable_get('meta_configuration', 'none');
     if ($classification != 'none') {
@@ -286,25 +286,25 @@ function ec_resp_page_alter($page) {
         'content' =>  variable_get('meta_configuration', 'none')
       )
     );
-    drupal_add_html_head($meta_classification, 'meta_classification');      
-  } 
+    drupal_add_html_head($meta_classification, 'meta_classification');
+  }
   else {
     if (user_access('administer site configuration')) {
       drupal_set_message(t('Please select the IPG classification of your site') . ' ' . l(t('here.'), 'admin/config/system/site-information'), 'warning');
     }
   }
-  
+
   //keywords
   $meta_keywords = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'keywords',
-      'content' =>  $keywords  
+      'content' =>  $keywords
     )
 
   );
-  drupal_add_html_head( $meta_keywords, 'meta_keywords' ); 
+  drupal_add_html_head( $meta_keywords, 'meta_keywords' );
 
   //date
   $meta_date = array(
@@ -312,11 +312,11 @@ function ec_resp_page_alter($page) {
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'date',
-      'content' =>  date('d/m/Y')   
+      'content' =>  date('d/m/Y')
     )
   );
-  drupal_add_html_head( $meta_date, 'meta_date' );     
-  
+  drupal_add_html_head( $meta_date, 'meta_date' );
+
   //og title
   $meta_og_title = array(
     '#type' => 'html_tag',
@@ -327,7 +327,7 @@ function ec_resp_page_alter($page) {
       'content' =>  $title
     )
   );
-  drupal_add_html_head( $meta_og_title, 'meta_og_title' ); 
+  drupal_add_html_head( $meta_og_title, 'meta_og_title' );
 
   //og type
   $meta_og_type = array(
@@ -339,7 +339,7 @@ function ec_resp_page_alter($page) {
     )
   );
   drupal_add_html_head( $meta_og_type, 'meta_og_type' );
-  
+
   //og site name
   $meta_og_site_name = array(
     '#type' => 'html_tag',
@@ -350,7 +350,7 @@ function ec_resp_page_alter($page) {
     )
   );
   drupal_add_html_head( $meta_og_site_name, 'meta_og_site_name' );
-  
+
   //og description
   $meta_og_description = array(
     '#type' => 'html_tag',
@@ -360,8 +360,8 @@ function ec_resp_page_alter($page) {
       'content' =>  $description
     )
   );
-  drupal_add_html_head( $meta_og_description, 'meta_og_description' );  
-  
+  drupal_add_html_head( $meta_og_description, 'meta_og_description' );
+
   //fb admins
   $meta_fb_admins = array(
     '#type' => 'html_tag',
@@ -371,8 +371,8 @@ function ec_resp_page_alter($page) {
       'content' =>  'USER_ID'
     )
   );
-  drupal_add_html_head( $meta_fb_admins, 'meta_fb_admins' );  
-  
+  drupal_add_html_head( $meta_fb_admins, 'meta_fb_admins' );
+
   //robots
   $meta_robots = array(
     '#type' => 'html_tag',
@@ -382,8 +382,8 @@ function ec_resp_page_alter($page) {
       'content' =>  'follow,index'
     )
   );
-  drupal_add_html_head( $meta_robots, 'meta_robots' );  
-  
+  drupal_add_html_head( $meta_robots, 'meta_robots' );
+
   //revisit after
   $revisit_after = array(
     '#type' => 'html_tag',
@@ -393,7 +393,7 @@ function ec_resp_page_alter($page) {
       'content' =>  '15 Days'
     )
   );
-  drupal_add_html_head( $revisit_after, 'revisit-after' );  
+  drupal_add_html_head( $revisit_after, 'revisit-after' );
 
   //viewport
   $viewport = array(
@@ -404,7 +404,7 @@ function ec_resp_page_alter($page) {
       'content' =>  'width=device-width, initial-scale=1.0'
     )
   );
-  drupal_add_html_head( $viewport, 'viewport' );    
+  drupal_add_html_head( $viewport, 'viewport' );
 }
 
 /**
@@ -412,8 +412,8 @@ function ec_resp_page_alter($page) {
  */
 function ec_resp_block_view_alter(&$data, $block) {
 
-  if ($block->region == 'sidebar_left' || $block->region == 'sidebar_right') { 
-    // add classes to list 
+  if ($block->region == 'sidebar_left' || $block->region == 'sidebar_right') {
+    // add classes to list
     $data['content'] = (isset($data['content']) ? str_replace('<ul>','<ul class="list-group list-group-flush list-unstyled">',$data['content']) : '');
 
     // add classes to list items
@@ -433,7 +433,7 @@ function ec_resp_block_view_alter(&$data, $block) {
           }
           $data['content'] = str_replace($link, $new_link, $data['content']);
         }
-      }   
+      }
     }
   }
 }
@@ -535,8 +535,8 @@ function ec_resp_menu_tree__main_menu($variables) {
   if (strpos($variables['tree'], 'main_menu_dropdown')) {
   //there is a dropdown in this tree (using a specific term "main_menu_dropdown" to avoid mistakes)
     $variables['tree'] = str_replace('<ul class="nav navbar-nav">', '<ul class="dropdown-menu">', $variables['tree']);
-    return '<ul class="nav navbar-nav">' . $variables['tree'] . '</ul>';  
-  } 
+    return '<ul class="nav navbar-nav">' . $variables['tree'] . '</ul>';
+  }
   else {
   //there is no dropdown in this tree, simply return it in a <ul>
     return '<ul class="nav navbar-nav">' . $variables['tree'] . '</ul>';
@@ -566,7 +566,7 @@ function ec_resp_menu_link__main_menu(array $variables) {
   if (strpos($name_id, ':')) $name_id = substr ($name_id, 0, strpos($name_id, ':'));
 //Preserve alphanumerics and numbers, everything else goes away
   $pattern = '/([^a-z]+)([^0-9]+)/';
-  $name_id = preg_replace($pattern, '', $name_id);  
+  $name_id = preg_replace($pattern, '', $name_id);
   $element['#attributes']['class'][] = 'item' . $element['#original_link']['mlid'];
 
   if ($element['#below'] && !theme_get_setting('disable_dropdown_menu')) {
@@ -578,34 +578,34 @@ function ec_resp_menu_link__main_menu(array $variables) {
     //get first child item (we only need to add a class to the first item)
     $current = current($element['#below']);
     $id = $current['#original_link']['mlid'];
-    
+
     //add class to specify it is a dropdown
     $element['#below'][$id]['#attributes']['class'][] = 'main_menu_dropdown';
     if (!in_array('dropdown-submenu', $element['#attributes']['class'])) {
       $element['#attributes']['class'][] = 'dropdown';
     }
-    
+
     //test if there is a sub-dropdown
     foreach ($element['#below'] as $key => $value) {
       if (is_numeric($key) && $value['#below']) {
         $sub_current = current($value['#below']);
-        $sub_id = $sub_current['#original_link']['mlid'];      
+        $sub_id = $sub_current['#original_link']['mlid'];
         //add class to specify it is a sub-dropdown
         $element['#below'][$key]['#below'][$sub_id]['#attributes']['class'][] = 'main_menu_sub_dropdown';
         $element['#below'][$key]['#attributes']['class'][] = 'dropdown-submenu';
       }
-    }   
-    
-    $element['#attributes']['id'][] = $name_id;   
+    }
+
+    $element['#attributes']['id'][] = $name_id;
     $element['#localized_options']['fragment'] = $name_id;
     $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
     $element['#localized_options']['attributes']['data-toggle'][] = 'dropdown';
-    $element['#localized_options']['html'] = TRUE;    
+    $element['#localized_options']['html'] = TRUE;
     $output = l($element['#title'], '', $element['#localized_options']);
-    
+
     $dropdown = drupal_render($element['#below']);
 
-  } 
+  }
   else {
   //No dropdown
     $element['#localized_options']['html'] = TRUE;
@@ -658,7 +658,7 @@ function ec_resp_menu_local_tasks(&$variables) {
     $variables['secondary']['#suffix'] = '</ul>';
     $output .= drupal_render($variables['secondary']);
   }
-  
+
   return $output;
 }
 
@@ -688,7 +688,7 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) { //print $form_id;
     case 'add_media_form':
       $form['submit']['#attributes']['class'][] = 'btn btn-default';
       break;
-      
+
     case 'comment_admin_overview':
       $form['options']['submit']['#attributes']['class'][] = 'btn-small';
       break;
@@ -725,25 +725,25 @@ function ec_resp_cck_alter($form, &$form_state) {
     $form['body']['und'][0]['format']['#prefix'] = "<div class='hide'>";
     $form['body']['und'][0]['format']['#suffix'] = "</div>";
   }
-  
+
   return $form;
 }
 
 /**
  * Returns HTML for a link.
- * @param type $variables 
+ * @param type $variables
  */
 function ec_resp_link( $variables ) {
   $decoration = '';
   $action_bar_before = '';
   $action_bar_after = '';
   $btn_group_before = '';
-  $btn_group_after = '';  
+  $btn_group_after = '';
 
   if (!isset($variables['options']['attributes']['class'])) {
     $variables['options']['attributes']['class'] = '';
   }
-  
+
   if (isset($variables['options']['attributes']['action_bar'])) {
     switch ( $variables['options']['attributes']['action_bar'] ) {
       case 'first':
@@ -755,12 +755,12 @@ function ec_resp_link( $variables ) {
       case 'single':
         $action_bar_before .= '<div class="form-actions btn-toolbar action_bar">';
         $action_bar_after .= '</div>';
-        break;        
+        break;
       default:
         break;
     }
   }
-  
+
   if (isset($variables['options']['attributes']['btn_group'])) {
     switch ( $variables['options']['attributes']['btn_group'] ) {
       case 'first':
@@ -772,12 +772,12 @@ function ec_resp_link( $variables ) {
       case 'single':
         $btn_group_before .= '<div class="btn-group">';
         $btn_group_after .= '</div>';
-        break;  
+        break;
       default:
         break;
     }
-  }  
-  
+  }
+
   if (isset($variables['options']['attributes']['type'])) {
     switch ($variables['options']['attributes']['type']) {
       case 'add':
@@ -803,30 +803,30 @@ function ec_resp_link( $variables ) {
       case 'message':
         $decoration .= '<span class="glyphicon glyphicon-envelope"></span>';
         $variables['options']['attributes']['class'] .= ' btn btn-primary';
-        break;        
+        break;
       case 'small':
         $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
-        break;        
+        break;
       default:
         break;
     }
   }
-  
-  $output = $action_bar_before . $btn_group_before . '<a href="' . 
-    check_plain(url($variables['path'], $variables['options'])) . '"' . 
-    drupal_attributes($variables['options']['attributes']) . '>' . 
-    $decoration . ($variables['options']['html'] ? 
-      $variables['text'] : check_plain($variables['text'])) . 
+
+  $output = $action_bar_before . $btn_group_before . '<a href="' .
+    check_plain(url($variables['path'], $variables['options'])) . '"' .
+    drupal_attributes($variables['options']['attributes']) . '>' .
+    $decoration . ($variables['options']['html'] ?
+      $variables['text'] : check_plain($variables['text'])) .
     '</a>' . $btn_group_after . $action_bar_after;
   return $output;
 }
 
 /**
  * Returns HTML for a dropdown.
- * @param type $variables 
+ * @param type $variables
  */
 function ec_resp_dropdown($variables) {
-  
+
   $items = $variables['items'];
   $attributes = array();
 
@@ -853,7 +853,7 @@ function ec_resp_dropdown($variables) {
     }
     $output .= "</ul>";
   }
-  return $output;  
+  return $output;
 }
 
 /**
@@ -879,44 +879,44 @@ function ec_resp_class_replace($match) {
     case "Article":
       return '<i class="multisite-icon-file"></i>';
     break;
-    
+
     case "community":
       return '<i class="multisite-icon-group"></i>';
     break;
-    
+
     case "Document":
 
       return '<i class="multisite-icon-newspaper"></i>';
     break;
-    
+
     case "Event":
       return '<i class="multisite-icon-calendar"></i>';
     break;
-    
+
     case "Links":
       return '<i class="multisite-icon-link"></i>';
     break;
-    
+
     case "News":
       return '<i class="multisite-icon-megaphone"></i>';
     break;
-    
+
     case "Page":
       return '<i class="multisite-icon-file"></i>';
     break;
-    
+
     case "Survey":
       return '<i class="multisite-icon-check"></i>';
     break;
-    
+
     case "Wiki":
       return '<i class="multisite-icon-edit"></i>';
     break;
-    
+
     case "F.A.Q":
       return '<i class="multisite-icon-question"></i>';
     break;
-    
+
     case "GalleryMedia":
       return '<i class="multisite-icon-pictures"></i>';
     break;
@@ -932,7 +932,7 @@ function ec_resp_class_replace($match) {
     case "Simplenews newsletter":
       return '<i class="multisite-icon-paperplane"></i>';
     break;
-    
+
     default:
     break;
   }
@@ -951,4 +951,4 @@ function ec_resp_breadcrumb($variables) {
     }
   }
   return $crumbs;
-}  
+}
