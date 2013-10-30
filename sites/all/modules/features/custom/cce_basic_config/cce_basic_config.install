@@ -413,23 +413,31 @@ function cce_basic_config_enable() {
   }
 
 
-  // add 2 blocks in site-wide context -------------------------------------------------------------------------------
-  $context=module_invoke('context', 'load', 'site_wide');
+  // add blocks in site-wide context -------------------------------------------------------------------------------
+  $context = module_invoke('context', 'load', 'site_wide');
   $block_to_add1 = array(
     'module' => 'system',
     'delta' =>  'user-menu',
     'region' => 'tools',
     'weight' => 1,
   );
-  $context->reactions['block']['blocks']['user-menu']=$block_to_add1;
+  $context->reactions['block']['blocks']['user-menu'] = $block_to_add1;
 
   $block_to_add2 = array(
+    'module' => 'multisite-create-button',
+    'delta' =>  'create-content-button',
+    'region' => 'tools',
+    'weight' => 2,
+  );
+  $context->reactions['block']['blocks']['user-menu'] = $block_to_add2;  
+
+  $block_to_add3 = array(
     'module' => 'search',
     'delta' =>  'form',
     'region' => 'header_right',
     'weight' => 1,
   );
-  $context->reactions['block']['blocks']['form']=$block_to_add2;
+  $context->reactions['block']['blocks']['form'] = $block_to_add3;
 
   module_invoke('context', 'save', $context);
 
