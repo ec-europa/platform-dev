@@ -119,6 +119,7 @@ dependencies[] = menu_attributes
 
 dependencies[] = filefield_sources_plupload
 
+dependencies[] = multisite_create_button
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_standard
 
