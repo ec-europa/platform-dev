@@ -135,7 +135,7 @@ $this->adminrole = $this->drupalCreateUserWithRole('administrator');
   }
 
   public function setBlock($module, $delta, $region, $theme, $pages, $visibility) {
-    drupal_set_message("Activating block $module:$delta\n");
+    drupal_set_message('Activating block %module:%delta', array('%module' => $module, '%delta' => $delta));
     cache_clear_all();
     db_update('block')
             ->fields(array(
