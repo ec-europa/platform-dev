@@ -102,6 +102,7 @@ function ec_resp_preprocess_html(&$variables) {
   drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
 
   // Add javascripts
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/respond.min.js', array('scope' => 'header', 'weight' => 1));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel-3.0.6.pack.js', array('scope' => 'footer', 'weight' => 11));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 12));
