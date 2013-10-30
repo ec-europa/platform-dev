@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * Implements hook_block_info().
+ */
+function multisite_create_button_block_info() {
+  $blocks['create-content-button'] = array(
+    'info' => t('Create content button'), 
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function multisite_create_button_block_view($delta='') {
+  $block = array();
+  switch ($delta) {
+    case 'create-content-button':
+      $block['subject'] = t('Create content');
+      $block['content'] = _multisite_create_button_contextual_links();
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Helper function to fetch the links
+ */
+function _multisite_create_button_contextual_links() {
+  global $base_url;
+  /*$context = og_context();    
+  if ($context) {
+    $links = og_node_create_links('node', $context['gid'], 'og_group_ref');
+    if($links)
+      $links['og_node_create_links']['#theme']='dropdown';
+    return $links;
+  }*/
+
+  $items = menu_get_item('node/add');
+  $content = system_admin_menu_block($items);
+
+  if (!empty($content)) {
+    $links = array();
+    foreach ($content as $content_type) {
+      $links['items'][] = l($content_type['link_title'], $base_url . '/' . $content_type['link_path']);
+    }
+
+    /*$element = array();
+    $element['node_create_links'] = array(
+      '#theme' => 'item_list', 
+      '#items' => $items,
+    );*/
+    //print_r($content);
+    $output = theme('dropdown', $links);
+    return $output;
+  }  
+}

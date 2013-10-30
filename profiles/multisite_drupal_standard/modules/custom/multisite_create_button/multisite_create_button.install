@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the Create button module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function multisite_create_button_install() {
+ drupal_set_message(st("Content creation button installed"));
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function multisite_create_button_uninstall() {
+  drupal_set_message(st("Content creation button uninstalled"));
+}

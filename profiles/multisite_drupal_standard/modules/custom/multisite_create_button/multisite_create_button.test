@@ -1,0 +1,141 @@
+<?php
+
+/**
+ * Tests the functionality of the OG Button module.
+ */
+class OGButtonTestCase extends DrupalWebTestCase {
+  protected $users;
+  protected $groups;
+  protected $content;
+  
+  public static function getInfo() {
+    return array(
+      'name' => 'Multisite organic groups button',
+      'description' => 'Ensure that the organic groups button module functions properly.',
+      'group' => 'Organic groups',
+    );
+  }
+
+  public function setUp() {
+    // Enable any modules required for the test
+    parent::setUp(array(
+    	'multisite_og_button', 
+    	'og'
+    ));
+    
+    // create a group type
+    $this->drupalCreateContentType(array(
+    	'type' => 'groups',
+      'name' => 'groups', 
+    ));
+    og_create_field(OG_GROUP_FIELD, 'node', 'groups');
+        
+    // Create some group content types
+    $this->drupalCreateContentType(array(
+    	'type' => 'group_content_a',
+      'name' => 'group_content_a', 
+    ));
+    og_create_field(OG_AUDIENCE_FIELD, 'node', 'group_content_a');    
+
+    $this->drupalCreateContentType(array(
+    	'type' => 'group_content_b',
+      'name' => 'group_content_b', 
+    ));
+    og_create_field(OG_AUDIENCE_FIELD, 'node', 'group_content_b');
+    
+    $this->drupalCreateContentType(array(
+    	'type' => 'group_content_c',
+      'name' => 'group_content_c', 
+    ));
+    og_create_field(OG_AUDIENCE_FIELD, 'node', 'group_content_c');
+    
+    // Create a user who can edit groups.
+    $this->users['admin'] = $this->drupalCreateUser(array(
+      'access content',
+      'administer blocks',
+      'administer nodes',
+      'administer users',
+			'administer content types',
+      'create groups content',
+      'edit any groups content',
+      'administer group',
+    ));
+    $this->drupalLogin($this->users['admin']);    
+    
+    // Create some groups 
+    $settings = array();
+    $settings['type'] = 'groups';
+    $settings['title'] = 'Group A';
+    $settings[OG_GROUP_FIELD][LANGUAGE_NONE][0]['value'] = 1;
+    $this->groups['groupa'] = $this->drupalCreateNode($settings);
+    
+    $settings = array();
+    $settings['type'] = 'groups';
+    $settings['title'] = 'Group B';
+    $settings[OG_GROUP_FIELD][LANGUAGE_NONE][0]['value'] = 1;
+    $this->groups['groupb'] = $this->drupalCreateNode($settings);
+
+    // Create a user who can edit group_content_a and group_content_b
+    $this->users['usera'] = $this->drupalCreateUser(array(
+      'access content',
+      'create group_content_a content',
+			'create group_content_b content',                  
+      'edit any group_content_a content',                 
+      'edit any group_content_b content'
+    ));
+    
+    // Associate usera to the groupa.
+    $group = og_get_group('node',  $this->groups['groupa']->nid);
+    og_group($group->gid, array(
+    	'entity' => $this->users['usera']
+    ));
+        
+    $this->drupalLogout();
+  }
+  
+  /**
+   * This test will verify the following:
+   * - make sure the block is available
+   * - the block is visible on a group page (context is available)
+   * - the block displays the correct creation links (follows user permissions)
+   * - the block is invisible on a non-group page (context not available)
+   */
+  public function testOGButtonModule() {
+    $region = 'content';
+    $block_id = 'og-contextual-links';
+    $module = 'multisite_og_button';
+
+    // Login as admin
+    $this->drupalLogin($this->users['admin']);
+    
+    // Verify the block is available
+    $this->drupalGet('admin/structure/block');
+    $this->assertText(t('OG Contextual Links'), t('The block "OG Contextual Links" was found.'));
+        
+    // Assign the block to a region   
+    $edit = array(
+      'blocks['.$module.'_'.$block_id.'][region]' => $region,
+    );
+    $this->drupalPost('admin/structure/block', $edit, 'Save blocks');
+    
+    // Logout as admin
+    $this->drupalLogout();
+    
+    // Login as user a  
+    $this->drupalLogin($this->users['usera']);
+    
+    // Check if the block is displayed onto a group page
+    $this->drupalGet('node/'.$this->groups['groupa']->nid);    
+    $this->assertText('Create content', t('Group context is available, the block "OG Contextual Links" is visible.'));
+    
+    // Check the correct create links are made available according to the users permissions
+    $this->assertText('group_content_a', t('User has create group_content_a permission, we found link to create a new group_content_a.'));
+    $this->assertText('group_content_b', t('User has create group_content_b permission, we found link to create a new group_content_b.'));
+    $this->assertNoText('group_content_c', t('User does not have create group_content_c permission, we did not find link to create a new group_content_c.'));
+  
+    // Check that the block is not displayed if no group context is found (eg. home page):
+    $this->drupalGet('<front>');        
+    $this->assertNoText('Create content', t('Group context was not available, the block "OG Contextual Links" was not found.'));
+  }  
+  
+}
