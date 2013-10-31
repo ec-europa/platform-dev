@@ -415,6 +415,7 @@ function cce_basic_config_enable() {
 
   // add blocks in site-wide context -------------------------------------------------------------------------------
   $context = module_invoke('context', 'load', 'site_wide');
+
   $block_to_add1 = array(
     'module' => 'system',
     'delta' =>  'user-menu',
@@ -429,7 +430,7 @@ function cce_basic_config_enable() {
     'region' => 'tools',
     'weight' => 2,
   );
-  $context->reactions['block']['blocks']['user-menu'] = $block_to_add2;  
+  $context->reactions['block']['blocks']['create-content-button'] = $block_to_add2;  
 
   $block_to_add3 = array(
     'module' => 'search',
