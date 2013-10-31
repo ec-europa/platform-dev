@@ -157,7 +157,7 @@ function _news_core_get_date_tables() {
  * On a clean installation the date fields are already set up.
  *
  */
-function news_core_update_7201() {
+function news_core_update_7100() {
   $schema['field_data_field_news_publication_date'] = array();
   $schema['field_data_field_news_unpublication_date'] = array();
   $schema['field_revision_field_news_publication_date'] = array();
