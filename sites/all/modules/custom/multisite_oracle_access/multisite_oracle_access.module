@@ -1,0 +1,38 @@
+<?php
+/*
+ * get User info from the comref database
+ */
+function getComRefUserInfo($perid, $fields = array('no_sysper')) {
+  $data = 'per_id='.$perid."&fields=".implode(",", $fields);
+
+  $options = array(
+    'method' => 'POST',
+    'data' => $data,
+    //'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
+  );
+
+  $config = variable_get('oracle_access');
+  $result = drupal_http_request($config['url'], $options);
+
+  if($result->code == '200') {
+    $xmlobj = simplexml_load_string($result->data);
+    foreach($fields as $item) {
+      $values[$item] = (string)$xmlobj->$item;
+    }
+  }
+  else {
+    watchdog('connection issue with the oracle service'); 
+  }
+
+ return isset($values)?$values:null;
+}
+
+
+/*
+ * replace comRef token in forms (ex : %comref['no_sysper'])
+ * callback function called by a preg_replace_callback function
+ */
+function replace_ComRef_token($perid, $matches) {
+  $data = getComRefUserInfo($perid, array($matches['1']);
+  return $data[$token];
+}
