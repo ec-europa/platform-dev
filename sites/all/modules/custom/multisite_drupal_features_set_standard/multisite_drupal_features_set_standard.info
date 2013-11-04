@@ -172,6 +172,14 @@ feature_sets[gallerymedia_core][font] = 'multisite-icon-pictures'
 feature_sets[gallerymedia_core][enable][] = gallerymedia_core
 feature_sets[gallerymedia_core][disable][] = gallerymedia_core
 
+feature_sets[gallerymedia_core][title] = 'Crop & Resize'
+feature_sets[gallerymedia_core][description] = 'Allows users to crop, resize and rotate images. <span class="desc"><a href="https://webgate.ec.europa.eu/fpfis/wikis/x/JYVgAw">Lire la documentation</a></span>'
+feature_sets[gallerymedia_core][category] = 'Media'
+feature_sets[gallerymedia_core][icon] = ''
+feature_sets[gallerymedia_core][font] = 'multisite-icon-pictures'
+feature_sets[gallerymedia_core][enable][] = multisite_crop_and_resize
+feature_sets[gallerymedia_core][disable][] = multisite_crop_and_resize
+
 
 ; Multilingualism
 feature_sets[multisite_multilingual_references][title] = 'Multisite Multilingual entity reference'

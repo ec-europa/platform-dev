@@ -1,0 +1,10 @@
+name = Multisite Crop and Resize
+description = This feature integrates image cropping, image rotation and image scaling functions to the media module.
+package = Multisite_features
+core = 7.x
+version = 7.x-1.0
+php = 5.2.4
+project = multisite_crop_and_resize
+dependencies[] = media_crop(=7.x-1.4).
+features[features_api][] = api:1
+files[] = tests/multisite_crop_and_resize.test

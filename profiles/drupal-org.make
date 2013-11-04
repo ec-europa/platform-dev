@@ -163,6 +163,9 @@ projects[maxlength][version] = "3.0-beta1"
 projects[media][subdir] = "contributed"
 projects[media][version] = "2.0-alpha2"
 
+projects[media_crop][subdir] = "contributed"
+projects[media_crop][version] = "1.4"
+
 projects[media_dailymotion][subdir] = "contributed"
 projects[media_dailymotion][version] = "1.0"
 
