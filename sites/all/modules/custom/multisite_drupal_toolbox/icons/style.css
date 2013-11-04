@@ -2,32 +2,14 @@
 	font-family: 'multisite-icons';
 	src:url('fonts/multisite-icons.eot');
 	src:url('fonts/multisite-icons.eot?#iefix') format('embedded-opentype'),
-		url('fonts/multisite-icons.woff') format('woff'),
 		url('fonts/multisite-icons.ttf') format('truetype'),
+		url('fonts/multisite-icons.woff') format('woff'),
 		url('fonts/multisite-icons.svg#multisite-icons') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
-/* Use the following CSS code if you want to use data attributes for inserting your icons */
-[data-icon]:before {
-	font-family: 'multisite-icons';
-	content: attr(data-icon);
-	speak: none;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-}
-
-/* Use the following CSS code if you want to have a class per icon */
-/*
-Instead of a list of all class selectors,
-you can use the generic selector below, but it's slower:
 [class*="multisite-icon-"] {
-*/
-.multisite-icon-flag, .multisite-icon-reorder, .multisite-icon-home, .multisite-icon-cogs, .multisite-icon-comments-alt, .multisite-icon-flow-branch, .multisite-icon-vcard, .multisite-icon-thumbs-up, .multisite-icon-share, .multisite-icon-light-bulb, .multisite-icon-mail, .multisite-icon-directions, .multisite-icon-code, .multisite-icon-publish, .multisite-icon-language, .multisite-icon-pictures, .multisite-icon-archive, .multisite-icon-paperplane, .multisite-icon-megaphone, .multisite-icon-feed, .multisite-icon-question, .multisite-icon-link, .multisite-icon-earth, .multisite-icon-check, .multisite-icon-file, .multisite-icon-newspaper, .multisite-icon-calendar, .multisite-icon-book, .multisite-icon-edit, .multisite-icon-keyboard, .multisite-icon-group, .multisite-icon-camera, .multisite-icon-location, .multisite-icon-menu, .multisite-icon-pie, .multisite-icon-list, .multisite-icon-bookmarks, .multisite-icon-notification, .multisite-icon-bubbles, .multisite-icon-stats {
 	font-family: 'multisite-icons';
 	speak: none;
 	font-style: normal;
@@ -35,7 +17,41 @@ you can use the generic selector below, but it's slower:
 	font-variant: normal;
 	text-transform: none;
 	line-height: 1;
+
+	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.multisite-icon-crop:before {
+	content: "\e600";
+}
+.multisite-icon-stats:before {
+	content: "\e01d";
+}
+.multisite-icon-bubbles:before {
+	content: "\e01e";
+}
+.multisite-icon-bookmarks:before {
+	content: "\e01b";
+}
+.multisite-icon-notification:before {
+	content: "\e01c";
+}
+.multisite-icon-feed:before {
+	content: "\e006";
+}
+.multisite-icon-megaphone:before {
+	content: "\e007";
+}
+.multisite-icon-paperplane:before {
+	content: "\e008";
+}
+.multisite-icon-list:before {
+	content: "\e01a";
+}
+.multisite-icon-uniF000:before {
+	content: "\f000";
 }
 .multisite-icon-flag:before {
 	content: "\e000";
@@ -46,62 +62,17 @@ you can use the generic selector below, but it's slower:
 .multisite-icon-home:before {
 	content: "\e002";
 }
-.multisite-icon-cogs:before {
-	content: "\e001";
-}
-.multisite-icon-comments-alt:before {
-	content: "\f0e6";
-}
-.multisite-icon-flow-branch:before {
-	content: "\e016";
-}
-.multisite-icon-vcard:before {
-	content: "\e015";
-}
-.multisite-icon-thumbs-up:before {
-	content: "\e013";
-}
-.multisite-icon-share:before {
-	content: "\e012";
-}
-.multisite-icon-light-bulb:before {
-	content: "\e011";
-}
-.multisite-icon-mail:before {
-	content: "\e010";
-}
-.multisite-icon-directions:before {
-	content: "\e00f";
-}
-.multisite-icon-code:before {
-	content: "\e00e";
-}
-.multisite-icon-publish:before {
-	content: "\e00c";
-}
-.multisite-icon-language:before {
-	content: "\e00b";
-}
-.multisite-icon-pictures:before {
-	content: "\e00a";
-}
-.multisite-icon-archive:before {
-	content: "\e009";
-}
-.multisite-icon-paperplane:before {
-	content: "\e008";
-}
-.multisite-icon-megaphone:before {
-	content: "\e007";
-}
-.multisite-icon-feed:before {
-	content: "\e006";
-}
 .multisite-icon-question:before {
 	content: "\e005";
 }
 .multisite-icon-link:before {
 	content: "\e004";
+}
+.multisite-icon-cogs:before {
+	content: "\e001";
+}
+.multisite-icon-comments-alt:before {
+	content: "\f0e6";
 }
 .multisite-icon-earth:before {
 	content: "\e00d";
@@ -109,11 +80,20 @@ you can use the generic selector below, but it's slower:
 .multisite-icon-check:before {
 	content: "\f046";
 }
+.multisite-icon-flow-branch:before {
+	content: "\e016";
+}
+.multisite-icon-vcard:before {
+	content: "\e015";
+}
 .multisite-icon-file:before {
 	content: "\f016";
 }
 .multisite-icon-newspaper:before {
 	content: "\e017";
+}
+.multisite-icon-thumbs-up:before {
+	content: "\e013";
 }
 .multisite-icon-calendar:before {
 	content: "\f073";
@@ -121,17 +101,38 @@ you can use the generic selector below, but it's slower:
 .multisite-icon-book:before {
 	content: "\f02d";
 }
+.multisite-icon-light-bulb:before {
+	content: "\e011";
+}
+.multisite-icon-share:before {
+	content: "\e012";
+}
+.multisite-icon-mail:before {
+	content: "\e010";
+}
 .multisite-icon-edit:before {
 	content: "\f044";
 }
 .multisite-icon-keyboard:before {
 	content: "\e039";
 }
+.multisite-icon-directions:before {
+	content: "\e00f";
+}
+.multisite-icon-code:before {
+	content: "\e00e";
+}
 .multisite-icon-group:before {
 	content: "\f0c0";
 }
 .multisite-icon-camera:before {
 	content: "\e003";
+}
+.multisite-icon-publish:before {
+	content: "\e00c";
+}
+.multisite-icon-language:before {
+	content: "\e00b";
 }
 .multisite-icon-location:before {
 	content: "\e018";
@@ -142,18 +143,9 @@ you can use the generic selector below, but it's slower:
 .multisite-icon-pie:before {
 	content: "\e019";
 }
-.multisite-icon-list:before {
-	content: "\e01a";
+.multisite-icon-archive:before {
+	content: "\e009";
 }
-.multisite-icon-bookmarks:before {
-	content: "\e01b";
-}
-.multisite-icon-notification:before {
-	content: "\e01c";
-}
-.multisite-icon-bubbles:before {
-	content: "\e01e";
-}
-.multisite-icon-stats:before {
-	content: "\e01d";
+.multisite-icon-pictures:before {
+	content: "\e00a";
 }
