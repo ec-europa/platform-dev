@@ -3,28 +3,34 @@
  * get User info from the comref database
  */
 function getComRefUserInfo($perid, $fields = array('no_sysper')) {
-  $data = 'per_id='.$perid."&fields=".implode(",", $fields);
+  $config = variable_get('oracle_access');  
+  $data = 'per_id='.$perid."&fields=".implode(",", $fields)."&access_token=".$config['access_token'];
 
   $options = array(
     'method' => 'POST',
     'data' => $data,
-    //'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
+    'headers' => array(
+      'Content-Type' => 'application/x-www-form-urlencoded',  
+    ),
   );
 
-  $config = variable_get('oracle_access');
   $result = drupal_http_request($config['url'], $options);
 
   if($result->code == '200') {
-    $xmlobj = simplexml_load_string($result->data);
-    foreach($fields as $item) {
-      $values[$item] = (string)$xmlobj->$item;
+    if($xmlobj = simplexml_load_string($result->data)) {
+      foreach($fields as $item) {
+        $values[$item] = (string)$xmlobj->$item;
+      }
+    }
+    else {
+      watchdog('oracle access', 'unable to parse XML data');
     }
   }
   else {
-    watchdog('connection issue with the oracle service'); 
+    watchdog('oracle access', 'connection issue with the oracle service'); 
   }
 
- return isset($values)?$values:null;
+  return isset($values)?$values:null;
 }
 
 
@@ -32,7 +38,15 @@ function getComRefUserInfo($perid, $fields = array('no_sysper')) {
  * replace comRef token in forms (ex : %comref['no_sysper'])
  * callback function called by a preg_replace_callback function
  */
-function replace_ComRef_token($perid, $matches) {
-  $data = getComRefUserInfo($perid, array($matches['1']);
-  return $data[$token];
+function replace_ComRef_token($matches) {
+  global $user;
+  if (function_exists('getLdapUserInfo') && isset($user->name)) {
+    $user_info = getLdapUserInfo($user->name, array('employeenumber'));
+    $data = getComRefUserInfo($user_info['employeenumber'], array($matches['1']));
+    return $data[$matches['1']];
+  }
+  else {
+    return;  
+  }
 }
+
