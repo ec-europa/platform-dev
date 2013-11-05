@@ -15,7 +15,6 @@ if (file_exists($settings_file)) {
 
     $tns_admin_path = dirname(realpath(__FILE__)) . '/oracle_home';
     putenv('TNS_ADMIN=' . $tns_admin_path);
-    $connection_string = 'XXXX';
     $connection_handle = oci_connect($username, $passwd, $connection_string);
     if (!$connection_handle) {
       print "Unable to connect: " . print_r(oci_error(), TRUE);

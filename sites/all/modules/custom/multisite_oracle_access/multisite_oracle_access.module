@@ -23,11 +23,11 @@ function getComRefUserInfo($perid, $fields = array('no_sysper')) {
       }
     }
     else {
-      watchdog('oracle access', 'unable to parse XML data');
+      watchdog('multisite oracle access', 'unable to parse XML data');
     }
   }
   else {
-    watchdog('oracle access', 'connection issue with the oracle service'); 
+    watchdog('multisite oracle access', 'connection issue with the oracle service'); 
   }
 
   return isset($values)?$values:null;
