@@ -137,27 +137,6 @@ function multisite_drupal_language_negociation_form_alter(&$form, $form_state, $
 }
 
 
-/**
- * Implementation of hook_query_node_access_alter().
- *
- * Rewrite node queries so language selection options are enforced.
- */
-
-/*
- *
- * no more used
- * instead of using a hook_query_node_access_alter, we add the language filter explicitly in views
- *
- *
-function multisite_drupal_language_negociation_query_node_access_alter(QueryAlterableInterface $query) {
-  if (!i18n_select_mode('nodes') && i18n_select_check_query($query) && ($table_alias = i18n_select_check_table($query, 'node', 'nid'))) {
-    $query->condition(db_or()->condition($table_alias . '.language', i18n_select_langcodes())->condition($table_alias . '.tnid',0));
-    // Mark query as altered
-    $query->addTag('i18n_select');
-  }
-}
-*/
-
 
 /*
  * hook_views_query_alter
