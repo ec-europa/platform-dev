@@ -955,6 +955,30 @@
 				"name": "pictures",
 				"ligatures": ""
 			}
+		},
+		{
+			"icon": {
+				"paths": [
+					"M192 64v768h768v-768h-768zM896 768h-640v-640h640v640zM128 896v-640l-64-64v768h768l-64-64zM429.254 685.254l192-192 146.746 146.746v-384h-384l146.746 146.746-192 192z"
+				],
+				"tags": [
+					"new tab",
+					"external",
+					"outside",
+					"popout",
+					"link",
+					"blank"
+				],
+				"grid": 16
+			},
+			"properties": {
+				"order": 43,
+				"id": 347,
+				"prevSize": 32,
+				"code": 58881,
+				"name": "new-tab",
+				"ligatures": ""
+			}
 		}
 	],
 	"height": 1024,

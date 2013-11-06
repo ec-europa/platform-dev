@@ -26,6 +26,9 @@
 .multisite-icon-crop:before {
 	content: "\e600";
 }
+.multisite-icon-new-tab:before {
+	content: "\e601";
+}
 .multisite-icon-stats:before {
 	content: "\e01d";
 }
