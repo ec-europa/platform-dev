@@ -141,12 +141,11 @@ function multisite_drupal_language_negociation_form_alter(&$form, $form_state, $
 /*
  * hook_views_query_alter
  * apply the nodes selection for views regarding the multisite language negociation :
- * 
  */
 function multisite_drupal_language_negociation_views_query_alter(&$view, &$query) {
   global $language;
   $language_default = language_default();
-  if (preg_match('/multilingual/', $view->tag)) { // alter only the views with the 'multilingual' tag
+  if (!preg_match('/non-multilingual/', $view->tag)) { // alter all the views except the views with the 'non-multilingual' tag
     // add a relationship to get the translation of a node in the current language
     $join = new views_join;
     $join->construct('node', 'node', 'nid', 'tnid', array(), 'LEFT');
