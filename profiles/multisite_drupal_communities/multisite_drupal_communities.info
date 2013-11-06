@@ -122,6 +122,7 @@ dependencies[] = media_node
 dependencies[] = menu_token
 dependencies[] = menu_attributes
 dependencies[] = i18nviews
+dependencies[] = email
 
 dependencies[] = filefield_sources_plupload
 
