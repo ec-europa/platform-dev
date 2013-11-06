@@ -154,13 +154,13 @@ feature_sets[gallerymedia_core][font] = 'multisite-icon-pictures'
 feature_sets[gallerymedia_core][enable][] = gallerymedia_core
 feature_sets[gallerymedia_core][disable][] = gallerymedia_core
 
-feature_sets[crop_resize][title] = 'Crop & Resize'
-feature_sets[crop_resize][description] = 'Allows users to crop, resize and rotate images. <span class="desc"><a href="https://webgate.ec.europa.eu/fpfis/wikis/x/JYVgAw">Lire la documentation</a></span>'
-feature_sets[crop_resize][category] = 'Media'
-feature_sets[crop_resize][icon] = ''
-feature_sets[crop_resize][font] = 'multisite-icon-crop'
-feature_sets[crop_resize][enable][] = multisite_crop_and_resize
-feature_sets[crop_resize][disable][] = multisite_crop_and_resize
+feature_sets[multisite_crop_and_resize][title] = 'Crop & Resize'
+feature_sets[multisite_crop_and_resize][description] = 'Allows users to crop, resize and rotate images. <span class="desc"><a href="https://webgate.ec.europa.eu/fpfis/wikis/x/JYVgAw">Lire la documentation</a></span>'
+feature_sets[multisite_crop_and_resize][category] = 'Media'
+feature_sets[multisite_crop_and_resize][icon] = ''
+feature_sets[multisite_crop_and_resize][font] = 'multisite-icon-crop'
+feature_sets[multisite_crop_and_resize][enable][] = multisite_crop_and_resize
+feature_sets[multisite_crop_and_resize][disable][] = multisite_crop_and_resize
 
 
 ; Multilingualism
