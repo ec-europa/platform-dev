@@ -229,6 +229,12 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
         }
         break;
 
+      case 'user_profile_form':
+        if ($form['#user']->uid == 1) {
+          $form['#access'] = 0;
+        }        
+        break;
+
       case "workbench_moderation_admin_states_form": // prevent administrator from changing existing workflow states
         $blocked_states = array('draft', 'validated', 'published', 'needs_review', 'archived');
         $states = $form['states'];
@@ -249,6 +255,7 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
           }
         }
         break;
+
       // Server side character limitation form field message
       case "contact_site_form":
       case "contact_personal_form":
