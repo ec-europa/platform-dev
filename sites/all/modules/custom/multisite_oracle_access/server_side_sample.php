@@ -24,7 +24,7 @@ if (file_exists($settings_file)) {
     oci_bind_by_name($statement, ":perid", $_POST['per_id']);
     oci_execute($statement);
 
-    $fields = explode(',', $_POST['fields']); // get fields to get from the Oracle view
+    $fields = explode(',', $_POST['fields']); // fields to get from the Oracle view
     while ($row = oci_fetch_array($statement, OCI_ASSOC)) {
       foreach ($fields as $item) {
         $param = $xml->createElement($item, $row[strtoupper($item)]);
