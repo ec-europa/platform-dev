@@ -70,6 +70,9 @@ projects[date][version] = "2.6"
 projects[diff][subdir] = "contributed"
 projects[diff][version] = "3.2"
 
+projects[email][subdir] = "contributed"
+projects[email][version] = "1.2"
+
 projects[entity][subdir] = "contributed"
 projects[entity][version] = "1.1"
 
