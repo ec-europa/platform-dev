@@ -158,6 +158,13 @@ function cce_basic_config_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'language_negociation_views';
+  $strongarm->value = 1;
+  $export['language_negociation_views'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'linkchecker_check_links_interval';
   $strongarm->value = '259200';
   $export['linkchecker_check_links_interval'] = $strongarm;

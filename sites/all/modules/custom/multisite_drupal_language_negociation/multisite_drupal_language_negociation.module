@@ -145,20 +145,22 @@ function multisite_drupal_language_negociation_form_alter(&$form, $form_state, $
 function multisite_drupal_language_negociation_views_query_alter(&$view, &$query) {
   global $language;
   $language_default = language_default();
-  if (!preg_match('/non-multilingual/', $view->tag)) { // alter all the views except the views with the 'non-multilingual' tag
-    // add a relationship to get the translation of a node in the current language
-    $join = new views_join;
-    $join->construct('node', 'node', 'nid', 'tnid', array(), 'LEFT');
-    $join->extra = array(array('field' => 'language', 'value' => $language->language));
-    $query->add_relationship('node_node', $join, 'node');
+  if(variable_get('language_negociation_views', 0)) {
+    if (!preg_match('/non-multilingual/', $view->tag)) { // alter all the views except the views with the 'non-multilingual' tag
+      // add a relationship to get the translation of a node in the current language
+      $join = new views_join;
+      $join->construct('node', 'node', 'nid', 'tnid', array(), 'LEFT');
+      $join->extra = array(array('field' => 'language', 'value' => $language->language));
+      $query->add_relationship('node_node', $join, 'node');
 
-    // conditions for the language selection and fallbacks
-    $query->add_where(0, "
-      (node.language IN ('und', '$language->language'))
-      OR (node.tnid = node.nid AND node_node.status = '0')
-      OR (node.tnid = node.nid AND node_node.language IS NULL)
-      OR (node.language = '$language_default->language' AND node.tnid = 0)
-    ", array(), 'formula');
+      // conditions for the language selection and fallbacks
+      $query->add_where(0, "
+        (node.language IN ('und', '$language->language'))
+        OR (node.tnid = node.nid AND node_node.status = '0')
+        OR (node.tnid = node.nid AND node_node.language IS NULL)
+        OR (node.language = '$language_default->language' AND node.tnid = 0)
+      ", array(), 'formula');
+    }
   }
 }
 

@@ -181,6 +181,7 @@ features[variable][] = jqmulti_libraries
 features[variable][] = jqmulti_load_always
 features[variable][] = language_content_type_article
 features[variable][] = language_content_type_page
+features[variable][] = language_negociation_views
 features[variable][] = linkchecker_check_links_interval
 features[variable][] = linkchecker_check_links_types
 features[variable][] = linkchecker_disable_link_check_for_urls
