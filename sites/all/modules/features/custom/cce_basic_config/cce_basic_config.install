@@ -338,6 +338,12 @@ function cce_basic_config_install() {
     'translate' => TRUE,
   );
   variable_set("rate_widgets", $rate_widgets);
+
+  // captcha default configuration
+  db_update('captcha_points')
+    -> fields(array('captcha_type' => 'default'))
+    -> condition('form_id', 'contact_site_form')
+    -> execute();
 }
 
 /**
@@ -918,7 +924,8 @@ function cce_basic_config_update_7191() {
 }
 
 /**
- * set default configuration for menu items
+ * set default configuration for menu items,
+ * set configuration for captcha module
  */
 function cce_basic_config_update_7192() {
   // home
@@ -1010,4 +1017,18 @@ function cce_basic_config_update_7192() {
     -> condition('link_path', 'user')
     -> condition('menu_name', 'user-menu')
     -> execute();
+
+  // Captcha 
+  variable_set('captcha_default_challenge', 'image_captcha/Image');
+  variable_set('image_captcha_fonts', array(
+    'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf' => 'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf',
+    'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf' => 'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf'));
+  variable_set('image_captcha_distortion_amplitude', '5');
+  variable_set('image_captcha_bilinear_interpolation', 1);
+
+  db_update('captcha_points')
+    -> fields(array('captcha_type' => 'default'))
+    -> condition('form_id', 'contact_site_form')
+    -> execute();
+
 }
