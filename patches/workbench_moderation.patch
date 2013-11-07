@@ -1,7 +1,16 @@
---- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2012-01-14 00:12:30.000000000 +0100
-+++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2012-02-21 10:44:29.000000000 +0100
-
-@@ -856,7 +856,7 @@
+--- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2013-10-17 13:21:51.936329242 +0200
++++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2013-11-07 17:12:21.000000000 +0100
+@@ -399,6 +399,9 @@
+   $permissions['use workbench_moderation needs review tab'] = array(
+     'title' => t('Use "Needs review" workbench tab')
+   );
++$permissions['Access to unpublished file'] = array(
++   'title' => t('View unpublished file'),
++ );
+ 
+   // Per-node-type, per-transition permissions. Used by workbench_moderation_state_allowed().
+   $node_types = workbench_moderation_moderate_node_types();
+@@ -856,7 +859,7 @@
    if ($form['options']['#access']) {
      $form['options']['log'] = $form['revision_information']['log'];
      $form['options']['log']['#title'] = t('Moderation notes');
@@ -10,7 +19,7 @@
  
      // Unset the old placement of the Revision log.
      unset($form['revision_information']['log']);
-@@ -997,8 +997,11 @@
+@@ -997,8 +1000,11 @@
      return TRUE;
    }
  
@@ -23,3 +32,63 @@
  }
  
  /**
+@@ -2106,3 +2112,59 @@
+ function workbench_moderation_migrate_api() {
+   return array('api' => 2);
+ }
++
++/**
++ * Implements hook_file_download()
++ */
++function workbench_moderation_file_download($uri) {
++
++  // Find the nodes that have this file attached to.
++  $query = db_select('file_usage', 'fu');
++  $query->addField('fu', 'id');
++  $query->addField('fu', 'fid');
++  $query->join('file_managed', 'fm', 'fm.fid = fu.fid');
++  $query->condition('fm.uri', $uri, '=');
++  $query->condition('fu.type', 'node', '=');
++  $result = $query->execute();
++
++  foreach ($result as $record) {
++    // Find file header.
++    $headers = file_get_content_headers(file_load($record->fid));
++    // Check if the user have access to the unpublished file.
++    if (user_access('Access to unpublished file')) {
++      return $headers;
++    }
++    // Load the node and check the status.
++    $node = node_load($record->id);
++    // Check if the content type has workbench_moderation enabled. Find the
++    // published version ID if it is enabled. Otherwise return the file header.
++    if ($node->workbench_moderation) {
++      $published_vid = $node->workbench_moderation['published']->vid;
++    }
++    else {
++      return $headers;
++    }
++    // Find the file field name.
++    foreach ((array)$node as $key => $node_elements) {
++      if (is_array($node_elements)) {
++        if (array_key_exists('fid', $node_elements[LANGUAGE_NONE][0])) {
++          $field = 'field_revision_' . $key;
++          $check = db_select($field, 'r');
++          $check->addField('r', 'entity_id');
++          $check->condition('entity_id', $record->id);
++          $check->condition('revision_id', $published_vid);
++          $check->condition($key . '_fid', $record->fid);
++          $check_result = $check->execute()->fetchField();
++          // Check if this file is attached to a published revision.
++          if ($check_result) {
++            return $headers;
++          }
++          else {
++            return -1;
++          }
++        }
++      }
++    }
++    return -1;
++  }
++}
