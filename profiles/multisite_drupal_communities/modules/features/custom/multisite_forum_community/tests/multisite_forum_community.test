@@ -17,13 +17,8 @@ class MultisiteForumCommunityQAWebTestCase extends DrupalWebTestCase {
     );
   }
   
-  function tearDown() {
-
-  }
-
   function setUp() {
-    // parent::setUp(array('multisite_forum_community', 'multisite_forum_core'));   
-    $this->setup = TRUE;
+    parent::setUp(array('multisite_forum_community', 'multisite_forum_core'));
     
     $this->user1 = $this->drupalCreateUser();
     $this->user2 = $this->drupalCreateUser();
@@ -41,6 +36,17 @@ class MultisiteForumCommunityQAWebTestCase extends DrupalWebTestCase {
     $this->group_node = $this->drupalCreateNode($settings);    
   }
   
+  function testContentTypeDiscussion() {
+     $field = field_info_field('og_group_ref');
+    $status = isset($field['bundles']['node']) && in_array(MULTISITE_FORUM_CT_NAME, $field['bundles']['node']);
+    $this->assert($status, 'Field og_group_ref correctly added Discussion content type');
+      
+    $field = field_info_field('group_content_access');
+    $status = isset($field['bundles']['node']) && in_array(MULTISITE_FORUM_CT_NAME, $field['bundles']['node']);
+    $this->assert($status, 'Field group_content_access correctly added to Discussion content type');
+  }
+  
+    
   function testGroupAccess() {
     
     // Test with group manager.
@@ -55,7 +61,7 @@ class MultisiteForumCommunityQAWebTestCase extends DrupalWebTestCase {
     $this->assertLink('Forums', 0, 'Group manager has access to forum management page');
 
     // Manager can access forum management page.
-    $this->drupalGet("node/{$nid}/group/forum");
+    $this->drupalGet("community/{$nid}/forum");
     $this->assertResponse('200', t('Group member can view forum page.'));  
 
     // Manager can access forum term creation page.
@@ -107,7 +113,7 @@ class MultisiteForumCommunityQAWebTestCase extends DrupalWebTestCase {
     // Check if forum page link is placed on community page.
     $this->assertLink('Forums', 0, 'Forum link on group page found');
     
-    $this->drupalGet("node/{$nid}/group/forum");
+    $this->drupalGet("community/{$nid}/forum");
     $this->assertResponse('200', t('Group member can view forum page.'));  
 
     // Check if group member can access forum topic creation page.

@@ -1,0 +1,11 @@
+.view-forums-discussions .views-field-changed span.label {
+  vertical-align: top;
+  font-size: 16px;
+  display: inline-block;
+}
+
+.view-forums-discussions .views-field-changed blockquote {
+  display: inline-block;
+  margin: 0 0 0 10px;
+  padding: 5px 0 5px 10px;
+}

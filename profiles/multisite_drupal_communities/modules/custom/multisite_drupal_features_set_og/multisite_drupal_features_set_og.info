@@ -28,6 +28,16 @@ feature_sets[events_og][enable][] = events_og
 feature_sets[events_og][disable][] = events_og
 feature_sets[events_og][disable][] = events_core
 
+feature_sets[multisite_forum_community][title] = 'Forum'
+feature_sets[multisite_forum_community][description] = 'Allows community's members to create discussions. Every visitor can view the contenut, but only the community member can reply. Discussions are classified by "forum" catégory, the group manager can manage it.'
+feature_sets[multisite_forum_community][category] = 'Communication'
+feature_sets[multisite_forum_community][icon] = ''
+feature_sets[multisite_forum_community][font] = 'multisite-icon-bubbles'
+feature_sets[multisite_forum_community][enable][] = multisite_forum_core
+feature_sets[multisite_forum_community][enable][] = multisite_forum_community
+feature_sets[multisite_forum_community][disable][] = multisite_forum_core
+feature_sets[multisite_forum_community][disable][] = multisite_forum_community
+
 feature_sets[links_og][title] = 'Links'
 feature_sets[links_og][description] = 'Allows contributors to store a bookmark/URL to another website they wish to share with visitors.'
 feature_sets[links_og][category] = 'Communication'
@@ -168,7 +178,7 @@ feature_sets[multisite_multilingual_references][title] = 'Multisite Multilingual
 feature_sets[multisite_multilingual_references][description] = 'Replaces link to node with link to translation in the user's language, or allows the user to choose from the available translations.'
 feature_sets[multisite_multilingual_references][category] = 'Multilingualism'
 feature_sets[multisite_multilingual_references][icon] = ''
-feature_sets[multisite_multilingual_references][font] = 'multisite-icon-bubbles'
+feature_sets[multisite_multilingual_references][font] = 'multisite-icon-new-tab'
 feature_sets[multisite_multilingual_references][enable][] = multisite_multilingual_references
 feature_sets[multisite_multilingual_references][disable][] = multisite_multilingual_references
 
