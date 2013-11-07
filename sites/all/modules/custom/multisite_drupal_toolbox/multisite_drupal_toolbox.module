@@ -139,7 +139,21 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
   // hide broken links tab in the my account page
   $items['user/%user/linkchecker']['access callback'] = FALSE;
   // only super admin can configure apache solR
-  $items['admin/config/search/apachesolr']['access callback'] = 'is_admin';
+  $items['admin/config/search/apachesolr']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+
+  $items['user/%user/edit']['access callback'] = 'multisite_drupal_toolbox_edit_access';
+  $items['user/%user/cancel']['access callback'] = 'multisite_drupal_toolbox_edit_access';
+}
+
+/**
+ * Block edit access to user 1 account.
+ */
+function multisite_drupal_toolbox_edit_access($account) {
+  if ($account->uid == 1 and $GLOBALS['user']->uid != 1) {
+    return FALSE;
+  }
+
+  return user_edit_access($account);
 }
 
 /**
@@ -227,12 +241,6 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
             $form["name"]['#disabled'] = TRUE;
           }
         }
-        break;
-
-      case 'user_profile_form':
-        if ($form['#user']->uid == 1) {
-          $form['#access'] = 0;
-        }        
         break;
 
       case "workbench_moderation_admin_states_form": // prevent administrator from changing existing workflow states
