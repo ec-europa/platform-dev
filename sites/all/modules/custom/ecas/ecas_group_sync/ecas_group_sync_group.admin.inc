@@ -105,7 +105,7 @@ function ecas_group_sync_mapping_group_form_submit($form, &$form_state) {
     ->execute();
   
   for($i = 0; $i < $values['count_mapping']; $i++) {
-    if($values["LDAPfield_value_".$i] != '0' && $values["synctype_value_".$i] != '0') {
+    if($values["LDAPfield_value_".$i] != '0' && $values["synctype_value_".$i] != '0' && $values['synctype_extra_value_'.$i] != '0') {
       $id = db_insert('ecas_sync_mapping')
       ->fields(array(
         'LDAPfield' => $values['LDAPfield_'.$i],
@@ -120,7 +120,7 @@ function ecas_group_sync_mapping_group_form_submit($form, &$form_state) {
   }
   
   for($i = 0; $i < $values['count_extra_mapping']; $i++) {
-    if($values["synctype_value_extra_".$i] != '0' && $values["LDAPfield_value_extra_".$i] != '0') {
+    if($values["synctype_value_extra_".$i] != '0' && $values["LDAPfield_value_extra_".$i] != '0' && $values["synctype_extra_value_extra_".$i] != '0') {
       $id = db_insert('ecas_sync_mapping')
       ->fields(array(
         'LDAPfield' => $values['LDAPfield_extra_'.$i],
