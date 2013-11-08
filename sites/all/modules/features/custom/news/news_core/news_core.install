@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Install the feature news
@@ -9,21 +8,34 @@
  * hook_install
  */
 function news_core_install() {
-    //Nothing yet
+  //Nothing yet
 }
 
 /**
  * hook_uninstall
  */
 function news_core_uninstall() {
-    //Nothing yet
+  //Nothing yet
 }
 
 /*
  * hook_enable
+ * Perform necessary actions AFTER module is enabled.
  */
 
 function news_core_enable() {
+    //Alter date type to int in date related tables
+  if (news_core_table_is_empty()) {
+    $tables = _news_core_get_date_tables();
+
+    foreach ($tables as $key => $value) {
+      $table = $value['table'];
+      $field = $value['field'];
+      db_change_field($table, $field, $field, array('type' => 'int'));
+    }
+  } else {
+    drupal_set_message('There is data. Date field conversion skipped');
+  }
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('news', 'add');
 
@@ -32,17 +44,16 @@ function news_core_enable() {
 
   //Add breadcrumb configuration
   db_insert('custom_breadcrumb')
-    ->fields(array(
-      'titles' => '[Breadcrumb_news:news_title]', // titles of the elements to display in the breadcrumb
-      'paths' => 'news/', // path of the elements to display in the breadcrumb
-      'visibility_php ' => '',
-      'node_type' => 'news', //the content type targeted by this rule
-    ))
-    ->execute();
+          ->fields(array(
+              'titles' => '[Breadcrumb_news:news_title]', // titles of the elements to display in the breadcrumb
+              'paths' => 'news/', // path of the elements to display in the breadcrumb
+              'visibility_php ' => '',
+              'node_type' => 'news', //the content type targeted by this rule
+          ))
+          ->execute();
 
   // add type to the simplenews related content
   //multisite_drupal_toolbox_simplenews_related_content_type('news', 'add');
-
   //Activation message
   drupal_set_message(t('News feature is now active on your site.'));
 }
@@ -56,8 +67,8 @@ function news_core_enable() {
 function news_core_disable() {
   //remove the breadcrump related to
   db_delete('custom_breadcrumb')
-    ->condition('node_type', 'news')
-    ->execute();
+          ->condition('node_type', 'news')
+          ->execute();
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('news', 'delete');
 
@@ -69,27 +80,27 @@ function news_core_disable() {
 
   module_disable(array('news_content_default'));
 
-  /*     * * Remove permissions ** */
+  /*   * * Remove permissions ** */
   multisite_drupal_toolbox_disable_content_type('news');
 
   // Administrator
   $adm_rid = multisite_drupal_toolbox_get_rid('administrator');
   user_role_revoke_permissions($adm_rid, array(
-    'edit own news content',
-    'edit any news content',
-    'delete own news content',
-    'delete any news content',
-    'create news content',
+      'edit own news content',
+      'edit any news content',
+      'delete own news content',
+      'delete any news content',
+      'create news content',
   ));
 
   // Contributor
   $ctb_rid = multisite_drupal_toolbox_get_rid('contributor');
   user_role_revoke_permissions($ctb_rid, array(
-    'edit own news content',
-    'edit any news content',
-    'delete own news content',
-    'delete any news content',
-    'create news content',
+      'edit own news content',
+      'edit any news content',
+      'delete own news content',
+      'delete any news content',
+      'create news content',
   ));
 
   drupal_flush_all_caches();
@@ -100,17 +111,33 @@ function news_core_disable() {
  * MIGRATION OF NEWS DATE FIELD [TO UNIX TIMESTAMP]
  * ==================================================================================
  */
+/*
+ * Split the process: new site vs site with data
+ */
+function news_core_table_is_empty() {
+  try {
+    $numRows = db_query('SELECT COUNT(*) FROM {field_data_field_news_publication_date}')->fetchField();
+  } catch (Exception $e) {
+    drupal_set_message(t('Query failed. Message = %message, query= %query', array('%message' => $e->getMessage(), '%query' => $e->query_string)), 'error');
+  }
+  if ($numRows < 1) {
+    //drupal_set_message('No rows');//keep this line for debugging 
+    return true;
+  } else {
+    //drupal_set_message('It has ' . $numRows . ' rows');//same as above.
+    return false;
+  }
+}
+
 /**
  * Add a new temporary date field to schema for safely date conversion to unix stamp.
  * todo Uninstall these field
  * @param type $schema
  */
-
 function news_core_schema_alter(&$schema) {
 
-
-$tables = _news_core_get_date_tables();
-for ($i = 0; $i < count($tables); $i++) {
+  $tables = _news_core_get_date_tables();
+  for ($i = 0; $i < count($tables); $i++) {
 //build temporary table fields for storing unix timestamp
     if (isset($schema[$tables[$i]['table']])) {
       $schema[$tables[$i]['table']]['fields'][$tables[$i]['field'] . '_temp'] = array(
@@ -121,13 +148,14 @@ for ($i = 0; $i < count($tables); $i++) {
     }
   }
 }
+
 /**
  * A structured array of date fields to be converted to UNIX timestamp format
  * @return array
  */
 function _news_core_get_date_tables() {
 
-    $date_tables = array (
+  $date_tables = array(
       '0' => array(
           'table' => 'field_data_field_news_publication_date',
           'field' => 'field_news_publication_date_value',
@@ -136,15 +164,14 @@ function _news_core_get_date_tables() {
           'table' => 'field_data_field_news_unpublication_date',
           'field' => 'field_news_unpublication_date_value',
       ),
-     '2' => array(
+      '2' => array(
           'table' => 'field_revision_field_news_publication_date',
           'field' => 'field_news_publication_date_value',
       ),
-     '3' => array(
+      '3' => array(
           'table' => 'field_revision_field_news_unpublication_date',
           'field' => 'field_news_unpublication_date_value',
       ),
-
   );
 
   return $date_tables;
@@ -169,7 +196,9 @@ function news_core_update_7100() {
   $schema['field_revision_field_news_unpublication_date'] = drupal_get_schema('field_revision_field_news_unpublication_date');
 
 
+  $migrated = false;
 
+  //note: if schema can take a second argument $migrated, try to move it down then add the alteration of table from datetime to int.
   news_core_schema_alter($schema);
 
   $tables = _news_core_get_date_tables();
@@ -177,46 +206,51 @@ function news_core_update_7100() {
 
   cache_clear_all('schema:', 'cache', TRUE);
 
+  if (news_core_table_is_empty()) {
+    drupal_set_message(t('There is no date data to migrate'));
+  } else {
+    foreach ($tables as $key => $value) {
 
-  foreach ($tables as $key => $value) {
+      $table = $value['table'];
+      $field = $value['field'];
 
-    $table = $value['table'];
-    $field = $value['field'];
-
-
-    //don't run script if the conversion has been already done
-    if ($schema[$table]['fields'][$field]['type'] == 'int') {
-      watchdog('system', t('Field has been already converted to UNIX timestamp: "@field"', array('@field' => $field)), NULL, WATCHDOG_WARNING);
-      drupal_set_message(t('Field @field has been already converted to UNIX timestamp.'), array('@field' => $field), 'warning');
-      if (db_field_exists($table, $field . '_temp')) {db_drop_field($table, $field . '_temp');
-
-      }
-    } else {
-
-      // we'll create a temp field, drop it if already exists
-      if (db_field_exists($table, $field . '_temp')) {
-        db_drop_field($table, $field . '_temp');
-        watchdog('system', t('UPDATE: The  field: "@field", already exists therefore was deleted and recreated.', array('@field' => $field)), NULL, WATCHDOG_WARNING);
-        drupal_set_message('Field already exists therefore deleted', 'status');
-      }
-      // create a temporary date field
-      $added = db_add_field($table, $field . '_temp', $schema[$table]['fields'][$field . '_temp']);
-      //dpm($field . '_temp');
-      // proceed on date conversion
-      if (db_field_exists($table, $field . '_temp') && db_field_exists($table, $field)) {
-
-        db_update($table)
-                ->expression($field . '_temp', "UNIX_TIMESTAMP($field)")
-                ->execute();
-        // delete old column
-        db_drop_field($table, $field);
-        db_change_field($table, $field . '_temp', $field, array('type' => 'int'));
+      //don't run script if the conversion has been already done
+      if ($schema[$table]['fields'][$field]['type'] == 'int' && !$table_empty) {
+        watchdog('system', t('Field has been already converted to UNIX timestamp: "@field"', array('@field' => $field)), NULL, WATCHDOG_WARNING);
+        drupal_set_message(t('Field @field has been already converted to UNIX timestamp.'), array('@field' => $field), 'warning');
+        if (db_field_exists($table, $field . '_temp')) {
+          db_drop_field($table, $field . '_temp');
+        }
       } else {
-        watchdog('system', t('UPDATE: There is no such a field: "@field", attempt to create.', array('@field' => $field)), NULL, WATCHDOG_WARNING);
-        drupal_set_message('No temporary field(s)', 'error');
-      }
-    }//if !int
-  }//foreach
+
+        // we'll create a temp field, drop it if already exists
+        if (db_field_exists($table, $field . '_temp')) {
+          db_drop_field($table, $field . '_temp');
+          watchdog('system', t('UPDATE: The  field: "@field", already exists therefore was deleted and recreated.', array('@field' => $field)), NULL, WATCHDOG_WARNING);
+          drupal_set_message('Field already exists therefore deleted', 'status');
+        }
+        // create a temporary date field
+        $added = db_add_field($table, $field . '_temp', $schema[$table]['fields'][$field . '_temp']);
+        //dpm($field . '_temp');
+        // proceed on date conversion
+        if (db_field_exists($table, $field . '_temp') && db_field_exists($table, $field)) {
+
+          db_update($table)
+                  ->expression($field . '_temp', "UNIX_TIMESTAMP($field)")
+                  ->execute();
+          // delete old column
+          db_drop_field($table, $field);
+          db_change_field($table, $field . '_temp', $field, array('type' => 'int'));
+        } else {
+          watchdog('system', t('UPDATE: There is no such a field: "@field", attempt to create.', array('@field' => $field)), NULL, WATCHDOG_WARNING);
+          drupal_set_message('No temporary field(s)', 'error');
+        }
+      }//if !int
+    }//foreach
+  }
+  $migrated = true;
+
+  //migrate
 }
 
 //update_N
