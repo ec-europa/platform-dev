@@ -40,9 +40,17 @@ function ecas_group_sync_install() {
   //drupal_install_schema('ecas_group_sync');
 }
 
-function group_sync_uninstall() {
+function ecas_group_sync_uninstall() {
   // Drop my tables.
   //drupal_uninstall_schema('ecas_group_sync');
+}
+
+function ecas_group_sync_enable() {
+  drupal_set_message('ecas_group_sync module enabled');
+}
+
+function ecas_group_sync_disable() {
+  drupal_set_message('ecas_group_sync module disabled');
 }
 
 

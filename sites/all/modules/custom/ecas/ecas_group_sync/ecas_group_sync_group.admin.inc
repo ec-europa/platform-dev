@@ -41,6 +41,7 @@ function ecas_group_sync_mapping_group_form($form, &$form_state) {
     '#suffix' => '</div>',
   );
 
+  // extra rows for new mapping
   if (empty($form_state['extra_row'])) {
     $form_state['extra_row'] = 0;
   }

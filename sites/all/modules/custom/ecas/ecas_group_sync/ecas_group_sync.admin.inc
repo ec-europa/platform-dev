@@ -39,6 +39,7 @@ function ecas_group_sync_mapping_form($form, &$form_state) {
     '#suffix' => '</div>',
   );
 
+  // extra rows for new mapping
   if (empty($form_state['extra_row'])) {
     $form_state['extra_row'] = 0;
   }
@@ -160,27 +161,4 @@ function get_row($id, $LDAPfield, $synctype, $LDAPfield_value = 0, $synctype_val
   return $form;
 }
 
-/*
- * get the list of DG from the LDAP
- */
-function get_dg() {
-  if (($cache = cache_get('list_dg', 'cache')) && !empty($cache->data)) {
-    $list_dg = $cache->data;
-  }
-  else {
-    $result = getLdapEntries(_ecas_import_users_groups_dn(), 'cn=DG_*', array('cn'));
-    $list_dg = array();
-    for ($i = 0; $i < $result['count']; ++ $i) {
-      if ($result[$i]['cn'][0] != '') {
-        $array_dg = explode('_', $result[$i]['cn'][0]);
-        $list_dg[$array_dg[1]] = $array_dg[1];
-      }
-    }
-    ksort($list_dg);
-    
-    cache_clear_all('list_dg', 'cache', TRUE);
-    cache_set('list_dg', $list_dg, 'cache');
-  }
-  
-  return $list_dg;
-}
+
