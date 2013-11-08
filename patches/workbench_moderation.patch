@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2013-10-17 13:21:51.936329242 +0200
-+++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2013-11-07 17:12:21.000000000 +0100
+--- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2013-11-08 09:24:40.026604027 +0100
++++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2013-11-08 14:10:27.000000000 +0100
 @@ -399,6 +399,9 @@
    $permissions['use workbench_moderation needs review tab'] = array(
      'title' => t('Use "Needs review" workbench tab')
@@ -32,13 +32,13 @@
  }
  
  /**
-@@ -2106,3 +2112,59 @@
+@@ -2106,3 +2112,60 @@
  function workbench_moderation_migrate_api() {
    return array('api' => 2);
  }
 +
 +/**
-+ * Implements hook_file_download()
++ * Implements hook_file_download().
 + */
 +function workbench_moderation_file_download($uri) {
 +
@@ -54,41 +54,43 @@
 +  foreach ($result as $record) {
 +    // Find file header.
 +    $headers = file_get_content_headers(file_load($record->fid));
-+    // Check if the user have access to the unpublished file.
++
++    // If the user have access to the unpublished private files show all files.
 +    if (user_access('Access to unpublished file')) {
 +      return $headers;
 +    }
-+    // Load the node and check the status.
-+    $node = node_load($record->id);
-+    // Check if the content type has workbench_moderation enabled. Find the
-+    // published version ID if it is enabled. Otherwise return the file header.
-+    if ($node->workbench_moderation) {
-+      $published_vid = $node->workbench_moderation['published']->vid;
-+    }
-+    else {
-+      return $headers;
-+    }
-+    // Find the file field name.
-+    foreach ((array)$node as $key => $node_elements) {
-+      if (is_array($node_elements)) {
-+        if (array_key_exists('fid', $node_elements[LANGUAGE_NONE][0])) {
-+          $field = 'field_revision_' . $key;
-+          $check = db_select($field, 'r');
-+          $check->addField('r', 'entity_id');
-+          $check->condition('entity_id', $record->id);
-+          $check->condition('revision_id', $published_vid);
-+          $check->condition($key . '_fid', $record->fid);
-+          $check_result = $check->execute()->fetchField();
-+          // Check if this file is attached to a published revision.
-+          if ($check_result) {
-+            return $headers;
-+          }
-+          else {
-+            return -1;
-+          }
-+        }
-+      }
-+    }
-+    return -1;
 +  }
 +}
++
++function workbench_moderation_node_grants($user, $op) {
++  $grants['workbench_moderation'] = array_keys($user->roles);
++  return $grants;
++}
++
++/**
++* Implements hook_node_access_records().
++*
++* This function supplies the workbench moderation grants for unpublished content.
++* workbench_moderation adds the 'view all unpublished content' permission so it
++* captures and returns the role IDs which include that permission.
++*/
++function workbench_moderation_node_access_records($node) {
++  if ($node->status)
++  {
++    // it's published, default handling is okay
++    return;
++  }
++  $result = db_query("SELECT rid FROM {role_permission} WHERE permission = ('view all unpublished content')");
++  foreach ($result as $grant) {
++    $grants[] = array(
++      'realm'        => 'workbench_moderation',
++      'gid'          => $grant->rid,
++      'grant_view'   => 1,
++      'grant_update' => 0,
++      'grant_delete' => 0,
++      'priority'     => 0,
++    );
++  }
++  return !empty($grants) ? $grants : array();
++}
+\ No newline at end of file
