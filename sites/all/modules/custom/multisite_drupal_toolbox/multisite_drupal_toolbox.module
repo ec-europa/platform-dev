@@ -218,12 +218,14 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
         unset($form['permission']['administer features']);
         unset($form['permission']['manage features']);
         unset($form['permission']['administer software updates']);
+        unset($form['permission']['use PHP to import nodes']);
 
         foreach (array_keys(user_roles()) as $rid) { // hide checkboxes in the permissions admin page for the given permissions
           unset($form['checkboxes'][$rid]['#options']['administer modules']);
           unset($form['checkboxes'][$rid]['#options']['administer features']);
           unset($form['checkboxes'][$rid]['#options']['manage features']);
           unset($form['checkboxes'][$rid]['#options']['administer software updates']);
+          unset($form['checkboxes'][$rid]['#options']['use PHP to import nodes']);
         }
         break;
 

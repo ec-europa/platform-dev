@@ -84,6 +84,7 @@ function multisite_drupal_core_install() {
     //'administer shortcuts',
     //'customize shortcut links',
     //'switch shortcut sets',
+    'use PHP to import nodes',
     
   ));  
   
