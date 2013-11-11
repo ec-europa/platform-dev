@@ -20,7 +20,7 @@ if (file_exists($settings_file)) {
       print "Unable to connect: " . print_r(oci_error(), TRUE);
     }
 
-    $statement = oci_parse($connection_handle, 'select * from APP_CRF_P.CRF4PMOCNT_NUPS_V WHERE PER_ID = :perid');
+    $statement = oci_parse($connection_handle, 'select * from APP_CRF_P.CRF4PMOCNT_NUPS_V WHERE PER_ID = :perid ORDER BY DT_ATTRIB_LIEN DESC');
     oci_bind_by_name($statement, ":perid", $_POST['per_id']);
     oci_execute($statement);
 
