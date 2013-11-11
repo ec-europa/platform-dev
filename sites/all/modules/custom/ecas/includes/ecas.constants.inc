@@ -43,8 +43,8 @@ if ( is_file(FPFIS_COMMON_LIBRARIES_PATH . '/FPFIS_Common/fpfis_common.php') ) {
 /* Defines default values for various parameters */
 define('ECAS_DEFAULT_ASSURANCE_LEVEL', 'LOW');
 define('ECAS_DEFAULT_DOMAIN', '');
-define('ECAS_DEFAULT_ACCOUNT_REQUEST_URL', 'https://webgate.ec.europa.eu/aida/selfreg?service=%local_ecas_url%');
-define('ECAS_DEFAULT_CHANGE_PASSWORD_URL', 'https://webgate.ec.europa.eu/cas/ec/change/changePassword.do');
+define('ECAS_DEFAULT_ACCOUNT_REQUEST_URL', 'https://ecas.ec.europa.eu/cas/eim/external/register.cgi?service=%local_ecas_url%');
+define('ECAS_DEFAULT_CHANGE_PASSWORD_URL', 'https://ecas.ec.europa.eu/cas/init/passwordResetRequest.cgi');
 
 define('ECAS_DEFAULT_DEBUG_LOGPATH', 'phpCas.log');
 
