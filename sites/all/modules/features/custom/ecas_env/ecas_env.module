@@ -29,10 +29,12 @@ function normal_menu_check() {
 }
 
 function ecas_env_node_view_alter(&$build) {
-  global $base_url;
   if (isset($build['links']['comment']['#links']['comment_forbidden'])) {
     //alter login links in the comment area to redirect to ecas
-    $build['links']['comment']['#links']['comment_forbidden']['title'] = '<a href="' . $base_url . '/ecas">Log in</a> or <a href="https://webgate.ec.europa.eu/aida/selfreg?service=' . $base_url . '/ecas">register</a> to post comments';
+    $account_request_url = variable_get('ecas_account_request_url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL);
+    $return_url = url('ecas', array('absolute' => TRUE));
+    $account_request_url = str_replace('%local_ecas_url%', $return_url, $account_request_url);
+    $build['links']['comment']['#links']['comment_forbidden']['title'] = '<a href="' . $return_url . '">Log in</a> or <a href="' . $account_request_url . '">register</a> to post comments';
   }
 }
 

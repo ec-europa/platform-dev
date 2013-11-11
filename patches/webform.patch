@@ -7,10 +7,10 @@
 -      $login = url('user/login', array('query' => drupal_get_destination()));
 -      $register = url('user/register', array('query' => drupal_get_destination()));
 +      // ecas login handling 
-+      global $base_url; 
 +      if(module_exists('ecas')) {
-+        $login = url('ecas');
-+        $register = 'https://webgate.ec.europa.eu/aida/selfreg?service='.$base_url.'/ecas';
++        $account_request_url = variable_get('ecas_account_request_url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL);
++        $login = url('ecas', array('absolute' => TRUE));
++        $register = str_replace('%local_ecas_url%', $login, $account_request_url);
 +      }
 +      else {
 +        $login = url('user/login', array('query' => drupal_get_destination()));
