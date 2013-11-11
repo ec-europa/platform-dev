@@ -1031,7 +1031,7 @@ function cce_basic_config_update_7192() {
     -> condition('form_id', 'contact_site_form')
     -> execute();
 
-  // revoke 'use PHP to import nodes' permissions for all the roles
+  // revoke 'use PHP to import nodes' permission for all the roles
   foreach(array_keys(user_roles()) as $rid) {
     user_role_revoke_permissions($rid, array('use PHP to import nodes'));
   }
