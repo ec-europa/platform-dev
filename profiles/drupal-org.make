@@ -239,10 +239,7 @@ projects[rules][subdir] = "contributed"
 projects[rules][version] = "2.3"
 
 projects[simplenews][subdir] = "contributed"
-;projects[simplenews][version] = "1.x-dev"
-projects[simplenews][download][type] = "git"
-projects[simplenews][download][url] = "http://git.drupal.org/project/simplenews.git"
-projects[simplenews][download][revision] = "d23180c59bd7bac152e9f012b9c4862bdaa0c477"
+projects[simplenews][version] = "1.1"
 
 projects[site_map][subdir] = "contributed"
 projects[site_map][version] = "1.0"
