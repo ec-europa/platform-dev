@@ -4,10 +4,12 @@
  * Test Multisite Forum features to ensure it follows QA requirements.
  */
 class MultisiteForumCoreQAWebTestCase extends DrupalWebTestCase {
+
   protected $user1;
   protected $user2;
-  
-  
+
+  // protected $profile = 'multisite_drupal_core';
+
   public static function getInfo() {
     return array(
         'name' => 'Multisite Forum Core QA tests',
@@ -16,62 +18,50 @@ class MultisiteForumCoreQAWebTestCase extends DrupalWebTestCase {
     );
   }
 
-  
   function setUp() {
-    parent::setUp(array('multisite_forum_core','taxonomy'));
-
+    parent::setUp(array('features', 'taxonomy', 'field', 'i18n', 'i18n_taxonomy', 'user', 'node', 'multisite_forum_core'));
+    // parent::setUp(array('multisite_forum_core'));
     $this->user1 = $this->drupalCreateUser();
     $this->user2 = $this->drupalCreateUser();
-    $vocabulary = taxonomy_get_vocabularies();
-    
-    $vocabulary = db_select('taxonomy_vocabulary')
-            ->fields('tv', $fields)
-            ->condition('machine_name', 'forums');
-    
-
-
   }
-  
-  function testTaxonomyForums() {
-    $status = FALSE;
-        
+
+  function testFeatureInitialization() {
+
     $vocabulary = taxonomy_vocabulary_machine_name_load('forums');
-  
+
     $status = (isset($vocabulary) && $vocabulary !== NULL);
     $this->assert($status, 'Taxonomy "forum" correctly added');
-  }
 
-  function testContentTypeDiscussion() {
     $types = node_type_get_types();
     $status = isset($types['discussion']);
-    $this->assert($status, 'Content type "discussion" corretly added');
+    $this->assert($status, 'Content type "discussion" correctly added');
+
 
     $field = field_info_field('taxonomy_forums');
-    $this->assertField($field, $message);
-    
-    $status = isset($field['bundles']['node']) && in_array('discussion', $field['bundles']['node']);
-    $this->assert($status, 'Field "taxonomy_forums" correctly added to Discussion content type');
+    $status = isset($field) && is_array($field) && !empty($field);
+    $this->assert($status, 'Field "taxonomy forums" correctly added');
 
-    
+
+    $field_instance = field_info_instance('node', 'taxonomy_forums', 'discussion');
+    $status = isset($field_instance) && is_array($field_instance) && !empty($field_instance);
+    $this->assert($status, 'Field instance "taxonomy_forums" correctly added to Discussion content type');
   }
 
   function testDiscussionCreation() {
-     
-      
-      //
+
     $vocabulary = taxonomy_vocabulary_machine_name_load('forums');
-    $this->verbose(print_r($vocabulary, TRUE));
-    
-         $term = (object) array(
-                    'vid' => $vocabulary->vid,
-                    'name' => st('General discussion'),
-                    'description' => st('Test forum'),
-        );
-        taxonomy_term_save($term);
-      
+
+
+    $term = (object) array(
+                'vid' => $vocabulary->vid,
+                'name' => st('SimpleTest Forum'),
+                'description' => st('Test forum'),
+    );
+    taxonomy_term_save($term);
+
     $this->drupalLogin($this->user1);
 
-    $term = array_shift(taxonomy_get_term_by_name('General discussion'));
+    $term = array_shift(taxonomy_get_term_by_name('SimpleTest Forum'));
     // User can post a forum topic.
     $title = $this->randomName();
     $edit = array(
@@ -92,7 +82,7 @@ class MultisiteForumCoreQAWebTestCase extends DrupalWebTestCase {
 
     $this->drupalLogin($this->user2);
 
-    $term = array_shift(taxonomy_get_term_by_name('General discussion'));
+    $term = array_shift(taxonomy_get_term_by_name('SimpleTest Forum'));
     // User can post a discussion.
     $title = $this->randomName();
     $edit = array(
