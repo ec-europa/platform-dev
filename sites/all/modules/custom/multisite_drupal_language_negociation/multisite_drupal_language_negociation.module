@@ -146,7 +146,7 @@ function multisite_drupal_language_negociation_views_query_alter(&$view, &$query
   global $language;
   $language_default = language_default();
   if(variable_get('language_negociation_views', 0)) {
-    if (!preg_match('/non-multilingual/', $view->tag) && $view->base_table == 'node') { // alter all the views except the views with the 'non-multilingual' tag
+    if (!preg_match('/non-multilingual/', $view->tag) && $view->base_table == 'node') { // alter all the nodes views except the views with the 'non-multilingual' tag
       // add a relationship to get the translation of a node in the current language
       $join = new views_join;
       $join->construct('node', 'node', 'nid', 'tnid', array(), 'LEFT');
