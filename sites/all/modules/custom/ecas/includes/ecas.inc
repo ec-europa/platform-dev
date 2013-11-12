@@ -53,6 +53,9 @@ function ecas_form_alter(&$form, &$form_state, $form_id) {
       
       // disable the creator field
       $form['field_creator']['#disabled'] = TRUE;
+      
+       // disable the name field
+      $form['account']['name']['#disabled'] = TRUE;
 
       $ecas_ch_pw_url = variable_get('ecas_change_password_url', ECAS_DEFAULT_CHANGE_PASSWORD_URL);
       $form['account']['ecas_information_label'] = array(
