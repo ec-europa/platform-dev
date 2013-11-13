@@ -37,3 +37,6 @@ projects[drupalforfirebug][version] = "1.4"
 
 projects[coffee][subdir] = "contributed"
 projects[coffee][version] = "2.0"
+
+projects[module_filter][subdir] = "contributed"
+projects[module_filter][version] = "1.8"
