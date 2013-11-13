@@ -257,7 +257,7 @@ projects[term_reference_tree][subdir] = "contributed"
 projects[term_reference_tree][version] = "1.10"
 
 projects[tmgmt][subdir] = "contributed"
-projects[tmgmt][version] = "1.0-alpha2"
+projects[tmgmt][version] = "1.0-beta2"
 
 projects[token][subdir] = "contributed"
 projects[token][version] = "1.5"
