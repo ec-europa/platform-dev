@@ -131,6 +131,7 @@ dependencies[] = multisite_drupal_features_set_og
 dependencies[] = multisite_drupal_access
 ;dependencies[] = multisite_drupal_workbench_moderation
 dependencies[] = multisite_workbench_moderation_view
+dependencies[] = multisite_drupal_language_negociation
 
 ;features
 dependencies[] = content_examples
