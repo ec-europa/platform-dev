@@ -39,7 +39,6 @@ function multisite_forum_core_permission() {
  * Implements hook_node_access()
  */
 function multisite_forum_core_node_access($node, $op, $account) {
-
   if ($op == 'update' || $op == 'delete') {
     if (user_access('moderate forums')) {
       return NODE_ACCESS_ALLOW;
@@ -137,4 +136,38 @@ function multisite_forum_core_replace_strings($hook) {
       }
       break;
   }
+}
+
+/**
+ * Implementation of hook_workbench_create_alter
+ * 
+ * Rewrite workbench create page : hide forum link
+ * 
+ * @param type $output 
+ * @see workbench_create()
+ */
+function multisite_forum_core_workbench_create_alter(&$output){
+  // $output['#markup'] contains html... 
+  // recreate #markup from scratch (see _workbench_create()) without Discussion link
+  
+  $output = array();
+  $output['#markup'] = '<h3>' . t('Create content') . '</h3>';
+
+  $item = menu_get_item('node/add');
+  $contents = system_admin_menu_block($item);
+
+  // remove Discussion link 
+  foreach ($contents as $key => $content){
+    if ($content['link_path'] == 'node/add/'.MULTISITE_FORUM_CT_NAME){
+      unset ($contents[$key]);
+    }
+  }
+  if (!empty($contents)) {
+    // Theme the arrray of content type creation links.
+    $output['#markup'] .= theme('node_add_list', array('content' => $contents));
+  }
+  else {
+    $output['#markup'] .= t('You cannot create any new content. Please contact the site administrator.');
+  }
+  
 }

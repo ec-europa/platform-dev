@@ -20,10 +20,10 @@ function multisite_forum_core_ctools_plugin_api() {
  */
 function multisite_forum_core_node_info() {
   $items = array(
-    'discussion' => array(
+    MULTISITE_FORUM_CT_NAME => array(
       'name' => t('Discussion'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => t('A <em>discussion</em> starts a new discussion thread within a forum.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',

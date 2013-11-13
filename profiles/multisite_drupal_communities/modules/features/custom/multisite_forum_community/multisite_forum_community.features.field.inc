@@ -10,7 +10,7 @@
 function multisite_forum_community_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-forum-group_content_access'.
+  // Exported field: 'node-discussion-group_content_access'.
   $fields['node-discussion-group_content_access'] = array(
     'field_config' => array(
       'active' => '1',
@@ -174,9 +174,9 @@ function multisite_forum_community_field_default_fields() {
             'status' => TRUE,
           ),
           'prepopulate' => array(
-            'action' => 'none',
+            'action' => 'hide',
             'action_on_edit' => 0,
-            'fallback' => 'none',
+            'fallback' => 'form_error',
             'og_context' => 1,
             'skip_perm' => '0',
             'status' => 1,
@@ -205,7 +205,6 @@ function multisite_forum_community_field_default_fields() {
       ),
     ),
   );
-
 
   // Exported field: 'taxonomy_term-forums-og_group_ref'.
   $fields['taxonomy_term-forums-og_group_ref'] = array(
@@ -305,8 +304,6 @@ function multisite_forum_community_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Body');
-  t('Forums');
   t('Group content visibility');
   t('Groups audience');
 
