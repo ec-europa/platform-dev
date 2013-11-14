@@ -87,7 +87,7 @@
       //add the icon
       if ($icon) {
         if ($display_title) {
-          $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . '"></span>' . $item_id['title'];
+          $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . '"></span> ' . $item_id['title'];
         }
         else {
           $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . ' menu-no-title"></span>';

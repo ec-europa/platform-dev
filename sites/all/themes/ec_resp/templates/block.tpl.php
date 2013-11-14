@@ -60,7 +60,7 @@
   );
 
   $block_no_body_class = array(
-    'views' => 'community_content-block_content',
+    
   );
 
   $panel = true;

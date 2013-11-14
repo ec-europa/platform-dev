@@ -119,7 +119,7 @@ function ec_resp_preprocess_menu_link(&$variables) {
   //add the icon
   if ($icon) {
     if ($display_title) {
-      $variables['element']['#title'] = '<span class="glyphicon glyphicon-' . $icon . '"></span>' . $variables['element']['#title'];
+      $variables['element']['#title'] = '<span class="glyphicon glyphicon-' . $icon . '"></span> ' . $variables['element']['#title'];
     }
     else {
       $variables['element']['#title'] = '<span class="glyphicon glyphicon-' . $icon . ' menu-no-title"></span>';
@@ -783,27 +783,27 @@ function ec_resp_link( $variables ) {
   if (isset($variables['options']['attributes']['type'])) {
     switch ($variables['options']['attributes']['type']) {
       case 'add':
-        $decoration .= '<span class="glyphicon glyphicon-plus"></span>';
+        $decoration .= '<span class="glyphicon glyphicon-plus"></span> ';
         $variables['options']['attributes']['class'] .= ' btn btn-success';
         break;
       case 'expand':
-        $decoration .= '<span class="glyphicon glyphicon-chevron-down"></span>';
+        $decoration .= '<span class="glyphicon glyphicon-chevron-down"></span> ';
         $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
         break;
       case 'collapse':
-        $decoration .= '<span class="glyphicon glyphicon-chevron-up"></span>';
+        $decoration .= '<span class="glyphicon glyphicon-chevron-up"></span> ';
         $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
         break;
       case 'delete':
-        $decoration .= '<span class="glyphicon glyphicon-trash"></span>';
+        $decoration .= '<span class="glyphicon glyphicon-trash"></span> ';
         $variables['options']['attributes']['class'] .= ' btn btn-danger';
         break;
       case 'edit':
-        $decoration .= '<span class="glyphicon glyphicon-pencil"></span>';
+        $decoration .= '<span class="glyphicon glyphicon-pencil"></span> ';
         $variables['options']['attributes']['class'] .= ' btn btn-info';
         break;
       case 'message':
-        $decoration .= '<span class="glyphicon glyphicon-envelope"></span>';
+        $decoration .= '<span class="glyphicon glyphicon-envelope"></span> ';
         $variables['options']['attributes']['class'] .= ' btn btn-primary';
         break;
       case 'small':
