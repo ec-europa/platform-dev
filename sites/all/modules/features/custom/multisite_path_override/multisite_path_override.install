@@ -1,0 +1,35 @@
+<?php
+/**
+ * @file
+ * Code for the the multisite_path_override install file.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function multisite_path_override_enable() {
+  // create translation roles
+
+  drupal_set_message(t('Multisite Path Override feature is now active on your site.'));
+}
+
+/*
+ * Implements hook_disable().
+ */
+function multisite_path_override_disable() {
+  drupal_set_message(t('Multisite Path Override feature is now disable on your site.'));
+}
+
+/*
+ * Implements hook_install().
+ */
+function multisite_path_override_install() {
+}
+
+/*
+ * Implements hook_uninstall().
+ */
+function multisite_path_override_uninstall() {
+}
+
+
