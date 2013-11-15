@@ -1,9 +1,10 @@
 name = sub_theme
 description = Sub theme of default theme, ec_resp
-package = Core
+package = Fpfis_cms_theme
 version = "7.x-1.0"
 core = "7.x"
 base theme = ec_resp
+php = 5.2.4
 
 stylesheets[all][] = "css/sub_theme.css"
 
