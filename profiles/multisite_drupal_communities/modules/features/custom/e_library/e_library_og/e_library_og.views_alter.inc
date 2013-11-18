@@ -149,21 +149,7 @@ function e_library_og_views_default_views_alter(&$views) {
     $handler->display->display_options['filters']['filemime']['operator'] = '!=';
     $handler->display->display_options['filters']['filemime']['value'] = 'IMAGE/JPEGG';
     $handler->display->display_options['filters']['filemime']['group'] = 1;
-    /* Filter criterion: Content: Language */
-    $handler->display->display_options['filters']['language']['id'] = 'language';
-    $handler->display->display_options['filters']['language']['table'] = 'node';
-    $handler->display->display_options['filters']['language']['field'] = 'language';
-    $handler->display->display_options['filters']['language']['value'] = array(
-      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-      'und' => 'und',
-    );
-    $handler->display->display_options['filters']['language']['group'] = 2;
-    /* Filter criterion: Content translation: Translation set node ID */
-    $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
-    $handler->display->display_options['filters']['tnid']['table'] = 'node';
-    $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
-    $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
-    $handler->display->display_options['filters']['tnid']['group'] = 2;
+
     /* Filter criterion: Content: Group content visibility (group_content_access) */
     $handler->display->display_options['filters']['group_content_access_value']['id'] = 'group_content_access_value';
     $handler->display->display_options['filters']['group_content_access_value']['table'] = 'field_data_group_content_access';
