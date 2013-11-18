@@ -126,21 +126,7 @@ function links_core_views_default_views() {
     'links' => 'links',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Language */
-  $handler->display->display_options['filters']['language']['id'] = 'language';
-  $handler->display->display_options['filters']['language']['table'] = 'node';
-  $handler->display->display_options['filters']['language']['field'] = 'language';
-  $handler->display->display_options['filters']['language']['value'] = array(
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-    'und' => 'und',
-  );
-  $handler->display->display_options['filters']['language']['group'] = 2;
-  /* Filter criterion: Content translation: Translation set node ID */
-  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['table'] = 'node';
-  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
-  $handler->display->display_options['filters']['tnid']['group'] = 2;
+
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
