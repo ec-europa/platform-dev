@@ -12,25 +12,25 @@ class ReadSpeakerTestCase extends DrupalWebTestCase {
   public static function getInfo() {
     return array(
       'name' => 'ReadSpeaker administration',
-      'description' => 'readspeaker_hl tests',
+      'description' => 'Multisite readspeaker tests',
       'group' => 'ReadSpeaker',
     );
   }
 
   public function setUp() {
-    parent::setUp(array('readspeaker_hl'));
+    parent::setUp(array('multisite_readspeaker'));
     // Create users.
-    $this->admin_user   = $this->drupalCreateUser(array('administer blocks', 'administer readspeaker_hl'));
-    $this->default_user = $this->drupalCreateUser(array('display readspeaker_hl'));
+    $this->admin_user   = $this->drupalCreateUser(array('administer blocks', 'administer multisite_readspeaker'));
+    $this->default_user = $this->drupalCreateUser(array('display multisite_readspeaker'));
   }
-  
+
   public function testPermission() {
-    $data = module_invoke('readspeaker_hl', 'permission');
+    $data = module_invoke('multisite_readspeaker', 'permission');
     $this->assertTrue(is_array($data), t('Permission hook returns array.'));
-    $this->assertTrue(array_key_exists('administer readspeaker_hl', $data), t('Permission is as expected.'));
-    $this->assertTrue(array_key_exists('display readspeaker_hl', $data), t('Permission is as expected.'));
+    $this->assertTrue(array_key_exists('administer multisite_readspeaker', $data), t('Permission is as expected.'));
+    $this->assertTrue(array_key_exists('display multisite_readspeaker', $data), t('Permission is as expected.'));
   }
-  
+
   /**
    * Tests the functionality of the readspeaker_hl.
    */
@@ -44,7 +44,7 @@ class ReadSpeakerTestCase extends DrupalWebTestCase {
       'readspeaker_prefer_uk' => TRUE,
       'readspeaker_nodes' => array('page'),
     );
-    $this->drupalPost('admin/config/content/readspeaker_hl', $edit, t('Save configuration'));
+    $this->drupalPost('admin/config/content/multisite_readspeaker', $edit, t('Save configuration'));
 
     $edit_blocks = array('blocks[readspeaker_player][region]' => 'content', 'blocks[system_main][region]' => 'content');
     $this->drupalPost('admin/structure/block', $edit_blocks, t('Save blocks'));

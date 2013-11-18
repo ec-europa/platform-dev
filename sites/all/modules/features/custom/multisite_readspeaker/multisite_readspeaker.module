@@ -1,7 +1,5 @@
 <?php
 
-// $Id: readspeaker_hl.module,v 1.2 2011/02/01 10:49:09 rsp Exp $
-
 /**
  * @file
  * Insert readspeaker capabilities to selected node types.
@@ -13,7 +11,7 @@
  * Returns ReadSpeaker supported languages and switch between 'en_us' and 'en_uk' if configured
  *
  */
-function readspeaker_hl_language_list() {
+function _multisite_readspeaker_language_list() {
 
   $readspeaker_languages = array(
     'ar' => array(
@@ -71,7 +69,7 @@ function readspeaker_hl_language_list() {
     'hi' => array(
       'langid' => 'hi_in',
       'alttext' => 'Listen to this page using ReadSpeaker',
-    ),  
+    ),
     'it' => array(
         'langid' => 'it_it',
         'alttext' => 'Ascolta questa pagina con ReadSpeaker',
@@ -131,7 +129,7 @@ function readspeaker_hl_language_list() {
  *
  * Insert 'ReadSpeaker' link into content management menu
  */
-function readspeaker_hl_menu() {
+function multisite_readspeaker_menu() {
   $items = array();
   $items['admin/config/content/readspeaker_hl'] = array(
     'title' => 'ReadSpeaker Enterprise Highlighting',
@@ -149,7 +147,7 @@ function readspeaker_hl_menu() {
 *
 * @see current_posts_menu()
 */
-function readspeaker_hl_form($form, &$form_state) {
+function multisite_readspeaker_form($form, &$form_state) {
   $form['general_settings'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
@@ -157,7 +155,7 @@ function readspeaker_hl_form($form, &$form_state) {
     '#title' => t('General settings for ReadSpeaker'),
     '#description' => t('The ReadSpeaker module requires an own account at <a href="http://www.readspeaker.com" target="_blank">ReadSpeaker</a>.'),
   );
-  
+
   $form['general_settings']['readspeaker_accountid'] = array(
     '#type' => 'textfield',
     '#title' => t('Enter your ReadSpeaker ID'),
@@ -165,7 +163,7 @@ function readspeaker_hl_form($form, &$form_state) {
     '#description' => t('Enter your ReadSpeaker ID from <a href="https://admin.readspeaker.com/portal" target="_blank">https://admin.readspeaker.com/portal</a>.'),
     '#required' => TRUE,
   );
-  
+
   $form['general_settings']['readspeaker_readid'] = array(
     '#type' => 'textfield',
     '#title' => t('Reading area'),
@@ -173,7 +171,7 @@ function readspeaker_hl_form($form, &$form_state) {
     '#description' => t('Specify content using HTML ID attribute<br />Example: To read the DIV with id="maincontent", maincontent'),
     '#required' => TRUE,
   );
-  
+
   $form['general_settings']['readspeaker_langid'] = array(
     '#type' => 'select',
     '#title' => t('Language'),
@@ -238,7 +236,7 @@ function readspeaker_hl_form($form, &$form_state) {
     '#title' => t('Display settings'),
     '#description' => t('<p>This module provides you with a block, containing the player button.</p><p>You also have the option to display it only on select content types and taxonomy term pages of select vocabularies. In this case the button is rendered as the first item in the content of the node/term</p><p><strong>Attention! These two options are available simultaneously, so improper settings may result in having two buttons on the same page.</strong></p>'),
   );
-  
+
   $form['display_settings']['readspeaker_nodes'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Content types'),
@@ -250,7 +248,7 @@ function readspeaker_hl_form($form, &$form_state) {
   foreach (taxonomy_get_vocabularies() as $vocabulary) {
     $vocabularies[$vocabulary->machine_name] = $vocabulary->name;
   }
-  
+
   $form['display_settings']['readspeaker_vocabularies'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Taxonomy term pages'),
@@ -266,7 +264,7 @@ function readspeaker_hl_form($form, &$form_state) {
  *
  * Insert 'display ReadSpeaker' permission
  */
-function readspeaker_hl_permission() {
+function multisite_readspeaker_permission() {
   return array(
     'display readspeaker_hl' => array(
       'title' => t('display ReadSpeaker'),
@@ -280,7 +278,7 @@ function readspeaker_hl_permission() {
 /**
  * Implementation of hook_block_info().
  */
-function readspeaker_hl_block_info() {
+function multisite_readspeaker_block_info() {
   $blocks = array();
   $blocks['readspeaker_player'] = array(
     'info' => t('Readspeaker Player'),
@@ -291,7 +289,7 @@ function readspeaker_hl_block_info() {
 /**
  * Implementation of hook_block_view().
  */
-function readspeaker_hl_block_view($delta='') {
+function multisite_readspeaker_block_view($delta='') {
   $block = array();
   switch ($delta) {
     case 'readspeaker_player': {
@@ -308,7 +306,7 @@ function readspeaker_hl_block_view($delta='') {
  *
  * Insert 'ReadSpeaker' button in the node
  */
-function readspeaker_hl_node_view($node, $build_mode = 'full') {
+function multisite_readspeaker_node_view($node, $build_mode = 'full') {
   $node_types = variable_get('readspeaker_nodes', array());
   $accountid  = variable_get('readspeaker_accountid', '');
   if ($build_mode == 'full' && !empty($node_types[$node->type]) && !empty($accountid)) {
@@ -325,7 +323,7 @@ function readspeaker_hl_node_view($node, $build_mode = 'full') {
  *
  * Insert 'ReadSpeaker' button in the taxonomy term
  */
-function readspeaker_hl_taxonomy_term_view_alter(&$build) {
+function multisite_readspeaker_taxonomy_term_view_alter(&$build) {
   $readspeaker_vocabularies = variable_get('readspeaker_vocabularies', array());
   $vocabulary               = $build['#term']->vocabulary_machine_name;
   $accountid                = variable_get('readspeaker_accountid', '');
@@ -342,7 +340,7 @@ function readspeaker_hl_taxonomy_term_view_alter(&$build) {
 /**
  * Implements hook_theme().
  */
-function readspeaker_hl_theme() {
+function multisite_readspeaker_theme() {
   return array(
     'readspeaker_hl_button' => array(
       'variables' => array('node' => NULL),
@@ -353,11 +351,11 @@ function readspeaker_hl_theme() {
 /**
  * Implements the ReadSpeaker Button
  */
-function theme_readspeaker_hl_button() {
+function theme_multisite_readspeaker_button() {
   if (user_access('display readspeaker_hl')) {
     global $language;
     global $base_path;
-    
+
     $accountid = variable_get('readspeaker_accountid', '');
     $node      = menu_get_object();
     if (isset($_SERVER["HTTPS"])) {
@@ -372,12 +370,12 @@ function theme_readspeaker_hl_button() {
     else {
       $button_style = "";
     }
-    
+
     // set the default readspeaker language
-    $readspeaker_languages = readspeaker_hl_language_list();
+    $readspeaker_languages = _multisite_readspeaker_language_list();
     $default_langid        = variable_get('readspeaker_langid', FALSE);
     $readspeaker_langcode  = $readspeaker_languages[$default_langid]['langid'];
-    
+
     // detect node language or drupal language in case node is neutral or not a node
     if ($node && $node->language !== LANGUAGE_NONE) {
       $langid = $node->language;
@@ -391,12 +389,12 @@ function theme_readspeaker_hl_button() {
       $readspeaker_langcode = $readspeaker_languages[$langid]['langid'];
     }
     // Add javascript to header
-    drupal_add_library('readspeaker_hl', 'readspeaker_hl');
-    
+    drupal_add_library('multisite_readspeaker', 'readspeaker_hl');
+
     //$nodeurl = $protocol . '://' . $_SERVER['SERVER_NAME'] . url('node/' . $node->nid);
     $path    = url(current_path(), array('https' => ($protocol == 'https'), 'absolute' => TRUE));
     $read_id = variable_get('readspeaker_readid', 'block-system-main');
-    
+
     // Create output
     $output = '<!-- RS_MODULE_CODE -->';
     $output .= '<div id="readspeaker_button1" class="rs_skip rsbtn rs_preserve"' . $button_style . '>
@@ -405,7 +403,7 @@ function theme_readspeaker_hl_button() {
         <span class="rsbtn_right rsimg rsplay rspart"></span>
     </a>
 </div>';
-    
+
     return $output;
   }
 }
@@ -413,11 +411,11 @@ function theme_readspeaker_hl_button() {
 /**
  * Implements hook_library().
  */
-function readspeaker_hl_library() {
+function multisite_readspeaker_library() {
   // we need to use absolute path because otherwise the query string is broken by drupal_add_js()
   global $base_url;
-  $library_path = $base_url . '/' . drupal_get_path('module', 'readspeaker_hl') . '/js/ReadSpeaker/ReadSpeaker.js?pids=embhl';
-  
+  $library_path = $base_url . '/' . drupal_get_path('module', 'multisite_readspeaker') . '/js/ReadSpeaker/ReadSpeaker.js?pids=embhl';
+
   $libraries['readspeaker_hl'] = array(
     'title'   => 'ReadSpeaker Enterprise Highlighting',
     'website' => 'http://www.readspeaker.com/',
