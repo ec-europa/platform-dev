@@ -96,6 +96,7 @@ features[filter][] = filtered_html
 features[filter][] = full_html
 features[filter][] = plain_text
 features[image][] = preview
+features[image][] = square_thumbnail
 features[node][] = article
 features[node][] = page
 features[password_policy][] = Example policy
