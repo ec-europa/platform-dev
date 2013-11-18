@@ -70,6 +70,14 @@ feature_sets[multisite_metatags][font] = 'multisite-icon-bookmarks'
 feature_sets[multisite_metatags][enable][] = multisite_metatags
 feature_sets[multisite_metatags][disable][] = multisite_metatags
 
+feature_sets[multisite_readspeaker][title] = 'Multisite Readspeaker'
+feature_sets[multisite_readspeaker][description] = 'Integrates ReadSpeaker Enterprise Highlighting to your website'
+feature_sets[multisite_readspeaker][category] = 'Communication'
+feature_sets[multisite_readspeaker][icon] = ''
+feature_sets[multisite_readspeaker][font] = 'multisite-icon-bubble'
+feature_sets[multisite_readspeaker][enable][] = multisite_readspeaker
+feature_sets[multisite_readspeaker][disable][] = multisite_readspeaker
+
 feature_sets[wiki_standard][title] = 'Wikis'
 feature_sets[wiki_standard][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every visitor, can view the content of the wiki.<span class="desc"><a href="https://webgate.ec.europa.eu/fpfis/wikis/x/7IbhAg">Lire la documentation</a></span>'
 feature_sets[wiki_standard][category] = 'Communication'
