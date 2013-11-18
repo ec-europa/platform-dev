@@ -86,21 +86,6 @@ function news_core_views_default_views() {
     'news' => 'news',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Language */
-  $handler->display->display_options['filters']['language']['id'] = 'language';
-  $handler->display->display_options['filters']['language']['table'] = 'node';
-  $handler->display->display_options['filters']['language']['field'] = 'language';
-  $handler->display->display_options['filters']['language']['value'] = array(
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-    'und' => 'und',
-  );
-  $handler->display->display_options['filters']['language']['group'] = 2;
-  /* Filter criterion: Content translation: Translation set node ID */
-  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['table'] = 'node';
-  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
-  $handler->display->display_options['filters']['tnid']['group'] = 2;
   /* Filter criterion: Workbench Moderation: Published */
   $handler->display->display_options['filters']['published']['id'] = 'published';
   $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
@@ -178,29 +163,7 @@ function news_core_views_default_views() {
     'news' => 'news',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Language */
-  $handler->display->display_options['filters']['language']['id'] = 'language';
-  $handler->display->display_options['filters']['language']['table'] = 'node';
-  $handler->display->display_options['filters']['language']['field'] = 'language';
-  $handler->display->display_options['filters']['language']['value'] = array(
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-    'und' => 'und',
-  );
-  $handler->display->display_options['filters']['language']['group'] = 2;
-  $handler->display->display_options['filters']['language']['expose']['operator_id'] = 'language_op';
-  $handler->display->display_options['filters']['language']['expose']['label'] = 'Language';
-  $handler->display->display_options['filters']['language']['expose']['operator'] = 'language_op';
-  $handler->display->display_options['filters']['language']['expose']['identifier'] = 'language';
-  /* Filter criterion: Content translation: Translation set node ID */
-  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['table'] = 'node';
-  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
-  $handler->display->display_options['filters']['tnid']['group'] = 2;
-  $handler->display->display_options['filters']['tnid']['expose']['operator_id'] = 'tnid_op';
-  $handler->display->display_options['filters']['tnid']['expose']['label'] = 'Translation set node ID';
-  $handler->display->display_options['filters']['tnid']['expose']['operator'] = 'tnid_op';
-  $handler->display->display_options['filters']['tnid']['expose']['identifier'] = 'tnid';
+
   /* Filter criterion: Workbench Moderation: Published */
   $handler->display->display_options['filters']['published']['id'] = 'published';
   $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
@@ -247,21 +210,7 @@ function news_core_views_default_views() {
     'news' => 'news',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Language */
-  $handler->display->display_options['filters']['language']['id'] = 'language';
-  $handler->display->display_options['filters']['language']['table'] = 'node';
-  $handler->display->display_options['filters']['language']['field'] = 'language';
-  $handler->display->display_options['filters']['language']['value'] = array(
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-    'und' => 'und',
-  );
-  $handler->display->display_options['filters']['language']['group'] = 2;
-  /* Filter criterion: Content translation: Translation set node ID */
-  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['table'] = 'node';
-  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
-  $handler->display->display_options['filters']['tnid']['group'] = 2;
+
   /* Filter criterion: Workbench Moderation: Published */
   $handler->display->display_options['filters']['published']['id'] = 'published';
   $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
@@ -354,21 +303,7 @@ function news_core_views_default_views() {
     1 => '1',
   );
   $handler->display->display_options['filters']['field_top_news_value']['group'] = 1;
-  /* Filter criterion: Content: Language */
-  $handler->display->display_options['filters']['language']['id'] = 'language';
-  $handler->display->display_options['filters']['language']['table'] = 'node';
-  $handler->display->display_options['filters']['language']['field'] = 'language';
-  $handler->display->display_options['filters']['language']['value'] = array(
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-    'und' => 'und',
-  );
-  $handler->display->display_options['filters']['language']['group'] = 2;
-  /* Filter criterion: Content translation: Translation set node ID */
-  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['table'] = 'node';
-  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
-  $handler->display->display_options['filters']['tnid']['group'] = 2;
+
   /* Filter criterion: Workbench Moderation: Published */
   $handler->display->display_options['filters']['published']['id'] = 'published';
   $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
@@ -433,21 +368,7 @@ function news_core_views_default_views() {
     1 => '1',
   );
   $handler->display->display_options['filters']['field_top_news_value']['group'] = 1;
-  /* Filter criterion: Content: Language */
-  $handler->display->display_options['filters']['language']['id'] = 'language';
-  $handler->display->display_options['filters']['language']['table'] = 'node';
-  $handler->display->display_options['filters']['language']['field'] = 'language';
-  $handler->display->display_options['filters']['language']['value'] = array(
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-    'und' => 'und',
-  );
-  $handler->display->display_options['filters']['language']['group'] = 2;
-  /* Filter criterion: Content translation: Translation set node ID */
-  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['table'] = 'node';
-  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
-  $handler->display->display_options['filters']['tnid']['group'] = 2;
+
   /* Filter criterion: Workbench Moderation: Published */
   $handler->display->display_options['filters']['published']['id'] = 'published';
   $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
