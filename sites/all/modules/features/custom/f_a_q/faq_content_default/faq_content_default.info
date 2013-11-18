@@ -1,9 +1,0 @@
-name = "faq content default"
-description = "Default questions as examples"
-core = "7.x"
-package = "Features"
-version = "7.x-1.0"
-project = "faq_content_default"
-features[content][] = "question_europa_01"
-features[content][] = "question_europa_02"
-features[features_api][] = api:1
