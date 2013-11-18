@@ -8,8 +8,9 @@
  */
 
 /**
- * Returns ReadSpeaker supported languages and switch between 'en_us' and 'en_uk' if configured
+ * Returns ReadSpeaker supported languages.
  *
+ * Switch between 'en_us' and 'en_uk' if configured.
  */
 function _multisite_readspeaker_language_list() {
 
@@ -71,9 +72,9 @@ function _multisite_readspeaker_language_list() {
       'alttext' => 'Listen to this page using ReadSpeaker',
     ),
     'it' => array(
-        'langid' => 'it_it',
-        'alttext' => 'Ascolta questa pagina con ReadSpeaker',
-      ),
+      'langid' => 'it_it',
+      'alttext' => 'Ascolta questa pagina con ReadSpeaker',
+    ),
     'jp' => array(
       'langid' => 'ja_jp',
       'alttext' => 'Listen to this page using ReadSpeaker',
@@ -83,29 +84,29 @@ function _multisite_readspeaker_language_list() {
       'alttext' => 'Listen to this page using ReadSpeaker',
     ),
     'nl' => array(
-        'langid' => 'nl_nl',
-        'alttext' => 'Laat de tekst voorlezen met ReadSpeaker',
+      'langid' => 'nl_nl',
+      'alttext' => 'Laat de tekst voorlezen met ReadSpeaker',
       ),
-      'nb' => array(
-        'langid' => 'no_nb',
-        'alttext' => 'Lytt til denne siden med ReadSpeaker',
-      ),
+    'nb' => array(
+      'langid' => 'no_nb',
+      'alttext' => 'Lytt til denne siden med ReadSpeaker',
+    ),
     'pt-pt' => array(
-        'langid' => 'pt_pt',
-        'alttext' => 'Ouvir com ReadSpeaker',
-      ),
+      'langid' => 'pt_pt',
+      'alttext' => 'Ouvir com ReadSpeaker',
+    ),
     'pt' => array(
-        'langid' => 'pt_pt',
-        'alttext' => 'Ouvir com ReadSpeaker',
-      ),
+      'langid' => 'pt_pt',
+      'alttext' => 'Ouvir com ReadSpeaker',
+    ),
     'ru' => array(
       'langid' => 'ru_ru',
       'alttext' => urldecode('%D0%9F%D1%80%D0%BE%D1%81%D0%BB%D1%83%D1%88%D0%B0%D1%82%D1%8C%20%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D1%83%20%D0%BF%D1%80%D0%B8%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%B8%20ReadSpeaker'),
     ),
     'sv' => array(
-        'langid' => 'sv_se',
-        'alttext' => 'Lyssna p&aring; sidans text med ReadSpeaker',
-      ),
+      'langid' => 'sv_se',
+      'alttext' => 'Lyssna p&aring; sidans text med ReadSpeaker',
+    ),
     'tr' => array(
       'langid' => 'tr_tr',
       'alttext' => urldecode('Bu%20sayfay%C4%B1%20ReadSpeaker%20ile%20dinle'),
@@ -143,10 +144,10 @@ function multisite_readspeaker_menu() {
 }
 
 /**
-* Page callback: Current posts settings
-*
-* @see current_posts_menu()
-*/
+ * Page callback: Current posts settings.
+ *
+ * @see current_posts_menu()
+ */
 function multisite_readspeaker_form($form, &$form_state) {
   $form['general_settings'] = array(
     '#type' => 'fieldset',
@@ -177,31 +178,31 @@ function multisite_readspeaker_form($form, &$form_state) {
     '#title' => t('Language'),
     '#default_value' => variable_get('readspeaker_langid', ''),
     '#options' => array(
-    'en' => t('English'),
-    'ar' => t('Arabic'),
-    'eu' => t('Basque'),
-    'ca' => t('Catalan'),
-    'da' => t('Danish'),
-    'nl' => t('Dutch'),
-    'fo' => t('Faroese'),
-    'fi' => t('Finnish'),
-    'fr' => t('French'),
-    'fy' => t('Frisian'),
-    'gl' => t('Galician'),
-    'de' => t('German'),
-    'el' => t('Greek'),
-    'hi' => t('Hindi'),
-    'it' => t('Italian'),
-    'jp' => t('Japanese'),
-    'ko' => t('Korean'),
-    'zh' => t('Mandarin Chinese'),
-    'nb' => t('Norwegian'),
-    'pt' => t('Portuguese'),
-    'ru' => t('Russian'),
-    'es' => t('Spanish'),
-    'se' => t('Swedish'),
-    'tr' => t('Turkish'),
-  ),
+      'en' => t('English'),
+      'ar' => t('Arabic'),
+      'eu' => t('Basque'),
+      'ca' => t('Catalan'),
+      'da' => t('Danish'),
+      'nl' => t('Dutch'),
+      'fo' => t('Faroese'),
+      'fi' => t('Finnish'),
+      'fr' => t('French'),
+      'fy' => t('Frisian'),
+      'gl' => t('Galician'),
+      'de' => t('German'),
+      'el' => t('Greek'),
+      'hi' => t('Hindi'),
+      'it' => t('Italian'),
+      'jp' => t('Japanese'),
+      'ko' => t('Korean'),
+      'zh' => t('Mandarin Chinese'),
+      'nb' => t('Norwegian'),
+      'pt' => t('Portuguese'),
+      'ru' => t('Russian'),
+      'es' => t('Spanish'),
+      'se' => t('Swedish'),
+      'tr' => t('Turkish'),
+    ),
     '#description' => t('Select which language your ReadSpeaker account supports.'),
     '#required' => TRUE,
   );
@@ -213,7 +214,7 @@ function multisite_readspeaker_form($form, &$form_state) {
     '#required' => FALSE,
   );
 
-  // Layout settings for input ReadSpeaker into node
+  // Layout settings for input ReadSpeaker into node.
   $form['layout_settings'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
@@ -228,7 +229,7 @@ function multisite_readspeaker_form($form, &$form_state) {
     '#description' => t('Set a style attribute for the ReadSpeaker Button.'),
     '#required' => FALSE,
   );
-  // What kinds of nodes do we want to read by ReadSpeaker
+  // What kinds of nodes do we want to read by ReadSpeaker.
   $form['display_settings'] = array(
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
@@ -349,7 +350,7 @@ function multisite_readspeaker_theme() {
 }
 
 /**
- * Implements the ReadSpeaker Button
+ * Implements the ReadSpeaker Button.
  */
 function theme_multisite_readspeaker_button() {
 
@@ -358,7 +359,7 @@ function theme_multisite_readspeaker_button() {
     global $base_path;
 
     $accountid = variable_get('readspeaker_accountid', '');
-    $node      = menu_get_object();
+    $node = menu_get_object();
     if (isset($_SERVER["HTTPS"])) {
       $protocol = 'https';
     }
@@ -372,12 +373,12 @@ function theme_multisite_readspeaker_button() {
       $button_style = "";
     }
 
-    // set the default readspeaker language
+    // set the default readspeaker language.
     $readspeaker_languages = _multisite_readspeaker_language_list();
     $default_langid        = variable_get('readspeaker_langid', FALSE);
     $readspeaker_langcode  = $readspeaker_languages[$default_langid]['langid'];
 
-    // detect node language or drupal language in case node is neutral or not a node
+    // detect node language or drupal language in case node is neutral or not a node.
     if ($node && $node->language !== LANGUAGE_NONE) {
       $langid = $node->language;
     }
@@ -389,11 +390,11 @@ function theme_multisite_readspeaker_button() {
       // @TODO the language might not be available for the current readspeaker account
       $readspeaker_langcode = $readspeaker_languages[$langid]['langid'];
     }
-    // Add javascript to header
-   $test = drupal_add_library('multisite_readspeaker', 'readspeaker_hl');
 
-    //$nodeurl = $protocol . '://' . $_SERVER['SERVER_NAME'] . url('node/' . $node->nid);
-    $path    = url(current_path(), array('https' => ($protocol == 'https'), 'absolute' => TRUE));
+    // Add javascript to header.
+    drupal_add_library('multisite_readspeaker', 'readspeaker_hl');
+
+    $path = url(current_path(), array('https' => ($protocol == 'https'), 'absolute' => TRUE));
     $read_id = variable_get('readspeaker_readid', 'block-system-main');
 
     // Create output
@@ -413,7 +414,7 @@ function theme_multisite_readspeaker_button() {
  * Implements hook_library().
  */
 function multisite_readspeaker_library() {
-  // we need to use absolute path because otherwise the query string is broken by drupal_add_js()
+  // Use absolute path otherwise query string is broken by drupal_add_js().
   global $base_url;
   $library_path = $base_url . '/' . drupal_get_path('module', 'multisite_readspeaker') . '/js/ReadSpeaker/ReadSpeaker.js?pids=embhl';
 
