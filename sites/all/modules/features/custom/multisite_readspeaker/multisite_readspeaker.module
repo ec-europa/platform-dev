@@ -131,11 +131,11 @@ function _multisite_readspeaker_language_list() {
  */
 function multisite_readspeaker_menu() {
   $items = array();
-  $items['admin/config/content/readspeaker_hl'] = array(
+  $items['admin/config/content/multisite_readspeaker'] = array(
     'title' => 'ReadSpeaker Enterprise Highlighting',
     'description' => 'Insert ReadSpeaker Enterprise Highlighting to selected node types.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('readspeaker_hl_form'),
+    'page arguments' => array('multisite_readspeaker_form'),
     'access arguments' => array('administer readspeaker_hl'),
     'type' => MENU_NORMAL_ITEM,
   );
@@ -266,10 +266,10 @@ function multisite_readspeaker_form($form, &$form_state) {
  */
 function multisite_readspeaker_permission() {
   return array(
-    'display readspeaker_hl' => array(
+    'display multisite_readspeaker' => array(
       'title' => t('display ReadSpeaker'),
     ),
-    'administer readspeaker_hl' => array(
+    'administer multisite_readspeaker' => array(
       'title' => t('administer ReadSpeaker'),
     ),
   );
@@ -352,7 +352,7 @@ function multisite_readspeaker_theme() {
  * Implements the ReadSpeaker Button
  */
 function theme_multisite_readspeaker_button() {
-  if (user_access('display readspeaker_hl')) {
+  if (user_access('display multisite_readspeaker')) {
     global $language;
     global $base_path;
 

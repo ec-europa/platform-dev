@@ -13,7 +13,7 @@ This module integrates ReadSpeaker Enterprise Highlighting to your Drupal 7 webs
 An own account at ReadSpeaker that includes the ReadSpeaker Enterprise Highlighting product.
 
 ; Installation
-To install, copy the readspeaker_hl directory and all its contents to your modules
+To install, copy the multisite_readspeaker directory and all its contents to your modules
 directory.
 
 ; Configuration
