@@ -7,8 +7,10 @@ class MultisiteForumCoreQAWebTestCase extends DrupalWebTestCase {
 
   protected $user1;
   protected $user2;
+  protected $privileged_user;
+ // protected $profile = 'multisite_drupal_core';
 
-  // protected $profile = 'multisite_drupal_core';
+ //  protected $profile = 'multisite_drupal_standard';
 
   public static function getInfo() {
     return array(
@@ -19,10 +21,26 @@ class MultisiteForumCoreQAWebTestCase extends DrupalWebTestCase {
   }
 
   function setUp() {
-    parent::setUp(array('features', 'taxonomy', 'field', 'i18n', 'i18n_taxonomy', 'user', 'node', 'multisite_forum_core'));
-    // parent::setUp(array('multisite_forum_core'));
+    parent::setUp(array(
+        'features',
+        'strongarm',
+        'taxonomy',
+        'field',
+        'locale',
+       'translation',
+        'i18n',
+        'i18n_taxonomy',
+        'i18n_node',
+        'user',
+        'path',
+        'pathauto',
+        'node', 
+        'multisite_forum_core',
+        ));
+   // parent::setUp('multisite_forum_core');
     $this->user1 = $this->drupalCreateUser();
     $this->user2 = $this->drupalCreateUser();
+    $this->privileged_user = $this->drupalCreateUserWithRole('administrator');
   }
 
   function testFeatureInitialization() {
@@ -47,11 +65,13 @@ class MultisiteForumCoreQAWebTestCase extends DrupalWebTestCase {
     $this->assert($status, 'Field instance "taxonomy_forums" correctly added to Discussion content type');
   }
 
-  function testDiscussionCreation() {
+  function testDiscussions() {
 
+    ###########################################
+    # Discussions : create/edit/delete/access #
+    ###########################################
+    
     $vocabulary = taxonomy_vocabulary_machine_name_load('forums');
-
-
     $term = (object) array(
                 'vid' => $vocabulary->vid,
                 'name' => st('SimpleTest Forum'),
@@ -98,6 +118,149 @@ class MultisiteForumCoreQAWebTestCase extends DrupalWebTestCase {
     // Check if user cannot edit post of another user.
     $this->drupalGet("node/{$node->nid}/edit");
     $this->assertResponse('403', 'User cannot edit post of another user.');
+  }
+  
+  
+  /**
+   * Test: rewrite 'comment' by 'reply' for discussion comments 
+   */
+  function testDiscussionsComment() {
+    
+    $this->drupalLogin($this->user1);
+    
+    $vocabulary = taxonomy_vocabulary_machine_name_load('forums');
+    $term = (object) array(
+                'vid' => $vocabulary->vid,
+                'name' => st('SimpleTest Forum'),
+                'description' => st('Test forum'),
+    );
+    taxonomy_term_save($term);
+    
+    $title = $this->randomName();
+    $edit = array(
+        'title' => $title,
+        'taxonomy_forums[und]' => $term->tid,
+    );
+    $this->drupalPost('node/add/discussion', $edit, t('Save'));
+
+    // Check that the node exists in the database.
+    $node = $this->drupalGetNodeByTitle($edit['title']);
+
+     ###################
+     #  node undefine  #
+     ###################
+    // node/XX
+    $this->drupalGet("node/{$node->nid}");
+    $this->assertText(t('Add new reply'), "On 'node/{$node->nid}', 'Add new comment' is replaced by 'Add new reply'");
+    $this->assertNoText(t('comment'), "On 'node/{$node->nid}', 'comment' not appear'");
+    
+    // discussion/node-title
+    $this->drupalGet($node->path['alias']);
+    $this->assertText(t('Add new reply'), "On '{$node->path['alias']}', 'Add new comment' is replaced by 'Add new reply'");
+    $this->assertNoText(t('comment'), "On '{$node->path['alias']}', 'comment' not appear'");
+    
+    // comment/reply/XX
+    $this->drupalGet("comment/reply/{$node->nid}");
+    $this->assertText(t('Add new reply'), "On 'comment/reply/{$node->nid}' of a discussion, 'Add new comment' is replaced by 'Add new reply'");
+    $this->assertNoText(t('comment'), "On 'comment/reply/{$node->nid}', 'comment' not appear'");
+    
+    $title = $this->randomName();
+    $text = $this->randomString();
+
+    $edit = array(
+        'subject' => $title,
+        'comment_body[' . LANGUAGE_NONE . '][0][value]' => $text,
+    );
+    $this->drupalPost("comment/reply/{$node->nid}", $edit, t('Save'));
+    $this->assertText(t('Your reply has been posted.'), "On 'comment/reply/{$node->nid}' of a discussion, 'Your comment has been posted.' is replaced by 'Add new reply'");
+     $this->assertNoText(t('comment'), "On 'comment/reply/{$node->nid}', 'comment' not appear'");
+    $comment = $this->drupalGetCommentBySubject($title);
+
+    // comment/XX/edit
+    $this->drupalGet("comment/{$comment->cid}/edit");
+    $this->assertText(t('Edit reply'), "On 'comment/{$comment->cid}/edit' of a discussion, 'Edit comment' is replaced by 'Edit reply'");
+    $this->assertNoText(t('Comment'), "On 'comment/{$comment->cid}/edit', 'comment' not appear");
+    
+    $this->drupalLogout();
+    $this->drupalLogin($this->privileged_user);
+    
+    
+    // comment/XX/delete
+    $this->drupalGet("comment/{$comment->cid}/delete");
+    $this->assertText(t('Are you sure you want to delete the reply'), "On 'comment/{$comment->cid}/delete' of a discussion, 'Are you sure you want to delete the comment' is replaced by 'Are you sure you want to delete the reply'");
+    $this->assertText(t('Any replies to this reply will be lost. This action cannot be undone.'), "On 'comment/{$comment->cid}/delete' of a discussion, 'Any replies to this comment will be lost. This action cannot be undone.' is replaced by 'Any replies to this reply will be lost. This action cannot be undone.'");
+    $this->assertNoText(t('comment'), "On 'comment/{$comment->cid}/delete', 'comment' not appear'");
+     
+    $edit = array(
+        'title' => $title,
+    );
+    $this->drupalPost('node/add/article', $edit, t('Save'));
+
+    $node_article = $this->drupalGetNodeByTitle($edit['title']);
+    // node/XX
+    $this->drupalGet("node/{$node_article->nid}");
+    $this->assertText(t('Add new comment'), "On 'node/{$node_article->nid}' of an article, 'comment' is not replaced by 'reply'");
+    $this->assertNoText(t('Reply'), "On 'node/{$node_article->nid}' of an article, 'reply' not appear");
+
+         
+     #############
+     #  node en  #
+     #############
+    
+        $this->drupalLogout();
+    $this->drupalLogin($this->user1);
+    
+    $title = $this->randomName();
+    $edit = array(
+        'title' => $title,
+        'taxonomy_forums[und]' => $term->tid,
+        'language' => 'en'
+    );
+    
+    $this->drupalPost('node/add/discussion', $edit, t('Save'));
+
+    // Check that the node exists in the database.
+    $node_en = $this->drupalGetNodeByTitle($edit['title']);
+    
+    // en/node/XX
+    $this->drupalGet("node/{$node_en->nid}");
+    $this->assertText(t('Add new reply'), "On 'node/{$node_en->nid}', 'Add new comment' is replaced by 'Add new reply'");
+$this->assertNoText(t('comment'), "On 'node/{$node_en->nid}', 'comment' not appear'");
+
+    
+    // en/discussion/node-title
+    $this->drupalGet('en/'.$node_en->path['alias']);
+    $this->assertText(t('Add new reply'), "On en/'{$node_en->path['alias']}', 'Add new comment' is replaced by 'Add new reply'");
+    $this->assertNoText(t('comment'), "On 'en/{$node_en->path['alias']}', 'comment' not appear'");
+
+    // en/comment/reply/XX
+    $this->drupalGet("comment/reply/{$node->nid}");
+    $this->assertText(t('Add new reply'), "On 'comment/reply/{$node->nid}' of a discussion, 'Add new comment' is replaced by 'Add new reply'");
+    $this->assertNoText(t('comment'), "On 'comment/reply/{$node->nid}', 'comment' not appear'");
+
+    $title = $this->randomName();
+    $text = $this->randomString();
+
+    $edit = array(
+        'subject' => $title,
+        'comment_body[' . LANGUAGE_NONE . '][0][value]' => $text,
+    );
+    $this->drupalPost("comment/reply/{$node->nid}", $edit, t('Save'));    
+    $comment = $this->drupalGetCommentBySubject($this);
+
+    // en/comment/XX/edit
+    $this->drupalGet("en/comment/{$comment->cid}/edit");
+    $this->assertText(t('Edit reply'), "On 'en/comment/{$comment->cid}/edit' of a discussion, 'Edit comment' is replaced by 'Edit reply'");
+    $this->assertNoText(t('Comment'), "On 'en/comment/{$comment->cid}/edit', 'comment' not appear");
+    
+    $this->drupalLogout();
+    $this->drupalLogin($this->privileged_user);
+    // en/comment/XX/delete
+    $this->drupalGet("comment/{$comment->cid}/delete");
+    $this->assertText(t('Are you sure you want to delete the reply'), "On 'en/comment/{$comment->cid}/delete' of a discussion, 'Are you sure you want to delete the comment' is replaced by 'Are you sure you want to delete the reply'");
+    $this->assertText(t('Any replies to this reply will be lost. This action cannot be undone.'), "On 'en/comment/{$comment->cid}/delete' of a discussion, 'Any replies to this comment will be lost. This action cannot be undone.' is replaced by 'Any replies to this reply will be lost. This action cannot be undone.'");
+    $this->assertNoText(t('comment'), "On 'comment/{$comment->cid}/delete', 'comment' not appear'");
+    
   }
 
   /**
@@ -169,4 +332,38 @@ class MultisiteForumCoreQAWebTestCase extends DrupalWebTestCase {
     $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
   }
 
+  
+    protected function drupalGetCommentBySubject($title, $reset = FALSE) {
+    $nodes = comment_load_multiple(array(), array('subject' => $title), $reset);
+    // Load the first node returned from the database.
+    $returned_node = reset($nodes);
+    return $returned_node;
+  }
+  
+    protected function drupalCreateUserWithRole($role_name) {
+
+    $role = user_role_load_by_name($role_name);
+    
+    // Create a user assigned to that role.
+    $edit = array();
+    $edit['name']   = $this->randomName();
+    $edit['mail']   = $edit['name'] . '@example.com';
+    $edit['pass']   = user_password();
+    $edit['status'] = 1;
+    $edit['roles'] = array(
+      2 => 2,
+      $role->rid => $role_name,
+    );
+
+    $account = user_save(drupal_anonymous_user(), $edit);
+
+    $this->assertTrue(!empty($account->uid), t('User with role %role_name created with name %name and pass %pass', array('%role_name' => $role_name, '%name' => $edit['name'], '%pass' => $edit['pass'])), t('User login'));
+    if (empty($account->uid)) {
+      return FALSE;
+    }
+
+    // Add the raw password so that we can log in as this user.
+    $account->pass_raw = $edit['pass'];
+    return $account;
+  }  
 }

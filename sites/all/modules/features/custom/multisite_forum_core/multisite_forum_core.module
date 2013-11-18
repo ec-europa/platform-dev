@@ -57,50 +57,71 @@ function multisite_forum_core_menu_alter(&$items) {
   // unset($items['admin/structure/forum/add/container']);
 }
 
-/**
- * Helper function: replace "Comment" string with "Reply".
- */
-function multisite_forum_core_replace_strings($hook) {
-  global $conf;
+function multisite_forum_core_replace_strings() {
+  $nid = null;
 
-  switch ($hook) {
+  $path_array = explode('/', $_GET['q']);
 
-    case 'boot';
-      if (strstr($_GET['q'], 'content/') !== FALSE) {
+  if (in_array(MULTISITE_FORUM_CT_NAME, $path_array)
+          || in_array('node', $path_array)
+          || in_array('comment', $path_array)) {
+
+
+    $language_prefix = db_select('languages', 'l')
+            ->fields('l', array('prefix'))
+            ->execute()
+            ->fetchAll(PDO::FETCH_COLUMN);
+
+
+    if (in_array($path_array[0], $language_prefix)) { // en/discussion/$nid
+      unset($path_array[0]);
+      $url = implode('/', $path_array);
+      $path_array = explode('/', $url);
+    } else { // node/$nid
+      $url = $_GET['q'];
+    }
+
+    switch ($path_array[0]) {
+      case 'node': // node/$nid/*
+        if (isset ($path_array[1]) && is_numeric($path_array[1]) ){
+          $nid = $path_array[1];  
+        }
+        break;
+      case 'discussion': // discussion/$node_title
         $source = db_select('url_alias', 'a')
                 ->fields('a', array('source'))
-                ->condition('a.alias', $_GET['q'])
+                ->condition('a.alias', $url)
                 ->execute()
                 ->fetch(PDO::FETCH_COLUMN);
+
         if (strstr($source, 'node/') !== FALSE) {
           list($a, $nid) = explode('/', $source);
-          $nid = (int) $nid;
-          $type = db_select('node', 'n')
-                  ->fields('n', array('type'))
-                  ->condition('n.nid', $nid)
+        }
+        break;
+      case 'comment':
+        if ($path_array[1] == 'reply') { // comment/reply/$nid
+          $nid = (int) $path_array[2];
+        } else { // comment/$cid
+          $cid = (int) $path_array[1];
+          $nid = db_select('comment', 'c')
+                  ->fields('c', array('nid'))
+                  ->condition('c.cid', $cid)
                   ->execute()
                   ->fetch(PDO::FETCH_COLUMN);
-          if ($type == MULTISITE_FORUM_CT_NAME) {
-            $conf['locale_custom_strings_en'][''] = array(
-                'Add new comment' => 'Add new reply',
-                'Comments' => 'Replies',
-                'Comment' => 'Reply',
-            );
-          }
         }
-      }
-      break;
+        break;
+    }
 
-    case 'init':
-      $forum_context = FALSE;
-      $forum_context = $forum_context || $_GET['q'] == 'node/add/' . MULTISITE_FORUM_CT_NAME;
-      $forum_context = $forum_context || arg(0) == MULTISITE_FORUM_CT_NAME;
-      $forum_context = $forum_context || arg(3) == MULTISITE_FORUM_CT_NAME;
-      if (($menu_object = menu_get_object('node')) && isset($menu_object->type)) {
-        $forum_context = $forum_context || $menu_object->type == MULTISITE_FORUM_CT_NAME;
-      }
+    if ($nid) {
+      $nid = (int) $nid;
+      $type = db_select('node', 'n')
+              ->fields('n', array('type'))
+              ->condition('n.nid', $nid)
+              ->execute()
+              ->fetch(PDO::FETCH_COLUMN);
 
-      if ($forum_context) {
+      if ($type == MULTISITE_FORUM_CT_NAME) {
+        global $conf;
         $conf['locale_custom_strings_en'][''] = array(
             'Add new comment' => 'Add new reply',
             'Comments' => 'Replies',
@@ -132,9 +153,10 @@ function multisite_forum_core_replace_strings($hook) {
             '<a href="@login">Log in</a> or <a href="@register">register</a> to post comments' => '<a href="@login">Log in</a> or <a href="@register">register</a> to post replies',
             'Users with the "Post comments" permission can post comments.' => 'Users with the "Post comments" permission can post replies.',
             'Users cannot post comments.' => 'Users cannot post replies.',
+            'Your comment has been posted.' => 'Your reply has been posted.'
         );
       }
-      break;
+    }
   }
 }
 
@@ -146,10 +168,10 @@ function multisite_forum_core_replace_strings($hook) {
  * @param type $output 
  * @see workbench_create()
  */
-function multisite_forum_core_workbench_create_alter(&$output){
+function multisite_forum_core_workbench_create_alter(&$output) {
   // $output['#markup'] contains html... 
   // recreate #markup from scratch (see _workbench_create()) without Discussion link
-  
+
   $output = array();
   $output['#markup'] = '<h3>' . t('Create content') . '</h3>';
 
@@ -157,17 +179,50 @@ function multisite_forum_core_workbench_create_alter(&$output){
   $contents = system_admin_menu_block($item);
 
   // remove Discussion link 
-  foreach ($contents as $key => $content){
-    if ($content['link_path'] == 'node/add/'.MULTISITE_FORUM_CT_NAME){
-      unset ($contents[$key]);
+  foreach ($contents as $key => $content) {
+    if ($content['link_path'] == 'node/add/' . MULTISITE_FORUM_CT_NAME) {
+      unset($contents[$key]);
     }
   }
   if (!empty($contents)) {
     // Theme the arrray of content type creation links.
     $output['#markup'] .= theme('node_add_list', array('content' => $contents));
-  }
-  else {
+  } else {
     $output['#markup'] .= t('You cannot create any new content. Please contact the site administrator.');
   }
-  
+}
+
+
+/**
+ * Implements hook_node_load().
+ *
+ */
+function multisite_forum_core_node_load($nodes, $types) {
+  // Path module is stupid and doesn't load its data in node_load.
+  // @see workbench_moderation_node_data
+  if (module_exists('path')) {
+    foreach ($nodes as $node) {
+      if (isset($node->nid)) {
+        $path = array();
+        $conditions = array('source' => 'node/' . $node->nid);
+        if ($node->language != LANGUAGE_NONE) {
+          $conditions['language'] = $node->language;
+        }
+        $path = path_load($conditions);
+        if ($path === FALSE) {
+          $path = array();
+        }
+        if (isset($node->path)) {
+          $path += $node->path;
+        }
+        $path += array(
+            'pid' => NULL,
+            'source' => 'node/' . $node->nid,
+            'alias' => '',
+            'language' => isset($node->language) ? $node->language : LANGUAGE_NONE,
+        );
+        $node->path = $path;
+      }
+    }
+  }
 }

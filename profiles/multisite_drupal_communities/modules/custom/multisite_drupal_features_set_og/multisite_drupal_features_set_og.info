@@ -29,7 +29,7 @@ feature_sets[events_og][disable][] = events_og
 feature_sets[events_og][disable][] = events_core
 
 feature_sets[multisite_forum_community][title] = 'Forum'
-feature_sets[multisite_forum_community][description] = 'Allows community's members to create discussions. Every visitor can view the contenut, but only the community member can reply. Discussions are classified by "forum" catégory, the group manager can manage it.'
+feature_sets[multisite_forum_community][description] = Allows community's members to create discussions. All visitors can view the content, but only the community member can reply. Discussions are classified by "forum" category, the group manager can manage it.
 feature_sets[multisite_forum_community][category] = 'Communication'
 feature_sets[multisite_forum_community][icon] = ''
 feature_sets[multisite_forum_community][font] = 'multisite-icon-bubbles'
