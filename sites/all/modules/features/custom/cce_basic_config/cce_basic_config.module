@@ -72,15 +72,16 @@ function cce_basic_config_form_media_format_form_alter(&$form) {
 }
 
 /**
- *
+ * This hook is used to render the external flashplayer + thumbnail
+ * The output variable $videos is being rendered by the field--video.tpl.php
  * @param type $variables
  * @param type $hook
  */
 
 function cce_basic_config_preprocess_field(&$variables) {
   global $base_url, $theme;
+  if ('video' === $variables['element']['#field_type']) {
 
-  if ('video' == $variables['element']['#field_type']) {
     if (isset($variables['element']['#items'])) {
       $output = '';
       $field = $variables['element']['#field_name'];
