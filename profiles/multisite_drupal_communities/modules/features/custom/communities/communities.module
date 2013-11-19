@@ -91,10 +91,14 @@ function communities_views_pre_render(&$view) {
 */
 function communities_init() {
   drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
+  global $language;
 
   // set og context on comunities views
   if (arg(0) == 'community') {
     $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", arg(1)), 'en');
+    
+    dsm($alias);
+    
     $param = explode("/", $alias);
     $group = node_load($param[1]);
     if (og_is_group('node', $group->nid))
@@ -371,7 +375,7 @@ function group_name_load($arg) {
   }
   
   // get real path to get node id
-  $alias = drupal_get_normal_path("community/" . $arg, $language->language); 
+  $alias = drupal_get_normal_path("community/" . $arg, 'en'); 
   
   if($alias != "community/" . $arg) { // if the url is an alias
     $param = explode("/", $alias);

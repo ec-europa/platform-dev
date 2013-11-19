@@ -63,21 +63,6 @@ function multisite_settings_core_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Language */
-  $handler->display->display_options['filters']['language']['id'] = 'language';
-  $handler->display->display_options['filters']['language']['table'] = 'node';
-  $handler->display->display_options['filters']['language']['field'] = 'language';
-  $handler->display->display_options['filters']['language']['value'] = array(
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-    'und' => 'und',
-  );
-  $handler->display->display_options['filters']['language']['group'] = 2;
-  /* Filter criterion: Content translation: Translation set node ID */
-  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['table'] = 'node';
-  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
-  $handler->display->display_options['filters']['tnid']['group'] = 2;
 
   /* Display: Latest Content block */
   $handler = $view->new_display('block', 'Latest Content block', 'block_1');
@@ -144,21 +129,7 @@ function multisite_settings_core_views_default_views() {
     'page' => 'page',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Language */
-  $handler->display->display_options['filters']['language']['id'] = 'language';
-  $handler->display->display_options['filters']['language']['table'] = 'node';
-  $handler->display->display_options['filters']['language']['field'] = 'language';
-  $handler->display->display_options['filters']['language']['value'] = array(
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-    'und' => 'und',
-  );
-  $handler->display->display_options['filters']['language']['group'] = 2;
-  /* Filter criterion: Content translation: Translation set node ID */
-  $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['table'] = 'node';
-  $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
-  $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
-  $handler->display->display_options['filters']['tnid']['group'] = 2;
+
   $translatables['multisite_settings_core'] = array(
     t('Master'),
     t('Latest Content'),
