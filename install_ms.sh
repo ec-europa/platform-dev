@@ -100,7 +100,7 @@ fi
 
 #export svn repository
 echo "Export from https://webgate.ec.europa.eu/CITnet/svn/MULTISITE/tags/${tag_version}/source pms_${site_name}"
-svn export https://webgate.ec.europa.eu/CITnet/svn/MULTISITE/tags/1.3/source pms_${site_name}
+svn export https://webgate.ec.europa.eu/CITnet/svn/MULTISITE/tags/${tag_version}/source pms_${site_name}
 pms_dir=$(pwd)
 cd pms_${site_name}
 
