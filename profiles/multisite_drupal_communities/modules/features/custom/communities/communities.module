@@ -96,9 +96,7 @@ function communities_init() {
   // set og context on comunities views
   if (arg(0) == 'community') {
     $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", arg(1)), 'en');
-    
-    dsm($alias);
-    
+
     $param = explode("/", $alias);
     $group = node_load($param[1]);
     if (og_is_group('node', $group->nid))
