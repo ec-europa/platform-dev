@@ -288,7 +288,7 @@ function news_core_field_default_fields() {
         'tz_handling' => 'site',
       ),
       'translatable' => '0',
-      'type' => 'datetime',
+      'type' => 'datestamp',
     ),
     'field_instance' => array(
       'bundle' => 'news',
@@ -373,7 +373,7 @@ function news_core_field_default_fields() {
         'tz_handling' => 'site',
       ),
       'translatable' => '0',
-      'type' => 'datetime',
+      'type' => 'datestamp',
     ),
     'field_instance' => array(
       'bundle' => 'news',
@@ -581,10 +581,12 @@ function news_core_field_default_fields() {
   t('Body');
   t('Comment');
   t('Enter a link related to your news content. Please enter a complete link, begining with "http(s)://"');
+  t('Expose the news on the site homepage');
   t('It is a Top News');
   t('Link');
   t('Publication date');
   t('Tags');
+  t('Test');
   t('This content will be published on that date, if its workflow status is set to "Validated"');
   t('This content will be unpublished on that date, and its workflow status will be set to "Archived"');
   t('Unpublish on');
