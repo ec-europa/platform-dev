@@ -24,18 +24,7 @@ function news_core_uninstall() {
  */
 
 function news_core_enable() {
-    //Alter date type to int in date related tables
-  if (news_core_table_is_empty()) {
-    $tables = _news_core_get_date_tables();
 
-    foreach ($tables as $key => $value) {
-      $table = $value['table'];
-      $field = $value['field'];
-      db_change_field($table, $field, $field, array('type' => 'int'));
-    }
-  } else {
-    drupal_set_message('There is data. Date field conversion skipped');
-  }
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('news', 'add');
 
