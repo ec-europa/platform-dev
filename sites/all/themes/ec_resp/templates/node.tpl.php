@@ -314,9 +314,9 @@
         $output .= '<div class="row node-info">';
         if ($display_workbench) {
           $output .= '<div class="col-lg-6">';
-            $output .= '<div class="well well-sm node-workbench">';
+            $output .= '<div class="well well-sm node-workbench"><small>';
             $output .= $display_workbench;
-            $output .= '</div>';
+            $output .= '</small></div>';
           $output .= '</div>';
         }
 

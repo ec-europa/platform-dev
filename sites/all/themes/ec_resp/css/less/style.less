@@ -361,8 +361,18 @@ input.form-button-disabled:active,
   text-transform: capitalize;
 }
 
+.start-date-wrapper .form-type-date-popup {
+  width: 100%;
+}
+.start-date-wrapper .form-type-date-popup label {
+  float: left;
+}
+
 html.js input.form-autocomplete {
-  background: @body-bg url(../images/throbber.png) 100% 6px no-repeat;
+  background: @body-bg url(../images/throbber.gif) 100% 6px no-repeat;
+}
+html.js input.throbbing {
+  background-position: 100% -26px;
 }
 
 input[type="file"] {
