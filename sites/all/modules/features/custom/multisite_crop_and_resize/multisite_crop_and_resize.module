@@ -438,7 +438,7 @@ function multisite_crop_and_resize_media_token_to_markup_alter(&$element, $tag_i
     else {
       $element['#attributes'] = $tag_info['attributes'];
     }
-    
+
     $element['#media_crop'] = array();
     $element['#media_crop']['media_crop_instance'] = $mciid;
     $element['#theme'] = 'media_crop_image';

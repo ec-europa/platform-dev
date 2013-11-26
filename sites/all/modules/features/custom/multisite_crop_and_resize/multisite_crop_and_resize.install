@@ -21,6 +21,7 @@ function multisite_crop_and_resize_enable() {
  */
 function multisite_crop_and_resize_disable() {
   //Deactivation message
+  drupal_uninstall_modules(array('media_crop'), TRUE);
   drupal_set_message(t('Multisite Crop and Resize %v feature is now inactive on your site.', array('%v' => _multisite_crop_and_resize_get_version())));
 
 }
