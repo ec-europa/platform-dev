@@ -12,7 +12,6 @@ dependencies[] = strongarm
 dependencies[] = views
 dependencies[] = webform
 dependencies[] = multisite_drupal_toolbox
-dependencies[] = custom_breadcrumbs
 dependencies[] = link
 dependencies[] = linkchecker
 features[ctools][] = strongarm:strongarm:1
