@@ -13,21 +13,21 @@ include_once 'business_indicators.install.inc';
  * Implements hook_requirements().
  */
 function business_indicators_requirements($phase) {
-  
+
   $requirements = array();
   if ($phase == 'runtime') {
     $t = get_t();
-    
+    $requirements['business_indicators']['title'] = $t('Business Indicators');
     if (libraries_detect('FusionCharts')) {
-      $requirements['business_indicators']['severity'] = REQUIREMENT_OK;
       $requirements['business_indicators']['value'] = $t('FusionCharts SWF files found.');
+      $requirements['business_indicators']['severity'] = REQUIREMENT_OK;
     }
     else {
-      $requirements['business_indicators']['severity'] = REQUIREMENT_ERROR;
       $requirements['business_indicators']['value'] = $t('FusionCharts SWF files not found.');
+      $requirements['business_indicators']['severity'] = REQUIREMENT_ERROR;
       $requirements['business_indicators']['description'] = $t('Please download these files from <a href="@url">http://www.fusioncharts.com</a> and copy them into the fusioncharts library directory as per instructions in the readme.txt file.', array('@url' => 'http://www.fusioncharts.com'));
     }
-    $requirements['business_indicators']['title'] = $t('FusionCharts');
+
   }
   return $requirements;
 }
