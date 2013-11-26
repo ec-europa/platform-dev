@@ -693,6 +693,8 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) { //print $form_id;
 
     case 'comment_admin_overview':
       $form['options']['submit']['#attributes']['class'][] = 'btn-small';
+      $form['comments']['#prefix'] = '<div class="table-responsive">';
+      $form['comments']['#suffix'] = '</div>';
       break;
 
     case 'views_exposed_form':
