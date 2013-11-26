@@ -11,18 +11,19 @@
 function multisite_crop_and_resize_requirements($phase) {
   $requirements = array();
   $lpath = libraries_get_path('jquery.imgareaselect');
+  $requirements['multisite_crop_and_resize']['title'] = t('Multisite Crop and Resize');
 
   if ($phase == 'runtime') {
     if (!empty($lpath)) {
-      $requirements['multisite_crop_and_resize']['severity'] = REQUIREMENT_OK;
       $requirements['multisite_crop_and_resize']['value'] = t('imgAreaSelect library found.');
+      $requirements['multisite_crop_and_resize']['severity'] = REQUIREMENT_OK;
     }
     else {
-      $requirements['multisite_crop_and_resize']['severity'] = REQUIREMENT_ERROR;
       $requirements['multisite_crop_and_resize']['value'] = t('imgAreaSelect library not found.');
+      $requirements['multisite_crop_and_resize']['severity'] = REQUIREMENT_ERROR;
       $requirements['multisite_crop_and_resize']['description'] = t('Please download this library from <a href="@url">http://odyniec.net/projects/imgareaselect</a> and copy it into the library directory.', array('@url' => 'http://odyniec.net/projects/imgareaselect/'));
     }
-    $requirements['multisite_crop_and_resize']['title'] = t('Multisite Crop and Resize');
+
   }
   return $requirements;
 }
