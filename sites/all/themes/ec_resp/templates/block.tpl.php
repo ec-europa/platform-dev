@@ -53,10 +53,12 @@
     'workbench' => 'block',
     'social_bookmark' => 'social-bookmark',
     'views' => 'view_ec_content_slider-block',
+    'om_maximenu' => array('om-maximenu-1','om-maximenu-2'),
   );
 
   $block_no_title = array(
     'fat_footer' => 'fat-footer',
+    'om_maximenu' => array('om-maximenu-1','om-maximenu-2'),
   );
 
   $block_no_body_class = array(
@@ -65,17 +67,43 @@
 
   $panel = true;
   foreach ($block_no_panel as $key => $value) {
-    if ($block->module == $key && $block->delta == $value) {
-      $panel = false;
+    if ($block->module == $key) {
+      if (is_array($value)) {
+        foreach ($value as $delta) {
+          if ($block->delta == $delta) {
+            $panel = false;
+            break;
+          }
+        }
+      }
+      else {
+        if ($block->delta == $value) {
+          $panel = false;
+          break;
+        }
+      }
     }
   }
 
   $title = true;
   foreach ($block_no_title as $key => $value) {
-    if ($block->module == $key && $block->delta == $value) {
-      $title = false;
+    if ($block->module == $key) {
+      if (is_array($value)) {
+        foreach ($value as $delta) {
+          if ($block->delta == $delta) {
+            $title = false;
+            break;
+          }
+        }
+      }
+      else {
+        if ($block->delta == $value) {
+          $title = false;
+          break;
+        }
+      }
     }
-  }    
+  }   
 
   $body_class = true;
   foreach ($block_no_body_class as $key => $value) {
