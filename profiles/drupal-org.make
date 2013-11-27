@@ -74,7 +74,7 @@ projects[email][subdir] = "contributed"
 projects[email][version] = "1.2"
 
 projects[entity][subdir] = "contributed"
-projects[entity][version] = "1.1"
+projects[entity][version] = "1.2"
 
 projects[entityreference][subdir] = "contributed"
 ;projects[entityreference][version] = "1.x-dev"
