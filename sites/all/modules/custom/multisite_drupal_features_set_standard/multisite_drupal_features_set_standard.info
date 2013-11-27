@@ -74,7 +74,7 @@ feature_sets[multisite_readspeaker][title] = 'Multisite Readspeaker'
 feature_sets[multisite_readspeaker][description] = 'Integrates ReadSpeaker Enterprise Highlighting to your website'
 feature_sets[multisite_readspeaker][category] = 'Communication'
 feature_sets[multisite_readspeaker][icon] = ''
-feature_sets[multisite_readspeaker][font] = 'multisite-volume'
+feature_sets[multisite_readspeaker][font] = 'multisite-icon-volume'
 feature_sets[multisite_readspeaker][enable][] = multisite_readspeaker
 feature_sets[multisite_readspeaker][disable][] = multisite_readspeaker
 
