@@ -155,6 +155,9 @@
 .multisite-icon-flag:before {
 	content: "\e000";
 }
+.multisite-icon-twitter:before {
+	content: "\e604";
+}
 .multisite-icon-volume:before {
 	content: "\e603";
 }
