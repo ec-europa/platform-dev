@@ -98,11 +98,10 @@ function news_core_disable() {
 /**
  * Implementation of hook_update_n ()
  * 
- * DATE FIELD MIGRATION SCRIPT.
  * Content types using date fields should be using timestamp instead datetime.
  * No need to update schema in hook_install().
  * On a clean installation the date fields are already set up.
- *
+ * DATE FIELD MIGRATION SCRIPT: datetime to datestamp.              
  */
 function news_core_update_7101() {
   // --- CONFIG ---
@@ -161,7 +160,7 @@ function news_core_update_7101() {
         }
       }
 
-      watchdog('system', t('Saving field config of %field', array('%field' => $field_name)), NULL, WATCHDOG_WARNING);
+      watchdog('system', t('Saving field config of %field', array('%field' => $field_name)), NULL, WATCHDOG_INFO);
       db_update('field_config')->fields(array('type' => 'datestamp'))->condition('id', $field_info['id'])->execute();
       //drupal_set_message(t('field_config of %field saved.', array('%field' => $field_name)), 'status');
 
@@ -179,4 +178,6 @@ function news_core_update_7101() {
       }
     }
   }
+  // clear field cache
+  field_cache_clear();
 }
