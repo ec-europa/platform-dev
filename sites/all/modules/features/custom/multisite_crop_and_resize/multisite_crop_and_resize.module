@@ -416,10 +416,12 @@ function multisite_crop_and_resize_image_default_styles() {
 function multisite_crop_and_resize_media_token_to_markup_alter(&$element, $tag_info, $settings) {
   if ($tag_info['view_mode'] === 'media_crop' && $tag_info['file']->type === 'image') {
     $mciid = NULL;
+    if (!empty($tag_info['attributes'])){
     foreach ($tag_info['attributes']['class'] as $k => $class_name) {
       if (substr($class_name, 0, 6) == "mciid-") {
         $mciid = str_replace("mciid-", "", $class_name);
       }
+    }
     }
 
     if (is_null($mciid)) {
@@ -438,7 +440,7 @@ function multisite_crop_and_resize_media_token_to_markup_alter(&$element, $tag_i
     else {
       $element['#attributes'] = $tag_info['attributes'];
     }
-    
+
     $element['#media_crop'] = array();
     $element['#media_crop']['media_crop_instance'] = $mciid;
     $element['#theme'] = 'media_crop_image';
@@ -461,6 +463,7 @@ function multisite_crop_and_resize_theme() {
  */
 function multisite_media_crop_image($variables) {
   $file = $variables['file'];
+  if (isset($variables['media_crop']['media_crop_instance'])) {
   $mciid = $variables['media_crop']['media_crop_instance'];
 
   $image_variables = array(
@@ -469,6 +472,7 @@ function multisite_media_crop_image($variables) {
   );
 
   return theme('image', $image_variables);
+  }
 }
 
 
