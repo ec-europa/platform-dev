@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/entity/entity.tpl.php	2013-04-11 14:56:59.221929195 +0200
-+++ sites/all/modules/contributed/entity/entity.tpl.php	2013-04-12 08:24:58.000000000 +0200
+--- sites/all/modules/contributed/entity/entity.tpl.php	2013-11-28 12:16:52.702247878 +0100
++++ sites/all/modules/contributed/entity/entity.tpl.php	2013-11-28 12:43:41.000000000 +0100
 @@ -33,7 +33,7 @@
    <?php if (!$page): ?>
      <h2<?php print $title_attributes; ?>>
