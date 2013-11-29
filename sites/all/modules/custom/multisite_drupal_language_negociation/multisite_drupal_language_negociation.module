@@ -61,7 +61,7 @@ function multisite_drupal_language_negociation_form($form, &$form_state) {
  */
 function multisite_drupal_language_negociation_url_custom_alter(&$path, &$options, $original_path) {
   static $drupal_static_fast;
-  if (language_negotiation_get_any(LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX)) {  // only if URL suffix provider is enabled
+  if (language_negotiation_get_any(LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX) && !check_language_suffix($path)) {  // only if URL suffix provider is enabled and there is no suffix language in the path
     if (!isset($drupal_static_fast)) {
       $drupal_static_fast['languages'] = &drupal_static(__FUNCTION__);
     }
@@ -164,3 +164,22 @@ function multisite_drupal_language_negociation_views_query_alter(&$view, &$query
   }
 }
 
+/*
+ * check if the suffix language is in the path
+ */
+function check_language_suffix($path) {
+  $languages = language_list('enabled');
+  $languages_suffix = array_keys($languages[1]);  
+  $delimiter = variable_get('language_suffix_delimiter', '_');
+
+  $pattern = "/$delimiter/";
+  $matches = preg_split($pattern, $path);
+  
+  if (count($matches) > 1) {
+    if (in_array(array_pop($matches), $languages_suffix)) {
+      return TRUE;  
+    }
+  }
+
+  return FALSE;
+}
