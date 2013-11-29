@@ -7,7 +7,7 @@
 /**
  * Implements hook_user_default_permissions().
  */
-function ec_embedded_remote_image_user_default_permissions() {
+function ec_embedded_image_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: add media from remote sources.
