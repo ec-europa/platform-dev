@@ -1,4 +1,4 @@
---- modules/user/user.pages.inc.old	2013-12-02 11:14:09.548837109 +0100
+--- modules/user/user.pages.inc	2013-12-02 11:14:09.548837109 +0100
 +++ modules/user/user.pages.inc	2013-12-02 15:21:26.000000000 +0100
 @@ -68,7 +68,9 @@
      form_set_value(array('#parents' => array('account')), $account, $form_state);
