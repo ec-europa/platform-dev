@@ -3,7 +3,7 @@
 /**
  * Test Multisite Forum features to ensure it follows QA requirements.
  */
-class MultisiteForumCommunityQAWebTestCase extends DrupalWebTestCase {
+class MultisiteForumCommunityQAWebTestCase extends MultisiteDrupalWebTestCase {
 
   protected $profile = 'multisite_drupal_communities';
   protected $user1;
@@ -19,12 +19,32 @@ class MultisiteForumCommunityQAWebTestCase extends DrupalWebTestCase {
   }
 
   function setUp() {
-    //parent::setUp(array('multisite_forum_community', 'multisite_forum_core'));
-    parent::setUp(array('features', 'taxonomy', 'field', 'i18n', 'i18n_taxonomy', 'user', 'node', 'multisite_forum_core','multisite_forum_community'));
+    parent::setUp('multisite_forum_core', 'multisite_forum_community');
+  }
 
+  function testFeatureInitialization() {
+
+    $field_instance = field_info_instance('node', 'og_group_ref', MULTISITE_FORUM_CT_NAME);
+    $status = isset($field_instance) && is_array($field_instance) && !empty($field_instance);
+    $this->assert($status, 'Field og_group_ref correctly added Discussion content type');
+
+    $field_instance = field_info_instance('node', 'group_content_access', MULTISITE_FORUM_CT_NAME);
+    $status = isset($field_instance) && is_array($field_instance) && !empty($field_instance);
+    $this->assert($status, 'Field group_content_access correctly added Discussion content type');
+
+    $field_instance = field_info_instance('taxonomy_term', 'og_group_ref', MULTISITE_FORUM_TAXO_NAME);
+    $status = isset($field_instance) && is_array($field_instance) && !empty($field_instance);
+    $this->assert($status, 'Field og_group_ref correctly added Discussion content type');
+
+    $value = variable_get('og_context_negotiation_group_context', array());
+    $this->assert(isset($value['multisite_forum_community']), 'multisite_forum_community negotiation found');
+  }
+
+  function testDiscussionOGCreation() {
     $this->user1 = $this->drupalCreateUser();
     $this->user2 = $this->drupalCreateUser();
 
+    $this->drupalLogin($this->user1);
 
     //Create content of community type
     $settings = array(
@@ -42,33 +62,11 @@ class MultisiteForumCommunityQAWebTestCase extends DrupalWebTestCase {
     $this->node_community = $this->drupalCreateNode($settings);
     $this->drupalGet('community/sample-community');
     $this->assertRaw('Sample Community', t('Community created.'));
-    $this->assertTrue($this->node_community, t('Node ID @nid is a group.', array('@nid' => $node->nid)));
-  }
-
-  function testFeatureInitialization() {
-
-
-    $field_instance = field_info_instance('node', 'og_group_ref', MULTISITE_FORUM_CT_NAME);
-    $status = isset($field_instance) && is_array($field_instance) && !empty($field_instance);
-    $this->assert($status, 'Field og_group_ref correctly added Discussion content type');
-
-    $field_instance = field_info_instance('node', 'group_content_access', MULTISITE_FORUM_CT_NAME);
-    $status = isset($field_instance) && is_array($field_instance) && !empty($field_instance);
-    $this->assert($status, 'Field group_content_access correctly added Discussion content type');
-
-    $field_instance = field_info_instance('taxonomy', 'og_group_ref', MULTISITE_FORUM_TAXO_NAME);
-    $status = isset($field_instance) && is_array($field_instance) && !empty($field_instance);
-    $this->assert($status, 'Field og_group_ref correctly added Discussion content type');
-
-    $value = variable_get('og_context_negotiation_group_context', array());
-    $this->assert(isset($value['multisite_forum_community']), 'multisite_forum_community negotiation found');
-  }
-
-  function testDiscussionOGCreation() {
+    $this->assertTrue($this->node_community, t('Node ID @nid is a group.', array('@nid' => $this->node_community->nid)));
 
     // Test with group manager.
 
-    $this->drupalLogin($this->user1);
+
     $nid = $this->node_community->nid;
     $options = array('query' => array('og_group_ref' => $nid));
 
@@ -102,15 +100,20 @@ class MultisiteForumCommunityQAWebTestCase extends DrupalWebTestCase {
 
 
     // Manager can post a forum topic.
-    $title = $this->randomName();
-    $edit = array(
-        'title' => $title,
-        'og_group_ref[und][0][default][]' => array($nid),
-        'taxonomy_forums[und]' => $term->tid,
+    $field = array();
+    $field[LANGUAGE_NONE][0]['target_id'] = $nid;
+
+    $settings = array(
+        'title' => $this->randomName(),
+        'type' => MULTISITE_FORUM_CT_NAME,
+        'body' => array(LANGUAGE_NONE => array(array($this->randomName(64)))),
+        'og_group_ref' => $field,
+        'taxonomy_forums' => array('undefine' => array('tid' => $term->tid)),
     );
-    $this->drupalPost('node/add/forum', $edit, t('Save'), $options);
+    $node = $this->drupalCreateNode($settings);
 
     // Manager can edit is own forum topics.
+    $this->drupalGet("node/{$node->nid}");
     $this->assertLink('Edit', 0, 'Group manager can edit is own forum topics.');
 
     // Test now with normal member.
@@ -131,27 +134,9 @@ class MultisiteForumCommunityQAWebTestCase extends DrupalWebTestCase {
     $this->drupalGet('node/' . $nid);
     $this->assertResponse('200', t('Group member can view group node.'));
 
-    // Check if forum page link is placed on community page.
-    $this->assertLink('Forums', 0, 'Forum link on group page found');
-
-    $this->drupalGet("community/{$nid}/forum");
-    $this->assertResponse('200', t('Group member can view forum page.'));
-
     // Check if group member can access forum topic creation page.
     $this->drupalGet('node/add/forum', $options);
     $this->assertResponse('200', t('Group member can access forum topic creation page.'));
-
-    // Manager can post a forum topic.
-    $title = $this->randomName();
-    $edit = array(
-        'title' => $title,
-        'og_group_ref[und][0][default][]' => array($nid),
-        'taxonomy_forums[und]' => $term->tid,
-    );
-    $this->drupalPost('node/add/forum', $edit, t('Save'), $options);
-
-    // Group member can edit is own forum topics.
-    $this->assertLink('Edit', 0, 'Group member can edit is own forum topics.');
   }
 
   /**
@@ -159,68 +144,13 @@ class MultisiteForumCommunityQAWebTestCase extends DrupalWebTestCase {
    * TestFile <featurename>.info
    */
   function testInfoFile() {
-
     $module = basename(__FILE__, ".test");
-    $path = drupal_get_path('module', $module) . '/' . $module . '.info';
-    $info = drupal_parse_info_file($path);
-
-    // Add name information. Ex: name=Newsletters.
-    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module);
-
-    // Add description information.
-    // Ex: description = Publish and send newsletters to lists of subscribers.
-    $this->assertTrue(array_key_exists('description', $info), 'The module\'s description is available.');
-
-    // Add package information.
-    // Ex: package = Multisite_features
-    $this->assertTrue(array_key_exists('package', $info), 'The module\'s package is available.');
-
-    // Add core information
-    // Ex core = 7.x
-    $this->assertTrue(array_key_exists('core', $info), 'The Drupal core version is available.');
-    $this->assertEqual($info['core'], '7.x');
-
-    // Add php information
-    // Ex: php = 5.2.4
-    $this->assertTrue(array_key_exists('php', $info), 'The PHP version info is available.');
-    $this->assertEqual($info['php'], '5.2.4');
-
-    // Add version information (check if the version number matches with this page title)
-    // Ex: version = 7.x-1.0
-    $this->assertTrue(array_key_exists('version', $info));
-
-    // Add feature information:
-    // features[features_api][] = api:1
-    $this->assertEqual($info['features']['features_api'][0], 'api:1', 'The Feature API dependency is available.');
-
-    // Remove menu dependencies:
-
-    if (array_key_exists('dependencies', $info)) {
-      // dependencies[] = "menu"
-
-      $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
-
-      // Remove taxonomy dependencies
-      // dependencies[] = "taxonomy"
-      // $this->assertFalse(in_array('taxonomy', $info['dependencies']), 'There is no reference to the taxonomy dependency.');
-    }
-    // Check other dependencies (modules + features) to be sure they are needed
-    // FIXME: manual check?
-    // Remove tags taxonomy:
-    // features[taxonomy][] = "tags"
-    if (array_key_exists('features', $info) && array_key_exists('taxonomy', $info['features'])) {
-      $this->assertFalse(in_array('tags', $info['features']['taxonomy']), 'The dependency to the tags taxonomy has been removed.');
-    }
+    parent::multisiteDrupalToolboxTestInfoFile($module);
   }
 
   function testInstallFile() {
     $module = basename(__FILE__, ".test");
-    $path = drupal_get_path('module', $module) . '/' . $module . '.install';
-    $data = file_get_contents($path);
-    $this->assertTrue(strpos($data, $module . '_install'), 'The module contains a hook_install');
-    $this->assertTrue(strpos($data, $module . '_uninstall'), 'The module contains a hook_uninstall');
-    $this->assertTrue(strpos($data, $module . '_enable'), 'The module contains a hook_enable');
-    $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
+    parent::multisiteDrupalToolboxTestInstallFile($module);
   }
 
 }

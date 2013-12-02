@@ -9,18 +9,12 @@ define('MULTISITE_FORUM_CT_NAME', 'discussion');
 
 include_once 'multisite_forum_core.features.inc';
 
-/**
- * Implements hook_init()
- */
-function multisite_forum_core_init() {
-  multisite_forum_core_replace_strings('init');
-}
 
 /**
  * Implements hook_boot()
  */
 function multisite_forum_core_boot() {
-  multisite_forum_core_replace_strings('boot');
+  multisite_forum_core_replace_strings();
 }
 
 /**
