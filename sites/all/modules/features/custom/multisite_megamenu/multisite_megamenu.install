@@ -46,6 +46,11 @@ function multisite_megamenu_enable() {
     drupal_set_message(t('A Mega Menu bar has been created and inserted in the "@region" region of the "@context" context.', array('@region' => $region, '@context' => $context_name)));
   }
 
+  // Alter default configuration
+  $om_maximenu = variable_get('om_maximenu');
+  $om_maximenu[1]['block_options']['stacking'] = 'row';
+  variable_set('om_maximenu',$om_maximenu);
+  
   //Activation message
   drupal_set_message(t('Mega Menu feature is now active on your site.'));
 }
