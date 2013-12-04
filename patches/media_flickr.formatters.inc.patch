@@ -1,22 +1,47 @@
 --- sites/all/modules/contributed/media_flickr/includes/media_flickr.formatters.inc.orig
 +++ sites/all/modules/contributed/media_flickr/includes/media_flickr.formatters.inc
-@@ -82,19 +82,10 @@
-     $wrapper = file_stream_wrapper_get_instance_by_uri($file->uri);
-     $image_style = $display['settings']['image_style'];
-     $valid_image_styles = image_style_options(FALSE);
--    if (empty($image_style) || !isset($valid_image_styles[$image_style])) {
+@@ -90,9 +90,8 @@
+     }
+     else {
        $element = array(
-         '#theme' => 'image',
-         '#path' => $wrapper->getOriginalThumbnailPath(),
-       );
--    }
--    else {
--      $element = array(
 -        '#theme' => 'image_style',
 -        '#style_name' => $image_style,
 -        '#path' => $wrapper->getLocalThumbnailPath(),
--      );
--    }
++        '#theme' => 'image',
++        '#path' => $wrapper->getRemoteSuffixedThumbnailPath(),
+       );
+     }
      if ($display['settings']['link_to_flickr']) {
-       $element = array(
-         '#theme' => 'link',
+
+--- sites/all/modules/contributed/media_flickr/includes/MediaFlickrStreamWrapper.inc.orig
++++ sites/all/modules/contributed/media_flickr/includes/MediaFlickrStreamWrapper.inc
+@@ -35,7 +35,7 @@
+   /**
+    * Get the url of the original image.
+    */
+-  function getExternalUrl() {
++  function getExternalUrl($suffixed = '0') {
+     // Look for Photosets & searches.
+     if (!isset($this->parameters['p'])) {
+       if (isset($this->parameters['search']) || (isset($this->parameters['s']) && $this->parameters['s'])) {
+@@ -47,12 +47,20 @@
+ 
+     // Return the direct image.
+     $url =  media_flickr_image_url($this->parameters['p']);
++        if ($suffixed == '1') {
++        $url = preg_replace('/(\.gif|\.jpg|\.png)/', '_q$1', $url);
++        }
+     return $url;
+   }
++  
+   function getOriginalThumbnailPath() {
+     return $this->getExternalUrl();
+   }
+ 
++  function getRemoteSuffixedThumbnailPath() {
++    return $this->getExternalUrl($suffixed = '1');
++  }
++
+   function getLocalThumbnailPath() {
+     $parts = $this->get_parameters();
+     $local_path = str_replace('flickr://', 'public://media-flickr/', check_plain($this->uri)) . '.jpg';
