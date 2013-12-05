@@ -8,7 +8,7 @@
 /*
  * Implements hook_init().
  */
-function splash_screen_boot() {
+function splash_screen_init() {
   if (php_sapi_name() == 'cli') return;
   $cookie_name = variable_get('language_cookie_param', 'language');
   $splash_screen_url = variable_get('splash_screen_url');
