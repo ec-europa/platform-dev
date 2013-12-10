@@ -976,7 +976,9 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
     // Remove the subdirectory name from the path if the site is installed in
     // subdirectory. It will be added again by the url() function.
     if (base_path() != "/") {
-      $path_info['path'] = trim(preg_replace(base_path(), '', $path_info['path'], 1), '/');
+      $base = base_path();
+      $path = $path_info['path'];
+      $path_info['path'] = trim(str_replace( $base, '', $path), '/');
     }
 
     // Trim the path from slashes.
@@ -989,39 +991,12 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
       $path_info['path'] = variable_get('site_frontpage', 'node');
     }
 
-     // Check if the path already is an alias.
-    if (!$processed_path = drupal_lookup_path('source', $path_info['path'])) {
-      // Not an alias, so keep the original value. //FALSE
-      //test url path alias then:
-
-      $query = db_select('menu_router', 'mrt');
-      $result = $query
-          ->condition('path', '%' . $path_info['path'] . '%', 'LIKE')
-          ->fields('mrt', array('path'))
-          ->execute()
-          ->fetchAll();
-
-      if (isset($result[0])) {
-        $processed_path = $path_info['path'];
-      }
-      else {
-        form_set_error($field, 'Not a valid internal url');
-      }
-    }
-
-    // Add the "real" system path (not the alias) if the current user have
-    // access to the URL.
-    $path_info['system_path'] = drupal_valid_path($processed_path) ? $processed_path : FALSE;
-    //If no path returned it's an invalid SYSTEM PATH (Remark: if it's not a system path (an alias) then we cannot determine if its valid or not.
-    if (!$path_info['system_path']) {
-      form_set_error($field, 'Not a valid internal url');
-      return FALSE;
-    }
+    if(!drupal_valid_path($path_info['path'])) {drupal_set_message(t('Please check that @url does exist on this site', array('@url' => $url)), 'warning');};
   }
   // External URL
   else {
-    //$hey = drupal_http_request($url); //try to see if link is valid
-    //drupal_set_message(print_r($hey,true), 'warning');
+    $geturl = drupal_http_request($url); //try to see if link is valid
+    if($geturl->error == 'Not Found') { drupal_set_message(t('Please check that @url does exist', array('@url' => $url)), 'warning');};
     //Clean external url: NOT used because it make youtube video or other impossible to use.
     // $path_info['target'] = 'external';
     // if (preg_match('~^https?$~', $parts['scheme'])) {
