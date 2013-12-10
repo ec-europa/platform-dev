@@ -75,6 +75,16 @@ function ec_embedded_video_file_default_displays() {
 
   $file_display = new stdClass();
   $file_display->api_version = 1;
+  $file_display->name = 'video__default__media_node_image';
+  $file_display->weight = -43;
+  $file_display->status = FALSE;
+  $file_display->settings = array(
+    'image_style' => '',
+  );
+  $export['video__default__media_node_image'] = $file_display;
+
+  $file_display = new stdClass();
+  $file_display->api_version = 1;
   $file_display->name = 'video__default__media_vimeo_image';
   $file_display->weight = -46;
   $file_display->status = TRUE;
@@ -134,6 +144,16 @@ function ec_embedded_video_file_default_displays() {
     'iframe' => 1,
   );
   $export['video__preview__media_dailymotion_video'] = $file_display;
+
+  $file_display = new stdClass();
+  $file_display->api_version = 1;
+  $file_display->name = 'video__preview__media_node_image';
+  $file_display->weight = -41;
+  $file_display->status = FALSE;
+  $file_display->settings = array(
+    'image_style' => '',
+  );
+  $export['video__preview__media_node_image'] = $file_display;
 
   $file_display = new stdClass();
   $file_display->api_version = 1;
