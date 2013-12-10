@@ -198,7 +198,9 @@ function multisite_drupal_toolbox_node_view($node, $view_mode, $langcode) {
  * Implements hook_url_inbound_alter(). Santizie URL inputs.
  */
 function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $path_language) {
-  if (!($path == '<front>')) $path = check_url($path);
+  if (!($path == '<front>') && !(url_is_external($path))) { 
+    $path = check_url($path);
+  }
 }
 
 /**
