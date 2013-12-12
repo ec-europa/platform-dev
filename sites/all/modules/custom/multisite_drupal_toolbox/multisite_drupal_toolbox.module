@@ -1116,3 +1116,16 @@ function multisite_drupal_toolbox_contact_settings() {
 
   return system_settings_form($form);
 }
+
+
+/**
+ * hook_views_query_alter
+ */
+function multisite_drupal_toolbox_views_query_alter(&$view, &$query) {
+  if (preg_match('/bypass_node_access_relationship/', $view->tag) && $view->base_table == 'node') {
+    // bypass node access check on the node views relationships only if there is the tag bypass_relationship_node_access
+    // fix know bug https://drupal.org/node/1349080
+    $query->add_tag('bypass_relationship_node_access');
+  }
+}
+
