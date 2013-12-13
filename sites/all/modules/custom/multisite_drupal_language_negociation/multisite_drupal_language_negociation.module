@@ -87,6 +87,7 @@ function multisite_drupal_language_negociation_url_custom_alter(&$path, &$option
       if (!empty($options['language']->prefix)) {
         //$options['prefix'] = $options['language']->prefix . '/';
         $delimiter = variable_get('language_suffix_delimiter', '_');
+        $path = rtrim($path, "/"); // remove trailing slash
         if ($path == '<front>' || $path == '') { // handle the homepage url
           $path = ($options['language']->prefix == 'en')?'':'index' . $delimiter . $options['language']->prefix; // no path and suffix for the home page in english
         }
