@@ -180,19 +180,31 @@ function taxonomy_browser_block_info() {
  * Implements hook_block_view().
  */
 function taxonomy_browser_block_view($delta = '') {
-  // Block will be only displayed in views
-  if ($view = views_get_page_view()) {
-    $vid = substr($delta, 28);
+    $block = array ();
 
-    if (strpos($delta, 'taxonomy_browser_vocabulary_') === 0) {
-      $block = array();
-      $vocabulary = taxonomy_vocabulary_load($vid);
-      $block['title'] = $vocabulary->name;
-      $block['content'] = _taxonomy_browser_create_block_content($vid, $vocabulary);
-
-      return $block;
+    // Block will be only displayed in views
+    if ($view = views_get_page_view()) {
+        $view_has_argument = FALSE;
+        // the view uses taxonomy terms as argument ?
+        if (isset($view->argument) && !empty($view->argument)) {
+            foreach ($view->argument as $key => $argument) {
+                if ($key == 'tid' || $key == 'term_node_tid_depth' || $key=='term_node_tid_depth_i18n') {
+                    $view_has_argument = TRUE;
+                    break;
+                }
+            }
+        }
+        if ($view_has_argument) {
+            $vid = substr($delta, 28);
+            if (strpos($delta, 'taxonomy_browser_vocabulary_') === 0) {
+                $block = array();
+                $vocabulary = taxonomy_vocabulary_load($vid);
+                $block['title'] = $vocabulary->name;
+                $block['content'] = _taxonomy_browser_create_block_content($vid, $vocabulary); 
+            }
+        }
     }
-  }
+    return $block;
 }
 
 /**
@@ -230,39 +242,64 @@ function _taxonomy_browser_create_block_content($vid, $vocabulary) {
   return array('#title' => 'test', '#markup' => $output1);
 }
 
+
+
 /**
  * Implements hook_views_post_render().
  */
 function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
-    $selected = isset($view->args[0]) ? $view->args[0] : 0;
-    $selected_term = '';
-    $header = '';
 
-    $view_path = $view->get_path();
-    $link = l($view->name, $view_path);
-    $breadcrumb[] = $link;
+    $view_display = $view->display[$view->current_display];
 
-    if ($selected > 0) {
-      $selected_term = taxonomy_term_load($selected);
-      _taxonomy_browser_taxonomy_get_parents_tree($selected, $parents_tree, TRUE);
-      $link = l($view->name, $view_path);
-      $breadcrumb[] = $link;
-      foreach ($parents_tree as $parent) {
-        $link = l($parent->name, $view_path . '/' . $parent->tid);
-        $breadcrumb[] = $link;
-      }
-      array_pop($breadcrumb);
+    // only for page view
+    if ($view_display->display_plugin == 'page') {
+
+        $argument_value = NULL;
+        $parents_tree = array();
+
+        // get taxonomy argument if exists
+        if (isset($view->argument) && !empty($view->argument)) {
+            foreach ($view->argument as $key => $argument) {
+
+                if ($key == 'tid' || $key == 'term_node_tid_depth' || $key=='term_node_tid_depth_i18n') {
+
+                    $argument_value = $argument->argument;
+                    break;
+                }
+            }
+        }
+
+        if ($argument_value) {
+            $term = taxonomy_term_load($argument_value);
+            if ($term) {
+
+                // continue if this term vocabulary is activated on taxonomy browser (variable taxonomy_browser_vocabulary)
+                $available_vocab = variable_get('taxonomy_browser_vocabulary', NULL);
+                if (isset($available_vocab[$term->vid]) && $available_vocab[$term->vid] == $term->vid) {
+
+                    // get Parents tree
+                    _taxonomy_browser_taxonomy_get_parents_tree($argument_value, $parents_tree, TRUE);
+
+                    // set bradcrumb
+                    $view_path = $view->get_path();
+                    $link = l($view->name, $view_path);
+                    $breadcrumb[] = $link;
+                    foreach ($parents_tree as $parent) {
+                        $link = l($parent->name, $view_path . '/' . $parent->tid);
+                        $breadcrumb[] = $link;
+                    }
+                    array_pop($breadcrumb);
+                    drupal_set_breadcrumb($breadcrumb);
+
+
+                    $header = '<fieldset id="tb_header"><h1>' . $term->name . '</h1>';
+                    if (isset($term->description)) {
+                        $header .= '<p>' . $term->description . '</p>';
+                    }
+                    $header .= '</fieldset><hr />';
+                    $output = $header . $output;
+                }
+            }
+        }
     }
-
-    drupal_set_breadcrumb($breadcrumb);
-
-    if ($selected_term) {
-      $header .= '<fieldset id="tb_header"><h1>' . $selected_term->name . '</h1>';
-      if (isset($selected_term->description)) {
-        $header .= '<p>' . $selected_term->description . '</p>';
-      }
-      $header .= '</fieldset><hr />';
-    }
-
-    $output = $header . $output;
 }

@@ -56,7 +56,7 @@ function _taxonomy_browser_form_taxonomy_browser_settings($form, &$form_state) {
  */
 function _taxonomy_browser_configure_block_link($vid) {
   if ($vids_var = variable_get('taxonomy_browser_vocabulary')) {
-    if ($vids_var[$vid] != 0) {
+    if (isset($vids_var[$vid]) &&  ($vids_var[$vid] != 0)) {
       $link = array(
               '#title' => 'configure block',
               '#type' => 'link',
