@@ -8,6 +8,7 @@ core = 7.x
 ;dependencies[] = context
 ;dependencies[] = custom_breadcrumbs
 ;dependencies[] = linkchecker
+dependencies[] = libraries
 ;dependencies[] = simplenews
 ;dependencies[] = views
 ;dependencies[] = workbench
