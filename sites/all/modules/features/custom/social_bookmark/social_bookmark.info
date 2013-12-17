@@ -8,4 +8,5 @@ version = 7.x-1.0
 features[features_api][] = api:1
 dependencies[] = i18n_taxonomy
 dependencies[] = features
+dependencies[] = multisite_drupal_toolbox
 files[] = tests/social_bookmark.test
