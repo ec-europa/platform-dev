@@ -109,29 +109,30 @@ function events_core_update_7202() {
     if ($field_info['type'] == 'datetime' && $field_info['locked'] && $field_features_info && $field_features_info['type'] == 'datestamp') {
       foreach ($field_info['storage']['details']['sql'] as $type => $info_sql) {
         $table_name = array_shift(array_keys($info_sql));
-        $column_name = $info_sql[$table_name]['value'];
+        
+        foreach ($info_sql[$table_name] as $id => $column_name ){
 
+          if (field_has_data($field_info)) { // there is data: migrate data and update column to int
+            watchdog('system', t('Update the  column %column of table %table : migrate datas and update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), NULL, WATCHDOG_WARNING);
 
-        if (field_has_data($field_info)) { // there is data: migrate data and update column to int
-          watchdog('system', t('Update the  column %column of table %table : migrate datas and update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), NULL, WATCHDOG_WARNING);
+            // create a temporary date field
+            $param = array('type' => 'int', 'not null' => TRUE, 'default' => 0);
+            db_add_field($table_name, $column_name . '_temp', $param);
 
-          // create a temporary date field
-          $param = array('type' => 'int', 'not null' => TRUE, 'default' => 0);
-          db_add_field($table_name, $column_name . '_temp', $param);
+            db_update($table_name)
+                    ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
+                    ->execute();
 
-          db_update($table_name)
-                  ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
-                  ->execute();
+            // delete old column
+            db_drop_field($table_name, $column_name);
+            db_change_field($table_name, $column_name . '_temp', $column_name, array('type' => 'int'));
 
-          // delete old column
-          db_drop_field($table_name, $column_name);
-          db_change_field($table_name, $column_name . '_temp', $column_name, array('type' => 'int'));
-
-          //drupal_set_message(t('Update the  column %column of table %table : migrate datas and update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), 'status');
-        } else { // if there is no data: just update column to int
-          watchdog('system', t('Update the  column %column of table %table : update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), NULL, WATCHDOG_WARNING);
-          db_change_field($table_name, $column_name, $column_name, array('type' => 'int'));
-          //drupal_set_message(t('Update the  column %column of table %table : update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), 'status');
+            //drupal_set_message(t('Update the  column %column of table %table : migrate datas and update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), 'status');
+          } else { // if there is no data: just update column to int
+            watchdog('system', t('Update the  column %column of table %table : update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), NULL, WATCHDOG_WARNING);
+            db_change_field($table_name, $column_name, $column_name, array('type' => 'int'));
+            //drupal_set_message(t('Update the  column %column of table %table : update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), 'status');
+          }
         }
       }
 
