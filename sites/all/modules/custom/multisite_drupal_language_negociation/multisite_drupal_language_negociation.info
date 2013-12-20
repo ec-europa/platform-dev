@@ -1,6 +1,7 @@
 name = multisite drupal language negociation
 description = language negociation process for the multisite plateform
 dependencies[] = i18n
+dependencies[] = multisite_drupal_toolbox
 package = multisite drupal toolbox
 core = 7.x
 
