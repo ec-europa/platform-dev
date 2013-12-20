@@ -24,8 +24,8 @@ function multisite_autosave_js_alter(&$javascript) {
 }
 
 /**
-* Implements hook_menu().
-*/
+ * Implements hook_menu().
+ */
 function multisite_autosave_menu() {
   $items['autosave/restore'] = array(
     'title'           => 'Autosave form restore',
