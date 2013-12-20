@@ -60,11 +60,42 @@
     <exec command="${phing.dir}/bin/behat --ansi --format pretty,junit --out ,${project.testdir}" passthru="true" />
   </target>
 
+
+
+  <!-- ============================================  -->
+  <!-- Target: simpletests                           -->
+  <!-- ============================================  -->
+
+  <target name="simpletests" depends="init, setup-phing-drush">
+    <drush command="pm-enable" assume="yes">
+      <param>${multisite.modules} coder_review simpletest</param>
+      <param>${project.modules.custom}</param>
+    </drush>
+    <if>
+      <isset property="drupal.uri" />
+      <then>
+        <drush command="test-run" uri="${drupal.uri}" haltonerror="false">
+          <param>Aggregator,Block,Comment,Color,Contact,Field,Field_ui,File,Filter,Content translation,Contextual links</param>
+
+          <option name="xml">${project.logdir}/tests</option>
+        </drush>
+      </then>
+    </if>
+
+  </target>
+
+
   <!-- ============================================  -->
   <!-- Target: update                                -->
   <!-- ============================================  -->
 
   <target name="update" depends="init, setup-phing-drush">
+
+    <drush command="pm-enable" assume="yes">
+      <param>${project.theme}</param>
+      <param>${multisite.modules} coder_review simpletest</param>
+      <param>${project.modules.custom}</param>
+    </drush>
 
     <drush command="updatedb" assume="yes" />
 
@@ -75,6 +106,12 @@
     <drush command="features-revert" assume="yes">
       <param>${project.modules.custom}</param>
     </drush>
+
+<!--    <drush command="test-run" uri="${drupal.uri}" haltonerror="false">
+      <param>Anonymous Notification</param>
+      <option name="xml">${project.logdir}/tests</option>
+    </drush>
+-->
 
    <!-- for multilingual sites -->
   <!--   <phingcall target="update-translations" /> -->
@@ -301,9 +338,31 @@
 
     <property name="coderreview.checkstyle.file"
               value="${project.logdir}/checkstyle-${coder.review.type}.xml" />
-    <!-- <delete file="${coderreview.checkstyle.file}" /> -->
+    
     <append destFile="${coderreview.checkstyle.file}" text="${xml}" />
 
+  </target>
+
+  <!-- ============================================  -->
+  <!-- Target: simpletests                           -->
+  <!-- ============================================  -->
+
+  <target name="simpletests" depends="setup-phing-drush">
+    <drush command="test-run" uri="{$drupal.uri}" root="${project.drupal.dir}">
+      <param>AAA</param>
+    </drush>
+  </target>
+
+
+  <!-- ============================================  -->
+  <!-- Target: phpmd                                   -->
+  <!-- ============================================  -->
+
+  <target name="phpmd">
+
+    <phpmd file="${project.basedir}/${source}/www">
+      <formatter type="xml" outfile="${project.basedir}/build/phpmd.xml" />
+    </phpmd>
   </target>
 
   <!-- ============================================  -->
