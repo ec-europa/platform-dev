@@ -119,7 +119,7 @@ dependencies[] = multisite_rules_configuration
 files[] = multisite_drupal_core.profile
 
 ; Information added by drupal.org packaging script on 2011-12-05
-version = "7.23"
+version = "7.24"
 project = "drupal"
 datestamp = "1323125439"
 
