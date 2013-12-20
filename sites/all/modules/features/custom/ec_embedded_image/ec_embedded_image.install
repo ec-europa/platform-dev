@@ -10,7 +10,7 @@
 function ec_embedded_image_install() {
   $plugins = variable_get('media__wysiwyg_browser_plugins');
   if (!in_array('media_internet', $plugins)) {
-    array_push ($plugins, 'media_internet');
+    array_push($plugins, 'media_internet');
     variable_set('media__wysiwyg_browser_plugins', $plugins);
   }
 }
