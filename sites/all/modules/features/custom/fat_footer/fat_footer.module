@@ -1,17 +1,14 @@
 <?php
 /**
- * @file
+ * @file code that generates a fat footer.
  */
 
-// Drupal needs this blank file.
- 
- 
 /*
 * function for theming the fat footer
 */
 function theme_fat_footer_links($variables) {
   $output = "";
- 
+
   $links = $variables['links'];
   foreach ($links as $key => $link) {
     $output .= "<div class=\"fat_footer_item\">";
@@ -94,5 +91,3 @@ function fat_footer_content() {
   }
   return theme('fat_footer_links', array('links' => $links));
 }
-
-
