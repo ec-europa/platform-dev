@@ -391,7 +391,7 @@
 
     <property name="project.basedir" value="${phing.dir}" />
     <property name="project.logdir" value="${project.builddir}/logs" />
-
+    <property name="project.testdir" value="${project.logdir}/tests" />
     <property name="multisite.patch.dir" value="${project.basedir}/${multisite.base.dir}/patches" />
 
   </target>
