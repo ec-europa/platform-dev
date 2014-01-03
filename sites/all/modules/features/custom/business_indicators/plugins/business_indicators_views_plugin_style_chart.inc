@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @file
+ * business_indicators chart plugin.
+ */
 
 /**
  * Style plugin to render each item as a row in a table.
