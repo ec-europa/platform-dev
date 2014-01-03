@@ -346,13 +346,13 @@
   <!-- ============================================  -->
   <!-- Target: simpletests                           -->
   <!-- ============================================  -->
-
+<!--
   <target name="simpletests" depends="setup-phing-drush">
     <drush command="test-run" uri="{$drupal.uri}" root="${project.drupal.dir}">
       <param>AAA</param>
     </drush>
   </target>
-
+-->
 
   <!-- ============================================  -->
   <!-- Target: phpmd                                   -->
