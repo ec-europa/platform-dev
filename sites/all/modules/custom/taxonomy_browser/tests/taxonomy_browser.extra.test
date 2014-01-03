@@ -77,7 +77,7 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
     $this->drupalGet($url);
     $this->assertResponse(200, t('Expected -> Access OK'));
 
-    $this->assertText(t('Taxonomy vocabularies'), t('Taxonomy browser settings page is loaded.'));
+    $this->assertText(t('TAXONOMY VOCABULARIES'), t('Taxonomy browser settings page is loaded.'));
   }
 
   /**
