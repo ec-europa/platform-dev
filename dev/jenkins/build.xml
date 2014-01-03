@@ -372,8 +372,7 @@
   <!-- Initialization: This target sets up many of the common
        resources used throughout the build. -->
 
-  <target name="init" depends="load-properties, setup-dirs, setup-filesets"
-          unless="project.initialized">
+  <target name="init" depends="load-properties, setup-dirs, setup-filesets" unless="project.initialized">
 
     <!-- Set property to prevent target from being executed multiple times -->
     <property name="project.initialized" value="true"/>
@@ -388,7 +387,6 @@
 
     <property file="${phing.dir}/build.default.properties" />
     <property file="${phing.dir}/build.properties" override="true" />
-
     <property name="project.basedir" value="${phing.dir}" />
     <property name="project.logdir" value="${project.builddir}/logs" />
     <property name="project.testdir" value="${project.logdir}/tests" />
@@ -421,7 +419,7 @@
               value="${project.builddir}/logs" />
 
     <property name="project.testdir"
-              value="${project.builddir}/tests" />
+              value="${project.logdir}/tests" />
 
   </target>
 
