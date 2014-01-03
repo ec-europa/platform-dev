@@ -67,6 +67,7 @@
   <!-- ============================================  -->
 
   <target name="simpletests" depends="init, setup-phing-drush">
+    <mkdir dir="${project.testdir}"/>
     <drush command="pm-enable" assume="yes">
       <param>${multisite.modules} coder_review simpletest</param>
       <param>${project.modules.custom}</param>
@@ -312,7 +313,6 @@
 
     <delete dir="${project.logdir}"/>
     <mkdir dir="${project.logdir}"/>
-
     <foreach target="coder-review" param="coder.review.type"
              list="comment,i18n,security,sql,style" />
 
