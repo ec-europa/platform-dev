@@ -97,13 +97,10 @@
       <param>${multisite.modules} coder_review simpletest</param>
       <param>${project.modules.custom}</param>
     </drush>
-
     <drush command="updatedb" assume="yes" />
-
     <drush command="cache-clear" assume="yes">
       <param>all</param>
     </drush>
-
     <drush command="features-revert" assume="yes">
       <param>${project.modules.custom}</param>
     </drush>
