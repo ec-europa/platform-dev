@@ -30,9 +30,9 @@ function ec_embedded_video_enable() {
   //Due to https://drupal.org/node/1702700
   db_update('file_display')
       ->fields(array(
-        'weight' => -35
+        'weight' => -45
         ))
-      ->condition('name', 'video__preview__media_youtube_image')
+      ->condition('name', 'video__preview__media_youtube_image', '==')
       ->execute();
 
   // Activation message.
@@ -52,8 +52,8 @@ function ec_embedded_video_update_7101() {
     //Due to https://drupal.org/node/1702700
   db_update('file_display')
       ->fields(array(
-        'weight' => -35
+        'weight' => -45
         ))
-      ->condition('name', 'video__preview__media_youtube_image')
+      ->condition('name', 'video__preview__media_youtube_image', '==')
       ->execute();
-}
+    }pasdutout9
