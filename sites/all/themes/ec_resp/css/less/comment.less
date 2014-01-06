@@ -52,7 +52,8 @@
 .text-format-wrapper > a.ckeditor_links { display: none !important; }
 
 /* ---------------- Recent comment block  ----------------- */
-#block-comment-recent .list-group {
+#block-comment-recent li {
+  list-style: none;
   a.list-group-item {
     border-bottom: none;
     border-top: 1px solid #ddd;
@@ -63,7 +64,7 @@
     font-size: 85%;
     color: #999;
   }
-  li.first a.list-group-item {
+  &.first a.list-group-item {
     border-top: none;
   }
 }
