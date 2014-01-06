@@ -313,7 +313,7 @@
       if ($display_submitted || $display_workbench) {
         $output .= '<div class="row node-info">';
         if ($display_workbench) {
-          $output .= '<div class="col-lg-6">';
+          $output .= '<div class="node-info-workbench col-lg-6 col-md-6 col-sm-6 col-xs-12">';
             $output .= '<div class="well well-sm node-workbench"><small>';
             $output .= $display_workbench;
             $output .= '</small></div>';
@@ -321,7 +321,7 @@
         }
 
         if ($display_submitted) {
-          $output .= '<div class="col-lg-6' . ($display_workbench ? "" : " col-lg-offset-6") . '">';
+          $output .= '<div class="node-info-submitted col-lg-6 col-md-6 col-sm-6 col-xs-12' . ($display_workbench ? "" : " col-lg-offset-6 col-md-offset-6 col-sm-offset-6") . '">';
             $output .= '<div class="well well-sm node-submitted clearfix"><small>';
               //author picture
               if ($display_user_picture) {
