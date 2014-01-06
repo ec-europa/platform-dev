@@ -56,4 +56,5 @@ function ec_embedded_video_update_7101() {
         ))
       ->condition('name', 'video__preview__media_youtube_image', '==')
       ->execute();
-    }pasdutout9
+    }
+}
