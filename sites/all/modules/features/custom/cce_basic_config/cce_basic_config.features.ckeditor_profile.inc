@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * cce_basic_config.features.ckeditor_profile.inc
@@ -18,24 +17,9 @@ function cce_basic_config_ckeditor_profile_defaults() {
         'show_toggle' => 't',
         'skin' => 'kama',
         'uicolor' => 'default',
-        'uicolor_textarea' => '<p>
-	Click the <strong>UI Color Picker</strong> button to set your color preferences.</p>
-',
+        'uicolor_textarea' => '<p>Click the <strong>UI Color Picker</strong> button to set your color preferences.</p>',
         'uicolor_user' => 'default',
-        'toolbar' => '[
-    [\'Source\'],
-    [\'Cut\',\'Copy\',\'Paste\',\'PasteText\',\'PasteFromWord\',\'-\',\'SpellChecker\', \'Scayt\'],
-    [\'Undo\',\'Redo\',\'Find\',\'Replace\',\'-\',\'SelectAll\',\'RemoveFormat\'],
-    [\'Image\',\'Media\',\'Flash\',\'Table\',\'HorizontalRule\',\'Smiley\',\'SpecialChar\'],
-    [\'Maximize\', \'ShowBlocks\'],
-    \'/\',
-    [\'Format\'],
-    [\'Bold\',\'Italic\',\'Underline\',\'Strike\',\'-\',\'Subscript\',\'Superscript\'],
-    [\'NumberedList\',\'BulletedList\',\'-\',\'Outdent\',\'Indent\',\'Blockquote\'],
-    [\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'-\',\'BidiLtr\',\'BidiRtl\'],
-    [\'Link\',\'Unlink\',\'Anchor\', \'Linkit\']
-]
-    ',
+        'toolbar' => '[[\'Source\'],[\'Cut\',\'Copy\',\'Paste\',\'PasteText\',\'PasteFromWord\',\'-\',\'SpellChecker\', \'Scayt\'],[\'Undo\',\'Redo\',\'Find\',\'Replace\',\'-\',\'SelectAll\',\'RemoveFormat\'],[\'Image\',\'Media\',\'Flash\',\'Table\',\'HorizontalRule\',\'Smiley\',\'SpecialChar\'],[\'Maximize\', \'ShowBlocks\'],\'/\',[\'Format\'],[\'Bold\',\'Italic\',\'Underline\',\'Strike\',\'-\',\'Subscript\',\'Superscript\'],[\'NumberedList\',\'BulletedList\',\'-\',\'Outdent\',\'Indent\',\'Blockquote\'],[\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'-\',\'BidiLtr\',\'BidiRtl\'],[\'Link\',\'Unlink\',\'Anchor\', \'Linkit\']]',
         'expand' => 't',
         'width' => '100%',
         'lang' => 'en',
@@ -129,13 +113,9 @@ function cce_basic_config_ckeditor_profile_defaults() {
         'show_toggle' => 't',
         'skin' => 'kama',
         'uicolor' => 'custom',
-        'uicolor_textarea' => '<p>
-	Click the <strong>UI Color Picker</strong> button to set your color preferences.</p>
-',
+        'uicolor_textarea' => '<p>Click the <strong>UI Color Picker</strong> button to set your color preferences.</p>',
         'uicolor_user' => 'default',
-        'toolbar' => '[
-    [\'Format\',\'Bold\',\'Italic\',\'-\',\'NumberedList\']
-]',
+        'toolbar' => '[[\'Format\',\'Bold\',\'Italic\',\'-\',\'NumberedList\']]',
         'expand' => 't',
         'width' => '100%',
         'lang' => 'en',
@@ -219,27 +199,9 @@ function cce_basic_config_ckeditor_profile_defaults() {
         'show_toggle' => 't',
         'skin' => 'kama',
         'uicolor' => 'default',
-        'uicolor_textarea' => '<p>
-	Click the <strong>UI Color Picker</strong> button to set your color preferences.</p>
-',
+        'uicolor_textarea' => '<p>Click the <strong>UI Color Picker</strong> button to set your color preferences.</p>',
         'uicolor_user' => 'default',
-        'toolbar' => '[
-    [\'Source\'],
-    [\'Cut\',\'Copy\',\'Paste\',\'PasteText\',\'PasteFromWord\',\'-\',\'SpellChecker\', \'Scayt\'],
-    [\'Undo\',\'Redo\',\'Find\',\'Replace\',\'-\',\'SelectAll\',\'RemoveFormat\'],
-    [\'Image\',\'Media\',\'Flash\',\'Table\',\'HorizontalRule\',\'Smiley\',\'SpecialChar\',\'Iframe\'],
-    \'/\',
-    [\'Bold\',\'Italic\',\'Underline\',\'Strike\',\'-\',\'Subscript\',\'Superscript\'],
-    [\'NumberedList\',\'BulletedList\',\'-\',\'Outdent\',\'Indent\',\'Blockquote\',\'CreateDiv\'],
-    [\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'-\',\'BidiLtr\',\'BidiRtl\'],
-    [\'Link\',\'Unlink\',\'Anchor\', \'Linkit\'],
-    [\'DrupalBreak\'],
-    \'/\',
-    [\'Format\',\'Font\',\'FontSize\'],
-    [\'TextColor\',\'BGColor\'],
-    [\'Maximize\', \'ShowBlocks\']
-]
-    ',
+        'toolbar' => '[[\'Source\'],[\'Cut\',\'Copy\',\'Paste\',\'PasteText\',\'PasteFromWord\',\'-\',\'SpellChecker\', \'Scayt\'],[\'Undo\',\'Redo\',\'Find\',\'Replace\',\'-\',\'SelectAll\',\'RemoveFormat\'],[\'Image\',\'Media\',\'Flash\',\'Table\',\'HorizontalRule\',\'Smiley\',\'SpecialChar\',\'Iframe\'],\'/\',[\'Bold\',\'Italic\',\'Underline\',\'Strike\',\'-\',\'Subscript\',\'Superscript\'],[\'NumberedList\',\'BulletedList\',\'-\',\'Outdent\',\'Indent\',\'Blockquote\',\'CreateDiv\'],[\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'-\',\'BidiLtr\',\'BidiRtl\'],[\'Link\',\'Unlink\',\'Anchor\', \'Linkit\'],[\'DrupalBreak\'],\'/\',[\'Format\',\'Font\',\'FontSize\'],[\'TextColor\',\'BGColor\'],[\'Maximize\', \'ShowBlocks\']]',
         'expand' => 't',
         'width' => '100%',
         'lang' => 'en',

@@ -83,12 +83,10 @@ function cce_basic_config_form_media_format_form_alter(&$form) {
 
 /**
  * Implements hook_preprocess_field().
+ *
  * used to render the external flashplayer + thumbnail
  * The output variable $videos is being rendered by the field--video.tpl.php
- * @param type $variables
- * @param type $hook
  */
-
 function cce_basic_config_preprocess_field(&$variables) {
   global $base_url, $theme;
   if ('video' === $variables['element']['#field_type']) {
