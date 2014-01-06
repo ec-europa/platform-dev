@@ -48,6 +48,7 @@ function ec_embedded_video_disable() {
   drupal_set_message(t('EC embedded videos feature is now disabled on your site.'));
 }
 
+/* TODO FIX
 function ec_embedded_video_update_7101() {
     //Due to https://drupal.org/node/1702700
   db_update('file_display')
@@ -59,3 +60,4 @@ function ec_embedded_video_update_7101() {
     ->condition('name', 'video__preview__media_youtube_image', '==')
     ->execute();
 }
+*/
