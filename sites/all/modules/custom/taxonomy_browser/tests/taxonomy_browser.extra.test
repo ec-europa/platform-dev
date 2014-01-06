@@ -19,7 +19,7 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
     return array(
       'name' => 'Taxonomy browser feature test',
       'description' => 'Test the taxonomy browser feature to ensure it works as intended.',
-      'group' => 'Multisite Feature Test',
+      'group' => 'Multisite Core Features',
     );
   }
 
