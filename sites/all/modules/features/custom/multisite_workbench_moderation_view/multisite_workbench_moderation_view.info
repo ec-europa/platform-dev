@@ -1,4 +1,4 @@
-name = Multisite Workbench Moderation View
+name = Workbench Moderation View for multisite
 description = Adds the new Moderate All tabs which allows to perform bulk operations over moderation states.
 package = Multisite Core Features
 core = 7.x

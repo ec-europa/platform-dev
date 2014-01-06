@@ -11,18 +11,10 @@
  */
 function multisite_workbench_moderation_view_views_pre_view(&$views) {
   if($views->name == "workbench_moderation") {
-    global $user;
-    $roles = $user->roles;
-
-    if (!in_array('administrator', $roles)) {
-      $is_admin_role = 0;
-    } else {
-      $is_admin_role = 1;
-    }
 
     //Alter display default fields for prying non admin user's eyes
     if (array_key_exists('default', $views->display)) {
-      if ($is_admin_role != 1) {
+      if ( !user_access('multisite_workbench_moderation_view_bulk_update') ) {
         //&todo check if it needs to be by reference
         $handler_default = $views->display['default']->handler;
         unset($handler_default->options['fields']['views_bulk_operations']);
@@ -52,4 +44,15 @@ function multisite_workbench_moderation_view_form_alter(&$form) {
       $form['force_transition']['#type'] = 'hidden';
     }
   }
+}
+
+function multisite_workbench_moderation_view_permission() {
+  $permissions = array();
+
+  // Exported permission: create blog_post content.
+  $permissions['multisite_workbench_moderation_view_bulk_update'] = array(
+    'title' => t('Moderate workbench in bulk'),
+    'description' => t('Allow users to manage items from the workbench in bulk.'),
+  );
+  return $permissions;
 }
