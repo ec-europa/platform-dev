@@ -143,7 +143,7 @@ projects[i18nviews][download][url] = "http://git.drupal.org/project/i18nviews.gi
 projects[i18nviews][download][revision] = "26bd52c4664b0fec8155273f0c0f3ab8a5a2ef66"
 
 projects[jqmulti][subdir] = "contributed"
-projects[jqmulti][version] = "1.0-beta1"
+projects[jqmulti][version] = "1.0"
 
 projects[l10n_update][subdir] = "contributed"
 projects[l10n_update][version] = "1.0-beta3"
