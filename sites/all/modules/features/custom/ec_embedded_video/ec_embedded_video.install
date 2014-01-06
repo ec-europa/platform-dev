@@ -51,10 +51,11 @@ function ec_embedded_video_disable() {
 function ec_embedded_video_update_7101() {
     //Due to https://drupal.org/node/1702700
   db_update('file_display')
-      ->fields(array(
+    ->fields(
+      array(
         'weight' => -45
-        ))
-      ->condition('name', 'video__preview__media_youtube_image', '==')
-      ->execute();
-    }
+      )
+    )
+    ->condition('name', 'video__preview__media_youtube_image', '==')
+    ->execute();
 }
