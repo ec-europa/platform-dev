@@ -144,6 +144,14 @@ feature_sets[newsletters][font] = 'multisite-icon-paperplane'
 feature_sets[newsletters][enable][] = newsletters
 feature_sets[newsletters][disable][] = newsletters
 
+feature_sets[multisite_maxlength][title] = 'Maxlength'
+feature_sets[multisite_maxlength][description] = 'Provides a dynamic countdown on text fields.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/iQUJAw">Read documentation</a>'
+feature_sets[multisite_maxlength][category] = 'Information to users'
+feature_sets[multisite_maxlength][icon] = ''
+feature_sets[multisite_maxlength][font] = 'multisite-icon-keyboard'
+feature_sets[multisite_maxlength][enable][] = multisite_maxlength
+feature_sets[multisite_maxlength][disable][] = multisite_maxlength
+
 feature_sets[multisite_twitterblock][title] = 'Multisite Twitter Block'
 feature_sets[multisite_twitterblock][description] = 'Adds a twitter widget on your sidebar.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/xITJAw">Read documentation</a>'
 feature_sets[multisite_twitterblock][category] = 'Information to users'
@@ -238,6 +246,14 @@ feature_sets[fat_footer][icon] = ''
 feature_sets[fat_footer][font] = 'multisite-icon-reorder'
 feature_sets[fat_footer][enable][] = fat_footer
 feature_sets[fat_footer][disable][] = fat_footer
+
+feature_sets[multisite_megamenu][title] = 'Mega menu'
+feature_sets[multisite_megamenu][description] = 'Two-level main menu capable of displaying blocks with links and content (including text and images).<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/E4fhAg">Read documentation</a>'
+feature_sets[multisite_megamenu][category] = 'Navigation'
+feature_sets[multisite_megamenu][icon] = ''
+feature_sets[multisite_megamenu][font] = 'multisite-icon-list'
+feature_sets[multisite_megamenu][enable][] = multisite_megamenu
+feature_sets[multisite_megamenu][disable][] = multisite_megamenu
 
 feature_sets[node_pager][title] = 'Node pager'
 feature_sets[node_pager][description] = 'The node pager allows to add a pager to browse between nodes of the same content type based on a predefined field.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/zYThAg">Read documentation</a>'

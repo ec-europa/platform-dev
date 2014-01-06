@@ -144,6 +144,14 @@ feature_sets[multisite_maxlength][font] = 'multisite-icon-keyboard'
 feature_sets[multisite_maxlength][enable][] = multisite_maxlength
 feature_sets[multisite_maxlength][disable][] = multisite_maxlength
 
+feature_sets[multisite_twitterblock][title] = 'Multisite Twitter Block'
+feature_sets[multisite_twitterblock][description] = 'Adds a twitter widget on your sidebar.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/xITJAw">Read documentation</a>'
+feature_sets[multisite_twitterblock][category] = 'Information to users'
+feature_sets[multisite_twitterblock][icon] = ''
+feature_sets[multisite_twitterblock][font] = 'multisite-icon-twitter'
+feature_sets[multisite_twitterblock][enable][] = multisite_twitterblock
+feature_sets[multisite_twitterblock][disable][] = multisite_twitterblock
+
 
 ; Media
 feature_sets[e_library_standard][title] = 'E-Library'
