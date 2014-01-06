@@ -16,7 +16,7 @@ class Idea_StandardWebTestCase extends DrupalWebTestCase {
     return array(
       'name' => 'Ideation',
       'description' => 'Test the ideation feature.',
-      'group' => 'Multisite - User feedback'
+      'group' => 'Multisite Standard Features'
     );
   }
 
@@ -98,9 +98,6 @@ class Multisite_idea_standardQAWebTestCase extends DrupalWebTestCase {
 
       $this->assertFalse(in_array('menu', $info['dependencies']),'There is no reference to the menu dependency.');
 
-      // Remove taxonomy dependencies
-      // dependencies[] = "taxonomy"
-      $this->assertFalse(in_array('taxonomy', $info['dependencies']), 'There is no reference to the taxonomy dependency.');
     }
     // Check other dependencies (modules + features) to be sure they are needed
     // FIXME: manual check?
