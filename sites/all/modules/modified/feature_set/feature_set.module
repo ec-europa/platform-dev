@@ -341,16 +341,16 @@ function get_requiredby($module) {
 
   $featuresets = feature_set_get_featuresets();
 
-  $output = '<div id="requiredby">';
+  $output = '<small>';
   foreach ($required_by as $key => $value) {
     if (in_array($key, array_keys($featuresets))) { // it's a feature
-      $output .= t("required by") . " : " . $featuresets[$key]["title"] . " ";
+      $output .= t("Is required by") . " : " . $featuresets[$key]["title"] . "<br />";
     }
     else {
-      $output .= t("required by") . " : " . $key . " "; // it's a module
+      $output .= t("Is required by") . " : " . $key . "<br />"; // it's a module
     }
   }
-  $output .= '<div/>';
+  $output .= '</small>';
   return $output;
 }
 
@@ -362,17 +362,21 @@ function get_require($module) {
 
   $featuresets = feature_set_get_featuresets();
   $list_features = array_keys($featuresets);
-  if (is_array($modules[$module]->requires))
-    $list_requires = array_keys($modules[$module]->requires);
-  else
-    $list_requires = array();
 
-  $output = '<div id="require">';
-  foreach ($list_features as $value) {
-    if (in_array($value, $list_requires))
-      $output .= t("requires") . " : " . $featuresets[$value]["title"] . " ";
+  $output = '';
+
+  if (is_array($modules[$module]->requires)) {
+    $list_requires = array_keys($modules[$module]->requires);
+    
+    foreach ($list_features as $value) {
+      if (in_array($value, $list_requires)) {
+        $output .= '<small>';
+        $output .= t("Requires") . " : " . $featuresets[$value]["title"] . "<br />";
+        $output .= '</small>';
+      }
+    }
   }
-  $output .= '<div/>';
+
   return $output;
 }
 
@@ -383,9 +387,6 @@ function get_require($module) {
 function feature_set_preprocess_html(&$variables) {
   // Add javascripts
   drupal_add_js(drupal_get_path('module', 'feature_set') . '/feature_set.js');
-
-  // Add CSS
-  drupal_add_css(drupal_get_path('module', 'feature_set') . '/feature_set_ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'IE', '!IE' => FALSE), 'preprocess' => FALSE));
 }
 
 /**

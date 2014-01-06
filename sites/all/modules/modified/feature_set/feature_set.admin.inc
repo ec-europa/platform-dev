@@ -96,7 +96,6 @@ function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
  */
 function theme_feature_set_admin_form($form) {
   $form = array_pop($form);
-  drupal_add_css(drupal_get_path('module', 'feature_set') . '/feature-set.css');
   $header = array('', 'Feature Set', 'status');
 
   $rows = array();
@@ -117,12 +116,12 @@ function theme_feature_set_admin_form($form) {
       if (!empty($form[$key]['#featuresetinfo']['font'])) {
         $icon = '<div class="feature-set-image ' . $form[$key]['#featuresetinfo']['font'] . '"></div>';
       }
-      $featureset = '<div class="feature-set">';
-      $featureset .= '<span class="name">' . $form[$key]['#featuresetinfo']['featureset'] . '</span>';
+      $featureset = '<blockquote>';
+      $featureset .= '<p>' . $form[$key]['#featuresetinfo']['featureset'] . '</p>';
       if (!empty($form[$key]['#featuresetinfo']['description'])) {
-        $featureset .= '<span class="description">' . $form[$key]['#featuresetinfo']['description'] . '</span>';
+        $featureset .= '<small>' . $form[$key]['#featuresetinfo']['description'] . '</small>';
       }
-      $featureset .= '</div>';
+      $featureset .= '</blockquote>';
 
       $row = array(
         'data' => array(
@@ -142,11 +141,27 @@ function theme_feature_set_admin_form($form) {
   }
   ksort($rows);
 
-  $output = '<ul class="list-group nav nav-tabs nav-stacked">';
+  $output = '<div class="row">';
+
+  $output_left = '<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">';
+  $output_left .= '<ul class="list-group nav nav-tabs nav-stacked">';
+
+  $output_right = $output_left;
+
+  $first_column = 1;
   foreach ($rows as $key => $value) {
-    $output .= '<li><a class="list-group-item feature-set-category">' . t($key) . '</a><div class="feature-set-content">' . theme('table', array('header' => $header, 'rows' => $value, 'attributes' => array('class' => array('table', 'table-striped')))) . '</div></li>';
+    if ($first_column) {
+      $output_left .= '<li><a class="list-group-item feature-set-category">' . t($key) . '</a><div class="feature-set-content">' . theme('table', array('header' => $header, 'rows' => $value, 'attributes' => array('class' => array('table', 'table-striped', 'table-hover')))) . '</div></li>';
+    } else {
+      $output_right .= '<li><a class="list-group-item feature-set-category">' . t($key) . '</a><div class="feature-set-content">' . theme('table', array('header' => $header, 'rows' => $value, 'attributes' => array('class' => array('table', 'table-striped', 'table-hover')))) . '</div></li>';
+    }
+    
+    $first_column = 1 - $first_column;
   }
-  $output .= '</ul>';
+
+  $output_left .= '</ul></div>';
+  $output_right .= '</ul></div>';
+  $output .= $output_left . $output_right . '</div>';
 
   $output .= drupal_render_children($form);
 
