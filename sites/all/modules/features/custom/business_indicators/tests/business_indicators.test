@@ -13,7 +13,7 @@ class BusinessIndicatorsQAWebTestCase extends DrupalWebTestCase {
     return array(
       'name' => 'Business Indicators QA tests',
       'description' => 'Test Business Indicators features to ensure it follows QA requirements.',
-      'group' => 'Multisite QA',
+      'group' => 'Multisite Core Features',
     );
   }
   
