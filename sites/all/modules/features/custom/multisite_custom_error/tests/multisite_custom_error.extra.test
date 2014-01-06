@@ -21,7 +21,7 @@ class MultisiteMultilingualEntityReferencesFeatureTest extends DrupalWebTestCase
     return array(
       'name' => 'Multisite Custom Error feature test',
       'description' => 'Test the Multisite Custom Error feature to ensure it works as intended.',
-      'group' => 'Multisite Feature Test',
+      'group' => 'Multisite Core Features',
     );
   }
 
