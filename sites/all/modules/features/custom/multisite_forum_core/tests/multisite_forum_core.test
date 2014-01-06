@@ -14,9 +14,9 @@ class MultisiteForumCoreQAWebTestCase extends MultisiteDrupalWebTestCase {
 
   public static function getInfo() {
     return array(
-        'name' => 'Multisite Forum Core QA tests',
+        'name' => 'Multisite Forum Core tests',
         'description' => 'Test Multisite Forum Core feature to ensure it follows QA requirements.',
-        'group' => 'Multisite QA',
+        'group' => 'Multisite Core Features',
     );
   }
 
