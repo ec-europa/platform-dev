@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * cce_basic_config.features.ckeditor_profile.inc
@@ -330,4 +331,3 @@ function cce_basic_config_ckeditor_profile_defaults() {
   );
   return $data;
 }
-
