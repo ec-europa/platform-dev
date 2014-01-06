@@ -19,7 +19,7 @@ class MultisiteAutosaveFeatureTest extends DrupalWebTestCase {
     return array(
       'name' => 'multisite_autosave feature test',
       'description' => 'Test the multisite_autosave feature to ensure it works as intended.',
-      'group' => 'Multisite Feature Test',
+      'group' => 'Multisite Core Features',
     );
   }
 
