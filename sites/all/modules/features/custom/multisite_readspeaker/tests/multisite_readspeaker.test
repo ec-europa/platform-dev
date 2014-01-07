@@ -44,13 +44,8 @@ class ReadSpeakerTestCase extends DrupalWebTestCase {
       'readspeaker_prefer_uk' => TRUE,
       'readspeaker_nodes[page]' => TRUE,
     );
-    $this->drupalPost('admin/config/content/multisite_readspeaker', $edit, t('Save configuration'));
-
-    $edit_blocks = array('blocks[readspeaker_player][region]' => 'content', 'blocks[system_main][region]' => 'content');
-    $this->drupalPost('admin/structure/block', $edit_blocks, t('Save blocks'));
 
     $this->drupalGet('node/' . $testnode->nid);
-    $this->assertRaw('block-readspeaker-hl-readspeaker-player');
     $this->assertRaw('class="rsbtn_text"');
     $this->assertRaw('12345');
   }
