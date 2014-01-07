@@ -1129,3 +1129,12 @@ function multisite_drupal_toolbox_views_query_alter(&$view, &$query) {
   }
 }
 
+/**
+Implements hook_block_info_alter().
+*/
+function multisite_drupal_toolbox_block_info_alter(&$blocks, $theme, $code_blocks) {
+  // Remove the node recent content block.
+  unset($blocks['node']['recent']);
+}
+
+
