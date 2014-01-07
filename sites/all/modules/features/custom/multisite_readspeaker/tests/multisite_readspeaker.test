@@ -42,7 +42,7 @@ class ReadSpeakerTestCase extends DrupalWebTestCase {
       'readspeaker_readid' => 'block-system-main',
       'readspeaker_langid' => 'en',
       'readspeaker_prefer_uk' => TRUE,
-      'readspeaker_nodes' => array('page'),
+      'readspeaker_nodes[page]' => TRUE,
     );
     $this->drupalPost('admin/config/content/multisite_readspeaker', $edit, t('Save configuration'));
 

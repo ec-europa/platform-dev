@@ -137,7 +137,7 @@ function multisite_readspeaker_menu() {
     'description' => 'Insert ReadSpeaker Enterprise Highlighting to selected node types.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('multisite_readspeaker_form'),
-    'access arguments' => array('administer readspeaker_hl'),
+    'access arguments' => array('administer multisite_readspeaker'),
     'type' => MENU_NORMAL_ITEM,
   );
   return $items;
