@@ -170,7 +170,7 @@ projects[maxlength][subdir] = "contributed"
 projects[maxlength][version] = "3.0-beta1"
 
 projects[media][subdir] = "contributed"
-projects[media][version] = "2.0-alpha2"
+projects[media][version] = "2.0-alpha3"
 
 projects[media_crop][subdir] = "contributed"
 projects[media_crop][version] = "1.4"
