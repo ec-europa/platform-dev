@@ -47,6 +47,6 @@ See http://api.drupal.org/api/function/theme_field/7 for details.
 After copying this file to your theme's folder and customizing it, remove this
 HTML comment.
 -->
-<div class="media_gallery row-fluid">
+<div class="<?php print $classes; ?>">
   <?php print render($videos); ?>
 </div>
