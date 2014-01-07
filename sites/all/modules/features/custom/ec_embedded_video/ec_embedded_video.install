@@ -27,16 +27,24 @@ function ec_embedded_video_uninstall() {
  * Implements hook_enable().
  */
 function ec_embedded_video_enable() {
-  //Due to https://drupal.org/node/1702700
-  db_update('file_display')
-      ->fields(array(
-        'weight' => -45
-        ))
-      ->condition('name', 'video__preview__media_youtube_image', '==')
-      ->execute();
+/*
+  A problem comes from Media module: https://drupal.org/node/1702700. 
+  A wrong implementation of  hook_file_default_displays overridings the file display properties (weight)
+Resolution: 
+2 steps:
+1. Prevent overriding of Large filetype icon: a patch here: https://drupal.org/node/2106261 (weight from 0 to 50) or upgrade to alpha3 (this has been included but
+requires new tests and checks)
+2. Properly arrange YouTube Preview Image: weight:50 -- see below
+*/
+db_update('file_display')
+->fields(array(
+  'weight' => -50,
+  ))
+->condition('name', 'video__preview__media_youtube_image', '=')
+->execute();
 
   // Activation message.
-  drupal_set_message(t('EC embedded videos feature is now enable on your site.'));
+drupal_set_message(t('EC embedded videos feature is now enable on your site.'));
 
 }
 
@@ -48,16 +56,15 @@ function ec_embedded_video_disable() {
   drupal_set_message(t('EC embedded videos feature is now disabled on your site.'));
 }
 
-/* TODO FIX
+
 function ec_embedded_video_update_7101() {
-    //Due to https://drupal.org/node/1702700
+  //See above
   db_update('file_display')
-    ->fields(
-      array(
-        'weight' => -45
+  ->fields(
+    array(
+      'weight' => -45
       )
     )
-    ->condition('name', 'video__preview__media_youtube_image', '==')
-    ->execute();
+  ->condition('name', 'video__preview__media_youtube_image', '=')
+  ->execute();
 }
-*/
