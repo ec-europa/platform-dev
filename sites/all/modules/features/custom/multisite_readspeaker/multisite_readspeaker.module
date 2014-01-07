@@ -326,8 +326,8 @@ function multisite_readspeaker_node_view($node, $build_mode = 'full') {
  */
 function multisite_readspeaker_taxonomy_term_view_alter(&$build) {
   $readspeaker_vocabularies = variable_get('readspeaker_vocabularies', array());
-  $vocabulary               = $build['#term']->vocabulary_machine_name;
-  $accountid                = variable_get('readspeaker_accountid', '');
+  $vocabulary = $build['#term']->vocabulary_machine_name;
+  $accountid = variable_get('readspeaker_accountid', '');
   if ($build['#view_mode'] == 'full' && !empty($readspeaker_vocabularies[$vocabulary]) && !empty($accountid)) {
     // Change its weight.
     $build['multisite_readspeaker'] = array(

@@ -20,7 +20,7 @@ class ReadSpeakerTestCase extends DrupalWebTestCase {
   public function setUp() {
     parent::setUp(array('multisite_readspeaker'));
     // Create users.
-    $this->admin_user   = $this->drupalCreateUser(array('administer blocks', 'administer multisite_readspeaker'));
+    $this->admin_user = $this->drupalCreateUser(array('administer blocks', 'administer multisite_readspeaker'));
     $this->default_user = $this->drupalCreateUser(array('display multisite_readspeaker'));
   }
 
@@ -36,7 +36,6 @@ class ReadSpeakerTestCase extends DrupalWebTestCase {
    */
   public function testReadSpeakerBlock() {
     $this->drupalLogin($this->admin_user);
-    $testnode = $this->drupalCreateNode(array('type' => 'page'));
     $edit = array(
       'readspeaker_accountid' => '12345',
       'readspeaker_readid' => 'block-system-main',
@@ -44,9 +43,12 @@ class ReadSpeakerTestCase extends DrupalWebTestCase {
       'readspeaker_prefer_uk' => TRUE,
       'readspeaker_nodes[page]' => TRUE,
     );
+    $this->drupalPost('admin/config/content/multisite_readspeaker', $edit, t('Save configuration'));
+    $testnode = $this->drupalCreateNode(array('type' => 'page'));
 
+    $this->drupalLogin($this->default_user);
     $this->drupalGet('node/' . $testnode->nid);
-    $this->assertRaw('class="rsbtn_text"');
-    $this->assertRaw('12345');
+    $this->assertRaw('<span class="rsbtn_text">');
+
   }
 }
