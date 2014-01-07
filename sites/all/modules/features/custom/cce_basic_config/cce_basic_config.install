@@ -1017,7 +1017,12 @@ function cce_basic_config_update_7192() {
   foreach(array_keys(user_roles()) as $rid) {
     user_role_revoke_permissions($rid, array('use PHP to import nodes', 'administer varnish'));
   }
+ }
  
+ /**
+  * date field migration
+ */
+function cce_basic_config_update_7193() {
   ##########################
   #  DATE FIELD MIGRATION  #             
   ##########################
