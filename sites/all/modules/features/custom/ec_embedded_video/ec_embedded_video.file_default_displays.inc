@@ -158,7 +158,7 @@ function ec_embedded_video_file_default_displays() {
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__preview__media_youtube_video';
-  $file_display->weight = -50;
+  $file_display->weight = 11;
   $file_display->status = TRUE;
   $file_display->settings = array(
     'width' => '640',
@@ -178,6 +178,17 @@ function ec_embedded_video_file_default_displays() {
     'origin' => '',
   );
   $export['video__preview__media_youtube_video'] = $file_display;
+
+
+  $file_display = new stdClass();
+  $file_display->api_version = 1;
+  $file_display->name = 'video__preview__media_youtube_image';
+  $file_display->weight = -50;
+  $file_display->status = TRUE;
+  $file_display->settings = array(
+    'image_style' => '',
+  );
+  $export['video__preview__media_youtube_image'] = $file_display;
 
   $file_display = new stdClass();
   $file_display->api_version = 1;
