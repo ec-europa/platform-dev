@@ -901,6 +901,7 @@ function cce_basic_config_update_7191() {
  * set default configuration for menu items,
  * set configuration for captcha module
  * date field migration
+ * set configuration for jqmulti
  */
 function cce_basic_config_update_7192() {
   // home
@@ -1092,5 +1093,7 @@ function cce_basic_config_update_7192() {
   }
   // clear field cache
   field_cache_clear();
-  
+
+  /* Jqmulti configuration */
+  variable_set('jqmulti_load_files_always', 1);
 }
