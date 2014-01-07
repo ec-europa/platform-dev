@@ -162,9 +162,6 @@ function multisite_drupal_language_negociation_views_query_alter(&$view, &$query
         OR (node.language = '$language_default->language' AND node.tnid = 0)
       ", array(), 'formula');
       
-      // bypass node access check on the node views relationships : put the tag bypass_relationship_node_access
-      // fix know bug https://drupal.org/node/1349080
-      $query->add_tag('bypass_relationship_node_access');
     }
   }
 }
