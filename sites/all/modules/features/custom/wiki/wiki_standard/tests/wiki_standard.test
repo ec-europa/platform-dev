@@ -15,7 +15,7 @@ class wikiStandard extends DrupalWebTestCase {
     return array(
         'name' => 'wiki_standard tests',
         'description' => 'Test the wiki_standard features functionality.',
-        'group' => 'Multisite Standard',
+        'group' => 'Multisite Standard Features',
     );
   }
 

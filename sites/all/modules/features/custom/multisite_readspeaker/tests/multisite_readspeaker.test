@@ -13,7 +13,7 @@ class ReadSpeakerTestCase extends DrupalWebTestCase {
     return array(
       'name' => 'ReadSpeaker administration',
       'description' => 'Multisite readspeaker tests',
-      'group' => 'ReadSpeaker',
+      'group' => 'Multisite Core Features',
     );
   }
 

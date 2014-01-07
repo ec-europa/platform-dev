@@ -14,23 +14,15 @@ class socialBookmark extends DrupalWebTestCase {
     return array(
         'name' => 'Social Bookmark QA test',
         'description' => 'Social Bookmark QA tests 1.0 beta1',
-        'group' => 'AAA',
+        'group' => 'Multisite - Media',
     );
   }
 
   public function setUp() {
     //parent::setUp(array('block, taxonomy, context, features, multisite_drupal_toolbox, social_bookmark'));
     parent::setUp(array('social_bookmark'));
-$this->adminrole = $this->drupalCreateUserWithRole('administrator');
+    $this->adminrole = $this->drupalCreateUserWithRole('administrator');
 
-/*
-    $this->adminrole = $this->drupalCreateUser(array(
-        'access administration pages',
-        'access content',
-        'create article content',
-        'administer blocks',
-    ));
-*/
     $this->anonymous = $this->drupalCreateUser(array(
         'access content',
     ));
@@ -45,10 +37,6 @@ $this->adminrole = $this->drupalCreateUserWithRole('administrator');
     //init
     $this->feature_name = 'social_bookmark';
     $feature_name = $this->feature_name;
-
-
-
-
 
     //Check the presence of module
     $this->assertTrue(module_exists($feature_name), t('%feature_name feature enabled.', array('%feature_name' => $this->feature_name)));
@@ -86,9 +74,6 @@ $this->adminrole = $this->drupalCreateUserWithRole('administrator');
         ':delta' => $block['delta'],
             ))->fetchField();
 
-
-
-
     $this->verbose('bid fetched: ' . '</pre>' . print_r($bid, TRUE) . '</pre>');
     $this->verbose('block invoked: ' . '</pre>' . print_r($block, TRUE) . '</pre>');
     // Check to see if the block was created by checking that it's in the database.
@@ -108,10 +93,6 @@ $this->adminrole = $this->drupalCreateUserWithRole('administrator');
 
 
     $this->createSampleNodes(1);
-
-
-
-
 
     $this->drupalGet('node/1');
     $this->assertRaw('share_button_container', 'The block Share is accesible to anonymous user');
@@ -282,10 +263,6 @@ class socialBookmarkPrerequisites extends DrupalWebTestCase {
       // dependencies[] = "menu"
 
       $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
-
-      // Remove taxonomy dependencies
-      // dependencies[] = "taxonomy"
-      $this->assertFalse(in_array('taxonomy', $info['dependencies']), 'There is no reference to the taxonomy dependency.');
     }
     // Check other dependencies (modules + features) to be sure they are needed
     // FIXME: manual check?
