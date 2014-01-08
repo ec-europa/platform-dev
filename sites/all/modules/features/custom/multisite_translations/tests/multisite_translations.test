@@ -65,12 +65,12 @@ class Multisite_TranslationsWebTestCase extends DrupalWebTestCase {
 
     $this->drupalGet('admin/workbench/translation-jobs');
     $this->assertRaw('translation jobs', 'Workbench translation jobs page found.');
-    $this->assertRaw('From English to French', 'Translator can see its translation jobs.');
+    $this->assertRaw('page1_translations', 'Translator can see its translation jobs.');
 
-    $this->drupalGet('admin/config/regional/tmgmt/jobs/' . $job->tjid);
+    $this->drupalGet('admin/tmgmt/jobs/' . $job->tjid);
     $this->assertRaw('Job Items', 'Translator can access the job.');
 
-    $this->drupalGet('admin/config/regional/tmgmt/items/' . $item1->tjiid . '/review');
+    $this->drupalGet('admin/tmgmt/items/' . $item1->tjiid . '/review');
     $this->assertRaw('page1_translations', 'Translator can review the content to translate.');
 
     // check if a translator see the button "request translation" button on the node created
