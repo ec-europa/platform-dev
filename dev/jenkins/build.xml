@@ -76,7 +76,11 @@
       <isset property="drupal.uri" />
       <then>
         <drush command="test-run" uri="${drupal.uri}" haltonerror="false">
-          <param>Aggregator,Block,Comment,Color,Contact,Field,Field_ui,File,Filter,${project.modules.multisite}</param>
+          <param>Aggregator,Block,Comment,Color,Contact,Field,Field_ui,File,Filter</param>
+          <option name="xml">${project.logdir}/tests</option>
+        </drush>
+        <drush command="test-run" uri="${drupal.uri}" haltonerror="false">
+          <param>${project.modules.multisite}</param>
           <option name="xml">${project.logdir}/tests</option>
         </drush>
       </then>
