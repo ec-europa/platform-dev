@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * List of countries used to generate taxonomy.
+ */
 
 /**
 *List of the world countries recognized by the ONU
