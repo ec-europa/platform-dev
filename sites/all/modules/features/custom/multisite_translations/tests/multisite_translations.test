@@ -24,24 +24,8 @@ class Multisite_TranslationsWebTestCase extends DrupalWebTestCase {
     );
   }
 
-  function setUp() {
-    parent::setUp(array(
-      'locale',
-      'translation',
-      'tmgmt_node',
-      'tmgmt_node_ui',
-      'tmgmt_test',
-      'tmgmt_ecweb',
-      'tmgmt_entity',
-      'tmgmt_i18n_string',
-      'tmgmt',
-      'tmgmt_field',
-      'tmgmt_ui',
-      'workbench',
-      'workbench_moderation',
-      'multisite_translations',
-    ));
-
+  public function setUp() {
+    parent::setUp(array('multisite_translations'));
     $this->admin_user = $this->drupalCreateUserWithRole("administrator");
   }
 

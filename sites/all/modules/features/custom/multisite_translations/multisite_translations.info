@@ -1,4 +1,4 @@
-name = Multisite translations
+name = multisite_translations
 description = provide a system for translation requests management based on tmgmt module
 core = 7.x
 package = Multisite Features
@@ -13,6 +13,7 @@ dependencies[] = message
 dependencies[] = rules
 dependencies[] = strongarm
 dependencies[] = tmgmt
+dependencies[] = tmgmt_ecweb
 dependencies[] = tmgmt_ecweb
 dependencies[] = tmgmt_field
 dependencies[] = tmgmt_i18n_string
