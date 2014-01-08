@@ -25,3 +25,4 @@ features[file_display][] = image__teaser__file_field_media_large_icon
 features[file_display][] = image__teaser__media_flickr_image
 features[user_permission][] = add media from remote sources
 features[user_permission][] = configure flickr
+scripts[] = ec_embedded_image.js
