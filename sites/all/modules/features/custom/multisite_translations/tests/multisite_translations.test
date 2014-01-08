@@ -33,7 +33,7 @@ class Multisite_TranslationsWebTestCase extends DrupalWebTestCase {
     $this->drupalLogin($this->admin_user);
 
     // check if the ecweb translator is created
-    $this->drupalGet('admin/config/regional/tmgmt/translators');
+    $this->drupalGet('admin/config/regional/tmgmt_translator');
     $this->assertRaw('ecweb translator', 'Ecweb translator created.');
 
     $this->setEnvironment('fr');
