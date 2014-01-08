@@ -6,8 +6,8 @@
  */
 
 /**
-* Implements hook_install().
-*/
+ * Implements hook_install().
+ */
 function cce_basic_config_install() {
   // create a vocabulary dedicated to the classification
   $vocabulary = (object) array(
@@ -61,7 +61,7 @@ function cce_basic_config_install() {
   );
   taxonomy_term_save($term);
 
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('07000'),
     'description' => st('Culture, tourism, sport'),
@@ -221,7 +221,7 @@ function cce_basic_config_install() {
   );
   taxonomy_term_save($term);
 
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('30000'),
     'description' => st('Economic and monetary union, euro, single currency'),
@@ -249,9 +249,9 @@ function cce_basic_config_install() {
   );
   taxonomy_term_save($term);
 
-  // manually save file document displays in database
-  // the feature settings are not properly injected in database
-  // this process must be temporary
+  // Manually save file document displays in dB.
+  // Feature settings are not properly injected in dB.
+  // Temporary process.
   db_delete('file_display')->execute();
   $exports = cce_basic_config_file_default_displays();
   foreach ($exports as $id_export => $settings_export) {
@@ -268,8 +268,8 @@ function cce_basic_config_install() {
   }
 
 
-  // add a fivestar rate widget
-  // check if rate widget already exists
+  // Add a fivestar rate widget.
+  // Check if rate widget already exists.
   $rate_widgets = variable_get("rate_widgets");
   if (!$rate_widgets || count($rate_widgets) == 0) {
     $rate_widgets = array();
@@ -349,8 +349,8 @@ function cce_basic_config_install() {
 }
 
 /**
-* Implements hook_uninstall().
-*/
+ * Implements hook_uninstall().
+ */
 function cce_basic_config_uninstall() {
   // manually remove config for file document display
   // this process must be temporary
@@ -365,12 +365,12 @@ function cce_basic_config_uninstall() {
 }
 
 /**
-* Implements hook_enable().
-*/
+ * Implements hook_enable().
+ */
 function cce_basic_config_enable() {
   include_once DRUPAL_ROOT . '/includes/password.inc';
 
-  // add users acccounts.
+  // Add users acccounts.
   $account = new stdClass();
   $account->is_new = TRUE;
   $account->status = TRUE;
@@ -408,7 +408,7 @@ function cce_basic_config_enable() {
   user_save($account2);
 
 
-  // affect dummy contents to the user 'administrator'.
+  // Affect dummy contents to the user 'administrator'.
   $query = db_select('node', 'n');
   $query->condition('n.type', 'article', '=')
     ->fields('n', array('nid', 'title', 'uid'));
@@ -421,7 +421,7 @@ function cce_basic_config_enable() {
   }
 
 
-  // add blocks in site-wide context.
+  // Add blocks in site-wide context.
   $context = module_invoke('context', 'load', 'site_wide');
 
   $block_to_add1 = array(
@@ -453,8 +453,8 @@ function cce_basic_config_enable() {
 }
 
 /**
-* Implements hook_disable().
-*/
+ * Implements hook_disable().
+ */
 function cce_basic_config_disable() {
   drupal_set_message(t('The module cce_basic_config has been disabled on your site! Please contact FPFIS support to reactivate it.'));
 }
@@ -463,8 +463,8 @@ function cce_basic_config_disable() {
  * add classification vocabulary, add file diplays settings
  */
 function cce_basic_config_update_7140() {
-  // create a vocabulary dedicated to the classification
-  // add default categories
+  // Create a vocabulary for classification.
+  // Add default categories.
   $vocabulary = taxonomy_vocabulary_machine_name_load('classification');
   $term = (object) array(
     'vid' => $vocabulary->vid,
@@ -724,13 +724,12 @@ function cce_basic_config_update_7140() {
 }
 
 /**
- * add password_policy rules and handle password_policy 2.x upgrade
+ * Add password_policy rules and handle password_policy 2.x upgrade
  */
 function cce_basic_config_update_7150() {
-  // manually insert the password policy in database
-  // this process is temporary since the module password_policy
+  // Insert the password policy in dB.
+  // Temporary since the module password_policy.
   $exports = cce_basic_config_default_password_policy();
-  //db_delete('password_policy')->execute();
 
   $schema = password_policy_schema();
   db_drop_table('password_policy');
@@ -758,7 +757,7 @@ function cce_basic_config_update_7150() {
  * add search block
  */
 function cce_basic_config_update_7160() {
-  // add block site-wide context -------------------------------------------------------------------------------
+  // Add block site-wide context.
   $context=module_invoke('context', 'load', 'site_wide');
 
   $block_to_add = array(
@@ -774,14 +773,13 @@ function cce_basic_config_update_7160() {
 
 
 /**
- * update classification vocabulary ids
+ * Update classification vocabulary ids.
  */
 function cce_basic_config_update_7170() {
 
-  //Get the "classification" vid
+  //Get the "classification" vid.
   $classification=NULL;
 
-  //http://api.drupal.org/api/drupal/modules!taxonomy!taxonomy.module/function/taxonomy_get_vocabularies/7
   $vocabularies = taxonomy_get_vocabularies(NULL);
   foreach ($vocabularies as $vocab_object) {
     if ($vocab_object->name == "classification") {
@@ -798,7 +796,7 @@ function cce_basic_config_update_7170() {
 
 
 /**
- * add rate widget fivestar
+ * Add rate widget fivestar.
  */
 function cce_basic_config_update_7180() {
   // check if rate widget fivestar already exists
@@ -808,19 +806,20 @@ function cce_basic_config_update_7180() {
   }
   else {
     foreach($rate_widgets as $rate_widget) {
-      if ($rate_widget->name == 'rate_fivestar') { // the widget fivestar already exists
+      if ($rate_widget->name == 'rate_fivestar') {
+      // The widget fivestar already exists.
         return;
       }
     }
   }
   $rate_widgets[1] = (object) array(
-      'name' => 'rate_fivestar',
-      'tag' => 'vote',
-      'title' => 'rate_fivestar',
-      'node_types' => array(),
-      'comment_types' => array(),
-      'options' => array(
-        0 => array(
+    'name' => 'rate_fivestar',
+    'tag' => 'vote',
+    'title' => 'rate_fivestar',
+    'node_types' => array(),
+    'comment_types' => array(),
+    'options' => array(
+      0 => array(
           0 => '0',
           1 => '1',
         ),
@@ -1064,10 +1063,11 @@ function cce_basic_config_update_7193() {
         
         foreach ($info_sql[$table_name] as $id => $column_name ){
 
-          if (field_has_data($field_info)) { // there is data: migrate data and update column to int
+          if (field_has_data($field_info)) { 
+          // There is data: migrate data and update column to int.
             watchdog('system', t('Update the  column %column of table %table : migrate datas and update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), NULL, WATCHDOG_WARNING);
 
-            // create a temporary date field
+            // Create a temporary date field.
             $param = array('type' => 'int', 'not null' => TRUE, 'default' => 0);
             db_add_field($table_name, $column_name . '_temp', $param);
 
@@ -1075,40 +1075,34 @@ function cce_basic_config_update_7193() {
                     ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
                     ->execute();
 
-            // delete old column
+            // Delete old column.
             db_drop_field($table_name, $column_name);
             db_change_field($table_name, $column_name . '_temp', $column_name, array('type' => 'int'));
 
-            //drupal_set_message(t('Update the  column %column of table %table : migrate datas and update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), 'status');
           } else { // if there is no data: just update column to int
             watchdog('system', t('Update the  column %column of table %table : update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), NULL, WATCHDOG_WARNING);
             db_change_field($table_name, $column_name, $column_name, array('type' => 'int'));
-            //drupal_set_message(t('Update the  column %column of table %table : update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), 'status');
           }
         }
       }
 
       watchdog('system', t('Saving field config of %field', array('%field' => $field_name)), NULL, WATCHDOG_INFO);
       db_update('field_config')->fields(array('type' => 'datestamp'))->condition('id', $field_info['id'])->execute();
-      //drupal_set_message(t('field_config of %field saved.', array('%field' => $field_name)), 'status');
 
-      // --- ERROR LOGS ---
+      // ERROR LOGS.
     } elseif ($field_info['type'] == 'datestamp') {
       watchdog('system', t('Field %field has been already converted to UNIX timestamp""', array('%field' => $field_name)), NULL, WATCHDOG_WARNING);
-      //drupal_set_message(t('Field %field has been already converted to UNIX timestamp.', array('%field' => $field_name)), 'status');
+      
     } elseif ($field_info['type'] == 'datetime') {
       if (!$field_features_info) {
-        watchdog('system', t('Field %field not found in %feature', array('%field' => $field_name, '%feature' => $module_name . '.features.field.inc')), NULL, WATCHDOG_WARNING);
-        //drupal_set_message(t('Field %field not found in %feature', array('%field' => $field_name, '%feature' => $module_name . '.features.field.inc')), 'warning');
+        watchdog('system', t('Field %field not found in %feature', array('%field' => $field_name, '%feature' => $module_name . '.features.field.inc')), NULL, WATCHDOG_WARNING);   
       } elseif ($field_features_info['type'] != 'datestamp') {
         watchdog('system', t('Field %field is not a datestamp in %feature', array('%field' => $field_name, '%feature' => $module_name . '.features.field.inc')), NULL, WATCHDOG_WARNING);
-        //drupal_set_message(t('Field %field is not a datestamp in %feature', array('%field' => $field_name, '%feature' => $module_name . '.features.field.inc')), 'warning');
       }
     }
   }
-  // clear field cache
   field_cache_clear();
 
-  /* Jqmulti configuration */
+  // Jqmulti configuration.
   variable_set('jqmulti_load_files_always', 1);
 }
