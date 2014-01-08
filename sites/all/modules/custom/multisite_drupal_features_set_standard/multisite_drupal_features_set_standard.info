@@ -257,7 +257,7 @@ feature_sets[node_pager][enable][] = node_pager
 feature_sets[node_pager][disable][] = node_pager
 
 feature_sets[sitemap][title] = 'Sitemap'
-feature_sets[sitemap][description] = 'Helps visitors (mainly new visitors) to have a quick overview of how the site is organized and what the site proposes to visitors.'
+feature_sets[sitemap][description] = 'Helps visitors (mainly new visitors) to have a quick overview of how the site is organized and what the site proposes to visitors.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/OobhAg">Read documentation</a>'
 feature_sets[sitemap][category] = 'Navigation'
 feature_sets[sitemap][icon] = ''
 feature_sets[sitemap][font] = 'multisite-icon-directions'
