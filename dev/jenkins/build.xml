@@ -76,7 +76,7 @@
       <isset property="drupal.uri" />
       <then>
         <drush command="test-run" uri="${drupal.uri}" haltonerror="false">
-          <param>Aggregator,Block,Comment,Color,Contact,Field,Field_ui,File,Filter</param>
+          <param>Aggregator,Block,Comment,Color,Contact,Field,Field_ui,File</param>
           <option name="xml">${project.logdir}/tests</option>
         </drush>
         <drush command="test-run" uri="${drupal.uri}" haltonerror="false">
