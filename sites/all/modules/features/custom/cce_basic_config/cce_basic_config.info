@@ -19,6 +19,7 @@ dependencies[] = features
 dependencies[] = file_entity
 dependencies[] = filter
 dependencies[] = i18n_taxonomy
+dependencies[] = i18n_translation
 dependencies[] = image
 dependencies[] = video
 dependencies[] = video_ui
