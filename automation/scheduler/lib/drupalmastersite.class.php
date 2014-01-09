@@ -11,7 +11,21 @@ class DrupalMasterSite extends Site {
 	
 	public function __construct($array) {
 		parent::__construct($array);
-		foreach (array('cluster_id', 'sites_local_path', 'files_local_path', 'rewritemap_local_path', 'default_subsite_url_pattern', 'default_subsite_install_policy', 'default_subsite_install_variant', 'default_subsite_solr_id') as $member) {
+		$known_fields = array(
+			'cluster_id', 
+			'sites_local_path',
+			'files_local_path',
+			'rewritemap_local_path',
+			'default_subsite_url_pattern',
+			'default_subsite_hostname_pattern',
+			'default_subsite_uri_pattern',
+			'default_subsite_http',
+			'default_subsite_https',
+			'default_subsite_install_policy',
+			'default_subsite_install_variant',
+			'default_subsite_solr_id',
+		);
+		foreach ($known_fields as $member) {
 			$intern_member = $member . '_';
 			$this->$intern_member = $array[$member];
 		}
@@ -37,11 +51,40 @@ class DrupalMasterSite extends Site {
 		if (!isset($this->$property_name)) return null;
 		return $this->$property_name;
 	}
+
+	public function defaultRewriteMapTarget() {
+		$target = 'production';
+		$matches = array();
+		if (preg_match('/([^/]+)\/sites\/*$/', $this->path('rewritemap'), $matches)) {
+			$target = $matches[1];
+		}
+		return $target;
+	}
 	
 	public function defaultUrlPattern() {
 		return $this->default_subsite_url_pattern_;
 	}
-	
+
+	public function defaultUrlHostname() {
+		return $this->default_subsite_hostname_pattern_;
+	}
+
+	public function defaultUrlURI() {
+		return $this->default_subsite_uri_pattern_;
+	}
+
+	public function defaultUrlHTTP() {
+		return (bool)$this->default_subsite_http_;
+	}
+
+	public function defaultUrlHTTPS() {
+		return (bool)$this->default_subsite_https_;
+	}
+
+	public function defaultUrlProtocol() {
+		return $this->defaultUrlHTTPS() ? 'https' : 'http';
+	}
+
 	public function defaultInstallPolicy() {
 		return $this->default_subsite_install_policy_;
 	}
@@ -73,6 +116,10 @@ class DrupalMasterSite extends Site {
 	protected $files_local_path_;
 	protected $rewritemap_local_path_;
 	protected $default_subsite_url_pattern_;
+	protected $default_subsite_hostname_pattern_;
+	protected $default_subsite_uri_pattern_;
+	protected $default_subsite_http_;
+	protected $default_subsite_https_;
 	protected $default_subsite_install_policy_;
 	protected $default_subsite_install_variant_;
 	protected $default_subsite_solr_id_;

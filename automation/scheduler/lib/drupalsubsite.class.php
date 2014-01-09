@@ -21,6 +21,18 @@ class DrupalSubSite extends Site {
 		$this->last_update_ = strtotime($array['last_update']);
 	}
 	
+	public static function fetchAllSubSites() {
+		global $db_conn;
+		$results = array();
+		$query = 'SELECT s.*, w.* FROM drupal_subsites s JOIN workflow_states w ON s.id = w.subsite_id;';
+		$res = mysqli_query($db_conn, $query);
+		if (!$res) return $results;
+		while ($row = mysqli_fetch_assoc($res)) {
+			$results[] = new DrupalSubSite($row);
+		}
+		return $results;
+	}
+
 	public static function fetchSubSiteById($id) {
 		global $db_conn;
 		$query = 'SELECT s.*, w.* FROM drupal_subsites s JOIN workflow_states w ON s.id = w.subsite_id AND s.id = %d;';
@@ -56,6 +68,61 @@ class DrupalSubSite extends Site {
 			return $this->master()->defaultUrlPattern();
 		}
 		return trim($this->url_pattern_);
+	}
+
+	public function urls() {
+		$urls = $this->customUrls();
+		if (!count($urls)) {
+			$urls = $this->masterInheritedUrls();
+		}
+		return $urls;
+	}
+
+	public function customUrls() {
+		global $db_conn;
+		$urls = array();
+
+		// We expect each subsite to have 1 to n records in the drupal_subsites_urls table
+		$query = 'SELECT hostname, uri, http, https FROM drupal_subsites_urls WHERE subsiteid = %d';
+		$query = sprintf($query, mysqli_real_escape_string($db_conn, $this->id()));
+		$res = mysqli_query($db_conn, $query);
+		if ($res) {
+			while ($row = mysqli_fetch_assoc($res)) {
+				// NULL columns mean "inherit value from the master site"
+				if (is_null($row['hostname'])) {
+					$row['hostname'] = sprintf($this->master()->defaultUrlHostname(), $this->name());
+				}
+				if (is_null($row['uri'])) {
+					$row['uri'] = sprintf($this->master()->defaultUrlURI(), $this->name());
+				}
+				else {
+					// some organizations tend to store the URI of the "user" page for various reasons -- remove it
+					$row['uri'] = preg_replace('/user\/*$/', '', $row['uri']);
+				}
+				if ($row['https']) {
+					$urls[] = sprintf('https://%s%s', $row['hostname'], $row['uri']);
+				}
+				if ($row['http']) {
+					$urls[] = sprintf('http://%s%s', $row['hostname'], $row['uri']);
+				}
+			}
+		}
+		return $urls;
+	}
+
+	public function masterInheritedUrls() {
+		$urls = array();
+
+		$hostname = sprintf($this->master()->defaultUrlHostname(), $this->name());
+		$uri      = sprintf($this->master()->defaultUrlURI(),      $this->name());
+		if ($this->master()->defaultUrlHTTPS()) {
+			$urls[] = sprintf('https://%s%s', $hostname, $uri);
+		}
+		if ($this->master()->defaultUrlHTTP()) {
+			$urls[] = sprintf('http://%s%s', $hostname, $uri);
+		}
+
+		return $urls;
 	}
 	
 	public function installPolicy() {
