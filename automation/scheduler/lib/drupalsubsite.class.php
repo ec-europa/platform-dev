@@ -43,6 +43,19 @@ class DrupalSubSite extends Site {
 		$master_object = new DrupalSubSite($row);
 		return $master_object;
 	}
+
+	public static function fetchSubSiteByMaster($id) {
+		global $db_conn;
+		$results = array();
+		$query = 'SELECT s.*, w.* FROM drupal_subsites s JOIN workflow_states w ON s.id = w.subsite_id AND s.master = %d;';
+		$query = sprintf($query, mysqli_real_escape_string($db_conn, $id));
+		$res = mysqli_query($db_conn, $query);
+		if (!$res) return $results;
+		while ($row = mysqli_fetch_assoc($res)) {
+			$results[] = new DrupalSubSite($row);
+		}
+		return $results;
+	}
 	
 	public static function fetchIncompleteSubSites() {
 		global $db_conn;
