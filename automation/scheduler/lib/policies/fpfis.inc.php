@@ -589,13 +589,22 @@ function fpfis_register_subsite_master(&$subsite) {
 }
 
 function fpfis_register_subsite_rewritemap(&$subsite) {
-	/// inscrire le sous-site dans la RewriteMap
-	/// add the new subsite to the master's sites.list.php
+	/// add the new subsite to the Apache RewriteMap
 	$reports = array();
 	$next_state = 'subsite_registered_rewritemap';
 	
 	// compose the line required for Apache to handle incoming requests as expected
-	$map_line = sprintf('%s    enabled', $subsite->name());
+	$urls = $subsite->urls();
+	if (count($urls)) {
+		$url = $urls[0]; // consider the first known URL
+		$url = preg_replace('/^https?:\/\//', '', $url); // remove the protocol so only domain/uri remains
+		$url = preg_replace('/\/+$/', '', $url); // remove any trailing slash
+	}
+	else {
+		$url = $subsite->name(); // default, fallback value
+	}
+	$target = $subsite->master()->defaultRewriteMapTarget();
+	$map_line = sprintf('%-80s    %s', $url, $target);
 	
 	$rewrite_map_path = $subsite->master()->path('rewritemap');
 	$rewrite_map_fh = fopen($rewrite_map_path, 'a');
