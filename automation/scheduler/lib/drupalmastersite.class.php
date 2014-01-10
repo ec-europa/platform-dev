@@ -55,7 +55,7 @@ class DrupalMasterSite extends Site {
 	public function defaultRewriteMapTarget() {
 		$target = 'production';
 		$matches = array();
-		if (preg_match('/([^/]+)\/sites\/*$/', $this->path('rewritemap'), $matches)) {
+		if (preg_match('/([^\/]+)\/sites\/*$/', $this->path('sites'), $matches)) {
 			$target = $matches[1];
 		}
 		return $target;
