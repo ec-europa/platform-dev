@@ -2,9 +2,9 @@
 /*
  * get User info from the comref database
  */
-function getComRefUserInfo($perid, $fields = array('no_sysper')) {
+function getComRefUserInfo($info, $fields = array('no_sysper'), $perid) {
   $config = variable_get('oracle_access');  
-  $data = 'per_id='.$perid."&fields=".implode(",", $fields)."&access_token=".$config['access_token'];
+  $data = "op=getComRefUserInfo&per_id=".$perid."&fields=".implode(",", $fields)."&access_token=".$config['access_token']."&info=".$info;
 
   $options = array(
     'method' => 'POST',
@@ -15,22 +15,43 @@ function getComRefUserInfo($perid, $fields = array('no_sysper')) {
   );
 
   $result = drupal_http_request($config['url'], $options);
-
   if($result->code == '200') {
-    if($xmlobj = simplexml_load_string($result->data)) {
-      foreach($fields as $item) {
-        $values[$item] = (string)$xmlobj->$item;
-      }
-    }
-    else {
-      watchdog('multisite oracle access', 'unable to parse XML data');
-    }
+    $xmlobj = simplexml_load_string($result->data);
+    $values = json_decode(json_encode((array)$xmlobj), TRUE);
   }
   else {
-    watchdog('multisite oracle access', 'connection issue with the oracle service'); 
+    watchdog('oracle access', 'connection issue with the oracle service'); 
   }
 
-  return isset($values)?$values:null;
+  return isset($values)?$values['records']:null;
+}
+
+
+/*
+ * get info from the comref database
+ */
+function getComRefInfo($info, $fields = array()) {
+  $config = variable_get('oracle_access');
+  $data = "op=getComRefInfo&access_token=".$config['access_token']."&info=".$info."&fields=".implode(",", $fields);
+
+  $options = array(
+    'method' => 'POST',
+    'data' => $data,
+    'headers' => array(
+      'Content-Type' => 'application/x-www-form-urlencoded',
+    ),
+  );
+  $result = drupal_http_request($config['url'], $options);
+  if($result->code == '200') {
+    $xmlobj = simplexml_load_string($result->data);
+
+    $values = json_decode(json_encode((array)$xmlobj), TRUE);
+  }
+  else {
+    watchdog('oracle access', 'connection issue with the oracle service');
+  }
+
+  return isset($values)?$values['records']:null;
 }
 
 
