@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * @file
+ * Tests for social_bookmark.module.
+ * ECWeb MULTISITE Feature Test
+ */
+
+/**
+ * Defines a base class for testing the social_bookmark feature.
+ */
+class SocialBookmarkFeatureTest extends DrupalWebTestCase {
+  protected $WebUser;
+
+  /**
+   * Info for the simpleTest UI.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Social Bookmark feature test',
+      'description' => 'Test the Social Bookmark feature to ensure it works as intended.',
+      'group' => 'Multisite Feature Test',
+    );
+  }
+
+  /**
+   * Configure environment: declare modules, users, permissions...
+   */
+  public function setUp() {
+    // Enable any modules required for the test.
+    parent::setUp(array('social_bookmark'));
+  }
+
+  /**
+   * Verify that current user has no access to page.
+   */
+  public function socialbookmarkVerifyNoAccess($url) {
+    // Test that page returns 403 Access Denied.
+    $this->drupalGet($url);
+    $this->assertResponse(403, 'Expected -> Access Denied');
+  }
+
+  /**
+   * Verify that current user has access to page.
+   */
+  public function socialbookmarkVerifyAccess($url) {
+    // Test that page returns 200 Access OK.
+    $this->drupalGet($url);
+    $this->assertResponse(200, 'Expected -> Access OK');
+
+    // Test that the form is properly build.
+    $this->assertFieldById('edit-statistics-socialbookmark', '', '"Enable statistics" parameter is available');
+    $this->assertText(t('Enable statistics'), '"Enable statistics" label exists');
+    $this->assertText(t('Language source'), '"Language source " fieldset is exists');
+    $this->assertFieldById('edit-language-socialbookmark-from-url', '', '"From URL" parameter is available');
+    $this->assertFieldById('edit-language-socialbookmark-from-meta-data', '', '"From META DATA" parameter is available');
+    $this->assertFieldById('edit-language-socialbookmark-language-specified', '', '"Language specified" parameter is available');
+    $this->assertFieldById('edit-override-socialbookmark', '', '"Override label" parameter is available');
+    $this->assertText(t('Override default label'), '"Override default label" label exists');
+    $this->assertText(t('New label'), '"New label" label exists');
+    $this->assertFieldById('edit-label-socialbookmark', '', '"New label" parameter is available');
+    $this->assertFieldById('edit-display-socialbookmark', '', '"Display counter" parameter is available');
+    $this->assertText(t('Display counter'), '"Display counter" label exists');
+    $this->assertFieldById('edit-least-socialbookmark', '', '"At least" parameter is available');
+    $this->assertText(t('Counter position'), '"Counter position" label exists');
+    $this->assertFieldById('edit-orientation-socialbookmark-right', '', '"Right orientation" parameter is available');
+    $this->assertFieldById('edit-orientation-socialbookmark-left', '', '"Left orientation" parameter is available');
+  }
+
+  /**
+   * Check the access to the social bookmark configuration page.
+   */
+  public function testsocialbookmarkAccess() {
+    // Verify that anonymous users can't access to the configuration page.
+    $this->socialbookmarkVerifyNoAccess('admin/config/socialbookmark');
+
+    // Create a regular user and login.
+    $this->WebUser = $this->drupalCreateUser();
+    $this->drupalLogin($this->WebUser);
+    // Verify that authenticated users can't access to the configuration page.
+    $this->socialbookmarkVerifyNoAccess('admin/config/socialbookmark');
+
+    // Create a user with permissions to access to the configuration page.
+    $this->WebUser = $this->drupalCreateUser(array(
+      'administer site configuration', 'access administration pages', 'administer blocks'));
+    $this->drupalLogin($this->WebUser);
+    // Verify that users with permission can access to the configuration page.
+    $this->socialbookmarkVerifyAccess('admin/config/socialbookmark');
+
+    // Verify social bookmark button configuration and display.
+    $this->socialbookmarkBehavior();
+  }
+
+  /**
+   * Check the functionality of the social bookmark feature.
+   */
+  public function socialbookmarkBehavior() {
+    // There is a block and it is suitable to be placed in a region.
+    $block = array(
+      'regions[bartik]' => 'featured',
+    );
+    $this->drupalPost('admin/structure/block/manage/social_bookmark/social-bookmark/configure', $block, t('Save block'));
+
+    // Setup a configuration.
+    $conf = array(
+      'language_socialbookmark' => 'Language specified',
+      'language_selector_socialbookmark' => 'en',
+      'type_socialbookmark' => 'Icon',
+      'icon_size_socialbookmark' => '32',
+      'override_socialbookmark' => TRUE,
+      'label_socialbookmark' => '',
+      'display_socialbookmark' => FALSE,
+    );
+    $this->drupalPost('admin/config/socialbookmark', $conf, t('Save configuration'));
+
+    // Check that the button is displayed.
+    $this->drupalGet('/');
+    $this->assertLink('', 0, 'The Share Bookmark icon is displayed.');
+  }
+}

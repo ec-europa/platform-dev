@@ -5,21 +5,27 @@
  * Tests for PROJECTFEATURE_social_bookmark.module.
  * ECWeb MULTISITE QA
  */
-class socialBookmark extends DrupalWebTestCase {
+
+class SocialBookmark extends DrupalWebTestCase {
 
   protected $adminrole;
   protected $anonymous;
 
+  /**
+   * Info for the simpleTest UI.
+   */
   public static function getInfo() {
     return array(
-        'name' => 'Social Bookmark QA test',
-        'description' => 'Social Bookmark QA tests 1.0 beta1',
-        'group' => 'Multisite - Media',
+      'name' => 'Social Bookmark QA test',
+      'description' => 'Social Bookmark QA tests 1.0 beta1',
+      'group' => 'Multisite - Media',
     );
   }
 
+  /**
+   * Configure environment: declare modules, users, permissions...
+   */
   public function setUp() {
-    //parent::setUp(array('block, taxonomy, context, features, multisite_drupal_toolbox, social_bookmark'));
     parent::setUp(array('social_bookmark'));
     $this->adminrole = $this->drupalCreateUserWithRole('administrator');
 
@@ -33,42 +39,27 @@ class socialBookmark extends DrupalWebTestCase {
     $this->regions[] = 'content';
   }
 
-  function testSocialBookmark() {
-    //init
+  /**
+   * Basic testing.
+   */
+  public function testSocialBookmark() {
     $this->feature_name = 'social_bookmark';
     $feature_name = $this->feature_name;
 
-    //Check the presence of module
+    // Check the presence of module.
     $this->assertTrue(module_exists($feature_name), t('%feature_name feature enabled.', array('%feature_name' => $this->feature_name)));
     $this->drupalGet('<front>');
     $this->drupalGet('/');
 
-    //$this->drupalLogout();
-    //$this->drupalLogin($this->anonymous);
-    //$block = module_invoke("the_module_name", "block_view", the_block_delta);
-    //$block = module_invoke("social_bookmark", "block_view", 'social-bookmark');
-    //$block = module_invoke('social_bookmark', 'block_view', 1);
-    //$this->verbose('block invoked: ' . '</pre>' . print_r($block, TRUE) . '</pre>');
-    //drupal_add_region_content("the_region_name", theme("block", $block));
-    //public function setBlock($module, $delta, $region, $theme, $pages, $visibility)
-    //$this->setBlock('social_bookmark', 'social-bookmark', 'content', 'ec-resp', '', 0);
-    //drupal_add_region_content('content_bottom', theme('block', $block));
-
-    //module_load_include('module', 'social_bookmark', 'social_bookmark');
-    //$blocky = module_invoke("social_bookmark", "block_view", 'social-bookmark');
-    //$this->verbose('block: ' . '</pre>' . print_r($blocky) . '</pre>');
-
-    $block_content = social_bookmark_contents();
+    $block_content = socialBookmarkContents();
     $this->verbose('block invoked: ' . '</pre>' . print_r($block_content, TRUE) . '</pre>');
     global $language;
     $block = array();
     $block['module'] = 'social_bookmark';
     $block['delta'] = 'social-bookmark';
     $block['title'] = 'Social Bookmark';
-    //$block['content'] = '$block_content';
     $block['content'] = check_plain('<div id="share-tool-right"><script type="text/javascript">iBeginShare.attachLink("share-tool-right",{share_counter_display: "true", share_lang: "' . $language->language . '"});</script></div>');
     $block['region'] = 'footer';
-
     $bid = db_query("SELECT bid FROM {block} WHERE module = :module AND delta = :delta", array(
         ':module' => $block['module'],
         ':delta' => $block['delta'],
@@ -76,12 +67,9 @@ class socialBookmark extends DrupalWebTestCase {
 
     $this->verbose('bid fetched: ' . '</pre>' . print_r($bid, TRUE) . '</pre>');
     $this->verbose('block invoked: ' . '</pre>' . print_r($block, TRUE) . '</pre>');
-    // Check to see if the block was created by checking that it's in the database.
+    // Check to see if the block was created by checking
+    // that it's in the database.
     $this->assertNotNull($bid, 'Block found in database');
-
-    //$this->moveBlockToRegion($block, 'content');
-
-
 
     $edit = array();
     $edit['blocks[social_bookmark_social-bookmark][region]'] = 'footer';
@@ -90,7 +78,6 @@ class socialBookmark extends DrupalWebTestCase {
     $this->drupalPost('admin/structure/block', $edit, t('Save blocks'));
     $this->assertResponse(200);
     $this->assertText(t('The block settings have been updated.'), t('Social block was enabled'));
-
 
     $this->createSampleNodes(1);
 
@@ -104,33 +91,41 @@ class socialBookmark extends DrupalWebTestCase {
     $this->assertTrue($elements[0], 'The container with social networks links is active');
   }
 
+  /**
+   * Reset theme.
+   */
   public function setTheme($new_theme) {
     db_update('system')
-            ->fields(array('status' => 1))
-            ->condition('type', 'theme')
-            ->condition('name', $new_theme)
-            ->execute();
+      ->fields(array('status' => 1))
+      ->condition('type', 'theme')
+      ->condition('name', $new_theme)
+      ->execute();
     variable_set('theme_default', $new_theme);
     unset($GLOBALS['theme']);
     drupal_theme_initialize();
   }
 
+  /**
+   * Set block.
+   */
   public function setBlock($module, $delta, $region, $theme, $pages, $visibility) {
-    drupal_set_message('Activating block %module:%delta', array('%module' => $module, '%delta' => $delta));
     cache_clear_all();
     db_update('block')
-            ->fields(array(
-                'pages' => trim($pages),
-                'region' => $region,
-                'visibility' => $visibility,
-            ))
-            ->condition('module', $module)
-            ->condition('delta', $delta)
-            ->condition('theme', $theme)
-            ->execute();
+      ->fields(array(
+          'pages' => trim($pages),
+          'region' => $region,
+          'visibility' => $visibility,
+      ))
+      ->condition('module', $module)
+      ->condition('delta', $delta)
+      ->condition('theme', $theme)
+      ->execute();
     cache_clear_all();
   }
 
+  /**
+   * Place block.
+   */
   public function moveBlockToRegion($block, $region) {
     // Set the created block to a specific region.
     $edit = array();
@@ -142,7 +137,7 @@ class socialBookmark extends DrupalWebTestCase {
 
     // Confirm that the block is being displayed.
     $this->drupalGet('node');
-    $this->assertText(t($block['title']), 'Block successfully being displayed on the page.');
+    $this->assertText($block['title'], 'Block successfully being displayed on the page.');
 
     // Confirm that the custom block was found at the proper region.
     $xpath = $this->buildXPathQuery('//div[@class=:region-class]//div[@id=:block-id]/*', array(
@@ -152,6 +147,9 @@ class socialBookmark extends DrupalWebTestCase {
     $this->assertFieldByXPath($xpath, NULL, format_string('Custom block found in %region_name region.', array('%region_name' => $region)));
   }
 
+  /**
+   * Dummy nodes.
+   */
   public function createSampleNodes($count = 5) {
     $langcode = LANGUAGE_NONE;
     // Post $count article nodes.
@@ -163,24 +161,28 @@ class socialBookmark extends DrupalWebTestCase {
     }
   }
 
-    function social_bookmark_contents() {
-  global $language;
-  return
-  'bla bla';
-}
+  /**
+   * Dummy content.
+   */
+  public function socialBookmarkContents() {
+    global $language;
+    return 'bla bla';
+  }
 
-
-  function social_bookmark_contents2() {
-  global $language;
-  return
-  '<div id="share-tool-right">
+  /**
+   * Dummy content.
+   */
+  public function socialBookmarkContents2() {
+    global $language;
+    return
+    '<div id="share-tool-right">
       <script type="text/javascript">iBeginShare.attachLink("share-tool-right",{share_counter_display: "true", share_lang: "' . $language->language . '"});</script>
-   </div>';
-}
+  </div>';
+  }
 
-    /**
+  /**
    * Creates a user with the give role.
-   * */
+   */
   public function drupalCreateUserWithRole($role) {
     // Get all of the roles in the system.
     $roles = user_roles();
@@ -207,21 +209,23 @@ class socialBookmark extends DrupalWebTestCase {
 /**
  * Prerequisites. Test the .info file
  */
-class socialBookmarkPrerequisites extends DrupalWebTestCase {
+class SocialBookmarkPrerequisites extends DrupalWebTestCase {
 
+  /**
+   * Sets Test info.
+   */
   public static function getInfo() {
     return array(
-        'name' => 'Social Bookmark Prerequisites QA tests',
-        'description' => 'Test the social_bookmark features to ensure it follows QA requirements.',
-        'group' => 'Multisite QA',
+      'name' => 'Social Bookmark Prerequisites QA tests',
+      'description' => 'Test the social_bookmark features to ensure it follows QA requirements.',
+      'group' => 'Multisite QA',
     );
   }
 
   /**
    * Test Info File.
-   * TestFile <featurename>.info
    */
-  function testInfoFile() {
+  public function testInfoFile() {
     $module = basename(__FILE__, ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.info';
     $info = drupal_parse_info_file($path);
@@ -234,34 +238,30 @@ class socialBookmarkPrerequisites extends DrupalWebTestCase {
     $this->assertTrue(array_key_exists('description', $info), 'The module\'s description is available.');
 
     // Add package information.
-    // Ex: package = Multisite_features
+    // Ex: package = Multisite_features.
     $this->assertTrue(array_key_exists('package', $info), 'The module\'s package is available.');
 
-    // Add core information
-    // Ex core = 7.x
-
+    // Add core information.
+    // Ex core = 7.x.
     $this->assertTrue(array_key_exists('core', $info), 'The Drupal core version is available.');
     $this->assertEqual($info['core'], '7.x');
 
-    // Add php information
-    // Ex: php = 5.2.4
-
+    // Add php information.
+    // Ex: php = 5.2.4.
     $this->assertTrue(array_key_exists('php', $info), 'The PHP version info is available.');
     $this->assertEqual($info['php'], '5.2.4');
 
-    // Add version information (check if the version number matches with this page title)
-    // Ex: version = 7.x-1.0
+    // Add version information (check if the version
+    // number matches with this page title).
+    // Ex: version = 7.x-1.0.
     $this->assertTrue(array_key_exists('version', $info));
 
-    // Add feature information:
-    // features[features_api][] = api:1
+    // Add feature information.
+    // features[features_api][] = api:1.
     $this->assertEqual($info['features']['features_api'][0], 'api:1', 'The Feature API dependency is available.');
 
-    // Remove menu dependencies:
-
+    // Remove menu dependencies.
     if (array_key_exists('dependencies', $info)) {
-      // dependencies[] = "menu"
-
       $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
     }
     // Check other dependencies (modules + features) to be sure they are needed
@@ -273,7 +273,10 @@ class socialBookmarkPrerequisites extends DrupalWebTestCase {
     }
   }
 
-  function testInstallFile() {
+  /**
+   * Test Install File.
+   */
+  public function testInstallFile() {
     $module = basename(__FILE__, ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.install';
     $data = file_get_contents($path);
@@ -282,6 +285,4 @@ class socialBookmarkPrerequisites extends DrupalWebTestCase {
     $this->assertTrue(strpos($data, $module . '_enable'), 'The module contains a hook_enable');
     $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
   }
-
 }
-
