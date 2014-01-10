@@ -229,7 +229,11 @@ function multisite_drupal_core_install() {
     'options' => $options,
   );
   menu_link_save($item);
-  
+
+
+  // delete previous Logout link -------------------------------------------------------------------------------
+  $path = 'admin/workbench';
+  menu_link_delete($mlid = NULL, $path);
   // add workbench link to the user menu -------------------------------------------------------------------------------
   $options = array();
   $options['attributes']['class'][] = 'btn btn-info btn-xs';
@@ -244,6 +248,9 @@ function multisite_drupal_core_install() {
   );
   menu_link_save($item);
 
+   // delete previous Logout link -------------------------------------------------------------------------------
+  $path = 'user/logout';
+  menu_link_delete($mlid = NULL, $path);
   // add logout  link to the user menu -------------------------------------------------------------------------------
   $options = array();
   $options['attributes']['class'][] = 'btn btn-default btn-xs';
@@ -257,7 +264,10 @@ function multisite_drupal_core_install() {
     'options' => $options,
   );
   menu_link_save($item);
-
+  
+ // delete previous My Account link -------------------------------------------------------------------------------
+  $path = 'user/';
+  menu_link_delete($mlid = NULL, $path);
   // add My Account link to the user menu -------------------------------------------------------------------------------
   $options = array();
   $options['attributes']['class'][] = 'btn btn-default btn-xs';
