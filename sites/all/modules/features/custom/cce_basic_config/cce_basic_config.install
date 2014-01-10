@@ -1105,4 +1105,9 @@ function cce_basic_config_update_7193() {
 
   // Jqmulti configuration.
   variable_set('jqmulti_load_files_always', 1);
+  
+  /* File format translation*/ 
+  $format = array (	"full_html" => "full_html","plain_text" => "plain_text");
+  variable_set ("i18n_string_allowed_formats",$format);
+
 }

@@ -179,6 +179,7 @@ features[variable][] = drupal_http_request_function
 features[variable][] = file_private_path
 features[variable][] = filter_fallback_format
 features[variable][] = i18n_select_nodes
+features[variable][] = i18n_string_allowed_formats
 features[variable][] = jqmulti_libraries
 features[variable][] = jqmulti_load_always
 features[variable][] = language_content_type_article
