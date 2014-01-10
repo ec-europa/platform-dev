@@ -125,15 +125,14 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
       'admin/help',
   );
 
-  foreach ($list_pages as $page) {
-    $result = db_select('menu_router', 'mr')
-    ->fields('mr', array('path'))
-    ->condition('path', $page . '%', 'LIKE')
-    ->execute();
-    while ($record = $result->fetchAssoc()) {
-      $items[$record['path']]['theme callback'] = 'multisite_cce_theme';
+  foreach ($items as $url => $item){
+    foreach ($list_pages as $page){
+      if (strpos($url,$page) === 0){
+        $items[$url]['theme callback'] = 'multisite_cce_theme';
+      }
     }
   }
+
   // block node import with node_export module
   $items['node/add/node_export']['access callback'] = FALSE;
   // hide broken links tab in the my account page
