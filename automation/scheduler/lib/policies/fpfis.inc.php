@@ -685,11 +685,20 @@ function fpfis_enable_varnish(&$subsite) {
 function fpfis_clear_subsite_caches(&$subsite) {
 	$install_profile = FPFISPolicyConfig::get('default_install_profile', 'multisite_drupal_standard');
 	
+	$tmp_base_url = '';
+	$urls = $subsite->urls();
+	if (count($urls)) {
+		$path = parse_url($urls[0], PHP_URL_PATH);
+		if ($path !== FALSE) $tmp_base_url = $path;
+	}
+
 	$reports = array();
 	$commands = array(
 		'cc all',
 		"php-eval 'node_access_rebuild();'",
+		sprintf('variable-set --always-set tmp_base_url %s', $tmp_base_url),
 		sprintf('scr "%s/../profiles/%s/inject_data.php"', $subsite->master()->path('sites'), $install_profile),
+		'variable-delete tmp_base_url',
 		'solr-index'
 	);
 	foreach ($commands as $command) {
