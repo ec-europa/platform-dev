@@ -229,11 +229,7 @@ function multisite_drupal_core_install() {
     'options' => $options,
   );
   menu_link_save($item);
-
-
-  // delete previous Logout link -------------------------------------------------------------------------------
-  $path = 'admin/workbench';
-  menu_link_delete($mlid = NULL, $path);
+  
   // add workbench link to the user menu -------------------------------------------------------------------------------
   $options = array();
   $options['attributes']['class'][] = 'btn btn-info btn-xs';
@@ -244,40 +240,6 @@ function multisite_drupal_core_install() {
     'link_title' => t('My workbench'),
     'menu_name' => 'user-menu',
     'weight' => '-30',
-    'options' => $options,
-  );
-  menu_link_save($item);
-
-   // delete previous Logout link -------------------------------------------------------------------------------
-  $path = 'user/logout';
-  menu_link_delete($mlid = NULL, $path);
-  // add logout  link to the user menu -------------------------------------------------------------------------------
-  $options = array();
-  $options['attributes']['class'][] = 'btn btn-default btn-xs';
-  $options['attributes']['data-image'] = 'log-out';
-
-  $item = array(
-    'link_path' => 'user/logout',
-    'link_title' => t('Logout'),
-    'menu_name' => 'user-menu',
-    'weight' => '50',
-    'options' => $options,
-  );
-  menu_link_save($item);
-  
- // delete previous My Account link -------------------------------------------------------------------------------
-  $path = 'user/';
-  menu_link_delete($mlid = NULL, $path);
-  // add My Account link to the user menu -------------------------------------------------------------------------------
-  $options = array();
-  $options['attributes']['class'][] = 'btn btn-default btn-xs';
-  $options['attributes']['data-image'] = 'user';
-
-  $item = array(
-    'link_path' => 'user/',
-    'link_title' => t('My Account'),
-    'menu_name' => 'user-menu',
-    'weight' => '45',
     'options' => $options,
   );
   menu_link_save($item);
@@ -301,7 +263,7 @@ function multisite_drupal_core_install() {
     -> condition('link_title', 'Home')
     -> condition('menu_name', 'main-menu')
     -> execute();
- 
+    
   // update logout link in the user menu ---------------------------------------------------------------------------------------
   $options = array();
   $options['attributes']['class'][] = 'btn btn-default btn-xs';
