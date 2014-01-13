@@ -177,3 +177,31 @@ function cce_basic_config_field_info_alter(&$info) {
     $vid['settings']['thumbnail_format'] = 'png';
   }
 }
+
+/**
+ * Implements hook_menu_link_alter().
+ *
+ * Alter the system links My Account and Log out
+ */
+function cce_basic_config_menu_link_alter(&$item) {
+
+  $link_path = $item['link_path'];
+
+  $user_classes = variable_get('user_classes', 'btn btn-default btn-xs');
+  switch ($link_path) {
+    case 'user':
+      $user_icon = variable_get('user_myaccount_data_image', 'user');
+      //$item['options']['attributes']['target'] = '_blank';
+      $item['options']['attributes']['class'] = $user_classes;
+      $item['options']['attributes']['data-image'] = variable_get('user_myaccount_data_image', 'user');
+      break;
+    
+    case 'user/logout':
+      $user_icon = variable_get('user_logout_data_image', 'log-out');
+      $item['options']['attributes']['class'] = $user_classes;
+      $item['options']['attributes']['data-image'] = variable_get('user_logout_data_image', 'log-out');
+      break;
+    default:
+      break;
+  }
+}
