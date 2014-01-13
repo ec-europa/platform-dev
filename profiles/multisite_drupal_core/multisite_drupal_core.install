@@ -264,25 +264,4 @@ function multisite_drupal_core_install() {
     -> condition('menu_name', 'main-menu')
     -> execute();
     
-  // update logout link in the user menu ---------------------------------------------------------------------------------------
-  $options = array();
-  $options['attributes']['class'][] = 'btn btn-default btn-xs';
-  $options['attributes']['data-image'] = 'log-out';
-
-  db_update('menu_links')
-    -> fields(array('options' => serialize($options)))
-    -> condition('link_title', 'Log out')
-    -> condition('menu_name', 'user-menu')
-    -> execute();     
-
-  // update my account link in the user menu ---------------------------------------------------------------------------------------
-  $options = array();
-  $options['attributes']['class'][] = 'btn btn-default btn-xs';
-  $options['attributes']['data-image'] = 'user';
-
-  db_update('menu_links')
-    -> fields(array('options' => serialize($options)))
-    -> condition('link_path', 'user')
-    -> condition('menu_name', 'user-menu')
-    -> execute();
 }
