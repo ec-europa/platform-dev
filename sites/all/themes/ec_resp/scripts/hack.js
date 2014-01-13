@@ -1,4 +1,8 @@
-jQuery(function($){
+/**
+ * @file
+ * Hack script for Bootstrap and Europa scripts
+ */
+ jQuery(function($){
 
 	$(document).ready(function() {  //Once the page elements are fully loaded
    

@@ -1,4 +1,8 @@
-/*! Copyright (c) 2011 Brandon Aaron (http://brandonaaron.net)
+/**
+ * @file
+ * Allow use of mouse wheel for jquery
+ *
+ *! Copyright (c) 2011 Brandon Aaron (http://brandonaaron.net)
  * Licensed under the MIT License (LICENSE.txt).
  *
  * Thanks to: http://adomas.org/javascript-mouse-wheel/ for some pointers.

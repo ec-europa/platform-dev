@@ -1,3 +1,7 @@
+/**
+ * @file
+ * Duplicate of europa script
+ */
 var translations = { // All translations used in webservice
 	"en":{"wsD":"Ok","wsE":"Webservice is busy, try later","wsL":"Please wait","wsR":"No languages found"},
 	"bg":{"wsE":"Уеб приложението не отговаря, опитайте по-късно.","wsL":"Моля изчакайте","wsR":"Не са намерени преводи на други езици"},

@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Javascripts for ec_resp theme
+ */
+
 //use jQuery 1.4.4
 jQuery(function($){
 

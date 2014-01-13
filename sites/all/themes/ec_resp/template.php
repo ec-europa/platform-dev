@@ -1,23 +1,26 @@
 <?php
+
 /**
  * @file
  * Default theme functions.
  */
 
-// $Id: template.php,v 1.13 2010/12/14 01:04:27 dries Exp $
-
 /**
- * Preprocess hooks
+ * Preprocess hook.
  */
-
 function ec_resp_preprocess(&$variables) {
-  //select template
-  $variables['template'] = 'ec'; //'ec' or 'europa'
+  // Select template
+  // 'ec' or 'europa'.
+  $variables['template'] = 'ec';
 
-  //select responsive sidebar
-  $variables['responsive_sidebar'] = 'both'; //'left', 'right' or 'both'
+  // Select responsive sidebar
+  // 'left', 'right' or 'both'.
+  $variables['responsive_sidebar'] = 'both';
 }
 
+/**
+ * Preprocess node hook.
+ */
 function ec_resp_preprocess_node(&$variables) {
   $custom_date = format_date($variables['created'], 'custom', 'l, d/m/Y');
   $variables['submitted'] = t('Published by !username on !datetime', array('!username' => $variables['name'], '!datetime' => $custom_date));
@@ -26,6 +29,9 @@ function ec_resp_preprocess_node(&$variables) {
   }
 }
 
+/**
+ * Preprocess block hook.
+ */
 function ec_resp_preprocess_block(&$variables) {
   // In the header region visually hide block titles.
   if ($variables['block']->region == 'header') {
@@ -33,23 +39,37 @@ function ec_resp_preprocess_block(&$variables) {
   }
 }
 
+/**
+ * Preprocess select hook.
+ */
 function ec_resp_preprocess_select(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
+
+/**
+ * Preprocess textfield hook.
+ */
 function ec_resp_preprocess_textfield(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
+
+/**
+ * Preprocess password hook.
+ */
 function ec_resp_preprocess_password(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
+
+/**
+ * Preprocess textarea hook.
+ */
 function ec_resp_preprocess_textarea(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
-function ec_resp_preprocess_username(&$variables) {
-  //$variables['attributes_array']['class'][] = 'list-group-item';
-}
-
+/**
+ * Preprocess maintenance page hook.
+ */
 function ec_resp_preprocess_maintenance_page(&$variables) {
   if (!$variables['db_is_active']) {
     unset($variables['site_name']);
@@ -57,6 +77,9 @@ function ec_resp_preprocess_maintenance_page(&$variables) {
   drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/maintenance-page.css');
 }
 
+/**
+ * Preprocess html hook.
+ */
 function ec_resp_preprocess_html(&$variables) {
   if (!empty($variables['page']['featured'])) {
     $variables['classes_array'][] = 'featured';
@@ -75,7 +98,7 @@ function ec_resp_preprocess_html(&$variables) {
     $variables['classes_array'][] = 'footer-columns';
   }
 
-  // Update page title
+  // Update page title.
   if (arg(0) == 'node' && is_numeric(arg(1))) {
     $node = node_load(arg(1));
     $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
@@ -85,7 +108,7 @@ function ec_resp_preprocess_html(&$variables) {
   }
 
   // Add specific css for font size switcher
-  // it has to be done here, to add custom data
+  // it has to be done here, to add custom data.
   global $base_url;
   $element = array(
     '#tag' => 'link',
@@ -94,14 +117,19 @@ function ec_resp_preprocess_html(&$variables) {
       'rel' => 'stylesheet',
       'type' => 'text/css',
       'data-name' => 'switcher',
-    )
+    ),
   );
   drupal_add_html_head($element, 'font_size_switcher');
 
-  // Add conditional stylesheets for IE
-  drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'preprocess' => FALSE));
+  // Add conditional stylesheets for IE.
+  drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/ie.css', array(
+    'group' => CSS_THEME,
+    'browsers' => array(
+      'IE' => 'lte IE 7',
+      '!IE' => FALSE),
+    'preprocess' => FALSE));
 
-  // Add javascripts
+  // Add javascripts.
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/respond.min.js', array('scope' => 'header', 'weight' => 1));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel-3.0.6.pack.js', array('scope' => 'footer', 'weight' => 11));
@@ -109,14 +137,17 @@ function ec_resp_preprocess_html(&$variables) {
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 13));
 }
 
+/**
+ * Preprocess menu link hook.
+ */
 function ec_resp_preprocess_menu_link(&$variables) {
-  //get icon links to menu item
+  // Get icon links to menu item.
   $icon = (isset($variables['element']['#localized_options']['attributes']['data-image']) ? $variables['element']['#localized_options']['attributes']['data-image'] : '');
 
-  //get display title option
+  // Get display title option.
   $display_title = (isset($variables['element']['#localized_options']['attributes']['data-display-title']) ? $variables['element']['#localized_options']['attributes']['data-display-title'] : 1);
 
-  //add the icon
+  // Add the icon.
   if ($icon) {
     if ($display_title) {
       $variables['element']['#title'] = '<span class="glyphicon glyphicon-' . $icon . '"></span> ' . $variables['element']['#title'];
@@ -126,12 +157,12 @@ function ec_resp_preprocess_menu_link(&$variables) {
     }
   }
 
-  //add CSS class
+  // Add CSS class.
   $variables['element']['#localized_options']['attributes']['class'][] = 'list-group-item';
 }
 
 /**
- * Process hooks
+ * Process maintenance page hook.
  */
 function ec_resp_process_maintenance_page(&$variables) {
   // Always print the site name and slogan, but if they are toggled off, we'll
@@ -139,15 +170,20 @@ function ec_resp_process_maintenance_page(&$variables) {
   $variables['hide_site_name']   = theme_get_setting('toggle_name') ? FALSE : TRUE;
   $variables['hide_site_slogan'] = theme_get_setting('toggle_slogan') ? FALSE : TRUE;
   if ($variables['hide_site_name']) {
-    // If toggle_name is FALSE, the site_name will be empty, so we rebuild it.
+    // If toggle_name is FALSE, the site_name will be empty,
+    // so we rebuild it.
     $variables['site_name'] = filter_xss(variable_get('site_name', 'Drupal'));
   }
   if ($variables['hide_site_slogan']) {
-    // If toggle_site_slogan is FALSE, the site_slogan will be empty, so we rebuild it.
+    // If toggle_site_slogan is FALSE, the site_slogan will be empty,
+    // so we rebuild it.
     $variables['site_slogan'] = filter_xss(variable_get('site_slogan', ''));
   }
 }
 
+/**
+ * Process html hook.
+ */
 function ec_resp_process_html(&$variables) {
   // Hook into color.module.
   if (module_exists('color')) {
@@ -155,8 +191,10 @@ function ec_resp_process_html(&$variables) {
   }
 }
 
+/**
+ * Process page hook.
+ */
 function ec_resp_process_page(&$variables) {
-
   // Hook into color.module.
   if (module_exists('color')) {
     _color_page_alter($variables);
@@ -166,17 +204,20 @@ function ec_resp_process_page(&$variables) {
   $variables['hide_site_name']   = theme_get_setting('toggle_name') ? FALSE : TRUE;
   $variables['hide_site_slogan'] = theme_get_setting('toggle_slogan') ? FALSE : TRUE;
   if ($variables['hide_site_name']) {
-    // If toggle_name is FALSE, the site_name will be empty, so we rebuild it.
+    // If toggle_name is FALSE, the site_name will be empty,
+    // so we rebuild it.
     $variables['site_name'] = filter_xss(variable_get('site_name', 'Drupal'));
   }
   if ($variables['hide_site_slogan']) {
-    // If toggle_site_slogan is FALSE, the site_slogan will be empty, so we rebuild it.
+    // If toggle_site_slogan is FALSE, the site_slogan will be empty,
+    // so we rebuild it.
     $variables['site_slogan'] = filter_xss(variable_get('site_slogan', ''));
   }
   // Since the title and the shortcut link are both block level elements,
   // positioning them next to each other is much simpler with a wrapper div.
   if (!empty($variables['title_suffix']['add_or_remove_shortcut']) && $variables['title']) {
-    // Add a wrapper div using the title_prefix and title_suffix render elements.
+    // Add a wrapper div using the title_prefix and title_suffix
+    // render elements.
     $variables['title_prefix']['shortcut_wrapper'] = array(
       '#markup' => '<div class="shortcut-wrapper clearfix">',
       '#weight' => 100,
@@ -190,9 +231,8 @@ function ec_resp_process_page(&$variables) {
   }
 }
 
-
 /**
- * Alter page header
+ * Alter page header.
  */
 function ec_resp_page_alter($page) {
   global $language;
@@ -225,7 +265,7 @@ function ec_resp_page_alter($page) {
       }
     }
   }
-  $keywords .=  filter_xss(variable_get('site_name')) . ', ';
+  $keywords .= filter_xss(variable_get('site_name')) . ', ';
   $keywords .= 'European Commission, European Union, EU';
 
   $type = 'website';
@@ -233,60 +273,60 @@ function ec_resp_page_alter($page) {
     $type = $node->type;
   }
 
-  //Content-Language
+  // Content-Language.
   $meta_content_language = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'http-equiv' => 'Content-Language',
-      'content' =>  $language->language
-    )
+      'content' => $language->language,
+    ),
   );
-  drupal_add_html_head( $meta_content_language, 'meta_content_language' );
+  drupal_add_html_head($meta_content_language, 'meta_content_language');
 
-  //description
+  // Description.
   $meta_description = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'description',
-      'content' => $description
-    )
+      'content' => $description,
+    ),
   );
-  drupal_add_html_head( $meta_description, 'meta_description' );
+  drupal_add_html_head($meta_description, 'meta_description');
 
-  //reference
+  // Reference.
   $meta_reference = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'reference',
-      'content' =>  filter_xss(variable_get('site_name'))
-    )
+      'content' => filter_xss(variable_get('site_name')),
+    ),
   );
-  drupal_add_html_head( $meta_reference, 'meta_reference' );
+  drupal_add_html_head($meta_reference, 'meta_reference');
 
-  //creator
+  // Creator.
   $meta_creator = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'creator',
-      'content' =>  'COMM/DG/UNIT'
-    )
+      'content' => 'COMM/DG/UNIT',
+    ),
   );
-  drupal_add_html_head( $meta_creator, 'meta_creator' );
+  drupal_add_html_head($meta_creator, 'meta_creator');
 
-  //IPG classification
+  // IPG classification.
   $classification = variable_get('meta_configuration', 'none');
-    if ($classification != 'none') {
+  if ($classification != 'none') {
     $meta_classification = array(
       '#type' => 'html_tag',
       '#tag' => 'meta',
       '#attributes' => array(
         'name' => 'classification',
-        'content' =>  variable_get('meta_configuration', 'none')
-      )
+        'content' => variable_get('meta_configuration', 'none'),
+      ),
     );
     drupal_add_html_head($meta_classification, 'meta_classification');
   }
@@ -296,117 +336,115 @@ function ec_resp_page_alter($page) {
     }
   }
 
-  //keywords
+  // Keywords.
   $meta_keywords = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'keywords',
-      'content' =>  $keywords
-    )
-
+      'content' => $keywords,
+    ),
   );
-  drupal_add_html_head( $meta_keywords, 'meta_keywords' );
+  drupal_add_html_head($meta_keywords, 'meta_keywords');
 
-  //date
+  // Date.
   $meta_date = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'date',
-      'content' =>  date('d/m/Y')
-    )
+      'content' => date('d/m/Y'),
+    ),
   );
-  drupal_add_html_head( $meta_date, 'meta_date' );
+  drupal_add_html_head($meta_date, 'meta_date');
 
-  //og title
+  // Og title.
   $meta_og_title = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'property' => 'og:title',
-
-      'content' =>  $title
-    )
+      'content' => $title,
+    ),
   );
-  drupal_add_html_head( $meta_og_title, 'meta_og_title' );
+  drupal_add_html_head($meta_og_title, 'meta_og_title');
 
-  //og type
+  // Og type.
   $meta_og_type = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'property' => 'og:type',
-      'content' =>  $type
-    )
+      'content' => $type,
+    ),
   );
-  drupal_add_html_head( $meta_og_type, 'meta_og_type' );
+  drupal_add_html_head($meta_og_type, 'meta_og_type');
 
-  //og site name
+  // Og site name.
   $meta_og_site_name = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'property' => 'og:site_name',
-      'content' =>  filter_xss(variable_get('site_name'))
-    )
+      'content' => filter_xss(variable_get('site_name')),
+    ),
   );
-  drupal_add_html_head( $meta_og_site_name, 'meta_og_site_name' );
+  drupal_add_html_head($meta_og_site_name, 'meta_og_site_name');
 
-  //og description
+  // Og description.
   $meta_og_description = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'property' => 'og:description',
-      'content' =>  $description
-    )
+      'content' => $description,
+    ),
   );
-  drupal_add_html_head( $meta_og_description, 'meta_og_description' );
+  drupal_add_html_head($meta_og_description, 'meta_og_description');
 
-  //fb admins
+  // Fb admins.
   $meta_fb_admins = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'property' => 'fb:admins',
-      'content' =>  'USER_ID'
-    )
+      'content' => 'USER_ID',
+    ),
   );
-  drupal_add_html_head( $meta_fb_admins, 'meta_fb_admins' );
+  drupal_add_html_head($meta_fb_admins, 'meta_fb_admins');
 
-  //robots
+  // Robots.
   $meta_robots = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'property' => 'robots',
-      'content' =>  'follow,index'
-    )
+      'content' => 'follow,index',
+    ),
   );
-  drupal_add_html_head( $meta_robots, 'meta_robots' );
+  drupal_add_html_head($meta_robots, 'meta_robots');
 
-  //revisit after
+  // Revisit after.
   $revisit_after = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'property' => 'revisit-after',
-      'content' =>  '15 Days'
-    )
+      'content' => '15 Days',
+    ),
   );
-  drupal_add_html_head( $revisit_after, 'revisit-after' );
+  drupal_add_html_head($revisit_after, 'revisit-after');
 
-  //viewport
+  // Viewport.
   $viewport = array(
     '#type' => 'html_tag',
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'viewport',
-      'content' =>  'width=device-width, initial-scale=1.0'
-    )
+      'content' => 'width=device-width, initial-scale=1.0',
+    ),
   );
-  drupal_add_html_head( $viewport, 'viewport' );
+  drupal_add_html_head($viewport, 'viewport');
 }
 
 /**
@@ -415,10 +453,10 @@ function ec_resp_page_alter($page) {
 function ec_resp_block_view_alter(&$data, $block) {
 
   if ($block->region == 'sidebar_left' || $block->region == 'sidebar_right') {
-    // add classes to list.
+    // Add classes to list.
     $data['content'] = (isset($data['content']) ? str_replace('<ul>', '<ul class="list-group list-group-flush list-unstyled">', $data['content']) : '');
 
-    // add classes to list items
+    // Add classes to list items.
     if (!is_array($data['content'])) {
       preg_match_all('/<a(.*?)>/s', $data['content'], $matches);
 
@@ -466,7 +504,11 @@ function ec_resp_form_element($variables) {
     }
   }
   if (!empty($element['#name'])) {
-    $attributes['class'][] = 'form-item-' . strtr($element['#name'], array(' ' => '-', '_' => '-', '[' => '-', ']' => ''));
+    $attributes['class'][] = 'form-item-' . strtr($element['#name'], array(
+      ' ' => '-',
+      '_' => '-',
+      '[' => '-',
+      ']' => ''));
   }
   // Add a class for disabled elements to facilitate cross-browser styling.
   if (!empty($element['#attributes']['disabled'])) {
@@ -533,14 +575,18 @@ function ec_resp_menu_tree($variables) {
   return '<ul class="menu clearfix list-group list-group-flush list-unstyled">' . $variables['tree'] . '</ul>';
 }
 
+/**
+ * Implements theme_menu_tree_main_menu().
+ */
 function ec_resp_menu_tree__main_menu($variables) {
   if (strpos($variables['tree'], 'main_menu_dropdown')) {
-  //there is a dropdown in this tree (using a specific term "main_menu_dropdown" to avoid mistakes)
+    // There is a dropdown in this tree.
+    // (using a specific term "main_menu_dropdown" to avoid mistakes).
     $variables['tree'] = str_replace('<ul class="nav navbar-nav">', '<ul class="dropdown-menu">', $variables['tree']);
     return '<ul class="nav navbar-nav">' . $variables['tree'] . '</ul>';
   }
   else {
-  //there is no dropdown in this tree, simply return it in a <ul>
+    // There is no dropdown in this tree, simply return it in a <ul>.
     return '<ul class="nav navbar-nav">' . $variables['tree'] . '</ul>';
   }
 }
@@ -560,39 +606,44 @@ function ec_resp_menu_link(array $variables) {
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 
+/**
+ * Implements theme_menu_link_main_menu().
+ */
 function ec_resp_menu_link__main_menu(array $variables) {
   $element = $variables['element'];
   $dropdown = '';
   $name_id = strtolower(strip_tags(str_replace(' ', '', $element['#title'])));
-// remove colons and anything past colons
-  if (strpos($name_id, ':')) $name_id = substr ($name_id, 0, strpos($name_id, ':'));
-//Preserve alphanumerics and numbers, everything else goes away
+  // Remove colons and anything past colons.
+  if (strpos($name_id, ':')) {
+    $name_id = substr($name_id, 0, strpos($name_id, ':'));
+  }
+  // Preserve alphanumerics and numbers, everything else goes away.
   $pattern = '/([^a-z]+)([^0-9]+)/';
   $name_id = preg_replace($pattern, '', $name_id);
   $element['#attributes']['class'][] = 'item' . $element['#original_link']['mlid'];
 
   if ($element['#below'] && !theme_get_setting('disable_dropdown_menu')) {
-  //Menu item has dropdown
+    // Menu item has dropdown.
     if (!in_array('dropdown-submenu', $element['#attributes']['class'])) {
       $element['#title'] .= '<b class="caret"></b>';
     }
 
-    //get first child item (we only need to add a class to the first item)
+    // Get first child item (we only need to add a class to the first item).
     $current = current($element['#below']);
     $id = $current['#original_link']['mlid'];
 
-    //add class to specify it is a dropdown
+    // Add class to specify it is a dropdown.
     $element['#below'][$id]['#attributes']['class'][] = 'main_menu_dropdown';
     if (!in_array('dropdown-submenu', $element['#attributes']['class'])) {
       $element['#attributes']['class'][] = 'dropdown';
     }
 
-    //test if there is a sub-dropdown
+    // Test if there is a sub-dropdown.
     foreach ($element['#below'] as $key => $value) {
       if (is_numeric($key) && $value['#below']) {
         $sub_current = current($value['#below']);
         $sub_id = $sub_current['#original_link']['mlid'];
-        //add class to specify it is a sub-dropdown
+        // Add class to specify it is a sub-dropdown.
         $element['#below'][$key]['#below'][$sub_id]['#attributes']['class'][] = 'main_menu_sub_dropdown';
         $element['#below'][$key]['#attributes']['class'][] = 'dropdown-submenu';
       }
@@ -606,17 +657,15 @@ function ec_resp_menu_link__main_menu(array $variables) {
     $output = l($element['#title'], '', $element['#localized_options']);
 
     $dropdown = drupal_render($element['#below']);
-
   }
   else {
-  //No dropdown
+    // No dropdown.
     $element['#localized_options']['html'] = TRUE;
     $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   }
 
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $dropdown . "</li>\n";
 }
-
 
 /**
  * Implements theme_field__field_type().
@@ -643,7 +692,7 @@ function ec_resp_field__taxonomy_term_reference($variables) {
 }
 
 /**
- * Alter tabs
+ * Alter tabs.
  */
 function ec_resp_menu_local_tasks(&$variables) {
   $output = '';
@@ -665,9 +714,9 @@ function ec_resp_menu_local_tasks(&$variables) {
 }
 
 /**
- * Hook form alter
+ * Hook form alter.
  */
-function ec_resp_form_alter(&$form, &$form_state, $form_id) { //print $form_id;
+function ec_resp_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'search_block_form':
       $form['search_block_form']['#attributes']['placeholder'][] = t('Search');
@@ -718,10 +767,10 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) { //print $form_id;
 }
 
 /**
- * #after_build function to modify CCK fields
+ * After_build function for form_alter.
  */
 function ec_resp_cck_alter($form, &$form_state) {
-  //hide format field
+  // Hide format field.
   if (!user_access('administer nodes')) {
     $form['comment_body']['und'][0]['format']['#prefix'] = "<div class='hide'>";
     $form['comment_body']['und'][0]['format']['#suffix'] = "</div>";
@@ -735,9 +784,8 @@ function ec_resp_cck_alter($form, &$form_state) {
 
 /**
  * Returns HTML for a link.
- * @param type $variables
  */
-function ec_resp_link( $variables ) {
+function ec_resp_link($variables) {
   $decoration = '';
   $action_bar_before = '';
   $action_bar_after = '';
@@ -749,34 +797,40 @@ function ec_resp_link( $variables ) {
   }
 
   if (isset($variables['options']['attributes']['action_bar'])) {
-    switch ( $variables['options']['attributes']['action_bar'] ) {
+    switch ($variables['options']['attributes']['action_bar']) {
       case 'first':
         $action_bar_before .= '<div class="form-actions btn-toolbar action_bar">';
         break;
+
       case 'last':
         $action_bar_after .= '</div>';
         break;
+
       case 'single':
         $action_bar_before .= '<div class="form-actions btn-toolbar action_bar">';
         $action_bar_after .= '</div>';
         break;
+
       default:
         break;
     }
   }
 
   if (isset($variables['options']['attributes']['btn_group'])) {
-    switch ( $variables['options']['attributes']['btn_group'] ) {
+    switch ($variables['options']['attributes']['btn_group']) {
       case 'first':
         $btn_group_before .= '<div class="btn-group">';
         break;
+
       case 'last':
         $btn_group_after .= '</div>';
         break;
+
       case 'single':
         $btn_group_before .= '<div class="btn-group">';
         $btn_group_after .= '</div>';
         break;
+
       default:
         break;
     }
@@ -788,29 +842,36 @@ function ec_resp_link( $variables ) {
         $decoration .= '<span class="glyphicon glyphicon-plus"></span> ';
         $variables['options']['attributes']['class'] .= ' btn btn-success';
         break;
+
       case 'expand':
         $decoration .= '<span class="glyphicon glyphicon-chevron-down"></span> ';
         $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
         break;
+
       case 'collapse':
         $decoration .= '<span class="glyphicon glyphicon-chevron-up"></span> ';
         $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
         break;
+
       case 'delete':
         $decoration .= '<span class="glyphicon glyphicon-trash"></span> ';
         $variables['options']['attributes']['class'] .= ' btn btn-danger';
         break;
+
       case 'edit':
         $decoration .= '<span class="glyphicon glyphicon-pencil"></span> ';
         $variables['options']['attributes']['class'] .= ' btn btn-info';
         break;
+
       case 'message':
         $decoration .= '<span class="glyphicon glyphicon-envelope"></span> ';
         $variables['options']['attributes']['class'] .= ' btn btn-primary';
         break;
+
       case 'small':
         $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
         break;
+
       default:
         break;
     }
@@ -827,41 +888,41 @@ function ec_resp_link( $variables ) {
 
 /**
  * Returns HTML for a dropdown.
- * @param type $variables
  */
 function ec_resp_dropdown($variables) {
-
   $items = $variables['items'];
   $attributes = array();
 
-  $output="";
+  $output = "";
   if (!empty($items)) {
-  if (theme_get_setting('disable_dropdown_menu'))
-    $output .= "<ul>";
-    else
-    $output .= "<ul class='dropdown-menu'>";
-    $num_items = count($items);
-    foreach ($items as $i => $item) {
-      $data = '';
-      if (is_array($item)) {
-        foreach ($item as $key => $value) {
-          if ($key == 'data') {
-            $data = $value;
+    if (theme_get_setting('disable_dropdown_menu')) {
+      $output .= "<ul>";
+    }
+    else {
+      $output .= "<ul class='dropdown-menu'>";
+      $num_items = count($items);
+      foreach ($items as $i => $item) {
+        $data = '';
+        if (is_array($item)) {
+          foreach ($item as $key => $value) {
+            if ($key == 'data') {
+              $data = $value;
+            }
           }
         }
+        else {
+          $data = $item;
+        }
+        $output .= '<li>' . $data . "</li>\n";
       }
-      else {
-        $data = $item;
-      }
-      $output .= '<li>' . $data . "</li>\n";
+      $output .= "</ul>";
     }
-    $output .= "</ul>";
   }
   return $output;
 }
 
 /**
- * render a block (to be displayed in a template file)
+ * Render a block (to be displayed in a template file).
  */
 function ec_resp_block_render($module, $block_id) {
   $block = block_load($module, $block_id);
@@ -871,85 +932,94 @@ function ec_resp_block_render($module, $block_id) {
   return $block_rendered;
 }
 
-
+/**
+ * Add an icon corresponding to content type.
+ */
 function ec_resp_icon_type_classes($subject) {
   $pattern = '@<i class="icon-(.+)"></i>@';
   $resexp = preg_replace_callback($pattern, 'ec_resp_class_replace', $subject);
   return $resexp;
 }
 
+/**
+ * Add html markup for icons.
+ */
 function ec_resp_class_replace($match) {
+  $output = '';
+
   switch ($match[1]) {
     case "Article":
-      return '<i class="multisite-icon-file"></i>';
-    break;
+      $output = '<i class="multisite-icon-file"></i>';
+      break;
 
     case "community":
-      return '<i class="multisite-icon-group"></i>';
-    break;
+      $output = '<i class="multisite-icon-group"></i>';
+      break;
 
     case "Document":
-
-      return '<i class="multisite-icon-newspaper"></i>';
-    break;
+      $output = '<i class="multisite-icon-newspaper"></i>';
+      break;
 
     case "Event":
-      return '<i class="multisite-icon-calendar"></i>';
-    break;
+      $output = '<i class="multisite-icon-calendar"></i>';
+      break;
 
     case "Links":
-      return '<i class="multisite-icon-link"></i>';
-    break;
+      $output = '<i class="multisite-icon-link"></i>';
+      break;
 
     case "News":
-      return '<i class="multisite-icon-megaphone"></i>';
-    break;
+      $output = '<i class="multisite-icon-megaphone"></i>';
+      break;
 
     case "Page":
-      return '<i class="multisite-icon-file"></i>';
-    break;
+      $output = '<i class="multisite-icon-file"></i>';
+      break;
 
     case "Survey":
-      return '<i class="multisite-icon-check"></i>';
-    break;
+      $output = '<i class="multisite-icon-check"></i>';
+      break;
 
     case "Wiki":
-      return '<i class="multisite-icon-edit"></i>';
-    break;
+      $output = '<i class="multisite-icon-edit"></i>';
+      break;
 
     case "F.A.Q":
-      return '<i class="multisite-icon-question"></i>';
-    break;
+      $output = '<i class="multisite-icon-question"></i>';
+      break;
 
     case "GalleryMedia":
-      return '<i class="multisite-icon-pictures"></i>';
-    break;
+      $output = '<i class="multisite-icon-pictures"></i>';
+      break;
 
     case "Blog post":
-      return '<i class="multisite-icon-book"></i>';
-    break;
+      $output = '<i class="multisite-icon-book"></i>';
+      break;
 
     case "idea":
-      return '<i class="multisite-icon-light-bulb"></i>';
-    break;
+      $output = '<i class="multisite-icon-light-bulb"></i>';
+      break;
 
     case "Simplenews newsletter":
-      return '<i class="multisite-icon-paperplane"></i>';
-    break;
+      $output = '<i class="multisite-icon-paperplane"></i>';
+      break;
 
     default:
-    break;
+      break;
   }
+  return $output;
 }
 
-/* Put Breadcrumbs in a  li structure */
+/**
+ * Put Breadcrumbs in a  li structure.
+ */
 function ec_resp_breadcrumb($variables) {
   $breadcrumb = $variables['breadcrumb'];
 
   $crumbs = '';
   if (!empty($breadcrumb)) {
     foreach ($breadcrumb as $key => $value) {
-      if ($key!=0) {
+      if ($key != 0) {
         $crumbs .= '<li>' . $value . '</li>';
       }
     }
