@@ -263,5 +263,9 @@ function multisite_drupal_core_install() {
     -> condition('link_title', 'Home')
     -> condition('menu_name', 'main-menu')
     -> execute();
+
+  variable_set('user_classes', 'btn btn-default btn-xs');
+  variable_set('user_myaccount_data_image', 'user'); //My Account
+  variable_set('user_logout_data_image', 'log-out'); //Log out   
     
 }
