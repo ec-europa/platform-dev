@@ -2,47 +2,48 @@
 /**
  * @file multi_user install file.
  */
+
 /*
-* hook_disable
+* Implements hook_disable().
 */
 function multi_user_blog_disable() {
   multisite_drupal_toolbox_disable_content_type('blog_post');
 
-  // solR configuration add bundle
+  // SolR configuration add bundle.
   multisite_drupal_toolbox_config_solr_bundle('blog_post', 'delete');
 
-  // remove type to the simplenews related content
+  // Remove type to the simplenews related content.
   multisite_drupal_toolbox_simplenews_related_content_type('blog_post', 'delete');
 
-  // remove type to linkchecker scan
+  // Remove type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('blog_post', 'delete');
 
-  //remove the breadcrump related to
+  // Remove the breadcrump related to.
   db_delete('custom_breadcrumb')
     ->condition('node_type', 'blog_post')
     ->execute();
 
-  //Remove rating
+  // Remove rating.
   multisite_drupal_toolbox_rate_content_type('blog_post', 'remove');
 
-  //Activation message
+  // Activation message.
   drupal_set_message(t('multi user blogs feature is now disable on your site.'));
 }
 
 /*
-* hook_enable
+* Implements hook_enable().
 */
 function multi_user_blog_enable() {
-  // solR configuration add bundle
+  // SolR configuration add bundle.
   multisite_drupal_toolbox_config_solr_bundle('blog_post', 'add');
 
-  // add type to the simplenews related content
+  // Add type to the simplenews related content.
   multisite_drupal_toolbox_simplenews_related_content_type('blog_post', 'add');
 
-  // add type to linkchecker scan
+  // Add type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('blog_post', 'add');
 
-  //Add breadcrumb configuration
+  // Add breadcrumb configuration.
   db_insert('custom_breadcrumb')
     ->fields(array(
       'titles' => '[Breadcrumb_blog_post:multi_user_blog_title]', // titles of the elements to display in the breadcrumb
@@ -52,10 +53,10 @@ function multi_user_blog_enable() {
     ))
     ->execute();
 
-  //Add rating
+  //Add rating.
   multisite_drupal_toolbox_rate_content_type('blog_post', 'add');
 
-  //Activation message
+  //Activation message.
   drupal_set_message(t('multi user blogs feature is now enable on your site.'));
 }
 
@@ -63,12 +64,12 @@ function multi_user_blog_enable() {
  * Implements hook_install().
  */
 function multi_user_blog_install() {
-  //Install scripts here
+  // Install scripts here.
 }
 
 /**
  * Implements hook_uninstall().
  */
 function multi_user_blog_uninstall() {
-  //Uninstall scripts here
+  // Uninstall scripts here.
 }
