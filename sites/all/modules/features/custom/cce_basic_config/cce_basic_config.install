@@ -1130,3 +1130,33 @@ function cce_basic_config_update_7193() {
   variable_set ("i18n_string_allowed_formats",$format);
 
 }
+/**
+* Update classes and icons on My Account and Logout
+*/
+function cce_basic_config_update_7194() {
+  variable_set('user_classes', 'btn btn-default btn-xs');
+  variable_set('user_myaccount_data_image', 'user'); //My Account
+  variable_set('user_logout_data_image', 'log-out'); //Log out
+
+  // update My Account link in user-menu ---------------------------------------------------------------------------------------
+  $options = array();
+  $options['attributes']['class'] = variable_get('user_classes', 'btn btn-default btn-xs');
+  $options['attributes']['data-image'] = variable_get('user_logout_data_image', 'user');
+
+  db_update('menu_links')
+    -> fields(array('options' => serialize($options), 'weight' => '40'))
+    -> condition('link_path', 'user')
+    -> condition('menu_name', 'user-menu')
+    -> execute();
+
+  // update Logouy link in the user-menu ---------------------------------------------------------------------------------------
+  $options = array();
+  $options['attributes']['class'] = variable_get('user_classes', 'btn btn-default btn-xs');
+  $options['attributes']['data-image'] = variable_get('user_logout_data_image', 'log-out');
+
+  db_update('menu_links')
+    -> fields(array('options' => serialize($options), 'weight' => '50'))
+    -> condition('link_path', 'user/logout')
+    -> condition('menu_name', 'user-menu')
+    -> execute();
+}
