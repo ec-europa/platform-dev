@@ -7,21 +7,22 @@
 include_once('e_library_standard.features.inc');
 
 /**
- * Add a buttons in the views associated with this feature
+ * Add a buttons in the views associated with this feature.
  * @param type $view 
  */
 function e_library_standard_views_pre_render(&$view) {
 
   if ($view->name=='e_library'){
     switch ($view->current_display) {
-	  case 'page':
+    case 'page':
         if ( user_access('create document content') ) {
           $output= l(t('Upload a new Document'),
           'node/add/document',
           array('attributes' => array('type' => 'add', 'action_bar' => 'single', 'btn_group' => 'single')));
-          $view->header['area']->options['content'] = $view->header['area']->options['content'].$output;
+          $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
         }
         break;
+
       default:
         break;
       }
