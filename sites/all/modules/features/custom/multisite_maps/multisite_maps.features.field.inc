@@ -1136,7 +1136,7 @@ function multisite_maps_field_default_fields() {
       'bundle' => 'map',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => 'FusionMaps takes in data only in custom XML format. The XML can be auto-generated using the <a href="http://www.cc.cec/fpfis/fusionmapsxt/Tools/GUI/FusionMapsGUI.html" target="_blank">Visual Map Builder</a> which provides an online interface for convenient data entry.',
+      'description' => 'FusionMaps takes in data only in custom XML format. The XML can be auto-generated using the <a href="https://webtools.ec.europa.eu/fusionmapsxt/Tools/GUI/FusionMapsGUI.html" target="_blank">Visual Map Builder</a> which provides an online interface for convenient data entry.',
       'display' => array(
         'default' => array(
           'label' => 'above',
