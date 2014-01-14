@@ -6,7 +6,7 @@
  */
 
 /**
- * Implements hook_install
+ * Implements hook_install().
  */
 function multisite_maps_install() {
   // Not implemented yet.
@@ -20,38 +20,32 @@ function multisite_maps_uninstall() {
 }
 
 /**
- * Implements hook_enable
+ * Implements hook_enable().
  */
 function multisite_maps_enable() {
-  // solR configuration add bundle
+  // SolR configuration add bundle.
   config_solr_bundle('map', 'add');
 
-  // add type to linkchecker scan
+  // Add type to linkchecker scan.
   _content_type_linkchecker('map', 'add');
 
-  // add type to the simplenews related content
-  //simplenews_related_content_type('map', 'add');
-
-  //Activation message
+  // Activation message.
   drupal_set_message('Multisite Maps feature is now active on your site.');
 }
 
 /**
- * Implements hook_disable
+ * Implements hook_disable().
  */
 function multisite_maps_disable() {
-  // solR configuration delete bundle
+  // SolR configuration delete bundle.
   config_solr_bundle('map', 'delete');
 
-  // remove type to linkchecker scan
+  // Remove type to linkchecker scan.
   _content_type_linkchecker('map', 'delete');
 
-  // remove type to the simplenews related content
-  //simplenews_related_content_type('map', 'delete');
-  
   _disable_content_type('map');
   
-  //Activation message
+  // Activation message.
   drupal_set_message('Multisite Maps feature is now disabled on your site.');
 }
 
