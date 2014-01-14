@@ -6,10 +6,10 @@
  */
 
 /**
- * hook_install
+ * Implements hook_install().
  */
 function idea_core_install() {
-  // create a vocabulary dedicated to the idea categories
+  // Create a vocabulary dedicated to the categories.
   $vocabulary = (object) array(
     'name' => st('Idea categories'),
     'machine_name' => 'idea_categories',
@@ -17,40 +17,45 @@ function idea_core_install() {
   );
   taxonomy_vocabulary_save($vocabulary);
 
-  // add default categories
+  // Add default categories.
   $vocabulary = taxonomy_vocabulary_machine_name_load('idea_categories');
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Communication'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Improvements'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Legislation'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Resources'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Services'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Other'),
   );
   taxonomy_term_save($term);
 
-  // create a vocabulary dedicated to the idea status
+  // Create a vocabulary dedicated to the status.
   $vocabulary = (object) array(
     'name' => st('Idea status'),
     'machine_name' => 'idea_status',
@@ -58,24 +63,27 @@ function idea_core_install() {
   );
   taxonomy_vocabulary_save($vocabulary);
 
-  // add default categories
+  // Add default categories.
   $vocabulary = taxonomy_vocabulary_machine_name_load('idea_status');
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Current Activity'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('In Action'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+  
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('No Status'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+  
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Unable to Implement'),
@@ -89,7 +97,7 @@ function idea_core_install() {
 }
 
 /**
- * hook_uninstall
+ * Implements hook_uninstall().
  */
 function idea_core_uninstall() {
   $vocabulary = taxonomy_vocabulary_machine_name_load('idea_categories');
@@ -97,32 +105,30 @@ function idea_core_uninstall() {
 }
 
 /**
- * Add block to the context
+ * Add block to the context.
  */
 function idea_core_enable() {
-  // solR configuration add bundle
+  // SolR configuration add bundle.
   multisite_drupal_toolbox_config_solr_bundle('idea', 'add');
 
-  // add type to linkchecker scan
+  // Add type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('idea', 'add');
 
-  // add type to the idea related content
-  //idea_related_content_type('idea', 'add'); TBR comment cause function does not exists
 
-  //Add breadcrumb configuration
+  // Add breadcrumb configuration.
   db_insert('custom_breadcrumb')
     ->fields(array(
-      'titles' => '[Breadcrumb_idea:idea_title]', // titles of the elements to display in the breadcrumb
-      'paths' => 'ideas/', // path of the elements to display in the breadcrumb
+      'titles' => '[Breadcrumb_idea:idea_title]',
+      'paths' => 'ideas/',
       'visibility_php ' => '',
-      'node_type' => 'idea', //the content type targeted by this rule
+      'node_type' => 'idea',
     ))
     ->execute();
 
-  //Add rating
+  // Add rating.
   multisite_drupal_toolbox_rate_content_type('idea', 'add');
 
-  //Activation message
+  // Activation message.
   drupal_set_message(t('Idea feature is now active on your site.'));
 }
 
@@ -130,85 +136,89 @@ function idea_core_enable() {
  * Remove block from the context
  */
 function idea_core_disable() {
-  //remove the breadcrump related to
+  // Remove the breadcrump related to.
   db_delete('custom_breadcrumb')
     ->condition('node_type', 'idea')
     ->execute();
-  // solR configuration add bundle
+
+  // SolR configuration add bundle.
   multisite_drupal_toolbox_config_solr_bundle('idea', 'delete');
 
-  // remove type to linkchecker scan
+  // Remove type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('idea', 'delete');
-
-  // remove type to the idea related content
-  //idea_related_content_type('idea', 'delete'); TBR seems that this function not exists
 
   multisite_drupal_toolbox_disable_content_type('idea');
 
-  //Remove rating
+  // Remove rating.
   multisite_drupal_toolbox_rate_content_type('idea', 'remove');
 
-  //Activation message
+  // Activation message.
   drupal_set_message(t('Idea feature is now disabled on your site.'));
 }
 
 /*
- * hook_update_N
+ * Implements hook_update_N().
  */
 function idea_core_update_7120() {
-  // add default categories
+  // Add default categories.
   $vocabulary = taxonomy_vocabulary_machine_name_load('idea_categories');
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Communication'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+  
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Improvements'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+  
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Legislation'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+  
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Resources'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+  
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Services'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+  
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Other'),
   );
   taxonomy_term_save($term);
 
-
-
-  // add default categories
+  // Add default categories.
   $vocabulary = taxonomy_vocabulary_machine_name_load('idea_status');
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Current Activity'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+  
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('In Action'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+  
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('No Status'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
+  
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('Unable to Implement'),
@@ -218,5 +228,4 @@ function idea_core_update_7120() {
     'name' => st('Under Review'),
   );
   taxonomy_term_save($term);
-
 }
