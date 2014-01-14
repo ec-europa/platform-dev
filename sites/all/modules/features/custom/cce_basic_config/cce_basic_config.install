@@ -449,7 +449,7 @@ function cce_basic_config_enable() {
   $context->reactions['block']['blocks']['form'] = $block_to_add3;
 
   module_invoke('context', 'save', $context);
-  variable_set('user_classes', 'btn btn-default btn-xs');
+  variable_set('user_classes', 'btn btn-info btn-xs');
   variable_set('user_myaccount_data_image', 'user');
   //My Account.
   variable_set('user_logout_data_image', 'log-out');
@@ -1120,13 +1120,13 @@ function cce_basic_config_update_7193() {
 * Update classes and icons on My Account and Logout
 */
 function cce_basic_config_update_7194() {
-  variable_set('user_classes', 'btn btn-default btn-xs');
+  variable_set('user_classes', 'btn btn-info btn-xs');
   variable_set('user_myaccount_data_image', 'user'); //My Account
   variable_set('user_logout_data_image', 'log-out'); //Log out
 
   // Update My Account link in user-menu.
   $options = array();
-  $options['attributes']['class'] = variable_get('user_classes', 'btn btn-default btn-xs');
+  $options['attributes']['class'] = variable_get('user_classes', 'btn btn-info btn-xs');
   $options['attributes']['data-image'] = variable_get('user_logout_data_image', 'user');
 
   db_update('menu_links')
@@ -1137,7 +1137,7 @@ function cce_basic_config_update_7194() {
 
   // Update Logouy link in the user-menu.
   $options = array();
-  $options['attributes']['class'] = variable_get('user_classes', 'btn btn-default btn-xs');
+  $options['attributes']['class'] = variable_get('user_classes', 'btn btn-info btn-xs');
   $options['attributes']['data-image'] = variable_get('user_logout_data_image', 'log-out');
 
   db_update('menu_links')

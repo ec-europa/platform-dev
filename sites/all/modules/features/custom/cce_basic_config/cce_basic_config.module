@@ -187,7 +187,7 @@ function cce_basic_config_menu_link_alter(&$item) {
 
   $link_path = $item['link_path'];
 
-  $user_classes = variable_get('user_classes', 'btn btn-default btn-xs');
+  $user_classes = variable_get('user_classes', 'btn btn-info btn-xs');
   switch ($link_path) {
     case 'user':
       $user_icon = variable_get('user_myaccount_data_image', 'user');
