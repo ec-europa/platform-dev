@@ -5,21 +5,21 @@
  */
 
 /**
- * hook_install
+ * Implements hook_install().
  */
 function likedislike_install() {
   //Nothing yet
 }
 
 /**
- * hook_uninstall
+ * Implements hook_uninstall().
  */
 function likedislike_uninstall() {
   //Nothing yet
 }
 
-/*
- * hook_enable
+/**
+ * Implements hook_enable().
  * Edit communities context to add a block
  */
 function likedislike_enable() {
@@ -38,7 +38,7 @@ function likedislike_enable() {
 
 
 /*
- * hook_disable
+ * Implements hook_disable().
  * Edit communities context to remove block
  * Remove permissions
  */
