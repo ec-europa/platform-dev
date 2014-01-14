@@ -5,24 +5,22 @@
  */
 
 /**
- * hook_enable
+ * Implements hook_enable().
  */
-
 function multisite_drupal_toolbox_enable() {
   variable_set('contact_form_maxlength', 1000);
 
 }
 
 /**
- * hook_disable
+ * Implements hook_disable().
  */
-
 function multisite_drupal_toolbox_disable() {
   variable_set('contact_form_maxlength');
 }
 
 /**
-* Implementation of hook_update_n
+* Implementats hook_update_N().
 */
 function multisite_drupal_toolbox_update_7104() {  
   db_delete('block')->condition('module','node')->condition('delta','recent')->execute();

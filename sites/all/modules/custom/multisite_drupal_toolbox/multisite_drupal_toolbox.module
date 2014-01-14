@@ -1081,17 +1081,16 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
       $path_info['path'] = variable_get('site_frontpage', 'node');
     }
 
-    if (!drupal_valid_path($path_info['path'])) {drupal_set_message(t('Please check that @url does exist on this site', array('@url' => $url)), 'warning');};
+    if (!drupal_valid_path($path_info['path'])) {
+      drupal_set_message(t('Please check that @url does exist on this site', array('@url' => $url)), 'warning');
+    };
   }
   // External URL.
   else {
     $geturl = drupal_http_request($url); //try to see if link is valid
-    if ($geturl->error == 'Not Found') { drupal_set_message(t('Please check that @url does exist', array('@url' => $url)), 'warning');};
-    //Clean external url: NOT used because it make youtube video or other impossible to use.
-    // $path_info['target'] = 'external';
-    // if (preg_match('~^https?$~', $parts['scheme'])) {
-      // $path_info['safe_url'] = $parts['scheme'] . '://' . $parts['host'] . $path_info['path'];
-    // }
+    if ($geturl->error == 'Not Found') {
+      drupal_set_message(t('Please check that @url does exist', array('@url' => $url)), 'warning');
+    };
   }
 
   return $path_info;
@@ -1183,7 +1182,7 @@ function echopre($variable, $description = NULL, $background_color = 'lightgrey'
  */
 function multisite_drupal_toolbox_wysiwyg_editor_settings_alter(&$settings, &$context) {
   if ($context['profile']->editor == 'ckeditor') {
-    $settings['allowedContent'] = true;
+    $settings['allowedContent'] = TRUE;
   }
 }
 
