@@ -23,231 +23,231 @@ function cce_basic_config_install() {
   $vocabulary = taxonomy_vocabulary_machine_name_load('classification');
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'01000'),
-    'description' => $t'Agriculture, farming'),
+    'name' => $t('01000'),
+    'description' => $t('Agriculture, farming'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'02000'),
-    'description' => $t'Budget, financing, fraud'),
+    'name' => $t('02000'),
+    'description' => $t('Budget, financing, fraud'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'03000'),
-    'description' => $t'European citizenship, right to vote, ombudsman, protection of privacy'),
+    'name' => $t('03000'),
+    'description' => $t('European citizenship, right to vote, ombudsman, protection of privacy'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'04000'),
-    'description' => $t'Information society, communication, information, audiovisual, telecommunications, public opinion'),
+    'name' => $t('04000'),
+    'description' => $t('Information society, communication, information, audiovisual, telecommunications, public opinion'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'05000'),
-    'description' => $t'Competition, state aid'),
+    'name' => $t('05000'),
+    'description' => $t('Competition, state aid'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'06000'),
-    'description' => $t'Consumers, distribution, civil defence, nuclear safety, food safety'),
+    'name' => $t('06000'),
+    'description' => $t('Consumers, distribution, civil defence, nuclear safety, food safety'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'07000'),
-    'description' => $t'Culture, tourism, sport'),
+    'name' => $t('07000'),
+    'description' => $t('Culture, tourism, sport'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'08000'),
-    'description' => $t'Education, teaching, vocational training, youth'),
+    'name' => $t('08000'),
+    'description' => $t('Education, teaching, vocational training, youth'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'09000'),
-    'description' => $t'Enlargement, accession of new states'),
+    'name' => $t('09000'),
+    'description' => $t('Enlargement, accession of new states'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'10000'),
-    'description' => $t'Employment, work'),
+    'name' => $t('10000'),
+    'description' => $t('Employment, work'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'11000'),
-    'description' => $t'Energy'),
+    'name' => $t('11000'),
+    'description' => $t('Energy'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'12000'),
-    'description' => $t'Type of business, company law'),
+    'name' => $t('12000'),
+    'description' => $t('Type of business, company law'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'13000'),
-    'description' => $t'Environment'),
+    'name' => $t('13000'),
+    'description' => $t('Environment'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'14000'),
-    'description' => $t'Tax system'),
+    'name' => $t('14000'),
+    'description' => $t('Tax system'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'15000'),
-    'description' => $t'Industry'),
+    'name' => $t('15000'),
+    'description' => $t('Industry'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'16000'),
-    'description' => $t'Institutions'),
+    'name' => $t('16000'),
+    'description' => $t('Institutions'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'17000'),
-    'description' => $t'Justice and home affairs, asylum, judicial cooperation, police cooperation, Schengen, visa, immigration, external frontiers, fight against crime, drugs, terrorism'),
+    'name' => $t('17000'),
+    'description' => $t('Justice and home affairs, asylum, judicial cooperation, police cooperation, Schengen, visa, immigration, external frontiers, fight against crime, drugs, terrorism'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'18000'),
-    'description' => $t'Free movement of capital, finance'),
+    'name' => $t('18000'),
+    'description' => $t('Free movement of capital, finance'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'19000'),
-    'description' => $t'Free movement of goods, customs, public contracts, standardization'),
+    'name' => $t('19000'),
+    'description' => $t('Free movement of goods, customs, public contracts, standardization'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'20000'),
-    'description' => $t'Free movement of persons, right of establishment, workers'),
+    'name' => $t('20000'),
+    'description' => $t('Free movement of persons, right of establishment, workers'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'21000'),
-    'description' => $t'Free movement of services, insurance, banks, credit, right of establishment, savings, public contracts'),
+    'name' => $t('21000'),
+    'description' => $t('Free movement of services, insurance, banks, credit, right of establishment, savings, public contracts'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'22000'),
-    'description' => $t'Fisheries'),
+    'name' => $t('22000'),
+    'description' => $t('Fisheries'),
   );
   taxonomy_term_save($term);
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'23000'),
-    'description' => $t'Regional policy, OCT'),
-  );
-  taxonomy_term_save($term);
-
-  $term = (object) array(
-    'vid' => $vocabulary->vid,
-    'name' => $t'24000'),
-    'description' => $t'Social policy, public health'),
+    'name' => $t('23000'),
+    'description' => $t('Regional policy, OCT'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'25000'),
-    'description' => $t'Research & development'),
+    'name' => $t('24000'),
+    'description' => $t('Social policy, public health'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'26000'),
-    'description' => $t'External relations, CFSP, development cooperation, humanitarian aid'),
+    'name' => $t('25000'),
+    'description' => $t('Research & development'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'27000'),
-    'description' => $t'Trans-European networks'),
+    'name' => $t('26000'),
+    'description' => $t('External relations, CFSP, development cooperation, humanitarian aid'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'28000'),
-    'description' => $t'Respect for human rights, racism, xenophobia'),
+    'name' => $t('27000'),
+    'description' => $t('Trans-European networks'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'29000'),
-    'description' => $t'Transport'),
+    'name' => $t('28000'),
+    'description' => $t('Respect for human rights, racism, xenophobia'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'30000'),
-    'description' => $t'Economic and monetary union, euro, single currency'),
+    'name' => $t('29000'),
+    'description' => $t('Transport'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => $t('30000'),
+    'description' => $t('Economic and monetary union, euro, single currency'),
   );
    taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'31000'),
-    'description' => $t'Statistics'),
+    'name' => $t('31000'),
+    'description' => $t('Statistics'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'32000'),
-    'description' => $t'Language, multilingualism, translation, interpretation'),
+    'name' => $t('32000'),
+    'description' => $t('Language, multilingualism, translation, interpretation'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => $t'33000'),
-    'description' => $t'Administration, management and human resources policy'),
+    'name' => $t('33000'),
+    'description' => $t('Administration, management and human resources policy'),
   );
   taxonomy_term_save($term);
 
