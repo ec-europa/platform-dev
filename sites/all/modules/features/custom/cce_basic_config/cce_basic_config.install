@@ -829,59 +829,59 @@ function cce_basic_config_update_7180() {
     'comment_types' => array(),
     'options' => array(
       0 => array(
-          0 => '0',
-          1 => '1',
-        ),
-        1 => array(
-          0 => '25',
-          1 => '2',
-        ),
-        2 => array(
-          0 => '50',
-          1 => '3',
-        ),
-        3 => array(
-          0 => '75',
-          1 => '4',
-        ),
-        4 => array(
-          0 => '100',
-          1 => '5',
-        ),
+        0 => '0',
+        1 => '1',
       ),
-      'template' => 'fivestar',
-      'node_display' => '2',
-      'teaser_display' => FALSE,
-      'comment_display' => '2',
-      'node_display_mode' => '1',
-      'teaser_display_mode' => '1',
-      'comment_display_mode' => '1',
-      'roles' => array(
-        2 => '2',
-        3 => 0,
-        1 => 0,
-        4 => 0,
-        5 => 0,
+      1 => array(
+        0 => '25',
+        1 => '2',
       ),
-      'allow_voting_by_author' => 1,
-      'noperm_behaviour' => '1',
-      'displayed' => '1',
-      'displayed_just_voted' => '2',
-      'description' => '',
-      'description_in_compact' => TRUE,
-      'delete_vote_on_second_click' => '0',
-      'use_source_translation' => TRUE,
-      'value_type' => 'percent',
-      'theme' => 'rate_template_fivestar',
-      'css' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.css',
-      'js' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.js',
-      'translate' => TRUE,
-    );
-    variable_set("rate_widgets", $rate_widgets);
+      2 => array(
+        0 => '50',
+        1 => '3',
+      ),
+      3 => array(
+        0 => '75',
+        1 => '4',
+      ),
+      4 => array(
+        0 => '100',
+        1 => '5',
+      ),
+    ),
+    'template' => 'fivestar',
+    'node_display' => '2',
+    'teaser_display' => FALSE,
+    'comment_display' => '2',
+    'node_display_mode' => '1',
+    'teaser_display_mode' => '1',
+    'comment_display_mode' => '1',
+    'roles' => array(
+      2 => '2',
+      3 => 0,
+      1 => 0,
+      4 => 0,
+      5 => 0,
+    ),
+    'allow_voting_by_author' => 1,
+    'noperm_behaviour' => '1',
+    'displayed' => '1',
+    'displayed_just_voted' => '2',
+    'description' => '',
+    'description_in_compact' => TRUE,
+    'delete_vote_on_second_click' => '0',
+    'use_source_translation' => TRUE,
+    'value_type' => 'percent',
+    'theme' => 'rate_template_fivestar',
+    'css' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.css',
+    'js' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.js',
+    'translate' => TRUE,
+  );
+  variable_set("rate_widgets", $rate_widgets);
 }
 
 /**
- * force home and myworkbench menu items at left in main menu
+ * Force home and myworkbench menu items at left in main menu
  */
 function cce_basic_config_update_7190() {
   db_update('menu_links')
@@ -898,7 +898,7 @@ function cce_basic_config_update_7190() {
 }
 
 /**
- * move menu item myworkbench from main menu to user menu
+ * Move menu item myworkbench from main menu to user menu
  */
 function cce_basic_config_update_7191() {
   db_update('menu_links')
