@@ -62,7 +62,7 @@ function theme_multisite_map($variables) {
 
   //$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')?'https':'http';
   $protocol = 'https';
-  $path = $protocol.'://webgate.ec.europa.eu/fpfis/maps/';
+  $path = $protocol.'://webtools.ec.europa.eu/fusionmapsxt/Maps/';
   $js_path = $path;
 
 
