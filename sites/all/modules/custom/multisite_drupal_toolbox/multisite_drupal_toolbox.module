@@ -97,7 +97,7 @@ function multisite_drupal_toolbox_boot() {
     $conf["language_count"] = 2;
   }
   else {
-    if ($conf["language_count"] == 1 && $conf["language_default"]->language == 'en') {}
+    if ($conf["language_count"] == 1 && $conf["language_default"]->language == 'en') {
       $conf["language_count"] = 2;
     }
   }
@@ -132,17 +132,17 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
 
   foreach ($items as $url => $item) {
     foreach ($list_pages as $page) {
-      if (strpos($url,$page) === 0) {
+      if (strpos($url, $page) === 0) {
         $items[$url]['theme callback'] = 'multisite_cce_theme';
       }
     }
   }
 
-  // Block node import with node_export module
+  // Block node import with node_export module.
   $items['node/add/node_export']['access callback'] = FALSE;
-  // Hide broken links tab in the my account page
+  // Hide broken links tab in the my account page.
   $items['user/%user/linkchecker']['access callback'] = FALSE;
-  // Only super admin can configure apache solR
+  // Only super admin can configure apache solR.
   $items['admin/config/search/apachesolr']['access callback'] = 'multisite_drupal_toolbox_is_admin';
 
   $items['user/%user/edit']['access callback'] = 'multisite_drupal_toolbox_edit_access';
@@ -165,11 +165,11 @@ function multisite_drupal_toolbox_edit_access($account) {
  */
 function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
   $items = array(
-      'dropdown' => array(
-          'variables' => array(
-              'items' => array(),
-          ),
-      )
+    'dropdown' => array(
+      'variables' => array(
+        'items' => array(),
+      ),
+    )
   );
   return $items;
 }
