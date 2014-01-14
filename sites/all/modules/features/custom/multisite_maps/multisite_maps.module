@@ -69,22 +69,22 @@ function theme_multisite_map($variables) {
 
   drupal_add_js($js_path . 'FusionCharts.js');
 
-  // Get the path of drupal instance
+  // Get the path of drupal instance.
   $path_drupal = base_path();
 
-  //build the path to swf. Beware swf files have lowercase filenames
+  // Build the path to swf. Beware swf files have lowercase filenames.
   $swf_file = $path . $info['type'] . '.swf';
 
-  // I remove white spaces between xml tags and line breaks from the variable.
+  // Remove white spaces between xml tags and line breaks from the variable.
   $xml_data_source = escape($info['xml']);
   $xml_data_source = str_replace('\r\n', ' ', $xml_data_source);
 
   return renderChart($swf_file, '', $xml_data_source, $jsid, $info['width'], $info['height'], 0, 0, 0);
 }
 
-// replace any non-ascii character with its hex code.
+// Replace any non-ascii character with its hex code.
 function escape($value) {
-    $search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
+    $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
     $replace = array("\\\\", "\\0","\\n", "\\r", "'", '\"', "\\Z");
 
     return str_replace($search, $replace, $value);
