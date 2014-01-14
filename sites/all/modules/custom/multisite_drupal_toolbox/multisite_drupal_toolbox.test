@@ -1,11 +1,13 @@
 <?php
+/**
+ * @file
+ * Test files for the toolbox.
+ */
 
 /**
  * Test Multisite Forum features to ensure it follows QA requirements.
  */
 class MultisiteDrupalWebTestCase extends DrupalWebTestCase {
-
-  
   
   function setUp() {
 
