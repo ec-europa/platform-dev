@@ -277,7 +277,8 @@ function cce_basic_config_install() {
   }
   else {
     foreach ($rate_widgets as $rate_widget) {
-      if ($rate_widget->name == 'rate_fivestar') { // the widget fivestar already exists
+      if ($rate_widget->name == 'rate_fivestar') {
+      // The widget fivestar already exists
         return;
       }
     }
@@ -437,7 +438,7 @@ function cce_basic_config_enable() {
     'region' => 'tools',
     'weight' => 2,
   );
-  $context->reactions['block']['blocks']['create-content-button'] = $block_to_add2;  
+  $context->reactions['block']['blocks']['create-content-button'] = $block_to_add2;
 
   $block_to_add3 = array(
     'module' => 'search',
@@ -449,8 +450,10 @@ function cce_basic_config_enable() {
 
   module_invoke('context', 'save', $context);
   variable_set('user_classes', 'btn btn-default btn-xs');
-  variable_set('user_myaccount_data_image', 'user'); //My Account
-  variable_set('user_logout_data_image', 'log-out'); //Log out
+  variable_set('user_myaccount_data_image', 'user');
+  //My Account.
+  variable_set('user_logout_data_image', 'log-out');
+  //Log out.
 }
 
 /**
@@ -459,12 +462,14 @@ function cce_basic_config_enable() {
 function cce_basic_config_disable() {
   drupal_set_message(t('The module cce_basic_config has been disabled on your site! Please contact FPFIS support to reactivate it.'));
   variable_del('user_classes');
-  variable_del('user_myaccount_data_image'); //My Account
-  variable_del('user_logout_data_image'); //Log out
+  variable_del('user_myaccount_data_image');
+  //My Account.
+  variable_del('user_logout_data_image');
+  //Log out.
 }
 
 /**
- * add classification vocabulary, add file diplays settings
+ * Add classification vocabulary, add file diplays settings
  */
 function cce_basic_config_update_7140() {
 
@@ -1019,7 +1024,7 @@ function cce_basic_config_update_7192() {
     -> execute();
   }
   
-  // revoke 'use PHP to import nodes' 'administer varnish' permission for all the roles
+  // Revoke 'use PHP to import nodes' 'administer varnish' permissions.
   foreach(array_keys(user_roles()) as $rid) {
     user_role_revoke_permissions($rid, array('use PHP to import nodes', 'administer varnish'));
   }
@@ -1029,15 +1034,11 @@ function cce_basic_config_update_7192() {
   * Date field migration
  */
 function cce_basic_config_update_7193() {
-  ##########################
-  #  DATE FIELD MIGRATION  #             
-  ##########################
 
-  //Config
-  // $content type : content type that contains fiels to replace
-  // $module_name : module that contains fields
+  // $content type : content type that contains fiels to replace.
+  // $module_name : module that contains fields.
   $content_type = 'article'; //
-  $module_name = basename(__FILE__, '.install'); // 
+  $module_name = basename(__FILE__, '.install');
   // Get db fields instances of content type
   $fields_instances = field_info_instances('node', $content_type);
 
