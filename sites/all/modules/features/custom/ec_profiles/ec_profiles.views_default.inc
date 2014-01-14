@@ -18,7 +18,7 @@ function ec_profiles_views_default_views() {
   $view->human_name = 'People directory';
   $view->core = 7;
   $view->api_version = '3.0';
-  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+  $view->disabled = FALSE;
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
@@ -267,19 +267,6 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['filters']['status']['expose']['identifier'] = 'status';
   $handler->display->display_options['filters']['status']['expose']['multiple'] = FALSE;
 
-  /* Filter criterion: User: Name 
-  $handler->display->display_options['filters']['uid_1']['id'] = 'uid_1';
-  $handler->display->display_options['filters']['uid_1']['table'] = 'users';
-  $handler->display->display_options['filters']['uid_1']['field'] = 'uid';
-  $handler->display->display_options['filters']['uid_1']['value'] = '';
-  $handler->display->display_options['filters']['uid_1']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['uid_1']['expose']['operator_id'] = 'uid_1_op';
-  $handler->display->display_options['filters']['uid_1']['expose']['label'] = 'Name';
-  $handler->display->display_options['filters']['uid_1']['expose']['operator'] = 'uid_1_op';
-  $handler->display->display_options['filters']['uid_1']['expose']['identifier'] = 'uid_1';
-  $handler->display->display_options['filters']['uid_1']['expose']['multiple'] = FALSE;
-  $handler->display->display_options['filters']['uid_1']['expose']['reduce'] = 0;*/
-  
   /* Filter criterion: User: First Name (field_firstname) */
   $handler->display->display_options['filters']['field_firstname_value']['id'] = 'field_firstname_value';
   $handler->display->display_options['filters']['field_firstname_value']['table'] = 'field_data_field_firstname';
@@ -331,10 +318,10 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['filters']['language']['table'] = 'node'; 
   $handler->display->display_options['filters']['language']['field'] = 'language'; 
   $handler->display->display_options['filters']['language']['value'] =
-    array(   
-      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',   
-      'und' => 'und', 
-    );  
+    array(
+      '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
+      'und' => 'und',
+    );
   $translatables['people'] = array(
     t('Master'),
     t('People'),
