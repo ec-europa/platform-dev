@@ -9,19 +9,6 @@
  * Implements hook_install().
  */
 function cce_basic_config_install() {
-  // add workbench link to the user menu -------------------------------------------------------------------------------
-  $options = array();
-  $options['attributes']['class'][] = 'btn btn-info btn-xs';
-  $options['attributes']['data-image'] = 'list-alt';
-
-  $item = array(
-    'link_path' => 'admin/workbench',
-    'link_title' => t('My workbenchxxx'),
-    'menu_name' => 'user-menu',
-    'weight' => '-30',
-    'options' => $options,
-  );
-  menu_link_save($item);
 
   // create a vocabulary dedicated to the classification
   $vocabulary = (object) array(
