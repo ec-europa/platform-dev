@@ -11,49 +11,47 @@
 function multisite_drupal_toolbox_menu() {
 
   $items['admin/workbench/comment'] = array(
-      'title' => 'Comments',
-      'description' => 'List and edit site comments and the comment approval queue.',
-      'page callback' => 'comment_admin',
-      'access arguments' => array('administer comments'),
-      'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
-      'file' => 'comment.admin.inc',
-      'file path' => drupal_get_path('module', 'comment'),
+    'title' => 'Comments',
+    'description' => 'List and edit site comments and the comment approval queue.',
+    'page callback' => 'comment_admin',
+    'access arguments' => array('administer comments'),
+    'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
+    'file' => 'comment.admin.inc',
+    'file path' => drupal_get_path('module', 'comment'),
   );
   $items['admin/workbench/comment/new'] = array(
-      'title' => 'Published comments',
-      'type' => MENU_DEFAULT_LOCAL_TASK,
-      'weight' => -10,
+    'title' => 'Published comments',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
   );
   $items['admin/workbench/comment/approval'] = array(
-      'title' => 'Unapproved comments',
-      'title callback' => 'comment_count_unpublished',
-      'page arguments' => array('approval'),
-      'access arguments' => array('administer comments'),
-      'type' => MENU_LOCAL_TASK,
+    'title' => 'Unapproved comments',
+    'title callback' => 'comment_count_unpublished',
+    'page arguments' => array('approval'),
+    'access arguments' => array('administer comments'),
+    'type' => MENU_LOCAL_TASK,
   );
   $items['admin/workbench/linkchecker'] = array(
-      'access callback' => 'multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_report_workbench',
-      'description' => 'Shows a list of broken links in content.',
-      'page callback' => 'linkchecker_user_report_page_workbench',
-      'title' => 'Broken links',
-      'type' => MENU_LOCAL_TASK,
-      'weight' => 3,
+    'access callback' => 'multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_report_workbench',
+    'description' => 'Shows a list of broken links in content.',
+    'page callback' => 'linkchecker_user_report_page_workbench',
+    'title' => 'Broken links',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 3,
   );
-
   $items['admin/config/security'] = array(
-      'title' => 'Security settings',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('multisite_drupal_toolbox_form_security_settings'),
-      'access arguments' => array('administer site configuration'),
+    'title' => 'Security settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('multisite_drupal_toolbox_form_security_settings'),
+    'access arguments' => array('administer site configuration'),
   );
   $items['admin/config/security/settings'] = array(
-      'title' => 'Security settings',
-      'description' => 'Configure security settings',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('multisite_drupal_toolbox_form_security_settings'),
-      'access arguments' => array('administer site configuration'),
+    'title' => 'Security settings',
+    'description' => 'Configure security settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('multisite_drupal_toolbox_form_security_settings'),
+    'access arguments' => array('administer site configuration'),
   );
-
   $items['admin/config/system/contact'] = array(
     'title' => 'Contact Form Settings',
     'description' => 'Configure the contact form settings.',
@@ -68,13 +66,14 @@ function multisite_drupal_toolbox_menu() {
 
 /**
  * Implements hook_preprocess_html().
+ *
  * Alter html code (to add js and css).
  */
 function multisite_drupal_toolbox_preprocess_html(&$variables) {
-  // Add icons font
+  // Add icons font.
   drupal_add_css(drupal_get_path('module', 'multisite_drupal_toolbox') . '/icons/style.css', array('basename' => 'icons-font'));
 
-  // Add Fancybox
+  // Add Fancybox.
   $path = libraries_get_path('fancybox');
   if ($path) {
     drupal_add_css($path . '/jquery.fancybox.css');
@@ -88,7 +87,9 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
 }
 
 /**
- * Implements hook_boot(). Force en prefix language in url even if there is one language
+ * Implements hook_boot().
+ *
+ * Force en prefix language in url even if there is one language
  */
 function multisite_drupal_toolbox_boot() {
   global $conf;
@@ -96,13 +97,17 @@ function multisite_drupal_toolbox_boot() {
     $conf["language_count"] = 2;
   }
   else {
-    if ($conf["language_count"] == 1 && $conf["language_default"]->language == 'en')
+    if ($conf["language_count"] == 1 && $conf["language_default"]->language == 'en') {}
       $conf["language_count"] = 2;
+    }
   }
 }
 
 /**
- * Implements hook_init(). Set language_count to 2 to force the display of the language prefix and language switcher
+ * Implements hook_init().
+ *
+ * Set language_count to 2 to force the display 
+ * of the language prefix and language switcher
  */
 function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
@@ -115,29 +120,29 @@ function multisite_drupal_toolbox_init() {
  */
 function multisite_drupal_toolbox_menu_alter(&$items) {
   $list_pages = array(
-      'admin/structure/feature-set',
-      'admin/workbench',
-      'admin/content/comment',
-      'admin/content/media',
-      'admin/content/webform',
-      'admin/structure/block',
-      'admin/structure/feature-set',
-      'admin/help',
+    'admin/structure/feature-set',
+    'admin/workbench',
+    'admin/content/comment',
+    'admin/content/media',
+    'admin/content/webform',
+    'admin/structure/block',
+    'admin/structure/feature-set',
+    'admin/help',
   );
 
-  foreach ($items as $url => $item){
-    foreach ($list_pages as $page){
-      if (strpos($url,$page) === 0){
+  foreach ($items as $url => $item) {
+    foreach ($list_pages as $page) {
+      if (strpos($url,$page) === 0) {
         $items[$url]['theme callback'] = 'multisite_cce_theme';
       }
     }
   }
 
-  // block node import with node_export module
+  // Block node import with node_export module
   $items['node/add/node_export']['access callback'] = FALSE;
-  // hide broken links tab in the my account page
+  // Hide broken links tab in the my account page
   $items['user/%user/linkchecker']['access callback'] = FALSE;
-  // only super admin can configure apache solR
+  // Only super admin can configure apache solR
   $items['admin/config/search/apachesolr']['access callback'] = 'multisite_drupal_toolbox_is_admin';
 
   $items['user/%user/edit']['access callback'] = 'multisite_drupal_toolbox_edit_access';
@@ -170,7 +175,9 @@ function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_media_token_to_markup_alter(). Use fancybox for all image insert in content with the "insert media" button of the wysiwyg.
+ * Implements hook_media_token_to_markup_alter().
+ *
+ * Use fancybox for all image insert in content with the "insert media" button of the wysiwyg.
  */
 function multisite_drupal_toolbox_media_token_to_markup_alter(&$element, &$tag_info, &$settings) {
 
@@ -181,7 +188,9 @@ function multisite_drupal_toolbox_media_token_to_markup_alter(&$element, &$tag_i
 }
 
 /**
- * Implements hook_node_view(). Remove workbench blocks from their region.
+ * Implements hook_node_view(). 
+ *
+ * Remove workbench blocks from their region.
  */
 function multisite_drupal_toolbox_node_view($node, $view_mode, $langcode) {
   if (module_exists('workbench_moderation')) {
@@ -194,7 +203,9 @@ function multisite_drupal_toolbox_node_view($node, $view_mode, $langcode) {
 }
 
 /**
- * Implements hook_url_inbound_alter(). Santizie URL inputs.
+ * Implements hook_url_inbound_alter().
+ *
+ * Santizie URL inputs.
  */
 function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $path_language) {
   if (!($path == '<front>') && !(url_is_external($path))) { 
@@ -211,11 +222,15 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
   if ($user->uid != 1) {
     switch ($form_id) {
       case 'system_modules':
-        unset($form['modules']['Core']['php']); // prevent users to give the permission to inject PHP in input text area
-        unset($form['modules']['Development']); // prevent users to give access to the devel modules
+        unset($form['modules']['Core']['php']);
+        // Prevent users to give the permission to inject PHP
+        // in input text area
+        unset($form['modules']['Development']);
+        // Prevent users to give access to the devel modules.
         break;
 
-      case 'user_admin_permissions': // prevent users to give certain permissions
+      case 'user_admin_permissions':
+      // Prevent users to give certain permissions.
         unset($form['permission']['administer modules']);
         unset($form['permission']['administer features']);
         unset($form['permission']['manage features']);
@@ -224,7 +239,8 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
         if(isset($form['permission']['administer varnish']))
           unset($form['permission']['administer varnish']);
 
-        foreach (array_keys(user_roles()) as $rid) { // hide checkboxes in the permissions admin page for the given permissions
+        foreach (array_keys(user_roles()) as $rid) {
+        // Hide checkboxes in the permissions admin page for the given permissions.
           unset($form['checkboxes'][$rid]['#options']['administer modules']);
           unset($form['checkboxes'][$rid]['#options']['administer features']);
           unset($form['checkboxes'][$rid]['#options']['manage features']);
@@ -236,10 +252,12 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
         break;
 
       case "user_admin_account":
-        unset($form['accounts']['#options'][1]); // hide admin user 1
+        unset($form['accounts']['#options'][1]);
+        // hide admin user 1.
         break;
 
-      case "user_admin_role": // prevent predefined roles updated for non admin
+      case "user_admin_role":
+      // Prevent predefined roles updated for non admin.
         if (isset($form['rid'])) {
           $rid_administrator = multisite_drupal_toolbox_get_rid('administrator');
           $rid_contributor = multisite_drupal_toolbox_get_rid('contributor');
@@ -251,7 +269,8 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
         }
         break;
 
-      case "workbench_moderation_admin_states_form": // prevent administrator from changing existing workflow states
+      case "workbench_moderation_admin_states_form":
+      // Prevent administrator from changing existing workflow states.
         $blocked_states = array('draft', 'validated', 'published', 'needs_review', 'archived');
         $states = $form['states'];
         foreach ($states as $state_id => $state) {
@@ -260,7 +279,8 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
         }
         break;
 
-      case "workbench_moderation_admin_transitions_form": // prevent administrator from changing existing workflow transitions
+      case "workbench_moderation_admin_transitions_form":
+      // Prevent administrator from changing existing workflow transitions.
         $blocked_transitions = array('published_archived', 'draft_needs_review', 'needs_review_published', 'needs_review_draft', 'needs_review_validated', 'validated_published');
         $transitions = $form['transitions'];
         foreach ($transitions as $transition_id => $transition) {
@@ -272,7 +292,7 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
         }
         break;
 
-      // Server side character limitation form field message
+      // Server side character limitation form field message.
       case "contact_site_form":
       case "contact_personal_form":
         $maximum_limit = (int) variable_get('contact_form_maxlength', 1000);
@@ -287,7 +307,8 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
   }
 
   switch ($form_id) {
-    case 'menu_edit_item': //check the "Show as expanded" box. Used to created dropdown menus
+    case 'menu_edit_item':
+    // Check the "Show as expanded" box. Used to created dropdown menus.
       if (isset($form['original_item']['#value']['expanded']) && (isset($form['original_item']['#value']['mlid']) && $form['original_item']['#value']['mlid'] != 0)) {
         $form['expanded']['#default_value'] = $form['original_item']['#value']['expanded'];
       }
@@ -316,18 +337,18 @@ function multisite_drupal_toolbox_node_presave($node) {
  * hook_node_view_alter
  */
 function multisite_drupal_toolbox_node_view_alter(&$build) {
-  // security process to prevent xss attack in node contents
-  // sanitize for the node preview
+  // Security process to prevent xss attack in node contents.
+  // Sanitize for the node preview.
   if (isset($build['body']) && isset($build['#node']->body['und'][0]['value'])) {
     $build['body'][0]['#markup'] = multisite_drupal_toolbox_sanitize($build['body'][0]['#markup'], $build['#node']->nid);
   }
 }
 
 /**
- * custom sanitize function
+ * Custom sanitize function.
  */
 function multisite_drupal_toolbox_sanitize($content, $nid) {
-  // security process to prevent xss attack in node contents
+  // Security process to prevent xss attack in node contents.
   $nodes_bypass = explode("\n", variable_get("security_bypassed_nodes", ""));
   $tags_allowed = explode("\n", variable_get("security_allowed_tags", ""));
 
@@ -335,16 +356,17 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
     $tags_allowed[$id] = trim($tag);
   }
 
-  // check if the node must be bypass
+  // Check if the node must be bypass.
   if (!in_array($nid, $nodes_bypass) || is_null($nid)) {
-    $content = filter_xss($content, $tags_allowed); // use the drupal filter_xss function to filter xss attacks
+    $content = filter_xss($content, $tags_allowed);
+    // Use the drupal filter_xss function to filter xss attacks.
   }
   return $content;
 }
 
 
 /**
- * Implements hook_theme_registry_alter
+ * Implements hook_theme_registry_alter().
  */
 function multisite_drupal_toolbox_theme_registry_alter(&$theme_registry) {
   // use our own function to display status messages
@@ -352,7 +374,7 @@ function multisite_drupal_toolbox_theme_registry_alter(&$theme_registry) {
 }
 
 /**
- * custom function to override the drupal status message
+ * Custom function to override the drupal status message.
  */
 function multisite_drupal_toolbox_messages($variables) {
   global $user;
@@ -367,9 +389,8 @@ function multisite_drupal_toolbox_messages($variables) {
 }
 
 
-
 /**
- * Public function to disable a content type
+ * Public function to disable a content type.
  */
 function multisite_drupal_toolbox_disable_content_type($type) {
   $type_info = node_type_load($type);
@@ -389,7 +410,8 @@ function _disable_content_type($type) {
 }
 
 /**
- * Public function to add block to a context
+ * Public function to add block to a context.
+ *
  * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_add_block_context($context_name, $block_title, $module, $delta, $region, $weight='-10') {
@@ -416,15 +438,16 @@ function _add_block_context($context_name, $block_title, $module, $delta, $regio
 }
 
 /**
- * Public function to remove block from context
+ * Public function to remove block from context.
+ *
  * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_remove_block_context($context_name, $block_title) {
-  //Load context
+  // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  //Remove element from the context
+  // Remove element from the context.
   unset($context->reactions['block']['blocks'][$block_title]);
-  //Update the context
+  // Update the context.
   module_invoke('context', 'save', $context);
 }
 
@@ -440,11 +463,11 @@ function _remove_block_context($context_name, $block_title) {
  * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_add_views_context($context_name, $view_title) {
-  //Load context
+  // Load context.
   $context=module_invoke('context', 'load', $context_name);
-  //Add modification to the context
+  // Add modification to the context.
   $context->conditions['views']['values'][$view_title] = $view_title;
-  //Update the context
+  // Update the context.
   module_invoke('context', 'save', $context);
 }
 
@@ -456,15 +479,16 @@ function _add_views_context($context_name, $view_title) {
 }
 
 /**
- * Public function to remove block from context
+ * Public function to remove block from context.
+ *
  * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_remove_views_context($context_name, $view_title) {
-  //Load context
+  // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  //Remove element from the context
+  // Remove element from the context.
   unset($context->conditions['views']['values'][$view_title]);
-  //Update the context
+  // Update the context.
   module_invoke('context', 'save', $context);
 }
 
@@ -476,15 +500,16 @@ function _remove_views_context($context_name, $view_title) {
 }
 
 /**
- * Public function to add content type from context
+ * Public function to add content type from context.
+ *
  * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_add_content_type_context($context_name, $content_type) {
-  //Load context
+  // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  //Add modification to the context
+  // Add modification to the context.
   $context->conditions['node']['values'][$content_type]=$content_type;
-  //Update the context
+  // Update the context.
   module_invoke('context', 'save', $context);
 }
 
@@ -496,15 +521,16 @@ function _add_content_type_context($context_name, $content_type) {
 }
 
 /**
- * Public function to remove content type from context
+ * Public function to remove content type from context.
+ *
  * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_remove_content_type_context($context_name, $content_type) {
-  //Load context
+  // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  //Remove element from the context
+  // Remove element from the context.
   unset($context->conditions['node']['values'][$content_type]);
-  //Update the context
+  // Update the context.
   module_invoke('context', 'save', $context);
 }
 
@@ -516,15 +542,16 @@ function _remove_content_type_context($context_name, $content_type) {
 }
 
 /**
- * Public function to add path condition to a context
+ * Public function to add path condition to a context.
+ *
  * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_add_path_context($context_name, $path) {
-  //Load context
+  // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  //Add modification to the context
+  // Add modification to the context.
   $context->conditions['path']['values'][$path] = $path;
-  //Update the context
+  // Update the context.
   module_invoke('context', 'save', $context);
 }
 
@@ -537,14 +564,15 @@ function _add_path_context($context_name, $path) {
 
 /**
  * Public function to remove path from context.
+ *
  * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_remove_path_context($context_name, $path) {
-  //Load context
+  // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  //Remove element from the context
+  // Remove element from the context.
   unset($context->conditions['path']['values'][$path]);
-  //Update the context
+  // Update the context.
   module_invoke('context', 'save', $context);
 }
 
@@ -557,6 +585,7 @@ function _remove_path_context($context_name, $path) {
 
 /**
  * Public function to deactivate a context.
+ *
  * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_remove_context($context_name) {
@@ -567,7 +596,8 @@ function multisite_drupal_toolbox_remove_context($context_name) {
 }
 
 /**
- * Public function to add content type to newsletter related content field
+ * Public function to add content type to newsletter related content field.
+ *
  * You need to add the feature newsletters as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_add_content_type_newsletters($node_type) {
@@ -602,7 +632,8 @@ function _disable_block($module, $delta) {
 }
 
 /**
- * Public function to add or delete nodes from the index
+ * Public function to add or delete nodes from the index.
+ *
  * You need to add the module apachesolr as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
@@ -628,7 +659,7 @@ function config_solr_bundle($bundle, $op) {
 }
 
 /**
- * No longer in use
+ * No longer in use.
  */
 function multisite_drupal_toolbox_notification_content_type($content_type, $op) {
 
@@ -689,6 +720,7 @@ function multisite_drupal_toolbox_is_admin() {
     return TRUE;
   return FALSE;
 }
+
 /**
  * Obsolete. Use multisite_drupal_toolbox_is_admin().
  */
@@ -703,6 +735,7 @@ function is_admin() {
 function multisite_drupal_toolbox_cce_theme() {
   return variable_get('theme_default', 'ec_default');
 }
+
 /**
  * Obsolete. Use multisite_drupal_toolbox_cce_theme() instead.
  */
@@ -718,6 +751,7 @@ function multisite_drupal_toolbox_workbench_redirect_submit($form, &$form_state)
     'admin/workbench/comment',
   );
 }
+
 /**
  * Obsolete. Use multisite_drupal_toolbox_workbench_redirect_submit() instead.
  */
@@ -733,32 +767,32 @@ function multisite_drupal_toolbox_form_node_admin_content_alter(&$form, &$form_s
   unset($form['admin']['options']['operation']['#options']['unpublish']);
 }
 
-
 /**
  * Public function to add content type to the "related-contents" field of the simplenews content type
  * You need to add the feature newsletters as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_simplenews_related_content_type($content_type, $op) {
-    switch ($op) {
-      case 'add':
-        $field = field_read_fields(array('field_name' => "field_related_contents"));
-        if ($field) {
-          $field["field_related_contents"]["settings"]["handler_settings"]["target_bundles"][$content_type] = $content_type;
-          field_update_field($field["field_related_contents"]);
-        }
-        break;
-      case 'delete':
-        $field = field_read_fields(array('field_name' => "field_related_contents"));
-        if ($field) {
-          unset($field["field_related_contents"]["settings"]["handler_settings"]["target_bundles"][$content_type]);
-          field_update_field($field["field_related_contents"]);
-        }
-        break;
-    }
+  switch ($op) {
+    case 'add':
+      $field = field_read_fields(array('field_name' => "field_related_contents"));
+      if ($field) {
+        $field["field_related_contents"]["settings"]["handler_settings"]["target_bundles"][$content_type] = $content_type;
+        field_update_field($field["field_related_contents"]);
+      }
+      break;
+    case 'delete':
+      $field = field_read_fields(array('field_name' => "field_related_contents"));
+      if ($field) {
+        unset($field["field_related_contents"]["settings"]["handler_settings"]["target_bundles"][$content_type]);
+        field_update_field($field["field_related_contents"]);
+      }
+      break;
+  }
 }
 
 /**
  * Obsolete. Use multisite_drupal_toolbox_simplenews_related_content_type() instead.
+ *
  * You need to add the module rate as a dependancy to your feature.
  */
 function simplenews_related_content_type($content_type, $op) {
@@ -766,7 +800,8 @@ function simplenews_related_content_type($content_type, $op) {
 }
 
 /**
- * Public function to add content type to the rate widget
+ * Public function to add content type to the rate widget.
+ * 
  * You need to add the module rate as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_rate_content_type($content_type, $op) {
@@ -810,6 +845,7 @@ function rate_content_type($content_type, $op) {
 
 /**
  * Adds the linkchecked user report page to the workbench.
+ *
  * You need to add the module linkchecker as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_linkchecker_user_report_page_workbench() {
@@ -827,6 +863,7 @@ function linkchecker_user_report_page_workbench() {
 
 /**
  * Set permissions to access link checker.
+ *
  * You need to add the module linkchecker as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_report_workbench() {
@@ -843,7 +880,8 @@ function _linkchecker_user_access_account_broken_links_report_workbench() {
 }
 
 /**
- * Public function to add content type to be checked by linkchecker
+ * Public function to add content type to be checked by linkchecker.
+ *
  * You need to add the module linkchecker as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_content_type_linkchecker($type, $op) {
