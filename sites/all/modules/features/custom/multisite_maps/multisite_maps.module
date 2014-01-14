@@ -58,7 +58,7 @@ function theme_multisite_map($variables) {
   }
 
   $protocol = 'https';
-  $path = $protocol.'://webtools.ec.europa.eu/fusionmapsxt/Maps/';
+  $path = $protocol .'://webtools.ec.europa.eu/fusionmapsxt/Maps/';
   $js_path = $path;
 
   include_once(multisite_maps_get_library_path() . 'Code/PHP/Includes/FusionMaps.php');
