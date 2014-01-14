@@ -9,244 +9,245 @@
  * Implements hook_install().
  */
 function cce_basic_config_install() {
+  $t = get_t();
 
-  // create a vocabulary dedicated to the classification
+  // Create a vocabulary dedicated to the classification
   $vocabulary = (object) array(
-    'name' => st('classification'),
+    'name' => $t'classification'),
     'machine_name' => 'classification',
     'module' => 'cce_basic_config',
   );
   taxonomy_vocabulary_save($vocabulary);
 
-  // add default categories
+  // Add default categories
   $vocabulary = taxonomy_vocabulary_machine_name_load('classification');
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('01000'),
-    'description' => st('Agriculture, farming'),
+    'name' => $t'01000'),
+    'description' => $t'Agriculture, farming'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('02000'),
-    'description' => st('Budget, financing, fraud'),
+    'name' => $t'02000'),
+    'description' => $t'Budget, financing, fraud'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('03000'),
-    'description' => st('European citizenship, right to vote, ombudsman, protection of privacy'),
+    'name' => $t'03000'),
+    'description' => $t'European citizenship, right to vote, ombudsman, protection of privacy'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('04000'),
-    'description' => st('Information society, communication, information, audiovisual, telecommunications, public opinion'),
+    'name' => $t'04000'),
+    'description' => $t'Information society, communication, information, audiovisual, telecommunications, public opinion'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('05000'),
-    'description' => st('Competition, state aid'),
+    'name' => $t'05000'),
+    'description' => $t'Competition, state aid'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('06000'),
-    'description' => st('Consumers, distribution, civil defence, nuclear safety, food safety'),
+    'name' => $t'06000'),
+    'description' => $t'Consumers, distribution, civil defence, nuclear safety, food safety'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('07000'),
-    'description' => st('Culture, tourism, sport'),
+    'name' => $t'07000'),
+    'description' => $t'Culture, tourism, sport'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('08000'),
-    'description' => st('Education, teaching, vocational training, youth'),
+    'name' => $t'08000'),
+    'description' => $t'Education, teaching, vocational training, youth'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('09000'),
-    'description' => st('Enlargement, accession of new states'),
+    'name' => $t'09000'),
+    'description' => $t'Enlargement, accession of new states'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('10000'),
-    'description' => st('Employment, work'),
+    'name' => $t'10000'),
+    'description' => $t'Employment, work'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('11000'),
-    'description' => st('Energy'),
+    'name' => $t'11000'),
+    'description' => $t'Energy'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('12000'),
-    'description' => st('Type of business, company law'),
+    'name' => $t'12000'),
+    'description' => $t'Type of business, company law'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('13000'),
-    'description' => st('Environment'),
+    'name' => $t'13000'),
+    'description' => $t'Environment'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('14000'),
-    'description' => st('Tax system'),
+    'name' => $t'14000'),
+    'description' => $t'Tax system'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('15000'),
-    'description' => st('Industry'),
+    'name' => $t'15000'),
+    'description' => $t'Industry'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('16000'),
-    'description' => st('Institutions'),
+    'name' => $t'16000'),
+    'description' => $t'Institutions'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('17000'),
-    'description' => st('Justice and home affairs, asylum, judicial cooperation, police cooperation, Schengen, visa, immigration, external frontiers, fight against crime, drugs, terrorism'),
+    'name' => $t'17000'),
+    'description' => $t'Justice and home affairs, asylum, judicial cooperation, police cooperation, Schengen, visa, immigration, external frontiers, fight against crime, drugs, terrorism'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('18000'),
-    'description' => st('Free movement of capital, finance'),
+    'name' => $t'18000'),
+    'description' => $t'Free movement of capital, finance'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('19000'),
-    'description' => st('Free movement of goods, customs, public contracts, standardization'),
+    'name' => $t'19000'),
+    'description' => $t'Free movement of goods, customs, public contracts, standardization'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('20000'),
-    'description' => st('Free movement of persons, right of establishment, workers'),
+    'name' => $t'20000'),
+    'description' => $t'Free movement of persons, right of establishment, workers'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('21000'),
-    'description' => st('Free movement of services, insurance, banks, credit, right of establishment, savings, public contracts'),
+    'name' => $t'21000'),
+    'description' => $t'Free movement of services, insurance, banks, credit, right of establishment, savings, public contracts'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('22000'),
-    'description' => st('Fisheries'),
+    'name' => $t'22000'),
+    'description' => $t'Fisheries'),
   );
   taxonomy_term_save($term);
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('23000'),
-    'description' => st('Regional policy, OCT'),
-  );
-  taxonomy_term_save($term);
-
-  $term = (object) array(
-    'vid' => $vocabulary->vid,
-    'name' => st('24000'),
-    'description' => st('Social policy, public health'),
+    'name' => $t'23000'),
+    'description' => $t'Regional policy, OCT'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('25000'),
-    'description' => st('Research & development'),
+    'name' => $t'24000'),
+    'description' => $t'Social policy, public health'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('26000'),
-    'description' => st('External relations, CFSP, development cooperation, humanitarian aid'),
+    'name' => $t'25000'),
+    'description' => $t'Research & development'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('27000'),
-    'description' => st('Trans-European networks'),
+    'name' => $t'26000'),
+    'description' => $t'External relations, CFSP, development cooperation, humanitarian aid'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('28000'),
-    'description' => st('Respect for human rights, racism, xenophobia'),
+    'name' => $t'27000'),
+    'description' => $t'Trans-European networks'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('29000'),
-    'description' => st('Transport'),
+    'name' => $t'28000'),
+    'description' => $t'Respect for human rights, racism, xenophobia'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('30000'),
-    'description' => st('Economic and monetary union, euro, single currency'),
+    'name' => $t'29000'),
+    'description' => $t'Transport'),
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => $t'30000'),
+    'description' => $t'Economic and monetary union, euro, single currency'),
   );
    taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('31000'),
-    'description' => st('Statistics'),
+    'name' => $t'31000'),
+    'description' => $t'Statistics'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('32000'),
-    'description' => st('Language, multilingualism, translation, interpretation'),
+    'name' => $t'32000'),
+    'description' => $t'Language, multilingualism, translation, interpretation'),
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('33000'),
-    'description' => st('Administration, management and human resources policy'),
+    'name' => $t'33000'),
+    'description' => $t'Administration, management and human resources policy'),
   );
   taxonomy_term_save($term);
 
@@ -268,7 +269,6 @@ function cce_basic_config_install() {
     }
   }
 
-
   // Add a fivestar rate widget.
   // Check if rate widget already exists.
   $rate_widgets = variable_get("rate_widgets");
@@ -282,6 +282,7 @@ function cce_basic_config_install() {
       }
     }
   }
+
   $rate_widgets[1] = (object) array(
     'name' => 'rate_fivestar',
     'tag' => 'vote',
@@ -340,7 +341,6 @@ function cce_basic_config_install() {
   );
   variable_set("rate_widgets", $rate_widgets);
 
-
   if (db_table_exists('captcha_points')) {
     db_update('captcha_points')
       -> fields(array('captcha_type' => 'default'))
@@ -353,8 +353,8 @@ function cce_basic_config_install() {
  * Implements hook_uninstall().
  */
 function cce_basic_config_uninstall() {
-  // manually remove config for file document display
-  // this process must be temporary
+  // Manually remove config for file document display
+  // This process must be temporary
   $exports = cce_basic_config_file_default_displays();
   foreach ($exports as $id_export => $settings_export) {
     if (substr($id_export, 0, 8) == 'document') {
@@ -408,7 +408,6 @@ function cce_basic_config_enable() {
   $account2->field_lastname['und'][0]['value'] = 'Blake';
   user_save($account2);
 
-
   // Affect dummy contents to the user 'administrator'.
   $query = db_select('node', 'n');
   $query->condition('n.type', 'article', '=')
@@ -420,7 +419,6 @@ function cce_basic_config_enable() {
     $node->uid = $account->uid;
     node_save($node);
   }
-
 
   // Add blocks in site-wide context.
   $context = module_invoke('context', 'load', 'site_wide');
@@ -469,6 +467,7 @@ function cce_basic_config_disable() {
  * add classification vocabulary, add file diplays settings
  */
 function cce_basic_config_update_7140() {
+
   // Create a vocabulary for classification.
   // Add default categories.
   $vocabulary = taxonomy_vocabulary_machine_name_load('classification');
@@ -702,9 +701,9 @@ function cce_basic_config_update_7140() {
   );
   taxonomy_term_save($term);
 
-  // manually save file document displays in database
-  // the feature settings are not properly injected in database
-  // this process must be temporary
+  // Manually save file document displays in database
+  // The feature settings are not properly injected in database
+  // This process must be temporary
   db_delete('file_display')->execute();
   $exports = cce_basic_config_file_default_displays();
   foreach ($exports as $id_export => $settings_export) {
@@ -718,10 +717,10 @@ function cce_basic_config_update_7140() {
       ->execute();
   }
 
-  // remove the mail address to the update modules notification
+  // Remove the mail address to the update modules notification
   variable_del('update_notify_emails');
 
-  // disable update management module permissions for administrator role
+  // Disable update management module permissions for administrator role
   $adm_rid = multisite_drupal_toolbox_get_rid('administrator');
   user_role_revoke_permissions($adm_rid, array(
     'administer software updates',
@@ -760,7 +759,7 @@ function cce_basic_config_update_7150() {
 }
 
 /**
- * add search block
+ * Add search block.
  */
 function cce_basic_config_update_7160() {
   // Add block site-wide context.
@@ -799,8 +798,6 @@ function cce_basic_config_update_7170() {
   }
 }
 
-
-
 /**
  * Add rate widget fivestar.
  */
@@ -818,6 +815,7 @@ function cce_basic_config_update_7180() {
       }
     }
   }
+
   $rate_widgets[1] = (object) array(
     'name' => 'rate_fivestar',
     'tag' => 'vote',
@@ -877,7 +875,6 @@ function cce_basic_config_update_7180() {
     variable_set("rate_widgets", $rate_widgets);
 }
 
-
 /**
  * force home and myworkbench menu items at left in main menu
  */
@@ -917,7 +914,7 @@ function cce_basic_config_update_7191() {
  * set configuration for jqmulti
  */
 function cce_basic_config_update_7192() {
-  // home
+  // Home.
   $ml_home = db_select('menu_links', 'ml')
     -> fields('ml', array('options'))
     -> condition('link_path', '<front>')
@@ -1029,40 +1026,40 @@ function cce_basic_config_update_7192() {
  }
  
  /**
-  * date field migration
+  * Date field migration
  */
 function cce_basic_config_update_7193() {
   ##########################
   #  DATE FIELD MIGRATION  #             
   ##########################
 
-  // --- CONFIG ---
+  //Config
   // $content type : content type that contains fiels to replace
   // $module_name : module that contains fields
   $content_type = 'article'; //
   $module_name = basename(__FILE__, '.install'); // 
-  // get db fields instances of content type
+  // Get db fields instances of content type
   $fields_instances = field_info_instances('node', $content_type);
 
-  // get feature fields config&instance
+  // Get feature fields config&instance
   module_load_include('inc', $module_name, $module_name . '.features.field');
   if (function_exists($module_name . '_field_default_fields')) {
     $fields_features_info = call_user_func($module_name . '_field_default_fields');
   }
 
-  // --- MIGRATION ---
+  // Migration.
   foreach ($fields_instances as $field_name => $field_instance) {
-    // get db field config
+    // Get db field config.
     $field_info = field_info_field($field_name);
 
-    // get feature field config
+    // Get feature field config.
     $field_features_info = null;
 
     if (isset($fields_features_info['node-' . $content_type . '-' . $field_name])) {
       $field_features_info = $fields_features_info['node-' . $content_type . '-' . $field_name]['field_config'];
     }
 
-    // update only our fields defines to 'datestamp' in feature.field
+    // Update only our fields defines to 'datestamp' in feature.field.
     if ($field_info['type'] == 'datetime' && $field_info['locked'] && $field_features_info && $field_features_info['type'] == 'datestamp') {
       foreach ($field_info['storage']['details']['sql'] as $type => $info_sql) {
         $table_name = array_shift(array_keys($info_sql));
@@ -1095,7 +1092,7 @@ function cce_basic_config_update_7193() {
       watchdog('system', t('Saving field config of %field', array('%field' => $field_name)), NULL, WATCHDOG_INFO);
       db_update('field_config')->fields(array('type' => 'datestamp'))->condition('id', $field_info['id'])->execute();
 
-      // ERROR LOGS.
+      // Error logs.
     } elseif ($field_info['type'] == 'datestamp') {
       watchdog('system', t('Field %field has been already converted to UNIX timestamp""', array('%field' => $field_name)), NULL, WATCHDOG_WARNING);
       
@@ -1112,11 +1109,12 @@ function cce_basic_config_update_7193() {
   // Jqmulti configuration.
   variable_set('jqmulti_load_files_always', 1);
   
-  /* File format translation*/ 
+  // File format translation.
   $format = array (	"full_html" => "full_html","plain_text" => "plain_text");
   variable_set ("i18n_string_allowed_formats",$format);
 
 }
+
 /**
 * Update classes and icons on My Account and Logout
 */
@@ -1125,7 +1123,7 @@ function cce_basic_config_update_7194() {
   variable_set('user_myaccount_data_image', 'user'); //My Account
   variable_set('user_logout_data_image', 'log-out'); //Log out
 
-  // update My Account link in user-menu ---------------------------------------------------------------------------------------
+  // Update My Account link in user-menu.
   $options = array();
   $options['attributes']['class'] = variable_get('user_classes', 'btn btn-default btn-xs');
   $options['attributes']['data-image'] = variable_get('user_logout_data_image', 'user');
@@ -1136,7 +1134,7 @@ function cce_basic_config_update_7194() {
     -> condition('menu_name', 'user-menu')
     -> execute();
 
-  // update Logouy link in the user-menu ---------------------------------------------------------------------------------------
+  // Update Logouy link in the user-menu.
   $options = array();
   $options['attributes']['class'] = variable_get('user_classes', 'btn btn-default btn-xs');
   $options['attributes']['data-image'] = variable_get('user_logout_data_image', 'log-out');
