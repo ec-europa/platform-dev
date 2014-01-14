@@ -169,7 +169,7 @@ function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
       'variables' => array(
         'items' => array(),
       ),
-    )
+    ),
   );
   return $items;
 }
@@ -177,7 +177,8 @@ function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
 /**
  * Implements hook_media_token_to_markup_alter().
  *
- * Use fancybox for all image insert in content with the "insert media" button of the wysiwyg.
+ * Use fancybox for all image insert in content 
+ * with the "insert media" button of the wysiwyg.
  */
 function multisite_drupal_toolbox_media_token_to_markup_alter(&$element, &$tag_info, &$settings) {
 
@@ -208,7 +209,7 @@ function multisite_drupal_toolbox_node_view($node, $view_mode, $langcode) {
  * Santizie URL inputs.
  */
 function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $path_language) {
-  if (!($path == '<front>') && !(url_is_external($path))) { 
+  if (!($path == '<front>') && !(url_is_external($path))) {
     $path = check_url($path);
   }
 }
@@ -223,41 +224,45 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
     switch ($form_id) {
       case 'system_modules':
         unset($form['modules']['Core']['php']);
-        // Prevent users to give the permission to inject PHP
-        // in input text area
+        // Prevent users to give the permission to inject PHP.
+        // in input text area.
         unset($form['modules']['Development']);
         // Prevent users to give access to the devel modules.
         break;
 
       case 'user_admin_permissions':
-      // Prevent users to give certain permissions.
+        // Prevent users to give certain permissions.
         unset($form['permission']['administer modules']);
         unset($form['permission']['administer features']);
         unset($form['permission']['manage features']);
         unset($form['permission']['administer software updates']);
         unset($form['permission']['use PHP to import nodes']);
-        if(isset($form['permission']['administer varnish']))
+
+        if (isset($form['permission']['administer varnish'])) {
           unset($form['permission']['administer varnish']);
+        }
 
         foreach (array_keys(user_roles()) as $rid) {
-        // Hide checkboxes in the permissions admin page for the given permissions.
+          // Hide checkboxes in the permissions admin page.
           unset($form['checkboxes'][$rid]['#options']['administer modules']);
           unset($form['checkboxes'][$rid]['#options']['administer features']);
           unset($form['checkboxes'][$rid]['#options']['manage features']);
           unset($form['checkboxes'][$rid]['#options']['administer software updates']);
           unset($form['checkboxes'][$rid]['#options']['use PHP to import nodes']);
-          if(isset($form['checkboxes'][$rid]['#options']['administer varnish']))
+          if (isset($form['checkboxes'][$rid]['#options']['administer varnish'])) {
             unset($form['checkboxes'][$rid]['#options']['administer varnish']);
+          }
         }
+
         break;
 
       case "user_admin_account":
         unset($form['accounts']['#options'][1]);
-        // hide admin user 1.
+        // Hide admin user 1.
         break;
 
       case "user_admin_role":
-      // Prevent predefined roles updated for non admin.
+        // Prevent predefined roles updated for non admin.
         if (isset($form['rid'])) {
           $rid_administrator = multisite_drupal_toolbox_get_rid('administrator');
           $rid_contributor = multisite_drupal_toolbox_get_rid('contributor');
@@ -267,29 +272,48 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
             $form["name"]['#disabled'] = TRUE;
           }
         }
+
         break;
 
       case "workbench_moderation_admin_states_form":
-      // Prevent administrator from changing existing workflow states.
-        $blocked_states = array('draft', 'validated', 'published', 'needs_review', 'archived');
+        // Prevent administrator from changing existing workflow states.
+        $blocked_states = array(
+          'draft',
+          'validated',
+          'published',
+          'needs_review',
+          'archived',
+        );
         $states = $form['states'];
+
         foreach ($states as $state_id => $state) {
-          if (isset($state['delete']) && in_array($state_id, $blocked_states))
+          if (isset($state['delete']) && in_array($state_id, $blocked_states)) {
             $form['states'][$state_id]['delete']['#disabled'] = TRUE;
+          }
         }
+
         break;
 
       case "workbench_moderation_admin_transitions_form":
-      // Prevent administrator from changing existing workflow transitions.
-        $blocked_transitions = array('published_archived', 'draft_needs_review', 'needs_review_published', 'needs_review_draft', 'needs_review_validated', 'validated_published');
+        // Prevent administrator from changing existing workflow transitions.
+        $blocked_transitions = array(
+          'published_archived',
+          'draft_needs_review',
+          'needs_review_published',
+          'needs_review_draft',
+          'needs_review_validated',
+          'validated_published',
+        );
         $transitions = $form['transitions'];
         foreach ($transitions as $transition_id => $transition) {
           if (isset($transition['delete'])) {
             $transition_name = $transition['transition']['#value']->from_name . '_' . $transition['transition']['#value']->to_name;
-            if (in_array($transition_name, $blocked_transitions))
+            if (in_array($transition_name, $blocked_transitions)) {
               $form['transitions'][$transition_id]['delete']['#disabled'] = TRUE;
+            }
           }
         }
+
         break;
 
       // Server side character limitation form field message.
@@ -297,18 +321,19 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
       case "contact_personal_form":
         $maximum_limit = (int) variable_get('contact_form_maxlength', 1000);
         if (isset($maximum_limit) && is_numeric($maximum_limit)) {
-          if($form['message']) {
-          $form['message']['#title'] = $form['message']['#title'] . t(' (maximum @max characters)', array('@max' => $maximum_limit));
-          $form['message']['#maxlength'] = $maximum_limit;
+          if ($form['message']) {
+            $form['message']['#title'] = $form['message']['#title'] . ' ' . t('(maximum @max characters)', array('@max' => $maximum_limit));
+            $form['message']['#maxlength'] = $maximum_limit;
           }
         }
         break;
+
     }
   }
 
   switch ($form_id) {
     case 'menu_edit_item':
-    // Check the "Show as expanded" box. Used to created dropdown menus.
+      // Check the "Show as expanded" box. Used to created dropdown menus.
       if (isset($form['original_item']['#value']['expanded']) && (isset($form['original_item']['#value']['mlid']) && $form['original_item']['#value']['mlid'] != 0)) {
         $form['expanded']['#default_value'] = $form['original_item']['#value']['expanded'];
       }
@@ -316,9 +341,11 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
         $form['expanded']['#default_value'] = 1;
       }
       break;
+
     case 'comment_admin_overview':
       $form['#submit'][] = 'workbench_redirect_submit';
       break;
+
   }
 }
 
@@ -326,15 +353,15 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
  * Implements hook_node_presave().
  */
 function multisite_drupal_toolbox_node_presave($node) {
-  // security process to prevent xss attack in node contents
-  // sanitize for the node save
+  // Security process to prevent xss attack in node contents.
+  // Sanitize for the node save.
   if (isset($node->nid) && isset($node->body['und'][0])) {
     $node->body['und'][0]['value'] = multisite_drupal_toolbox_sanitize($node->body['und'][0]['value'], $node->nid);
   }
 }
 
 /**
- * hook_node_view_alter
+ * Implements hook_node_view_alter().
  */
 function multisite_drupal_toolbox_node_view_alter(&$build) {
   // Security process to prevent xss attack in node contents.
@@ -364,12 +391,11 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
   return $content;
 }
 
-
 /**
  * Implements hook_theme_registry_alter().
  */
 function multisite_drupal_toolbox_theme_registry_alter(&$theme_registry) {
-  // use our own function to display status messages
+  // Use our own function to display status messages.
   $theme_registry['status_messages']['function'] = "multisite_drupal_toolbox_messages";
 }
 
@@ -382,12 +408,11 @@ function multisite_drupal_toolbox_messages($variables) {
   $rid = multisite_drupal_toolbox_get_rid('administrator');
   if (variable_get('alert_message_enable', FALSE) && isset($user->roles[$rid])) {
     $message = '<div id="alter_message" class="messages warning">' . variable_get('alert_message_body', "") . '</div>';
- }
- $output = theme_status_messages($variables);
- $output = $message . $output;
- return $output;
+  }
+  $output = theme_status_messages($variables);
+  $output = $message . $output;
+  return $output;
 }
-
 
 /**
  * Public function to disable a content type.
@@ -414,26 +439,26 @@ function _disable_content_type($type) {
  *
  * You need to add the module context as a dependancy to your feature.
  */
-function multisite_drupal_toolbox_add_block_context($context_name, $block_title, $module, $delta, $region, $weight='-10') {
-  //Load context
-  $context=module_invoke('context', 'load', $context_name);
-  //Make some modifications
+function multisite_drupal_toolbox_add_block_context($context_name, $block_title, $module, $delta, $region, $weight = '-10') {
+  // Load context.
+  $context = module_invoke('context', 'load', $context_name);
+  // Make some modifications.
   $block_to_add = array(
     'module' => $module,
-    'delta' =>  $delta,
+    'delta' => $delta,
     'region' => $region,
     'weight' => $weight,
   );
-  //Add modification to the context
+  // Add modification to the context.
   $context->reactions['block']['blocks'][$block_title] = $block_to_add;
-  //Update the context
+  // Update the context.
   module_invoke('context', 'save', $context);
 }
 
 /**
  * Obsolete. Use multisite_drupal_toolbox_add_block_context() instead.
  */
-function _add_block_context($context_name, $block_title, $module, $delta, $region, $weight='-10') {
+function _add_block_context($context_name, $block_title, $module, $delta, $region, $weight = '-10') {
   multisite_drupal_toolbox_add_block_context($context_name, $block_title, $module, $delta, $region, $weight);
 }
 
@@ -459,12 +484,13 @@ function _remove_block_context($context_name, $block_title) {
 }
 
 /**
- * Public function to add view to a context
+ * Public function to add view to a context.
+ *
  * You need to add the module context as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_add_views_context($context_name, $view_title) {
   // Load context.
-  $context=module_invoke('context', 'load', $context_name);
+  $context = module_invoke('context', 'load', $context_name);
   // Add modification to the context.
   $context->conditions['views']['values'][$view_title] = $view_title;
   // Update the context.
@@ -508,7 +534,7 @@ function multisite_drupal_toolbox_add_content_type_context($context_name, $conte
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
   // Add modification to the context.
-  $context->conditions['node']['values'][$content_type]=$content_type;
+  $context->conditions['node']['values'][$content_type] = $content_type;
   // Update the context.
   module_invoke('context', 'save', $context);
 }
@@ -607,7 +633,7 @@ function multisite_drupal_toolbox_add_content_type_newsletters($node_type) {
   }
 }
 /**
- * Obsolete. Use multisite_drupal_toolbox_add_content_type_newsletters() instead.
+ * Obsolete. Use multisite_drupal_toolbox_add_content_type_newsletters().
  */
 function add_content_type_newsletters($node_type) {
   multisite_drupal_toolbox_add_content_type_newsletters($node_type);
@@ -645,9 +671,11 @@ function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
       'bundle' => $bundle,
       ))->execute();
       break;
+
     case 'delete':
       db_delete('apachesolr_index_bundles')->condition('bundle', $bundle)->execute();
       break;
+
   }
 }
 
@@ -710,15 +738,17 @@ function get_rid($role_name) {
 }
 
 /**
- * Custom function. Check if the user is super admin
- * ?not used?
+ * Custom function. Check if the user is super admin.
  */
 function multisite_drupal_toolbox_is_admin() {
   global $user;
 
-  if ($user->uid == 1)
+  if ($user->uid == 1) {
     return TRUE;
-  return FALSE;
+  }
+  else {
+    return FALSE;
+  }
 }
 
 /**
@@ -729,8 +759,7 @@ function is_admin() {
 }
 
 /**
- * Check if current theme is ec_default theme
- * ?not used?
+ * Check if current theme is ec_default theme.
  */
 function multisite_drupal_toolbox_cce_theme() {
   return variable_get('theme_default', 'ec_default');
@@ -760,7 +789,10 @@ function workbench_redirect_submit($form, &$form_state) {
 }
 
 /**
- * Custom function : hide publish and unpublish options from the admin content form. Should only be done through workbench.
+ * Custom function.
+ *
+ * Hide publish and unpublish options from the admin content form.
+ * Should only be done through workbench.
  */
 function multisite_drupal_toolbox_form_node_admin_content_alter(&$form, &$form_state, $form_id) {
   unset($form['admin']['options']['operation']['#options']['publish']);
@@ -768,7 +800,9 @@ function multisite_drupal_toolbox_form_node_admin_content_alter(&$form, &$form_s
 }
 
 /**
- * Public function to add content type to the "related-contents" field of the simplenews content type
+ * Public function  .
+ *
+ * Used to add content type to the "related-contents" field of the simplenews content type
  * You need to add the feature newsletters as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_simplenews_related_content_type($content_type, $op) {
@@ -780,6 +814,7 @@ function multisite_drupal_toolbox_simplenews_related_content_type($content_type,
         field_update_field($field["field_related_contents"]);
       }
       break;
+
     case 'delete':
       $field = field_read_fields(array('field_name' => "field_related_contents"));
       if ($field) {
@@ -787,6 +822,7 @@ function multisite_drupal_toolbox_simplenews_related_content_type($content_type,
         field_update_field($field["field_related_contents"]);
       }
       break;
+
   }
 }
 
@@ -833,6 +869,7 @@ function multisite_drupal_toolbox_rate_content_type($content_type, $op) {
         variable_set("rate_widgets", $rw);
       }
     break;
+
   }
 }
 
@@ -890,9 +927,11 @@ function multisite_drupal_toolbox_content_type_linkchecker($type, $op) {
     case 'add':
       $node_type_scan[$type] = $type;
       break;
+
     case 'delete':
       unset($node_type_scan[$type]);
       break;
+
   }
   variable_set("linkchecker_scan_nodetypes", $node_type_scan);
 }
@@ -1030,12 +1069,12 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
       $path_info['path'] = variable_get('site_frontpage', 'node');
     }
 
-    if(!drupal_valid_path($path_info['path'])) {drupal_set_message(t('Please check that @url does exist on this site', array('@url' => $url)), 'warning');};
+    if (!drupal_valid_path($path_info['path'])) {drupal_set_message(t('Please check that @url does exist on this site', array('@url' => $url)), 'warning');};
   }
-  // External URL
+  // External URL.
   else {
     $geturl = drupal_http_request($url); //try to see if link is valid
-    if($geturl->error == 'Not Found') { drupal_set_message(t('Please check that @url does exist', array('@url' => $url)), 'warning');};
+    if ($geturl->error == 'Not Found') { drupal_set_message(t('Please check that @url does exist', array('@url' => $url)), 'warning');};
     //Clean external url: NOT used because it make youtube video or other impossible to use.
     // $path_info['target'] = 'external';
     // if (preg_match('~^https?$~', $parts['scheme'])) {
@@ -1131,7 +1170,7 @@ function echopre($variable, $description = NULL, $background_color = 'lightgrey'
  * fix bug : ckeditor strips media markups
  */
 function multisite_drupal_toolbox_wysiwyg_editor_settings_alter(&$settings, &$context) {
-  if($context['profile']->editor == 'ckeditor') {
+  if ($context['profile']->editor == 'ckeditor') {
     $settings['allowedContent'] = true;
   }
 }
