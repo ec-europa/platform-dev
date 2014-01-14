@@ -8,61 +8,61 @@
  * Add the js file needed to enable like/dislike button
  */
 function likedislike_init() {
-    drupal_add_js('http://ec.europa.eu/wel/like/js/likedislike.js', 'external');
+  drupal_add_js('http://ec.europa.eu/wel/like/js/likedislike.js', 'external');
 }
 
 /**
  * Implementation of hook_block_info().
  */
 function likedislike_block_info() {
-    $blocks['likedislike'] = array(
-        'info' => t('likedislike'),
-    );
-    
-    return $blocks;
+  $blocks['likedislike'] = array(
+    'info' => t('likedislike'),
+  );
+  
+  return $blocks;
 }
 
 /**
  * Implementation of hook_block_view().
  */
 function likedislike_block_view($delta='') {
-    $block = array();
+  $block = array();
     switch ($delta) {
-        case 'likedislike':
-            //$block['subject'] = t('Social bookmark');
-            $block['content'] = likedislike_contents();
-            break;
+      case 'likedislike':
+        $block['content'] = likedislike_contents();
+      
+      break;
     }
     return $block;
 }
 
 /**
- * custom html block
- * @return string
+ * Custom html block.
+ * @return string.
  */
 function likedislike_contents() {
-    global $language;
-    $current_url = curPageURL();
-    return '<span class="like_dislike">{"url":"' . $current_url . '" ,"lang":"' . $language->language . '"}</span>';
+  global $language;
+  $current_url = curPageURL();
+  return '<span class="like_dislike">{"url":"' . $current_url . '" ,"lang":"' . $language->language . '"}</span>';
 }
 
 /**
- * return the full current url
- * @return string
+ * Return the full current url.
+ * @return string.
  */
 function curPageURL() {
-    $pageURL = 'http';
+  $pageURL = 'http';
     if (isset($_SERVER["HTTPS"])) {
-        if ($_SERVER["HTTPS"] == "on") {
-            $pageURL .= "s";
-        }
+      if ($_SERVER["HTTPS"] == "on") {
+        $pageURL .= "s";
+      }
     }
-    $pageURL .= "://";
-    if ($_SERVER["SERVER_PORT"] != "80") {
-        $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . request_uri();
-    } 
-    else {
-        $pageURL .= $_SERVER["SERVER_NAME"] . request_uri();
-    }
-    return $pageURL;
+  $pageURL .= "://";
+  if ($_SERVER["SERVER_PORT"] != "80") {
+    $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . request_uri();
+  } 
+  else {
+    $pageURL .= $_SERVER["SERVER_NAME"] . request_uri();
+  }
+  return $pageURL;
 }
