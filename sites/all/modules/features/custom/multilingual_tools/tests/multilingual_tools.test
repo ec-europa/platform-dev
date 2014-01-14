@@ -77,7 +77,7 @@ class Multisite_multilingual_toolsQAWebTestCase extends DrupalWebTestCase {
     }
   }
 
- function testInstallFile() {
+  function testInstallFile() {
     $module = basename(__FILE__ , ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.install';
     $data = file_get_contents($path);
@@ -86,6 +86,5 @@ class Multisite_multilingual_toolsQAWebTestCase extends DrupalWebTestCase {
     $this->assertTrue(strpos($data, $module . '_enable'), 'The module contains a hook_enable');
     $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
   }
-
 
 }

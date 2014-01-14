@@ -6,29 +6,29 @@
  */
 
 /**
- * hook_install
+ * Implements hook_install().
  */
 function multilingual_tools_install() {
-    //Nothing yet
+  // Nothing yet.
 }
 
 /**
- * hook_uninstall
+ * Implements hook_uninstall().
  */
 function multilingual_tools_uninstall() {
-    //Nothing yet
+  // Nothing yet.
 }
 
 /**
- * Add block to the context
+ * Add block to the context.
  */
 function multilingual_tools_enable() {
-    //Activation message
-    drupal_set_message(t('Multilingual tools feature is now active on your site.'));
+  // Activation message.
+  drupal_set_message(t('Multilingual tools feature is now active on your site.'));
 }
 
 /**
- * Remove block from the context
+ * Remove block from the context.
  */
 function multilingual_tools_disable() {
   //Temporary fix to solve the problem of language sync when module is disabled and a language is added.
@@ -36,8 +36,6 @@ function multilingual_tools_disable() {
   module_disable(array('translation_overview', 'translation_table'), FALSE);
   drupal_uninstall_modules(array('translation_overview', 'translation_table'), FALSE);
 
-    //Activation message
+  //Activation message
     drupal_set_message(t('Multilingual tools feature is now disabled on your site.'));
 }
-
-
