@@ -688,7 +688,6 @@ function cce_basic_config_field_default_fields() {
     ),
   );
 
-
   // Exported field: 'user-user-field_creator'.
   $fields['user-user-field_creator'] = array(
     'field_config' => array(
@@ -777,7 +776,6 @@ function cce_basic_config_field_default_fields() {
       ),
     ),
   );
-
 
   // Exported field: 'user-user-field_firstname'.
   $fields['user-user-field_firstname'] = array(
@@ -907,7 +905,7 @@ function cce_basic_config_field_default_fields() {
     ),
   );
 
-  //Video related fields
+  // Video related fields
   // Exported field: 'file-video-field_tags'.
   $fields['file-video-field_tags'] = array(
     'field_config' => array(
