@@ -6,43 +6,40 @@
  */
 
 /**
- * hook_install
+ * Implements hook_install().
  */
 function events_core_install() {
     //Nothing yet
 }
 
 /**
- * hook_uninstall
+ * Implements hook_uninstall().
  */
 function events_core_uninstall() {
-    //Nothing yet
+    //Nothing yet.
 }
 
 /**
- * Add block to the context
+ * Add block to the context.
  */
 function events_core_enable() {
-  // solR configuration add bundle
+  // SolR configuration add bundle.
   multisite_drupal_toolbox_config_solr_bundle('event', 'add');
 
-  // add type to linkchecker scan
+  // Add type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('event', 'add');
 
-  // add type to the simplenews related content
-  //multisite_drupal_toolbox_simplenews_related_content_type('event', 'add');
-
-  //Add breadcrumb configuration
+  // Add breadcrumb configuration.
   db_insert('custom_breadcrumb')
-          ->fields(array(
-              'titles' => '[Breadcrumb_event:events_title]', // titles of the elements to display in the breadcrumb
-              'paths' => 'calendar/', // path of the elements to display in the breadcrumb
-              'visibility_php ' => '',
-              'node_type' => 'event', //the content type targeted by this rule
-          ))
-          ->execute();
+    ->fields(array(
+      'titles' => '[Breadcrumb_event:events_title]',
+      'paths' => 'calendar/',
+      'visibility_php ' => '',
+      'node_type' => 'event',
+    ))
+    ->execute();
 
-  //Activation message
+  // Activation message.
   drupal_set_message(t('Events feature is now active on your site.'));
 }
 
@@ -50,19 +47,16 @@ function events_core_enable() {
  * Remove block from the context
  */
 function events_core_disable() {
-  //remove the breadcrump related to
+  // Remove the breadcrump related to.
   db_delete('custom_breadcrumb')
     ->condition('node_type', 'event')
     ->execute();
 
-  // solR configuration reomve bundle
+  // SolR configuration reomve bundle.
   multisite_drupal_toolbox_config_solr_bundle('event', 'delete');
 
-  // remove type to linkchecker scan
+  // Remove type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('event', 'delete');
-
-  // remove type to the simplenews related content
-  //multisite_drupal_toolbox_simplenews_related_content_type('event', 'delete');
 
   multisite_drupal_toolbox_disable_content_type('event');
 
@@ -79,23 +73,23 @@ function events_core_disable() {
  * DATE FIELD MIGRATION SCRIPT: datetime to datestamp.              
  */
 function events_core_update_7202() {
-  // --- CONFIG ---
+  // CONFIG.
   // $content type : content type that contains fiels to replace
   // $module_name : module that contains fields
   $content_type = 'event'; //
   $module_name = basename(__FILE__, '.install'); // 
-  // Get db fields instances of content type
+  // Get db fields instances of content type.
   $fields_instances = field_info_instances('node', $content_type);
 
-  // Get feature fields config&instance
+  // Get feature fields config&instance.
   module_load_include('inc', $module_name, $module_name . '.features.field');
   if (function_exists($module_name . '_field_default_fields')) {
     $fields_features_info = call_user_func($module_name . '_field_default_fields');
   }
 
-  // --- MIGRATION ---
+  // MIGRATION.
   foreach ($fields_instances as $field_name => $field_instance) {
-    // get db field config
+    // Get db field config.
     $field_info = field_info_field($field_name);
 
     // Get feature field config.
@@ -105,7 +99,7 @@ function events_core_update_7202() {
       $field_features_info = $fields_features_info['node-' . $content_type . '-' . $field_name]['field_config'];
     }
 
-    // Update our fields defines to 'datestamp' in feature.field
+    // Update our fields defines to 'datestamp' in feature.field.
     if ($field_info['type'] == 'datetime' && $field_info['locked'] && $field_features_info && $field_features_info['type'] == 'datestamp') {
       foreach ($field_info['storage']['details']['sql'] as $type => $info_sql) {
         $table_name = array_shift(array_keys($info_sql));
@@ -149,7 +143,6 @@ function events_core_update_7202() {
       
       } elseif ($field_features_info['type'] != 'datestamp') {
         watchdog('system', t('Field %field is not a datestamp in %feature', array('%field' => $field_name, '%feature' => $module_name . '.features.field.inc')), NULL, WATCHDOG_WARNING);
-        //drupal_set_message(t('Field %field is not a datestamp in %feature', array('%field' => $field_name, '%feature' => $module_name . '.features.field.inc')), 'warning');
       }
     }
   }
