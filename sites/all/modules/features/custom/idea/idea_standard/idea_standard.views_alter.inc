@@ -1,7 +1,7 @@
 <?php
 /**
-* Implementation of hook_views_default_views_alter().
-*/
+ * Implements hook_views_default_views_alter().
+ */
 function idea_standard_views_default_views_alter(&$views) {
   if (array_key_exists('idea_list', $views)) {
     $view=$views['idea_list'];
