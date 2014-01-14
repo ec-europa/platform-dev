@@ -281,10 +281,6 @@ function e_library_core_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['style_plugin'] = 'media_browser';
-  /* Relationship: File: Content using Document */
-  $handler->display->display_options['relationships']['reverse_field_document_node']['id'] = 'reverse_field_document_node';
-  $handler->display->display_options['relationships']['reverse_field_document_node']['table'] = 'file_managed';
-  $handler->display->display_options['relationships']['reverse_field_document_node']['field'] = 'reverse_field_document_node';
   /* Relationship: File Usage: Content */
   $handler->display->display_options['relationships']['file_to_node']['id'] = 'file_to_node';
   $handler->display->display_options['relationships']['file_to_node']['table'] = 'file_usage';

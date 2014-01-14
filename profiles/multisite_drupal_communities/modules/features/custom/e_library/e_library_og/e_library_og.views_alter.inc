@@ -186,7 +186,7 @@ function e_library_og_views_default_views_alter(&$views) {
     $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
     $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
     $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-    $handler->display->display_options['relationships']['og_membership_rel']['relationship'] = 'reverse_field_document_node';
+    $handler->display->display_options['relationships']['og_membership_rel']['relationship'] = 'file_to_node';
     
     /* Contextual filter: OG membership: Group ID */
     $handler->display->display_options['arguments']['gid']['id'] = 'gid';
