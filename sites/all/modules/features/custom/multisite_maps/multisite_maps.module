@@ -6,7 +6,6 @@
 
 include_once 'multisite_maps.features.inc';
 
-
 /**
  * Implements hook_requirements().
  */
@@ -29,7 +28,6 @@ function multisite_maps_requirements($phase) {
   return $requirements;
 }
 
-
 /**
  * Implements hook_theme().
  */
@@ -41,9 +39,8 @@ function multisite_maps_theme($existing, $type, $theme, $path) {
   );
 }
 
-
 /**
- * Map rendering function
+ * Map rendering function.
  *
  * @param array $info an array containing the map data
  * @param string $jsid Name to be used for the id attribute in the DOM (used for javascript manipulation) optional
@@ -60,14 +57,12 @@ function theme_multisite_map($variables) {
     $jsid = 'Map_' . $map_id++;
   }
 
-  //$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')?'https':'http';
   $protocol = 'https';
   $path = $protocol.'://webtools.ec.europa.eu/fusionmapsxt/Maps/';
   $js_path = $path;
 
-
   include_once(multisite_maps_get_library_path() . 'Code/PHP/Includes/FusionMaps.php');
-  //check that the fusionmaps package was installed
+  // Check that the fusionmaps package was installed.
   if (!function_exists('renderChart')) {
     return t('Please install the Fusion Maps package from InfoSoft as per instructions in the readme.');
   }
