@@ -4,8 +4,8 @@
  */
 
 /*
-* function for theming the fat footer
-*/
+ * Theming the fat footer.
+ */
 function theme_fat_footer_links($variables) {
   $output = "";
 
@@ -22,10 +22,9 @@ function theme_fat_footer_links($variables) {
   return $output;
 }
 
-
 /*
-* hook_theme
-*/
+ * Implements hook_theme().
+ */
 function fat_footer_theme() {
   return array(
     'fat_footer_links' => array(
@@ -34,11 +33,9 @@ function fat_footer_theme() {
   );
 }
 
-
-
 /*
-* hook_block_info
-*/
+ * Implements hook_block_info().
+ */
 function fat_footer_block_info() {
   $blocks['fat-footer'] = array(
     'info' => t('Fat footer'),
@@ -46,10 +43,9 @@ function fat_footer_block_info() {
   return $blocks;
 }
 
-
 /*
-* hook_block_view
-*/
+ * Implements hook_block_view().
+ */
 function fat_footer_block_view($delta = '') {
   $block = array();
   switch ($delta) {
@@ -62,8 +58,8 @@ function fat_footer_block_view($delta = '') {
 }
 
 /*
-* create the content for the block
-*/
+ * Create the content for the block.
+ */
 function fat_footer_content() {
   $tree = menu_tree_all_data('main-menu', NULL, 2);
 
