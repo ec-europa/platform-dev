@@ -265,16 +265,16 @@
 
             switch ($content[$key]['#label_display']) {
               case 'hidden':
-                $field .= '<div class="col-lg-12">'.render($content[$key]).'</div>';
+                $field .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'.render($content[$key]).'</div>';
               break;
 
               case 'above':
                 if (isset($content[$key]['#title'])) {
                   $content[$key]['#label_display'] = 'hidden';
-                  $field .= '<div class="col-lg-12 field-label">'.$content[$key]['#title'].'</div></div>';
-                  $field .= '<div class="row"><div class="col-lg-12 no_label">'.render($content[$key]).'</div>';
+                  $field .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 field-label">'.$content[$key]['#title'].'</div></div>';
+                  $field .= '<div class="row"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no_label">'.render($content[$key]).'</div>';
                 } else {
-                  $field .= '<div class="col-lg-12 no_label">'.render($content[$key]).'</div>';
+                  $field .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no_label">'.render($content[$key]).'</div>';
                 }
               break;
 
@@ -282,19 +282,19 @@
               default:
                 if (isset($content[$key]['#title'])) {
                   $content[$key]['#label_display'] = 'hidden';
-                  $field .= '<div class="col-lg-2 field-label">'.$content[$key]['#title'].'</div>';
-                  $field .= '<div class="col-lg-10 no_label">'.render($content[$key]).'</div>';
+                  $field .= '<div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 field-label">'.$content[$key]['#title'].'</div>';
+                  $field .= '<div class="col-lg-10 col-md-9 col-sm-9 col-xs-8 no_label">'.render($content[$key]).'</div>';
                 } else {
-                  $field .= '<div class="col-lg-12 no_label">'.render($content[$key]).'</div>';
+                  $field .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no_label">'.render($content[$key]).'</div>';
                 }
               break;
             }
 
             $field .= '</div>';
           } else if ($display_label) {
-            $field .= '<div class="row"><div class="col-lg-12">'.render($content[$key]).'</div></div>';
+            $field .= '<div class="row"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'.render($content[$key]).'</div></div>';
           } else  {
-            $field .= '<div class="row"><div class="col-lg-12 no_label">'.render($content[$key]).'</div></div>';
+            $field .= '<div class="row"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no_label">'.render($content[$key]).'</div></div>';
           }
 
           if (isset($content[$key]['#field_name']) && in_array($content[$key]['#field_name'],$fields['picture'])) {

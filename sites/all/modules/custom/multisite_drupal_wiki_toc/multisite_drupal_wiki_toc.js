@@ -1,20 +1,17 @@
 (function ($) {
-
-$(document).ready(function() {
-  $('.node-type-wiki .node-wiki>.content fieldset').prepend('<ul id="toc"/>');
+  $(document).ready(function() {
+    $('.node-wiki > .content .field-name-body').prepend('<ul id="toc"/>');
     $("#toc").tableOfContents(
-      $(".node-type-wiki .node-wiki>.content"),      // Scoped to div#wrapper
+      $(".node-type-wiki .node-wiki>.content"),
       {
         startLevel: 2,    // H2 and up
         depth:      5,    // H2 through H6,
-        topLinks:   true, // Add "Top" Links to Each Header
+        topLinks:   false, // Add "Top" Links to Each Header
       }
     ); 
 
-    if($("#toc li").length > 0) {
-      $("#toc").addClass('well');
+    if ($("#toc li").length > 0) {
+      $("#toc").addClass('well well-sm');
     }
-	
-	
   });
 }(jQuery));
