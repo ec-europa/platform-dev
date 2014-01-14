@@ -4,11 +4,11 @@
  * Test Business Indicators features to ensure it follows QA requirements.
  */
 class BusinessIndicatorsQAWebTestCase extends DrupalWebTestCase {
-  
+
   protected $profile = 'multisite_drupal_communities';
   
   var $public_files_directory = NULL;
-  
+
   public static function getInfo() {
     return array(
       'name' => 'Business Indicators QA tests',
@@ -16,14 +16,14 @@ class BusinessIndicatorsQAWebTestCase extends DrupalWebTestCase {
       'group' => 'Multisite Core Features',
     );
   }
-  
+
   function testViews() {
     
     $this->privileged_user = $this->drupalCreateUserWithRole('administrator');
     $this->drupalLogin($this->privileged_user);
     $this->drupalGet('admin/reports/business-indicators');
     $this->assertText('Business Indicators', 'Overview page title displayed correctly.');
-    
+
     // Create users.
     $users = array();
     for ($i = 0 ; $i < 3 ; $i++) {
@@ -32,9 +32,9 @@ class BusinessIndicatorsQAWebTestCase extends DrupalWebTestCase {
         'edit any page content',
         'delete any page content',
         'access business indicators',
-      ));    
-    }    
-    
+      ));
+    }
+
     // Create test content.
     for ($i = 0 ; $i < 3 ; $i++) {
       $content = array();
@@ -43,19 +43,19 @@ class BusinessIndicatorsQAWebTestCase extends DrupalWebTestCase {
       $content['title'] = $this->randomName(16);
       $content['body'][LANGUAGE_NONE][0]['value'] = $this->randomName(64); 
       $content['body'][LANGUAGE_NONE][0]['summary'] = $this->randomName(64);
-      
+
       $node = $this->drupalCreateNode($content);
       $this->assert((bool) $node, 'Page "' . $node->nid . '" has been created.');
       $this->drupalCreateComment($node);
     }
-    
+
     $content = array();
     $content['type'] = 'community';
     $content['uid'] = $this->privileged_user->uid;
     $content['title'] = $this->randomName(16);
     $content['body'][LANGUAGE_NONE][0]['value'] = $this->randomName(64); 
     $content['body'][LANGUAGE_NONE][0]['summary'] = $this->randomName(64);
-    
+
     $community = $this->drupalCreateNode($content);
     $this->assert((bool) $node, 'Community "' . $community->nid . '" has been created.');
     $this->assertEqual($community->uid, $this->privileged_user->uid, 'Community owner is privileged user ' . $community->uid);
@@ -63,7 +63,7 @@ class BusinessIndicatorsQAWebTestCase extends DrupalWebTestCase {
     // Assign user to community.
     $this->privileged_user->og_group_ref[LANGUAGE_NONE][0]['target_id'] = $community->nid;
     user_save($this->privileged_user);
-    
+
     // Create test content.
     for ($i = 0 ; $i < 3 ; $i++) {
       $content = array();
@@ -74,7 +74,7 @@ class BusinessIndicatorsQAWebTestCase extends DrupalWebTestCase {
       $content['body'][LANGUAGE_NONE][0]['summary'] = $this->randomName(64);
       $content['og_group_ref'][LANGUAGE_NONE][0]['target_id'] = $community->nid;
 
-      $image = $this->createFile('image-' . rand() . '.jpg', 'image/png');      
+      $image = $this->createFile('image-' . rand() . '.jpg', 'image/png');
       $content['field_image'][LANGUAGE_NONE][0] = (array) $image;
       
       $node = $this->drupalCreateNode($content);
@@ -97,20 +97,20 @@ class BusinessIndicatorsQAWebTestCase extends DrupalWebTestCase {
           $this->assertTrue((bool) $results, "View '{$view_name}' display '{$display_id}' not empty");
           $view->set_display($display_id);
           $title = $view->display[$display_id]->handler->get_option('title');
-          $this->assertText($title, "Block '{$title}' found on overview page.");          
+          $this->assertText($title, "Block '{$title}' found on overview page.");
         }
       }
     }
-        
+
     return;
   }
-  
+
   /**
    * Test Info File.
    * TestFile <featurename>.info
    */
   function testInfoFile() {
-    
+
     $module = basename(__FILE__ , ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.info';
     $info = drupal_parse_info_file($path);
