@@ -9,7 +9,7 @@
  * Implements hook_install().
  */
 function e_library_core_install() {
-  //Nothing yet
+  //Nothing yet.
 }
 
 /**
@@ -107,12 +107,12 @@ function e_library_core_disable() {
 function e_library_core_update_7120() {
   // check if the taxonomy media_tags already exists
   $vocabulary = db_select('taxonomy_vocabulary', 'tv')
-                  ->fields('tv')
-                  ->condition('machine_name', 'media_tags','=')
-                  ->execute()
-                  ->fetchAssoc();
+    ->fields('tv')
+    ->condition('machine_name', 'media_tags', '=')
+    ->execute()
+    ->fetchAssoc();
 
-  if(count($vocabulary) == 0) {
+  if (count($vocabulary) == 0) {
     // create a vocabulary dedicated to the media tags
     $vocabulary = (object) array(
       'name' => st('Media tags'),
