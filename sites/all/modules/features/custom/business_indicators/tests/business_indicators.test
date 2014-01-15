@@ -1,4 +1,8 @@
 <?php 
+/**
+ * @file
+ * Tests for business_indicators.
+ */
 
 /**
  * Test Business Indicators features to ensure it follows QA requirements.
