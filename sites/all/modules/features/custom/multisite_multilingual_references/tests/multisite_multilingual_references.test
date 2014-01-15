@@ -9,7 +9,7 @@
 /**
  * Defines a base class for testing the "Multilingual Entity References" module.
  */
-class Multisite_multilingual_entity_referencesQAWebTestCase extends DrupalWebTestCase {
+class MultisiteMultilingualEntityReferencesQAWebTestCase extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(

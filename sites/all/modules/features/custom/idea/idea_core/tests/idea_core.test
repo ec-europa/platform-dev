@@ -8,7 +8,7 @@
 /**
  * Defines a base class for testing the "idea_core" module.
  */
-class Idea_CoreWebTestCase extends DrupalWebTestCase {
+class IdeaCoreWebTestCase extends DrupalWebTestCase {
   public static function getInfo() {
     return array(
       'name' => 'Ideation',

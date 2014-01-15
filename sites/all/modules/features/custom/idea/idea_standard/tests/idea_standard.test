@@ -8,7 +8,7 @@
 /**
  * Defines a base class for testing the "idea_core" module.
  */
-class Idea_StandardWebTestCase extends DrupalWebTestCase {
+class IdeaStandardWebTestCase extends DrupalWebTestCase {
 
   protected $web_user;
 

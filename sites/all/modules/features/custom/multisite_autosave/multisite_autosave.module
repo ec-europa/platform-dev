@@ -9,7 +9,8 @@
  * Implements hook_js_alter().
  */
 function multisite_autosave_js_alter(&$javascript) {
-  // If the autosave js is invoked, our custom js replaces it in order to get the functionality workink on IE. 
+  // If the autosave js is invoked, our custom js replaces.
+  // it in order to get the functionality workink on IE. 
   if (isset($javascript[drupal_get_path('module', 'autosave') . '/autosave.js']['data'])) {
     $javascript[drupal_get_path('module', 'autosave') . '/autosave.js']['data'] = drupal_get_path('module', 'multisite_autosave') . '/scripts/multisite_autosave.js';
     $javascript[drupal_get_path('module', 'autosave') . '/autosave.js']['scope'] = 'header';

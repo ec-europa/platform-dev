@@ -9,7 +9,7 @@
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
-class Multisite_links_coreQAWebTestCase extends DrupalWebTestCase {
+class MultisiteLinksCoreQAWebTestCase extends DrupalWebTestCase {
    protected $privileged_user;
    protected $user_contributor;
 

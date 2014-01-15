@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install the Notifications feature.
@@ -9,7 +10,7 @@ include_once 'includes/multisite_notifications_core.settings.inc';
  * Implements hook_install().
  */
 function multisite_notifications_core_install() {
-    //Nothing yet
+  //Nothing yet.
 }
 
 /**

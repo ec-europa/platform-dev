@@ -9,7 +9,7 @@
 /**
  * Defines a base class for testing the "multisite_autosave" module.
  */
-class Multisite_multisite_autosaveQAWebTestCase extends DrupalWebTestCase {
+class MultisiteMultisiteAutosaveQAWebTestCase extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(

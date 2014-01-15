@@ -9,7 +9,7 @@
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
-class Multisite_TranslationsWebTestCase extends DrupalWebTestCase {
+class MultisiteTranslationsWebTestCase extends DrupalWebTestCase {
 
   protected $translator_french_user;
   protected $admin_user;
