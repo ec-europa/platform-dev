@@ -8,7 +8,7 @@
 /**
  * Defines a base class for testing the "communities" module.
  */
-class ecas_group_syncWebTestCase extends DrupalWebTestCase {
+class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
   protected $community_user;
   protected $admin_user;
   protected $contributor_user;
@@ -24,10 +24,7 @@ class ecas_group_syncWebTestCase extends DrupalWebTestCase {
   }
 
   function setUp() {
-    parent::setUp(array(
-      'ecas_env',
-      'ecas_group_sync',
-    ));
+    parent::setUp(array('ecas_env','ecas_env','ecas_group_sync',));
 
     $this->admin_user = $this->drupalCreateUserWithRole("administrator");
     $this->contributor_user = $this->drupalCreateUserWithRole("contributor");
@@ -66,19 +63,21 @@ class ecas_group_syncWebTestCase extends DrupalWebTestCase {
 
     // test the group sync process -------------------------------------------------
     // create a community    
-    $settings = array(
-      'type' => 'community',
-      'title' => 'Community test1',
-      'body' => array(LANGUAGE_NONE => array(array('Community body'))),
-    );
-    $node1 = $this->drupalCreateNode($settings);
-    $node1->og_register  = 0;
-    $node1->og_directory = 0;
-    $node1->og_private   = 1;
-    $node1->og_selective = 3;
-    node_save($node1);    
-    
+    if(module_exists('og')) {
+      $settings = array(
+        'type' => 'community',
+        'title' => 'Community test1',
+        'body' => array(LANGUAGE_NONE => array(array('Community body'))),
+      );
 
+      $node1 = $this->drupalCreateNode($settings);
+      $node1->og_register  = 0;
+      $node1->og_directory = 0;
+      $node1->og_private   = 1;
+      $node1->og_selective = 3;
+      node_save($node1);    
+    
+    
 
     // create mapping rule
     $id = db_insert('ecas_sync_mapping')
@@ -137,7 +136,7 @@ class ecas_group_syncWebTestCase extends DrupalWebTestCase {
     $this->assertNoUniqueText('community_manager', t('first group role has been correctly affected.'));
     $this->assertNoUniqueText('administrator', t('second group role has been correctly affected.'));
   }
-
+}
 
   /**
    * Creates a user with the give role.

@@ -6,4 +6,6 @@ version = 7.x-1.0
 project = ecas_group_sync
 dependencies[] = ecas
 dependencies[] = ecas_extra
+dependencies[] = i18n
+dependencies[] = i18n_string
 files[] = tests/ecas_group_sync.test

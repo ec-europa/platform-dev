@@ -9,7 +9,7 @@
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
-class Multisite_block_carouselQAWebTestCase extends DrupalWebTestCase {
+class MultisiteBlockCarouselQAWebTestCase extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(

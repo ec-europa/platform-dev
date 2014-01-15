@@ -9,7 +9,7 @@
 /**
  * Defines a base class for testing the "taxonomy_browser" module.
  */
-class Taxonomy_browserQAWebTestCase extends DrupalWebTestCase {
+class TaxonomyBrowserQAWebTestCase extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(
