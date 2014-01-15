@@ -325,7 +325,7 @@ function business_indicators_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $translatables['business_indicators_community_files'] = array(
     t('Master'),
-    t('Files per community '),
+    t('Files per community'),
     t('more'),
     t('Apply'),
     t('Reset'),
