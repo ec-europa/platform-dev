@@ -1,4 +1,4 @@
-name = CCE_basic_config
+name = cce_basic_config
 description = basic settings for multisite
 core = 7.x
 package = Multisite Core Features
