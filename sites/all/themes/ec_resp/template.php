@@ -389,6 +389,7 @@ function ec_resp_page_alter($page) {
       'content' => filter_xss(variable_get('site_name')),
     ),
   );
+
   drupal_add_html_head($meta_og_site_name, 'meta_og_site_name');
 
   // Og description.
