@@ -9,7 +9,7 @@
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
-class Multisite_ecas_envQAWebTestCase extends DrupalWebTestCase {
+class MultisiteEcasEnvQAWebTestCase extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(

@@ -9,7 +9,7 @@
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
-class Multisite_wiki_core_QAWebTestCase extends DrupalWebTestCase {
+class MultisiteWikiCoreQAWebTestCase extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(
