@@ -53,7 +53,7 @@
     $full_user = user_load($user->uid);
     $name = (isset($full_user->field_firstname['und'][0]['value']) && isset($full_user->field_lastname['und'][0]['value']) ? $full_user->field_firstname['und'][0]['value'] . ' ' . $full_user->field_lastname['und'][0]['value'] : $user->name);
 
-    print ("<div class='username'>" . t('Welcome, ') . '<strong>' . $name . '</strong></div>');
+    print ("<div class='username'>" . t('Welcome,') . ' <strong>' . $name . '</strong></div>');
   }
 ?>
 
