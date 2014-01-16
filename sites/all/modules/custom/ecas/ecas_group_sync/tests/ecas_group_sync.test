@@ -19,7 +19,7 @@ class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
     return array(
       'name' => 'ecas_group_sync',
       'description' => 'Test the synchronization between LDAP and user accounts',
-      'group' => 'ECAS',
+      'group' => 'ECAS SYNCH',
     );
   }
 
