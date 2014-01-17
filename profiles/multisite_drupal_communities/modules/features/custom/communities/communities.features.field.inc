@@ -173,8 +173,8 @@ function communities_field_default_fields() {
           ),
           'prepopulate' => array(
             'action' => 'hide',
-            'action_on_edit' => 0,
-            'fallback' => 'none',
+            'action_on_edit' => 1,
+            'fallback' => 'hide',
             'og_context' => 1,
             'skip_perm' => '0',
             'status' => 1,

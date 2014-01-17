@@ -175,7 +175,7 @@ function multisite_forum_community_field_default_fields() {
           ),
           'prepopulate' => array(
             'action' => 'hide',
-            'action_on_edit' => 0,
+            'action_on_edit' => 1,
             'fallback' => 'form_error',
             'og_context' => 1,
             'skip_perm' => '0',
