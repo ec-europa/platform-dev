@@ -25,48 +25,4 @@ function e_library_og_menu() {
 }
 
 
-/**
- * Add a buttons in the views associated with this feature
- * @param type $view 
- */
-function e_library_og_views_pre_render(&$view) {
 
-  if($view->name=='e_library'){
-    $group = og_context();
-    switch( $view->current_display ) {
-      case 'page':
-        if ( og_user_access('node', $group['gid'],'create document content') ) {
-          $view->header['area']->options['content'] = _e_library_get_link_from_group();
-        }
-        break;
-      default:
-      break;
-    }
-  }
-}
-
-
-function _e_library_get_link_from_group(){
-  $group = og_context();
-  $group_id = isset($group) ? $group['gid'] : '';
-    
-  $attributes = array( 
-    'attributes' => array(
-      'type' => 'add',
-       'action_bar' => 'single'
-     ),
-  );
-    
-  $options = array( 
-    'query' => array( 
-      'og_group_ref' => $group_id,
-    ),
-    'absolute' => TRUE,
-  );
-  $url = url( 'node/add/document', $options );
-    
-  return l( t('Add a new Document'), 
-    $url, 
-    $attributes
-  );
-}

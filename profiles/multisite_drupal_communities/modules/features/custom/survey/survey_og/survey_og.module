@@ -26,16 +26,5 @@ function survey_og_menu() {
   return $items;
 }
 
-/*
-* hook_views_pre_render
-*/
-function survey_og_views_pre_render(&$view) {
-  if($view->name == 'surveys_list' && $view->current_display == 'page_1') {
-    $og = og_context();
-    if ( og_user_access('node', $og['gid'],'create webform content') ) {
-      $output = l(t('Create a new survey'), 'node/add/webform', array('query' => array('og_group_ref' => $og['gid']), 'attributes' => array('type' => 'add', 'action_bar' => 'last', 'btn_group' => 'single')));
-      $view->header['area']->options['content'] = $output;
-    }
-  }
-}
+
 
