@@ -141,7 +141,7 @@ function news_core_update_7101() {
           watchdog('system', t('Update the  column %column of table %table : migrate datas and update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), NULL, WATCHDOG_WARNING);
 
           // create a temporary date field
-          $param = array('type' => 'int', 'not null' => TRUE, 'default' => 0);
+          $param = array('type' => 'int', 'not null' => FALSE, 'default' => 0);
           db_add_field($table_name, $column_name . '_temp', $param);
 
           db_update($table_name)

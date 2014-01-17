@@ -1072,7 +1072,7 @@ function cce_basic_config_update_7193() {
             watchdog('system', t('Update the  column %column of table %table : migrate datas and update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), NULL, WATCHDOG_WARNING);
 
             // Create a temporary date field.
-            $param = array('type' => 'int', 'not null' => TRUE, 'default' => 0);
+            $param = array('type' => 'int', 'not null' => FALSE, 'default' => 0);
             db_add_field($table_name, $column_name . '_temp', $param);
 
             db_update($table_name)
