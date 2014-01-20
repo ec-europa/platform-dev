@@ -30,7 +30,9 @@ function wiki_core_views_default_views() {
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_plugin'] = 'grid';
+  $handler->display->display_options['style_options']['row_class'] = 'clearfix';
+  $handler->display->display_options['style_options']['columns'] = '2';
   $handler->display->display_options['row_plugin'] = 'fields';
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
