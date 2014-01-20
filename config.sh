@@ -23,6 +23,7 @@ apachesolr_attachments_tika_jar='tika-app-1.1.jar'
 apachesolr_attachments_tika_path='fillme'
 apachesolr_attachments_java='/usr/bin/java'
 FPFIS_common_libraries='fillme'
+multisite_version="x.x"
 
 if [ "$subsite_installation" == "yes" ]; then
 	subsite_name="$subsite"
