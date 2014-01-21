@@ -618,11 +618,32 @@ function communities_views_default_views() {
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'users';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
+  /* Field: User: First name */
+  $handler->display->display_options['fields']['field_firstname']['id'] = 'field_firstname';
+  $handler->display->display_options['fields']['field_firstname']['table'] = 'field_data_field_firstname';
+  $handler->display->display_options['fields']['field_firstname']['field'] = 'field_firstname';
+  $handler->display->display_options['fields']['field_firstname']['label'] = '';
+  $handler->display->display_options['fields']['field_firstname']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_firstname']['element_label_colon'] = FALSE;
+  /* Field: User: Last name */
+  $handler->display->display_options['fields']['field_lastname']['id'] = 'field_lastname';
+  $handler->display->display_options['fields']['field_lastname']['table'] = 'field_data_field_lastname';
+  $handler->display->display_options['fields']['field_lastname']['field'] = 'field_lastname';
+  $handler->display->display_options['fields']['field_lastname']['label'] = '';
+  $handler->display->display_options['fields']['field_lastname']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_lastname']['element_label_colon'] = FALSE;
   /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
   $handler->display->display_options['fields']['name']['field'] = 'name';
   $handler->display->display_options['fields']['name']['label'] = '';
+  $handler->display->display_options['fields']['name']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['name']['alter']['text'] = '[field_firstname] [field_lastname]';
+  $handler->display->display_options['fields']['name']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['name']['alter']['path'] = 'users/[name]';
+  $handler->display->display_options['fields']['name']['alter']['alt'] = '[name]';
+  $handler->display->display_options['fields']['name']['alter']['link_class'] = 'list-group-item';
+  $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
   /* Sort criterion: OG membership: Created */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'og_membership';
