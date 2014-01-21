@@ -340,11 +340,11 @@ projects[xml_field][version] = "1.5"
 
 ;libraries
 
-;ckeditor 4.2.0
+;ckeditor 4.3.1
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "tar.gz"
-libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.2/ckeditor_4.2_full.zip"
+libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%4.3.1/ckeditor_4.3.1_full.zip"
 libraries[ckeditor][download][sha1] = "95d90f96e31faf24a3474274592c64ae3e6de343"
 libraries[ckeditor][directory_name] = "ckeditor"
 
