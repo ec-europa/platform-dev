@@ -22,8 +22,14 @@ function getComRefUserInfo($perid, $fields = array('no_sysper')) {
   else {
     watchdog('oracle access', 'connection issue with the oracle service'); 
   }
-
-  return isset($values) ? $values['records'] : NULL;
+// watchdog('COMREF values', '<pre>'. print_r($values, TRUE) .'</pre>');
+//  return isset($values) ? $values['records'] : NULL;
+  if (isset($values) && !empty($values['records'])) {
+    return $values['records'];
+  } 
+  else {
+    return NULL;
+  }
 }
 
 
@@ -51,7 +57,12 @@ function getComRefInfo($info, $fields = array()) {
     watchdog('oracle access', 'connection issue with the oracle service');
   }
 
-  return isset($values)?$values['records']:null;
+    if (isset($values) && !empty($values['records'])) {
+    return $values['records'];
+  } 
+  else {
+    return NULL;
+  }
 }
 
 
