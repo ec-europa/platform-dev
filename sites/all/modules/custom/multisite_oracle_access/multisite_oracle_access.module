@@ -38,7 +38,7 @@ function getComRefUserInfo($perid, $fields = array('no_sysper')) {
  */
 function getComRefInfo($info, $fields = array()) {
   $config = variable_get('oracle_access');
-  $data = "op=getComRefInfo&access_token=".$config['access_token']."&info=".$info."&fields=".implode(",", $fields);
+  $data = "op=getComRefInfo&access_token=" . $config['access_token'] . "&info=" . $info . "&fields=" . implode(",", $fields);
 
   $options = array(
     'method' => 'POST',
