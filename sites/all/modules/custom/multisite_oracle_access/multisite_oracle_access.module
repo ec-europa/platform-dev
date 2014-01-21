@@ -4,7 +4,7 @@
  */
 function getComRefUserInfo($perid, $fields = array('no_sysper')) {
   $config = variable_get('oracle_access');  
-  $data = "op=getComRefUserInfo&per_id=".$perid."&fields=".implode(",", $fields)."&access_token=".$config['access_token'];
+  $data = "op=getComRefUserInfo&per_id=" . $perid . "&fields=" . implode(",", $fields) . "&access_token=" . $config['access_token'];
 
   $options = array(
     'method' => 'POST',
@@ -23,7 +23,7 @@ function getComRefUserInfo($perid, $fields = array('no_sysper')) {
     watchdog('oracle access', 'connection issue with the oracle service'); 
   }
 
-  return isset($values)?$values['records']:null;
+  return isset($values) ? $values['records'] : NULL;
 }
 
 
