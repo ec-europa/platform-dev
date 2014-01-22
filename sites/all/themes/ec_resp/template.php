@@ -6,7 +6,7 @@
  */
 
 /**
- * Preprocess hook.
+ * Implements theme_preprocess().
  */
 function ec_resp_preprocess(&$variables) {
   // Select template
@@ -19,7 +19,7 @@ function ec_resp_preprocess(&$variables) {
 }
 
 /**
- * Preprocess node hook.
+ * Implements theme_preprocess_node().
  */
 function ec_resp_preprocess_node(&$variables) {
   $custom_date = format_date($variables['created'], 'custom', 'l, d/m/Y');
@@ -30,7 +30,7 @@ function ec_resp_preprocess_node(&$variables) {
 }
 
 /**
- * Preprocess block hook.
+ * Implements theme_preprocess_block()..
  */
 function ec_resp_preprocess_block(&$variables) {
   // In the header region visually hide block titles.
@@ -40,35 +40,35 @@ function ec_resp_preprocess_block(&$variables) {
 }
 
 /**
- * Preprocess select hook.
+ * Implements theme_preprocess_select().
  */
 function ec_resp_preprocess_select(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
 /**
- * Preprocess textfield hook.
+ * Implements theme_preprocess_textfield().
  */
 function ec_resp_preprocess_textfield(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
 /**
- * Preprocess password hook.
+ * Implements theme_preprocess_password().
  */
 function ec_resp_preprocess_password(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
 /**
- * Preprocess textarea hook.
+ * Implements theme_preprocess_textarea().
  */
 function ec_resp_preprocess_textarea(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
 /**
- * Preprocess maintenance page hook.
+ * Implements theme_preprocess_maintenance_page().
  */
 function ec_resp_preprocess_maintenance_page(&$variables) {
   if (!$variables['db_is_active']) {
@@ -78,7 +78,7 @@ function ec_resp_preprocess_maintenance_page(&$variables) {
 }
 
 /**
- * Preprocess html hook.
+ * Implements theme_preprocess_html().
  */
 function ec_resp_preprocess_html(&$variables) {
   if (!empty($variables['page']['featured'])) {
@@ -138,7 +138,7 @@ function ec_resp_preprocess_html(&$variables) {
 }
 
 /**
- * Preprocess menu link hook.
+ * Implements theme_preprocess_menu_link().
  */
 function ec_resp_preprocess_menu_link(&$variables) {
   // Get icon links to menu item.
@@ -162,7 +162,7 @@ function ec_resp_preprocess_menu_link(&$variables) {
 }
 
 /**
- * Process maintenance page hook.
+ * Implements theme_preprocess_maintenance_page().
  */
 function ec_resp_process_maintenance_page(&$variables) {
   // Always print the site name and slogan, but if they are toggled off, we'll
