@@ -224,11 +224,11 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
         'dg' => 'all-groups',
         'lastname' => '',
         'search_by' => 'by-lastname',
-        'mail' => 'DIGIT-FPFIS-SUPPORT@ec.europa.eu',
+        'mail' => 'cyril.champagne@ext.ec.europa.eu',
         'country' => 'all-countries',
         );
     $this->drupalPost(NULL, $edit, 'Search');
-    $this->assertUrl('admin/people/import/everybody/all-groups/by-lastname/all-countries/DIGIT-FPFIS-SUPPORT@ec.europa.eu');
+    $this->assertUrl('admin/people/import/everybody/all-groups/by-lastname/all-countries/cyril.champagne@ext.ec.europa.eu');
     $this->assertText(t('List users LDAP'), 'Results found');
 
   	// Search by country
@@ -263,7 +263,7 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
         'name' => 'champcy',
         'firstname' => 'Cyril',
         'lastname' => 'CHAMPAGNE',
-        'email' => 'DIGIT-FPFIS-SUPPORT@ec.europa.eu',
+        'email' => 'cyril.champagne@ext.ec.europa.eu',
     ); // Change this if the user is not present on the test server
 
     $this->drupalGet('admin/people/import');
@@ -335,7 +335,7 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
         'name' => 'champcy',
         'firstname' => 'Cyril',
         'lastname' => 'CHAMPAGNE',
-        'email' => 'DIGIT-FPFIS-SUPPORT@ec.europa.eu',
+        'email' => 'cyril.champagne@ext.ec.europa.eu',
     ); // Change this if the user is not present on the test server
 
     $this->drupalGet('admin/people/import');
