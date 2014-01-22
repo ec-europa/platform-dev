@@ -663,19 +663,29 @@ function _disable_block($module, $delta) {
  * You need to add the module apachesolr as a dependancy to your feature.
  */
 function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
+  if ($op != 'delete' && $op != 'add') {
+    return;
+  } else {
+    $info = new StdClass;
+    $info->type = $bundle;
+  }
+
+  // update hook cache to find new hooks (see module_implements())
+  cache_set('module_implements', array(), 'cache_bootstrap');
+  drupal_static_reset('module_hook_info');
+  drupal_static_reset('drupal_alter');
+  cache_clear_all('hook_info', 'cache_bootstrap');
+
+  // we ensures that all node type are created 
+  node_types_rebuild();
+
   switch ($op) {
     case 'add':
-      db_insert('apachesolr_index_bundles')->fields(array(
-      'env_id' => 'solr',
-      'entity_type' => 'node',
-      'bundle' => $bundle,
-      ))->execute();
+      apachesolr_node_type_insert($info);
       break;
-
     case 'delete':
-      db_delete('apachesolr_index_bundles')->condition('bundle', $bundle)->execute();
+      apachesolr_node_type_delete($info);
       break;
-
   }
 }
 
