@@ -65,7 +65,7 @@ function events_core_disable() {
 }
 
 /**
- * Implementation of hook_update_n ()
+ * Implements of hook_update_N().
  * 
  * Content types using date fields should be using timestamp instead datetime.
  * No need to update schema in hook_install().
