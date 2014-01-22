@@ -2,8 +2,31 @@
 
 /**
  * @file
- * Install the feature contact_form
+ * Install updates and uninstall for basi config.
  */
+
+
+/**
+ * Test and report cce installation requirements.
+ *
+ * @param $phase
+ *   The current system installation phase.
+ * @return
+ *   An array of system requirements.
+ */
+function cce_basic_config_requirements($phase) {
+  $t = get_t();
+  $requirements['install_tag'] = array(
+    'title' => $t('Tag'),
+    'value' => $t('%profile_tag ', array(
+      '%profile_tag' => variable_get('multisite_version'),
+    )),
+    'severity' => REQUIREMENT_INFO,
+    'weight' => -8,
+  );
+  return $requirements;
+}
+
 
 /**
  * Implements hook_install().
