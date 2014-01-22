@@ -681,6 +681,8 @@ function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
 
   switch ($op) {
     case 'add':
+      // normally aparchsolr add automatically new content type to index bundles
+      // but for some feature, when disables the content type is not deleted (so when re-active, no run the hook_node_type_insert of apacheSolr)
       apachesolr_node_type_insert($info);
       break;
     case 'delete':
