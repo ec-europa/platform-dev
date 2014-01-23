@@ -316,6 +316,7 @@ function cce_basic_config_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
       'contributor' => 'contributor',
+      'authenticated user' => 'authenticated user',
       'editor' => 'editor',
     ),
     'module' => 'better_formats',
