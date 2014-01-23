@@ -641,7 +641,6 @@ function communities_views_default_views() {
   $handler->display->display_options['fields']['name']['alter']['text'] = '[field_firstname] [field_lastname]';
   $handler->display->display_options['fields']['name']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['name']['alter']['path'] = 'users/[name]';
-  $handler->display->display_options['fields']['name']['alter']['alt'] = '[name]';
   $handler->display->display_options['fields']['name']['alter']['link_class'] = 'list-group-item';
   $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
   /* Sort criterion: OG membership: Created */
