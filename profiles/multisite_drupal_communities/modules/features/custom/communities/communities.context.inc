@@ -31,6 +31,7 @@ function communities_context_default_contexts() {
         'node/*/group' => 'node/*/group',
         'node/*/moderation' => 'node/*/moderation',
         'group/node/*' => 'group/node/*',
+		'community/*' => 'community/*',
       ),
     ),
     'views' => array(
