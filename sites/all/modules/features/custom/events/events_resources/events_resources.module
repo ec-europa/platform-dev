@@ -1,0 +1,166 @@
+<?php
+/**
+ * @file
+ * events_resources definition module.
+ */
+
+/**
+ * The name and version of the FullCalendar plugin fork that supports resources.
+ */
+define('EVENTS_RESOURCES_FULLCALENDAR_RESOURCES_PLUGIN_NAME', 'fullcalendar_resources');
+define('EVENTS_RESOURCES_FULLCALENDAR_RESOURCES_PLUGIN_VERSION', '1.5.4');
+
+/**
+ * Returns library path of the FullCalendar plugin fork that supports resources.
+ */
+function _events_resources_get_library_path() {
+  return libraries_get_path(EVENTS_RESOURCES_FULLCALENDAR_RESOURCES_PLUGIN_NAME);
+}
+
+/**
+ * Returns the available resource items, or false.
+ */
+function _events_resources_get_resource_items() {
+  static $resources;
+  if (!isset($resources)) {
+    $resources = FALSE;
+    // Vocabulary for resources, used in the field "resources"
+    // of the type "event".
+    $resources_obj = taxonomy_vocabulary_machine_name_load('resources');
+    if (FALSE !== $resources_obj && $resources_obj->vid) {
+      $terms = taxonomy_get_tree($resources_obj->vid);
+      if (is_array($terms) && count($terms)) {
+        $resources = array();
+        foreach ($terms as $r) {
+          $resources[] = array(
+            'name' => $r->name,
+            'id' => $r->tid,
+          );
+        }
+      }
+    }
+  }
+  return $resources;
+}
+
+/**
+ * Implements hook_library_alter().
+ */
+function events_resources_library_alter(&$libraries, $module) {
+  if ('fullcalendar' == $module && FALSE !== _events_resources_get_resource_items()) {
+    // Set the paths.
+    $path = _events_resources_get_library_path();
+    $js_path = $path . '/' . ('min' == variable_get('fullcalendar_compression_type', 'min') ? 'fullcalendar.min.js' : 'fullcalendar.js');
+    $css_files = array($path . '/fullcalendar.css' => array('media' => 'screen'));
+    // As the fullcalendar module, add fullcalendar.print.css
+    // if it is available.
+    if (version_compare(fullcalendar_get_version(), '1.5.0', '>=')) {
+      $css_files[$path . '/fullcalendar.print.css'] = array('media' => 'print');
+    }
+    // Override the fullcalendar library files with the fork library files
+    // and keep the original dependencies.
+    $libraries['fullcalendar']['title'] = 'FullCalendar (fork by ikelin: https://github.com/ikelin/fullcalendar)';
+    $libraries['fullcalendar']['website'] = 'http://ikelin.github.io/fullcalendar/';
+    $libraries['fullcalendar']['version'] = EVENTS_RESOURCES_FULLCALENDAR_RESOURCES_PLUGIN_VERSION;
+    $libraries['fullcalendar']['js'] = array(
+      $js_path => array(),
+      $path . '/gcal.js' => array(),
+    );
+    $libraries['fullcalendar']['css'] = $css_files;
+  }
+}
+
+/**
+ * Implements hook_fullcalendar_api().
+ */
+function events_resources_fullcalendar_api() {
+  return array(
+    'api' => fullcalendar_api_version(),
+  );
+}
+
+/**
+ * Implements hook_fullcalendar_options_info().
+ */
+function events_resources_fullcalendar_options_info() {
+  return array(
+    'events_resources' => array(
+      'js' => TRUE,
+      'no_fieldset' => TRUE,
+      'weight' => 5,
+    ),
+  );
+}
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function events_resources_preprocess_views_view(&$vars) {
+
+  // Only for views using the "fullcalendar" format.
+  if (isset($vars['view']->current_display) && (
+    (isset($vars['view']->display[$vars['view']->current_display]->handler->view->display['default']->display_options['style_plugin']) &&
+      'fullcalendar' == $vars['view']->display[$vars['view']->current_display]->handler->view->display['default']->display_options['style_plugin'])
+      ||
+      (isset($vars['view']->display[$vars['view']->current_display]->display_options['style_plugin']) &&
+      'fullcalendar' == $vars['view']->display[$vars['view']->current_display]->display_options['style_plugin']))) {
+
+    // Get the available resource items.
+    $resources = _events_resources_get_resource_items();
+    if (is_array($resources) && count($resources)) {
+      // Pass the resources array to javascript so that
+      // can be attached to the calendar options setting.
+      drupal_add_js(array('events_resources' => array('resources' => $resources)), 'setting');
+    }
+  }
+
+}
+
+/**
+ * Implements hook_preprocess_fullcalendar_event().
+ */
+function events_resources_preprocess_fullcalendar_event(&$variables) {
+  if (isset($variables['entity']) && isset($variables['event'][0]['#options']['attributes'])) {
+    // For this event structure, get the
+    // value of the resource field in the entity
+    // and add it to the calendar event element as its resource attribute.
+    $resource = field_get_items('node', $variables['entity'], 'field_resource');
+    if (isset($resource) && $resource[0]['tid']) {
+      $_resource = $resource[0]['tid'];
+    }
+    else {
+      $_resource = NULL;
+    }
+    $variables['event'][0]['#options']['attributes']['resourceId'] = $_resource;
+    $variables['element'][0][0][0]['#options']['attributes']['resourceId'] = $_resource;
+  }
+}
+
+/**
+ * Implements hook_fullcalendar_options_pre_view().
+ */
+function events_resources_fullcalendar_options_pre_view(&$settings, &$view) {
+  if (FALSE !== _events_resources_get_resource_items()) {
+    $settings['fullcalendar']['buttonText']['resourceDay'] = t('Resource');
+    $settings['fullcalendar']['header']['right'] .= ' resourceDay';
+
+    // Get the values from the URL.
+    extract($view->get_exposed_input(), EXTR_SKIP);
+    if (isset($mode) && in_array($mode, array('resourceDay'))) {
+      $settings['date']['defaultView'] = $mode;
+    }
+  }
+}
+
+/**
+ * Implements hook_fullcalendar_options_form().
+ */
+function events_resources_fullcalendar_options_form(&$form, &$form_state, &$view) {
+  $_t = 'Day (Resource)';
+  if (isset($form['defaultView']['#options'])) {
+    $form['defaultView']['#options']['resourceDay'] = $_t;
+  }
+  if (isset($form['fullcalendar_options']['dayClickView']['#options'])) {
+    $form['fullcalendar_options']['dayClickView']['#options']['resourceDay'] = $_t;
+  }
+}

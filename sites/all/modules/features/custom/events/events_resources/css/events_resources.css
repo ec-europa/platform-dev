@@ -1,0 +1,92 @@
+/*
+* events_resources stylesheet
+*/
+
+.fc-button.ui-state-default {
+  background: #d9edf7;
+  border: 1px solid #85c5e5;
+  color: #333333;
+  font-weight: normal;
+}
+.fc-button.ui-state-default.fc-button-prev,
+.fc-button.ui-state-default.fc-button-next {
+  padding: 1px 6px;
+  margin-top: 2px;
+}
+.fc-button.ui-state-default .ui-icon {
+  background-image: url("images/ui-icons_3b3b3b_256x240.png");
+}
+
+.fc-button {
+  background-color: #d9edf7;
+  border-color: #85c5e5;
+  color: #333333;
+  border-width: 1px;
+  -moz-user-select: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857;
+  margin-bottom: 0;
+  padding: 6px 12px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.fc-button:hover,
+.fc-button:focus,
+.fc-button:active {
+  background-color: #b7ddf0;
+  border-color: #52addb;
+}
+
+.fc-state-disabled,
+.ui-state-disabled {
+  box-shadow: none;
+  cursor: not-allowed;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.fc-state-active,
+.ui-state-active {
+  background-color: #0065a2 !important;
+  border-color: #00253c !important;
+}
+.fc-state-active:hover,
+.fc-state-active:focus,
+.fc-state-active:active,
+.ui-state-active:hover,
+.ui-state-active:focus,
+.ui-state-active:active {
+  background-color: #004c79 !important;
+  border-color: #000000 !important;
+}
+
+.fc-state-default,
+.ui-state-default {
+  padding: 3px 7px;
+}
+.fc-button-inner {
+  background: none !important;
+  border-width: 0 !important;
+}
+.fc-state-disabled .fc-button-inner,
+.fc-state-default .fc-button-inner,
+.ui-state-disabled .fc-button-inner,
+.ui-state-default .fc-button-inner {
+  color: #333333 !important;
+}
+.fc-state-active .fc-button-inner,
+.ui-state-active .fc-button-inner {
+  color: #ffffff !important;
+}
+.fc-button-content {
+  padding: 0px 6px;
+}
+
+.fc-header .fc-button {
+  margin-right: 0px;
+}

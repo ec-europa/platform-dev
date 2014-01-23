@@ -25,8 +25,10 @@ feature_sets[events_standard][icon] = ''
 feature_sets[events_standard][font] = 'multisite-icon-calendar'
 feature_sets[events_standard][enable][] = events_standard
 feature_sets[events_standard][enable][] = events_core
+feature_sets[events_standard][enable][] = events_resources
 feature_sets[events_standard][disable][] = events_standard
 feature_sets[events_standard][disable][] = events_core
+feature_sets[events_standard][disable][] = events_resources
 
 feature_sets[links_standard][title] = 'Links'
 feature_sets[links_standard][description] = 'Allows contributors to store a bookmark/URL to another website they wish to share with visitors.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/64bhAg" target="_blank">Read documentation</a>'
