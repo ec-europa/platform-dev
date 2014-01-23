@@ -24,8 +24,13 @@ class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
   }
 
   function setUp() {
-    parent::setUp(array('ecas_env','ecas_env','ecas_group_sync',));
+    parent::setUp(array('ecas_group_sync'));
 
+  /* $this->admin_user = $this->drupalCreateUser(array(
+      'bypass node access',
+      'administer nodes',
+      'administer ecas'
+    ));*/
     $this->admin_user = $this->drupalCreateUserWithRole("administrator");
     $this->contributor_user = $this->drupalCreateUserWithRole("contributor");
     $this->editor_user = $this->drupalCreateUserWithRole("editor");
@@ -44,11 +49,11 @@ class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
         )
       )
       ->execute();
-  
-    // check the ecas_group_sync settings
+
+    // Check the ecas_group_sync settings.
     $this->drupalGet('admin/config/ecas/group_sync');    
     // OK code 200
-    $this->assertResponse(200);
+    $this->assertResponse(200, 'User has access.');
     $this->assertRaw('DIGIT', t('Mapping created.'));
     $this->assertRaw('administrator', t('Mapping created.'));    
 
