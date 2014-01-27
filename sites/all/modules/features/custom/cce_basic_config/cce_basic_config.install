@@ -1143,3 +1143,11 @@ function cce_basic_config_update_7193() {
   variable_set ("i18n_string_allowed_formats",$format);
 
 }
+
+ /**
+  * hook_update_N
+ */
+function cce_basic_config_update_7194() {
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('show format selection for node'));
+}
+
