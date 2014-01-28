@@ -126,6 +126,7 @@ dependencies[] = email
 
 dependencies[] = filefield_sources_plupload
 
+dependencies[] = multisite_settings_og
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_og
 dependencies[] = multisite_drupal_access

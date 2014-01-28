@@ -1,0 +1,33 @@
+<?php
+/**
+ * @file
+ * Code for the multisite_settings_og feature.
+ */
+ 
+include_once 'multisite_settings_og.install.inc';
+
+/**
+ * Implements hook_disable().
+ */
+function multisite_settings_og_disable() {
+  drupal_set_message(t('Multisite Settings OG %v feature is now disable on your site.', array('%v' => _multisite_settings_og_get_version())));
+}
+
+/**
+ *  Implements hook_enable().
+ */
+function multisite_settings_og_enable() {
+  drupal_set_message(t('Multisite Settings OG %v feature is now active on your site.', array('%v' => _multisite_settings_og_get_version())));
+}
+
+/**
+ * Implements hook_install().
+ */
+function multisite_settings_og_install() {
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function multisite_settings_og_uninstall() {
+}
