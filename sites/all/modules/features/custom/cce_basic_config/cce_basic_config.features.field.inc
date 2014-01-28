@@ -288,7 +288,7 @@ function cce_basic_config_field_default_fields() {
           'year_range' => '-3:+3',
         ),
         'type' => 'date_popup',
-        'weight' => '32',
+        'weight' => '6',
       ),
     ),
   );
@@ -373,7 +373,7 @@ function cce_basic_config_field_default_fields() {
           'year_range' => '-3:+3',
         ),
         'type' => 'date_popup',
-        'weight' => '33',
+        'weight' => '7',
       ),
     ),
   );
@@ -457,7 +457,7 @@ function cce_basic_config_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => -1,
+        'weight' => 3,
       ),
     ),
   );
@@ -607,7 +607,7 @@ function cce_basic_config_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '3',
+        'weight' => '2',
       ),
     ),
   );
@@ -1012,7 +1012,7 @@ function cce_basic_config_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '-3',
+        'weight' => '5',
       ),
     ),
   );

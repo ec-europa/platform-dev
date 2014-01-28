@@ -1151,3 +1151,13 @@ function cce_basic_config_update_7194() {
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('show format selection for node'));
 }
 
+ /**
+  * hook_update_N
+ */
+function cce_basic_config_update_7195() {
+// revert only fields (for modify weight)
+  features_revert(array('cce_basic_config' => array('field')));
+
+}
+
+
