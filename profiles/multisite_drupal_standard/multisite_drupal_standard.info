@@ -131,6 +131,7 @@ dependencies[] = multisite_drupal_language_negociation
 dependencies[] = content_examples
 dependencies[] = cce_basic_config
 dependencies[] = multisite_settings_core
+dependencies[] = multisite_settings_standard
 dependencies[] = multisite_rules_configuration
 dependencies[] = multisite_autosave
 dependencies[] = multisite_custom_error
