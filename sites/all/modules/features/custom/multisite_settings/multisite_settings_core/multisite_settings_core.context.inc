@@ -172,7 +172,7 @@ function multisite_settings_core_context_default_contexts() {
   $context->conditions = array(
     'path' => array(
       'values' => array(
-        'admin/workbench/moderate-all/*' => 'admin/workbench/moderate-all/*',
+        'admin/workbench/moderate-all*' => 'admin/workbench/moderate-all*',
       ),
     ),
   );
