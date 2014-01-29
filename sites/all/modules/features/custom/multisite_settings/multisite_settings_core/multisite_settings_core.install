@@ -10,7 +10,8 @@ function multisite_settings_core_enable() {
   // add the vocabulary tags to the taxonomy browser settings
   $tags_vocab = taxonomy_vocabulary_machine_name_load('tags');
   $vids = variable_get('taxonomy_browser_vocabulary', array());
-  $vids[$tags_vocab->vid] = $tags_vocab->vid;
+  //$vids[$tags_vocab->vid] = $tags_vocab->vid;
+  $vids[2] = 2;
   variable_set('taxonomy_browser_vocabulary', $vids);
   
   // add the block to the workbench context
