@@ -14,7 +14,7 @@ function multisite_settings_core_enable() {
   variable_set('taxonomy_browser_vocabulary', $vids);
   
   // add the block to the workbench context
-  multisite_drupal_toolbox_add_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_'.$tags_vocab->vid, 'multisite_core_settings', 'taxonomy_browser_vocabulary_'.$tags_vocab->vid, 'sidebar_left');
+  //multisite_drupal_toolbox_add_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_'.$tags_vocab->vid, 'multisite_core_settings', 'taxonomy_browser_vocabulary_'.$tags_vocab->vid, 'sidebar_left');
 }
 
 function multisite_settings_core_disable() {
