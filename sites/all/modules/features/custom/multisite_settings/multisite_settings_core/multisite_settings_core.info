@@ -13,6 +13,7 @@ dependencies[] = print
 dependencies[] = search
 dependencies[] = strongarm
 dependencies[] = views
+dependencies[] = cce_basic_config
 features[context][] = homepage
 features[context][] = search
 features[context][] = site_wide

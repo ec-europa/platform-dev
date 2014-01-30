@@ -5,28 +5,15 @@
  * Install updates and uninstall for multisite_settings_core
  */
 
-
 function multisite_settings_core_enable() {
   // add the vocabulary tags to the taxonomy browser settings
-  $tags_vocab = taxonomy_vocabulary_machine_name_load('tags');
-  $vids = variable_get('taxonomy_browser_vocabulary', array(2 => 2));
-  $vids[$tags_vocab->vid] = $tags_vocab->vid;
+  //$tags_vocab = taxonomy_vocabulary_machine_name_load('tags');
 
-  variable_set('taxonomy_browser_vocabulary', $vids);
-  
   // add the block to the workbench context
   //multisite_drupal_toolbox_add_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_'.$tags_vocab->vid, 'multisite_core_settings', 'taxonomy_browser_vocabulary_'.$tags_vocab->vid, 'sidebar_left');
 
-  $context = module_invoke('context', 'load', 'workbench_moderate_all');
-  $block_to_add = array(
-    'module' => 'multisite_core_settings',
-    'delta' => 'taxonomy_browser_vocabulary_'.$tags_vocab->vid,
-    'region' => 'sidebar_left',
-  );
-  $context->reactions['block']['blocks']['taxonomy_browser-taxonomy_browser_vocabulary_'.$tags_vocab->vid] = $block_to_add;
-  module_invoke('context', 'save', $context);
-}
 
+}
 
 function multisite_settings_core_disable() {
 }
@@ -36,6 +23,26 @@ function multisite_settings_core_install() {
 
 function multisite_settings_core_uninstall() {
 }
+
+
+function multisite_settings_core_taxonomy_vocabulary_insert($vocabulary) {
+  if ($vocabulary->machine_name == 'tags') {
+    $vids = variable_get('taxonomy_browser_vocabulary', array(2 => 2));
+    $vids[$vocabulary->vid] = $vocabulary->vid;
+
+    variable_set('taxonomy_browser_vocabulary', $vids);
+    
+    $context = module_invoke('context', 'load', 'workbench_moderate_all');
+    $block_to_add = array(
+      'module' => 'multisite_core_settings',
+      'delta' => 'taxonomy_browser_vocabulary_'.$vocabulary->vid,
+      'region' => 'sidebar_left',
+    );
+    $context->reactions['block']['blocks']['taxonomy_browser-taxonomy_browser_vocabulary_'.$vocabulary->vid] = $block_to_add;
+    module_invoke('context', 'save', $context);
+  }
+}
+
 
 /**
  * Add and configure the context workbench
