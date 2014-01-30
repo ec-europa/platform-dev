@@ -120,6 +120,7 @@ dependencies[] = menu_attributes
 dependencies[] = i18nviews
 dependencies[] = email
 dependencies[] = taxonomy_browser
+dependencies[] = admin_menu
 
 dependencies[] = filefield_sources_plupload
 
