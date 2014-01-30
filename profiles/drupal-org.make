@@ -16,6 +16,9 @@ projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.
 ; Contributed modules
 ; ====================
 
+projects[admin_menu][subdir] = "contributed"
+projects[admin_menu][version] = "3.0-rc4"
+
 projects[advanced_help][subdir] = "contributed"
 projects[advanced_help][version] = "1.0"
 

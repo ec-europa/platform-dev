@@ -39,6 +39,7 @@ dependencies[] = context
 dependencies[] = context_ui
 dependencies[] = context_layouts
 
+dependencies[] = admin_menu
 dependencies[] = date
 dependencies[] = diff
 dependencies[] = features
