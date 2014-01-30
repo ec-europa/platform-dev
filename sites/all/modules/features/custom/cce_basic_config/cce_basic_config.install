@@ -1157,7 +1157,27 @@ function cce_basic_config_update_7194() {
 function cce_basic_config_update_7195() {
 // revert only fields (for modify weight)
   features_revert(array('cce_basic_config' => array('field')));
-
 }
 
+ /**
+  * Add default configuration for easy_breadcrumb
+  */
+function cce_basic_config_update_7196() {
+  variable_set('easy_breadcrumb-capitalizator_mode', 'ucfirst');
+  variable_set('easy_breadcrumb-include_home_segment', 0);
+  variable_set('easy_breadcrumb-include_invalid_paths', 0);
+  variable_set('easy_breadcrumb-segments_separator', '>');
 
+  // Add block in site-wide context.
+  $context = module_invoke('context', 'load', 'site_wide');
+
+  $block_to_add = array(
+    'module' => 'easy_breadcrumb',
+    'delta' =>  'easy_breadcrumb',
+    'region' => 'featured',
+    'weight' => -18,
+  );
+  $context->reactions['block']['blocks']['easy_breadcrumb'] = $block_to_add;
+
+  module_invoke('context', 'save', $context);
+}

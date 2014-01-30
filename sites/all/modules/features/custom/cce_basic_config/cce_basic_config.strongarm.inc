@@ -1112,5 +1112,36 @@ imce';
   );
   $export['image_captcha_fonts'] = $strongarm;
 
+  /*
+   * Breadcrumb
+   */
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'easy_breadcrumb-capitalizator_mode';
+  $strongarm->value = 'ucfirst';
+  $export['easy_breadcrumb-capitalizator_mode'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'easy_breadcrumb-include_home_segment';
+  $strongarm->value = 0;
+  $export['easy_breadcrumb-include_home_segment'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'easy_breadcrumb-include_invalid_paths';
+  $strongarm->value = 0;
+  $export['easy_breadcrumb-include_invalid_paths'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'easy_breadcrumb-segments_separator';
+  $strongarm->value = '>';
+  $export['easy_breadcrumb-segments_separator'] = $strongarm;
+
   return $export;
 }
