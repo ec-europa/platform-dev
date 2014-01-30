@@ -34,7 +34,7 @@ function multisite_settings_core_taxonomy_vocabulary_insert($vocabulary) {
     
     $context = module_invoke('context', 'load', 'workbench_moderate_all');
     $block_to_add = array(
-      'module' => 'multisite_core_settings',
+      'module' => 'taxonomy_browser',
       'delta' => 'taxonomy_browser_vocabulary_'.$vocabulary->vid,
       'region' => 'sidebar_left',
       'weight' => '-10',
@@ -42,8 +42,7 @@ function multisite_settings_core_taxonomy_vocabulary_insert($vocabulary) {
     $context->reactions['block']['blocks']['taxonomy_browser-taxonomy_browser_vocabulary_'.$vocabulary->vid] = $block_to_add;
     module_invoke('context', 'save', $context);
     
-    multisite_drupal_toolbox_add_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_'.$vocabulary->vid, 'multisite_core_settings', 'taxonomy_browser_vocabulary_'.$vocabulary->vid, 'sidebar_left');
-
+    //multisite_drupal_toolbox_add_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_'.$vocabulary->vid, 'taxonomy_browser', 'taxonomy_browser_vocabulary_'.$vocabulary->vid, 'sidebar_left');
   }
 }
 
