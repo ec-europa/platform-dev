@@ -39,7 +39,7 @@ dependencies[] = context
 dependencies[] = context_ui
 dependencies[] = context_layouts
 
-dependencies[] = admin_menu
+
 dependencies[] = date
 dependencies[] = diff
 dependencies[] = features
@@ -108,6 +108,7 @@ dependencies[] = chr
 dependencies[] = media_node
 dependencies[] = menu_token
 dependencies[] = email
+dependencies[] = admin_menu
 
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = filefield_sources_plupload
