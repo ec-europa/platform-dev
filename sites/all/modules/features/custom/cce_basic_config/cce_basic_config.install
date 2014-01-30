@@ -477,6 +477,19 @@ function cce_basic_config_enable() {
   //My Account.
   variable_set('user_logout_data_image', 'log-out');
   //Log out.
+
+  // Add block easy_breadcrumb in site-wide context.
+  $context = module_invoke('context', 'load', 'site_wide');
+
+  $block_easy_breadcrumb = array(
+    'module' => 'easy_breadcrumb',
+    'delta' =>  'easy_breadcrumb',
+    'region' => 'featured',
+    'weight' => -18,
+  );
+  $context->reactions['block']['blocks']['easy_breadcrumb'] = $block_easy_breadcrumb;
+
+  module_invoke('context', 'save', $context);
 }
 
 /**
