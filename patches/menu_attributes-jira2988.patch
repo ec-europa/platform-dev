@@ -1,0 +1,18 @@
+*** sites/all/modules/contributed/menu_attributes/menu_attributes.module	Fri Jan 31 13:55:23 2014
+--- sites/all/modules/contributed/menu_attributes/menu_attributes.module	Thu Jan 30 14:37:08 2014
+***************
+*** 288,300 ****
+      'label' => t('Classes'),
+      'description' => t('Enter additional classes to be added to the link.'),
+    );
++   $info['data-remove-class'] = array(
++     'label' => t('Remove default classes'),
++     'description' => t('Remove the default classes added on menu items, in ec_resp theme.'),
++     'form' => array(
++       '#type' => 'checkbox',
++       ),
++   );
+    $info['style'] = array(
+      'label' => t('Style'),
+      'description' => t('Enter additional styles to be applied to the link.'),
+--- 288,293 ----
