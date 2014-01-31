@@ -40,6 +40,9 @@ projects[autosave][version] = "2.2"
 projects[better_formats][subdir] = "contributed"
 projects[better_formats][version] = "1.0-beta1"
 
+projects[better_exposed_filters][subdir] = "contributed"
+projects[better_exposed_filters][version] = "3.0-beta3"
+
 projects[captcha][subdir] = "contributed"
 projects[captcha][version] = "1.0"
 
