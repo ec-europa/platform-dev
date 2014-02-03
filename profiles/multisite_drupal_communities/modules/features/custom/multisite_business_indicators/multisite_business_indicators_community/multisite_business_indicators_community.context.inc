@@ -1,19 +1,19 @@
 <?php
 /**
  * @file
- * business_indicators.context.inc
+ * multisite_business_indicators_community.context.inc
  */
 
 /**
  * Implements hook_context_default_contexts().
  */
-function business_indicators_context_default_contexts() {
+function multisite_business_indicators_community_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
-  $context->name = 'business-indicators-overview-page';
+  $context->name = 'multisite-business-indicators-community-overview-page';
   $context->description = '';
   $context->tag = 'reports';
   $context->conditions = array(
@@ -26,54 +26,6 @@ function business_indicators_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'views-74c40a5f1bef9d55a8e3702095777832' => array(
-          'module' => 'views',
-          'delta' => '74c40a5f1bef9d55a8e3702095777832',
-          'region' => 'content',
-          'weight' => '-31',
-        ),
-        'views-business_indicators_nodes-block' => array(
-          'module' => 'views',
-          'delta' => 'business_indicators_nodes-block',
-          'region' => 'content',
-          'weight' => '-31',
-        ),
-        'views-c99e17fc865c42e99b777b03fbc64ccc' => array(
-          'module' => 'views',
-          'delta' => 'c99e17fc865c42e99b777b03fbc64ccc',
-          'region' => 'content',
-          'weight' => '-30',
-        ),
-        'views-business_indicators_files-block' => array(
-          'module' => 'views',
-          'delta' => 'business_indicators_files-block',
-          'region' => 'content',
-          'weight' => '-29',
-        ),
-        'views-fe2f57b11900f1b46fbf58a4850388cc' => array(
-          'module' => 'views',
-          'delta' => 'fe2f57b11900f1b46fbf58a4850388cc',
-          'region' => 'content',
-          'weight' => '-28',
-        ),
-        'views-5d3c16ed982d9cb46bb4b0cc464a9e4c' => array(
-          'module' => 'views',
-          'delta' => '5d3c16ed982d9cb46bb4b0cc464a9e4c',
-          'region' => 'content',
-          'weight' => '-27',
-        ),
-        'views-6d6433b6fda9f3382f3ae285f260661d' => array(
-          'module' => 'views',
-          'delta' => '6d6433b6fda9f3382f3ae285f260661d',
-          'region' => 'content',
-          'weight' => '-26',
-        ),
-        'views-9d26be1c7bdc1affc0e6844d7f09100f' => array(
-          'module' => 'views',
-          'delta' => '9d26be1c7bdc1affc0e6844d7f09100f',
-          'region' => 'content',
-          'weight' => '-24',
-        ),
         'views-3ee8c29ea058b303b8ae2c2845791876' => array(
           'module' => 'views',
           'delta' => '3ee8c29ea058b303b8ae2c2845791876',
@@ -122,6 +74,12 @@ function business_indicators_context_default_contexts() {
           'region' => 'content',
           'weight' => '-16',
         ),
+        'views-1045fea629349cc121571e7d865e7c40' => array(
+          'module' => 'views',
+          'delta' => '1045fea629349cc121571e7d865e7c40',
+          'region' => 'content',
+          'weight' => '-10',
+        ),
       ),
     ),
   );
@@ -130,7 +88,7 @@ function business_indicators_context_default_contexts() {
   // Translatables
   // Included for use with string extractors like potx.
   t('reports');
-  $export['business-indicators-overview-page'] = $context;
+  $export['multisite-business-indicators-community-overview-page'] = $context;
 
   return $export;
 }

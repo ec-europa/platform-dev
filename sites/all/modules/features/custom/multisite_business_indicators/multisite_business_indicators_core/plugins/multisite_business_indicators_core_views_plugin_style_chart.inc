@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * business_indicators chart plugin.
+ * multisite_business_indicators_core_views_plugin_style_chart.inc
  */
 
 /**
@@ -9,7 +9,7 @@
  *
  * @ingroup views_style_plugins
  */
-class business_indicators_views_plugin_style_chart extends views_plugin_style {
+class multisite_business_indicators_core_views_plugin_style_chart extends views_plugin_style {
 
   function get_chart_types() {
     return array(
@@ -19,7 +19,7 @@ class business_indicators_views_plugin_style_chart extends views_plugin_style {
       'pie3d'       => t('Pie chart 3D'),
     );
   }
-
+  
   function option_definition() {
     $options = parent::option_definition();
 
@@ -30,7 +30,7 @@ class business_indicators_views_plugin_style_chart extends views_plugin_style {
     $options['number_prefix'] = array('default' => '');
     $options['width'] = array('default' => '');
     $options['height'] = array('default' => 350);
-
+    
     return $options;
   }
 
@@ -43,7 +43,7 @@ class business_indicators_views_plugin_style_chart extends views_plugin_style {
       );
       return ;
     }
-
+    
     foreach ($handlers as $field_name => $field_handler) {
       $fields[$field_name] = $field_handler->ui_name();
     }
@@ -52,14 +52,14 @@ class business_indicators_views_plugin_style_chart extends views_plugin_style {
       '#type' => 'textfield',
       '#title' => t('Chart caption'),
       '#default_value' => $this->options['caption'],
-    );
+    );    
     $form['type'] = array(
       '#type' => 'select',
       '#title' => t('Type of chart'),
       '#options' => $this->get_chart_types(),
       '#default_value' => $this->options['type'],
       '#required' => TRUE,
-    );
+    );    
     $form['data_labels'] = array(
       '#type' => 'select',
       '#title' => t('Labels'),
@@ -67,7 +67,7 @@ class business_indicators_views_plugin_style_chart extends views_plugin_style {
       '#default_value' => $this->options['data_labels'],
       '#required' => TRUE,
       '#description' => t('Field containined chart labels. ATTENTION: rendered values must not contain HTML (like links, etc...).'),
-    );
+    );    
     $form['data_values'] = array(
       '#type' => 'select',
       '#title' => t('Values'),
@@ -75,28 +75,29 @@ class business_indicators_views_plugin_style_chart extends views_plugin_style {
       '#default_value' => $this->options['data_values'],
       '#required' => TRUE,
       '#description' => t('Field containined chart values. ATTENTION: rendered values must be valid numeric values.'),
-    );
+    );        
     $form['number_prefix'] = array(
       '#type' => 'textfield',
       '#title' => t('Number prefix'),
       '#default_value' => $this->options['number_prefix'],
       '#description' => t('Prefix to be added when printing our data values, for exemple "EUR"'),
       '#size' => 10,
-    );
+    );        
     $form['width'] = array(
       '#type' => 'textfield',
       '#title' => t('Width'),
       '#default_value' => $this->options['width'],
       '#description' => t('Leave empty to span the chart at 100% witdh'),
       '#size' => 10,
-    );
+    );        
     $form['height'] = array(
       '#type' => 'textfield',
       '#title' => t('Height'),
       '#default_value' => $this->options['height'],
       '#size' => 10,
-      '#required' => TRUE,
-    );
+      '#required' => TRUE,      
+    );        
+    
   }
 }
 

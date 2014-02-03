@@ -1,23 +1,22 @@
 <?php
 /**
  * @file
- * Code for the Business Indicators feature.
+ * Code for the Multisite Business Indicators feature.
  */
 
-include_once 'business_indicators.features.inc';
+include_once 'multisite_business_indicators_core.features.inc';
 
 /**
  * Implements hook_init()
  */
-function business_indicators_init() { 
+function multisite_business_indicators_core_init() { 
   
-  return;
 }
 
 /**
  * Implements hook_permission()
  */
-function business_indicators_permission() {
+function multisite_business_indicators_core_permission() {
   return array(
     'access business indicators' =>  array(
       'title' => t('Access business indicators overview page'),
@@ -28,11 +27,11 @@ function business_indicators_permission() {
 /**
  * Implements hook_menu()
  */
-function business_indicators_menu() {
+function multisite_business_indicators_core_menu() {
   $items['admin/reports/business-indicators'] = array(
     'title' => 'Business Indicators',
     'description' => 'Access business indicators overview page and blocks.',
-    'page callback' => 'business_indicators_page_callback_overview',
+    'page callback' => 'multisite_business_indicators_core_page_callback_overview',
     'access arguments' => array('access business indicators'),
     'type' => MENU_NORMAL_ITEM,
   );
@@ -41,16 +40,16 @@ function business_indicators_menu() {
 
 /**
  * Implements menu page callback.
- * @see: business_indicators_menu()
+ * @see: multisite_business_indicators_core_menu()
  */
-function business_indicators_page_callback_overview() {
+function multisite_business_indicators_core_page_callback_overview() {
   return '';
 }
 
 /**
- * Implements hook__libraries_info()
+ * Implements hook_libraries_info()
  */
-function business_indicators_libraries_info() {
+function multisite_business_indicators_core_libraries_info() {
 
   $libraries['FusionCharts'] = array(
     'name' => 'FusionCharts',

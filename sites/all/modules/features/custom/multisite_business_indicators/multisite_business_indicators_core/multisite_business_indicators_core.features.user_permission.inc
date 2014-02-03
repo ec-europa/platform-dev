@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * business_indicators.features.user_permission.inc
+ * multisite_business_indicators_core.features.user_permission.inc
  */
 
 /**
  * Implements hook_user_default_permissions().
  */
-function business_indicators_user_default_permissions() {
+function multisite_business_indicators_core_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: access business indicators.
@@ -16,7 +16,7 @@ function business_indicators_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
     ),
-    'module' => 'business_indicators',
+    'module' => 'multisite_business_indicators_core',
   );
 
   return $permissions;

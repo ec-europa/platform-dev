@@ -337,5 +337,5 @@ feature_sets[business_indicators][description] = 'Provides a set of blocks with 
 feature_sets[business_indicators][category] = 'Site management'
 feature_sets[business_indicators][icon] = ''
 feature_sets[business_indicators][font] = 'multisite-icon-stats'
-feature_sets[business_indicators][enable][] = business_indicators
-feature_sets[business_indicators][disable][] = business_indicators
+feature_sets[business_indicators][enable][] = multisite_business_indicators_standard
+feature_sets[business_indicators][disable][] = multisite_business_indicators_standard
