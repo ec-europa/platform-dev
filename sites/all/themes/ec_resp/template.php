@@ -596,6 +596,13 @@ function ec_resp_menu_tree__main_menu($variables) {
 }
 
 /**
+ * Implements theme_menu_tree__menu_breadcrumb_menu().
+ */
+function ec_resp_menu_tree__menu_breadcrumb_menu($variables) {
+  return '<div class="menu menu-breadcrumb">' . $variables['tree'] . '</div>';
+}
+
+/**
  * Implements theme_menu_link().
  */
 function ec_resp_menu_link(array $variables) {
@@ -611,7 +618,7 @@ function ec_resp_menu_link(array $variables) {
 }
 
 /**
- * Implements theme_menu_link_main_menu().
+ * Implements theme_menu_link__main_menu().
  */
 function ec_resp_menu_link__main_menu(array $variables) {
   $element = $variables['element'];
@@ -669,6 +676,22 @@ function ec_resp_menu_link__main_menu(array $variables) {
   }
 
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $dropdown . "</li>\n";
+}
+
+/**
+ * Implements theme_menu_link__menu_breadcrumb_menu().
+ */
+function ec_resp_menu_link__menu_breadcrumb_menu(array $variables) {
+  $element = $variables['element'];
+  $sub_menu = '';
+  $separator = variable_get('easy_breadcrumb-segments_separator');
+
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+  $element['#localized_options']['html'] = TRUE;
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  return $output . $sub_menu . '<span class="easy-breadcrumb_segment-separator"> ' . $separator . ' </span>';
 }
 
 /**

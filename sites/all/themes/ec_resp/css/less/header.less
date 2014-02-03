@@ -158,46 +158,31 @@
 
 /* ------------------ Breadcrumb ------------------ */
 #path {
-  font-size:90%;
-  background-color:#074A8B;
-  min-height:18px;
-  color:#fff;
-  padding:0 0 1px;
-  overflow:hidden;
-  line-height:1.6;
-  ul {
-    position:relative;
-    z-index:7;
-    padding-left:10px;
-    margin-left: 0;
-    li {
-      white-space:nowrap;
-      display:inline;
-      padding:0 0 0 12px;
-      float:left;
-      background:url("../images/breadcrumb.gif") transparent left center no-repeat;
-      color: #fff;
-      &.first {
-        background-image:none;
-        padding-left:0;
-        padding-right:0;
-      }      
-    }
+  font-size: 90%;
+  background-color: #074A8B;
+  min-height: 18px;
+  color: #fff;
+  padding: 0 0 1px;
+  overflow: hidden;
+  line-height: 1.6;
+  .menu-breadcrumb,
+  .easy-breadcrumb {
+    display: inline-block;
   }
   a, 
   a:visited {
-    color:#fff;
-    text-decoration:none;
+    color: #fff;
+    text-decoration: none;
     border:0;
   }
   a:hover,
   a:focus,
   a:active {
-    text-decoration:underline;
-    color:#fff;
-    border:0;
+    text-decoration: underline;
+    color: #fff;
+    border: 0;
   }
-}  
+}
 
 /* ------------------ Language selector ------------------ */
 //NOSCRIPT

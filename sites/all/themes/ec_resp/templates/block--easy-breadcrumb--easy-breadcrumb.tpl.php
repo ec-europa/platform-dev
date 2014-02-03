@@ -45,8 +45,9 @@
  */
 
 ?>
-<div id="path">
+<div id="path" class="hidden-xs">
   <div class="container">
+    <?php print drupal_render(menu_tree('menu-breadcrumb-menu')); ?>
     <?php print_r($content) ?>
   </div>
 </div>
