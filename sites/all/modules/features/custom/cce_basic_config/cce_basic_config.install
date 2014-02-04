@@ -370,7 +370,12 @@ function cce_basic_config_install() {
       -> fields(array('captcha_type' => 'default'))
       -> condition('form_id', 'contact_site_form')
       -> execute();
-  }     
+
+    db_update('captcha_points')
+      -> fields(array('captcha_type' => 'default'))
+      -> condition('form_id', 'user_register_form')
+      -> execute();      
+  }
 }
 
 /**
