@@ -45,6 +45,7 @@ dependencies[] = views
 dependencies[] = workbench
 dependencies[] = workbench_moderation
 dependencies[] = wysiwyg
+stylesheets[all][] = "cce_basic_config.css"
 features[ctools][] = context:context:3
 features[ctools][] = file_entity:file_default_displays:1
 features[ctools][] = password_policy:default_password_policy:1
