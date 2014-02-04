@@ -1,0 +1,32 @@
+#!/bin/bash
+# Simple wrapper to use drush with the same syntax as our other custom scripts
+# (typically: passing the Drupal Directory and the target subsites on
+# command-line).
+current_script="$(readlink -f $0)"
+script_dir="$(dirname "${current_script}")"
+
+source "${HOME}/.bash_profile"
+source "${script_dir}/lib/functions.sh"
+
+function usage {
+	output "Usage: $0 <drupal-directory> <target> [drush args]"
+	output '    drupal-directory is a Drupal base directory, i.e. a directory hosting the index.php file'
+	output '    target is either a space-separated list of 1 to n subsites (as a single argument), or "@sites" for all known subsites'
+}
+
+# Simple arguments check
+drupal_path=$1
+shift
+target="$1"
+shift
+[ -z "${drupal_path}" ] && usage && exit 50
+[ -z "${target}" ] && usage && exit 48
+
+drush_cmd=("$@")
+
+function do_action {
+	run_drush "${drush_cmd[@]}"
+}
+
+loop_on_target_subsites "${drupal_path}" ${target} | timestamped_output
+exit 0
