@@ -79,7 +79,9 @@ function template_preprocess_multisite_business_indicators_core_views_view_chart
 //  $vars['chart'] = renderChart($component_url, "", $xml, $view->name . '_' . $view->current_display, $options['width'], $options['height'], FALSE, TRUE);      
 
   // Use external SWF file.
-  $path = 'http://europa.eu/wel/fusioncharts/';
+  global $is_https;
+  $protocol = ($is_https) ? 'https://' : 'http://';
+  $path = $protocol . 'europa.eu/wel/fusioncharts/';
   $charts_path = $path . 'v0321/';
   $vars['chart'] = renderChart($charts_path . $component, "", $xml, $view->name . '_' . $view->current_display, $options['width'], $options['height'], FALSE, TRUE);      
 }
