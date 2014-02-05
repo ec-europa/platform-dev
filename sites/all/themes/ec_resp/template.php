@@ -1053,3 +1053,17 @@ function ec_resp_breadcrumb($variables) {
   }
   return $crumbs;
 }
+
+
+/**
+* Implementation of theme_preproces_admin_menu_icon
+*
+* Preprocesses variables for theme_admin_menu_icon().
+*/
+function ec_resp_preprocess_admin_menu_icon (&$variables){
+  $theme_path = drupal_get_path ('theme','ec_resp');
+  $logo_url = file_create_url ($theme_path . '/images/favicon.png');
+  $variables['src'] = preg_replace('@^https?:@', 'http:', $logo_url);
+}
+
+
