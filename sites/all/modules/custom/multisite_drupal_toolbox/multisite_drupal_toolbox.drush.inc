@@ -21,6 +21,12 @@ function multisite_drupal_toolbox_drush_command() {
      'bootstrap' => DRUSH_BOOTSTRAP_DRUSH, // No bootstrap at all.
   );
 
+  $items['theme_info'] = array(
+    'description' => "Get current theme info.",
+    'aliases' => array('ti'),
+     'bootstrap' => DRUSH_BOOTSTRAP_DRUSH, // No bootstrap at all.
+  );
+
   return $items;
 }
 
@@ -38,3 +44,13 @@ function drush_multisite_drupal_toolbox_alert_message($switch = "enable") {
     print "alert message disabled\n";
   }
 }
+
+function drush_multisite_drupal_toolbox_theme_info() {
+  global $theme_info, $base_theme_info;
+  echo "current theme : ".$theme_info->name."\n";
+  if(count($base_theme_info) > 0) {
+    echo "base theme : ".$base_theme_info[0]->name."\n";
+  }
+}
+
+

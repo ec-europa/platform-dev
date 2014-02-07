@@ -1229,11 +1229,25 @@ function multisite_drupal_toolbox_views_query_alter(&$view, &$query) {
 }
 
 /**
-Implements hook_block_info_alter().
-*/
+ *Implements hook_block_info_alter().
+ */
 function multisite_drupal_toolbox_block_info_alter(&$blocks, $theme, $code_blocks) {
   // Remove the node recent content block.
   unset($blocks['node']['recent']);
 }
 
+
+/**
+ * helper function to get the base theme used 
+ */
+function multisite_drupal_toolbox_get_base_theme() {
+  global $theme_info, $base_theme_info;
+  if(count($base_theme_info) > 0) {
+    return $base_theme_info[0]->name;
+  }
+  else {
+    // fallback, return the main theme if there is no base theme
+    return $theme_info->name;  
+  }
+}
 
