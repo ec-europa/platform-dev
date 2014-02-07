@@ -12,7 +12,8 @@
 ?>
 
 <?php foreach ($feature_set_category['category'] as $category => $features) { ?>
-  <table>
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
     <thead>
       <tr>
         <th colspan="2">
@@ -39,6 +40,7 @@
     <?php } ?>
     </tbody>
   </table>
+</div>
 <?php } ?>
 
 <?php 
