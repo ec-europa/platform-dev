@@ -278,12 +278,46 @@ function feature_set_check($feature_set) {
 function feature_set_theme($existing, $type, $theme, $path) {
   return array(
     'feature_set_admin_form' => array(
-      'file' => 'feature_set.admin.inc',
       'render element' => 'form',
+      'template' => 'feature-set-admin-form',
     ),
   );
 }
 
+/**
+ * Implements template_preprocess().
+ */
+function feature_set_preprocess(&$variables) {
+  if (isset($variables['form']['#form_id']) && $variables['form']['#form_id'] == 'feature_set_admin_form') {
+    $feature_set_category = array();
+
+    foreach ($variables['form'] as $key => $item) {
+      $variables['feature_set_row'][$key] = $item; 
+
+      // get category if available
+      if (is_array($item) && isset($item['#featuresetinfo'])) {
+        if (empty($item['#featuresetinfo']['category'])) {
+          $feature_set_category['category']['Uncategorized'][$key] = $item;
+        }
+        else {
+          $feature_set_category['category'][$item['#featuresetinfo']['category']][$key] = $item;
+        }
+      }
+      else {
+        $feature_set_category['form'][$key] = $item;
+      }
+    }
+
+    ksort($feature_set_category['category']);
+    $variables['feature_set_category'] = $feature_set_category;
+  }
+
+  $variables['feature_set_input'] = 
+    render($feature_set_category['form']['submit']) .
+    render($feature_set_category['form']['form_build_id']) .
+    render($feature_set_category['form']['form_token']) .
+    render($feature_set_category['form']['form_id']);
+}
 
 /**
  * return TRUE if features or modules require the module $module
@@ -378,15 +412,6 @@ function get_require($module) {
   }
 
   return $output;
-}
-
-
-/**
- * alter html code (to add js and css).
- */
-function feature_set_preprocess_html(&$variables) {
-  // Add javascripts
-  drupal_add_js(drupal_get_path('module', 'feature_set') . '/feature_set.js');
 }
 
 /**

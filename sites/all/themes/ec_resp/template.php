@@ -16,6 +16,68 @@ function ec_resp_preprocess(&$variables) {
   // Select responsive sidebar
   // 'left', 'right' or 'both'.
   $variables['responsive_sidebar'] = 'both';
+
+  if (isset($variables['form']['#form_id'])) {
+    switch ($variables['form']['#form_id']) {
+      case 'feature_set_admin_form':
+        $output_right = $output_left = '';
+
+        $first_column = 1;
+        foreach ($variables['feature_set_category']['category'] as $category => $features) {
+          $output = '';
+          $output .= '<li>';
+            $output .= '<a class="list-group-item feature-set-category">' . t($category) . '</a>';
+            $output .= '<table class="feature-set-content table table-striped table-hover">';
+              $output .= '<tbody>';
+              foreach ($features as $key => $item) {
+
+                // get the icon if available.
+                if (!empty($item['#featuresetinfo']['font'])) {
+                  $feature_icon = '<span class="' . $item['#featuresetinfo']['font'] . '"></span>';
+                }
+                elseif (!empty($item['#featuresetinfo']['icon'])) {
+                  $variables = array(
+                    'path' => $item['#featuresetinfo']['icon'],
+                    'alt' => t('@feature-set icon', array('@feature-set' => $item['#featuresetinfo']['featureset'])),
+                    'attributes' => array(),
+                  );
+                  $feature_icon = theme_image($variables);
+                }
+                else {
+                  $feature_icon = '';
+                }
+
+                // get the feature name and description
+                $feature_content = '<blockquote>';
+                $feature_content .= '<p>' . $item['#featuresetinfo']['featureset'] . '</p>';
+                if (!empty($item['#featuresetinfo']['description'])) {
+                  $feature_content .= '<small>' . $item['#featuresetinfo']['description'] . '</small>';
+                }
+                $feature_content .= '</blockquote>';
+
+                $output .= '<tr>';
+                  $output .= '<td class="feature-set-image">' . $feature_icon . '</td>';
+                  $output .= '<td class="feature_set_content">' . $feature_content . '</td>';
+                  $output .= '<td class="feature_set_switcher">' . render($item) . '</td>';
+                $output .= '</tr>';
+              }
+              $output .= '</tbody>';
+            $output .= '</table>';
+          $output .= '</li>';   
+
+          if ($first_column) {
+            $output_left .= $output;
+          } else {
+            $output_right .= $output;
+          }
+          
+          $first_column = 1 - $first_column;
+        }
+        $variables['feature_set_output_left'] = $output_left;
+        $variables['feature_set_output_right'] = $output_right;
+      break;
+    }
+  }
 }
 
 /**
