@@ -19,6 +19,16 @@ target=$@
 [ -z "${drupal_path}" ] && usage && exit 50
 [ -z "${target}" ] && usage && exit 48
 
+# Redefine {begin,end}_subsite functions so nothing gets printed apart from
+# our do_action's output.
+function begin_subsite {
+	return
+}
+
+function end_subsite {
+	return
+}
+
 function do_action {
 
   #printf "nodes : \t\t\t\t";
@@ -43,5 +53,6 @@ function do_action {
    
 }
 
-loop_on_target_subsites_report "${drupal_path}" ${target} 
+echo "||site||nodes||comments||node types||users||watchdog||modules enabled||"
+loop_on_target_subsites "${drupal_path}" ${target} | sed 's,^  ,,'
 exit 0
