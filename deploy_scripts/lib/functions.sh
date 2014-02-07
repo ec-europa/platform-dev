@@ -89,7 +89,8 @@ function end_subsite {
 #   - the Drupal directory path
 #   - the subsite name
 function loop_on_target_subsites {
-	drupal_path=$1
+	# ensure the Drupal path is absolute.
+	drupal_path=$(readlink -f "$1")
 	shift
 	target=$@
 	# treat each target subsite
