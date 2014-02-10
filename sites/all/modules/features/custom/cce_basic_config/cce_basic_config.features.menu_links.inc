@@ -64,7 +64,7 @@ function cce_basic_config_menu_default_menu_links() {
   $menu_links['management:admin/config/search/apachesolr/settings/solr/facets'] = array(
     'menu_name' => 'management',
     'link_path' => 'admin/config/search/apachesolr/settings/solr/facets',
-    'router_path' => 'admin/config/search/apachesolr/settings/%/facets',
+    'router_path' => 'admin/config/search/apachesolr/settings/solr/facets',
     'link_title' => 'SolR facets',
     'options' => array(
       'attributes' => array(
