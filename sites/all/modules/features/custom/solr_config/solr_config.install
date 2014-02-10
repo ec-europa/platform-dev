@@ -118,6 +118,23 @@ function solr_config_update_7120() {
 
 
 
+ /**
+  * Add a menu link for the solr facets settings
+  */
+function solr_config_update_7121() {
+  $options = array();
+  $options['attributes']['title'][] = 'Configure SolR facets';
+  $item = array(
+    'link_path' => 'admin/config/search/apachesolr/settings/solr/facets',
+    'link_title' => t('Solr facets'),
+    'menu_name' => 'management',
+    'options' => $options,
+  );
+  menu_link_save($item);
+}
+
+
+
 
 /**
  * Implements hook_install().
