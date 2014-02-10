@@ -102,6 +102,7 @@ features[image][] = square_thumbnail
 features[menu_custom][] = menu-breadcrumb-menu
 features[menu_links][] = menu-breadcrumb-menu:http://ec.europa.eu/index_en.htm
 features[menu_links][] = menu-breadcrumb-menu:menutoken/52ebaf910f9d0
+features[menu_links][] = management:admin/config/search/apachesolr/settings/solr/facets
 features[node][] = article
 features[node][] = page
 features[password_policy][] = Example policy
