@@ -180,14 +180,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
   ?>
   <?php if ($page['sidebar_left']): ?>
     <div id="responsive-sidebar" class="visible-sm visible-xs">
-      <div>
-        <?php 
-        $region_sidebar_left_responsive = str_replace("share-tool","share-tool-responsive",$region_sidebar_left);
-        $region_sidebar_left_responsive = str_replace("tb_browser_tree","tb_browser_tree-responsive",$region_sidebar_left_responsive);
-
-        print $region_sidebar_left_responsive; 
-        ?>
-      </div>
+      <div id="responsive-sidebar-left"></div>
     </div><!-- /#responsive-sidebar-->   
   <?php endif; ?>
     <?php
@@ -197,14 +190,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
     ?>
   <?php if ($page['sidebar_right']): ?>
     <div id="responsive-sidebar" class="visible-sm visible-xs">
-      <div>
-        <?php 
-        $region_sidebar_right_responsive = str_replace("share-tool","share-tool-responsive",$region_sidebar_right);
-        $region_sidebar_right_responsive = str_replace("tb_browser_tree","tb_browser_tree-responsive",$region_sidebar_right_responsive);
-
-        print $region_sidebar_right_responsive; 
-        ?>
-      </div>
+      <div id="responsive-sidebar-right"></div>
     </div><!-- /#responsive-sidebar-->   
   <?php endif; ?>
     <?php
@@ -214,25 +200,9 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
     ?>
   <?php if ($page['sidebar_left'] || $page['sidebar_right']): ?>
     <div id="responsive-sidebar" class="visible-sm visible-xs">
-      <div>
-    <?php if ($page['sidebar_left']): ?>
-      <?php 
-      $region_sidebar_left_responsive = str_replace("share-tool","share-tool-responsive",$region_sidebar_left);
-      $region_sidebar_left_responsive = str_replace("tb_browser_tree","tb_browser_tree-responsive",$region_sidebar_left_responsive);
-
-      print $region_sidebar_left_responsive; 
-      ?>
-    <?php endif; ?>
-    <?php if ($page['sidebar_right']): ?>
-      <?php 
-      $region_sidebar_right_responsive = str_replace("share-tool","share-tool-responsive",$region_sidebar_right);
-      $region_sidebar_right_responsive = str_replace("tb_browser_tree","tb_browser_tree-responsive",$region_sidebar_right_responsive);
-
-      print $region_sidebar_right_responsive; 
-      ?>
-    <?php endif; ?>
-        </div>
-      </div><!-- /#responsive-sidebar-->       
+      <div id="responsive-sidebar-left"></div>
+      <div id="responsive-sidebar-right"></div>
+    </div><!-- /#responsive-sidebar-->       
   <?php endif; ?>
     <?php
       break;      
@@ -241,7 +211,6 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       break;
     }
     ?>      
-
 
   <div id="layout-body" class="container">
     <div class="row">
@@ -274,7 +243,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
         
     <div class="row">
       <?php if ($page['sidebar_left']): ?>
-      <div class="col-lg-<?php print ($col_sidebar_left_lg); ?> col-md-<?php print ($col_sidebar_left_md); ?> sidebar-left hidden-sm hidden-xs">
+      <div id="sidebar-left" class="col-lg-<?php print ($col_sidebar_left_lg); ?> col-md-<?php print ($col_sidebar_left_md); ?> sidebar-left hidden-sm hidden-xs">
         <?php print $region_sidebar_left; ?>
       </div>
       <?php endif; ?>     
@@ -322,16 +291,11 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       <?php endif; ?>
 
       <?php if ($page['sidebar_right']): ?>
-      <div class="col-lg-<?php print ($col_sidebar_right_lg); ?> col-md-<?php print ($col_sidebar_right_md); ?> hidden-sm hidden-xs sidebar-right">
+      <div id="sidebar-right" class="col-lg-<?php print ($col_sidebar_right_lg); ?> col-md-<?php print ($col_sidebar_right_md); ?> hidden-sm hidden-xs sidebar-right">
         <?php print $region_sidebar_right; ?>
       </div>  
       <?php endif; ?>
     </div>
-
-    <?php if ($col_sidebar_right_md == 12): ?>
-
-    <?php endif; ?>
-
   </div><!-- /#layout-body -->
 
   <div id="layout-footer">

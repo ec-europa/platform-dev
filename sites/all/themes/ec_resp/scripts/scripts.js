@@ -172,13 +172,27 @@ jQuery(function($){
     });
 
     function hide_sidebar() {
-      $('#responsive-sidebar > div').slideToggle('2000', "linear");
+      // close responsive sidebars
+      $('#responsive-sidebar > div').slideToggle('2000', "linear").hide();
       $('#layout-body').animate({
         left:'0'
-      }, 300).removeClass('reduced');
+      }, 300, function() {
+          // move left sidebar
+          $('#responsive-sidebar-left > div').detach().appendTo($('#sidebar-left'));
+
+          // move right sidebar
+          $('#responsive-sidebar-right > div').detach().appendTo($('#sidebar-right'));
+      }).removeClass('reduced');
     }
     function show_sidebar() {
-      $('#responsive-sidebar > div').slideToggle('2000', "linear");
+      // move left sidebar
+      $('#sidebar-left > div').detach().appendTo($('#responsive-sidebar-left'));
+
+      // move right sidebar
+      $('#sidebar-right > div').detach().appendTo($('#responsive-sidebar-right'));
+
+      // open responsive sidebars
+      $('#responsive-sidebar > div').slideToggle('2000', "linear").show();
       $('#layout-body').animate({
         left:'85%'
       }, 300).addClass('reduced');

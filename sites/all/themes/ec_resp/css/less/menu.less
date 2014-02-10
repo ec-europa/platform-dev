@@ -122,16 +122,20 @@ ul.nav-tabs {
 }
 
 /* --------------- Responsive sidebar  --------------- */
-#responsive-sidebar > div {
+#responsive-sidebar {
   position: absolute;
+  width: 100%;
   z-index: 1;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 15px;
-  margin-top: -20px;
-  background-color: @btn-default-bg;
-  border-bottom: 1px solid @brand-primary;
-  border-right: 1px solid @brand-primary;
-  width: 85%;
-  border-radius: 0 0 @border-radius-base 0;
+  > div {
+    z-index: 2;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    margin-top: -20px;
+    background-color: @btn-default-bg;
+    border-bottom: 1px solid @brand-primary;
+    border-right: 1px solid @brand-primary;
+    width: 85%;
+    border-radius: 0 0 @border-radius-base 0;
+  }
 }
