@@ -494,6 +494,15 @@ function cce_basic_config_enable() {
   );
   $context->reactions['block']['blocks']['easy_breadcrumb'] = $block_easy_breadcrumb;
 
+  // Add menu service tools in site-wide context
+  $block_service_tools = array(
+    'module' => 'menu',
+    'delta' =>  'menu-service-tools',
+    'region' => 'header_top',
+    'weight' => -9,
+  );
+  $context->reactions['block']['blocks']['block_service_tools'] = $block_service_tools;
+
   module_invoke('context', 'save', $context);
 }
 
@@ -1200,5 +1209,20 @@ function cce_basic_config_update_7196() {
   module_invoke('context', 'save', $context);
 }
 
+ /**
+  * Add menu service_tools in banner
+  */
+function cce_basic_config_update_7197() {
+  // Add block in site-wide context.
+  $context = module_invoke('context', 'load', 'site_wide');
 
+  $block_service_tools = array(
+    'module' => 'menu',
+    'delta' =>  'menu-service-tools',
+    'region' => 'header_top',
+    'weight' => -9,
+  );
+  $context->reactions['block']['blocks']['block_service_tools'] = $block_service_tools;
 
+  module_invoke('context', 'save', $context);
+}
