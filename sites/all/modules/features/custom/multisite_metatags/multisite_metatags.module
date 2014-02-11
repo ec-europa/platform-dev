@@ -4,114 +4,24 @@
  * Code for the Multisite Maps feature.
  */
 
-/**
- * Implements hook_page_alter().
- */
-function multisite_metatags_page_alter($page) {
-
-  if (arg(0) == 'node' && is_numeric(arg(1))) {
-    $node = node_load(arg(1));
-
-    // Meta Classification
-    if (!empty($node->field_meta_classification['und']) && $node->field_meta_classification['und'][0]['tid'] > 0) {
-      $tax = taxonomy_term_load($node->field_meta_classification['und'][0]['tid']);
-      $meta_classification = array(
-        '#type' => 'html_tag',
-        '#tag' => 'meta',
-        '#attributes' => array(
-        'name' => 'classification',
-        'content' => $tax->name
-        )
-      );
-      drupal_add_html_head( $meta_classification, 'meta_nodeclassification');
-    }
-
-    // Meta Description
-    if (!empty($node->field_meta_description)) {
-      $meta_description = array(
-        '#type' => 'html_tag',
-        '#tag' => 'meta',
-        '#attributes' => array(
-            'name' => 'description',
-            'content' => $node->field_meta_description['und'][0]['value']
-        )
-      );
-      drupal_add_html_head( $meta_description, 'meta_nodedescription');
-    }
-
-    // Meta Date
-    // Published
-    if ($node->status == 1) {
-      $date = date(('d/m/Y'), $node->created);
-    }
-    else {
-    // Not published
-      $date = date(('d/m/Y'), $node->changed);
-    }
-    $meta_date = array(
-      '#type' => 'html_tag',
-      '#tag' => 'meta',
-      '#attributes' => array(
-        'name' => 'Date',
-        'content' => $date
-      ),
-    );
-    drupal_add_html_head($meta_date, 'meta_nodedate');
-  }
-
-  // Meta Creator
-  $creator = variable_get('meta_creator');
-  if ($creator) {
-    $meta_creator = array(
-      '#type' => 'html_tag',
-      '#tag' => 'meta',
-      '#attributes' => array(
-        'name' => 'Creator',
-        'content' => drupal_strtoupper($creator)
-      ),
-    );
-    drupal_add_html_head($meta_creator, 'meta_sitewidecreator');
-  }
-
-  // Meta Reference
-  $reference_prefix = variable_get('meta_reference');
-  if ($reference_prefix) {
-    global $language;
-    $path = current_path();
-
-    if (!empty($node)) {
-      $path = drupal_lookup_path('alias', $path);
-    }
-    $reference = drupal_strtoupper($reference_prefix . '/' . $path . '/' . $language->language);
-
-    $meta_reference = array(
-      '#type' => 'html_tag',
-      '#tag' => 'meta',
-      '#attributes' => array(
-        'name' => 'Reference',
-        'content' => $reference
-      ),
-    );
-    drupal_add_html_head($meta_reference, 'meta_ipgreference');
-  }
-
-}
+include_once 'includes/file.mimetypes.inc';
+module_load_include('inc', 'Variable_realm', 'variable_realm.form');
 
 /**
  * Implements hook_form_alter().
  */
 function multisite_metatags_form_alter(&$form, &$form_state, $form_id) {
   if (arg(0) == 'node' && array_key_exists('field_meta_classification', $form)) {
-    //Get Taxonomy classification vid
+    // Get Taxonomy classification vid.
     $vid_classification = db_select('taxonomy_vocabulary', 't')
-      -> fields('t')
-      -> condition('machine_name', 'classification', '=')
-      -> execute()
+      ->fields('t')
+      ->condition('machine_name', 'classification', '=')
+      ->execute()
       ->fetchAll();
-    //Get Taxonomy tree
+    // Get Taxonomy tree.
     $classification = taxonomy_get_tree($vid_classification[0]->vid);
 
-    //Change the select to show name and description
+    // Change the select to show name and description.
     $list[0] = 'none';
     foreach ($classification as $key => $obj_term) {
       $list[$obj_term->tid] = $obj_term->name . ' - ' . strip_tags($obj_term->description);
@@ -119,11 +29,10 @@ function multisite_metatags_form_alter(&$form, &$form_state, $form_id) {
     $form['field_meta_classification']['und']['#options'] = $list;
     $form['#validate'][] = '_multisite_metatags_classification_validate';
   }
-
 }
 
 /**
- * Validates for metatag field values in node forms
+ * Validates for metatag field values in node forms.
  *
  * @see multisite_metatags_form_alter()
  */
@@ -145,8 +54,7 @@ function _multisite_metatags_classification_validate($form, &$form_state) {
  * Implements hook_html_head_alter().
  */
 function multisite_metatags_html_head_alter(&$head_elements) {
-  //join the metatags information
-
+  // Join the metatags information.
   if (array_key_exists('meta_classification', $head_elements) && array_key_exists('meta_nodeclassification', $head_elements)) {
     if ($head_elements['meta_classification']['#attributes']['content'] != $head_elements['meta_nodeclassification']['#attributes']['content']) {
       $classification = $head_elements['meta_classification']['#attributes']['content'] . ',' . $head_elements['meta_nodeclassification']['#attributes']['content'];
@@ -175,14 +83,21 @@ function multisite_metatags_html_head_alter(&$head_elements) {
     $head_elements['meta_creator']['#attributes']['content'] = $head_elements['meta_sitewidecreator']['#attributes']['content'];
     unset($head_elements['meta_sitewidecreator']);
   }
+
+  if (array_key_exists('meta_fb_admins', $head_elements)) {
+    if ($head_elements['meta_fb_admins']['#attributes']['content'] == 'USER_ID') {
+      unset($head_elements['meta_fb_admins']);
+    }
+  }
 }
 
 /**
  * Implements hook_form_alter().
  */
 function multisite_metatags_form_system_site_information_settings_alter(&$form, &$form_state, $form_id) {
-  //Create textfields
-  $form['meta']['reference'] = array(
+  // Create textfields.
+  // Reference prefix.
+  $form['meta']['meta_reference'] = array(
     '#type' => 'textfield',
     '#title' => t('Reference prefix'),
     '#required' => TRUE,
@@ -191,21 +106,224 @@ function multisite_metatags_form_system_site_information_settings_alter(&$form, 
     '#maxlength' => 30,
     '#weight' => 10,
   );
-  $form['meta']['creator'] = array(
+
+  // Creator.
+  $form['meta']['meta_creator'] = array(
     '#type' => 'textfield',
     '#title' => t('Creator'),
     '#required' => FALSE,
     '#default_value' => variable_get('meta_creator'),
     '#description' => t('Ex. COMM/DG/UNIT (max. 30 characters).<br/>This text will supply information to METADATA "Creator".<br/>See the <a href="http://ec.europa.eu/ipg/content/optimise/metadata/annex1_en.htm#section_2" target="_blank">IPG guidelines</a> for more information.'),
     '#maxlength' => 30,
-    '#weight' => 30,
+    '#weight' => 11,
   );
 
-  //Get the 'code' and set meta_configuration variable
-  if (isset($form_state['input']['op']) && $form_state['input']['op'] == 'Save configuration') {
-    if (isset($form_state['input']['reference']) && isset($form_state['input']['creator'])) {
-      variable_set('meta_reference', $form_state['input']['reference']);
-      variable_set('meta_creator', $form_state['input']['creator']);
+  // Create select field.
+  $form['meta']['meta_og_image'] = array(
+    '#title' => t('OG Image'),
+    '#type' => 'managed_file',
+    '#description' => t('Choose an image to show it when you share a node in Facebook if a node body has no image.
+            <br/> Files must be less than <strong>2 MB</strong>
+            <br/> Allowed extensions: <strong>gif png jpg jpeg</strong>'),
+    '#default_value' => variable_get('meta_og_image'),
+    '#upload_location' => 'public://og_image/',
+    '#required' => TRUE,
+    '#upload_validators' => array(
+      'file_validate_extensions' => array('gif png jpg jpeg'),
+      // 2MB.
+      'file_validate_size' => array(2 * 1024 * 1024),
+    ),
+    '#theme' => 'ogimage_widget',
+  );
+
+  $form['#submit'][] = '_multisite_metatags_form_submit';
+}
+
+/**
+ * Handler Site information form submit.
+ */
+function _multisite_metatags_form_submit($form, &$form_state) {
+  if (isset($form_state['input']['classification'])) {
+    variable_set('meta_configuration', $form_state['input']['classification']);
+  }
+
+  if (isset($form_state['input']['reference'])) {
+    variable_set('meta_reference', $form_state['input']['reference']);
+  }
+
+  if (isset($form_state['input']['creator'])) {
+    variable_set('meta_creator', $form_state['input']['creator']);
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function multisite_metatags_theme() {
+  // Theme functions in image.admin.inc.
+  return array(
+    'ogimage_widget' => array(
+      'render element' => 'element',
+    ),
+  );
+}
+
+/**
+ * Returns HTML for an image field widget.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - element: A render element representing the image field widget.
+ *
+ * @ingroup themeable
+ */
+function theme_ogimage_widget($variables) {
+  global $base_url;
+
+  $element = $variables['element'];
+
+  if (isset($element['#file']->uri)) {
+    $output = '<div id="edit-logo-ajax-wrapper"><div class="form-item form-type-managed-file form-item-logo"><span class="file">';
+    $output .= '<img height="50px" src="' . file_create_url($element['#file']->uri) . '" />';
+    $output .= '<span class="file">';
+    $output .= '<img class="file-icon" src="' . $base_url . '/' . drupal_get_path('module', 'file') . '/icons/image-x-generic.png" title="image/jpeg" alt="">';
+    $output .= '<a type="image/jpeg; length=' . $element['#file']->filesize . '" href="' . $element['#file']->uri . '">' . $element['#file']->filename . '</a>';
+    $output .= '</span>&nbsp;<span class="file-size">(' . format_size($element['#file']->filesize) . ')</span>';
+    $output .= '</span><input type="submit" id="edit-' . $element['#name'] . '-remove-button" name="' . $element['#name'] . '_remove_button" value="Remove" class="form-submit ajax-processed">';
+    $output .= '<input type="hidden" name="' . $element['#name'] . '[fid]" value="' . $element['#file']->fid . '">';
+
+    return $output;
+  }
+}
+
+/**
+ * Implemets hook_preprocess_page().
+ */
+function multisite_metatags_preprocess_page(&$variables) {
+  if (arg(0) == 'node' && is_numeric(arg(1))) {
+
+    // Meta Classification.
+    if (!empty($variables['node']->field_meta_classification['und']) && $variables['node']->field_meta_classification['und'][0]['tid'] > 0) {
+      $tax = taxonomy_term_load($variables['node']->field_meta_classification['und'][0]['tid']);
+      $meta_classification = array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'name' => 'classification',
+          'content' => $tax->name,
+        ),
+      );
+      drupal_add_html_head($meta_classification, 'meta_nodeclassification');
+    }
+
+    // Meta Description.
+    if (!empty($variables['node']->field_meta_description)) {
+      $meta_description = array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'name' => 'description',
+          'content' => $variables['node']->field_meta_description['und'][0]['value'],
+        ),
+      );
+      drupal_add_html_head($meta_description, 'meta_nodedescription');
+    }
+
+    // Meta Date.
+    // Published.
+    if ($variables['node']->status == 1) {
+      $date = date(('d/m/Y'), $variables['node']->created);
+    }
+    else {
+      // Not published.
+      $date = date(('d/m/Y'), $variables['node']->changed);
+    }
+    $meta_date = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'Date',
+        'content' => $date,
+      ),
+    );
+    drupal_add_html_head($meta_date, 'meta_nodedate');
+
+    // Meta Creator.
+    $creator = variable_get('meta_creator');
+    if ($creator) {
+      $meta_creator = array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'name' => 'Creator',
+          'content' => drupal_strtoupper($creator),
+        ),
+      );
+      drupal_add_html_head($meta_creator, 'meta_sitewidecreator');
+    }
+
+    // Meta Reference.
+    $reference_prefix = variable_get('meta_reference');
+    if ($reference_prefix) {
+      global $language;
+      $path = current_path();
+
+      if (!empty($variables['node'])) {
+        $path = drupal_lookup_path('alias', $path);
+      }
+      $reference = drupal_strtoupper($reference_prefix . '/' . $path . '/' . $language->language);
+
+      $meta_reference = array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'name' => 'Reference',
+          'content' => $reference,
+        ),
+      );
+      drupal_add_html_head($meta_reference, 'meta_ipgreference');
+    }
+
+    // Meta OG image.
+    $ogimg_found = FALSE;
+    if (isset($variables['node']) && (isset($variables['node']->body['und']['0']['safe_value']))) {
+      $dom = new DOMDocument();
+      $dom->loadHTML($variables['node']->body['und']['0']['safe_value']);
+      $img = $dom->getElementsByTagName('img');
+
+      if ($img->length > 0) {
+        $i = 0;
+        do {
+          $field_title = $img->item($i)->getAttribute('title');
+          $mapping = file_mimetype_mapping();
+          if (!in_array($field_title, $mapping['mimetypes'], TRUE)) {
+            $ogimg_found = TRUE;
+            $field_image = $img->item($i)->getAttribute('src');
+          }
+          $i++;
+        } while (($ogimg_found == FALSE) && ($i < $img->length));
+      }
+    }
+
+    if ($ogimg_found == FALSE) {
+      $ogimage = file_load(variable_get('meta_og_image', ''));
+      if ($ogimage) {
+        $field_image = $ogimage->uri;
+      }
+    }
+
+    if (isset($field_image)) {
+      $image = file_create_url($field_image);
+      $meta_ogimage = array(
+        '#type'       => 'html_tag',
+        '#tag'        => 'meta',
+        '#attributes' => array(
+          'property' => 'og:image',
+          'content' => $image,
+        ),
+      );
+
+      drupal_add_html_head($meta_ogimage, 'meta_nodeogimage');
     }
   }
 }

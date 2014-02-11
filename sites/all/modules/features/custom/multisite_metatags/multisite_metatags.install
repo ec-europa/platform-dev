@@ -5,34 +5,38 @@
  * Install the feature multisite_metatags
  */
 
+include_once 'multisite_metatags.install.inc';
+
 /**
- * hook_install
+ * Implements hook_install().
  */
 function multisite_metatags_install() {
-    //Nothing yet
+  // Nothing yet.
 }
 
 /**
- * hook_uninstall
+ * Implements hook_uninstall().
  */
 function multisite_metatags_uninstall() {
-    //Nothing yet
+  // Nothing yet.
 }
 
 /**
- * hook_enable
+ * Implements hook_enable().
  */
 function multisite_metatags_enable() {
-  //Activation message
-  drupal_set_message(t('Multisite Metatags feature is now active on your site.'));
+  // Activation message.
+  drupal_set_message(t('Multisite Metatags %v feature is now active on your site.', array('%v' => _multisite_metatags_get_version())));
 }
 
 /**
- * hook_disable
+ * Implements hook_disable().
  */
 function multisite_metatags_disable() {
-  //Activation message
-  drupal_set_message(t('Multisite Metatags feature is now disabled on your site.'));
+  variable_del('meta_og_image');
+  variable_del('meta_creator');
+  variable_del('meta_reference');
+
+  // Deactivation message.
+  drupal_set_message(t('Multisite Metagas %v feature is now inactive on your site.', array('%v' => _multisite_metatags_get_version())));
 }
-
-
