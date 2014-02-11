@@ -161,14 +161,6 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
 
       <div id="main-title"><?php print $site_name; ?></div>
       <div id="sub-title"><?php print $site_slogan; ?></div>
-
-      <p class="off-screen">Service tools</p>
-      <ul class="reset-list hidden-sm hidden-xs" id="services">
-        <li><?php print l(t('About this site'), 'http://ec.europa.eu/about_en.htm', array('attributes' => array('class' => array('first'), 'accesskey' => array('1')))); ?></li>
-        <li><?php print l(t('Legal notice'), 'http://ec.europa.eu/geninfo/legal_notices_en.htm', array('attributes' => array('accesskey' => array('2')))); ?></li>
-        <li><?php print l(t('Contact'), 'http://ec.europa.eu/contact/index_en.htm', array('attributes' => array('accesskey' => array('3')))); ?></li>
-        <li><?php print l(t('Search'), 'http://ec.europa.eu/geninfo/query/search_en.html', array('attributes' => array('class' => array('last'), 'accesskey' => array('4')))); ?></li>
-      </ul>
     </div>
   </div><!-- /#layout-header -->  
 

@@ -55,10 +55,91 @@ function cce_basic_config_menu_default_menu_links() {
     'expanded' => '1',
     'weight' => '0',
   );
+  // Exported menu link: menu-service-tools:http://ec.europa.eu/contact/index_en.htm
+  $menu_links['menu-service-tools:http://ec.europa.eu/contact/index_en.htm'] = array(
+    'menu_name' => 'menu-service-tools',
+    'link_path' => 'http://ec.europa.eu/contact/index_en.htm',
+    'router_path' => '',
+    'link_title' => 'Contact on Europa',
+    'options' => array(
+      'attributes' => array(
+        'data-display-title' => '1',
+        'data-remove-class' => 1,
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '1',
+    'has_children' => '0',
+    'expanded' => '1',
+    'weight' => '-48',
+  );
+  // Exported menu link: menu-service-tools:http://ec.europa.eu/cookies/index_en.htm
+  $menu_links['menu-service-tools:http://ec.europa.eu/cookies/index_en.htm'] = array(
+    'menu_name' => 'menu-service-tools',
+    'link_path' => 'http://ec.europa.eu/cookies/index_en.htm',
+    'router_path' => '',
+    'link_title' => 'Cookies',
+    'options' => array(
+      'attributes' => array(
+        'data-display-title' => '1',
+        'data-remove-class' => 1,
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '1',
+    'has_children' => '0',
+    'expanded' => '1',
+    'weight' => '-49',
+  );
+  // Exported menu link: menu-service-tools:http://ec.europa.eu/geninfo/legal_notices_en.htm
+  $menu_links['menu-service-tools:http://ec.europa.eu/geninfo/legal_notices_en.htm'] = array(
+    'menu_name' => 'menu-service-tools',
+    'link_path' => 'http://ec.europa.eu/geninfo/legal_notices_en.htm',
+    'router_path' => '',
+    'link_title' => 'Legal notice',
+    'options' => array(
+      'attributes' => array(
+        'data-display-title' => '1',
+        'data-remove-class' => 1,
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '1',
+    'has_children' => '0',
+    'expanded' => '1',
+    'weight' => '-50',
+  );
+  // Exported menu link: menu-service-tools:http://ec.europa.eu/geninfo/query/search_en.html
+  $menu_links['menu-service-tools:http://ec.europa.eu/geninfo/query/search_en.html'] = array(
+    'menu_name' => 'menu-service-tools',
+    'link_path' => 'http://ec.europa.eu/geninfo/query/search_en.html',
+    'router_path' => '',
+    'link_title' => 'Search on Europa',
+    'options' => array(
+      'attributes' => array(
+        'data-display-title' => '1',
+        'data-remove-class' => 1,
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '1',
+    'has_children' => '0',
+    'expanded' => '1',
+    'weight' => '-47',
+  );
   // Translatables
   // Included for use with string extractors like potx.
+  t('Contact on Europa');
+  t('Cookies');
   t('European Commission');
+  t('Legal notice');
+  t('Search on Europa');
   t('[site:name]');
+
 
   return $menu_links;
 }
