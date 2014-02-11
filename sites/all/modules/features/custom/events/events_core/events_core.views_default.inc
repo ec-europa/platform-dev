@@ -86,7 +86,6 @@ function events_core_views_default_views() {
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
 
-
   /* Display: Month */
   $handler = $view->new_display('page', 'Month', 'month');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
@@ -127,6 +126,35 @@ function events_core_views_default_views() {
     t('Dates'),
     t('Month'),
   );
+
+  /* Display: Calendar block */
+  $handler = $view->new_display('block', 'Calendar block', 'calendar_block');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Calendar';
+  $handler->display->display_options['display_description'] = 'Calendar to be displayed mainly in left or right sidebars';
+  $handler->display->display_options['defaults']['group_by'] = FALSE;
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'fullcalendar';
+  $handler->display->display_options['style_options']['firstDay'] = '1';
+  $handler->display->display_options['style_options']['weekMode'] = 'liquid';
+  $handler->display->display_options['style_options']['left'] = '';
+  $handler->display->display_options['style_options']['center'] = 'prev title next';
+  $handler->display->display_options['style_options']['right'] = 'month';
+  $handler->display->display_options['style_options']['advanced'] = TRUE;
+  $handler->display->display_options['style_options']['titleformatDay'] = 'MMM d, yyyy';
+  $handler->display->display_options['style_options']['editable'] = TRUE;
+  $handler->display->display_options['style_options']['fullcalendar_options']['disableDragging'] = TRUE;
+  $handler->display->display_options['style_options']['fullcalendar_options']['disableResizing'] = TRUE;
+  $handler->display->display_options['style_options']['fullcalendar_options']['dayClick'] = TRUE;
+  $handler->display->display_options['style_options']['fullcalendar_options']['dayClickView'] = 'basicDay';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  $handler->display->display_options['block_description'] = 'Calendar block';
   $export['calendar'] = $view;
 
   return $export;

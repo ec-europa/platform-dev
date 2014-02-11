@@ -198,6 +198,9 @@ jQuery(function($){
       }, 300).addClass('reduced');
     }
 
+    $('#sidebar-left').addClass('visible-lg visible-md');
+    $('#sidebar-right').addClass('visible-lg visible-md');
+
     $('#menu-button').on("click", function() {
       $('#menu-button > div').toggleClass("arrow-down");
       $('#menu-button > div').toggleClass("arrow-up");

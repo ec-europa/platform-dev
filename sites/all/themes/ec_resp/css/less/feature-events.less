@@ -104,3 +104,49 @@
     margin-left: 12px;
   }
 }
+
+/* block calendar */
+.block .view-display-id-calendar_block {
+  th {
+    font-weight: normal;
+  }
+  .btn {
+    padding: 2px;
+  }
+  .fc-header-title h2 {
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 22px;
+    margin-bottom: 0;
+  }
+  .fc-view-month span.fc-event-time,
+  .fc-view-month span.fc-event-title {
+    display: none;
+  }
+  .fc-view-month .fc-day-number {
+    cursor: pointer;
+    float: none;
+    text-align: center;
+    background-color: #fafafa;
+  }
+  .fc-view-month .fc-event {
+    cursor: default;
+    height: 2px;
+    border: none;
+  }
+  .fc-button-month:hover,
+  .fc-button-month:active,
+  .fc-button-month:focus {
+    color: #333;
+  }
+  .fc-button-month.btn-primary {
+    display: none;
+  }
+}
+#sidebar-left .block .view-display-id-calendar_block,
+#sidebar-right .block .view-display-id-calendar_block,
+#responsive-sidebar .block .view-display-id-calendar_block {
+  max-width: 240px;
+  margin: 0 auto;
+}
+/* /block calendar */
