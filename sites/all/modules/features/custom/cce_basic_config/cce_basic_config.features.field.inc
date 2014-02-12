@@ -134,6 +134,109 @@ function cce_basic_config_field_default_fields() {
     ),
   );
 
+  // Exported field: 'file-image-field_caption'.
+  $fields['file-image-field_caption'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_caption',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '512',
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'image',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '2',
+        ),
+        'preview' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '1',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'file',
+      'field_name' => 'field_caption',
+      'label' => 'Caption',
+      'required' => 0,
+      'settings' => array(
+        'better_formats' => array(
+          'allowed_formats' => array(
+            'basic_html' => 'basic_html',
+            'filtered_html' => 'filtered_html',
+            'full_html' => 'full_html',
+            'plain_text' => 'plain_text',
+          ),
+          'allowed_formats_toggle' => 0,
+          'default_order_toggle' => 0,
+          'default_order_wrapper' => array(
+            'formats' => array(
+              'basic_html' => array(
+                'weight' => '5',
+              ),
+              'filtered_html' => array(
+                'weight' => '-9',
+              ),
+              'full_html' => array(
+                'weight' => '-10',
+              ),
+              'plain_text' => array(
+                'weight' => '-8',
+              ),
+            ),
+          ),
+        ),
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+        'wysiwyg_override' => 1,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '-2',
+      ),
+    ),
+  );
+
   // Exported field: 'file-video-field_tags'.
   $fields['file-video-field_tags'] = array(
     'field_config' => array(
@@ -616,7 +719,7 @@ function cce_basic_config_field_default_fields() {
       'locked' => '0',
       'module' => 'image',
       'settings' => array(
-        'default_image' => FALSE,
+        'default_image' => 0,
         'uri_scheme' => 'public',
       ),
       'translatable' => '0',
@@ -651,26 +754,55 @@ function cce_basic_config_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_image',
       'label' => 'Image',
-      'required' => FALSE,
+      'required' => 0,
       'settings' => array(
-        'alt_field' => TRUE,
+        'alt_field' => 1,
         'default_image' => 0,
         'file_directory' => 'field/image',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
         'max_resolution' => '',
         'min_resolution' => '',
-        'title_field' => '',
-        'user_field_privacy' => FALSE,
+        'title_field' => 0,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'module' => 'image',
+        'active' => 1,
+        'module' => 'media',
         'settings' => array(
+          'allowed_schemes' => array(
+            0 => 'public',
+            1 => 'private',
+          ),
+          'allowed_types' => array(
+            0 => 'image',
+          ),
+          'browser_plugins' => array(),
+          'filefield_sources' => array(
+            'filefield_sources' => array(
+              'attach' => 0,
+              'clipboard' => 0,
+              'plupload' => 0,
+              'reference' => 0,
+              'remote' => 0,
+              'upload' => 'upload',
+            ),
+            'source_attach' => array(
+              'absolute' => '0',
+              'attach_mode' => 'move',
+              'path' => 'file_attach',
+            ),
+            'source_imce' => array(
+              'imce_mode' => 0,
+            ),
+            'source_reference' => array(
+              'autocomplete' => '0',
+            ),
+          ),
           'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
-        'type' => 'image_image',
+        'type' => 'media_generic',
         'weight' => '20',
       ),
     ),
@@ -1122,6 +1254,7 @@ function cce_basic_config_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Caption');
   t('Comment');
   t('Creator');
   t('Enter a comma-separated list of words to describe your content.');
@@ -1134,7 +1267,6 @@ function cce_basic_config_field_default_fields() {
   t('This content will be unpublished on that date, and its workflow status will be set to "Archived"');
   t('Unpublish on');
   t('Upload an image to go with this article.');
-  t('Video');
   t('Video Description');
 
   return $fields;

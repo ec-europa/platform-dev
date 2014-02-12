@@ -118,6 +118,33 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'workbench',
   );
 
+  // Exported permission: administer video presets.
+  $permissions['administer video presets'] = array(
+    'name' => 'administer video presets',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'video',
+  );
+
+  // Exported permission: bypass conversion video.
+  $permissions['bypass conversion video'] = array(
+    'name' => 'bypass conversion video',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'video',
+  );
+
+  // Exported permission: convert on submission.
+  $permissions['convert on submission'] = array(
+    'name' => 'convert on submission',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'video',
+  );
+
   // Exported permission: create article content.
   $permissions['create article content'] = array(
     'name' => 'create article content',
@@ -194,7 +221,7 @@ function cce_basic_config_user_default_permissions() {
   );
 
   // Exported permission: edit own image files.
-  $permissions['edit own images files'] = array(
+  $permissions['edit own image files'] = array(
     'name' => 'edit own image files',
     'roles' => array(
       'administrator' => 'administrator',
@@ -221,6 +248,17 @@ function cce_basic_config_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'node_export',
+  );
+
+  // Exported permission: import media.
+  $permissions['import media'] = array(
+    'name' => 'import media',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+      'editor' => 'editor',
+    ),
+    'module' => 'media',
   );
 
   // Exported permission: moderate content from draft to needs_review.
@@ -255,6 +293,15 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'workbench_moderation',
   );
 
+  // Exported permission: override player dimensions.
+  $permissions['override player dimensions'] = array(
+    'name' => 'override player dimensions',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'video',
+  );
+
   // Exported permission: post comments.
   $permissions['post comments'] = array(
     'name' => 'post comments',
@@ -264,6 +311,16 @@ function cce_basic_config_user_default_permissions() {
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'comment',
+  );
+
+  // Exported permission: re convert video.
+  $permissions['re convert video'] = array(
+    'name' => 're convert video',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'contributor' => 'contributor',
+    ),
+    'module' => 'video',
   );
 
   // Exported permission: revert revisions.
@@ -315,8 +372,8 @@ function cce_basic_config_user_default_permissions() {
     'name' => 'show format selection for node',
     'roles' => array(
       'administrator' => 'administrator',
-      'contributor' => 'contributor',
       'authenticated user' => 'authenticated user',
+      'contributor' => 'contributor',
       'editor' => 'editor',
     ),
     'module' => 'better_formats',
@@ -384,6 +441,15 @@ function cce_basic_config_user_default_permissions() {
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'search',
+  );
+
+  // Exported permission: use default thumb.
+  $permissions['use default thumb'] = array(
+    'name' => 'use default thumb',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'video',
   );
 
   // Exported permission: use text format basic_html.
@@ -535,71 +601,5 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: administer video presets.
-  $permissions['administer video presets'] = array(
-    'name' => 'administer video presets',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'video',
-  );
-
-  // Exported permission: bypass conversion video.
-  $permissions['bypass conversion video'] = array(
-    'name' => 'bypass conversion video',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'video',
-  );
-
-  // Exported permission: convert on submission.
-  $permissions['convert on submission'] = array(
-    'name' => 'convert on submission',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'video',
-  );
-
-  // Exported permission: import media.
-  $permissions['import media'] = array(
-    'name' => 'import media',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'contributor' => 'contributor',
-      'editor' => 'editor',
-    ),
-    'module' => 'media',
-  );
-
-  // Exported permission: override player dimensions.
-  $permissions['override player dimensions'] = array(
-    'name' => 'override player dimensions',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'video',
-  );
-
-  // Exported permission: re convert video.
-  $permissions['re convert video'] = array(
-    'name' => 're convert video',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'contributor' => 'contributor',
-    ),
-    'module' => 'video',
-  );
-
-  // Exported permission: use default thumb.
-  $permissions['use default thumb'] = array(
-    'name' => 'use default thumb',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'video',
-  );
-  
   return $permissions;
 }

@@ -133,7 +133,7 @@ function cce_basic_config_strongarm() {
     'basic_html' => 0,
   );
   $export['i18n_string_allowed_formats'] = $strongarm;
-  
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -153,13 +153,6 @@ function cce_basic_config_strongarm() {
   $strongarm->value = 1;
   $export['jqmulti_load_always'] = $strongarm;
 
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'jqmulti_load_files_always';
-  $strongarm->value = 1;
-  $export['jqmulti_load_files_always'] = $strongarm;
-  
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -675,6 +668,45 @@ ul
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'sweaver_ctools_allowed_properties';
+  $strongarm->value = '-moz-border-radius
+-webkit-border-radius
+border-top-right-radius
+border-bottom-right-radius
+border-bottom-left-radius
+border-top-left-radius
+webkit-border-top-right-radius
+webkit-border-bottom-right-radius
+webkit-border-bottom-left-radius
+webkit-border-top-left-radius
+moz-border-radius-topright
+moz-border-radius-bottomright
+moz-border-radius-bottomleft
+moz-border-radius-topleft
+position
+top
+left
+bottom
+right
+border-collapse
+border-spacing
+list-style-image
+list-style-type
+min-width
+max-width
+min-height
+max-height
+visibility
+text-shadow
+content
+z-index
+filter
+border-radius';
+  $export['sweaver_ctools_allowed_properties'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'sweaver_editor_form_configuration';
   $strongarm->value = array(
     'one' => array(
@@ -855,75 +887,11 @@ ul
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'sweaver_ctools_allowed_properties';
-  $strongarm->value = '-moz-border-radius
--webkit-border-radius
-border-top-right-radius
-border-bottom-right-radius
-border-bottom-left-radius
-border-top-left-radius
-webkit-border-top-right-radius
-webkit-border-bottom-right-radius
-webkit-border-bottom-left-radius
-webkit-border-top-left-radius
-moz-border-radius-topright
-moz-border-radius-bottomright
-moz-border-radius-bottomleft
-moz-border-radius-topleft
-position
-top
-left
-bottom
-right
-border-collapse
-border-spacing
-list-style-image
-list-style-type
-min-width
-max-width
-min-height
-max-height
-visibility
-text-shadow
-content
-z-index
-filter
-border-radius';
-  $export['sweaver_ctools_allowed_properties'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'sweaver_paths';
-  $strongarm->value = 'admin*
-node/add*
-node/*/edit
-node/*/panel*
-panels/ajax*
-user/*/edit
-batch*
-wysiwyg_imageupload/*
-media/*
-file/*
-taxonomy/*
-imce';
-  $export['sweaver_paths'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'sweaver_skin';
   $strongarm->value = 'grey';
   $export['sweaver_skin'] = $strongarm;
 
   $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'workbench_moderation_default_state_article';
-  $strongarm->value = 'draft';
-  $export['workbench_moderation_default_state_article'] = $strongarm;
-
-    $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'video_autobuffering';
@@ -1078,70 +1046,12 @@ imce';
   $strongarm->value = 1;
   $export['video_use_preset_wxh'] = $strongarm;
 
-  /* 
-   * Captcha 
-   */
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'captcha_default_challenge';
-  $strongarm->value = 'image_captcha/Image';
-  $export['captcha_default_challenge'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'image_captcha_bilinear_interpolation';
-  $strongarm->value = 1;
-  $export['image_captcha_bilinear_interpolation'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'image_captcha_distortion_amplitude';
-  $strongarm->value = '5';
-  $export['image_captcha_distortion_amplitude'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'image_captcha_fonts';
-  $strongarm->value = array(
-    'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf' => 'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf',
-    'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf' => 'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf',
-  );
-  $export['image_captcha_fonts'] = $strongarm;
-
-  /*
-   * Breadcrumb
-   */
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'easy_breadcrumb-capitalizator_mode';
-  $strongarm->value = 'ucfirst';
-  $export['easy_breadcrumb-capitalizator_mode'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'easy_breadcrumb-include_home_segment';
-  $strongarm->value = 0;
-  $export['easy_breadcrumb-include_home_segment'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'easy_breadcrumb-include_invalid_paths';
-  $strongarm->value = 0;
-  $export['easy_breadcrumb-include_invalid_paths'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'easy_breadcrumb-segments_separator';
-  $strongarm->value = '>';
-  $export['easy_breadcrumb-segments_separator'] = $strongarm;
+  $strongarm->name = 'workbench_moderation_default_state_article';
+  $strongarm->value = 'draft';
+  $export['workbench_moderation_default_state_article'] = $strongarm;
 
   return $export;
 }

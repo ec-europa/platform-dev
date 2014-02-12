@@ -17,6 +17,10 @@ function cce_basic_config_ctools_plugin_api() {
     return array("version" => "1");
   }
   list($module, $api) = func_get_args();
+  if ($module == "file_entity" && $api == "file_type") {
+    return array("version" => "1");
+  }
+  list($module, $api) = func_get_args();
   if ($module == "password_policy" && $api == "default_password_policy") {
     return array("version" => "1");
   }
@@ -105,7 +109,7 @@ function cce_basic_config_node_info() {
     'page' => array(
       'name' => t('Basic page'),
       'base' => 'node_content',
-      'description' => t('Use <em>basic pages</em> for your static content, such as an "About us" page.'),
+      'description' => t('Use <em>basic pages</em> for your static content, such as an \'About us\' page.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
@@ -164,7 +168,6 @@ function cce_basic_config_video_default_presets() {
       'overridden' => FALSE,
       'module' => 'cce_basic_config',
     ),
-
   );
   return $items;
 }
