@@ -1,11 +1,12 @@
-name = survey_standard
+name = Survey standard
 description = Overrides survey_core
 package = Multisite Standard Features
-version = 7.x-1.1
+version = 7.x-1.2
 core = 7.x
 php = 5.2.4
 project = survey_standard
 dependencies[] = survey_core
-features[features_api][] = api:1
 dependencies[] = i18n_taxonomy
+features[features_api][] = api:1
 files[] = tests/survey_standard.test
+files[] = tests/survey_standard.extra.test

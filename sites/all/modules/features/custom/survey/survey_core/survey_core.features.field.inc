@@ -9,7 +9,7 @@
  */
 function survey_core_field_default_fields() {
   $fields = array();
-  
+
   // Exported field: 'comment-comment_node_webform-comment_body'.
   $fields['comment-comment_node_webform-comment_body'] = array(
     'field_config' => array(

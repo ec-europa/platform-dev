@@ -10,7 +10,7 @@
 function survey_core_views_default_views() {
   $export = array();
 
-  $view = new view;
+  $view = new view();
   $view->name = 'surveys_list';
   $view->description = 'Show all content (nodes) of a group.';
   $view->tag = 'og';
@@ -18,9 +18,10 @@ function survey_core_views_default_views() {
   $view->human_name = 'Surveys list';
   $view->core = 0;
   $view->api_version = '3.0';
-  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+  // Edit this to true to make a default view disabled initially.
+  $view->disabled = FALSE;
 
-  /* Display: Defaults */
+  // Display: Defaults.
   $handler = $view->new_display('default', 'Defaults', 'default');
   $handler->display->display_options['title'] = 'Surveys';
   $handler->display->display_options['access']['type'] = 'none';
@@ -46,7 +47,8 @@ function survey_core_views_default_views() {
   $handler->display->display_options['style_options']['override'] = 1;
   $handler->display->display_options['style_options']['sticky'] = 0;
   $handler->display->display_options['style_options']['empty_table'] = 0;
-  /* Header: Global: Text area */
+
+  // Header: Global: Text area.
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
@@ -54,29 +56,35 @@ function survey_core_views_default_views() {
   $handler->display->display_options['header']['area']['content'] = '<h2>Participate or review surveys</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
-  /* No results behavior: Global: Text area */
+
+  // No results behavior: Global: Text area.
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = FALSE;
   $handler->display->display_options['empty']['area']['content'] = 'There is no content in this group.';
-  /* Field: Content: Title */
+
+  // Field: Content: Title.
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  /* Field: Content: Body */
+
+  // Field: Content: Body.
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
   $handler->display->display_options['fields']['body']['field'] = 'body';
-  /* Field: Content: Webform results link */
+
+  // Field: Content: Webform results link.
   $handler->display->display_options['fields']['webform_results']['id'] = 'webform_results';
   $handler->display->display_options['fields']['webform_results']['table'] = 'node';
   $handler->display->display_options['fields']['webform_results']['field'] = 'webform_results';
-  /* Field: Content: Webform submission count */
+
+  // Field: Content: Webform submission count.
   $handler->display->display_options['fields']['webform_submission_count_node']['id'] = 'webform_submission_count_node';
   $handler->display->display_options['fields']['webform_submission_count_node']['table'] = 'node';
   $handler->display->display_options['fields']['webform_submission_count_node']['field'] = 'webform_submission_count_node';
-  /* Sort criterion: Content: Post date */
+
+  // Sort criterion: Content: Post date.
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
@@ -85,13 +93,15 @@ function survey_core_views_default_views() {
     1 => 'AND',
     2 => 'OR',
   );
-  /* Filter criterion: Content: Published */
+
+  // Filter criterion: Content: Published.
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = '1';
   $handler->display->display_options['filters']['status']['group'] = 1;
-  /* Filter criterion: Content: Type */
+
+  // Filter criterion: Content: Type.
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -99,7 +109,8 @@ function survey_core_views_default_views() {
     'webform' => 'webform',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content translation: Language */
+
+  // Filter criterion: Content translation: Language.
   $handler->display->display_options['filters']['language']['id'] = 'language';
   $handler->display->display_options['filters']['language']['table'] = 'node';
   $handler->display->display_options['filters']['language']['field'] = 'language';
@@ -108,17 +119,19 @@ function survey_core_views_default_views() {
     'und' => 'und',
   );
   $handler->display->display_options['filters']['language']['group'] = 2;
-  /* Filter criterion: Content translation: Translation set node ID */
+
+  // Filter criterion: Content translation: Translation set node ID.
   $handler->display->display_options['filters']['tnid']['id'] = 'tnid';
   $handler->display->display_options['filters']['tnid']['table'] = 'node';
   $handler->display->display_options['filters']['tnid']['field'] = 'tnid';
   $handler->display->display_options['filters']['tnid']['value']['value'] = '0';
   $handler->display->display_options['filters']['tnid']['group'] = 2;
 
-  /* Display: Page */
+  // Display: Page.
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->display->display_options['defaults']['header'] = FALSE;
-  /* Header: Global: Text area */
+
+  // Header: Global: Text area.
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
@@ -128,7 +141,8 @@ function survey_core_views_default_views() {
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['empty'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Nid */
+
+  // Field: Content: Nid.
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
@@ -151,11 +165,13 @@ function survey_core_views_default_views() {
   $handler->display->display_options['fields']['nid']['empty_zero'] = 0;
   $handler->display->display_options['fields']['nid']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['nid']['link_to_node'] = 0;
-  /* Field: Content: Title */
+
+  // Field: Content: Title.
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  /* Field: Content: Body */
+
+  // Field: Content: Body.
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
   $handler->display->display_options['fields']['body']['field'] = 'body';
@@ -178,7 +194,8 @@ function survey_core_views_default_views() {
   $handler->display->display_options['fields']['body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['body']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
-  /* Field: Content: Webform submission count */
+
+  // Field: Content: Webform submission count.
   $handler->display->display_options['fields']['webform_submission_count_node']['id'] = 'webform_submission_count_node';
   $handler->display->display_options['fields']['webform_submission_count_node']['table'] = 'node';
   $handler->display->display_options['fields']['webform_submission_count_node']['field'] = 'webform_submission_count_node';
@@ -197,11 +214,12 @@ function survey_core_views_default_views() {
   $handler->display->display_options['fields']['webform_submission_count_node']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['webform_submission_count_node']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['webform_submission_count_node']['element_class'] = 'hidden-phone';
-  $handler->display->display_options['fields']['webform_submission_count_node']['element_label_class'] = 'hidden-phone';  
+  $handler->display->display_options['fields']['webform_submission_count_node']['element_label_class'] = 'hidden-phone';
   $handler->display->display_options['fields']['webform_submission_count_node']['hide_empty'] = 0;
   $handler->display->display_options['fields']['webform_submission_count_node']['empty_zero'] = 0;
   $handler->display->display_options['fields']['webform_submission_count_node']['hide_alter_empty'] = 1;
-  /* Field: Global: Custom text */
+
+  // Field: Global: Custom text.
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
@@ -222,13 +240,13 @@ function survey_core_views_default_views() {
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['nothing']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['nothing']['element_class'] = 'hidden-phone';
-  $handler->display->display_options['fields']['nothing']['element_label_class'] = 'hidden-phone';  
+  $handler->display->display_options['fields']['nothing']['element_label_class'] = 'hidden-phone';
   $handler->display->display_options['fields']['nothing']['hide_empty'] = 0;
   $handler->display->display_options['fields']['nothing']['empty_zero'] = 0;
   $handler->display->display_options['fields']['nothing']['hide_alter_empty'] = 0;
   $handler->display->display_options['path'] = 'survey';
 
-  /* Display: Block */
+  // Display: Block.
   $handler = $view->new_display('block', 'Block', 'block_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Latest surveys';
@@ -243,7 +261,8 @@ function survey_core_views_default_views() {
   $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Title */
+
+  // Field: Content: Title.
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';

@@ -23,5 +23,3 @@ function survey_standard_views_api() {
     return array("version" => "3.0");
   }
 }
-
-

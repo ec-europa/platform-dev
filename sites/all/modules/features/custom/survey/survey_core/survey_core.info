@@ -1,9 +1,9 @@
-name = survey_core
+name = Survey core
 description = Create and manage survey in your community
 core = 7.x
 package = Multisite Core Features
 php = 5.2.4
-version = 7.x-1.1
+version = 7.x-1.2
 project = survey_core
 dependencies[] = cce_basic_config
 dependencies[] = features

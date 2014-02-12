@@ -4,81 +4,69 @@
  * Code for the Survey core install file.
  */
 
+include_once 'survey_core.install.inc';
+
 /**
- * hook_enable
+ * Implements hook_enable().
  */
-
 function survey_core_enable() {
-  // solR configuration add bundle
-  //multisite_drupal_toolbox_config_solr_bundle('webform', 'add');
-
-  // add type to the simplenews related content
-  //multisite_drupal_toolbox_simplenews_related_content_type('webform', 'add');
-
-  // add type to linkchecker scan
+  // Add type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('webform', 'add');
 
-  //multisite_drupal_toolbox_add_block_context('site_wide', 'surveys_list-block_1', 'views', 'surveys_list-block_1', 'sidebar_first');
-  // change content type webform name to survey
+  // Change content type webform name to survey.
   db_update('node_type')
     ->fields(array('name' => 'Survey'))
     ->condition('type', 'webform', "=")
     ->execute();
 
-  //Add breadcrumb configuration
+  // Add breadcrumb configuration.
   db_insert('custom_breadcrumb')
     ->fields(array(
-      'titles' => '[Breadcrumb_survey:survey_title]', // titles of the elements to display in the breadcrumb
-      'paths' => 'survey/', // path of the elements to display in the breadcrumb
+      // Titles of the elements to display in the breadcrumb.
+      'titles' => '[Breadcrumb_survey:survey_title]',
+      'paths' => 'survey/',
       'visibility_php ' => '',
-      'node_type' => 'webform', //the content type targeted by this rule
+      // The content type targeted by this rule.
+      'node_type' => 'webform',
     ))
     ->execute();
 
-  //Activation message
-  drupal_set_message(st('Survey feature is now active on your site.'));
+  // Activation message.
+  drupal_set_message(t('Survey %v feature is now active on your site.', array('%v' => _survey_core_get_version())));
 }
 
-/*
- * Hook disable
+/**
+ * Implements hook_disable().
  */
-
 function survey_core_disable() {
-    //remove the breadcrump related to
-    db_delete('custom_breadcrumb')
-            ->condition('node_type', 'webform')
-            ->execute();
-    // solR configuration add bundle
-    //multisite_drupal_toolbox_config_solr_bundle('webform', 'delete');
+  // Remove the breadcrump related to.
+  db_delete('custom_breadcrumb')
+          ->condition('node_type', 'webform')
+          ->execute();
 
-    // remove type to the simplenews related content
-    //multisite_drupal_toolbox_simplenews_related_content_type('webform', 'delete');
-
-  // remove type to linkchecker scan
+  // Remove type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('webform', 'delete');
 
-    // Remove block
-    //multisite_drupal_toolbox_remove_block_context('site_wide', 'surveys_list-block_1');
-    // diable the content type webform
-    multisite_drupal_toolbox_disable_content_type('webform');
+  // Disable the content type webform.
+  multisite_drupal_toolbox_disable_content_type('webform');
 
-    // disable example contents
-    module_disable(array("survey_contents"));
+  // Disable example contents.
+  module_disable(array("survey_contents"));
 
-    //Activation message
-    drupal_set_message(st('Survey is now disabled on your site.'));
+  // Deactivation message.
+  drupal_set_message(t('Survey %v feature is now disabled on your site.', array('%v' => _survey_core_get_version())));
 }
 
 /**
  * Implements hook_install().
  */
 function survey_core_install() {
-  //Install scripts here
+  // Not implemented yet.
 }
 
 /**
  * Implements hook_uninstall().
  */
 function survey_core_uninstall() {
-  //Uninstall scripts here
+  // Not implemented yet.
 }
