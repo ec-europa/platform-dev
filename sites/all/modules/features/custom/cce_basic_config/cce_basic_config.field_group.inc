@@ -26,7 +26,6 @@ function cce_basic_config_field_group_info() {
       0 => 'body',
       1 => 'field_image',
       2 => 'title',
-	  3 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -81,6 +80,7 @@ function cce_basic_config_field_group_info() {
     'weight' => '5',
     'children' => array(
       0 => 'field_tags',
+	  1 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
