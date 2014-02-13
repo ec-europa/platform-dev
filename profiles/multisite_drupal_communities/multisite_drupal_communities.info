@@ -126,6 +126,8 @@ dependencies[] = i18nviews
 dependencies[] = email
 dependencies[] = taxonomy_browser
 dependencies[] = admin_menu
+dependencies[] = tagadelic
+dependencies[] = tagadelic_taxonomy
 
 dependencies[] = filefield_sources_plupload
 
