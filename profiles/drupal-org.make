@@ -262,9 +262,6 @@ projects[subscriptions][version] = "1.1"
 projects[sweaver][subdir] = "contributed"
 projects[sweaver][version] = "1.3"
 
-projects[tagadelic][subdir] = "contributed"
-projects[tagadelic][version] = "2.x-dev"
-
 projects[term_reference_tree][subdir] = "contributed"
 projects[term_reference_tree][version] = "1.10"
 
