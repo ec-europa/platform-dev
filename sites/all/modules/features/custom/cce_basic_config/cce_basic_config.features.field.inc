@@ -520,7 +520,7 @@ function cce_basic_config_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '30',
+        'weight' => '20',
       ),
     ),
   );
@@ -803,7 +803,7 @@ function cce_basic_config_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'media_generic',
-        'weight' => '20',
+        'weight' => '30',
       ),
     ),
   );

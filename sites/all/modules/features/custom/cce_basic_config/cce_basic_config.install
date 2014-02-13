@@ -1184,6 +1184,7 @@ function cce_basic_config_update_7194() {
 function cce_basic_config_update_7195() {
 // revert only fields (for modify weight)
   features_revert(array('cce_basic_config' => array('field')));
+  features_revert(array('cce_basic_config' => array('field_group')));
 }
 
  /**

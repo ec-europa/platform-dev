@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * multisite_settings_standard.field_group.inc
+ * cce_basic_config.field_group.inc
  */
 
 /**
  * Implements hook_field_group_info().
  */
-function multisite_settings_standard_field_group_info() {
+function cce_basic_config_field_group_info() {
   $export = array();
 
   $field_group = new stdClass();
@@ -26,6 +26,7 @@ function multisite_settings_standard_field_group_info() {
       0 => 'body',
       1 => 'field_image',
       2 => 'title',
+	  3 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(

@@ -43,6 +43,7 @@ features[field][] = node-community-field_thumbnail
 features[field][] = node-community-group_access
 features[field][] = node-community-group_group
 features[field][] = node-community-og_roles_permissions
+features[field_group][] = group_article_community|node|article|form
 features[image][] = communities_thumbnail
 features[menu_custom][] = menu-communities-menu
 features[menu_links][] = navigation:admin/workbench
