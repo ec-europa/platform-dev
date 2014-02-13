@@ -4,6 +4,8 @@
  * @file
  * Code for the multisite_workbench_moderation_view feature.
  */
+ 
+include_once('multisite_workbench_moderation_view_alter.inc');
 
 /**
  *
