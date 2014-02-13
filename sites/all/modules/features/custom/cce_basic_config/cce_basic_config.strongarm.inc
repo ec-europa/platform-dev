@@ -1053,5 +1053,29 @@ border-radius';
   $strongarm->value = 'draft';
   $export['workbench_moderation_default_state_article'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_bilinear_interpolation';
+  $strongarm->value = 1;
+  $export['image_captcha_bilinear_interpolation'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_distortion_amplitude';
+  $strongarm->value = '5';
+  $export['image_captcha_distortion_amplitude'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_fonts';
+  $strongarm->value = array(
+    'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf' => 'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf',
+    'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf' => 'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf',
+  );
+  $export['image_captcha_fonts'] = $strongarm;
+
   return $export;
 }
