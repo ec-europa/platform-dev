@@ -1277,9 +1277,12 @@ function multisite_drupal_toolbox_taxonomy_term_delete($term) {
         foreach ($entity->{$field['field_name']}[$target->language] as $k => $term) {
           if ($term['tid'] == $target->{$field['field_name'] . '_tid'}) {
             unset($entity->{$field['field_name']}[$target->language][$k]); // remove the reference to the term
-            if (entity_save($target->entity_type, $entity) === FALSE) {
-              watchdog('taxonomy term delete ', 'Failed to save entity type:' . $target->entity_type . ' id: ' . $target->entity_id);
-            }
+            db_delete('field_revision_' . $field['field_name']) // clean also field revisions
+              ->condition('entity_type', $target->entity_type)
+              ->condition('entity_id', $target->entity_id)
+              ->condition($field['field_name'] . '_tid', $term['tid'])
+              ->execute();
+            entity_save($target->entity_type, $entity);
           }
         }
       }
