@@ -64,7 +64,7 @@ HTML comment.
 
       <?php 
       //$image_caption = isset($item['#item']['field_caption']['und'][0]['value']) ? $item['#item']['field_caption']['und'][0]['value'] : (isset($item['#markup']) ? $item['#markup'] : '');
-      $image_caption = isset($item['#item']['field_caption']['und'][0]['value']) ? $item['#item']['field_caption']['und'][0]['value'] : '';
+      $image_caption = isset($item['#item']['field_caption']['und'][0]['value']) ? $item['#item']['field_caption']['und'][0]['value'] : '';?>
         <?php if(isset($image_caption)) :?>
       <div class="field-image-caption"><?php  print $image_caption; ?></div>
         <?php endif;?>
