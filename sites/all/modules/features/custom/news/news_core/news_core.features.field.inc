@@ -173,7 +173,7 @@ function news_core_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '1',
+        'weight' => '20',
       ),
     ),
   );
@@ -256,7 +256,7 @@ function news_core_field_default_fields() {
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '2',
+        'weight' => '30',
       ),
     ),
   );
@@ -341,7 +341,7 @@ function news_core_field_default_fields() {
           'year_range' => '-3:+3',
         ),
         'type' => 'date_popup',
-        'weight' => '32',
+        'weight' => '110',
       ),
     ),
   );
@@ -426,7 +426,7 @@ function news_core_field_default_fields() {
           'year_range' => '-3:+3',
         ),
         'type' => 'date_popup',
-        'weight' => '33',
+        'weight' => '120',
       ),
     ),
   );
@@ -502,7 +502,7 @@ function news_core_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '-1',
+        'weight' => '210',
       ),
     ),
   );
@@ -571,7 +571,7 @@ function news_core_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '31',
+        'weight' => '220',
       ),
     ),
   );
@@ -586,7 +586,6 @@ function news_core_field_default_fields() {
   t('Link');
   t('Publication date');
   t('Tags');
-  t('Test');
   t('This content will be published on that date, if its workflow status is set to "Validated"');
   t('This content will be unpublished on that date, and its workflow status will be set to "Archived"');
   t('Unpublish on');

@@ -74,7 +74,7 @@ function news_og_field_default_fields() {
           'display_label' => 0,
         ),
         'type' => 'options_onoff',
-        'weight' => '6',
+        'weight' => '310',
       ),
     ),
   );
@@ -152,7 +152,7 @@ function news_og_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => 35,
+        'weight' => '320',
       ),
       'widget_type' => 'options_select',
     ),
@@ -268,7 +268,7 @@ function news_og_field_default_fields() {
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
-        'weight' => 34,
+        'weight' => '330',
       ),
     ),
   );
@@ -277,6 +277,8 @@ function news_og_field_default_fields() {
   // Included for use with string extractors like potx.
   t('Group content visibility');
   t('Groups audience');
+  t('Highlight a news allows to expose it on the community homepage');
+  t('Highlighted');
 
   return $fields;
 }
