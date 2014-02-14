@@ -50,9 +50,6 @@ See http://api.drupal.org/api/function/theme_field/7 for details.
 After copying this file to your theme's folder and customizing it, remove this
 HTML comment.
 -->
-<?php
-//this works too $field_image_caption = $element['#object']->field_image['und'][0]['field_caption']['und'][0]['value'];
-?>
 <div class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <?php if (!$label_hidden): ?>
     <div class="field-label"<?php print $title_attributes; ?>><?php print $label ?>:&nbsp;</div>
@@ -60,14 +57,17 @@ HTML comment.
   <div class="field-items"<?php print $content_attributes; ?>>
     <?php foreach ($items as $delta => $item): ?>
     	
-      <div class="field-item <?php print $delta % 2 ? 'odd' : 'even'; ?>"<?php print $item_attributes[$delta]; ?>><?php print render($item); ?></div>
-      <div class="field-image-caption">
+      <div class="field-item <?php print $delta % 2 ? 'odd' : 'even'; ?>"<?php print $item_attributes[$delta]; ?>><?php 
+      //unset($item['#markup']);
+      print render($item); 
+      ?></div>
+
       <?php 
-      $image_caption = $item['#item']['field_caption']['und'][0]['value'];
-        if(isset($image_caption)) {
-          print $image_caption;
-        }
-        ?></div>
+      //$image_caption = isset($item['#item']['field_caption']['und'][0]['value']) ? $item['#item']['field_caption']['und'][0]['value'] : (isset($item['#markup']) ? $item['#markup'] : '');
+      $image_caption = isset($item['#item']['field_caption']['und'][0]['value']) ? $item['#item']['field_caption']['und'][0]['value'] : '';
+        <?php if(isset($image_caption)) :?>
+      <div class="field-image-caption"><?php  print $image_caption; ?></div>
+        <?php endif;?>
     <?php endforeach; ?>
   </div>
 </div>
