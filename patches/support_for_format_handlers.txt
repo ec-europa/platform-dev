@@ -1,0 +1,40 @@
+diff --git a/addressfield_tokens.components.inc b/addressfield_tokens.components.inc
+index 06f2e15..5d403f4 100644
+--- a/addressfield_tokens.components.inc
++++ b/addressfield_tokens.components.inc
+@@ -31,6 +31,7 @@ function _webform_defaults_addressfield() {
+       'attributes'                => array (),
+       'description'               => '',
+       'available_countries'       => array(),
++      'format_handlers'           => array(),
+       'csv_separate'              => 0,
+     ),
+   );
+@@ -61,6 +62,14 @@ function _webform_edit_addressfield($component) {
+     '#options' => _addressfield_country_options_list(),
+     '#default_value' => $component['extra']['available_countries'],
+   );
++  $form['extra']['format_handlers'] = array(
++    '#type' => 'checkboxes',
++    '#title' => t('Format handlers'),
++    '#options' => addressfield_format_plugins_options(),
++    '#default_value' => $component['extra']['format_handlers'],
++    '#process' => array('form_process_checkboxes', '_addressfield_field_formatter_settings_form_process_add_state'),
++    '#element_validate' => array('_addressfield_field_formatter_settings_form_validate')
++  );
+   $form['extra']['csv_separate'] = array(
+     '#type' => 'radios',
+     '#title' => t('CSV download'),
+@@ -129,10 +138,11 @@ function _webform_render_addressfield($component, $value = NULL, $filter = TRUE)
+   }
+   
+   // Generate the address form.
++  $handlers = $component['extra']['format_handlers'];
+   $context = array(
+     'mode' => 'form',
+   );
+-  $element += addressfield_generate($address, array('address'), $context);
++  $element += addressfield_generate($address, $handlers, $context);
+   
+   if (!empty($available)) {
+     $element['country']['#options'] = array_intersect_key($element['country']['#options'], $available);

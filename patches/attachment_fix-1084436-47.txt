@@ -1,0 +1,23 @@
+diff --git a/workbench_moderation.module b/workbench_moderation.module
+index 3f834be..0591dbb 100644
+--- a/workbench_moderation.module
++++ b/workbench_moderation.module
+@@ -706,8 +706,6 @@ function workbench_moderation_node_update($node) {
+   // Apply moderation changes if this is a new revision or if the moderation
+   // state has changed.
+   if (!empty($node->revision) || $node->workbench_moderation_state_current != $node->workbench_moderation_state_new) {
+-    // Update attached fields.
+-    field_attach_update('node', $node);
+     // Moderate the node.
+     workbench_moderation_moderate($node, $node->workbench_moderation_state_new);
+   }
+@@ -1570,6 +1568,9 @@ function workbench_moderation_store($node) {
+   $taxonomy_index_flag = &drupal_static('taxonomy_field_update', array());
+   unset($taxonomy_index_flag[$node->nid]);
+ 
++  // Set original node for current vid
++  $live_revision->original = node_load($live_revision->nid, $live_revision->vid, TRUE);
++
+   // Save the node.
+   node_save($live_revision);
+ }

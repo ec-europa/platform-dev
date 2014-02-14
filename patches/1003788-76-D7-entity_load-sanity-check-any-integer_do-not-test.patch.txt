@@ -1,0 +1,43 @@
+diff --git a/includes/entity.inc b/includes/entity.inc
+index ae78077..65f1ccf 100644
+--- a/includes/entity.inc
++++ b/includes/entity.inc
+@@ -160,6 +160,17 @@ class DrupalDefaultEntityController implements DrupalEntityControllerInterface {
+   public function load($ids = array(), $conditions = array()) {
+     $entities = array();
+ 
++    // Clean the $ids array to remove non-integer values that can be passed
++    // in from various sources, including menu callbacks.
++    if (is_array($ids)) {
++      foreach ($ids as $key => $id) {
++        $id = (string) $id;
++        if ((empty($id) && $id !== '0') || ($id !== (string) (int) $id)) {
++          unset($ids[$key]);
++        }
++      }
++    }
++
+     // Revisions are not statically cached, and require a different query to
+     // other conditions, so separate the revision id into its own variable.
+     if ($this->revisionKey && isset($conditions[$this->revisionKey])) {
+diff --git a/modules/system/system.test b/modules/system/system.test
+index abd21aa..5b1a8ac 100644
+--- a/modules/system/system.test
++++ b/modules/system/system.test
+@@ -1002,6 +1002,16 @@ class PageNotFoundTestCase extends DrupalWebTestCase {
+     );
+     $node = $this->drupalCreateNode($edit);
+ 
++    // Check that appending text to the node id fails.
++    $this->drupalGet('node/' . $node->nid);
++    $this->assertResponse(200);
++    $this->drupalGet('node/' . $node->nid . 'garbage');
++    $this->assertResponse(404);
++    $this->drupalGet('node/' . $node->nid . '.000');
++    $this->assertResponse(404);
++    $this->drupalGet('node/-1');
++    $this->assertResponse(404);
++
+     // Use a custom 404 page.
+     $this->drupalPost('admin/config/system/site-information', array('site_404' => 'node/' . $node->nid), t('Save configuration'));
+ 
