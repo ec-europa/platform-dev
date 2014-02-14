@@ -104,10 +104,7 @@ projects[features][subdir] = "contributed"
 projects[features][version] = "2.0-beta1"
 
 projects[field_group][subdir] = "contributed"
-;projects[field_group][version] = "2.x-dev"
-projects[field_group][download][type] = "git"
-projects[field_group][download][url] = "http://git.drupal.org/project/field_group.git"
-projects[field_group][download][revision] = "11660d97d72b2ebae1b3f9c958fa7623de82e73c"
+;projects[field_group][version] = "1.3"
 
 projects[field_collection][subdir] = "contributed"
 projects[field_collection][version] = "1.0-beta5"
