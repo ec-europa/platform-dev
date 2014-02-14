@@ -9,7 +9,6 @@ function usage {
 	output "Usage: $0 <drupal-directory> <target> <source-theme> <target-theme>"
 	output '    drupal-directory is a Drupal base directory, i.e. a directory hosting the index.php file'
 	output '    target is either a space-separated list of 1 to n subsites (as a single argument), or "@sites" for all known subsites'
-	output '    target is either a space-separated list of 1 to n subsites (as a single argument), or "@sites" for all known subsites'
 	output '    All target sites using <source-theme> as base theme will be switched to <target-theme>'
 }
 
