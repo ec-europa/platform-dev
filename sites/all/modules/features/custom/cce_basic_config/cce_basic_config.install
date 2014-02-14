@@ -1179,7 +1179,7 @@ function cce_basic_config_update_7194() {
 }
 
  /**
-  * hook_update_N
+  * Feature revert field and field_group
  */
 function cce_basic_config_update_7195() {
 // revert only fields (for modify weight)
