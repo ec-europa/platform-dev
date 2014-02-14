@@ -21,10 +21,10 @@ function communities_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Community',
-    'weight' => '11',
+    'weight' => '12',
     'children' => array(
-      0 => 'group_content_access',
-      1 => 'og_group_ref',
+      1 => 'group_content_access',
+      2 => 'og_group_ref',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -36,5 +36,8 @@ function communities_field_group_info() {
       ),
     ),
   );
-  
+  $export['group_article_community|node|article|form'] = $field_group;
+
+  return $export; 
+
 }

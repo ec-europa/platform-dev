@@ -34,6 +34,7 @@ features[context][] = communities_homepage
 features[ctools][] = context:context:3
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
+features[ctools][] = field_group:field_group:1
 features[features_api][] = api:1
 features[field][] = node-article-group_content_access
 features[field][] = node-article-og_group_ref
