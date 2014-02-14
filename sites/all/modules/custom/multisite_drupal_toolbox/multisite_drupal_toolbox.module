@@ -1257,3 +1257,32 @@ function multisite_drupal_toolbox_get_base_theme() {
   }
 }
 
+/**
+ * hook_taxonomy_term_delete
+ */
+function multisite_drupal_toolbox_taxonomy_term_delete($term) {
+  // clean properly all the orphan term references in the database
+  $fields = field_info_fields(); // Find all the taxonomy reference fields
+  foreach ($fields as $field) {
+    if ($field['type'] == 'taxonomy_term_reference') {
+      $query = db_select('field_data_' . $field['field_name'], 'f');
+      $query->fields('f', array('entity_type', 'entity_id', $field['field_name'] . '_tid', 'language'))
+            ->leftJoin('taxonomy_term_data', 't', 't.tid=f.' . $field['field_name'] . '_tid');
+      $query->where('t.tid IS NULL')
+            ->where('f.'.$field['field_name'] . '_tid='.$term->tid)
+            ->orderBy('f.entity_id', 'ASC');
+      $res = $query->execute();
+      foreach ($res as $target) { // load all entities that have references with the term to deleted
+        $entity = array_shift(entity_load($target->entity_type, array($target->entity_id)));
+        foreach ($entity->{$field['field_name']}[$target->language] as $k => $term) {
+          if ($term['tid'] == $target->{$field['field_name'] . '_tid'}) {
+            unset($entity->{$field['field_name']}[$target->language][$k]); // remove the reference to the term
+            if (entity_save($target->entity_type, $entity) === FALSE) {
+              watchdog('taxonomy term delete ', 'Failed to save entity type:' . $target->entity_type . ' id: ' . $target->entity_id);
+            }
+          }
+        }
+      }
+    }
+  }
+}
