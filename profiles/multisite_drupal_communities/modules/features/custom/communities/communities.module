@@ -469,7 +469,7 @@ function communities_form_alter(&$form, $form_state, $form_id) {
       $form[OG_GROUP_FIELD]['#access'] = FALSE; // hide group field of the group content
       break;
   }
-  if ($form_state['build_info']['base_form_id'] == 'node_form') { // if it's a node edit form
+  if (isset($form_state['build_info']['base_form_id']) && $form_state['build_info']['base_form_id'] == 'node_form') { // if it's a node edit form
     $context = og_context();
     if (!isset($context['gid'])) { // we are not in a og context
       if (isset($form[OG_CONTENT_ACCESS_FIELD])) {
