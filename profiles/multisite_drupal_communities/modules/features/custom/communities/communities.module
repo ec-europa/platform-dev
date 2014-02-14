@@ -466,21 +466,19 @@ function communities_node_view($node, $view_mode, $langcode) {
 function communities_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'community_node_form':
-      $form['group_group']['#access'] = FALSE; // hide group field of the group content
+      $form[OG_GROUP_FIELD]['#access'] = FALSE; // hide group field of the group content
       break;
   }
-  
-  if (substr($form_id, -9) == 'node_form') { // if it's a node edit form
+  if ($form_state['build_info']['base_form_id'] == 'node_form') { // if it's a node edit form
     $context = og_context();
-    if(!isset($context['gid'])) { // we are not in a og context
-      if(isset($form['group_content_access'])) {  
-        $form['group_content_access']['#attributes']['class'][] = 'element-hidden'; // hide content visibility field
-        $form['group_content_access']["und"]['#default_value']  = "1"; // force public value for the visibility
+    if (!isset($context['gid'])) { // we are not in a og context
+      if (isset($form[OG_CONTENT_ACCESS_FIELD])) {
+        $form[OG_CONTENT_ACCESS_FIELD]['#access'] = FALSE; // hide content visibility field
+        $form[OG_CONTENT_ACCESS_FIELD][LANGUAGE_NONE]['#default_value'] = "1"; // force public value for the visibility
         // tmp: awaiting next DB update to remove this code (og_group_ref is hidden by prepopulate module )
-		$form['og_group_ref']['#attributes']['class'][] = 'element-hidden'; // hide group audience field
-        $form['field_highlighted']['#attributes']['class'][] = 'element-hidden'; // hide highlighted field
-      }  
+        $form[OG_AUDIENCE_FIELD]['#access'] = FALSE; // hide group audience field
+        $form['field_highlighted']['#access'] = FALSE; // hide highlighted field
+      }
     }
   }
-  
 }
