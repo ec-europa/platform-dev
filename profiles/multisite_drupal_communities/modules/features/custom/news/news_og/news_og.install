@@ -33,8 +33,6 @@ function news_og_disable(){
   multisite_drupal_toolbox_remove_views_context('communities', 'news');
   multisite_drupal_toolbox_remove_content_type_context('communities','news');
 
-  /* Disable content type */
-  multisite_drupal_toolbox_disable_content_type('news');
     
   //Remove block from context
   multisite_drupal_toolbox_remove_block_context('homepage', 'news-top_news');

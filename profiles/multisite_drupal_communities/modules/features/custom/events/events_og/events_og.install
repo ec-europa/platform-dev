@@ -53,7 +53,6 @@ function events_og_disable(){
   multisite_drupal_toolbox_remove_views_context('communities', 'calendar:year');
   multisite_drupal_toolbox_remove_content_type_context('communities', 'event');
   multisite_drupal_toolbox_remove_path_context('communities', 'calendar/*');
-  multisite_drupal_toolbox_disable_content_type('event');
 
   drupal_flush_all_caches(); 
 }
