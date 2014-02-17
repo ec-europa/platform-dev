@@ -21,7 +21,7 @@ function news_og_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Community',
-    'weight' => '30',
+    'weight' => '25',
     'children' => array(
       0 => 'field_highlighted',
       1 => 'group_content_access',
