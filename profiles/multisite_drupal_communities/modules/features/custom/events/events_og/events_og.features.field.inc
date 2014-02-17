@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * events.features.field.inc
+ * events_og.features.field.inc
  */
 
 /**
@@ -83,7 +83,7 @@ function events_og_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => 35,
+        'weight' => '310',
       ),
       'widget_type' => 'options_select',
     ),
@@ -199,7 +199,7 @@ function events_og_field_default_fields() {
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
-        'weight' => 34,
+        'weight' => '320',
       ),
     ),
   );

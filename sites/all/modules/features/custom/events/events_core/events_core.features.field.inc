@@ -169,7 +169,7 @@ function events_core_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '1',
+        'weight' => '20',
       ),
     ),
   );
@@ -257,7 +257,7 @@ function events_core_field_default_fields() {
           'year_range' => '-3:+3',
         ),
         'type' => 'date_popup',
-        'weight' => '2',
+        'weight' => '110',
       ),
     ),
   );
@@ -341,7 +341,7 @@ function events_core_field_default_fields() {
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '3',
+        'weight' => '30',
       ),
     ),
   );
@@ -417,7 +417,7 @@ function events_core_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '-2',
+        'weight' => '210',
       ),
     ),
   );
