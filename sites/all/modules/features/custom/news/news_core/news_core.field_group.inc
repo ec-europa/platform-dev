@@ -54,7 +54,6 @@ function news_core_field_group_info() {
     'children' => array(
       0 => 'field_news_publication_date',
       1 => 'field_news_unpublication_date',
-	  2 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -83,6 +82,7 @@ function news_core_field_group_info() {
     'children' => array(
       0 => 'field_tags',
       1 => 'field_top_news',
+	    2 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(

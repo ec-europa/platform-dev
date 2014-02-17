@@ -19,6 +19,7 @@ dependencies[] = options
 dependencies[] = strongarm
 dependencies[] = views
 features[ctools][] = strongarm:strongarm:1
+features[ctools][] = field_group:field_group:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:1
 features[field][] = node-news-field_highlighted
