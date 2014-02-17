@@ -33,7 +33,7 @@ function news_core_node_info() {
     'news' => array(
       'name' => t('News'),
       'base' => 'node_content',
-      'description' => t('Add some News to your community.'),
+      'description' => t('Add some News to your site.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
