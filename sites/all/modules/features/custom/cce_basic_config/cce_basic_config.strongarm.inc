@@ -1077,5 +1077,15 @@ border-radius';
   );
   $export['image_captcha_fonts'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'tagadelic_taxonomy_vocabularies';
+  $strongarm->value = array(
+    2 => '2',
+    1 => 0,
+  );
+  $export['tagadelic_taxonomy_vocabularies'] = $strongarm;
+  
   return $export;
 }
