@@ -36,7 +36,7 @@ function events_og_node_info() {
     'event' => array(
       'name' => t('Event'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => 'Add events to the calendar of your community',
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
