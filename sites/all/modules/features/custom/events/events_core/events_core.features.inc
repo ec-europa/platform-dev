@@ -33,7 +33,7 @@ function events_core_node_info() {
     'event' => array(
       'name' => t('Event'),
       'base' => 'node_content',
-      'description' => t('Event'),
+      'description' => t('Create events to be displayed your calendar.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
