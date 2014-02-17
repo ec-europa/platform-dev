@@ -50,8 +50,6 @@ function survey_core_disable() {
   // Disable the content type webform.
   multisite_drupal_toolbox_disable_content_type('webform');
 
-  // Disable example contents.
-  module_disable(array("survey_contents"));
 
   // Deactivation message.
   drupal_set_message(t('Survey %v feature is now disabled on your site.', array('%v' => _survey_core_get_version())));
