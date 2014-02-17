@@ -31,6 +31,9 @@ function multisite_forum_community_disable() {
   unset ($og_context_negotiation_group_context['multisite_forum_community']);
   variable_set('og_context_negotiation_group_context', $og_context_negotiation_group_context);
   
+    /*   * * Remove permissions ** */
+  multisite_drupal_toolbox_disable_content_type('discussion');
+  
   drupal_set_message(t('Multisite Forum Community %v feature is now inactive on your site.', array('%v' => _multisite_forum_community_get_version())));
 }
 
