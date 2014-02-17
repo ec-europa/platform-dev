@@ -249,7 +249,7 @@ function events_core_field_default_fields() {
         'settings' => array(
           'display_all_day' => 0,
           'increment' => '15',
-          'input_format' => 'm/d/Y - H:i:s',
+          'input_format' => 'd/m/Y - H:i:s',
           'input_format_custom' => '',
           'label_position' => 'above',
           'repeat_collapsed' => 0,
