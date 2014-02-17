@@ -37,8 +37,8 @@ feature_sets[multisite_forum_community][icon] = ''
 feature_sets[multisite_forum_community][font] = 'multisite-icon-bubbles'
 feature_sets[multisite_forum_community][enable][] = multisite_forum_core
 feature_sets[multisite_forum_community][enable][] = multisite_forum_community
-feature_sets[multisite_forum_community][disable][] = multisite_forum_core
 feature_sets[multisite_forum_community][disable][] = multisite_forum_community
+feature_sets[multisite_forum_community][disable][] = multisite_forum_core
 
 feature_sets[links_og][title] = 'Links'
 feature_sets[links_og][description] = 'Allows contributors to store a bookmark/URL to another website they wish to share with visitors.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/BobhAg" target="_blank">Read documentation</a>'
