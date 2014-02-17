@@ -18,7 +18,6 @@ function events_standard_enable() {
  */
 function events_standard_disable() {
   //Example
-  //multisite_drupal_toolbox_disable_content_type('kit');
 
   drupal_set_message(t('events_standard %v feature is now inactive on your site.', array('%v' => _events_standard_get_version())));
 }
