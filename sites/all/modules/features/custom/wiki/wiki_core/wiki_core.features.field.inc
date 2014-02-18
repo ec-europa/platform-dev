@@ -173,7 +173,7 @@ function wiki_core_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '31',
+        'weight' => '020',
       ),
     ),
   );
@@ -249,7 +249,7 @@ function wiki_core_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '-1',
+        'weight' => '110',
       ),
     ),
   );
