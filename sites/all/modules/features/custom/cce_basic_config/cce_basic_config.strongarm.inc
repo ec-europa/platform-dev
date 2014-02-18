@@ -104,6 +104,26 @@ function cce_basic_config_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_node__page';
+  $strongarm->value = array(
+    'view_modes' => array(),
+    'extra_fields' => array(
+      'form' => array(
+        'title' => array(
+          'weight' => '-10',
+        ),
+        'path' => array(
+          'weight' => '22',
+        ),
+      ),
+      'display' => array(),
+    ),
+  );
+  $export['field_bundle_settings_node__page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'file_private_path';
   $strongarm->value = 'sites/default/files/private_files';
   $export['file_private_path'] = $strongarm;
@@ -153,13 +173,6 @@ function cce_basic_config_strongarm() {
   $strongarm->value = 1;
   $export['jqmulti_load_always'] = $strongarm;
 
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'jqmulti_load_files_always';
-  $strongarm->value = 1;
-  $export['jqmulti_load_files_always'] = $strongarm;
-  
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -252,6 +265,12 @@ example.org';
   $strongarm->value = array(
     'article' => 'article',
     'page' => 'page',
+    'links' => 'links',
+    'wiki' => 'wiki',
+    'f_a_q' => 'f_a_q',
+    'chart' => 'chart',
+    'webform' => 'webform',
+    'map' => 'map',
   );
   $export['linkchecker_scan_nodetypes'] = $strongarm;
 
@@ -1059,40 +1078,6 @@ border-radius';
   $strongarm->name = 'workbench_moderation_default_state_article';
   $strongarm->value = 'draft';
   $export['workbench_moderation_default_state_article'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'image_captcha_bilinear_interpolation';
-  $strongarm->value = 1;
-  $export['image_captcha_bilinear_interpolation'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'image_captcha_distortion_amplitude';
-  $strongarm->value = '5';
-  $export['image_captcha_distortion_amplitude'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'image_captcha_fonts';
-  $strongarm->value = array(
-    'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf' => 'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf',
-    'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf' => 'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf',
-  );
-  $export['image_captcha_fonts'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'tagadelic_taxonomy_vocabularies';
-  $strongarm->value = array(
-    2 => '2',
-    1 => 0,
-  );
-  $export['tagadelic_taxonomy_vocabularies'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
