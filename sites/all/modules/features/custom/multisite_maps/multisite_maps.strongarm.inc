@@ -96,7 +96,7 @@ function multisite_maps_strongarm() {
           'weight' => '-5',
         ),
         'path' => array(
-          'weight' => '30',
+          'weight' => '36',
         ),
       ),
       'display' => array(),

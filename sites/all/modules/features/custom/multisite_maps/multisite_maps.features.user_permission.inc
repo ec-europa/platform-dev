@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * multisite_maps.user_permission.inc
+ * multisite_maps.features.user_permission.inc
  */
 
 /**
