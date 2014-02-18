@@ -49,7 +49,7 @@ function events_core_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'Date',
+    'label' => 'Dates',
     'weight' => '10',
     'children' => array(
       0 => 'field_event_date',
