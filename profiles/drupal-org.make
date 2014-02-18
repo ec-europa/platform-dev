@@ -242,7 +242,7 @@ projects[realname][subdir] = "contributed"
 projects[realname][version] = "1.1"
 
 projects[rules][subdir] = "contributed"
-projects[rules][version] = "2.3"
+projects[rules][version] = "2.6"
 
 projects[simplenews][subdir] = "contributed"
 projects[simplenews][version] = "1.1"
