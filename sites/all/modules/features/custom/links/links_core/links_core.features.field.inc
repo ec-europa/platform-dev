@@ -183,7 +183,7 @@ function links_core_field_default_fields() {
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '-3',
+        'weight' => '20',
       ),
     ),
   );
@@ -259,7 +259,7 @@ function links_core_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '-1',
+        'weight' => '110',
       ),
     ),
   );
