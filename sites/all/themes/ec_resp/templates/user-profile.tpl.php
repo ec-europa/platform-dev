@@ -40,15 +40,14 @@
 
     $profile_user = user_load(arg(1));
   ?>
-  
-  <fieldset>
-  <legend>Identity</legend>
-    <div class="col-lg-2">
-  <?php 
+  <div class="well well-sm">
+    <div class="row">
+      <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
+  <?php
     print render($user_profile['user_picture']);
   ?>
-    </div>
-    <div class="col-lg-7">
+      </div>
+      <div class="col-lg-10 col-md-9 col-sm-9 col-xs-8">
     <?php
       $identity = '';
       if (isset($user_profile['field_firstname'][0]['#markup'])) {
@@ -60,18 +59,17 @@
         }
         $identity .= $user_profile['field_lastname'][0]['#markup'];
       }      
-      $output .= '<h3>' . $identity . '</h3>';
+      $output .= '<blockquote><h3>' . $identity . '</h3>';
       
-      $output .= '<p><strong>' . t('Member since') . '</strong>: ' . date('d/m/Y',$profile_user->created) . '</p>';
-    
-      $output .= l(t('Contact this user'), 'user/'.$elements['#account']->uid.'/contact', array('attributes' => array('type' => 'message')));
-      
+      $output .= '<small>' . t('Member since') . ' ' . date('d/m/Y',$profile_user->created) . '</small></blockquote>';
+
       print $output;
     ?>
-    
+      </div>
     </div>
-  </fieldset>
-  
+    <?php print l(t('Contact this user'), 'user/'.$elements['#account']->uid.'/contact', array('attributes' => array('type' => 'message'))); ?>
+  </div>
+
   <?php 
     $display_additionnal = FALSE;
     foreach ($user_profile as $key => $value) {
@@ -82,22 +80,46 @@
     }
   ?>    
   
-  <?php if ($display_additionnal) { ?>
-  <fieldset>
-  <legend>Additional information</legend>
   <?php 
+  if ($display_additionnal) { 
     foreach ($user_profile as $key => $value) {
       if (!in_array($key,$basic)) {
         $field = '<div class="field">';
-        $field .= '<div class="col-lg-2 field-label">'.$value['#title'].'</div>';
-        $field .= '<div class="col-lg-9 no_label">'.render($value).'</div>';
+        $field .= '<div class="row">';
+
+        switch ($value['#label_display']) {
+          case 'hidden':
+            $field .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' . render($value) . '</div>';
+          break;
+
+          case 'above':
+            if (isset($value['#title'])) {
+              $value['#label_display'] = 'hidden';
+              $field .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 field-label">' . $value['#title'] . '</div></div>';
+              $field .= '<div class="row"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' . render($value) . '</div>';
+            } else {
+              $field .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' . render($value) . '</div>';
+            }
+          break;
+
+          case 'inline':
+          default:
+            if (isset($value['#title'])) {
+              $value['#label_display'] = 'hidden';
+              $field .= '<div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 field-label">' . $value['#title'] . '</div>';
+              $field .= '<div class="col-lg-10 col-md-9 col-sm-9 col-xs-8">' . render($value) . '</div>';
+            } else {
+              $field .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' . render($value) . '</div>';
+            }
+          break;
+        }
+
         $field .= '</div>';
-        
+        $field .= '</div>';
+     
         print $field;
       }
     }
-  ?>  
-  </fieldset>  
-  <?php } ?>
-  
+  } 
+  ?>
 </div>
