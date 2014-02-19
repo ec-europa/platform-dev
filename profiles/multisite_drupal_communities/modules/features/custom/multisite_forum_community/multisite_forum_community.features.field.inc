@@ -83,7 +83,7 @@ function multisite_forum_community_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => 36,
+        'weight' => '120',
       ),
       'widget_type' => 'options_select',
     ),
@@ -201,7 +201,7 @@ function multisite_forum_community_field_default_fields() {
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_complex',
-        'weight' => 35,
+        'weight' => '130',
       ),
     ),
   );

@@ -68,10 +68,10 @@ function multisite_forum_core_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '0',
+          'weight' => '-10',
         ),
         'path' => array(
-          'weight' => '1',
+          'weight' => '5',
         ),
       ),
       'display' => array(),

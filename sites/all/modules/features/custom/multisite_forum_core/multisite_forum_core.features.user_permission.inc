@@ -9,7 +9,7 @@
  */
 function multisite_forum_core_user_default_permissions() {
   $permissions = array();
-  
+
   // Exported permission: create discussion content.
   $permissions['create discussion content'] = array(
     'name' => 'create discussion content',

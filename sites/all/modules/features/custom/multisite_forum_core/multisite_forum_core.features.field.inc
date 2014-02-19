@@ -167,7 +167,7 @@ function multisite_forum_core_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '3',
+        'weight' => '20',
       ),
     ),
   );
@@ -242,7 +242,7 @@ function multisite_forum_core_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '4',
+        'weight' => '110',
       ),
     ),
   );
@@ -314,7 +314,7 @@ function multisite_forum_core_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '2',
+        'weight' => '30',
       ),
     ),
   );
