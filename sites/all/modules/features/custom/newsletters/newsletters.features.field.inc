@@ -173,7 +173,7 @@ function newsletters_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '3',
+        'weight' => '20',
       ),
     ),
   );
@@ -268,7 +268,7 @@ function newsletters_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'entityreference_autocomplete',
-        'weight' => '31',
+        'weight' => '130',
       ),
     ),
   );
@@ -358,7 +358,7 @@ function newsletters_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '4',
+        'weight' => '30',
       ),
     ),
   );
@@ -434,7 +434,7 @@ function newsletters_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '1',
+        'weight' => '120',
       ),
     ),
   );
