@@ -78,7 +78,7 @@ function gallerymedia_core_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '20',
+        'weight' => '31',
       ),
     ),
   );
@@ -172,7 +172,7 @@ function gallerymedia_core_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'media_generic',
-        'weight' => '30',
+        'weight' => '32',
       ),
     ),
   );
@@ -261,7 +261,7 @@ function gallerymedia_core_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'video_upload',
-        'weight' => '40',
+        'weight' => '33',
       ),
     ),
   );

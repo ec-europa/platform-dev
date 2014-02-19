@@ -9,7 +9,7 @@
  */
 function block_carousel_menu() {
   if (module_exists('block')) {
-    // Add the link in block admin, for default theme
+    // Add the link in block admin, for default theme.
     $items['admin/structure/block/add-block-carousel-block'] = array(
       'title' => 'Add carousel block',
       'page callback' => 'drupal_get_form',
@@ -18,8 +18,8 @@ function block_carousel_menu() {
       'type' => MENU_LOCAL_ACTION,
     );
 
-    // Add the link in block admin, for every other theme
-    // This has to be done in two steps or it won't work for default theme
+    // Add the link in block admin, for every other theme.
+    // This has to be done in two steps or it won't work for default theme.
     $default_theme = variable_get('theme_default', 'bartik');
     foreach (list_themes() as $key => $theme) {
       if ($key != $default_theme) {
@@ -32,7 +32,7 @@ function block_carousel_menu() {
         );
       }
     }
-    // Manage deletion link
+    // Manage deletion link.
     $items['admin/structure/block/delete-block-carousel'] = array(
       'page callback' => 'drupal_get_form',
       'page arguments' => array('block_carousel_delete'),
@@ -76,8 +76,20 @@ function block_carousel_add_block_form_submit($form, &$form_state) {
   // Save the block configuration.
   block_carousel_block_save($delta, $form_state['values']);
 
-  // Run the normal new block submission (borrowed from block_add_block_form_submit).
-  $query = db_insert('block')->fields(array('visibility', 'pages', 'custom', 'title', 'module', 'theme', 'region', 'status', 'weight', 'delta', 'cache'));
+  // Run the new block submission (borrowed from block_add_block_form_submit).
+  $query = db_insert('block')->fields(array(
+    'visibility',
+    'pages',
+    'custom',
+    'title',
+    'module',
+    'theme',
+    'region',
+    'status',
+    'weight',
+    'delta',
+    'cache',
+  ));
   foreach (list_themes() as $key => $theme) {
     if ($theme->status) {
       $region = !empty($form_state['values']['regions'][$theme->name]) ? $form_state['values']['regions'][$theme->name] : BLOCK_REGION_NONE;
@@ -121,7 +133,9 @@ function block_carousel_form_block_admin_display_form_alter(&$form, $form_state)
   $blocks = module_invoke_all('block_carousel_blocks');
   foreach (variable_get('block_carousel_ids', array()) as $delta) {
     if (empty($blocks[$delta])) {
-      $form['blocks']['block_carousel_' . $delta]['delete'] = array('#type' => 'link', '#title' => check_plain('delete'), '#href' => 'admin/structure/block/delete-block-carousel/' . $delta);
+      $form['blocks']['block_carousel_' . $delta]['delete'] = array(
+        '#type' => 'link',
+        '#title' => check_plain('delete'), '#href' => 'admin/structure/block/delete-block-carousel/' . $delta);
     }
   }
 }
@@ -158,7 +172,7 @@ function block_carousel_delete_submit($form, &$form_state) {
   drupal_set_message(t('The block has been removed.'));
   cache_clear_all();
   $form_state['redirect'] = 'admin/structure/block';
-  return;
+  // return;
 }
 
 /**
@@ -168,7 +182,7 @@ function block_carousel_block_info() {
   $blocks = array();
   $deltas = variable_get('block_carousel_ids', array());
 
-  // Load every carousel block
+  // Load every carousel block.
   foreach (array_keys(module_invoke_all('block_carousel_blocks')) as $delta) {
     $deltas[] = $delta;
   }
@@ -194,20 +208,20 @@ function block_carousel_block_configure($delta = '') {
       $delta = ($deltas ? max($deltas) + 1 : 1);
     }
 
-    // Get all available galleries
+    // Get all available galleries.
     $nids = db_select('node', 'n')
       ->fields('n', array('nid', 'title'))
       ->condition('n.type', 'gallerymedia')
       ->execute()
       ->fetchAllKeyed();
 
-    // Create field 'Gallery' with all available galleries
+    // Create field 'Gallery' with all available galleries.
     $form["block_carousel_{$delta}_gid"] = array(
       '#type' => 'select',
       '#title' => t('Gallery'),
       '#options' => $nids,
       '#description' => t('This gallery content will be displayed in the carousel.'),
-      '#default_value' => variable_get("block_carousel_{$delta}_gid",  t('empty')),
+      '#default_value' => variable_get("block_carousel_{$delta}_gid", t('empty')),
       '#required' => TRUE,
     );
   }
@@ -226,7 +240,7 @@ function block_carousel_block_save($delta = '', $edit = array()) {
   if (in_array($delta, $deltas)) {
     variable_set("block_carousel_{$delta}_gid", $edit["block_carousel_{$delta}_gid"]);
   }
-  return;
+  // return;
 }
 
 /**
@@ -249,21 +263,23 @@ function block_carousel_block_view($delta = '') {
  * A module-defined block content function.
  */
 function block_carousel_contents($delta) {
-global $base_url;
+  global $base_url;
   $deltas = variable_get('block_carousel_ids', array());
 
   if (in_array($delta, $deltas)) {
 
-    if (variable_get("block_carousel_{$delta}_gid") == 'empty') return;
+    if (variable_get("block_carousel_{$delta}_gid") == 'empty') {
+      return;
+    }
 
     $gall = node_load(variable_get("block_carousel_{$delta}_gid"));
     $path = $base_url . '/' . (isset($gall->path['alias']) ? $gall->path['alias'] : $gall->path['source']);
 
-    $media_items= array();
+    $media_items = array();
     $return = '';
     $first = TRUE;
 
-    //merge photos and videos
+    // Merge photos and videos.
     if (isset($gall->field_picture_upload['und']) && isset($gall->field_video_upload['und'])) {
       $media_items = array_merge($gall->field_picture_upload['und'], $gall->field_video_upload['und']);
     }
@@ -277,60 +293,58 @@ global $base_url;
       $media_items = array();
     }
 
-    //sort table
-    usort($media_items, "block_carousel_custom_sort");
-
+    // Sort table.
+    // usort($media_items, "block_carousel_custom_sort");
     $return .= '<div class=" carousel slide" id="block-carousel-' . $gall->nid . '">';
-      //carousel slider
-      $return .= '<ol class="carousel-indicators">';
-      foreach ($media_items as $id => $item):
+    // Ccarousel slider.
+    $return .= '<ol class="carousel-indicators">';
+    foreach ($media_items as $id => $item):
 
-        $return .= '<li data-target="#block-carousel-' . $gall->nid . '" data-slide-to="' . $id . '" class="' . ($first ? "active" : "") . '"></li>';
+      $return .= '<li data-target="#block-carousel-' . $gall->nid . '" data-slide-to="' . $id . '" class="' . ($first ? "active" : "") . '"></li>';
 
-        $first = FALSE;
-      endforeach;
+      $first = FALSE;
+    endforeach;
 
-      $return .= '</ol>';
+    $return .= '</ol>';
 
-      $first = TRUE;
+    $first = TRUE;
 
-      //carousel content
-      $return .= '<div class="carousel-inner">';
+    // Carousel content.
+    $return .= '<div class="carousel-inner">';
 
-      foreach ($media_items as $id => $item):
-        $return .= '<div class="item ' . ($first ? "active" : "") . '">';
+    foreach ($media_items as $id => $item):
+      $return .= '<div class="item ' . ($first ? "active" : "") . '">';
 
-
-        switch ($item['type']) {
-          case 'image':
-            $thumb = image_style_url('landscape', $item['uri']);
-            $return .= '<a href="' . $path . '">';
-              $return .= '<img src="' . $thumb . '" alt="' . check_plain($item['filename']) . '" />';
-              $return .= '<p class="carousel-caption">' . (isset($item['field_picture_description']['und'][0]['safe_value']) ? filter_xss($item['field_picture_description']['und'][0]['safe_value']) : check_plain($item['filename'])) . '</p>';
-            $return .= '</a>';
+      switch ($item['type']) {
+        case 'image':
+          $thumb = image_style_url('landscape', $item['uri']);
+          $return .= '<a href="' . $path . '">';
+          $return .= '<img src="' . $thumb . '" alt="' . check_plain($item['filename']) . '" />';
+          $return .= '<p class="carousel-caption">' . (isset($item['field_picture_description']['und'][0]['safe_value']) ? filter_xss($item['field_picture_description']['und'][0]['safe_value']) : check_plain($item['filename'])) . '</p>';
+          $return .= '</a>';
           break;
 
-          case 'video':
-            $thumb = image_style_url('landscape', file_load($item['thumbnail'])->uri);
-            $return .= '<a href="' . $path . '">';
-              $return .= '<img src="' . $thumb . '" alt="' . check_plain($item['filename']) . '" />';
-              $return .= '<p class="carousel-caption">' . check_plain($item['filename']) . '</p>';
-            $return .= '</a>';
+        case 'video':
+          $thumb = image_style_url('landscape', file_load($item['thumbnail'])->uri);
+          $return .= '<a href="' . $path . '">';
+          $return .= '<img src="' . $thumb . '" alt="' . check_plain($item['filename']) . '" />';
+          $return .= '<p class="carousel-caption">' . check_plain($item['filename']) . '</p>';
+          $return .= '</a>';
           break;
 
-          default:
+        default:
           break;
-        }
-
-        $return .= '</div>';
-
-        $first = FALSE;
-      endforeach;
+      }
 
       $return .= '</div>';
 
-      $return .= '<a class="carousel-control left" href="#block-carousel-' . $gall->nid . '" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>';
-      $return .= '<a class="carousel-control right" href="#block-carousel-' . $gall->nid . '" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>';
+      $first = FALSE;
+    endforeach;
+
+    $return .= '</div>';
+
+    $return .= '<a class="carousel-control left" href="#block-carousel-' . $gall->nid . '" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>';
+    $return .= '<a class="carousel-control right" href="#block-carousel-' . $gall->nid . '" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>';
     $return .= '</div>';
 
     return array('#markup' => $return);
@@ -340,6 +354,6 @@ global $base_url;
 /**
  * Custom sort function.
  */
-function block_carousel_custom_sort($a, $b) {
+/*function block_carousel_custom_sort($a, $b) {
   return $a['timestamp'] > $b['timestamp'];
-}
+}*/

@@ -17,9 +17,8 @@ function block_carousel_enable() {
  * Implements hook_disable().
  */
 function block_carousel_disable() {
-  //Example
-  //multisite_drupal_toolbox_disable_content_type('kit');
-
+  // Example
+  // multisite_drupal_toolbox_disable_content_type('kit');
   drupal_set_message(t('Block Carousel %v feature is now inactive on your site.', array('%v' => _block_carousel_get_version())));
 }
 
@@ -27,12 +26,12 @@ function block_carousel_disable() {
  * Implements hook_install().
  */
 function block_carousel_install() {
-  //Install scripts here
+  // Install scripts here.
 }
 
 /**
  * Implements hook_uninstall().
  */
 function block_carousel_uninstall() {
-  //Uninstall scripts here
+  // Uninstall scripts here.
 }

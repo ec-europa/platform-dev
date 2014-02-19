@@ -10,7 +10,9 @@
  * Defines a base class for testing the "multisite_translations" module.
  */
 class MultisiteBlockCarouselQAWebTestCase extends DrupalWebTestCase {
-
+  /**
+   * Info for the simpleTest UI.
+   */
   public static function getInfo() {
     return array(
       'name' => 'Block Carousel QA tests',
@@ -21,15 +23,16 @@ class MultisiteBlockCarouselQAWebTestCase extends DrupalWebTestCase {
 
   /**
    * Test Info File.
+   *
    * TestFile <featurename>.info
    */
-  function testInfoFile() {
-    $module = basename(__FILE__ , ".test");
+  public function testInfoFile() {
+    $module = basename(__FILE__, ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.info';
     $info = drupal_parse_info_file($path);
 
     // Add name information. Ex: name=Newsletters.
-    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module );
+    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module);
 
     // Add description information.
     // Ex: description = Publish and send newsletters to lists of subscribers.
@@ -41,17 +44,15 @@ class MultisiteBlockCarouselQAWebTestCase extends DrupalWebTestCase {
 
     // Add core information
     // Ex core = 7.x
-
     $this->assertTrue(array_key_exists('core', $info), 'The Drupal core version is available.');
     $this->assertEqual($info['core'], '7.x');
 
     // Add php information
     // Ex: php = 5.2.4
-
     $this->assertTrue(array_key_exists('php', $info), 'The PHP version info is available.');
     $this->assertEqual($info['php'], '5.2.4');
 
-    // Add version information (check if the version number matches with this page title)
+    // Check if the version number matches with this page title.
     // Ex: version = 7.x-2.0
     $this->assertTrue(array_key_exists('version', $info));
 
@@ -60,10 +61,8 @@ class MultisiteBlockCarouselQAWebTestCase extends DrupalWebTestCase {
     $this->assertEqual($info['features']['features_api'][0], 'api:1', 'The Feature API dependency is available.');
 
     // Remove menu dependencies:
-
     if (array_key_exists('dependencies', $info)) {
       // dependencies[] = "menu"
-
       $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
 
       // Remove taxonomy dependencies
@@ -72,7 +71,6 @@ class MultisiteBlockCarouselQAWebTestCase extends DrupalWebTestCase {
     }
     // Check other dependencies (modules + features) to be sure they are needed
     // FIXME: manual check?
-
     // Remove tags taxonomy:
     // features[taxonomy][] = "tags"
     if (array_key_exists('features', $info) && array_key_exists('taxonomy', $info['features'])) {
@@ -80,8 +78,13 @@ class MultisiteBlockCarouselQAWebTestCase extends DrupalWebTestCase {
     }
   }
 
-  function testInstallFile() {
-    $module = basename(__FILE__ , ".test");
+  /**
+   * Test Install File.
+   *
+   * TestFile <featurename>.install
+   */
+  public function testInstallFile() {
+    $module = basename(__FILE__, ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.install';
     $data = file_get_contents($path);
     $this->assertTrue(strpos($data, $module . '_install'), 'The module contains a hook_install');
