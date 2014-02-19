@@ -168,7 +168,7 @@ function idea_core_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '3',
+        'weight' => '20',
       ),
     ),
   );
@@ -240,7 +240,7 @@ function idea_core_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '33',
+        'weight' => '130',
       ),
     ),
   );
@@ -312,7 +312,7 @@ function idea_core_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '34',
+        'weight' => '120',
       ),
     ),
   );
@@ -387,7 +387,7 @@ function idea_core_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '1',
+        'weight' => '110',
       ),
     ),
   );
@@ -456,7 +456,7 @@ function idea_core_field_default_fields() {
           'display_label' => 1,
         ),
         'type' => 'options_onoff',
-        'weight' => '4',
+        'weight' => '30',
       ),
     ),
   );
