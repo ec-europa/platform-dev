@@ -9,6 +9,7 @@ dependencies[] = ctools
 dependencies[] = e_library_core
 dependencies[] = entityreference
 dependencies[] = features
+dependencies[] = field_group
 dependencies[] = list
 dependencies[] = og
 dependencies[] = og_ui
@@ -16,9 +17,11 @@ dependencies[] = options
 dependencies[] = strongarm
 dependencies[] = views
 features[ctools][] = strongarm:strongarm:1
+features[ctools][] = field_group:field_group:1
 features[features_api][] = api:1
 features[field][] = node-document-group_content_access
 features[field][] = node-document-og_group_ref
+features[field_group][] = group_document_community|node|document|form
 features[og_features_permission][] = node:community:create document content
 features[og_features_permission][] = node:community:delete any document content
 features[og_features_permission][] = node:community:delete own document content
@@ -26,5 +29,3 @@ features[og_features_permission][] = node:community:update any document content
 features[og_features_permission][] = node:community:update own document content
 features[variable][] = pathauto_node_document_pattern
 files[] = tests/e_library_og.test
-
-

@@ -167,7 +167,7 @@ function e_library_core_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '31',
+        'weight' => '20',
       ),
     ),
   );
@@ -240,7 +240,7 @@ function e_library_core_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'file_generic',
-        'weight' => '32',
+        'weight' => '30',
       ),
     ),
   );
@@ -312,7 +312,7 @@ function e_library_core_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '33',
+        'weight' => '120',
       ),
     ),
   );
@@ -387,7 +387,7 @@ function e_library_core_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '-2',
+        'weight' => '110',
       ),
     ),
   );

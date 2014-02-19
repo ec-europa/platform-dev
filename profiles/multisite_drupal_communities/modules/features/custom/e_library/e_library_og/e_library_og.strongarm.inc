@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * e_library.strongarm.inc
+ * e_library_og.strongarm.inc
  */
 
 /**
@@ -10,7 +10,7 @@
 function e_library_og_strongarm() {
   $export = array();
 
-  $strongarm = new stdClass;
+  $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_document_pattern';
