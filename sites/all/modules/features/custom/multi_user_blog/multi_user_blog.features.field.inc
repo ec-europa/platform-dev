@@ -173,7 +173,7 @@ function multi_user_blog_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '1',
+        'weight' => '20',
       ),
     ),
   );
@@ -248,7 +248,7 @@ function multi_user_blog_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '2',
+        'weight' => '110',
       ),
     ),
   );
