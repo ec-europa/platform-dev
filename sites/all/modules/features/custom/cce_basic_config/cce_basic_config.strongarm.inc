@@ -176,6 +176,13 @@ function cce_basic_config_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'jqmulti_load_files_always';
+  $strongarm->value = 1;
+  $export['jqmulti_load_files_always'] = $strongarm;
+  
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_article';
   $strongarm->value = '2';
   $export['language_content_type_article'] = $strongarm;
@@ -265,12 +272,6 @@ example.org';
   $strongarm->value = array(
     'article' => 'article',
     'page' => 'page',
-    'links' => 'links',
-    'wiki' => 'wiki',
-    'f_a_q' => 'f_a_q',
-    'chart' => 'chart',
-    'webform' => 'webform',
-    'map' => 'map',
   );
   $export['linkchecker_scan_nodetypes'] = $strongarm;
 
