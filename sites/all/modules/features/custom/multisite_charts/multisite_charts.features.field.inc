@@ -107,7 +107,7 @@ function multisite_charts_field_default_fields() {
         'module' => 'number',
         'settings' => array(),
         'type' => 'number',
-        'weight' => '33',
+        'weight' => '30',
       ),
     ),
   );
@@ -252,7 +252,7 @@ function multisite_charts_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '31',
+        'weight' => '40',
       ),
     ),
   );
@@ -354,7 +354,7 @@ function multisite_charts_field_default_fields() {
         'module' => 'number',
         'settings' => array(),
         'type' => 'number',
-        'weight' => '32',
+        'weight' => '20',
       ),
     ),
   );
@@ -448,7 +448,7 @@ function multisite_charts_field_default_fields() {
         'module' => 'xml_field',
         'settings' => array(),
         'type' => 'xml_field_text',
-        'weight' => '34',
+        'weight' => '10',
       ),
     ),
   );
