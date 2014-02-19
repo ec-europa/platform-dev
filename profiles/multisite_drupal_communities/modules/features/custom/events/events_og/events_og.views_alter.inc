@@ -12,7 +12,6 @@ function events_og_views_default_views_alter(&$views) {
     unset($handler->display->display_options['tab_options']);
     
     /* Display: Calendar */
-    $handler = $view->new_display('page', 'Calendar', 'page_1');
     $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
     $handler->display->display_options['defaults']['relationships'] = FALSE;
     /* Relationship: OG membership: OG membership from Node */
