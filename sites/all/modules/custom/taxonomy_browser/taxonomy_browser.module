@@ -159,7 +159,7 @@ function _taxonomy_browser_taxonomy_create_tree($vid, $path, $ajax = FALSE, $sel
  * Implements hook_block_info().
  */
 function taxonomy_browser_block_info() {
-  $vids = variable_get('taxonomy_browser_vocabulary');
+  $vids = variable_get('taxonomy_browser_vocabulary', array());
   $blocks = array();
 
   foreach ($vids as $vid) {
