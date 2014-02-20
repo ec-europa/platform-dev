@@ -48,9 +48,11 @@ function do_action {
 
   # Actual work
   echo "Current base theme is \"${theme_name}\", switching to \"${target_theme}\"..."
+  # Ensure the target theme is enabled
+  drush pm-enable ${target_theme}
 
   # Get the .info path
-  theme_info_filepath=$(drush php-eval 'print_r($GLOBALS["theme_info"]->filename);')
+  theme_info_filepath=$(drush php-eval 'print $GLOBALS["theme_info"]->filename;')
   if [ -z "${theme_info_filepath}" ]; then
     echo "Unable to retrieve the .info path, aborting for site ${subsite}."
     subsite_state='nok'

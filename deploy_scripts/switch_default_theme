@@ -46,6 +46,8 @@ function do_action {
 
   # Actual work
   echo "Current theme is \"${theme_name}\", switching to \"${target_theme}\"..."
+  # Ensure the target theme is enabled
+  drush pm-enable "${target_theme}"
   drush vset theme_default "${target_theme}"
   drush cc all
 }
