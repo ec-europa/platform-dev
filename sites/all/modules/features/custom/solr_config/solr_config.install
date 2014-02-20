@@ -121,14 +121,22 @@ function solr_config_update_7120() {
  /**
   * Add a menu link for the solr facets settings
   */
-function solr_config_update_7121() {
+function solr_config_update_7122() {
+  $mlid_parent = db_select('menu_links' , 'ml')
+    ->condition('ml.link_path' , 'admin/config/search')
+    ->fields('ml' , array('mlid'))
+    ->execute()
+    ->fetchField();
+
   $options = array();
-  $options['attributes']['title'][] = 'Configure SolR facets';
+  $options['attributes']['title'] = t('Configure SolR facets');
+
   $item = array(
     'link_path' => 'admin/config/search/apachesolr/settings/solr/facets',
-    'link_title' => t('Solr facets'),
+    'link_title' => t('SolR facets'),
     'menu_name' => 'management',
     'options' => $options,
+    'plid' => $mlid_parent,
   );
   menu_link_save($item);
 }
