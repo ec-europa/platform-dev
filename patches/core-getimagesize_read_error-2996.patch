@@ -1,0 +1,11 @@
+--- a/modules/system/image.gd.inc
++++ b/modules/system/image.gd.inc
+@@ -346,7 +346,7 @@
+  */
+ function image_gd_get_info(stdClass $image) {
+   $details = FALSE;
+-  $data = getimagesize($image->source);
++  $data = @getimagesize($image->source);
+ 
+   if (isset($data) && is_array($data)) {
+     $extensions = array('1' => 'gif', '2' => 'jpg', '3' => 'png');
