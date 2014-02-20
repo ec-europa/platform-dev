@@ -93,10 +93,10 @@ function gallerymedia_core_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '-5',
+          'weight' => '-10',
         ),
         'path' => array(
-          'weight' => '30',
+          'weight' => '23',
         ),
       ),
       'display' => array(),
