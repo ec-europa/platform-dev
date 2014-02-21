@@ -719,7 +719,7 @@ function cce_basic_config_field_default_fields() {
       'locked' => '0',
       'module' => 'image',
       'settings' => array(
-        'default_image' => 0,
+        'default_image' => FALSE,
         'uri_scheme' => 'public',
       ),
       'translatable' => '0',
@@ -768,7 +768,7 @@ function cce_basic_config_field_default_fields() {
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'media',
+        'module' => 'image',
         'settings' => array(
           'allowed_schemes' => array(
             0 => 'public',
@@ -802,7 +802,7 @@ function cce_basic_config_field_default_fields() {
           'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
-        'type' => 'media_generic',
+        'type' => 'image_image',
         'weight' => '30',
       ),
     ),
