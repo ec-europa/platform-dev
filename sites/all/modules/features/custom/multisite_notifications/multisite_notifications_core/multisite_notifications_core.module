@@ -146,7 +146,7 @@ function multisite_notifications_core_form_validate($form, &$form_state) {
     form_set_error('mail', t('The e-mail address you supplied is not valid.'));
   }
   // Check if the email already exists in dB.
-  $is_email_saved = $has_rows = (bool) db_query_range('SELECT 1 FROM {users} WHERE mail = :mail', 0, 1, array(':mail' => $email_to_check))->fetchField();
+  $is_email_saved = (bool) db_query_range('SELECT 1 FROM {users} WHERE mail = :mail', 0, 1, array(':mail' => $email_to_check))->fetchField();
   switch ($form_state['values']['op']) {
     case t('Subscribe'):
       if ($is_email_saved >= 1) {
