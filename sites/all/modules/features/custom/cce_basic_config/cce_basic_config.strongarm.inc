@@ -97,6 +97,27 @@ function cce_basic_config_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_long';
+  $strongarm->value = 'l, j F, Y - H:i';
+  $export['date_format_long'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_medium';
+  $strongarm->value = 'D, d/m/Y - H:i';
+  $export['date_format_medium'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_short';
+  $strongarm->value = 'd/m/Y - H:i';
+  $export['date_format_short'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'drupal_http_request_function';
   $strongarm->value = 'curl_http_request';
   $export['drupal_http_request_function'] = $strongarm;

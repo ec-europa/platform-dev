@@ -1216,6 +1216,7 @@ function cce_basic_config_update_7196() {
 
  /**
   * Add menu service_tools in banner.
+  * Change date format : set european format
   */
 function cce_basic_config_update_7197() {
   // Add block in site-wide context.
@@ -1230,6 +1231,12 @@ function cce_basic_config_update_7197() {
   $context->reactions['block']['blocks']['block_service_tools'] = $block_service_tools;
 
   module_invoke('context', 'save', $context);
+  
+  // Change date format
+  drupal_variable_set("date_format_long", "l, j F, Y - H:i");
+  drupal_variable_set("date_format_medium", "D, d/m/Y - H:i");
+  drupal_variable_set("date_format_short", "d/m/Y - H:i");
+
 }
 
 /**
