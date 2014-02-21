@@ -1,5 +1,5 @@
---- a/modules/system/image.gd.inc
-+++ b/modules/system/image.gd.inc
+--- modules/system/image.gd.inc
++++ modules/system/image.gd.inc
 @@ -346,7 +346,7 @@
   */
  function image_gd_get_info(stdClass $image) {
