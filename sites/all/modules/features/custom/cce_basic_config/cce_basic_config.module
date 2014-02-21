@@ -199,7 +199,7 @@ function cce_basic_config_menu_link_alter(&$item) {
       $item['options']['attributes']['class'] = $user_classes;
       $item['options']['attributes']['data-image'] = 'log-out';
       break;
-      
+
     default:
       break;
   }

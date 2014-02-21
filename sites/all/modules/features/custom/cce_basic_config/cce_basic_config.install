@@ -11,7 +11,8 @@
  *
  * @param $phase
  *   The current system installation phase.
- * @return
+ *
+ * @return array()
  *   An array of system requirements.
  */
 function cce_basic_config_requirements($phase) {
@@ -34,7 +35,7 @@ function cce_basic_config_requirements($phase) {
 function cce_basic_config_install() {
   $t = get_t();
 
-  // Create a vocabulary dedicated to the classification
+  // Create a vocabulary dedicated to the classification.
   $vocabulary = (object) array(
     'name' => $t('classification'),
     'machine_name' => 'classification',
@@ -42,7 +43,7 @@ function cce_basic_config_install() {
   );
   taxonomy_vocabulary_save($vocabulary);
 
-  // Add default categories
+  // Add default categories.
   $vocabulary = taxonomy_vocabulary_machine_name_load('classification');
   $term = (object) array(
     'vid' => $vocabulary->vid,
@@ -251,7 +252,7 @@ function cce_basic_config_install() {
     'name' => $t('30000'),
     'description' => $t('Economic and monetary union, euro, single currency'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
@@ -285,7 +286,7 @@ function cce_basic_config_install() {
         ->fields(array(
           'name' => $id_export,
           'weight' => 0,
-          'status' => ($settings_export->status)?1:0,
+          'status' => ($settings_export->status) ? 1 : 0,
           'settings' => serialize($settings_export->settings),
         ))
         ->execute();
@@ -301,7 +302,7 @@ function cce_basic_config_install() {
   else {
     foreach ($rate_widgets as $rate_widget) {
       if ($rate_widget->name == 'rate_fivestar') {
-      // The widget fivestar already exists
+        // The widget fivestar already exists.
         return;
       }
     }
@@ -367,14 +368,14 @@ function cce_basic_config_install() {
 
   if (db_table_exists('captcha_points')) {
     db_update('captcha_points')
-      -> fields(array('captcha_type' => 'default'))
-      -> condition('form_id', 'contact_site_form')
-      -> execute();
+      ->fields(array('captcha_type' => 'default'))
+      ->condition('form_id', 'contact_site_form')
+      ->execute();
 
     db_update('captcha_points')
-      -> fields(array('captcha_type' => 'default'))
-      -> condition('form_id', 'user_register_form')
-      -> execute();      
+      ->fields(array('captcha_type' => 'default'))
+      ->condition('form_id', 'user_register_form')
+      ->execute();
   }
 }
 
@@ -382,8 +383,8 @@ function cce_basic_config_install() {
  * Implements hook_uninstall().
  */
 function cce_basic_config_uninstall() {
-  // Manually remove config for file document display
-  // This process must be temporary
+  // Manually remove config for file document display.
+  // This process must be temporary.
   $exports = cce_basic_config_file_default_displays();
   foreach ($exports as $id_export => $settings_export) {
     if (substr($id_export, 0, 8) == 'document') {
@@ -454,7 +455,7 @@ function cce_basic_config_enable() {
 
   $block_to_add1 = array(
     'module' => 'system',
-    'delta' =>  'user-menu',
+    'delta' => 'user-menu',
     'region' => 'tools',
     'weight' => 1,
   );
@@ -462,7 +463,7 @@ function cce_basic_config_enable() {
 
   $block_to_add2 = array(
     'module' => 'multisite_create_button',
-    'delta' =>  'create-content-button',
+    'delta' => 'create-content-button',
     'region' => 'tools',
     'weight' => 2,
   );
@@ -470,7 +471,7 @@ function cce_basic_config_enable() {
 
   $block_to_add3 = array(
     'module' => 'search',
-    'delta' =>  'form',
+    'delta' => 'form',
     'region' => 'header_right',
     'weight' => 1,
   );
@@ -479,25 +480,24 @@ function cce_basic_config_enable() {
   module_invoke('context', 'save', $context);
   variable_set('user_classes', 'btn btn-info btn-xs');
   variable_set('user_myaccount_data_image', 'user');
-  //My Account.
+  // My Account.
   variable_set('user_logout_data_image', 'log-out');
-  //Log out.
-
+  // Log out.
   // Add block easy_breadcrumb in site-wide context.
   $context = module_invoke('context', 'load', 'site_wide');
 
   $block_easy_breadcrumb = array(
     'module' => 'easy_breadcrumb',
-    'delta' =>  'easy_breadcrumb',
+    'delta' => 'easy_breadcrumb',
     'region' => 'featured',
     'weight' => -18,
   );
   $context->reactions['block']['blocks']['easy_breadcrumb'] = $block_easy_breadcrumb;
 
-  // Add menu service tools in site-wide context
+  // Add menu service tools in site-wide context.
   $block_service_tools = array(
     'module' => 'menu',
-    'delta' =>  'menu-service-tools',
+    'delta' => 'menu-service-tools',
     'region' => 'header_top',
     'weight' => -9,
   );
@@ -513,13 +513,13 @@ function cce_basic_config_disable() {
   drupal_set_message(t('The module cce_basic_config has been disabled on your site! Please contact FPFIS support to reactivate it.'));
   variable_del('user_classes');
   variable_del('user_myaccount_data_image');
-  //My Account.
+  // My Account.
   variable_del('user_logout_data_image');
-  //Log out.
+  // Log out.
 }
 
 /**
- * Add classification vocabulary, add file diplays settings
+ * Add classification vocabulary, add file diplays settings.
  */
 function cce_basic_config_update_7140() {
 
@@ -568,7 +568,7 @@ function cce_basic_config_update_7140() {
   );
   taxonomy_term_save($term);
 
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('07'),
     'description' => st('Culture, tourism, sport'),
@@ -728,12 +728,12 @@ function cce_basic_config_update_7140() {
   );
   taxonomy_term_save($term);
 
-     $term = (object) array(
+  $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => st('30'),
     'description' => st('Economic and monetary union, euro, single currency'),
   );
-   taxonomy_term_save($term);
+  taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
@@ -756,9 +756,9 @@ function cce_basic_config_update_7140() {
   );
   taxonomy_term_save($term);
 
-  // Manually save file document displays in database
-  // The feature settings are not properly injected in database
-  // This process must be temporary
+  // Manually save file document displays in database.
+  // The feature settings are not properly injected in database.
+  // This process must be temporary.
   db_delete('file_display')->execute();
   $exports = cce_basic_config_file_default_displays();
   foreach ($exports as $id_export => $settings_export) {
@@ -766,16 +766,16 @@ function cce_basic_config_update_7140() {
       ->fields(array(
         'name' => $id_export,
         'weight' => 0,
-        'status' => ($settings_export->status)?1:0,
+        'status' => ($settings_export->status) ? 1 : 0,
         'settings' => serialize($settings_export->settings),
       ))
       ->execute();
   }
 
-  // Remove the mail address to the update modules notification
+  // Remove the mail address to the update modules notification.
   variable_del('update_notify_emails');
 
-  // Disable update management module permissions for administrator role
+  // Disable update management module permissions for administrator role.
   $adm_rid = multisite_drupal_toolbox_get_rid('administrator');
   user_role_revoke_permissions($adm_rid, array(
     'administer software updates',
@@ -784,7 +784,7 @@ function cce_basic_config_update_7140() {
 }
 
 /**
- * Add password_policy rules and handle password_policy 2.x upgrade
+ * Add password_policy rules and handle password_policy 2.x upgrade.
  */
 function cce_basic_config_update_7150() {
   // Insert the password policy in dB.
@@ -798,13 +798,15 @@ function cce_basic_config_update_7150() {
   db_drop_table('password_policy_history');
   db_drop_table('password_policy_role');
 
-  if (!db_table_exists('password_policy'))
+  if (!db_table_exists('password_policy')) {
     db_create_table('password_policy', $schema['password_policy']);
-  if (!db_table_exists('password_policy_history'))
+  };
+  if (!db_table_exists('password_policy_history')) {
     db_create_table('password_policy_history', $schema['password_policy_history']);
-  if (!db_table_exists('password_policy_notice_history'))
+  };
+  if (!db_table_exists('password_policy_notice_history')) {
     db_create_table('password_policy_notice_history', $schema['password_policy_notice_history']);
-
+  };
   db_insert('password_policy')
     ->fields(array(
       'name' => 'Example policy',
@@ -818,15 +820,15 @@ function cce_basic_config_update_7150() {
  */
 function cce_basic_config_update_7160() {
   // Add block site-wide context.
-  $context=module_invoke('context', 'load', 'site_wide');
+  $context = module_invoke('context', 'load', 'site_wide');
 
   $block_to_add = array(
     'module' => 'search',
-    'delta' =>  'form',
+    'delta' => 'form',
     'region' => 'header_right',
     'weight' => 1,
   );
-  $context->reactions['block']['blocks']['form']=$block_to_add;
+  $context->reactions['block']['blocks']['form'] = $block_to_add;
 
   module_invoke('context', 'save', $context);
 }
@@ -837,14 +839,13 @@ function cce_basic_config_update_7160() {
  */
 function cce_basic_config_update_7170() {
 
-  //Get the "classification" vid.
-  $classification=NULL;
+  // Get the "classification" vid.
+  $classification = NULL;
 
   $vocabularies = taxonomy_get_vocabularies(NULL);
   foreach ($vocabularies as $vocab_object) {
     if ($vocab_object->name == "classification") {
-      $classification= $vocab_object->vid;
-      //$results = db_query("update  `taxonomy_term_data`  set name=concat(name, '000') WHERE vid=".$classification);
+      $classification = $vocab_object->vid;
       if ($classification) {
         $results = db_query("UPDATE {taxonomy_term_data} SET NAME=concat(name, :name) WHERE vid=:vid", array(':name' => '000', ':vid' => $classification));
       }
@@ -857,7 +858,7 @@ function cce_basic_config_update_7170() {
  * Add rate widget fivestar.
  */
 function cce_basic_config_update_7180() {
-  // check if rate widget fivestar already exists
+  // Check if rate widget fivestar already exists.
   $rate_widgets = variable_get("rate_widgets");
   if (!$rate_widgets || count($rate_widgets) == 0) {
     $rate_widgets = array();
@@ -865,7 +866,7 @@ function cce_basic_config_update_7180() {
   else {
     foreach ($rate_widgets as $rate_widget) {
       if ($rate_widget->name == 'rate_fivestar') {
-      // The widget fivestar already exists.
+        // The widget fivestar already exists.
         return;
       }
     }
@@ -931,7 +932,7 @@ function cce_basic_config_update_7180() {
 }
 
 /**
- * Force home and myworkbench menu items at left in main menu
+ * Force home and myworkbench menu items at left in main menu.
  */
 function cce_basic_config_update_7190() {
   db_update('menu_links')
@@ -948,7 +949,7 @@ function cce_basic_config_update_7190() {
 }
 
 /**
- * Move menu item myworkbench from main menu to user menu
+ * Move menu item myworkbench from main menu to user menu.
  */
 function cce_basic_config_update_7191() {
   db_update('menu_links')
@@ -963,136 +964,139 @@ function cce_basic_config_update_7191() {
 }
 
 /**
- * set default configuration for menu items,
- * set configuration for captcha module
- * date field migration
- * set configuration for jqmulti
+ * Set default configuration for menu items.
+ *
+ * Set configuration for captcha module.
+ *
+ * Date field migration.
+ *
+ * Set configuration for jqmulti.
  */
 function cce_basic_config_update_7192() {
   // Home.
   $ml_home = db_select('menu_links', 'ml')
-    -> fields('ml', array('options'))
-    -> condition('link_path', '<front>')
-    -> condition('menu_name', 'main-menu')
-    -> execute()
-    -> fetchField();
+    ->fields('ml', array('options'))
+    ->condition('link_path', '<front>')
+    ->condition('menu_name', 'main-menu')
+    ->execute()
+    ->fetchField();
 
   $options_home = unserialize($ml_home);
   $options_home['attributes']['data-display-title'] = 0;
   $options_home['attributes']['data-image'] = 'home';
 
   db_update('menu_links')
-    -> fields(array('options' => serialize($options_home)))
-    -> condition('link_path', '<front>')
-    -> condition('menu_name', 'main-menu')
-    -> execute();
+    ->fields(array('options' => serialize($options_home)))
+    ->condition('link_path', '<front>')
+    ->condition('menu_name', 'main-menu')
+    ->execute();
 
-  // login
+  // Login.
   $ml_login = db_select('menu_links', 'ml')
-    -> fields('ml', array('options'))
-    -> condition('link_path', 'user/login')
-    -> condition('menu_name', 'user-menu')
-    -> execute()
-    -> fetchField();
+    ->fields('ml', array('options'))
+    ->condition('link_path', 'user/login')
+    ->condition('menu_name', 'user-menu')
+    ->execute()
+    ->fetchField();
 
   $options_login = unserialize($ml_login);
   $options_login['attributes']['class'][] = 'btn btn-default';
   $options_login['attributes']['data-image'] = 'log-in';
 
   db_update('menu_links')
-    -> fields(array('options' => serialize($options_login)))
-    -> condition('link_path', 'user/login')
-    -> condition('menu_name', 'user-menu')
-    -> execute();
+    ->fields(array('options' => serialize($options_login)))
+    ->condition('link_path', 'user/login')
+    ->condition('menu_name', 'user-menu')
+    ->execute();
 
-  // logout
+  // Logout.
   $ml_logout = db_select('menu_links', 'ml')
-    -> fields('ml', array('options'))
-    -> condition('link_path', 'user/logout')
-    -> condition('menu_name', 'user-menu')
-    -> execute()
-    -> fetchField();
+    ->fields('ml', array('options'))
+    ->condition('link_path', 'user/logout')
+    ->condition('menu_name', 'user-menu')
+    ->execute()
+    ->fetchField();
 
   $options_logout = unserialize($ml_logout);
   $options_logout['attributes']['class'][] = 'btn btn-default btn-xs';
   $options_logout['attributes']['data-image'] = 'log-out';
 
   db_update('menu_links')
-    -> fields(array('options' => serialize($options_logout)))
-    -> condition('link_path', 'user/logout')
-    -> condition('menu_name', 'user-menu')
-    -> execute();
+    ->fields(array('options' => serialize($options_logout)))
+    ->condition('link_path', 'user/logout')
+    ->condition('menu_name', 'user-menu')
+    ->execute();
 
-  // my workbench
+  // My workbench.
   $ml_workbench = db_select('menu_links', 'ml')
-    -> fields('ml', array('options'))
-    -> condition('link_path', 'admin/workbench')
-    -> condition('menu_name', 'user-menu')
-    -> execute()
-    -> fetchField();
+    ->fields('ml', array('options'))
+    ->condition('link_path', 'admin/workbench')
+    ->condition('menu_name', 'user-menu')
+    ->execute()
+    ->fetchField();
 
   $options_workbench = unserialize($ml_workbench);
   $options_workbench['attributes']['class'][] = 'btn btn-info btn-xs';
   $options_workbench['attributes']['data-image'] = 'list-alt';
 
   db_update('menu_links')
-    -> fields(array('options' => serialize($options_workbench)))
-    -> condition('link_path', 'admin/workbench')
-    -> condition('menu_name', 'user-menu')
-    -> execute();
+    ->fields(array('options' => serialize($options_workbench)))
+    ->condition('link_path', 'admin/workbench')
+    ->condition('menu_name', 'user-menu')
+    ->execute();
 
-  // my account
+  // My account.
   $ml_account = db_select('menu_links', 'ml')
-    -> fields('ml', array('options'))
-    -> condition('link_path', 'user')
-    -> condition('menu_name', 'user-menu')
-    -> execute()
-    -> fetchField();
+    ->fields('ml', array('options'))
+    ->condition('link_path', 'user')
+    ->condition('menu_name', 'user-menu')
+    ->execute()
+    ->fetchField();
 
   $options_account = unserialize($ml_account);
   $options_account['attributes']['class'][] = 'btn btn-default btn-xs';
   $options_account['attributes']['data-image'] = 'user';
 
   db_update('menu_links')
-    -> fields(array('options' => serialize($options_account)))
-    -> condition('link_path', 'user')
-    -> condition('menu_name', 'user-menu')
-    -> execute();
+    ->fields(array('options' => serialize($options_account)))
+    ->condition('link_path', 'user')
+    ->condition('menu_name', 'user-menu')
+    ->execute();
 
-  // Captcha 
+  // Captcha.
   variable_set('captcha_default_challenge', 'image_captcha/Image');
   variable_set('image_captcha_fonts', array(
     'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf' => 'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf',
     'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf' => 'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf'));
   variable_set('image_captcha_distortion_amplitude', '5');
   variable_set('image_captcha_bilinear_interpolation', 1);
- 
+
   if (db_table_exists($captcha_points)) {
     db_update('captcha_points')
-    -> fields(array('captcha_type' => 'default'))
-    -> condition('form_id', 'contact_site_form')
-    -> execute();
+    ->fields(array('captcha_type' => 'default'))
+    ->condition('form_id', 'contact_site_form')
+    ->execute();
   }
-  
+
   // Revoke 'use PHP to import nodes' 'administer varnish' permissions.
   foreach (array_keys(user_roles()) as $rid) {
     user_role_revoke_permissions($rid, array('use PHP to import nodes', 'administer varnish'));
   }
- }
+}
  
  /**
   * Date field migration
- */
+  */
 function cce_basic_config_update_7193() {
 
   // $content type : content type that contains fiels to replace.
   // $module_name : module that contains fields.
-  $content_type = 'article'; //
+  $content_type = 'article';
   $module_name = basename(__FILE__, '.install');
-  // Get db fields instances of content type
+  // Get db fields instances of content type.
   $fields_instances = field_info_instances('node', $content_type);
 
-  // Get feature fields config&instance
+  // Get feature fields config&instance.
   module_load_include('inc', $module_name, $module_name . '.features.field');
   if (function_exists($module_name . '_field_default_fields')) {
     $fields_features_info = call_user_func($module_name . '_field_default_fields');
@@ -1114,11 +1118,11 @@ function cce_basic_config_update_7193() {
     if ($field_info['type'] == 'datetime' && $field_info['locked'] && $field_features_info && $field_features_info['type'] == 'datestamp') {
       foreach ($field_info['storage']['details']['sql'] as $type => $info_sql) {
         $table_name = array_shift(array_keys($info_sql));
-        
+
         foreach ($info_sql[$table_name] as $id => $column_name) {
 
-          if (field_has_data($field_info)) { 
-          // There is data: migrate data and update column to int.
+          if (field_has_data($field_info)) {
+            // There is data: migrate data and update column to int.
             watchdog('system', t('Update the  column %column of table %table : migrate datas and update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), NULL, WATCHDOG_WARNING);
 
             // Create a temporary date field.
@@ -1134,8 +1138,8 @@ function cce_basic_config_update_7193() {
             db_change_field($table_name, $column_name . '_temp', $column_name, array('type' => 'int'));
 
           }
-          else { 
-          // If there is no data: just update column to int.
+          else {
+            // If there is no data: just update column to int.
             watchdog('system', t('Update the  column %column of table %table : update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), NULL, WATCHDOG_WARNING);
             db_change_field($table_name, $column_name, $column_name, array('type' => 'int'));
           }
@@ -1149,7 +1153,7 @@ function cce_basic_config_update_7193() {
     }
     elseif ($field_info['type'] == 'datestamp') {
       watchdog('system', t('Field %field has been already converted to UNIX timestamp""', array('%field' => $field_name)), NULL, WATCHDOG_WARNING);
-      
+
     }
     elseif ($field_info['type'] == 'datetime') {
       if (!$field_features_info) {
@@ -1164,31 +1168,31 @@ function cce_basic_config_update_7193() {
 
   // Jqmulti configuration.
   variable_set('jqmulti_load_files_always', 1);
-  
+
   // File format translation.
   $format = array (	"full_html" => "full_html","plain_text" => "plain_text");
-  variable_set ("i18n_string_allowed_formats",$format);
+  variable_set("i18n_string_allowed_formats",$format);
 
 }
 
  /**
-  * hook_update_N
- */
+  * Implements hook_update_N().
+  */
 function cce_basic_config_update_7194() {
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('show format selection for node'));
 }
 
  /**
-  * Feature revert field and field_group
- */
+  * Feature revert field and field_group.
+  */
 function cce_basic_config_update_7195() {
-// revert only fields (for modify weight)
+  // Revert only fields (for modify weight).
   features_revert(array('cce_basic_config' => array('field')));
   features_revert(array('cce_basic_config' => array('field_group')));
 }
 
  /**
-  * Add default configuration for easy_breadcrumb
+  * Add default configuration for easy_breadcrumb.
   */
 function cce_basic_config_update_7196() {
   variable_set('easy_breadcrumb-capitalizator_mode', 'ucfirst');
@@ -1201,7 +1205,7 @@ function cce_basic_config_update_7196() {
 
   $block_to_add = array(
     'module' => 'easy_breadcrumb',
-    'delta' =>  'easy_breadcrumb',
+    'delta' => 'easy_breadcrumb',
     'region' => 'featured',
     'weight' => -18,
   );
@@ -1211,7 +1215,7 @@ function cce_basic_config_update_7196() {
 }
 
  /**
-  * Add menu service_tools in banner
+  * Add menu service_tools in banner.
   */
 function cce_basic_config_update_7197() {
   // Add block in site-wide context.
@@ -1219,11 +1223,34 @@ function cce_basic_config_update_7197() {
 
   $block_service_tools = array(
     'module' => 'menu',
-    'delta' =>  'menu-service-tools',
+    'delta' => 'menu-service-tools',
     'region' => 'header_top',
     'weight' => -9,
   );
   $context->reactions['block']['blocks']['block_service_tools'] = $block_service_tools;
 
   module_invoke('context', 'save', $context);
+}
+
+/**
+ * Deactivate orphan content types events, news, and discussion.
+ */
+function cce_basic_config_update_7198() {
+  node_types_rebuild();
+  $event_type = node_type_load('event');
+  $news_type = node_type_load('news');
+  $discussion_type = node_type_load('discussion');
+
+  if (!module_exists('events_core') && ($event_type->disabled == '0')) {
+    multisite_drupal_toolbox_disable_content_type('event');
+    drupal_set_message(t('Orphan content type event has been disabled.'));
+  }
+  if (!module_exists('news_core') && ($news_type->disabled == '0')) {
+    multisite_drupal_toolbox_disable_content_type('news');
+    drupal_set_message(t('Orphan content type news has been disabled.'));
+  }
+  if (!module_exists('multisite_forum_core') && ($discussion_type->disabled == '0')) {
+    multisite_drupal_toolbox_disable_content_type('discussion');
+    drupal_set_message(t('Orphan content type discussion has been disabled.'));
+  }
 }
