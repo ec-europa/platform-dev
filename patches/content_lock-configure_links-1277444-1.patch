@@ -1,15 +1,15 @@
---- sites/all/modules/contributed/content_lock/content_lock.info.orig
+--- sites/all/modules/contributed/content_lock/content_lock.info
 +++ sites/all/modules/contributed/content_lock/content_lock.info
-@@ -11,4 +11,4 @@ files[] = views/content_lock.views
+@@ -11,7 +11,7 @@
  files[] = views/views_handler_field_is_locked.inc
  files[] = views/views_handler_filter_is_locked.inc
  files[] = views/views_handler_sort_is_locked.inc
 -configure = admin/settings/content_lock
 +configure = admin/config/content/content_lock
 
---- sites/all/modules/contributed/content_lock/modules/content_lock_timeout/content_lock_timeout.info.orig
+--- sites/all/modules/contributed/content_lock/modules/content_lock_timeout/content_lock_timeout.info
 +++ sites/all/modules/contributed/content_lock/modules/content_lock_timeout/content_lock_timeout.info
-@@ -5,4 +5,4 @@ project = "content_lock"
+@@ -5,7 +5,7 @@
  dependencies[] = content_lock
  files[] = content_lock_timeout.install
  files[] = content_lock_timeout.module
