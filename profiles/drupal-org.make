@@ -226,6 +226,9 @@ projects[password_policy][version] = "2.0-alpha1"
 projects[pathauto][subdir] = "contributed"
 projects[pathauto][version] = "1.2"
 
+projects[pathauto_persist][subdir] = "contributed"
+projects[pathauto_persist][version] = "1.3"
+
 projects[plupload][subdir] = "contributed"
 projects[plupload][version] = "1.3"
 
