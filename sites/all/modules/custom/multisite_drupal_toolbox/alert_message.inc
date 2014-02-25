@@ -5,23 +5,19 @@
  */
 
 function get_message() {
-  $message = '
-<p style="margin-left:144.0pt;"><em>Dear webmaster,</em></p>
-<p style="margin-left:144.0pt;"><em>The multiple site frameworks update will be launched on <strong>22nd August 2013</strong>strong>.</em></p>
-<p style="margin-left:144.0pt;"><em>Please read the deployment strategy information https://webgate.ec.europa.eu/multisite/fpfis/en/wiki/deployment-strategy-multiple-site if you are not yet fami
-liar with the update process.</em></p>
-<p style="margin-left:144.0pt;"><em>Summary:</em></p>
-<p style="margin-left:144.0pt;"><em>A copy of your production site will be made to your playground environment on </em><strong>22nd August 2013</strong></p>
-<p style="margin-left:144.0pt;"><em>From that date you will no longer have access to the configuration screens of your production site. </em></p>
-<p style="margin-left:144.0pt;"><em>You will receive a DIFF report on </em><strong>23rd August 2013</strong><em> which will list the impact of that upgrade on your site.</em></p>
-<p style="margin-left:144.0pt;"><em>You will have </em><strong>7 days</strong><em> to perform UAT on the playground environment and let us know of any issue you identified during that UAT period
-.</em></p>
-<p style="margin-left:144.0pt;"><em>If no issue is reported or/and if all issues have been solved in the meantime we will release the update on your production website on </em><strong>02nd<sup><
-/sup> September 2013</strong>.</p>
-<p style="margin-left:144.0pt;"><em>Please review regularly the roadmap calendar https://webgate.ec.europa.eu/multisite/fpfis/en/roadmap to be informed of future releases.</em></p>
-<p style="margin-left:144.0pt;"><em>Do not hesitate to contact us if you have questions.</em></p>
-<p style="margin-left:144.0pt;"><em>The FPFIS Multisite team</em></p>
-  ';
+$message = '
+<p style="margin-left:144.0pt;">Dear webmaster,</p>
+<p style="margin-left:144.0pt;">The multiple site frameworks update will be launched on the <strong>13th March 2014</strong>.</p>
+<p style="margin-left:144.0pt;">Please read <a href="https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Deployment+strategy">the deployment strategy information</a> if you are not yet familiar with the update process.</p>
+<p style="margin-left:144.0pt;">Summary:</p>
+<p style="margin-left:144.0pt;">A copy of your production site will be made to your playground environment on <strong>13th March 2014</strong></p>
+<p style="margin-left:144.0pt;">From that date you will no longer have access to the configuration screens of your production site. </p>
+<p style="margin-left:144.0pt;">You will receive a DIFF report on <strong>14th March 2014</strong> which will list the impact of that upgrade on your site. </p>
+<p style="margin-left:144.0pt;">You will have <strong>7 days</strong> to perform UAT on the playground environment and let us know of any issue you identified during that UAT period.</p>
+<p style="margin-left:144.0pt;">If no issue is reported or/and if all issues have been solved in the meantime we will release the update on your production website     starting from <strong>24th<sup></sup> March 2014</strong>.</p>
+<p style="margin-left:144.0pt;">Do not hesitate to <a href="mailto:DIGIT-FPFIS-SUPPORT@ec.europa.eu">contact us</a> if you have questions.</p>
+<p style="margin-left:144.0pt;">The FPFIS Multisite team</p>
+';
   return $message;
 }
 
