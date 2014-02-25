@@ -1233,9 +1233,9 @@ function cce_basic_config_update_7197() {
   module_invoke('context', 'save', $context);
   
   // Change date format
-  drupal_variable_set("date_format_long", "l, j F, Y - H:i");
-  drupal_variable_set("date_format_medium", "D, d/m/Y - H:i");
-  drupal_variable_set("date_format_short", "d/m/Y - H:i");
+  variable_set("date_format_long", "l, j F, Y - H:i");
+  variable_set("date_format_medium", "D, d/m/Y - H:i");
+  variable_set("date_format_short", "d/m/Y - H:i");
 
 }
 
