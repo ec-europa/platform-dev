@@ -1,7 +1,7 @@
 diff --git a/workbench_moderation.module b/workbench_moderation.module
 index 3f834be..0591dbb 100644
---- a/workbench_moderation.module
-+++ b/workbench_moderation.module
+--- a/sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
++++ b/sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
 @@ -706,8 +706,6 @@ function workbench_moderation_node_update($node) {
    // Apply moderation changes if this is a new revision or if the moderation
    // state has changed.
