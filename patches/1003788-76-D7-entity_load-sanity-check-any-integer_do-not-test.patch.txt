@@ -1,7 +1,5 @@
-diff --git a/includes/entity.inc b/includes/entity.inc
-index ae78077..65f1ccf 100644
---- a/includes/entity.inc
-+++ b/includes/entity.inc
+--- includes/entity.inc	2012-04-02 15:29:38.000000000 +0200
++++ includes.entity.inc	2012-04-02 14:31:53.000000000 +0200
 @@ -160,6 +160,17 @@ class DrupalDefaultEntityController implements DrupalEntityControllerInterface {
    public function load($ids = array(), $conditions = array()) {
      $entities = array();
@@ -20,10 +18,8 @@ index ae78077..65f1ccf 100644
      // Revisions are not statically cached, and require a different query to
      // other conditions, so separate the revision id into its own variable.
      if ($this->revisionKey && isset($conditions[$this->revisionKey])) {
-diff --git a/modules/system/system.test b/modules/system/system.test
-index abd21aa..5b1a8ac 100644
---- a/modules/system/system.test
-+++ b/modules/system/system.test
+--- modules/system/system.test	2012-04-02 15:29:38.000000000 +0200
+--- modules/system/system.test	2012-04-02 14:31:53.000000000 +0200
 @@ -1002,6 +1002,16 @@ class PageNotFoundTestCase extends DrupalWebTestCase {
      );
      $node = $this->drupalCreateNode($edit);
