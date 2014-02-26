@@ -123,6 +123,7 @@ dependencies[] = taxonomy_browser
 dependencies[] = admin_menu
 dependencies[] = tagadelic
 dependencies[] = tagadelic_taxonomy
+dependencies[] = link
 
 dependencies[] = filefield_sources_plupload
 
