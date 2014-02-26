@@ -38,11 +38,11 @@ function ecas_env_node_view_alter(&$build) {
   }
 }
 
-function ecas_env_toolbar_view_alter(&$build) {
+function ecas_env_admin_menu_output_alter(&$content) {
   global $user;
-  // alter the logout link of the admin toolbar when the user is connected with ecas
-  if (isset($_SESSION['phpCAS']) && $_SESSION['phpCAS']['user'] === $user->name) { 
-    $build['toolbar_user']['#links']['logout']['title'] = t("Ecas logout");
-    $build['toolbar_user']['#links']['logout']['href'] = "ecaslogout";
+  // alter the logout link of the admin_menu when the user is connected with ecas
+  if (isset($_SESSION['phpCAS']) && $_SESSION['phpCAS']['user'] === $user->name) {
+    $content['account']['logout']['#title'] = t('Ecas logout');
+    $content['account']['logout']['#href'] = 'ecaslogout';
   }
 }
