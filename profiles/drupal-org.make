@@ -155,7 +155,7 @@ projects[jqmulti][subdir] = "contributed"
 projects[jqmulti][version] = "1.0"
 
 projects[jplayer][subdir] = "contributed"
-projects[jplayer][version] = "7.x-2.0-beta1"
+projects[jplayer][version] = "2.0-beta1"
 
 projects[l10n_update][subdir] = "contributed"
 projects[l10n_update][version] = "1.0-beta3"
