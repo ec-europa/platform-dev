@@ -14,7 +14,7 @@ function multisite_drupal_core_install() {
   // disable modules
   module_disable (array ('toolbar','dashboard'));
   
-  drupal_uninstall_modules (array ('toolbar','dashboard'));
+  drupal_uninstall_modules (array ('toolbar','dashboard'),FALSE);
 
   // add dummy terms in 'tags' vocabulary -------------------------------------------------------------------------------------------------------------------------
    $vocabulary = taxonomy_vocabulary_machine_name_load('tags');
