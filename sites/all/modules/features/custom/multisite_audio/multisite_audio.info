@@ -1,0 +1,11 @@
+name = Multisite Audio
+description = This feature allows administrators to attach audio files to nodes and reproduce playlists.
+package = Multisite_features
+core = 7.x
+version = 7.x-1.0
+php = 5.2.4
+project = multisite_audio
+dependencies[] = file
+dependencies[] = jplayer
+features[features_api][] = api:1
+files[] = tests/multisite_audio_extra.test
