@@ -357,3 +357,11 @@ feature_sets[multisite_business_indicators_community][icon] = ''
 feature_sets[multisite_business_indicators_community][font] = 'multisite-icon-stats'
 feature_sets[multisite_business_indicators_community][enable][] = multisite_business_indicators_community
 feature_sets[multisite_business_indicators_community][disable][] = multisite_business_indicators_community
+
+feature_sets[content_lock][title] = 'Content Lock'
+feature_sets[content_lock][description] = 'Prevents multiple users from trying to edit a single node simultaneously to prevent edit conflicts.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/qouvAw" target="_blank">Read documentation</a>'
+feature_sets[content_lock][category] = 'Site management'
+feature_sets[content_lock][icon] = ''
+feature_sets[content_lock][font] = 'multisite-icon-lock'
+feature_sets[content_lock][enable][] = content_lock
+feature_sets[content_lock][disable][] = multisite_audio
