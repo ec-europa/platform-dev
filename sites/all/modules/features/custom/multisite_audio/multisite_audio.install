@@ -49,7 +49,7 @@ function multisite_audio_field_schema($field) {
  * Implements hook_enable().
  */
 function multisite_audio_enable() {
-  //Activation message
+  // Activation message.
   drupal_set_message(t('Multisite Audio %v feature is now active on your site.', array('%v' => _multisite_audio_get_version())));
 }
 
@@ -57,7 +57,7 @@ function multisite_audio_enable() {
  * Implements hook_disable().
  */
 function multisite_audio_disable() {
-  //Deactivation message
+  // Deactivation message.
   drupal_set_message(t('Multisite Audio %v feature is now inactive on your site.', array('%v' => _multisite_audio_get_version())));
 }
 
@@ -65,12 +65,12 @@ function multisite_audio_disable() {
  * Implements hook_install().
  */
 function multisite_audio_install() {
-  //Nothing yet
+  // Nothing yet.
 }
 
 /**
  * Implements hook_uninstall().
  */
 function multisite_audio_uninstall() {
-  //Nothing yet
+  // Nothing yet.
 }

@@ -268,7 +268,8 @@ function multisite_audio_field_update($entity_type, $entity, $field, $instance, 
     $original = $entity->original;
   }
   else {
-    $original = entity_create_stub_entity($entity_type, array($id, $vid, $bundle));
+    $original = entity_create_stub_entity($entity_type, array(
+      $id,$vid, $bundle));
     field_attach_load($entity_type, array($id => $original), FIELD_LOAD_CURRENT, array('field_id' => $field['id']));
   }
   $original_fids = array();
@@ -318,26 +319,6 @@ function multisite_audio_field_delete_revision($entity_type, $entity, $field, $i
 
 /**
  * Decrements the usage count for a file and attempts to delete it.
- *
- * This function only has an effect if the file being deleted is used only by
- * File module.
- *
- * @param $item
- *   The field item that contains a file array.
- * @param $field
- *   The field structure for the operation.
- * @param $entity_type
- *   The type of $entity.
- * @param $id
- *   The entity ID which contains the file being deleted.
- * @param $count
- *   (optional) The number of references to decrement from the object
- *   containing the file. Defaults to 1.
- *
- * @return
- *   Boolean TRUE if the file was deleted, or an array of remaining references
- *   if the file is still in use by other modules. Boolean FALSE if an error
- *   was encountered.
  */
 function multisite_audio_field_delete_file($item, $field, $entity_type, $id, $count = 1) {
   // To prevent the file field from deleting files it doesn't know about, check
@@ -364,14 +345,6 @@ function multisite_audio_field_is_empty($item, $field) {
 
 /**
  * Determines whether a file should be displayed when outputting field content.
- *
- * @param $item
- *   A field item array.
- * @param $field
- *   A field array.
- *
- * @return
- *   Boolean TRUE if the file will be displayed, FALSE if the file is hidden.
  */
 function multisite_audio_field_displayed($item, $field) {
   if (!empty($field['settings']['display_field'])) {
@@ -504,13 +477,6 @@ function multisite_audio_field_widget_form(&$form, &$form_state, $field, $instan
 
 /**
  * Retrieves the upload validators for a file field.
- *
- * @param $field
- *   A field array.
- *
- * @return
- *   An array suitable for passing to file_save_upload() or the file field
- *   element's '#upload_validators' property.
  */
 function multisite_audio_field_widget_upload_validators($field, $instance) {
   // Cap the upload size according to the PHP limit.
@@ -534,18 +500,6 @@ function multisite_audio_field_widget_upload_validators($field, $instance) {
 
 /**
  * Determines the URI for a file field instance.
- *
- * @param $field
- *   A field array.
- * @param $instance
- *   A field instance array.
- * @param $data
- *   An array of token objects to pass to token_replace().
- *
- * @return
- *   A file directory URI with tokens replaced.
- *
- * @see token_replace()
  */
 function multisite_audio_field_widget_uri($field, $instance, $data = array()) {
   $destination = trim($instance['settings']['file_directory'], '/');
@@ -646,7 +600,9 @@ function multisite_audio_field_widget_process($element, &$form_state, $form) {
   // not just the individual item, to be valid.
   foreach (array('upload_button', 'remove_button') as $key) {
     $element[$key]['#submit'][] = 'file_field_widget_submit';
-    $element[$key]['#limit_validation_errors'] = array(array_slice($element['#parents'], 0, -1));
+    $element[$key]['#limit_validation_errors'] = array(
+      array_slice(
+        $element['#parents'], 0, -1));
   }
 
   return $element;
@@ -693,14 +649,6 @@ function multisite_audio_field_widget_process_multiple($element, &$form_state, $
 
 /**
  * Retrieves the file description from a field field element.
- *
- * This helper function is used by file_field_widget_process_multiple().
- *
- * @param $element
- *   The element being processed.
- *
- * @return
- *   A description of the file suitable for use in the administrative interface.
  */
 function _multisite_audio_field_get_description_from_element($element) {
   // Use the actual file description, if it's available.
@@ -759,5 +707,3 @@ function multisite_audio_field_widget_submit($form, &$form_state) {
   $field_state['items'] = $submitted_values;
   field_form_set_state($parents, $field_name, $langcode, $form_state, $field_state);
 }
-
-

@@ -10,7 +10,6 @@
  * Defines a base class for testing the Audio feature.
  */
 class MultisiteAudioFeatureTest extends DrupalWebTestCase {
-  
   /**
    * Info for the simpleTest UI.
    */
@@ -29,7 +28,7 @@ class MultisiteAudioFeatureTest extends DrupalWebTestCase {
     parent::setUp(array('field_ui', 'jplayer', 'multisite_audio'));
   }
 
-   /**
+  /**
    * Test functionality of the audio field.
    *
    * - Creates a content type.
@@ -39,7 +38,7 @@ class MultisiteAudioFeatureTest extends DrupalWebTestCase {
    * - Test that the multi-valued audio field has every setting.
    * - Tests that both audio fields are enabled in the add node form.
    */
-  function testAudioField() {
+  public function testAudioField() {
     $content_type_machine = strtolower($this->randomName(10));
     $title = $this->randomName(20);
 
@@ -63,11 +62,11 @@ class MultisiteAudioFeatureTest extends DrupalWebTestCase {
     $multiple_audio_field = strtolower($this->randomName(10));
 
     // Description of field to be created;
-    $fields[$single_audio_field] = array('cardinality' => 1, );
-    $fields[$multiple_audio_field] = array('cardinality' => -1, );
+    $fields[$single_audio_field] = array('cardinality' => 1);
+    $fields[$multiple_audio_field] = array('cardinality' => -1);
 
     foreach ($fields as $fieldname => $details) {
-      $this->create_field($fieldname, $details['cardinality']);
+      $this->createField($fieldname, $details['cardinality']);
     }
 
     node_types_rebuild();
@@ -79,7 +78,8 @@ class MultisiteAudioFeatureTest extends DrupalWebTestCase {
     // Reset the permissions cache.
     $this->checkPermissions(array($permission), TRUE);
 
-    // Now that we have a new content type, create a user that has privileges on the content type.
+    // Now that we have a new content type, create a user
+    // that has privileges on the content type.
     $account = $this->drupalCreateUser(array($permission));
     $this->drupalLogin($account);
 
@@ -92,12 +92,8 @@ class MultisiteAudioFeatureTest extends DrupalWebTestCase {
 
   /**
    * Utility function to create fields on a content type.
-   * @param $field_name
-   *   Name of the field
-   * @param $cardinality
-   *   Cardinality
    */
-  protected function create_field($field_name, $cardinality) {
+  protected function createField($field_name, $cardinality) {
     // Add a singleton field_example_text field.
     $edit = array(
       'fields[_add_new_field][label]' => $field_name,
@@ -126,11 +122,11 @@ class MultisiteAudioFeatureTest extends DrupalWebTestCase {
     $this->assertText(t('Public files'));
     $this->assertText(t('Private files'));
 
-    $edit = array('field[cardinality]' => (string)$cardinality);
+    $edit = array('field[cardinality]' => (string) $cardinality);
 
     $this->drupalPost(NULL, $edit, t('Save settings'));
     debug(t('Saved settings for field %field_name with widget "Audio Upload" and cardinality %cardinality', array('%field_name' => $field_name, '%cardinality' => $cardinality)));
-    
+
     $this->assertText(t('Saved @name configuration.', array('@name' => $field_name)));
   }
 }
