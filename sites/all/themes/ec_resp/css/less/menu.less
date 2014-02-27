@@ -47,6 +47,27 @@
   }
 }
 
+#sidebar-left #main-menu,
+#sidebar-right #main-menu {
+  .affix {
+    position: relative;
+  }
+  .container {
+    width: 100%;
+    padding: 0;
+    .navbar-collapse {
+      padding: 0;
+    }
+    .navbar-nav {
+      float: none;
+      > li {
+        float: none;
+        padding: 0;
+      }
+    }
+  }
+}
+
 @media (max-width: @screen-xs-max) {
   #main-menu #sidebar-button {
     margin-left: 15px;

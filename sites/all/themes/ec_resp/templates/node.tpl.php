@@ -84,7 +84,6 @@
   $display_user_picture = TRUE;
   $prefixe = '';
   $suffixe = '';
-  $display_label = FALSE;
   //get node type
   switch ($type) {
     case 'links':
@@ -150,7 +149,6 @@
         'group' => array('group_audience', 'group_content_access')
       );
       $display_user_picture = FALSE;
-      $display_label = TRUE;
       break;
 
     case 'gallerymedia':
@@ -291,10 +289,8 @@
             }
 
             $field .= '</div>';
-          } else if ($display_label) {
+          } else {
             $field .= '<div class="row"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'.render($content[$key]).'</div></div>';
-          } else  {
-            $field .= '<div class="row"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 no_label">'.render($content[$key]).'</div></div>';
           }
 
           if (isset($content[$key]['#field_name']) && in_array($content[$key]['#field_name'],$fields['picture'])) {

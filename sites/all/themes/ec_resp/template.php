@@ -764,7 +764,7 @@ function ec_resp_field__taxonomy_term_reference($variables) {
 
   // Render the label, if it's not hidden.
   if (!$variables['label_hidden']) {
-    $output .= '<h3 class="field-label">' . $variables['label'] . ': </h3>';
+    $output .= '<div class="field-label">' . $variables['label'] . ': </div>';
   }
 
   // Render the items.
