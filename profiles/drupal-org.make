@@ -377,7 +377,7 @@ libraries[tcpdf][destination] = "libraries"
 libraries[cycle][download][type] = "get"
 libraries[cycle][download][url] = "http://malsup.github.com/jquery.cycle.all.js"
 libraries[cycle][directory_name] = "jquery.cycle"
-libraries[cycle][download][sha1] = "f71640db8972ed6d249f57ea8cce29c389c4a84f"
+libraries[cycle][download][sha1] = "d775f1c26f2fa48416844c28b87a7b14ea1a846a"
 libraries[cycle][destination] = "libraries"
 
 ;plupload 1.5.7
