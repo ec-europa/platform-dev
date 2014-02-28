@@ -27,6 +27,18 @@ function taxonomy_browser_requirements($phase) {
 }
 
 /**
+ * Implements hook_permission()
+ */
+function taxonomy_browser_permission() {
+  return array(
+    'administer taxonomy_browser' =>  array(
+      'title' => t('Administer taxonomy browser'),
+    ),
+  );
+}
+
+
+/**
  * Implements hook_menu().
  */
 function taxonomy_browser_menu() {
@@ -34,7 +46,7 @@ function taxonomy_browser_menu() {
       'title' => 'Taxonomy browser',
       'page callback' => 'drupal_get_form',
       'page arguments' => array('_taxonomy_browser_form_taxonomy_browser_settings'),
-      'access arguments' => array('access administration pages'),
+      'access arguments' => array('administer taxonomy_browser'),
       'file' => 'taxonomy_browser.admin.inc',
   );
   $items['admin/config/taxonomy_browser/settings'] = array(
@@ -42,7 +54,7 @@ function taxonomy_browser_menu() {
       'description' => 'Configure the taxonomy browser module',
       'page callback' => 'drupal_get_form',
       'page arguments' => array('_taxonomy_browser_form_taxonomy_browser_settings'),
-      'access arguments' => array('access administration pages'),
+      'access arguments' => array('administer taxonomy_browser'),
       'file' => 'taxonomy_browser.admin.inc',
   );
 
