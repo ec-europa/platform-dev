@@ -362,8 +362,8 @@ projects[xml_field][version] = "1.5"
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "tar.gz"
-libraries[ckeditor][download][url] = "download.cksource.com/CKEditor/CKEditor/CKEditor%204.3.2/ckeditor_4.3.2_standard.tar.gz"
-libraries[ckeditor][download][sha1] = "484fa18f1d9aeaa4de84709ab71eb3d8ec1eda2f"
+libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.3.2/ckeditor_4.3.2_standard.zip"
+libraries[ckeditor][download][sha1] = "64f9a81ce16f2a29a187a036a439875817e7cc46"
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ;tcpdf 6.0.013
