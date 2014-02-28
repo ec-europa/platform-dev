@@ -49,9 +49,6 @@ function multisite_twitterblock_permission() {
     'administer fpfis twitter widget' => array(
       'title' => t('Administer Multisite Twitter block settings'),
     ),
-    'administer fpfis twitter feature' => array(
-      'title' => t('Administer Multisite Twitter block settings'),
-    ),
     'override fpfis twitter widget' => array(
       'title' => t('Override Multisite Twitter block on select content types'),
     ),
