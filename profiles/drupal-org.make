@@ -374,8 +374,8 @@ libraries[tcpdf][directory_name] = "tcpdf"
 libraries[tcpdf][destination] = "libraries"
 
 ;cycle 3.0.2 (commit d6557ca)
-libraries[cycle][download][type] = "git"
-libraries[cycle][download][url] = "https://raw.github.com/malsup/malsup.github.com/d6557ca33055610730ba3adb2507e5db801e6635/jquery.cycle.all.js"
+libraries[cycle][download][type] = "get"
+libraries[cycle][download][url] = "http://malsup.github.com/jquery.cycle.all.js"
 libraries[cycle][directory_name] = "jquery.cycle"
 libraries[cycle][download][sha1] = "f71640db8972ed6d249f57ea8cce29c389c4a84f"
 libraries[cycle][destination] = "libraries"
