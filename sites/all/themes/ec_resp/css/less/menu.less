@@ -8,9 +8,6 @@
 }
 
 /* --------------- Main Menu ------------ */
-.region-featured {
-  min-height: 50px;
-}
 #main-menu {
   font-size: 16px;
   .navbar {
@@ -26,9 +23,6 @@
   .navbar-toggle:hover, 
   .navbar-toggle:focus {
     background-color: @navbar-default-link-active-bg;
-  }
-  #sidebar-button {
-    float: left;
   }
   .navbar-nav > li > a {
     text-transform:capitalize;
@@ -47,8 +41,8 @@
   }
 }
 
-#sidebar-left #main-menu,
-#sidebar-right #main-menu {
+.region-sidebar-left #main-menu,
+.region-sidebar-right #main-menu {
   .affix {
     position: relative;
   }
@@ -145,18 +139,31 @@ ul.nav-tabs {
 /* --------------- Responsive sidebar  --------------- */
 #responsive-sidebar {
   position: absolute;
-  width: 100%;
-  z-index: 1;
-  > div {
-    z-index: 2;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 15px;
-    margin-top: -20px;
-    background-color: @btn-default-bg;
-    border-bottom: 1px solid @brand-primary;
-    border-right: 1px solid @brand-primary;
-    width: 85%;
-    border-radius: 0 0 @border-radius-base 0;
+  width: 85%;
+  z-index: 2;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+  background-color: @btn-default-bg;
+  border-bottom: 1px solid @brand-primary;
+  border-right: 1px solid @brand-primary;
+  border-radius: 0 0 @border-radius-base 0;
+}
+
+#sidebar-button {
+  background-color: #074A8B;
+  border: 1px solid #D9EDF7;
+  width: 43px;
+  height: 40px;
+  padding: 10px;
+  border-radius: @border-radius-base;
+  .icon-bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: #D9EDF7;
+    +.icon-bar {
+      margin-top: 4px;
+    }
   }
 }

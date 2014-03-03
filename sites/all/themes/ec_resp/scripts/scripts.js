@@ -156,7 +156,7 @@ jQuery(function($){
 
 
     // Responsive menu
-    $('#responsive-sidebar > div').hide();
+    $('#responsive-sidebar').hide();
     $('#sidebar-button').on("click", function() {
       if ($('#layout-body').is('.reduced')) {
         hide_sidebar();
@@ -173,7 +173,7 @@ jQuery(function($){
 
     function hide_sidebar() {
       // close responsive sidebars
-      $('#responsive-sidebar > div').slideToggle('2000', "linear").hide();
+      $('#responsive-sidebar').slideToggle('2000', "linear").hide();
       $('#layout-body').animate({
         left:'0'
       }, 300, function() {
@@ -192,7 +192,7 @@ jQuery(function($){
       $('#sidebar-right > div').detach().appendTo($('#responsive-sidebar-right'));
 
       // open responsive sidebars
-      $('#responsive-sidebar > div').slideToggle('2000', "linear").show();
+      $('#responsive-sidebar').slideToggle('2000', "linear").show();
       $('#layout-body').animate({
         left:'85%'
       }, 300).addClass('reduced');

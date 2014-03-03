@@ -95,12 +95,18 @@ $col_sidebar_left_lg    = ($page['sidebar_left'] ? 3 : 0);
 $col_sidebar_left_md    = ($page['sidebar_left'] ? 4 : 0);
 $col_sidebar_right_lg   = ($page['sidebar_right'] ? 3 : 0);
 $col_sidebar_right_md   = ($page['sidebar_right'] ? ($page['sidebar_left'] ? 12 : 4) : 0);
+$col_sidebar_button_sm  = 4;
+$col_sidebar_button_xs  = 4;
 $col_content_lg         = 12 - $col_sidebar_left_lg - $col_sidebar_right_lg;
 $col_content_md         = ($page['sidebar_left'] ? 12 - $col_sidebar_left_md : ($page['sidebar_right'] ? 12 - $col_sidebar_right_md : 12));
 $col_tools_lg           = ($title ? 4 : 12);
 $col_tools_md           = ($title ? 4 : 12);
+$col_tools_sm           = 12 - $col_sidebar_button_sm;
+$col_tools_xs           = 12 - $col_sidebar_button_xs;
 $col_title_lg           = 12 - $col_tools_lg;
 $col_title_md           = 12 - $col_tools_md;
+$col_title_sm           = 12;
+$col_title_xs           = 12;
 
 //format regions
 $region_header_right = $page['header_right'] ? render($page['header_right']) : '';
@@ -166,43 +172,20 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
 
   <?php print $region_featured; ?>
 
+  <div id="responsive-sidebar">
   <?php
-    switch ($variables['responsive_sidebar']) {
-      case 'left':
+    if ($page['sidebar_left'] && ($variables['responsive_sidebar'] == 'left' || $variables['responsive_sidebar'] == 'both')) {
   ?>
-  <?php if ($page['sidebar_left']): ?>
-    <div id="responsive-sidebar" class="visible-sm visible-xs">
-      <div id="responsive-sidebar-left"></div>
-    </div><!-- /#responsive-sidebar-->   
-  <?php endif; ?>
-    <?php
-      break;
-
-      case 'right':
-    ?>
-  <?php if ($page['sidebar_right']): ?>
-    <div id="responsive-sidebar" class="visible-sm visible-xs">
-      <div id="responsive-sidebar-right"></div>
-    </div><!-- /#responsive-sidebar-->   
-  <?php endif; ?>
-    <?php
-      break;
-
-      case 'both':
-    ?>
-  <?php if ($page['sidebar_left'] || $page['sidebar_right']): ?>
-    <div id="responsive-sidebar" class="visible-sm visible-xs">
-      <div id="responsive-sidebar-left"></div>
-      <div id="responsive-sidebar-right"></div>
-    </div><!-- /#responsive-sidebar-->       
-  <?php endif; ?>
-    <?php
-      break;      
-
-      default:
-      break;
+    <div id="responsive-sidebar-left"></div>
+  <?php 
     }
-    ?>      
+    elseif ($page['sidebar_right'] && ($variables['responsive_sidebar'] == 'right' || $variables['responsive_sidebar'] == 'both')) {
+  ?>
+    <div id="responsive-sidebar-right"></div>
+  <?php
+    }
+   ?>
+  </div><!-- /#responsive-sidebar-->   
 
   <div id="layout-body" class="container">
     <div class="row">
@@ -210,7 +193,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
 
       <?php if ($title): ?>
         <?php $title_image = (isset($node->field_thumbnail['und'][0]['uri']) && $node->type == 'community' ? image_style_url('communities_thumbnail', $node->field_thumbnail['und'][0]['uri']) : '');?>
-        <h1 class="col-lg-<?php print $col_title_lg; ?> col-md-<?php print $col_title_md; ?>" id="page-title">
+        <h1 class="col-lg-<?php print $col_title_lg; ?> col-md-<?php print $col_title_md; ?> col-sm-<?php print $col_title_sm; ?> col-xs-<?php print $col_title_xs; ?>" id="page-title">
           <?php if ($title_image): ?>
             <img src="<?php print $title_image; ?>" alt="<?php print $title; ?>" />
           <?php endif; ?>
@@ -220,11 +203,17 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       
       <?php print render($title_suffix); ?>
 
-      <?php if ($page['tools']): ?>
-      <div class="col-lg-<?php print $col_tools_lg; ?> col-md-<?php print $col_tools_md; ?>">
+      <div class="col-sm-<?php print $col_sidebar_button_sm; ?> col-xs-<?php print $col_sidebar_button_xs; ?> visible-sm visible-xs">
+        <button id="sidebar-button">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button><!-- /#sidebar-button -->
+      </div>
+
+      <div class="col-lg-<?php print $col_tools_lg; ?> col-md-<?php print $col_tools_md; ?> col-sm-<?php print $col_tools_sm; ?> col-xs-<?php print $col_tools_xs; ?>">
         <?php print $region_tools; ?>
       </div>
-      <?php endif; ?>
     </div>
 
     <?php if ($messages): ?>

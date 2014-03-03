@@ -56,12 +56,6 @@ global $base_url;
         <button id="menu-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
           <div class="arrow-down"></div>
         </button>
-
-        <button id="sidebar-button" class="navbar-toggle visible-sm visible-xs">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>                
-        </button><!-- /#sidebar-button --> 
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
