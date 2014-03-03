@@ -62,7 +62,7 @@ projects[content_lock][subdir] = "contributed"
 projects[content_lock][version] = "1.4"
 
 projects[context][subdir] = "contributed"
-projects[context][version] = "3.0-beta6"
+projects[context][version] = "3.2"
 
 projects[ctools][subdir] = "contributed"
 projects[ctools][version] = "1.3"
