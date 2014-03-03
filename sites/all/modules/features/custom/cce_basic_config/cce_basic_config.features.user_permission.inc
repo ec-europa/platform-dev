@@ -118,6 +118,15 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'workbench',
   );
 
+  // Exported permission: administer media browser.
+  $permissions['administer media browser'] = array(
+    'name' => 'administer media browser',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'media',
+  );
+
   // Exported permission: administer video presets.
   $permissions['administer video presets'] = array(
     'name' => 'administer video presets',

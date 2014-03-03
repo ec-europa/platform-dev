@@ -197,13 +197,6 @@ function cce_basic_config_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'jqmulti_load_files_always';
-  $strongarm->value = 1;
-  $export['jqmulti_load_files_always'] = $strongarm;
-  
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_article';
   $strongarm->value = '2';
   $export['language_content_type_article'] = $strongarm;
@@ -321,8 +314,8 @@ example.org';
   $strongarm->name = 'media__wysiwyg_browser_plugins';
   $strongarm->value = array(
     0 => 'upload',
-    1 => 'media_default--media_browser_my_files',
-    2 => 'elibrary_browser_tab--media_browser_1',
+    1 => 'media_default--media_browser_1',
+    2 => 'media_default--media_browser_my_files',
   );
   $export['media__wysiwyg_browser_plugins'] = $strongarm;
 
@@ -1101,33 +1094,5 @@ border-radius';
   $strongarm->value = 'draft';
   $export['workbench_moderation_default_state_article'] = $strongarm;
 
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'easy_breadcrumb-capitalizator_mode';
-  $strongarm->value = 'ucfirst';
-  $export['easy_breadcrumb-capitalizator_mode'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'easy_breadcrumb-include_home_segment';
-  $strongarm->value = 0;
-  $export['easy_breadcrumb-include_home_segment'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'easy_breadcrumb-include_invalid_paths';
-  $strongarm->value = 0;
-  $export['easy_breadcrumb-include_invalid_paths'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'easy_breadcrumb-segments_separator';
-  $strongarm->value = '>';
-  $export['easy_breadcrumb-segments_separator'] = $strongarm;
-  
   return $export;
 }
