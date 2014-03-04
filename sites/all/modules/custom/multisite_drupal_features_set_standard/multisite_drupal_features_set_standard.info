@@ -183,13 +183,13 @@ feature_sets[ec_embedded_image][font] = 'multisite-icon-embed-image'
 feature_sets[ec_embedded_image][enable][] = ec_embedded_image
 feature_sets[ec_embedded_image][disable][] = ec_embedded_image
 
-feature_sets[ec_embedded_image][title] = 'Audio'
-feature_sets[ec_embedded_image][description] = 'Attach audio files to nodes and reproduce playlists.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/KpSvAw" target="_blank">Read documentation</a>'
-feature_sets[ec_embedded_image][category] = 'Media'
-feature_sets[ec_embedded_image][icon] = ''
-feature_sets[ec_embedded_image][font] = 'multisite-icon-music'
-feature_sets[ec_embedded_image][enable][] = multisite_audio
-feature_sets[ec_embedded_image][disable][] = multisite_audio
+feature_sets[multisite_audio][title] = 'Audio'
+feature_sets[multisite_audio][description] = 'Attach audio files to nodes and reproduce playlists.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/KpSvAw" target="_blank">Read documentation</a>'
+feature_sets[multisite_audio][category] = 'Media'
+feature_sets[multisite_audio][icon] = ''
+feature_sets[multisite_audio][font] = 'multisite-icon-music'
+feature_sets[multisite_audio][enable][] = multisite_audio
+feature_sets[multisite_audio][disable][] = multisite_audio
 
 feature_sets[gallerymedia_core][title] = 'Media Gallery'
 feature_sets[gallerymedia_core][description] = 'Contributors can add picture galleries.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/qIbhAg" target="_blank">Read documentation</a>'
@@ -349,11 +349,3 @@ feature_sets[multisite_business_indicators_standard][icon] = ''
 feature_sets[multisite_business_indicators_standard][font] = 'multisite-icon-stats'
 feature_sets[multisite_business_indicators_standard][enable][] = multisite_business_indicators_standard
 feature_sets[multisite_business_indicators_standard][disable][] = multisite_business_indicators_standard
-
-feature_sets[content_lock][title] = 'Content Lock'
-feature_sets[content_lock][description] = 'Prevents multiple users from trying to edit a single node simultaneously to prevent edit conflicts.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/qouvAw" target="_blank">Read documentation</a>'
-feature_sets[content_lock][category] = 'Site management'
-feature_sets[content_lock][icon] = ''
-feature_sets[content_lock][font] = 'multisite-icon-lock'
-feature_sets[content_lock][enable][] = content_lock
-feature_sets[content_lock][disable][] = multisite_audio
