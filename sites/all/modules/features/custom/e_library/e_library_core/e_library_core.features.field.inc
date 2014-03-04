@@ -266,7 +266,7 @@ function e_library_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -413,7 +413,7 @@ function e_library_core_field_default_fields() {
           0 => 'target_id',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'entityreference',
       'settings' => array(
         'handler' => 'base',

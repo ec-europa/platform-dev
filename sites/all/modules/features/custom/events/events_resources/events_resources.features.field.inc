@@ -31,7 +31,7 @@ function events_resources_field_default_fields() {
           0 => 'tid',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(

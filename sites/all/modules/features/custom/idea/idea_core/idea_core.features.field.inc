@@ -33,7 +33,7 @@ function idea_core_field_default_fields() {
           0 => 'format',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -123,7 +123,7 @@ function idea_core_field_default_fields() {
           0 => 'format',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -194,7 +194,7 @@ function idea_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -266,7 +266,7 @@ function idea_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -338,7 +338,7 @@ function idea_core_field_default_fields() {
           0 => 'tid',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(
@@ -406,7 +406,7 @@ function idea_core_field_default_fields() {
           0 => 'value',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(

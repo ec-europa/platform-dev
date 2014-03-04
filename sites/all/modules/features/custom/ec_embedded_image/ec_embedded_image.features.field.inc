@@ -31,7 +31,7 @@ function ec_embedded_image_field_default_fields() {
           0 => 'format',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -111,7 +111,7 @@ function ec_embedded_image_field_default_fields() {
           0 => 'format',
         ),
       ),
-      'locked' => '0',
+      'locked' => '1',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
