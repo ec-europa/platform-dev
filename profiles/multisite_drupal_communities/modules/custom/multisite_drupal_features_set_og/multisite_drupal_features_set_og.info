@@ -189,13 +189,13 @@ feature_sets[ec_embedded_image][font] = 'multisite-icon-embed-image'
 feature_sets[ec_embedded_image][enable][] = ec_embedded_image
 feature_sets[ec_embedded_image][disable][] = 
 
-feature_sets[ec_embedded_audio][title] = 'Audio'
-feature_sets[ec_embedded_audio][description] = 'Attach audio files to nodes and reproduce playlists.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/KpSvAw" target="_blank">Read documentation</a>'
-feature_sets[ec_embedded_audio][category] = 'Media'
-feature_sets[ec_embedded_audio][icon] = ''
-feature_sets[ec_embedded_audio][font] = 'multisite-icon-music'
-feature_sets[ec_embedded_audio][enable][] = multisite_audio
-feature_sets[ec_embedded_audio][disable][] = multisite_audio
+feature_sets[multisite_audio][title] = 'Audio'
+feature_sets[multisite_audio][description] = 'Attach audio files to nodes and reproduce playlists.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/KpSvAw" target="_blank">Read documentation</a>'
+feature_sets[multisite_audio][category] = 'Media'
+feature_sets[multisite_audio][icon] = ''
+feature_sets[multisite_audio][font] = 'multisite-icon-music'
+feature_sets[multisite_audio][enable][] = multisite_audio
+feature_sets[multisite_audio][disable][] = multisite_audio
 
 feature_sets[gallerymedia_core][title] = 'Media Gallery'
 feature_sets[gallerymedia_core][description] = 'Contributors can add picture galleries.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/qIbhAg" target="_blank">Read documentation</a>'
