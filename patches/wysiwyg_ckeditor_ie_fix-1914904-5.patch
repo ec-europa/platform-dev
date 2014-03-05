@@ -2,7 +2,7 @@
 # This patch can be applied using context Tools: Apply Diff Patch action on respective folder.
 # It uses platform neutral UTF-8 encoding.
 # Above lines and this line are ignored by the patching process.
---- sites/all/modules/contributed/wysiwyg/editors/js/ckeditor-3.0.js.original
+--- sites/all/modules/contributed/wysiwyg/editors/js/ckeditor-3.0.js
 +++ sites/all/modules/contributed/wysiwyg/editors/js/ckeditor-3.0.js
 @@ -200,7 +200,13 @@
                  }
