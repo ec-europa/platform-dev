@@ -215,10 +215,7 @@ projects[message][subdir] = "contributed"
 projects[message][version] = "1.7"
 
 projects[mimemail][subdir] = "contributed"
-;projects[mimemail][version] = "1.x-dev"
-projects[mimemail][download][type] = "git"
-projects[mimemail][download][url] = "http://git.drupal.org/project/mimemail.git"
-projects[mimemail][download][revision] = "9eeee6a590ff3ed6769ff4d46e43c6e734e3d9da"
+;projects[mimemail][version] = "1.0-beta2"
 
 projects[node_export][subdir] = "contributed"
 projects[node_export][version] = "3.0"
