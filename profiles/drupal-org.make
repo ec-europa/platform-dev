@@ -65,7 +65,7 @@ projects[context][subdir] = "contributed"
 projects[context][version] = "3.2"
 
 projects[ctools][subdir] = "contributed"
-projects[ctools][version] = "1.3"
+projects[ctools][version] = "1.4"
 
 projects[custom_breadcrumbs][subdir] = "contributed"
 projects[custom_breadcrumbs][version] = "1.0-alpha1"
