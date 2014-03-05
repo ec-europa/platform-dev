@@ -55,7 +55,7 @@ function idea_core_field_group_info() {
       0 => 'field_categories_taxonomy',
       1 => 'field_status_taxonomy',
       2 => 'field_tags',
-	  3 => 'language',
+      3 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
