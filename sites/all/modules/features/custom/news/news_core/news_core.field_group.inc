@@ -82,7 +82,7 @@ function news_core_field_group_info() {
     'children' => array(
       0 => 'field_tags',
       1 => 'field_top_news',
-	    2 => 'language',
+      2 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(

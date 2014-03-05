@@ -12,13 +12,14 @@ function news_core_default_rules_configuration() {
   $items['rules_manage_node_publication'] = entity_import('rules_config', '{ "rules_manage_node_publication" : {
       "LABEL" : "Manage Node Publication",
       "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
       "TAGS" : [ "Publication" ],
       "REQUIRES" : [ "rules", "rules_scheduler", "workbench_moderation" ],
-      "ON" : [
-        "node_insert",
-        "node_update",
-        "workbench_moderation_after_moderation_transition"
-      ],
+      "ON" : {
+        "node_insert" : [],
+        "node_update" : [],
+        "workbench_moderation_after_moderation_transition" : []
+      },
       "IF" : [
         { "node_is_of_type" : { "node" : [ "node" ], "type" : { "value" : { "news" : "news" } } } }
       ],
@@ -43,6 +44,7 @@ function news_core_default_rules_configuration() {
   $items['rules_publish_content_rule_'] = entity_import('rules_config', '{ "rules_publish_content_rule_" : {
       "LABEL" : "Publish content {rule}",
       "PLUGIN" : "rule",
+      "OWNER" : "rules",
       "REQUIRES" : [ "rules", "workbench_moderation" ],
       "USES VARIABLES" : { "node" : { "label" : "node", "type" : "node" } },
       "IF" : [
@@ -74,6 +76,7 @@ function news_core_default_rules_configuration() {
   $items['rules_unpublish_content_rule_'] = entity_import('rules_config', '{ "rules_unpublish_content_rule_" : {
       "LABEL" : "UNpublish content {rule}",
       "PLUGIN" : "rule",
+      "OWNER" : "rules",
       "REQUIRES" : [ "rules", "workbench_moderation" ],
       "USES VARIABLES" : { "node" : { "label" : "node", "type" : "node" } },
       "IF" : [
