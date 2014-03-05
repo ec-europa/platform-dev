@@ -1,0 +1,150 @@
+<?php
+
+/**
+ * @file
+ * Tests for og_content_type_admin.module.
+ * ECWeb MULTISITE Feature Test
+ */
+
+/**
+ * Defines a base class for testing the og_content_type_admin feature.
+ */
+class OgContentTypeAdminFeatureTest extends DrupalWebTestCase {
+  protected $web_user;
+  public $publicFilesDirectory;
+
+  /**
+   * Info for the simpleTest UI.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Og Content Type Admin feature test',
+      'description' => 'Test the Og Content Type Admin feature to ensure it works as intended.',
+      'group' => 'Multisite Feature Test',
+    );
+  }
+
+  /**
+   * Configure environment: declare modules, users, permissions...
+   */
+  public function setUp() {
+    $this->profile = 'multisite_drupal_communities';
+    parent::setUp(array(
+      'og_content_type_admin', 'views', 'og', 'og_access',
+      'og_field_access', 'og_context', 'og_ui', 'node',
+      'multisite_workbench_moderation_view'));
+  }
+
+  /**
+   * Verify that current user has no access to page.
+   */
+  public function ogcontenttypeadminVerifyNoAccess($url) {
+    // Test that page returns 403 Access Denied.
+    $this->drupalGet($url);
+    $this->assertResponse(403, 'Expected -> Access Denied');
+  }
+
+  /**
+   * Verify that current user has access to page.
+   */
+  public function ogcontenttypeadminVerifyAccess($url) {
+    // Test that page returns 200 Access OK.
+    $this->drupalGet($url);
+    $this->assertResponse(200, 'Expected -> Access OK');
+  }
+
+  /**
+   * Check the access to the og content type admin configuration page.
+   */
+  public function testogcontenttypeadminBehavior() {
+    node_access_rebuild();
+    // Verify that anonymous users can't access to the og content
+    // type admin configuration page.
+    $this->ogcontenttypeadminVerifyNoAccess('admin/config/group/og_content_types');
+
+    // Create a regular user and login.
+    $web_user_register = $this->drupalCreateUser();
+    $this->drupalLogin($web_user_register);
+    // Verify that authenticated users can't access to the
+    // og content type admin configuration page.
+    $this->ogcontenttypeadminVerifyNoAccess('admin/config/group/og_content_types');
+
+    // Create a user with permissions to access to the og
+    // content type admin configuration page.
+    $web_user = $this->drupalCreateUser(array(
+      'administer site configuration', 'access administration pages', 'administer nodes',
+      'access content overview', 'administer og content types', 'bypass workbench moderation'));
+    $this->drupalLogin($web_user);
+    // Verify that user with permissions can access to the
+    // og content type admin configuration page.
+    $this->ogcontenttypeadminVerifyAccess('admin/config/group/og_content_types');
+
+    // Create a node of a "Community" content-type.
+    $this->drupalGet('node/add/community');
+    $community = array();
+    $community['type'] = 'community';
+    $community['status'] = 1;
+    $community['uid'] = $this->loggedInUser->uid;
+    $community['title'] = $this->randomName(8);
+    $community['body'] = array('und' => array('0' => array('value' => $this->randomName(16))));
+    $community['group_access'] = array('und' => array('0' => array('value' => 1)));
+    $community['og_roles_permissions'] = array('und' => array('0' => array('value' => 1)));
+    $community['workbench_moderation_state_new'] = workbench_moderation_state_published();
+    $this->group1 = $this->drupalCreateNode($community);
+
+    // Verify that anonymous users can't access to the
+    // og content type node tab.
+    $this->drupalLogout();
+    $this->ogcontenttypeadminVerifyNoAccess('node/' . $this->group1->nid . '/ogct');
+
+    // Verify that user without permissions can't access to the
+    // og content type node tab.
+    $this->drupalLogin($web_user_register);
+    $this->ogcontenttypeadminVerifyNoAccess('node/' . $this->group1->nid . '/ogct');
+
+    // Verify that user with permissions can access to the
+    // og content type node tab.
+    $this->drupalLogin($web_user);
+    $this->drupalGet('node/' . $this->group1->nid . '/ogct');
+    $this->assertText(t('Group Content Types'), '"Group Content Types" management tab exists in the group page');
+
+    // Add community as group.
+    $parameters = array();
+    $parameters['group'] = $this->group1->nid;
+    $this->drupalPost('admin/config/group/og_content_types', $parameters, "Add group");
+    $this->assertText(t('The group has been added'));
+    cache_clear_all();
+
+    // By default, article must be required, check it under Content Type tab.
+    $this->drupalGet('node/' . $this->group1->nid . '/ogct');
+    $this->assertText(t('Article'), "The article content type is setup.");
+    $this->assertFieldChecked('edit-group-article', "Articles are ENABLED for been added to the community.");
+
+    $this->drupalGet('admin/config/group/og_content_types/admin/' . $this->group1->nid . '');
+
+    // Allow but not require article under "Site Wide" menu.
+    $parameters = array();
+    $parameters['groups[Site Wide][article][allowed]'] = TRUE;
+    $parameters['groups[Site Wide][article][required]'] = FALSE;
+    $this->drupalPost('admin/config/group/og_content_types/admin/-1', $parameters, t('Save assignments'));
+
+    // Allow but not require article under "Default" menu.
+    $parameters = array();
+    $parameters['groups[Default][article][allowed]'] = TRUE;
+    $parameters['groups[Default][article][required]'] = FALSE;
+    $this->drupalPost('admin/config/group/og_content_types/admin/0', $parameters, t('Save assignments'));
+
+    // Disallow and not require article under the specific group menu.
+    $parameters = array();
+    $parameters['groups[' . $this->group1->title . '][article][allowed]'] = FALSE;
+    $parameters['groups[' . $this->group1->title . '][article][required]'] = FALSE;
+    $this->drupalPost('admin/config/group/og_content_types/admin/' . $this->group1->nid . '', $parameters, t('Save assignments'));
+
+    // Check it under Content Type tab.
+    $this->drupalGet('node/' . $this->group1->nid . '/ogct');
+    $this->assertText(t('Article'), "The article content type is setup.");
+    $this->assertNoFieldChecked('edit-group-article', "Articles are DISABLED for been added to the community.");
+
+    $this->drupalGet('admin/config/group/og_content_types/admin/' . $this->group1->nid . '');
+  }
+}

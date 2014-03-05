@@ -132,10 +132,14 @@ dependencies[] = link
 
 dependencies[] = filefield_sources_plupload
 
+
 dependencies[] = multisite_settings_og
 dependencies[] = multisite_drupal_toolbox
+
+;custom modules
 dependencies[] = multisite_drupal_features_set_og
 dependencies[] = multisite_drupal_access
+dependencies[] = og_content_type_admin
 ;dependencies[] = multisite_drupal_workbench_moderation
 dependencies[] = multisite_workbench_moderation_view
 dependencies[] = multisite_drupal_language_negociation
