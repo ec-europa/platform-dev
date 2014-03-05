@@ -18,6 +18,18 @@ function cce_basic_config_file_default_displays() {
   $file_display->settings = '';
   $export['audio__preview__file_field_media_large_icon'] = $file_display;
 
+    $export = array();
+
+  $file_display = new stdClass();
+  $file_display->api_version = 1;
+  $file_display->name = 'document__default__file_field_file_download_link';
+  $file_display->weight = -49;
+  $file_display->status = TRUE;
+  $file_display->settings = array(
+    'text' => 'Download [file:name]',
+  );
+  $export['document__default__file_field_file_download_link'] = $file_display;
+
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'document__default__file_field_file_rendered';
