@@ -197,6 +197,13 @@ function cce_basic_config_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'jqmulti_load_files_always';
+  $strongarm->value = 1;
+  $export['jqmulti_load_files_always'] = $strongarm;
+  
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_article';
   $strongarm->value = '2';
   $export['language_content_type_article'] = $strongarm;
@@ -1121,7 +1128,6 @@ border-radius';
   $strongarm->name = 'easy_breadcrumb-segments_separator';
   $strongarm->value = '>';
   $export['easy_breadcrumb-segments_separator'] = $strongarm;
-
-
+  
   return $export;
 }
