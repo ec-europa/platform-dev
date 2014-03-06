@@ -108,10 +108,10 @@ global $base_url;
 
   // content
   $col_content_main = array(
-    'lg' => ($page['content_top'] ? 12 - $col_sidebar_left['lg'] - $col_sidebar_right['lg'] : 0),
-    'md' => ($page['content_top'] ? ($col_sidebar_right['md'] == 4 ? 8 : 12 - $col_sidebar_left['md']) : 0),
-    'sm' => ($page['content_top'] ? 12 : 0),
-    'xs' => ($page['content_top'] ? 12 : 0)
+    'lg' => 12 - $col_sidebar_left['lg'] - $col_sidebar_right['lg'],
+    'md' => ($col_sidebar_right['md'] == 4 ? 8 : 12 - $col_sidebar_left['md']),
+    'sm' => 12,
+    'xs' => 12
   );
   $col_content_right = array(
     'lg' => ($page['content_right'] ? 6 : 0),
