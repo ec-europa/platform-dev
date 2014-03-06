@@ -13,6 +13,7 @@ dependencies[] = ctools
 dependencies[] = current_search
 dependencies[] = date
 dependencies[] = date_popup
+dependencies[] = easy_breadcrumb
 dependencies[] = entity
 dependencies[] = facetapi
 dependencies[] = features
