@@ -70,12 +70,13 @@
  * - $page['featured']: Displayed below the header, take full width of screen -> main menu, global information, ...
  * - $page['tools']: Displayed on top right of content area, before the page title -> login/logout buttons, author information, ...
  *
- * - $page['sidebar_left']: Displayed on left of the content, if not empty -> navigation, pictures, ... 
- * - $page['sidebar_right']: Displayed on right of the content, if not empty -> latest content, calendar, ... 
+ * - $page['sidebar_left']: Small sidebar displayed on left of the content, if not empty -> navigation, pictures, ... 
+ * - $page['sidebar_right']: Small sidebar displayed on right of the content, if not empty -> latest content, calendar, ... 
  *
  * - $page['content_top']: Displayed in middle column, right before the page title -> carousel, important news, ...  
  * - $page['help']: Displayed between page title and content -> information about the page, contextual help, ... 
  * - $page['content']: The main content of the current page.
+ * - $page['content_right']: Large sidebar displayed on right of the content, if not empty -> 2 column layout 
  * - $page['content_bottom']: Displayed below the content, in middle column -> print button, share tools, ...
  *
  * - $page['footer']: Displayed at bottom of the page, on full width -> latest update, copyright, ...
@@ -90,25 +91,62 @@
 <?php
 global $base_url;
 
-//calculate size of regions
-$col_sidebar_left_lg    = ($page['sidebar_left'] ? 3 : 0);
-$col_sidebar_left_md    = ($page['sidebar_left'] ? 4 : 0);
-$col_sidebar_right_lg   = ($page['sidebar_right'] ? 3 : 0);
-$col_sidebar_right_md   = ($page['sidebar_right'] ? ($page['sidebar_left'] ? 12 : 4) : 0);
-$col_sidebar_button_sm  = 4;
-$col_sidebar_button_xs  = 4;
-$col_content_lg         = 12 - $col_sidebar_left_lg - $col_sidebar_right_lg;
-$col_content_md         = ($page['sidebar_left'] ? 12 - $col_sidebar_left_md : ($page['sidebar_right'] ? 12 - $col_sidebar_right_md : 12));
-$col_tools_lg           = ($title ? 4 : 12);
-$col_tools_md           = ($title ? 4 : 12);
-$col_tools_sm           = 12 - $col_sidebar_button_sm;
-$col_tools_xs           = 12 - $col_sidebar_button_xs;
-$col_title_lg           = 12 - $col_tools_lg;
-$col_title_md           = 12 - $col_tools_md;
-$col_title_sm           = 12;
-$col_title_xs           = 12;
+// calculate size of regions.
+  // sidebars
+  $col_sidebar_left = array(
+    'lg' => ($page['sidebar_left'] ? 3 : 0),
+    'md' => ($page['sidebar_left'] ? 4 : 0),
+    'sm' => 0,
+    'xs' => 0
+  );
+  $col_sidebar_right = array(
+    'lg' => ($page['sidebar_right'] ? 3 : 0),
+    'md' => ($page['sidebar_right'] ? ($page['sidebar_left'] ? 12 : 4) : 0),
+    'sm' => 0,
+    'xs' => 0
+  );
 
-//format regions
+  // content
+  $col_content_main = array(
+    'lg' => ($page['content_top'] ? 12 - $col_sidebar_left['lg'] - $col_sidebar_right['lg'] : 0),
+    'md' => ($page['content_top'] ? ($col_sidebar_right['md'] == 4 ? 8 : 12 - $col_sidebar_left['md']) : 0),
+    'sm' => ($page['content_top'] ? 12 : 0),
+    'xs' => ($page['content_top'] ? 12 : 0)
+  );
+  $col_content_right = array(
+    'lg' => ($page['content_right'] ? 6 : 0),
+    'md' => ($page['content_right'] ? 6 : 0),
+    'sm' => ($page['content_right'] ? 12 : 0),
+    'xs' => ($page['content_right'] ? 12 : 0)
+  );
+  $col_content = array(
+    'lg' => 12 - $col_content_right['lg'],
+    'md' => 12 - $col_content_right['md'],
+    'sm' => 12,
+    'xs' => 12
+  );
+
+  // tools
+  $col_sidebar_button = array(
+    'sm' => 4,
+    'xs' => 4
+  );
+  $col_tools = array(
+    'lg' => ($title ? 4 : 12),
+    'md' => ($title ? 4 : 12),
+    'sm' => 12 - $col_sidebar_button['sm'],
+    'xs' => 12 - $col_sidebar_button['xs']
+  );
+
+  // title
+  $col_title = array(
+    'lg' => 12 - $col_tools['lg'],
+    'md' => 12 - $col_tools['md'],
+    'sm' => 12,
+    'xs' => 12
+  );
+
+// format regions.
 $region_header_right = $page['header_right'] ? render($page['header_right']) : '';
 $region_header_top = $page['header_top'] ? render($page['header_top']) : '';
 $region_featured = $page['featured'] ? render($page['featured']) : '';
@@ -117,6 +155,7 @@ $region_tools = $page['tools'] ? render($page['tools']) : '';
 $region_content_top = $page['content_top'] ? render($page['content_top']) : '';
 $region_help = $page['help'] ? render($page['help']) : '';
 $region_content = $page['content'] ? render($page['content']) : '';
+$region_content_right = $page['content_right'] ? render($page['content_right']) : '';
 $region_content_bottom = $page['content_bottom'] ? render($page['content_bottom']) : '';
 $region_sidebar_right = $page['sidebar_right'] ? render($page['sidebar_right']) : '';
 $region_footer = $page['footer'] ? render($page['footer']) : '';
@@ -193,7 +232,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
 
       <?php if ($title): ?>
         <?php $title_image = (isset($node->field_thumbnail['und'][0]['uri']) && $node->type == 'community' ? image_style_url('communities_thumbnail', $node->field_thumbnail['und'][0]['uri']) : '');?>
-        <h1 class="col-lg-<?php print $col_title_lg; ?> col-md-<?php print $col_title_md; ?> col-sm-<?php print $col_title_sm; ?> col-xs-<?php print $col_title_xs; ?>" id="page-title">
+        <h1 class="col-lg-<?php print $col_title['lg']; ?> col-md-<?php print $col_title['md']; ?> col-sm-<?php print $col_title['sm']; ?> col-xs-<?php print $col_title['xs']; ?>" id="page-title">
           <?php if ($title_image): ?>
             <img src="<?php print $title_image; ?>" alt="<?php print $title; ?>" />
           <?php endif; ?>
@@ -203,7 +242,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       
       <?php print render($title_suffix); ?>
 
-      <div class="col-sm-<?php print $col_sidebar_button_sm; ?> col-xs-<?php print $col_sidebar_button_xs; ?> visible-sm visible-xs">
+      <div class="col-sm-<?php print $col_sidebar_button['sm']; ?> col-xs-<?php print $col_sidebar_button['xs']; ?> visible-sm visible-xs">
         <button id="sidebar-button">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -211,7 +250,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
         </button><!-- /#sidebar-button -->
       </div>
 
-      <div class="col-lg-<?php print $col_tools_lg; ?> col-md-<?php print $col_tools_md; ?> col-sm-<?php print $col_tools_sm; ?> col-xs-<?php print $col_tools_xs; ?>">
+      <div class="col-lg-<?php print $col_tools['lg']; ?> col-md-<?php print $col_tools['md']; ?> col-sm-<?php print $col_tools['sm']; ?> col-xs-<?php print $col_tools['xs']; ?>">
         <?php print $region_tools; ?>
       </div>
     </div>
@@ -224,19 +263,19 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
         
     <div class="row">
       <?php if ($page['sidebar_left']): ?>
-      <div id="sidebar-left" class="col-lg-<?php print ($col_sidebar_left_lg); ?> col-md-<?php print ($col_sidebar_left_md); ?> sidebar-left">
+      <div id="sidebar-left" class="col-lg-<?php print ($col_sidebar_left['lg']); ?> col-md-<?php print ($col_sidebar_left['md']); ?> col-sm-<?php print ($col_sidebar_left['sm']); ?> col-xs-<?php print ($col_sidebar_left['xs']); ?> sidebar-left">
         <?php print $region_sidebar_left; ?>
       </div>
       <?php endif; ?>     
 
-      <div class="col-lg-<?php print $col_content_lg; ?> col-md-<?php print $col_content_md; ?>">
+      <div class="col-lg-<?php print $col_content_main['lg']; ?> col-md-<?php print $col_content_main['md']; ?> col-sm-<?php print $col_content_main['sm']; ?> col-md-<?php print $col_content_main['xs']; ?>">
         
         <a id="content"></a>
 
         <?php if ($title): ?>
-          <h1 class="title" id="content-title">
-            <?php print $title; ?>
-          </h1>
+        <h1 class="title" id="content-title">
+          <?php print $title; ?>
+        </h1>
         <?php endif; ?>
 
         <?php print $region_content_top; ?>
@@ -244,35 +283,41 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
         <a id="main-content"></a>
 
         <?php if ($tabs): ?>
-          <div class="tabs">
-            <?php print render($tabs); ?>
-          </div>
+        <div class="tabs">
+          <?php print render($tabs); ?>
+        </div>
         <?php endif; ?>
 
         <?php print $region_help; ?>
         
         <?php if ($action_links): ?>
-          <ul class="action-links">
-            <?php print render($action_links); ?>
-          </ul>
+        <ul class="action-links">
+          <?php print render($action_links); ?>
+        </ul>
         <?php endif; ?>
 
-        <?php print $region_content; ?>
+        <div class="row">
+          <div class="col-lg-<?php print $col_content['lg']; ?> col-md-<?php print $col_content['md']; ?> col-sm-<?php print $col_content['sm']; ?> col-xs-<?php print $col_content['xs']; ?>">
+          <?php print $region_content; ?>
+          </div>
+
+          <div class="col-lg-<?php print $col_content_right['lg']; ?> col-md-<?php print $col_content_right['md']; ?> col-sm-<?php print $col_content_right['sm']; ?> col-xs-<?php print $col_content_right['xs']; ?>">
+          <?php print $region_content_right; ?>
+          </div>
+        </div>
         
         <?php print $feed_icons; ?>
 
-        <?php if ($page['content_bottom']): ?>
-          <?php print $region_content_bottom; ?>
-        <?php endif; ?>
+        <?php print $region_content_bottom; ?>
       </div>
 
       <div class="clearfix visible-sm visible-xs"></div>
-      <?php if ($col_sidebar_right_md == 12): ?>
+      <?php if ($col_sidebar_right['md'] == 12): ?>
       <div class="clearfix visible-md"></div>
       <?php endif; ?>
 
       <?php if ($page['sidebar_right']): ?>
-      <div id="sidebar-right" class="col-lg-<?php print ($col_sidebar_right_lg); ?> col-md-<?php print ($col_sidebar_right_md); ?> sidebar-right">
+      <div id="sidebar-right" class="col-lg-<?php print ($col_sidebar_right['lg']); ?> col-md-<?php print ($col_sidebar_right['md']); ?> col-sm-<?php print ($col_sidebar_right['sm']); ?> col-xs-<?php print ($col_sidebar_right['xs']); ?> sidebar-right">
         <?php print $region_sidebar_right; ?>
       </div>  
       <?php endif; ?>

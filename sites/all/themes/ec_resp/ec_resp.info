@@ -14,13 +14,14 @@ regions[header_right] = "Header right"
 
 regions[featured] = "Featured"
 regions[tools] = "Tools"
+regions[help] = "Help"
 
 regions[sidebar_left] = "Sidebar left"
 regions[sidebar_right] = "Sidebar right"
 
 regions[content_top] = "Content Top"
-regions[help] = "Help"
 regions[content] = "Content"
+regions[content_right] = "Content right"
 regions[content_bottom] = "Content Bottom"
 
 regions[footer] = "Footer"
