@@ -112,7 +112,6 @@ features[filter][] = plain_text
 features[image][] = media_thumbnail_small
 features[image][] = preview
 features[image][] = square_thumbnail
-features[image][] = media_thumbnail_small
 features[menu_custom][] = menu-breadcrumb-menu
 features[menu_custom][] = menu-service-tools
 features[menu_links][] = menu-breadcrumb-menu:http://ec.europa.eu/index_en.htm
