@@ -133,7 +133,6 @@ dependencies[] = multisite_drupal_features_set_standard
 dependencies[] = multisite_drupal_language_negociation
 
 ;features
-dependencies[] = content_examples
 dependencies[] = cce_basic_config
 dependencies[] = multisite_settings_core
 dependencies[] = multisite_settings_standard
