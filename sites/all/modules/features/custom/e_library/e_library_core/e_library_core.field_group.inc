@@ -54,7 +54,7 @@ function e_library_core_field_group_info() {
     'children' => array(
       0 => 'field_media_tags',
       1 => 'field_tags',
-	  2 => 'language',
+      2 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
