@@ -13,7 +13,7 @@ function multisite_twitterblock_admin_settings() {
   $form['fpfis_twitter_feature_settings'] = array(
     '#access' => user_access('administer fpfis twitter feature'),
     '#type' => 'fieldset',
-    '#title' => t('Feature settings'),
+    '#title' => t('Content types settings'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
