@@ -215,7 +215,7 @@ projects[message][subdir] = "contributed"
 projects[message][version] = "1.7"
 
 projects[mimemail][subdir] = "contributed"
-;projects[mimemail][version] = "1.0-beta2"
+;projects[mimemail][version] = "1.0-beta3"
 
 projects[node_export][subdir] = "contributed"
 projects[node_export][version] = "3.0"
