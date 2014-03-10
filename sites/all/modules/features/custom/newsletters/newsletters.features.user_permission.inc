@@ -37,7 +37,6 @@ function newsletters_user_default_permissions() {
     'name' => 'administer simplenews subscriptions',
     'roles' => array(
       'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
       'contributor' => 'contributor',
     ),
     'module' => 'simplenews',

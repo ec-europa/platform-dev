@@ -75,3 +75,10 @@ function newsletters_install() {
 function newsletters_uninstall() {
   //Uninstall scripts here
 }
+
+function newsletter_update_7140 {
+  user_role_revoke_permissions(DRUPAL_AUTHENTICATED_RID, array(
+    'administer simplenews subscription',
+  ));
+  
+}
