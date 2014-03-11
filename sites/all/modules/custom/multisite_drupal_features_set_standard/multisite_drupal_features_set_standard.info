@@ -191,13 +191,13 @@ feature_sets[multisite_audio][font] = 'multisite-icon-music'
 feature_sets[multisite_audio][enable][] = multisite_audio
 feature_sets[multisite_audio][disable][] = multisite_audio
 
-feature_sets[gallerymedia_core][title] = 'Media Gallery'
-feature_sets[gallerymedia_core][description] = 'Contributors can add picture galleries.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/qIbhAg" target="_blank">Read documentation</a>'
-feature_sets[gallerymedia_core][category] = 'Media'
-feature_sets[gallerymedia_core][icon] = ''
-feature_sets[gallerymedia_core][font] = 'multisite-icon-pictures'
-feature_sets[gallerymedia_core][enable][] = gallerymedia_core
-feature_sets[gallerymedia_core][disable][] = gallerymedia_core
+feature_sets[multisite_mediagallery_standard][title] = 'Media Gallery'
+feature_sets[multisite_mediagallery_standard][description] = 'Contributors can add picture galleries.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/qIbhAg" target="_blank">Read documentation</a>'
+feature_sets[multisite_mediagallery_standard][category] = 'Media'
+feature_sets[multisite_mediagallery_standard][icon] = ''
+feature_sets[multisite_mediagallery_standard][font] = 'multisite-icon-pictures'
+feature_sets[multisite_mediagallery_standard][enable][] = multisite_mediagallery_standard
+feature_sets[multisite_mediagallery_standard][disable][] = multisite_mediagallery_standard
 
 ; Temporary disabled
 ;feature_sets[multisite_crop_and_resize][title] = 'Crop & Resize'
