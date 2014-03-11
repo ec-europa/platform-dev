@@ -1,0 +1,37 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for multisite_block_carousel module.
+ */
+
+include_once 'multisite_block_carousel.install.inc';
+
+/**
+ * Implements hook_enable().
+ */
+function multisite_block_carousel_enable() {
+  drupal_set_message(t('Multisite Block Carousel %v feature is now active on your site.', array('%v' => _multisite_block_carousel_get_version())));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function multisite_block_carousel_disable() {
+  // Example
+  // multisite_drupal_toolbox_disable_content_type('kit');
+  drupal_set_message(t('Multisite Block Carousel %v feature is now inactive on your site.', array('%v' => _multisite_block_carousel_get_version())));
+}
+
+/**
+ * Implements hook_install().
+ */
+function multisite_block_carousel_install() {
+  // Install scripts here.
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function multisite_block_carousel_uninstall() {
+  // Uninstall scripts here.
+}

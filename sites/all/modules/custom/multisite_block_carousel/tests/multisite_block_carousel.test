@@ -2,12 +2,12 @@
 
 /**
  * @file
- * Tests for PROJECTFEATURE_block_carousel.module.
+ * Tests for multisite_block_carousel.module.
  * ECWeb MULTISITE QA
  */
 
 /**
- * Defines a base class for testing the "multisite_translations" module.
+ * Defines a base class for testing the "multisite_block_carousel" module.
  */
 class MultisiteBlockCarouselQAWebTestCase extends DrupalWebTestCase {
   /**
@@ -15,8 +15,8 @@ class MultisiteBlockCarouselQAWebTestCase extends DrupalWebTestCase {
    */
   public static function getInfo() {
     return array(
-      'name' => 'Block Carousel QA tests',
-      'description' => 'Test the Block Carousel features to ensure it follows QA requirements.',
+      'name' => 'Multisite Block Carousel QA tests',
+      'description' => 'Test the Multisite Block Carousel features to ensure it follows QA requirements.',
       'group' => 'Multisite QA',
     );
   }
