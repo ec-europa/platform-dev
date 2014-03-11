@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * gallerymedia_core.features.field.inc
+ * multisite_mediagallery_core.features.field.inc
  */
 
 /**
  * Implements hook_field_default_fields().
  */
-function gallerymedia_core_field_default_fields() {
+function multisite_mediagallery_core_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-gallerymedia-body'.
-  $fields['node-gallerymedia-body'] = array(
+  // Exported field: 'node-mediagallery-body'.
+  $fields['node-mediagallery-body'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -83,8 +83,8 @@ function gallerymedia_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-gallerymedia-field_picture_upload'.
-  $fields['node-gallerymedia-field_picture_upload'] = array(
+  // Exported field: 'node-mediagallery-field_picture_upload'.
+  $fields['node-mediagallery-field_picture_upload'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '-1',
@@ -177,8 +177,8 @@ function gallerymedia_core_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-gallerymedia-field_video_upload'.
-  $fields['node-gallerymedia-field_video_upload'] = array(
+  // Exported field: 'node-mediagallery-field_video_upload'.
+  $fields['node-mediagallery-field_video_upload'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '-1',
@@ -258,20 +258,6 @@ function gallerymedia_core_field_default_fields() {
         'active' => 1,
         'module' => 'video',
         'settings' => array(
-          'filefield_sources' => array(
-            'filefield_sources' => array(),
-            'source_attach' => array(
-              'absolute' => 0,
-              'attach_mode' => 'move',
-              'path' => 'file_attach',
-            ),
-            'source_imce' => array(
-              'imce_mode' => 0,
-            ),
-            'source_reference' => array(
-              'autocomplete' => '0',
-            ),
-          ),
           'progress_indicator' => 'throbber',
         ),
         'type' => 'video_upload',

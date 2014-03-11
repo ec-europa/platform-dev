@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * gallerymedia_core.views_default.inc
+ * multisite_mediagallery_core.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function gallerymedia_core_views_default_views() {
+function multisite_mediagallery_core_views_default_views() {
   $export = array();
 
   $view = new view();
@@ -24,6 +24,7 @@ function gallerymedia_core_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Galleries';
   $handler->display->display_options['css_class'] = 'grid4';
+  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -43,8 +44,8 @@ function gallerymedia_core_views_default_views() {
   $handler->display->display_options['fields']['field_picture_upload']['label'] = '';
   $handler->display->display_options['fields']['field_picture_upload']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_picture_upload']['alter']['text'] = '<div class="galleries-item-wrapper">
-[field_picture_upload]
-</div>';
+  [field_picture_upload]
+  </div>';
   $handler->display->display_options['fields']['field_picture_upload']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_picture_upload']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_picture_upload']['click_sort_column'] = 'fid';
@@ -143,8 +144,8 @@ function gallerymedia_core_views_default_views() {
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = '';
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div class="galleries-item-wrapper">
-[field_picture_upload][field_video_upload]
-</div>';
+  [field_picture_upload][field_video_upload]
+  </div>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -174,6 +175,22 @@ function gallerymedia_core_views_default_views() {
   $handler->display->display_options['fields']['nid']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['nid']['alter']['text'] = '<div id="nb_items">[nid]</div>';
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'gallerymedia' => 'gallerymedia',
+  );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Workbench Moderation: Published */
+  $handler->display->display_options['filters']['published']['id'] = 'published';
+  $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
+  $handler->display->display_options['filters']['published']['field'] = 'published';
+  $handler->display->display_options['filters']['published']['value'] = '1';
+  $handler->display->display_options['filters']['published']['group'] = 1;
   $handler->display->display_options['path'] = 'galleries';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Galleries';
@@ -255,10 +272,6 @@ function gallerymedia_core_views_default_views() {
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '[field_picture_upload][field_video_upload]';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['filter_groups']['groups'] = array(
-    1 => 'AND',
-    2 => 'OR',
-  );
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
@@ -280,6 +293,13 @@ function gallerymedia_core_views_default_views() {
   $handler->display->display_options['filters']['published']['field'] = 'published';
   $handler->display->display_options['filters']['published']['value'] = '1';
   $handler->display->display_options['filters']['published']['group'] = 1;
+  /* Filter criterion: Content: Video upload (field_video_upload:fid) */
+  $handler->display->display_options['filters']['field_video_upload_fid']['id'] = 'field_video_upload_fid';
+  $handler->display->display_options['filters']['field_video_upload_fid']['table'] = 'field_data_field_video_upload';
+  $handler->display->display_options['filters']['field_video_upload_fid']['field'] = 'field_video_upload_fid';
+  $handler->display->display_options['filters']['field_video_upload_fid']['operator'] = 'empty';
+  $handler->display->display_options['filters']['field_video_upload_fid']['group'] = 1;
+
   $translatables['galleries'] = array(
     t('Master'),
     t('Galleries'),

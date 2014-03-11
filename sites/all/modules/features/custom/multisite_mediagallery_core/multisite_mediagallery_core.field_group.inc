@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * gallerymedia_core.field_group.inc
+ * multisite_mediagallery_core.field_group.inc
  */
 
 /**
  * Implements hook_field_group_info().
  */
-function gallerymedia_core_field_group_info() {
+function multisite_mediagallery_core_field_group_info() {
   $export = array();
 
   $field_group = new stdClass();

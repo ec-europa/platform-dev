@@ -2,21 +2,21 @@
 
 /**
  * @file
- * Tests for PROJECTFEATURE_gallerymedia_core.module.
+ * Tests for multisite_mediagallery_core.module.
  * ECWeb MULTISITE QA
  */
 
 /**
- * Defines a base class for testing the "multisite_translations" module.
+ * Defines a base class for testing the "multisite_mediagallery_core" module.
  */
-class MultisiteGallerymediaCoreQAWebTestCase extends DrupalWebTestCase {
+class MultisiteMediaGalleryCoreQAWebTestCase extends DrupalWebTestCase {
   /**
    * Info for the simpleTest UI.
    */
   public static function getInfo() {
     return array(
-      'name' => 'gallerymedia_core QA tests',
-      'description' => 'Test the gallerymedia_core features to ensure it follows QA requirements.',
+      'name' => 'Multisite Media Gallery Core QA tests',
+      'description' => 'Test the Multisite Media Gallery Core feature to ensure it follows QA requirements.',
       'group' => 'Multisite QA',
     );
   }

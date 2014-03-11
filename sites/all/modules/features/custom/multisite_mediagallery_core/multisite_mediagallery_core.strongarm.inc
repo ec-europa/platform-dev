@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * gallerymedia_core.strongarm.inc
+ * multisite_mediagallery_core.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function gallerymedia_core_strongarm() {
+function multisite_mediagallery_core_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();
@@ -62,7 +62,7 @@ function gallerymedia_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'field_bundle_settings_node__gallerymedia';
+  $strongarm->name = 'field_bundle_settings_node_gallerymedia';
   $strongarm->value = array(
     'view_modes' => array(
       'teaser' => array(
@@ -102,7 +102,7 @@ function gallerymedia_core_strongarm() {
       'display' => array(),
     ),
   );
-  $export['field_bundle_settings_node__gallerymedia'] = $strongarm;
+  $export['field_bundle_settings_node_gallerymedia'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

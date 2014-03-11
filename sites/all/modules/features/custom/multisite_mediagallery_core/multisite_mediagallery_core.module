@@ -1,23 +1,23 @@
 <?php
 /**
  * @file
- * Code for the gallerymedia_core feature.
+ * Code for the multisite_mediagallery_core feature.
  */
 
-include_once 'gallerymedia_core.features.inc';
+include_once 'multisite_mediagallery_core.features.inc';
 
 
 /**
  * Implements hook_token_info().
  */
-function gallerymedia_core_token_info() {
+function multisite_mediagallery_core_token_info() {
   $info['types']['Breadcrumb_gallery'] = array(
     'name' => 'Breadcrumb_gallery',
     'description' => 'Tokens related to Breadcrumb.',
   );
   $info['tokens']['Breadcrumb_gallery']["gallerymedia_title"] = array(
-    'name' => t("gallerymedia Breadcrumb title"),
-    'description' => t("The Breadcrumb title of the gallerymedia."),
+    'name' => t("mediagallery Breadcrumb title"),
+    'description' => t("The Breadcrumb title of the mediagallery."),
   );
   return $info;
 }
@@ -25,7 +25,7 @@ function gallerymedia_core_token_info() {
 /**
  * Implements hook_tokens().
  */
-function gallerymedia_core_tokens($type, $tokens, $data = array(), $options = array()) {
+function multisite_mediagallery_core_tokens($type, $tokens, $data = array(), $options = array()) {
   $replacements = array();
   $sanitize = !empty($options['sanitize']);
   // Tokens for e_libray_core Breadcrumb.
@@ -33,7 +33,7 @@ function gallerymedia_core_tokens($type, $tokens, $data = array(), $options = ar
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'gallerymedia_title':
-          $replacements[$original] = t("gallerymedia");
+          $replacements[$original] = t("mediagallery");
           break;
       }
     }
@@ -44,7 +44,7 @@ function gallerymedia_core_tokens($type, $tokens, $data = array(), $options = ar
 /**
  * Implements hook_preprocess_node().
  */
-function gallerymedia_core_preprocess_node(&$variables) {
+function multisite_mediagallery_core_preprocess_node(&$variables) {
   // Init.
   global $base_url;
   $output = '';

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * gallerymedia_core.features.user_permission.inc
+ * multisite_mediagallery_core.features.user_permission.inc
  */
 
 /**
  * Implements hook_user_default_permissions().
  */
-function gallerymedia_core_user_default_permissions() {
+function multisite_mediagallery_core_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: create gallerymedia content.

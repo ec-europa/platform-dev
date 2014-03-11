@@ -1,15 +1,17 @@
 <?php
 /**
  * @file
- * Install the feature gallery media
+ * Install the feature Multisite Media Gallery Core
  */
+
+include_once 'multisite_mediagallery_core.install.inc';
 
 /**
  * Implements hook_enable().
  *
  * Edit communities context to add a block
  */
-function gallerymedia_core_enable() {
+function multisite_mediagallery_core_enable() {
   // SolR configuration add bundle.
   multisite_drupal_toolbox_config_solr_bundle('gallerymedia', 'add');
 
@@ -30,10 +32,10 @@ function gallerymedia_core_enable() {
     ->execute();
 
   // Enable block Carousel.
-  module_enable(array('block_carousel'), FALSE);
+  module_enable(array('multisite_block_carousel'), FALSE);
 
   // Activation message.
-  drupal_set_message(t('MediaGallery feature is now active on your site.'));
+  drupal_set_message(t('Multisite Media Gallery Core %v feature is now active on your site.', array('%v' => _multisite_mediagallery_core_get_version())));
 }
 
 /**
@@ -42,10 +44,11 @@ function gallerymedia_core_enable() {
  * Edit communities context to remove block
  * Remove permissions
  */
-function gallerymedia_core_disable() {
+function multisite_mediagallery_core_disable() {
   // solR configuration add bundle.
   multisite_drupal_toolbox_config_solr_bundle('gallerymedia', 'delete');
   multisite_drupal_toolbox_disable_content_type('gallerymedia');
+  multisite_drupal_toolbox_remove_block_context('homepage', 'galleries-medias_block');
 
   // Remove the breadcrump relative to.
   db_delete('custom_breadcrumb')
@@ -53,22 +56,22 @@ function gallerymedia_core_disable() {
     ->execute();
 
   // Disable block Carousel.
-  module_disable(array('block_carousel'), FALSE);
+  module_disable(array('multisite_block_carousel'), FALSE);
 
   // Disabling message.
-  drupal_set_message(t('MediaGallery feature is now disabled on your site.'));
+  drupal_set_message(t('Multisite Media Gallery Core %v feature is now inactive on your site.', array('%v' => _multisite_mediagallery_core_get_version())));
 }
 
 /**
  * Implements hook_install().
  */
-function gallerymedia_core_install() {
-  // Install scripts here.
+function multisite_mediagallery_core_install() {
+  // Nothing yet.
 }
 
 /**
  * Implements hook_uninstall().
  */
-function gallerymedia_core_uninstall() {
-  // Uninstall scripts here.
+function multisite_mediagallery_core_uninstall() {
+  // Nothing yet.
 }

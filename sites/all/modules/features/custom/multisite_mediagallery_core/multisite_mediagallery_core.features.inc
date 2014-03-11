@@ -1,17 +1,13 @@
 <?php
 /**
  * @file
- * gallerymedia_core.features.inc
+ * multisite_mediagallery_core.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function gallerymedia_core_ctools_plugin_api() {
-  list($module, $api) = func_get_args();
-  if ($module == "context" && $api == "context") {
-    return array("version" => "3");
-  }
+function multisite_mediagallery_core_ctools_plugin_api() {
   list($module, $api) = func_get_args();
   if ($module == "field_group" && $api == "field_group") {
     return array("version" => "1");
@@ -29,14 +25,14 @@ function gallerymedia_core_ctools_plugin_api() {
 /**
  * Implements hook_views_api().
  */
-function gallerymedia_core_views_api() {
+function multisite_mediagallery_core_views_api() {
   return array("api" => "3.0");
 }
 
 /**
  * Implements hook_image_default_styles().
  */
-function gallerymedia_core_image_default_styles() {
+function multisite_mediagallery_core_image_default_styles() {
   $styles = array();
 
   // Exported image style: landscape.
@@ -68,10 +64,10 @@ function gallerymedia_core_image_default_styles() {
 /**
  * Implements hook_node_info().
  */
-function gallerymedia_core_node_info() {
+function multisite_mediagallery_core_node_info() {
   $items = array(
     'gallerymedia' => array(
-      'name' => t('GalleryMedia'),
+      'name' => t('Media Gallery'),
       'base' => 'node_content',
       'description' => t('A Gallery of Media.'),
       'has_title' => '1',
