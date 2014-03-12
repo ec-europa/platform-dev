@@ -1240,7 +1240,7 @@ function cce_basic_config_update_7197() {
 }
 
 /**
- * Deactivate orphan content types events, news, and discussion.
+ * Deactivate orphan content types events, news, and discussion. Enable Library tab.
  */
 function cce_basic_config_update_7198() {
   node_types_rebuild();
@@ -1260,15 +1260,11 @@ function cce_basic_config_update_7198() {
     multisite_drupal_toolbox_disable_content_type('discussion');
     drupal_set_message(t('Orphan content type discussion has been disabled.'));
   }
-}
-/**
- * Adding Libray tab as default
- * @return [type] [description]
- */
-function cce_basic_config_update_7199() {
+  
+  // Adding Libray tab as default
   $plugins = variable_get('media__wysiwyg_browser_plugins');
   if (!in_array('media_default--media_browser_1', $plugins)) {
     array_push($plugins, 'media_default--media_browser_1');
     variable_set('media__wysiwyg_browser_plugins', $plugins);
-}
+  }
 }
