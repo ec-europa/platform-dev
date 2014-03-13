@@ -10,18 +10,18 @@ stylesheets[all][] = "jquery-ui/css/jquery-ui.custom.css"
 stylesheets[print][] = "css/print.css"
 
 regions[header_top] = "Header Top"
-regions[header_right] = "Header right"
+regions[header_right] = "Header Right"
 
 regions[featured] = "Featured"
 regions[tools] = "Tools"
 regions[help] = "Help"
 
-regions[sidebar_left] = "Sidebar left"
-regions[sidebar_right] = "Sidebar right"
+regions[sidebar_left] = "Sidebar Left"
+regions[sidebar_right] = "Sidebar Right"
 
 regions[content_top] = "Content Top"
 regions[content] = "Content"
-regions[content_right] = "Content right"
+regions[content_right] = "Content Right"
 regions[content_bottom] = "Content Bottom"
 
 regions[footer] = "Footer"
