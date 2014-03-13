@@ -96,7 +96,6 @@ dependencies[] = i18n_menu
 ;dependencies[] = i18n_taxonomy
 dependencies[] = i18n_variable
 ;dependencies[] = i18n_translation
-dependencies[] = custom_breadcrumbs
 dependencies[] = easy_breadcrumb
 dependencies[] = libraries
 ;dependencies[] = jqmulti
