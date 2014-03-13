@@ -727,7 +727,7 @@ function ec_resp_menu_link__main_menu(array $variables) {
     $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
     $element['#localized_options']['attributes']['data-toggle'][] = 'dropdown';
     $element['#localized_options']['html'] = TRUE;
-    $output = l($element['#title'], '', $element['#localized_options']);
+    $output = l($element['#title'], $element['#href'], $element['#localized_options']);
 
     $dropdown = drupal_render($element['#below']);
   }
