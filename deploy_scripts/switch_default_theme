@@ -47,9 +47,9 @@ function do_action {
   # Actual work
   echo "Current theme is \"${theme_name}\", switching to \"${target_theme}\"..."
   # Ensure the target theme is enabled
-  drush pm-enable "${target_theme}"
-  drush vset theme_default "${target_theme}"
-  drush cc all
+  run_drush --yes pm-enable "${target_theme}"
+  run_drush --yes vset theme_default "${target_theme}"
+  run_drush --yes cc all
 }
 
 loop_on_target_subsites "${drupal_path}" ${target} | timestamped_output
