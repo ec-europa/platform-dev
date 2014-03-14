@@ -182,6 +182,9 @@ jQuery(function($){
 
           // move right sidebar
           $('#responsive-sidebar-right > div').detach().appendTo($('#sidebar-right'));
+
+          // move header right
+          $('#responsive-header-right > div').detach().appendTo($('#banner-image-right'));
       }).removeClass('reduced');
     }
     function show_sidebar() {
@@ -190,6 +193,9 @@ jQuery(function($){
 
       // move right sidebar
       $('#sidebar-right > div').detach().appendTo($('#responsive-sidebar-right'));
+
+      // move header right
+      $('#banner-image-right > div').detach().appendTo($('#responsive-header-right'));
 
       // open responsive sidebars
       $('#responsive-sidebar').slideToggle('2000', "linear").show();
