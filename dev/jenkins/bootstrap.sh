@@ -5,8 +5,3 @@ if [ ! -e "composer.phar" ]; then
 fi
 
 php composer.phar install
-
-if [ ! -e "build.properties" ]; then
-    cp build.default.properties build.properties
-    echo "[Phing] You have to fill your build.properties configuration file."
-fi
