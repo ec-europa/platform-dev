@@ -31,16 +31,6 @@ function news_core_enable() {
   // add type to linkchecker scan
   multisite_drupal_toolbox_content_type_linkchecker('news', 'add');
 
-  //Add breadcrumb configuration
-  db_insert('custom_breadcrumb')
-          ->fields(array(
-              'titles' => '[Breadcrumb_news:news_title]', // titles of the elements to display in the breadcrumb
-              'paths' => 'news/', // path of the elements to display in the breadcrumb
-              'visibility_php ' => '',
-              'node_type' => 'news', //the content type targeted by this rule
-          ))
-          ->execute();
-
   // add type to the simplenews related content
   //multisite_drupal_toolbox_simplenews_related_content_type('news', 'add');
   //Activation message
@@ -54,10 +44,6 @@ function news_core_enable() {
  */
 
 function news_core_disable() {
-  //remove the breadcrump related to
-  db_delete('custom_breadcrumb')
-          ->condition('node_type', 'news')
-          ->execute();
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('news', 'delete');
 

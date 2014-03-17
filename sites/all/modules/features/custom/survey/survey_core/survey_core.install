@@ -19,18 +19,6 @@ function survey_core_enable() {
     ->condition('type', 'webform', "=")
     ->execute();
 
-  // Add breadcrumb configuration.
-  db_insert('custom_breadcrumb')
-    ->fields(array(
-      // Titles of the elements to display in the breadcrumb.
-      'titles' => '[Breadcrumb_survey:survey_title]',
-      'paths' => 'survey/',
-      'visibility_php ' => '',
-      // The content type targeted by this rule.
-      'node_type' => 'webform',
-    ))
-    ->execute();
-
   // Activation message.
   drupal_set_message(t('Survey %v feature is now active on your site.', array('%v' => _survey_core_get_version())));
 }
@@ -39,11 +27,6 @@ function survey_core_enable() {
  * Implements hook_disable().
  */
 function survey_core_disable() {
-  // Remove the breadcrump related to.
-  db_delete('custom_breadcrumb')
-          ->condition('node_type', 'webform')
-          ->execute();
-
   // Remove type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('webform', 'delete');
 

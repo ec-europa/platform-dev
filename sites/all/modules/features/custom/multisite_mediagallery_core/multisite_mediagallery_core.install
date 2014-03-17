@@ -18,19 +18,6 @@ function multisite_mediagallery_core_enable() {
   // Add block in context.
   multisite_drupal_toolbox_add_block_context('homepage', 'galleries-medias_block', 'views', 'galleries-medias_block', 'content_top');
 
-  // Add breadcrumb configuration.
-  db_insert('custom_breadcrumb')
-    ->fields(array(
-      'titles' => '[Breadcrumb_gallery:gallerymedia_title]',
-      // Titles of the elements to display in the breadcrumb.
-      'paths' => 'galleries/',
-      // Path of the elements to display in the breadcrumb.
-      'visibility_php ' => '',
-      'node_type' => 'gallerymedia',
-      // The content type targeted by this rule.
-    ))
-    ->execute();
-
   // Enable block Carousel.
   module_enable(array('multisite_block_carousel'), FALSE);
 
@@ -49,11 +36,6 @@ function multisite_mediagallery_core_disable() {
   multisite_drupal_toolbox_config_solr_bundle('gallerymedia', 'delete');
   multisite_drupal_toolbox_disable_content_type('gallerymedia');
   multisite_drupal_toolbox_remove_block_context('homepage', 'galleries-medias_block');
-
-  // Remove the breadcrump relative to.
-  db_delete('custom_breadcrumb')
-    ->condition('node_type', 'gallerymedia')
-    ->execute();
 
   // Disable block Carousel.
   module_disable(array('multisite_block_carousel'), FALSE);

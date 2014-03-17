@@ -29,7 +29,7 @@ class SurveyStandard extends DrupalWebTestCase {
    * Configure environment: declare modules, users, permissions...
    */
   public function setUp() {
-    parent::setUp(array('survey_standard', 'custom_breadcrumbs'));
+    parent::setUp(array('survey_standard'));
     $this->privilegedUser = $this->drupalCreateUserWithRole("administrator");
     $this->contributorUser = $this->drupalCreateUserWithRole("contributor");
     $this->drupalLogin($this->privilegedUser);

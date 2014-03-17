@@ -8,7 +8,6 @@ project = e_library_core
 dependencies[] = apachesolr
 dependencies[] = cce_basic_config
 dependencies[] = ctools
-dependencies[] = custom_breadcrumbs
 dependencies[] = entityreference
 dependencies[] = entityreference_prepopulate
 dependencies[] = features

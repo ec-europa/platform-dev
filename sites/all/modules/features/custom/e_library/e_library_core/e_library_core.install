@@ -29,16 +29,6 @@ function e_library_core_enable() {
   // add type to the simplenews related content
   //multisite_drupal_toolbox_simplenews_related_content_type('document', 'add');
 
-  //Add breadcrumb configuration
-  db_insert('custom_breadcrumb')
-    ->fields(array(
-      'titles' => '[Breadcrumb_el:e_library_title]', // titles of the elements to display in the breadcrumb
-      'paths' => 'e_library/', // path of the elements to display in the breadcrumb
-      'visibility_php ' => '',
-      'node_type' => 'document', //the content type targeted by this rule
-    ))
-    ->execute();
-
   // create a vocabulary dedicated to the media tags
   $vocabulary = (object) array(
     'name' => st('Media tags'),
@@ -78,11 +68,6 @@ function e_library_core_disable() {
 
   // remove type to the simplenews related content
   //multisite_drupal_toolbox_simplenews_related_content_type('document', 'delete');
-
-  //remove the breadcrump relative to
-  db_delete('custom_breadcrumb')
-    ->condition('node_type', 'document')
-    ->execute();
 
   multisite_drupal_toolbox_disable_content_type('document');
 
