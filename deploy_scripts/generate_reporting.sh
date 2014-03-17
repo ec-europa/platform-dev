@@ -66,7 +66,6 @@ function do_action {
 		run_drush features-components context
 		run_drush features-components user_role
 		run_drush features-components user_permission
-		run_drush sql-query 'SELECT * FROM custom_breadcrumb;'
 		run_drush features-components menu_links
 	) | report_output >> "${report_file}"
 

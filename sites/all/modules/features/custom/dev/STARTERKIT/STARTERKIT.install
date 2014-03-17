@@ -35,16 +35,6 @@ function STARTERKIT_enable() {
   // solR configuration add bundle
   multisite_drupal_toolbox_config_solr_bundle('YOUR_CONTENT_TYPE', 'add');
 
-    //Add breadcrumb configuration
-    db_insert('custom_breadcrumb')
-    ->fields(array(
-      'titles' => 'custom title', // titles of the elements to display in the breadcrumb
-      'paths' => 'path/', // path of the elements to display in the breadcrumb
-      'visibility_php '=> '',
-      'node_type' => 'YOUR_CONTENT_TYPE', //the content type targeted by this rule
-    ))
-    ->execute();
-
   // Verbosity
   drupal_set_message(t('STARTERKIT %v feature is now active on your site.', array('%v' => _STARTERKIT_get_version())));
 }
