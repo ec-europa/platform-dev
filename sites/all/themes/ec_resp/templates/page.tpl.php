@@ -211,7 +211,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
 
   <?php print $region_featured; ?>
 
-  <div id="responsive-sidebar">
+  <div id="responsive-sidebar" style="display: none">
     <div id="responsive-header-right"></div>
   <?php
     if ($page['sidebar_left'] && ($variables['responsive_sidebar'] == 'left' || $variables['responsive_sidebar'] == 'both')) {

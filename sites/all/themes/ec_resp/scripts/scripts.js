@@ -156,7 +156,6 @@ jQuery(function($){
 
 
     // Responsive menu
-    $('#responsive-sidebar').hide();
     $('#sidebar-button').on("click", function() {
       if ($('#layout-body').is('.reduced')) {
         hide_sidebar();
