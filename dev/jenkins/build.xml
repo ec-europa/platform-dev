@@ -51,12 +51,6 @@
 
   <target name="run-tests" depends="init">
 
-    <!-- Runs a lightweight built in http server for testing. -->
-    <!-- <drush command="rs"> -->
-    <!--   <option name="server">builtin</option> -->
-    <!--   <param>localhost:9000</param> -->
-    <!-- </drush> -->
-
     <exec command="${phing.dir}/bin/behat --ansi --format pretty,junit --out ,${project.testdir}" passthru="true" />
   </target>
 
@@ -104,14 +98,8 @@
       <param>${project.modules.custom}</param>
     </drush>
 
-<!--    <drush command="test-run" uri="${drupal.uri}" haltonerror="false">
-      <param>Anonymous Notification</param>
-      <option name="xml">${project.logdir}/tests</option>
-    </drush>
--->
-
    <!-- for multilingual sites -->
-  <!--   <phingcall target="update-translations" /> -->
+   <!--   <phingcall target="update-translations" /> -->
 
     <drush command="cache-clear" assume="yes">
       <param>all</param>
@@ -139,7 +127,7 @@
     <if>
       <available file="${project.drupal.dir}" type="dir" />
       <then>
-        <chmod file="${project.drupal.dir}/sites/default" mode="0777" failonerror="false" />
+      <!--  <chmod file="${project.drupal.dir}/sites/default" mode="0777" failonerror="false" />-->
         <delete dir="${project.drupal.dir}" />
       </then>
     </if>
@@ -147,7 +135,6 @@
     <drush command="make" assume="yes">
       <param>${drupal.make.file}</param>
       <param>${drupal.make.dir}</param>
-      <!-- <option name="contrib-destination">${project.code.dir}</option> -->
     </drush>
 
     <mkdir dir="${project.drupal.dir}/sites/all/modules/contributed" />
@@ -222,8 +209,6 @@
   <target name="apply-patch">
 
     <echo msg="Apply patch ${absfilename}" />
-    <!-- <patch patchfile="${absfilename}" dir="${drupal.make.dir}" -->
-    <!--        backups="true" haltonfailure="true" /> -->
 
     <exec command="patch --directory=${drupal.make.dir} --batch -p0 --backup --input=${absfilename}" 
           passthru="true" />
