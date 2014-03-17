@@ -174,7 +174,7 @@ jQuery(function($){
       // close responsive sidebars
       $('#responsive-sidebar').slideToggle('2000', "linear").hide();
       $('#layout-body').animate({
-        left:'0'
+        left: '0'
       }, 300, function() {
           // move left sidebar
           $('#responsive-sidebar-left > div').detach().appendTo($('#sidebar-left'));
@@ -199,7 +199,7 @@ jQuery(function($){
       // open responsive sidebars
       $('#responsive-sidebar').slideToggle('2000', "linear").show();
       $('#layout-body').animate({
-        left:'85%'
+        left: '85%'
       }, 300).addClass('reduced');
     }
 
