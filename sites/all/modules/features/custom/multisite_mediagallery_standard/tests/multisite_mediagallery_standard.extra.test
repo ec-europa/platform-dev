@@ -30,7 +30,6 @@ class MultisiteMediaGalleryStandardFeatureTest extends DrupalWebTestCase {
     parent::setUp(array(
       'multisite_mediagallery_standard',
       'apachesolr',
-      'custom_breadcrumbs',
     ));
   }
 

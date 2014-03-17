@@ -39,7 +39,7 @@ class EventsResourcesFeatureTest extends DrupalWebTestCase {
   public function setUp() {
     // Enable any modules required for the test.
     parent::setUp(array(
-      'apachesolr', 'custom_breadcrumbs', 'events_core', 'events_standard', 'events_resources'));
+      'apachesolr', 'events_core', 'events_standard', 'events_resources'));
 
     $this->resourcesName = 'resources';
     $this->entityType = 'node';

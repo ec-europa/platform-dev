@@ -9,7 +9,6 @@ dependencies[] = apachesolr
 dependencies[] = cce_basic_config
 dependencies[] = context
 dependencies[] = ctools
-dependencies[] = custom_breadcrumbs
 dependencies[] = diff
 dependencies[] = features
 dependencies[] = field_group

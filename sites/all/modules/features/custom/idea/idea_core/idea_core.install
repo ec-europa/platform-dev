@@ -114,17 +114,6 @@ function idea_core_enable() {
   // Add type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('idea', 'add');
 
-
-  // Add breadcrumb configuration.
-  db_insert('custom_breadcrumb')
-    ->fields(array(
-      'titles' => '[Breadcrumb_idea:idea_title]',
-      'paths' => 'ideas/',
-      'visibility_php ' => '',
-      'node_type' => 'idea',
-    ))
-    ->execute();
-
   // Add rating.
   multisite_drupal_toolbox_rate_content_type('idea', 'add');
 
@@ -136,11 +125,6 @@ function idea_core_enable() {
  * Remove block from the context
  */
 function idea_core_disable() {
-  // Remove the breadcrump related to.
-  db_delete('custom_breadcrumb')
-    ->condition('node_type', 'idea')
-    ->execute();
-
   // SolR configuration add bundle.
   multisite_drupal_toolbox_config_solr_bundle('idea', 'delete');
 
