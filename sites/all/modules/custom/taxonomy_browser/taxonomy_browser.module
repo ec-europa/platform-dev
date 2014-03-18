@@ -136,18 +136,17 @@ function _taxonomy_browser_taxonomy_get_nested_tree($terms = array(), $max_depth
  */
 function _taxonomy_browser_output_taxonomy_nested_tree($tree, $path) {
   if (count($tree)) {
+        $output = '<ul class="taxonomy-tree">';
+        foreach ($tree as $term) {
+          $path_alias = drupal_get_path_alias('taxonomy/term/' . $term->tid);          
+          $output .= '<li id="term_' . $term->tid . '">';
+          $output .= l($term->name, $path . '/' . $path_alias, array('attributes' => array('class' => array())));              
 
-    $output = '<ul class="taxonomy-tree">';
-    foreach ($tree as $term) {
-
-      $output .= '<li id="term_' . $term->tid . '">';
-      $output .= l($term->name, $path . '/' . $term->tid, array('attributes' => array('class' => array())));
-
-      if (isset($term->children)) {
-        $output .= _taxonomy_browser_output_taxonomy_nested_tree($term->children, $path);
-      }
-      $output .= '</li>';
-    }
+          if (isset($term->children)) {
+            $output .= _taxonomy_browser_output_taxonomy_nested_tree($term->children, $path);
+          }
+          $output .= '</li>';
+        }
     $output .= '</ul>';
   }
 
