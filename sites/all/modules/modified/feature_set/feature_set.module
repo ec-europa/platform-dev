@@ -310,13 +310,13 @@ function feature_set_preprocess(&$variables) {
 
     ksort($feature_set_category['category']);
     $variables['feature_set_category'] = $feature_set_category;
-  }
 
-  $variables['feature_set_input'] = 
-    render($feature_set_category['form']['submit']) .
-    render($feature_set_category['form']['form_build_id']) .
-    render($feature_set_category['form']['form_token']) .
-    render($feature_set_category['form']['form_id']);
+    $variables['feature_set_input'] = 
+      render($feature_set_category['form']['submit']) .
+      render($feature_set_category['form']['form_build_id']) .
+      render($feature_set_category['form']['form_token']) .
+      render($feature_set_category['form']['form_id']);
+  }
 }
 
 /**

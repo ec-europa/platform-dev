@@ -36,12 +36,12 @@ function ec_resp_preprocess(&$variables) {
                   $feature_icon = '<span class="' . $item['#featuresetinfo']['font'] . '"></span>';
                 }
                 elseif (!empty($item['#featuresetinfo']['icon'])) {
-                  $variables = array(
+                  $image = array(
                     'path' => $item['#featuresetinfo']['icon'],
                     'alt' => t('@feature-set icon', array('@feature-set' => $item['#featuresetinfo']['featureset'])),
                     'attributes' => array(),
                   );
-                  $feature_icon = theme_image($variables);
+                  $feature_icon = theme_image($image);
                 }
                 else {
                   $feature_icon = '';
