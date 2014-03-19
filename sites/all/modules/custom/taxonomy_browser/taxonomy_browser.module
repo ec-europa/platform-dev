@@ -138,9 +138,8 @@ function _taxonomy_browser_output_taxonomy_nested_tree($tree, $path) {
   if (count($tree)) {
         $output = '<ul class="taxonomy-tree">';
         foreach ($tree as $term) {
-          $path_alias = drupal_get_path_alias('taxonomy/term/' . $term->tid);          
           $output .= '<li id="term_' . $term->tid . '">';
-          $output .= l($term->name, $path . '/' . $path_alias, array('attributes' => array('class' => array())));              
+          $output .= l($term->name, $path . '/' . $term->tid, array('attributes' => array('class' => array())));              
 
           if (isset($term->children)) {
             $output .= _taxonomy_browser_output_taxonomy_nested_tree($term->children, $path);
@@ -228,13 +227,13 @@ function _taxonomy_browser_create_block_content($vid, $vocabulary) {
   drupal_add_library('system', 'drupal.ajax');
 
   $view = views_get_page_view();
-  // don't use views path, they are rewrited on communities pages...
+  // don't use views path, they are rewrited on communities pages.
   //$view_path = $view->get_path();
 
   $menu = menu_get_item();
   $view_path = $menu['href'];
-
-
+  // @TODO If the view is returning 404 the $menu['href'] is altered to 'customerror' and the links are broken
+  // $view->get_path(); would be the ideal solution
 
   $output1 = '<div id="tb_wrapper">';
   $output1 .= '<div id="tb_browser">';
@@ -280,9 +279,9 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
           // get Parents tree
           _taxonomy_browser_taxonomy_get_parents_tree($argument_value, $parents_tree, TRUE);
 
-          // set bradcrumb
+          // set breadcrumb
           $view_path = $view->get_path();
-          $link = l($view->name, $view_path);
+          $link = l($view->human_name, $view_path);
           $breadcrumb[] = $link;
           foreach ($parents_tree as $parent) {
             $link = l($parent->name, $view_path . '/' . $parent->tid);
@@ -290,7 +289,6 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
           }
           array_pop($breadcrumb);
           drupal_set_breadcrumb($breadcrumb);
-
 
           $header = '<fieldset id="tb_header"><h1>' . $term->name . '</h1>';
           if (isset($term->description)) {
