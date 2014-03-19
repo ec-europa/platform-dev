@@ -90,7 +90,7 @@
       $fields = array(
         'picture' => array(),
         'body'    => array(),
-        'hidden'  => array('comments', 'links', 'print_links', 'og_group_ref'),
+        'hidden'  => array('comments', 'links', 'print_links', 'og_group_ref', 'language'),
         'group' => array('group_audience', 'group_content_access')
       );
       $display_user_picture = FALSE;
@@ -100,7 +100,7 @@
       $fields = array(
         'picture' => array('field_news_picture'),
         'body'    => array('body'),
-        'hidden'    => array('comments', 'links', 'print_links', 'og_group_ref'),
+        'hidden'    => array('comments', 'links', 'print_links', 'og_group_ref', 'language'),
         'group'   => array('group_audience', 'group_content_access')
       );
       $display_user_picture = FALSE;
@@ -110,7 +110,7 @@
       $fields = array(
         'picture' => array('field_thumbnail'),
         'body'  => array('body'),
-        'hidden'  => array('comments', 'links', 'print_links', 'field_thumbnail','og_roles_permissions', 'og_group_ref'),
+        'hidden'  => array('comments', 'links', 'print_links', 'field_thumbnail','og_roles_permissions', 'og_group_ref', 'language'),
         'group' => array('group_group', 'group_access')
       );
       $display_submitted = FALSE;
@@ -121,7 +121,7 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('comments', 'links', 'print_links', 'og_group_ref'),
+        'hidden'  => array('comments', 'links', 'print_links', 'og_group_ref', 'language'),
         'group' => array('group_audience', 'group_content_access')
       );
       break;
@@ -130,7 +130,7 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('comments', 'links', 'field_watching', 'print_links', 'og_group_ref'),
+        'hidden'  => array('comments', 'links', 'field_watching', 'print_links', 'og_group_ref', 'language'),
         'group' => array('group_audience', 'group_content_access')
       );
       $display_submitted = FALSE;
@@ -145,7 +145,7 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('comments', 'links', 'print_links', 'og_group_ref'),
+        'hidden'  => array('comments', 'links', 'print_links', 'og_group_ref', 'language'),
         'group' => array('group_audience', 'group_content_access')
       );
       $display_user_picture = FALSE;
@@ -155,7 +155,7 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('field_video_upload', 'field_picture_upload', 'comments', 'links', 'print_links', 'og_group_ref'),
+        'hidden'  => array('field_video_upload', 'field_picture_upload', 'comments', 'links', 'print_links', 'og_group_ref', 'language'),
         'group' => array('group_audience', 'group_content_access')
       );
       $suffixe = $gallerymedia_items;
@@ -165,7 +165,7 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('field_picture_upload', 'comments', 'links', 'print_links', 'og_group_ref'),
+        'hidden'  => array('field_picture_upload', 'comments', 'links', 'print_links', 'og_group_ref', 'language'),
         'group' => array('group_audience', 'group_content_access')
       );
       break;
@@ -174,7 +174,7 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('comments', 'links', 'print_links', 'field_article_publication_date', 'og_group_ref'),
+        'hidden'  => array('comments', 'links', 'print_links', 'field_article_publication_date', 'og_group_ref', 'language'),
         'group' => array('group_audience', 'group_content_access')
       );
       break;
@@ -183,7 +183,7 @@
       $fields = array(
         'picture' => array(),
         'body'  => array('body'),
-        'hidden'  => array('comments', 'links', 'print_links', 'og_group_ref'),
+        'hidden'  => array('comments', 'links', 'print_links', 'og_group_ref', 'language'),
         'group' => array('group_audience', 'group_content_access')
       );
       //$suffixe = $video_items;

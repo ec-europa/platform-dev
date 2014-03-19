@@ -585,10 +585,9 @@ div.more-link > a:visited,
 div.more-link > a:hover {
   font-size: 0.9em;
   color: #999;
-  display: block;
+  display: inline-block;
   text-align: right;
   margin-top: 8px;
-  border-top: 1px solid #ddd;
 }  
 
 /* -------------- Tables -------------- */
@@ -613,20 +612,23 @@ tr.even, tr.odd {
   }  
 }
 
-.table tbody>tr {
-  >th.active, 
-  >td.active {
-    background-color: @table-bg;
+.table {
+  margin-bottom: 0;
+  tbody>tr {
+    >th.active, 
+    >td.active {
+      background-color: @table-bg;
+      &:hover {
+        background-color: @table-bg-hover;
+      }
+    }
     &:hover {
-      background-color: @table-bg-hover;
+      >th.active, 
+      >td.active {  
+        background-color: @table-bg-hover;
+      }
     }
   }
-  &:hover {
-    >th.active, 
-    >td.active {  
-      background-color: @table-bg-hover;
-    }
-  }   
 }
 
 /* ---------- Create content button ----------- */
