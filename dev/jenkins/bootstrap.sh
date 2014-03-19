@@ -7,6 +7,6 @@ fi
 php composer.phar install
 
 if [ ! -e "build.properties" ]; then
-    touch build.properties
+    cp ../build.properties build.properties
     echo "You may have to fill build.properties to override build.default.properties."
 fi
