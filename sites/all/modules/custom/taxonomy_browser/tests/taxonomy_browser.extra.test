@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Tests for taxonomy_browser.module.
@@ -10,8 +9,8 @@
  * Defines a base class for testing the Taxonomy browser feature.
  */
 class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
-  protected $web_user;
-  
+  protected $webUser;
+
   /**
    * Info for the simpleTest UI.
    */
@@ -27,7 +26,7 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
    * Configure the environment, enable the required modules.
    */
   public function setUp() {
-    parent::setUp(array('taxonomy_browser', 
+    parent::setUp(array('taxonomy_browser',
                         'taxonomy',
                         'views',
                         'views_content',
@@ -37,43 +36,45 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
   }
 
   /**
-   * Check the access to the 'Taxonomy browser' settings page depending on the available roles.
+   * Check access to the 'Taxonomy browser' settings page depending on roles.
    */
-  function testTaxonomyBrowserConfigurationAccess() {
-    // Verify that anonymous users can't access to the CTaxonomy browser settings page.
+  public function testTaxonomyBrowserConfigurationAccess() {
+    // Verify that anonymous users can't access to the settings.
     $this->taxonomyBrowserVerifyConfigurationNoAccess('admin/config/taxonomy_browser/settings');
 
     // Create a regular user and login.
-    $this->web_user = $this->drupalCreateUser();
-    $this->drupalLogin($this->web_user);
-    // Verify that authenticated users can't access to the Taxonomy browser settings page.
+    $this->webUser = $this->drupalCreateUser();
+    $this->drupalLogin($this->webUser);
+    // Verify that authenticated users can't access to the settings.
     $this->taxonomyBrowserVerifyConfigurationNoAccess('admin/config/taxonomy_browser/settings');
 
-    // Create a user with permissions to access to the Taxonomy browser settings page and login.
-    $this->web_user = $this->drupalCreateUser(array('administer taxonomy', 'access administration pages'));
-    $this->drupalLogin($this->web_user);
-    // Verify that users with permission can access to the Taxonomy browser settings page.
+    // Create a user with permissions to access to the settings.
+    $this->webUser = $this->drupalCreateUser(array('administer taxonomy', 'access administration pages'));
+    $this->drupalLogin($this->webUser);
+    // Verify that users with permission can access to the settings.
     $this->taxonomyBrowserVerifyConfigurationAccess('admin/config/taxonomy_browser/settings');
   }
 
   /**
    * Verify that current user has no access to settings page.
-   * @param $url
-   * URL to verify.
+   *
+   * @param string $url
+   *   URL to verify.
    */
-  function taxonomyBrowserVerifyConfigurationNoAccess($url) {
-    // Test that page returns 403 Access Denied
+  public function taxonomyBrowserVerifyConfigurationNoAccess($url) {
+    // Test that page returns 403 Access Denied.
     $this->drupalGet($url);
     $this->assertResponse(403, t('Expected -> Access Denied'));
   }
 
   /**
    * Verify that current user has access to settings page.
-   * @param $url
-   * URL to verify.
+   *
+   * @param string $url
+   *   URL to verify.
    */
-  function taxonomyBrowserVerifyConfigurationAccess($url) {
-    // Test that page returns 200 Access OK
+  public function taxonomyBrowserVerifyConfigurationAccess($url) {
+    // Test that page returns 200 Access OK.
     $this->drupalGet($url);
     $this->assertResponse(200, t('Expected -> Access OK'));
 
@@ -82,11 +83,12 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
 
   /**
    * Verify that current user has access to settings page.
-   * @param $url
-   * URL to verify.
+   *
+   * @param string $url
+   *   URL to verify.
    */
-  function taxonomyBrowserVerifyBlocksAccess($url) {
-    // Test that page returns 200 Access OK
+  public function taxonomyBrowserVerifyBlocksAccess($url) {
+    // Test that page returns 200 Access OK.
     $this->drupalGet($url);
     $this->assertResponse(200, t('Expected -> Access OK'));
 
@@ -95,11 +97,12 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
 
   /**
    * Verify that the view 'view_articles' for tests is successfully created.
-   * @param $url
-   * URL to verify.
+   *
+   * @param string $url
+   *   URL to verify.
    */
-  function taxonomyBrowserVerifyViewCreated($url) {
-    // Test that page returns 200 Access OK
+  public function taxonomyBrowserVerifyViewCreated($url) {
+    // Test that page returns 200 Access OK.
     $this->drupalGet($url);
     $this->assertResponse(200, t('Expected -> Access OK'));
 
@@ -107,12 +110,13 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
   }
 
   /**
-   * Verify that the vocabulary 'vocabulry_test' for tests is successfully created with its terms.
-   * @param $url
-   * URL to verify.
+   * Verify that the 'vocabulary_test' is successfully created with its terms.
+   * 
+   * @param string $url
+   *   URL to verify.
    */
-  function taxonomyBrowserVerifyTaxonomyCreated($url) {
-    // Test that page returns 200 Access OK
+  public function taxonomyBrowserVerifyTaxonomyCreated($url) {
+    // Test that page returns 200 Access OK.
     $this->drupalGet($url);
     $this->assertResponse(200, t('Expected -> Access OK'));
 
@@ -121,12 +125,13 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
   }
 
   /**
-   * Verify that the view and the vocabulary created are loaded in the taxonomy browser settings page.
-   * @param $url
-   * URL to verify.
+   * Verify that the view and the vocabulary created are loaded in the settings.
+   * 
+   * @param string $url
+   *   URL to verify.
    */
-  function taxonomyBrowserVerifyContentLoaded($url) {
-    // Test that page returns 200 Access OK
+  public function taxonomyBrowserVerifyContentLoaded($url) {
+    // Test that page returns 200 Access OK.
     $this->drupalGet($url);
     $this->assertResponse(200, t('Expected -> Access OK'));
 
@@ -135,31 +140,41 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
 
 
   /**
-  * Create content for tests
-  */
-  function testCreateContent() {
-    // Create a user with permissions to access to the Taxonomy browser settings page and login.
-    $this->web_user = $this->drupalCreateUser(array('administer taxonomy', 'administer views', 'access all views', 'administer content types', 'administer nodes', 'create article content', 'access administration pages', 'administer blocks'));
-    $this->drupalLogin($this->web_user);
+   * Create content for tests.
+   */
+  public function testCreateContent() {
+    // Create a user with permissions to access to the settings and login.
+    $permissions = array(
+      'administer taxonomy',
+      'administer views',
+      'access all views',
+      'administer content types',
+      'administer nodes',
+      'create article content',
+      'access administration pages',
+      'administer blocks',
+    );
+    $this->webUser = $this->drupalCreateUser($permissions);
+    $this->drupalLogin($this->webUser);
 
-    // Create a view for tests
-    $this->create_view();
-    // Add terms to 'Tags' vocabulary
-    $this->add_terms_tags();
-    // Create a taxonomy vocabulary for tests
-    $this->create_vocabulary();
+    // Create a view for tests.
+    $this->createView();
+    // Add terms to 'Tags' vocabulary.
+    $this->addTermsTags();
+    // Create a taxonomy vocabulary for tests.
+    $this->createVocabulary();
 
     // Verify that the view 'view_articles' for tests is successfully created.
     $this->taxonomyBrowserVerifyViewCreated('admin/structure/views');
 
-    // Verify that the vocabulary 'vocabulry_test' for tests is successfully created with its terms.
+    // Verify that 'vocabulary_test' is successfully created with its terms.
     $this->taxonomyBrowserVerifyTaxonomyCreated('admin/structure/taxonomy/vocabulary_test');
 
-    // Verify that the view and the vocabulary created are loaded in the taxonomy browser settings page.
+    // Verify that the view and the vocabulary are loaded in the settings.
     $this->taxonomyBrowserVerifyContentLoaded('admin/config/taxonomy_browser/settings');
 
-    // Create articles for tests
-    // Article 1
+    // Create articles for tests.
+    // Article 1.
     $edit = array();
     $edit['title'] = 'Article #1';
     $edit['field_tags[und]'] = 'tag-2,tag-4';
@@ -167,7 +182,7 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
     $this->drupalPost('node/add/article', $edit, t('Save'));
     $this->assertText(t('Article Article #1 has been created.'));
 
-    // Article 2
+    // Article 2.
     $edit = array();
     $edit['title'] = 'Article #2';
     $edit['field_tags[und]'] = 'tag-1,tag-4,tag-3';
@@ -175,38 +190,38 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
     $this->drupalPost('node/add/article', $edit, t('Save'));
     $this->assertText(t('Article Article #2 has been created.'));
 
-    $this->configure_taxonomy_browser();
+    $this->configureTaxonomyBrowser();
 
-    // Verify that users with permission can access to the Blocks configuration page.
+    // Verify that users with permission can access the Blocks configuration.
     $this->taxonomyBrowserVerifyBlocksAccess('admin/structure/block');
 
-    // Place blocks in regions
+    // Place blocks in regions.
     $edit = array();
     $edit['blocks[taxonomy_browser_taxonomy_browser_vocabulary_1][region]'] = 'sidebar_first';
     $edit['blocks[taxonomy_browser_taxonomy_browser_vocabulary_2][region]'] = 'sidebar_first';
     $this->drupalPost('admin/structure/block', $edit, t('Save blocks'));
     $this->assertText(t('The block settings have been updated.'));
- 
+
     $this->drupalGet('view-articles');
     $this->assertRaw('<div id="block-taxonomy-browser-taxonomy-browser-vocabulary-1" class="block block-taxonomy-browser"', 'Taxonomy block "Tags" are loaded in the view.');
     $this->assertRaw('<div id="block-taxonomy-browser-taxonomy-browser-vocabulary-2" class="block block-taxonomy-browser"', 'Taxonomy block "Vocabulary test" are loaded in the view.');
   }
 
   /**
-  * Select taxonomy blocks for the view 'view_articles'
-  */
-  function configure_taxonomy_browser() {
+   * Select taxonomy blocks for the view 'view_articles'.
+   */
+  public function configureTaxonomyBrowser() {
     $edit = array();
     $edit['taxonomy_browser_vocabulary[1]'] = 1;
     $edit['taxonomy_browser_vocabulary[2]'] = 2;
     $this->drupalPost('admin/config/taxonomy_browser/settings', $edit, t('Save configuration'));
-    $this->assertText(t('The configuration options have been saved'));    
+    $this->assertText(t('The configuration options have been saved'));
   }
 
   /**
-  * Function to create a view.
-  */
-  function create_view() {
+   * Create a view.
+   */
+  public function createView() {
     $view = new view();
     $view->name = 'view_articles';
     $view->description = '';
@@ -292,11 +307,13 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
     $view->save();
   }
 
-  // Add terms to 'Tags' vocabulary
-  function add_terms_tags() {
+  /**
+   * Add terms to 'Tags' vocabulary.
+   */
+  public function addTermsTags() {
     $vid = taxonomy_vocabulary_machine_name_load('tags')->vid;
 
-    for ($i=1; $i<=5; $i++) {
+    for ($i = 1; $i <= 5; $i++) {
       $term = new stdClass();
       $term->name = 'tag-' . $i;
       $term->vid = $vid;
@@ -304,18 +321,20 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
     }
   }
 
-  // Create the vocabulary.
-  function create_vocabulary() {
+  /**
+   * Create the vocabulary.
+   */
+  public function createVocabulary() {
     $edit = array(
-    'name' => 'Vocabulary test',
-    'machine_name' => 'vocabulary_test',
-    'description' => t('Use keywords to identify contents.'),
-    'module' => 'taxonomy',
+      'name' => 'Vocabulary test',
+      'machine_name' => 'vocabulary_test',
+      'description' => t('Use keywords to identify contents.'),
+      'module' => 'taxonomy',
     );
     $vocabulary = (object) $edit;
     taxonomy_vocabulary_save($vocabulary);
 
-    for ($i=1; $i<=10; $i++) {
+    for ($i = 1; $i <= 10; $i++) {
       $term = new stdClass();
       $term->name = 'test-' . $i;
       $term->vid = $vocabulary->vid;
@@ -328,5 +347,4 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
     $term->parent = taxonomy_get_term_by_name('term-' . $i, $vocabulary->vid);
     taxonomy_term_save($term);
   }
-
 }
