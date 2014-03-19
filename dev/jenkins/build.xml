@@ -221,7 +221,7 @@
 
   <target name="site-install" depends="init, setup-phing-drush"
           unless="project.installed">
-    <property name="drupal.db.url" value="${drupal.db.schema}://${drupal.db.user.name}:${drupal.db.user.pass}@${drupal.db.host}:${drupal.db.port}/${drupal.db.name}" />
+    <property name="drupal.db.url" value="'${drupal.db.schema}://${drupal.db.user.name}:${drupal.db.user.pass}@${drupal.db.host}:${drupal.db.port}/${drupal.db.name}'" />
     <drush command="site-install" assume="yes">
       <option name="db-url">${drupal.db.url}</option>
       <option name="account-name">${drupal.account.name}</option>
