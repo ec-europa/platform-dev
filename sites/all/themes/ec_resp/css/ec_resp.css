@@ -6928,6 +6928,7 @@ fieldset[disabled] .node-form .multipage-controls-list input.form-submit.active 
 /* --------------- Main Menu ------------ */
 #main-menu {
   font-size: 16px;
+  min-height: 55px;
 }
 #main-menu .navbar {
   border-radius: 0;
