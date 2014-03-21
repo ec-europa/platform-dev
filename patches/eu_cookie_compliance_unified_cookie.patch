@@ -1,5 +1,14 @@
---- sites/all/modules/contributed/eu-cookie-compliance/js/eu_cookie_compliance.js
+--- sites/all/modules/contributed/eu-cookie-compliance/js/eu_cookie_compliance.js.original
 +++ sites/all/modules/contributed/eu-cookie-compliance/js/eu_cookie_compliance.js
+@@ -81,7 +81,7 @@
+   }
+ 
+   Drupal.eu_cookie_compliance.attachEvents = function() {
+-	var clicking_confirms = Drupal.settings.eu_cookie_compliance.popup_clicking_confirmation;
++    var clicking_confirms = Drupal.settings.eu_cookie_compliance.popup_clicking_confirmation;
+     var agreed_enabled = Drupal.settings.eu_cookie_compliance.popup_agreed_enabled;
+     $('.find-more-button').click(function(){
+       window.open(Drupal.settings.eu_cookie_compliance.popup_link);
 @@ -103,18 +103,9 @@
    }
  
@@ -31,35 +40,30 @@
    }
  
    Drupal.eu_cookie_compliance.hasAgreed = function() {
-@@ -157,7 +148,30 @@
+@@ -157,6 +148,26 @@
      }
      return false;
    }
--  
 +
-+
-+  Drupal.eu_cookie_compliance.getCookie = function(name) {
-+    var search = name + '=';
-+    var returnCookie = '';
-+
-+    if (document.cookie.length > 0) {
-+      offset = document.cookie.indexOf(search);
-+      if (offset != -1) {
-+        offset += search.length;
-+        var end = document.cookie.indexOf(';', offset);
-+        if (end == -1) {
-+          end = document.cookie.length;
-+        }
-+        returnCookie = decodeURIComponent(document.cookie.substring(offset, end).replace(/\+/g, '%20'));
++  /*
++  Javascript Standard Cookie Getter
++  */
++ Drupal.eu_cookie_compliance.getCookie = function(name) {
++  var search = name + '=';
++  var returnCookie = '';
++  if (document.cookie.length > 0) {
++    offset = document.cookie.indexOf(search);
++    if (offset != -1) {
++      offset += search.length;
++      var end = document.cookie.indexOf(';', offset);
++      if (end == -1) {
++        end = document.cookie.length;
 +      }
++      returnCookie = decodeURIComponent(document.cookie.substring(offset, end).replace(/\+/g, '%20'));
 +    }
-+
-+    return returnCookie;
-+  };
-+
++  }
++ return returnCookie;
++ }
+   
    Drupal.eu_cookie_compliance.cookiesEnabled = function() {
      var cookieEnabled = (navigator.cookieEnabled) ? true : false;
-       if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled) { 
-@@ -167,4 +181,4 @@
-     return (cookieEnabled);
-   }
