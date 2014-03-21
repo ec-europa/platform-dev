@@ -94,8 +94,8 @@ projects[entityreference][version] = "1.1"
 projects[entityreference_prepopulate][subdir] = "contributed"
 projects[entityreference_prepopulate][version] = "1.3"
 
-projects[eu_cookie_compliance][subdir] = "contributed"
-projects[eu_cookie_compliance][version] = "1.12"
+projects[eu-cookie-compliance][subdir] = "contributed"
+projects[eu-cookie-compliance][version] = "1.12"
 
 projects[facetapi][subdir] = "contributed"
 projects[facetapi][version] = "1.3"
