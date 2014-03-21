@@ -1,10 +1,10 @@
-name = EU_Cookie_Compliance
+name = EU Cookie Compliance
 description = This feature deals with the EU Directive on Privacy and Electronic Communications
 core = 7.x
 package = Features
 version = 7.x-1.0
 project = multisite_eu_cookie_compliance
-dependencies[] = eu-cookie-compliance
+dependencies[] = eu_cookie_compliance
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
 features[language][] = bg
