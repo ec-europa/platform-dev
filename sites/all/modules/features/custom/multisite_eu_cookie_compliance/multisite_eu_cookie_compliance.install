@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Install the feature multisite_eu_cookie_compliance
+ */
+
+/**
+ * Implements hook_install().
+ */
+function multisite_eu_cookie_compliance_install() {
+    //Nothing yet
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function multisite_eu_cookie_compliance_uninstall() {
+    //Nothing yet.
+}
+
+/**
+ * Revert feature component
+ */
+function multisite_eu_cookie_compliance_enable() {
+  /**
+   * 'module' is the name of the specific features module (i.e. the the module generated when you download the feature) and 'component' are the components of those features.
+   */
+  features_revert(array('multisite_eu_cookie_compliance' => array('strongarm')));
+  // Activation message.
+  drupal_set_message(t('EU Cookie Compliance feature is now active on your site.'));
+}
+
+/**
+ * 
+ */
+function multisite_eu_cookie_compliance_disable() {
+  drupal_set_message(t('EU Cookie Compliance feature is now disabled on your site.'));
+}
