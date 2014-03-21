@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the EU_Cookie_Compliance feature.
+ */
+
+include_once 'multisite_eu_cookie_compliance.features.inc';
