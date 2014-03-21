@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/eu_cookie_compliance/js/eu_cookie_compliance.js
-+++ sites/all/modules/contributed/eu_cookie_compliance/js/eu_cookie_compliance.js
+--- sites/all/modules/contributed/eu-cookie-compliance/js/eu_cookie_compliance.js
++++ sites/all/modules/contributed/eu-cookie-compliance/js/eu_cookie_compliance.js
 @@ -103,18 +103,9 @@
    }
  
