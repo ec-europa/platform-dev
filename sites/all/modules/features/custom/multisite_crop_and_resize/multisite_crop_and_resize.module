@@ -6,25 +6,21 @@
  */
 
 /**
- * Implements hook_requirements().
+ * Implements hook_menu().
  */
-function multisite_crop_and_resize_requirements($phase) {
-  $requirements = array();
-  $lpath = libraries_get_path('jquery.imgareaselect');
+function multisite_crop_and_resize_menu() {
+  $items = array();
 
-  if ($phase == 'runtime') {
-    if (!empty($lpath)) {
-      $requirements['multisite_crop_and_resize']['severity'] = REQUIREMENT_OK;
-      $requirements['multisite_crop_and_resize']['value'] = t('imgAreaSelect library found.');
-    }
-    else {
-      $requirements['multisite_crop_and_resize']['severity'] = REQUIREMENT_ERROR;
-      $requirements['multisite_crop_and_resize']['value'] = t('imgAreaSelect library not found.');
-      $requirements['multisite_crop_and_resize']['description'] = t('Please download this library from <a href="@url">http://odyniec.net/projects/imgareaselect</a> and copy it into the library directory.', array('@url' => 'http://odyniec.net/projects/imgareaselect/'));
-    }
-    $requirements['multisite_crop_and_resize']['title'] = t('Multisite Crop and Resize');
-  }
-  return $requirements;
+  $private_directory_path = 'system/files';
+  $items[$private_directory_path . '/media_crop/%media_crop_instance'] = array(
+    'title' => 'Generate media crop',
+    'page callback' => '_multisite_crop_and_resize_get_image',
+    'page arguments' => array(count(explode('/', $private_directory_path)) + 1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
 }
 
 /**
@@ -411,17 +407,152 @@ function multisite_crop_and_resize_image_default_styles() {
 }
 
 /**
+ * Implements hook_file_download().
+ */
+function multisite_crop_and_resize_file_download($uri) {
+  if (!user_access('view private files')) {
+    return -1;
+  }
+}
+
+/**
+ * Page callback for image generation.
+ */
+function _multisite_crop_and_resize_get_image($media_crop_instance) {
+  if (!$media_crop_instance) {
+    drupal_goto(drupal_get_path('module', 'media_crop') . '/images/loading.gif');
+  }
+
+  $angle = (int) $media_crop_instance->angle;
+  $file = file_load($media_crop_instance->fid);
+  $style_name = $media_crop_instance->image_style_name;
+  $crop_x_coordinate = (int) $media_crop_instance->crop_x;
+  $crop_y_coordinate = (int) $media_crop_instance->crop_y;
+  $crop_width = (int) $media_crop_instance->crop_w;
+  $crop_height = (int) $media_crop_instance->crop_h;
+  $scale_width = (int) $media_crop_instance->crop_scale_w;
+  $scale_height = (int) $media_crop_instance->crop_scale_h;
+
+  $args = func_get_args();
+  array_shift($args);
+  $req_uri = implode('/', $args);
+  $orig_uri = str_replace('://', '/', $file->uri);
+  if ($req_uri != $orig_uri) {
+    watchdog('media_crop', 'Request URI not equals to original URI.');
+    drupal_access_denied();
+  }
+  unset($args);
+
+  $style = image_style_load($style_name);
+  if (!$style) {
+    $style = array(
+      'name' => $style_name,
+      'effects' => array(),
+    );
+  }
+
+  $derivative_uri = _media_crop_get_path($media_crop_instance->mciid, $file->uri);
+
+  if (($scheme = file_uri_scheme($derivative_uri)) == 'private') {
+    $headers = module_invoke_all('file_download', $file->uri);
+    if (in_array(-1, $headers) || empty($headers)) {
+      watchdog('media_crop', 'No headers for file download.');
+      return drupal_access_denied();
+    }
+    if (count($headers)) {
+      foreach ($headers as $name => $value) {
+        drupal_add_http_header($name, $value);
+      }
+    }
+  }
+
+  $lock = drupal_hash_base64($file->uri . implode('/', array(
+    $angle,
+    $crop_x_coordinate,
+    $crop_y_coordinate,
+    $crop_width,
+    $crop_height,
+  )));
+
+  if (!file_exists($derivative_uri)) {
+    $lock_acquired = lock_acquire($lock);
+    if (!$lock_acquired) {
+      drupal_add_http_header('Status', '503 Service Unavailable');
+      drupal_add_http_header('Retry-After', 3);
+      print t('Image generation in progress. Try again shortly.', array(), array('context' => 'Media crop'));
+      drupal_exit();
+    }
+  }
+
+  $crop_object = (object) array(
+    'uri' => $file->uri,
+    'angle' => $angle,
+    'style' => $style,
+    'crop_x_coordinate' => $crop_x_coordinate,
+    'crop_y_coordinate' => $crop_y_coordinate,
+    'crop_width' => $crop_width,
+    'crop_height' => $crop_height,
+    'scale_height' => $scale_height,
+    'scale_width' => $scale_width,
+    'mciid' => $media_crop_instance->mciid,
+  );
+
+  $success = file_exists($derivative_uri) || media_crop_create_derivative($crop_object);
+
+  if (!empty($lock_acquired)) {
+    lock_release($lock);
+  }
+
+  if ($success) {
+    $image = image_load($derivative_uri);
+    file_transfer($image->source, array(
+      'Content-Type' => $image->info['mime_type'],
+      'Content-Length' => $image->info['file_size'],
+    ));
+  }
+  else {
+    watchdog('media_crop', 'Unable to generate the derived image located at %path.', array('%path' => $derivative_uri));
+    drupal_add_http_header('Status', '500 Internal Server Error');
+    print t('Error generating image.', array(), array('context' => 'Media crop'));
+    drupal_exit();
+  }
+
+  return NULL;
+}
+
+/**
  * Implements hook_media_token_to_markup_alter().
  */
 function multisite_crop_and_resize_media_token_to_markup_alter(&$element, $tag_info, $settings) {
   if ($tag_info['view_mode'] === 'media_crop' && $tag_info['file']->type === 'image') {
     $mciid = NULL;
-    if (!empty($tag_info['attributes'])){
-    foreach ($tag_info['attributes']['class'] as $k => $class_name) {
-      if (substr($class_name, 0, 6) == "mciid-") {
-        $mciid = str_replace("mciid-", "", $class_name);
-      }
-    }
+
+    if ($tag_info['fields']) {
+      $mciid = db_query(
+        "
+          SELECT mciid FROM {media_crop_instance} WHERE
+          fid = :fid AND
+          image_style_name = :style AND
+          angle = :angle AND
+          crop_x = :x AND
+          crop_y = :y AND
+          crop_w = :w AND
+          crop_h = :h AND
+          crop_scale_w = :scale_w AND
+          crop_scale_h = :scale_h
+        ",
+        array(
+          ':fid' => $tag_info['fid'],
+          ':style' => $tag_info['fields']['media_crop_image_style'],
+          ':angle' => $tag_info['fields']['media_crop_rotate'],
+          ':x' => $tag_info['fields']['media_crop_x'],
+          ':y' => $tag_info['fields']['media_crop_y'],
+          ':w' => $tag_info['fields']['media_crop_w'],
+          ':h' => $tag_info['fields']['media_crop_h'],
+          ':scale_w' => $tag_info['fields']['media_crop_scale_w'],
+          ':scale_h' => $tag_info['fields']['media_crop_scale_h'],
+        )
+      )->fetchField();
     }
 
     if (is_null($mciid)) {
@@ -464,14 +595,16 @@ function multisite_crop_and_resize_theme() {
 function multisite_media_crop_image($variables) {
   $file = $variables['file'];
   if (isset($variables['media_crop']['media_crop_instance'])) {
-  $mciid = $variables['media_crop']['media_crop_instance'];
+    $mciid = $variables['media_crop']['media_crop_instance'];
 
-  $image_variables = array(
-    'path' => _media_crop_get_path($mciid, $file->uri),
-    'attributes' => $variables['attributes'],
-  );
+    $image_variables = array(
+      'path' => _media_crop_get_path($mciid, $file->uri),
+      'attributes' => $variables['attributes'],
+      'alt' => $variables['file']->alt,
+      'title' => $variables['file']->title,
+    );
 
-  return theme('image', $image_variables);
+    return theme('image', $image_variables);
   }
 }
 

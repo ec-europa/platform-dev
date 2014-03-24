@@ -46,9 +46,78 @@
           x: options.media_crop_x,
           y: options.media_crop_y,
           scale_w: options.media_crop_scale_w,
-          scale_h: options.media_crop_scale_h
+          scale_h: options.media_crop_scale_h,
         }
       }
     });
+  };
+
+
+  /* PATCHING THE MODULE media-7.x-2.0-alpha2 */
+  /**
+   * Replaces media tokens with the placeholders for html editing.
+   * @param content
+   */
+  Drupal.media.filter.replaceTokenWithPlaceholder= function(content) {
+    var tagmap = Drupal.media.filter.ensure_tagmap(),
+      matches = content.match(/\[\[.*?\]\]/g),
+      media_definition;
+
+    if (matches) {
+      var i = 1;
+      for (var index in matches) {
+        var macro = matches[index];
+
+        if (tagmap[macro]) {
+          var media_json = macro.replace('[[', '').replace(']]', '');
+          // Make sure that the media JSON is valid.
+          try {
+            media_definition = JSON.parse(media_json);
+          }
+          catch (err) {
+            media_definition = null;
+          }
+          if (media_definition) {
+            // Apply attributes.
+            var element = Drupal.media.filter.create_element(tagmap[macro], media_definition);
+            var markup = Drupal.media.filter.outerHTML(element);
+
+            content = content.replace(macro, Drupal.media.filter.getWrapperStart(i) + markup + Drupal.media.filter.getWrapperEnd(i));
+          }
+        }
+        i++;
+      }
+    }
+    return content;
+  };
+
+  /**
+   * Replaces the placeholders for html editing with the media tokens to store.
+   * @param content
+   */
+  Drupal.media.filter.replacePlaceholderWithToken= function(content) {
+    var tagmap =  Drupal.media.filter.ensure_tagmap(),
+      markup,
+      macro;
+
+    // Finds the media-element class.
+    var classRegex = 'class=[\'"][^\'"]*?media-element';
+    // Image tag with the media-element class.
+    var regex = '<img[^>]+' + classRegex + '[^>]*?>';
+    // Or a span with the media-element class (used for documents).
+    // \S\s catches any character, including a linebreak; JavaScript does not
+    // have a dotall flag.
+    regex += '|<span[^>]+' + classRegex + '[^>]*?>[\\S\\s]+?</span>';
+    var matches = content.match(RegExp(regex, 'gi'));
+
+    if (matches) {
+      for (i = 0; i < matches.length; i++) {
+        markup = matches[i];
+        macro = Drupal.media.filter.create_macro($(markup));
+        tagmap[macro] = markup;
+        content = content.replace(markup, macro);
+      }
+    }
+    return content;
   };
 })(jQuery);
