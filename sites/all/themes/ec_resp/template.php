@@ -220,7 +220,7 @@ function ec_resp_preprocess_menu_link(&$variables) {
   }
 
   // Add CSS class.
-  $remove_default_classes = (isset($variables['element']['#localized_options']['attributes']['data-remove-class']) ? $variables['element']['#localized_options']['attributes']['data-remove-class'] : 1);
+  $remove_default_classes = (isset($variables['element']['#localized_options']['attributes']['data-remove-class']) ? $variables['element']['#localized_options']['attributes']['data-remove-class'] : 0);
   if (!$remove_default_classes) {
     $variables['element']['#localized_options']['attributes']['class'][] = 'list-group-item';
   }
