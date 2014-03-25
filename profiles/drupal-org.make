@@ -167,7 +167,7 @@ projects[libraries][subdir] = "contributed"
 projects[libraries][version] = "2.1"
 
 projects[link][subdir] = "contributed"
-projects[link][version] = "1.1"
+projects[link][version] = "1.2"
 
 projects[linkchecker][subdir] = "contributed"
 projects[linkchecker][version] = "1.1"
