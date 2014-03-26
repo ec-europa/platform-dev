@@ -11,17 +11,18 @@ stylesheets[all][] = "css/sub_theme.css"
 scripts[] = scripts/sub_theme.js
 
 regions[header_top] = "Header Top"
-regions[header_right] = "Header right"
+regions[header_right] = "Header Right"
 
 regions[featured] = "Featured"
 regions[tools] = "Tools"
+regions[help] = "Help"
 
-regions[sidebar_left] = "Sidebar left"
-regions[sidebar_right] = "Sidebar right"
+regions[sidebar_left] = "Sidebar Left"
+regions[sidebar_right] = "Sidebar Right"
 
 regions[content_top] = "Content Top"
-regions[help] = "Help"
 regions[content] = "Content"
+regions[content_right] = "Content Right"
 regions[content_bottom] = "Content Bottom"
 
 regions[footer] = "Footer"
