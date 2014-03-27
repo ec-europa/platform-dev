@@ -91,6 +91,23 @@
 <?php
 global $base_url;
 
+// format regions.
+$region_header_right = $page['header_right'] ? render($page['header_right']) : '';
+$region_header_top = $page['header_top'] ? render($page['header_top']) : '';
+$region_featured = $page['featured'] ? render($page['featured']) : '';
+$region_sidebar_left = $page['sidebar_left'] ? render($page['sidebar_left']) : '';
+$region_tools = $page['tools'] ? render($page['tools']) : '';
+$region_content_top = $page['content_top'] ? render($page['content_top']) : '';
+$region_help = $page['help'] ? render($page['help']) : '';
+$region_content = $page['content'] ? render($page['content']) : '';
+$region_content_right = $page['content_right'] ? render($page['content_right']) : '';
+$region_content_bottom = $page['content_bottom'] ? render($page['content_bottom']) : '';
+$region_sidebar_right = $page['sidebar_right'] ? render($page['sidebar_right']) : '';
+$region_footer = $page['footer'] ? render($page['footer']) : '';
+
+// check if there is a responsive sidebar or not
+$has_responsive_sidebar = ($region_header_right || $region_sidebar_left || $region_sidebar_right ? 1 : 0);
+
 // calculate size of regions.
   // sidebars
   $col_sidebar_left = array(
@@ -128,8 +145,8 @@ global $base_url;
 
   // tools
   $col_sidebar_button = array(
-    'sm' => 4,
-    'xs' => 4
+    'sm' => ($has_responsive_sidebar ? 4 : 0),
+    'xs' => ($has_responsive_sidebar ? 4 : 0)
   );
   $col_tools = array(
     'lg' => ($title ? 4 : 12),
@@ -145,20 +162,6 @@ global $base_url;
     'sm' => 12,
     'xs' => 12
   );
-
-// format regions.
-$region_header_right = $page['header_right'] ? render($page['header_right']) : '';
-$region_header_top = $page['header_top'] ? render($page['header_top']) : '';
-$region_featured = $page['featured'] ? render($page['featured']) : '';
-$region_sidebar_left = $page['sidebar_left'] ? render($page['sidebar_left']) : '';
-$region_tools = $page['tools'] ? render($page['tools']) : '';
-$region_content_top = $page['content_top'] ? render($page['content_top']) : '';
-$region_help = $page['help'] ? render($page['help']) : '';
-$region_content = $page['content'] ? render($page['content']) : '';
-$region_content_right = $page['content_right'] ? render($page['content_right']) : '';
-$region_content_bottom = $page['content_bottom'] ? render($page['content_bottom']) : '';
-$region_sidebar_right = $page['sidebar_right'] ? render($page['sidebar_right']) : '';
-$region_footer = $page['footer'] ? render($page['footer']) : '';
 ?>
 
   <a id="top-page"></a>
@@ -213,18 +216,8 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
 
   <div id="responsive-sidebar" style="display: none">
     <div id="responsive-header-right"></div>
-  <?php
-    if ($page['sidebar_left'] && ($variables['responsive_sidebar'] == 'left' || $variables['responsive_sidebar'] == 'both')) {
-  ?>
     <div id="responsive-sidebar-left"></div>
-  <?php 
-    }
-    elseif ($page['sidebar_right'] && ($variables['responsive_sidebar'] == 'right' || $variables['responsive_sidebar'] == 'both')) {
-  ?>
     <div id="responsive-sidebar-right"></div>
-  <?php
-    }
-   ?>
   </div><!-- /#responsive-sidebar-->   
 
   <div id="layout-body" class="container">
@@ -243,13 +236,15 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       
       <?php print render($title_suffix); ?>
 
-      <div class="col-sm-<?php print $col_sidebar_button['sm']; ?> col-xs-<?php print $col_sidebar_button['xs']; ?> visible-sm visible-xs">
+      <?php if ($has_responsive_sidebar) { ?>
+      <div id="sidebar-switcher" class="col-sm-<?php print $col_sidebar_button['sm']; ?> col-xs-<?php print $col_sidebar_button['xs']; ?> visible-sm visible-xs">
         <button id="sidebar-button">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-        </button><!-- /#sidebar-button -->
-      </div>
+        </button>
+      </div><!-- /#sidebar-switcher -->
+      <?php } ?>
 
       <div class="col-lg-<?php print $col_tools['lg']; ?> col-md-<?php print $col_tools['md']; ?> col-sm-<?php print $col_tools['sm']; ?> col-xs-<?php print $col_tools['xs']; ?>">
         <?php print $region_tools; ?>
@@ -264,7 +259,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
         
     <div class="row">
       <?php if ($page['sidebar_left']): ?>
-      <div id="sidebar-left" class="col-lg-<?php print ($col_sidebar_left['lg']); ?> col-md-<?php print ($col_sidebar_left['md']); ?> col-sm-<?php print ($col_sidebar_left['sm']); ?> col-xs-<?php print ($col_sidebar_left['xs']); ?> sidebar-left">
+      <div id="sidebar-left" class="col-lg-<?php print ($col_sidebar_left['lg']); ?> col-md-<?php print ($col_sidebar_left['md']); ?> col-sm-<?php print ($col_sidebar_left['sm']); ?> col-xs-<?php print ($col_sidebar_left['xs']); ?> sidebar-left visible-lg visible-md">
         <?php print $region_sidebar_left; ?>
       </div>
       <?php endif; ?>     
@@ -318,7 +313,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
       <?php endif; ?>
 
       <?php if ($page['sidebar_right']): ?>
-      <div id="sidebar-right" class="col-lg-<?php print ($col_sidebar_right['lg']); ?> col-md-<?php print ($col_sidebar_right['md']); ?> col-sm-<?php print ($col_sidebar_right['sm']); ?> col-xs-<?php print ($col_sidebar_right['xs']); ?> sidebar-right">
+      <div id="sidebar-right" class="col-lg-<?php print ($col_sidebar_right['lg']); ?> col-md-<?php print ($col_sidebar_right['md']); ?> col-sm-<?php print ($col_sidebar_right['sm']); ?> col-xs-<?php print ($col_sidebar_right['xs']); ?> sidebar-right visible-lg visible-md">
         <?php print $region_sidebar_right; ?>
       </div>  
       <?php endif; ?>
