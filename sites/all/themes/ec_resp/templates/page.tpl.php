@@ -145,8 +145,8 @@ $has_responsive_sidebar = ($region_header_right || $region_sidebar_left || $regi
 
   // tools
   $col_sidebar_button = array(
-    'sm' => ($has_responsive_sidebar ? 4 : 0),
-    'xs' => ($has_responsive_sidebar ? 4 : 0)
+    'sm' => ($has_responsive_sidebar ? 2 : 0),
+    'xs' => ($has_responsive_sidebar ? 2 : 0)
   );
   $col_tools = array(
     'lg' => ($title ? 4 : 12),
