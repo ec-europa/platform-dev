@@ -483,6 +483,7 @@ function cce_basic_config_enable() {
   // My Account.
   variable_set('user_logout_data_image', 'log-out');
   // Log out.
+
   // Add block easy_breadcrumb in site-wide context.
   $context = module_invoke('context', 'load', 'site_wide');
 
@@ -516,6 +517,23 @@ function cce_basic_config_disable() {
   // My Account.
   variable_del('user_logout_data_image');
   // Log out.
+}
+
+/**
+ * Implements hook_post_features_enable_feature().
+ */
+function cce_basic_config_post_features_enable_feature($component) {
+  // Add footer ipg in site-wide context.
+  $context = module_invoke('context', 'load', 'site_wide');
+  $block_footer_ipg = array(
+    'module' => 'cce_basic_config',
+    'delta' => 'footer_ipg',
+    'region' => 'footer',
+    'weight' => 1,
+  );
+  $context->reactions['block']['blocks']['user-menu'] = $block_footer_ipg;
+
+  module_invoke('context', 'save', $context);
 }
 
 /**
@@ -1241,6 +1259,7 @@ function cce_basic_config_update_7197() {
 
 /**
  * Deactivate orphan content types events, news, and discussion. Enable Library tab.
+ * Add block footer ipg in region footer
  */
 function cce_basic_config_update_7198() {
   node_types_rebuild();
@@ -1267,4 +1286,16 @@ function cce_basic_config_update_7198() {
     array_push($plugins, 'media_default--media_browser_1');
     variable_set('media__wysiwyg_browser_plugins', $plugins);
   }
+
+  // Add footer ipg in site-wide context.
+  $context = module_invoke('context', 'load', 'site_wide');
+  $block_footer_ipg = array(
+    'module' => 'cce_basic_config',
+    'delta' => 'footer_ipg',
+    'region' => 'footer',
+    'weight' => 1,
+  );
+  $context->reactions['block']['blocks']['user-menu'] = $block_footer_ipg;
+
+  module_invoke('context', 'save', $context);
 }

@@ -55,6 +55,7 @@
     'views' => 'view_ec_content_slider-block',
     'om_maximenu' => array('om-maximenu-1','om-maximenu-2'),
     'menu' => 'menu-service-tools',
+    'cce_basic_config' => 'footer_ipg',
   );
 
   // list of all blocks that don't need their title to be displayed
@@ -62,6 +63,7 @@
     'fat_footer' => 'fat-footer',
     'om_maximenu' => array('om-maximenu-1','om-maximenu-2'),
     'menu' => 'menu-service-tools',
+    'cce_basic_config' => 'footer_ipg',
   );
 
   $block_no_body_class = array(

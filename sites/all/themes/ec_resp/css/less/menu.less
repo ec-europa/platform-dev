@@ -182,3 +182,64 @@ ul.nav-tabs {
 #admin-menu .dropdown {
   z-index: 1040;
 }
+
+/* ------------------ service links ------------------ */
+#services, 
+#block-menu-menu-service-tools .menu {
+  font-size: 90%;
+  font-weight: normal;
+  position: absolute;
+  left: 0;
+  top: 2px;
+  right: 0;
+  z-index: 18;
+  padding: 1px 5px 1px 0;
+  text-align: right;
+}
+
+#block-cce-basic-config-footer-ipg {
+  font-size: 90%;
+  .menu {
+    display: inline-block;
+  }
+}
+
+#block-menu-menu-service-tools .menu,
+#block-cce-basic-config-footer-ipg .menu {
+  li {
+    display: inline;
+    padding: 3px 0;
+    &.first a {
+      padding-left: 0;
+      border: 0;
+      background-image: none;
+    }
+  }
+  a, 
+  a:visited {
+    background: url("../images/services-separator.gif") transparent left center no-repeat;
+    text-decoration: none;
+    margin: 0;
+    padding: 0 0 3px 5px;
+    border: 0;
+    font-weight: normal;
+    display: inline-block;
+  }
+  a:focus, 
+  a:hover, 
+  a:active {
+    text-decoration: underline;
+  }
+  a.first {
+    border: 0;
+    background-image: none;      
+  }
+}
+
+
+
+@media (max-width: @screen-xs-max) {
+  #services, #block-menu-menu-service-tools .menu {
+    display: none;
+  }
+}

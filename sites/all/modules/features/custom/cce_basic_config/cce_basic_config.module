@@ -204,3 +204,29 @@ function cce_basic_config_menu_link_alter(&$item) {
       break;
   }
 }
+
+/**
+* Implements hook_block_info().
+*/
+function cce_basic_config_block_info() {
+  $blocks = array();
+  $blocks['footer_ipg'] = array(
+    'info' => t('Footer IPG'),
+  );
+  return $blocks;
+}
+
+/**
+* Implements hook_block_view().
+*/
+function cce_basic_config_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'footer_ipg':
+      $block['subject'] = 'Latest update';
+      $block['content'] = t('Last update:') . ' ' . date('d/m/Y') . ' | <a href="#top-page">Top</a> | ' . drupal_render(menu_tree('menu-service-tools'));
+      break;
+  }
+  return $block;
+}
+

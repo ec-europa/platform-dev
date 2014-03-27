@@ -322,8 +322,7 @@ $has_responsive_sidebar = ($region_header_right || $region_sidebar_left || $regi
 
   <div id="layout-footer">
     <div class="container">
-      <?php print $region_footer; ?>      
-      <?php print t('Last update:') . ' ' . date('d/m/Y'); ?> | <a href="#top-page">Top</a>
+      <?php print $region_footer; ?>
     </div>
   </div><!-- /#layout-footer -->      
 
