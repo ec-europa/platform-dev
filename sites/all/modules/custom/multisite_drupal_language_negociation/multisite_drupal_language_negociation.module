@@ -71,30 +71,31 @@ function multisite_drupal_language_negociation_url_custom_alter(&$path, &$option
       $languages = language_list('enabled');
       $languages = array_flip(array_keys($languages[1]));
     }
+    $language_chosen = key($languages);
 
     // Language can be passed as an option, or we go for current URL language.
-    if (!isset($options['language'])) {
-      global $language_url;
-      $options['language'] = $language_url;
+    if (isset($options['attributes']['lang'])) { // language switch request in links
+      $language_chosen = $options['attributes']['lang'];
     }
+    elseif (isset($options['language'])) { // use the option language
+      if (!empty($options['language']->prefix)) {
+        $language_chosen = $options['language']->prefix;
+      }
+    }
+    
     // We allow only enabled languages here.
-    elseif (!isset($languages[$options['language']->language])) {
+    if (!isset($languages[$language_chosen])) {
       unset($options['language']);
       return;
     }
-
-    if (isset($options['language'])) {
-      if (!empty($options['language']->prefix)) {
-        //$options['prefix'] = $options['language']->prefix . '/';
-        $delimiter = variable_get('language_suffix_delimiter', '_');
-        $path = rtrim($path, "/"); // remove trailing slash
-        if ($path == '<front>' || $path == '') { // handle the homepage url
-          $path = ($options['language']->prefix == 'en')?'':'index' . $delimiter . $options['language']->prefix; // no path and suffix for the home page in english
-        }
-        else
-          $path .= $delimiter . $options['language']->prefix;
-      }
+    
+    $delimiter = variable_get('language_suffix_delimiter', '_');
+    $path = rtrim($path, "/"); // remove trailing slash
+    if ($path == '<front>' || $path == '') { // handle the homepage url
+      $path = ($language_chosen == 'en')?'':'index' . $delimiter . $language_chosen; // no path and suffix for the home page in english
     }
+    else
+      $path .= $delimiter . $language_chosen;
   }
 }
 
