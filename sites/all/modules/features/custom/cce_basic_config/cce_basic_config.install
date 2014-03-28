@@ -1295,7 +1295,7 @@ function cce_basic_config_update_7198() {
     'region' => 'footer',
     'weight' => 1,
   );
-  $context->reactions['block']['blocks']['user-menu'] = $block_footer_ipg;
+  $context->reactions['block']['blocks']['footer-ipg'] = $block_footer_ipg;
 
   module_invoke('context', 'save', $context);
 }
