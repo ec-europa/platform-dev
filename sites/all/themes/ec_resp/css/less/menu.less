@@ -66,9 +66,13 @@
   }
 }
 
-@media (max-width: @screen-xs-max) {
-  #main-menu #sidebar-button {
-    margin-left: 15px;
+#responsive-sidebar {
+  .container > .navbar-header, 
+  .container-fluid > .navbar-header, 
+  .container > .navbar-collapse, 
+  .container-fluid > .navbar-collapse, 
+  .navbar-nav {
+    margin: 0;
   }
 }
 
