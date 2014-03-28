@@ -531,7 +531,7 @@ function cce_basic_config_post_features_enable_feature($component) {
     'region' => 'footer',
     'weight' => 1,
   );
-  $context->reactions['block']['blocks']['user-menu'] = $block_footer_ipg;
+  $context->reactions['block']['blocks']['footer-ipg'] = $block_footer_ipg;
 
   module_invoke('context', 'save', $context);
 }
