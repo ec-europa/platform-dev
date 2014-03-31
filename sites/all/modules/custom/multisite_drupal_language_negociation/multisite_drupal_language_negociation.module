@@ -71,7 +71,8 @@ function multisite_drupal_language_negociation_url_custom_alter(&$path, &$option
       $languages = language_list('enabled');
       $languages = array_flip(array_keys($languages[1]));
     }
-    $language_chosen = key($languages);
+    $default_language = language_default();
+    $language_chosen = $default_language->language;
 
     // Language can be passed as an option, or we go for current URL language.
     if (isset($options['attributes']['lang'])) { // language switch request in links
