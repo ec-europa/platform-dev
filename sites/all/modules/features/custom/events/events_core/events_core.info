@@ -50,6 +50,7 @@ features[variable][] = node_preview_event
 features[variable][] = node_submitted_event
 features[variable][] = workbench_moderation_default_state_event
 features[views_view][] = calendar
+features[views_view][] = events
 features_exclude[dependencies][fullcalendar] = fullcalendar
 features_exclude[dependencies][views] = views
 files[] = tests/events_core.test

@@ -1,16 +1,16 @@
 <?php
 
 /**
-* Implementation of hook_views_default_views_alter().
-*/
+ * Implementation of hook_views_default_views_alter().
+ */
 function events_og_views_default_views_alter(&$views) {
   if (array_key_exists('calendar', $views)) {
-    $view=$views['calendar'];
+    $view = $views['calendar'];
 
     $handler = $view->display['month']->handler;
     unset($handler->display->display_options['menu']);
     unset($handler->display->display_options['tab_options']);
-    
+
     /* Display: Calendar */
     $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
     $handler->display->display_options['defaults']['relationships'] = FALSE;
@@ -28,7 +28,7 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
-    
+
     /* Contextual filter: Date: Date (node) */
     $handler->display->display_options['arguments']['date_argument']['id'] = 'date_argument';
     $handler->display->display_options['arguments']['date_argument']['table'] = 'node';
@@ -36,7 +36,7 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['date_argument']['default_action'] = 'default';
     $handler->display->display_options['arguments']['date_argument']['add_delta'] = 'yes';
     $handler->display->display_options['arguments']['date_argument']['date_fields'] = array(
-      'field_data_field_event_date.field_event_date_value' => 'field_data_field_event_date.field_event_date_value',
+        'field_data_field_event_date.field_event_date_value' => 'field_data_field_event_date.field_event_date_value',
     );
 
 
@@ -71,7 +71,7 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['fields']['og_group_ref']['label'] = 'Community';
     $handler->display->display_options['fields']['og_group_ref']['hide_empty'] = TRUE;
     $handler->display->display_options['fields']['og_group_ref']['settings'] = array(
-      'link' => 1,
+        'link' => 1,
     );
     $handler->display->display_options['fields']['og_group_ref']['delta_offset'] = '0';
     /* Field: Content: Dates */
@@ -80,9 +80,9 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['fields']['field_event_date']['field'] = 'field_event_date';
     $handler->display->display_options['defaults']['filter_groups'] = FALSE;
     $handler->display->display_options['filter_groups']['groups'] = array(
-      1 => 'AND',
-      2 => 'OR',
-      3 => 'OR',
+        1 => 'AND',
+        2 => 'OR',
+        3 => 'OR',
     );
     $handler->display->display_options['defaults']['filters'] = FALSE;
     /* Filter criterion: Content: Published */
@@ -97,7 +97,7 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['filters']['type']['table'] = 'node';
     $handler->display->display_options['filters']['type']['field'] = 'type';
     $handler->display->display_options['filters']['type']['value'] = array(
-      'event' => 'event',
+        'event' => 'event',
     );
     $handler->display->display_options['filters']['type']['group'] = 1;
 
@@ -112,7 +112,7 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['filters']['group_content_access_value']['table'] = 'field_data_group_content_access';
     $handler->display->display_options['filters']['group_content_access_value']['field'] = 'group_content_access_value';
     $handler->display->display_options['filters']['group_content_access_value']['value'] = array(
-      1 => '1',
+        1 => '1',
     );
     $handler->display->display_options['filters']['group_content_access_value']['group'] = 3;
     $handler->display->display_options['path'] = 'events_public';
@@ -122,9 +122,43 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['name'] = 'main-menu';
     $handler->display->display_options['menu']['context'] = 0;
     $handler->display->display_options['menu']['context_only_inline'] = 0;
+  }
 
+  if (array_key_exists('events', $views)) {
+    $view = $views['events'];
 
+    /* Display: Upcoming events public */
+    $handler = $view->display['block']->handler;
+    $handler->display->display_options['link_url'] = 'events_public';   
+    $handler->display->display_options['filters']['status']['group'] = 1;
+    $handler->display->display_options['filters']['type']['group'] = 1;
+    $handler->display->display_options['filters']['field_event_date_value2']['group'] = 1;
+    $handler->display->display_options['filter_groups']['groups'] = array(
+        1 => 'AND',
+        2 => 'OR',
+    );
+    /* Filter criterion: Content: Groups audience (og_group_ref) */
+    $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
+    $handler->display->display_options['filters']['og_group_ref_target_id']['group'] = 2;
+    /* Filter criterion: Content: Group content visibility (group_content_access) */
+    $handler->display->display_options['filters']['group_content_access_value']['id'] = 'group_content_access_value';
+    $handler->display->display_options['filters']['group_content_access_value']['table'] = 'field_data_group_content_access';
+    $handler->display->display_options['filters']['group_content_access_value']['field'] = 'group_content_access_value';
+    $handler->display->display_options['filters']['group_content_access_value']['value'] = array(
+        1 => '1',
+    );
+    $handler->display->display_options['filters']['group_content_access_value']['group'] = 2;
 
+   
+    /* Display: Upcoming events group */
+    $handler = $view->new_display('block', 'Upcoming events group', 'block_1');
+    $handler->display->display_options['defaults']['link_display'] = FALSE;
+    $handler->display->display_options['link_display'] = 'custom_url';
+    $handler->display->display_options['link_url'] = 'community/%1/calendar';
+    $handler->display->display_options['block_description'] = 'Upcoming events group';
   }
 }
 
