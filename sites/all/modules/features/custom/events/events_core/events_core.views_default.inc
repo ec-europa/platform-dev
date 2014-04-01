@@ -111,21 +111,11 @@ function events_core_views_default_views() {
   $handler->display->display_options['tab_options']['title'] = 'Events';
   $handler->display->display_options['tab_options']['weight'] = '2';
   $handler->display->display_options['tab_options']['name'] = 'main-menu';
-  $translatables['calendar'] = array(
-    t('Master'),
-    t('<none>'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('<h2>Consult planned events</h2>'),
-    t('All taxonomy terms'),
-    t('Body'),
-    t('Dates'),
-    t('Month'),
-  );
+  
+  $export['calendar'] = $view;
+  
+  
+  
 
   /* Display: Calendar block */
   $handler = $view->new_display('block', 'Calendar block', 'calendar_block');
@@ -156,8 +146,6 @@ function events_core_views_default_views() {
   $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['block_description'] = 'Calendar block';
   $export['calendar'] = $view;
-
-  $export = array();
 
   $view = new view();
   $view->name = 'events';
@@ -275,6 +263,24 @@ function events_core_views_default_views() {
   $handler->display->display_options['filters']['field_event_date_value2']['field'] = 'field_event_date_value2';
   $handler->display->display_options['filters']['field_event_date_value2']['operator'] = '>=';
   $handler->display->display_options['filters']['field_event_date_value2']['default_date'] = 'now';
-
+  
+  $export['events'] = $view;
+  
+  $translatables['calendar'] = array(
+    t('Master'),
+    t('<none>'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('<h2>Consult planned events</h2>'),
+    t('All taxonomy terms'),
+    t('Body'),
+    t('Dates'),
+    t('Month'),
+  );
+  
   return $export;
 }
