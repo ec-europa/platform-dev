@@ -196,7 +196,7 @@ function create_translation_roles() {
         'submit translation jobs',
         'accept translation jobs',
         'access workbench',
-        'administer tmgmt',
+        //'administer tmgmt',
         'translate content',
       ));
     }
