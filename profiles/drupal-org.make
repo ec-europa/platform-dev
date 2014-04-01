@@ -356,11 +356,13 @@ projects[xml_field][version] = "1.5"
 ;libraries
 
 ;ckeditor 4.3.2
+;please generate the sha1 checksum each time update the file:
+;https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/build.make+file
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "tar.gz"
-libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.3.2/ckeditor_4.3.2_standard.zip"
-libraries[ckeditor][download][sha1] = "64f9a81ce16f2a29a187a036a439875817e7cc46"
+libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.3.2/ckeditor_4.3.2_full.zip"
+libraries[ckeditor][download][sha1] = "b6bb89271cea1821887ecc5fc5474473e46220cf"
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ;tcpdf 6.0.013
