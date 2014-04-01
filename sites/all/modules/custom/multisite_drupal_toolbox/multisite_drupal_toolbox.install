@@ -18,10 +18,3 @@ function multisite_drupal_toolbox_enable() {
 function multisite_drupal_toolbox_disable() {
   variable_set('contact_form_maxlength');
 }
-
-/**
-* Implementats hook_update_N().
-*/
-function multisite_drupal_toolbox_update_7104() {  
-  db_delete('block')->condition('module','node')->condition('delta','recent')->execute();
-}
