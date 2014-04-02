@@ -11,6 +11,55 @@ function multisite_translations_enable() {
   // create translation roles
   create_translation_roles();
 
+
+  // update tmgmt links (move them from the user menu to the admin menu)
+  $num_updated = db_update('menu_links')
+    ->fields(array(
+      'hidden' => 1,
+    ))
+    ->condition('link_path', 'manage-translate', '=')
+    ->execute();
+
+  $num_updated = db_update('menu_links')
+    ->fields(array(
+      'hidden' => 1,
+    ))
+    ->condition('link_path', 'translate', '=')
+    ->execute();
+
+  $mlid_parent = db_select('menu_links' , 'ml')
+    ->condition('ml.link_path' , 'admin/tmgmt')
+    ->fields('ml' , array('mlid'))
+    ->execute()
+    ->fetchField();
+
+  $options = array();
+  $options['attributes']['title'] = t('Manage translation tasks');
+
+  $item = array(
+    'link_path' => 'manage-translate',
+    'link_title' => t('Manage translation tasks'),
+    'menu_name' => 'management',
+    'options' => $options,
+    'plid' => $mlid_parent,
+  );
+  menu_link_save($item);
+
+  $options = array();
+  $options['attributes']['title'] = t('Translate');
+
+  $item = array(
+    'link_path' => 'translate',
+    'link_title' => t('Translate'),
+    'menu_name' => 'management',
+    'options' => $options,
+    'plid' => $mlid_parent,
+  );
+  menu_link_save($item);
+
+
+
+
   drupal_set_message(t('Multisite translations management feature is now active on your site.'));
 }
 
