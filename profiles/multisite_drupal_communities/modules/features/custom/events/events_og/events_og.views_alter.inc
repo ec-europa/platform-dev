@@ -157,7 +157,7 @@ function events_og_views_default_views_alter(&$views) {
     $handler = $view->new_display('block', 'Upcoming events group', 'block_1');
     $handler->display->display_options['defaults']['link_display'] = FALSE;
     $handler->display->display_options['link_display'] = 'custom_url';
-    $handler->display->display_options['link_url'] = 'community/%1/calendar';
+    $handler->display->display_options['link_url'] = 'community/#1/calendar';
     $handler->display->display_options['block_description'] = 'Upcoming events group';
   }
 }

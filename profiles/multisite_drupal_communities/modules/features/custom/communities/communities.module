@@ -485,21 +485,21 @@ function communities_form_alter(&$form, $form_state, $form_id) {
 
 /**
  *  Implmentation of hook_views_post_execute ()
- *  Modify the subsitution of Group ID title: return the part of URL alias
- *  corresponding to the node title instead of a node nid (for custom 'Link display') )
+ *  Correct the subsitution of "OG membership: Group ID title" and add subtitution for title cleaned by pathauto
  */
-function multisite_drupal_toolbox_views_post_execute(&$view) {
-  if ($view->name == 'event') {
-    if (isset($view->argument['gid'])) {
-      $handler = $view->argument['gid'];
-      if ($handler->table == 'og_membership' && $handler->field == 'gid') {
-        // postiton 0 = argument 1 (%1, !1)...
-        $position = $handler->position + 1;
-        // not use node_load for performance reason
-        $title = db_query('SELECT title FROM {node} WHERE nid = :nid', array(':nid' => $handler->argument))->fetchField();
-        if ($title) {
-          $view->build_info['substitutions']['%' . $position] = pathauto_cleanstring($title);
-        }
+function communities_views_post_execute(&$view) {
+  if (isset($view->argument['gid'])) {
+    $handler = $view->argument['gid'];
+    if ($handler->table == 'og_membership' && $handler->field == 'gid') {
+      // postiton 0 = argument 1 (%1, !1)...
+      $position = $handler->position + 1;
+      // not use node_load for performance reason
+      $title = db_query('SELECT title FROM {node} WHERE nid = :nid', array(':nid' => $handler->argument))->fetchField();
+      if ($title) {
+        module_load_include('inc', 'pathauto', 'pathauto');
+        $view->build_info['substitutions']['%' . $position] = check_plain($title);
+        // new token (not documented on views UI)
+        $view->build_info['substitutions']['#' . $position] = pathauto_cleanstring($title);
       }
     }
   }
