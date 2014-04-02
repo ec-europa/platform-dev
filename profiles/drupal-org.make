@@ -360,7 +360,7 @@ projects[xml_field][version] = "1.5"
 ;https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/build.make+file
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
-libraries[ckeditor][download][file_type] = "tar.gz"
+libraries[ckeditor][download][file_type] = "zip"
 libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.3.2/ckeditor_4.3.2_full.zip"
 libraries[ckeditor][download][sha1] = "6cffa0b543f71618507b5b6b3998ba5740142196"
 libraries[ckeditor][directory_name] = "ckeditor"
