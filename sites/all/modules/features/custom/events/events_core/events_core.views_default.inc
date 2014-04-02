@@ -233,8 +233,8 @@ function events_core_views_default_views() {
   $handler->display->display_options['filters']['field_event_date_value2']['operator'] = '>=';
   $handler->display->display_options['filters']['field_event_date_value2']['default_date'] = 'now';
 
-  /* Display: Upcoming events public */
-  $handler = $view->new_display('block', 'Upcoming events public', 'block');
+  /* Display: Upcoming events */
+  $handler = $view->new_display('block', 'Upcoming events', 'block');
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['link_url'] = 'calendar';
