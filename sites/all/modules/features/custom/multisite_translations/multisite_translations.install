@@ -16,6 +16,7 @@ function multisite_translations_enable() {
   $num_updated = db_update('menu_links')
     ->fields(array(
       'hidden' => 1,
+      'customized' => 1,
     ))
     ->condition('link_path', 'manage-translate', '=')
     ->execute();
@@ -23,6 +24,7 @@ function multisite_translations_enable() {
   $num_updated = db_update('menu_links')
     ->fields(array(
       'hidden' => 1,
+      'customized' => 1,
     ))
     ->condition('link_path', 'translate', '=')
     ->execute();
