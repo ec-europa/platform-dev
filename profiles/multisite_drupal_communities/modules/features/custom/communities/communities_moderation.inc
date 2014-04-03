@@ -33,6 +33,7 @@ function communities_workbench_moderation_transition($node, $previous_state, $ne
     $query->fields('u', array('uid'));
     $result = $query->execute();
 
+    $admin_users = array();
     while ($record = $result->fetchAssoc()) {
       $admin_users[] = $record['uid'];
     }
@@ -52,6 +53,11 @@ function communities_workbench_moderation_transition($node, $previous_state, $ne
 * send mail function
 */
 function _send_mail($params) {
+  if (!isset($params['to_admin']) || empty ($params['to_admin'])){
+    drupal_set_message(t('There are no administrator on the plateforme to receive your message, it was not sent.'), 'warning');
+    return;
+  }
+
   $module = 'communities';
   $key = 'workbench_moderation_workflow';
 
