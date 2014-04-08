@@ -11,7 +11,8 @@ function events_og_views_default_views_alter(&$views) {
     unset($handler->display->display_options['menu']);
     unset($handler->display->display_options['tab_options']);
 
-    /* Display: Calendar */
+	
+    /* ---------- Display: Calendar ---------- */
     $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
     $handler->display->display_options['defaults']['relationships'] = FALSE;
     /* Relationship: OG membership: OG membership from Node */
@@ -29,20 +30,8 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
 
-    /* Contextual filter: Date: Date (node) */
-    $handler->display->display_options['arguments']['date_argument']['id'] = 'date_argument';
-    $handler->display->display_options['arguments']['date_argument']['table'] = 'node';
-    $handler->display->display_options['arguments']['date_argument']['field'] = 'date_argument';
-    $handler->display->display_options['arguments']['date_argument']['default_action'] = 'default';
-    $handler->display->display_options['arguments']['date_argument']['add_delta'] = 'yes';
-    $handler->display->display_options['arguments']['date_argument']['date_fields'] = array(
-        'field_data_field_event_date.field_event_date_value' => 'field_data_field_event_date.field_event_date_value',
-    );
-
-
-
-
-    /* Display: events_public */
+	
+    /* ---------- Display: events_public ---------- */
     $handler = $view->new_display('page', 'events_public', 'page_2');
     $handler->display->display_options['defaults']['title'] = FALSE;
     $handler->display->display_options['title'] = 'Events';
@@ -124,10 +113,12 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['context_only_inline'] = 0;
   }
 
+   /* ---------- View: events  ---------- */
   if (array_key_exists('events', $views)) {
     $view = $views['events'];
 
-    /* Display: Upcoming events public */
+	
+    /* ---------- Display: Upcoming events public ---------- */
     $handler = $view->display['block']->handler;
     $handler->display->display_options['link_url'] = 'events_public';   
     $handler->display->display_options['filters']['status']['group'] = 1;
@@ -152,12 +143,21 @@ function events_og_views_default_views_alter(&$views) {
     );
     $handler->display->display_options['filters']['group_content_access_value']['group'] = 2;
 
-   
-    /* Display: Upcoming events group */
+	
+    /* ---------- Display: Upcoming events group ----------*/
     $handler = $view->new_display('block', 'Upcoming events group', 'block_1');
     $handler->display->display_options['defaults']['link_display'] = FALSE;
     $handler->display->display_options['link_display'] = 'custom_url';
     $handler->display->display_options['link_url'] = 'community/#1/calendar';
+	/* Contextual filter: OG membership: Group ID */
+	$handler->display->display_options['arguments']['gid']['id'] = 'gid';
+	$handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
+	$handler->display->display_options['arguments']['gid']['field'] = 'gid';
+	$handler->display->display_options['arguments']['gid']['default_action'] = 'default';
+	$handler->display->display_options['arguments']['gid']['default_argument_type'] = 'og_context';
+	$handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
+	$handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
+	$handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
   }
 }
 
