@@ -1,0 +1,17 @@
+name = OG Delete
+description = "Delete or Move content associated with OG."
+package = "OG Delete"
+dependencies[] = og
+core = 7.x
+
+; Information added by drupal.org packaging script on 2013-06-10
+version = "7.x-1.0"
+core = "7.x"
+project = "og"
+datestamp = "1370854670"
+; Information added by  packaging script on 2013-11-12
+version = "7.x-1.0+1-dev"
+core = "7.x"
+project = "og-delete"
+datestamp = "1384240107"
+

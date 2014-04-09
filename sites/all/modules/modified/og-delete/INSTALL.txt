@@ -1,0 +1,8 @@
+**Installation:
+
+OG Delete is an extension to the OG module, which must be enabled.
+
+1. Unpack the OG Dlete folder and contents in the appropriate modules
+directory of your Drupal installation.  This is probably
+  sites/all/modules/
+2. Enable the OG Delete module in the administration tools.

@@ -1,0 +1,199 @@
+<?php
+
+/**
+ * 
+ */
+define('OG_DELETE_NOTHING', 0);
+define('OG_DELETE_ORPHANS', 1);
+define('OG_DELETE_MOVE_NODES', 2);
+define('OG_DELETE_MOVE_NODES_MEMBERSHIPS', 3);
+
+/**
+ * Implementation of hook_form_alter()
+ * @param type $form
+ * @param type $form_state
+ * @param type $form_id
+ */
+function og_delete_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    case 'node_delete_confirm':
+      if (og_is_group_type('node', $form['#node']->type)) {
+        $node = $form['#node'];
+        $options[OG_DELETE_ORPHANS] = t("Delete all the content associated with @type.", array('@type' => $node->type));
+        $options[OG_DELETE_NOTHING] = t('Delete the @type and make the content public', array('@type' => $node->type));
+        //$options[OG_DELETE_ORPHANS] = t("Delete all group posts which don't also belong to another group.");
+        $node_options = og_delete_all_group_options($form['#node']->type, $form['#node']->nid);
+        if (user_access('administer nodes') && count($node_options)) {
+          $options[OG_DELETE_MOVE_NODES_MEMBERSHIPS] = t('Move all group posts and memberships to the @type listed below.', array('@type' => $node->type));
+          $form['target'] = array(
+            '#type' => 'select',
+            '#title' => t('Target group'),
+            '#default_value' => 0,
+            '#options' => $node_options,
+            '#weight' => 0,
+            '#description' => t('If you chose move all group posts above, specify a destination @type.', array('@type' => $node->type)),
+          );
+        }
+        $form['verb'] = array(
+          '#type' => 'radios',
+          '#title' => t('Group posts'),
+          '#options' => $options,
+          '#default_value' => OG_DELETE_ORPHANS,
+          '#weight' => -1,
+          '#description' => t('In addition to deleting this group, you choose how to disposition the posts and memberships within it.')
+        );
+        array_unshift($form['#submit'], "og_delete_content_form_submit");
+      }
+      break;
+  }
+}
+
+/**
+ * Implements to delete OG content if it is not associated with another group.
+ * @param type $form
+ * @param type $form_state 
+ */
+function og_delete_content_form_submit($form, &$form_state) {
+  $deleted_group_nid = $form_state['values']['nid'];
+  if (array_key_exists('target', $form_state['values'])) {
+    $target_group_nid = $form_state['values']['target'];
+  }
+  $move_children = $form_state['values']['verb'] >= OG_DELETE_MOVE_NODES;
+  og_delete_node_membership(og_delete_child_nodes($deleted_group_nid), $form_state, $context);
+  $batch = array(
+    'title' => t('OG Delete'),
+    'operations' => array(
+      array('og_delete_node_membership', array(og_delete_child_nodes($deleted_group_nid), $form_state)),
+      array('og_delete_user_membership', array(og_delete_child_nodes($deleted_group_nid, 'user'), $form_state)),
+    ),
+    'finished' => 'og_delete_membership_finish',
+  );
+  batch_set($batch);
+  if ($move_children) {
+    $form_state['redirect'] = 'node/' . $target_group_nid;
+  } else {
+    $form_state['redirect'] = variable_get('site_frontpage', 'node');
+  }
+}
+
+/**
+ * Implements to move user memberships to select OG
+ * @param type $child_nodes
+ * @param type $form_state 
+ */
+function og_delete_node_membership($child_nodes, $form_state, &$context) {
+  if (array_key_exists('target', $form_state['values'])) {
+    $target_group_nid = $form_state['values']['target'];
+  }
+  $delete_orphans = $form_state['values']['verb'] == OG_DELETE_ORPHANS;
+  $move_children = $form_state['values']['verb'] >= OG_DELETE_MOVE_NODES;
+  foreach ($child_nodes as $child_nid) {
+    $entity = entity_load_single('node', $child_nid->etid);
+    if ($move_children) {
+      // there is an array_unique() in og_save_ancestry which guards against duplicates so don't worry here.
+      $membership = og_get_membership($child_nid->group_type, $target_group_nid, $child_nid->entity_type, $child_nid->etid);
+      if (!isset($membership->id)) {
+        $og_membership = og_membership_load($child_nid->id);
+        $og_membership->gid = $target_group_nid;
+        og_membership_save($og_membership);
+      }
+    }
+    if ($delete_orphans) {
+      entity_delete('node', $entity->nid);
+    }
+    $context['results']['node'][] = $entity->nid . ' : ' . check_plain($entity->title);
+  }
+}
+
+/**
+ * Implements to move user memberships to select OG
+ * @param type $form
+ * @param type $form_state 
+ */
+function og_delete_user_membership($child_nodes, $form_state, &$context) {
+  $deleted_group_nid = $form_state['values']['nid'];
+  if ($form_state['values']['verb'] == OG_DELETE_MOVE_NODES_MEMBERSHIPS) {
+    //$node = $form_state['#node'];
+    $target_group_nid = $form_state['values']['target'];
+    foreach ($child_nodes as $members) {
+      $membership = og_get_membership($members->group_type, $target_group_nid, $members->entity_type, $members->etid);
+      if (!isset($membership->id)) {
+        if ($node->uid != $members->etid) {
+          $og_membership = og_membership_load($members->id);
+          $og_membership->gid = $target_group_nid;
+          og_membership_save($og_membership);
+          $context['results']['user'][] = $members->etid;
+        }
+      }
+    }
+  }
+  entity_delete('node', $deleted_group_nid);
+}
+
+/**
+ *
+ * @param type $success
+ * @param type $results
+ * @param type $operations 
+ */
+function og_delete_membership_finish($success, $results, $operations) {
+  // The 'success' parameter means no fatal PHP errors were detected. All
+  // other error management should be handled using 'results'.
+  $items = array();
+  $message = '';
+  if ($success) {
+    if (array_key_exists('user', $results)) {
+      if (count($results['user'])) {
+        $message = format_plural(count($results['user']), 'Moved 1 membership.', 'Moved @count memberships.');
+      }
+    }
+    if (array_key_exists('node', $results)) {
+      if (count($results['node'])) {
+        $message = format_plural(count($results['node']), 'One post processed.', '@count posts processed.');
+      }
+    }
+  } else {
+    $message = t('Finished with an error.');
+  }
+  drupal_set_message($message);
+  // Providing data for the redirected page is done through $_SESSION.
+  foreach ($results as $result) {
+    $items[] = t('Loaded node %title.', array('%title' => $result[0]));
+  }
+  if (count($items)) {
+    $_SESSION['my_batch_results'] = $items;
+  }
+}
+
+// Return all node ids belonging to a group. No access control.
+// If you are retrieving for displaying, you may want to use an embedded View instead of this function.
+function og_delete_child_nodes($gid, $entity_type = 'node') {
+  $ids = array();
+  $query = db_select('og_membership', 'ogm')
+    ->fields('ogm')
+    ->condition('ogm.gid', $gid, '=')
+    ->condition('ogm.entity_type', $entity_type, '=');
+  $result = $query->execute()->fetchAll();
+  foreach ($result as $key => $value) {
+    $ids[] = $value;
+  }
+  return $ids;
+}
+
+/**
+ * Return all OG nodes
+ * @param type $entity_type 
+ */
+function og_delete_all_group_options($entity_type, $nid) {
+  $nids = array();
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid', 'title'))
+    ->condition('n.type', $entity_type, '=')
+    ->condition('n.status', 1, '=')
+    ->condition('n.nid', $nid, '<>');
+  $result = $query->execute()->fetchAll();
+  foreach ($result as $key => $value) {
+    $nids[$value->nid] = $value->title;
+  }
+  return $nids;
+}
