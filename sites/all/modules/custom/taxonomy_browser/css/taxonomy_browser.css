@@ -1,6 +1,16 @@
 #tb_browser ul {
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 14px;
+  list-style: none;
+  list-style-image: none;
+}
+
+#tb_browser .taxonomy-tree-opener {
+	cursor: pointer;
+}
+
+#tb_browser .menu-visible {
+	display: block;
 }
 
 #tb_view div {
