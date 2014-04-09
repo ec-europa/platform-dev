@@ -9,5 +9,8 @@ projects[og][version] = "2.6"
 projects[workbench_og][subdir] = "contributed"
 projects[workbench_og][version] = "2.0-beta1"
 
+;install script is not profile-aware for patches //see MULTISITE-3629
+;projects[og_delete][subdir] = "contributed"
+;projects[og_delete][version] = "1.0"
 
 
