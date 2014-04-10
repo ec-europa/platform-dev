@@ -9,19 +9,8 @@
 	cursor: pointer;
 }
 
-#tb_browser .menu-visible {
-	display: block;
-}
-
 #tb_view div {
   padding: 0;
-}
-
-#tb_browser .jstree-clicked {
-  background: #EEEEEE;
-  /*border: 1px solid #027AC6;*/
-  padding: 0 2px 0 1px;
-  font-weight: bold;
 }
 
 #tb_header {
