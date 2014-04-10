@@ -158,55 +158,6 @@ jQuery(function($){
       $('.dropdown-toggle').dropdown();
       // /Menu dropdown
 
-
-      // Responsive menu
-      $('#sidebar-button').on("click", function() {
-        if ($('#layout-body').is('.reduced')) {
-          hide_sidebar();
-        }
-        else {
-          show_sidebar();
-        }
-      });
-      $(window).resize( function() {
-        if ($('#layout-body').is('.reduced')) {
-          hide_sidebar();
-        }
-      });
-
-      function hide_sidebar() {
-        // close responsive sidebars
-        $('#responsive-sidebar').slideToggle('2000', "linear").hide();
-        $('#layout-body').animate({
-          left: '0'
-        }, 300, function() {
-            // move left sidebar
-            $('#responsive-sidebar-left > div').detach().appendTo($('#sidebar-left'));
-
-            // move right sidebar
-            $('#responsive-sidebar-right > div').detach().appendTo($('#sidebar-right'));
-
-            // move header right
-            $('#responsive-header-right > div').detach().appendTo($('#banner-image-right'));
-        }).removeClass('reduced');
-      }
-      function show_sidebar() {
-        // move left sidebar
-        $('#sidebar-left > div').detach().appendTo($('#responsive-sidebar-left'));
-
-        // move right sidebar
-        $('#sidebar-right > div').detach().appendTo($('#responsive-sidebar-right'));
-
-        // move header right
-        $('#banner-image-right > div').detach().appendTo($('#responsive-header-right'));
-
-        // open responsive sidebars
-        $('#responsive-sidebar').slideToggle('2000', "linear").show();
-        $('#layout-body').animate({
-          left: '85%'
-        }, 300).addClass('reduced');
-      }
-
       $('#menu-button').on("click", function() {
         $('#menu-button > div').toggleClass("arrow-down");
         $('#menu-button > div').toggleClass("arrow-up");
@@ -277,5 +228,69 @@ jQuery(function($){
       }); // /Feature set
     }
 	}
+
+  Drupal.behaviors.ec_resp_responsive_sidebar = {
+    attach: function(context, settings) { 
+     // $('.responsive-sidebar').once('responsive-sidebar', function(){
+
+        // Responsive menu
+        $('#responsive-sidebar').css('left', '-85%');
+
+        $('#sidebar-button').on("click", function() {
+          if ($('#layout-body').is('.reduced')) {
+            hide_sidebar();
+          }
+          else {
+            // Scroll to top when showing the sidebar
+            window.scrollTo(0,0);
+            show_sidebar();
+          }
+        });
+
+        $(window).resize( function() {
+          if ($('#layout-body').is('.reduced')) {
+            hide_sidebar();
+          }
+        });
+
+        function hide_sidebar() {
+          // close responsive sidebars
+          $('#responsive-sidebar').animate({left: '-85%'}, 250, 'linear');
+          $('#layout-body').animate({
+            left: '0'
+          }, 300, function() {
+              // move left sidebar
+              $('#responsive-sidebar-left > div').detach().appendTo($('#sidebar-left'));
+
+              // move right sidebar
+              $('#responsive-sidebar-right > div').detach().appendTo($('#sidebar-right'));
+
+              // move header right
+              $('#responsive-header-right > div').detach().appendTo($('#banner-image-right'));
+          }).removeClass('reduced');
+          $('#responsive-sidebar').promise().done(function(){
+            $(this).hide();
+          });
+        }
+        function show_sidebar() {
+
+          // move left sidebar
+          $('#sidebar-left > div').detach().appendTo($('#responsive-sidebar-left'));
+
+          // move right sidebar
+          $('#sidebar-right > div').detach().appendTo($('#responsive-sidebar-right'));
+
+          // move header right
+          $('#banner-image-right > div').detach().appendTo($('#responsive-header-right'));
+
+          // open responsive sidebars
+          $('#responsive-sidebar').show().animate({left: '0'}, 400);
+          $('#layout-body').animate({
+            left: '85%'
+          }, 400).addClass('reduced');
+        }
+    //  });
+    }
+  }
 
 })(jq171); 
