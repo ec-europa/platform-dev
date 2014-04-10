@@ -88,7 +88,7 @@
 
 @media (max-width: @screen-xs-max) {
   #layout-header {
-    height: 82px;
+    height: auto;
     min-height: 82px;
     #banner-flag {
       width: 90px;
@@ -98,9 +98,20 @@
     }
     #main-title {
       font-size: 26px !important;
-      left: 115px;
-      top: 28px;
+      position: relative;
+      left: 0;
+      top: 0;
+      padding: 28px 0 0 100px;
       text-transform: none;
+    }
+  }
+}
+
+@media (max-width: (@screen-xs - 1)) {
+  #layout-header {
+    #main-title {
+      margin-top: 4px;
+      font-size: 20px !important;
     }
   }
 }
