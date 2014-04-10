@@ -106,10 +106,10 @@ function communities_views_default_views() {
     t('Items per page'),
     t('- All -'),
     t('Offset'),
-    t('Â« first'),
-    t('â€¹ previous'),
-    t('next â€º'),
-    t('last Â»'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('No content found'),
     t('OG membership from node'),
     t('All'),
@@ -367,10 +367,10 @@ function communities_views_default_views() {
     t('Items per page'),
     t('- All -'),
     t('Offset'),
-    t('Â« first'),
-    t('â€¹ previous'),
-    t('next â€º'),
-    t('last Â»'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('header content'),
     t('OG membership from node'),
     t('Title'),
@@ -552,6 +552,12 @@ function communities_views_default_views() {
   $handler->display->display_options['filters']['status_extra']['id'] = 'status_extra';
   $handler->display->display_options['filters']['status_extra']['table'] = 'node';
   $handler->display->display_options['filters']['status_extra']['field'] = 'status_extra';
+  /* Filter criterion: OG membership: Entity_type */
+  $handler->display->display_options['filters']['entity_type']['id'] = 'entity_type';
+  $handler->display->display_options['filters']['entity_type']['table'] = 'og_membership';
+  $handler->display->display_options['filters']['entity_type']['field'] = 'entity_type';
+  $handler->display->display_options['filters']['entity_type']['relationship'] = 'og_membership_rel_group';
+  $handler->display->display_options['filters']['entity_type']['value'] = 'user';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
@@ -573,10 +579,10 @@ function communities_views_default_views() {
     t('Items per page'),
     t('- All -'),
     t('Offset'),
-    t('Â« first'),
-    t('â€¹ previous'),
-    t('next â€º'),
-    t('last Â»'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('header'),
     t('User is not a member of any group.'),
     t('OG membership from node group'),
