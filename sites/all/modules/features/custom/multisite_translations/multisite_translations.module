@@ -49,18 +49,20 @@ function multisite_translations_form_alter(&$form, &$form_state, $form_id) {
       $enabled_languages = language_list('enabled');
       $count_enabled_languages = count($enabled_languages[1]) - 1;
 
-      foreach ($form['views_bulk_operations'] as $key => $value) {
-        if (isset($value['#return_value'])) {
-          $query = new EntityFieldQuery();
-          $return = $query
-            ->entityCondition('entity_type', 'tmgmt_job_item')
-            ->propertyCondition('item_type', 'node')
-            ->propertyCondition('item_id', $value['#return_value'])
-            ->propertyCondition('state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
-            ->count()
-            ->execute();
-          if ($return == $count_enabled_languages) // if they are a pending translation for each enabled languages => disable checkbox
-            $form['views_bulk_operations'][$key]['#disabled'] = TRUE;
+      if(isset($form['views_bulk_operations'])) {
+        foreach ($form['views_bulk_operations'] as $key => $value) {
+          if (isset($value['#return_value'])) {
+            $query = new EntityFieldQuery();
+            $return = $query
+              ->entityCondition('entity_type', 'tmgmt_job_item')
+              ->propertyCondition('item_type', 'node')
+              ->propertyCondition('item_id', $value['#return_value'])
+              ->propertyCondition('state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
+              ->count()
+              ->execute();
+            if ($return == $count_enabled_languages) // if they are a pending translation for each enabled languages => disable checkbox
+              $form['views_bulk_operations'][$key]['#disabled'] = TRUE;
+          }
         }
       }
       break;
