@@ -87,5 +87,6 @@ function multisite_translations_modules_enabled($modules) {
     menu_link_save($item);
 
     drupal_flush_all_caches();
+    features_revert(array('module' => array('multisite_translations')));
   }
 }
