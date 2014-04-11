@@ -6,30 +6,6 @@
 
 include_once 'taxonomy_browser.install.inc';
 
-
-/**
- * Implements hook_requirements().
- */
-function taxonomy_browser_requirements($phase) {
-  $requirements = array();
-  
-  if ($phase == 'runtime') {
-    $lpath = libraries_get_path('jstree');
-    $t = get_t();
-    if (!empty($lpath)) {
-      $requirements['taxonomy_browser']['severity'] = REQUIREMENT_OK;
-      $requirements['taxonomy_browser']['value'] = $t('jsTree library found.');
-    }
-    else {
-      $requirements['taxonomy_browser']['severity'] = REQUIREMENT_ERROR;
-      $requirements['taxonomy_browser']['value'] = $t('jsTree library not found.');
-      $requirements['taxonomy_browser']['description'] = $t('Please download this library from <a href="@url">www.jstree.com</a> and copy it into the library directory.', array('@url' => 'http://www.jstree.com/'));
-    }
-    $requirements['taxonomy_browser']['title'] = $t('Taxonomy browser');
-  }
-  return $requirements;
-}
-
 /**
  * Implements hook_enable().
  */
