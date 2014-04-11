@@ -206,7 +206,6 @@ function taxonomy_browser_block_view($delta = '') {
 function _taxonomy_browser_create_block_content($vid, $vocabulary) {
   drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/taxonomy_browser.css');
   drupal_add_js('misc/jquery.cookie.js');
-  drupal_add_js('sites/all/libraries/jstree/dist/jstree.min.js');
   drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser.js');
   drupal_add_library('system', 'drupal.ajax');
 
