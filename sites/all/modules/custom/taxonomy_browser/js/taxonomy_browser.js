@@ -11,16 +11,16 @@
 				$('.tb-browser-tree > ul.taxonomy-tree').find('ul.taxonomy-tree').hide();
 				var $currentActive = $(this).find('a.active');
 
-				$currentActive.parents('ul.taxonomy-tree').show().siblings('.taxonomy-tree-opener').removeClass('glyphicon-plus').addClass('glyphicon-minus');;
+				$currentActive.parents('ul.taxonomy-tree').show().parent('.taxonomy-tree-item').removeClass('jstree-closed').addClass('jstree-open');;
 				$('.taxonomy-tree-opener').click(function(e){
 					e.preventDefault();
 
-					if ($(this).hasClass('glyphicon-minus')) {
-						$(this).removeClass('glyphicon-minus');
-						$(this).addClass('glyphicon-plus');
+					if ($(this).parent().hasClass('jstree-open')) {
+						$(this).parent().removeClass('jstree-open');
+						$(this).parent().addClass('jstree-closed');
 					} else {
-						$(this).addClass('glyphicon-minus');
-						$(this).removeClass('glyphicon-plus');
+						$(this).parent().addClass('jstree-open');
+						$(this).parent().removeClass('jstree-closed');
 					}
 
 					$(this).siblings('ul.taxonomy-tree').stop(true, true).slideToggle(200);

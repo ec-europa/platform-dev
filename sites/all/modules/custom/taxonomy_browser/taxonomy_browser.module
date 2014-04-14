@@ -119,9 +119,9 @@ function _taxonomy_browser_output_taxonomy_nested_tree($tree, $path) {
   if (count($tree)) {
     $output = '<ul class="taxonomy-tree">';
     foreach ($tree as $term) {
-      $output .= '<li id="term_' . $term->tid . '">';
+      $output .= '<li id="term_' . $term->tid . '" class="taxonomy-tree-item jstree-closed">';
       if (isset($term->children)) {
-        $output .= '<span class="taxonomy-tree-opener glyphicon glyphicon-plus"></span>';
+        $output .= '<ins class="taxonomy-tree-opener jstree-icon"></ins>';
       }
       $output .= l($term->name, $path . '/' . $term->tid, array('attributes' => array('class' => array('taxonomy-tree-link'))));
 
@@ -142,7 +142,7 @@ function _taxonomy_browser_output_taxonomy_nested_tree($tree, $path) {
 function _taxonomy_browser_taxonomy_create_tree($vid, $path, $ajax = FALSE, $selected = 0) {
   $tree = _taxonomy_browser_taxonomy_get_nested_tree(intval($vid));
 
-  $output = '<div id="tb-browser-tree-' . $vid . '" class="tb-browser-tree">';
+  $output = '<div id="tb-browser-tree-' . $vid . '" class="tb-browser-tree jstree-ec-default">';
   $output .= _taxonomy_browser_output_taxonomy_nested_tree($tree, $path);
   $output .= '</div>';
 
@@ -205,6 +205,7 @@ function taxonomy_browser_block_view($delta = '') {
  */
 function _taxonomy_browser_create_block_content($vid, $vocabulary) {
   drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/taxonomy_browser.css');
+  drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/ec-default/style.css');
   drupal_add_js('misc/jquery.cookie.js');
   drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser.js');
   drupal_add_library('system', 'drupal.ajax');
