@@ -9,7 +9,7 @@
 		attach: function(context, settings) {
 			//$('.tb-browser-tree').once('tb-browser-tree', function(){
 				$('.tb-browser-tree > ul.taxonomy-tree').find('ul.taxonomy-tree').hide();
-				var $currentActive = $(this).find('a.active');
+				var $currentActive = $('.tb-browser-tree').find('a.active');
 
 				$currentActive.parents('ul.taxonomy-tree').show().parent('.taxonomy-tree-item').removeClass('jstree-closed').addClass('jstree-open');
 				$('.taxonomy-tree-opener').click(function(e){
