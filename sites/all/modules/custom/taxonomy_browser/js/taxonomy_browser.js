@@ -7,11 +7,11 @@
 (function($){
 	Drupal.behaviors.taxonomy_browser = {
 		attach: function(context, settings) {
-			$('.tb-browser-tree').once('tb-browser-tree', function(){
+			//$('.tb-browser-tree').once('tb-browser-tree', function(){
 				$('.tb-browser-tree > ul.taxonomy-tree').find('ul.taxonomy-tree').hide();
 				var $currentActive = $(this).find('a.active');
 
-				$currentActive.parents('ul.taxonomy-tree').show().parent('.taxonomy-tree-item').removeClass('jstree-closed').addClass('jstree-open');;
+				$currentActive.parents('ul.taxonomy-tree').show().parent('.taxonomy-tree-item').removeClass('jstree-closed').addClass('jstree-open');
 				$('.taxonomy-tree-opener').click(function(e){
 					e.preventDefault();
 
@@ -25,7 +25,7 @@
 
 					$(this).siblings('ul.taxonomy-tree').stop(true, true).slideToggle(200);
 				});
-			});
+			//});
 		}
 	}
-})(jQuery);
+})(jq171);
