@@ -5,7 +5,7 @@
  */
 
 /**
- * Define the administration form
+ * Define the administration form.
  */
 function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
   $featuresets = feature_set_get_featuresets($install_state);
@@ -13,25 +13,26 @@ function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
   $form = array();
 
   if (!empty($install_state)) {
-    // indicate we are in an install
+    // Indicate we are in an install.
     $form['install'] = array(
       '#type' => 'value',
-      '#value' => TRUE
+      '#value' => TRUE,
     );
   }
 
   // Really too bad tableselect has no easy way to disable a single checkbox...
   if (!empty($featuresets)) {
     foreach ($featuresets as $featureset => $details) {
-      if ( !$details['meta']) {
+      if (!$details['meta']) {
         $elementname = 'featureset-' . $featureset;
         $form[$elementname] = array(
           '#type' => 'checkbox',
-          '#disabled' => (empty($details['status']) || is_requiredby($featureset) || requires($featureset) ) ? TRUE : FALSE, // disabled the widget if its in an inconsistent
+          // Disable the widget if its in an inconsistent.
+          '#disabled' => (empty($details['status']) || _feature_set_is_requiredby($featureset) || _feature_set_requires($featureset)) ? TRUE : FALSE,
           '#default_value' => (FEATURE_SET_ENABLED & $details['status']) ? 1 : 0,
           '#featuresetinfo' => array(
             'featureset' => $details['title'],
-            'description' => $details['description'] . get_require($featureset),
+            'description' => $details['description'] . _feature_set_get_require($featureset),
             'icon' => empty($details['icon']) ? '' : $details['icon'],
             'font' => empty($details['font']) ? '' : $details['font'],
             'category' => empty($details['category']) ? '' : $details['category'],
@@ -83,41 +84,44 @@ function feature_set_admin_form($form, &$form_state, $install_state = NULL) {
     ),
   );
 
-  $form['#submit'][] = 'feature_set_admin_form_submit';
-  $form['#submit'][] = 'feature_set_adjust_meta_feature_sets';
+  $form['#submit'][] = '_feature_set_admin_form_submit';
+  $form['#submit'][] = '_feature_set_adjust_meta_feature_sets';
 
   return $form;
 }
 
 /**
- * Submit handler for our form
+ * Submit handler for our form.
  *
  * This only processes feature sets that are in a known state.
  */
-function feature_set_admin_form_submit($form, &$form_state) {
+function _feature_set_admin_form_submit($form, &$form_state) {
   $featuresets = feature_set_get_featuresets();
   $operations = array();
   foreach ($form_state['values'] as $key => $value) {
     if (strpos($key, 'featureset-') === 0) {
       $featureset = str_replace('featureset-', '', $key);
-      // only operate if its in an 'OK' status
-      if ( isset($featuresets[$featureset]) && $featuresets[$featureset]['status'] != 0) {
+      // Only operate if its in an 'OK' status.
+      if (isset($featuresets[$featureset]) && $featuresets[$featureset]['status'] != 0) {
         if ($form_state['values'][$key]) {
-          if (!module_exists($featureset)) // do not enable a module already enabled
+          // Do not enable a module already enabled.
+          if (!module_exists($featureset)) {
             $operations[] = array('feature_set_enable_feature_set', array($featuresets[$featureset]));
+          }
         }
         else {
-          if (module_exists($featureset)) // do not disable a module already disabled
+          // Do not disable a module already disabled.
+          if (module_exists($featureset)) {
             $operations[] = array('feature_set_disable_feature_set', array($featuresets[$featureset]));
+          }
         }
       }
     }
-
   }
 
   if (!empty($operations)) {
-    // we might be in an install profile an thus have another batch active
-    // use batch system to enable features
+    // We might be in an install profile an thus have another batch active.
+    // Use batch system to enable features.
     $_SESSION['http_request_count'] = 0;
     $batch = _feature_set_batch($operations);
     $batch['title'] = t('Adjusting feature sets.');
@@ -126,16 +130,16 @@ function feature_set_admin_form_submit($form, &$form_state) {
       batch_set($batch);
     }
     else {
-      // store the feature sets to enable in session so we can get them back later
+      // Store feature sets to enable in session so we can get them back later.
       $_SESSION['feature_set_batch'] = $batch;
     }
   }
 }
 
 /**
- * Function feature_set_adjust_meta_feature_sets().
+ * Function _feature_set_adjust_meta_feature_sets().
  */
-function feature_set_adjust_meta_feature_sets($form, &$form_state) {
+function _feature_set_adjust_meta_feature_sets($form, &$form_state) {
   $featuresets = feature_set_get_featuresets();
   $metasets = feature_set_get_meta_feature_sets($form_state);
 
@@ -151,7 +155,7 @@ function feature_set_adjust_meta_feature_sets($form, &$form_state) {
   }
 
   if (!empty($operations)) {
-    // we might be in an install profile an thus have another batch active
+    // We might be in an install profile an thus have another batch active.
     $batch['operations'] = $operations;
     $batch['title'] = t('Adjusting meta feature sets.');
     $batch['finished'] = 'drupal_flush_all_caches';
@@ -160,49 +164,48 @@ function feature_set_adjust_meta_feature_sets($form, &$form_state) {
       batch_set($batch);
     }
     else {
-      // store the feature sets to enable in session so we can get them back later
+      // Store feature sets to enable in session so we can get them back later.
       $_SESSION['feature_set_meta_batch'] = $batch;
     }
   }
-
 }
 
 /**
- * Function feature_set_install_enable().
+ * Function _feature_set_install_enable().
  */
-function feature_set_install_enable() {
+function _feature_set_install_enable() {
   if (!empty($_SESSION['feature_set_batch'])) {
     return $_SESSION['feature_set_batch'];
   }
 }
 
 /**
- * Function feature_set_meta_install_enable().
+ * Function _feature_set_meta_install_enable().
  */
-function feature_set_meta_install_enable() {
+function _feature_set_meta_install_enable() {
   if (!empty($_SESSION['feature_set_meta_batch'])) {
     return $_SESSION['feature_set_meta_batch'];
   }
 }
 
 /**
- * Return install time tasks
+ * Return install time tasks.
  */
 function feature_set_install_tasks() {
   $tasks = array(
     'feature_set_admin_form' => array(
       'display_name' => st('Feature Set Options'),
-      'type' => 'form'
+      'type' => 'form',
     ),
     'freature_set_install_modules' => array(
       'display' => FALSE,
       'type' => 'batch',
-      'function' => 'feature_set_install_enable',
+      'function' => '_feature_set_install_enable',
     ),
     'feature_set_install_meta_feature_sets' => array(
       'display' => FALSE,
       'type' => 'batch',
-      'function' => 'feature_set_meta_install_enable',
+      'function' => '_feature_set_meta_install_enable',
     ),
   );
   return $tasks;
@@ -211,7 +214,7 @@ function feature_set_install_tasks() {
 /**
  * Disable a feature set, intended to disable an inconsinstent feature set.
  */
-function feature_set_disable_url() {
+function _feature_set_disable_url() {
   $featureset = arg(4);
   $featuresets = $featuresets = feature_set_get_featuresets();
   if (isset($featuresets[$featureset])) {
@@ -226,7 +229,7 @@ function feature_set_disable_url() {
 /**
  * Enable a feature set intended to enable an inconsinstent feature set.
  */
-function feature_set_enable_url() {
+function _feature_set_enable_url() {
   $featureset = arg(4);
   $featuresets = $featuresets = feature_set_get_featuresets();
   if (isset($featuresets[$featureset])) {

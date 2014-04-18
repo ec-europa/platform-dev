@@ -11,6 +11,9 @@
  */
 class MultisiteFeatureSetFeatureTest extends DrupalWebTestCase {
 
+  /**
+   * GetInfo.
+   */
   public static function getInfo() {
     return array(
       'name' => 'feature_set Feature test',
@@ -30,38 +33,40 @@ class MultisiteFeatureSetFeatureTest extends DrupalWebTestCase {
 
   /**
    * Verify that current user has no access to page.
-   * @param $url
-   * URL to verify.
+   *
+   * @param string $url
+   *   URL to verify.
    */
-  function multisiteFeatureSetTestVerifyNoAccess($url) {
-    // Test that page returns 403 Access Denied
+  public function multisiteFeatureSetTestVerifyNoAccess($url) {
+    // Test that page returns 403 Access Denied.
     $this->drupalGet($url);
     $this->assertResponse(403, t('Expected -> Access Denied'));
   }
 
   /**
    * Verify that current user has access to Site information page.
-   * @param $url
-   * URL to verify.
+   *
+   * @param string $url
+   *   URL to verify.
    */
-  function multisiteFeatureSetVerifyAccess($url) {
-    // Test that page returns 200 Access OK
+  public function multisiteFeatureSetVerifyAccess($url) {
+    // Test that page returns 200 Access OK.
     $this->drupalGet($url);
     $this->assertResponse(200, t('Expected -> Access OK'));
     $this->assertText(t('Feature Set'), t('Feature Set form is loaded.'));
   }
 
   /**
-   * Check that only a user with specific permission can access to the feature form settings.
+   * Check that user can access to the feature form settings.
    */
-  function testMultisiteFeatureSetAccess() {
-    // Try to access to the content type administration with a non authenticated user.
+  public function testMultisiteFeatureSetAccess() {
+    // Try to access with a non authenticated user.
     $this->multisiteFeatureSetTestVerifyNoAccess('admin/structure/feature-set');
-    // Create a user without permissions to access to the content type administration.
+    // Create user without permissions to access.
     $this->web_user = $this->drupalCreateUser();
     $this->drupalLogin($this->web_user);
     $this->multisiteFeatureSetTestVerifyNoAccess('admin/structure/feature-set');
-    // Create a user with permissions to access to the content type administration.
+    // Create usr with permissions to access to the content-type administration.
     $this->web_user = $this->drupalCreateUser(array('administer feature sets'));
     $this->drupalLogin($this->web_user);
     // Verify that users with permission can access to the Feature Set page.
@@ -71,8 +76,8 @@ class MultisiteFeatureSetFeatureTest extends DrupalWebTestCase {
   /**
    * Configure Feature Set feature and test that it works as intends.
    */
-  function testMultisiteFeatureSetEnableFeatures() {
-    // Create a user with permissions to access to the content type administration and to create articles.
+  public function testMultisiteFeatureSetEnableFeatures() {
+    // Create a user to access and to create articles.
     $this->web_user = $this->drupalCreateUser(array('administer feature sets', 'administer modules'));
     $this->drupalLogin($this->web_user);
 

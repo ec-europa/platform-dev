@@ -26,7 +26,7 @@
     <?php foreach ($features as $key => $item) { ?>
       <tr>
         <td>
-          <?php 
+          <?php
             if (!empty($item['#featuresetinfo']['featureset']))
               print '<strong>' . $item['#featuresetinfo']['featureset'] . '</strong>';
             if (!empty($item['#featuresetinfo']['description']))
@@ -43,6 +43,6 @@
 </div>
 <?php } ?>
 
-<?php 
+<?php
   print $feature_set_input;
 ?>
