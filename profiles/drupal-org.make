@@ -353,6 +353,9 @@ projects[xmlsitemap][version] = "2.0-rc1"
 projects[xml_field][subdir] = "contributed"
 projects[xml_field][version] = "1.5"
 
+projects[js_injector][subdir] = "contributed"
+projects[js_injector][version] = "2.1"
+
 ;libraries
 
 ;ckeditor 4.3.2

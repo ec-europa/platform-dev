@@ -123,6 +123,7 @@ dependencies[] = admin_menu
 dependencies[] = tagadelic
 dependencies[] = tagadelic_taxonomy
 dependencies[] = link
+dependencies[] = js_injector
 
 dependencies[] = filefield_sources_plupload
 
