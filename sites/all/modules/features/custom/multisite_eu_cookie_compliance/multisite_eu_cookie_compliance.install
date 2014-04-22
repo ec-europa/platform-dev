@@ -43,7 +43,7 @@ function multisite_eu_cookie_compliance_enable() {
       'value' => '<h2>Thank you for accepting cookies</h2><p>You can now hide this message or find out more about cookies.</p>',
       'format' => 'full_html',
     ),
-    'popup_link' => 'http://www.cookies-policy.eu',
+    'popup_link' => 'http://ec.europa.eu/cookies/index_en.htm',
     'popup_height' => '60',
     'popup_width' => '100%',
     'popup_delay' => '1',
