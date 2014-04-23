@@ -25,7 +25,7 @@ function newsletters_field_group_info() {
     'children' => array(
       0 => 'field_related_contents',
       1 => 'field_tags',
-	  2 => 'language',
+      2 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
