@@ -116,7 +116,7 @@ projects[file_entity][subdir] = "contributed"
 projects[file_entity][version] = "2.0-alpha3"
 
 projects[filefield_sources][subdir] = "contributed"
-projects[filefield_sources][version] = "1.8"
+projects[filefield_sources][version] = "1.9"
 
 projects[filefield_sources_plupload][subdir] = "contributed"
 projects[filefield_sources_plupload][version] = "1.1"
