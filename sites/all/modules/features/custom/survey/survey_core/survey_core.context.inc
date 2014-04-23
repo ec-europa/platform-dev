@@ -25,6 +25,14 @@ function survey_core_context_default_contexts() {
         'node_form' => '1',
       ),
     ),
+    'path' => array(
+      'values' => array(
+        'survey_analysis/*' => 'survey_analysis/*',
+        'node/*/webform' => 'node/*/webform',
+        'node/*/webform-results' => 'node/*/webform-results',
+        'node/*/webform-results/*' => 'node/*/webform-results/*',
+      ),
+    ),
   );
   $context->reactions = array(
     'menu' => 'survey',
