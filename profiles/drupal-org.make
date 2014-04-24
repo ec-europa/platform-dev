@@ -239,7 +239,7 @@ projects[print][subdir] = "contributed"
 projects[print][version] = "1.2"
 
 projects[quicktabs][subdir] = "contributed"
-projects[quicktabs][version] = "3.4"
+projects[quicktabs][version] = "3.6"
 
 projects[rate][subdir] = "contributed"
 projects[rate][version] = "1.6"
