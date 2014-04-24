@@ -158,13 +158,6 @@ jQuery(function($){
       $('.dropdown-toggle').dropdown();
       // /Menu dropdown
 
-      $('#menu-button').on("click", function() {
-        $('#menu-button > div').toggleClass("arrow-down");
-        $('#menu-button > div').toggleClass("arrow-up");
-      });
-      // /Responsive menu
-
-
       // Font size buttons
       $('.text_size_big').on("click", function() {
         $('link[data-name="switcher"]').attr('href',templatePath + '/css/text_size_big.css');
@@ -229,14 +222,26 @@ jQuery(function($){
     }
 	}
 
+  Drupal.behaviors.ec_resp_responsive_menu = {
+    attach: function(context) { 
+      $('#menu-button').on("click", function() {
+        $(this).toggleClass('menu-open');
+        $('#menu-button > div').toggleClass("arrow-down");
+        $('#menu-button > div').toggleClass("arrow-up");
+      });
+    }
+  }
+
   Drupal.behaviors.ec_resp_responsive_sidebar = {
-    attach: function(context, settings) { 
+    attach: function(context) { 
      // $('.responsive-sidebar').once('responsive-sidebar', function(){
 
         // Responsive menu
-        $('#responsive-sidebar').css('left', '-85%');
+        $('#responsive-sidebar').hide().css('left', '-85%');
 
-        $('#sidebar-button').on("click", function() {
+        $('.sidebar-button').on("click", function() {
+          $('.sidebar-button').toggleClass('sidebar-open');
+
           if ($('#layout-body').is('.reduced')) {
             hide_sidebar();
           }

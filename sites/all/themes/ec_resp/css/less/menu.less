@@ -76,6 +76,28 @@
   }
 }
 
+@media all and (max-width: @screen-xs-max) {
+  .region-featured {
+    #main-menu {
+      min-height: 0;
+
+      .affix {
+        position: static;
+      }
+
+      .navbar {
+        border: none;
+        min-height: 0;
+
+        .navbar-collapse {
+          border-bottom: 1px solid #005081;
+          border-top: none;
+        }
+      }
+    }
+  }
+}
+
 /* --------------- Secondary Menu ------------ */
 #secondary-menu-links {
   float: right; /* LTR */
@@ -91,6 +113,88 @@
 #block-system-user-menu {
   a {
     text-transform:capitalize;
+  }
+}
+
+/* ------------------ Mobile user bar ------------------ */
+@media all and (max-width: @screen-xs-max) {
+  .region-featured-wrapper {
+    min-height: 52px;
+  }
+
+  .mobile-user-bar {
+    width: 100%;
+    border-bottom: 1px solid @navbar-default-link-active-bg;
+    z-index: 1030;
+    top: 0;
+    margin:0;
+
+    &.affix {
+      & + .region-featured {
+        #main-menu {
+          .navbar {
+            position:fixed;
+            top: 54px;
+            width: 100%;
+            z-index: 1030;
+          }
+        }
+      }
+    }
+    .affix {
+      position: static;
+    }
+  }
+}
+
+@media all and (min-width: @screen-xs-max) and (max-width: @screen-sm-max) {
+  .region-featured-wrapper {
+    position: relative;
+  }
+
+  .mobile-user-bar {
+    margin: 0;
+    border: none;
+    background: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    .sidebar-button {
+      position: absolute;
+      z-index: 1040;
+      top:24px;
+      margin-left: 0;
+
+      &.affix {
+        position: fixed;
+        top: 2px;
+      }
+    }
+
+    &.visible-sm {
+      & + .region-featured {
+        #main-menu {
+          .navbar-nav {
+            padding-left: 30px;
+          }
+        }
+      }
+    }
+  }
+}
+
+#menu-button {
+  padding:12px 10px 11px;
+
+  &:focus {
+    background: none;
+  }
+
+  &:hover,
+  &:active,
+  &.menu-open {
+    background-color: @navbar-default-link-active-bg;
   }
 }
 
@@ -163,13 +267,18 @@ ul.nav-tabs {
   }
 }
 
-#sidebar-button {
-  background-color: #074A8B;
+.sidebar-button {
+  background: #0065A2;
   border: 1px solid #D9EDF7;
-  width: 43px;
-  height: 40px;
   padding: 10px;
+  margin: 8px 0 8px 15px;
   border-radius: @border-radius-base;
+
+  &:hover,
+  &:active,
+  &.sidebar-open {
+    background: @navbar-default-link-active-bg;
+  }
   .icon-bar {
     display: block;
     width: 22px;

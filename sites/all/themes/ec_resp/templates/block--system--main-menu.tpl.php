@@ -50,14 +50,7 @@ global $base_url;
 <div id="main-menu" class="<?php print $classes; ?>">
   <div class="navbar navbar-default" data-spy="affix" data-offset-top="165">
     <div class="container">
-
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button id="menu-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-          <div class="arrow-down"></div>
-        </button>
-      </div>
-
+      
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <?php print_r($content) ?>

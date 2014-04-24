@@ -107,6 +107,9 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
 
 // check if there is a responsive sidebar or not
 $has_responsive_sidebar = ($region_header_right || $region_sidebar_left || $region_sidebar_right ? 1 : 0);
+if ($has_responsive_sidebar) {
+  $sidebar_visible_sm = 'visible-sm';
+}
 
 // calculate size of regions.
   // sidebars
@@ -159,7 +162,7 @@ $has_responsive_sidebar = ($region_header_right || $region_sidebar_left || $regi
   $col_title = array(
     'lg' => 12 - $col_tools['lg'],
     'md' => 12 - $col_tools['md'],
-    'sm' => 12,
+    'sm' => 10,
     'xs' => 12
   );
 ?>
@@ -210,15 +213,44 @@ $has_responsive_sidebar = ($region_header_right || $region_sidebar_left || $regi
       <div id="main-title"><?php print $site_name; ?></div>
       <div id="sub-title"><?php print $site_slogan; ?></div>
     </div>
-  </div><!-- /#layout-header -->  
+  </div><!-- /#layout-header -->
+  
+  <div class="region-featured-wrapper">
 
-  <?php print $region_featured; ?>
+    <?php if ($main_menu || $has_responsive_sidebar): ?>
+      <div class="mobile-user-bar navbar navbar-default visible-xs <?php print $sidebar_visible_sm; ?>" data-spy="affix" data-offset-top="82">
+        <div class="container">
 
-  <div id="responsive-sidebar" style="display: none">
-    <div id="responsive-header-right"></div>
-    <div id="responsive-sidebar-left"></div>
-    <div id="responsive-sidebar-right"></div>
-  </div><!-- /#responsive-sidebar-->   
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <?php if ($main_menu): ?>
+              <button id="menu-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <div class="arrow-down"></div>
+              </button>
+            <?php endif; ?>
+
+            <?php if ($has_responsive_sidebar): ?>
+              <button class="sidebar-button" data-spy="affix" data-offset-top="165">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            <?php endif; ?>
+          </div>
+        </div><!-- /.container -->
+      </div><!-- /.navbar -->
+    <?php endif; ?>
+
+    <?php print $region_featured; ?>
+  </div>
+
+  <?php if ($has_responsive_sidebar): ?>
+    <div id="responsive-sidebar">
+      <div id="responsive-header-right"></div>
+      <div id="responsive-sidebar-left"></div>
+      <div id="responsive-sidebar-right"></div>
+    </div><!-- /#responsive-sidebar-->   
+  <?php endif; ?>
 
   <div id="layout-body" class="container">
     <div class="row">
@@ -235,16 +267,6 @@ $has_responsive_sidebar = ($region_header_right || $region_sidebar_left || $regi
       <?php endif; ?>
       
       <?php print render($title_suffix); ?>
-
-      <?php if ($has_responsive_sidebar) { ?>
-      <div id="sidebar-switcher" class="col-sm-<?php print $col_sidebar_button['sm']; ?> col-xs-<?php print $col_sidebar_button['xs']; ?> visible-sm visible-xs">
-        <button id="sidebar-button">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div><!-- /#sidebar-switcher -->
-      <?php } ?>
 
       <div class="col-lg-<?php print $col_tools['lg']; ?> col-md-<?php print $col_tools['md']; ?> col-sm-<?php print $col_tools['sm']; ?> col-xs-<?php print $col_tools['xs']; ?>">
         <?php print $region_tools; ?>
