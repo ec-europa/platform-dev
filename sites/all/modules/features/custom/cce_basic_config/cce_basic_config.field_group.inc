@@ -60,7 +60,8 @@ function cce_basic_config_field_group_info() {
       'formatter' => 'closed',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => 'group-article-date field-group-tab',
+		'required_fields' => 1,
       ),
     ),
   );
@@ -87,7 +88,8 @@ function cce_basic_config_field_group_info() {
       'formatter' => 'closed',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => 'group-metadata-content field-group-tab',
+		'required_fields' => 1,
       ),
     ),
   );
