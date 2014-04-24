@@ -239,13 +239,13 @@ feature_sets[multisite_translations][font] = 'multisite-icon-flag'
 feature_sets[multisite_translations][enable][] = multisite_translations
 feature_sets[multisite_translations][disable][] = multisite_translations
 
-feature_sets[splash_screen][title] = 'Splash screen'
-feature_sets[splash_screen][description] = 'Provide a home page to choose language and store language in cookie.'
-feature_sets[splash_screen][category] = 'Multilingualism'
-feature_sets[splash_screen][icon] = ''
-feature_sets[splash_screen][font] = 'multisite-icon-publish'
-feature_sets[splash_screen][enable][] = splash_screen
-feature_sets[splash_screen][disable][] = splash_screen
+;feature_sets[splash_screen][title] = 'Splash screen'
+;feature_sets[splash_screen][description] = 'Provide a home page to choose language and store language in cookie.'
+;feature_sets[splash_screen][category] = 'Multilingualism'
+;feature_sets[splash_screen][icon] = ''
+;feature_sets[splash_screen][font] = 'multisite-icon-publish'
+;feature_sets[splash_screen][enable][] = splash_screen
+;feature_sets[splash_screen][disable][] = splash_screen
 
 
 ; Navigation

@@ -30,7 +30,6 @@ feature_sets[events_standard][disable][] = events_resources
 feature_sets[events_standard][disable][] = events_standard
 feature_sets[events_standard][disable][] = events_core
 
-
 feature_sets[links_standard][title] = 'Links'
 feature_sets[links_standard][description] = 'Allows contributors to store a bookmark/URL to another website they wish to share with visitors.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/64bhAg" target="_blank">Read documentation</a>'
 feature_sets[links_standard][category] = 'Communication'
@@ -233,13 +232,13 @@ feature_sets[multisite_translations][font] = 'multisite-icon-flag'
 feature_sets[multisite_translations][enable][] = multisite_translations
 feature_sets[multisite_translations][disable][] = multisite_translations
 
-feature_sets[splash_screen][title] = 'Splash screen'
-feature_sets[splash_screen][description] = 'Provide a home page to choose language and store language in cookie.'
-feature_sets[splash_screen][category] = 'Multilingualism'
-feature_sets[splash_screen][icon] = ''
-feature_sets[splash_screen][font] = 'multisite-icon-publish'
-feature_sets[splash_screen][enable][] = splash_screen
-feature_sets[splash_screen][disable][] = splash_screen
+;feature_sets[splash_screen][title] = 'Splash screen'
+;feature_sets[splash_screen][description] = 'Provide a home page to choose language and store language in cookie.'
+;feature_sets[splash_screen][category] = 'Multilingualism'
+;feature_sets[splash_screen][icon] = ''
+;feature_sets[splash_screen][font] = 'multisite-icon-publish'
+;feature_sets[splash_screen][enable][] = splash_screen
+;feature_sets[splash_screen][disable][] = splash_screen
 
 
 ; Navigation
