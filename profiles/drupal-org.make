@@ -348,7 +348,7 @@ projects[wysiwyg][subdir] = "contributed"
 projects[wysiwyg][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contributed"
-projects[xmlsitemap][version] = "2.0-rc1"
+projects[xmlsitemap][version] = "2.0"
 
 projects[xml_field][subdir] = "contributed"
 projects[xml_field][version] = "1.5"
