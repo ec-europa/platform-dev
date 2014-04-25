@@ -283,6 +283,9 @@ projects[translation_overview][version] = "2.0-beta1"
 projects[translation_table][subdir] = "contributed"
 projects[translation_table][version] = "1.0-beta1"
 
+projects[transliteration][subdir] = "contributed"
+projects[transliteration][version] = "3.2"
+
 projects[tweetbutton][subdir] = "contributed"
 projects[tweetbutton][version] = "2.0-beta1"
 
