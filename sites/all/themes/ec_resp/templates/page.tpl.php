@@ -42,6 +42,7 @@
  * - $secondary_menu (array): An array containing the Secondary menu links for
  *   the site, if they have been configured.
  * - $breadcrumb: The breadcrumb trail for the current page.
+ * - $menu_visible: Checking if the main menu is available in the region featured
  *
  * Page content (in order of occurrence in the default page.tpl.php):
  * - $title_prefix (array): An array containing additional output populated by
@@ -108,7 +109,7 @@ $region_footer = $page['footer'] ? render($page['footer']) : '';
 // check if there is a responsive sidebar or not
 $has_responsive_sidebar = ($region_header_right || $region_sidebar_left || $region_sidebar_right ? 1 : 0);
 if ($has_responsive_sidebar) {
-  $sidebar_visible_sm = 'visible-sm';
+  $sidebar_visible_sm = 'sidebar-visible-sm';
 }
 
 // calculate size of regions.
@@ -154,15 +155,15 @@ if ($has_responsive_sidebar) {
   $col_tools = array(
     'lg' => ($title ? 4 : 12),
     'md' => ($title ? 4 : 12),
-    'sm' => 12 - $col_sidebar_button['sm'],
-    'xs' => 12 - $col_sidebar_button['xs']
+    'sm' => 12,
+    'xs' => 12
   );
 
   // title
   $col_title = array(
     'lg' => 12 - $col_tools['lg'],
     'md' => 12 - $col_tools['md'],
-    'sm' => 10,
+    'sm' => 12,
     'xs' => 12
   );
 ?>
@@ -215,26 +216,27 @@ if ($has_responsive_sidebar) {
     </div>
   </div><!-- /#layout-header -->
   
-  <div class="region-featured-wrapper">
-
-    <?php if ($main_menu || $has_responsive_sidebar): ?>
-      <div class="mobile-user-bar navbar navbar-default visible-xs <?php print $sidebar_visible_sm; ?>" data-spy="affix" data-offset-top="82">
+  <div class="region-featured-wrapper <?php print $sidebar_visible_sm; ?>">
+    <?php if ($menu_visible || $has_responsive_sidebar): ?>
+      <div class="mobile-user-bar navbar navbar-default visible-xs" data-spy="affix" data-offset-top="82">
         <div class="container">
 
           <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <?php if ($main_menu): ?>
+          <div class="navbar-header" data-spy="affix" data-offset-top="165">
+            <?php if ($menu_visible): ?>
               <button id="menu-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
                 <div class="arrow-down"></div>
               </button>
             <?php endif; ?>
 
             <?php if ($has_responsive_sidebar): ?>
-              <button class="sidebar-button" data-spy="affix" data-offset-top="165">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
+              <div class="sidebar-button-wrapper">
+                <button class="sidebar-button">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+              </div>
             <?php endif; ?>
           </div>
         </div><!-- /.container -->
@@ -242,6 +244,7 @@ if ($has_responsive_sidebar) {
     <?php endif; ?>
 
     <?php print $region_featured; ?>
+
   </div>
 
   <?php if ($has_responsive_sidebar): ?>

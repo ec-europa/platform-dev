@@ -237,7 +237,7 @@ jQuery(function($){
      // $('.responsive-sidebar').once('responsive-sidebar', function(){
 
         // Responsive menu
-        $('#responsive-sidebar').hide().css('left', '-85%');
+        $('#responsive-sidebar').css('left', '-85%');
 
         $('.sidebar-button').on("click", function() {
           $('.sidebar-button').toggleClass('sidebar-open');
@@ -260,25 +260,20 @@ jQuery(function($){
 
         function hide_sidebar() {
           // close responsive sidebars
-          $('#responsive-sidebar').animate({left: '-85%'}, 250, 'linear');
-          $('#layout-body').animate({
-            left: '0'
-          }, 300, function() {
-              // move left sidebar
-              $('#responsive-sidebar-left > div').detach().appendTo($('#sidebar-left'));
+          $('#responsive-sidebar').css('left','-85%');
+          $('#layout-body').css('left','0').removeClass('reduced').delay(400).promise().done(function(){
+            // move left sidebar
+            $('#responsive-sidebar-left > div').detach().appendTo($('#sidebar-left'));
 
-              // move right sidebar
-              $('#responsive-sidebar-right > div').detach().appendTo($('#sidebar-right'));
+            // move right sidebar
+            $('#responsive-sidebar-right > div').detach().appendTo($('#sidebar-right'));
 
-              // move header right
-              $('#responsive-header-right > div').detach().appendTo($('#banner-image-right'));
-          }).removeClass('reduced');
-          $('#responsive-sidebar').promise().done(function(){
-            $(this).hide();
+            // move header right
+            $('#responsive-header-right > div').detach().appendTo($('#banner-image-right'));
           });
         }
-        function show_sidebar() {
 
+        function show_sidebar() {
           // move left sidebar
           $('#sidebar-left > div').detach().appendTo($('#responsive-sidebar-left'));
 
@@ -289,10 +284,8 @@ jQuery(function($){
           $('#banner-image-right > div').detach().appendTo($('#responsive-header-right'));
 
           // open responsive sidebars
-          $('#responsive-sidebar').show().animate({left: '0'}, 400);
-          $('#layout-body').animate({
-            left: '85%'
-          }, 400).addClass('reduced');
+          $('#responsive-sidebar').css('left','0');
+          $('#layout-body').css('left','85%').addClass('reduced');
         }
     //  });
     }

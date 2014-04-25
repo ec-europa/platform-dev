@@ -77,6 +77,20 @@ function ec_resp_preprocess(&$variables) {
 }
 
 /**
+ * Implements theme_preprocess_page().
+ */
+function ec_resp_preprocess_page(&$variables) {
+
+
+  $variables['menu_visible'] = FALSE;
+
+ if (!empty($variables['page']['featured']['system_main-menu'])) {
+   $variables['menu_visible'] = TRUE;
+ }
+}
+
+
+/**
  * Implements theme_preprocess_node().
  */
 function ec_resp_preprocess_node(&$variables) {
