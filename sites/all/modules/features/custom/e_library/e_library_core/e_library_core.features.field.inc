@@ -229,7 +229,7 @@ function e_library_core_field_default_fields() {
       'settings' => array(
         'description_field' => 1,
         'file_directory' => 'ged',
-        'file_extensions' => 'txt doc xls pdf ppt docx xlsx pptx jpg png',
+        'file_extensions' => 'doc xls pdf ppt docx xlsx pptx jpg png',
         'max_filesize' => '',
         'user_register_form' => FALSE,
       ),
