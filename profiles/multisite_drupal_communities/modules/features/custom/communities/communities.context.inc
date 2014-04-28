@@ -31,7 +31,7 @@ function communities_context_default_contexts() {
         'node/*/group' => 'node/*/group',
         'node/*/moderation' => 'node/*/moderation',
         'group/node/*' => 'group/node/*',
-		'community/*' => 'community/*',
+        'community/*' => 'community/*',
       ),
     ),
     'views' => array(
@@ -44,6 +44,12 @@ function communities_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'menu-menu-communities-menu' => array(
+          'module' => 'menu',
+          'delta' => 'menu-communities-menu',
+          'region' => 'sidebar_left',
+          'weight' => '-20',
+        ),
         'multisite_og_button-og-contextual-links' => array(
           'module' => 'multisite_og_button',
           'delta' => 'og-contextual-links',
@@ -55,12 +61,6 @@ function communities_context_default_contexts() {
           'delta' => 'community_content-block_content',
           'region' => 'sidebar_left',
           'weight' => '-9',
-        ),
-        'menu-menu-communities-menu' => array(
-          'module' => 'menu',
-          'delta' => 'menu-communities-menu',
-          'region' => 'sidebar_left',
-          'weight' => '-20',
         ),
         'views-communities_members-block_1' => array(
           'module' => 'views',
@@ -76,6 +76,7 @@ function communities_context_default_contexts() {
         ),
       ),
     ),
+    'menu' => 'communities_directory',
   );
   $context->condition_mode = 0;
 
@@ -84,7 +85,6 @@ function communities_context_default_contexts() {
   t('communities');
   t('context for communities');
   $export['communities'] = $context;
-
 
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
@@ -109,7 +109,6 @@ function communities_context_default_contexts() {
   // Included for use with string extractors like potx.
   t('communities');
   $export['communities_homepage'] = $context;
-
 
   return $export;
 }

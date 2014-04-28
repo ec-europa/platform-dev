@@ -15,7 +15,6 @@ function communities_menu_default_menu_custom() {
     'menu_name' => 'menu-communities-menu',
     'title' => 'Communities menu',
     'description' => 'Contextual menu for communities functions',
-    'i18n_mode' => '0',
   );
   // Translatables
   // Included for use with string extractors like potx.

@@ -110,7 +110,7 @@ function communities_field_group_info() {
     'weight' => '20',
     'children' => array(
       0 => 'field_tags',
-	  1 => 'language',
+      1 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(

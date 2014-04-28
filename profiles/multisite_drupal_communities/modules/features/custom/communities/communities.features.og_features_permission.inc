@@ -35,11 +35,6 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:administer og menu'
-  $permissions['node:community:administer og menu'] = array(
-    'roles' => array(),
-  );
-
   // Exported og permission: 'node:community:approve and deny subscription'
   $permissions['node:community:approve and deny subscription'] = array(
     'roles' => array(
