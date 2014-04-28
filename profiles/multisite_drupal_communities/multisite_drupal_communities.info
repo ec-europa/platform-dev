@@ -129,6 +129,7 @@ dependencies[] = tagadelic
 dependencies[] = tagadelic_taxonomy
 dependencies[] = link
 dependencies[] = js_injector
+dependencies[] = transliteration
 
 dependencies[] = filefield_sources_plupload
 
