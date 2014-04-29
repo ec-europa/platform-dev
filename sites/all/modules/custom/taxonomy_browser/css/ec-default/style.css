@@ -4,7 +4,7 @@
  * Supported plugins: ui (hovered, clicked), checkbox, contextmenu, search
  */
 
-.jstree-ec-default { background-color: #015F99; background-image: none; filter:progid:DXImageTransform.Microsoft.gradient(enabled=false); border-color: #074A8B; padding: 4px; border-radius: 4px;}
+.jstree-ec-default { background-color: #015F99; background-image: none; filter:progid:DXImageTransform.Microsoft.gradient(enabled=false); border-color: #074A8B; border-radius: 4px;}
 .jstree-ec-default a { display: block; overflow: hidden; -ms-text-overflow: ellipsis; text-overflow: ellipsis; color: #fff; height: 22px; line-height: 22px; padding: 0px 4px;}
 .jstree-ec-default a:hover { background-color: #074581; color: #fff; border-radius: 4px;}
 .jstree-ec-default a.active,
