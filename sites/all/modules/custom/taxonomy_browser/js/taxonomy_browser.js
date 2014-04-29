@@ -12,6 +12,7 @@
 				var $currentActive = $('.tb-browser-tree').find('a.active');
 
 				$currentActive.parents('ul.taxonomy-tree').show().parent('.taxonomy-tree-item').removeClass('jstree-closed').addClass('jstree-open');
+				$currentActive.siblings('ul.taxonomy-tree').show().parent('.taxonomy-tree-item').removeClass('jstree-closed').addClass('jstree-open');
 				$('.taxonomy-tree-opener').click(function(e){
 					e.preventDefault();
 
