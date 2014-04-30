@@ -143,7 +143,7 @@ projects[hidden_captcha][subdir] = "contributed"
 projects[hidden_captcha][version] = "1.0"
 
 projects[i18n][subdir] = "contributed"
-projects[i18n][version] = "1.9"
+projects[i18n][version] = "1.11"
 
 projects[i18nviews][subdir] = "contributed"
 ;projects[i18nviews][version] = "3.x-dev"
