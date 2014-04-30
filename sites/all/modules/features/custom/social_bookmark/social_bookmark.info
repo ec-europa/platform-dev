@@ -1,13 +1,14 @@
 name = Social bookmark
-description = This feature provides social bookmark button to share content through multiple social networks.
+description = This feature provides social bookmark widgets to share content through multiple social networks.
 package = Multisite Features
 core = 7.x
-version = 7.x-2.0
+version = 7.x-3.0
 php = 5.2.4
 project = social_bookmark
 features[features_api][] = api:1
 dependencies[] = i18n_taxonomy
 dependencies[] = features
+dependencies[] = context
 files[] = tests/social_bookmark.test
 files[] = tests/social_bookmark.extra.test
 configure = admin/config/socialbookmark

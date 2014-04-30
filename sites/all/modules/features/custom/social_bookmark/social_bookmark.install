@@ -18,7 +18,11 @@ function social_bookmark_install() {
  * Implements hook_uninstall().
  */
 function social_bookmark_uninstall() {
-  // Nothing yet.
+  $global_var = _social_bookmark_get_global_var();
+  // Delete all the custom global variables.
+  foreach ($global_var as $var) {
+    variable_del($var);
+  }
 }
 
 /**
@@ -36,8 +40,10 @@ function social_bookmark_enable() {
   }
   // Activation message.
   drupal_set_message(t('Social bookmark %v feature is now active on your site.', array('%v' => _social_bookmark_get_version())));
-  drupal_set_message(t('Social bookmark widget configuration') . l(t('admin/config/socialbookmark'), 'admin/config/socialbookmark', array('attributes' => array('target' => '_blank'))));
   drupal_set_message(t('Social bookmark block has been created.'));
+  drupal_set_message(t('Social bookmark widget configuration:') . ' ' . l(t('admin/config/socialbookmark/social_bookmark'), 'admin/config/socialbookmark/social_bookmark', array('attributes' => array('target' => '_blank'))));
+  drupal_set_message(t('Social bar block has been created.'));
+  drupal_set_message(t('Social bar widget configuration:') . ' ' . l(t('admin/config/socialbookmark/social_bar'), 'admin/config/socialbookmark/social_bar', array('attributes' => array('target' => '_blank'))));
 }
 
 /**
@@ -48,4 +54,31 @@ function social_bookmark_disable() {
   multisite_drupal_toolbox_remove_block_context('site_wide', 'social-bookmark');
   // Deactivation message.
   drupal_set_message(t('Social bookmark  %v feature is now disabled on your site.', array('%v' => _social_bookmark_get_version())));
+}
+
+/**
+ * Returns all custom global variables.
+ */
+function _social_bookmark_get_global_var() {
+  $global_var = array(
+    'type_socialbookmark',
+    'icon_size_socialbookmark',
+    'override_socialbookmark',
+    'label_socialbookmark',
+    'display_socialbookmark',
+    'least_socialbookmark',
+    'orientation_socialbookmark',
+    'statistics_socialbookmark',
+    'language_socialbookmark',
+    'language_selector_socialbookmark',
+    'data_table',
+    'type_socialbar',
+    'icon_size_socialbar',
+    'text_socialbar',
+    'statistics_socialbar',
+    'language_socialbar',
+    'language_selector_socialbar',
+  );
+
+  return $global_var;
 }
