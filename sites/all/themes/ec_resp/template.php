@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Default theme functions.
@@ -22,56 +21,57 @@ function ec_resp_preprocess(&$variables) {
         foreach ($variables['feature_set_category']['category'] as $category => $features) {
           $output = '';
           $output .= '<li>';
-            $output .= '<a class="list-group-item feature-set-category">' . t($category) . '</a>';
-            $output .= '<table class="feature-set-content table table-striped table-hover">';
-              $output .= '<tbody>';
-              foreach ($features as $key => $item) {
+          $output .= '<a class="list-group-item feature-set-category">' . t($category) . '</a>';
+          $output .= '<table class="feature-set-content table table-striped table-hover">';
+          $output .= '<tbody>';
+          foreach ($features as $key => $item) {
 
-                // get the icon if available.
-                if (!empty($item['#featuresetinfo']['font'])) {
-                  $feature_icon = '<span class="' . $item['#featuresetinfo']['font'] . '"></span>';
-                }
-                elseif (!empty($item['#featuresetinfo']['icon'])) {
-                  $image = array(
-                    'path' => $item['#featuresetinfo']['icon'],
-                    'alt' => t('@feature-set icon', array('@feature-set' => $item['#featuresetinfo']['featureset'])),
-                    'attributes' => array(),
-                  );
-                  $feature_icon = theme_image($image);
-                }
-                else {
-                  $feature_icon = '';
-                }
+            // Get the icon if available.
+            if (!empty($item['#featuresetinfo']['font'])) {
+              $feature_icon = '<span class="' . $item['#featuresetinfo']['font'] . '"></span>';
+            }
+            elseif (!empty($item['#featuresetinfo']['icon'])) {
+              $image = array(
+                'path' => $item['#featuresetinfo']['icon'],
+                'alt' => t('@feature-set icon', array('@feature-set' => $item['#featuresetinfo']['featureset'])),
+                'attributes' => array(),
+              );
+              $feature_icon = theme_image($image);
+            }
+            else {
+              $feature_icon = '';
+            }
 
-                // get the feature name and description
-                $feature_content = '<blockquote>';
-                $feature_content .= '<p>' . $item['#featuresetinfo']['featureset'] . '</p>';
-                if (!empty($item['#featuresetinfo']['description'])) {
-                  $feature_content .= '<small>' . $item['#featuresetinfo']['description'] . '</small>';
-                }
-                $feature_content .= '</blockquote>';
+            // Get the feature name and description.
+            $feature_content = '<blockquote>';
+            $feature_content .= '<p>' . $item['#featuresetinfo']['featureset'] . '</p>';
+            if (!empty($item['#featuresetinfo']['description'])) {
+              $feature_content .= '<small>' . $item['#featuresetinfo']['description'] . '</small>';
+            }
+            $feature_content .= '</blockquote>';
 
-                $output .= '<tr>';
-                  $output .= '<td class="feature-set-image">' . $feature_icon . '</td>';
-                  $output .= '<td class="feature_set_content">' . $feature_content . '</td>';
-                  $output .= '<td class="feature_set_switcher">' . render($item) . '</td>';
-                $output .= '</tr>';
-              }
-              $output .= '</tbody>';
-            $output .= '</table>';
-          $output .= '</li>';   
+            $output .= '<tr>';
+            $output .= '<td class="feature-set-image">' . $feature_icon . '</td>';
+            $output .= '<td class="feature_set_content">' . $feature_content . '</td>';
+            $output .= '<td class="feature_set_switcher">' . render($item) . '</td>';
+            $output .= '</tr>';
+          }
+          $output .= '</tbody>';
+          $output .= '</table>';
+          $output .= '</li>';
 
           if ($first_column) {
             $output_left .= $output;
-          } else {
+          }
+          else {
             $output_right .= $output;
           }
-          
+
           $first_column = 1 - $first_column;
         }
         $variables['feature_set_output_left'] = $output_left;
         $variables['feature_set_output_right'] = $output_right;
-      break;
+        break;
     }
   }
 }
@@ -80,13 +80,11 @@ function ec_resp_preprocess(&$variables) {
  * Implements theme_preprocess_page().
  */
 function ec_resp_preprocess_page(&$variables) {
-
-
   $variables['menu_visible'] = FALSE;
 
- if (!empty($variables['page']['featured']['system_main-menu'])) {
-   $variables['menu_visible'] = TRUE;
- }
+  if (!empty($variables['page']['featured']['system_main-menu'])) {
+    $variables['menu_visible'] = TRUE;
+  }
 }
 
 
@@ -1128,14 +1126,12 @@ function ec_resp_breadcrumb($variables) {
 
 
 /**
-* Implementation of theme_preproces_admin_menu_icon
-*
-* Preprocesses variables for theme_admin_menu_icon().
-*/
-function ec_resp_preprocess_admin_menu_icon (&$variables){
-  $theme_path = drupal_get_path ('theme','ec_resp');
-  $logo_url = file_create_url ($theme_path . '/images/favicon.png');
+ * Implementation of theme_preproces_admin_menu_icon.
+ *
+ * Preprocesses variables for theme_admin_menu_icon().
+ */
+function ec_resp_preprocess_admin_menu_icon(&$variables) {
+  $theme_path = drupal_get_path('theme', 'ec_resp');
+  $logo_url = file_create_url($theme_path . '/images/favicon.png');
   $variables['src'] = preg_replace('@^https?:@', 'http:', $logo_url);
 }
-
-
