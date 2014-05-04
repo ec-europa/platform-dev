@@ -70,6 +70,9 @@ if (typeof ec_external_resources_whitelist == 'undefined') {
 // Avoid crawling very long URLs, they are probably a waste of time
 if (typeof max_url_length == 'undefined') max_url_length = 300;
 
+// skip_urls_regexp allows to define extra URLs pattern which should not be crawled
+if (typeof skip_urls_regexps == 'undefined') skip_urls_regexps = [];
+
 
 
 
@@ -226,6 +229,7 @@ function filterLinks(links, parent_page_url) {
 	var calendar_links = 0;
 	var multiple_facets_links = 0;
 	var login_destination_links = 0;
+	var user_skipped_links = 0;
 	var duplicate_links = 0;
 	links = links.filter(
 		function(link, index, self) {
@@ -273,6 +277,12 @@ function filterLinks(links, parent_page_url) {
 				++ login_destination_links;
 				return 0;
 			}
+			for (var i = 0; i < skip_urls_regexps.length; ++ i) {
+				if ((skip_urls_regexps[i]).test(link)) {
+					++ user_skipped_links;
+					return 0;
+				}
+			}
 			if (self.indexOf(link) !== index) {
 				++ duplicate_links;
 				return 0;
@@ -290,6 +300,7 @@ function filterLinks(links, parent_page_url) {
 	say('    ' + calendar_links + ' calendar links');
 	say('    ' + multiple_facets_links + ' multiple facets links');
 	say('    ' + login_destination_links + ' login+destination links');
+	say('    ' + user_skipped_links + ' links skipped according to user configuration');
 	say('    ' + duplicate_links + ' duplicate links');
 	say('    ' + links.length + ' remaining links');
 
