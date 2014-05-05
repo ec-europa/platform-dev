@@ -8,12 +8,12 @@
 
 function multisite_drupal_core_install() {
   include_once DRUPAL_ROOT . '/profiles/standard/standard.install';
-  
+
   standard_install();
 
   // disable modules
   module_disable (array ('toolbar','dashboard'));
-  
+
   drupal_uninstall_modules (array ('toolbar','dashboard'),FALSE);
 
   // add dummy terms in 'tags' vocabulary -------------------------------------------------------------------------------------------------------------------------
@@ -32,18 +32,18 @@ function multisite_drupal_core_install() {
   // contributor role
   $role = new stdClass();
   $role->name = 'contributor';
-  user_role_save($role);  
-  
+  user_role_save($role);
+
   // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
   // permissions related to articles content type
-  user_role_grant_permissions($role->rid, array(  
+  user_role_grant_permissions($role->rid, array(
     'create article content',
     'delete own article content',
-    'edit own article content', 
-  )); 
+    'edit own article content',
+  ));
 
   // permissions related to workbench moderation
-  user_role_grant_permissions($role->rid, array(  
+  user_role_grant_permissions($role->rid, array(
     //'create article content',
     //'delete own article content',
     //'edit own article content',
@@ -52,21 +52,21 @@ function multisite_drupal_core_install() {
     'access workbench',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
-    'view moderation messages', 
+    'view moderation messages',
     'moderate content from draft to needs_review',
     'view moderation history',
     'revert revisions',
-  ));   
-  
+  ));
+
   // authentificated user role
   $au_rid = get_rid('authenticated user');
-  user_role_grant_permissions($au_rid, array(  
+  user_role_grant_permissions($au_rid, array(
     'view own unpublished content',
     'view revisions',
     'access workbench',
     //'use workbench_moderation my drafts tab',
     //'use workbench_moderation needs review tab',
-    'view moderation messages', 
+    'view moderation messages',
     //'moderate content from draft to needs_review',
     'view moderation history',
     //'revert revisions',
@@ -76,10 +76,10 @@ function multisite_drupal_core_install() {
     'access user contact forms',
     'access user profiles',
     'use text format full_html',
-  )); 
+  ));
 
   // administrator role
-  $adm_rid = get_rid('administrator'); 
+  $adm_rid = get_rid('administrator');
   user_role_revoke_permissions($adm_rid, array(
     'administer modules',
     'administer features',
@@ -89,12 +89,12 @@ function multisite_drupal_core_install() {
     //'customize shortcut links',
     //'switch shortcut sets',
     'use PHP to import nodes',
-    
-  ));  
-  
+
+  ));
+
   // anonymous role
   $anu_rid = get_rid('anonymous user');
-  user_role_grant_permissions($anu_rid, array(  
+  user_role_grant_permissions($anu_rid, array(
     'post comments',
     'access print',
     'access PDF version',
@@ -103,14 +103,14 @@ function multisite_drupal_core_install() {
     'search content',
     'use advanced search',
     'access user profiles',
-  )); 
-  
+  ));
+
   // editor role
   $role = new stdClass();
   $role->name = 'editor';
-  user_role_save($role); 
- 
-  user_role_grant_permissions($role->rid, array(  
+  user_role_save($role);
+
+  user_role_grant_permissions($role->rid, array(
     'create article content',
     'delete any article content',
     'delete own article content',
@@ -129,8 +129,8 @@ function multisite_drupal_core_install() {
     'revert revisions',
     'view own unpublished content',
     'view all unpublished content',
-  ));  
-  
+  ));
+
 
   // define the theme used ------------------------------------------------------------------------------------------------------------------------------------------------------
   $enable = array(
@@ -138,14 +138,14 @@ function multisite_drupal_core_install() {
     'admin_theme' => 'seven',
   );
   theme_enable($enable);
- 
+
   foreach ($enable as $var => $theme) {
     if (!is_numeric($var)) {
       variable_set($var, $theme);
     }
   }
   theme_disable(array('bartik')); // Disable the default Bartik theme
-  
+
   // provide default images ----------------------------------------------------------------------------------------------------------------------------
   // default image for user picture
   $file = new stdClass();
@@ -157,7 +157,7 @@ function multisite_drupal_core_install() {
   $file->status = FILE_STATUS_PERMANENT;
   $f = file_save($file);
   variable_set('user_picture_default', 'public://default_images/user_default.png');
-  
+
   // default image for gallery media picture
   $file = new stdClass();
   $file->fid = NULL;
@@ -170,22 +170,22 @@ function multisite_drupal_core_install() {
   variable_set('empty_gallery_default', 'public://default_images/empty_gallery.png');
 
   // setup settings ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  
+
   // language settings
-    
+
   // set the url language prefix to 'en'
   db_update('languages')
     ->fields(array('prefix' => 'en'))
     ->condition('language', 'en')
-    ->execute(); 
-    
+    ->execute();
+
   // set the default language negociation --------------------------------------------------------------------------
   $lni = language_negotiation_info();
   $ln['language-default'] = $lni['language-default'];
   $ln['locale-url'] = $lni['locale-url'];
   language_negotiation_set('language', $ln);
-  
-  
+
+
   // blocks settings ----------------------------------------------------------------------------------------------------------------------------------------------------
   //Disable cloned Search Form Block --------------------------------------------------------------------------
   $dis_search = db_update('block') // Table name no longer needs {}
@@ -195,7 +195,7 @@ function multisite_drupal_core_install() {
     ->condition('module', 'search', '=')
     ->condition('delta', 'form', '=')
     ->execute();
-  
+
   // disable block -------------------------------------------------------------------------------
   db_update('block')
   ->fields(array('region' => ''))
@@ -207,12 +207,6 @@ function multisite_drupal_core_install() {
   ->fields(array('region' => ''))
   ->condition('module', 'user', '=')
   ->condition('delta', 'login', '=')
-  ->execute();
-  
-  db_update('block')
-  ->fields(array('region' => ''))
-  ->condition('module', 'workbench', '=')
-  ->condition('delta', 'block', '=')
   ->execute();
 
   db_update('block')
@@ -233,7 +227,7 @@ function multisite_drupal_core_install() {
     'options' => $options,
   );
   menu_link_save($item);
-  
+
   // add workbench link to the user menu -------------------------------------------------------------------------------
   $options = array();
   $options['attributes']['class'][] = 'btn btn-info btn-xs';
@@ -247,7 +241,7 @@ function multisite_drupal_core_install() {
     'options' => $options,
   );
   menu_link_save($item);
-  
+
   // add search links in the main menu -------------------------------------------------------------------------------
   $item = array(
     'link_path' => 'search/site',
