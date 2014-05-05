@@ -1,0 +1,12 @@
+--- sites/all/modules/contributed/i18n/i18n_menu/i18n_menu.module
++++ sites/all/modules/contributed/i18n/i18n_menu/i18n_menu.module
+@@ -344,7 +344,9 @@ function i18n_menu_variable_info_alter(&$variables, $options) {
+   $variables['menu_main_links_source']['localize'] = TRUE;
+   $variables['menu_secondary_links_source']['localize'] = TRUE;
+   $variables['menu_parent_[node_type]']['localize'] = TRUE;
++  $variables['menu_parent_[node_type]']['module'] = 'menu';
+   $variables['menu_options_[node_type]']['localize'] = TRUE;
++  $variables['menu_options_[node_type]']['module'] = 'menu';
+ }
+ 
+ /**
