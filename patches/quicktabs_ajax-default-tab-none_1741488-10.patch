@@ -13,7 +13,7 @@
 +        // check in case of $active_tab=QUICKTABS_DELTA_NONE
 +        $tabs_to_render = isset ($contents[$active_tab]) ? array($active_tab => $contents[$active_tab]) : array ();
 +      }else{
-+        $tabs_to_render = $contents
++        $tabs_to_render = $contents;
 +      }
 +    
        foreach ($tabs_to_render as $key => $tab) {
