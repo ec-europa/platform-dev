@@ -377,17 +377,6 @@ function cce_basic_config_install() {
       ->condition('form_id', 'user_register_form')
       ->execute();
   }
-
-  // Add default configuration for print/pdf
-  $default = array(
-    'link' => 'link',
-    'block' => 'block',
-    'help' => 0,
-    'corner' => 0);
-  variable_set('print_html_link_pos', $default);
-  variable_set('print_mail_link_pos', $default);
-  variable_set('print_pdf_link_pos', $default);
-  variable_set('print_logo_options', 0);
 }
 
 /**
