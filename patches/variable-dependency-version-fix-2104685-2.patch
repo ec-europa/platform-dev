@@ -1,5 +1,5 @@
---- modules/i18n/i18n.info
-+++ modules/i18n/i18n.info
+--- modules/contributed/i18n/i18n.info
++++ modules/contributed/i18n/i18n.info
 @@ -1,7 +1,7 @@
  name = Internationalization
  description = Extends Drupal support for multilingual features.
