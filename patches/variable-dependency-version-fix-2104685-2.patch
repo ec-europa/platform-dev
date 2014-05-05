@@ -1,0 +1,11 @@
+--- modules/i18n/i18n.info
++++ modules/i18n/i18n.info
+@@ -1,7 +1,7 @@
+ name = Internationalization
+ description = Extends Drupal support for multilingual features.
+ dependencies[] = locale
+-dependencies[] = variable
++dependencies[] = variable (7.x-2.x)
+ package = Multilingual - Internationalization
+ core = 7.x
+ files[] = i18n_object.inc
