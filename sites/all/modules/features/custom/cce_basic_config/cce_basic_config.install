@@ -377,6 +377,17 @@ function cce_basic_config_install() {
       ->condition('form_id', 'user_register_form')
       ->execute();
   }
+
+  // Add default configuration for print/pdf
+  $default = array(
+    'link' => 'link',
+    'block' => 'block',
+    'help' => 0,
+    'corner' => 0);
+  variable_set('print_html_link_pos', $default);
+  variable_set('print_mail_link_pos', $default);
+  variable_set('print_pdf_link_pos', $default);
+  variable_set('print_logo_options', 0);
 }
 
 /**
@@ -1258,8 +1269,7 @@ function cce_basic_config_update_7197() {
 }
 
 /**
- * Deactivate orphan content types events, news, and discussion. Enable Library tab.
- * Add block footer ipg in region footer
+ * Deactivate orphan content types events, news, and discussion; Enable Library tab; Add block footer ipg in region footer; Add default configuration for print/pdf;
  */
 function cce_basic_config_update_7198() {
   node_types_rebuild();
@@ -1298,4 +1308,15 @@ function cce_basic_config_update_7198() {
   $context->reactions['block']['blocks']['footer-ipg'] = $block_footer_ipg;
 
   module_invoke('context', 'save', $context);
+
+  // Add default configuration for print/pdf
+  $default = array(
+    'link' => 'link',
+    'block' => 'block',
+    'help' => 0,
+    'corner' => 0);
+  variable_set('print_html_link_pos', $default);
+  variable_set('print_mail_link_pos', $default);
+  variable_set('print_pdf_link_pos', $default);
+  variable_set('print_logo_options', 0);
 }
