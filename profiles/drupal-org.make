@@ -299,7 +299,7 @@ projects[uuid][subdir] = "contributed"
 projects[uuid][version] = "1.0-alpha5"
 
 projects[variable][subdir] = "contributed"
-projects[variable][version] = "2.2"
+projects[variable][version] = "2.5"
 
 ;projects[varnish][subdir] = "contributed"
 ;projects[varnish][version] = "1.0-beta1"
