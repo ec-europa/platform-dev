@@ -9,7 +9,6 @@
  */
 function multisite_drupal_toolbox_enable() {
   variable_set('contact_form_maxlength', 1000);
-
 }
 
 /**
@@ -17,4 +16,16 @@ function multisite_drupal_toolbox_enable() {
  */
 function multisite_drupal_toolbox_disable() {
   variable_set('contact_form_maxlength');
+}
+
+/**
+ * Makes the "Workbench information" block available again.
+ */
+function multisite_drupal_toolbox_update_7105() {
+  db_update('block')
+    ->fields(array('region' => '-1'))
+    ->condition('module', 'workbench', '=')
+    ->condition('delta', 'block', '=')
+    ->condition('region', '', '=')
+    ->execute();
 }
