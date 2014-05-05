@@ -6,7 +6,7 @@ core = 7.x
 files[] = multisite_drupal_core.profile
 
 ; Information added by drupal.org packaging script on 2011-12-05
-version = "7.26"
+version = "7.27"
 project = "drupal"
 datestamp = "1323125439"
 
