@@ -236,7 +236,7 @@ projects[plupload][subdir] = "contributed"
 projects[plupload][version] = "1.3"
 
 projects[print][subdir] = "contributed"
-projects[print][version] = "2.0"
+projects[print][version] = "1.2"
 
 projects[quicktabs][subdir] = "contributed"
 projects[quicktabs][version] = "3.6"

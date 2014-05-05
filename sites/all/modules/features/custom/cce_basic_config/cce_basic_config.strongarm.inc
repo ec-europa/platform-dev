@@ -417,7 +417,7 @@ example.org';
   $strongarm->name = 'print_html_link_pos';
   $strongarm->value = array(
     'block' => 'block',
-    'link' => 'link',
+    'link' => 0,
     'corner' => 0,
     'help' => 0,
   );
@@ -436,7 +436,7 @@ example.org';
   $strongarm->name = 'print_mail_link_pos';
   $strongarm->value = array(
     'block' => 'block',
-    'link' => 'link',
+    'link' => 0,
     'corner' => 0,
     'help' => 0,
   );
@@ -532,7 +532,7 @@ example.org';
   $strongarm->name = 'print_pdf_link_pos';
   $strongarm->value = array(
     'block' => 'block',
-    'link' => 'link',
+    'link' => 0,
     'corner' => 0,
     'help' => 0,
   );
@@ -614,13 +614,6 @@ example.org';
   $strongarm->name = 'print_pdf_wkhtmltopdf_options';
   $strongarm->value = '--footer-font-size 7 --footer-right \'[page]\'';
   $export['print_pdf_wkhtmltopdf_options'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'print_logo_options';
-  $strongarm->value = '0';
-  $export['print_logo_options'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
