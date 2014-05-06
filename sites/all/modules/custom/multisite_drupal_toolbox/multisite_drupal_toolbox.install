@@ -9,6 +9,13 @@
  */
 function multisite_drupal_toolbox_enable() {
   variable_set('contact_form_maxlength', 1000);
+
+  // Remove "Workbench information" block from its default location
+  db_update('block')
+    ->fields(array('region' => '-1'))
+    ->condition('module', 'workbench', '=')
+    ->condition('delta', 'block', '=')
+    ->execute();
 }
 
 /**
