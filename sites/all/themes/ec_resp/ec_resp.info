@@ -1,7 +1,7 @@
 name = Ec_resp
 description = Responsive template with Europa banner
 package = Core
-version = "7.x-1.5.1"
+version = "7.x-1.6"
 core = "7.x"
 
 stylesheets[all][] = "css/layout.css"
