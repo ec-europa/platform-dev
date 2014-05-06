@@ -84,6 +84,28 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
     drupal_add_css($path . '/helpers/jquery.fancybox-thumbs.css');
     drupal_add_js($path . '/helpers/jquery.fancybox-thumbs.js');
   }
+  
+  // Add survey JS on all site in the white list
+  $opt_in_site = array (
+    "digital-agenda",
+    "futurium",
+    "licences-for-europe-dialogue",
+    "cnect-site",
+    "sfc2014",
+    "rawmaterials",
+    "mare-emd",
+    "kroes",
+    "horizon2020",
+    "inseparable",
+    "epale",
+    "clima-ets-summer-university",
+    "eacea-site",
+    "eac-eyp",
+    "rebuttal"
+  );
+  if (in_array(basename(conf_path()), $opt_in_site, true)) {
+    drupal_add_js('//ec.europa.eu/wel/surveys/wr_survey01/wr_survey.js', 'external');
+  }
 }
 
 /**
