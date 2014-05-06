@@ -1276,4 +1276,17 @@ function multisite_drupal_toolbox_taxonomy_term_delete($term) {
   }
 }
 
-
+/**
+ * Implements hook_modules_installed().
+ */
+function multisite_drupal_toolbox_modules_installed($modules) {
+  // Hide workbench information block
+  if (in_array('workbench', $modules)) {
+    db_update('block')
+      ->fields(array('region' => '-1'))
+      ->condition('module', 'workbench', '=')
+      ->condition('delta', 'block', '=')
+      ->condition('region', '', '=')
+      ->execute();
+  }
+}
