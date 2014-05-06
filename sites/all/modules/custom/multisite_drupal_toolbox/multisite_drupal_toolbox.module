@@ -1286,7 +1286,6 @@ function multisite_drupal_toolbox_modules_installed($modules) {
       ->fields(array('region' => '-1'))
       ->condition('module', 'workbench', '=')
       ->condition('delta', 'block', '=')
-      ->condition('region', '', '=')
       ->execute();
   }
 }
