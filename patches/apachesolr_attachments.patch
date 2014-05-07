@@ -1,0 +1,19 @@
+Index: sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module
+=================================================================================================================================
+--- sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module	2012-07-02 12:47:59.000000000 +0200
++++ sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module	2012-07-03 10:21:06.000000000 +0200
+@@ -453,6 +453,7 @@
+   // TODO: If you are a entity magician, please improve
+   if (isset($parent_entity->type)) {
+     // Check if the deleted entity had a file attached
++    if(isset($parent_entity->type)) {
+     foreach (field_info_instances($parent_entity_type, $parent_entity->type) as $instance) {
+       $field_info = field_info_field($instance['field_name']);
+       if ($field_info['type'] == 'file') {
+@@ -472,6 +473,7 @@
+         }
+       }
+     }
++    }
+   }
+ }
