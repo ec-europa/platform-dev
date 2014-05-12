@@ -8,10 +8,6 @@
  * Implements theme_preprocess().
  */
 function ec_resp_preprocess(&$variables) {
-  // Select template
-  // 'ec' or 'europa'.
-  $variables['template'] = 'ec';
-
   if (isset($variables['form']['#form_id'])) {
     switch ($variables['form']['#form_id']) {
       case 'feature_set_admin_form':

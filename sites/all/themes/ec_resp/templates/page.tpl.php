@@ -176,40 +176,11 @@ if ($has_responsive_sidebar) {
 
   <div id="layout-header">
     <div class="container">
-  <?php
-    switch ($variables['template']) {
-      case 'ec':
-  ?>
       <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . drupal_get_path('theme', 'ec_resp'); ?>/images/logo/logo_en.gif" />
 
       <span id="banner-image-right" class="hidden-sm hidden-xs">
         <?php print $region_header_right; ?>
       </span>
-    
-    <?php
-      break;
-
-      case 'europa':
-    ?>
-      <a class="banner-flag" href="http://europa.eu/index_en.htm" title="European Union homepage">
-        <img id="banner-flag" src="<?php print $base_url . '/' . drupal_get_path('theme', 'ec_resp'); ?>/wel/template-2011/images/europa-flag.gif" alt="European Union homepage. EU flag" width="67" height="60" border="0">
-      </a>
-
-      <p class="banner-title">
-        <img src="<?php print $base_url . '/' . drupal_get_path('theme', 'ec_resp'); ?>/wel/template-2011/images/title/title_en.gif" alt="Title of the site" width="450" height="46">
-      </p>
-
-      <div class="banner-right">
-        <?php print $region_header_right; ?>
-      </div>
-      
-    <?php
-      break;
-
-      default:
-      break;
-    }
-    ?>
 
       <div id="main-title"><?php print $site_name; ?></div>
       <div id="sub-title"><?php print $site_slogan; ?></div>
