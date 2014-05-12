@@ -93,18 +93,18 @@
 global $base_url;
 
 // format regions.
-$region_header_right = $page['header_right'] ? render($page['header_right']) : '';
-$region_header_top = $page['header_top'] ? render($page['header_top']) : '';
-$region_featured = $page['featured'] ? render($page['featured']) : '';
-$region_sidebar_left = $page['sidebar_left'] ? render($page['sidebar_left']) : '';
-$region_tools = $page['tools'] ? render($page['tools']) : '';
-$region_content_top = $page['content_top'] ? render($page['content_top']) : '';
-$region_help = $page['help'] ? render($page['help']) : '';
-$region_content = $page['content'] ? render($page['content']) : '';
-$region_content_right = $page['content_right'] ? render($page['content_right']) : '';
-$region_content_bottom = $page['content_bottom'] ? render($page['content_bottom']) : '';
-$region_sidebar_right = $page['sidebar_right'] ? render($page['sidebar_right']) : '';
-$region_footer = $page['footer'] ? render($page['footer']) : '';
+$region_header_right = (isset($page['header_right']) ? render($page['header_right']) : '');
+$region_header_top = (isset($page['header_top']) ? render($page['header_top']) : '');
+$region_featured = (isset($page['featured']) ? render($page['featured']) : '');
+$region_sidebar_left = (isset($page['sidebar_left']) ? render($page['sidebar_left']) : '');
+$region_tools = (isset($page['tools']) ? render($page['tools']) : '');
+$region_content_top = (isset($page['content_top']) ? render($page['content_top']) : '');
+$region_help = (isset($page['help']) ? render($page['help']) : '');
+$region_content = (isset($page['content']) ? render($page['content']) : '');
+$region_content_right = (isset($page['content_right']) ? render($page['content_right']) : '');
+$region_content_bottom = (isset($page['content_bottom']) ? render($page['content_bottom']) : '');
+$region_sidebar_right = (isset($page['sidebar_right']) ? render($page['sidebar_right']) : '');
+$region_footer = (isset($page['footer']) ? render($page['footer']) : '');
 
 // check if there is a responsive sidebar or not
 $has_responsive_sidebar = ($region_header_right || $region_sidebar_left || $region_sidebar_right ? 1 : 0);
@@ -115,14 +115,14 @@ if ($has_responsive_sidebar) {
 // calculate size of regions.
   // sidebars
   $col_sidebar_left = array(
-    'lg' => ($page['sidebar_left'] ? 3 : 0),
-    'md' => ($page['sidebar_left'] ? 4 : 0),
+    'lg' => (!empty($region_sidebar_left) ? 3 : 0),
+    'md' => (!empty($region_sidebar_left) ? 4 : 0),
     'sm' => 0,
     'xs' => 0
   );
   $col_sidebar_right = array(
-    'lg' => ($page['sidebar_right'] ? 3 : 0),
-    'md' => ($page['sidebar_right'] ? ($page['sidebar_left'] ? 12 : 4) : 0),
+    'lg' => (!empty($region_sidebar_right) ? 3 : 0),
+    'md' => (!empty($region_sidebar_right) ? (!empty($region_sidebar_left) ? 12 : 4) : 0),
     'sm' => 0,
     'xs' => 0
   );
@@ -135,10 +135,10 @@ if ($has_responsive_sidebar) {
     'xs' => 12
   );
   $col_content_right = array(
-    'lg' => ($page['content_right'] ? 6 : 0),
-    'md' => ($page['content_right'] ? 6 : 0),
-    'sm' => ($page['content_right'] ? 12 : 0),
-    'xs' => ($page['content_right'] ? 12 : 0)
+    'lg' => (!empty($region_content_right) ? 6 : 0),
+    'md' => (!empty($region_content_right) ? 6 : 0),
+    'sm' => (!empty($region_content_right) ? 12 : 0),
+    'xs' => (!empty($region_content_right) ? 12 : 0)
   );
   $col_content = array(
     'lg' => 12 - $col_content_right['lg'],
