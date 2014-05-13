@@ -9,9 +9,12 @@ include_once 'ecas_env.features.inc';
 function ecas_env_menu_alter(&$items) {
   $items['ecas']['menu_name'] = "user-menu";
   $items['ecaslogout']['menu_name'] = "user-menu";
+  $items['account_request']['menu_name'] = "user-menu";  
   $items['ecas']['type'] = MENU_NORMAL_ITEM;
   $items['ecaslogout']['type'] = MENU_NORMAL_ITEM;
-
+  $items['account_request']['type'] = MENU_NORMAL_ITEM;
+  $items['account_request']['weight'] = 99;
+  
   $items['user/logout']['access callback'] = 'normal_menu_logout_check';
   $items['user/login']['access callback'] = 'normal_menu_check';
 }
