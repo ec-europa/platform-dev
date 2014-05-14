@@ -83,7 +83,6 @@ function ec_resp_preprocess_page(&$variables) {
   }
 }
 
-
 /**
  * Implements theme_preprocess_node().
  */
@@ -188,6 +187,7 @@ function ec_resp_preprocess_html(&$variables) {
   drupal_add_html_head($element, 'font_size_switcher');
 
   // Add javascripts.
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/bootstrap/js/bootstrap.min.js', array('scope' => 'header', 'weight' => 0));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/respond.min.js', array('scope' => 'header', 'weight' => 1));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel-3.0.6.pack.js', array('scope' => 'footer', 'weight' => 11));

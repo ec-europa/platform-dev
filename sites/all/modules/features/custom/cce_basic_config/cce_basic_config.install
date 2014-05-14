@@ -988,7 +988,6 @@ function cce_basic_config_update_7191() {
  *
  * Date field migration.
  *
- * Set configuration for jqmulti.
  */
 function cce_basic_config_update_7192() {
   // Home.
@@ -1183,9 +1182,6 @@ function cce_basic_config_update_7193() {
     }
   }
   field_cache_clear();
-
-  // Jqmulti configuration.
-  variable_set('jqmulti_load_files_always', 1);
 
   // File format translation.
   $format = array (	"full_html" => "full_html","plain_text" => "plain_text");

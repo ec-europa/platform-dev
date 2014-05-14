@@ -3,72 +3,31 @@
  * Javascripts for ec_resp theme
  */
 
-//use jQuery 1.4.4
-jQuery(function($){
-
-	$(document).ready(function() {  //Once the page elements are fully loaded
-
-    if (!($.browser.msie)) {
-      window.addEventListener('resize', manageWindowSize, false);
-    }
-
-    manageWindowSize();
-
-      $('.fancybox').fancybox({
-        padding:      0,
-        closeBtn:     false,
-        arrows:       false,
-        autoSize:     true,
-        fitToView:    true,
-        openEffect:   'elastic',
-        closeEffect:  'elastic',
-        helpers: {
-          title:     { type : 'outside' },
-          buttons:   {}
-        },
-        beforeClose: function() {
-          stopPlayer();
-        },
-        beforeLoad: function() {
-          stopPlayer();
-        }
-      });
-    /* /Gallery lightbox */
-  });
-
-  function stopPlayer() {
-    var id= $('.fancybox-opened').find(".lightbox").children().attr('id');
-
-    var isVideo = false;
-    if ($.browser.msie !=true && id != null && id.indexOf("player") >= 0) {
-      isVideo = true;
-      var player= document.getElementById(id);
-      player.sendEvent('STOP');
-    } 
-  }
-
-  function manageWindowSize(e) {
-    if ("matchMedia" in window) {
-      if (window.matchMedia("(max-width: 979px)").matches) {
-      // Mobile version
-        $('#main-menu-mobile').prependTo('#main-menu');
-      } else if (window.matchMedia("(min-width: 980px)").matches) {
-      // Desktop version
-        $('#main-menu-desktop').prependTo('#main-menu');
-      }
-    }
-  }
-
-});
-
 //use jQuery 1.7.1
-(function($){
-    
+(function($){  
   // Drupal.behaviours 
   // https://drupal.org/node/304258 
   // http://blog.amazeelabs.com/en/drupal-behaviors-quick-how
 	Drupal.behaviors.ec_resp = {
-    attach: function(context, settings) { 
+    attach: function(context, settings) {
+
+      if (!($.browser.msie)) {
+        window.addEventListener('resize', manageWindowSize, false);
+      }
+
+      manageWindowSize(); 
+
+      function manageWindowSize(e) {
+        if ("matchMedia" in window) {
+          if (window.matchMedia("(max-width: 979px)").matches) {
+          // Mobile version
+            $('#main-menu-mobile').prependTo('#main-menu');
+          } else if (window.matchMedia("(min-width: 980px)").matches) {
+          // Desktop version
+            $('#main-menu-desktop').prependTo('#main-menu');
+          }
+        }
+      }
    
       // News slider
       if ($('#slider').length != 0) {
@@ -222,6 +181,43 @@ jQuery(function($){
     }
 	}
 
+  Drupal.behaviors.ec_resp_fancybox = {
+    attach: function(context) {
+
+      function stopPlayer() {
+        var id= $('.fancybox-opened').find(".lightbox").children().attr('id');
+
+        var isVideo = false;
+        if ($.browser.msie !=true && id != null && id.indexOf("player") >= 0) {
+          isVideo = true;
+          var player= document.getElementById(id);
+          player.sendEvent('STOP');
+        } 
+      }
+
+      $('.fancybox').fancybox({
+        padding:      0,
+        closeBtn:     false,
+        arrows:       false,
+        autoSize:     true,
+        fitToView:    true,
+        openEffect:   'elastic',
+        closeEffect:  'elastic',
+        helpers: {
+          title:     { type : 'outside' },
+          buttons:   {}
+        },
+        beforeClose: function() {
+          stopPlayer();
+        },
+        beforeLoad: function() {
+          stopPlayer();
+        }
+      });
+      /* /Gallery lightbox */
+    }
+  }
+
   Drupal.behaviors.ec_resp_responsive_menu = {
     attach: function(context) { 
       $('#menu-button').on("click", function() {
@@ -291,4 +287,4 @@ jQuery(function($){
     }
   }
 
-})(jq171); 
+})(jQuery); 
