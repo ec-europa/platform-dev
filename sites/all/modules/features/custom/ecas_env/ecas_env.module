@@ -6,10 +6,43 @@
 
 include_once 'ecas_env.features.inc';
 
+/**
+* Implementation of hook_menu_link_alter
+* Add CSS class to ECAS links on menu user 
+*/
+function ecas_env_menu_link_alter(&$item) {
+  $ecas_menu_items = array ();
+  $ecas_menu_items = _ecas_menu ($ecas_menu_items);
+  if (isset ($ecas_menu_items[$item['link_path']]) && $item['menu_name'] == 'user-menu'){ // ECAS link on user menu ?
+    // if user edit menu item, we don't force the CSS class (but currents are kept)
+	if (!isset ($item['customized']) ||
+       (isset ($item['customized']) && $item['customized'] == 0 )){ 
+      $user_classes = 'btn btn-default btn-xs';
+      $item['options']['attributes']['class'] = $user_classes;
+	  
+      switch ($item['link_path']){
+        case 'ecas':
+          $item['options']['attributes']['data-image'] = 'log-in';
+        break;
+        case 'ecaslogout':
+          $item['options']['attributes']['data-image'] = 'log-out';
+        break;
+        case 'account_request':
+          $item['options']['attributes']['data-image'] = 'plus';
+        break;
+        default;
+      }
+    }
+  }
+}
+
+/**
+* Implementation of hook_menu_alter
+*/ 
 function ecas_env_menu_alter(&$items) {
   $items['ecas']['menu_name'] = "user-menu";
   $items['ecaslogout']['menu_name'] = "user-menu";
-  $items['account_request']['menu_name'] = "user-menu";  
+  $items['account_request']['menu_name'] = "user-menu";
   $items['ecas']['type'] = MENU_NORMAL_ITEM;
   $items['ecaslogout']['type'] = MENU_NORMAL_ITEM;
   $items['account_request']['type'] = MENU_NORMAL_ITEM;
