@@ -321,7 +321,3 @@ if ($has_responsive_sidebar) {
       <?php print $region_footer; ?>
     </div>
   </div><!-- /#layout-footer -->      
-
-<script type="text/javascript">
-  var templatePath = "<?php print $base_url . '/' . drupal_get_path('theme', 'ec_resp'); ?>";
-</script>

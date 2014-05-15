@@ -81,6 +81,9 @@ function ec_resp_preprocess_page(&$variables) {
   if (!empty($variables['page']['featured']['system_main-menu'])) {
     $variables['menu_visible'] = TRUE;
   }
+
+  // Adding pathToTheme for Drupal.settings to be used in js files
+  drupal_add_js('jQuery.extend(Drupal.settings, { "pathToTheme": "' . path_to_theme() . '" });', 'inline');
 }
 
 /**
@@ -192,7 +195,6 @@ function ec_resp_preprocess_html(&$variables) {
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel-3.0.6.pack.js', array('scope' => 'footer', 'weight' => 11));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 12));
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/hack.js', array('scope' => 'footer', 'weight' => 13));
 }
 
 /**
@@ -219,6 +221,30 @@ function ec_resp_preprocess_menu_link(&$variables) {
   $remove_default_classes = (isset($variables['element']['#localized_options']['attributes']['data-remove-class']) ? $variables['element']['#localized_options']['attributes']['data-remove-class'] : 0);
   if (!$remove_default_classes) {
     $variables['element']['#localized_options']['attributes']['class'][] = 'list-group-item';
+  }
+}
+
+/**
+ * Implements theme_preprocess_views_view().
+ */
+function ec_resp_preprocess_views_view(&$variables) {
+  $view = $variables['view'];
+
+  if($view->name == 'galleries' && $view->current_display == 'page') {
+     drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-galleries.js');
+  }
+}
+
+/**
+ * Implements theme_preprocess_views_view_unformatted().
+ */
+
+function ec_resp_preprocess_views_view_unformatted(&$variables) {
+  $view = $variables['view'];
+  dpm($view);
+
+  if($view->name == 'galleries' && $view->current_display == 'medias_block') {
+     drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-medias-block.js');
   }
 }
 

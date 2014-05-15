@@ -1,6 +1,7 @@
 /**
  * @file
  * Javascripts for ec_resp theme
+ * - Drupal.settings.pathToTheme: it is the equivalent to the path_to_theme() PHP function, it is set in the theme_preprocess_page()
  */
 
 //use jQuery 1.7.1
@@ -119,10 +120,10 @@
 
       // Font size buttons
       $('.text_size_big').on("click", function() {
-        $('link[data-name="switcher"]').attr('href',templatePath + '/css/text_size_big.css');
+        $('link[data-name="switcher"]').attr('href',Drupal.settings.basePath + Drupal.settings.pathToTheme + '/css/text_size_big.css');
       });
       $('.text_size_small').on("click", function() {
-        $('link[data-name="switcher"]').attr('href',templatePath + '/css/text_size_small.css');
+        $('link[data-name="switcher"]').attr('href',Drupal.settings.basePath + Drupal.settings.pathToTheme + '/css/text_size_small.css');
       });
       // /Font size buttons
 
@@ -230,7 +231,7 @@
 
   Drupal.behaviors.ec_resp_responsive_sidebar = {
     attach: function(context) { 
-     // $('.responsive-sidebar').once('responsive-sidebar', function(){
+      $('#responsive-sidebar').once('responsive-sidebar', function(){
 
         // Responsive menu
         $('#responsive-sidebar').css('left', '-85%');
@@ -283,7 +284,7 @@
           $('#responsive-sidebar').css('left','0');
           $('#layout-body').css('left','85%').addClass('reduced');
         }
-    //  });
+      });
     }
   }
 
