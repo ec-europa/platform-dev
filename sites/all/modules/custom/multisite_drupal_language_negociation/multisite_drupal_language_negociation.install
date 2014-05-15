@@ -19,6 +19,6 @@ function multisite_drupal_language_negociation_enable() {
  */
 
 function multisite_drupal_language_negociation_disable() {
-  //variable_set("multisite_drupal_language_negocation", 0);
+  //variable_del("multisite_drupal_language_negocation", 0);
   variable_del("language_suffix_delimiter");
 }

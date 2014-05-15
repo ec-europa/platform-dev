@@ -24,6 +24,44 @@ function multisite_language_provider_callback($languages) {
   return $language_url;
 }
 
+
+
+function multisite_url_rewrite_callback(&$path, &$options) {
+  global $language;
+  $delimiter = variable_get('language_suffix_delimiter', '_');
+
+  $language_list = language_list('enabled');
+  $languages = array_flip(array_keys($language_list[1]));
+
+  // Language can be passed as an option, or we go for current URL language.
+  if (!isset($options['language'])) {
+    if(isset($options['attributes']['lang'])) {
+      $options['language'] = $language_list[1][$options['attributes']['lang']];
+    }
+    else {
+      global $language_url;
+        $options['language'] = $language_url;
+    }
+  }
+  // We allow only enabled languages here.
+  elseif (!isset($languages[$options['language']->language])) {
+    unset($options['language']);
+    return;
+  }
+
+  $path = drupal_get_path_alias($path);
+
+  if ($path == '<front>' || $path == '') { // handle the homepage url
+    $path = variable_get('site_frontpage');
+  }
+
+  $path .= $delimiter.$options['language']->prefix;
+
+  $options['alias'] = TRUE;
+}
+
+
+
 /*
  * extract the suffix from the path
  */
@@ -52,45 +90,17 @@ function language_url_split_suffix($path, $languages) {
 }
 
 
-/**
-  * Rewrite URLs for the URL language provider.
-  */
-/*
-function multisite_url_rewrite_callback(&$path, &$options) {
-  static $drupal_static_fast;
-  if (!isset($drupal_static_fast)) {
-    $drupal_static_fast['languages'] = &drupal_static(__FUNCTION__);
+function multisite_language_switcher_url($type, $path) {
+  $languages = language_list('enabled');
+  $links = array();
+  foreach ($languages[1] as $language) {
+    $links[$language->language] = array(
+      'href' => $path,
+      'title' => $language->native,
+      'language' => $language,
+      'attributes' => array('class' => array('language-link')),
+    );
   }
-  $languages = &$drupal_static_fast['languages'];
-
-  if (!isset($languages)) {
-    $languages = language_list('enabled');
-    $languages = array_flip(array_keys($languages[1]));
-  }
-
-  // Language can be passed as an option, or we go for current URL language.
-  if (!isset($options['language'])) {
-    global $language_url;
-    $options['language'] = $language_url;
-  }
-  // We allow only enabled languages here.
-  elseif (!isset($languages[$options['language']->language])) {
-    unset($options['language']);
-    return;
-  }
-
-  if (isset($options['language'])) {
-    if (!empty($options['language']->prefix)) {
-      //$options['prefix'] = $options['language']->prefix . '/';
-      $suffix = variable_get('language_suffix_delimiter','_');
-      if ($path == '<front>') {
-        $fp = variable_get('site_frontpage', 'node');
-        $path = $fp.$suffix.$options['language']->prefix;
-      }
-      else
-        $path .= $suffix.$options['language']->prefix;
-
-    }
-  }
+  return $links;
 }
-*/
+

@@ -16,7 +16,8 @@ function multisite_drupal_language_negociation_language_negotiation_info() {
     'types' => array(LANGUAGE_TYPE_CONTENT, LANGUAGE_TYPE_INTERFACE, LANGUAGE_TYPE_URL),
     'callbacks' => array(
       'language' => 'multisite_language_provider_callback',
-      //'url_rewrite' => 'multisite_url_rewrite_callback',
+      'url_rewrite' => 'multisite_url_rewrite_callback',
+      'switcher' => 'multisite_language_switcher_url',
      ),
     'file' => $file,
     'weight' => -8,
@@ -54,49 +55,6 @@ function multisite_drupal_language_negociation_form($form, &$form_state) {
   return system_settings_form($form);
 }
 
-
-/*
- * custom hook_url_custom_alter
- * handle suffix language in url
- */
-function multisite_drupal_language_negociation_url_custom_alter(&$path, &$options, $original_path) {
-  static $drupal_static_fast;
-  if (language_negotiation_get_any(LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX) && !check_language_suffix($path)) {  // only if URL suffix provider is enabled and there is no suffix language in the path
-    if (!isset($drupal_static_fast)) {
-      $drupal_static_fast['languages'] = &drupal_static(__FUNCTION__);
-    }
-    $languages = &$drupal_static_fast['languages'];
-
-    if (!isset($languages)) {
-      $languages = language_list('enabled');
-      $languages = array_flip(array_keys($languages[1]));
-    }
-
-    // Language can be passed as an option, or we go for current URL language.
-    if (!isset($options['language'])) {
-      global $language_url;
-      $options['language'] = $language_url;
-    }
-    // We allow only enabled languages here.
-    elseif (!isset($languages[$options['language']->language])) {
-      unset($options['language']);
-      return;
-    }
-
-    if (isset($options['language'])) {
-      if (!empty($options['language']->prefix)) {
-        //$options['prefix'] = $options['language']->prefix . '/';
-        $delimiter = variable_get('language_suffix_delimiter', '_');
-        $path = rtrim($path, "/"); // remove trailing slash
-        if ($path == '<front>' || $path == '') { // handle the homepage url
-          $path = ($options['language']->prefix == 'en')?'':'index' . $delimiter . $options['language']->prefix; // no path and suffix for the home page in english
-        }
-        else
-          $path .= $delimiter . $options['language']->prefix;
-      }
-    }
-  }
-}
 
 
 /*
