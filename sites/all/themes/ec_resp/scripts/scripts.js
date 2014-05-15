@@ -11,27 +11,43 @@
   // http://blog.amazeelabs.com/en/drupal-behaviors-quick-how
 	Drupal.behaviors.ec_resp = {
     attach: function(context, settings) {
+  		
+      // Gallery carrousel
+      $('.carousel').carousel({
+        interval: 5000
+      });
+      // /Gallery carrousel
 
-      if (!($.browser.msie)) {
-        window.addEventListener('resize', manageWindowSize, false);
-      }
 
-      manageWindowSize(); 
+      // Gallery add media form
+      $('.node-gallerymedia #add_picture').click(function(e) {
+        e.preventDefault();
+        $('#add-media-form').slideToggle('slow');
+        return false;
+      });
+      // /Gallery add media form
+      
 
-      function manageWindowSize(e) {
-        if ("matchMedia" in window) {
-          if (window.matchMedia("(max-width: 979px)").matches) {
-          // Mobile version
-            $('#main-menu-mobile').prependTo('#main-menu');
-          } else if (window.matchMedia("(min-width: 980px)").matches) {
-          // Desktop version
-            $('#main-menu-desktop').prependTo('#main-menu');
-          }
-        }
-      }
-   
+      // Menu dropdown
+      $('.dropdown-toggle').dropdown();
+      // /Menu dropdown
+
+      // Font size buttons
+      $('.text_size_big').on("click", function() {
+        $('link[data-name="switcher"]').attr('href',Drupal.settings.basePath + Drupal.settings.pathToTheme + '/css/text_size_big.css');
+      });
+      $('.text_size_small').on("click", function() {
+        $('link[data-name="switcher"]').attr('href',Drupal.settings.basePath + Drupal.settings.pathToTheme + '/css/text_size_small.css');
+      });
+      // /Font size buttons
+    }
+	}
+
+  // News slider implementation
+  Drupal.behaviors.ec_resp_news_slider = {
+    attach: function(context) {
       // News slider
-      if ($('#slider').length != 0) {
+      $('#slider').once('news-slider', function(){
         //init
         $('.view-news > .view-content').addClass('news_content tab-content');
         $('#slider .news_list li:first-child').addClass('active');
@@ -94,41 +110,14 @@
           $('#'+previous_id).hide();
           $('#'+news_id).fadeIn(500);
         }    
-      }
-      // /News slider
-  		
-
-      // Gallery carrousel
-      $('.carousel').carousel({
-        interval: 5000
       });
-      // /Gallery carrousel
+    }
+  }
 
+  // Feature set
+  Drupal.behaviors.ec_resp_feature_set = {
+    attach: function(context) {
 
-      // Gallery add media form
-      $('.node-gallerymedia #add_picture').click(function(e) {
-        e.preventDefault();
-        $('#add-media-form').slideToggle('slow');
-        return false;
-      });
-      // /Gallery add media form
-      
-
-      // Menu dropdown
-      $('.dropdown-toggle').dropdown();
-      // /Menu dropdown
-
-      // Font size buttons
-      $('.text_size_big').on("click", function() {
-        $('link[data-name="switcher"]').attr('href',Drupal.settings.basePath + Drupal.settings.pathToTheme + '/css/text_size_big.css');
-      });
-      $('.text_size_small').on("click", function() {
-        $('link[data-name="switcher"]').attr('href',Drupal.settings.basePath + Drupal.settings.pathToTheme + '/css/text_size_small.css');
-      });
-      // /Font size buttons
-
-
-      // Feature set
       //Toggle visibility of feature set tables
       $("#feature-set-admin-form .feature-set-category").click(function(){
         $(this).next(".feature-set-content").slideToggle("slow");
@@ -178,10 +167,11 @@
               $this.attr('checked', true);
             }               
           }); 
-      }); // /Feature set
+      });
     }
-	}
+  }// /Feature set
 
+  // Fancybox implementation
   Drupal.behaviors.ec_resp_fancybox = {
     attach: function(context) {
 
@@ -219,6 +209,7 @@
     }
   }
 
+  // Responsive menu implementation
   Drupal.behaviors.ec_resp_responsive_menu = {
     attach: function(context) { 
       $('#menu-button').on("click", function() {
@@ -229,11 +220,12 @@
     }
   }
 
+  // Responsive sidebar implementation
   Drupal.behaviors.ec_resp_responsive_sidebar = {
     attach: function(context) { 
       $('#responsive-sidebar').once('responsive-sidebar', function(){
 
-        // Responsive menu
+        // Hide the sidebar on load 
         $('#responsive-sidebar').css('left', '-85%');
 
         $('.sidebar-button').on("click", function() {
