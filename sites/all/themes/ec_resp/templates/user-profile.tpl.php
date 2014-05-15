@@ -67,7 +67,7 @@
     ?>
       </div>
     </div>
-    <?php print l(t('Contact this user'), 'user/'.$elements['#account']->uid.'/contact', array('attributes' => array('type' => 'message'))); ?>
+    <?php if (isset ($contact_form)){ print $contact_form; }?>
   </div>
 
   <?php 

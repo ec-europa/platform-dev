@@ -98,6 +98,20 @@ function ec_resp_preprocess_node(&$variables) {
 }
 
 /**
+ * Implements theme_preprocess_user_profile().
+ */
+function ec_resp_preprocess_user_profile(&$variables) {
+// add contact form link on user profile page
+  if (module_exists('contact')){
+    $account = $variables['elements']['#account'];
+    $menu_item = menu_get_item ("user/$account->uid/contact");
+    if (isset ($menu_item['access']) && $menu_item['access'] == TRUE){
+      $variables['contact_form'] = l(t('Contact this user'), 'user/'.$account->uid.'/contact', array('attributes' => array('type' => 'message')));
+    }
+  }  
+}
+
+/**
  * Implements theme_preprocess_block()..
  */
 function ec_resp_preprocess_block(&$variables) {
