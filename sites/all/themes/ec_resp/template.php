@@ -255,7 +255,6 @@ function ec_resp_preprocess_views_view(&$variables) {
 
 function ec_resp_preprocess_views_view_unformatted(&$variables) {
   $view = $variables['view'];
-  dpm($view);
 
   if($view->name == 'galleries' && $view->current_display == 'medias_block') {
      drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-medias-block.js');
