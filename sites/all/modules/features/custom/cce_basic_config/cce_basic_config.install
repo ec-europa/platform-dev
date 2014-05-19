@@ -1200,6 +1200,19 @@ function cce_basic_config_update_7194() {
   * Feature revert field and field_group.
   */
 function cce_basic_config_update_7195() {
+  // handle the change of the maxlength of the field field_caption
+  db_query('ALTER TABLE `field_data_field_caption` CHANGE `field_caption_value` `field_caption_value` VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;');
+  
+  $qry = "SELECT data FROM field_config WHERE field_name = :field_name";
+  $result = db_query($qry, array(':field_name' => 'field_caption'))->fetchObject();
+  $data = unserialize($result->data);
+  $data['settings']['max_length'] = 512;
+  $serialized_data = serialize($data);
+  $qry = "UPDATE field_config SET data = :data WHERE field_name = :field_name";
+  db_query($qry, array(':data' => $serialized_data, ':field_name' => 'field_caption'));
+ 
+  drupal_flush_all_caches();
+  
   // Revert only fields (for modify weight).
   features_revert(array('cce_basic_config' => array('field')));
   features_revert(array('cce_basic_config' => array('field_group')));
