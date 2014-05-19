@@ -203,7 +203,7 @@ drush vset apachesolr_attachments_tika_path "${apachesolr_attachments_tika_path}
 drush vset apachesolr_attachments_java "${apachesolr_attachments_java}"
 
 #set the multisite version
-drush vset multisite_version "${multisite_version}"
+drush vset multisite_version "${multisite_version}" --format=string
 
 #set FPFIS_common libraires path
 #drush php-eval "define('FPFIS_COMMON_LIBRARIES_PATH',${FPFIS_common_libraries});"
