@@ -13,6 +13,33 @@ function __echo {
 	fi
 }
 
+function _apply_patches {
+	patch_dir=$1
+	if [ ! -e $patch_dir ]; then 
+		echo "Patch folder not found on : '$patch_dir'"
+		continu
+	fi
+
+	for patch_file in "${patch_dir}/"*.patch "${patch_dir}/"*.diff; do
+		test -f "${patch_file}" || continue
+		__echo -n "Attempting to apply ${patch_file}..."
+		patch -p0 -b -i "${patch_file}" 1>&2
+		__echo "done"
+	done
+}
+
+function continu {
+	if [ "${force}" = 1 ] ; then
+		echo "Force continu..."
+	else
+		read -p  "Do you want to continue? " goon 
+		if [[ $goon = 'n' ]]
+		then
+			exit 042
+		fi
+	fi
+}
+
 usage="Installation of multisite instance\n
 Syntax : $(basename $0) [ARGS] SITE-NAME\n
 \t-?,-h, --help\t\tPrint this message\n
@@ -159,12 +186,26 @@ if [ $? != 0 ] ; then
 fi
 
 
-for patch_file in "${patch_dir}/"*.patch "${patch_dir}/"*.diff; do
-	test -f "${patch_file}" || continue 
-	__echo -n "Attempting to apply ${patch_file}..."
-	patch -p0 -b -i "${patch_file}" 1>&2
-	__echo "done"
-done
+#-----------------------#
+#     APPLY PATCHES     #
+#-----------------------#
+
+patch_dir_core="$patch_dir/multisite_drupal_core"
+# BACKPORT version <=1.6 : if $patch_dir_core not found we apply patches directly from $patch_dir folder
+if [ ! -e $patch_dir_core ]; then 
+		_apply_patches $patch_dir
+else
+	_apply_patches $patch_dir_core
+	#profile patch
+	patch_dir_profile="$patch_dir/$install_profile"
+	if [ ! -e $patch_dir_profile ]; then 
+		_apply_patches $patch_dir_profile
+	fi
+fi
+
+#-----------------#
+#     INSTALL     #
+#-----------------#
 
 #install and configure the drupal instance
 drush --php="/usr/bin/php" ${drush_options} si $install_profile --db-url=$db_url --account-name=$account_name --account-pass=$account_pass --site-name=${site_name} --site-mail=$site_mail  1>&2
@@ -222,3 +263,4 @@ drush solr-index
 drush cron
 
 
+>>>>>>> .r5569
