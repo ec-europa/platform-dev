@@ -1,12 +1,11 @@
 name = Ec_resp
 description = Responsive template with Europa banner
 package = Core
-version = "7.x-1.6"
+version = "7.x-1.7"
 core = "7.x"
 
 stylesheets[all][] = "css/layout.css"
 stylesheets[all][] = "css/ec_resp.css"
-stylesheets[all][] = "jquery-ui/css/jquery-ui.custom.css"
 stylesheets[print][] = "css/print.css"
 
 regions[header_top] = "Header Top"
