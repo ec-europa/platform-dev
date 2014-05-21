@@ -1,0 +1,72 @@
+index 5052d2f..3f14d20 100644
+--- sites/all/modules/contributed/og_delete/og_delete.module
++++ sites/all/modules/contributed/og_delete/og_delete.module
+@@ -1,7 +1,7 @@
+ <?php
+ 
+ /**
+- * 
++ *
+  */
+ define('OG_DELETE_NOTHING', 0);
+ define('OG_DELETE_ORPHANS', 1);
+@@ -51,7 +51,7 @@ function og_delete_form_alter(&$form, &$form_state, $form_id) {
+ /**
+  * Implements to delete OG content if it is not associated with another group.
+  * @param type $form
+- * @param type $form_state 
++ * @param type $form_state
+  */
+ function og_delete_content_form_submit($form, &$form_state) {
+   $deleted_group_nid = $form_state['values']['nid'];
+@@ -79,7 +79,7 @@ function og_delete_content_form_submit($form, &$form_state) {
+ /**
+  * Implements to move user memberships to select OG
+  * @param type $child_nodes
+- * @param type $form_state 
++ * @param type $form_state
+  */
+ function og_delete_node_membership($child_nodes, $form_state, &$context) {
+   if (array_key_exists('target', $form_state['values'])) {
+@@ -108,12 +108,12 @@ function og_delete_node_membership($child_nodes, $form_state, &$context) {
+ /**
+  * Implements to move user memberships to select OG
+  * @param type $form
+- * @param type $form_state 
++ * @param type $form_state
+  */
+ function og_delete_user_membership($child_nodes, $form_state, &$context) {
+   $deleted_group_nid = $form_state['values']['nid'];
+   if ($form_state['values']['verb'] == OG_DELETE_MOVE_NODES_MEMBERSHIPS) {
+-    $node = $form_state['#node'];
++    //$node = $form_state['#node'];
+     $target_group_nid = $form_state['values']['target'];
+     foreach ($child_nodes as $members) {
+       $membership = og_get_membership($members->group_type, $target_group_nid, $members->entity_type, $members->etid);
+@@ -134,7 +134,7 @@ function og_delete_user_membership($child_nodes, $form_state, &$context) {
+  *
+  * @param type $success
+  * @param type $results
+- * @param type $operations 
++ * @param type $operations
+  */
+ function og_delete_membership_finish($success, $results, $operations) {
+   // The 'success' parameter means no fatal PHP errors were detected. All
+@@ -158,7 +158,7 @@ function og_delete_membership_finish($success, $results, $operations) {
+   drupal_set_message($message);
+   // Providing data for the redirected page is done through $_SESSION.
+   foreach ($results as $result) {
+-    $items[] = t('Loaded node %title.', array('%title' => $result));
++    $items[] = t('Loaded node %title.', array('%title' => $result[0]));
+   }
+   if (count($items)) {
+     $_SESSION['my_batch_results'] = $items;
+@@ -182,7 +182,7 @@ function og_delete_child_nodes($gid, $entity_type = 'node') {
+ 
+ /**
+  * Return all OG nodes
+- * @param type $entity_type 
++ * @param type $entity_type
+  */
+ function og_delete_all_group_options($entity_type, $nid) {
+   $nids = array();
