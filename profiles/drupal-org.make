@@ -360,6 +360,7 @@ projects[js_injector][subdir] = "contributed"
 projects[js_injector][version] = "2.1"
 
 projects[jquery_update][subdir] = "contributed"
+projects[jquery_update][version] = "2.4"
 
 ;libraries
 
