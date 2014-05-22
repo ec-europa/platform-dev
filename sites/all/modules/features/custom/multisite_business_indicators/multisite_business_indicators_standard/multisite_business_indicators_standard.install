@@ -67,7 +67,7 @@ function multisite_business_indicators_standard_schema() {
       'ip' => array(
         'description' => 'User\'s IP.',
         'type' => 'varchar',
-        'length' => 15,
+        'length' => 46,
         'not null' => TRUE,
         'default' => '',
       ),
@@ -104,4 +104,26 @@ function multisite_business_indicators_standard_install() {
  */
 function multisite_business_indicators_standard_uninstall() {
   //Uninstall scripts here
+}
+
+/**
+ * Resizing the "ip" column in the business_indicators_ext_index table
+ * for supporting the IPV6 addresses
+ */
+function multisite_business_indicators_standard_update_7207(&$sandbox) {
+  $db_table_name = "business_indicators_ext_index";
+  $db_field_name = "ip";
+  
+  // Create the definition for the field. You can use definition form schema
+  $db_new_field_def = array(
+    'type' => 'varchar',
+    'length' => 46,
+    'not null' => TRUE,
+    'default' => '',
+  );
+  // Performing query
+  db_change_field($db_table_name, $db_field_name, $db_field_name, $db_new_field_def);  
+
+  // Flush the caches
+  drupal_flush_all_caches();    
 }
