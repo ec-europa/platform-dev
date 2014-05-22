@@ -359,6 +359,8 @@ projects[xml_field][version] = "1.5"
 projects[js_injector][subdir] = "contributed"
 projects[js_injector][version] = "2.1"
 
+projects[jquery_update][subdir] = "contributed"
+
 ;libraries
 
 ;ckeditor 4.3.2
