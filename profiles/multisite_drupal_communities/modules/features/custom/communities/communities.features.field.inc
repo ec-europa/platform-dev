@@ -49,10 +49,10 @@ function communities_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
+          'type' => 'hidden',
           'weight' => 14,
         ),
         'teaser' => array(
@@ -143,10 +143,10 @@ function communities_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'og_ui',
           'settings' => array(),
-          'type' => 'og_list_default',
+          'type' => 'hidden',
           'weight' => 13,
         ),
         'teaser' => array(
@@ -388,13 +388,13 @@ function communities_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'image',
           'settings' => array(
             'image_link' => '',
             'image_style' => '',
           ),
-          'type' => 'image',
+          'type' => 'hidden',
           'weight' => '-1',
         ),
         'teaser' => array(
@@ -485,7 +485,7 @@ function communities_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => '2',
+          'weight' => 3,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -559,13 +559,13 @@ function communities_field_default_fields() {
       'description' => 'Determine if this is an OG group.',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
+          'label' => 'hidden',
           'module' => 'og_ui',
           'settings' => array(
             'field_name' => FALSE,
           ),
           'type' => 'og_group_subscribe',
-          'weight' => '0',
+          'weight' => 2,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -642,10 +642,10 @@ function communities_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
+          'type' => 'hidden',
           'weight' => 7,
         ),
         'teaser' => array(

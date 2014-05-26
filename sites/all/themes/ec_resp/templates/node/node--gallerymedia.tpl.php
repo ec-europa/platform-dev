@@ -97,6 +97,10 @@
       hide($content['comments']);
       hide($content['links']);
 
+      // Specific display for media galleries.
+      // This variable is defined in mediagalley feature
+      $suffixe .= $gallerymedia_items;
+
       // Theme author block.
       if ($display_submitted) {
         $suffixe .= '<div class="row node-info">';

@@ -570,7 +570,7 @@ function cce_basic_config_field_default_fields() {
             'multiple_to' => '',
             'show_repeat_rule' => 'show',
           ),
-          'type' => 'date_default',
+          'type' => 'hidden',
           'weight' => 11,
         ),
         'teaser' => array(
@@ -655,7 +655,7 @@ function cce_basic_config_field_default_fields() {
             'multiple_to' => '',
             'show_repeat_rule' => 'show',
           ),
-          'type' => 'date_default',
+          'type' => 'hidden',
           'weight' => 12,
         ),
         'teaser' => array(

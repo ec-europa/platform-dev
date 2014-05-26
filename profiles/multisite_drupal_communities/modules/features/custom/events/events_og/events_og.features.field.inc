@@ -49,10 +49,10 @@ function events_og_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
+          'type' => 'hidden',
           'weight' => 14,
         ),
         'teaser' => array(
@@ -143,10 +143,10 @@ function events_og_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'og_ui',
           'settings' => array(),
-          'type' => 'og_list_default',
+          'type' => 'hidden',
           'weight' => 13,
         ),
         'teaser' => array(

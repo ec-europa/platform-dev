@@ -47,10 +47,10 @@ function news_og_field_default_fields() {
       'description' => 'Highlight a news allows to expose it on the community homepage',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
+          'type' => 'hidden',
           'weight' => 15,
         ),
         'teaser' => array(
@@ -118,10 +118,10 @@ function news_og_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
+          'type' => 'hidden',
           'weight' => 14,
         ),
         'teaser' => array(
@@ -212,10 +212,10 @@ function news_og_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'og_ui',
           'settings' => array(),
-          'type' => 'og_list_default',
+          'type' => 'hidden',
           'weight' => 13,
         ),
         'teaser' => array(

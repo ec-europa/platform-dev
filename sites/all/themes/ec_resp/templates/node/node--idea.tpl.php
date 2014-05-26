@@ -97,6 +97,11 @@
       hide($content['comments']);
       hide($content['links']);
 
+      // Check idea status.
+      if ($content['field_watching']['#object']->field_watching['und'][0]['value']) {
+        $prefixe .= '<div class="clearfix"><span class="label label-success pull-right"><span class="glyphicon glyphicon-eye-open"></span>'.t('watched').'</span></div>';
+      }
+
       // Theme author block.
       if ($display_submitted) {
         $suffixe .= '<div class="row node-info">';

@@ -72,7 +72,9 @@ function multisite_mediagallery_core_preprocess_node(&$variables) {
 
     if ($media_items) {
       foreach ($media_items as $value) {
-        $sorted_media_items[$value['fid']] = $value;
+        foreach($value as $item) {
+          $sorted_media_items[$item['fid']] = $item;
+        }
       }
       // ksort($sorted_media_items);
     }

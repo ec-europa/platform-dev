@@ -90,8 +90,26 @@ function ec_resp_preprocess_page(&$variables) {
  * Implements theme_preprocess_node().
  */
 function ec_resp_preprocess_node(&$variables) {
+  $prefixe = '';
+  $suffixe = '';
+
+  // Check if this content is private.
+  if ((isset($variables['group_content_access'])) && ($variables['group_content_access']['und'][0]['value'] == 2)) {
+    $prefixe .= '<div class="node-private label label-default clearfix">';
+      $prefixe .= '<span class="glyphicon glyphicon-lock"></span>';
+      $prefixe .= t('This content is private');
+    $prefixe .= '</div>';
+  }
+
+  // Add custom variables to node.tpl.
+  $variables['prefixe'] = $prefixe;
+  $variables['suffixe'] = $suffixe;
+
+  // Alter date format.
   $custom_date = format_date($variables['created'], 'custom', 'l, d/m/Y');
   $variables['submitted'] = t('Published by !username on !datetime', array('!username' => $variables['name'], '!datetime' => $custom_date));
+  
+  // Add classes.
   if ($variables['view_mode'] == 'full' && node_is_page($variables['node'])) {
     $variables['classes_array'][] = 'node-full';
   }

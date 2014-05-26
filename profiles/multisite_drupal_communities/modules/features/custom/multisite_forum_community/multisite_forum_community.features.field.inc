@@ -52,7 +52,7 @@ function multisite_forum_community_field_default_fields() {
           'label' => 'above',
           'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
+          'type' => 'hidden',
           'weight' => 14,
         ),
         'teaser' => array(
@@ -148,7 +148,7 @@ function multisite_forum_community_field_default_fields() {
           'label' => 'above',
           'module' => 'og_ui',
           'settings' => array(),
-          'type' => 'og_list_default',
+          'type' => 'hidden',
           'weight' => 13,
         ),
         'teaser' => array(
@@ -267,7 +267,7 @@ function multisite_forum_community_field_default_fields() {
           'settings' => array(
             'link' => FALSE,
           ),
-          'type' => 'entityreference_label',
+          'type' => 'hidden',
           'weight' => 0,
         ),
       ),

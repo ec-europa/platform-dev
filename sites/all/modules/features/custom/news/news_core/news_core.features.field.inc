@@ -144,7 +144,7 @@ function news_core_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '2',
+          'weight' => 1,
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -306,7 +306,7 @@ function news_core_field_default_fields() {
             'multiple_to' => '',
             'show_repeat_rule' => 'show',
           ),
-          'type' => 'date_default',
+          'type' => 'hidden',
           'weight' => 5,
         ),
         'teaser' => array(
@@ -391,7 +391,7 @@ function news_core_field_default_fields() {
             'multiple_to' => '',
             'show_repeat_rule' => 'show',
           ),
-          'type' => 'date_default',
+          'type' => 'hidden',
           'weight' => 6,
         ),
         'teaser' => array(
