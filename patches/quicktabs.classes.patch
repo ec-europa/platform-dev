@@ -1,0 +1,16 @@
+--- sites/all/modules/contributed/quicktabs/quicktabs.classes.inc 2014-05-26 15:21:26.000000000 +0100
++++ sites/all/modules/contributed/quicktabs/quicktabs.classes.inc 2014-05-26 15:43:26.000000000 +0100
+@@ -244,7 +244,12 @@
+   public function getActiveTab() {
+     $active_tab = isset($this->settings['default_tab']) ? $this->settings['default_tab'] : key($this->contents);
+     $active_tab = isset($_GET['qt-' . $this->name]) ? $_GET['qt-' . $this->name] : $active_tab;
++    if(isset($this->settings['default_tab']) && $this->settings['default_tab'] == QUICKTABS_DELTA_NONE) {
+     $active_tab = (isset($active_tab) && isset($this->contents[$active_tab])) ? $active_tab : QUICKTABS_DELTA_NONE;
++    }
++    else {
++      $active_tab = (isset($active_tab) && isset($this->contents[$active_tab])) ? $active_tab : key($this->contents);
++    }
+\ No newline at end of file
+     return $active_tab;
+   }
+ }
