@@ -204,12 +204,13 @@ function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
 
 /**
  * Implements hook_media_token_to_markup_alter().
- *
- * Use fancybox for all image insert in content
- * with the "insert media" button of the wysiwyg.
  */
 function multisite_drupal_toolbox_media_token_to_markup_alter(&$element, &$tag_info, &$settings) {
+  // Add bootstrap responsive class.
+  $element['content']['file']['#attributes']['class'][] = "img-responsive";
 
+  // Use fancybox for all image insert in content
+  // with the "insert media" button of the wysiwyg.
   if (isset($element['content']['file']['#theme']) && ($element['content']['file']['#theme'] == 'image_style')) {
     $element['content']['#prefix'] = '<div><a href="' . file_create_url($element['content']['file']['#file']->uri) . '" class="fancybox">';
     $element['content']['#suffix'] = '</a></div>';
