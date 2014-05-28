@@ -251,6 +251,7 @@ features[variable][] = print_pdf_wkhtmltopdf_options
 features[variable][] = search_active_modules
 features[variable][] = search_default_module
 features[variable][] = security_allowed_tags
+features[variable][] = site_frontpage
 features[variable][] = sweaver_ctools_allowed_properties
 features[variable][] = sweaver_editor_form_configuration
 features[variable][] = sweaver_plugin_handle_images
