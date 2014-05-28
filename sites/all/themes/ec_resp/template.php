@@ -76,13 +76,92 @@ function ec_resp_preprocess(&$variables) {
  * Implements theme_preprocess_page().
  */
 function ec_resp_preprocess_page(&$variables) {
-  $variables['menu_visible'] = FALSE;
 
+  // Format regions.
+  $regions = array();
+  $regions['header_right'] =    (isset($variables['page']['header_right']) ? render($variables['page']['header_right']) : '');
+  $regions['header_top'] =      (isset($variables['page']['header_top']) ? render($variables['page']['header_top']) : '');
+  $regions['featured'] =        (isset($variables['page']['featured']) ? render($variables['page']['featured']) : '');
+  $regions['sidebar_left'] =    (isset($variables['page']['sidebar_left']) ? render($variables['page']['sidebar_left']) : '');
+  $regions['tools'] =           (isset($variables['page']['tools']) ? render($variables['page']['tools']) : '');
+  $regions['content_top'] =     (isset($variables['page']['content_top']) ? render($variables['page']['content_top']) : '');
+  $regions['help'] =            (isset($variables['page']['help']) ? render($variables['page']['help']) : '');
+  $regions['content'] =         (isset($variables['page']['content']) ? render($variables['page']['content']) : '');
+  $regions['content_right'] =   (isset($variables['page']['content_right']) ? render($variables['page']['content_right']) : '');
+  $regions['content_bottom'] =  (isset($variables['page']['content_bottom']) ? render($variables['page']['content_bottom']) : '');
+  $regions['sidebar_right'] =   (isset($variables['page']['sidebar_right']) ? render($variables['page']['sidebar_right']) : '');
+  $regions['footer'] =          (isset($variables['page']['footer']) ? render($variables['page']['footer']) : '');
+
+  // Check if there is a responsive sidebar or not.
+  $has_responsive_sidebar = ($regions['header_right'] || $regions['sidebar_left'] || $regions['sidebar_right'] ? 1 : 0);
+
+  // Calculate size of regions.
+  $cols = array();
+  // Sidebars.
+  $cols['sidebar_left'] = array(
+    'lg' => (!empty($regions['sidebar_left']) ? 3 : 0),
+    'md' => (!empty($regions['sidebar_left']) ? 4 : 0),
+    'sm' => 0,
+    'xs' => 0
+  );
+  $cols['sidebar_right'] = array(
+    'lg' => (!empty($regions['sidebar_right']) ? 3 : 0),
+    'md' => (!empty($regions['sidebar_right']) ? (!empty($regions['sidebar_left']) ? 12 : 4) : 0),
+    'sm' => 0,
+    'xs' => 0
+  );
+
+  // Content.
+  $cols['content_main'] = array(
+    'lg' => 12 - $cols['sidebar_left']['lg'] - $cols['sidebar_right']['lg'],
+    'md' => ($cols['sidebar_right']['md'] == 4 ? 8 : 12 - $cols['sidebar_left']['md']),
+    'sm' => 12,
+    'xs' => 12
+  );
+  $cols['content_right'] = array(
+    'lg' => (!empty($regions['content_right']) ? 6 : 0),
+    'md' => (!empty($regions['content_right']) ? 6 : 0),
+    'sm' => (!empty($regions['content_right']) ? 12 : 0),
+    'xs' => (!empty($regions['content_right']) ? 12 : 0)
+  );
+  $cols['content'] = array(
+    'lg' => 12 - $cols['content_right']['lg'],
+    'md' => 12 - $cols['content_right']['md'],
+    'sm' => 12,
+    'xs' => 12
+  );
+
+  // Tools.
+  $cols['sidebar_button'] = array(
+    'sm' => ($has_responsive_sidebar ? 2 : 0),
+    'xs' => ($has_responsive_sidebar ? 2 : 0)
+  );
+  $cols['tools'] = array(
+    'lg' => 4,
+    'md' => 4,
+    'sm' => 12,
+    'xs' => 12
+  );
+
+  // Title.
+  $cols['title'] = array(
+    'lg' => 12 - $cols['tools']['lg'],
+    'md' => 12 - $cols['tools']['md'],
+    'sm' => 12,
+    'xs' => 12
+  );
+
+  // Add variables to template file.
+  $variables['regions'] = $regions;
+  $variables['cols'] = $cols;
+  $variables['has_responsive_sidebar'] = $has_responsive_sidebar;
+  
+  $variables['menu_visible'] = FALSE;
   if (!empty($variables['page']['featured']['system_main-menu'])) {
     $variables['menu_visible'] = TRUE;
   }
 
-  // Adding pathToTheme for Drupal.settings to be used in js files
+  // Adding pathToTheme for Drupal.settings to be used in js files.
   drupal_add_js('jQuery.extend(Drupal.settings, { "pathToTheme": "' . path_to_theme() . '" });', 'inline');
 }
 

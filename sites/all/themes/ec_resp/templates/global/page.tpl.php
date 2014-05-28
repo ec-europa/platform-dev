@@ -91,87 +91,12 @@
 
 <?php
 global $base_url;
-
-// format regions.
-$region_header_right = (isset($page['header_right']) ? render($page['header_right']) : '');
-$region_header_top = (isset($page['header_top']) ? render($page['header_top']) : '');
-$region_featured = (isset($page['featured']) ? render($page['featured']) : '');
-$region_sidebar_left = (isset($page['sidebar_left']) ? render($page['sidebar_left']) : '');
-$region_tools = (isset($page['tools']) ? render($page['tools']) : '');
-$region_content_top = (isset($page['content_top']) ? render($page['content_top']) : '');
-$region_help = (isset($page['help']) ? render($page['help']) : '');
-$region_content = (isset($page['content']) ? render($page['content']) : '');
-$region_content_right = (isset($page['content_right']) ? render($page['content_right']) : '');
-$region_content_bottom = (isset($page['content_bottom']) ? render($page['content_bottom']) : '');
-$region_sidebar_right = (isset($page['sidebar_right']) ? render($page['sidebar_right']) : '');
-$region_footer = (isset($page['footer']) ? render($page['footer']) : '');
-
-// check if there is a responsive sidebar or not
-$has_responsive_sidebar = ($region_header_right || $region_sidebar_left || $region_sidebar_right ? 1 : 0);
-if ($has_responsive_sidebar) {
-  $sidebar_visible_sm = 'sidebar-visible-sm';
-}
-
-// calculate size of regions.
-  // sidebars
-  $col_sidebar_left = array(
-    'lg' => (!empty($region_sidebar_left) ? 3 : 0),
-    'md' => (!empty($region_sidebar_left) ? 4 : 0),
-    'sm' => 0,
-    'xs' => 0
-  );
-  $col_sidebar_right = array(
-    'lg' => (!empty($region_sidebar_right) ? 3 : 0),
-    'md' => (!empty($region_sidebar_right) ? (!empty($region_sidebar_left) ? 12 : 4) : 0),
-    'sm' => 0,
-    'xs' => 0
-  );
-
-  // content
-  $col_content_main = array(
-    'lg' => 12 - $col_sidebar_left['lg'] - $col_sidebar_right['lg'],
-    'md' => ($col_sidebar_right['md'] == 4 ? 8 : 12 - $col_sidebar_left['md']),
-    'sm' => 12,
-    'xs' => 12
-  );
-  $col_content_right = array(
-    'lg' => (!empty($region_content_right) ? 6 : 0),
-    'md' => (!empty($region_content_right) ? 6 : 0),
-    'sm' => (!empty($region_content_right) ? 12 : 0),
-    'xs' => (!empty($region_content_right) ? 12 : 0)
-  );
-  $col_content = array(
-    'lg' => 12 - $col_content_right['lg'],
-    'md' => 12 - $col_content_right['md'],
-    'sm' => 12,
-    'xs' => 12
-  );
-
-  // tools
-  $col_sidebar_button = array(
-    'sm' => ($has_responsive_sidebar ? 2 : 0),
-    'xs' => ($has_responsive_sidebar ? 2 : 0)
-  );
-  $col_tools = array(
-    'lg' => ($title ? 4 : 12),
-    'md' => ($title ? 4 : 12),
-    'sm' => 12,
-    'xs' => 12
-  );
-
-  // title
-  $col_title = array(
-    'lg' => 12 - $col_tools['lg'],
-    'md' => 12 - $col_tools['md'],
-    'sm' => 12,
-    'xs' => 12
-  );
 ?>
 
   <a id="top-page"></a>
 
   <div class="container">
-    <?php print $region_header_top; ?>
+    <?php print $regions['header_top']; ?>
   </div>
 
   <div id="layout-header">
@@ -179,7 +104,7 @@ if ($has_responsive_sidebar) {
       <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . drupal_get_path('theme', 'ec_resp'); ?>/images/logo/logo_en.gif" />
 
       <span id="banner-image-right" class="hidden-sm hidden-xs">
-        <?php print $region_header_right; ?>
+        <?php print $regions['header_right']; ?>
       </span>
 
       <div id="main-title"><?php print $site_name; ?></div>
@@ -187,7 +112,7 @@ if ($has_responsive_sidebar) {
     </div>
   </div><!-- /#layout-header -->
   
-  <div class="region-featured-wrapper <?php print $sidebar_visible_sm; ?>">
+  <div class="region-featured-wrapper <?php if ($has_responsive_sidebar) print 'sidebar-visible-sm'; ?>">
     <?php if ($menu_visible || $has_responsive_sidebar): ?>
       <div class="mobile-user-bar navbar navbar-default visible-xs" data-spy="affix" data-offset-top="82">
         <div class="container">
@@ -214,7 +139,7 @@ if ($has_responsive_sidebar) {
       </div><!-- /.navbar -->
     <?php endif; ?>
 
-    <?php print $region_featured; ?>
+    <?php print $regions['featured']; ?>
 
   </div>
 
@@ -232,7 +157,7 @@ if ($has_responsive_sidebar) {
 
       <?php if ($title): ?>
         <?php $title_image = (isset($node->field_thumbnail['und'][0]['uri']) && $node->type == 'community' ? image_style_url('communities_thumbnail', $node->field_thumbnail['und'][0]['uri']) : '');?>
-        <h1 class="col-lg-<?php print $col_title['lg']; ?> col-md-<?php print $col_title['md']; ?> col-sm-<?php print $col_title['sm']; ?> col-xs-<?php print $col_title['xs']; ?>" id="page-title">
+        <h1 class="col-lg-<?php print $cols['title']['lg']; ?> col-md-<?php print $cols['title']['md']; ?> col-sm-<?php print $cols['title']['sm']; ?> col-xs-<?php print $cols['title']['xs']; ?>" id="page-title">
           <?php if ($title_image): ?>
             <img src="<?php print $title_image; ?>" alt="<?php print $title; ?>" />
           <?php endif; ?>
@@ -242,8 +167,8 @@ if ($has_responsive_sidebar) {
       
       <?php print render($title_suffix); ?>
 
-      <div class="col-lg-<?php print $col_tools['lg']; ?> col-md-<?php print $col_tools['md']; ?> col-sm-<?php print $col_tools['sm']; ?> col-xs-<?php print $col_tools['xs']; ?>">
-        <?php print $region_tools; ?>
+      <div class="col-lg-<?php print $cols['tools']['lg']; ?> col-md-<?php print $cols['tools']['md']; ?> col-sm-<?php print $cols['tools']['sm']; ?> col-xs-<?php print $cols['tools']['xs']; ?>">
+        <?php print $regions['tools']; ?>
       </div>
     </div>
 
@@ -254,13 +179,13 @@ if ($has_responsive_sidebar) {
     <?php endif; ?>
         
     <div class="row">
-      <?php if ($page['sidebar_left']): ?>
-      <div id="sidebar-left" class="col-lg-<?php print ($col_sidebar_left['lg']); ?> col-md-<?php print ($col_sidebar_left['md']); ?> col-sm-<?php print ($col_sidebar_left['sm']); ?> col-xs-<?php print ($col_sidebar_left['xs']); ?> sidebar-left visible-lg visible-md">
-        <?php print $region_sidebar_left; ?>
+      <?php if ($regions['sidebar_left']): ?>
+      <div id="sidebar-left" class="col-lg-<?php print ($cols['sidebar_left']['lg']); ?> col-md-<?php print ($cols['sidebar_left']['md']); ?> col-sm-<?php print ($cols['sidebar_left']['sm']); ?> col-xs-<?php print ($cols['sidebar_left']['xs']); ?> sidebar-left visible-lg visible-md">
+        <?php print $regions['sidebar_left']; ?>
       </div>
       <?php endif; ?>     
 
-      <div class="col-lg-<?php print $col_content_main['lg']; ?> col-md-<?php print $col_content_main['md']; ?> col-sm-<?php print $col_content_main['sm']; ?> col-md-<?php print $col_content_main['xs']; ?>">
+      <div class="col-lg-<?php print $cols['content_main']['lg']; ?> col-md-<?php print $cols['content_main']['md']; ?> col-sm-<?php print $cols['content_main']['sm']; ?> col-md-<?php print $cols['content_main']['xs']; ?>">
         
         <a id="content"></a>
 
@@ -270,7 +195,7 @@ if ($has_responsive_sidebar) {
         </h1>
         <?php endif; ?>
 
-        <?php print $region_content_top; ?>
+        <?php print $regions['content_top']; ?>
 
         <a id="main-content"></a>
 
@@ -280,7 +205,7 @@ if ($has_responsive_sidebar) {
         </div>
         <?php endif; ?>
 
-        <?php print $region_help; ?>
+        <?php print $regions['help']; ?>
         
         <?php if ($action_links): ?>
         <ul class="action-links">
@@ -289,28 +214,28 @@ if ($has_responsive_sidebar) {
         <?php endif; ?>
 
         <div class="row">
-          <div class="col-lg-<?php print $col_content['lg']; ?> col-md-<?php print $col_content['md']; ?> col-sm-<?php print $col_content['sm']; ?> col-xs-<?php print $col_content['xs']; ?>">
-          <?php print $region_content; ?>
+          <div class="col-lg-<?php print $cols['content']['lg']; ?> col-md-<?php print $cols['content']['md']; ?> col-sm-<?php print $cols['content']['sm']; ?> col-xs-<?php print $cols['content']['xs']; ?>">
+          <?php print $regions['content']; ?>
           </div>
 
-          <div class="col-lg-<?php print $col_content_right['lg']; ?> col-md-<?php print $col_content_right['md']; ?> col-sm-<?php print $col_content_right['sm']; ?> col-xs-<?php print $col_content_right['xs']; ?>">
-          <?php print $region_content_right; ?>
+          <div class="col-lg-<?php print $cols['content_right']['lg']; ?> col-md-<?php print $cols['content_right']['md']; ?> col-sm-<?php print $cols['content_right']['sm']; ?> col-xs-<?php print $cols['content_right']['xs']; ?>">
+          <?php print $regions['content_right']; ?>
           </div>
         </div>
         
         <?php print $feed_icons; ?>
 
-        <?php print $region_content_bottom; ?>
+        <?php print $regions['content_bottom']; ?>
       </div>
 
       <div class="clearfix visible-sm visible-xs"></div>
-      <?php if ($col_sidebar_right['md'] == 12): ?>
+      <?php if ($cols['sidebar_right']['md'] == 12): ?>
       <div class="clearfix visible-md"></div>
       <?php endif; ?>
 
-      <?php if ($page['sidebar_right']): ?>
-      <div id="sidebar-right" class="col-lg-<?php print ($col_sidebar_right['lg']); ?> col-md-<?php print ($col_sidebar_right['md']); ?> col-sm-<?php print ($col_sidebar_right['sm']); ?> col-xs-<?php print ($col_sidebar_right['xs']); ?> sidebar-right visible-lg visible-md">
-        <?php print $region_sidebar_right; ?>
+      <?php if ($regions['sidebar_right']): ?>
+      <div id="sidebar-right" class="col-lg-<?php print ($cols['sidebar_right']['lg']); ?> col-md-<?php print ($cols['sidebar_right']['md']); ?> col-sm-<?php print ($cols['sidebar_right']['sm']); ?> col-xs-<?php print ($cols['sidebar_right']['xs']); ?> sidebar-right visible-lg visible-md">
+        <?php print $regions['sidebar_right']; ?>
       </div>  
       <?php endif; ?>
     </div>
@@ -318,6 +243,6 @@ if ($has_responsive_sidebar) {
 
   <div id="layout-footer">
     <div class="container">
-      <?php print $region_footer; ?>
+      <?php print $regions['footer']; ?>
     </div>
-  </div><!-- /#layout-footer -->      
+  </div><!-- /#layout-footer -->
