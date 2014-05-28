@@ -1,0 +1,7 @@
+name = Multisite registration standard
+description = Allow and track user registrations for events
+core = 7.x
+package = Multisite Standard Features
+version = 7.x-1.0
+project = multisite_registration_standard
+features[features_api][] = api:1

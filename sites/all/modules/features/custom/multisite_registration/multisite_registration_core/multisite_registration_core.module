@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the multisite_registration_core feature.
+ */
+
+include_once 'multisite_registration_core.features.inc';

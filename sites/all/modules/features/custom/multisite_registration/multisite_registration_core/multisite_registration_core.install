@@ -1,0 +1,44 @@
+<?php
+/**
+ * @file
+ * Install the feature news
+ */
+
+/**
+ * hook_install
+ */
+function multisite_registration_core_install() {
+  //Nothing yet
+}
+
+/**
+ * hook_uninstall
+ */
+function multisite_registration_core_uninstall() {
+  //Nothing yet
+}
+
+/*
+ * hook_enable
+ * Perform necessary actions AFTER module is enabled.
+ */
+
+function multisite_registration_core_enable() {
+  drupal_flush_all_caches();
+  features_revert(array('multisite_registration_core' => array('field')));
+  features_revert(array('multisite_registration_core' => array('field_group')));
+  
+  //Activation message
+  //drupal_set_message(t('Registration feature is now active on your site.'));
+}
+
+/*
+ * hook_disable
+ * Edit communities context to remove block
+ * Remove permissions
+ */
+
+function multisite_registration_core_disable() {
+  //drupal_set_message(t('Registration feature is now disabled on your site.'));
+}
+
