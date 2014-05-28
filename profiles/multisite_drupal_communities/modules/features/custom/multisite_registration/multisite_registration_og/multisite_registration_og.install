@@ -1,0 +1,41 @@
+<?php
+/**
+ * @file
+ * Install the feature news
+ */
+
+/**
+ * hook_install
+ */
+function multisite_registration_og_install() {
+  //Nothing yet
+}
+
+/**
+ * hook_uninstall
+ */
+function multisite_registration_og_uninstall() {
+  //Nothing yet
+}
+
+/*
+ * hook_enable
+ */
+
+function multisite_registration_og_enable() {
+  features_revert(array('multisite_registration_core' => array('field')));
+  features_revert(array('multisite_registration_core' => array('field_group')));
+  
+  //Activation message
+  drupal_set_message(t('Registration feature is now active on your site.'));
+}
+
+/*
+ * hook_disable
+ */
+
+function multisite_registration_og_disable() {
+  drupal_set_message(t('Registration feature is now disabled on your site.'));
+}
+
+

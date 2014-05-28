@@ -1,0 +1,125 @@
+<?php
+/**
+ * @file
+ * Drupal needs this blank file.
+ */
+
+
+/*
+ * hook_menu
+ */
+
+function newsletters_og_menu() {
+  $items['community/%group_name/newsletters'] = array(
+      'title' => 'Newsletters',
+      'access callback' => TRUE,
+      'page callback' => '_og_subscriptions',
+      'page arguments' => array(1),
+      'type' => MENU_NORMAL_ITEM,
+      'menu_name' => 'menu-communities-menu',
+      'weight' => 20,
+      );
+
+  /*
+  $items['node/%node/og_simplenews'] = array(
+    'title' => 'Newsletter subscriptions',
+    'description' => 'Newsletter subscription management.',
+    'type' => MENU_LOCAL_TASK,
+    'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('simplenews_admin_subscription'),
+    'access arguments' => array('administer simplenews subscriptions'),
+    'file' => drupal_get_path('module', 'simplenews').'/includes/simplenews.admin.inc',
+  );
+  */
+
+  $items['group/%/%/admin/og_newsletters'] = array(
+    'page callback' => 'drupal_get_form',
+    'title' => 'Newsletter subscriptions',
+    'page arguments' => array('simplenews_admin_subscription', 1, 2),
+    'file' => 'includes/simplenews.admin.inc',
+    'file path' => drupal_get_path('module', 'simplenews'), 
+    'weight' => 5,
+    'access callback' => 'og_ui_user_access_group',
+    'access arguments' => array('add user', 1, 2),
+  );
+
+  return $items;
+}
+
+/*
+ * display the subcriptions management page
+ */
+function _og_subscriptions($gid) {
+  $nl = _newsletters_og_get_newsletter_term($gid);
+
+  $block = module_invoke('simplenews', 'block_view', $nl->etid);
+  return $block['content'];
+}
+
+
+
+function newsletters_og_og_ui_get_group_admin() {
+  $items = array();
+  $items['og_newsletters'] = array(
+    'title' => t('Newsletter subscriptions'), 
+    'description' => t('Manage newsletter subscriptions.'),
+    'href' => 'admin/og_newsletters',
+  );
+
+  return $items;
+}
+
+
+
+function newsletters_og_form_alter(&$form, &$form_state, $form_id) {
+  dsm($form_id);
+
+  switch($form_id) {
+    case 'simplenews_admin_subscription':
+      //dsm($form);
+      //dsm($form_state);
+    
+      $og_context = og_context(); 
+      $nl = _newsletters_og_get_newsletter_term($og_context['gid']);
+      $nl_id = 'tid-'.$nl->etid;
+      
+      $options = $form['filter']['filters']['list']['#options'];
+      foreach(array_keys($options) as $option) {
+        if($option !=  $nl_id) {
+          unset($form['filter']['filters']['list']['#options'][$option]);
+        }
+      }
+      $form['filter']['filters']['list']['#default_value'] = $nl_id;  
+      hide($form['filter']['filters']);
+      break;
+  }
+
+}
+
+
+function _newsletters_og_get_newsletter_term($gid) {
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'og_membership')
+    ->propertyCondition('gid', $gid, '=')
+    ->propertyCondition('group_type', 'node', '=')
+    ->propertyCondition('entity_type', 'taxonomy_term', '=')
+    ->execute();
+  $og_memberships = og_membership_load_multiple(array_keys($result['og_membership']));
+
+  $nl = current($og_memberships);
+  return($nl);
+}
+
+
+function newsletters_og_init() {
+  $og_context = og_context();
+  if(isset($og_context['gid'])) {
+    $nl = _newsletters_og_get_newsletter_term($og_context['gid']);
+    $nl_id = 'tid-'.$nl->etid;
+    $_SESSION['simplenews_subscriptions_filter']['list'] = $nl_id;
+  }
+}
+
+

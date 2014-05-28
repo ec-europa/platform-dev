@@ -30,6 +30,24 @@ feature_sets[events_og][disable][] = events_resources
 feature_sets[events_og][disable][] = events_og
 feature_sets[events_og][disable][] = events_core
 
+feature_sets[multisite_registration_og][title] = 'Events registration'
+feature_sets[multisite_registration_og][description] = 'allow and track user registrations for events'
+feature_sets[multisite_registration_og][category] = 'Communication'
+feature_sets[multisite_registration_og][icon] = ''
+feature_sets[multisite_registration_og][font] = 'multisite-icon-calendar'
+feature_sets[multisite_registration_og][enable][] = registration
+feature_sets[multisite_registration_og][enable][] = events_core
+feature_sets[multisite_registration_og][enable][] = events_standard
+feature_sets[multisite_registration_og][enable][] = events_resources
+feature_sets[multisite_registration_og][enable][] = multisite_registration_core
+feature_sets[multisite_registration_og][enable][] = multisite_registration_og
+feature_sets[multisite_registration_og][disable][] = multisite_registration_og
+feature_sets[multisite_registration_og][disable][] = multisite_registration_core
+feature_sets[multisite_registration_og][disable][] = events_resources
+feature_sets[multisite_registration_og][disable][] = events_standard
+feature_sets[multisite_registration_og][disable][] = events_core
+feature_sets[multisite_registration_og][disable][] = registration
+
 feature_sets[multisite_forum_community][title] = 'Forum'
 feature_sets[multisite_forum_community][description] = 'Allows community\'s members to create discussions. All visitors can view the content, but only the community member can reply. Discussions are classified by "forum" category, the group manager can manage it.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/rIXhAg" target="_blank">Read documentation</a>'
 feature_sets[multisite_forum_community][category] = 'Communication'
