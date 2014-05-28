@@ -30,6 +30,5 @@ features[variable][] = language_negotiation_language
 features[variable][] = language_negotiation_language_content
 features[variable][] = language_negotiation_language_url
 features[variable][] = locale_language_providers_weight_language
-features[variable][] = site_frontpage
 features[variable][] = theme_default
 features[views_view][] = multisite_settings_core
