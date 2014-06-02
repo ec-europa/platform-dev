@@ -1,7 +1,7 @@
 diff --git a/modules/field/field.api.php b/modules/field/field.api.php
 index b0fc6a4..52c6c2d 100644
---- a/modules/field/field.api.php
-+++ b/modules/field/field.api.php
+--- modules/field/field.api.php
++++ modules/field/field.api.php
 @@ -31,6 +31,8 @@
   *   - label: The human readable name of the element.
   *   - description: A short description of the element contents.
@@ -13,8 +13,8 @@ index b0fc6a4..52c6c2d 100644
   *     'form' context.
 diff --git a/modules/field/field.info.class.inc b/modules/field/field.info.class.inc
 index 3b89898..891fc8a 100644
---- a/modules/field/field.info.class.inc
-+++ b/modules/field/field.info.class.inc
+--- modules/field/field.info.class.inc
++++ modules/field/field.info.class.inc
 @@ -655,11 +655,12 @@ public function prepareExtraFields($extra_fields, $entity_type, $bundle) {
          else {
            $field_data['display'][$view_mode] = array(
