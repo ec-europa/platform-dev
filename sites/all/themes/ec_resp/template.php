@@ -11,6 +11,7 @@ function ec_resp_preprocess(&$variables) {
   if (isset($variables['form']['#form_id'])) {
     switch ($variables['form']['#form_id']) {
       case 'feature_set_admin_form':
+      // Display feature set on two columns.
         $output_right = $output_left = '';
 
         $first_column = 1;
@@ -198,24 +199,15 @@ function ec_resp_preprocess_node(&$variables) {
  * Implements theme_preprocess_user_profile().
  */
 function ec_resp_preprocess_user_profile(&$variables) {
-// add contact form link on user profile page
+// Add contact form link on user profile page.
   if (module_exists('contact')){
     $account = $variables['elements']['#account'];
     $menu_item = menu_get_item ("user/$account->uid/contact");
     if (isset ($menu_item['access']) && $menu_item['access'] == TRUE){
       $variables['contact_form'] = l(t('Contact this user'), 'user/'.$account->uid.'/contact', array('attributes' => array('type' => 'message')));
+
     }
   }  
-}
-
-/**
- * Implements theme_preprocess_block()..
- */
-function ec_resp_preprocess_block(&$variables) {
-  // In the header region visually hide block titles.
-  if ($variables['block']->region == 'header') {
-    $variables['title_attributes_array']['class'][] = 'element-invisible';
-  }
 }
 
 /**
@@ -260,23 +252,6 @@ function ec_resp_preprocess_maintenance_page(&$variables) {
  * Implements theme_preprocess_html().
  */
 function ec_resp_preprocess_html(&$variables) {
-  if (!empty($variables['page']['featured'])) {
-    $variables['classes_array'][] = 'featured';
-  }
-
-  if (!empty($variables['page']['triptych_first'])
-    || !empty($variables['page']['triptych_middle'])
-    || !empty($variables['page']['triptych_last'])) {
-    $variables['classes_array'][] = 'triptych';
-  }
-
-  if (!empty($variables['page']['footer_firstcolumn'])
-    || !empty($variables['page']['footer_secondcolumn'])
-    || !empty($variables['page']['footer_thirdcolumn'])
-    || !empty($variables['page']['footer_fourthcolumn'])) {
-    $variables['classes_array'][] = 'footer-columns';
-  }
-
   // Update page title.
   if (arg(0) == 'node' && is_numeric(arg(1))) {
     $node = node_load(arg(1));
@@ -328,7 +303,7 @@ function ec_resp_preprocess_menu_link(&$variables) {
     }
   }
 
-  // Add CSS class.
+  // Manage CSS class.
   $remove_default_classes = (isset($variables['element']['#localized_options']['attributes']['data-remove-class']) ? $variables['element']['#localized_options']['attributes']['data-remove-class'] : 0);
   if (!$remove_default_classes) {
     $variables['element']['#localized_options']['attributes']['class'][] = 'list-group-item';
@@ -349,7 +324,6 @@ function ec_resp_preprocess_views_view(&$variables) {
 /**
  * Implements theme_preprocess_views_view_unformatted().
  */
-
 function ec_resp_preprocess_views_view_unformatted(&$variables) {
   $view = $variables['view'];
 
@@ -359,79 +333,10 @@ function ec_resp_preprocess_views_view_unformatted(&$variables) {
 }
 
 /**
- * Implements theme_preprocess_maintenance_page().
- */
-function ec_resp_process_maintenance_page(&$variables) {
-  // Always print the site name and slogan, but if they are toggled off, we'll
-  // just hide them visually.
-  $variables['hide_site_name']   = theme_get_setting('toggle_name') ? FALSE : TRUE;
-  $variables['hide_site_slogan'] = theme_get_setting('toggle_slogan') ? FALSE : TRUE;
-  if ($variables['hide_site_name']) {
-    // If toggle_name is FALSE, the site_name will be empty,
-    // so we rebuild it.
-    $variables['site_name'] = filter_xss(variable_get('site_name', 'Drupal'));
-  }
-  if ($variables['hide_site_slogan']) {
-    // If toggle_site_slogan is FALSE, the site_slogan will be empty,
-    // so we rebuild it.
-    $variables['site_slogan'] = filter_xss(variable_get('site_slogan', ''));
-  }
-}
-
-/**
- * Process html hook.
- */
-function ec_resp_process_html(&$variables) {
-  // Hook into color.module.
-  if (module_exists('color')) {
-    _color_html_alter($variables);
-  }
-}
-
-/**
- * Process page hook.
- */
-function ec_resp_process_page(&$variables) {
-  // Hook into color.module.
-  if (module_exists('color')) {
-    _color_page_alter($variables);
-  }
-  // Always print the site name and slogan, but if they are toggled off, we'll
-  // just hide them visually.
-  $variables['hide_site_name']   = theme_get_setting('toggle_name') ? FALSE : TRUE;
-  $variables['hide_site_slogan'] = theme_get_setting('toggle_slogan') ? FALSE : TRUE;
-  if ($variables['hide_site_name']) {
-    // If toggle_name is FALSE, the site_name will be empty,
-    // so we rebuild it.
-    $variables['site_name'] = filter_xss(variable_get('site_name', 'Drupal'));
-  }
-  if ($variables['hide_site_slogan']) {
-    // If toggle_site_slogan is FALSE, the site_slogan will be empty,
-    // so we rebuild it.
-    $variables['site_slogan'] = filter_xss(variable_get('site_slogan', ''));
-  }
-  // Since the title and the shortcut link are both block level elements,
-  // positioning them next to each other is much simpler with a wrapper div.
-  if (!empty($variables['title_suffix']['add_or_remove_shortcut']) && $variables['title']) {
-    // Add a wrapper div using the title_prefix and title_suffix
-    // render elements.
-    $variables['title_prefix']['shortcut_wrapper'] = array(
-      '#markup' => '<div class="shortcut-wrapper clearfix">',
-      '#weight' => 100,
-    );
-    $variables['title_suffix']['shortcut_wrapper'] = array(
-      '#markup' => '</div>',
-      '#weight' => -99,
-    );
-    // Make sure the shortcut link is the first item in title_suffix.
-    $variables['title_suffix']['add_or_remove_shortcut']['#weight'] = -100;
-  }
-}
-
-/**
  * Alter page header.
  */
 function ec_resp_page_alter($page) {
+
   global $language;
   if (arg(0) == 'node') {
     $node = node_load(arg(1));
@@ -1232,7 +1137,7 @@ function ec_resp_class_replace($match) {
 }
 
 /**
- * Put Breadcrumbs in a  li structure.
+ * Put Breadcrumbs in a li structure.
  */
 function ec_resp_breadcrumb($variables) {
   $breadcrumb = $variables['breadcrumb'];
@@ -1247,7 +1152,6 @@ function ec_resp_breadcrumb($variables) {
   }
   return $crumbs;
 }
-
 
 /**
  * Implementation of theme_preproces_admin_menu_icon.
