@@ -1,5 +1,7 @@
 <?php
 
+include_once 'taxonomy_browser.features.inc';
+
 /**
  * @file
  * allow to filter view with a taxonomy tree
@@ -273,12 +275,6 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
           array_pop($breadcrumb);
           drupal_set_breadcrumb($breadcrumb);
 
-          $header = '<fieldset id="tb_header"><h1>' . $term->name . '</h1>';
-          if (isset($term->description)) {
-            $header .= '<p>' . $term->description . '</p>';
-          }
-          $header .= '</fieldset><hr />';
-          $output = $header . $output;
         }
       }
     }
