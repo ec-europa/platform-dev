@@ -382,6 +382,13 @@ libraries[tcpdf][download][tag] = "6.0.053"
 libraries[tcpdf][directory_name] = "tcpdf"
 libraries[tcpdf][destination] = "libraries"
 
+;mpdf 5.7
+libraries[mpdf][download][type]= "file"
+libraries[mpdf][download][request_type]= "get"
+libraries[mpdf][download][file_type] = "zip"
+libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"                          
+libraries[mpdf][destination] = "libraries"
+
 ;cycle 3.0.2 (commit d6557ca)
 libraries[cycle][download][type] = "git"
 libraries[cycle][download][url] = "https://github.com/malsup/cycle.git"
