@@ -14,13 +14,13 @@ function __echo {
 }
 
 function _apply_patches {
-	patch_dir=$1
-	if [ ! -e $patch_dir ]; then 
-		echo "Patch folder not found on : '$patch_dir'"
+	patch_path=$1
+	if [ ! -e $patch_path ]; then 
+		echo "Patch folder not found on : '$patch_path'"
 		continu
 	fi
 
-	for patch_file in "${patch_dir}/"*.patch "${patch_dir}/"*.diff; do
+	for patch_file in "${patch_path}/"*.patch "${patch_path}/"*.diff; do
 		test -f "${patch_file}" || continue
 		__echo -n "Attempting to apply ${patch_file}..."
 		patch -p0 -b -i "${patch_file}" 1>&2
@@ -199,16 +199,17 @@ fi
 #     APPLY PATCHES     #
 #-----------------------#
 
-patch_dir_core="$patch_dir/multisite_drupal_core"
+patch_dir_core="${patch_dir}/multisite_drupal_core"
 # BACKPORT version <=1.6 : if $patch_dir_core not found we apply patches directly from $patch_dir folder
-if [ ! -e $patch_dir_core ]; then 
+if [ ! -e ${patch_dir_core} ]; then 
 		_apply_patches $patch_dir
 else
+    # core patch
 	_apply_patches $patch_dir_core
 	#profile patch
-	patch_dir_profile="$patch_dir/$install_profile"
-	if [ ! -e $patch_dir_profile ]; then 
-		_apply_patches $patch_dir_profile
+	patch_dir_profile="${patch_dir}/${install_profile}"
+	if [ -e ${patch_dir_profile} ]; then 
+		_apply_patches ${patch_dir_profile}
 	fi
 fi
 
