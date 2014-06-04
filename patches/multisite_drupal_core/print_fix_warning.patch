@@ -1,0 +1,11 @@
+--- sites/all/modules/contributed/print/print_pdf/print_pdf.module	Wed Jun 04 14:17:41 2014
++++ sites/all/modules/contributed/print/print_pdf/print_pdf.module	Wed Jun 04 14:16:22 2014
+@@ -204,7 +204,7 @@
+         }
+ 
+         // Is the file there?
+-        if (!is_file($tool[1]) || !is_readable($tool[1])) {
++        if (isset($tool[1]) && (!is_file($tool[1]) || !is_readable($tool[1]))) {
+           $requirements['print_pdf_tool'] = array(
+             'title' => $t('Printer, email and PDF versions - PDF generation library'),
+             'value' => $t('File not found'),
