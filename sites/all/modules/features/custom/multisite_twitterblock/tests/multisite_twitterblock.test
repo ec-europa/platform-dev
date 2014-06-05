@@ -122,7 +122,7 @@ class TwitterBlockQA extends DrupalWebTestCase {
     'fpfis_twitter_display_user_pic' => '1',
     'fpfis_twitter_display_user' => '1',
     'fpfis_twitter_count' => '20',
-    'form_id' => 'h2020_social_admin_settings',
+    'form_id' => 'multisite_twitterblock_admin_settings',
   );
 
   /**
