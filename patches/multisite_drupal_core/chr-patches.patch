@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/chr.module	2012-05-22 23:09:49.000000000 +0200
-+++ sites/all/modules/contributed/chr.module	2014-06-05 12:01:16.000000000 +0200
+--- sites/all/modules/contributed/chr/chr.module	2012-05-22 23:09:49.000000000 +0200
++++ sites/all/modules/contributed/chr/chr.module	2014-06-05 12:01:16.000000000 +0200
 @@ -83,7 +83,7 @@
    $proxy = ('https' == $uri['scheme']) ? $options['https_proxy'] : $options['http_proxy'];
  
