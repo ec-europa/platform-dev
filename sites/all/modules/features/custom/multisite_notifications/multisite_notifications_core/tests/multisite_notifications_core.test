@@ -182,16 +182,17 @@ class multisiteNotification extends DrupalWebTestCase {
         'mail_logger',
     ));
 
-    $this->visitor = $this->drupalCreateUser(array(
+   /* $this->visitor = $this->drupalCreateUser(array(
         'access content',
         'subscribe to all content types',
         'subscribe to content',
         'subscribe to content types',
         'subscribe to taxonomy terms',
         'suspend own subscriptions',
-    ));
+    ));*/
 
     $this->administrator = $this->drupalCreateUserWithRole("administrator");
+    $this->visitor = $this->drupalCreateUserWithRole("anonymous");
     $this->drupalLogin($this->administrator);
   }
 
