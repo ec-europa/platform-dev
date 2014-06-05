@@ -9,7 +9,6 @@ dependencies[] = cce_basic_config
 dependencies[] = ctools
 dependencies[] = features
 dependencies[] = mail_edit
-dependencies[] = menu
 dependencies[] = strongarm
 dependencies[] = subscriptions
 dependencies[] = subscriptions_content
