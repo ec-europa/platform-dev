@@ -9,7 +9,7 @@
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
-class H2020SocialMultisiteQA extends DrupalWebTestCase {
+class TwitterBlockMultisiteQA extends DrupalWebTestCase {
 
   /**
    * Returns test information.
@@ -19,8 +19,8 @@ class H2020SocialMultisiteQA extends DrupalWebTestCase {
    */
   public static function getInfo() {
     return array(
-      'name' => 'h2020_social QA tests',
-      'description' => 'Test the h2020_social features to ensure it follows QA requirements.',
+      'name' => 'Twitter QA tests',
+      'description' => 'Test the Twitter features to ensure it follows QA requirements.',
       'group' => 'Multisite QA',
     );
   }
@@ -97,9 +97,9 @@ class H2020SocialMultisiteQA extends DrupalWebTestCase {
 }
 
 /**
- * Defines a base class for testing the H2020 social module.
+ * Defines a base class for testing the twitter module.
  */
-class H2020SocialDevelopmentQA extends DrupalWebTestCase {
+class TwitterBlockQA extends DrupalWebTestCase {
 
   protected $adminUser = NULL;
   protected $basicUser = NULL;
@@ -133,7 +133,7 @@ class H2020SocialDevelopmentQA extends DrupalWebTestCase {
    */
   public static function getInfo() {
     return array(
-      'name' => 'h2020 twitter widget tests',
+      'name' => 'twitter widget tests',
       'description' => 'Tests main twitter widget features',
       'group' => 'Multisite - Media',
     );
@@ -143,7 +143,7 @@ class H2020SocialDevelopmentQA extends DrupalWebTestCase {
    * Setups the main necessary modules.
    */
   public function setUp() {
-    parent::setUp(array('h2020_social'));
+    parent::setUp(array('multisite_twitterblock'));
 
     $https_proxy = array(
       'h2020dev.europa.eu',
@@ -201,7 +201,7 @@ class H2020SocialDevelopmentQA extends DrupalWebTestCase {
    */
   protected function loadAdminPageByBasicUser() {
     $this->drupalLogin($this->basicUser);
-    $this->drupalGet('admin/config/content/h2020_social/twitter/', array());
+    $this->drupalGet('admin/config/content/multisite_twitterblock/twitter', array());
     $this->assertRaw('Access denied', 'Configuration was not saved!');
     $this->drupalLogout();
   }
@@ -211,7 +211,7 @@ class H2020SocialDevelopmentQA extends DrupalWebTestCase {
    */
   protected function saveConfig() {
     $this->drupalLogin($this->adminUser);
-    $this->drupalPost('admin/config/content/h2020_social/twitter/', $this->configuration, t('Save configuration'));
+    $this->drupalPost('admin/config/content/multisite_twitterblock/twitter', $this->configuration, t('Save configuration'));
     $this->assertRaw('The configuration options have been saved', 'Configuration was successfully saved');
     $this->drupalLogout();
   }
