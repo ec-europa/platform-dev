@@ -29,7 +29,6 @@ dependencies[] = linkchecker
 dependencies[] = locale
 dependencies[] = media
 dependencies[] = media_node
-dependencies[] = menu
 dependencies[] = multisite_settings_core
 dependencies[] = node
 dependencies[] = node_export
