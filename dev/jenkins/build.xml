@@ -49,12 +49,18 @@
   <!-- Target: run-tests                             -->
   <!-- ============================================  -->
 
-  <target name="run-tests" depends="init">
+  <target name="run-tests" depends="init, setup-dirs">
 
-    <exec command="${phing.dir}/bin/behat --ansi --format pretty,junit --out ,${project.testdir}" passthru="true" />
+    <echo>Creating behat.yml file.</echo>
+    <copy file="behat.yml.dist" tofile="behat.yml" overwrite="true">
+      <filterchain>
+        <expandproperties />
+      </filterchain>
+    </copy>
+
+    <exec command="${phing.dir}/bin/behat --ansi --profile production --format pretty,junit --out ,${project.testdir}" passthru="true" />
+
   </target>
-
-
 
   <!-- ============================================  -->
   <!-- Target: simpletests                           -->
@@ -62,8 +68,11 @@
 
   <target name="simpletests" depends="init, setup-phing-drush">
     <mkdir dir="${project.testdir}"/>
+    <drush command="pm-download" assume="yes">
+      <param>mail_logger</param>
+    </drush>
     <drush command="pm-enable" assume="yes">
-      <param>${multisite.modules} coder_review simpletest</param>
+      <param>${multisite.modules} coder_review simpletest mail_logger</param>
       <param>${project.modules.custom}</param>
     </drush>
     <if>
