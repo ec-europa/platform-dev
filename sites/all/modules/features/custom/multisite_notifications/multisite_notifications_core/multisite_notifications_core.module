@@ -198,7 +198,7 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
           user_preferred_language($account),
           array($form_state['values'], $uid, $name, $pass),
           // From.
-          variable_get('site_mail', NULL),
+          _subscriptions_mail_site_mail(),
           //If TRUE, drupal_mail() will call drupal_mail_system()->mail() to deliver the message, and store the result in $message['result']. Modules implementing hook_mail_alter() may cancel sending by setting $message['send'] to FALSE.
           TRUE
       );
@@ -228,7 +228,7 @@ function multisite_notifications_core_form_submit($form, &$form_state) {
           user_preferred_language($account),
           array($form_state['values'], $uid),
           // From.
-          variable_get('site_mail', NULL),
+          _subscriptions_mail_site_mail(),
           //If TRUE, drupal_mail() will call drupal_mail_system()->mail() to deliver the message, and store the result in $message['result']. Modules implementing hook_mail_alter() may cancel sending by setting $message['send'] to FALSE.
           TRUE
       );
