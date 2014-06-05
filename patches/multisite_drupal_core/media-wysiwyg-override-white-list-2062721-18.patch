@@ -1,4 +1,4 @@
---- sites/all/modules/contributed/media/includes/media.filter.inc.original
+--- sites/all/modules/contributed/media/includes/media.filter.inc
 +++ sites/all/modules/contributed/media/includes/media.filter.inc
 @@ -634,9 +634,7 @@ function media_format_form($form, $form_state, $file) {
    field_attach_form('file', $file, $form['options']['fields'], $form_state);
@@ -9,20 +9,6 @@
 -    }
 +    $form['options']['fields'][$field_name]['#access'] = !empty($instance[$field_name]['settings']['wysiwyg_override']);
    }
- 
-   // Similar to a form_alter, but we want this to run first so that
-diff --git a/media.install b/media.install
-index 343ba7f..fe91971 100644
---- sites/all/modules/contributed/media/media.install
-+++ sites/all/modules/contributed/media/media.install
-@@ -102,6 +102,7 @@ function media_uninstall() {
-   variable_del('media__browser_pager_limit');
-   variable_del('media__browser_viewtype_default');
-   variable_del('media__display_types_migration_mess');
-+  variable_del('media__wysiwyg_override_field_types');
- }
- 
- /**
 @@ -825,6 +826,17 @@ function media_update_7206() {
        file_display_save((object) $display);
      }
