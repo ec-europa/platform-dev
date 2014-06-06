@@ -1,0 +1,19 @@
+<?php
+/**
+ * @file
+ * Drupal needs this blank file.
+ */
+
+/**
+  * Implements hook__wysiwyg_editor_settings_alter().
+  */
+function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
+ global $base_url;
+
+  if ($context['profile']->editor == 'ckeditor') {
+   $skins_path = drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/skins';
+   $active_skin = variable_get('multisite_ckeditor_skin', 'moonocolor');
+   // Set custom skin.
+    $settings['skin'] = sprintf('%s,' . '%s/%s/%s/', $active_skin, $base_url, $skins_path, $active_skin);
+  }
+}
