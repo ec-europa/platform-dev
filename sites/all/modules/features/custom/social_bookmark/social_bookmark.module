@@ -86,6 +86,19 @@ function social_bookmark_block_view($delta = '') {
  * Custom html block.
  */
 function _social_bookmark_contents() {
+  $user_value_socialbookmark = variable_get('user_value_socialbookmark');
+  switch ($user_value_socialbookmark) {
+    case TRUE:
+      $user_value_socialbookmark_twitter = '"twitter_via_handle":"' . $user_value_socialbookmark . '", ';
+      break;
+    case FALSE:
+      $user_value_socialbookmark_twitter = "";
+      break;
+    default:
+      $user_value_socialbookmark_twitter = "";
+      break;
+  }
+
   $stat_book_final = _social_bookmark_stat_switch(variable_get('statistics_socialbookmark'));
 
   $language_selector_socialbookmark = variable_get('language_selector_socialbookmark');
@@ -156,8 +169,9 @@ function _social_bookmark_contents() {
       $ori_final = '"counter_position":"right"';
       break;
   }
+ddl($user_value_socialbookmark_twitter);
 
-  $ret = '<div id="ec-widget-share" style="word-wrap: normal"><!--{' . $stat_book_final . $lan_book_final . $typ_final . $ove_final . $dis_final . $ori_final . '}//--></div>';
+  $ret = '<div id="ec-widget-share" style="word-wrap: normal"><!--{' . $stat_book_final . $user_value_socialbookmark_twitter . $lan_book_final . $typ_final . $ove_final . $dis_final . $ori_final . '}//--></div>';
 
   return $ret;
 }

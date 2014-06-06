@@ -10,6 +10,20 @@
 function _social_bookmark_admin_settings() {
   $form = array();
 
+  $form['custom_user'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Choose your user value'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+  $form['custom_user']['user_value_socialbookmark'] = array (
+    '#type' => 'textfield',
+    '#title' => t('User value'),
+    '#size' => 30,
+    '#maxlength' => 128,
+    '#default_value' => variable_get('user_value_socialbookmark'),
+    );
+
   $form['style_socialbookmark'] = array(
     '#type' => 'fieldset',
     '#title' => t('Customize widget look'),
