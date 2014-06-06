@@ -91,9 +91,10 @@ function multisite_notifications_core_block_view($delta = '') {
   $block = array();
   switch ($delta) {
     case 'notification_block':
-      if ($user->uid=='0') {
+      if ($user->uid == '0') {
+        $content = drupal_get_form('multisite_notifications_core_form');
         $block['subject'] = t('Subscribe to new content');
-        $block['content'] = drupal_render(drupal_get_form('multisite_notifications_core_form'));
+        $block['content'] = drupal_render($content);
       }
       break;
     default:
