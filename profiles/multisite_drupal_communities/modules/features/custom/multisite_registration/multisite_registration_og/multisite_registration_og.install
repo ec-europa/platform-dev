@@ -23,6 +23,9 @@ function multisite_registration_og_uninstall() {
  */
 
 function multisite_registration_og_enable() {
+  multisite_drupal_toolbox_add_path_context('communities', 'node/*/register/*');
+  multisite_drupal_toolbox_add_path_context('communities', 'node/*/registrations/*');
+  
   features_revert(array('multisite_registration_core' => array('field')));
   features_revert(array('multisite_registration_core' => array('field_group')));
   
@@ -35,6 +38,9 @@ function multisite_registration_og_enable() {
  */
 
 function multisite_registration_og_disable() {
+  multisite_drupal_toolbox_remove_path_context('communities', 'node/*/register/*');
+  multisite_drupal_toolbox_remove_path_context('communities', 'node/*/registrations/*');
+  
   drupal_set_message(t('Registration feature is now disabled on your site.'));
 }
 
