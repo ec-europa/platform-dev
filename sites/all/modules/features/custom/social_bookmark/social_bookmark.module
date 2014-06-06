@@ -169,7 +169,6 @@ function _social_bookmark_contents() {
       $ori_final = '"counter_position":"right"';
       break;
   }
-ddl($user_value_socialbookmark_twitter);
 
   $ret = '<div id="ec-widget-share" style="word-wrap: normal"><!--{' . $stat_book_final . $user_value_socialbookmark_twitter . $lan_book_final . $typ_final . $ove_final . $dis_final . $ori_final . '}//--></div>';
 
