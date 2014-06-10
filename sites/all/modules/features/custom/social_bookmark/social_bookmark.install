@@ -29,6 +29,9 @@ function social_bookmark_uninstall() {
  * Implements hook_enable().
  */
 function social_bookmark_enable() {
+  //Set the default value
+  variable_set('user_value_socialbookmark', 'EU_Commission');
+
   // Add block in context.
   global $theme_key;
 
@@ -82,4 +85,11 @@ function _social_bookmark_get_global_var() {
   );
 
   return $global_var;
+}
+
+/**
+ * Set twitter custom user parameter
+ */
+function social_bookmark_update_7310() {
+  variable_set('user_value_socialbookmark', 'EU_Commission');
 }

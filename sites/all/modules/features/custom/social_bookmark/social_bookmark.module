@@ -86,7 +86,7 @@ function social_bookmark_block_view($delta = '') {
  * Custom html block.
  */
 function _social_bookmark_contents() {
-  $user_value_socialbookmark = variable_get('user_value_socialbookmark');
+  $user_value_socialbookmark = variable_get('user_value_socialbookmark', 'EU_Commission');
   switch ($user_value_socialbookmark) {
     case TRUE:
       $user_value_socialbookmark_twitter = '"twitter_via_handle":"' . $user_value_socialbookmark . '", ';
