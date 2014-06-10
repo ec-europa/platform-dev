@@ -101,7 +101,7 @@ function multisite_dynamic_basetheme_system_info_alter(&$info, $file, $type) {
     $theme_key = $file->name;
     if ($new_base_theme = theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) {
       $themes = list_themes();
-      if (isset($themes[$new_base_theme])) {
+      if (isset($themes[$new_base_theme]) && isset ($themes[$new_base_theme]->info['multisite']) && $themes[$new_base_theme]->info['multisite'] == 1) {
         $info['base theme'] = $new_base_theme;
       }
     }
