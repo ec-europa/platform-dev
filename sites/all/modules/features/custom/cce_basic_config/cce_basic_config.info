@@ -1,5 +1,5 @@
 name = cce_basic_config
-description = basic settings for multisite
+description = Basic settings for multisite
 core = 7.x
 package = Multisite Core Features
 php = 5.2.4
@@ -51,6 +51,7 @@ dependencies[] = views
 dependencies[] = workbench
 dependencies[] = workbench_moderation
 dependencies[] = wysiwyg
+dependencies[] = multisite_wysiwyg
 stylesheets[all][] = cce_basic_config.css
 features[ctools][] = context:context:3
 features[ctools][] = field_group:field_group:1
