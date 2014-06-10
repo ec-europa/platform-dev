@@ -71,12 +71,12 @@ function multisite_mediagallery_core_preprocess_node(&$variables) {
     $sorted_media_items = array();
 
     if ($media_items) {
-      foreach ($media_items as $value) {
-        foreach($value as $item) {
+      foreach ($media_items as $item) {
+        if (isset($item['fid'])) {
           $sorted_media_items[$item['fid']] = $item;
         }
       }
-      // ksort($sorted_media_items);
+      ksort($sorted_media_items);
     }
 
     // Manage pager.
@@ -108,16 +108,6 @@ function multisite_mediagallery_core_preprocess_node(&$variables) {
         $local_data = $sorted_media_items[$key];
       }
       $short_name = (strlen(filter_xss($local_data['filename'])) > 35) ? substr(filter_xss($local_data['filename']), 0, 30) . '[...]' : filter_xss($local_data['filename']);
-
-      // Get tags if any provided.
-      if (isset($local_data['field_tags']['und'][0])) {
-        $cop = $local_data['field_tags']['und'];
-        $mytag = '';
-        foreach ($cop as $buif => $tid_array) {
-          $mytag[] = taxonomy_term_load($tid_array['tid'])->name;
-        }
-        $tags = 'Tags: ' . implode(', ', $mytag) . '.';
-      }
 
       if (isset($local_data['filemime'])) {
         $type = explode('/', $local_data['filemime']);

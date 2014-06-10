@@ -96,6 +96,8 @@
       // We hide several elements now so that we can render them later.
       hide($content['comments']);
       hide($content['links']);
+      hide($content['field_picture_upload']);
+      hide($content['field_video_upload']);
 
       // Specific display for media galleries.
       // This variable is defined in mediagalley feature
