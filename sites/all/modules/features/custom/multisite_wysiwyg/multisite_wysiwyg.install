@@ -34,5 +34,3 @@ function multisite_wysiwyg_disable() {
   //Activation message
   drupal_set_message(t('Multisite Wysiwyg feature is now disabled on your site.'));
 }
-
-
