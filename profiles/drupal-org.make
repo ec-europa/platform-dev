@@ -110,7 +110,7 @@ projects[field_group][subdir] = "contributed"
 ;projects[field_group][version] = "1.3"
 
 projects[field_collection][subdir] = "contributed"
-projects[field_collection][version] = "1.0-beta5"
+projects[field_collection][version] = "1.0-beta7"
 
 projects[file_entity][subdir] = "contributed"
 projects[file_entity][version] = "2.0-alpha3"
@@ -386,7 +386,7 @@ libraries[tcpdf][destination] = "libraries"
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"                          
+libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
 libraries[mpdf][destination] = "libraries"
 
 ;cycle 3.0.2 (commit d6557ca)
