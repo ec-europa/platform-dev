@@ -88,7 +88,7 @@ function drush_multisite_dynamic_basetheme_theme_base_theme_set() {
     drush_multisite_dynamic_basetheme_theme_base_theme_list();
     exit();
   // check if it is a multisite base theme
-  }elseif (! isset ($themes[$base_theme]->info['multisite']) || $themes[$base_theme]->info['multisite'] == 1){
+  }elseif (! _multisite_dynamic_basetheme_is_multisite_base_theme($themes[$base_theme])){
     drush_set_error("TBT_BASE_THEME_NOT_BT", t("The base theme cannot be set: the `@theme` theme is not a multisite base theme (`multisite = 1` not found on the info file).", array('@theme' => $base_theme)));
 	drush_multisite_dynamic_basetheme_theme_base_theme_list();
     exit(); 

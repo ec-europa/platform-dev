@@ -58,6 +58,7 @@ function multisite_dynamic_basetheme_form_system_theme_settings_submit($form, &$
 
 /**
  * Rebuild theme information
+ *
  */
 function _multisite_dynamic_basetheme_rebuild_system_theme() {
   drupal_static_reset("theme_get_setting");
@@ -66,30 +67,44 @@ function _multisite_dynamic_basetheme_rebuild_system_theme() {
 }
 
 /**
+ * Return true if the theme is a multisite base theme
+ *
+ * @param object $theme
+ * @return boolean 
+ */
+function _multisite_dynamic_basetheme_is_multisite_base_theme ($theme){
+  if (is_object ($theme)){
+     return ( isset ($theme->info['multisite']) && $theme->info['multisite'] == 1 );
+  }
+  return FALSE;
+}
+
+/**
  * Return list of available base theme (theme with 'multisite = 1')
+ 
+ * @return array available multisite base themes.
  */
 function multisite_dynamic_basetheme_get_base_theme_list($theme_key = FALSE) {
   $options = array();
   $themes = list_themes();
    
-   // get the original base theme of $theme_key from info file
-  if ( $theme_key ) {
-    $theme_info_file = drupal_parse_info_file(drupal_get_path('theme', $theme_key) . "/$theme_key.info");
-    $theme_base_key = $theme_info_file['base theme'];
-    $theme_base_name = (isset($themes[$theme_base_key]) && isset($themes[$theme_base_key]->info['multisite']) && $themes[$theme_base_key]->info['multisite'] == 1 ) ? $themes[$theme_base_key]->info['name'] : t("BASE THEME NOT FOUND");
-    $options[''] = t("Default: @base_theme (@base_theme_key)", array("@base_theme" => $theme_base_name, "@base_theme_key" => $theme_base_key ));
-  }
-
+   // get all available themes
   foreach ($themes as $theme_id => $theme_obj) {
-    if (isset ($theme_obj->info['multisite']) && $theme_obj->info['multisite'] == 1) {
+    if (_multisite_dynamic_basetheme_is_multisite_base_theme($theme_obj)) {
       $options[$theme_id] = $theme_obj->info['name'] . " ($theme_id)";
     }
   }
 
-  if ($theme_key) {
-    unset($options[$theme_base_key]);
+  // get the original base theme of $theme_key from info file
+  if ( $theme_key ) {
+    $theme_info_file = drupal_parse_info_file(drupal_get_path('theme', $theme_key) . "/$theme_key.info");
+    $theme_base_key = $theme_info_file['base theme'];
+    $theme_base_name = (isset($themes[$theme_base_key]) && _multisite_dynamic_basetheme_is_multisite_base_theme($themes[$theme_base_key])) ? $themes[$theme_base_key]->info['name'] : t("BASE THEME NOT FOUND");
+    $options_default[''] = t("Default: @base_theme (@base_theme_key)", array("@base_theme" => $theme_base_name, "@base_theme_key" => $theme_base_key ));
+    $options = $options_default + $options;
+	unset($options[$theme_base_key]);
   }
-
+  
   return $options;
 }
 
@@ -103,7 +118,7 @@ function multisite_dynamic_basetheme_system_info_alter(&$info, $file, $type) {
     $theme_key = $file->name;
     if ($new_base_theme = theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) {
       $themes = list_themes();
-      if (isset($themes[$new_base_theme]) && isset ($themes[$new_base_theme]->info['multisite']) && $themes[$new_base_theme]->info['multisite'] == 1) {
+      if (isset($themes[$new_base_theme]) && _multisite_dynamic_basetheme_is_multisite_base_theme($themes[$new_base_theme])) {
         $info['base theme'] = $new_base_theme;
       }
     }
