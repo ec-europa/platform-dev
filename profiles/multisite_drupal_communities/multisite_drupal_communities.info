@@ -130,6 +130,7 @@ dependencies[] = tagadelic_taxonomy
 dependencies[] = link
 dependencies[] = js_injector
 dependencies[] = transliteration
+dependencies[] = multisite_dynamic_basetheme
 
 dependencies[] = filefield_sources_plupload
 

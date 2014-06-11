@@ -84,15 +84,20 @@ function drush_multisite_dynamic_basetheme_theme_base_theme_set() {
   // Check existence of base theme
   $themes = list_themes();
   if (!isset($themes[$base_theme])) {
-    drush_set_error("TBT_BASE_THEME_NOT_FOUND", t("The base theme cannot be set: the theme `@theme` is not found on this site.", array('@theme' => $base_theme)));
+    drush_set_error("TBT_BASE_THEME_NOT_FOUND", t("The base theme cannot be set: the `@theme` theme is not found on this site.", array('@theme' => $base_theme)));
     drush_multisite_dynamic_basetheme_theme_base_theme_list();
     exit();
+  // check if it is a multisite base theme
+  }elseif (! isset ($themes[$base_theme]->info['multisite']) || $themes[$base_theme]->info['multisite'] == 1){
+    drush_set_error("TBT_BASE_THEME_NOT_BT", t("The base theme cannot be set: the `@theme` theme is not a multisite base theme (`multisite = 1` not found on the info file).", array('@theme' => $base_theme)));
+	drush_multisite_dynamic_basetheme_theme_base_theme_list();
+    exit(); 
   }
 
   // Check current theme (is a subtheme)
   global $theme_info;
   if ( ! isset ($theme_info->info['base theme'])) {
-    drush_set_error("TBT_CURRENT_IS_NOT_A_SUBTHEME", t("The base theme cannot be set: your current theme (@name) is not a sub-theme (`base theme` not found in the info file).", array('@name' => $theme_info->info['name'])));
+    drush_set_error("TBT_CURRENT_IS_NOT_A_SUBTHEME", t("The base theme cannot be set: your current theme (@name) is not a sub-theme (`base theme` not found on the info file).", array('@name' => $theme_info->info['name'])));
     exit();
   }
 

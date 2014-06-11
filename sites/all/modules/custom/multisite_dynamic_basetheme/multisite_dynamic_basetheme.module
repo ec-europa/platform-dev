@@ -13,31 +13,33 @@
  */
 function multisite_dynamic_basetheme_form_system_theme_settings_alter(&$form, $form_state) {
   // get current theme object
-  $theme_key = $form_state['build_info']['args'][0];
-  $themes = list_themes();
-  $theme_object = $themes[$theme_key];
+  if (isset ($form_state['build_info']['args'][0])){
+    $theme_key = $form_state['build_info']['args'][0];
+    $themes = list_themes();
+    $theme_object = $themes[$theme_key];
 
-  if (isset ($theme_object->base_theme)) {
-    $form['base_theme_fieldset'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Base theme'),
-      '#weight' => -100,
-    );
+    if (isset ($theme_object->base_theme)) {
+      $form['base_theme_fieldset'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Base theme'),
+        '#weight' => -100,
+      );
 
-    $default_value = (theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) ? theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key) : 0;
+      $default_value = (theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) ? theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key) : 0;
 
-    $form['base_theme_fieldset']['ec_resp_base_theme_of_subtheme'] = array(
-      '#type' => 'select',
-      '#title' => t('Current base theme'),
-      '#default_value' => $default_value,
-      '#options' => multisite_dynamic_basetheme_get_base_theme_list($theme_key),
-      '#description' => t('Select the base theme for this subtheme. Default correspond to the theme defined in the info file.'),
-    );
-    $form['#submit'][] = 'multisite_dynamic_basetheme_form_system_theme_settings_submit';
+      $form['base_theme_fieldset']['ec_resp_base_theme_of_subtheme'] = array(
+        '#type' => 'select',
+        '#title' => t('Current base theme'),
+        '#default_value' => $default_value,
+        '#options' => multisite_dynamic_basetheme_get_base_theme_list($theme_key),
+        '#description' => t('Select the base theme for this subtheme. Default correspond to the theme defined in the info file.'),
+      );
+      $form['#submit'][] = 'multisite_dynamic_basetheme_form_system_theme_settings_submit';
 
   
-    $var = 'theme_' . $theme_key . '_settings';
-    $settings = variable_get($var);
+      $var = 'theme_' . $theme_key . '_settings';
+      $settings = variable_get($var);
+    }
   }
 }
 
