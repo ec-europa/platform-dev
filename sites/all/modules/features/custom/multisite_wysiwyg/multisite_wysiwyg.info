@@ -1,12 +1,13 @@
 name = Multisite WYSIWYG
 description = Alters wysiwyg settings for CKEditor.
 core = 7.x
-package = USER INTERFACE
+package = Multisite Core Features
 php = 5.2.4
 version = 7.x-1.0
 project = multisite_wysiwyg
+dependencies[] = ckeditor_link
 dependencies[] = features
-dependencies[] = filter
 dependencies[] = wysiwyg
 features[features_api][] = api:1
+features[user_permission][] = access ckeditor link
 features[wysiwyg][] = multisite_wysiwyg
