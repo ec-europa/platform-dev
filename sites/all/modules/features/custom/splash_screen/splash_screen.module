@@ -18,7 +18,8 @@ function splash_screen_init() {
   $current = drupal_get_path_alias();
 
   if (($front == $current) && !isset($_COOKIE[$cookie_name]) && ($GLOBALS['language']->provider == 'language-default')) {
-    language_cookie_set(language_default());
+    $lg_default = language_default();
+    language_cookie_set($lg_default->language);
     drupal_goto($splash_screen_url);
   }
 }
