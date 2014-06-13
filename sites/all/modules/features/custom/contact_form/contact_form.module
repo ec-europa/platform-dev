@@ -27,7 +27,7 @@ function contact_form_mail_alter(&$message) {
     '!form-url' => url($_GET['q'], array('absolute' => TRUE, 'language' => $language)),
     '!sender-name' => format_username($message['params']['sender']),
     '!sender-url' => $message['params']['sender']->uid ? url('user/' . $message['params']['sender']->uid, array('absolute' => TRUE, 'language' => $language)) : $message['params']['sender']->mail,
-    '!referer' => $message['params']['referer'],
+    '!referer' => (isset($message['params']['referer']) ? $message['params']['referer'] : ''),
   );
 
   switch ($message['id']) {
