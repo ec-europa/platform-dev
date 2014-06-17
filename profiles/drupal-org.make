@@ -197,7 +197,7 @@ projects[media_node][subdir] = "contributed"
 projects[media_node][version] = "1.0-rc2"
 
 projects[media_vimeo][subdir] = "contributed"
-projects[media_vimeo][version] = "1.0-beta5"
+projects[media_vimeo][version] = "2.0"
 
 projects[media_youtube][subdir] = "contributed"
 projects[media_youtube][version] = "2.0-rc3"
