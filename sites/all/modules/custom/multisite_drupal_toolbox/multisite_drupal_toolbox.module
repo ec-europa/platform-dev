@@ -1269,33 +1269,91 @@ function multisite_drupal_toolbox_get_base_theme() {
 /**
  * hook_taxonomy_term_delete
  */
-function multisite_drupal_toolbox_taxonomy_term_delete($term) {
+function multisite_drupal_toolbox_taxonomy_term_delete($term_obj) {
   // clean properly all the orphan term references in the database
   $fields = field_info_fields(); // Find all the taxonomy reference fields
+  $operations = array ();
   foreach ($fields as $field) {
     if ($field['type'] == 'taxonomy_term_reference') {
       $query = db_select('field_data_' . $field['field_name'], 'f');
       $query->fields('f', array('entity_type', 'entity_id', $field['field_name'] . '_tid', 'language'))
             ->leftJoin('taxonomy_term_data', 't', 't.tid=f.' . $field['field_name'] . '_tid');
       $query->where('t.tid IS NULL')
-            ->where('f.'.$field['field_name'] . '_tid='.$term->tid)
+            ->where('f.'.$field['field_name'] . '_tid='.$term_obj->tid)
             ->orderBy('f.entity_id', 'ASC');
       $res = $query->execute();
-      foreach ($res as $target) { // load all entities that have references with the term to deleted
-        $entity = array_shift(entity_load($target->entity_type, array($target->entity_id)));
-        foreach ($entity->{$field['field_name']}[$target->language] as $k => $term) {
-          if ($term['tid'] == $target->{$field['field_name'] . '_tid'}) {
-            unset($entity->{$field['field_name']}[$target->language][$k]); // remove the reference to the term
-            db_delete('field_revision_' . $field['field_name']) // clean also field revisions
-              ->condition('entity_type', $target->entity_type)
-              ->condition('entity_id', $target->entity_id)
-              ->condition($field['field_name'] . '_tid', $term['tid'])
-              ->execute();
-            entity_save($target->entity_type, $entity);
-          }
-        }
+      foreach ($res as $target) {
+	    $operations[] = array ('multisite_drupal_toolbox_taxonomy_term_delete_batch_process', array($target,$field,$term_obj));
       }
     }
+  }
+  if (!empty ($operations)){
+    $batch = array(
+            'title' => t('Taxonomy term deletion process'),
+            'operations' => $operations,
+            'finished' => 'multisite_drupal_toolbox_build_batch_finished',
+            'init_message' => t('Initializing...'),
+            'progress_message' => t('Operation @current out of @total.'),
+            'error_message' => t('Found some error here.'),
+          );
+  batch_set($batch);
+  batch_process('');
+  }
+}
+
+/**
+ * Batch taxonomy_term_delete: operation
+ */
+function multisite_drupal_toolbox_taxonomy_term_delete_batch_process ($target, $field, $term, &$context){
+  $entities = entity_load($target->entity_type, array($target->entity_id));
+  if (!empty($entities)){
+    $entity = array_shift($entities);
+	
+	// clean current publishing node
+	multisite_drupal_toolbox_taxonomy_term_delete_clean_node ($target,$field,$term,$entity);
+
+	// clean current draft node
+	if ($target->entity_type == 'node'){
+	  $current_node = workbench_moderation_node_current_load($entity);
+      if ($current_node && $entity->vid != $current_node->vid){
+       multisite_drupal_toolbox_taxonomy_term_delete_clean_node($target,$field,$term,$current_node);
+      }
+	}
+	
+	// clean revision field
+	db_delete('field_revision_' . $field['field_name']) // clean also field revisions
+	->condition('entity_type', $target->entity_type)
+	->condition('entity_id', $target->entity_id)
+	->condition($field['field_name'] . '_tid', $term->tid)
+	->execute(); 	
+  }
+}
+
+/**
+ * Remove taxonomy term from entity
+ * @param bool $target 
+ * @param bool $field 
+ * @param bool $term
+ * @param bool $term
+ */
+function multisite_drupal_toolbox_taxonomy_term_delete_clean_node ($target,$field,$term,$entity){
+  foreach ($entity->{$field['field_name']}[$target->language] as $key => $value){
+    if ($value['tid'] == $term->tid){
+	  unset($entity->{$field['field_name']}[$target->language][$key]);
+	  entity_save($target->entity_type, $entity);	
+	  break;
+	}
+  }
+}
+
+/**
+ * Batch taxonomy_term_delete: finish
+ */
+function multisite_drupal_toolbox_taxonomy_term_delete_batch_finished($success, $results, $operations) {
+  if ($success) {
+    drupal_set_message ('Assigned taxonomy term cleaned');
+  }else{
+    drupal_set_message ('Error: Assigned taxonomy term not cleaned');
   }
 }
 
