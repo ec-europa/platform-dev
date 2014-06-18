@@ -2,9 +2,9 @@
 /*
  * get User info from the comref database
  */
-function getComRefUserInfo($perid, $fields = array('no_sysper')) {
+function getComRefUserInfo($perid, $fields = array('no_sysper'), $info = null) { 
   $config = variable_get('oracle_access');  
-  $data = "op=getComRefUserInfo&per_id=" . $perid . "&fields=" . implode(",", $fields) . "&access_token=" . $config['access_token'];
+  $data = "op=getComRefUserInfo&per_id=".$perid."&access_token=".$config['access_token']."&info=".$info."&fields=".implode(",", $fields);
 
   $options = array(
     'method' => 'POST',
@@ -15,22 +15,23 @@ function getComRefUserInfo($perid, $fields = array('no_sysper')) {
   );
 
   $result = drupal_http_request($config['url'], $options);
+
   if($result->code == '200') {
     $xmlobj = simplexml_load_string($result->data);
     $values = json_decode(json_encode((array)$xmlobj), TRUE);
+
+    //print_r($result->data);
+    //exit();
+
   }
   else {
     watchdog('oracle access', 'connection issue with the oracle service'); 
   }
-// watchdog('COMREF values', '<pre>'. print_r($values, TRUE) .'</pre>');
-//  return isset($values) ? $values['records'] : NULL;
-  if (isset($values) && !empty($values['records'])) {
-    return $values['records'];
-  } 
-  else {
-    return NULL;
-  }
+
+  return isset($values)?$values['records']:null;
+  //return isset($xmlobj)?$xmlobj:null;
 }
+
 
 
 /*
@@ -38,7 +39,7 @@ function getComRefUserInfo($perid, $fields = array('no_sysper')) {
  */
 function getComRefInfo($info, $fields = array()) {
   $config = variable_get('oracle_access');
-  $data = "op=getComRefInfo&access_token=" . $config['access_token'] . "&info=" . $info . "&fields=" . implode(",", $fields);
+  $data = "op=getComRefInfo&access_token=".$config['access_token']."&info=".$info."&fields=".implode(",", $fields);
 
   $options = array(
     'method' => 'POST',
@@ -47,23 +48,43 @@ function getComRefInfo($info, $fields = array()) {
       'Content-Type' => 'application/x-www-form-urlencoded',
     ),
   );
+
   $result = drupal_http_request($config['url'], $options);
+
   if($result->code == '200') {
+    //print_r($result->data);
+    //exit();
+
     $xmlobj = simplexml_load_string($result->data);
 
+    //$values = xml2array($xmlobj);
+
+
     $values = json_decode(json_encode((array)$xmlobj), TRUE);
+    //foreach ($xmlobj as $element) {
+    //print_r($element);
+    //print "--\n";
+    //print $element[0];
+    //  $values[] = $element[0]->__toString();
+
+    //}
+
+    //header('Content-Type: application/xml');
+    //print $result->data;
+    //exit();
+
+  
   }
   else {
     watchdog('oracle access', 'connection issue with the oracle service');
   }
 
-    if (isset($values) && !empty($values['records'])) {
-    return $values['records'];
-  } 
-  else {
-    return NULL;
-  }
+  return isset($values)?$values['records']:null;
+  //return isset($xmlobj)?$xmlobj:null;
 }
+
+
+
 
 
 /*
@@ -81,4 +102,5 @@ function replace_ComRef_token($matches) {
     return;  
   }
 }
+
 
