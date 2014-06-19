@@ -26,26 +26,6 @@
  * @ingroup views_templates
  */
 ?>
-
-  <?php
-  //Replace nid by number of items in gallery
-  function nb_items_count($matches) {
-    $node = node_load($matches[1]);
-    $nb_pictures = 0;
-    $nb_video = 0;
-
-    if (isset($node->field_picture_upload['und'])):
-      $nb_pictures = sizeof($node->field_picture_upload['und']);
-    endif;
-
-    if (isset($node->field_video_upload['und'])):
-      $nb_video = sizeof($node->field_video_upload['und']);
-    endif;
-
-    return '<div class="meta">' . ($nb_pictures + $nb_video) . ' ' . t('items') . '</div>';
-  }
-  ?>
-
 <div class="<?php print $classes; ?>">
   <?php print render($title_prefix); ?>
   <?php if ($title): ?>
@@ -73,23 +53,14 @@
   <?php if ($rows): ?>
     <div class="view-content">
       <?php
-          $empty_pic = db_select('file_managed', 'fm')
-            ->fields('fm')
-            ->condition('filename', 'empty_gallery.png','=')
-            ->execute()
-            ->fetchAssoc();
-          $picture_square_thumbnail = image_style_url('square_thumbnail', $empty_pic['uri']);
-          $empty_img = '<img src="'.$picture_square_thumbnail.'" alt="There is no content in this gallery, or it has not been validated yet." />';
-
           //Check if the galleries are actually empty
           $rows = str_replace('[Empty_gallery][Empty_gallery]', $empty_img, $rows );
           //Check if there is only one picture
           $rows = str_replace('[Empty_gallery]', '', $rows );
           //Replace nid by number of items in gallery
-          $rows = preg_replace_callback('#<div id="nb_items">([0-9]+)</div>#', "nb_items_count" , $rows);
+          $rows = preg_replace_callback('#<div id="nb_items">([0-9]+)</div>#', "ec_resp_media_gallery_count" , $rows);
 
           print $rows;
-
       ?>
     </div>
 

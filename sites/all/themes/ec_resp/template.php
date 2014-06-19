@@ -317,7 +317,18 @@ function ec_resp_preprocess_views_view(&$variables) {
   $view = $variables['view'];
 
   if($view->name == 'galleries' && $view->current_display == 'page') {
-     drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-galleries.js');
+    drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-galleries.js');
+
+    // Get empty gallery picture, if needed
+    $empty_pic = db_select('file_managed', 'fm')
+      ->fields('fm')
+      ->condition('filename', 'empty_gallery.png','=')
+      ->execute()
+      ->fetchAssoc();
+    $picture_square_thumbnail = image_style_url('square_thumbnail', $empty_pic['uri']);
+    $empty_img = '<img src="'.$picture_square_thumbnail.'" alt="There is no content in this gallery, or it has not been validated yet." />';
+
+    $variables['empty_img'] = $empty_img;
   }
 }
 
@@ -328,8 +339,52 @@ function ec_resp_preprocess_views_view_unformatted(&$variables) {
   $view = $variables['view'];
 
   if($view->name == 'galleries' && $view->current_display == 'medias_block') {
-     drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-medias-block.js');
+    drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-medias-block.js');
   }
+}
+
+/**
+ * Implements theme_preprocess_views_view_grid().
+ */
+function ec_resp_preprocess_views_view_grid(&$variables) {
+  $view = $variables['view'];
+
+  //set length of each column, depending of number of element on one line
+  $grid_col = array();
+
+  $grid_col[1]['lg'] = array(12); $grid_col[1]['md'] = array(12); $grid_col[1]['sm'] = array(12); $grid_col[1]['xs'] = array(12);
+  $grid_col[2]['lg'] = array(6,6); $grid_col[2]['md'] = array(6,6); $grid_col[2]['sm'] = array(12); $grid_col[2]['xs'] = array(12);
+  $grid_col[3]['lg'] = array(4,4,4); $grid_col[3]['md'] = array(6,6); $grid_col[3]['sm'] = array(6,6); $grid_col[3]['xs'] = array(12);
+  $grid_col[4]['lg'] = array(3,3,3,3); $grid_col[4]['md'] = array(4,4,4); $grid_col[4]['sm'] = array(4,4,4); $grid_col[4]['xs'] = array(6,6);
+  $grid_col[5]['lg'] = array(3,2,2,2,3); $grid_col[5]['md'] = array(3,3,3,3); $grid_col[5]['sm'] = array(4,4,4); $grid_col[5]['xs'] = array(6,6);
+  $grid_col[6]['lg'] = array(2,2,2,2,2,2); $grid_col[6]['md'] = array(3,3,3,3); $grid_col[6]['sm'] = array(4,4,4); $grid_col[6]['xs'] = array(6,6);
+  $grid_col[7]['lg'] = array(3,1,1,1,1,1,4); $grid_col[7]['md'] = array(3,2,2,2,3); $grid_col[7]['sm'] = array(3,3,3,3); $grid_col[7]['xs'] = array(4,4,4);
+  $grid_col[8]['lg'] = array(3,1,1,1,1,1,1,3); $grid_col[8]['md'] = array(2,2,2,2,2,2); $grid_col[8]['sm'] = array(3,3,3,3); $grid_col[8]['xs'] = array(4,4,4);
+  $grid_col[9]['lg'] = array(2,1,1,1,1,1,1,1,3); $grid_col[9]['md'] = array(3,1,1,1,1,1,4); $grid_col[9]['sm'] = array(3,2,2,2,3); $grid_col[9]['xs'] = array(3,3,3,3);
+  $grid_col[10]['lg'] = array(2,1,1,1,1,1,1,1,1,2); $grid_col[10]['md'] = array(3,1,1,1,1,1,1,3); $grid_col[10]['sm'] = array(2,2,2,2,2,2); $grid_col[10]['xs'] = array(3,3,3,3);
+  $grid_col[11]['lg'] = array(1,1,1,1,1,1,1,1,1,1,2); $grid_col[11]['md'] = array(2,1,1,1,1,1,1,1,1,2); $grid_col[11]['sm'] = array(3,1,1,1,1,1,1,3); $grid_col[11]['xs'] = array(2,2,2,2,2,2);
+  $grid_col[12]['lg'] = array(1,1,1,1,1,1,1,1,1,1,1,1); $grid_col[12]['md'] = array(2,1,1,1,1,1,1,1,1,2); $grid_col[12]['sm'] = array(3,1,1,1,1,1,1,3); $grid_col[12]['xs'] = array(2,2,2,2,2,2);
+
+  $variables['grid_col'] = $grid_col;
+}
+
+/**
+ * Count items in media gallery
+ */
+function ec_resp_media_gallery_count($matches) {
+  $node = node_load($matches[1]);
+  $nb_pictures = 0;
+  $nb_video = 0;
+
+  if (isset($node->field_picture_upload['und'])):
+    $nb_pictures = sizeof($node->field_picture_upload['und']);
+  endif;
+
+  if (isset($node->field_video_upload['und'])):
+    $nb_video = sizeof($node->field_video_upload['und']);
+  endif;
+
+  return '<div class="meta">' . ($nb_pictures + $nb_video) . ' ' . t('items') . '</div>';
 }
 
 /**
