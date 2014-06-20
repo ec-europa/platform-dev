@@ -226,7 +226,7 @@
       $('#responsive-sidebar').once('responsive-sidebar', function(){
 
         // Hide the sidebar on load 
-        $('#responsive-sidebar').css('left', '-85%');
+        $('#responsive-sidebar').addClass('reduced').removeClass('expanded');
 
         $('.sidebar-button').on("click", function() {
           $('.sidebar-button').toggleClass('sidebar-open');
@@ -249,8 +249,8 @@
 
         function hide_sidebar() {
           // close responsive sidebars
-          $('#responsive-sidebar').css('left','-85%');
-          $('#layout-body').css('left','0').removeClass('reduced').delay(400).promise().done(function(){
+          $('#responsive-sidebar').addClass('reduced').removeClass('expanded');
+          $('#layout-body').addClass('expanded').removeClass('reduced').delay(400).promise().done(function(){
             // move left sidebar
             $('#responsive-sidebar-left > div').detach().appendTo($('#sidebar-left'));
 
@@ -273,8 +273,8 @@
           $('#banner-image-right > div').detach().appendTo($('#responsive-header-right'));
 
           // open responsive sidebars
-          $('#responsive-sidebar').css('left','0');
-          $('#layout-body').css('left','85%').addClass('reduced');
+          $('#responsive-sidebar').addClass('expanded').removeClass('reduced');
+          $('#layout-body').addClass('reduced').removeClass('expanded');
         }
       });
     }
