@@ -23,9 +23,6 @@ function multisite_registration_standard_uninstall() {
  */
 
 function multisite_registration_standard_enable() {
-  features_revert(array('multisite_registration_core' => array('field')));
-  features_revert(array('multisite_registration_core' => array('field_group')));
-  
   //Activation message
   drupal_set_message(t('Registration feature is now active on your site.'));
 }
