@@ -91,7 +91,7 @@ function multisite_drupal_language_negociation_form_alter(&$form, $form_state, $
             }
           }
         }
-      }  
+      }
     }
   }
 }
@@ -120,7 +120,7 @@ function multisite_drupal_language_negociation_views_query_alter(&$view, &$query
         OR (node.tnid = node.nid AND node_node.language IS NULL)
         OR (node.language = '$language_default->language' AND node.tnid = 0)
       ", array(), 'formula');
-      
+
     }
   }
 }
@@ -130,15 +130,15 @@ function multisite_drupal_language_negociation_views_query_alter(&$view, &$query
  */
 function check_language_suffix($path) {
   $languages = language_list('enabled');
-  $languages_suffix = array_keys($languages[1]);  
+  $languages_suffix = array_keys($languages[1]);
   $delimiter = variable_get('language_suffix_delimiter', '_');
 
   $pattern = "/$delimiter/";
   $matches = preg_split($pattern, $path);
-  
+
   if (count($matches) > 1) {
     if (in_array(array_pop($matches), $languages_suffix)) {
-      return TRUE;  
+      return TRUE;
     }
   }
 
