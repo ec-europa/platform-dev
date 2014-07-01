@@ -10,18 +10,18 @@
 function multisite_registration_core_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: administer event_registration registration.
-  $permissions['administer event_registration registration'] = array(
-    'name' => 'administer event_registration registration',
+  // Exported permission: administer multisite_registration registration.
+  $permissions['administer multisite_registration registration'] = array(
+    'name' => 'administer multisite_registration registration',
     'roles' => array(
       'administrator' => 'administrator',
     ),
     'module' => 'registration',
   );
 
-  // Exported permission: administer own event_registration registration.
-  $permissions['administer own event_registration registration'] = array(
-    'name' => 'administer own event_registration registration',
+  // Exported permission: administer own multisite_registration registration.
+  $permissions['administer own multisite_registration registration'] = array(
+    'name' => 'administer own multisite_registration registration',
     'roles' => array(
       'administrator' => 'administrator',
     ),
@@ -55,28 +55,18 @@ function multisite_registration_core_user_default_permissions() {
     'module' => 'registration',
   );
 
-  // Exported permission: create event_registration registration.
-  $permissions['create event_registration registration'] = array(
-    'name' => 'create event_registration registration',
+  // Exported permission: create multisite_registration registration.
+  $permissions['create multisite_registration registration'] = array(
+    'name' => 'create multisite_registration registration',
     'roles' => array(
       'administrator' => 'administrator',
     ),
     'module' => 'registration',
   );
 
-  // Exported permission: create event_registration registration other anonymous.
-  $permissions['create event_registration registration other anonymous'] = array(
-    'name' => 'create event_registration registration other anonymous',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
-    ),
-    'module' => 'registration',
-  );
-
-  // Exported permission: create event_registration registration other users.
-  $permissions['create event_registration registration other users'] = array(
-    'name' => 'create event_registration registration other users',
+  // Exported permission: create multisite_registration registration other anonymous.
+  $permissions['create multisite_registration registration other anonymous'] = array(
+    'name' => 'create multisite_registration registration other anonymous',
     'roles' => array(
       'administrator' => 'administrator',
       'authenticated user' => 'authenticated user',
@@ -84,63 +74,73 @@ function multisite_registration_core_user_default_permissions() {
     'module' => 'registration',
   );
 
-  // Exported permission: delete any event_registration registration.
-  $permissions['delete any event_registration registration'] = array(
-    'name' => 'delete any event_registration registration',
+  // Exported permission: create multisite_registration registration other users.
+  $permissions['create multisite_registration registration other users'] = array(
+    'name' => 'create multisite_registration registration other users',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
+    ),
+    'module' => 'registration',
+  );
+
+  // Exported permission: delete any multisite_registration registration.
+  $permissions['delete any multisite_registration registration'] = array(
+    'name' => 'delete any multisite_registration registration',
     'roles' => array(
       'administrator' => 'administrator',
     ),
     'module' => 'registration',
   );
 
-  // Exported permission: delete own event_registration registration.
-  $permissions['delete own event_registration registration'] = array(
-    'name' => 'delete own event_registration registration',
+  // Exported permission: delete own multisite_registration registration.
+  $permissions['delete own multisite_registration registration'] = array(
+    'name' => 'delete own multisite_registration registration',
     'roles' => array(
       'administrator' => 'administrator',
     ),
     'module' => 'registration',
   );
 
-  // Exported permission: edit event_registration registration state.
-  $permissions['edit event_registration registration state'] = array(
-    'name' => 'edit event_registration registration state',
+  // Exported permission: edit multisite_registration registration state.
+  $permissions['edit multisite_registration registration state'] = array(
+    'name' => 'edit multisite_registration registration state',
     'roles' => array(
       'administrator' => 'administrator',
     ),
     'module' => 'registration',
   );
 
-  // Exported permission: update any event_registration registration.
-  $permissions['update any event_registration registration'] = array(
-    'name' => 'update any event_registration registration',
+  // Exported permission: update any multisite_registration registration.
+  $permissions['update any multisite_registration registration'] = array(
+    'name' => 'update any multisite_registration registration',
     'roles' => array(
       'administrator' => 'administrator',
     ),
     'module' => 'registration',
   );
 
-  // Exported permission: update own event_registration registration.
-  $permissions['update own event_registration registration'] = array(
-    'name' => 'update own event_registration registration',
+  // Exported permission: update own multisite_registration registration.
+  $permissions['update own multisite_registration registration'] = array(
+    'name' => 'update own multisite_registration registration',
     'roles' => array(
       'administrator' => 'administrator',
     ),
     'module' => 'registration',
   );
 
-  // Exported permission: view event_registration registration.
-  $permissions['view event_registration registration'] = array(
-    'name' => 'view event_registration registration',
+  // Exported permission: view multisite_registration registration.
+  $permissions['view multisite_registration registration'] = array(
+    'name' => 'view multisite_registration registration',
     'roles' => array(
       'administrator' => 'administrator',
     ),
     'module' => 'registration',
   );
 
-  // Exported permission: view own event_registration registration.
-  $permissions['view own event_registration registration'] = array(
-    'name' => 'view own event_registration registration',
+  // Exported permission: view own multisite_registration registration.
+  $permissions['view own multisite_registration registration'] = array(
+    'name' => 'view own multisite_registration registration',
     'roles' => array(
       'administrator' => 'administrator',
       'authenticated user' => 'authenticated user',

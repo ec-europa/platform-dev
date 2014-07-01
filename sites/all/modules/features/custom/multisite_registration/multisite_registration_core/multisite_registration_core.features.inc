@@ -57,9 +57,9 @@ function multisite_registration_core_default_registration_state() {
  */
 function multisite_registration_core_default_registration_type() {
   $items = array();
-  $items['event_registration'] = entity_import('registration_type', '{
-    "name" : "event_registration",
-    "label" : "event_registration",
+  $items['multisite_registration'] = entity_import('registration_type', '{
+    "name" : "multisite_registration",
+    "label" : "multisite_registration",
     "locked" : "0",
     "weight" : "0",
     "data" : null,
