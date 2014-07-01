@@ -23,6 +23,7 @@ function newsletters_enable() {
     db_update('simplenews_category')
       ->fields(array(
         'format' => 'html',
+        'from_address' => 'EC-FP-INTERNET-SERVICES-DO-NOT-REPLY@ec.europa.eu',
       ))
       ->execute();
 }
