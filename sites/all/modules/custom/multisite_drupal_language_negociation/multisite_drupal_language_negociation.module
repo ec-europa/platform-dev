@@ -125,22 +125,4 @@ function multisite_drupal_language_negociation_views_query_alter(&$view, &$query
   }
 }
 
-/*
- * check if the suffix language is in the path
- */
-function check_language_suffix($path) {
-  $languages = language_list('enabled');
-  $languages_suffix = array_keys($languages[1]);
-  $delimiter = variable_get('language_suffix_delimiter', '_');
 
-  $pattern = "/$delimiter/";
-  $matches = preg_split($pattern, $path);
-
-  if (count($matches) > 1) {
-    if (in_array(array_pop($matches), $languages_suffix)) {
-      return TRUE;
-    }
-  }
-
-  return FALSE;
-}
