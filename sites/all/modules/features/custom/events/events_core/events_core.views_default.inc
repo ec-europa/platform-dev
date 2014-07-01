@@ -95,6 +95,8 @@ function events_core_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'fullcalendar';
+  $handler->display->display_options['style_options']['colorbox']['colorbox'] = TRUE;
+  $handler->display->display_options['style_options']['colorbox']['colorboxClass'] = '.region-content';
   $handler->display->display_options['style_options']['firstDay'] = '1';
   $handler->display->display_options['style_options']['theme'] = FALSE;
   $handler->display->display_options['style_options']['sameWindow'] = TRUE;
