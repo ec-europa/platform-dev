@@ -58,4 +58,5 @@ features[variable][] = node_preview_simplenews
 features[variable][] = node_submitted_simplenews
 features[variable][] = simplenews_content_type_simplenews
 features[variable][] = simplenews_format
+features[variable][] = simplenews_from_address
 files[] = tests/newsletters.test
