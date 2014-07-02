@@ -51,15 +51,6 @@ function multisite_settings_core_strongarm() {
       ),
       'file' => 'includes/locale.inc',
     ),
-    'language_cookie' => array(
-      'callbacks' => array(
-        'language' => 'language_cookie_language',
-        'switcher' => 'language_cookie_language_switcher',
-        'url_rewrite' => 'language_cookie_language_rewrite',
-      ),
-      'file' => 'sites/all/modules/contributed/language_cookie/language_cookie.module',
-      'cache' => 0,
-    ),
     'language-default' => array(
       'callbacks' => array(
         'language' => 'language_from_default',
