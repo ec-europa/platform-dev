@@ -67,7 +67,6 @@ features[variable][] = menu_parent_news
 features[variable][] = node_options_news
 features[variable][] = node_preview_news
 features[variable][] = node_submitted_news
-features[variable][] = pathauto_node_news_pattern
 features[variable][] = workbench_moderation_default_state_news
 features[views_view][] = news
 features_exclude[dependencies][survey_core] = survey_core
