@@ -40,3 +40,13 @@ function solr_config_apachesolr_query_alter($query) {
   $query->addFilter('ss_language', "(und OR ".$language->language.")"); // by default set the facet language to current language and neutral language
 }
 
+function solr_config_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  if($form_id == 'apachesolr_index_action_form') {
+    if($user->uid != 1) {
+      // show the solr index actions only for the user 1, prevent webmasters to reindex the multisite index
+      unset($form['action']);
+    }
+  }
+}
+
