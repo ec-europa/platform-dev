@@ -34,7 +34,7 @@ feature_sets[multisite_registration_standard][title] = 'Registration'
 feature_sets[multisite_registration_standard][description] = 'Allow, manage and track user registrations on any content types. Send mails to the registrants.<br /><a href="https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Registration+-+documentation" target="_blank">Read documentation</a>'
 feature_sets[multisite_registration_standard][category] = 'Communication'
 feature_sets[multisite_registration_standard][icon] = ''
-feature_sets[multisite_registration_standard][font] = 'multisite-icon-calendar'
+feature_sets[multisite_registration_standard][font] = 'multisite-icon-history'
 feature_sets[multisite_registration_standard][enable][] = registration
 feature_sets[multisite_registration_standard][enable][] = multisite_registration_core
 feature_sets[multisite_registration_standard][enable][] = multisite_registration_standard

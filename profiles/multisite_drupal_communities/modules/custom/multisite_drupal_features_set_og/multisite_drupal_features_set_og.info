@@ -34,7 +34,7 @@ feature_sets[multisite_registration_og][title] = 'Events registration'
 feature_sets[multisite_registration_og][description] = 'Allow and track user registrations for events<br /><a href="https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Registration+-+documentation" target="_blank">Read documentation</a>'
 feature_sets[multisite_registration_og][category] = 'Communication'
 feature_sets[multisite_registration_og][icon] = ''
-feature_sets[multisite_registration_og][font] = 'multisite-icon-calendar'
+feature_sets[multisite_registration_og][font] = 'multisite-icon-history'
 feature_sets[multisite_registration_og][enable][] = registration
 feature_sets[multisite_registration_og][enable][] = events_core
 feature_sets[multisite_registration_og][enable][] = events_og
