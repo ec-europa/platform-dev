@@ -19,7 +19,6 @@ function communities_context_default_contexts() {
   $context->conditions = array(
     'node' => array(
       'values' => array(
-        'article' => 'article',
         'community' => 'community',
       ),
       'options' => array(
@@ -37,7 +36,14 @@ function communities_context_default_contexts() {
     'views' => array(
       'values' => array(
         'articles_list' => 'articles_list',
+        'calendar:month' => 'calendar:month',
         'communities_directory' => 'communities_directory',
+        'e_library:page' => 'e_library:page',
+        'links:page' => 'links:page',
+        'news:page' => 'news:page',
+        'surveys_list:page_1' => 'surveys_list:page_1',
+        'wiki_list:page_1' => 'wiki_list:page_1',
+        'wiki_list:page_2' => 'wiki_list:page_2',
       ),
     ),
   );

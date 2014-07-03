@@ -94,27 +94,6 @@ function communities_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['path'] = 'articles-list';
-  $translatables['articles_list'] = array(
-    t('Master'),
-    t('Articles list'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('No content found'),
-    t('OG membership from node'),
-    t('All'),
-    t('Page'),
-  );
   $export['articles_list'] = $view;
 
   $view = new view();
@@ -355,33 +334,6 @@ function communities_views_default_views() {
   $handler->display->display_options['menu']['title'] = 'all communities';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['tab_options']['weight'] = '0';
-  $translatables['communities_directory'] = array(
-    t('Defaults'),
-    t('Groups list'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('header content'),
-    t('OG membership from node'),
-    t('Title'),
-    t('Description'),
-    t('Group visibility'),
-    t('All'),
-    t('Page'),
-    t('<div class="btn btn-info">[group_group]</div>'),
-    t('Feed'),
-    t('Page 2'),
-  );
   $export['communities_directory'] = $view;
 
   $view = new view();
@@ -567,32 +519,6 @@ function communities_views_default_views() {
   $handler->display->display_options['menu']['title'] = 'my communities';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['context'] = 0;
-  $translatables['communities_directory_my'] = array(
-    t('Master'),
-    t('my communities'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('header'),
-    t('User is not a member of any group.'),
-    t('OG membership from node group'),
-    t('Title'),
-    t('Description'),
-    t('Group visibility'),
-    t('<div class="btn btn-info">[group_group]</div>'),
-    t('All'),
-    t('Page'),
-  );
   $export['communities_directory_my'] = $view;
 
   $view = new view();
@@ -681,19 +607,6 @@ function communities_views_default_views() {
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $translatables['communities_members'] = array(
-    t('Defaults'),
-    t('members list'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('OG membership from user'),
-    t('All'),
-    t('Block'),
-  );
   $export['communities_members'] = $view;
 
   $view = new view();
@@ -719,7 +632,6 @@ function communities_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '7';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'list';
-  $handler->display->display_options['style_options']['class'] = '';
   $handler->display->display_options['style_options']['wrapper_class'] = '';
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
@@ -768,7 +680,6 @@ function communities_views_default_views() {
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
-  $handler->display->display_options['style_options']['class'] = '';
   $handler->display->display_options['style_options']['wrapper_class'] = '';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
@@ -797,20 +708,6 @@ function communities_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['html'] = TRUE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  $translatables['community_content'] = array(
-    t('Master'),
-    t('Latest Content'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('OG membership from node'),
-    t('All'),
-    t('Community Content'),
-    t(' <i class="icon-[type]"></i>[title]'),
-  );
   $export['community_content'] = $view;
 
   $view = new view();
@@ -895,20 +792,6 @@ function communities_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
-  $translatables['og_pending_membership'] = array(
-    t('Master'),
-    t('Pending memberships'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('user from OG membership'),
-    t('Group node from OG membership'),
-    t('All'),
-    t('Block'),
-  );
   $export['og_pending_membership'] = $view;
 
   return $export;
