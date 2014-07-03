@@ -8,3 +8,5 @@ project = news_standard
 dependencies[] = news_core
 features[features_api][] = api:1
 files[] = tests/news_core.test
+features[ctools][] = context:context:3
+features[context][] = news_posts

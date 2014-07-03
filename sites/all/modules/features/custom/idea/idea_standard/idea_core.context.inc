@@ -1,25 +1,25 @@
 <?php
 /**
  * @file
- * e_library_core.context.inc
+ * idea_standard.context.inc
  */
 
 /**
  * Implements hook_context_default_contexts().
  */
-function e_library_core_context_default_contexts() {
+function idea_standard_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
-  $context->name = 'document_posts';
-  $context->description = 'A context to add active trail class to document posts';
+  $context->name = 'idea_posts';
+  $context->description = 'A context to add active trail class to idea posts';
   $context->tag = 'Menu items';
   $context->conditions = array(
     'node' => array(
       'values' => array(
-        'document' => 'document',
+        'idea' => 'idea',
       ),
       'options' => array(
         'node_form' => '1',
@@ -27,15 +27,15 @@ function e_library_core_context_default_contexts() {
     ),
   );
   $context->reactions = array(
-    'menu' => 'e_library',
+    'menu' => 'ideas',
   );
   $context->condition_mode = 0;
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('A context to add active trail class to document posts');
+  t('A context to add active trail class to idea posts');
   t('Menu items');
-  $export['document_posts'] = $context;
+  $export['idea_posts'] = $context;
 
   return $export;
 }

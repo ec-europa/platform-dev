@@ -7,5 +7,7 @@ version = "7.x-1.0"
 project = "multisite_mediagallery_standard"
 dependencies[] = "multisite_mediagallery_core"
 features[features_api][] = api:1
+features[ctools][] = context:context:3
+features[context][] = gallery_posts
 files[] = tests/multisite_mediagallery_standard.test
 files[] = tests/multisite_mediagallery_standard.extra.test

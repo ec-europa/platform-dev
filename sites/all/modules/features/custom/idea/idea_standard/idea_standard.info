@@ -7,4 +7,6 @@ php = 5.2.4
 project = idea_standard
 dependencies[] = idea_core
 features[features_api][] = api:1
+features[ctools][] = context:context:3
+features[context][] = idea_posts
 files[] = tests/idea_standard.test

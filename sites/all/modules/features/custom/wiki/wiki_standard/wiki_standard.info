@@ -7,4 +7,6 @@ php = 5.2.4
 project = wiki_standard
 dependencies[] = wiki_core
 features[features_api][] = api:1
+features[context][] = wiki_posts
+features[ctools][] = context:context:3
 files[] = tests/wiki_standard.test

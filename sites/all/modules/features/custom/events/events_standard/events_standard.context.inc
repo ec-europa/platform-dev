@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * events_core.context.inc
+ * events_standard.context.inc
  */
 
 /**
  * Implements hook_context_default_contexts().
  */
-function events_core_context_default_contexts() {
+function events_standard_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();

@@ -7,4 +7,6 @@ package = Multisite Standard Features
 project = e_library_standard
 features[features_api][] = api:1
 dependencies[] = e_library_core
+features[context][] = document_posts
+features[ctools][] = context:context:3
 files[] = tests/e_library_standard.test

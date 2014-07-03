@@ -7,7 +7,7 @@
 /**
  * Implements hook_context_default_contexts().
  */
-function survey_core_context_default_contexts() {
+function survey_standard_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();

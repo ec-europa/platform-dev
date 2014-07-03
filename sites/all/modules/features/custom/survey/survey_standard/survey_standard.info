@@ -10,3 +10,5 @@ dependencies[] = i18n_taxonomy
 features[features_api][] = api:1
 files[] = tests/survey_standard.test
 files[] = tests/survey_standard.extra.test
+features[context][] = survey_posts
+features[ctools][] = context:context:3
