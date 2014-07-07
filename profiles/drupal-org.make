@@ -106,6 +106,9 @@ projects[fblikebutton][version] = "2.3"
 projects[features][subdir] = "contributed"
 projects[features][version] = "2.0-beta1"
 
+projects[feeds][subdir] = "contributed"
+projects[feeds][version] = "2.0-alpha8"
+
 projects[field_group][subdir] = "contributed"
 ;projects[field_group][version] = "1.3"
 
@@ -150,6 +153,9 @@ projects[i18nviews][subdir] = "contributed"
 projects[i18nviews][download][type] = "git"
 projects[i18nviews][download][url] = "http://git.drupal.org/project/i18nviews.git"
 projects[i18nviews][download][revision] = "26bd52c4664b0fec8155273f0c0f3ab8a5a2ef66"
+
+projects[job_scheduler][subdir] = "contributed"
+projects[job_scheduler][version] = "2.0-alpha3"
 
 projects[jqmulti][subdir] = "contributed"
 projects[jqmulti][version] = "1.0"
