@@ -60,9 +60,9 @@
         $identity .= $user_profile['field_lastname'][0]['#markup'];
       }      
       $output .= '<blockquote><h3>' . $identity . '</h3>';
-      
-      $output .= '<small>' . t('Member since') . ' ' . date('d/m/Y',$profile_user->created) . '</small></blockquote>';
-
+      if (isset($profile_user->created)) {
+        $output .= '<small>' . t('Member since') . ' ' . date('d/m/Y', $profile_user->created) . '</small></blockquote>';
+      }
       print $output;
     ?>
       </div>
