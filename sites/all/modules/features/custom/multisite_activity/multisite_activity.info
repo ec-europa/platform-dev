@@ -1,5 +1,5 @@
 name = Multisite Activity
-description = Multisite activity messagins.
+description = Multisite activity messaging
 core = 7.x
 package = Multisite_features
 php = 5.2.4
@@ -26,6 +26,7 @@ features[field][] = message-multisite_create_comment-field_node_ref
 features[field][] = message-multisite_create_comment-field_published
 features[field][] = message-multisite_create_node-field_node_ref
 features[field][] = message-multisite_create_node-field_published
+features[message_type][] = multisite_content_update
 features[message_type][] = multisite_create_comment
 features[message_type][] = multisite_create_node
 features[views_view][] = multisite_activity
