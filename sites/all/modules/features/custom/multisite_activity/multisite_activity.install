@@ -1,0 +1,35 @@
+<?php
+/**
+ * @file multi_user install file.
+ */
+
+/*
+* Implements hook_disable().
+*/
+function multisite_activity_disable() {
+
+  // Deactivation message.
+  drupal_set_message(t('Multisite activity feature is now disable on your site.'));
+}
+
+/*
+* Implements hook_enable().
+*/
+function multisite_activity_enable() {
+  // Activation message.
+  drupal_set_message(t('Multisite activity feature feature is now enable on your site.'));
+}
+
+/**
+ * Implements hook_install().
+ */
+function multisite_activity_install() {
+  // Install scripts here.
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function multisite_activity_uninstall() {
+  // Uninstall scripts here.
+}

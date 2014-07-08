@@ -22,7 +22,7 @@ function multisite_activity_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Message multisite';
+  $handler->display->display_options['title'] = 'Activity stream';
   $handler->display->display_options['css_class'] = 'multisite-activity';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
@@ -39,7 +39,7 @@ function multisite_activity_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['label'] = 'User activity stream';
-  $handler->display->display_options['header']['area']['content'] = 'User activity stream, using the Message module.';
+  $handler->display->display_options['header']['area']['content'] = 'This page displays the activity stream of the site.';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
@@ -90,12 +90,14 @@ function multisite_activity_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'message-multisite';
+  $handler->display->display_options['path'] = 'activity';
   $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'Message multisite';
-  $handler->display->display_options['menu']['description'] = 'Typical UAS (User activity stream).';
-  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['title'] = 'Activity stream';
+  $handler->display->display_options['menu']['description'] = 'Activity of the website (node creation, comments, updates..)';
+  $handler->display->display_options['menu']['weight'] = '88';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $export['multisite_activity'] = $view;
 
   return $export;

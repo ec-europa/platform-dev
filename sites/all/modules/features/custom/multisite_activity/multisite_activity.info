@@ -13,7 +13,6 @@ dependencies[] = features
 dependencies[] = list
 dependencies[] = message
 dependencies[] = options
-dependencies[] = panels
 dependencies[] = strongarm
 dependencies[] = token
 dependencies[] = views
