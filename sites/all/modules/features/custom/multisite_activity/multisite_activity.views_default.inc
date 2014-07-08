@@ -94,7 +94,7 @@ function multisite_activity_views_default_views() {
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Activity stream';
   $handler->display->display_options['menu']['description'] = 'Activity of the website (node creation, comments, updates..)';
-  $handler->display->display_options['menu']['weight'] = '88';
+  $handler->display->display_options['menu']['weight'] = '80';
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;

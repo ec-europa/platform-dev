@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Message example.
+ * Multisite activity messages.
  */
 
 include_once('multisite_activity.features.inc');
@@ -11,15 +11,7 @@ include_once('multisite_activity.features.inc');
  * Implements hook_node_insert().
  */
 function multisite_activity_node_insert($node) {
-  // Save the message and assign it to the user realm. Since another user,
-  // usually an admin might create the node, but populate the author field
-  // with another user, we make sure the user realm is populated with the
-  // node's author, instead of the acting user (although in most cases it
-  // would be the same user).
-  // The following example demonstrates that we don't need to explicitly set
-  // the realm to the user, since if no realms are provided then the message
-  // is automatically assigned to the user passed in the function, or if no
-  // user object is provided, then to the acting user.
+
   $account = user_load($node->uid);
 
   $message = message_create('multisite_create_node', array('uid' => $account->uid));
