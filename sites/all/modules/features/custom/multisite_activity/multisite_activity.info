@@ -1,5 +1,5 @@
 name = Multisite Activity
-description = Multisite activity messaging.
+description = Multisite activity messagins.
 core = 7.x
 package = Multisite_features
 php = 5.2.4

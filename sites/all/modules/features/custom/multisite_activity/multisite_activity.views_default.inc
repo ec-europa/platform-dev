@@ -33,12 +33,7 @@ function multisite_activity_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '25';
   $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['row_plugin'] = 'panels_fields';
-  $handler->display->display_options['row_options']['regions'] = array(
-    'message_render' => 'left',
-    'message_render_1' => 'right',
-    'message_render_2' => 'right',
-  );
+  $handler->display->display_options['row_plugin'] = 'fields';
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
