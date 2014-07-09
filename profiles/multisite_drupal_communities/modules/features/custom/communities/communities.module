@@ -475,8 +475,6 @@ function communities_form_alter(&$form, $form_state, $form_id) {
       if (isset($form[OG_CONTENT_ACCESS_FIELD])) {
         $form[OG_CONTENT_ACCESS_FIELD]['#access'] = FALSE; // hide content visibility field
         $form[OG_CONTENT_ACCESS_FIELD][LANGUAGE_NONE]['#default_value'] = "1"; // force public value for the visibility
-        // tmp: awaiting next DB update to remove this code (og_group_ref is hidden by prepopulate module )
-        $form[OG_AUDIENCE_FIELD]['#access'] = FALSE; // hide group audience field
         $form['field_highlighted']['#access'] = FALSE; // hide highlighted field
       }
     }
