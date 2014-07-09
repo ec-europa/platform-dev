@@ -1192,6 +1192,28 @@ function multisite_drupal_toolbox_tokens($type, $tokens, array $data = array(), 
 }
 
 /**
+ * hook_tokens_alter
+ */
+function multisite_drupal_toolbox_tokens_alter(array &$replacements, array $context) {
+  // alter the token [node:book:parents:join-path] from the book module to respect the IPG url rules
+  if($context['type'] == 'node' && current($context['tokens']) == '[node:book:parents:join-path]') {
+    $node = $context['data']['node'];
+    $node_source = node_load($node->tnid);
+    $ml = menu_link_load($node_source->book['mlid']);
+ 
+    $links = book_get_flat_menu($ml);
+    array_pop($links);
+    foreach($links as $lid => $link) {
+      $path .= "/".$link['link_title'];
+    }
+ 
+    $replacements[current($context['tokens'])] = ltrim($path,'/');
+  }
+}
+
+
+
+/**
  * Useful custom debug function
  */
 
