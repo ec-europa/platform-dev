@@ -1203,6 +1203,7 @@ function multisite_drupal_toolbox_tokens_alter(array &$replacements, array $cont
  
     $links = book_get_flat_menu($ml);
     array_pop($links);
+    $path = "";
     foreach($links as $lid => $link) {
       $path .= "/".$link['link_title'];
     }
