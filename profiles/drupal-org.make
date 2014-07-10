@@ -327,7 +327,7 @@ projects[views_datasource][download][revision] = "6e9b6b980fc2826b09391ae1c2ec0c
 
 
 projects[views_data_export][subdir] = "contributed"
-projects[views_data_export][version] = "3.0-beta6"
+projects[views_data_export][version] = "3.0-beta7"
 
 projects[views_litepager][subdir] = "contributed"
 projects[views_litepager][version] = "3.0"
