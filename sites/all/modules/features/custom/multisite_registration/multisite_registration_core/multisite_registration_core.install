@@ -26,6 +26,9 @@ function multisite_registration_core_uninstall() {
 function multisite_registration_core_enable() {
   //Activation message
   //drupal_set_message(t('Registration feature is now active on your site.'));
+
+  // Add block to sidebar right
+  multisite_drupal_toolbox_add_block_context('site_wide', 'registration-block', 'views', 'registration-block', 'sidebar_right', '-7');
 }
 
 /*
@@ -36,5 +39,8 @@ function multisite_registration_core_enable() {
 
 function multisite_registration_core_disable() {
   //drupal_set_message(t('Registration feature is now disabled on your site.'));
+
+  // Remove block from sidebar right
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'registration-block');
 }
 
