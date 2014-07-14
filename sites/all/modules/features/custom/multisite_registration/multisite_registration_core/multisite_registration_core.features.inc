@@ -15,6 +15,13 @@ function multisite_registration_core_ctools_plugin_api() {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function multisite_registration_core_views_api() {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_default_registration_state().
  */
 function multisite_registration_core_default_registration_state() {
