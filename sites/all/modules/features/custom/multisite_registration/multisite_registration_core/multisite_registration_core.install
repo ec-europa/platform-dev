@@ -29,7 +29,7 @@ function multisite_registration_core_enable() {
 
   // Add block to sidebar right
   multisite_drupal_toolbox_add_block_context('site_wide', 'registration-block', 'views', 'registration-block', 'sidebar_right', '-7');
-  multisite_drupal_toolbox_add_block_context('site_wide', 'registration-management-block', 'views', 'registration-management-block', 'sidebar_right', '-6');
+  multisite_drupal_toolbox_add_block_context('site_wide', 'registration_management-block', 'views', 'registration_management-block', 'sidebar_right', '-6');
 }
 
 /*
@@ -43,6 +43,6 @@ function multisite_registration_core_disable() {
 
   // Remove block from sidebar right
   multisite_drupal_toolbox_remove_block_context('site_wide', 'registration-block');
-  multisite_drupal_toolbox_remove_block_context('site_wide', 'registration-management-block');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'registration_management-block');
 }
 
