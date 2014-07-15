@@ -2,14 +2,14 @@
 
 /**
  * @file
- * Tests for h2020_social.module.
+ * Tests for multisite_twitterblock.module.
  * ECWeb MULTISITE QA
  */
 
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
-class TwitterBlockMultisiteQA extends DrupalWebTestCase {
+class MultisiteTwitterblockMultisiteQA extends DrupalWebTestCase {
 
   /**
    * Returns test information.
@@ -19,8 +19,8 @@ class TwitterBlockMultisiteQA extends DrupalWebTestCase {
    */
   public static function getInfo() {
     return array(
-      'name' => 'Twitter QA tests',
-      'description' => 'Test the Twitter features to ensure it follows QA requirements.',
+      'name' => 'multisite_twitterblock QA tests',
+      'description' => 'Test the multisite_twitterblock features to ensure it follows QA requirements.',
       'group' => 'Multisite QA',
     );
   }
@@ -97,9 +97,9 @@ class TwitterBlockMultisiteQA extends DrupalWebTestCase {
 }
 
 /**
- * Defines a base class for testing the twitter module.
+ * Defines a base class for testing the multisite twitterblock module.
  */
-class TwitterBlockQA extends DrupalWebTestCase {
+class MultisiteTwitterblockDevelopmentQA extends DrupalWebTestCase {
 
   protected $adminUser = NULL;
   protected $basicUser = NULL;
@@ -133,7 +133,7 @@ class TwitterBlockQA extends DrupalWebTestCase {
    */
   public static function getInfo() {
     return array(
-      'name' => 'twitter widget tests',
+      'name' => 'multisite twitter widget tests',
       'description' => 'Tests main twitter widget features',
       'group' => 'Multisite - Media',
     );
@@ -146,8 +146,7 @@ class TwitterBlockQA extends DrupalWebTestCase {
     parent::setUp(array('multisite_twitterblock'));
 
     $https_proxy = array(
-      'h2020dev.europa.eu',
-      'h2020',
+      'dae',
       'fpfis-dev.net1.cec.eu.int',
       'intragate.ec.europa.eu',
       '127.0.0.1',
@@ -201,7 +200,7 @@ class TwitterBlockQA extends DrupalWebTestCase {
    */
   protected function loadAdminPageByBasicUser() {
     $this->drupalLogin($this->basicUser);
-    $this->drupalGet('admin/config/content/multisite_twitterblock/twitter', array());
+    $this->drupalGet('admin/config/content/multisite_twitterblock/twitter/', array());
     $this->assertRaw('Access denied', 'Configuration was not saved!');
     $this->drupalLogout();
   }
@@ -211,7 +210,7 @@ class TwitterBlockQA extends DrupalWebTestCase {
    */
   protected function saveConfig() {
     $this->drupalLogin($this->adminUser);
-    $this->drupalPost('admin/config/content/multisite_twitterblock/twitter', $this->configuration, t('Save configuration'));
+    $this->drupalPost('admin/config/content/multisite_twitterblock/twitter/', $this->configuration, t('Save configuration'));
     $this->assertRaw('The configuration options have been saved', 'Configuration was successfully saved');
     $this->drupalLogout();
   }

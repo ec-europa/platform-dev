@@ -5,7 +5,7 @@
  * context reaction
  */
 
-class H2020SocialReaction extends context_reaction {
+class MultisiteTwitterblockReaction extends context_reaction {
 
   /**
    * Returns form options.
@@ -20,11 +20,11 @@ class H2020SocialReaction extends context_reaction {
     $values = $this->fetch_from_context($context);
     if (empty($values)) {
       // Load defaults.
-      $default_values = _h2020_social_load_twitter_config();
+      $default_values = _multisite_twitterblock_load_twitter_config();
     }
     else {
       // Load previous values.
-      $default_values = _h2020_social_load_twitter_config($values['config']);
+      $default_values = _multisite_twitterblock_load_twitter_config($values['config']);
     }
 
     $form['enabled'] = array(
@@ -33,14 +33,14 @@ class H2020SocialReaction extends context_reaction {
       '#default_value' => isset($values['enabled']) ? $values['enabled'] : FALSE,
     );
 
-    $form['config'] = _h2020_twitter_settings_form($default_values, 'override', '', "reactions[plugins][h2020_social][config]");
+    $form['config'] = _multisite_twitterblock_settings_form($default_values, 'override', '', "reactions[plugins][multisite_twitterblock][config]");
     $form['config'] += array(
       '#type' => 'container',
       '#collapsible' => FALSE,
       '#collapsed' => FALSE,
       '#states' => array(
         'visible' => array(
-          ':input[name="reactions[plugins][h2020_social][enabled]"]' => array('checked' => TRUE),
+          ':input[name="reactions[plugins][multisite_twitterblock][enabled]"]' => array('checked' => TRUE),
         ),
       ),
     );

@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- * Install, update and uninstall functions for the multisite_twitterblock module.
+ * Install,update and uninstall functions for the multisite_twitterblock module.
  *
  * @see https://webgate.ec.europa.eu/CITnet
  * @see /confluence/display/MULTISITE/Custom+features
@@ -25,7 +24,7 @@ function multisite_twitterblock_enable() {
  */
 function multisite_twitterblock_disable() {
   // Example: multisite_drupal_toolbox_disable_content_type('kit');.
-  drupal_set_message(t('Horizon 2020 Social Media %v feature is now inactive on your site.', array('%v' => _multisite_twitterblock_get_version())));
+  drupal_set_message(t('Multisite twitter block %v feature is now inactive on your site.', array('%v' => _multisite_twitterblock_get_version())));
 
   // Remove Twitter from context.
   multisite_drupal_toolbox_remove_block_context('site_wide', 'fpfis_twitter');
