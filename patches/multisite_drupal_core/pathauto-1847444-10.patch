@@ -17,7 +17,7 @@
 +  // Prevent rebuilding custom paths from node_save
 +  // when syncing translations
 +  if (!isset($entity->path['pathauto'])) {
-+   $langcode = $entity->language;
++   $langcode = isset($entity->language) ? $entity->language : LANGUAGE_NONE;
 +   list($id, , $bundle) = entity_extract_ids($entity_type, $entity);
 +  
 +   if (!empty($id)) {
