@@ -82,6 +82,14 @@ function multisite_registration_core_views_default_views() {
   $handler->display->display_options['filters']['user_uid']['relationship'] = 'registration_rel';
   $handler->display->display_options['filters']['user_uid']['operator'] = '!=';
   $handler->display->display_options['filters']['user_uid']['value']['value'] = '0';
+  /* Filter criterion: Registration: State entity */
+  $handler->display->display_options['filters']['state']['id'] = 'state';
+  $handler->display->display_options['filters']['state']['table'] = 'registration';
+  $handler->display->display_options['filters']['state']['field'] = 'state';
+  $handler->display->display_options['filters']['state']['relationship'] = 'registration_rel';
+  $handler->display->display_options['filters']['state']['value'] = array(
+    'complete' => 'complete',
+  );
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
