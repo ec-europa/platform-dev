@@ -104,6 +104,13 @@ feature_sets[wiki_standard][disable][] = multisite_drupal_wiki_toc
 feature_sets[wiki_standard][disable][] = wiki_standard
 feature_sets[wiki_standard][disable][] = wiki_core
 
+feature_sets[text_collapse][title] = 'Text collapse'
+feature_sets[text_collapse][description] = 'Users can create collapsible text blocks in CKEditor'
+feature_sets[text_collapse][category] = 'Communication'
+feature_sets[text_collapse][icon] = ''
+feature_sets[text_collapse][font] = ''
+feature_sets[text_collapse][enable][] = text_collapse
+feature_sets[text_collapse][disable][] = text_collapse
 
 ; Information to user
 feature_sets[feed_rss_core][title] = 'Press Releases'

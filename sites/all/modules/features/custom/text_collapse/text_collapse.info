@@ -1,0 +1,10 @@
+name = Text Collapse
+description = Contributors can create collapsible text blocks in CKEditor
+core = 7.x
+package = DG CONNECT
+version = 7.x-1.1-beta
+project = text_collapse
+dependencies[] = collapse_text
+dependencies[] = wysiwyg
+dependencies[] = filter
+features[features_api][] = api:1

@@ -64,6 +64,9 @@ projects[colorbox][version] = "1.3"
 projects[context][subdir] = "contributed"
 projects[context][version] = "3.2"
 
+projects[collapse_text][subdir] = "contributed"
+projects[collapse_text][version] = "2.4"
+
 projects[ctools][subdir] = "contributed"
 projects[ctools][version] = "1.4"
 
