@@ -26,8 +26,8 @@ function multisite_activity_views_api() {
  */
 function multisite_activity_default_message_type() {
   $items = array();
-  $items['content_deletion'] = entity_import('message_type', '{
-    "name" : "content_deletion",
+  $items['multisite_content_delete'] = entity_import('message_type', '{
+    "name" : "multisite_content_delete",
     "description" : "content deletion",
     "argument_keys" : [ "!user-picture" ],
     "argument" : [],

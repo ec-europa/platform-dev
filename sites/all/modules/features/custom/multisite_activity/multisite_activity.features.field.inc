@@ -10,8 +10,8 @@
 function multisite_activity_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'message-content_deletion-field_node_ref'.
-  $fields['message-content_deletion-field_node_ref'] = array(
+  // Exported field: 'multisite_content_delete-field_node_ref'.
+  $fields['message-multisite_content_delete-field_node_ref'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -54,7 +54,7 @@ function multisite_activity_field_default_fields() {
       'type' => 'entityreference',
     ),
     'field_instance' => array(
-      'bundle' => 'content_deletion',
+      'bundle' => 'multisite_content_delete',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
