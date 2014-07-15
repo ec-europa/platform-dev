@@ -211,5 +211,72 @@ function multisite_registration_core_views_default_views() {
   $handler->display->display_options['path'] = 'node/%/registered';
   $export['registration'] = $view;
 
+  $view = new view();
+  $view->name = 'registration_management';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'registration';
+  $view->human_name = 'Registration management';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['hide_empty'] = TRUE;
+  /* Relationship: Registration: Registration to Node */
+  $handler->display->display_options['relationships']['registration_related_node']['id'] = 'registration_related_node';
+  $handler->display->display_options['relationships']['registration_related_node']['table'] = 'registration';
+  $handler->display->display_options['relationships']['registration_related_node']['field'] = 'registration_related_node';
+  /* Relationship: Registration: User */
+  $handler->display->display_options['relationships']['user_uid']['id'] = 'user_uid';
+  $handler->display->display_options['relationships']['user_uid']['table'] = 'registration';
+  $handler->display->display_options['relationships']['user_uid']['field'] = 'user_uid';
+  /* Field: Registration: Delete link */
+  $handler->display->display_options['fields']['delete_registration']['id'] = 'delete_registration';
+  $handler->display->display_options['fields']['delete_registration']['table'] = 'registration';
+  $handler->display->display_options['fields']['delete_registration']['field'] = 'delete_registration';
+  $handler->display->display_options['fields']['delete_registration']['label'] = '';
+  $handler->display->display_options['fields']['delete_registration']['element_class'] = 'btn btn-danger';
+  $handler->display->display_options['fields']['delete_registration']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['delete_registration']['element_wrapper_class'] = 'text-center';
+  $handler->display->display_options['fields']['delete_registration']['hide_alter_empty'] = FALSE;
+  $handler->display->display_options['fields']['delete_registration']['text'] = 'Cancel my registration';
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['relationship'] = 'registration_related_node';
+  $handler->display->display_options['arguments']['nid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['nid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['nid']['title'] = 'Registration management';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'node';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  /* Contextual filter: User: Uid */
+  $handler->display->display_options['arguments']['uid']['id'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['table'] = 'users';
+  $handler->display->display_options['arguments']['uid']['field'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['relationship'] = 'user_uid';
+  $handler->display->display_options['arguments']['uid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'current_user';
+  $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block');
+  $export['registration_management'] = $view;
+
   return $export;
 }

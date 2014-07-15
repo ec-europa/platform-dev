@@ -98,6 +98,7 @@ function multisite_registration_core_user_default_permissions() {
     'name' => 'delete own multisite_registration registration',
     'roles' => array(
       'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'registration',
   );
@@ -125,6 +126,7 @@ function multisite_registration_core_user_default_permissions() {
     'name' => 'update own multisite_registration registration',
     'roles' => array(
       'administrator' => 'administrator',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'registration',
   );
