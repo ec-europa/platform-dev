@@ -12,15 +12,20 @@ include_once('multisite_activity.features.inc');
  */
 function multisite_activity_node_insert($node) {
 
-  $account = user_load($node->uid);
+  if (isset($node->workbench_moderation_state_new) && ($node->workbench_moderation_state_new !== 'published')) {
+    // DO NOTHING THIS IS NOT A VALID ACTIVITY.
+  } 
+  else {
+    $account = user_load($node->uid);
 
-  $message = message_create('multisite_create_node', array('uid' => $account->uid));
-  // Save reference to the node in the node reference field, and the
-  // "publish" state (i.e. if the node is published or unpublished).
-  $wrapper = entity_metadata_wrapper('message', $message);
-  $wrapper->field_node_ref->set($node);
-  $wrapper->field_published->set($node->status);
-  $wrapper->save();
+    $message = message_create('multisite_create_node', array('uid' => $account->uid));
+    // Save reference to the node in the node reference field, and the
+    // "publish" state (i.e. if the node is published or unpublished).
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper->field_node_ref->set($node);
+    $wrapper->field_published->set($node->status);
+    $wrapper->save();
+  }
 }
 
 /**
@@ -49,15 +54,23 @@ function multisite_activity_comment_insert($comment) {
  * Implements hook_node_update().
  */
 function multisite_activity_node_update($node) {
+  
   entity_get_controller('node')->resetCache(array($node->nid));
   $account = user_load($node->uid);
-  $message = message_create('multisite_content_update', array(), $account);
-  $wrapper = entity_metadata_wrapper('message', $message);
-  $wrapper->field_node_ref->set($node);
-  $wrapper->field_published->set($node->status);
-  $wrapper->save();
-  // update message status if the status changed.
-  multisite_activity_update_message_status('node', $node);
+  
+  if (isset($node->workbench_moderation_state_new) && ($node->workbench_moderation_state_new !== 'published')) {
+    // DO NOTHING THIS IS NOT A VALID ACTIVITY.
+  } 
+  else {
+    $message = message_create('multisite_content_update', array(), $account);
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper->field_node_ref->set($node);
+    $wrapper->field_published->set($node->status);
+    $wrapper->save();
+  
+    // update message status if the status changed.
+    multisite_activity_update_message_status('node', $node);
+  }
 }
 
 /**
