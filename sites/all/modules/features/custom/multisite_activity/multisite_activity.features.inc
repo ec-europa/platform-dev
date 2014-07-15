@@ -38,9 +38,9 @@ function multisite_activity_default_message_type() {
     "message_text" : {
       "en" : [
         {
-          "value" : "\\u003Cp\\u003E\\u0022\\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:title]\\u003C\\/a\\u003E\\u0022 has been deleted by \\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:author]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
+          "value" : "\\u003Cp\\u003E\\u0022@{message:field-node-ref:title}\\u0022 has been deleted by @{message:field-node-ref:author}\\u003C\\/p\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cp\\u003E\\u0022\\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:title]\\u003C\\/a\\u003E\\u0022 has been deleted by \\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:author]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003E\\u0022@{message:field-node-ref:title}\\u0022 has been deleted by @{message:field-node-ref:author}\\u003C\\/p\\u003E\\n"
         }
       ],
       "und" : [
@@ -75,9 +75,9 @@ function multisite_activity_default_message_type() {
     "message_text" : {
       "en" : [
         {
-          "value" : "\\u003Cp\\u003E \\u0022\\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:title]\\u003C\\/a\\u003E\\u0022 has been updated by \\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:author]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
+          "value" : "\\u003Cp\\u003E\\u0022@{message:field-node-ref:title}\\u0022 has been updated by @{message:field-node-ref:author}\\u003C\\/p\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cp\\u003E \\u0022\\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:title]\\u003C\\/a\\u003E\\u0022 has been updated by \\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:author]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003E\\u0022@{message:field-node-ref:title}\\u0022 has been updated by @{message:field-node-ref:author}\\u003C\\/p\\u003E\\n"
         }
       ],
       "und" : [
@@ -112,9 +112,9 @@ function multisite_activity_default_message_type() {
     "message_text" : {
       "en" : [
         {
-          "value" : "\\u003Cp\\u003EA new comment has been posted on \\u0022\\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:title]\\u003C\\/a\\u003E\\u0022 by \\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:author]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
+          "value" : "\\u003Cp\\u003EA new comment has been posted on \\u0022@{message:field-node-ref:title}\\u0022 by @{message:field-node-ref:author}\\u003C\\/p\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cp\\u003EA new comment has been posted on \\u0022\\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:title]\\u003C\\/a\\u003E\\u0022 by \\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:author]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003EA new comment has been posted on \\u0022@{message:field-node-ref:title}\\u0022 by @{message:field-node-ref:author}\\u003C\\/p\\u003E\\n"
         }
       ],
       "und" : [
@@ -149,9 +149,9 @@ function multisite_activity_default_message_type() {
     "message_text" : {
       "en" : [
         {
-          "value" : "\\u003Cp\\u003EA new \\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:content-type]\\u003C\\/a\\u003E \\u0022\\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:title]\\u003C\\/a\\u003E\\u0022 has been created by \\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:author]\\u003C\\/a\\u003E\\u003C\\/p\\u003E",
+          "value" : "\\u003Cp\\u003EA new @{message:field-node-ref:content-type} \\u0022@{message:field-node-ref:title}\\u0022 has been created by @{message:field-node-ref:author}\\u003C\\/p\\u003E",
           "format" : "full_html",
-          "safe_value" : "\\u003Cp\\u003EA new \\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:content-type]\\u003C\\/a\\u003E \\u0022\\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:title]\\u003C\\/a\\u003E\\u0022 has been created by \\u003Ca title=\\u0022Insert this token into your form\\u0022\\u003E[message:field-node-ref:author]\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003EA new @{message:field-node-ref:content-type} \\u0022@{message:field-node-ref:title}\\u0022 has been created by @{message:field-node-ref:author}\\u003C\\/p\\u003E\\n"
         }
       ],
       "und" : [

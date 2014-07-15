@@ -10,7 +10,7 @@
 function multisite_activity_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'multisite_content_delete-field_node_ref'.
+  // Exported field: 'message-multisite_content_delete-field_node_ref'.
   $fields['message-multisite_content_delete-field_node_ref'] = array(
     'field_config' => array(
       'active' => '1',
@@ -86,6 +86,69 @@ function multisite_activity_field_default_fields() {
         ),
         'type' => 'entityreference_autocomplete',
         'weight' => '2',
+      ),
+    ),
+  );
+
+  // Exported field: 'message-multisite_content_delete-field_published'.
+  $fields['message-multisite_content_delete-field_published'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_published',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'value' => array(
+          0 => 'value',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'list',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => 'Unpublished',
+          1 => 'Published',
+        ),
+        'allowed_values_function' => '',
+      ),
+      'translatable' => '0',
+      'type' => 'list_boolean',
+    ),
+    'field_instance' => array(
+      'bundle' => 'multisite_content_delete',
+      'default_value' => array(
+        0 => array(
+          'value' => 0,
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'list',
+          'settings' => array(),
+          'type' => 'list_default',
+          'weight' => 1,
+        ),
+      ),
+      'entity_type' => 'message',
+      'field_name' => 'field_published',
+      'label' => 'Published',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(
+          'display_label' => 0,
+        ),
+        'type' => 'options_onoff',
+        'weight' => '4',
       ),
     ),
   );
