@@ -108,7 +108,7 @@ feature_sets[text_collapse][title] = 'Text collapse'
 feature_sets[text_collapse][description] = 'Users can create collapsible text blocks in CKEditor'
 feature_sets[text_collapse][category] = 'Communication'
 feature_sets[text_collapse][icon] = ''
-feature_sets[text_collapse][font] = ''
+feature_sets[text_collapse][font] = 'multisite-icon-plus-square-o'
 feature_sets[text_collapse][enable][] = text_collapse
 feature_sets[text_collapse][disable][] = text_collapse
 
