@@ -1,7 +1,7 @@
 name = Text Collapse
 description = Contributors can create collapsible text blocks in CKEditor
 core = 7.x
-package = DG CONNECT
+package = Multisite Features
 version = 7.x-1.1-beta
 project = text_collapse
 dependencies[] = collapse_text
