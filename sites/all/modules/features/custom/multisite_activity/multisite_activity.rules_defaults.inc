@@ -90,8 +90,11 @@ function multisite_activity_default_rules_configuration() {
       "REQUIRES" : [ "workbench_moderation", "rules" ],
       "ON" : { "workbench_moderation_after_moderation_transition" : [] },
       "IF" : [
-        { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "published" } },
-        { "NOT node_is_published" : { "node" : [ "node" ] } }
+        { "AND" : [
+            { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "published" } },
+            { "NOT node_is_published" : { "node" : [ "node" ] } }
+          ]
+        }
       ],
       "DO" : [
         { "entity_create" : {
