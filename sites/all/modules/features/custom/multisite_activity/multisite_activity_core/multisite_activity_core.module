@@ -1,4 +1,10 @@
 <?php
+/**
+ * @file
+ * Code for the Multisite Activity feature.
+ */
+
+include_once 'multisite_activity_core.features.inc';
 
 /**
  * @file

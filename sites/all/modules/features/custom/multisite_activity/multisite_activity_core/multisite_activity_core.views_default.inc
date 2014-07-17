@@ -11,70 +11,57 @@ function multisite_activity_core_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'multisite_activity_core';
-  $view->description = '';
-  $view->tag = 'default';
+  $view->name = 'multisite_activity';
+  $view->description = 'Show all existing messages.';
+  $view->tag = 'Message';
   $view->base_table = 'message';
-  $view->human_name = 'Message multisite';
+  $view->human_name = 'Multisite activity';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
-  /* Display: Master */
-  $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Activity stream';
-  $handler->display->display_options['css_class'] = 'multisite-activity';
+  /* Display: Defaults */
+  $handler = $view->new_display('default', 'Defaults', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '25';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '5';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area']['id'] = 'area';
-  $handler->display->display_options['header']['area']['table'] = 'views';
-  $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['label'] = 'User activity stream';
-  $handler->display->display_options['header']['area']['content'] = 'This page displays the activity stream of the site.';
-  $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
-  $handler->display->display_options['empty']['area']['label'] = 'No messages created yet';
-  $handler->display->display_options['empty']['area']['content'] = 'You should create some activity ';
+  $handler->display->display_options['empty']['area']['content'] = 'No messages created yet.';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
-  /* Field: User picture - (Partial 0) */
+  /* Relationship: Message: User uid */
+  $handler->display->display_options['relationships']['user']['id'] = 'user';
+  $handler->display->display_options['relationships']['user']['table'] = 'message';
+  $handler->display->display_options['relationships']['user']['field'] = 'user';
+  /* Field: Message: Timestamp */
+  $handler->display->display_options['fields']['timestamp']['id'] = 'timestamp';
+  $handler->display->display_options['fields']['timestamp']['table'] = 'message';
+  $handler->display->display_options['fields']['timestamp']['field'] = 'timestamp';
+  $handler->display->display_options['fields']['timestamp']['label'] = '';
+  $handler->display->display_options['fields']['timestamp']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['timestamp']['date_format'] = 'short';
+  $handler->display->display_options['fields']['timestamp']['second_date_format'] = 'long';
+  /* Field: Message: Render message (Get text) */
   $handler->display->display_options['fields']['message_render']['id'] = 'message_render';
   $handler->display->display_options['fields']['message_render']['table'] = 'message';
   $handler->display->display_options['fields']['message_render']['field'] = 'message_render';
-  $handler->display->display_options['fields']['message_render']['ui_name'] = 'User picture - (Partial 0)';
   $handler->display->display_options['fields']['message_render']['label'] = '';
   $handler->display->display_options['fields']['message_render']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['message_render']['partials'] = 1;
+  $handler->display->display_options['fields']['message_render']['hide_alter_empty'] = FALSE;
+  $handler->display->display_options['fields']['message_render']['partials'] = 0;
   $handler->display->display_options['fields']['message_render']['partials_delta'] = '0';
-  /* Field: Operation info - (Partial 1) */
-  $handler->display->display_options['fields']['message_render_1']['id'] = 'message_render_1';
-  $handler->display->display_options['fields']['message_render_1']['table'] = 'message';
-  $handler->display->display_options['fields']['message_render_1']['field'] = 'message_render';
-  $handler->display->display_options['fields']['message_render_1']['ui_name'] = 'Operation info - (Partial 1)';
-  $handler->display->display_options['fields']['message_render_1']['label'] = '';
-  $handler->display->display_options['fields']['message_render_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['message_render_1']['partials'] = 1;
-  $handler->display->display_options['fields']['message_render_1']['partials_delta'] = '1';
-  /* Field: Teaser - (Partial 2) */
-  $handler->display->display_options['fields']['message_render_2']['id'] = 'message_render_2';
-  $handler->display->display_options['fields']['message_render_2']['table'] = 'message';
-  $handler->display->display_options['fields']['message_render_2']['field'] = 'message_render';
-  $handler->display->display_options['fields']['message_render_2']['ui_name'] = 'Teaser - (Partial 2)';
-  $handler->display->display_options['fields']['message_render_2']['label'] = '';
-  $handler->display->display_options['fields']['message_render_2']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['message_render_2']['partials'] = 1;
-  $handler->display->display_options['fields']['message_render_2']['partials_delta'] = '2';
   /* Sort criterion: Message: Timestamp */
   $handler->display->display_options['sorts']['timestamp']['id'] = 'timestamp';
   $handler->display->display_options['sorts']['timestamp']['table'] = 'message';
@@ -89,16 +76,30 @@ function multisite_activity_core_views_default_views() {
   );
 
   /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'page');
+  $handler = $view->new_display('page', 'Page', 'page_1');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '30';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['path'] = 'activity';
   $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'Activity stream';
-  $handler->display->display_options['menu']['description'] = 'Activity of the website (node creation, comments, updates..)';
-  $handler->display->display_options['menu']['weight'] = '80';
+  $handler->display->display_options['menu']['title'] = 'Activity';
+  $handler->display->display_options['menu']['description'] = 'A list of all messages.';
+  $handler->display->display_options['menu']['weight'] = '60';
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $export['multisite_activity_core'] = $view;
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block_1');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '5';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['block_description'] = 'Site activity';
+  $export['multisite_activity'] = $view;
 
   return $export;
 }

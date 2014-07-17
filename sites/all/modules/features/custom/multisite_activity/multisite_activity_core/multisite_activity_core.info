@@ -25,4 +25,4 @@ features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:1
 features[variable][] = message_delete_on_entity_delete
-features[views_view][] = multisite_activity_core
+features[views_view][] = multisite_activity
