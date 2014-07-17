@@ -118,8 +118,10 @@ feature_sets[multisite_activity_standard][description] = 'Display activity of yo
 feature_sets[multisite_activity_standard][category] = 'Information to users'
 feature_sets[multisite_activity_standard][icon] = ''
 feature_sets[multisite_activity_standard][font] = 'multisite-icon-steam'
+feature_sets[multisite_activity_standard][enable][] = multisite_activity_core
 feature_sets[multisite_activity_standard][enable][] = multisite_activity_standard
 feature_sets[multisite_activity_standard][disable][] = multisite_activity_standard
+feature_sets[multisite_activity_standard][disable][] = multisite_activity_core
 
 feature_sets[feed_rss_core][title] = 'Press Releases'
 feature_sets[feed_rss_core][description] = 'Display a block on your homepage with EU Press Releases Information.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/CYfhAg" target="_blank">Read documentation</a>'
