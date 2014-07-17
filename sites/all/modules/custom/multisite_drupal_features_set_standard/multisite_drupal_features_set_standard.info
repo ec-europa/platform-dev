@@ -113,13 +113,13 @@ feature_sets[text_collapse][enable][] = text_collapse
 feature_sets[text_collapse][disable][] = text_collapse
 
 ; Information to user
-feature_sets[multisite_activity][title] = 'Site activity'
-feature_sets[multisite_activity][description] = 'Display activity of your site.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/kC7wB" target="_blank">Read documentation</a>'
-feature_sets[multisite_activity][category] = 'Information to users'
-feature_sets[multisite_activity][icon] = ''
-feature_sets[multisite_activity][font] = 'multisite-icon-'
-feature_sets[multisite_activity][enable][] = multisite_activity
-feature_sets[multisite_activity][disable][] = multisite_activity
+feature_sets[multisite_activity_standard][title] = 'Site activity'
+feature_sets[multisite_activity_standard][description] = 'Display activity of your site.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/kC7wB" target="_blank">Read documentation</a>'
+feature_sets[multisite_activity_standard][category] = 'Information to users'
+feature_sets[multisite_activity_standard][icon] = ''
+feature_sets[multisite_activity_standard][font] = 'multisite-icon-steam'
+feature_sets[multisite_activity_standard][enable][] = multisite_activity_standard
+feature_sets[multisite_activity_standard][disable][] = multisite_activity_standard
 
 feature_sets[feed_rss_core][title] = 'Press Releases'
 feature_sets[feed_rss_core][description] = 'Display a block on your homepage with EU Press Releases Information.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/CYfhAg" target="_blank">Read documentation</a>'
