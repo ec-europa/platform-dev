@@ -6,7 +6,7 @@
 /*
 * Implements hook_disable().
 */
-function multisite_activity_disable() {
+function multisite_activity_core_disable() {
 
   // Deactivation message.
   drupal_set_message(t('Multisite activity feature is now disable on your site.'));
@@ -15,7 +15,7 @@ function multisite_activity_disable() {
 /*
 * Implements hook_enable().
 */
-function multisite_activity_enable() {
+function multisite_activity_core_enable() {
   // Activation message.
   drupal_set_message(t('Multisite activity feature feature is now enable on your site.'));
 }
@@ -23,13 +23,13 @@ function multisite_activity_enable() {
 /**
  * Implements hook_install().
  */
-function multisite_activity_install() {
+function multisite_activity_core_install() {
   // Install scripts here.
 }
 
 /**
  * Implements hook_uninstall().
  */
-function multisite_activity_uninstall() {
+function multisite_activity_core_uninstall() {
   // Uninstall scripts here.
 }

@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * multisite_activity.views_default.inc
+ * multisite_activity_core.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function multisite_activity_views_default_views() {
+function multisite_activity_core_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'multisite_activity';
+  $view->name = 'multisite_activity_core';
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'message';
@@ -98,7 +98,7 @@ function multisite_activity_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $export['multisite_activity'] = $view;
+  $export['multisite_activity_core'] = $view;
 
   return $export;
 }

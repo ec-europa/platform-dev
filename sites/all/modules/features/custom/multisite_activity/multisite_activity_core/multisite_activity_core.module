@@ -5,5 +5,5 @@
  * Multisite activity messages.
  */
 
-include_once('multisite_activity.features.inc');
+
 

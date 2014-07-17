@@ -8,7 +8,7 @@
 /**
  * Implements hook_token_info().
  */
-function multisite_activity_token_info() {
+function multisite_activity_core_token_info() {
   $info['tokens']['comment']['comment-teaser'] = array(
     'name' => t('Comment teaser'),
     'description' => t('Display a comment teaser.'),
@@ -24,7 +24,7 @@ function multisite_activity_token_info() {
 /**
  * Implements hook_tokens().
  */
-function multisite_activity_tokens($type, $tokens, array $data = array(), array $options = array()) {
+function multisite_activity_core_tokens($type, $tokens, array $data = array(), array $options = array()) {
   $replacements = array();
 
   // Only handeling comment and nodes.
@@ -38,7 +38,7 @@ function multisite_activity_tokens($type, $tokens, array $data = array(), array 
       continue;
     }
 
-    $replacements[$original] = multisite_activity_trim_body($type, $data[$type]);
+    $replacements[$original] = multisite_activity_core_trim_body($type, $data[$type]);
   }
 
   return $replacements;
@@ -56,7 +56,7 @@ function multisite_activity_tokens($type, $tokens, array $data = array(), array 
  * @return
  *   Body field text trimmed to 50 chars, with a "...Read more" suffix.
  */
-function multisite_activity_trim_body($entity_type, $entity) {
+function multisite_activity_core_trim_body($entity_type, $entity) {
   $wrapper = entity_metadata_wrapper($entity_type, $entity);
 
   // Select the right field acoring to the entity type.

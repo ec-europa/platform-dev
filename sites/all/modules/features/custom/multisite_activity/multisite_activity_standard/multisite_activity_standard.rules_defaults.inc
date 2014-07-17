@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * multisite_activity.rules_defaults.inc
+ * multisite_activity_standard.rules_defaults.inc
  */
 
 /**
  * Implements hook_default_rules_configuration().
  */
-function multisite_activity_default_rules_configuration() {
+function multisite_activity_standard_default_rules_configuration() {
   $items = array();
   $items['rules_log_comments'] = entity_import('rules_config', '{ "rules_log_comments" : {
       "LABEL" : "Log comments",
