@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'multisite-icons';
-	src:url('fonts/multisite-icons.eot?-ht25e');
-	src:url('fonts/multisite-icons.eot?#iefix-ht25e') format('embedded-opentype'),
-		url('fonts/multisite-icons.woff?-ht25e') format('woff'),
-		url('fonts/multisite-icons.ttf?-ht25e') format('truetype'),
-		url('fonts/multisite-icons.svg?-ht25e#multisite-icons') format('svg');
+	src:url('fonts/multisite-icons.eot?-81e0fr');
+	src:url('fonts/multisite-icons.eot?#iefix-81e0fr') format('embedded-opentype'),
+		url('fonts/multisite-icons.woff?-81e0fr') format('woff'),
+		url('fonts/multisite-icons.ttf?-81e0fr') format('truetype'),
+		url('fonts/multisite-icons.svg?-81e0fr#multisite-icons') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -40,6 +40,9 @@
 }
 .multisite-icon-history:before {
 	content: "\e607";
+}
+.multisite-icon-steam:before {
+	content: "\e608";
 }
 .multisite-icon-reorder:before {
 	content: "\f0ca";
