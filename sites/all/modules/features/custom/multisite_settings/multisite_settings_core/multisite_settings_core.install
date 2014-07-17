@@ -79,3 +79,14 @@ function multisite_settings_core_update_7121() {
   context_save($context); 
   
 }
+
+/**
+ * Disable cookie language.
+ */
+function multisite_settings_core_update_7122() {
+  $lang = variable_get('language_negotiation_language');
+  if (isset($lang['language_cookie'])) {
+    unset($lang['language_cookie']);
+    variable_set('language_negotiation_language', $lang);
+  }
+}
