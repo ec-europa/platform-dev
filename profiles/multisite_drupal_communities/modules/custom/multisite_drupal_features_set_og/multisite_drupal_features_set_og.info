@@ -137,6 +137,18 @@ feature_sets[feed_rss_core][enable][] = aggregator
 feature_sets[feed_rss_core][disable][] = feed_rss_core
 feature_sets[feed_rss_core][disable][] = aggregator
 
+; Information to user
+feature_sets[multisite_activity_communities][title] = 'Site activity'
+feature_sets[multisite_activity_communities][description] = 'Display activity of your site.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/kC7wB" target="_blank">Read documentation</a>'
+feature_sets[multisite_activity_communities][category] = 'Information to users'
+feature_sets[multisite_activity_communities][icon] = ''
+feature_sets[multisite_activity_communities][font] = 'multisite-icon-steam'
+feature_sets[multisite_activity_communities][enable][] = multisite_activity_core
+feature_sets[multisite_activity_communities][enable][] = multisite_activity_communities
+feature_sets[multisite_activity_communities][disable][] = multisite_activity_communities
+feature_sets[multisite_activity_communities][disable][] = multisite_activity_core
+
+
 feature_sets[ec_world_countries][title] = 'World Countries'
 feature_sets[ec_world_countries][description] = 'A list of World countries valid for EC.'
 feature_sets[ec_world_countries][category] = 'Information to users'

@@ -1,0 +1,9 @@
+<?php
+
+/**
+ * @file
+ * Multisite activity messages.
+ */
+
+include_once('multisite_activity_community.features.inc');
+
