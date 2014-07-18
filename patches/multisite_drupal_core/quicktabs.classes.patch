@@ -10,7 +10,7 @@
 +    else {
 +      $active_tab = (isset($active_tab) && isset($this->contents[$active_tab])) ? $active_tab : key($this->contents);
 +    }
-\ No newline at end of file
+
      return $active_tab;
    }
  }
