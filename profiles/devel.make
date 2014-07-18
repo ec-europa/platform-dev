@@ -24,7 +24,7 @@ projects[devel_themer][subdir] = "contributed"
 projects[devel_themer][version] = "1.x-dev"
 
 projects[coder][subdir] = "contributed"
-projects[coder][version] = "2.0-beta2"
+projects[coder][version] = "2.2"
 
 projects[mail_logger][subdir] = "contributed"
 projects[mail_logger][version] = "1.x-dev"
