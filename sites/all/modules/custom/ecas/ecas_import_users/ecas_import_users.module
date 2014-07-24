@@ -337,7 +337,7 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
 
       $form['fs'][$count] = array(
           '#type' => 'checkbox',
-          '#title' => $row['cn'] . '<div>' . $mail . '</div><div><b>username : </b>' . $uid . '</div><div><b>DG</b> : ' . $row['dg'] . '</div><div><b>domain</b> : ' . $row['domain'] . '</div><div><b>country : </b>' . $country . '</div>',
+          '#title' => check_plain($row['cn']) . '<div>' . check_plain($mail) . '</div><div><b>username : </b>' . check_plain($uid) . '</div><div><b>DG</b> : ' . check_plain($row['dg']) . '</div><div><b>domain</b> : ' . check_plain($row['domain']) . '</div><div><b>country : </b>' . check_plain($country) . '</div>',
           '#return_value' => $uid . '|' . $row['cn'] . '|' . $mail . '|' . $firstname . '|' . $lastname,
           '#prefix' => '<div class="ldap_entry">',
           '#suffix' => '</div>',
