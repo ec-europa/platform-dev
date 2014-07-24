@@ -163,7 +163,7 @@ function taxonomy_browser_block_info() {
       $vocab = taxonomy_vocabulary_load($vid);
       $block_name = str_replace(' ', '', $vocab->machine_name);
       $blocks['taxonomy_browser_vocabulary_' . $vocab->vid] = array(
-        'info' => t('taxonomy_browser: %vocabulary', array('%vocabulary' => $vocab->name)),
+        'info' => t('taxonomy_browser: @vocabulary', array('@vocabulary' => $vocab->name)),
       );
     }
   }
