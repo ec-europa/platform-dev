@@ -13,15 +13,7 @@
 $admin_ecas_module_include = drupal_get_path('module', 'ecas') . '/includes/ecas.admin.inc';
 include_once($admin_ecas_module_include);
 
-/* includes the libraries provided by FPFIS */
-/*USELESS ALREADY DONE IN CONSTANTS FILE*/
 /*
-if (!defined('FPFIS_COMMON_LIBRARIES_PATH')) {
-  // this module is useless without the FPFIS_Common libraries, so we abort the
-  // module inclusion
-  return TRUE;
-}*/
-
 if (!is_dir(constant('FPFIS_COMMON_LIBRARIES_PATH'))) {  
   watchdog(
     'ecas',
@@ -31,8 +23,10 @@ if (!is_dir(constant('FPFIS_COMMON_LIBRARIES_PATH'))) {
   );
   return TRUE;
 }
+*/
 
 $fpfis_common_include = constant('FPFIS_COMMON_LIBRARIES_PATH') . '/FPFIS_Common/fpfis_common.php';
+/*
 if (!is_file($fpfis_common_include)) {
   watchdog(
     'ecas',
@@ -42,10 +36,12 @@ if (!is_file($fpfis_common_include)) {
   );
   return TRUE;
 }
+*/
 include_once($fpfis_common_include);
 
 // the FPFIS_Common is supposed to provide the FPFIS_ECAS_PATH constant
 $phpcas_client_include = constant('FPFIS_ECAS_PATH');
+/*
 if (!is_file($phpcas_client_include)) {
   watchdog(
     'ecas',
@@ -55,6 +51,7 @@ if (!is_file($phpcas_client_include)) {
   );
   return TRUE;
 }
+*/
 include_once($phpcas_client_include);
 
 // finally, include the module code
