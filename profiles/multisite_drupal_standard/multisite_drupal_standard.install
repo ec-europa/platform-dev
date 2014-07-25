@@ -7,8 +7,8 @@
  */
 
 function multisite_drupal_standard_install() {
-  include_once DRUPAL_ROOT . '/profiles/multisite_drupal_core/multisite_drupal_core.install';
-  multisite_drupal_core_install();
+  //include_once DRUPAL_ROOT . '/profiles/multisite_drupal_core/multisite_drupal_core.install';
+  //multisite_drupal_core_install();
 
   // permissions to the contributor
   $contrib_rid = get_rid('contributor');

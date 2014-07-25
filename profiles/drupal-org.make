@@ -5,10 +5,10 @@ core = 7.x
 ; Temporary fix until Drupal.org add project tags back
 ; =============
 ;projects[drupal][type] = core
-;projects[drupal][version] = "7.28"
+;projects[drupal][version] = "7.30"
 
 projects[drupal][type] = core
-projects[drupal][version] = 7.28
+projects[drupal][version] = 7.30
 projects[drupal][download][type] = get
 projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.28.tar.gz
 
