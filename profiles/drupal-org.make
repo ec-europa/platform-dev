@@ -10,7 +10,7 @@ core = 7.x
 projects[drupal][type] = core
 projects[drupal][version] = 7.30
 projects[drupal][download][type] = get
-projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.28.tar.gz
+projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.30.tar.gz
 
 ; ====================
 ; Contributed modules
