@@ -87,7 +87,8 @@
         $field = '<div class="field">';
         $field .= '<div class="row">';
 
-        switch ($value['#label_display']) {
+        $display = (isset($value['#label_display']) ? $value['#label_display'] : '');
+        switch ($display) {
           case 'hidden':
             $field .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' . render($value) . '</div>';
           break;
