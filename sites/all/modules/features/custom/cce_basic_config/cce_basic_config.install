@@ -1309,3 +1309,13 @@ function cce_basic_config_update_7198() {
 
   module_invoke('context', 'save', $context);
 }
+
+/**
+* Add 'video' tag to 'security_allowed_tags' variable
+*
+*/
+function cce_basic_config_update_7198() {
+  $tags = variable_get('security_allowed_tags')
+  $tags .= "\nvideo";
+  variable_set ($tags);
+}
