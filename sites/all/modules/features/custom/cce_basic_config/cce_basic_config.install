@@ -1314,7 +1314,7 @@ function cce_basic_config_update_7198() {
 * Add 'video' tag to 'security_allowed_tags' variable
 *
 */
-function cce_basic_config_update_7198() {
+function cce_basic_config_update_7199() {
   $tags = variable_get('security_allowed_tags');
   $tags .= "\nvideo";
   variable_set ($tags);
