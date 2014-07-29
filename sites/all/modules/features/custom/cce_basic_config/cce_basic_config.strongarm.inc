@@ -712,6 +712,7 @@ track
 tt
 u
 ul
+video
 ';
   $export['security_allowed_tags'] = $strongarm;
 
