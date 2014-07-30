@@ -124,10 +124,8 @@ function communities_context_default_contexts() {
   $context->conditions = array(
     'node' => array(
       'values' => array(
-        'links' => 'links',
-        'news' => 'news',
-        'simplenews' => 'simplenews',
-        'webform' => 'webform',
+        'community' => 'community',
+        'article' => 'article',
       ),
       'options' => array(
         'node_form' => '1',
