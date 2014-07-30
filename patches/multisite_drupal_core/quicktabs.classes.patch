@@ -1,5 +1,5 @@
---- quicktabs.classes.inc_old	2013-10-02 18:03:07.000000000 +0200
-+++ quicktabs.classes.inc	2014-07-30 12:10:05.000000000 +0200
+--- sites/all/modules/contributed/quicktabs/quicktabs.classes.inc	2013-10-02 18:03:07.000000000 +0200
++++ sites/all/modules/contributed/quicktabs/quicktabs.classes.inc	2014-07-30 12:10:05.000000000 +0200
 @@ -244,7 +244,12 @@
    public function getActiveTab() {
      $active_tab = isset($this->settings['default_tab']) ? $this->settings['default_tab'] : key($this->contents);
