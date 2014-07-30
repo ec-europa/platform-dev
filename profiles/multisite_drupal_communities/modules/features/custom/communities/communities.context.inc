@@ -125,7 +125,6 @@ function communities_context_default_contexts() {
     'node' => array(
       'values' => array(
         'community' => 'community',
-        'article' => 'article',
       ),
       'options' => array(
         'node_form' => '1',
@@ -133,18 +132,19 @@ function communities_context_default_contexts() {
     ),
     'path' => array(
       'values' => array(
-	    'community/*' => 'community/*',
-        '~community/article/*' => '~community/article/*',
+        'community/*/article/*' => 'community/*/article/*',
+      ),
+    ),
+    'views' => array(
+      'values' => array(
+        'article_list:page' => 'article_list:page',
       ),
     ),
   );
   $context->reactions = array(
-    'debug' => array(
-      'debug' => 1,
-    ),
     'menu' => 'communities_directory',
   );
-  $context->condition_mode = 1;
+  $context->condition_mode = 0;
 
   // Translatables
   // Included for use with string extractors like potx.

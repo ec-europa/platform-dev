@@ -9,6 +9,9 @@ function wiki_og_enable() {
   //  multisite_drupal_toolbox_add_block_context('communities', 'wiki_list-block_1', 'views', 'wiki_list-block_1', 'sidebar_first');
   multisite_drupal_toolbox_add_content_type_context('communities', 'wiki');
   
+  multisite_drupal_toolbox_add_views_context("communities_menu_item", "wiki_list:page_1");
+  multisite_drupal_toolbox_add_path_context('communities_menu_item', 'community/*/wiki/*');
+  
   // add wiki content type to newsletters related contents
   multisite_drupal_toolbox_add_content_type_newsletters('wiki');
   
@@ -30,6 +33,9 @@ function wiki_og_disable() {
   //multisite_drupal_toolbox_remove_block_context('communities', 'wiki_list-block_1');
   multisite_drupal_toolbox_remove_content_type_context('communities', 'wiki');
 
+  multisite_drupal_toolbox_remove_views_context("communities_menu_item", "wiki_list:page_1");
+  multisite_drupal_toolbox_remove_path_context('communities_menu_item', 'community/*/wiki/*');
+  
   /*** Remove permissions ***/
   multisite_drupal_toolbox_disable_content_type('wiki');
        
@@ -48,3 +54,10 @@ function wiki_og_modules_enabled($modules) {
   }
 }
 
+/**
+* Add wiki options on "communities_menu_item" context
+*/
+function survey_og_udpate_7120 (){
+  multisite_drupal_toolbox_add_views_context("communities_menu_item", "wiki_list:page_1");
+  multisite_drupal_toolbox_add_path_context('communities_menu_item', 'community/*/wiki/*');
+}
