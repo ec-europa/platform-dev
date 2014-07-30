@@ -75,7 +75,7 @@ function events_og_modules_enabled($modules) {
 /**
 * Add events options on "communities_menu_item" context
 */
-function events_og_udpate_7110 (){
+function events_og_udpate_7101 (){
   multisite_drupal_toolbox_add_path_context('communities_menu_item', 'community/*/event/*');
   multisite_drupal_toolbox_add_views_context('communities_menu_item', 'calendar:month');
 }

@@ -40,7 +40,7 @@ function survey_og_disable() {
 /**
 * Add survey options on "communities_menu_item" context
 */
-function survey_og_udpate_7120 (){
+function survey_og_udpate_7102 (){
   multisite_drupal_toolbox_add_path_context('communities_menu_item', 'community/*/survey/*');
   multisite_drupal_toolbox_add_views_context('communities_menu_item', 'surveys_list:page_1');
 }
