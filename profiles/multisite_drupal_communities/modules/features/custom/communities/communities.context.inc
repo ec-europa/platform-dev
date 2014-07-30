@@ -137,7 +137,7 @@ function communities_context_default_contexts() {
     ),
     'views' => array(
       'values' => array(
-        'article_list:page' => 'article_list:page',
+        'articles_list:page' => 'articles_list:page',
       ),
     ),
   );
@@ -151,7 +151,6 @@ function communities_context_default_contexts() {
   t('A context to add active trail class to content posts into community');
   t('Menu items');
   $export['communities_menu_item'] = $context;
-  
+
   return $export;
-  
 }

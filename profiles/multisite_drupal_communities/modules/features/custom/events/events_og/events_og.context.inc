@@ -7,7 +7,7 @@
 /**
  * Implements hook_context_default_contexts().
  */
-function links_og_context_default_contexts() {
+function events_og_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();
