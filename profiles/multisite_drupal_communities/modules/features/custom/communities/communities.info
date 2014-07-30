@@ -31,6 +31,7 @@ dependencies[] = workbench
 dependencies[] = workbench_moderation
 dependencies[] = workbench_og
 features[context][] = communities
+features[context][] = communities_menu_item
 features[context][] = communities_homepage
 features[ctools][] = context:context:3
 features[ctools][] = field_group:field_group:1

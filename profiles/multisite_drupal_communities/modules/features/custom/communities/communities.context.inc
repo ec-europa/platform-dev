@@ -82,7 +82,6 @@ function communities_context_default_contexts() {
         ),
       ),
     ),
-    'menu' => 'communities_directory',
   );
   $context->condition_mode = 0;
 
@@ -116,5 +115,45 @@ function communities_context_default_contexts() {
   t('communities');
   $export['communities_homepage'] = $context;
 
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'communities_menu_item';
+  $context->description = 'A context to add active trail class to content posts into community';
+  $context->tag = 'Menu items';
+  $context->conditions = array(
+    'node' => array(
+      'values' => array(
+        'links' => 'links',
+        'news' => 'news',
+        'simplenews' => 'simplenews',
+        'webform' => 'webform',
+      ),
+      'options' => array(
+        'node_form' => '1',
+      ),
+    ),
+    'path' => array(
+      'values' => array(
+	    'community/*' => 'community/*',
+        '~community/article/*' => '~community/article/*',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'debug' => array(
+      'debug' => 1,
+    ),
+    'menu' => 'communities_directory',
+  );
+  $context->condition_mode = 1;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('A context to add active trail class to content posts into community');
+  t('Menu items');
+  $export['communities_menu_item'] = $context;
+  
   return $export;
+  
 }

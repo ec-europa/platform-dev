@@ -8,7 +8,6 @@ function news_og_enable(){
   //Add block in context
   // multisite_drupal_toolbox_add_block_context('communities','news-block_1','views','news-block_1', 'sidebar_first');
   multisite_drupal_toolbox_add_views_context('communities','news');
-  multisite_drupal_toolbox_add_content_type_context('communities','news');
   
   // override drupal variables defined in core news_core feature
   variable_set('pathauto_node_news_pattern', 'community/[node:og_group_ref]/news/[node:title]');

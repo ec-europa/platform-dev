@@ -28,6 +28,7 @@ function links_og_enable() {
   //multisite_drupal_toolbox_add_block_context('communities','links-block','views','links-block', 'sidebar_first');
   multisite_drupal_toolbox_add_views_context('communities', 'links');
   multisite_drupal_toolbox_add_content_type_context('communities', 'links');
+  multisite_drupal_toolbox_add_path_context('communities_menu_item', '~community/links/*');
   
   // override drupal variables defined in core feature
   variable_set('pathauto_node_links_pattern', 'community/[node:og_group_ref]/links/[node:title]');
