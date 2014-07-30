@@ -19,7 +19,7 @@ function events_og_context_default_contexts() {
   $context->conditions = array(
     'node' => array(
       'values' => array(
-        'links' => 'links',
+        'event' => 'event',
       ),
       'options' => array(
         'node_form' => '1',

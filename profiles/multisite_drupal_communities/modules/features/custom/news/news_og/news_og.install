@@ -59,7 +59,7 @@ function news_og_modules_enabled($modules) {
 /**
 * Add news options on "communities_menu_item" context
 */
-function news_og_udpate_7110 (){
+function news_og_update_7101 (){
   multisite_drupal_toolbox_add_path_context('communities_menu_item', 'community/*/news/*');
   multisite_drupal_toolbox_add_views_context('communities_menu_item', 'news:page');
 }
