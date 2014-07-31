@@ -8,6 +8,23 @@ function exitWithMessage($rc, $string) {
 	exit($rc);
 }
 
+/**
+  @return the name of the user the current process runs as.
+*/
+function get_username() {
+  // According to the PHP documentation: "POSIX functions are enabled by
+  // default. You can disable POSIX-like functions with --disable-posix."
+  if (function_exists('posix_geteuid')) {
+    $effective_uid = posix_geteuid();
+    $user_info = posix_getpwuid($effective_uid);
+    return $user_info['name'];
+  }
+  else {
+    // fallback to forking whoami, using a hardcoded path
+    return trim(`/usr/bin/whoami`);
+  }
+}
+
 function read_pid_from_file($filepath) {
 	$return = -1;
 	$pid_fh = fopen($filepath, 'r');

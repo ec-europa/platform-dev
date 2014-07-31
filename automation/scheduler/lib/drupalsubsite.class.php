@@ -60,8 +60,8 @@ class DrupalSubSite extends Site {
 	public static function fetchIncompleteSubSites() {
 		global $db_conn;
 		$results = array();
-		$query = 'SELECT s.*, w.* FROM drupal_subsites s JOIN workflow_states w ON s.id = w.subsite_id AND w.state <> "%s";';
-		$query = sprintf($query, mysqli_real_escape_string($db_conn, constant('STATE_DONE')));
+		$query = 'SELECT s.*, w.* FROM drupal_subsites s JOIN workflow_states w ON s.id = w.subsite_id AND w.state <> "%s" JOIN environments e ON s.environment = e.id AND (e.system_user IS NULL OR e.system_user = "%s");';
+		$query = sprintf($query, mysqli_real_escape_string($db_conn, constant('STATE_DONE')), mysqli_real_escape_string($db_conn, get_username()));
 		$res = mysqli_query($db_conn, $query);
 		if (!$res) return $results;
 		while ($row = mysqli_fetch_assoc($res)) {
@@ -214,6 +214,7 @@ class DrupalSubSite extends Site {
 		return (bool)mysqli_query($db_conn, $query);
 	}
 	
+	/// TODO we should have an "environment" attribute (along with the related methods)
 	protected $url_pattern_;
 	protected $install_policy_;
 	protected $install_variant_;
