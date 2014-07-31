@@ -231,3 +231,13 @@ function cce_basic_config_block_view($delta = '') {
   return $block;
 }
 
+/**
+* Implementation of hook COMPONANT alter : hook_field_default_fields_alter
+*/ 
+function cce_basic_config_field_default_fields_alter(&$fields) {
+foreach ($fields as $key => $field) {
+if ($field['field_config']['field_name'] == 'field_tags')
+{ $fields[$key]['field_config']['locked'] = '0'; }
+
+}
+}
