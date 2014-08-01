@@ -347,14 +347,13 @@ function ec_resp_preprocess_views_view_unformatted(&$variables) {
  * Implements theme_preprocess_views_view_grid().
  */
 function ec_resp_preprocess_views_view_grid(&$variables) {
-  $view = $variables['view'];
 
   //set length of each column, depending of number of element on one line
   $grid_col = array();
 
   $grid_col[1]['lg'] = array(12); $grid_col[1]['md'] = array(12); $grid_col[1]['sm'] = array(12); $grid_col[1]['xs'] = array(12);
   $grid_col[2]['lg'] = array(6,6); $grid_col[2]['md'] = array(6,6); $grid_col[2]['sm'] = array(12); $grid_col[2]['xs'] = array(12);
-  $grid_col[3]['lg'] = array(4,4,4); $grid_col[3]['md'] = array(6,6); $grid_col[3]['sm'] = array(6,6); $grid_col[3]['xs'] = array(12);
+  $grid_col[3]['lg'] = array(4,4,4); $grid_col[3]['md'] = array(4,4,4); $grid_col[3]['sm'] = array(6,6); $grid_col[3]['xs'] = array(12);
   $grid_col[4]['lg'] = array(3,3,3,3); $grid_col[4]['md'] = array(4,4,4); $grid_col[4]['sm'] = array(4,4,4); $grid_col[4]['xs'] = array(6,6);
   $grid_col[5]['lg'] = array(3,2,2,2,3); $grid_col[5]['md'] = array(3,3,3,3); $grid_col[5]['sm'] = array(4,4,4); $grid_col[5]['xs'] = array(6,6);
   $grid_col[6]['lg'] = array(2,2,2,2,2,2); $grid_col[6]['md'] = array(3,3,3,3); $grid_col[6]['sm'] = array(4,4,4); $grid_col[6]['xs'] = array(6,6);
@@ -365,6 +364,7 @@ function ec_resp_preprocess_views_view_grid(&$variables) {
   $grid_col[11]['lg'] = array(1,1,1,1,1,1,1,1,1,1,2); $grid_col[11]['md'] = array(2,1,1,1,1,1,1,1,1,2); $grid_col[11]['sm'] = array(3,1,1,1,1,1,1,3); $grid_col[11]['xs'] = array(2,2,2,2,2,2);
   $grid_col[12]['lg'] = array(1,1,1,1,1,1,1,1,1,1,1,1); $grid_col[12]['md'] = array(2,1,1,1,1,1,1,1,1,2); $grid_col[12]['sm'] = array(3,1,1,1,1,1,1,3); $grid_col[12]['xs'] = array(2,2,2,2,2,2);
 
+  $variables['nb_col'] = $variables['view']->style_options['columns'];
   $variables['grid_col'] = $grid_col;
 }
 

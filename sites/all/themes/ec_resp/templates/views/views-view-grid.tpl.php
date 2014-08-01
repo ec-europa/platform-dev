@@ -9,8 +9,7 @@
  * @ingroup views_templates
  */
  
-$nb_row = count($rows[0]);
-if ($nb_row > 12) $nb_row = 12;
+if ($nb_col > 12) $nb_col = 12;
 ?>
 
 <div class="<?php print $class; ?>">
@@ -25,30 +24,33 @@ $index = 0;
 //get all views elements
 foreach ($rows as $row_number => $columns): 
   foreach ($columns as $column_number => $item): 
-    $grid_item[] = $item;
+    if (!empty($item)):
 ?>
-    <div class="col-lg-<?php print $grid_col[$nb_row]['lg'][$index % count($grid_col[$nb_row]['lg'])]; ?> col-md-<?php print $grid_col[$nb_row]['md'][$index % count($grid_col[$nb_row]['md'])]; ?> col-sm-<?php print $grid_col[$nb_row]['sm'][$index % count($grid_col[$nb_row]['sm'])]; ?> col-xs-<?php print $grid_col[$nb_row]['xs'][$index % count($grid_col[$nb_row]['xs'])]; ?>">
-      <?php print ec_resp_icon_type_classes($item); ?>
+    <div class="col-lg-<?php print $grid_col[$nb_col]['lg'][$index % count($grid_col[$nb_col]['lg'])]; ?> col-md-<?php print $grid_col[$nb_col]['md'][$index % count($grid_col[$nb_col]['md'])]; ?> col-sm-<?php print $grid_col[$nb_col]['sm'][$index % count($grid_col[$nb_col]['sm'])]; ?> col-xs-<?php print $grid_col[$nb_col]['xs'][$index % count($grid_col[$nb_col]['xs'])]; ?>">
+      <div class="grid-item">
+        <?php print ec_resp_icon_type_classes($item); ?>
+      </div>
     </div>
 
-    <?php if ((($index+1) % count($grid_col[$nb_row]['lg'])) == 0 || !isset($item[$index+1])): ?>
+    <?php if ((($index+1) % count($grid_col[$nb_col]['lg'])) == 0): ?>
     <div class="clearfix visible-lg"></div>
     <?php endif; ?>
 
-    <?php if ((($index+1) % count($grid_col[$nb_row]['md'])) == 0 || !isset($item[$index+1])): ?>
+    <?php if ((($index+1) % count($grid_col[$nb_col]['md'])) == 0): ?>
     <div class="clearfix visible-md"></div>
     <?php endif; ?>
 
-    <?php if ((($index+1) % count($grid_col[$nb_row]['sm'])) == 0 || !isset($item[$index+1])): ?>
+    <?php if ((($index+1) % count($grid_col[$nb_col]['sm'])) == 0): ?>
     <div class="clearfix visible-sm"></div>
     <?php endif; ?>
 
-    <?php if ((($index+1) % count($grid_col[$nb_row]['xs'])) == 0 || !isset($item[$index+1])): ?>
+    <?php if ((($index+1) % count($grid_col[$nb_col]['xs'])) == 0): ?>
     <div class="clearfix visible-xs"></div>
     <?php endif; ?>
 
     <?php $index++; ?>
 <?php
+    endif;
   endforeach; 
 endforeach;
 ?>
