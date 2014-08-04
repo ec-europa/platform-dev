@@ -303,7 +303,7 @@
             type="application/x-shockwave-flash" 
             pluginspage="http://www.macromedia.com/go/getflashplayer" 
             width="800" height="600" 
-            src="http://ec.europa.eu/wel/players/jwflvplayer/player.swf"
+            src="//ec.europa.eu/wel/players/jwflvplayer/player.swf"
             allowfullscreen="true"
             allowscriptaccess="always"  
             flashvars="file='.$video_path.'&fullscreen=true&image='.$video_preview.'&skin=http://ec.europa.eu/wel/players/jwflvplayer/skins/mainley.swf">
