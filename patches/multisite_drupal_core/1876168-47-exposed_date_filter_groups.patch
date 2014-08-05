@@ -1,7 +1,7 @@
 diff --git a/date_views/includes/date_views_filter_handler_simple.inc b/date_views/includes/date_views_filter_handler_simple.inc
 index d41f30b..22fd5f9 100644
---- a/date_views/includes/date_views_filter_handler_simple.inc
-+++ b/date_views/includes/date_views_filter_handler_simple.inc
+--- sites/all/modules/contributed/date/date_views/includes/date_views_filter_handler_simple.inc
++++ sites/all/modules/contributed/date/date_views/includes/date_views_filter_handler_simple.inc
 @@ -81,7 +81,8 @@ class date_views_filter_handler_simple extends views_handler_filter_date {
      }
      // This a fixed date.
@@ -26,5 +26,5 @@ index d41f30b..22fd5f9 100644
 +        return str_replace(' ', 'T', $this->date_default_value($prefix, $options));
 +      }
      }
- 
+
      return str_replace(' ', 'T', $input);
