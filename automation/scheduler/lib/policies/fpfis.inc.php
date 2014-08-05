@@ -791,7 +791,7 @@ function fpfis_push_files_to_web_servers(&$subsite) {
 			$push_args = implode(' ', array_map('escapeshellarg', $path['push_args']));
 			$git_command = 'git push ' . $push_args;
 			$git_exec = execute_command($git_command);
-			if ($git_exec['code'] !== 0) {
+			if (($git_exec['code'] !== 0) || (strpos($git_exec['output'], 'ERROR') !== FALSE)) {
 				$reports[] = sprintf('%s failed with status code %d: %s', $git_command, $git_exec['code'], $git_exec['output']);
 			}
 		}
