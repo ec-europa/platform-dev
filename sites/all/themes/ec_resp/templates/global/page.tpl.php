@@ -108,7 +108,7 @@ global $base_url;
       </span>
 
       <div id="main-title"><?php print $site_name; ?></div>
-      <div id="sub-title"><?php print $site_slogan; ?></div>
+      <div id="sub-title" class="hidden-xs"><?php print $site_slogan; ?></div>
     </div>
   </div><!-- /#layout-header -->
   
