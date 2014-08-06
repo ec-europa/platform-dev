@@ -113,10 +113,10 @@ projects[feeds][subdir] = "contributed"
 projects[feeds][version] = "2.0-alpha8"
 
 projects[feeds_tamper][subdir] = "contributed"
-projects[feeds_tamper][version] = "7.x-1.0"
+projects[feeds_tamper][version] = "1.0"
 
 projects[feeds_xpathparser][subdir] = "contributed"
-projects[feeds_xpathparser][version] = "7.x-1.0-beta4"
+projects[feeds_xpathparser][version] = "1.0-beta4"
 
 projects[field_group][subdir] = "contributed"
 ;projects[field_group][version] = "1.3"
