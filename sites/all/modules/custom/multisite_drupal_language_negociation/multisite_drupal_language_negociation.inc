@@ -49,10 +49,10 @@ function multisite_url_rewrite_callback(&$path, &$options) {
     return;
   }
 
-  $path = drupal_get_path_alias(empty($path)?variable_get('site_frontpage'):$path, $options['language']->language);
+  $path = drupal_get_path_alias(empty($path)?variable_get('site_frontpage', 'node'):$path, $options['language']->language);
 
   if ($path == '<front>' || $path == '') { // handle the homepage url
-    $path = variable_get('site_frontpage');
+    $path = variable_get('site_frontpage', 'node');
   }
 
   $path .= $delimiter.$options['language']->prefix;
