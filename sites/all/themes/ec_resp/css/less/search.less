@@ -81,6 +81,7 @@ ol.search-results {
         padding: 0;
         li {
           list-style: none;
+          margin: 0;
           a {
             position: relative;
             padding: 10px 15px;
@@ -102,6 +103,10 @@ ol.search-results {
             &.last {
               border-bottom: none;
             }
+          }
+          ul li {
+            margin-left: 15px;
+            border-left: 1px dashed #ddd;
           }
         }
       }
