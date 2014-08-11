@@ -134,7 +134,7 @@ projects[filefield_sources_plupload][subdir] = "contributed"
 projects[filefield_sources_plupload][version] = "1.1"
 
 projects[flexslider][subdir] = "contributed"
-projects[flexslider][version] = "2.0-alpha1"
+projects[flexslider][version] = "2.0-alpha3"
 
 projects[flexslider_views_slideshow][subdir] = "contributed"
 ;projects[flexslider_views_slideshow][version] = "2.x-dev"
@@ -239,7 +239,7 @@ projects[om_maximenu][subdir] = "contributed"
 projects[om_maximenu][version] = "1.44"
 
 projects[password_policy][subdir] = "contributed"
-projects[password_policy][version] = "2.0-alpha1"
+projects[password_policy][version] = "2.0-alpha3"
 
 projects[pathauto][subdir] = "contributed"
 projects[pathauto][version] = "1.2"
