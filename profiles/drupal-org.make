@@ -74,7 +74,7 @@ projects[customerror][subdir] = "contributed"
 projects[customerror][version] = "1.0-rc1"
 
 projects[date][subdir] = "contributed"
-projects[date][version] = "2.7"
+projects[date][version] = "2.8"
 
 projects[diff][subdir] = "contributed"
 projects[diff][version] = "3.2"
