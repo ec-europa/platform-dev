@@ -33,7 +33,7 @@ function events_og_context_default_contexts() {
     ),
   );
   $context->reactions = array(
-    'menu' => 'event_public',
+    'menu' => 'events_public',
   );
   $context->condition_mode = 1;
 
