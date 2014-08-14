@@ -1,0 +1,11 @@
+--- misc/ajax.js	2014-08-14 15:22:49.803356572 +0200
++++ misc/ajax.js	2014-08-14 15:23:06.191439888 +0200
+@@ -129,7 +129,7 @@
+   //      E.g.: ?q=path/nojs&destination=foobar
+   // 5. /nojs# - Followed by a fragment.
+   //      E.g.: path/nojs#myfragment
+-  this.url = element_settings.url.replace(/\/nojs(\/|$|\?|&|#)/g, '/ajax$1');
++  this.url = element_settings.url.replace(/\/nojs(\/|$|\?|&|#|_)/g, '/ajax$1');
+   this.wrapper = '#' + element_settings.wrapper;
+ 
+   // If there isn't a form, jQuery.ajax() will be used instead, allowing us to
