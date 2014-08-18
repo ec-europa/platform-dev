@@ -351,7 +351,7 @@ projects[votingapi][subdir] = "contributed"
 projects[votingapi][version] = "2.11"
 
 projects[webform][subdir] = "contributed"
-projects[webform][version] = "3.2"
+projects[webform][version] = "3.20"
 
 projects[workbench][subdir] = "contributed"
 projects[workbench][version] = "1.2"
@@ -411,3 +411,4 @@ libraries[cycle][download][revision] = f314eff3a0b77902fe2afe7640d7ec0728ff3dc6
 libraries[cycle][directory_name] = "jquery.cycle"
 libraries[cycle][download][sha1] = "f71640db8972ed6d249f57ea8cce29c389c4a84f"
 libraries[cycle][destination] = "libraries"
+
