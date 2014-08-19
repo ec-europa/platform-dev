@@ -215,6 +215,16 @@ function multisite_drupal_toolbox_media_token_to_markup_alter(&$element, &$tag_i
     $element['content']['#prefix'] = '<div><a href="' . file_create_url($element['content']['file']['#file']->uri) . '" class="fancybox">';
     $element['content']['#suffix'] = '</a></div>';
   }
+  
+  // add the media img css styles to the containing div
+  if (isset($element['content']['#bundle']) && ($element['content']['#bundle'] == 'image')) {
+    if (isset($element['content']['file']['#item']['attributes']['style'])) {
+      $style = $element['content']['file']['#item']['attributes']['style'];
+      // Add the img style to the containing div
+     $element['content']['#attributes']['style'] = $style;
+    }
+  }
+
 }
 
 /**
@@ -1198,7 +1208,7 @@ function multisite_drupal_toolbox_tokens_alter(array &$replacements, array $cont
   // alter the token [node:book:parents:join-path] from the book module to respect the IPG url rules
   if($context['type'] == 'node' && current($context['tokens']) == '[node:book:parents:join-path]') {
     $node = $context['data']['node'];
-    $node_source = node_load($node->tnid);
+    $node_source = ($node->tnid == 0)?$node:node_load($node->tnid);
     $ml = menu_link_load($node_source->book['mlid']);
  
     $links = book_get_flat_menu($ml);
