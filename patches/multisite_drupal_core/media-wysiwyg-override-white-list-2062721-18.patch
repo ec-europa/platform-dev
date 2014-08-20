@@ -1,14 +1,5 @@
---- sites/all/modules/contributed/media/includes/media.filter.inc
-+++ sites/all/modules/contributed/media/includes/media.filter.inc
-@@ -634,9 +634,7 @@ function media_format_form($form, $form_state, $file) {
-   field_attach_form('file', $file, $form['options']['fields'], $form_state);
-   $instance = field_info_instances('file', $file->type);
-   foreach ($instance as $field_name => $field_value) {
--    if (isset($instance[$field_name]['settings']) && isset($instance[$field_name]['settings']['wysiwyg_override']) && !$instance[$field_name]['settings']['wysiwyg_override']) {
--      unset($form['options']['fields'][$field_name]);
--    }
-+    $form['options']['fields'][$field_name]['#access'] = !empty($instance[$field_name]['settings']['wysiwyg_override']);
-   }
+--- sites/all/modules/contributed/media/media.install
++++ sites/all/modules/contributed/media/media.install
 @@ -825,6 +826,17 @@ function media_update_7206() {
        file_display_save((object) $display);
      }
