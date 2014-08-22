@@ -12,9 +12,7 @@ include_once 'survey_core.features.inc';
 function survey_core_node_view($node, $view_mode, $langcode) {
   if ($node->type == 'webform') {
     if (isset($node->content['webform'])) {
-      global $base_path, $language;
-      $url_survey = $base_path . $language->language . '/survey';
-      $back_survey = l('Back to survey list', $url_survey);
+      $back_survey = l('Back to survey list', 'survey');
 
       $node->content['back_link']['#prefix'] = '<div class="webform-back-survey">';
       $node->content['back_link']['#markup'] = $back_survey;

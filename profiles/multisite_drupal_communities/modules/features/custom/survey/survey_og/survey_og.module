@@ -32,9 +32,7 @@ function survey_og_menu() {
 function survey_og_node_view($node, $view_mode, $langcode) {
   if ($node->type == 'webform') {
     if (isset($node->content['webform'])) {
-      global $base_path;
-      $url_survey = $base_path . 'survey_public';
-      $back_survey = l('Back to survey list', $url_survey);
+      $back_survey = l('Back to survey list', 'survey_public');
 
       $node->content['back_link']['#markup'] = $back_survey;
     }
