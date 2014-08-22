@@ -224,6 +224,12 @@ function multisite_drupal_toolbox_media_token_to_markup_alter(&$element, &$tag_i
      $element['content']['#attributes']['style'] = $style;
     }
   }
+  
+  // add title and alt attributes to the img markup
+  if(isset($tag_info['attributes']['alt'])) {
+    $element['content']['file']['#item']['alt'] = $tag_info['attributes']['alt'];
+    $element['content']['file']['#item']['title'] = $tag_info['attributes']['alt'];
+  }
 
 }
 
