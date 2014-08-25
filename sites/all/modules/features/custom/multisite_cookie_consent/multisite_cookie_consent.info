@@ -1,0 +1,9 @@
+name =  Multisite Cookie Consent
+description = "Implements European Cookie law"
+core = 7.x
+package = "Multisite cookie consent"
+version = "7.x-1.1"
+files[] = multisite_cookie_consent.install
+files[] = multisite_cookie_consent.admin.inc
+dependencies[] = multisite_cookie_rest
+dependencies[] = clients

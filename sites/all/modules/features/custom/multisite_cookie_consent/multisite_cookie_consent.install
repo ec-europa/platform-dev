@@ -1,0 +1,35 @@
+<?php
+/**
+* Implements hook_schema().
+*/
+function multisite_cookie_consent_schema() {
+    $schema['eucookie_consent'] = array(
+        'description' => 'Stores cookies descriptions',
+        'fields' => array(
+            'cid' => array(
+                'type' =>  'serial',
+                'unsigned' => 'true',
+                'not null' => TRUE,
+                'description' => t('Self generated id'),
+            ),
+            'cookie_id' => array(
+                'type' =>  'varchar',
+                'length' => 60,
+                'not null' => TRUE,
+                'description' => t('Cookie id, this will match Cookie service API id'),
+            ),
+            'cookie_description' => array(
+                'type' =>  'blob',
+                'serialize' =>  true,
+                'length' => 60,
+                'not null' => TRUE,
+                'description' => t('Serialized cookie data'),
+            ),
+        ),
+        'primary key' => array('cid'),
+        'indexes' => array(
+            'id' => array('cookie_id'),
+        ),
+    );
+    return $schema;
+}
