@@ -502,3 +502,14 @@ function communities_views_post_execute(&$view) {
     }
   }
 }
+
+/**
+ * hook_node_delete
+ */
+function communities_node_delete($node) {
+  if($node->type == 'community') {
+    // force field_cache clearing
+    // fix bug : error during a login user who was member of a deleted community
+    field_cache_clear();
+  }
+}
