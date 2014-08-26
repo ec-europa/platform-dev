@@ -380,6 +380,9 @@ projects[jquery_update][version] = "2.4"
 projects[registration][subdir] = "contributed"
 projects[registration][version] = "1.3"
 
+projects[context_entity_field][subdir] = "contributed"
+projects[context_entity_field][version] = "1.1"
+
 ;libraries
 
 ;ckeditor 4.3.2
