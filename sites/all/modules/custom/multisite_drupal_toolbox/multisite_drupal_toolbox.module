@@ -376,6 +376,9 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
       $form['#submit'][] = 'workbench_redirect_submit';
       break;
 
+    case 'user_pass':
+      $form['name']['#attributes']['autocomplete'] = 'off';
+      break;
   }
 }
 
