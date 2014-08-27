@@ -35,7 +35,6 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
   function connectionSettingsFormAlter(&$form, &$form_state) {
     $form['endpoint']['#description'] = t('Remote service URL e.g. http://mysite.com/service-endpoint');
 
-
     // There is no configuration other than the credentials.
     $form['credentials']['username'] = array(
       '#type' => 'textfield',
@@ -401,22 +400,25 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
      */
     function makeCookieRequest($http_method, $data = array()) {
 
+        //adding site_name to $data array
+        $data['sites'] = _multisite_cookie_consent_site_name();
+
         //convert data in query builder
-        $data = http_build_query($data, '', '&');
+        $data = drupal_json_encode($data);
+        //headers
+        $headers = array(
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        );
 
         //bulid options
         $options = array(
-            'Content-Type : application/json',
-           // 'Accept' => 'application/json',
-            'method:' . $http_method,
-            'data:'.  $data,
+            'headers' => $headers,
+            'method'=> $http_method,
+            'data' => $data,
         );
-
-        dpm($options);
-
         //create response and send request to remote service
-        $response = drupal_http_request($this->endpoint , $options);
-
+        $response = drupal_http_request($this->endpoint, $options);
         $this->handleRestError($response);
 
         $result = json_decode($response->data);

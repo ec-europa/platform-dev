@@ -1,10 +1,11 @@
 <?php
 function multisite_cookie_consent_admin_settings(){
 
-   // Configuration for connecting to the service
+    // Configuration for connecting to the service
     $form['eucookie_consent'] = array(
         '#type' => 'fieldset',
-        '#title' => t('eucookie consent settings'));
+        '#title' => t('eucookie consent settings'),
+    );
 
     //link to external consent javascript, it can be overwritten
     $form['eucookie_consent']['eucookie_consent_ec_consent_javascript'] = array(
@@ -29,27 +30,7 @@ function multisite_cookie_consent_admin_settings(){
     $form['eucookie_consent']['eucookie_consent_purge'] = array(
         '#type' => 'checkbox',
         '#title' => t('Do you want to save or update remote cookie information?'),
-        '#description' => t('Save remote cookie descriptions and translations.'),
-    );
-
-    $form['site_name'] = array(
-        '#type' => 'textfield',
-        '#title' => t("Site unique identifier"),
-        '#required' => TRUE,
-        '#description' => t("Identifies your site in the remote service."),
-        '#size' => 40,
-        '#maxlength' => 60,
-        '#default_value' => variable_get('multisite_cookie_site_name'),
-    );
-
-    $form['machine-name'] = array( '#type' => 'machine_name',
-        '#title' => t("Machine Name"),
-        '#required' => TRUE, '#description' => t("machine-friendly name."),
-        '#size' => 15, '#maxlength' => 15,
-        '#default_value' => "",
-        '#machine_name' => array( 'exists' => '_multisite_cookie_consent_site_name',
-        'source' => array('site_name'),
-         ),
+        '#description' => t('Update/save remote cookie descriptions and translations.'),
     );
 
     // Submit button.
@@ -70,8 +51,7 @@ function multisite_cookie_consent_admin_settings_submit($form, &$form_state){
     variable_set('eucookie_consent_ec_consent_javascript', $form_state['values']['eucookie_consent_ec_consent_javascript']);
     //set variable if you want to display banner to logged in users
     variable_set('eucookie_consent_ec_consent_loggedin', $form_state['values']['eucookie_consent_ec_consent_loggedin']);
-    //set variable for sitename
-    variable_set('multisite_cookie_site_name', $form_state['values']['site_name']);
+
 
     //fecth data from remote services
     if ($form_state['values']['eucookie_consent_purge'] == 1) {

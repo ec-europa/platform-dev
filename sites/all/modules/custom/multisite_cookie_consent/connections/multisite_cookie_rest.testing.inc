@@ -193,7 +193,7 @@ class ClientsConnectionMultiSiteCookieRESTCookieCreate implements ClientsConnect
         return array(
             'label' => t('Create a cookie.'),
             'description' => t('Create a cookie on the remote site from an array of data.'),
-            'button' => t('Create'),
+            'button' => t('Create cookie'),
         );
     }
 
@@ -213,20 +213,33 @@ class ClientsConnectionMultiSiteCookieRESTCookieCreate implements ClientsConnect
 
        //provide some json examples
        $sample_data = '{
-"_id": "YOUR COOKIE ID",
-"type": "cookie",
-"cck": false,
-"translation": {
-"en": {
-"default": true,
-"name": "MY COOKIE HUMAN NAME",
-"description": "My cookie description."
-}
-},
-"sites": [
-"mysiteurl"
-]
-}';
+    "_id": "cookies_",
+    "type": "cookie",
+    "cck": false,
+    "translation": {
+        "en": {
+            "default": false,
+            "name": "Cookie EN",
+            "description": "English cookie description"
+        },
+        "fr": {
+            "default": true,
+            "name": "Cookie FR",
+            "description": "French cookie description"
+        },
+        "de": {
+            "default": false,
+            "name": "Cookie DE",
+            "description": "Cookie german description"
+        },
+        "pt": {
+            "default": false,
+            "name": "Cookie PT",
+            "description": "cookie_portugal_description
+        }
+    }';
+
+
         $element['params']['data'] = array(
             '#type' => 'textarea',
             '#rows' => 10,
@@ -260,7 +273,7 @@ class ClientsConnectionMultiSiteCookieRESTCookieCreate implements ClientsConnect
        $data = drupal_json_decode($button_form_values['params']['data']);
 
         if (module_exists('devel')) {
-            dpm($data, 'POST data');
+            //dpm($data, 'POST data');
             $json_error = json_last_error();
             if ($json_error != JSON_ERROR_NONE) {
                 dpm($json_error, 'JSON error');
@@ -282,10 +295,11 @@ class ClientsConnectionMultiSiteCookieRESTCookieCreate implements ClientsConnect
 
 }
 
-/**
- * Test a generic REST request.
- */
-class ClientsConnectionDrupalRESTTestGeneric implements ClientsConnectionTestingInterface {
+
+    /**
+     * Test a Delete cookie
+     */
+class ClientsConnectionMultiSiteCookieRESTCookieDelete implements ClientsConnectionTestingInterface {
 
     /**
      * The labels for the test.
@@ -311,64 +325,21 @@ class ClientsConnectionDrupalRESTTestGeneric implements ClientsConnectionTesting
      *  The form element with the test's additions.
      */
     function testForm($element) {
-        $element['params']['method'] = array(
-            '#type' => 'select',
-            '#title' => t('Method'),
-            '#options' => drupal_map_assoc(array(
-                'GET',
-                'POST',
-                'PUT',
-            )),
+
+        $element['params']['cid'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Cookie ID'),
+            '#description' => t('Cookie id.'),
             '#required' => TRUE,
         );
 
-        $entity_types = array_keys(entity_get_info());
-        sort($entity_types);
-        $entity_type_options = drupal_map_assoc($entity_types);
-        $entity_type_options['_text'] = t('- Other -');
-
-        $element['params']['entity'] = array(
-            '#type' => 'select',
-            '#title' => t('Entity type'),
-            '#description' => t('The entity type to act on; i.e., the resource.'),
-            '#options' => $entity_type_options,
-            '#required' => FALSE,
-        );
-
-        $element['params']['entity_text'] = array(
+        $element['params']['revision'] = array(
             '#type' => 'textfield',
-            '#title' => t('Entity type'),
-            '#description' => t('The entity type to act on, if not in the list above.'),
-            '#required' => FALSE,
+            '#title' => t('Revision'),
+            '#description' => t('Insert cookie revision you want to delete.'),
+            '#required' => TRUE,
         );
 
-        $element['params']['entity_prefix'] = array(
-            '#type' => 'checkbox',
-            '#title' => t('Prefix entity type for Services Entity resource'),
-            '#description' => t("Add the 'entity_' prefix to the entity type, for use with entity resources defined by Services Entity module."),
-            '#required' => FALSE,
-        );
-
-        $element['params']['path'] = array(
-            '#type' => 'textfield',
-            '#title' => t('Path suffix'),
-            '#description' => t('The remainder of the path, e.g., the entity ID, the entity ID and the action, etc.'),
-        );
-
-        $element['params']['data'] = array(
-            '#type' => 'textarea',
-            '#title' => t('Data'),
-            '#description' => t('The POST or PUT data to pass, as a JSON array.'),
-        );
-        $element['params']['data_type'] = array(
-            '#type' => 'radios',
-            '#title' => t('Data type'),
-            '#description' => t('The type of the data.'),
-            '#options' => array(
-                'json'  => 'JSON',
-                'php'   => 'PHP array',
-            ),
-        );
 
         return $element;
     }
@@ -389,39 +360,11 @@ class ClientsConnectionDrupalRESTTestGeneric implements ClientsConnectionTesting
      *  Data from the remote connection. This is output to the form as raw data.
      */
     function test($connection, &$button_form_values) {
-        if (!empty($button_form_values['params']['entity_text'])) {
-            $entity_type = $button_form_values['params']['entity_text'];
-        }
-        else {
-            $entity_type = $button_form_values['params']['entity'];
-        }
 
-        if ($button_form_values['params']['entity_prefix']) {
-            $resource = 'entity_' . $entity_type;
-        }
-        else {
-            $resource = $entity_type;
-        }
+        $method = 'DELETE';
+        $cid = $button_form_values['params']['cid'];
+        $revision = $button_form_values['params']['revision'];
 
-        if (!empty($button_form_values['params']['path'])) {
-            $path = $resource . '/' . $button_form_values['params']['path'];
-        }
-        else {
-            $path = $resource;
-        }
-        $method = $button_form_values['params']['method'];
-
-        if (!empty($button_form_values['params']['data'])) {
-            if ($button_form_values['params']['data_type'] == 'json') {
-                $data = drupal_json_decode($button_form_values['params']['data']);
-            }
-            else {
-                eval('$data = ' . $button_form_values['params']['data'] . ';');
-            }
-        }
-        else {
-            $data = array();
-        }
 
         drupal_set_message(t("Making @method request to @path.", array(
             '@method' => $method,
@@ -449,5 +392,6 @@ class ClientsConnectionDrupalRESTTestGeneric implements ClientsConnectionTesting
 
         return $result;
     }
+
 
 }

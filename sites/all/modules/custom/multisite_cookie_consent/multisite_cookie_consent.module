@@ -16,10 +16,11 @@ function multisite_cookie_consent_menu(){
         'type' => MENU_LOCAL_TASK,
     );
 
-    $items['cookie-notice'] = array(
+    $items['cookie-notice/%1'] = array(
         'title'              => 'Cookies used',
         'description'        => 'Notice page',
         'page callback' => array('multisite_cookie_consent_notice'),
+        'page arguments' => array(1),
         'access arguments' => array('access content'),
         'weight'             => -7,
         'type' => MENU_CALLBACK,
@@ -39,7 +40,7 @@ function multisite_cookie_consent_init(){
     //add js inline (example for now):
     drupal_add_js('var consent_required_cookies = {
         "a":{
-            "joinup":["youtube","vimeo"]}
+            "'._multisite_cookie_consent_site_name().'":["youtube","vimeo"]}
         };
         var cookie_notice_url = {
         "en":"'.$notice_page.'"};', 'inline');
@@ -74,9 +75,9 @@ function multisite_cookie_consent_permission() {
  * creates cookie notice page
  * @return string
  */
-function multisite_cookie_consent_notice(){
+function multisite_cookie_consent_notice($language = 'en'){
     //get all descriptions available
-    $descriptions  = multisite_cookie_consent_getcookie('en');
+    $descriptions  = multisite_cookie_consent_getcookie($language);
     return $descriptions;
 }
 
@@ -113,24 +114,46 @@ function multisite_cookie_consent_removecookie($cookie_id = false ){
     }
 }
 
-//get cookie description from db, unseriolized
-function multisite_cookie_consent_getcookie($language = 'default'){
+/**
+ * Get cookie(s) description and name
+ * generates notice page
+ * @param string $language
+ * @return string
+ */
+function multisite_cookie_consent_getcookie($language = 'en'){
     $output = '';
     //todo: filter by specific cookie
     $result = db_query("SELECT * FROM {eucookie_consent}");
     foreach ($result as $record) {
         //unserialize
         $cookie_info = drupal_json_decode($record->cookie_description);
-        //build output for notice page
+            dpm($cookie_info);
+        //build output for notice page, check if language is supported
+        if(!isset($cookie_info['translation'][$language])){
+            //loop through out all the languages to find which one is the default
+            foreach($cookie_info['translation'] as $languages => $lang){
+                if ($lang['default']){
+                    $output .= '<h1>' . $lang['name'] . '</h1>';
+                    $output .= '<p>' . $lang['description']  . '</p>';
+                }
+            }
+
+        } else {
         $output .= '<h1>' . $cookie_info['translation'][$language]['name'] . '</h1>';
         $output .= '<p>' . $cookie_info['translation'][$language]['description'] . '</p>';
-
+        }
     }
   return $output;
 }
 
 
-function _multisite_cookie_consent_site_name($site_name){
-    return 0;
-
+/**
+ * Generates site name
+ * @return string
+ */
+function _multisite_cookie_consent_site_name(){
+    global $base_url;
+    global $base_path;
+    $url = parse_url($base_url . $base_path);
+    return $url['host'];
 }

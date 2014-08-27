@@ -17,6 +17,8 @@ function multisite_cookie_rest_clients_connection_type_info() {
         'server_check' => 'ClientsConnectionMultiSiteCookieRESTServerCheck',
         'cookie_retrieve' => 'ClientsConnectionMultiSiteCookieRESTCookieRetrieve',
         'cookie_create' => 'ClientsConnectionMultiSiteCookieRESTCookieCreate',
+        //'cookie_delete' => 'ClientsConnectionMultiSiteCookieRESTCookieDelete',
+        //'cookie_update' => 'ClientsConnectionMultiSiteCookieRESTCookieUpdate',
       ),
     ),
   );
