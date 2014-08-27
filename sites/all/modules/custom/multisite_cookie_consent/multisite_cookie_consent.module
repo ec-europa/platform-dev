@@ -157,3 +157,73 @@ function _multisite_cookie_consent_site_name(){
     $url = parse_url($base_url . $base_path);
     return $url['host'];
 }
+
+/**
+ * Implements hook_modules_disabled().
+ */
+function multisite_cookie_consent_modules_disabled($modules) {
+  // Go through all modules and gather cookies that can be removed.
+  $cookies = _multisite_cookie_consent_cookie_list($modules);
+  if (!empty($cookies)) {
+    $registered_cookies = variable_get('cck_registered_cookies', array());
+    foreach ($registered_cookies as $key => $registered_cookie) {
+      foreach ($cookies as $cookie) {
+        if($cookie == $registered_cookie) {
+          unset($registered_cookies[$key]);
+        }
+      }
+    }
+    variable_set('cck_registered_cookies', $registered_cookies);
+    // @TODO get things from remote
+  }
+}
+
+/**
+ * Implements hook_modules_enabled().
+ */
+function multisite_cookie_consent_modules_enabled($modules) {
+  // Go through all modules and gather cookies that can be enabled.
+  $cookies = _multisite_cookie_consent_cookie_list($modules);
+  if (!empty($cookies)) {
+    $registered_cookies = variable_get('cck_registered_cookies', array());
+    $registered_cookies = array_merge($registered_cookies, $cookies);
+    variable_set('cck_registered_cookies', array_unique($registered_cookies));
+    // @TODO get things from remote
+  }
+}
+
+/**
+ * Rebuild registered cookies list.
+ */
+function _multisite_cookie_consent_rebuild_registered_cookies() {
+  $cookies = _multisite_cookie_consent_cookie_list();
+  variable_set('cck_registered_cookies', array_unique($cookies));
+  // @TODO get things from remote
+}
+
+/**
+ * List of cookies requred by the modules.
+ */
+function _multisite_cookie_consent_cookie_list($modules = NULL) {
+  $cookies = array();
+  // All modules and features if none given.
+  if(!$modules) {
+    $modules = module_list(TRUE);
+  }
+  foreach ($modules as $module) {
+    $info = _multisite_cookie_consent_load_info($module);
+    if (isset($info['cookies'])) {
+      $cookies = array_merge($cookies, $info['cookies']);
+    }
+  }
+  kpr(array_unique($cookies));
+  kpr(variable_get('cck_registered_cookies', array()));
+  return array_unique($cookies);
+}
+
+/**
+ * Loads info file definitions for a given module.
+ */
+function _multisite_cookie_consent_load_info($module) {
+  return drupal_parse_info_file(drupal_get_path('module', $module) . '/' . $module . '.info');
+}

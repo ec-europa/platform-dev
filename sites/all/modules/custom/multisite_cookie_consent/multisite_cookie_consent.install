@@ -33,3 +33,17 @@ function multisite_cookie_consent_schema() {
     );
     return $schema;
 }
+
+/**
+ * Implements hook_enable().
+ */
+function multisite_cookie_consent_enable() {
+    _multisite_cookie_consent_rebuild_registered_cookies();
+}
+
+/**
+ * Implements hook_disable().
+ */
+function multisite_cookie_consent_disable() {
+    variable_del('cck_registered_cookies');
+}
