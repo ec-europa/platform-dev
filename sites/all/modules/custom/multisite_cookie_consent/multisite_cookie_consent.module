@@ -16,8 +16,8 @@ function multisite_cookie_consent_menu(){
         'type' => MENU_LOCAL_TASK,
     );
 
-    $items['cookie-notice/%1'] = array(
-        'title'              => 'Cookies used',
+    $items['cookie-notice'] = array(
+        'title'              => t('Cookies'),
         'description'        => 'Notice page',
         'page callback' => array('multisite_cookie_consent_notice'),
         'page arguments' => array(1),
@@ -43,7 +43,7 @@ function multisite_cookie_consent_init(){
             "'._multisite_cookie_consent_site_name().'":["youtube","vimeo"]}
         };
         var cookie_notice_url = {
-        "en":"'.$notice_page.'"};', 'inline');
+        '._get_site_languages($notice_page).'};', 'inline');
     //external pointer to EC consent.js file
     $consent_js = variable_get('eucookie_consent_ec_consent_javascript',
     'http://ec.europa.eu/wel/cookie-consent/consent.js');
@@ -72,12 +72,13 @@ function multisite_cookie_consent_permission() {
 }
 
 /**
- * creates cookie notice page
+ * creates cookie notice page passing current language
  * @return string
  */
-function multisite_cookie_consent_notice($language = 'en'){
-    //get all descriptions available
-    $descriptions  = multisite_cookie_consent_getcookie($language);
+function multisite_cookie_consent_notice(){
+    global $language;
+    //get all descriptions available for the cookies
+    $descriptions  = multisite_cookie_consent_getcookie($language->language);
     return $descriptions;
 }
 
@@ -124,25 +125,39 @@ function multisite_cookie_consent_getcookie($language = 'en'){
     $output = '';
     //todo: filter by specific cookie
     $result = db_query("SELECT * FROM {eucookie_consent}");
+    $cookies =  variable_get('cck_registered_cookies');
+
+    //start creating the page output
+    $output .= _multisite_cookie_statictext('header');
+
     foreach ($result as $record) {
         //unserialize
         $cookie_info = drupal_json_decode($record->cookie_description);
-            dpm($cookie_info);
-        //build output for notice page, check if language is supported
-        if(!isset($cookie_info['translation'][$language])){
-            //loop through out all the languages to find which one is the default
-            foreach($cookie_info['translation'] as $languages => $lang){
-                if ($lang['default']){
-                    $output .= '<h1>' . $lang['name'] . '</h1>';
-                    $output .= '<p>' . $lang['description']  . '</p>';
-                }
-            }
 
-        } else {
-        $output .= '<h1>' . $cookie_info['translation'][$language]['name'] . '</h1>';
-        $output .= '<p>' . $cookie_info['translation'][$language]['description'] . '</p>';
+        //check if cookie exists in cookie variable
+        if (in_array($cookie_info['_id'], $cookies)){
+            //build output for notice page, check if language is supported
+            if(!isset($cookie_info['translation'][$language])){
+                //loop through out all the languages to find which one is the default
+                foreach($cookie_info['translation'] as $languages => $lang){
+                    if ($lang['default']){
+                        $output .= '<h1>' . $lang['name'] . '</h1>';
+                        $output .= '<p>' . $lang['description']  . '</p>';
+                    }
+                }
+
+            } else {
+                $output .= '<h1>' . $cookie_info['translation'][$language]['name'] . '</h1>';
+                $output .= '<p>' . $cookie_info['translation'][$language]['description'] . '</p>';
+            }
         }
+
     }
+    //footer
+    $output .= _multisite_cookie_statictext('footer');
+    //javascript link
+    $output .= _multisite_cookie_statictext('javascript_link');
+
   return $output;
 }
 
@@ -226,4 +241,58 @@ function _multisite_cookie_consent_cookie_list($modules = NULL) {
  */
 function _multisite_cookie_consent_load_info($module) {
   return drupal_parse_info_file(drupal_get_path('module', $module) . '/' . $module . '.info');
+}
+
+/**
+ * Creates links to be added in JavaScript header for
+ * CCK integration. These are links to cookie pages per language.
+ * @param $notice_page
+ * @return string
+ */
+function _get_site_languages($notice_page){
+    $languages = '';
+    foreach (language_list() as $lang){
+        $languages .= '"'.$lang->language.'":"' . $notice_page . '"';
+    }
+
+    return $languages;
+}
+
+function _multisite_cookie_statictext($key) {
+    //TODO: replace this function with more clever way
+    $output_text = array(
+        'header' => array(
+            '#text' => '<h2>' . t('Cookies') . '</h2><p>' .
+                t('To make this site work properly, we sometimes place small data files
+                called cookies on your device. Most big websites do this too.') .'</p>'.
+                '<h2>' . t('What are cookies?') . '</h2><p>'.
+                t('A cookie is a small text file that a website saves on your computer or
+                mobile device when you visit the site. It enables the website to
+                remember your actions and preferences (such as login, language,
+                font size and other display preferences) over a period of time,
+                so you don’t have to keep re-entering them whenever
+                you come back to the site or browse from one page to another.').
+                '</p><h2>' . t('How do we use cookies?') . '</h2><p>',
+        ),
+            'footer' => array(
+                '#text' => '<h2>' . t('How to control cookies') . '</h2><p>' .
+                    t('You can control and/or delete cookies as you wish –
+                    for details, see ') .
+                    l('aboutcookies.org', url('http://aboutcookies.org' , array('external','absolute'))) .
+                    t('. You can delete all cookies
+                    that are already on your computer and you can set most browsers
+                    to prevent them from being placed. If you do this, however,
+                    you may have to manually adjust some preferences every time
+                    you visit a site and some services and functionalities may not work.'),
+
+            ),
+            'javascript_link' => array(
+                '#text' => t('You can easily accept or reject the cookies on this site by
+                choosing one of the following links: I accept cookies / I refuse cookies.'),
+            ),
+
+
+    );
+
+    return $output_text[$key]['#text'];
 }
