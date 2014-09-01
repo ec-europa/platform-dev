@@ -55,38 +55,7 @@ function multisite_cookie_consent_admin_settings_submit($form, &$form_state){
 
     //fecth data from remote services
     if ($form_state['values']['eucookie_consent_purge'] == 1) {
-        // get connection
-        $conection_name = variable_get('multisite_cookie_connection');
-        if($conection_name) {
-            $connection = clients_connection_load($conection_name);
-            try {
-                //Check connection with the cookie Server
-                $cookies = $connection->serverCheck(true);
-            }
-            catch (Exception $e) {
-                drupal_set_message(t('Could not connect to the Cookie remote service, see error message "@message".', array(
-                    '@message' => $e->getMessage(),
-                )), 'error');
-                $cookies = FALSE;
-            }
-
-            if ($cookies){
-                //remove previously stored cookies
-                multisite_cookie_consent_removecookie();
-                //Todo: Tamaz find a way to get only the cookies relevant for this site
-                foreach ($cookies['rows'] as $cookie){
-                    //save each cookie on client side
-                    multisite_cookie_consent_savecookie($cookie['id'] , $cookie['value']);
-                }
-                $cookie_notice_page = l('View cookie notice page' , 'cookie-notice',  array('html' => TRUE,
-                    'attributes' => array('target' => '_blank')));
-                drupal_set_message('Cookies saved! '. $cookie_notice_page );
-            }
-
-        }
-        else {
-            drupal_set_message('Please configure your connection first.');
-        }
+        _multisite_cookie_consent_rebuild_registered_cookies();
     }
 
 }

@@ -88,7 +88,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
    * @throws Exception
    */
   function handleRestError($response) {
-    if ($response->code != 200) {
+    if (!in_array($response->code, array(200, 201))) {
       watchdog('clients', 'Error with REST request. Error was code @code with error "@error" and message "@message".', array(
         '@code'     => $response->code,
         '@error'    => $response->error,
@@ -172,9 +172,9 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
                 )), $response->code);
         }
 
-        if ($server_info && $response->code == 200) {
+        if ($server_info && in_array($response->code, array(200, 201))) {
             return $result;
-        } else if (!$server_info && $response->code == 200){
+        } else if (!$server_info && in_array($response->code, array(200, 201))) {
             $message = t('Remote service is alive! To view the server response please check the "See service response".');
             drupal_set_message($message);
             return;
@@ -420,7 +420,6 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
         //create response and send request to remote service
         $response = drupal_http_request($this->endpoint, $options);
         $this->handleRestError($response);
-
         $result = json_decode($response->data);
         return $result;
     }

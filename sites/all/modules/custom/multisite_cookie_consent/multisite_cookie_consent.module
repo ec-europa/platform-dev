@@ -121,7 +121,7 @@ function multisite_cookie_consent_removecookie($cookie_id = false ){
  * @param string $language
  * @return string
  */
-function multisite_cookie_consent_getcookie($language = 'en'){
+function multisite_cookie_consent_getcookie($language = 'en') {
     $output = '';
     //todo: filter by specific cookie
     $result = db_query("SELECT * FROM {eucookie_consent}");
@@ -136,19 +136,24 @@ function multisite_cookie_consent_getcookie($language = 'en'){
 
         //check if cookie exists in cookie variable
         if (in_array($cookie_info['_id'], $cookies)){
-            //build output for notice page, check if language is supported
-            if(!isset($cookie_info['translation'][$language])){
-                //loop through out all the languages to find which one is the default
-                foreach($cookie_info['translation'] as $languages => $lang){
-                    if ($lang['default']){
-                        $output .= '<h1>' . $lang['name'] . '</h1>';
-                        $output .= '<p>' . $lang['description']  . '</p>';
+            if(isset($cookie_info['translation'])) {
+                //build output for notice page, check if language is supported
+                if(!isset($cookie_info['translation'][$language])){
+                    //loop through out all the languages to find which one is the default
+                    foreach($cookie_info['translation'] as $languages => $lang){
+                        if ($lang['default']){
+                            $output .= '<h3>' . $lang['name'] . '</h3>';
+                            $output .= '<p>' . $lang['description']  . '</p>';
+                        }
                     }
-                }
 
+                } else {
+                    $output .= '<h3>' . $cookie_info['translation'][$language]['name'] . '</h3>';
+                    $output .= '<p>' . $cookie_info['translation'][$language]['description'] . '</p>';
+                }
             } else {
-                $output .= '<h1>' . $cookie_info['translation'][$language]['name'] . '</h1>';
-                $output .= '<p>' . $cookie_info['translation'][$language]['description'] . '</p>';
+                $output .= '<h3>' . $cookie_info['_id'] . '</h3>';
+                $output .= '<p>' . t('No description provided for this cookie yet.') . '</p>';
             }
         }
 
@@ -166,7 +171,7 @@ function multisite_cookie_consent_getcookie($language = 'en'){
  * Generates site name
  * @return string
  */
-function _multisite_cookie_consent_site_name(){
+function _multisite_cookie_consent_site_name() {
     global $base_url;
     global $base_path;
     $url = parse_url($base_url . $base_path);
@@ -189,7 +194,8 @@ function multisite_cookie_consent_modules_disabled($modules) {
       }
     }
     variable_set('cck_registered_cookies', $registered_cookies);
-    // @TODO get things from remote
+
+    _multisite_cookie_consent_fetch_registered_cookies();
   }
 }
 
@@ -203,7 +209,8 @@ function multisite_cookie_consent_modules_enabled($modules) {
     $registered_cookies = variable_get('cck_registered_cookies', array());
     $registered_cookies = array_merge($registered_cookies, $cookies);
     variable_set('cck_registered_cookies', array_unique($registered_cookies));
-    // @TODO get things from remote
+
+    _multisite_cookie_consent_fetch_registered_cookies();
   }
 }
 
@@ -213,7 +220,85 @@ function multisite_cookie_consent_modules_enabled($modules) {
 function _multisite_cookie_consent_rebuild_registered_cookies() {
   $cookies = _multisite_cookie_consent_cookie_list();
   variable_set('cck_registered_cookies', array_unique($cookies));
-  // @TODO get things from remote
+
+  _multisite_cookie_consent_fetch_registered_cookies();
+}
+
+/**
+ * Fetches the cookies from remote service.
+ */
+function _multisite_cookie_consent_fetch_registered_cookies() {
+    // get connection
+    $conection_name = variable_get('multisite_cookie_connection');
+    if($conection_name) {
+        $connection = clients_connection_load($conection_name);
+        try {
+            //Check connection with the cookie Server
+            $cookies = $connection->serverCheck(true);
+        }
+        catch (Exception $e) {
+            drupal_set_message(t('Could not connect to the Cookie remote service, see error message "@message".', array(
+                '@message' => $e->getMessage(),
+            )), 'error');
+            $cookies = FALSE;
+        }
+
+        if ($cookies){
+            //remove previously stored cookies
+            multisite_cookie_consent_removecookie();
+            $registered_cookies = variable_get('cck_registered_cookies', array());
+            foreach($registered_cookies as $key => $registered_cookie_id) {
+                foreach ($cookies['rows'] as $cookie) {
+                    if($cookie['id'] == $registered_cookie_id) {
+                        // Save each cookie on client side.
+                        multisite_cookie_consent_savecookie($cookie['id'] , $cookie['value']);
+                        // Remove to keep missing cookies for later.
+                        unset($registered_cookies[$key]);
+                    }
+                }
+            }
+            if (!empty($registered_cookies)) {
+                foreach($registered_cookies as $new_cookie_id) {
+                    $new_cookie = array(
+                        '_id' => $new_cookie_id,
+                        'type' => 'cookie',
+                        'cck' => false,
+                    );
+
+                    try {
+                        // Send new cookie to server
+                        $cookie = $connection->makeCookieRequest('POST', $new_cookie);
+                    }
+                    catch (Exception $e) {
+                        drupal_set_message(t('Could not save cookie "@cookie" to the Cookie remote service, see error message "@message".', array(
+                            '@message' => $e->getMessage(),
+                            '@cookie' => $new_cookie_id,
+                        )), 'error');
+                    }
+
+                    try {
+                        // Get new cookie from server
+                        $new_cookie = $connection->retrieveCookie($cookie->id, 'GET', TRUE);
+                    }
+                    catch (Exception $e) {
+                        drupal_set_message(t('Could not fetch cookie "@cookie" from the Cookie remote service, see error message "@message".', array(
+                            '@message' => $e->getMessage(),
+                            '@cookie' => $cookie->id,
+                        )), 'error');
+                    }
+                    // Save new cookie on client side.
+                    multisite_cookie_consent_savecookie($new_cookie['_id'] , $new_cookie);
+                }
+            }
+            $cookie_notice_page = l('View cookie notice page' , 'cookie-notice',  array('html' => TRUE,
+                'attributes' => array('target' => '_blank')));
+            drupal_set_message('Cookies saved! '. $cookie_notice_page );
+        }
+
+    }
+    else {
+        drupal_set_message('Please configure your connection first.');
+    }
 }
 
 /**
@@ -231,8 +316,6 @@ function _multisite_cookie_consent_cookie_list($modules = NULL) {
       $cookies = array_merge($cookies, $info['cookies']);
     }
   }
-  kpr(array_unique($cookies));
-  kpr(variable_get('cck_registered_cookies', array()));
   return array_unique($cookies);
 }
 
