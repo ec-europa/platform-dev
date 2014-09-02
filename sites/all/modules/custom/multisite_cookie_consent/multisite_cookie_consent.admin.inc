@@ -1,10 +1,21 @@
 <?php
-function multisite_cookie_consent_admin_settings(){
+
+/**
+ * @file
+ * Configuration settings for cookie consent module
+ *
+ * Fecth, costumize and save site preferences
+ * for cookie consent module
+ */
+
+
+function multisite_cookie_consent_admin_settings() {
 
     // Configuration for connecting to the service
     $form['eucookie_consent'] = array(
         '#type' => 'fieldset',
         '#title' => t('eucookie consent settings'),
+        '#suffix' => multisite_cookie_consent_indicators(),
     );
 
     //link to external consent javascript, it can be overwritten
@@ -12,7 +23,7 @@ function multisite_cookie_consent_admin_settings(){
         '#type' => 'textfield',
         '#title' => t('Consent JavaScript file'),
         '#description' => t('This file is required! If you store this file locally, you can overwrite this setting, otherwise leave as it is.'),
-        '#required' => true,
+        '#required' => TRUE,
         '#default_value' => variable_get('eucookie_consent_ec_consent_javascript', 'http://ec.europa.eu/wel/cookie-consent/consent.js'),
     );
 
@@ -29,8 +40,15 @@ function multisite_cookie_consent_admin_settings(){
     //future to be replaced by entity remote api
     $form['eucookie_consent']['eucookie_consent_purge'] = array(
         '#type' => 'checkbox',
-        '#title' => t('Do you want to save or update remote cookie information?'),
-        '#description' => t('Update/save remote cookie descriptions and translations.'),
+        '#title' => t('Rebuild remote cookie information?'),
+        '#description' => t('Updates and saves remote information in your database'),
+    );
+
+    //cookie static template pages
+    $form['eucookie_consent']['eucookie_consent_statictext'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Rebuild notice template page information?'),
+        '#description' => t('Retrieves latest static description for the cookie notice pages.'),
     );
 
     // Submit button.
@@ -46,16 +64,19 @@ function multisite_cookie_consent_admin_settings(){
 /**
  * Submission function for eucookie_consent_admin_settings form.
  */
-function multisite_cookie_consent_admin_settings_submit($form, &$form_state){
+function multisite_cookie_consent_admin_settings_submit($form, &$form_state) {
     //overwrite the pointer to the EC consent.js file
     variable_set('eucookie_consent_ec_consent_javascript', $form_state['values']['eucookie_consent_ec_consent_javascript']);
     //set variable if you want to display banner to logged in users
     variable_set('eucookie_consent_ec_consent_loggedin', $form_state['values']['eucookie_consent_ec_consent_loggedin']);
 
-
     //fecth data from remote services
     if ($form_state['values']['eucookie_consent_purge'] == 1) {
         _multisite_cookie_consent_rebuild_registered_cookies();
+    }
+    //fetch template pages
+    if ($form_state['values']['eucookie_consent_statictext'] == 1) {
+        _multisite_cookie_consent_rebuild_static_text();
     }
 
 }

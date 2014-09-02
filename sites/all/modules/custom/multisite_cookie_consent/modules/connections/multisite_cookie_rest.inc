@@ -88,7 +88,9 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
    * @throws Exception
    */
   function handleRestError($response) {
-    if (!in_array($response->code, array(200, 201))) {
+
+    if (!in_array($response->code, array("200", "201"))) {
+
       watchdog('clients', 'Error with REST request. Error was code @code with error "@error" and message "@message".', array(
         '@code'     => $response->code,
         '@error'    => $response->error,
@@ -133,10 +135,12 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
         }
         if ($server_info == TRUE && $response->code == 200) {
             return $result;
-        } else if ($server_info == FALSE && $response->code == 200){
+        }
+        elseif ($server_info == FALSE && $response->code == 200) {
             $message = t('Remote service is alive! To view the server response please check the "See service response".');
-            drupal_set_message($message);
-        } else {
+            drupal_set_message(t('%message') , array('%message' => $message));
+        }
+        else {
             return FALSE;
         }
     }
@@ -157,7 +161,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
             'method'  => $method,
         );
 
-        $request_remote = $this->endpoint  . '/' . $cid;
+        $request_remote = $this->endpoint . '/' . $cid;
         $response = drupal_http_request($request_remote  , $options);
         // Check if response was successful.
         $this->handleRestError($response);
@@ -174,11 +178,13 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
 
         if ($server_info && in_array($response->code, array(200, 201))) {
             return $result;
-        } else if (!$server_info && in_array($response->code, array(200, 201))) {
+        }
+        elseif (!$server_info && in_array($response->code, array(200, 201))) {
             $message = t('Remote service is alive! To view the server response please check the "See service response".');
-            drupal_set_message($message);
+            drupal_set_message(t('%message') , array('%message' => $message));
             return;
-        } else {
+        }
+        else {
             return FALSE;
         }
     }
@@ -386,18 +392,18 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
   }
 
     /**
-     * Make a REST request.
-     *
-     * @param $http_method
-     *  The HTTP method. One of 'GET', 'POST', 'PUT', 'DELETE'. For an explanation
-     *  of how the HTTP method affects the resource request, see the Services
-     *  documentation at http://drupal.org/node/783254.
-     * @param $data = array()
-     *  (Optional) An array of data to pass to the request.
-     *
-     * @return
-     *  The data from the request response.
-     */
+ * Make a REST request.
+ *
+ * @param $http_method
+ *  The HTTP method. One of 'GET', 'POST', 'PUT', 'DELETE'. For an explanation
+ *  of how the HTTP method affects the resource request, see the Services
+ *  documentation at http://drupal.org/node/783254.
+ * @param $data = array()
+ *  (Optional) An array of data to pass to the request.
+ *
+ * @return
+ *  The data from the request response.
+ */
     function makeCookieRequest($http_method, $data = array()) {
 
         //adding site_name to $data array
@@ -414,7 +420,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
         //bulid options
         $options = array(
             'headers' => $headers,
-            'method'=> $http_method,
+            'method' => $http_method,
             'data' => $data,
         );
         //create response and send request to remote service
@@ -422,5 +428,49 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
         $this->handleRestError($response);
         $result = json_decode($response->data);
         return $result;
+    }
+
+    /**
+     * retrives static page content
+     * @param string $method method to send to remote service
+     * @param bool $server_info display server response
+     * @return bool|mixed
+     * @throws Exception
+     */
+    function retrieveStatictext($server_info = FALSE ) {
+        $options = array(
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'Cache-Control' => 'no-cache',
+            ),
+            'method'  => 'GET',
+        );
+        //make cookie page request
+        $request_remote = 'http://csr.deglise.com/notice';
+        $response = drupal_http_request($request_remote  , $options);
+        // Check if response was successful.
+        $this->handleRestError($response);
+        // Geting data, lets not convert this time to array.
+        $result = $response->data;
+        // It's possible for the response to have a 200, but the data to be
+        // malformed.
+        if (!($result) || json_last_error() != JSON_ERROR_NONE) {
+            throw new Exception(t("Clients connection error logging in. "
+                . "Data received was: '@data'.", array(
+                    '@data' => $response->data,
+                )), $response->code);
+        }
+
+        if (in_array($response->code, array(200, 201))) {
+            return $result;
+        }
+        elseif (in_array($response->code, array(200, 201))) {
+            $message = t('Remote service is alive! To view the server response please check the "See service response".');
+            drupal_set_message(t('%message') , array('%message' => $message));
+            return;
+        }
+        else {
+            return FALSE;
+        }
     }
 }

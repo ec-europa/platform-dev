@@ -73,7 +73,7 @@ class ClientsConnectionMultiSiteCookieRESTServerCheck implements ClientsConnecti
             drupal_set_message(t('Sucessfully connected in to the remote. '
                 . 'You can find details '
                 . 'about the cookie respository SERVER below.'));
-            if(module_exists('devel')){
+            if (module_exists('devel')) {
                 dpm($check);
                 $check = '';
             }
@@ -163,14 +163,16 @@ class ClientsConnectionMultiSiteCookieRESTCookieRetrieve implements ClientsConne
             drupal_set_message(t('Sucessfully connected in to the remote. '
                 . 'You can find details '
                 . 'about the cookie respository SERVER below.'));
-            if(module_exists('devel')){
+            if (module_exists('devel')) {
                 dpm($response);
                 $cookie_data = '';
                 return;
-            } else {
+            }
+            else {
                 return $response;
             }
-        } else {
+        }
+        else {
             return $response;
         }
 

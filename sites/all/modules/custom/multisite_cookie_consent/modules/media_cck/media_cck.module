@@ -21,7 +21,7 @@ function media_cck_form_multisite_cookie_consent_admin_settings_alter(&$form, &$
     '#title' => t('URL of the Cookie Consent WebService'),
     '#default_value' => variable_get('eucookie_consent_webservice_url', MEDIA_CCK_WEBSERVICE_URL),
     '#maxlength' => NULL,
-    '#description' => t('See @url for more info', array('@url' => l('Preventing references to external sources from setting cookies', 'http://webtools.ec.europa.eu/cookie-consent/documentation/index.php?page=external-sources.html'))),
+    '#description' => t('See @url for more info', array('@url' => l(t('Preventing references to external sources from setting cookies'), 'http://webtools.ec.europa.eu/cookie-consent/documentation/index.php?page=external-sources.html'))),
     '#required' => TRUE,
   );
 

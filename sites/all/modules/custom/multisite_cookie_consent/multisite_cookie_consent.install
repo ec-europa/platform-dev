@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * @file
+ * Install, cookie consent module.
+ */
+
+
 /**
 * Implements hook_schema().
 */
@@ -20,7 +27,7 @@ function multisite_cookie_consent_schema() {
             ),
             'cookie_description' => array(
                 'type' =>  'blob',
-                'serialize' =>  true,
+                'serialize' =>  TRUE,
                 'length' => 60,
                 'not null' => TRUE,
                 'description' => t('Serialized cookie data'),
@@ -31,6 +38,27 @@ function multisite_cookie_consent_schema() {
             'id' => array('cookie_id'),
         ),
     );
+
+    $schema['eucookie_static_text'] = array(
+        'description' => 'Static text descriptions from service repository',
+        'fields' => array(
+            'st_id' => array(
+                'type' =>  'serial',
+                'unsigned' => 'true',
+                'not null' => TRUE,
+                'description' => t('Self generated id'),
+            ),
+            'static_text' => array(
+                'type' =>  'blob',
+                'serialize' =>  TRUE,
+                'length' => 60,
+                'not null' => TRUE,
+                'description' => t('Serialized cookie data'),
+            ),
+        ),
+        'primary key' => array('st_id'),
+    );
+
     return $schema;
 }
 
@@ -39,6 +67,7 @@ function multisite_cookie_consent_schema() {
  */
 function multisite_cookie_consent_enable() {
     _multisite_cookie_consent_rebuild_registered_cookies();
+    _multisite_cookie_consent_rebuild_static_text();
 }
 
 /**
