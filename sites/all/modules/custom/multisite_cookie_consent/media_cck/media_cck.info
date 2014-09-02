@@ -1,0 +1,7 @@
+name = Multisite Cookie Consent: Media
+description = Integrates Media Internet Sources with the EU Cookie Consent Kit.
+package = Multisite cookie consent
+core = 7.x
+
+dependencies[] = media_internet
+dependencies[] = multisite_cookie_consent
