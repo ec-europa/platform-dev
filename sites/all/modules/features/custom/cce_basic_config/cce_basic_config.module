@@ -184,24 +184,29 @@ function cce_basic_config_field_info_alter(&$info) {
  * Alter the system links My Account and Log out
  */
 function cce_basic_config_menu_link_alter(&$item) {
+  // rewrite links only for the user-menu menu. Don't rewrite if menu link was edited (customized=1)
+  if (isset ($item['menu_name']) && $item['menu_name'] == 'user-menu'){
+    // Don't rewrite if menu link was edited (customized=1). (!isset ($item['customized'] case when the field is reseted)
+    if (( isset ($item['customized']) && $item['customized'] == 0 ) || !isset ($item['customized'])){
+      $link_path = $item['link_path'];
+  
+      $user_classes = 'btn btn-default btn-xs';
+      switch ($link_path) {
+        case 'user':
+          // $item['options']['attributes']['target'] = '_blank';
+          $item['options']['attributes']['class'] = $user_classes;
+          $item['options']['attributes']['data-image'] = 'user';
+          break;
 
-  $link_path = $item['link_path'];
+        case 'user/logout':
+          $item['options']['attributes']['class'] = $user_classes;
+          $item['options']['attributes']['data-image'] = 'log-out';
+          break;
 
-  $user_classes = 'btn btn-default btn-xs';
-  switch ($link_path) {
-    case 'user':
-      // $item['options']['attributes']['target'] = '_blank';
-      $item['options']['attributes']['class'] = $user_classes;
-      $item['options']['attributes']['data-image'] = 'user';
-      break;
-
-    case 'user/logout':
-      $item['options']['attributes']['class'] = $user_classes;
-      $item['options']['attributes']['data-image'] = 'log-out';
-      break;
-
-    default:
-      break;
+        default:
+          break;
+      }
+    }
   }
 }
 
