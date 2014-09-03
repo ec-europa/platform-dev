@@ -59,7 +59,7 @@ function multisite_cookie_consent_init() {
     //add js inline (example for now):
     drupal_add_js('var consent_required_cookies = {
         "a":{
-            "' . _multisite_cookie_consent_site_name() . '":["youtube","vimeo"]}
+            "' . _multisite_cookie_consent_site_name() . '":['. _multisite_cookie_consent_cookielistheader().']}
         };
         var cookie_notice_url = {
         ' . _get_site_languages($notice_page) . '};', 'inline');
@@ -357,7 +357,7 @@ function _multisite_cookie_consent_load_info($module) {
 function _get_site_languages($notice_page) {
   $languages = '';
   foreach (language_list() as $lang) {
-    $languages .= '"' . $lang->language . '":"' . $notice_page . '"';
+    $languages .= '"' . $lang->language . '":"' . $notice_page . '",';
   }
 
   return $languages;
@@ -370,22 +370,25 @@ function _get_site_languages($notice_page) {
  */
 function _multisite_cookie_consent_rebuild_static_text() {
   $connection_info = variable_get('multisite_cookie_connection');
-  $connection = clients_connection_load($connection_info);
+  //if there is a connection
+  if ($connection_info) {
+    $connection = clients_connection_load($connection_info);
 
-  try {
-    //Get static text from remote service
-    $text = $connection->retrieveStatictext();
-  } catch (Exception $e) {
-    drupal_set_message(t('Could not connect to the Cookie remote service, see error message "@message".', array(
-      '@message' => $e->getMessage(),
-    )), 'error');
+    try {
+      //Get static text from remote service
+      $text = $connection->retrieveStatictext();
+    } catch (Exception $e) {
+      drupal_set_message(t('Could not connect to the Cookie remote service, see error message "@message".', array(
+        '@message' => $e->getMessage(),
+      )), 'error');
+    }
+
+    //stores data in database
+    multisite_cookie_consent_savestatictext($text);
+    drupal_set_message(t('Remote notice templates saved!'));
+
   }
 
-  //stores data in database
-  multisite_cookie_consent_savestatictext($text);
-  drupal_set_message(t('Remote notice templates saved!'));
-
-  return 'done';
 }
 
 /**
@@ -435,33 +438,41 @@ function multisite_cookie_consent_indicators() {
     t('Description (Default language)'),
     t('Rebuild')
   );
-
+  $output = '';
   $cookies = variable_get('cck_registered_cookies');
   foreach ($cookies as $cookie) {
     $result = db_query("SELECT * FROM {eucookie_consent} WHERE cookie_id = :nid", array(":nid" => $cookie))->fetchObject();
     $cookie_data = drupal_json_decode($result->cookie_description);
     $data = array();
-    $description = '';
-    //translations
-    foreach ($cookie_data['translation'] as $translation => $translation_info) {
-      $default = '';
-      if ($translation_info['default']) {
-        $default = t(': Default language');
-        $description = $translation_info['description'];
+    $description = '--';
+    $li_translation = '';
+    $li_translation = '--';
+
+    if (isset($cookie_data['translation'])) {
+      //display cookie translations
+      foreach ($cookie_data['translation'] as $translation => $translation_info) {
+        $default = '';
+        if ($translation_info['default']) {
+          $default = t(': Default language');
+          $description = $translation_info['description'];
+        }
+        $data['items'][] = $translation . $default;
       }
-      $data['items'][] = $translation . $default;
+      $li_translation = theme('item_list', $data);
     }
-    $li_translation = theme('item_list', $data);
+
     $cck_managed = ($cookie_data['cck']) ? t('Yes') : t('No');
     $rebuild = l(t('Rebuild'), 'rebuild/' . $result->cookie_id);
     $rows[] = array($result->cookie_id, $cookie_data['_rev'], $cck_managed, $li_translation, $description, $rebuild);
   }
 
-  $output = theme('table',
-    array(
-      'header' => $header,
-      'rows' => $rows
-    ));
+  if (isset($rows)){
+    $output = theme('table',
+      array(
+        'header' => $header,
+        'rows' => $rows
+      ));
+  }
 
   return $output;
 }
@@ -508,3 +519,10 @@ function multisite_cookie_consent_save_cookie($getcookieinfo) {
     ->execute();
 }
 
+/**
+ * @return string
+ */
+function _multisite_cookie_consent_cookielistheader(){
+   $cookies = '"' . implode( '","' , variable_get('cck_registered_cookies', array())) . '"';
+  return $cookies;
+}

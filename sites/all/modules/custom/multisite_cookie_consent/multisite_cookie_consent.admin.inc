@@ -11,6 +11,10 @@
 
 function multisite_cookie_consent_admin_settings() {
 
+  $connection_info = variable_get('multisite_cookie_connection');
+  //if there is a connection
+  if ($connection_info) {
+
     // Configuration for connecting to the service
     $form['eucookie_consent'] = array(
         '#type' => 'fieldset',
@@ -59,6 +63,19 @@ function multisite_cookie_consent_admin_settings() {
     );
 
     return $form;
+  }
+  else {
+    // Configuration for connecting to the service
+    $form['eucookie_consent'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Connection not found!'),
+    );
+
+
+    $create_connection = url('admin/structure/clients' , array('absolute' => TRUE));
+    drupal_set_message(t('Please create a connection %connection' , array('%connection' => $create_connection)));
+    return $form;
+  }
 }
 
 /**
