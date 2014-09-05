@@ -101,7 +101,7 @@ global $base_url;
 
   <div id="layout-header">
     <div class="container">
-      <img alt="European Commission logo" id="banner-flag" src="<?php print $base_url . '/' . drupal_get_path('theme', 'ec_resp'); ?>/images/logo/logo_en.gif" />
+      <img alt="European Commission logo" id="banner-flag" src="<?php print $logo; ?>" />
 
       <span id="banner-image-right" class="hidden-sm hidden-xs">
         <?php print $regions['header_right']; ?>
