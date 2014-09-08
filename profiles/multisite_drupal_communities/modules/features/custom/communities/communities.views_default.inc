@@ -569,11 +569,25 @@ function communities_views_default_views() {
   $handler->display->display_options['fields']['name']['table'] = 'users';
   $handler->display->display_options['fields']['name']['field'] = 'name';
   $handler->display->display_options['fields']['name']['label'] = '';
+  $handler->display->display_options['fields']['name']['exclude'] = TRUE;
   $handler->display->display_options['fields']['name']['alter']['text'] = '[field_firstname] [field_lastname]';
-  $handler->display->display_options['fields']['name']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['name']['alter']['path'] = 'users/[name]';
+  $handler->display->display_options['fields']['name']['alter']['replace_spaces'] = TRUE;
   $handler->display->display_options['fields']['name']['alter']['link_class'] = 'list-group-item';
   $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['name']['link_to_user'] = FALSE;
+  /* Field: User: Link */
+  $handler->display->display_options['fields']['view_user']['id'] = 'view_user';
+  $handler->display->display_options['fields']['view_user']['table'] = 'users';
+  $handler->display->display_options['fields']['view_user']['field'] = 'view_user';
+  $handler->display->display_options['fields']['view_user']['label'] = '';
+  $handler->display->display_options['fields']['view_user']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['view_user']['alter']['text'] = '[name]';
+  $handler->display->display_options['fields']['view_user']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['view_user']['alter']['path'] = '[view_user]';
+  $handler->display->display_options['fields']['view_user']['alter']['path_case'] = 'lower';
+  $handler->display->display_options['fields']['view_user']['alter']['link_class'] = 'list-group-item';
+  $handler->display->display_options['fields']['view_user']['element_label_colon'] = FALSE;
   /* Sort criterion: OG membership: Created */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'og_membership';
