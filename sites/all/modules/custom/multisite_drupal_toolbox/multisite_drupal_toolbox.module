@@ -84,9 +84,9 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
     drupal_add_css($path . '/helpers/jquery.fancybox-thumbs.css');
     drupal_add_js($path . '/helpers/jquery.fancybox-thumbs.js');
   }
-  
-  // Add survey JS on all site in the white list
-  $opt_in_site = array (
+
+  // Add survey JS on all site in the white list.
+  $opt_in_site = array(
     "digital-agenda",
     "futurium",
     "licences-for-europe-dialogue",
@@ -101,9 +101,9 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
     "clima-ets-summer-university",
     "eacea-site",
     "eac-eyp",
-    "rebuttal"
+    "rebuttal",
   );
-  if (in_array(basename(conf_path()), $opt_in_site, true)) {
+  if (in_array(basename(conf_path()), $opt_in_site, TRUE)) {
     drupal_add_js('//ec.europa.eu/wel/surveys/wr_survey01/wr_survey.js', 'external');
   }
 }
@@ -165,7 +165,6 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
   // Hide broken links tab in the my account page.
   $items['user/%user/linkchecker']['access callback'] = FALSE;
   // Only super admin can configure apache solR.
-  //$items['admin/config/search/apachesolr']['access callback'] = 'multisite_drupal_toolbox_is_admin';
   $items['admin/config/search/apachesolr/multisite-filters']['access callback'] = 'multisite_drupal_toolbox_is_admin';
   $items['admin/config/search/apachesolr/settings/solr']['access callback'] = 'multisite_drupal_toolbox_is_admin';
   $items['admin/config/search/apachesolr/settings/solr/index']['access callback'] = 'multisite_drupal_toolbox_is_admin';
@@ -215,18 +214,18 @@ function multisite_drupal_toolbox_media_token_to_markup_alter(&$element, &$tag_i
     $element['content']['#prefix'] = '<div><a href="' . file_create_url($element['content']['file']['#file']->uri) . '" class="fancybox">';
     $element['content']['#suffix'] = '</a></div>';
   }
-  
-  // add the media img css styles to the containing div
+
+  // Add the media img css styles to the containing div.
   if (isset($element['content']['#bundle']) && ($element['content']['#bundle'] == 'image')) {
     if (isset($element['content']['file']['#item']['attributes']['style'])) {
       $style = $element['content']['file']['#item']['attributes']['style'];
-      // Add the img style to the containing div
-     $element['content']['#attributes']['style'] = $style;
+      // Add the img style to the containing div.
+      $element['content']['#attributes']['style'] = $style;
     }
   }
-  
-  // add title and alt attributes to the img markup
-  if(isset($tag_info['attributes']['alt'])) {
+
+  // Add title and alt attributes to the img markup.
+  if (isset($tag_info['attributes']['alt'])) {
     $element['content']['file']['#item']['alt'] = $tag_info['attributes']['alt'];
     $element['content']['file']['#item']['title'] = $tag_info['attributes']['alt'];
   }
@@ -666,6 +665,7 @@ function multisite_drupal_toolbox_add_content_type_newsletters($node_type) {
     field_update_field($field);
   }
 }
+
 /**
  * Obsolete. Use multisite_drupal_toolbox_add_content_type_newsletters().
  */
@@ -699,26 +699,29 @@ function _disable_block($module, $delta) {
 function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
   if ($op != 'delete' && $op != 'add') {
     return;
-  } else {
-    $info = new StdClass;
+  }
+  else {
+    $info = new stdClass();
     $info->type = $bundle;
   }
 
-  // update hook cache to find new hooks (see module_implements())
+  // Update hook cache to find new hooks (see module_implements()).
   cache_set('module_implements', array(), 'cache_bootstrap');
   drupal_static_reset('module_hook_info');
   drupal_static_reset('drupal_alter');
   cache_clear_all('hook_info', 'cache_bootstrap');
 
-  // we ensures that all node type are created
+  // We ensures that all node type are created.
   node_types_rebuild();
 
   switch ($op) {
     case 'add':
-      // normally aparchsolr add automatically new content type to index bundles
-      // but for some feature, when disables the content type is not deleted (so when re-active, no run the hook_node_type_insert of apacheSolr)
+      // Normally aparchsolr add automatically new content type to index bundles
+      // but for some feature, when disables the content type is not deleted
+      // (so when re-active, no run the hook_node_type_insert of apacheSolr).
       apachesolr_node_type_insert($info);
       break;
+
     case 'delete':
       apachesolr_node_type_delete($info);
       break;
@@ -738,6 +741,7 @@ function config_solr_bundle($bundle, $op) {
 function multisite_drupal_toolbox_notification_content_type($content_type, $op) {
 
 }
+
 /**
  * Obsolete. Use multisite_drupal_toolbox_notification_content_type() instead.
  */
@@ -962,8 +966,6 @@ function multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_r
 
 /**
  * Obsolete.
- *
- * Use multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_report_workbench().
  */
 function _linkchecker_user_access_account_broken_links_report_workbench() {
   return multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_report_workbench();
@@ -990,7 +992,7 @@ function multisite_drupal_toolbox_content_type_linkchecker($type, $op) {
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_content_type_linkchecker() instead.
+ * Obsolete.
  */
 function _content_type_linkchecker($type, $op) {
   multisite_drupal_toolbox_content_type_linkchecker($type, $op);
@@ -1030,10 +1032,10 @@ function form_security_settings($form, &$form_state) {
  * Specifically this function is
  * usable for internal (absolute) URL:s, but it also works for external URL:s.
  *
- * @param $url
+ * @param string $url
  *   The url that should be scanned.
  *
- * @return $path_info
+ * @return path_info
  *   An associative array containing:
  *   - url: The same as the argument $url, untouched.
  *   - target: Either "internal" or "external".
@@ -1053,7 +1055,7 @@ function form_security_settings($form, &$form_state) {
  */
 function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
 
-  //Note this function has been heavily modified.
+  // Note this function has been heavily modified.
   // To see original see linkit.module.
   global $base_url;
 
@@ -1080,7 +1082,7 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
   $path_info['url'] = $url;
 
   if (!isset($path_info['query'])) {
-    $path_info['query'] ='';
+    $path_info['query'] = '';
   }
 
   // Convert the query string to an array as Drupal can only handle querys as
@@ -1101,7 +1103,7 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
   if (trim($path_info['scheme'] . '://' . $path_info['host'] . base_path(), '/') == $base_url) {
     $path_info['target'] = 'internal';
 
-    //mct:Handle Multilingual internal urls
+    // Handle Multilingual internal urls.
     $langs = array();
     $lang_list = language_list();
     foreach ($lang_list as $key => $value) {
@@ -1114,7 +1116,7 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
     if (base_path() != "/") {
       $base = base_path();
       $path = $path_info['path'];
-      $path_info['path'] = trim(str_replace( $base, '', $path), '/');
+      $path_info['path'] = trim(str_replace($base, '', $path), '/');
     }
 
     // Trim the path from slashes.
@@ -1133,7 +1135,8 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
   }
   // External URL.
   else {
-    $geturl = drupal_http_request($url); //try to see if link is valid
+    // Try to see if link is valid.
+    $geturl = drupal_http_request($url);
     if ($geturl->error == 'Not Found') {
       drupal_set_message(t('Please check that @url does exist', array('@url' => $url)), 'warning');
     };
@@ -1141,7 +1144,6 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
 
   return $path_info;
 }
-
 
 /**
  * Implements hook_i18n_sync_translation().
@@ -1162,10 +1164,10 @@ function linkit_scan_url($url, $field) {
   return multisite_drupal_toolbox_linkit_scan_url($url, $field);
 }
 
-
-/*
- * hook_token_info
- * provide a new token for node [node:title-source-translation]
+/**
+ * Implements hook_token_info().
+ *
+ * Provide a new token for node [node:title-source-translation]
  * to provide get the title of the source node
  */
 function multisite_drupal_toolbox_token_info() {
@@ -1178,9 +1180,8 @@ function multisite_drupal_toolbox_token_info() {
   );
 }
 
-
 /**
- * hook_tokens
+ * Implements hook_token().
  */
 function multisite_drupal_toolbox_tokens($type, $tokens, array $data = array(), array $options = array()) {
   $replacements = array();
@@ -1200,7 +1201,7 @@ function multisite_drupal_toolbox_tokens($type, $tokens, array $data = array(), 
               $replacements[$original] = $node->translation_source->title;
             }
             else {
-              $replacements[$original] = (isset($translations[$language_default->language]->title))?$translations[$language_default->language]->title:$node->title;
+              $replacements[$original] = (isset($translations[$language_default->language]->title)) ? $translations[$language_default->language]->title : $node->title;
             }
           }
           break;
@@ -1211,43 +1212,40 @@ function multisite_drupal_toolbox_tokens($type, $tokens, array $data = array(), 
 }
 
 /**
- * hook_tokens_alter
+ * Implments hook_tokens_alter().
  */
 function multisite_drupal_toolbox_tokens_alter(array &$replacements, array $context) {
-  // alter the token [node:book:parents:join-path] from the book module to respect the IPG url rules
-  if($context['type'] == 'node' && current($context['tokens']) == '[node:book:parents:join-path]') {
+  // Alter the token [node:book:parents:join-path] from the book module
+  // to respect the IPG url rules.
+  if ($context['type'] == 'node' && current($context['tokens']) == '[node:book:parents:join-path]') {
     $node = $context['data']['node'];
-    $node_source = ($node->tnid == 0)?$node:node_load($node->tnid);
+    $node_source = ($node->tnid == 0) ? $node : node_load($node->tnid);
     $ml = menu_link_load($node_source->book['mlid']);
- 
+
     $links = book_get_flat_menu($ml);
     array_pop($links);
     $path = "";
-    foreach($links as $lid => $link) {
-      $path .= "/".$link['link_title'];
+    foreach ($links as $lid => $link) {
+      $path .= "/" . $link['link_title'];
     }
- 
-    $replacements[current($context['tokens'])] = ltrim($path,'/');
+
+    $replacements[current($context['tokens'])] = ltrim($path, '/');
   }
 }
 
-
-
 /**
- * Useful custom debug function
+ * Useful custom debug function.
  */
-
 function echopre($variable, $description = NULL, $background_color = 'lightgrey') {
-    echo '<pre>';
-    echo '<h2 class=background="' . $background_color . '">' . $description . '</h2>';
-    echo '<span>Type: ' . gettype($variable) . '</span><hr/>';
-    print_r($variable);
-    echo '</pre>';
+  echo '<pre>';
+  echo '<h2 class=background="' . $background_color . '">' . $description . '</h2>';
+  echo '<span>Type: ' . gettype($variable) . '</span><hr/>';
+  print_r($variable);
+  echo '</pre>';
 }
 
-
 /**
- * fix bug : ckeditor strips media markups
+ * Fix bug : ckeditor strips media markups.
  */
 function multisite_drupal_toolbox_wysiwyg_editor_settings_alter(&$settings, &$context) {
   if ($context['profile']->editor == 'ckeditor') {
@@ -1256,146 +1254,148 @@ function multisite_drupal_toolbox_wysiwyg_editor_settings_alter(&$settings, &$co
 }
 
 /**
- * Administration form to set the maximum length
- * @return type
+ * Administration form to set the maximum length.
  */
 function multisite_drupal_toolbox_contact_settings() {
   $form['contact_form_information'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Contact form configuration'),
+    '#type' => 'fieldset',
+    '#title' => t('Contact form configuration'),
   );
   $form['contact_form_information']['contact_form_maxlength'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Message maximum length'),
-      '#default_value' => variable_get('contact_form_maxlength', 1000),
+    '#type' => 'textfield',
+    '#title' => t('Message maximum length'),
+    '#default_value' => variable_get('contact_form_maxlength', 1000),
   );
 
   return system_settings_form($form);
 }
 
-
 /**
- * hook_views_query_alter
+ * Implements hook_views_query_alter().
  */
 function multisite_drupal_toolbox_views_query_alter(&$view, &$query) {
   if ($view->base_table == 'node') {
-    // bypass node access check on the node views relationships : put the tag bypass_relationship_node_access
-    // fix know bug https://drupal.org/node/1349080
+    // Bypass node access check on the node views relationships :
+    // put the tag bypass_relationship_node_access.
+    // Fix know bug https://drupal.org/node/1349080.
     $query->add_tag('bypass_relationship_node_access');
   }
 }
 
 /**
- *Implements hook_block_info_alter().
+ * Implements hook_block_info_alter().
  */
 function multisite_drupal_toolbox_block_info_alter(&$blocks, $theme, $code_blocks) {
   // Remove the node recent content block.
   $blocks['node']['recent']['info'] = t('Recent content (Obsolete)');
 }
 
-
 /**
- * helper function to get the base theme used
+ * Helper function to get the base theme used.
  */
 function multisite_drupal_toolbox_get_base_theme() {
   global $theme_info, $base_theme_info;
-  if(count($base_theme_info) > 0) {
+  if (count($base_theme_info) > 0) {
     return $base_theme_info[0]->name;
   }
   else {
-    // fallback, return the main theme if there is no base theme
+    // Fallback, return the main theme if there is no base theme.
     return $theme_info->name;
   }
 }
 
 /**
- * hook_taxonomy_term_delete
+ * Implements hook_taxonomy_term_delete().
  */
 function multisite_drupal_toolbox_taxonomy_term_delete($term_obj) {
-  // clean properly all the orphan term references in the database
-  $fields = field_info_fields(); // Find all the taxonomy reference fields
-  $operations = array ();
+  // Clean properly all the orphan term references in the database.
+  // Find all the taxonomy reference fields.
+  $fields = field_info_fields();
+  $operations = array();
   foreach ($fields as $field) {
     if ($field['type'] == 'taxonomy_term_reference') {
       $query = db_select('field_data_' . $field['field_name'], 'f');
-      $query->fields('f', array('entity_type', 'entity_id', $field['field_name'] . '_tid', 'language'))
+      $query->fields('f', array(
+        'entity_type',
+        'entity_id',
+        $field['field_name'] . '_tid', 'language'))
             ->leftJoin('taxonomy_term_data', 't', 't.tid=f.' . $field['field_name'] . '_tid');
       $query->where('t.tid IS NULL')
-            ->where('f.'.$field['field_name'] . '_tid='.$term_obj->tid)
+            ->where('f.' . $field['field_name'] . '_tid=' . $term_obj->tid)
             ->orderBy('f.entity_id', 'ASC');
       $res = $query->execute();
       foreach ($res as $target) {
-	    $operations[] = array ('multisite_drupal_toolbox_taxonomy_term_delete_batch_process', array($target,$field,$term_obj));
+        $operations[] = array(
+          'multisite_drupal_toolbox_taxonomy_term_delete_batch_process',
+          array($target, $field, $term_obj),
+        );
       }
     }
   }
-  if (!empty ($operations)){
+  if (!empty ($operations)) {
     $batch = array(
-            'title' => t('Taxonomy term deletion process'),
-            'operations' => $operations,
-            'finished' => 'multisite_drupal_toolbox_build_batch_finished',
-            'init_message' => t('Initializing...'),
-            'progress_message' => t('Operation @current out of @total.'),
-            'error_message' => t('Found some error here.'),
-          );
-  batch_set($batch);
-  batch_process('');
+      'title' => t('Taxonomy term deletion process'),
+      'operations' => $operations,
+      'finished' => 'multisite_drupal_toolbox_build_batch_finished',
+      'init_message' => t('Initializing...'),
+      'progress_message' => t('Operation @current out of @total.'),
+      'error_message' => t('Found some error here.'),
+    );
+    batch_set($batch);
+    batch_process('');
   }
 }
 
 /**
- * Batch taxonomy_term_delete: operation
+ * Batch taxonomy_term_delete: operation.
  */
-function multisite_drupal_toolbox_taxonomy_term_delete_batch_process ($target, $field, $term, &$context){
+function multisite_drupal_toolbox_taxonomy_term_delete_batch_process($target, $field, $term, &$context) {
   $entities = entity_load($target->entity_type, array($target->entity_id));
-  if (!empty($entities)){
+  if (!empty($entities)) {
     $entity = array_shift($entities);
-	
-	// clean current publishing node
-	multisite_drupal_toolbox_taxonomy_term_delete_clean_node ($target,$field,$term,$entity);
 
-	// clean current draft node
-	if ($target->entity_type == 'node'){
-	  $current_node = workbench_moderation_node_current_load($entity);
-      if ($current_node && $entity->vid != $current_node->vid){
-       multisite_drupal_toolbox_taxonomy_term_delete_clean_node($target,$field,$term,$current_node);
+    // Clean current publishing node.
+    multisite_drupal_toolbox_taxonomy_term_delete_clean_node($target, $field, $term, $entity);
+
+    // Clean current draft node.
+    if ($target->entity_type == 'node') {
+      $current_node = workbench_moderation_node_current_load($entity);
+      if ($current_node && $entity->vid != $current_node->vid) {
+        multisite_drupal_toolbox_taxonomy_term_delete_clean_node($target, $field, $term, $current_node);
       }
-	}
-	
-	// clean revision field
-	db_delete('field_revision_' . $field['field_name']) // clean also field revisions
-	->condition('entity_type', $target->entity_type)
-	->condition('entity_id', $target->entity_id)
-	->condition($field['field_name'] . '_tid', $term->tid)
-	->execute(); 	
+    }
+
+    // Clean revision field.
+    db_delete('field_revision_' . $field['field_name'])
+    ->condition('entity_type', $target->entity_type)
+    ->condition('entity_id', $target->entity_id)
+    ->condition($field['field_name'] . '_tid', $term->tid)
+    ->execute();
   }
 }
 
 /**
- * Remove taxonomy term from entity
- * @param bool $target 
- * @param bool $field 
- * @param bool $term
- * @param bool $term
+ * Remove taxonomy term from entity.
  */
-function multisite_drupal_toolbox_taxonomy_term_delete_clean_node ($target,$field,$term,$entity){
-  foreach ($entity->{$field['field_name']}[$target->language] as $key => $value){
-    if ($value['tid'] == $term->tid){
-	  unset($entity->{$field['field_name']}[$target->language][$key]);
-	  entity_save($target->entity_type, $entity);	
-	  break;
-	}
+function multisite_drupal_toolbox_taxonomy_term_delete_clean_node($target, $field, $term, $entity) {
+  foreach ($entity->{$field['field_name']}[$target->language] as $key => $value) {
+    if ($value['tid'] == $term->tid) {
+      unset($entity->{$field['field_name']}[$target->language][$key]);
+      entity_save($target->entity_type, $entity);
+      break;
+    }
   }
 }
 
 /**
- * Batch taxonomy_term_delete: finish
+ * Batch taxonomy_term_delete: finish.
  */
 function multisite_drupal_toolbox_taxonomy_term_delete_batch_finished($success, $results, $operations) {
   if ($success) {
-    drupal_set_message ('Assigned taxonomy term cleaned');
-  }else{
-    drupal_set_message ('Error: Assigned taxonomy term not cleaned');
+    drupal_set_message(t('Assigned taxonomy term cleaned'));
+  }
+  else {
+    drupal_set_message(t('Error: Assigned taxonomy term not cleaned'));
   }
 }
 
@@ -1403,7 +1403,7 @@ function multisite_drupal_toolbox_taxonomy_term_delete_batch_finished($success, 
  * Implements hook_modules_installed().
  */
 function multisite_drupal_toolbox_modules_installed($modules) {
-  // Hide workbench information block
+  // Hide workbench information block.
   if (in_array('workbench', $modules)) {
     db_update('block')
       ->fields(array('region' => '-1'))
