@@ -11,14 +11,14 @@ function ec_resp_preprocess(&$variables) {
   if (isset($variables['form']['#form_id'])) {
     switch ($variables['form']['#form_id']) {
       case 'feature_set_admin_form':
-      // Display feature set on two columns.
+        // Display feature set on two columns.
         $output_right = $output_left = '';
 
         $first_column = 1;
         foreach ($variables['feature_set_category']['category'] as $category => $features) {
           $output = '';
           $output .= '<li>';
-          $output .= '<a class="list-group-item feature-set-category">' . t($category) . '</a>';
+          $output .= '<a class="list-group-item feature-set-category">' . $category . '</a>';
           $output .= '<table class="feature-set-content table table-striped table-hover">';
           $output .= '<tbody>';
           foreach ($features as $key => $item) {
@@ -80,18 +80,18 @@ function ec_resp_preprocess_page(&$variables) {
 
   // Format regions.
   $regions = array();
-  $regions['header_right'] =    (isset($variables['page']['header_right']) ? render($variables['page']['header_right']) : '');
-  $regions['header_top'] =      (isset($variables['page']['header_top']) ? render($variables['page']['header_top']) : '');
-  $regions['featured'] =        (isset($variables['page']['featured']) ? render($variables['page']['featured']) : '');
-  $regions['sidebar_left'] =    (isset($variables['page']['sidebar_left']) ? render($variables['page']['sidebar_left']) : '');
-  $regions['tools'] =           (isset($variables['page']['tools']) ? render($variables['page']['tools']) : '');
-  $regions['content_top'] =     (isset($variables['page']['content_top']) ? render($variables['page']['content_top']) : '');
-  $regions['help'] =            (isset($variables['page']['help']) ? render($variables['page']['help']) : '');
-  $regions['content'] =         (isset($variables['page']['content']) ? render($variables['page']['content']) : '');
-  $regions['content_right'] =   (isset($variables['page']['content_right']) ? render($variables['page']['content_right']) : '');
-  $regions['content_bottom'] =  (isset($variables['page']['content_bottom']) ? render($variables['page']['content_bottom']) : '');
-  $regions['sidebar_right'] =   (isset($variables['page']['sidebar_right']) ? render($variables['page']['sidebar_right']) : '');
-  $regions['footer'] =          (isset($variables['page']['footer']) ? render($variables['page']['footer']) : '');
+  $regions['header_right'] = (isset($variables['page']['header_right']) ? render($variables['page']['header_right']) : '');
+  $regions['header_top'] = (isset($variables['page']['header_top']) ? render($variables['page']['header_top']) : '');
+  $regions['featured'] = (isset($variables['page']['featured']) ? render($variables['page']['featured']) : '');
+  $regions['sidebar_left'] = (isset($variables['page']['sidebar_left']) ? render($variables['page']['sidebar_left']) : '');
+  $regions['tools'] = (isset($variables['page']['tools']) ? render($variables['page']['tools']) : '');
+  $regions['content_top'] = (isset($variables['page']['content_top']) ? render($variables['page']['content_top']) : '');
+  $regions['help'] = (isset($variables['page']['help']) ? render($variables['page']['help']) : '');
+  $regions['content'] = (isset($variables['page']['content']) ? render($variables['page']['content']) : '');
+  $regions['content_right'] = (isset($variables['page']['content_right']) ? render($variables['page']['content_right']) : '');
+  $regions['content_bottom'] = (isset($variables['page']['content_bottom']) ? render($variables['page']['content_bottom']) : '');
+  $regions['sidebar_right'] = (isset($variables['page']['sidebar_right']) ? render($variables['page']['sidebar_right']) : '');
+  $regions['footer'] = (isset($variables['page']['footer']) ? render($variables['page']['footer']) : '');
 
   // Check if there is a responsive sidebar or not.
   $has_responsive_sidebar = ($regions['header_right'] || $regions['sidebar_left'] || $regions['sidebar_right'] ? 1 : 0);
@@ -103,13 +103,13 @@ function ec_resp_preprocess_page(&$variables) {
     'lg' => (!empty($regions['sidebar_left']) ? 3 : 0),
     'md' => (!empty($regions['sidebar_left']) ? 4 : 0),
     'sm' => 0,
-    'xs' => 0
+    'xs' => 0,
   );
   $cols['sidebar_right'] = array(
     'lg' => (!empty($regions['sidebar_right']) ? 3 : 0),
     'md' => (!empty($regions['sidebar_right']) ? (!empty($regions['sidebar_left']) ? 12 : 4) : 0),
     'sm' => 0,
-    'xs' => 0
+    'xs' => 0,
   );
 
   // Content.
@@ -117,31 +117,31 @@ function ec_resp_preprocess_page(&$variables) {
     'lg' => 12 - $cols['sidebar_left']['lg'] - $cols['sidebar_right']['lg'],
     'md' => ($cols['sidebar_right']['md'] == 4 ? 8 : 12 - $cols['sidebar_left']['md']),
     'sm' => 12,
-    'xs' => 12
+    'xs' => 12,
   );
   $cols['content_right'] = array(
     'lg' => (!empty($regions['content_right']) ? 6 : 0),
     'md' => (!empty($regions['content_right']) ? 6 : 0),
     'sm' => (!empty($regions['content_right']) ? 12 : 0),
-    'xs' => (!empty($regions['content_right']) ? 12 : 0)
+    'xs' => (!empty($regions['content_right']) ? 12 : 0),
   );
   $cols['content'] = array(
     'lg' => 12 - $cols['content_right']['lg'],
     'md' => 12 - $cols['content_right']['md'],
     'sm' => 12,
-    'xs' => 12
+    'xs' => 12,
   );
 
   // Tools.
   $cols['sidebar_button'] = array(
     'sm' => ($has_responsive_sidebar ? 2 : 0),
-    'xs' => ($has_responsive_sidebar ? 2 : 0)
+    'xs' => ($has_responsive_sidebar ? 2 : 0),
   );
   $cols['tools'] = array(
     'lg' => 4,
     'md' => 4,
     'sm' => 12,
-    'xs' => 12
+    'xs' => 12,
   );
 
   // Title.
@@ -149,14 +149,14 @@ function ec_resp_preprocess_page(&$variables) {
     'lg' => 12 - $cols['tools']['lg'],
     'md' => 12 - $cols['tools']['md'],
     'sm' => 12,
-    'xs' => 12
+    'xs' => 12,
   );
 
   // Add variables to template file.
   $variables['regions'] = $regions;
   $variables['cols'] = $cols;
   $variables['has_responsive_sidebar'] = $has_responsive_sidebar;
-  
+
   $variables['menu_visible'] = FALSE;
   if (!empty($variables['page']['featured']['system_main-menu'])) {
     $variables['menu_visible'] = TRUE;
@@ -176,8 +176,8 @@ function ec_resp_preprocess_node(&$variables) {
   // Check if this content is private.
   if ((isset($variables['group_content_access'])) && ($variables['group_content_access']['und'][0]['value'] == 2)) {
     $prefixe .= '<div class="node-private label label-default clearfix">';
-      $prefixe .= '<span class="glyphicon glyphicon-lock"></span>';
-      $prefixe .= t('This content is private');
+    $prefixe .= '<span class="glyphicon glyphicon-lock"></span>';
+    $prefixe .= t('This content is private');
     $prefixe .= '</div>';
   }
 
@@ -188,7 +188,7 @@ function ec_resp_preprocess_node(&$variables) {
   // Alter date format.
   $custom_date = format_date($variables['created'], 'custom', 'l, d/m/Y');
   $variables['submitted'] = t('Published by !username on !datetime', array('!username' => $variables['name'], '!datetime' => $custom_date));
-  
+
   // Add classes.
   if ($variables['view_mode'] == 'full' && node_is_page($variables['node'])) {
     $variables['classes_array'][] = 'node-full';
@@ -199,15 +199,15 @@ function ec_resp_preprocess_node(&$variables) {
  * Implements theme_preprocess_user_profile().
  */
 function ec_resp_preprocess_user_profile(&$variables) {
-// Add contact form link on user profile page.
-  if (module_exists('contact')){
+  // Add contact form link on user profile page.
+  if (module_exists('contact')) {
     $account = $variables['elements']['#account'];
-    $menu_item = menu_get_item ("user/$account->uid/contact");
-    if (isset ($menu_item['access']) && $menu_item['access'] == TRUE){
-      $variables['contact_form'] = l(t('Contact this user'), 'user/'.$account->uid.'/contact', array('attributes' => array('type' => 'message')));
+    $menu_item = menu_get_item("user/$account->uid/contact");
+    if (isset ($menu_item['access']) && $menu_item['access'] == TRUE) {
+      $variables['contact_form'] = l(t('Contact this user'), 'user/' . $account->uid . '/contact', array('attributes' => array('type' => 'message')));
 
     }
-  }  
+  }
 }
 
 /**
@@ -316,17 +316,17 @@ function ec_resp_preprocess_menu_link(&$variables) {
 function ec_resp_preprocess_views_view(&$variables) {
   $view = $variables['view'];
 
-  if($view->name == 'galleries' && $view->current_display == 'page') {
+  if ($view->name == 'galleries' && $view->current_display == 'page') {
     drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-galleries.js');
 
-    // Get empty gallery picture, if needed
+    // Get empty gallery picture, if needed.
     $empty_pic = db_select('file_managed', 'fm')
       ->fields('fm')
-      ->condition('filename', 'empty_gallery.png','=')
+      ->condition('filename', 'empty_gallery.png', '=')
       ->execute()
       ->fetchAssoc();
     $picture_square_thumbnail = image_style_url('square_thumbnail', $empty_pic['uri']);
-    $empty_img = '<img src="'.$picture_square_thumbnail.'" alt="There is no content in this gallery, or it has not been validated yet." />';
+    $empty_img = '<img src="' . $picture_square_thumbnail . '" alt="There is no content in this gallery, or it has not been validated yet." />';
 
     $variables['empty_img'] = $empty_img;
   }
@@ -338,7 +338,7 @@ function ec_resp_preprocess_views_view(&$variables) {
 function ec_resp_preprocess_views_view_unformatted(&$variables) {
   $view = $variables['view'];
 
-  if($view->name == 'galleries' && $view->current_display == 'medias_block') {
+  if ($view->name == 'galleries' && $view->current_display == 'medias_block') {
     drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-medias-block.js');
   }
 }
@@ -348,28 +348,64 @@ function ec_resp_preprocess_views_view_unformatted(&$variables) {
  */
 function ec_resp_preprocess_views_view_grid(&$variables) {
 
-  //set length of each column, depending of number of element on one line
+  // Set length of each column, depending of number of element on one line.
   $grid_col = array();
 
-  $grid_col[1]['lg'] = array(12); $grid_col[1]['md'] = array(12); $grid_col[1]['sm'] = array(12); $grid_col[1]['xs'] = array(12);
-  $grid_col[2]['lg'] = array(6,6); $grid_col[2]['md'] = array(6,6); $grid_col[2]['sm'] = array(12); $grid_col[2]['xs'] = array(12);
-  $grid_col[3]['lg'] = array(4,4,4); $grid_col[3]['md'] = array(4,4,4); $grid_col[3]['sm'] = array(6,6); $grid_col[3]['xs'] = array(12);
-  $grid_col[4]['lg'] = array(3,3,3,3); $grid_col[4]['md'] = array(4,4,4); $grid_col[4]['sm'] = array(4,4,4); $grid_col[4]['xs'] = array(6,6);
-  $grid_col[5]['lg'] = array(3,2,2,2,3); $grid_col[5]['md'] = array(3,3,3,3); $grid_col[5]['sm'] = array(4,4,4); $grid_col[5]['xs'] = array(6,6);
-  $grid_col[6]['lg'] = array(2,2,2,2,2,2); $grid_col[6]['md'] = array(3,3,3,3); $grid_col[6]['sm'] = array(4,4,4); $grid_col[6]['xs'] = array(6,6);
-  $grid_col[7]['lg'] = array(3,1,1,1,1,1,4); $grid_col[7]['md'] = array(3,2,2,2,3); $grid_col[7]['sm'] = array(3,3,3,3); $grid_col[7]['xs'] = array(4,4,4);
-  $grid_col[8]['lg'] = array(3,1,1,1,1,1,1,3); $grid_col[8]['md'] = array(2,2,2,2,2,2); $grid_col[8]['sm'] = array(3,3,3,3); $grid_col[8]['xs'] = array(4,4,4);
-  $grid_col[9]['lg'] = array(2,1,1,1,1,1,1,1,3); $grid_col[9]['md'] = array(3,1,1,1,1,1,4); $grid_col[9]['sm'] = array(3,2,2,2,3); $grid_col[9]['xs'] = array(3,3,3,3);
-  $grid_col[10]['lg'] = array(2,1,1,1,1,1,1,1,1,2); $grid_col[10]['md'] = array(3,1,1,1,1,1,1,3); $grid_col[10]['sm'] = array(2,2,2,2,2,2); $grid_col[10]['xs'] = array(3,3,3,3);
-  $grid_col[11]['lg'] = array(1,1,1,1,1,1,1,1,1,1,2); $grid_col[11]['md'] = array(2,1,1,1,1,1,1,1,1,2); $grid_col[11]['sm'] = array(3,1,1,1,1,1,1,3); $grid_col[11]['xs'] = array(2,2,2,2,2,2);
-  $grid_col[12]['lg'] = array(1,1,1,1,1,1,1,1,1,1,1,1); $grid_col[12]['md'] = array(2,1,1,1,1,1,1,1,1,2); $grid_col[12]['sm'] = array(3,1,1,1,1,1,1,3); $grid_col[12]['xs'] = array(2,2,2,2,2,2);
+  $grid_col[1]['lg'] = array(12);
+  $grid_col[1]['md'] = array(12);
+  $grid_col[1]['sm'] = array(12);
+  $grid_col[1]['xs'] = array(12);
+  $grid_col[2]['lg'] = array(6, 6);
+  $grid_col[2]['md'] = array(6, 6);
+  $grid_col[2]['sm'] = array(12);
+  $grid_col[2]['xs'] = array(12);
+  $grid_col[3]['lg'] = array(4, 4, 4);
+  $grid_col[3]['md'] = array(4, 4, 4);
+  $grid_col[3]['sm'] = array(6, 6);
+  $grid_col[3]['xs'] = array(12);
+  $grid_col[4]['lg'] = array(3, 3, 3, 3);
+  $grid_col[4]['md'] = array(4, 4, 4);
+  $grid_col[4]['sm'] = array(4, 4, 4);
+  $grid_col[4]['xs'] = array(6, 6);
+  $grid_col[5]['lg'] = array(3, 2, 2, 2, 3);
+  $grid_col[5]['md'] = array(3, 3, 3, 3);
+  $grid_col[5]['sm'] = array(4, 4, 4);
+  $grid_col[5]['xs'] = array(6, 6);
+  $grid_col[6]['lg'] = array(2, 2, 2, 2, 2, 2);
+  $grid_col[6]['md'] = array(3, 3, 3, 3);
+  $grid_col[6]['sm'] = array(4, 4, 4);
+  $grid_col[6]['xs'] = array(6, 6);
+  $grid_col[7]['lg'] = array(3, 1, 1, 1, 1, 1, 4);
+  $grid_col[7]['md'] = array(3, 2, 2, 2, 3);
+  $grid_col[7]['sm'] = array(3, 3, 3, 3);
+  $grid_col[7]['xs'] = array(4, 4, 4);
+  $grid_col[8]['lg'] = array(3, 1, 1, 1, 1, 1, 1, 3);
+  $grid_col[8]['md'] = array(2, 2, 2, 2, 2, 2);
+  $grid_col[8]['sm'] = array(3, 3, 3, 3);
+  $grid_col[8]['xs'] = array(4, 4, 4);
+  $grid_col[9]['lg'] = array(2, 1, 1, 1, 1, 1, 1, 1, 3);
+  $grid_col[9]['md'] = array(3, 1, 1, 1, 1, 1, 4);
+  $grid_col[9]['sm'] = array(3, 2, 2, 2, 3);
+  $grid_col[9]['xs'] = array(3, 3, 3, 3);
+  $grid_col[10]['lg'] = array(2, 1, 1, 1, 1, 1, 1, 1, 1, 2);
+  $grid_col[10]['md'] = array(3, 1, 1, 1, 1, 1, 1, 3);
+  $grid_col[10]['sm'] = array(2, 2, 2, 2, 2, 2);
+  $grid_col[10]['xs'] = array(3, 3, 3, 3);
+  $grid_col[11]['lg'] = array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2);
+  $grid_col[11]['md'] = array(2, 1, 1, 1, 1, 1, 1, 1, 1, 2);
+  $grid_col[11]['sm'] = array(3, 1, 1, 1, 1, 1, 1, 3);
+  $grid_col[11]['xs'] = array(2, 2, 2, 2, 2, 2);
+  $grid_col[12]['lg'] = array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+  $grid_col[12]['md'] = array(2, 1, 1, 1, 1, 1, 1, 1, 1, 2);
+  $grid_col[12]['sm'] = array(3, 1, 1, 1, 1, 1, 1, 3);
+  $grid_col[12]['xs'] = array(2, 2, 2, 2, 2, 2);
 
   $variables['nb_col'] = $variables['view']->style_options['columns'];
   $variables['grid_col'] = $grid_col;
 }
 
 /**
- * Count items in media gallery
+ * Count items in media gallery.
  */
 function ec_resp_media_gallery_count($matches) {
   $node = node_load($matches[1]);
@@ -377,11 +413,11 @@ function ec_resp_media_gallery_count($matches) {
   $nb_video = 0;
 
   if (isset($node->field_picture_upload['und'])):
-    $nb_pictures = sizeof($node->field_picture_upload['und']);
+    $nb_pictures = count($node->field_picture_upload['und']);
   endif;
 
   if (isset($node->field_video_upload['und'])):
-    $nb_video = sizeof($node->field_video_upload['und']);
+    $nb_video = count($node->field_video_upload['und']);
   endif;
 
   return '<div class="meta">' . ($nb_pictures + $nb_video) . ' ' . t('items') . '</div>';
@@ -557,6 +593,7 @@ function ec_resp_page_alter($page) {
       'property' => 'og:description',
       'content' => $description,
     ),
+
   );
   drupal_add_html_head($meta_og_description, 'meta_og_description');
 
