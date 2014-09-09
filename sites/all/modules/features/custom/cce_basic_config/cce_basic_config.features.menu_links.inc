@@ -10,7 +10,6 @@
 function cce_basic_config_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: menu-breadcrumb-menu:http://ec.europa.eu/index_en.htm
   $menu_links['menu-breadcrumb-menu:http://ec.europa.eu/index_en.htm'] = array(
     'menu_name' => 'menu-breadcrumb-menu',
     'link_path' => 'http://ec.europa.eu/index_en.htm',
@@ -30,7 +29,7 @@ function cce_basic_config_menu_default_menu_links() {
     'expanded' => '1',
     'weight' => '0',
   );
-  // Exported menu link: menu-breadcrumb-menu:menutoken/52ebaf910f9d0
+
   $menu_links['menu-breadcrumb-menu:menutoken/52ebaf910f9d0'] = array(
     'menu_name' => 'menu-breadcrumb-menu',
     'link_path' => 'menutoken/52ebaf910f9d0',
@@ -55,7 +54,7 @@ function cce_basic_config_menu_default_menu_links() {
     'expanded' => '1',
     'weight' => '0',
   );
-  // Exported menu link: menu-service-tools:http://ec.europa.eu/contact/index_en.htm
+
   $menu_links['menu-service-tools:http://ec.europa.eu/contact/index_en.htm'] = array(
     'menu_name' => 'menu-service-tools',
     'link_path' => 'http://ec.europa.eu/contact/index_en.htm',
@@ -74,7 +73,7 @@ function cce_basic_config_menu_default_menu_links() {
     'expanded' => '1',
     'weight' => '-48',
   );
-  // Exported menu link: menu-service-tools:http://ec.europa.eu/cookies/index_en.htm
+
   $menu_links['menu-service-tools:http://ec.europa.eu/cookies/index_en.htm'] = array(
     'menu_name' => 'menu-service-tools',
     'link_path' => 'http://ec.europa.eu/cookies/index_en.htm',
@@ -93,7 +92,7 @@ function cce_basic_config_menu_default_menu_links() {
     'expanded' => '1',
     'weight' => '-49',
   );
-  // Exported menu link: menu-service-tools:http://ec.europa.eu/geninfo/legal_notices_en.htm
+
   $menu_links['menu-service-tools:http://ec.europa.eu/geninfo/legal_notices_en.htm'] = array(
     'menu_name' => 'menu-service-tools',
     'link_path' => 'http://ec.europa.eu/geninfo/legal_notices_en.htm',
@@ -112,7 +111,7 @@ function cce_basic_config_menu_default_menu_links() {
     'expanded' => '1',
     'weight' => '-50',
   );
-  // Exported menu link: menu-service-tools:http://ec.europa.eu/geninfo/query/search_en.html
+
   $menu_links['menu-service-tools:http://ec.europa.eu/geninfo/query/search_en.html'] = array(
     'menu_name' => 'menu-service-tools',
     'link_path' => 'http://ec.europa.eu/geninfo/query/search_en.html',
@@ -139,7 +138,6 @@ function cce_basic_config_menu_default_menu_links() {
   t('Legal notice');
   t('Search on Europa');
   t('[site:name]');
-
 
   return $menu_links;
 }

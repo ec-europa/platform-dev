@@ -33,6 +33,5 @@ function cce_basic_config_menu_default_menu_custom() {
   t('Links to be put in the banner, according to IPG');
   t('Service tools');
 
-
   return $menus;
 }

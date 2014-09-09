@@ -11,6 +11,9 @@
  */
 class MultisiteCceBasicConfigQAWebTestCase extends DrupalWebTestCase {
 
+  /**
+   * Get information.
+   */
   public static function getInfo() {
     return array(
       'name' => 'cce_basic_config QA tests',
@@ -21,15 +24,16 @@ class MultisiteCceBasicConfigQAWebTestCase extends DrupalWebTestCase {
 
   /**
    * Test Info File.
+   *
    * TestFile <featurename>.info
    */
-  function testInfoFile() {
-    $module = basename(__FILE__ , ".test");
+  public function testInfoFile() {
+    $module = basename(__FILE__, ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.info';
     $info = drupal_parse_info_file($path);
 
     // Add name information. Ex: name=Newsletters.
-    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module );
+    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module);
 
     // Add description information.
     // Ex: description = Publish and send newsletters to lists of subscribers.
@@ -51,7 +55,7 @@ class MultisiteCceBasicConfigQAWebTestCase extends DrupalWebTestCase {
     $this->assertTrue(array_key_exists('php', $info), 'The PHP version info is available.');
     $this->assertEqual($info['php'], '5.2.4');
 
-    // Add version information (check if the version number matches with this page title)
+    // Add version information
     // Ex: version = 7.x-1.0
     $this->assertTrue(array_key_exists('version', $info));
 
@@ -66,20 +70,13 @@ class MultisiteCceBasicConfigQAWebTestCase extends DrupalWebTestCase {
 
       $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
     }
-    // Check other dependencies (modules + features) to be sure they are needed
-    // FIXME: manual check?
-
-    // Remove tags taxonomy:
-    // features[taxonomy][] = "tags"
-    /* NOT APPLICABLE TO THIS FEATURE
-    if (array_key_exists('features', $info) && array_key_exists('taxonomy', $info['features'])) {
-      $this->assertFalse(in_array('tags', $info['features']['taxonomy']), 'The dependency to the tags taxonomy has been removed.');
-    }
-    */
   }
 
- function testInstallFile() {
-    $module = basename(__FILE__ , ".test");
+  /**
+   * Test install file.
+   */
+  public function testInstallFile() {
+    $module = basename(__FILE__, ".test");
     $path = drupal_get_path('module', $module) . '/' . $module . '.install';
     $data = file_get_contents($path);
     $this->assertTrue(strpos($data, $module . '_install'), 'The module contains a hook_install');
@@ -87,6 +84,4 @@ class MultisiteCceBasicConfigQAWebTestCase extends DrupalWebTestCase {
     $this->assertTrue(strpos($data, $module . '_enable'), 'The module contains a hook_enable');
     $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
   }
-
-
 }

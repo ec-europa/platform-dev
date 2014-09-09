@@ -9,7 +9,7 @@
 /**
  * Test and report cce installation requirements.
  *
- * @param $phase
+ * @param string $phase
  *   The current system installation phase.
  *
  * @return array()
@@ -985,9 +985,7 @@ function cce_basic_config_update_7191() {
  * Set default configuration for menu items.
  *
  * Set configuration for captcha module.
- *
  * Date field migration.
- *
  */
 function cce_basic_config_update_7192() {
   // Home.
@@ -1100,9 +1098,9 @@ function cce_basic_config_update_7192() {
     user_role_revoke_permissions($rid, array('use PHP to import nodes', 'administer varnish'));
   }
 }
- 
+
  /**
-  * Date field migration
+  * Date field migration.
   */
 function cce_basic_config_update_7193() {
 
@@ -1140,7 +1138,7 @@ function cce_basic_config_update_7193() {
 
           if (field_has_data($field_info)) {
             // There is data: migrate data and update column to int.
-            watchdog('system', t('Update the  column %column of table %table : migrate datas and update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), NULL, WATCHDOG_WARNING);
+            watchdog('system', 'Update the  column ' . $column_name . ' of table ' . $table_name . ' : migrate datas and update to datestamp.', NULL, WATCHDOG_WARNING);
 
             // Create a temporary date field.
             $param = array('type' => 'int', 'not null' => FALSE, 'default' => 0);
@@ -1157,36 +1155,35 @@ function cce_basic_config_update_7193() {
           }
           else {
             // If there is no data: just update column to int.
-            watchdog('system', t('Update the  column %column of table %table : update to datestamp.', array('%column' => $column_name, '%table' => $table_name)), NULL, WATCHDOG_WARNING);
+            watchdog('system', 'Update the  column ' . $column_name . ' of table ' . $table_name . ' : update to datestamp.', NULL, WATCHDOG_WARNING);
             db_change_field($table_name, $column_name, $column_name, array('type' => 'int'));
           }
         }
       }
 
-      watchdog('system', t('Saving field config of %field', array('%field' => $field_name)), NULL, WATCHDOG_INFO);
+      watchdog('system', 'Saving field config of ' . $field_name, NULL, WATCHDOG_INFO);
       db_update('field_config')->fields(array('type' => 'datestamp'))->condition('id', $field_info['id'])->execute();
 
       // Error logs.
     }
     elseif ($field_info['type'] == 'datestamp') {
-      watchdog('system', t('Field %field has been already converted to UNIX timestamp""', array('%field' => $field_name)), NULL, WATCHDOG_WARNING);
+      watchdog('system', 'Field ' . $field_name . ' has been already converted to UNIX timestamp""', NULL, WATCHDOG_WARNING);
 
     }
     elseif ($field_info['type'] == 'datetime') {
       if (!$field_features_info) {
-        watchdog('system', t('Field %field not found in %feature', array('%field' => $field_name, '%feature' => $module_name . '.features.field.inc')), NULL, WATCHDOG_WARNING);   
+        watchdog('system', 'Field ' . $field_name . ' not found in ' . $module_name . '.features.field.inc', NULL, WATCHDOG_WARNING);
       }
       elseif ($field_features_info['type'] != 'datestamp') {
-        watchdog('system', t('Field %field is not a datestamp in %feature', array('%field' => $field_name, '%feature' => $module_name . '.features.field.inc')), NULL, WATCHDOG_WARNING);
+        watchdog('system', 'Field ' . $field_name . ' is not a datestamp in ' . $module_name . '.features.field.inc', NULL, WATCHDOG_WARNING);
       }
     }
   }
   field_cache_clear();
 
   // File format translation.
-  $format = array (	"full_html" => "full_html","plain_text" => "plain_text");
-  variable_set("i18n_string_allowed_formats",$format);
-
+  $format = array("full_html" => "full_html", "plain_text" => "plain_text");
+  variable_set("i18n_string_allowed_formats", $format);
 }
 
  /**
@@ -1200,20 +1197,20 @@ function cce_basic_config_update_7194() {
   * Feature revert field and field_group.
   */
 function cce_basic_config_update_7195() {
-  // handle the change of the maxlength of the field field_caption
+  // Handle the change of the maxlength of the field field_caption.
   db_query('ALTER TABLE `field_data_field_caption` CHANGE `field_caption_value` `field_caption_value` VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;');
   db_query('ALTER TABLE `field_revision_field_caption` CHANGE `field_caption_value` `field_caption_value` VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;');
-  
-  $qry = "SELECT data FROM field_config WHERE field_name = :field_name";
+
+  $qry = "SELECT data FROM 'field_config' WHERE field_name = :field_name";
   $result = db_query($qry, array(':field_name' => 'field_caption'))->fetchObject();
   $data = unserialize($result->data);
   $data['settings']['max_length'] = 512;
   $serialized_data = serialize($data);
-  $qry = "UPDATE field_config SET data = :data WHERE field_name = :field_name";
+  $qry = "UPDATE 'field_config' SET data = :data WHERE field_name = :field_name";
   db_query($qry, array(':data' => $serialized_data, ':field_name' => 'field_caption'));
- 
+
   drupal_flush_all_caches();
-  
+
   // Revert only fields (for modify weight).
   features_revert(array('cce_basic_config' => array('field')));
   features_revert(array('cce_basic_config' => array('field_group')));
@@ -1244,6 +1241,7 @@ function cce_basic_config_update_7196() {
 
  /**
   * Add menu service_tools in banner.
+  *
   * Change date format : set european format
   */
 function cce_basic_config_update_7197() {
@@ -1259,8 +1257,8 @@ function cce_basic_config_update_7197() {
   $context->reactions['block']['blocks']['block_service_tools'] = $block_service_tools;
 
   module_invoke('context', 'save', $context);
-  
-  // Change date format
+
+  // Change date format.
   variable_set("date_format_long", "l, j F, Y - H:i");
   variable_set("date_format_medium", "D, d/m/Y - H:i");
   variable_set("date_format_short", "d/m/Y - H:i");
@@ -1268,7 +1266,10 @@ function cce_basic_config_update_7197() {
 }
 
 /**
- * Deactivate orphan content types events, news, and discussion. Enable Library tab.
+ * Deactivate orphan content types events, news, and discussion. 
+ *
+ * Enable Library tab.
+ *
  * Add block footer ipg in region footer.
  */
 function cce_basic_config_update_7198() {
@@ -1289,8 +1290,8 @@ function cce_basic_config_update_7198() {
     multisite_drupal_toolbox_disable_content_type('discussion');
     drupal_set_message(t('Orphan content type discussion has been disabled.'));
   }
-  
-  // Adding Libray tab as default
+
+  // Adding Libray tab as default.
   $plugins = variable_get('media__wysiwyg_browser_plugins');
   if (!in_array('media_default--media_browser_1', $plugins)) {
     array_push($plugins, 'media_default--media_browser_1');
@@ -1311,11 +1312,10 @@ function cce_basic_config_update_7198() {
 }
 
 /**
-* Add 'video' tag to 'security_allowed_tags' variable
-*
-*/
+ * Add 'video' tag to 'security_allowed_tags' variable.
+ */
 function cce_basic_config_update_7199() {
   $tags = variable_get('security_allowed_tags');
   $tags .= "\nvideo";
-  variable_set ($tags);
+  variable_set($tags);
 }

@@ -184,16 +184,17 @@ function cce_basic_config_field_info_alter(&$info) {
  * Alter the system links My Account and Log out
  */
 function cce_basic_config_menu_link_alter(&$item) {
-  // rewrite links only for the user-menu menu. Don't rewrite if menu link was edited (customized=1)
-  if (isset ($item['menu_name']) && $item['menu_name'] == 'user-menu'){
-    // Don't rewrite if menu link was edited (customized=1). (!isset ($item['customized'] case when the field is reseted)
-    if (( isset ($item['customized']) && $item['customized'] == 0 ) || !isset ($item['customized'])){
+  // Rewrite links only for the user-menu menu.
+  // Don't rewrite if menu link was edited (customized=1).
+  if (isset($item['menu_name']) && $item['menu_name'] == 'user-menu') {
+    // Don't rewrite if menu link was edited (customized=1).
+    // (!isset ($item['customized'] case when the field is reseted).
+    if ((isset ($item['customized']) && $item['customized'] == 0) || !isset ($item['customized'])) {
       $link_path = $item['link_path'];
-  
+
       $user_classes = 'btn btn-default btn-xs';
       switch ($link_path) {
         case 'user':
-          // $item['options']['attributes']['target'] = '_blank';
           $item['options']['attributes']['class'] = $user_classes;
           $item['options']['attributes']['data-image'] = 'user';
           break;
@@ -211,8 +212,8 @@ function cce_basic_config_menu_link_alter(&$item) {
 }
 
 /**
-* Implements hook_block_info().
-*/
+ * Implements hook_block_info().
+ */
 function cce_basic_config_block_info() {
   $blocks = array();
   $blocks['footer_ipg'] = array(
@@ -222,8 +223,8 @@ function cce_basic_config_block_info() {
 }
 
 /**
-* Implements hook_block_view().
-*/
+ * Implements hook_block_view().
+ */
 function cce_basic_config_block_view($delta = '') {
   $block = array();
   switch ($delta) {
@@ -237,14 +238,14 @@ function cce_basic_config_block_view($delta = '') {
 }
 
 /**
-* Implementation of hook COMPONANT alter : hook_field_default_fields_alter
-* Force field_tags to be unlock
-*/ 
+ * Implements hook_field_default_fields_alter().
+ *
+ * Force field_tags to be unlock.
+ */
 function cce_basic_config_field_default_fields_alter(&$fields) {
   foreach ($fields as $key => $field) {
-    if ($field['field_config']['field_name'] == 'field_tags')
-    { 
-	  $fields[$key]['field_config']['locked'] = '0'; 
-	}
-  } 
+    if ($field['field_config']['field_name'] == 'field_tags') {
+      $fields[$key]['field_config']['locked'] = '0';
+    }
+  }
 }
