@@ -1,0 +1,11 @@
+--- sites/all/modules/contributed/media/includes/media.xml.inc	2013-10-09 14:20:37.000000000 +0200
++++ sites/all/modules/contributed/media/includes/media.xml.inc	2013-10-09 14:35:05.000000000 +0200
+@@ -36,7 +36,7 @@
+   $result = drupal_http_request($url);
+ 
+   // Log an error if the document could not be retrieved.
+-  if (isset($result->error) || empty($result)) {
++  if ((isset($result->error) && !empty($result->error)) || empty($result)) {
+     $params = array('%url' => $url, '%error' => $result->error);
+     if ($display_errors) {
+       drupal_set_message(t('Error retrieving XML from %url: %error', $params), 'error');
