@@ -47,3 +47,6 @@ projects[devel_debug_log][version] = "1.2"
 projects[search_krumo][subdir] = "contributed"
 projects[search_krumo][version] = "1.5"
 
+projects[realistic_dummy_content][subdir] = "contributed"
+projects[realistic_dummy_content][version] = "1.x-dev"
+
