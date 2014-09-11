@@ -108,6 +108,19 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
   }
 }
 
+/*
+ * Implements hook_module_implements_alter
+ *
+ * We ensure our hook_boot is called first
+ */
+function multisite_drupal_toolbox_module_implements_alter(&$implementations, $hook){
+  if ($hook == 'boot'){
+    $group = array ('multisite_drupal_toolbox' => $implementations['multisite_drupal_toolbox']);
+    unset($implementations['multisite_drupal_toolbox']);
+    $implementations = $group + $implementations;
+  }
+}
+
 /**
  * Implements hook_boot().
  *
