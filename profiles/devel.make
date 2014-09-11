@@ -18,10 +18,10 @@ projects[libraries][subdir] = "contributed"
 projects[libraries][version] = 2.0
 
 projects[devel][subdir] = "contributed"
-projects[devel][version] = "1.3"
+projects[devel][version] = "1.5"
 
-projects[devel_themer][subdir] = "contributed"
-projects[devel_themer][version] = "1.x-dev"
+;projects[devel_themer][subdir] = "contributed"
+;projects[devel_themer][version] = "1.x-dev"
 
 projects[coder][subdir] = "contributed"
 projects[coder][version] = "2.2"
@@ -36,7 +36,14 @@ projects[drupalforfirebug][subdir] = "contributed"
 projects[drupalforfirebug][version] = "1.4"
 
 projects[coffee][subdir] = "contributed"
-projects[coffee][version] = "2.0"
+projects[coffee][version] = "2.2"
 
 projects[module_filter][subdir] = "contributed"
-projects[module_filter][version] = "1.8"
+projects[module_filter][version] = "2.0-alpha2"
+
+projects[devel_debug_log][subdir] = "contributed"
+projects[devel_debug_log][version] = "1.2"
+
+projects[search_krumo][subdir] = "contributed"
+projects[search_krumo][version] = "1.5"
+
