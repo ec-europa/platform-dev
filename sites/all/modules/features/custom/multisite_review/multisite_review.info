@@ -1,0 +1,9 @@
+project = multisite_review
+name = Multisite Review
+description = Security and QA checks for Multisite
+package = multisite drupal toolbox
+core = 7.x
+version = 7.x-1.5
+
+dependencies[] = features
+dependencies[] = security_review
