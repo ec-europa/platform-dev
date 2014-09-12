@@ -119,14 +119,40 @@ function drush_sql_query {
 	echo "${query}" | $(drush sql-connect) $@
 }
 
+# Run a command, taking care to announce it before execution and check its
+# return code
+# It takes a first argument before the command itself, which is executed if and
+# only if this argument is '1'
+function run {
+	local do_it="$1"
+	shift
+	if [ "${do_it}" == '1' ]; then
+		# Filter out some known arguments from the command before echo-ing it
+		# as it could end up in a log file
+		local cmd="$(echo "${*}" | sed -r -e 's,--password=[^ ]+,--password=xxx,')"
+		echo -e "-> Running ${Cyan}${cmd}${Color_Off}..."
+
+		# Execute the command itself and retrieve the first return code
+		"$@" 2>&1 | sed --unbuffered 's,^,  ,'
+		local rc="${PIPESTATUS[0]}"
+
+		# Diplay that return code
+		local rc_color="${IRed}"
+		[ "${rc}" == '0' ] && rc_color="${IGreen}"
+		echo -e "<- The command returned ${rc_color}${rc}${Color_Off}"
+	else
+		echo "-> Would run ${*}..."
+	fi
+}
+
 # Run a drush command, taking care to announce it before execution and check its
 # return code
 function run_drush {
-	echo "Running drush $@..."
+	echo "Running drush ${*}..."
 	drush "$@" | sed 's,^,  ,'
-	rc=$?
+	local rc="${PIPESTATUS[0]}"
 	if [ "${rc}" -ne 0 ]; then
-		echo "Error: drush $@ return non-zero (${rc})"
+		echo "Error: drush ${*} returned non-zero (${rc})"
 		subsite_status="nok"
 	fi
 }
