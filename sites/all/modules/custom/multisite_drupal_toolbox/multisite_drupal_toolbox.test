@@ -274,7 +274,7 @@ class MultisiteDrupalWebTestCase extends DrupalWebTestCase {
         '%name' => $edit['name'],
         '%pass' => $edit['pass'])
       ),
-      t('User login'),
+      t('User login')
     );
     if (empty($account->uid)) {
       return FALSE;
