@@ -7,7 +7,7 @@ function output {
 function timestamped_output {
 	# Using Perl to rewrite the output is better for performance than calling
 	# the output function once per line
-	perl -ple 'my ($sec,$min,$hour,$mday,$mon,$year) = localtime(time); printf(q[%d-%02d-%02d:%02d:%02d:%02d ], 1900 + $year, $mon + 1, $mday, $hour, $min, $sec)'
+	perl -ple 'BEGIN { $| = 1; }; my ($sec,$min,$hour,$mday,$mon,$year) = localtime(time); printf(q[%d-%02d-%02d:%02d:%02d:%02d ], 1900 + $year, $mon + 1, $mday, $hour, $min, $sec)'
 	# dummy version
 	# while read line; do output "$line" done
 }
@@ -102,7 +102,7 @@ function loop_on_target_subsites {
 			echo "  Unable to change directory to ${subsite} (former subsite deleted or bad target specified?), skipping."
 			continue
 		fi
-		do_action "${drupal_path}" "${subsite}" 2>&1 | sed 's,^,  ,'
+		do_action "${drupal_path}" "${subsite}" 2>&1 | sed --unbuffered 's,^,  ,'
 		end_subsite "${drupal_path}" "${subsite}"
 	done
 }
