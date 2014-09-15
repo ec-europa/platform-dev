@@ -126,10 +126,12 @@ function drush_sql_query {
 function run {
 	local do_it="$1"
 	shift
+
+	# Filter out some known arguments from the command before echo-ing it
+	# as it could end up in a log file
+	local cmd="$(echo "${*}" | sed -r -e 's,--password=[^ ]+,--password=xxx,')"
+
 	if [ "${do_it}" == '1' ]; then
-		# Filter out some known arguments from the command before echo-ing it
-		# as it could end up in a log file
-		local cmd="$(echo "${*}" | sed -r -e 's,--password=[^ ]+,--password=xxx,')"
 		echo -e "-> Running ${Cyan}${cmd}${Color_Off}..."
 
 		# Execute the command itself and retrieve the first return code
@@ -141,7 +143,7 @@ function run {
 		[ "${rc}" == '0' ] && rc_color="${IGreen}"
 		echo -e "<- The command returned ${rc_color}${rc}${Color_Off}"
 	else
-		echo "-> Would run ${*}..."
+		echo -e "-> Would run ${Cyan}${cmd}${Color_Off}..."
 	fi
 }
 
