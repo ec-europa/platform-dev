@@ -5,6 +5,8 @@ package = Multisite Features
 php = 5.2.4
 version = 7.x-1.1
 project = ec_embedded_image
+
+dependencies[] = cce_basic_config
 dependencies[] = ctools
 dependencies[] = features
 dependencies[] = file_entity
@@ -14,15 +16,20 @@ dependencies[] = media_flickr
 dependencies[] = media_internet
 dependencies[] = text
 dependencies[] = video
+
 features[ctools][] = file_entity:file_default_displays:1
 features[features_api][] = api:1
+
 features[field][] = file-image-field_file_image_alt_text
 features[field][] = file-image-field_file_image_title_text
+
 features[file_display][] = image__default__media_flickr_image
 features[file_display][] = image__preview__file_field_media_large_icon
 features[file_display][] = image__preview__media_flickr_image
 features[file_display][] = image__teaser__file_field_media_large_icon
 features[file_display][] = image__teaser__media_flickr_image
+
 features[user_permission][] = add media from remote sources
 features[user_permission][] = configure flickr
+
 scripts[] = ec_embedded_image.js
