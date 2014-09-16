@@ -446,7 +446,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
             'method'  => 'GET',
         );
         //make cookie page request
-        $request_remote = 'http://csr.deglise.com/notice';
+        $request_remote = $this->endpoint  . '/notice';
         $response = drupal_http_request($request_remote  , $options);
         // Check if response was successful.
         $this->handleRestError($response);

@@ -442,7 +442,10 @@ function multisite_cookie_consent_indicators() {
   $cookies = variable_get('cck_registered_cookies');
   foreach ($cookies as $cookie) {
     $result = db_query("SELECT * FROM {eucookie_consent} WHERE cookie_id = :nid", array(":nid" => $cookie))->fetchObject();
-    $cookie_data = drupal_json_decode($result->cookie_description);
+    //make sure we have data back
+    if (isset($result->cookie_description)) {
+      $cookie_data = drupal_json_decode($result->cookie_description);
+    }
     $data = array();
     $description = '--';
     $li_translation = '';
