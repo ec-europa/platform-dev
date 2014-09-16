@@ -309,6 +309,7 @@ function _multisite_cookie_consent_fetch_registered_cookies() {
               '@cookie' => $cookie->id,
             )), 'error');
           }
+          dpm($registered_cookies);
           // Save new cookie on client side.
           multisite_cookie_consent_savecookie($new_cookie['_id'], $new_cookie);
         }
@@ -442,31 +443,33 @@ function multisite_cookie_consent_indicators() {
   $cookies = variable_get('cck_registered_cookies');
   foreach ($cookies as $cookie) {
     $result = db_query("SELECT * FROM {eucookie_consent} WHERE cookie_id = :nid", array(":nid" => $cookie))->fetchObject();
-    //make sure we have data back
-    if (isset($result->cookie_description)) {
-      $cookie_data = drupal_json_decode($result->cookie_description);
-    }
-    $data = array();
-    $description = '--';
-    $li_translation = '';
-    $li_translation = '--';
-
-    if (isset($cookie_data['translation'])) {
-      //display cookie translations
-      foreach ($cookie_data['translation'] as $translation => $translation_info) {
-        $default = '';
-        if ($translation_info['default']) {
-          $default = t(': Default language');
-          $description = $translation_info['description'];
-        }
-        $data['items'][] = $translation . $default;
+    if($result) {
+      //make sure we have data back
+      if (isset($result->cookie_description)) {
+        $cookie_data = drupal_json_decode($result->cookie_description);
       }
-      $li_translation = theme('item_list', $data);
-    }
+      $data = array();
+      $description = '--';
+      $li_translation = '';
+      $li_translation = '--';
 
-    $cck_managed = ($cookie_data['cck']) ? t('Yes') : t('No');
-    $rebuild = l(t('Rebuild'), 'rebuild/' . $result->cookie_id);
-    $rows[] = array($result->cookie_id, $cookie_data['_rev'], $cck_managed, $li_translation, $description, $rebuild);
+      if (isset($cookie_data['translation'])) {
+        //display cookie translations
+        foreach ($cookie_data['translation'] as $translation => $translation_info) {
+          $default = '';
+          if ($translation_info['default']) {
+            $default = t(': Default language');
+            $description = $translation_info['description'];
+          }
+          $data['items'][] = $translation . $default;
+        }
+        $li_translation = theme('item_list', $data);
+      }
+
+      $cck_managed = ($cookie_data['cck']) ? t('Yes') : t('No');
+      $rebuild = l(t('Rebuild'), 'rebuild/' . $result->cookie_id);
+      $rows[] = array($result->cookie_id, $cookie_data['_rev'], $cck_managed, $li_translation, $description, $rebuild);
+    }
   }
 
   if (isset($rows)){

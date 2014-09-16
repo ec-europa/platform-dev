@@ -161,7 +161,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
             'method'  => $method,
         );
 
-        $request_remote = $this->endpoint . '/' . $cid;
+        $request_remote = $this->endpoint . '/cookies/' . $cid;
         $response = drupal_http_request($request_remote  , $options);
         // Check if response was successful.
         $this->handleRestError($response);
@@ -424,7 +424,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
             'data' => $data,
         );
         //create response and send request to remote service
-        $response = drupal_http_request($this->endpoint, $options);
+        $response = drupal_http_request($this->endpoint . '/cookies', $options);
         $this->handleRestError($response);
         $result = json_decode($response->data);
         return $result;
