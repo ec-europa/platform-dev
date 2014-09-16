@@ -351,7 +351,7 @@ projects[votingapi][subdir] = "contributed"
 projects[votingapi][version] = "2.11"
 
 projects[webform][subdir] = "contributed"
-projects[webform][version] = "3.20"
+projects[webform][version] = "4.0"
 
 projects[workbench][subdir] = "contributed"
 projects[workbench][version] = "1.2"
