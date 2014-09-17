@@ -437,7 +437,7 @@ function ec_resp_page_alter($page) {
     }
   }
 
-  $description = variable_get('site_slogan');
+  $description = filter_xss(variable_get('site_slogan'));
   if (empty($description)) {
     $description = filter_xss(variable_get('site_name'));
   }
