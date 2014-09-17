@@ -142,6 +142,7 @@ function run {
 		local rc_color="${IRed}"
 		[ "${rc}" == '0' ] && rc_color="${IGreen}"
 		echo -e "<- The command returned ${rc_color}${rc}${Color_Off}"
+		return "${rc}"
 	else
 		echo -e "-> Would run ${Cyan}${cmd}${Color_Off}..."
 	fi
