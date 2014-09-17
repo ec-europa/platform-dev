@@ -16,19 +16,19 @@ include_once 'dev.install.inc';
 function dev_enable() {
 
   drupal_set_message(t('dev %v feature is now active on your site.', array('%v' => _dev_get_version())));
+  //  multisite_drupal_toolbox_add_block_context($contextName,$blockTitle,$module,$delta, $region,$weight='-10');
+  multisite_drupal_toolbox_add_block_context('homepage', 'devel-switch_user', 'devel', 'switch_user', 'sidebar_left', $weight='8');
+  multisite_drupal_toolbox_add_block_context('sitewide', 'menu-devel', 'menu', 'devel', 'sidebar_left', $weight='9');
+  multisite_drupal_toolbox_add_block_context('sitewide', 'devel-execute_php', 'devel', 'execute_php', 'featured', $weight='10');
 }
 
 /**
  * Implements hook_disable().
  */
 function dev_disable() {
-  //module_disable(array('devel_generate', 'coder_review'), FALSE);
   $modules = array('devel', 'coder', 'mail_logger');
-  module_disable($modules, TRUE);
-  drupal_uninstall_modules($modules, FALSE);
+  module_disable($modules, FALSE);
   drupal_set_message(t('dev %v feature is now inactive on your site.', array('%v' => _dev_get_version())));
-
-
 }
 
 /**
@@ -43,4 +43,5 @@ function dev_install() {
  */
 function dev_uninstall() {
   //Uninstall scripts here
+  drupal_uninstall_modules($modules, FALSE);
 }

@@ -1,28 +1,28 @@
 name = Dev
 description = Tool for FPFIS Developers
 core = 7.x
-package = Features
+package = Multisite Features
 php = 5.2.4
 version = 7.x-1.0
 project = dev
 
-dependencies[] = ctools
-dependencies[] = features
-dependencies[] = strongarm
 dependencies[] = coder
 dependencies[] = coder_review
 dependencies[] = devel
 dependencies[] = devel_generate
 dependencies[] = mail_logger
 dependencies[] = coffee
-;dependencies[] = visualize_backtrace
 dependencies[] = forminspect
-;dependencies[] = devel_themer
-;dependencies[] = drupalforfirebug
+dependencies[] = simpletest
 dependencies[] = search_krumo
 dependencies[] = devel_debug_log
 dependencies[] = module_filter
 dependencies[] = multisite_review
+
+; todo -- further evaluation
+;dependencies[] = visualize_backtrace
+;dependencies[] = devel_themer
+;dependencies[] = drupalforfirebug
 
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1

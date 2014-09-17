@@ -1,0 +1,16 @@
+name = manage_local
+description = manage_local
+core = 7.x
+package = Features
+version = 7.x-1.0
+project = manage_local
+features[features_api][] = api:1
+
+feature_sets[your_project_name][title] = Your feature name here
+feature_sets[your_project_name][description] = What your feature does here
+feature_sets[your_project_name][icon] = features_icons/your-icon.png
+feature_sets[your_project_name][category] = YOUR DG
+feature_sets[your_project_name][enable][] = your_project_name
+feature_sets[your_project_name][disable][] = your_project_name
+feature_sets[your_project_name][uninstall][] = your_project_name
+
