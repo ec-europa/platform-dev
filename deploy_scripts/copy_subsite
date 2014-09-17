@@ -1,0 +1,332 @@
+#!/bin/bash
+current_script="$(readlink -f "${0}")"
+script_dir="$(dirname "${current_script}")"
+
+source "${HOME}/.bash_profile"
+source "${script_dir}/lib/functions.sh"
+source "${script_dir}/lib/colors.sh"
+
+function usage {
+	output "Usage: ${0} <source-drupal-directory> <target-drupal-directory> <target>"
+	output '    source-drupal-directory is a Drupal base directory, i.e. a directory hosting the index.php file'
+	output '    target-drupal-directory is a Drupal base directory, i.e. a directory hosting the index.php file'
+	output '    target is either a space-separated list of 1 to n subsites (as a single argument), or "@sites" for all known subsites'
+}
+
+# Simple arguments check
+source_drupal_path="${1}"
+shift
+target_drupal_path="${1}"
+shift
+target="${1}"
+shift
+[ -z "${source_drupal_path}" ] && usage && exit 50
+[ -z "${target_drupal_path}" ] && usage && exit 49
+[ -z "${target}" ] && usage && exit 48
+
+mysql_dump_dir=${MYSQL_DUMP_DIR:-$(readlink -f "${script_dir}/mysql_dumps")}
+mkdir -p "${mysql_dump_dir}" || exitWithErrorMessage 47 "Unable to create MySQL dump directory ${mysql_dump_dir}"
+
+function do_action {
+	# loop_on_target_subsites provides $source_drupal_path as $1
+	# and the single site this function should treat as $2
+	local subsite="${2}"
+	copy_files       "${source_drupal_path}" "${target_drupal_path}" "${subsite}"
+	copy_code        "${source_drupal_path}" "${target_drupal_path}" "${subsite}"
+	copy_database    "${source_drupal_path}" "${target_drupal_path}" "${subsite}"
+	adjust_database  "${source_drupal_path}" "${target_drupal_path}" "${subsite}"
+	reindex_contents "${source_drupal_path}" "${target_drupal_path}" "${subsite}"
+}
+
+function copy_files {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+
+	echo -e "${IWhite}Copying ${UWhite}files${IWhite} for ${UWhite}${subsite}${Color_Off}"
+
+	local source_files_dir="$(readlink -f "${source_drupal_path}/sites/${subsite}/files")"
+	local target_files_dir="$(readlink -f "${target_drupal_path}/sites/${subsite}/files")"
+
+	# TODO use that hook to fix perms of webrun-owned files?
+	type copy_subsite_hook_pre_rsync_files > /dev/null 2>&1 && copy_subsite_hook_pre_rsync_files "$@" "${source_files_dir}/" "${target_files_dir}/"
+
+	run 1 rsync --verbose --archive --delete "${source_files_dir}/" "${target_files_dir}/"
+
+	# TODO use that hook to adjust perms again?
+	type copy_subsite_hook_post_rsync_files > /dev/null 2>&1 && copy_subsite_hook_post_rsync_files "$@" "${source_files_dir}/" "${target_files_dir}/"
+}
+
+function copy_code {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+	echo -e "${IWhite}Copying ${UWhite}code${IWhite} for ${UWhite}${subsite}${Color_Off}"
+
+	type copy_subsite_hook_pre_rsync_code > /dev/null 2>&1 && copy_subsite_hook_pre_rsync_code "$@"
+
+	for subdir in 'libraries' 'modules' 'patches' 'themes'; do
+		local source_code_dir="${source_drupal_path}/sites/${subsite}/${subdir}"
+		local target_code_dir="${target_drupal_path}/sites/${subsite}/${subdir}"
+
+		[ -d "${source_code_dir}" ] || continue
+		echo -e "--- ${IWhite}Directory ${UWhite}${subdir}${Color_Off} ---"
+		type copy_subsite_hook_pre_rsync_code_subdir > /dev/null 2>&1 && copy_subsite_hook_pre_rsync_code_subdir "$@" "${subdir}" "${source_code_dir}/" "${target_code_dir}/"
+		run 1 rsync --verbose --archive --delete "${source_code_dir}/" "${target_code_dir}/"
+		type copy_subsite_hook_post_rsync_code_subdir > /dev/null 2>&1 && copy_subsite_hook_post_rsync_code_subdir "$@" "${subdir}" "${source_code_dir}/" "${target_code_dir}/"
+	done
+
+	type copy_subsite_hook_post_rsync_code > /dev/null 2>&1 && copy_subsite_hook_post_rsync_code "$@"
+}
+
+# FIXME hook => to be moved outside this script
+function copy_subsite_hook_post_rsync_code_subdir {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+	local subdir="${4}"
+	local source_code_dir="${5}"
+	local target_code_dir="${6}"
+
+	cd "${target_code_dir}" 2> /dev/null || return
+	run 1 git status .
+	run 1 git add --all .
+	export GIT_FPFIS_AUTHOR="Automated commit by copy_subsite"
+	run 1 git commit -m "Update subdirectory ${subdir} for subsite ${subsite}" -m '' -m "Source directory: ${source_code_dir}" .
+	cd - > /dev/null 2>&1
+}
+
+# FIXME hook => to be moved outside this script
+function copy_subsite_hook_post_rsync_code {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+
+	cd "${target_code_dir}" 2> /dev/null || return
+	run 1 git push nas-reference master
+	cd - > /dev/null 2>&1
+}
+
+function copy_database {
+	local subsite="${3}"
+
+	# ensure the directory used to store data is clean
+	rm --recursive --force "${mysql_dump_dir}/${subsite}"
+
+	save_target_solr_table "$@"
+	dump_source_database "$@"
+	load_target_database "$@"
+	restore_target_solr_table "$@"
+}
+
+function save_target_solr_table {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+
+	table='apachesolr_environment'
+	echo -e "${IWhite}Saving table ${UWhite}${table}${IWhite} for ${UWhite}${subsite}${Color_Off}"
+
+	mkdir -p "${mysql_dump_dir}/${subsite}/target"
+	my_args=($(mysql_args "${target_drupal_path}" "${subsite}"))
+	sql_file="${mysql_dump_dir}/${subsite}/target/${table}.sql"
+	run 1 mysqldump "${my_args[@]}" "${table}" --result-file="${sql_file}"
+	grep -q "^INSERT INTO \`${table}\`" "${sql_file}" 2> /dev/null
+	if [ "$?" != '0' ]; then
+		echo -e "${IYellow}Warning${Color_Off}: the ${table} table could not be saved -- you may have to adjust the ApacheSolr configuration manually."
+	fi
+}
+
+function dump_source_database {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+
+	echo -e "${IWhite}Dumping ${UWhite}source database${IWhite} to filesystem for ${UWhite}${subsite}${Color_Off}"
+
+	type copy_subsite_hook_pre_dump_source_db > /dev/null 2>&1 && copy_subsite_hook_pre_dump_source_db "$@" "${mysql_dump_dir}/${subsite}"
+
+	my_args=($(mydumper_args "${source_drupal_path}" "${subsite}"))
+	run 1 mydumper "${my_args[@]}" --no-locks --verbose=1 --outputdir="${mysql_dump_dir}/${subsite}/source"
+	# TODO error handling: there is no point going further if this step failed
+	
+	# Get rid of cache tables by truncating their data files.
+	find "${mysql_dump_dir}/${subsite}/source" -type f \( -name '*.cache_*.sql' -o -name '*.cache.sql' \) ! -name '*-schema.sql' | while read file; do
+		> "${file}"
+	done
+
+	type copy_subsite_hook_post_dump_source_db > /dev/null 2>&1 && copy_subsite_hook_post_dump_source_db "$@" "${mysql_dump_dir}/${subsite}"
+}
+
+function load_target_database {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+
+
+	echo -e "${IWhite}Loading ${UWhite}source database${IWhite} to target for ${UWhite}${subsite}${Color_Off}"
+
+	type copy_subsite_hook_pre_load_target_db > /dev/null 2>&1 && copy_subsite_hook_pre_load_target_db "$@" "${mysql_dump_dir}/${subsite}"
+
+	my_args=($(mydumper_args "${target_drupal_path}" "${subsite}"))
+	run 1 drush 'sql-drop' --root="${target_drupal_path}" --uri="${subsite}" --yes
+	run 1 myloader "${my_args[@]}" --directory="${mysql_dump_dir}/${subsite}/source" --overwrite-tables
+
+	type copy_subsite_hook_post_load_target_db > /dev/null 2>&1 && copy_subsite_hook_post_load_target_db "$@" "${mysql_dump_dir}/${subsite}"
+}
+
+function restore_target_solr_table {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+
+	table='apachesolr_environment'
+	echo -e "${IWhite}Restoring table ${UWhite}${table}${IWhite} for ${UWhite}${subsite}${Color_Off}"
+	sql_file="${mysql_dump_dir}/${subsite}/target/${table}.sql"
+	grep -q "^INSERT INTO \`${table}\`" "${sql_file}" 2> /dev/null
+	if [ "$?" != '0' ]; then
+		echo -e "${IYellow}Warning${Color_Off}: ${sql_file} contains no data for the ${table} table and thus will not be restored."
+		echo -e "${IYellow}Warning${Color_Off}: instead, ApacheSolr URLs will be removed."
+		echo -e "${IYellow}Warning${Color_Off}: you will probably have to adjust the ApacheSolr configuration manually."
+		run 1 drush 'sql-query' --root="${target_drupal_path}" --uri="${subsite}" 'UPDATE apachesolr_environment SET url = "";'
+	else
+		run 1 drush 'sql-query' --root="${target_drupal_path}" --uri="${subsite}" --file="${sql_file}"
+	fi
+}
+
+function adjust_database {
+	rebuild_registry  "$@"
+	sanitize_database "$@"
+}
+
+function rebuild_registry {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+
+	# Trigger drush registry-rebuild.
+	echo -e "${IWhite}Rebuilding ${UWhite}Drupal registry${IWhite} for ${UWhite}${subsite}${Color_Off}"
+	run 1 drush 'registry-rebuild' --root="${target_drupal_path}" --uri="${subsite}"
+
+	# Workaround for when Drush states that a module is not enabled while it clearly is
+	run 1 drush 'cache-clear' --root="${target_drupal_path}" --uri="${subsite}" 'drush'
+}
+
+# Sanitize the target database, if allowed.
+function sanitize_database {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+
+	if should_sanitize "${target_drupal_path}" "${subsite}"; then
+		echo -e "${IWhite}Sanitizing ${UWhite}email addresses${IWhite} for ${UWhite}${subsite}${Color_Off}"
+		run 1 drush 'sql-sanitize' --root="${target_drupal_path}" --uri="${subsite}" --sanitize-password='no' --sanitize-email='%mail.nomail' --yes
+	fi
+}
+
+# Reindex contents of the target database, if needed.
+function reindex_contents {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+
+	if [ -z "${SKIP_REINDEXATION}" ]; then
+		if should_reindex "${target_drupal_path}" "${subsite}"; then
+			echo -e "${IWhite}Reindexing contents into ${UWhite}ApacheSolr${IWhite} for ${UWhite}${subsite}${Color_Off}"
+
+			solr_url=$(drush 'solr-get-env-url' --root="${target_drupal_path}" --uri="${subsite}" 2> /dev/null)
+			if [ -z "${solr_url}" ]; then
+				echo -e "${IRed}Error${Color_Off}: unable to retrieve the URL to ApacheSolr; leaving the ApacheSolr indexes untouched for site ${subsite}."
+				return 30
+			fi
+
+			site_hash=$(drush 'variable-get' --root="${target_drupal_path}" --uri="${subsite}" --format='string' 'apachesolr_site_hash')
+			if [ -z "${site_hash}" ]; then
+				echo -e "${IRed}Error${Color_Off}: unable to retrieve the ApacheSolr site hash; leaving the ApacheSolr indexes untouched for site ${subsite}."
+				return 20
+			fi
+
+			# delete Solr index
+			run 1 curl -s "${solr_url}/update?commit=true" --data "<delete><query>hash:${site_hash}</query></delete>"
+
+			# Mark all contents for reindexation
+			run 1 drush 'solr-mark-all' --root="${target_drupal_path}" --uri="${subsite}"
+
+			# Reindexation itself
+			# As it can take a long time, this operation can be skipped by setting
+			# the SKIP_ACTUAL_REINDEXATION environment variable.
+			if [ -z "${SKIP_ACTUAL_REINDEXATION}" ]; then
+				run 1 drush 'solr-index' --root="${target_drupal_path}" --uri="${subsite}"
+			else
+				echo -e "${IYellow}Warning${Color_Off}: skipping actual reindexation for ${subsite} as required through SKIP_ACTUAL_REINDEXATION."
+			fi
+		else
+			echo -e "${IYellow}Warning${Color_Off}: skipping the whole reindexation process for ${subsite} as it does not appear to rely on ApacheSolr."
+		fi
+	else
+		echo -e "${IYellow}Warning${Color_Off}: skipping the whole reindexation process for ${subsite} as required through SKIP_REINDEXATION."
+	fi
+}
+
+function mydumper_args {
+	local drupal_path="${1}"
+	local subsite="${2}"
+
+	drush 'sql-connect' --root="${drupal_path}" --uri="${subsite}" | perl -pe 's/^mysql //;'
+}
+
+function mysql_args {
+	local drupal_path="${1}"
+	local subsite="${2}"
+
+	drush 'sql-connect' --root="${drupal_path}" --uri="${subsite}" | perl -pe 's/^mysql //; s/--database=([^ ]+)(.+)$/$2 $1/;'
+}
+
+function mysql_db_name {
+	local drupal_path="${1}"
+	local subsite="${2}"
+
+	drush 'sql-connect' --root="${drupal_path}" --uri="${subsite}" | perl -nle 'print $1 if m/--database=([^ ]+)/;'
+}
+
+# Return whether a site should be sanitized; the current implementation Sanitize DB if the target DB does not contain "_production" or if it contains "playground_"
+function should_sanitize {
+	local drupal_path="${1}"
+	local subsite="${2}"
+
+	if [ "${force_sanitize}" == '1' ]; then
+		return "${force_sanitize_value}"
+	fi
+
+	local db_name=$(mysql_db_name "${drupal_path}" "${subsite}")
+	# production databases should not be sanitized...
+	if [[ "${db_name}" =~ _production ]]; then
+		# ... except on playground.
+		if [[ "${db_name}" =~ playground_ ]]; then
+			return 0 # true, the database should be sanitized
+		else
+			return 1 # false, the database should not be sanitized
+		fi
+	else
+		return 0 # true, the database should be sanitized
+	fi
+}
+
+function should_reindex {
+	local drupal_path="${1}"
+	local subsite="${2}"
+
+	if [ "${force_reindex}" == '1' ]; then
+		return "${force_reindex_value}"
+	fi
+
+	local apachesolr_is_enabled=$(drush 'sql-query' --root="${drupal_path}" --uri="${subsite}" --extra='--skip-column-names' 'SELECT status FROM system WHERE name = "apachesolr";' 2> /dev/null)
+	if [ "${apachesolr_is_enabled}" == '1' ]; then
+		return 0 # true, contents should be reindexed
+	else
+		return 1 # false, contents should not be reindexed
+	fi
+}
+
+loop_on_target_subsites "${source_drupal_path}" ${target} | timestamped_output
+exit 0
