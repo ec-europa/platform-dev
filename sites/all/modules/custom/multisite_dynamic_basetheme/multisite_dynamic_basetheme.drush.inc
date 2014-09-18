@@ -118,5 +118,7 @@ function drush_multisite_dynamic_basetheme_theme_base_theme_set() {
   // CSlear cache and rebuild theme data
   _multisite_dynamic_basetheme_rebuild_system_theme();
 
+  _multisite_dynamic_basetheme_jquery_modules_handle($base_theme);
+
   drush_log(t('Base theme of `@name` changed to `@base_theme`', array('@name' => $theme_info->name, '@base_theme' => $base_theme)), 'ok') ;
 }
