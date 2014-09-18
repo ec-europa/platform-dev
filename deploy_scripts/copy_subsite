@@ -1,4 +1,7 @@
 #!/bin/bash
+# TODO Nifty description here.
+# TODO Review error handling (we clearly do not handle everything)
+# TODO What about an interactive, step-by-step mode?
 current_script="$(readlink -f "${0}")"
 script_dir="$(dirname "${current_script}")"
 
@@ -14,6 +17,7 @@ function usage {
 }
 
 # Simple arguments check
+# TODO proper arguments parsing (getopt, getopts?)
 source_drupal_path="${1}"
 shift
 target_drupal_path="${1}"
@@ -49,6 +53,8 @@ function copy_files {
 	local target_files_dir="$(readlink -f "${target_drupal_path}/sites/${subsite}/files")"
 
 	# TODO use that hook to fix perms of webrun-owned files?
+	# Or should we assume perms are going to be perfect after the
+	# NEXTEUROPA-736 task is done?
 	type copy_subsite_hook_pre_rsync_files > /dev/null 2>&1 && copy_subsite_hook_pre_rsync_files "$@" "${source_files_dir}/" "${target_files_dir}/"
 
 	run 1 rsync --verbose --archive --delete "${source_files_dir}/" "${target_files_dir}/"
