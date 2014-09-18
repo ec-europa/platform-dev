@@ -63,6 +63,10 @@ function copy_code {
 	local subsite="${3}"
 	echo -e "${IWhite}Copying ${UWhite}code${IWhite} for ${UWhite}${subsite}${Color_Off}"
 
+	# Code copy can fail due to Drupal-induced chmod ugo-w on sitename/ and
+	# sitename/settings.php.
+	run 1 chmod u+w "${target_drupal_path}/sites/${subsite}/"
+
 	type copy_subsite_hook_pre_rsync_code > /dev/null 2>&1 && copy_subsite_hook_pre_rsync_code "$@"
 
 	for subdir in 'libraries' 'modules' 'patches' 'themes'; do
