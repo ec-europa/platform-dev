@@ -63,17 +63,21 @@ function multisite_dynamic_basetheme_form_system_theme_settings_submit($form, &$
  */
 function _multisite_dynamic_basetheme_jquery_modules_handle($base_theme) {
   // enable-disable jquery modules
-  if($base_theme <= 'ec_resp_16' && !empty($base_theme)) {
+  if (empty($base_theme)) {
+    return;
+  }
+  if ($base_theme == 'ec_resp') {
+    // assume ec_resp > 1.6, i.e. require jquery_update
+    if (!module_exists('jquery_update'))
+      module_enable(array('jquery_update'));
+    if (module_exists('jqmulti'))
+      module_disable(array('jqmulti'));
+  }
+  else if($base_theme <= 'ec_resp_16') {
     if(!module_exists('jqmulti'))
       module_enable(array('jqmulti'));
     if(module_exists('jquery_update'))
       module_disable(array('jquery_update'));
-  }
-  else {
-    if(!module_exists('jquery_update'))
-      module_enable(array('jquery_update'));
-    if(module_exists('jqmulti'))
-      module_disable(array('jqmulti'));
   }
 }
 
