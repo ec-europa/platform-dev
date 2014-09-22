@@ -4,6 +4,9 @@ api = 2
 ; Drupal core version
 core = 7.x
 
+projects[drupal][type] = core
+projects[drupal][version] = 7.31
+
 ; Dependencies
 
 ; enable this for development
@@ -13,9 +16,6 @@ projects[grammar_parser][download][type] = "git"
 projects[grammar_parser][download][url] = "https://drupal.org/project/grammar_parser"
 projects[grammar_parser][download][branch] = "7.x-1.x"
 projects[grammar_parser][download][tag] = "1.2"
-
-projects[libraries][subdir] = "contributed"
-projects[libraries][version] = 2.0
 
 projects[devel][subdir] = "contributed"
 projects[devel][version] = "1.5"
