@@ -55,6 +55,19 @@ function multisite_cookie_consent_admin_settings() {
         '#description' => t('Retrieves latest static description for the cookie notice pages.'),
     );
 
+    // Cron frequency for automatic synch
+    $form['eucookie_consent']['eucookie_consent_cron_interval'] = array(
+        '#type' => 'select',
+        '#title' => t('Set the frequency of automatic rebuilding of the cookie list and the cookie notice page'),
+        '#default_value' => variable_get('eucookie_consent_cron_interval', 0),
+        '#options' => array(
+            0 => t('Every cron run'),
+            86400 => t('Once a day'),
+            604800 => t('Once a week'),
+        ),
+        '#description' => t('How often should the cookie notice page and the cookie descriptions rebuild and synchronized with the remote storage.'),
+    );
+
     // Submit button.
     $form['actions'] = array('#type' => 'actions');
     $form['actions']['submit'] = array(
@@ -86,7 +99,8 @@ function multisite_cookie_consent_admin_settings_submit($form, &$form_state) {
     variable_set('eucookie_consent_ec_consent_javascript', $form_state['values']['eucookie_consent_ec_consent_javascript']);
     //set variable if you want to display banner to logged in users
     variable_set('eucookie_consent_ec_consent_loggedin', $form_state['values']['eucookie_consent_ec_consent_loggedin']);
-
+    //set variable for synch frequency
+    variable_set('eucookie_consent_cron_interval', $form_state['values']['eucookie_consent_cron_interval']);
     //fecth data from remote services
     if ($form_state['values']['eucookie_consent_purge'] == 1) {
         _multisite_cookie_consent_rebuild_registered_cookies();

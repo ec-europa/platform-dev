@@ -248,6 +248,7 @@ function _multisite_cookie_consent_rebuild_registered_cookies() {
   variable_set('cck_registered_cookies', array_unique($cookies));
 
   _multisite_cookie_consent_fetch_registered_cookies();
+  watchdog('multisite_cookie_consent', 'Registered cookies list rebuilt');
 }
 
 /**
@@ -309,7 +310,6 @@ function _multisite_cookie_consent_fetch_registered_cookies() {
               '@cookie' => $cookie->id,
             )), 'error');
           }
-          dpm($registered_cookies);
           // Save new cookie on client side.
           multisite_cookie_consent_savecookie($new_cookie['_id'], $new_cookie);
         }
@@ -387,7 +387,7 @@ function _multisite_cookie_consent_rebuild_static_text() {
     //stores data in database
     multisite_cookie_consent_savestatictext($text);
     drupal_set_message(t('Remote notice templates saved!'));
-
+    watchdog('multisite_cookie_consent', 'Cookie notice page static text rebuilt');
   }
 
 }
@@ -531,4 +531,18 @@ function multisite_cookie_consent_save_cookie($getcookieinfo) {
 function _multisite_cookie_consent_cookielistheader(){
    $cookies = '"' . implode( '","' , variable_get('cck_registered_cookies', array())) . '"';
   return $cookies;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function multisite_cookie_consent_cron() {
+  // Default to an hourly interval. Of course, cron has to be running at least
+  // hourly for this to work.
+  $interval = variable_get('eucookie_consent_cron_interval', 60 * 60 * 24);
+  if (time() >= variable_get('eucookie_consent_cron_next_execution', 0)) {
+    _multisite_cookie_consent_rebuild_static_text();
+    _multisite_cookie_consent_rebuild_registered_cookies();
+    variable_set('eucookie_consent_cron_next_execution', time() + $interval);
+  }
 }
