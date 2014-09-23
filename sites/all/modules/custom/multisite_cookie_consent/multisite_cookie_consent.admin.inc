@@ -59,7 +59,7 @@ function multisite_cookie_consent_admin_settings() {
     $form['eucookie_consent']['eucookie_consent_cron_interval'] = array(
         '#type' => 'select',
         '#title' => t('Set the frequency of automatic rebuilding of the cookie list and the cookie notice page'),
-        '#default_value' => variable_get('eucookie_consent_cron_interval', 0),
+        '#default_value' => variable_get('eucookie_consent_cron_interval', 86400),
         '#options' => array(
             0 => t('Every cron run'),
             86400 => t('Once a day'),

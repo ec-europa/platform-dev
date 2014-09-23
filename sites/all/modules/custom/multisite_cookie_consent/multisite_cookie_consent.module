@@ -537,8 +537,7 @@ function _multisite_cookie_consent_cookielistheader(){
  * Implements hook_cron().
  */
 function multisite_cookie_consent_cron() {
-  // Default to an hourly interval. Of course, cron has to be running at least
-  // hourly for this to work.
+  // Default to an daily interval.
   $interval = variable_get('eucookie_consent_cron_interval', 60 * 60 * 24);
   if (time() >= variable_get('eucookie_consent_cron_next_execution', 0)) {
     _multisite_cookie_consent_rebuild_static_text();
