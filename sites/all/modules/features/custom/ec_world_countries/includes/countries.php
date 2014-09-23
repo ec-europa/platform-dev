@@ -140,6 +140,7 @@ $country_array = array(
     'LI' => t('Liechtenstein'),
     'LT' => t('Lithuania'),
     'LU' => t('Luxembourg'),
+    'MK' => t('The former Yugoslav Republic of Macedonia'),
     'MT' => t('Malta'),
     'MC' => t('Monaco'),
     'ME' => t('Montenegro'),
