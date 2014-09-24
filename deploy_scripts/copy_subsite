@@ -51,6 +51,8 @@ function copy_files {
 
 	local source_files_dir="$(readlink -f "${source_drupal_path}/sites/${subsite}/files")"
 	local target_files_dir="$(readlink -f "${target_drupal_path}/sites/${subsite}/files")"
+	[ -z "${source_files_dir}" ] && exitWithErrorMessage 45 "Unable to compute path to the files directory of the source site -- does the source site exist?"
+	[ -z "${target_files_dir}" ] && exitWithErrorMessage 44 "Unable to compute path to the files directory of the target site -- does the target site exist?"
 
 	# TODO use that hook to fix perms of webrun-owned files?
 	# Or should we assume perms are going to be perfect after the
