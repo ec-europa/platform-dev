@@ -35,11 +35,28 @@ function do_action {
 	# loop_on_target_subsites provides $source_drupal_path as $1
 	# and the single site this function should treat as $2
 	local subsite="${2}"
+	check_sites      "${source_drupal_path}" "${target_drupal_path}" "${subsite}"
 	copy_files       "${source_drupal_path}" "${target_drupal_path}" "${subsite}"
 	copy_code        "${source_drupal_path}" "${target_drupal_path}" "${subsite}"
 	copy_database    "${source_drupal_path}" "${target_drupal_path}" "${subsite}"
 	adjust_database  "${source_drupal_path}" "${target_drupal_path}" "${subsite}"
 	reindex_contents "${source_drupal_path}" "${target_drupal_path}" "${subsite}"
+}
+
+function check_sites {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+
+	# Check settings.php are present and readable on both sides
+	[ -f "${source_drupal_path}/sites/${subsite}/settings.php" ] || exitWithErrorMessage 47 "sites/${subsite}/settings.php not found under ${source_drupal_path}"
+	[ -r "${source_drupal_path}/sites/${subsite}/settings.php" ] || exitWithErrorMessage 47 "sites/${subsite}/settings.php not readable under ${source_drupal_path}"
+	[ -f "${target_drupal_path}/sites/${subsite}/settings.php" ] || exitWithErrorMessage 47 "sites/${subsite}/settings.php not found under ${target_drupal_path}"
+	[ -r "${target_drupal_path}/sites/${subsite}/settings.php" ] || exitWithErrorMessage 47 "sites/${subsite}/settings.php not readable under ${target_drupal_path}"
+
+	# Check "files" are present on both sides
+	[ -d "${source_drupal_path}/sites/${subsite}/files/" ] || exitWithErrorMessage 47 "sites/${subsite}/files/ not present under ${source_drupal_path}"
+	[ -d "${target_drupal_path}/sites/${subsite}/files/" ] || exitWithErrorMessage 47 "sites/${subsite}/files/ not present under ${target_drupal_path}"
 }
 
 function copy_files {
