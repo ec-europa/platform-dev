@@ -284,6 +284,11 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
           unset($form['permission']['administer varnish']);
         }
 
+        //auto_nodetile module
+        if (isset($form['permission']['use PHP for title patterns'])) {
+          unset($form['permission']['use PHP for title patterns']);
+        }
+
         foreach (array_keys(user_roles()) as $rid) {
           // Hide checkboxes in the permissions admin page.
           unset($form['checkboxes'][$rid]['#options']['administer modules']);
@@ -291,6 +296,9 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
           unset($form['checkboxes'][$rid]['#options']['manage features']);
           unset($form['checkboxes'][$rid]['#options']['administer software updates']);
           unset($form['checkboxes'][$rid]['#options']['use PHP to import nodes']);
+          if (isset($form['checkboxes'][$rid]['#options']['use PHP for title patterns'])) { 		//auto_nodetile module
+            unset($form['checkboxes'][$rid]['#options']['use PHP for title patterns']);
+          }
           if (isset($form['checkboxes'][$rid]['#options']['administer varnish'])) {
             unset($form['checkboxes'][$rid]['#options']['administer varnish']);
           }
