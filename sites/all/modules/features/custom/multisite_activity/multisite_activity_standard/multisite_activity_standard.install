@@ -1,35 +1,34 @@
 <?php
 /**
- * @file multi_user install file.
+ * @file
+ * Install the feature multisite_activity_standard
  */
 
-/*
-* Implements hook_disable().
-*/
-function multisite_activity_standard_disable() {
-
-  // Deactivation message.
-  drupal_set_message(t('Multisite activity standard feature is now disable on your site.'));
-}
-
-/*
-* Implements hook_enable().
-*/
-function multisite_activity_standard_enable() {
-  // Activation message.
-  drupal_set_message(t('Multisite activity feature standard feature is now enable on your site.'));
-}
-
 /**
- * Implements hook_install().
+ * hook_install
  */
 function multisite_activity_standard_install() {
-  // Install scripts here.
+  //Nothing yet
 }
 
 /**
- * Implements hook_uninstall().
+ * hook_uninstall
  */
 function multisite_activity_standard_uninstall() {
-  // Uninstall scripts here.
+  //Nothing yet
+}
+
+/*
+ * hook_enable
+ */
+function multisite_activity_standard_enable() {
+  drupal_set_message(t('Multisite activity feature is now enabled on your site.'));
+}
+
+
+/*
+ * hook_disable
+ */
+function multisite_activity_standard_disable() {
+  drupal_set_message(t('Multisite activity feature is now disabled on your site.'));
 }

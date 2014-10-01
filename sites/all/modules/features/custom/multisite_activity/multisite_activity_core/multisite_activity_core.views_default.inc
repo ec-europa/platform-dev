@@ -83,14 +83,7 @@ function multisite_activity_core_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['path'] = 'activity';
-  $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'Activity';
-  $handler->display->display_options['menu']['description'] = 'A list of all messages.';
-  $handler->display->display_options['menu']['weight'] = '60';
-  $handler->display->display_options['menu']['name'] = 'main-menu';
-  $handler->display->display_options['menu']['context'] = 0;
-  $handler->display->display_options['menu']['context_only_inline'] = 0;
+
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block_1');

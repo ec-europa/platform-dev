@@ -1,9 +1,8 @@
 <?php
-
 /**
  * @file
- * Multisite activity messages.
+ * Code for the Multisite activity standard feature.
  */
 
-include_once('multisite_activity_standard.features.inc');
-
+include_once 'multisite_activity_standard.features.inc';
+include_once('multisite_activity_standard.views_alter.inc');

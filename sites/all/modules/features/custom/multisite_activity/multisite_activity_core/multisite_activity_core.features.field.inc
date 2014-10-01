@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * multisite_activity_standard.features.field.inc
+ * multisite_activity_core.features.field.inc
  */
 
 /**
  * Implements hook_field_default_fields().
  */
-function multisite_activity_standard_field_default_fields() {
+function multisite_activity_core_field_default_fields() {
   $fields = array();
 
   // Exported field: 'message-multisite_content_delete-field_node_ref'.
