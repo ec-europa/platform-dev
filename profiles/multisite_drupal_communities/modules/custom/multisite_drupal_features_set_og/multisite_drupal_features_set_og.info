@@ -144,8 +144,8 @@ feature_sets[multisite_activity_communities][category] = 'Information to users'
 feature_sets[multisite_activity_communities][icon] = ''
 feature_sets[multisite_activity_communities][font] = 'multisite-icon-steam'
 feature_sets[multisite_activity_communities][enable][] = multisite_activity_core
-feature_sets[multisite_activity_communities][enable][] = multisite_activity_communities
-feature_sets[multisite_activity_communities][disable][] = multisite_activity_communities
+feature_sets[multisite_activity_communities][enable][] = multisite_activity_og
+feature_sets[multisite_activity_communities][disable][] = multisite_activity_og
 feature_sets[multisite_activity_communities][disable][] = multisite_activity_core
 
 
