@@ -5,6 +5,7 @@
  * Multisite dynamic_basetheme definition module.
  */
 
+DEFINE ('MULTISITE_JQUERY_VERSION','1.7');
 
 /**
  * Implements hook_form_BASE_FORM_ID_alter
@@ -53,7 +54,13 @@ function multisite_dynamic_basetheme_form_system_theme_settings_submit($form, &$
   $new_value = $form_state['values']['ec_resp_base_theme_of_subtheme'];
   if ($old_value !== $new_value) {
     _multisite_dynamic_basetheme_rebuild_system_theme();
-    _multisite_dynamic_basetheme_jquery_modules_handle($new_value);
+	
+	if ($new_value == ''){
+	  $theme_key = $form_state['build_info']['args'][0];
+	  $theme_info_file = drupal_parse_info_file(drupal_get_path('theme', $theme_key) . "/$theme_key.info");
+      $new_value = $theme_info_file['base theme'];
+    }
+	_multisite_dynamic_basetheme_jquery_modules_handle($new_value);
   }
 }
 
@@ -68,16 +75,22 @@ function _multisite_dynamic_basetheme_jquery_modules_handle($base_theme) {
   }
   if ($base_theme == 'ec_resp') {
     // assume ec_resp > 1.6, i.e. require jquery_update
-    if (!module_exists('jquery_update'))
+    if (!module_exists('jquery_update')){
       module_enable(array('jquery_update'));
-    if (module_exists('jqmulti'))
+	  variable_set ('jquery_update_jquery_version' ,MULTISITE_JQUERY_VERSION);
+	}
+    if (module_exists('jqmulti')){
       module_disable(array('jqmulti'));
+	}
   }
   else if($base_theme <= 'ec_resp_16') {
-    if(!module_exists('jqmulti'))
+    if(!module_exists('jqmulti')){
       module_enable(array('jqmulti'));
-    if(module_exists('jquery_update'))
-      module_disable(array('jquery_update'));
+	}
+    if(module_exists('jquery_update')){
+        module_disable(array('jquery_update'));
+	    variable_del ('jquery_update_jquery_version');
+	}
   }
 }
 
