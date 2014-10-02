@@ -1,0 +1,34 @@
+<?php
+/**
+ * @file
+ * Install the feature multisite_activity_og
+ */
+
+/**
+ * hook_install
+ */
+function multisite_activity_og_install() {
+  //Nothing yet
+}
+
+/**
+ * hook_uninstall
+ */
+function multisite_activity_og_uninstall() {
+  //Nothing yet
+}
+
+/*
+ * hook_enable
+ */
+function multisite_activity_og_enable() {
+  drupal_set_message(t('Multisite activity feature is now enabled on your site.'));
+}
+
+
+/*
+ * hook_disable
+ */
+function multisite_activity_og_disable() {
+  drupal_set_message(t('Multisite activity feature is now disabled on your site.'));
+}
