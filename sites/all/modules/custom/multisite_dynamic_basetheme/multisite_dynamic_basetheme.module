@@ -5,16 +5,18 @@
  * Multisite dynamic_basetheme definition module.
  */
 
-DEFINE ('MULTISITE_JQUERY_VERSION','1.7');
+define('MULTISITE_DYNAMIC_BASETHEME_JQUERY_VERSION', '1.7');
+define('MULTISITE_DYNAMIC_BASETHEME_JMUTLI_LOAD_ALWAYS', '1');
+
 
 /**
- * Implements hook_form_BASE_FORM_ID_alter
+ * Implements hook_form_BASE_FORM_ID_alter.
  *
- * BASE_FORM_ID : system_theme_settings
+ * BASE_FORM_ID : system_theme_settings.
  */
 function multisite_dynamic_basetheme_form_system_theme_settings_alter(&$form, $form_state) {
-  // get current theme object
-  if (isset ($form_state['build_info']['args'][0])){
+  // Get current theme object.
+  if (isset ($form_state['build_info']['args'][0])) {
     $theme_key = $form_state['build_info']['args'][0];
     $themes = list_themes();
     $theme_object = $themes[$theme_key];
@@ -45,57 +47,59 @@ function multisite_dynamic_basetheme_form_system_theme_settings_alter(&$form, $f
 }
 
 /**
- * Submit function of 'system_theme_settings' form
+ * Submit function of 'system_theme_settings' form.
  *
- * Rebuild the themes informations if ec_resp_base_theme_of_subtheme has changed
+ * Rebuild the themes informations if ec_resp_base_theme_of_subtheme has changed.
  */
 function multisite_dynamic_basetheme_form_system_theme_settings_submit($form, &$form_state) {
   $old_value = $form['base_theme_fieldset']['ec_resp_base_theme_of_subtheme']['#default_value'];
   $new_value = $form_state['values']['ec_resp_base_theme_of_subtheme'];
   if ($old_value !== $new_value) {
     _multisite_dynamic_basetheme_rebuild_system_theme();
-	
-	if ($new_value == ''){
-	  $theme_key = $form_state['build_info']['args'][0];
-	  $theme_info_file = drupal_parse_info_file(drupal_get_path('theme', $theme_key) . "/$theme_key.info");
+    
+    if ($new_value == '') {
+      $theme_key = $form_state['build_info']['args'][0];
+      $theme_info_file = drupal_parse_info_file(drupal_get_path('theme', $theme_key) . "/$theme_key.info");
       $new_value = $theme_info_file['base theme'];
     }
-	_multisite_dynamic_basetheme_jquery_modules_handle($new_value);
+    _multisite_dynamic_basetheme_jquery_modules_handle($new_value);
   }
 }
 
 /**
- * Handle jquery modules
+ * Handle jquery modules.
  *
  */
 function _multisite_dynamic_basetheme_jquery_modules_handle($base_theme) {
-  // enable-disable jquery modules
+  // Enable-disable jquery modules.
   if (empty($base_theme)) {
     return;
   }
-  if ($base_theme == 'ec_resp') {
-    // assume ec_resp > 1.6, i.e. require jquery_update
-    if (!module_exists('jquery_update')){
+  if ( $base_theme == 'ec_resp' ) {
+    // Assume ec_resp > 1.6, i.e. require jquery_update.
+    if (!module_exists('jquery_update')) {
       module_enable(array('jquery_update'));
-	  variable_set ('jquery_update_jquery_version' ,MULTISITE_JQUERY_VERSION);
-	}
-    if (module_exists('jqmulti')){
+      variable_set('jquery_update_jquery_version', MULTISITE_DYNAMIC_BASETHEME_JQUERY_VERSION);
+      variable_del('jqmulti_load_always');
+    }
+    if (module_exists('jqmulti')) {
       module_disable(array('jqmulti'));
-	}
+    }
   }
-  else if($base_theme <= 'ec_resp_16') {
-    if(!module_exists('jqmulti')){
+  elseif ($base_theme <= 'ec_resp_16') {
+    if (!module_exists('jqmulti')) {
       module_enable(array('jqmulti'));
-	}
-    if(module_exists('jquery_update')){
-        module_disable(array('jquery_update'));
-	    variable_del ('jquery_update_jquery_version');
-	}
+    }
+    if (module_exists('jquery_update')) {
+      module_disable(array('jquery_update'));
+      variable_set('jqmulti_load_always', MULTISITE_DYNAMIC_BASETHEME_JMUTLI_LOAD_ALWAYS);
+      variable_del('jquery_update_jquery_version');
+    }
   }
 }
 
 /**
- * Rebuild theme information
+ * Rebuild theme information.
  *
  */
 function _multisite_dynamic_basetheme_rebuild_system_theme() {
@@ -105,54 +109,56 @@ function _multisite_dynamic_basetheme_rebuild_system_theme() {
 }
 
 /**
- * Return true if the theme is a multisite base theme
+ * Return true if the theme is a multisite base theme.
  *
  * @param object $theme
  * @return boolean 
+ *
  */
-function _multisite_dynamic_basetheme_is_multisite_base_theme ($theme){
-  if (is_object ($theme)){
-     return ( isset ($theme->info['multisite']) && $theme->info['multisite'] == 1 );
+function _multisite_dynamic_basetheme_is_multisite_base_theme($theme) {
+  if (is_object ($theme)) {
+    return (isset ($theme->info['multisite']) && $theme->info['multisite'] == 1);
   }
   return FALSE;
 }
 
 /**
- * Return list of available base theme (theme with 'multisite = 1')
- 
+ * Return list of available base theme (theme with 'multisite = 1').
+ *
  * @return array available multisite base themes.
+ *
  */
 function multisite_dynamic_basetheme_get_base_theme_list($theme_key = FALSE) {
   $options = array();
   $themes = list_themes();
-   
-   // get all available themes
+
+  // Get all available themes.
   foreach ($themes as $theme_id => $theme_obj) {
     if (_multisite_dynamic_basetheme_is_multisite_base_theme($theme_obj)) {
       $options[$theme_id] = $theme_obj->info['name'] . " ($theme_id)";
     }
   }
 
-  // get the original base theme of $theme_key from info file
-  if ( $theme_key ) {
+  // Get the original base theme of $theme_key from info file.
+  if ($theme_key) {
     $theme_info_file = drupal_parse_info_file(drupal_get_path('theme', $theme_key) . "/$theme_key.info");
     $theme_base_key = $theme_info_file['base theme'];
     $theme_base_name = (isset($themes[$theme_base_key]) && _multisite_dynamic_basetheme_is_multisite_base_theme($themes[$theme_base_key])) ? $themes[$theme_base_key]->info['name'] : t("BASE THEME NOT FOUND");
-    $options_default[''] = t("Default: @base_theme (@base_theme_key)", array("@base_theme" => $theme_base_name, "@base_theme_key" => $theme_base_key ));
+    $options_default[''] = t("Default: @base_theme (@base_theme_key)", array("@base_theme" => $theme_base_name, "@base_theme_key" => $theme_base_key));
     $options = $options_default + $options;
-	unset($options[$theme_base_key]);
+    unset($options[$theme_base_key]);
   }
-  
+
   return $options;
 }
 
 /**
- * Implements hook_system_info_alter
+ * Implements hook_system_info_alter().
  *
- * Rewrite 'base theme' of all subtheme with the setting "ec_resp_base_theme_of_subtheme" (if defined)
+ * Rewrite 'base theme' of all subtheme with the setting "ec_resp_base_theme_of_subtheme" (if defined).
  */
 function multisite_dynamic_basetheme_system_info_alter(&$info, $file, $type) {
-  if ( $type == "theme" && isset($file->info['base theme']) ) {
+  if ($type == "theme" && isset($file->info['base theme'])) {
     $theme_key = $file->name;
     if ($new_base_theme = theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) {
       $themes = list_themes();
@@ -162,4 +168,3 @@ function multisite_dynamic_basetheme_system_info_alter(&$info, $file, $type) {
     }
   }
 }
-
