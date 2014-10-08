@@ -5,7 +5,7 @@ core = 7.x
 version = 7.x-1.0
 php = 5.2.4
 project = multisite_autosave
-dependencies[] = autosave(=7.x-2.2)
+dependencies[] = autosave
 features[features_api][] = api:1
 files[] = tests/multisite_autosave.test
 files[] = tests/multisite_autosave_extra.test
