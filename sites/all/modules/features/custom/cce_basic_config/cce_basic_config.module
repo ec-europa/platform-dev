@@ -99,10 +99,10 @@ function cce_basic_config_preprocess_field(&$variables) {
 
       foreach ($variables['element']['#items'] as $key => $value) {
         if (isset($value['playablefiles'][0]->uri)) {
-          $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://', '/', $value['playablefiles'][0]->uri);
+          $video_path = str_replace('http:','', $base_url) . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://', '/', $value['playablefiles'][0]->uri);
         }
         else {
-          $video_path = $base_url . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://', '/', $value['uri']);
+          $video_path = str_replace('http:','', $base_url) . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://', '/', $value['uri']);
         }
 
         $thumb = file_load($value['thumbnail']);
@@ -120,7 +120,7 @@ function cce_basic_config_preprocess_field(&$variables) {
           src="//ec.europa.eu/wel/players/jwflvplayer/player.swf"
           allowfullscreen="true"
           allowscriptaccess="always"
-          flashvars="file=' . $video_path . '&fullscreen=true&image=' . $video_preview . '&skin=http://ec.europa.eu/wel/players/jwflvplayer/skins/mainley.swf">
+          flashvars="file=' . $video_path . '&fullscreen=true&image=' . str_replace('http:','', $video_preview) . '&skin=//ec.europa.eu/wel/players/jwflvplayer/skins/mainley.swf">
           </embed>';
         $output .= '</div>';
 
