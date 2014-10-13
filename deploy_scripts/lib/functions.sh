@@ -103,6 +103,9 @@ function loop_on_target_subsites {
 			continue
 		fi
 		do_action "${drupal_path}" "${subsite}" 2>&1 | sed --unbuffered 's,^,  ,'
+		# FIXME Because of the output treatment, bash forks a new process to run
+		# do_action, so modifications to $subsite_state made by do_action are not
+		# taken into account.
 		end_subsite "${drupal_path}" "${subsite}"
 	done
 }
@@ -156,7 +159,7 @@ function run_drush {
 	local rc="${PIPESTATUS[0]}"
 	if [ "${rc}" -ne 0 ]; then
 		echo "Error: drush ${*} returned non-zero (${rc})"
-		subsite_status="nok"
+		subsite_state="nok"
 	fi
 }
 
