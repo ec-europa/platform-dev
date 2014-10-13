@@ -200,13 +200,32 @@ function ec_resp_preprocess_node(&$variables) {
  * Implements theme_preprocess_user_profile().
  */
 function ec_resp_preprocess_user_profile(&$variables) {
+  // Format profile page.
+  $identity = '';
+  if (isset($variables['field_firstname'][0]['safe_value'])) {
+    $identity .= $variables['field_firstname'][0]['safe_value'];
+  }
+  if (isset($variables['field_lastname'][0]['safe_value'])) {
+    if ($identity != '') {
+      $identity .= ' ';
+    }
+    $identity .= $variables['field_lastname'][0]['safe_value'];
+  }
+
+  $date = '';
+  if (isset($variables['user']->created)) {
+    $date .= t('Member since') . ' ' . date('d/m/Y', $variables['user']->created);
+  }
+
+  $variables['user_info']['name'] = $identity;
+  $variables['user_info']['date'] = $date;
+
   // Add contact form link on user profile page.
   if (module_exists('contact')) {
     $account = $variables['elements']['#account'];
     $menu_item = menu_get_item("user/$account->uid/contact");
     if (isset ($menu_item['access']) && $menu_item['access'] == TRUE) {
       $variables['contact_form'] = l(t('Contact this user'), 'user/' . $account->uid . '/contact', array('attributes' => array('type' => 'message')));
-
     }
   }
 }
