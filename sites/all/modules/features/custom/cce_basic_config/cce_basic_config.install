@@ -1318,4 +1318,6 @@ function cce_basic_config_update_7199() {
   $tags = variable_get('security_allowed_tags');
   $tags .= "\nvideo";
   variable_set('security_allowed_tags', $tags);
+  
+  variable_set('print_pdf_pdf_tool', 'print_pdf_mpdf|sites/all/libraries/mpdf/mpdf.php');
 }
