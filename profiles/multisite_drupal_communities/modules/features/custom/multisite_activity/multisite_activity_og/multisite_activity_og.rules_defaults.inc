@@ -9,6 +9,40 @@
  */
 function multisite_activity_og_default_rules_configuration() {
   $items = array();
+  $items['multisite_activity_og_log_user_subscribe'] = entity_import('rules_config', '{ "multisite_activity_og_log_user_subscribe" : {
+      "LABEL" : "Log user subscribe",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "REQUIRES" : [ "rules", "og" ],
+      "ON" : { "og_user_insert" : [] },
+      "IF" : [
+        { "entity_is_of_type" : { "entity" : [ "og-membership:group" ], "type" : "node" } },
+        { "data_is" : { "data" : [ "og-membership:state" ], "value" : "1" } }
+      ],
+      "DO" : [
+        { "variable_add" : {
+            "USING" : { "type" : "node", "value" : [ "og-membership:group" ] },
+            "PROVIDE" : { "variable_added" : { "variable_added" : "Added variable" } }
+          }
+        },
+        { "entity_create" : {
+            "USING" : {
+              "type" : "message",
+              "param_type" : "user_subscribe_to_group",
+              "param_user" : [ "account" ]
+            },
+            "PROVIDE" : { "entity_created" : { "entity_created" : "Created entity" } }
+          }
+        },
+        { "data_set" : {
+            "data" : [ "entity-created:field-node-ref" ],
+            "value" : [ "variable-added" ]
+          }
+        },
+        { "data_set" : { "data" : [ "entity-created:field-published" ], "value" : 1 } }
+      ]
+    }
+  }');
   $items['rules_log_comments'] = entity_import('rules_config', '{ "rules_log_comments" : {
       "LABEL" : "Log comments",
       "PLUGIN" : "reaction rule",
