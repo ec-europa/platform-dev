@@ -13,6 +13,10 @@ function multisite_activity_standard_views_default_views_alter(&$views) {
   if (array_key_exists('multisite_activity', $views)) {
     $view = $views['multisite_activity'];
 
+    /* Display: Defaults */
+    $handler = $view->display['default']->handler;
+    $handler->display->display_options['title'] = 'Recent activity';
+
     /* Display: News list page */
     $handler = $view->display['page_1']->handler;
     $handler->display->display_options['path'] = 'activity';

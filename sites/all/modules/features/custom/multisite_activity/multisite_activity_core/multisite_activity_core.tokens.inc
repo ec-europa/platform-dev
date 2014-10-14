@@ -27,7 +27,7 @@ function multisite_activity_core_token_info() {
 function multisite_activity_core_tokens($type, $tokens, array $data = array(), array $options = array()) {
   $replacements = array();
 
-  // Only handeling comment and nodes.
+  // Only handling comment and nodes.
   if (!in_array($type, array('comment', 'node'))) {
     return;
   }
@@ -59,7 +59,7 @@ function multisite_activity_core_tokens($type, $tokens, array $data = array(), a
 function multisite_activity_core_trim_body($entity_type, $entity) {
   $wrapper = entity_metadata_wrapper($entity_type, $entity);
 
-  // Select the right field acoring to the entity type.
+  // Select the right field acording to the entity type.
   $field_name = $entity_type == 'node' ? 'body' : 'comment_body';
   $field_value = $wrapper->{$field_name}->value();
 

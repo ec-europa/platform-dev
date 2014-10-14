@@ -5,4 +5,13 @@ package = Multisite Standard Features
 version = 7.x-1.0
 project = multisite_activity_standard
 dependencies[] = multisite_activity_core
-
+features[message_type][] = multisite_content_delete
+features[message_type][] = multisite_content_update
+features[message_type][] = multisite_create_comment
+features[message_type][] = multisite_create_node
+features[rules_config][] = rules_log_comments
+features[rules_config][] = rules_log_deleted_content
+features[rules_config][] = rules_log_new_content
+features[rules_config][] = rules_log_new_revision
+features[rules_config][] = rules_log_nth_published_revision
+features[rules_config][] = rules_log_updated_content

@@ -16,7 +16,7 @@ function multisite_activity_og_views_default_views_alter(&$views) {
 
     /* Display: Defaults */
     $handler = $view->display['default']->handler;
-    $handler->display->display_options['title'] = 'Group activity';
+    $handler->display->display_options['title'] = 'Group recent activity';
 
     /* Relationship: OG membership: Message from OG membership */
     $handler->display->display_options['relationships']['og_membership_related_message']['id'] = 'og_membership_related_message';
