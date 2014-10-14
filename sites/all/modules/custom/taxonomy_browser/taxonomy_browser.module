@@ -209,7 +209,13 @@ function _taxonomy_browser_create_block_content($vid, $vocabulary) {
   drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/taxonomy_browser.css');
   drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/ec-default/style.css');
   drupal_add_js('misc/jquery.cookie.js');
-  drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser.js');
+  
+  if (module_exists('jquery_update')){
+    drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser.js');
+  }else{
+    drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser_jq171.js');
+  }
+  
   drupal_add_library('system', 'drupal.ajax');
 
   $view = views_get_page_view();
