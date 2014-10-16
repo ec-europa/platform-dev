@@ -17,6 +17,31 @@
   }
 }
 
+/* ---------------- Buttons  ----------------- */
+.fc-state-default {
+  background-image: none;
+}
+
+.fc-state-active {
+  background-color: @btn-info-bg !important;
+  color: @btn-info-color;
+  border-color: @btn-info-border !important;
+  .box-shadow(none);
+  text-shadow: none;
+  &:hover,
+  &:focus {
+    background-color: darken(@btn-info-bg, 10%) !important;
+    border-color: darken(@btn-info-border, 12%) !important;
+  }
+}
+
+.fc-text-arrow {
+  font-family: @font-family-base;
+  font-size: @font-size-base;
+  margin: 0;
+}
+
+/* ---------------- Calendar  ----------------- */
 .calendar-calendar {
   .month-view .full {
     td.multi-day div.monthview {
