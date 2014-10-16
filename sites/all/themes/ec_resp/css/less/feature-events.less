@@ -107,27 +107,38 @@
 
 /* ---------------- Block calendar  ----------------- */
 .block .view-display-id-calendar_block {
+  table, th, td {
+    border-color: #e5e5e5;
+  }
   th {
     font-weight: normal;
+    background: #e2f1ff;
   }
-  .btn {
-    padding: 2px;
+  .fc-button.fc-button-prev, 
+  .fc-button.fc-button-next {
+    margin-top: 0;
+    padding: 0px 3px;
+    height: 24px;
+    width: 24px;
+    position: inherit;
   }
   .fc-header-title h2 {
-    font-size: 1em;
+    font-size: 12px;
     font-weight: bold;
     line-height: 22px;
     margin-bottom: 0;
+  }
+  .fc-content {
+    .box-shadow(none);
   }
   .fc-view-month span.fc-event-time,
   .fc-view-month span.fc-event-title {
     display: none;
   }
+
   .fc-view-month .fc-day-number {
-    cursor: pointer;
-    float: none;
-    text-align: center;
-    background-color: #fafafa;
+    cursor: default;
+    font-size: 12px;
   }
   .fc-view-month .fc-event {
     cursor: default;
@@ -141,8 +152,9 @@
   }
   .fc-button-month {
     margin-left: 5px;
+    position: inherit;
   }
-  .fc-button-month.btn-primary {
+  .fc-button-month.ui-state-active {
     display: none;
   }
 }
