@@ -47,7 +47,7 @@ projects[captcha][subdir] = "contributed"
 projects[captcha][version] = "1.0"
 
 projects[chr][subdir] = "contributed"
-projects[chr][version] = "1.6"
+projects[chr][version] = "1.5"
 
 projects[ckeditor_link][subdir] = "contributed"
 projects[ckeditor_link][version] = "2.3"
