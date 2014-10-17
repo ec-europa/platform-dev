@@ -1,7 +1,7 @@
 --- sites/all/modules/contributed/chr/chr.module	2014-10-17 14:29:42.338714671 +0200
 +++ sites/all/modules/contributed/chr/chr.module	2014-10-17 14:33:54.994184777 +0200
-@@ -444,6 +444,13 @@
-       curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-HTTP-Method-Override: PUT'));
+@@ -448,6 +448,13 @@
+       curl_setopt($ch, CURLOPT_HTTPGET, TRUE);
        $valid_method = TRUE;
      break;
 +    // FPFIS fix jira REST remoting
@@ -10,7 +10,7 @@
 +      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 +      curl_setopt($ch, CURLOPT_POSTFIELDS, $options['data']);
 +      $valid_method = TRUE;
-+      break;
-     case 'GET':
-       curl_setopt($ch, CURLOPT_HTTPGET, TRUE);
++    break;
+     case 'HEAD':
+       curl_setopt($ch, CURLOPT_NOBODY, TRUE);
        $valid_method = TRUE;
