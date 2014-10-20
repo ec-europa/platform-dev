@@ -256,8 +256,8 @@ projects[print][version] = "2.0"
 projects[quicktabs][subdir] = "contributed"
 projects[quicktabs][version] = "3.6"
 
-projects[rate][subdir] = "contributed"
-projects[rate][version] = "1.7"
+;projects[rate][subdir] = "contributed"
+;projects[rate][version] = "1.7"
 
 projects[realname][subdir] = "contributed"
 projects[realname][version] = "1.1"
