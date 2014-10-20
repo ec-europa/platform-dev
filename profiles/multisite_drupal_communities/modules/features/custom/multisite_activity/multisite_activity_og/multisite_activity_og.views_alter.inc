@@ -48,6 +48,9 @@ function multisite_activity_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
 
+    /* Display: Block */
+    $handler = $view->display['block_1']->handler;
+    $handler->display->display_options['pager']['options']['items_per_page'] = '20';
 
   }
 }
