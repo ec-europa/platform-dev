@@ -1,0 +1,64 @@
+--- sites/all/modules/contributed/og-delete/og_delete.module
++++ sites/all/modules/contributed/og-delete/og_delete.module
+@@ -19,36 +19,54 @@
+     case 'node_delete_confirm':
+       if (og_is_group_type('node', $form['#node']->type)) {
+         $node = $form['#node'];
+-        $options[OG_DELETE_ORPHANS] = t("Delete all the content associated with @type.", array('@type' => $node->type));
++        $options['-none'] = t("*Select an action*");
++        $options[OG_DELETE_ORPHANS] = t("Delete the @type and all content associated.", array('@type' => $node->type));
+         $options[OG_DELETE_NOTHING] = t('Delete the @type and make the content public', array('@type' => $node->type));
++        
+         //$options[OG_DELETE_ORPHANS] = t("Delete all group posts which don't also belong to another group.");
+         $node_options = og_delete_all_group_options($form['#node']->type, $form['#node']->nid);
+         if (user_access('administer nodes') && count($node_options)) {
+-          $options[OG_DELETE_MOVE_NODES_MEMBERSHIPS] = t('Move all group posts and memberships to the @type listed below.', array('@type' => $node->type));
++          $options[OG_DELETE_MOVE_NODES_MEMBERSHIPS] = t('Delete the @type and move all the content and membership to another @type.', array('@type' => $node->type));
+           $form['target'] = array(
+             '#type' => 'select',
+             '#title' => t('Target group'),
+-            '#default_value' => 0,
++            '#default_value' => '-none',
+             '#options' => $node_options,
+             '#weight' => 0,
+-            '#description' => t('If you chose move all group posts above, specify a destination @type.', array('@type' => $node->type)),
++            '#description' => t('Specify a destination @type.', array('@type' => $node->type)),
++            '#states' => array(
++              'visible' => array(':input[name="verb"]' => array('value' => OG_DELETE_MOVE_NODES_MEMBERSHIPS)),
++            ),
+           );
+         }
+         $form['verb'] = array(
+-          '#type' => 'radios',
+-          '#title' => t('Group posts'),
++          '#type' => 'select',
++          '#title' => t('What do you want to do?'),
+           '#options' => $options,
+           '#default_value' => OG_DELETE_ORPHANS,
+           '#weight' => -1,
+-          '#description' => t('In addition to deleting this group, you choose how to disposition the posts and memberships within it.')
++          '#description' => t('Make sure to carefully choose what you want to do with the content.')
+         );
+         array_unshift($form['#submit'], "og_delete_content_form_submit");
++        $form['#validate'][] = "og_delete_content_form_validate";
+       }
+       break;
+   }
+ }
+ 
+ /**
++ * Custom validate function for delete OG form alter.
++ * 
++ * @param array $form Contains the whole form.
++ * @param array $form_state Contains the states of current form.
++ */
++function og_delete_content_form_validate($form, &$form_state) {
++  if ($form_state['values']['verb'] == '-none') {
++    form_set_error('verb', t('You should choose one from the select!'));
++  }
++}
++
++/**
+  * Implements to delete OG content if it is not associated with another group.
+  * @param type $form
+  * @param type $form_state
