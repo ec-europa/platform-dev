@@ -172,20 +172,33 @@ function ec_resp_preprocess_page(&$variables) {
  * Implements theme_preprocess_node().
  */
 function ec_resp_preprocess_node(&$variables) {
-  $prefixe = '';
-  $suffixe = '';
-
+  $prefix = '';
+  $suffix = '';
+  
   // Check if this content is private.
   if ((isset($variables['group_content_access'])) && ($variables['group_content_access']['und'][0]['value'] == 2)) {
-    $prefixe .= '<div class="node-private label label-default clearfix">';
-    $prefixe .= '<span class="glyphicon glyphicon-lock"></span>';
-    $prefixe .= t('This content is private');
-    $prefixe .= '</div>';
+    $prefix .= '<div class="node-private label label-default clearfix">';
+    $prefix .= '<span class="glyphicon glyphicon-lock"></span>';
+    $prefix .= t('This content is private');
+    $prefix .= '</div>';
+  }
+  
+  if ($variables['display_submitted']) {
+    $suffix .= '<div class="row node-info">';
+    $suffix .= '<div class="node-info-submitted col-lg-6 col-md-6 col-sm-6 col-xs-12 col-lg-offset-6 col-md-offset-6 col-sm-offset-6">';
+    $suffix .= '<div class="well well-sm node-submitted clearfix"><small>';
+    //author picture
+    $suffix .= $variables['user_picture'];
+    //publication date
+    $suffix .= $variables['submitted'];
+    $suffix .= '</small></div>';
+    $suffix .= '</div>';
+    $suffix .= '</div>';
   }
 
   // Add custom variables to node.tpl.
-  $variables['prefixe'] = $prefixe;
-  $variables['suffixe'] = $suffixe;
+  $variables['prefix'] = $prefix;
+  $variables['suffix'] = $suffix;
 
   // Alter date format.
   $custom_date = format_date($variables['created'], 'custom', 'l, d/m/Y');
@@ -1115,8 +1128,8 @@ function ec_resp_link($variables) {
         break;
     }
   }
-
-  $output = $action_bar_before . $btn_group_before . '<a href="' .
+  $output = $action_bar_before . $btn_group_before . 
+    '<a href="' .
     check_plain(url($variables['path'], $variables['options'])) . '"' .
     drupal_attributes($variables['options']['attributes']) . '>' .
     $decoration . ($variables['options']['html'] ?
@@ -1275,4 +1288,90 @@ function ec_resp_preprocess_admin_menu_icon(&$variables) {
   $theme_path = drupal_get_path('theme', 'ec_resp');
   $logo_url = file_create_url($theme_path . '/images/favicon.png');
   $variables['src'] = preg_replace('@^https?:@', 'http:', $logo_url);
+}
+
+/**
+ * Implements theme_preprocess_block().
+ */
+function ec_resp_preprocess_block(&$variables) {
+  global $user;
+  if (!empty($user) && 0 != $user->uid) {
+    $full_user = user_load($user->uid);
+    $name = (isset($full_user->field_firstname['und'][0]['value']) && isset($full_user->field_lastname['und'][0]['value']) ? $full_user->field_firstname['und'][0]['value'] . ' ' . $full_user->field_lastname['und'][0]['value'] : $user->name);
+    $variables['user_name'] = "<div class='username'>" . t('Welcome,') . ' <strong>' . $name . '</strong></div>';
+  }
+  
+  $block_no_panel = array(
+    'search' => 'form',
+    'print' => 'print-links',
+    'workbench' => 'block',
+    'social_bookmark' => 'social-bookmark',
+    'views' => 'view_ec_content_slider-block',
+    'om_maximenu' => array('om-maximenu-1','om-maximenu-2'),
+    'menu' => 'menu-service-tools',
+    'cce_basic_config' => 'footer_ipg',
+  );
+
+  // list of all blocks that don't need their title to be displayed
+  $block_no_title = array(
+    'fat_footer' => 'fat-footer',
+    'om_maximenu' => array('om-maximenu-1','om-maximenu-2'),
+    'menu' => 'menu-service-tools',
+    'cce_basic_config' => 'footer_ipg',
+  );
+
+  $block_no_body_class = array(
+    
+  );
+  
+  $panel = true;
+  foreach ($block_no_panel as $key => $value) {
+    if ($variables['block']->module == $key) {
+      if (is_array($value)) {
+        foreach ($value as $delta) {
+          if ($variables['block']->delta == $delta) {
+            $panel = false;
+            break;
+          }
+        }
+      }
+      else {
+        if ($variables['block']->delta == $value) {
+          $panel = false;
+          break;
+        }
+      }
+    }
+  }
+
+  $title = true;
+  foreach ($block_no_title as $key => $value) {
+    if ($variables['block']->module == $key) {
+      if (is_array($value)) {
+        foreach ($value as $delta) {
+          if ($variables['block']->delta == $delta) {
+            $title = false;
+            break;
+          }
+        }
+      }
+      else {
+        if ($variables['block']->delta == $value) {
+          $title = false;
+          break;
+        }
+      }
+    }
+  }   
+
+  $body_class = true;
+  foreach ($block_no_body_class as $key => $value) {
+    if ($variables['block']->module == $key && $variables['block']->delta == $value) {
+      $body_class = false;
+    }
+  }
+  
+  $variables['panel'] = $panel;
+  $variables['title'] = $title;
+  $variables['body_class'] = $body_class;
 }

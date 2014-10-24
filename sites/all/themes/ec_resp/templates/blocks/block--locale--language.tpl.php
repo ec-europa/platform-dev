@@ -51,7 +51,7 @@ global $language;
 $languages = language_list('enabled');
 $li = "";
 
-$li = '<li class="selected" lang="'.$language->language.'" title="'.$language->native.'"><span class="off-screen">Current language:</span> '.$language->language.'</li>';
+$li = '<li class="selected" lang="'.$language->language.'" title="'.$language->native.'"><span class="off-screen">' . t("Current language") . ':</span> '.$language->language.'</li>';
 
 
 //get path of translated content
@@ -87,7 +87,7 @@ foreach($languages[1] as $lang) {
   }
     
   //add enabled languages
-  $li .= '<li><a href="'.base_path().filter_xss($path).'" hreflang="'.$lang->language.'" lang="'.$lang->language.'" title="'.$lang->native.'">'.$lang->language.'</a></li>';
+  $li .= '<li>' . l($lang->language, filter_xss($path), array("attributes" => array("hreflang" => $lang->language, "lang" => $lang->language, "title" => $lang->native))) . '</li>';
 }
   ?>
   <ul class="reset-list language-selector" id="language-selector">

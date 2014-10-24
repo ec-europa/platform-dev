@@ -97,24 +97,9 @@
       hide($content['comments']);
       hide($content['links']);
 
-      // Theme author block.
-      if ($display_submitted) {
-        $suffixe .= '<div class="row node-info">';
-          $suffixe .= '<div class="node-info-submitted col-lg-6 col-md-6 col-sm-6 col-xs-12 col-lg-offset-6 col-md-offset-6 col-sm-offset-6">';
-            $suffixe .= '<div class="well well-sm node-submitted clearfix"><small>';
-              //author picture
-              $suffixe .= $user_picture;
-
-              //publication date
-              $suffixe .= $submitted;
-            $suffixe .= '</small></div>';
-          $suffixe .= '</div>';
-        $suffixe .= '</div>';
-      }
-
-      print $prefixe;
+      print $prefix;
       print render($content);
-      print $suffixe;
+      print $suffix;
     ?>
 
   </div>

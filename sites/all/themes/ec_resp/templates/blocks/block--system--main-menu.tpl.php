@@ -53,7 +53,7 @@ global $base_url;
       
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <?php print_r($content) ?>
+        <?php print $content ?>
       </div>
 
     </div><!-- /.container -->
