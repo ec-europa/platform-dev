@@ -78,6 +78,7 @@ function ec_resp_preprocess(&$variables) {
  * Implements theme_preprocess_page().
  */
 function ec_resp_preprocess_page(&$variables) {
+  $title = drupal_get_title();
 
   // Format regions.
   $regions = array();
@@ -139,8 +140,8 @@ function ec_resp_preprocess_page(&$variables) {
     'xs' => ($has_responsive_sidebar ? 2 : 0),
   );
   $cols['tools'] = array(
-    'lg' => 4,
-    'md' => 4,
+    'lg' => (empty($title) ? 12 : 4),
+    'md' => (empty($title) ? 12 : 4),
     'sm' => 12,
     'xs' => 12,
   );
