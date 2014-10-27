@@ -1,0 +1,74 @@
+--- includes/form.inc
++++ includes/form.inc
+@@ -1163,7 +1163,7 @@ function drupal_validate_form($form_id, &$form, &$form_state) {
+ 
+   // If the session token was set by drupal_prepare_form(), ensure that it
+   // matches the current user's session.
+-  if (isset($form['#token'])) {
++  if (!empty($form['#token'])) {
+     if (!drupal_valid_token($form_state['values']['form_token'], $form['#token'])) {
+       $path = current_path();
+       $query = drupal_get_query_parameters();
+
+--- modules/simpletest/tests/form.test
++++ modules/simpletest/tests/form.test
+@@ -633,6 +633,14 @@ class FormValidationTestCase extends DrupalWebTestCase {
+   }
+ 
+   /**
++   * Tests that a form with a disabled CSRF token can be validated.
++   */
++  function testDisabledToken() {
++    $this->drupalPost('form-test/validate-no-token', array(), 'Save');
++    $this->assertText(t('The form has been submitted successfully.'));
++  }
++
++  /**
+    * Tests partial form validation through #limit_validation_errors.
+    */
+   function testValidateLimitErrors() {
+
+--- modules/simpletest/tests/form_test.module
++++ modules/simpletest/tests/form_test.module
+@@ -37,6 +37,13 @@ function form_test_menu() {
+     'access callback' => TRUE,
+     'type' => MENU_CALLBACK,
+   );
++  $items['form-test/validate-no-token'] = array(
++    'title' => 'Form validation without a CSRF token',
++    'page callback' => 'drupal_get_form',
++    'page arguments' => array('form_test_validate_no_token'),
++    'access callback' => TRUE,
++    'type' => MENU_CALLBACK,
++  );
+   $items['form-test/limit-validation-errors'] = array(
+     'title' => 'Form validation with some error suppression',
+     'page callback' => 'drupal_get_form',
+@@ -455,6 +462,27 @@ function form_test_validate_required_form_no_title_submit($form, &$form_state) {
+ }
+ 
+ /**
++ * Form builder for testing submission of a form without a CSRF token.
++ */
++function form_test_validate_no_token($form, &$form_state) {
++  $form['submit'] = array(
++    '#type' => 'submit',
++    '#value' => 'Save',
++  );
++
++  $form['#token'] = FALSE;
++
++  return $form;
++}
++
++/**
++ * Form submission handler for form_test_validate_no_token().
++ */
++function form_test_validate_no_token_submit($form, &$form_state) {
++  drupal_set_message('The form has been submitted successfully.');
++}
++
++/**
+  * Builds a simple form with a button triggering partial validation.
+  */
+ function form_test_limit_validation_errors_form($form, &$form_state) {
