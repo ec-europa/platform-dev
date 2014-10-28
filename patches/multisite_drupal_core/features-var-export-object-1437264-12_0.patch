@@ -1,0 +1,27 @@
+//https://www.drupal.org/node/1437264
+//---------
+--- sites/all/modules/contributed/features/features.export.inc
++++ sites/all/modules/contributed/features/features.export.inc
+@@ -558,7 +558,21 @@ function features_var_export($var, $prefix = '', $init = TRUE, $count = 0) {
+   }
+
+   if (is_object($var)) {
+-    $output = method_exists($var, 'export') ? $var->export() : features_var_export((array) $var, '', FALSE);
++    if (method_exists($var, 'export')) {
++      $output = $var->export();
++    }
++    elseif (get_class($var) === 'stdClass') {
++      $output = '(object) ' . features_var_export((array) $var, '', FALSE);
++    }
++    elseif (!method_exists($var, '__set_state')) {
++      // This is a custom object of unknown class that does not have a
++      // __set_state() method. By using serialize, the class name is preserved
++      // and the object is exported successfully (though unideally).
++      $output = 'unserialize(' . var_export(serialize($var), TRUE) . ')';
++    }
++    else {
++      $output = var_export($var, TRUE);
++    }
+   }
+   else if (is_array($var)) {
+     if (empty($var)) {
