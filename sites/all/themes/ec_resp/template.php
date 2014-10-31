@@ -1301,10 +1301,11 @@ function ec_resp_preprocess_block(&$variables) {
     $name = (isset($full_user->field_firstname['und'][0]['value']) && isset($full_user->field_lastname['und'][0]['value']) ? $full_user->field_firstname['und'][0]['value'] . ' ' . $full_user->field_lastname['und'][0]['value'] : $user->name);
     $variables['user_name'] = "<div class='username'>" . t('Welcome,') . ' <strong>' . $name . '</strong></div>';
   }
-  
+
   $block_no_panel = array(
     'search' => 'form',
     'print' => 'print-links',
+    'print_ui' => 'print-links',
     'workbench' => 'block',
     'social_bookmark' => 'social-bookmark',
     'views' => 'view_ec_content_slider-block',
