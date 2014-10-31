@@ -1,5 +1,4 @@
 <?php
-// $Id: maintenance-page.tpl.php,v 1.4 2010/11/30 17:55:13 dries Exp $
 
 /**
  * @file
@@ -58,7 +57,7 @@
             <?php print filter_xss_admin($messages); ?>
           </div></div> <!-- /.section, /#messages -->
         <?php endif; ?>
-		<div style="font-size: small; float:right;"><br />Allowed users (ie: Administrators) can log in <a href="<?php print base_path(). $language->language.'/'; ?>user/login"> here </a>.
+		<div style="font-size: small; float:right;"><br />Allowed users (ie: Administrators) can log in <a href="<?php print base_path() . $language->language . '/'; ?>user/login"> here </a>.
       </div></div></div> <!-- /.section, /#content -->
     </div></div> <!-- /#main, /#main-wrapper -->
 

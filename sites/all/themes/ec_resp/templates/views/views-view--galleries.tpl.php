@@ -1,6 +1,7 @@
 <?php
+
 /**
- * @file views-view.tpl.php
+ * @file
  * Main view template
  *
  * Variables available:
@@ -53,12 +54,12 @@
   <?php if ($rows): ?>
     <div class="view-content">
       <?php
-          //Check if the galleries are actually empty
-          $rows = str_replace('[Empty_gallery][Empty_gallery]', $empty_img, $rows );
-          //Check if there is only one picture
-          $rows = str_replace('[Empty_gallery]', '', $rows );
-          //Replace nid by number of items in gallery
-          $rows = preg_replace_callback('#<div id="nb_items">([0-9]+)</div>#', "ec_resp_media_gallery_count" , $rows);
+          // Check if the galleries are actually empty.
+          $rows = str_replace('[Empty_gallery][Empty_gallery]', $empty_img, $rows);
+          // Check if there is only one picture.
+          $rows = str_replace('[Empty_gallery]', '', $rows);
+          // Replace nid by number of items in gallery.
+          $rows = preg_replace_callback('#<div id="nb_items">([0-9]+)</div>#', "ec_resp_media_gallery_count", $rows);
 
           print $rows;
       ?>

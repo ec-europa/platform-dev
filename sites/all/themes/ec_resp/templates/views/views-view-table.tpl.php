@@ -1,6 +1,7 @@
 <?php
+
 /**
- * @file views-view-table.tpl.php
+ * @file
  * Template to display a view as a table.
  *
  * - $title : The title of this group of rows.  May be empty.
@@ -25,7 +26,7 @@
     <thead>
       <tr>
         <?php foreach ($header as $field => $label): ?>
-          <th <?php if ($header_classes[$field]) : print 'class="'. $header_classes[$field] . '" '; endif; ?>>
+          <th <?php if ($header_classes[$field]) : print 'class="' . $header_classes[$field] . '" '; endif; ?>>
             <?php print $label; ?>
           </th>
         <?php endforeach; ?>
@@ -35,7 +36,7 @@
       <?php foreach ($rows as $count => $row): ?>
         <tr class="<?php print implode(' ', $row_classes[$count]); ?>">
           <?php foreach ($row as $field => $content): ?>
-            <td <?php if ($field_classes[$field][$count]) : print 'class="'. $field_classes[$field][$count] . '" '; endif; ?><?php print drupal_attributes($field_attributes[$field][$count]); ?>>
+            <td <?php if ($field_classes[$field][$count]) : print 'class="' . $field_classes[$field][$count] . '" '; endif; ?><?php print drupal_attributes($field_attributes[$field][$count]); ?>>
               <?php print $content; ?>
             </td>
           <?php endforeach; ?>

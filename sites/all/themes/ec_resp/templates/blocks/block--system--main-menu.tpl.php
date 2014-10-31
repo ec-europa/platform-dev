@@ -59,4 +59,3 @@ global $base_url;
     </div><!-- /.container -->
   </div><!-- /.navbar -->
 </div>
-        

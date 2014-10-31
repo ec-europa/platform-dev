@@ -45,52 +45,59 @@
  */
 ?>
 
-<!-- LANGUAGE DROP-DOWN SECTION -->
 <?php 
 global $language;
 $languages = language_list('enabled');
 $li = "";
 
-$li = '<li class="selected" lang="'.$language->language.'" title="'.$language->native.'"><span class="off-screen">' . t("Current language") . ':</span> '.$language->language.'</li>';
+$li = '<li class="selected" lang="' . $language->language . '" title="' . $language->native . '"><span class="off-screen">' . t("Current language") . ':</span> ' . $language->language . '</li>';
 
-
-//get path of translated content
+// Get path of translated content.
 $translations = translation_path_get_translations($_GET['q']);
 $language_default = language_default();
 
-foreach($languages[1] as $lang) {
-  if(isset($translations[$lang->prefix])) {
+foreach ($languages[1] as $lang):
+  if (isset($translations[$lang->prefix])):
     $path = $translations[$lang->prefix];
-  }
-  else {
+  else:
     $path = $_GET['q'];
-  }
-  
-  // get the related url alias
-  // check if the multisite language negotiation with suffix url is enabled
+  endif;
+
+  // Get the related url alias
+  // check if the multisite language negotiation with suffix url is enabled.
   $language_negociation = variable_get('language_negotiation_language');
-  if(isset($language_negociation['locale-url-suffix'])) {
-    $delimiter = variable_get('language_suffix_delimiter','_');
+  if (isset($language_negociation['locale-url-suffix'])):
+    $delimiter = variable_get('language_suffix_delimiter', '_');
     $alias = drupal_get_path_alias($path, $lang->prefix);
-    
-    if($alias == variable_get('site_frontpage','node')) // homepage special case
-      $path = ($lang->prefix == 'en')?'':'index'.$delimiter.$lang->prefix;
-    else  {
-      if($alias != $path)
-        $path = $alias.$delimiter.$lang->prefix;
-      else
-        $path = drupal_get_path_alias(isset($translations[$language_default->language])?$translations[$language_default->language]:$path, $language_default->language).$delimiter.$language_default->language;
-    }
-  }
-  else {
-    $path = $lang->prefix."/".drupal_get_path_alias($path, $lang->prefix);
-  }
-    
-  //add enabled languages
-  $li .= '<li>' . l($lang->language, filter_xss($path), array("attributes" => array("hreflang" => $lang->language, "lang" => $lang->language, "title" => $lang->native))) . '</li>';
-}
-  ?>
+
+    if ($alias == variable_get('site_frontpage', 'node')):
+      $path = ($lang->prefix == 'en') ? '' : 'index' . $delimiter . $lang->prefix;
+    else:
+      if ($alias != $path):
+        $path = $alias . $delimiter . $lang->prefix;
+      else:
+        $path = drupal_get_path_alias(isset($translations[$language_default->language]) ? $translations[$language_default->language] : $path, $language_default->language) . $delimiter . $language_default->language;
+      endif;
+    endif;
+  else:
+    $path = $lang->prefix . "/" . drupal_get_path_alias($path, $lang->prefix);
+  endif;
+
+  // Add enabled languages.
+  $li .= '<li>' .
+    l($lang->language,
+      filter_xss($path),
+      array(
+        "attributes" => array(
+          "hreflang" => $lang->language,
+          "lang" => $lang->language,
+          "title" => $lang->native,
+        ),
+      )
+    ) . '</li>';
+endforeach;
+?>
+
   <ul class="reset-list language-selector" id="language-selector">
   <?php print $li; ?>
   </ul>
-<!-- LANGUAGE DROP-DOWN SECTION -->

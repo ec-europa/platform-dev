@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file field.tpl.php
+ * @file
  * Default template implementation to display the value of a field.
  *
  * This file is not used and is here as a starting point for customization only.
@@ -57,17 +57,19 @@ HTML comment.
   <div class="field-items"<?php print $content_attributes; ?>>
     <?php foreach ($items as $delta => $item): ?>
     	
-      <div class="field-item <?php print $delta % 2 ? 'odd' : 'even'; ?>"<?php print $item_attributes[$delta]; ?>><?php 
-      //unset($item['#markup']);
-      print render($item); 
-      ?></div>
+      <div class="field-item <?php print $delta % 2 ? 'odd' : 'even'; ?>"<?php print $item_attributes[$delta]; ?>>
+      <?php 
+        print render($item);
+      ?>
+      </div>
 
       <?php 
-      //$image_caption = isset($item['#item']['field_caption']['und'][0]['value']) ? $item['#item']['field_caption']['und'][0]['value'] : (isset($item['#markup']) ? $item['#markup'] : '');
-      $image_caption = isset($item['#item']['field_caption']['und'][0]['value']) ? $item['#item']['field_caption']['und'][0]['value'] : '';?>
-        <?php if(isset($image_caption)) :?>
+        $image_caption = isset($item['#item']['field_caption']['und'][0]['value']) ? $item['#item']['field_caption']['und'][0]['value'] : '';
+
+        if(isset($image_caption)) :
+      ?>
       <div class="field-image-caption"><?php  print $image_caption; ?></div>
-        <?php endif;?>
+      <?php endif;?>
     <?php endforeach; ?>
   </div>
 </div>

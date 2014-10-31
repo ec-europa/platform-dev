@@ -1,6 +1,7 @@
 <?php
+
 /**
- * @file views-view-grid.tpl.php
+ * @file
  * Default simple view template to display a rows in a grid.
  *
  * - $rows contains a nested array of rows. Each row contains an array of
@@ -8,8 +9,10 @@
  *
  * @ingroup views_templates
  */
- 
-if ($nb_col > 12) $nb_col = 12;
+
+if ($nb_col > 12):
+  $nb_col = 12;
+endif;
 ?>
 
 <div class="<?php print $class; ?>">
@@ -21,9 +24,9 @@ if ($nb_col > 12) $nb_col = 12;
 <?php 
 $index = 0;
 
-//get all views elements
-foreach ($rows as $row_number => $columns): 
-  foreach ($columns as $column_number => $item): 
+// Get all views elements.
+foreach ($rows as $row_number => $columns):
+  foreach ($columns as $column_number => $item):
     if (!empty($item)):
 ?>
     <div class="col-lg-<?php print $grid_col[$nb_col]['lg'][$index % count($grid_col[$nb_col]['lg'])]; ?> col-md-<?php print $grid_col[$nb_col]['md'][$index % count($grid_col[$nb_col]['md'])]; ?> col-sm-<?php print $grid_col[$nb_col]['sm'][$index % count($grid_col[$nb_col]['sm'])]; ?> col-xs-<?php print $grid_col[$nb_col]['xs'][$index % count($grid_col[$nb_col]['xs'])]; ?>">
@@ -32,26 +35,26 @@ foreach ($rows as $row_number => $columns):
       </div>
     </div>
 
-    <?php if ((($index+1) % count($grid_col[$nb_col]['lg'])) == 0): ?>
+    <?php if ((($index + 1) % count($grid_col[$nb_col]['lg'])) == 0): ?>
     <div class="clearfix visible-lg"></div>
     <?php endif; ?>
 
-    <?php if ((($index+1) % count($grid_col[$nb_col]['md'])) == 0): ?>
+    <?php if ((($index + 1) % count($grid_col[$nb_col]['md'])) == 0): ?>
     <div class="clearfix visible-md"></div>
     <?php endif; ?>
 
-    <?php if ((($index+1) % count($grid_col[$nb_col]['sm'])) == 0): ?>
+    <?php if ((($index + 1) % count($grid_col[$nb_col]['sm'])) == 0): ?>
     <div class="clearfix visible-sm"></div>
     <?php endif; ?>
 
-    <?php if ((($index+1) % count($grid_col[$nb_col]['xs'])) == 0): ?>
+    <?php if ((($index + 1) % count($grid_col[$nb_col]['xs'])) == 0): ?>
     <div class="clearfix visible-xs"></div>
     <?php endif; ?>
 
     <?php $index++; ?>
 <?php
     endif;
-  endforeach; 
+  endforeach;
 endforeach;
 ?>
   </div>

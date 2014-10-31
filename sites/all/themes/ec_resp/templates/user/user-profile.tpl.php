@@ -34,8 +34,13 @@
 ?>
 <div class="profile"<?php print $attributes; ?>>
   <?php 
-    //list basic fields
-    $basic = array('field_firstname', 'field_lastname', 'user_picture', 'summary');
+    // List basic fields.
+    $basic = array(
+      'field_firstname',
+      'field_lastname',
+      'user_picture',
+      'summary',
+    );
   ?>
 
   <div class="well well-sm">
@@ -53,14 +58,18 @@
           </small>
       </div>
     </div>
-    <?php if (isset ($contact_form)){ print $contact_form; }?>
+    <?php 
+      if (isset ($contact_form)):
+        print $contact_form;
+      endif;
+    ?>
   </div>
   
   <?php 
-    foreach ($user_profile as $key => $value) {
-      if (!in_array($key,$basic)) {
+    foreach ($user_profile as $key => $value):
+      if (!in_array($key, $basic)):
         print render($value);
-      }
-    }
+      endif;
+    endforeach;
   ?>
 </div>

@@ -175,7 +175,7 @@ function ec_resp_preprocess_page(&$variables) {
 function ec_resp_preprocess_node(&$variables) {
   $prefix = '';
   $suffix = '';
-  
+
   // Check if this content is private.
   if ((isset($variables['group_content_access'])) && ($variables['group_content_access']['und'][0]['value'] == 2)) {
     $prefix .= '<div class="node-private label label-default clearfix">';
@@ -183,14 +183,14 @@ function ec_resp_preprocess_node(&$variables) {
     $prefix .= t('This content is private');
     $prefix .= '</div>';
   }
-  
+
   if ($variables['display_submitted']) {
     $suffix .= '<div class="row node-info">';
     $suffix .= '<div class="node-info-submitted col-lg-6 col-md-6 col-sm-6 col-xs-12 col-lg-offset-6 col-md-offset-6 col-sm-offset-6">';
     $suffix .= '<div class="well well-sm node-submitted clearfix"><small>';
-    //author picture
+    // Author picture.
     $suffix .= $variables['user_picture'];
-    //publication date
+    // Publication date.
     $suffix .= $variables['submitted'];
     $suffix .= '</small></div>';
     $suffix .= '</div>';
@@ -1129,7 +1129,7 @@ function ec_resp_link($variables) {
         break;
     }
   }
-  $output = $action_bar_before . $btn_group_before . 
+  $output = $action_bar_before . $btn_group_before .
     '<a href="' .
     check_plain(url($variables['path'], $variables['options'])) . '"' .
     drupal_attributes($variables['options']['attributes']) . '>' .
@@ -1314,7 +1314,7 @@ function ec_resp_preprocess_block(&$variables) {
     'cce_basic_config' => 'footer_ipg',
   );
 
-  // list of all blocks that don't need their title to be displayed
+  // List of all blocks that don't need their title to be displayed.
   $block_no_title = array(
     'fat_footer' => 'fat-footer',
     'om_maximenu' => array('om-maximenu-1','om-maximenu-2'),
@@ -1322,57 +1322,55 @@ function ec_resp_preprocess_block(&$variables) {
     'cce_basic_config' => 'footer_ipg',
   );
 
-  $block_no_body_class = array(
-    
-  );
-  
-  $panel = true;
+  $block_no_body_class = array();
+
+  $panel = TRUE;
   foreach ($block_no_panel as $key => $value) {
     if ($variables['block']->module == $key) {
       if (is_array($value)) {
         foreach ($value as $delta) {
           if ($variables['block']->delta == $delta) {
-            $panel = false;
+            $panel = FALSE;
             break;
           }
         }
       }
       else {
         if ($variables['block']->delta == $value) {
-          $panel = false;
+          $panel = FALSE;
           break;
         }
       }
     }
   }
 
-  $title = true;
+  $title = TRUE;
   foreach ($block_no_title as $key => $value) {
     if ($variables['block']->module == $key) {
       if (is_array($value)) {
         foreach ($value as $delta) {
           if ($variables['block']->delta == $delta) {
-            $title = false;
+            $title = FALSE;
             break;
           }
         }
       }
       else {
         if ($variables['block']->delta == $value) {
-          $title = false;
+          $title = FALSE;
           break;
         }
       }
     }
-  }   
+  }
 
-  $body_class = true;
+  $body_class = TRUE;
   foreach ($block_no_body_class as $key => $value) {
     if ($variables['block']->module == $key && $variables['block']->delta == $value) {
-      $body_class = false;
+      $body_class = FALSE;
     }
   }
-  
+
   $variables['panel'] = $panel;
   $variables['title'] = $title;
   $variables['body_class'] = $body_class;

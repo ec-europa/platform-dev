@@ -31,16 +31,15 @@
 ?>
 <div class="input-group">
 <?php
-	print $search['search_block_form'];
+  print $search['search_block_form'];
 ?>
   <span class="input-group-btn">
 <?php
-	print $search['actions'];
+  print $search['actions'];
 ?>
   </span>
 </div>
 
 <?php
-	print $search['hidden'];
+  print $search['hidden'];
 ?>
-<?php //print $search_form; ?>
