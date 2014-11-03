@@ -1,7 +1,7 @@
-ec_site_name = 'ECHO';
-ec_protocol = 'https';
-ec_domain = 'webgate.ec.europa.eu';
-ec_base_path = '/multisite/echo-site/';
+ec_site_name = 'IEE Projects';
+ec_protocol = 'http';
+ec_domain = 'ec.europa.eu';
+ec_base_path = '/energy/intelligent/projects';
 ec_base_url = ec_protocol + '://' + ec_domain + ec_base_path;
 
 ec_save_url_filepath  = './state/' + ec_protocol + "-" + ec_domain + "-";
@@ -16,3 +16,6 @@ ec_external_resources_whitelist = {
 	// any value other than undefined is fine
 	'http://ec.europa.eu/wel/socialbookmark/share.js': 1,
 };
+
+skip_urls_regexps = [ /field_project_sector.*=field_project_sector/ ];
+max_url_length = 130
