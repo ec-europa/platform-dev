@@ -24,6 +24,11 @@ for (i = 1; i < args.length; ++ i) {
 	}
 };
 
+// initial list of URLs to crawl -- defaults to ec_base_url
+if (typeof ec_start_urls == 'undefined') {
+	ec_start_urls = [ec_base_url];
+}
+
 // set default parameters if they were not already set by the configuration file
 // maximum time spent trying to load a page and its resources, in milliseconds
 if (typeof ec_page_timeout == 'undefined') ec_page_timeout = 50000;
@@ -118,7 +123,11 @@ if (!is_child) {
 		}
 	}
 	else {
-		addUrl(ec_base_url);
+		ec_start_urls.forEach(
+			function(start_url) {
+				addUrl(start_url);
+			}
+		);
 	}
 	nextStep();
 }
