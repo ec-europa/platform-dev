@@ -9,12 +9,59 @@
  */
 function multisite_notifications_og_default_rules_configuration() {
   $items = array();
+  $items['rules_multisite_og_community_refused'] = entity_import('rules_config', '{ "rules_multisite_og_community_refused" : {
+      "LABEL" : "multisite OG community refused",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "REQUIRES" : [ "workbench_moderation", "rules" ],
+      "ON" : { "workbench_moderation_after_moderation_transition" : [] },
+      "IF" : [
+        { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "draft" } },
+        { "contents_previous_state" : { "node" : [ "node" ], "moderation_state" : "needs_review" } },
+        { "node_is_of_type" : {
+            "node" : [ "node" ],
+            "type" : { "value" : { "community" : "community" } }
+          }
+        }
+      ],
+      "DO" : [
+        { "mail" : {
+            "to" : [ "node:author:mail" ],
+            "subject" : "Community refused",
+            "message" : "Dear [node:author:name],\\r\\n\\r\\nYour community [node:title] has been refused.\\r\\n\\r\\n",
+            "language" : [ "" ]
+          }
+        }
+      ]
+    }
+  }');
+  $items['rules_multisite_og_community_request'] = entity_import('rules_config', '{ "rules_multisite_og_community_request" : {
+      "LABEL" : "multisite OG community request",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "REQUIRES" : [ "workbench_moderation", "rules" ],
+      "ON" : { "workbench_moderation_after_moderation_transition" : [] },
+      "IF" : [
+        { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "needs_review" } },
+        { "contents_previous_state" : { "node" : [ "node" ], "moderation_state" : "draft" } }
+      ],
+      "DO" : [
+        { "mail_to_users_of_role" : {
+            "roles" : { "value" : { "3" : "3" } },
+            "subject" : "Creation of community request",
+            "message" : "Dear [recipient_user:name],\\r\\n\\r\\n[node:author] requests a community creation [node:title] located at [node:url]\\r\\n\\r\\nGo to administration at [site:url]\\/en\\/admin\\/workbench"
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_multisite_og_member_blocked'] = entity_import('rules_config', '{ "rules_multisite_og_member_blocked" : {
       "LABEL" : "multisite OG member blocked",
       "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
       "TAGS" : [ "multisite notifications" ],
       "REQUIRES" : [ "rules", "og" ],
-      "ON" : [ "og_user_blocked" ],
+      "ON" : { "og_user_blocked" : [] },
       "IF" : [
         { "entity_is_of_type" : { "entity" : [ "og-membership:group" ], "type" : "node" } }
       ],
@@ -44,9 +91,10 @@ function multisite_notifications_og_default_rules_configuration() {
   $items['rules_multisite_og_member_remove'] = entity_import('rules_config', '{ "rules_multisite_og_member_remove" : {
       "LABEL" : "multisite OG member remove",
       "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
       "TAGS" : [ "multisite notifications" ],
       "REQUIRES" : [ "rules", "og" ],
-      "ON" : [ "og_user_delete" ],
+      "ON" : { "og_user_delete" : [] },
       "IF" : [
         { "entity_is_of_type" : { "entity" : [ "og-membership:group" ], "type" : "node" } }
       ],
@@ -76,9 +124,10 @@ function multisite_notifications_og_default_rules_configuration() {
   $items['rules_multisite_og_membership_approved'] = entity_import('rules_config', '{ "rules_multisite_og_membership_approved" : {
       "LABEL" : "multisite OG membership approved",
       "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
       "TAGS" : [ "multisite notifications" ],
       "REQUIRES" : [ "rules", "og" ],
-      "ON" : [ "og_user_approved" ],
+      "ON" : { "og_user_approved" : [] },
       "IF" : [
         { "entity_is_of_type" : { "entity" : [ "og-membership:group" ], "type" : "node" } }
       ],
@@ -108,9 +157,10 @@ function multisite_notifications_og_default_rules_configuration() {
   $items['rules_og_member_subscribe_active_'] = entity_import('rules_config', '{ "rules_og_member_subscribe_active_" : {
       "LABEL" : "multisite OG member subscribe (Active)",
       "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
       "TAGS" : [ "multisite notifications" ],
       "REQUIRES" : [ "rules", "og" ],
-      "ON" : [ "og_user_insert" ],
+      "ON" : { "og_user_insert" : [] },
       "IF" : [
         { "data_is" : { "data" : [ "og-membership:state" ], "value" : "1" } },
         { "entity_is_of_type" : { "entity" : [ "og-membership:group" ], "type" : "node" } }
@@ -139,9 +189,10 @@ function multisite_notifications_og_default_rules_configuration() {
   $items['rules_og_member_subscribe_pending_'] = entity_import('rules_config', '{ "rules_og_member_subscribe_pending_" : {
       "LABEL" : "multisite OG member subscribe (Pending)",
       "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
       "TAGS" : [ "multisite notifications" ],
       "REQUIRES" : [ "rules", "og" ],
-      "ON" : [ "og_user_insert" ],
+      "ON" : { "og_user_insert" : [] },
       "IF" : [
         { "data_is" : { "data" : [ "og-membership:state" ], "value" : "2" } },
         { "entity_is_of_type" : { "entity" : [ "og-membership:group" ], "type" : "node" } }

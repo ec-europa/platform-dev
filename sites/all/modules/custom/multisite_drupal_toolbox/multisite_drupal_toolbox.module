@@ -1252,6 +1252,48 @@ function multisite_drupal_toolbox_tokens_alter(array &$replacements, array $cont
 
     $replacements[current($context['tokens'])] = ltrim($path, '/');
   }
+
+  // preserve recipient_user token (rules automatically cleans non replaced token)
+  if ($context['type'] == 'recipient_user'){
+    if (isset($context['data']['recipient_user'])){
+      unset ($replacements[current($context['tokens'])]);
+    }else{
+      $replacements[current($context['tokens'])] = current($context['tokens']);
+    }
+  }
+
+  /** Add aliases to manage multiple instances of the same object type
+   * Usage:
+    * $data['user'] = $account;
+    * $data['friend'] = $friend_account;
+    * $data['current-user'] = $current_user;
+    * $replaced_string = token_replace($body, $data, array('language' => $langcode, 'aliases' => array('friend' => 'user', 'current-user' => 'user')));
+    */
+   if (isset($context['options']['aliases']) && in_array($context['type'], array_keys($context['options']['aliases']))) {
+     $new_data = array($context['options']['aliases'][$context['type']] => $context['data'][$context['type']]);
+     $replacements += token_generate($context['options']['aliases'][$context['type']], $context['tokens'], $new_data, $context['options']);
+   }
+}
+
+/**
+  * Implements of hook_mail_alter
+  *
+  * Replace 'recipient_user' tokens 
+  * 'recipient_user' can be used on every mail.
+  */
+function multisite_notifications_og_mail_alter (&$message){
+  // using 'to' email to get recipient user
+  $recipient_mail = $message['to'];
+  $recipient_user = user_load_by_mail ($recipient_mail);
+  if ($recipient_user){
+    $data = array ();
+	// recipient_user is an alias of user
+    $data['recipient_user'] = $recipient_user; 
+    $aliases = array ('recipient_user' => 'user');
+    $body = $message['body']['0'];
+	// replace token
+    $message['body']['0'] = token_replace($body, $data, array('aliases' => $aliases)); 
+  }
 }
 
 /**
@@ -1433,3 +1475,5 @@ function multisite_drupal_toolbox_modules_installed($modules) {
       ->execute();
   }
 }
+
+
