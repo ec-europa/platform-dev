@@ -1281,7 +1281,7 @@ function multisite_drupal_toolbox_tokens_alter(array &$replacements, array $cont
   * Replace 'recipient_user' tokens 
   * 'recipient_user' can be used on every mail.
   */
-function multisite_notifications_og_mail_alter (&$message){
+function multisite_drupal_toolbox_mail_alter (&$message){
   // using 'to' email to get recipient user
   $recipient_mail = $message['to'];
   $recipient_user = user_load_by_mail ($recipient_mail);
