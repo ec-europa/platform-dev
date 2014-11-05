@@ -285,7 +285,11 @@ function reindex_contents {
 			# As it can take a long time, this operation can be skipped by setting
 			# the SKIP_ACTUAL_REINDEXATION environment variable.
 			if [ -z "${SKIP_ACTUAL_REINDEXATION}" ]; then
-				run 1 drush 'solr-index' --root="${target_drupal_path}" --uri="${subsite}"
+				if [ -z "${LIMIT_REINDEXATION}" ]; then
+					run 1 drush 'solr-index' --root="${target_drupal_path}" --uri="${subsite}"
+				else
+					run 1 drush 'solr-index' --limit="${LIMIT_REINDEXATION}" --root="${target_drupal_path}" --uri="${subsite}"
+				fi
 			else
 				echo -e "${IYellow}Warning${Color_Off}: skipping actual reindexation for ${subsite} as required through SKIP_ACTUAL_REINDEXATION."
 			fi
