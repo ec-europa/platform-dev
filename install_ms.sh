@@ -7,7 +7,7 @@ fi
 
 source config.sh
 
-function __echo {	
+function __echo {
 	if [ "${verbose}" = 1 ] ; then
 		echo $@
 	fi
@@ -15,7 +15,7 @@ function __echo {
 
 function _apply_patches {
 	patch_dir=$1
-	if [ ! -e $patch_dir ]; then 
+	if [ ! -e $patch_dir ]; then
 		echo "Patch folder not found on : '$patch_dir'"
 		continu
 	fi
@@ -32,7 +32,7 @@ function continu {
 	if [ "${force}" = 1 ] ; then
 		echo "Force continu..."
 	else
-		read -p  "Do you want to continue? " goon 
+		read -p  "Do you want to continue? " goon
 		if [[ $goon = 'n' ]]
 		then
 			exit 042
@@ -124,10 +124,17 @@ then
   exit 42
 fi
 
+if [ ${tag_version} le 1.6 ] ;
+  then
+  #export svn repository from tag folder
+  echo "Export from https://webgate.ec.europa.eu/CITnet/svn/MULTISITE/tags/${tag_version}/source pms_${site_name}"
+  svn export https://webgate.ec.europa.eu/CITnet/svn/MULTISITE/tags/${tag_version}/source pms_${site_name}
+  else
+  echo "Export from https://webgate.ec.europa.eu/CITnet/svn/MULTISITE/branches/${tag_version}/source pms_${site_name}"
+  svn export https://webgate.ec.europa.eu/CITnet/svn/MULTISITE/branches/${tag_version}/source pms_${site_name}
+fi
 
-#export svn repository
-echo "Export from https://webgate.ec.europa.eu/CITnet/svn/MULTISITE/tags/${tag_version}/source pms_${site_name}"
-svn export https://webgate.ec.europa.eu/CITnet/svn/MULTISITE/tags/${tag_version}/source pms_${site_name}
+
 pms_dir=$(pwd)
 cd pms_${site_name}
 
@@ -159,7 +166,7 @@ drush ${drush_options} make profiles/$install_profile/build.make ${site_name} 1>
 mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "drop database ${site_name};" 1>&2
 mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "create database ${site_name};" 1>&2
 
-chmod -R 777 ${site_name}/sites/default 
+chmod -R 777 ${site_name}/sites/default
 cp -R profiles/multisite_drupal_core ${site_name}/profiles
 cp -R profiles/$install_profile ${site_name}/profiles
 
@@ -181,7 +188,7 @@ __echo "Applying patches from ${patch_dir} to ${site_name}"
 cd ${site_name}
 
 if [ $? != 0 ] ; then
-	__echo "Unable to change directory to ${site_name}" 
+	__echo "Unable to change directory to ${site_name}"
 	exit 20
 fi
 
@@ -192,13 +199,13 @@ fi
 
 patch_dir_core="$patch_dir/multisite_drupal_core"
 # BACKPORT version <=1.6 : if $patch_dir_core not found we apply patches directly from $patch_dir folder
-if [ ! -e $patch_dir_core ]; then 
+if [ ! -e $patch_dir_core ]; then
 		_apply_patches $patch_dir
 else
 	_apply_patches $patch_dir_core
 	#profile patch
 	patch_dir_profile="$patch_dir/$install_profile"
-	if [ ! -e $patch_dir_profile ]; then 
+	if [ ! -e $patch_dir_profile ]; then
 		_apply_patches $patch_dir_profile
 	fi
 fi
