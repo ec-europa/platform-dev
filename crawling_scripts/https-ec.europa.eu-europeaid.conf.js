@@ -1,7 +1,7 @@
 ec_site_name = 'DEVCO';
 ec_protocol = 'https';
-ec_domain = 'webgate.ec.europa.eu';
-ec_base_path = '/multisite/devco/';
+ec_domain = 'ec.europa.eu';
+ec_base_path = '/europeaid';
 ec_base_url = ec_protocol + '://' + ec_domain + ec_base_path;
 
 ec_save_url_filepath  = './state/' + ec_protocol + "-" + ec_domain + "-";
