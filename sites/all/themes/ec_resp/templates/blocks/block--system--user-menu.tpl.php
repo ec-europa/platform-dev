@@ -45,76 +45,9 @@
  */
 
 ?>
-
-<?php 
-  global $user, $base_url;
-
-  if (!empty($user) && 0 != $user->uid):
-    $full_user = user_load($user->uid);
-    $name = (isset($full_user->field_firstname['und'][0]['value']) && isset($full_user->field_lastname['und'][0]['value']) ? $full_user->field_firstname['und'][0]['value'] . ' ' . $full_user->field_lastname['und'][0]['value'] : $user->name);
-
-    print ("<div class='username'>" . t('Welcome,') . ' <strong>' . $name . '</strong></div>');
-  endif;
-?>
-
+<?php if (isset($welcome_message)) :?>
+  <?php print $welcome_message; ?>
+<?php endif; ?>
 <div id="<?php print $block_html_id; ?>" class="btn-group <?php print $classes; ?>">
-  <?php 
-    $menu = menu_navigation_links("user-menu");
-    $items = "";
-
-    // Manage redirection after login.
-    $status = drupal_get_http_header('status');
-    if (strpos($status, '404') !== FALSE):
-      $dest = 'home';
-    elseif (strpos($_GET['q'], 'user/register') !== FALSE):
-      $dest = 'home';
-    elseif (strpos($_GET['q'], 'user/login') !== FALSE):
-      $dest = 'home';
-    else:
-      $dest = drupal_get_path_alias();
-    endif;
-
-    foreach ($menu as $item_id):
-      // Get icon links to menu item.
-      $icon = (isset($item_id['attributes']['data-image']) ? $item_id['attributes']['data-image'] : '');
-
-      // Get display title option.
-      $display_title = (isset($item_id['attributes']['data-display-title']) ? $item_id['attributes']['data-display-title'] : 1);
-
-      // Add the icon.
-      if ($icon):
-        if ($display_title):
-          $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . '"></span> ' . $item_id['title'];
-        else:
-          $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . ' menu-no-title"></span>';
-        endif;
-      endif;
-
-      // Add redirection for login, logout and register.
-      if ($item_id['href'] == 'user/login' || $item_id['href'] == 'user/register'):
-        $item_id['query']['destination'] = $dest;
-      endif;
-      if ($item_id['href'] == 'user/logout'):
-        $item_id['query']['destination'] = $base_url;
-      endif;
-
-      // Add icon before menu item
-      // TODO: make it editable in administration.
-      if ($item_id['href'] == 'user'):
-        $item_id['attributes']['type'] = 'user';
-      elseif ($item_id['href'] == 'user/login'):
-        $item_id['attributes']['type'] = 'login';
-      elseif ($item_id['href'] == 'user/logout'):
-        $item_id['attributes']['type'] = 'logout';
-      elseif ($item_id['href'] == 'admin/workbench'):
-        $item_id['attributes']['type'] = 'workbench';
-      endif;
-
-      $item_id['html'] = TRUE;
-
-      $items .= l($item_id['title'], $item_id['href'], $item_id);
-    endforeach;
-
-    print $items;
-  ?>    
+  <?php print $menu_items; ?>    
 </div>

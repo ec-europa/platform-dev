@@ -173,33 +173,16 @@ function ec_resp_preprocess_page(&$variables) {
  * Implements theme_preprocess_node().
  */
 function ec_resp_preprocess_node(&$variables) {
-  $prefix = '';
-  $suffix = '';
+  $variables['prefix_display'] = FALSE;
+  $variables['suffix'] = FALSE;
 
-  // Check if this content is private.
   if ((isset($variables['group_content_access'])) && ($variables['group_content_access']['und'][0]['value'] == 2)) {
-    $prefix .= '<div class="node-private label label-default clearfix">';
-    $prefix .= '<span class="glyphicon glyphicon-lock"></span>';
-    $prefix .= t('This content is private');
-    $prefix .= '</div>';
+    $variables['prefix_display'] = TRUE;
   }
 
   if ($variables['display_submitted']) {
-    $suffix .= '<div class="row node-info">';
-    $suffix .= '<div class="node-info-submitted col-lg-6 col-md-6 col-sm-6 col-xs-12 col-lg-offset-6 col-md-offset-6 col-sm-offset-6">';
-    $suffix .= '<div class="well well-sm node-submitted clearfix"><small>';
-    // Author picture.
-    $suffix .= $variables['user_picture'];
-    // Publication date.
-    $suffix .= $variables['submitted'];
-    $suffix .= '</small></div>';
-    $suffix .= '</div>';
-    $suffix .= '</div>';
+    $variables['suffix_display'] = TRUE;
   }
-
-  // Add custom variables to node.tpl.
-  $variables['prefix'] = $prefix;
-  $variables['suffix'] = $suffix;
 
   // Alter date format.
   $custom_date = format_date($variables['created'], 'custom', 'l, d/m/Y');
@@ -209,6 +192,24 @@ function ec_resp_preprocess_node(&$variables) {
   if ($variables['view_mode'] == 'full' && node_is_page($variables['node'])) {
     $variables['classes_array'][] = 'node-full';
   }
+  if ($variables['teaser'] || !empty($variables['content']['comments']['comment_form'])) {
+    unset($variables['content']['links']['comment']['#links']['comment-add']);
+  }
+  unset($variables['content']['comments']);
+  unset($variables['content']['links']);
+
+  switch ($variables['type']) {
+    case 'idea':
+      $variables['watched'] = $variables['field_watching'][0]['value'];
+      break;
+  
+    case 'gallerymedia':
+      unset($variables['content']['field_picture_upload']);
+      unset($variables['content']['field_video_upload']);
+      break;
+  
+  }
+  
 }
 
 /**
@@ -1295,7 +1296,8 @@ function ec_resp_preprocess_admin_menu_icon(&$variables) {
  * Implements theme_preprocess_block().
  */
 function ec_resp_preprocess_block(&$variables) {
-  global $user;
+    
+  global $user, $language;
   if (!empty($user) && 0 != $user->uid) {
     $full_user = user_load($user->uid);
     $name = (isset($full_user->field_firstname['und'][0]['value']) && isset($full_user->field_lastname['und'][0]['value']) ? $full_user->field_firstname['und'][0]['value'] . ' ' . $full_user->field_lastname['und'][0]['value'] : $user->name);
@@ -1374,4 +1376,293 @@ function ec_resp_preprocess_block(&$variables) {
   $variables['panel'] = $panel;
   $variables['title'] = $title;
   $variables['body_class'] = $body_class;
+  
+  if (isset($variables['block']->bid)) {
+    switch ($variables['block']->bid) {
+      case 'locale-language':
+        $languages = locale_language_list();
+
+        $items = array();
+        $items[] = array(
+          'data' => '<span class="off-screen">' . t("Current language") . ':</span> ' . $language->language,
+          'class' => array('selected'),
+          'title' => $language->native,
+          'lang' => $language->language,
+        );
+        // Get path of translated content.
+        $translations = translation_path_get_translations(current_path());
+        $language_default = language_default();
+
+        foreach ($languages as $prefix => $language_name) {
+          if (isset($translations[$prefix])) {
+            $path = $translations[$prefix];
+          }
+          else {
+            $path = current_path();
+          }
+
+          // Get the related url alias
+          // check if the multisite language negotiation with suffix url is enabled.
+          $language_negociation = variable_get('language_negotiation_language');
+          if (isset($language_negociation['locale-url-suffix'])) {
+            $delimiter = variable_get('language_suffix_delimiter', '_');
+            $alias = drupal_get_path_alias($path, $prefix);
+
+            if ($alias == variable_get('site_frontpage', 'node')) {
+              $path = ($prefix == 'en') ? '' : 'index' . $delimiter . $prefix;
+            }
+            else {
+              if ($alias != $path) {
+                $path = $alias . $delimiter . $prefix;
+              }
+              else {
+                $path = drupal_get_path_alias(isset($translations[$language_name]) ? $translations[$language_name] : $path, $language_name) . $delimiter . $language_name;
+              }
+            }
+          }
+          else {
+            $path = $prefix . "/" . drupal_get_path_alias($path, $prefix);
+          }
+
+          // Add enabled languages.
+          $items[] = array(
+            'data' => l($language_name, filter_xss($path), array(
+              'attributes' => array(
+                'hreflang' => $prefix,
+                'lang' => $prefix,
+                'title' => $language_name,
+              )
+            )),
+          );
+        }
+
+        $variables['language_list'] = theme('item_list', array('items' => $items));
+        break;
+        
+      case 'system-user-menu':
+        if ($user->uid) {
+          $account = user_load($user->uid);
+          $firstname_field = field_get_items('user', $account, 'field_firstname');
+          $lastname_field = field_get_items('user', $account, 'field_lastname');
+          $name = $firstname_field[0]['value'] . ' ' . $lastname_field[0]['value'];
+
+          $variables['welcome_message'] = "<div class='username'>" . t('Welcome,') . ' <strong>' . ($name == ' ' ? $name : $user->name) . '</strong></div>';
+        }
+        $menu = menu_navigation_links("user-menu");
+        $items = array();
+
+        // Manage redirection after login.
+        $status = drupal_get_http_header('status');
+        if (strpos($status, '404') !== FALSE) {
+          $dest = 'home';
+        }
+        elseif (strpos(current_path(), 'user/register') !== FALSE) {
+          $dest = 'home';
+        }
+        elseif (strpos(current_path(), 'user/login') !== FALSE) {
+          $dest = 'home';
+        }
+        else {
+          $dest = drupal_get_path_alias();
+        }
+        
+        foreach ($menu as $item_id) {
+          // Get icon links to menu item.
+          $icon = (isset($item_id['attributes']['data-image']) ? $item_id['attributes']['data-image'] : '');
+
+          // Get display title option.
+          $display_title = (isset($item_id['attributes']['data-display-title']) ? $item_id['attributes']['data-display-title'] : 1);
+
+          // Add the icon.
+          if ($icon) {
+            if ($display_title) {
+              $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . '"></span> ' . $item_id['title'];
+            }
+            else {
+              $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . ' menu-no-title"></span>';
+            }
+          }
+
+          // Add redirection for login, logout and register.
+          if ($item_id['href'] == 'user/login' || $item_id['href'] == 'user/register') {
+            $item_id['query']['destination'] = $dest;
+          }
+          if ($item_id['href'] == 'user/logout') {
+            $item_id['query']['destination'] = '<front>';
+          }
+
+          // Add icon before menu item
+          // TODO: make it editable in administration.
+          switch ($item_id['href']) {
+            case 'user':
+              $item_id['attributes']['type'] = 'user';
+              break;
+          
+            case 'user/login':
+              $item_id['attributes']['type'] = 'login';
+              break;
+            
+            case 'user/logout':
+              $item_id['attributes']['type'] = 'logout';
+              break;
+          
+            case 'admin/workbench':
+              $item_id['attributes']['type'] = 'workbench';
+              break;
+          
+          }
+          
+          $item_id['html'] = TRUE;
+
+          $items[] = l($item_id['title'], $item_id['href'], $item_id);
+        }
+
+        $variables['menu_items'] = implode('', $items);
+        break;
+    
+    }
+  }
+}
+
+/**
+ * Implements theme_table().
+ */
+function ec_resp_table($variables) {
+  $header = $variables['header'];
+  $rows = $variables['rows'];
+  $attributes = $variables['attributes'];
+  $caption = $variables['caption'];
+  $colgroups = $variables['colgroups'];
+  $sticky = $variables['sticky'];
+  $empty = $variables['empty'];
+
+  // Add sticky headers, if applicable.
+  if (count($header) && $sticky) {
+    drupal_add_js('misc/tableheader.js');
+    // Add 'sticky-enabled' class to the table to identify it for JS.
+    // This is needed to target tables constructed by this function.
+    $attributes['class'][] = 'sticky-enabled table table-striped';
+  }
+
+  $output = '<table' . drupal_attributes($attributes) . ">\n";
+
+  if (isset($caption)) {
+    $output .= '<caption>' . $caption . "</caption>\n";
+  }
+
+  // Format the table columns:
+  if (count($colgroups)) {
+    foreach ($colgroups as $number => $colgroup) {
+      $attributes = array();
+
+      // Check if we're dealing with a simple or complex column
+      if (isset($colgroup['data'])) {
+        foreach ($colgroup as $key => $value) {
+          if ($key == 'data') {
+            $cols = $value;
+          }
+          else {
+            $attributes[$key] = $value;
+          }
+        }
+      }
+      else {
+        $cols = $colgroup;
+      }
+
+      // Build colgroup
+      if (is_array($cols) && count($cols)) {
+        $output .= ' <colgroup' . drupal_attributes($attributes) . '>';
+        $i = 0;
+        foreach ($cols as $col) {
+          $output .= ' <col' . drupal_attributes($col) . ' />';
+        }
+        $output .= " </colgroup>\n";
+      }
+      else {
+        $output .= ' <colgroup' . drupal_attributes($attributes) . " />\n";
+      }
+    }
+  }
+
+  // Add the 'empty' row message if available.
+  if (!count($rows) && $empty) {
+    $header_count = 0;
+    foreach ($header as $header_cell) {
+      if (is_array($header_cell)) {
+        $header_count += isset($header_cell['colspan']) ? $header_cell['colspan'] : 1;
+      }
+      else {
+        $header_count++;
+      }
+    }
+    $rows[] = array(array(
+      'data' => $empty,
+      'colspan' => $header_count,
+      'class' => array('empty', 'message'),
+    ));
+  }
+
+  // Format the table header:
+  if (count($header)) {
+    $ts = tablesort_init($header);
+    // HTML requires that the thead tag has tr tags in it followed by tbody
+    // tags. Using ternary operator to check and see if we have any rows.
+    $output .= (count($rows) ? ' <thead><tr>' : ' <tr>');
+    foreach ($header as $cell) {
+      $cell = tablesort_header($cell, $header, $ts);
+      $output .= _theme_table_cell($cell, TRUE);
+    }
+    // Using ternary operator to close the tags based on whether or not there are rows
+    $output .= (count($rows) ? " </tr></thead>\n" : "</tr>\n");
+  }
+  else {
+    $ts = array();
+  }
+
+  // Format the table rows:
+  if (count($rows)) {
+    $output .= "<tbody>\n";
+    $flip = array(
+      'even' => 'odd',
+      'odd' => 'even',
+    );
+    $class = 'even';
+    foreach ($rows as $number => $row) {
+      // Check if we're dealing with a simple or complex row.
+      if (isset($row['data'])) {
+        foreach ($row as $key => $value) {
+          if ($key == 'data') {
+            $cells = $value;
+          }
+          else {
+            $attributes[$key] = $value;
+          }
+        }
+      }
+      else {
+        $cells = $row;
+      }
+      if (count($cells)) {
+        // Add odd/even class.
+        if (empty($row['no_striping'])) {
+          $class = $flip[$class];
+          $attributes['class'][] = $class;
+        }
+
+        // Build row.
+        $output .= ' <tr' . drupal_attributes($attributes) . '>';
+        $i = 0;
+        foreach ($cells as $cell) {
+          $cell = tablesort_cell($cell, $header, $ts, $i++);
+          $output .= _theme_table_cell($cell);
+        }
+        $output .= " </tr>\n";
+      }        
+    }
+    $output .= "</tbody>\n";
+  }
+
+  $output .= "</table>\n";
+  return $output;
 }

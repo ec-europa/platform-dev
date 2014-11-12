@@ -84,58 +84,34 @@
   <?php print render($title_prefix); ?>
   <?php if (!$page): ?>
     <h2<?php print $title_attributes; ?>>
-      <a href="<?php print filter_xss($node_url); ?>"><?php print $title; ?></a>
+      <?php print l($title, $node_url); ?>
     </h2>
   <?php endif; ?>
   <?php print render($title_suffix); ?>
 
   <div class="content clearfix"<?php print $content_attributes; ?>>
-
-    <?php 
-      // We hide several elements now so that we can render them later.
-      hide($content['comments']);
-      hide($content['links']);
-
-      // Check idea status.
-      if ($content['field_watching']['#object']->field_watching['und'][0]['value']):
-        $prefixe .= '<div class="clearfix"><span class="label label-success pull-right"><span class="glyphicon glyphicon-eye-open"></span>' . t('watched') . '</span></div>';
-      endif;
-
-      // Theme author block.
-      if ($display_submitted):
-        $suffixe .= '<div class="row node-info">';
-          $suffixe .= '<div class="node-info-submitted col-lg-6 col-md-6 col-sm-6 col-xs-12 col-lg-offset-6 col-md-offset-6 col-sm-offset-6">';
-            $suffixe .= '<div class="well well-sm node-submitted clearfix"><small>';
-              // Author picture.
-              $suffixe .= $user_picture;
-
-              // Publication date.
-              $suffixe .= $submitted;
-            $suffixe .= '</small></div>';
-          $suffixe .= '</div>';
-        $suffixe .= '</div>';
-      endif;
-
-      print $prefixe;
-      print render($content);
-      print $suffixe;
-    ?>
-
+  <?php if ($watched): ?>
+    <div class="clearfix"><span class="label label-success pull-right"><span class="glyphicon glyphicon-eye-open"></span><?php print $watched; ?></span></div>
+  <?php endif; ?>
+  <?php print render($content); ?>
+  <?php if ($display_submitted): ?>
+    <div class="row node-info">
+      <div class="node-info-submitted col-lg-6 col-md-6 col-sm-6 col-xs-12 col-lg-offset-6 col-md-offset-6 col-sm-offset-6">
+        <div class="well well-sm node-submitted clearfix">
+          <small>
+          <?php print $user_picture; ?>
+          <?php print $submitted; ?>
+          </small>
+        </div>
+      </div>
+    </div>
+  <?php endif; ?>
   </div>
 
-  <?php
-    // Remove the "Add new comment" link on the teaser page or if the comment
-    // form is being displayed on the same page.
-    if ($teaser || !empty($content['comments']['comment_form'])):
-      unset($content['links']['comment']['#links']['comment-add']);
-    endif;
-    // Only display the wrapper div if there are links.
-    $links = render($content['links']);
-    if ($links):
-  ?>
-    <div class="link-wrapper right">
-      <?php print $links; ?>
-    </div>
+  <?php if ($links): ?>
+  <div class="link-wrapper right">
+    <?php print render($content['links']); ?>
+  </div>
   <?php endif; ?>
 
   <?php print render($content['comments']); ?>
