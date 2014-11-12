@@ -16,3 +16,4 @@ ec_external_resources_whitelist = {
 	// any value other than undefined is fine
 	'http://ec.europa.eu/wel/socialbookmark/share.js': 1,
 };
+skip_urls_regexps = [ /=.m_field_/, /europeaid\/prag/ ];
