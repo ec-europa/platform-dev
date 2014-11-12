@@ -21,5 +21,4 @@ ec_external_resources_whitelist = {
 	'http://c.tile.openstreetmap.org/2/1/1.png': 1,
 };
 
- skip_urls_regexps = [ /projects\/gist/ ];
 max_url_length = 130
