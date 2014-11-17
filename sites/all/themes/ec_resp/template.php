@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Default theme functions.
@@ -202,14 +201,14 @@ function ec_resp_preprocess_node(&$variables) {
     case 'idea':
       $variables['watched'] = $variables['field_watching'][0]['value'];
       break;
-  
+
     case 'gallerymedia':
       unset($variables['content']['field_picture_upload']);
       unset($variables['content']['field_video_upload']);
       break;
-  
+
   }
-  
+
 }
 
 /**
@@ -1133,9 +1132,8 @@ function ec_resp_link($variables) {
   $output = $action_bar_before . $btn_group_before .
     '<a href="' .
     check_plain(url($variables['path'], $variables['options'])) . '"' .
-    drupal_attributes($variables['options']['attributes']) . '>' .
-    $decoration . ($variables['options']['html'] ?
-      $variables['text'] : check_plain($variables['text'])) .
+    drupal_attributes($variables['options']['attributes']) . '>' . $decoration .
+    ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text'])) .
     '</a>' . $btn_group_after . $action_bar_after;
   return $output;
 }
@@ -1296,7 +1294,7 @@ function ec_resp_preprocess_admin_menu_icon(&$variables) {
  * Implements theme_preprocess_block().
  */
 function ec_resp_preprocess_block(&$variables) {
-    
+
   global $user, $language;
   if (!empty($user) && 0 != $user->uid) {
     $full_user = user_load($user->uid);
@@ -1376,7 +1374,7 @@ function ec_resp_preprocess_block(&$variables) {
   $variables['panel'] = $panel;
   $variables['title'] = $title;
   $variables['body_class'] = $body_class;
-  
+
   if (isset($variables['block']->bid)) {
     switch ($variables['block']->bid) {
       case 'locale-language':
@@ -1402,7 +1400,8 @@ function ec_resp_preprocess_block(&$variables) {
           }
 
           // Get the related url alias
-          // check if the multisite language negotiation with suffix url is enabled.
+          // Check if the multisite language negotiation
+          // with suffix url is enabled.
           $language_negociation = variable_get('language_negotiation_language');
           if (isset($language_negociation['locale-url-suffix'])) {
             $delimiter = variable_get('language_suffix_delimiter', '_');
@@ -1425,20 +1424,22 @@ function ec_resp_preprocess_block(&$variables) {
           }
 
           // Add enabled languages.
-          $items[] = array(
-            'data' => l($language_name, filter_xss($path), array(
-              'attributes' => array(
-                'hreflang' => $prefix,
-                'lang' => $prefix,
-                'title' => $language_name,
-              )
-            )),
-          );
+          if ($language_name != $language->name) {
+            $items[] = array(
+              'data' => l($language_name, filter_xss($path), array(
+                'attributes' => array(
+                  'hreflang' => $prefix,
+                  'lang' => $prefix,
+                  'title' => $language_name,
+                ),
+              )),
+            );
+          }
         }
 
         $variables['language_list'] = theme('item_list', array('items' => $items));
         break;
-        
+
       case 'system-user-menu':
         if ($user->uid) {
           $account = user_load($user->uid);
@@ -1465,7 +1466,7 @@ function ec_resp_preprocess_block(&$variables) {
         else {
           $dest = drupal_get_path_alias();
         }
-        
+
         foreach ($menu as $item_id) {
           // Get icon links to menu item.
           $icon = (isset($item_id['attributes']['data-image']) ? $item_id['attributes']['data-image'] : '');
@@ -1497,21 +1498,21 @@ function ec_resp_preprocess_block(&$variables) {
             case 'user':
               $item_id['attributes']['type'] = 'user';
               break;
-          
+
             case 'user/login':
               $item_id['attributes']['type'] = 'login';
               break;
-            
+
             case 'user/logout':
               $item_id['attributes']['type'] = 'logout';
               break;
-          
+
             case 'admin/workbench':
               $item_id['attributes']['type'] = 'workbench';
               break;
-          
+
           }
-          
+
           $item_id['html'] = TRUE;
 
           $items[] = l($item_id['title'], $item_id['href'], $item_id);
@@ -1519,7 +1520,7 @@ function ec_resp_preprocess_block(&$variables) {
 
         $variables['menu_items'] = implode('', $items);
         break;
-    
+
     }
   }
 }
@@ -1555,7 +1556,7 @@ function ec_resp_table($variables) {
     foreach ($colgroups as $number => $colgroup) {
       $attributes = array();
 
-      // Check if we're dealing with a simple or complex column
+      // Check if we're dealing with a simple or complex column.
       if (isset($colgroup['data'])) {
         foreach ($colgroup as $key => $value) {
           if ($key == 'data') {
@@ -1570,7 +1571,7 @@ function ec_resp_table($variables) {
         $cols = $colgroup;
       }
 
-      // Build colgroup
+      // Build colgroup.
       if (is_array($cols) && count($cols)) {
         $output .= ' <colgroup' . drupal_attributes($attributes) . '>';
         $i = 0;
@@ -1600,7 +1601,8 @@ function ec_resp_table($variables) {
       'data' => $empty,
       'colspan' => $header_count,
       'class' => array('empty', 'message'),
-    ));
+      ),
+    );
   }
 
   // Format the table header:
@@ -1613,7 +1615,8 @@ function ec_resp_table($variables) {
       $cell = tablesort_header($cell, $header, $ts);
       $output .= _theme_table_cell($cell, TRUE);
     }
-    // Using ternary operator to close the tags based on whether or not there are rows
+    // Using ternary operator to close the tags based on whether
+    // or not there are rows.
     $output .= (count($rows) ? " </tr></thead>\n" : "</tr>\n");
   }
   else {
@@ -1658,7 +1661,7 @@ function ec_resp_table($variables) {
           $output .= _theme_table_cell($cell);
         }
         $output .= " </tr>\n";
-      }        
+      }
     }
     $output .= "</tbody>\n";
   }
