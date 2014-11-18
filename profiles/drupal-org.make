@@ -197,7 +197,7 @@ projects[maxlength][subdir] = "contributed"
 projects[maxlength][version] = "3.0-beta1"
 
 projects[media][subdir] = "contributed"
-projects[media][version] = "2.0-alpha2"
+projects[media][version] = "2.0-alpha3"
 
 projects[media_crop][subdir] = "contributed"
 projects[media_crop][version] = "1.4"
@@ -206,7 +206,7 @@ projects[media_dailymotion][subdir] = "contributed"
 projects[media_dailymotion][version] = "1.0"
 
 projects[media_flickr][subdir] = "contributed"
-projects[media_flickr][version] = "1.0-alpha3"
+projects[media_flickr][version] = "1.0-alpha4"
 
 projects[media_node][subdir] = "contributed"
 projects[media_node][version] = "1.0-rc2"
@@ -215,7 +215,7 @@ projects[media_vimeo][subdir] = "contributed"
 projects[media_vimeo][version] = "2.0"
 
 projects[media_youtube][subdir] = "contributed"
-projects[media_youtube][version] = "2.0-rc3"
+projects[media_youtube][version] = "2.0-rc4"
 
 projects[menu_attributes][subdir] = "contributed"
 projects[menu_attributes][version] = "1.0-rc2"
