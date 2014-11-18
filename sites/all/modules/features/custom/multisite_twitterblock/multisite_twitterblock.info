@@ -3,7 +3,7 @@ description = This feature adds a twitter widget on your sidebar
 core = 7.x
 package = Multisite Features
 php = 5.2.4
-version = 7.x-2.0
+version = 7.x-2.1
 project = multisite_twitterblock
 configure = admin/config/content/multisite_twitterblock
 

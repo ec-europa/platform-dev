@@ -368,7 +368,13 @@ function _multisite_twitterblock_load_settings(&$entity, $entity_id, $entity_typ
  * Implements hook_form_BASE_FORM_ID_alter().
  */
 function multisite_twitterblock_form_taxonomy_form_term_alter(&$form, $form_state) {
-  $machine_name = isset($form['#term']['vocabulary_machine_name']) ? $form['#term']['vocabulary_machine_name'] : NULL;
+
+  if (is_object($form['#term'])) {
+    $machine_name = $form['#term']->vocabulary_machine_name;
+  } else {
+    $machine_name = isset($form['#term']['vocabulary_machine_name']) ? $form['#term']['vocabulary_machine_name'] : NULL;
+  }
+
   if (!multisite_twitterblock_check_availability($machine_name, MULTISITE_TWITTERBLOCK_VOCABULARY_LIST)) {
     return;
   }
@@ -694,7 +700,7 @@ function _multisite_twitterblock_settings_form($default_values, $mode = 'full', 
     '#type' => 'textfield',
     '#title' => t('Hashtags'),
     '#default_value' => $default_values['incl_hashtags'],
-    '#description' => t('Comma seperated list of hashtags: search for tweets containing all specified hashtags'),
+    '#description' => t('List of hashtags: search for tweets with the specified hashtags. You can divide them with comma, AND, OR'),
   );
 
   $form['smk-twitter_search'][$prefix . 'incl_profiles'] = array(
