@@ -111,11 +111,11 @@
 
   </div>
 
-  <?php if ($links): ?>
+  <?php if (isset($content['links'])): ?>
   <div class="link-wrapper right">
     <?php print render($content['links']); ?>
   </div>
   <?php endif; ?>
-  <?php print render($content['comments']); ?>
+  <?php print isset($content['comments']) ? render($content['comments']) : ''; ?>
 
 </div>
