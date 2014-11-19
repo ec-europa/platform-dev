@@ -8,6 +8,9 @@ php = "5.2.4"
 stylesheets[all][] = "css/ec_resp.css"
 stylesheets[print][] = "css/print.css"
 
+scripts[] = "scripts/respond.min.js"
+scripts[] = "bootstrap/js/bootstrap.min.js"
+
 regions[header_top] = "Header Top"
 regions[header_right] = "Header Right"
 
@@ -32,6 +35,4 @@ settings[shortcut_module_link] = 0
 project = "drupal"
 datestamp = "1294208756"
 
-
-; Information added by Acquia . com packaging script
-multisite = "1"
+multisite_version = "1.7"

@@ -310,9 +310,7 @@ function ec_resp_preprocess_html(&$variables) {
   );
   drupal_add_html_head($element, 'font_size_switcher');
 
-  // Add javascripts.
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/bootstrap/js/bootstrap.min.js', array('scope' => 'header', 'weight' => 0));
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/respond.min.js', array('scope' => 'header', 'weight' => 1));
+  // Add javascripts to the footer scope.
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel.min.js', array('scope' => 'footer', 'weight' => 11));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec_resp.js', array('scope' => 'footer', 'weight' => 12));
