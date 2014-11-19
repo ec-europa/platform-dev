@@ -38,3 +38,6 @@ projects[search_krumo][version] = "1.5"
 
 projects[realistic_dummy_content][subdir] = "contributed"
 projects[realistic_dummy_content][version] = "1.x-dev"
+
+projects[security_review][subdir] = "contributed"
+projects[security_review][version] = "1.2"
