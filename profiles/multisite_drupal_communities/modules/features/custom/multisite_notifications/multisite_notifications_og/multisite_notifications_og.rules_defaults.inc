@@ -43,7 +43,12 @@ function multisite_notifications_og_default_rules_configuration() {
       "ON" : { "workbench_moderation_after_moderation_transition" : [] },
       "IF" : [
         { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "needs_review" } },
-        { "contents_previous_state" : { "node" : [ "node" ], "moderation_state" : "draft" } }
+        { "contents_previous_state" : { "node" : [ "node" ], "moderation_state" : "draft" } },
+        { "node_is_of_type" : {
+            "node" : [ "node" ],
+            "type" : { "value" : { "community" : "community" } }
+          }
+        }
       ],
       "DO" : [
         { "mail_to_users_of_role" : {
