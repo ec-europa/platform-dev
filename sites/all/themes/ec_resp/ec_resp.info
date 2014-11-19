@@ -3,6 +3,7 @@ description = Responsive template with Europa banner
 package = Core
 version = "7.x-1.7"
 core = "7.x"
+php = "5.2.4"
 
 stylesheets[all][] = "css/ec_resp.css"
 stylesheets[print][] = "css/print.css"

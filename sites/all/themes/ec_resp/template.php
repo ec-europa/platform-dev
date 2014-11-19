@@ -315,7 +315,7 @@ function ec_resp_preprocess_html(&$variables) {
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/respond.min.js', array('scope' => 'header', 'weight' => 1));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel.min.js', array('scope' => 'footer', 'weight' => 11));
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/scripts.js', array('scope' => 'footer', 'weight' => 12));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec_resp.js', array('scope' => 'footer', 'weight' => 12));
 }
 
 /**
