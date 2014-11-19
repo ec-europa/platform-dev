@@ -371,7 +371,8 @@ function multisite_twitterblock_form_taxonomy_form_term_alter(&$form, $form_stat
 
   if (is_object($form['#term'])) {
     $machine_name = $form['#term']->vocabulary_machine_name;
-  } else {
+  }
+  else {
     $machine_name = isset($form['#term']['vocabulary_machine_name']) ? $form['#term']['vocabulary_machine_name'] : NULL;
   }
 
