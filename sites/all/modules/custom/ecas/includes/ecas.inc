@@ -34,9 +34,9 @@ function _is_ecas_user($user) {
  * Handle any form modification in this module.
  */
 function ecas_form_alter(&$form, &$form_state, $form_id) {
-  global $user;
-  
   if ($form_id == 'user_profile_form') {
+    $user = user_load($form['#user']->uid);
+    
     if (_is_ecas_user($user)) {
       // remove the "Current password"
       $form['account']['current_pass']['#access'] = FALSE;
