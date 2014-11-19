@@ -17,7 +17,8 @@ dependencies[] = simpletest
 dependencies[] = search_krumo
 dependencies[] = devel_debug_log
 dependencies[] = module_filter
-dependencies[] = multisite_review
+dependencies[] = realistic_dummy_content
+dependencies[] = security_review
 
 ; todo -- further evaluation
 ;dependencies[] = visualize_backtrace
