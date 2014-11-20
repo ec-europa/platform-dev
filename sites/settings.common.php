@@ -144,7 +144,7 @@ $conf['proxy_exceptions'] = array('fpfis-dev.net1.cec.eu.int','intragate.ec.euro
 $conf['feeds_never_use_curl'] = true;
 
 // Proxy configuration as read by the chr (Curl HTTP Request) module
-$conf['drupal_http_request_function'] = 'curl_http_request';
+$conf['drupal_http_request_function'] = 'chr_curl_http_request';
 $conf['https_proxy'] = $conf['http_proxy'] = array(
   'server' => '158.169.9.13', // pslux.ec.europa.eu
   'port' => '8012',
