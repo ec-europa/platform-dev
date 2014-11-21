@@ -62,9 +62,9 @@ function _taxonomy_browser_form_submit($form, &$form_state) {
       if (isset($bl->bid)) {
         // Delete block which vocabulary is not selected.
         db_delete('block')
-                ->condition('module', 'taxonomy_browser')
-                ->condition('delta', $bl->delta)
-                ->execute();
+          ->condition('module', 'taxonomy_browser')
+          ->condition('delta', $bl->delta)
+          ->execute();
       }
     }
   }
@@ -125,7 +125,8 @@ function _taxonomy_browser_output_taxonomy_nested_tree($tree, $path) {
       if (isset($term->children)) {
         $output .= '<ins class="taxonomy-tree-opener jstree-icon"></ins>';
       }
-      $output .= l($term->name, $path . '/' . $term->tid, array('attributes' => array('class' => array('taxonomy-tree-link'))));
+      $real_path = preg_replace('/\%/', $term->tid, $path);
+      $output .= l($term->name, $real_path, array('attributes' => array('class' => array('taxonomy-tree-link'))));
 
       if (isset($term->children)) {
         $output .= _taxonomy_browser_output_taxonomy_nested_tree($term->children, $path);
@@ -172,6 +173,51 @@ function taxonomy_browser_block_info() {
 }
 
 /**
+ * Implements hook_block_configure().
+ */
+function taxonomy_browser_block_configure($delta = '') {
+  $form = array();
+  $vids = variable_get('taxonomy_browser_vocabulary', array());
+  $blocks = array();
+  $view_list = views_get_all_views();
+  $view_options = array();
+  $view_options[0] = ' - Please choose one from the list!';
+  foreach ($view_list as $view_name => $view) {
+    if (!$view->disabled) {
+      foreach ($view->display as $display_name => $display) {
+        if ($display->display_plugin == 'page') {
+          $name = !empty($view->human_name) ? $view->human_name : $view->name;
+          $name .= ' - ';
+          $name .= isset($display->display_title) ? $display->display_title : '';
+          $view_options[$display->display_options['path']] = $name;
+        }
+      }
+    }
+  }
+  $vid = substr($delta, 28);
+  $vocabulary = taxonomy_vocabulary_load($vid);
+  $form['vid'] = array(
+    '#type' => 'hidden',
+    '#value' => $vocabulary->vid,
+  );
+  $form['taxonomy_browser_vocabulary_view'] = array(
+    '#type' => 'select',
+    '#title' => t('Which view to manage the display?'),
+    '#default_value' => variable_get('taxonomy_browser_vocabulary_' . $vocabulary->vid . '_view', 0),
+    '#options' => $view_options,
+    '#required' => TRUE,
+  );
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function taxonomy_browser_block_save($delta = '', $edit = array()) {
+  variable_set($delta . '_view', $edit['taxonomy_browser_vocabulary_view']);
+}
+
+/**
  * Implements hook_block_view().
  */
 function taxonomy_browser_block_view($delta = '') {
@@ -197,6 +243,32 @@ function taxonomy_browser_block_view($delta = '') {
         $block['title'] = $vocabulary->name;
         $block['content'] = _taxonomy_browser_create_block_content($vid, $vocabulary);
       }
+    }
+  }
+  else {
+    $vid = substr($delta, 28);
+    if (strpos($delta, 'taxonomy_browser_vocabulary_') === 0) {
+      drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/taxonomy_browser.css');
+      drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/ec-default/style.css');
+      drupal_add_js('misc/jquery.cookie.js');
+
+      if (module_exists('jquery_update')){
+        drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser.js');
+      }else{
+        drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser_jq171.js');
+      }
+      drupal_add_library('system', 'drupal.ajax');
+      
+      $vocabulary = taxonomy_vocabulary_load($vid);
+      $block['title'] = check_plain($vocabulary->name);
+      
+      $path = variable_get('taxonomy_browser_vocabulary_' . $vid . '_view', '');
+      
+      $output1['#type'] = 'item';
+      $output1['#prefix'] = '<div id="tb_wrapper"><div id="tb_browser">';
+      $output1['#markup'] = _taxonomy_browser_taxonomy_create_tree($vocabulary->vid, $path, FALSE);
+      $output1['#suffix'] = '</div></div>';
+      $block['content'] = $output1;
     }
   }
   return $block;
