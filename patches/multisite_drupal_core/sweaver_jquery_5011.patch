@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/sweaver/plugins/sweaver_plugin_editor.js	Sat Apr 07 17:10:26 2012
-+++ sites/all/modules/contributed/sweaver/plugins/sweaver_plugin_editor.js	Fri Nov 21 12:36:43 2014
+--- sites/all/modules/contributed/sweaver/plugins/sweaver_plugin_editor/sweaver_plugin_editor.js	Sat Apr 07 17:10:26 2012
++++ sites/all/modules/contributed/sweaver/plugins/sweaver_plugin_editor/sweaver_plugin_editor.js	Fri Nov 21 12:36:43 2014
 @@ -513,7 +513,7 @@
    });
  
