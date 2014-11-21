@@ -179,7 +179,7 @@
         var id= $('.fancybox-opened').find(".lightbox").children().attr('id');
 
         var isVideo = false;
-        if ($.browser.msie !=true && id != null && id.indexOf("player") >= 0) {
+        if (navigator.appName != 'Microsoft Internet Explorer' && id != null && id.indexOf("player") >= 0) {
           isVideo = true;
           var player= document.getElementById(id);
           player.sendEvent('STOP');
