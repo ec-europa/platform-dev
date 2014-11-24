@@ -1327,4 +1327,5 @@ function cce_basic_config_update_7199() {
  */
 function cce_basic_config_update_7200() {
   variable_set('jquery_update_jquery_version', '1.10');
+  variable_set('jquery_update_jquery_admin_version', '1.5');
 }
