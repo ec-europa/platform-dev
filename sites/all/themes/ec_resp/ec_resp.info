@@ -8,8 +8,6 @@ php = "5.2.4"
 stylesheets[all][] = "css/ec_resp.css"
 stylesheets[print][] = "css/print.css"
 
-scripts[] = "scripts/html5shiv.min.js"
-scripts[] = "scripts/respond.min.js"
 scripts[] = "bootstrap/js/bootstrap.min.js"
 
 regions[header_top] = "Header Top"
