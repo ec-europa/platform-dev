@@ -5,12 +5,12 @@ core = 7.x
 ; Temporary fix until Drupal.org add project tags back
 ; =============
 ;projects[drupal][type] = core
-;projects[drupal][version] = "7.33"
+;projects[drupal][version] = "7.34"
 
 projects[drupal][type] = core
-projects[drupal][version] = 7.33
+projects[drupal][version] = 7.34
 projects[drupal][download][type] = get
-projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.33.tar.gz
+projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.34.tar.gz
 
 ; ====================
 ; Contributed modules
