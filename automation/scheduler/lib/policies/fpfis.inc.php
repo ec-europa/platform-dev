@@ -675,7 +675,7 @@ function fpfis_configure_apachesolr(&$subsite) {
 }
 
 function fpfis_enable_varnish(&$subsite) {
-	$execution = drush_subsite($subsite, 'en varnish');
+	$execution = drush_subsite($subsite, 'en flexible_purge');
 	$return = array('report' => $execution['reports']);
 	if (count($execution['reports'])) $return['break'] = TRUE;
 	$return['new_state'] = count($execution['reports']) ? 'varnish_enable_failed' : 'varnish_enabled';
