@@ -67,7 +67,6 @@ function taxonomy_browser_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'taxonomy-browser-header';
 
- 
   $translatables['taxonomy_browser_header'] = array(
     t('Master'),
     t('more'),
