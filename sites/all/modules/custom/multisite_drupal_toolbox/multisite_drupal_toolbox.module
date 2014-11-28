@@ -108,14 +108,14 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
   }
 }
 
-/*
- * Implements hook_module_implements_alter
+/**
+ * Implements hook_module_implements_alter().
  *
  * We ensure our hook_boot is called first
  */
-function multisite_drupal_toolbox_module_implements_alter(&$implementations, $hook){
-  if ($hook == 'boot'){
-    $group = array ('multisite_drupal_toolbox' => $implementations['multisite_drupal_toolbox']);
+function multisite_drupal_toolbox_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'boot') {
+    $group = array('multisite_drupal_toolbox' => $implementations['multisite_drupal_toolbox']);
     unset($implementations['multisite_drupal_toolbox']);
     $implementations = $group + $implementations;
   }
@@ -148,12 +148,8 @@ function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
     variable_set("language_count", 2);
   }
-}
 
-/**
- * Implements hook_menu_alter().
- */
-function multisite_drupal_toolbox_menu_alter(&$items) {
+  // Define admin pages that should use default theme.
   $list_pages = array(
     'admin/structure/feature-set',
     'admin/workbench',
@@ -161,10 +157,18 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
     'admin/content/media',
     'admin/content/webform',
     'admin/structure/block',
-    'admin/structure/feature-set',
     'admin/help',
   );
+  variable_set('multisite_drupal_toolbox_admin_pages', $list_pages);
+}
 
+/**
+ * Implements hook_menu_alter().
+ */
+function multisite_drupal_toolbox_menu_alter(&$items) {
+
+  // Use default theme for specific admin pages.
+  $list_pages = variable_get('multisite_drupal_toolbox_admin_pages');
   foreach ($items as $url => $item) {
     foreach ($list_pages as $page) {
       if (strpos($url, $page) === 0) {
@@ -284,7 +288,7 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
           unset($form['permission']['administer varnish']);
         }
 
-        //auto_nodetile module
+        // Auto_nodetile module.
         if (isset($form['permission']['use PHP for title patterns'])) {
           unset($form['permission']['use PHP for title patterns']);
         }
@@ -296,7 +300,7 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
           unset($form['checkboxes'][$rid]['#options']['manage features']);
           unset($form['checkboxes'][$rid]['#options']['administer software updates']);
           unset($form['checkboxes'][$rid]['#options']['use PHP to import nodes']);
-          if (isset($form['checkboxes'][$rid]['#options']['use PHP for title patterns'])) { 		//auto_nodetile module
+          if (isset($form['checkboxes'][$rid]['#options']['use PHP for title patterns'])) {
             unset($form['checkboxes'][$rid]['#options']['use PHP for title patterns']);
           }
           if (isset($form['checkboxes'][$rid]['#options']['administer varnish'])) {
@@ -1236,46 +1240,43 @@ function multisite_drupal_toolbox_tokens($type, $tokens, array $data = array(), 
  * Implments hook_tokens_alter().
  */
 function multisite_drupal_toolbox_tokens_alter(array &$replacements, array $context) {
-  // preserve recipient_user token (rules automatically cleans non replaced token)
-  if ($context['type'] == 'recipient_user'){
-    if (isset($context['data']['recipient_user'])){
+  // Preserve recipient_user token
+  // (rules automatically cleans non replaced token).
+  if ($context['type'] == 'recipient_user') {
+    if (isset($context['data']['recipient_user'])) {
       unset ($replacements[current($context['tokens'])]);
-    }else{
+    }
+    else {
       $replacements[current($context['tokens'])] = current($context['tokens']);
     }
   }
 
-  /** Add aliases to manage multiple instances of the same object type
-   * Usage:
-    * $data['user'] = $account;
-    * $data['friend'] = $friend_account;
-    * $data['current-user'] = $current_user;
-    * $replaced_string = token_replace($body, $data, array('language' => $langcode, 'aliases' => array('friend' => 'user', 'current-user' => 'user')));
-    */
-   if (isset($context['options']['aliases']) && in_array($context['type'], array_keys($context['options']['aliases']))) {
-     $new_data = array($context['options']['aliases'][$context['type']] => $context['data'][$context['type']]);
-     $replacements += token_generate($context['options']['aliases'][$context['type']], $context['tokens'], $new_data, $context['options']);
-   }
+  // Add aliases to manage multiple instances of the same object type.
+  if (isset($context['options']['aliases']) && in_array($context['type'], array_keys($context['options']['aliases']))) {
+    $new_data = array($context['options']['aliases'][$context['type']] => $context['data'][$context['type']]);
+    $replacements += token_generate($context['options']['aliases'][$context['type']], $context['tokens'], $new_data, $context['options']);
+  }
 }
 
 /**
-  * Implements of hook_mail_alter
-  *
-  * Replace 'recipient_user' tokens 
-  * 'recipient_user' can be used on every mail.
-  */
-function multisite_drupal_toolbox_mail_alter (&$message){
-  // using 'to' email to get recipient user
+ * Implements hook_mail_alter().
+ *
+ * Replace 'recipient_user' tokens 
+ * 'recipient_user' can be used on every mail.
+ */
+function multisite_drupal_toolbox_mail_alter(&$message) {
+  // Using 'to' email to get recipient user.
   $recipient_mail = $message['to'];
-  $recipient_user = user_load_by_mail ($recipient_mail);
-  if ($recipient_user){
-    $data = array ();
-	// recipient_user is an alias of user
-    $data['recipient_user'] = $recipient_user; 
-    $aliases = array ('recipient_user' => 'user');
+  $recipient_user = user_load_by_mail($recipient_mail);
+
+  if ($recipient_user) {
+    $data = array();
+    // Recipient_user is an alias of user.
+    $data['recipient_user'] = $recipient_user;
+    $aliases = array('recipient_user' => 'user');
     $body = $message['body']['0'];
-	// replace token
-    $message['body']['0'] = token_replace($body, $data, array('aliases' => $aliases)); 
+    // Replace token.
+    $message['body']['0'] = token_replace($body, $data, array('aliases' => $aliases));
   }
 }
 
@@ -1459,4 +1460,30 @@ function multisite_drupal_toolbox_modules_installed($modules) {
   }
 }
 
+/**
+ * Implements hook_library_alter().
+ */
+function multisite_drupal_toolbox_library_alter(&$javascript, $module) {
 
+  // Use jquery 1.10 for specific admin pages.
+  if (module_exists('jquery_update')) {
+
+    $list_pages = variable_get('multisite_drupal_toolbox_admin_pages');
+
+    $path = drupal_get_path('module', 'jquery_update');
+    $version = variable_get('jquery_update_jquery_version', '1.10');
+    $admin_version = variable_get('jquery_update_jquery_admin_version', '');
+
+    $min = variable_get('jquery_update_compression_type', 'min') == 'none' ? '' : '.min';
+    $cdn = variable_get('jquery_update_jquery_cdn', 'none');
+
+    $current_path = current_path();
+    if (path_is_admin($current_path) && in_array($current_path, $list_pages)) {
+      if (version_compare($version, $admin_version, '!=')) {
+        $admin_version = '1.10';
+        $version = $admin_version;
+        jquery_update_jquery_replace($javascript, $cdn, $path, $min, $version);
+      }
+    }
+  }
+}

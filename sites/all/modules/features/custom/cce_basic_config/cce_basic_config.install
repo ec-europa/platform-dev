@@ -1326,8 +1326,21 @@ function cce_basic_config_update_7199() {
  * Implements hook_update_n().
  *
  * Use jquery 1.10.
+ * Define admin pages that should use default theme.
  */
 function cce_basic_config_update_7200() {
   variable_set('jquery_update_jquery_version', '1.10');
   variable_set('jquery_update_jquery_admin_version', '1.5');
+
+  // Define admin pages that should use default theme.
+  $list_pages = array(
+    'admin/structure/feature-set',
+    'admin/workbench',
+    'admin/content/comment',
+    'admin/content/media',
+    'admin/content/webform',
+    'admin/structure/block',
+    'admin/help',
+  );
+  variable_set('multisite_drupal_toolbox_admin_pages', $list_pages);
 }
