@@ -370,7 +370,7 @@ function ec_resp_preprocess_menu_link(&$variables) {
 function ec_resp_preprocess_views_view(&$variables) {
   $view = $variables['view'];
 
-  if ($view->name == 'galleries' && $view->current_display == 'page') {
+  if ($view->name == 'galleries') {
     drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-galleries.js');
 
     // Get empty gallery picture, if needed.
@@ -454,7 +454,7 @@ function ec_resp_preprocess_views_view_grid(&$variables) {
   $grid_col[12]['sm'] = array(3, 1, 1, 1, 1, 1, 1, 3);
   $grid_col[12]['xs'] = array(2, 2, 2, 2, 2, 2);
 
-  $variables['nb_col'] = $variables['view']->style_options['columns'];
+  $variables['nb_col'] = $variables['view']->style_plugin->options['columns'];
   $variables['grid_col'] = $grid_col;
 }
 

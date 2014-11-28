@@ -90,7 +90,6 @@
   <?php print render($title_suffix); ?>
 
   <div class="content clearfix"<?php print $content_attributes; ?>>
-  <?php print $prefix; ?>
   <?php print render($content); ?>
   <?php print $gallerymedia_items; ?>
   <?php if ($display_submitted): ?>
@@ -107,6 +106,7 @@
     <?php endif; ?>
   </div>
 
+  <?php $links = render($content['links']); ?>
   <?php if ($links): ?>
   <div class="link-wrapper right">
     <?php print render($content['links']); ?>
