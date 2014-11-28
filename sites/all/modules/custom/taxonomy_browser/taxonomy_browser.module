@@ -1,11 +1,10 @@
 <?php
-
-include_once 'taxonomy_browser.features.inc';
-
 /**
  * @file
  * allow to filter view with a taxonomy tree
  */
+
+include_once 'taxonomy_browser.features.inc';
 
 /**
  * Implements hook_permission().
@@ -126,7 +125,7 @@ function _taxonomy_browser_output_taxonomy_nested_tree($tree, $path) {
         $output .= '<ins class="taxonomy-tree-opener jstree-icon"></ins>';
       }
       $real_path = preg_replace('/\%/', $term->tid, $path);
-      
+
       // If the view path doesn't contain real parameter in itself,
       // just put the parameter after the path,
       // anyways the changed real_path will be used.
@@ -260,18 +259,19 @@ function taxonomy_browser_block_view($delta = '') {
       drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/ec-default/style.css');
       drupal_add_js('misc/jquery.cookie.js');
 
-      if (module_exists('jquery_update')){
+      if (module_exists('jquery_update')) {
         drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser.js');
-      }else{
+      }
+      else {
         drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser_jq171.js');
       }
       drupal_add_library('system', 'drupal.ajax');
-      
+
       $vocabulary = taxonomy_vocabulary_load($vid);
       $block['title'] = check_plain($vocabulary->name);
-      
+
       $path = variable_get('taxonomy_browser_vocabulary_' . $vid . '_view', '');
-      
+
       $output1['#type'] = 'item';
       $output1['#prefix'] = '<div id="tb_wrapper"><div id="tb_browser">';
       $output1['#markup'] = _taxonomy_browser_taxonomy_create_tree($vocabulary->vid, $path, FALSE);
@@ -289,13 +289,14 @@ function _taxonomy_browser_create_block_content($vid, $vocabulary) {
   drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/taxonomy_browser.css');
   drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/ec-default/style.css');
   drupal_add_js('misc/jquery.cookie.js');
-  
-  if (module_exists('jquery_update')){
+
+  if (module_exists('jquery_update')) {
     drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser.js');
-  }else{
+  }
+  else {
     drupal_add_js(drupal_get_path('module', 'taxonomy_browser') . '/js/taxonomy_browser_jq171.js');
   }
-  
+
   drupal_add_library('system', 'drupal.ajax');
 
   $view = views_get_page_view();
