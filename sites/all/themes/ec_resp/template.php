@@ -314,7 +314,7 @@ function ec_resp_preprocess_html(&$variables) {
   $html5shiv = array(
     '#tag' => 'script',
     '#attributes' => array(
-      'src' => drupal_get_path('theme', 'ec_resp') . '/scripts/html5shiv.min.js',
+      'src' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/scripts/html5shiv.min.js',
     ),
     '#prefix' => '<!--[if lt IE 9]>',
     '#suffix' => '</script><![endif]-->',
@@ -324,7 +324,7 @@ function ec_resp_preprocess_html(&$variables) {
   $respond = array(
     '#tag' => 'script',
     '#attributes' => array(
-      'src' => drupal_get_path('theme', 'mythemename') . '/scripts/respond.min.js',
+      'src' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/scripts/respond.min.js',
     ),
     '#prefix' => '<!--[if lt IE 9]>',
     '#suffix' => '</script><![endif]-->',
