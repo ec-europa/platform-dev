@@ -370,30 +370,26 @@ function ec_resp_preprocess_menu_link(&$variables) {
 function ec_resp_preprocess_views_view(&$variables) {
   $view = $variables['view'];
 
-  if ($view->name == 'galleries') {
-    drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-galleries.js');
+  switch ($view->name) {
+    case 'galleries':
+      if ($view->current_display == 'medias_block') {
+        drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-medias-block.js');
+      }
+      else {
+        drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-galleries.js');
+      }
 
-    // Get empty gallery picture, if needed.
-    $empty_pic = db_select('file_managed', 'fm')
-      ->fields('fm')
-      ->condition('filename', 'empty_gallery.png', '=')
-      ->execute()
-      ->fetchAssoc();
-    $picture_square_thumbnail = image_style_url('square_thumbnail', $empty_pic['uri']);
-    $empty_img = '<img src="' . $picture_square_thumbnail . '" alt="There is no content in this gallery, or it has not been validated yet." />';
+      // Get empty gallery picture, if needed.
+      $empty_pic = db_select('file_managed', 'fm')
+        ->fields('fm')
+        ->condition('filename', 'empty_gallery.png', '=')
+        ->execute()
+        ->fetchAssoc();
+      $picture_square_thumbnail = image_style_url('square_thumbnail', $empty_pic['uri']);
+      $empty_img = '<img src="' . $picture_square_thumbnail . '" alt="There is no content in this gallery, or it has not been validated yet." />';
 
-    $variables['empty_img'] = $empty_img;
-  }
-}
-
-/**
- * Implements theme_preprocess_views_view_unformatted().
- */
-function ec_resp_preprocess_views_view_unformatted(&$variables) {
-  $view = $variables['view'];
-
-  if ($view->name == 'galleries' && $view->current_display == 'medias_block') {
-    drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-medias-block.js');
+      $variables['empty_img'] = $empty_img;
+      break;
   }
 }
 

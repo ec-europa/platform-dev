@@ -6,7 +6,6 @@
  *
  * @ingroup views_templates
  */
-
 $first = TRUE;
 ?>
 
@@ -20,7 +19,6 @@ $first = TRUE;
   <?php 
   foreach ($rows as $id => $row):
     print '<li data-target="#media-gallery-carousel" data-slide-to="' . $id . '" class="' . ($first ? "active" : "") . '"></li>';
-
     $first = FALSE;
   endforeach; ?>
   </ol>
@@ -28,20 +26,12 @@ $first = TRUE;
   <?php $first = TRUE; ?>
 
   <div class="carousel-inner">
-<?php foreach ($rows as $id => $row): ?>
-<div class="<?php print $classes_array[$id]; ?> <?php print ($first ? 'active' : '') ?>">
   <?php 
-
-    // Check if the galleries are actually empty.
-    $row = str_replace('[Empty_gallery][Empty_gallery]', '', $row);
-    // Check if there is only one picture.
-    $row = str_replace('[Empty_gallery]', '', $row);
-
-    print $row;
+  foreach ($rows as $id => $row):
+    print '<div class="' . $classes_array[$id] . ($first ? ' active' : '') . '">' . $row . '</div>';
     $first = FALSE;
+  endforeach;
   ?>
-</div>
-<?php endforeach; ?>
   </div>
   <a class="left carousel-control" href="#media-gallery-carousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
   <a class="right carousel-control" href="#media-gallery-carousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>    
