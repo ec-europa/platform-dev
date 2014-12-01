@@ -44,8 +44,10 @@ function ecas_form_alter(&$form, &$form_state, $form_id) {
       // remove the "Password", "Confirm password" ...
       $form['account']['pass']['#access'] = FALSE;
       // ... and "E-mail address" fields from the 'user/%/edit' page
+      
       // $form['account']['mail']['#access'] = FALSE;
-      $form['account']['mail']['#disabled'] = TRUE;
+      if(!empty($user->mail))
+        $form['account']['mail']['#disabled'] = TRUE;
       
       // disable the firstname and lastname fields
       $form['field_firstname']['#disabled'] = TRUE;
