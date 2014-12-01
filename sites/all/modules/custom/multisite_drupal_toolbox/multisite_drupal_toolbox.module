@@ -1480,8 +1480,6 @@ function multisite_drupal_toolbox_library_alter(&$javascript, $module) {
     $current_path = current_path();
     if (path_is_admin($current_path) && in_array($current_path, $list_pages)) {
       if (version_compare($version, $admin_version, '!=')) {
-        $admin_version = '1.10';
-        $version = $admin_version;
         jquery_update_jquery_replace($javascript, $cdn, $path, $min, $version);
       }
     }
