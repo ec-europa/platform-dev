@@ -148,18 +148,6 @@ function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
     variable_set("language_count", 2);
   }
-
-  // Define admin pages that should use default theme.
-  $list_pages = array(
-    'admin/structure/feature-set',
-    'admin/workbench',
-    'admin/content/comment',
-    'admin/content/media',
-    'admin/content/webform',
-    'admin/structure/block',
-    'admin/help',
-  );
-  variable_set('multisite_drupal_toolbox_admin_pages', $list_pages);
 }
 
 /**
@@ -168,7 +156,7 @@ function multisite_drupal_toolbox_init() {
 function multisite_drupal_toolbox_menu_alter(&$items) {
 
   // Use default theme for specific admin pages.
-  $list_pages = variable_get('multisite_drupal_toolbox_admin_pages');
+  $list_pages = variable_get('cce_basic_config_admin_pages');
   foreach ($items as $url => $item) {
     foreach ($list_pages as $page) {
       if (strpos($url, $page) === 0) {
@@ -1468,7 +1456,7 @@ function multisite_drupal_toolbox_library_alter(&$javascript, $module) {
   // Use jquery 1.10 for specific admin pages.
   if (module_exists('jquery_update')) {
 
-    $list_pages = variable_get('multisite_drupal_toolbox_admin_pages');
+    $list_pages = variable_get('cce_basic_config_admin_pages');
 
     $path = drupal_get_path('module', 'jquery_update');
     $version = variable_get('jquery_update_jquery_version', '1.10');
