@@ -156,7 +156,7 @@ function multisite_drupal_toolbox_init() {
 function multisite_drupal_toolbox_menu_alter(&$items) {
 
   // Use default theme for specific admin pages.
-  $list_pages = variable_get('cce_basic_config_admin_pages');
+  $list_pages = variable_get('cce_basic_config_admin_pages', array());
   foreach ($items as $url => $item) {
     foreach ($list_pages as $page) {
       if (strpos($url, $page) === 0) {
