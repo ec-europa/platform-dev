@@ -1,5 +1,5 @@
 ec_site_name = 'Futurium';
-ec_protocol = 'http';
+ec_protocol = 'https';
 ec_domain = 'ec.europa.eu';
 ec_base_path = '/digital-agenda/futurium';
 ec_base_url = ec_protocol + '://' + ec_domain + ec_base_path;
