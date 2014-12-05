@@ -11,36 +11,36 @@ function ec_world_countries_enable() {
 
   $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
   if ($vocabulary) {
-    $vid=$vocabulary->vid;
+    $vid = $vocabulary->vid;
   }
   else {
     $vocabulary = array(
-        'name' => t('EC World Countries'),
-        'machine_name' => 'ec_world_countries',
-        'description' => t('A list of the world countries'),
-        'hierarchy' => 1,
-        'module' => 'ec_world_countries', // or nothing
-        'weight' => 1
-        );
+      'name' => t('EC World Countries'),
+      'machine_name' => 'ec_world_countries',
+      'description' => t('A list of the world countries'),
+      'hierarchy' => 1,
+      'module' => 'ec_world_countries',
+      'weight' => 1,
+    );
     $vocabulary = (object) $vocabulary;
     taxonomy_vocabulary_save($vocabulary);
     $vid = $vocabulary->vid;
   };
 
-  include_once('includes/countries.php');
+  include_once 'includes/countries.php';
   foreach ($country_array as $continent => $countries) {
 
-      $term = (object) array( 'vid' => $vid, 'name' => st($continent), );
-      taxonomy_term_save($term);
-      $tid = $term->tid;
-      foreach ($countries as $country => $cy_name) {
-        $subterm = (object) array(
-            'vid' => $vid,
-            'name' => t($cy_name),
-            'parent' => $tid,
-            );
-        taxonomy_term_save($subterm);
-      }
+    $term = (object) array('vid' => $vid, 'name' => st($continent));
+    taxonomy_term_save($term);
+    $tid = $term->tid;
+    foreach ($countries as $country => $cy_name) {
+      $subterm = (object) array(
+        'vid' => $vid,
+        'name' => $cy_name,
+        'parent' => $tid,
+      );
+      taxonomy_term_save($subterm);
+    }
   };
 
   // Activation message.
@@ -55,7 +55,6 @@ function ec_world_countries_disable() {
 
   // Desactivation message.
   drupal_set_message(t('EC world countries feature is now disabled on your site.'));
-  //@TODO Check that the voc is not used and if it is not, run uninstall_hook in the feature.
 }
 
 /**
@@ -71,8 +70,7 @@ function ec_world_countries_install() {
 function ec_world_countries_uninstall() {
   $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
   if ($vocabulary) {
-    $vid=$vocabulary->vid;
+    $vid = $vocabulary->vid;
     taxonomy_vocabulary_delete($vid);
   }
-
 }

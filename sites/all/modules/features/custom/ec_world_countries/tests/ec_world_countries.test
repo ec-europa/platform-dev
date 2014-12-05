@@ -6,9 +6,13 @@
  */
 
 /**
- * Defines a base class for testing the "Ask a question" module.
+ * Defines a base class for testing the "ec_world_country" module.
  */
-class EC_WorldCountriesWebTestCase extends DrupalWebTestCase {
+class ECWorldCountriesWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Get information.
+   */
   public static function getInfo() {
     return array(
       'name' => 'EC world countries feature',
@@ -17,80 +21,88 @@ class EC_WorldCountriesWebTestCase extends DrupalWebTestCase {
     );
   }
 
+  /**
+   * Set up.
+   */
   public function setUp() {
     parent::setUp('ec_world_countries');
     $this->privileged_user = $this->drupalCreateUser(array('administer taxonomy'));
     $this->drupalLogin($this->privileged_user);
   }
 
+  /**
+   * Test creation of taxonomy.
+   */
   public function testTaxoIsCreated() {
     $this->drupalGet('admin/structure/taxonomy/ec_world_countries');
     $this->assertResponse(200);
 
   }
- }
+}
 
  /**
-  * Defines a base class for testing the "multisite_translations" module.
+  * Defines a base class for testing the "ec_world_countries" module.
   */
- class Multisite_ec_world_countriesQAWebTestCase extends DrupalWebTestCase {
+class MultisiteEcWorldCountriesQAWebTestCase extends DrupalWebTestCase {
 
-   public static function getInfo() {
-     return array(
-         'name' => 'ec_world_countries QA tests',
-         'description' => 'Test the ec_world_countries features to ensure it follows QA requirements.',
-         'group' => 'Multisite QA',
-     );
-   }
+  /**
+   * Get information.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'ec_world_countries QA tests',
+      'description' => 'Test the ec_world_countries features to ensure it follows QA requirements.',
+      'group' => 'Multisite QA',
+    );
+  }
 
-   /**
-    * Test Info File.
-    * TestFile <featurename>.info
-    */
-   function testInfoFile() {
-     $module = basename(__FILE__ , ".test");
-     $path = drupal_get_path('module', $module) . '/' . $module . '.info';
-     $info = drupal_parse_info_file($path);
+  /**
+   * Test Info File.
+   */
+  public function testInfoFile() {
+    $module = basename(__FILE__, ".test");
+    $path = drupal_get_path('module', $module) . '/' . $module . '.info';
+    $info = drupal_parse_info_file($path);
 
-     // Add name information. Ex: name=Newsletters.
-     $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module );
+    // Add name information. Ex: name=Newsletters.
+    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module);
 
-     // Add description information.
-     $this->assertTrue(array_key_exists('description', $info), 'The module\'s description is available.');
+    // Add description information.
+    $this->assertTrue(array_key_exists('description', $info), 'The module\'s description is available.');
 
-     // Add package information.
-     $this->assertTrue(array_key_exists('package', $info), 'The module\'s package is available.');
+    // Add package information.
+    $this->assertTrue(array_key_exists('package', $info), 'The module\'s package is available.');
 
-     // Add core information
-     $this->assertTrue(array_key_exists('core', $info), 'The Drupal core version is available.');
-     $this->assertEqual($info['core'], '7.x');
+    // Add core information.
+    $this->assertTrue(array_key_exists('core', $info), 'The Drupal core version is available.');
+    $this->assertEqual($info['core'], '7.x');
 
-     // Add php information
-     $this->assertTrue(array_key_exists('php', $info), 'The PHP version info is available.');
-     $this->assertEqual($info['php'], '5.2.4');
+    // Add php information.
+    $this->assertTrue(array_key_exists('php', $info), 'The PHP version info is available.');
+    $this->assertEqual($info['php'], '5.2.4');
 
-     // Add version information (check if the version number matches with this page title)
-     $this->assertTrue(array_key_exists('version', $info));
+    // Add version information.
+    $this->assertTrue(array_key_exists('version', $info));
 
-     // Add feature information:
-     $this->assertEqual($info['features']['features_api'][0], 'api:1', 'The Feature API dependency is available.');
+    // Add feature information.
+    $this->assertEqual($info['features']['features_api'][0], 'api:1', 'The Feature API dependency is available.');
 
-     // Remove menu dependencies:
-     if (array_key_exists('dependencies', $info)) {
-       $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
-     }
- 
-   }
+    // Remove menu dependencies.
+    if (array_key_exists('dependencies', $info)) {
+      $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
+    }
+  }
 
-   function testInstallFile() {
-     $module = basename(__FILE__ , ".test");
-     $path = drupal_get_path('module', $module) . '/' . $module . '.install';
-     $data = file_get_contents($path);
-     $this->assertTrue(strpos($data, $module . '_install'), 'The module contains a hook_install');
-     $this->assertTrue(strpos($data, $module . '_uninstall'), 'The module contains a hook_uninstall');
-     $this->assertTrue(strpos($data, $module . '_enable'), 'The module contains a hook_enable');
-     $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
-   }
-
-
- }
+  /**
+   * Check installation file.
+   */
+  public function testInstallFile() {
+    $module = basename(__FILE__, ".test");
+    $path = drupal_get_path('module', $module) . '/' . $module . '.install';
+    $data = file_get_contents($path);
+    $this->assertTrue(strpos($data, $module . '_install'), 'The module contains a hook_install');
+    $this->assertTrue(strpos($data, $module . '_uninstall'), 'The module contains a hook_uninstall');
+    $this->assertTrue(strpos($data, $module . '_enable'), 'The module contains a hook_enable');
+    $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
+  }
+}
