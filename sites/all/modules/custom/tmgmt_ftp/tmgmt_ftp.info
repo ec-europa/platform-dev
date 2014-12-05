@@ -1,0 +1,9 @@
+name = Translator - FTP connector
+description = A custom translator service based on FTP.
+package = Translation Management
+core = 7.x
+dependencies[] = tmgmt
+dependencies[] = tmgmt_file
+
+files[] = tmgmt_ftp.plugin.inc
+files[] = tmgmt_ftp.ui.inc

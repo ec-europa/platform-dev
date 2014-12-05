@@ -1,0 +1,285 @@
+<?php
+
+/**
+ * @file
+ * Module file of the translation management test module.
+ */
+
+/**
+ * Implements hook_tmgmt_translator_plugin_info().
+ */
+function tmgmt_ftp_tmgmt_translator_plugin_info() {
+  return array(
+    'supertext' => array(
+      'label' => t('FTP translator'),
+      'description' => t('FTP translation service.'),
+      'plugin controller class' => 'TMGMTFTPPluginController',
+      'ui controller class' => 'TMGMTFTPTranslatorUIController',
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_menu().
+ */
+function tmgmt_ftp_menu() {
+  $items = array();
+
+  $items = array();
+  $items['tmgmt_ftp/tmgmt_ftp_correct_callback'] = array(
+    'page callback' => 'tmgmt_ftp_correct_callback',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+  );
+
+  $items['tmgmt_ftp/tmgmt_ftp_error_callback'] = array(
+    'page callback' => 'tmgmt_ftp_error_callback',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+/**
+ * Callback for correct file requests.
+ */
+function tmgmt_file_correct_callback($values) {
+
+  // RequesCallback has file_key=Job_Id. Load $job and its $translator.
+  $job = tmgmt_job_load($_GET['file_key']);
+  $translator = $job->getTranslator();
+
+  // $job has the export format inside the object.
+  $extension = $job->settings['export_format'];
+
+  // Load the appropiate controler.
+  $controller = tmgmt_file_format_controller($extension);
+
+  ///////////////
+  // Get file. //
+  ///////////////
+
+  // Load job data.
+  $ftp_ip   = $translator->settings['ftp_settings']['ftp_ip'];
+  $ftp_user = $translator->settings['ftp_settings']['ftp_user'];
+  $ftp_pass = $translator->settings['ftp_settings']['ftp_pass'];
+
+  $tjid     = $job->tjid;
+  $sufix    = strtoupper($job->target_language);
+
+  $server_file     = '/JobID' . $job->tjid . '_' .  $sufix . '.' . $extension;
+  $server_file_req = '/JobID' . $job->tjid . '.' . $extension;
+  $local_file      = 'public://tmgmt_file/JobID' . $job->tjid . '_' .  $sufix . '.' . $extension;
+
+  // Open connection and login.
+  $conn_id = ftp_connect($ftp_ip);
+  $login_result = ftp_login($conn_id, $ftp_user, $ftp_pass);
+  ftp_pasv($conn_id, true);
+
+  if ((!$conn_id) || ($login_result == false)) {
+    watchdog("zz_ftp_output", "Ftp connection to load and clean KO");
+  }
+  else {
+    // Check that the file exists.
+    if (ftp_size($conn_id, $server_file) != -1) {
+      // Load file.
+      if ((ftp_get($conn_id, $local_file, $server_file, FTP_BINARY)) == false) {
+        watchdog("zz_ftp_output", "Ftp connection to load OK, File allocated in server to load OK, ftp_get() KO");
+      }
+      else {
+        // Delete files.
+        if ((ftp_delete($conn_id, $server_file) == false) || (ftp_delete($conn_id, $server_file_req) == false)) {
+        watchdog("zz_ftp_output", "Ftp connection to clean OK, File allocated in server to clean OK, ftp_delete() KO");
+        }
+      }
+    }
+    else {
+      watchdog("zz_ftp_output", "Ftp connection to load and clean OK, File allocated in server to load and clean KO");
+    }
+  }
+  // Close connection.
+  ftp_close($conn_id);
+
+  // Validation successful, start import.
+  $job->addTranslatedData($controller->import($local_file));
+  $job->addMessage('Successfully imported file.');
+
+  foreach ($job->getMessagesSince() as $message) {
+    // Ignore debug messages.
+    if ($message->type == 'debug') {
+      continue;
+    }
+    if ($text = $message->getMessage()) {
+      drupal_set_message(filter_xss($text), $message->type);
+    }
+  }
+}
+
+/**
+ * Callback for error file requests.
+ */
+function tmgmt_file_error_callback($values) {
+
+  $job = tmgmt_job_load($_GET['file_key']);
+  if (!empty($job)) {
+    $job->rejected('File translator could not translate de content. Error Code: ' . $_POST['errorCode'] . 'Error Message: ' . $_POST['errorMessage']);
+  }
+  else {
+    $return = t('Wrong call for submitting translation for job %job_id', array('%job_id' => $job->tjid));
+  }
+  drupal_exit();
+}
+
+/**
+ * Implements hook_tmgmt_job_delete().
+ */
+function tmgmt_ftp_tmgmt_job_delete(TMGMTJob $job) {
+  $translator = $job->getTranslator();
+
+  // Ignore jobs that don't have a file translator.
+  if (!$translator || $translator->plugin != 'file') {
+    return;
+  }
+  // Check if there are any files that need to be deleted.
+  // @todo There doesn't seem to be an API function for this...
+  $args = array(
+    ':module' => 'tmgmt_file',
+    ':type' => 'tmgmt_job',
+    ':id' => $job->tjid,
+  );
+  $result = db_query('SELECT fid FROM {file_usage} WHERE module = :module and type = :type and id = :id', $args);
+  $fids = $result->fetchCol();
+  if (!empty($fids)) {
+    foreach (file_load_multiple($fids) as $file) {
+      file_usage_delete($file, 'tmgmt_file', 'tmgmt_job', $job->tjid);
+      // It is very unlikely that these files are used anywhere else. Delete it.
+      file_delete($file);
+    }
+  }
+
+  // Load job data.
+  $ftp_ip   = $translator->settings['ftp_settings']['ftp_ip'];
+  $ftp_user = $translator->settings['ftp_settings']['ftp_user'];
+  $ftp_pass = $translator->settings['ftp_settings']['ftp_pass'];
+
+  $tjid     = $job->tjid;
+  $extension = $job->settings['export_format'];
+
+  $server_file = '/JobID' . $job->tjid . '.' . $extension;
+
+  // Open connection and login.
+  $conn_id = ftp_connect($ftp_ip);
+  $login_result = ftp_login($conn_id, $ftp_user, $ftp_pass);
+  ftp_pasv($conn_id, true);
+
+  if ((!$conn_id) || ($login_result == false)) {
+    watchdog("zz_ftp_output", "Ftp connection to delete KO");
+  }
+  else {
+    // Check that the file exists.
+    if (ftp_size($conn_id, $server_file) != -1) {
+      // Delete file.
+      if (ftp_delete($conn_id, $server_file) == false) {
+        watchdog("zz_ftp_output", "Ftp connection to delete OK, File allocated in server to delete OK, ftp_delete() KO");
+      }
+    }
+  }
+  // Close connection.
+  ftp_close($conn_id);
+}
+
+
+/**
+ * Implements hook_file_download().
+ */
+function tmgmt_ftp_file_download($uri) {
+   // Get the file record based on the URI. If not in the database just return.
+  $files = file_load_multiple(array(), array('uri' => $uri));
+  if (count($files)) {
+    foreach ($files as $item) {
+      // Since some database servers sometimes use a case-insensitive comparison
+      // by default, double check that the filename is an exact match.
+      if ($item->uri === $uri) {
+        $file = $item;
+        break;
+      }
+    }
+  }
+  if (!isset($file)) {
+    return;
+  }
+
+  // Check if this file belongs to a job.
+  $usage_list = file_usage_list($file);
+  if (!isset($usage_list['tmgmt_file']['tmgmt_job'])) {
+    return;
+  }
+
+  foreach (tmgmt_job_load_multiple(array_keys($usage_list['tmgmt_file']['tmgmt_job'])) as $job) {
+    if (tmgmt_job_access('view', $job)) {
+      // Access is granted.
+      $headers = file_get_content_headers($file);
+      return $headers;
+    }
+  }
+
+  // Returning nothing means access denied unless another module specifically
+  // grants access.
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function tmgmt_ftp_theme() {
+  return array(
+    'tmgmt_ftp_html_template' => array(
+      'path' => drupal_get_path('module', 'tmgmt_ftp') . '/templates',
+      'template' => 'tmgmt_ftp_html_template',
+    ),
+  );
+}
+
+/**
+ * Import form submit callback.
+ */
+function tmgmt_ftp_import_form_submit($form, &$form_state) {
+  // Ensure we have the file uploaded.
+  $job = $form_state['tmgmt_job'];
+  $supported_formats = array_keys(tmgmt_ftp_format_plugin_info());
+  if ($file = file_save_upload('file', array('file_validate_extensions' => array(implode(' ', $supported_formats))))) {
+    $extension = pathinfo($file->uri, PATHINFO_EXTENSION);
+    $controller = tmgmt_file_format_controller($extension);
+    if ($controller) {
+      // Validate the file.
+      $validated_job = $controller->validateImport($file->uri);
+      if (!$validated_job) {
+        $job->addMessage('Failed to validate file, import aborted.', array(), 'error');
+      }
+      elseif ($validated_job->tjid != $job->tjid) {
+        $uri = $validated_job->uri();
+        $label = $validated_job->label();
+        $job->addMessage('Import file is from job <a href="@url">@label</a>, import aborted.', array('@url' => url($uri['path']), '@label' => $label));
+      }
+      else {
+        try {
+          // Validation successful, start import.
+          $job->addTranslatedData($controller->import($file->uri));
+          $job->addMessage('Successfully imported file.');
+        } catch (Exception $e) {
+          $job->addMessage('File import failed with the following message: @message', array('@message' => $e->getMessage()), 'error');
+        }
+      }
+    }
+  }
+  foreach ($job->getMessagesSince() as $message) {
+    // Ignore debug messages.
+    if ($message->type == 'debug') {
+      continue;
+    }
+    if ($text = $message->getMessage()) {
+      drupal_set_message(filter_xss($text), $message->type);
+    }
+  }
+}
