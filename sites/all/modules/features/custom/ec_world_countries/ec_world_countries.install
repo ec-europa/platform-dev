@@ -74,3 +74,52 @@ function ec_world_countries_uninstall() {
     taxonomy_vocabulary_delete($vid);
   }
 }
+
+/**
+ * Implements hook_update_N().
+ *
+ * Add missing countries.
+ */
+function ec_world_countries_update_7120() {
+  $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
+
+  // Asia.
+  $parents = taxonomy_get_term_by_name('Asia', 'ec_world_countries');
+  if (!empty($parents)) {
+    $parent = array_shift($parents);
+  }
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => 'Brunei',
+    'parent' => $parent->tid,
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => 'North Korea',
+    'parent' => $parent->tid,
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => 'South Korea',
+    'parent' => $parent->tid,
+  );
+  taxonomy_term_save($term);
+
+  // Europe.
+  $parents = taxonomy_get_term_by_name('Europe', 'ec_world_countries');
+  if (!empty($parents)) {
+    $parent = array_shift($parents);
+  }
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => 'Moldova',
+    'parent' => $parent->tid,
+  );
+  taxonomy_term_save($term);
+}
