@@ -4,4 +4,3 @@ package = Multisite cookie consent
 core = 7.x
 
 dependencies[] = media_internet
-dependencies[] = multisite_cookie_consent
