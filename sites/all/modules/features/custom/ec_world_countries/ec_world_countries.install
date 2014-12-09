@@ -80,7 +80,7 @@ function ec_world_countries_uninstall() {
  *
  * Add missing countries.
  */
-function ec_world_countries_update_7120() {
+function ec_world_countries_update_7102() {
   $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
 
   // Asia.
@@ -119,6 +119,13 @@ function ec_world_countries_update_7120() {
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => 'Moldova',
+    'parent' => $parent->tid,
+  );
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => 'Vatican City',
     'parent' => $parent->tid,
   );
   taxonomy_term_save($term);
