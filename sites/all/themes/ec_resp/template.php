@@ -1393,7 +1393,7 @@ function ec_resp_preprocess_block(&$variables) {
   if (isset($variables['block']->bid)) {
     switch ($variables['block']->bid) {
       case 'locale-language':
-        $languages = locale_language_list();
+        $languages = language_list();
 
         $items = array();
         $items[] = array(
@@ -1406,7 +1406,10 @@ function ec_resp_preprocess_block(&$variables) {
         $translations = translation_path_get_translations(current_path());
         $language_default = language_default();
 
-        foreach ($languages as $prefix => $language_name) {
+        foreach ($languages as $language_object) {
+          $prefix = $language_object->language;
+          $language_name = $language_object->name;
+
           if (isset($translations[$prefix])) {
             $path = $translations[$prefix];
           }
@@ -1423,19 +1426,19 @@ function ec_resp_preprocess_block(&$variables) {
             $alias = drupal_get_path_alias($path, $prefix);
 
             if ($alias == variable_get('site_frontpage', 'node')) {
-              $path = ($prefix == 'en') ? '' : 'index' . $delimiter . $prefix;
+              $path = ($prefix == 'en') ? '' : 'index';
             }
             else {
               if ($alias != $path) {
-                $path = $alias . $delimiter . $prefix;
+                $path = $alias;
               }
               else {
-                $path = drupal_get_path_alias(isset($translations[$language_name]) ? $translations[$language_name] : $path, $language_name) . $delimiter . $language_name;
+                $path = drupal_get_path_alias(isset($translations[$language_name]) ? $translations[$language_name] : $path, $language_name);
               }
             }
           }
           else {
-            $path = $prefix . "/" . drupal_get_path_alias($path, $prefix);
+            $path = drupal_get_path_alias($path, $prefix);
           }
 
           // Add enabled languages.
@@ -1447,6 +1450,7 @@ function ec_resp_preprocess_block(&$variables) {
                   'lang' => $prefix,
                   'title' => $language_name,
                 ),
+                'language' => $language_object,
               )),
             );
           }
