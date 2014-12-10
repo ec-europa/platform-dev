@@ -19,58 +19,32 @@ function tmgmt_ftp_tmgmt_translator_plugin_info() {
   );
 }
 
-
-/**
- * Implements hook_menu().
- */
-function tmgmt_ftp_menu() {
-  $items = array();
-
-  $items = array();
-  $items['tmgmt_ftp/tmgmt_ftp_correct_callback'] = array(
-    'page callback' => 'tmgmt_ftp_correct_callback',
-    'page arguments' => array(2),
-    'access callback' => TRUE,
-  );
-
-  $items['tmgmt_ftp/tmgmt_ftp_error_callback'] = array(
-    'page callback' => 'tmgmt_ftp_error_callback',
-    'page arguments' => array(2),
-    'access callback' => TRUE,
-  );
-  return $items;
-}
-
 /**
  * Callback for correct file requests.
  */
-function tmgmt_file_correct_callback($values) {
+function tmgmt_ftp_file_handler($job_id) {
 
   // RequesCallback has file_key=Job_Id. Load $job and its $translator.
-  $job = tmgmt_job_load($_GET['file_key']);
+  $job = tmgmt_job_load($job_id);
   $translator = $job->getTranslator();
 
   // $job has the export format inside the object.
-  $extension = $job->settings['export_format'];
+  $extension = 'xlf';
 
   // Load the appropiate controler.
-  $controller = tmgmt_file_format_controller($extension);
-
-  ///////////////
-  // Get file. //
-  ///////////////
+  $controller = tmgmt_ftp_format_controller($extension);
 
   // Load job data.
   $ftp_ip   = $translator->settings['ftp_settings']['ftp_ip'];
   $ftp_user = $translator->settings['ftp_settings']['ftp_user'];
   $ftp_pass = $translator->settings['ftp_settings']['ftp_pass'];
+  $ftp_directory = $translator->settings['custom_url'];
 
   $tjid     = $job->tjid;
   $sufix    = strtoupper($job->target_language);
 
-  $server_file     = '/JobID' . $job->tjid . '_' .  $sufix . '.' . $extension;
-  $server_file_req = '/JobID' . $job->tjid . '.' . $extension;
-  $local_file      = 'public://tmgmt_file/JobID' . $job->tjid . '_' .  $sufix . '.' . $extension;
+  $server_file     = $ftp_directory . '/JobID' . $job->tjid . '.' . $extension;
+  $local_file      = 'public://tmgmt_ftp/JobID' . $job->tjid . '.' . $extension;
 
   // Open connection and login.
   $conn_id = ftp_connect($ftp_ip);
@@ -89,8 +63,8 @@ function tmgmt_file_correct_callback($values) {
       }
       else {
         // Delete files.
-        if ((ftp_delete($conn_id, $server_file) == false) || (ftp_delete($conn_id, $server_file_req) == false)) {
-        watchdog("zz_ftp_output", "Ftp connection to clean OK, File allocated in server to clean OK, ftp_delete() KO");
+        if ((ftp_delete($conn_id, $server_file) == false)) {
+          watchdog("zz_ftp_output", "Ftp connection to clean OK, File allocated in server to clean OK, ftp_delete() KO");
         }
       }
     }
@@ -114,21 +88,6 @@ function tmgmt_file_correct_callback($values) {
       drupal_set_message(filter_xss($text), $message->type);
     }
   }
-}
-
-/**
- * Callback for error file requests.
- */
-function tmgmt_file_error_callback($values) {
-
-  $job = tmgmt_job_load($_GET['file_key']);
-  if (!empty($job)) {
-    $job->rejected('File translator could not translate de content. Error Code: ' . $_POST['errorCode'] . 'Error Message: ' . $_POST['errorMessage']);
-  }
-  else {
-    $return = t('Wrong call for submitting translation for job %job_id', array('%job_id' => $job->tjid));
-  }
-  drupal_exit();
 }
 
 /**
@@ -228,27 +187,17 @@ function tmgmt_ftp_file_download($uri) {
   // grants access.
 }
 
-
-/**
- * Implements hook_theme().
- */
-function tmgmt_ftp_theme() {
-  return array(
-    'tmgmt_ftp_html_template' => array(
-      'path' => drupal_get_path('module', 'tmgmt_ftp') . '/templates',
-      'template' => 'tmgmt_ftp_html_template',
-    ),
-  );
-}
-
 /**
  * Import form submit callback.
  */
 function tmgmt_ftp_import_form_submit($form, &$form_state) {
   // Ensure we have the file uploaded.
   $job = $form_state['tmgmt_job'];
-  $supported_formats = array_keys(tmgmt_ftp_format_plugin_info());
-  if ($file = file_save_upload('file', array('file_validate_extensions' => array(implode(' ', $supported_formats))))) {
+  
+  // Get the file via ftp and handle the process.
+  tmgmt_ftp_file_handler($job->tjid);
+  
+  if ($file = file_save_upload('file', array('file_validate_extensions' => 'xlf'))) {
     $extension = pathinfo($file->uri, PATHINFO_EXTENSION);
     $controller = tmgmt_file_format_controller($extension);
     if ($controller) {
@@ -282,4 +231,30 @@ function tmgmt_ftp_import_form_submit($form, &$form_state) {
       drupal_set_message(filter_xss($text), $message->type);
     }
   }
+}
+
+/**
+ * Implements hook_tmgmt_file_format_info().
+ */
+function tmgmt_ftp_tmgmt_file_format_plugin_info() {
+  return array(
+    'xlf' => array(
+      'label' => t('XLIFF'),
+      'plugin controller class' => 'TMGMTFTPFormatXLIFF',
+    ),
+  );
+}
+
+/**
+ * Returns the file format plugin controller.
+ *
+ * @param $plugin
+ *   (Optional) Name of a plugin/extension.
+ *
+ * @return TMGMTFileFormatInterface
+ *   Either a specific file format plugin controller instance or an array of
+ *   available controllers.
+ */
+function tmgmt_ftp_format_controller($plugin = NULL) {
+  return _tmgmt_plugin_controller('file_format', $plugin);
 }

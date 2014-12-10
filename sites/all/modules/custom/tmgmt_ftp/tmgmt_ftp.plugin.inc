@@ -12,7 +12,7 @@ class TMGMTFTPPluginController extends TMGMTDefaultTranslatorPluginController {
 
   
   /**
-   * {@inheritdoc}
+   * Override parent canTranslate method.
    */
   public function canTranslate(TMGMTTranslator $translator, TMGMTJob $job) {
     // Anything can be exported.
@@ -20,7 +20,7 @@ class TMGMTFTPPluginController extends TMGMTDefaultTranslatorPluginController {
   }
 
   /**
-   * {@inheritdoc}
+   * Override parent requestTranslation method.
    */
   public function requestTranslation(TMGMTJob $job) {
     $name = "JobID" . $job->tjid;
@@ -37,14 +37,14 @@ class TMGMTFTPPluginController extends TMGMTDefaultTranslatorPluginController {
   }
 
   /**
-   * {@inheritdoc}
+   * Override parent hasCheckoutSettings method.
    */
   public function hasCheckoutSettings(TMGMTJob $job) {
     return $job->getTranslator()->getSetting('allow_override');
   }
 
   /**
-   * {@inheritdoc}
+   * Override parent defaultSettings method.
    */
   public function defaultSettings() {
     return array(
@@ -58,7 +58,7 @@ class TMGMTFTPPluginController extends TMGMTDefaultTranslatorPluginController {
   }
 
   /**
-   * Overrides TMGMTDefaultTranslatorPluginController::getSupportedTargetLanguages().
+   * Override parent getSupportedTargetLanguages method.
    */
   public function getSupportedTargetLanguages(TMGMTTranslator $translator, $source_language) {
     $languages = array();
@@ -72,7 +72,7 @@ class TMGMTFTPPluginController extends TMGMTDefaultTranslatorPluginController {
   }
 
   /**
-   * Implements TMGMTTranslatorPluginControllerInterface::isAvailable().
+   * Override parent isAvailable method.
    */
   public function isAvailable(TMGMTTranslator $translator) {
     if (
@@ -80,7 +80,7 @@ class TMGMTFTPPluginController extends TMGMTDefaultTranslatorPluginController {
       $translator->settings['ftp_settings']['ftp_pass'] &&
       $translator->settings['ftp_settings']['ftp_ip'] &&
       $translator->settings['ftp_settings']['ftp_port'] &&
-      $translator->getSetting('custom_url')) {
+      $translator->settings['custom_url']) {
       return TRUE;
     }
     return FALSE;
