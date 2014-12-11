@@ -55,6 +55,14 @@ function communities_views_pre_render(&$view) {
           $row->field_body[0]['rendered']['#markup'] = '<i class="icon-lock"></i> ';
         }
       }
+
+      // if the ecas module is enabled, alter the default register links to redirect to the ecas login page
+      if (module_exists('ecas')) {
+        if(isset($row->field_group_group[0]['rendered']['#href'])) {
+          $row->field_group_group[0]['rendered']['#href'] = "ecas";
+        }
+      }
+
     }
   }
  
@@ -510,5 +518,17 @@ function communities_node_delete($node) {
     // force field_cache clearing
     // fix bug : error during a login user who was member of a deleted community
     field_cache_clear();
+  }
+}
+
+
+/**
+ * hook_node_view_alter
+ */
+function communities_node_view_alter(&$build) {
+  if (module_exists('ecas')) {  // if the ecas module is enabled, alter the default register links to redirect to the ecas login page
+    if(isset($build['group_group'][0]['#href'])) {
+      $build['group_group'][0]['#href'] = 'ecas';
+    }
   }
 }
