@@ -1343,4 +1343,6 @@ function cce_basic_config_update_7200() {
     'admin/help',
   );
   variable_set('multisite_drupal_toolbox_admin_pages', $list_pages);
+  
+  variable_set('multisite_version', '1.8');
 }
