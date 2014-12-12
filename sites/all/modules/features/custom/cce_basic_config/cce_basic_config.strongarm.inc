@@ -357,7 +357,7 @@ example.org';
   $strongarm->name = 'multisite_version';
   $strongarm->value = '1.8';
   $export['multisite_version'] = $strongarm;
-  
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -1157,8 +1157,8 @@ border-radius';
     'admin/content/media',
     'admin/content/webform',
     'admin/structure/block',
-    'admin/help',    
-    );
+    'admin/help',
+  );
   $export['cce_basic_config_admin_pages'] = $strongarm;
 
   return $export;

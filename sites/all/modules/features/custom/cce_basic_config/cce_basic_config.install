@@ -376,6 +376,11 @@ function cce_basic_config_install() {
       ->fields(array('captcha_type' => 'default'))
       ->condition('form_id', 'user_register_form')
       ->execute();
+
+    db_update('captcha_points')
+      ->fields(array('captcha_type' => 'default'))
+      ->condition('form_id', 'contact_personal_form')
+      ->execute();
   }
 }
 
@@ -1327,6 +1332,8 @@ function cce_basic_config_update_7199() {
  *
  * Use jquery 1.10.
  * Define admin pages that should use default theme.
+ * Disable user contact form for anonymous.
+ * Activate captcha of user contact form.
  */
 function cce_basic_config_update_7200() {
   variable_set('jquery_update_jquery_version', '1.10');
@@ -1343,6 +1350,19 @@ function cce_basic_config_update_7200() {
     'admin/help',
   );
   variable_set('multisite_drupal_toolbox_admin_pages', $list_pages);
-  
+
+  // Disable user contact form for anonymous.
+  user_role_revoke_permissions(1, array(
+    'access user contact forms',
+  ));
+
+  // Activate captcha of user contact form.
+  if (db_table_exists('captcha_points')) {
+    db_update('captcha_points')
+    ->fields(array('captcha_type' => 'default'))
+    ->condition('form_id', 'contact_personal_form')
+    ->execute();
+  }
+
   variable_set('multisite_version', '1.8');
 }

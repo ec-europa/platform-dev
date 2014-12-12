@@ -90,7 +90,6 @@ function cce_basic_config_user_default_permissions() {
     'name' => 'access user contact forms',
     'roles' => array(
       'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'contact',
