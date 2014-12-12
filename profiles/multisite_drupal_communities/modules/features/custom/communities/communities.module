@@ -57,7 +57,7 @@ function communities_views_pre_render(&$view) {
       }
 
       // if the ecas module is enabled, alter the default register links to redirect to the ecas login page
-      if (module_exists('ecas')) {
+      if (module_exists('ecas') && !user_is_logged_in()) {
         if(isset($row->field_group_group[0]['rendered']['#href'])) {
           $row->field_group_group[0]['rendered']['#href'] = "ecas";
         }
@@ -526,7 +526,7 @@ function communities_node_delete($node) {
  * hook_node_view_alter
  */
 function communities_node_view_alter(&$build) {
-  if (module_exists('ecas')) {  // if the ecas module is enabled, alter the default register links to redirect to the ecas login page
+  if (module_exists('ecas') && !user_is_logged_in()) { // if the ecas module is enabled, alter the default register links to redirect to the ecas login page 
     if(isset($build['group_group'][0]['#href'])) {
       $build['group_group'][0]['#href'] = 'ecas';
     }
