@@ -121,7 +121,7 @@ global $base_url;
   
   <div class="region-featured-wrapper <?php print ($has_responsive_sidebar ? 'sidebar-visible-sm' : ''); ?>">
     <?php if ($menu_visible || $has_responsive_sidebar): ?>
-      <div class="mobile-user-bar navbar navbar-default visible-xs" data-spy="affix" data-offset-top="82">
+      <div class="mobile-user-bar navbar navbar-default visible-sm visible-xs" data-spy="affix" data-offset-top="82">
         <div class="container">
 
           <!-- Brand and toggle get grouped for better mobile display -->
