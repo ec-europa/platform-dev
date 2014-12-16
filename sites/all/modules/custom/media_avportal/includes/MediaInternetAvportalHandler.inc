@@ -22,7 +22,7 @@ class MediaInternetAvportalHandler extends MediaInternetBaseHandler {
    *   Boolean.
    */
   static public function validId($id) {
-    //http://ec.europa.eu/avservices/video/player.cfm?sitelang=en&ref=I003228
+    //url: http://ec.europa.eu/avservices/video/player.cfm?sitelang=en&ref=I003228
     $ourl = 'http://ec.europa.eu/avservices/video/player.cfm?ref=' . $id; 
     $response = drupal_http_request($ourl, array('method' => 'HEAD'));
 
@@ -48,7 +48,6 @@ class MediaInternetAvportalHandler extends MediaInternetBaseHandler {
       if (isset($matches[1]) && self::validId($matches[1])) {
         preg_match('/ref=(\w+)/', $matches[1], $mas);
         return file_stream_wrapper_uri_normalize('avportal://v/' . check_plain($mas[1]));
-        //return file_stream_wrapper_uri_normalize('avportal://v/' . $matches[1]);
       }
     }
   }
