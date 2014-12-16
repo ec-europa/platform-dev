@@ -159,8 +159,13 @@ function ec_resp_preprocess_page(&$variables) {
   $variables['has_responsive_sidebar'] = $has_responsive_sidebar;
 
   $variables['menu_visible'] = FALSE;
-  if (!empty($variables['page']['featured']['system_main-menu'])) {
-    $variables['menu_visible'] = TRUE;
+  if (!empty($variables['page']['featured'])) {
+    foreach ($variables['page']['featured'] as $key => $value) {
+      if ($key == 'system_main-menu' ||
+        strpos($key, 'om_maximenu') !== FALSE) {
+        $variables['menu_visible'] = TRUE;
+      }
+    }
   }
 
   // Adding pathToTheme for Drupal.settings to be used in js files.
