@@ -1,0 +1,64 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Media: YouTube module.
+ */
+
+/**
+ * Implement hook_install().
+ */
+function media_avportal_install() {
+  // Required to run file_displays_load() in update.php.
+  module_load_include('inc', 'file_entity', 'file_entity.file_api');
+
+  // Get view modes.
+  $video_view_modes = field_view_mode_settings('file', "video");
+  $video_view_modes['default'] = array('custom_settings' => TRUE);
+  foreach ($video_view_modes as $view_mode => $custom_settings) {
+
+    $formatters = file_displays_load('video', $view_mode);
+    $formatter = 'video__' . $view_mode . '__media_avportal_video';
+
+    if (isset($formatters[$formatter])) {
+
+      // Migrate chromeless=1 or controls='0' to autohide=1, showinfo=0.
+      if (isset($formatters[$formatter]->settings['chromeless'])) {
+        if ($formatters[$formatter]->settings['chromeless'] == 1) {
+          $formatters[$formatter]->settings['autohide'] = 1;
+          $formatters[$formatter]->settings['showinfo'] = 0;
+        }
+      }
+      if (isset($formatters[$formatter]->settings['controls'])) {
+        if ($formatters[$formatter]->settings['controls'] == 0) {
+          $formatters[$formatter]->settings['autohide'] = 1;
+          $formatters[$formatter]->settings['showinfo'] = 0;
+        }
+      }
+
+      // Remove deprecated settings from the exportable array.
+      foreach (array('version', 'fullscreen', 'hd', 'showsearch', 'controls', 'chromeless') as $deprecated) {
+        if (isset($formatters[$formatter]->settings[$deprecated])) {
+          unset($formatters[$formatter]->settings[$deprecated]);
+        }
+      }
+
+      // Save the ctools objects
+      $display = $formatters[$formatter];
+      file_display_save((object) $display);
+    }
+  }
+  return array();
+}
+
+/**
+ * Implement hook_uninstall().
+ */
+function media_avportal_uninstall() {
+  drupal_load('module', 'media_avportal');
+
+  foreach (media_avportal_variable_default() as $variable => $value) {
+    media_avportal_variable_del($variable);
+  }
+  return array(array('success' => TRUE, 'query' => "Deleted all variables in the Media: YouTube namespace."));
+}
