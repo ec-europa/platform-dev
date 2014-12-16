@@ -10,31 +10,47 @@
  *
  * @see hook_security_checks()
  * @see multisite_review_security_checks()
+ *
  */
 function multisite_review_qa() {
   module_load_include('inc', 'multisite_review', 'multisite_review_module');
 
   $results = array();
 
-  // Loop over the modules and perform the reviews.
-  // @todo Allow the user to choose the modules and reviews.
-  foreach (module_list() as $module_name) {
+
+    // Check if the setting form contain selected modules. If so proceed on these only.
+    $target_modules = array();
+    foreach (module_list() as $module_name) {
+        $module = new MultisiteReviewModule($module_name);
+        $selected_modules = $module->getSpecific();
+        if(!empty($selected_modules)) {
+            $target_modules = $selected_modules;
+        }
+
+        else {
+            $target_modules = module_list();
+        }
+    }
+    // Loop over the modules and perform the reviews.
+  foreach ($target_modules as $module_name) {
     $module = new MultisiteReviewModule($module_name);
 
     // Only check custom modules.
     if (!$module->isCustom()) {
       continue;
+
     }
 
+     // Call all reviews declared in the hook and found in reviews folder.
     foreach (module_invoke_all('multisite_review_reviews') as $review => $info) {
-      // Include the file if it has been specified.
+      // Include the .inc file from reviews folder if it has been specified.
       if (!empty($info['file'])) {
         if (is_file($file = DRUPAL_ROOT . '/' . $info['file'])) {
           require_once $file;
         }
       }
 
-      // Perform the review.
+      // Perform the review by calling all callbacks found.
       $result = $info['callback']($module);
       if (!empty($result)) {
         $results[$module_name][$review] = $result;
@@ -44,6 +60,7 @@ function multisite_review_qa() {
 
   return array('result' => empty($results), 'value' => $results);
 }
+
 
 /**
  * Help callback for Security Review. Provides help for the QA check.
@@ -110,3 +127,4 @@ function multisite_review_qa_help($check = NULL, $skipped_message = NULL) {
 
   return $element;
 }
+

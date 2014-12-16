@@ -84,3 +84,21 @@ function multisite_review_multisite_review_reviews() {
     ),
   );
 }
+
+/**
+ *  Implements hook_menu_alter().
+ *  Add a setting form to perform reviews on a specific feature.
+ */
+function multisite_review_menu_alter(&$items) {
+    // Alter the the security tabs to add the setting form.
+    $items['admin/reports/security-review/multisite-review-settings'] = array(
+        'title' => 'Multisite Review Settings',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('multisite_review_form'),
+        'access arguments' => array('access security review list'),
+        'file' => 'multisite_review.form.inc',
+        'type' =>  MENU_LOCAL_TASK,
+        'file path' => drupal_get_path('module', 'multisite_review'),
+        'weight' => 5,
+    );
+}
