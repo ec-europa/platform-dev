@@ -47,7 +47,7 @@ class MediaInternetAvportalHandler extends MediaInternetBaseHandler {
       // when a video is added, but not every time the embedCode is parsed.
       if (isset($matches[1]) && self::validId($matches[1])) {
         preg_match('/ref=(\w+)/', $matches[1], $mas);
-        return file_stream_wrapper_uri_normalize('avportal://v/' . $mas[1]);
+        return file_stream_wrapper_uri_normalize('avportal://v/' . check_plain($mas[1]));
         //return file_stream_wrapper_uri_normalize('avportal://v/' . $matches[1]);
       }
     }
