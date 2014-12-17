@@ -251,6 +251,20 @@ function ec_resp_preprocess_user_profile(&$variables) {
 }
 
 /**
+ * Implements theme_preprocess_field().
+ */
+function ec_resp_preprocess_field(&$variables, $hook) {
+  switch ($variables['element']['#field_name']) {
+    case 'group_group':
+      if (isset($variables['items'][0]['#type']) && $variables['items'][0]['#type'] == 'link') {
+        $variables['classes_array'][] = 'btn';
+        $variables['classes_array'][] = 'btn-info';
+      }
+    break;
+  }
+}
+
+/**
  * Implements theme_preprocess_select().
  */
 function ec_resp_preprocess_select(&$variables) {
