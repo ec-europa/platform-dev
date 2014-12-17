@@ -260,7 +260,7 @@ function ec_resp_preprocess_field(&$variables, $hook) {
         $variables['classes_array'][] = 'btn';
         $variables['classes_array'][] = 'btn-info';
       }
-    break;
+      break;
   }
 }
 
