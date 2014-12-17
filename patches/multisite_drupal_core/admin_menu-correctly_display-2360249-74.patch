@@ -1,0 +1,14 @@
+From https://www.drupal.org/node/2360249
+--- sites/all/modules/contributed/admin_menu/admin_menu.css
++++ sites/all/modules/contributed/admin_menu/admin_menu.css
+@@ -98,6 +98,7 @@ body.admin-menu {
+ #admin-menu .dropdown li li {
+   background: #202020;
+   filter: Alpha(opacity=88);
++  float: none;
+   opacity: 0.88;
+   width: 160px; /* Required for Opera */
+ }
+
+
+
