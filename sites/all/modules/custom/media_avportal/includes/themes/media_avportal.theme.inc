@@ -1,7 +1,8 @@
 <?php
 
 /**
- * @file media_avportal/includes/themes/media_avportal.theme.inc
+ * @file
+ * media_avportal/includes/themes/media_avportal.theme.inc
  *
  * Theme and preprocess functions for Media: YouTube.
  */

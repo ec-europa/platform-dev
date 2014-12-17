@@ -1,7 +1,7 @@
 <?php
-
 /**
- * @file media_avportal/includes/MediaInterenetAvportalHandler.inc
+ * @file
+ * media_avportal/includes/MediaInterenetAvportalHandler.inc
  *
  * Contains MediaInternetAvportalHandler.
  */
@@ -14,16 +14,10 @@
 class MediaInternetAvportalHandler extends MediaInternetBaseHandler {
   /**
    * Check if a Avportal video id is valid.
-   *
-   * Check against the oembed stream instead of the gdata api site to
-   * avoid "yt:quota too_many_recent_calls" errors.
-   *
-   * @return
-   *   Boolean.
    */
   static public function validId($id) {
-    //url: http://ec.europa.eu/avservices/video/player.cfm?sitelang=en&ref=I003228
-    $ourl = 'http://ec.europa.eu/avservices/video/player.cfm?ref=' . $id; 
+    // url: http://ec.europa.eu/avservices/video/player.cfm?sitelang=en&ref=xxx
+    $ourl = 'http://ec.europa.eu/avservices/video/player.cfm?ref=' . $id;
     $response = drupal_http_request($ourl, array('method' => 'HEAD'));
 
     if ($response->code == 401) {
@@ -35,16 +29,17 @@ class MediaInternetAvportalHandler extends MediaInternetBaseHandler {
     return TRUE;
   }
 
-  public function parse($embedCode) {
-    //url: http://ec.europa.eu/avservices/video/player.cfm
+  /**
+   * Implements parent:parse().
+   */
+  public function parse($embed_code) {
+    // url: http://ec.europa.eu/avservices/video/player.cfm
     $patterns = array(
-      '@ec\.europa\.eu/avservices/video/player\.cfm\?(.+)@i'
+      '@ec\.europa\.eu/avservices/video/player\.cfm\?(.+)@i',
     );
 
     foreach ($patterns as $pattern) {
-      preg_match($pattern, $embedCode, $matches);
-      // @TODO: Parse is called often. Refactor so that valid ID is checked
-      // when a video is added, but not every time the embedCode is parsed.
+      preg_match($pattern, $embed_code, $matches);
       if (isset($matches[1]) && self::validId($matches[1])) {
         preg_match('/ref=(\w+)/', $matches[1], $mas);
         return file_stream_wrapper_uri_normalize('avportal://v/' . check_plain($mas[1]));
@@ -52,12 +47,18 @@ class MediaInternetAvportalHandler extends MediaInternetBaseHandler {
     }
   }
 
-  public function claim($embedCode) {
-    if ($this->parse($embedCode)) {
+  /**
+   * Implements parent:claim().
+   */
+  public function claim($embed_code) {
+    if ($this->parse($embed_code)) {
       return TRUE;
     }
   }
 
+  /**
+   * Implements parent:getFileObject().
+   */
   public function getFileObject() {
     $uri = $this->parse($this->embedCode);
     $file = file_uri_to_object($uri, TRUE);

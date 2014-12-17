@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Core feature module.
+ */
 
 // A registry of variable_get defaults.
 include_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'media_avportal') . '/includes/media_avportal.variables.inc';

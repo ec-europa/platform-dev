@@ -1,7 +1,8 @@
 <?php
 
 /**
- * @file media_avportal/includes/themes/media-avportal-video.tpl.php
+ * @file
+ * media_avportal/includes/themes/media-avportal-video.tpl.php
  *
  * Template file for theme('media_avportal_video').
  *
@@ -18,9 +19,6 @@
  *  $title - The Media: YouTube file's title.
  *  $alternative_content - Text to display for browsers that don't support
  *  iframes.
- *
- *
- * 
  */
 ?>
 <iframe 
@@ -29,4 +27,3 @@
     id="videoplayer<?php print $video_id; ?>" scrolling="no" 
     src="http://ec.europa.eu/avservices/play.cfm?sitelang=en&amp;ref=<?php print $video_id; ?>&amp;starttime=0&amp;endtime=0&amp;videolang=INT">
 </iframe>
-

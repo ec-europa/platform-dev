@@ -1,7 +1,7 @@
 <?php
-
 /**
- * @file media_avportal/includes/media_avportal.formatters.inc
+ * @file
+ * media_avportal/includes/media_avportal.formatters.inc
  *
  * Formatters for Media: Avportal.
  */
@@ -18,7 +18,9 @@ function media_avportal_file_formatter_info() {
     'settings callback' => 'media_avportal_file_formatter_video_settings',
   );
 
-  foreach (array('width', 'height', 'autohide', 'autoplay', 'color', 'enablejsapi', 'loop', 'modestbranding', 'nocookie', 'origin', 'protocol', 'protocol_specify', 'rel', 'showinfo', 'theme') as $setting) {
+  foreach (array('width', 'height', 'autohide', 'autoplay', 'color',
+    'enablejsapi', 'loop', 'modestbranding', 'nocookie', 'origin', 'protocol',
+    'protocol_specify', 'rel', 'showinfo', 'theme') as $setting) {
     $formatters['media_avportal_video']['default settings'][$setting] = media_avportal_variable_get($setting);
   }
 
@@ -51,7 +53,9 @@ function media_avportal_file_formatter_video_view($file, $display, $langcode) {
     // Fake a default for attributes so the ternary doesn't choke.
     $display['settings']['attributes'] = array();
 
-    foreach (array('width', 'height', 'autohide', 'autoplay', 'color', 'enablejsapi', 'loop', 'modestbranding', 'nocookie', 'origin', 'protocol', 'protocol_specify', 'rel', 'showinfo', 'theme', 'attributes') as $setting) {
+    foreach (array('width', 'height', 'autohide', 'autoplay', 'color',
+      'enablejsapi', 'loop', 'modestbranding', 'nocookie', 'origin', 'protocol',
+      'protocol_specify', 'rel', 'showinfo', 'theme', 'attributes') as $setting) {
       $element['#options'][$setting] = isset($file->override[$setting]) ? $file->override[$setting] : $display['settings'][$setting];
     }
     return $element;
@@ -174,7 +178,7 @@ function media_avportal_file_formatter_video_settings($form, &$form_state, $sett
   $element['origin'] = array(
     '#title' => t('Origin'),
     '#type' => 'textfield',
-    '#description' => t('If the Javascript API is enabled, enter your site\'s domain for added security.'),
+    '#description' => t("If the Javascript API is enabled, enter your site's domain for added security."),
     '#default_value' => $settings['origin'],
     '#states' => array(
       'invisible' => array(
@@ -192,16 +196,17 @@ function media_avportal_file_formatter_video_settings($form, &$form_state, $sett
  */
 function _avportal_validate_video_width_and_height($element, &$form_state, $form) {
 
-  // Check if the value is a number with an optional decimal or percentage sign, or "auto".
+  // Check if the value is a number with an optional decimal or
+  // percentage sign, or "auto".
   if (!empty($element['#value']) && !preg_match('/^(auto|([0-9]*(\.[0-9]+)?%?))$/', $element['#value'])) {
-    form_error($element, t("The value entered for @dimension is invalid. Please insert a unitless integer for pixels, a percent, or \"auto\". Note that percent and auto may not function correctly depending on the browser and doctype.", array('@dimension' => $element['#title'])));
+    form_error($element, t("The value entered for @dimension is invalid. Please insert a unitless integer for pixels, a percent, or 'auto'. Note that percent and auto may not function correctly depending on the browser and doctype.", array('@dimension' => $element['#title'])));
   }
 }
 
 /**
  * Validation for Js API Origin.
  */
-function _avportal_validate_jsapi_domain ($element, &$form_state, $form) {
+function _avportal_validate_jsapi_domain($element, &$form_state, $form) {
 
   // Check if the value is a url with http/s and no trailing directories.
   if (!empty($element['#value']) && !preg_match('/^https?\:\/\/[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,4}){1,2}$/', $element['#value'])) {
@@ -213,7 +218,7 @@ function _avportal_validate_jsapi_domain ($element, &$form_state, $form) {
  * Implements hook_file_formatter_FORMATTER_view().
  */
 function media_avportal_file_formatter_image_view($file, $display, $langcode) {
-  $path = base_path() . drupal_get_path('module', 'media_avportal') . '/img/avportal.png'; 
+  $path = base_path() . drupal_get_path('module', 'media_avportal') . '/img/avportal.png';
   $element = array(
     '#theme' => 'image',
     '#path' => $path,

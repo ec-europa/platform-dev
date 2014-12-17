@@ -6,7 +6,7 @@
  */
 
 /**
- * Implement hook_install().
+ * Implements hook_install().
  */
 function media_avportal_install() {
   // Required to run file_displays_load() in update.php.
@@ -37,13 +37,14 @@ function media_avportal_install() {
       }
 
       // Remove deprecated settings from the exportable array.
-      foreach (array('version', 'fullscreen', 'hd', 'showsearch', 'controls', 'chromeless') as $deprecated) {
+      foreach (array('version', 'fullscreen', 'hd', 'showsearch',
+        'controls', 'chromeless') as $deprecated) {
         if (isset($formatters[$formatter]->settings[$deprecated])) {
           unset($formatters[$formatter]->settings[$deprecated]);
         }
       }
 
-      // Save the ctools objects
+      // Save the ctools objects.
       $display = $formatters[$formatter];
       file_display_save((object) $display);
     }
@@ -52,7 +53,7 @@ function media_avportal_install() {
 }
 
 /**
- * Implement hook_uninstall().
+ * Implements hook_uninstall().
  */
 function media_avportal_uninstall() {
   drupal_load('module', 'media_avportal');
