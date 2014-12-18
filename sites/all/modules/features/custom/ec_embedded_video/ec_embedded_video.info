@@ -11,6 +11,7 @@ dependencies[] = ctools
 dependencies[] = features
 dependencies[] = file_entity
 dependencies[] = media
+dependencies[] = media_avportal
 dependencies[] = media_dailymotion
 dependencies[] = media_vimeo
 dependencies[] = media_youtube
