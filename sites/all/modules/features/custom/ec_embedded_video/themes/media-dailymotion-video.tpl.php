@@ -19,6 +19,6 @@
 ?>
 <div class="media-dailymotion-outer-wrapper" id="media-dailymotion-<?php print $id; ?>" style="width: <?php print $width; ?>px; height: <?php print $height; ?>px;">
   <div class="media-dailymotion-preview-wrapper" id="<?php print $wrapper_id; ?>">
-    <iframe frameborder="0" width="<?php print $width; ?>" height="<?php print $height; ?>" src="<?php print $media_cck_url; ?>"></iframe>
+    <iframe frameborder="0" width="<?php print $width; ?>" height="<?php print $height; ?>" src="<?php print $ec_embedded_video_url; ?>"></iframe>
   </div>
 </div>
