@@ -130,6 +130,7 @@ dependencies[] = link
 dependencies[] = js_injector
 dependencies[] = transliteration
 dependencies[] = multisite_dynamic_basetheme
+dependencies[] = fpa
 
 dependencies[] = filefield_sources_plupload
 

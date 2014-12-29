@@ -142,6 +142,9 @@ projects[flexslider_views_slideshow][download][type] = "git"
 projects[flexslider_views_slideshow][download][url] = "http://git.drupal.org/project/flexslider_views_slideshow.git"
 projects[flexslider_views_slideshow][download][revision] = "0b1f8e7e24c168d1820ccded63c319327d57a97e"
 
+projects[fpa][subdir] = "contributed"
+projects[fpa][version] = "2.6"
+
 projects[freepager][subdir] = "contributed"
 ;projects[freepager][version] = "2.x-dev"
 projects[freepager][download][type] = "git"
