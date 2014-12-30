@@ -100,6 +100,9 @@ projects[entityreference_prepopulate][version] = "1.3"
 projects[eu-cookie-compliance][subdir] = "contributed"
 projects[eu-cookie-compliance][version] = "1.12"
 
+projects[extlink][subdir] = "contributed"
+projects[extlink][version] = "1.18"
+
 projects[facetapi][subdir] = "contributed"
 projects[facetapi][version] = "1.3"
 
