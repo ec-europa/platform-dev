@@ -22,6 +22,9 @@ projects[admin_menu][version] = "3.0-rc4"
 projects[advanced_help][subdir] = "contributed"
 projects[advanced_help][version] = "1.0"
 
+projects[advagg][subdir] = "contributed"
+projects[advagg][version] = "2.7"
+
 projects[apachesolr][subdir] = "contributed"
 projects[apachesolr][version] = "1.6"
 
