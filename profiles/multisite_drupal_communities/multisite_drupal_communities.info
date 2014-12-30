@@ -41,6 +41,7 @@ dependencies[] = contact
 dependencies[] = context
 dependencies[] = context_ui
 dependencies[] = context_layouts
+dependencies[] = context_entity_field
 
 dependencies[] = date
 dependencies[] = diff
