@@ -136,6 +136,9 @@ projects[filefield_sources_plupload][version] = "1.1"
 projects[flexslider][subdir] = "contributed"
 projects[flexslider][version] = "2.0-alpha3"
 
+projects[flag][subdir] = "contributed"
+projects[flag][version] = "3.5"
+
 projects[flexslider_views_slideshow][subdir] = "contributed"
 ;projects[flexslider_views_slideshow][version] = "2.x-dev"
 projects[flexslider_views_slideshow][download][type] = "git"
