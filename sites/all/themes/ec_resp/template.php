@@ -180,7 +180,7 @@ function ec_resp_preprocess_node(&$variables) {
   $variables['prefix_display'] = FALSE;
   $variables['suffix_display'] = FALSE;
 
-  if ((isset($variables['group_content_access'])) && ($variables['group_content_access']['und'][0]['value'] == 2)) {
+  if ((isset($variables['group_content_access'])) && (isset($variables['group_content_access']['und'])) && ($variables['group_content_access']['und'][0]['value'] == 2)) {
     $variables['prefix_display'] = TRUE;
   }
 
