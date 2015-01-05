@@ -480,8 +480,8 @@ function communities_form_alter(&$form, $form_state, $form_id) {
     $context = og_context();
     if (!isset($context['gid'])) { // we are not in a og context
       if (isset($form[OG_CONTENT_ACCESS_FIELD])) {
-        $form[OG_CONTENT_ACCESS_FIELD]['#access'] = FALSE; // hide content visibility field
-        $form[OG_CONTENT_ACCESS_FIELD][LANGUAGE_NONE]['#default_value'] = "1"; // force public value for the visibility
+        //$form[OG_CONTENT_ACCESS_FIELD]['#access'] = FALSE; // hide content visibility field
+        //$form[OG_CONTENT_ACCESS_FIELD][LANGUAGE_NONE]['#default_value'] = "1"; // force public value for the visibility
         $form['field_highlighted']['#access'] = FALSE; // hide highlighted field
       }
     }
