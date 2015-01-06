@@ -1,7 +1,6 @@
 <?php
-
 /**
- * @file media_vimeo/themes/media-vimeo-video.tpl.php
+ * @file
  *
  * Template file for theme('media_vimeo_video').
  *
@@ -18,7 +17,6 @@
  *  $title - The Media: YouTube file's title.
  *  $alternative_content - Text to display for browsers that don't support
  *  iframes.
- *
  */
 
 ?>

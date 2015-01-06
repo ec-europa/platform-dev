@@ -3,6 +3,7 @@
  * @file
  * Code for the Multisite Embedded Video feature.
  */
+
 include_once 'ec_embedded_video.features.inc';
 
 /**
@@ -10,7 +11,6 @@ include_once 'ec_embedded_video.features.inc';
  *
  * @see http://drupal.org/node/1245686
  */
-
 function ec_embedded_video_file_type($file) {
   if ($file->filemime == 'video/youtube') {
     return array('video');
@@ -34,7 +34,7 @@ function ec_embedded_video_file_type($file) {
  * rewritten to point to this service. After explicit consent to eventual third
  * party cookies the service will serve the video.
  */
-define('COOKIE_CONSENT_WEBSERVICE_URL', 'http://ec.europa.eu/cookie-consent/iframe');
+define('EC_EMBEDDED_VIDEO_COOKIE_CONSENT_WEBSERVICE_URL', 'http://ec.europa.eu/cookie-consent/iframe');
 
 /**
  * Implements hook_theme_registry_alter().
@@ -45,10 +45,10 @@ function ec_embedded_video_theme_registry_alter(&$theme_registry) {
   // Add Cookie Consent support themeing and preprocess for supported filetypes.
   foreach (array('media_youtube', 'media_vimeo', 'media_dailymotion') as $module) {
     if (module_exists($module)) {
-      // Override the location of supported Media Internet providers template files.
+      // Override the location of supported Media providers template files.
       $theme_registry[$module . '_video']['path'] = $path;
 
-      // Add our preprocess function to the bottom
+      // Add our preprocess function to the bottom.
       $theme_registry[$module . '_video']['preprocess functions'][] = '_ec_embedded_video_preprocess_' . $module . '_video';
     }
   }
@@ -89,13 +89,13 @@ function _ec_embedded_video_preprocess_media_dailymotion_video(&$variables) {
 function _ec_embedded_video_preprocess_ec_embedded_video_video(&$variables) {
   global $language;
 
-  // Build the final url
-  $ec_embedded_video_webservice_url = variable_get('cookie_consent_webservice_url', COOKIE_CONSENT_WEBSERVICE_URL);
+  // Build the final url.
+  $ec_embedded_video_webservice_url = variable_get('cookie_consent_webservice_url', EC_EMBEDDED_VIDEO_COOKIE_CONSENT_WEBSERVICE_URL);
   $query = array();
   $query['oriurl'] = $variables['url'];
-  $query['lang']= $language->language;
+  $query['lang'] = $language->language;
 
-  // Allow other modules to alter query parameters
+  // Allow other modules to alter query parameters.
   drupal_alter('ec_embedded_video_query', $query);
 
   $variables['ec_embedded_video_url'] = url($ec_embedded_video_webservice_url, array('query' => $query, 'external' => TRUE));

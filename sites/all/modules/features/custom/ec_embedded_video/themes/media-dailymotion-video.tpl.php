@@ -5,7 +5,7 @@
  * Template file for theme('media_dailymotion_video').
  *
  * Variables available:
- *  $uri - The uri to the Dailymotion video, such as dailymotion://video_id/xsy7x8c9.
+ *  $uri - The uri to the Dailymotion video i.e dailymotion://video_id/xsy7x8c9.
  *  $video_id - The unique identifier of the Dailymotion video.
  *  $width - The width to render.
  *  $height - The height to render.
