@@ -29,7 +29,7 @@ function media_avportal_stream_wrappers() {
     'avportal' => array(
       'name' => t('AV Portal videos'),
       'class' => 'MediaAvportalStreamWrapper',
-      'description' => t('Videos provided by AV POrtal.'),
+      'description' => t('Videos provided by AV Portal.'),
       'type' => STREAM_WRAPPERS_READ_VISIBLE,
     ),
   );

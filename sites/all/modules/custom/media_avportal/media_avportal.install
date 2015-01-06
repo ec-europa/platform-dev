@@ -61,5 +61,5 @@ function media_avportal_uninstall() {
   foreach (media_avportal_variable_default() as $variable => $value) {
     media_avportal_variable_del($variable);
   }
-  return array(array('success' => TRUE, 'query' => "Deleted all variables in the Media: YouTube namespace."));
+  return array(array('success' => TRUE, 'query' => "Deleted all variables in the Media: AV Portal namespace."));
 }

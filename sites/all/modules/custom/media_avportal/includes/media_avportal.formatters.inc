@@ -218,7 +218,7 @@ function _avportal_validate_jsapi_domain($element, &$form_state, $form) {
  * Implements hook_file_formatter_FORMATTER_view().
  */
 function media_avportal_file_formatter_image_view($file, $display, $langcode) {
-  if(isset($file->filemime) && $file->filemime=='video/avportal'){
+  if (isset($file->filemime) && $file->filemime == 'video/avportal') {
     $path = base_path() . drupal_get_path('module', 'media_avportal') . '/img/avportal.png';
     $element = array(
       '#theme' => 'image',
@@ -256,22 +256,14 @@ function media_avportal_file_default_displays() {
     'default' => array(
       'width' => 640,
       'height' => 390,
+      'autoplay' => media_avportal_variable_get('autoplay'),
     ),
     'teaser' => array(
       'width' => 560,
       'height' => 340,
-      'autoplay' => FALSE,
+      'autoplay' => media_avportal_variable_get('autoplay'),
     ),
-    // Legacy view modes included to support older versions of Media,
-    // before #1051090 went through. They do no harm and can sit here
-    // until there is a Media 2.x stable.
-    // @TODO: Remove when Media 2.0 is released.
-    'media_large' => array(
-      'width' => 560,
-      'height' => 340,
-      'autoplay' => FALSE,
-    ),
-    'media_original' => array(
+    'preview' => array(
       'width' => 640,
       'height' => 390,
       'autoplay' => media_avportal_variable_get('autoplay'),
@@ -295,12 +287,9 @@ function media_avportal_file_default_displays() {
   // is used whenever possible.
   $default_image_styles = array(
     'default' => 'large',
-    'preview' => 'square_thumbnail',
-    'teaser' => 'large',
+    'preview' => 'media_thumbnail',
+    'teaser' => '',
     // Legacy view modes, see note above.
-    'media_preview' => 'square_thumbnail',
-    'media_large' => 'large',
-    'media_original' => '',
   );
   foreach ($default_image_styles as $view_mode => $image_style) {
     $display_name = 'video__' . $view_mode . '__media_avportal_image';

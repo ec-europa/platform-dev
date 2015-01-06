@@ -4,7 +4,7 @@
  * @file
  * media_avportal/includes/media_avportal.variables.inc
  *
- * Variable defaults for Media: Avportal.
+ * Variable defaults for Media: AV Portal.
  */
 
 /**
@@ -17,7 +17,7 @@
 define('MEDIA_AVPORTAL_NAMESPACE', 'media_avportal__');
 
 /**
- * This is the rest point for the Avportal api.
+ * This is the rest point for the AV Portal api.
  *
  * Avoid using the gdata api url when possible. Too many calls will result in
  * throttling and 403 errors.
@@ -29,7 +29,7 @@ define('MEDIA_AVPORTAL_REST_API', 'https://gdata.avportal.com/feeds/api/videos')
  */
 
 /**
- * Wrapper for variable_get() using the Media: Avportal variable registry.
+ * Wrapper for variable_get() using the Media: AV Portal variable registry.
  */
 function media_avportal_variable_get($name, $default = NULL) {
   // Allow for an override of the default. Useful when a variable is required
@@ -43,7 +43,7 @@ function media_avportal_variable_get($name, $default = NULL) {
 }
 
 /**
- * Wrapper for variable_set() using the Media: Avportal variable registry.
+ * Wrapper for variable_set() using the Media: AV Portal variable registry.
  */
 function media_avportal_variable_set($name, $value) {
   $variable_name = MEDIA_AVPORTAL_NAMESPACE . $name;
@@ -51,7 +51,7 @@ function media_avportal_variable_set($name, $value) {
 }
 
 /**
- * Wrapper for variable_del() using the Media: Avportal variable registry.
+ * Wrapper for variable_del() using the Media: AV Portal variable registry.
  */
 function media_avportal_variable_del($name) {
   $variable_name = MEDIA_AVPORTAL_NAMESPACE . $name;
@@ -59,7 +59,7 @@ function media_avportal_variable_del($name) {
 }
 
 /**
- * The default variables within the Media: Avportal namespace.
+ * The default variables within the Media: AV Portal namespace.
  */
 function media_avportal_variable_default($name = NULL) {
   static $defaults;
