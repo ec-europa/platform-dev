@@ -82,7 +82,6 @@ function media_avportal_file_formatter_video_settings($form, &$form_state, $sett
   );
 
   // @see https://developers.google.com/avportal/player_parameters#Parameters
-
   // Multiple options.
   $element['theme'] = array(
     '#title' => t('Player theme'),
