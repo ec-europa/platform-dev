@@ -116,7 +116,7 @@ function _taxonomy_browser_taxonomy_get_nested_tree($terms = array(), $max_depth
 /**
  * Function _taxonomy_browser_output_taxonomy_nested_tree().
  */
-function _taxonomy_browser_output_taxonomy_nested_tree($tree, $path) {
+function _taxonomy_browser_output_taxonomy_nested_tree($tree, $path, $counted_tree = array()) {
   if (count($tree)) {
     $output = '<ul class="taxonomy-tree">';
     foreach ($tree as $term) {
@@ -129,14 +129,29 @@ function _taxonomy_browser_output_taxonomy_nested_tree($tree, $path) {
       // If the view path doesn't contain real parameter in itself,
       // just put the parameter after the path,
       // anyways the changed real_path will be used.
-      if ($path == $real_path) {
-        $output .= l($term->name, $path . '/' . $term->tid, array('attributes' => array('class' => array('taxonomy-tree-link'))));
+      if (empty($counted_tree)) {
+        if ($path == $real_path) {
+          $output .= l($term->name, $path . '/' . $term->tid, array('attributes' => array('class' => array('taxonomy-tree-link'))));
+        }
+        else {
+          $output .= l($term->name, $real_path, array('attributes' => array('class' => array('taxonomy-tree-link'))));
+        }
+        if (isset($term->children)) {
+          $output .= _taxonomy_browser_output_taxonomy_nested_tree($term->children, $path);
+        }
       }
       else {
-        $output .= l($term->name, $real_path, array('attributes' => array('class' => array('taxonomy-tree-link'))));
-      }
-      if (isset($term->children)) {
-        $output .= _taxonomy_browser_output_taxonomy_nested_tree($term->children, $path);
+        if ($counted_tree[$term->tid]['count'] > 0) {
+          if ($path == $real_path) {
+            $output .= l($term->name, $path . '/' . $term->tid, array('attributes' => array('class' => array('taxonomy-tree-link'))));
+          }
+          else {
+            $output .= l($term->name, $real_path, array('attributes' => array('class' => array('taxonomy-tree-link'))));
+          }
+        }
+        if (isset($term->children)) {
+          $output .= _taxonomy_browser_output_taxonomy_nested_tree($term->children, $path, $counted_tree[$term->tid]['children']);
+        }
       }
       $output .= '</li>';
     }
@@ -149,14 +164,68 @@ function _taxonomy_browser_output_taxonomy_nested_tree($tree, $path) {
 /**
  * Function _taxonomy_browser_taxonomy_create_tree().
  */
-function _taxonomy_browser_taxonomy_create_tree($vid, $path, $ajax = FALSE, $selected = 0) {
+function _taxonomy_browser_taxonomy_create_tree($vid, $path, $ajax = FALSE, $selected = 0, $hide = FALSE) {
   $tree = _taxonomy_browser_taxonomy_get_nested_tree(intval($vid));
 
   $output = '<div id="tb-browser-tree-' . $vid . '" class="tb-browser-tree jstree-ec-default">';
-  $output .= _taxonomy_browser_output_taxonomy_nested_tree($tree, $path);
+  if ($hide) {
+    $counted_tree = _taxonomy_browser_recursive_admittance($tree);
+    _taxonomy_browser_recount_items($counted_tree);
+    $output .= _taxonomy_browser_output_taxonomy_nested_tree($tree, $path, $counted_tree);
+  }
+  else {
+    $output .= _taxonomy_browser_output_taxonomy_nested_tree($tree, $path);
+  }
   $output .= '</div>';
 
   return $output;
+}
+
+/**
+ * Helper function for admittance of taxonomy tree.
+ * 
+ * @param array $tree
+ *   Basic taxonomy tree or subtree.
+ * @param string $children_key
+ *   Name of the key of children.
+ * 
+ * @return array $return
+ *   Returnable array what contains the result tree.
+ */
+function _taxonomy_browser_recursive_admittance($tree, $children_key = 'children') {
+  $return = array();
+  foreach ($tree as $key => $value) {
+    if (isset($value->$children_key)) {
+      $return[$key] = array('count' => count(taxonomy_select_nodes($key)), 'children' => _taxonomy_browser_recursive_admittance($value->$children_key, $children_key));
+    }
+    else {
+      $return[$key] = array('count' => count(taxonomy_select_nodes($key)));
+    }
+  }
+  return $return;
+}
+
+/**
+ * Helper recursive function for recounting the levels.
+ * 
+ * @param array $tree
+ *   Input array without recounting.
+ * 
+ * @return int $sum
+ *   Sum of the items.
+ */
+function _taxonomy_browser_recount_items(&$tree) {
+  $sum = 0;
+  foreach ($tree as $key => &$value) {
+    $count = 0;
+    // Recurse into child elements.
+    if (!empty($value['children'])) {
+      $count = _taxonomy_browser_recount_items($value['children']);
+    }
+    $value['count'] += $count;
+    $sum += $value['count'];
+  }
+  return $sum;
 }
 
 /**
