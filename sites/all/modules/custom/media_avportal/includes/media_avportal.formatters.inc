@@ -25,7 +25,7 @@ function media_avportal_file_formatter_info() {
   }
 
   $formatters['media_avportal_image'] = array(
-    'label' => t('Avportal Preview Image'),
+    'label' => t('AV Portal Preview Image'),
     'file types' => array('video'),
     'default settings' => array(
       'image_style' => '',
@@ -133,7 +133,7 @@ function media_avportal_file_formatter_video_settings($form, &$form_state, $sett
     '#default_value' => $settings['showinfo'],
   );
   $element['modestbranding'] = array(
-    '#title' => t('Remove Avportal logo from the control bar'),
+    '#title' => t('Remove AV Portal logo from the control bar'),
     '#type' => 'checkbox',
     '#default_value' => $settings['modestbranding'],
   );
@@ -218,13 +218,15 @@ function _avportal_validate_jsapi_domain($element, &$form_state, $form) {
  * Implements hook_file_formatter_FORMATTER_view().
  */
 function media_avportal_file_formatter_image_view($file, $display, $langcode) {
-  $path = base_path() . drupal_get_path('module', 'media_avportal') . '/img/avportal.png';
-  $element = array(
-    '#theme' => 'image',
-    '#path' => $path,
-    '#alt' => $file->filename,
-  );
-  return $element;
+  if(isset($file->filemime) && $file->filemime=='video/avportal'){
+    $path = base_path() . drupal_get_path('module', 'media_avportal') . '/img/avportal.png';
+    $element = array(
+      '#theme' => 'image',
+      '#path' => $path,
+      '#alt' => $file->filename,
+    );
+    return $element;
+  }
 }
 
 /**
