@@ -228,7 +228,7 @@ function cce_basic_config_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'linkchecker_check_links_interval';
-  $strongarm->value = '259200';
+  $strongarm->value = '2419200';
   $export['linkchecker_check_links_interval'] = $strongarm;
 
   $strongarm = new stdClass();
