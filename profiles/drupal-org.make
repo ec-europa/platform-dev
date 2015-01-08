@@ -70,6 +70,9 @@ projects[context][version] = "3.2"
 projects[collapse_text][subdir] = "contributed"
 projects[collapse_text][version] = "2.4"
 
+projects[css_injector][subdir] = "contributed"
+projects[css_injector][version] = "1.10"
+
 projects[ctools][subdir] = "contributed"
 projects[ctools][version] = "1.4"
 
@@ -288,9 +291,6 @@ projects[strongarm][version] = "2.0"
 
 projects[subscriptions][subdir] = "contributed"
 projects[subscriptions][version] = "1.1"
-
-projects[sweaver][subdir] = "contributed"
-projects[sweaver][version] = "1.3"
 
 projects[tagclouds][subdir] = "contributed"
 projects[tagclouds][version] = "1.10"
