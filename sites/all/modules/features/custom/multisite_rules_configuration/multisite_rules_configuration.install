@@ -5,12 +5,9 @@
  */
 
 /**
- * hook_enable
- *
+ * Implements hook_enable().
  */
-
 function multisite_rules_configuration_enable() {
-  multisite_rules_configuration_update_7110();
 }
 
 /**
