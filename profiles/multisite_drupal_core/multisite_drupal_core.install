@@ -1,23 +1,268 @@
 <?php
 
 /**
- * Implements hook_install().
- *
- * Perform actions to set up the site for this profile.
+ * @file
+ * Multisite Drupal Core installation profile.
  */
 
+/**
+ * Implements hook_install().
+ */
 function multisite_drupal_core_install() {
-  include_once DRUPAL_ROOT . '/profiles/standard/standard.install';
+  // Add text formats.
+  $filtered_html_format = array(
+    'format' => 'filtered_html',
+    'name' => 'Filtered HTML',
+    'weight' => 0,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      // HTML filter.
+      'filter_html' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 2,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $filtered_html_format = (object) $filtered_html_format;
+  filter_format_save($filtered_html_format);
 
-  standard_install();
+  $full_html_format = array(
+    'format' => 'full_html',
+    'name' => 'Full HTML',
+    'weight' => 1,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $full_html_format = (object) $full_html_format;
+  filter_format_save($full_html_format);
 
-  // disable modules
-  module_disable (array ('toolbar','dashboard'));
+  // Enable some standard blocks.
+  $default_theme = variable_get('theme_default', 'bartik');
+  $admin_theme = 'seven';
+  $blocks = array(
+    array(
+      'module' => 'system',
+      'delta' => 'main',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'node',
+      'delta' => 'recent',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 10,
+      'region' => 'dashboard_main',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'help',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'help',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'main',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'help',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'help',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'user',
+      'delta' => 'new',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'dashboard_sidebar',
+      'pages' => '',
+      'cache' => -1,
+    ),
+  );
+  $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache'));
+  foreach ($blocks as $block) {
+    $query->values($block);
+  }
+  $query->execute();
 
-  drupal_uninstall_modules (array ('toolbar','dashboard'),FALSE);
+  // Insert default pre-defined node types into the database. For a complete
+  // list of available node type attributes, refer to the node type API
+  // documentation at: http://api.drupal.org/api/HEAD/function/hook_node_info.
+  $types = array(
+    array(
+      'type' => 'page',
+      'name' => st('Basic page'),
+      'base' => 'node_content',
+      'description' => st("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+    ),
+    array(
+      'type' => 'article',
+      'name' => st('Article'),
+      'base' => 'node_content',
+      'description' => st('Use <em>articles</em> for time-sensitive content.'),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+    ),
+  );
 
-  // add dummy terms in 'tags' vocabulary -------------------------------------------------------------------------------------------------------------------------
-   $vocabulary = taxonomy_vocabulary_machine_name_load('tags');
+  foreach ($types as $type) {
+    $type = node_type_set_defaults($type);
+    node_type_save($type);
+    node_add_body_field($type);
+  }
+
+  // Insert default pre-defined RDF mapping into the database.
+  $rdf_mappings = array(
+    array(
+      'type' => 'node',
+      'bundle' => 'page',
+      'mapping' => array(
+        'rdftype' => array('foaf:Document'),
+      ),
+    ),
+    array(
+      'type' => 'node',
+      'bundle' => 'article',
+      'mapping' => array(
+        'field_image' => array(
+          'predicates' => array('og:image', 'rdfs:seeAlso'),
+          'type' => 'rel',
+        ),
+        'field_tags' => array(
+          'predicates' => array('dc:subject'),
+          'type' => 'rel',
+        ),
+      ),
+    ),
+  );
+  foreach ($rdf_mappings as $rdf_mapping) {
+    rdf_mapping_save($rdf_mapping);
+  }
+
+  // Default "Basic page" to not be promoted and have comments disabled.
+  variable_set('node_options_page', array('status'));
+  variable_set('comment_page', COMMENT_NODE_HIDDEN);
+
+  // Don't display date and author information for "Basic page" nodes by
+  // default.
+  variable_set('node_submitted_page', FALSE);
+
+  // Enable user picture support and set the default to a square thumbnail
+  // option.
+  variable_set('user_pictures', '1');
+  variable_set('user_picture_dimensions', '1024x1024');
+  variable_set('user_picture_file_size', '800');
+  variable_set('user_picture_style', 'thumbnail');
+
+  // Allow visitor account creation with administrative approval.
+  variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
+
+  // Enable default permissions for system roles.
+  $filtered_html_permission = filter_permission_name($filtered_html_format);
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'access comments', $filtered_html_permission));
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'access comments', 'post comments', 'skip comment approval', $filtered_html_permission));
+
+  // Create a default role for site administrators, with all available
+  // permissions assigned.
+  $admin_role = new stdClass();
+  $admin_role->name = 'administrator';
+  $admin_role->weight = 2;
+  user_role_save($admin_role);
+  user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
+
+  // Set this as the administrator role.
+  variable_set('user_admin_role', $admin_role->rid);
+
+  // Assign user 1 the "administrator" role.
+  db_insert('users_roles')
+    ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
+    ->execute();
+
+  // Create a Home link in the main menu.
+  $item = array(
+    'link_title' => st('Home'),
+    'link_path' => '<front>',
+    'menu_name' => 'main-menu',
+  );
+  menu_link_save($item);
+
+  // Update the menu router information.
+  menu_rebuild();
+
+  // Enable the admin theme.
+  db_update('system')
+    ->fields(array('status' => 1))
+    ->condition('type', 'theme')
+    ->condition('name', 'seven')
+    ->execute();
+  variable_set('admin_theme', 'seven');
+  variable_set('node_admin_theme', '1');
+
+  $contributor_role = new stdClass();
+  $contributor_role->name = 'contributor';
+  user_role_save($contributor_role);
+
+  $editor_role = new stdClass();
+  $editor_role->name = 'editor';
+  user_role_save($editor_role);
+
+  // Add dummy terms in 'tags' vocabulary.
+  $vocabulary = taxonomy_vocabulary_machine_name_load('tags');
   $term = new stdClass();
   $term->name = "sport";
   $term->vid = $vocabulary->vid;
@@ -28,89 +273,62 @@ function multisite_drupal_core_install() {
   $term->vid = $vocabulary->vid;
   taxonomy_term_save($term);
 
-  // create new roles -------------------------------------------------------------------------------------------------------------------------------------------------------
-  // contributor role
-  $role = new stdClass();
-  $role->name = 'contributor';
-  user_role_save($role);
-
-  // add permissions to roles ----------------------------------------------------------------------------------------------------------------------------------------------
-  // permissions related to articles content type
-  user_role_grant_permissions($role->rid, array(
+  // Grant permissions for contributors.
+  user_role_grant_permissions($contributor_role->rid, array(
+    'access workbench',
     'create article content',
     'delete own article content',
     'edit own article content',
-  ));
-
-  // permissions related to workbench moderation
-  user_role_grant_permissions($role->rid, array(
-    //'create article content',
-    //'delete own article content',
-    //'edit own article content',
-    'view own unpublished content',
-    'view revisions',
-    'access workbench',
+    'moderate content from draft to needs_review',
+    'moderate content from needs_review to draft',
+    'revert revisions',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
-    'view moderation messages',
-    'moderate content from draft to needs_review',
+    'view all unpublished content',
     'view moderation history',
-    'revert revisions',
-  ));
-
-  // authentificated user role
-  $au_rid = get_rid('authenticated user');
-  user_role_grant_permissions($au_rid, array(
+    'view moderation messages',
     'view own unpublished content',
     'view revisions',
-    'access workbench',
-    //'use workbench_moderation my drafts tab',
-    //'use workbench_moderation needs review tab',
-    'view moderation messages',
-    //'moderate content from draft to needs_review',
-    'view moderation history',
-    //'revert revisions',
-    'access print',
+  ));
+
+  // Grant permissions for authenticated users.
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array(
     'access PDF version',
+    'access print',
     'access site-wide contact form',
     'access user contact forms',
     'access user profiles',
+    'access workbench',
     'use text format full_html',
+    'view moderation history',
+    'view moderation messages',
+    'view own unpublished content',
+    'view revisions',
   ));
 
-  // administrator role
-  $adm_rid = get_rid('administrator');
-  user_role_revoke_permissions($adm_rid, array(
-    'administer modules',
+  // Grant permissions for administrators.
+  user_role_revoke_permissions($admin_role->rid, array(
     'administer features',
-    'manage features',
+    'administer modules',
     'administer software updates',
-    //'administer shortcuts',
-    //'customize shortcut links',
-    //'switch shortcut sets',
+    'manage features',
     'use PHP to import nodes',
-
   ));
 
-  // anonymous role
-  $anu_rid = get_rid('anonymous user');
-  user_role_grant_permissions($anu_rid, array(
-    'post comments',
-    'access print',
+  // Grant permissions for anonymous users.
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array(
     'access PDF version',
+    'access print',
     'access site-wide contact form',
     'access user contact forms',
+    'access user profiles',
+    'post comments',
     'search content',
     'use advanced search',
-    'access user profiles',
   ));
 
-  // editor role
-  $role = new stdClass();
-  $role->name = 'editor';
-  user_role_save($role);
-
-  user_role_grant_permissions($role->rid, array(
+  // Grant permissions for editors.
+  user_role_grant_permissions($editor_role->rid, array(
     'create article content',
     'delete any article content',
     'delete own article content',
@@ -118,110 +336,63 @@ function multisite_drupal_core_install() {
     'edit any article content',
     'edit own article content',
     'export nodes',
+    'moderate content from draft to needs_review',
     'moderate content from needs_review to draft',
     'moderate content from needs_review to published',
     'moderate content from needs_review to validated',
     'moderate content from published to archived',
     'moderate content from validated to published',
-    'moderate content from draft to needs_review',
+    'revert revisions',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
-    'revert revisions',
-    'view own unpublished content',
     'view all unpublished content',
+    'view own unpublished content',
   ));
 
-
-  // define the theme used ------------------------------------------------------------------------------------------------------------------------------------------------------
-  $enable = array(
-    'theme_default' => 'ec_resp', // should be the our CCE theme
+  // Define the theme used.
+  $themes = array(
+    // Our CCE theme is the default theme.
+    'theme_default' => 'ec_resp',
     'admin_theme' => 'seven',
   );
-  theme_enable($enable);
+  theme_enable($themes);
 
-  foreach ($enable as $var => $theme) {
+  foreach ($themes as $var => $theme) {
     if (!is_numeric($var)) {
       variable_set($var, $theme);
     }
   }
-  theme_disable(array('bartik')); // Disable the default Bartik theme
 
-  // provide default images ----------------------------------------------------------------------------------------------------------------------------
-  // default image for user picture
-  $file = new stdClass();
-  $file->fid = NULL;
-  $file->uri = "public://default_images/user_default.png";
-  $file->filename = "user_default.png";
-  $file->filemime = file_get_mimetype($file->uri);
-  $file->uid = 1;
-  $file->status = FILE_STATUS_PERMANENT;
-  $f = file_save($file);
-  variable_set('user_picture_default', 'public://default_images/user_default.png');
+  // Set default images.
+  $theme_path = drupal_get_path('theme', 'ec_resp');
+  $default_images = array(
+    'user_picture_default' => 'user_default.png',
+    'empty_gallery_default' => 'empty_gallery.png',
+  );
+  foreach ($default_images as $variable => $default_image) {
+    variable_set($variable, file_create_url($theme_path . '/images/' . $default_image));
+  }
 
-  // default image for gallery media picture
-  $file = new stdClass();
-  $file->fid = NULL;
-  $file->uri = "public://default_images/empty_gallery.png";
-  $file->filename = "empty_gallery.png";
-  $file->filemime = file_get_mimetype($file->uri);
-  $file->uid = 1;
-  $file->status = FILE_STATUS_PERMANENT;
-  $f = file_save($file);
-  variable_set('empty_gallery_default', 'public://default_images/empty_gallery.png');
-
-  // setup settings ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-  // language settings
-
-  // set the url language prefix to 'en'
+  // Set the url language prefix to 'en'.
   db_update('languages')
     ->fields(array('prefix' => 'en'))
     ->condition('language', 'en')
     ->execute();
 
-  // set the default language negociation --------------------------------------------------------------------------
+  // Set up language negotiation.
   $lni = language_negotiation_info();
   $ln['language-default'] = $lni['language-default'];
   $ln['locale-url'] = $lni['locale-url'];
   language_negotiation_set('language', $ln);
 
-
-  // blocks settings ----------------------------------------------------------------------------------------------------------------------------------------------------
-  //Disable cloned Search Form Block --------------------------------------------------------------------------
-  $dis_search = db_update('block') // Table name no longer needs {}
-    ->fields(array(
-    'region' => '-1',
-    ))
-    ->condition('module', 'search', '=')
-    ->condition('delta', 'form', '=')
+  // Disable the Workbench block.
+  db_update('block')
+    ->fields(array('region' => '-1'))
+    ->condition('module', 'workbench', '=')
+    ->condition('delta', 'block', '=')
     ->execute();
 
-  // disable block -------------------------------------------------------------------------------
-  db_update('block')
-  ->fields(array('region' => ''))
-  ->condition('module', 'system', '=')
-  ->condition('delta', 'navigation', '=')
-  ->execute();
-
-  db_update('block')
-  ->fields(array('region' => ''))
-  ->condition('module', 'user', '=')
-  ->condition('delta', 'login', '=')
-  ->execute();
-
-  db_update('block')
-  ->fields(array('region' => '-1'))
-  ->condition('module', 'workbench', '=')
-  ->condition('delta', 'block', '=')
-  ->execute();
-
-  db_update('block')
-  ->fields(array('region' => ''))
-  ->condition('module', 'system', '=')
-  ->condition('delta', 'powered-by', '=')
-  ->execute();
-
-  // add login link in the user menu -------------------------------------------------------------------------------
+  // Add login link to the user menu.
   $options = array();
   $options['attributes']['class'][] = 'btn btn-default';
   $options['attributes']['data-image'] = 'log-in';
@@ -234,7 +405,7 @@ function multisite_drupal_core_install() {
   );
   menu_link_save($item);
 
-  // add workbench link to the user menu -------------------------------------------------------------------------------
+  // Add workbench link to the user menu.
   $options = array();
   $options['attributes']['class'][] = 'btn btn-info btn-xs';
   $options['attributes']['data-image'] = 'list-alt';
@@ -248,7 +419,7 @@ function multisite_drupal_core_install() {
   );
   menu_link_save($item);
 
-  // add search links in the main menu -------------------------------------------------------------------------------
+  // Add search links to the main menu.
   $item = array(
     'link_path' => 'search/site',
     'link_title' => t('Search'),
@@ -257,7 +428,7 @@ function multisite_drupal_core_install() {
   );
   menu_link_save($item);
 
-  // update home link in the main menu ---------------------------------------------------------------------------------------
+  // Update home link in the main menu.
   $options = array();
   $options['attributes']['data-display-title'] = 0;
   $options['attributes']['data-image'] = 'home';
@@ -267,4 +438,8 @@ function multisite_drupal_core_install() {
     -> condition('link_title', 'Home')
     -> condition('menu_name', 'main-menu')
     -> execute();
+
+  // Revert all features.
+  features_include_defaults(NULL, TRUE);
+  features_revert();
 }
