@@ -116,7 +116,7 @@ projects[fblikebutton][subdir] = "contributed"
 projects[fblikebutton][version] = "2.3"
 
 projects[features][subdir] = "contributed"
-projects[features][version] = "2.0-beta1"
+projects[features][version] = "2.3"
 
 projects[feeds][subdir] = "contributed"
 projects[feeds][version] = "2.0-alpha8"
