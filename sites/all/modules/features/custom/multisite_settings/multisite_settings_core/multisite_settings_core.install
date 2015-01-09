@@ -6,6 +6,76 @@
  */
 
 function multisite_settings_core_enable() {
+  //Add Archived and Validated Workflow States
+  $result = db_select('workbench_moderation_states', 'wms')
+    ->fields('wms')
+    ->condition('name', 'archived', '=')
+    ->execute()
+    ->fetchObject();
+
+  if (!$result) {
+    $arch_state = db_insert('workbench_moderation_states')
+      ->fields(array(
+        'name' => 'archived',
+        'label' => 'Archived',
+        'description' => 'Content is not published anymore',
+        'weight' => 100,
+      ))
+      ->execute();
+  }
+
+  $result = db_select('workbench_moderation_states', 'wms')
+    ->fields('wms')
+    ->condition('name', 'validated', '=')
+    ->execute()
+    ->fetchObject();
+
+  if (!$result) {
+    $vali_state = db_insert('workbench_moderation_states')
+      ->fields(array(
+        'name' => 'validated',
+        'label' => 'Validated',
+        'description' => 'Approved by administrator',
+        'weight' => 10,
+      ))
+      ->execute();
+  }
+
+  //Add Archived and Validated corresponding transitions
+
+  $transitions = array(
+    array(
+      'from_name' => 'published',
+      'to_name' => 'archived',
+    ),
+    array(
+      'from_name' => 'needs_review',
+      'to_name' => 'validated',
+    ),
+    array(
+      'from_name' => 'validated',
+      'to_name' => 'published',
+    ),
+  );
+
+  // Save default transitions to the database.
+  $query = db_insert('workbench_moderation_transitions')
+    ->fields(array('from_name', 'to_name'));
+
+  foreach ($transitions as $transition) {
+
+    $result = db_select('workbench_moderation_transitions', 'wmt')
+      ->fields('wmt')
+      ->condition('from_name', $transition['from_name'], '=')
+      ->condition('to_name', $transition['to_name'], '=')
+      ->execute()
+      ->fetchObject();
+
+    if (!$result)
+      $query->values($transition);
+  }
+
+  $query->execute();
 }
 
 function multisite_settings_core_disable() {
