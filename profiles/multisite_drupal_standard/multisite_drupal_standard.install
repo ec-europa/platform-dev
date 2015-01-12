@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Multisite Drupal Standard installation profile.
+ */
 
 /**
  * Implements hook_install().
@@ -9,23 +13,23 @@ function multisite_drupal_standard_install() {
   multisite_drupal_core_install();
 }
 
-/*
- * hook_update_N
+/**
+ * Implements hook_update_N().
  */
 function multisite_drupal_standard_update_7100() {
-  // editor role
+  // Editor role.
   $role = db_select('role', 'r')
     ->condition('name', 'editor', '=')
     ->fields('r')
     ->execute()
-    ->fetchObject();   
-  if(!$role) {
+    ->fetchObject();
+  if (!$role) {
     $role = new stdClass();
     $role->name = 'editor';
-    user_role_save($role); 
+    user_role_save($role);
   }
 
-  user_role_grant_permissions($role->rid, array(  
+  user_role_grant_permissions($role->rid, array(
     'create article content',
     'delete any article content',
     'delete own article content',
@@ -44,10 +48,10 @@ function multisite_drupal_standard_update_7100() {
     'revert revisions',
     'view own unpublished content',
     'view all unpublished content',
-  ));  
-  
-  // administrator role
-  $adm_rid = get_rid('administrator'); 
+  ));
+
+  // Administrator role.
+  $adm_rid = get_rid('administrator');
   user_role_revoke_permissions($adm_rid, array(
     'administer software updates',
   ));
