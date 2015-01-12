@@ -18,7 +18,7 @@ dependencies[] = media_youtube
 dependencies[] = mediafield
 
 features[ctools][] = file_entity:file_default_displays:1
-features[features_api][] = api:1
+features[features_api][] = api:2
 
 features[file_display][] = video__default__media_youtube_video
 features[file_display][] = video__default__media_youtube_image

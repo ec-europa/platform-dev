@@ -3,7 +3,7 @@ description = Tool for FPFIS Developers
 core = 7.x
 package = Multisite Features
 php = 5.2.4
-version = 7.x-1.0
+version = 7.x-1.1
 project = dev
 
 dependencies[] = coder
@@ -26,7 +26,7 @@ dependencies[] = security_review
 ;dependencies[] = drupalforfirebug
 
 features[ctools][] = strongarm:strongarm:1
-features[features_api][] = api:1
+features[features_api][] = api:2
 features[user_permission][] = access devel information
 features[user_permission][] = execute php code
 features[variable][] = coffee_settings_menus

@@ -10,7 +10,7 @@
 function dev_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: access devel information.
+  // Exported permission: 'access devel information'.
   $permissions['access devel information'] = array(
     'name' => 'access devel information',
     'roles' => array(
@@ -19,7 +19,7 @@ function dev_user_default_permissions() {
     'module' => 'devel',
   );
 
-  // Exported permission: execute php code.
+  // Exported permission: 'execute php code'.
   $permissions['execute php code'] = array(
     'name' => 'execute php code',
     'roles' => array(

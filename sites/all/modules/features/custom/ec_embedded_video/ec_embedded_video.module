@@ -11,6 +11,7 @@ include_once 'ec_embedded_video.features.inc';
  *
  * @see http://drupal.org/node/1245686
  */
+
 function ec_embedded_video_file_type($file) {
   if ($file->filemime == 'video/youtube') {
     return array('video');
