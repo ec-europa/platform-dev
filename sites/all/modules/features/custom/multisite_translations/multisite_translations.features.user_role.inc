@@ -13,7 +13,7 @@ function multisite_translations_user_default_roles() {
   // Exported role: translator.
   $roles['translator'] = array(
     'name' => 'translator',
-    'weight' => '5',
+    'weight' => 5,
   );
 
   return $roles;

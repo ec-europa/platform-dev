@@ -12,9 +12,10 @@ function multisite_translations_default_rules_configuration() {
   $items['rules_job_notification'] = entity_import('rules_config', '{ "rules_job_notification" : {
       "LABEL" : "job translation notification",
       "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
       "TAGS" : [ "job translation" ],
       "REQUIRES" : [ "rules", "multisite_translations", "tmgmt" ],
-      "ON" : [ "tmgmt_job_update" ],
+      "ON" : { "tmgmt_job_update" : [] },
       "IF" : [ { "data_is" : { "data" : [ "tmgmt-job:state" ], "value" : "1" } } ],
       "DO" : [
         { "entity_create" : {

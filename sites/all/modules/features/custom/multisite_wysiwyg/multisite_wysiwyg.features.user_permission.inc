@@ -10,7 +10,7 @@
 function multisite_wysiwyg_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: access ckeditor link.
+  // Exported permission: 'access ckeditor link'.
   $permissions['access ckeditor link'] = array(
     'name' => 'access ckeditor link',
     'roles' => array(

@@ -50,6 +50,7 @@ function multisite_wysiwyg_wysiwyg_default_profiles() {
       'css_classes' => '',
       'advanced__active_tab' => 'edit-appearance',
     ),
+    'rdf_mapping' => array(),
   );
 
   return $profiles;

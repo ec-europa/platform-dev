@@ -10,7 +10,7 @@
 function multisite_translations_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: accept translation jobs.
+  // Exported permission: 'accept translation jobs'.
   $permissions['accept translation jobs'] = array(
     'name' => 'accept translation jobs',
     'roles' => array(
@@ -22,7 +22,7 @@ function multisite_translations_user_default_permissions() {
     'module' => 'tmgmt',
   );
 
-  // Exported permission: create translation jobs.
+  // Exported permission: 'create translation jobs'.
   $permissions['create translation jobs'] = array(
     'name' => 'create translation jobs',
     'roles' => array(
@@ -33,7 +33,7 @@ function multisite_translations_user_default_permissions() {
     'module' => 'tmgmt',
   );
 
-  // Exported permission: submit translation jobs.
+  // Exported permission: 'submit translation jobs'.
   $permissions['submit translation jobs'] = array(
     'name' => 'submit translation jobs',
     'roles' => array(
@@ -44,7 +44,7 @@ function multisite_translations_user_default_permissions() {
     'module' => 'tmgmt',
   );
 
-  // Exported permission: translate content.
+  // Exported permission: 'translate content'.
   $permissions['translate content'] = array(
     'name' => 'translate content',
     'roles' => array(

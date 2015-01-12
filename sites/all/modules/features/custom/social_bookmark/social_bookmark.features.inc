@@ -1,5 +1,3 @@
 <?php
-/**
- * @file
- * social_bookmark.features.inc
- */
+
+// This file is deprecated and can be removed.

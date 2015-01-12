@@ -10,7 +10,7 @@
 function multisite_twitterblock_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: administer fpfis twitter feature.
+  // Exported permission: 'administer fpfis twitter feature'.
   $permissions['administer fpfis twitter feature'] = array(
     'name' => 'administer fpfis twitter feature',
     'roles' => array(
@@ -19,7 +19,7 @@ function multisite_twitterblock_user_default_permissions() {
     'module' => 'multisite_twitterblock',
   );
 
-  // Exported permission: administer fpfis twitter widget.
+  // Exported permission: 'administer fpfis twitter widget'.
   $permissions['administer fpfis twitter widget'] = array(
     'name' => 'administer fpfis twitter widget',
     'roles' => array(
@@ -29,7 +29,7 @@ function multisite_twitterblock_user_default_permissions() {
     'module' => 'multisite_twitterblock',
   );
 
-  // Exported permission: override fpfis twitter widget.
+  // Exported permission: 'override fpfis twitter widget'.
   $permissions['override fpfis twitter widget'] = array(
     'name' => 'override fpfis twitter widget',
     'roles' => array(
