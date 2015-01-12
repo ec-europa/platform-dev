@@ -10,7 +10,7 @@
 function multisite_rules_configuration_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: moderate content from needs_review to validated.
+  // Exported permission: 'moderate content from needs_review to validated'.
   $permissions['moderate content from needs_review to validated'] = array(
     'name' => 'moderate content from needs_review to validated',
     'roles' => array(
@@ -20,7 +20,7 @@ function multisite_rules_configuration_user_default_permissions() {
     'module' => 'workbench_moderation',
   );
 
-  // Exported permission: moderate content from published to archived.
+  // Exported permission: 'moderate content from published to archived'.
   $permissions['moderate content from published to archived'] = array(
     'name' => 'moderate content from published to archived',
     'roles' => array(
@@ -30,7 +30,7 @@ function multisite_rules_configuration_user_default_permissions() {
     'module' => 'workbench_moderation',
   );
 
-  // Exported permission: moderate content from validated to published.
+  // Exported permission: 'moderate content from validated to published'.
   $permissions['moderate content from validated to published'] = array(
     'name' => 'moderate content from validated to published',
     'roles' => array(
