@@ -66,6 +66,7 @@ dependencies[] = views
 dependencies[] = views_ui
 dependencies[] = views_bulk_operations
 dependencies[] = bootstrap_gallery
+dependencies[] = views_bootstrap
 ;dependencies[] = views_xml
 ;dependencies[] = views_xhtml
 ;dependencies[] = views_rdf

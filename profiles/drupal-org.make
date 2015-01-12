@@ -340,6 +340,9 @@ projects[video][version] = "2.9"
 projects[views][subdir] = "contributed"
 projects[views][version] = "3.8"
 
+projects[views_bootstrap][subdir] = "contributed"
+projects[views_bootstrap][version] = "3.1"
+
 projects[views_bulk_operations][subdir] = "contributed"
 projects[views_bulk_operations][version] = "3.1"
 
