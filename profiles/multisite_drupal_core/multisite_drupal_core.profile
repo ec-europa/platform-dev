@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Profile file of multisite drupal core profile.
+ */
 
 /**
  * Implements hook_form_FORM_ID_alter().

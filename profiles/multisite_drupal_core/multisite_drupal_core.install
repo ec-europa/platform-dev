@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Multisite Drupal Core installation profile.
@@ -130,7 +129,16 @@ function multisite_drupal_core_install() {
       'cache' => -1,
     ),
   );
-  $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache'));
+  $query = db_insert('block')->fields(array(
+    'module',
+    'delta',
+    'theme',
+    'status',
+    'weight',
+    'region',
+    'pages',
+    'cache',
+  ));
   foreach ($blocks as $block) {
     $query->values($block);
   }
@@ -139,21 +147,22 @@ function multisite_drupal_core_install() {
   // Insert default pre-defined node types into the database. For a complete
   // list of available node type attributes, refer to the node type API
   // documentation at: http://api.drupal.org/api/HEAD/function/hook_node_info.
+  $t = get_t();
   $types = array(
     array(
       'type' => 'page',
-      'name' => st('Basic page'),
+      'name' => $t('Basic page'),
       'base' => 'node_content',
-      'description' => st("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
+      'description' => $t("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
       'custom' => 1,
       'modified' => 1,
       'locked' => 0,
     ),
     array(
       'type' => 'article',
-      'name' => st('Article'),
+      'name' => $t('Article'),
       'base' => 'node_content',
-      'description' => st('Use <em>articles</em> for time-sensitive content.'),
+      'description' => $t('Use <em>articles</em> for time-sensitive content.'),
       'custom' => 1,
       'modified' => 1,
       'locked' => 0,
@@ -214,8 +223,20 @@ function multisite_drupal_core_install() {
 
   // Enable default permissions for system roles.
   $filtered_html_permission = filter_permission_name($filtered_html_format);
-  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'access comments', $filtered_html_permission));
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'access comments', 'post comments', 'skip comment approval', $filtered_html_permission));
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID,
+    array(
+      'access content',
+      'access comments',
+      $filtered_html_permission,
+    ));
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID,
+    array(
+      'access content',
+      'access comments',
+      'post comments',
+      'skip comment approval',
+      $filtered_html_permission,
+    ));
 
   // Create a default role for site administrators, with all available
   // permissions assigned.
@@ -235,7 +256,7 @@ function multisite_drupal_core_install() {
 
   // Create a Home link in the main menu.
   $item = array(
-    'link_title' => st('Home'),
+    'link_title' => $t('Home'),
     'link_path' => '<front>',
     'menu_name' => 'main-menu',
   );
@@ -399,7 +420,7 @@ function multisite_drupal_core_install() {
 
   $item = array(
     'link_path' => 'user/login',
-    'link_title' => t('Login'),
+    'link_title' => $t('Login'),
     'menu_name' => 'user-menu',
     'options' => $options,
   );
@@ -412,7 +433,7 @@ function multisite_drupal_core_install() {
 
   $item = array(
     'link_path' => 'admin/workbench',
-    'link_title' => t('My workbench'),
+    'link_title' => $t('My workbench'),
     'menu_name' => 'user-menu',
     'weight' => '-30',
     'options' => $options,
@@ -422,9 +443,9 @@ function multisite_drupal_core_install() {
   // Add search links to the main menu.
   $item = array(
     'link_path' => 'search/site',
-    'link_title' => t('Search'),
+    'link_title' => $t('Search'),
     'menu_name' => 'main-menu',
-    'weight' => '19999'
+    'weight' => '19999',
   );
   menu_link_save($item);
 
@@ -434,10 +455,10 @@ function multisite_drupal_core_install() {
   $options['attributes']['data-image'] = 'home';
 
   db_update('menu_links')
-    -> fields(array('options' => serialize($options), 'weight' => '-50'))
-    -> condition('link_title', 'Home')
-    -> condition('menu_name', 'main-menu')
-    -> execute();
+    ->fields(array('options' => serialize($options), 'weight' => '-50'))
+    ->condition('link_title', 'Home')
+    ->condition('menu_name', 'main-menu')
+    ->execute();
 
   // Revert all features.
   features_include_defaults(NULL, TRUE);
