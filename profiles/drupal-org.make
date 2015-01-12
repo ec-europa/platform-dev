@@ -46,6 +46,9 @@ projects[better_formats][version] = "1.0-beta1"
 projects[better_exposed_filters][subdir] = "contributed"
 projects[better_exposed_filters][version] = "3.0-beta3"
 
+projects[bootstrap_gallery][subdir] = "contributed"
+projects[bootstrap_gallery][version] = "3.0"
+
 projects[captcha][subdir] = "contributed"
 projects[captcha][version] = "1.0"
 
