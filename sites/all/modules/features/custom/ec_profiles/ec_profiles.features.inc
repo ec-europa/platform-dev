@@ -7,9 +7,6 @@
 /**
  * Implements hook_views_api().
  */
-function ec_profiles_views_api() {
-  list($module, $api) = func_get_args();
-  if ($module == "views" && $api == "views_default") {
-    return array("version" => "3.0");
-  }
+function ec_profiles_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
 }

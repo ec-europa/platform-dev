@@ -13,11 +13,11 @@ function ec_world_countries_taxonomy_default_vocabularies() {
       'name' => 'EC World Countries',
       'machine_name' => 'ec_world_countries',
       'description' => 'A list of the world countries',
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => '0',
+      'weight' => 0,
       'language' => 'und',
-      'i18n_mode' => '1',
+      'i18n_mode' => 1,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',
