@@ -7,28 +7,22 @@
 /**
  * Implements hook_ctools_plugin_api().
  */
-function cce_basic_config_ctools_plugin_api() {
-  list($module, $api) = func_get_args();
+function cce_basic_config_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "context" && $api == "context") {
     return array("version" => "3");
   }
-  list($module, $api) = func_get_args();
   if ($module == "field_group" && $api == "field_group") {
     return array("version" => "1");
   }
-  list($module, $api) = func_get_args();
   if ($module == "file_entity" && $api == "file_default_displays") {
     return array("version" => "1");
   }
-  list($module, $api) = func_get_args();
   if ($module == "file_entity" && $api == "file_type") {
     return array("version" => "1");
   }
-  list($module, $api) = func_get_args();
   if ($module == "password_policy" && $api == "default_password_policy") {
     return array("version" => "1");
   }
-  list($module, $api) = func_get_args();
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -37,7 +31,7 @@ function cce_basic_config_ctools_plugin_api() {
 /**
  * Implements hook_views_api().
  */
-function cce_basic_config_views_api() {
+function cce_basic_config_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
 
@@ -62,10 +56,10 @@ function cce_basic_config_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '50',
-          'height' => '50',
+          'width' => 50,
+          'height' => 50,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -85,11 +79,11 @@ function cce_basic_config_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '800',
-          'height' => '600',
+          'width' => 800,
+          'height' => 600,
           'upscale' => 0,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -109,10 +103,10 @@ function cce_basic_config_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '180',
-          'height' => '180',
+          'width' => 180,
+          'height' => 180,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -136,12 +130,13 @@ function cce_basic_config_node_info() {
     'page' => array(
       'name' => t('Basic page'),
       'base' => 'node_content',
-      'description' => t('Use <em>basic pages</em> for your static content, such as an "About us" page.'),
+      'description' => t('Use <em>basic pages</em> for your static content, such as an \'About us\' page.'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
     ),
   );
+  drupal_alter('node_info', $items);
   return $items;
 }
 
@@ -157,18 +152,18 @@ function cce_basic_config_video_default_presets() {
         'video_extension' => 'flv',
         'video_codec' => 'flv',
         'video_preset' => '',
-        'video_quality' => '4',
-        'video_speed' => '3',
+        'video_quality' => 4,
+        'video_speed' => 3,
         'wxh' => '640x360',
         'video_aspectmode' => 'preserve',
         'video_upscale' => 0,
         'audio_codec' => 'libmp3lame',
-        'audio_quality' => '3',
+        'audio_quality' => 3,
         'deinterlace' => 'detect',
         'max_frame_rate' => '',
         'frame_rate' => '',
         'keyframe_interval' => '',
-        'video_bitrate' => '566',
+        'video_bitrate' => 566,
         'bitrate_cap' => '',
         'buffer_size' => '',
         'one_pass' => 1,
@@ -176,13 +171,13 @@ function cce_basic_config_video_default_presets() {
         'pixel_format' => '',
         'h264_profile' => '',
         'audio_bitrate' => '',
-        'audio_channels' => '2',
-        'audio_sample_rate' => '44100',
+        'audio_channels' => 2,
+        'audio_sample_rate' => 44100,
         'skip_audio' => 0,
         'video_watermark_enabled' => 0,
         'video_watermark_fid' => 0,
-        'video_watermark_x' => '5',
-        'video_watermark_y' => '5',
+        'video_watermark_x' => 5,
+        'video_watermark_y' => 5,
         'video_watermark_width' => '',
         'video_watermark_height' => '',
         'video_watermark_origin' => 'content',

@@ -10,7 +10,7 @@
 function cce_basic_config_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: access PDF version.
+  // Exported permission: 'access PDF version'.
   $permissions['access PDF version'] = array(
     'name' => 'access PDF version',
     'roles' => array(
@@ -21,7 +21,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'print_pdf',
   );
 
-  // Exported permission: access broken links report.
+  // Exported permission: 'access broken links report'.
   $permissions['access broken links report'] = array(
     'name' => 'access broken links report',
     'roles' => array(
@@ -31,7 +31,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'linkchecker',
   );
 
-  // Exported permission: access comments.
+  // Exported permission: 'access comments'.
   $permissions['access comments'] = array(
     'name' => 'access comments',
     'roles' => array(
@@ -42,7 +42,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'comment',
   );
 
-  // Exported permission: access own broken links report.
+  // Exported permission: 'access own broken links report'.
   $permissions['access own broken links report'] = array(
     'name' => 'access own broken links report',
     'roles' => array(
@@ -53,7 +53,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'linkchecker',
   );
 
-  // Exported permission: access print.
+  // Exported permission: 'access print'.
   $permissions['access print'] = array(
     'name' => 'access print',
     'roles' => array(
@@ -64,7 +64,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'print',
   );
 
-  // Exported permission: access send by email.
+  // Exported permission: 'access send by email'.
   $permissions['access send by email'] = array(
     'name' => 'access send by email',
     'roles' => array(
@@ -74,7 +74,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'print_mail',
   );
 
-  // Exported permission: access site-wide contact form.
+  // Exported permission: 'access site-wide contact form'.
   $permissions['access site-wide contact form'] = array(
     'name' => 'access site-wide contact form',
     'roles' => array(
@@ -85,7 +85,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'contact',
   );
 
-  // Exported permission: access user contact forms.
+  // Exported permission: 'access user contact forms'.
   $permissions['access user contact forms'] = array(
     'name' => 'access user contact forms',
     'roles' => array(
@@ -95,7 +95,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'contact',
   );
 
-  // Exported permission: access user profiles.
+  // Exported permission: 'access user profiles'.
   $permissions['access user profiles'] = array(
     'name' => 'access user profiles',
     'roles' => array(
@@ -106,7 +106,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'user',
   );
 
-  // Exported permission: access workbench.
+  // Exported permission: 'access workbench'.
   $permissions['access workbench'] = array(
     'name' => 'access workbench',
     'roles' => array(
@@ -117,7 +117,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'workbench',
   );
 
-  // Exported permission: administer media browser.
+  // Exported permission: 'administer media browser'.
   $permissions['administer media browser'] = array(
     'name' => 'administer media browser',
     'roles' => array(
@@ -126,7 +126,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'media',
   );
 
-  // Exported permission: administer video presets.
+  // Exported permission: 'administer video presets'.
   $permissions['administer video presets'] = array(
     'name' => 'administer video presets',
     'roles' => array(
@@ -135,7 +135,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'video',
   );
 
-  // Exported permission: bypass conversion video.
+  // Exported permission: 'bypass conversion video'.
   $permissions['bypass conversion video'] = array(
     'name' => 'bypass conversion video',
     'roles' => array(
@@ -144,7 +144,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'video',
   );
 
-  // Exported permission: convert on submission.
+  // Exported permission: 'convert on submission'.
   $permissions['convert on submission'] = array(
     'name' => 'convert on submission',
     'roles' => array(
@@ -153,7 +153,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'video',
   );
 
-  // Exported permission: create article content.
+  // Exported permission: 'create article content'.
   $permissions['create article content'] = array(
     'name' => 'create article content',
     'roles' => array(
@@ -164,7 +164,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: create files.
+  // Exported permission: 'create files'.
   $permissions['create files'] = array(
     'name' => 'create files',
     'roles' => array(
@@ -175,7 +175,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'file_entity',
   );
 
-  // Exported permission: delete any article content.
+  // Exported permission: 'delete any article content'.
   $permissions['delete any article content'] = array(
     'name' => 'delete any article content',
     'roles' => array(
@@ -185,7 +185,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete own article content.
+  // Exported permission: 'delete own article content'.
   $permissions['delete own article content'] = array(
     'name' => 'delete own article content',
     'roles' => array(
@@ -196,7 +196,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete own image files.
+  // Exported permission: 'delete own image files'.
   $permissions['delete own image files'] = array(
     'name' => 'delete own image files',
     'roles' => array(
@@ -207,7 +207,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'file_entity',
   );
 
-  // Exported permission: edit any article content.
+  // Exported permission: 'edit any article content'.
   $permissions['edit any article content'] = array(
     'name' => 'edit any article content',
     'roles' => array(
@@ -217,7 +217,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit own article content.
+  // Exported permission: 'edit own article content'.
   $permissions['edit own article content'] = array(
     'name' => 'edit own article content',
     'roles' => array(
@@ -228,7 +228,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit own image files.
+  // Exported permission: 'edit own image files'.
   $permissions['edit own image files'] = array(
     'name' => 'edit own image files',
     'roles' => array(
@@ -239,7 +239,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'file_entity',
   );
 
-  // Exported permission: export nodes.
+  // Exported permission: 'export nodes'.
   $permissions['export nodes'] = array(
     'name' => 'export nodes',
     'roles' => array(
@@ -249,7 +249,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'node_export',
   );
 
-  // Exported permission: export own nodes.
+  // Exported permission: 'export own nodes'.
   $permissions['export own nodes'] = array(
     'name' => 'export own nodes',
     'roles' => array(
@@ -258,7 +258,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'node_export',
   );
 
-  // Exported permission: import media.
+  // Exported permission: 'import media'.
   $permissions['import media'] = array(
     'name' => 'import media',
     'roles' => array(
@@ -269,7 +269,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'media',
   );
 
-  // Exported permission: moderate content from draft to needs_review.
+  // Exported permission: 'moderate content from draft to needs_review'.
   $permissions['moderate content from draft to needs_review'] = array(
     'name' => 'moderate content from draft to needs_review',
     'roles' => array(
@@ -280,7 +280,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'workbench_moderation',
   );
 
-  // Exported permission: moderate content from needs_review to draft.
+  // Exported permission: 'moderate content from needs_review to draft'.
   $permissions['moderate content from needs_review to draft'] = array(
     'name' => 'moderate content from needs_review to draft',
     'roles' => array(
@@ -291,7 +291,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'workbench_moderation',
   );
 
-  // Exported permission: moderate content from needs_review to published.
+  // Exported permission: 'moderate content from needs_review to published'.
   $permissions['moderate content from needs_review to published'] = array(
     'name' => 'moderate content from needs_review to published',
     'roles' => array(
@@ -301,7 +301,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'workbench_moderation',
   );
 
-  // Exported permission: override player dimensions.
+  // Exported permission: 'override player dimensions'.
   $permissions['override player dimensions'] = array(
     'name' => 'override player dimensions',
     'roles' => array(
@@ -310,7 +310,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'video',
   );
 
-  // Exported permission: post comments.
+  // Exported permission: 'post comments'.
   $permissions['post comments'] = array(
     'name' => 'post comments',
     'roles' => array(
@@ -321,7 +321,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'comment',
   );
 
-  // Exported permission: re convert video.
+  // Exported permission: 're convert video'.
   $permissions['re convert video'] = array(
     'name' => 're convert video',
     'roles' => array(
@@ -331,7 +331,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'video',
   );
 
-  // Exported permission: revert revisions.
+  // Exported permission: 'revert revisions'.
   $permissions['revert revisions'] = array(
     'name' => 'revert revisions',
     'roles' => array(
@@ -342,7 +342,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: search content.
+  // Exported permission: 'search content'.
   $permissions['search content'] = array(
     'name' => 'search content',
     'roles' => array(
@@ -353,7 +353,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'search',
   );
 
-  // Exported permission: show format selection for comment.
+  // Exported permission: 'show format selection for comment'.
   $permissions['show format selection for comment'] = array(
     'name' => 'show format selection for comment',
     'roles' => array(
@@ -364,7 +364,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'better_formats',
   );
 
-  // Exported permission: show format selection for file.
+  // Exported permission: 'show format selection for file'.
   $permissions['show format selection for file'] = array(
     'name' => 'show format selection for file',
     'roles' => array(
@@ -375,7 +375,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'better_formats',
   );
 
-  // Exported permission: show format selection for node.
+  // Exported permission: 'show format selection for node'.
   $permissions['show format selection for node'] = array(
     'name' => 'show format selection for node',
     'roles' => array(
@@ -387,7 +387,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'better_formats',
   );
 
-  // Exported permission: show format selection for rules_config.
+  // Exported permission: 'show format selection for rules_config'.
   $permissions['show format selection for rules_config'] = array(
     'name' => 'show format selection for rules_config',
     'roles' => array(
@@ -396,7 +396,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'better_formats',
   );
 
-  // Exported permission: show format selection for taxonomy_term.
+  // Exported permission: 'show format selection for taxonomy_term'.
   $permissions['show format selection for taxonomy_term'] = array(
     'name' => 'show format selection for taxonomy_term',
     'roles' => array(
@@ -407,7 +407,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'better_formats',
   );
 
-  // Exported permission: show format selection for user.
+  // Exported permission: 'show format selection for user'.
   $permissions['show format selection for user'] = array(
     'name' => 'show format selection for user',
     'roles' => array(
@@ -418,7 +418,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'better_formats',
   );
 
-  // Exported permission: show format tips.
+  // Exported permission: 'show format tips'.
   $permissions['show format tips'] = array(
     'name' => 'show format tips',
     'roles' => array(
@@ -429,7 +429,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'better_formats',
   );
 
-  // Exported permission: show more format tips link.
+  // Exported permission: 'show more format tips link'.
   $permissions['show more format tips link'] = array(
     'name' => 'show more format tips link',
     'roles' => array(
@@ -440,7 +440,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'better_formats',
   );
 
-  // Exported permission: use advanced search.
+  // Exported permission: 'use advanced search'.
   $permissions['use advanced search'] = array(
     'name' => 'use advanced search',
     'roles' => array(
@@ -451,7 +451,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'search',
   );
 
-  // Exported permission: use default thumb.
+  // Exported permission: 'use default thumb'.
   $permissions['use default thumb'] = array(
     'name' => 'use default thumb',
     'roles' => array(
@@ -460,7 +460,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'video',
   );
 
-  // Exported permission: use text format basic_html.
+  // Exported permission: 'use text format basic_html'.
   $permissions['use text format basic_html'] = array(
     'name' => 'use text format basic_html',
     'roles' => array(
@@ -473,7 +473,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'filter',
   );
 
-  // Exported permission: use text format filtered_html.
+  // Exported permission: 'use text format filtered_html'.
   $permissions['use text format filtered_html'] = array(
     'name' => 'use text format filtered_html',
     'roles' => array(
@@ -486,7 +486,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'filter',
   );
 
-  // Exported permission: use text format full_html.
+  // Exported permission: 'use text format full_html'.
   $permissions['use text format full_html'] = array(
     'name' => 'use text format full_html',
     'roles' => array(
@@ -498,7 +498,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'filter',
   );
 
-  // Exported permission: use workbench_moderation my drafts tab.
+  // Exported permission: 'use workbench_moderation my drafts tab'.
   $permissions['use workbench_moderation my drafts tab'] = array(
     'name' => 'use workbench_moderation my drafts tab',
     'roles' => array(
@@ -509,7 +509,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'workbench_moderation',
   );
 
-  // Exported permission: use workbench_moderation needs review tab.
+  // Exported permission: 'use workbench_moderation needs review tab'.
   $permissions['use workbench_moderation needs review tab'] = array(
     'name' => 'use workbench_moderation needs review tab',
     'roles' => array(
@@ -520,7 +520,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'workbench_moderation',
   );
 
-  // Exported permission: view all unpublished content.
+  // Exported permission: 'view all unpublished content'.
   $permissions['view all unpublished content'] = array(
     'name' => 'view all unpublished content',
     'roles' => array(
@@ -531,7 +531,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'workbench_moderation',
   );
 
-  // Exported permission: view files.
+  // Exported permission: 'view files'.
   $permissions['view files'] = array(
     'name' => 'view files',
     'roles' => array(
@@ -542,7 +542,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'file_entity',
   );
 
-  // Exported permission: view moderation history.
+  // Exported permission: 'view moderation history'.
   $permissions['view moderation history'] = array(
     'name' => 'view moderation history',
     'roles' => array(
@@ -553,7 +553,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'workbench_moderation',
   );
 
-  // Exported permission: view moderation messages.
+  // Exported permission: 'view moderation messages'.
   $permissions['view moderation messages'] = array(
     'name' => 'view moderation messages',
     'roles' => array(
@@ -564,7 +564,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'workbench_moderation',
   );
 
-  // Exported permission: view own files.
+  // Exported permission: 'view own files'.
   $permissions['view own files'] = array(
     'name' => 'view own files',
     'roles' => array(
@@ -575,7 +575,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'file_entity',
   );
 
-  // Exported permission: view own private files.
+  // Exported permission: 'view own private files'.
   $permissions['view own private files'] = array(
     'name' => 'view own private files',
     'roles' => array(
@@ -586,7 +586,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'file_entity',
   );
 
-  // Exported permission: view own unpublished content.
+  // Exported permission: 'view own unpublished content'.
   $permissions['view own unpublished content'] = array(
     'name' => 'view own unpublished content',
     'roles' => array(
@@ -598,7 +598,7 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: view revisions.
+  // Exported permission: 'view revisions'.
   $permissions['view revisions'] = array(
     'name' => 'view revisions',
     'roles' => array(
