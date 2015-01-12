@@ -8,6 +8,7 @@
  * Implements hook_enable().
  */
 function multisite_rules_configuration_enable() {
+  // Enable scripts here.
 }
 
 /**
