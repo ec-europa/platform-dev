@@ -836,22 +836,23 @@ function ec_resp_button($variables) {
  * Implements theme_menu_tree().
  */
 function ec_resp_menu_tree($variables) {
-  return '<ul class="menu clearfix list-group list-group-flush list-unstyled">' . $variables['tree'] . '</ul>';
+  $classes = 'menu clearfix list-group list-group-flush list-unstyled';
+
+  return '<ul class="' . $classes . '">' . $variables['tree'] . '</ul>';
 }
 
 /**
  * Implements theme_menu_tree_main_menu().
  */
 function ec_resp_menu_tree__main_menu($variables) {
-  if (strpos($variables['tree'], 'main_menu_dropdown')) {
+  if (strpos($variables['tree'], 'dropdown-menu')) {
     // There is a dropdown in this tree.
-    // (using a specific term "main_menu_dropdown" to avoid mistakes).
-    $variables['tree'] = str_replace('<ul class="nav navbar-nav">', '<ul class="dropdown-menu">', $variables['tree']);
-    return '<ul class="nav navbar-nav">' . $variables['tree'] . '</ul>';
+    $variables['tree'] = str_replace('nav navbar-nav', 'list-group list-group-flush list-unstyled', $variables['tree']);
+    return '<ul class="menu clearfix nav navbar-nav">' . $variables['tree'] . '</ul>';
   }
   else {
     // There is no dropdown in this tree, simply return it in a <ul>.
-    return '<ul class="nav navbar-nav">' . $variables['tree'] . '</ul>';
+    return '<ul class="menu clearfix nav navbar-nav">' . $variables['tree'] . '</ul>';
   }
 }
 
@@ -865,77 +866,33 @@ function ec_resp_menu_tree__menu_breadcrumb_menu($variables) {
 /**
  * Implements theme_menu_link().
  */
-function ec_resp_menu_link(array $variables) {
+function ec_resp_menu_link($variables) {
   $element = $variables['element'];
   $sub_menu = '';
 
-  if ($element['#below']) {
+  // Test if there is a sub menu.
+  if ($element['#below'] && !theme_get_setting('disable_dropdown_menu') && !in_array('dropdown', $element['#attributes']['class'])) {
+    // Menu item has sub menu.
+
+    // Add carret and class.
+    $element['#title'] .= '<b class="caret"></b>';
+    $element['#attributes']['class'][] = 'dropdown';
+
+    // Add attributes to children items.
+    $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
+    $element['#localized_options']['attributes']['data-toggle'][] = 'dropdown';
+
+    // Render sub menu.
     $sub_menu = drupal_render($element['#below']);
+
+    // Add CSS class to ul tag
+    // Dirty, but I see no better way to do it.
+    $sub_menu = str_replace('<ul class="', '<ul class="dropdown-menu ', $sub_menu);
   }
+
   $element['#localized_options']['html'] = TRUE;
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
-}
-
-/**
- * Implements theme_menu_link__main_menu().
- */
-function ec_resp_menu_link__main_menu(array $variables) {
-  $element = $variables['element'];
-  $dropdown = '';
-  $name_id = strtolower(strip_tags(str_replace(' ', '', $element['#title'])));
-  // Remove colons and anything past colons.
-  if (strpos($name_id, ':')) {
-    $name_id = substr($name_id, 0, strpos($name_id, ':'));
-  }
-  // Preserve alphanumerics and numbers, everything else goes away.
-  $pattern = '/([^a-z]+)([^0-9]+)/';
-  $name_id = preg_replace($pattern, '', $name_id);
-  $element['#attributes']['class'][] = 'item' . $element['#original_link']['mlid'];
-
-  if ($element['#below'] && !theme_get_setting('disable_dropdown_menu')) {
-    // Menu item has dropdown.
-    if (!in_array('dropdown-submenu', $element['#attributes']['class'])) {
-      $element['#title'] .= '<b class="caret"></b>';
-    }
-
-    // Get first child item (we only need to add a class to the first item).
-    $current = current($element['#below']);
-    $id = $current['#original_link']['mlid'];
-
-    // Add class to specify it is a dropdown.
-    $element['#below'][$id]['#attributes']['class'][] = 'main_menu_dropdown';
-    if (!in_array('dropdown-submenu', $element['#attributes']['class'])) {
-      $element['#attributes']['class'][] = 'dropdown';
-    }
-
-    // Test if there is a sub-dropdown.
-    foreach ($element['#below'] as $key => $value) {
-      if (is_numeric($key) && $value['#below']) {
-        $sub_current = current($value['#below']);
-        $sub_id = $sub_current['#original_link']['mlid'];
-        // Add class to specify it is a sub-dropdown.
-        $element['#below'][$key]['#below'][$sub_id]['#attributes']['class'][] = 'main_menu_sub_dropdown';
-        $element['#below'][$key]['#attributes']['class'][] = 'dropdown-submenu';
-      }
-    }
-
-    $element['#attributes']['id'][] = $name_id;
-    $element['#localized_options']['fragment'] = $name_id;
-    $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
-    $element['#localized_options']['attributes']['data-toggle'][] = 'dropdown';
-    $element['#localized_options']['html'] = TRUE;
-    $output = l($element['#title'], $element['#href'], $element['#localized_options']);
-
-    $dropdown = drupal_render($element['#below']);
-  }
-  else {
-    // No dropdown.
-    $element['#localized_options']['html'] = TRUE;
-    $output = l($element['#title'], $element['#href'], $element['#localized_options']);
-  }
-
-  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $dropdown . "</li>\n";
 }
 
 /**
@@ -1169,41 +1126,6 @@ function ec_resp_link($variables) {
     drupal_attributes($variables['options']['attributes']) . '>' . $decoration .
     ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text'])) .
     '</a>' . $btn_group_after . $action_bar_after;
-  return $output;
-}
-
-/**
- * Returns HTML for a dropdown.
- */
-function ec_resp_dropdown($variables) {
-  $items = $variables['items'];
-  $attributes = array();
-
-  $output = "";
-  if (!empty($items)) {
-    if (theme_get_setting('disable_dropdown_menu')) {
-      $output .= "<ul>";
-    }
-    else {
-      $output .= "<ul class='dropdown-menu'>";
-      $num_items = count($items);
-      foreach ($items as $i => $item) {
-        $data = '';
-        if (is_array($item)) {
-          foreach ($item as $key => $value) {
-            if ($key == 'data') {
-              $data = $value;
-            }
-          }
-        }
-        else {
-          $data = $item;
-        }
-        $output .= '<li>' . $data . "</li>\n";
-      }
-      $output .= "</ul>";
-    }
-  }
   return $output;
 }
 

@@ -279,10 +279,21 @@ ul.nav-tabs {
 
 /* --------------- Dropdown  --------------- */
 .dropdown-menu {
-  li.leaf {
+  li.leaf,
+  li.expanded,
+  li.collapsed {
     list-style: none;
     padding: 0;
   }
+}
+ul.menu li.expanded {
+  list-style: none;
+}
+.panel .panel-body .list-group.dropdown-menu {
+  margin: 0;
+}
+.navbar-nav > li > .dropdown-menu {
+  margin-top: 2px;
 }
 
 /* --------------- Responsive sidebar  --------------- */
