@@ -4,12 +4,12 @@ description = Insert ReadSpeaker Enterprise Highlighting feature to your site.
 package = Multisite_features
 core = 7.x
 php = 5.1.x
-version = 7.x-1.1
+version = 7.x-1.2
 
 dependencies[] = features
 configure = admin/config/content/multisite_readspeaker
 
-features[features_api][] = api:1
+features[features_api][] = api:2
 features[user_permission][] = administer multisite_readspeaker
 features[user_permission][] = display multisite_readspeaker
 files[] = tests/multisite_readspeaker.test

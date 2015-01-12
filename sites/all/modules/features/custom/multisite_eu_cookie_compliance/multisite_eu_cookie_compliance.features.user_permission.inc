@@ -10,7 +10,7 @@
 function multisite_eu_cookie_compliance_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: administer EU Cookie Compliance popup.
+  // Exported permission: 'administer EU Cookie Compliance popup'.
   $permissions['administer EU Cookie Compliance popup'] = array(
     'name' => 'administer EU Cookie Compliance popup',
     'roles' => array(
@@ -19,7 +19,7 @@ function multisite_eu_cookie_compliance_user_default_permissions() {
     'module' => 'eu_cookie_compliance',
   );
 
-  // Exported permission: display EU Cookie Compliance popup.
+  // Exported permission: 'display EU Cookie Compliance popup'.
   $permissions['display EU Cookie Compliance popup'] = array(
     'name' => 'display EU Cookie Compliance popup',
     'roles' => array(
