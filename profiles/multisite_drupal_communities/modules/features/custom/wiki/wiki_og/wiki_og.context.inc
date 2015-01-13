@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * edee.context.inc
+ * wiki_og.context.inc
  */
 
 /**
@@ -42,7 +42,7 @@ function wiki_og_context_default_contexts() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('A context to add active trail class to links posts outside community');
+  t('A context to add active trail class to wiki posts outside community');
   t('Menu items');
   $export['wiki_posts'] = $context;
 

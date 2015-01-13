@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * edee.context.inc
+ * e_library_og.context.inc
  */
 
 /**
@@ -42,7 +42,7 @@ function e_library_og_context_default_contexts() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('A context to add active trail class to links posts outside community');
+  t('A context to add active trail class to document posts outside community');
   t('Menu items');
   $export['document_posts'] = $context;
 

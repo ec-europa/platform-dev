@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * edee.context.inc
+ * survey_og.context.inc
  */
 
 /**
@@ -39,7 +39,7 @@ function survey_og_context_default_contexts() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('A context to add active trail class to links posts outside community');
+  t('A context to add active trail class to survey posts outside community');
   t('Menu items');
   $export['survey_posts'] = $context;
 
