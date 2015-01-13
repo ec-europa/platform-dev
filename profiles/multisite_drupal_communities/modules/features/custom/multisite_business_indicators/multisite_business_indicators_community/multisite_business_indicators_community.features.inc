@@ -7,8 +7,7 @@
 /**
  * Implements hook_ctools_plugin_api().
  */
-function multisite_business_indicators_community_ctools_plugin_api() {
-  list($module, $api) = func_get_args();
+function multisite_business_indicators_community_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "context" && $api == "context") {
     return array("version" => "3");
   }
@@ -17,6 +16,6 @@ function multisite_business_indicators_community_ctools_plugin_api() {
 /**
  * Implements hook_views_api().
  */
-function multisite_business_indicators_community_views_api() {
+function multisite_business_indicators_community_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
