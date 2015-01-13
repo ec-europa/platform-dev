@@ -1,86 +1,56 @@
 #!/bin/bash
-if [ "$#" -lt 2 ];
-then
-  echo "usage: $0 <profile> <site name>"
-  exit 42
+
+#----------------#
+#    INCLUDES    #
+#----------------#
+
+script_dir=$(readlink -f "$(dirname "$O")")
+
+if [ ! -f "${script_dir}/config.sh" ]; then
+	echo "No config file found at ${script_dir}/config.sh"
+	exit 255
+else
+	source "${script_dir}/config.sh"
+fi
+if [ ! -f "${script_dir}/functions.sh" ]; then
+	echo  "No functions file found at ${script_dir}/functions.sh"
+	exit 255
+else
+	source "${script_dir}/functions.sh"
 fi
 
-source config.sh
-
-function __echo {
-	if [ "${verbose}" = 1 ] ; then
-		echo $@
-	fi
-}
-
-function _apply_patches {
-	patch_path=$1
-	if [ ! -e $patch_path ]; then 
-		echo "Patch folder not found on : '$patch_path'"
-		continu
-	fi
-
-	for patch_file in "${patch_path}/"*.patch "${patch_path}/"*.diff; do
-		test -f "${patch_file}" || continue
-		__echo -n "Attempting to apply ${patch_file}..."
-		patch -p0 -b -i "${patch_file}" 1>&2
-		__echo "done"
-	done
-}
-
-function continu {
-	if [ "${force}" = 1 ] ; then
-		echo "Force continu..."
-	else
-		read -p  "Do you want to continue? " goon 
-		if [[ $goon = 'n' ]]
-		then
-			exit 042
-		fi
-	fi
-}
+#---------------------#
+#     ARGUMENTS GET   #
+#---------------------#
 
 usage="Installation of multisite instance\n
-Syntax : $(basename $0) [ARGS] SITE-NAME\n
+Syntax : $(basename "$0") [ARGS] SITE-NAME\n
 \t-?,-h, --help\t\tPrint this message\n
+\t-i, \tDefine the installation profile to use\n
+\t-s, \tDefine the subfolder name for a new site instance\n
+\t-k, --devel\tInclude devel build make\n
 \t-v, --verbose\t\tSet the script in verbose mode\n
-\t-f, --force\t\tForce the installation without any request to user input\n
+\t-f, \t\tForce the installation without any request to user input\n
 \t\t\t\t(Take care, it might delete automatically your database)\n
-Connection information\n
-\t-u, --db-user\t\tSet the database user\n
-\t-p, --db-pass\t\tSet the database password\n
-\t-H, --db-host\t\tSet the database host\n
-\t-P, --db-port\t\tSet the database port\n\n
-Configuration of the site\n
 \t-d, \t\t\tDefine drush options\n
-\t-r, --web-root\t\tDefine the web root\n
-\t-a, --account\t\tDefine the account name for the administrator\n
-\t-e, --account-email\tDefine the email address for the administrator\n
-\t-m, --site-email\tDefine the site email\n
-\t-b, --base-url\t\tDefine the base URL of the site\n
-\t-i, --install-profile\tDefine the installation profile to use\n
-\t-k, --devel\tInclude devel build make\n"
-
+\t-b, \t\tDefine svn basepath options\n
+\t-t, \t\tDefine svn tag version options\n
+"
 
 # Configuration of the script
-while getopts "u:p:H:P:a:e:d:r:n:b:i:vfhk?-:" option; do
+while getopts "i:b:t:d:s:vrfhk?-:" option; do
         #Management of the --options
         if [ "$option" = "-" ]; then
                 case $OPTARG in
                         help) option=h ;;
+						drush_options)=d ;;
                         verbose) option=v ;;
 						force) force=f ;;
-                        dbuser) option=u ;;
-                        dbpass) option=p ;;
-                        dbhost) option=H ;;
-                        dbport) option=P ;;
-                        account) option=a ;;
-                        account-email) option=e ;;
-                        web-root) option=r ;;
-                        site-email) option=m ;;
-                        base-url) option=b ;;
 						install_profile) option=i ;;
 						devel) option=k ;;
+						svn_basepath) option=b ;;
+						svn_tag_version) option=t ;;
+						subdirectory) option=s ;;
                         *)
                                 echo "[ERROR] Unknown option --$OPTARG"
                                 exit 1
@@ -88,20 +58,14 @@ while getopts "u:p:H:P:a:e:d:r:n:b:i:vfhk?-:" option; do
                 esac
         fi
         case $option in
-                u) db_user=$OPTARG ;;
-                p) db_pass=$OPTARG ;;
-                H) db_host=$OPTARG ;;
-                P) db_port=$OPTARG ;;
-                a) account=$OPTARG ;;
-                e) account_mail=$OPTARG ;;
 				d) drush_options=$OPTARG ;;
-				r) webroot=$OPTARG ;;
-                m) site_mail=$OPTARG ;;
-                b) baseurl=$OPTARG ;;
                 v) verbose=1 ;;
 				f) force=1 ;;
 				k) devel=1 ;;
 				i) install_profile=$OPTARG ;;
+				b) svn_basepath=$OPTARG ;;
+				t) svn_tag_version=$OPTARG ;;
+				s) subdirectory=$OPTARG ;;
                 \?|h)
                         echo -e $usage
                         exit 0
@@ -117,15 +81,21 @@ while getopts "u:p:H:P:a:e:d:r:n:b:i:vfhk?-:" option; do
         esac
 done
 
+
+#------------------------#
+#     ARGUMENTS CHECK    #
+#------------------------#
+
+# Site name
 site_name=$BASH_ARGV
-if [ -z "${site_name}" ];
-then
-  echo "WARNING: no site name was given !!"
-  exit 42
+if [ -z "${site_name}" ]; then
+	_exit_with_message 230 "No site name was given !!"
 fi
 
-db_url="mysqli://${db_user}:${db_pass}@${db_host}:${db_port}/${site_name}"
-__echo "Set DB URL to ${db_url}"
+# Profile name 
+if [ "${install_profile}" != 'multisite_drupal_communities' ] && [ "${install_profile}" != 'multisite_drupal_standard' ]; then 
+	_exit_with_message 220 "Profile name '${install_profile}' is incorrect" 
+fi
 
 # Get current configuration
 current_dir=$(pwd)
@@ -133,140 +103,174 @@ __echo "Set current directory to ${current_dir}"
 working_dir="${current_dir}/${site_name}"
 __echo "Set working directory to ${working_dir}"
 
-# Remove existing working directory
-if [ -d "${working_dir}" ] ; then
-	__echo -n "Removing existing working directory..."
-	rm -rf ${working_dir}
-	__echo "done"
-fi
-
-# Include devel build make
-if [ "${devel}" = 1 ] ; then
-    echo $'\r' >> profiles/multisite.make
-	echo "includes[] = \"devel.make\"" >> profiles/multisite.make
-fi
-__echo "Devel build make included"
-
 # Set up the drush option
 if [ "${force}" = 1 ] ; then
 	drush_options="${drush_options} -y"
 fi
 __echo "Set drush options: ${drush_options}"
 
-#build the drupal instance
-set -x
-drush ${drush_options} make --force-complete profiles/$install_profile/build.make ${site_name} 1>&2
-echo "drush make exited with code $?"
-set +x
+# set DB connection
+db_name="$site_name"
+__echo "Set DB URL to mysqli://${db_user}:DB_PASS@${db_host}:${db_port}/${db_name}"
+db_url="mysqli://${db_user}:${db_pass}@${db_host}:${db_port}/${db_name}"
 
-# Remove devel build make
+# create database if not exist
+_create_database
+
+# Set up target directory 
+if [ -n "${subdirectory}" ]; then 
+	if [ ! -e "${webroot}/${subdirectory}" ] ; then
+		mkdir "${webroot}/${subdirectory}" || _exit_with_message 190 "Unable to create subdirectory '${webroot}/${subdirectory}'"
+	fi
+	base_path="${base_path}/${subdirectory}"
+	webroot="${webroot}/${subdirectory}"
+fi
+
+# cleanup target directory
+if [ -d "${webroot}/${site_name}" ] ; then
+	__echo "The folder '${webroot}/${site_name}' already exist, it will be deleted" 'warning'
+	_continue
+	chmod 744 -Rf "${webroot}/${site_name}"
+	rm -Rf "${webroot}/${site_name}"  
+	__echo "Removing the folder $webroot/${site_name} done" 'status'
+fi
+
+# cleanup existing working directory
+if [ -d "${working_dir}" ] ; then
+	__echo "Removing existing working directory..."
+	__fix_perms -R "${working_dir}"
+	rm -Rf "${working_dir}"
+	__echo "done" 'status'
+fi
+
+# cleanup tmp directory
+if [ -d "${working_dir}_sources_tmp" ] ; then
+  rm -Rf "${working_dir}_sources_tmp"  
+fi
+
+#svn conf
+if [ "$svn_basepath" = "trunk" ] || [ "$svn_basepath" = "tags" ] || [ "$svn_basepath" = "branches" ]; then
+	svn=1
+fi
+
+#----------------------#
+#     BUILD SOURCES    #
+#----------------------#
+
+# get own source from svn ?
+if [ "${svn}" = 1 ] ; then 
+	# files to retrieve from SVN (we don't recover all files, eg custom subsite is useless)
+	svn_files=(
+		"profiles"
+		"sites/all"
+		"sites/default"
+		"patches"
+	)
+	# build svn_path
+	if [ "$svn_basepath" = "trunk" ] ; then
+		svn_path="${svn_url}/${svn_basepath}"
+	else
+		svn_path="${svn_url}/${svn_basepath}/${svn_tag_version}/source"
+	fi
+	__echo "SVN repository path set to ${svn_path}"
+	own_source_path="${working_dir}_sources_tmp"
+	__echo "own_source_path path set to ${own_source_path}"
+	_get_svn_sources 
+else
+	own_source_path="${current_dir}"
+fi
+
+# Get Drupal core and contributed sources using makefile
+_get_make_sources "${own_source_path}/profiles/${install_profile}/build.make"
+
+#  makefile for devel modules
 if [ "${devel}" = 1 ] ; then
-    line=$(head -n 1 profiles/multisite.make)
-    echo ${line} > profiles/multisite.make
+	_get_make_sources "${own_source_path}/profiles/devel.make"
 fi
 
+# copy own source (svn or local) to working dir
+cp -R "${own_source_path}/profiles/multisite_drupal_core" "${working_dir}/profiles"
+cp -R "${own_source_path}/profiles/${install_profile}" "${working_dir}/profiles"
+cp -R "${own_source_path}/sites/all/modules/" "${working_dir}/sites/all"
+cp -R "${own_source_path}/sites/all/themes" "${working_dir}/sites/all"
+cp -R "${own_source_path}/sites/all/libraries" "${working_dir}/sites/all"
+cp -R "${own_source_path}/sites/default/files/" "${working_dir}/sites/default/files/"
+cp "${own_source_path}/sites/default/proxy.settings.php" "${working_dir}/sites/default/"	
 
-
-mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "drop database ${site_name};" 1>&2
-mysql -h ${db_host} -P ${db_port} -u $db_user --password="$db_pass" -e "create database ${site_name};" 1>&2
-
-chmod -R 777 ${site_name}/sites/default
-cp -R profiles/multisite_drupal_core ${site_name}/profiles
-cp -R profiles/$install_profile ${site_name}/profiles
-
-cp -R sites/all/modules/ ${site_name}/sites/all
-cp -R sites/all/modules/features ${site_name}/sites/all/modules
-cp -R sites/all/themes ${site_name}/sites/all
-cp -R sites/default/files/ ${site_name}/sites/default/files/
-cp sites/default/proxy.settings.php ${site_name}/sites/default/
-cp -R sites/all/libraries ${site_name}/sites/all
-cp -R deploy_scripts ${site_name}
-
-
-# we assume the patch directory is located in patches, i.e. one level below the Drupal root directory
-__echo "Applying patches from ${patch_dir} to ${site_name}"
-# we assume the script is in the patches directory
-patch_dir=$(readlink -f patches)
-
-cd ${site_name}
-
-if [ $? != 0 ] ; then
-	__echo "Unable to change directory to ${site_name}"
-	exit 20
-fi
+cd "${site_name}"
 
 #-----------------------#
 #     APPLY PATCHES     #
 #-----------------------#
 
+# we assume the script is in the patches directory
+#patch_dir=$(readlink -f patches)
+patch_dir="${own_source_path}/patches"
+
 patch_dir_core="${patch_dir}/multisite_drupal_core"
+#__echo "$patch_dir_core" 'error'
 # BACKPORT version <=1.6 : if $patch_dir_core not found we apply patches directly from $patch_dir folder
-if [ ! -e ${patch_dir_core} ]; then 
-		_apply_patches $patch_dir
+if [ ! -e "$patch_dir_core" ]; then 
+	__echo "Applying core patches from $patch_dir to ${site_name}"
+	_apply_patches "$patch_dir"
 else
-    # core patch
-	_apply_patches $patch_dir_core
-	#profile patch
+	# core patchs patch
+	__echo "Applying core patches from ${patch_dir_core} to ${site_name}"
+	_apply_patches "$patch_dir_core"
+	
+	# profile patchs
 	patch_dir_profile="${patch_dir}/${install_profile}"
-	if [ -e ${patch_dir_profile} ]; then 
-		_apply_patches ${patch_dir_profile}
+	if [ ! -e "$patch_dir_profile" ]; then 
+		__echo "Applying core patches from ${patch_dir_core} to ${site_name}"
+		_apply_patches "$patch_dir_profile"
 	fi
 fi
 
 #-----------------#
 #     INSTALL     #
 #-----------------#
+# install and configure the drupal instance
+drush ${drush_options} --php="/usr/bin/php" si "$install_profile" --db-url="$db_url" --account-name="$account_name" --account-pass="$account_pass" --site-name="${site_name}" --site-mail="$site_mail"  1>&2
 
-#install and configure the drupal instance
-drush --php="/usr/bin/php" ${drush_options} si $install_profile --db-url=$db_url --account-name=$account_name --account-pass=$account_pass --site-name=${site_name} --site-mail=$site_mail  1>&2
+#----------------#
+#     CONFIG     #
+#----------------#
 
-#solR config
-drush solr-set-env-url $solr_server_url
-drush sqlq "UPDATE apachesolr_environment SET name = '${solr_server_name}' WHERE env_id = 'solr'"
-drush sqlq "INSERT INTO apachesolr_index_bundles (env_id,entity_type,bundle) VALUES ('solr','node','page')"
-drush sqlq "INSERT INTO apachesolr_index_bundles (env_id,entity_type,bundle) VALUES ('solr','node','article')"
+# set solR config
+_setsolrconf
 
-#flush cache and rebuild access
-drush cc all
-drush php-eval 'node_access_rebuild();'
 #inject data
-drush vset tmp_base_url "${subdirectory}/${site_name}"
-drush scr "${working_dir}/profiles/${install_profile}/inject_data.php"
-drush vdel --exact --yes tmp_base_url
+
+_inject_data "${own_source_path}/profiles/${install_profile}/inject_data.php"
 
 #set alias for CodeSniffer
 alias codercs='phpcs --standard=sites/all/modules/contributed/coder/coder_sniffer/Drupal/ruleset.xml --extensions=php,module,inc,install,test,profile,theme'
 
-#set solr tika variables
-drush vset apachesolr_attachments_tika_jar "${apachesolr_attachments_tika_jar}"
-drush vset apachesolr_attachments_tika_path "${apachesolr_attachments_tika_path}"
-drush vset apachesolr_attachments_java "${apachesolr_attachments_java}"
-
-#set the multisite version
-drush vset multisite_version "${multisite_version}" --format=string
-
-#set FPFIS_common libraires path
-#drush php-eval "define('FPFIS_COMMON_LIBRARIES_PATH',${FPFIS_common_libraries});"
-
-mkdir "${working_dir}/sites/default/files/private_files"
-chmod -R 777 "${working_dir}/sites"
-
-if [ -d "${webroot}/${site_name}" ] ; then
-	__echo -n "Removing the folder $webroot/${site_name}..."
-	rm -rf "${webroot}/${site_name}";
-	__echo done
-fi
-
-#remove links from the linkchecker scanning process
-drush sqlq "delete FROM linkchecker_link"
-drush sqlq "delete FROM linkchecker_node"
-
-mv "${working_dir}" $webroot
-
-cd "${webroot}/${site_name}"
+#flush cache and rebuild access
+_node_access_rebuild 
 
 #solr indexation
-drush solr-index
+__echo "Run solr indexation.."
+drush ${drush_options} solr-index
 
 #run cron
+__echo "Run drupal cron..."
 drush cron
+
+#remove links from the linkchecker
+_setlinkcheckerconf
+
+mkdir "${working_dir}/sites/default/files/private_files"
+
+# cleanup && move to target directory
+if [ "${svn}" = 1 ] ; then 
+	rm -Rf "${own_source_path}"
+fi
+mv "${working_dir}" "${webroot}"
+__fix_perms "${webroot}"
+
+__echo "\nSite installed on ${webroot}/${site_name}" 'status'
+
+
+
+
