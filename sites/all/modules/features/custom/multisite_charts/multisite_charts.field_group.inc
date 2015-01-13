@@ -54,8 +54,8 @@ function multisite_charts_field_group_info() {
     'label' => 'Metadata',
     'weight' => '10',
     'children' => array(
-	      0 => 'language',
-	),
+      0 => 'language',
+    ),
     'format_type' => 'tab',
     'format_settings' => array(
       'formatter' => 'closed',

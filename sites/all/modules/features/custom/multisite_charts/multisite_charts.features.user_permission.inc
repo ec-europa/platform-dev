@@ -10,7 +10,7 @@
 function multisite_charts_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: create chart content.
+  // Exported permission: 'create chart content'.
   $permissions['create chart content'] = array(
     'name' => 'create chart content',
     'roles' => array(
@@ -20,7 +20,7 @@ function multisite_charts_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete any chart content.
+  // Exported permission: 'delete any chart content'.
   $permissions['delete any chart content'] = array(
     'name' => 'delete any chart content',
     'roles' => array(
@@ -29,7 +29,7 @@ function multisite_charts_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: delete own chart content.
+  // Exported permission: 'delete own chart content'.
   $permissions['delete own chart content'] = array(
     'name' => 'delete own chart content',
     'roles' => array(
@@ -39,7 +39,7 @@ function multisite_charts_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit any chart content.
+  // Exported permission: 'edit any chart content'.
   $permissions['edit any chart content'] = array(
     'name' => 'edit any chart content',
     'roles' => array(
@@ -48,7 +48,7 @@ function multisite_charts_user_default_permissions() {
     'module' => 'node',
   );
 
-  // Exported permission: edit own chart content.
+  // Exported permission: 'edit own chart content'.
   $permissions['edit own chart content'] = array(
     'name' => 'edit own chart content',
     'roles' => array(
