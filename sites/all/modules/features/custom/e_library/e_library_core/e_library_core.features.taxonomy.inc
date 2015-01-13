@@ -13,11 +13,11 @@ function e_library_core_taxonomy_default_vocabularies() {
       'name' => 'Media tags',
       'machine_name' => 'media_tags',
       'description' => NULL,
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => 'media_library_core',
-      'weight' => '0',
+      'weight' => 0,
       'language' => 'und',
-      'i18n_mode' => '0',
+      'i18n_mode' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',

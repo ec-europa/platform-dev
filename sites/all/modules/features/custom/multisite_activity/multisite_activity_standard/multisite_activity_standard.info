@@ -5,6 +5,7 @@ package = Multisite Standard Features
 version = 7.x-1.0
 project = multisite_activity_standard
 dependencies[] = multisite_activity_core
+features[features_api][] = api:2
 features[message_type][] = multisite_content_delete
 features[message_type][] = multisite_content_update
 features[message_type][] = multisite_create_comment

@@ -13,11 +13,11 @@ function multisite_forum_core_taxonomy_default_vocabularies() {
       'name' => 'Forums',
       'machine_name' => 'forums',
       'description' => 'Forum navigation vocabulary',
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => '-10',
+      'weight' => -10,
       'language' => 'und',
-      'i18n_mode' => '0',
+      'i18n_mode' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',

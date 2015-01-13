@@ -10,7 +10,7 @@
 function ec_embedded_image_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: add media from remote sources.
+  // Exported permission: 'add media from remote sources'.
   $permissions['add media from remote sources'] = array(
     'name' => 'add media from remote sources',
     'roles' => array(
@@ -20,7 +20,7 @@ function ec_embedded_image_user_default_permissions() {
     'module' => 'media_internet',
   );
 
-  // Exported permission: configure flickr.
+  // Exported permission: 'configure flickr'.
   $permissions['configure flickr'] = array(
     'name' => 'configure flickr',
     'roles' => array(
