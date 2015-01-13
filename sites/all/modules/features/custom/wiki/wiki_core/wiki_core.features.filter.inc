@@ -14,18 +14,18 @@ function wiki_core_filter_default_formats() {
   $formats['wiki'] = array(
     'format' => 'wiki',
     'name' => 'wiki',
-    'cache' => '1',
-    'status' => '1',
-    'weight' => '0',
+    'cache' => 1,
+    'status' => 1,
+    'weight' => 0,
     'filters' => array(
       'filter_autop' => array(
-        'weight' => '10',
-        'status' => '1',
+        'weight' => 10,
+        'status' => 1,
         'settings' => array(),
       ),
       'filter_html' => array(
-        'weight' => '10',
-        'status' => '1',
+        'weight' => 10,
+        'status' => 1,
         'settings' => array(
           'allowed_html' => '<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>',
           'filter_html_help' => 1,
@@ -33,15 +33,15 @@ function wiki_core_filter_default_formats() {
         ),
       ),
       'filter_htmlcorrector' => array(
-        'weight' => '10',
-        'status' => '1',
+        'weight' => 10,
+        'status' => 1,
         'settings' => array(),
       ),
       'filter_url' => array(
-        'weight' => '10',
-        'status' => '1',
+        'weight' => 10,
+        'status' => 1,
         'settings' => array(
-          'filter_url_length' => '72',
+          'filter_url_length' => 72,
         ),
       ),
     ),

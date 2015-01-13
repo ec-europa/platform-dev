@@ -13,11 +13,11 @@ function f_a_q_taxonomy_default_vocabularies() {
       'name' => 'FAQ categories',
       'machine_name' => 'faq_categories',
       'description' => NULL,
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => 'faq',
-      'weight' => '0',
+      'weight' => 0,
       'language' => 'und',
-      'i18n_mode' => '0',
+      'i18n_mode' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',

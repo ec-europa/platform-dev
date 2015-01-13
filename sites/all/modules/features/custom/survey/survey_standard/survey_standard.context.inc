@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * survey_core.context.inc
+ * survey_standard.context.inc
  */
 
 /**

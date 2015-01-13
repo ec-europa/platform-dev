@@ -7,16 +7,13 @@
 /**
  * Implements hook_ctools_plugin_api().
  */
-function wiki_core_ctools_plugin_api() {
-  list($module, $api) = func_get_args();
+function wiki_core_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "context" && $api == "context") {
     return array("version" => "3");
   }
-  list($module, $api) = func_get_args();
   if ($module == "field_group" && $api == "field_group") {
     return array("version" => "1");
   }
-  list($module, $api) = func_get_args();
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -25,7 +22,7 @@ function wiki_core_ctools_plugin_api() {
 /**
  * Implements hook_views_api().
  */
-function wiki_core_views_api() {
+function wiki_core_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
 
@@ -43,5 +40,6 @@ function wiki_core_node_info() {
       'help' => '',
     ),
   );
+  drupal_alter('node_info', $items);
   return $items;
 }

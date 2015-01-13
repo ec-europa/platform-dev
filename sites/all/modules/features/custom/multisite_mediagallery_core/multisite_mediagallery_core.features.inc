@@ -7,16 +7,13 @@
 /**
  * Implements hook_ctools_plugin_api().
  */
-function multisite_mediagallery_core_ctools_plugin_api() {
-  list($module, $api) = func_get_args();
+function multisite_mediagallery_core_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "field_group" && $api == "field_group") {
     return array("version" => "1");
   }
-  list($module, $api) = func_get_args();
   if ($module == "file_entity" && $api == "file_default_displays") {
     return array("version" => "1");
   }
-  list($module, $api) = func_get_args();
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -25,7 +22,7 @@ function multisite_mediagallery_core_ctools_plugin_api() {
 /**
  * Implements hook_views_api().
  */
-function multisite_mediagallery_core_views_api() {
+function multisite_mediagallery_core_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
 
@@ -49,10 +46,10 @@ function multisite_mediagallery_core_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '600',
-          'height' => '300',
+          'width' => 600,
+          'height' => 300,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
     'label' => 'landscape',
@@ -75,5 +72,6 @@ function multisite_mediagallery_core_node_info() {
       'help' => '',
     ),
   );
+  drupal_alter('node_info', $items);
   return $items;
 }
