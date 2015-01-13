@@ -436,3 +436,15 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
     }
   }
 }
+
+/**
+ * Implements hook_taxonomy_vocabulary_delete().
+ */
+function taxonomy_browser_taxonomy_vocabulary_delete($vocabulary){
+  // update "taxonomy_browser_vocabulary" variable when a vocabulary is deleted
+  $vids = variable_get('taxonomy_browser_vocabulary', array());
+  if (!empty($vids)){
+    unset ($vids[$vocabulary->vid]);
+	variable_set ('taxonomy_browser_vocabulary',$vids);
+  }
+}
