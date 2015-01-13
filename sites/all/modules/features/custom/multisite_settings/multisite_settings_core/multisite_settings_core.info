@@ -12,7 +12,6 @@ dependencies[] = current_search
 dependencies[] = easy_breadcrumb
 dependencies[] = locale
 dependencies[] = menu
-dependencies[] = multisite_create_button
 dependencies[] = print
 dependencies[] = search
 dependencies[] = strongarm
