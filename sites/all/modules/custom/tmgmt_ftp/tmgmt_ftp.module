@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Module file of the translation management test module.
+ * Module file of the translation management FTP translator.
  */
 
 /**
@@ -10,7 +10,7 @@
  */
 function tmgmt_ftp_tmgmt_translator_plugin_info() {
   return array(
-    'supertext' => array(
+    'ftp' => array(
       'label' => t('FTP translator'),
       'description' => t('FTP translation service.'),
       'plugin controller class' => 'TMGMTFTPPluginController',
@@ -21,71 +21,77 @@ function tmgmt_ftp_tmgmt_translator_plugin_info() {
 
 /**
  * Callback for correct file requests.
+ * 
+ * @param TMGMTJob $job
+ *   The loaded job object.
  */
-function tmgmt_ftp_file_handler($job_id) {
+function tmgmt_ftp_file_handler(TMGMTJob $job) {
 
-  // RequesCallback has file_key=Job_Id. Load $job and its $translator.
-  $job = tmgmt_job_load($job_id);
   $translator = $job->getTranslator();
 
-  // $job has the export format inside the object.
+  // $job has the export format inside the object.true
   $extension = 'xlf';
 
   // Load the appropiate controler.
-  $controller = tmgmt_ftp_format_controller($extension);
+  $controller = tmgmt_file_format_controller($extension);
 
   // Load job data.
   $ftp_ip   = $translator->settings['ftp_settings']['ftp_ip'];
   $ftp_user = $translator->settings['ftp_settings']['ftp_user'];
   $ftp_pass = $translator->settings['ftp_settings']['ftp_pass'];
   $ftp_directory = $translator->settings['custom_url'];
-
-  $tjid     = $job->tjid;
-  $sufix    = strtoupper($job->target_language);
-
-  $server_file     = $ftp_directory . '/JobID' . $job->tjid . '.' . $extension;
-  $local_file      = 'public://tmgmt_ftp/JobID' . $job->tjid . '.' . $extension;
+  
+  $server_file     = $ftp_directory . _tmgmt_filename_builder($job->tjid, $job->settings['export_format']);
+  $local_file      = 'public://tmgmt_ftp/' . _tmgmt_filename_builder($job->tjid, $job->settings['export_format']);;
 
   // Open connection and login.
   $conn_id = ftp_connect($ftp_ip);
   $login_result = ftp_login($conn_id, $ftp_user, $ftp_pass);
-  ftp_pasv($conn_id, true);
-
-  if ((!$conn_id) || ($login_result == false)) {
-    watchdog("zz_ftp_output", "Ftp connection to load and clean KO");
+  if (!ftp_pasv($conn_id, TRUE)) {
+    watchdog("zz_ftp_output", "Ftp connection not available!");
+    $job->addMessage("Ftp connection not available.");
   }
   else {
-    // Check that the file exists.
-    if (ftp_size($conn_id, $server_file) != -1) {
-      // Load file.
-      if ((ftp_get($conn_id, $local_file, $server_file, FTP_BINARY)) == false) {
-        watchdog("zz_ftp_output", "Ftp connection to load OK, File allocated in server to load OK, ftp_get() KO");
-      }
-      else {
-        // Delete files.
-        if ((ftp_delete($conn_id, $server_file) == false)) {
-          watchdog("zz_ftp_output", "Ftp connection to clean OK, File allocated in server to clean OK, ftp_delete() KO");
-        }
-      }
+    if ((!$conn_id) || ($login_result == FALSE)) {
+      watchdog("zz_ftp_output", "Ftp connection to load and clean KO");
+      $job->addMessage("Ftp connection to load but could not be logged in.");
     }
     else {
-      watchdog("zz_ftp_output", "Ftp connection to load and clean OK, File allocated in server to load and clean KO");
+      // Check that the file exists.
+      if (ftp_size($conn_id, $server_file) != -1) {
+        // Load file.
+        if ((ftp_get($conn_id, $local_file, $server_file, FTP_BINARY)) == FALSE) {
+          watchdog("zz_ftp_output", "Ftp connection to load OK, File allocated in server to load OK, ftp_get() KO");
+          $job->addMessage("Ftp connection to load but the file is not found.");
+        }
+        else {
+          // Delete files.
+          if (ftp_delete($conn_id, $server_file) == FALSE) {
+            watchdog("zz_ftp_output", "Ftp connection to clean OK, File allocated in server to clean OK, ftp_delete() KO");
+            $job->addMessage("Ftp connection to load and the file was found, but it could not be deleted.");
+          }
+        }
+      }
+      else {
+        watchdog("zz_ftp_output", "Ftp connection to load and clean OK, File allocated in server to load and clean KO");
+        $job->addMessage("Ftp connection to load but the file transfer was not successful.");
+      }
     }
-  }
-  // Close connection.
-  ftp_close($conn_id);
+    // Close connection.
+    ftp_close($conn_id);
 
-  // Validation successful, start import.
-  $job->addTranslatedData($controller->import($local_file));
-  $job->addMessage('Successfully imported file.');
+    // Validation successful, start import.
+    $job->addTranslatedData($controller->import($local_file));
+    $job->addMessage('Successfully imported file.');
 
-  foreach ($job->getMessagesSince() as $message) {
-    // Ignore debug messages.
-    if ($message->type == 'debug') {
-      continue;
-    }
-    if ($text = $message->getMessage()) {
-      drupal_set_message(filter_xss($text), $message->type);
+    foreach ($job->getMessagesSince() as $message) {
+      // Ignore debug messages.
+      if ($message->type == 'debug') {
+        continue;
+      }
+      if ($text = $message->getMessage()) {
+        drupal_set_message(filter_xss($text), $message->type);
+      }
     }
   }
 }
@@ -122,24 +128,21 @@ function tmgmt_ftp_tmgmt_job_delete(TMGMTJob $job) {
   $ftp_user = $translator->settings['ftp_settings']['ftp_user'];
   $ftp_pass = $translator->settings['ftp_settings']['ftp_pass'];
 
-  $tjid     = $job->tjid;
-  $extension = $job->settings['export_format'];
-
-  $server_file = '/JobID' . $job->tjid . '.' . $extension;
+  $server_file = _tmgmt_filename_builder($job->tjid, $job->settings['export_format']);
 
   // Open connection and login.
   $conn_id = ftp_connect($ftp_ip);
   $login_result = ftp_login($conn_id, $ftp_user, $ftp_pass);
-  ftp_pasv($conn_id, true);
+  ftp_pasv($conn_id, TRUE);
 
-  if ((!$conn_id) || ($login_result == false)) {
+  if ((!$conn_id) || ($login_result == FALSE)) {
     watchdog("zz_ftp_output", "Ftp connection to delete KO");
   }
   else {
     // Check that the file exists.
     if (ftp_size($conn_id, $server_file) != -1) {
       // Delete file.
-      if (ftp_delete($conn_id, $server_file) == false) {
+      if (ftp_delete($conn_id, $server_file) == FALSE) {
         watchdog("zz_ftp_output", "Ftp connection to delete OK, File allocated in server to delete OK, ftp_delete() KO");
       }
     }
@@ -153,7 +156,7 @@ function tmgmt_ftp_tmgmt_job_delete(TMGMTJob $job) {
  * Implements hook_file_download().
  */
 function tmgmt_ftp_file_download($uri) {
-   // Get the file record based on the URI. If not in the database just return.
+  // Get the file record based on the URI. If not in the database just return.
   $files = file_load_multiple(array(), array('uri' => $uri));
   if (count($files)) {
     foreach ($files as $item) {
@@ -193,10 +196,10 @@ function tmgmt_ftp_file_download($uri) {
 function tmgmt_ftp_import_form_submit($form, &$form_state) {
   // Ensure we have the file uploaded.
   $job = $form_state['tmgmt_job'];
-  
+
   // Get the file via ftp and handle the process.
-  tmgmt_ftp_file_handler($job->tjid);
-  
+  tmgmt_ftp_file_handler($job);
+
   if ($file = file_save_upload('file', array('file_validate_extensions' => 'xlf'))) {
     $extension = pathinfo($file->uri, PATHINFO_EXTENSION);
     $controller = tmgmt_file_format_controller($extension);
@@ -216,7 +219,8 @@ function tmgmt_ftp_import_form_submit($form, &$form_state) {
           // Validation successful, start import.
           $job->addTranslatedData($controller->import($file->uri));
           $job->addMessage('Successfully imported file.');
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
           $job->addMessage('File import failed with the following message: @message', array('@message' => $e->getMessage()), 'error');
         }
       }
@@ -240,21 +244,22 @@ function tmgmt_ftp_tmgmt_file_format_plugin_info() {
   return array(
     'xlf' => array(
       'label' => t('XLIFF'),
-      'plugin controller class' => 'TMGMTFTPFormatXLIFF',
+      'plugin controller class' => 'TMGMTFileformatXLIFF',
     ),
   );
 }
 
 /**
- * Returns the file format plugin controller.
- *
- * @param $plugin
- *   (Optional) Name of a plugin/extension.
- *
- * @return TMGMTFileFormatInterface
- *   Either a specific file format plugin controller instance or an array of
- *   available controllers.
+ * Helper function for build the filename.
+ * 
+ * @param string $tjid
+ *   Id of job.
+ * @param string $extension
+ *   Extension of the file.
+ * 
+ * @return string
+ *   Full name of file.
  */
-function tmgmt_ftp_format_controller($plugin = NULL) {
-  return _tmgmt_plugin_controller('file_format', $plugin);
+function _tmgmt_filename_builder($tjid, $extension) {
+  return '/JobID' . $tjid . '.' . $extension;
 }

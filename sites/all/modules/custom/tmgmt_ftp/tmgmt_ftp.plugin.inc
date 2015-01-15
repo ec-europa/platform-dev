@@ -10,7 +10,6 @@
  */
 class TMGMTFTPPluginController extends TMGMTDefaultTranslatorPluginController {
 
-  
   /**
    * Override parent canTranslate method.
    */

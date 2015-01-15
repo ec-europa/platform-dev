@@ -24,7 +24,7 @@ class TMGMTFTPTranslatorUIController extends TMGMTDefaultTranslatorUIController 
       '#type' => 'textfield',
       '#title' => t('FTP User'),
       '#required' => TRUE,
-      '#size'=> 30,
+      '#size' => 30,
       '#default_value' => (isset($translator->settings['ftp_settings']['ftp_user']) ? $translator->settings['ftp_settings']['ftp_user'] : ''),
       '#description' => t('Please enter your ftp user name.'),
     );
@@ -32,7 +32,7 @@ class TMGMTFTPTranslatorUIController extends TMGMTDefaultTranslatorUIController 
       '#type' => 'textfield',
       '#title' => t('FTP Password'),
       '#required' => TRUE,
-      '#size'=> 30,
+      '#size' => 30,
       '#default_value' => (isset($translator->settings['ftp_settings']['ftp_pass']) ? $translator->settings['ftp_settings']['ftp_pass'] : ''),
       '#description' => t('Please enter your ftp password.'),
     );
@@ -40,21 +40,21 @@ class TMGMTFTPTranslatorUIController extends TMGMTDefaultTranslatorUIController 
       '#type' => 'textfield',
       '#title' => t('FTP IP Address - Domain'),
       '#required' => TRUE,
-      '#size'=> 30,
+      '#size' => 30,
       '#default_value' => (isset($translator->settings['ftp_settings']['ftp_ip']) ? $translator->settings['ftp_settings']['ftp_ip'] : ''),
       '#description' => t('Please enter the ip/domain where your drupal instance is installed.'),
     );
-    
+
     // Default ftp port: 21.
     $form['ftp_settings']['ftp_port'] = array(
       '#type' => 'textfield',
       '#title' => t('FTP Port'),
       '#required' => FALSE,
-      '#size'=> 30,
+      '#size' => 30,
       '#default_value' => (isset($translator->settings['ftp_settings']['ftp_port']) ? $translator->settings['ftp_settings']['ftp_port'] : 21),
-      '#description' => t('Please enter the port that the FTP service is lisening to.'),
+      '#description' => t('Please enter the port that the FTP service is listening to.'),
     );
-    
+
     // Any visible, writeable wrapper can potentially be used for the files
     // directory, including a remote file system that integrates with a CDN.
     foreach (file_get_stream_wrappers(STREAM_WRAPPERS_WRITE_VISIBLE) as $scheme => $info) {
@@ -72,21 +72,21 @@ class TMGMTFTPTranslatorUIController extends TMGMTDefaultTranslatorUIController 
     }
 
     $form['priority'] = array(
-       '#type' => 'select',
-       '#title' => t('Priority'),
-       '#options' => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9),
-       '#default_value' => $translator->getSetting('priority'),
-       '#description' => t('9 is the highest priority. Request with highest priority will be processed first.'),
+      '#type' => 'select',
+      '#title' => t('Priority'),
+      '#options' => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9),
+      '#default_value' => $translator->getSetting('priority'),
+      '#description' => t('9 is the highest priority. Request with highest priority will be processed first.'),
     );
     $form['custom_url'] = array(
       '#type' => 'textfield',
       '#title' => t('Custom MT@EC url'),
       '#required' => TRUE,
-      '#size'=> 150,
+      '#size' => 150,
       '#default_value' => $translator->getSetting('custom_url'),
       '#description' => t('Please enter your custom MT@EC webservice location url.'),
     );
- 
+
     return parent::pluginSettingsForm($form, $form_state, $translator);
   }
 

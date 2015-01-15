@@ -7,4 +7,3 @@ dependencies[] = tmgmt_file
 
 files[] = tmgmt_ftp.plugin.inc
 files[] = tmgmt_ftp.ui.inc
-files[] = tmgmt_ftp.format.xliff.inc
