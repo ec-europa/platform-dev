@@ -1,0 +1,16 @@
+Hack to bypass field access for field name based on og_field_access_bypass_fields variable (to avoid infinite loop)
+--- sites/all/modules/contributed/og/og_field_access/og_field_access.module	2015-01-15 14:31:11.933867210 +0100
++++ sites/all/modules/contributed/og/og_field_access/og_field_access.module	2015-01-15 14:03:44.301365034 +0100
+@@ -19,6 +19,12 @@
+     return TRUE;
+   }
+ 
++
++  $bypass_fiels = variable_get("og_field_access_bypass_fields", array ('field_firstname','field_lastname'));
++  if (in_array ($field['field_name'], $bypass_fiels)){
++    return;
++  }
++
+   $perm = $op == 'view' ? 'view ' . $field['field_name'] . ' field' : 'update ' . $field['field_name'] . ' field';
+   list($id,, $bundle) = entity_extract_ids($entity_type, $entity);
+   // Show fields in user registration form.
