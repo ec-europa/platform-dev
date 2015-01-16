@@ -1271,7 +1271,7 @@ function cce_basic_config_update_7197() {
 }
 
 /**
- * Deactivate orphan content types events, news, and discussion. 
+ * Deactivate orphan content types events, news, and discussion.
  *
  * Enable Library tab.
  *
@@ -1365,4 +1365,12 @@ function cce_basic_config_update_7200() {
   }
 
   variable_set('multisite_version', '1.8');
+}
+
+/**
+ * Implements hook_update_N().
+ * Set linkchecker interval from 3hrs [259200] to 4 weeks [2419200].
+ */
+function cce_basic_config_update_7201() {
+  variable_set('linkchecker_check_links_interval', 2419200);
 }
