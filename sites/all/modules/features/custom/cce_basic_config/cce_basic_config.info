@@ -48,7 +48,6 @@ dependencies[] = user
 dependencies[] = video
 dependencies[] = video_ui
 dependencies[] = views
-dependencies[] = views_cache_bully
 dependencies[] = workbench
 dependencies[] = workbench_moderation
 dependencies[] = wysiwyg
