@@ -29,7 +29,7 @@ function tmgmt_ftp_file_handler(TMGMTJob $job) {
 
   $translator = $job->getTranslator();
 
-  // $job has the export format inside the object.true
+  // $job has the export format inside the object.
   $extension = 'xlf';
 
   // Load the appropiate controler.
@@ -48,33 +48,33 @@ function tmgmt_ftp_file_handler(TMGMTJob $job) {
   $conn_id = ftp_connect($ftp_ip);
   $login_result = ftp_login($conn_id, $ftp_user, $ftp_pass);
   if (!ftp_pasv($conn_id, TRUE)) {
-    watchdog("zz_ftp_output", "Ftp connection not available!");
+    watchdog("tmgmt_ftp_ftp_output", "Ftp connection not available!");
     $job->addMessage("Ftp connection not available.");
   }
   else {
     if ((!$conn_id) || ($login_result == FALSE)) {
-      watchdog("zz_ftp_output", "Ftp connection to load and clean KO");
-      $job->addMessage("Ftp connection to load but could not be logged in.");
+      watchdog("tmgmt_ftp_ftp_output", "Ftp connection to load and clean KO");
+      $job->addMessage("Ftp connection has loaded but the login was not success.");
     }
     else {
       // Check that the file exists.
       if (ftp_size($conn_id, $server_file) != -1) {
         // Load file.
         if ((ftp_get($conn_id, $local_file, $server_file, FTP_BINARY)) == FALSE) {
-          watchdog("zz_ftp_output", "Ftp connection to load OK, File allocated in server to load OK, ftp_get() KO");
-          $job->addMessage("Ftp connection to load but the file is not found.");
+          watchdog("tmgmt_ftp_ftp_output", "Ftp connection to load OK, File allocated in server to load OK, ftp_get() KO");
+          $job->addMessage("Ftp connection has loaded but the file what you wanted to load is not found.");
         }
         else {
           // Delete files.
           if (ftp_delete($conn_id, $server_file) == FALSE) {
-            watchdog("zz_ftp_output", "Ftp connection to clean OK, File allocated in server to clean OK, ftp_delete() KO");
-            $job->addMessage("Ftp connection to load and the file was found, but it could not be deleted.");
+            watchdog("tmgmt_ftp_ftp_output", "Ftp connection to clean OK, File allocated in server to clean OK, ftp_delete() KO");
+            $job->addMessage("Ftp connection has loaded and the file what you wanted to load was found, but it is not deletable.");
           }
         }
       }
       else {
-        watchdog("zz_ftp_output", "Ftp connection to load and clean OK, File allocated in server to load and clean KO");
-        $job->addMessage("Ftp connection to load but the file transfer was not successful.");
+        watchdog("tmgmt_ftp_ftp_output", "Ftp connection to load and clean OK, File allocated in server to load and clean KO");
+        $job->addMessage("Ftp connection has loaded, but the file transfer was not successful.");
       }
     }
     // Close connection.
@@ -136,14 +136,14 @@ function tmgmt_ftp_tmgmt_job_delete(TMGMTJob $job) {
   ftp_pasv($conn_id, TRUE);
 
   if ((!$conn_id) || ($login_result == FALSE)) {
-    watchdog("zz_ftp_output", "Ftp connection to delete KO");
+    watchdog("tmgmt_ftp_ftp_output", "Ftp connection to delete KO");
   }
   else {
     // Check that the file exists.
     if (ftp_size($conn_id, $server_file) != -1) {
       // Delete file.
       if (ftp_delete($conn_id, $server_file) == FALSE) {
-        watchdog("zz_ftp_output", "Ftp connection to delete OK, File allocated in server to delete OK, ftp_delete() KO");
+        watchdog("tmgmt_ftp_ftp_output", "Ftp connection to delete OK, File allocated in server to delete OK, ftp_delete() KO");
       }
     }
   }
