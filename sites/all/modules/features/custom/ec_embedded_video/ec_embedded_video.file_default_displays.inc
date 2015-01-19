@@ -82,7 +82,7 @@ function ec_embedded_video_file_default_displays() {
     'autoplay' => 0,
   );
   $export['video__default__media_vimeo_video'] = $file_display;
-// VIDEO PREVIEW
+  // VIDEO PREVIEW.
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__preview__file_field_file_video';
@@ -97,7 +97,7 @@ function ec_embedded_video_file_default_displays() {
     'multiple_file_behavior' => 'tags',
   );
   $export['video__preview__file_field_file_video'] = $file_display;
-// DAILYMOTION PREVIEW
+  // DAILYMOTION PREVIEW.
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__preview__media_dailymotion_image';
@@ -133,7 +133,7 @@ function ec_embedded_video_file_default_displays() {
   );
   $export['video__preview__media_node_image'] = $file_display;
 
-  //VIMEO  PREVIEW
+  // VIMEO  PREVIEW.
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__preview__media_vimeo_image';
@@ -155,8 +155,8 @@ function ec_embedded_video_file_default_displays() {
     'autoplay' => 0,
   );
   $export['video__preview__media_vimeo_video'] = $file_display;
-  
-  //YOUTUBE PREVIEW
+
+  // YOUTUBE PREVIEW.
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__preview__media_youtube_video';
@@ -180,7 +180,6 @@ function ec_embedded_video_file_default_displays() {
     'origin' => '',
   );
   $export['video__preview__media_youtube_video'] = $file_display;
-
 
   $file_display = new stdClass();
   $file_display->api_version = 1;

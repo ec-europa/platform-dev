@@ -8,7 +8,7 @@
  * Implements hook_install().
  */
 function ec_embedded_video_install() {
-  $plugins = (array)variable_get('media__wysiwyg_browser_plugins');
+  $plugins = (array) variable_get('media__wysiwyg_browser_plugins');
   if (!in_array('media_internet', $plugins)) {
     array_push($plugins, 'media_internet');
     variable_set('media__wysiwyg_browser_plugins', $plugins);
@@ -19,8 +19,7 @@ function ec_embedded_video_install() {
  * Implements hook_uninstall().
  */
 function ec_embedded_video_uninstall() {
-  //Due to https://drupal.org/node/1702700 issue
-
+  // Due to https://drupal.org/node/1702700 issue.
 }
 
 /**
@@ -29,7 +28,6 @@ function ec_embedded_video_uninstall() {
 function ec_embedded_video_enable() {
   // Activation message.
   drupal_set_message(t('EC embedded videos feature is now enable on your site.'));
-
 }
 
 /**
