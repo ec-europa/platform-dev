@@ -1390,8 +1390,9 @@ function cce_basic_config_update_7202() {
     'admin/content/webform',
     'admin/structure/block',
     'admin/help',
-    'node/add',
     'user/'
   );
   variable_set('cce_basic_config_admin_pages', $list_pages);
+
+  variable_set('node_admin_theme', 0);
 }
