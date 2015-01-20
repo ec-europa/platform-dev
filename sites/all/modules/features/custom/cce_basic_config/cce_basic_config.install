@@ -1349,7 +1349,7 @@ function cce_basic_config_update_7200() {
     'admin/structure/block',
     'admin/help',
   );
-  variable_set('multisite_drupal_toolbox_admin_pages', $list_pages);
+  variable_set('cce_basic_config_admin_pages', $list_pages);
 
   // Disable user contact form for anonymous.
   user_role_revoke_permissions(1, array(
@@ -1369,8 +1369,28 @@ function cce_basic_config_update_7200() {
 
 /**
  * Implements hook_update_N().
+ *
  * Set linkchecker interval from 3hrs [259200] to 4 weeks [2419200].
  */
 function cce_basic_config_update_7201() {
   variable_set('linkchecker_check_links_interval', 2419200);
+}
+
+/**
+ * Implements hook_update_n().
+ *
+ * Update list of admin pages using jquery 1.10.
+ */
+function cce_basic_config_update_7202() {
+  $list_pages = array(
+    'admin/structure/feature-set',
+    'admin/workbench',
+    'admin/content/comment',
+    'admin/content/media',
+    'admin/content/webform',
+    'admin/structure/block',
+    'admin/help',
+    'node/add',
+  );
+  variable_set('cce_basic_config_admin_pages', $list_pages);
 }

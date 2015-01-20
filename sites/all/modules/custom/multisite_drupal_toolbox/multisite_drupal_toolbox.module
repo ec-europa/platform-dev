@@ -1456,7 +1456,7 @@ function multisite_drupal_toolbox_library_alter(&$javascript, $module) {
   // Use jquery 1.10 for specific admin pages.
   if (module_exists('jquery_update')) {
 
-    $list_pages = variable_get('cce_basic_config_admin_pages');
+    $list_pages = variable_get('cce_basic_config_admin_pages', array());
 
     $path = drupal_get_path('module', 'jquery_update');
     $version = variable_get('jquery_update_jquery_version', '1.10');
@@ -1466,9 +1466,13 @@ function multisite_drupal_toolbox_library_alter(&$javascript, $module) {
     $cdn = variable_get('jquery_update_jquery_cdn', 'none');
 
     $current_path = current_path();
-    if (path_is_admin($current_path) && in_array($current_path, $list_pages)) {
-      if (version_compare($version, $admin_version, '!=')) {
-        jquery_update_jquery_replace($javascript, $cdn, $path, $min, $version);
+
+    $list_pages = variable_get('cce_basic_config_admin_pages', array());
+    foreach ($list_pages as $page) {
+      if (strpos($current_path, $page) === 0) {
+        if (version_compare($version, $admin_version, '!=')) {
+          jquery_update_jquery_replace($javascript, $cdn, $path, $min, $version);
+        }
       }
     }
   }
