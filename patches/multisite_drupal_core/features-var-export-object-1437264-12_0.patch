@@ -6,12 +6,12 @@
    }
 
    if (is_object($var)) {
--    $output = method_exists($var, 'export') ? $var->export() : features_var_export((array) $var, '', FALSE);
+-    $output = method_exists($var, 'export') ? $var->export() : features_var_export((array) $var, '', FALSE, $count+1);
 +    if (method_exists($var, 'export')) {
 +      $output = $var->export();
 +    }
 +    elseif (get_class($var) === 'stdClass') {
-+      $output = '(object) ' . features_var_export((array) $var, '', FALSE);
++      $output = '(object) ' . features_var_export((array) $var, '', FALSE, $count+1);
 +    }
 +    elseif (!method_exists($var, '__set_state')) {
 +      // This is a custom object of unknown class that does not have a

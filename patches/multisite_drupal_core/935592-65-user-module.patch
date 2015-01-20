@@ -8,6 +8,8 @@
 +      if (is_object($account) && !is_object($account->picture) && $account->picture > 0) {
 +        $account->picture = file_load($account->picture);
 +      }
-       $account->picture = empty($account->picture->fid) ? 0 : $account->picture->fid;
- 
+       // Save the picture object, if it is set. drupal_write_record() expects
+       // $account->picture to be a FID.
+       $picture = empty($account->picture) ? NULL : $account->picture;
+
        // Do not allow 'uid' to be changed.
