@@ -122,35 +122,36 @@
  /**
   * Expose menu items as context reactions.
   */
-@@ -9,21 +11,23 @@ class context_reaction_menu extends context_reaction {
-    */
+@@ -10,22 +10,24 @@
    function options_form($context) {
+     $options = array("-- " . t('None') . " --");
      if (module_exists('menu')) {
 -      $menus = menu_parent_options(menu_get_menus(), array('mlid' => 0));
 +      $menus = context_menu_parent_options(menu_get_menus(), array('mlid' => 0));
-       $root_menus = array();
--      foreach ($menus as $key => $name) {
-+      foreach ($menus as $key => $link) {
-         $id = explode(':', $key);
-         if ($id[1] == '0') {
--          $root_menus[$id[0]] = check_plain($name);
-+          $root_menus[$id[0]] = check_plain($link);
+       $menu_names = array();
+-      foreach ($menus as $id => $title) {
++      foreach ($menus as $id => $link) {
+         list($menu_name, $mlid) = explode(':', $id);
+         // Store the title each menu for reference.
+         if ($mlid == '0') {
+-          $menu_names[$menu_name] = $title;
++          $menu_names[$menu_name] = $link;
          }
          else {
--          $link = menu_link_load($id[1]);
+-          $link = menu_link_load($mlid);
 +          if (!is_array($link)) {
 +            $link = menu_link_load($id[1]);
 +          }
            $identifier = $link['link_path'];
-           $root_menu = $root_menus[$id[0]];
-           while (isset($menus[$root_menu][$identifier])) {
+           $root_menu = $menu_names[$menu_name];
+           while (isset($options[$root_menu][$identifier])) {
              $identifier .= "'";
            }
--          $menus[$root_menu][$identifier] = $name;
-+          $menus[$root_menu][$identifier] = $link['title'];
+-          $options[$root_menu][$menu_name . ':' . $identifier] = $title;
++          $options[$root_menu][$menu_name . ':' . $identifier] = $link['title'];
          }
-         unset($menus[$key]);
        }
+     }
 -- 
 1.7.4.1
 
