@@ -38,7 +38,7 @@ Syntax : $(basename "$0") [ARGS] SITE-NAME\n
 "
 
 # Configuration of the script
-while getopts "i:b:t:d:s:vrfhk?-:" option; do
+while getopts "i:b:t:d:s:vcrfhk?-:" option; do
         #Management of the --options
         if [ "$option" = "-" ]; then
                 case $OPTARG in
@@ -51,6 +51,7 @@ while getopts "i:b:t:d:s:vrfhk?-:" option; do
 						svn_basepath) option=b ;;
 						svn_tag_version) option=t ;;
 						subdirectory) option=s ;;
+            color)option=c;;
                         *)
                                 echo "[ERROR] Unknown option --$OPTARG"
                                 exit 1
@@ -59,13 +60,14 @@ while getopts "i:b:t:d:s:vrfhk?-:" option; do
         fi
         case $option in
 				d) drush_options=$OPTARG ;;
-                v) verbose=1 ;;
+        v) verbose=1 ;;
 				f) force=1 ;;
 				k) devel=1 ;;
 				i) install_profile=$OPTARG ;;
 				b) svn_basepath=$OPTARG ;;
 				t) svn_tag_version=$OPTARG ;;
 				s) subdirectory=$OPTARG ;;
+        c) color=0 ;;
                 \?|h)
                         echo -e $usage
                         exit 0
@@ -81,7 +83,9 @@ while getopts "i:b:t:d:s:vrfhk?-:" option; do
         esac
 done
 
-
+if [ -f "${script_dir}/deploy_scripts/lib/colors.sh" ] && [ "$color" != 0 ]; then
+  source "${script_dir}/deploy_scripts/lib/colors.sh"
+fi
 #------------------------#
 #     ARGUMENTS CHECK    #
 #------------------------#
@@ -94,24 +98,24 @@ fi
 
 # Profile name 
 if [ "${install_profile}" != 'multisite_drupal_communities' ] && [ "${install_profile}" != 'multisite_drupal_standard' ]; then 
-	_exit_with_message 220 "Profile name '${install_profile}' is incorrect" 
+	_exit_with_message 220 "Profile name ${IRed}${install_profile} ${White}is incorrect${Color_Off}" 
 fi
 
 # Get current configuration
 current_dir=$(pwd)
-__echo "Set current directory to ${current_dir}"
+__echo "Set ${UWhite}current directory${White} to ${Cyan}${current_dir}${Color_Off}"
 working_dir="${current_dir}/${site_name}"
-__echo "Set working directory to ${working_dir}"
+__echo "Set ${UWhite}working directory${White} to ${Cyan}${working_dir}${Color_Off}"
 
 # Set up the drush option
 if [ "${force}" = 1 ] ; then
 	drush_options="${drush_options} -y"
 fi
-__echo "Set drush options: ${drush_options}"
+__echo "Set ${UWhite}drush${White} options ${Cyan}${drush_options}${Color_Off}"
 
 # set DB connection
 db_name="$site_name"
-__echo "Set DB URL to mysqli://${db_user}:DB_PASS@${db_host}:${db_port}/${db_name}"
+__echo "Set ${UWhite}DB URL${White} to ${Cyan}mysqli://${db_user}:DB_PASS@${db_host}:${db_port}/${db_name}${Color_Off}"
 db_url="mysqli://${db_user}:${db_pass}@${db_host}:${db_port}/${db_name}"
 
 # create database if not exist
@@ -120,7 +124,7 @@ _create_database
 # Set up target directory 
 if [ -n "${subdirectory}" ]; then 
 	if [ ! -e "${webroot}/${subdirectory}" ] ; then
-		mkdir "${webroot}/${subdirectory}" || _exit_with_message 190 "Unable to create subdirectory '${webroot}/${subdirectory}'"
+		mkdir "${webroot}/${subdirectory}" || _exit_with_message 190 "${Yellow}Unable to create subdirectory ${IRed}${webroot}/${subdirectory}${Color_Off}"
 	fi
 	base_path="${base_path}/${subdirectory}"
 	webroot="${webroot}/${subdirectory}"
@@ -128,11 +132,11 @@ fi
 
 # cleanup target directory
 if [ -d "${webroot}/${site_name}" ] ; then
-	__echo "The folder '${webroot}/${site_name}' already exist, it will be deleted" 'warning'
+	__echo "${Yellow}The target directory ${IRed}${webroot}/${site_name}${Yellow} already exist, it will be deleted.${Color_Off}" 'warning'
 	_continue
 	chmod 744 -Rf "${webroot}/${site_name}"
 	rm -Rf "${webroot}/${site_name}"  
-	__echo "Removing the folder $webroot/${site_name} done" 'status'
+	__echo "Removing the folder ${Cyan}$webroot/${site_name} done.${Color_Off}" 'status'
 fi
 
 # cleanup existing working directory
@@ -140,12 +144,13 @@ if [ -d "${working_dir}" ] ; then
 	__echo "Removing existing working directory..."
 	__fix_perms -R "${working_dir}"
 	rm -Rf "${working_dir}"
-	__echo "done" 'status'
+	__echo "Done." 'status'
 fi
 
 # cleanup tmp directory
 if [ -d "${working_dir}_sources_tmp" ] ; then
-  rm -Rf "${working_dir}_sources_tmp"  
+  rm -Rf "${working_dir}_sources_tmp"
+  __echo "Temp directory cleared." 'status'
 fi
 
 #svn conf
@@ -172,12 +177,13 @@ if [ "${svn}" = 1 ] ; then
 	else
 		svn_path="${svn_url}/${svn_basepath}/${svn_tag_version}/source"
 	fi
-	__echo "SVN repository path set to ${svn_path}"
+	__echo "Set ${UWhite}SVN repository${White} path to ${Cyan}${svn_path}${Color_Off}"
 	own_source_path="${working_dir}_sources_tmp"
-	__echo "own_source_path path set to ${own_source_path}"
+	__echo "Set ${UWhite}own_source_path${White} path to ${Cyan}${own_source_path}${Color_Off}"
 	_get_svn_sources 
 else
 	own_source_path="${current_dir}"
+  __echo "Set ${UWhite}own_source_path${White} path to ${Cyan}${own_source_path}${Color_Off}"
 fi
 
 # Get Drupal core and contributed sources using makefile
@@ -211,17 +217,17 @@ patch_dir_core="${patch_dir}/multisite_drupal_core"
 #__echo "$patch_dir_core" 'error'
 # BACKPORT version <=1.6 : if $patch_dir_core not found we apply patches directly from $patch_dir folder
 if [ ! -e "$patch_dir_core" ]; then 
-	__echo "Applying core patches from $patch_dir to ${site_name}"
+	__echo "Applying core patches from ${Cyan}$patch_dir${White} to ${Cyan}${site_name}${Color_Off}"
 	_apply_patches "$patch_dir"
 else
 	# core patchs patch
-	__echo "Applying core patches from ${patch_dir_core} to ${site_name}"
+	__echo "Applying core patches from ${Cyan}${patch_dir_core}${White} to ${Cyan}${site_name}${Color_Off}"
 	_apply_patches "$patch_dir_core"
 	
 	# profile patchs
 	patch_dir_profile="${patch_dir}/${install_profile}"
 	if [ ! -e "$patch_dir_profile" ]; then 
-		__echo "Applying core patches from ${patch_dir_core} to ${site_name}"
+		__echo "Applying profil patches from ${Cyan}${patch_dir_profile}${White} to ${Cyan}${site_name}${Color_Off}"
 		_apply_patches "$patch_dir_profile"
 	fi
 fi
@@ -269,7 +275,7 @@ fi
 mv "${working_dir}" "${webroot}"
 __fix_perms "${webroot}"
 
-__echo "\nSite installed on ${webroot}/${site_name}" 'status'
+__echo "\nSite installed on ${IBlue}${webroot}/${site_name}${Color_Off}" 'status'
 
 
 

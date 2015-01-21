@@ -37,7 +37,8 @@ function __echo {
 			;;
 		esac 
 		STATUSCOLOR="$COLOR${STATUS}$NORMAL"
-		let COL="${colmax}-${#MSG}+${#STATUSCOLOR}-${#STATUS}"
+    MSG_LENGTH=$(echo $MSG | sed "s/\\\e\[[01]\?;\?[0-9]*m//g")
+		let COL="${colmax}-${#MSG_LENGTH}+${#STATUSCOLOR}-${#STATUS}"
 		echo -en "$MSG"
 		printf "%${COL}s\n"  "$STATUSCOLOR"
 	fi
@@ -45,7 +46,7 @@ function __echo {
 
 function _continue {
 	if [ "${force}" = 1 ] ; then
-		__echo "Force continu..." 'warning'
+		__echo "${Yellow}Force continu...${Color_Off}" 'warning'
 	else
 		read -p  "Do you want to continue? [y/n]" goon 
 		if [[ $goon = 'n' ]];
@@ -70,7 +71,7 @@ function _apply_patches {
 	patch_folder=$1
 	
 	if [ ! -e "$patch_folder" ]; then 
-		echo "Patch folder not found on : '$patch_folder'" 'warning'
+		__echo "${Yellow}Patch folder not found on ${IRed}$patch_folder${Color_Off}" 'warning'
 		_continue
 	else
 		# define patch options
@@ -80,9 +81,9 @@ function _apply_patches {
 		# apply all patch from ${patch_folder}
 		for patch_file in "${patch_folder}/"*.patch "${patch_folder}/"*.diff; do
 			test -f "${patch_file}" || continue
-			__echo "Attempting to apply ${patch_file}..."
+			__echo "Attempting to apply ${Cyan}$(basename ${patch_file})${Color_Off}"
 			patch $patch_options -p0 -b -i "${patch_file}" 1>&2
-			__echo "done"
+			__echo "Done"
 		done
 	fi
 }
@@ -90,7 +91,7 @@ function _apply_patches {
 # retrieve files from SVN
 # use $svn_path, $svn_basepath, $svn_tag_version
 function _get_svn_sources {
-		__echo "Getting sources from svn at '${svn_path}'..."
+		__echo "Getting sources from svn at ${Cyan}${svn_path}${Color_Off}"
 		# get credentials
 		if [ -z "${svn_username}" ]; then 
 			echo -n "SVN username:" 
@@ -101,19 +102,19 @@ function _get_svn_sources {
 			read -s svn_password
 		fi
 		
-		__echo "Test SVN path '${svn_path}"
+		__echo "Test SVN path ${Cyan}${svn_path}${Color_Off}"
 		# Test SVN path
 		svn info --non-interactive --username="${svn_username}" --password="${svn_password}" "${svn_path}"
 		error=$?
 		if [ $error -ne 0 ]; then
-			__echo "Repository '${svn_path}' could not be found" 'warning'
+			__echo "${Yellow}Repository ${IRed}${svn_path}${Yellow} could not be found${Color_Off}" 'warning'
 			_continue
 		fi
 		
 		# SVN files export 
-		__echo "Export files from SVN"
+		__echo "Export source code from SVN"
 		for file in ${svn_files[*]}; do
-			__echo "Export ${file} from SVN"
+			__echo "Export ${Cyan}${file}${Whyte} from SVN${Color_Off}"
 			svn export --non-interactive --force --username="${svn_username}" --password="${svn_password}" "${svn_path}/${file}" "${own_source_path}/${file}"
 		done 
 }
@@ -134,25 +135,25 @@ function _get_make_sources {
 	# error ?
 	error=$?
 	if [ $error -ne 0 ]; then
-		__echo "Drush make '${makefile_path}' exited with error" "error"
+		__echo "Drush make ${IRed}${makefile_path}${White}exited with error${Color_Off}" "error"
 		_continue
 	fi
 	
 	# move to ${working_dir} and cleanup
-	__echo "Drush make '${makefile_path}' done" "status"
+	__echo "Drush make ${Cyan}${makefile_path}${White} done${Color_Off}" "status"
 }
 
 function _create_database {
 	mysql -h "${db_host}" -P "${db_port}" -u "$db_user" --password="$db_pass" -e  "USE ${db_name};" 2> /tmp/error.logextract
 	if grep -q "ERROR 1049 (42000) at line 1: Unknown database '${db_name}'" /tmp/error.logextract ; then
 		mysql -h "${db_host}" -P "${db_port}" -u "$db_user" --password="$db_pass" -e "create database ${db_name};" 1>&2
-		__echo "Database ${db_host} created" 'status'
+		__echo "Database ${Cyan}${db_name}${White} created${Color_Off}" 'status'
 	else 
-		__echo "Database already existing, it will be dropped..." 'warning'
+		__echo "${Yellow}Database ${IRed}${db_name}${Yellow} already existing, it will be dropped...${Color_Off}" 'warning'
 		_continue 
-		mysql -h "${db_host}" -P "${db_port}" -u "$db_user" --password="$db_pass" -e "drop database ${db_name};" 1>&2
-		mysql -h "${db_host}" -P "${db_port}" -u "$db_user" --password="$db_pass" -e "create database ${db_name};" 1>&2
-		__echo "Database ${db_host} recreated" 'status'
+		mysql -h "${db_host}" -P "${db_port}" -u "$db_user" --password="$db_pass" -e "drop database ${db_name};" 2>/dev/null
+		mysql -h "${db_host}" -P "${db_port}" -u "$db_user" --password="$db_pass" -e "create database ${db_name};" 2>/dev/null
+		__echo "Database ${Cyan}${db_name}${White} recreated${Color_Off}" 'status'
 	fi
 	rm -f "/tmp/error.logextract"
 }
@@ -175,7 +176,7 @@ function _setlinkcheckerconf {
 
 function _inject_data {
 	__echo "Insert data..."
-	__echo "Set variable tmp_base_url to '/${base_path}/${site_name}'"
+	__echo "Set ${UWhite}tmp_base_url${White} to ${Cyan}${base_path}/${site_name}${Color_Off}"
 	drush vset tmp_base_url "/${base_path}/${site_name}"
 	drush scr "$1" 
 	drush vdel --exact --yes tmp_base_url
