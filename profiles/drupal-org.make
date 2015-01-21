@@ -137,7 +137,7 @@ projects[field_collection][subdir] = "contributed"
 projects[field_collection][version] = "1.0-beta7"
 
 projects[file_entity][subdir] = "contributed"
-projects[file_entity][version] = "7.x-2.0-beta1"
+projects[file_entity][version] = "2.0-beta1"
 
 projects[filefield_sources][subdir] = "contributed"
 projects[filefield_sources][version] = "1.9"
