@@ -5,10 +5,11 @@ core = 7.x
 files[] = includes/MediaInternetAvportalHandler.inc
 files[] = includes/MediaAvportalStreamWrapper.inc
 
+stylesheets[all][] = media_avportal.css
+scripts[] = media_avportal.js
+
 dependencies[] = media
 dependencies[] = media_internet
 php = 5.2.4
 
 version = "7.x-1.0"
-
-

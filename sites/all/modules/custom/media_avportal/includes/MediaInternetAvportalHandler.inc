@@ -64,13 +64,9 @@ class MediaInternetAvportalHandler extends MediaInternetBaseHandler {
     $file = file_uri_to_object($uri, TRUE);
 
     if (empty($file->fid)) {
-      $response = drupal_http_request($this->embedCode);
-      $dom = new DOMDocument();
-      @$dom->loadHTML($response->data);
-      $xpath = new DOMXPath($dom);
-      $result = $xpath->query("//div[contains(@class, 'append-bottom')]/h3[1]");
-      $title = $result->item(0)->nodeValue;
-      $file->filename = truncate_utf8($title, 255);
+      $wrapper = file_stream_wrapper_get_instance_by_uri($file->uri);
+      $video_title = $wrapper->getVideoTitle();
+      $file->filename = truncate_utf8(strip_tags($video_title), 255);
     }
     return $file;
   }

@@ -14,10 +14,7 @@ include_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'media_avportal') . '
  * Implements hook_media_internet_providers().
  */
 function media_avportal_media_internet_providers() {
-  $info['MediaInternetAvportalHandler'] = array(
-    'title' => t('AV Portal'),
-  );
-
+  $info['MediaInternetAvportalHandler'] = array('title' => t('AV Portal'));
   return $info;
 }
 
@@ -30,9 +27,7 @@ function media_avportal_stream_wrappers() {
       'name' => t('AV Portal videos'),
       'class' => 'MediaAvportalStreamWrapper',
       'description' => t('Videos provided by AV Portal.'),
-      'type' => STREAM_WRAPPERS_READ_VISIBLE,
-    ),
-  );
+      'type' => STREAM_WRAPPERS_READ_VISIBLE));
 }
 
 /**
@@ -44,17 +39,19 @@ function media_avportal_theme($existing, $type, $theme, $path) {
       'variables' => array('uri' => NULL, 'options' => array()),
       'file' => 'media_avportal.theme.inc',
       'path' => $path . '/includes/themes',
-      'template' => 'media-avportal-video',
-    ),
-  );
+      'template' => 'media-avportal-video'),
+
+    'media_avportal_language_switcher' => array(
+      'variables' => array('languages' => NULL, 'video_language' => NULL),
+      'file' => 'media_avportal.theme.inc',
+      'path' => $path . '/includes/themes',
+    ));
 }
 
 /**
  * Implements hook_media_parse().
  *
- * @todo This hook should be deprecated. Refactor Media module to not call it
- *   any more, since media_internet should be able to automatically route to the
- *   appropriate handler.
+ * @todo This hook should be deprecated.
  */
 function media_avportal_media_parse($embed_code) {
   $handler = new MediaInternetAvportalHandler($embed_code);
@@ -75,10 +72,7 @@ function media_avportal_file_mimetype_mapping_alter(&$mapping) {
  */
 function media_avportal_ctools_plugin_api($owner, $api) {
   static $api_versions = array(
-    'file_entity' => array(
-      'file_default_displays' => 1,
-    ),
-  );
+    'file_entity' => array('file_default_displays' => 1));
   if (isset($api_versions[$owner][$api])) {
     return array('version' => $api_versions[$owner][$api]);
   }

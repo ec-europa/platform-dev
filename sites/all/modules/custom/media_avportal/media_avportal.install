@@ -21,29 +21,6 @@ function media_avportal_install() {
     $formatter = 'video__' . $view_mode . '__media_avportal_video';
 
     if (isset($formatters[$formatter])) {
-
-      // Migrate chromeless=1 or controls='0' to autohide=1, showinfo=0.
-      if (isset($formatters[$formatter]->settings['chromeless'])) {
-        if ($formatters[$formatter]->settings['chromeless'] == 1) {
-          $formatters[$formatter]->settings['autohide'] = 1;
-          $formatters[$formatter]->settings['showinfo'] = 0;
-        }
-      }
-      if (isset($formatters[$formatter]->settings['controls'])) {
-        if ($formatters[$formatter]->settings['controls'] == 0) {
-          $formatters[$formatter]->settings['autohide'] = 1;
-          $formatters[$formatter]->settings['showinfo'] = 0;
-        }
-      }
-
-      // Remove deprecated settings from the exportable array.
-      foreach (array('version', 'fullscreen', 'hd', 'showsearch',
-        'controls', 'chromeless') as $deprecated) {
-        if (isset($formatters[$formatter]->settings[$deprecated])) {
-          unset($formatters[$formatter]->settings[$deprecated]);
-        }
-      }
-
       // Save the ctools objects.
       $display = $formatters[$formatter];
       file_display_save((object) $display);

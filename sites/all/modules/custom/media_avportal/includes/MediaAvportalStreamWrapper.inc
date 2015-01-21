@@ -42,4 +42,74 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
   public function getTarget($f) {
     return FALSE;
   }
+
+  /**
+   * Implements getVideoInformation().
+   */
+  private function getVideoInformation() {
+
+    $parts = $this->get_parameters();
+    $video_id = check_plain($parts['v']);
+
+    // Using cache to avoid a call to the webservice each time.
+    $video_info = &drupal_static(__FUNCTION__);
+    if (!isset($video_info)) {
+      $cache = cache_get('av_video_' . $video_id);
+      if (!empty($cache->data)) {
+        $video_info = $cache->data;
+      }
+      else {
+        $url = 'http://ec.europa.eu/avservices/cfc/video.cfc?method=getVideoDetails&ref=' . $video_id . '&format=json';
+        $response = drupal_http_request($url);
+        $video_info = drupal_json_decode($response->data);
+        cache_set('av_video_' . $video_id, $video_info, 'cache');
+      }
+    }
+    return $video_info;
+  }
+
+  /**
+   * Implements getVideoTitle().
+   */
+  public function getVideoTitle() {
+    $info = $this->getVideoInformation();
+    return $info['TITLE'];
+  }
+
+  /**
+   * Implements getVideoThumb().
+   */
+  public function getVideoThumb() {
+    $info = $this->getVideoInformation();
+    return $info['THUMB'];
+  }
+
+  /**
+   * Implements getVideoLanguages().
+   */
+  public function getVideoLanguages() {
+    $info = $this->getVideoInformation();
+    return $info['LANGS'];
+  }
+
+  /**
+   * Implements getLocalThumbnailPath().
+   */
+  public function getLocalThumbnailPath($remote_path) {
+    $parts = $this->get_parameters();
+    $local_path = file_default_scheme() . '://media-avportal/' . check_plain($parts['v']) . '.jpg';
+    // If image does not exist, create a new from remote.
+    if (!file_exists($local_path)) {
+      $dirname = drupal_dirname($local_path);
+      file_prepare_directory($dirname, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS);
+      $response = drupal_http_request($remote_path);
+      if (empty($response->error) || strlen(trim($response->error)) == 0) {
+        file_unmanaged_save_data($response->data, $local_path, TRUE);
+      }
+      else {
+        $local_path = drupal_get_path('module', 'media_avportal') . '/img/avportal.png';
+      }
+    }
+    return $local_path;
+  }
 }
