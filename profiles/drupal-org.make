@@ -68,7 +68,7 @@ projects[colorbox][version] = "1.3"
 ;projects[content_lock][version] = "1.4"
 
 projects[context][subdir] = "contributed"
-projects[context][version] = "3.2"
+projects[context][version] = "3.6"
 
 projects[collapse_text][subdir] = "contributed"
 projects[collapse_text][version] = "2.4"
