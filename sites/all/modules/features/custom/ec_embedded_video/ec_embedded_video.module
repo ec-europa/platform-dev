@@ -11,6 +11,7 @@ include_once 'ec_embedded_video.features.inc';
  *
  * @see http://drupal.org/node/1245686
  */
+
 function ec_embedded_video_file_type($file) {
   if ($file->filemime == 'video/youtube') {
     return array('video');
@@ -21,6 +22,10 @@ function ec_embedded_video_file_type($file) {
   }
 
   if ($file->filemime == 'video/dailymotion') {
+    return array('video');
+  }
+  
+  if ($file->filemime == 'video/avportal') {
     return array('video');
   }
 }
@@ -43,7 +48,7 @@ function ec_embedded_video_theme_registry_alter(&$theme_registry) {
   $path = drupal_get_path('module', 'ec_embedded_video') . '/themes';
 
   // Add Cookie Consent support themeing and preprocess for supported filetypes.
-  foreach (array('media_youtube', 'media_vimeo', 'media_dailymotion') as $module) {
+  foreach (array('media_youtube', 'media_vimeo', 'media_dailymotion', 'media_avportal') as $module) {
     if (module_exists($module)) {
       // Override the location of supported Media providers template files.
       $theme_registry[$module . '_video']['path'] = $path;
@@ -65,6 +70,14 @@ function _ec_embedded_video_preprocess_media_youtube_video(&$variables) {
  * Preprocess function for media_vimeo_video.
  */
 function _ec_embedded_video_preprocess_media_vimeo_video(&$variables) {
+  _ec_embedded_video_preprocess_ec_embedded_video_video($variables);
+}
+
+/**
+ * Preprocess function for media_avportal_video.
+ */
+function _ec_embedded_video_preprocess_media_avportal_video(&$variables) {
+  $variables['url'] = url('http://ec.europa.eu/avservices/video/player.cfm?ref=' . $variables['video_id']);
   _ec_embedded_video_preprocess_ec_embedded_video_video($variables);
 }
 
