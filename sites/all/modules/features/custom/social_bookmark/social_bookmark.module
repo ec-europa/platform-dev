@@ -16,6 +16,15 @@ function social_bookmark_init() {
   }
 }
 
+function social_bookmark_permission() {
+  return array(
+    'access social bookmark config page' => array(
+      'title' => t('Access Social Bookmark config pages'),
+      'description' => t('Access to social bookmark configuration pages'),
+    ),
+  );
+}
+
 /**
  * Implements hook_menu().
  */
@@ -28,7 +37,7 @@ function social_bookmark_menu() {
     'description' => 'Configuration for the Social Bookmark blocks.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('_social_bookmark_admin_settings'),
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('access social bookmark config page'),
     'file' => 'social_bookmark.admin.inc',
     'file path' => $path,
   );
@@ -44,7 +53,7 @@ function social_bookmark_menu() {
     'type' => MENU_LOCAL_TASK,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('_social_bookmark_bar_admin_settings'),
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('access social bookmark config page'),
     'file' => 'social_bookmark_bar.admin.inc',
     'file path' => $path,
     'weight' => '0',

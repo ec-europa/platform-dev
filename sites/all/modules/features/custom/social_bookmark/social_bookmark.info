@@ -9,6 +9,7 @@ features[features_api][] = api:2
 dependencies[] = i18n_taxonomy
 dependencies[] = features
 dependencies[] = context
+features[user_permission][] = access social bookmark config page
 files[] = tests/social_bookmark.test
 files[] = tests/social_bookmark.extra.test
 configure = admin/config/socialbookmark
