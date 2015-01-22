@@ -37,7 +37,7 @@ function __echo {
 			;;
 		esac 
 		STATUSCOLOR="$COLOR${STATUS}$NORMAL"
-    MSG_LENGTH=$(echo $MSG | sed "s/\\\e\[[01]\?;\?[0-9]*m//g")
+        MSG_LENGTH=$(echo $MSG | sed "s/\\\e\[[014]\?;\?[0-9]*m//g")
 		let COL="${colmax}-${#MSG_LENGTH}+${#STATUSCOLOR}-${#STATUS}"
 		echo -en "$MSG"
 		printf "%${COL}s\n"  "$STATUSCOLOR"
