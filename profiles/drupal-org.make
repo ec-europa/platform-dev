@@ -203,7 +203,7 @@ projects[link][subdir] = "contributed"
 projects[link][version] = "1.2"
 
 projects[linkchecker][subdir] = "contributed"
-projects[linkchecker][version] = "1.1"
+projects[linkchecker][version] = "1.2"
 
 projects[mail_edit][subdir] = "contributed"
 projects[mail_edit][version] = "1.0"
