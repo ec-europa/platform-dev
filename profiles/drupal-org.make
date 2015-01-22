@@ -239,7 +239,7 @@ projects[menu_attributes][subdir] = "contributed"
 projects[menu_attributes][version] = "1.0-rc2"
 
 projects[menu_block][subdir] = "contributed"
-projects[menu_block][version] = "2.3"
+projects[menu_block][version] = "2.4"
 
 projects[menu_token][subdir] = "contributed"
 projects[menu_token][version] = "1.0-beta5"
