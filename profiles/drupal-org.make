@@ -191,7 +191,7 @@ projects[jplayer][subdir] = "contributed"
 projects[jplayer][version] = "2.0-beta1"
 
 projects[l10n_update][subdir] = "contributed"
-projects[l10n_update][version] = "1.0-beta3"
+projects[l10n_update][version] = "1.1"
 
 projects[language_cookie][subdir] = "contributed"
 projects[language_cookie][version] = "1.6"
