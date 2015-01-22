@@ -65,7 +65,7 @@ function ec_embedded_video_file_default_displays() {
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__preview__file_field_file_video';
-  $file_display->weight = 20;
+  $file_display->weight = -20;
   $file_display->status = TRUE;
   $file_display->settings = array(
       'controls' => 1,
