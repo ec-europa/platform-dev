@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/menu-block/menu-block.js	Thu Jan 22 08:46:09 2015
-+++ sites/all/modules/contributed/menu-block/menu-block.js	Thu Jan 22 08:48:38 2015
+--- sites/all/modules/contributed/menu_block/menu-block.js	Thu Jan 22 08:46:09 2015
++++ sites/all/modules/contributed/menu_block/menu-block.js	Thu Jan 22 08:48:38 2015
 @@ -11,8 +11,6 @@
      // Show the "display options" if javascript is on.
      $('.form-item-display-options.form-type-radios>label', context).addClass('element-invisible');
