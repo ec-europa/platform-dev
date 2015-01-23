@@ -50,7 +50,7 @@ projects[bootstrap_gallery][subdir] = "contributed"
 projects[bootstrap_gallery][version] = "3.0"
 
 projects[captcha][subdir] = "contributed"
-projects[captcha][version] = "1.0"
+projects[captcha][version] = "1.2"
 
 projects[chr][subdir] = "contributed"
 projects[chr][version] = "1.6"
