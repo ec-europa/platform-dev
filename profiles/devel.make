@@ -16,7 +16,7 @@ projects[devel][version] = "1.5"
 ;projects[devel_themer][version] = "1.x-dev"
 
 projects[coder][subdir] = "contributed"
-projects[coder][version] = "2.2"
+projects[coder][version] = "2.4"
 
 projects[mail_logger][subdir] = "contributed"
 projects[mail_logger][version] = "1.x-dev"
