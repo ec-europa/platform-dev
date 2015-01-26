@@ -117,6 +117,7 @@ function _taxonomy_browser_taxonomy_get_nested_tree($terms = array(), $max_depth
  * Function _taxonomy_browser_output_taxonomy_nested_tree().
  */
 function _taxonomy_browser_output_taxonomy_nested_tree($tree, $path, $counted_tree = array()) {
+  $output='';
   if (count($tree)) {
     $output = '<ul class="taxonomy-tree">';
     foreach ($tree as $term) {
@@ -238,10 +239,12 @@ function taxonomy_browser_block_info() {
   foreach ($vids as $vid) {
     if (!empty($vid)) {
       $vocab = taxonomy_vocabulary_load($vid);
-      $block_name = str_replace(' ', '', $vocab->machine_name);
-      $blocks['taxonomy_browser_vocabulary_' . $vocab->vid] = array(
-        'info' => t('taxonomy_browser: @vocabulary', array('@vocabulary' => $vocab->name)),
-      );
+	  if ($vocab){
+	    $block_name = str_replace(' ', '', $vocab->machine_name);
+        $blocks['taxonomy_browser_vocabulary_' . $vocab->vid] = array(
+          'info' => t('taxonomy_browser: @vocabulary', array('@vocabulary' => $vocab->name)),
+        );
+      }
     }
   }
 
@@ -298,32 +301,27 @@ function taxonomy_browser_block_save($delta = '', $edit = array()) {
  */
 function taxonomy_browser_block_view($delta = '') {
   $block = array();
-
-  // Block will be only displayed in views.
-  if ($view = views_get_page_view()) {
-    $view_has_argument = FALSE;
-    // The view uses taxonomy terms as argument?
-    if (isset($view->argument) && !empty($view->argument)) {
-      foreach ($view->argument as $key => $argument) {
-        if ($key == 'tid' || $key == 'term_node_tid_depth' || $key == 'term_node_tid_depth_i18n') {
-          $view_has_argument = TRUE;
-          break;
+  $vid = substr($delta, 28);
+  $vocabulary = taxonomy_vocabulary_load($vid);
+  if (strpos($delta, 'taxonomy_browser_vocabulary_') === 0 && $vocabulary) {
+    // Block will be only displayed in views.
+    if ($view = views_get_page_view()) {
+      $view_has_argument = FALSE;
+      // The view uses taxonomy terms as argument?
+      if (isset($view->argument) && !empty($view->argument)) {
+        foreach ($view->argument as $key => $argument) {
+          if ($key == 'tid' || $key == 'term_node_tid_depth' || $key == 'term_node_tid_depth_i18n') {
+            $view_has_argument = TRUE;
+            break;
+          }
         }
       }
-    }
-    if ($view_has_argument) {
-      $vid = substr($delta, 28);
-      if (strpos($delta, 'taxonomy_browser_vocabulary_') === 0) {
-        $block = array();
-        $vocabulary = taxonomy_vocabulary_load($vid);
+      if ($view_has_argument) {
         $block['title'] = $vocabulary->name;
         $block['content'] = _taxonomy_browser_create_block_content($vid, $vocabulary);
       }
     }
-  }
-  else {
-    $vid = substr($delta, 28);
-    if (strpos($delta, 'taxonomy_browser_vocabulary_') === 0) {
+    else {
       drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/taxonomy_browser.css');
       drupal_add_css(drupal_get_path('module', 'taxonomy_browser') . '/css/ec-default/style.css');
       drupal_add_js('misc/jquery.cookie.js');
@@ -336,7 +334,7 @@ function taxonomy_browser_block_view($delta = '') {
       }
       drupal_add_library('system', 'drupal.ajax');
 
-      $vocabulary = taxonomy_vocabulary_load($vid);
+      
       $block['title'] = check_plain($vocabulary->name);
 
       $path = variable_get('taxonomy_browser_vocabulary_' . $vid . '_view', '');
