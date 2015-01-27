@@ -176,6 +176,9 @@ function abbrev(str, limit) {
 
 function initPage() {
 	child_page = require('webpage').create();
+	child_page.onResourceError = function(resourceError) {
+		say('    Resource error for ' + resourceError.url + ': ' + resourceError.errorString);
+	};
 	child_page.onResourceRequested = function(requestData, request) {
 		if (skip_external_resources) {
 			// if the requested resource URL does not belong to the crawled
@@ -201,6 +204,7 @@ function initPage() {
 	// force the user-agent header for all outgoing requests
 	var custom_headers = {
 		'User-Agent': ec_user_agent_header,
+		'Cache-Control': 'no-cache',
 	};
 	// optionally force the Cookie header for all outgoing requests
 	if (typeof ec_cookie_header != 'undefined') {
@@ -420,7 +424,7 @@ function nextChildStep() {
 	child_page.open(child_current_url, function (status) {
 		console.log('+VISITEDURL ' + child_current_url);
 		if (status !== 'success') {
-			console.log('-  Failed to load page ' + child_current_url);
+			console.log('-  Failed to load page ' + child_current_url + ': ' + status);
 		}
 		else {
 			say('  Loaded page ' + child_current_url);
