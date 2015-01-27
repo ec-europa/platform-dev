@@ -301,8 +301,10 @@ projects[tagclouds][version] = "1.10"
 projects[term_reference_tree][subdir] = "contributed"
 projects[term_reference_tree][version] = "1.10"
 
-projects[tmgmt][subdir] = "contributed"
-projects[tmgmt][version] = "1.0-rc1"
+projects[tmgmt][subdir] = contributed
+projects[tmgmt][download][type] = git
+projects[tmgmt][download][revision] = c76ced1
+projects[tmgmt][download][branch] = 7.x-1.x
 
 projects[token][subdir] = "contributed"
 projects[token][version] = "1.5"
