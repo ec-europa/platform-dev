@@ -94,7 +94,7 @@ function multisite_settings_core_context_default_contexts() {
           'delta' => 'sort',
           'region' => 'sidebar_right',
           'weight' => '-10',
-        ),
+        ),        
       ),
     ),
   );
@@ -122,35 +122,35 @@ function multisite_settings_core_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'user-menu' => array(
+          'module' => 'system',
+          'delta' => 'user-menu',
+          'region' => 'tools',
+          'weight' => 1,
+        ),
         'locale-language' => array(
           'module' => 'locale',
           'delta' => 'language',
           'region' => 'header_top',
           'weight' => '-10',
         ),
-        'search-form' => array(
-          'module' => 'search',
-          'delta' => 'form',
-          'region' => 'header_right',
-          'weight' => '1',
-        ),
-        'easy_breadcrumb-easy_breadcrumb' => array(
-          'module' => 'easy_breadcrumb',
-          'delta' => 'easy_breadcrumb',
-          'region' => 'featured',
-          'weight' => '-10',
-        ),
         'system-main-menu' => array(
           'module' => 'system',
           'delta' => 'main-menu',
           'region' => 'featured',
-          'weight' => '-9',
+          'weight' => '-10',
         ),
-        'system-user-menu' => array(
-          'module' => 'system',
-          'delta' => 'user-menu',
-          'region' => 'tools',
-          'weight' => '1',
+        'print-print-links' => array(
+          'module' => 'print',
+          'delta' => 'print-links',
+          'region' => 'content_bottom',
+          'weight' => '-10',
+        ),
+        'form' => array(
+          'module' => 'search',
+          'delta' => 'form',
+          'region' => 'header_right',
+          'weight' => 1,
         ),
       ),
     ),
