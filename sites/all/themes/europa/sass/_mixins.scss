@@ -1,0 +1,28 @@
+// Custom mixins
+
+// Breakpoints
+@mixin breakpoint($point) {
+  @if $point == lg-desktop {
+    @media (min-width: $screen-lg-desktop) {
+      @content;
+    }
+  }
+
+  @else if $point == desktop {
+    @media (min-width: $screen-desktop) {
+      @content;
+    }
+  }
+
+  @else if $point == tablet {
+    @media (min-width: $screen-tablet) {
+      @content;
+    }
+  }
+
+  @else if $point == phone {
+    @media (min-width: $screen-phone)  {
+      @content;
+    }
+  }
+}

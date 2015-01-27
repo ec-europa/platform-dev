@@ -1,0 +1,151 @@
+<?php
+/**
+ * @file
+ * Drupal needs this blank file.
+ */
+
+/**
+ * Implements hook_module_implements_alter()
+ */
+function nexteuropa_multilingual_module_implements_alter(&$implementations, $hook) {
+  // Make the following hooks exposed by nexteuropa_multilingual ran as last.
+  $hooks = array(
+    'language_switch_links_alter',
+  );
+  if (in_array($hook, $hooks)) {
+    $group = $implementations['nexteuropa_multilingual'];
+    unset($implementations['nexteuropa_multilingual']);
+    $implementations['nexteuropa_multilingual'] = $group;
+  }
+}
+
+/**
+ * Implements hook_language_switch_links_alter()
+ */
+function nexteuropa_multilingual_language_switch_links_alter(array &$links, $type, $path) {
+
+  // Implement language switcher behavior as per NEXTEUROPA-20.
+  if (($node = menu_get_object('node'))) {   
+    $handler = entity_translation_get_handler('node', $node);
+    $translations = $handler->getTranslations();
+    if (empty($translations->original)) {
+      $handler->initTranslations();
+      $handler->saveTranslations();
+    }
+    foreach ($links as $key => $link) {
+      if (!isset($translations->data[$key])) {
+        unset($links[$key]);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_language_negotiation_info().
+ */
+function nexteuropa_multilingual_language_negotiation_info() {
+  $file = drupal_get_path('module', 'nexteuropa_multilingual') . '/nexteuropa_multilingual.callbacks.inc';
+  $providers = array();
+  $providers['nexteuropa_multilingual_url_suffix'] = array(
+    'types' => array(LANGUAGE_TYPE_CONTENT, LANGUAGE_TYPE_INTERFACE, LANGUAGE_TYPE_URL),
+    'callbacks' => array(
+      'language' => 'nexteuropa_multilingual_language_negotiation_provider_callback',
+      'url_rewrite' => 'nexteuropa_multilingual_language_negotiation_url_rewrite_callback',
+      'switcher' => 'nexteuropa_multilingual_language_negotiation_switcher_url',
+     ),
+    'file' => $file,
+    'weight' => -8,
+    'name' => t('NextEuropa URL suffix'),
+    'description' => t('Determine the language from the URL path suffix.'),
+    'config' => 'admin/config/regional/language/configure/nexteuropa-url-suffix',
+  );
+  return $providers;
+}
+
+
+/**
+ * Implements hook_menu()
+ */
+function nexteuropa_multilingual_menu() {
+  $items['admin/config/regional/language/configure/nexteuropa-url-suffix'] = array(
+    'title' => 'NextEuropa Language suffix delimiter',
+    'description' => 'Settings to choose the language suffix delimiter in the url',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_multilingual_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
+  );
+  return $items;
+}
+
+/**
+ * Form callback.
+ *
+ * @see: nexteuropa_multilingual_menu() 
+ */
+function nexteuropa_multilingual_form($form, &$form_state) {  
+  $form['nexteuropa_multilingual_language_suffix_delimiter'] = array(
+    '#type' => 'textfield',
+    '#maxlength' => 3,
+    '#title' => t('Language suffix delimiter'),
+    '#default_value' => variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_'),
+    '#description' => t('A character that separates language suffix from the actual URL, for example an underscore or a hyphen.'),
+  );
+  return system_settings_form($form);
+}
+
+/**
+ * Implements hook_language_types_info_alter()
+ */
+function nexteuropa_multilingual_language_types_info_alter(&$language_types) {
+  $defined_providers = language_negotiation_info();
+  if (isset($defined_providers['nexteuropa_multilingual_url_suffix'])) {
+    // Put the locale-url-suffix as priority provider for language type url
+    array_unshift($language_types[LANGUAGE_TYPE_URL]['fixed'], 'nexteuropa_multilingual_url_suffix');
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function nexteuropa_multilingual_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'locale_languages_configure_form':
+      $language_negotiation = variable_get('language_negotiation_language');
+      //  Disable URL method if URL-suffix method is enabled
+      if (isset($language_negotiation['nexteuropa_multilingual_url_suffix'])) {
+        $form['language']['enabled']['locale-url']['#disabled'] = TRUE;
+        $form['language_content']['enabled']['locale-url']['#disabled'] = TRUE;
+      }
+      break;
+  }
+  if (substr($form_id, -9) == 'node_form') {
+    $language_default = language_default();
+    // hide all languages except neutral language and default language in node source form
+    if(isset($form_state['node'])) {
+      if ($form_state['node']->language == LANGUAGE_NONE || $form_state['node']->language == $language_default->language) { // check if node source or new node
+        if (isset($form['language']['#options'])) {
+          foreach ($form['language']['#options'] as $lg => $language) {
+            if ($lg != $language_default->language && $lg != LANGUAGE_NONE) {
+              unset($form['language']['#options'][$lg]);
+            }
+          }
+        }
+      }  
+    }
+  }
+}
+
+/**
+ * Implements hook_tokens_alter().
+ */
+function nexteuropa_multilingual_tokens_alter(array &$replacements, array $context) {
+  if ($context['type'] == 'node' && !empty($context['data']['node'])) {
+    $node = $context['data']['node'];
+    // IPG url rules : only the default language (should be english) title must be used to generate the content url even for non translated content
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $original_language = $node->translations->original;
+    // title_field : field handled by the title module
+    $replacements['[node:source:title]'] = $wrapper->language($original_language)->title_field->value();
+  }
+}

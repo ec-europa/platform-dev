@@ -1,0 +1,124 @@
+<?php
+/**
+ * @file
+ * Code for the NextEuropa Editorial feature.
+ */
+
+include_once 'nexteuropa_editorial.features.inc';
+
+/**
+ * Editorial team member role name.
+ */
+define('EDITORIAL_TEAM_MEMBER_ROLE', 'editorial team member');
+
+/**
+ * Implements hook_init()
+ */
+function nexteuropa_editorial_init() {
+
+}
+
+/**
+ * Implements hook_workbench_block()
+ */
+function nexteuropa_editorial_workbench_block() {
+  if (($node = menu_get_object('node'))) {
+    if (node_access('update', $node) && isset($node->{OG_AUDIENCE_FIELD})) {
+      $output = array();
+      $og_audience = field_view_field('node', $node, OG_AUDIENCE_FIELD, 'default');
+      $output[] = drupal_render($og_audience);
+      return $output;
+    }
+  }
+}
+
+/**
+ * Implements hook_og_membership_insert()
+ */
+function nexteuropa_editorial_og_membership_insert(OgMembership $og_membership) {
+
+  // Automatically assign "editorial team member" to a user joining
+  // an editorial team organic group.
+  if ($og_membership->entity_type == 'user') {
+    if (multisite_config_service('nexteuropa_editorial')->isEditoralTeamMember($og_membership->etid)) {
+      multisite_config_service('user')->assignRoleToUser(EDITORIAL_TEAM_MEMBER_ROLE, $og_membership->etid);
+    }    
+  }
+}
+
+/**
+ * Implements hook_og_membership_delete()
+ */
+function nexteuropa_editorial_og_membership_delete(OgMembership $og_membership) {
+
+  // Automatically revoke "editorial team member" to a leaving
+  // an editorial team organic group.
+  if ($og_membership->entity_type == 'user') {
+    if (!multisite_config_service('nexteuropa_editorial')->isEditoralTeamMember($og_membership->etid)) {
+      multisite_config_service('user')->revokeRoleFromUser(EDITORIAL_TEAM_MEMBER_ROLE, $og_membership->etid);
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter()
+ */
+function nexteuropa_editorial_form_user_profile_form_alter(&$form, $form_state) {
+  
+  // Disable "editorial team member" on the UI role
+  // as Drupal does with the "Authenticated user" role.
+  $role = user_role_load_by_name(EDITORIAL_TEAM_MEMBER_ROLE);
+  
+  $default_value = in_array($role->rid, $form['account']['roles']['#default_value']);
+  unset($form['account']['roles']['#options'][$role->rid]);
+  $form['account']['roles'][$role->rid] = array(
+    '#type' => "checkbox",
+    '#title' => $role->name,
+    '#default_value' => $default_value,
+    '#disabled' => TRUE,
+    '#weight' => 0,
+  ); 
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter()
+ */
+function nexteuropa_editorial_form_diff_node_revisions_alter(&$form, $form_state) {  
+  $form['submit']['#submit'] = array('nexteuropa_editorial_diff_node_revisions_submit');
+}
+
+/**
+ * Submit code for input form to select two revisions.
+ */
+function nexteuropa_editorial_diff_node_revisions_submit($form, &$form_state) {
+  // Select "Marked down" diff mode by default.
+  // The ids are ordered so the old revision is always on the left.
+  $old_vid = min($form_state['values']['old'], $form_state['values']['new']);
+  $new_vid = max($form_state['values']['old'], $form_state['values']['new']);
+  $form_state['redirect'] = 'node/' . $form_state['values']['nid'] . '/moderation/diff/view/' . $old_vid . '/' . $new_vid . '/raw-plain';
+}
+
+/**
+ * Implements hook_menu_alter()
+ */
+function nexteuropa_editorial_menu_alter(&$items) {  
+  // Fix shortcoming of workbench_moderation_menu() in providing diff path.  
+  $items['node/%node/moderation/diff/view']['page arguments'] = array(1, 5, 6, 7);  
+}
+
+/**
+ * Implements hook_module_implements_alter()
+ */
+function nexteuropa_editorial_module_implements_alter(&$implementations, $hook) {
+  // Make the following hooks, exposed by nexteuropa_editorial, ran as last.
+  $hooks = array(
+    'menu_alter',
+  );
+  if (in_array($hook, $hooks)) {
+    $group = $implementations['nexteuropa_editorial'];
+    unset($implementations['nexteuropa_editorial']);
+    $implementations['nexteuropa_editorial'] = $group;
+  }
+}
+
+

@@ -249,3 +249,33 @@ function cce_basic_config_field_default_fields_alter(&$fields) {
     }
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Changes the label of the title attributes field supplied by the Menu
+ * Attributes module so it doesn't collide with the label of the node title.
+ * This is needed to be able to use these fields in Behat tests.
+ *
+ * @todo Remove this if upstream issue #2412221 gets accepted.
+ *
+ * @see https://www.drupal.org/node/2412221
+ */
+function cce_basic_config_form_node_form_alter(&$form, $form_state) {
+  $form['#after_build'][] = 'cce_basic_config_form_node_form_after_build';
+}
+
+/**
+ * Form after build handler for cce_basic_config_form_node_form_alter().
+ *
+ * Alters the node form after it gets altered by the Menu Attributes module.
+ *
+ * @see cce_basic_config_form_node_form_alter()
+ */
+function cce_basic_config_form_node_form_after_build($form_element) {
+  if (!empty($form_element['menu']['link']['options']['attributes']['title']['#title'])) {
+    $form_element['menu']['link']['options']['attributes']['title']['#title'] = t('Title attribute');
+  }
+
+  return $form_element;
+}

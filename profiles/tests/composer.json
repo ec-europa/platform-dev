@@ -1,0 +1,26 @@
+{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/pfrenssen/DrupalDriver"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/pfrenssen/drupalextension"
+    }
+  ],
+  "require": {
+    "behat/behat": "3.0.*@stable",
+    "drupal/drupal-extension": "dev-nexteuropa",
+    "drupal/drupal-driver": "dev-nexteuropa as 1.0.x-dev"
+  },
+  "minimum-stability": "stable",
+  "config": {
+    "bin-dir": "bin/"
+  },
+  "autoload": {
+    "psr-4": {
+      "Drupal\\nexteuropa\\": "src"
+    }
+  }
+}

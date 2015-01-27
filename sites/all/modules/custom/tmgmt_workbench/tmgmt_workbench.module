@@ -1,0 +1,199 @@
+<?php
+
+/**
+ * Implements hook_init()
+ */
+function tmgmt_workbench_init() {
+  
+}
+
+/**
+ * Implements hook_help().
+ */
+function tmgmt_workbench_help($path, $arg) {
+  if ($path == 'node/%/translate') {
+    $states = variable_get('tmgmt_workbench_moderation_states', array());
+    $states = array_filter($states);
+    $node = node_load($arg[1]);
+    $state = $node->workbench_moderation['current']->state;
+    $output = '<p>' . t('Translation of a piece of content is only available if its latest revision is in the following states: <strong>!states</strong>', array('!states' => implode(', ', $states)));
+    $output .= '<br/>' . t("The current piece of content's moderation state is: <strong>!state</strong>", array('!state' => $state)) . '</p>';
+    return $output;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function tmgmt_workbench_menu() {
+  $items['admin/config/regional/tmgmt_workbench_settings'] = array(
+    'title' => 'Translation Management Workbench',
+    'description' => 'Translation Management Workbench settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tmgmt_workbench_settings_form'),
+    'access arguments' => array('administer tmgmt'),
+    'file' => 'includes/tmgmt_workbench.pages.inc',
+    'weight' => 11,
+  );
+  return $items;
+}
+
+
+/**
+ * Implements hook_tmgmt_source_plugin_info().
+ */
+function tmgmt_workbench_tmgmt_source_plugin_info() {
+  
+  // Only expose Workbench Moderation source if at least one content type
+  // is moderated and nodes are translatable by Entity Translation.
+  $entity_types = variable_get('entity_translation_entity_types', array());
+  $content_types = workbench_moderation_moderate_node_types();
+  if ($content_types && isset($entity_types['node']) && $entity_types['node']) {
+    $info['workbench_moderation'] = array(
+      'label' => t('Workbench Moderation'),
+      'description' => t('Source handler for node entities using workbench moderation.'),
+      'plugin controller class' => 'TMGMTWorkbenchSourcePluginController',
+      'ui controller class' => 'TMGMTWorkbenchSourceUIController',
+      'item types' => array(
+        'node' => t('Moderated content'),
+      ),
+    );
+  } 
+  return $info;
+}
+
+/**
+ * Implements hook_query_TAG_alter()
+ */
+function tmgmt_workbench_query_tmgmt_entity_get_translatable_entities_alter(QueryAlterableInterface $query) {
+
+  // Alter query when on TMGMT Source Overview page
+  // @see: TMGMTWorkbenchSourceUIController::overviewForm()
+  if (drupal_static('tmgmt_workbench_overview_form')) {
+    $fields = $query->getFields();
+    $states = variable_get('tmgmt_workbench_moderation_states', array());
+    foreach ($fields as $field => $info) {
+      // Get field on primary table, which is aliased as "e"
+      // @see: tmgmt_entity_get_translatable_entities() for more details.
+      if ($states && ($info['table'] == 'e')) {
+        $query->join('workbench_moderation_node_history', 'wmnh', 'e.' . $info['alias'] . ' = wmnh.nid');
+        // @todo: we only consider the current revision
+        // check if this assumption is correct.
+        $query->condition('wmnh.current', 1);
+        $query->condition('wmnh.state', $states);
+        break;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter()
+ */
+function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form_state) {
+
+  $node = $form_state['entity'];
+  $languages = language_list();
+  $entity_language = entity_language($form_state['entity_type'], $form_state['entity']);
+  $items = tmgmt_job_item_load_latest('workbench_moderation', $form_state['entity_type'], $form_state['entity']->nid, $entity_language);  
+  $always_show_direct_translation_links = variable_get('tmgmt_workbench_moderation_always_show_direct_translation_links', FALSE);
+  $states = variable_get('tmgmt_workbench_moderation_states', array());
+  
+  $state = $node->workbench_moderation['current']->state;
+  $translation_is_enabled = in_array($state, $states);
+  
+  if ($translation_is_enabled) {
+    $form['top_actions']['#type'] = 'actions';
+    $form['top_actions']['#weight'] = -10;
+    tmgmt_ui_add_cart_form($form['top_actions'], $form_state, 'workbench_moderation', $form_state['entity_type'], $form_state['entity']->nid);    
+  }
+  else {
+    unset($form['top_actions']);
+  }
+  
+  $options = &$form['languages']['#options'];  
+  foreach ($languages as $langcode => $language) {
+    if (isset($options[$langcode]) && isset($items[$langcode])) {
+      $item = $items[$langcode];
+      
+      $uri = $item->uri();
+      $wrapper = entity_metadata_wrapper('tmgmt_job_item', $item);
+      $options[$langcode][4] = l($wrapper->state->label(), $uri['path'], array('query' => array('destination' => current_path())));
+      // Disable the checkbox for this row since there is already a translation
+      // in progress that has not yet been finished. This way we make sure that
+      // we don't stack multiple active translations for the same item on top
+      // of each other.
+      $form['languages'][$langcode] = array(
+        '#type' => 'checkbox',
+        '#disabled' => TRUE,
+      );
+    }
+    
+    // Disable checkbox selection if current node revision is not
+    // in translatable moderation states.
+    if (!$translation_is_enabled) {
+      $form['languages'][$langcode] = array(
+        '#type' => 'checkbox',
+        '#disabled' => TRUE,
+      );
+
+      if (!$always_show_direct_translation_links && ($langcode != $entity_language)) {
+        $options[$langcode][5] = '';
+      }
+    }    
+  }
+  
+  if ($translation_is_enabled) {
+    $form['actions']['#type'] = 'actions';
+    $form['actions']['request'] = array(
+      '#type' => 'submit',
+      '#value' => t('Request translation'),
+      '#submit' => array('tmgmt_workbench_translate_form_submit'),
+      '#validate' => array('tmgmt_workbench_translate_form_validate'),
+    );    
+  }
+  else {
+    unset($form['actions']);
+  }
+  
+}
+
+/**
+ * Validation callback for the entity translation overview form.
+ */
+function tmgmt_workbench_translate_form_validate($form, &$form_state) {
+  $selected = array_filter($form_state['values']['languages']);
+  if (empty($selected)) {
+    form_set_error('languages', t('You have to select at least one language for requesting a translation.'));
+  }
+}
+
+/**
+ * Submit callback for the entity translation overview form.
+ */
+function tmgmt_workbench_translate_form_submit($form, &$form_state) {
+  $entity = $form_state['entity'];
+  $entity_type = $form_state['entity_type'];
+  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  $values = $form_state['values'];
+  $jobs = array();
+  foreach (array_keys(array_filter($values['languages'])) as $langcode) {
+    // Create the job object.
+    $job = tmgmt_job_create(entity_language($entity_type, $entity), $langcode, $GLOBALS['user']->uid);
+    try {
+      // Add the job item.
+      $job->addItem('workbench_moderation', $entity_type, $id);
+      // Append this job to the array of created jobs so we can redirect the user
+      // to a multistep checkout form if necessary.
+      $jobs[$job->tjid] = $job;
+    }
+    catch (TMGMTException $e) {
+      watchdog_exception('tmgmt', $e);
+      $languages = language_list();
+      $target_lang_name = $languages[$langcode]->language;
+      drupal_set_message(t('Unable to add job item for target language %name. Make sure the source content is not empty.', array('%name' => $target_lang_name)), 'error');
+    }
+  }
+  tmgmt_ui_job_checkout_and_redirect($form_state, $jobs);
+}
+

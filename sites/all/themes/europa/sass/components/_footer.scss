@@ -1,0 +1,24 @@
+// Footer
+//
+// A majority of buttons in the site are built from the same base class.
+//
+// Markup:
+// <footer class="footer">
+//  <div class="container-fluid">
+//    <p>Footer content</p>
+//  </div>
+// </footer>
+//
+// Styleguide 2.0
+
+.footer {
+  background: $blue;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: #fff;
+  font-size: $font-size-small;
+
+  a {
+    color: #fff;
+  }
+}

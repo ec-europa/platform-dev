@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Contains \Drupal\tmgmt\Config
+ */
+
+namespace Drupal\tmgmt;
+
+use Drupal\multisite_config\ConfigBase;
+
+class Config extends ConfigBase {
+
+  /**
+   * Auto creates a translator from a translator plugin definition.
+   *
+   * @param $plugin
+   *   The machine-readable name of a translator plugin.
+   */
+  public function createDefaultTranslatorFromPlugin($plugin) {
+    drupal_static_reset('_tmgmt_plugin_info');
+    tmgmt_translator_auto_create($plugin);
+  }
+
+} 

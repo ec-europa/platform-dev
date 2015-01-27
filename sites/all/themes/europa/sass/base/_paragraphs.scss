@@ -1,0 +1,9 @@
+// Paragraphs
+.paragraph {
+  font-family: $font-family-serif;
+  line-height: 1.6;
+}
+
+p {
+  @extend .paragraph;
+}

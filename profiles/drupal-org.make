@@ -411,6 +411,9 @@ projects[context_entity_field][version] = "1.1"
 projects[webform_rules][subdir] = "contributed"
 projects[webform_rules][version] = "1.6"
 
+projects[ckeditor_lite][subdir] = contrib
+projects[ckeditor_lite][version] = 1.0-rc1
+
 ;libraries
 
 ;ckeditor 4.3.2
@@ -420,6 +423,14 @@ libraries[ckeditor][download][file_type] = "zip"
 libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.0/ckeditor_4.4.0_full.zip"
 libraries[ckeditor][download][sha1] = "4673a4c20e484f0d712ca85fddec6a991cef61d9"
 libraries[ckeditor][directory_name] = "ckeditor"
+
+; ckeditor_lite library. Buttons are added in nexteuropa_core_install().
+libraries[ckeditor_lite][download][type]= svn
+libraries[ckeditor_lite][download][url] = https://github.com/loopindex/ckeditor-track-changes/trunk/src/lite
+libraries[ckeditor_lite][download][sha1] = "2325e728878c9840c7b2fa59b30c4fc682f7c118"
+libraries[ckeditor_lite][subdir] = ckeditor/plugins
+libraries[ckeditor_lite][directory_name] = "lite"
+
 
 ;tcpdf 6.0.013
 libraries[tcpdf][download][type] = "git"
@@ -444,3 +455,7 @@ libraries[cycle][download][sha1] = "f71640db8972ed6d249f57ea8cce29c389c4a84f"
 libraries[cycle][destination] = "libraries"
 
 
+; Themes =======================================================================
+projects[bootstrap][type] = theme
+projects[bootstrap][download][type] = get
+projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.0.zip

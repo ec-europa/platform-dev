@@ -1,0 +1,115 @@
+<?php
+/**
+ * @file
+ * EUROPA search module
+ */
+
+define('NEXTEUROPA_EUROPA_SEARCH_EUROPA_SEARCH_URL', 'http://ec.europa.eu/geninfo/query/resultaction.jsp');
+define('NEXTEUROPA_EUROPA_SEARCH_EUROPA_SEARCH_QUERY_SOURCE', '');
+
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_europa_search_menu() {
+  $items['admin/config/search/europa_search'] = array(
+    'title'             => 'Europa Search settings',
+    'description'       => 'Configuration for the Europa Search',
+    'page callback'     => 'drupal_get_form',
+    'page arguments'    => array('nexteuropa_europa_search_admin_form'),
+    'access arguments'  => array('administer search'),
+    'weight'            => -8,
+    'file'              => 'nexteuropa_europa_search.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function nexteuropa_europa_search_block_info() {
+  $blocks = array();
+  $blocks['nexteuropa_europa_search_form'] = array(
+    // info: The name of the block.
+    'info' => t('Europa Search form'),
+  );
+  return $blocks;
+}
+
+
+/**
+ * Implements hook_block_view().
+ */
+function nexteuropa_europa_search_block_view($delta = '') {
+  switch ($delta) {
+    case 'nexteuropa_europa_search_form':
+      $block = array();
+      $block['subject'] = '';
+      $block['content'] = drupal_get_form('nexteuropa_europa_search_search_form');
+      break;
+  }
+  return $block;
+}
+
+/**
+ * A search_form definition.
+ *
+ * @return array
+ *   Search form
+ */
+function nexteuropa_europa_search_search_form() {
+  $form = array();
+  $form['#token'] = FALSE;
+  $form['#method'] = 'get';
+  $form['#action'] = variable_get('nexteuropa_europa_search_url', NEXTEUROPA_EUROPA_SEARCH_EUROPA_SEARCH_URL);
+  $query_source = variable_get('nexteuropa_europa_search_query_source', NEXTEUROPA_EUROPA_SEARCH_EUROPA_SEARCH_QUERY_SOURCE);
+  if ($query_source !== '') {
+    $form['query_source'] = array(
+      '#type' => 'hidden',
+      '#value' => $query_source,
+    );
+  }
+
+  $form['#attributes']['class'][] = 'search-form';
+
+  $form['search_input_group']['#prefix'] = '<div class="input-group input-group-search">';
+  $form['search_input_group']['#suffix'] = '</div>';
+
+  $form['search_input_group']['QueryText'] = array(
+    '#type' => 'textfield',
+    '#attributes' => array('placeholder' => t('Search')),
+    '#weight' => 10,
+  );
+  $form['swlang'] = array(
+    '#type' => 'hidden',
+    '#value' => nexteuropa_europa_search_language(),
+  );
+  $form['search_input_group']['europa_search_submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Search'),
+    '#weight' => 20,
+    '#attributes' => array(
+      'class' => array('btn-search'),
+      'tabindex' => -1,
+    ),
+  );
+
+  return $form;
+}
+
+/**
+ * Defines a given language code to be used by Europa Search.
+ * @global type $language
+ * @return string
+ *   The language code
+ */
+function nexteuropa_europa_search_language() {
+  global $language;
+  $europa_search_value = variable_get('nexteuropa_europa_search_language_negotiation', 'current');
+  if ($europa_search_value == 'current') {
+    $europa_search_value = $language->language;
+  }
+  if ($europa_search_value == LANGUAGE_NONE) {
+    $europa_search_value = 'en';
+  }
+  return $europa_search_value;
+}

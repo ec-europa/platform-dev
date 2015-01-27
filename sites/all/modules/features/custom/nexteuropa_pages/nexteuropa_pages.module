@@ -1,0 +1,8 @@
+<?php
+/**
+ * @file
+ * Code for the NextEuropa Pages feature.
+ */
+
+include_once 'nexteuropa_pages.features.inc';
+

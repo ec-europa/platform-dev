@@ -1,0 +1,39 @@
+<?php
+/**
+ * @file
+ * Install the feature nexteuropa_europa_search
+ */
+
+include_once 'nexteuropa_europa_search.install.inc';
+
+/**
+ * Implements hook_install().
+ */
+function nexteuropa_europa_search_install() {
+  // Nothing yet.
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function nexteuropa_europa_search_uninstall() {
+  variable_del('nexteuropa_europa_search_url');
+  variable_del('nexteuropa_europa_search_language_negotiation');
+  variable_del('nexteuropa_europa_search_query_source');
+}
+
+/**
+ * Implements hook_enable().
+ */
+function nexteuropa_europa_search_enable() {
+  // Activation message.
+  drupal_set_message(t('Europa Search %v feature is now active on your site.', array('%v' => _nexteuropa_europa_search_get_version())));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function nexteuropa_europa_search_disable() {
+  // Deactivation message.
+  drupal_set_message(t('Europa Search %v feature is now inactive on your site.', array('%v' => _nexteuropa_europa_search_get_version())));
+}

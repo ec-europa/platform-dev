@@ -1,0 +1,38 @@
+<?php 
+
+/**
+ * Implements hook_install().
+ */
+function nexteuropa_multilingual_install() {
+
+  // Setting default English prefix.
+  multisite_config_service('locale')->setLanguagePrefix('en', 'en');
+
+  // Set "administrator" permissions.
+  $permissions = array(
+
+    // String translation.
+    'translate user-defined strings',
+    'translate admin strings',
+    
+    // Entity Translation.
+    'translate any entity',
+
+    // Locale.
+    'translate interface',
+
+    // Translation Management Core.
+    'administer tmgmt',
+    'create translation jobs',
+    'submit translation jobs',
+    'accept translation jobs',    
+  );
+  multisite_config_service('user')->grantPermission('administrator', $permissions);
+  
+  // Set nexteuropa_multilingual_url_suffix as default language negotiation.
+  multisite_config_service('locale')->setLanguageNegotiation('nexteuropa_multilingual_url_suffix');
+  
+  // Set translatable states for TMGMT Workbench module.
+  multisite_config_service('system')->setVariable('tmgmt_workbench_moderation_states', array('validated', 'published'));
+}
+

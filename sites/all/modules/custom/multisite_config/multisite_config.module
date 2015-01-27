@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * Implements hook_init()
+ */
+function multisite_config_init() {
+
+}
+
+/**
+ * Service container.
+ *
+ * @usage:
+ * multisite_config_service('system')->getVariable('site_name');
+ *
+ * @param $module
+ * @return mixed
+ */
+function multisite_config_service($module) {
+  // @todo: Improve service container logic.
+  $class = "\\Drupal\\{$module}\\Config";
+  return class_exists($class) ? new $class() : new \Drupal\multisite_config\ConfigBase();
+}

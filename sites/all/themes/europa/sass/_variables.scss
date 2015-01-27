@@ -1,0 +1,52 @@
+// Bootstrap overrides and new variables
+
+// Colors
+$gray-base:              #000;
+$gray-darker:            #404040;
+$gray-dark:              #575757;
+$gray:                   #b3b4b5;
+$gray-light:             #e2e2e2;
+$gray-lighter:           #ececec;
+$gray-lightest:          #f2f2f2;
+
+$blue-light:             #b0c5de;
+$blue:                   #006fb4;
+$blue-dark:              #004494;
+$blue-darker:            darken($blue-dark, 10%);
+
+$yellow-light:           #ffd617;
+$yellow:                 #ffc412;
+$yellow-dark:            #f2a615;
+
+$green:                  #467a39;
+
+$red:                    #da2131;
+
+$brand-primary:          $blue;
+$brand-success:          $green;
+$brand-info:             $gray-dark;
+$brand-warning:          $yellow-dark;
+$brand-danger:           $red;
+
+// Typegraphy
+$font-family-sans-serif:  Arial, sans-serif;
+$font-family-base:        $font-family-sans-serif;
+
+$font-size-base:          18px;
+$font-size-large:         24px; // 24px
+$font-size-small:         16px; // 16px
+$font-size-xsmall:        14px; // 14px
+
+$font-size-h1:            50px; // 50px
+$font-size-h2:            40px; // 40px
+$font-size-h3:            28px; // 28px
+$font-size-h4:            24px; // 24px
+$font-size-h5:            19px; // 19px
+$font-size-h6:            16px; // 16px
+
+$font-weight-normal:      400;
+$font-weight-bold:        600;
+
+// In order to override the 'default!', bootstrap variables have to be added
+// after the overrides
+@import "../bootstrap-sass/bootstrap/variables";

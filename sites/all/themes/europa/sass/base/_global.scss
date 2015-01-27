@@ -1,0 +1,14 @@
+// Global
+body {
+  font-family: $font-family-base;
+  font-weight: 400;
+
+  overflow-x: hidden;
+
+  min-width: 320px;
+
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+

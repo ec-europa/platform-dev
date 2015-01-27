@@ -13,7 +13,7 @@ const MULTISITE_REVIEW_PHP_VERSION = '5.2.4';
 /**
  * The Features API version that is currently supported.
  */
-const MULTISITE_REVIEW_FEATURES_API_VERSION = 'api:1';
+const MULTISITE_REVIEW_FEATURES_API_VERSION = 'api:2';
 
 /**
  * Implements hook_security_checks().

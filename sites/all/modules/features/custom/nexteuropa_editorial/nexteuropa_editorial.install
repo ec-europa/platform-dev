@@ -1,0 +1,154 @@
+<?php 
+
+/**
+ * Implements hook_install().
+ */
+function nexteuropa_editorial_install() {
+
+  // Create "editorial team member" site-wide role, automatically assigned 
+  // when a user is a member of an editorial team group.
+  // 
+  // @see: nexteuropa_editorial_og_membership_insert()
+  // @see: nexteuropa_editorial_og_membership_delete()
+  multisite_config_service('user')->createRole(EDITORIAL_TEAM_MEMBER_ROLE, 2);
+
+  // Set "editorial team member" permissions.
+  $permissions = array(
+
+    // Admin menu.
+    'access administration menu',
+        
+    // Bean.
+    'access bean overview',
+    'view bean page',
+    'view bean revisions',
+
+    // Contextual.
+    'access contextual links',
+    
+    // Entity Translation.
+    'translate any entity',
+
+    // File entity.
+    'create files',
+    'view own private files',
+    'view own files',
+
+     // Menu.
+    'administer menu',
+
+    // Node.
+    'view own unpublished content',
+    'view revisions',
+    'access content overview',    
+    
+    // Path.
+    'create url aliases',
+
+    // Scheduler.
+    'schedule (un)publishing of nodes',
+
+    // Scheduler Workbench Integration.
+    'override default scheduler time',
+    
+    // Taxonomy.
+    'administer taxonomy',
+    
+    // Translation Management.
+    'submit translation jobs',
+    'create translation jobs',
+
+    // User.
+    'access user profiles',
+
+    // Workbench.
+    'access workbench',
+
+    // Workbench Moderation.
+    'view all unpublished content',
+    'view moderation history',
+    'view moderation messages',
+    'use workbench_moderation my drafts tab',
+    'use workbench_moderation needs review tab',
+
+    // System.
+    'access administration pages',
+  );
+  multisite_config_service('user')->grantPermission(EDITORIAL_TEAM_MEMBER_ROLE, $permissions);
+
+  // Set "administrator" permissions.
+  multisite_config_service('user')->grantPermission('administrator', $permissions);
+
+  // Rebuilds the node access database.
+  node_access_rebuild();
+
+  // Replace title field.
+  multisite_config_service('title')->replaceTitleField('node', 'editorial_team', 'title');
+  
+  // Add NextEuropa specific moderation states.
+  multisite_config_service('workbench_moderation')->createModerationState('validated', 'Validated', 'Ready to be reviewed', 0);
+  multisite_config_service('workbench_moderation')->createModerationState('expired', 'Expired', 'Not visible to site visitors', 100);
+
+  // Build all possible states transitions.
+  $states = array('draft', 'validated', 'needs_review', 'published', 'expired');
+  foreach ($states as $from) {
+    foreach ($states as $to) {
+      multisite_config_service('workbench_moderation')->createModerationStateTransition($from, $to);
+    }    
+  }
+  
+  // Linkchecker: checks for both internal and external links.
+  multisite_config_service('system')->setVariable('linkchecker_check_links_types', 0);
+}
+
+/**
+ * Implements hook_enable()
+ */
+function nexteuropa_editorial_enable() {
+
+  // Adding Organic Group fields.
+  multisite_config_service('og')->createOgGroupField('node', 'editorial_team');
+  multisite_config_service('og')->createOgAccessField('node', 'editorial_team');
+  multisite_config_service('og')->createOgDefaultContentAccessField('node', 'editorial_team');
+
+  // Create NextEuropa default roles.
+  multisite_config_service('og')->createOgRole('contributor', 'node', 'editorial_team');
+  multisite_config_service('og')->createOgRole('validator', 'node', 'editorial_team');
+  multisite_config_service('og')->createOgRole('publisher', 'node', 'editorial_team');
+  
+  // Create Global editorial team.
+  multisite_config_service('nexteuropa_editorial')->createEditorialTeam('Global editorial team');
+
+  // Grant Workbench OG permissions.
+  drupal_static_reset('workbench_moderation_transitions');
+  $og_permissions = array(
+    'contributor'           => array('draft', 'needs_review'),
+    'validator'             => array('draft', 'validated', 'needs_review'),
+    'publisher'             => array('draft', 'validated', 'needs_review', 'published', 'expired'),
+    'administrator member'  => array('draft', 'validated', 'needs_review', 'published', 'expired'),
+  );
+  foreach ($og_permissions as $role => $states) {
+    $permissions = array();
+    foreach ($states as $from) {
+      foreach ($states as $to) {
+        if ($from != $to) {
+          $permissions[] = "moderate content from {$from} to {$to}";          
+        }
+      }    
+    }
+    multisite_config_service('og')->grantOgPermissions($role, $permissions, 'node', 'editorial_team', 'workbench_og');
+  }
+  
+  // Grant other editorial team group-related permission.
+  foreach (array('validator', 'publisher', 'administrator member') as $og_role) {
+    multisite_config_service('og')->grantOgPermissions($og_role, array('View all unpublished content'), 'node', 'editorial_team', 'workbench_og');
+  }
+  foreach (array('contributor', 'validator', 'publisher', 'administrator member') as $og_role) {
+    multisite_config_service('og')->grantOgPermissions($og_role, array('manage organic group translation jobs'), 'node', 'editorial_team', 'tmgmt_og');
+  }
+
+  // Grant OG Linkchecker permission.
+  foreach (array('contributor', 'validator', 'publisher', 'administrator member') as $og_role) {
+    multisite_config_service('og')->grantOgPermissions($og_role, array('access group broken links report'), 'node', 'editorial_team', 'og_linkchecker');
+  }
+}

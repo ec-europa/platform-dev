@@ -1,0 +1,10 @@
+<?php
+
+
+/**
+ * Implements hook_install()
+ */
+function multisite_config_install() {
+
+}
+

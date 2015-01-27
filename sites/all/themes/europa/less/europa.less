@@ -1,0 +1,260 @@
+/**
+ * Messages
+ */
+.alert {
+  border-width: 2px;
+  border-radius: 0;
+  font-size: @font-size-small;
+}
+.alert-success .glyphicon {
+  color: @state-success-border;
+}
+.alert-info .glyphicon {
+  color: @state-info-border;
+}
+.alert-warning .glyphicon {
+  color: @state-warning-border;
+}
+.alert-danger .glyphicon {
+  color: @state-danger-border;
+}
+
+/**
+ * Forms
+ */
+.form-control {
+  .box-shadow(none);
+  font-size: @font-size-small;
+  font-family: "ECSSP";
+  border-width: 2px;
+  min-height: @input-height-base;
+  &:focus {
+    border-color: @yellow;
+    .box-shadow(none);
+  }
+}
+a.tabledrag-handle .handle {
+  height: 25px;
+}
+.form-required {
+  color: @red;
+  font-size: @font-size-small;
+  vertical-align: top;
+}
+.chosen-container.form-control {
+  height: auto;
+  width: 100% !important;
+  padding: 0;
+}
+.chosen-container-multi .chosen-choices {
+  border: none;
+  .box-shadow(none);
+  background-image: none;
+  li.search-choice {
+    line-height: 26px;
+    .search-choice-close {
+      top: 10px;
+    }
+  }
+}
+
+/**
+ * Helper
+ */
+ .description,
+.help-block,
+.control-group .help-inline {
+  .small;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+  color: @gray-dark;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: @gray-dark;
+  opacity: 1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: @gray-dark;
+  opacity: 1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color: @gray-dark;
+}
+
+/**
+ * Breadcrumb
+ */
+.breadcrumb {
+  margin: 0;
+  padding: 0;
+  line-height: 30px;
+  height: 30px;
+  font-size: @font-size-xsmall;
+  background-color: #fff;
+  border-radius: 0;
+  line-height: 30px;
+}
+
+/**
+ * Jumbotron
+ */
+.jumbotron {
+  line-height: 1;
+  margin-bottom: 0;
+  padding: @jumbotron-padding 0 @jumbotron-padding 0;
+  h1 {
+    .h1;
+  }
+}
+.jumbotron__top {
+  font-size: 18px;
+  text-transform: uppercase;
+  font-family: "ECSSP";
+}
+.jumbotron__bottom {
+  font-size: 26px;
+  font-family: "ECSSP";
+}
+
+/**
+ * Tabs
+ */
+.nav-tabs > li > a {
+  background-color: @nav-link-bg;
+  color: @nav-link-color;
+  border-bottom: none;
+  font-size: @nav-tabs-font-size;
+  border-radius: @nav-tabs-border-radius;
+  margin-right: 5px;
+  &:hover,
+  &:focus {
+    color: @nav-link-hover-color;
+  }
+  &:active {
+    background-color: @nav-link-down-bg;
+    color: @nav-link-down-color;
+  }
+}
+
+/**
+ * Buttons
+ */
+.btn {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: @font-size-small;
+  font-weight: bold;
+  border-radius: 0;
+  font-family: "ECSSP";
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.btn-link {
+  text-align: left;
+  text-transform: none;
+  border-color: @blue;
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    &:after {
+      content: '\2192';
+      margin-left: 5px;
+    }
+  }
+  &:before {
+    content: ">";
+    margin-right: 5px;
+  }
+}
+.btn-default {
+  &:hover,
+  &:focus {
+    background-color: @btn-default-hover-bg;
+    color: @btn-default-hover-color;
+  }
+  &:active {
+    background-color: @btn-default-down-bg;
+    color: @btn-default-down-color;
+  }
+}
+.btn-primary {
+  &:hover,
+  &:focus {
+    background-color: @btn-primary-hover-bg;
+    color: @btn-primary-hover-color;
+  }
+  &:active {
+    background-color: @btn-primary-down-bg;
+    color: @btn-primary-down-color;
+  }
+}
+.btn-info {
+  &:hover,
+  &:focus {
+    background-color: @btn-info-hover-bg;
+    color: @btn-info-hover-color;
+  }
+  &:active {
+    background-color: @btn-info-down-bg;
+    color: @btn-info-down-color;
+  }
+}
+.btn-warning {
+  &:hover,
+  &:focus {
+    background-color: @btn-warning-hover-bg;
+    color: @btn-warning-hover-color;
+  }
+  &:active {
+    background-color: @btn-warning-down-bg;
+    color: @btn-warning-down-color;
+  }
+}
+
+/**
+ * Language switcher
+ */
+.block-lang-dropdown {
+  .block-title {
+    display: none;
+  }
+}
+
+/**
+ * Region header
+ */
+.region-header {
+  .clearfix;
+  .pull-right;
+  padding-top: 15px;
+}
+
+/**
+ * Main content
+ */
+.main-content {
+  margin-top: 30px;
+}
+
+/**
+ * Nodes
+ */
+.node {
+  &.view-mode-full {
+    .field {
+      margin-bottom: 15px;
+    }
+  }
+}
+
+/**
+ * Workbench
+ */
+div.workbench-info-block {
+  margin-bottom: 25px;
+  border-style: solid;
+  .form-control {
+    display: inline-block;
+  }
+}

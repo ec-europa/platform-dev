@@ -1,0 +1,85 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function nexteuropa_core_install() {
+
+  // Set permissions for "administrator" role.
+  $permissions = array(
+
+    // Admin menu.
+    'access administration menu',
+    'display drupal links',
+    'flush caches',
+    
+    // Bean.
+    'administer beans',
+    'access bean overview',
+    'view bean page',
+    'view bean revisions',
+
+    // Block.
+    'administer blocks',
+
+    // Coffee.
+    'access coffee',
+
+    // File entity.
+    'bypass file access',
+    'administer files',
+
+    // Menu.
+    'administer menu',
+
+    // Node.
+    'bypass node access',
+    'administer nodes',
+    'access content overview',
+    'access content',
+    'view revisions',
+    'revert revisions',
+    'delete revisions',
+    'access administration pages',
+
+    // Path.
+    'create url aliases',
+    
+    // Taxonomy.
+    'administer taxonomy',
+
+    // Taxonomy revision.
+    'choose taxonomy term revisions',
+    'delete taxonomy term revisions',
+    'revert taxonomy term revisions',
+
+    // User.
+    'administer users',
+    'access user profiles',
+    'cancel account',
+  );
+  multisite_config_service('user')->grantPermission('administrator', $permissions);
+
+  // Set URL alias pattern for "User tasks" vocabulary.
+  multisite_config_service('pathauto')->createUrlAliasPattern('[term:parents-uri]', 'taxonomy_term', 'core_user_tasks');
+
+  // Enable CKEditor Lite buttons for "Full HTML" WYSIWYG profile.
+  $ckeditor_lite_buttons = array(
+    'lite_AcceptAll',
+    'lite_RejectAll',
+    'lite_AcceptOne',
+    'lite_RejectOne',
+    'lite_ToggleShow',
+    'lite_ToggleTracking',
+  );
+  multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', 'lite', $ckeditor_lite_buttons);
+
+  // Import "User Tasks" terms.
+  // Force registration of migration classes.
+  migrate_static_registration();
+  // Make sure that destination vocabularies exists.
+  features_revert(array('nexteuropa_core' => array('taxonomy')));
+  // Import core_user_tasks vocabulary's terms.
+  Migration::getInstance('NextEuropaCoreUserTasks')->processImport();
+}
+

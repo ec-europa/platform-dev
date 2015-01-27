@@ -1,0 +1,19 @@
+{
+  "name": "europa",
+  "version": "1.0.0",
+  "dependencies": {
+    "grunt-cli": "~0.1.13"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-sass": "~0.17.0",
+    "grunt-styleguide": "~0.2.17"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "postinstall": "find node_modules/ -name '*.info' -type f | xargs /bin/rm -f"
+  }
+}
