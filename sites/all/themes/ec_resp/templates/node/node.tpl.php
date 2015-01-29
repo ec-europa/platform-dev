@@ -114,7 +114,7 @@
         </div>
       </div>
     </div>
-    <?php endif; dpm($content);?>
+    <?php endif;?>
 
     <div class="link-wrapper right">
       <?php print render($content['links']); ?>
