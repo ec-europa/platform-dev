@@ -89,6 +89,12 @@
   <?php endif; ?>
   <?php print render($title_suffix); ?>
 
+  <?php
+  // We hide the comments and links now so that we can render them later.
+    hide($content['comments']);
+    hide($content['links']);
+  ?>
+
   <div class="content clearfix"<?php print $content_attributes; ?>>
   <?php if ($watched): ?>
     <div class="clearfix"><span class="label label-success pull-right"><span class="glyphicon glyphicon-eye-open"></span><?php print $watched; ?></span></div>
@@ -108,11 +114,9 @@
   <?php endif; ?>
   </div>
 
-  <?php if ($links): ?>
   <div class="link-wrapper right">
     <?php print render($content['links']); ?>
   </div>
-  <?php endif; ?>
 
   <?php print render($content['comments']); ?>
 

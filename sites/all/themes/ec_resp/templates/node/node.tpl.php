@@ -95,6 +95,13 @@
       <?php print t('This content is private'); ?>
     </div>
     <?php endif; ?>
+
+    <?php
+    // We hide the comments and links now so that we can render them later.
+      hide($content['comments']);
+      hide($content['links']);
+    ?>
+
     <?php print render($content); ?>
     <?php if ($suffix_display): ?>
     <div class="row node-info">
@@ -107,15 +114,13 @@
         </div>
       </div>
     </div>
-    <?php endif; ?>
+    <?php endif; dpm($content);?>
+
+    <div class="link-wrapper right">
+      <?php print render($content['links']); ?>
+    </div>
+
+    <?php print render($content['comments']); ?>
 
   </div>
-
-  <?php if (isset($content['links'])): ?>
-  <div class="link-wrapper right">
-    <?php print render($content['links']); ?>
-  </div>
-  <?php endif; ?>
-  <?php print isset($content['comments']) ? render($content['comments']) : ''; ?>
-
 </div>
