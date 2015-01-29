@@ -5,7 +5,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = core
-projects[drupal][version] = 7.31
+projects[drupal][version] = 7.34
 
 ; Dependencies
 
@@ -19,10 +19,10 @@ projects[coder][subdir] = "contributed"
 projects[coder][version] = "2.4"
 
 projects[mail_logger][subdir] = "contributed"
-projects[mail_logger][version] = "1.x-dev"
+projects[mail_logger][version] = "1.1"
 
 projects[simplehtmldom][subdir] = "contributed"
-projects[simplehtmldom][version] = "1.12"
+projects[simplehtmldom][version] = "2.1"
 
 ;projects[drupalforfirebug][subdir] = "contributed"
 ;projects[drupalforfirebug][version] = "1.4"
