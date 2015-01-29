@@ -257,7 +257,7 @@ projects[om_maximenu][subdir] = "contributed"
 projects[om_maximenu][version] = "1.44"
 
 projects[password_policy][subdir] = "contributed"
-projects[password_policy][version] = "2.0-alpha3"
+projects[password_policy][version] = "2.0-alpha4"
 
 projects[pathauto][subdir] = "contributed"
 projects[pathauto][version] = "1.2"
