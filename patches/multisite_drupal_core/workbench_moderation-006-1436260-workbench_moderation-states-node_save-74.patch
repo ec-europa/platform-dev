@@ -1,0 +1,388 @@
+diff --git sites/all/modules/contributed/workbench_moderation/tests/external_node_update.test sites/all/modules/contributed/workbench_moderation/tests/external_node_update.test
+new file mode 100644
+index 0000000..c78ddd9
+--- /dev/null
++++ sites/all/modules/contributed/workbench_moderation/tests/external_node_update.test
+@@ -0,0 +1,189 @@
++<?php
++
++/**
++ * @file
++ * Tests moderation states when nodes are (un)published by other modules.
++ */
++class WorkbenchModerationExternalNodeUpdateTestCase extends WorkbenchModerationTestCase {
++
++  /**
++   * {@inheritdoc}
++   */
++  protected $profile = 'testing';
++
++  /**
++   * A test node.
++   *
++   * @var object
++   */
++  protected $node;
++
++  /**
++   * Returns test case metadata.
++   *
++   * @return array
++   *   The metadata.
++   */
++  public static function getInfo() {
++    return array(
++      'name' => 'External node update',
++      'description' => 'Test if nodes are correctly moderated when updated by third party modules.',
++      'group' => 'Workbench Moderation',
++    );
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public function setUp($modules = array()) {
++    // Enable a test module that will publish and unpublish nodes for us.
++    parent::setUp(array_merge($modules, array('workbench_moderation_test')));
++
++    $this->drupalLogin($this->moderator_user);
++  }
++
++  /**
++   * Tests if nodes can be moderated by third party modules.
++   */
++  public function testNodeSave() {
++    // Create a brand new unpublished node programmatically.
++    $settings = array(
++      'title' => $this->randomName(),
++      'type' => $this->content_type,
++      'status' => NODE_NOT_PUBLISHED,
++    );
++    $this->node = $this->drupalCreateNode($settings);
++
++    // Assert that the node is initially in state draft and not published.
++    $expected = array('state' => 'draft');
++    $this->assertModerationStatus($expected, 'current', 'The moderation status is correct for a newly created node.');
++    $this->assertNoPublishedRecord('A newly created node does not have a published entry in the node history table.');
++    $this->assertPublicationState(FALSE, 'A newly created node is not published.');
++
++    // Resave the node and check that the status doesn't change.
++    $this->resaveNode();
++    $this->assertModerationStatus($expected, 'current', 'The moderation status is correct for a newly created node.');
++    $this->assertNoPublishedRecord('A newly created node does not have a published entry in the node history table.');
++    $this->assertPublicationState(FALSE, 'A newly created node is not published.');
++
++    // Publish the node in an external module and check that the moderation
++    // state changes accordingly.
++    $this->drupalGet('workbench_moderation_test/' . $this->node->nid . '/publish');
++    $this->refreshNode();
++    $expected = array('state' => 'published');
++    $this->assertModerationStatus($expected, 'current', 'The moderation state changed to "published" if the node is published externally.');
++    $this->assertModerationStatus($expected, 'published', 'A published moderation state record is created when the node is published externally.');
++    $this->assertPublicationState(TRUE, 'A node which is published externally is actually published.');
++
++    // Resave the node and check that the status doesn't change.
++    $this->resaveNode();
++    $this->assertModerationStatus($expected, 'current', 'The moderation state changed to "published" if the node is published externally.');
++    $this->assertModerationStatus($expected, 'published', 'A published moderation state record is created when the node is published externally.');
++    $this->assertPublicationState(TRUE, 'A node which is published externally is actually published.');
++
++    // Unpublish the node in an external module and check that the moderation
++    // state changes accordingly.
++    $this->drupalGet('workbench_moderation_test/' . $this->node->nid . '/unpublish');
++    $this->refreshNode();
++    $expected = array('state' => 'draft');
++    $this->assertModerationStatus($expected, 'current', 'The moderation state changed to "draft" if the node is unpublished externally.');
++    $this->assertNoPublishedRecord('The published moderation state record is removed when the node is unpublished externally.');
++    $this->assertPublicationState(FALSE, 'A node which is unpublished externally is actually unpublished.');
++
++    // Resave the node and check that the status doesn't change.
++    $this->resaveNode();
++    $this->assertModerationStatus($expected, 'current', 'The moderation state changed to "draft" if the node is unpublished externally.');
++    $this->assertNoPublishedRecord('The published moderation state record is removed when the node is unpublished externally.');
++    $this->assertPublicationState(FALSE, 'A node which is unpublished externally is actually unpublished.');
++  }
++
++  /**
++   * Resave the node in an external module.
++   */
++  public function resaveNode() {
++    $this->drupalGet('workbench_moderation_test/' . $this->node->nid);
++    $this->refreshNode();
++  }
++
++  /**
++   * Checks if the node history table matches the expected values.
++   *
++   * @param array $expected
++   *   An associative array containing expected moderation status values.
++   * @param string $status
++   *   Which status to assert. Can be either 'current' or 'published'.
++   * @param string $message
++   *   The message to display along with the assertion.
++   *
++   * @return bool
++   *   TRUE if the assertion succeeded, FALSE otherwise.
++   */
++  public function assertModerationStatus(array $expected, $status = 'current', $message = '') {
++    $record = $this->getModerationRecord($status);
++    $success = TRUE;
++    foreach ($expected as $key => $value) {
++      $success |= $this->assertEqual($value, $record[$key], format_string('Found value %value for %key, expected %expected.', array(
++        '%key' => $key,
++        '%value' => $record[$key],
++        '%expected' => $value,
++      )));
++    }
++
++    return $this->assertTrue($success, $message);
++  }
++
++  /**
++   * Checks if the node is not marked as 'published' in the node history table.
++   *
++   * @param string $message
++   *   The message to display along with the assertion.
++   *
++   * @return bool
++   *   TRUE if the assertion succeeded, FALSE otherwise.
++   */
++  public function assertNoPublishedRecord($message = '') {
++    $record = $this->getModerationRecord('published');
++    return $this->assertFalse($record, $message);
++  }
++
++  /**
++   * Checks that the test node has the expected publication state.
++   *
++   * @param bool $expected
++   *   TRUE if the the node should be published, FALSE otherwise.
++   * @param string $message
++   *   The message to display along with the assertion.
++   *
++   * @return bool
++   *   TRUE if the assertion succeeded, FALSE otherwise.
++   */
++  public function assertPublicationState($expected, $message = '') {
++    return $this->assertEqual($expected, $this->node->status, $message);
++  }
++
++  /**
++   * Refreshes the test node so it matches the actual state in the database.
++   */
++  public function refreshNode() {
++    $this->node = node_load($this->node->nid, NULL, TRUE);
++  }
++
++  /**
++   * Returns a moderation status record of the tested node.
++   *
++   * @param string $status
++   *   Which status to return. Can be either 'current' or 'published'.
++   *
++   * @return array
++   *   The node's record(s) from the {workbench_moderation_node_history} table.
++   */
++  protected function getModerationRecord($status = 'current') {
++    return db_select('workbench_moderation_node_history', 'nh')
++      ->fields('nh', array('from_state', 'state', 'published', 'current'))
++      ->condition('nid', $this->node->nid, '=')
++      ->condition($status, 1)
++      ->execute()
++      ->fetchAssoc();
++  }
++
++}
+diff --git sites/all/modules/contributed/workbench_moderation/tests/workbench_moderation_test.info sites/all/modules/contributed/workbench_moderation/tests/workbench_moderation_test.info
+new file mode 100644
+index 0000000..0f9e013
+--- /dev/null
++++ sites/all/modules/contributed/workbench_moderation/tests/workbench_moderation_test.info
+@@ -0,0 +1,5 @@
++name = Workbench Moderation Test
++description = Test module for Workbench Moderation.
++package = Workbench
++core = 7.x
++hidden = TRUE
+diff --git sites/all/modules/contributed/workbench_moderation/tests/workbench_moderation_test.module sites/all/modules/contributed/workbench_moderation/tests/workbench_moderation_test.module
+new file mode 100644
+index 0000000..f1dc668
+--- /dev/null
++++ sites/all/modules/contributed/workbench_moderation/tests/workbench_moderation_test.module
+@@ -0,0 +1,37 @@
++<?php
++
++/**
++ * @file
++ * Test module for Workbench Moderation.
++ */
++
++/**
++ * Implements hook_menu().
++ */
++function workbench_moderation_test_menu() {
++  return array(
++    'workbench_moderation_test/%node' => array(
++      'title' => 'Publish a node',
++      'page callback' => 'workbench_moderation_test_update_node',
++      'page arguments' => array(1),
++      'access arguments' => array('bypass workbench moderation'),
++    ),
++  );
++}
++
++/**
++ * Page callback. Publishes, unpublishes or resaves the given node.
++ *
++ * @param object $node
++ *   The node to publish, unpublish or resave.
++ * @param string $action
++ *   Optionally the action to take, either 'publish' or 'unpublish'. If omitted
++ *   the node will be resaved.
++ */
++function workbench_moderation_test_update_node($node, $action = NULL) {
++  if (!empty($action)) {
++    $node->status = $action == 'publish' ? NODE_PUBLISHED : NODE_NOT_PUBLISHED;
++  }
++  node_save($node);
++  return array('#markup' => t('Node status: @status', array('@status' => $node->status ? t('published') : t('unpublished'))));
++}
+diff --git sites/all/modules/contributed/workbench_moderation/workbench_moderation.info sites/all/modules/contributed/workbench_moderation/workbench_moderation.info
+index f065940..3f9939f 100644
+--- sites/all/modules/contributed/workbench_moderation/workbench_moderation.info
++++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.info
+@@ -13,5 +13,6 @@ files[] = includes/workbench_moderation_handler_filter_state.inc
+ files[] = includes/workbench_moderation_handler_filter_moderated_type.inc
+ files[] = includes/workbench_moderation_handler_filter_user_can_moderate.inc
+ files[] = workbench_moderation.migrate.inc
++files[] = tests/external_node_update.test
+ files[] = tests/workbench_moderation.test
+ files[] = tests/workbench_moderation.files.test
+diff --git sites/all/modules/contributed/workbench_moderation/workbench_moderation.module sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
+index 6c7d5ed..f4a6ef5 100644
+--- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
++++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
+@@ -675,13 +675,31 @@ function workbench_moderation_node_update($node) {
+     return;
+   }
+ 
+-  // Set default moderation state values.
++  // Set moderation state values.
+   if (!isset($node->workbench_moderation_state_current)) {
+-    $node->workbench_moderation_state_current = ($node->status ? workbench_moderation_state_published() : workbench_moderation_state_none());
+-  };
++    $node->workbench_moderation_state_current = !empty($node->original->workbench_moderation['current']->state) ? $node->original->workbench_moderation['current']->state : workbench_moderation_state_none();
++  }
+   if (!isset($node->workbench_moderation_state_new)) {
+-    $node->workbench_moderation_state_new = variable_get('workbench_moderation_default_state_' . $node->type, workbench_moderation_state_none());
+-  };
++    // Moving from published to unpublished.
++    if ($node->status == NODE_NOT_PUBLISHED && isset($node->original->status) && $node->original->status == NODE_PUBLISHED) {
++      // @todo Currently we cannot set the state correctly if the default state
++      //   is "Published".
++      // @see https://www.drupal.org/node/1436260
++      $node->workbench_moderation_state_new = variable_get('workbench_moderation_default_state_' . $node->type, workbench_moderation_state_none());
++    }
++    // Moving from unpublished to published.
++    elseif ($node->status == NODE_PUBLISHED && isset($node->original->status) && $node->original->status == NODE_NOT_PUBLISHED) {
++      $node->workbench_moderation_state_new = workbench_moderation_state_published();
++    }
++    else {
++      if (!empty($node->original->workbench_moderation['current']->state)) {
++        $node->workbench_moderation_state_new = $node->original->workbench_moderation['current']->state;
++      }
++      else {
++        $node->workbench_moderation_state_new = variable_get('workbench_moderation_default_state_' . $node->type, workbench_moderation_state_none());
++      }
++    }
++  }
+ 
+   // If this is a new node, give it some information about 'my revision'.
+   if (!isset($node->workbench_moderation)) {
+@@ -1599,18 +1617,27 @@ function workbench_moderation_moderate($node, $state) {
+   elseif (isset($node->workbench_moderation['published']) && $new_revision->vid == $node->workbench_moderation['published']->vid && $new_revision->from_state == workbench_moderation_state_published()) {
+     // If we're moderating the published revision to a non-published state,
+     // remove the workbench moderation 'published' property.
++    $query = db_update('workbench_moderation_node_history')
++      ->condition('hid', $node->workbench_moderation['published']->hid)
++      ->fields(array('published' => 0))
++      ->execute();
+     unset($node->workbench_moderation['published']);
++    $node->workbench_moderation['current']->unpublishing = TRUE;
+   }
+ 
+-  // If we're moderating an unpublished revision and there is an existing
+-  // published revision, make sure that the published revision is live.
+-  // We do this in a shutdown function to avoid race conditions when
+-  // running node_save() from within a node submission.
+-  if (!empty($node->workbench_moderation['published'])) {
+-    drupal_register_shutdown_function('workbench_moderation_store', $node);
++  // If we need to make changes to the currently published node we do this in a
++  // shutdown function to avoid race conditions when running node_save() from
++  // within a node submission. We need to change the published node:
++  // - If we're moderating an unpublished revision and there is an existing
++  //   published revision, make sure that the published revision is live.
++  // - If we are moving to unpublished state we should make sure the published
++  //   revision is the 'current' revision.
++  if (!empty($node->workbench_moderation['published']) || !empty($node->workbench_moderation['current']->unpublishing)) {
++    // Clone the node to make sure our data arrives intact in the shutdown
++    // function. It might still be altered before the shutdown is reached.
++    drupal_register_shutdown_function('workbench_moderation_store', clone $node);
+   }
+ 
+-
+   // Notify other modules that the state was changed.
+   module_invoke_all('workbench_moderation_transition', $node, $old_revision->state, $state);
+ }
+@@ -1637,9 +1664,18 @@ function workbench_moderation_store($node) {
+     return;
+   }
+   watchdog('Workbench moderation', 'Saved node revision: %node as live version for node %live.', array('%node' => $node->vid, '%live' => $node->nid), WATCHDOG_NOTICE, l($node->title, 'node/' . $node->nid));
+-  $live_revision = workbench_moderation_node_live_load($node);
+-  // Make sure we're published.
+-  $live_revision->status = 1;
++
++  // If we are saving a published node, work from the live revision, otherwise
++  // make sure that the entry in the {node} table points to the current
++  // revision.
++  if (empty($node->workbench_moderation['current']->unpublishing)) {
++    $live_revision = workbench_moderation_node_live_load($node);
++    $live_revision->status = 1;
++  }
++  else {
++    $live_revision = workbench_moderation_node_current_load($node);
++    $live_revision->status = 0;
++  }
+   // Don't create a new revision.
+   $live_revision->revision = 0;
+   // Prevent another moderation record from being written.
+diff --git sites/all/modules/contributed/workbench_moderation/workbench_moderation.node.inc sites/all/modules/contributed/workbench_moderation/workbench_moderation.node.inc
+index 5baaf59..b8c7b91 100644
+--- sites/all/modules/contributed/workbench_moderation/workbench_moderation.node.inc
++++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.node.inc
+@@ -284,24 +284,9 @@ function workbench_moderation_node_unpublish_form_submit($form, &$form_state) {
+   global $user;
+   $node = $form['node']['#value'];
+ 
+-  // Remove the moderation record's "published" flag.
+-  $query = db_update('workbench_moderation_node_history')
+-    ->condition('hid', $node->workbench_moderation['published']->hid)
+-    ->fields(array('published' => 0))
+-    ->execute();
+-
+-  // Moderate the revision.
++  // Moderate the revision. This will do the heavy lifting.
+   workbench_moderation_moderate($node, $form_state['values']['state']);
+ 
+-  // Make sure the 'current' revision is the 'live' revision -- ie, the revision
+-  // in {node}.
+-  $live_revision = workbench_moderation_node_current_load($node);
+-  $live_revision->status = 0;
+-  $live_revision->revision = 0;
+-  $live_revision->workbench_moderation['updating_live_revision'] = TRUE;
+-  // @TODO: do we trust node_save() here?
+-  node_save($live_revision);
+-
+   drupal_set_message(t('The live revision of this content has been unpublished.'));
+   $form_state['redirect'] ="node/{$node->nid}/moderation";
+ }
