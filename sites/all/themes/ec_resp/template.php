@@ -199,8 +199,6 @@ function ec_resp_preprocess_node(&$variables) {
   if ($variables['teaser'] || !empty($variables['content']['comments']['comment_form'])) {
     unset($variables['content']['links']['comment']['#links']['comment-add']);
   }
-  unset($variables['content']['comments']);
-  unset($variables['content']['links']);
 
   switch ($variables['type']) {
     case 'idea':
