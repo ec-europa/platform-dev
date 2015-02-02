@@ -192,16 +192,25 @@ function cce_basic_config_menu_link_alter(&$item) {
     if ((isset ($item['customized']) && $item['customized'] == 0) || !isset ($item['customized'])) {
       $link_path = $item['link_path'];
 
-      $user_classes = 'btn btn-default btn-xs';
       switch ($link_path) {
         case 'user':
-          $item['options']['attributes']['class'] = $user_classes;
+          $item['options']['attributes']['title'] = t('My account');
+          $item['options']['attributes']['class'] = 'btn btn-default';
           $item['options']['attributes']['data-image'] = 'user';
+          $item['options']['attributes']['data-display-title'] = 0;
+          $item['options']['attributes']['data-toggle'] = 'tooltip';
+          $item['options']['attributes']['data-placement'] = 'bottom';
+          $item['options']['attributes']['data-container'] = 'body';
           break;
 
         case 'user/logout':
-          $item['options']['attributes']['class'] = $user_classes;
+          $item['options']['attributes']['title'] = t('Log out');
+          $item['options']['attributes']['class'] = 'btn btn-default';
           $item['options']['attributes']['data-image'] = 'log-out';
+          $item['options']['attributes']['data-display-title'] = 0;
+          $item['options']['attributes']['data-toggle'] = 'tooltip';
+          $item['options']['attributes']['data-placement'] = 'bottom';
+          $item['options']['attributes']['data-container'] = 'body';
           break;
 
         default:

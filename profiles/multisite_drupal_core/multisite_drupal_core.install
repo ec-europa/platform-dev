@@ -415,8 +415,13 @@ function multisite_drupal_core_install() {
 
   // Add login link to the user menu.
   $options = array();
-  $options['attributes']['class'][] = 'btn btn-default';
+  $options['attributes']['title'][] = $t('Login');
+  $options['attributes']['class'][] = 'btn';
+  $options['attributes']['class'][] = 'btn-default';
   $options['attributes']['data-image'] = 'log-in';
+  $options['attributes']['data-toggle'] = 'tooltip';
+  $options['attributes']['data-placement'] = 'bottom';
+  $options['attributes']['data-container'] = 'body';
 
   $item = array(
     'link_path' => 'user/login',
@@ -428,8 +433,14 @@ function multisite_drupal_core_install() {
 
   // Add workbench link to the user menu.
   $options = array();
-  $options['attributes']['class'][] = 'btn btn-info btn-xs';
+  $options['attributes']['title'][] = $t('My workbench');
+  $options['attributes']['class'][] = 'btn';
+  $options['attributes']['class'][] = 'btn-info';
   $options['attributes']['data-image'] = 'list-alt';
+  $options['attributes']['data-display-title'] = 0;
+  $options['attributes']['data-toggle'] = 'tooltip';
+  $options['attributes']['data-placement'] = 'bottom';
+  $options['attributes']['data-container'] = 'body';
 
   $item = array(
     'link_path' => 'admin/workbench',

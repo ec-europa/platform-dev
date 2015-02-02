@@ -18,6 +18,9 @@
       });
       // /Gallery carrousel
 
+      // Tooltips
+      $('[data-toggle="tooltip"]').tooltip();
+      // /Tooltips
 
       // Gallery add media form
       $('.node-gallerymedia #add_picture').click(function(e) {

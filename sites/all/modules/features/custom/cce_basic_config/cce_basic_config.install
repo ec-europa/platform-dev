@@ -1380,6 +1380,7 @@ function cce_basic_config_update_7201() {
  * Implements hook_update_n().
  *
  * Update list of admin pages using jquery 1.10.
+ * Update display of user menu.
  */
 function cce_basic_config_update_7202() {
   $list_pages = array(
@@ -1390,9 +1391,97 @@ function cce_basic_config_update_7202() {
     'admin/content/webform',
     'admin/structure/block',
     'admin/help',
-    'user/'
+    'user/',
   );
   variable_set('cce_basic_config_admin_pages', $list_pages);
 
   variable_set('node_admin_theme', 0);
+
+  // Update user menu item.
+  // Logout.
+  $ml_logout = db_select('menu_links', 'ml')
+    ->fields('ml', array('options'))
+    ->condition('link_path', 'user/logout')
+    ->condition('menu_name', 'user-menu')
+    ->execute()
+    ->fetchField();
+
+  $options_logout = unserialize($ml_logout);
+  $options_logout['attributes']['class'] = array('btn', 'btn-default');
+  $options_logout['attributes']['data-display-title'] = 0;
+  $options_logout['attributes']['title'] = t('Log out');
+  $options_logout['attributes']['data-toggle'] = 'tooltip';
+  $options_logout['attributes']['data-placement'] = 'bottom';
+  $options_logout['attributes']['data-container'] = 'body';
+
+  db_update('menu_links')
+    ->fields(array('options' => serialize($options_logout)))
+    ->condition('link_path', 'user/logout')
+    ->condition('menu_name', 'user-menu')
+    ->execute();
+
+  // My workbench.
+  $ml_workbench = db_select('menu_links', 'ml')
+    ->fields('ml', array('options'))
+    ->condition('link_path', 'admin/workbench')
+    ->condition('menu_name', 'user-menu')
+    ->execute()
+    ->fetchField();
+
+  $options_workbench = unserialize($ml_workbench);
+  $options_workbench['attributes']['class'] = array('btn', 'btn-info');
+  $options_workbench['attributes']['data-display-title'] = 0;
+  $options_workbench['attributes']['title'] = t('My workbench');
+  $options_workbench['attributes']['data-toggle'] = 'tooltip';
+  $options_workbench['attributes']['data-placement'] = 'bottom';
+  $options_workbench['attributes']['data-container'] = 'body';
+
+  db_update('menu_links')
+    ->fields(array('options' => serialize($options_workbench)))
+    ->condition('link_path', 'admin/workbench')
+    ->condition('menu_name', 'user-menu')
+    ->execute();
+
+  // My account.
+  $ml_account = db_select('menu_links', 'ml')
+    ->fields('ml', array('options'))
+    ->condition('link_path', 'user')
+    ->condition('menu_name', 'user-menu')
+    ->execute()
+    ->fetchField();
+
+  $options_account = unserialize($ml_account);
+  $options_account['attributes']['class'] = array('btn', 'btn-default');
+  $options_account['attributes']['data-display-title'] = 0;
+  $options_account['attributes']['title'] = t('My account');
+  $options_account['attributes']['data-toggle'] = 'tooltip';
+  $options_account['attributes']['data-placement'] = 'bottom';
+  $options_account['attributes']['data-container'] = 'body';
+
+  db_update('menu_links')
+    ->fields(array('options' => serialize($options_account)))
+    ->condition('link_path', 'user')
+    ->condition('menu_name', 'user-menu')
+    ->execute();
+
+  // Login.
+  $ml_login = db_select('menu_links', 'ml')
+    ->fields('ml', array('options'))
+    ->condition('link_path', 'user/login')
+    ->condition('menu_name', 'user-menu')
+    ->execute()
+    ->fetchField();
+
+  $options_login = unserialize($ml_login);
+  $options_login['attributes']['class'] = array('btn', 'btn-default');
+  $options_login['attributes']['title'] = t('Log in');
+  $options_login['attributes']['data-toggle'] = 'tooltip';
+  $options_login['attributes']['data-placement'] = 'bottom';
+  $options_login['attributes']['data-container'] = 'body';
+
+  db_update('menu_links')
+    ->fields(array('options' => serialize($options_login)))
+    ->condition('link_path', 'user/login')
+    ->condition('menu_name', 'user-menu')
+    ->execute();
 }

@@ -5,41 +5,42 @@
  */
 
 /**
- * hook_enable
+ * Implements hook_enable().
  */
 function multisite_translations_enable() {
-  // create translation roles
+  // Create translation roles.
   create_translation_roles();
 
   drupal_set_message(t('Multisite translations management feature is now active on your site.'));
 }
 
-/*
- * hook_disable
+/**
+ * Implements hook_disable().
  */
 function multisite_translations_disable() {
   drupal_set_message(t('Multisite translations management feature is now disable on your site.'));
 }
 
-/*
- * hook_install
+/**
+ * Implements hook_install().
  */
 function multisite_translations_install() {
 }
 
-/*
- * hook_uninstall
+/**
+ * Implements hook_uninstall().
  */
 function multisite_translations_uninstall() {
 }
 
-
-
+/**
+ * Enables modules.
+ */
 function multisite_translations_modules_enabled($modules) {
   if (in_array('tmgmt_local', $modules)) {
     drupal_flush_all_caches();
-    
-    // update tmgmt links (move them from the user menu to the admin menu)
+
+    // Update tmgmt links (move them from the user menu to the admin menu).
     $num_updated = db_update('menu_links')
       ->fields(array(
         'hidden' => 1,
@@ -56,14 +57,21 @@ function multisite_translations_modules_enabled($modules) {
       ->condition('link_path', 'translate', '=')
       ->execute();
 
-    $mlid_parent = db_select('menu_links' , 'ml')
-      ->condition('ml.link_path' , 'admin/tmgmt')
-      ->fields('ml' , array('mlid'))
+    $mlid_parent = db_select('menu_links', 'ml')
+      ->condition('ml.link_path', 'admin/tmgmt')
+      ->fields('ml', array('mlid'))
       ->execute()
       ->fetchField();
 
     $options = array();
     $options['attributes']['title'] = t('Manage translation tasks');
+    $options['attributes']['class'][] = 'btn';
+    $options['attributes']['class'][] = 'btn-default';
+    $options['attributes']['data-image'] = 'flag';
+    $options['attributes']['data-display-title'] = 0;
+    $options['attributes']['data-toggle'] = 'tooltip';
+    $options['attributes']['data-placement'] = 'bottom';
+    $options['attributes']['data-container'] = 'body';
 
     $item = array(
       'link_path' => 'manage-translate',
@@ -76,6 +84,13 @@ function multisite_translations_modules_enabled($modules) {
 
     $options = array();
     $options['attributes']['title'] = t('Translate');
+    $options['attributes']['class'][] = 'btn';
+    $options['attributes']['class'][] = 'btn-default';
+    $options['attributes']['data-image'] = 'globe';
+    $options['attributes']['data-display-title'] = 0;
+    $options['attributes']['data-toggle'] = 'tooltip';
+    $options['attributes']['data-placement'] = 'bottom';
+    $options['attributes']['data-container'] = 'body';
 
     $item = array(
       'link_path' => 'translate',
