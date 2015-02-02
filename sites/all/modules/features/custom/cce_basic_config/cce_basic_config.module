@@ -187,8 +187,6 @@ function cce_basic_config_menu_link_alter(&$item) {
   // Rewrite links only for the user-menu menu.
   // Don't rewrite if menu link was edited (customized=1).
   if (isset($item['menu_name']) && $item['menu_name'] == 'user-menu') {
-    // Don't rewrite if menu link was edited (customized=1).
-    // (!isset ($item['customized'] case when the field is reseted).
     if ((isset ($item['customized']) && $item['customized'] == 0) || !isset ($item['customized'])) {
       $link_path = $item['link_path'];
 
@@ -207,6 +205,26 @@ function cce_basic_config_menu_link_alter(&$item) {
           $item['options']['attributes']['title'] = t('Log out');
           $item['options']['attributes']['class'] = 'btn btn-default';
           $item['options']['attributes']['data-image'] = 'log-out';
+          $item['options']['attributes']['data-display-title'] = 0;
+          $item['options']['attributes']['data-toggle'] = 'tooltip';
+          $item['options']['attributes']['data-placement'] = 'bottom';
+          $item['options']['attributes']['data-container'] = 'body';
+          break;
+
+        case 'manage-translate':
+          $item['options']['attributes']['title'] = t('Manage translation tasks');
+          $item['options']['attributes']['class'] = 'btn btn-default';
+          $item['options']['attributes']['data-image'] = 'flag';
+          $item['options']['attributes']['data-display-title'] = 0;
+          $item['options']['attributes']['data-toggle'] = 'tooltip';
+          $item['options']['attributes']['data-placement'] = 'bottom';
+          $item['options']['attributes']['data-container'] = 'body';
+          break;
+
+        case 'translate':
+          $item['options']['attributes']['title'] = t('Translate');
+          $item['options']['attributes']['class'] = 'btn btn-default';
+          $item['options']['attributes']['data-image'] = 'globe';
           $item['options']['attributes']['data-display-title'] = 0;
           $item['options']['attributes']['data-toggle'] = 'tooltip';
           $item['options']['attributes']['data-placement'] = 'bottom';

@@ -415,7 +415,7 @@ function multisite_drupal_core_install() {
 
   // Add login link to the user menu.
   $options = array();
-  $options['attributes']['title'][] = $t('Login');
+  $options['attributes']['title'] = $t('Login');
   $options['attributes']['class'][] = 'btn';
   $options['attributes']['class'][] = 'btn-default';
   $options['attributes']['data-image'] = 'log-in';
@@ -433,7 +433,7 @@ function multisite_drupal_core_install() {
 
   // Add workbench link to the user menu.
   $options = array();
-  $options['attributes']['title'][] = $t('My workbench');
+  $options['attributes']['title'] = $t('My workbench');
   $options['attributes']['class'][] = 'btn';
   $options['attributes']['class'][] = 'btn-info';
   $options['attributes']['data-image'] = 'list-alt';
