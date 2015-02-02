@@ -8,19 +8,11 @@
  * Implements hook_install().
  */
 function ec_embedded_video_install() {
-  $plugins = (array)variable_get('media__wysiwyg_browser_plugins');
+  $plugins = (array) variable_get('media__wysiwyg_browser_plugins');
   if (!in_array('media_internet', $plugins)) {
     array_push($plugins, 'media_internet');
     variable_set('media__wysiwyg_browser_plugins', $plugins);
   }
-}
-
-/**
- * Implements hook_uninstall().
- */
-function ec_embedded_video_uninstall() {
-  //Due to https://drupal.org/node/1702700 issue
-
 }
 
 /**
