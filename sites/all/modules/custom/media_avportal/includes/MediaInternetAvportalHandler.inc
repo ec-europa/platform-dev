@@ -30,7 +30,13 @@ class MediaInternetAvportalHandler extends MediaInternetBaseHandler {
   }
 
   /**
-   * Implements parent:parse().
+   * Parse the parameter embeded code.
+   * 
+   * @param string $embed_code
+   *   The embeded code
+   * 
+   * @return string
+   *   Normalized embeded code by file_entity.
    */
   public function parse($embed_code) {
     // url: http://ec.europa.eu/avservices/video/player.cfm

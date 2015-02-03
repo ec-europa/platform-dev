@@ -10,7 +10,7 @@
  * Preprocess function for theme('media_avportal_video').
  */
 function media_avportal_preprocess_media_avportal_video(&$variables) {
-
+  global $language;
   // Build the URI.
   $wrapper = file_stream_wrapper_get_instance_by_uri($variables['uri']);
   $parts = $wrapper->get_parameters();
@@ -20,7 +20,7 @@ function media_avportal_preprocess_media_avportal_video(&$variables) {
   $video_languages = $wrapper->getVideoLanguages();
   // Set current language.
   $query_params = drupal_get_query_parameters();
-  $current_language = !empty($query_params['video-language']) ? $query_params['video-language'] : $GLOBALS['language']->language;
+  $current_language = !empty($query_params['video-language']) ? $query_params['video-language'] : $language->language;
   if (in_array($current_language, $video_languages)) {
     $video_language = $current_language;
   }

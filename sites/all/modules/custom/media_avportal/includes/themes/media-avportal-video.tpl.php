@@ -7,16 +7,16 @@
  * Template file for theme('media_avportal_video').
  *
  * Variables available:
- *  $uri - The media uri for the YouTube video (e.g., avportal://v/xsy7x8c9).
- *  $video_id - The unique identifier of the YouTube video (e.g., xsy7x8c9).
+ *  $uri - The media uri for the AVportal video (e.g., avportal://v/xsy7x8c9).
+ *  $video_id - The unique identifier of the AVportal video (e.g., xsy7x8c9).
  *  $id - The file entity ID (fid).
- *  $url - The full url including query options for the Youtube iframe.
- *  $options - An array containing the Media Youtube formatter options.
+ *  $url - The full url including query options for the AVportal iframe.
+ *  $options - An array containing the Media AVportal formatter options.
  *  $api_id_attribute - An id attribute if the Javascript API is enabled;
  *  otherwise NULL.
- *  $width - The width value set in Media: Youtube file display options.
- *  $height - The height value set in Media: Youtube file display options.
- *  $title - The Media: YouTube file's title.
+ *  $width - The width value set in Media: AVportal file display options.
+ *  $height - The height value set in Media: AVportal file display options.
+ *  $title - The Media: AVportal file's title.
  *  $alternative_content - Text to display for browsers that don't support
  *  iframes.
  */
