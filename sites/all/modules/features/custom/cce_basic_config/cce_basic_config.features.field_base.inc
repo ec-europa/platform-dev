@@ -214,7 +214,7 @@ function cce_basic_config_field_default_field_bases() {
   );
 
   // Exported field_base: 'field_image'
-  /*
+  
   $field_bases['field_image'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -243,7 +243,7 @@ function cce_basic_config_field_default_field_bases() {
     'translatable' => 0,
     'type' => 'image',
   );
-  */
+  
 
   // Exported field_base: 'field_lastname'
   $field_bases['field_lastname'] = array(
@@ -275,7 +275,7 @@ function cce_basic_config_field_default_field_bases() {
   );
 
   // Exported field_base: 'field_tags'
-  /*
+  
   $field_bases['field_tags'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -309,7 +309,7 @@ function cce_basic_config_field_default_field_bases() {
     'translatable' => 0,
     'type' => 'taxonomy_term_reference',
   );
-  */
+  
 
   // Exported field_base: 'field_video_description'
   $field_bases['field_video_description'] = array(
