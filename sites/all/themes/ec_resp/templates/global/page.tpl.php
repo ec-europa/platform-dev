@@ -248,6 +248,10 @@ global $base_url;
     </div>
   </div><!-- /#layout-body -->
 
+  <a href="#top-page" class="btn-back-top">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a>
+  
   <div id="layout-footer">
     <div class="container">
       <?php print $regions['footer']; ?>
