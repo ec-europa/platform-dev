@@ -269,7 +269,7 @@ function cce_basic_config_block_view($delta = '') {
  *
  * Force field_tags to be unlock.
  */
-function cce_basic_config_field_default_fields_alter(&$fields) {
+function cce_basic_config_field_default_fields_instances_alter(&$fields) {
   foreach ($fields as $key => $field) {
     if ($field['field_config']['field_name'] == 'field_tags') {
       $fields[$key]['field_config']['locked'] = '0';
