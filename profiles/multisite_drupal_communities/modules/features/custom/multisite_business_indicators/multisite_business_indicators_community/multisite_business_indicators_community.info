@@ -2,7 +2,6 @@ name = Business Indicators Community
 description = Provides blocks displaying statistical information for Multisite Community installation profile.
 core = 7.x
 package = Multisite OG Features
-php = 5.2.4
 version = 7.x-2.1
 project = multisite_business_indicators_community
 dependencies[] = context

@@ -2,7 +2,6 @@ name = Links og
 description = Provide links in your group.
 core = 7.x
 package = Multisite OG Features
-php = 5.2.4
 version = 7.x-1.2
 project = links_og
 dependencies[] = communities

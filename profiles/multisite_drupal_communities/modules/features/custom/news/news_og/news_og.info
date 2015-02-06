@@ -2,7 +2,6 @@ name = news_og
 description = Add news to your community
 core = 7.x
 package = Multisite OG Features
-php = 5.2.4
 version = 7.x-1.2
 project = news_og
 dependencies[] = communities

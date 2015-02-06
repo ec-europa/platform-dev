@@ -2,7 +2,6 @@ name = Communities
 description = Provides a space to group contents about a common topic.
 core = 7.x
 package = Multisite_features
-php = 5.2.4
 version = 7.x-2.2
 project = communities
 dependencies[] = cce_basic_config
