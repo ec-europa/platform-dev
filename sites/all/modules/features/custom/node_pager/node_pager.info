@@ -2,7 +2,6 @@ name = Node pager
 description = Allows to browse between content types
 core = 7.x
 package = Multisite Features
-php = 5.2.4
 version = 7.x-1.0-beta2
 project = node_pager
 dependencies[] = freepager

@@ -2,7 +2,6 @@ name = e_library_core
 description = Upload documents to your group
 core = 7.x
 package = Multisite Core Features
-php = 5.2.4
 version = 7.x-1.4
 project = e_library_core
 dependencies[] = apachesolr

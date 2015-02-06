@@ -3,7 +3,6 @@ description = Overrides survey_core
 package = Multisite Standard Features
 version = 7.x-1.3
 core = 7.x
-php = 5.2.4
 project = survey_standard
 dependencies[] = survey_core
 dependencies[] = i18n_taxonomy

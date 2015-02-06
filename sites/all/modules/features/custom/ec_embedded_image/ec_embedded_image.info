@@ -2,7 +2,6 @@ name = EC Embedded Image
 description = Allows to embed images or image sets from Flickr
 core = 7.x
 package = Multisite Features
-php = 5.2.4
 version = 7.x-1.2
 project = ec_embedded_image
 

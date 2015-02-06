@@ -2,7 +2,6 @@ name = Business Indicators Standard
 description = Provides blocks displaying statistical information for Multisite Standard installation profile.
 core = 7.x
 package = Multisite Standard Features
-php = 5.2.4
 version = 7.x-2.2
 project = multisite_business_indicators_standard
 dependencies[] = multisite_business_indicators_core

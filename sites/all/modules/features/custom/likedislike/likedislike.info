@@ -3,7 +3,6 @@ description = Make usable the "Like/Dislike buttons". See http://webtools.ec.eur
 package = Multisite Features
 core = 7.x
 version = 7.x-2.1
-php = 5.2.4
 project = likedislike
 features[features_api][] = api:2
 files[] = tests/likedislike.test

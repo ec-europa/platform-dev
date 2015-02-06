@@ -3,7 +3,6 @@ description = Adds the new Moderate All tabs which allows to perform bulk operat
 package = Multisite Core Features
 core = 7.x
 version = 7.x-1.2
-php = 5.2.4
 project = multisite_workbench_moderation_view
 dependencies[] = features
 dependencies[] = workbench_moderation

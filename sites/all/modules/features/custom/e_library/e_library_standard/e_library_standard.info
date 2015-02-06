@@ -1,7 +1,6 @@
 name = e_library_standard
 description = Upload documents to your website
 core = 7.x
-php = 5.2.4
 version = 7.x-1.1
 package = Multisite Standard Features
 project = e_library_standard

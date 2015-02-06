@@ -2,7 +2,6 @@ name = Multisite_Rules_Configuration
 description = Enable Rules, Rules UI Admin, and Rules Scheduler. Also add workflow states Archived and Validated.
 core = 7.x
 package = Multisite Core Features
-php = 5.2.4
 version = 7.x-1.3
 project = multisite_rules_configuration
 dependencies[] = entity_token

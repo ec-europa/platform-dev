@@ -3,7 +3,6 @@ description = Replaces link to node with link to translation in the user's langu
 package = Multisite Features
 core = 7.x
 version = 7.x-1.1
-php = 5.2.4
 project = multisite_multilingual_references
 dependencies[] = features
 dependencies[] = "ctools"

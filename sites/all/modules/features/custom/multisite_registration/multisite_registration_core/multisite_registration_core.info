@@ -2,7 +2,6 @@ name = Multisite registration core
 description = allow and track user registrations for events
 core = 7.x
 package = Multisite Core Features
-php = 5.2.4
 version = 7.x-1.1
 project = multisite_registration_core
 dependencies[] = ctools

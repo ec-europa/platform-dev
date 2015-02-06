@@ -3,7 +3,6 @@ description = Set up the activation / deactivation custom error module behavior
 package = Multisite Core Features
 core = 7.x
 version = 7.x-1.1
-php = 5.2.4
 project = multisite_custom_error
 dependencies[] = features
 dependencies[] = customerror

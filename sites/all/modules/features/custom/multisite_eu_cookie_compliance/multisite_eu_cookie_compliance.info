@@ -2,7 +2,6 @@ name = Multisite EU Cookie Compliance
 description = This feature deals with the EU Directive on Privacy and Electronic Communications
 core = 7.x
 package = Multisite Features
-php = 5.2.4
 version = 7.x-1.1
 project = multisite_eu_cookie_compliance
 dependencies[] = ctools

@@ -2,7 +2,6 @@ name = Multisite Maps
 description = Create multiple customized maps based on FusionMaps API
 core = 7.x
 package = Multisite_features
-php = 5.2.4
 version = 7.x-1.1
 project = multisite_maps
 dependencies[] = ctools

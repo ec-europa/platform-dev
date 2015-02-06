@@ -3,7 +3,6 @@ description = Insert ReadSpeaker Enterprise Highlighting feature to your site.
 
 package = Multisite_features
 core = 7.x
-php = 5.1.x
 version = 7.x-1.2
 
 dependencies[] = features

@@ -2,7 +2,6 @@ name = Events
 description = Add an events calendar to your site
 core = 7.x
 package = Multisite Standard Features
-php = 5.2.4
 version = 7.x-2.1
 project = events_standard
 dependencies[] = ctools

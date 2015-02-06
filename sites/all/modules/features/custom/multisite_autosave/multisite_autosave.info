@@ -3,7 +3,6 @@ description = If the user's browser dies while editing a node, the edits will be
 package = Multisite Core Features
 core = 7.x
 version = 7.x-1.1
-php = 5.2.4
 project = multisite_autosave
 dependencies[] = autosave
 features[features_api][] = api:2

@@ -3,7 +3,6 @@ description = Provide tools to enhance the translation tasks.
 core = 7.x
 package = Multisite Features
 version = 7.x-1.1
-php = 5.2.4
 project = multilingual_tools
 dependencies[] = translation_overview
 dependencies[] = translation_table

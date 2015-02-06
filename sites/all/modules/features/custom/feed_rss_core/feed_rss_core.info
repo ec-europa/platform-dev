@@ -2,7 +2,6 @@ name = feed_rss_core
 description = Provides the possibility to parse RSS feeds.
 core = 7.x
 package = Multisite Features
-php = 5.2.4
 version = 7.x-1.1
 project = feed_rss_core
 dependencies[] = aggregator

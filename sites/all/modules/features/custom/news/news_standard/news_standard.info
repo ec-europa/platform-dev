@@ -2,7 +2,6 @@ name = news_standard
 description = Override news_core
 core = 7.x
 package = Multisite Standard Features
-php = 5.2.4
 version = 7.x-1.1
 project = news_standard
 dependencies[] = news_core

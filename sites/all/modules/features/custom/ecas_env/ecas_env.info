@@ -3,7 +3,6 @@ description = Environment for using ECAS
 core = 7.x
 package = Multisite Core Features
 version = 7.x-1.2
-php = 5.2.4
 project = ECAS_env
 dependencies[] = ecas
 dependencies[] = ecas_extra

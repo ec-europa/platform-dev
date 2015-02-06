@@ -2,7 +2,6 @@ name = Business Indicators Core
 description = Provides core functionalities for 'Business Indicators Standard' and 'Business Indicators Communuty' features
 core = 7.x
 package = Multisite Core Features
-php = 5.2.4
 version = 7.x-2.1
 project = multisite_business_indicators_core
 dependencies[] = context
