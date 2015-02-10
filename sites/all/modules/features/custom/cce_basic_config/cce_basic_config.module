@@ -258,7 +258,7 @@ function cce_basic_config_block_view($delta = '') {
     case 'footer_ipg':
       $menu_service_tools = menu_tree('menu-service-tools');
       $block['subject'] = 'Latest update';
-      $block['content'] = t('Last update:') . ' ' . date('d/m/Y') . ' | <a href="#top-page">Top</a> | ' . drupal_render($menu_service_tools);
+      $block['content'] = t('Last update:') . ' ' . date('d/m/Y') . ' | <a href="#top-page">'.t('Top').'</a> | ' . drupal_render($menu_service_tools);
       break;
   }
   return $block;
