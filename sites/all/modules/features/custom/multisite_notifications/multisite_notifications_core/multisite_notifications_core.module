@@ -7,17 +7,20 @@
 
 include_once 'multisite_notifications_core.features.inc';
 
+
+/**
+ * Implements hook_subscriptions_queue_alter().
+ */
 function multisite_notifications_core_subscriptions_queue_alter(&$event) {
-  // only send notification if the state of the content is published
-  if (isset($event['node']->workbench_moderation_state_new)) { // content has a worbench moderation workflow
-    if ($event['node']->workbench_moderation_state_new != 'published')  {
-      $event = NULL;
-    }
-  }
-  else {
-    // no workbench moderation workflow
-    if ($event['node']->status != 1) {
-      $event = NULL;
+  if (isset ($event['node'])) {
+    $node = $event['node'];
+    if (isset ($node->workbench_moderation)) {
+      if ($node->workbench_moderation['current']->vid != $node->vid) {
+        $event = NULL;
+      }
+      elseif ($node->workbench_moderation['current']->published !== 1) {
+        $event = NULL;
+      }
     }
   }
 }
@@ -26,6 +29,7 @@ function multisite_notifications_core_subscriptions_queue_alter(&$event) {
  * Implements hook_init().
  */
 function multisite_notifications_core_init() {
+
   drupal_add_js(drupal_get_path('module', 'multisite_notifications_core') . '/js/multisite_notifications_core.js');
   drupal_add_css(drupal_get_path('module', 'multisite_notifications_core') . '/css/multisite_notifications_core.css');
 }
