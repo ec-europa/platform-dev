@@ -35,6 +35,7 @@
       $('.btn-back-top').on("click", function(e) {
         e.preventDefault();
         $('html,body').animate({scrollTop: 0}, 300);
+        $(this).blur();
         return false;
       });
       // /Back on top link
