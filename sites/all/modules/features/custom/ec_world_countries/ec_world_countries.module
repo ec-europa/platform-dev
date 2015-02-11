@@ -1,7 +1,51 @@
 <?php
 /**
  * @file
- * Module file
+ * Code for the EC World Countries feature.
  */
 
-// Drupal needs this blank file.
+include_once 'ec_world_countries.features.inc';
+
+/**
+ * Adds the 2 letter ISO code to the country term.
+ */
+function ec_world_countries_add_code() {
+
+  $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
+  if ($vocabulary) {
+    $vid = $vocabulary->vid;
+
+    // Loads the list of countries and 2 letter codes from the include file.
+    include_once 'includes/countries.php';
+    $country_array = ec_world_countries_countries();
+
+    foreach ($country_array as $continent => $countries) {
+      foreach ($countries as $country => $cy_name) {
+
+        // Loads existing terms that match the country name.
+        $terms = taxonomy_get_term_by_name($cy_name, 'ec_world_countries');
+        foreach ($terms as $term) {
+          // Wraps the existing term for easy updating.
+          $wrapper = entity_metadata_wrapper('taxonomy_term', $term);
+          $wrapper->iso_3166_1_alpha_2_code->set($country);
+          $wrapper->save();
+          watchdog('ec_world_countries', 'Add 2-letter ISO code %code to country %country', array(
+            '%code' => $country,
+            '%country' => $cy_name,
+          ), WATCHDOG_INFO);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Sets feature set api version.
+ *
+ * @return array
+ *   version number
+ */
+function ec_world_countries_feature_set_api() {
+  return array('version' => '1.0');
+}
+

@@ -1,33 +1,28 @@
 <?php
 /**
  * @file
- * Install the feature EC world countries feature
+ * Installs the EC world countries feature.
  */
 
 /**
  * Implements hook_enable().
  */
 function ec_world_countries_enable() {
+  $t = get_t();
 
+  // Reverts feature before importing data.
+  $features = array(
+    'ec_world_countries' => array('field', 'taxonomy', 'views_view'),
+  );
+  module_enable(array_keys($features));
+  features_revert($features);
+
+  // Imports country data.
   $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
-  if ($vocabulary) {
-    $vid = $vocabulary->vid;
-  }
-  else {
-    $vocabulary = array(
-      'name' => t('EC World Countries'),
-      'machine_name' => 'ec_world_countries',
-      'description' => t('A list of the world countries'),
-      'hierarchy' => 1,
-      'module' => 'ec_world_countries',
-      'weight' => 1,
-    );
-    $vocabulary = (object) $vocabulary;
-    taxonomy_vocabulary_save($vocabulary);
-    $vid = $vocabulary->vid;
-  };
-
+  $vid = $vocabulary->vid;
   include_once 'includes/countries.php';
+  $country_array = ec_world_countries_countries();
+
   foreach ($country_array as $continent => $countries) {
 
     $term = (object) array('vid' => $vid, 'name' => st($continent));
@@ -36,97 +31,64 @@ function ec_world_countries_enable() {
     foreach ($countries as $country => $cy_name) {
       $subterm = (object) array(
         'vid' => $vid,
-        'name' => $cy_name,
+        'name' => $t($cy_name),
         'parent' => $tid,
       );
       taxonomy_term_save($subterm);
+      watchdog('ec_world_countries', 'Created country %country', array(
+        '%country' => $cy_name,
+      ), WATCHDOG_INFO);
     }
   };
 
-  // Activation message.
-
-  drupal_set_message(t('EC world countries feature is now active on your site.'));
+  // Assigns the 2 letter ISO code to each country.
+  ec_world_countries_add_code();
+  drupal_set_message($t('EC world countries feature is now active on your site.'));
 }
 
 /**
  * Implements hook_disable().
  */
 function ec_world_countries_disable() {
-
-  // Desactivation message.
-  drupal_set_message(t('EC world countries feature is now disabled on your site.'));
+  $t = get_t();
+  drupal_set_message($t('EC world countries feature is now disabled on your site.'));
+  // @TODO Check that the voc is not used and if it is not, run uninstall_hook
+  // in the feature.
 }
 
 /**
  * Implements hook_install().
  */
 function ec_world_countries_install() {
-
+  $t = get_t();
+  drupal_set_message($t('EC world countries feature is now installed on your site.'));
 }
 
 /**
  * Implements hook_uninstall().
  */
 function ec_world_countries_uninstall() {
+  $t = get_t();
   $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
   if ($vocabulary) {
     $vid = $vocabulary->vid;
     taxonomy_vocabulary_delete($vid);
   }
+  drupal_set_message($t('EC world countries feature is now uninstalled from your site.'));
 }
 
 /**
- * Implements hook_update_N().
- *
- * Add missing countries.
+ * Creates the 2 digit country code field & adds codes to countries.
  */
-function ec_world_countries_update_7102() {
-  $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
+function ec_world_countries_update_7100() {
 
-  // Asia.
-  $parents = taxonomy_get_term_by_name('Asia', 'ec_world_countries');
-  if (!empty($parents)) {
-    $parent = array_shift($parents);
-  }
-
-  $term = (object) array(
-    'vid' => $vocabulary->vid,
-    'name' => 'Brunei',
-    'parent' => $parent->tid,
+  // Reverts feature before importing data.
+  $features = array(
+    'ec_world_countries' => array('field', 'taxonomy', 'views_view'),
   );
-  taxonomy_term_save($term);
+  module_enable(array_keys($features));
+  features_revert($features);
 
-  $term = (object) array(
-    'vid' => $vocabulary->vid,
-    'name' => 'North Korea',
-    'parent' => $parent->tid,
-  );
-  taxonomy_term_save($term);
-
-  $term = (object) array(
-    'vid' => $vocabulary->vid,
-    'name' => 'South Korea',
-    'parent' => $parent->tid,
-  );
-  taxonomy_term_save($term);
-
-  // Europe.
-  $parents = taxonomy_get_term_by_name('Europe', 'ec_world_countries');
-  if (!empty($parents)) {
-    $parent = array_shift($parents);
-  }
-
-  $term = (object) array(
-    'vid' => $vocabulary->vid,
-    'name' => 'Moldova',
-    'parent' => $parent->tid,
-  );
-  taxonomy_term_save($term);
-
-  $term = (object) array(
-    'vid' => $vocabulary->vid,
-    'name' => 'Vatican City',
-    'parent' => $parent->tid,
-  );
-  taxonomy_term_save($term);
+  // Assigns the 2 letter ISO code to each country.
+  ec_world_countries_add_code();
 }

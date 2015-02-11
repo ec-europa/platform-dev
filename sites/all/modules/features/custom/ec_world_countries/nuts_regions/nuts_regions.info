@@ -1,0 +1,17 @@
+name = NUTS regions
+description = Taxonomy for European regions in NUTS classification
+dependencies[] = taxonomy
+dependencies[] = list
+dependencies[] = number
+dependencies[] = migrate (<=2.5)
+dependencies[] = migrate_ui
+dependencies[] = entity
+dependencies[] = views
+multisite_version = 1.7
+core = 7.x
+files[] = nuts_regions.migrate.inc
+files[] = tests/nuts_regions.test
+package = Custom
+php = 5.2.4
+version = 7.x-1.2
+project = nuts_region

@@ -6,103 +6,85 @@
  */
 
 /**
- * Defines a base class for testing the "ec_world_country" module.
+ * Defines a base class for testing the "Ask a question" module.
  */
-class ECWorldCountriesWebTestCase extends DrupalWebTestCase {
+class EcWorldCountriesTestCase extends DrupalWebTestCase {
 
   /**
-   * Get information.
+   * {@inheritdoc}
    */
   public static function getInfo() {
     return array(
       'name' => 'EC world countries feature',
-      'description' => 'Test the EC world countries feature feature.',
+      'description' => 'Test the EC world countries feature.',
       'group' => 'Multisite Core Features',
     );
   }
 
   /**
-   * Set up.
+   * {@inheritdoc}
    */
   public function setUp() {
     parent::setUp('ec_world_countries');
-    $this->privileged_user = $this->drupalCreateUser(array('administer taxonomy'));
-    $this->drupalLogin($this->privileged_user);
-  }
-
-  /**
-   * Test creation of taxonomy.
-   */
-  public function testTaxoIsCreated() {
-    $this->drupalGet('admin/structure/taxonomy/ec_world_countries');
-    $this->assertResponse(200);
-
-  }
-}
-
- /**
-  * Defines a base class for testing the "ec_world_countries" module.
-  */
-class MultisiteEcWorldCountriesQAWebTestCase extends DrupalWebTestCase {
-
-  /**
-   * Get information.
-   */
-  public static function getInfo() {
-    return array(
-      'name' => 'ec_world_countries QA tests',
-      'description' => 'Test the ec_world_countries features to ensure it follows QA requirements.',
-      'group' => 'Multisite QA',
+    // module_enable(array('ec_world_countries'));
+    $vid = taxonomy_vocabulary_machine_name_load('ec_world_countries')->vid;
+    $this->adminUser = $this->drupalCreateUser(
+      array(
+        'access content',
+        'administer users',
+        'administer site configuration',
+        'administer taxonomy',
+        'administer nodes',
+        'administer blocks',
+        "edit terms in {$vid}",
+        "delete terms in {$vid}",
+      )
     );
   }
 
   /**
-   * Test Info File.
+   * {@inheritdoc}
    */
-  public function testInfoFile() {
-    $module = basename(__FILE__, ".test");
-    $path = drupal_get_path('module', $module) . '/' . $module . '.info';
-    $info = drupal_parse_info_file($path);
-
-    // Add name information. Ex: name=Newsletters.
-    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module);
-
-    // Add description information.
-    $this->assertTrue(array_key_exists('description', $info), 'The module\'s description is available.');
-
-    // Add package information.
-    $this->assertTrue(array_key_exists('package', $info), 'The module\'s package is available.');
-
-    // Add core information.
-    $this->assertTrue(array_key_exists('core', $info), 'The Drupal core version is available.');
-    $this->assertEqual($info['core'], '7.x');
-
-    // Add php information.
-    $this->assertTrue(array_key_exists('php', $info), 'The PHP version info is available.');
-    $this->assertEqual($info['php'], '5.2.4');
-
-    // Add version information.
-    $this->assertTrue(array_key_exists('version', $info));
-
-    // Add feature information.
-    $this->assertEqual($info['features']['features_api'][0], 'api:1', 'The Feature API dependency is available.');
-
-    // Remove menu dependencies.
-    if (array_key_exists('dependencies', $info)) {
-      $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
-    }
+  public function testVocabularyAvailability() {
+    $this->drupalLogin($this->adminUser);
+    $this->drupalGet('admin/structure/taxonomy/ec_world_countries');
+    $this->assertResponse(200);
   }
 
   /**
-   * Check installation file.
+   * Tests the availibility of (some) fields in the taxonomy term form.
    */
-  public function testInstallFile() {
-    $module = basename(__FILE__, ".test");
-    $path = drupal_get_path('module', $module) . '/' . $module . '.install';
-    $data = file_get_contents($path);
-    $this->assertTrue(strpos($data, $module . '_install'), 'The module contains a hook_install');
-    $this->assertTrue(strpos($data, $module . '_uninstall'), 'The module contains a hook_uninstall');
-    $this->assertTrue(strpos($data, $module . '_enable'), 'The module contains a hook_enable');
-    $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
+  public function testTermFormAvailability() {
+    $this->drupalLogin($this->adminUser);
+    $this->drupalGet("admin/structure/taxonomy/ec_world_countries/add");
+    $this->assertText('ISO 3166-1 alpha-2 code', 'ISO 3166-1 alpha-2 code field found on the term edit form.');
   }
+
+  /**
+   * Tests service endpoint.
+   */
+  public function testViewAvailability() {
+    $this->drupalLogin($this->adminUser);
+    $this->drupalGet('ec-world-countries');
+    $this->assertText('EC world countries', 'View title EC world countries found.');
+    $this->assertText('ISO 3166-1 alpha-2 code', 'Column header ISO 3166-1 alpha-2 code label found');
+    $this->assertText('Antigua and Barbuda', 'Antigua and Barbuda found.');
+    $this->assertText('BZ', 'BZ found.');
+    $this->assertText('North America', 'North America found.');
+  }
+
+  /**
+   * Tests inserting a country.
+   */
+  public function testTermCreation() {
+    $this->drupalLogin($this->adminUser);
+    $edit = array(
+      'name' => 'Limburg',
+      'iso_3166_1_alpha_2_code[und][0][value]' => 'LI',
+      'description[value]' => 'The independant republic of Limburg, Alaaf!',
+    );
+    $this->drupalPost('admin/structure/taxonomy/ec_world_countries/add', $edit, t('Save'));
+    $this->assertText('Created new term Limburg.');
+  }
+
 }
