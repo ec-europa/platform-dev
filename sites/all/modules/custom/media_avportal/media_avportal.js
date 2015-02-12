@@ -10,10 +10,10 @@
           e.preventDefault();
           $(this).parents('ul').find('a.current').removeClass('current');
           $(this).addClass('current');
-          var iframe = $(this).parents('div.language-switcher').siblings('p')
+          var iframe = $(this).parents('div.language-switcher').prev('p')
                 .find('iframe');
           if(!iframe.length) {
-            iframe = $(this).parents('div.language-switcher').siblings('iframe')
+            iframe = $(this).parents('div.language-switcher').prev('iframe')
           }
           var lng = $(this).text().replace('+', ' ');
           var new_src = iframe.attr('src').replace(

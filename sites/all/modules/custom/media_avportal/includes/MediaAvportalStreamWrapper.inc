@@ -52,7 +52,7 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
     $video_id = check_plain($parts['v']);
 
     // Using cache to avoid a call to the webservice each time.
-    $video_info = &drupal_static(__FUNCTION__);
+    $video_info = &drupal_static(__FUNCTION__ . $video_id);
     if (!isset($video_info)) {
       $cache = cache_get('av_video_' . $video_id);
       if (!empty($cache->data)) {
