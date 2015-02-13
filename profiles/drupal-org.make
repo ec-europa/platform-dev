@@ -92,7 +92,7 @@ projects[easy_breadcrumb][subdir] = "contributed"
 projects[easy_breadcrumb][version] = "2.12"
 
 projects[email][subdir] = "contributed"
-projects[email][version] = "1.2"
+projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contributed"
 projects[entity][version] = "1.5"
