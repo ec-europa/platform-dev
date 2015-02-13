@@ -80,7 +80,7 @@ projects[ctools][subdir] = "contributed"
 projects[ctools][version] = "1.4"
 
 projects[customerror][subdir] = "contributed"
-projects[customerror][version] = "1.0-rc1"
+projects[customerror][version] = "1.3"
 
 projects[date][subdir] = "contributed"
 projects[date][version] = "2.8"
