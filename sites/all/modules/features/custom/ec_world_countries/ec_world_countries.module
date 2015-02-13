@@ -48,4 +48,3 @@ function ec_world_countries_add_code() {
 function ec_world_countries_feature_set_api() {
   return array('version' => '1.0');
 }
-
