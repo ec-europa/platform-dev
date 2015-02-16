@@ -1484,6 +1484,41 @@ function ec_resp_preprocess_block(&$variables) {
 }
 
 /**
+ * Returns HTML for a dropdown.
+ */
+function ec_resp_dropdown($variables) {
+  $items = $variables['items'];
+  $attributes = array();
+  $output = "";
+  
+  if (!empty($items)) {
+    if (theme_get_setting('disable_dropdown_menu')) {
+      $output .= "<ul>";
+    }
+    else {
+      $output .= "<ul class='dropdown-menu'>";
+      $num_items = count($items);
+      foreach ($items as $i => $item) {
+        $data = '';
+        if (is_array($item)) {
+          foreach ($item as $key => $value) {
+            if ($key == 'data') {
+              $data = $value;
+            }
+          }
+        }
+        else {
+          $data = $item;
+        }
+        $output .= '<li>' . $data . "</li>\n";
+      }
+      $output .= "</ul>";
+    }
+  }
+  return $output;
+}
+
+/**
  * Implements theme_table().
  */
 function ec_resp_table($variables) {
