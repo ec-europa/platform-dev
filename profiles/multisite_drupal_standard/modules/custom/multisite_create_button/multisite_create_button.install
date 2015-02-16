@@ -9,7 +9,7 @@
  * Implements hook_install().
  */
 function multisite_create_button_install() {
-  drupal_set_message($t("Content creation button installed"));
+  drupal_set_message(st("Content creation button installed"));
 }
 
 /**
@@ -24,7 +24,7 @@ function multisite_create_button_enable() {
  * Implements hook_uninstall().
  */
 function multisite_create_button_uninstall() {
-  drupal_set_message($t("Content creation button uninstalled"));
+  drupal_set_message(st("Content creation button uninstalled"));
 }
 
 /**
