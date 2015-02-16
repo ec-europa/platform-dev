@@ -1490,7 +1490,7 @@ function ec_resp_dropdown($variables) {
   $items = $variables['items'];
   $attributes = array();
   $output = "";
-  
+
   if (!empty($items)) {
     if (theme_get_setting('disable_dropdown_menu')) {
       $output .= "<ul>";
