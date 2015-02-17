@@ -4,27 +4,41 @@
  * Installs the EC world countries feature.
  */
 
+// Includes helper installation functions.
+include_once 'ec_world_countries.install.inc';
+
 /**
  * Implements hook_enable().
  */
 function ec_world_countries_enable() {
   $t = get_t();
 
-  // Reverts feature before importing data.
-  $features = array(
-    'ec_world_countries' => array('field', 'taxonomy', 'views_view'),
-  );
-  module_enable(array_keys($features));
-  features_revert($features);
+  // Creates the EC world countries vocabulary if it does not exist already.
+  $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
+  if ($vocabulary) {
+    $vid = $vocabulary->vid;
+  }
+  else {
+    $vocabulary = array(
+      'name' => t('EC World Countries'),
+      'machine_name' => 'ec_world_countries',
+      'description' => t('A list of the world countries'),
+      'hierarchy' => 1,
+      'module' => 'ec_world_countries',
+      'weight' => 1,
+    );
+    $vocabulary = (object) $vocabulary;
+    taxonomy_vocabulary_save($vocabulary);
+    $vid = $vocabulary->vid;
+  };
+
+  // Adds the 2 letter code field.
+  ec_world_countries_iso_field();
 
   // Imports country data.
-  $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
-  $vid = $vocabulary->vid;
   include_once 'includes/countries.php';
   $country_array = ec_world_countries_countries();
-
   foreach ($country_array as $continent => $countries) {
-
     $term = (object) array('vid' => $vid, 'name' => st($continent));
     taxonomy_term_save($term);
     $tid = $term->tid;
@@ -66,29 +80,40 @@ function ec_world_countries_install() {
 
 /**
  * Implements hook_uninstall().
+ * @todo consider deleting vocab & fields.
  */
 function ec_world_countries_uninstall() {
   $t = get_t();
+
+  // Deletes the taxonomy term.
   $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
   if ($vocabulary) {
     $vid = $vocabulary->vid;
     taxonomy_vocabulary_delete($vid);
   }
+
+  // Deletes the custom field.
+  $fields = array(
+    'iso_3166_1_alpha_2_code',
+  );
+  foreach ($fields as $field) {
+    // field_delete_field($field);
+    if ($instance = field_info_instance('node', $field, 'ec_world_countries')) {
+      // field_delete_instance($instance);
+    }
+  }
+  field_purge_batch(count($fields));
   drupal_set_message($t('EC world countries feature is now uninstalled from your site.'));
 }
 
 /**
- * Creates the 2 digit country code field & adds codes to countries.
+ * Creates the 2 letter code field & assigns codes to countries.
  */
 function ec_world_countries_update_7100() {
 
-  // Reverts feature before importing data.
-  $features = array(
-    'ec_world_countries' => array('field', 'taxonomy', 'views_view'),
-  );
-  module_enable(array_keys($features));
-  features_revert($features);
+  // Creates 2 letter code field.
+  ec_world_countries_iso_field();
 
-  // Assigns the 2 letter ISO code to each country.
+  // Assigns the 2 letter code to each country.
   ec_world_countries_add_code();
 }

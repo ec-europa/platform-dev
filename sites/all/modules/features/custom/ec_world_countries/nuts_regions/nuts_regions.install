@@ -24,7 +24,7 @@ function nuts_regions_install() {
  * Implements hook_uninstall().
  *
  * Deletes the NUTS regions variables.
- * @todo consider dleting the vocab.
+ * @todo consider deleting the vocab.
  */
 function nuts_regions_uninstall() {
   $t = get_t();
