@@ -267,15 +267,15 @@ class MultisiteDrupalWebTestCase extends DrupalWebTestCase {
     $account = user_save(drupal_anonymous_user(), $edit);
 
     $this->assertTrue(
-      !empty($account->uid),
+      !empty($account->uid) ?
       t('User with role %role_name created with name %name and pass %pass',
       array(
         '%role_name' => $role_name,
         '%name' => $edit['name'],
         '%pass' => $edit['pass'])
-      ),
-      t('User login')
+      ) : t('User login')
     );
+
     if (empty($account->uid)) {
       return FALSE;
     }
