@@ -466,14 +466,6 @@ function cce_basic_config_enable() {
   );
   $context->reactions['block']['blocks']['user-menu'] = $block_to_add1;
 
-  $block_to_add2 = array(
-    'module' => 'multisite_create_button',
-    'delta' => 'create-content-button',
-    'region' => 'tools',
-    'weight' => 2,
-  );
-  $context->reactions['block']['blocks']['create-content-button'] = $block_to_add2;
-
   $block_to_add3 = array(
     'module' => 'search',
     'delta' => 'form',
