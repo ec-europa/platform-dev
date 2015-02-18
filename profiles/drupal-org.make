@@ -35,7 +35,7 @@ projects[apachesolr_multilingual][subdir] = "contributed"
 projects[apachesolr_multilingual][version] = "1.0-alpha2"
 
 projects[apachesolr_multisitesearch][subdir] = "contributed"
-projects[apachesolr_multisitesearch][version] = "1.0"
+projects[apachesolr_multisitesearch][version] = "1.1"
 
 projects[autosave][subdir] = "contributed"
 projects[autosave][version] = "2.2"
