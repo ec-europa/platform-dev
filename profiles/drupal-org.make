@@ -113,7 +113,7 @@ projects[extlink][subdir] = "contributed"
 projects[extlink][version] = "1.18"
 
 projects[facetapi][subdir] = "contributed"
-projects[facetapi][version] = "1.3"
+projects[facetapi][version] = "1.5"
 
 projects[fblikebutton][subdir] = "contributed"
 projects[fblikebutton][version] = "2.3"
