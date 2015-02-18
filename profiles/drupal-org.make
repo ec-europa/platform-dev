@@ -32,7 +32,7 @@ projects[apachesolr_attachments][subdir] = "contributed"
 projects[apachesolr_attachments][version] = "1.3"
 
 projects[apachesolr_multilingual][subdir] = "contributed"
-projects[apachesolr_multilingual][version] = "1.0-alpha2"
+projects[apachesolr_multilingual][version] = "1.2"
 
 projects[apachesolr_multisitesearch][subdir] = "contributed"
 projects[apachesolr_multisitesearch][version] = "1.1"
