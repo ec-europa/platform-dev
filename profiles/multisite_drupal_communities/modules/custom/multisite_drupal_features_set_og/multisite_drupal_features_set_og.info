@@ -36,16 +36,10 @@ feature_sets[multisite_registration_og][category] = 'Communication'
 feature_sets[multisite_registration_og][icon] = ''
 feature_sets[multisite_registration_og][font] = 'multisite-icon-history'
 feature_sets[multisite_registration_og][enable][] = registration
-feature_sets[multisite_registration_og][enable][] = events_core
-feature_sets[multisite_registration_og][enable][] = events_og
-feature_sets[multisite_registration_og][enable][] = events_resources
 feature_sets[multisite_registration_og][enable][] = multisite_registration_core
 feature_sets[multisite_registration_og][enable][] = multisite_registration_og
 feature_sets[multisite_registration_og][disable][] = multisite_registration_og
 feature_sets[multisite_registration_og][disable][] = multisite_registration_core
-feature_sets[multisite_registration_og][disable][] = events_resources
-feature_sets[multisite_registration_og][disable][] = events_og
-feature_sets[multisite_registration_og][disable][] = events_core
 feature_sets[multisite_registration_og][disable][] = registration
 
 feature_sets[multisite_forum_community][title] = 'Forum'
