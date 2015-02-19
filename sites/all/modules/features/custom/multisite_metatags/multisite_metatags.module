@@ -289,7 +289,6 @@ function multisite_metatags_preprocess_page(&$variables) {
     if (isset($variables['node']) && (isset($variables['node']->body['und']['0']['safe_value']))) {
       $dom = new DOMDocument();
       @$dom->loadHTML($variables['node']->body['und']['0']['safe_value']);
-      watchdog('debug dom html', print_r($variables['node']->body['und']['0']['safe_value'], TRUE));
       $img = $dom->getElementsByTagName('img');
 
       if ($img->length > 0) {
