@@ -1,6 +1,6 @@
 https://www.drupal.org/node/2185449 : Using AJAX results in errors when scrolling through months
---- sites/all/modules/contributed/fullcalendar/includes/views/fullcalendar.views.inc
-+++ sites/all/modules/contributed/fullcalendar/includes/views/fullcalendar.views.inc
+--- includes/views/fullcalendar.views.inc
++++ includes/views/fullcalendar.views.inc
 @@ -121,7 +121,7 @@ function fullcalendar_views_pre_view(&$view, &$display_id, &$args) {
      $max = date('Y-m-d', strtotime($max . ' +2 weeks'));
      $options = array(
@@ -10,8 +10,8 @@ https://www.drupal.org/node/2185449 : Using AJAX results in errors when scrollin
        'operator' => 'between',
        'default_date' => $min,
        'default_to_date' => $max,
---- sites/all/modules/contributed/fullcalendar/js/fullcalendar.ajax.js
-+++ sites/all/modules/contributed/fullcalendar/js/fullcalendar.ajax.js
+--- js/fullcalendar.ajax.js
++++ js/fullcalendar.ajax.js
 @@ -9,12 +9,20 @@ Drupal.fullcalendar.fullcalendar.prototype.dateChange = function (fields) {
    }
  

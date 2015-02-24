@@ -1,6 +1,6 @@
 diff a/apachesolr_attachments.index.inc b/apachesolr_attachments.index.inc
---- sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.index.inc	2014-07-08 15:47:59.287508791 +0200
-+++ sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.index.inc	2014-07-08 15:07:15.255695729 +0200
+--- apachesolr_attachments.index.inc	2014-07-08 15:47:59.287508791 +0200
++++ apachesolr_attachments.index.inc	2014-07-08 15:07:15.255695729 +0200
 @@ -243,18 +243,3 @@
      ->condition('parent_entity_id', $parent_entity_id);
  }
@@ -21,8 +21,8 @@ diff a/apachesolr_attachments.index.inc b/apachesolr_attachments.index.inc
 -  }
 -}
 diff  a/apachesolr_attachments.module b/apachesolr_attachments.module
---- sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module	2014-07-08 15:47:59.388509648 +0200
-+++ sites/all/modules/contributed/apachesolr_attachments/apachesolr_attachments.module	2014-07-08 15:10:15.252234311 +0200
+--- apachesolr_attachments.module	2014-07-08 15:47:59.388509648 +0200
++++ apachesolr_attachments.module	2014-07-08 15:10:15.252234311 +0200
 @@ -60,6 +60,26 @@
  }
  
