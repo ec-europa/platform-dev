@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/chr/chr.module	2014-10-17 14:29:42.338714671 +0200
-+++ sites/all/modules/contributed/chr/chr.module	2014-10-17 14:33:54.994184777 +0200
+--- chr.module	2014-10-17 14:29:42.338714671 +0200
++++ chr.module	2014-10-17 14:33:54.994184777 +0200
 @@ -221,14 +221,22 @@
    // Parse response headers from the response body.
    // Be tolerant of malformed HTTP responses that separate header and body with

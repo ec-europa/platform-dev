@@ -1,7 +1,7 @@
 diff --git a/editors/ckeditor.inc b/editors/ckeditor.inc
 index fcf168e..802e789 100644
---- sites/all/modules/contributed/wysiwyg/editors/ckeditor.inc
-+++ sites/all/modules/contributed/wysiwyg/editors/ckeditor.inc
+--- editors/ckeditor.inc
++++ editors/ckeditor.inc
 @@ -78,11 +78,11 @@ function wysiwyg_ckeditor_version($editor) {
      // version:'CKEditor 3.0 SVN',revision:'3665'
      // version:'3.0 RC',revision:'3753'

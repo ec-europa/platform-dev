@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/chr.module	2015-02-23 16:40:47.384730929 +0100
-+++ sites/all/modules/contributed/chr.module	2015-02-23 16:41:03.365603028 +0100
+--- chr.module	2015-02-23 16:40:47.384730929 +0100
++++ chr.module	2015-02-23 16:41:03.365603028 +0100
 @@ -287,7 +287,7 @@
        elseif ($options['max_redirects']) {
          // Redirect to the new location.
