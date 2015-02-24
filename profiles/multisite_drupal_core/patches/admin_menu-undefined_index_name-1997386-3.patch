@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/admin_menu/admin_menu.inc
-+++ sites/all/modules/contributed/admin_menu/admin_menu.inc
+--- admin_menu/admin_menu.inc
++++ admin_menu/admin_menu.inc
 @@ -705,7 +705,9 @@ function admin_menu_theme_settings() {
    foreach ($result as $module) {
      if (file_exists($module->filename)) {
