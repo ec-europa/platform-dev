@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/admin_menu/admin_menu.js
-+++ sites/all/modules/contributed/admin_menu/admin_menu.js
+--- admin_menu.js
++++ admin_menu.js
 @@ -220,7 +220,7 @@ Drupal.admin.behaviors.destination = function (context, settings, $adminMenu) {
   */
  Drupal.admin.behaviors.hover = function (context, settings, $adminMenu) {
