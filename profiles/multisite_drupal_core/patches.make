@@ -6,3 +6,5 @@ projects[admin_menu][patch][] = ../multisite_drupal_core/patches/admin_menu-unde
 projects[admin_menu][patch][] = ../multisite_drupal_core/patches/admin_menu-correctly_display-2360249-74.patch
 projects[admin_menu][patch][] = ../multisite_drupal_core/patches/admin_menu-ie6detect-1961178-2.patch
 projects[advanced_help][patch][] = ../multisite_drupal_core/patches/advanced_help-solve_error_message-2202.patch
+projects[drupal][patch][] = ../multisite_drupal_core/patches/ajax-js_url_suffix.patch
+projects[fullcalendar][patch][] = ../multisite_drupal_core/patches/fullcalendar-ajax_date_format-2185449-11.patch
