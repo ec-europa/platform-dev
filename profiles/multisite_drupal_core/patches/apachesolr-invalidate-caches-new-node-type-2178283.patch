@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/apachesolr/apachesolr.module
-+++ sites/all/modules/contributed/apachesolr/apachesolr.module
+--- apachesolr/apachesolr.module
++++ apachesolr/apachesolr.module
 @@ -811,6 +811,7 @@ function apachesolr_node_type_insert($info) {
        $bundles[] = $info->type;
        // Set the new bundle as indexable for all environments

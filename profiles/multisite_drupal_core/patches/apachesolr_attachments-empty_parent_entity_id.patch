@@ -1,0 +1,10 @@
+--- apachesolr_attachments.module 2014-07-08 16:43:57.638294000 +0200
++++ apachesolr_attachments.module 2014-07-14 10:58:51.184815000 +0200
+@@ -88,6 +88,7 @@
+     ->fields('aie')
+     ->condition('entity_type', 'file')
+     ->condition('entity_id', $file->fid)
++    ->condition('parent_entity_id', 0, '<>')
+     ->execute();
+ 
+   foreach ($parents as $parent) {

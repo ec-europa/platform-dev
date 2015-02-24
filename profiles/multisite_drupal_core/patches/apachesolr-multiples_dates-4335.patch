@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/apachesolr/apachesolr.index.inc	2013-11-14 16:49:29.000000000 +0100
-+++ sites/all/modules/contributed/apachesolr/apachesolr.index.inc	2014-08-20 09:15:09.000000000 +0200
+--- apachesolr.index.inc	2013-11-14 16:49:29.000000000 +0100
++++ apachesolr.index.inc	2014-08-20 09:15:09.000000000 +0200
 @@ -1218,16 +1218,22 @@
      // and one for the end date.
      foreach ($values as $value) {
