@@ -98,3 +98,9 @@ function multisite_notifications_core_uninstall() {
     //Nothing yet
 }
 
+/**
+ * Refactor mail template with correct unsubscribe url.
+ */
+function multisite_notifications_core_update_7101(&$sandbox = NULL) {
+  db_query("update mail_edit set body = replace(body, '[site:url]unsubscribe/[current-user:uid]', '[site:url]/unsubscribe/[current-user:uid]') ");
+}
