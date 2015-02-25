@@ -1,7 +1,7 @@
-diff --git a/module/field/field.api.php b/module/field/field.api.php
+diff --git a/modules/field/field.api.php b/modules/field/field.api.php
 index b0fc6a4..52c6c2d 100644
---- module/field/field.api.php
-+++ module/field/field.api.php
+--- modules/field/field.api.php
++++ modules/field/field.api.php
 @@ -31,6 +31,8 @@
   *   - label: The human readable name of the element.
   *   - description: A short description of the element contents.
