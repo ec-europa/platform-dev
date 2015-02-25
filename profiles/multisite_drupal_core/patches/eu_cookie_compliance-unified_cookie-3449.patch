@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/eu-cookie-compliance/js/eu_cookie_compliance.js.original
-+++ sites/all/modules/contributed/eu-cookie-compliance/js/eu_cookie_compliance.js
+--- js/eu_cookie_compliance.js.original
++++ js/eu_cookie_compliance.js
 @@ -81,7 +81,7 @@
    }
  

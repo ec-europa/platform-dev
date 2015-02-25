@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/views/handlers/views_handler_filter.inc
-+++ sites/all/modules/contributed/views/handlers/views_handler_filter.inc
+--- handlers/views_handler_filter.inc
++++ handlers/views_handler_filter.inc
 @@ -602,15 +602,19 @@ class views_handler_filter extends views_handler {
      }
 

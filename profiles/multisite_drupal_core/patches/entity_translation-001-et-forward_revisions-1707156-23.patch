@@ -1,7 +1,7 @@
-diff --git sites/all/modules/contributed/entity_translation/entity_translation.admin.inc sites/all/modules/contributed/entity_translation/entity_translation.admin.inc
+diff --git entity_translation.admin.inc entity_translation.admin.inc
 index 380560d..5ed4bbc 100644
---- sites/all/modules/contributed/entity_translation/entity_translation.admin.inc
-+++ sites/all/modules/contributed/entity_translation/entity_translation.admin.inc
+--- entity_translation.admin.inc
++++ entity_translation.admin.inc
 @@ -203,7 +203,7 @@ function entity_translation_overview($entity_type, $entity, $callback = NULL) {
      return entity_translation_overview_callback($callback, $entity);
    }
@@ -20,10 +20,10 @@ index 380560d..5ed4bbc 100644
    $handler->setFormLanguage($langcode);
    $languages = language_list();
  
-diff --git sites/all/modules/contributed/entity_translation/entity_translation.module sites/all/modules/contributed/entity_translation/entity_translation.module
+diff --git entity_translation.module entity_translation.module
 index dd728f5..36a703c 100644
---- sites/all/modules/contributed/entity_translation/entity_translation.module
-+++ sites/all/modules/contributed/entity_translation/entity_translation.module
+--- entity_translation.module
++++ entity_translation.module
 @@ -537,7 +537,8 @@ function entity_translation_edit_page() {
    $edit_form_item = array_shift($args);
  
@@ -55,10 +55,10 @@ index dd728f5..36a703c 100644
    if (!empty($handler) && $handler->isEntityForm() && $handler->getLanguage() != LANGUAGE_NONE && drupal_multilingual()) {
      $handler->localTasksAlter($data, $router_item, $root_path);
    }
-diff --git sites/all/modules/contributed/entity_translation/includes/translation.handler.inc sites/all/modules/contributed/entity_translation/includes/translation.handler.inc
+diff --git includes/translation.handler.inc includes/translation.handler.inc
 index 9786a85..8c6895e 100644
---- sites/all/modules/contributed/entity_translation/includes/translation.handler.inc
-+++ sites/all/modules/contributed/entity_translation/includes/translation.handler.inc
+--- includes/translation.handler.inc
++++ includes/translation.handler.inc
 @@ -156,15 +156,23 @@ interface EntityTranslationHandlerInterface {
    /**
     * Returns the wrapped entity.
@@ -217,10 +217,10 @@ index 9786a85..8c6895e 100644
     * @see EntityTranslationHandlerInterface::getEntityType()
     */
    public function getEntityType() {
-diff --git sites/all/modules/contributed/entity_translation/includes/translation.handler.node.inc sites/all/modules/contributed/entity_translation/includes/translation.handler.node.inc
+diff --git includes/translation.handler.node.inc includes/translation.handler.node.inc
 index fee6355..11bd60b 100644
---- sites/all/modules/contributed/entity_translation/includes/translation.handler.node.inc
-+++ sites/all/modules/contributed/entity_translation/includes/translation.handler.node.inc
+--- includes/translation.handler.node.inc
++++ includes/translation.handler.node.inc
 @@ -25,6 +25,17 @@ class EntityTranslationNodeHandler extends EntityTranslationDefaultHandler {
    }
  
@@ -259,10 +259,10 @@ index fee6355..11bd60b 100644
        if (!empty($form_state['values']['date'])) {
          $values['created'] = $form_state['values']['date'];
        }
-diff --git sites/all/modules/contributed/entity_translation/includes/translation.handler_factory.inc sites/all/modules/contributed/entity_translation/includes/translation.handler_factory.inc
+diff --git includes/translation.handler_factory.inc includes/translation.handler_factory.inc
 index bdbcf9b..a4b1190 100644
---- sites/all/modules/contributed/entity_translation/includes/translation.handler_factory.inc
-+++ sites/all/modules/contributed/entity_translation/includes/translation.handler_factory.inc
+--- includes/translation.handler_factory.inc
++++ includes/translation.handler_factory.inc
 @@ -109,6 +109,9 @@ class EntityTranslationHandlerFactory {
     *   The type of the entity the translation handler will wrap.
     * @param $entity
