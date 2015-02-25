@@ -13,8 +13,8 @@ index b0fc6a4..52c6c2d 100644
   *     'form' context.
 diff --git a/field.info.class.inc b/field.info.class.inc
 index 3b89898..891fc8a 100644
---- field.info.class.inc
-+++ field.info.class.inc
+--- modules/field/field.info.class.inc
++++ modules/field/field.info.class.inc
 @@ -655,11 +655,12 @@ public function prepareExtraFields($extra_fields, $entity_type, $bundle) {
          else {
            $field_data['display'][$view_mode] = array(
