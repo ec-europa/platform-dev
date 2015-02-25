@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/context/plugins/context_condition_menu.inc	2013-08-12 18:09:05.917742517 +0200
-+++ sites/all/modules/contributed/context/plugins/context_condition_menu.inc	2013-08-12 18:10:15.884814584 +0200
+--- plugins/context_condition_menu.inc	2013-08-12 18:09:05.917742517 +0200
++++ plugins/context_condition_menu.inc	2013-08-12 18:10:15.884814584 +0200
 @@ -1,5 +1,7 @@
  <?php
  
@@ -38,7 +38,7 @@
          unset($menus[$key]);
        }
 --- /dev/null
-+++ sites/all/modules/contributed/context/plugins/context_menu_helpers.inc	2013-08-12 18:10:15.884814584 +0200
++++ plugins/context_menu_helpers.inc	2013-08-12 18:10:15.884814584 +0200
 @@ -0,0 +1,72 @@
 +<?php
 +
@@ -112,8 +112,8 @@
 +    }
 +  }
 +}
---- sites/all/modules/contributed/context/plugins/context_reaction_menu.inc	2013-08-12 18:09:05.917742517 +0200
-+++ sites/all/modules/contributed/context/plugins/context_reaction_menu.inc	2013-08-12 18:10:15.884814584 +0200
+--- plugins/context_reaction_menu.inc	2013-08-12 18:09:05.917742517 +0200
++++ plugins/context_reaction_menu.inc	2013-08-12 18:10:15.884814584 +0200
 @@ -1,5 +1,7 @@
  <?php
  
