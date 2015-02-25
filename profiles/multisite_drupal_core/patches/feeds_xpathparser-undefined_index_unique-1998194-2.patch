@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/feeds_xpathparser/FeedsXPathParserBase.inc
-+++ sites/all/modules/contributed/feeds_xpathparser/FeedsXPathParserBase.inc
+--- FeedsXPathParserBase.inc
++++ FeedsXPathParserBase.inc
 @@ -199,7 +199,7 @@ abstract class FeedsXPathParserBase extends FeedsParser {
      foreach ($mappings_ as $mapping) {
        if (strpos($mapping['source'], 'xpathparser:') === 0) {

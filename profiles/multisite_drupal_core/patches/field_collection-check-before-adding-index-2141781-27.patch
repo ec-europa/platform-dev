@@ -1,6 +1,6 @@
 https://www.drupal.org/node/2141781 https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5201
---- sites/all/modules/contributed/field_collection/field_collection.install
-+++ sites/all/modules/contributed/field_collection/field_collection.install
+--- field_collection.install
++++ field_collection.install
 @@ -276,7 +276,9 @@ function field_collection_update_7004() {
        $revision_id_column = sprintf('%s_revision_id', $field_name);
 
