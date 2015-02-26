@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/maxlength/maxlength.module	2014-04-28 15:55:44.008372806 +0200
-+++ sites/all/modules/contributed/maxlength/maxlength.module	2014-04-28 15:56:18.633560822 +0200
+--- maxlength.module	2014-04-28 15:55:44.008372806 +0200
++++ maxlength.module	2014-04-28 15:56:18.633560822 +0200
 @@ -168,7 +168,7 @@
   */
  function maxlength_validate_input(&$element, &$form_state) {

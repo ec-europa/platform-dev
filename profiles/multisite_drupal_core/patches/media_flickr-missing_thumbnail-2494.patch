@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/media_flickr/includes/media_flickr.formatters.inc.orig
-+++ sites/all/modules/contributed/media_flickr/includes/media_flickr.formatters.inc
+--- includes/media_flickr.formatters.inc.orig
++++ includes/media_flickr.formatters.inc
 @@ -90,9 +90,8 @@
      }
      else {
@@ -13,8 +13,8 @@
      }
      if ($display['settings']['link_to_flickr']) {
 
---- sites/all/modules/contributed/media_flickr/includes/MediaFlickrStreamWrapper.inc.orig
-+++ sites/all/modules/contributed/media_flickr/includes/MediaFlickrStreamWrapper.inc
+--- includes/MediaFlickrStreamWrapper.inc.orig
++++ includes/MediaFlickrStreamWrapper.inc
 @@ -35,7 +35,7 @@
    /**
     * Get the url of the original image.
