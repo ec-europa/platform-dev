@@ -1,7 +1,7 @@
 Index: sites/all/modules/contributed/media/includes/media.browser.inc
 ===================================================================
---- sites/all/modules/contributed/media/includes/media.browser.inc	(revision 571)
-+++ sites/all/modules/contributed/media/includes/media.browser.inc	(working copy)
+--- includes/media.browser.inc	(revision 571)
++++ includes/media.browser.inc	(working copy)
 @@ -428,5 +428,11 @@
  function media_browser_build_media_item($file) {
    $preview = media_get_thumbnail_preview($file);
