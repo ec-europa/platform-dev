@@ -1027,7 +1027,9 @@ function og_content_type_admin_node_access($node, $op, $account) {
     $allowed_types = unserialize($result['types_allowed']);
     $look_at_allowed = 1;
 
-    if ($allowed_types[arg(2)] == 1) {
+    $arg_index = str_replace("-", "_", arg(2));
+    
+    if ($allowed_types[$arg_index] == 1) {
       return NODE_ACCESS_ALLOW;
     }
     else {
