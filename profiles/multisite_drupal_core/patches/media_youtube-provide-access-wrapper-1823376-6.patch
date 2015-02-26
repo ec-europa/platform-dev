@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/media_youtube/includes/MediaYouTubeBrowser.inc
-+++ sites/all/modules/contributed/media_youtube/includes/MediaYouTubeBrowser.inc
+--- includes/MediaYouTubeBrowser.inc
++++ includes/MediaYouTubeBrowser.inc
 @@ -14,9 +14,7 @@ class MediaYouTubeBrowser extends MediaBrowserPlugin {
     * Implements MediaBrowserPluginInterface::access().
     */
@@ -11,8 +11,8 @@
    }
  
    /**
---- sites/all/modules/contributed/media_youtube/media_youtube.module
-+++ sites/all/modules/contributed/media_youtube/media_youtube.module
+--- media_youtube.module
++++ media_youtube.module
 @@ -308,9 +308,7 @@ function media_youtube_add_submit($form, &$form_state) {
    }
  

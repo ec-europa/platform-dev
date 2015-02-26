@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/quicktabs/js/quicktabs.js	2014-05-23 14:36:12.663734270 +0200
-+++ sites/all/modules/contributed/quicktabs/js/quicktabs.js	2014-05-23 14:40:48.220374451 +0200
+--- js/quicktabs.js	2014-05-23 14:36:12.663734270 +0200
++++ js/quicktabs.js	2014-05-23 14:40:48.220374451 +0200
 @@ -57,11 +57,12 @@
    this.tabIndex = el.myTabIndex;
    var qtKey = 'qt_' + el.qt_name;
