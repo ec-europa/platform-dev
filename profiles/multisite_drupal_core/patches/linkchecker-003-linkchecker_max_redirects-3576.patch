@@ -1,0 +1,11 @@
+--- linkchecker.module	2014-06-20 16:22:56.787143129 +0200
++++ linkchecker.module	2014-06-23 11:21:03.000000000 +0200
+@@ -473,7 +473,7 @@
+     $options = array(
+       'headers' => $headers,
+       'method' => $link->method,
+-      'max_redirects' => 0,
++      'max_redirects' => 5,
+     );
+
+     if ($has_httprl) {

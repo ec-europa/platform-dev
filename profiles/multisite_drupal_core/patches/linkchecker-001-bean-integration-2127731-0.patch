@@ -2,7 +2,7 @@ diff --git a/modules/linkchecker_bean/linkchecker_bean.info b/modules/linkchecke
 new file mode 100644
 index 0000000..a1d5132
 --- /dev/null
-+++ sites/all/modules/contributed/linkchecker/modules/linkchecker_bean/linkchecker_bean.info
++++ modules/linkchecker_bean/linkchecker_bean.info
 @@ -0,0 +1,8 @@
 +name = Link checker Bean
 +description = "Periodically checks for broken links in beans and reports the results."
@@ -16,7 +16,7 @@ diff --git a/modules/linkchecker_bean/linkchecker_bean.install b/modules/linkche
 new file mode 100644
 index 0000000..8ae7940
 --- /dev/null
-+++ sites/all/modules/contributed/linkchecker/modules/linkchecker_bean/linkchecker_bean.install
++++ modules/linkchecker_bean/linkchecker_bean.install
 @@ -0,0 +1,53 @@
 +<?php
 +
@@ -75,7 +75,7 @@ diff --git a/modules/linkchecker_bean/linkchecker_bean.module b/modules/linkchec
 new file mode 100644
 index 0000000..5ffa07c
 --- /dev/null
-+++ sites/all/modules/contributed/linkchecker/modules/linkchecker_bean/linkchecker_bean.module
++++ modules/linkchecker_bean/linkchecker_bean.module
 @@ -0,0 +1,445 @@
 +<?php
 +

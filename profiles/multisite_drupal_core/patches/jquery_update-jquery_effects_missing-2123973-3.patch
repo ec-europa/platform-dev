@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/jquery_update/jquery_update.module
-+++ sites/all/modules/contributed/jquery_update/jquery_update.module
+--- jquery_update.module
++++ jquery_update.module
 @@ -382,12 +382,10 @@ function jquery_update_jqueryui_replace(&$javascript, $cdn, $path, $min) {
      'ui.accordion', 'ui.autocomplete', 'ui.button', 'ui.datepicker', 'ui.dialog', 'ui.draggable',
      'ui.droppable', 'ui.mouse', 'ui.position', 'ui.progressbar', 'ui.resizable', 'ui.selectable',

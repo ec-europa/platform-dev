@@ -18,7 +18,6 @@ projects[chr][patch][] = ../multisite_drupal_core/patches/chr-patches.patch
 projects[wysiwyg][patch][] = ../multisite_drupal_core/patches/wysiwyg-ckeditor4-bug-version-1799.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/common-prevent_sanitize_remove_html_tags.patch
 projects[context][patch][] = ../multisite_drupal_core/patches/context-slow_menu_items-873936-20.patch
-projects[email][patch][] = ../multisite_drupal_core/patches/email-migrate_handler_error-1515362-2.patch
 projects[entity_translation][patch][] = ../multisite_drupal_core/patches/entity_translation-001-et-forward_revisions-1707156-23.patch
 projects[eu-cookie-compliance][patch][] = ../multisite_drupal_core/patches/eu_cookie_compliance-unified_cookie-3449.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/views-exposed_groupfilter_views-1818176-11.patch
@@ -31,3 +30,8 @@ projects[views][patch][] = ../multisite_drupal_core/patches/views-includes_handl
 projects[i18n][patch][] = ../multisite_drupal_core/patches/i18n_string-2227523-20.patch
 projects[i18n][patch][] = ../multisite_drupal_core/patches/i18n-hide_language_field-3996.patch
 projects[i18n][patch][] = ../multisite_drupal_core/patches/i18n_sync-node_delete-2209973-9.patch
+projects[drupal][patch][] = ../multisite_drupal_core/patches/imagegd-transparency-29_0.patch
+projects[jquery_update][patch][] = ../multisite_drupal_core/patches/jquery_update-jquery_effects_missing-2123973-3.patch
+projects[linkchecker][patch][] = ../multisite_drupal_core/patches/linkchecker-001-bean-integration-2127731-0.patch
+projects[linkchecker][patch][] = ../multisite_drupal_core/patches/linkchecker-003-linkchecker_max_redirects-3576.patch
+
