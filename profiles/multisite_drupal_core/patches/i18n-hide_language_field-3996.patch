@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/i18n/i18n.module	Mon Jun 02 14:43:41 2014
-+++ sites/all/modules/contributed/i18n/i18n.module	Mon Jun 02 14:47:16 2014
+--- i18n.module	Mon Jun 02 14:43:41 2014
++++ i18n.module	Mon Jun 02 14:47:16 2014
 @@ -186,6 +186,7 @@
          'label' => t('Language'),
          'description' => t('Language'),
