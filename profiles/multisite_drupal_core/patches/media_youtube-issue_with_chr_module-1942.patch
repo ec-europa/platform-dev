@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/media_youtube/includes/MediaInternetYouTubeHandler.inc 2013-07-01 10:48:58.583153426 +0200
-+++ sites/all/modules/contributed/media_youtube/includes/MediaInternetYouTubeHandler.inc 2013-07-01 10:50:03.943262824 +0200
+--- includes/MediaInternetYouTubeHandler.inc 2013-07-01 10:48:58.583153426 +0200
++++ includes/MediaInternetYouTubeHandler.inc 2013-07-01 10:50:03.943262824 +0200
 @@ -109,7 +109,7 @@
      $external_url = file_create_url($uri);
      $oembed_url = url('http://www.youtube.com/oembed', array('query' => array('url' => $external_url, 'format' => 'json')));
