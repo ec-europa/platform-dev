@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2013-11-08 09:24:40.026604027 +0100
-+++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	2013-11-08 14:10:27.000000000 +0100
+--- workbench_moderation.module	2013-11-08 09:24:40.026604027 +0100
++++ workbench_moderation.module	2013-11-08 14:10:27.000000000 +0100
 @@ -399,6 +399,9 @@
    $permissions['use workbench_moderation needs review tab'] = array(
      'title' => t('Use "Needs review" workbench tab')

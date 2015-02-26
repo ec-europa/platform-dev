@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module 2014-02-26 13:47:25.001581317 +0100
-+++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module 2014-02-26 13:46:58.612427976 +0100
+--- workbench_moderation.module 2014-02-26 13:47:25.001581317 +0100
++++ workbench_moderation.module 2014-02-26 13:46:58.612427976 +0100
 @@ -697,8 +697,6 @@
    // Apply moderation changes if this is a new revision or if the moderation
    // state has changed.

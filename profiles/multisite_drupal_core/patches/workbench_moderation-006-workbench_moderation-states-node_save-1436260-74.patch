@@ -2,7 +2,7 @@ diff --git sites/all/modules/contributed/workbench_moderation/tests/external_nod
 new file mode 100644
 index 0000000..c78ddd9
 --- /dev/null
-+++ sites/all/modules/contributed/workbench_moderation/tests/external_node_update.test
++++ tests/external_node_update.test
 @@ -0,0 +1,189 @@
 +<?php
 +
@@ -197,7 +197,7 @@ diff --git sites/all/modules/contributed/workbench_moderation/tests/workbench_mo
 new file mode 100644
 index 0000000..0f9e013
 --- /dev/null
-+++ sites/all/modules/contributed/workbench_moderation/tests/workbench_moderation_test.info
++++ tests/workbench_moderation_test.info
 @@ -0,0 +1,5 @@
 +name = Workbench Moderation Test
 +description = Test module for Workbench Moderation.
@@ -208,7 +208,7 @@ diff --git sites/all/modules/contributed/workbench_moderation/tests/workbench_mo
 new file mode 100644
 index 0000000..f1dc668
 --- /dev/null
-+++ sites/all/modules/contributed/workbench_moderation/tests/workbench_moderation_test.module
++++ tests/workbench_moderation_test.module
 @@ -0,0 +1,37 @@
 +<?php
 +
@@ -249,8 +249,8 @@ index 0000000..f1dc668
 +}
 diff --git sites/all/modules/contributed/workbench_moderation/workbench_moderation.info sites/all/modules/contributed/workbench_moderation/workbench_moderation.info
 index f065940..3f9939f 100644
---- sites/all/modules/contributed/workbench_moderation/workbench_moderation.info
-+++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.info
+--- workbench_moderation.info
++++ workbench_moderation.info
 @@ -13,5 +13,6 @@ files[] = includes/workbench_moderation_handler_filter_state.inc
  files[] = includes/workbench_moderation_handler_filter_moderated_type.inc
  files[] = includes/workbench_moderation_handler_filter_user_can_moderate.inc
@@ -260,8 +260,8 @@ index f065940..3f9939f 100644
  files[] = tests/workbench_moderation.files.test
 diff --git sites/all/modules/contributed/workbench_moderation/workbench_moderation.module sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
 index 6c7d5ed..f4a6ef5 100644
---- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
-+++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module
+--- workbench_moderation.module
++++ workbench_moderation.module
 @@ -675,13 +675,31 @@ function workbench_moderation_node_update($node) {
      return;
    }

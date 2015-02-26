@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/views/includes/view.inc
-+++ sites/all/modules/contributed/views/includes/view.inc
+--- includes/view.inc
++++ includes/view.inc
 @@ -2076,25 +2076,26 @@ class view extends views_db_object {
    }
  

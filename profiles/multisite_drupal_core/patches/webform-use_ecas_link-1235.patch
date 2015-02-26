@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/webform/webform.module	2013-01-03 16:38:38.027106913 +0100
-+++ sites/all/modules/contributed/webform/webform.module	2013-01-03 16:22:41.322095149 +0100
+--- webform.module	2013-01-03 16:38:38.027106913 +0100
++++ webform.module	2013-01-03 16:22:41.322095149 +0100
 @@ -1952,8 +1952,17 @@
      }
      elseif ($user->uid == 0) {

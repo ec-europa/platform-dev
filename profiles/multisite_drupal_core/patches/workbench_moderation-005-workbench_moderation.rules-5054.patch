@@ -1,8 +1,8 @@
 Modify the Workbench moderationrules in order to add revision management and unpublish action
 Index: sites/all/modules/contributed/workbench_moderation/workbench_moderation.rules.inc
 ===================================================================
---- sites/all/modules/contributed/workbench_moderation/workbench_moderation.rules.inc	2012-01-14 00:12:30.000000000 +0100
-+++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.rules.inc	2012-02-21 10:44:29.000000000 +0100
+--- workbench_moderation.rules.inc	2012-01-14 00:12:30.000000000 +0100
++++ workbench_moderation.rules.inc	2012-02-21 10:44:29.000000000 +0100
 
 ***************
 *** 170,191 ****

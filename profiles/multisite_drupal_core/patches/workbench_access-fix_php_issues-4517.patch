@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/workbench_access/workbench_access.module	2014-09-17 15:07:29.000000000 +0200
-+++ sites/all/modules/contributed/workbench_access/workbench_access.module	2014-09-17 15:10:05.000000000 +0200
+--- workbench_access.module	2014-09-17 15:07:29.000000000 +0200
++++ workbench_access.module	2014-09-17 15:10:05.000000000 +0200
 @@ -1202,6 +1202,8 @@
   *   An array of items within the given access scheme.
   */

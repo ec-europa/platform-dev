@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	Fri Feb 13 11:00:39 2015
-+++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.module	Fri Feb 13 10:56:19 2015
+--- workbench_moderation.module	Fri Feb 13 11:00:39 2015
++++ workbench_moderation.module	Fri Feb 13 10:56:19 2015
 @@ -823,12 +823,13 @@
    if (!workbench_moderation_node_type_moderated($form['type']['#value'])) {
      return;

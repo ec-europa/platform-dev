@@ -69,4 +69,14 @@ projects[drupal][patch][] = ../multisite_drupal_core/patches/user-request_passwo
 projects[drupal][patch][] = ../multisite_drupal_core/patches/user-vulnerability-884.patch
 projects[video][patch][] = ../multisite_drupal_core/patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = ../multisite_drupal_core/patches/video-security-883.patch
+projects[views][patch][] = ../multisite_drupal_core/patches/views-localization-bug-1685144-9.patch
+projects[webform][patch][] = ../multisite_drupal_core/patches/webform-use_ecas_link-1235.patch
+projects[workbench_access][patch][] = ../multisite_drupal_core/patches/workbench_access-fix_php_issues-4517.patch
+projects[workbench_moderation][patch][] = ../multisite_drupal_core/patches/workbench_moderation-001-wm-field_translations-2285931-1.patch
+projects[workbench_moderation][patch][] = ../multisite_drupal_core/patches/workbench_moderation-002-attachment_fix-1084436-47.patch
+projects[workbench_moderation][patch][] = ../multisite_drupal_core/patches/workbench_moderation-003-workbench-moderation-draft-terminology-5054.patch
+projects[workbench_moderation][patch][] = ../multisite_drupal_core/patches/workbench_moderation-004-workbench_moderation-5054.patch
+projects[workbench_moderation][patch][] = ../multisite_drupal_core/patches/workbench_moderation-005-workbench_moderation.rules-5054.patch
+projects[workbench_moderation][patch][] = ../multisite_drupal_core/patches/workbench_moderation-006-workbench_moderation-states-node_save-1436260-74.patch
+projects[workbench_moderation][patch][] = ../multisite_drupal_core/patches/workbench_moderation-007-default-state-1408858-38.patch
 
