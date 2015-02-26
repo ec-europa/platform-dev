@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/pathauto/pathauto.module	2014-06-13 14:48:52.639617670 +0200
-+++ sites/all/modules/contributed/pathauto/pathauto.module	2014-06-13 08:19:44.710190070 +0200
+--- pathauto.module	2014-06-13 14:48:52.639617670 +0200
++++ pathauto.module	2014-06-13 08:19:44.710190070 +0200
 @@ -351,7 +351,7 @@ function pathauto_field_attach_form($entity_type, $entity, &$form, &$form_state,
  /**
   * Implements hook_entity_presave().

@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/pathauto/pathauto.admin.inc
-+++ sites/all/modules/contributed/pathauto/pathauto.admin.inc
+--- pathauto.admin.inc
++++ pathauto.admin.inc
 @@ -15,6 +15,7 @@
   */
  function pathauto_patterns_form($form, $form_state) {
