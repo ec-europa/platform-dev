@@ -63,3 +63,10 @@ projects[quicktabs][patch][] = ../multisite_drupal_core/patches/quicktabs-ajax-d
 projects[rate][patch][] = ../multisite_drupal_core/patches/rate-translate_description-1178.patch
 projects[simplenews][patch][] = ../multisite_drupal_core/patches/simplenews-fieldset-weight-4330.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/standard-change_article_description-791.patch
+projects[term_reference_tree][patch][] = ../multisite_drupal_core/patches/term_reference_tree-i18n-2000.patch
+projects[term_reference_tree][patch][] = ../multisite_drupal_core/patches/term_reference_tree-ie8-2000.patch
+projects[drupal][patch][] = ../multisite_drupal_core/patches/user-request_password_behaviour-2205.patch
+projects[drupal][patch][] = ../multisite_drupal_core/patches/user-vulnerability-884.patch
+projects[video][patch][] = ../multisite_drupal_core/patches/video-revert_issue-1891012-0.patch
+projects[video][patch][] = ../multisite_drupal_core/patches/video-security-883.patch
+

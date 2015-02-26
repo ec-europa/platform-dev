@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/video/libraries/phpvideotoolkit/phpvideotoolkit.php5.php	2013-03-07 14:36:52.000000000 +0100
-+++ sites/all/modules/contributed/video/libraries/phpvideotoolkit/phpvideotoolkit.php5.php	2013-03-07 15:23:17.000000000 +0100
+--- libraries/phpvideotoolkit/phpvideotoolkit.php5.php	2013-03-07 14:36:52.000000000 +0100
++++ libraries/phpvideotoolkit/phpvideotoolkit.php5.php	2013-03-07 15:23:17.000000000 +0100
 @@ -1214,88 +1214,6 @@
    }
  

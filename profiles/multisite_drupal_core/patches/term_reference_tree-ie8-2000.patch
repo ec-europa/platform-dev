@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/term_reference_tree/term_reference_tree.css
-+++ sites/all/modules/contributed/term_reference_tree/term_reference_tree.css
+--- term_reference_tree.css
++++ term_reference_tree.css
 @@ -47,10 +47,14 @@
  
  .field-widget-term-reference-tree .form-item {
