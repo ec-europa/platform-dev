@@ -1,5 +1,5 @@
---- i18n_string.pages.inc
-+++ i18n_string.pages.inc
+--- i18n_string/i18n_string.pages.inc
++++ i18n_string/i18n_string.pages.inc
 @@ -398,8 +398,9 @@ function i18n_string_locale_translate_edit_form_submit($form, &$form_state) {
    // Invoke locale submission.
    locale_translate_edit_form_submit($form, $form_state);
