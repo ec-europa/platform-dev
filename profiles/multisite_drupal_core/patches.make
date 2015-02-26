@@ -46,3 +46,7 @@ projects[media_vimeo][patch][] = ../multisite_drupal_core/patches/media_vimeo-is
 projects[media_youtube][patch][] = ../multisite_drupal_core/patches/media_youtube-issue_with_chr_module-1942.patch
 projects[media][patch][] = ../multisite_drupal_core/patches/media-media_browser-preview_javascript_incompatibility-1743040-3.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/menu-conflict_with_menu_token-2534.patch
+projects[menu_attributes][patch][] = ../multisite_drupal_core/patches/menu_attributes-add_icon_for_menu_item-2327.patch
+projects[menu_attributes][patch][] = ../multisite_drupal_core/patches/menu_attributes-option_to_disable_css_class-2988.patch
+projects[menu_block][patch][] = ../multisite_drupal_core/patches/menu_block-jqueryUI_issue-5211.patch
+projects[menu_token][patch][] = ../multisite_drupal_core/patches/menu_token-link_uuid_menu_items_can_not_be_edited-2005556-2.patch

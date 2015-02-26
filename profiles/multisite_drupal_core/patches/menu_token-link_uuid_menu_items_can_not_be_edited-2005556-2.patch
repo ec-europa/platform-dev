@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/menu_token/menu_token.module	2013-08-12 18:09:05.917742517 +0200
-+++ sites/all/modules/contributed/menu_token/menu_token.module	2013-08-12 18:10:15.884814584 +0200
+--- menu_token.module	2013-08-12 18:09:05.917742517 +0200
++++ menu_token.module	2013-08-12 18:10:15.884814584 +0200
 @@ -113,6 +113,9 @@ function menu_token_translated_menu_link_alter(&$item, $map) {
  
      $options['clear'] = !empty($item['options']['menu_token_options']['clear']) ? TRUE : FALSE;

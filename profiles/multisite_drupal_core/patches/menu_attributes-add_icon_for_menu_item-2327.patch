@@ -1,5 +1,5 @@
-*** sites/all/modules/contributed/menu_attributes/menu_attributes.module	Thu Oct 06 23:32:44 2011
---- sites/all/modules/contributed/menu_attributes/menu_attributes.module	Fri Oct 11 10:37:37 2013
+*** menu_attributes.module	Thu Oct 06 23:32:44 2011
+--- menu_attributes.module	Fri Oct 11 10:37:37 2013
 ***************
 *** 41,46 ****
 --- 41,270 ----

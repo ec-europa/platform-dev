@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/menu_attributes/menu_attributes.module	Thu Jan 30 14:37:08 2014
-+++ sites/all/modules/contributed/menu_attributes/menu_attributes.module	Fri Jan 31 13:55:23 2014
+--- menu_attributes.module	Thu Jan 30 14:37:08 2014
++++ menu_attributes.module	Fri Jan 31 13:55:23 2014
 @@ -288,6 +288,13 @@
      'label' => t('Classes'),
      'description' => t('Enter additional classes to be added to the link.'),
