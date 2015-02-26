@@ -59,4 +59,7 @@ projects[media_youtube][patch][] = ../multisite_drupal_core/patches/media_youtub
 projects[drupal][patch][] = ../multisite_drupal_core/patches/settings-add_proxy_settings-668.patch
 projects[quicktabs][patch][] = ../multisite_drupal_core/patches/quicktabs-tabs_broken-3880.patch
 projects[quicktabs][patch][] = ../multisite_drupal_core/patches/quicktabs-user-interface-2108935-2.patch
-
+projects[quicktabs][patch][] = ../multisite_drupal_core/patches/quicktabs-ajax-default-tab-none_1741488-10.patch
+projects[rate][patch][] = ../multisite_drupal_core/patches/rate-translate_description-1178.patch
+projects[simplenews][patch][] = ../multisite_drupal_core/patches/simplenews-fieldset-weight-4330.patch
+projects[drupal][patch][] = ../multisite_drupal_core/patches/standard-change_article_description-791.patch

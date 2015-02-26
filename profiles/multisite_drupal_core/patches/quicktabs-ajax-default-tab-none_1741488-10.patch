@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/quicktabs/plugins/QuickQuicktabs.inc	2014-05-05 10:54:17.118654140 +0200
-+++ sites/all/modules/contributed/quicktabs/plugins/QuickQuicktabs.inc	2014-05-05 12:11:44.809059421 +0200
+--- plugins/QuickQuicktabs.inc	2014-05-05 10:54:17.118654140 +0200
++++ plugins/QuickQuicktabs.inc	2014-05-05 12:11:44.809059421 +0200
 @@ -33,9 +33,17 @@
            'divs' => array(),
          ),

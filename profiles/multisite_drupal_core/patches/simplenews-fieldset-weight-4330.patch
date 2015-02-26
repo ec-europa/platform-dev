@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/simplenews/simplenews.module	Mon Aug 04 14:11:25 2014
-+++ sites/all/modules/contributed/simplenews/simplenews.module	Mon Aug 04 14:13:39 2014
+--- simplenews.module	Mon Aug 04 14:11:25 2014
++++ simplenews.module	Mon Aug 04 14:13:39 2014
 @@ -849,7 +849,7 @@
      $form['simplenews'] = array(
        '#type' => 'fieldset',
