@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/views/includes/handlers.inc	2013-05-13 14:47:55.157808368 +0200
-+++ sites/all/modules/contributed/views/includes/handlers.inc	2013-05-14 10:23:34.000000000 +0200
+--- includes/handlers.inc	2013-05-13 14:47:55.157808368 +0200
++++ includes/handlers.inc	2013-05-14 10:23:34.000000000 +0200
 @@ -1027,9 +1027,27 @@
          else {
            $operator = "$operator $placeholder";

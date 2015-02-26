@@ -26,4 +26,5 @@ projects[drupal][patch][] = ../multisite_drupal_core/patches/field-extra-fields-
 projects[features][patch][] = ../multisite_drupal_core/patches/features-var-export-object-1437264-12.patch
 projects[feeds_xpathparser][patch][] = ../multisite_drupal_core/patches/feeds_xpathparser-undefined_index_unique-1998194-2.patch
 projects[field_collection][patch][] = ../multisite_drupal_core/patches/field_collection-check-before-adding-index-2141781-27.patch
-
+projects[fullcalendar][patch][] = ../multisite_drupal_core/patches/fullcalendar-views_dom_id_check-1803770-4.patch
+projects[views][patch][] = ../multisite_drupal_core/patches/views-includes_handlers-1752062-6.patch
