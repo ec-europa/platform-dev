@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/media_flickr/includes/media_flickr.utilities.inc
-+++ sites/all/modules/contributed/media_flickr/includes/media_flickr.utilities.inc
+--- includes/media_flickr.utilities.inc
++++ includes/media_flickr.utilities.inc
 @@ -43,13 +43,11 @@ function _media_flickr_photo_remote_url($photo_id, $size) {
   *  This is a wrapper for emfield_request_xml that includes flickr's api key.
   *  @param string $method

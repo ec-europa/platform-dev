@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/media_flickr/includes/media_flickr.utilities.inc.orig	2013-10-21 15:52:58.560619510 +0200
-+++ sites/all/modules/contributed/media_flickr/includes/media_flickr.utilities.inc	2013-10-21 16:06:25.000000000 +0200
+--- includes/media_flickr.utilities.inc.orig	2013-10-21 15:52:58.560619510 +0200
++++ includes/media_flickr.utilities.inc	2013-10-21 16:06:25.000000000 +0200
 @@ -174,7 +174,7 @@
    if ($info && ($info['@attributes']['stat'] != 'fail')) {
      return $user_id;

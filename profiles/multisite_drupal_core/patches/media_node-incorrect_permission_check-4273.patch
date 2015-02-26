@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/media_node/media_node.module	2012-01-24 00:46:55.000000000 +0100
-+++ sites/all/modules/contributed/media_node/media_node.module	2014-07-18 16:16:02.065802000 +0200
+--- media_node.module	2012-01-24 00:46:55.000000000 +0100
++++ media_node.module	2014-07-18 16:16:02.065802000 +0200
 @@ -32,7 +32,7 @@
  }
  

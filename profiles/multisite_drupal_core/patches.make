@@ -38,3 +38,7 @@ projects[maxlength][patch][] = ../multisite_drupal_core/patches/maxlength-indefi
 projects[maxlength][patch][] = ../multisite_drupal_core/patches/maxlength-prevent_undefined_index_error-1416608-3.patch
 projects[media_dailymotion][patch][] = ../multisite_drupal_core/patches/media_dailymotion-handle_protocol-4103.patch
 projects[media_flickr][patch][] = ../multisite_drupal_core/patches/media_flickr-missing_thumbnail-2494.patch
+projects[media_flickr][patch][] = ../multisite_drupal_core/patches/media_flickr-undefined_index-2183.patch
+projects[media_flickr][patch][] = ../multisite_drupal_core/patches/media_flickr-Media_v2_removed_XML_APIs-2089665-1.patch
+projects[media_node][patch][] = ../multisite_drupal_core/patches/media_node-incorrect_permission_check-4273.patch
+projects[media_flickr][patch][] = ../multisite_drupal_core/patches/media_flickr-fix_photoset_url_issue-2183.patch
