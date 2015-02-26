@@ -358,8 +358,8 @@ index 6c7d5ed..f4a6ef5 100644
    // Prevent another moderation record from being written.
 diff --git sites/all/modules/contributed/workbench_moderation/workbench_moderation.node.inc sites/all/modules/contributed/workbench_moderation/workbench_moderation.node.inc
 index 5baaf59..b8c7b91 100644
---- sites/all/modules/contributed/workbench_moderation/workbench_moderation.node.inc
-+++ sites/all/modules/contributed/workbench_moderation/workbench_moderation.node.inc
+--- workbench_moderation.node.inc
++++ workbench_moderation.node.inc
 @@ -284,24 +284,9 @@ function workbench_moderation_node_unpublish_form_submit($form, &$form_state) {
    global $user;
    $node = $form['node']['#value'];
