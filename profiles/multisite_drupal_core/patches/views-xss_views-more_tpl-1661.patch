@@ -1,0 +1,11 @@
+--- theme/views-more.tpl.php	2013-04-15 12:58:54.000000000 +0200
++++ theme/views-more.tpl.php	2013-04-15 12:59:18.000000000 +0200
+@@ -13,7 +13,7 @@
+ ?>
+ 
+ <div class="more-link">
+-  <a href="<?php print $more_url ?>">
++  <a href="<?php print filter_xss($more_url) ?>">
+     <?php print $link_text; ?>
+   </a>
+ </div>

@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/views/theme/views-view-summary-unformatted.tpl.php	2013-04-15 12:54:54.553179964 +0200
-+++ sites/all/modules/contributed/views/theme/views-view-summary-unformatted.tpl.php	2013-04-15 13:13:51.000000000 +0200
+--- theme/views-view-summary-unformatted.tpl.php	2013-04-15 12:54:54.553179964 +0200
++++ theme/views-view-summary-unformatted.tpl.php	2013-04-15 13:13:51.000000000 +0200
 @@ -12,7 +12,7 @@
  <?php foreach ($rows as $id => $row): ?>
    <?php print (!empty($options['inline']) ? '<span' : '<div') . ' class="views-summary views-summary-unformatted">'; ?>

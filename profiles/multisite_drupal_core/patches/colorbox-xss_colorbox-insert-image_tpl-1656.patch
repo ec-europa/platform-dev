@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/colorbox/colorbox-insert-image.tpl.php	2013-04-11 11:42:45.877959819 +0200
-+++ sites/all/modules/contributed/colorbox/colorbox-insert-image.tpl.php	2013-04-11 13:34:21.000000000 +0200
+--- colorbox-insert-image.tpl.php	2013-04-11 11:42:45.877959819 +0200
++++ colorbox-insert-image.tpl.php	2013-04-11 13:34:21.000000000 +0200
 @@ -21,4 +21,4 @@
   * - __description__: A description of the image, sometimes used as a caption.
   */

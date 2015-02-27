@@ -1,7 +1,7 @@
 # https://www.drupal.org/node/1793704#comment-7205846
 # https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4763
---- sites/all/modules/contributed/wysiwyg/wysiwyg.module
-+++ sites/all/modules/contributed/wysiwyg/wysiwyg.module
+--- wysiwyg.module
++++ wysiwyg.module
 @@ -654,13 +654,8 @@ function wysiwyg_get_css() {
  
    $files = array();

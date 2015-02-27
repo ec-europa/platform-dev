@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/file_entity/file_entity.tpl.php	2014-01-10 13:19:46.000000000 +0100
-+++ sites/all/modules/contributed/file_entity/file_entity.tpl.php	2014-01-10 13:11:27.000000000 +0100
+--- file_entity.tpl.php	2014-01-10 13:19:46.000000000 +0100
++++ file_entity.tpl.php	2014-01-10 13:11:27.000000000 +0100
 @@ -72,7 +72,7 @@
  
    <?php print render($title_prefix); ?>
