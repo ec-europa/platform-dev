@@ -59,6 +59,7 @@ projects[drupal][patch][] = ../multisite_drupal_core/patches/settings-add_proxy_
 projects[quicktabs][patch][] = ../multisite_drupal_core/patches/quicktabs-tabs_broken-3880.patch
 projects[quicktabs][patch][] = ../multisite_drupal_core/patches/quicktabs-user-interface-2108935-2.patch
 projects[quicktabs][patch][] = ../multisite_drupal_core/patches/quicktabs-ajax-default-tab-none_1741488-10.patch
+projects[og_linkchecker][patch][] = ../multisite_drupal_core/patches/og_linkchecker-001-og_linkchecker-og-2-x-compatibility-2214661-2.patch
 projects[rate][patch][] = ../multisite_drupal_core/patches/rate-translate_description-1178.patch
 projects[simplenews][patch][] = ../multisite_drupal_core/patches/simplenews-fieldset-weight-4330.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/standard-change_article_description-791.patch
@@ -91,4 +92,4 @@ projects[drupal][patch][] = ../multisite_drupal_core/patches/taxonomy-xss_taxono
 projects[views][patch][] = ../multisite_drupal_core/patches/views-xss_views-more_tpl-1661.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/views-xss_views-view-summary_tpl-1663.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/xss_views-view-summary-unformatted_tpl-1662.patch
-projects[og_linkchecker][patch][] = ../multisite_drupal_core/patches/og_linkchecker-001-og_linkchecker-og-2-x-compatibility-2214661-2.patch
+
