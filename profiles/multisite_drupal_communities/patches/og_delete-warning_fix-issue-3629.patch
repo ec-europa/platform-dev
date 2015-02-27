@@ -1,6 +1,6 @@
 index 5052d2f..3f14d20 100644
---- sites/all/modules/contributed/og-delete/og_delete.module
-+++ sites/all/modules/contributed/og-delete/og_delete.module
+--- og_delete.module
++++ og_delete.module
 @@ -1,7 +1,7 @@
  <?php
  

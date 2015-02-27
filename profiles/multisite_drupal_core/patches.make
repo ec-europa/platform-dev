@@ -89,7 +89,6 @@ projects[drupal][patch][] = ../multisite_drupal_core/patches/system-xss_maintena
 projects[drupal][patch][] = ../multisite_drupal_core/patches/system-xss_page_tpl-1654.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/search-xss_search-result_tpl-1652.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/taxonomy-xss_taxonomy-term_tpl-1655.patch
-projects[drupal][patch][] = ../multisite_drupal_core/patches/tmgmt-xss_tmgmt_file_html_template-1684.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/views-xss_views-more_tpl-1661.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/views-xss_views-view-summary_tpl-1663.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/xss_views-view-summary-unformatted_tpl-1662.patch

@@ -14,3 +14,6 @@ projects[og-delete][subdir] = "contributed"
 projects[og-delete][download][type] = "git"
 projects[og-delete][download][url] = "http://git.drupal.org/project/OG-Delete.git"
 projects[og-delete][download][revision] = "c759e354d89b7ec280836047569acc75843eed38"
+
+includes[] = "../multisite_drupal_core/patches.make"
+includes[] = "patches.make"

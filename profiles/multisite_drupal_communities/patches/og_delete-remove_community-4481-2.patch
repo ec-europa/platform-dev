@@ -1,5 +1,5 @@
---- sites/all/modules/contributed/og-delete/og_delete.module
-+++ sites/all/modules/contributed/og-delete/og_delete.module
+--- og_delete.module
++++ og_delete.module
 @@ -19,36 +19,54 @@
      case 'node_delete_confirm':
        if (og_is_group_type('node', $form['#node']->type)) {
