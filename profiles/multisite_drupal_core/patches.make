@@ -91,3 +91,4 @@ projects[drupal][patch][] = ../multisite_drupal_core/patches/taxonomy-xss_taxono
 projects[views][patch][] = ../multisite_drupal_core/patches/views-xss_views-more_tpl-1661.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/views-xss_views-view-summary_tpl-1663.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/xss_views-view-summary-unformatted_tpl-1662.patch
+projects[og_linkchecker][patch][] = ../multisite_drupal_core/patches/og_linkchecker-001-og_linkchecker-og-2-x-compatibility-2214661-2.patch

@@ -1,7 +1,7 @@
 diff --git a/og_linkchecker.admin.inc b/og_linkchecker.admin.inc
 index 8cb075b..8a6dafa 100644
---- og_linkchecker.admin.inc
-+++ og_linkchecker.admin.inc
+--- sites/all/modules/contributed/og_linkchecker/og_linkchecker.admin.inc
++++ sites/all/modules/contributed/og_linkchecker/og_linkchecker.admin.inc
 @@ -29,15 +29,13 @@ function og_linkchecker_report() {
    }
    // End code adapted from the Linkchecker module.
@@ -43,8 +43,8 @@ index 8cb075b..8a6dafa 100644
        $content_query = db_select('og_membership', 'om');
 diff --git a/og_linkchecker.module b/og_linkchecker.module
 index f4057f3..f4d170b 100644
---- og_linkchecker.module
-+++ og_linkchecker.module
+--- sites/all/modules/contributed/og_linkchecker/og_linkchecker.module
++++ sites/all/modules/contributed/og_linkchecker/og_linkchecker.module
 @@ -15,9 +15,9 @@ function og_linkchecker_help($path, $arg) {
    switch ($path) {
      case 'admin/help#og_linkchecker':
