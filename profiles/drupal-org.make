@@ -349,7 +349,7 @@ projects[views_bootstrap][subdir] = "contributed"
 projects[views_bootstrap][version] = "3.1"
 
 projects[views_bulk_operations][subdir] = "contributed"
-projects[views_bulk_operations][version] = "3.1"
+projects[views_bulk_operations][version] = "3.2"
 
 projects[views_datasource][subdir] = "contributed"
 ;projects[views_datasource][version] = "1.x-dev"
