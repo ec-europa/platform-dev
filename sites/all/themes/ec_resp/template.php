@@ -1241,7 +1241,7 @@ function ec_resp_breadcrumb($variables) {
 function ec_resp_preprocess_admin_menu_icon(&$variables) {
   $theme_path = drupal_get_path('theme', 'ec_resp');
   $logo_url = file_create_url($theme_path . '/images/favicon.png');
-  $variables['src'] = preg_replace('@^https?:@', 'http:', $logo_url);
+  $variables['src'] = preg_replace('@^https?:@', '', $logo_url);
 }
 
 /**
