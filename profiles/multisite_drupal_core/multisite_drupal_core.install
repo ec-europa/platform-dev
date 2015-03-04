@@ -391,7 +391,15 @@ function multisite_drupal_core_install() {
     'empty_gallery_default' => 'empty_gallery.png',
   );
   foreach ($default_images as $variable => $default_image) {
-    variable_set($variable, file_create_url($theme_path . '/images/' . $default_image));
+    $file = new stdClass();
+    $file->fid = NULL;
+    $file->uri = "public://default_images/" . $default_image;
+    $file->filename = $default_image;
+    $file->filemime = file_get_mimetype($file->uri);
+    $file->uid = 1;
+    $file->status = FILE_STATUS_PERMANENT;
+    $f = file_save($file);
+    variable_set($variable, $file->uri);
   }
 
   // Set the url language prefix to 'en'.
