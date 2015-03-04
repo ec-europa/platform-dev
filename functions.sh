@@ -177,7 +177,7 @@ function _setlinkcheckerconf {
 function _inject_data {
 	__echo "Insert data..."
 	__echo "Set ${UWhite}tmp_base_url${White} to ${Cyan}${base_path}/${site_name}${Color_Off}"
-	drush vset tmp_base_url "/${base_path}/${site_name}"
+	drush vset tmp_base_url "/${base_path}/${site_name}/"
 	drush scr "$1" 
 	drush vdel --exact --yes tmp_base_url
 }
