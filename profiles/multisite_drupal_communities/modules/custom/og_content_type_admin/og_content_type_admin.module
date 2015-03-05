@@ -1041,7 +1041,7 @@ function og_content_type_admin_node_access($node, $op, $account) {
     }
   }
 
-  return NODE_ACCESS_ALLOW;
+  return NODE_ACCESS_IGNORE;
 }
 
 /**
