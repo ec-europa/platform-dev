@@ -248,7 +248,7 @@ projects[message][subdir] = "contributed"
 projects[message][version] = "1.7"
 
 projects[migrate][subdir] = "contributed"
-projects[migrate][version] = "2.5"
+projects[migrate][version] = "2.7"
 
 projects[mimemail][subdir] = "contributed"
 ;projects[mimemail][version] = "1.0-beta3"
