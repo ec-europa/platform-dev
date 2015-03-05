@@ -62,8 +62,7 @@ function multisite_notifications_core_menu() {
     'description' => 'Confirmation for unsubscribing',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('multisite_notifications_core_unsubscribe_form'),
-    'access callback' => 'user_access',
-    'access arguments' => array('view subscription block'),
+    'access callback' => TRUE,
     'weight' => 0,
     'type' => MENU_CALLBACK,
   );
