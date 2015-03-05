@@ -80,7 +80,6 @@ function ec_world_countries_install() {
 
 /**
  * Implements hook_uninstall().
- * @todo consider deleting vocab & fields.
  */
 function ec_world_countries_uninstall() {
   $t = get_t();
@@ -97,9 +96,9 @@ function ec_world_countries_uninstall() {
     'iso_3166_1_alpha_2_code',
   );
   foreach ($fields as $field) {
-    // field_delete_field($field);
-    if ($instance = field_info_instance('node', $field, 'ec_world_countries')) {
-      // field_delete_instance($instance);
+    field_delete_field($field);
+    if ($instance = field_info_instance('taxonomy_term', $field, 'ec_world_countries')) {
+      field_delete_instance($instance);
     }
   }
   field_purge_batch(count($fields));

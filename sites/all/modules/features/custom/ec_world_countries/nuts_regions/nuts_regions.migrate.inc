@@ -11,9 +11,15 @@
 function nuts_regions_migrate_api() {
   $api = array(
     'api' => 2,
+    'groups' => array(
+      'geos' => array(
+        'title' => t('Geo imports'),
+      ),
+    ),
     'migrations' => array(
       'Nuts' => array(
         'class_name' => 'NutsMigration',
+        'group_name' => 'geos',
       ),
     ),
   );
@@ -23,13 +29,21 @@ function nuts_regions_migrate_api() {
 /**
  * Defines a dynamic migration that is reused for each source CSV file.
  */
-class NutsMigration extends DynamicMigration {
+class NutsMigration extends Migration {
 
   /**
    * Constructs the migration.
    */
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments) {
+    parent::__construct($arguments);
+
+    $this->team = array(
+      new MigrateTeamMember('Boris Doesborg', 'bdoesborg@gmail.com',
+        t('Implementor')),
+      new MigrateTeamMember('Balázs János Tatár', 'balazs@example.com',
+        t('Chief Quality Assurance Officer')),
+    );
+
     $this->description = t('Import nuts from CSV file.');
 
     $this->map = new MigrateSQLMap($this->machineName, array(
@@ -39,7 +53,7 @@ class NutsMigration extends DynamicMigration {
         'not null' => TRUE,
         'description' => 'Order',
       ),
-    ), MigrateDestinationNode::getKeySchema()
+    ), MigrateDestinationTerm::getKeySchema()
     );
 
     $this->path = drupal_get_path('module', 'nuts_regions') . '/data/nuts.csv';
@@ -54,21 +68,28 @@ class NutsMigration extends DynamicMigration {
     // Creates a destination object that receives the data.
     $this->destination = new MigrateDestinationTerm('nuts_regions');
 
+    // Defines mapped source and destination fields.
     $this->addFieldMapping('name', 'description')->description('Title');
     $this->addFieldMapping('nuts_level', 'level');
-    // $this->addFieldMapping('nuts_remark', 'remark');
     $this->addFieldMapping('nuts_id', 'order');
     $this->addFieldMapping('nuts_code', 'nuts_code');
     $this->addFieldMapping('nuts_country', 'country');
-    // $this->addFieldMapping('nuts_description', 'description');
-
     $this->addFieldMapping('parent', 'parent_id');
 
     // Defines unmapped destination fields.
-    $this->addFieldMapping('description')->issueGroup(t('DNM'));
-    $this->addFieldMapping('format')->issueGroup(t('DNM'));
-    $this->addFieldMapping('path')->issueGroup(t('DNM'));
-    $this->addFieldMapping('weight')->issueGroup(t('DNM'));
+    $this->addUnmigratedDestinations(array(
+      'nuts_description',
+      'nuts_description:language',
+      'nuts_country:language',
+      'nuts_code:language',
+      'path',
+      'weight',
+      'description',
+      'format',
+      'parent_name',
+      'nuts_remark',
+      'nuts_remark:language',
+    ));
 
   }
 
@@ -100,7 +121,8 @@ class NutsMigration extends DynamicMigration {
       // - parent of BE211 is BE21
       $possible_parent = substr($row->nuts_code, 0, $row->level + 1);
       $query = new EntityFieldQuery();
-      $query->entityCondition('entity_type', 'taxonomy_term')->entityCondition('bundle', 'nuts_regions');
+      $query->entityCondition('entity_type', 'taxonomy_term')
+        ->entityCondition('bundle', 'nuts_regions');
       $query->fieldCondition('nuts_code', 'value', $possible_parent);
       $result = $query->execute();
       if (isset($result['taxonomy_term'])) {

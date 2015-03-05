@@ -24,12 +24,37 @@ function nuts_regions_install() {
  * Implements hook_uninstall().
  *
  * Deletes the NUTS regions variables.
- * @todo consider deleting the vocab.
+ * Deletes the NUTS regions vocabulary (fields and data).
  */
 function nuts_regions_uninstall() {
   $t = get_t();
   variable_del('clients');
   drupal_set_message($t('NUTS regions: NUTS regions was uninstalled from your site.'));
+
+  // Deletes the taxonomy term.
+  $vocabulary = taxonomy_vocabulary_machine_name_load('nuts_regions');
+  if ($vocabulary) {
+    $vid = $vocabulary->vid;
+    taxonomy_vocabulary_delete($vid);
+  }
+
+  // Deletes the custom fields.
+  $fields = array(
+    'nuts_level',
+    'nuts_id',
+    'nuts_code',
+    'nuts_country',
+    'nuts_description',
+    'nuts_remark',
+  );
+  foreach ($fields as $field) {
+    field_delete_field($field);
+    if ($instance = field_info_instance('taxonomy_term', $field, 'nuts_regions')) {
+      field_delete_instance($instance);
+    }
+  }
+  field_purge_batch(count($fields));
+  drupal_set_message($t('NUTS regions: NUTS regions vocabulary has been deleted from your site.'));
 }
 
 /**
@@ -45,5 +70,5 @@ function nuts_regions_enable() {
  */
 function nuts_regions_disable() {
   $t = get_t();
-  drupal_set_message($t('NUTS regions: NUTS regions is disabled on your site. To delete NUTS regions, uninstall the module.'));
+  drupal_set_message($t('NUTS regions: NUTS regions is disabled on your site. To delete the NUTS regions, uninstall the module.'));
 }

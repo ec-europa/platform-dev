@@ -3,7 +3,7 @@ description = Taxonomy for European regions in NUTS classification
 dependencies[] = taxonomy
 dependencies[] = list
 dependencies[] = number
-dependencies[] = migrate (<=2.5)
+dependencies[] = migrate
 dependencies[] = migrate_ui
 dependencies[] = entity
 dependencies[] = views
