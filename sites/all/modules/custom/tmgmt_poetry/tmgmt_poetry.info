@@ -1,0 +1,7 @@
+name = Poetry Translator
+description = TMGMT implementation of Poetry European Service.
+package = Translation Management
+core = 7.x
+dependencies[] = tmgmt
+files[] = tmgmt_poetry.plugin.inc
+files[] = tmgmt_poetry.ui.inc
