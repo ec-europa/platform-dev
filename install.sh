@@ -84,7 +84,7 @@ while getopts "i:b:t:d:s:vcrfhk?-:" option; do
 done
 
 if [ -f "${script_dir}/deploy_scripts/lib/colors.sh" ] && [ "$color" != 0 ]; then
-  source "${script_dir}/deploy_scripts/lib/colors.sh"
+	source "${script_dir}/deploy_scripts/lib/colors.sh"
 fi
 #------------------------#
 #     ARGUMENTS CHECK    #
@@ -104,8 +104,16 @@ fi
 # Get current configuration
 current_dir=$(pwd)
 __echo "Set ${UWhite}current directory${White} to ${Cyan}${current_dir}${Color_Off}"
-working_dir="${current_dir}/${site_name}"
+
+# set working directory, now we work under tmp directory on current_dir
+working_dir="${current_dir}/tmp/${site_name}"
 __echo "Set ${UWhite}working directory${White} to ${Cyan}${working_dir}${Color_Off}"
+
+# create tmp directory if not exist
+if [ ! -e "${current_dir}/tmp" ] ; then
+	mkdir "${current_dir}/tmp" || _exit_with_message 190 "${Yellow}Unable to create tmp_directory ${IRed}${current_dir}/tmp${Color_Off}"
+	__fix_perms -R "${current_dir}/tmp"
+fi
 
 # Set up the drush option
 if [ "${force}" = 1 ] ; then
@@ -203,7 +211,8 @@ cp -R "${own_source_path}/sites/all/libraries" "${working_dir}/sites/all"
 cp -R "${own_source_path}/sites/default/files/" "${working_dir}/sites/default/files/"
 cp "${own_source_path}/sites/default/proxy.settings.php" "${working_dir}/sites/default/"	
 
-cd "${site_name}"
+# move under working directory to install site
+cd "${working_dir}"
 
 #-----------------------#
 #     APPLY PATCHES     #
