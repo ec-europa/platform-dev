@@ -77,7 +77,7 @@ projects[css_injector][subdir] = "contributed"
 projects[css_injector][version] = "1.10"
 
 projects[ctools][subdir] = "contributed"
-projects[ctools][version] = "1.4"
+projects[ctools][version] = "1.6"
 
 projects[customerror][subdir] = "contributed"
 projects[customerror][version] = "1.3"
