@@ -27,7 +27,6 @@ dependencies[] = image
 dependencies[] = linkchecker
 dependencies[] = locale
 dependencies[] = media
-dependencies[] = media_wysiwyg
 dependencies[] = media_node
 dependencies[] = multisite_settings_core
 dependencies[] = node
