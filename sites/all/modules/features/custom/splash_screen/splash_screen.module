@@ -5,25 +5,6 @@
  * Code for the Splash_screen feature.
  */
 
-/*
- * Implements hook_init().
- */
-function splash_screen_init() {
-  if (php_sapi_name() == 'cli') return;
-  $cookie_name = variable_get('language_cookie_param', 'language');
-  $splash_screen_url = variable_get('splash_screen_url');
-  $front = variable_get('site_frontpage', 'node');
-  //Cases where users save site_frontpage's path io of alias.
-  $front = drupal_get_path_alias($front);
-  $current = drupal_get_path_alias();
-
-  if (($front == $current) && !isset($_COOKIE[$cookie_name]) && ($GLOBALS['language']->provider == 'language-default')) {
-    $lg_default = language_default();
-    language_cookie_set($lg_default->language);
-    drupal_goto($splash_screen_url);
-  }
-}
-
 /**
  * Implements hook_menu().
  */
@@ -37,14 +18,16 @@ function splash_screen_menu() {
   $items['admin/config/splash_screen/settings'] = array(
     'title' => 'Splash screen settings',
     'description' => 'Configure the splash screen module',
+    'file' => 'includes/splash_screen.admin.inc',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('form_splash_screen_settings'),
+    'page arguments' => array('_splash_screen_settings_form'),
     'access arguments' => array('administer splash screen'),
   );
   $items['splash'] = array(
-    'title' => 'Please select your language',
+    'title' => 'Splash screen',
     'page callback' => 'theme',
     'page arguments' => array('splash'),
+    'access callback' => array('splash_screen_check_access'),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
@@ -52,20 +35,21 @@ function splash_screen_menu() {
 }
 
 /**
- *
+ * Custom callback function to check access.
  */
-function form_splash_screen_settings($form, &$form_state) {
-  $form['messages'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Message settings'),
-  );
-  $form['messages']['splash_screen_language_msg'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Choose language'),
-    '#default_value' => variable_get('splash_screen_language_msg'),
-  );
-
-  return system_settings_form($form);
+function splash_screen_check_access() {
+  if (user_is_anonymous()) {
+    return TRUE;
+  }
+  else {
+    // Redirect user to real home page, in correct language
+    // Extra test has to be made to check current page because... Drupal.
+    $home = variable_get('splash_screen_home_page', '');
+    if (drupal_is_front_page() && !empty($home)) {
+      drupal_goto($home);
+    }
+    return FALSE;
+  }
 }
 
 /**
@@ -76,9 +60,6 @@ function splash_screen_theme($existing, $type, $theme, $path) {
     'splash' => array(
       'template' => 'splash',
       'path' => $path . '/theme',
-      'variables' => array(
-        'languages_list' => '',
-      ),
     ),
   );
 }
@@ -86,24 +67,32 @@ function splash_screen_theme($existing, $type, $theme, $path) {
 /**
  * Implements hook_preprocess().
  */
-function splash_screen_preprocess_splash(&$vars) {
+function splash_screen_preprocess_splash(&$variables) {
   global $language;
   global $base_url;
-  $languages = language_list('enabled');
-  $html = '';
-  foreach ($languages[1] as $lang) {
-    //add enabled languages
-    $html .= '<li><a href="' . $base_url . '/' . $lang->prefix;
-    if (empty($_COOKIE)) $html .= '?cookie=no';
-    $html .= '" data-label="('
-           . $lang->prefix . ') ' . t('Please choose a language', array(), array('langcode' => $lang->language)) . '"><span>'
-           . $lang->language . '</span>' . $lang->native . '</a></li>';
-  }
-  $vars['languages_list'] = $html;
-  $vars['base_url'] = $base_url;
-  $vars['site_name'] = variable_get('site_name');
 
-  drupal_add_js(drupal_get_path('module', 'splash_screen') . '/splash_screen.js');
+  $languages_blacklist = variable_get('splash_screen_blacklist', array());
+  $languages = language_list('enabled');
+  $languages_list = '<ol>';
+
+  // Add enabled languages, if not in blacklist.
+  foreach ($languages[1] as $lang) {
+    if (!in_array($lang->prefix, $languages_blacklist)) {
+      $languages_list .= '<li>';
+      $languages_list .= '<a lang="' . $lang->prefix . '" hreflang="' . $lang->prefix . '" href="' . $base_url . '/' . variable_get('splash_screen_home_page', '') . "_" . $lang->prefix . '"">' . $lang->native . '</a>';
+      $languages_list .= '</li>';
+    }
+  }
+
+  $languages_list .= '</ol>';
+
+  // Export variables to template.
+  $variables['languages_list'] = $languages_list;
+  $variables['languages_list_array'] = $languages[1];
+  $variables['languages_blacklist'] = $languages_blacklist;
+
+  $variables['base_url'] = $base_url;
+  $variables['site_name'] = variable_get('site_name');
 }
 
 /**
