@@ -50,7 +50,6 @@ projects[menu_attributes][patch][] = ../multisite_drupal_core/patches/menu_attri
 projects[menu_attributes][patch][] = ../multisite_drupal_core/patches/menu_attributes-option_to_disable_css_class-2988.patch
 projects[menu_block][patch][] = ../multisite_drupal_core/patches/menu_block-jqueryUI_issue-5211.patch
 projects[menu_token][patch][] = ../multisite_drupal_core/patches/menu_token-link_uuid_menu_items_can_not_be_edited-2005556-2.patch
-projects[migrate][patch][] = ../multisite_drupal_core/patches/base-migrate_default_no_email-1900914-0.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/node-node_access_views_relationship-1349080.patch
 projects[pathauto][patch][] = ../multisite_drupal_core/patches/pathauto-admin_patterns-1267966-140.patch
 projects[pathauto][patch][] = ../multisite_drupal_core/patches/pathauto-automatic_url_alias_issue-1847444-10.patch
