@@ -6,9 +6,6 @@
 
 /**
  * Callback functions for the nexteuropa language negotiation providers.
- *
- * @param $languages
- * @return bool
  */
 function nexteuropa_multilingual_language_negotiation_provider_callback($languages) {
   $language_url = FALSE;
@@ -27,10 +24,9 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
 
 
 /**
- * @todo: Add documentation.
+ * Function nexteuropa_multilingual_language_negotiation_url_rewrite_callback.
  *
- * @param $path
- * @param $options
+ * @todo: Add documentation.
  */
 function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$path, &$options) {
   global $language;
@@ -41,12 +37,12 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 
   // Language can be passed as an option, or we go for current URL language.
   if (!isset($options['language'])) {
-    if(isset($options['attributes']['lang'])) {
+    if (isset($options['attributes']['lang'])) {
       $options['language'] = $language_list[1][$options['attributes']['lang']];
     }
     else {
       global $language_url;
-        $options['language'] = $language_url;
+      $options['language'] = $language_url;
     }
   }
   // We allow only enabled languages here.
@@ -70,16 +66,12 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 
 /**
  * Extract the suffix from the path.
- *
- * @param $path
- * @param $languages
- * @return array
  */
 function nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages) {
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
   $args = empty($path) ? array() : explode($delimiter, $path);
   $suffix = array_pop($args);
-  // handle if there are extra parameters after the suffix
+  // Handle if there are extra parameters after the suffix.
   $extra_params = explode("/", $suffix);
   $suffix = array_shift($extra_params);
 
@@ -88,8 +80,9 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
     if (!empty($language->prefix) && $language->prefix == $suffix) {
       // Rebuild $path with the language removed.
       $path = implode($delimiter, $args);
-      $path = ($path == 'index') ? '' : $path; // handle the path homepage
-      // add extra params after suffix
+      // Handle the path homepage.
+      $path = ($path == 'index') ? '' : $path;
+      // Add extra params after suffix.
       if (count($extra_params) > 0) {
         $path .= "/" . implode("/", $extra_params);
       }
@@ -100,11 +93,9 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
 }
 
 /**
- * @todo: Add documentation.
+ * Function nexteuropa_multilingual_language_negotiation_switcher_url.
  *
- * @param $type
- * @param $path
- * @return array
+ * @todo: Add documentation.
  */
 function nexteuropa_multilingual_language_negotiation_switcher_url($type, $path) {
   $languages = language_list('enabled');
@@ -119,4 +110,3 @@ function nexteuropa_multilingual_language_negotiation_switcher_url($type, $path)
   }
   return $links;
 }
-
