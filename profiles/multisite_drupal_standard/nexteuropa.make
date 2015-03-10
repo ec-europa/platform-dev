@@ -34,9 +34,6 @@ projects[ds][version] = 2.6
 projects[entitycache][subdir] = contributed
 projects[entitycache][version] = 1.2
 
-projects[migrate][subdir] = contributed
-projects[migrate][version] = 2.6-rc1
-
 projects[registry_autoload][subdir] = contributed
 projects[registry_autoload][version] = 1.2
 
