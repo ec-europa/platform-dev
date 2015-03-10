@@ -28,7 +28,7 @@ class TMGMTMtecException extends Exception {
   /**
    * Override of the parent __construct method.
    */
-  function __construct($message = "", $data = array(), $code = 0, Exception $previous = NULL) {
+  public function __construct($message = "", $data = array(), $code = 0, Exception $previous = NULL) {
     parent::__construct(strtr($message, $data), $code, $previous);
   }
 }
@@ -62,9 +62,10 @@ function tmgmt_mtec_menu() {
 function _tmgmt_mtec_correct_callback($values) {
 
   // Retrieve jobID from callback.
-  $tjid = (isset($_GET['tjid'])) ? $_GET['tjid'] : '';
+  $parameters = drupal_get_query_parameters();
+  $tjid = (isset($parameters['tjid'])) ? $parameters['tjid'] : '';
 
-  if (trim($tjid) == '') {
+  if (empty($tjid)) {
     drupal_not_found();
   }
   else {
@@ -78,55 +79,59 @@ function _tmgmt_mtec_correct_callback($values) {
       $server_file = _tmgmt_mtec_filename_builder($job->tjid, $job->getSetting('export_format'), strtoupper($job->target_language));
 
       // Open connection and login.
-      $conn_id = ftp_connect($ftp_server['address'], $ftp_server['port']);
+      $conn_id = ftp_connect($ftp_server['address'], $ftp_server['port'], 15);
+      if(!$conn_id){
+        watchdog('MT@EC', "Couldn't connect to the FTP server.", WATCHDOG_ERROR);
+        drupal_exit();
+      }
       $login_result = ftp_login($conn_id, $ftp_server['user'], $ftp_server['password']);
+      if(!$login_result){
+        watchdog('MT@EC', "Couldn't login to the FTP server.", WATCHDOG_ERROR);
+        drupal_exit();
+      }
       ftp_pasv($conn_id, TRUE);
 
-      if ((!$conn_id) || ($login_result == FALSE)) {
-        watchdog("tmgmt_ftp_ftp_output", "Ftp connection to retrive the translation KO");
+      // Check that the file exists.
+      $found = _tmgmt_mtec_check_ftp_file($conn_id, $job->uuid . '/' . $server_file);
+      if ($found) {
+
+        // If the file exists, read its content.
+        $translated_file = fopen($ftp_location . '/' . $server_file, "r");
+        $translated_content = fread($translated_file, filesize($ftp_location . '/' . $server_file));
+        fclose($translated_file);
+
+        // Load the content into a XML object to edit it.
+        $translated_xml = simplexml_load_string($translated_content);
+        $phase = $translated_xml->file->header->{'phase-group'}->phase;
+
+        // We need to re-add the job-id attribute to the XML,
+        // since the MT@EC service removes it.
+        $phase->addAttribute('job-id', $tjid);
+        $temp_file = fopen(variable_get('file_private_path') . $tjid . ".xlf", "w");
+        fwrite($temp_file, $translated_xml->asXML());
+        fclose($temp_file);
+
+        // Retrieve the controller.
+        $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
+        if ($controller) {
+          try {
+            // Import the received file.
+            $job->addTranslatedData($controller->import(variable_get('file_private_path') . $tjid . ".xlf"));
+            $job->addMessage('Successfully imported file.');
+          }
+          catch (Exception $e) {
+            $job->addMessage('File import failed with the following message: @message', array('@message' => $e->getMessage()), 'error');
+          }
+        }
+
+        // Delete the temporary file created earlier.
+        $realpath = realpath(variable_get('file_private_path') . $tjid . ".xlf");
+        if (is_readable($realpath)) {
+          unlink($realpath);
+        }
       }
       else {
-        // Check that the file exists.
-        if (ftp_size($conn_id, $job->uuid . '/' . $server_file) != -1) {
-
-          // If the file exists, read its content.
-          $translated_file = fopen($ftp_location . '/' . $server_file, "r");
-          $translated_content = fread($translated_file, filesize($ftp_location . '/' . $server_file));
-          fclose($translated_file);
-
-          // Load the content into a XML object to edit it.
-          $translated_xml = simplexml_load_string($translated_content);
-          $phase = $translated_xml->file->header->{'phase-group'}->phase;
-
-          // We need to re-add the job-id attribute to the XML,
-          // since the MT@EC service removes it.
-          $phase->addAttribute('job-id', $tjid);
-          $temp_file = fopen(variable_get('file_private_path') . $tjid . ".xlf", "w");
-          fwrite($temp_file, $translated_xml->asXML());
-          fclose($temp_file);
-
-          // Retrieve the controller.
-          $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
-          if ($controller) {
-            try {
-              // Import the received file.
-              $job->addTranslatedData($controller->import(variable_get('file_private_path') . $tjid . ".xlf"));
-              $job->addMessage('Successfully imported file.');
-            }
-            catch (Exception $e) {
-              $job->addMessage('File import failed with the following message: @message', array('@message' => $e->getMessage()), 'error');
-            }
-          }
-
-          // Delete the temporary file created earlier.
-          $realpath = realpath(variable_get('file_private_path') . $tjid . ".xlf");
-          if (is_readable($realpath)) {
-            unlink($realpath);
-          }
-        }
-        else {
-          $job->addMessage('Translation message received from TM@EC but file was not found', array(), 'error');
-        }
+        $job->addMessage('Translation message received from TM@EC but file was not found', array(), 'error');
       }
       // Close connection.
       ftp_close($conn_id);
@@ -139,9 +144,12 @@ function _tmgmt_mtec_correct_callback($values) {
  * Callback function for error MTEC requests.
  */
 function _tmgmt_mtec_error_callback($values) {
-  watchdog("MT@EC", "MT@EC accessed error callback");
-  $tjid = (isset($_GET['tjid'])) ? $_GET['tjid'] : '';
-  if (!isset($tjid) || trim($tjid) == '') {
+  
+  // Retrieve jobID from callback.
+  $parameters = drupal_get_query_parameters();
+  $tjid = (isset($parameters['tjid'])) ? $parameters['tjid'] : '';
+
+  if (empty($tjid)) {
     drupal_not_found();
   }
   else {
@@ -168,15 +176,18 @@ function tmgmt_mtec_tmgmt_job_delete(TMGMTJob $job) {
   $ftp_server = variable_get('ftp_server');
 
   // Open connection and login.
-  $conn_id = ftp_connect($ftp_server['address'], $ftp_server['port']);
+  $conn_id = ftp_connect($ftp_server['address'], $ftp_server['port'], 15);
+  if(!$conn_id){
+    watchdog('MT@EC', "Couldn't connect to the FTP server.", WATCHDOG_ERROR);
+    drupal_exit();
+  }
   $login_result = ftp_login($conn_id, $ftp_server['user'], $ftp_server['password']);
+  if(!$login_result){
+    watchdog('MT@EC', "Couldn't login to the FTP server.", WATCHDOG_ERROR);
+    drupal_exit();
+  }
   ftp_pasv($conn_id, TRUE);
-  if ((!$conn_id) || ($login_result == FALSE)) {
-    watchdog("tmgmt_ftp_ftp_output", "Ftp connection to delete KO");
-  }
-  else {
-    _tmgmt_mtec_ftp_rmdir($conn_id, $job->uuid);
-  }
+  _tmgmt_mtec_ftp_rmdir($conn_id, $job->uuid);
   // Close connection.
   ftp_close($conn_id);
 }
@@ -236,21 +247,9 @@ function _tmgmt_mtect_check_mtec_settings() {
  *   Themed messages.
  */
 function _tmgmt_mtect_theme_messages($messages, $type) {
-  $output = '';
-  if (!empty($messages)) {
-    $output .= "<div class=\"messages $type\">\n";
-    if (count($messages) > 1) {
-      $output .= " <ul>\n";
-      foreach ($messages as $message) {
-        $output .= '  <li>' . $message . "</li>\n";
-      }
-      $output .= " </ul>\n";
-    }
-    else {
-      $output .= $messages[0];
-    }
-    $output .= "</div>\n";
-  }
+  $output = "<div class=\"messages $type\">\n";
+  $output .= theme("item_list", array("items" => $messages));
+  $output .= "</div>\n";
   return $output;
 }
 
@@ -290,12 +289,33 @@ function tmgmt_mtec_entity_info_alter(&$entity_info) {
  * Helper function to remove a directory on a FTP server recursively.
  */
 function _tmgmt_mtec_ftp_rmdir($handle, $path) {
-
-  if (@ftp_delete($handle, $path) === FALSE) {
-    if ($children = @ftp_nlist($handle, $path)) {
-      foreach ($children as $child)
-        _tmgmt_mtec_ftp_rmdir($handle, $path . '/' . $child);
+  try{
+    if (@ftp_delete($handle, $path) === FALSE) {
+      if ($children = @ftp_nlist($handle, $path)) {
+        foreach ($children as $child) {
+          _tmgmt_mtec_ftp_rmdir($handle, $path . '/' . $child);
+        }
+      }
+      @ftp_rmdir($handle, $path);
     }
-    @ftp_rmdir($handle, $path);
   }
+  catch (Exception $e) {
+    $job->addMessage(' Error when deleting the file from the ftp server: @message', array('@message' => $e->getMessage()), 'error');
+  } 
+}
+
+/**
+ * Helper function to check for a file for 10 seconds.
+ */
+function _tmgmt_mtec_check_ftp_file($conn_id, $file){
+  $i = 0;
+  $found = FALSE;
+  while($i<10 && !$found){
+    if (ftp_size($conn_id, $file) != -1) {
+      $found = TRUE;
+    }
+    sleep(1);
+    $i++;
+  }
+  return $found;
 }

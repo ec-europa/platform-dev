@@ -28,15 +28,10 @@ class TMGMTMtecTranslatorPluginController extends TMGMTDefaultTranslatorPluginCo
     // Check if the required variables are set.
     $ftp_settings = variable_get('ftp_server');
     $mtec_service = variable_get('mtec_service');
-    if (isset($ftp_settings) && !empty($ftp_settings)
-      && isset($mtec_service) && !empty($mtec_service)) {
-      if (
-        (isset($ftp_settings['address']) && !empty($ftp_settings['address'])) &&
-        (isset($ftp_settings['port']) && !empty($ftp_settings['port'])) &&
-        (isset($ftp_settings['user']) && !empty($ftp_settings['user'])) &&
-        (isset($ftp_settings['password']) && !empty($ftp_settings['password'])) &&
-        (isset($mtec_service['address']) && !empty($mtec_service['address'])) &&
-        (isset($mtec_service['applicationName']) && !empty($mtec_service['applicationName']))) {
+    if (!empty($ftp_settings) && !empty($mtec_service)) {
+      if (!empty($ftp_settings['address']) && !empty($ftp_settings['port']) &&
+        !empty($ftp_settings['user']) && !empty($ftp_settings['password']) &&
+        !empty($mtec_service['address']) && !empty($mtec_service['applicationName'])) {
         return TRUE;
       }
     }
@@ -80,7 +75,7 @@ class TMGMTMtecTranslatorPluginController extends TMGMTDefaultTranslatorPluginCo
       ));
 
       // Handle the response of the request to MT@EC.
-      if (isset($response->return) && !empty($response->return)) {
+      if (!empty($response->return)) {
         $job->reference = $response->return;
         $job->submitted('Job has been successfully submitted for translation. Project ID is: %project_id',
           array('%project_id' => $job->reference));
@@ -126,11 +121,11 @@ class TMGMTMtecTranslatorPluginController extends TMGMTDefaultTranslatorPluginCo
     $url_request_error = 'tmgmt_mtec/tmgmt_mtec_error_callback?tjid=' . $query['tjid'];
 
     // Get the information of the FTP server.
-    $ftp_server = variable_get('ftp_server');
+    $ftp_server = variable_get('ftp_server', '');
     $ftp_location = 'ftp://' . $ftp_server['user'] . ':' . $ftp_server['password'] . '@' . $ftp_server['address'] . ':' . $ftp_server['port'] . '/' . $query['folder'];
 
     // Get the information of the MT@EC service.
-    $mtec_service = variable_get('mtec_service');
+    $mtec_service = variable_get('mtec_service', '');
 
     // Get MTEC settings from translator.
     $mtec_settings = $translator->getSetting('mtec_settings');
@@ -185,12 +180,7 @@ class TMGMTMtecTranslatorPluginController extends TMGMTDefaultTranslatorPluginCo
    */
   protected function prepareDataForSending(TMGMTJob $job) {
     $filename = '';
-    echo '<pre>';
-    foreach ($job->getItems() as $item) {
-    print_r(array_filter(tmgmt_flatten_data($item->getData()), '_tmgmt_filter_data'));
-    echo '<br/>';
-    }
-    die();
+
     // Load job data.
     $ftp_server = variable_get('ftp_server');
     $server_file = _tmgmt_mtec_filename_builder($job->tjid, $job->getSetting('export_format'));
@@ -205,33 +195,35 @@ class TMGMTMtecTranslatorPluginController extends TMGMTDefaultTranslatorPluginCo
 
     // Open connection and login to the FTP server.
     $conn_id = ftp_connect($ftp_server['address'], $ftp_server['port']);
+    if (!$conn_id) {
+      watchdog('MT@EC', "Couldn't connect to the FTP server.", WATCHDOG_ERROR);
+      return $filename;
+    }
     $login_result = ftp_login($conn_id, $ftp_server['user'], $ftp_server['password']);
+    if (!$login_result) {
+      watchdog('MT@EC', "Couldn't login to the FTP server.", WATCHDOG_ERROR);
+      return $filename;
+    }
     if (!ftp_pasv($conn_id, TRUE)) {
-      watchdog("tmgmt_ftp_ftp_output", "Ftp connection not available!");
+      watchdog("tmgmt_ftp_ftp_output", "Ftp connection not available!", WATCHDOG_ERROR);
       $job->addMessage("Ftp connection not available.");
     }
     else {
-      if ((!$conn_id) || ($login_result == FALSE)) {
-        watchdog("tmgmt_ftp_ftp_output", "Ftp connection to load and clean KO");
-        $job->addMessage("Ftp connection has loaded but the login was not success.");
+      // Create folder using the jobs uuid.
+      $folders = ftp_nlist($conn_id, '.');
+      if (!in_array($job->uuid, $folders)) {
+        ftp_mkdir($conn_id, $job->uuid);
+      }
+      // Write the file into the ftp server.
+      $upload = ftp_fput($conn_id, $job->uuid . '/' . $server_file, $temp, FTP_BINARY);
+      if ($upload) {
+        watchdog("tmgmt_ftp_ftp_output", "Ftp connection has loaded and the file with the content was saved");
+        $job->addMessage("Ftp connection has loaded and the file with the content was saved.");
+        $filename = $server_file;
       }
       else {
-        // Create folder using the jobs uuid.
-        $folders = ftp_nlist($conn_id, '.');
-        if (!in_array($job->uuid, $folders)) {
-          ftp_mkdir($conn_id, $job->uuid);
-        }
-        // Write the file into the ftp server.
-        $upload = ftp_fput($conn_id, $job->uuid . '/' . $server_file, $temp, FTP_BINARY);
-        if ($upload) {
-          watchdog("tmgmt_ftp_ftp_output", "Ftp connection has loaded and the file with the content was saved");
-          $job->addMessage("Ftp connection has loaded and the file with the content was saved.");
-          $filename = $server_file;
-        }
-        else {
-          watchdog("tmgmt_ftp_ftp_output", "Ftp connection has loaded, but the file with the content was not saved.");
-          $job->addMessage("Ftp connection has loaded, but the file with the content was not saved.");
-        }
+        watchdog("tmgmt_ftp_ftp_output", "Ftp connection has loaded, but the file with the content was not saved.", WATCHDOG_ERROR);
+        $job->addMessage("Ftp connection has loaded, but the file with the content was not saved.");
       }
     }
     // Close connection.
