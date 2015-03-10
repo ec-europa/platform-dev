@@ -95,7 +95,6 @@ function version_management_node_presave($node) {
     if(isset($node->minor_version)) {
 
       if ($node->minor_version == 0) {
-        ddl('check1');
         unset($node->changed);
         if(isset($node->workbench_moderation)) {
           $minor_version_nids = variable_get('minor_version_nids', array());
@@ -110,7 +109,6 @@ function version_management_node_presave($node) {
       //if(isset($node->workbench_moderation['updating_live_revision']) && $node->workbench_moderation['updating_live_revision']) {
       $minor_version_nids = variable_get('minor_version_nids');
       if(isset($minor_version_nids[$node->nid])) {
-        ddl('check2');
         unset($node->changed);
         unset($minor_version_nids[$node->nid]);
         variable_set('minor_version_nids', $minor_version_nids);
@@ -120,7 +118,6 @@ function version_management_node_presave($node) {
 
   }    
 
-  ddl($node);
 }
 
 
