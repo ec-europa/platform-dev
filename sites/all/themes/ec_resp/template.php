@@ -212,6 +212,18 @@ function ec_resp_preprocess_node(&$variables) {
 
   }
 
+  // Display last update date
+  if ($variables['display_submitted']) {
+    $node = $variables['node'];
+    // Append the revision information to the submitted by text.
+    $revision_account = user_load($node->revision_uid);
+    $variables['revision_name'] = theme('username', array('account' => $revision_account));
+    $variables['revision_date'] = format_date($node->changed);
+    $variables['submitted'] .= "<br>".t('Last modified by !revision-name on !revision-date', array(
+      '!name' => $variables['name'], '!date' => $variables['date'], '!revision-name' => $variables['revision_name'], '!revision-date' => $variables['revision_date'])
+    );
+  }
+
 }
 
 /**

@@ -77,6 +77,15 @@ function europa_preprocess_node(&$vars) {
       '!username' => $vars['name'],
       '!datetime' => $vars['date'],
     ));
+    
+    // Display last update date
+    $node = $vars['node'];
+    $revision_account = user_load($node->revision_uid);
+    $vars['revision_name'] = theme('username', array('account' => $revision_account));
+    $vars['revision_date'] = format_date($node->changed);
+    $vars['submitted'] .= "<br>".t('Last modified by !revision-name on !revision-date', array(
+      '!name' => $vars['name'], '!date' => $vars['date'], '!revision-name' => $vars['revision_name'], '!revision-date' => $vars['revision_date'])
+    );
   }
 }
 
