@@ -26,7 +26,7 @@ class TMGMTPoetryException extends Exception {
   /**
    * Override of the parent __construct method.
    */
-  function __construct($message = "", $data = array(), $code = 0, Exception $previous = NULL) {
+  public function __construct($message = "", $data = array(), $code = 0, Exception $previous = NULL) {
     parent::__construct(strtr($message, $data), $code, $previous);
   }
 }
@@ -59,10 +59,9 @@ function _tmgmt_poetry_service_callback() {
  */
 function FPFISPoetryIntegrationRequest($user, $password, $msg) {
 
-  watchdog("POETRY", "Poetry accessed callback");
-
   // Authenticate the request.
   if (_tmgmt_poetry_authenticate($user, $password)) {
+    watchdog("POETRY", "Poetry callback authenticated correctly.");
     // Load the received XML and load the referenced Job.
     $xml = simplexml_load_string($msg);
     $request = $xml->request;
@@ -121,7 +120,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     return $xml->asXML();
   }
   else {
-    watchdog("POETRY", "Poetry callback failed authentication.");
+    watchdog("POETRY", "Poetry callback failed authentication.", WATCHDOG_WARNING);
     // Send answer to poetry.
     $xml = _tmgmt_poetry_generate_answer_xml($job, 'ERROR: Failed authentication.');
     return $xml->asXML();
@@ -173,60 +172,60 @@ function _tmgmt_poetry_generate_request_xml($job) {
   $request->addAttribute('type', 'newPost');
 
   // Add the ID to the request.
-  $demande_id = $request->addChild('demandeID');
+  $application_id = $request->addChild('demandeID');
   foreach ($id_data as $key => $value) {
-    $demande_id->addChild($key, $value);
+    $application_id->addChild($key, $value);
   }
 
   // Add request information.
-  $demande = $request->addChild('demande');
-  $demande->addChild('userReference', $job->tjid);
-  $demande->addChild('titre', $job->label);
-  $demande->addChild('organisationResponsable', 'DIGIT');
-  $demande->addChild('organisationAuteur', 'IE/CE/DIGIT');
-  $demande->addChild('serviceDemandeur', 'IE/CE/DIGIT/A/3');
-  $demande->addChild('applicationReference', 'FPFIS');
-  $demande->addChild('delai', date('d/m/Y', strtotime('+1 year')));
+  $application = $request->addChild('demande');
+  $application->addChild('userReference', $job->tjid);
+  $application->addChild('titre', $job->label);
+  $application->addChild('organisationResponsable', 'DIGIT');
+  $application->addChild('organisationAuteur', 'IE/CE/DIGIT');
+  $application->addChild('serviceDemandeur', 'IE/CE/DIGIT/A/3');
+  $application->addChild('applicationReference', 'FPFIS');
+  $application->addChild('delai', date('d/m/Y', strtotime('+1 year')));
 
-  $procedure = $demande->addChild('procedure');
+  $procedure = $application->addChild('procedure');
   $procedure->addAttribute('id', 'NEANT');
 
-  $destination = $demande->addChild('destination');
+  $destination = $application->addChild('destination');
   $destination->addAttribute('id', 'PUBLIC');
 
-  $type = $demande->addChild('type');
+  $type = $application->addChild('type');
   $type->addAttribute('id', 'INF');
 
   // Get contact information from translator and add it to the request.
   $contacts = $translator->getSetting('contacts');
 
-  $auteur = $request->addChild('contacts');
-  $auteur->addAttribute('type', 'auteur');
-  $auteur->addChild('contactNickname', $contacts['auteur']);
+  $author = $request->addChild('contacts');
+  $author->addAttribute('type', 'auteur');
+  $author->addChild('contactNickname', $contacts['author']);
 
-  $secretaire = $request->addChild('contacts');
-  $secretaire->addAttribute('type', 'secretaire');
-  $secretaire->addChild('contactNickname', $contacts['secretaire']);
+  $secretary = $request->addChild('contacts');
+  $secretary->addAttribute('type', 'secretaire');
+  $secretary->addChild('contactNickname', $contacts['secretary']);
 
   $contact = $request->addChild('contacts');
   $contact->addAttribute('type', 'contact');
   $contact->addChild('contactNickname', $contacts['contact']);
 
-  $responsable = $request->addChild('contacts');
-  $responsable->addAttribute('type', 'responsable');
-  $responsable->addChild('contactNickname', $contacts['responsable']);
+  $responsible = $request->addChild('contacts');
+  $responsible->addAttribute('type', 'responsable');
+  $responsible->addChild('contactNickname', $contacts['responsible']);
 
   // Add callback information to the request.
-  $retour = $request->addChild('retour');
-  $retour->addAttribute('type', 'webService');
-  $retour->addAttribute('action', 'UPDATE');
-  $retour->addChild('retourUser', $callback_username);
-  $retour->addChild('retourPassword', $callback_password);
-  $retour->addChild('retourAddress', $callback_address);
-  $retour->addChild('retourPath', $callback_path);
-  $retour->addChild('retourRemark', $callback_remark);
+  $callback = $request->addChild('retour');
+  $callback->addAttribute('type', 'webService');
+  $callback->addAttribute('action', 'UPDATE');
+  $callback->addChild('retourUser', $callback_username);
+  $callback->addChild('retourPassword', $callback_password);
+  $callback->addChild('retourAddress', $callback_address);
+  $callback->addChild('retourPath', $callback_path);
+  $callback->addChild('retourRemark', $callback_remark);
 
-  // Add the conent to be translated.
+  // Add the content to be translated.
   $filename = 'content.html';
   $document_source = $request->addChild('documentSource');
   $document_source->addAttribute('format', 'HTML');
@@ -240,8 +239,8 @@ function _tmgmt_poetry_generate_request_xml($job) {
   $attribution->addAttribute('format', 'HTML');
   $attribution->addAttribute('lgCode', strtoupper($job->target_language));
 
-  $attribtion_delai = $attribution->addChild('attributionsDelai', date('d/m/Y', strtotime('+1 year')));
-  $attribtion_delai->addAttribute('format', 'DD/MM/YYYY');
+  $attribtion_delay = $attribution->addChild('attributionsDelai', date('d/m/Y', strtotime('+1 year')));
+  $attribtion_delay->addAttribute('format', 'DD/MM/YYYY');
 
   return $xml;
 }
@@ -263,14 +262,14 @@ function _tmgmt_poetry_generate_answer_xml($job, $message) {
   $request->addAttribute('type', 'status');
 
   // Add request identifier.
-  $demande_id_data = explode('/', $job->reference);
-  $demande_id = $request->addChild('demandeID');
-  $demande_id->addChild('codeDemandeur', $demande_id_data[0]);
-  $demande_id->addChild('annee', $demande_id_data[1]);
-  $demande_id->addChild('numero', $demande_id_data[2]);
-  $demande_id->addChild('version', $demande_id_data[3]);
-  $demande_id->addChild('partie', $demande_id_data[4]);
-  $demande_id->addChild('produit', $demande_id_data[5]);
+  $application_id_data = explode('/', $job->reference);
+  $application_id = $request->addChild('demandeID');
+  $application_id->addChild('codeDemandeur', $application_id_data[0]);
+  $application_id->addChild('annee', $application_id_data[1]);
+  $application_id->addChild('numero', $application_id_data[2]);
+  $application_id->addChild('version', $application_id_data[3]);
+  $application_id->addChild('partie', $application_id_data[4]);
+  $application_id->addChild('produit', $application_id_data[5]);
 
   $status = $request->addChild('status');
   $status->addAttribute('type', 'request');
@@ -349,7 +348,7 @@ function _tmgmt_poetry_send_soap_request($xml) {
 function _tmgmt_poetry_check_poetry_settings() {
   $messages = array();
   $poetry_settings = variable_get('poetry_service');
-  if (!isset($poetry_settings) || empty($poetry_settings)) {
+  if (empty($poetry_settings)) {
     $messages[] = t('Main "poetry_service" variable was not set or is empty. See the README.txt file or read the wiki page.');
     $type = 'error';
   }
@@ -372,20 +371,8 @@ function _tmgmt_poetry_check_poetry_settings() {
  *   Themed messages.
  */
 function _tmgmt_poetry_theme_messages($messages, $type) {
-  $output = '';
-  if (!empty($messages)) {
-    $output .= "<div class=\"messages $type\">\n";
-    if (count($messages) > 1) {
-      $output .= " <ul>\n";
-      foreach ($messages as $message) {
-        $output .= '  <li>' . $message . "</li>\n";
-      }
-      $output .= " </ul>\n";
-    }
-    else {
-      $output .= $messages[0];
-    }
-    $output .= "</div>\n";
-  }
+  $output = "<div class=\"messages $type\">\n";
+  $output .= theme("item_list", array("items" => $messages));
+  $output .= "</div>\n";
   return $output;
 }

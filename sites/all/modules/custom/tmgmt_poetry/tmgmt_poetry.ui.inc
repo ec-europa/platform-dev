@@ -35,17 +35,17 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#collapsed' => FALSE,
       '#description' => t("Contact persons for the translation request sent to Poetry. WARNING: Valid EC usernames must be used"),
     );
-    $form['contacts']['auteur'] = array(
+    $form['contacts']['author'] = array(
       '#type' => 'textfield',
       '#title' => t('Author'),
       '#required' => TRUE,
-      '#default_value' => $contacts['auteur'],
+      '#default_value' => $contacts['author'],
     );
-    $form['contacts']['secretaire'] = array(
+    $form['contacts']['secretary'] = array(
       '#type' => 'textfield',
-      '#title' => t('Secretaire'),
+      '#title' => t('Secretary'),
       '#required' => TRUE,
-      '#default_value' => $contacts['secretaire'],
+      '#default_value' => $contacts['secretary'],
     );
     $form['contacts']['contact'] = array(
       '#type' => 'textfield',
@@ -53,11 +53,11 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#required' => TRUE,
       '#default_value' => $contacts['contact'],
     );
-    $form['contacts']['responsable'] = array(
+    $form['contacts']['responsible'] = array(
       '#type' => 'textfield',
       '#title' => t('Responsible'),
       '#required' => TRUE,
-      '#default_value' => $contacts['responsable'],
+      '#default_value' => $contacts['responsible'],
     );
 
     return parent::pluginSettingsForm($form, $form_state, $translator);

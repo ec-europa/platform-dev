@@ -39,10 +39,8 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
 
     // Check if the translator settings are set.
     $contacts = $translator->getSetting('contacts');
-    if ((isset($contacts['auteur']) && !empty($contacts['auteur'])) &&
-      (isset($contacts['secretaire']) && !empty($contacts['secretaire'])) &&
-      (isset($contacts['contact']) && !empty($contacts['contact'])) &&
-      (isset($contacts['responsable']) && !empty($contacts['responsable']))) {
+    if (!empty($contacts['author']) && !empty($contacts['secretary']) &&
+      !empty($contacts['contact']) && !empty($contacts['responsible'])) {
       $contacts_set = TRUE;
     }
 
