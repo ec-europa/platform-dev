@@ -57,6 +57,9 @@ function nexteuropa_core_install() {
     'administer users',
     'access user profiles',
     'cancel account',
+
+    // Version Management
+    'version management edits',
   );
   multisite_config_service('user')->grantPermission('administrator', $permissions);
 
@@ -81,5 +84,8 @@ function nexteuropa_core_install() {
   features_revert(array('nexteuropa_core' => array('taxonomy')));
   // Import core_user_tasks vocabulary's terms.
   Migration::getInstance('NextEuropaCoreUserTasks')->processImport();
+
+  // enable Version Management for node types
+  multisite_config_service('version_management')->enableVersionManagement('article');
 }
 

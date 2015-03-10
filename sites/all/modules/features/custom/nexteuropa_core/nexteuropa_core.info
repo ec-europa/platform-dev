@@ -39,6 +39,7 @@ dependencies[] = taxonomy
 dependencies[] = taxonomy_revision
 dependencies[] = token
 dependencies[] = transliteration
+dependencies[] = version_management
 dependencies[] = views
 dependencies[] = views_bulk_operations
 dependencies[] = views_ui
