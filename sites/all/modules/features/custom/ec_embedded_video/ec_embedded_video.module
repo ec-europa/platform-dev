@@ -30,7 +30,8 @@ function ec_embedded_video_file_type($file) {
 }
 
 /**
- * Default URL of the Video Cookie Consent webservice offered by Webtools.
+ * Default Protocol-relative URL (PRURL) of the Video Cookie Consent webservice 
+ * offered by Webtools.
  *
  * This is the location of the service that offers a "shield" between the video
  * service in order to protect the user from unwanted cookies. The basic concept
@@ -38,7 +39,7 @@ function ec_embedded_video_file_type($file) {
  * rewritten to point to this service. After explicit consent to eventual third
  * party cookies the service will serve the video.
  */
-define('EC_EMBEDDED_VIDEO_COOKIE_CONSENT_WEBSERVICE_URL', 'http://ec.europa.eu/cookie-consent/iframe');
+define('EC_EMBEDDED_VIDEO_COOKIE_CONSENT_WEBSERVICE_PRURL', '//ec.europa.eu/cookie-consent/iframe');
 
 /**
  * Implements hook_theme_registry_alter().
@@ -103,7 +104,7 @@ function _ec_embedded_video_preprocess_ec_embedded_video_video(&$variables) {
   global $language;
 
   // Build the final url.
-  $ec_embedded_video_webservice_url = variable_get('cookie_consent_webservice_url', EC_EMBEDDED_VIDEO_COOKIE_CONSENT_WEBSERVICE_URL);
+  $ec_embedded_video_webservice_url = variable_get('cookie_consent_webservice_prurl', EC_EMBEDDED_VIDEO_COOKIE_CONSENT_WEBSERVICE_PRURL);
   $query = array();
   $query['oriurl'] = $variables['url'];
   $query['lang'] = $language->language;
