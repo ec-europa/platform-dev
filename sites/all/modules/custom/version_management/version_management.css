@@ -1,0 +1,35 @@
+div.form-item-minor-version {
+  display: inline;
+}
+
+.glyphicon {
+  /*color: orange;*/
+}
+
+/*
+.glyphicon:before {
+ visibility: visible;
+ padding-bottom: 10px;
+ font-size: 1.5em;
+}
+.glyphicon.glyphicon-unchecked:checked:before {
+   content: "\e067";
+}
+input[type=checkbox].glyphicon{
+    visibility: hidden;
+    
+}
+*/
+
+#edit-minor-version {
+  /*margin: 0px;*/
+  margin-top: 10px;
+}
+
+.major_version_mark_color {
+  color: orange;
+}
+
+.major_version_mark_bg {
+  background-color: orange;
+}
