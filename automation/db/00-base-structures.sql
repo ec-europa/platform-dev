@@ -125,6 +125,7 @@ CREATE TABLE IF NOT EXISTS drupal_subsites (
   notes text,
   owner_contact varchar(512) DEFAULT NULL,
   technical_contact varchar(512) DEFAULT NULL,
+  declaration_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY name (name, environment),
   KEY master (master),
