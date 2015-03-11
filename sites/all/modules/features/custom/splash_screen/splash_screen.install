@@ -25,7 +25,7 @@ function splash_screen_disable() {
  */
 function splash_screen_install() {
   variable_set('splash_screen_home_page', variable_get('site_frontpage', 'home'));
-  variable_set('splash_screen_blacklist', '');
+  variable_set('splash_screen_blacklist', array());
   variable_set('site_frontpage', 'splash');
 }
 
