@@ -38,7 +38,11 @@ function splash_screen_menu() {
  * Custom callback function to check access.
  */
 function splash_screen_check_access() {
-  if (user_is_anonymous()) {
+  global $language;
+
+  $is_anonymous = user_is_anonymous();
+  if ($is_anonymous && $language->provider == 'language-default') {
+    // Display splash screen.
     return TRUE;
   }
   else {

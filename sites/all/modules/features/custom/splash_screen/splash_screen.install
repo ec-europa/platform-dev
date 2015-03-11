@@ -8,8 +8,6 @@
  * Implements hook_enable().
  */
 function splash_screen_enable() {
-  variable_set('site_frontpage', 'splash');
-  
   // Activation message.
   drupal_set_message(t('Splash screen is now active on your site.'));
 }
@@ -26,8 +24,9 @@ function splash_screen_disable() {
  * Implements hook_install().
  */
 function splash_screen_install() {
-  variable_set('splash_screen_home_page', 'home');
+  variable_set('splash_screen_home_page', variable_get('site_frontpage', 'home'));
   variable_set('splash_screen_blacklist', '');
+  variable_set('site_frontpage', 'splash');
 }
 
 /**
