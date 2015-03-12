@@ -20,6 +20,7 @@ class DrupalSubSite extends Site {
 		}
 		$this->last_update_ = strtotime($array['last_update']);
 		$this->declaration_date_ = strtotime($array['declaration_date']);
+		$this->live_date_ = strtotime($array['live_date']);
 	}
 	
 	public static function fetchAllSubSites() {
@@ -199,6 +200,10 @@ class DrupalSubSite extends Site {
 	
 	public function declarationTimeStamp() {
 		return $this->declaration_date_;
+	}
+	
+	public function goLiveTimeStamp() {
+		return $this->live_date_;
 	}
 	
 	public function data() {
