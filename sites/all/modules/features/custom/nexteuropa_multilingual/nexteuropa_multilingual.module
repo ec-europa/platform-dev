@@ -156,13 +156,3 @@ function nexteuropa_multilingual_tokens_alter(array &$replacements, array $conte
     $replacements['[node:source:title]'] = $wrapper->language($original_language)->title_field->value();
   }
 }
-
-/**
- * Implements hook_url_outbound_alter().
- */
-function nexteuropa_multilingual_url_outbound_alter(&$path, &$options, $original_path) {
-  // Add second prefered language to every links.
-  if (isset($_GET['spl']) && !isset($options['query']['spl'])) {
-    $options['query']['spl'] = $_GET['spl'];
-  }
-}
