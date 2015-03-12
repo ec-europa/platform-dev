@@ -142,10 +142,51 @@ function copy_database {
 	# ensure the directory used to store data is clean
 	rm --recursive --force "${mysql_dump_dir}/${subsite}"
 
+	save_target_searchapi_table "$@"
 	save_target_apachesolr_table "$@"
 	dump_source_database "$@"
 	load_target_database "$@"
 	restore_target_apachesolr_table "$@"
+	restore_target_searchapi_table "$@"
+}
+
+function save_target_searchapi_table {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+
+	table='search_api_server'
+	my_args=($(mysql_args "${target_drupal_path}" "${subsite}"))
+
+	# Does the table even exist?
+	echo -e "${IWhite}Checking whether the table ${UWhite}${table}${IWhite} exists for ${UWhite}${subsite}${Color_Off}"
+	echo "SHOW TABLES LIKE '${table}';" | mysql "${my_args[@]}" | grep -q "${table}" 2> /dev/null
+	if [ $? -ne 0 ]; then
+		echo -e "  The table does not exist, skipping."
+		return;
+	fi
+
+	# Does the table seem to contain environment-specific things? For the sake of
+	# simplicity, consider it does if and only if it contains at least one server
+	# based on the "search_api_solr_service" class.
+	local preserve_table=''
+	echo -e "${IWhite}Checking whether the table ${UWhite}${table}${IWhite} needs to be preserved for ${UWhite}${subsite}${Color_Off}"
+	solr_records_count=$(echo "SELECT COUNT(*) FROM ${table} WHERE class = 'search_api_solr_service';" | mysql "${my_args[@]}" -N)
+	if [ "${solr_records_count}" -gt 0 ]; then
+		echo "  The table needs to be preserved."
+	else
+		echo "  The table does not need to be preserved."
+		return;
+	fi
+
+	echo -e "${IWhite}Saving table ${UWhite}${table}${IWhite} for ${UWhite}${subsite}${Color_Off}"
+	mkdir -p "${mysql_dump_dir}/${subsite}/target"
+	sql_file="${mysql_dump_dir}/${subsite}/target/${table}.sql"
+	run 1 mysqldump "${my_args[@]}" "${table}" --result-file="${sql_file}"
+	grep -q "^INSERT INTO \`${table}\`" "${sql_file}" 2> /dev/null
+	if [ "$?" != '0' ]; then
+		echo -e "${IYellow}Warning${Color_Off}: the ${table} table could not be saved -- you may have to adjust the Search API configuration manually."
+	fi
 }
 
 function save_target_apachesolr_table {
@@ -218,6 +259,28 @@ function restore_target_apachesolr_table {
 		echo -e "${IYellow}Warning${Color_Off}: instead, ApacheSolr URLs will be removed."
 		echo -e "${IYellow}Warning${Color_Off}: you will probably have to adjust the ApacheSolr configuration manually."
 		run 1 drush 'sql-query' --root="${target_drupal_path}" --uri="${subsite}" 'UPDATE apachesolr_environment SET url = "";'
+	else
+		run 1 drush 'sql-query' --root="${target_drupal_path}" --uri="${subsite}" --file="${sql_file}"
+	fi
+}
+
+function restore_target_searchapi_table {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+
+	table='search_api_server'
+	echo -e "${IWhite}Restoring table ${UWhite}${table}${IWhite} for ${UWhite}${subsite}${Color_Off}"
+	sql_file="${mysql_dump_dir}/${subsite}/target/${table}.sql"
+	if [ ! -f "${sql_file}" ]; then
+		echo "  No ${table}.sql file found, skipping."
+		return;
+	fi
+
+	grep -q "^INSERT INTO \`${table}\`" "${sql_file}" 2> /dev/null
+	if [ "$?" != '0' ]; then
+		echo -e "${IYellow}Warning${Color_Off}: ${sql_file} contains no data for the ${table} table and thus will not be restored."
+		echo -e "${IYellow}Warning${Color_Off}: The ${table} table will be left untouched."
 	else
 		run 1 drush 'sql-query' --root="${target_drupal_path}" --uri="${subsite}" --file="${sql_file}"
 	fi
