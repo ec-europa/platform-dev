@@ -142,13 +142,13 @@ function copy_database {
 	# ensure the directory used to store data is clean
 	rm --recursive --force "${mysql_dump_dir}/${subsite}"
 
-	save_target_solr_table "$@"
+	save_target_apachesolr_table "$@"
 	dump_source_database "$@"
 	load_target_database "$@"
-	restore_target_solr_table "$@"
+	restore_target_apachesolr_table "$@"
 }
 
-function save_target_solr_table {
+function save_target_apachesolr_table {
 	local source_drupal_path="${1}"
 	local target_drupal_path="${2}"
 	local subsite="${3}"
@@ -204,7 +204,7 @@ function load_target_database {
 	type copy_subsite_hook_post_load_target_db > /dev/null 2>&1 && copy_subsite_hook_post_load_target_db "$@" "${mysql_dump_dir}/${subsite}"
 }
 
-function restore_target_solr_table {
+function restore_target_apachesolr_table {
 	local source_drupal_path="${1}"
 	local target_drupal_path="${2}"
 	local subsite="${3}"
