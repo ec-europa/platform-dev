@@ -61,8 +61,9 @@ libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases
 libraries[chosen][directory_name] = "chosen"
 libraries[chosen][destination] = "libraries"
 
-libraries[ckeditor_lite][download][type]= svn
-libraries[ckeditor_lite][download][url] = https://github.com/loopindex/ckeditor-track-changes/trunk/src/lite
-libraries[ckeditor_lite][download][sha1] = "2325e728878c9840c7b2fa59b30c4fc682f7c118"
+libraries[ckeditor_lite][download][type]= "file"
+libraries[ckeditor_lite][download][request_type]= "get"
+libraries[ckeditor_lite][download][file_type] = "zip"
+libraries[ckeditor_lite][download][url] = http://download.ckeditor.com/lite/releases/lite_1.1.30.zip
 libraries[ckeditor_lite][subdir] = ckeditor/plugins
 libraries[ckeditor_lite][directory_name] = "lite"
