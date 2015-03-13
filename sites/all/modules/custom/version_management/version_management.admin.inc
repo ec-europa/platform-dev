@@ -1,14 +1,11 @@
 <?php
-
 /**
  * @file
  * Admin callbacks for the version_management module.
  */
 
 /**
- *
- * @ingroup forms
- * @see system_settings_form()
+ * Build the admin settings form.
  */
 function version_management_settings() {
 
@@ -27,4 +24,3 @@ function version_management_settings() {
   );
   return system_settings_form($form);
 }
-

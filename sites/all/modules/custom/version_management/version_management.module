@@ -2,14 +2,13 @@
 
 /**
  * @file
- * Mark a node edit as not major version, preventing the timestamp from updating.
- *
+ * Mark a node edit as not major version, preventing the timestamp from
+ * updating.
  * This module allows content types to be designated for major edits, and
  * users given the permission to mark an edit.  Marking an edit as not major
  * prevents $node->changed from being updated, which keeps the node from popping
  * to the top of ordered-by-time lists.  Revisions are marked with the correct
  * timestamp data.
- *
  */
 
 /**
@@ -46,8 +45,8 @@ function version_management_menu() {
 /**
  * Implements hook_form_alter().
  *
- * Adds the version management edit toggle to node-editing forms for content types
- * (Node-adding forms are ignored.)
+ * Adds the version management edit toggle to node-editing forms for
+ * content types (Node-adding forms are ignored.)
  */
 function version_management_form_alter(&$form, &$form_state, $form_id) {
   $types = variable_get('version_management_node_types');
@@ -74,29 +73,22 @@ function version_management_form_alter(&$form, &$form_state, $form_id) {
         'js' => array(drupal_get_path('module', 'version_management') . '/version_management.js'),
       ),
       '#weight' => $form['actions']['submit']['#weight'] + 1,
-      //'#attributes' => array('class' => array('glyphicon glyphicon-unchecked')),
-      //'#prefix' => '<div class="checkbox"><span class="glyphicon glyphicon-ok"></span>', 
-      //'#suffix' => '</div>',
-      );
-    }
+    );
+  }
 }
 
-/*
+/**
  * Implements hook_node_presave().
  *
  * Prevents update of $node->changed.
  */
-
 function version_management_node_presave($node) {
   $types = variable_get('version_management_node_types');
-
   if ($types[$node->type]) {
-
-    if(isset($node->minor_version)) {
-
+    if (isset($node->minor_version)) {
       if ($node->minor_version == 0) {
         unset($node->changed);
-        if(isset($node->workbench_moderation)) {
+        if (isset($node->workbench_moderation)) {
           $minor_version_nids = variable_get('minor_version_nids', array());
           $minor_version_nids[$node->nid] = 'minor';
           variable_set('minor_version_nids', $minor_version_nids);
@@ -104,20 +96,15 @@ function version_management_node_presave($node) {
       }
     }
     else {
-
-      // manage the second node_save when workbench_moderation is used
-      //if(isset($node->workbench_moderation['updating_live_revision']) && $node->workbench_moderation['updating_live_revision']) {
+      // Manage the second node_save when workbench_moderation is used.
       $minor_version_nids = variable_get('minor_version_nids');
-      if(isset($minor_version_nids[$node->nid])) {
+      if (isset($minor_version_nids[$node->nid])) {
         unset($node->changed);
         unset($minor_version_nids[$node->nid]);
         variable_set('minor_version_nids', $minor_version_nids);
       }
     }
-
-
-  }    
-
+  }
 }
 
 
