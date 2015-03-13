@@ -404,9 +404,9 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
   // tries to guess the original form url
   $matches = array();
   if (preg_match('/(.*import)\/.*$/', $_GET['q'], $matches)) {
-    drupal_goto($matches[1]);
+    $form_state['#redirect'] = $matches[1];
   }
   else {
-    drupal_goto('admin/people/import');
+    $form_state['#redirect'] = url('admin/people/import');
   }
 }
