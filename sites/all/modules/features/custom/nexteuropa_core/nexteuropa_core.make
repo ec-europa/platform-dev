@@ -14,9 +14,6 @@ projects[chosen][version] = 2.0-beta4
 projects[coffee][subdir] = contrib
 projects[coffee][version] = 2.2
 
-projects[ds][subdir] = contrib
-projects[ds][version] = 2.6
-
 projects[entitycache][subdir] = contrib
 projects[entitycache][version] = 1.2
 

@@ -88,6 +88,9 @@ projects[date][version] = "2.8"
 projects[diff][subdir] = "contributed"
 projects[diff][version] = "3.2"
 
+projects[ds][subdir] = "contributed"
+projects[ds][version] = "2.7"
+
 projects[easy_breadcrumb][subdir] = "contributed"
 projects[easy_breadcrumb][version] = "2.12"
 
