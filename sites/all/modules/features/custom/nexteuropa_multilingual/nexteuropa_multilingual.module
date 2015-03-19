@@ -9,7 +9,7 @@
  */
 function nexteuropa_multilingual_init() {
   $path = drupal_get_path('module', 'nexteuropa_multilingual');
-  drupal_add_js($path . '/nexteuropa_multilingual.js');
+  drupal_add_js($path . '/nexteuropa_multilingual.js', array('scope' => 'footer', 'weight' => 100));
 }
 
 /**
@@ -162,5 +162,14 @@ function nexteuropa_multilingual_tokens_alter(array &$replacements, array $conte
     $original_language = $node->translations->original;
     // Title_field : field handled by the title module.
     $replacements['[node:source:title]'] = $wrapper->language($original_language)->title_field->value();
+  }
+}
+
+/**
+ * Implements hook_drupal_goto_alter().
+ */
+function nexteuropa_multilingual_drupal_goto_alter(&$path, &$options, &$http_response_code) {
+  if (isset($_GET['spl'])) {
+    $options['query'] = array('spl' => $_GET['spl']);
   }
 }
