@@ -382,12 +382,8 @@ projects[webform][version] = "4.0"
 projects[workbench][subdir] = "contributed"
 projects[workbench][version] = "1.2"
 
-; Pinned a more recent revision which allows to export moderation settings in
-; features.
 projects[workbench_moderation][subdir] = "contributed"
-projects[workbench_moderation][download][type] = "git"
-projects[workbench_moderation][download][url] = "http://git.drupal.org/project/workbench_moderation.git"
-projects[workbench_moderation][download][revision] = "dfe9e23e123e225cb2e8a5c8273c73556d1056ba"
+projects[workbench_moderation][version] = "1.4"
 
 projects[workbench_access][subdir] = "contributed"
 projects[workbench_access][version] = "1.2"
