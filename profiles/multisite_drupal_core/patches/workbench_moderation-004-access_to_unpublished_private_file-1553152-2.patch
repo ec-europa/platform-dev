@@ -61,36 +61,4 @@
 +    }
 +  }
 +}
-+
-+function workbench_moderation_node_grants($user, $op) {
-+  $grants['workbench_moderation'] = array_keys($user->roles);
-+  return $grants;
-+}
-+
-+/**
-+* Implements hook_node_access_records().
-+*
-+* This function supplies the workbench moderation grants for unpublished content.
-+* workbench_moderation adds the 'view all unpublished content' permission so it
-+* captures and returns the role IDs which include that permission.
-+*/
-+function workbench_moderation_node_access_records($node) {
-+  if ($node->status)
-+  {
-+    // it's published, default handling is okay
-+    return;
-+  }
-+  $result = db_query("SELECT rid FROM {role_permission} WHERE permission = ('view all unpublished content')");
-+  foreach ($result as $grant) {
-+    $grants[] = array(
-+      'realm'        => 'workbench_moderation',
-+      'gid'          => $grant->rid,
-+      'grant_view'   => 1,
-+      'grant_update' => 0,
-+      'grant_delete' => 0,
-+      'priority'     => 0,
-+    );
-+  }
-+  return !empty($grants) ? $grants : array();
-+}
-\ No newline at end of file
+
