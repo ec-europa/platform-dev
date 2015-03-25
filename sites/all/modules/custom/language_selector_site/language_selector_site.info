@@ -1,0 +1,8 @@
+name = Language selector (Site)
+description = Manage language selector at site level.
+core = 7.x
+
+version = "7.x-1.0"
+core = "7.x"
+project = "language_selector_site"
+datestamp = "1427184855"

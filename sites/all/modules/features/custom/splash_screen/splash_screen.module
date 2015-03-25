@@ -40,8 +40,7 @@ function splash_screen_menu() {
 function splash_screen_check_access() {
   global $language;
 
-  $is_anonymous = user_is_anonymous();
-  if ($is_anonymous && $language->provider == 'language-default') {
+  if ($language->provider == 'language-default' || isset($_GET['destination'])) {
     // Display splash screen.
     return TRUE;
   }
@@ -72,18 +71,42 @@ function splash_screen_theme($existing, $type, $theme, $path) {
  * Implements hook_preprocess().
  */
 function splash_screen_preprocess_splash(&$variables) {
-  global $language;
   global $base_url;
 
+  // Initialize variables.
+  $home_page = variable_get('splash_screen_home_page', '');
+  $href = $home_page;
+  $options = array();
   $languages_blacklist = variable_get('splash_screen_blacklist', array());
   $languages = language_list('enabled');
   $languages_list = '<ol>';
+  $close_button = '';
+
+  // Prepare links href when destination is set.
+  // Use case: use site level language selector.
+  if (isset($_GET['destination'])) {
+    $href_array = parse_url($_GET['destination']);
+    $href = $href_array['path'];
+
+    if (isset($href_array['query'])) {
+      parse_str($href_array['query'], $parameters);
+      $options['query'] = $parameters;
+    }
+
+    // Also enable close button.
+    $close_button = l(t('Close'), $href, $options);
+  }
 
   // Add enabled languages, if not in blacklist.
   foreach ($languages[1] as $lang) {
     if (!in_array($lang->prefix, $languages_blacklist)) {
+
+      // Prepare links options.
+      $options['attributes']['lang'] = $lang->prefix;
+      $options['attributes']['hreflang'] = $lang->prefix;
+
       $languages_list .= '<li>';
-      $languages_list .= '<a lang="' . $lang->prefix . '" hreflang="' . $lang->prefix . '" href="' . $base_url . '/' . variable_get('splash_screen_home_page', '') . "_" . $lang->prefix . '"">' . $lang->native . '</a>';
+      $languages_list .= l($lang->native, $href, $options);
       $languages_list .= '</li>';
     }
   }
@@ -91,12 +114,10 @@ function splash_screen_preprocess_splash(&$variables) {
   $languages_list .= '</ol>';
 
   // Export variables to template.
+  $variables['close_button'] = $close_button;
   $variables['languages_list'] = $languages_list;
   $variables['languages_list_array'] = $languages[1];
   $variables['languages_blacklist'] = $languages_blacklist;
-
-  $variables['base_url'] = $base_url;
-  $variables['site_name'] = variable_get('site_name');
 }
 
 /**

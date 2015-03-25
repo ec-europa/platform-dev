@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Implements installation/uninstallation functions.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function language_selector_site_enable() {
+  // Remove old language switcher.
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'language');
+
+  // Add block in context.
+  multisite_drupal_toolbox_add_block_context('site_wide', 'language_selector_site', 'language_selector_site', 'language_selector_site', 'header_right');
+}
+
+/**
+ * Implements hook_disable().
+ */
+function language_selector_site_disable() {
+  // Put back old language switcher.
+  multisite_drupal_toolbox_add_block_context('site_wide', 'language', 'locale', 'language', 'header_top');
+
+  // Remove block from context.
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'language_selector_site');
+}

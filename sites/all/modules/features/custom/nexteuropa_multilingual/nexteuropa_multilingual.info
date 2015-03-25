@@ -18,6 +18,7 @@ dependencies[] = i18n_translation
 dependencies[] = i18n_user
 dependencies[] = i18n_variable
 dependencies[] = i18nviews
+dependencies[] = language_selector_site
 dependencies[] = multisite_config
 dependencies[] = nexteuropa_core
 dependencies[] = strongarm
