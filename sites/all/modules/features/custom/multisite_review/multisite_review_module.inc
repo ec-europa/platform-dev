@@ -35,18 +35,17 @@ class MultisiteReviewModule {
    * @var string
    */
   protected $path;
-    /*
-     * Modules selected to be reviewed from the setting form
-     */
+  /*
+  * Modules selected to be reviewed from the setting form.
+  */
   protected $specific;
+
   /**
    * Constructs a Module object.
    *
    * @param string $module_name
    *   The name of the module.
    */
-
-
   public function __construct($module_name) {
     $this->path = drupal_get_path('module', $module_name);
     $this->info = drupal_parse_info_file($this->path . '/' . $module_name . '.info');
@@ -75,6 +74,28 @@ class MultisiteReviewModule {
   }
 
   /**
+   * Returns the module type.
+   *
+   * @return string
+   *   The module type, either 'feature' or 'module'.
+   */
+  public function getType() {
+    return $this->isFeature() ? 'feature' : 'module';
+  }
+
+  /**
+   * Returns whether or not the module is a feature.
+   *
+   * @return bool
+   *   TRUE if the module has '/features/' in its path, FALSE otherwise.
+   */
+  public function isFeature() {
+    // Determine if the module is a feature. This is derived from the path
+    // where the module is installed.
+    return (bool) preg_match('/\/features\//', $this->path);
+  }
+
+  /**
    * Returns the module path.
    *
    * @return string
@@ -92,16 +113,6 @@ class MultisiteReviewModule {
    */
   public function getInfo() {
     return $this->info;
-  }
-
-  /**
-   * Returns the module type.
-   *
-   * @return string
-   *   The module type, either 'feature' or 'module'.
-   */
-  public function getType() {
-    return $this->isFeature() ? 'feature' : 'module';
   }
 
   /**
@@ -125,18 +136,6 @@ class MultisiteReviewModule {
   }
 
   /**
-   * Returns whether or not the module is a feature.
-   *
-   * @return bool
-   *   TRUE if the module has '/features/' in its path, FALSE otherwise.
-   */
-  public function isFeature() {
-    // Determine if the module is a feature. This is derived from the path
-    // where the module is installed.
-    return (bool) preg_match('/\/features\//', $this->path);
-  }
-
-  /**
    * Returns whether or not the module is a custom module.
    *
    * @return bool
@@ -146,20 +145,21 @@ class MultisiteReviewModule {
     return (bool) preg_match('/\/custom\//', $this->path);
   }
 
-    /**
-     * Return only those custom modules which were selected via settings form.
-     * @return bool
-     */
-    public function getSpecific() {
+  /**
+   * Return only those custom modules which were selected via settings form.
+   * @return array
+   *   Return an array of selected modules.
+   */
+  public function getSpecific() {
 
-        $result = array();
-        foreach($this->specific as $key => $value) {
+    $result = array();
+    foreach ($this->specific as $key => $value) {
 
-            if ($this->specific[$key] != '0') {
-                $result[] = $this->specific[$key];
-            }
+      if ($this->specific[$key] != '0') {
+        $result[] = $this->specific[$key];
+      }
 
-        }
-        return $result;
     }
+    return $result;
+  }
 }
