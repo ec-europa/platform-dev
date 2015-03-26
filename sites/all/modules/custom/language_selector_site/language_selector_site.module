@@ -60,18 +60,18 @@ function language_selector_site_preprocess_block(&$variables) {
   if (isset($variables['block']->bid) && $variables['block']->bid === 'language_selector_site-language_selector_site') {
 
     // Initialize variables.
-    $code = '<span class="language-selector-site__code">' . $variables['elements']['code']['#markup'] . '</span>';
-    $label = '<span class="language-selector-site__label">' . $variables['elements']['label']['#markup'] . '</span>';
+    $code = '<span class="lang-select-site__code">' . $variables['elements']['code']['#markup'] . '</span>';
+    $label = '<span class="lang-select-site__label">' . $variables['elements']['label']['#markup'] . '</span>';
     $options = array(
       'html' => TRUE,
       'attributes' => array(
-        'class' => array('language-selector-site__link'),
+        'class' => array('lang-select-site__link'),
       ),
       'query' => array(drupal_get_destination()),
     );
 
     // Add class to block.
-    $variables['classes_array'][] = 'language-selector-site';
+    $variables['classes_array'][] = 'lang-select-site';
 
     // Add content to block.
     $variables['content'] = l($code . ' ' . $label, 'splash', $options);
