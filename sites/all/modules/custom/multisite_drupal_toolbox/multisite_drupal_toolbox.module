@@ -87,10 +87,10 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
 
   // Add survey JS on all site in the white list.
   $opt_in_site = array(
-    "digital-agenda",
-    "futurium",
-    "licences-for-europe-dialogue",
-    "cnect-site",
+    // "digital-agenda",
+    // "futurium",
+    // "licences-for-europe-dialogue",
+    // "cnect-site",
     "sfc2014",
     "rawmaterials",
     "mare-emd",
