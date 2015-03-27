@@ -145,6 +145,7 @@ function copy_database {
 	save_target_searchapi_table "$@"
 	save_target_apachesolr_table "$@"
 	dump_source_database "$@"
+	check_source_dump "$@"
 	load_target_database "$@"
 	restore_target_apachesolr_table "$@"
 	restore_target_searchapi_table "$@"
@@ -226,6 +227,25 @@ function dump_source_database {
 	done
 
 	type copy_subsite_hook_post_dump_source_db > /dev/null 2>&1 && copy_subsite_hook_post_dump_source_db "$@" "${mysql_dump_dir}/${subsite}"
+}
+
+function check_source_dump {
+	local source_drupal_path="${1}"
+	local target_drupal_path="${2}"
+	local subsite="${3}"
+
+	dump_size=$(du --bytes --summarize "${mysql_dump_dir}/${subsite}/source" | cut --fields=1)
+	if [ "${dump_size}" -gt "${SQL_DUMP_SIZE_THRESHOLD:-1073741824}" ]; then
+		echo -e "${IYellow}Warning${Color_Off}: the resulting SQL dump is ${dump_size} bytes."
+		if [ -z "${NO_INTERACTION}" ]; then
+			local interactive_delay="${INTERACTION_DELAY:-60}"
+			echo 'You can examine it in the following directory:'
+			echo "  ${mysql_dump_dir}/${subsite}/source"
+			echo 'Are you sure you wish to load that SQL dump in the target database?'
+			echo "Hit ^C in the next ${interactive_delay} seconds to abort the import."
+			sleep "${interactive_delay}"
+		fi
+	fi
 }
 
 function load_target_database {
