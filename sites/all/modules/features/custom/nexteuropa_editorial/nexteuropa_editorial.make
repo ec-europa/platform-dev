@@ -14,10 +14,6 @@ projects[linkchecker][version] = 1.2
 projects[workbench][subdir] = contrib
 projects[workbench][version] = 1.2
 
-; Dev branch is necessary in order to solve https://www.drupal.org/node/1911782
-projects[workbench_moderation][subdir] = contrib
-projects[workbench_moderation][version] = 1.x-dev
-
 projects[workbench_og][subdir] = contrib
 projects[workbench_og][version] = 2.x-dev
 
