@@ -244,6 +244,7 @@ function check_source_dump {
 			echo 'Are you sure you wish to load that SQL dump in the target database?'
 			echo "Hit ^C in the next ${interactive_delay} seconds to abort the import."
 			sleep "${interactive_delay}"
+			echo 'No interruption, proceeding.'
 		fi
 	fi
 }
