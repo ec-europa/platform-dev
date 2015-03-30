@@ -1,0 +1,134 @@
+<?php
+
+/**
+ * @file
+ * Manage language switcher at page level.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function language_selector_page_block_info() {
+  $block = array();
+  $block['language_selector_page'] = array(
+    'info' => t('Language selector (Page)'),
+  );
+  return $block;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function language_selector_page_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'language_selector_page':
+      $block['content'] = language_selector_page_block_content();
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Manage content of the block.
+ */
+function language_selector_page_block_content() {
+  global $language;
+
+  $languages = language_list('enabled');
+  $block = array();
+
+  // Load current node.
+  if (arg(0) == 'node' && is_numeric(arg(1))) {
+    $node = node_load(arg(1));
+
+    // Doesn't manage neutral language.
+    if ($node->language !== 'und') {
+
+      // Initialize variables.
+      $is_available = FALSE;
+      $not_available = '';
+      $served = '';
+      $other = array();
+
+      // Get currently served language.
+      $args = func_get_args();
+      $entity_type = array_shift($args);
+      $entity = array_shift($args);
+      $served_code = entity_translation_get_existing_language($entity_type, $entity);
+      $served = $languages[1][$served_code];
+
+      // Check available translations.
+      foreach ($node->translations->data as $code => $lang) {
+        if ($code == $language->language) {
+          $is_available = TRUE;
+        }
+
+        if ($code != $served->language) {
+          $other[$code] = $languages[1][$code];
+        }
+      }
+
+      // Check if required language is available.
+      if (!$is_available) {
+        $not_available = $language;
+      }
+
+      // Update block.
+      $block = array(
+        'not_available' => array(
+          '#type' => 'object',
+          '#markup' => $not_available,
+        ),
+        'served' => array(
+          '#type' => 'object',
+          '#markup' => $served,
+        ),
+        'other' => array(
+          '#type' => 'array',
+          '#markup' => $other,
+        ),
+      );
+    }
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_preprocess_block().
+ *
+ * Default implementation of language selector.
+ */
+function language_selector_page_preprocess_block(&$variables) {
+  if (isset($variables['block']->bid) && $variables['block']->bid === 'language_selector_page-language_selector_page') {
+
+    // Initialize variables.
+    $not_available = '';
+    $served = '';
+    $other = '';
+
+    if (!empty($variables['elements']['not_available']['#markup'])) {
+      $not_available = '<li class="lang-select-page__not-available">' . $variables['elements']['not_available']['#markup']->native . '</li>';
+    }
+
+    if (!empty($variables['elements']['served']['#markup'])) {
+      $served = '<li class="lang-select-page__served">' . $variables['elements']['served']['#markup']->native . '</li>';
+    }
+
+    if (!empty($variables['elements']['other']['#markup'])) {
+      foreach ($variables['elements']['other']['#markup'] as $code => $lang) {
+        $other .= '<li>' . l($lang->native, current_path(), array('language' => $lang)) . '</li>';
+      }
+    }
+
+    // Add class to block.
+    $variables['classes_array'][] = 'lang-selector-page';
+
+    // Add content to block.
+    $content = '<ol>' . $not_available . $served . $other . '</ol>';
+    $variables['content'] = $content;
+  }
+}
