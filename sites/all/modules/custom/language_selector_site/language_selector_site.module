@@ -74,6 +74,6 @@ function language_selector_site_preprocess_block(&$variables) {
     $variables['classes_array'][] = 'lang-select-site';
 
     // Add content to block.
-    $variables['content'] = l($code . ' ' . $label, 'splash', $options);
+    $variables['content'] = l($code . $label, 'splash', $options);
   }
 }
