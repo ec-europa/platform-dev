@@ -1,0 +1,16 @@
+/*
+Button
+
+Markup: html/button.html
+
+Styleguide form.button
+*/
+
+.button {
+  color: red;
+}
+
+button,
+input[type="button"] {
+  @extend .button;
+}

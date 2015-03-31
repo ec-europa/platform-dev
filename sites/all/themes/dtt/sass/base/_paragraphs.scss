@@ -1,0 +1,16 @@
+/*
+Paragraphs
+
+Markup: html/paragraphs.html
+
+Styleguide text.paragraphs
+*/
+
+.paragraph {
+  font-family: $font-family-serif;
+  margin-bottom: 1.7em;
+}
+
+p {
+  @extend .paragraph;
+}

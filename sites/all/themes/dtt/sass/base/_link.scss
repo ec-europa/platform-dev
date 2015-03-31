@@ -1,0 +1,26 @@
+/* 
+Link
+
+Markup: html/link.html
+
+:hover - Hover state
+:visited - Visited state
+:active - Active state
+:focus - Focus state
+
+Styleguide text.link 
+*/
+
+a {
+  text-decoration: underline;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: $blue;
+    text-decoration: none;
+  }
+  &:hover {
+    text-decoration: none;
+  }
+}

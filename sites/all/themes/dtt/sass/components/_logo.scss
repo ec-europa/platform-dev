@@ -1,0 +1,34 @@
+/*
+Logo
+
+Ec logo
+
+Markup: html/logo.html
+
+Styleguide siteheader.logo
+*/
+
+
+// Component
+// --------------------------------------------------
+.logo {
+  display: block;
+
+  width: 170px;
+  height: 45px;
+
+  background: url('../images/svg/logo.svg') no-repeat;
+}
+
+@include breakpoint(screen-sm-min) {
+  .logo {
+    width: 218px;
+    height: 60px;
+  }
+}
+
+.no-svg {
+  .logo {
+    background-image: url('../images/svg/logo.png');
+  }
+}

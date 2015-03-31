@@ -1,0 +1,113 @@
+name = Europa
+description = NextEuropa base theme, based on Bootstrap 3.
+base theme = bootstrap
+core = 7.x
+php = 5.3.0
+
+; ========================================
+; Regions
+; ========================================
+regions[navigation] = Navigation
+regions[header] = Header
+regions[header_bottom] = Header bottom
+regions[highlighted] = Highlighted
+regions[help] = Help
+regions[content] = Content
+regions[content_bottom] = Content bottom
+regions[sidebar_first] = Sidebar
+regions[sidebar_second] = Second column
+regions[footer] = Footer
+
+; ========================================
+; Stylesheets
+; ========================================
+stylesheets[all][] = css/style-sass.css
+
+; ========================================
+; Scripts
+; ========================================
+;scripts[] = bootstrap-sass/js/bootstrap/affix.js
+;scripts[] = bootstrap-sass/js/bootstrap/alert.js
+;scripts[] = bootstrap-sass/js/bootstrap/button.js
+;scripts[] = bootstrap-sass/js/bootstrap/carousel.js
+scripts[] = bootstrap-sass/js/bootstrap/collapse.js
+scripts[] = bootstrap-sass/js/bootstrap/dropdown.js
+;scripts[] = bootstrap-sass/js/bootstrap/modal.js
+;scripts[] = bootstrap-sass/js/bootstrap/tooltip.js
+;scripts[] = bootstrap-sass/js/bootstrap/popover.js
+scripts[] = bootstrap-sass/js/bootstrap/scrollspy.js
+scripts[] = bootstrap-sass/js/bootstrap/tab.js
+scripts[] = bootstrap-sass/js/bootstrap/transition.js
+scripts[] = js/modernizr.js
+scripts[] = js/enquire.min.js
+scripts[] = js/velocity.min.js
+
+; ========================================
+; Settings
+; ========================================
+
+; Node form sidebar
+; --------------
+settings[node_form_sidebar][] = language
+settings[node_form_sidebar][] = group_content_access
+settings[node_form_sidebar][] = options
+settings[node_form_sidebar][] = revision_information
+settings[node_form_sidebar][] = og_group_ref
+settings[node_form_sidebar][] = menu
+settings[node_form_sidebar][] = author
+settings[node_form_sidebar][] = path
+settings[node_form_sidebar][] = scheduler_settings
+settings[node_form_sidebar][] = print
+settings[node_form_sidebar][] = comment_settings
+
+
+; Navbar
+; --------------
+settings[bootstrap_navbar_position] = 'static-top'
+settings[bootstrap_navbar_inverse] = 1
+
+; Grid
+; --------------
+settings[bootstrap_grid_columns] = 12
+settings[bootstrap_grid_class_prefix] = 'col-md'
+settings[bootstrap_region_grid-sidebar_first] = 3
+settings[bootstrap_region_grid-sidebar_second] = 6
+settings[bootstrap_region_grid_dynamic-content][sidebar_first] = 'sidebar_first'
+settings[bootstrap_region_grid_dynamic-content][sidebar_second] = 'sidebar_second'
+
+; Region Wells
+; --------------
+settings[bootstrap_region_well-navigation] = ''
+settings[bootstrap_region_well-header] = ''
+settings[bootstrap_region_well-highlighted] = ''
+settings[bootstrap_region_well-help] = ''
+settings[bootstrap_region_well-content] = ''
+settings[bootstrap_region_well-sidebar_first] = ''
+settings[bootstrap_region_well-sidebar_second] = ''
+settings[bootstrap_region_well-footer] = ''
+
+; Tooltips
+; --------------
+settings[bootstrap_tooltip_enabled] = 1
+settings[bootstrap_tooltip_descriptions] = 1
+settings[bootstrap_tooltip_descriptions_length] = 200
+settings[bootstrap_tooltip_animation] = 1
+settings[bootstrap_tooltip_html] = 0
+settings[bootstrap_tooltip_placement] = 'auto bottom'
+settings[bootstrap_tooltip_selector] = ''
+settings[bootstrap_tooltip_trigger]['hover'] = 'hover'
+settings[bootstrap_tooltip_trigger]['focus'] = 'focus'
+settings[bootstrap_tooltip_trigger]['click'] = 'click'
+settings[bootstrap_tooltip_delay] = 150
+settings[bootstrap_tooltip_container] = 'body'
+
+; Breadcrumbs
+; --------------
+settings[bootstrap_breadcrumb] = 0
+settings[bootstrap_breadcrumb_home] = 1
+settings[bootstrap_breadcrumb_title] = 1
+
+; Advanced
+; --------------
+settings[bootstrap_cdn] = ""
+
