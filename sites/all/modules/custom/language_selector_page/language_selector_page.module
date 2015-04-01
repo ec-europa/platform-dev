@@ -120,7 +120,14 @@ function language_selector_page_preprocess_block(&$variables) {
 
     if (!empty($variables['elements']['other']['#markup'])) {
       foreach ($variables['elements']['other']['#markup'] as $code => $lang) {
-        $other .= '<li>' . l($lang->native, current_path(), array('language' => $lang)) . '</li>';
+        $options = array(
+          'language' => $lang,
+          'query' => $_GET,
+        );
+        unset($options['query']['q']);
+        $options['query']['2nd-language'] = $code;
+
+        $other .= '<li>' . l($lang->native, current_path(), $options) . '</li>';
       }
     }
 

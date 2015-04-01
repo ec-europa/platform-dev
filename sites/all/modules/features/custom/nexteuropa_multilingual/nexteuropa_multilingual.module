@@ -169,7 +169,7 @@ function nexteuropa_multilingual_tokens_alter(array &$replacements, array $conte
  * Implements hook_drupal_goto_alter().
  */
 function nexteuropa_multilingual_drupal_goto_alter(&$path, &$options, &$http_response_code) {
-  if (isset($_GET['spl'])) {
-    $options['query'] = array('spl' => $_GET['spl']);
+  if (isset($_GET['2nd-language'])) {
+    $options['query'] = array('2nd-language' => $_GET['2nd-language']);
   }
 }

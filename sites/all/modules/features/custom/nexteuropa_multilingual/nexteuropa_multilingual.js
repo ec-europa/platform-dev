@@ -7,7 +7,7 @@
   Drupal.behaviors.nexteuropa_multilingual = {
     attach: function (context, settings) {
 
-      var secondLanguageParam = 'spl';
+      var secondLanguageParam = '2nd-language';
 
       var secondLanguageValue = getParameter(secondLanguageParam, window.location.search);
       if (secondLanguageValue) {
