@@ -209,20 +209,26 @@ function ec_resp_preprocess_node(&$variables) {
       unset($variables['content']['field_picture_upload']);
       unset($variables['content']['field_video_upload']);
       break;
+
   }
 
-  // Display last update date.
+  // Display last update date
   if ($variables['display_submitted']) {
     $node = $variables['node'];
+    //ddl($node);
+  
     // Append the revision information to the submitted by text.
     $revision_account = user_load($node->revision_uid);
     $variables['revision_name'] = theme('username', array('account' => $revision_account));
-    $variables['revision_date'] = format_date($node->changed);
-    $variables['submitted'] .= "<br />" . t('Last modified by !revision-name on !revision-date', array(
+    $variables['revision_date'] = (
+           isset($node->workbench_moderation) 
+           && $node->workbench_moderation['current']->vid == $node->vid
+           && $node->status == 0
+    )?format_date($node->revision_timestamp):format_date($node->changed);
+    $variables['submitted'] .= "<br>".t('Last modified by !revision-name on !revision-date', array(
       '!name' => $variables['name'], '!date' => $variables['date'], '!revision-name' => $variables['revision_name'], '!revision-date' => $variables['revision_date'])
     );
   }
-
 }
 
 /**
@@ -1252,7 +1258,7 @@ function ec_resp_breadcrumb($variables) {
 function ec_resp_preprocess_admin_menu_icon(&$variables) {
   $theme_path = drupal_get_path('theme', 'ec_resp');
   $logo_url = file_create_url($theme_path . '/images/favicon.png');
-  $variables['src'] = preg_replace('@^https?:@', '', $logo_url);
+  $variables['src'] = preg_replace('@^https?:@', 'http:', $logo_url);
 }
 
 /**
