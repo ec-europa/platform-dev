@@ -1,0 +1,283 @@
+FusionCharts XT - http://www.fusioncharts.com/ - Version History
+=========================================================================
+Current Version:FusionCharts XT (v3.3.0) (Released on 30th January, 2013)
+=========================================================================
+
+Version history
+
+
+FusionCharts XT(v3.3.0) (30th January, 2013):
+---------------------------
+
+New Features:
+
+* Support for widthPercent attribute in the <category> element for JavaScript Marimekko chart.
+* Support for anchorMinRenderDistance attribute in JavaScript Zoom Line chart.
+* Exported JavaScript charts can now be saved to a server (using PHP and JAVA).
+
+Improved:
+
+* Better and crisp visualization of JavaScript charts.
+* Added support to customize export related context-menu items of JavaScript charts.
+* Improvement in dataset order for JavaScript MSBar2D and MSBar3D charts.
+* JavaScript SSGrid chart now supports export feature.
+
+Fix:
+
+* Links are no more invoked in drag events for Flash charts.
+* Common alpha can be set on gradient colors in Flash charts.
+* Minor fix in displaying thin slices of JavaScript Pie 3D and Pie 2D charts.
+* Minor fix related to displacement of data plot in JavaScript Line and Area charts.
+* Minor fix related to maxLabelWidthPercent attribute in JavaScript Bar charts.
+* Summation values are now positioned correctly in JavaScript MSStacked charts.
+* Fix related to tooltip of Zoomline chart being displayed outside the canvas in Flash.
+* Minor fix related to numVisiblePlot in Flash Scroll Combination Dual Y 2D chart.
+* Minor fix in displaying data labels and tooltip when null values are passed to JavaScript Marimekko charts.
+* getSVGString() and exportChart() can now be invoked multiple times in JavaScript charts.
+
+
+
+
+FusionCharts XT(v3.2.2) SR5 (1st November, 2012):
+---------------------------
+
+New Features:
+
+* JavaScript Zoom Line chart now supports Log Axis.
+* JavaScript Zoom Line chart now supports numVisibleLabels attribute.
+* Scrollable charts can now be scrolled on touch devices by swiping over the canvas area.
+* Ability to turn off url-decoding of links using the unescapeLinks attribute in JavaScript charts.
+
+Improved:
+
+* Long tool tips in Flash Zoom Line chart are now wrapped automatically.
+* Data parser now automatically removes trailing spaces from data values.
+* Data labels can now be shown individually using the showLabels attribute in the <set> element in Pie or Doughnut charts.
+* Enhanced space management while using the plotSpacePercent attribute in Flash 3D Column and  3D Bar charts.
+* Enhanced visibility of the data values in Flash Stacked Bar 2D chart.
+* Better handling of quotes in FusionCharts.php.
+
+Fix:
+
+* jQuery 1.8 compatibility issues. 
+* Mixed content browser warning on Internet Explorer when using charts within secured (https) pages.
+* Exporting issues related to JavaScript LinkedCharts.
+* Minor fix in label position while using stagger label display mode.
+* Minor fix related to legend interactivity in JavaScript charts.
+* Minor fix related to displacement of dataplot in Line and Area charts.
+* Issues related to floating point number calculations while setting axis limits in Stacked charts.
+* Disappearing legend issue in Flash Scatter chart when anchorSides is less than 3.
+* Flash LinkedCharts overlay button does not disappear anymore while exporting.
+* Links are no longer invoked when mouse is dragged onto Flash chart from foreign elements.
+* Bold and Italics styles can now be applied to tool tips.
+* Gradient colors can now be applied to dataplots in Flash MSCombi2D and MSCombiDY2D charts using the color attribute in the <dataset> element.
+* Axis limits can now be explicitly defined in Marimekko chart while not using percentage distribution.
+* setAdaptiveYMin now remains disabled by default in Flash charts when all the values are negative.
+* JavaScript charts now export the current state of the charts.
+* getDataAsCSV now works in JavaScript Dual Y-Axis charts and Multi-series Stacked charts.
+* showZeroPlaneValue='0' now hides the zero value even when zero plane is not explicitly drawn in Flash Zoom Line and MSCombi3D charts.
+
+
+
+
+
+FusionCharts XT(v3.2.2) SR4 (6th August, 2012):
+---------------------------
+
+New Features:
+
+* JavaScript Pie and Doughnut charts' slices now move in or out when respective labels and connector lines are clicked
+* Stacked charts can now display data values in percentage using the showPercentValues and showPercentinTooltip attributes. 
+
+Improved:
+
+* Anchors in Flash charts now render as circles when anchor sides are less than 3. 
+* Y-Axis Name of Flash Zoom Line chart now supports Shadow, Glow, Bevel and Blur style.
+* Chart Loading messages in JavaScript charts can be now configured using the configure() function. 
+* Drawing improvement for all JavaScript 3D charts. 
+
+Fix:
+
+* Issue setting custom thousands separator for Flash charts.
+* Flash charts hang when accented characters are passed to the charts through the URL of the data source.
+* Disabled tooltip shadow is getting enabled when Flash charts are reloaded.
+* Disparity in the display of shadow across all Flash Bar charts.
+* Incorrect decimal places are shown for divisional-line values in Flash charts.
+* The value of the plotSpacePercent attribute is not getting applied as expected in Flash 3D charts. 
+* Text in Zoom Line chart does not support {br} pseudo code.
+* Trendlines in Flash Zoom Line chart fail to show tooltips.
+* Flash Zoom Line chart crashes when axis type is set as 'log' and a dataplot is set as zero.
+* Flash Zoom Line chart's line with discontinuous data cannot be pinned.
+* JavaScript Zoom Line chart miscalculates displayStartIndex & displayEndIndex attributes.
+* Hidden anchors reappear when mouse hovers over JavaScript Zoom Line chart.
+* Interactive legend items are not working when the anchors are disabled using drawAnchors="0" for JavaScript Zoom Line chart.
+* Runtime error in JavaScript Zoom Line chart when category labels are hidden.
+* Legend items are displayed in reverse order for JavaScript 3D Pie and 3D Doughnut charts.
+* Data labels of Flash Pie and Doughnut charts do not support {br} pseudo code.
+* JavaScript Pie and Doughnut charts do not save slice-state upon chart resize.	
+* JavaScript Pie or Doughnut charts with a single slice are unable to calculate the starting angle.
+* Unable to show individual slice labels, when all labels are hidden using showLabels="0" in the <chart> element for JavaScript Pie and Doughnut charts.
+* Runtime error on clicking slices of Pie 3D or Doughnut 3D charts under certain circumstances. 	
+* Runtime error when JavaScript Pie or Doughnut charts have no data value to plot but the pieYScale attribute is set through the chart element.
+* Flash Pareto 3D chart with two data plots hides the data labels.
+* Cumulative Line in Flash Pareto charts becomes distorted under certain conditions.
+* Summation values are going outside the canvas area in JavaScript Marimekko charts.
+* plotFillColor attribute is not working for Flash Area charts. 
+* Plot border is visible even if showPlotBorder is set to 0 in JavaScript Multi-series charts.
+* Incorrect ordering of Legend items in JavaScript Combination charts.
+* Unable to render dashed lines using lineDashed="1" through the <chart> element in Flash Combination charts.
+* Unable to create individual dashed line-segments in JavaScript Single-series Line charts.
+*  lineColor attribute in the <chart> element is not working for Flash Combination charts.
+* X-Axis category labels in Scatter chart are overlapping in Flash charts.
+* Same value for the xAxisMinValue attribute and the x value for a category in Scatter chart results in wrong data representation.
+* The decimals attribute fails to work in JavaScript 100% Stacked charts.
+* Minor rendering issue with Multi-series Column 3D chart.
+
+
+
+		
+
+FusionCharts XT(v3.2.2) SR3 (12th March, 2012):
+---------------------------
+
+New Features:
+
+* Support for JavaScript Pie 3D and Doughnut 3D charts.
+* Ability to control number formatting for Indian and East Asian thousand/lac separation formats.
+* Support for recursive number scaling to display the chart data better.
+
+Improved:
+
+* Considerable reduction of memory leaks upon resize, data-update and dispose of charts.
+* Text-selection (I-beam) cursor does not appear now when hovered over text.
+* JavaScript Bubble charts now correctly clip all out-of-canvas data-points using the clipBubbles attribute.
+* JavaScript Pie and Doughnut charts now support dashed plot borders.
+* Enhancements in JavaScript Zoom Line chart which includes:
+    - Pin Mode
+    - Better management of x-axis data labels
+    - Icons for Zoom-Out, Reset and Pin Mode 
+
+Fix:
+
+* ExportReady event not being raised in advanced event model.
+* Erratic ordering of Legend icons in Chrome.
+* connectNullData attribute not working as expected in JavaScript Zoom Line charts.
+* Stray anchors being visible in JavaScript Zoom Line charts.
+* toolText attribute being ignored at <set ... /> level in JavaScript Zoom Line charts.
+* The loss of pie slice animation when Pie charts are resized.
+* Trendline values being plotted on incorrect axis on JavaScript dual-axis charts.
+* JavaScript Zoom Line chart not plotting data-points whose values are equal to yAxisMaxValue.
+* plotBorderDashed not being effective on JavaScript Pareto charts.
+
+
+
+FusionCharts XT(v3.2.2) SR2 (25th January, 2012):
+---------------------------
+* Improved: Style support added for legend items. (limited to font color and size only.)
+* Improved: Word-wrapping for labels now include hyphen while deciding line-breaks.
+* Improved: Better and automatic handling of "slicingDistance" attribute of Pie and Doughnut charts.
+* Improved: Added new chart attributes "enableSlicing" for Pie and Doughnut charts for better interactivity control.
+* Improved: Addition of new attribute "anchorStartAngle" for all line and area based charts that has anchors.
+* Improved: ZoomLine chart now has a "zoom out" button and the reset text-based link has been replaced with a button.
+* Improved: Resolved compatibility issues in tool-tip positioning and gradient rendering caused by jQuery 1.7.1
+* Fix: Fix for drawing issue on 3D stacked column charts where a point had "zero" value.
+* Fix: Fixed Zoom Line chart legend items unexpectedly breaking into multiple lines.
+* Fix: Support for valuePosition at <set> level for line and area based charts.
+* Fix: ZoomLine animations not being turned off.
+* Fix: Pie and Donut charts getting clipped by half when it had a single data-point.
+* Modifications: Setting labelDisplay='none' turns off x-axis value stepping and allows labels to overlap. 
+
+
+FusionCharts XT(v3.2.2) SR1 (25th November, 2011):
+---------------------------
+* Improved: Text wrapping for labels in JavaScript charts.
+* Improved: JavaScript Zoom Line chart.
+* Improved: Font style can be applied the sum values in JavaScript stacked charts.
+* Fix: Data loading and rendering issues specific to Internet Explorer 6/7/8.
+* Fix: iOS gradient issue.
+* Fix: Disappearing 'close' button in LinkedCharts (JavaScript chart).
+* Fix: Minor fix related to displaying sum in JavaScript scroll stacked charts.
+* Fix: Minor fix related to tool-tip when dataplot alpha is set to 0 in all line and area charts.
+* Fix: Minor fix in Zoom Line chart's dynamic resizing module.
+* Fix: Minor fix for yAxisNameWidth, pYAxisNameWidth and sYAxisNameWidth.
+* Fix: Minor fix in .NET wrapper (FusionCharts.dll).
+
+
+FusionCharts XT(v3.2.2) (20th September, 2011):
+---------------------------
+* All the charts now render in pure JavaScript also. New charts in JavaScript include:
+   - 2D Charts: MSStackedColumn2D, MSStackedColumn2DLineDY, SSGrid
+   - 3D Charts: Column3D, MSColumn3D, MSBar3D, StackedColumn3D, StackedBar3D, StackedColumn3DLine, MSCombi3D (without True 3D feature), MSColumnLine3D, MSColumn3DLineDY, 		StackedColumn3DLineDY
+   - Scrollable charts: ScrollColumn2D, ScrollLine2D, ScollArea2D, ScrollStackedColumn2D, ScrollCombi2D, ScrollCombiDY2D.
+* New framework for JavaScript charts that supports 3D and scroll charts, gradients, smart labels with auto-wrapping and ellipses, interactive legend, trend-lines and trend-zones, and axis management. Visually, the JavaScript charts look almost similar to Flash charts of FusionCharts.
+* Enhanced label management in all charts to avoid overlapping of labels when there are large labels or many of them. 
+* Touch support available during rotation and slicing in pie/doughnut charts on tablets.
+* Background image can now be used to fill the chart in different modes, and custom alignment is possible. 
+* Ability to center the x-axis and y-axis titles with respect to chart area.
+* Support for auto generation of x-axis in Scatter and Bubble Charts. 
+* Scatter and Bubble charts also support regression lines, configuration for x-axis number formatting, vertical division lines, grids and zero plane. 
+* Multi-series Combination Chart (True 3D chart) now supports customizable x-axis ticks
+* Enhanced JavaScript API to:
+* Control slicing movement of pie and doughnut charts.
+* Switch to 100% view in multi-series combination 3D chart.
+* Support getCSVData() function.
+* Support dynamic resizing when parent container resizes.
+* Code for FusionCharts and PowerCharts JavaScript version have now been separated into different files.
+* Closed swfobject library has been removed. Now swfobject is elevated to the window scope. 
+
+
+
+v3.2.1 (6th October, 2010):
+---------------------------
+* Added useEllipsesWhenOverflow attribute to <chart> element that controls whether ellipses are to be used in chart labels.
+* Marimekko chart now supports the new legend.
+* Bug fix in label rendering mechanism of line and area charts, where last label was getting lesser space in rotated mode.
+* Changes in FusionCharts JavaScript class:
+     - Improvements in JSON transcoder.
+     - Support for font manipulation and STYLE manipulation when rendering JavaScript charts.
+     - Customization of y-axis min and max values in JavaScript rendering.
+     - Compatibility with older PowerCharts and FusionWidgets.
+     - Removal of swfUrl as compulsory construction parameter.
+     - Additional cosmetic changes when using JavaScript rendering.
+
+
+v3.2 (15th September, 2010):
+---------------------------
+* Automatic rendering of JavaScript charts on devices (like iPad and 
+  iPhone) where Flash player is not supported.
+* 6 new chart types:
+    - 2D Pareto Chart
+    - 3D Pareto Chart
+    - Marimekko Chart
+    - 2D Stacked Column Line (Single Y axis)
+    - 3D Stacked Column Line (Single Y axis)
+    - Zoom Line Chart (with scrolling and pinning support)
+* Support for JSON data format.
+* Support for LinkedCharts, where a single data source controls multiple charts.
+* Interactive legends in charts that allow for selective 
+  showing/hiding of data series (or slicing, in case of pie charts).
+* Legends now support icons for each data series.
+* Pie and Doughnut charts now support Legend.
+* Stacked charts now support 100% stacked mode.
+* Bubble and Scatter charts can now have visual quadrants with labels.
+* Better management of labels on charts. Labels now have an auto rendering 
+  mode to prevent them from overlapping, the chart selects the best display mode 
+  for labels depending on the length of the labels and the width of the chart. 
+  Long labels are truncated, with ellipses appended to the truncated end of each
+  label, and a tooltip bearing the completed label text is displayed when 
+  the user hovers over a truncated label.
+* Support for line breaks and wrapping in all text elements including: caption, 
+  sub caption, X-axis title, Y-axis title, Labels and tooltips.
+* In Line charts, data values can now be positioned either above or below the 
+  dataplots. Automatic positioning of data values is also supported.
+  
+* Custom alignment of caption and sub caption using STYLES.
+* Adjustment of minimum Y-axis value in stacked charts now supported.
+* Advanced print management using JavaScript.
+* Additional options for efficient event handling using JavaScript.
+* Support for dynamic update of chart properties using JavaScript.
+* Charts now support % based sizes along with dynamic resizing.
+
+=========================================================================
+
+For information on previous versions, please visit http://www.fusioncharts.com/VersionHistory.asp
