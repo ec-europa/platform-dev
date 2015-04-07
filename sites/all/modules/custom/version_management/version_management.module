@@ -55,7 +55,6 @@ function version_management_form_alter(&$form, &$form_state, $form_id) {
 
   if (
     isset($types[$formid_type])
- 
     // If: $form_id identifies a node-editing form,
     && preg_match('/_node_form$/', $form_id)
 
@@ -71,10 +70,10 @@ function version_management_form_alter(&$form, &$form_state, $form_id) {
     $form['actions']['minor_version']['#weight'] = $form['actions']['submit']['#weight'] + 1;
   }
 
-  // Alter workbench moderation change states form
-  if($form_id == 'workbench_moderation_moderate_form' || $form_id == 'workbench_moderation_node_unpublish_form') {
+  // Alter workbench moderation change states form.
+  if ($form_id == 'workbench_moderation_moderate_form' || $form_id == 'workbench_moderation_node_unpublish_form') {
     $formid_type = $form_state['build_info']['args'][0]->type;
-    if(isset($types[$formid_type]) && $types[$formid_type]) {
+    if (isset($types[$formid_type]) && $types[$formid_type]) {
       $form['minor_version'] = $version_management_form_element;
       $form['#submit'][] = 'version_management_handler_submit';
     }
@@ -83,8 +82,7 @@ function version_management_form_alter(&$form, &$form_state, $form_id) {
 
 
 /**
- * helper function to build the version_management checkbox
- *
+ * Helper function to build the version_management checkbox.
  */
 function version_management_form_build() {
   $form_element = array(
@@ -93,30 +91,23 @@ function version_management_form_build() {
     '#title' => t('Mark as major version'),
     '#default_value' => 0,
     '#attached' => array(
-       'css' => array(drupal_get_path('module', 'version_management') . '/version_management.css'),
-       'js' => array(drupal_get_path('module', 'version_management') . '/version_management.js'),
-     ),
+      'css' => array(drupal_get_path('module', 'version_management') . '/version_management.css'),
+      'js' => array(drupal_get_path('module', 'version_management') . '/version_management.js'),
+    ),
   );
   return $form_element;
 }
 
-
-
-
 /**
- * version_management additionnal handler for workbench_moderation forms
- *
+ * Version_management additionnal handler for workbench_moderation forms.
  */
 function version_management_handler_submit($form, &$form_state) {
-  if(isset($form_state['values']['minor_version']) && $form_state['values']['minor_version'] == 0) {
+  if (isset($form_state['values']['minor_version']) && $form_state['values']['minor_version'] == 0) {
     $minor_version_nids = variable_get('minor_version_nids', array());
     $minor_version_nids[$form_state['build_info']['args'][0]->nid] = 'minor';
     variable_set('minor_version_nids', $minor_version_nids);
   }
 }
-
-
-
 
 /**
  * Implements hook_node_presave().
@@ -143,7 +134,7 @@ function version_management_node_presave($node) {
       if (isset($minor_version_nids[$node->nid])) {
         unset($node->changed);
         $node->timestamp = $node->original->workbench_moderation['current']->timestamp;
-        if($node->workbench_moderation['updating_live_revision']) {
+        if ($node->workbench_moderation['updating_live_revision']) {
           unset($minor_version_nids[$node->nid]);
           variable_set('minor_version_nids', $minor_version_nids);
         }
@@ -153,7 +144,7 @@ function version_management_node_presave($node) {
 }
 
 /**
- * Implements hook_module_implements_alter
+ * Implements hook_module_implements_alter().
  *
  * allow to launch the hook_node_presave at last
  */
