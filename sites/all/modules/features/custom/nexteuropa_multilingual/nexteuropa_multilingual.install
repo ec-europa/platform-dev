@@ -38,4 +38,7 @@ function nexteuropa_multilingual_install() {
 
   // Set translatable states for TMGMT Workbench module.
   multisite_config_service('system')->setVariable('tmgmt_workbench_moderation_states', array('validated', 'published'));
+
+  // Disable multisite_drupal_language_negociation (redundant with nexteuropa_multilingual)
+  module_disable(array('multisite_drupal_language_negociation'));
 }
