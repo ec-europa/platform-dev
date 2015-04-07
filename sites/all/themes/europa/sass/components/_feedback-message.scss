@@ -1,0 +1,35 @@
+/*
+Feedback message
+
+Markup: html/feedback-message.html
+
+Styleguide form.feedback-message
+*/
+.feedback-message {
+  color: $form-group-feedback-text-color;
+  font-family: $font-family-sans-serif;
+
+  &.is-disabled {
+    color: $form-group-feedback-text-color-disabled;
+  }
+
+  &.is-error {
+    color: $form-group-feedback-text-color-has-error;
+    background-color: $form-group-feedback-background-color;
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    // Error icon.
+    &:before {
+      content: '';
+      background: url("../images/svg/error.svg");
+      background-size: $form-group-feedback-icon-size;
+      width: $form-group-feedback-icon-size;
+      height: $form-group-feedback-icon-size;
+      margin-right: 12px;
+    }
+  }
+}

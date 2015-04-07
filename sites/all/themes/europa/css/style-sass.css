@@ -192,7 +192,7 @@ td, th {
   .btn > .caret, .dropup > .btn > .caret {
     border-top-color: #000 !important; }
 
-  .label {
+  .label, label {
     border: 1px solid #000; }
 
   .table {
@@ -836,9 +836,9 @@ html {
 
 body {
   font-family: Arial, sans-serif;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1.428571429;
-  color: #575757;
+  color: #404040;
   background-color: #fff; }
 
 input, button, select, textarea {
@@ -888,10 +888,10 @@ img {
   border-radius: 50%; }
 
 hr {
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin-top: 21px;
+  margin-bottom: 21px;
   border: 0;
-  border-top: 1px solid #ececec; }
+  border-top: 1px solid #eeeeee; }
 
 .sr-only {
   position: absolute;
@@ -919,52 +919,52 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   h1 small, h1 .small, h2 small, h2 .small, h3 small, h3 .small, h4 small, h4 .small, h5 small, h5 .small, h6 small, h6 .small, .h1 small, .h1 .small, .h2 small, .h2 .small, .h3 small, .h3 .small, .h4 small, .h4 .small, .h5 small, .h5 .small, .h6 small, .h6 .small {
     font-weight: normal;
     line-height: 1;
-    color: #e2e2e2; }
+    color: #777777; }
 
 h1, .h1, h2, .h2, h3, .h3 {
-  margin-top: 25px;
-  margin-bottom: 12.5px; }
+  margin-top: 21px;
+  margin-bottom: 10.5px; }
   h1 small, h1 .small, .h1 small, .h1 .small, h2 small, h2 .small, .h2 small, .h2 .small, h3 small, h3 .small, .h3 small, .h3 .small {
     font-size: 65%; }
 
 h4, .h4, h5, .h5, h6, .h6 {
-  margin-top: 12.5px;
-  margin-bottom: 12.5px; }
+  margin-top: 10.5px;
+  margin-bottom: 10.5px; }
   h4 small, h4 .small, .h4 small, .h4 .small, h5 small, h5 .small, .h5 small, .h5 .small, h6 small, h6 .small, .h6 small, .h6 .small {
     font-size: 75%; }
 
 h1, .h1 {
-  font-size: 50px; }
+  font-size: 2.222em; }
 
 h2, .h2 {
-  font-size: 40px; }
+  font-size: 1.667em; }
 
 h3, .h3 {
-  font-size: 28px; }
+  font-size: 1.556em; }
 
 h4, .h4 {
-  font-size: 24px; }
+  font-size: 1.222em; }
 
 h5, .h5 {
-  font-size: 19px; }
+  font-size: 1em; }
 
 h6, .h6 {
-  font-size: 16px; }
+  font-size: 0.778em; }
 
 p {
-  margin: 0 0 12.5px; }
+  margin: 0 0 10.5px; }
 
 .lead {
-  margin-bottom: 25px;
-  font-size: 20px;
+  margin-bottom: 21px;
+  font-size: 17px;
   font-weight: 300;
   line-height: 1.4; }
   @media (min-width: 768px) {
     .lead {
-      font-size: 27px; } }
+      font-size: 22.5px; } }
 
 small, .small {
-  font-size: 88%; }
+  font-size: 86%; }
 
 mark, .mark {
   background-color: #fcf8e3;
@@ -995,7 +995,7 @@ mark, .mark {
   text-transform: capitalize; }
 
 .text-muted {
-  color: #e2e2e2; }
+  color: #777777; }
 
 .text-primary {
   color: #006fb4; }
@@ -1022,10 +1022,10 @@ a.text-warning:hover {
   color: #66512c; }
 
 .text-danger {
-  color: #a94442; }
+  color: #ff2423; }
 
 a.text-danger:hover {
-  color: #843534; }
+  color: #ef0100; }
 
 .bg-primary {
   color: #fff; }
@@ -1061,13 +1061,13 @@ a.bg-danger:hover {
   background-color: #e4b9b9; }
 
 .page-header {
-  padding-bottom: 11.5px;
-  margin: 50px 0 25px;
-  border-bottom: 1px solid #ececec; }
+  padding-bottom: 9.5px;
+  margin: 42px 0 21px;
+  border-bottom: 1px solid #eeeeee; }
 
 ul, ol {
   margin-top: 0;
-  margin-bottom: 12.5px; }
+  margin-bottom: 10.5px; }
   ul ul, ul ol, ol ul, ol ol {
     margin-bottom: 0; }
 
@@ -1086,7 +1086,7 @@ ul, ol {
 
 dl {
   margin-top: 0;
-  margin-bottom: 25px; }
+  margin-bottom: 21px; }
 
 dt, dd {
   line-height: 1.428571429; }
@@ -1118,31 +1118,31 @@ dd {
 
 abbr[title], abbr[data-original-title] {
   cursor: help;
-  border-bottom: 1px dotted #e2e2e2; }
+  border-bottom: 1px dotted #777777; }
 
 .initialism {
   font-size: 90%;
   text-transform: uppercase; }
 
 blockquote {
-  padding: 12.5px 25px;
-  margin: 0 0 25px;
-  font-size: 22.5px;
-  border-left: 5px solid #ececec; }
+  padding: 10.5px 21px;
+  margin: 0 0 21px;
+  font-size: 18.75px;
+  border-left: 5px solid #eeeeee; }
   blockquote p:last-child, blockquote ul:last-child, blockquote ol:last-child {
     margin-bottom: 0; }
   blockquote footer, blockquote small, blockquote .small {
     display: block;
     font-size: 80%;
     line-height: 1.428571429;
-    color: #e2e2e2; }
+    color: #777777; }
     blockquote footer:before, blockquote small:before, blockquote .small:before {
       content: '\2014 \00A0'; }
 
 .blockquote-reverse, blockquote.pull-right {
   padding-right: 15px;
   padding-left: 0;
-  border-right: 5px solid #ececec;
+  border-right: 5px solid #eeeeee;
   border-left: 0;
   text-align: right; }
   .blockquote-reverse footer:before, .blockquote-reverse small:before, .blockquote-reverse .small:before, blockquote.pull-right footer:before, blockquote.pull-right small:before, blockquote.pull-right .small:before {
@@ -1151,7 +1151,7 @@ blockquote {
     content: '\00A0 \2014'; }
 
 address {
-  margin-bottom: 25px;
+  margin-bottom: 21px;
   font-style: normal;
   line-height: 1.428571429; }
 
@@ -1180,13 +1180,13 @@ kbd {
 
 pre {
   display: block;
-  padding: 12px;
-  margin: 0 0 12.5px;
-  font-size: 17px;
+  padding: 10px;
+  margin: 0 0 10.5px;
+  font-size: 14px;
   line-height: 1.428571429;
   word-break: break-all;
   word-wrap: break-word;
-  color: #575757;
+  color: #333333;
   background-color: #f5f5f5;
   border: 1px solid #ccc;
   border-radius: 4px; }
@@ -1884,7 +1884,7 @@ table {
 caption {
   padding-top: 8px;
   padding-bottom: 8px;
-  color: #e2e2e2;
+  color: #777777;
   text-align: left; }
 
 th {
@@ -1893,7 +1893,7 @@ th {
 .table {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 25px; }
+  margin-bottom: 21px; }
   .table > thead > tr > th, .table > thead > tr > td, .table > tbody > tr > th, .table > tbody > tr > td, .table > tfoot > tr > th, .table > tfoot > tr > td {
     padding: 8px;
     line-height: 1.428571429;
@@ -1971,7 +1971,7 @@ table td[class*="col-"], table th[class*="col-"] {
   @media screen and (max-width: 767px) {
     .table-responsive {
       width: 100%;
-      margin-bottom: 18.75px;
+      margin-bottom: 15.75px;
       overflow-y: hidden;
       -ms-overflow-style: -ms-autohiding-scrollbar;
       border: 1px solid #ddd; }
@@ -1998,10 +1998,10 @@ legend {
   display: block;
   width: 100%;
   padding: 0;
-  margin-bottom: 25px;
-  font-size: 27px;
+  margin-bottom: 21px;
+  font-size: 22.5px;
   line-height: inherit;
-  color: #575757;
+  color: #333333;
   border: 0;
   border-bottom: 1px solid #e5e5e5; }
 
@@ -2039,18 +2039,18 @@ input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focu
 output {
   display: block;
   padding-top: 7px;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1.428571429;
-  color: #b3b4b5; }
+  color: #555555; }
 
-.form-control {
+.form-control, .ui-datepicker .ui-datepicker-header .ui-datepicker-title select {
   display: block;
   width: 100%;
-  height: 39px;
+  height: 35px;
   padding: 6px 12px;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1.428571429;
-  color: #b3b4b5;
+  color: #555555;
   background-color: #fff;
   background-image: none;
   border: 1px solid #ccc;
@@ -2060,21 +2060,21 @@ output {
   -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; }
-  .form-control:focus {
-    border-color: #66afe9;
+  .form-control:focus, .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:focus {
+    border-color: #ffd617;
     outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); }
-  .form-control::-moz-placeholder {
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 214, 23, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 214, 23, 0.6); }
+  .form-control::-moz-placeholder, .ui-datepicker .ui-datepicker-header .ui-datepicker-title select::-moz-placeholder {
     color: #999;
     opacity: 1; }
-  .form-control:-ms-input-placeholder {
+  .form-control:-ms-input-placeholder, .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:-ms-input-placeholder {
     color: #999; }
-  .form-control::-webkit-input-placeholder {
+  .form-control::-webkit-input-placeholder, .ui-datepicker .ui-datepicker-header .ui-datepicker-title select::-webkit-input-placeholder {
     color: #999; }
-  .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+  .form-control[disabled], .ui-datepicker .ui-datepicker-header .ui-datepicker-title select[disabled], .form-control[readonly], .ui-datepicker .ui-datepicker-header .ui-datepicker-title select[readonly], fieldset[disabled] .form-control, fieldset[disabled] .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title fieldset[disabled] select {
     cursor: not-allowed;
-    background-color: #ececec;
+    background-color: #eeeeee;
     opacity: 1; }
 
 textarea.form-control {
@@ -2085,13 +2085,13 @@ input[type="search"] {
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   input[type="date"], input[type="time"], input[type="datetime-local"], input[type="month"] {
-    line-height: 39px; }
+    line-height: 35px; }
 
   input[type="date"].input-sm, .input-group-sm > input[type="date"].form-control, .input-group-sm > input[type="date"].input-group-addon, .input-group-sm > .input-group-btn > input[type="date"].btn, input[type="time"].input-sm, .input-group-sm > input[type="time"].form-control, .input-group-sm > input[type="time"].input-group-addon, .input-group-sm > .input-group-btn > input[type="time"].btn, input[type="datetime-local"].input-sm, .input-group-sm > input[type="datetime-local"].form-control, .input-group-sm > input[type="datetime-local"].input-group-addon, .input-group-sm > .input-group-btn > input[type="datetime-local"].btn, input[type="month"].input-sm, .input-group-sm > input[type="month"].form-control, .input-group-sm > input[type="month"].input-group-addon, .input-group-sm > .input-group-btn > input[type="month"].btn {
-    line-height: 36px; }
+    line-height: 31px; }
 
   input[type="date"].input-lg, .input-group-lg > input[type="date"].form-control, .input-group-lg > input[type="date"].input-group-addon, .input-group-lg > .input-group-btn > input[type="date"].btn, input[type="time"].input-lg, .input-group-lg > input[type="time"].form-control, .input-group-lg > input[type="time"].input-group-addon, .input-group-lg > .input-group-btn > input[type="time"].btn, input[type="datetime-local"].input-lg, .input-group-lg > input[type="datetime-local"].form-control, .input-group-lg > input[type="datetime-local"].input-group-addon, .input-group-lg > .input-group-btn > input[type="datetime-local"].btn, input[type="month"].input-lg, .input-group-lg > input[type="month"].form-control, .input-group-lg > input[type="month"].input-group-addon, .input-group-lg > .input-group-btn > input[type="month"].btn {
-    line-height: 54px; }
+    line-height: 48px; }
  }
 
 .form-group {
@@ -2103,7 +2103,7 @@ input[type="search"] {
   margin-top: 10px;
   margin-bottom: 10px; }
   .radio label, .checkbox label {
-    min-height: 25px;
+    min-height: 21px;
     padding-left: 20px;
     margin-bottom: 0;
     font-weight: normal;
@@ -2142,42 +2142,42 @@ input[type="radio"][disabled], input[type="radio"].disabled, fieldset[disabled] 
   padding-top: 7px;
   padding-bottom: 7px;
   margin-bottom: 0; }
-  .form-control-static.input-lg, .input-group-lg > .form-control-static.form-control, .input-group-lg > .form-control-static.input-group-addon, .input-group-lg > .input-group-btn > .form-control-static.btn, .form-control-static.input-sm, .input-group-sm > .form-control-static.form-control, .input-group-sm > .form-control-static.input-group-addon, .input-group-sm > .input-group-btn > .form-control-static.btn {
+  .form-control-static.input-lg, .input-group-lg > .form-control-static.form-control, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group-lg > select.form-control-static, .input-group-lg > .form-control-static.input-group-addon, .input-group-lg > .input-group-btn > .form-control-static.btn, .form-control-static.input-sm, .input-group-sm > .form-control-static.form-control, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group-sm > select.form-control-static, .input-group-sm > .form-control-static.input-group-addon, .input-group-sm > .input-group-btn > .form-control-static.btn {
     padding-left: 0;
     padding-right: 0; }
 
-.input-sm, .input-group-sm > .form-control, .input-group-sm > .input-group-addon, .input-group-sm > .input-group-btn > .btn, .form-group-sm .form-control {
-  height: 36px;
+.input-sm, .input-group-sm > .form-control, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group-sm > select, .input-group-sm > .input-group-addon, .input-group-sm > .input-group-btn > .btn, .form-group-sm .form-control, .form-group-sm .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .form-group-sm select {
+  height: 31px;
   padding: 5px 10px;
-  font-size: 16px;
+  font-size: 13px;
   line-height: 1.5;
   border-radius: 3px; }
 
-select.input-sm, .input-group-sm > select.form-control, .input-group-sm > select.input-group-addon, .input-group-sm > .input-group-btn > select.btn, .form-group-sm .form-control {
-  height: 36px;
-  line-height: 36px; }
+select.input-sm, .input-group-sm > select.form-control, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group-sm > select, .input-group-sm > select.input-group-addon, .input-group-sm > .input-group-btn > select.btn, .form-group-sm .form-control, .form-group-sm .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .form-group-sm select {
+  height: 31px;
+  line-height: 31px; }
 
-textarea.input-sm, .input-group-sm > textarea.form-control, .input-group-sm > textarea.input-group-addon, .input-group-sm > .input-group-btn > textarea.btn, .form-group-sm .form-control, select[multiple].input-sm, .input-group-sm > select[multiple].form-control, .input-group-sm > select[multiple].input-group-addon, .input-group-sm > .input-group-btn > select[multiple].btn, .form-group-sm .form-control {
+textarea.input-sm, .input-group-sm > textarea.form-control, .input-group-sm > textarea.input-group-addon, .input-group-sm > .input-group-btn > textarea.btn, .form-group-sm .form-control, .form-group-sm .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .form-group-sm select, select[multiple].input-sm, .input-group-sm > select[multiple].form-control, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group-sm > select[multiple], .input-group-sm > select[multiple].input-group-addon, .input-group-sm > .input-group-btn > select[multiple].btn, .form-group-sm .form-control, .form-group-sm .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .form-group-sm select {
   height: auto; }
 
-.input-lg, .input-group-lg > .form-control, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .btn, .form-group-lg .form-control {
-  height: 54px;
+.input-lg, .input-group-lg > .form-control, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group-lg > select, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .btn, .form-group-lg .form-control, .form-group-lg .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .form-group-lg select {
+  height: 48px;
   padding: 10px 16px;
-  font-size: 24px;
+  font-size: 19px;
   line-height: 1.33;
   border-radius: 6px; }
 
-select.input-lg, .input-group-lg > select.form-control, .input-group-lg > select.input-group-addon, .input-group-lg > .input-group-btn > select.btn, .form-group-lg .form-control {
-  height: 54px;
-  line-height: 54px; }
+select.input-lg, .input-group-lg > select.form-control, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group-lg > select, .input-group-lg > select.input-group-addon, .input-group-lg > .input-group-btn > select.btn, .form-group-lg .form-control, .form-group-lg .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .form-group-lg select {
+  height: 48px;
+  line-height: 48px; }
 
-textarea.input-lg, .input-group-lg > textarea.form-control, .input-group-lg > textarea.input-group-addon, .input-group-lg > .input-group-btn > textarea.btn, .form-group-lg .form-control, select[multiple].input-lg, .input-group-lg > select[multiple].form-control, .input-group-lg > select[multiple].input-group-addon, .input-group-lg > .input-group-btn > select[multiple].btn, .form-group-lg .form-control {
+textarea.input-lg, .input-group-lg > textarea.form-control, .input-group-lg > textarea.input-group-addon, .input-group-lg > .input-group-btn > textarea.btn, .form-group-lg .form-control, .form-group-lg .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .form-group-lg select, select[multiple].input-lg, .input-group-lg > select[multiple].form-control, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group-lg > select[multiple], .input-group-lg > select[multiple].input-group-addon, .input-group-lg > .input-group-btn > select[multiple].btn, .form-group-lg .form-control, .form-group-lg .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .form-group-lg select {
   height: auto; }
 
 .has-feedback {
   position: relative; }
-  .has-feedback .form-control {
-    padding-right: 48.75px; }
+  .has-feedback .form-control, .has-feedback .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .has-feedback select {
+    padding-right: 43.75px; }
 
 .form-control-feedback {
   position: absolute;
@@ -2185,29 +2185,29 @@ textarea.input-lg, .input-group-lg > textarea.form-control, .input-group-lg > te
   right: 0;
   z-index: 2;
   display: block;
-  width: 39px;
-  height: 39px;
-  line-height: 39px;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
   text-align: center;
   pointer-events: none; }
 
-.input-lg + .form-control-feedback, .input-group-lg > .form-control + .form-control-feedback, .input-group-lg > .input-group-addon + .form-control-feedback, .input-group-lg > .input-group-btn > .btn + .form-control-feedback {
-  width: 54px;
-  height: 54px;
-  line-height: 54px; }
+.input-lg + .form-control-feedback, .input-group-lg > .form-control + .form-control-feedback, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group-lg > select + .form-control-feedback, .input-group-lg > .input-group-addon + .form-control-feedback, .input-group-lg > .input-group-btn > .btn + .form-control-feedback {
+  width: 48px;
+  height: 48px;
+  line-height: 48px; }
 
-.input-sm + .form-control-feedback, .input-group-sm > .form-control + .form-control-feedback, .input-group-sm > .input-group-addon + .form-control-feedback, .input-group-sm > .input-group-btn > .btn + .form-control-feedback {
-  width: 36px;
-  height: 36px;
-  line-height: 36px; }
+.input-sm + .form-control-feedback, .input-group-sm > .form-control + .form-control-feedback, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group-sm > select + .form-control-feedback, .input-group-sm > .input-group-addon + .form-control-feedback, .input-group-sm > .input-group-btn > .btn + .form-control-feedback {
+  width: 31px;
+  height: 31px;
+  line-height: 31px; }
 
 .has-success .help-block, .has-success .control-label, .has-success .radio, .has-success .checkbox, .has-success .radio-inline, .has-success .checkbox-inline, .has-success.radio label, .has-success.checkbox label, .has-success.radio-inline label, .has-success.checkbox-inline label {
   color: #3c763d; }
-.has-success .form-control {
+.has-success .form-control, .has-success .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .has-success select {
   border-color: #3c763d;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
-  .has-success .form-control:focus {
+  .has-success .form-control:focus, .has-success .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:focus, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .has-success select:focus {
     border-color: #2b542c;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168; }
@@ -2220,11 +2220,11 @@ textarea.input-lg, .input-group-lg > textarea.form-control, .input-group-lg > te
 
 .has-warning .help-block, .has-warning .control-label, .has-warning .radio, .has-warning .checkbox, .has-warning .radio-inline, .has-warning .checkbox-inline, .has-warning.radio label, .has-warning.checkbox label, .has-warning.radio-inline label, .has-warning.checkbox-inline label {
   color: #8a6d3b; }
-.has-warning .form-control {
+.has-warning .form-control, .has-warning .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .has-warning select {
   border-color: #8a6d3b;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
-  .has-warning .form-control:focus {
+  .has-warning .form-control:focus, .has-warning .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:focus, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .has-warning select:focus {
     border-color: #66512c;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b; }
@@ -2236,24 +2236,24 @@ textarea.input-lg, .input-group-lg > textarea.form-control, .input-group-lg > te
   color: #8a6d3b; }
 
 .has-error .help-block, .has-error .control-label, .has-error .radio, .has-error .checkbox, .has-error .radio-inline, .has-error .checkbox-inline, .has-error.radio label, .has-error.checkbox label, .has-error.radio-inline label, .has-error.checkbox-inline label {
-  color: #a94442; }
-.has-error .form-control {
-  border-color: #a94442;
+  color: #ff2423; }
+.has-error .form-control, .has-error .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .has-error select {
+  border-color: #ff2423;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
-  .has-error .form-control:focus {
-    border-color: #843534;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483; }
+  .has-error .form-control:focus, .has-error .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:focus, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .has-error select:focus {
+    border-color: #ef0100;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ff8a89;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ff8a89; }
 .has-error .input-group-addon {
-  color: #a94442;
-  border-color: #a94442;
+  color: #ff2423;
+  border-color: #ff2423;
   background-color: #f2dede; }
 .has-error .form-control-feedback {
-  color: #a94442; }
+  color: #ff2423; }
 
 .has-feedback label ~ .form-control-feedback {
-  top: 30px; }
+  top: 26px; }
 .has-feedback label.sr-only ~ .form-control-feedback {
   top: 0; }
 
@@ -2261,7 +2261,7 @@ textarea.input-lg, .input-group-lg > textarea.form-control, .input-group-lg > te
   display: block;
   margin-top: 5px;
   margin-bottom: 10px;
-  color: #979797; }
+  color: gray; }
 
 @media (min-width: 768px) {
   .form-inline .form-group {
@@ -2269,7 +2269,7 @@ textarea.input-lg, .input-group-lg > textarea.form-control, .input-group-lg > te
     margin-bottom: 0;
     vertical-align: middle; }
 
-  .form-inline .form-control {
+  .form-inline .form-control, .form-inline .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .form-inline select {
     display: inline-block;
     width: auto;
     vertical-align: middle; }
@@ -2280,10 +2280,10 @@ textarea.input-lg, .input-group-lg > textarea.form-control, .input-group-lg > te
   .form-inline .input-group {
     display: inline-table;
     vertical-align: middle; }
-    .form-inline .input-group .input-group-addon, .form-inline .input-group .input-group-btn, .form-inline .input-group .form-control {
+    .form-inline .input-group .input-group-addon, .form-inline .input-group .input-group-btn, .form-inline .input-group .form-control, .form-inline .input-group .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .form-inline .input-group select {
       width: auto; }
 
-  .form-inline .input-group > .form-control {
+  .form-inline .input-group > .form-control, .form-inline .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group > select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .form-inline .input-group > select {
     width: 100%; }
 
   .form-inline .control-label {
@@ -2311,7 +2311,7 @@ textarea.input-lg, .input-group-lg > textarea.form-control, .input-group-lg > te
   margin-bottom: 0;
   padding-top: 7px; }
 .form-horizontal .radio, .form-horizontal .checkbox {
-  min-height: 32px; }
+  min-height: 28px; }
 .form-horizontal .form-group {
   margin-left: -15px;
   margin-right: -15px; }
@@ -2349,7 +2349,7 @@ textarea.input-lg, .input-group-lg > textarea.form-control, .input-group-lg > te
   border: 1px solid transparent;
   white-space: nowrap;
   padding: 6px 12px;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 1.428571429;
   border-radius: 4px;
   -webkit-user-select: none;
@@ -2463,19 +2463,19 @@ textarea.input-lg, .input-group-lg > textarea.form-control, .input-group-lg > te
 
 .btn-danger {
   color: #fff;
-  background-color: #da2131;
-  border-color: #c41e2c; }
+  background-color: #ff2423;
+  border-color: #ff0b09; }
   .btn-danger:hover, .btn-danger:focus, .btn-danger.focus, .btn-danger:active, .btn-danger.active, .open > .btn-danger.dropdown-toggle {
     color: #fff;
-    background-color: #ae1a27;
-    border-color: #8f1620; }
+    background-color: #ef0100;
+    border-color: #cb0100; }
   .btn-danger:active, .btn-danger.active, .open > .btn-danger.dropdown-toggle {
     background-image: none; }
   .btn-danger.disabled, .btn-danger.disabled:hover, .btn-danger.disabled:focus, .btn-danger.disabled.focus, .btn-danger.disabled:active, .btn-danger.disabled.active, .btn-danger[disabled], .btn-danger[disabled]:hover, .btn-danger[disabled]:focus, .btn-danger[disabled].focus, .btn-danger[disabled]:active, .btn-danger[disabled].active, fieldset[disabled] .btn-danger, fieldset[disabled] .btn-danger:hover, fieldset[disabled] .btn-danger:focus, fieldset[disabled] .btn-danger.focus, fieldset[disabled] .btn-danger:active, fieldset[disabled] .btn-danger.active {
-    background-color: #da2131;
-    border-color: #c41e2c; }
+    background-color: #ff2423;
+    border-color: #ff0b09; }
   .btn-danger .badge {
-    color: #da2131;
+    color: #ff2423;
     background-color: #fff; }
 
 .btn-link {
@@ -2493,24 +2493,24 @@ textarea.input-lg, .input-group-lg > textarea.form-control, .input-group-lg > te
     text-decoration: underline;
     background-color: transparent; }
   .btn-link[disabled]:hover, .btn-link[disabled]:focus, fieldset[disabled] .btn-link:hover, fieldset[disabled] .btn-link:focus {
-    color: #e2e2e2;
+    color: #777777;
     text-decoration: none; }
 
 .btn-lg, .btn-group-lg > .btn {
   padding: 10px 16px;
-  font-size: 24px;
+  font-size: 19px;
   line-height: 1.33;
   border-radius: 6px; }
 
 .btn-sm, .btn-group-sm > .btn {
   padding: 5px 10px;
-  font-size: 16px;
+  font-size: 13px;
   line-height: 1.5;
   border-radius: 3px; }
 
 .btn-xs, .btn-group-xs > .btn {
   padding: 1px 5px;
-  font-size: 16px;
+  font-size: 13px;
   line-height: 1.5;
   border-radius: 3px; }
 
@@ -2583,7 +2583,7 @@ tbody.collapse.in {
   padding: 5px 0;
   margin: 2px 0 0;
   list-style: none;
-  font-size: 18px;
+  font-size: 15px;
   text-align: left;
   background-color: #fff;
   border: 1px solid #ccc;
@@ -2597,7 +2597,7 @@ tbody.collapse.in {
     left: auto; }
   .dropdown-menu .divider {
     height: 1px;
-    margin: 11.5px 0;
+    margin: 9.5px 0;
     overflow: hidden;
     background-color: #e5e5e5; }
   .dropdown-menu > li > a {
@@ -2606,12 +2606,12 @@ tbody.collapse.in {
     clear: both;
     font-weight: normal;
     line-height: 1.428571429;
-    color: #575757;
+    color: #333333;
     white-space: nowrap; }
 
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
   text-decoration: none;
-  color: #4a4a4a;
+  color: #262626;
   background-color: #f5f5f5; }
 
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
@@ -2621,7 +2621,7 @@ tbody.collapse.in {
   background-color: #006fb4; }
 
 .dropdown-menu > .disabled > a, .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus {
-  color: #e2e2e2; }
+  color: #777777; }
 .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus {
   text-decoration: none;
   background-color: transparent;
@@ -2645,9 +2645,9 @@ tbody.collapse.in {
 .dropdown-header {
   display: block;
   padding: 3px 20px;
-  font-size: 16px;
+  font-size: 13px;
   line-height: 1.428571429;
-  color: #e2e2e2;
+  color: #777777;
   white-space: nowrap; }
 
 .dropdown-backdrop {
@@ -2825,16 +2825,16 @@ tbody.collapse.in {
     float: none;
     padding-left: 0;
     padding-right: 0; }
-  .input-group .form-control {
+  .input-group .form-control, .input-group .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group select {
     position: relative;
     z-index: 2;
     float: left;
     width: 100%;
     margin-bottom: 0; }
 
-.input-group-addon, .input-group-btn, .input-group .form-control {
+.input-group-addon, .input-group-btn, .input-group .form-control, .input-group .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group select {
   display: table-cell; }
-  .input-group-addon:not(:first-child):not(:last-child), .input-group-btn:not(:first-child):not(:last-child), .input-group .form-control:not(:first-child):not(:last-child) {
+  .input-group-addon:not(:first-child):not(:last-child), .input-group-btn:not(:first-child):not(:last-child), .input-group .form-control:not(:first-child):not(:last-child), .input-group .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:not(:first-child):not(:last-child), .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group select:not(:first-child):not(:last-child) {
     border-radius: 0; }
 
 .input-group-addon, .input-group-btn {
@@ -2844,33 +2844,33 @@ tbody.collapse.in {
 
 .input-group-addon {
   padding: 6px 12px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: normal;
   line-height: 1;
-  color: #b3b4b5;
+  color: #555555;
   text-align: center;
-  background-color: #ececec;
+  background-color: #eeeeee;
   border: 1px solid #ccc;
   border-radius: 4px; }
-  .input-group-addon.input-sm, .input-group-sm > .input-group-addon, .input-group-sm > .input-group-btn > .input-group-addon.btn {
+  .input-group-addon.input-sm, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group-sm > select.input-group-addon, .input-group-sm > .input-group-addon, .input-group-sm > .input-group-btn > .input-group-addon.btn {
     padding: 5px 10px;
-    font-size: 16px;
+    font-size: 13px;
     border-radius: 3px; }
-  .input-group-addon.input-lg, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .input-group-addon.btn {
+  .input-group-addon.input-lg, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group-lg > select.input-group-addon, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .input-group-addon.btn {
     padding: 10px 16px;
-    font-size: 24px;
+    font-size: 19px;
     border-radius: 6px; }
   .input-group-addon input[type="radio"], .input-group-addon input[type="checkbox"] {
     margin-top: 0; }
 
-.input-group .form-control:first-child, .input-group-addon:first-child, .input-group-btn:first-child > .btn, .input-group-btn:first-child > .btn-group > .btn, .input-group-btn:first-child > .dropdown-toggle, .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle), .input-group-btn:last-child > .btn-group:not(:last-child) > .btn {
+.input-group .form-control:first-child, .input-group .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:first-child, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group select:first-child, .input-group-addon:first-child, .input-group-btn:first-child > .btn, .input-group-btn:first-child > .btn-group > .btn, .input-group-btn:first-child > .dropdown-toggle, .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle), .input-group-btn:last-child > .btn-group:not(:last-child) > .btn {
   border-bottom-right-radius: 0;
   border-top-right-radius: 0; }
 
 .input-group-addon:first-child {
   border-right: 0; }
 
-.input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {
+.input-group .form-control:last-child, .input-group .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:last-child, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group select:last-child, .input-group-addon:last-child, .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0; }
 
@@ -2910,20 +2910,20 @@ tbody.collapse.in {
       padding: 10px 15px; }
       .nav > li > a:hover, .nav > li > a:focus {
         text-decoration: none;
-        background-color: #ececec; }
+        background-color: #eeeeee; }
     .nav > li.disabled > a {
-      color: #e2e2e2; }
+      color: #777777; }
       .nav > li.disabled > a:hover, .nav > li.disabled > a:focus {
-        color: #e2e2e2;
+        color: #777777;
         text-decoration: none;
         background-color: transparent;
         cursor: not-allowed; }
   .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-    background-color: #ececec;
+    background-color: #eeeeee;
     border-color: #006fb4; }
   .nav .nav-divider {
     height: 1px;
-    margin: 11.5px 0;
+    margin: 9.5px 0;
     overflow: hidden;
     background-color: #e5e5e5; }
   .nav > li > a > img {
@@ -2940,9 +2940,9 @@ tbody.collapse.in {
       border: 1px solid transparent;
       border-radius: 4px 4px 0 0; }
       .nav-tabs > li > a:hover {
-        border-color: #ececec #ececec #ddd; }
+        border-color: #eeeeee #eeeeee #ddd; }
     .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-      color: #b3b4b5;
+      color: #555555;
       background-color: #fff;
       border: 1px solid #ddd;
       border-bottom-color: transparent;
@@ -3013,7 +3013,7 @@ tbody.collapse.in {
 .navbar {
   position: relative;
   min-height: 50px;
-  margin-bottom: 25px;
+  margin-bottom: 21px;
   border: 1px solid transparent; }
   .navbar:before, .navbar:after {
     content: " ";
@@ -3105,9 +3105,9 @@ tbody.collapse.in {
 
 .navbar-brand {
   float: left;
-  padding: 12.5px 15px;
-  font-size: 24px;
-  line-height: 25px;
+  padding: 14.5px 15px;
+  font-size: 19px;
+  line-height: 21px;
   height: 50px; }
   .navbar-brand:hover, .navbar-brand:focus {
     text-decoration: none; }
@@ -3143,11 +3143,11 @@ tbody.collapse.in {
       display: none; } }
 
 .navbar-nav {
-  margin: 6.25px -15px; }
+  margin: 7.25px -15px; }
   .navbar-nav > li > a {
     padding-top: 10px;
     padding-bottom: 10px;
-    line-height: 25px; }
+    line-height: 21px; }
   @media (max-width: 767px) {
     .navbar-nav .open .dropdown-menu {
       position: static;
@@ -3160,7 +3160,7 @@ tbody.collapse.in {
       .navbar-nav .open .dropdown-menu > li > a, .navbar-nav .open .dropdown-menu .dropdown-header {
         padding: 5px 15px 5px 25px; }
       .navbar-nav .open .dropdown-menu > li > a {
-        line-height: 25px; }
+        line-height: 21px; }
         .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-nav .open .dropdown-menu > li > a:focus {
           background-image: none; }
  }
@@ -3171,8 +3171,8 @@ tbody.collapse.in {
       .navbar-nav > li {
         float: left; }
         .navbar-nav > li > a {
-          padding-top: 12.5px;
-          padding-bottom: 12.5px; } }
+          padding-top: 14.5px;
+          padding-bottom: 14.5px; } }
 
 .navbar-form {
   margin-left: -15px;
@@ -3182,15 +3182,15 @@ tbody.collapse.in {
   border-bottom: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.1);
-  margin-top: 5.5px;
-  margin-bottom: 5.5px; }
+  margin-top: 7.5px;
+  margin-bottom: 7.5px; }
   @media (min-width: 768px) {
     .navbar-form .form-group {
       display: inline-block;
       margin-bottom: 0;
       vertical-align: middle; }
 
-    .navbar-form .form-control {
+    .navbar-form .form-control, .navbar-form .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .navbar-form select {
       display: inline-block;
       width: auto;
       vertical-align: middle; }
@@ -3201,10 +3201,10 @@ tbody.collapse.in {
     .navbar-form .input-group {
       display: inline-table;
       vertical-align: middle; }
-      .navbar-form .input-group .input-group-addon, .navbar-form .input-group .input-group-btn, .navbar-form .input-group .form-control {
+      .navbar-form .input-group .input-group-addon, .navbar-form .input-group .input-group-btn, .navbar-form .input-group .form-control, .navbar-form .input-group .ui-datepicker .ui-datepicker-header .ui-datepicker-title select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .navbar-form .input-group select {
         width: auto; }
 
-    .navbar-form .input-group > .form-control {
+    .navbar-form .input-group > .form-control, .navbar-form .ui-datepicker .ui-datepicker-header .ui-datepicker-title .input-group > select, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .navbar-form .input-group > select {
       width: 100%; }
 
     .navbar-form .control-label {
@@ -3254,18 +3254,18 @@ tbody.collapse.in {
   border-bottom-left-radius: 0; }
 
 .navbar-btn {
-  margin-top: 5.5px;
-  margin-bottom: 5.5px; }
+  margin-top: 7.5px;
+  margin-bottom: 7.5px; }
   .navbar-btn.btn-sm, .btn-group-sm > .navbar-btn.btn {
-    margin-top: 7px;
-    margin-bottom: 7px; }
+    margin-top: 9.5px;
+    margin-bottom: 9.5px; }
   .navbar-btn.btn-xs, .btn-group-xs > .navbar-btn.btn {
     margin-top: 14px;
     margin-bottom: 14px; }
 
 .navbar-text {
-  margin-top: 12.5px;
-  margin-bottom: 12.5px; }
+  margin-top: 14.5px;
+  margin-bottom: 14.5px; }
   @media (min-width: 768px) {
     .navbar-text {
       float: left;
@@ -3343,14 +3343,14 @@ tbody.collapse.in {
   background-color: #222;
   border-color: #090909; }
   .navbar-inverse .navbar-brand {
-    color: white; }
+    color: #9d9d9d; }
     .navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
       color: #fff;
       background-color: transparent; }
   .navbar-inverse .navbar-text {
-    color: white; }
+    color: #9d9d9d; }
   .navbar-inverse .navbar-nav > li > a {
-    color: white; }
+    color: #9d9d9d; }
     .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
       color: #fff;
       background-color: transparent; }
@@ -3377,7 +3377,7 @@ tbody.collapse.in {
     .navbar-inverse .navbar-nav .open .dropdown-menu .divider {
       background-color: #090909; }
     .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
-      color: white; }
+      color: #9d9d9d; }
       .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {
         color: #fff;
         background-color: transparent; }
@@ -3389,11 +3389,11 @@ tbody.collapse.in {
       background-color: transparent; }
  }
   .navbar-inverse .navbar-link {
-    color: white; }
+    color: #9d9d9d; }
     .navbar-inverse .navbar-link:hover {
       color: #fff; }
   .navbar-inverse .btn-link {
-    color: white; }
+    color: #9d9d9d; }
     .navbar-inverse .btn-link:hover, .navbar-inverse .btn-link:focus {
       color: #fff; }
     .navbar-inverse .btn-link[disabled]:hover, .navbar-inverse .btn-link[disabled]:focus, fieldset[disabled] .navbar-inverse .btn-link:hover, fieldset[disabled] .navbar-inverse .btn-link:focus {
@@ -3401,7 +3401,7 @@ tbody.collapse.in {
 
 .breadcrumb {
   padding: 8px 15px;
-  margin-bottom: 25px;
+  margin-bottom: 21px;
   list-style: none;
   background-color: #f5f5f5;
   border-radius: 4px; }
@@ -3412,12 +3412,12 @@ tbody.collapse.in {
       padding: 0 5px;
       color: #ccc; }
   .breadcrumb > .active {
-    color: #e2e2e2; }
+    color: #777777; }
 
 .pagination {
   display: inline-block;
   padding-left: 0;
-  margin: 25px 0;
+  margin: 21px 0;
   border-radius: 4px; }
   .pagination > li {
     display: inline; }
@@ -3440,7 +3440,7 @@ tbody.collapse.in {
       border-top-right-radius: 4px; }
   .pagination > li > a:hover, .pagination > li > a:focus, .pagination > li > span:hover, .pagination > li > span:focus {
     color: #004068;
-    background-color: #ececec;
+    background-color: #eeeeee;
     border-color: #ddd; }
   .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
     z-index: 2;
@@ -3449,14 +3449,14 @@ tbody.collapse.in {
     border-color: #006fb4;
     cursor: default; }
   .pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
-    color: #e2e2e2;
+    color: #777777;
     background-color: #fff;
     border-color: #ddd;
     cursor: not-allowed; }
 
 .pagination-lg > li > a, .pagination-lg > li > span {
   padding: 10px 16px;
-  font-size: 24px; }
+  font-size: 19px; }
 .pagination-lg > li:first-child > a, .pagination-lg > li:first-child > span {
   border-bottom-left-radius: 6px;
   border-top-left-radius: 6px; }
@@ -3466,7 +3466,7 @@ tbody.collapse.in {
 
 .pagination-sm > li > a, .pagination-sm > li > span {
   padding: 5px 10px;
-  font-size: 16px; }
+  font-size: 13px; }
 .pagination-sm > li:first-child > a, .pagination-sm > li:first-child > span {
   border-bottom-left-radius: 3px;
   border-top-left-radius: 3px; }
@@ -3476,7 +3476,7 @@ tbody.collapse.in {
 
 .pager {
   padding-left: 0;
-  margin: 25px 0;
+  margin: 21px 0;
   list-style: none;
   text-align: center; }
   .pager:before, .pager:after {
@@ -3494,17 +3494,17 @@ tbody.collapse.in {
       border-radius: 15px; }
     .pager li > a:hover, .pager li > a:focus {
       text-decoration: none;
-      background-color: #ececec; }
+      background-color: #eeeeee; }
   .pager .next > a, .pager .next > span {
     float: right; }
   .pager .previous > a, .pager .previous > span {
     float: left; }
   .pager .disabled > a, .pager .disabled > a:hover, .pager .disabled > a:focus, .pager .disabled > span {
-    color: #e2e2e2;
+    color: #777777;
     background-color: #fff;
     cursor: not-allowed; }
 
-.label {
+.label, label {
   display: inline;
   padding: 0.2em 0.6em 0.3em;
   font-size: 75%;
@@ -3515,9 +3515,9 @@ tbody.collapse.in {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.25em; }
-  .label:empty {
+  .label:empty, label:empty {
     display: none; }
-  .btn .label {
+  .btn .label, .btn label {
     position: relative;
     top: -1px; }
 
@@ -3527,9 +3527,9 @@ a.label:hover, a.label:focus {
   cursor: pointer; }
 
 .label-default {
-  background-color: #e2e2e2; }
+  background-color: #777777; }
   .label-default[href]:hover, .label-default[href]:focus {
-    background-color: #c9c9c9; }
+    background-color: #5e5e5e; }
 
 .label-primary {
   background-color: #006fb4; }
@@ -3552,22 +3552,22 @@ a.label:hover, a.label:focus {
     background-color: #c9880b; }
 
 .label-danger {
-  background-color: #da2131; }
+  background-color: #ff2423; }
   .label-danger[href]:hover, .label-danger[href]:focus {
-    background-color: #ae1a27; }
+    background-color: #ef0100; }
 
 .badge {
   display: inline-block;
   min-width: 10px;
   padding: 3px 7px;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: bold;
   color: #fff;
   line-height: 1;
   vertical-align: baseline;
   white-space: nowrap;
   text-align: center;
-  background-color: #e2e2e2;
+  background-color: #777777;
   border-radius: 10px; }
   .badge:empty {
     display: none; }
@@ -3596,15 +3596,15 @@ a.badge:hover, a.badge:focus {
   padding: 30px 15px;
   margin-bottom: 30px;
   color: inherit;
-  background-color: #ececec; }
+  background-color: #eeeeee; }
   .jumbotron h1, .jumbotron .h1 {
     color: inherit; }
   .jumbotron p {
     margin-bottom: 15px;
-    font-size: 27px;
+    font-size: 23px;
     font-weight: 200; }
   .jumbotron > hr {
-    border-top-color: lightgray; }
+    border-top-color: #d5d5d5; }
   .container .jumbotron, .container-fluid .jumbotron {
     border-radius: 6px; }
   .jumbotron .container {
@@ -3616,12 +3616,12 @@ a.badge:hover, a.badge:focus {
         padding-left: 60px;
         padding-right: 60px; }
       .jumbotron h1, .jumbotron .h1 {
-        font-size: 81px; } }
+        font-size: 67.5px; } }
 
 .thumbnail {
   display: block;
   padding: 4px;
-  margin-bottom: 25px;
+  margin-bottom: 21px;
   line-height: 1.428571429;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -3637,14 +3637,14 @@ a.badge:hover, a.badge:focus {
     margin-right: auto; }
   .thumbnail .caption {
     padding: 9px;
-    color: #575757; }
+    color: #404040; }
 
 a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
   border-color: #006fb4; }
 
 .alert {
   padding: 15px;
-  margin-bottom: 25px;
+  margin-bottom: 21px;
   border: 1px solid transparent;
   border-radius: 4px; }
   .alert h4 {
@@ -3695,11 +3695,11 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 .alert-danger {
   background-color: #f2dede;
   border-color: #ebccd1;
-  color: #a94442; }
+  color: #ff2423; }
   .alert-danger hr {
     border-top-color: #e4b9c0; }
   .alert-danger .alert-link {
-    color: #843534; }
+    color: #ef0100; }
 
 @-webkit-keyframes progress-bar-stripes {
   from {
@@ -3717,8 +3717,8 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
 
 .progress {
   overflow: hidden;
-  height: 25px;
-  margin-bottom: 25px;
+  height: 21px;
+  margin-bottom: 21px;
   background-color: #f5f5f5;
   border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -3728,8 +3728,8 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
   float: left;
   width: 0%;
   height: 100%;
-  font-size: 16px;
-  line-height: 25px;
+  font-size: 13px;
+  line-height: 21px;
   color: #fff;
   text-align: center;
   background-color: #006fb4;
@@ -3772,7 +3772,7 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
     background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent); }
 
 .progress-bar-danger {
-  background-color: #da2131; }
+  background-color: #ff2423; }
   .progress-striped .progress-bar-danger {
     background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
     background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
@@ -3836,13 +3836,13 @@ a.list-group-item {
     background-color: #f5f5f5; }
 
 .list-group-item.disabled, .list-group-item.disabled:hover, .list-group-item.disabled:focus {
-  background-color: #ececec;
-  color: #e2e2e2;
+  background-color: #eeeeee;
+  color: #777777;
   cursor: not-allowed; }
   .list-group-item.disabled .list-group-item-heading, .list-group-item.disabled:hover .list-group-item-heading, .list-group-item.disabled:focus .list-group-item-heading {
     color: inherit; }
   .list-group-item.disabled .list-group-item-text, .list-group-item.disabled:hover .list-group-item-text, .list-group-item.disabled:focus .list-group-item-text {
-    color: #e2e2e2; }
+    color: #777777; }
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
   z-index: 2;
   color: #fff;
@@ -3902,20 +3902,20 @@ a.list-group-item-warning {
     border-color: #8a6d3b; }
 
 .list-group-item-danger {
-  color: #a94442;
+  color: #ff2423;
   background-color: #f2dede; }
 
 a.list-group-item-danger {
-  color: #a94442; }
+  color: #ff2423; }
   a.list-group-item-danger .list-group-item-heading {
     color: inherit; }
   a.list-group-item-danger:hover, a.list-group-item-danger:focus {
-    color: #a94442;
+    color: #ff2423;
     background-color: #ebcccc; }
   a.list-group-item-danger.active, a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
     color: #fff;
-    background-color: #a94442;
-    border-color: #a94442; }
+    background-color: #ff2423;
+    border-color: #ff2423; }
 
 .list-group-item-heading {
   margin-top: 0;
@@ -3926,7 +3926,7 @@ a.list-group-item-danger {
   line-height: 1.3; }
 
 .panel {
-  margin-bottom: 25px;
+  margin-bottom: 21px;
   background-color: #fff;
   border: 1px solid transparent;
   border-radius: 4px;
@@ -3952,7 +3952,7 @@ a.list-group-item-danger {
 .panel-title {
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 21px;
+  font-size: 17px;
   color: inherit; }
   .panel-title > a {
     color: inherit; }
@@ -4028,7 +4028,7 @@ a.list-group-item-danger {
   margin-bottom: 0; }
 
 .panel-group {
-  margin-bottom: 25px; }
+  margin-bottom: 21px; }
   .panel-group .panel {
     margin-bottom: 0;
     border-radius: 4px; }
@@ -4046,14 +4046,14 @@ a.list-group-item-danger {
 .panel-default {
   border-color: #ddd; }
   .panel-default > .panel-heading {
-    color: #575757;
+    color: #333333;
     background-color: #f5f5f5;
     border-color: #ddd; }
     .panel-default > .panel-heading + .panel-collapse > .panel-body {
       border-top-color: #ddd; }
     .panel-default > .panel-heading .badge {
       color: #f5f5f5;
-      background-color: #575757; }
+      background-color: #333333; }
   .panel-default > .panel-footer + .panel-collapse > .panel-body {
     border-bottom-color: #ddd; }
 
@@ -4116,14 +4116,14 @@ a.list-group-item-danger {
 .panel-danger {
   border-color: #ebccd1; }
   .panel-danger > .panel-heading {
-    color: #a94442;
+    color: #ff2423;
     background-color: #f2dede;
     border-color: #ebccd1; }
     .panel-danger > .panel-heading + .panel-collapse > .panel-body {
       border-top-color: #ebccd1; }
     .panel-danger > .panel-heading .badge {
       color: #f2dede;
-      background-color: #a94442; }
+      background-color: #ff2423; }
   .panel-danger > .panel-footer + .panel-collapse > .panel-body {
     border-bottom-color: #ebccd1; }
 
@@ -4169,7 +4169,7 @@ a.list-group-item-danger {
 
 .close {
   float: right;
-  font-size: 27px;
+  font-size: 22.5px;
   font-weight: bold;
   line-height: 1;
   color: #000;
@@ -4316,7 +4316,7 @@ button.close {
   display: block;
   visibility: visible;
   font-family: Arial, sans-serif;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: normal;
   line-height: 1.4;
   opacity: 0;
@@ -4411,7 +4411,7 @@ button.close {
   max-width: 276px;
   padding: 1px;
   font-family: Arial, sans-serif;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: normal;
   line-height: 1.428571429;
   text-align: left;
@@ -4435,7 +4435,7 @@ button.close {
 .popover-title {
   margin: 0;
   padding: 8px 14px;
-  font-size: 18px;
+  font-size: 15px;
   background-color: #f7f7f7;
   border-bottom: 1px solid #ebebeb;
   border-radius: 5px 5px 0 0; }
@@ -4889,6 +4889,128 @@ button.close {
     display: none !important; }
  }
 
+/*
+Blockquote
+
+Markup: html/blockquote.html
+
+Styleguide text.blockquote
+*/
+blockquote {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-style: italic;
+  font-size: 1.333em;
+  color: #575757;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0.6em 1.5em;
+  clear: both;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  display: inline-block; }
+  blockquote p {
+    line-height: inherit; }
+    blockquote p:before, blockquote p:after {
+      content: '';
+      display: block;
+      position: absolute;
+      background: url('../images/svg/quote.svg') no-repeat;
+      background-size: 60px;
+      width: 30px;
+      height: 23px; }
+    blockquote p:before {
+      top: 4px;
+      left: 0; }
+    blockquote p:after {
+      background-position: -31px 0;
+      bottom: 0;
+      right: 0; }
+
+.no-svg blockquote p:before, .no-svg blockquote p:after {
+  background-image: url('../images/png/quote.png'); }
+
+.radio + .radio, .checkbox + .checkbox {
+  margin-top: auto; }
+
+ul.list-inline > li {
+  display: inline-block; }
+
+.row {
+  padding: 15px 0; }
+
+/*
+Button
+
+Markup: html/button.html
+
+Styleguide form.button
+*/
+.button, button, input[type="button"] {
+  color: red; }
+
+/*
+Checkbox
+
+Markup: html/checkbox.html
+
+Styleguide form.checkbox
+*/
+/*
+ * Please
+ * @see http://bootsnipp.com/snippets/featured/funky-radio-buttons
+ * @see http://webdesign.tutsplus.com/tutorials/quick-tip-easy-css3-checkboxes-and-radio-buttons--webdesign-8953
+ */
+.checkbox {
+  margin-bottom: 2px;
+  margin-top: 0; }
+  .checkbox label {
+    color: #575757;
+    height: 2.75em;
+    line-height: 2.75em;
+    display: block;
+    text-align: left;
+    border: transparent solid 2px;
+    border-radius: 0; }
+  .checkbox input {
+    margin: 1px 0 0 13px; }
+  .checkbox input[type="checkbox"] {
+    height: 2.75em;
+    margin-left: -9999px;
+    position: relative;
+    float: left; }
+    .checkbox input[type="checkbox"]:not(checked) + label {
+      background-color: #ececec;
+      padding-left: 2.778em; }
+      .checkbox input[type="checkbox"]:not(checked) + label:before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 1.25em;
+        height: 1.25em;
+        top: 0.8em;
+        left: 1em;
+        background: url(../images/svg/checkbox-unchecked.svg) no-repeat;
+        background-size: auto 1.25em; }
+    .checkbox input[type="checkbox"]:checked + label {
+      color: #ffffff;
+      background-color: #006fb4; }
+      .checkbox input[type="checkbox"]:checked + label:before {
+        background-image: url(../images/svg/checkbox-checked.svg); }
+    .checkbox input[type="checkbox"]:hover:not(checked) + label {
+      color: #575757;
+      border: #006fb4 solid 2px;
+      background-color: #ffffff; }
+    .checkbox input[type="checkbox"]:hover:checked + label {
+      color: #ffffff;
+      border: #ffd617 solid 2px;
+      background-color: #006fb4; }
+
+.no-svg .checkbox input[type="checkbox"]:before {
+  background-image: url(../images/png/checkbox-radio.png) !important; }
+.no-svg .checkbox input[type="checkbox"]:checked + label:before {
+  background-position: -1.25em 0; }
+
 /*@font-face {
   font-family: 'ECSquareSansPro';
   src: url('../fonts/ecsquaresanspro-regular-webfont.eot');
@@ -4955,57 +5077,569 @@ button.close {
   font-weight: 800;
   font-style: normal;
 }*/
+/*
+Form
+
+Styleguide form
+*/
+.form-control, .ui-datepicker .ui-datepicker-header .ui-datepicker-title select {
+  color: #575757;
+  background-color: #ffffff;
+  border: 2px solid #b3b4b5;
+  border-radius: 0;
+  margin-bottom: 1.1em;
+  height: 2.75em;
+  font-size: 0.889em;
+  -webkit-box-shadow: none;
+  box-shadow: none; }
+  .form-control:focus, .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:focus, .form-control.is-focused, .ui-datepicker .ui-datepicker-header .ui-datepicker-title select.is-focused, .has-error .form-control:focus, .has-error .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:focus, .ui-datepicker .ui-datepicker-header .ui-datepicker-title .has-error select:focus {
+    color: #000;
+    border-color: #ffd617;
+    -webkit-box-shadow: none;
+    box-shadow: none; }
+  .form-control.is-disabled, .ui-datepicker .ui-datepicker-header .ui-datepicker-title select.is-disabled {
+    color: #b3b4b5;
+    background-color: #e2e2e2; }
+
+/*
+Form Group
+
+Markup: html/form-group.html
+
+Styleguide form.form-group
+*/
+.form-group {
+  margin-bottom: 1.7em; }
+
+/*
+Text styling
+
+Styleguide text
+*/
 body {
-  font-family: Arial, sans-serif;
   font-weight: 400;
+  line-height: 1.667;
   overflow-x: hidden;
   min-width: 320px;
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
+  @media (min-width: 480px) {
+    body {
+      font-size: 18px; } }
+
+/* Headings
+
+  Site headings. They also can be applied by adding a class with the name of
+  the heading tag
+
+  Markup: html/headings.html
+
+  .h1 - Heading 1
+  .h2 - Heading 2
+  .h3 - Heading 3
+  .h4 - Heading 4
+  .h5 - Heading 5
+  .h6 - Heading 6
+
+  Styleguide text.headings
+*/
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  padding: 0.4em 0 1em;
+  margin: 0; }
 
 h1, .h1 {
-  font-size: 50px;
-  color: #006fb4; }
+  font-size: 2.222em;
+  font-weight: 600;
+  color: #000; }
 
 h2, .h2 {
-  font-size: 40px;
+  font-size: 1.667em;
+  font-weight: 600;
   color: #000; }
 
 h3, .h3 {
-  font-size: 28px;
+  font-size: 1.556em;
   font-weight: 600;
-  color: #404040; }
+  color: #222222; }
 
 h4, .h4 {
-  font-size: 24px;
-  color: #575757; }
+  font-size: 1.222em;
+  color: #333333; }
 
 h5, .h5 {
-  font-size: 19px;
+  font-size: 1em;
   font-weight: 600;
-  color: #404040; }
+  color: #222222; }
 
 h6, .h6 {
-  font-size: 16px;
-  color: #404040; }
+  font-size: 0.778em;
+  text-decoration: uppercase;
+  color: #222222; }
 
-.paragraph, p {
+/*
+Label
+
+Markup: html/label.html
+
+Styleguide form.label
+*/
+.label, label {
+  color: #575757;
+  font-size: 0.889em;
+  display: block;
+  text-align: left;
+  padding: 0;
+  margin-bottom: 0.556em; }
+  .label.is-disabled, label.is-disabled {
+    color: #b3b4b5; }
+
+/* 
+Link
+
+Markup: html/link.html
+
+:hover - Hover state
+:visited - Visited state
+:active - Active state
+:focus - Focus state
+
+Styleguide text.link 
+*/
+a {
+  text-decoration: underline; }
+  a:hover, a:active, a:focus {
+    color: #006fb4;
+    text-decoration: none; }
+  a:hover {
+    text-decoration: none; }
+
+/*
+Lists
+
+Markup: html/lists.html
+
+Styleguide text.lists
+*/
+ul, ol {
+  padding-left: 40px; }
+
+/*
+Paragraphs
+
+Markup: html/paragraphs.html
+
+Styleguide text.paragraphs
+*/
+.paragraph, blockquote, .region-content ul, .region-content ol, p {
   font-family: Georgia, "Times New Roman", Times, serif;
-  line-height: 1.6; }
+  margin-bottom: 1.7em; }
 
+/*
+Radio
+
+Markup: html/radio.html
+
+Styleguide form.radio
+*/
+/*
+ * Please
+ * @see http://bootsnipp.com/snippets/featured/funky-radio-buttons
+ * @see http://webdesign.tutsplus.com/tutorials/quick-tip-easy-css3-checkboxes-and-radio-buttons--webdesign-8953
+ */
+.radio {
+  margin-bottom: 2px;
+  margin-top: 0; }
+  .radio label {
+    color: #575757;
+    height: 2.75em;
+    line-height: 2.75em;
+    display: block;
+    text-align: left;
+    border: transparent solid 2px;
+    border-radius: 0; }
+  .radio input {
+    margin: 1px 0 0 13px; }
+  .radio input[type="radio"] {
+    height: 2.75em;
+    margin-left: -9999px;
+    position: relative;
+    float: left; }
+    .radio input[type="radio"]:not(checked) + label {
+      background-color: #ececec;
+      padding-left: 2.778em; }
+      .radio input[type="radio"]:not(checked) + label:before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 1.25em;
+        height: 1.25em;
+        top: 0.8em;
+        left: 1em;
+        background: url(../images/svg/radio-unchecked.svg) no-repeat;
+        background-size: auto 1.25em; }
+    .radio input[type="radio"]:checked + label {
+      color: #ffffff;
+      background-color: #006fb4; }
+      .radio input[type="radio"]:checked + label:before {
+        background-image: url(../images/svg/radio-checked.svg); }
+    .radio input[type="radio"]:hover:not(checked) + label {
+      color: #575757;
+      border: #006fb4 solid 2px;
+      background-color: #ffffff; }
+    .radio input[type="radio"]:hover:checked + label {
+      color: #ffffff;
+      border: #ffd617 solid 2px;
+      background-color: #006fb4; }
+
+.no-svg .checkbox input[type="checkbox"]:before {
+  background-image: url(../images/png/checkbox-radio.png) !important; }
+.no-svg .checkbox input[type="checkbox"]:checked + label:before {
+  background-position: -3.75em 0; }
+
+/*
+Select
+
+Markup: html/select.html
+
+Styleguide form.select
+*/
+.select:hover, select:hover, .select.is-hovered, select.is-hovered {
+  border-color: #006fb4; }
+.select.is-down, select.is-down {
+  border-color: #575757; }
+
+/*
+Text Input
+
+Markup: html/text-input.html
+
+Styleguide form.text-input
+*/
+/*
+Textarea
+
+Markup: html/textarea.html
+
+Styleguide form.textarea
+*/
 .container-fluid {
   max-width: 1170px; }
 
+.breadcrumb {
+  font-size: 0.933em;
+  line-height: 30px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #c2d2e6; }
+
+/*
+Datepicker
+
+This example is based on jQuery Datepicker widget. It requires both jQuery and jQuery UI libraries.<br/>
+Also, it assumes that the default CSS styles from jQuery UI are included as well.<br/>
+The CSS applied from styleguide is an override over the default CSS of jQuery UI.<br/>
+
+Markup: html/datepicker.html
+
+Styleguide datepicker
+*/
+#ui-datepicker-div {
+  border: none;
+  width: 100%; }
+
+.ui-datepicker {
+  border: none;
+  border-radius: 0;
+  font-family: Arial, sans-serif;
+  padding: 0; }
+  .ui-datepicker .ui-datepicker-header {
+    background: #393939;
+    border: none;
+    border-radius: 0;
+    padding: 0 !important;
+    height: 50px;
+    line-height: 50px; }
+    .ui-datepicker .ui-datepicker-header .ui-datepicker-prev, .ui-datepicker .ui-datepicker-header .ui-datepicker-next {
+      display: block;
+      height: 100%;
+      width: 50px;
+      top: 0;
+      background: none;
+      border: none; }
+      .ui-datepicker .ui-datepicker-header .ui-datepicker-prev:hover, .ui-datepicker .ui-datepicker-header .ui-datepicker-next:hover {
+        cursor: pointer; }
+      .ui-datepicker .ui-datepicker-header .ui-datepicker-prev .ui-icon, .ui-datepicker .ui-datepicker-header .ui-datepicker-next .ui-icon {
+        display: block;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        margin: 0;
+        background: url('../images/svg/arrow.svg') center center no-repeat;
+        background-size: 7px; }
+    .ui-datepicker .ui-datepicker-header .ui-datepicker-prev {
+      left: 0; }
+      .ui-datepicker .ui-datepicker-header .ui-datepicker-prev .ui-icon {
+        -webkit-transform: rotate(-180deg);
+        -ms-transform: rotate(-180deg);
+        -o-transform: rotate(-180deg);
+        transform: rotate(-180deg); }
+    .ui-datepicker .ui-datepicker-header .ui-datepicker-next {
+      right: 0; }
+    .ui-datepicker .ui-datepicker-header .ui-datepicker-title {
+      margin: 0 50px;
+      height: 100%; }
+      .ui-datepicker .ui-datepicker-header .ui-datepicker-title span, .ui-datepicker .ui-datepicker-header .ui-datepicker-title select {
+        color: #fff; }
+      .ui-datepicker .ui-datepicker-header .ui-datepicker-title span {
+        font-weight: normal;
+        font-size: 0.8em; }
+      .ui-datepicker .ui-datepicker-header .ui-datepicker-title select {
+        background: #4f4f4f;
+        color: #fff;
+        border: none;
+        height: 100%;
+        width: 49% !important;
+        margin: 0;
+        display: inline-block;
+        float: none;
+        padding-right: 0; }
+        .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:first-child {
+          border-right: 2px solid #686868; }
+        .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:hover, .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:active, .ui-datepicker .ui-datepicker-header .ui-datepicker-title select:focus {
+          color: #fff; }
+  .ui-datepicker table.ui-datepicker-calendar {
+    background: #eaeaea;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-bottom: 10px solid transparent; }
+    .ui-datepicker table.ui-datepicker-calendar th {
+      font-size: 16px;
+      font-weight: normal;
+      background: none; }
+  .ui-datepicker .ui-state-default {
+    border: none;
+    background: #fff;
+    color: #404040;
+    text-align: center;
+    margin: 1px;
+    padding: 5px 10px; }
+  .ui-datepicker .ui-state-active {
+    border: 2px solid #0b64b2;
+    padding: 3px 10px; }
+  .ui-datepicker .ui-state-highlight {
+    background: #fed500;
+    color: #000; }
+
+.no-svg .ui-datepicker-prev .ui-icon {
+  background-image: url('../images/png/arrow-left.png'); }
+.no-svg .ui-datepicker-next .ui-icon {
+  background-image: url('../images/png/arrow.png'); }
+
+@media (min-width: 480px) {
+  #ui-datepicker-div {
+    width: auto; }
+
+  .ui-datepicker table.ui-datepicker-calendar {
+    width: auto !important; }
+ }
+
+@media (max-width: 479px) {
+  #ui-datepicker-div {
+    left: 0 !important; }
+ }
+
+/*
+Feedback message
+
+Markup: html/feedback-message.html
+
+Styleguide form.feedback-message
+*/
+.feedback-message {
+  color: #575757;
+  font-family: Arial, sans-serif; }
+  .feedback-message.is-disabled {
+    color: #b3b4b5; }
+  .feedback-message.is-error {
+    color: #575757;
+    background-color: #e2e2e2;
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center; }
+    .feedback-message.is-error:before {
+      content: '';
+      background: url("../images/svg/error.svg");
+      background-size: 1.5em;
+      width: 1.5em;
+      height: 1.5em;
+      margin-right: 12px; }
+
+/*
+Footer
+
+Site-wide footer component
+
+Markup: html/footer.html
+
+Styleguide footer
+*/
+.footer {
+  background: #004494;
+  padding: 60px 0;
+  color: #fff;
+  font-size: 13px; }
+  .footer a {
+    color: #fff; }
+  .footer label {
+    color: #fff;
+    font-size: 13px;
+    font-weight: normal;
+    float: left;
+    padding: 15px 10px 0 0; }
+  .footer p {
+    padding-top: 10px; }
+
+.footer-menu {
+  padding-left: 0; }
+  .footer-menu li:first-child > a {
+    padding-left: 0; }
+  .footer-menu li a {
+    padding-top: 10px; }
+    .footer-menu li a:hover {
+      background: none;
+      text-decoration: underline; }
+  .footer-menu__bottom-border {
+    border-bottom: 1px solid #4d7cb4;
+    padding-bottom: 5px; }
+
+@media (max-width: 600px) {
+  .footer {
+    padding: 20px 0; }
+    .footer label {
+      float: none;
+      text-align: center;
+      width: 100%; }
+    .footer p {
+      text-align: center; }
+
+  .footer-menu {
+    text-align: center; }
+ }
+
+/*
+Help Block
+
+Markup: html/help-block.html
+
+Styleguide form.help-block
+*/
+.help-block {
+  margin-top: 0;
+  margin-bottom: 0.556em;
+  font-family: Arial, sans-serif;
+  color: #575757;
+  font-size: 0.889em; }
+  .disabled .help-block {
+    color: #b3b4b5; }
+  .has-error .help-block {
+    color: #575757; }
+
+/*
+Inpage navigation
+
+Floating menu containing links to headings in a long page.
+
+Markup: inpage-nav.html
+
+Styleguide inpagenav
+
+*/
+.inpage-nav--list {
+  z-index: 2000; }
+
+.inpage-nav {
+  cursor: pointer;
+  z-index: 100;
+  max-width: 228px;
+  padding-bottom: 1px; }
+  .inpage-nav .container {
+    width: auto; }
+  .inpage-nav.affix-top .nav li.active a, .inpage-nav.affix-bottom .nav li.active a {
+    color: #000 !important; }
+  .inpage-nav.affix-top .nav li.active a:hover, .inpage-nav.affix-bottom .nav li.active a:hover {
+    color: #006fb4 !important; }
+  .inpage-nav.affix {
+    top: 30px; }
+  .inpage-nav.affix .nav li:hover, .inpage-nav.affix .nav li:active, .inpage-nav.affix .nav li:focus {
+    color: #006fb4;
+    text-decoration: underline; }
+  .inpage-nav.affix .nav li.active:before {
+    background: none repeat scroll 0 0 #006fb4;
+    content: "";
+    display: block;
+    height: 100%;
+    left: -10px;
+    position: absolute;
+    top: -2px;
+    width: 2px; }
+  .inpage-nav.affix-bottom {
+    position: absolute;
+    bottom: 30px; }
+  .inpage-nav .block-title {
+    background: none;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: #575757;
+    text-transform: uppercase;
+    margin-top: 10px; }
+
+.navigation-place {
+  padding: 20px 0 20px 20px;
+  margin-bottom: 0; }
+
+.navbar-toggle {
+  top: 10px; }
+
+/*
+Logo
+
+Ec logo
+
+Markup: html/logo.html
+
+Styleguide siteheader.logo
+*/
 .logo {
   display: block;
   width: 170px;
   height: 45px;
   background: url('../images/svg/logo.svg') no-repeat; }
 
-.banner .banner__logo {
-  margin-top: 15px;
-  margin-bottom: 15px; }
+@media (min-width: 768px) {
+  .logo {
+    width: 218px;
+    height: 60px; }
+ }
+
+.no-svg .logo {
+  background-image: url('../images/svg/logo.png'); }
+
+/*
+Site header
+
+Markup: html/site-header.html
+
+Styleguide: siteheader
+*/
+.site-header .site-header__logo {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em; }
 
 .page-header {
   background: #006fb4;
@@ -5024,13 +5658,15 @@ h6, .h6 {
   .page-header__bottom {
     font-size: 26px; }
 
-.footer {
-  background: #006fb4;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  color: #fff;
-  font-size: 16px; }
-  .footer a {
-    color: #fff; }
+.skip-link, #skip-link {
+  position: fixed;
+  top: 1.5em;
+  left: 1.5em;
+  z-index: 1060; }
+  .skip-link a, #skip-link a {
+    color: #fff;
+    background: #006fb4;
+    padding: 8px;
+    border: 4px solid #ffd617; }
 
 /*# sourceMappingURL=style-sass.css.map */

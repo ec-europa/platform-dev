@@ -1,7 +1,13 @@
+/*
+Text styling
+
+Styleguide text
+*/
+
 // Global
 body {
-  font-family: $font-family-base;
   font-weight: 400;
+  line-height: 1.667;
 
   overflow-x: hidden;
 
@@ -10,5 +16,8 @@ body {
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
 
+  @include breakpoint(screen-xs-min) {
+    font-size: 18px;
+  }
+}

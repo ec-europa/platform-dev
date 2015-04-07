@@ -1,0 +1,82 @@
+/*
+Inpage navigation
+
+Floating menu containing links to headings in a long page.
+
+Markup: inpage-nav.html
+
+Styleguide inpagenav
+
+*/
+
+.inpage-nav--list {
+  z-index: 2000;
+}
+
+.inpage-nav {
+  cursor: pointer;
+  z-index: 100;
+
+  .container {
+    width: auto;
+  }
+
+  &.affix-top .nav li.active a,
+  &.affix-bottom .nav li.active a {
+    color: #000 !important
+  }
+
+  &.affix-top .nav li.active a:hover,
+  &.affix-bottom .nav li.active a:hover {
+    color: #006fb4 !important
+  }
+
+  &.affix {
+    top: 30px
+  }
+
+  &.affix .nav li:hover,
+  &.affix .nav li:active,
+  &.affix .nav li:focus {
+    color: #006fb4;
+    text-decoration: underline
+  }
+
+  &.affix .nav li.active:before {
+    background: none repeat scroll 0 0 #006fb4;
+    content: "";
+    display: block;
+    height: 100%;
+    left: -10px;
+    position: absolute;
+    top: -2px;
+    width: 2px
+  }
+
+  &.affix-bottom {
+    position: absolute;
+    bottom: 30px
+  }
+
+  .block-title {
+    background: none;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: .05em;
+    color: #575757;
+    text-transform: uppercase;
+    margin-top: 10px
+  }
+
+  max-width: 228px;
+  padding-bottom: 1px
+}
+
+.navigation-place {
+  padding: 20px 0 20px 20px;
+  margin-bottom: 0;
+}
+
+.navbar-toggle {
+  top: 10px;
+}
