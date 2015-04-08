@@ -41,4 +41,7 @@ function nexteuropa_multilingual_install() {
 
   // Disable multisite_drupal_language_negociation (redundant with nexteuropa_multilingual)
   module_disable(array('multisite_drupal_language_negociation'));
+
+  // IPG URL rules : use the token [node:source:title] to have always the english title in the URL
+  variable_set('pathauto_node_pattern', 'content/[node:source:title]');
 }
