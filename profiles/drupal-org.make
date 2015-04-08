@@ -348,9 +348,6 @@ projects[video][version] = "2.11"
 projects[views][subdir] = "contributed"
 projects[views][version] = "3.10"
 
-projects[views_ajax_history][subdir] = "contributed"
-projects[views_ajax_history][version] = "1.0"
-
 projects[views_bootstrap][subdir] = "contributed"
 projects[views_bootstrap][version] = "3.1"
 
@@ -461,12 +458,6 @@ libraries[cycle][directory_name] = "jquery.cycle"
 libraries[cycle][download][sha1] = "f71640db8972ed6d249f57ea8cce29c389c4a84f"
 libraries[cycle][destination] = "libraries"
 
-;history.js v1.8b2
-libraries[cycle][download][type] = "git"
-libraries[cycle][download][url] = "https://github.com/browserstate/history.js/"
-libraries[cycle][directory_name] = "history.js"
-libraries[cycle][destination] = "libraries"
-libraries[tcpdf][download][tag] = "1.8.0b2"
 
 ; Themes =======================================================================
 projects[bootstrap][type] = theme
