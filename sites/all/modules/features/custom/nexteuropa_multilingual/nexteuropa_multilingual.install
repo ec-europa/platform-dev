@@ -39,3 +39,11 @@ function nexteuropa_multilingual_install() {
   // Set translatable states for TMGMT Workbench module.
   multisite_config_service('system')->setVariable('tmgmt_workbench_moderation_states', array('validated', 'published'));
 }
+
+/**
+ * Implements hook_disable().
+ */
+function nexteuropa_multilingual_disable() {
+  module_disable(array('language_selector_site'), FALSE);
+  module_disable(array('language_selector_page'), FALSE);
+}
