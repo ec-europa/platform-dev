@@ -101,4 +101,5 @@ function nexteuropa_core_install() {
 
   // enable Version Management for node types
   multisite_config_service('version_management')->enableVersionManagement('article');
+  multisite_config_service('version_management')->enableVersionManagement('page');
 }
