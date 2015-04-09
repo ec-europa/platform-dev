@@ -19,19 +19,6 @@
  
      // Unset the old placement of the Revision log.
      unset($form['revision_information']['log']);
-@@ -997,8 +1000,11 @@
-     return TRUE;
-   }
- 
-+  $return = FALSE;
-+  drupal_alter('workbench_moderation_states_allowed', $account, $node_type, $return);
-+
-   // Default return.
--  return FALSE;
-+  return $return;
- }
- 
- /**
 @@ -2106,3 +2112,60 @@
  function workbench_moderation_migrate_api() {
    return array('api' => 2);

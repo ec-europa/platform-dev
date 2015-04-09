@@ -56,16 +56,23 @@ function multisite_drupal_workbench_moderation_workbench_moderation_access_alter
 }
 
 /**
- * Implements hook_workbench_moderation_states_allowed_alter().
+ * Implements hook_workbench_moderation_states_next_alter().
  */
-function multisite_drupal_workbench_moderation_workbench_moderation_states_allowed_alter(&$account, &$node_type = NULL, &$return = NULL) {
+function multisite_drupal_workbench_moderation_workbench_moderation_states_next_alter(&$states, &$current_state, &$context) {
   $group = og_context();
   if (isset($group->gid)) {
     if (arg(0) == 'node' && is_numeric(arg(1))) {
       $node = node_load(arg(1));
       // Give access to all states but not on community type.
-      if (og_user_access($group->gid, 'Moderate group content') && $node->type != 'community') {
-        $return = TRUE;
+      if (og_user_access($group->gid, 'Moderate group content') && $node->type != 'community' && !user_access('bypass workbench moderation', $context['account'])) {
+        // Get a list of possible transitions.
+        $select = db_select('workbench_moderation_transitions', 'transitions')
+          ->condition('transitions.from_name', $current_state)
+          ->fields('transitions', array('to_name'))
+          ->fields('states', array('label'));
+        $select->join('workbench_moderation_states', 'states', 'transitions.to_name = states.name');
+
+        $states = $select->execute()->fetchAllKeyed();
       }
     }
   }
