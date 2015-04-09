@@ -10,7 +10,7 @@ if [ ! -f "${script_dir}/config.sh" ]; then
 	echo "No config file found at ${script_dir}/config.sh"
 	exit 255
 else
-	if [ -f "${script_dir}/config.$(hostname --short).sh" ]
+	if [ -f "${script_dir}/config.$(hostname --short).sh" ]; then
 		source "${script_dir}/config.$(hostname --short).sh"
 	else
 		source "${script_dir}/config.sh"
