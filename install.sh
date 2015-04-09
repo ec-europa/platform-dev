@@ -10,11 +10,7 @@ if [ ! -f "${script_dir}/config.sh" ]; then
 	echo "No config file found at ${script_dir}/config.sh"
 	exit 255
 else
-	if [ -f "${script_dir}/config.$(hostname --short).sh" ]; then
-		source "${script_dir}/config.$(hostname --short).sh"
-	else
-		source "${script_dir}/config.sh"
-	fi
+	source "${script_dir}/config.sh"
 fi
 if [ ! -f "${script_dir}/functions.sh" ]; then
 	echo  "No functions file found at ${script_dir}/functions.sh"
@@ -22,7 +18,6 @@ if [ ! -f "${script_dir}/functions.sh" ]; then
 else
 	source "${script_dir}/functions.sh"
 fi
-
 
 #---------------------#
 #     ARGUMENTS GET   #
@@ -147,7 +142,7 @@ fi
 if [ -d "${webroot}/${site_name}" ] ; then
 	__echo "${Yellow}The target directory ${IRed}${webroot}/${site_name}${Yellow} already exist, it will be deleted.${Color_Off}" 'warning'
 	_continue
-        chmod 744 -R "${webroot}/${site_name}"
+	chmod 744 -Rf "${webroot}/${site_name}"
 	rm -Rf "${webroot}/${site_name}"  
 	__echo "Removing the folder ${Cyan}$webroot/${site_name} done.${Color_Off}" 'status'
 fi
@@ -246,16 +241,11 @@ else
 	fi
 fi
 
-if [ "${htaccess_rewrite_base}" = 1 ] ; then
-	sed -i "s@# RewriteBase /drupal@RewriteBase /fpfis/multisite/${subdirectory}/${site_name}@" .htaccess
-fi
-
-
 #-----------------#
 #     INSTALL     #
 #-----------------#
 # install and configure the drupal instance
-drush ${drush_options}  si "$install_profile" --db-url="$db_url" --account-name="$account_name" --account-pass="$account_pass" --site-name="${site_name}" --site-mail="$site_mail"  1>&2
+drush ${drush_options} --php="/usr/bin/php" si "$install_profile" --db-url="$db_url" --account-name="$account_name" --account-pass="$account_pass" --site-name="${site_name}" --site-mail="$site_mail"  1>&2
 
 #----------------#
 #     CONFIG     #
