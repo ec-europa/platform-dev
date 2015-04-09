@@ -77,3 +77,57 @@ function multisite_drupal_workbench_moderation_workbench_moderation_states_next_
     }
   }
 }
+
+/**
+ * Implements hook_permission().
+ */
+function multisite_drupal_workbench_moderation_permission() {
+  return array(
+    'Access to unpublished file' => array(
+      'title' => t('View unpublished file'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_file_download().
+ */
+function multisite_drupal_workbench_moderation_file_download($uri) {
+  // @todo
+  // This is seemingly based on an example that is given in a comment on
+  // https://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_file_download/7
+  //
+  // This is not an optimal solution. The query might return many records, but:
+  // - Either the user does not have the 'Access to unpublished file'
+  //   permission and the results will be entirely skipped. In this case it is
+  //   not even necessary to perform a query at all.
+  // - If the user doesn't have the permission, both `file_load()` and
+  //   `file_get_content_headers()` will be executed for each record. This can
+  //   be very expensive.
+  // - Even if the user HAS the required permission, the headers will be
+  //   retrieved for the first record in the result set, and then they are
+  //   returned. All other records are not even used.
+  // - It seems like the intention is just to retrieve the fid of the file
+  //   that corresponds to the $uri so we can get the headers. We probably
+  //   don't even need a query for that but can simply get the file with
+  //   `file_load_multiple(array(), array('uri' => $uri))`.
+  //
+  // Find the nodes that have this file attached to.
+  $query = db_select('file_usage', 'fu');
+  $query->addField('fu', 'id');
+  $query->addField('fu', 'fid');
+  $query->join('file_managed', 'fm', 'fm.fid = fu.fid');
+  $query->condition('fm.uri', $uri, '=');
+  $query->condition('fu.type', 'node', '=');
+  $result = $query->execute();
+
+  foreach ($result as $record) {
+    // Find file header.
+    $headers = file_get_content_headers(file_load($record->fid));
+
+    // If the user have access to the unpublished private files show all files.
+    if (user_access('Access to unpublished file')) {
+      return $headers;
+    }
+  }
+}
