@@ -23,6 +23,7 @@ else
 	source "${script_dir}/functions.sh"
 fi
 
+
 #---------------------#
 #     ARGUMENTS GET   #
 #---------------------#
