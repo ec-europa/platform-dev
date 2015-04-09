@@ -10,15 +10,6 @@
  
    // Per-node-type, per-transition permissions. Used by workbench_moderation_state_allowed().
    $node_types = workbench_moderation_moderate_node_types();
-@@ -856,7 +859,7 @@
-   if ($form['options']['#access']) {
-     $form['options']['log'] = $form['revision_information']['log'];
-     $form['options']['log']['#title'] = t('Moderation notes');
--    $form['options']['workbench_moderation_state_new'] = $form['revision_information']['workbench_moderation_state_new'];
-+    $form['options']['workbench_moderation_state_new'] = (isset($form['revision_information']['workbench_moderation_state_new']) ? $form['revision_information']['workbench_moderation_state_new'] : '');
- 
-     // Unset the old placement of the Revision log.
-     unset($form['revision_information']['log']);
 @@ -2106,3 +2112,60 @@
  function workbench_moderation_migrate_api() {
    return array('api' => 2);
