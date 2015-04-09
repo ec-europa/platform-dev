@@ -17,13 +17,21 @@ div.form-item-minor-version {
 }
 input[type=checkbox].glyphicon{
     visibility: hidden;
-    
+
 }
 */
 
-#edit-minor-version {
+.node-form .form-item-minor-version .form-checkbox {
   /*margin: 0px;*/
   margin-top: 10px;
+}
+
+#workbench-moderation-node-unpublish-form .form-checkbox {
+   margin-top: 4px;
+}
+
+#workbench-moderation-moderate-form .form-checkbox {
+   margin-top: 12px;
 }
 
 .major_version_mark_color {
