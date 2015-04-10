@@ -9,7 +9,7 @@
  * Implements hook_enable().
  */
 function language_selector_site_enable() {
-  // Remove old language switcher.
+  // Remove old language switcher block.
   multisite_drupal_toolbox_remove_block_context('site_wide', 'language');
 
   // Add block in context.
