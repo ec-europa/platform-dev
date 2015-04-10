@@ -11,6 +11,7 @@
 function language_selector_site_enable() {
   // Remove old language switcher block.
   multisite_drupal_toolbox_remove_block_context('site_wide', 'language');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'locale-language');
 
   // Add block in context.
   multisite_drupal_toolbox_add_block_context('site_wide', 'language_selector_site', 'language_selector_site', 'language_selector_site', 'header_right');
