@@ -23,6 +23,7 @@ regions[footer] = Footer
 ; Stylesheets
 ; ========================================
 stylesheets[all][] = css/bootstrap.min.css
+stylesheets[all][] = ../bootstrap/css/overrides.css
 
 ; ========================================
 ; Scripts
