@@ -57,7 +57,7 @@
             <?php print filter_xss_admin($messages); ?>
           </div></div> <!-- /.section, /#messages -->
         <?php endif; ?>
-		<div style="font-size: small; float:right;"><br />Allowed users (ie: Administrators) can log in <a href="<?php print base_path() . $language->language . '/'; ?>user/login"> here </a>.
+		<div style="font-size: small; float:right;"><br />Allowed users (ie: Administrators) can log in <?php print l('here', 'user/login'); ?>.
       </div></div></div> <!-- /.section, /#content -->
     </div></div> <!-- /#main, /#main-wrapper -->
 
