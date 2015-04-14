@@ -2,26 +2,26 @@
 
 // Breakpoints
 @mixin breakpoint($point) {
-  @if $point == lg-desktop {
-    @media (min-width: $screen-lg-desktop) {
+  @if $point == screen-lg-min {
+    @media (min-width: $screen-lg-min) {
       @content;
     }
   }
 
-  @else if $point == desktop {
-    @media (min-width: $screen-desktop) {
+  @else if $point == screen-md-min {
+    @media (min-width: $screen-md-min) {
       @content;
     }
   }
 
-  @else if $point == tablet {
-    @media (min-width: $screen-tablet) {
+  @else if $point == screen-sm-min {
+    @media (min-width: $screen-sm-min) {
       @content;
     }
   }
 
-  @else if $point == phone {
-    @media (min-width: $screen-phone)  {
+  @else if $point == screen-xs-min {
+    @media (min-width: $screen-xs-min)  {
       @content;
     }
   }
