@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Nexteuropa_data_export_test.views_default.inc.
+ * nexteuropa_data_export_test.views_default.inc.
  */
 
 /**
