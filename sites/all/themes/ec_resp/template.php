@@ -215,7 +215,6 @@ function ec_resp_preprocess_node(&$variables) {
   // Display last update date
   if ($variables['display_submitted']) {
     $node = $variables['node'];
-    //ddl($node);
   
     // Append the revision information to the submitted by text.
     $revision_account = user_load($node->revision_uid);
@@ -324,7 +323,11 @@ function ec_resp_preprocess_html(&$variables) {
   // Update page title.
   if (arg(0) == 'node' && is_numeric(arg(1))) {
     $node = node_load(arg(1));
-    $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
+    // if the metatag title exists, it must be used to construct the title page
+    if(isset($node->field_meta_title) && !empty($node->field_meta_title))
+      $variables['head_title'] = filter_xss($node->field_meta_title['und'][0]['value']);
+    else 
+      $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
   }
   else {
     $variables['head_title'] = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
@@ -530,7 +533,11 @@ function ec_resp_page_alter($page) {
 
   $title = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
   if (!empty($node)) {
-    $title = $node_title . ' - ' . $title;
+    // if the metatag title exists, it must be used to construct the title page
+    if(isset($node->field_meta_title) && !empty($node->field_meta_title))
+      $title = filter_xss($node->field_meta_title['und'][0]['value']);
+    else
+      $title = $node_title . ' - ' . $title;
   }
 
   $keywords = '';
