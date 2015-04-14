@@ -34,6 +34,9 @@ projects[ds][version] = 2.6
 projects[entitycache][subdir] = contributed
 projects[entitycache][version] = 1.2
 
+projects[inline_entity_form][subdir] = contributed
+projects[inline_entity_form][version] = 1.5
+
 projects[registry_autoload][subdir] = contributed
 projects[registry_autoload][version] = 1.2
 
