@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_token\Tests\LinkEntityTokenHandlerTest
+ * Contains \Drupal\nexteuropa_token\Tests\LinkEntityTokenHandlerTest.
  */
 
 namespace Drupal\nexteuropa_token\Tests\Entity;
@@ -10,6 +10,11 @@ namespace Drupal\nexteuropa_token\Tests\Entity;
 use Drupal\nexteuropa_token\Entity\LinkTokenHandler;
 use Drupal\nexteuropa_token\Tests\TokenHandlerAbstractTest;
 
+/**
+ * Class LinkEntityTokenHandlerTest.
+ *
+ * @package Drupal\nexteuropa_token\Tests\Entity
+ */
 class LinkEntityTokenHandlerTest extends TokenHandlerAbstractTest {
 
   /**
@@ -28,7 +33,7 @@ class LinkEntityTokenHandlerTest extends TokenHandlerAbstractTest {
   }
 
   /**
-   * Test that HashTokenHandler::hookTokenInfoAlter() produces well-formed array.
+   * HashTokenHandler::hookTokenInfoAlter() produces well-formed array.
    *
    * @dataProvider entityTypeMachineNamesProvider
    */
@@ -67,14 +72,15 @@ class LinkEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * Data provider: provides list of token $original values.
    *
    * @return array
+   *    Return PHPUnit data.
    */
   public static function tokenOriginalValues() {
     return array(
-      // Valid tokens
+      // Valid tokens.
       array('[node:1:link]', 1),
       array('[user:12:link]', 12),
       array('[term:123:link]', 123),
-      // Not valid tokens
+      // Not valid tokens.
       array('[comment:123:link]', ''),
       array('[any-text:123:link]', ''),
       array('[not:valid:link]', ''),
@@ -86,8 +92,10 @@ class LinkEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * Data provider: provides list of entity machine names.
    *
    * @return array
+   *    Return PHPUnit data.
    */
   public static function entityTypeMachineNamesProvider() {
     return array(array('node'), array('user'), array('term'));
   }
+
 }

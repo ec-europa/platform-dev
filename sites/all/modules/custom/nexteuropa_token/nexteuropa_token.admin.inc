@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Administration pages callbacks.
+ */
+
+/**
  * Form callback for module settings.
  */
 function nexteuropa_token_settings_form() {
@@ -13,7 +18,7 @@ function nexteuropa_token_settings_form() {
     '#title' => t('Site prefix'),
     '#default_value' => variable_get('nexteuropa_token_hash_prefix', 'prefix'),
     '#description' => t("Site specific prefix used to seed hash token generation."),
-    '#required' => TRUE
+    '#required' => TRUE,
   );
   return system_settings_form($form);
 }

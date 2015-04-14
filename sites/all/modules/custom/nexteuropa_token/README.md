@@ -45,3 +45,9 @@ For example:
 ```
 nexteuropa_token_get_handler('hash_handler')->hookTokenInfoAlter($data);
 ```
+
+Notes
+-----
+
+For implementation details of HashTokenHandler refer to:
+https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860

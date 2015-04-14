@@ -1,8 +1,14 @@
 <?php
 
 /**
- * Define default filter view value.
- * @see: nexteuropa_token_ckeditor_form_nexteuropa_token_settings_form_alter()
+ * @file
+ * Allows to insert and render tokens into a CKEditor-enabled textarea.
+ */
+
+/**
+ * Default filter view, exposed by nexteuropa_token_ckeditor module.
+ *
+ * @see nexteuropa_token_ckeditor_form_nexteuropa_token_settings_form_alter()
  */
 define('NEXTEUROPA_TOKEN_CKEDITOR_DEFAULT_FILTER_VIEW', 'nexteuropa_token_ckeditor_filter_view:default');
 
@@ -33,6 +39,7 @@ function nexteuropa_token_ckeditor_menu() {
 
 /**
  * AJAX page callback.
+ *
  * @see: nexteuropa_token_ckeditor_menu()
  */
 function nexteuropa_token_ckeditor_ajax_callback($editor_id = '') {
@@ -50,6 +57,7 @@ function nexteuropa_token_ckeditor_ajax_callback($editor_id = '') {
 
 /**
  * Menu access callback.
+ *
  * @see: nexteuropa_token_ckeditor_menu()
  */
 function nexteuropa_token_ckeditor_ajax_access_callback() {
@@ -99,7 +107,7 @@ function nexteuropa_token_ckeditor_form_nexteuropa_token_settings_form_alter(&$f
     '#description' => t("View display to be used as a filter in the CKEditor plugin."),
     '#options' => views_get_views_as_options(),
     '#default_value' => variable_get('nexteuropa_token_ckeditor_filter_view', NEXTEUROPA_TOKEN_CKEDITOR_DEFAULT_FILTER_VIEW),
-    '#required' => TRUE
+    '#required' => TRUE,
   );
 }
 
@@ -112,6 +120,7 @@ function nexteuropa_token_ckeditor_element_info_alter(&$types) {
 
 /**
  * Implements #pre_render callback.
+ *
  * @see: token_insert_ckeditor_element_info_alter()
  */
 function nexteuropa_token_ckeditor_pre_render_text_format($element) {
@@ -136,4 +145,3 @@ function nexteuropa_token_ckeditor_custom_theme() {
 function nexteuropa_token_ckeditor_contextual_links_view_alter(&$element, $items) {
   $element['#attributes']['class'][] = 'custom-class';
 }
-

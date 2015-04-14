@@ -2,13 +2,14 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_token\Entity\ViewModeTokenHandler
+ * Contains \Drupal\nexteuropa_token\Entity\ViewModeTokenHandler.
  */
 
 namespace Drupal\nexteuropa_token\Entity;
 
 /**
- * Class ViewModeTokenHandler
+ * Class ViewModeTokenHandler.
+ *
  * @package Drupal\nexteuropa_token\Entity
  */
 class ViewModeTokenHandler extends TokenAbstractHandler {
@@ -33,6 +34,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
       }
     }
   }
+
   /**
    * {@inheritdoc}
    */
@@ -51,10 +53,12 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
               $node = node_load($entity_id);
               $render = node_view($node, $view_mode);
               break;
+
             case 'term':
               $term = taxonomy_term_load($entity_id);
               $render = taxonomy_term_view($term, $view_mode);
               break;
+
             case 'user':
               $account = user_load($entity_id);
               $render = user_view($account, $view_mode);
@@ -73,16 +77,20 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
   }
 
   /**
-   * @param $original
+   * Extract view mode machine name from a token string.
+   *
+   * @param string $original
+   *    Token, in its original format, eg. [node:1:view-mode:full].
+   *
    * @return string
+   *    Extracted view mode machine name.
    */
   public function getViewModeFromToken($original) {
     return $this->parseToken($original, 'view_mode');
   }
 
   /**
-   * @param $original
-   * @return bool
+   * {@inheritdoc}
    */
   public function isValidToken($original) {
     return $this->getEntityIdFromToken($original) && $this->getViewModeFromToken($original);
@@ -99,6 +107,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
         $regex = sprintf('/\[(%s)\:(\d*)\:%s\:\w*\]/', $supported_types, $this->getTokenSuffix());
         preg_match_all($regex, $original, $matches);
         return isset($matches[2][0]) && !empty($matches[2][0]) ? $matches[2][0] : '';
+
       case 'view_mode':
         $regex = sprintf('/\[(%s)\:\d*\:%s\:(\w*)\]/', $supported_types, $this->getTokenSuffix());
         preg_match_all($regex, $original, $matches);
@@ -109,9 +118,11 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
   /**
    * Get view modes machine names per entity.
    *
-   * @param $token_type
-   *    Entity token name.
+   * @param string $token_type
+   *    Entity token type name.
+   *
    * @return array
+   *    List of view mode machine names for a given entity token type.
    */
   public function getEntityViewModes($token_type) {
 
@@ -127,19 +138,23 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
   /**
    * Get token name using predefined token prefix.
    *
-   * @see: ViewModeTokenHandler::hookTokenInfoAlter()
-   *
-   * @param $view_mode
+   * @param string $view_mode
    *    View mode machine name.
+   *
    * @return string
    *    Formatted token name.
+   *
+   * @see ViewModeTokenHandler::hookTokenInfoAlter()
    */
   public function getTokenName($view_mode, $entity_id = 'ID') {
     return $entity_id . ':' . $this->getTokenSuffix() . ':' . $view_mode;
   }
 
   /**
-   * @{inheritdoc}
+   * Returns entity token types list.
+   *
+   * @return array
+   *    List of entity token types.
    */
   public function getEntityTokenTypes() {
     return array_filter(parent::getEntityTokenTypes(), function ($entity) {

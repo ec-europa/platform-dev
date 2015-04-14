@@ -2,13 +2,18 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_token\Tests\HashTokenHandlerTest
+ * Contains \Drupal\nexteuropa_token\Tests\HashTokenHandlerTest.
  */
 
 namespace Drupal\nexteuropa_token\Tests;
 
 use Drupal\nexteuropa_token\HashTokenHandler;
 
+/**
+ * Class HashTokenHandlerTest.
+ *
+ * @package Drupal\nexteuropa_token\Tests
+ */
 class HashTokenHandlerTest extends TokenHandlerAbstractTest {
 
   /**
@@ -18,7 +23,7 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
    */
   protected $handler;
 
-  static $generated_hashes = array();
+  static public $generatedHashes = array();
 
   /**
    * {@inheritdoc}
@@ -29,7 +34,10 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
   }
 
   /**
-   * Test that HashTokenHandler::hookTokenInfoAlter() produces well-formed array.
+   * HashTokenHandler::hookTokenInfoAlter() produces well-formed array.
+   *
+   * @param string $entity_type
+   *    Entity type machine name.
    *
    * @dataProvider entityTypeMachineNamesProvider
    */
@@ -47,6 +55,9 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
   /**
    * Test that nexteuropa_token_token_info_alter() actually works.
    *
+   * @param string $entity_type
+   *    Entity type machine name.
+   *
    * @dataProvider entityTypeMachineNamesProvider
    */
   public function testAvailableTokens($entity_type) {
@@ -56,7 +67,7 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
   }
 
   /**
-   * Test HashTokenHandler::hookTokens()
+   * Test HashTokenHandler::hookTokens().
    */
   public function testNodeHookTokens() {
 
@@ -83,6 +94,19 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
   /**
    * Test hash generation.
    *
+   * @param string $prefix_one
+   *    Test data from data provider.
+   * @param string $entity_type_one
+   *    Test data from data provider.
+   * @param int $entity_id_one
+   *    Test data from data provider.
+   * @param string $prefix_two
+   *    Test data from data provider.
+   * @param string $entity_type_two
+   *    Test data from data provider.
+   * @param int $entity_id_two
+   *    Test data from data provider.
+   *
    * @dataProvider hashGenerationProvider
    */
   public function testHashGeneration($prefix_one, $entity_type_one, $entity_id_one, $prefix_two, $entity_type_two, $entity_id_two) {
@@ -99,17 +123,18 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
     $this->assertNotEquals($hash_one, $hash_two, $message);
 
     $message_hash = sprintf('Hashes %s %s', $hash_one, $hash_two);
-    $this->assertFalse(in_array($hash_one, self::$generated_hashes), $message_hash . ' '. $message);
-    $this->assertFalse(in_array($hash_two, self::$generated_hashes), $message_hash . ' '. $message);
+    $this->assertFalse(in_array($hash_one, self::$generatedHashes), $message_hash . ' ' . $message);
+    $this->assertFalse(in_array($hash_two, self::$generatedHashes), $message_hash . ' ' . $message);
 
-    self::$generated_hashes[] = $hash_two;
-    self::$generated_hashes[] = $hash_one;
+    self::$generatedHashes[] = $hash_two;
+    self::$generatedHashes[] = $hash_one;
   }
 
   /**
    * Data provider: provides list of entity machine names.
    *
    * @return array
+   *    Return PHPUnit data.
    */
   public static function entityTypeMachineNamesProvider() {
     return array(array('node'), array('user'), array('term'));
@@ -119,6 +144,7 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
    * Data provider: provides input for generation function.
    *
    * @return array
+   *    Return PHPUnit data.
    */
   public static function hashGenerationProvider() {
     $values = array(
@@ -128,13 +154,8 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
       array('apple', 'term', 112, 'pear', 'node', 105),
       array('prefix_one', 'node', 13, 'prefix_two', 'node', 12),
       array('apple', 'node', 139358673425, 'pear', 'node', 139358673425),
-//      array('very-very-very-very-very-very-very-very-very-very-long', 'node', 13, 'very-very-very-very-long', 'node', 12),
     );
-
-//    $values = array();
-//    for ($i = 0; $i < 10000; $i++) {
-//      $values[] = array(md5(rand()), md5(rand()), rand(0, 100000), md5(rand()), md5(rand()), rand(0, 100000));
-//    }
     return $values;
   }
+
 }

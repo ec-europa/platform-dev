@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_token\Entity\TokenAbstractHandler
+ * Contains \Drupal\nexteuropa_token\Entity\TokenAbstractHandler.
  */
 
 namespace Drupal\nexteuropa_token\Entity;
@@ -10,7 +10,8 @@ namespace Drupal\nexteuropa_token\Entity;
 use Drupal\nexteuropa_token\TokenAbstractHandler as BaseTokenAbstractHandler;
 
 /**
- * Class TokenAbstractHandler
+ * Class TokenAbstractHandler.
+ *
  * @package Drupal\nexteuropa_token
  */
 abstract class TokenAbstractHandler extends BaseTokenAbstractHandler implements TokenHandlerInterface {
@@ -44,13 +45,17 @@ abstract class TokenAbstractHandler extends BaseTokenAbstractHandler implements 
   }
 
   /**
-   * Parse entity token, by default return entity ID. It also provides an
-   * additional $item parameter that could be useful in case we need to extract
-   * other parts of the token.
+   * Parse entity token, by default return entity ID.
    *
-   * @param $original
+   * It also provides an additional $item to extract other token's parts.
+   *
+   * @param string $original
+   *    Token string, in its original format, eg. [node:1:view-mode:full].
    * @param string $item
+   *    Item to be extracted when parsing the token.
+   *
    * @return string
+   *    Extracted item.
    */
   protected function parseToken($original, $item = 'entity_id') {
     $matches = array();
@@ -61,4 +66,5 @@ abstract class TokenAbstractHandler extends BaseTokenAbstractHandler implements 
       return isset($matches[2][0]) && !empty($matches[2][0]) ? $matches[2][0] : '';
     }
   }
+
 }

@@ -2,13 +2,14 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_token\Entity\LinkTokenHandler
+ * Contains \Drupal\nexteuropa_token\Entity\LinkTokenHandler.
  */
 
 namespace Drupal\nexteuropa_token\Entity;
 
 /**
- * Class LinkTokenHandler
+ * Class LinkTokenHandler.
+ *
  * @package Drupal\nexteuropa_token\Entity
  */
 class LinkTokenHandler extends TokenAbstractHandler {
@@ -63,4 +64,5 @@ class LinkTokenHandler extends TokenAbstractHandler {
     }
     return $replacements;
   }
+
 }

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_token\Tests\UrlEntityTokenHandlerTest
+ * Contains \Drupal\nexteuropa_token\Tests\UrlEntityTokenHandlerTest.
  */
 
 namespace Drupal\nexteuropa_token\Tests\Entity;
@@ -10,6 +10,11 @@ namespace Drupal\nexteuropa_token\Tests\Entity;
 use Drupal\nexteuropa_token\Entity\UrlTokenHandler;
 use Drupal\nexteuropa_token\Tests\TokenHandlerAbstractTest;
 
+/**
+ * Class UrlEntityTokenHandlerTest.
+ *
+ * @package Drupal\nexteuropa_token\Tests\Entity
+ */
 class UrlEntityTokenHandlerTest extends TokenHandlerAbstractTest {
 
   /**
@@ -28,7 +33,7 @@ class UrlEntityTokenHandlerTest extends TokenHandlerAbstractTest {
   }
 
   /**
-   * Test that HashTokenHandler::hookTokenInfoAlter() produces well-formed array.
+   * HashTokenHandler::hookTokenInfoAlter() produces well-formed array.
    *
    * @dataProvider entityTypeMachineNamesProvider
    */
@@ -56,6 +61,11 @@ class UrlEntityTokenHandlerTest extends TokenHandlerAbstractTest {
   /**
    * Test we get entity view modes correctly.
    *
+   * @param string $original
+   *    Token in original format.
+   * @param int $entity_id
+   *    Entity ID.
+   *
    * @dataProvider tokenOriginalValues
    */
   public function testParseToken($original, $entity_id) {
@@ -67,14 +77,15 @@ class UrlEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * Data provider: provides list of token $original values.
    *
    * @return array
+   *    Return PHPUnit data.
    */
   public static function tokenOriginalValues() {
     return array(
-      // Valid tokens
+      // Valid tokens.
       array('[node:1:url]', 1),
       array('[user:12:url]', 12),
       array('[term:123:url]', 123),
-      // Not valid tokens
+      // Not valid tokens.
       array('[comment:123:url]', ''),
       array('[any-text:123:url]', ''),
       array('[not:valid:token]', ''),
@@ -88,8 +99,10 @@ class UrlEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * Data provider: provides list of entity machine names.
    *
    * @return array
+   *    Return PHPUnit data.
    */
   public static function entityTypeMachineNamesProvider() {
     return array(array('node'), array('user'), array('term'));
   }
+
 }

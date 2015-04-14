@@ -2,17 +2,15 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_token\HashTokenHandler
+ * Contains \Drupal\nexteuropa_token\HashTokenHandler.
  */
 
 namespace Drupal\nexteuropa_token;
 
 /**
- * Class HashTokenHandler
- * @package Drupal\nexteuropa_token
+ * Class HashTokenHandler.
  *
- * Implements hash token generation as described on:
- * https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860
+ * @package Drupal\nexteuropa_token
  */
 class HashTokenHandler extends TokenAbstractHandler {
 
@@ -21,8 +19,6 @@ class HashTokenHandler extends TokenAbstractHandler {
 
   /**
    * Character sets used in encoding routine.
-   *
-   * @see: https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860
    */
   protected $sliceChars   = "5zqcn9l7mg0rskjb621pwtv3xd84fh";
   protected $typeChars    = "d3gxr6zws4fb2qp8mk9n1vtcj7l5h0";
@@ -35,7 +31,7 @@ class HashTokenHandler extends TokenAbstractHandler {
   /**
    * {@inheritdoc}
    */
-  function __construct() {
+  public function __construct() {
     $this->allChars = array(
       $this->firstChars,
       $this->secondChars,
@@ -83,16 +79,17 @@ class HashTokenHandler extends TokenAbstractHandler {
   /**
    * Generate URL hash given the following three arguments.
    *
-   * @param $prefix
+   * @param string $prefix
    *    Unique prefix identifier.
-   * @param $entity_type
+   * @param string $entity_type
    *    Entity type machine name.
-   * @param $entity_id
+   * @param int $entity_id
    *    Entity ID in the current site.
+   *
    * @return string
    *    Encoded URL hash.
    *
-   * @see: https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860
+   * @see https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860
    */
   public function generate($prefix, $entity_type, $entity_id) {
     return $this->encodePrefix($prefix) . $this->encodeEntityType($entity_type) . $this->encodeEntityId($entity_id);
@@ -102,6 +99,7 @@ class HashTokenHandler extends TokenAbstractHandler {
    * Get system wide hash prefix.
    *
    * @return string
+   *    Return hash prefix.
    */
   protected function getHashPrefix() {
     return variable_get('nexteuropa_token_hash_prefix', self::DEFAULT_PREFIX);
@@ -110,10 +108,13 @@ class HashTokenHandler extends TokenAbstractHandler {
   /**
    * Return encoded prefix portion.
    *
-   * @param $prefix
+   * @param string $prefix
+   *    Hash prefix.
+   *
    * @return string
+   *    Encoded hash prefix.
    */
-  function encodePrefix($prefix){
+  public function encodePrefix($prefix) {
     $numeric = '';
     foreach (str_split($prefix) as $char) {
       $numeric .= ord($char);
@@ -124,12 +125,15 @@ class HashTokenHandler extends TokenAbstractHandler {
   /**
    * Return encoded entity type portion.
    *
-   * @param $entity_type
-   * @return string
+   * @param string $entity_type
+   *    Entity type machine name.
    *
-   * @see: https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860
+   * @return string
+   *    Encoded entity type.
+   *
+   * @see https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860
    */
-  function encodeEntityType($entity_type){
+  public function encodeEntityType($entity_type) {
     $numeric = '';
     foreach (str_split($entity_type) as $char) {
       $numeric .= ord($char);
@@ -140,21 +144,28 @@ class HashTokenHandler extends TokenAbstractHandler {
   /**
    * Return encoded entity ID portion.
    *
-   * @param $entity_id
+   * @param int $entity_id
+   *    Entity ID.
+   *
    * @return string
+   *    Encoded eintity ID.
    */
-  function encodeEntityId($entity_id) {
+  public function encodeEntityId($entity_id) {
     return $this->encodeNumericValue($entity_id, $this->allChars);
   }
 
   /**
-   * Encode numeric value following specifications available at:
-   * @see: https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860
+   * Encode numeric value following specifications available at:.
    *
-   * @param $numeric
+   * @param int $numeric
+   *    Numeric value.
+   * @param string $charset
+   *    Charset on which to encode to.
+   *
    * @return string
+   *    Encoded numeric value.
    */
-  function encodeNumericValue($numeric, $charset) {
+  public function encodeNumericValue($numeric, $charset) {
     $hash = '';
     $charset = is_array($charset) ? $charset : array($charset);
     $crumbs = $numeric;
@@ -165,4 +176,5 @@ class HashTokenHandler extends TokenAbstractHandler {
     }
     return $hash;
   }
+
 }

@@ -2,13 +2,14 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_token\Entity\UrlTokenHandler
+ * Contains \Drupal\nexteuropa_token\Entity\UrlTokenHandler.
  */
 
 namespace Drupal\nexteuropa_token\Entity;
 
 /**
- * Class UrlTokenHandler
+ * Class UrlTokenHandler.
+ *
  * @package Drupal\nexteuropa_token\Entity
  */
 class UrlTokenHandler extends TokenAbstractHandler {
@@ -62,4 +63,5 @@ class UrlTokenHandler extends TokenAbstractHandler {
     }
     return $replacements;
   }
+
 }

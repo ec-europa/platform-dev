@@ -1,18 +1,23 @@
 <?php
 
 /**
- * Field handler providing a widget to select view modes tokens exposed by
- * NextEuropa Token module, to be used only on CKEditor Token filter views.
+ * @file
+ * Field handler providing a widget to select view modes tokens.
+ */
+
+/**
+ * Class nexteuropa_token_ckeditor_handler_field_selection.
  *
  * @see: nexteuropa_token_ckeditor_form_nexteuropa_token_settings_form_alter()
+ *
  * @ingroup views_field_handlers
  */
 class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_field {
 
   /**
-   * @{inheritdoc}
+   * Views options definition.
    */
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
 
     $options['label_field'] = array('default' => '');
@@ -21,9 +26,9 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
   }
 
   /**
-   * @{inheritdoc}
+   * Exposes field handler option form.
    */
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
     $form['label_field'] = array(
@@ -42,9 +47,15 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
   }
 
   /**
-   * @{inheritdoc}
+   * Return the rendered field.
+   *
+   * @param object $values
+   *    Render values.
+   *
+   * @return string
+   *    Rendered output.
    */
-  function render($values) {
+  public function render($values) {
     $entity_id = $values->{$this->field_alias};
     $entity_label = '';
     if (isset($this->view->field[$this->options['label_field']])) {
@@ -89,12 +100,16 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
   /**
    * Get view mode label.
    *
-   * @param string $entity_type
-   * @return array
+   * @param string $view_mode
+   *    View mode machine name.
+   *
+   * @return mixed
+   *    View mode options array.
    */
   private function get_view_mode_label($view_mode) {
 
     $view_modes = $this->get_view_modes_options();
     return $view_modes[$view_mode];
   }
+
 }

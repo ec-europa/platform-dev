@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_token\Tests\ViewModeEntityTokenHandlerTest
+ * Contains \Drupal\nexteuropa_token\Tests\ViewModeEntityTokenHandlerTest.
  */
 
 namespace Drupal\nexteuropa_token\Tests\Entity;
@@ -10,6 +10,11 @@ namespace Drupal\nexteuropa_token\Tests\Entity;
 use Drupal\nexteuropa_token\Entity\ViewModeTokenHandler;
 use Drupal\nexteuropa_token\Tests\TokenHandlerAbstractTest;
 
+/**
+ * Class ViewModeEntityTokenHandlerTest.
+ *
+ * @package Drupal\nexteuropa_token\Tests\Entity
+ */
 class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
 
   /**
@@ -28,7 +33,10 @@ class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
   }
 
   /**
-   * Test that HashTokenHandler::hookTokenInfoAlter() produces well-formed array.
+   * HashTokenHandler::hookTokenInfoAlter() produces well-formed array.
+   *
+   * @param string $entity_type
+   *    Entity type machine name.
    *
    * @dataProvider entityTypeMachineNamesProvider
    */
@@ -97,14 +105,15 @@ class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * Data provider: provides list of token $original values.
    *
    * @return array
+   *    Return PHPUnit data.
    */
   public static function tokenOriginalValues() {
     return array(
-      // Valid tokens
+      // Valid tokens.
       array('[node:1:view-mode:teaser]', 1, 'teaser'),
       array('[user:1:view-mode:full]', 1, 'full'),
       array('[term:1:view-mode:token]', 1, 'token'),
-      // Not valid tokens
+      // Not valid tokens.
       array('[comment:123:view-mode:full]', '', ''),
       array('[any-text:123:view-mode:full]', '', ''),
       array('[not:valid:token]', '', ''),
@@ -118,8 +127,10 @@ class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * Data provider: provides list of entity machine names.
    *
    * @return array
+   *    Return PHPUnit data.
    */
   public static function entityTypeMachineNamesProvider() {
     return array(array('node'), array('user'), array('term'));
   }
+
 }

@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Exposes general purposes tokens for NextEuropa sites.
+ */
+
+/**
  * Implements hook_menu().
  */
 function nexteuropa_token_menu() {
@@ -49,13 +54,18 @@ function nexteuropa_token_tokens($type, $tokens, array $data = array(), array $o
 }
 
 /**
- * Get instance of token handler object, as specified in implementations of
- * hook_nexteuropa_token_token_handlers()
+ * Get instance of token handler object.
  *
- * @param $name
+ * @param string $name
  *    Token handler name.
+ *
  * @return \Drupal\nexteuropa_token\TokenHandlerInterface
+ *    Token handler object instance.
+ *
  * @throws \Exception
+ *    Throws exception if no handler class has been found.
+ *
+ * @see hook_nexteuropa_token_token_handlers()
  */
 function nexteuropa_token_get_handler($name) {
   $handlers = module_invoke_all('nexteuropa_token_token_handlers');
@@ -73,5 +83,3 @@ function nexteuropa_token_get_handler($name) {
   }
   return new $handlers[$name]();
 }
-
-

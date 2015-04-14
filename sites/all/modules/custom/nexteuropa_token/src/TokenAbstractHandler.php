@@ -2,13 +2,14 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_token\TokenAbstractHandler
+ * Contains \Drupal\nexteuropa_token\TokenAbstractHandler.
  */
 
 namespace Drupal\nexteuropa_token;
 
 /**
- * Class TokenAbstractHandler
+ * Class TokenAbstractHandler.
+ *
  * @package Drupal\nexteuropa_token
  */
 abstract class TokenAbstractHandler implements TokenHandlerInterface {
@@ -16,8 +17,11 @@ abstract class TokenAbstractHandler implements TokenHandlerInterface {
   /**
    * Returns true if passed argument is a valid token type.
    *
-   * @param $type
+   * @param string $type
+   *    Token type machine name.
+   *
    * @return bool
+   *    TRUE if valid token type, FALSE otherwise.
    */
   protected function isValidTokenType($type) {
     $types = $this->getEntityTokenTypes();
@@ -28,6 +32,7 @@ abstract class TokenAbstractHandler implements TokenHandlerInterface {
    * Get list of entity info arrays, keyed by the entity's token-like name.
    *
    * @return array
+   *    List of entity info arrays.
    */
   protected function getEntityTokenTypes() {
     $return = array();
@@ -41,11 +46,15 @@ abstract class TokenAbstractHandler implements TokenHandlerInterface {
   /**
    * Get an entity key ID given the entity's token-like name.
    *
-   * @param $type
-   * @return mixed
+   * @param string $type
+   *    Entity type machine name.
+   *
+   * @return string
+   *    Entity ID key.
    */
   protected function getEntityKeysId($type) {
     $token_types = $this->getEntityTokenTypes();
     return $token_types[$type]['entity keys']['id'];
   }
+
 }

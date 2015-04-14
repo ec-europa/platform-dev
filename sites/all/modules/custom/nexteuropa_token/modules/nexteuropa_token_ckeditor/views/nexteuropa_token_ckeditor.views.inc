@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Expose hook_views_data_alter() implementations.
+ */
+
+/**
  * Implements hook_views_data_alter().
  */
 function nexteuropa_token_ckeditor_views_data_alter(&$data) {

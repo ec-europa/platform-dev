@@ -2,20 +2,26 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_token\Tests\TokenHandlerAbstractTest
+ * Contains \Drupal\nexteuropa_token\Tests\TokenHandlerAbstractTest.
  */
 
 namespace Drupal\nexteuropa_token\Tests;
 
+/**
+ * Class TokenHandlerAbstractTest.
+ *
+ * @package Drupal\nexteuropa_token\Tests
+ */
 abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
 
-  /** Test fixtures */
-  protected static $content_type = NULL;
+  /**
+   * Test fixtures.
+   */
+  protected static $contentType = NULL;
   protected static $vocabulary = NULL;
 
   /**
-   * Keep list of entities created during a test in an array keyed by
-   * entity type. Entities will be deleted in tearDown()
+   * List of entities created during tests, keyed by entity type.
    */
   protected $entities = NULL;
 
@@ -65,11 +71,11 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
   /**
    * Get test content type.
    *
-   * @return
+   * @return string
    *    Content type object.
    */
   protected function getTestContentType() {
-    return self::$content_type;
+    return self::$contentType;
   }
 
   /**
@@ -98,20 +104,20 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
     node_type_save($type);
     node_types_rebuild();
     node_add_body_field($type);
-    self::$content_type = $type;
+    self::$contentType = $type;
   }
 
   /**
    * Delete text content type.
    */
   protected static function deleteTestContentType() {
-    node_type_delete(self::$content_type->type);
+    node_type_delete(self::$contentType->type);
   }
 
   /**
    * Get test vocabulary.
    *
-   * @return
+   * @return object
    *    Vocabulary object.
    */
   protected function getTestVocabulary() {
@@ -134,8 +140,6 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
 
   /**
    * Delete test vocabulary.
-   *
-   * @throws \Exception
    */
   protected static function deleteTestVocabulary() {
     taxonomy_vocabulary_delete(self::$vocabulary->vid);
@@ -145,7 +149,7 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
    * Create and return test node.
    *
    * @return \stdClass
-   * @throws \Exception
+   *    Return node object.
    */
   protected function getTestNode() {
     $content_type = $this->getTestContentType();
@@ -174,7 +178,10 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
    * Borrowed from DrupalTestCase::randomName().
    *
    * @param int $length
+   *    Length of randomly generated name.
+   *
    * @return string
+   *    Randomly generated name.
    */
   public static function randomName($length = 8) {
     $values = array_merge(range(65, 90), range(97, 122), range(48, 57));
@@ -185,4 +192,5 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
     }
     return $str;
   }
+
 }
