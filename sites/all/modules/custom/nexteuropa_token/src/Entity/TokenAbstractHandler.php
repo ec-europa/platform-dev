@@ -19,13 +19,6 @@ abstract class TokenAbstractHandler extends BaseTokenAbstractHandler implements 
   /**
    * {@inheritdoc}
    */
-  public function hookToken() {
-    return array();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getSupportedTokenTypes() {
     return array('node', 'user', 'term');
   }

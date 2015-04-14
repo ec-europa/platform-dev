@@ -43,13 +43,6 @@ class HashTokenHandler extends TokenAbstractHandler {
   /**
    * {@inheritdoc}
    */
-  public function hookToken() {
-    return array();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function hookTokens($type, $tokens, array $data = array(), array $options = array()) {
     $replacements = array();
 

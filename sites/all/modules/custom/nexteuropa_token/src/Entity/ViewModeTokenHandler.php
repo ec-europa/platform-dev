@@ -162,22 +162,4 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
     });
   }
 
-  /**
-   * @param $entity_type
-   * @param $entity
-   * @return array
-   */
-  public function getTokensPerEntity($entity_type, $entity) {
-
-    $tokens = array();
-    $entity_info = entity_get_info($entity_type);
-    $entity_id_key = $entity_info['entity keys']['id'];
-    $token_type = $entity_info['token type'];
-    if (isset($entity->{$entity_id_key})) {
-      foreach ($this->getEntityViewModes($token_type) as $view_mode) {
-        $tokens[] = $this->getTokenOriginal($entity_type, $view_mode, $entity->{$entity_id_key});
-      }
-    }
-    return $tokens;
-  }
 }

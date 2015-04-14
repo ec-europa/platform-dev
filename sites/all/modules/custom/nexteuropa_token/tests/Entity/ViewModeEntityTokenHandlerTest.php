@@ -58,28 +58,15 @@ class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
   /**
    * Test we get entity view modes correctly.
    *
-   * @dataProvider entityTypeMachineNamesProvider
-   */
-  function testGetEntityViewModes($entity_type) {
-
-    $view_modes = $this->handler->getEntityViewModes($entity_type);
-    $this->assertTrue(in_array('full', $view_modes));
-  }
-
-  /**
-   * Test that nexteuropa_token_token_info_alter() actually works.
+   * @param string $entity_type
+   *    Entity type machine name.
    *
    * @dataProvider entityTypeMachineNamesProvider
    */
-  public function testAvailableTokens($entity_type) {
+  public function testGetEntityViewModes($entity_type) {
 
-  }
-
-  /**
-   * Test HashTokenHandler::hookTokens()
-   */
-  public function testNodeHookTokens() {
-
+    $view_modes = $this->handler->getEntityViewModes($entity_type);
+    $this->assertTrue(in_array('full', $view_modes));
   }
 
   /**
