@@ -55,7 +55,7 @@ function ec_resp_preprocess(&$variables) {
               array('data' => render($item), 'class' => 'feature_set_switcher'),
             );
           }
-          
+
           $output .= theme('table', $table);
           $output .= '</li>';
 
@@ -419,13 +419,13 @@ function ec_resp_preprocess_views_view(&$variables) {
         ->condition('filename', 'empty_gallery.png', '=')
         ->execute()
         ->fetchAssoc();
-      
+
       $empty_img = theme('image_style', array(
         'style_name' => 'square_thumbnail',
         'path' => $empty_pic['uri'],
         'alt' => t('There is no content in this gallery, or it has not been validated yet.'),
       ));
-      
+
       // Check if the galleries are actually empty.
       $rows = str_replace('[Empty_gallery][Empty_gallery]', $empty_img, $variables['rows']);
       // Check if there is only one picture.
@@ -1506,7 +1506,7 @@ function ec_resp_preprocess_block(&$variables) {
         $variables['menu_items'] = implode('', $items);
         break;
 
-      case 'easy_breadcrumb':
+      case 'easy_breadcrumb-easy_breadcrumb':
         $variables['menu_breadcrumb'] = menu_tree('menu-breadcrumb-menu');
         break;
 
@@ -1698,12 +1698,12 @@ function ec_resp_table($variables) {
  * Implements template_preprocess_comment().
  */
 function ec_resp_preprocess_comment(&$variables) {
-  $variables['comment_created'] = format_date($comment->created, 'custom', 'd/m/Y H:i');
+  $variables['comment_created'] = format_date($variables['elements']['#comment']->created, 'custom', 'd/m/Y H:i');
 }
 
 /**
  * Implements template_preprocess_comment_wrapper().
  */
 function ec_resp_preprocess_comment_wrapper(&$variables) {
-  $variables['title_text'] = $variables ['content']['#node']->type != 'forum' ? t('Comments') : t('Replies');
+  $variables['title_text'] = $variables['content']['#node']->type != 'forum' ? t('Comments') : t('Replies');
 }
