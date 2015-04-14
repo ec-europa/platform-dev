@@ -179,24 +179,17 @@ function nexteuropa_multilingual_drupal_goto_alter(&$path, &$options, &$http_res
  * Implements hook_field_language_alter().
  */
 function nexteuropa_multilingual_field_language_alter(&$display_language, $context) {
-  if(isset($_GET['2nd-language'])) {
-    /*
-    foreach($display_language as $field => $value) {
-      $display_language[$field] = $_GET['2nd-language'];
-    }
-    */
+  if (isset($_GET['2nd-language'])) {
     locale_field_language_fallback($display_language, $context['entity'], $context['language']);
   }
 }
 
 /**
- * Implements hook_language_fallback_candidates_alter
+ * Implements hook_language_fallback_candidates_alter().
  */
 function nexteuropa_multilingual_language_fallback_candidates_alter(array &$fallback_candidates) {
-  if(isset($_GET['2nd-language'])) {
+  if (isset($_GET['2nd-language'])) {
     unset($fallback_candidates[$_GET['2nd-language']]);
     array_unshift($fallback_candidates, $_GET['2nd-language']);
   }
 }
-
-
