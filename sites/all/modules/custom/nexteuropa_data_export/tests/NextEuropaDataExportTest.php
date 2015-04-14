@@ -2,12 +2,16 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_data_export\Tests\NextEuropaDataExportTest
+ * Contains \Drupal\nexteuropa_data_export\Tests\NextEuropaDataExportTest.
  */
 
 namespace Drupal\nexteuropa_data_export\Tests;
 
-
+/**
+ * Class NextEuropaDataExportTest.
+ *
+ * @package Drupal\nexteuropa_data_export\Tests
+ */
 class NextEuropaDataExportTest extends NextEuropaDataExportAbstractTest {
 
   private $nodes = array();
@@ -101,4 +105,5 @@ class NextEuropaDataExportTest extends NextEuropaDataExportAbstractTest {
       }
     }
   }
+
 }

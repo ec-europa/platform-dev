@@ -1,7 +1,12 @@
 <?php
 
 /**
- * Implements hook_action_info()
+ * @file
+ * Allows to export view data in different type of formats.
+ */
+
+/**
+ * Implements hook_action_info().
  */
 function nexteuropa_data_export_action_info() {
   return array(
@@ -30,7 +35,7 @@ function nexteuropa_data_export_export_action_form($context, &$form_state) {
 
     $options = array();
     foreach ($view->field as $field_name => $field) {
-      $options[$field_name]= $field->options['label'] ? $field->options['label'] : $field->definition['title'];
+      $options[$field_name] = $field->options['label'] ? $field->options['label'] : $field->definition['title'];
     }
     $form['fields'] = array(
       '#type' => 'select',
@@ -75,7 +80,7 @@ function nexteuropa_data_export_export_action_submit($form, $form_state) {
  * @see: nexteuropa_data_export_action_info()
  */
 function nexteuropa_data_export_export_action_views_bulk_operations_form($options, $entity_type, $dom_id) {
-  
+
   $form = array();
   $form['view_display'] = array(
     '#type' => 'select',
@@ -88,10 +93,10 @@ function nexteuropa_data_export_export_action_views_bulk_operations_form($option
 }
 
 /**
- * Implements hook_views_post_build()
+ * Implements hook_views_post_build().
  */
 function nexteuropa_data_export_views_post_build(&$view) {
-  
+
   // Exclude fields that are not selected before running the export.
   // @see: nexteuropa_data_export_export_action_form()
   if (isset($view->nexteuropa_data_export)) {
@@ -104,7 +109,7 @@ function nexteuropa_data_export_views_post_build(&$view) {
 }
 
 /**
- * Implements hook_views_pre_render()
+ * Implements hook_views_pre_render().
  */
 function nexteuropa_data_export_views_pre_render(&$view) {
 
@@ -122,7 +127,7 @@ function nexteuropa_data_export_views_pre_render(&$view) {
  * Helper: get all configured export display.
  */
 function nexteuropa_data_export_get_export_displays() {
-  
+
   $options = array();
   $views = views_get_enabled_views();
   foreach ($views as $view_name => $view) {
