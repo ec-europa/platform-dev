@@ -38,4 +38,16 @@ function nexteuropa_multilingual_install() {
 
   // Set translatable states for TMGMT Workbench module.
   multisite_config_service('system')->setVariable('tmgmt_workbench_moderation_states', array('validated', 'published'));
+
+  // Remove old language switcher block.
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'language');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'locale-language');
+}
+
+/**
+ * Implements hook_disable().
+ */
+function nexteuropa_multilingual_disable() {
+  module_disable(array('language_selector_site'), FALSE);
+  module_disable(array('language_selector_page'), FALSE);
 }
