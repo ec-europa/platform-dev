@@ -69,26 +69,26 @@ function nexteuropa_token_ckeditor_ajax_access_callback() {
 }
 
 /**
- * Implementation of hook_ckeditor_plugin().
+ * Implements hook_ckeditor_plugin().
  */
 function nexteuropa_token_ckeditor_ckeditor_plugin() {
-  return array('nexteuropa_token_ckeditor' => array(
-    'name' => 'nexteuropa_token_ckeditor',
-    'desc' => t('NextEuropa Token'),
-    'path' => drupal_get_path('module', 'nexteuropa_token_ckeditor') .'/plugins/nexteuropa_token_ckeditor/',
-  ));
+  return array(
+    'nexteuropa_token_ckeditor' => array(
+      'name' => 'nexteuropa_token_ckeditor',
+      'desc' => t('NextEuropa Token'),
+      'path' => drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/plugins/nexteuropa_token_ckeditor/'));
 }
 
 /**
- * Implementation of hook_wysiwyg_plugin().
+ * Implements hook_wysiwyg_plugin().
  */
 function nexteuropa_token_ckeditor_wysiwyg_plugin($editor, $version) {
   if ($editor == 'ckeditor') {
-    return array('nexteuropa_token_ckeditor' => array(
-      'path' => drupal_get_path('module', 'nexteuropa_token_ckeditor') .'/plugins/nexteuropa_token_ckeditor/',
-      'load' => TRUE,
-      'buttons' => array('NextEuropaToken' => t('NextEuropa Token')),
-    ));
+    return array(
+      'nexteuropa_token_ckeditor' => array(
+        'path' => drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/plugins/nexteuropa_token_ckeditor/',
+        'load' => TRUE,
+        'buttons' => array('NextEuropaToken' => t('NextEuropa Token'))));
   }
 }
 
