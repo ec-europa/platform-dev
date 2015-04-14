@@ -1,12 +1,19 @@
 <?php
 
+/**
+ * @file
+ * Contains IEF selection field handler class.
+ */
 
+/**
+ * Class nexteuropa_ief_views_widget_handler_field_selection.
+ */
 class nexteuropa_ief_views_widget_handler_field_selection extends views_handler_field {
 
   /**
-   * @{inheritdoc}
+   * Define default options.
    */
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
 
     $options['entity_reference_field'] = array('default' => '');
@@ -15,9 +22,9 @@ class nexteuropa_ief_views_widget_handler_field_selection extends views_handler_
   }
 
   /**
-   * @{inheritdoc}
+   * Exposes field handler options form.
    */
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
     $form['entity_reference_field'] = array(
@@ -35,9 +42,9 @@ class nexteuropa_ief_views_widget_handler_field_selection extends views_handler_
   }
 
   /**
-   * @{inheritdoc}
+   * Render views field.
    */
-  function render($values) {
+  public function render($values) {
     $entity_id = $values->{$this->field_alias};
     $entity_label = '';
     if (isset($this->view->field[$this->options['label_field']])) {
@@ -58,8 +65,9 @@ class nexteuropa_ief_views_widget_handler_field_selection extends views_handler_
    * Get list of fields that use Inline Entity Form widget.
    *
    * @return array
+   *    Get list of fields that uses inline entity form widgets.
    */
-  function get_entity_reference_field_options() {
+  public function get_entity_reference_field_options() {
     $options = array();
     foreach (field_info_instances($this->table) as $bundle => $fields) {
       foreach ($fields as $field_name => $field) {
@@ -70,4 +78,5 @@ class nexteuropa_ief_views_widget_handler_field_selection extends views_handler_
     }
     return $options;
   }
+
 }

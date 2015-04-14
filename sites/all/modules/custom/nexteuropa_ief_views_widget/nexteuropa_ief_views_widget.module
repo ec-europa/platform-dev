@@ -1,9 +1,11 @@
 <?php
 
 /**
+ * @file
  * Define field option name.
  */
-define('IEF_VIEWS_WIDGET_FIELD_OPTION_NAME', 'use_ief_views_widget');
+
+define('NEXTEUROPA_IEF_VIEWS_WIDGET_FIELD_OPTION_NAME', 'use_ief_views_widget');
 
 /**
  * Implements hook_views_api().
@@ -26,7 +28,7 @@ function nexteuropa_ief_views_widget_field_widget_info_alter(&$info) {
 
   foreach ($widget_defaults as $widget => $default) {
     if (isset($info[$widget])) {
-      $info[$widget]['settings']['type_settings'][IEF_VIEWS_WIDGET_FIELD_OPTION_NAME] = $default;
+      $info[$widget]['settings']['type_settings'][NEXTEUROPA_IEF_VIEWS_WIDGET_FIELD_OPTION_NAME] = $default;
     }
   }
 }
@@ -44,11 +46,11 @@ function nexteuropa_ief_views_widget_form_field_ui_field_edit_form_alter(&$form,
     foreach (element_children($elements) as $name) {
       $elements[$name]['#weight'] = $weight++;
     }
-    $elements[IEF_VIEWS_WIDGET_FIELD_OPTION_NAME] = array(
+    $elements[NEXTEUROPA_IEF_VIEWS_WIDGET_FIELD_OPTION_NAME] = array(
       '#type' => 'select',
       '#title' => t('Use this view display to select an existing entity'),
       '#options' => views_get_views_as_options(),
-      '#default_value' => $form['#instance']['widget']['settings']['type_settings'][IEF_VIEWS_WIDGET_FIELD_OPTION_NAME],
+      '#default_value' => $form['#instance']['widget']['settings']['type_settings'][NEXTEUROPA_IEF_VIEWS_WIDGET_FIELD_OPTION_NAME],
       '#empty_option' => t('- None -'),
       '#empty_value' => '',
       '#weight' => 3,
@@ -62,7 +64,7 @@ function nexteuropa_ief_views_widget_form_field_ui_field_edit_form_alter(&$form,
 }
 
 /**
- * Implements hook_inline_entity_form_reference_form()
+ * Implements hook_inline_entity_form_reference_form().
  */
 function nexteuropa_ief_views_widget_inline_entity_form_reference_form_alter(&$reference_form, $form_state) {
   $path = drupal_get_path('module', 'nexteuropa_ief_views_widget');
@@ -76,8 +78,8 @@ function nexteuropa_ief_views_widget_inline_entity_form_reference_form_alter(&$r
   $instance = field_info_instance($entity_type, $field_name, $bundle_name);
   $widget_settings = $instance['widget']['settings']['type_settings'];
 
-  if (isset($widget_settings[IEF_VIEWS_WIDGET_FIELD_OPTION_NAME]) && !empty($widget_settings[IEF_VIEWS_WIDGET_FIELD_OPTION_NAME])) {
-    list($view_name, $display_id) = explode(':', $widget_settings[IEF_VIEWS_WIDGET_FIELD_OPTION_NAME]);
+  if (isset($widget_settings[NEXTEUROPA_IEF_VIEWS_WIDGET_FIELD_OPTION_NAME]) && !empty($widget_settings[NEXTEUROPA_IEF_VIEWS_WIDGET_FIELD_OPTION_NAME])) {
+    list($view_name, $display_id) = explode(':', $widget_settings[NEXTEUROPA_IEF_VIEWS_WIDGET_FIELD_OPTION_NAME]);
     $reference_form['views_widget']['#weight'] = 150;
     $reference_form['views_widget']['#markup'] = views_embed_view($view_name, $display_id);
     $reference_form['views_widget']['#attached']['js'] = array($path . '/nexteuropa_ief_views_widget.js');

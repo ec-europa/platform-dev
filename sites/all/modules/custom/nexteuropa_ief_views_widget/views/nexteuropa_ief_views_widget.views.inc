@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Contains hook_views_data_alter() implementation.
+ */
+
+/**
  * Implements hook_views_data_alter().
  */
 function nexteuropa_ief_views_widget_views_data_alter(&$data) {
