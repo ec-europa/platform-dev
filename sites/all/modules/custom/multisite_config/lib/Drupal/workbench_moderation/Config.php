@@ -40,13 +40,15 @@ class Config extends ConfigBase {
   /**
    * Create a new moderation state transition.
    *
-   * @param type $from
-   * @param type $to
-   * @return type
+   * @param $to
+   * @param $from
+   * @param $name
+   * @return \Drupal\workbench_moderation\type
    */
-  public function createModerationStateTransition($from, $to) {
+  public function createModerationStateTransition($to, $from, $name = '') {
     if ($from != $to) {
       $transition = new \stdClass;
+      $transition->name = $name;
       $transition->from_name = $from;
       $transition->to_name = $to;
       return workbench_moderation_transition_save($transition);
