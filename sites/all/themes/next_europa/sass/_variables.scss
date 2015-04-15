@@ -1,0 +1,110 @@
+// Bootstrap overrides and new variables
+
+// Colors
+$grey-base:              #000 !default;
+$grey-darker:            #404040 !default;
+$grey-dark:              #575757 !default;
+$grey:                   #b3b4b5 !default;
+$grey-light:             #e2e2e2 !default;
+$grey-lighter:           #ececec !default;
+$grey-lightest:          #f2f2f2 !default;
+
+$blue-light:             #b0c5de !default;
+$blue:                   #006fb4 !default;
+$blue-dark:              #004494 !default;
+$blue-darker:            darken($blue-dark, 10%) !default;
+
+$yellow-light:           #ffd617 !default;
+$yellow:                 #ffc412 !default;
+$yellow-dark:            #f2a615 !default;
+
+$green:                  #467a39 !default;
+
+$red:                    #ff2423 !default;
+
+$brand-primary:          $blue !default;
+$brand-success:          $green !default;
+$brand-info:             $grey-dark !default;
+$brand-warning:          $yellow-dark !default;
+$brand-danger:           $red !default;
+
+$text-color:             $grey-darker !default;
+
+// Typegraphy
+$font-family-sans-serif:  Arial, sans-serif !default;
+$font-family-base:        $font-family-sans-serif !default;
+
+$font-size-base:          15px !default; // this is mobile first default, desktop default is 18px
+$font-size-big:           1.333em !default; // 24px
+$font-size-little:        0.889em !default; // 16px
+$font-size-xsmall:        0.933em !default; // 14px
+
+$font-size-h1:            2.222em !default;
+$font-size-h2:            1.667em !default;
+$font-size-h3:            1.556em !default;
+$font-size-h4:            1.222em !default;
+$font-size-h5:            1em !default;
+$font-size-h6:            0.778em !default;
+
+$font-weight-normal:      400 !default;
+$font-weight-bold:        600 !default;
+
+// Form control
+$form-control-height:                             2.750em !default; //44px basing on form control base font size.
+
+// Form colors.
+$form-control-color-disabled:                     $grey !default;
+
+$form-control-text-color:                         $grey-dark !default;
+$form-control-text-color-focus:                   $grey-base !default;
+$form-control-border-color:                       $grey !default;
+$form-control-border-color-focus:                 $yellow-light !default;
+$form-control-background-color:                   #ffffff !default;
+$form-control-background-color-disabled:          $grey-light !default;
+$state-danger-text:                               $brand-danger !default;
+
+
+// Select.
+$form-control-border-select-color-hover:          $blue !default;
+$form-control-border-select-color-down:           $grey-dark !default;
+
+
+// Checkbox and radio
+// Unchecked.
+$form-checkbox-color-unchecked:                   $grey-dark !default;
+$form-checkbox-background-color-unchecked:        $grey-lighter !default;
+
+// Unchecked, hover.
+$form-checkbox-color-unchecked-hover:             $grey-dark !default;
+$form-checkbox-border-color-unchecked-hover:      $blue !default;
+$form-checkbox-background-color-unchecked-hover:  #ffffff !default;
+
+// Checked.
+$form-checkbox-color-checked:                     #ffffff !default;
+$form-checkbox-background-color-checked:          $blue !default;
+
+// Checked, hover.
+$form-checkbox-color-checked-hover:               #ffffff !default;
+$form-checkbox-border-color-checked-hover:        $yellow-light !default;
+$form-checkbox-background-color-checked-hover:    $blue !default;
+
+// Icon size.
+$form-checkbox-icon-size:                         1.250em !default;
+
+
+// Help block.
+$form-group-help-block-text-color:                $grey-dark !default;
+$form-group-help-block-text-color-disabled:       $form-control-color-disabled !default;
+$form-group-help-block-text-color-has-error:      $form-group-help-block-text-color !default;
+
+
+// Form field feedback.
+$form-group-feedback-text-color:                  $grey-dark !default;
+$form-group-feedback-text-color-disabled:         $form-control-color-disabled !default;
+$form-group-feedback-text-color-has-error:        $form-group-help-block-text-color !default;
+$form-group-feedback-background-color:            #e2e2e2 !default;
+$form-group-feedback-icon-size:                   1.5em !default;
+
+// In order to override the 'default!', bootstrap variables have to be added
+// after the overrides
+@import "../bootstrap-sass/bootstrap/variables";

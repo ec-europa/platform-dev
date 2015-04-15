@@ -80,6 +80,9 @@ projects[title][download][branch] = 7.x-1.x
 projects[variable][subdir] = contributed
 projects[variable][version] = 2.5
 
+projects[views_ajax_history][subdir] = "contributed"
+projects[views_ajax_history][version] = "1.0"
+
 projects[ckeditor_lite][subdir] = contributed
 projects[ckeditor_lite][version] = 1.0-rc1
 
@@ -96,3 +99,10 @@ libraries[ckeditor_lite][download][url] = https://github.com/loopindex/ckeditor-
 libraries[ckeditor_lite][download][sha1] = 2325e728878c9840c7b2fa59b30c4fc682f7c118
 libraries[ckeditor_lite][subdir] = ckeditor/plugins
 libraries[ckeditor_lite][directory_name] = lite
+
+;history.js v1.8b2
+libraries[history][download][type] = "git"
+libraries[history][download][url] = "https://github.com/browserstate/history.js/"
+libraries[history][directory_name] = "history.js"
+libraries[history][destination] = "libraries"
+libraries[history][download][tag] = "1.8.0b2"
