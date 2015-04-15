@@ -2,21 +2,27 @@
 
 /**
  * @file
- * Contains \Multisite\Config\Features\nexteuropa_editorial\Config
+ * Contains \Multisite\Config\Features\nexteuropa_editorial\Config.
  */
 
 namespace Drupal\nexteuropa_editorial;
 
 use Drupal\multisite_config\ConfigBase;
 
+/**
+ * Class Config.
+ *
+ * @package Drupal\nexteuropa_editorial.
+ */
 class Config extends ConfigBase {
 
   /**
    * Return whereas a user is an editorial team member or not.
    *
-   * @param type $uid
-   *    User UID
-   * @return boolean
+   * @param int $uid
+   *    User UID.
+   *
+   * @return bool
    *    TRUE if the user is a team member, FALSE otherwise.
    */
   public function isEditoralTeamMember($uid = 0) {
@@ -39,20 +45,28 @@ class Config extends ConfigBase {
    *
    * @param string $title
    *    Editorial team name.
-   * @param const $group_content_access
-   *     Define group content access public regardless of its group definition.
-   * It could be either OG_CONTENT_ACCESS_PUBLIC or OG_CONTENT_ACCESS_PRIVATE.
-   * @return type
+   * @param string $group_content_access
+   *    Define group content access public regardless of its group definition.
+   *    Either OG_CONTENT_ACCESS_PUBLIC or OG_CONTENT_ACCESS_PRIVATE.
+   *
+   * @return int
+   *    Newly created editorial team node NID.
    */
   public function createEditorialTeam($title, $group_content_access = OG_CONTENT_ACCESS_PUBLIC) {
-    $properties = array('type' => 'editorial_team', 'uid' => 1, 'status' => 1, 'promote' => 0);
+    $properties = array(
+      'type' => 'editorial_team',
+      'uid' => 1,
+      'status' => 1,
+      'promote' => 0,
+    );
     $entity = entity_create('node', $properties);
     $wrapper = entity_metadata_wrapper('node', $entity);
     $wrapper->title->set($title);
     $wrapper->comment = COMMENT_NODE_CLOSED;
     $wrapper->{OG_ACCESS_FIELD}->set($group_content_access);
     $wrapper->{OG_DEFAULT_ACCESS_FIELD}->set(0);
-    $wrapper->save(true);
+    $wrapper->save(TRUE);
     return $wrapper->getIdentifier();
   }
-} 
+
+}

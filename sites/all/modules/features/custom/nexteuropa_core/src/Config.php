@@ -2,21 +2,29 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_core\Config
+ * Contains \Drupal\nexteuropa_core\Config.
  */
 
 namespace Drupal\nexteuropa_core;
 
 use Drupal\multisite_config\ConfigBase;
 
+/**
+ * Class Config.
+ *
+ * @package Drupal\nexteuropa_core.
+ */
 class Config extends ConfigBase {
 
   /**
-   * Apply default NextEuropa configuration to a specific content type,
-   * it is usually called into hook_install().
-   * @see: nexteuropa_pages_install()
+   * Apply default NextEuropa configuration to a specific content type.
    *
-   * @param $type
+   * This method is usually called into hook_install().
+   *
+   * @param string $type
+   *    Content type machine name.
+   *
+   * @see nexteuropa_pages_install()
    */
   public function applyDefaultConfigurationToContentType($type) {
 
@@ -39,9 +47,7 @@ class Config extends ConfigBase {
         'update own ' . $type . ' content',
         'delete own ' . $type . ' content',
       );
-      $og_permissions['validator'] =
-      $og_permissions['publisher'] =
-      $og_permissions['administrator member'] = array(
+      $og_permissions['validator'] = $og_permissions['publisher'] = $og_permissions['administrator member'] = array(
         'create ' . $type . ' content',
         'update own ' . $type . ' content',
         'delete own ' . $type . ' content',
@@ -64,4 +70,5 @@ class Config extends ConfigBase {
     // a configuration specific to NextEuropa .
     variable_set('scheduler_unpublish_moderation_state_' . $type, 'expired');
   }
-} 
+
+}

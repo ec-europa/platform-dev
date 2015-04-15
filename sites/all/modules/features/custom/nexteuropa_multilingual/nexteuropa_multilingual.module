@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * nexteuropa_multilingual module file
+ * Nexteuropa_multilingual module file.
  */
 
 /**
@@ -93,7 +93,7 @@ function nexteuropa_multilingual_menu() {
 /**
  * Form callback.
  *
- * @see: nexteuropa_multilingual_menu() 
+ * @see: nexteuropa_multilingual_menu()
  */
 function nexteuropa_multilingual_form($form, &$form_state) {
   $form['nexteuropa_multilingual_language_suffix_delimiter'] = array(
