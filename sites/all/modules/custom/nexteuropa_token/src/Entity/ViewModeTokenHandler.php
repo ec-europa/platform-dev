@@ -154,11 +154,12 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    * Returns entity token types list.
    *
    * @return array
-   *    List of entity token types.
+   *    List of entity info array.
    */
   public function getEntityTokenTypes() {
-    return array_filter(parent::getEntityTokenTypes(), function ($entity) {
-      return in_array($entity['token type'], $this->getSupportedTokenTypes());
+    $supported_types = $this->getSupportedTokenTypes();
+    return array_filter(parent::getEntityTokenTypes(), function ($entity) use ($supported_types) {
+      return in_array($entity['token type'], $supported_types);
     });
   }
 
