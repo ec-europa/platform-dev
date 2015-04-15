@@ -2,19 +2,25 @@
 
 /**
  * @file
- * Contains \Drupal\scheduler\Config
+ * Contains \Drupal\scheduler\Config.
  */
 
 namespace Drupal\scheduler;
 
 use Drupal\multisite_config\ConfigBase;
 
+/**
+ * Class Config.
+ *
+ * @package Drupal\scheduler.
+ */
 class Config extends ConfigBase {
 
   /**
    * Enable default scheduling options for a specific content type.
    *
-   * @param $type
+   * @param string $type
+   *    Content type machine name.
    */
   public function enableSchedulerForContentType($type) {
     variable_set('scheduler_expand_fieldset_' . $type, '0');
@@ -31,4 +37,4 @@ class Config extends ConfigBase {
     variable_set('scheduler_use_vertical_tabs_' . $type, '0');
   }
 
-} 
+}

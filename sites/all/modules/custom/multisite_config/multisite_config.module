@@ -1,23 +1,23 @@
 <?php
 
 /**
- * Implements hook_init()
+ * @file
+ * Exposes API for configuration staging.
  */
-function multisite_config_init() {
-
-}
 
 /**
- * Service container.
+ * Very simple service container.
  *
- * @usage:
- * multisite_config_service('system')->getVariable('site_name');
+ * Usage:
+ * multisite_config_service('system')->getVariable('site_name').
  *
- * @param $module
+ * @param string $module
+ *    Module name.
+ *
  * @return mixed
+ *    Configuration API object.
  */
 function multisite_config_service($module) {
-  // @todo: Improve service container logic.
   $class = "\\Drupal\\{$module}\\Config";
   return class_exists($class) ? new $class() : new \Drupal\multisite_config\ConfigBase();
 }

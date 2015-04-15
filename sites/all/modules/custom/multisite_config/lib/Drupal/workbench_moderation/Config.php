@@ -2,13 +2,18 @@
 
 /**
  * @file
- * Contains \Drupal\workbench_moderation\Config
+ * Contains \Drupal\workbench_moderation\Config.
  */
 
 namespace Drupal\workbench_moderation;
 
 use Drupal\multisite_config\ConfigBase;
 
+/**
+ * Class Config.
+ *
+ * @package Drupal\workbench_moderation
+ */
 class Config extends ConfigBase {
 
   /**
@@ -17,19 +22,20 @@ class Config extends ConfigBase {
    * Moderation state names must be unique, so saving a state object with a
    * non-unique name updates the existing state.
    *
-   * @param $name
-   *    State name
-   * @param type $label
-   *    State label
-   * @param type $description
-   *    State description
-   * @param type $weight
-   *    State weight
-   * @return type
-   *    Created state object
+   * @param string $name
+   *    State name.
+   * @param string $label
+   *    State label.
+   * @param string $description
+   *    State description.
+   * @param int $weight
+   *    State weight.
+   *
+   * @return mixed
+   *    Created state object.
    */
   public function createModerationState($name, $label, $description = NULL, $weight = 0) {
-    $state = new \stdClass;
+    $state = new \stdClass();
     $state->name = $name;
     $state->label = $label;
     $state->description = $description;
@@ -40,14 +46,19 @@ class Config extends ConfigBase {
   /**
    * Create a new moderation state transition.
    *
-   * @param $to
-   * @param $from
-   * @param $name
-   * @return \Drupal\workbench_moderation\type
+   * @param string $to
+   *    Transition state name.
+   * @param string $from
+   *    Transition state name.
+   * @param string $name
+   *    Transition name.
+   *
+   * @return mixed
+   *    Saved status.
    */
   public function createModerationStateTransition($to, $from, $name = '') {
     if ($from != $to) {
-      $transition = new \stdClass;
+      $transition = new \stdClass();
       $transition->name = $name;
       $transition->from_name = $from;
       $transition->to_name = $to;
@@ -58,7 +69,8 @@ class Config extends ConfigBase {
   /**
    * Enable Workbench moderation for the specified content type.
    *
-   * @param $type
+   * @param string $type
+   *    Content type machine name.
    */
   public function enableWorkbenchModeration($type) {
 
@@ -70,4 +82,5 @@ class Config extends ConfigBase {
     }
     variable_set('node_options_' . $type, $options);
   }
-} 
+
+}

@@ -9,14 +9,23 @@ namespace Drupal\multisite_config;
 
 use Drupal\multisite_config\ConfigBaseInterface;
 
+/**
+ * Class ConfigBase.
+ *
+ * @package Drupal\multisite_config.
+ */
 class ConfigBase implements ConfigBaseInterface {
 
   /**
    * Call a method dynamically.
    *
-   * @param $method
-   * @param $args
+   * @param string $method
+   *    Method name.
+   * @param mixed $args
+   *    Array of arguments to be passed to the invoked method.
+   *
    * @return mixed
+   *    Method execution result.
    */
   public function __call($method, $args) {
 
@@ -27,4 +36,5 @@ class ConfigBase implements ConfigBaseInterface {
       throw new \InvalidArgumentException(t('The required method "!method" does not exist for !class', array('!method' => $method, '!class' => get_class($this))));
     }
   }
+
 }
