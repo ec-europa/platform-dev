@@ -17,7 +17,7 @@
           }
           var lng = $(this).text().replace('+', ' ');
           var new_src = iframe.attr('src').replace(
-                new RegExp("videolang=(.+)", "g"), 'videolang=' + lng);
+                new RegExp("videolang(\%3D|=)(.+)", "g"), 'videolang=' + lng);
           iframe.attr('src', new_src);
         })
     }
