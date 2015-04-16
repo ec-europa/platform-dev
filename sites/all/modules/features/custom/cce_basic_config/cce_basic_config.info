@@ -51,6 +51,7 @@ dependencies[] = workbench
 dependencies[] = workbench_moderation
 dependencies[] = wysiwyg
 dependencies[] = multisite_wysiwyg
+dependencies[] = media_wysiwyg
 stylesheets[all][] = cce_basic_config.css
 features[ctools][] = context:context:3
 features[ctools][] = field_group:field_group:1
