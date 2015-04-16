@@ -7,13 +7,6 @@
 include_once 'nexteuropa_europa_search.install.inc';
 
 /**
- * Implements hook_install().
- */
-function nexteuropa_europa_search_install() {
-  // Nothing yet.
-}
-
-/**
  * Implements hook_uninstall().
  */
 function nexteuropa_europa_search_uninstall() {
