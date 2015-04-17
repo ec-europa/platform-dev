@@ -163,7 +163,7 @@ global $base_url;
       <?php print render($title_prefix); ?>
 
       <?php if ($title): ?>
-        <?php $title_image = (isset($node->field_thumbnail['und'][0]['uri']) && $node->type == 'community' ? image_style_url('communities_thumbnail', $node->field_thumbnail['und'][0]['uri']) : '');?>
+        <?php $title_image = (isset($node->field_thumbnail[LANGUAGE_NONE][0]['uri']) && $node->type == 'community' ? image_style_url('communities_thumbnail', $node->field_thumbnail[LANGUAGE_NONE][0]['uri']) : '');?>
         <h1 class="col-lg-<?php print $cols['title']['lg']; ?> col-md-<?php print $cols['title']['md']; ?> col-sm-<?php print $cols['title']['sm']; ?> col-xs-<?php print $cols['title']['xs']; ?>" id="page-title">
           <?php if ($title_image): ?>
             <img src="<?php print $title_image; ?>" alt="<?php print $title; ?>" />

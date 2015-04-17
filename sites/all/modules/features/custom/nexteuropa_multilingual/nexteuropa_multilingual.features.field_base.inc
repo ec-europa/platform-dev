@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * nexteuropa_multilingual.features.field_base.inc
+ * Nexteuropa_multilingual.features.field_base.inc.
  */
 
 /**

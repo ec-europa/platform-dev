@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * nexteuropa_multilingual.callbacks.inc
+ * Nexteuropa_multilingual.callbacks.inc.
  */
 
 /**

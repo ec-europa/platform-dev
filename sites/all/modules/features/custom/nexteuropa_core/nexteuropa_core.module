@@ -8,7 +8,7 @@ include_once 'nexteuropa_core.features.inc';
 include_once 'nexteuropa_core.tokens.inc';
 
 /**
- * Implements hook_init()
+ * Implements hook_init().
  */
 function nexteuropa_core_init() {
 
@@ -24,7 +24,7 @@ function nexteuropa_core_migrate_api() {
       'NextEuropa' => array(
         'title' => t('Stage initial content, users and terms.'),
       ),
-    ),    
+    ),
     'migrations' => array(
       'NextEuropaCoreUserTasks' => array(
         'class_name' => 'NextEuropaCoreUserTasksMigration',
@@ -35,7 +35,7 @@ function nexteuropa_core_migrate_api() {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter()
+ * Implements hook_form_FORM_ID_alter().
  */
 function nexteuropa_core_form_taxonomy_overview_terms_alter(&$form, $form_state) {
   $form['#submit'][] = 'nexteuropa_core_form_taxonomy_overview_terms_submit';
@@ -49,10 +49,11 @@ function nexteuropa_core_form_taxonomy_overview_terms_alter(&$form, $form_state)
 function nexteuropa_core_form_taxonomy_overview_terms_submit($form, &$form_state) {
   module_load_include('inc', 'pathauto');
 
-  // Re-create taxonomy terms URL aliases when terms are reshuffled
-  // using a vocabulary's overview page, such as admin/structure/taxonomy/:vocabulary-name/list
-  // This is necessary when using [term:parents-uri] custom token in path alias creation.
-  // @see: nexteuropa_core_token_info_alter()
+  // Re-create taxonomy terms URL aliases when terms are re-shuffled using a
+  // vocabulary's overview page, like admin/structure/taxonomy/%vocabulary/list.
+  //
+  // This is necessary when using [term:parents-uri] custom token in path
+  // alias creation. @see: nexteuropa_core_token_info_alter().
   foreach ($form_state['values'] as $key => $value) {
     if (strstr($key, 'tid:') !== FALSE) {
       $term = taxonomy_term_load($value['tid']);

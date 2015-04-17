@@ -30,6 +30,7 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
   // Get Taxonomy tree.
   $classification = taxonomy_get_tree($vid_classification[0]->vid);
 
+  $list = array();
   foreach ($classification as $key => $obj_term) {
     $list[$obj_term->name] = $obj_term->name . ' - ' . strip_tags($obj_term->description);
   }
