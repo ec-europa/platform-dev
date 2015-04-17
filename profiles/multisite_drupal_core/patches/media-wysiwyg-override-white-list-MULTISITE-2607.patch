@@ -1,0 +1,265 @@
+diff --git a/media.module b/media.module
+index 033c37f..310c583 100644
+--- a/media.module
++++ b/media.module
+@@ -363,15 +363,6 @@ function media_form_field_ui_field_edit_form_alter(&$form, &$form_state) {
+   if ($form['instance']['widget']['type']['#value'] == 'media_generic' && isset($form['#field']['settings']['uri_scheme'])) {
+     $form['#validate'][] = 'media_field_instance_validate';
+   }
+-
+-  if ($form['#instance']['entity_type'] == 'file') {
+-    $form['instance']['settings']['wysiwyg_override'] = array(
+-      '#type' => 'checkbox',
+-      '#title' => t('Override in WYSIWYG'),
+-      '#description' => t('If checked, then this field may be overridden in the WYSIWYG editor.'),
+-      '#default_value' => isset($form['#instance']['settings']['wysiwyg_override']) ? $form['#instance']['settings']['wysiwyg_override'] : TRUE,
+-    );
+-  }
+ }
+ 
+ /**
+@@ -1129,15 +1120,6 @@ function media_file_displays_alter(&$displays, $file, $view_mode) {
+     );
+   }
+ 
+-  // Override the fields of the file when requested by the WYSIWYG.
+-  if (isset($file->override) && isset($file->override['fields'])) {
+-    $instance = field_info_instances('file', $file->type);
+-    foreach ($file->override['fields'] as $field_name => $value) {
+-      if (!isset($instance[$field_name]['settings']) || !isset($instance[$field_name]['settings']['wysiwyg_override']) || $instance[$field_name]['settings']['wysiwyg_override']) {
+-        $file->{$field_name} = $value;}
+-    }
+-  }
+-
+   // Alt and title are special.
+   // @see file_entity_file_load
+   $alt = variable_get('file_entity_alt', '[file:field_file_image_alt_text]');
+diff --git a/modules/media_wysiwyg/includes/media_wysiwyg.filter.inc b/modules/media_wysiwyg/includes/media_wysiwyg.filter.inc
+index 592b130..99bf3bd 100644
+--- a/modules/media_wysiwyg/includes/media_wysiwyg.filter.inc
++++ b/modules/media_wysiwyg/includes/media_wysiwyg.filter.inc
+@@ -123,7 +123,7 @@ function media_wysiwyg_token_to_markup($match, $wysiwyg = FALSE) {
+       $tag_info['attributes']['class'] = explode(" ", $tag_info['attributes']['class']);
+     }
+ 
+-    // Grab the potentially overrided fields from the file.
++    // Grab the potentially overridden fields from the file.
+     $fields = media_wysiwyg_filter_field_parser($tag_info);
+     foreach ($fields as $key => $value) {
+       $file->{$key} = $value;
+@@ -136,7 +136,6 @@ function media_wysiwyg_token_to_markup($match, $wysiwyg = FALSE) {
+ 
+     if (!empty($tag_info['attributes']) && is_array($tag_info['attributes'])) {
+       $settings['attributes'] = array_intersect_key($tag_info['attributes'], array_flip($attribute_whitelist));
+-      $settings['fields'] = $fields;
+ 
+       // Many media formatters will want to apply width and height independently
+       // of the style attribute or the corresponding HTML attributes, so pull
+@@ -157,6 +156,12 @@ function media_wysiwyg_token_to_markup($match, $wysiwyg = FALSE) {
+         }
+       }
+     }
++    // Updates file metadata from the potentially overridden tag info.
++    foreach (array('width', 'height') as $dimension) {
++      if (isset($settings['attributes'][$dimension])) {
++        $file->metadata[$dimension] = $settings['attributes'][$dimension];
++      }
++    }
+   }
+   catch (Exception $e) {
+     watchdog('media', 'Unable to render media from %tag. Error: %error', array('%tag' => $tag, '%error' => $e->getMessage()));
+diff --git a/modules/media_wysiwyg/includes/media_wysiwyg.pages.inc b/modules/media_wysiwyg/includes/media_wysiwyg.pages.inc
+index ab1a845..515c893 100644
+--- a/modules/media_wysiwyg/includes/media_wysiwyg.pages.inc
++++ b/modules/media_wysiwyg/includes/media_wysiwyg.pages.inc
+@@ -83,7 +83,7 @@ function media_wysiwyg_format_form($form, &$form_state, $file) {
+       they are inserted into an editor.')
+   );
+ 
+-  // Add fields from the file, so that we can override them if neccesary.
++  // Add fields from the file, so that we can override them if necessary.
+   $form['options']['fields'] = array();
+   foreach ($fields as $field_name => $field_value) {
+     $file->{$field_name} = $field_value;
+@@ -91,9 +91,10 @@ function media_wysiwyg_format_form($form, &$form_state, $file) {
+   field_attach_form('file', $file, $form['options']['fields'], $form_state);
+   $instance = field_info_instances('file', $file->type);
+   foreach ($instance as $field_name => $field_value) {
+-    if (isset($instance[$field_name]['settings']) && isset($instance[$field_name]['settings']['wysiwyg_override']) && !$instance[$field_name]['settings']['wysiwyg_override']) {
+-      unset($form['options']['fields'][$field_name]);
+-    }
++    $info = field_info_field($field_name);
++    // Only single valued fields can be overridden.
++    $allow = $info['cardinality'] == 1 && !empty($instance[$field_name]['settings']['wysiwyg_override']);
++    $form['options']['fields'][$field_name]['#access'] = $allow;
+   }
+ 
+   // Similar to a form_alter, but we want this to run first so that
+diff --git a/modules/media_wysiwyg/media_wysiwyg.install b/modules/media_wysiwyg/media_wysiwyg.install
+index 85f43cb..b0c9aeb 100644
+--- a/modules/media_wysiwyg/media_wysiwyg.install
++++ b/modules/media_wysiwyg/media_wysiwyg.install
+@@ -6,6 +6,13 @@
+  */
+ 
+ /**
++ * Implements hook_install().
++ */
++function media_wysiwyg_install() {
++  media_wysiwyg_update_7202();
++}
++
++/**
+  * Implements hook_uninstall().
+  */
+ function media_wysiwyg_uninstall() {
+@@ -17,6 +24,7 @@ function media_wysiwyg_uninstall() {
+   variable_del('media_wysiwyg_wysiwyg_allowed_types');
+   variable_del('media_wysiwyg_wysiwyg_allowed_attributes');
+   variable_del('media_wysiwyg_wysiwyg_browser_plugins');
++  variable_del('media_wysiwyg_wysiwyg_override_field_types');
+ }
+ 
+ /**
+@@ -43,3 +51,36 @@ function media_wysiwyg_update_7201() {
+     '@roles' => check_plain(implode(', ', $roles)),
+   ));
+ }
++
++/**
++ * Whitelist certain fields for WYSIWYG overriding.
++ */
++function media_wysiwyg_update_7202() {
++  $instances = field_read_instances(array('entity_type' => 'file'));
++  $updated = array();
++  $set_to_default = array();
++  foreach ($instances as $instance) {
++    $field_info = field_info_field($instance['field_name']);
++    $allowed_field_types = variable_get('media_wysiwyg_wysiwyg_override_field_types', array('text', 'text_long'));
++    if (in_array($field_info['type'], $allowed_field_types)) {
++      if (!isset($instance['settings']['wysiwyg_override'])) {
++        $instance['settings']['wysiwyg_override'] = 1;
++        field_update_instance($instance);
++        $set_to_default[] = $instance['field_name'];
++      }
++    }
++    elseif (isset($instance['settings']['wysiwyg_override'])) {
++      unset($instance['settings']['wysiwyg_override']);
++      field_update_instance($instance);
++      $updated[] = $instance['field_name'];
++    }
++  }
++  if (count($updated) || count($set_to_default)) {
++    $updated_string = implode(', ', $updated);
++    $default_string = implode(', ', $set_to_default);
++    return t("Updated the following field instances: @updated_string so they can't be overridden when the file is inserted in the WYSIWYG. Updated the following fields @default_string so that they continue to show up when a file is inserted.", array(
++      '@updated_string' => $updated_string,
++      '@default_string' => $default_string,
++    ));
++  }
++}
+\ No newline at end of file
+diff --git a/modules/media_wysiwyg/media_wysiwyg.module b/modules/media_wysiwyg/media_wysiwyg.module
+index c2f3246..f5389c8 100644
+--- a/modules/media_wysiwyg/media_wysiwyg.module
++++ b/modules/media_wysiwyg/media_wysiwyg.module
+@@ -142,6 +142,26 @@ function media_wysiwyg_pre_render_text_format($element) {
+ /**
+  * Implements hook_form_FORM_ID_alter().
+  */
++function media_wysiwyg_form_field_ui_field_edit_form_alter(&$form, &$form_state) {
++  // Add a checkbox that marks this field as one that can be
++  // overridden in the WYSIWYG.
++  if ($form['#instance']['entity_type'] == 'file') {
++    $field_type = $form['#field']['type'];
++    $allowed_field_types = variable_get('media_wysiwyg_wysiwyg_override_field_types', array('text', 'text_long'));
++    if (in_array($field_type, $allowed_field_types)) {
++      $form['instance']['settings']['wysiwyg_override'] = array(
++        '#type' => 'checkbox',
++        '#title' => t('Override in WYSIWYG'),
++        '#description' => t('If checked, then this field may be overridden in the WYSIWYG editor.'),
++        '#default_value' => isset($form['#instance']['settings']['wysiwyg_override']) ? $form['#instance']['settings']['wysiwyg_override'] : FALSE,
++      );
++    }
++  }
++}
++
++/**
++ * Implements hook_form_FORM_ID_alter().
++ */
+ function media_wysiwyg_form_wysiwyg_profile_form_alter(&$form, &$form_state) {
+   // Add warnings if the media filter is disabled for the WYSIWYG's text format.
+   $form['buttons']['drupal']['media']['#element_validate'][] = 'media_wysiwyg_wysiwyg_button_element_validate';
+@@ -214,6 +234,19 @@ function media_wysiwyg_form_media_admin_config_browser_alter(&$form, &$form_stat
+     '#default_value' => variable_get('media_wysiwyg_wysiwyg_allowed_types', array('audio', 'image', 'video', 'document')),
+   );
+ 
++  $options = array();
++  foreach(field_info_field_types() as $key => $type) {
++    $options[$key] = $type['label'];
++  }
++  asort($options);
++  $form['wysiwyg']['media_wysiwyg_wysiwyg_override_field_types'] = array(
++    '#type' => 'checkboxes',
++    '#title' => t('Override field types in WYSIWYG'),
++    '#options' => $options,
++    '#default_value' => variable_get('media_wysiwyg_wysiwyg_override_field_types', array('text', 'text_long')),
++    '#description' => t('If checked, then the field type may be overridden in the WYSIWYG editor. Not all field types (e.g. Term reference) currently support being overridden so the desired result might not be achieved.')
++  );
++
+   $form['#submit'][] = 'media_wysiwyg_admin_config_browser_pre_submit';
+ }
+ 
+@@ -288,6 +321,34 @@ function _media_wysiwyg_wysiwyg_allowed_attributes_default() {
+  * Optional custom settings can override how the file is displayed.
+  */
+ function media_wysiwyg_get_file_without_label($file, $view_mode, $settings = array()) {
++  // Get the override alt & title from the fields override array. Grab the
++  // "special" field names from the token replacement in file_entity, then see
++  // if an override is provided and needed.
++  $pattern = '/\[(\w+):(\w+)\]/';
++  $alt = variable_get('file_entity_alt', '[file:field_file_image_alt_text]');
++  $title = variable_get('file_entity_title', '[file:field_file_image_title_text]');
++  $overrides = array(
++    'alt' => $alt,
++    'title' => $title,
++  );
++  foreach ($overrides as $field_type => $field_name) {
++    preg_match($pattern, $field_type, $matches);
++    if (!empty($matches[2])) {
++      $field_name = $matches[2];
++      $langcode = field_language('file', $file, $field_name);
++      if (isset($settings['fields'][$field_name][$langcode]['value'])) {
++        if (empty($settings['attributes'][$field_type])) {
++          $settings['attributes'][$field_type] = $settings['fields'][$field_name][$langcode]['value'];
++        }
++      }
++      if (isset($settings['fields'][$field_name][$langcode][0]['value'])) {
++        if (empty($settings['attributes'][$field_type])) {
++          $settings['attributes'][$field_type] = $settings['fields'][$field_name][$langcode][0]['value'];
++        }
++      }
++    }
++  }
++
+   $file->override = $settings;
+ 
+   $element = file_view_file($file, $view_mode);
+@@ -358,3 +419,17 @@ function media_wysiwyg_filter_fields_with_text_filtering($entity_type, $entity)
+ 
+   return $fields_with_text_filtering;
+ }
++
++/**
++ * Implements hook_file_displays_alter().
++ */
++function media_wysiwyg_file_displays_alter(&$displays, $file, $view_mode) {
++  // Override the fields of the file when requested by the WYSIWYG.
++  if (isset($file->override) && isset($file->override['fields'])) {
++    $instance = field_info_instances('file', $file->type);
++    foreach ($file->override['fields'] as $field_name => $value) {
++      if (!isset($instance[$field_name]['settings']) || !isset($instance[$field_name]['settings']['wysiwyg_override']) || $instance[$field_name]['settings']['wysiwyg_override']) {
++        $file->{$field_name} = $value;}
++    }
++  }
++}
