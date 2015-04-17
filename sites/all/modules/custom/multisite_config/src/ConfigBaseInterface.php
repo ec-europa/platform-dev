@@ -7,6 +7,11 @@
 
 namespace Drupal\multisite_config;
 
+/**
+ * Interface ConfigBaseInterface.
+ *
+ * @package Drupal\multisite_config.
+ */
 interface ConfigBaseInterface {
 
 }

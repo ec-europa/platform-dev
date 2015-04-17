@@ -2,20 +2,27 @@
 
 /**
  * @file
- * Contains \Drupal\og\Config
+ * Contains \Drupal\og\Config.
  */
 
 namespace Drupal\og;
 
 use Drupal\multisite_config\ConfigBase;
 
+/**
+ * Class Config.
+ *
+ * @package Drupal\og.
+ */
 class Config extends ConfigBase {
 
   /**
    * Add a group field to the specified entity.
    *
-   * @param  $entity
-   * @param  $bundle
+   * @param object $entity
+   *    Entity object.
+   * @param string $bundle
+   *    Entity bundle name.
    */
   public function createOgGroupField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -25,8 +32,10 @@ class Config extends ConfigBase {
   /**
    * Add a group access field to the specified entity.
    *
-   * @param  $entity
-   * @param  $bundle
+   * @param object $entity
+   *    Entity object.
+   * @param string $bundle
+   *    Entity bundle name.
    */
   public function createOgAccessField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -36,8 +45,10 @@ class Config extends ConfigBase {
   /**
    * Add a group audience field to the specified entity.
    *
-   * @param  $entity
-   * @param  $bundle
+   * @param object $entity
+   *    Entity object.
+   * @param string $bundle
+   *    Entity bundle name.
    */
   public function createOgGroupAudienceField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -47,8 +58,10 @@ class Config extends ConfigBase {
   /**
    * Add group_content_access field to the specified entity.
    *
-   * @param  $entity
-   * @param  $bundle
+   * @param object $entity
+   *    Entity object.
+   * @param string $bundle
+   *    Entity bundle name.
    */
   public function createOgContentAccessField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -58,8 +71,10 @@ class Config extends ConfigBase {
   /**
    * Add og_roles_permissions field to the specified entity.
    *
-   * @param  $entity
-   * @param  $bundle
+   * @param object $entity
+   *    Entity object.
+   * @param string $bundle
+   *    Entity bundle name.
    */
   public function createOgDefaultContentAccessField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -69,8 +84,9 @@ class Config extends ConfigBase {
   /**
    * Create a stub OG role object.
    *
-   * @param $name
+   * @param string $name
    *   A name of the role.
+   *
    * @return bool|int
    *    A stub OG role object.
    */
@@ -80,12 +96,17 @@ class Config extends ConfigBase {
   }
 
   /**
-   * Get OG role.
+   * Get OG role given group type, bundle and role name.
    *
-   * @param type $group_type
-   * @param type $group_bundle
-   * @param type $role
-   * @return type
+   * @param string $group_type
+   *    Group type.
+   * @param string $group_bundle
+   *    Group bundle.
+   * @param string $role
+   *    Role machine name.
+   *
+   * @return object
+   *    Role object, as fetched from the database.
    */
   public function getOgRole($group_type, $group_bundle, $role) {
     return db_select('og_role', 'r')
@@ -100,18 +121,17 @@ class Config extends ConfigBase {
   /**
    * Grant OG permissions.
    *
-   * @param $role_name
-   *    OG role machien name.
-   * @param type $permissions
+   * @param string $role_name
+   *    OG role machine name.
+   * @param mixed $permissions
    *    Array of permissions, each value is a permission string.
-   * @param type $module
+   * @param string $module
    *    Module machine name the permissions belong to.
-   * @return boolean
-   *    TRUE or FALSE.
-   * @throws \Exception
-   * @throws \InvalidMergeQueryException
+   *
+   * @return bool
+   *    TRUE if permission granting was successful, FALSE otherwise.
    */
-  public function grantOgPermissions($role_name, $permissions = array(), $entity, $entity_type, $module = '') {
+  public function grantOgPermissions($role_name, $permissions, $entity, $entity_type, $module = '') {
 
     // Due to a race condition problem in og_role_grant_permissions()
     // when ran during in installation profile we are forced to
@@ -134,4 +154,5 @@ class Config extends ConfigBase {
       return FALSE;
     }
   }
-} 
+
+}
