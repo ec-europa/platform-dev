@@ -217,8 +217,10 @@ projects[mailsystem][version] = "2.34"
 projects[maxlength][subdir] = "contributed"
 projects[maxlength][version] = "3.0-beta1"
 
-projects[media][subdir] = "contributed"
-projects[media][version] = "2.0-alpha3"
+projects[media][subdir] = contributed
+projects[media][download][type] = git
+projects[media][download][revision] = 64c5102
+projects[media][download][branch] = 7.x-2.x
 
 projects[media_crop][subdir] = "contributed"
 projects[media_crop][version] = "1.4"
