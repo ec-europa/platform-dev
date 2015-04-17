@@ -50,7 +50,7 @@ define('ECAS_DEFAULT_DEBUG_LOGPATH', 'phpCas.log');
 
 define('ECAS_DEFAULT_LOGIN_MESSAGE', 'Logged in via ECAS as %ecas_username.');
 define('ECAS_DEFAULT_WARNING_MESSAGE', 'Your account is not yet approved');
-define('ECAS_DEFAULT_MAIL_ADDRESS', 'unknown.mail@address.net');
+define('ECAS_DEFAULT_MAIL_ADDRESS', 'unknown.mail@nomail.nodomain.tld');
 
 define('ECAS_DEFAULT_PROFILE_FIRSTNAME_FIELD', 'field_firstname');
 define('ECAS_DEFAULT_PROFILE_LASTNAME_FIELD',  'field_lastname');
