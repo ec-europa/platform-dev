@@ -125,7 +125,7 @@ function ecas_extra_user_update($edit, $account, $category = NULL) {
 function ecas_extra_mail($key, &$message, $params) {
   if ($key == 'deny_account') {
     $language = $message['language'];
-    $mail_from = variable_get('site_mail', 'system@noreply.com');
+    $mail_from = variable_get('site_mail', ini_get('sendmail_from'));
     $message['from'] = $mail_from;
     $message['headers'] = array(
       'MIME-Version' => '1.0',
