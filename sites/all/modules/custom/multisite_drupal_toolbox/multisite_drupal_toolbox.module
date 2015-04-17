@@ -207,21 +207,24 @@ function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_media_token_to_markup_alter().
+ * Implements hook_media_wysiwyg_token_to_markup_alter().
  */
-function multisite_drupal_toolbox_media_token_to_markup_alter(&$element, &$tag_info, &$settings) {
+function multisite_drupal_toolbox_media_wysiwyg_token_to_markup_alter(&$element, &$tag_info, &$settings) {
   // Add bootstrap responsive class.
   $element['content']['file']['#attributes']['class'][] = "img-responsive";
-
-  // Use fancybox for all image insert in content
-  // with the "insert media" button of the wysiwyg.
-  if (isset($element['content']['file']['#theme']) && ($element['content']['file']['#theme'] == 'image_style')) {
-    $element['content']['#prefix'] = '<div><a href="' . file_create_url($element['content']['file']['#file']->uri) . '" class="fancybox">';
-    $element['content']['#suffix'] = '</a></div>';
-  }
+  $element['content']['file']['#attributes']['class'][] = "img-responsive3";
 
   // Add the media img css styles to the containing div.
-  if (isset($element['content']['#bundle']) && ($element['content']['#bundle'] == 'image')) {
+  if (isset($element['content']['#bundle'])
+    && ($element['content']['#bundle'] == 'image')) {
+
+    // Wrap element in a fancybox hyperlink.
+    if (isset($element['content']['file']['#theme'])
+      && ($element['content']['file']['#theme']) == 'image_style') {
+      $element['content']['file']['#prefix'] = '<div><a href="' . file_create_url($element['content']['file']['#file']->uri) . '" class="fancybox">';
+      $element['content']['file']['#suffix'] = '</a></div>';
+    };
+
     if (isset($element['content']['file']['#item']['attributes']['style'])) {
       $style = $element['content']['file']['#item']['attributes']['style'];
       // Add the img style to the containing div.
@@ -234,7 +237,6 @@ function multisite_drupal_toolbox_media_token_to_markup_alter(&$element, &$tag_i
     $element['content']['file']['#item']['alt'] = $tag_info['attributes']['alt'];
     $element['content']['file']['#item']['title'] = $tag_info['attributes']['alt'];
   }
-
 }
 
 /**
@@ -1249,7 +1251,7 @@ function multisite_drupal_toolbox_tokens_alter(array &$replacements, array $cont
 /**
  * Implements hook_mail_alter().
  *
- * Replace 'recipient_user' tokens 
+ * Replace 'recipient_user' tokens
  * 'recipient_user' can be used on every mail.
  */
 function multisite_drupal_toolbox_mail_alter(&$message) {

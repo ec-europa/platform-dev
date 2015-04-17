@@ -5,7 +5,7 @@
  */
 
 .jstree-ec-default { background-color: #015F99; background-image: none; filter:progid:DXImageTransform.Microsoft.gradient(enabled=false); border-color: #074A8B; border-radius: 4px;}
-.jstree-ec-default a { display: block; overflow: hidden; -ms-text-overflow: ellipsis; text-overflow: ellipsis; color: #fff; height: 22px; line-height: 22px; padding: 0px 4px;}
+.jstree-ec-default a { display: block; overflow: hidden; -ms-text-overflow: ellipsis; text-overflow: ellipsis; color: #fff; height: auto; line-height: 22px; padding: 0px 4px;}
 .jstree-ec-default a:hover { background-color: #074581; color: #fff; border-radius: 4px;}
 .jstree-ec-default a.active,
 .jstree-ec-default a.active:hover { background-color: #043F72; color: #fff; border-radius: 4px;}
@@ -18,22 +18,26 @@
 .jstree-ec-default .jstree-closed > ins { background-position:-56px 0; cursor: pointer; float: left;}
 .jstree-ec-default .jstree-leaf > ins { background-position:-38px 0;}
 
-.jstree-ec-default > ul > li { margin-left: 0;}
-.jstree-ec-default ul.taxonomy-tree { background-color: #1B6FB8; border-radius: 4px; border: 1px solid #074A8B;}
-.jstree-ec-default ul.taxonomy-tree a:hover { border-radius: 4px 0 0 4px;}
-.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree { background-color: #3489CB; border-color: #015F99; border-radius: 4px 0 0 4px; border-right-width: 0;}
-.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #5E9ED3; border-color: #1B6FB8;}
-.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a { color: #333;}
-.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a:hover { color: #fff;}
-.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #9BC9EB; border-color: #3489CB;}
-.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a { color: #333;}
-.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a:hover { color: #fff;}
-.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #C3E5FC; border-color: #5E9ED3;}
-.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a { color: #333;}
-.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a:hover { color: #fff;}
-.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #F9F9FF; border-color: #9BC9EB;}
-.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a { color: #333;}
-.jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a:hover { color: #fff;}
+/* Manage display */
+#tb_browser .jstree-ec-default > ul > li { margin-left: 0;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree { padding-left: 8px; border-radius: 4px; border: 1px solid transparent;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree a:hover { border-radius: 4px 0 0 4px; text-decoration: none;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree { border-radius: 4px 0 0 4px; border-right-width: 0;}
+
+/* Manage colors */
+#tb_browser .jstree-ec-default ul.taxonomy-tree { background-color: #1B6FB8; border-color: 1px solid #074A8B;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree { background-color: #3489CB; border-color: #015F99;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #5E9ED3; border-color: #1B6FB8;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #9BC9EB; border-color: #3489CB;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a { color: #333;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a:hover { color: #fff;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #C3E5FC; border-color: #5E9ED3;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a { color: #333;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a:hover { color: #fff;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree { background-color: #F9F9FF; border-color: #9BC9EB;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a { color: #333;}
+#tb_browser .jstree-ec-default ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree ul.taxonomy-tree a:hover { color: #fff;}
+
 
 #tb_browser .jstree-ec-default .jstree-hovered { background:#e7f4f9; padding:3px 5px 3px 1px; }
 #tb_browser .jstree-ec-default .jstree-clicked { background:#00609C; padding:3px 5px 3px 1px; color: #fff; font-weight: normal; text-shadow:0 0 1px rgba(0, 0, 0, 0.5); -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: @radius;border-radius:5px; }

@@ -1,7 +1,7 @@
-<?php 
+<?php
 /**
  * @file
- * nexteuropa_multilingual install file
+ * Nexteuropa_multilingual install file.
  */
 
 /**
@@ -38,6 +38,14 @@ function nexteuropa_multilingual_install() {
 
   // Set translatable states for TMGMT Workbench module.
   multisite_config_service('system')->setVariable('tmgmt_workbench_moderation_states', array('validated', 'published'));
+
+  // Disable multisite_drupal_language_negociation (
+  // redundant with nexteuropa_multilingual)
+  module_disable(array('multisite_drupal_language_negociation'));
+
+  // IPG URL rules : use the token [node:source:title] to have always the
+  // english title in the URL.
+  variable_set('pathauto_node_pattern', 'content/[node:source:title]');
 
   // Remove old language switcher block.
   multisite_drupal_toolbox_remove_block_context('site_wide', 'language');

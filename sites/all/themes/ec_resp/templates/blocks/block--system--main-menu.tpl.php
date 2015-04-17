@@ -43,8 +43,6 @@
  *
  * @ingroup themeable
  */
-
-global $base_url;
 ?>
 
 <div id="main-menu" class="<?php print $classes; ?>">
