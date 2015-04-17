@@ -1,4 +1,9 @@
-<?php 
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the nexteuropa_pages feature.
+ */
 
 /**
  * Implements hook_install().
@@ -8,4 +13,3 @@ function nexteuropa_pages_install() {
   // Apply default NextEuropa configuration to "Basic Page" content type.
   multisite_config_service('nexteuropa_core')->applyDefaultConfigurationToContentType('page');
 }
-
