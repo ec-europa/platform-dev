@@ -439,29 +439,6 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
 }
 
 /**
- * Implements hook_theme_registry_alter().
- */
-function multisite_drupal_toolbox_theme_registry_alter(&$theme_registry) {
-  // Use our own function to display status messages.
-  $theme_registry['status_messages']['function'] = "multisite_drupal_toolbox_messages";
-}
-
-/**
- * Custom function to override the drupal status message.
- */
-function multisite_drupal_toolbox_messages($variables) {
-  global $user;
-  $message = "";
-  $rid = multisite_drupal_toolbox_get_rid('administrator');
-  if (variable_get('alert_message_enable', FALSE) && isset($user->roles[$rid])) {
-    $message = '<div id="alter_message" class="messages warning">' . variable_get('alert_message_body', "") . '</div>';
-  }
-  $output = theme_status_messages($variables);
-  $output = $message . $output;
-  return $output;
-}
-
-/**
  * Public function to disable a content type.
  */
 function multisite_drupal_toolbox_disable_content_type($type) {
