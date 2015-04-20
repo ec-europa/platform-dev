@@ -85,4 +85,4 @@ projects[drupal][patch][] = ../multisite_drupal_core/patches/taxonomy-xss_taxono
 projects[views][patch][] = ../multisite_drupal_core/patches/views-xss_views-more_tpl-1661.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/views-xss_views-view-summary_tpl-1663.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/xss_views-view-summary-unformatted_tpl-1662.patch
-
+projects[context_entity_field][patch][] = ../multisite_drupal_core/patches/add-entity-references-1847038.patch
