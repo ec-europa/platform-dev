@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\block\Config.
+ * Contains \Drupal\comment\Config
  */
 
-namespace Drupal\block;
+namespace Drupal\comment;
 
 use Drupal\multisite_config\ConfigBase;
 
@@ -17,29 +17,29 @@ use Drupal\multisite_config\ConfigBase;
 class Config extends ConfigBase {
 
   /**
-   * Set region for a block.
+   * Set default comment setting for a specific content type.
    *
-   * @param string $module
-   *    Module name.
-   * @param string $delta
-   *    Block delta.
-   * @param string $region
-   *    Theme region.
-   * @param string $theme_name
-   *    Theme machine name.
-   *
-   * @return mixed
-   *    Query execution state.
+   * @param type $content_type
+   *    Content type machine name
+   * @param string $value
+   *    Value to be set (human readable)
    */
-  public function setBlockRegion($module, $delta, $region, $theme_name = NULL) {
+  public function setDefaultCommentForContentType($content_type, $value) {
+    switch ($value) {
+      case 'open':
+      default:
+        $value_id = 2;
+      break;
 
-    $theme_name = $theme_name ? $theme_name : $this->getCurrentTheme();
-    $query = db_update('block')
-      ->fields(array('region' => $region, 'status' => 1))
-      ->condition('module', $module)
-      ->condition('theme', $theme_name)
-      ->condition('delta', $delta);
-    return $query->execute();
+      case 'closed':
+        $value_id = 1;
+      break;
+
+      case 'hidden':
+        $value_id = 0;
+      break;
+    }
+    variable_set('comment_' . $content_type, $value_id);
   }
 
 }
