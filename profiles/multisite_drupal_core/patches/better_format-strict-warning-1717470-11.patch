@@ -1,0 +1,14 @@
+diff --git a/better_formats.module b/better_formats.module
+index 8cfd34f..64abe4f 100644
+--- a/better_formats.module
++++ b/better_formats.module
+@@ -129,7 +129,8 @@ function better_formats_filter_process_format($element) {
+           }
+         }
+         $element['format']['format']['#options'] = $options;
+-        $element['format']['format']['#default_value'] = array_shift(array_keys($options));
++        $options_keys = array_keys($options);
++        $element['format']['format']['#default_value'] = array_shift($options_keys);
+       }
+     }
+ 

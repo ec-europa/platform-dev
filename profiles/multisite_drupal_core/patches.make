@@ -7,6 +7,7 @@ projects[admin_menu][patch][] = ../multisite_drupal_core/patches/admin_menu-corr
 projects[admin_menu][patch][] = ../multisite_drupal_core/patches/admin_menu-ie6detect-1961178-2.patch
 projects[advanced_help][patch][] = ../multisite_drupal_core/patches/advanced_help-solve_error_message-2202.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/ajax-js_url_suffix.patch
+projects[better_formats][patch][] = ../multisite_drupal_core/patches/better_format-strict-warning-1717470-11.patch
 projects[fullcalendar][patch][] = ../multisite_drupal_core/patches/fullcalendar-ajax_date_format-2185449-11.patch
 projects[apachesolr][patch][] = ../multisite_drupal_core/patches/apachesolr-attachment_indexation-481.patch
 projects[apachesolr_attachments][patch][] = ../multisite_drupal_core/patches/apachesolr_attachments-bypass_deadlocks-1854088-9.patch
