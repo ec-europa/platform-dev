@@ -1,0 +1,10 @@
+--- plugins/context_condition_entity_field.inc
++++ plugins/context_condition_entity_field.inc
+@@ -159,6 +159,7 @@ class context_condition_entity_field extends context_condition {
+       'taxonomy_term_reference' => 'tid',
+       'node_reference' => 'nid',
+       'user_reference' => 'uid',
++      'entityreference' => 'target_id',
+     );
+ 
+     // Extract values_keys for current field.
