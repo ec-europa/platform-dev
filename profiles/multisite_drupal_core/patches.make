@@ -2,6 +2,7 @@ projects[drupal][patch][] = ../multisite_drupal_core/patches/entity-entity_load_
 projects[drupal][patch][] = ../multisite_drupal_core/patches/form-form_anonymous_no_token-1617918-17.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/user-drupal.d7.user-password-reset-logged-in-889772.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/user-user_picture_deleted_user_save_call-935592-65.patch
+projects[drupal][patch][] = ../multisite_drupal_core/patches/default-settings-php-include-local-settings-3154.patch
 projects[admin_menu][patch][] = ../multisite_drupal_core/patches/admin_menu-undefined_index_name-1997386-3.patch
 projects[admin_menu][patch][] = ../multisite_drupal_core/patches/admin_menu-correctly_display-2360249-74.patch
 projects[admin_menu][patch][] = ../multisite_drupal_core/patches/admin_menu-ie6detect-1961178-2.patch

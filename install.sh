@@ -88,8 +88,8 @@ while getopts "i:b:t:d:s:vcrfhk?-:" option; do
         esac
 done
 
-if [ -f "${script_dir}/deploy_scripts/lib/colors.sh" ] && [ "$color" != 0 ]; then
-	source "${script_dir}/deploy_scripts/lib/colors.sh"
+if [ -f "${script_dir}/colors.sh" ] && [ "$color" != 0 ]; then
+	source "${script_dir}/colors.sh"
 fi
 #------------------------#
 #     ARGUMENTS CHECK    #
@@ -295,6 +295,7 @@ mv "${working_dir}" "${webroot}"
 __fix_perms "${webroot}"
 
 __echo "\nSite installed on ${IBlue}${webroot}/${site_name}${Color_Off}" 'status'
+
 
 
 
