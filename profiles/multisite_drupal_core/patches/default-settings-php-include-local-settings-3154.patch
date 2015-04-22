@@ -1,0 +1,23 @@
+--- sites/default/default.settings.php	2015-04-22 10:53:43.898981149 +0200
++++ sites/default/default.settings.php	2015-04-22 10:58:21.371284429 +0200
+@@ -1,5 +1,10 @@
+ <?php
+ 
++$local_settings = getenv('DRUPAL_LOCAL_SETTINGS_LOCATION');
++if (file_exists($local_settings)){
++  include($local_settings);
++}
++
+ /**
+  * @file
+  * Drupal site-specific configuration file.
+@@ -583,3 +588,9 @@
+  * Remove the leading hash signs to disable.
+  */
+ # $conf['allow_authorize_operations'] = FALSE;
++
++$local_settings_post = str_replace('.php', '.post.php', $local_settings);
++if (file_exists($local_settings_post)){
++ include($local_settings_post);
++}
++
