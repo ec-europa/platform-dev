@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="${subsite.name}" default="help">
+
+    <!-- If `build.properties.local` exists then we want it badly -->
+    <property file="build.properties.local" />
+    <property file="build.properties" />
+    <property file="build.properties.dist" />
+
+    <target name="help" description="Phing target list">
+        <exec executable="${phing.bin}"
+              passthru="true">
+            <arg value="-l"/>
+        </exec>
+    </target>
+
+    <target name="init">
+        <echo msg="Loading Drush task." />
+        <taskdef name="drush" classname="DrushTask" />
+    </target>
+
+    <!-- Execute drush make file and download profile. -->
+    <target name="make-platform" depends="init">
+        <if>
+            <available file="${drupal.settings.dir}" type="dir" />
+            <then>
+                <chmod mode="0777" failonerror="false" verbose="false" quiet="true">
+                    <fileset dir="${drupal.settings.dir}" />
+                </chmod>
+            </then>
+        </if>
+
+        <echo msg="Delete previous build." />
+        <delete dir="${phing.project.build.dir}" includeemptydirs="true" failonerror="false" />
+
+        <echo msg="Make the distribution." />
+        <drush
+            command="make"
+            assume="yes"
+            bin="${drush.bin}"
+            pipe="yes"
+            root="${phing.project.build.dir}">
+            <param>${drupal.platform.profile.dir}/${drupal.profile.name}/build.make</param>
+            <param>${phing.project.build.dir}</param>
+            <!--
+              High concurrency used because of make problems.
+              @see https://github.com/drush-ops/drush/issues/985
+            -->
+            <option name="concurrency">11</option>
+        </drush>
+
+        <echo msg="Copy platform files." />
+        <copy todir="${phing.project.build.dir}">
+            <fileset dir="${platform.code.dir}">
+              <patternset>
+                <exclude name="**/*.svn"/>
+                <exclude name="**/automation/"/>
+                <exclude name="crawling_scripts/"/>
+                <exclude name="custom_subsites/"/>
+                <exclude name="deploy_scripts/"/>
+                <exclude name="dev/"/>
+                <exclude name="**/*.sh"/>
+              </patternset>
+          </fileset>
+        </copy>
+    </target>
+
+    <!-- Link custom modules. -->
+    <target name="link-modules" depends="init,make-platform">
+        <symlink link="${drupal.modules.dir}/custom" target="${project.modules.dir}" />
+        <symlink link="${drupal.themes.dir}/custom" target="${project.themes.dir}" />
+        <symlink link="${drupal.source.dir}" target="${project.source.dir}" />
+    </target>
+
+    <!-- Copy custom modules. -->
+    <target name="copy-modules" depends="init,make-platform">
+        <copy todir="${drupal.modules.dir}">
+            <fileset dir="modules" />
+        </copy>
+        <copy todir="${drupal.themes.dir}">
+            <fileset dir="themes" />
+        </copy>
+        <copy todir="${drupal.libraries.dir}">
+            <fileset dir="libraries" />
+        </copy>
+    </target>
+
+    <target name="link-docroot" description="Link site document root to Apache document root">
+        <symlink link="${server.docroot}" target="${project.code.dir}" overwrite="true" />
+    </target>
+
+    <!-- Link test files into the build root. -->
+    <target name="link-tests" depends="init,make-platform">
+        <if>
+            <not>
+                <available file="${project.basedir}/tests/behat.yml" type="file" />
+            </not>
+            <then>
+                <echo msg="Creating behat.yml config file" />
+                <loadfile property="behat.yml" file="${project.basedir}/tests/behat.yml.dist">
+                    <filterchain>
+                        <replacetokens>
+                            <token key="project.code.dir" value="${project.code.dir}" />
+                            <token key="drupal.site.dir" value="${drupal.site.dir}" />
+                            <token key="behat.base_url" value="${behat.base_url}" />
+                        </replacetokens>
+                    </filterchain>
+                </loadfile>
+                <echo msg="${behat.yml}" file="${project.basedir}/tests/behat.yml" />
+            </then>
+        </if>
+        <symlink link="${phing.project.build.dir}/behat.yml" target="../tests/behat.yml" />
+        <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
+    </target>
+
+    <!-- Make files directory. -->
+    <target name="files-directory" depends="init">
+        <mkdir dir="${drupal.files.dir}" />
+        <chmod file="${drupal.files.dir}" mode="0775" failonerror="true" />
+    </target>
+
+    <!-- Manipulate settings.php file. -->
+    <target name="create-settings.php" depends="init">
+        <echo msg="Copying default.settings.php file to settings.php..." />
+        <copy file="${drupal.settings.dir}/default.settings.php" tofile="${drupal.settings.dir}/settings.php" />
+        <chmod file="${drupal.settings.dir}/settings.php" mode="0775" failonerror="true" />
+    </target>
+
+    <!-- Backup settings.php file. -->
+    <target name="backup-local-files" depends="init">
+        <if>
+            <available file="${drupal.settings.dir}/settings.php" type="file" />
+            <then>
+                <echo msg="Creating backup of settings.php file" />
+                <mkdir dir="${project.basedir}/${phing.project.tmp.dir}" />
+                <chmod file="${drupal.settings.dir}/settings.php" mode="0777" failonerror="false" verbose="false" quiet="true" />
+                <copy file="${drupal.settings.dir}/settings.php" toDir="${project.basedir}/${phing.project.tmp.dir}" />
+            </then>
+            <else>
+              <echo msg="No settings.php file found. Proceeding with normal build." />
+            </else>
+        </if>
+    </target>
+
+    <!-- Backup settings.php file. -->
+    <target name="restore-local-files" depends="init">
+        <if>
+            <available file="${project.basedir}/${phing.project.tmp.dir}/settings.php" type="file" />
+            <then>
+                <echo msg="Restoring settings.php file from backup." />
+                <copy file="${project.basedir}/${phing.project.tmp.dir}/settings.php" tofile="${drupal.settings.dir}/settings.php" />
+                <echo msg="Clean-up temporary folder." />
+                <delete dir="${project.basedir}/${phing.project.tmp.dir}" includeemptydirs="true" failonerror="false" />
+            </then>
+            <else>
+              <echo msg="No backup settings.php file found. Proceeding with normal build." />
+            </else>
+        </if>
+    </target>
+
+    <!-- Install dependencies. -->
+    <target name="install-dependencies" description="Install dependencies." depends="init">
+        <composer command="install" composer="${composer.bin}">
+            <arg value="--working-dir=${project.code.dir}" />
+        </composer>
+    </target>
+
+    <!-- Install drupal. -->
+    <target name="install-drupal" description="Run the install." depends="init">
+        <drush command="site-install" assume="yes" root="${project.basedir}/${phing.project.build.dir}" bin="${drush.bin}" verbose="true">
+            <option name="db-url" value="${drupal.db.url}"/>
+            <option name="site-name" value="${phing.project.name}"/>
+            <option name="account-name" value="${drupal.admin.username}"/>
+            <option name="account-pass" value="${drupal.admin.password}"/>
+            <option name="account-mail" value="${drupal.admin.email}"/>
+            <param>${drupal.profile.name}</param>
+        </drush>
+    </target>
+
+    <!-- Enable modules. -->
+    <target name="enable-drupal-modules" description="Enable Drupal modules." depends="install-drupal">
+        <drush command="pm-enable" assume="yes" root="${project.basedir}/${phing.project.build.dir}" bin="${drush.bin}">
+            <param>${drupal.modules}</param>
+            <param>--quiet</param>
+        </drush>
+    </target>
+
+    <!-- Run behat tests. -->
+    <target name="behat-tests" description="Run behat tests." depends="init">
+        <exec command="${behat.bin}"
+              logoutput="true"
+              checkreturn="true"
+              dir="${project.code.dir}"
+              passthru="true" />
+    </target>
+
+    <!-- Delete the platform. -->
+    <target name="delete-platform" description="Deletes the downloaded platform files." depends="init">
+        <echo msg="Deleting platform files." />
+        <delete dir="${platform.code.dir}" includeemptydirs="true" failonerror="false" />
+    </target>
+
+    <!-- Clone the platform. -->
+    <target name="clone-platform" description="Clone the platform with git." depends="init">
+        <if>
+            <available file="${platform.code.dir}/.git" type="dir" />
+            <then>
+                <echo msg="The platform is already cloned." />
+                <phingcall target="checkout-platform" />
+                <phingcall target="pull-platform" />
+            </then>
+            <else>
+                <echo msg="Cloning platform." />
+                <gitclone
+                    repository="${platform.repo.url}"
+                    targetPath="${platform.code.dir}"
+                />
+                <phingcall target="checkout-platform" />
+            </else>
+        </if>
+    </target>
+
+    <!-- Update the platform. -->
+    <target name="fetch-platform" description="Fetch latest platform changes." depends="init">
+        <if>
+            <available file="${platform.code.dir}/.git" type="dir" />
+            <then>
+                <echo msg="Updating platform repository." />
+                <gitfetch repository="${platform.code.dir}" all="true" />
+            </then>
+            <else>
+                <fail msg="Platform update failed: the platform has not been downloaded." />
+            </else>
+        </if>
+    </target>
+
+    <!-- Check out the platform. -->
+    <target name="checkout-platform" description="Check out a particular commit of the platform." depends="init">
+        <if>
+            <available file="${platform.code.dir}/.git" type="dir" />
+            <then>
+                <echo msg="Checking out ref '${platform.repo.branch}'." />
+                <gitcheckout
+                    repository="${platform.code.dir}"
+                    branchname="${platform.repo.branch}"
+                />
+            </then>
+            <else>
+                <fail msg="Platform checkout failed: the platform has not been downloaded." />
+            </else>
+        </if>
+    </target>
+
+    <!-- Fetch and merge latest platform changes. -->
+    <target name="pull-platform" description="Fetch and merge latest platform changes." depends="init">
+        <if>
+            <available file="${platform.code.dir}/.git" type="dir" />
+            <then>
+                <echo msg="Fetching and merging platform repository." />
+                <gitpull repository="${platform.code.dir}" all="true" />
+            </then>
+            <else>
+                <fail msg="Platform pull failed: the platform has not been downloaded." />
+            </else>
+        </if>
+    </target>
+
+    <target name="build-dev"
+            description="Build a local development version of the site."
+            depends="init, clone-platform, make-platform, link-modules, link-tests, files-directory, create-settings.php" />
+
+    <target name="rebuild-dev"
+            description="Rebuild the local development version, keeping settings.php and files intact."
+            depends="init, backup-local-files, fetch-platform, make-platform, link-modules, link-tests, files-directory, create-settings.php, restore-local-files" />
+
+    <target name="build-dist"
+            description="Build the Drupal site in order to install it"
+            depends="init, make-platform, copy-modules, files-directory, create-settings.php" />
+
+    <target name="install"
+            description="Install the Drupal site"
+            depends="files-directory, install-drupal, enable-drupal-modules" />
+
+    <target name="test"
+            description="Run tests."
+            depends="behat-tests" />
+</project>
