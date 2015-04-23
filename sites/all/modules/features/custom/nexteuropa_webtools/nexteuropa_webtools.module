@@ -1,0 +1,24 @@
+<?php
+/**
+ * @file
+ * Code for the NextEuropa webtools feature.
+ */
+
+include_once 'nexteuropa_webtools.features.inc';
+
+define('NEXTEUROPA_WEBTOOLS_BEAN_BUNDLE', 'webtools');
+
+
+/**
+ * Implements hook_field_attach_view_alter().
+ *
+ * Add prefix and suffix on 'field_json_object' field of 'webtools' entities.
+ */
+function nexteuropa_webtools_field_attach_view_alter(&$output, $context) {
+  if ($output['#entity_type'] == 'bean' && $output['#bundle'] == NEXTEUROPA_WEBTOOLS_BEAN_BUNDLE) {
+    if (isset ($output['field_json_object']) && isset ($output['field_json_object']['0']['#markup'])) {
+      $output['field_json_object'][0]['#prefix'] = "<!--script type=\"application/json\">";
+      $output['field_json_object'][0]['#suffix'] = "</script-->";
+    }
+  }
+}
