@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="NextEuropa" default="help">
+
+    <!-- If `build.properties.local` exists then we want it badly -->
+    <property file="build.properties.local" />
+    <property file="build.properties" />
+    <property file="build.properties.dist" />
+
+    <target name="help" description="Phing target list">
+        <exec executable="${phing.bin}"
+              passthru="true">
+            <arg value="-l"/>
+        </exec>
+    </target>
+
+    <echo msg="Loading Drush task." />
+    <taskdef name="drush" classname="DrushTask" />
+
+    <!-- Execute drush make file and download profile. -->
+    <target name="make-platform">
+        <if>
+            <available file="${drupal.settings.dir}" type="dir" />
+            <then>
+                <chmod mode="0777" failonerror="false" verbose="false" quiet="true">
+                    <fileset dir="${drupal.settings.dir}" />
+                </chmod>
+            </then>
+        </if>
+
+        <echo msg="Delete previous build." />
+        <delete dir="${phing.project.build.dir}" includeemptydirs="true" failonerror="false" />
+
+        <echo msg="Make the distribution." />
+        <drush
+            command="make"
+            assume="yes"
+            bin="${drush.bin}"
+            pipe="yes"
+            verbose="${drush.verbose}"
+            root="${phing.project.build.dir}">
+            <param>${drupal.platform.profile.dir}/${drupal.profile.name}/build.make</param>
+            <param>${phing.project.build.dir}</param>
+            <!--
+              High concurrency used because of make problems.
+              @see https://github.com/drush-ops/drush/issues/985
+            -->
+            <option name="concurrency">11</option>
+        </drush>
+
+        <echo msg="Copy platform files." />
+        <copy todir="${phing.project.build.dir}">
+            <fileset dir="${platform.basedir}">
+              <patternset>
+                <exclude name="**/*.svn"/>
+                <exclude name="**/automation/"/>
+                <exclude name="crawling_scripts/"/>
+                <exclude name="custom_subsites/"/>
+                <exclude name="deploy_scripts/"/>
+                <exclude name="dev/"/>
+                <exclude name="**/*.sh"/>
+              </patternset>
+          </fileset>
+        </copy>
+    </target>
+
+    <!-- Manipulate settings.php file. -->
+    <target name="create-settings.php">
+        <echo msg="Copying default.settings.php file to settings.php..." />
+        <copy file="${drupal.settings.dir}/default.settings.php" tofile="${drupal.settings.dir}/settings.php" />
+        <chmod file="${drupal.settings.dir}/settings.php" mode="0775" failonerror="true" />
+    </target>
+
+    <!-- Install dependencies. -->
+    <target name="install-dependencies" description="Install dependencies.">
+        <composer command="install" composer="${composer.bin}">
+            <arg value="--working-dir=${project.code.dir}" />
+        </composer>
+    </target>
+
+    <!-- Install drupal. -->
+    <target name="install-drupal" description="Run the install.">
+        <drush
+            command="site-install"
+            assume="yes"
+            root="${platform.basedir}/${phing.project.build.dir}"
+            bin="${drush.bin}"
+            verbose="${drush.verbose}">
+            <option name="db-url" value="${drupal.db.url}"/>
+            <option name="site-name" value="${phing.project.name}"/>
+            <option name="account-name" value="${drupal.admin.username}"/>
+            <option name="account-pass" value="${drupal.admin.password}"/>
+            <option name="account-mail" value="${drupal.admin.email}"/>
+            <param>${drupal.profile.name}</param>
+        </drush>
+    </target>
+
+    <!-- Enable modules. -->
+    <target name="enable-drupal-modules" description="Enable Drupal modules." depends="install-drupal">
+        <drush
+            command="pm-enable"
+            assume="yes"
+            root="${platform.basedir}/${phing.project.build.dir}"
+            bin="${drush.bin}"
+            verbose="${drush.verbose}">
+            <param>${drupal.development.modules}</param>
+            <param>--quiet</param>
+        </drush>
+    </target>
+
+    <target name="build-dev"
+            description="Build a local development version of the site."
+            depends="make-platform" />
+
+    <target name="build-dist"
+            description="Build the Drupal site in order to install it"
+            depends="make-platform" />
+
+    <target name="install"
+            description="Install the Drupal site"
+            depends="create-settings.php, install-drupal, enable-drupal-modules" />
+
+</project>
