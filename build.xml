@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="${platform.name}" default="help">
+<project name="NextEuropa" default="help">
 
     <!-- If `build.properties.local` exists then we want it badly -->
     <property file="build.properties.local" />
