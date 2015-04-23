@@ -41,6 +41,9 @@ drupal.make = ${drupal.platform.profile.dir}/${drupal.profile.name}/build.make
 # Platform configuration
 # ----------------------
 
+# The name of the platform.
+platform.name = "NextEuropa"
+
 # The root directory of our platform, in order to be able to override it when
 # building from a subsite.
 platform.basedir = ${project.basedir}
@@ -62,17 +65,6 @@ platform.repo.protocol = https
 platform.repo.domain = webgate.ec.europa.eu
 platform.repo.path = CITnet/stash/scm/nexteuropa/platform-${platform.repo.repo}.git
 platform.repo.url = ${platform.repo.protocol}://${platform.repo.user}@${platform.repo.domain}/${platform.repo.path}
-
-# Subsite configuration
-# ---------------------
-
-# The name of the subsite.
-subsite.name = Subsite starterkit
-
-# The make file for the subsite.
-subsite.make = build.make
-
-
 
 # Paths
 # -----
