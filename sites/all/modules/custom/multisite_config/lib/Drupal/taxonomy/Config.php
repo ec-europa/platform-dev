@@ -2,28 +2,37 @@
 
 /**
  * @file
- * Contains \Drupal\taxonomy\Config
+ * Contains \Drupal\taxonomy\Config.
  */
 
 namespace Drupal\taxonomy;
 
 use Drupal\multisite_config\ConfigBase;
 
+/**
+ * Class Config.
+ *
+ * @package Drupal\taxonomy.
+ */
 class Config extends ConfigBase {
 
   /**
-   * Create a taxonomy term for a given vocabulary
+   * Create a vocabulary.
    *
-   * @param $vocabulary
-   *    Vocabulary machine name
-   * @param $name
-   *    Term name
-   * @param $parent
-   *    Eventual parent name
-   * @return bool|int
+   * @param string $machine_name
+   *    Vocabulary machine name.
+   * @param string $name
+   *    Vocabulary human readable name.
+   * @param string $description
+   *    Vocabulary description.
+   * @param int $hierarchy
+   *    If hierarchical or not.
+   *
+   * @return object
+   *    Return vocabulary object.
    */
   public function createVocabulary($machine_name, $name, $description = '', $hierarchy = 1) {
-    $vocabulary = new \stdClass;
+    $vocabulary = new \stdClass();
     $vocabulary->name = $name;
     $vocabulary->machine_name = $machine_name;
     $vocabulary->description = $description;
@@ -32,15 +41,17 @@ class Config extends ConfigBase {
   }
 
   /**
-   * Create a taxonomy term for a given vocabulary
+   * Create a taxonomy term for a given vocabulary.
    *
-   * @param $vocabulary
-   *    Vocabulary machine name
-   * @param $name
-   *    Term name
-   * @param $parent
-   *    Eventual parent name
-   * @return bool
+   * @param string $vocabulary
+   *    Vocabulary machine name.
+   * @param string $name
+   *    Term name.
+   * @param string $parent
+   *    Eventual parent name.
+   *
+   * @return object|bool
+   *    Return new term object or FALSE.
    */
   public function createTaxonomyTerm($vocabulary, $name, $parent = NULL) {
 
@@ -77,4 +88,5 @@ class Config extends ConfigBase {
     }
     return FALSE;
   }
-} 
+
+}

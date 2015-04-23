@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * EUROPA search module
+ * EUROPA search module.
  */
 
 define('NEXTEUROPA_EUROPA_SEARCH_EUROPA_SEARCH_URL', 'http://ec.europa.eu/geninfo/query/resultaction.jsp');
@@ -98,7 +98,9 @@ function nexteuropa_europa_search_search_form() {
 
 /**
  * Defines a given language code to be used by Europa Search.
+ *
  * @global type $language
+ *
  * @return string
  *   The language code
  */

@@ -5,7 +5,7 @@
  */
 
 /**
- * Implements theme_preprocess().
+ * Implements template_preprocess().
  */
 function ec_resp_preprocess(&$variables) {
   if (isset($variables['form']['#form_id'])) {
@@ -19,8 +19,11 @@ function ec_resp_preprocess(&$variables) {
           $output = '';
           $output .= '<li>';
           $output .= '<a class="list-group-item feature-set-category">' . $category . '</a>';
-          $output .= '<table class="feature-set-content table table-striped table-hover">';
-          $output .= '<tbody>';
+          $table = array(
+            'header' => NULL,
+            'rows' => array(),
+            'attributes' => array('class' => array('feature-set-content table table-striped table-hover')),
+          );
           foreach ($features as $key => $item) {
 
             // Get the icon if available.
@@ -46,15 +49,14 @@ function ec_resp_preprocess(&$variables) {
               $feature_content .= '<small>' . $item['#featuresetinfo']['description'] . '</small>';
             }
             $feature_content .= '</blockquote>';
-
-            $output .= '<tr>';
-            $output .= '<td class="feature-set-image">' . $feature_icon . '</td>';
-            $output .= '<td class="feature_set_content">' . $feature_content . '</td>';
-            $output .= '<td class="feature_set_switcher">' . render($item) . '</td>';
-            $output .= '</tr>';
+            $table['rows'][] = array(
+              array('data' => $feature_icon, 'class' => 'feature-set-image'),
+              array('data' => $feature_content, 'class' => 'feature_set_content'),
+              array('data' => render($item), 'class' => 'feature_set_switcher'),
+            );
           }
-          $output .= '</tbody>';
-          $output .= '</table>';
+
+          $output .= theme('table', $table);
           $output .= '</li>';
 
           if ($first_column) {
@@ -74,7 +76,7 @@ function ec_resp_preprocess(&$variables) {
 }
 
 /**
- * Implements theme_preprocess_page().
+ * Implements template_preprocess_page().
  */
 function ec_resp_preprocess_page(&$variables) {
   $title = drupal_get_title();
@@ -174,13 +176,13 @@ function ec_resp_preprocess_page(&$variables) {
 }
 
 /**
- * Implements theme_preprocess_node().
+ * Implements template_preprocess_node().
  */
 function ec_resp_preprocess_node(&$variables) {
   $variables['prefix_display'] = FALSE;
   $variables['suffix_display'] = FALSE;
 
-  if ((isset($variables['group_content_access'])) && (isset($variables['group_content_access']['und'])) && ($variables['group_content_access']['und'][0]['value'] == 2)) {
+  if (isset($variables['group_content_access']) && isset($variables['group_content_access'][LANGUAGE_NONE]) && $variables['group_content_access'][LANGUAGE_NONE][0]['value'] == 2) {
     $variables['prefix_display'] = TRUE;
   }
 
@@ -209,30 +211,28 @@ function ec_resp_preprocess_node(&$variables) {
       unset($variables['content']['field_picture_upload']);
       unset($variables['content']['field_video_upload']);
       break;
-
   }
 
-  // Display last update date
+  // Display last update date.
   if ($variables['display_submitted']) {
     $node = $variables['node'];
-    //ddl($node);
-  
+
     // Append the revision information to the submitted by text.
     $revision_account = user_load($node->revision_uid);
     $variables['revision_name'] = theme('username', array('account' => $revision_account));
-    $variables['revision_date'] = (
-           isset($node->workbench_moderation) 
-           && $node->workbench_moderation['current']->vid == $node->vid
-           && $node->status == 0
-    )?format_date($node->revision_timestamp):format_date($node->changed);
-    $variables['submitted'] .= "<br>".t('Last modified by !revision-name on !revision-date', array(
-      '!name' => $variables['name'], '!date' => $variables['date'], '!revision-name' => $variables['revision_name'], '!revision-date' => $variables['revision_date'])
+    $variables['revision_date'] = format_date($node->changed);
+    $variables['submitted'] .= "<br />" . t('Last modified by !revision-name on !revision-date',
+      array(
+        '!revision-name' => $variables['revision_name'],
+        '!revision-date' => $variables['revision_date'],
+      )
     );
   }
+
 }
 
 /**
- * Implements theme_preprocess_user_profile().
+ * Implements template_preprocess_user_profile().
  */
 function ec_resp_preprocess_user_profile(&$variables) {
   // Format profile page.
@@ -249,7 +249,7 @@ function ec_resp_preprocess_user_profile(&$variables) {
 
   $date = '';
   if (isset($variables['user']->created)) {
-    $date .= t('Member since') . ' ' . date('d/m/Y', $variables['user']->created);
+    $date .= t('Member since') . ' ' . format_date($variables['user']->created, 'custom', 'd/m/Y');
   }
 
   $variables['user_info']['name'] = $identity;
@@ -266,7 +266,7 @@ function ec_resp_preprocess_user_profile(&$variables) {
 }
 
 /**
- * Implements theme_preprocess_field().
+ * Implements template_preprocess_field().
  */
 function ec_resp_preprocess_field(&$variables, $hook) {
   switch ($variables['element']['#field_name']) {
@@ -276,39 +276,40 @@ function ec_resp_preprocess_field(&$variables, $hook) {
         $variables['classes_array'][] = 'btn-info';
       }
       break;
+
   }
 }
 
 /**
- * Implements theme_preprocess_select().
+ * Custom implementation for select element of Form API.
  */
 function ec_resp_preprocess_select(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
 /**
- * Implements theme_preprocess_textfield().
+ * Custom implementation for textfield element of Form API.
  */
 function ec_resp_preprocess_textfield(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
 /**
- * Implements theme_preprocess_password().
+ * Custom implementation for password element of Form API.
  */
 function ec_resp_preprocess_password(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
 /**
- * Implements theme_preprocess_textarea().
+ * Custom implementation for textarea element of Form API.
  */
 function ec_resp_preprocess_textarea(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
 /**
- * Implements theme_preprocess_maintenance_page().
+ * Implements template_preprocess_maintenance_page().
  */
 function ec_resp_preprocess_maintenance_page(&$variables) {
   if (!$variables['db_is_active']) {
@@ -318,13 +319,17 @@ function ec_resp_preprocess_maintenance_page(&$variables) {
 }
 
 /**
- * Implements theme_preprocess_html().
+ * Implements template_preprocess_html().
  */
 function ec_resp_preprocess_html(&$variables) {
   // Update page title.
   if (arg(0) == 'node' && is_numeric(arg(1))) {
     $node = node_load(arg(1));
-    $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
+    // if the metatag title exists, it must be used to construct the title page
+    if(isset($node->field_meta_title) && !empty($node->field_meta_title))
+      $variables['head_title'] = filter_xss($node->field_meta_title['und'][0]['value']);
+    else 
+      $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
   }
   else {
     $variables['head_title'] = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
@@ -372,7 +377,7 @@ function ec_resp_preprocess_html(&$variables) {
 }
 
 /**
- * Implements theme_preprocess_menu_link().
+ * Implements template_preprocess_menu_link().
  */
 function ec_resp_preprocess_menu_link(&$variables) {
   // Get icon links to menu item.
@@ -399,7 +404,7 @@ function ec_resp_preprocess_menu_link(&$variables) {
 }
 
 /**
- * Implements theme_preprocess_views_view().
+ * Implements template_preprocess_views_view().
  */
 function ec_resp_preprocess_views_view(&$variables) {
   $view = $variables['view'];
@@ -415,20 +420,30 @@ function ec_resp_preprocess_views_view(&$variables) {
 
       // Get empty gallery picture, if needed.
       $empty_pic = db_select('file_managed', 'fm')
-        ->fields('fm')
+        ->fields('fm', array('uri'))
         ->condition('filename', 'empty_gallery.png', '=')
         ->execute()
         ->fetchAssoc();
-      $picture_square_thumbnail = image_style_url('square_thumbnail', $empty_pic['uri']);
-      $empty_img = '<img src="' . $picture_square_thumbnail . '" alt="There is no content in this gallery, or it has not been validated yet." />';
 
-      $variables['empty_img'] = $empty_img;
+      $empty_img = theme('image_style', array(
+        'style_name' => 'square_thumbnail',
+        'path' => $empty_pic['uri'],
+        'alt' => t('There is no content in this gallery, or it has not been validated yet.'),
+      ));
+
+      // Check if the galleries are actually empty.
+      $rows = str_replace('[Empty_gallery][Empty_gallery]', $empty_img, $variables['rows']);
+      // Check if there is only one picture.
+      $rows = str_replace('[Empty_gallery]', '', $rows);
+      // Replace nid by number of items in gallery.
+      $variables['rows'] = preg_replace_callback('#<div id="nb_items">([0-9]+)</div>#', "_ec_resp_media_gallery_count", $rows);
+
       break;
   }
 }
 
 /**
- * Implements theme_preprocess_views_view_grid().
+ * Implements template_preprocess_views_view_grid().
  */
 function ec_resp_preprocess_views_view_grid(&$variables) {
 
@@ -491,26 +506,26 @@ function ec_resp_preprocess_views_view_grid(&$variables) {
 /**
  * Count items in media gallery.
  */
-function ec_resp_media_gallery_count($matches) {
+function _ec_resp_media_gallery_count($matches) {
   $node = node_load($matches[1]);
   $nb_pictures = 0;
   $nb_video = 0;
 
-  if (isset($node->field_picture_upload['und'])):
-    $nb_pictures = count($node->field_picture_upload['und']);
+  if (isset($node->field_picture_upload[LANGUAGE_NONE])):
+    $nb_pictures = count($node->field_picture_upload[LANGUAGE_NONE]);
   endif;
 
-  if (isset($node->field_video_upload['und'])):
-    $nb_video = count($node->field_video_upload['und']);
+  if (isset($node->field_video_upload[LANGUAGE_NONE])):
+    $nb_video = count($node->field_video_upload[LANGUAGE_NONE]);
   endif;
 
   return '<div class="meta">' . ($nb_pictures + $nb_video) . ' ' . t('items') . '</div>';
 }
 
 /**
- * Alter page header.
+ * Implements hook_page_alter().
  */
-function ec_resp_page_alter($page) {
+function ec_resp_page_alter(&$page) {
 
   global $language;
   if (arg(0) == 'node') {
@@ -530,7 +545,11 @@ function ec_resp_page_alter($page) {
 
   $title = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
   if (!empty($node)) {
-    $title = $node_title . ' - ' . $title;
+    // if the metatag title exists, it must be used to construct the title page
+    if(isset($node->field_meta_title) && !empty($node->field_meta_title))
+      $title = filter_xss($node->field_meta_title['und'][0]['value']);
+    else
+      $title = $node_title . ' - ' . $title;
   }
 
   $keywords = '';
@@ -630,7 +649,7 @@ function ec_resp_page_alter($page) {
     '#tag' => 'meta',
     '#attributes' => array(
       'name' => 'date',
-      'content' => date('d/m/Y'),
+      'content' => format_date(time(), 'custom', 'd/m/Y'),
     ),
   );
   drupal_add_html_head($meta_date, 'meta_date');
@@ -973,7 +992,7 @@ function ec_resp_menu_local_tasks(&$variables) {
 }
 
 /**
- * Hook form alter.
+ * Implements hook_form_alter().
  */
 function ec_resp_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
@@ -1022,20 +1041,20 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
       $form['actions']['preview']['#attributes']['class'][] = 'btn btn-default';
     }
   }
-  $form['#after_build'][] = 'ec_resp_cck_alter';
+  $form['#after_build'][] = '_ec_resp_cck_alter';
 }
 
 /**
  * After_build function for form_alter.
  */
-function ec_resp_cck_alter($form, &$form_state) {
+function _ec_resp_cck_alter($form, &$form_state) {
   // Hide format field.
   if (!user_access('administer nodes')) {
-    $form['comment_body']['und'][0]['format']['#prefix'] = "<div class='hide'>";
-    $form['comment_body']['und'][0]['format']['#suffix'] = "</div>";
+    $form['comment_body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
+    $form['comment_body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
 
-    $form['body']['und'][0]['format']['#prefix'] = "<div class='hide'>";
-    $form['body']['und'][0]['format']['#suffix'] = "</div>";
+    $form['body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
+    $form['body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
   }
 
   return $form;
@@ -1262,14 +1281,14 @@ function ec_resp_preprocess_admin_menu_icon(&$variables) {
 }
 
 /**
- * Implements theme_preprocess_block().
+ * Implements template_preprocess_block().
  */
 function ec_resp_preprocess_block(&$variables) {
 
   global $user, $language;
   if (!empty($user) && 0 != $user->uid) {
     $full_user = user_load($user->uid);
-    $name = (isset($full_user->field_firstname['und'][0]['value']) && isset($full_user->field_lastname['und'][0]['value']) ? $full_user->field_firstname['und'][0]['value'] . ' ' . $full_user->field_lastname['und'][0]['value'] : $user->name);
+    $name = (isset($full_user->field_firstname[LANGUAGE_NONE][0]['value']) && isset($full_user->field_lastname[LANGUAGE_NONE][0]['value']) ? $full_user->field_firstname[LANGUAGE_NONE][0]['value'] . ' ' . $full_user->field_lastname[LANGUAGE_NONE][0]['value'] : $user->name);
     $variables['user_name'] = "<div class='username'>" . t('Welcome,') . ' <strong>' . $name . '</strong></div>';
   }
 
@@ -1496,6 +1515,10 @@ function ec_resp_preprocess_block(&$variables) {
         $variables['menu_items'] = implode('', $items);
         break;
 
+      case 'easy_breadcrumb-easy_breadcrumb':
+        $variables['menu_breadcrumb'] = menu_tree('menu-breadcrumb-menu');
+        break;
+
     }
   }
 }
@@ -1678,4 +1701,18 @@ function ec_resp_table($variables) {
 
   $output .= "</table>\n";
   return $output;
+}
+
+/**
+ * Implements template_preprocess_comment().
+ */
+function ec_resp_preprocess_comment(&$variables) {
+  $variables['comment_created'] = format_date($variables['elements']['#comment']->created, 'custom', 'd/m/Y H:i');
+}
+
+/**
+ * Implements template_preprocess_comment_wrapper().
+ */
+function ec_resp_preprocess_comment_wrapper(&$variables) {
+  $variables['title_text'] = $variables['content']['#node']->type != 'forum' ? t('Comments') : t('Replies');
 }

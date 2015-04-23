@@ -2,24 +2,29 @@
 
 /**
  * @file
- * Contains \Drupal\block\Config
+ * Contains \Drupal\block\Config.
  */
 
 namespace Drupal\wysiwyg;
 
 use Drupal\multisite_config\ConfigBase;
 
+/**
+ * Class Config.
+ *
+ * @package Drupal\wysiwyg.
+ */
 class Config extends ConfigBase {
 
 
   /**
    * Add a button to a WYSIWYG profile.
    *
-   * @param $profile
+   * @param string $profile
    *    Profile machine name. Ex. 'full_html', etc.
-   * @param $group
+   * @param string $group
    *    Button group name. Ex. 'default', 'drupal', etc.
-   * @param $buttons
+   * @param mixed $buttons
    *    Array of button names belonging to the $group button group.
    *    Ex. 'Anchor', 'BGColor', etc.
    */
@@ -35,11 +40,11 @@ class Config extends ConfigBase {
   /**
    * Remove a button from a WYSIWYG profile.
    *
-   * @param $profile
+   * @param string $profile
    *    Profile machine name. Ex. 'full_html', etc.
-   * @param $group
+   * @param string $group
    *    Button group name. Ex. 'default', 'drupal', etc.
-   * @param $buttons
+   * @param mixed $buttons
    *    Array of button names belonging to the $group button group.
    *    Ex. 'Anchor', 'BGColor', etc.
    */
@@ -55,7 +60,8 @@ class Config extends ConfigBase {
   /**
    * Update an existing WYSIWYG profile.
    *
-   * @param $profile
+   * @param string $profile
+   *    Profile machine name. Ex. 'full_html', etc.
    */
   private function updateProfile($profile) {
     db_merge('wysiwyg')
@@ -68,4 +74,4 @@ class Config extends ConfigBase {
     wysiwyg_profile_cache_clear();
   }
 
-} 
+}

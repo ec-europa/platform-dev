@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Install, update and uninstall functions for the nexteuropa_core feature.
+ */
+
+/**
  * Implements hook_install().
  */
 function nexteuropa_core_install() {
@@ -12,7 +17,7 @@ function nexteuropa_core_install() {
     'access administration menu',
     'display drupal links',
     'flush caches',
-    
+
     // Bean.
     'administer beans',
     'access bean overview',
@@ -44,7 +49,7 @@ function nexteuropa_core_install() {
 
     // Path.
     'create url aliases',
-    
+
     // Taxonomy.
     'administer taxonomy',
 
@@ -58,25 +63,25 @@ function nexteuropa_core_install() {
     'access user profiles',
     'cancel account',
 
-    // Version Management
+    // Version Management.
     'version management edits',
   );
   multisite_config_service('user')->grantPermission('administrator', $permissions);
-  
+
   // Set permissions for "contributor" role.
   $permissions = array(
-    // Version Management
+    // Version Management.
     'version management edits',
   );
   multisite_config_service('user')->grantPermission('contributor', $permissions);
-  
+
   // Set permissions for "editor" role.
   $permissions = array(
-    // Version Management
+    // Version Management.
     'version management edits',
   );
-  multisite_config_service('user')->grantPermission('editor', $permissions); 
-  
+  multisite_config_service('user')->grantPermission('editor', $permissions);
+
   // Set URL alias pattern for "User tasks" vocabulary.
   multisite_config_service('pathauto')->createUrlAliasPattern('[term:parents-uri]', 'taxonomy_term', 'core_user_tasks');
 
@@ -99,7 +104,7 @@ function nexteuropa_core_install() {
   // Import core_user_tasks vocabulary's terms.
   Migration::getInstance('NextEuropaCoreUserTasks')->processImport();
 
-  // enable Version Management for node types
+  // Enable Version Management for node types.
   multisite_config_service('version_management')->enableVersionManagement('article');
   multisite_config_service('version_management')->enableVersionManagement('page');
 }

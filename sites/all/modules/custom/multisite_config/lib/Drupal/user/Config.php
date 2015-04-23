@@ -2,23 +2,30 @@
 
 /**
  * @file
- * Contains \Drupal\user\Config
+ * Contains \Drupal\user\Config.
  */
 
 namespace Drupal\user;
 
 use Drupal\multisite_config\ConfigBase;
 
+/**
+ * Class Config.
+ *
+ * @package Drupal\user.
+ */
 class Config extends ConfigBase {
 
   /**
    * Assign a specific role to an user, give its UID.
    *
-   * @param type $role_name
-   *    Role name.
-   * @param type $uid
+   * @param string $role_name
+   *    Role machine name.
+   * @param string $uid
    *    User UID.
-   * @return boolean
+   *
+   * @return bool
+   *    TRUE if operation was successful, FALSE otherwise.
    */
   public function assignRoleToUser($role_name, $uid) {
     $account = user_load($uid);
@@ -34,11 +41,13 @@ class Config extends ConfigBase {
   /**
    * Revoke a specific role from an user, give its UID.
    *
-   * @param type $role_name
-   *    Role name.
-   * @param type $uid
+   * @param string $role_name
+   *    Role machine name.
+   * @param string $uid
    *    User UID.
-   * @return boolean
+   *
+   * @return bool
+   *    TRUE if operation was successful, FALSE otherwise.
    */
   public function revokeRoleFromUser($role_name, $uid) {
     $account = user_load($uid);
@@ -55,10 +64,15 @@ class Config extends ConfigBase {
   /**
    * Grant permissions to a specific role, if it exists.
    *
-   * @param type $role
-   * @param type $permission
-   * @param type $module
-   * @return boolean
+   * @param string $role
+   *    Role machine name.
+   * @param string $permission
+   *    Permission machine name.
+   * @param string $module
+   *    Module name.
+   *
+   * @return bool
+   *    TRUE if operation was successful, FALSE otherwise.
    */
   public function grantPermission($role, $permission, $module = NULL) {
 
@@ -105,9 +119,13 @@ class Config extends ConfigBase {
   /**
    * Revoke permissions to a specific role, if it exists.
    *
-   * @param type $role
-   * @param type $permission
-   * @return boolean
+   * @param string $role
+   *    Role machine name.
+   * @param string $permission
+   *    Permission machine name.
+   *
+   * @return bool
+   *    TRUE if operation was successful, FALSE otherwise.
    */
   public function revokePermission($role, $permission) {
     $role_object = user_role_load_by_name($role);
@@ -123,9 +141,13 @@ class Config extends ConfigBase {
   /**
    * Create user role, given its name and weight.
    *
-   * @param type $name
-   * @param type $weight
+   * @param string $name
+   *    Role machine name.
+   * @param int $weight
+   *    Role weight.
+   *
    * @return \stdClass
+   *    Role object.
    */
   public function createRole($name, $weight = 0) {
     $role = new \stdClass();
@@ -134,4 +156,5 @@ class Config extends ConfigBase {
     user_role_save($role);
     return $role;
   }
-} 
+
+}

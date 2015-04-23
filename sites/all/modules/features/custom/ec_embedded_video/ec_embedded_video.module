@@ -78,8 +78,11 @@ function _ec_embedded_video_preprocess_media_vimeo_video(&$variables) {
  * Preprocess function for media_avportal_video.
  */
 function _ec_embedded_video_preprocess_media_avportal_video(&$variables) {
-  $variables['url'] = url('http://ec.europa.eu/avservices/video/player.cfm?ref=' . $variables['video_id']);
-  _ec_embedded_video_preprocess_ec_embedded_video_video($variables);
+  $query = array ('ref' => $variables['video_id'] , 'videolang' => $variables['video_language'], 'starttime' => 0, 'endtime' => 0,);
+  $variables['url'] = url('//ec.europa.eu/avservices/play.cfm', array ('query' => $query , 'external' => TRUE ));
+
+  // Don't use cookie complient for avportal video
+  $variables['ec_embedded_video_url'] = $variables['url'];
 }
 
 /**
@@ -89,7 +92,7 @@ function _ec_embedded_video_preprocess_media_dailymotion_video(&$variables) {
   // We support only iframe (not object) for dailymotion.
   // @see media_dailymotion.theme.inc
   $daily_query = array('logo' => 0, 'autoPlay' => $variables['autoplay']);
-  $variables['url'] = url('http://www.dailymotion.com/embed/video/' . $variables['video_id'], array('query' => $daily_query, 'external' => TRUE));
+  $variables['url'] = url('//www.dailymotion.com/embed/video/' . $variables['video_id'], array('query' => $daily_query, 'external' => TRUE));
 
   _ec_embedded_video_preprocess_ec_embedded_video_video($variables);
 }

@@ -2,23 +2,34 @@
 
 /**
  * @file
- * Contains \Drupal\block\Config
+ * Contains \Drupal\block\Config.
  */
 
 namespace Drupal\block;
 
 use Drupal\multisite_config\ConfigBase;
 
+/**
+ * Class Config.
+ *
+ * @package Drupal\block
+ */
 class Config extends ConfigBase {
 
   /**
    * Set region for a block.
    *
-   * @param $module
-   * @param $delta
-   * @param $region
-   * @param $theme_name
+   * @param string $module
+   *    Module name.
+   * @param string $delta
+   *    Block delta.
+   * @param string $region
+   *    Theme region.
+   * @param string $theme_name
+   *    Theme machine name.
+   *
    * @return mixed
+   *    Query execution state.
    */
   public function setBlockRegion($module, $delta, $region, $theme_name = NULL) {
 
@@ -31,4 +42,4 @@ class Config extends ConfigBase {
     return $query->execute();
   }
 
-} 
+}

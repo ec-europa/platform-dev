@@ -2,20 +2,27 @@
 
 /**
  * @file
- * Contains \Drupal\system\Config
+ * Contains \Drupal\system\Config.
  */
 
 namespace Drupal\system;
 
 use Drupal\multisite_config\ConfigBase;
 
+/**
+ * Class Config.
+ *
+ * @package Drupal\system.
+ */
 class Config extends ConfigBase {
 
   /**
    * Get current theme machine name.
    *
-   * @global type $theme
-   * @return type
+   * @global string $theme
+   *
+   * @return string
+   *    Current theme machine name.
    */
   public function getCurrentTheme() {
     global $theme;
@@ -25,8 +32,10 @@ class Config extends ConfigBase {
   /**
    * Get current theme info object.
    *
-   * @global type $theme_info
-   * @return type
+   * @global object $theme_info
+   *
+   * @return object
+   *    Current theme info object.
    */
   public function getCurrentThemeInfo() {
     global $theme_info;
@@ -35,11 +44,12 @@ class Config extends ConfigBase {
 
   /**
    * Set default theme given its machine name.
-   * Returns FALSE if theme is not found, TRUE otherwise.
    *
    * @param string $name
    *    Theme machine name.
-   * @return boolean
+   *
+   * @return bool
+   *    TRUE if theme is found and enabled, FALSE otherwise.
    */
   public function setDefaultTheme($name) {
 
@@ -54,14 +64,14 @@ class Config extends ConfigBase {
     }
   }
 
-
   /**
    * Set admin theme given its machine name.
-   * Returns FALSE if theme is not found, TRUE otherwise.
    *
    * @param string $name
    *    Theme machine name.
-   * @return boolean
+   *
+   * @return bool
+   *    TRUE if theme is found and enabled, FALSE otherwise.
    */
   public function setAdminTheme($name) {
 
@@ -79,9 +89,13 @@ class Config extends ConfigBase {
   /**
    * Set a module's weight.
    *
-   * @param type $module
-   * @param type $weight
-   * @return boolean
+   * @param string $module
+   *    Module machine name.
+   * @param int $weight
+   *    Module weight.
+   *
+   * @return bool
+   *    TRUE if module exists and operation has been performed, FALSE otherwise.
    */
   public function setModuleWeight($module, $weight = 0) {
 
@@ -100,9 +114,13 @@ class Config extends ConfigBase {
   /**
    * Get variable.
    *
-   * @param type $name
-   * @param type $default
-   * @return type
+   * @param string $name
+   *    Variable name.
+   * @param mixed $default
+   *    Variable default value.
+   *
+   * @return mixed
+   *    Variable value.
    */
   public function getVariable($name, $default = NULL) {
     return variable_get($name, $default);
@@ -111,9 +129,13 @@ class Config extends ConfigBase {
   /**
    * Set variable.
    *
-   * @param type $name
-   * @param type $value
-   * @return type
+   * @param string $name
+   *    Variable name.
+   * @param mixed $value
+   *    Variable default value.
+   *
+   * @return mixed
+   *    Variable value.
    */
   public function setVariable($name, $value = NULL) {
     return variable_set($name, $value);
@@ -122,10 +144,11 @@ class Config extends ConfigBase {
   /**
    * Delete variable.
    *
-   * @param type $name
-   * @return type
+   * @param string $name
+   *    Variable name.
    */
   public function deleteVariable($name) {
-    return variable_del($name);
+    variable_del($name);
   }
+
 }

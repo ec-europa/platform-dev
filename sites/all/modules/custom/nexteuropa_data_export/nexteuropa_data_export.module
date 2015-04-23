@@ -1,0 +1,143 @@
+<?php
+
+/**
+ * @file
+ * Allows to export view data in different type of formats.
+ */
+
+/**
+ * Implements hook_action_info().
+ */
+function nexteuropa_data_export_action_info() {
+  return array(
+    'nexteuropa_data_export_export_action' => array(
+      'type' => 'entity',
+      'label' => t('Export data using a "Data Export" display'),
+      'configurable' => FALSE,
+      'vbo_configurable' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Action form callback.
+ *
+ * @see: nexteuropa_data_export_action_info()
+ */
+function nexteuropa_data_export_export_action_form($context, &$form_state) {
+
+  $form = array();
+  if ($settings = $form_state['operation']->getAdminOption('settings')) {
+
+    list($name, $display_id) = explode(':', $settings['view_display']);
+    $view = views_get_view($name);
+    $view->build($display_id);
+
+    $options = array();
+    foreach ($view->field as $field_name => $field) {
+      $options[$field_name] = $field->options['label'] ? $field->options['label'] : $field->definition['title'];
+    }
+    $form['fields'] = array(
+      '#type' => 'select',
+      '#multiple' => TRUE,
+      '#title' => t('Choose fields to export'),
+      '#options' => $options,
+      '#default_value' => array_keys($options),
+      '#required' => TRUE,
+    );
+  }
+  return $form;
+}
+
+/**
+ * Action form submit callback.
+ *
+ * @see: nexteuropa_data_export_action_info()
+ */
+function nexteuropa_data_export_export_action_submit($form, $form_state) {
+
+  if ($settings = $form_state['operation']->getAdminOption('settings')) {
+
+    list($name, $display_id) = explode(':', $settings['view_display']);
+    $view = views_get_view($name);
+    $view->nexteuropa_data_export['fields'] = $form_state['values']['fields'];
+    $view->nexteuropa_data_export['selection'] = $form_state['selection'];
+    $view->nexteuropa_data_export['select_all_pages'] = $form_state['select_all_pages'];
+    $view->execute_display($display_id);
+
+    // If export is not using batch then exit here, results have already been
+    // printed.
+    if ($view->display_handler->get_option('use_batch') == 'no_batch') {
+      drupal_exit();
+    }
+  }
+  return array();
+}
+
+/**
+ * Views Bulk Operation setting form callback.
+ *
+ * @see: nexteuropa_data_export_action_info()
+ */
+function nexteuropa_data_export_export_action_views_bulk_operations_form($options, $entity_type, $dom_id) {
+
+  $form = array();
+  $form['view_display'] = array(
+    '#type' => 'select',
+    '#title' => t('Select display'),
+    '#description' => t('Select a "Data export" display to be used as an export action. In order to be available in this select the "Data export" display should be present in view. Remember to save the view if you do have a "Data export" display but you do not see it in here.'),
+    '#options' => nexteuropa_data_export_get_export_displays(),
+    '#default_value' => $options['view_display'],
+  );
+  return $form;
+}
+
+/**
+ * Implements hook_views_post_build().
+ */
+function nexteuropa_data_export_views_post_build(&$view) {
+
+  // Exclude fields that are not selected before running the export.
+  // @see: nexteuropa_data_export_export_action_form()
+  if (isset($view->nexteuropa_data_export)) {
+    foreach ($view->field as $field_name => $field) {
+      if (!in_array($field_name, $view->nexteuropa_data_export['fields'])) {
+        $view->field[$field_name]->options['exclude'] = TRUE;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function nexteuropa_data_export_views_pre_render(&$view) {
+
+  // Exclude rows not selected in the caller VBO display.
+  if (isset($view->nexteuropa_data_export) && !$view->nexteuropa_data_export['select_all_pages']) {
+    foreach ($view->result as $key => $result) {
+      if (!in_array($result->{$view->base_field}, $view->nexteuropa_data_export['selection'])) {
+        unset($view->result[$key]);
+      }
+    }
+  }
+}
+
+/**
+ * Helper: get all configured export display.
+ */
+function nexteuropa_data_export_get_export_displays() {
+
+  $options = array();
+  $views = views_get_enabled_views();
+  foreach ($views as $view_name => $view) {
+    foreach ($view->display as $display_name => $display) {
+      if ($display->display_plugin == 'views_data_export') {
+        $key = "{$view_name}:{$display_name}";
+        $value = "{$view->human_name} - {$display->display_title} ({$view_name})";
+        $options[$key] = $value;
+      }
+    }
+  }
+  return $options;
+}

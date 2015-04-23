@@ -47,6 +47,18 @@ function ec_embedded_video_strongarm() {
   $strongarm->name = 'media_wysiwyg_view_mode_video_wysiwyg_restricted_view_modes_status';
   $strongarm->value = 0;
   $export['media_wysiwyg_view_mode_video_wysiwyg_restricted_view_modes_status'] = $strongarm;
+  
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'media_wysiwyg_wysiwyg_browser_plugins';
+  $strongarm->value = array(
+      0 => 'upload',
+      1 => 'media_default--media_browser_1',
+      2 => 'media_default--media_browser_my_files',
+      3 => 'media_internet',
+  );
+  $export['media_wysiwyg_wysiwyg_browser_plugins'] = $strongarm;
 
   return $export;
 }

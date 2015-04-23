@@ -2,13 +2,18 @@
 
 /**
  * @file
- * Contains \Drupal\locale\Config
+ * Contains \Drupal\locale\Config.
  */
 
 namespace Drupal\locale;
 
 use Drupal\multisite_config\ConfigBase;
 
+/**
+ * Class Config.
+ *
+ * @package Drupal\locale.
+ */
 class Config extends ConfigBase {
 
   /**
@@ -29,7 +34,7 @@ class Config extends ConfigBase {
   /**
    * Set language negotiation.
    *
-   * @param $language_negotiation
+   * @param string $language_negotiation
    *    Language negotiation name.
    * @param string $type
    *    Language type.
@@ -45,11 +50,11 @@ class Config extends ConfigBase {
   }
 
   /**
-   * Set language prefix, gived a certain language code.
+   * Set language prefix, given a certain language code.
    *
-   * @param type $language
+   * @param string $language
    *    Language code.
-   * @param type $prefix
+   * @param string $prefix
    *    Language prefix.
    */
   public function setLanguagePrefix($language, $prefix) {
@@ -57,4 +62,4 @@ class Config extends ConfigBase {
     db_query("UPDATE {languages} SET prefix = ':prefix' WHERE language = ':language'", $arguments)->execute();
   }
 
-} 
+}

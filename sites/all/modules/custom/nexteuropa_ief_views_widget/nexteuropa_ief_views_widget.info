@@ -1,0 +1,9 @@
+name = NextEuropa Inline Entity Form Views Widget
+description = "Allows to use a view to select an existing entity using Inline Entity Form."
+package = Fields
+dependencies[] = entityreference
+dependencies[] = inline_entity_form
+dependencies[] = views
+core = 7.x
+
+files[] = views/nexteuropa_ief_views_widget_handler_field_selection.inc

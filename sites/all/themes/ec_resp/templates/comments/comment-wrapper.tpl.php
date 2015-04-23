@@ -38,7 +38,6 @@
 <div id="comments" class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <?php if ($content['comments']): ?>
     <?php print render($title_prefix); ?>
-    <?php $title_text = ($node->type != 'forum' ? t('Comments') : t('Replies')); ?>
     <h3 class="title"><?php print $title_text; ?></h3>
     <?php print render($title_suffix); ?>
   <?php endif; ?>
