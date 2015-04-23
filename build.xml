@@ -110,14 +110,14 @@
 
     <target name="build-dev"
             description="Build a local development version of the site."
-            depends="make-platform, create-settings.php" />
+            depends="make-platform" />
 
     <target name="build-dist"
             description="Build the Drupal site in order to install it"
-            depends="make-platform, create-settings.php" />
+            depends="make-platform" />
 
     <target name="install"
             description="Install the Drupal site"
-            depends="install-drupal, enable-drupal-modules" />
+            depends="create-settings.php, install-drupal, enable-drupal-modules" />
 
 </project>
