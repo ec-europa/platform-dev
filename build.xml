@@ -52,7 +52,7 @@
 
         <echo msg="Copy platform files." />
         <copy todir="${phing.project.build.dir}">
-            <fileset dir="${platform.code.dir}">
+            <fileset dir="${platform.basedir}">
               <patternset>
                 <exclude name="**/*.svn"/>
                 <exclude name="**/automation/"/>
@@ -207,11 +207,11 @@
 
     <target name="build-dev"
             description="Build a local development version of the site."
-            depends="init, clone-platform, make-platform, link-modules, link-tests, files-directory, create-settings.php" />
+            depends="init, make-platform, link-modules, link-tests, files-directory, create-settings.php" />
 
     <target name="rebuild-dev"
             description="Rebuild the local development version, keeping settings.php and files intact."
-            depends="init, backup-local-files, fetch-platform, make-platform, link-modules, link-tests, files-directory, create-settings.php, restore-local-files" />
+            depends="init, backup-local-files, make-platform, link-modules, link-tests, files-directory, create-settings.php, restore-local-files" />
 
     <target name="build-dist"
             description="Build the Drupal site in order to install it"
