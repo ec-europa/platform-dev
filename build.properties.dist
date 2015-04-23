@@ -1,0 +1,132 @@
+# Basic configuration
+# -------------------
+
+# The build location
+phing.project.build.dir = build
+
+
+# Drupal configuration
+# --------------------
+
+# The Drupal version to use.
+drupal.version = 7.35
+
+# The install profile to use.
+drupal.profile.name = multisite_drupal_standard
+
+# Database settings.
+drupal.db.type = mysql
+drupal.db.name = db_name
+drupal.db.user = db_user
+drupal.db.password = db_pass
+drupal.db.host = 127.0.0.1
+drupal.db.port = 3306
+drupal.db.url = ${drupal.db.type}://${drupal.db.user}:${drupal.db.password}@${drupal.db.host}:${drupal.db.port}/${drupal.db.name}
+
+# Admin user.
+drupal.admin.username = admin
+drupal.admin.password = pass
+drupal.admin.email = admin@example.com
+
+# Development / testing modules to enable.
+drupal.development.modules = devel field_ui maillog simpletest views_ui
+
+# The site name to use. Use 'all' unless you want to build a multisite setup.
+drupal.site.name = all
+
+# The make file to build.
+drupal.make = distro.make
+
+
+# Platform configuration
+# ----------------------
+
+# The path where the platform will be downloaded.
+platform.dir = platform
+
+# The make file for the platform.
+platform.make = ${platform.dir}/${drupal.profile.name}/build.make
+
+# The branch, tag or commit to use, eg. 'master', 'develop', '1.7', '7df0d254b'.
+platform.repo.branch = epic/NEXTEUROPA-2464-Continuous-Integration
+
+# The repository to use, either 'dev' or 'reference'.
+platform.repo.repo = dev
+
+# Username used to access the repository on CITnet.
+platform.repo.user = myusername
+
+# The location of the repository.
+platform.repo.protocol = https
+platform.repo.domain = webgate.ec.europa.eu
+platform.repo.path = CITnet/stash/scm/nexteuropa/platform-${platform.repo.repo}.git
+platform.repo.url = ${platform.repo.protocol}://${platform.repo.user}@${platform.repo.domain}/${platform.repo.path}
+
+# Subsite configuration
+# ---------------------
+
+# The name of the subsite.
+subsite.name = Subsite starterkit
+
+# The make file for the subsite.
+subsite.make = build.make
+
+
+# Templates
+# ---------
+
+# The template for the distro.make file.
+drush.distro.template = api = 2${line.separator}\
+core = 7.x${line.separator}\
+${line.separator}\
+projects[drupal][type] = core${line.separator}\
+projects[drupal][version] = ${drupal.version}${line.separator}\
+${line.separator}\
+includes[] = ${platform.make}${line.separator}\
+includes[] = ${subsite.make}${line.separator}
+
+
+# Paths
+# -----
+
+# Paths to executables.
+phing.bin = ${project.basedir}/bin/phing
+drush.bin = ${project.basedir}/bin/drush
+composer.bin = composer.phar
+
+# Custom source code for the project.
+project.lib.dir = ${project.basedir}/lib
+project.modules.dir = ${project.lib.dir}/modules
+project.source.dir = ${project.lib.dir}/src
+project.themes.dir = ${project.lib.dir}/themes
+
+# Temporary folder.
+phing.project.tmp.dir = tmp
+
+# Build locations.
+project.code.dir = ${project.basedir}/${phing.project.build.dir}
+platform.code.dir = ${project.basedir}/${platform.dir}
+
+# Directories inside the Drupal installation.
+drupal.profile.dir = ${project.code.dir}/profiles
+drupal.platform.profile.dir = ${platform.code.dir}/profiles
+
+drupal.sites.dir = ${project.code.dir}/sites
+drupal.settings.dir = ${drupal.sites.dir}/default
+drupal.files.dir = ${drupal.settings.dir}/files
+
+drupal.site.dir = ${drupal.sites.dir}/${drupal.site.name}
+drupal.libraries.dir = ${drupal.site.dir}/libraries
+drupal.modules.dir = ${drupal.site.dir}/modules
+drupal.source.dir = ${drupal.site.dir}/src
+drupal.themes.dir = ${drupal.site.dir}/themes
+
+
+# Behat configuration
+# -------------------
+
+# This is for local testing, not needed on continuousphp.
+behat.bin = ${project.basedir}/bin/behat
+behat.dir = ${project.basedir}/tests
+behat.yml = ${behat.dir}/behat.yml
+behat.base_url = http://localhost
