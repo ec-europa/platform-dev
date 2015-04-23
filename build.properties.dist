@@ -35,7 +35,7 @@ drupal.development.modules = devel field_ui maillog simpletest views_ui
 drupal.site.name = all
 
 # The make file to build.
-drupal.make = distro.make
+drupal.make = ${drupal.platform.profile.dir}/${drupal.profile.name}/build.make
 
 
 # Platform configuration
