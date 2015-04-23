@@ -72,19 +72,6 @@ subsite.name = Subsite starterkit
 subsite.make = build.make
 
 
-# Templates
-# ---------
-
-# The template for the distro.make file.
-drush.distro.template = api = 2${line.separator}\
-core = 7.x${line.separator}\
-${line.separator}\
-projects[drupal][type] = core${line.separator}\
-projects[drupal][version] = ${drupal.version}${line.separator}\
-${line.separator}\
-includes[] = ${platform.make}${line.separator}\
-includes[] = ${subsite.make}${line.separator}
-
 
 # Paths
 # -----
