@@ -14,13 +14,12 @@
         </exec>
     </target>
 
-    <target name="init">
-        <echo msg="Loading Drush task." />
-        <taskdef name="drush" classname="DrushTask" />
-    </target>
+
+    <echo msg="Loading Drush task." />
+    <taskdef name="drush" classname="DrushTask" />
 
     <!-- Execute drush make file and download profile. -->
-    <target name="make-platform" depends="init">
+    <target name="make-platform">
         <if>
             <available file="${drupal.settings.dir}" type="dir" />
             <then>
@@ -66,108 +65,22 @@
         </copy>
     </target>
 
-    <!-- Link custom modules. -->
-    <target name="link-modules" depends="init,make-platform">
-        <symlink link="${drupal.modules.dir}/custom" target="${project.modules.dir}" />
-        <symlink link="${drupal.themes.dir}/custom" target="${project.themes.dir}" />
-        <symlink link="${drupal.source.dir}" target="${project.source.dir}" />
-    </target>
-
-    <!-- Copy custom modules. -->
-    <target name="copy-modules" depends="init,make-platform">
-        <copy todir="${drupal.modules.dir}">
-            <fileset dir="modules" />
-        </copy>
-        <copy todir="${drupal.themes.dir}">
-            <fileset dir="themes" />
-        </copy>
-        <copy todir="${drupal.libraries.dir}">
-            <fileset dir="libraries" />
-        </copy>
-    </target>
-
-    <target name="link-docroot" description="Link site document root to Apache document root">
-        <symlink link="${server.docroot}" target="${project.code.dir}" overwrite="true" />
-    </target>
-
-    <!-- Link test files into the build root. -->
-    <target name="link-tests" depends="init,make-platform">
-        <if>
-            <not>
-                <available file="${platform.basedir}/tests/behat.yml" type="file" />
-            </not>
-            <then>
-                <echo msg="Creating behat.yml config file" />
-                <loadfile property="behat.yml" file="${platform.basedir}/tests/behat.yml.dist">
-                    <filterchain>
-                        <replacetokens>
-                            <token key="project.code.dir" value="${project.code.dir}" />
-                            <token key="drupal.site.dir" value="${drupal.site.dir}" />
-                            <token key="behat.base_url" value="${behat.base_url}" />
-                        </replacetokens>
-                    </filterchain>
-                </loadfile>
-                <echo msg="${behat.yml}" file="${platform.basedir}/tests/behat.yml" />
-            </then>
-        </if>
-        <symlink link="${phing.project.build.dir}/behat.yml" target="../tests/behat.yml" />
-        <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
-    </target>
-
-    <!-- Make files directory. -->
-    <target name="files-directory" depends="init">
-        <mkdir dir="${drupal.files.dir}" />
-        <chmod file="${drupal.files.dir}" mode="0775" failonerror="true" />
-    </target>
-
     <!-- Manipulate settings.php file. -->
-    <target name="create-settings.php" depends="init">
+    <target name="create-settings.php">
         <echo msg="Copying default.settings.php file to settings.php..." />
         <copy file="${drupal.settings.dir}/default.settings.php" tofile="${drupal.settings.dir}/settings.php" />
         <chmod file="${drupal.settings.dir}/settings.php" mode="0775" failonerror="true" />
     </target>
 
-    <!-- Backup settings.php file. -->
-    <target name="backup-local-files" depends="init">
-        <if>
-            <available file="${drupal.settings.dir}/settings.php" type="file" />
-            <then>
-                <echo msg="Creating backup of settings.php file" />
-                <mkdir dir="${platform.basedir}/${phing.project.tmp.dir}" />
-                <chmod file="${drupal.settings.dir}/settings.php" mode="0777" failonerror="false" verbose="false" quiet="true" />
-                <copy file="${drupal.settings.dir}/settings.php" toDir="${platform.basedir}/${phing.project.tmp.dir}" />
-            </then>
-            <else>
-              <echo msg="No settings.php file found. Proceeding with normal build." />
-            </else>
-        </if>
-    </target>
-
-    <!-- Backup settings.php file. -->
-    <target name="restore-local-files" depends="init">
-        <if>
-            <available file="${platform.basedir}/${phing.project.tmp.dir}/settings.php" type="file" />
-            <then>
-                <echo msg="Restoring settings.php file from backup." />
-                <copy file="${platform.basedir}/${phing.project.tmp.dir}/settings.php" tofile="${drupal.settings.dir}/settings.php" />
-                <echo msg="Clean-up temporary folder." />
-                <delete dir="${platform.basedir}/${phing.project.tmp.dir}" includeemptydirs="true" failonerror="false" />
-            </then>
-            <else>
-              <echo msg="No backup settings.php file found. Proceeding with normal build." />
-            </else>
-        </if>
-    </target>
-
     <!-- Install dependencies. -->
-    <target name="install-dependencies" description="Install dependencies." depends="init">
+    <target name="install-dependencies" description="Install dependencies.">
         <composer command="install" composer="${composer.bin}">
             <arg value="--working-dir=${project.code.dir}" />
         </composer>
     </target>
 
     <!-- Install drupal. -->
-    <target name="install-drupal" description="Run the install." depends="init">
+    <target name="install-drupal" description="Run the install.">
         <drush
             command="site-install"
             assume="yes"
@@ -196,32 +109,16 @@
         </drush>
     </target>
 
-    <!-- Run behat tests. -->
-    <target name="behat-tests" description="Run behat tests." depends="init">
-        <exec command="${behat.bin}"
-              logoutput="true"
-              checkreturn="true"
-              dir="${project.code.dir}"
-              passthru="true" />
-    </target>
-
     <target name="build-dev"
             description="Build a local development version of the site."
-            depends="init, make-platform, link-modules, link-tests, files-directory, create-settings.php" />
-
-    <target name="rebuild-dev"
-            description="Rebuild the local development version, keeping settings.php and files intact."
-            depends="init, backup-local-files, make-platform, link-modules, link-tests, files-directory, create-settings.php, restore-local-files" />
+            depends="make-platform, create-settings.php" />
 
     <target name="build-dist"
             description="Build the Drupal site in order to install it"
-            depends="init, make-platform, copy-modules, files-directory, create-settings.php" />
+            depends="make-platform, create-settings.php" />
 
     <target name="install"
             description="Install the Drupal site"
-            depends="files-directory, install-drupal, enable-drupal-modules" />
+            depends="install-drupal, enable-drupal-modules" />
 
-    <target name="test"
-            description="Run tests."
-            depends="behat-tests" />
 </project>
