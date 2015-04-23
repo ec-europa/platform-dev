@@ -1,0 +1,14 @@
+# Ignore metadata from common editors and IDEs.
+*.sublime-project
+*.sublime-workspace
+.idea/
+nbproject/
+
+# Ignore local configuration overrides.
+build.properties.local
+
+# Ignore build folders.
+bin/
+build/
+tmp/
+vendor/
