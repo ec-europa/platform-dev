@@ -48,10 +48,13 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
           $entity_id = $this->getEntityIdFromToken($original);
           $view_mode = $this->getViewModeFromToken($original);
 
+          $render = array();
           switch ($type) {
             case 'node':
               $node = node_load($entity_id);
-              $render = node_view($node, $view_mode);
+              if ($this->canViewNode($node)) {
+                $render = node_view($node, $view_mode);
+              }
               break;
 
             case 'term':
@@ -61,7 +64,9 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
 
             case 'user':
               $account = user_load($entity_id);
-              $render = user_view($account, $view_mode);
+              if (user_access('access user profiles')) {
+                $render = user_view($account, $view_mode);
+              }
               break;
           }
 
@@ -161,6 +166,32 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
     return array_filter(parent::getEntityTokenTypes(), function ($entity) use ($supported_types) {
       return in_array($entity['token type'], $supported_types);
     });
+  }
+
+  /**
+   * Check if current node can be viewed.
+   *
+   * @param object $node
+   *    Node object.
+   *
+   * @return bool
+   *    TRUE if provided node can be viewed, FALSE otherwise.
+   */
+  private function canViewNode($node) {
+    global $user;
+
+    if (user_access('bypass node access') || user_access('administer nodes')) {
+      return TRUE;
+    }
+    if (!node_access('view', $node)) {
+      return FALSE;
+    }
+    if ($node->status == 0) {
+      return ($node->uid == $user->uid) && user_access('view own unpublished content');
+    }
+    else {
+      return TRUE;
+    }
   }
 
 }
