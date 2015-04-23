@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="${subsite.name}" default="help">
+<project name="${platform.name}" default="help">
 
     <!-- If `build.properties.local` exists then we want it badly -->
     <property file="build.properties.local" />
@@ -13,7 +13,6 @@
             <arg value="-l"/>
         </exec>
     </target>
-
 
     <echo msg="Loading Drush task." />
     <taskdef name="drush" classname="DrushTask" />
@@ -104,7 +103,7 @@
             root="${platform.basedir}/${phing.project.build.dir}"
             bin="${drush.bin}"
             verbose="${drush.verbose}">
-            <param>${drupal.modules}</param>
+            <param>${drupal.development.modules}</param>
             <param>--quiet</param>
         </drush>
     </target>
