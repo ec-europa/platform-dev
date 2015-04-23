@@ -91,11 +91,11 @@
     <target name="link-tests" depends="init,make-platform">
         <if>
             <not>
-                <available file="${project.basedir}/tests/behat.yml" type="file" />
+                <available file="${platform.basedir}/tests/behat.yml" type="file" />
             </not>
             <then>
                 <echo msg="Creating behat.yml config file" />
-                <loadfile property="behat.yml" file="${project.basedir}/tests/behat.yml.dist">
+                <loadfile property="behat.yml" file="${platform.basedir}/tests/behat.yml.dist">
                     <filterchain>
                         <replacetokens>
                             <token key="project.code.dir" value="${project.code.dir}" />
@@ -104,7 +104,7 @@
                         </replacetokens>
                     </filterchain>
                 </loadfile>
-                <echo msg="${behat.yml}" file="${project.basedir}/tests/behat.yml" />
+                <echo msg="${behat.yml}" file="${platform.basedir}/tests/behat.yml" />
             </then>
         </if>
         <symlink link="${phing.project.build.dir}/behat.yml" target="../tests/behat.yml" />
@@ -130,9 +130,9 @@
             <available file="${drupal.settings.dir}/settings.php" type="file" />
             <then>
                 <echo msg="Creating backup of settings.php file" />
-                <mkdir dir="${project.basedir}/${phing.project.tmp.dir}" />
+                <mkdir dir="${platform.basedir}/${phing.project.tmp.dir}" />
                 <chmod file="${drupal.settings.dir}/settings.php" mode="0777" failonerror="false" verbose="false" quiet="true" />
-                <copy file="${drupal.settings.dir}/settings.php" toDir="${project.basedir}/${phing.project.tmp.dir}" />
+                <copy file="${drupal.settings.dir}/settings.php" toDir="${platform.basedir}/${phing.project.tmp.dir}" />
             </then>
             <else>
               <echo msg="No settings.php file found. Proceeding with normal build." />
@@ -143,12 +143,12 @@
     <!-- Backup settings.php file. -->
     <target name="restore-local-files" depends="init">
         <if>
-            <available file="${project.basedir}/${phing.project.tmp.dir}/settings.php" type="file" />
+            <available file="${platform.basedir}/${phing.project.tmp.dir}/settings.php" type="file" />
             <then>
                 <echo msg="Restoring settings.php file from backup." />
-                <copy file="${project.basedir}/${phing.project.tmp.dir}/settings.php" tofile="${drupal.settings.dir}/settings.php" />
+                <copy file="${platform.basedir}/${phing.project.tmp.dir}/settings.php" tofile="${drupal.settings.dir}/settings.php" />
                 <echo msg="Clean-up temporary folder." />
-                <delete dir="${project.basedir}/${phing.project.tmp.dir}" includeemptydirs="true" failonerror="false" />
+                <delete dir="${platform.basedir}/${phing.project.tmp.dir}" includeemptydirs="true" failonerror="false" />
             </then>
             <else>
               <echo msg="No backup settings.php file found. Proceeding with normal build." />
@@ -168,7 +168,7 @@
         <drush
             command="site-install"
             assume="yes"
-            root="${project.basedir}/${phing.project.build.dir}"
+            root="${platform.basedir}/${phing.project.build.dir}"
             bin="${drush.bin}"
             verbose="${drush.verbose}">
             <option name="db-url" value="${drupal.db.url}"/>
@@ -185,7 +185,7 @@
         <drush
             command="pm-enable"
             assume="yes"
-            root="${project.basedir}/${phing.project.build.dir}"
+            root="${platform.basedir}/${phing.project.build.dir}"
             bin="${drush.bin}"
             verbose="${drush.verbose}">
             <param>${drupal.modules}</param>
@@ -200,77 +200,6 @@
               checkreturn="true"
               dir="${project.code.dir}"
               passthru="true" />
-    </target>
-
-    <!-- Delete the platform. -->
-    <target name="delete-platform" description="Deletes the downloaded platform files." depends="init">
-        <echo msg="Deleting platform files." />
-        <delete dir="${platform.code.dir}" includeemptydirs="true" failonerror="false" />
-    </target>
-
-    <!-- Clone the platform. -->
-    <target name="clone-platform" description="Clone the platform with git." depends="init">
-        <if>
-            <available file="${platform.code.dir}/.git" type="dir" />
-            <then>
-                <echo msg="The platform is already cloned." />
-                <phingcall target="checkout-platform" />
-                <phingcall target="pull-platform" />
-            </then>
-            <else>
-                <echo msg="Cloning platform." />
-                <gitclone
-                    repository="${platform.repo.url}"
-                    targetPath="${platform.code.dir}"
-                />
-                <phingcall target="checkout-platform" />
-            </else>
-        </if>
-    </target>
-
-    <!-- Update the platform. -->
-    <target name="fetch-platform" description="Fetch latest platform changes." depends="init">
-        <if>
-            <available file="${platform.code.dir}/.git" type="dir" />
-            <then>
-                <echo msg="Updating platform repository." />
-                <gitfetch repository="${platform.code.dir}" all="true" />
-            </then>
-            <else>
-                <fail msg="Platform update failed: the platform has not been downloaded." />
-            </else>
-        </if>
-    </target>
-
-    <!-- Check out the platform. -->
-    <target name="checkout-platform" description="Check out a particular commit of the platform." depends="init">
-        <if>
-            <available file="${platform.code.dir}/.git" type="dir" />
-            <then>
-                <echo msg="Checking out ref '${platform.repo.branch}'." />
-                <gitcheckout
-                    repository="${platform.code.dir}"
-                    branchname="${platform.repo.branch}"
-                />
-            </then>
-            <else>
-                <fail msg="Platform checkout failed: the platform has not been downloaded." />
-            </else>
-        </if>
-    </target>
-
-    <!-- Fetch and merge latest platform changes. -->
-    <target name="pull-platform" description="Fetch and merge latest platform changes." depends="init">
-        <if>
-            <available file="${platform.code.dir}/.git" type="dir" />
-            <then>
-                <echo msg="Fetching and merging platform repository." />
-                <gitpull repository="${platform.code.dir}" all="true" />
-            </then>
-            <else>
-                <fail msg="Platform pull failed: the platform has not been downloaded." />
-            </else>
-        </if>
     </target>
 
     <target name="build-dev"

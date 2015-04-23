@@ -41,11 +41,12 @@ drupal.make = ${drupal.platform.profile.dir}/${drupal.profile.name}/build.make
 # Platform configuration
 # ----------------------
 
-# The path where the platform will be downloaded.
-platform.dir = platform
+# The root directory of our platform, in order to be able to override it when
+# building from a subsite.
+platform.basedir = ${project.basedir}
 
 # The make file for the platform.
-platform.make = ${platform.dir}/${drupal.profile.name}/build.make
+platform.make = ${drupal.profile.name}/build.make
 
 # The branch, tag or commit to use, eg. 'master', 'develop', '1.7', '7df0d254b'.
 platform.repo.branch = epic/NEXTEUROPA-2464-Continuous-Integration
@@ -81,22 +82,15 @@ phing.bin = ${project.basedir}/bin/phing
 drush.bin = ${project.basedir}/bin/drush
 composer.bin = composer.phar
 
-# Custom source code for the project.
-project.lib.dir = ${project.basedir}/lib
-project.modules.dir = ${project.lib.dir}/modules
-project.source.dir = ${project.lib.dir}/src
-project.themes.dir = ${project.lib.dir}/themes
-
 # Temporary folder.
 phing.project.tmp.dir = tmp
 
 # Build locations.
 project.code.dir = ${project.basedir}/${phing.project.build.dir}
-platform.code.dir = ${project.basedir}/${platform.dir}
 
 # Directories inside the Drupal installation.
 drupal.profile.dir = ${project.code.dir}/profiles
-drupal.platform.profile.dir = ${platform.code.dir}/profiles
+drupal.platform.profile.dir = profiles
 
 drupal.sites.dir = ${project.code.dir}/sites
 drupal.settings.dir = ${drupal.sites.dir}/default
