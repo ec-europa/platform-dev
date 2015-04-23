@@ -43,6 +43,7 @@
             <param>${phing.project.build.dir}</param>
             <!-- Increasing the concurrency improves the build time by a factor of 3. -->
             <option name="concurrency">10</option>
+            <option name="no-patch-txt"></option>
         </drush>
 
         <echo msg="Copy platform files." />
