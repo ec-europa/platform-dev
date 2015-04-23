@@ -45,21 +45,6 @@
             <option name="concurrency">10</option>
             <option name="no-patch-txt"></option>
         </drush>
-
-        <echo msg="Copy platform files." />
-        <copy todir="${phing.project.build.dir}">
-            <fileset dir="${platform.basedir}">
-              <patternset>
-                <exclude name="**/*.svn"/>
-                <exclude name="**/automation/"/>
-                <exclude name="crawling_scripts/"/>
-                <exclude name="custom_subsites/"/>
-                <exclude name="deploy_scripts/"/>
-                <exclude name="dev/"/>
-                <exclude name="**/*.sh"/>
-              </patternset>
-          </fileset>
-        </copy>
     </target>
 
     <!-- Manipulate settings.php file. -->
