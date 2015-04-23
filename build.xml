@@ -36,6 +36,7 @@
             assume="yes"
             bin="${drush.bin}"
             pipe="yes"
+            verbose="${drush.verbose}"
             root="${phing.project.build.dir}">
             <param>${drupal.platform.profile.dir}/${drupal.profile.name}/build.make</param>
             <param>${phing.project.build.dir}</param>
@@ -164,7 +165,12 @@
 
     <!-- Install drupal. -->
     <target name="install-drupal" description="Run the install." depends="init">
-        <drush command="site-install" assume="yes" root="${project.basedir}/${phing.project.build.dir}" bin="${drush.bin}" verbose="true">
+        <drush
+            command="site-install"
+            assume="yes"
+            root="${project.basedir}/${phing.project.build.dir}"
+            bin="${drush.bin}"
+            verbose="${drush.verbose}">
             <option name="db-url" value="${drupal.db.url}"/>
             <option name="site-name" value="${phing.project.name}"/>
             <option name="account-name" value="${drupal.admin.username}"/>
@@ -176,7 +182,12 @@
 
     <!-- Enable modules. -->
     <target name="enable-drupal-modules" description="Enable Drupal modules." depends="install-drupal">
-        <drush command="pm-enable" assume="yes" root="${project.basedir}/${phing.project.build.dir}" bin="${drush.bin}">
+        <drush
+            command="pm-enable"
+            assume="yes"
+            root="${project.basedir}/${phing.project.build.dir}"
+            bin="${drush.bin}"
+            verbose="${drush.verbose}">
             <param>${drupal.modules}</param>
             <param>--quiet</param>
         </drush>

@@ -117,3 +117,10 @@ behat.bin = ${project.basedir}/bin/behat
 behat.dir = ${project.basedir}/tests
 behat.yml = ${behat.dir}/behat.yml
 behat.base_url = http://localhost
+
+
+# Debugging
+# ---------
+
+# Verbosity of drush commands.
+drush.verbose = FALSE
