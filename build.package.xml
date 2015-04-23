@@ -47,50 +47,6 @@
         </drush>
     </target>
 
-    <!-- Manipulate settings.php file. -->
-    <target name="create-settings.php">
-        <echo msg="Copying default.settings.php file to settings.php..." />
-        <copy file="${drupal.settings.dir}/default.settings.php" tofile="${drupal.settings.dir}/settings.php" />
-        <chmod file="${drupal.settings.dir}/settings.php" mode="0775" failonerror="true" />
-    </target>
-
-    <!-- Install dependencies. -->
-    <target name="install-dependencies" description="Install dependencies.">
-        <composer command="install" composer="${composer.bin}">
-            <arg value="--working-dir=${project.code.dir}" />
-        </composer>
-    </target>
-
-    <!-- Install drupal. -->
-    <target name="install-drupal" description="Run the install.">
-        <drush
-            command="site-install"
-            assume="yes"
-            root="${platform.basedir}/${phing.project.build.dir}"
-            bin="${drush.bin}"
-            verbose="${drush.verbose}">
-            <option name="db-url" value="${drupal.db.url}"/>
-            <option name="site-name" value="${phing.project.name}"/>
-            <option name="account-name" value="${drupal.admin.username}"/>
-            <option name="account-pass" value="${drupal.admin.password}"/>
-            <option name="account-mail" value="${drupal.admin.email}"/>
-            <param>${drupal.profile.name}</param>
-        </drush>
-    </target>
-
-    <!-- Enable modules. -->
-    <target name="enable-drupal-modules" description="Enable Drupal modules." depends="install-drupal">
-        <drush
-            command="pm-enable"
-            assume="yes"
-            root="${platform.basedir}/${phing.project.build.dir}"
-            bin="${drush.bin}"
-            verbose="${drush.verbose}">
-            <param>${drupal.development.modules}</param>
-            <param>--quiet</param>
-        </drush>
-    </target>
-
     <target name="build-dev"
             description="Build a local development version of the site."
             depends="make-platform" />
@@ -98,9 +54,5 @@
     <target name="build-dist"
             description="Build the Drupal site in order to install it"
             depends="make-platform" />
-
-    <target name="install"
-            description="Install the Drupal site"
-            depends="create-settings.php, install-drupal, enable-drupal-modules" />
 
 </project>
