@@ -41,9 +41,6 @@ drupal.make = ${drupal.platform.profile.dir}/${drupal.profile.name}/build.make
 # Platform configuration
 # ----------------------
 
-# The name of the platform.
-platform.name = "NextEuropa"
-
 # The root directory of our platform, in order to be able to override it when
 # building from a subsite.
 platform.basedir = ${project.basedir}
