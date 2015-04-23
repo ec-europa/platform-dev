@@ -180,6 +180,14 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
   private function canViewNode($node) {
     global $user;
 
+    // Make sure we don't render a node inside itself, preventing infinite loop.
+    $object = menu_get_object('node');
+    if (is_object($object) && isset($object->nid) && $object->nid == $node->nid) {
+      drupal_set_message(t('Cannot render a node inside itself, remove any view mode token related to the current node.'));
+      return FALSE;
+    }
+
+    // Make sure current user can actually access the rendered node.
     if (user_access('bypass node access') || user_access('administer nodes')) {
       return TRUE;
     }
