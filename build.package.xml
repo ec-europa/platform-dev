@@ -40,12 +40,12 @@
         </drush>
     </target>
 
-    <target name="build-dev"
-            description="Build a local development version of the site."
+    <target name="build-platform-dev"
+            description="Build a local development version of the platform."
             depends="make-platform" />
 
-    <target name="build-dist"
-            description="Build the Drupal site in order to install it"
+    <target name="build-platform-dist"
+            description="Build a version of the platform intended to distribute as a release package."
             depends="make-platform" />
 
 </project>
