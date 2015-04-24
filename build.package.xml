@@ -7,13 +7,6 @@
     <property file="build.properties" />
     <property file="build.properties.dist" />
 
-    <target name="help" description="Phing target list">
-        <exec executable="${phing.bin}"
-              passthru="true">
-            <arg value="-l"/>
-        </exec>
-    </target>
-
     <echo msg="Loading Drush task." />
     <taskdef name="drush" classname="DrushTask" />
 
