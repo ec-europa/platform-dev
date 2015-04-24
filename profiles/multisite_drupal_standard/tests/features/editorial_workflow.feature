@@ -26,9 +26,9 @@ Feature: Editorial workflow
     And I should see "Edit draft"
     When I click "Edit draft"
     Then I should have the following options for 'Moderation state':
-      | options        |
-      | Current: Draft |
-      | Needs Review   |
+      | options         |
+      | Draft (Current) |
+      | Needs Review    |
     But I should not have the following options for 'Moderation state':
       | options   |
       | Validated |
@@ -53,10 +53,10 @@ Feature: Editorial workflow
     And I should see "Edit draft"
     When I click "Edit draft"
     Then I should have the following options for 'Moderation state':
-      | options        |
-      | Current: Draft |
-      | Needs Review   |
-      | Validated      |
+      | options         |
+      | Draft (Current) |
+      | Needs Review    |
+      | Validated       |
     But I should not have the following options for 'Moderation state':
       | options   |
       | Published |
@@ -80,12 +80,12 @@ Feature: Editorial workflow
     And I should see "Edit draft"
     When I click "Edit draft"
     Then I should have the following options for 'Moderation state':
-      | options        |
-      | Current: Draft |
-      | Needs Review   |
-      | Validated      |
-      | Published      |
-      | Expired        |
+      | options         |
+      | Draft (Current) |
+      | Needs Review    |
+      | Validated       |
+      | Published       |
+      | Expired         |
 
     Examples:
       | role               |
