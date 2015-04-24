@@ -1,47 +1,15 @@
-Modify the Workbench moderationrules in order to add revision management and unpublish action
-Index: sites/all/modules/contributed/workbench_moderation/workbench_moderation.rules.inc
-===================================================================
---- workbench_moderation.rules.inc	2012-01-14 00:12:30.000000000 +0100
-+++ workbench_moderation.rules.inc	2012-02-21 10:44:29.000000000 +0100
-
-***************
-*** 170,191 ****
---- 170,234 ----
-          'label' => t("Content"),
-        ),
-      ),
-      'provides' => array(
-        'workbench_moderation_state' => array(
-          'type' => 'unknown',
-          'label' => t("Workbench moderation state"),
-        ),
-      ),
-    );
-  
-+   $items['workbench_moderation_load_current_revision'] = array(
-+     'label' => t("Load current node revision"),
-+     'group' => t("Node"),
-+     'base' => 'workbench_moderation_load_current_revision_rules_action',
-+ 
-+     'parameter' => array(
-+       'node' => array(
-+         'type' => 'node',
-+         'label' => t("Content"),
-+       ),
-+     ),
-+     'provides' => array(
-+       'node_revision' => array(
-+         'type' => 'node',
-+         'label' => t("Current node revision"),
-+       ),
-+     ),
-+   );
-+   
-+   $items['workbench_moderation_set_state_and_unpublish'] = array(
+--- workbench_moderation.rules.inc	2015-04-24 15:18:29.063954029 +0200
++++ workbench_moderation.rules.inc	2015-04-24 15:37:16.000000000 +0200
+@@ -196,6 +196,30 @@
+       ),
+     ),
+   );
++  
++  $items['workbench_moderation_set_state_and_unpublish'] = array(
 +    'label' => t("Set moderation state and unpublish"),
 +    'group' => t("Node"),
 +    'base' => 'workbench_moderation_set_state_and_unpublish_rules_action',
-+ 
++
 +    'parameter' => array(
 +      'node' => array(
 +        'type' => 'node',
@@ -60,79 +28,48 @@ Index: sites/all/modules/contributed/workbench_moderation/workbench_moderation.r
 +      ),
 +    ),
 +  );
-+ 
-    return $items;
-  }
-  
-  /**
-   * Condition: Check if the content is using workbench moderation.
-   *
-   * @param $node
-   *   A node object
-   *
-   * @return
-   *   TRUE/FALSE depending on if the content is using workbench moderation.
-***************
-*** 318,328 ****
---- 361,420 ----
-   *   An array containing the node object stored in the key called 'node' and an array containing the access control states for the given node.
-   */
-  function workbench_moderation_load_current_state_rules_action($node) {
-    $state = '';
-  
-    if (is_object($node) && property_exists($node, 'workbench_moderation') && isset($node->workbench_moderation['current'])){
-      $state = $node->workbench_moderation['current'];
-    }
-  
-    return array('node' => $node, 'workbench_moderation_state' => $state);
-  }
-+ 
-+ /**
-+  * Action: Loads the current node revision.
-+  *
-+  * $param $node
-+  *   A node object
-+  *
-+  * @return
-+  *   A loaded node revision.
-+  */
-+ function workbench_moderation_load_current_revision_rules_action($node) {
-+   $node_revision = workbench_moderation_node_current_load($node);
-+   return array('node' => $node, 'node_revision' => $node_revision);
-+ }
-+ /**
-+  * Action: Sets the moderation state and unpublishes the current node revision
-+  *
-+  * $param $node
-+  *   A node object
-+  *
-+  * @return
-+  *   An array containing the node in the key 'node'.
-+  */
-+ function workbench_moderation_set_state_and_unpublish_rules_action($node, $moderation_state, $force_transition) {
-+   // Do nothing if no node or moderation state is missing
-+   if (!is_object($node) || empty($moderation_state)) {
-+     return array('node' => $node);
-+   }
-+ 
-+   // Remove the moderation record's "published" flag.
-+   $query = db_update('workbench_moderation_node_history')
-+     ->condition('hid', $node->workbench_moderation['published']->hid)
-+     ->fields(array('published' => 0))
-+     ->execute();
-+ 
-+   // Set the moderation state
-+   workbench_moderation_set_state_action($node, array('state' => $moderation_state, 'force_transition' => $force_transition));
-+ 
-+   // Make sure the 'current' revision is the 'live' revision -- ie, the revision
-+   // in {node}.
-+   $live_revision = workbench_moderation_node_current_load($node);
-+   $live_revision->status = 0;
-+   $live_revision->revision = 0;
-+   $live_revision->workbench_moderation['updating_live_revision'] = TRUE;
-+   // @TODO: do we trust node_save() here?
-+   node_save($live_revision);
-+ 
-+   return array('node' => $node);
-+ }
+ 
+   return $items;
+ }
+@@ -360,4 +384,40 @@
+ function workbench_moderation_load_current_revision_rules_action($node) {
+   $node_revision = workbench_moderation_node_current_load($node);
+   return array('node' => $node, 'node_revision' => $node_revision);
++}
++
++/**
++ * Action: Sets the moderation state and unpublishes the current node revision
++ *
++ * $param $node
++ *   A node object
++ *
++ * @return
++ *   An array containing the node in the key 'node'.
++ */
++function workbench_moderation_set_state_and_unpublish_rules_action($node, $moderation_state, $force_transition) {
++  // Do nothing if no node or moderation state is missing
++  if (!is_object($node) || empty($moderation_state)) {
++    return array('node' => $node);
++  }
++
++  // Remove the moderation record's "published" flag.
++  $query = db_update('workbench_moderation_node_history')
++    ->condition('hid', $node->workbench_moderation['published']->hid)
++    ->fields(array('published' => 0))
++    ->execute();
++
++  // Set the moderation state
++  workbench_moderation_set_state_action($node, array('state' => $moderation_state, 'force_transition' => $force_transition));
++
++  // Make sure the 'current' revision is the 'live' revision -- ie, the revision
++  // in {node}.
++  $live_revision = workbench_moderation_node_current_load($node);
++  $live_revision->status = 0;
++  $live_revision->revision = 0;
++  $live_revision->workbench_moderation['updating_live_revision'] = TRUE;
++  // @TODO: do we trust node_save() here?
++  node_save($live_revision);
++
++  return array('node' => $node);
+ }
 \ No newline at end of file
