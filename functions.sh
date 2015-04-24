@@ -162,10 +162,6 @@ function _create_database {
 function _setsolrconf {
 	drush solr-set-env-url  "$solr_server_url"
 	drush sqlq "UPDATE apachesolr_environment SET name = '${solr_server_name}' WHERE env_id = 'solr'"
-	#set solr tika variables
-	drush vset apachesolr_attachments_tika_jar "${apachesolr_attachments_tika_jar}"
-	drush vset apachesolr_attachments_tika_path "${apachesolr_attachments_tika_path}"
-	drush vset apachesolr_attachments_java "${apachesolr_attachments_java}"
 }
 
 function _setlinkcheckerconf {
