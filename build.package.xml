@@ -10,8 +10,12 @@
     <echo msg="Loading Drush task." />
     <taskdef name="drush" classname="DrushTask" />
 
-    <!-- Execute drush make file and download profile. -->
-    <target name="make-platform">
+    <!-- Delete the previous build. -->
+    <target name="delete-platform">
+        <!--
+            During the Drupal installation process the settings folder is write
+            protected. Ensure it is writeable so it can be removed.
+         -->
         <if>
             <available file="${drupal.settings.dir}" type="dir" />
             <then>
@@ -23,7 +27,10 @@
 
         <echo msg="Delete previous build." />
         <delete dir="${phing.project.build.dir}" includeemptydirs="true" failonerror="false" />
+    </target>
 
+    <!-- Execute drush make file and download profile. -->
+    <target name="make-platform">
         <echo msg="Make the distribution." />
         <drush
             command="make"
@@ -42,7 +49,7 @@
 
     <target name="build-platform-dev"
             description="Build a local development version of the platform."
-            depends="make-platform" />
+            depends="delete-platform, make-platform" />
 
     <target name="build-platform-dist"
             description="Build a version of the platform intended to distribute as a release package."
