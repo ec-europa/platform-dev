@@ -1,16 +1,12 @@
 api = 2
 core = 7.x
 
-; =============
-; Temporary fix until Drupal.org add project tags back
-; =============
-;projects[drupal][type] = core
-;projects[drupal][version] = "7.35"
+; ===========
+; Drupal core
+; ===========
 
 projects[drupal][type] = core
-projects[drupal][version] = 7.35
-projects[drupal][download][type] = get
-projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.35.tar.gz
+projects[drupal][version] = "7.35"
 
 ; ====================
 ; Contributed modules
