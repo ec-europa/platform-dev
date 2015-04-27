@@ -5,7 +5,7 @@
 drupal.version = 7.35
 
 # The install profile to use.
-drupal.profile.name = multisite_drupal_standard
+platform.profile.name = multisite_drupal_standard
 
 # Database settings.
 drupal.db.type = mysql
@@ -36,7 +36,7 @@ drupal.site.name = all
 platform.basedir = ${project.basedir}
 
 # The make file for the platform.
-platform.make = ${platform.resources.profile.dir}/${drupal.profile.name}/build.make
+platform.make = ${platform.resources.profile.dir}/${platform.profile.name}/build.make
 
 # The branch, tag or commit to use, eg. 'master', 'develop', '1.7', '7df0d254b'.
 platform.repo.branch = epic/NEXTEUROPA-2464-Continuous-Integration
@@ -75,17 +75,17 @@ platform.build.dir = ${project.basedir}/${phing.project.build.dir}
 platform.resources.profile.dir = ${platform.basedir}/profiles
 
 # Directories inside the Drupal installation.
-drupal.profile.dir = ${platform.build.dir}/profiles
+platform.profile.dir = ${platform.build.dir}/profiles
 
-drupal.sites.dir = ${platform.build.dir}/sites
-drupal.settings.dir = ${drupal.sites.dir}/default
-drupal.files.dir = ${drupal.settings.dir}/files
+platform.sites.dir = ${platform.build.dir}/sites
+platform.settings.dir = ${platform.sites.dir}/default
+platform.files.dir = ${platform.settings.dir}/files
 
-drupal.site.dir = ${drupal.sites.dir}/${drupal.site.name}
-drupal.libraries.dir = ${drupal.site.dir}/libraries
-drupal.modules.dir = ${drupal.site.dir}/modules
-drupal.source.dir = ${drupal.site.dir}/src
-drupal.themes.dir = ${drupal.site.dir}/themes
+platform.site.dir = ${platform.sites.dir}/${platform.site.name}
+platform.libraries.dir = ${platform.site.dir}/libraries
+platform.modules.dir = ${platform.site.dir}/modules
+platform.source.dir = ${platform.site.dir}/src
+platform.themes.dir = ${platform.site.dir}/themes
 
 
 # Behat configuration

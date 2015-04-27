@@ -17,10 +17,10 @@
             protected. Ensure it is writeable so it can be removed.
          -->
         <if>
-            <available file="${drupal.settings.dir}" type="dir" />
+            <available file="${platform.settings.dir}" type="dir" />
             <then>
                 <chmod mode="0777" failonerror="false" verbose="false" quiet="true">
-                    <fileset dir="${drupal.settings.dir}" />
+                    <fileset dir="${platform.settings.dir}" />
                 </chmod>
             </then>
         </if>
