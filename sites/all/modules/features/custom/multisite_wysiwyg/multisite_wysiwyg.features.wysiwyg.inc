@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * multisite_wysiwyg.features.wysiwyg.inc
+ * Multisite_wysiwyg.features.wysiwyg.inc.
  */
 
 /**

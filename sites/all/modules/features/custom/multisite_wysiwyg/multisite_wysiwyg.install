@@ -2,35 +2,35 @@
 
 /**
  * @file
- * Install the feature ec_content_slider
+ * Install the feature ec_content_slider.
  */
 
 /**
- * hook_install
+ * Hook_install.
  */
 function multisite_wysiwyg_install() {
-    //Nothing yet
+  // Nothing yet.
 }
 
 /**
- * hook_uninstall
+ * Hook_uninstall.
  */
 function multisite_wysiwyg_uninstall() {
-    //Nothing yet
+  // Nothing yet.
 }
 
 /**
- * hook_enable
+ * Hook_enable.
  */
 function multisite_wysiwyg_enable() {
-  //Activation message
+  // Activation message.
   drupal_set_message(t('Multisite Wysiwyg feature is now active on your site.'));
 }
 
 /**
- * hook_disable
+ * Hook_disable.
  */
 function multisite_wysiwyg_disable() {
-  //Activation message
+  // Activation message.
   drupal_set_message(t('Multisite Wysiwyg feature is now disabled on your site.'));
 }

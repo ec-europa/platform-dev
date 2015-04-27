@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * multisite_wysiwyg.features.user_permission.inc
+ * Multisite_wysiwyg.features.user_permission.inc.
  */
 
 /**

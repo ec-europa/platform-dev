@@ -5,10 +5,10 @@
  */
 
 /**
-  * Implements hook__wysiwyg_editor_settings_alter().
-  */
+ * Implements hook__wysiwyg_editor_settings_alter().
+ */
 function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
- global $base_url;
+  global $base_url;
 
   if ($context['profile']->editor == 'ckeditor') {
     $skins_path = drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/skins';
@@ -16,10 +16,7 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
     // Set custom skin.
     $settings['skin'] = sprintf('%s,' . '%s/%s/%s/', $active_skin, $base_url, $skins_path, $active_skin);
 
-    // Provide additionnal custom settings
+    // Provide additionnal custom settings.
     $settings['customConfig'] = base_path() . drupal_get_path('module', 'multisite_wysiwyg') . '/multisite_wysiwyg_config.js';
   }
 }
-
-
-
