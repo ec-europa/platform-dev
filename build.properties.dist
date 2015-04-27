@@ -1,9 +1,6 @@
 # Drupal configuration
 # --------------------
 
-# The Drupal version to use.
-drupal.version = 7.35
-
 # The install profile to use.
 platform.profile.name = multisite_drupal_standard
 
