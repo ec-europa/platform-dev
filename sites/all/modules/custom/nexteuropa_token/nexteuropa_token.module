@@ -1,0 +1,85 @@
+<?php
+
+/**
+ * @file
+ * Exposes general purposes tokens for NextEuropa sites.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_token_menu() {
+  $items['admin/config/system/nexteuropa-tokens'] = array(
+    'title' => 'NextEuropa Tokens',
+    'description' => 'Provide site-specific setting for NextEuropa related tokens.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_token_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'nexteuropa_token.admin.inc',
+    'weight' => 20,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_nexteuropa_token_token_handlers().
+ */
+function nexteuropa_token_nexteuropa_token_token_handlers() {
+  return array(
+    'hash_handler'              => '\Drupal\nexteuropa_token\HashTokenHandler',
+    'view_mode_entity_handler'  => '\Drupal\nexteuropa_token\Entity\ViewModeTokenHandler',
+    'url_entity_handler'        => '\Drupal\nexteuropa_token\Entity\UrlTokenHandler',
+    'link_entity_handler'       => '\Drupal\nexteuropa_token\Entity\LinkTokenHandler',
+  );
+}
+
+/**
+ * Implements hook_token_info_alter().
+ */
+function nexteuropa_token_token_info_alter(&$data) {
+  foreach (module_invoke_all('nexteuropa_token_token_handlers') as $name => $class) {
+    nexteuropa_token_get_handler($name)->hookTokenInfoAlter($data);
+  }
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function nexteuropa_token_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  foreach (module_invoke_all('nexteuropa_token_token_handlers') as $name => $class) {
+    $replacements += nexteuropa_token_get_handler($name)->hookTokens($type, $tokens, $data, $options);
+  }
+  return $replacements;
+}
+
+/**
+ * Get instance of token handler object.
+ *
+ * @param string $name
+ *    Token handler name.
+ *
+ * @return \Drupal\nexteuropa_token\TokenHandlerInterface
+ *    Token handler object instance.
+ *
+ * @throws \Exception
+ *    Throws exception if no handler class has been found.
+ *
+ * @see hook_nexteuropa_token_token_handlers()
+ */
+function nexteuropa_token_get_handler($name) {
+  $handlers = module_invoke_all('nexteuropa_token_token_handlers');
+  if (!isset($handlers[$name])) {
+    throw new \Exception(t('Token handler with name !name not found.', array('!name' => $name)));
+  }
+  elseif (!class_exists($handlers[$name])) {
+    throw new \Exception(t('Token handler class !class not found.', array('!class' => $handlers[$name])));
+  }
+  else {
+    $reflection = new \ReflectionClass($handlers[$name]);
+    if (!$reflection->implementsInterface('\Drupal\nexteuropa_token\TokenHandlerInterface')) {
+      throw new \Exception(t('Token handler class !class must implement \Drupal\nexteuropa_token\TokenHandlerInterface interface.', array('!class' => $handlers[$name])));
+    }
+  }
+  return new $handlers[$name]();
+}
