@@ -349,7 +349,6 @@ projects[views_datasource][download][type] = "git"
 projects[views_datasource][download][url] = "http://git.drupal.org/project/views_datasource.git"
 projects[views_datasource][download][revision] = "6e9b6b980fc2826b09391ae1c2ec0c5a85c6c24a"
 
-
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.0-beta7"
 
@@ -412,7 +411,7 @@ projects[ckeditor_lite][version] = 1.0-rc1
 ; Libraries
 ; =========
 
-;ckeditor 4.3.2
+; ckeditor 4.3.2
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
@@ -428,21 +427,21 @@ libraries[ckeditor_lite][download][url] = http://download.ckeditor.com/lite/rele
 libraries[ckeditor_lite][subdir] = ckeditor/plugins
 libraries[ckeditor_lite][directory_name] = "lite"
 
-;tcpdf 6.0.013
+; tcpdf 6.0.013
 libraries[tcpdf][download][type] = "git"
 libraries[tcpdf][download][url] = "http://git.code.sf.net/p/tcpdf/code"
 libraries[tcpdf][download][tag] = "6.0.053"
 libraries[tcpdf][directory_name] = "tcpdf"
 libraries[tcpdf][destination] = "libraries"
 
-;mpdf 5.7
+; mpdf 5.7
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
 libraries[mpdf][destination] = "libraries"
 
-;cycle 3.0.2 (commit d6557ca)
+; cycle 3.0.2 (commit d6557ca)
 libraries[cycle][download][type] = "git"
 libraries[cycle][download][url] = "https://github.com/malsup/cycle.git"
 libraries[cycle][download][revision] = f314eff3a0b77902fe2afe7640d7ec0728ff3dc6
