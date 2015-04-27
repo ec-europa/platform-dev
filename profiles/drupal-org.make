@@ -247,7 +247,7 @@ projects[migrate][subdir] = "contrib"
 projects[migrate][version] = "2.7"
 
 projects[mimemail][subdir] = "contrib"
-;projects[mimemail][version] = "1.0-beta3"
+projects[mimemail][version] = "1.0-beta3"
 
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
