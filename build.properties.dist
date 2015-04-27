@@ -1,10 +1,3 @@
-# Basic configuration
-# -------------------
-
-# The build location
-phing.project.build.dir = build
-
-
 # Drupal configuration
 # --------------------
 
@@ -68,6 +61,9 @@ platform.repo.url = ${platform.repo.protocol}://${platform.repo.user}@${platform
 phing.bin = ${project.basedir}/bin/phing
 drush.bin = ${project.basedir}/bin/drush
 composer.bin = composer.phar
+
+# The build location
+phing.project.build.dir = build
 
 # Temporary folder.
 phing.project.tmp.dir = tmp
