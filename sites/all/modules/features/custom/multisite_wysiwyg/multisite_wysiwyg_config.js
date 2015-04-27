@@ -20,7 +20,7 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
 
   if(dialogName == 'link') {
     var info =  dialogDefinition.getContents('info');
-    // Add a html element to display message.
+    // Add a html element to display message in the 'info' tab.
     info.add({
       id : 'check_url_msg',
       type : 'html',
@@ -36,7 +36,7 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
       type : 'button',
       id : 'check_url_btn',
       label : 'Check URL',
-      title : 'title',
+      title : 'Check URL',
       style   : 'color:green',
       onClick : function() {
         var dialog = CKEDITOR.dialog.getCurrent();
@@ -47,7 +47,7 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
       }
     });
 
-    // Override the onShow event to display custom elements.
+    // Override the onShow event to display custom elements and manage buttons display.
     dialogDefinition.onShow = CKEDITOR.tools.override(dialogDefinition.onShow, function(original) {
       return function() {
         original.call(this);
@@ -92,32 +92,32 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
 
   }
 
-
-  function urlExists(url){
-    $('#url_check_msg').html('Checking url... <img src="'+Drupal.settings.basePath+'misc/throbber-active.gif"/>');
-    $.getJSON(url)
-      .done(function( data ) {
-        console.log(data);
-        if(data == true) {
-          $('#url_check_msg').html('');
-          $('#url_check_msg').css({ 'color': 'green', 'font-weight': 'bold' });
-          // submit the dialog box form
-          $('.cke_dialog_ui_button_ok span').click();
-        }
-        else {
-          $('#url_check_msg').html('Url not exists');
-          $('#url_check_msg').css({ 'color': 'red', 'font-weight': 'bold' });
-          $('.cke_dialog_ui_button_ok').hide();
-        }
-      })
-      .fail(function( jqxhr, textStatus, rror ) {
-        var err = textStatus + ", " + error;
-        console.log( "Request Failed: " + err );
-        $('#url_check_msg').html('Network error');
-        $('#url_check_msg').css({ 'color': 'red', 'font-weight': 'bold' });
-     });
-  }
-
 });
+
+// Ajax call to check if an URL exists, update/submit the dialog box
+function urlExists(url){
+  $('#url_check_msg').html('Checking url... <img src="'+Drupal.settings.basePath+'misc/throbber-active.gif"/>');
+  $.getJSON(url)
+    .done(function( data ) {
+      console.log(data);
+      if(data == true) {
+        $('#url_check_msg').html('');
+        $('#url_check_msg').css({ 'color': 'green', 'font-weight': 'bold' });
+        // submit the dialog box form
+        $('.cke_dialog_ui_button_ok span').click();
+      }
+      else {
+        $('#url_check_msg').html('Url not exists');
+        $('#url_check_msg').css({ 'color': 'red', 'font-weight': 'bold' });
+        $('.cke_dialog_ui_button_ok').hide();
+      }
+    })
+    .fail(function( jqxhr, textStatus, rror ) {
+      var err = textStatus + ", " + error;
+      console.log( "Request Failed: " + err );
+      $('#url_check_msg').html('Network error');
+      $('#url_check_msg').css({ 'color': 'red', 'font-weight': 'bold' });
+   });
+}
 
 })(jQuery);
