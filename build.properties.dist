@@ -34,9 +34,6 @@ drupal.development.modules = devel field_ui maillog simpletest views_ui
 # The site name to use. Use 'all' unless you want to build a multisite setup.
 drupal.site.name = all
 
-# The make file to build.
-drupal.make = ${drupal.platform.profile.dir}/${drupal.profile.name}/build.make
-
 
 # Platform configuration
 # ----------------------
@@ -46,7 +43,7 @@ drupal.make = ${drupal.platform.profile.dir}/${drupal.profile.name}/build.make
 platform.basedir = ${project.basedir}
 
 # The make file for the platform.
-platform.make = ${drupal.profile.name}/build.make
+platform.make = ${platform.resources.profile.dir}/${drupal.profile.name}/build.make
 
 # The branch, tag or commit to use, eg. 'master', 'develop', '1.7', '7df0d254b'.
 platform.repo.branch = epic/NEXTEUROPA-2464-Continuous-Integration
@@ -63,6 +60,7 @@ platform.repo.domain = webgate.ec.europa.eu
 platform.repo.path = CITnet/stash/scm/nexteuropa/platform-${platform.repo.repo}.git
 platform.repo.url = ${platform.repo.protocol}://${platform.repo.user}@${platform.repo.domain}/${platform.repo.path}
 
+
 # Paths
 # -----
 
@@ -75,13 +73,15 @@ composer.bin = composer.phar
 phing.project.tmp.dir = tmp
 
 # Build locations.
-project.code.dir = ${project.basedir}/${phing.project.build.dir}
+platform.build.dir = ${project.basedir}/${phing.project.build.dir}
+
+# Local resources
+platform.resources.profile.dir = ${platform.basedir}/profiles
 
 # Directories inside the Drupal installation.
-drupal.profile.dir = ${project.code.dir}/profiles
-drupal.platform.profile.dir = profiles
+drupal.profile.dir = ${platform.build.dir}/profiles
 
-drupal.sites.dir = ${project.code.dir}/sites
+drupal.sites.dir = ${platform.build.dir}/sites
 drupal.settings.dir = ${drupal.sites.dir}/default
 drupal.files.dir = ${drupal.settings.dir}/files
 

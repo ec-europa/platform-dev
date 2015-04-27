@@ -39,7 +39,7 @@
             pipe="yes"
             verbose="${drush.verbose}"
             root="${phing.project.build.dir}">
-            <param>${drupal.platform.profile.dir}/${drupal.profile.name}/build.make</param>
+            <param>${platform.make}</param>
             <param>${phing.project.build.dir}</param>
             <!-- Increasing the concurrency improves the build time by a factor of 3. -->
             <option name="concurrency">10</option>
