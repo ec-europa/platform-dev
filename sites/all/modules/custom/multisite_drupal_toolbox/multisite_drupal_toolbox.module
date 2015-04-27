@@ -60,6 +60,13 @@ function multisite_drupal_toolbox_menu() {
     'access arguments' => array('administer site configuration'),
     'weight' => -5,
   );
+  $items['check_url'] = array (
+    'title' => 'Check URLs',
+    'page callback' => '_multisite_drupal_toolbox_url_exists',
+    'access callback' => TRUE,
+    'access arguments' => array('use text format full_html'),
+    'type' => MENU_CALLBACK,
+  );
 
   return $items;
 }
@@ -1478,4 +1485,20 @@ function multisite_drupal_toolbox_library_alter(&$javascript, $module) {
       }
     }
   }
+}
+
+/**
+  * Helper to check if an url is valid with drupal_http_request.
+  * Return a boolean in json format.
+  */
+function _multisite_drupal_toolbox_url_exists($url=NULL) {
+  $response = drupal_http_request($_GET['url']);
+  if (isset($response->errno) && $response->errno == 0 && $response->code >=200 && $response->code < 300){
+    $output = true;
+  } else {
+    $output =  false;
+  }
+  drupal_add_http_header('Content-Type', 'application/json');
+  echo drupal_json_encode($output);
+  drupal_exit();
 }
