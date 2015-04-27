@@ -67,12 +67,26 @@
             <option name="no-patch-txt"></option>
             <!-- This option will allow us to build inside an existing folder. -->
             <option name="no-core"></option>
+            <!-- Install all contributed projects inside the chosen profile. -->
+            <option name="contrib-destination">profiles/${platform.profile.name}</option>
         </drush>
+    </target>
+
+    <!-- Symlink the profile folders for easy development. -->
+    <target name="link-platform-profiles">
+        <!-- Make a backup of the core profiles folder. -->
+        <move file="${platform.build.profiles.dir}" todir="${phing.project.tmp.dir}" />
+        <!-- Symlink our profiles folder. -->
+        <symlink link="${platform.build.profiles.dir}" target="${platform.resources.profiles.dir}" />
+        <!-- Restore the core profiles. -->
+        <move file="${phing.project.tmp.dir}/profiles/minimal" todir="${platform.build.profiles.dir}" />
+        <move file="${phing.project.tmp.dir}/profiles/standard" todir="${platform.build.profiles.dir}" />
+        <move file="${phing.project.tmp.dir}/profiles/testing" todir="${platform.build.profiles.dir}" />
     </target>
 
     <target name="build-platform-dev"
             description="Build a local development version of the platform."
-            depends="delete-platform, make-drupal-core, make-platform" />
+            depends="delete-platform, make-drupal-core, link-platform-profiles, make-platform" />
 
     <target name="build-platform-dist"
             description="Build a version of the platform intended to distribute as a release package."

@@ -12,3 +12,8 @@ bin/
 build/
 tmp/
 vendor/
+
+# Ignore core profiles in the symlinked profiles folder.
+profiles/minimal
+profiles/standard
+profiles/testing
