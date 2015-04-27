@@ -35,9 +35,10 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
     dialogDefinition.buttons.unshift({
       type : 'button',
       id : 'check_url_btn',
-      label : 'Check URL',
+      label : 'OK',
       title : 'Check URL',
-      style   : 'color:green',
+      //style   : 'color:green',
+      className: 'cke_dialog_ui_button_ok',
       onClick : function() {
         var dialog = CKEDITOR.dialog.getCurrent();
         elem_url = dialog.getContentElement('info','url');
