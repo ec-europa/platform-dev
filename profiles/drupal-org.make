@@ -128,7 +128,7 @@ projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.0-beta4"
 
 projects[field_group][subdir] = "contrib"
-;projects[field_group][version] = "1.3"
+projects[field_group][version] = "1.4"
 
 projects[field_collection][subdir] = "contrib"
 projects[field_collection][version] = "1.0-beta7"
