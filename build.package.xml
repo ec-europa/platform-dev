@@ -17,10 +17,10 @@
             protected. Ensure it is writeable so it can be removed.
          -->
         <if>
-            <available file="${platform.settings.dir}" type="dir" />
+            <available file="${platform.build.settings.dir}" type="dir" />
             <then>
                 <chmod mode="0777" failonerror="false" verbose="false" quiet="true">
-                    <fileset dir="${platform.settings.dir}" />
+                    <fileset dir="${platform.build.settings.dir}" />
                 </chmod>
             </then>
         </if>
@@ -38,9 +38,9 @@
             bin="${drush.bin}"
             pipe="yes"
             verbose="${drush.verbose}"
-            root="${phing.project.build.dir}">
+            root="${platform.build.dir}">
             <param>${platform.make}</param>
-            <param>${phing.project.build.dir}</param>
+            <param>${platform.build.dir}</param>
             <!-- Increasing the concurrency improves the build time by a factor of 3. -->
             <option name="concurrency">10</option>
             <option name="no-patch-txt"></option>

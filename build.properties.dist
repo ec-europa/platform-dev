@@ -33,7 +33,7 @@ drupal.site.name = all
 platform.basedir = ${project.basedir}
 
 # The make file for the platform.
-platform.make = ${platform.resources.profile.dir}/${platform.profile.name}/build.make
+platform.make = ${platform.resources.profile.dir}/build.make
 
 # The branch, tag or commit to use, eg. 'master', 'develop', '1.7', '7df0d254b'.
 platform.repo.branch = epic/NEXTEUROPA-2464-Continuous-Integration
@@ -69,20 +69,26 @@ phing.project.tmp.dir = tmp
 platform.build.dir = ${project.basedir}/${phing.project.build.dir}
 
 # Local resources
-platform.resources.profile.dir = ${platform.basedir}/profiles
+platform.resources.profiles.dir = ${platform.basedir}/profiles
+platform.resources.profile.dir = ${platform.basedir}/profiles/${platform.profile.name}
+platform.resources.libraries.dir = ${platform.resources.profile.dir}/libraries
+platform.resources.modules.dir = ${platform.resources.profile.dir}/modules
+platform.resources.sources.dir = ${platform.resources.profile.dir}/src
+platform.resources.themes.dir = ${platform.resources.profile.dir}/themes
 
 # Directories inside the Drupal installation.
-platform.profile.dir = ${platform.build.dir}/profiles
+platform.build.sites.dir = ${platform.build.dir}/sites
+platform.build.site.dir = ${platform.build.sites.dir}/${platform.build.site.name}
 
-platform.sites.dir = ${platform.build.dir}/sites
-platform.settings.dir = ${platform.sites.dir}/default
-platform.files.dir = ${platform.settings.dir}/files
+platform.build.settings.dir = ${platform.build.sites.dir}/default
+platform.build.files.dir = ${platform.build.settings.dir}/files
 
-platform.site.dir = ${platform.sites.dir}/${platform.site.name}
-platform.libraries.dir = ${platform.site.dir}/libraries
-platform.modules.dir = ${platform.site.dir}/modules
-platform.source.dir = ${platform.site.dir}/src
-platform.themes.dir = ${platform.site.dir}/themes
+platform.build.profiles.dir = ${platform.build.dir}/profiles
+platform.build.profile.dir = ${platform.build.profiles.dir}/${platform.profile.name}
+platform.build.libraries.dir = ${platform.build.profile.dir}/libraries
+platform.build.modules.dir = ${platform.build.profile.dir}/modules
+platform.build.sources.dir = ${platform.build.profile.dir}/src
+platform.build.themes.dir = ${platform.build.profile.dir}/themes
 
 
 # Behat configuration
