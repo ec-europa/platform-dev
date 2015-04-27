@@ -12,9 +12,6 @@ projects[drupal][version] = 7.34
 projects[devel][subdir] = "contrib"
 projects[devel][version] = "1.5"
 
-;projects[devel_themer][subdir] = "contrib"
-;projects[devel_themer][version] = "1.x-dev"
-
 projects[coder][subdir] = "contrib"
 projects[coder][version] = "2.4"
 
@@ -23,9 +20,6 @@ projects[mail_logger][version] = "1.1"
 
 projects[simplehtmldom][subdir] = "contrib"
 projects[simplehtmldom][version] = "2.1"
-
-;projects[drupalforfirebug][subdir] = "contrib"
-;projects[drupalforfirebug][version] = "1.4"
 
 projects[coffee][subdir] = "contrib"
 projects[coffee][version] = "2.2"
