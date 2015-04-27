@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\comment\Config
+ * Contains \Drupal\comment\Config.
  */
 
 namespace Drupal\comment;
@@ -19,25 +19,25 @@ class Config extends ConfigBase {
   /**
    * Set default comment setting for a specific content type.
    *
-   * @param type $content_type
-   *    Content type machine name
+   * @param string $content_type
+   *    Content type machine name.
    * @param string $value
-   *    Value to be set (human readable)
+   *    Value to be set (human readable).
    */
   public function setDefaultCommentForContentType($content_type, $value) {
     switch ($value) {
       case 'open':
       default:
         $value_id = 2;
-      break;
+        break;
 
       case 'closed':
         $value_id = 1;
-      break;
+        break;
 
       case 'hidden':
         $value_id = 0;
-      break;
+        break;
     }
     variable_set('comment_' . $content_type, $value_id);
   }
