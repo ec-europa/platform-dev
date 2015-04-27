@@ -8,9 +8,10 @@ core = 7.x
 projects[drupal][type] = core
 projects[drupal][version] = "7.35"
 
-; ====================
+
+; ===================
 ; Contributed modules
-; ====================
+; ===================
 
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc4"
@@ -406,7 +407,10 @@ projects[webform_rules][version] = "1.6"
 projects[ckeditor_lite][subdir] = contrib
 projects[ckeditor_lite][version] = 1.0-rc1
 
-;libraries
+
+; =========
+; Libraries
+; =========
 
 ;ckeditor 4.3.2
 libraries[ckeditor][download][type]= "file"
@@ -447,7 +451,10 @@ libraries[cycle][download][sha1] = "f71640db8972ed6d249f57ea8cce29c389c4a84f"
 libraries[cycle][destination] = "libraries"
 
 
-; Themes =======================================================================
+; ======
+; Themes
+; ======
+
 projects[bootstrap][type] = theme
 projects[bootstrap][download][type] = get
 projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.0.zip
