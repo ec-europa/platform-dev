@@ -2,14 +2,6 @@
 
 <project name="NextEuropa" default="help">
 
-    <!-- If `build.properties.local` exists then we want it badly -->
-    <property file="build.properties.local" />
-    <property file="build.properties" />
-    <property file="build.properties.dist" />
-
-    <echo msg="Loading Drush task." />
-    <taskdef name="drush" classname="DrushTask" />
-
     <!-- Delete the previous build. -->
     <target name="delete-platform">
         <!--
