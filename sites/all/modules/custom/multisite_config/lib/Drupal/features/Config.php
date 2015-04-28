@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\features\Config.
+ * Contains \\Drupal\\features\\Config.
  */
 
 namespace Drupal\features;

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\linkchecker\Config.
+ * Contains \\Drupal\\linkchecker\\Config.
  */
 
 namespace Drupal\linkchecker;

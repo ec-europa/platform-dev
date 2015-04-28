@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\locale\Config.
+ * Contains \\Drupal\\locale\\Config.
  */
 
 namespace Drupal\locale;

@@ -2,8 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\multisite_config\ConfigBase.
+ * Contains \\Drupal\\multisite_config\\ConfigBase.
  */
+
+/// @cond DEV
 
 namespace Drupal\multisite_config;
 
@@ -38,3 +40,4 @@ class ConfigBase implements ConfigBaseInterface {
   }
 
 }
+/// @endcond

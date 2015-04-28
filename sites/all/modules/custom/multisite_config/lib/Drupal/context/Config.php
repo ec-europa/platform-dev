@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\context\Config.
+ * Contains \\Drupal\\context\\Config.
  */
 
 namespace Drupal\context;

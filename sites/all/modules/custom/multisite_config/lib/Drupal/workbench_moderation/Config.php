@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\workbench_moderation\Config.
+ * Contains \\Drupal\\workbench_moderation\\Config.
  */
 
 namespace Drupal\workbench_moderation;

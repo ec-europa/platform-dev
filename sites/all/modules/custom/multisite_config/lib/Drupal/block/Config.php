@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\block\Config.
+ * Contains \\Drupal\\block\\Config.
  */
 
 namespace Drupal\block;

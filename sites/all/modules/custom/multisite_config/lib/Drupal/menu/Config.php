@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\menu\Config.
+ * Contains \\Drupal\\menu\\Config.
  */
 
 namespace Drupal\menu;

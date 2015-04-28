@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\taxonomy\Config.
+ * Contains \\Drupal\\taxonomy\\Config.
  */
 
 namespace Drupal\taxonomy;

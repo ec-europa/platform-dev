@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\scheduler\Config.
+ * Contains \\Drupal\\scheduler\\Config.
  */
 
 namespace Drupal\scheduler;

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\pathauto\Config.
+ * Contains \\Drupal\\pathauto\\Config.
  */
 
 namespace Drupal\pathauto;
