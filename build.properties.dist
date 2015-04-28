@@ -24,12 +24,6 @@ drupal.admin.username = admin
 drupal.admin.password = pass
 drupal.admin.email = admin@example.com
 
-# Development / testing modules to enable.
-drupal.development.modules = devel field_ui maillog simpletest views_ui
-
-# The site name to use. Use 'all' unless you want to build a multisite setup.
-drupal.site.name = all
-
 
 # Platform configuration
 # ----------------------
@@ -40,21 +34,6 @@ platform.basedir = ${project.basedir}
 
 # The make file for the platform.
 platform.make = ${platform.resources.profile.dir}/build.make
-
-# The branch, tag or commit to use, eg. 'master', 'develop', '1.7', '7df0d254b'.
-platform.repo.branch = epic/NEXTEUROPA-2464-Continuous-Integration
-
-# The repository to use, either 'dev' or 'reference'.
-platform.repo.repo = dev
-
-# Username used to access the repository on CITnet.
-platform.repo.user = myusername
-
-# The location of the repository.
-platform.repo.protocol = https
-platform.repo.domain = webgate.ec.europa.eu
-platform.repo.path = CITnet/stash/scm/nexteuropa/platform-${platform.repo.repo}.git
-platform.repo.url = ${platform.repo.protocol}://${platform.repo.user}@${platform.repo.domain}/${platform.repo.path}
 
 
 # Paths
@@ -77,10 +56,6 @@ platform.build.dir = ${project.basedir}/${phing.project.build.dir}
 # Local resources
 platform.resources.profiles.dir = ${platform.basedir}/profiles
 platform.resources.profile.dir = ${platform.resources.profiles.dir}/${platform.profile.name}
-platform.resources.libraries.dir = ${platform.resources.profile.dir}/libraries
-platform.resources.modules.dir = ${platform.resources.profile.dir}/modules
-platform.resources.sources.dir = ${platform.resources.profile.dir}/src
-platform.resources.themes.dir = ${platform.resources.profile.dir}/themes
 
 # Directories inside the Drupal installation.
 platform.build.sites.dir = ${platform.build.dir}/sites
@@ -91,10 +66,6 @@ platform.build.files.dir = ${platform.build.settings.dir}/files
 
 platform.build.profiles.dir = ${platform.build.dir}/profiles
 platform.build.profile.dir = ${platform.build.profiles.dir}/${platform.profile.name}
-platform.build.libraries.dir = ${platform.build.profile.dir}/libraries
-platform.build.modules.dir = ${platform.build.profile.dir}/modules
-platform.build.sources.dir = ${platform.build.profile.dir}/src
-platform.build.themes.dir = ${platform.build.profile.dir}/themes
 
 
 # Behat configuration
