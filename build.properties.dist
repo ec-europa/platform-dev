@@ -73,7 +73,7 @@ platform.build.dir = ${project.basedir}/${phing.project.build.dir}
 
 # Local resources
 platform.resources.profiles.dir = ${platform.basedir}/profiles
-platform.resources.profile.dir = ${platform.basedir}/profiles/${platform.profile.name}
+platform.resources.profile.dir = ${platform.resources.profiles.dir}/${platform.profile.name}
 platform.resources.libraries.dir = ${platform.resources.profile.dir}/libraries
 platform.resources.modules.dir = ${platform.resources.profile.dir}/modules
 platform.resources.sources.dir = ${platform.resources.profile.dir}/src
