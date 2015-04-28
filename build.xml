@@ -18,5 +18,6 @@
     <taskdef name="drush" classname="DrushTask" />
 
     <import file="build.package.xml" />
+    <import file="build.test.xml" />
 
 </project>
