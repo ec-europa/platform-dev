@@ -63,7 +63,6 @@ function multisite_drupal_toolbox_menu() {
   $items['check_url'] = array (
     'title' => 'Check URLs',
     'page callback' => '_multisite_drupal_toolbox_url_exists',
-    'access callback' => TRUE,
     'access arguments' => array('use text format full_html'),
     'type' => MENU_CALLBACK,
   );
