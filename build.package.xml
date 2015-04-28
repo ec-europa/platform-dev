@@ -72,6 +72,13 @@
         </drush>
     </target>
 
+    <!-- Make one of the profiles in order to build a multisite platform. -->
+    <target name="make-multisite-platform">
+        <!-- Override the location of the make file. -->
+        <property name="platform.make" value="${platform.resources.profiles.dir}/${platform.profile.name}/build.make" override="yes" />
+        <phingcall target="make-platform"/>
+    </target>
+
     <!--
         Clean up core profiles which might be present inside the symlinked
         profiles folder.
@@ -117,5 +124,19 @@
     <target name="build-platform-dist"
             description="Build a version of the platform intended to distribute as a release package."
             depends="delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles, make-platform" />
+
+    <target
+        name="build-multisite-dist"
+        description="Build a multisite version of the platform intended to distribute as a release package."
+        depends="delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles">
+
+        <!-- First make the standard profile. -->
+        <property name="platform.profile.name" value="multisite_drupal_standard" override="yes" />
+        <phingcall target="make-multisite-platform"/>
+
+        <!-- Then make the communities profile. -->
+        <property name="platform.profile.name" value="multisite_drupal_communities" override="yes" />
+        <phingcall target="make-multisite-platform"/>
+    </target>
 
 </project>
