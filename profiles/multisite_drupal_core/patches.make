@@ -52,7 +52,6 @@ projects[menu_token][patch][] = ../multisite_drupal_core/patches/menu_token-link
 projects[drupal][patch][] = ../multisite_drupal_core/patches/node-node_access_views_relationship-1349080.patch
 projects[pathauto][patch][] = ../multisite_drupal_core/patches/pathauto-admin_patterns-1267966-140.patch
 projects[pathauto][patch][] = ../multisite_drupal_core/patches/pathauto-automatic_url_alias_issue-1847444-10.patch
-projects[drupal][patch][] = ../multisite_drupal_core/patches/settings-add_proxy_settings-668.patch
 projects[quicktabs][patch][] = ../multisite_drupal_core/patches/quicktabs-tabs_broken-3880.patch
 projects[quicktabs][patch][] = ../multisite_drupal_core/patches/quicktabs-user-interface-2108935-2.patch
 projects[quicktabs][patch][] = ../multisite_drupal_core/patches/quicktabs-ajax-default-tab-none_1741488-10.patch
