@@ -824,7 +824,7 @@ video
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'video_ffmpeg_path';
-  $strongarm->value = '/usr/bin/ffmpeg';
+  $strongarm->value = '/ec/prod/app/webroot/flex_home/reference-sources/util/ffmpeg.new/current/bin/ffmpeg';
   $export['video_ffmpeg_path'] = $strongarm;
 
   $strongarm = new stdClass();

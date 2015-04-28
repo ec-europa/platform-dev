@@ -213,8 +213,7 @@ function cce_basic_config_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_image'
-  
+  // Exported field_base: 'field_image' 
   $field_bases['field_image'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -243,7 +242,6 @@ function cce_basic_config_field_default_field_bases() {
     'translatable' => 0,
     'type' => 'image',
   );
-  
 
   // Exported field_base: 'field_lastname'
   $field_bases['field_lastname'] = array(
@@ -275,7 +273,6 @@ function cce_basic_config_field_default_field_bases() {
   );
 
   // Exported field_base: 'field_tags'
-  
   $field_bases['field_tags'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -309,7 +306,50 @@ function cce_basic_config_field_default_field_bases() {
     'translatable' => 0,
     'type' => 'taxonomy_term_reference',
   );
-  
+
+  // Exported field_base: 'field_video'
+  $field_bases['field_video'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_video',
+    'foreign keys' => array(
+      'fid' => array(
+        'columns' => array(
+          'fid' => 'fid',
+        ),
+        'table' => 'file_managed',
+      ),
+    ),
+    'indexes' => array(
+      'fid' => array(
+        0 => 'fid',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'video',
+    'settings' => array(
+      'autoconversion' => 1,
+      'autothumbnail' => 'auto',
+      'default_video_thumbnail' => array(
+        'fid' => 0,
+        'remove_button' => 'Remove',
+        'upload' => '',
+        'upload_button' => 'Upload',
+      ),
+      'presets' => array(
+        'default_flash_conversion' => 0,
+       ),
+      'preview_video_thumb_style' => 'square_thumbnail',
+      'thumbnail_format' => 'png',
+      'uri_scheme' => 'public',
+      'uri_scheme_converted' => 'public',
+      'uri_scheme_thumbnails' => 'public',
+    ),
+    'translatable' => 0,
+    'type' => 'video',
+  );
 
   // Exported field_base: 'field_video_description'
   $field_bases['field_video_description'] = array(
