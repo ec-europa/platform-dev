@@ -147,17 +147,17 @@ function cce_basic_config_video_default_presets() {
   $items = array(
     'default_flash_conversion' => array(
       'name' => 'default_flash_conversion',
-      'description' => 'FLV transcoding for flash videos',
+      'description' => 'Video H.264 MPEG-4 Audio AAC one-pass encoding',
       'settings' => array(
         'video_extension' => 'flv',
-        'video_codec' => 'flv',
+        'video_codec' => 'h264',
         'video_preset' => '',
         'video_quality' => 4,
         'video_speed' => 3,
         'wxh' => '640x360',
         'video_aspectmode' => 'preserve',
         'video_upscale' => 0,
-        'audio_codec' => 'libmp3lame',
+        'audio_codec' => 'aac',
         'audio_quality' => 3,
         'deinterlace' => 'detect',
         'max_frame_rate' => '',
@@ -187,8 +187,8 @@ function cce_basic_config_video_default_presets() {
         'clip_start' => '',
         'clip_length' => '',
       ),
-      'overridden' => FALSE,
-      'module' => 'cce_basic_config',
+      // 'overridden' => FALSE,
+      // 'module' => 'cce_basic_config',
     ),
   );
   return $items;
