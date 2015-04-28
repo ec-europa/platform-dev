@@ -4,6 +4,9 @@
 # The install profile to use.
 platform.profile.name = multisite_drupal_standard
 
+# The site name.
+platform.site.name = NextEuropa
+
 # The Drupal core make file.
 drupal.make = ${platform.resources.profiles.dir}/drupal-core.make
 
