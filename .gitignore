@@ -17,3 +17,8 @@ vendor/
 profiles/minimal
 profiles/standard
 profiles/testing
+
+# Ignore contrib modules, themes and libraries in the symlinked profiles folder.
+profiles/multisite_drupal_*/libraries
+profiles/multisite_drupal_*/modules/contrib
+profiles/multisite_drupal_*/themes
