@@ -1,20 +1,26 @@
 <?php
 
 /**
+ * @file
+ * Main functions and hook implementations of the module.
+ */
+
+/**
  * Implements hook_node_access().
  */
 function multisite_drupal_workbench_moderation_node_access($node, $op, $account) {
   if (is_string($node)) {
     return NODE_ACCESS_IGNORE;
   }
-  
+
   $group = og_get_entity_groups('node', $node);
   if (count($group) > 0) {
     if (og_user_access('group', current($group), 'Moderate group content')) {
-      return NODE_ACCESS_ALLOW; // allow all permissions for a community manager in his groups
+      // Allow all permissions for a community manager in their groups.
+      return NODE_ACCESS_ALLOW;
     }
   }
- 
+
   return NODE_ACCESS_IGNORE;
 }
 
@@ -23,45 +29,105 @@ function multisite_drupal_workbench_moderation_node_access($node, $op, $account)
  * Implements hook_og_permission().
  */
 function multisite_drupal_workbench_moderation_og_permission() {
-  // get a list of content types that can be added to a group
+  // Get a list of content types that can be added to a group.
   $perms = array();
-  
+
   $perm1 = array(
-    "Moderate group content" => array(
+    'Moderate group content' => array(
       'title' => t('Allow the user to moderate (publish, change stats) the contents in the group'),
     ),
   );
-  
+
   $perms += $perm1;
-  
+
   return $perms;
 }
 
-
-
-/*
-* hook_workbench_moderation_access_alter
-*/
+/**
+ * Implements hook_workbench_moderation_access_alter().
+ */
 function multisite_drupal_workbench_moderation_workbench_moderation_access_alter(&$access, &$op, &$node) {
   $group = og_get_entity_groups('node', $node);
-  if(count($group) > 0)  {
-    if(og_user_access('group', current($group), 'Moderate group content')) {
+  if (count($group) > 0) {
+    if (og_user_access('group', current($group), 'Moderate group content')) {
       $access = 1;
     }
   }
 }
 
-/*
-* hook_workbench_moderation_states_allowed_alter
-*/
-function multisite_drupal_workbench_moderation_workbench_moderation_states_allowed_alter(&$account, &$node_type=NULL, &$return=NULL) {
+/**
+ * Implements hook_workbench_moderation_states_next_alter().
+ */
+function multisite_drupal_workbench_moderation_workbench_moderation_states_next_alter(&$states, &$current_state, &$context) {
   $group = og_context();
   if (isset($group->gid)) {
     if (arg(0) == 'node' && is_numeric(arg(1))) {
       $node = node_load(arg(1));
-      if (og_user_access($group->gid, 'Moderate group content') && $node->type != 'community') { // give access to all states but not on community type
-        $return = TRUE;
+      // Give access to all states but not on community type.
+      if (og_user_access($group->gid, 'Moderate group content') && $node->type != 'community' && !user_access('bypass workbench moderation', $context['account'])) {
+        // Get a list of possible transitions.
+        $select = db_select('workbench_moderation_transitions', 'transitions')
+          ->condition('transitions.from_name', $current_state)
+          ->fields('transitions', array('to_name'))
+          ->fields('states', array('label'));
+        $select->join('workbench_moderation_states', 'states', 'transitions.to_name = states.name');
+
+        $states = $select->execute()->fetchAllKeyed();
       }
+    }
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function multisite_drupal_workbench_moderation_permission() {
+  return array(
+    'Access to unpublished file' => array(
+      'title' => t('View unpublished file'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_file_download().
+ */
+function multisite_drupal_workbench_moderation_file_download($uri) {
+  // @todo
+  // This is seemingly based on an example that is given in a comment on
+  // https://api.drupal.org/api/drupal/modules!system!system.api.php/function/hook_file_download/7
+  //
+  // This is not an optimal solution. The query might return many records, but:
+  // - Either the user does not have the 'Access to unpublished file'
+  //   permission and the results will be entirely skipped. In this case it is
+  //   not even necessary to perform a query at all.
+  // - If the user doesn't have the permission, both `file_load()` and
+  //   `file_get_content_headers()` will be executed for each record. This can
+  //   be very expensive.
+  // - Even if the user HAS the required permission, the headers will be
+  //   retrieved for the first record in the result set, and then they are
+  //   returned. All other records are not even used.
+  // - It seems like the intention is just to retrieve the fid of the file
+  //   that corresponds to the $uri so we can get the headers. We probably
+  //   don't even need a query for that but can simply get the file with
+  //   `file_load_multiple(array(), array('uri' => $uri))`.
+  //
+  // Find the nodes that have this file attached to.
+  $query = db_select('file_usage', 'fu');
+  $query->addField('fu', 'id');
+  $query->addField('fu', 'fid');
+  $query->join('file_managed', 'fm', 'fm.fid = fu.fid');
+  $query->condition('fm.uri', $uri, '=');
+  $query->condition('fu.type', 'node', '=');
+  $result = $query->execute();
+
+  foreach ($result as $record) {
+    // Find file header.
+    $headers = file_get_content_headers(file_load($record->fid));
+
+    // If the user have access to the unpublished private files show all files.
+    if (user_access('Access to unpublished file')) {
+      return $headers;
     }
   }
 }

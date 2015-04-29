@@ -1,19 +1,34 @@
-Multisite Configuration API
-===========================
+/*! \mainpage Multisite Configuration API
 
-Multisite Configuration API classes extends \Drupal\multisite_config\ConfigBase class and
-are namespaced by ```\Drupal\:module```, while the actual class is always named ```Config```.
+\section desc_sec Description
 
-Third-party modules can provide their own configuration API by:
+Multisite configuration API is provided by core team, to allow every developers on Multisite to access common helper tools.
 
-1. Adding ```registry_autoload[] = PSR-4``` to their .info file
-2. Creating the configuration class described above under ```./src``` directory.
+\section how_read_sec How to read that API?
 
-For example, given a module named ```foo```:
+In <a href="namespaces.html"><strong>Namespaces</strong></a> section, you can find the list of currently avilable classes. By opening the corresponding Config file you get a detailed list of available functions for that class.
 
-```foo.info``` will look like:
+In <a href="functions.html"><strong>Data fields</strong></a> section, you can find a complete list of available functions.
 
-```
+\section how_use_sec How to use and improve that API?
+
+Multisite Configuration API classes extends <code>\\%Drupal\\multisite_config\\ConfigBase</code> class and are namespaced by <code>\\%Drupal\\:module</code>, while the actual class is always named <code>Config</code>.
+
+To use that API in a third-party module, you have to:
+1. Add <code>registry_autoload[] = PSR-4</code> to .info file
+2. Call any function you want by using its class name (see exemple)
+
+To add new configuration API you have to:
+1. Edit a configuration class described above under <code>./src</code> directory (or create a new one when needed)
+2. Update API documentation (or request for update)
+
+\subsection exemple_subsec Exemple
+
+Given a module named <strong>foo</strong>:
+
+<strong>foo.info will look like:</strong>
+
+<pre>
 name = Foo module
 description = Foo module description.
 core = 7.x
@@ -22,21 +37,14 @@ project = foo
 
 dependencies[] = multisite_config
 registry_autoload[] = PSR-4
-```
+</pre>
+<hr />
+<strong>foo/src/Config.php will look like:</strong>
 
-```foo/src/Config.php``` will look like:
+<pre>
+namespace %Drupal\\foo;
 
-```
-<?php
-
-/**
- * @file
- * Contains \Drupal\foo\Config
- */
-
-namespace Drupal\foo;
-
-use Drupal\multisite_config\ConfigBase;
+use %Drupal\\multisite_config\\ConfigBase;
 
 class Config extends ConfigBase {
 
@@ -45,12 +53,11 @@ class Config extends ConfigBase {
   }
 
 }
+</pre>
+<hr />
+<strong>Service can then be accessed by calling:</strong>
 
-```
-
-Service can then be accessed by calling:
-
-```
+<code>
 $foo = multisite_config_service('foo')->someMethod('foo');
-```
+</code>
 

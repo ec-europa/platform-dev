@@ -24,7 +24,7 @@ site_mail='DIGIT-FPFIS-SUPPORT@ec.europa.eu'
 base_path="multisite" 
 
 # Apache solr settings
-solr_server_url='http://fpfis-dev.net1.cec.eu.int:8080/solr/multisite'
+solr_server_url='http://dorstenia.cc.cec.eu.int:8080/solr/drupal'
 solr_server_name='multisite solr server'
 apachesolr_attachments_tika_jar='tika-app-1.1.jar'
 apachesolr_attachments_tika_path='/home/fpfis/util/bin'
