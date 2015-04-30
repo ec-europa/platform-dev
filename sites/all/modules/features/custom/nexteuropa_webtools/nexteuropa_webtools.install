@@ -11,13 +11,45 @@
 function nexteuropa_webtools_post_features_enable_feature($component) {
   // Grant webtools bean permissions for Administrator roles.
   $admin_rid = user_role_load_by_name('administrator');
-  if ($admin_rid && isset ($admin_rid->rid)) {
+  if ($admin_rid && isset($admin_rid->rid)) {
     user_role_grant_permissions($admin_rid->rid, array(
-          'create any webtools bean',
-          'edit any webtools bean',
-          'view any webtools bean',
-          'delete any webtools bean',
-        )
+        'create any webtools bean',
+        'edit any webtools bean',
+        'view any webtools bean',
+        'delete any webtools bean',
+        'administer webtools',
+      )
     );
   }
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function nexteuropa_webtools_requirements($phase) {
+  if ($phase == 'runtime') {
+    $t = get_t();
+    $smarloader_url = variable_get('newteuropa_webtools_smarloader_url');
+    if ($smarloader_url == '') {
+      $requirements['webtools_smarloader_url'] = array(
+        'description' => $t('Wetools javascript not found. Define the webtools_smarloader_url at: !url', array(
+            '!url' => l($t('admin/config/services/webtools'), 'admin/config/services/webtools'),
+          )),
+        'severity' => REQUIREMENT_ERROR,
+        'value' => $t('Not found'),
+        'title' => $t('Webtools smartloader'),
+      );
+    }
+    else {
+      $requirements['webtools_smarloader_url'] = array(
+        'description' => $t('Webtools javascript defined at !url', array(
+            '!url' => l($smarloader_url, $smarloader_url),
+          )),
+        'severity' => REQUIREMENT_OK,
+        'value' => $t('Defined'),
+        'title' => $t('Webtools smartloader'),
+      );
+    }
+  }
+  return $requirements;
 }

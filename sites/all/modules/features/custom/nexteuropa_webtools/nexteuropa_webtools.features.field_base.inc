@@ -17,26 +17,15 @@ function nexteuropa_webtools_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_json_object',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
+    'foreign keys' => array(),
+    'indexes' => array(),
     'locked' => 0,
-    'module' => 'text',
+    'module' => 'nexteuropa_json_field',
     'settings' => array(
-      'entity_translation_sync' => FALSE,
+      'max_length' => '',
     ),
     'translatable' => 0,
-    'type' => 'text_long',
+    'type' => 'json_settings',
   );
 
   return $field_bases;

@@ -18,17 +18,17 @@ function nexteuropa_webtools_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
-        'module' => 'text',
+        'label' => 'hidden',
+        'module' => 'nexteuropa_json_field',
         'settings' => array(),
-        'type' => 'text_default',
+        'type' => 'json_settings_default',
         'weight' => 0,
       ),
     ),
     'entity_type' => 'bean',
     'field_name' => 'field_json_object',
-    'label' => 'Json object',
-    'required' => 1,
+    'label' => 'JSON Object',
+    'required' => 0,
     'settings' => array(
       'better_formats' => array(
         'allowed_formats' => array(
@@ -56,7 +56,9 @@ function nexteuropa_webtools_field_default_field_instances() {
           ),
         ),
       ),
-      'entity_translation_sync' => FALSE,
+      'js_to_load' => array(
+        'nexteuropa_webtools_smarloader_url' => 'nexteuropa_webtools_smarloader_url',
+      ),
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
@@ -73,7 +75,7 @@ function nexteuropa_webtools_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Json object');
+  t('JSON Object');
 
   return $field_instances;
 }

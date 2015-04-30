@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the NextEuropa webtools feature.
@@ -6,19 +7,38 @@
 
 include_once 'nexteuropa_webtools.features.inc';
 
-define('NEXTEUROPA_WEBTOOLS_BEAN_BUNDLE', 'webtools');
-
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_webtools_menu() {
+  $items = array();
+  $items['admin/config/services/webtools'] = array(
+    'title' => 'Webtools',
+    'description' => 'Webtools settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_webtools_settings_form'),
+    'access arguments' => array('administer webtools'),
+    'file' => 'nexteuropa_webtools.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
 
 /**
- * Implements hook_field_attach_view_alter().
- *
- * Add prefix and suffix on 'field_json_object' field of 'webtools' entities.
+ * Implements hook_permission().
  */
-function nexteuropa_webtools_field_attach_view_alter(&$output, $context) {
-  if ($output['#entity_type'] == 'bean' && $output['#bundle'] == NEXTEUROPA_WEBTOOLS_BEAN_BUNDLE) {
-    if (isset ($output['field_json_object']) && isset ($output['field_json_object']['0']['#markup'])) {
-      $output['field_json_object'][0]['#prefix'] = "<!--script type=\"application/json\">";
-      $output['field_json_object'][0]['#suffix'] = "</script-->";
-    }
-  }
+function nexteuropa_webtools_permission() {
+  return array(
+    'administer webtools' => array(
+      'title' => t('Administer webtools'),
+      'description' => t('Administer nexteuropa_webbools feature.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_json_field_js_to_load().
+ */
+function nexteuropa_webtools_json_field_js_to_load() {
+  return array('nexteuropa_webtools_smarloader_url' => t('Webtools load.js'));
 }
