@@ -30,15 +30,12 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
     elt = info.elements[0];
     info.elements[2].children.push(elt);
     info.elements.shift();
-    
-    // Create and add a custom button to check the URL.
-    dialogDefinition.buttons.unshift({
+
+    info.add({
       type : 'button',
       id : 'check_url_btn',
-      label : 'OK',
+      label : 'Check URL',
       title : 'Check URL',
-      //style   : 'color:green',
-      className: 'cke_dialog_ui_button_ok',
       onClick : function() {
         var dialog = CKEDITOR.dialog.getCurrent();
         elem_url = dialog.getContentElement('info','url');
@@ -46,7 +43,7 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
         urlencoded = encodeURIComponent(elem_protocol.getValue()+elem_url.getValue());
         check = urlExists(Drupal.settings.basePath+'check_url?url='+urlencoded);
       }
-    });
+    }, 'check_url_msg');
 
     // Override the onShow event to display custom elements and manage buttons display.
     dialogDefinition.onShow = CKEDITOR.tools.override(dialogDefinition.onShow, function(original) {
@@ -54,19 +51,20 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
         original.call(this);
 
         var dialog = CKEDITOR.dialog.getCurrent();
-        elem_check_url_btn = dialog.getButton('check_url_btn');
+        elem_check_url_btn = dialog.getContentElement('info', 'check_url_btn');
         elem_ok = dialog.getButton('ok');
         elem_linkType = dialog.getContentElement('info','linkType');
 
         if(elem_linkType.getValue() == 'url') {
           elem_check_url_btn.getElement().show();
-          elem_ok.getElement().hide();
+          //elem_ok.getElement().hide();
         }
         else {
           elem_check_url_btn.getElement().hide();
-          elem_ok.getElement().show();
+          //elem_ok.getElement().show();
         }
-        
+
+        $('#url_check_msg').html('');
       };
     });
 
@@ -77,16 +75,17 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
       return function() {
         original.call(this);
 
-        elem_check_url_btn = this.getDialog().getButton('check_url_btn');
+        elem_check_url_btn = this.getDialog().getContentElement('info', 'check_url_btn');
         elem_ok = this.getDialog().getButton('ok');
         if(this.getValue() == 'url') {
           elem_check_url_btn.getElement().show();
-          elem_ok.getElement().hide();
+          //elem_ok.getElement().hide();
         }
         else {
           elem_check_url_btn.getElement().hide();
-          elem_ok.getElement().show();
+          //elem_ok.getElement().show();
         }
+
       };
     });
 
@@ -95,30 +94,34 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
 
 });
 
+
 // Ajax call to check if an URL exists, update/submit the dialog box
 function urlExists(url){
   $('#url_check_msg').html('Checking url... <img src="'+Drupal.settings.basePath+'misc/throbber-active.gif"/>');
-  $.getJSON(url)
-    .done(function( data ) {
-      console.log(data);
-      if(data == true) {
-        $('#url_check_msg').html('');
+
+  $.ajax({
+    type: "GET",
+    url: url,
+    success: function(response){
+      if(response == true) {
+        $('#url_check_msg').html('URL ok');
         $('#url_check_msg').css({ 'color': 'green', 'font-weight': 'bold' });
         // submit the dialog box form
-        $('.cke_dialog_ui_button_ok span').click();
+        //$('.cke_dialog_ui_button_ok span').click();
       }
       else {
-        $('#url_check_msg').html('Url not exists');
+        $('#url_check_msg').html('URL not exists');
         $('#url_check_msg').css({ 'color': 'red', 'font-weight': 'bold' });
-        $('.cke_dialog_ui_button_ok').hide();
+        //$('.cke_dialog_ui_button_ok').hide();
       }
-    })
-    .fail(function( jqxhr, textStatus, rror ) {
-      var err = textStatus + ", " + error;
-      console.log( "Request Failed: " + err );
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      console.log("Status: " + textStatus); alert("Error: " + errorThrown);
       $('#url_check_msg').html('Network error');
       $('#url_check_msg').css({ 'color': 'red', 'font-weight': 'bold' });
-   });
+    }
+  });
+
 }
 
 })(jQuery);
