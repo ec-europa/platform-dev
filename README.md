@@ -30,6 +30,9 @@ All options you can use can be found in the `build.properties.dist` file. Just
 copy the lines you want to override and change their values. For example:
 
 ```
+# The location of the Composer binary.
+composer.bin = /usr/bin/composer
+
 # The install profile to use.
 platform.profile.name = multisite_drupal_standard
 

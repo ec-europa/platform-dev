@@ -127,13 +127,28 @@
         </copy>
     </target>
 
+    <!-- Install Composer dependencies. -->
+    <target name="install-platform-dependencies">
+        <composer command="install" composer="${composer.bin}">
+            <arg value="--working-dir=${platform.build.dir}" />
+            <arg value="--no-dev" />
+        </composer>
+    </target>
+
+    <!-- Install Composer dependencies, including optional development dependencies. -->
+    <target name="install-platform-dev-dependencies">
+        <composer command="install" composer="${composer.bin}">
+            <arg value="--working-dir=${platform.build.dir}" />
+        </composer>
+    </target>
+
     <target name="build-platform-dev"
             description="Build a local development version of the platform."
-            depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources" />
+            depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies" />
 
     <target name="build-platform-dist"
             description="Build a version of the platform intended to distribute as a release package."
-            depends="delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles, make-platform, copy-platform-resources" />
+            depends="delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies" />
 
     <target
         name="build-multisite-dist"
@@ -150,6 +165,7 @@
 
         <!-- Call the remaining build targets. -->
         <phingcall target="copy-platform-resources" />
+        <phingcall target="install-platform-dependencies" />
 
     </target>
 
