@@ -1,0 +1,85 @@
+# Drupal configuration
+# --------------------
+
+# The install profile to use.
+platform.profile.name = multisite_drupal_standard
+
+# The site name.
+platform.site.name = NextEuropa
+
+# The Drupal core make file.
+drupal.make = ${platform.resources.profiles.dir}/drupal-core.make
+
+# Database settings.
+drupal.db.type = mysql
+drupal.db.name = db_name
+drupal.db.user = db_user
+drupal.db.password = db_pass
+drupal.db.host = 127.0.0.1
+drupal.db.port = 3306
+drupal.db.url = ${drupal.db.type}://${drupal.db.user}:${drupal.db.password}@${drupal.db.host}:${drupal.db.port}/${drupal.db.name}
+
+# Admin user.
+drupal.admin.username = admin
+drupal.admin.password = pass
+drupal.admin.email = admin@example.com
+
+
+# Platform configuration
+# ----------------------
+
+# The root directory of our platform, in order to be able to override it when
+# building from a subsite.
+platform.basedir = ${project.basedir}
+
+# The make file for the platform.
+platform.make = ${platform.resources.profile.dir}/build.make
+
+
+# Paths
+# -----
+
+# Paths to executables.
+phing.bin = ${project.basedir}/bin/phing
+drush.bin = ${project.basedir}/bin/drush
+composer.bin = composer.phar
+
+# The build location
+phing.project.build.dir = build
+
+# Temporary folder.
+phing.project.tmp.dir = tmp
+
+# Build locations.
+platform.build.dir = ${project.basedir}/${phing.project.build.dir}
+
+# Local resources
+platform.resources.profiles.dir = ${platform.basedir}/profiles
+platform.resources.profile.dir = ${platform.resources.profiles.dir}/${platform.profile.name}
+
+# Directories inside the Drupal installation.
+platform.build.sites.dir = ${platform.build.dir}/sites
+platform.build.site.dir = ${platform.build.sites.dir}/${platform.build.site.name}
+
+platform.build.settings.dir = ${platform.build.sites.dir}/default
+platform.build.files.dir = ${platform.build.settings.dir}/files
+
+platform.build.profiles.dir = ${platform.build.dir}/profiles
+platform.build.profile.dir = ${platform.build.profiles.dir}/${platform.profile.name}
+
+
+# Behat configuration
+# -------------------
+
+# This is for local testing, not needed on continuousphp.
+behat.bin = ${project.basedir}/bin/behat
+behat.dir = ${project.basedir}/tests
+behat.yml = ${behat.dir}/behat.yml
+behat.base_url = http://localhost
+
+
+# Debugging
+# ---------
+
+# Verbosity of drush commands.
+drush.verbose = FALSE
