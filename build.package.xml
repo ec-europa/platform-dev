@@ -68,7 +68,7 @@
     <target name="make-multisite-platform">
         <!-- Override the location of the make file. -->
         <property name="platform.make" value="${platform.resources.profiles.dir}/${platform.profile.name}/build.make" override="yes" />
-        <phingcall target="make-platform"/>
+        <phingcall target="make-platform" />
     </target>
 
     <!--
@@ -142,13 +142,15 @@
         </composer>
     </target>
 
-    <target name="build-platform-dev"
-            description="Build a local development version of the platform."
-            depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies" />
+    <target
+        name="build-platform-dev"
+        description="Build a local development version of the platform."
+        depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies" />
 
-    <target name="build-platform-dist"
-            description="Build a version of the platform intended to distribute as a release package."
-            depends="delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies" />
+    <target
+        name="build-platform-dist"
+        description="Build a version of the platform intended to distribute as a release package."
+        depends="delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies" />
 
     <target
         name="build-multisite-dist"
@@ -157,11 +159,11 @@
 
         <!-- First make the standard profile. -->
         <property name="platform.profile.name" value="multisite_drupal_standard" override="yes" />
-        <phingcall target="make-multisite-platform"/>
+        <phingcall target="make-multisite-platform" />
 
         <!-- Then make the communities profile. -->
         <property name="platform.profile.name" value="multisite_drupal_communities" override="yes" />
-        <phingcall target="make-multisite-platform"/>
+        <phingcall target="make-multisite-platform" />
 
         <!-- Call the remaining build targets. -->
         <phingcall target="copy-platform-resources" />
