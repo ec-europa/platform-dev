@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * cce_basic_config.field_group.inc
@@ -11,7 +12,9 @@ function cce_basic_config_field_group_info() {
   $export = array();
 
   $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  /* Edit this to true to make a default field_group disabled initially */
+
+  $field_group->disabled = FALSE;
   $field_group->api_version = 1;
   $field_group->identifier = 'group_article_content|node|article|form';
   $field_group->group_name = 'group_article_content';
@@ -40,7 +43,9 @@ function cce_basic_config_field_group_info() {
   $export['group_article_content|node|article|form'] = $field_group;
 
   $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  /* Edit this to true to make a default field_group disabled initially */
+
+  $field_group->disabled = FALSE;
   $field_group->api_version = 1;
   $field_group->identifier = 'group_article_date|node|article|form';
   $field_group->group_name = 'group_article_date';
@@ -68,7 +73,9 @@ function cce_basic_config_field_group_info() {
   $export['group_article_date|node|article|form'] = $field_group;
 
   $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  /* Edit this to true to make a default field_group disabled initially */
+
+  $field_group->disabled = FALSE;
   $field_group->api_version = 1;
   $field_group->identifier = 'group_article_metadata|node|article|form';
   $field_group->group_name = 'group_article_metadata';
@@ -96,7 +103,9 @@ function cce_basic_config_field_group_info() {
   $export['group_article_metadata|node|article|form'] = $field_group;
 
   $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  /* Edit this to true to make a default field_group disabled initially */
+
+  $field_group->disabled = FALSE;
   $field_group->api_version = 1;
   $field_group->identifier = 'group_page_content|node|page|form';
   $field_group->group_name = 'group_page_content';
@@ -124,7 +133,9 @@ function cce_basic_config_field_group_info() {
   $export['group_page_content|node|page|form'] = $field_group;
 
   $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  /* Edit this to true to make a default field_group disabled initially */
+
+  $field_group->disabled = FALSE;
   $field_group->api_version = 1;
   $field_group->identifier = 'group_page_metadata|node|page|form';
   $field_group->group_name = 'group_page_metadata';
@@ -153,3 +164,4 @@ function cce_basic_config_field_group_info() {
 
   return $export;
 }
+

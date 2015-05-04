@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * cce_basic_config.features.user_permission.inc
@@ -611,3 +612,4 @@ function cce_basic_config_user_default_permissions() {
 
   return $permissions;
 }
+
