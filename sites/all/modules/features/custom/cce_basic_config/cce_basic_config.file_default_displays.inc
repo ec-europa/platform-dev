@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * cce_basic_config.file_default_displays.inc
@@ -167,3 +168,4 @@ function cce_basic_config_file_default_displays() {
 
   return $export;
 }
+

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * cce_basic_config.features.taxonomy.inc
@@ -61,3 +62,4 @@ function cce_basic_config_taxonomy_default_vocabularies() {
     ),
   );
 }
+

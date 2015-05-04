@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * cce_basic_config.features.wysiwyg.inc
@@ -80,3 +81,4 @@ function cce_basic_config_wysiwyg_default_profiles() {
 
   return $profiles;
 }
+

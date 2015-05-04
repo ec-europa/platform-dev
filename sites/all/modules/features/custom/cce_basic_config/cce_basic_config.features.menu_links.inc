@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * cce_basic_config.features.menu_links.inc
@@ -141,3 +142,4 @@ function cce_basic_config_menu_default_menu_links() {
 
   return $menu_links;
 }
+

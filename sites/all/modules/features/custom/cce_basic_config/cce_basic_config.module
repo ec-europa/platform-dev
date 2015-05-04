@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the CCE_basic_config feature.
@@ -65,8 +66,8 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
       }
     }
   }
-
 }
+
 /**
  * Implements hook_form_media_format_form_alter().
  */
@@ -79,14 +80,13 @@ function cce_basic_config_form_media_format_form_alter(&$form) {
     unset($form['#formats']['preview']);
     unset($form['#formats']['teaser']);
   }
-
 }
 
 /**
  * Implements hook_preprocess_field().
  *
- * used to render the external flashplayer + thumbnail
- * The output variable $videos is being rendered by the field--video.tpl.php
+ * Renders the external flashplayer + thumbnail for the video field.
+ * The output variable $videos is being rendered by the field--video.tpl.php.
  */
 function cce_basic_config_preprocess_field(&$variables) {
   global $base_url, $theme;
@@ -146,7 +146,6 @@ function cce_basic_config_preprocess_field(&$variables) {
   }
 }
 
-
 /**
  * Implements hook_form_alter().
  */
@@ -164,7 +163,6 @@ function cce_basic_config_form_alter(&$form, &$form_state, $form_id) {
     $form['presets'] = array(
       '#default_value' => $settings['presets']['#default_value'],
     );
-
   }
   return $form;
 }
@@ -182,13 +180,13 @@ function cce_basic_config_field_info_alter(&$info) {
 /**
  * Implements hook_menu_link_alter().
  *
- * Alter the system links My Account and Log out
+ * Alter the system links My Account and Log out.
  */
 function cce_basic_config_menu_link_alter(&$item) {
   // Rewrite links only for the user-menu menu.
   // Don't rewrite if menu link was edited (customized=1).
   if (isset($item['menu_name']) && $item['menu_name'] == 'user-menu') {
-    if ((isset ($item['customized']) && $item['customized'] == 0) || !isset ($item['customized'])) {
+    if ((isset($item['customized']) && $item['customized'] == 0) || !isset($item['customized'])) {
       $link_path = $item['link_path'];
 
       switch ($link_path) {
@@ -259,7 +257,7 @@ function cce_basic_config_block_view($delta = '') {
     case 'footer_ipg':
       $menu_service_tools = menu_tree('menu-service-tools');
       $block['subject'] = 'Latest update';
-      $block['content'] = t('Last update:') . ' ' . date('d/m/Y') . ' | <a href="#top-page">'.t('Top').'</a> | ' . drupal_render($menu_service_tools);
+      $block['content'] = t('Last update:') . ' ' . date('d/m/Y') . ' | <a href="#top-page">' . t('Top') . '</a> | ' . drupal_render($menu_service_tools);
       break;
   }
   return $block;

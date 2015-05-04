@@ -2,9 +2,8 @@
 
 /**
  * @file
- * Install updates and uninstall for basi config.
+ * Install updates and uninstall for basic config.
  */
-
 
 /**
  * Test and report cce installation requirements.
@@ -12,7 +11,7 @@
  * @param string $phase
  *   The current system installation phase.
  *
- * @return array()
+ * @return array
  *   An array of system requirements.
  */
 function cce_basic_config_requirements($phase) {
@@ -20,14 +19,13 @@ function cce_basic_config_requirements($phase) {
   $requirements['install_tag'] = array(
     'title' => $t('Tag'),
     'value' => $t('%profile_tag ', array(
-      '%profile_tag' => variable_get('multisite_version'),
-    )),
+        '%profile_tag' => variable_get('multisite_version'),
+      )),
     'severity' => REQUIREMENT_INFO,
     'weight' => -8,
   );
   return $requirements;
 }
-
 
 /**
  * Implements hook_install().
@@ -282,14 +280,14 @@ function cce_basic_config_install() {
   $exports = cce_basic_config_file_default_displays();
   foreach ($exports as $id_export => $settings_export) {
     if (substr($id_export, 0, 8) == 'document') {
-      db_insert('file_display')
-        ->fields(array(
+      db_insert('file_display')->fields(
+        array(
           'name' => $id_export,
           'weight' => 0,
           'status' => ($settings_export->status) ? 1 : 0,
           'settings' => serialize($settings_export->settings),
-        ))
-        ->execute();
+        )
+      )->execute();
     }
   }
 
@@ -479,9 +477,9 @@ function cce_basic_config_enable() {
   module_invoke('context', 'save', $context);
   variable_set('user_classes', 'btn btn-info btn-xs');
   variable_set('user_myaccount_data_image', 'user');
+
   // My Account.
   variable_set('user_logout_data_image', 'log-out');
-  // Log out.
 
   // Add block easy_breadcrumb in site-wide context.
   $context = module_invoke('context', 'load', 'site_wide');
@@ -779,14 +777,14 @@ function cce_basic_config_update_7140() {
   db_delete('file_display')->execute();
   $exports = cce_basic_config_file_default_displays();
   foreach ($exports as $id_export => $settings_export) {
-    db_insert('file_display')
-      ->fields(array(
+    db_insert('file_display')->fields(
+      array(
         'name' => $id_export,
         'weight' => 0,
         'status' => ($settings_export->status) ? 1 : 0,
         'settings' => serialize($settings_export->settings),
-      ))
-      ->execute();
+      )
+    )->execute();
   }
 
   // Remove the mail address to the update modules notification.
@@ -849,7 +847,6 @@ function cce_basic_config_update_7160() {
 
   module_invoke('context', 'save', $context);
 }
-
 
 /**
  * Update classification vocabulary ids.
@@ -1098,9 +1095,9 @@ function cce_basic_config_update_7192() {
   }
 }
 
- /**
-  * Date field migration.
-  */
+/**
+ * Date field migration.
+ */
 function cce_basic_config_update_7193() {
 
   // $content type : content type that contains fiels to replace.
@@ -1167,7 +1164,6 @@ function cce_basic_config_update_7193() {
     }
     elseif ($field_info['type'] == 'datestamp') {
       watchdog('system', 'Field ' . $field_name . ' has been already converted to UNIX timestamp""', NULL, WATCHDOG_WARNING);
-
     }
     elseif ($field_info['type'] == 'datetime') {
       if (!$field_features_info) {
@@ -1185,16 +1181,16 @@ function cce_basic_config_update_7193() {
   variable_set("i18n_string_allowed_formats", $format);
 }
 
- /**
-  * Implements hook_update_N().
-  */
+/**
+ * Implements hook_update_N().
+ */
 function cce_basic_config_update_7194() {
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('show format selection for node'));
 }
 
- /**
-  * Feature revert field and field_group.
-  */
+/**
+ * Feature revert field and field_group.
+ */
 function cce_basic_config_update_7195() {
   // Handle the change of the maxlength of the field field_caption.
   db_query('ALTER TABLE `field_data_field_caption` CHANGE `field_caption_value` `field_caption_value` VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;');
@@ -1215,9 +1211,9 @@ function cce_basic_config_update_7195() {
   features_revert(array('cce_basic_config' => array('field_group')));
 }
 
- /**
-  * Add default configuration for easy_breadcrumb.
-  */
+/**
+ * Add default configuration for easy_breadcrumb.
+ */
 function cce_basic_config_update_7196() {
   variable_set('easy_breadcrumb-capitalizator_mode', 'ucfirst');
   variable_set('easy_breadcrumb-include_home_segment', 0);
@@ -1238,11 +1234,11 @@ function cce_basic_config_update_7196() {
   module_invoke('context', 'save', $context);
 }
 
- /**
-  * Add menu service_tools in banner.
-  *
-  * Change date format : set european format
-  */
+/**
+ * Add menu service_tools in banner.
+ *
+ * Change date format : set european format.
+ */
 function cce_basic_config_update_7197() {
   // Add block in site-wide context.
   $context = module_invoke('context', 'load', 'site_wide');
@@ -1261,7 +1257,6 @@ function cce_basic_config_update_7197() {
   variable_set("date_format_long", "l, j F, Y - H:i");
   variable_set("date_format_medium", "D, d/m/Y - H:i");
   variable_set("date_format_short", "d/m/Y - H:i");
-
 }
 
 /**

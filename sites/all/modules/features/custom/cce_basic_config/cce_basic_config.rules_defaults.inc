@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * cce_basic_config.rules_defaults.inc
@@ -102,3 +103,4 @@ function cce_basic_config_default_rules_configuration() {
   }');
   return $items;
 }
+
