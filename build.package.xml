@@ -109,13 +109,31 @@
         <move file="${phing.project.tmp.dir}/profiles/testing" todir="${platform.build.profiles.dir}" />
     </target>
 
+    <!-- Symlink various resources for easy development. -->
+    <target name="link-platform-resources">
+        <!-- Composer configuration. -->
+        <symlink link="${platform.build.composer.json}" target="${platform.resources.composer.json}" />
+        <symlink link="${platform.build.composer.lock}" target="${platform.resources.composer.lock}" />
+    </target>
+
+    <!-- Copy various resources for deploying on production. -->
+    <target name="copy-platform-resources">
+        <!-- Resources to copy to the website root. -->
+        <copy todir="${platform.build.dir}">
+            <fileset dir="${platform.resources.dir}">
+                <!-- Composer configuration. -->
+                <include name="composer.*"></include>
+            </fileset>
+        </copy>
+    </target>
+
     <target name="build-platform-dev"
             description="Build a local development version of the platform."
-            depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform" />
+            depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources" />
 
     <target name="build-platform-dist"
             description="Build a version of the platform intended to distribute as a release package."
-            depends="delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles, make-platform" />
+            depends="delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles, make-platform, copy-platform-resources" />
 
     <target
         name="build-multisite-dist"
@@ -129,6 +147,10 @@
         <!-- Then make the communities profile. -->
         <property name="platform.profile.name" value="multisite_drupal_communities" override="yes" />
         <phingcall target="make-multisite-platform"/>
+
+        <!-- Call the remaining build targets. -->
+        <phingcall target="copy-platform-resources" />
+
     </target>
 
 </project>
