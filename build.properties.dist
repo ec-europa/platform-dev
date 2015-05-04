@@ -54,10 +54,14 @@ phing.project.tmp.dir = tmp
 platform.build.dir = ${project.basedir}/${phing.project.build.dir}
 
 # Local resources
+platform.resources.dir = ${platform.basedir}/resources
 platform.resources.profiles.dir = ${platform.basedir}/profiles
 platform.resources.profile.dir = ${platform.resources.profiles.dir}/${platform.profile.name}
 
-# Directories inside the Drupal installation.
+platform.resources.composer.json = ${platform.resources.dir}/composer.json
+platform.resources.composer.lock = ${platform.resources.dir}/composer.lock
+
+# Files and directories inside the Drupal installation.
 platform.build.sites.dir = ${platform.build.dir}/sites
 platform.build.site.dir = ${platform.build.sites.dir}/${platform.build.site.name}
 
@@ -66,6 +70,9 @@ platform.build.files.dir = ${platform.build.settings.dir}/files
 
 platform.build.profiles.dir = ${platform.build.dir}/profiles
 platform.build.profile.dir = ${platform.build.profiles.dir}/${platform.profile.name}
+
+platform.build.composer.json = ${platform.build.dir}/composer.json
+platform.build.composer.lock = ${platform.build.dir}/composer.lock
 
 
 # Behat configuration
