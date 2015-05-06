@@ -6,7 +6,7 @@
  */
 
 /**
- * Returns the list of javascript Protocol-Relative URL variables to be inslude on JSON field.
+ * Returns the list of javascript PR URL variables to be include on JSON field.
  *
  * @return array $options
  *   The array of javascript url variables name.
