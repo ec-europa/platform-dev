@@ -18,7 +18,6 @@ projects[apachesolr][patch][] = ../multisite_drupal_core/patches/apachesolr-mult
 projects[chr][patch][] = ../multisite_drupal_core/patches/chr-deprecated_call-5588.patch
 projects[chr][patch][] = ../multisite_drupal_core/patches/chr-patches.patch
 projects[wysiwyg][patch][] = ../multisite_drupal_core/patches/wysiwyg-ckeditor4-bug-version-1799.patch
-projects[drupal][patch][] = ../multisite_drupal_core/patches/common-prevent_sanitize_remove_html_tags.patch
 projects[context][patch][] = ../multisite_drupal_core/patches/context-slow_menu_items-873936-20.patch
 projects[entity_translation][patch][] = ../multisite_drupal_core/patches/entity_translation-001-et-forward_revisions-1707156-23.patch
 projects[eu-cookie-compliance][patch][] = ../multisite_drupal_core/patches/eu_cookie_compliance-unified_cookie-3449.patch
