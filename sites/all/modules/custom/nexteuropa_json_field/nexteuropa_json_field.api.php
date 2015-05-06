@@ -6,13 +6,13 @@
  */
 
 /**
- * Returns the list of javascript url variables to be inslude on JSON field.
+ * Returns the list of javascript Protocol-Relative URL variables to be inslude on JSON field.
  *
  * @return array $options
  *   The array of javascript url variables name.
  */
 function hook_json_field_js_to_load() {
-  $options = array('nexteuropa_webtools_smarloader_url' => t('Webtools load.js'));
+  $options = array('nexteuropa_webtools_smarloader_prurl' => t('Webtools load.js'));
 
   return $options;
 }

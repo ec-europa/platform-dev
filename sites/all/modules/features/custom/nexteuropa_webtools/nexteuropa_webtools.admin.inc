@@ -2,11 +2,11 @@
 function nexteuropa_webtools_settings_form() {
   $form = array();
 
-  $form['nexteuropa_webtools_smarloader_url'] = array(
+  $form['nexteuropa_webtools_smarloader_prurl'] = array(
     '#type' => 'textfield',
-    '#title' => t('Smarloader URL'),
-    '#default_value' => variable_get('nexteuropa_webtools_smarloader_url', ''),
-    '#description' => t("The URL of the webtools smartloader script (load.js)"),
+    '#title' => t('Smarloader Protocol-Relative URL'),
+    '#default_value' => variable_get('nexteuropa_webtools_smarloader_prurl', ''),
+    '#description' => t("The URL of the webtools smartloader script. e.g. '//example.com/load.js'"),
     '#required' => TRUE,
   );
 
