@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\entity_translation\Config.
+ * Contains \\Drupal\\entity_translation\\Config.
  */
 
 namespace Drupal\entity_translation;

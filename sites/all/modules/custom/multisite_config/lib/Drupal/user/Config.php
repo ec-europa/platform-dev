@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\user\Config.
+ * Contains \\Drupal\\user\\Config.
  */
 
 namespace Drupal\user;
@@ -146,7 +146,7 @@ class Config extends ConfigBase {
    * @param int $weight
    *    Role weight.
    *
-   * @return \stdClass
+   * @return stdClass
    *    Role object.
    */
   public function createRole($name, $weight = 0) {

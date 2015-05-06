@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\tmgmt\Config.
+ * Contains \\Drupal\\tmgmt\\Config.
  */
 
 namespace Drupal\tmgmt;

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\og\Config.
+ * Contains \\Drupal\\og\\Config.
  */
 
 namespace Drupal\og;
@@ -86,6 +86,10 @@ class Config extends ConfigBase {
    *
    * @param string $name
    *   A name of the role.
+   * @param object $entity
+   *   Entity object.
+   * @param string $entity_type
+   *   Entity type.
    *
    * @return bool|int
    *    A stub OG role object.
@@ -125,6 +129,10 @@ class Config extends ConfigBase {
    *    OG role machine name.
    * @param mixed $permissions
    *    Array of permissions, each value is a permission string.
+   * @param object $entity
+   *   Entity object.
+   * @param string $entity_type
+   *   Entity type.
    * @param string $module
    *    Module machine name the permissions belong to.
    *

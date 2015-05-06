@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\version_management\Config.
+ * Contains \\Drupal\\version_management\\Config.
  */
 
 namespace Drupal\version_management;

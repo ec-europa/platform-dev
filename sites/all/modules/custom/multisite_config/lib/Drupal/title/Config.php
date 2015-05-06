@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\title\Config.
+ * Contains \\Drupal\\title\\Config.
  */
 
 namespace Drupal\title;

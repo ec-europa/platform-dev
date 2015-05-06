@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\comment\Config.
+ * Contains \\Drupal\\comment\\Config.
  */
 
 namespace Drupal\comment;

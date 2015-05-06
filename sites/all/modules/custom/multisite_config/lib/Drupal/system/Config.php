@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\system\Config.
+ * Contains \\Drupal\\system\\Config.
  */
 
 namespace Drupal\system;
@@ -19,8 +19,6 @@ class Config extends ConfigBase {
   /**
    * Get current theme machine name.
    *
-   * @global string $theme
-   *
    * @return string
    *    Current theme machine name.
    */
@@ -31,8 +29,6 @@ class Config extends ConfigBase {
 
   /**
    * Get current theme info object.
-   *
-   * @global object $theme_info
    *
    * @return object
    *    Current theme info object.
