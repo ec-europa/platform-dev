@@ -77,7 +77,7 @@ function tmgmt_workbench_query_tmgmt_entity_get_translatable_entities_alter(Quer
         $query->join('workbench_moderation_node_history', 'wmnh', 'e.' . $info['alias'] . ' = wmnh.nid');
         // @todo: we only consider the current revision
         // check if this assumption is correct.
-        $query->condition('wmnh.current', 1);
+        $query->condition('wmnh.is_current', 1);
         $query->condition('wmnh.state', $states);
         break;
       }

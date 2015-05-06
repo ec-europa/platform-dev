@@ -60,6 +60,12 @@ function multisite_drupal_toolbox_menu() {
     'access arguments' => array('administer site configuration'),
     'weight' => -5,
   );
+  $items['check_url'] = array (
+    'title' => 'Check URLs',
+    'page callback' => '_multisite_drupal_toolbox_url_exists',
+    'access arguments' => array('use text format full_html'),
+    'type' => MENU_CALLBACK,
+  );
 
   return $items;
 }
@@ -111,7 +117,7 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
 /**
  * Implements hook_module_implements_alter().
  *
- * We ensure our hook_boot is called first
+ * We ensure our hook_boot is called first.
  */
 function multisite_drupal_toolbox_module_implements_alter(&$implementations, $hook) {
   if ($hook == 'boot') {
@@ -124,7 +130,7 @@ function multisite_drupal_toolbox_module_implements_alter(&$implementations, $ho
 /**
  * Implements hook_boot().
  *
- * Force en prefix language in url even if there is one language
+ * Force en prefix language in url even if there is one language.
  */
 function multisite_drupal_toolbox_boot() {
   global $conf;
@@ -142,7 +148,7 @@ function multisite_drupal_toolbox_boot() {
  * Implements hook_init().
  *
  * Set language_count to 2 to force the display
- * of the language prefix and language switcher
+ * of the language prefix and language switcher.
  */
 function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
@@ -439,29 +445,6 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
 }
 
 /**
- * Implements hook_theme_registry_alter().
- */
-function multisite_drupal_toolbox_theme_registry_alter(&$theme_registry) {
-  // Use our own function to display status messages.
-  $theme_registry['status_messages']['function'] = "multisite_drupal_toolbox_messages";
-}
-
-/**
- * Custom function to override the drupal status message.
- */
-function multisite_drupal_toolbox_messages($variables) {
-  global $user;
-  $message = "";
-  $rid = multisite_drupal_toolbox_get_rid('administrator');
-  if (variable_get('alert_message_enable', FALSE) && isset($user->roles[$rid])) {
-    $message = '<div id="alter_message" class="messages warning">' . variable_get('alert_message_body', "") . '</div>';
-  }
-  $output = theme_status_messages($variables);
-  $output = $message . $output;
-  return $output;
-}
-
-/**
  * Public function to disable a content type.
  */
 function multisite_drupal_toolbox_disable_content_type($type) {
@@ -693,10 +676,10 @@ function add_content_type_newsletters($node_type) {
  */
 function multisite_drupal_toolbox_disable_block($module, $delta) {
   db_update('block')
-  ->fields(array('status' => '0'))
-  ->condition('module', $module, '=')
-  ->condition('delta', $delta, '=')
-  ->execute();
+    ->fields(array('status' => '0'))
+    ->condition('module', $module, '=')
+    ->condition('delta', $delta, '=')
+    ->execute();
 }
 
 /**
@@ -1183,7 +1166,7 @@ function linkit_scan_url($url, $field) {
  * Implements hook_token_info().
  *
  * Provide a new token for node [node:title-source-translation]
- * to provide get the title of the source node
+ * to provide get the title of the source node.
  */
 function multisite_drupal_toolbox_token_info() {
   $node['title-source-translation'] = array(
@@ -1404,10 +1387,10 @@ function multisite_drupal_toolbox_taxonomy_term_delete_batch_process($target, $f
 
     // Clean revision field.
     db_delete('field_revision_' . $field['field_name'])
-    ->condition('entity_type', $target->entity_type)
-    ->condition('entity_id', $target->entity_id)
-    ->condition($field['field_name'] . '_tid', $term->tid)
-    ->execute();
+      ->condition('entity_type', $target->entity_type)
+      ->condition('entity_id', $target->entity_id)
+      ->condition($field['field_name'] . '_tid', $term->tid)
+      ->execute();
   }
 }
 
@@ -1478,4 +1461,20 @@ function multisite_drupal_toolbox_library_alter(&$javascript, $module) {
       }
     }
   }
+}
+
+/**
+  * Helper to check if an url is valid with drupal_http_request.
+  * Return a boolean in json format.
+  */
+function _multisite_drupal_toolbox_url_exists($url=NULL) {
+  $response = drupal_http_request($_GET['url']);
+  if (isset($response->errno) && $response->errno == 0 && $response->code >=200 && $response->code < 300){
+    $output = true;
+  } else {
+    $output =  false;
+  }
+  drupal_add_http_header('Content-Type', 'application/json');
+  echo drupal_json_encode($output);
+  drupal_exit();
 }

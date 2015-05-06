@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="NextEuropa" default="help">
+
+    <!-- Install the platform. -->
+    <target name="install-platform" description="Install the platform.">
+        <drush
+            command="site-install"
+            assume="yes"
+            root="${platform.build.dir}"
+            bin="${drush.bin}"
+            verbose="${drush.verbose}">
+            <option name="db-url" value="${drupal.db.url}"/>
+            <option name="site-name" value="${platform.site.name}"/>
+            <option name="account-name" value="${drupal.admin.username}"/>
+            <option name="account-pass" value="${drupal.admin.password}"/>
+            <option name="account-mail" value="${drupal.admin.email}"/>
+            <param>${platform.profile.name}</param>
+        </drush>
+    </target>
+
+</project>

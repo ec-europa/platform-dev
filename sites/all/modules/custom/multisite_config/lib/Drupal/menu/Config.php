@@ -21,7 +21,7 @@ class Config extends ConfigBase {
    *
    * @param string $content_type
    *    Content type machine name.
-   * @param array $menus
+   * @param mixed $menus
    *    Menus to be available.
    */
   public function setAvailableMenusForContentType($content_type, $menus) {
