@@ -18,3 +18,5 @@ function multisite_business_indicators_standard_ctools_plugin_api($module = NULL
  */
 function multisite_business_indicators_standard_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
+}
+
