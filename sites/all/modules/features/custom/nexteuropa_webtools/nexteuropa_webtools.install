@@ -29,7 +29,7 @@ function nexteuropa_webtools_post_features_enable_feature($component) {
 function nexteuropa_webtools_requirements($phase) {
   if ($phase == 'runtime') {
     $t = get_t();
-    $smarloader_url = variable_get('newteuropa_webtools_smarloader_url');
+    $smarloader_url = variable_get('newteuropa_webtools_smarloader_url', '');
     if ($smarloader_url == '') {
       $requirements['webtools_smarloader_url'] = array(
         'description' => $t('Wetools javascript not found. Define the webtools_smarloader_url at: !url', array(
