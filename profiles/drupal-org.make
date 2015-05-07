@@ -293,9 +293,6 @@ projects[strongarm][version] = "2.0"
 projects[subscriptions][subdir] = "contrib"
 projects[subscriptions][version] = "1.1"
 
-projects[sweaver][subdir] = "contributed"
-projects[sweaver][version] = "1.3"
-
 projects[tagclouds][subdir] = "contributed"
 projects[tagclouds][version] = "1.10"
 
