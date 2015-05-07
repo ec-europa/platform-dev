@@ -21,6 +21,16 @@ function nexteuropa_webtools_post_features_enable_feature($component) {
       )
     );
   }
+  // Grant webtools bean permissions for anonymous user role.
+  user_role_grant_permissions('0', array(
+      'view any webtools bean',
+    )
+  );
+  // Grant webtools bean permissions for authenticated user role.
+  user_role_grant_permissions('1', array(
+        'view any webtools bean',
+    )
+  );
 }
 
 /**
