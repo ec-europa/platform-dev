@@ -1,44 +1,40 @@
-diff --git a/workbench_moderation.rules.inc b/workbench_moderation.rules.inc
-index 413716a..03ac74b 100644
---- a/workbench_moderation.rules.inc
-+++ b/workbench_moderation.rules.inc
-@@ -197,6 +197,30 @@ function workbench_moderation_rules_action_info() {
+--- workbench_moderation.rules.inc	2015-04-24 15:18:29.063954029 +0200
++++ workbench_moderation.rules.inc	2015-04-24 15:37:16.000000000 +0200
+@@ -196,6 +196,30 @@
+       ),
      ),
    );
- 
++  
 +  $items['workbench_moderation_set_state_and_unpublish'] = array(
-+   'label' => t("Set moderation state and unpublish"),
-+   'group' => t("Node"),
-+   'base' => 'workbench_moderation_set_state_and_unpublish_rules_action',
++    'label' => t("Set moderation state and unpublish"),
++    'group' => t("Node"),
++    'base' => 'workbench_moderation_set_state_and_unpublish_rules_action',
 +
-+   'parameter' => array(
-+     'node' => array(
-+       'type' => 'node',
-+       'label' => t("Content"),
-+     ),
-+     'moderation_state' => array(
-+       'type' => 'text',
-+       'label' => t("Workbench moderation state"),
-+       'options list' => 'workbench_moderation_state_labels',
-+       'restriction' => 'input',
-+     ),
-+     'force_transition' => array(
-+       'type' => 'boolean',
-+       'label' => t("Force transition"),
-+       'restriction' => 'input',
-+     ),
-+   ),
-+ );
-+
++    'parameter' => array(
++      'node' => array(
++        'type' => 'node',
++        'label' => t("Content"),
++      ),
++      'moderation_state' => array(
++        'type' => 'text',
++        'label' => t("Workbench moderation state"),
++        'options list' => 'workbench_moderation_state_labels',
++        'restriction' => 'input',
++      ),
++      'force_transition' => array(
++        'type' => 'boolean',
++        'label' => t("Force transition"),
++        'restriction' => 'input',
++      ),
++    ),
++  );
+ 
    return $items;
  }
- 
-@@ -360,4 +384,40 @@ function workbench_moderation_load_current_state_rules_action($node) {
+@@ -360,4 +384,40 @@
  function workbench_moderation_load_current_revision_rules_action($node) {
    $node_revision = workbench_moderation_node_current_load($node);
    return array('node' => $node, 'node_revision' => $node_revision);
--}
-\ No newline at end of file
 +}
 +
 +/**
@@ -75,4 +71,4 @@ index 413716a..03ac74b 100644
 +  node_save($live_revision);
 +
 +  return array('node' => $node);
-+}
+ }
