@@ -13,9 +13,15 @@ use Drupal\multisite_config\ConfigBase;
  * Class Config.
  *
  * @package Drupal\wysiwyg.
+ *
+ * @example example_wysiwyg.cpp
+ * This is an example of how to use the wysiwyg class.
+ */
+
+/** @brief Helper functions to manage WYSIWYG
+ * @details See examples below: @include example_wysiwyg.cpp
  */
 class Config extends ConfigBase {
-
 
   /**
    * Add a button to a WYSIWYG profile.
