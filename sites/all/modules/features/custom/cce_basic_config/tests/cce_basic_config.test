@@ -2,12 +2,11 @@
 
 /**
  * @file
- * Tests for PROJECTFEATURE_cce_basic_config.module.
- * ECWeb MULTISITE QA
+ * Tests cce_basic_config core module.
  */
 
 /**
- * Defines a base class for testing the "multisite_translations" module.
+ * Defines a base class for testing.
  */
 class MultisiteCceBasicConfigQAWebTestCase extends DrupalWebTestCase {
 
@@ -25,7 +24,7 @@ class MultisiteCceBasicConfigQAWebTestCase extends DrupalWebTestCase {
   /**
    * Test Info File.
    *
-   * TestFile <featurename>.info
+   * TestFile cce_basic_config.info.
    */
   public function testInfoFile() {
     $module = basename(__FILE__, ".test");
@@ -45,13 +44,11 @@ class MultisiteCceBasicConfigQAWebTestCase extends DrupalWebTestCase {
 
     // Add core information
     // Ex core = 7.x
-
     $this->assertTrue(array_key_exists('core', $info), 'The Drupal core version is available.');
     $this->assertEqual($info['core'], '7.x');
 
     // Add php information
     // Ex: php = 5.2.4
-
     $this->assertTrue(array_key_exists('php', $info), 'The PHP version info is available.');
     $this->assertEqual($info['php'], '5.2.4');
 
@@ -59,15 +56,12 @@ class MultisiteCceBasicConfigQAWebTestCase extends DrupalWebTestCase {
     // Ex: version = 7.x-1.0
     $this->assertTrue(array_key_exists('version', $info));
 
-    // Add feature information:
-    // features[features_api][] = api:1
-    $this->assertEqual($info['features']['features_api'][0], 'api:1', 'The Feature API dependency is available.');
+    // Add feature information.
+    $this->assertEqual($info['features']['features_api'][0], 'api:2', 'The Feature API dependency is available.');
 
-    // Remove menu dependencies:
-
+    // Remove menu dependencies.
     if (array_key_exists('dependencies', $info)) {
-      // dependencies[] = "menu"
-
+      // dependencies[] = "menu".
       $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
     }
   }
@@ -84,4 +78,5 @@ class MultisiteCceBasicConfigQAWebTestCase extends DrupalWebTestCase {
     $this->assertTrue(strpos($data, $module . '_enable'), 'The module contains a hook_enable');
     $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
   }
+
 }
