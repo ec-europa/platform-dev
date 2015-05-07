@@ -91,4 +91,42 @@ class Config extends ConfigBase {
     return context_save($context);
   }
 
+
+  /**
+   * Add a content type as condition to trigger a context.
+   *
+   * @param string $context_name
+   *   Machine name of the context to modify
+   *
+   * @param string $content_type
+   *   Machine name of the content type to use as condition for the the context
+   */
+  public function addContentTypeContext($context_name, $content_type) {
+    // Load context.
+    $context = module_invoke('context', 'load', $context_name);
+    // Add modification to the context.
+    $context->conditions['node']['values'][$content_type] = $content_type;
+    // Update the context.
+    module_invoke('context', 'save', $context);
+  }
+
+  /**
+   * Remove a content type used to trigger a context
+   *
+   * @param string $context_name
+   *   Machine name of the context to modify
+   *
+   * @param string $content_type
+   *   Machine name of the content type to use as condition for the the context
+   */
+  public function removeContentTypeContext($context_name, $content_type) {
+    // Load context.
+    $context = module_invoke('context', 'load', $context_name);
+    // Remove element from the context.
+    unset($context->conditions['node']['values'][$content_type]);
+    // Update the context.
+    module_invoke('context', 'save', $context);
+  }
+
+
 }
