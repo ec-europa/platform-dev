@@ -30,10 +30,10 @@ function nexteuropa_webtools_requirements($phase) {
   $requirements = array();
   if ($phase == 'runtime') {
     $t = get_t();
-    $smarloader_prurl = variable_get('nexteuropa_webtools_smarloader_prurl', '');
-    if ($smarloader_prurl == '') {
-      $requirements['webtools_smarloader_prurl'] = array(
-        'description' => $t('Javascript not found. Define the webtools_smarloader_prurl at: !url', array(
+    $smartloader_prurl = variable_get('nexteuropa_webtools_smartloader_prurl', '');
+    if ($smartloader_prurl == '') {
+      $requirements['webtools_smartloader_prurl'] = array(
+        'description' => $t('Javascript not found. Define the webtools_smartloader_prurl at: !url', array(
             '!url' => l($t('admin/config/services/webtools'), 'admin/config/services/webtools'),
           )),
         'severity' => REQUIREMENT_ERROR,
@@ -42,9 +42,9 @@ function nexteuropa_webtools_requirements($phase) {
       );
     }
     else {
-      $requirements['webtools_smarloader_prurl'] = array(
+      $requirements['webtools_smartloader_prurl'] = array(
         'description' => $t('Javascript defined at !url', array(
-            '!url' => l($smarloader_prurl, $smarloader_prurl),
+            '!url' => l($smartloader_prurl, $smartloader_prurl),
           )),
         'severity' => REQUIREMENT_OK,
         'value' => $t('Defined'),
