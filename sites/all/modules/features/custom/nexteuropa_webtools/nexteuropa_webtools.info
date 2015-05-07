@@ -1,5 +1,5 @@
 name = NextEuropa webtools
-description = Provideq webtools block type
+description = Provides webtools block type
 core = 7.x
 package = NextEuropa
 version = 7.x-1.0
