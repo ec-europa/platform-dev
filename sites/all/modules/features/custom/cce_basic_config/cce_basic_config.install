@@ -1084,9 +1084,9 @@ function cce_basic_config_update_7192() {
 
   if (db_table_exists($captcha_points)) {
     db_update('captcha_points')
-    ->fields(array('captcha_type' => 'default'))
-    ->condition('form_id', 'contact_site_form')
-    ->execute();
+      ->fields(array('captcha_type' => 'default'))
+      ->condition('form_id', 'contact_site_form')
+      ->execute();
   }
 
   // Revoke 'use PHP to import nodes' 'administer varnish' permissions.
@@ -1348,9 +1348,9 @@ function cce_basic_config_update_7200() {
   // Activate captcha of user contact form.
   if (db_table_exists('captcha_points')) {
     db_update('captcha_points')
-    ->fields(array('captcha_type' => 'default'))
-    ->condition('form_id', 'contact_personal_form')
-    ->execute();
+      ->fields(array('captcha_type' => 'default'))
+      ->condition('form_id', 'contact_personal_form')
+      ->execute();
   }
 
   variable_set('multisite_version', '2.0');
