@@ -60,9 +60,6 @@ projects[colors][version] = "1.0-beta2"
 projects[colorbox][subdir] = "contrib"
 projects[colorbox][version] = "1.3"
 
-;projects[content_lock][subdir] = "contrib"
-;projects[content_lock][version] = "1.4"
-
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.6"
 
