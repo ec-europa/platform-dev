@@ -96,10 +96,9 @@ class Config extends ConfigBase {
    * Add a content type as condition to trigger a context.
    *
    * @param string $context_name
-   *   Machine name of the context to modify
-   *
+   *   Machine name of the context to modify.
    * @param string $content_type
-   *   Machine name of the content type to use as condition for the the context
+   *   Machine name of the content type to use as condition for the the context.
    */
   public function addContentTypeContext($context_name, $content_type) {
     // Load context.
@@ -111,13 +110,12 @@ class Config extends ConfigBase {
   }
 
   /**
-   * Remove a content type used to trigger a context
+   * Remove a content type used to trigger a context.
    *
    * @param string $context_name
-   *   Machine name of the context to modify
-   *
+   *   Machine name of the context to modify.
    * @param string $content_type
-   *   Machine name of the content type to use as condition for the the context
+   *   Machine name of the content type to use as condition for the the context.
    */
   public function removeContentTypeContext($context_name, $content_type) {
     // Load context.
@@ -127,6 +125,5 @@ class Config extends ConfigBase {
     // Update the context.
     module_invoke('context', 'save', $context);
   }
-
 
 }
