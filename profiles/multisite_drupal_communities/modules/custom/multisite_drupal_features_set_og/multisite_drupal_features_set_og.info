@@ -70,22 +70,6 @@ feature_sets[multi_user_blog][font] = 'multisite-icon-book'
 feature_sets[multi_user_blog][enable][] = multi_user_blog
 feature_sets[multi_user_blog][disable][] = multi_user_blog
 
-feature_sets[multisite_charts][title] = 'Charts'
-feature_sets[multisite_charts][description] = 'Create multiple customized charts based on FusionCharts API.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/JIfhAg" target="_blank">Read documentation</a>'
-feature_sets[multisite_charts][category] = 'Communication'
-feature_sets[multisite_charts][icon] = ''
-feature_sets[multisite_charts][font] = 'multisite-icon-pie'
-feature_sets[multisite_charts][enable][] = multisite_charts
-feature_sets[multisite_charts][disable][] = multisite_charts
-
-feature_sets[multisite_maps][title] = 'Maps'
-feature_sets[multisite_maps][description] = 'Create multiple customized maps based on FusionMaps API.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/EIfhAg" target="_blank">Read documentation</a>'
-feature_sets[multisite_maps][category] = 'Communication'
-feature_sets[multisite_maps][icon] = ''
-feature_sets[multisite_maps][font] = 'multisite-icon-location'
-feature_sets[multisite_maps][enable][] = multisite_maps
-feature_sets[multisite_maps][disable][] = multisite_maps
-
 feature_sets[multisite_metatags][title] = 'Meta tags'
 feature_sets[multisite_metatags][description] = 'Add metatag information to nodes, that respects the IPG guidelines.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/CIbhAg target="_blank"">Read documentation</a>'
 feature_sets[multisite_metatags][category] = 'Communication'
