@@ -4,11 +4,10 @@
  * Code for the Nexteuropa Notices install feature.
  */
 
-
 /**
  * Implements hook_post_features_enable_feature().
  */
-function nexteuropa_notices_post_features_enable_feature () {
+function nexteuropa_notices_post_features_enable_feature() {
   // Grant notices bean permissions for Administrator roles.
   $admin_rid = user_role_load_by_name('administrator');
   if ($admin_rid && isset($admin_rid->rid)) {
@@ -31,4 +30,3 @@ function nexteuropa_notices_post_features_enable_feature () {
     )
   );  
 }
-

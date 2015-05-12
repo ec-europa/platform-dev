@@ -193,6 +193,14 @@ feature_sets[multisite_twitterblock][font] = 'multisite-icon-twitter'
 feature_sets[multisite_twitterblock][enable][] = multisite_twitterblock
 feature_sets[multisite_twitterblock][disable][] = multisite_twitterblock
 
+feature_sets[multisite_notices][title] = 'Notices'
+feature_sets[multisite_notices][description] = 'Allow web masters to create and manage notices on the web site.'
+feature_sets[multisite_notices][category] = 'Information to users'
+feature_sets[multisite_notices][icon] = ''
+feature_sets[multisite_notices][font] = 'multisite-icon-bubble2'
+feature_sets[multisite_notices][enable][] = multisite_notices
+feature_sets[multisite_notices][disable][] = multisite_notices
+
 ; Media
 feature_sets[e_library_og][title] = 'E-Library'
 feature_sets[e_library_og][description] = 'Allows contributors to publish documents represented as uploaded files in various possible formats (pdf, xls, doc...). Documents will be stored in a space named E-Library. Every visitor can have access to the documents in the E-Library.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/yIXhAg" target="_blank">Read documentation</a>'
