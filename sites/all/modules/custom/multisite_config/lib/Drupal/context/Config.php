@@ -101,12 +101,17 @@ class Config extends ConfigBase {
    *   Machine name of the content type to use as condition for the the context.
    */
   public function addContentTypeContext($context_name, $content_type) {
+    $list_content_types = array_keys(node_type_get_types());
     // Load context.
     $context = module_invoke('context', 'load', $context_name);
     // Add modification to the context.
-    $context->conditions['node']['values'][$content_type] = $content_type;
-    // Update the context.
-    module_invoke('context', 'save', $context);
+    if($context && in_array($content_type, $list_content_types)) {
+      $context->conditions['node']['values'][$content_type] = $content_type;
+      // Update the context.
+      module_invoke('context', 'save', $context);
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -118,12 +123,17 @@ class Config extends ConfigBase {
    *   Machine name of the content type to use as condition for the the context.
    */
   public function removeContentTypeContext($context_name, $content_type) {
+    $list_content_types = array_keys(node_type_get_types());
     // Load context.
     $context = module_invoke('context', 'load', $context_name);
-    // Remove element from the context.
-    unset($context->conditions['node']['values'][$content_type]);
-    // Update the context.
-    module_invoke('context', 'save', $context);
+    if($context && in_array($content_type, $list_content_types)) {
+      // Remove element from the context.
+      unset($context->conditions['node']['values'][$content_type]);
+      // Update the context.
+      module_invoke('context', 'save', $context);
+      return true;
+    }
+    return false;
   }
 
 }
