@@ -193,13 +193,13 @@ feature_sets[multisite_twitterblock][font] = 'multisite-icon-twitter'
 feature_sets[multisite_twitterblock][enable][] = multisite_twitterblock
 feature_sets[multisite_twitterblock][disable][] = multisite_twitterblock
 
-feature_sets[multisite_notices][title] = 'Notices'
-feature_sets[multisite_notices][description] = 'Allow web masters to create and manage notices on the web site.'
-feature_sets[multisite_notices][category] = 'Information to users'
-feature_sets[multisite_notices][icon] = ''
-feature_sets[multisite_notices][font] = 'multisite-icon-bubble2'
-feature_sets[multisite_notices][enable][] = multisite_notices
-feature_sets[multisite_notices][disable][] = multisite_notices
+feature_sets[nexteuropa_notices][title] = 'Notices'
+feature_sets[nexteuropa_notices][description] = 'Allow web masters to create and manage notices on the web site.'
+feature_sets[nexteuropa_notices][category] = 'Information to users'
+feature_sets[nexteuropa_notices][icon] = ''
+feature_sets[nexteuropa_notices][font] = 'multisite-icon-bubble2'
+feature_sets[nexteuropa_notices][enable][] = nexteuropa_notices
+feature_sets[nexteuropa_notices][disable][] = nexteuropa_notices
 
 ; Media
 feature_sets[e_library_og][title] = 'E-Library'
