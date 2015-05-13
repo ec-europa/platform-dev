@@ -105,13 +105,13 @@ class Config extends ConfigBase {
     // Load context.
     $context = module_invoke('context', 'load', $context_name);
     // Add modification to the context.
-    if($context && in_array($content_type, $list_content_types)) {
+    if ($context && in_array($content_type, $list_content_types)) {
       $context->conditions['node']['values'][$content_type] = $content_type;
       // Update the context.
       module_invoke('context', 'save', $context);
-      return true;
+      return TRUE;
     }
-    return false;
+    return FALSE;
   }
 
   /**
@@ -126,14 +126,14 @@ class Config extends ConfigBase {
     $list_content_types = array_keys(node_type_get_types());
     // Load context.
     $context = module_invoke('context', 'load', $context_name);
-    if($context && in_array($content_type, $list_content_types)) {
+    if ($context && in_array($content_type, $list_content_types)) {
       // Remove element from the context.
       unset($context->conditions['node']['values'][$content_type]);
       // Update the context.
       module_invoke('context', 'save', $context);
-      return true;
+      return TRUE;
     }
-    return false;
+    return FALSE;
   }
 
 }
