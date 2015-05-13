@@ -1149,6 +1149,30 @@ video
   );
   $export['cce_basic_config_admin_pages'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_bilinear_interpolation';
+  $strongarm->value = 1;
+  $export['image_captcha_bilinear_interpolation'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_distortion_amplitude';
+  $strongarm->value = '5';
+  $export['image_captcha_distortion_amplitude'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_fonts';
+  $strongarm->value = array(
+    'profiles/multisite_drupal_standard/modules/contrib/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf' => 'profiles/multisite_drupal_standard/modules/contrib/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf',
+    'profiles/multisite_drupal_standard/modules/contrib/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf' => 'profiles/multisite_drupal_standard/modules/contrib/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf',
+  );
+  $export['image_captcha_fonts'] = $strongarm;
+
   return $export;
 }
 
