@@ -78,3 +78,24 @@ function multisite_settings_core_update_7122() {
     variable_set('language_negotiation_language', $lang);
   }
 }
+
+/**
+ * Regenerate the language negotiation URL.
+ */
+function multisite_settings_core_update_7123() {
+  // The custom modules have moved to a new location. The callback that
+  // generates the language negotiation URL is stored in a variable for
+  // performance reasons, but this includes a hardcoded path that points to the
+  // location of the callback before the modules were relocated.
+  // This callback is already invoked before Drupal is fully bootstrapped. If
+  // you find that you cannot execute database updates because Drupal cannot be
+  // bootstrapped, please execute the following database queries to clear the
+  // hardcoded path from the variables table, and the various cache layers:
+  //
+  // @code
+  // DELETE FROM variable WHERE name = 'language_negotiation_language_url';
+  // DELETE FROM cache_variable;
+  // DELETE FROM cache_bootstrap WHERE cid = 'variables';
+  // @endcode
+  language_types_set();
+}
