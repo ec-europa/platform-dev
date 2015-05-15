@@ -4,4 +4,4 @@
  * Code for the Multisite Core feature.
  */
 
-include_once('multisite_settings_core.features.inc');
+include_once 'multisite_settings_core.features.inc';

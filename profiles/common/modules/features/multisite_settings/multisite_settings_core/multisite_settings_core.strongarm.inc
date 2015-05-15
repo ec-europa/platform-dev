@@ -122,6 +122,6 @@ function multisite_settings_core_strongarm() {
   $strongarm->name = 'realname_pattern';
   $strongarm->value = '[user:field_firstname] [user:field_lastname]';
   $export['realname_pattern'] = $strongarm;
-  
+
   return $export;
 }

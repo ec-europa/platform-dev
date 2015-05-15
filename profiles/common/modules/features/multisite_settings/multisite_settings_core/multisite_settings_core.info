@@ -36,4 +36,3 @@ features[variable][] = locale_language_providers_weight_language
 features[variable][] = realname_pattern
 features[variable][] = theme_default
 features[views_view][] = multisite_settings_core
-
