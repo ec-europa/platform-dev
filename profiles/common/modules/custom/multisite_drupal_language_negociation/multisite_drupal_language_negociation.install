@@ -1,24 +1,21 @@
 <?php
+
 /**
  * @file
- * multisite_drupal_language negociation.install file
+ * Install, uninstall, update, enable, disable and schema hooks.
  */
 
 /**
- * hook_enable
+ * Implements hook_enable().
  */
-
 function multisite_drupal_language_negociation_enable() {
-  //variable_set("multisite_drupal_language_negociation", 1);
   variable_set("language_suffix_delimiter", "_");
 }
 
 /**
- * hook_disable
+ * Implements hook_disable().
  */
-
 function multisite_drupal_language_negociation_disable() {
-  //variable_del("multisite_drupal_language_negociation", 0);
   variable_del("language_suffix_delimiter");
   variable_del("language_negociation_views");
 }

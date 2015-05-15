@@ -1,21 +1,22 @@
 <?php
 /**
  * @file
- * multisite_drupal_language negociation.inc
+ * Language negotiation callbacks.
  */
 
-define('LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX', 'locale-url-suffix');
+define('MULTISITE_DRUPAL_LANGUAGE_NEGOCIATION_URL_SUFFIX', 'locale-url-suffix');
+
 /**
-  * callback functions for the multisite language negotiation providers, module : multisite_drupal_language_negociation
-  */
+ * Callback functions for the multisite language negotiation providers.
+ */
 function multisite_language_provider_callback($languages) {
   $language_url = FALSE;
-  if (!language_negotiation_get_any(LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX)) {
+  if (!language_negotiation_get_any(MULTISITE_DRUPAL_LANGUAGE_NEGOCIATION_URL_SUFFIX)) {
     return $language_url;
   }
 
-  // $_GET['q'] might not be available at this time, because
-  // path initialization runs after the language bootstrap phase.
+  // $_GET['q'] might not be available at this time, because path initialization
+  // runs after the language bootstrap phase.
   list($language, $_GET['q']) = language_url_split_suffix(isset($_GET['q']) ? $_GET['q'] : NULL, $languages);
   if ($language !== FALSE) {
     $language_url = $language->language;
@@ -24,10 +25,14 @@ function multisite_language_provider_callback($languages) {
   return $language_url;
 }
 
-
-
+/**
+ * Callback to rewrite URLs for the URL language provider.
+ *
+ * @see hook_language_negotiation_info()
+ */
 function multisite_url_rewrite_callback(&$path, &$options) {
-  global $language;
+  global $language_url;
+
   $delimiter = variable_get('language_suffix_delimiter', '_');
 
   $language_list = language_list('enabled');
@@ -35,12 +40,11 @@ function multisite_url_rewrite_callback(&$path, &$options) {
 
   // Language can be passed as an option, or we go for current URL language.
   if (!isset($options['language'])) {
-    if(isset($options['attributes']['lang'])) {
+    if (isset($options['attributes']['lang'])) {
       $options['language'] = $language_list[1][$options['attributes']['lang']];
     }
     else {
-      global $language_url;
-        $options['language'] = $language_url;
+      $options['language'] = $language_url;
     }
   }
   // We allow only enabled languages here.
@@ -49,27 +53,25 @@ function multisite_url_rewrite_callback(&$path, &$options) {
     return;
   }
 
-  $path = drupal_get_path_alias(empty($path)?variable_get('site_frontpage', 'node'):$path, $options['language']->language);
-
-  if ($path == '<front>' || $path == '') { // handle the homepage url
+  $path = drupal_get_path_alias(empty($path) ? variable_get('site_frontpage', 'node') : $path, $options['language']->language);
+  // Handle the homepage URL.
+  if ($path == '<front>' || $path == '') {
     $path = variable_get('site_frontpage', 'node');
   }
 
-  $path .= $delimiter.$options['language']->prefix;
+  $path .= $delimiter . $options['language']->prefix;
 
   $options['alias'] = TRUE;
 }
 
-
-
-/*
- * extract the suffix from the path
+/**
+ * Extract the suffix from the path.
  */
 function language_url_split_suffix($path, $languages) {
   $delimiter = variable_get('language_suffix_delimiter', '_');
   $args = empty($path) ? array() : explode($delimiter, $path);
   $suffix = array_pop($args);
-  // handle if there are extra parameters after the suffix
+  // Handle if there are extra parameters after the suffix.
   $extra_params = explode("/", $suffix);
   $suffix = array_shift($extra_params);
 
@@ -78,8 +80,9 @@ function language_url_split_suffix($path, $languages) {
     if (!empty($language->prefix) && $language->prefix == $suffix) {
       // Rebuild $path with the language removed.
       $path = implode($delimiter, $args);
-      $path = ($path == 'index')?'': $path; // handle the path homepage
-      // add extra params after suffix
+      // Handle the path homepage.
+      $path = ($path == 'index') ? '' : $path;
+      // Add extra params after suffix.
       if (count($extra_params) > 0) {
         $path .= "/" . implode("/", $extra_params);
       }
@@ -89,7 +92,11 @@ function language_url_split_suffix($path, $languages) {
   return array(FALSE, $path);
 }
 
-
+/**
+ * Language switcher callback.
+ *
+ * @see hook_language_negotiation_info()
+ */
 function multisite_language_switcher_url($type, $path) {
   $languages = language_list('enabled');
   $links = array();
@@ -103,4 +110,3 @@ function multisite_language_switcher_url($type, $path) {
   }
   return $links;
 }
-
