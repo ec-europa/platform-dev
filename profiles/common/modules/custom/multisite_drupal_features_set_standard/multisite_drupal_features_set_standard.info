@@ -68,14 +68,6 @@ feature_sets[multisite_metatags][font] = 'multisite-icon-bookmarks'
 feature_sets[multisite_metatags][enable][] = multisite_metatags
 feature_sets[multisite_metatags][disable][] = multisite_metatags
 
-feature_sets[multisite_readspeaker][title] = 'Readspeaker'
-feature_sets[multisite_readspeaker][description] = 'Integrates ReadSpeaker Enterprise Highlighting to your website.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/hoLJAw" target="_blank">Read documentation</a>'
-feature_sets[multisite_readspeaker][category] = 'Communication'
-feature_sets[multisite_readspeaker][icon] = ''
-feature_sets[multisite_readspeaker][font] = 'multisite-icon-volume'
-feature_sets[multisite_readspeaker][enable][] = multisite_readspeaker
-feature_sets[multisite_readspeaker][disable][] = multisite_readspeaker
-
 feature_sets[multisite_webtools][title] = 'Webtools'
 feature_sets[multisite_webtools][description] = 'xxx.<br /><a class="description" href="#" target="_blank">Read documentation</a>'
 feature_sets[multisite_webtools][category] = 'Communication'
