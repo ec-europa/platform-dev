@@ -1,0 +1,18 @@
+/* ---------------- Feature set  ----------------- */
+.feature-set-content {
+  .cb-disable.selected {
+    .button-variant(@btn-danger-color; @btn-danger-bg; @btn-danger-border);
+  }
+  .cb-enable.selected {
+    .button-variant(@btn-success-color; @btn-success-bg; @btn-success-border);
+  }  
+  .pending {
+    .cb-disable.selected,
+    .cb-enable.selected {
+      .button-variant(@btn-warning-color; @btn-warning-bg; @btn-warning-border);
+    }
+  }
+  .form-checkbox {
+    visibility: hidden;
+  }
+}

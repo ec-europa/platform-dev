@@ -1,0 +1,583 @@
+/* $Id: style.css,v 1.53 2011/01/04 06:23:29 dries Exp $ */
+
+.f_right { float: right; }
+.f_left { float: left; }
+.c_right { clear: right; }
+.c_left { clear: left; }
+.t_upper { text-transform: uppercase; }
+.t_right {text-align: right; }
+.t_left {text-align: left; }
+.t_center {text-align: center; }
+.clickable { cursor: pointer; }
+.off-screen {left: -9999px; position: absolute; top: -9999px; margin: 0; padding: 0;}
+.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+
+  border-bottom: 8px solid #F5F5F5;
+  .box-shadow(0 1px 0 rgba(0,0,0,.25));
+}
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+
+  border-top: 8px solid #F5F5F5;
+  .box-shadow(0 -1px 0 rgba(0,0,0,.25));
+
+}
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+
+  border-left: 5px solid black;
+}
+.arrow-left {
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+
+  border-right: 5px solid black;
+}
+
+/* ---------- Overall Specifications ---------- */
+
+body {
+  word-wrap: break-word;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  #gradient .radial(#ddd, @grayLighter);
+}
+body,
+body.overlay,
+li,
+label { color: @textColor; }
+
+del {
+  text-decoration: line-through;
+}
+img {
+  outline: 0;
+}
+code,
+pre,
+kbd,
+samp,
+var {
+  padding: 0 0.4em;
+  font-size: 0.77em;
+  font-family: Menlo, Consolas, "Andale Mono", "Lucida Console", "Nimbus Mono L", "DejaVu Sans Mono", monospace, "Courier New";
+}
+code {
+  background-color: #f2f2f2;
+  background-color: rgba(40, 40, 0, 0.06);
+}
+pre code,
+pre kbd,
+pre samp,
+pre var,
+kbd kbd,
+kbd samp,
+code var {
+  font-size: 100%;
+  background-color: transparent;
+}
+pre code,
+pre samp,
+pre var {
+  padding: 0;
+}
+.description code {
+  font-size: 1em;
+}
+kbd {
+  background-color: #f2f2f2;
+  border: 1px outset #575757;
+  margin: 0 3px;
+  color: #666;
+  display: inline-block;
+  padding: 0 6px;
+  .border-radius(5px);
+}
+pre {
+  background-color: #f2f2f2;
+  background-color: rgba(40, 40, 0, 0.06);
+  margin: 10px 0;
+  overflow: hidden;
+  padding: 15px;
+  white-space: pre-wrap;
+}
+p {
+  font-size: 100%;
+}
+
+/* ------------------ Reset Styles ------------------ */
+
+caption {
+  text-align: left; /* LTR */
+  font-weight: normal;
+}
+a.feed-icon {
+  display: inline-block;
+  padding: 15px 0 0 0;
+}
+
+/* ------------------ Heading Styles ------------------ */
+h1 {color: #113355; }
+h2 {color: #336699; }
+h3 {color: #003366; }
+h4 {color: #003366; }
+h5 {color: #336699; }
+h6 {color: #003366; }
+
+/* ------------------ Links Styles ------------------ */
+a {
+  color: @linkColor;
+  &:hover { color: @linkColorHover; }
+  &:focus { color: @linkColorHover; }
+  &:active { color: @linkColorHover; }
+  &:visited { color: @linkColor; }
+}
+
+/* ------------------ Icons Styles ------------------ */
+i[class^="multisite-icon-"] {
+  color: @textColor;
+  padding-right: 4px;
+}
+
+/* ------------------ List Styles ------------------ */
+
+.contextual-links-wrapper {
+  font-size: small !important;
+}
+.contextual-links-wrapper a {
+  text-shadow: 0 0 0 !important;
+}
+ul.menu li {
+  margin: 0;
+}
+.region-content ul,
+.region-content ol {
+  margin: 1em 0;
+  padding: 0 0 0.25em 2.5em; /* LTR */
+}
+.item-list ul li {
+  margin: 0;
+  padding: 0.2em 0.5em 0 0; /* LTR */
+}
+ul.tips {
+  padding: 0 0 0 1.25em; /* LTR */
+}
+a.context-block-region {
+  display: none !important;
+}
+ul {
+  .secondary {
+    border-color: darken(@bodyBackground,15%);
+    li { border-color: darken(@bodyBackground,15%); }
+  }
+  li.block-print {
+    list-style: none !important;
+  }
+}
+
+
+/* ------------------- Help ------------------- */
+
+.region-help {
+  border: 1px solid #d3d7d9;
+  padding: 0 1.5em;
+  margin-bottom: 30px;
+}
+
+/* ----------------- Content ------------------ */
+
+#content-title {
+  display: none;
+}
+.layout-content .content {
+  margin-top: 10px;
+  clear: both;
+}
+.node .content {
+  font-size: 1em;
+}
+.node-teaser {
+  margin-bottom: 0;
+  padding-bottom: 15px;
+  h2 {
+    margin-top: 0;
+    padding-top: 0.5em;
+    clear: both;
+  }
+  .content {
+    font-size: 1em;
+    clear: none;
+    line-height: 1.6;
+  }
+  fieldset,
+  .fieldset {
+    margin-bottom: 10px;
+  }
+}
+.node-sticky {
+  background: #f9f9f9;
+  background: rgba(0, 0, 0, 0.024);
+  border: 1px solid #d3d7d9;
+  padding: 0 15px 15px;
+}
+.node-full {
+  background: none;
+  border: none;
+  padding: 0;
+}
+.meta {
+  color: #666666;
+  font-size: 0.9em;
+  margin-bottom: -5px;
+  .form-item {
+    margin: 0;
+  }
+  &.group {
+    float: right;
+    clear: left;
+  }
+}
+.submitted .user-picture img {
+  float: left; /* LTR */
+  height: 20px;
+  margin: 1px 5px 0 0; /* LTR */
+}
+.field-type-taxonomy-term-reference {
+  margin: 0;
+}
+.field-type-taxonomy-term-reference .field-label {
+  font-weight: normal;
+  margin: 0;
+  padding-right: 5px; /* LTR */
+}
+.field-type-taxonomy-term-reference .field-label,
+.field-type-taxonomy-term-reference ul.links {
+  font-size: 1em;
+}
+.node-teaser .field-type-taxonomy-term-reference .field-label,
+.node-teaser .field-type-taxonomy-term-reference ul.links {
+  font-size: 1em;
+}
+.field-type-taxonomy-term-reference ul.links {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.field-type-taxonomy-term-reference ul.links li {
+  float: left; /* LTR */
+  padding: 0 1em 0 0; /* LTR */
+  white-space: nowrap;
+}
+.link-wrapper {
+  text-align: right;
+  &.right {
+    float: right;
+    padding-top: 15px;
+    width: 50%;
+  }
+}
+.field-type-image img,
+.user-picture img {
+  margin: 0 0 1em;
+}
+ul.links {
+  color: #68696b;
+  font-size: 0.9em;
+}
+.node-unpublished {
+  margin: -20px -15px 0;
+  padding: 20px 15px 0;
+}
+.node-unpublished .comment-text .comment-arrow {
+  border-left: 1px solid #fff4f4;
+  border-right: 1px solid #fff4f4;
+}
+
+/* ----------------- Cards & fieldset------------------ */
+fieldset,
+.fieldset {
+  padding: 10px 10px 10px 10px;
+  margin: 0 0 20px 0;
+  .box-shadow(4px 6px 6px -6px @grayDark);
+  .border-radius(3px);
+  height: auto !important;
+  background-color: @white;
+  p {
+    margin-bottom: 0;
+  }
+  legend {
+    margin-bottom: 0;
+  }
+  &.collapsed {
+    padding: 0 13px;
+    margin-bottom: 0;
+    border: none;
+    .box-shadow(none);
+    .border-radius(0px);
+    legend {
+      a {
+        display: block;
+      }
+      .fieldset-legend {
+        .summary {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.card {
+  background-color: @white;
+  padding: 10px 10px 20px 10px;
+  .border-radius(3px);
+  .box-shadow(4px 6px 6px -6px @grayDark);
+  margin-bottom: 20px;
+  fieldset,
+  .fieldset {
+    .box-shadow(none);
+    padding: 0;
+    margin: 0;
+  }
+}
+
+/* -------------- Form Elements   ------------- */
+.form-actions {
+  background-color: transparent;
+  border-top: none;
+  padding: 0;
+  margin: 0;
+}
+
+.region-sidebar-left input, 
+.region-sidebar-left textarea, 
+.region-sidebar-left .uneditable-input,
+.region-sidebar-right input, 
+.region-sidebar-right textarea, 
+.region-sidebar-right .uneditable-input {
+  width: auto;
+}
+
+/* Contact Form */
+.contact-form #edit-name {
+  width: 75%;
+}
+.contact-form #edit-mail {
+  width: 75%;
+}
+.contact-form #edit-subject {
+  width: 75%;
+}
+.contact-form #edit-message {
+  width: 76.3%;
+}
+.contact-form .resizable-textarea .grippie {
+  width: 76%;
+}
+
+/* Disabled form elements */
+input.form-button-disabled,
+input.form-button-disabled:hover,
+input.form-button-disabled:focus,
+input.form-button-disabled:active,
+.form-disabled input,
+.form-disabled select,
+.form-disabled textarea {
+  background: #ededed;
+  border-color: #bbb;
+  color: #717171;
+}
+.form-disabled .grippie {
+  background-color: #ededed;
+  border-color: #bbb;
+}
+.form-disabled label {
+  color: #717171;
+}
+
+/* Animated throbber */
+html.js input.form-autocomplete {
+  background-position: 100% 4px; /* LTR */
+}
+html.js input.throbbing {
+  background-position: 100% -16px; /* LTR */
+}
+
+.no_label .field-label,
+.no_label label {
+  display: none;
+}
+.no_label .field {
+  padding-bottom: 0;
+}
+
+/* -------------- Rating -------------- */
+.region-content .rate-widget ul {
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------------- User menu  ----------------- */
+#block-system-user-menu {
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+/* ------------ Default Block Menu ----------------- */
+li.block-menu ul li a {
+    padding-left: 15px;
+}
+li.block-menu ul li li a {
+    padding-left: 20px;
+}
+li.block-menu ul li ul li ul li a {
+    padding-left: 25px;
+}
+li.block-menu ul li ul li ul li ul li a{
+    padding-left: 30px;
+}
+
+/* ---------------- Node details  ----------------- */
+.node .content blockquote > .field {
+  clear: left;
+  float: left;
+  margin-bottom: 5px;
+}
+.node .content blockquote {
+  margin: 5px 0;
+  padding: 0;
+}
+.meta {
+  clear: both;
+}
+.layout-content .workbench {
+  margin-top: 5px;
+}
+.layout-content .well .content {
+  margin-top: 0;
+}
+
+/* ---------------- print/pdf  ----------------- */
+#block-print-print-links span {
+  display: inline-block;
+}
+
+/* -------------- Other Overrides ------------- */
+
+div.password-suggestions {
+  border: 0;
+}
+.ui-widget-overlay {
+  background: #222222;
+  opacity: 0.7;
+}
+div.vertical-tabs .vertical-tabs-panes fieldset.vertical-tabs-pane {
+  padding: 1em;
+}
+
+.fancybox-close {
+	position: fixed !important;
+	top: 15px !important;
+	right: 15px !important;
+}
+/* -------------- Shortcut Links -------------- */
+
+.shortcut-wrapper {
+  margin: 2.2em 0 1.1em 0; /* Same as usual h1#page-title margin. */
+}
+.shortcut-wrapper h1#page-title {
+  float: left; /* LTR */
+  margin: 0;
+}
+div.add-or-remove-shortcuts {
+  padding-top: 0.9em;
+}
+.overlay div.add-or-remove-shortcuts {
+  padding-top: 0.8em;
+}
+
+/* -------------- Tables -------------- */
+tr.even, tr.odd {
+  background-color: #fefefe;
+}
+
+/* ---------- Overlay layout styles ----------- */
+
+.overlay #main,
+.overlay #content {
+  width: auto;
+  float: none;
+}
+.overlay #page {
+  padding: 0 2em;
+}
+.overlay #skip-link,
+.overlay .region-page-top,
+.overlay #header,
+.overlay #page-title,
+.overlay #featured,
+.overlay #sidebar-first,
+.overlay #triptych-wrapper,
+.overlay #footer-wrapper {
+  display: none;
+}
+.overlay-processed .field-type-image {
+  display: block;
+  float: none;
+}
+.overlay #messages {
+  width: auto;
+}
+
+/* ---------------- Region content top  ----------------- */
+.region-content_top {
+
+}
+
+/* ---------------- Region tools  ----------------- */
+.region-tools {
+  float: right;
+  display: block;
+  text-align: right;
+  margin-top: 5px;
+  > ul {
+    margin-bottom: 0;
+  }  
+}
+
+/* ---------------- Region content bottom ----------------- */
+.region-content_bottom {
+  display: block;
+  text-align: right;
+  clear: both;
+  > ul {
+    margin-bottom: 0;
+    li {
+      list-style: none;
+    }
+  }
+}
+
+/* ---------- Region Footer ----------- */
+#layout-footer {
+  border-top: 2px solid #0165A3;
+  text-align: center;
+  margin-top: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: @grayLighter;
+}

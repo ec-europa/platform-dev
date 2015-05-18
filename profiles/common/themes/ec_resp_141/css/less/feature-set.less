@@ -1,0 +1,99 @@
+/* ---------------- Feature set  ----------------- */
+#feature-set-admin-form {
+  .list-group {
+    margin: 0;
+    padding: 0;
+    thead {
+      display: none;
+    }
+    td {
+      cursor: pointer;
+    }
+
+    /* Icon */
+    .feature-set-image {
+      float: left;
+      font-size: 45px;
+      width: 55px;
+      text-align: center;
+    }
+
+    /* Text */
+    blockquote {
+      margin: 0 0 0 55px;
+      padding: 0 0 0 10px;
+      border-left: none;
+      a.description {
+        display: inline-block;
+        padding: 0;
+        margin: 10px 0 0;
+      }
+    }
+    a.feature-set-category {
+      font-weight: bold;
+      border: 1px solid #ddd;
+      border-bottom: none;
+      margin: 0;
+      border-radius: 4px 4px 0 0;
+    }
+
+    /* Switcher */
+    td.switcher {
+      width: 120px;
+      text-align: center;
+      .switch { 
+        display: block; 
+        width: auto; 
+        margin: 0 auto; 
+        height: auto; 
+        padding: 0; 
+        label { 
+          display: block; 
+          float: left;
+          background-color: #fff;
+          border: 1px solid #ddd;
+          color: #ddd;
+          &.cb-disable {
+            border-radius: 0 6px 6px 0;
+            border-left-color: transparent;
+            &.selected {
+              color: #fff;
+              background-color: #d2322d;
+              border-color: #6d1a18;
+            }
+          }
+          &.cb-enable {
+            border-radius: 6px 0 0 6px;
+            border-right-color: transparent;
+            &.selected {
+              color: #fff;
+              background-color: #47a447;
+              border-color: #224f22;
+            }
+          }  
+          span { 
+            height: 40px; 
+            line-height: 40px; 
+            display: block; 
+            float: left; 
+            background-repeat: no-repeat; 
+            width: 45px; 
+          }
+        }
+        &.pending {
+          label.cb-disable.selected,
+          label.cb-enable.selected {
+            color: #fff;
+            background-color: #ed9c28;
+            border-color: #8f590c;
+          }
+        }
+   
+      }
+    }
+  }
+  #edit-submit {
+    width: 100%;
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,208 @@
+/* $Id: layout.css,v 1.8 2011/01/04 05:24:13 webchick Exp $ */
+
+/* ---------- Basic Layout Styles ----------- */
+
+html,
+body,
+#page  {
+  height: 100%;
+}
+#page-wrapper {
+  min-height: 100%;
+  min-width: 960px;
+}
+#header div.section,
+#featured div.section,
+#messages div.section,
+#main,
+#triptych,
+#footer-columns,
+#footer {
+  width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#header div.section {
+  position: relative;
+}
+.region-header {
+  float: right; /* LTR */
+  margin: 0 5px 10px;
+}
+.with-secondary-menu .region-header {
+  margin-top: 3em;
+}
+.without-secondary-menu .region-header {
+  margin-top: 15px;
+}
+.region-featured{
+  margin: 0 0 0 0;
+}
+#search-block-form {
+  text-align: right;
+}
+.tabs {
+  clear: both;
+}
+#content,
+#sidebar-first,
+#sidebar-second,
+.region-triptych-first,
+.region-triptych-middle,
+.region-triptych-last,
+.region-footer-firstcolumn,
+.region-footer-secondcolumn,
+.region-footer-thirdcolumn,
+.region-footer-fourthcolumn {
+  display: inline;
+  float: left; /* LTR */
+  position: relative;
+}
+.one-sidebar #content {
+  width: 720px;
+}
+.two-sidebars #content {
+  width: 480px;
+}
+.no-sidebars #content {
+  width: 960px;
+  float: none;
+}
+#sidebar-first,
+#sidebar-second {
+  width: 240px;
+}
+#main-wrapper {
+  min-height: 300px;
+}
+#content .section,
+.sidebar .section {
+  padding: 0 15px;
+}
+#breadcrumb {
+  margin: 0 15px;
+}
+.region-triptych-first,
+.region-triptych-middle,
+.region-triptych-last {
+  margin: 20px 20px 30px;
+  width: 280px;
+}
+#footer-wrapper {
+  padding: 35px 5px 30px;
+}
+.region-footer-firstcolumn,
+.region-footer-secondcolumn,
+.region-footer-thirdcolumn,
+.region-footer-fourthcolumn {
+  padding: 0 10px;
+  width: 220px;
+}
+#footer {
+  width: 940px;
+  min-width: 920px;
+}
+.f_right {
+  float: right;
+}
+.f_left {
+  float: left;
+}
+.center {
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* ---------------- Region top  ----------------- */
+.region-content-top {
+  margin-bottom: 20px;
+}
+
+/* ---------------- Region tools  ----------------- */
+.region-tools {
+  float: right;
+  position: relative;
+  top: -20px;
+  display: block;
+  text-align: right;
+}
+.region-tools .block {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+.region-tools .block ul {
+  margin: 0;
+  padding: 0;
+}
+.region-tools .block ul li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------------- Region tools bottom ----------------- */
+.region-tools-bottom {
+  display: block;
+  text-align: right;
+  clear: both;
+}
+.region-tools-bottom .block {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+.region-tools-bottom .block ul {
+  margin: 0;
+  padding: 0;
+}
+.region-tools-bottom .block ul li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------------- User menu  ----------------- */
+#block-system-user-menu {
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+/* ------------ Default Block Menu ----------------- */
+li.block-menu ul li a {
+    padding-left: 15px;
+}
+li.block-menu ul li li a {
+    padding-left: 20px;
+}
+li.block-menu ul li ul li ul li a {
+    padding-left: 25px;
+}
+li.block-menu ul li ul li ul li ul li a{
+    padding-left: 30px;
+}
+
+/* ---------------- Node details  ----------------- */
+.node .content blockquote > .field {
+  clear: left;
+  float: left;
+  margin-bottom: 5px;
+}
+.node .content blockquote {
+  margin: 5px 0;
+  padding: 0;
+}
+.meta {
+  clear: both;
+}
+.layout-content .workbench {
+  margin-top: 5px;
+}
+.layout-content .well .content {
+  margin-top: 0;
+}
+
+/* ---------------- print/pdf  ----------------- */
+#block-print-print-links span {
+  display: inline-block;
+}

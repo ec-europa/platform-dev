@@ -1,0 +1,38 @@
+name = ec_resp_150
+description = Responsive template with Europa banner
+package = Core
+version = "7.x-1.1"
+core = "7.x"
+
+stylesheets[all][] = "css/layout.css"
+stylesheets[all][] = "css/ec_resp_150.css"
+stylesheets[all][] = "jquery-ui/css/jquery-ui.custom.css"
+stylesheets[print][] = "css/print.css"
+
+regions[header_top] = "Header Top"
+regions[header_right] = "Header right"
+
+regions[featured] = "Featured"
+regions[tools] = "Tools"
+
+regions[sidebar_left] = "Sidebar left"
+regions[sidebar_right] = "Sidebar right"
+
+regions[content_top] = "Content Top"
+regions[help] = "Help"
+regions[content] = "Content"
+regions[content_bottom] = "Content Bottom"
+
+regions[footer] = "Footer"
+
+settings[shortcut_module_link] = 0
+
+
+; Information added by drupal . org packaging script on 2011-01-05
+project = "drupal"
+datestamp = "1294208756"
+
+
+; Information added by Acquia . com packaging script
+multisite = "1"
+

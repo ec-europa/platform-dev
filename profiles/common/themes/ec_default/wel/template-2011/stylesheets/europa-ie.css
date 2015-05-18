@@ -1,0 +1,66 @@
+@media screen /* IE6/IE7 */
+{
+/* LAYOUT */
+
+	* html .layout{width:984px;}
+		
+ /* ACCESSIBILITY */
+
+	* html #accessibility-menu a,
+	* html #accessibility-menu a:focus,
+	* html #accessibility-menu a:active{float:left;width:99.6%;}
+
+/* BANNER */
+
+	* html .banner-flag{margin:1px;}
+	* html .banner-flag:focus,
+	* html .banner-flag:active{border:1px solid #fff;margin:0}
+	* html #header h1.banner-title,* html #header p.banner-title,* html .banner-title {z-index:2;}
+	
+/* SERVICE */
+
+	* html #services{height:15px;left:auto;position:relative;background:url("../images/service-background.gif") transparent right top no-repeat;}
+	* html #services a.first,
+	* html #services a.first:visited{background-image:none;}
+
+/* LANGUAGE SELECTOR  (NON SCRIPT) */
+
+	* html .language-selector{background:url("../images/service-background.gif") transparent -110px top repeat-y;}
+
+/* LANGUAGE SELECTOR (SCRIPT) */
+
+	* html .language-selector-close li.selected a, 
+	* html .language-selector-open li.selected a{cursor:pointer;margin:0;color:#000;}
+	* html .language-selector-open li.selected a:hover,
+	* html .language-selector-open li.selected a:active,
+	* html .language-selector-open li.selected a:focus{cursor:pointer;margin:0;color:#000;}
+	* html .language-selector-close li.lang-separate{border-top:1px solid #69c;margin:2px 0 0 0;}
+
+/* SEARCH BOX SECTION */
+
+	* html .banner-right{background:url("../images/header-background-ie.gif") no-repeat scroll right bottom;z-index:1;}
+	* html .search-form{margin:0; width:190px;}
+	* html .search-form .submit-button{right:-1px;position:absolute;}
+	.search-form label {top:-1px;margin-left:2px} 
+	*+ html .search-form p{ background-position:1px 0;}
+	
+/* PATH */
+
+	* html #path ul{height:17px;position:relative;}
+	
+/* FOOTER SECTION */
+
+	.layout-footer ul li span{position:relative;bottom:1px;}
+
+/* WEBSERVICE */
+    
+    *+ html .ws-links a{margin:0;position:relative;top:1px;vertical-align:baseline;}
+    * html .ws-links a{width:16px;margin:0;position:relative;top:2px;vertical-align:baseline;}
+	* html .ws-popup-show a{margin:0 0 3px 0;}
+    * html .ws-loading a.ws-ico span.s{display:none;visibility:hidden;}
+	
+}
+@media print
+{
+	* html body #layout{min-width:640px !important;width:640px !important;max-width:640px !important;}
+}
