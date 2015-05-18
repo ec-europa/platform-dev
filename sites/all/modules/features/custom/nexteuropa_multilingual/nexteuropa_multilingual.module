@@ -4,6 +4,8 @@
  * Nexteuropa_multilingual module file.
  */
 
+include_once 'nexteuropa_multilingual.tokens.inc';
+
 /**
  * Implements hook_init().
  */
