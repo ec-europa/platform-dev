@@ -151,8 +151,8 @@ function nexteuropa_multilingual_form_alter(&$form, $form_state, $form_id) {
     }
 
     $warning_message = '<div class="alert alert-warning" role="alert" id="warning_languages_message">'
-      .t(token_replace(variable_get('warning_message_languages'), array('node' => $form_state['node'])))
-      .'</div>';
+     . token_replace(variable_get('warning_message_languages'), array('node' => $form_state['node']))
+     . '</div>';
 
     $form['warning_message_languages'] = array(
       '#markup' => $warning_message,
@@ -165,8 +165,8 @@ function nexteuropa_multilingual_form_alter(&$form, $form_state, $form_id) {
 
   if ($form_id == 'workbench_moderation_moderate_form' || $form_id == 'workbench_moderation_node_unpublish_form') {
     $warning_message = '<div class="alert alert-warning" role="alert" id="warning_languages_message">'
-      .t(token_replace(variable_get('warning_message_languages'), array('node' => $form_state['build_info']['args'][0])))
-      .'</div>';
+     . token_replace(variable_get('warning_message_languages'), array('node' => $form_state['build_info']['args'][0]))
+     . '</div>';
 
     $form['warning_languages_message'] = array(
       '#markup' => $warning_message,

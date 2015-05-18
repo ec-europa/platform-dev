@@ -1,5 +1,10 @@
 <?php
 /**
+ * @file
+ * Nexteuropa_multililngual.tokens.inc file.
+ */
+
+/**
  * Implements hook_token_info().
  */
 function nexteuropa_multilingual_token_info() {
@@ -16,22 +21,22 @@ function nexteuropa_multilingual_token_info() {
 function nexteuropa_multilingual_tokens($type, $tokens, array $data = array(), array $options = array()) {
   $replacements = array();
 
-  if ($type == 'node' && !empty($data ['node'])) {
-    $node = $data ['node'];
+  if ($type == 'node' && !empty($data['node'])) {
+    $node = $data['node'];
     foreach ($tokens as $name => $original) {
-      if($name == 'entity-translation-languages') {
+      if ($name == 'entity-translation-languages') {
         $handler = entity_translation_get_handler('node', $node);
         $translations = $handler->getTranslations();
         $entity_languages = array_keys($translations->data);
         $language_list = language_list();
         $languages = array();
-        foreach($entity_languages as $language)
+        foreach ($entity_languages as $language) {
           $languages[] = $language_list[$language]->name;
+        }
 
-        $replacements [$original] = implode(" ", $languages);
+        $replacements[$original] = implode(" ", $languages);
       }
     }
   }
   return $replacements;
 }
- 
