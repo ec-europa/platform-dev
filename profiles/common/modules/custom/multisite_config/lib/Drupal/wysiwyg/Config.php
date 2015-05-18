@@ -19,7 +19,7 @@ use Drupal\multisite_config\ConfigBase;
  */
 
 /** @brief Helper functions to manage WYSIWYG
- * @details See examples below: @include example_wysiwyg.cpp
+ * @details <strong>Example of use</strong>: @include example_wysiwyg.cpp
  */
 class Config extends ConfigBase {
 
