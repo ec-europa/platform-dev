@@ -60,22 +60,6 @@ feature_sets[multi_user_blog][font] = 'multisite-icon-book'
 feature_sets[multi_user_blog][enable][] = multi_user_blog
 feature_sets[multi_user_blog][disable][] = multi_user_blog
 
-feature_sets[multisite_charts][title] = 'Charts'
-feature_sets[multisite_charts][description] = 'Create multiple customized charts based on FusionCharts API.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/JIfhAg" target="_blank">Read documentation</a>'
-feature_sets[multisite_charts][category] = 'Communication'
-feature_sets[multisite_charts][icon] = ''
-feature_sets[multisite_charts][font] = 'multisite-icon-pie'
-feature_sets[multisite_charts][enable][] = multisite_charts
-feature_sets[multisite_charts][disable][] = multisite_charts
-
-feature_sets[multisite_maps][title] = 'Maps'
-feature_sets[multisite_maps][description] = 'Create multiple customized maps based on FusionMaps API.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/EIfhAg" target="_blank">Read documentation</a>'
-feature_sets[multisite_maps][category] = 'Communication'
-feature_sets[multisite_maps][icon] = ''
-feature_sets[multisite_maps][font] = 'multisite-icon-location'
-feature_sets[multisite_maps][enable][] = multisite_maps
-feature_sets[multisite_maps][disable][] = multisite_maps
-
 feature_sets[multisite_metatags][title] = 'Meta tags'
 feature_sets[multisite_metatags][description] = 'Add metatag information to nodes, that respects the IPG guidelines.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/CIbhAg target="_blank"">Read documentation</a>'
 feature_sets[multisite_metatags][category] = 'Communication'
@@ -91,6 +75,14 @@ feature_sets[multisite_readspeaker][icon] = ''
 feature_sets[multisite_readspeaker][font] = 'multisite-icon-volume'
 feature_sets[multisite_readspeaker][enable][] = multisite_readspeaker
 feature_sets[multisite_readspeaker][disable][] = multisite_readspeaker
+
+feature_sets[multisite_webtools][title] = 'Webtools'
+feature_sets[multisite_webtools][description] = 'xxx.<br /><a class="description" href="#" target="_blank">Read documentation</a>'
+feature_sets[multisite_webtools][category] = 'Communication'
+feature_sets[multisite_webtools][icon] = ''
+feature_sets[multisite_webtools][font] = 'multisite-icon-share'
+feature_sets[multisite_webtools][enable][] = multisite_maxlength
+feature_sets[multisite_webtools][disable][] = multisite_maxlength
 
 feature_sets[wiki_standard][title] = 'Wiki'
 feature_sets[wiki_standard][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every visitor, can view the content of the wiki.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/7IbhAg" target="_blank">Read documentation</a>'
@@ -174,14 +166,6 @@ feature_sets[multisite_maxlength][icon] = ''
 feature_sets[multisite_maxlength][font] = 'multisite-icon-keyboard'
 feature_sets[multisite_maxlength][enable][] = multisite_maxlength
 feature_sets[multisite_maxlength][disable][] = multisite_maxlength
-
-feature_sets[multisite_twitterblock][title] = 'Multisite Twitter Block'
-feature_sets[multisite_twitterblock][description] = 'Adds a twitter widget on your sidebar.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/xITJAw" target="_blank">Read documentation</a>'
-feature_sets[multisite_twitterblock][category] = 'Information to users'
-feature_sets[multisite_twitterblock][icon] = ''
-feature_sets[multisite_twitterblock][font] = 'multisite-icon-twitter'
-feature_sets[multisite_twitterblock][enable][] = multisite_twitterblock
-feature_sets[multisite_twitterblock][disable][] = multisite_twitterblock
 
 feature_sets[nexteuropa_notices][title] = 'Notices'
 feature_sets[nexteuropa_notices][description] = 'Allow web masters to create and manage notices on the web site.'
@@ -330,21 +314,6 @@ feature_sets[idea_standard][enable][] = idea_core
 feature_sets[idea_standard][disable][] = idea_standard
 feature_sets[idea_standard][disable][] = idea_core
 
-feature_sets[likedislike][title] = 'Like/Dislike'
-feature_sets[likedislike][description] = 'This feature enables to display the "Like/Dislike buttons".<br /><a class="description" href="http://webtools.ec.europa.eu/like/examples/" target="_blank">Read documentation</a>'
-feature_sets[likedislike][category] = 'Users feedback'
-feature_sets[likedislike][icon] = ''
-feature_sets[likedislike][font] = 'multisite-icon-thumbs-up'
-feature_sets[likedislike][enable][] = likedislike
-feature_sets[likedislike][disable][] = likedislike
-
-feature_sets[social_bookmark][title] = 'Social bookmark'
-feature_sets[social_bookmark][description] = 'Let your visitor share your site content on social network.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/t4XhAg" target="_blank">Read documentation</a>'
-feature_sets[social_bookmark][category] = 'Users feedback'
-feature_sets[social_bookmark][icon] = ''
-feature_sets[social_bookmark][font] = 'multisite-icon-share'
-feature_sets[social_bookmark][enable][] = social_bookmark
-feature_sets[social_bookmark][disable][] = social_bookmark
 
 feature_sets[survey_standard][title] = 'Surveys'
 feature_sets[survey_standard][description] = 'Allows administrators to question site visitors. Every visitor concerned by the poll/survey can respond as many times as allowed by the survey initiator. Results are stored and some statistics are generated and can be browsed by visitors.<br /><a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/x/7YbhAg" target="_blank">Read documentation</a>'

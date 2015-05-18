@@ -209,7 +209,7 @@ fi
 
 # copy own source (svn or local) to working dir
 cp -R "${own_source_path}/profiles/multisite_drupal_core" "${working_dir}/profiles"
-cp -R "${own_source_path}/profiles/${install_profile}" "${working_dir}/profiles"
+cp -R --dereference "${own_source_path}/profiles/${install_profile}" "${working_dir}/profiles"
 cp -R "${own_source_path}/sites/all/modules/" "${working_dir}/sites/all"
 cp -R "${own_source_path}/sites/all/themes" "${working_dir}/sites/all"
 cp -R "${own_source_path}/sites/all/libraries" "${working_dir}/sites/all"
