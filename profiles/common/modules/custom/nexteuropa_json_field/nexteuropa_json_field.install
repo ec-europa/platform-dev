@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Code for the NextEuropa JSON field install module.
+ */
+
+/**
+ * Implements hook_field_schema().
+ */
+function nexteuropa_json_field_field_schema($field) {
+  $schema = array();
+  $schema['columns']['value'] = array(
+    'type' => 'text',
+    'size' => 'big',
+    'not null' => FALSE,
+  );
+  return $schema;
+}
