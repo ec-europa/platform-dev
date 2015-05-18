@@ -1,24 +1,32 @@
 <?php
+
 /**
  * @file
- * multisite_drupal_language_negociation.module
+ * Main functions and hook implementations of the language negotiation module.
  */
 
-if(!defined('LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX'))
-  define('LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX', 'locale-url-suffix');
+if (!defined('MULTISITE_DRUPAL_LANGUAGE_NEGOCIATION_URL_SUFFIX')) {
+
+  define('MULTISITE_DRUPAL_LANGUAGE_NEGOCIATION_URL_SUFFIX', 'locale-url-suffix');
+}
+
 /**
  * Implements hook_language_negotiation_info().
  */
 function multisite_drupal_language_negociation_language_negotiation_info() {
   $file = drupal_get_path('module', 'multisite_drupal_language_negociation') . '/multisite_drupal_language_negociation.inc';
   $providers = array();
-  $providers[LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX] = array(
-    'types' => array(LANGUAGE_TYPE_CONTENT, LANGUAGE_TYPE_INTERFACE, LANGUAGE_TYPE_URL),
+  $providers[MULTISITE_DRUPAL_LANGUAGE_NEGOCIATION_URL_SUFFIX] = array(
+    'types' => array(
+      LANGUAGE_TYPE_CONTENT,
+      LANGUAGE_TYPE_INTERFACE,
+      LANGUAGE_TYPE_URL,
+    ),
     'callbacks' => array(
       'language' => 'multisite_language_provider_callback',
       'url_rewrite' => 'multisite_url_rewrite_callback',
       'switcher' => 'multisite_language_switcher_url',
-     ),
+    ),
     'file' => $file,
     'weight' => -8,
     'name' => t('URL suffix'),
@@ -28,9 +36,8 @@ function multisite_drupal_language_negociation_language_negotiation_info() {
   return $providers;
 }
 
-
 /**
- * hook_menu
+ * Implements hook_menu().
  */
 function multisite_drupal_language_negociation_menu() {
   $items['admin/config/regional/language/configure/url-suffix'] = array(
@@ -44,6 +51,9 @@ function multisite_drupal_language_negociation_menu() {
   return $items;
 }
 
+/**
+ * Form constructor for the language negotiation form.
+ */
 function multisite_drupal_language_negociation_form($form, &$form_state) {
   $form['language_suffix_delimiter'] = array(
     '#type' => 'textfield',
@@ -55,15 +65,13 @@ function multisite_drupal_language_negociation_form($form, &$form_state) {
   return system_settings_form($form);
 }
 
-
-
-/*
- * hook_language_types_info_alter
+/**
+ * Implements hook_language_types_info_alter().
  */
 function multisite_drupal_language_negociation_language_types_info_alter(&$language_types) {
   $defined_providers = language_negotiation_info();
-  if (isset($defined_providers[LOCALE_LANGUAGE_NEGOTIATION_URL_SUFFIX])) {
-    // put the locale-url-suffix as priority provider for language type url
+  if (isset($defined_providers[MULTISITE_DRUPAL_LANGUAGE_NEGOCIATION_URL_SUFFIX])) {
+    // Put the 'locale-url-suffix' as priority provider for language type URL.
     array_unshift($language_types[LANGUAGE_TYPE_URL]['fixed'], 'locale-url-suffix');
   }
 }
@@ -75,8 +83,11 @@ function multisite_drupal_language_negociation_form_alter(&$form, $form_state, $
   switch ($form_id) {
     case 'locale_languages_configure_form':
       $language_negociation = variable_get('language_negotiation_language');
-      if (isset($language_negociation['locale-url-suffix'])) //  disable URL method if URL-suffix method is enabled
+
+      // Disable URL method if URL-suffix method is enabled.
+      if (isset($language_negociation['locale-url-suffix'])) {
         $form['language']['enabled']['locale-url']['#disabled'] = TRUE;
+      }
       break;
   }
   if (substr($form_id, -9) == 'node_form') {
@@ -84,11 +95,18 @@ function multisite_drupal_language_negociation_form_alter(&$form, $form_state, $
   }
 }
 
+/**
+ * Form after build handler for altering the language configuration form.
+ *
+ * @see multisite_drupal_language_negociation_form_alter()
+ */
 function _multisite_drupal_language_negociation_node_form_alter(&$form, $form_state) {
   $language_default = language_default();
-  // hide all language except neutral language and default language in node source form
-  if(isset($form_state['node'])) {
-    if ($form_state['node']->language == LANGUAGE_NONE || $form_state['node']->language == $language_default->language) { // check if node source or new node
+  // Hide all languages except the neutral language and default language in the
+  // node source form.
+  if (isset($form_state['node'])) {
+    // Check if node source or new node.
+    if ($form_state['node']->language == LANGUAGE_NONE || $form_state['node']->language == $language_default->language) {
       if (isset($form['language']['#options'])) {
         foreach ($form['language']['#options'] as $lg => $language) {
           if ($lg != $language_default->language && $lg != LANGUAGE_NONE) {
@@ -102,50 +120,51 @@ function _multisite_drupal_language_negociation_node_form_alter(&$form, $form_st
 }
 
 /**
- * Implements hook_field_group_pre_render
+ * Implements hook_field_group_pre_render().
  */
 function multisite_drupal_language_negociation_field_group_pre_render(& $element, $group, & $form) {
-  // hide all language except neutral language and default language in the field "language" place in field_groups
-  //if($group->group_name == 'group_article_metadata') {
-    if(isset($element['language']['#options'])) {
-      $language_default = language_default();
-      if ($form['#node']->language == LANGUAGE_NONE || $form['#node']->language == $language_default->language) { // check if node source or new node
-        foreach ($element['language']['#options'] as $lg => $language) {
-          if ($lg != $language_default->language && $lg != LANGUAGE_NONE) {
-            unset($element['language']['#options'][$lg]);
-          }
+  // Hide all language except neutral language and default language in the field
+  // "language" place in field_groups.
+  if (isset($element['language']['#options'])) {
+    $language_default = language_default();
+    // Check if node source or new node.
+    if ($form['#node']->language == LANGUAGE_NONE || $form['#node']->language == $language_default->language) {
+      foreach ($element['language']['#options'] as $lg => $language) {
+        if ($lg != $language_default->language && $lg != LANGUAGE_NONE) {
+          unset($element['language']['#options'][$lg]);
         }
       }
     }
-  //}
+  }
 }
 
-
-/*
- * hook_views_query_alter
- * apply the nodes selection for views regarding the multisite language negociation :
+/**
+ * Implements hook_views_query_alter().
  */
 function multisite_drupal_language_negociation_views_query_alter(&$view, &$query) {
   global $language;
+
+  // Apply the nodes selection for views regarding the multisite language
+  // negociation.
   $language_default = language_default();
-  if(variable_get('language_negociation_views', 0)) {
-    if (!preg_match('/non-multilingual/', $view->tag) && $view->base_table == 'node') { // alter all the nodes views except the views with the 'non-multilingual' tag
-      // add a relationship to get the translation of a node in the current language
-      $join = new views_join;
+  if (variable_get('language_negociation_views', 0)) {
+    // Alter all the nodes views except the views with the 'non-multilingual'
+    // tag.
+    if (!preg_match('/non-multilingual/', $view->tag) && $view->base_table == 'node') {
+      // Add a relationship to get the translation of a node in the current
+      // language.
+      $join = new views_join();
       $join->construct('node', 'node', 'nid', 'tnid', array(), 'LEFT');
       $join->extra = array(array('field' => 'language', 'value' => $language->language));
       $query->add_relationship('node_node', $join, 'node');
 
-      // conditions for the language selection and fallbacks
+      // Conditions for the language selection and fallbacks.
       $query->add_where(0, "
         (node.language IN ('und', '$language->language'))
         OR (node.tnid = node.nid AND node_node.status = '0')
         OR (node.tnid = node.nid AND node_node.language IS NULL)
         OR (node.language = '$language_default->language' AND node.tnid = 0)
       ", array(), 'formula');
-
     }
   }
 }
-
-
