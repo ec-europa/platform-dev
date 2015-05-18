@@ -23,9 +23,10 @@ function nexteuropa_notices_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'hidden',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 2,
+        'type' => 'list_default',
+        'weight' => 0,
       ),
     ),
     'entity_type' => 'bean',
@@ -119,7 +120,7 @@ function nexteuropa_notices_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 2,
       ),
     ),
     'entity_type' => 'bean',

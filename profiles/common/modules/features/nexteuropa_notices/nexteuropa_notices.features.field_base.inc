@@ -28,7 +28,7 @@ function nexteuropa_notices_field_default_field_bases() {
     'settings' => array(
       'allowed_values' => array(
         0 => '',
-        1 => '',
+        1 => '<span class=\'multisite-icon-new-tab\'></span>',
       ),
       'allowed_values_function' => '',
       'entity_translation_sync' => FALSE,

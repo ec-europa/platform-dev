@@ -28,5 +28,5 @@ function nexteuropa_notices_post_features_enable_feature() {
   user_role_grant_permissions('2', array(
         'view any notice bean',
     )
-  );  
+  );
 }

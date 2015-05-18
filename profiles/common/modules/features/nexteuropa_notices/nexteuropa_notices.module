@@ -5,3 +5,27 @@
  */
 
 include_once 'nexteuropa_notices.features.inc';
+
+/**
+ * Implements hook_block_view_alters().
+ */
+function nexteuropa_notices_block_view_alter(&$data, $block) {
+  static $js_included;
+  if ($js_included && $js_included === TRUE) {
+    return;
+  }
+
+  if (isset ($block->module) && $block->module == 'bean') {
+    if (isset ($data['content']['bean'])) {
+      foreach ($data['content']['bean'] as $key => $data) {
+        if (isset($data['#bundle']) && $data['#bundle'] == 'notice') {
+          if (isset ($data['field_close_button']['#items'][0]['value'])
+            && $data['field_close_button']['#items'][0]['value'] == 1) {
+            // Include JS here.
+            $js_included = TRUE;
+          }
+        }
+      }
+    }
+  }
+}
