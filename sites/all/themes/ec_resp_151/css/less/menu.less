@@ -1,0 +1,137 @@
+/* --------------- Global ------------ */
+.block-menu {
+  .glyphicon {
+    &.menu-no-title {
+      padding-right: 0;
+    }    
+  }
+}
+
+/* --------------- Main Menu ------------ */
+.region-featured {
+  min-height: 50px;
+}
+#main-menu {
+  font-size: 16px;
+  .navbar {
+    border-radius: 0;
+  }
+  .affix {
+    width: 100%;
+    z-index: 1030;
+    top: 0;
+    border-bottom: 1px solid @navbar-default-link-active-bg;
+  }
+  .navbar-toggle,
+  .navbar-toggle:hover, 
+  .navbar-toggle:focus {
+    background-color: @navbar-default-link-active-bg;
+  }
+  #sidebar-button {
+    float: left;
+  }
+  .navbar-nav > li > a {
+    text-transform:capitalize;
+    border: none;
+    background-color: @navbar-default-bg;
+    &.active {
+      background-color: @navbar-default-link-active-bg;
+      color: #fff;
+      border-radius: @border-radius-large @border-radius-large 0 0;
+    }
+  }
+  .navbar-nav > .open > a, 
+  .navbar-nav > .open > a:hover, 
+  .navbar-nav > .open > a:focus {
+    border-radius: @border-radius-large @border-radius-large 0 0;
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  #main-menu #sidebar-button {
+    margin-left: 15px;
+  }
+}
+
+/* --------------- Secondary Menu ------------ */
+#secondary-menu-links {
+  float: right; /* LTR */
+  font-size: 0.9em;
+  margin: 10px 10px 0;
+}
+#secondary-menu-links a:hover,
+#secondary-menu-links a:focus {
+  text-decoration: underline;
+}
+
+/* ---------------- User menu ----------------- */
+#block-system-user-menu {
+  a {
+    text-transform:capitalize;
+  }
+}
+
+/* ---------------- action bar (expand/collapse/create)  ----------------- */
+.action_bar {
+  background-color: @gray-lighter;
+  border-radius: @border-radius-base;
+}
+
+/* --------------- System Tabs  --------------- */
+ul.nav-tabs {
+  margin-bottom: -1px;
+}
+.tabs {
+  position: relative;
+  z-index: 1;
+  .tabs-secondary {
+    padding-left: 15px;
+    background-color: #fff;
+    border-right: 1px solid @nav-tabs-border-color;
+    border-left: 1px solid @nav-tabs-border-color;
+    li {
+      margin-top: 5px;
+      a {
+        border-top: 1px solid @nav-tabs-border-color;
+        border-right: 1px solid @nav-tabs-border-color;
+        border-left: 1px solid @nav-tabs-border-color;
+        border-radius: @border-radius-base @border-radius-base 0 0;
+        background-color: #eee;
+        &:hover,
+        &:focus {
+          background-color: @nav-link-hover-bg;
+        }
+      }
+      &.active {
+        a {
+          background-color: #ddd;
+          border-color: #999;
+        }
+      }
+    }
+  }
+}
+
+
+/* --------------- Dropdown  --------------- */
+.dropdown-menu {
+  li.leaf {
+    list-style: none;
+    padding: 0;
+  }
+}
+
+/* --------------- Responsive sidebar  --------------- */
+#responsive-sidebar > div {
+  position: absolute;
+  z-index: 1;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+  margin-top: -20px;
+  background-color: @btn-default-bg;
+  border-bottom: 1px solid @brand-primary;
+  border-right: 1px solid @brand-primary;
+  width: 85%;
+  border-radius: 0 0 @border-radius-base 0;
+}

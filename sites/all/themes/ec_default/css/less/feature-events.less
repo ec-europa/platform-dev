@@ -1,0 +1,95 @@
+/* ---------------- Events  ----------------- */
+.view .date-nav-wrapper {
+  .date-prev {
+    background-color: transparent;
+    left: 0;
+    right: auto;
+  }
+  .date-next {
+    background-color: transparent;
+  }
+}
+
+#block-views-calendar-upcoming-events {
+  blockquote.date {
+    margin: 5px 0;
+    color: #999;
+  }
+}
+
+.calendar-calendar {
+  .month-view .full {
+    td.multi-day div.monthview {
+      background-color: @navbarLinkBackgroundActive; 
+      border: #000 1px solid;
+      a { 
+        color: @white;
+        text-shadow: 1px 1px #000000;
+      }      
+      .cutoff {
+        background-color: @navbarLinkBackgroundActive !important; 
+      }
+    }
+    td.single-day div.monthview {
+      border: #000 1px solid;
+      a { 
+        color: @white;
+        text-shadow: 1px 1px #000000;
+      }    
+      .cutoff {
+        background-color: @navbarLinkBackgroundActive !important; 
+      }
+    }
+  }
+  .week-view .full {
+    td.multi-day div.weekview {
+      background-color: @navbarLinkBackgroundActive; 
+      border: #000 1px solid;
+      height: 3.5em !important;
+      a { 
+        color: @white;
+        text-shadow: 1px 1px #000000;
+      }
+      .cutoff {
+        background-color: @navbarLinkBackgroundActive !important; 
+      }      
+    }
+    td.single-day div.weekview {
+      background-color: @navbarLinkBackgroundActive; 
+      border: #000 1px solid;
+      a { 
+        color: @white;
+        text-shadow: 1px 1px #000000;
+      }
+      .cutoff {
+        background-color: @navbarLinkBackgroundActive !important; 
+      }      
+    }
+  }
+  .day-view .full {
+    div.single-day div.dayview { 
+      background-color: @navbarLinkBackgroundActive; 
+      border-color: #000;
+      a { 
+        color: @white;
+        text-shadow: 1px 1px #000000;
+      }
+      .cutoff {
+        background-color: @navbarLinkBackgroundActive !important; 
+      }      
+    }
+  }
+  .year-view {
+    td table td {
+      text-align: center;
+    }
+  }
+  td a {
+    font-weight: normal;
+  }
+}
+
+.single-day-footer .grippie,
+.header-body-divider .grippie {
+  background-image: none;
+}
