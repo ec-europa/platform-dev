@@ -89,7 +89,7 @@ function multisite_settings_core_views_default_views() {
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['text'] = ' <i class="icon-[type]"></i>[title]<br />';
+  $handler->display->display_options['fields']['title']['alter']['text'] = '<i class="icon-[type]"></i>[title]<br />';
   $handler->display->display_options['fields']['title']['alter']['max_length'] = '65';
   $handler->display->display_options['fields']['title']['alter']['trim'] = TRUE;
   $handler->display->display_options['fields']['title']['alter']['html'] = TRUE;
@@ -141,7 +141,7 @@ function multisite_settings_core_views_default_views() {
     t('Desc'),
     t('Latest Content block'),
     t('Site wide block displaying latest content.'),
-    t(' <i class="icon-[type]"></i>[title]<br />'),
+    t('<i class="icon-[type]"></i>[title]<br />'),
   );
   $export['multisite_settings_core'] = $view;
 
