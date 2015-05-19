@@ -1,8 +1,10 @@
 <?php
 /**
- * @file clients_drupal_rest.module
- * Provides connection types for Clients module that connect to remote Drupal
- * sites running Services module with the REST server.
+ * @file
+ * Provides connection types for Clients module.
+ *
+ * Allows to connect to remote Drupal sites running Services module with the
+ * REST server.
  */
 
 /**
@@ -17,8 +19,6 @@ function multisite_cookie_rest_clients_connection_type_info() {
         'server_check' => 'ClientsConnectionMultiSiteCookieRESTServerCheck',
         'cookie_retrieve' => 'ClientsConnectionMultiSiteCookieRESTCookieRetrieve',
         'cookie_create' => 'ClientsConnectionMultiSiteCookieRESTCookieCreate',
-        //'cookie_delete' => 'ClientsConnectionMultiSiteCookieRESTCookieDelete',
-        //'cookie_update' => 'ClientsConnectionMultiSiteCookieRESTCookieUpdate',
       ),
     ),
   );

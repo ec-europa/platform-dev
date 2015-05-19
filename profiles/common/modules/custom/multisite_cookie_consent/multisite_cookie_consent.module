@@ -1,15 +1,11 @@
 <?php
-
 /**
  * @file
- * Multisite cookie consent module
- *
- * All necessary functions for running the
- * cookie consent modules.
+ * Main functions and hook implementations for the cookie consent module.
  */
 
 /**
- * Implements hook_menu
+ * Implements hook_menu().
  */
 function multisite_cookie_consent_menu() {
   $items = array();
@@ -47,41 +43,41 @@ function multisite_cookie_consent_menu() {
 }
 
 /**
- * Implements hook_init
+ * Implements hook_init().
  */
 function multisite_cookie_consent_init() {
-  //don't display banner in cookie page
+  // Don't display banner in cookie page.
   if (current_path() != 'cookie-notice') {
-    //notice url
+    // Notice url.
     $notice_page = url('cookie-notice', array('absolute' => TRUE));
-    //add for example external
+    // Add for example external.
     drupal_add_js('http://ec.europa.eu/wel/like/js/likedislike.js', 'external');
-    //add js inline (example for now):
+    // Add js inline (example for now).
     drupal_add_js('var consent_required_cookies = {
-        "a":{
-            "' . _multisite_cookie_consent_site_name() . '":['. _multisite_cookie_consent_cookielistheader().']}
-        };
-        var cookie_notice_url = {
-        ' . _get_site_languages($notice_page) . '};', 'inline');
-    //external pointer to EC consent.js file
+      "a":{
+          "' . _multisite_cookie_consent_site_name() . '":[' . _multisite_cookie_consent_cookielistheader() . ']}
+      };
+      var cookie_notice_url = {
+      ' . _get_site_languages($notice_page) . '};', 'inline');
+    // External pointer to EC consent.js file.
     $consent_js = variable_get('eucookie_consent_ec_consent_javascript',
       'http://ec.europa.eu/wel/cookie-consent/consent.js');
-    //Consent banner
+    // Consent banner.
     if (user_is_logged_in()) {
       if (variable_get('eucookie_consent_ec_consent_loggedin') == 1) {
-        //inclusion of external JavaScript from EC
+        // Inclusion of external JavaScript from EC.
         drupal_add_js($consent_js, 'external');
       }
     }
     else {
-      //inclusion of external JavaScript from EC
+      // Inclusion of external JavaScript from EC.
       drupal_add_js($consent_js, 'external');
     }
   }
 }
 
 /**
- * Implementation of hook_permission().
+ * Implements hook_permission().
  */
 function multisite_cookie_consent_permission() {
   return array(
@@ -92,23 +88,25 @@ function multisite_cookie_consent_permission() {
 }
 
 /**
- * creates cookie notice page passing current language
- * @return string
+ * Page callback; displays cookie notice page passing current language.
  */
 function multisite_cookie_consent_notice() {
   global $language;
-  //get all descriptions available for the cookies
+  // Get all descriptions available for the cookies.
   $descriptions = multisite_cookie_consent_getcookie($language->language);
   return $descriptions;
 }
 
 /**
- * Saves cookie description to db
- * @param $cookie_id
- * @param $cookie
+ * Saves cookie description to the database.
+ *
+ * @param string $cookie_id
+ *   The ID of the cookie to store.
+ * @param string $cookie
+ *   The value of the cookie.
  */
 function multisite_cookie_consent_savecookie($cookie_id, $cookie) {
-  //insert to db
+  // Insert to db.
   db_insert('eucookie_consent')
     ->fields(array(
       'cookie_id' => $cookie_id,
@@ -118,11 +116,14 @@ function multisite_cookie_consent_savecookie($cookie_id, $cookie) {
 }
 
 /**
- * Removes previous cookies stored in the database
+ * Removes previous cookies stored in the database.
+ *
  * @param bool $cookie_id
+ *   Optional ID of the cookie to remove. If omitted all cookies will be
+ *   removed.
  */
 function multisite_cookie_consent_removecookie($cookie_id = FALSE) {
-  //remove to db
+  // Remove to db.
   if (!$cookie_id) {
     db_delete('eucookie_consent')
       ->execute();
@@ -137,33 +138,37 @@ function multisite_cookie_consent_removecookie($cookie_id = FALSE) {
 }
 
 /**
- * Get cookie(s) description and name
- * generates notice page
+ * Get cookie(s) description and name generates notice page.
+ *
  * @param string $language
+ *   Optional language for the page, defaults to English.
+ *
  * @return string
+ *   A string of HTML.
  */
 function multisite_cookie_consent_getcookie($language = 'en') {
   $output = '';
-  //todo: filter by specific cookie
+  // todo: filter by specific cookie.
   $result = db_query("SELECT * FROM {eucookie_consent}");
   $cookies = variable_get('cck_registered_cookies');
 
-  //load static text from db
+  // Load static text from db.
   $static_text = drupal_json_decode(_multisite_cookie_statictext_load());
 
-  //start creating the page output
+  // Start creating the page output.
   $output .= _multisite_cookie_statictext($static_text['text'], 'header', $language);
 
   foreach ($result as $record) {
-    //unserialize
+    // Unserialize.
     $cookie_info = drupal_json_decode($record->cookie_description);
 
-    //check if cookie exists in cookie variable
+    // Check if cookie exists in cookie variable.
     if (in_array($cookie_info['_id'], $cookies)) {
       if (isset($cookie_info['translation'])) {
-        //build output for notice page, check if language is supported
+        // Build output for notice page, check if language is supported.
         if (!isset($cookie_info['translation'][$language])) {
-          //loop through out all the languages to find which one is the default
+          // Loop through out all the languages to find which one is the
+          // default.
           foreach ($cookie_info['translation'] as $languages => $lang) {
             if ($lang['default']) {
               $output .= '<h3>' . $lang['name'] . '</h3>';
@@ -184,18 +189,19 @@ function multisite_cookie_consent_getcookie($language = 'en') {
     }
 
   }
-  //footer
+  // Footer.
   $output .= _multisite_cookie_statictext($static_text['text'], 'footer', $language);
-  //javascript link
+  // Javascript link.
   $output .= _multisite_cookie_statictext($static_text['text'], 'footer_links', $language);
 
   return $output;
 }
 
-
 /**
- * Generates site name
+ * Returns the site name.
+ *
  * @return string
+ *   The site name.
  */
 function _multisite_cookie_consent_site_name() {
   global $base_url;
@@ -252,17 +258,18 @@ function _multisite_cookie_consent_rebuild_registered_cookies() {
 }
 
 /**
- * Fetches the cookies from remote service.
+ * Fetches the cookies from remote service and stores them in the database.
  */
 function _multisite_cookie_consent_fetch_registered_cookies() {
-  // get connection
-  $conection_name = variable_get('multisite_cookie_connection');
-  if ($conection_name) {
-    $connection = clients_connection_load($conection_name);
+  // Get connection.
+  $connection_name = variable_get('multisite_cookie_connection');
+  if ($connection_name) {
+    $connection = clients_connection_load($connection_name);
     try {
-      //Check connection with the cookie Server
+      // Check connection with the cookie server.
       $cookies = $connection->serverCheck(TRUE);
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       drupal_set_message(t('Could not connect to the Cookie remote service, see error message "@message".', array(
         '@message' => $e->getMessage(),
       )), 'error');
@@ -270,7 +277,7 @@ function _multisite_cookie_consent_fetch_registered_cookies() {
     }
 
     if ($cookies) {
-      //remove previously stored cookies
+      // Remove previously stored cookies.
       multisite_cookie_consent_removecookie();
       $registered_cookies = variable_get('cck_registered_cookies', array());
       foreach ($registered_cookies as $key => $registered_cookie_id) {
@@ -292,9 +299,10 @@ function _multisite_cookie_consent_fetch_registered_cookies() {
           );
 
           try {
-            // Send new cookie to server
+            // Send new cookie to server.
             $cookie = $connection->makeCookieRequest('POST', $new_cookie);
-          } catch (Exception $e) {
+          }
+          catch (Exception $e) {
             drupal_set_message(t('Could not save cookie "@cookie" to the Cookie remote service, see error message "@message".', array(
               '@message' => $e->getMessage(),
               '@cookie' => $new_cookie_id,
@@ -302,9 +310,10 @@ function _multisite_cookie_consent_fetch_registered_cookies() {
           }
 
           try {
-            // Get new cookie from server
+            // Get new cookie from server.
             $new_cookie = $connection->retrieveCookie($cookie->id, 'GET', TRUE);
-          } catch (Exception $e) {
+          }
+          catch (Exception $e) {
             drupal_set_message(t('Could not fetch cookie "@cookie" from the Cookie remote service, see error message "@message".', array(
               '@message' => $e->getMessage(),
               '@cookie' => $cookie->id,
@@ -315,19 +324,25 @@ function _multisite_cookie_consent_fetch_registered_cookies() {
         }
       }
       $url = url('cookie-notice', array('absolute' => TRUE));
-      drupal_set_message(t('Cookies saved! Visit cookie notice page: %cookie_notice_page', array('%cookie_notice_page' => $url)));
+      $args = array('%cookie_notice_page' => $url);
+      drupal_set_message(t('Cookies saved! Visit cookie notice page: %cookie_notice_page', $args));
     }
   }
   else {
-
     drupal_set_message(t('Please configure your connection first.'));
   }
 }
 
 /**
- * List of cookies requred by the modules.
+ * List of cookies required by the modules.
+ *
+ * @param array $modules
+ *   Optional list of modules to check. If omitted all modules will be scanned.
+ *
+ * @return array
+ *   An array of cookies.
  */
-function _multisite_cookie_consent_cookie_list($modules = NULL) {
+function _multisite_cookie_consent_cookie_list(array $modules = NULL) {
   $cookies = array();
   // All modules and features if none given.
   if (!$modules) {
@@ -344,16 +359,28 @@ function _multisite_cookie_consent_cookie_list($modules = NULL) {
 
 /**
  * Loads info file definitions for a given module.
+ *
+ * @param string $module
+ *   The module for which to load the information.
+ *
+ * @return array
+ *   The info array.
  */
 function _multisite_cookie_consent_load_info($module) {
   return drupal_parse_info_file(drupal_get_path('module', $module) . '/' . $module . '.info');
 }
 
 /**
- * Creates links to be added in JavaScript header for
- * CCK integration. These are links to cookie pages per language.
- * @param $notice_page
+ * Creates links to be added in JavaScript header for CCK integration.
+ *
+ * These are links to cookie pages per language.
+ *
+ * @param string $notice_page
+ *   The URL of the notice page.
+ *
  * @return string
+ *   A serialized string of language codes and the notice page URL, quoted and
+ *   separated with commas.
  */
 function _get_site_languages($notice_page) {
   $languages = '';
@@ -365,51 +392,54 @@ function _get_site_languages($notice_page) {
 }
 
 /**
- * Connects to remote service and gets latest
- * notice templates
- * @return string
+ * Stores the latest notice templates from the remote service in the database.
  */
 function _multisite_cookie_consent_rebuild_static_text() {
   $connection_info = variable_get('multisite_cookie_connection');
-  //if there is a connection
+  // If there is a connection.
   if ($connection_info) {
     $connection = clients_connection_load($connection_info);
 
     try {
-      //Get static text from remote service
+      // Get static text from remote service.
       $text = $connection->retrieveStatictext();
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       drupal_set_message(t('Could not connect to the Cookie remote service, see error message "@message".', array(
         '@message' => $e->getMessage(),
       )), 'error');
     }
 
-    //stores data in database
+    // Stores data in database.
     multisite_cookie_consent_savestatictext($text);
     drupal_set_message(t('Remote notice templates saved!'));
     watchdog('multisite_cookie_consent', 'Cookie notice page static text rebuilt');
   }
-
 }
 
 /**
- * Records static text to the db
- * @param $static_text
+ * Records static text to the database.
+ *
+ * @param string $static_text
+ *   The static text to store in the database. This will replace the existing
+ *   text.
  */
 function multisite_cookie_consent_savestatictext($static_text) {
   db_delete('eucookie_static_text')
     ->execute();
-  //insert to db
+  // Insert to db.
   db_insert('eucookie_static_text')
     ->fields(array(
-      'static_text' => ($static_text),
+      'static_text' => $static_text,
     ))
     ->execute();
 }
 
 /**
- * gets static text from db
- * @return mixed
+ * Gets static text from the database.
+ *
+ * @return string
+ *   The static text.
  */
 function _multisite_cookie_statictext_load() {
   $result = db_query("SELECT * FROM {eucookie_static_text}")->fetchAll();
@@ -418,18 +448,29 @@ function _multisite_cookie_statictext_load() {
 }
 
 /**
- * Retrieves all static content from data array
- * per language and key
- * @param $data
- * @param $key
- * @param $lang
+ * Retrieves all static content from data array per language and key.
+ *
+ * @param array $data
+ *   The data array.
+ * @param string $key
+ *   The key to retrieve.
+ * @param string $lang
+ *   The language to retrieve.
+ *
  * @return mixed
+ *   The requested data.
  */
-function _multisite_cookie_statictext($data, $key, $lang) {
+function _multisite_cookie_statictext(array $data, $key, $lang) {
   $output_text = $data[$lang][$key];
   return $output_text;
 }
 
+/**
+ * Returns the indicators table.
+ *
+ * @return string
+ *   The themed indicators table.
+ */
 function multisite_cookie_consent_indicators() {
   $header = array(
     t('Cookie'),
@@ -437,24 +478,23 @@ function multisite_cookie_consent_indicators() {
     t('Managed'),
     t('Translations'),
     t('Description (Default language)'),
-    t('Rebuild')
+    t('Rebuild'),
   );
   $output = '';
   $cookies = variable_get('cck_registered_cookies');
   foreach ($cookies as $cookie) {
     $result = db_query("SELECT * FROM {eucookie_consent} WHERE cookie_id = :nid", array(":nid" => $cookie))->fetchObject();
-    if($result) {
-      //make sure we have data back
+    if ($result) {
+      // Make sure we have data back.
       if (isset($result->cookie_description)) {
         $cookie_data = drupal_json_decode($result->cookie_description);
       }
       $data = array();
       $description = '--';
-      $li_translation = '';
       $li_translation = '--';
 
       if (isset($cookie_data['translation'])) {
-        //display cookie translations
+        // Display cookie translations.
         foreach ($cookie_data['translation'] as $translation => $translation_info) {
           $default = '';
           if ($translation_info['default']) {
@@ -468,15 +508,22 @@ function multisite_cookie_consent_indicators() {
 
       $cck_managed = ($cookie_data['cck']) ? t('Yes') : t('No');
       $rebuild = l(t('Rebuild'), 'rebuild/' . $result->cookie_id);
-      $rows[] = array($result->cookie_id, $cookie_data['_rev'], $cck_managed, $li_translation, $description, $rebuild);
+      $rows[] = array(
+        $result->cookie_id,
+        $cookie_data['_rev'],
+        $cck_managed,
+        $li_translation,
+        $description,
+        $rebuild,
+      );
     }
   }
 
-  if (isset($rows)){
+  if (isset($rows)) {
     $output = theme('table',
       array(
         'header' => $header,
-        'rows' => $rows
+        'rows' => $rows,
       ));
   }
 
@@ -484,9 +531,10 @@ function multisite_cookie_consent_indicators() {
 }
 
 /**
- * Rebuilds cookie fetching latest information
- * @param $cookie_id
- * @return string
+ * Rebuilds cookie fetching latest information.
+ *
+ * @param string $cookie_id
+ *   The ID of the cookie to rebuild.
  */
 function multisite_cookie_consent_rebuild_cookie($cookie_id) {
 
@@ -495,28 +543,30 @@ function multisite_cookie_consent_rebuild_cookie($cookie_id) {
     $connection = clients_connection_load($connection_info);
 
     try {
-      //get cookie information;
+      // Get cookie information.
       $getcookieinfo = $connection->retrieveCookie($cookie_id, 'GET', TRUE);
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       drupal_set_message(t('Could not connect to the Cookie remote service, see error message "@message".', array(
         '@message' => $e->getMessage(),
       )), 'error');
     }
 
-    //updates cookie information
+    // Updates cookie information.
     multisite_cookie_consent_save_cookie($getcookieinfo);
     drupal_set_message(t('Cookie updated!'));
-    //redirect user to its destination.
+    // Redirect user to its destination.
     drupal_goto('admin/config/eucookie-consent');
-
   }
 }
 
 /**
- * Writes cookie to the database
- * @param $getcookieinfo
+ * Writes a cookie to the database.
+ *
+ * @param array $getcookieinfo
+ *   An array of cookie information.
  */
-function multisite_cookie_consent_save_cookie($getcookieinfo) {
+function multisite_cookie_consent_save_cookie(array $getcookieinfo) {
   db_update('eucookie_consent')
     ->fields(array(
       'cookie_description ' => $getcookieinfo,
@@ -526,10 +576,14 @@ function multisite_cookie_consent_save_cookie($getcookieinfo) {
 }
 
 /**
+ * Returns a serialized version of the registered cookies array.
+ *
  * @return string
+ *   The registered cookies as a serialized string, quoted and separated
+ *   with commas.
  */
-function _multisite_cookie_consent_cookielistheader(){
-   $cookies = '"' . implode( '","' , variable_get('cck_registered_cookies', array())) . '"';
+function _multisite_cookie_consent_cookielistheader() {
+  $cookies = '"' . implode('","', variable_get('cck_registered_cookies', array())) . '"';
   return $cookies;
 }
 
@@ -537,7 +591,7 @@ function _multisite_cookie_consent_cookielistheader(){
  * Implements hook_cron().
  */
 function multisite_cookie_consent_cron() {
-  // Default to an daily interval.
+  // Default to a daily interval.
   $interval = variable_get('eucookie_consent_cron_interval', 60 * 60 * 24);
   if (time() >= variable_get('eucookie_consent_cron_next_execution', 0)) {
     _multisite_cookie_consent_rebuild_static_text();
