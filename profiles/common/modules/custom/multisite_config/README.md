@@ -82,7 +82,7 @@ This is an example of how to use the wysiwyg class.
 Example:<br>
 <code>
 \@brief Helper functions to manage WYSIWYG<br>
-\@details \<strong\>Example of use\</strong\>: \@include example_[class name].cpp
+\@details @include example_[class name].cpp
 </code>
 
 For a full example, check wysiwyg Config file

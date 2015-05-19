@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains \\Drupal\\block\\Config.
@@ -18,8 +17,12 @@ use Drupal\multisite_config\ConfigBase;
  * This is an example of how to use the wysiwyg class.
  */
 
-/** @brief Helper functions to manage WYSIWYG
- * @details <strong>Example of use</strong>: @include example_wysiwyg.cpp
+/**
+ * You can find below some <strong>example of use</strong>.
+ *
+ * @brief Helper functions to manage WYSIWYG
+ *
+ * @details @include example_wysiwyg.cpp
  */
 class Config extends ConfigBase {
 
@@ -27,12 +30,12 @@ class Config extends ConfigBase {
    * Add a button to a WYSIWYG profile.
    *
    * @param string $profile
-   *    Profile machine name. Ex. 'full_html', etc.
+   *   Profile machine name. Ex. 'full_html', etc.
    * @param string $group
-   *    Button group name. Ex. 'default', 'drupal', etc.
+   *   Button group name. Ex. 'default', 'drupal', etc.
    * @param mixed $buttons
-   *    Array of button names belonging to the $group button group.
-   *    Ex. 'Anchor', 'BGColor', etc.
+   *   Array of button names belonging to the $group button group.
+   *   Ex. 'Anchor', 'BGColor', etc.
    */
   public function addButtonsToProfile($profile, $group, $buttons) {
     if (($profile = wysiwyg_profile_load('full_html'))) {
@@ -47,12 +50,12 @@ class Config extends ConfigBase {
    * Remove a button from a WYSIWYG profile.
    *
    * @param string $profile
-   *    Profile machine name. Ex. 'full_html', etc.
+   *   Profile machine name. Ex. 'full_html', etc.
    * @param string $group
-   *    Button group name. Ex. 'default', 'drupal', etc.
+   *   Button group name. Ex. 'default', 'drupal', etc.
    * @param mixed $buttons
-   *    Array of button names belonging to the $group button group.
-   *    Ex. 'Anchor', 'BGColor', etc.
+   *   Array of button names belonging to the $group button group.
+   *   Ex. 'Anchor', 'BGColor', etc.
    */
   public function removeButtonsFromProfile($profile, $group, $buttons) {
     if (($profile = wysiwyg_profile_load('full_html'))) {
@@ -67,7 +70,7 @@ class Config extends ConfigBase {
    * Update an existing WYSIWYG profile.
    *
    * @param string $profile
-   *    Profile machine name. Ex. 'full_html', etc.
+   *   Profile machine name. Ex. 'full_html', etc.
    */
   private function updateProfile($profile) {
     db_merge('wysiwyg')
