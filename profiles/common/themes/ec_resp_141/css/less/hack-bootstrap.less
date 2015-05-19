@@ -1,0 +1,315 @@
+/* Hack for bootstrap css */
+#header li {
+  line-height: 1.4;
+}
+fieldset legend {
+  width: auto;
+  border: none;
+}
+[class^="icon-"] {
+  padding-right: 4px;
+  margin-top: 1px;
+}
+blockquote {
+  border-left: 5px solid #EEEEEE;
+  margin: 0 0 18px;
+  padding: 0 0 0 15px;
+  font-size: 1em;
+  p {
+    font-size: 1em;
+    line-height: 1.5em;  
+  }
+}
+.meta {
+  margin-bottom: 0;
+}
+.container {
+  position: relative;
+}
+
+/* ---------------- Heading  ----------------- */
+h1 {
+  font-size: 35px;
+  font-weight: normal;
+  line-height: 45px;
+}
+h2 {
+  font-size: 150%;
+  font-weight: normal;
+}
+h3 {
+  font-size: 140%;
+  font-weight: normal;
+}
+h4 {
+  font-size: 130%;
+  font-weight: normal;
+}
+h5 {
+  font-size: 120%;
+  font-weight: normal;
+}
+
+/* ---------------- Nav bar  ----------------- */
+.navbar {
+  border-top: 1px solid @navbarBorder;
+  .nav > li {
+    > a {
+      border-left: 1px solid lighten(@navbarBackgroundHighlight, 2%);
+      border-right: 1px solid @navbarBorder;
+      .border-radius(0);
+      margin-right: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-top: 13px;
+      padding-bottom: 13px;
+      &:hover,
+      &:focus {
+        text-shadow: none;
+        border-left-color: darken(@navbarLinkBackgroundHover, 2%);
+      }
+      &.active {
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+        #gradient .vertical(@navbarLinkBackgroundActive, @navbarBorder);
+        color: @white;
+        border-left-color: @navbarBorder;
+        position: relative;
+        top: -1px;
+        line-height: 15px;
+      }
+    }
+    &.first a {
+      border-left: none;
+    }
+    &.last a {
+      border-right: none;
+    }    
+  }
+  ul.dropdown-menu ul.dropdown-menu {
+    .dropdown-submenu > a:after,
+    ul.dropdown-menu {
+      display: none !important;
+    }
+  }
+}
+.subnav {
+  width: auto;
+  margin-bottom: 15px;
+}
+
+/* ---------------- Buttons  ----------------- */
+.btn-danger { 
+  color: #fff !important;
+  text-decoration: none;
+  &:hover { color: #fdd !important; }
+  &:active { color: #fdd !important; }
+  &:focus { color: #fdd !important; }
+  a {
+    color: #fff !important;
+    text-decoration: none;
+    &:hover { color: #fdd !important; }
+    &:active { color: #fdd !important; }
+    &:focus { color: #fdd !important; }
+  }
+}
+.btn-success { 
+  color: #fff !important;
+  text-decoration: none;
+  &:hover { color: #dfd !important; }
+  &:active { color: #dfd !important; }
+  &:focus { color: #dfd !important; }
+  a {
+    color: #fff !important;
+    text-decoration: none;
+    &:hover { color: #fdd !important; }
+    &:active { color: #fdd !important; }
+    &:focus { color: #fdd !important; }
+  }  
+}    
+.btn-warning { 
+  color: #fff !important;
+  text-decoration: none;
+  &:hover { color: #fed !important; }
+  &:active { color: #fed !important; }
+  &:focus { color: #fed !important; }
+  a {
+    color: #fff !important;
+    text-decoration: none;
+    &:hover { color: #fdd !important; }
+    &:active { color: #fdd !important; }
+    &:focus { color: #fdd !important; }
+  }  
+}
+.btn-info { 
+  color: #fff !important;
+  text-decoration: none;
+  &:hover { color: #def !important; }
+  &:active { color: #def !important; }
+  &:focus { color: #def !important; }
+  a {
+    color: #fff !important;
+    text-decoration: none;
+    &:hover { color: #def !important; }
+    &:active { color: #def !important; }
+    &:focus { color: #def !important; }
+  }  
+}
+.btn-inverse { 
+  color: #fff !important;
+  text-decoration: none;
+  &:hover { color: #ddd !important; }
+  &:active { color: #ddd !important; }
+  &:focus { color: #ddd !important; }
+  a {
+    color: #fff !important;
+    text-decoration: none;
+    &:hover { color: #ddd !important; }
+    &:active { color: #ddd !important; }
+    &:focus { color: #ddd !important; }
+  }  
+}
+
+/* ---------------- Carousel  ----------------- */
+.carousel {
+  margin-left:auto;
+  margin-right: auto;
+  background-color: #fff;
+  .border-radius(5px);
+  .box-shadow(0 1px 3px rgba(0,0,0,.25));
+  border: #ddd 1px solid;
+  padding: 8px;
+  text-align: center;  
+  max-width: 600px;
+  a {
+    color: #fff !important;
+    text-decoration: none;
+  }
+  img {
+    .box-shadow(0 1px 5px rgba(0, 0, 0, 0.08) inset);
+  }
+  .content {
+    margin-top: 0;
+  }
+}
+.carousel-caption {
+  padding-top: 5px;
+  color: #fff;
+  margin-bottom: 0;
+}
+.carousel-control {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.region-sidebar_left,
+.region-sidebar_right {
+  .carousel {
+    img {
+      max-height: 77px;
+    }
+  }
+}
+
+/* ---------------- Sidebar  ----------------- */
+/* Force responsive display when block is in sidebar */
+.region-sidebar-left,
+.region-sidebar-right {
+  .row-fluid {
+    width: 100%;
+  }
+  .row {
+    margin-left: 0;
+  }
+  .row > [class*="span"], .row-fluid > [class*="span"] {
+    float: none;
+    display: block;
+    width: auto;
+    margin: 0;
+  }
+  li.nav-header {
+    clear: both;
+  }
+
+  .navbar .container {
+    width: auto;
+    padding: 0;
+  }
+  .navbar .brand {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0 0 0 -5px;
+  }
+  .navbar .nav-collapse {
+    clear: left;
+  }
+  .navbar .nav {
+    float: none;
+    margin: 0 0 9px;
+  }
+  .navbar .nav > li {
+    float: none;
+  }
+  .navbar .nav > li > a {
+    margin-bottom: 2px;
+  }
+  .navbar .nav > .divider-vertical {
+    display: none;
+  }
+  .navbar .nav .nav-header {
+    text-shadow: none;
+  }
+  .navbar .nav > li > a, .navbar .dropdown-menu a {
+    padding: 6px 15px;
+    font-weight: bold;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+  }
+  .navbar .dropdown-menu li + li a {
+    margin-bottom: 2px;
+  }
+
+  .navbar-inner {
+    padding-left: 3px;
+    padding-right: 3px;
+    .nav > li > a {
+      border: none;
+    }
+  }
+}
+
+/* ---------------- Progress bar  ----------------- */
+.progress {
+  height: auto;
+  background-color: #fff;
+  background-image: none;
+  .box-shadow(none);
+  filter:progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  .bar {
+    width: 100%;
+    background-color: transparent;
+    background-image: none;
+    margin: 0;
+    filter:progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    .filled {
+      height: 16px;
+    }
+  }
+}
+
+/* ---------------- Medias  ----------------- */
+.thumbnail {
+  background-color: @white;
+  box-shadow: 4px 6px 6px -6px #333333;
+}
+
+/* ---------------- Wells  ----------------- */
+.well {
+  #gradient .vertical(lighten(@grayLight,15%), @grayLight);
+  a {
+    color: @white;
+  }
+  &.well-alt {
+    #gradient .vertical(@navbarBackgroundHighlight, @navbarBackground);
+    color: #fff;
+    border-color: @navbarBorder;
+  }
+}

@@ -1,0 +1,85 @@
+body {
+  background-image: none;
+  background-color: #333;
+}
+#layout-body {
+  background-color: #fff;
+  padding: 10px;
+}
+.navbar-static-top  .navbar-inner {
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+  border: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#333333, endColorstr=#333333);
+}
+.navbar .nav > li > a,
+.navbar .nav > li.first > a,
+.navbar .nav > li.last > a {
+  border: none;
+  margin: 5px;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+}
+.navbar .nav > li > a.active,
+#block-system-main-menu-desktop a.active:hover,
+#block-system-main-menu-desktop a.active:focus,
+#block-system-main-menu-desktop a.active:active {
+  background-image: none;
+  background-color: #fff;
+  color: #222;
+  text-shadow: none;
+  text-decoration: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff, endColorstr=#ffffff);
+}
+.navbar .nav > li > a:hover,
+#block-system-main-menu-desktop a:hover,
+#block-system-main-menu-desktop a:focus,
+#block-system-main-menu-desktop a:active {
+  background-color: transparent;
+  color: #D36F1E;
+}
+h1 {
+  background-color: #ddd;
+  padding: 5px 25px;
+  margin-left: -25px;
+  margin-bottom: 15px;
+  width: 100%;
+  color: #222;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  border: 1px solid #999;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
+}
+#layout-footer {
+  background-color: transparent;
+  color: #fff;
+  border-top: none;
+}
+#layout footer a {
+  color: #fff;
+}
+fieldset, 
+.fieldset,
+.card {
+  box-shadow: none;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: transparent;
+}
+.region-sidebar_right,
+.region-sidebar_left {
+  background-color: #eee;
+}
+.region-sidebar_right fieldset, 
+.region-sidebar_right .fieldset,
+.region-sidebar_right .card,
+.region-sidebar_left fieldset, 
+.region-sidebar_left .fieldset,
+.region-sidebar_left .card{
+  border: none;
+}
+.nav > li > a:hover, 
+.nav > li > a:focus {
+  background-color: #333;
+  color: #fff;
+  text-shadow: none;
+}
