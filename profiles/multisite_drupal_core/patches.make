@@ -15,6 +15,7 @@ projects[apachesolr_attachments][patch][] = ../multisite_drupal_core/patches/apa
 projects[apachesolr_attachments][patch][] = ../multisite_drupal_core/patches/apachesolr_attachments-empty_parent_entity_id.patch
 projects[apachesolr][patch][] = ../multisite_drupal_core/patches/apachesolr-invalidate-caches-new-node-type-2178283.patch
 projects[apachesolr][patch][] = ../multisite_drupal_core/patches/apachesolr-multiples_dates-4335.patch
+projects[chr][patch][] = ../multisite_drupal_core/patches/chr-1.6-patch-rewrite-header-host-without-standard-port-number.patch
 projects[chr][patch][] = ../multisite_drupal_core/patches/chr-deprecated_call-5588.patch
 projects[chr][patch][] = ../multisite_drupal_core/patches/chr-patches.patch
 projects[wysiwyg][patch][] = ../multisite_drupal_core/patches/wysiwyg-ckeditor4-bug-version-1799.patch
