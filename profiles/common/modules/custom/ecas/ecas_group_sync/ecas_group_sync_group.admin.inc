@@ -236,15 +236,16 @@ function ecas_group_sync_update_og_roles($form, &$form_state) {
   $none_option = array("0" => 'none');
 
   if (count($form_state['triggering_element']['#array_parents']) > 3) {
-    // Check if the callback comes from the extra fields or from the existing fields.
+    // Check if the callback comes from the extra fields or from the existing
+    // fields.
     $id = $form_state['triggering_element']['#array_parents'][2];
-    // Update the og roles select list.
+    // Update the OG roles select list.
     $form['group_mapping']['group_mapping_add_wrapper'][$id]['synctype_extra_value_wrapper_extra_' . $id]['synctype_extra_value_extra_' . $id]['#options'] = $none_option + ecas_group_sync_get_og_roles($form_state['triggering_element']['#value']);
     return $form['group_mapping']['group_mapping_add_wrapper'][$id]['synctype_extra_value_wrapper_extra_' . $id];
   }
   else {
     $id = $form_state['triggering_element']['#array_parents'][1];
-    // Update the og roles select list.
+    // Update the OG roles select list.
     $form['group_mapping'][$id]['synctype_extra_value_wrapper_' . $id]['synctype_extra_value_' . $id]['#options'] = $none_option + ecas_group_sync_get_og_roles($form_state['triggering_element']['#value']);
     return $form['group_mapping'][$id]['synctype_extra_value_wrapper_' . $id];
   }
