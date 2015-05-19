@@ -10,7 +10,7 @@
  * Implements hook_install().
  */
 function ecas_extra_install() {
-  variable_set('ecas_extra_deny_action_subject', st('Account activation denied'));
+  variable_set('ecas_extra_deny_action_subject', 'Account activation denied');
   $body = 'Dear <b>!lastname</b>,
   <br /><br />
   The activation request of the account <b>!name</b> for the site <a href="!site_url"><b>!site_name</b><a> has been denied.
@@ -19,7 +19,10 @@ function ecas_extra_install() {
 }
 
 /**
- * @return the first schema implementation.
+ * Returns the initial schema implementation.
+ *
+ * @return array
+ *   The initial schema implementation.
  */
 function _ecas_extra_base_schema() {
   $schema['denied_users'] = array(
@@ -57,7 +60,7 @@ function ecas_extra_schema() {
 }
 
 /**
- * Updade #1: create the denied_users table
+ * Updade #1: create the denied_users table.
  */
 function ecas_extra_update_1() {
   $base_schema = _ecas_extra_base_schema();
