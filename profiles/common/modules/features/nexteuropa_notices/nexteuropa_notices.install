@@ -29,4 +29,12 @@ function nexteuropa_notices_post_features_enable_feature() {
         'view any notice bean',
     )
   );
+
+  // Ensure bean entity is translatable.
+  $entity_types = variable_get("entity_translation_entity_types", array());
+  if (!empty ($entity_types)) {
+    $entity_types['bean'] = 'bean';
+    variable_set("entity_translation_entity_types", $entity_types);
+  }
+
 }
