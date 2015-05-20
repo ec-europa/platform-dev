@@ -8,6 +8,7 @@ projects[apachesolr][patch][] = ../multisite_drupal_core/patches/apachesolr-mult
 projects[apachesolr_attachments][patch][] = ../multisite_drupal_core/patches/apachesolr_attachments-bypass_deadlocks-1854088-9.patch
 projects[apachesolr_attachments][patch][] = ../multisite_drupal_core/patches/apachesolr_attachments-empty_parent_entity_id.patch
 projects[better_formats][patch][] = ../multisite_drupal_core/patches/better_format-strict-warning-1717470-11.patch
+projects[chr][patch][] = ../multisite_drupal_core/patches/chr-1.6-patch-rewrite-header-host-without-standard-port-number.patch
 projects[chr][patch][] = ../multisite_drupal_core/patches/chr-deprecated_call-5588.patch
 projects[chr][patch][] = ../multisite_drupal_core/patches/chr-patches.patch
 projects[colorbox][patch][] = ../multisite_drupal_core/patches/colorbox-xss_colorbox-insert-image_tpl-1656.patch
