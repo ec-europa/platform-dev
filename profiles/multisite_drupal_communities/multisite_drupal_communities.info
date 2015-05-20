@@ -108,7 +108,6 @@ dependencies[] = og
 dependencies[] = workbench_og
 dependencies[] = node_export
 dependencies[] = field_group
-dependencies[] = ckeditor_link
 dependencies[] = entityreference
 dependencies[] = linkchecker
 dependencies[] = advanced_help

@@ -105,7 +105,6 @@ dependencies[] = libraries
 dependencies[] = quicktabs
 dependencies[] = node_export
 dependencies[] = field_group
-dependencies[] = ckeditor_link
 dependencies[] = better_formats
 dependencies[] = entityreference
 dependencies[] = linkchecker
