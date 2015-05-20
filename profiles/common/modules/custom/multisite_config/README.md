@@ -16,13 +16,13 @@ Multisite Configuration API classes extends <code>\\%Drupal\\multisite_config\\C
 
 To use that API in a third-party module, you have to:
 -# Add <code>registry_autoload[] = PSR-4</code> to .info file
--# Call any function you want by using its class name (see exemple)
+-# Call any function you want by using its class name (see example)
 
 To add new configuration API you have to:
 -# Edit a configuration class described above under <code>./src</code> directory (or create a new one when needed)
 -# Update API documentation (or request for update)
 
-@subsection exemple_subsec Exemple
+@subsection example_subsec Example
 
 Given a module named <strong>foo</strong>:
 
@@ -61,3 +61,28 @@ class Config extends ConfigBase {
 $foo = multisite_config_service('foo')->someMethod('foo');
 </code>
 
+@section how_ex_sec How to add examples?
+
+For a better understanding, it is recomanded to add example for each usable function.<br>
+Three steps are required to add example to a class:
+- <strong>create a file</strong> called <em>example_[class name].cpp</em> in the same repository of your class' Config file<br>
+Example:<br>
+<code>
+example_wysiwyg.cpp file, located in multisite_config\\lib\\Drupal\\wysiwyg
+</code>
+
+- in Config file, <strong>add \@example tag</strong> to indicate which file contains example for it.<br>
+Example:<br>
+<code>
+\@example example_[class name].cpp<br>
+This is an example of how to use the wysiwyg class.
+</code>
+
+- inside \@details tag, <strong>add \@includes tag</strong> to include example file<br>
+Example:<br>
+<code>
+\@brief Helper functions to manage WYSIWYG<br>
+\@details @include example_[class name].cpp
+</code>
+
+For a full example, check wysiwyg Config file
