@@ -41,9 +41,6 @@ projects[registry_autoload][version] = 1.2
 projects[smart_trim][subdir] = "contrib"
 projects[smart_trim][version] = 1.4
 
-projects[taxonomy_revision][subdir] = "contrib"
-projects[taxonomy_revision][version] = 1.2
-
 projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = 1.1
 
