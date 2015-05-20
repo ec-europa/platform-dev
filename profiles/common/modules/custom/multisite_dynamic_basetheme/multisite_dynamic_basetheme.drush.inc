@@ -1,7 +1,12 @@
 <?php
 
 /**
- * Implements hook_drush_command.
+ * @file
+ * Multisite dynamic_basetheme drush commands.
+ */
+
+/**
+ * Implements hook_drush_command().
  */
 function multisite_dynamic_basetheme_drush_command() {
   $items = array();
@@ -32,7 +37,7 @@ function multisite_dynamic_basetheme_drush_command() {
 
 
 /**
- * Implements drush_hook_DRUSH-COMMANDE-NAME.
+ * Implements drush_hook_COMMAND().
  */
 function drush_multisite_dynamic_basetheme_theme_base_theme_list() {
   $options = multisite_dynamic_basetheme_get_base_theme_list();
@@ -41,7 +46,8 @@ function drush_multisite_dynamic_basetheme_theme_base_theme_list() {
     foreach ($options as $machine_name => $option) {
       drush_print("- " . $machine_name, '1');
     }
-  }else{
+  }
+  else {
     drush_print("No base theme available on this site", '1');
   }
 }
@@ -55,16 +61,18 @@ function drush_multisite_dynamic_basetheme_theme_base_theme_get() {
 
   // Get the base theme from info file.
   $theme_info_file = drupal_parse_info_file(drupal_get_path('theme', $theme_info->name) . "/$theme_info->name.info");
-  
-  //Check if the defined base theme exist and that is a multisite base theme
+
+  // Check if the defined base theme exist and that is a multisite base theme.
   if (!isset($theme_info_file['base theme']){
-    $base_theme_info_file = 'not found ('.$theme_info_file['base theme'].')';
-  }elseif (!_multisite_dynamic_basetheme_is_multisite_base_theme($theme_info_file['base theme'])){
-    $base_theme_info_file = 'not a multisite base theme ('.$theme_info_file['base theme'].')';
-  }else{
-	$base_theme_info_file =  $theme_info_file['base theme'];
+    $base_theme_info_file = 'not found (' . $theme_info_file['base theme'] . ')';
   }
-  
+  elseif (!_multisite_dynamic_basetheme_is_multisite_base_theme($theme_info_file['base theme'])) {
+    $base_theme_info_file = 'not a multisite base theme (' . $theme_info_file['base theme'] . ')';
+  }
+  else {
+    $base_theme_info_file = $theme_info_file['base theme'];
+  }
+
   drush_print("Base theme (info file): $base_theme_info_file");
 
   // Get the base theme from theme settings.
@@ -82,14 +90,16 @@ function drush_multisite_dynamic_basetheme_theme_base_theme_get() {
  */
 function drush_multisite_dynamic_basetheme_theme_base_theme_set() {
   // Check arguments.
-  $args = func_get_args();    
+  $args = func_get_args();
   if (count($args) < 1) {
     drush_set_error("TBT_MISSING_BASE_THEME", "The base theme cannot be set:  missing base_teme argument.");
     exit();
-  }elseif (count($args) > 1) {
+  }
+  elseif (count($args) > 1) {
     drush_set_error("TBT_MISSING_BASE_THEME", "The base theme cannot be set: only one argument is expected.");
     exit();
-  }else{
+  }
+  else {
     $base_theme = $args[0];
   }
 
@@ -99,8 +109,9 @@ function drush_multisite_dynamic_basetheme_theme_base_theme_set() {
     drush_set_error("TBT_BASE_THEME_NOT_FOUND", t("The base theme cannot be set: the `@theme` theme is not found on this site.", array('@theme' => $base_theme)));
     drush_multisite_dynamic_basetheme_theme_base_theme_list();
     exit();
-  // Check if it is a multisite base theme.
-  }elseif (!_multisite_dynamic_basetheme_is_multisite_base_theme($themes[$base_theme])){
+    // Check if it is a multisite base theme.
+  }
+  elseif (!_multisite_dynamic_basetheme_is_multisite_base_theme($themes[$base_theme])) {
     drush_set_error("TBT_BASE_THEME_NOT_BT", t("The base theme cannot be set: the `@theme` theme is not a multisite base theme (`multisite = 1` not found on the info file).", array('@theme' => $base_theme)));
     drush_multisite_dynamic_basetheme_theme_base_theme_list();
     exit();
@@ -121,7 +132,8 @@ function drush_multisite_dynamic_basetheme_theme_base_theme_set() {
   $settings = variable_get($var);
   if ($base_theme === $theme_info_file['base theme']) {
     unset($settings['ec_resp_base_theme_of_subtheme']);
-  }else{
+  }
+  else {
     $settings['ec_resp_base_theme_of_subtheme'] = $base_theme;
   }
 
@@ -134,4 +146,3 @@ function drush_multisite_dynamic_basetheme_theme_base_theme_set() {
 
   drush_log(t('Base theme of `@name` changed to `@base_theme`', array('@name' => $theme_info->name, '@base_theme' => $base_theme)), 'ok');
 }
-
