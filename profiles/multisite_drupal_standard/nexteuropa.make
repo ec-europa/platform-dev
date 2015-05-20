@@ -43,9 +43,6 @@ projects[registry_autoload][version] = 1.2
 projects[smart_trim][subdir] = contributed
 projects[smart_trim][version] = 1.4
 
-projects[taxonomy_revision][subdir] = contributed
-projects[taxonomy_revision][version] = 1.2
-
 projects[og][subdir] = contributed
 projects[og][download][type] = git
 projects[og][download][revision] = fba6dda

@@ -53,11 +53,6 @@ function nexteuropa_core_install() {
     // Taxonomy.
     'administer taxonomy',
 
-    // Taxonomy revision.
-    'choose taxonomy term revisions',
-    'delete taxonomy term revisions',
-    'revert taxonomy term revisions',
-
     // User.
     'administer users',
     'access user profiles',
