@@ -55,7 +55,16 @@ function drush_multisite_dynamic_basetheme_theme_base_theme_get() {
 
   // Get the base theme from info file.
   $theme_info_file = drupal_parse_info_file(drupal_get_path('theme', $theme_info->name) . "/$theme_info->name.info");
-  $base_theme_info_file = (isset($theme_info_file['base theme'])) ? $theme_info_file['base theme'] : 'not defined';
+  
+  //Check if the defined base theme exist and that is a multisite base theme
+  if (!isset($theme_info_file['base theme']){
+    $base_theme_info_file = 'not found ('.$theme_info_file['base theme'].')';
+  }elseif (!_multisite_dynamic_basetheme_is_multisite_base_theme($theme_info_file['base theme'])){
+    $base_theme_info_file = 'not a multisite base theme ('.$theme_info_file['base theme'].')';
+  }else{
+	$base_theme_info_file =  $theme_info_file['base theme'];
+  }
+  
   drush_print("Base theme (info file): $base_theme_info_file");
 
   // Get the base theme from theme settings.

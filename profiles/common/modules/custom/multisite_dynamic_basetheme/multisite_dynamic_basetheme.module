@@ -143,7 +143,16 @@ function multisite_dynamic_basetheme_get_base_theme_list($theme_key = FALSE) {
   if ($theme_key) {
     $theme_info_file = drupal_parse_info_file(drupal_get_path('theme', $theme_key) . "/$theme_key.info");
     $theme_base_key = $theme_info_file['base theme'];
-    $theme_base_name = (isset($themes[$theme_base_key]) && _multisite_dynamic_basetheme_is_multisite_base_theme($themes[$theme_base_key])) ? $themes[$theme_base_key]->info['name'] : t("BASE THEME NOT FOUND");
+
+	// Check if the defined base theme exist and that is a multisite base theme.
+	if (!isset($themes[$theme_base_key])){
+      $theme_base_name = t("BASE THEME NOT FOUND");
+    }elseif (!_multisite_dynamic_basetheme_is_multisite_base_theme($themes[$theme_base_key])){
+      $theme_base_name = t("NOT A MULTISITE BASE THEME");
+    }else{
+	  $theme_base_name =  $themes[$theme_base_key]->info['name'];
+    }
+	
     $options_default[''] = t("Default: @base_theme (@base_theme_key)", array("@base_theme" => $theme_base_name, "@base_theme_key" => $theme_base_key));
     $options = $options_default + $options;
     unset($options[$theme_base_key]);
