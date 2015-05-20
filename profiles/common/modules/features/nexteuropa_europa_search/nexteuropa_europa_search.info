@@ -1,6 +1,6 @@
-name = Europa Search
+name = NextEuropa Europa Search
 core = 7.x
-package = Nexteuropa Features
+package = NextEuropa
 description = "Integrates with the Europa Search service"
 php = 5.2.4
 multisite_version = 1.6
