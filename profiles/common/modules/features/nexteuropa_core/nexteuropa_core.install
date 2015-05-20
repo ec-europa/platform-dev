@@ -94,8 +94,8 @@ function nexteuropa_core_install() {
   // Import "User Tasks" terms.
   // Force registration of migration classes.
   migrate_static_registration();
-  // Make sure that destination vocabularies exists.
-  features_revert(array('nexteuropa_core' => array('taxonomy')));
+  // Create "User tasks" vocabulary.
+  multisite_config_service('taxonomy')->createVocabulary('core_user_tasks', 'User tasks vocabulary');
   // Import core_user_tasks vocabulary's terms.
   Migration::getInstance('NextEuropaCoreUserTasks')->processImport();
 
