@@ -32,6 +32,7 @@ dependencies[] = libraries
 dependencies[] = media
 dependencies[] = migrate
 dependencies[] = migrate_ui
+dependencies[] = nexteuropa_token_ckeditor
 dependencies[] = pathauto
 dependencies[] = smart_trim
 dependencies[] = strongarm
