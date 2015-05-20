@@ -147,6 +147,13 @@ dependencies[] = multisite_autosave
 dependencies[] = multisite_custom_error
 dependencies[] = solr_config
 
+; NextEuropa features
+dependencies[] = nexteuropa_core
+dependencies[] = nexteuropa_editorial
+dependencies[] = nexteuropa_multilingual
+dependencies[] = nexteuropa_pages
+dependencies[] = nexteuropa_europa_search
+
 files[] = multisite_drupal_standard.profile
 
 ; Information added by drupal.org packaging script on 2011-12-05
