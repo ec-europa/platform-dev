@@ -35,3 +35,6 @@ project = "drupal"
 datestamp = "1294208756"
 
 multisite_version = "2.0"
+
+; Define this theme as multisite base theme (used by multisite_dynamic_basetheme)
+multisite = "1"
