@@ -68,6 +68,7 @@ projects[chr][subdir] = "contrib"
 projects[chr][version] = "1.6"
 projects[chr][patch][] = patches/chr-deprecated_call-5588.patch
 projects[chr][patch][] = patches/chr-patches.patch
+projects[chr][patch][] = patches/chr-1.6-patch-rewrite-header-host-without-standard-port-number.patch
 
 projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
