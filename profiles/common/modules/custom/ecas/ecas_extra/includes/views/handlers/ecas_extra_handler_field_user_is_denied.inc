@@ -1,29 +1,25 @@
 <?php
-
 /**
  * @file
  * This file provides the ecas_extra_handler_field_user_is_denied class.
  */
 
 /**
- * This class provides a Views 3 field that display the "denied" state of a user.
+ * Provides a Views 3 field that displays the "denied" state of a user.
+ *
  * It can also display the date of the denying and the denier.
  */
 class ecas_extra_handler_field_user_is_denied extends views_handler_field {
 
-  function init(&$view, &$options) {
-    parent::init($view, $options);    
-  }
-    
   /**
-   * Modify the query to add the necessary field(s)
+   * {@inheritdoc}
    */
-  function query() {
-    // boolean field, we always include it
+  public function query() {
+    // Boolean field, we always include it.
     $this->query->add_field(NULL, 'IF ((select count(uid) from {denied_users} denied_users WHERE denied_users.uid = users.uid) > 0, 1, 0)', 'user_denied');
     $this->field_alias = 'user_denied';
 
-    // date and denier fields are optional
+    // Date and denier fields are optional.
     if (isset($this->options['display_denier'])) {
       $this->query->add_field(NULL, 'IF ((select count(uid) from {denied_users} denied_users WHERE denied_users.uid = users.uid) > 0, (select `denied_by`     from {denied_users} denied_users WHERE denied_users.uid = users.uid), 0)', 'user_denied_by');
     }
@@ -34,16 +30,16 @@ class ecas_extra_handler_field_user_is_denied extends views_handler_field {
   }
 
   /**
-   * Handle the rendering of the field
+   * {@inheritdoc}
    */
-  function render($values) {
-    $value = $this->get_value($values);    
-    
+  public function render($values) {
+    $value = $this->get_value($values);
+
     if ($value == 1) {
-      // the user is denied
-      $boolean_displayed_text      = t('Yes');
-      $date_displayed_text         = t('Yes, on %s');
-      $denier_displayed_text       = t('Yes, by %s');
+      // The user is denied.
+      $boolean_displayed_text = t('Yes');
+      $date_displayed_text = t('Yes, on %s');
+      $denier_displayed_text = t('Yes, by %s');
       $date_dernier_displayed_text = t('Yes, by %s on %s');
 
       if ($this->options['display_denier']) {
@@ -69,22 +65,25 @@ class ecas_extra_handler_field_user_is_denied extends views_handler_field {
       return $displayed_text;
     }
     else {
-      // the user is not denied
+      // The user is not denied.
       return t('No');
     }
   }
 
-  function option_definition() {
+  /**
+   * {@inheritdoc}
+   */
+  public function option_definition() {
     $options = parent::option_definition();
     $options['display_date'] = array('default' => '0');
-    $options['display_denier'] = array('default' => '0');  
+    $options['display_denier'] = array('default' => '0');
     return $options;
-  }  
-  
+  }
+
   /**
-   * @return a form that allow the user to choose the format of the field
+   * {@inheritdoc}
    */
-  function options_form(&$form, &$form_state) {
+  public function options_form(&$form, &$form_state) {
     $form['display_date'] = array(
       '#type' => 'checkbox',
       '#title' => t('Display date'),
@@ -96,6 +95,9 @@ class ecas_extra_handler_field_user_is_denied extends views_handler_field {
       '#default_value' => $this->options['display_denier'],
     );
     parent::options_form($form, $form_state);
+
+    // @todo This method should not return a value.
     return $form;
   }
-};
+
+}

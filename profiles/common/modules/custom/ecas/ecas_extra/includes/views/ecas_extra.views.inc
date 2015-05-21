@@ -5,6 +5,9 @@
  * This file describes the Views components provided by the ecas_extra module.
  */
 
+/**
+ * Implements hook_views_data().
+ */
 function ecas_extra_views_data() {
   $data['users']['user_denied'] = array(
     'title' => t('Denied'),

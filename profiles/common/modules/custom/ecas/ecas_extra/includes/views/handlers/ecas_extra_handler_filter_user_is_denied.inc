@@ -9,14 +9,16 @@
  * This class provides a Views 3 filter on the "denied" state of a user.
  */
 class ecas_extra_handler_filter_user_is_denied extends views_handler_filter_boolean_operator {
+
   /**
-   * Modify the query to add the necessary SQL condition
+   * {@inheritdoc}
    */
-  function query() {
+  public function query() {
     $this->query->ensure_table('users');
 
     // Should we filter on the denied users or not? To answer this question,
-    // we have to take into account that this parameter may be exposed to the user
+    // we have to take into account that this parameter may be exposed to the
+    // user.
     if ($this->options['exposed']) {
       $value_name = $this->options['expose']['identifier'];
       if (isset($this->view->exposed_input[$value_name])) {
@@ -31,13 +33,13 @@ class ecas_extra_handler_filter_user_is_denied extends views_handler_filter_bool
     }
 
     $operator = ($value == 1) ? 'NOT IN' : 'IN';
-    $this->query->add_where_expression(0, sprintf('users.uid %s (SELECT uid FROM {denied_users})', $operator));    
+    $this->query->add_where_expression(0, sprintf('users.uid %s (SELECT uid FROM {denied_users})', $operator));
   }
 
   /**
-   * @return the form to configure the filter
+   * {@inheritdoc}
    */
-  function value_form(&$form, &$form_state) {
+  public function value_form(&$form, &$form_state) {
     $form['value'] = array(
       '#type' => 'radios',
       '#title' => 'Display only users who are',
@@ -47,8 +49,7 @@ class ecas_extra_handler_filter_user_is_denied extends views_handler_filter_bool
       ),
       '#default_value' => $this->options['value'],
     );
-    return ($form);
+    return $form;
   }
 
-
-};
+}
