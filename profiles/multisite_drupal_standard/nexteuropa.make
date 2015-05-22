@@ -81,6 +81,9 @@ projects[variable][version] = 2.5
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
 
+projects[piwik][subdir] = contrib
+projects[piwik][version] = 2.7
+
 ;
 ; Libraries =====================================================================
 ;
