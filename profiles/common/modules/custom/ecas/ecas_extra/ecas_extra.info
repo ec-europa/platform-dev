@@ -10,11 +10,6 @@ version = "7.x-1.0"
 
 files[] = ecas_extra.test
 
-
-; Views
-files[] = includes/views/ecas_extra.view_default.inc
-files[] = includes/views/ecas_extra.view.inc
-
 ; Views handlers
 files[] = includes/views/handlers/ecas_extra_handler_field_user_is_denied.inc
 files[] = includes/views/handlers/ecas_extra_handler_filter_user_is_denied.inc

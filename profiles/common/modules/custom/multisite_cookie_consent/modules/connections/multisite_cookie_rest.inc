@@ -7,8 +7,7 @@
 /**
  * Class for Drupal client connections, REST D7.
  */
-class clients_connection_multisite_cookie_rest extends clients_connection_base  {
-    // ============================================ Connection form methods.
+class clients_connection_multisite_cookie_rest extends clients_connection_base {
 
   /**
    * Declare an array of properties which should be treated as credentials.
@@ -16,23 +15,20 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
    * This lets the credentials storage plugin know which configuration
    * properties to take care of.
    *
-   * @return
-   *  A flat array of property names.
+   * @return array
+   *   A flat array of property names.
    */
-  function credentialsProperties() {
+  public function credentialsProperties() {
     return array('username', 'password');
   }
 
   /**
    * Extra form elements specific to a class's edit form.
    *
-   * @param $form_state
-   *  The form state from the main form, which you probably don't need anyway.
-   *
    * @see clients_connection_form()
    * @see clients_connection_form_submit()
    */
-  function connectionSettingsFormAlter(&$form, &$form_state) {
+  public function connectionSettingsFormAlter(&$form, &$form_state) {
     $form['endpoint']['#description'] = t('Remote service URL e.g. http://mysite.com/service-endpoint');
 
     // There is no configuration other than the credentials.
@@ -66,28 +62,27 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
    *
    * @see clients_connection_form_submit()
    */
-  function connectionSettingsForm_submit($form, &$form_state) {
+  public function connectionSettingsForm_submit($form, &$form_state) {
     // This is here to show an example of how this method works.
     parent::connectionSettingsForm_submit($form, $form_state);
-    // Set our variable with Connection machine name
-    variable_set('multisite_cookie_connection' , $form['name']['#default_value']);
+    // Set our variable with Connection machine name.
+    variable_set('multisite_cookie_connection', $form['name']['#default_value']);
   }
-
-  // ============================================ Resource retrieval.
 
   /**
    * Common helper for reacting to an error from a REST call.
    *
-   * Gets the error from the response, logs the error message,
-   * and throws an exception, which should be caught by the module making use
-   * of the Clients connection API.
+   * Gets the error from the response, logs the error message, and throws an
+   * exception, which should be caught by the module making use of the Clients
+   * connection API.
    *
-   * @param $response
-   *  The REST response data, decoded.
+   * @param object $response
+   *   The REST response data, decoded.
    *
    * @throws Exception
+   *   Thrown when the response code is anything other than '200' or '201'.
    */
-  function handleRestError($response) {
+  public function handleRestError($response) {
 
     if (!in_array($response->code, array("200", "201"))) {
 
@@ -97,97 +92,105 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
         '@message'  => isset($response->status_message) ? $response->status_message : '(no message)',
       ));
 
-      throw new Exception(t("Clients connection error, got message '@message'.", array(
+      throw new Exception(format_string("Clients connection error, got message '@message'.", array(
         '@message' => isset($response->status_message) ? $response->status_message : $response->error,
       )), $response->code);
     }
   }
 
+  /**
+   * Checks cookie remote server.
+   *
+   * @param bool $server_info
+   *   If you need a detailed server info pass TRUE to this variable.
+   *
+   * @return mixed
+   *   The full data returned from the remote call or TRUE / FALSE value, or
+   *   nothing in case $server_info is FALSE.
+   *
+   * @throws \Exception
+   *   Thrown when the response JSON cannot be decoded successfully.
+   */
+  public function serverCheck($server_info = FALSE) {
+    $options = array(
+      'headers' => array(
+        'Content-Type' => 'application/json',
+        'Cache-Control' => 'no-cache',
+      ),
+      'method'  => 'GET',
+    );
+    $response = drupal_http_request($this->endpoint, $options);
+    // Check if response was successful.
+    $this->handleRestError($response);
+    // Getting data.
+    $result = drupal_json_decode($response->data);
+    // It's possible for the response to have a 200, but the data to be
+    // malformed.
+    if (!is_array($result) || json_last_error() != JSON_ERROR_NONE) {
+      $args = array('@data' => $response->data);
+      throw new Exception(format_string("Clients connection error logging in. Data received was: '@data'.", $args), $response->code);
+    }
+    if ($server_info == TRUE && $response->code == 200) {
+      return $result;
+    }
+    elseif ($server_info == FALSE && $response->code == 200) {
+      drupal_set_message(t('Remote service is alive! To view the server response please check the "See service response".'));
+    }
+    else {
+      return FALSE;
+    }
+  }
 
+  /**
+   * Retrieves a cookie.
+   *
+   * @param string $cid
+   *   The cookie ID.
+   * @param string $method
+   *   Method to send to remote service.
+   * @param bool $server_info
+   *   Display server response.
+   *
+   * @return bool|mixed
+   *   The cookie, or FALSE if no cookie was returned.
+   *
+   * @throws \Exception
+   *   Thrown when the response JSON cannot be decoded successfully.
+   */
+  public function retrieveCookie($cid, $method, $server_info = FALSE) {
+    $options = array(
+      'headers' => array(
+        'Content-Type' => 'application/json',
+        'Cache-Control' => 'no-cache',
+      ),
+      'method'  => $method,
+    );
 
-    /**
-     * Checking cookie remote server
-     * @param $server_info
-     *  If you need a detailed server info pass TRUE to this variable
-     * @return
-     *  The full data returned from the remote call or TRUE / FALSE value
-     */
-    function serverCheck($server_info = FALSE) {
-        $options = array(
-            'headers' => array(
-                'Content-Type' => 'application/json',
-                'Cache-Control' => 'no-cache',
-            ),
-            'method'  => 'GET',
-        );
-        $response = drupal_http_request($this->endpoint , $options);
-        // Check if response was successful.
-        $this->handleRestError($response);
-        // Geting data
-        $result = drupal_json_decode($response->data);
-        // It's possible for the response to have a 200, but the data to be
-        // malformed.
-        if (!is_array($result) || json_last_error() != JSON_ERROR_NONE) {
-            throw new Exception(t("Clients connection error logging in. "
-                . "Data received was: '@data'.", array(
-                    '@data' => $response->data,
-                )), $response->code);
-        }
-        if ($server_info == TRUE && $response->code == 200) {
-            return $result;
-        }
-        elseif ($server_info == FALSE && $response->code == 200) {
-            $message = t('Remote service is alive! To view the server response please check the "See service response".');
-            drupal_set_message(t('%message') , array('%message' => $message));
-        }
-        else {
-            return FALSE;
-        }
+    $request_remote = $this->endpoint . '/cookies/' . $cid;
+    $response = drupal_http_request($request_remote, $options);
+    // Check if response was successful.
+    $this->handleRestError($response);
+    // Getting data.
+    $result = drupal_json_decode($response->data);
+    // It's possible for the response to have a 200, but the data to be
+    // malformed.
+    if (!is_array($result) || json_last_error() != JSON_ERROR_NONE) {
+      $args = array('@data' => $response->data);
+      throw new Exception(format_string("Clients connection error logging in. Data received was: '@data'.", $args), $response->code);
     }
 
-    /**
-     * @param $cid cookie id
-     * @param string $method method to send to remote service
-     * @param bool $server_info display server response
-     * @return bool|mixed
-     * @throws Exception
-     */
-    function retrieveCookie($cid , $method, $server_info = FALSE ) {
-        $options = array(
-            'headers' => array(
-                'Content-Type' => 'application/json',
-                'Cache-Control' => 'no-cache',
-            ),
-            'method'  => $method,
-        );
-
-        $request_remote = $this->endpoint . '/cookies/' . $cid;
-        $response = drupal_http_request($request_remote  , $options);
-        // Check if response was successful.
-        $this->handleRestError($response);
-        // Geting data
-        $result = drupal_json_decode($response->data);
-        // It's possible for the response to have a 200, but the data to be
-        // malformed.
-        if (!is_array($result) || json_last_error() != JSON_ERROR_NONE) {
-            throw new Exception(t("Clients connection error logging in. "
-                . "Data received was: '@data'.", array(
-                    '@data' => $response->data,
-                )), $response->code);
-        }
-
-        if ($server_info && in_array($response->code, array(200, 201))) {
-            return $result;
-        }
-        elseif (!$server_info && in_array($response->code, array(200, 201))) {
-            $message = t('Remote service is alive! To view the server response please check the "See service response".');
-            drupal_set_message(t('%message') , array('%message' => $message));
-            return;
-        }
-        else {
-            return FALSE;
-        }
+    if ($server_info && in_array($response->code, array(200, 201))) {
+      return $result;
     }
+    elseif (!$server_info && in_array($response->code, array(200, 201))) {
+      $message = t('Remote service is alive! To view the server response please check the "See service response".');
+      drupal_set_message(t('%message'), array('%message' => $message));
+      return;
+    }
+    else {
+      return FALSE;
+    }
+  }
 
   /**
    * Log in as the configured user.
@@ -195,13 +198,13 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
    * This requires the server type 'application/x-www-form-urlencoded' to be
    * enabled.
    *
-   * @param $session_id
-   *  A session ID obtained from calling system.connect.
+   * @return mixed
+   *   The full data returned from the remote call.
    *
-   * @return
-   *  The full data returned from the remote call.
+   * @throws \Exception
+   *   Thrown when the response JSON cannot be decoded successfully.
    */
-  function userLogin() {
+  public function userLogin() {
     // Based on example code at http://drupal.org/node/910598.
     $this->credentialsLoad();
 
@@ -232,9 +235,8 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
     // malformed. This happens for example when the remote site is running a
     // debugger.
     if (!is_object($data) || json_last_error() != JSON_ERROR_NONE) {
-      throw new Exception(t("Clients connection error logging in. Data received was: '@data'.", array(
-        '@data' => $response->data,
-      )), $response->code);
+      $args = array('@data' => $response->data);
+      throw new Exception(format_string("Clients connection error logging in. Data received was: '@data'.", $args), $response->code);
     }
 
     // Set our cookie for subsequent requests.
@@ -246,20 +248,20 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
   /**
    * API function to request a remote resource.
    *
-   * (This function has a rubbish name and parameters for historical reasons:
-   * XMLRPC connection classes were developed first.)
+   * This function has a rubbish name and parameters for historical reasons:
+   * XMLRPC connection classes were developed first.
    *
-   * @param $method
-   *  The path of the remote resource to retrieve.
-   * @param $method_params
-   *  A flat array of further parameters for the request. This should contain:
-   *  - The HTTP method.
-   *  - (optional) An array of data for the request, such as POST data.
+   * @param string $method
+   *   The path of the remote resource to retrieve.
+   * @param array $method_params
+   *   A flat array of further parameters for the request. This should contain:
+   *   - The HTTP method.
+   *   - (optional) An array of data for the request, such as POST data.
    *
-   * @return
-   *  Whatever is returned from the remote site.
+   * @return mixed
+   *   Whatever is returned from the remote site.
    */
-  function callMethodArray($method, $method_params = array()) {
+  public function callMethodArray($method, $method_params = array()) {
     $resource_path = $method;
     $http_method = array_shift($method_params);
     // The data array doesn't have to be present, so we have to fiddle about
@@ -278,24 +280,22 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
    * Make a REST request.
    *
    * Examples:
-   * Retrieve a node:
-   *  makeRequest('node/NID', 'GET');
-   * Update a node:
-   *  makeRequest('node/NID', 'POST', $data);
+   * - Retrieve a node: makeRequest('node/NID', 'GET');
+   * - Update a node: makeRequest('node/NID', 'POST', $data);
    *
-   * @param $resource_path
-   *  The path of the resource. Eg, 'node', 'node/1', etc.
-   * @param $http_method
-   *  The HTTP method. One of 'GET', 'POST', 'PUT', 'DELETE'. For an explanation
-   *  of how the HTTP method affects the resource request, see the Services
-   *  documentation at http://drupal.org/node/783254.
-   * @param $data = array()
-   *  (Optional) An array of data to pass to the request.
+   * @param string $resource_path
+   *   The path of the resource. Eg, 'node', 'node/1', etc.
+   * @param string $http_method
+   *   The HTTP method. One of 'GET', 'POST', 'PUT', 'DELETE'. For an
+   *   explanation of how the HTTP method affects the resource request, see the
+   *   Services documentation at http://drupal.org/node/783254.
+   * @param array $data
+   *   (Optional) An array of data to pass to the request.
    *
-   * @return
-   *  The data from the request response.
+   * @return mixed
+   *   The data from the request response.
    */
-  function makeRequest($resource_path, $http_method, $data = array()) {
+  public function makeRequest($resource_path, $http_method, $data = array()) {
     // Start by assuming we need to log in.
     $login_needed = TRUE;
 
@@ -328,9 +328,10 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
     );
 
     // Add a CSRF token if the method is one that requires it.
-    $non_safe_method = !in_array($http_method, array('GET', 'HEAD', 'OPTIONS', 'TRACE')) || $resource_path == 'user/token';
+    $methods = array('GET', 'HEAD', 'OPTIONS', 'TRACE');
+    $non_safe_method = !in_array($http_method, $methods) || $resource_path == 'user/token';
     if ($non_safe_method) {
-      $headers['X-CSRF-Token'] = $this->getXCSRFToken();
+      $headers['X-CSRF-Token'] = $this->getXcsrfToken();
     }
 
     $options = array(
@@ -358,13 +359,13 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
    * endpoint. This only exists in Services 3.5 and later. We do not support
    * earlier versions.
    *
-   * @return
-   *  The X-CSRF token.
+   * @return string
+   *   The X-CSRF token.
    *
-   * @throws
-   *  An exception if the remote site does not return a token.
+   * @throws \Exception
+   *   An exception if the remote site does not return a token.
    */
-  function getXCSRFToken() {
+  public function getXcsrfToken() {
     if (isset($this->CSRFToken)) {
       return $this->CSRFToken;
     }
@@ -391,86 +392,91 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base  
     }
   }
 
-    /**
- * Make a REST request.
- *
- * @param $http_method
- *  The HTTP method. One of 'GET', 'POST', 'PUT', 'DELETE'. For an explanation
- *  of how the HTTP method affects the resource request, see the Services
- *  documentation at http://drupal.org/node/783254.
- * @param $data = array()
- *  (Optional) An array of data to pass to the request.
- *
- * @return
- *  The data from the request response.
- */
-    function makeCookieRequest($http_method, $data = array()) {
+  /**
+   * Make a REST request.
+   *
+   * @param string $http_method
+   *   The HTTP method. One of 'GET', 'POST', 'PUT', 'DELETE'. For an
+   *   explanation of how the HTTP method affects the resource request, see the
+   *   Services documentation at http://drupal.org/node/783254.
+   * @param array $data
+   *   (Optional) An array of data to pass to the request.
+   *
+   * @return mixed
+   *   The data from the request response.
+   */
+  public function makeCookieRequest($http_method, $data = array()) {
+    // Adding site_name to $data array.
+    $data['sites'] = _multisite_cookie_consent_site_name();
 
-        //adding site_name to $data array
-        $data['sites'] = _multisite_cookie_consent_site_name();
+    // Convert data in query builder.
+    $data = drupal_json_encode($data);
+    // Headers.
+    $headers = array(
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json',
+    );
 
-        //convert data in query builder
-        $data = drupal_json_encode($data);
-        //headers
-        $headers = array(
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-        );
+    // Bulid options.
+    $options = array(
+      'headers' => $headers,
+      'method' => $http_method,
+      'data' => $data,
+    );
+    // Create response and send request to remote service.
+    $response = drupal_http_request($this->endpoint . '/cookies', $options);
+    $this->handleRestError($response);
+    $result = json_decode($response->data);
+    return $result;
+  }
 
-        //bulid options
-        $options = array(
-            'headers' => $headers,
-            'method' => $http_method,
-            'data' => $data,
-        );
-        //create response and send request to remote service
-        $response = drupal_http_request($this->endpoint . '/cookies', $options);
-        $this->handleRestError($response);
-        $result = json_decode($response->data);
-        return $result;
+  /**
+   * Retrieves static page content.
+   *
+   * @param bool $server_info
+   *   Unused.
+   *
+   * @return bool|mixed
+   *   The request, or FALSE if an error occurred.
+   *
+   * @throws Exception
+   *   Thrown if an error occurred during JSON decoding.
+   */
+  public function retrieveStatictext($server_info = FALSE) {
+    $options = array(
+      'headers' => array(
+        'Content-Type' => 'application/json',
+        'Cache-Control' => 'no-cache',
+      ),
+      'method'  => 'GET',
+    );
+    // Make cookie page request.
+    $request_remote = $this->endpoint . '/notice';
+    $response = drupal_http_request($request_remote, $options);
+    // Check if response was successful.
+    $this->handleRestError($response);
+    // Getting data, lets not convert this time to array.
+    $result = $response->data;
+    // It's possible for the response to have a 200, but the data to be
+    // malformed.
+    if (!($result) || json_last_error() != JSON_ERROR_NONE) {
+      $args = array('@data' => $response->data);
+      throw new Exception(format_string("Clients connection error logging in. Data received was: '@data'.", $args), $response->code);
     }
 
-    /**
-     * retrives static page content
-     * @param string $method method to send to remote service
-     * @param bool $server_info display server response
-     * @return bool|mixed
-     * @throws Exception
-     */
-    function retrieveStatictext($server_info = FALSE ) {
-        $options = array(
-            'headers' => array(
-                'Content-Type' => 'application/json',
-                'Cache-Control' => 'no-cache',
-            ),
-            'method'  => 'GET',
-        );
-        //make cookie page request
-        $request_remote = $this->endpoint  . '/notice';
-        $response = drupal_http_request($request_remote  , $options);
-        // Check if response was successful.
-        $this->handleRestError($response);
-        // Geting data, lets not convert this time to array.
-        $result = $response->data;
-        // It's possible for the response to have a 200, but the data to be
-        // malformed.
-        if (!($result) || json_last_error() != JSON_ERROR_NONE) {
-            throw new Exception(t("Clients connection error logging in. "
-                . "Data received was: '@data'.", array(
-                    '@data' => $response->data,
-                )), $response->code);
-        }
-
-        if (in_array($response->code, array(200, 201))) {
-            return $result;
-        }
-        elseif (in_array($response->code, array(200, 201))) {
-            $message = t('Remote service is alive! To view the server response please check the "See service response".');
-            drupal_set_message(t('%message') , array('%message' => $message));
-            return;
-        }
-        else {
-            return FALSE;
-        }
+    // @todo The second condition of the construct is identical to the first
+    //   one.
+    if (in_array($response->code, array(200, 201))) {
+      return $result;
     }
+    elseif (in_array($response->code, array(200, 201))) {
+      $message = t('Remote service is alive! To view the server response please check the "See service response".');
+      drupal_set_message(t('%message'), array('%message' => $message));
+      return;
+    }
+    else {
+      return FALSE;
+    }
+  }
+
 }

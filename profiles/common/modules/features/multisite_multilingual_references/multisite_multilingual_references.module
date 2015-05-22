@@ -4,11 +4,13 @@
  * Code for the E-library Multilingual feature.
  */
 
-define('multisite_multilingual_references_CLASS', 'link-multilingual');
-
+define('MULTISITE_MULTILINGUAL_REFERENCES_CLASS', 'link-multilingual');
 
 /**
- * Function that returns the prefix for each language key
+ * Returns the prefix for each language key.
+ *
+ * @return array
+ *   An associative array, keyed on language code, containing the prefixes.
  */
 function _multisite_multilingual_references_get_language_prefixes() {
   static $lang_prefixes;
@@ -21,7 +23,10 @@ function _multisite_multilingual_references_get_language_prefixes() {
 }
 
 /**
- * Function that returns the native name for each language key
+ * Returns the native name for each language key.
+ *
+ * @return array
+ *   An associative array, keyed on language code, containing the native names.
  */
 function _multisite_multilingual_references_get_language_names() {
   static $lang_names;
@@ -33,28 +38,32 @@ function _multisite_multilingual_references_get_language_names() {
   return $lang_names;
 }
 
-
 /**
- * Function that returns context language
+ * Returns the current language code.
+ *
+ * @todo Remove this function.
+ *
+ * @return string
+ *   The language code of the current language.
  */
 function _multisite_multilingual_references_get_current_lang() {
   global $language;
 
-  static $current_lang_code;
   $current_lang_code = $language->language;
 
   return $current_lang_code;
 }
 
-
 /**
- * Removes the base_path and language prefix from a URL
- * Returns a two-element array:
- *   -first component is the detected language (from the lang. prefix)
- *   -second component is the clean path
+ * Removes the base_path and language prefix from a URL.
  *
- * @param string $path Path
- * @return array contains the detected language and the clean path
+ * @param string $path
+ *   The URL to process.
+ *
+ * @return array
+ *   An array with two values:
+ *   - The detected language (from the language prefix).
+ *   - The cleaned path.
  */
 function _multisite_multilingual_references_clean_path($path) {
   static $base_path, $base_path_length;
@@ -63,27 +72,30 @@ function _multisite_multilingual_references_clean_path($path) {
     $base_path_length = drupal_strlen($base_path);
   }
 
-  // strip base_path
-  if ($base_path==substr($path, 0, $base_path_length)) {
+  // Strip base_path.
+  if ($base_path == substr($path, 0, $base_path_length)) {
     $path = drupal_substr($path, $base_path_length);
   }
 
-  // extract lang from url lang prefix
+  // Extract language from URL language prefix.
   list($path_lang, $path_clean) = language_url_split_prefix($path, language_list());
   $lang = ($path_lang && $path_lang->language) ? $path_lang->language : LANGUAGE_NONE;
   return array($lang, $path_clean);
 }
 
-
 /**
- * Changes attributes in-place in a DOM link
+ * Changes attributes in-place in a DOM link.
  *
- * @param object $link_node the link DOM element
- * @param string $text the new text for the link
- * @param string $path the new path (href attribute) for the link
- * @param string $class a class to be added to the link classes (class attribute)
+ * @param object $link_node
+ *   The link DOM element.
+ * @param string $text
+ *   The new text for the link.
+ * @param string $path
+ *   The new path (href attribute) for the link.
+ * @param string $class
+ *   A class to be added to the link classes (class attribute).
  */
-function _multisite_multilingual_references_change_link_DOM(&$link_node, $text, $path, $class=NULL) {
+function _multisite_multilingual_references_change_link_dom(&$link_node, $text, $path, $class = NULL) {
   if ($link_node && $link_node->hasAttributes()) {
     if ($text) {
       $link_node->nodeValue = $text;
@@ -101,24 +113,29 @@ function _multisite_multilingual_references_change_link_DOM(&$link_node, $text, 
 }
 
 /**
- * Returns a new markup for a link after changing some attributes
+ * Returns a new markup for a link after changing some attributes.
  *
- * @param string $markup the link markup
- * @param string $text the new text for the link
- * @param string $path the new path (href attribute) for the link
- * @param string $class a class to be added to the link classes (class attribute)
- * @return string the new markup
+ * @param string $markup
+ *   The link markup.
+ * @param string $text
+ *   The new text for the link.
+ * @param string $path
+ *   The new path (href attribute) for the link.
+ * @param string $class
+ *   A class to be added to the link classes (class attribute).
+ *
+ * @return string
+ *   The new markup.
  */
-function _multisite_multilingual_references_change_link($markup, $text, $path, $class=NULL) {
+function _multisite_multilingual_references_change_link($markup, $text, $path, $class = NULL) {
   $dom = new DOMDocument();
   if ($dom->loadXML($markup)) {
     $link_node = $dom->getElementsByTagName('a')->item(0);
-    _multisite_multilingual_references_change_link_DOM($link_node, $text, $path, $class);
+    _multisite_multilingual_references_change_link_dom($link_node, $text, $path, $class);
     $markup = $dom->saveXML($link_node);
   }
   return $markup;
 }
-
 
 /**
  * Implements hook_theme().
@@ -132,23 +149,30 @@ function multisite_multilingual_references_theme($existing, $type, $theme, $path
 }
 
 /**
- * Render content inside a double container with certain class attribute
+ * Returns content inside a double container with certain class attribute.
  *
- * @param array $variables an array containing the content and class
- * @return string the HTML to render the container
+ * @param array $variables
+ *   An array containing the content and class.
+ *
+ * @return string
+ *   The HTML to render the container.
  */
-function theme_multisite_multilingual_references_translation_links($variables) {
+function theme_multisite_multilingual_references_translation_links(array $variables) {
   return '<span class="' . $variables['class'] . '"><span>' . $variables['content'] . '</span></span>';
 }
 
 /**
- * Returns markup with links to available translations in a translation set
+ * Returns markup with links to available translations in a translation set.
  *
- * @param array $language_paths the translation set array that contains the (lang,path) pairs
- * @param boolean $add_skip_attr whether to add a marker attribute to avoid unneeded parsing of extra links
- * @return string the markup
+ * @param array $language_paths
+ *   The translation set array that contains the (lang,path) pairs.
+ * @param bool $add_skip_attr
+ *   Whether to add a marker attribute to avoid unneeded parsing of extra links.
+ *
+ * @return string
+ *   The markup.
  */
-function _multisite_multilingual_references_get_translation_links($language_paths, $add_skip_attr=FALSE) {
+function _multisite_multilingual_references_get_translation_links(array $language_paths, $add_skip_attr = FALSE) {
   $lang_names = _multisite_multilingual_references_get_language_names();
   $base_path = base_path();
   $module_path = drupal_get_path('module', 'multisite_multilingual_references');
@@ -158,15 +182,16 @@ function _multisite_multilingual_references_get_translation_links($language_path
   $img_options['path'] = $base_path . $module_path . '/images/ws.gif';
   $img_options['alt'] = $img_title;
   $img_options['title'] = $img_title;
-  $img_options['attributes']['class'] = multisite_multilingual_references_CLASS;
+  $img_options['attributes']['class'] = MULTISITE_MULTILINGUAL_REFERENCES_CLASS;
 
   $link_options = array();
   if ($add_skip_attr) {
-    // this attribute is a marker to avoid parsing the wrong links, those that we add here
+    // This attribute is a marker to avoid parsing the wrong links, those that
+    // we add here.
     $link_options['attributes']['skipattr'] = 'skipattr';
   }
 
-  // build list of links, order by language code
+  // Build list of links, order by language code.
   $t_links = '';
   ksort($language_paths);
   foreach ($language_paths as $lang => $path) {
@@ -176,29 +201,50 @@ function _multisite_multilingual_references_get_translation_links($language_path
     $t_links .= l($lang, $path, $link_options);
   }
 
-  $cont_options = array('content' => $t_links, 'class' => multisite_multilingual_references_CLASS);
+  $cont_options = array('content' => $t_links, 'class' => MULTISITE_MULTILINGUAL_REFERENCES_CLASS);
   return theme('image', $img_options) . theme('multisite_multilingual_references_translation_links', $cont_options);
 }
 
-
 /**
- * Alter a link to a node according to the target language, the context language and the available translations of the node
- * The node language is compared with the context language:
- *  -if the languages match, the link is left unaltered
- *  -if the languages do not match, and a translation of the node exists in the context language,
- *   the link path and text are altered accordingly
- *  -if the languages do not match, and a translation of the node does not exist in the context language,
- *   markup is appended to the unaltered link with new links to the available translations of the node
+ * Alters a link according to given parameters.
  *
- * @param mixed $source either an HTML string with the link markup or an array with the link DOM node object and the DOM document to which it belongs
- * @param string $current_lang_code the context language
- * @param string $source_path the (original) path of the link
- * @param string $source_title the (original) text of the link
- * @param string $add_class a class to be added to the link classes (class attribute) in case there is not a translation of the node in the context language
- * @return string the altered markup of the link, if the input source was markup. If the input source was the DOM node and document objects, the modifications are made in-place and nothing is returned
+ * Alter a link to a node according to the target language, the context language
+ * and the available translations of the node.
+ * The node language is compared with the context language:
+ *  - If the languages match, the link is left unaltered.
+ *  - If the languages do not match, and a translation of the node exists in the
+ *    context language, the link path and text are altered accordingly.
+ *  - If the languages do not match, and a translation of the node does not
+ *    exist in the context language, markup is appended to the unaltered link
+ *    with new links to the available translations of the node.
+ *
+ * @param mixed $source
+ *   Either an HTML string with the link markup or an array with the link
+ *   DOM node object and the DOM document to which it belongs.
+ * @param string $current_lang_code
+ *   The context language.
+ * @param string $source_path
+ *   The (original) path of the link.
+ * @param string $source_title
+ *   The (original) text of the link.
+ * @param string $add_class
+ *   A class to be added to the link classes (class attribute) in case there
+ *   is not a translation of the node in the context language.
+ * @param mixed $type
+ *   To be documented.
+ *
+ * @return string
+ *   The altered markup of the link, if the input source was markup. If the
+ *   input source was the DOM node and document objects, the modifications are
+ *   made in-place and nothing is returned.
+ *
+ * @todo Document the $type parameter.
+ * @todo The $add_class parameter is unused in the function, this won't work as
+ *   described.
  */
 function _multisite_multilingual_references_get_link_replacement($source, $current_lang_code, $source_path, $source_title, $add_class, $type = NULL) {
-  // $source may be an HTML string or an array with a DOM node object and the DOM document to which it belongs
+  // $source may be an HTML string or an array with a DOM node object and the
+  // DOM document to which it belongs.
   if (is_array($source)) {
     $using_dom = TRUE;
     list($link_node, $dom) = $source;
@@ -212,22 +258,25 @@ function _multisite_multilingual_references_get_link_replacement($source, $curre
   $language_paths = translation_path_get_translations($source_path);
   if (is_array($language_paths) && count($language_paths)) {
     if (isset($language_paths[$current_lang_code])) {
-      // a translated node exists in the context language
-      // build link to translated node
+      // A translated node exists in the context language build link to
+      // translated node.
       $new_node = menu_get_object('node', 1, $language_paths[$current_lang_code]);
       if ($using_dom) {
-        if ($type != NULL)
-          _multisite_multilingual_references_change_link_DOM($link_node, $source_title, $language_paths[$current_lang_code]);
-        else
-          _multisite_multilingual_references_change_link_DOM($link_node, $new_node->title, $language_paths[$current_lang_code]);
+        if ($type != NULL) {
+          _multisite_multilingual_references_change_link_dom($link_node, $source_title, $language_paths[$current_lang_code]);
+        }
+        else {
+          _multisite_multilingual_references_change_link_dom($link_node, $new_node->title, $language_paths[$current_lang_code]);
+        }
       }
       else {
         $new_link .= _multisite_multilingual_references_change_link($source, $new_node->title, $language_paths[$current_lang_code]);
       }
     }
     else {
-      // a translated node does not exist in the context language
-      // leave the original link as is, and append markup with the links to available translations, that jquery will find to animate show/hide in a popup
+      // A translated node does not exist in the context language. Leave the
+      // original link as is, and append markup with the links to available
+      // translations, that jQuery will find to animate show/hide in a popup.
       if ($using_dom) {
         $dom_fragment = $dom->createDocumentFragment();
         $dom_fragment->appendXML(_multisite_multilingual_references_get_translation_links($language_paths, TRUE));
@@ -248,38 +297,38 @@ function _multisite_multilingual_references_get_link_replacement($source, $curre
   return $new_link;
 }
 
-
 /**
  * Implements hook_entity_view().
  */
 function multisite_multilingual_references_entity_view($entity, $type, $view_mode, $langcode) {
   if (isset($entity->content) && is_array($entity->content)) {
-    // Get current language
+    // Get current language.
     $current_lang_code = _multisite_multilingual_references_get_current_lang();
 
     foreach ($entity->content as $k => $content) {
 
-      // look for "html" (WYSIWYG) fields
+      // Look for "html" (WYSIWYG) fields.
       if (isset($content['#field_type']) && ($content['#field_type'] == 'text_with_summary' || $content['#field_type'] == 'text_long')) {
 
         if (isset($content['#items']) && is_array($content['#items'])) {
           foreach ($content['#items'] as $item_k => $item) {
             if (isset($content[$item_k]) && isset($content[$item_k]['#markup'])) {
 
-              // Get all href to nodes in the field
+              // Get all href to nodes in the field.
               $dom = new DOMDocument();
               if ($dom->loadXML('<div>' . $content[$item_k]['#markup'] . '</div>')) {
                 foreach ($dom->getElementsByTagName('a') as $link_node) {
                   if ($link_node && $link_node->hasAttributes()) {
 
                     $path = $link_node->getAttribute('href');
-                    // process valid paths only
+                    // Process valid paths only.
                     if (url_is_external($path)) {
                       continue;
                     }
 
-                    // if we find the marker attribute (introduced in added links to avoid parsing the wrong links),
-                    // then remove marker and skip proccessing this link
+                    // If we find the marker attribute (introduced in added
+                    // links to avoid parsing the wrong links), then remove
+                    // marker and skip proccessing this link.
                     if ($link_node->getAttribute('skipattr')) {
                       $link_node->removeAttribute('skipattr');
                       continue;
@@ -291,7 +340,8 @@ function multisite_multilingual_references_entity_view($entity, $type, $view_mod
                       $source_path = $link_path;
                     }
 
-                    // get node object and lang from source path; if no node found, skip proccessing this link
+                    // Get node object and lang from source path; if no node
+                    // found, skip proccessing this link.
                     $source_node = menu_get_object('node', 1, $source_path);
                     if (!$source_node) {
                       continue;
@@ -299,62 +349,55 @@ function multisite_multilingual_references_entity_view($entity, $type, $view_mod
                     $source_lang = $source_node->language;
                     $source_title = $link_node->nodeValue;
 
-                    // If is a node link added with 'Link plugin'
+                    // If is a node link added with 'Link plugin'.
                     if (strpos($link_node->getAttribute('type'), 'length=0') === FALSE) {
                       $source_title = $link_node->nodeValue;
                       $type = 'link';
                     }
-                    else
+                    else {
                       $type = NULL;
-
-                    if ($source_lang != LANGUAGE_NONE && $source_lang != $current_lang_code) {
-                      // languages mismatch
-                      // get a link replacement (either changed path to matching language node, or added class to later display list of available translations of the node)
-                      //$source = array(&$link_node, &$dom);
-                      _multisite_multilingual_references_get_link_replacement(array(&$link_node, &$dom), $current_lang_code, $source_path, $source_title, multisite_multilingual_references_CLASS, $type);
                     }
 
+                    if ($source_lang != LANGUAGE_NONE && $source_lang != $current_lang_code) {
+                      // Languages mismatch. Get a link replacement (either
+                      // changed path to matching language node, or added class
+                      // to later display list of available translations of the
+                      // node).
+                      _multisite_multilingual_references_get_link_replacement(array(&$link_node, &$dom), $current_lang_code, $source_path, $source_title, MULTISITE_MULTILINGUAL_REFERENCES_CLASS, $type);
+                    }
                   }
                 }
               }
 
-              // Set new field content
+              // Set new field content.
               $entity->content[$k][$item_k]['#markup'] = $dom->saveXML($dom->documentElement);
-
             }
           }
         }
-
-
       }
 
-
-      // look for "node-reference" fields
-      if (isset($content['#field_type']) && isset($content['#entity_type']) && 'entityreference'==$content['#field_type']  && 'node'==$content['#entity_type']) {
+      // Look for "node-reference" fields.
+      if (isset($content['#field_type']) && isset($content['#entity_type']) && 'entityreference' == $content['#field_type']  && 'node' == $content['#entity_type']) {
         if (isset($content['#items']) && is_array($content['#items'])) {
           foreach ($content['#items'] as $item_k => $item) {
-            // if the current markup is a link
+            // If the current markup is a link.
             if (isset($content[$item_k]) && isset($content[$item_k]['#markup']) && FALSE !== strrpos($content[$item_k]['#markup'], '</a>')) {
               $source_path = 'node/' . $item['entity']->nid;
               $source_lang = $item['entity']->language;
               $source_title = $item['entity']->title;
               if ($source_lang != LANGUAGE_NONE && $source_lang != $current_lang_code) {
-                // languages mismatch
-                // get a link replacement (either changed path to matching language node, or added class to later display list of available translations of the node)
-                $link_replacement = _multisite_multilingual_references_get_link_replacement($content[$item_k]['#markup'], $current_lang_code, $source_path, $source_title, multisite_multilingual_references_CLASS);
+                // Languages mismatch. Get a link replacement (either changed
+                // path to matching language node, or added class to later
+                // display list of available translations of the node).
+                $link_replacement = _multisite_multilingual_references_get_link_replacement($content[$item_k]['#markup'], $current_lang_code, $source_path, $source_title, MULTISITE_MULTILINGUAL_REFERENCES_CLASS);
                 if ($link_replacement) {
                   $entity->content[$k][$item_k]['#markup'] = $link_replacement;
                 }
               }
-
             }
           }
         }
-
       }
-
-
     }
-
   }
 }

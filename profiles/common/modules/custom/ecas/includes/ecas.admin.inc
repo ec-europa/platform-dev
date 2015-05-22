@@ -2,16 +2,17 @@
 
 /**
  * @file
- * This file embeds the base code of the ecas module, i.e. constants and
- * everything related to the admin forms.
+ * Administration forms for the ECAS module.
  */
 
-/* includes the minimum codebase for this module*/
+// Include the minimum codebase for this module.
 $constants_ecas_module_include = drupal_get_path('module', 'ecas') . '/includes/ecas.constants.inc';
-include_once($constants_ecas_module_include);
+include_once $constants_ecas_module_include;
 
 /**
  * Implements hook_help().
+ *
+ * @todo Move this to the main .module file.
  */
 function ecas_help($section) {
   switch ($section) {
@@ -22,7 +23,8 @@ function ecas_help($section) {
 
 /**
  * Implements hook_permission().
- * @return array Permissions defined by the ecas module
+ *
+ * @todo Move this to the main .module file.
  */
 function ecas_permission() {
   return array(
@@ -35,9 +37,10 @@ function ecas_permission() {
 
 /**
  * Implements hook_menu().
+ *
+ * @todo Move this to the main .module file.
  */
 function ecas_menu() {
-  global $user;
   $items = array();
 
   $items['admin/config/ecas'] = array(
@@ -69,7 +72,7 @@ function ecas_menu() {
 }
 
 /**
- * @return the administration form for the ECAS module
+ * Form constructor for the ECAS administration form.
  */
 function ecas_admin_settings() {
   $form['param'] = array(
@@ -156,7 +159,7 @@ function ecas_admin_settings() {
 
   $form['param']['ecas_update_mail_address'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Update the user\'s mail address at login time.'),
+    '#title' => t("Update the user's mail address at login time."),
     '#default_value' => variable_get('ecas_update_mail_address', 1),
     '#description' => t('If this option is checked, the ECAS module will replace the mail address of the user with the one retrieved from the ECAS/LDAP instance.'),
   );
@@ -167,17 +170,15 @@ function ecas_admin_settings() {
     '#description' => t('This address will be assigned to the user if the previous option is disabled.'),
   );
 
-  // ECAS HAS these extra user profile fields
-  // 'First name field'
-  // 'Last name field'
-  // 'ECAS mail field'
+  // ECAS has these extra user profile fields:
+  // - 'First name field'
+  // - 'Last name field'
+  // - 'ECAS mail field'
   //
-  // Profile and content profile do no longer exist for Drupal 7
-  // Instead the recommended method of adding extra user fields
-  // is done through the core fields API. Fields are now
-  // also available for core user profiles.
-
-  // checkbox to enable or disable the whole integration stuff
+  // Profile and content profile do no longer exist for Drupal 7. Instead the
+  // recommended method of adding extra user fields is done through the core
+  // fields API. Fields are now also available for core user profiles.
+  // Checkbox to enable or disable the whole integration stuff.
   $form['param']['ecas_profile_core_enabled'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable integration with the &quot;core user fields&quot;'),
@@ -200,10 +201,10 @@ function ecas_admin_settings() {
   );
 
   $form['param']['profile_core_fieldset']['ecas_profile_core_lastname_field'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Lastname field'),
-        '#default_value' => variable_get('ecas_profile_core_lastname_field', ECAS_DEFAULT_PROFILE_LASTNAME_FIELD),
-        '#description' => t('Enter here the machinename of the field that will be filled with the lastname retrieved from ECAS. Leave empty if you do not want to retrieve it.'),
+    '#type' => 'textfield',
+    '#title' => t('Lastname field'),
+    '#default_value' => variable_get('ecas_profile_core_lastname_field', ECAS_DEFAULT_PROFILE_LASTNAME_FIELD),
+    '#description' => t('Enter here the machinename of the field that will be filled with the lastname retrieved from ECAS. Leave empty if you do not want to retrieve it.'),
   );
 
   $form['param']['profile_core_fieldset']['ecas_profile_core_ecas_email_field'] = array(
@@ -213,13 +214,16 @@ function ecas_admin_settings() {
     '#description' => t('Enter here the machinename of the field that will be filled with the mail address retrieved from ECAS. Leave empty if you do not want to retrieve it.'),
   );
 
+  $args = array(
+    '!link' => l(t('the admin page'), 'admin/config/people/accounts/fields'),
+  );
   $form['param']['profile_core_fieldset']['footnote'] = array(
-    '#markup' => '<p>' . t('Note: You can configure the core user fields using ') . l(t('the admin page'), 'admin/config/people/accounts/fields') . '.</p>',
+    '#markup' => '<p>' . t('Note: You can configure the core user fields using !link.', $args) . '</p>',
   );
 
-  // checkbox dedicated to the 'group_sync' module, developed by the FPFIS team
+  // Checkbox dedicated to the 'group_sync' module, developed by the FPFIS team.
   if (module_exists('group_sync')) {
-    // checkbox to enable or disable the whole integration stuff
+    // Checkbox to enable or disable the whole integration stuff.
     $form['param']['ecas_group_sync_enabled'] = array(
       '#type' => 'checkbox',
       '#title' => t('Enable integration with the &quot;FPFIS Group Sync&quot; module'),
@@ -229,36 +233,44 @@ function ecas_admin_settings() {
   }
 
   $form['param']['ecas_pages_method'] = array(
-      '#type' => 'radios',
-      '#title' => t('Force ECAS authentication on specific pages'),
-      '#options' => array(
-        ECAS_LOGIN_EXLUDE_PAGES => t('All pages except those listed'),
-        ECAS_LOGIN_INCLUDE_PAGES => t('Only the listed pages'),
-      ),
-      '#default_value' => variable_get('ecas_pages_method', ECAS_LOGIN_INCLUDE_PAGES),
+    '#type' => 'radios',
+    '#title' => t('Force ECAS authentication on specific pages'),
+    '#options' => array(
+      ECAS_LOGIN_EXLUDE_PAGES => t('All pages except those listed'),
+      ECAS_LOGIN_INCLUDE_PAGES => t('Only the listed pages'),
+    ),
+    '#default_value' => variable_get('ecas_pages_method', ECAS_LOGIN_INCLUDE_PAGES),
+  );
+  $args = array(
+    '%blog' => 'blog',
+    '%blog-wildcard' => 'blog/*',
+    '%front' => '<front>',
   );
   $form['param']['ecas_pages'] = array(
-      '#type' => 'textarea',
-      '#title' => '<span class="element-invisible">' . t('Pages') . '</span>',
-      '#default_value' => variable_get('ecas_pages', ECAS_DEFAULT_PAGES),
-      '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+    '#type' => 'textarea',
+    '#title' => '<span class="element-invisible">' . t('Pages') . '</span>',
+    '#default_value' => variable_get('ecas_pages', ECAS_DEFAULT_PAGES),
+    '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", $args),
   );
 
-  // FPFIS Common SETTINGS
-
-  // checkbox to enable or disable the whole FPFIS integration stuff
+  // FPFIS Common SETTINGS.
+  // Checkbox to enable or disable the whole FPFIS integration stuff.
   $form['param']['ecas_use_shared_fpfis'] = array(
-  		'#type' => 'checkbox',
-  		'#title' => t('Use the shared &quot;FPFIS Common&quot; library'),
-  		'#default_value' => variable_get('ecas_use_shared_fpfis', 0),
-  		'#description' => t('If this option is checked, the ECAS module will attempt use the shared FPFIS Common library to connect to LDAP and the ECAS server. Otherwise a local implementation will be used.'),
+    '#type' => 'checkbox',
+    '#title' => t('Use the shared &quot;FPFIS Common&quot; library'),
+    '#default_value' => variable_get('ecas_use_shared_fpfis', 0),
+    '#description' => t('If this option is checked, the ECAS module will attempt use the shared FPFIS Common library to connect to LDAP and the ECAS server. Otherwise a local implementation will be used.'),
   );
 
   return system_settings_form($form);
 }
 
 /**
- * @return array of assurance levels descriptions, keyed by assurance level
+ * Returns the assurance levels.
+ *
+ * @return array
+ *   An associative array of assurance levels descriptions, keyed by
+ *   assurance level.
  */
 function _ecas_assurance_levels() {
   $assurance_levels = array(
@@ -272,7 +284,10 @@ function _ecas_assurance_levels() {
 }
 
 /**
- * @return the available ecas domains
+ * Returns the available ECAS domains.
+ *
+ * @return array
+ *   The available ECAS domains.
  */
 function _ecas_domains() {
   $known_ecas_domains = array(

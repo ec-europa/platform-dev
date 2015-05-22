@@ -1,7 +1,13 @@
 <?php
+/**
+ * @file
+ * Main functions and hook implementations of the ECAS Extra module.
+ */
 
+/**
+ * Implements hook_menu().
+ */
 function ecas_extra_menu() {
-  global $user;
   $items = array();
 
   $items['admin/config/ecas/extra'] = array(
@@ -11,7 +17,7 @@ function ecas_extra_menu() {
     'page arguments' => array('ecas_extra_admin_settings'),
     'access arguments' => array('administer ecas'),
     'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
-    'weight' => 1
+    'weight' => 1,
   );
 
   return $items;
@@ -22,7 +28,7 @@ function ecas_extra_menu() {
  */
 function ecas_extra_action_info() {
   return array(
-  'deny_account_action' => array(
+    'deny_account_action' => array(
       'type' => 'user',
       'label' => t('Deny the activation of a user account.'),
       'configurable' => FALSE,
@@ -32,26 +38,41 @@ function ecas_extra_action_info() {
         'node_update',
         'node_view',
         'comment_insert',
-      )
+      ),
     ),
   );
 }
 
+/**
+ * Form constructor for the deny account action form.
+ *
+ * @todo Prefix the function name with the module name.
+ *
+ * @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3626
+ */
 function deny_account_action_form($context) {
   $form['user_roles'] = array(
-  '#type' => 'checkboxes',
-  '#title' => t('Available roles'),
+    '#type' => 'checkboxes',
+    '#title' => t('Available roles'),
   );
   return $form;
 }
 
+/**
+ * Form submit handler for the deny account action form.
+ *
+ * @todo Prefix the function name with the module name.
+ *
+ * @see deny_account_action_form()
+ * @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3626
+ */
 function deny_account_action_submit($form, $form_state) {
   $roles = array();
 
-  // keep only the selected roles
+  // Keep only the selected roles.
   foreach ($form_state['values']['user_roles'] as $rid) {
     if ($rid <> 0) {
-      // skip the roles that are not selected (with a value equal to 0)
+      // Skip the roles that are not selected (with a value equal to 0).
       $roles[] = $rid;
     }
   }
@@ -61,50 +82,56 @@ function deny_account_action_submit($form, $form_state) {
 
 /**
  * Implement the 'Deny the activation of a user account' action.
- * @param $object user object to deny
- * @param $context Context object
+ *
+ * @param object $object
+ *   User object to deny.
+ * @param object $context
+ *   Context object.
+ *
+ * @todo Prefix the function name with the module name.
+ *
+ * @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3626
  */
 function deny_account_action(&$object, $context) {
   global $user, $base_url;
 
-  // avoid working with crap data
+  // Avoid working with crap data.
   if (!$object || !$object->uid) {
     return;
   }
 
-  // avoid denying an already denied user
+  // Avoid denying an already denied user.
   $result = db_query('SELECT COUNT(uid) FROM {denied_users} WHERE uid = :uid', array('uid' => $object->uid));
   $count = $result->fetchField();
   if ($count) {
     return;
   }
 
-  // store the given user in a dedicated table
+  // Store the given user in a dedicated table.
   $data = array(
     'uid' => $object->uid,
-    'denied_by' => empty($user)?1:$user->uid,
+    'denied_by' => empty($user) ? 1 : $user->uid,
     'denied' => REQUEST_TIME,
   );
   if (!drupal_write_record('denied_users', $data)) {
     drupal_set_message(t('Unable to deny user %s', array($object->name)), 'error');
   }
 
-  // send a mail to the denied user
+  // Send a mail to the denied user.
   $params['context']['subject'] = t('deny activation of your account');
   $params['context']['message'] = t('Your account has been denied.');
 
   $lastname_field = field_get_items('user', $object, ECAS_DEFAULT_PROFILE_LASTNAME_FIELD);
   $params = array(
     '!name' => $object->name,
-    '!lastname' => isset($lastname_field[0])?$lastname_field[0]:'',
+    '!lastname' => isset($lastname_field[0]) ? $lastname_field[0] : '',
     '!mail' => $object->mail,
     '!site_url' => $base_url,
     '!site_name' => variable_get('site_name', ''),
   );
 
-  // send the mail by using hook mail
-  drupal_mail('ecas_extra', 'deny_account', $object->mail,
-      language_default(), $params);
+  // Send the mail by using hook_mail().
+  drupal_mail('ecas_extra', 'deny_account', $object->mail, language_default(), $params);
 }
 
 /**
@@ -112,8 +139,8 @@ function deny_account_action(&$object, $context) {
  */
 function ecas_extra_user_update($edit, $account, $category = NULL) {
   if (is_object($account) && $category == 'account' && isset($edit['status']) && ($edit['status'] == 1)) {
-    // the user is being activated
-    $num_deleted = db_delete('denied_users')
+    // The user is being activated.
+    db_delete('denied_users')
       ->condition('uid', $account->uid)
       ->execute();
   }
@@ -134,12 +161,28 @@ function ecas_extra_mail($key, &$message, $params) {
       'Return-Path' => $mail_from,
     );
 
-    $body = variable_get('ecas_extra_deny_action_mail', '');
+    // @todo It is not possible to translate dynamic content with the t()
+    //   function. Make the subject translatable using i18n_variable.
+    // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3628
+    // @codingStandardsIgnoreStart
     $message['subject'] = t(variable_get('ecas_extra_deny_action_subject', ''), $params, array('langcode' => $language->language));
-    $message['body'] = array(t($body, $params, array('langcode' => $language->language)));
+    // @codingStandardsIgnoreEnd
+
+    $body = variable_get('ecas_extra_deny_action_mail', '');
+    $args = array('langcode' => $language->language);
+
+    // @todo It is not possible to translate dynamic content with the t()
+    //   function. Make the body translatable using i18n_variable.
+    // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3628
+    // @codingStandardsIgnoreStart
+    $message['body'] = array(t($body, $params, $args));
+    // @codingStandardsIgnoreEnd
   }
 }
 
+/**
+ * Form constructor for the ECAS Extra administration form.
+ */
 function ecas_extra_admin_settings() {
   $form['param'] = array(
     '#type' => 'fieldset',
@@ -171,6 +214,9 @@ function ecas_extra_admin_settings() {
   return system_settings_form($form);
 }
 
+/**
+ * Implements hook_views_api().
+ */
 function ecas_extra_views_api() {
   return array(
     'api' => 3,

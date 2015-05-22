@@ -1,10 +1,11 @@
 <?php
 /**
  * @file
+ * Main functions and hook implementations of the Contact Form feature.
  */
 
 /**
- * Implements hook_form_alter.
+ * Implements hook_form_alter().
  */
 function contact_form_form_alter(&$form, &$form_state, $form_id) {
   if ('contact_site_form' == $form_id) {
@@ -16,7 +17,7 @@ function contact_form_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Implements hook_mail_alter(&$message).
+ * Implements hook_mail_alter().
  */
 function contact_form_mail_alter(&$message) {
   $language = $message['language'];
@@ -37,7 +38,7 @@ function contact_form_mail_alter(&$message) {
       }
       $body[] = t('Referer: !referer', $variables, array('langcode' => $language->language));
       $message['body'] = $body;
-    break;
+      break;
 
     case 'contact_page_copy':
       $body[0] = t('Here is a copy of the email you sent to support on !site-name:', $variables, array('langcode' => $language->language));
@@ -45,7 +46,6 @@ function contact_form_mail_alter(&$message) {
         $body[] = $line;
       }
       $message['body'] = $body;
-    break;
+      break;
   }
 }
-

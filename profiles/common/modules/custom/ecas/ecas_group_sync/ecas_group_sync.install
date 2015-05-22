@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * @file
+ * Install, uninstall, schema and update hooks for ECAS Group Sync.
+ */
+
+/**
+ * Implements hook_schema().
+ */
 function ecas_group_sync_schema() {
   $schema['ecas_sync_mapping'] = array(
     'fields' => array(
@@ -25,7 +34,7 @@ function ecas_group_sync_schema() {
         'type' => 'int',
         'not null' => TRUE,
         'default' => '0',
-      ),      
+      ),
     ),
     'indexes' => array(
       'LDAPfield_index' => array('LDAPfield'),
@@ -35,23 +44,16 @@ function ecas_group_sync_schema() {
   return $schema;
 }
 
-function ecas_group_sync_install() {
-  // Create my tables.
-  //drupal_install_schema('ecas_group_sync');
-}
-
-function ecas_group_sync_uninstall() {
-  // Drop my tables.
-  //drupal_uninstall_schema('ecas_group_sync');
-}
-
+/**
+ * Implements hook_enable().
+ */
 function ecas_group_sync_enable() {
   drupal_set_message('ecas_group_sync module enabled');
 }
 
+/**
+ * Implements hook_disable().
+ */
 function ecas_group_sync_disable() {
   drupal_set_message('ecas_group_sync module disabled');
 }
-
-
-?>

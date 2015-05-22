@@ -47,7 +47,7 @@ function ecas_group_sync_menu() {
 /**
  * Implements hook_info_ecas_update().
  *
- * Implement mapping between LDAP data and user accounts
+ * Implement mapping between LDAP data and user accounts.
  */
 function ecas_group_sync_info_ecas_update($user, $user_info, $args) {
   // Mapping between DG and drupal roles.
