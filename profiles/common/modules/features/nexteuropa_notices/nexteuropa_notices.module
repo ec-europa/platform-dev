@@ -11,38 +11,17 @@ include_once 'nexteuropa_notices.features.inc';
  */
 function nexteuropa_notices_init() {
   $path = drupal_get_path('module', 'nexteuropa_notices');
-  drupal_add_css($path . '/nexteuropa_notices.css', array('type' => 'file'));
-}
-
-/**
- * Implements hook_block_view_alter().
- */
-function nexteuropa_notices_block_view_alter(&$data, $block) {
-  static $js_included;
-  if ($js_included && $js_included === TRUE) {
-    return;
-  }
-
-  if (isset($block->module) && $block->module == 'bean') {
-    if (isset($data['content']['bean'])) {
-      foreach ($data['content']['bean'] as $key => $content) {
-        if (isset($content['#bundle']) && $content['#bundle'] == 'notice') {
-          if (isset ($content['field_close_button']['#items'][0]['value'])
-            && $content['field_close_button']['#items'][0]['value'] == 1) {
-            $path = drupal_get_path('module', 'nexteuropa_notices');
-            drupal_add_js(
-              $path . '/nexteuropa_notices.js',
-              array(
-                'type' => 'file',
-                'scope' => 'footer',
-                'weight' => 100)
-            );
-            $js_included = TRUE;
-          }
-        }
-      }
-    }
-  }
+  drupal_add_css(
+    $path . '/nexteuropa_notices.css',
+    array('type' => 'file')
+  );
+  drupal_add_js(
+    $path . '/nexteuropa_notices.js',
+    array(
+      'type' => 'file',
+      'scope' => 'footer',
+      'weight' => 100)
+  );
 }
 
 /**
