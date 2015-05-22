@@ -7,26 +7,43 @@
 include_once 'nexteuropa_notices.features.inc';
 
 /**
- * Implements hook_block_view_alters().
+ * Implements hook_init().
  */
-function nexteuropa_notices_block_view_alter(&$data, $block) {
-  static $js_included;
-  if ($js_included && $js_included === TRUE) {
-    return;
-  }
+function nexteuropa_notices_init() {
+  $path = drupal_get_path('module', 'nexteuropa_notices');
+  drupal_add_css(
+    $path . '/nexteuropa_notices.css',
+    array('type' => 'file')
+  );
+  drupal_add_js(
+    $path . '/nexteuropa_notices.js',
+    array(
+      'type' => 'file',
+      'scope' => 'footer',
+      'weight' => 100)
+  );
+}
 
-  if (isset ($block->module) && $block->module == 'bean') {
-    if (isset ($data['content']['bean'])) {
-      foreach ($data['content']['bean'] as $key => $content) {
-        if (isset($content['#bundle']) && $content['#bundle'] == 'notice') {
-          if (isset ($content['field_close_button']['#items'][0]['value'])
-            && $content['field_close_button']['#items'][0]['value'] == 1) {
-            // Include JS here.
-            // drupal_add_js ()
-            $js_included = TRUE;
-          }
-        }
+/**
+ * Implements hook_preprocess_block().
+ */
+function nexteuropa_notices_preprocess_block(&$variables) {
+  if (isset ($variables['block']->module) && $variables['block']->module == 'bean') {
+    foreach ($variables['elements']['bean'] as $key => $content) {
+      if (isset($content['#bundle']) && $content['#bundle'] == 'notice') {
+        $variables['classes_array'][] = 'notice';
       }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_field().
+ */
+function nexteuropa_notices_preprocess_field(&$variables) {
+  if (isset($variables['element']['#field_name']) && $variables['element']['#field_name'] == 'field_close_button') {
+    if (isset($variables['element']['#items'][0]['value']) && $variables['element']['#items'][0]['value'] == 1) {
+      $variables['items'][0]['#markup'] = '<div class="notice__btn-close"><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-remove"></span></button></div>';
     }
   }
 }
