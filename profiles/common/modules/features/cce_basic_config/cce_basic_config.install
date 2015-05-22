@@ -1353,7 +1353,7 @@ function cce_basic_config_update_7200() {
       ->execute();
   }
 
-  variable_set('multisite_version', '1.8');
+  variable_set('multisite_version', '2.0');
 }
 
 /**

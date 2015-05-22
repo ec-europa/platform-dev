@@ -4,4 +4,3 @@
      // checking the host that do not take into account the port number.
 -    $options['headers']['Host'] = $uri['host'] . ($uri['port'] != 80 ? ':' . $uri['port'] : '');
 +    $options['headers']['Host'] = $uri['host'] . ($uri['port'] != $default_ports[$uri['scheme']] ? ':' . $uri['port'] : '');
- 
