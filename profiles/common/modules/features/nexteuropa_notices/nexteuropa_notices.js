@@ -15,11 +15,16 @@
         // Check if cookie exists.
         if (cookieValue != "") {
           if (jQuery.inArray($(this).attr('id'), JSON.parse(cookieValue)) == -1) {
-            $(this).show();
+            // Notice hasn't been hidden before.
+            $(this).addClass('is-open');
+          }
+          else {
+            // Notice has been hidden.
+            $(this).addClass('is-close');
           }
         }
         else {
-          $(this).show();
+          $(this).addClass('is-open');
         }
       });
 
@@ -43,7 +48,10 @@
         }
 
         // Close notice.
-        notice.hide(500);
+        notice.fadeOut(400, function() {
+          notice.addClass('is-close');
+          notice.removeClass('is-open');
+        });
       });
 
       // Get value of cookie.

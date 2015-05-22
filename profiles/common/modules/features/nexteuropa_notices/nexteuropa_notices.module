@@ -50,7 +50,11 @@ function nexteuropa_notices_block_view_alter(&$data, $block) {
  */
 function nexteuropa_notices_preprocess_block(&$variables) {
   if (isset ($variables['block']->module) && $variables['block']->module == 'bean') {
-    $variables['classes_array'][] = 'notice';
+    foreach ($variables['elements']['bean'] as $key => $content) {
+      if (isset($content['#bundle']) && $content['#bundle'] == 'notice') {
+        $variables['classes_array'][] = 'notice';
+      }
+    }
   }
 }
 
