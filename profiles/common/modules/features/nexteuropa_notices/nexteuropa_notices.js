@@ -29,7 +29,7 @@
       });
 
       // Manage close button.
-      $('.notice__btn-close').on('click', {name:cookieName}, function(e) {
+      $('.notice__btn-close').click({name:cookieName}, function(e) {
         var notice = $(this).closest('.notice');
         var noticeId = notice.attr('id');
 
