@@ -4,7 +4,7 @@
  * Default theme implementation of main page.
  */
 ?><!DOCTYPE html>
-<html>
+<html lang="<?php if (isset($language)) print $language->language; ?>">
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <?php print $head; ?>
