@@ -56,3 +56,16 @@ function multisite_drupal_standard_update_7100() {
     'administer software updates',
   ));
 }
+
+/**
+ * NEXTEUROPA-3815: Enable NextEuropa features.
+ */
+function multisite_drupal_standard_update_7200() {
+  module_enable(array(
+    'nexteuropa_core',
+    'nexteuropa_editorial',
+    'nexteuropa_multilingual',
+    'nexteuropa_pages',
+    'nexteuropa_europa_search',
+  ));
+}
