@@ -69,3 +69,10 @@ function multisite_drupal_standard_update_7200() {
     'nexteuropa_europa_search',
   ));
 }
+
+/**
+ * NEXTEUROPA-3298: Disable NextEuropa features.
+ */
+function multisite_drupal_standard_update_7201() {
+  module_disable(array('ckeditor_link'));
+}
