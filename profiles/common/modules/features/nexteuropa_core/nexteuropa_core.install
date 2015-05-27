@@ -130,6 +130,9 @@ function nexteuropa_core_install() {
       'lite_ToggleShow',
       'lite_ToggleTracking',
     ),
+    'nexteuropa_token_ckeditor' => array(
+      'NextEuropaToken',
+    ),
   );
   foreach ($plugin_settings as $group => $buttons) {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
@@ -146,4 +149,11 @@ function nexteuropa_core_install() {
   // Enable Version Management for node types.
   multisite_config_service('version_management')->enableVersionManagement('article');
   multisite_config_service('version_management')->enableVersionManagement('page');
+}
+
+/**
+ * NEXTEUROPA-3298: Enable NextEuropa Token CKEditor module.
+ */
+function nexteuropa_core_update_7001() {
+  module_enable(array('nexteuropa_token_ckeditor'));
 }
