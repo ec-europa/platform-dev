@@ -80,23 +80,67 @@ function nexteuropa_core_install() {
   // Set URL alias pattern for "User tasks" vocabulary.
   multisite_config_service('pathauto')->createUrlAliasPattern('[term:parents-uri]', 'taxonomy_term', 'core_user_tasks');
 
-  // Enable CKEditor Lite buttons for "Full HTML" WYSIWYG profile.
-  $ckeditor_lite_buttons = array(
-    'lite_AcceptAll',
-    'lite_RejectAll',
-    'lite_AcceptOne',
-    'lite_RejectOne',
-    'lite_ToggleShow',
-    'lite_ToggleTracking',
-  );
-  multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', 'lite', $ckeditor_lite_buttons);
+  // Create WYSIWYG profile for Full HTML text format.
+  multisite_config_service('wysiwyg')->createProfile('full_html', 'ckeditor');
 
-  // Import "User Tasks" terms.
-  // Force registration of migration classes.
-  migrate_static_registration();
+  $plugin_settings = array(
+    'default' => array(
+      'Bold',
+      'Italic',
+      'Underline',
+      'JustifyLeft',
+      'JustifyCenter',
+      'JustifyRight',
+      'JustifyBlock',
+      'BulletedList',
+      'NumberedList',
+      'Outdent',
+      'Indent',
+      'Undo',
+      'Link',
+      'Unlink',
+      'Anchor',
+      'TextColor',
+      'BGColor',
+      'Blockquote',
+      'Source',
+      'HorizontalRule',
+      'PasteFromWord',
+      'ShowBlocks',
+      'Format',
+      'Font',
+      'FontSize',
+      'Styles',
+      'Table',
+      'Smiley',
+      'Maximize',
+    ),
+    'drupal_path' => array(
+      'Link',
+    ),
+    'drupal' => array(
+      'media',
+      'break',
+    ),
+    'lite' => array(
+      'lite_AcceptAll',
+      'lite_RejectAll',
+      'lite_AcceptOne',
+      'lite_RejectOne',
+      'lite_ToggleShow',
+      'lite_ToggleTracking',
+    ),
+  );
+  foreach ($plugin_settings as $group => $buttons) {
+    multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
+  }
+
   // Create "User tasks" vocabulary.
   multisite_config_service('taxonomy')->createVocabulary('core_user_tasks', 'User tasks vocabulary');
-  // Import core_user_tasks vocabulary's terms.
+
+  // Force registration of migration classes.
+  migrate_static_registration();
+  // Import "User Tasks" terms.
   Migration::getInstance('NextEuropaCoreUserTasks')->processImport();
 
   // Enable Version Management for node types.
