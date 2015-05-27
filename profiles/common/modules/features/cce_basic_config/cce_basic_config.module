@@ -305,3 +305,31 @@ function cce_basic_config_form_node_form_after_build($form_element) {
 
   return $form_element;
 }
+
+/**
+ * Implements hook_strongarm_alter().
+ *
+ * Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported in
+ * a regular feature since it includes the path to where the Print PDF module is
+ * installed, which is different depending on the installation profile that is
+ * used.
+ */
+function cce_basic_config_strongarm_alter(&$variables) {
+  // Get the list of available PDF converters.
+  // @see print_pdf_settings()
+  $available_libs = array();
+  drupal_alter('print_pdf_available_libs', $available_libs);
+
+  // We are using the "mpdf" tool, extract it from the available converters.
+  $pdf_tool = preg_grep('/^print_pdf_mpdf|/', array_keys($available_libs));
+
+  // Add the PDF converter to the exported component if it is available.
+  if (!empty($pdf_tool)) {
+    $variables['print_pdf_pdf_tool'] = (object) array(
+      'disabled' => FALSE,
+      'name' => 'print_pdf_pdf_tool',
+      'api_version' => 1,
+      'value' => reset($pdf_tool),
+    );
+  }
+}
