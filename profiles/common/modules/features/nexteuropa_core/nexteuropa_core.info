@@ -30,7 +30,6 @@ dependencies[] = file_entity
 dependencies[] = jquery_update
 dependencies[] = libraries
 dependencies[] = media
-dependencies[] = nexteuropa_token_ckeditor
 dependencies[] = pathauto
 dependencies[] = smart_trim
 dependencies[] = strongarm
