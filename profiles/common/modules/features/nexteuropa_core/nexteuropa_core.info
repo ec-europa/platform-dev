@@ -43,7 +43,6 @@ dependencies[] = views_bulk_operations
 dependencies[] = views_ui
 dependencies[] = workbench
 dependencies[] = workbench_moderation
-features[context][] = core-administrative-section
 features[context][] = core-front
 features[context][] = core-sitewide
 features[ctools][] = context:context:3
