@@ -51,6 +51,9 @@ projects[captcha][version] = "1.2"
 projects[chr][subdir] = "contrib"
 projects[chr][version] = "1.6"
 
+projects[ckeditor_link][subdir] = "contrib"
+projects[ckeditor_link][version] = "2.3"
+
 projects[colors][subdir] = "contrib"
 projects[colors][version] = "1.0-beta2"
 
