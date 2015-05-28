@@ -157,4 +157,8 @@ function nexteuropa_core_install() {
 function nexteuropa_core_update_7001() {
   module_enable(array('nexteuropa_token_ckeditor'));
   multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', 'nexteuropa_token_ckeditor', array('NextEuropaToken'));
+
+  // Revert cce_basic_config filter component in order to have "Replace tokens"
+  // filter enabled.
+  features_revert(array('cce_basic_config' => array('filter')));
 }
