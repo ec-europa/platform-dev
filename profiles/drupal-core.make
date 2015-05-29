@@ -12,7 +12,6 @@ projects[drupal][patch][] = multisite_drupal_core/patches/form-form_anonymous_no
 projects[drupal][patch][] = multisite_drupal_core/patches/imagegd-transparency-29_0.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/menu-conflict_with_menu_token-2534.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/node-node_access_views_relationship-1349080.patch
-projects[drupal][patch][] = multisite_drupal_core/patches/search-xss_search-result_tpl-1652.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/standard-change_article_description-791.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/system-xss_maintenance-page_tpl-1653.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/system-xss_page_tpl-1654.patch
