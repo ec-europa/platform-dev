@@ -15,7 +15,6 @@ projects[drupal][patch][] = multisite_drupal_core/patches/node-node_access_views
 projects[drupal][patch][] = multisite_drupal_core/patches/standard-change_article_description-791.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/system-xss_maintenance-page_tpl-1653.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/system-xss_page_tpl-1654.patch
-projects[drupal][patch][] = multisite_drupal_core/patches/taxonomy-xss_taxonomy-term_tpl-1655.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/user-drupal.d7.user-password-reset-logged-in-889772.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/user-request_password_behaviour-2205.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/user-user_picture_deleted_user_save_call-935592-65.patch
