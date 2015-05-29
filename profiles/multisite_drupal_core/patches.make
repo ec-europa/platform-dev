@@ -78,6 +78,5 @@ projects[colorbox][patch][] = ../multisite_drupal_core/patches/colorbox-xss_colo
 projects[file_entity][patch][] = ../multisite_drupal_core/patches/file_entity-xss_file_entity_tpl-1658.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/system-xss_maintenance-page_tpl-1653.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/system-xss_page_tpl-1654.patch
-projects[drupal][patch][] = ../multisite_drupal_core/patches/search-xss_search-result_tpl-1652.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/taxonomy-xss_taxonomy-term_tpl-1655.patch
 projects[context_entity_field][patch][] = ../multisite_drupal_core/patches/add-entity-references-1847038.patch
