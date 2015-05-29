@@ -13,7 +13,6 @@ projects[drupal][patch][] = multisite_drupal_core/patches/imagegd-transparency-2
 projects[drupal][patch][] = multisite_drupal_core/patches/menu-conflict_with_menu_token-2534.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/node-node_access_views_relationship-1349080.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/standard-change_article_description-791.patch
-projects[drupal][patch][] = multisite_drupal_core/patches/system-xss_maintenance-page_tpl-1653.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/system-xss_page_tpl-1654.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/user-drupal.d7.user-password-reset-logged-in-889772.patch
 projects[drupal][patch][] = multisite_drupal_core/patches/user-request_password_behaviour-2205.patch
