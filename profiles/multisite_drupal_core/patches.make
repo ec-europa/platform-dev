@@ -19,7 +19,6 @@ projects[eu-cookie-compliance][patch][] = ../multisite_drupal_core/patches/eu_co
 projects[features][patch][] = ../multisite_drupal_core/patches/features-var-export-object-1437264-12.patch
 projects[feeds_xpathparser][patch][] = ../multisite_drupal_core/patches/feeds_xpathparser-undefined_index_unique-1998194-2.patch
 projects[field_collection][patch][] = ../multisite_drupal_core/patches/field_collection-check-before-adding-index-2141781-27.patch
-projects[file_entity][patch][] = ../multisite_drupal_core/patches/file_entity-xss_file_entity_tpl-1658.patch
 projects[fullcalendar][patch][] = ../multisite_drupal_core/patches/fullcalendar-ajax_date_format-2185449-11.patch
 projects[fullcalendar][patch][] = ../multisite_drupal_core/patches/fullcalendar-views_dom_id_check-1803770-4.patch
 projects[i18n][patch][] = ../multisite_drupal_core/patches/i18n-hide_language_field-3996.patch
