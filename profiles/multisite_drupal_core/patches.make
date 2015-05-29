@@ -74,5 +74,4 @@ projects[workbench_moderation][patch][] = ../multisite_drupal_core/patches/workb
 projects[workbench_moderation][patch][] = ../multisite_drupal_core/patches/workbench_moderation-005-workbench_moderation.rules-5054.patch
 projects[wysiwyg][patch][] = ../multisite_drupal_core/patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = ../multisite_drupal_core/patches/wysiwyg-local_css_file_paths-1793704-14.patch
-projects[drupal][patch][] = ../multisite_drupal_core/patches/system-xss_page_tpl-1654.patch
 projects[context_entity_field][patch][] = ../multisite_drupal_core/patches/add-entity-references-1847038.patch
