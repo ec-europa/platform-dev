@@ -11,7 +11,6 @@ projects[better_formats][patch][] = ../multisite_drupal_core/patches/better_form
 projects[chr][patch][] = ../multisite_drupal_core/patches/chr-1.6-patch-rewrite-header-host-without-standard-port-number.patch
 projects[chr][patch][] = ../multisite_drupal_core/patches/chr-deprecated_call-5588.patch
 projects[chr][patch][] = ../multisite_drupal_core/patches/chr-patches.patch
-projects[colorbox][patch][] = ../multisite_drupal_core/patches/colorbox-xss_colorbox-insert-image_tpl-1656.patch
 projects[context][patch][] = ../multisite_drupal_core/patches/context-slow_menu_items-873936-20.patch
 projects[context_entity_field][patch][] = ../multisite_drupal_core/patches/add-entity-references-1847038.patch
 projects[entity_translation][patch][] = ../multisite_drupal_core/patches/entity_translation-001-et-forward_revisions-1707156-23.patch
