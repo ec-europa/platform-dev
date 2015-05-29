@@ -81,5 +81,4 @@ projects[drupal][patch][] = ../multisite_drupal_core/patches/system-xss_page_tpl
 projects[drupal][patch][] = ../multisite_drupal_core/patches/search-xss_search-result_tpl-1652.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/taxonomy-xss_taxonomy-term_tpl-1655.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/views-xss_views-more_tpl-1661.patch
-projects[views][patch][] = ../multisite_drupal_core/patches/views-xss_views-view-summary_tpl-1663.patch
 projects[context_entity_field][patch][] = ../multisite_drupal_core/patches/add-entity-references-1847038.patch
