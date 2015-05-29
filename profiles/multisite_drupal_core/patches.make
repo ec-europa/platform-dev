@@ -58,7 +58,6 @@ projects[views][patch][] = ../multisite_drupal_core/patches/views-includes_handl
 projects[views][patch][] = ../multisite_drupal_core/patches/views-localization-bug-1685144-9.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/views-xss_views-more_tpl-1661.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/views-xss_views-view-summary_tpl-1663.patch
-projects[views][patch][] = ../multisite_drupal_core/patches/xss_views-view-summary-unformatted_tpl-1662.patch
 projects[webform][patch][] = ../multisite_drupal_core/patches/webform-use_ecas_link-1235.patch
 projects[workbench_access][patch][] = ../multisite_drupal_core/patches/workbench_access-fix_php_issues-4517.patch
 projects[workbench_moderation][patch][] = ../multisite_drupal_core/patches/workbench_moderation-001-wm-field_translations-2285931-1.patch
