@@ -315,7 +315,6 @@ function ec_resp_preprocess_maintenance_page(&$variables) {
   if (!$variables['db_is_active']) {
     unset($variables['site_name']);
   }
-  drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/maintenance-page.css');
 }
 
 /**
