@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Displays the search form block.
@@ -18,6 +17,7 @@
  * Modules can add to the search form, so it is recommended to check for their
  * existence before printing. The default keys will always exist. To check for
  * a module-provided field, use code like this:
+ *
  * @code
  *   <?php if (isset($search['extra_field'])): ?>
  *     <div class="extra-field">

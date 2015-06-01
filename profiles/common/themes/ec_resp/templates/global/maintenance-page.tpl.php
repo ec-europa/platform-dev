@@ -11,7 +11,7 @@
  * @see ec_resp_process_maintenance_page()
  */
 ?><!DOCTYPE html>
-<html lang="<?php if (isset($language)) print $language->language; ?>">
+<html lang="<?php print (isset($language) ? $language->language : "") ?>">
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <?php print $head; ?>
@@ -26,8 +26,8 @@
     <div class="container">
       <img alt="European Commission logo" id="banner-flag" src="<?php print $logo; ?>" />
 
-      <div id="main-title"><?php if (isset($site_name)) print $site_name; ?></div>
-      <div id="sub-title" class="hidden-xs"><?php if (isset($site_slogan)) print $site_slogan; ?></div>
+      <div id="main-title"><?php print (isset($site_name) ? $site_name : '') ?></div>
+      <div id="sub-title" class="hidden-xs"><?php print (isset($site_slogan) ? $site_slogan : '') ?></div>
     </div>
   </div><!-- /#layout-header -->
 
