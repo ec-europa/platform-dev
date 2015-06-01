@@ -292,21 +292,8 @@ function cce_basic_config_install() {
   }
 
   // Add a fivestar rate widget.
-  // Check if rate widget already exists.
-  $rate_widgets = variable_get("rate_widgets");
-  if (!$rate_widgets || count($rate_widgets) == 0) {
-    $rate_widgets = array();
-  }
-  else {
-    foreach ($rate_widgets as $rate_widget) {
-      if ($rate_widget->name == 'rate_fivestar') {
-        // The widget fivestar already exists.
-        return;
-      }
-    }
-  }
-
-  $rate_widgets[1] = (object) array(
+  $path = drupal_get_path('module', 'rate');
+  $rate_widgets = array((object) array(
     'name' => 'rate_fivestar',
     'tag' => 'vote',
     'title' => 'rate_fivestar',
@@ -358,10 +345,10 @@ function cce_basic_config_install() {
     'use_source_translation' => TRUE,
     'value_type' => 'percent',
     'theme' => 'rate_template_fivestar',
-    'css' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.css',
-    'js' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.js',
+    'css' => $path . '/templates/fivestar/fivestar.css',
+    'js' => $path . '/templates/fivestar/fivestar.js',
     'translate' => TRUE,
-  );
+  ));
   variable_set("rate_widgets", $rate_widgets);
 
   if (db_table_exists('captcha_points')) {
@@ -1473,4 +1460,27 @@ function cce_basic_config_update_7202() {
     ->condition('link_path', 'user/login')
     ->condition('menu_name', 'user-menu')
     ->execute();
+}
+
+/**
+ * Update the location of the Rate attachments.
+ */
+function cce_basic_config_update_7203() {
+  // The Rate module has moved to the modules subdirectory in the profile. The
+  // module hardcodes the locations of its CSS and JS attachments inside a
+  // variable. Update these so they point to the correct location.
+  $path = drupal_get_path('module', 'rate');
+  $rate_widgets = variable_get('rate_widgets', array());
+
+  foreach ($rate_widgets as &$rate_widget) {
+    if ($rate_widget->name === 'rate_fivestar') {
+      foreach (array('css', 'js') as $attachment) {
+        if (!empty($rate_widget->$attachment)) {
+          $rate_widget->$attachment = $path . '/templates/fivestar/fivestar.' . $attachment;
+        }
+      }
+    }
+  }
+
+  variable_set('rate_widgets', $rate_widgets);
 }
