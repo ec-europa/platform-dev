@@ -77,9 +77,6 @@ function nexteuropa_core_install() {
   );
   multisite_config_service('user')->grantPermission('editor', $permissions);
 
-  // Set URL alias pattern for "User tasks" vocabulary.
-  multisite_config_service('pathauto')->createUrlAliasPattern('[term:parents-uri]', 'taxonomy_term', 'core_user_tasks');
-
   // Create WYSIWYG profile for Full HTML text format.
   multisite_config_service('wysiwyg')->createProfile('full_html', 'ckeditor');
 
@@ -135,15 +132,26 @@ function nexteuropa_core_install() {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
   }
 
-  // Create "User tasks" vocabulary.
-  multisite_config_service('taxonomy')->createVocabulary('core_user_tasks', 'User tasks vocabulary');
-
-  // Force registration of migration classes.
-  migrate_static_registration();
-  // Import "User Tasks" terms.
-  Migration::getInstance('NextEuropaCoreUserTasks')->processImport();
-
   // Enable Version Management for node types.
   multisite_config_service('version_management')->enableVersionManagement('article');
   multisite_config_service('version_management')->enableVersionManagement('page');
+}
+
+/**
+ * NEXTEUROPA-3747: Remove User Tasks terms and vocabulary.
+ */
+function nexteuropa_core_update_7001() {
+
+  $terms = multisite_config_service('taxonomy')->getVocabularyTerms('core_user_tasks');
+  foreach ($terms as $term) {
+    multisite_config_service('taxonomy')->deleteTaxonomyTerm($term->tid);
+  }
+  multisite_config_service('taxonomy')->deleteVocabulary('core_user_tasks');
+}
+
+/**
+ * NEXTEUROPA-3747: Remove User Tasks field.
+ */
+function nexteuropa_core_update_7002() {
+  field_delete_field('field_core_user_tasks');
 }
