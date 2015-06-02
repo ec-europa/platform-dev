@@ -13,6 +13,3 @@ projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
 projects[og_linkchecker][download][type] = git
 projects[og_linkchecker][subdir] = contrib
-
-projects[workbench_og][subdir] = "contrib"
-projects[workbench_og][version] = "2.0-beta1"
