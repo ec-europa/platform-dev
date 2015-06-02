@@ -7,8 +7,6 @@ projects[og-delete][subdir] = "contrib"
 projects[og-delete][patch][] = patches/og_delete-remove_community-4481-2.patch
 projects[og-delete][patch][] = patches/og_delete-warning_fix-issue-3629.patch
 
-projects[og][subdir] = "contrib"
-projects[og][version] = "2.6"
 projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x 
