@@ -345,6 +345,9 @@ projects[pathauto][patch][] = patches/pathauto-automatic_url_alias_issue-1847444
 projects[pathauto_persist][subdir] = "contrib"
 projects[pathauto_persist][version] = "1.3"
 
+projects[piwik][subdir] = "contrib"
+projects[piwik][version] = "2.7"
+
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.3"
 
