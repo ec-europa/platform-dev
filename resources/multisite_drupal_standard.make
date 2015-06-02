@@ -174,7 +174,6 @@ projects[field_group][version] = "1.4"
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta1"
-projects[file_entity][patch][] = patches/file_entity-xss_file_entity_tpl-1658.patch
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.9"
@@ -456,9 +455,6 @@ projects[views][version] = "3.10"
 projects[views][patch][] = patches/views-exposed_groupfilter_views-1818176-11.patch
 projects[views][patch][] = patches/views-includes_handlers-1752062-6.patch
 projects[views][patch][] = patches/views-localization-bug-1685144-9.patch
-projects[views][patch][] = patches/views-xss_views-more_tpl-1661.patch
-projects[views][patch][] = patches/views-xss_views-view-summary_tpl-1663.patch
-projects[views][patch][] = patches/xss_views-view-summary-unformatted_tpl-1662.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
