@@ -45,6 +45,7 @@ projects[media_flickr][patch][] = ../multisite_drupal_core/patches/media_flickr-
 projects[media_node][patch][] = ../multisite_drupal_core/patches/media_node-incorrect_permission_check-4273.patch
 projects[media_flickr][patch][] = ../multisite_drupal_core/patches/media_flickr-fix_photoset_url_issue-2183.patch
 projects[media][patch][] = ../multisite_drupal_core/patches/media-wysiwyg-override-white-list-MULTISITE-2607.patch
+projects[media][patch][] = ../multisite_drupal_core/patches/file_entity-remove-contextual-links-2401811-11.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/menu-conflict_with_menu_token-2534.patch
 projects[menu_attributes][patch][] = ../multisite_drupal_core/patches/menu_attributes-add_icon_for_menu_item-2327.patch
 projects[menu_attributes][patch][] = ../multisite_drupal_core/patches/menu_attributes-option_to_disable_css_class-2988.patch
