@@ -11,30 +11,69 @@ function ec_resp_preprocess(&$variables) {
   if (isset($variables['form']['#form_id'])) {
     switch ($variables['form']['#form_id']) {
       case 'feature_set_admin_form':
-        // Display feature set on two columns.
-        $output_right = $output_left = '';
+        $categories_list = '';
+        $features_list = '';
 
-        $first_column = 1;
         foreach ($variables['feature_set_category']['category'] as $category => $features) {
-          $output = '';
-          $output .= '<li>';
-          $output .= '<a class="list-group-item feature-set-category">' . $category . '</a>';
           $table = array(
             'header' => NULL,
             'rows' => array(),
             'attributes' => array('class' => array('feature-set-content table table-striped table-hover')),
           );
-          foreach ($features as $key => $item) {
 
+          // Create category id.
+          $category_id = preg_replace("/[^a-z0-9_\s-]/", "", strtolower($category));
+          $category_id = preg_replace("/[\s-]+/", " ", $category_id);
+          $category_id = preg_replace("/[\s_]/", "-", $category_id);
+
+          // Format categories.
+          $categories_list .= theme('html_tag', array(
+            'element' => array(
+              '#tag' => 'li',
+              '#attributes' => array(
+                'class' => 'feature-set__category',
+                'role' => 'presentation',
+              ),
+              '#value' => l(
+                $category,
+                '',
+                array(
+                  'attributes' => array(
+                    'aria-controls' => $category_id,
+                    'role' => 'tab',
+                    'data-toggle' => 'tab',
+                  ),
+                  'fragment' => $category_id,
+                )
+              ),
+            ),
+          ));
+
+          // Format features.
+          $feature_full = '';
+          foreach ($features as $key => $item) {
             // Get the icon if available.
             if (!empty($item['#featuresetinfo']['font'])) {
-              $feature_icon = '<span class="' . $item['#featuresetinfo']['font'] . '"></span>';
+              $feature_icon = theme('html_tag', array(
+                'element' => array(
+                  '#tag' => 'div',
+                  '#attributes' => array(
+                    'class' => array(
+                      'feature-set__icon',
+                      $item['#featuresetinfo']['font'],
+                    ),
+                  ),
+                  '#value' => '',
+                ),
+              ));
             }
             elseif (!empty($item['#featuresetinfo']['icon'])) {
               $image = array(
                 'path' => $item['#featuresetinfo']['icon'],
                 'alt' => t('@feature-set icon', array('@feature-set' => $item['#featuresetinfo']['featureset'])),
-                'attributes' => array(),
+                'attributes' => array(
+                  'class' => 'feature-set__icon',
+                ),
               );
               $feature_icon = theme_image($image);
             }
@@ -42,34 +81,87 @@ function ec_resp_preprocess(&$variables) {
               $feature_icon = '';
             }
 
-            // Get the feature name and description.
-            $feature_content = '<blockquote>';
-            $feature_content .= '<p>' . $item['#featuresetinfo']['featureset'] . '</p>';
-            if (!empty($item['#featuresetinfo']['description'])) {
-              $feature_content .= '<small>' . $item['#featuresetinfo']['description'] . '</small>';
-            }
-            $feature_content .= '</blockquote>';
-            $table['rows'][] = array(
-              array('data' => $feature_icon, 'class' => 'feature-set-image'),
-              array('data' => $feature_content, 'class' => 'feature_set_content'),
-              array('data' => render($item), 'class' => 'feature_set_switcher'),
-            );
+            // Format feature name.
+            $feature_name = theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'div',
+                '#attributes' => array(
+                  'class' => 'feature-set__name',
+                ),
+                '#value' => $item['#featuresetinfo']['featureset'],
+              ),
+            ));
+
+            // Format feature description.
+            $feature_description = theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'div',
+                '#attributes' => array(
+                  'class' => 'feature-set__desc',
+                ),
+                '#value' => !empty($item['#featuresetinfo']['description'])
+                  ? $item['#featuresetinfo']['description']
+                  : '',
+              ),
+            ));
+
+            // Format switcher.
+            $feature_switcher = theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'div',
+                '#attributes' => array(
+                  'class' => 'feature-set__switch',
+                ),
+                '#value' => render($item),
+              ),
+            ));
+
+            // Group content.
+            $feature_header = theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'div',
+                '#attributes' => array(
+                  'class' => 'feature-set__header',
+                ),
+                '#value' => $feature_icon . $feature_name . $feature_switcher,
+              ),
+            ));
+            $feature_content = theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'div',
+                '#attributes' => array(
+                  'class' => 'feature-set__content',
+                ),
+                '#value' => $feature_description,
+              ),
+            ));
+            $feature_full .= theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'div',
+                '#attributes' => array(
+                  'class' => 'feature-set__feature',
+                ),
+                '#value' => $feature_header . $feature_content,
+              ),
+            ));
           }
 
-          $output .= theme('table', $table);
-          $output .= '</li>';
-
-          if ($first_column) {
-            $output_left .= $output;
-          }
-          else {
-            $output_right .= $output;
-          }
-
-          $first_column = 1 - $first_column;
+          // Update feature list.
+          $features_list .= theme('html_tag', array(
+            'element' => array(
+              '#tag' => 'div',
+              '#attributes' => array(
+                'class' => 'tab-pane',
+                'role' => 'tabpanel',
+                'id' => $category_id,
+              ),
+              '#value' => $feature_full,
+            ),
+          ));
         }
-        $variables['feature_set_output_left'] = $output_left;
-        $variables['feature_set_output_right'] = $output_right;
+
+        $variables['feature_set_categories_list'] = $categories_list;
+        $variables['feature_set_features_list'] = $features_list;
         break;
     }
   }

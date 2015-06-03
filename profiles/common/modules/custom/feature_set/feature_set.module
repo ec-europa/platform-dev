@@ -415,7 +415,7 @@ function _feature_set_get_require($module) {
         $output .= t("requires") . " : " . $featuresets[$value]["title"] . " ";
       }
     }
-    $output .= '<div/>';
+    $output .= '</div>';
     return $output;
   }
 }

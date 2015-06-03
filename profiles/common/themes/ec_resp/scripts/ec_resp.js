@@ -139,56 +139,77 @@
   Drupal.behaviors.ec_resp_feature_set = {
     attach: function(context) {
 
-      //Toggle visibility of feature set tables
-      $("#feature-set-admin-form .feature-set-category").click(function(){
-        $(this).next(".feature-set-content").slideToggle("slow");
-        $(this).toggleClass("active");
-      });
-          
-      //Add class to switcher column
-      $("#feature-set-admin-form .form-type-checkbox").addClass('switch');
-      
-      //Add class to row if button is disabled
-      $("#feature-set-admin-form tr .switch")
-        .filter('.form-disabled')
-        .closest('tr')
-        .addClass('form-disabled');
-    
-      $("#feature-set-admin-form .form-checkbox").each(function() {
-        $this = $(this);
-        //Check if the feature has been enabled
-        if ($this.is(':checked')) {
-          var html_before = '<label class="cb-enable selected"><span><i class="glyphicon glyphicon-ok icon-ok icon-white"></i></span></label><label class="cb-disable"><span><i class="glyphicon glyphicon-remove icon-remove icon-white"></i></span></label>';
-        }
-        else {
-          var html_before = '<label class="cb-enable"><span><i class="glyphicon glyphicon-ok icon-ok icon-white"></i></span></label><label class="cb-disable selected"><span><i class="glyphicon glyphicon-remove icon-remove icon-white"></i></span></label>';
-        }  
-        
-        $this
-          .before(html_before)
-          .css('opacity',0);
-      });
+      // Activate first tab by default.
+      $('.feature-set__categories a:first').tab('show');
 
-      //Manage click on a row
-      $('#feature-set-admin-form tr').click(function() {
+      // Manage click on a row.
+      $('.feature-set__header').click(function() {
         $(this)
-          .not('.form-disabled')
-          .find('.switch')
-          .toggleClass('pending')
-          .children('label')
-          .toggleClass('selected')
-          .end()
-          .children('.form-checkbox')
+          .not('.feature-set__header--locked')
+          .toggleClass('feature-set__header--pending')
+          .find('.form-checkbox')
           .each(function() {
             $this = $(this);
+            console.log($this.closest('.feature-set__header').hasClass('feature-set__header--disabled'));
             if ($this.is(':checked')) {
-              $this.attr('checked', false);
+              $this
+                .prop('checked', false)
+                .siblings('span')
+                .toggleClass('glyphicon-time')
+                .toggleClass(function() {
+                  if ($this.closest('.feature-set__header').hasClass('feature-set__header--disabled')) {
+                    return 'glyphicon-remove-sign';
+                  }
+                  else {
+                    return 'glyphicon-ok-sign';
+                  }
+                });
             }
             else {
-              $this.attr('checked', true);
-            }               
-          }); 
+              $this
+                .prop('checked', true)
+                .siblings('span')
+                .toggleClass('glyphicon-time')
+                .toggleClass(function() {
+                  if ($this.closest('.feature-set__header').hasClass('feature-set__header--disabled')) {
+                    return 'glyphicon-remove-sign';
+                  }
+                  else {
+                    return 'glyphicon-ok-sign';
+                  }
+                });
+            }
+          })
       });
+
+      // Add icon and hide checkbox.
+      $(".feature-set__feature .form-checkbox").each(function() {
+        $this = $(this);
+        // Check if the feature has been enabled.
+        if ($this.is(':checked')) {
+          var html_before = '<span class="glyphicon glyphicon-ok-sign"></span>';
+          $this
+            .closest('.feature-set__header')
+            .addClass('feature-set__header--enabled');
+        }
+        else {
+          var html_before = '<span class="glyphicon glyphicon-remove-sign"></span>';
+          $this
+            .closest('.feature-set__header')
+            .addClass('feature-set__header--disabled');
+        }
+        $this
+          .before(html_before)
+          .css('opacity',1);
+      });
+
+      // Add class to row corresponding to button state.
+      $(".feature-set__switch")
+        .filter('.form-disabled')
+        .find('span')
+        .addClass('glyphicon-ban-circle')
+        .closest('.feature-set__header')
+        .addClass('feature-set__header--locked');
     }
   }// /Feature set
 

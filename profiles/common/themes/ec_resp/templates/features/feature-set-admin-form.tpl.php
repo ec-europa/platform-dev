@@ -13,19 +13,21 @@
 ?>
 
 <div class="row">
-  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <ul class="list-group nav nav-tabs nav-stacked">
-      <?php print $feature_set_output_left; ?>
+  <div class="col-xs-4">
+    <ul class="nav nav-pills nav-stacked feature-set__categories">
+      <?php print $feature_set_categories_list; ?>
     </ul>
   </div>
 
-  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <ul class="list-group nav nav-tabs nav-stacked">
-      <?php print $feature_set_output_right; ?>
-    </ul>
+  <div class="col-xs-8">
+    <div class="tab-content feature-set__features">
+      <?php print $feature_set_features_list; ?>
+    </div>
   </div>
 </div>
 
-<?php 
-  print $feature_set_input;
-?>
+<div class="feature-set__input">
+  <?php 
+    print $feature_set_input;
+  ?>
+</div>
