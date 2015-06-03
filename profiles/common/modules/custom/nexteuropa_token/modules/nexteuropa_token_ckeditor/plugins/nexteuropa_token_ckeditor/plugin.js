@@ -1,4 +1,5 @@
 (function($) {
+
   CKEDITOR.plugins.add('nexteuropa_token_ckeditor', {
     init: function(editor) {
       CKEDITOR.dialog.add('nexteuropa_token_ckeditor_dialog', function() {
@@ -63,7 +64,104 @@
         command: 'NextEuropaTokenInsert',
         icon: this.path + 'icons/nexteuropa_token_ckeditor.png'
       });
+
+      var placeholder_tag = Drupal.nexteuropa_token_ckeditor.filter.placeholder_tag;
+      CKEDITOR.dtd[placeholder_tag] = CKEDITOR.dtd;
+      CKEDITOR.dtd.$blockLimit[placeholder_tag] = 1;
+      CKEDITOR.dtd.$inline[placeholder_tag] = 1;
+      CKEDITOR.dtd.$nonEditable[placeholder_tag] = 1;
+      if (parseFloat(CKEDITOR.version) >= 4.1) {
+        // Ensure token tags accept all kinds of attributes.
+        editor.filter.allow( placeholder_tag + '[*]{*}(*)', placeholder_tag, true);
+        // Objects should be selected as a whole in the editor.
+        CKEDITOR.dtd.$object[placeholder_tag] = 1;
+      }
+
+      // Ensure tokens instead the html element is saved.
+      editor.on('setData', function(event) {
+        console.log(event.name, event.editor.name);
+        event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(event.data.dataValue);
+      });
+
+      // Replace tokens with WYSIWYG placeholders.
+      editor.on('getData', function(event) {
+        console.log(event.name, event.editor.name);
+        event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(event.data.dataValue);
+      });
+
+      // Replace tokens with WYSIWYG placeholders.
+      editor.on('insertHtml', function(event) {
+        console.log(event.name, event.editor.name);
+        event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(event.data.dataValue);
+      });
     }
   });
+
+  /**
+   * Utility class.
+   *
+   * @type {*|Drupal.nexteuropa_token_ckeditor|{}}
+   */
+  Drupal.nexteuropa_token_ckeditor = Drupal.nexteuropa_token_ckeditor || {};
+  Drupal.nexteuropa_token_ckeditor.filter = {
+
+    /**
+     * Placeholder tag.
+     */
+    placeholder_tag: 'nexteuropa_token',
+
+    /**
+     * Regular expressions matching tokens exposed by NextEuropa Token module.
+     */
+    regex: /\[(\w*)\:(\d*)\:view-mode\:(\w*)\]/,
+    regex_global: /\[\w*\:\d*\:view-mode\:\w*\]/g,
+
+    /**
+     * Get HTML placeholder give a token and a label.
+     *
+     * @param token
+     *    Token string.
+     * @param label
+     *    Entity label the token refers to.
+     *
+     * @returns {string}
+     */
+    getPlaceholderFromToken: function(token, label) {
+      var matches = token.match(this.regex);
+      console.log(matches);
+      return '<' + this.placeholder_tag + ' type="' + matches[1] + '" id="' + matches[2] + '" mode="' + matches[3] + '">' + label + '</' + this.placeholder_tag + '>';
+    },
+
+    /**
+     * Replaces tokens with placeholders.
+     *
+     * @param content
+     *    Content coming from WYSIWYG.
+     *
+     * @returns {*}
+     */
+    replaceTokenWithPlaceholder: function(content) {
+
+      var matches = content.match(this.regex_global);
+      if (matches) {
+        for (var i = 0; i < matches.length; i++) {
+          var token = matches[i];
+          content = content.replace(token, this.getPlaceholderFromToken(token, 'title '));
+        }
+      }
+      return content;
+    },
+
+    /**
+     * Replaces placeholders with tokens.
+     *
+     * @param content
+     */
+    replacePlaceholderWithToken: function(content) {
+
+      return content;
+    }
+  };
+  
 })(jQuery);
 

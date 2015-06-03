@@ -1,4 +1,10 @@
 (function ($) {
+
+  /**
+   * NextEuropa Token CKEditor behavior.
+   *
+   * @type {{attach: Function}}
+   */
   Drupal.behaviors.nexteuropa_token_ckeditor = {
     attach: function (context) {
       Drupal.nexteuropa_token_ckeditor = Drupal.nexteuropa_token_ckeditor || {};
@@ -11,11 +17,12 @@
         $(content).find('.token-ckeditor-selection').once('token-ckeditor-selection', function() {
           $(this).click(function (e) {
             var entity_id = $(this).attr('token-ckeditor-token');
-            editor.insertText(entity_id);
+            editor.insertHtml(entity_id);
             e.preventDefault();
           });
         });
       }
     }
   };
+
 })(jQuery);

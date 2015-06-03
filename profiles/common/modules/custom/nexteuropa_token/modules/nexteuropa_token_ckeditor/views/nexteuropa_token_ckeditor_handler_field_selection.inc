@@ -64,6 +64,7 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
     }
 
     $attributes = array('class' => 'token-ckeditor-selection');
+    $attributes['token-ckeditor-label'] = $entity_label;
     $output = array();
 
     $attributes['token-ckeditor-token'] = "[node:$entity_id:link]";
