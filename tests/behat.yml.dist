@@ -12,16 +12,16 @@ default:
       goutte: ~
       selenium2: ~
       javascript_session: 'selenium2'
-      base-url: 'http://127.0.0.1'
+      base-url: '${behat.base_url}'
     Drupal\DrupalExtension:
       api_driver: 'drupal'
       blackbox: ~
       drupal:
-        drupal_root: '../build'
+        drupal_root: '${platform.build.dir}'
       selectors:
         message_selector: '.messages'
         error_message_selector: '.messages.error'
         success_message_selector: '.messages.status'
       subcontexts:
         paths:
-          - '../build/profiles/common/modules'
+          - '${behat.subcontexts.path}'

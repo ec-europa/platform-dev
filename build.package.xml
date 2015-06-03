@@ -142,10 +142,34 @@
         </composer>
     </target>
 
+    <!-- Set up Behat. -->
+    <target name="setup-behat">
+        <if>
+            <not>
+                <available file="${behat.yml.path}" type="file" property="behat.yml.available" />
+            </not>
+            <then>
+                <echo message="Creating behat.yml configuration file" />
+                <loadfile property="behat.yml.content" file="${behat.yml.template}">
+                    <filterchain>
+                        <replacetokens>
+                            <token key="project.code.dir" value="${project.code.dir}" />
+                            <token key="drupal.site.dir" value="${drupal.site.dir}" />
+                            <token key="behat.base_url" value="${behat.base_url}" />
+                        </replacetokens>
+                    </filterchain>
+                </loadfile>
+                <echo message="${behat.yml.content}" file="${behat.yml.path}" />
+            </then>
+        </if>
+        <symlink link="${phing.project.build.dir}/behat.yml" target="../tests/behat.yml" />
+        <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
+    </target>
+
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies" />
+        depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat" />
 
     <target
         name="build-platform-dist"

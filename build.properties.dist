@@ -78,11 +78,23 @@ platform.build.composer.lock = ${platform.build.dir}/composer.lock
 # Behat configuration
 # -------------------
 
-# This is for local testing, not needed on continuousphp.
+# The location of the Behat executable.
 behat.bin = ${project.basedir}/bin/behat
+
+# The location of the Behat tests.
 behat.dir = ${project.basedir}/tests
-behat.yml = ${behat.dir}/behat.yml
+
+# The location of the Behat configuration template.
+behat.yml.template = ${behat.dir}/behat.yml.dist
+
+# The location of the generated Behat configuration file.
+behat.yml.path = ${behat.dir}/behat.yml
+
+# The base URL to use in Behat tests.
 behat.base_url = http://localhost
+
+# The location to search for Behat subcontexts.
+behat.subcontexts.path = ${platform.build.profiles.dir}/common/modules
 
 
 # PHP CodeSniffer configuration

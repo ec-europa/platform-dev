@@ -49,6 +49,9 @@ drupal.db.password = hunter2
 # Admin user.
 drupal.admin.username = admin
 drupal.admin.password = admin
+
+# The base URL to use in Behat tests.
+behat.base_url = http://nexteuropa.local
 ```
 
 ## Listing the available build commands
