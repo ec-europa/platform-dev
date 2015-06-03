@@ -142,9 +142,3 @@ function nexteuropa_token_ckeditor_custom_theme() {
   }
 }
 
-/**
- * Implements hook_contextual_links_view_alter().
- */
-function nexteuropa_token_ckeditor_contextual_links_view_alter(&$element, $items) {
-  $element['#attributes']['class'][] = 'custom-class';
-}
