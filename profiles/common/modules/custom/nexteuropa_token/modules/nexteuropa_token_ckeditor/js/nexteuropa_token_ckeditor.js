@@ -17,7 +17,9 @@
         $(content).find('.token-ckeditor-selection').once('token-ckeditor-selection', function() {
           $(this).click(function (e) {
             var entity_id = $(this).attr('token-ckeditor-token');
-            editor.insertHtml(entity_id);
+            var entity_label = $(this).attr('token-ckeditor-label');
+            var token = (entity_label) ? entity_id + '{' + entity_label + '}' : entity_id;
+            editor.insertHtml(token);
             e.preventDefault();
           });
         });

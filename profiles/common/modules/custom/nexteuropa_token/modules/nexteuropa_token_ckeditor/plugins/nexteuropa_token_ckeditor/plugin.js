@@ -65,34 +65,39 @@
         icon: this.path + 'icons/nexteuropa_token_ckeditor.png'
       });
 
-      var placeholder_tag = Drupal.nexteuropa_token_ckeditor.filter.placeholder_tag;
-      CKEDITOR.dtd[placeholder_tag] = CKEDITOR.dtd;
-      CKEDITOR.dtd.$blockLimit[placeholder_tag] = 1;
-      CKEDITOR.dtd.$inline[placeholder_tag] = 1;
-      CKEDITOR.dtd.$nonEditable[placeholder_tag] = 1;
+      // Define DTD rules for placeholder tag "nexteuropa_token".
+      CKEDITOR.dtd['nexteuropa_token'] = CKEDITOR.dtd;
+      CKEDITOR.dtd.$blockLimit['nexteuropa_token'] = 1;
+      CKEDITOR.dtd.$inline['nexteuropa_token'] = 1;
+      CKEDITOR.dtd.$nonEditable['nexteuropa_token'] = 1;
       if (parseFloat(CKEDITOR.version) >= 4.1) {
-        // Ensure token tags accept all kinds of attributes.
-        editor.filter.allow( placeholder_tag + '[*]{*}(*)', placeholder_tag, true);
+        // Register allowed tag for advanced filtering.
+        editor.filter.allow( 'nexteuropa_token[!token]', 'nexteuropa_token', true);
+        // Don't remove the data-file_info attribute added by nexteuropa_token.
+        editor.filter.allow( '*[!token]', 'mediawrapper', true);
         // Objects should be selected as a whole in the editor.
-        CKEDITOR.dtd.$object[placeholder_tag] = 1;
+        CKEDITOR.dtd.$object['nexteuropa_token'] = 1;
       }
 
       // Ensure tokens instead the html element is saved.
       editor.on('setData', function(event) {
-        console.log(event.name, event.editor.name);
-        event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(event.data.dataValue);
+        var content = event.data.dataValue;
+        event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replacePlaceholderWithToken(content);
+        console.log(event.name, event.data.dataValue);
       });
 
       // Replace tokens with WYSIWYG placeholders.
       editor.on('getData', function(event) {
-        console.log(event.name, event.editor.name);
-        event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(event.data.dataValue);
+        var content = event.data.dataValue;
+        event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(content);
+        console.log(event.name, content, event.data.dataValue);
       });
 
       // Replace tokens with WYSIWYG placeholders.
       editor.on('insertHtml', function(event) {
-        console.log(event.name, event.editor.name);
-        event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(event.data.dataValue);
+        var content = event.data.dataValue;
+        event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(content);
+        console.log(event.name, content, event.data.dataValue);
       });
     }
   });
@@ -106,47 +111,55 @@
   Drupal.nexteuropa_token_ckeditor.filter = {
 
     /**
-     * Placeholder tag.
-     */
-    placeholder_tag: 'nexteuropa_token',
-
-    /**
      * Regular expressions matching tokens exposed by NextEuropa Token module.
      */
-    regex: /\[(\w*)\:(\d*)\:view-mode\:(\w*)\]/,
-    regex_global: /\[\w*\:\d*\:view-mode\:\w*\]/g,
+    regex: {
+      parse_token: /\[(\w*\:\d*\:view-mode\:\w*)\]\{(.*)\}/,
+      parse_placeholder: /<nexteuropa_token token="(.*)">(.*)<\/nexteuropa_token>/,
+      get_tokens: /\[\w*\:\d*\:view-mode\:\w*\]{.*}/g,
+      get_placeholders: /<nexteuropa_token.*?<\/nexteuropa_token>/g
+    },
 
     /**
      * Get HTML placeholder give a token and a label.
      *
      * @param token
-     *    Token string.
-     * @param label
-     *    Entity label the token refers to.
+     *    Token string, followed by its label enclosed in curly brackets.
+     *    For example: [node:1:view-mode:full]{Title}.
      *
      * @returns {string}
      */
-    getPlaceholderFromToken: function(token, label) {
-      var matches = token.match(this.regex);
-      console.log(matches);
-      return '<' + this.placeholder_tag + ' type="' + matches[1] + '" id="' + matches[2] + '" mode="' + matches[3] + '">' + label + '</' + this.placeholder_tag + '>';
+    getPlaceholderFromToken: function(token) {
+      var matches = token.match(this.regex.parse_token);
+      return (matches) ? '<nexteuropa_token token="' + matches[1] + '">' + matches[2] + '</nexteuropa_token>' : '';
+    },
+
+    /**
+     * Get token given an HTML placeholder.
+     *
+     * @param placeholder
+     *    Placeholder string.
+     *
+     * @returns {string}
+     */
+    getTokenFromPlaceholder: function(placeholder) {
+      var matches = placeholder.match(this.regex.parse_placeholder);
+      return (matches) ? '[' + matches[1] + ']{' + matches[2] + '}' : '';
     },
 
     /**
      * Replaces tokens with placeholders.
      *
      * @param content
-     *    Content coming from WYSIWYG.
+     *    Text coming from WYSIWYG.
      *
-     * @returns {*}
+     * @returns {string}
      */
     replaceTokenWithPlaceholder: function(content) {
-
-      var matches = content.match(this.regex_global);
+      var matches = content.match(this.regex.get_tokens);
       if (matches) {
         for (var i = 0; i < matches.length; i++) {
-          var token = matches[i];
-          content = content.replace(token, this.getPlaceholderFromToken(token, 'title '));
+          content = content.replace(matches[i], this.getPlaceholderFromToken(matches[i]));
         }
       }
       return content;
@@ -158,7 +171,12 @@
      * @param content
      */
     replacePlaceholderWithToken: function(content) {
-
+      var matches = content.match(this.regex.get_placeholders);
+      if (matches) {
+        for (var i = 0; i < matches.length; i++) {
+          content = content.replace(matches[i], this.getTokenFromPlaceholder(matches[i]));
+        }
+      }
       return content;
     }
   };
