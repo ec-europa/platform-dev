@@ -76,7 +76,8 @@ function nexteuropa_token_ckeditor_ckeditor_plugin() {
     'nexteuropa_token_ckeditor' => array(
       'name' => 'nexteuropa_token_ckeditor',
       'desc' => t('NextEuropa Token'),
-      'path' => drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/plugins/nexteuropa_token_ckeditor/'),
+      'path' => drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/plugins/nexteuropa_token_ckeditor/',
+    ),
   );
 }
 
@@ -142,3 +143,28 @@ function nexteuropa_token_ckeditor_custom_theme() {
   }
 }
 
+/**
+ * Implements hook_filter_info_alter().
+ */
+function nexteuropa_token_ckeditor_filter_info_alter(&$info) {
+
+  if (isset($info['filter_tokens'])) {
+    $info['filter_tokens']['process callback'] = 'nexteuropa_token_ckeditor_token_filter_filter_tokens';
+  }
+}
+
+/**
+ * Alter filter process callback for the token input filter.
+ *
+ * @see nexteuropa_token_ckeditor_filter_info_alter()
+ */
+function nexteuropa_token_ckeditor_token_filter_filter_tokens($text, $filter, $format, $langcode, $cache, $cache_id) {
+  $matches = array();
+  preg_match_all('/((\[\w*\:\d*\:view-mode\:\w*\]){.*})/U', $text, $matches);
+  if ($matches) {
+    foreach ($matches[0] as $key => $value) {
+      $text = str_replace($matches[1][$key], $matches[2][$key], $text);
+    }
+  }
+  return _token_filter_filter_tokens($text, $filter, $format, $langcode, $cache, $cache_id);
+}
