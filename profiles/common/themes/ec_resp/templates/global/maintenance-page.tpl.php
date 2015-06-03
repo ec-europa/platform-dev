@@ -44,7 +44,7 @@
       </div>
 
       <p class="text-right">
-        Allowed users (ie: Administrators) can <?php print l(t('log in here'), 'user/login'); ?>
+        <?php print t('Allowed users (ie: Administrators) can ' . l(t('log in here'), 'user/login')); ?>
       </p>
 
       <?php if ($messages): ?>
