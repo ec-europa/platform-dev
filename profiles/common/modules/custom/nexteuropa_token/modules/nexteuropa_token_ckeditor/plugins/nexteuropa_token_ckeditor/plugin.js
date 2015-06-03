@@ -2,7 +2,6 @@
 
   CKEDITOR.plugins.add('nexteuropa_token_ckeditor', {
     init: function(editor) {
-      editor.addContentsCss(this.path + 'plugin.css');
 
       CKEDITOR.dialog.add('nexteuropa_token_ckeditor_dialog', function() {
         return {
@@ -64,8 +63,11 @@
       editor.ui.addButton('NextEuropaToken', {
         label: Drupal.t('Insert a token'),
         command: 'NextEuropaTokenInsert',
-        icon: this.path + 'icons/nexteuropa_token_ckeditor.png'
+        icon: this.path + 'plugin.png'
       });
+
+      // Add plugin CSS.
+      editor.addContentsCss(this.path + 'plugin.css');
 
       // Define DTD rules for placeholder tag "nexteuropatoken".
       CKEDITOR.dtd['nexteuropatoken'] = CKEDITOR.dtd;
