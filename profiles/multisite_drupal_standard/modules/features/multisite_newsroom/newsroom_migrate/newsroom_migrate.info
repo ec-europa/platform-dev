@@ -1,0 +1,15 @@
+name = Newsroom migrate
+description = The module handling the import of contents from the newsroom
+core = 7.x
+package = Newsroom
+version = 7.x-1.0
+project = newsroom_migrate
+php = 5.2.4
+multisite_version = 1.7
+dependencies[] = multisite_newsroom
+dependencies[] = nexteuropa_migrate
+files[] = newsroom_migrate.inc
+files[] = includes/newsroom_migrate.topic.inc
+files[] = includes/newsroom_migrate.type.inc
+files[] = includes/newsroom_migrate.item.inc
+files[] = includes/newsroom_migrate.service.inc

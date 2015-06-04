@@ -1,0 +1,40 @@
+<?php
+/**
+ * @file
+ * Code for the reps migrate module.
+ */
+
+/**
+ * Implements hook_migrate_api().
+ */
+function newsroom_migrate_migrate_api() {
+  $api = array(
+    'api' => 2,
+    'groups' => array(
+      'newsroom_migrate' => array(
+        'title' => t('Newsroom imports'),
+      ),
+    ),
+
+    'migrations' => array(
+      'NewsroomTopic' => array(
+        'class_name' => 'NewsroomTopicMigration',
+        'group_name' => 'newsroom_migrate',
+      ),
+      'NewsroomType' => array(
+        'class_name' => 'NewsroomTypeMigration',
+        'group_name' => 'newsroom_migrate',
+      ),
+      'NewsroomService' => array(
+        'class_name' => 'NewsroomServiceMigration',
+        'group_name' => 'newsroom_migrate',
+      ),
+      'NewsroomItem' => array(
+        'class_name' => 'NewsroomItemMigration',
+        'group_name' => 'newsroom_migrate',
+      ),
+    ),
+  );
+
+  return $api;
+}
