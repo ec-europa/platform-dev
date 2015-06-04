@@ -160,8 +160,10 @@ function nexteuropa_token_ckeditor_filter_info_alter(&$info) {
  */
 function nexteuropa_token_ckeditor_token_filter_filter_tokens($text, $filter, $format, $langcode, $cache, $cache_id) {
   $regular_expressions = array(
-    '/((\[\w*\:\d*\:view-mode\:\w*\]){.*})/U', // Matches view mode tokens.
-    '/((\[\w*\:\d*\:link]){.*})/U', // Matches link tokens.
+    // Matches view mode tokens.
+    '/((\[\w*\:\d*\:view-mode\:\w*\]){.*})/U',
+    // Matches link tokens.
+    '/((\[\w*\:\d*\:link]){.*})/U',
   );
   foreach ($regular_expressions as $regular_expression) {
     $matches = array();
