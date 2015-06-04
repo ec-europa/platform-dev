@@ -11,13 +11,13 @@
 ?>
 
 <div class="row">
-  <div class="col-xs-4">
+  <div class="col-lg-3 col-sm-4 col-xs-12">
     <ul class="nav nav-pills nav-stacked feature-set__categories">
       <?php print $feature_set_categories_list; ?>
     </ul>
   </div>
 
-  <div class="col-xs-8">
+  <div class="col-lg-9 col-sm-8 col-xs-12">
     <div class="tab-content feature-set__features">
       <?php print $feature_set_features_list; ?>
     </div>

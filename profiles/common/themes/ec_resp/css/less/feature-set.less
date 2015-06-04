@@ -1,4 +1,9 @@
 /* ---------------- Feature set  ----------------- */
+.feature-set__categories {
+  margin: 0;
+  padding: 0;
+}
+
 .feature-set__header {
   display: table;
   width: 100%;
@@ -12,12 +17,14 @@
   vertical-align: middle;
   padding-left: 10px;
   padding-right: 10px;
+  background-color: rgba(0, 0, 0, 0.15);
 }
 
 .feature-set__name {
   display: table-cell;
   vertical-align: middle;
   font-size: @font-size-large;
+  padding-left: 15px;
 }
 
 .feature-set__switch {
@@ -38,8 +45,13 @@
   width: 100%;
 }
 
-.feature-set__desc {
-
+.feature-set__doc {
+  text-align: right;
+  font-weight: bold;
+  font-size: 0.9em;
+  a {
+    padding: 4px;
+  }
 }
 
 .feature-set__input {
@@ -50,6 +62,7 @@
 }
 
 .feature-set__feature--enabled {
+  background-color: fade(@btn-success-bg, 10%);
   .feature-set__header {
     .button-variant(@btn-success-color; @btn-success-bg; @btn-success-border);
     transition: 0.4s;
@@ -60,6 +73,7 @@
   }
 }
 .feature-set__feature--disabled {
+  background-color: fade(@btn-danger-bg, 10%);
   .feature-set__header {
     .button-variant(@btn-danger-color; @btn-danger-bg; @btn-danger-border);
     transition: 0.4s;
@@ -70,6 +84,7 @@
   }
 }
 .feature-set__feature--locked {
+  background-color: fade(@gray-lighter, 10%);
   .feature-set__header {
     .button-variant(@gray; @gray-lighter; @gray-lighter);
     transition: 0.4s;
@@ -80,6 +95,7 @@
   }
 }
 .feature-set__feature--pending {
+  background-color: fade(@btn-warning-bg, 10%);
   .feature-set__header {
     .button-variant(@btn-warning-color; @btn-warning-bg; @btn-warning-border);
     transition: 0.4s;

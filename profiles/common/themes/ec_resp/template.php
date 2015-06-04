@@ -92,15 +92,50 @@ function ec_resp_preprocess(&$variables) {
               ),
             ));
 
+            // Format feature documentation.
+            $feature_documentation = !empty($item['#featuresetinfo']['documentation'])  
+              ? l(
+                t('See @name documentation', array('@name' => $item['#featuresetinfo']['featureset'])),
+                $item['#featuresetinfo']['documentation'],
+                array('attributes' => array('target' => '_blank')))
+              : '';
+
             // Format feature description.
+            $feature_description_value = '';
+            $feature_description_value .= !empty($item['#featuresetinfo']['description'])  
+              ? $item['#featuresetinfo']['description']
+              : '';
+            $feature_description_value .= !empty($feature_documentation)  
+              ? theme('html_tag', array(
+                'element' => array(
+                  '#tag' => 'footer',
+                  '#attributes' => array(
+                    'class' => 'feature-set__doc',
+                  ),
+                  '#value' => $feature_documentation,
+                )
+              ))
+              : '';
+
             $feature_description = theme('html_tag', array(
               'element' => array(
                 '#tag' => 'blockquote',
                 '#attributes' => array(
                   'class' => 'feature-set__desc',
                 ),
-                '#value' => !empty($item['#featuresetinfo']['description'])
-                  ? $item['#featuresetinfo']['description']
+                '#value' => $feature_description_value,
+              ),
+            ));
+
+            // Format feature requirements.
+            $feature_require = theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'div',
+                '#attributes' => array(
+                  'class' => 'feature-set__doc',
+                ),
+                '#value' => !empty($item['#featuresetinfo']['require'])
+                  ? $item['#featuresetinfo']['require']
                   : '',
               ),
             ));
@@ -132,7 +167,7 @@ function ec_resp_preprocess(&$variables) {
                 '#attributes' => array(
                   'class' => 'feature-set__content',
                 ),
-                '#value' => $feature_description,
+                '#value' => $feature_description . $feature_require,
               ),
             ));
             $feature_full .= theme('html_tag', array(
