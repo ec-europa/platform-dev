@@ -139,7 +139,7 @@ function multisite_drupal_toolbox_get_default_filter_options() {
  *
  * @see wysiwyg_filter_filter_wysiwyg_process()
  */
-function multisite_drupal_toolbox_filter_xss($text, $filter_options) {
+function multisite_drupal_toolbox_filter_xss($text, array $filter_options) {
   // Only operate on valid UTF-8 strings. This is necessary to prevent cross
   // site scripting issues on Internet Explorer 6.
   if (!drupal_validate_utf8($text)) {
@@ -192,27 +192,27 @@ function multisite_drupal_toolbox_filter_xss($text, $filter_options) {
  *
  * @see _wysiwyg_filter_xss_split()
  */
-function multisite_drupal_toolbox_filter_xss_split($m, $store = FALSE) {
+function multisite_drupal_toolbox_filter_xss_split(array $m, $store = FALSE) {
   static $filter_options;
 
   if ($store) {
     multisite_drupal_toolbox_filter_xss_attributes($filter_options = $m);
-    return;
+    return '';
   }
 
   $string = $m[1];
 
   if (substr($string, 0, 1) != '<') {
-    // We matched a lone ">" character
+    // We matched a lone ">" character.
     return '&gt;';
   }
-  else if (strlen($string) == 1) {
-    // We matched a lone "<" character
+  elseif (strlen($string) == 1) {
+    // We matched a lone "<" character.
     return '&lt;';
   }
 
   if (!preg_match('%^<\s*(/\s*)?([a-zA-Z0-9]+)([^>]*)>?|(<!--.*?-->)$%', $string, $matches)) {
-    // Seriously malformed
+    // Seriously malformed.
     return '';
   }
 
@@ -234,12 +234,12 @@ function multisite_drupal_toolbox_filter_xss_split($m, $store = FALSE) {
     return "</$elem>";
   }
 
-  // Is there a closing XHTML slash at the end of the attributes?
-  // In PHP 5.1.0+ we could count the changes, currently we need a separate match
+  // Is there a closing XHTML slash at the end of the attributes? In PHP
+  // 5.1.0+ we could count the changes, currently we need a separate match.
   $xhtml_slash = preg_match('%\s?/\s*$%', $attrlist) ? ' /' : '';
   $attrlist = preg_replace('%(\s?)/\s*$%', '\1', $attrlist);
 
-  // Clean up attributes
+  // Clean up attributes.
   if (($attr2 = multisite_drupal_toolbox_filter_xss_attributes($attrlist, $elem)) === FALSE) {
     // Disallowed HTML element because it does not contain required attribute.
     return '';
@@ -269,7 +269,7 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
 
   if (is_array($attr)) {
     $filter_options = $attr;
-    return;
+    return '';
   }
 
   // Shortcuts for filter options.
@@ -365,7 +365,7 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
     }
 
     if ($working == 0) {
-      // not well formed, remove and try again.
+      // Not well formed, remove and try again.
       $attr = preg_replace('/
         ^
         (
@@ -393,8 +393,8 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
       return FALSE;
     }
 
-    // When no attribute value has been specified in parsed HTML stream,
-    // then supply default value if provided by input format settings.
+    // When no attribute value has been specified in parsed HTML stream, then
+    // supply default value if provided by input format settings.
     if (!isset($attrinfo['value']) && isset($allowed_attributes[$attrname]['default'])) {
       $attrarr[$attrname] = array(
         'value' => $allowed_attributes[$attrname]['default'],
@@ -415,20 +415,22 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
       if (isset($attribute_options['forced'])) {
         $attrinfo['value'] = $attribute_options['forced'];
       }
-      else if (isset($attribute_options['values']) && !in_array($attrinfo['value'], $attribute_options['values'])) {
+      elseif (isset($attribute_options['values']) && !in_array($attrinfo['value'], $attribute_options['values'])) {
         // Ignore attribute if value is not present in whitelist.
         continue;
       }
 
       // Additional validation of attribute values.
       if ($attrname == 'style') {
-        // Ok, let us validate individual style properties (decode entities now).
+        // Ok, let us validate individual style properties (decode entities
+        // now).
         $dirty_properties = array_filter(array_map('trim', explode(';', decode_entities($attrinfo['value']))));
         $sanitized_properties = array();
         foreach ($dirty_properties as $dirty_property) {
           // Separate property name from its value.
           if (!preg_match('#^([a-zA-Z][-a-zA-Z]*)\s*:\s*(.*)$#', $dirty_property, $property_matches)) {
-            // Ignore properties that do not match the format "property-name: value".
+            // Ignore properties that do not match the format "property-name:
+            // value".
             continue;
           }
           $property_name = strtolower($property_matches[1]);
@@ -444,15 +446,18 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
             continue;
           }
 
-          // If property value comes with url(...), then we want to check if it's allowed or not.
+          // If property value comes with url(...), then we want to check if
+          // it's allowed or not.
           if (strpos($property_value, 'url(') !== FALSE) {
             if (count($allowed_style_urls) <= 0) {
               // Ignore property if no rules have been specified.
               continue;
             }
 
-            // This is like $regexp_uri in wysiwyg_filter_get_style_property_groups(), but it now contains 2 capturing
-            // groups [1] for the URL itself (including delimiters) and [2] the first delimiter (if any).
+            // This is like $regexp_uri in
+            // wysiwyg_filter_get_style_property_groups(), but it now contains 2
+            // capturing groups [1] for the URL itself (including delimiters)
+            // and [2] the first delimiter (if any).
             if (!preg_match('`url\(\s*(([\'"]?)(?:[^)]|(?<=\\\\)\\))+[\'"]?)\s*\)`', $property_value, $url) || empty($url[1])) {
               // Ignore property if found to be malformed here.
               continue;
@@ -465,9 +470,9 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
               // Remove delimiters.
               $url[1] = substr($url[1], 1, -1);
             }
-            // Remove backslashes that could have been used to escape parentheses,
-            // commas, whitespace characters, single quotes or double quotes.
-            // http://www.w3.org/TR/CSS2/syndata.html#uri
+            // Remove backslashes that could have been used to escape
+            // parentheses, commas, whitespace characters, single quotes or
+            // double quotes. http://www.w3.org/TR/CSS2/syndata.html#uri
             $url = preg_replace('`\\\\([(),\'"\s])`', '\1', $url[1]);
 
             // Ignore property if URL fails the check for bad protocols.
@@ -489,7 +494,8 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
             }
           }
           else {
-            // Filter property value for bad protocols (note that property value has already been decoded).
+            // Filter property value for bad protocols (note that property
+            // value has already been decoded).
             $property_value = multisite_drupal_toolbox_filter_xss_bad_protocol($property_value);
           }
 
@@ -504,10 +510,11 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
 
         $attrinfo['value'] = implode('; ', $sanitized_properties);
       }
-      else if ($attrname == 'class') {
-        // Validate class names based on advanced rules specified in filter settings panel.
-        // Note that property value is decoded now and check_plain'd at end. Since the colon
-        // sign is not allowed, there's no need here to check for bad protocols.
+      elseif ($attrname == 'class') {
+        // Validate class names based on advanced rules specified in filter
+        // settings panel. Note that property value is decoded now and
+        // check_plain'd at end. Since the colon sign is not allowed, there's no
+        // need here to check for bad protocols.
         $dirty_names = array_filter(array_map('trim', explode(' ', decode_entities($attrinfo['value']))));
         $valid_names = array();
         foreach ($dirty_names as $dirty_name) {
@@ -523,10 +530,11 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
         }
         $attrinfo['value'] = check_plain(implode(' ', $valid_names));
       }
-      else if ($attrname == 'id') {
-        // Validate element IDs based on advanced rules specified in filter settings panel.
-        // Note that property value is decoded now and check_plain'd at end. Since the colon
-        // sign is not allowed, there's no need here to check for bad protocols.
+      elseif ($attrname == 'id') {
+        // Validate element IDs based on advanced rules specified in filter
+        // settings panel. Note that property value is decoded now and
+        // check_plain'd at end. Since the colon sign is not allowed, there's no
+        // need here to check for bad protocols.
         if (count($allowed_element_ids) <= 0) {
           // Ignore attribute if no rules have been specified.
           continue;
@@ -553,11 +561,13 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
         // exact method used by Drupal's filter_xss().
         $attrinfo['value'] = filter_xss_bad_protocol($attrinfo['value']);
 
-        // If this is <a href> element, then check domain name for rel="nofollow" policies in effect.
+        // If this is <a href> element, then check domain name for
+        // rel="nofollow" policies in effect.
         if ($element == 'a' && $attrname == 'href' && $nofollow_policy != 'disabled' && !$add_nofollow) {
           $domain_found = FALSE;
           foreach ($nofollow_domains as $domain) {
-            $domain = str_replace('.', '\.', $domain); // escape dots
+            // Escape dots.
+            $domain = str_replace('.', '\.', $domain);
             if (preg_match('#://.*' . $domain . '([^a-z0-9]|$)#i', $attrinfo['value'])) {
               $domain_found = TRUE;
               break;
@@ -581,8 +591,9 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
     if (empty($parsed_attributes['rel'])) {
       $parsed_attributes['rel'] = 'rel="nofollow"';
     }
-    else if (strpos($parsed_attributes['rel'], 'nofollow') === FALSE) {
-      // Since we know the attribute is well formed, we can use substr(), which is faster than preg_replace().
+    elseif (strpos($parsed_attributes['rel'], 'nofollow') === FALSE) {
+      // Since we know the attribute is well formed, we can use substr(),
+      // which is faster than preg_replace().
       $parsed_attributes['rel'] = substr($parsed_attributes['rel'], 0, -1) . ' nofollow' . substr($parsed_attributes['rel'], -1);
     }
   }
@@ -618,7 +629,6 @@ function multisite_drupal_toolbox_filter_xss_bad_protocol($string) {
   );
 
   // Iteratively remove any invalid protocol found.
-
   do {
     $before = $string;
     $colonpos = strpos($string, ':');
@@ -631,8 +641,8 @@ function multisite_drupal_toolbox_filter_xss_bad_protocol($string) {
       if (preg_match('![/?#]!', $protocol)) {
         break;
       }
-      // Per RFC2616, section 3.2.3 (URI Comparison) scheme comparison must be case-insensitive
-      // Check if this is a disallowed protocol.
+      // Per RFC2616, section 3.2.3 (URI Comparison) scheme comparison must
+      // be case-insensitive Check if this is a disallowed protocol.
       if (!isset($allowed_protocols[strtolower($protocol)])) {
         $string = substr($string, $colonpos + 1);
       }
