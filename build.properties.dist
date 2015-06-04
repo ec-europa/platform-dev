@@ -113,6 +113,12 @@ phpcs.ignore = common/libraries;multisite_drupal_communities/libraries;multisite
 phpcs.format = full
 
 
+# Host configuration
+# ------------------
+
+server.docroot = /var/www
+
+
 # Debugging
 # ---------
 

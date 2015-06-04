@@ -166,6 +166,13 @@
         <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
     </target>
 
+    <!-- Link site document root to Webserver document root. -->
+    <target
+        name="link-docroot"
+        description="Create a symlink from the build folder to the webserver document root.">
+        <symlink link="${server.docroot}" target="${platform.build.dir}" overwrite="true" />
+    </target>
+
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
