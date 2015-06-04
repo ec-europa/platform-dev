@@ -113,9 +113,9 @@
      * Regular expressions matching tokens exposed by NextEuropa Token module.
      */
     regex: {
-      parse_token: /\[(\w*\:\d*\:view-mode\:\w*)\]\{(.*)\}/,
+      parse_token: /\[(\w*\:\d*\:(view-mode\:\w*|link))\]\{(.*)\}/,
       parse_placeholder: /<nexteuropatoken contenteditable="false" token="(.*)">(.*)<\/nexteuropatoken>/,
-      get_tokens: /\[\w*\:\d*\:view-mode\:\w*\]{.*?}/g,
+      get_tokens: /\[\w*\:\d*\:(view-mode\:\w*|link)\]{.*?}/g,
       get_placeholders: /<nexteuropatoken.*?<\/nexteuropatoken>/g
     },
 
@@ -130,7 +130,7 @@
      */
     getPlaceholderFromToken: function(token) {
       var matches = token.match(this.regex.parse_token);
-      return (matches) ? '<nexteuropatoken contenteditable="false" token="' + matches[1] + '">' + matches[2] + '</nexteuropatoken>' : '';
+      return (matches) ? '<nexteuropatoken contenteditable="false" token="' + matches[1] + '">' + matches[3] + '</nexteuropatoken>' : '';
     },
 
     /**

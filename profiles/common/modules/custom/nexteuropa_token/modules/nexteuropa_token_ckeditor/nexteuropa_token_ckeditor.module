@@ -159,12 +159,19 @@ function nexteuropa_token_ckeditor_filter_info_alter(&$info) {
  * @see nexteuropa_token_ckeditor_filter_info_alter()
  */
 function nexteuropa_token_ckeditor_token_filter_filter_tokens($text, $filter, $format, $langcode, $cache, $cache_id) {
-  $matches = array();
-  preg_match_all('/((\[\w*\:\d*\:view-mode\:\w*\]){.*})/U', $text, $matches);
-  if ($matches) {
-    foreach ($matches[0] as $key => $value) {
-      $text = str_replace($matches[1][$key], $matches[2][$key], $text);
+  $regular_expressions = array(
+    '/((\[\w*\:\d*\:view-mode\:\w*\]){.*})/U', // Matches view mode tokens.
+    '/((\[\w*\:\d*\:link]){.*})/U', // Matches link tokens.
+  );
+  foreach ($regular_expressions as $regular_expression) {
+    $matches = array();
+    preg_match_all($regular_expression, $text, $matches);
+    if ($matches) {
+      foreach ($matches[0] as $key => $value) {
+        $text = str_replace($matches[1][$key], $matches[2][$key], $text);
+      }
     }
   }
+
   return _token_filter_filter_tokens($text, $filter, $format, $langcode, $cache, $cache_id);
 }
