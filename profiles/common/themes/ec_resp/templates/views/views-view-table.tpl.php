@@ -1,10 +1,10 @@
 <?php
-
 /**
  * @file
  * Template to display a view as a table.
  *
- * - $title : The title of this group of rows.  May be empty.
+ * Available variables:
+ * - $title : The title of this group of rows. May be empty.
  * - $header: An array of header labels keyed by field id.
  * - $header_classes: An array of header classes keyed by field id.
  * - $fields: An array of CSS IDs to use for each field id.
@@ -15,6 +15,7 @@
  *   $rows are keyed by row number, fields within rows are keyed by field ID.
  * - $field_classes: An array of classes to apply to each field, indexed by
  *   field id, then row number. This matches the index in $rows.
+ *
  * @ingroup views_templates
  */
 ?>
