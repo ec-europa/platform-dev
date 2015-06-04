@@ -18,10 +18,9 @@
           $(this).click(function (e) {
             e.preventDefault();
             var token = $(this).attr('token-ckeditor-token');
-            var label = $(this).attr('token-ckeditor-label');
-            var mode = $(this).text();
-            if (label) {
-              token = token + '{' + Drupal.t('@label as @mode', {'@label': label, '@mode': mode}) + '}';
+            var type = $(this).attr('token-ckeditor-type');
+            if (type != 'url') {
+              token = token + '{' + Drupal.t('@label as @mode', {'@label': $(this).attr('token-ckeditor-label'), '@mode': $(this).text()}) + '}';
             }
             editor.insertHtml(token);
           });

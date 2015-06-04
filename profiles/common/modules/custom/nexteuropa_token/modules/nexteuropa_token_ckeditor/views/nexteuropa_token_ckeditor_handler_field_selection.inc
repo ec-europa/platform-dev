@@ -68,14 +68,17 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
     $output = array();
 
     $attributes['token-ckeditor-token'] = "[node:$entity_id:link]";
+    $attributes['token-ckeditor-type'] = 'link';
     $output[] = l(t('Link'), '', array('attributes' => $attributes));
 
     $attributes['token-ckeditor-token'] = "[node:$entity_id:url]";
+    $attributes['token-ckeditor-type'] = 'url';
     $output[] = l(t('URL'), '', array('attributes' => $attributes));
 
     foreach ($this->options['view_modes'] as $view_mode => $enabled) {
       if ($enabled) {
         $attributes['token-ckeditor-token'] = "[node:$entity_id:view-mode:$view_mode]";
+        $attributes['token-ckeditor-type'] = 'view-mode';
         $output[] = l($this->get_view_mode_label($view_mode), '', array('attributes' => $attributes));
       }
     }

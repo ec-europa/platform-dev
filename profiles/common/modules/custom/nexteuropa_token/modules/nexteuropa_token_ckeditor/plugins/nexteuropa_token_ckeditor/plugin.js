@@ -76,9 +76,7 @@
       CKEDITOR.dtd.$nonEditable['nexteuropatoken'] = true;
       if (parseFloat(CKEDITOR.version) >= 4.1) {
         // Register allowed tag for advanced filtering.
-        editor.filter.allow('nexteuropatoken[!token]', 'nexteuropatoken', true);
-        // Don't remove the token attribute.
-        editor.filter.allow('*[!token]', 'nexteuropatoken', true);
+        editor.filter.allow('nexteuropatoken[!*]', 'nexteuropatoken', true);
         // Objects should be selected as a whole in the editor.
         CKEDITOR.dtd.$object['nexteuropatoken'] = true;
       }
@@ -116,7 +114,7 @@
      */
     regex: {
       parse_token: /\[(\w*\:\d*\:view-mode\:\w*)\]\{(.*)\}/,
-      parse_placeholder: /<nexteuropatoken token="(.*)">(.*)<\/nexteuropatoken>/,
+      parse_placeholder: /<nexteuropatoken contenteditable="false" token="(.*)">(.*)<\/nexteuropatoken>/,
       get_tokens: /\[\w*\:\d*\:view-mode\:\w*\]{.*?}/g,
       get_placeholders: /<nexteuropatoken.*?<\/nexteuropatoken>/g
     },
@@ -132,7 +130,7 @@
      */
     getPlaceholderFromToken: function(token) {
       var matches = token.match(this.regex.parse_token);
-      return (matches) ? '<nexteuropatoken token="' + matches[1] + '">' + matches[2] + '</nexteuropatoken>' : '';
+      return (matches) ? '<nexteuropatoken contenteditable="false" token="' + matches[1] + '">' + matches[2] + '</nexteuropatoken>' : '';
     },
 
     /**
