@@ -407,7 +407,6 @@ function ec_resp_preprocess_maintenance_page(&$variables) {
   if (!$variables['db_is_active']) {
     unset($variables['site_name']);
   }
-  drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/maintenance-page.css');
 }
 
 /**
@@ -417,11 +416,13 @@ function ec_resp_preprocess_html(&$variables) {
   // Update page title.
   if (arg(0) == 'node' && is_numeric(arg(1))) {
     $node = node_load(arg(1));
-    // if the metatag title exists, it must be used to construct the title page
-    if(isset($node->field_meta_title) && !empty($node->field_meta_title))
+    // If the metatag title exists, it must be used to construct the title page.
+    if (isset($node->field_meta_title) && !empty($node->field_meta_title)) {
       $variables['head_title'] = filter_xss($node->field_meta_title['und'][0]['value']);
-    else 
+    }
+    else {
       $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
+    }
   }
   else {
     $variables['head_title'] = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
@@ -603,11 +604,11 @@ function _ec_resp_media_gallery_count($matches) {
   $nb_pictures = 0;
   $nb_video = 0;
 
-  if (isset($node->field_picture_upload[LANGUAGE_NONE])):
+  if (isset($node->field_picture_upload[LANGUAGE_NONE])) :
     $nb_pictures = count($node->field_picture_upload[LANGUAGE_NONE]);
   endif;
 
-  if (isset($node->field_video_upload[LANGUAGE_NONE])):
+  if (isset($node->field_video_upload[LANGUAGE_NONE])) :
     $nb_video = count($node->field_video_upload[LANGUAGE_NONE]);
   endif;
 
@@ -637,11 +638,13 @@ function ec_resp_page_alter(&$page) {
 
   $title = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
   if (!empty($node)) {
-    // if the metatag title exists, it must be used to construct the title page
-    if(isset($node->field_meta_title) && !empty($node->field_meta_title))
+    // If the metatag title exists, it must be used to construct the title page.
+    if (isset($node->field_meta_title) && !empty($node->field_meta_title)) {
       $title = filter_xss($node->field_meta_title['und'][0]['value']);
-    else
+    }
+    else {
       $title = $node_title . ' - ' . $title;
+    }
   }
 
   $keywords = '';
@@ -999,7 +1002,6 @@ function ec_resp_menu_link($variables) {
   // Test if there is a sub menu.
   if ($element['#below'] && !theme_get_setting('disable_dropdown_menu') && !in_array('dropdown', $element['#attributes']['class'])) {
     // Menu item has sub menu.
-
     // Add carret and class.
     $element['#title'] .= '<b class="caret"></b>';
     $element['#attributes']['class'][] = 'dropdown';
@@ -1391,7 +1393,7 @@ function ec_resp_preprocess_block(&$variables) {
     'workbench' => 'block',
     'social_bookmark' => 'social-bookmark',
     'views' => 'view_ec_content_slider-block',
-    'om_maximenu' => array('om-maximenu-1','om-maximenu-2'),
+    'om_maximenu' => array('om-maximenu-1', 'om-maximenu-2'),
     'menu' => 'menu-service-tools',
     'cce_basic_config' => 'footer_ipg',
   );
@@ -1399,7 +1401,7 @@ function ec_resp_preprocess_block(&$variables) {
   // List of all blocks that don't need their title to be displayed.
   $block_no_title = array(
     'fat_footer' => 'fat-footer',
-    'om_maximenu' => array('om-maximenu-1','om-maximenu-2'),
+    'om_maximenu' => array('om-maximenu-1', 'om-maximenu-2'),
     'menu' => 'menu-service-tools',
     'cce_basic_config' => 'footer_ipg',
   );

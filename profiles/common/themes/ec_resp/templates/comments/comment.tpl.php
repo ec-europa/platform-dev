@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- * ec_resp's theme implementation for comments.
+ * Ec_resp's theme implementation for comments.
  *
  * Available variables:
  * - $author: Comment author. Can be link or plain text.

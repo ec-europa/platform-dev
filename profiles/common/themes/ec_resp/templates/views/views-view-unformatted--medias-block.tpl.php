@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Default simple view template to display a list of rows.
@@ -16,7 +15,7 @@ $first = TRUE;
 <div id="media-gallery-carousel" class="carousel slide">
 
   <ol class="carousel-indicators">
-  <?php 
+  <?php
   foreach ($rows as $id => $row):
     print '<li data-target="#media-gallery-carousel" data-slide-to="' . $id . '" class="' . ($first ? "active" : "") . '"></li>';
     $first = FALSE;
@@ -26,7 +25,7 @@ $first = TRUE;
   <?php $first = TRUE; ?>
 
   <div class="carousel-inner">
-  <?php 
+  <?php
   foreach ($rows as $id => $row):
     print '<div class="' . $classes_array[$id] . ($first ? ' active' : '') . '">' . $row . '</div>';
     $first = FALSE;
