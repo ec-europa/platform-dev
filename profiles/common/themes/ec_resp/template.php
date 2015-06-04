@@ -95,7 +95,7 @@ function ec_resp_preprocess(&$variables) {
             // Format feature description.
             $feature_description = theme('html_tag', array(
               'element' => array(
-                '#tag' => 'div',
+                '#tag' => 'blockquote',
                 '#attributes' => array(
                   'class' => 'feature-set__desc',
                 ),

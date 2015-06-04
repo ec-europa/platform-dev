@@ -9,9 +9,9 @@
   // Drupal.behaviours 
   // https://drupal.org/node/304258 
   // http://blog.amazeelabs.com/en/drupal-behaviors-quick-how
-	Drupal.behaviors.ec_resp = {
+  Drupal.behaviors.ec_resp = {
     attach: function(context, settings) {
-  		
+      
       // Gallery carrousel
       $('.carousel').carousel({
         interval: 5000
@@ -62,7 +62,7 @@
       });
       // /Font size buttons
     }
-	}
+  }
 
   // News slider implementation
   Drupal.behaviors.ec_resp_news_slider = {
@@ -145,23 +145,23 @@
       // Manage click on a row.
       $('.feature-set__header').click(function() {
         $(this)
-          .not('.feature-set__header--locked')
-          .toggleClass('feature-set__header--pending')
+          .closest('.feature-set__feature')
+          .not('.feature-set__feature--locked')
+          .toggleClass('feature-set__feature--pending')
           .find('.form-checkbox')
           .each(function() {
             $this = $(this);
-            console.log($this.closest('.feature-set__header').hasClass('feature-set__header--disabled'));
             if ($this.is(':checked')) {
               $this
                 .prop('checked', false)
                 .siblings('span')
                 .toggleClass('glyphicon-time')
                 .toggleClass(function() {
-                  if ($this.closest('.feature-set__header').hasClass('feature-set__header--disabled')) {
-                    return 'glyphicon-remove-sign';
+                  if ($this.closest('.feature-set__feature').hasClass('feature-set__feature--disabled')) {
+                    return 'glyphicon-remove';
                   }
                   else {
-                    return 'glyphicon-ok-sign';
+                    return 'glyphicon-ok';
                   }
                 });
             }
@@ -171,11 +171,11 @@
                 .siblings('span')
                 .toggleClass('glyphicon-time')
                 .toggleClass(function() {
-                  if ($this.closest('.feature-set__header').hasClass('feature-set__header--disabled')) {
-                    return 'glyphicon-remove-sign';
+                  if ($this.closest('.feature-set__feature').hasClass('feature-set__feature--disabled')) {
+                    return 'glyphicon-remove';
                   }
                   else {
-                    return 'glyphicon-ok-sign';
+                    return 'glyphicon-ok';
                   }
                 });
             }
@@ -187,20 +187,20 @@
         $this = $(this);
         // Check if the feature has been enabled.
         if ($this.is(':checked')) {
-          var html_before = '<span class="glyphicon glyphicon-ok-sign"></span>';
+          var html_before = '<span class="glyphicon glyphicon-ok"></span>';
           $this
-            .closest('.feature-set__header')
-            .addClass('feature-set__header--enabled');
+            .closest('.feature-set__feature')
+            .addClass('feature-set__feature--enabled');
         }
         else {
-          var html_before = '<span class="glyphicon glyphicon-remove-sign"></span>';
+          var html_before = '<span class="glyphicon glyphicon-remove"></span>';
           $this
-            .closest('.feature-set__header')
-            .addClass('feature-set__header--disabled');
+            .closest('.feature-set__feature')
+            .addClass('feature-set__feature--disabled');
         }
         $this
           .before(html_before)
-          .css('opacity',1);
+          .css('opacity',0);
       });
 
       // Add class to row corresponding to button state.
@@ -208,8 +208,8 @@
         .filter('.form-disabled')
         .find('span')
         .addClass('glyphicon-ban-circle')
-        .closest('.feature-set__header')
-        .addClass('feature-set__header--locked');
+        .closest('.feature-set__feature')
+        .addClass('feature-set__feature--locked');
     }
   }// /Feature set
 
