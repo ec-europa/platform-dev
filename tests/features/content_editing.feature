@@ -28,3 +28,17 @@ Feature: Content editing
       | <ol><li>A number?</li></ol>                                                                  | <ol><li>A number?</li>                                                                       |
       | <p><a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                         | <p><a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                         |
       | <h2 style=\"font-style:italic\">Styled heading</h2>                                          | <h2 style=\"font-style:italic\">Styled heading</h2>                                          |
+
+  @api
+  Scenario Outline: Test disallowed HTML
+    When I go to "node/add/page"
+    And I fill in "Title" with "This is not the right way"
+    And I fill in "Body" with "<html>"
+    And I press "Save"
+    Then the response should not contain "<expected>"
+
+  Examples:
+    | html                                                                | expected                      |
+    | <script>alert('xss')</script>                                       | <script>alert('xss')</script> |
+    | <a href=\"javascript:alert('xss')\">xss</a>                         | javascript:alert              |
+    | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p> | javascript:alert              |
