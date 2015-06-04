@@ -424,16 +424,20 @@ function multisite_drupal_toolbox_node_view_alter(&$build) {
 function multisite_drupal_toolbox_sanitize($content, $nid) {
   // Security process to prevent xss attack in node contents.
   $nodes_bypass = explode("\n", variable_get("security_bypassed_nodes", ""));
-  $tags_allowed = explode("\n", variable_get("security_allowed_tags", ""));
-
-  foreach ($tags_allowed as $id => $tag) {
-    $tags_allowed[$id] = trim($tag);
-  }
 
   // Check if the node must be bypass.
   if (!in_array($nid, $nodes_bypass) || is_null($nid)) {
-    $content = filter_xss($content, $tags_allowed);
-    // Use the drupal filter_xss function to filter xss attacks.
+    // Retrieve the list of allowed tags that were configured in the UI.
+    $tags_allowed = explode("\n", variable_get("security_allowed_tags", ""));
+    // Trim whitespace and filter empty lines.
+    $tags_allowed = array_map('trim', $tags_allowed);
+    $tags_allowed = array_filter($tags_allowed);
+
+    module_load_include('inc', 'multisite_drupal_toolbox', 'multisite_drupal_toolbox.sanitize');
+    $filter_options = multisite_drupal_toolbox_get_default_filter_options();
+    $filter_options['valid_elements'] = array_fill_keys($tags_allowed, array('*' => TRUE));
+
+    $content = multisite_drupal_toolbox_filter_xss($content, $filter_options);
   }
   return $content;
 }
