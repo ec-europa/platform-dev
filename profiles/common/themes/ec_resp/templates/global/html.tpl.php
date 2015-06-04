@@ -3,8 +3,9 @@
  * @file
  * Default theme implementation of main page.
  */
-?><!DOCTYPE html>
-<html>
+?>
+<!DOCTYPE html>
+<html lang="<?php print (isset($language) ? $language->language : '') ?>">
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <?php print $head; ?>

@@ -42,6 +42,7 @@ class Config extends ConfigBase {
    * @see language_types_configurable()
    */
   public function setLanguageNegotiation($language_negotiation, $type = LANGUAGE_TYPE_INTERFACE) {
+    include_once DRUPAL_ROOT . '/includes/language.inc';
     $negotiation = array(
       $language_negotiation => -10,
       'language-default' => 10,
