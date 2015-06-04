@@ -41,6 +41,25 @@ class Config extends ConfigBase {
   }
 
   /**
+   * Delete a vocabulary.
+   *
+   * @param string $machine_name
+   *    Vocabulary machine name.
+   *
+   * @return bool|int
+   *   Constant indicating items were deleted.
+   */
+  public function deleteVocabulary($machine_name) {
+
+    if ($vocabulary = taxonomy_vocabulary_machine_name_load($machine_name)) {
+      return taxonomy_vocabulary_delete($vocabulary->vid);
+    }
+    else {
+      return FALSE;
+    }
+  }
+
+  /**
    * Create a taxonomy term for a given vocabulary.
    *
    * @param string $vocabulary
@@ -87,6 +106,47 @@ class Config extends ConfigBase {
       return entity_save('taxonomy_term', $entity);
     }
     return FALSE;
+  }
+
+  /**
+   * Delete a taxonomy term.
+   *
+   * @param int $tid
+   *    Taxonomy term ID.
+   *
+   * @return int
+   *   Constant indicating items were deleted.
+   */
+  public function deleteTaxonomyTerm($tid) {
+    return taxonomy_term_delete($tid);
+  }
+
+  /**
+   * Perform a taxonomy_get_tree() for a given vocabulary.
+   *
+   * @param string $vocabulary_name
+   *    Vocabulary machine name.
+   * @param int $parent
+   *    The term ID under which to generate the tree.
+   *    If 0, generate the tree for the entire vocabulary.
+   * @param int $max_depth
+   *    Levels of the tree to return. Leave NULL to return all levels.
+   * @param bool $load_entities
+   *    If TRUE, a full entity load will occur on the term objects.
+   *
+   * @return array
+   *    An array of all term objects in the tree.
+   *
+   * @see: taxonomy_get_tree().
+   */
+  public function getVocabularyTerms($vocabulary_name, $parent = 0, $max_depth = NULL, $load_entities = FALSE) {
+
+    if ($vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary_name)) {
+      return taxonomy_get_tree($vocabulary->vid, $parent, $max_depth, $load_entities);
+    }
+    else {
+      return array();
+    }
   }
 
 }
