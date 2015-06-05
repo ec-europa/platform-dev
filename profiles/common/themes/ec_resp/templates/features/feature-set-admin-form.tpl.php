@@ -9,6 +9,7 @@
  * - $feature_set_input: rendered form input (submit and hidden fields)
  */
 ?>
+<h2><?php print t('Select features that you want to enable on this site.')?></h2>
 
 <div class="row">
   <div class="col-lg-3 col-sm-4 col-xs-12">
