@@ -1,7 +1,11 @@
 /* ---------------- Feature set  ----------------- */
 .feature-set__categories {
-  margin: 0;
-  padding: 0;
+  margin-bottom: 20px;
+}
+
+.feature-set__feature-group {
+  border-bottom: 1px dashed #ccc;
+  margin-bottom: 20px;
 }
 
 .feature-set__header {
@@ -103,5 +107,26 @@
   .feature-set__desc {
     border-color: @btn-warning-bg;
     transition: 0.4s;
+  }
+}
+
+/* Hack for scroll spy and affix */
+.feature-set__categories {
+  &.affix {
+    position: relative;
+  }
+}
+@media (min-width: @screen-xs-max) {
+  .feature-set__categories {
+    padding-top: 55px;
+    margin-top: -55px;
+    &.affix {
+      top: 55px;
+      position: fixed;
+    }
+  }
+  .feature-set__feature-group {
+    padding-top: 55px;
+    margin-top: -55px;
   }
 }

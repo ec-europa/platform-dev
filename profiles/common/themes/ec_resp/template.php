@@ -35,15 +35,11 @@ function ec_resp_preprocess(&$variables) {
                 'role' => 'presentation',
               ),
               '#value' => l(
-                $category,
+                $category . ' (' . count($features) . ')',
                 '',
                 array(
-                  'attributes' => array(
-                    'aria-controls' => $category_id,
-                    'role' => 'tab',
-                    'data-toggle' => 'tab',
-                  ),
                   'fragment' => $category_id,
+                  'external' => TRUE,
                 )
               ),
             ),
@@ -93,7 +89,7 @@ function ec_resp_preprocess(&$variables) {
             ));
 
             // Format feature documentation.
-            $feature_documentation = !empty($item['#featuresetinfo']['documentation'])  
+            $feature_documentation = !empty($item['#featuresetinfo']['documentation'])
               ? l(
                 t('See @name documentation', array('@name' => $item['#featuresetinfo']['featureset'])),
                 $item['#featuresetinfo']['documentation'],
@@ -102,10 +98,10 @@ function ec_resp_preprocess(&$variables) {
 
             // Format feature description.
             $feature_description_value = '';
-            $feature_description_value .= !empty($item['#featuresetinfo']['description'])  
+            $feature_description_value .= !empty($item['#featuresetinfo']['description'])
               ? $item['#featuresetinfo']['description']
               : '';
-            $feature_description_value .= !empty($feature_documentation)  
+            $feature_description_value .= !empty($feature_documentation)
               ? theme('html_tag', array(
                 'element' => array(
                   '#tag' => 'footer',
@@ -113,7 +109,7 @@ function ec_resp_preprocess(&$variables) {
                     'class' => 'feature-set__doc',
                   ),
                   '#value' => $feature_documentation,
-                )
+                ),
               ))
               : '';
 
@@ -135,8 +131,8 @@ function ec_resp_preprocess(&$variables) {
                   'class' => 'feature-set__doc',
                 ),
                 '#value' => !empty($item['#featuresetinfo']['require'])
-                  ? $item['#featuresetinfo']['require']
-                  : '',
+                ? $item['#featuresetinfo']['require']
+                : '',
               ),
             ));
 
@@ -186,9 +182,8 @@ function ec_resp_preprocess(&$variables) {
             'element' => array(
               '#tag' => 'div',
               '#attributes' => array(
-                'class' => 'tab-pane',
-                'role' => 'tabpanel',
                 'id' => $category_id,
+                'class' => 'feature-set__feature-group',
               ),
               '#value' => $feature_full,
             ),

@@ -12,20 +12,27 @@
 
 <div class="row">
   <div class="col-lg-3 col-sm-4 col-xs-12">
-    <ul class="nav nav-pills nav-stacked feature-set__categories">
-      <?php print $feature_set_categories_list; ?>
-    </ul>
+    <nav id="feature-set__scrollspy">
+      <ul class="nav nav-pills nav-stacked feature-set__categories" data-spy="affix">
+        <?php print $feature_set_categories_list; ?>
+        <li class="feature-set__input hidden-xs">
+          <?php
+            print $feature_set_input;
+          ?>
+        </li>
+      </ul>
+    </nav>
   </div>
 
   <div class="col-lg-9 col-sm-8 col-xs-12">
-    <div class="tab-content feature-set__features">
+    <div class="feature-set__features">
       <?php print $feature_set_features_list; ?>
     </div>
   </div>
 </div>
 
-<div class="feature-set__input">
-  <?php 
+<div class="feature-set__input visible-xs">
+  <?php
     print $feature_set_input;
   ?>
 </div>

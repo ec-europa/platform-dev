@@ -128,8 +128,21 @@
   Drupal.behaviors.ec_resp_feature_set = {
     attach: function(context) {
 
-      // Activate first tab by default.
-      $('.feature-set__categories a:first').tab('show');
+      // Activate sticky menu.
+      $('.feature-set__categories').affix({
+        offset: {
+          top: $('.feature-set__categories').offset().top
+        }
+      });
+      $('.feature-set__category').width($('#feature-set__scrollspy').width());
+      $(window).resize(function() {
+        $('.feature-set__category').width($('#feature-set__scrollspy').width());
+      });
+
+      // Activate scrollspy.
+      $('body').scrollspy({
+        target: '#feature-set__scrollspy',
+      });
 
       // Manage click on a row.
       $('.feature-set__header').click(function() {
