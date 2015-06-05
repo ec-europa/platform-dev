@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Install the feature feature_set
+ * Install the feature feature_set.
  */
 
 include_once 'feature_set.install.inc';
