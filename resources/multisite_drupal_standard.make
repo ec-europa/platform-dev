@@ -265,11 +265,17 @@ projects[maxlength][version] = "3.0-beta1"
 projects[maxlength][patch][] = patches/maxlength-indefined_index-2235.patch
 projects[maxlength][patch][] = patches/maxlength-prevent_undefined_index_error-1416608-3.patch
 
+projects[media][subdir] = contrib
 projects[media][download][branch] = 7.x-2.x
 projects[media][download][revision] = 64c5102
 projects[media][download][type] = git
 projects[media][patch][] = patches/media-wysiwyg-override-white-list-MULTISITE-2607.patch
-projects[media][subdir] = contrib
+
+# Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
+# https://www.drupal.org/node/2401811
+# https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
+projects[media][patch][] = http://www.drupal.org/files/issues/file_entity-remove-contextual-links-2401811-11.patch
+
 projects[media_crop][subdir] = "contrib"
 projects[media_crop][version] = "1.4"
 
