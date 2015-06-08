@@ -2,5 +2,5 @@
 
 /**
  * @file
- * Views integration
+ * Views integration.
  */
