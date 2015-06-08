@@ -1,11 +1,16 @@
 {
   "require": {
-    "phing/phing": "~2.10",
-    "drush/drush": "7.0.*@dev",
+    "drupal/coder": "dev-8.x-2.x",
     "drupal/phing-drush-task": "1.0",
-    "pear/versioncontrol_git": "dev-master"
+    "drush/drush": "dev-master",
+    "pear/versioncontrol_git": "dev-master",
+    "phing/phing": "~2.10"
   },
   "repositories": [
+    {
+      "type": "vcs",
+      "url": "http://git.drupal.org/project/coder.git"
+    },
     {
       "type": "package",
       "package": {
