@@ -38,3 +38,35 @@ function newsroom_migrate_migrate_api() {
 
   return $api;
 }
+
+/**
+ * An helper function to update the newsroom_item ct and its fields.
+ */
+function _newsroom_migrate_update_fields() {
+  variable_set('language_content_type_newsroom_item', '4');
+  title_field_replacement_toggle('node', 'newsroom_item', 'title');
+  $fields = field_info_instances('node', 'newsroom_item');
+  foreach ($fields as $field_name => $field_value) {
+    $field = field_read_field($field_name);
+    $field['translatable'] = 1;
+    field_update_field($field);
+  }
+}
+
+/**
+ * Add system languages.
+ *
+ * @param array $languages
+ *   Array of languages codes.
+ */
+function _newsroom_migrate_add_languages($languages = array()) {
+  // Enabling languages.
+  if (module_exists('locale')) {
+    include_once DRUPAL_ROOT . '/includes/locale.inc';
+    if (!empty($languages)) {
+      foreach ($languages as $lang) {
+        locale_add_language($lang);
+      }
+    }
+  }
+}

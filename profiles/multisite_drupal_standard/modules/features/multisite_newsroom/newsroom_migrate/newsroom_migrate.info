@@ -9,6 +9,7 @@ multisite_version = 1.7
 dependencies[] = multisite_newsroom
 dependencies[] = nexteuropa_migrate
 files[] = newsroom_migrate.inc
+files[] = newsroom_migrate.api.inc
 files[] = includes/newsroom_migrate.topic.inc
 files[] = includes/newsroom_migrate.type.inc
 files[] = includes/newsroom_migrate.item.inc
