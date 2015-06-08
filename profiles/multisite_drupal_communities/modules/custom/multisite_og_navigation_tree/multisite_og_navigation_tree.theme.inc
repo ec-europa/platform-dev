@@ -2,19 +2,20 @@
 
 /**
  * @file
- * Theming functions
+ * Theming functions.
  */
- 
- 
+
 /**
- * General theming function
+ * Returns HTML for the Multisite OG Navigation tree group settings.
  *
- * @param $variables
+ * @param array $variables
  *   An associative array containing:
  *   - form: A render element representing the form.
  *
+ * @return string
+ *   The rendered HTML.
  */
-function theme_mont_group_settings($variables) {
+function theme_mont_group_settings(array $variables) {
   $fields = $variables['form'];
   $field_names = element_children($fields);
   $rows = array();
@@ -55,16 +56,21 @@ function theme_mont_group_settings($variables) {
 }
 
 /**
- * Theme the OG taxonomy tree administration page
- *  - Returns HTML for a terms overview form as a sortable list of terms.
+ * Returns HTML for the OG taxonomy tree administration page.
  *
- * @param $variables
+ * Returns HTML for a terms overview form as a sortable list of terms.
+ *
+ * @param array $variables
  *   An associative array containing:
  *   - form: A render element representing the form.
+ *
+ * @return string
+ *   The rendered HTML.
  */
-function theme_mont_taxonomy_overview_terms($variables) {
+function theme_mont_taxonomy_overview_terms(array $variables) {
   $form = $variables['form'];
 
+  // @todo The $page_increment variable is unused in its scope.
   $page_increment = $form['#page_increment'];
   $page_entries = $form['#page_entries'];
   $back_step = $form['#back_step'];
@@ -75,10 +81,12 @@ function theme_mont_taxonomy_overview_terms($variables) {
     drupal_add_tabledrag('taxonomy', 'match', 'parent', 'term-parent', 'term-parent', 'term-id', FALSE);
     drupal_add_tabledrag('taxonomy', 'depth', 'group', 'term-depth', NULL, NULL, FALSE);
     drupal_add_js(drupal_get_path('module', 'taxonomy') . '/taxonomy.js');
-    drupal_add_js(array('taxonomy' => array(
+    drupal_add_js(array(
+      'taxonomy' => array(
         'backStep' => $back_step,
-        'forwardStep' => $forward_step
-      )), 'setting');
+        'forwardStep' => $forward_step,
+      ),
+    ), 'setting');
     drupal_add_css(drupal_get_path('module', 'taxonomy') . '/taxonomy.css');
   }
   drupal_add_tabledrag('taxonomy', 'order', 'sibling', 'term-weight');
@@ -137,21 +145,23 @@ function theme_mont_taxonomy_overview_terms($variables) {
   }
 
   if (empty($rows)) {
-    $rows[] = array( array(
+    $rows[] = array(
+      array(
         'data' => $form['#empty_text'],
-        'colspan' => '3'
-      ));
+        'colspan' => '3',
+      ),
+    );
   }
 
   $header = array(
     t('Name'),
     t('Weight'),
-    t('Operations')
+    t('Operations'),
   );
   $output = theme('table', array(
     'header' => $header,
     'rows' => $rows,
-    'attributes' => array('id' => 'taxonomy')
+    'attributes' => array('id' => 'taxonomy'),
   ));
   $output .= drupal_render_children($form);
   $output .= theme('pager');
