@@ -337,6 +337,14 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
       );
     }
 
+    // Include title_field if entity translation module is enabled.
+    if (module_exists('entity_translation')) {
+      $targets['title_field'] = array(
+        'name' => t('Field Title'),
+        'description' => t('The field replacing the title'),
+      );
+    }
+
     // Include comment field if Comment module is enabled.
     if (module_exists('comment')) {
       $targets['comment'] = array(
@@ -506,7 +514,7 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
           isset($targets[$this->id][$mapping['target']]['callback']) &&
           function_exists($targets[$this->id][$mapping['target']]['callback'])) {
         $callback = $targets[$this->id][$mapping['target']]['callback'];
-        $callback($source, $target_item, $mapping['target'], $value, $mapping);
+        $callback($source, $target_item, $mapping['target'], array($value), $mapping);
       }
       else {
         debug($value);
