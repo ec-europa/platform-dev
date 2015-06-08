@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- * Main view template
+ * Main view template.
  *
  * Variables available:
  * - $classes_array: An array of classes determined in
@@ -22,7 +21,7 @@
  * - $pager: The pager next/prev links to display, if any
  * - $exposed: Exposed widget form/info to display
  * - $feed_icon: Feed icon to display, if any
- * - $more: A link to view more, if any
+ * - $more: A link to view more, if any.
  *
  * @ingroup views_templates
  */

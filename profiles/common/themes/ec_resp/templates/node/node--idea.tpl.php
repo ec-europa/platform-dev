@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- * ec_resp's theme implementation to display a node.
+ * Ec_resp's theme implementation to display a node.
  *
  * Available variables:
  * - $title: the (sanitized) title of the node.

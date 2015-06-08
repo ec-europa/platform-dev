@@ -5,8 +5,7 @@
  * Contains \\Drupal\\multisite_config\\ConfigBase.
  */
 
-/// @cond DEV
-
+// @cond DEV
 namespace Drupal\multisite_config;
 
 use Drupal\multisite_config\ConfigBaseInterface;
@@ -40,4 +39,4 @@ class ConfigBase implements ConfigBaseInterface {
   }
 
 }
-/// @endcond
+// @endcond

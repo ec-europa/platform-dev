@@ -1,14 +1,19 @@
 <?php
-
 /**
  * @file
- * Installation functions
+ * Install, uninstall, update and schema hooks.
  */
- 
+
+/**
+ * Implements hook_install().
+ */
 function multisite_og_navigation_tree_install() {
   db_query("UPDATE {system} SET weight = 5 WHERE name = 'multisite_og_navigation_tree'");
 }
 
+/**
+ * Implements hook_uninstall().
+ */
 function multisite_og_navigation_tree_uninstall() {
   $group_taxonomy_field = 'group_taxonomy';
 
@@ -26,9 +31,11 @@ function multisite_og_navigation_tree_uninstall() {
   db_query("DELETE FROM {variable} WHERE name LIKE 'multisite_og_navigation_tree_%'");
   db_query("DELETE FROM {variable} WHERE name LIKE '_mont_%'");
   cache_clear_all('variables', 'cache');
-
 }
 
+/**
+ * Implements hook_schema().
+ */
 function multisite_og_navigation_tree_schema() {
   $schema['multisite_og_navigation_tree_grouptaxonomy'] = array(
     'description' => 'TODO: please describe this table!',
@@ -69,24 +76,24 @@ function multisite_og_navigation_tree_schema() {
   return $schema;
 }
 
+/**
+ * Implements hook_enable().
+ */
 function multisite_og_navigation_tree_enable() {
   $machine_name = 'multisite_og_navigation_tree';
 
-  if ($vocabulary = taxonomy_vocabulary_machine_name_load($machine_name)) {
-
-  }
-  else {
-    $vocabulary = new stdClass;
-    $vocabulary -> name = t('Group taxonomy');
-    $vocabulary -> machine_name = $machine_name;
-    $vocabulary -> multiple = 0;
-    $vocabulary -> required = 1;
-    $vocabulary -> hierarchy = 1;
-    $vocabulary -> relations = 0;
-    $vocabulary -> module = 'multisite_og_navigation_tree';
-    $vocabulary -> weight = -50;
+  if (!$vocabulary = taxonomy_vocabulary_machine_name_load($machine_name)) {
+    $vocabulary = new stdClass();
+    $vocabulary->name = t('Group taxonomy');
+    $vocabulary->machine_name = $machine_name;
+    $vocabulary->multiple = 0;
+    $vocabulary->required = 1;
+    $vocabulary->hierarchy = 1;
+    $vocabulary->relations = 0;
+    $vocabulary->module = 'multisite_og_navigation_tree';
+    $vocabulary->weight = -50;
     taxonomy_vocabulary_save($vocabulary);
     drupal_set_message(t('Vocabulary "Group taxonomy" created.'));
   }
-  variable_set('multisite_og_navigation_tree_vid', $vocabulary -> vid);
+  variable_set('multisite_og_navigation_tree_vid', $vocabulary->vid);
 }

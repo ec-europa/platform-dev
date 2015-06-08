@@ -37,7 +37,6 @@ features[ctools][] = strongarm:strongarm:1
 features[ds_layout_settings][] = node|editorial_team|full
 features[features_api][] = api:2
 features[field_instance][] = node-editorial_team-body
-features[field_instance][] = node-editorial_team-field_core_user_tasks
 features[field_instance][] = node-editorial_team-group_access
 features[field_instance][] = node-editorial_team-group_group
 features[field_instance][] = node-editorial_team-og_roles_permissions

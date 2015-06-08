@@ -85,8 +85,27 @@ behat.yml = ${behat.dir}/behat.yml
 behat.base_url = http://localhost
 
 
+# PHP CodeSniffer configuration
+# -----------------------------
+
+# The file extensions to test.
+phpcs.extensions = php inc module install info test profile theme
+
+# The coding standard to use.
+phpcs.standard = ${project.basedir}/phpcs-ruleset.xml
+
+# Paths to ignore.
+phpcs.ignore = common/libraries;multisite_drupal_communities/libraries;multisite_drupal_standard/libraries;common/modules/custom/ecas/libraries;multisite_drupal_communities/modules/contrib;multisite_drupal_standard/modules/contrib
+
+# The report format. For example 'full', 'summary', 'diff'.
+phpcs.format = full
+
+
 # Debugging
 # ---------
 
-# Verbosity of drush commands.
+# Verbosity of drush commands. Set to TRUE to be verbose.
 drush.verbose = FALSE
+
+# Verbosity of PHP Codesniffer. Set to 1 for progress report, 2 for debugging info.
+phpcs.verbose = 0
