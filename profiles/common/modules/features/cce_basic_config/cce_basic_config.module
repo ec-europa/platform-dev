@@ -309,12 +309,18 @@ function cce_basic_config_form_node_form_after_build($form_element) {
 /**
  * Implements hook_strongarm_alter().
  *
- * Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported in
- * a regular feature since it includes the path to where the Print PDF module is
- * installed, which is different depending on the installation profile that is
- * used.
+ * Dynamically set the following variables which contain hard coded strings and
+ * depend on the install profile:
+ * - print_pdf_pdf_tool
+ * - image_captcha_fonts
  */
 function cce_basic_config_strongarm_alter(&$variables) {
+  $dynamic_variables = array();
+
+  // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
+  // in a regular feature since it includes the path to where the Print PDF
+  // module is installed, which is different depending on the installation
+  // profile that is used.
   // Get the list of available PDF converters.
   // @see print_pdf_settings()
   $available_libs = array();
@@ -323,13 +329,26 @@ function cce_basic_config_strongarm_alter(&$variables) {
   // We are using the "mpdf" tool, extract it from the available converters.
   $pdf_tool = preg_grep('/^print_pdf_mpdf|/', array_keys($available_libs));
 
-  // Add the PDF converter to the exported component if it is available.
   if (!empty($pdf_tool)) {
-    $variables['print_pdf_pdf_tool'] = (object) array(
+    $dynamic_variables['print_pdf_pdf_tool'] = reset($pdf_tool);
+  }
+
+  // Dynamically set the 'image_captcha_fonts' variable. It cannot be exported
+  // in a regular feature since it hard codes the paths to where the fonts are
+  // installed that are used for the image captchas.  These are different
+  // depending on the installation profile that is used.
+  $dynamic_variables['image_captcha_fonts'] = array(
+    drupal_get_path('module', 'image_captcha') . '/fonts/Tuffy/Tuffy_Bold.ttf',
+    drupal_get_path('module', 'image_captcha') . '/fonts/Tuffy/Tuffy.ttf',
+  );
+
+  // Add the dynamic variables to the exported component.
+  foreach ($dynamic_variables as $variable => $value) {
+    $variables[$variable] = (object) array(
       'disabled' => FALSE,
-      'name' => 'print_pdf_pdf_tool',
+      'name' => $variable,
       'api_version' => 1,
-      'value' => reset($pdf_tool),
+      'value' => $value,
     );
   }
 }
