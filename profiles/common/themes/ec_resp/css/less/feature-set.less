@@ -112,21 +112,23 @@
 
 /* Hack for scroll spy and affix */
 .feature-set__categories {
+  margin-bottom: 55px;
   &.affix {
     position: relative;
   }
 }
-@media (min-width: @screen-xs-max) {
+.feature-set__feature-group {
+    padding-top: 55px;
+    margin-top: -55px;
+  }
+@media screen and (min-width: @screen-sm-min) {
   .feature-set__categories {
     padding-top: 55px;
     margin-top: -55px;
+    margin-bottom: 0;
     &.affix {
       top: 55px;
       position: fixed;
     }
-  }
-  .feature-set__feature-group {
-    padding-top: 55px;
-    margin-top: -55px;
   }
 }
