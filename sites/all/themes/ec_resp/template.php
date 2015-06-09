@@ -349,27 +349,6 @@ function ec_resp_preprocess_html(&$variables) {
   );
   drupal_add_html_head($element, 'font_size_switcher');
 
-  // Add javascripts for IE only.
-  $html5shiv = array(
-    '#tag' => 'script',
-    '#attributes' => array(
-      'src' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/scripts/html5shiv.min.js',
-    ),
-    '#prefix' => '<!--[if lt IE 9]>',
-    '#suffix' => '</script><![endif]-->',
-  );
-  drupal_add_html_head($html5shiv, 'html5shiv');
-
-  $respond = array(
-    '#tag' => 'script',
-    '#attributes' => array(
-      'src' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/scripts/respond.min.js',
-    ),
-    '#prefix' => '<!--[if lt IE 9]>',
-    '#suffix' => '</script><![endif]-->',
-  );
-  drupal_add_html_head($respond, 'respond');
-
   // Add javascripts to the footer scope.
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel.min.js', array('scope' => 'footer', 'weight' => 11));
