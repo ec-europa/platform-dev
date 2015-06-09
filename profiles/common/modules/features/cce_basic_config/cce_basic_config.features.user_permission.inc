@@ -612,4 +612,3 @@ function cce_basic_config_user_default_permissions() {
 
   return $permissions;
 }
-
