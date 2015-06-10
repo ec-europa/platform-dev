@@ -2,17 +2,26 @@
 
 /**
  * @file
- * Multisite organic group navigation tree settings
- * Vocabulary is automatically set on install but can be changed
+ * Multisite organic group navigation tree settings.
+ *
+ * Vocabulary is automatically set on install but can be changed.
  */
- 
+
+/**
+ * Form builder for the OG Navigation Tree settings form.
+ */
 function multisite_og_navigation_tree_settings($form) {
   $form = array();
-  
+
   $vocabularies = taxonomy_get_vocabularies();
   $options = array('' => '--------------');
   foreach ($vocabularies as $tid => $vocabulary) {
+    // @todo The t() function cannot be used to translate dynamic strings.
+    // @see i18n_taxonomy_vocabulary_name()
+    // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3893
+    // @codingStandardsIgnoreStart
     $options[$tid] = t($vocabulary->name);
+    // @codingStandardsIgnoreEnd
   }
 
   $entities = og_get_all_group_entity();
@@ -26,15 +35,15 @@ function multisite_og_navigation_tree_settings($form) {
       }
     }
   }
-  
+
   $form['multisite_og_navigation_tree_vid'] = array(
-      '#type' => 'select',
-      '#title' => t('Group taxonomy'),
-      '#options' => $options,
-      '#default_value' => variable_get('multisite_og_navigation_tree_vid', array()),
-      '#description' => t("do not change this if you don't know what you are doing"),
-    );
-  
+    '#type' => 'select',
+    '#title' => t('Group taxonomy'),
+    '#options' => $options,
+    '#default_value' => variable_get('multisite_og_navigation_tree_vid', array()),
+    '#description' => t("do not change this if you don't know what you are doing"),
+  );
+
   if (variable_get('multisite_og_navigation_tree_vid', array())) {
     $form['_mont_taxonomy_enabled'] = array(
       '#type' => 'checkboxes',
@@ -42,13 +51,18 @@ function multisite_og_navigation_tree_settings($form) {
       '#options' => drupal_map_assoc(array_keys($group_types)),
       '#default_value' => variable_get('_mont_taxonomy_enabled', array()),
       '#description' => t("do not change this if you don't know what you are doing"),
-    );  
-  }  
+    );
+  }
 
   $form['submit'] = array('#type' => 'submit', '#value' => t('Save settings'));
   return $form;
 }
 
+/**
+ * Submit handler for the OG Navigation Tree settings form.
+ *
+ * @see multisite_og_navigation_tree_settings()
+ */
 function multisite_og_navigation_tree_settings_submit($form, $form_state) {
   variable_set('_mont_taxonomy_enabled', array_filter($form_state['values']['_mont_taxonomy_enabled']));
   variable_set('multisite_og_navigation_tree_vid', $form_state['values']['multisite_og_navigation_tree_vid']);

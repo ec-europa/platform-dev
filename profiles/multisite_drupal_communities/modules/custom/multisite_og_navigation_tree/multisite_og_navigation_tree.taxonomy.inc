@@ -2,11 +2,11 @@
 
 /**
  * @file
- * Taxonomy form handling : ADD/EDIT TERMS
+ * Taxonomy form handling : ADD/EDIT TERMS.
  */
 
-/*
- * Add taxonomy form
+/**
+ * Add taxonomy form.
  */
 function _mont_group_taxonomy_add_term($node) {
   module_load_include('inc', 'taxonomy', 'taxonomy.admin');
@@ -14,11 +14,11 @@ function _mont_group_taxonomy_add_term($node) {
   $vid = $group_taxonomy->vid;
   $tid = $group_taxonomy->tid;
   $vocabulary = taxonomy_vocabulary_load($vid);
-  $childs = _mont_group_taxonomy_get_allchildren($tid);
+  $children = _mont_group_taxonomy_get_allchildren($tid);
   $form = drupal_get_form('taxonomy_form_term', array(), $vocabulary);
   $parent_options = $form['relations']['parent']['#options'];
   foreach ($parent_options as $parent_tid => $option) {
-    if (!($parent_tid == $tid || array_key_exists($parent_tid, $childs))) {
+    if (!($parent_tid == $tid || array_key_exists($parent_tid, $children))) {
       unset($form['relations']['parent']['#options'][$parent_tid]);
     }
   }
@@ -26,12 +26,12 @@ function _mont_group_taxonomy_add_term($node) {
   $form['relations']['parent']['#value'] = array($tid => $tid);
   $form['relations']['parent']['#required'] = TRUE;
 
-  $f = drupal_render($form);
-  return $f;
+  $output = drupal_render($form);
+  return $output;
 }
 
-/*
- * Add taxonomy form
+/**
+ * Add taxonomy form.
  */
 function _mont_group_taxonomy_edit_term($node, $term_id = 0) {
   module_load_include('inc', 'taxonomy', 'taxonomy.admin');
@@ -39,14 +39,14 @@ function _mont_group_taxonomy_edit_term($node, $term_id = 0) {
   $vid = $group_taxonomy->vid;
   $tid = $group_taxonomy->tid;
   $vocabulary = taxonomy_vocabulary_load($vid);
-  $childs = _mont_group_taxonomy_get_allchildren($tid);
+  $children = _mont_group_taxonomy_get_allchildren($tid);
 
   $term = taxonomy_term_load($term_id);
   $form = drupal_get_form('taxonomy_form_term', $term, $vocabulary);
   $parent_options = $form['relations']['parent']['#options'];
   if ($tid != $term_id) {
     foreach ($parent_options as $parent_tid => $option) {
-      if (!($parent_tid == $tid || array_key_exists($parent_tid, $childs))) {
+      if (!($parent_tid == $tid || array_key_exists($parent_tid, $children))) {
         unset($form['relations']['parent']['#options'][$parent_tid]);
       }
     }
@@ -61,10 +61,13 @@ function _mont_group_taxonomy_edit_term($node, $term_id = 0) {
     $form['relations']['parent']['#value'] = array(0);
   }
 
-  $f = drupal_render($form);
-  return $f;
+  $output = drupal_render($form);
+  return $output;
 }
 
+/**
+ * Returns the group taxonomy view for a given node and taxonomy term.
+ */
 function _mont_group_taxonomy_view_term($node, $term_id = 0) {
   $term = taxonomy_term_load($term_id);
   drupal_set_title($term->name);
@@ -75,17 +78,11 @@ function _mont_group_taxonomy_view_term($node, $term_id = 0) {
   return t('No results');
 }
 
-/***************************************************
+/**
+ * Modification of the core taxonomy overview terms form.
  *
- *          OVERVIEW GROUP TAXONOMY TERMS PAGE
- *
- ***************************************************/
-
-/*
- *  Modification of the core taxonomy overview terms form
- *
- *  altered : taxonomy_get_tree($vocabulary->vid, $group_tid) instead of taxonomy_get_tree($vocabulary->vid, $group_tid)
- *
+ * Altered : taxonomy_get_tree($vocabulary->vid, $group_tid) instead of
+ * taxonomy_get_tree($vocabulary->vid, $group_tid)
  */
 function _mont_overview_terms($form, &$form_state, $node) {
   global $pager_page_array, $pager_total, $pager_total_items;
@@ -100,7 +97,7 @@ function _mont_overview_terms($form, &$form_state, $node) {
       $group_taxonomy = _mont_group_taxonomy_load($node->nid);
     }
     else {
-      $form['error_text'] = array('#markup' => t('No group taxonomy associated with this group.'), );
+      $form['error_text'] = array('#markup' => t('No group taxonomy associated with this group.'));
       return $form;
     }
   }
@@ -125,7 +122,6 @@ function _mont_overview_terms($form, &$form_state, $node) {
   // Elements at the root level after this page.
   $root_entries = 0;
   // Elements at the root level on this page.
-
   // Terms from previous and next pages are shown if the term tree would have
   // been cut in the middle. Keep track of how many extra terms we show on each
   // page of terms.
@@ -182,7 +178,8 @@ function _mont_overview_terms($form, &$form_state, $node) {
       $forward_step++;
     }
 
-    // Finally, if we've gotten down this far, we're rendering a term on this page.
+    // Finally, if we've gotten down this far, we're rendering a term on this
+    // page.
     $page_entries++;
     $term_deltas[$term->tid] = isset($term_deltas[$term->tid]) ? $term_deltas[$term->tid] + 1 : 0;
     $key = 'tid:' . $term->tid . ':' . $term_deltas[$term->tid];
@@ -196,8 +193,7 @@ function _mont_overview_terms($form, &$form_state, $node) {
       $root_entries++;
     }
     $current_page[$key] = $term;
-  }
-  while ($term = next($tree));
+  } while ($term = next($tree));
 
   // Because we didn't use a pager query, set the necessary pager variables.
   $total_entries = $before_entries + $page_entries + $after_entries;
@@ -213,7 +209,8 @@ function _mont_overview_terms($form, &$form_state, $node) {
     $current_page = array_merge($order, $current_page);
     // Update our form with the new order.
     foreach ($current_page as $key => $term) {
-      // Verify this is a term for the current page and set at the current depth.
+      // Verify this is a term for the current page and set at the current
+      // depth.
       if (is_array($form_state['input'][$key]) && is_numeric($form_state['input'][$key]['tid'])) {
         $current_page[$key]->depth = $form_state['input'][$key]['depth'];
       }
@@ -222,12 +219,13 @@ function _mont_overview_terms($form, &$form_state, $node) {
       }
     }
   }
-  
+
   $path = arg(0) . '/' . arg(1) . '/vocabulary/edit_term';
   // Build the actual form.
   foreach ($current_page as $key => $term) {
-    // Save the term for the current page so we don't have to load it a second time.
-    $form[$key]['#term'] = (array)$term;
+    // Save the term for the current page so we don't have to load it a
+    // second time.
+    $form[$key]['#term'] = (array) $term;
     if (isset($term->parents)) {
       $form[$key]['#term']['parent'] = $term->parent = $term->parents[0];
       unset($form[$key]['#term']['parents'], $term->parents);
@@ -236,22 +234,24 @@ function _mont_overview_terms($form, &$form_state, $node) {
     $form[$key]['view'] = array(
       '#type' => 'link',
       '#title' => $term->name,
-      '#href' => "taxonomy/term/$term->tid"
+      '#href' => "taxonomy/term/$term->tid",
     );
     if ($vocabulary->hierarchy < 2 && count($tree) > 1) {
       $form['#parent_fields'] = TRUE;
       $form[$key]['tid'] = array(
         '#type' => 'hidden',
-        '#value' => $term->tid
+        '#value' => $term->tid,
       );
       $form[$key]['parent'] = array(
         '#type' => 'hidden',
-        // Yes, default_value on a hidden. It needs to be changeable by the javascript.
+        // Yes, default_value on a hidden. It needs to be changeable by the
+        // javascript.
         '#default_value' => $term->parent,
       );
       $form[$key]['depth'] = array(
         '#type' => 'hidden',
-        // Same as above, the depth is modified by javascript, so it's a default_value.
+        // Same as above, the depth is modified by javascript, so it's a
+        // default_value.
         '#default_value' => $term->depth,
       );
       $form[$key]['weight'] = array(
@@ -266,7 +266,7 @@ function _mont_overview_terms($form, &$form_state, $node) {
       '#type' => 'link',
       '#title' => t('edit'),
       '#href' => $path . '/' . $term->tid ,
-      '#options' => array('query' => drupal_get_destination())
+      '#options' => array('query' => drupal_get_destination()),
     );
   }
 
@@ -281,34 +281,32 @@ function _mont_overview_terms($form, &$form_state, $node) {
   if ($vocabulary->hierarchy < 2 && count($tree) > 1) {
     $form['actions'] = array(
       '#type' => 'actions',
-      '#tree' => FALSE
+      '#tree' => FALSE,
     );
     $form['actions']['submit'] = array(
       '#type' => 'submit',
-      '#value' => t('Save')
+      '#value' => t('Save'),
     );
 
     $form_state['redirect'] = array(
       $_GET['q'],
-      (isset($_GET['page']) ? array('query' => array('page' => $_GET['page'])) : array())
+      (isset($_GET['page']) ? array('query' => array('page' => $_GET['page'])) : array()),
     );
   }
 
   return $form;
 }
 
-/*
- *  Modification of the core taxonomy overview terms form submit
+/**
+ * Modification of the core taxonomy overview terms form submit.
  */
 function _mont_overview_terms_submit($form, &$form_state) {
-
   // Sort term order based on weight.
   uasort($form_state['values'], 'drupal_sort_weight');
 
   $vocabulary = $form['#vocabulary'];
   $hierarchy = 0;
   // Update the current hierarchy type as we go.
-
   $changed_terms = array();
   $tree = taxonomy_get_tree($vocabulary->vid);
 
@@ -318,7 +316,7 @@ function _mont_overview_terms_submit($form, &$form_state) {
 
   // Build a list of all terms that need to be updated on previous pages.
   $weight = 0;
-  $term = (array)$tree[0];
+  $term = (array) $tree[0];
   while ($term['tid'] != $form['#first_tid']) {
     if ($term['parents'][0] == 0 && $term['weight'] != $weight) {
       $term['parent'] = $term['parents'][0];
@@ -327,7 +325,7 @@ function _mont_overview_terms_submit($form, &$form_state) {
     }
     $weight++;
     $hierarchy = $term['parents'][0] != 0 ? 1 : $hierarchy;
-    $term = (array)$tree[$weight];
+    $term = (array) $tree[$weight];
   }
 
   // Renumber the current page weights and assign any new parents.
@@ -335,12 +333,14 @@ function _mont_overview_terms_submit($form, &$form_state) {
   foreach ($form_state['values'] as $tid => $values) {
     if (isset($form[$tid]['#term'])) {
       $term = $form[$tid]['#term'];
-      // Give terms at the root level a weight in sequence with terms on previous pages.
+      // Give terms at the root level a weight in sequence with terms on
+      // previous pages.
       if ($values['parent'] == 0 && $term['weight'] != $weight) {
         $term['weight'] = $weight;
         $changed_terms[$term['tid']] = $term;
       }
-      // Terms not at the root level can safely start from 0 because they're all on this page.
+      // Terms not at the root level can safely start from 0 because they're all
+      // on this page.
       elseif ($values['parent'] > 0) {
         $level_weights[$values['parent']] = isset($level_weights[$values['parent']]) ? $level_weights[$values['parent']] + 1 : 0;
         if ($level_weights[$values['parent']] != $term['weight']) {
@@ -360,7 +360,7 @@ function _mont_overview_terms_submit($form, &$form_state) {
 
   // Build a list of all terms that need to be updated on following pages.
   for ($weight; $weight < count($tree); $weight++) {
-    $term = (array)$tree[$weight];
+    $term = (array) $tree[$weight];
     if ($term['parents'][0] == 0 && $term['weight'] != $weight) {
       $term['parent'] = $term['parents'][0];
       $term['weight'] = $weight;
@@ -371,7 +371,7 @@ function _mont_overview_terms_submit($form, &$form_state) {
 
   // Save all updated terms.
   foreach ($changed_terms as $changed) {
-    $term = (object)$changed;
+    $term = (object) $changed;
     // Update term_hierachy and term_data directly since we don't have a
     // fully populated term object to save.
     db_update('taxonomy_term_hierarchy')->fields(array('parent' => $term->parent))->condition('tid', $term->tid, '=')->execute();
