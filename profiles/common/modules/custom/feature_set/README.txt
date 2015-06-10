@@ -33,16 +33,20 @@ This defines two feature sets 'taco' and 'burrito'
 
 You can also implement feature sets in your install profile. The active install
 profile will be checked for available feature sets and included if they are 
-available note that the install profile does not need to implement hook_feature_set_api()
+available note that the install profile does not need
+to implement hook_feature_set_api()
 
-Once you have defined feature sets you can enable or disable them at admin/structure/feature-set
+Once you have defined feature sets you can enable
+or disable them at admin/structure/feature-set
 
 =========================================
 Known Issues/Requirements
 =========================================
 
-The list of disable modules for a feature set must be a subset of the enable modules.
+The list of disable modules for a feature set must be
+a subset of the enable modules.
 
 You will get erratic behavior if a module shows up in the disable list of more
 than one feature set. In the future feature sets will be flagged as incompatible 
-if they have any modules in their disable list that are also in other feature sets.
+if they have any modules in their disable list that are
+also in other feature sets.
