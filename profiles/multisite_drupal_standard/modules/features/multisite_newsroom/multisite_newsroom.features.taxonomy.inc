@@ -9,7 +9,7 @@
  */
 function multisite_newsroom_taxonomy_default_vocabularies() {
   return array(
-    'newsroom_item_type' => array(
+    'newsroom_item_type' => (object) array(
       'name' => 'Newsroom Item Type',
       'machine_name' => 'newsroom_item_type',
       'description' => 'Newsroom Item Type',
@@ -34,7 +34,7 @@ function multisite_newsroom_taxonomy_default_vocabularies() {
         ),
       ),
     ),
-    'newsroom_service' => array(
+    'newsroom_service' => (object) array(
       'name' => 'Newsroom Service',
       'machine_name' => 'newsroom_service',
       'description' => 'Newsroom Service',
@@ -59,7 +59,7 @@ function multisite_newsroom_taxonomy_default_vocabularies() {
         ),
       ),
     ),
-    'newsroom_topic' => array(
+    'newsroom_topic' => (object) array(
       'name' => 'Newsroom Topic',
       'machine_name' => 'newsroom_topic',
       'description' => '',

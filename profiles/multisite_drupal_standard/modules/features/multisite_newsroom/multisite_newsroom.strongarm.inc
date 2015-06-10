@@ -127,6 +127,9 @@ function multisite_newsroom_strongarm() {
       'mini_teaser' => array(
         'custom_settings' => TRUE,
       ),
+      'popup' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -135,6 +138,9 @@ function multisite_newsroom_strongarm() {
         ),
         'path' => array(
           'weight' => '6',
+        ),
+        'xmlsitemap' => array(
+          'weight' => '30',
         ),
       ),
       'display' => array(
