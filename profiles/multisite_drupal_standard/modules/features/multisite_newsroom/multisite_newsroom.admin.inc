@@ -56,6 +56,12 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
     '#collapsed' => FALSE,
   );
 
+  $form['newsroom_universe']['multilingual'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Is your universe multilingual?'),
+    '#default_value' => variable_get('newsroom_multilingual', 0),
+  );
+
   $form['newsroom_universe']['newsroom_url_prefix'] = array(
     '#type' => 'textfield',
     '#title' => t('URL prefix'),
@@ -105,8 +111,6 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
     '#title' => t('Delete all the existing instances in this content type'),
     '#description' => t('If you want to delete all the instance of the topic field together check this.'),
     '#default_value' => 0,
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
   );
 
   $form['newsroom_fields']['newsroom_content_types_select'] = array(
@@ -303,10 +307,23 @@ function multisite_newsroom_admin_settings_form_validate($form, &$form_state) {
  * Submit handler for the newsroom admin form.
  */
 function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
+  $multilingual = $form_state['values']['multilingual'] == 1 ? TRUE : FALSE;
+  // Shouldn't be needed, it is a setting form.
+  $multilingual ? variable_set('newsroom_multilingual', 1) : variable_set('newsroom_multilingual', 0);
+
   // Create default importers if new Newsroom Universe ID detected.
   if ($form_state['values']['newsroom_universe_id'] <> $form['universe_id']['newsroom_universe_id']['#default_value']) {
     variable_set('newsroom_universe_id', $form_state['values']['newsroom_universe_id']);
-    _newsroom_create_default_importers(NEWSROOM_URL . $form_state['values']['newsroom_universe_id'], 'admin', url('admin/config/content/newsroom'));
+
+    _newsroom_create_default_importers(NEWSROOM_URL . $form_state['values']['newsroom_universe_id'], 'admin', url('admin/config/content/newsroom'), $multilingual);
+  }
+
+  // Disabled importers.
+  $disabled = variable_get('default_feeds_importer', array());
+
+  if ($form_state['values']['multilingual'] != $form['newsroom_universe']['multilingual']['#default_value']) {
+    $importer_id = $multilingual ? 'newsroom_items' : 'newsroom_items_multilingual';
+    _multisite_newsroom_disable_importer($disabled, $importer_id);
   }
 
   // If the validation returns the confirm request.

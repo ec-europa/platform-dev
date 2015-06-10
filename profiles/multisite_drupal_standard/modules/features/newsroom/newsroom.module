@@ -56,6 +56,19 @@ function newsroom_feeds_plugins() {
       'path' => drupal_get_path('module', 'newsroom') . '/plugins',
     ),
   );
+
+  // A plugin needs to derive either directly or indirectly from FeedsFetcher,
+  // FeedsParser or FeedsProcessor.
+  $info['NewsroomFeedsNodeMultilingualProcessor'] = array(
+    'name' => 'Newsroom node multilingual processor',
+    'description' => 'Create and update newsroom items (also across multiple importer instances without duplicated items)',
+    'handler' => array(
+      'parent' => 'FeedsProcessor',
+      'class' => 'NewsroomFeedsNodeMultilingualProcessor',
+      'file' => 'NewsroomFeedsNodeMProcessor.inc',
+      'path' => drupal_get_path('module', 'newsroom') . '/plugins',
+    ),
+  );
   return $info;
 }
 
@@ -130,7 +143,7 @@ function newsroom_newsroom_services_mapping(&$item) {
  *   Item array
  */
 function newsroom_newsroom_types_mapping(&$item) {
-  
+
   if (!isset($item['xpathparser:4'])) {
     // Set parent to '0' if no match.
     $item['xpathparser:4'] = 0;
@@ -2113,7 +2126,7 @@ function _newsroom_validate_universe($universe_id = NULL) {
 /**
  * Create default set of importers.
  */
-function _newsroom_create_default_importers($universe_url, $context = 'admin', $redirect = NULL) {
+function _newsroom_create_default_importers($universe_url, $context = 'admin', $redirect = NULL, $multilingual) {
   $importers = array(
     'newsroom_type_importer' => array(
       'segment' => 'rss-item-type.cfm',
@@ -2140,6 +2153,15 @@ function _newsroom_create_default_importers($universe_url, $context = 'admin', $
       'importer' => 'newsroom_items',
     ),
   );
+
+  // Run the multilingual imports if required.
+  if ($multilingual) {
+    unset($importers['newsroom_item_importer']);
+    $importers['newsroom_item_multilingual_importer'] = array(
+      'segment' => 'fullrss-multilingual.cfm',
+      'importer' => 'newsroom_items_multilingual',
+    );
+  }
 
   foreach ($importers as $importer) {
     $feed_source = feeds_source($importer['importer']);
@@ -2207,4 +2229,32 @@ function newsroom_views_api() {
   return array(
     'api' => 3.0
   );
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function newsroom_preprocess_node(&$variables) {
+  if ($variables['type'] == 'newsroom_item') {
+    $node = $variables['node'];
+    // Fix contact link.
+    $nr_contact_field = field_get_items('node', $node, 'field_newsroom_item_contact_text');
+    $nr_contact_email_field = field_get_items('node', $node, 'field_newsroom_item_contact_mail');
+
+    if (!empty($nr_contact_field) && !empty($nr_contact_email_field)) {
+      $nr_contact_text = $nr_contact_field[0]['safe_value'];
+      $nr_contact_email = $nr_contact_email_field[0]['safe_value'];
+      // If real email add mailto to link.
+      if (valid_email_address($nr_contact_email)) {
+        $nr_contact_email = 'mailto:' . $nr_contact_email;
+      }
+
+      $variables['content']['field_newsroom_item_contact_mail'][0]['#markup'] = l($nr_contact_text, $nr_contact_email, array('absolute' => TRUE, 'html' => TRUE));
+      hide($variables['content']['field_newsroom_item_contact_text']);
+    }
+    else {
+      hide($variables['content']['field_newsroom_item_contact_text']);
+      hide($variables['content']['field_newsroom_item_contact_mail']);
+    }
+  }
 }
