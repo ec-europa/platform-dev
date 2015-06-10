@@ -128,56 +128,90 @@
   Drupal.behaviors.ec_resp_feature_set = {
     attach: function(context) {
 
-      // Toggle visibility of feature set tables.
-      $("#feature-set-admin-form .feature-set-category").click(function(){
-        $(this).next(".feature-set-content").slideToggle("slow");
-        $(this).toggleClass("active");
+      // Activate sticky menu.
+      $('.feature-set__categories').affix({
+        offset: {
+          top: $('.feature-set__categories').offset().top
+        }
+      });
+      $('.feature-set__category').width($('#feature-set__scrollspy').width());
+      $(window).resize(function() {
+        $('.feature-set__category').width($('#feature-set__scrollspy').width());
       });
 
-      // Add class to switcher column.
-      $("#feature-set-admin-form .form-type-checkbox").addClass('switch');
+      // Activate scrollspy.
+      $('body').scrollspy({
+        target: '#feature-set__scrollspy',
+      });
 
-      // Add class to row if button is disabled.
-      $("#feature-set-admin-form tr .switch")
-        .filter('.form-disabled')
-        .closest('tr')
-        .addClass('form-disabled');
+      // Manage click on a row.
+      $('.feature-set__header').click(function() {
+        $(this)
+          .closest('.feature-set__feature')
+          .not('.feature-set__feature--locked')
+          .toggleClass('feature-set__feature--pending')
+          .find('.form-checkbox')
+          .each(function() {
+            $this = $(this);
+            if ($this.is(':checked')) {
+              $this
+                .prop('checked', false)
+                .siblings('span')
+                .toggleClass('glyphicon-time')
+                .toggleClass(function() {
+                  if ($this.closest('.feature-set__feature').hasClass('feature-set__feature--disabled')) {
+                    return 'glyphicon-remove';
+                  }
+                  else {
+                    return 'glyphicon-ok';
+                  }
+                });
+            }
+            else {
+              $this
+                .prop('checked', true)
+                .siblings('span')
+                .toggleClass('glyphicon-time')
+                .toggleClass(function() {
+                  if ($this.closest('.feature-set__feature').hasClass('feature-set__feature--disabled')) {
+                    return 'glyphicon-remove';
+                  }
+                  else {
+                    return 'glyphicon-ok';
+                  }
+                });
+            }
+          })
+      });
 
-      $("#feature-set-admin-form .form-checkbox").each(function() {
+      // Add icon and hide checkbox.
+      $(".feature-set__feature .form-checkbox").each(function() {
         $this = $(this);
         // Check if the feature has been enabled.
         if ($this.is(':checked')) {
-          var html_before = '<label class="cb-enable selected"><span><i class="glyphicon glyphicon-ok icon-ok icon-white"></i></span></label><label class="cb-disable"><span><i class="glyphicon glyphicon-remove icon-remove icon-white"></i></span></label>';
+          var html_before = '<span class="glyphicon glyphicon-ok"></span>';
+          $this
+            .closest('.feature-set__feature')
+            .addClass('feature-set__feature--enabled');
         }
         else {
-          var html_before = '<label class="cb-enable"><span><i class="glyphicon glyphicon-ok icon-ok icon-white"></i></span></label><label class="cb-disable selected"><span><i class="glyphicon glyphicon-remove icon-remove icon-white"></i></span></label>';
+          var html_before = '<span class="glyphicon glyphicon-remove"></span>';
+          $this
+            .closest('.feature-set__feature')
+            .addClass('feature-set__feature--disabled');
         }
-
         $this
           .before(html_before)
           .css('opacity',0);
       });
 
-      // Manage click on a row.
-      $('#feature-set-admin-form tr').click(function() {
-        $(this)
-          .not('.form-disabled')
-          .find('.switch')
-          .toggleClass('pending')
-          .children('label')
-          .toggleClass('selected')
-          .end()
-          .children('.form-checkbox')
-          .each(function() {
-            $this = $(this);
-            if ($this.is(':checked')) {
-              $this.attr('checked', false);
-            }
-            else {
-              $this.attr('checked', true);
-            }
-          });
-      });
+      // Add class to row corresponding to button state.
+      $(".feature-set__switch")
+        .filter('.form-disabled')
+        .find('span')
+        .addClass('glyphicon-ban-circle')
+        .closest('.feature-set__feature')
+        .addClass('feature-set__feature--locked');
     }
   }
 
