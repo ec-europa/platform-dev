@@ -695,7 +695,7 @@ function multisite_newsroom_views_default_views() {
     t(','),
     t('[path]'),
     t('[title]'),
-    t('<span class="date_prefix">[field_date_label]:</span>'),
+    t('<span class="date_prefix">[field_date_label]:</span> '),
     t('[field_display_date][field_newsroom_item_date]'),
     t('Read more'),
     t('RSS feed'),
@@ -1824,9 +1824,9 @@ function multisite_newsroom_views_default_views() {
     t('[field_newsroom_item_type]:'),
     t('[path]'),
     t('[title]'),
-    t('<span class="date_prefix">[field_date_label]:</span>'),
+    t('<span class="date_prefix">[field_date_label]:</span> '),
     t('[field_display_date][field_newsroom_item_date]'),
-    t('[field_newsroom_item_venue],'),
+    t('[field_newsroom_item_venue], '),
     t('Read more'),
     t('[field_newsroom_item_type_1-tid]'),
     t('All'),
@@ -2028,7 +2028,7 @@ function multisite_newsroom_views_default_views() {
     t('[field_newsroom_item_type]:'),
     t('[title]'),
     t('deadline: [field_newsroom_item_date]'),
-    t('[field_newsroom_item_venue],'),
+    t('[field_newsroom_item_venue], '),
     t('Read more'),
     t('<p>[field__teaser] [view_node]</p>'),
     t('Block'),
@@ -2483,9 +2483,17 @@ function multisite_newsroom_views_default_views() {
     t('Asc'),
     t('Desc'),
     t('Taxonomy term referencing Content from field_featured_item'),
+    t('<div class="newsroom-featured-item">
+<div class="newsroom-type">[field_newsroom_item_type]</div>
+<div class="newsroom-title">[title]</div>
+<div class="newsroom-image">[field_illustrative_image] </div>
+<div class="newsroom-date">[created]</div>
+<div class="newsroom-teaser">[field__teaser]</div>
+</div>'),
     t('All'),
     t('Block'),
   );
   $export['newsroom_type_featured_item'] = $view;
+
   return $export;
 }
