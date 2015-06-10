@@ -14,8 +14,8 @@ function _multisite_newsroom_create_multilingual_importer() {
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'title' => array(
-      'query' => 'title',
-      'language' => TRUE,
+      'query' => 'title[@language="EN"]/text()',
+      'language' => FALSE,
     ),
     'title_field' => array(
       'query' => 'title',
@@ -83,7 +83,7 @@ function _multisite_newsroom_create_multilingual_importer() {
       'language' => FALSE,
     ),
     'promote' => array(
-      'query' => 'infsonewsroom:pubHighlight[@language=\'EN\']/text()',
+      'query' => 'infsonewsroom:pubHighlight/text()',
       'language' => FALSE,
     ),
     'field_newsroom_topics' => array(
