@@ -128,6 +128,7 @@ function multisite_newsroom_feeds_importer_default() {
           'xpathparser:39' => 'infsonewsroom:pubTeaserOnly/text()',
           'xpathparser:40' => 'infsonewsroom:slave/@guid',
           'xpathparser:41' => 'category[@infsonewsroom:TopicHighlight="1"]/@infsonewsroom:TopicId',
+          'xpathparser:42' => 'infsonewsroom:ContextWellknowntext/text()',
         ),
         'rawXML' => array(
           'xpathparser:1' => 0,
@@ -164,6 +165,7 @@ function multisite_newsroom_feeds_importer_default() {
           'xpathparser:39' => 0,
           'xpathparser:40' => 0,
           'xpathparser:41' => 0,
+          'xpathparser:42' => 0,
         ),
         'context' => '//channel/item',
         'exp' => array(
@@ -204,6 +206,7 @@ function multisite_newsroom_feeds_importer_default() {
             'xpathparser:39' => 0,
             'xpathparser:40' => 0,
             'xpathparser:41' => 0,
+            'xpathparser:42' => 0,
           ),
         ),
         'allow_override' => 0,
@@ -390,6 +393,11 @@ function multisite_newsroom_feeds_importer_default() {
             'target' => 'field_highlighted_newsroom_topic',
             'term_search' => '1',
             'autocreate' => 0,
+          ),
+          34 => array(
+            'source' => 'xpathparser:42',
+            'target' => 'field_newsroom_location:wkt',
+            'unique' => FALSE,
           ),
         ),
         'update_existing' => '2',

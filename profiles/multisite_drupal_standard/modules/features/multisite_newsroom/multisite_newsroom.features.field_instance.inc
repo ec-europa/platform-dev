@@ -30,6 +30,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -71,6 +77,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 23,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -119,6 +131,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 1,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -196,6 +214,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -236,6 +260,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 29,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -292,6 +322,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 0,
       ),
       'notifications' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -357,6 +393,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 0,
       ),
       'notifications' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -432,6 +474,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -489,6 +537,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -541,6 +595,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 0,
       ),
       'notifications' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -607,6 +667,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -650,6 +716,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 5,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -729,6 +801,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -776,6 +854,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 0,
       ),
       'notifications' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -846,6 +930,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -910,6 +1000,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -957,6 +1053,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 0,
       ),
       'notifications' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1017,6 +1119,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1062,6 +1170,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 0,
       ),
       'notifications' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1114,6 +1228,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 0,
       ),
       'notifications' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1175,6 +1295,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1228,6 +1354,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1254,6 +1386,53 @@ function multisite_newsroom_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-newsroom_item-field_newsroom_location'
+  $field_instances['node-newsroom_item-field_newsroom_location'] = array(
+    'bundle' => 'newsroom_item',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 30,
+      ),
+      'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_newsroom_location',
+    'label' => 'Location',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'geofield',
+      'settings' => array(),
+      'type' => 'geofield_wkt',
+      'weight' => 42,
+    ),
+  );
+
   // Exported field_instance: 'node-newsroom_item-field_newsroom_project'
   $field_instances['node-newsroom_item-field_newsroom_project'] = array(
     'bundle' => 'newsroom_item',
@@ -1269,6 +1448,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 5,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1342,6 +1527,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 19,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1424,6 +1615,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1449,6 +1646,83 @@ function multisite_newsroom_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-newsroom_item-field_newsroom_slide'
+  $field_instances['node-newsroom_item-field_newsroom_slide'] = array(
+    'bundle' => 'newsroom_item',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
+        'weight' => 14,
+      ),
+      'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_newsroom_slide',
+    'label' => 'Slide',
+    'required' => 0,
+    'settings' => array(
+      'alt_field' => 0,
+      'default_image' => 0,
+      'file_directory' => '',
+      'file_extensions' => 'png gif jpg jpeg',
+      'max_filesize' => '',
+      'max_resolution' => '',
+      'min_resolution' => '',
+      'title_field' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'media',
+      'settings' => array(
+        'allowed_schemes' => array(
+          'node' => 0,
+          'private' => 'private',
+          'public' => 'public',
+        ),
+        'allowed_types' => array(
+          'audio' => 0,
+          'document' => 0,
+          'image' => 'image',
+          'video' => 0,
+        ),
+        'browser_plugins' => array(
+          'media_default--media_browser_1' => 'media_default--media_browser_1',
+          'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
+          'upload' => 'upload',
+        ),
+        'progress_indicator' => 'throbber',
+      ),
+      'type' => 'media_generic',
+      'weight' => 41,
+    ),
+  );
+
   // Exported field_instance: 'node-newsroom_item-field_newsroom_teaser_only'
   $field_instances['node-newsroom_item-field_newsroom_teaser_only'] = array(
     'bundle' => 'newsroom_item',
@@ -1467,6 +1741,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 17,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1511,6 +1791,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 21,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1561,6 +1847,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1600,6 +1892,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 16,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1647,6 +1945,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 18,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1704,6 +2008,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1744,6 +2054,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 6,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1806,77 +2122,6 @@ function multisite_newsroom_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-newsroom_item-field_slide'
-  $field_instances['node-newsroom_item-field_newsroom_slide'] = array(
-    'bundle' => 'newsroom_item',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => '',
-        ),
-        'type' => 'image',
-        'weight' => 14,
-      ),
-      'mini_teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_newsroom_slide',
-    'label' => 'Slide',
-    'required' => 0,
-    'settings' => array(
-      'alt_field' => 0,
-      'default_image' => 0,
-      'file_directory' => '',
-      'file_extensions' => 'png gif jpg jpeg',
-      'max_filesize' => '',
-      'max_resolution' => '',
-      'min_resolution' => '',
-      'title_field' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'media',
-      'settings' => array(
-        'allowed_schemes' => array(
-          'node' => 0,
-          'private' => 'private',
-          'public' => 'public',
-        ),
-        'allowed_types' => array(
-          'audio' => 0,
-          'document' => 0,
-          'image' => 'image',
-          'video' => 0,
-        ),
-        'browser_plugins' => array(
-          'media_default--media_browser_1' => 'media_default--media_browser_1',
-          'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
-          'upload' => 'upload',
-        ),
-        'progress_indicator' => 'throbber',
-      ),
-      'type' => 'media_generic',
-      'weight' => 41,
-    ),
-  );
-
   // Exported field_instance: 'node-newsroom_item-field_tags'
   $field_instances['node-newsroom_item-field_tags'] = array(
     'bundle' => 'newsroom_item',
@@ -1891,6 +2136,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 20,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1936,6 +2187,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 0,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -2013,6 +2270,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -2072,6 +2335,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2118,6 +2387,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 0,
       ),
       'notifications' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -2178,6 +2453,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2224,6 +2505,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 0,
       ),
       'notifications' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -2277,6 +2564,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2324,6 +2617,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 2,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -2383,6 +2682,12 @@ function multisite_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2430,6 +2735,12 @@ function multisite_newsroom_field_default_field_instances() {
         'weight' => 4,
       ),
       'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -3763,6 +4074,7 @@ function multisite_newsroom_field_default_field_instances() {
   t('Image');
   t('Linked Object');
   t('Listing behavior');
+  t('Location');
   t('Main Link');
   t('Main image');
   t('Newsletter only');
