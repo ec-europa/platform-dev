@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Install the feature feature_set
+ * Install the feature feature_set.
  */
 
 include_once 'feature_set.install.inc';
@@ -21,18 +21,4 @@ function feature_set_enable() {
 function feature_set_disable() {
   // Deactivation message.
   drupal_set_message(t('Feature Set %v feature is now inactive on your site.', array('%v' => _feature_set_get_version())));
-}
-
-/**
- * Implements hook_install().
- */
-function feature_set_install() {
-  // Nothing yet.
-}
-
-/**
- * Implements hook_uninstall().
- */
-function feature_set_uninstall() {
-  // Nothing yet.
 }

@@ -9,21 +9,31 @@
  * - $feature_set_input: rendered form input (submit and hidden fields)
  */
 ?>
+<h2><?php print t('Select features that you want to enable on this site.')?></h2>
 
 <div class="row">
-  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <ul class="list-group nav nav-tabs nav-stacked">
-      <?php print $feature_set_output_left; ?>
-    </ul>
+  <div class="col-lg-3 col-sm-4 col-xs-12">
+    <nav id="feature-set__scrollspy">
+      <ul class="nav nav-pills nav-stacked feature-set__categories" data-spy="affix">
+        <?php print $feature_set_categories_list; ?>
+        <li class="feature-set__input hidden-xs">
+          <?php
+            print $feature_set_input;
+          ?>
+        </li>
+      </ul>
+    </nav>
   </div>
 
-  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <ul class="list-group nav nav-tabs nav-stacked">
-      <?php print $feature_set_output_right; ?>
-    </ul>
+  <div class="col-lg-9 col-sm-8 col-xs-12">
+    <div class="feature-set__features">
+      <?php print $feature_set_features_list; ?>
+    </div>
   </div>
 </div>
 
-<?php
-  print $feature_set_input;
-?>
+<div class="feature-set__input visible-xs">
+  <?php
+    print $feature_set_input;
+  ?>
+</div>

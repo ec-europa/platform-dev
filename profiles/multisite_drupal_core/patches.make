@@ -28,6 +28,7 @@ projects[linkchecker][patch][] = ../multisite_drupal_core/patches/linkchecker-00
 projects[linkchecker][patch][] = ../multisite_drupal_core/patches/linkchecker-003-linkchecker_max_redirects-3576.patch
 projects[maxlength][patch][] = ../multisite_drupal_core/patches/maxlength-indefined_index-2235.patch
 projects[maxlength][patch][] = ../multisite_drupal_core/patches/maxlength-prevent_undefined_index_error-1416608-3.patch
+projects[media][patch][] = ../multisite_drupal_core/patches/file_entity-remove-contextual-links-2401811-11.patch
 projects[media][patch][] = ../multisite_drupal_core/patches/media-wysiwyg-override-white-list-MULTISITE-2607.patch
 projects[media_dailymotion][patch][] = ../multisite_drupal_core/patches/media_dailymotion-handle_protocol-4103.patch
 projects[media_flickr][patch][] = ../multisite_drupal_core/patches/media_flickr-Media_v2_removed_XML_APIs-2089665-1.patch

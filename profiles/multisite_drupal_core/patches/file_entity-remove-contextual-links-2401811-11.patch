@@ -1,0 +1,30 @@
+From 2f9662dd51a5d9d7756ca9b91c2355cb44a2c3de Mon Sep 17 00:00:00 2001
+From: agoradesign <agoradesign@1183886.no-reply.drupal.org>
+Date: Fri, 16 Jan 2015 14:39:34 +0100
+Subject: [PATCH] fixes contextual links are shown for anonymous users
+
+---
+ modules/media_wysiwyg/includes/media_wysiwyg.filter.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/modules/media_wysiwyg/includes/media_wysiwyg.filter.inc b/modules/media_wysiwyg/includes/media_wysiwyg.filter.inc
+index f6b997e..25af78d 100644
+--- a/modules/media_wysiwyg/includes/media_wysiwyg.filter.inc
++++ b/modules/media_wysiwyg/includes/media_wysiwyg.filter.inc
+@@ -197,6 +197,13 @@ function media_wysiwyg_token_to_markup($match, $wysiwyg = FALSE) {
+     $element = array();
+     $element['content'] = file_view($file, $tag_info['view_mode']);
+     $element['content']['file'] = media_wysiwyg_get_file_without_label($file, $tag_info['view_mode'], $settings);
++
++    // Unset #contextual_links (introduced by file_view()) from content, as we
++    // never want them to show up in the rendered node for anonymous users.
++    if (isset($element['content']['#contextual_links'])) {
++      unset($element['content']['#contextual_links']);
++    }
++
+     // Overwrite or set the file #alt attribute if it has been set in this
+     // instance.
+     if (!empty($element['content']['file']['#attributes']['alt'])) {
+-- 
+1.9.4.msysgit.1
+

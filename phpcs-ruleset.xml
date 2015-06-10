@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!-- PHP_CodeSniffer standard for NextEuropa. -->
+<!-- See http://pear.php.net/manual/en/package.php.php-codesniffer.annotated-ruleset.php -->
+<ruleset name="NextEuropa">
+    <description>Drupal coding standard for NextEuropa</description>
+
+    <!-- Minified files don't have to comply with coding standards. -->
+    <exclude-pattern>*.min.css</exclude-pattern>
+    <exclude-pattern>*.min.js</exclude-pattern>
+
+    <rule ref="vendor/drupal/coder/coder_sniffer/Drupal" />
+</ruleset>
