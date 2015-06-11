@@ -370,14 +370,24 @@ function ecas_login_check() {
       $custom_server_login_url = sprintf('%s&domain=%s', $initial_server_login_url, urlencode($ecas_domain));
       phpCAS::setServerLoginURL($custom_server_login_url);
     }
+
+    // Preparing validation URL to retrieve attributes as well :
+    $validateServerUrl = 'https://'.FPFIS_ECAS_URL.':'.FPFIS_ECAS_PORT;
+    $validateServerUrl .= FPFIS_ECAS_URI.'/serviceValidate?userDetails=true&groups=*';
+    phpCAS::setServerServiceValidateURL($validateServerUrl);
+
     if ($force_login === ECAS_LOGIN) {
       phpCAS::forceAuthentication();
     }
 
     if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY && ($ecas_logout == NULL || $ecas_logout == 'false')) || ($force_login === ECAS_LOGIN))) {
       $ecas_name = phpCAS::getUser();
+      $ecas_attributes = phpCAS::getAttributes();
+      $ecas_groups = $ecas_attributes['cas:groups'];
+      $ecas_email = $ecas_attributes['cas:email'];
 
-      // Try to log into Drupal.
+
+        // Try to log into Drupal.
       $account = user_load_by_name($ecas_name);
 
       // Extra process to filter ECAS user.
@@ -679,10 +689,10 @@ function _ecas_init_phpcas_client() {
   phpCAS::setNoCasServerValidation();
   // SNET proxies are blocking curl ...
   // Let's make the module identify itself in their logs
-  phpCas::setExtraCurlOption(CURLOPT_USERAGENT,'DrupalECAS/2.x (https://webgate.ec.europa.eu/CITnet/stash/projects/NEXTEUROPA/repos/platform-dev)');
+  phpCAS::setExtraCurlOption(CURLOPT_USERAGENT,'DrupalECAS/2.x (https://webgate.ec.europa.eu/CITnet/stash/projects/NEXTEUROPA/repos/platform-dev)');
 
   foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
-    phpCas::setExtraCurlOption($key, $value);
+    phpCAS::setExtraCurlOption($key, $value);
   }
 }
 

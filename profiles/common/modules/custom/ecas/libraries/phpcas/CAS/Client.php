@@ -3224,7 +3224,53 @@ class CAS_Client
         phpCAS::traceEnd($result);
         return $result;
     }
+    /**
+     * This method will parse the DOM and pull out the attributes from the XML
+     * payload and put them into an array.
+     *
+     * @param DOMXml $node DOMXML node to get an array from
+     *
+     * @return array Array representation of the XML node
+     */
+    private function _xmlToArray($node) {
+        $occurance = array();
 
+        foreach($node->childNodes as $child) {
+            $occurance[$child->nodeName]++;
+        }
+
+        if($node->nodeType == XML_TEXT_NODE) {
+            $result = html_entity_decode(htmlentities($node->nodeValue, ENT_COMPAT, 'UTF-8'),
+                ENT_COMPAT,'ISO-8859-15');
+        }
+        else {
+            if($node->hasChildNodes()){
+                $children = $node->childNodes;
+
+                for($i=0; $i<$children->length; $i++) {
+                    $child = $children->item($i);
+
+                    if($child->nodeName != '#text') {
+                        if($occurance[$child->nodeName] > 1) {
+                            $result[] = $this->_xmlToArray($child);
+                        }
+                        else {
+                            $result[$child->nodeName] = $this->_xmlToArray($child);
+                        }
+                    }
+                    else if ($child->nodeName == '#text') {
+                        $text = $this->_xmlToArray($child);
+
+                        if (trim($text) != '') {
+                            $result = $this->_xmlToArray($child);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * This method will parse the DOM and pull out the attributes from the XML
@@ -3240,7 +3286,6 @@ class CAS_Client
         phpCAS::traceBegin();
 
         $extra_attributes = array();
-
         // "Jasig Style" Attributes:
         //
         // 	<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
@@ -3258,6 +3303,7 @@ class CAS_Client
         // 	</cas:serviceResponse>
         //
         if ( $success_elements->item(0)->getElementsByTagName("attributes")->length != 0) {
+
             $attr_nodes = $success_elements->item(0)
                 ->getElementsByTagName("attributes");
             phpCas :: trace("Found nested jasig style attributes");
@@ -3268,6 +3314,7 @@ class CAS_Client
                         "Attribute [".$attr_child->localName."] = "
                         .$attr_child->nodeValue
                     );
+
                     $this->_addAttributeToArray(
                         $extra_attributes, $attr_child->localName,
                         $attr_child->nodeValue
@@ -3292,25 +3339,8 @@ class CAS_Client
             // 	</cas:serviceResponse>
             //
             phpCas :: trace("Testing for rubycas style attributes");
-            $childnodes = $success_elements->item(0)->childNodes;
-            foreach ($childnodes as $attr_node) {
-                switch ($attr_node->localName) {
-                case 'user':
-                case 'proxies':
-                case 'proxyGrantingTicket':
-                    continue;
-                default:
-                    if (strlen(trim($attr_node->nodeValue))) {
-                        phpCas :: trace(
-                            "Attribute [".$attr_node->localName."] = ".$attr_node->nodeValue
-                        );
-                        $this->_addAttributeToArray(
-                            $extra_attributes, $attr_node->localName,
-                            $attr_node->nodeValue
-                        );
-                    }
-                }
-            }
+            $extra_attributes = $this->_xmlToArray($success_elements->item(0));
+
         }
 
         // "Name-Value" attributes.
