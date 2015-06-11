@@ -307,9 +307,6 @@ function feature_set_preprocess(&$variables) {
   if (isset($variables['form']['#form_id']) && $variables['form']['#form_id'] == 'feature_set_admin_form') {
     $feature_set_category = array();
 
-    // Add specific javascript.
-    drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/feature-set.js', array('scope' => 'footer', 'weight' => 13));
-
     foreach ($variables['form'] as $key => $item) {
       $variables['feature_set_row'][$key] = $item;
 
