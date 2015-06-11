@@ -418,8 +418,7 @@ function ecas_login_check() {
 
     // Final check to make sure we have a good user.
     if ($account && $account->uid > 0) {
-      // Avoid calling ldap_* functions if they are not available.
-        // Retrieve information about the user through LDAP.
+        // Retrieve information about the user from ECAS attributes.
         $user_info = phpCAS::getAttributes();
 
         // Update her information.
