@@ -370,7 +370,6 @@ function ecas_login_check() {
       $custom_server_login_url = sprintf('%s&domain=%s', $initial_server_login_url, urlencode($ecas_domain));
       phpCAS::setServerLoginURL($custom_server_login_url);
     }
-
     if ($force_login === ECAS_LOGIN) {
       phpCAS::forceAuthentication();
     }
@@ -654,6 +653,7 @@ function _ecas_init_phpcas_client() {
   $server_port        = FPFIS_ECAS_PORT;
   $server_uri         = FPFIS_ECAS_URI;
   $start_session      = (boolean) FALSE;
+
   // Drupal takes care of its own session.
   $assurance_level    = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
 
@@ -675,7 +675,11 @@ function _ecas_init_phpcas_client() {
     $start_session,
     $assurance_level
   );
+
   phpCAS::setNoCasServerValidation();
+  // SNET proxies are blocking curl ...
+  // Let's make the module identify itself in their logs
+  phpCas::setExtraCurlOption(CURLOPT_USERAGENT,'DrupalECAS/2.x (https://webgate.ec.europa.eu/CITnet/stash/projects/NEXTEUROPA/repos/platform-dev)');
 
   foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
     phpCas::setExtraCurlOption($key, $value);
