@@ -6,6 +6,7 @@ version = 7.x-1.0-dev
 project = nexteuropa_editorial
 dependencies[] = cce_basic_config
 dependencies[] = ctools
+dependencies[] = ds
 dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = i18n_taxonomy
