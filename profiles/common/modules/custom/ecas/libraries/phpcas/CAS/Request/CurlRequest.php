@@ -75,7 +75,9 @@ implements CAS_Request_RequestInterface
         $buf = curl_exec($ch);
         if ( $buf === false ) {
             phpCAS::trace('curl_exec() failed');
-            $this->storeErrorMessage('CURL error #'.curl_errno($ch).': '.curl_error($ch));
+            $this->storeErrorMessage(
+                'CURL error #'.curl_errno($ch).': '.curl_error($ch)
+            );
             $res = false;
         } else {
             $this->storeResponseBody($buf);
@@ -117,12 +119,15 @@ implements CAS_Request_RequestInterface
          * Set SSL configuration
         *********************************************************/
         if ($this->caCertPath) {
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
+            if ($this->validateCN) {
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+            } else {
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            }
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
             curl_setopt($ch, CURLOPT_CAINFO, $this->caCertPath);
-            phpCAS::trace('CURL: Set CURLOPT_CAINFO');
+            phpCAS::trace('CURL: Set CURLOPT_CAINFO ' . $this->caCertPath);
         } else {
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         }
 
