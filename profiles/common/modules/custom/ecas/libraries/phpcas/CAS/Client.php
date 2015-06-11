@@ -3233,11 +3233,6 @@ class CAS_Client
      * @return array Array representation of the XML node
      */
     private function _xmlToArray($node) {
-        $occurance = array();
-
-        foreach($node->childNodes as $child) {
-            $occurance[$child->nodeName]++;
-        }
 
         if($node->nodeType == XML_TEXT_NODE) {
             $result = html_entity_decode(htmlentities($node->nodeValue, ENT_COMPAT, 'UTF-8'),
@@ -3245,6 +3240,10 @@ class CAS_Client
         }
         else {
             if($node->hasChildNodes()){
+                $occurance = array();
+                foreach($node->childNodes as $child) {
+                    $occurance[$child->nodeName] = isset( $occurance[$child->nodeName] ) ? ++$occurance[$child->nodeName] : 1;
+                }
                 $children = $node->childNodes;
 
                 for($i=0; $i<$children->length; $i++) {
@@ -3252,7 +3251,7 @@ class CAS_Client
 
                     if($child->nodeName != '#text') {
                         if($occurance[$child->nodeName] > 1) {
-                            $result[] = $this->_xmlToArray($child);
+                            $result[$child->nodeName][] = $this->_xmlToArray($child);
                         }
                         else {
                             $result[$child->nodeName] = $this->_xmlToArray($child);
@@ -3338,9 +3337,9 @@ class CAS_Client
             // 		</cas:authenticationSuccess>
             // 	</cas:serviceResponse>
             //
+
             phpCas :: trace("Testing for rubycas style attributes");
             $extra_attributes = $this->_xmlToArray($success_elements->item(0));
-
         }
 
         // "Name-Value" attributes.

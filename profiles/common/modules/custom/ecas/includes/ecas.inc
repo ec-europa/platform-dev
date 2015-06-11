@@ -287,16 +287,16 @@ function ecas_sync_profile_core(&$user, array $user_info) {
 
   // You can now access the fields without knowing the language.
   if (!empty($field_firstname) && isset($edit[$field_firstname])) {
-    $edit[$field_firstname][LANGUAGE_NONE][0]['value'] = $user_info['givenname'];
+    $edit[$field_firstname][LANGUAGE_NONE][0]['value'] = $user_info['cas:firstName'];
   }
   if (!empty($field_lastname) && isset($edit[$field_lastname])) {
-    $edit[$field_lastname][LANGUAGE_NONE][0]['value'] = $user_info['sn'];
+    $edit[$field_lastname][LANGUAGE_NONE][0]['value'] = $user_info['cas:lastName'];
   }
   if (!empty($field_ecasmail) && isset($edit[$field_ecasmail])) {
-    $edit[$field_ecasmail][LANGUAGE_NONE][0]['value'] = $user_info['mail'];
+    $edit[$field_ecasmail][LANGUAGE_NONE][0]['value'] = $user_info['cas:email'];
   }
   if (!empty($field_ecascreator) && isset($edit[$field_ecascreator])) {
-    $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['sourceorganisation'] . '/' . $user_info['departmentnumber'];
+    $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['cas:domain'] . '/' . $user_info['cas:departmentNumber'];
   }
 
   // Save changes.
@@ -327,8 +327,8 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
   if (variable_get('ecas_update_mail_address', TRUE)) {
     $picture = $user->picture;
     // Fix : save file object replaced by fid by user_save function.
-    user_save($user, array('mail' => $user_info['mail']));
-    $user->mail = $user_info['mail'];
+    user_save($user, array('mail' => $user_info['cas:email']));
+    $user->mail = $user_info['cas:email'];
     $user->picture = $picture;
   }
 
@@ -419,17 +419,8 @@ function ecas_login_check() {
     // Final check to make sure we have a good user.
     if ($account && $account->uid > 0) {
       // Avoid calling ldap_* functions if they are not available.
-      if (function_exists('getLdapUserInfo')) {
         // Retrieve information about the user through LDAP.
-        $ldap_info = array(
-          'sn',
-          'givenname',
-          'dg',
-          'sourceorganisation',
-          'departmentnumber',
-        );
-        drupal_alter('ecas_LDAP_info', $ldap_info);
-        $user_info = getLdapUserInfo($account->name, $ldap_info);
+        $user_info = phpCAS::getAttributes();
 
         // Update her information.
         if (!empty($user_info)) {
@@ -439,7 +430,7 @@ function ecas_login_check() {
           $args = array(':username' => $account->name);
           drupal_set_message(t('Warning: no information could be found for username :username'), $args);
         }
-      }
+
 
       if ($account->status == 0) {
         // Case when account is blocked.
