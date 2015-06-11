@@ -1,0 +1,414 @@
+<?php
+
+/**
+ * @file
+ * Tests for ecas_import_users.module.
+ */
+
+/**
+ * Test the administration pages.
+ */
+class EcasImportUsersAdminSettingsTest extends DrupalWebTestCase {
+
+  /**
+   * A test web user.
+   *
+   * @var object
+   */
+  protected $webUser;
+
+  /**
+   * A test administrator user.
+   *
+   * @var object
+   */
+  protected $adminUser;
+
+  /**
+   * Returns test case metadata.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Import users admin',
+      'description' => 'Test the admin pages of ECAS import users module.',
+      'group' => 'ECAS',
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp(array(
+      'ecas_import_users',
+    ));
+
+    $this->webUser = $this->drupalCreateUser(array(
+      'create article content',
+      'create page content',
+    ));
+
+    $this->adminUser = $this->drupalCreateUser(array(
+      'bypass node access',
+      'administer nodes',
+      'administer ecas',
+      'access ecas import users function',
+    ));
+  }
+
+  /**
+   * Try to access the pages with the web user and admin user.
+   */
+  public function testMenuAccess() {
+    $this->drupalLogin($this->webUser);
+    $this->drupalGet('admin/config/ecas/import_users');
+    $this->assertNoResponse(200, 'User without "administer ecas" permission does not have access to the ECAS Import Users administration pages');
+
+    $this->drupalGet('admin/people/import');
+    $this->assertNoResponse(200, 'User without "access ecas import users function" permission does not have access to the ECAS Import Users pages');
+
+    $this->drupalGet('<front>');
+    $this->drupalLogin($this->adminUser);
+    $this->drupalGet('admin/config/ecas/import_users');
+    $this->assertResponse(200, 'User with "administer ecas" permission has access to the ECAS Import Users administration pages');
+
+    $this->drupalGet('admin/people/import');
+    $this->assertResponse(200, 'User with "access ecas import users function" permission has access to the ECAS Import Users pages');
+  }
+
+  /**
+   * Verify settings are saved correctly.
+   */
+  public function testSavingSettings() {
+    $this->drupalLogin($this->adminUser);
+    $this->drupalGet('admin/config/ecas/import_users');
+    $edit = array(
+      'ecas_import_users_default_status' => '0',
+    );
+    $this->drupalPost(NULL, $edit, 'Save configuration');
+
+    // Check the values are stored correctly.
+    $this->assertFieldChecked('edit-ecas-import-users-default-status-0');
+    $this->assertNoFieldChecked('edit-ecas-import-users-default-status-1');
+    $edit = array(
+      'ecas_import_users_default_status' => '1',
+    );
+    $this->drupalPost(NULL, $edit, 'Save configuration');
+  }
+
+}
+
+/**
+ * Test the functionality pages.
+ */
+class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
+
+  /**
+   * A test web user.
+   *
+   * @var object
+   */
+  protected $webUser;
+
+  /**
+   * A test ECAS user.
+   *
+   * @var object
+   */
+  protected $ecasUser;
+
+  /**
+   * A test administrator user.
+   *
+   * @var object
+   */
+  protected $adminUser;
+
+  /**
+   * Returns test case metadata.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Import users functionality',
+      'description' => 'Test the functionality of ECAS Import Users module.',
+      'group' => 'ECAS',
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp(array(
+      'ecas_import_users',
+    ));
+
+    // Create a user field, and an instance on 'user' entity type.
+    $field = array(
+      'type' => 'text',
+      'field_name' => 'field_firstname',
+      'cardinality' => 1,
+    );
+    field_create_field($field);
+
+    $instance = array(
+      'field_name' => 'field_firstname',
+      'entity_type' => 'user',
+      'label' => 'Firstname',
+      'bundle' => 'user',
+      'required' => TRUE,
+      'settings' => array('user_register_form' => FALSE),
+    );
+    field_create_instance($instance);
+
+    $field = array(
+      'type' => 'text',
+      'field_name' => 'field_lastname',
+      'cardinality' => 1,
+    );
+    field_create_field($field);
+
+    $instance = array(
+      'field_name' => 'field_lastname',
+      'entity_type' => 'user',
+      'label' => 'Lastname',
+      'bundle' => 'user',
+      'required' => TRUE,
+      'settings' => array('user_register_form' => FALSE),
+    );
+    field_create_instance($instance);
+
+    $field = array(
+      'type' => 'text',
+      'field_name' => 'field_ecas_mail',
+      'cardinality' => 1,
+    );
+    field_create_field($field);
+
+    $instance = array(
+      'field_name' => 'field_ecas_mail',
+      'entity_type' => 'user',
+      'label' => 'Ecas email',
+      'bundle' => 'user',
+      'required' => TRUE,
+      'settings' => array('user_register_form' => FALSE),
+    );
+    field_create_instance($instance);
+
+    $this->webUser = $this->drupalCreateUser(array(
+      'create article content',
+      'create page content',
+    ));
+
+    $this->ecasUser = $this->drupalCreateUser(array(
+      'create article content',
+      'create page content',
+    ));
+
+    // @todo Variable $cas_authmap is unused in its scope.
+    $cas_authmap = db_insert('authmap')
+      ->fields(array(
+        'authname' => $this->ecasUser->name,
+        'uid' => $this->ecasUser->uid,
+        'module' => 'ecas',
+      ))
+      ->execute();
+
+    $this->adminUser = $this->drupalCreateUser(array(
+      'bypass node access',
+      'administer users',
+      'administer nodes',
+      'administer ecas',
+      'access ecas import users function',
+    ));
+  }
+
+  /**
+   * Try the search form, check the correct search link is generated.
+   */
+  public function testSearchForm() {
+    $this->drupalLogin($this->adminUser);
+    // Nothing entered.
+    $this->drupalGet('admin/people/import');
+    $edit = array(
+      'dg' => 'all-groups',
+      'lastname' => '',
+      'search_by' => 'by-lastname',
+      'mail' => '',
+      'country' => 'all-countries',
+    );
+    $this->drupalPost(NULL, $edit, 'Search');
+    $this->assertText(t('You must fill in at least one of the search fields.'));
+
+    // Entered name that returns no results.
+    $edit = array(
+      'lastname' => 'noresults',
+      'search_by' => 'by-lastname',
+      'mail' => '',
+      'country' => 'all-countries',
+    );
+    $this->drupalPost(NULL, $edit, 'Search');
+    $this->assertUrl('admin/people/import/noresults/all-groups/by-lastname/all-countries/no-mail');
+    $this->assertText(t('No user found'), 'The result set was empty as expected.');
+    // Enter name that returns some results and import the first user found.
+    $this->drupalGet('admin/people/import');
+
+    $edit = array(
+      'dg' => 'all-groups',
+      'lastname' => 'champagne',
+      'search_by' => 'by-lastname',
+      'mail' => '',
+      'country' => 'all-countries',
+    );
+    $this->drupalPost(NULL, $edit, 'Search');
+    $this->assertUrl('admin/people/import/champagne/all-groups/by-lastname/all-countries/no-mail');
+    $this->assertText(t('List users LDAP'), 'Results found');
+
+    // Search by email.
+    $this->drupalGet('admin/people/import');
+    $edit = array(
+      'dg' => 'all-groups',
+      'lastname' => '',
+      'search_by' => 'by-lastname',
+      'mail' => 'cyril.champagne@ext.ec.europa.eu',
+      'country' => 'all-countries',
+    );
+    $this->drupalPost(NULL, $edit, 'Search');
+    $this->assertUrl('admin/people/import/everybody/all-groups/by-lastname/all-countries/cyril.champagne@ext.ec.europa.eu');
+    $this->assertText(t('List users LDAP'), 'Results found');
+
+    // Search by country.
+    $this->drupalGet('admin/people/import');
+    $edit = array(
+      'dg' => 'all-groups',
+      'lastname' => '',
+      'search_by' => 'by-lastname',
+      'mail' => '',
+      'country' => 'BE',
+    );
+    $this->drupalPost(NULL, $edit, 'Search');
+    $this->assertUrl('admin/people/import/everybody/all-groups/by-lastname/BE/no-mail');
+    $this->assertText(t('List users LDAP'), 'Results found');
+  }
+
+  /**
+   * Try user import settings, use defaults, which is account is active.
+   */
+  public function testImportActiveForm() {
+    $this->drupalLogin($this->adminUser);
+
+    // Enable the profile integration.
+    $this->drupalGet('admin/config/ecas/settings');
+    $edit = array(
+      'ecas_profile_core_enabled' => '1',
+    );
+    $this->drupalPost(NULL, $edit, 'Save configuration');
+
+    // Enter name that returns some results and import the first user found.
+    $lookup = array(
+      'name' => 'champcy',
+      'firstname' => 'Cyril',
+      'lastname' => 'CHAMPAGNE',
+      'email' => 'Cyril.CHAMPAGNE@ext.ec.europa.eu',
+    );
+    // Change this if the user is not present on the test server.
+    $this->drupalGet('admin/people/import');
+    $edit = array(
+      'dg' => 'all-groups',
+      'lastname' => $lookup['name'],
+      'search_by' => 'by-username',
+      'mail' => '',
+      'country' => 'all-countries',
+    );
+    $this->drupalPost(NULL, $edit, 'Search');
+    $this->assertText(t('List users LDAP'), 'Results found');
+    $edit = array(
+      'fs[0]' => "{$lookup['name']}|{$lookup['lastname']} {$lookup['firstname']}|{$lookup['email']}|{$lookup['firstname']}|{$lookup['lastname']}",
+    );
+    $this->drupalPost(NULL, $edit, 'Import');
+    $this->assertText('User ' . $lookup['name'] . ' imported', 'User ' . $lookup['name'] . ' was succesfully imported');
+
+    // Verify the user is actually listed in the Drupal users list.
+    $this->drupalGet('admin/people/people');
+    $this->assertText($lookup['name'], 'User ' . $lookup['name'] . ' was listed as a Drupal user');
+    $user = user_load_by_name($lookup['name']);
+    $this->drupalGet('user/' . $user->uid . '/edit');
+    $this->assertFieldById('edit-field-firstname-und-0-value', $lookup['firstname'], 'First name is imported');
+    $this->assertFieldById('edit-field-lastname-und-0-value', $lookup['lastname'], 'Last name is imported');
+    $this->assertFieldById('edit-field-ecas-mail-und-0-value', $lookup['email'], 'Email is imported');
+    $this->assertFieldChecked('edit-status-1', 'Account is active');
+
+    // Import the first user again.
+    $this->drupalGet('admin/people/import');
+    $edit = array(
+      'dg' => 'all-groups',
+      'lastname' => $lookup['name'],
+      'search_by' => 'by-username',
+      'mail' => '',
+      'country' => 'all-countries',
+    );
+    $this->drupalPost(NULL, $edit, 'Search');
+    $this->assertText(t('List users LDAP'), 'Results found');
+    $edit = array(
+      'fs[0]' => "{$lookup['name']}|{$lookup['lastname']} {$lookup['firstname']}|{$lookup['email']}|{$lookup['firstname']}|{$lookup['lastname']}",
+    );
+    $this->drupalPost(NULL, $edit, 'Import');
+    $this->assertText('User ' . $lookup['name'] . ' not imported', 'User ' . $lookup['name'] . ' was not imported (already exists)');
+  }
+
+  /**
+   * Try user import settings, but this time make account blocked.
+   */
+  public function testImportBlockedForm() {
+    $this->drupalLogin($this->adminUser);
+
+    // Enable the profile integration.
+    $this->drupalGet('admin/config/ecas/settings');
+    $edit = array(
+      'ecas_profile_core_enabled' => '1',
+    );
+    $this->drupalPost(NULL, $edit, 'Save configuration');
+
+    // Set default status to blocked.
+    $this->drupalGet('admin/config/ecas/import_users');
+    $edit = array(
+      'ecas_import_users_default_status' => '0',
+    );
+    $this->drupalPost(NULL, $edit, 'Save configuration');
+
+    // Enter name that returns some results and import the first user found.
+    $lookup = array(
+      'name' => 'champcy',
+      'firstname' => 'Cyril',
+      'lastname' => 'CHAMPAGNE',
+      'email' => 'Cyril.CHAMPAGNE@ext.ec.europa.eu',
+    );
+    // Change this if the user is not present on the test server.
+    $this->drupalGet('admin/people/import');
+    $edit = array(
+      'dg' => 'all-groups',
+      'lastname' => $lookup['name'],
+      'search_by' => 'by-username',
+      'mail' => '',
+      'country' => 'all-countries',
+    );
+    $this->drupalPost(NULL, $edit, 'Search');
+    $this->assertText(t('List users LDAP'), 'Results found');
+    $edit = array(
+      'fs[0]' => "{$lookup['name']}|{$lookup['lastname']} {$lookup['firstname']}|{$lookup['email']}|{$lookup['firstname']}|{$lookup['lastname']}",
+    );
+    $this->drupalPost(NULL, $edit, 'Import');
+    $this->assertText('User ' . $lookup['name'] . ' imported', 'User ' . $lookup['name'] . ' was succesfully imported');
+
+    // Verify the user is actually listed in the Drupal users list.
+    $this->drupalGet('admin/people/people');
+    $this->assertText($lookup['name'], 'User ' . $lookup['name'] . ' was listed as a Drupal user');
+    $user = user_load_by_name($lookup['name']);
+    $this->drupalGet('user/' . $user->uid . '/edit');
+    $this->assertFieldById('edit-field-firstname-und-0-value', $lookup['firstname'], 'First name is imported');
+    $this->assertFieldById('edit-field-lastname-und-0-value', $lookup['lastname'], 'Last name is imported');
+    $this->assertFieldById('edit-field-ecas-mail-und-0-value', $lookup['email'], 'Email is imported');
+    $this->assertFieldChecked('edit-status-0', 'Account is blocked');
+  }
+
+}

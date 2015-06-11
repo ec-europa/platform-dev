@@ -1,0 +1,11 @@
+name = ECAS import users
+description = Create users accounts from ECAS accounts (in LDAP).
+package = "ECAS"
+core = 7.x
+dependencies[] = ecas
+
+version = "7.x-1.0"
+
+stylesheets[all][] = css/ecas_import_users.css
+
+files[] = ecas_import_users.test

@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Install, uninstall, update and schema hooks for the ECAS Import Users module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ecas_import_users_uninstall() {
+  variable_del('ecas_import_users_default_status');
+}

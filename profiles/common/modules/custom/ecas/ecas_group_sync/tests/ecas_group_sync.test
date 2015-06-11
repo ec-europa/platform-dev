@@ -1,0 +1,194 @@
+<?php
+
+/**
+ * @file
+ * Tests for the ECAS Group Sync module.
+ */
+
+/**
+ * Tests the ECAS Group Sync module through the user interface.
+ */
+class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * A test administrator user.
+   *
+   * @var object
+   */
+  protected $adminUser;
+
+  /**
+   * A test contributor user.
+   *
+   * @var object
+   */
+  protected $contributorUser;
+
+  /**
+   * A test editor user.
+   *
+   * @var object
+   */
+  protected $editorUser;
+
+  /**
+   * The installation profile to use as a basis for testing.
+   *
+   * @var string
+   */
+  protected $profile = 'multisite_drupal_communities';
+
+  /**
+   * Returns test case metadata.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'ecas_group_sync',
+      'description' => 'Test the synchronization between LDAP and user accounts',
+      'group' => 'ECAS SYNCH',
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp(array('ecas_group_sync'));
+
+    $this->adminUser = $this->drupalCreateUserWithRole("administrator");
+    $this->contributorUser = $this->drupalCreateUserWithRole("contributor");
+    $this->editorUser = $this->drupalCreateUserWithRole("editor");
+  }
+
+  /**
+   * Tests the ECAS Group Sync functionality.
+   */
+  public function testEcasGroupSync() {
+    $this->drupalLogin($this->adminUser);
+
+    // Create mapping rule.
+    // @todo The variable $id is unused in its scope.
+    $id = db_insert('ecas_sync_mapping')
+      ->fields(array(
+        'LDAPfield' => 'dg',
+        'LDAPfield_value' => 'DIGIT',
+        'synctype' => 'role',
+        'synctype_value' => '3',
+        )
+      )
+      ->execute();
+
+    // Check the ecas_group_sync settings.
+    $this->drupalGet('admin/config/ecas/group_sync');
+    // OK code 200
+    $this->assertResponse(200, 'User has access.');
+    $this->assertRaw('DIGIT', t('Mapping created.'));
+    $this->assertRaw('administrator', t('Mapping created.'));
+
+    // Test the role sync process.
+    $user_info = array(
+      'dg' => 'DIGIT',
+    );
+    module_invoke('ecas_group_sync', 'info_ecas_update', $this->contributorUser, $user_info, NULL);
+    $this->assertTrue(in_array('administrator', $this->contributorUser->roles), t('Roles have been correctly affected.'));
+
+    // Test the group sync process. Create a community.
+    // @todo It doesn't make sense to have a switch in a test. Either the
+    //   installation profile has this module or it hasn't.
+    if (module_exists('og')) {
+      $settings = array(
+        'type' => 'community',
+        'title' => 'Community test1',
+        'body' => array(LANGUAGE_NONE => array(array('Community body'))),
+      );
+
+      $node1 = $this->drupalCreateNode($settings);
+      $node1->og_register  = 0;
+      $node1->og_directory = 0;
+      $node1->og_private   = 1;
+      $node1->og_selective = 3;
+      node_save($node1);
+
+      // Create mapping rule.
+      // @todo The variable $id is unused in its scope.
+      $id = db_insert('ecas_sync_mapping')
+        ->fields(array(
+          'LDAPfield' => 'dg',
+          'LDAPfield_value' => 'DIGIT',
+          'synctype' => 'group',
+          'synctype_value' => $node1->nid,
+          'synctype_value_extra' => '4',
+        ))
+        ->execute();
+      // @todo The variable $id is unused in its scope.
+      $id = db_insert('ecas_sync_mapping')
+        ->fields(array(
+          'LDAPfield' => 'dg',
+          'LDAPfield_value' => 'MARE',
+          'synctype' => 'group',
+          'synctype_value' => $node1->nid,
+          'synctype_value_extra' => '3',
+        ))
+        ->execute();
+
+      // Check the ecas_group_sync settings.
+      $this->drupalGet('admin/config/ecas/group_sync/group');
+      // OK code 200
+      $this->assertResponse(200);
+      $this->assertRaw('community_manager', t('Mapping created.'));
+      $this->assertRaw('administrator', t('Mapping created.'));
+
+      $this->drupalGet('group/node/' . $node1->nid . '/admin/people');
+      $user_info = array(
+        'dg' => 'DIGIT',
+      );
+      module_invoke('ecas_group_sync', 'info_ecas_update', $this->contributorUser, $user_info, NULL);
+      $user_info = array(
+        'dg' => 'MARE',
+      );
+      module_invoke('ecas_group_sync', 'info_ecas_update', $this->editorUser, $user_info, NULL);
+
+      // Add user to the group.
+      $membership1 = array(
+        'type' => 'user',
+        'entity' => $this->contributorUser,
+        "membership type" => OG_MEMBERSHIP_TYPE_DEFAULT,
+      );
+      og_group('node', $node1->nid, $membership1);
+      $membership2 = array(
+        'type' => 'user',
+        'entity' => $this->editorUser,
+        "membership type" => OG_MEMBERSHIP_TYPE_DEFAULT,
+      );
+      og_group('node', $node1->nid, $membership2);
+
+      $this->drupalGet('group/node/' . $node1->nid . '/admin/people');
+      $this->assertNoUniqueText('community_manager', t('first group role has been correctly affected.'));
+      $this->assertNoUniqueText('administrator', t('second group role has been correctly affected.'));
+    }
+  }
+
+  /**
+   * Creates a user with the give role.
+   * */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
+  }
+
+}
