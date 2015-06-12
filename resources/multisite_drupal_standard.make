@@ -210,8 +210,6 @@ projects[hidden_captcha][version] = "1.0"
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.13"
 projects[i18n][patch][] = patches/i18n-hide_language_field-3996.patch
-projects[i18n][patch][] = patches/i18n_string-2227523-20.patch
-projects[i18n][patch][] = patches/i18n_sync-node_delete-2209973-9.patch
 
 projects[i18nviews][download][revision] = "26bd52c4664b0fec8155273f0c0f3ab8a5a2ef66"
 projects[i18nviews][download][type] = "git"
