@@ -1476,11 +1476,9 @@ function cce_basic_config_update_7203() {
   $rate_widgets = variable_get('rate_widgets', array());
 
   foreach ($rate_widgets as &$rate_widget) {
-    if ($rate_widget->name === 'rate_fivestar') {
-      foreach (array('css', 'js') as $attachment) {
-        if (!empty($rate_widget->$attachment)) {
-          $rate_widget->$attachment = $path . '/templates/fivestar/fivestar.' . $attachment;
-        }
+    foreach (array('css', 'js') as $attachment) {
+      if (!empty($rate_widget->$attachment) && strpos($rate_widget->$attachment, 'sites/all/modules/contributed/rate') === 0) {
+        $rate_widget->$attachment = str_replace('sites/all/modules/contributed/rate', $path, $rate_widget->attachment);
       }
     }
   }
