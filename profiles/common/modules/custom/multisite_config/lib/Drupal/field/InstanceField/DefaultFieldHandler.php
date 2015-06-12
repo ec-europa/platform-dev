@@ -12,7 +12,7 @@ namespace Drupal\field\InstanceField;
  *
  * @package Drupal\field\InstanceField.
  */
-class DefaultFieldHandler {
+class DefaultFieldHandler implements FieldHandlerInterface {
 
   /**
    * Field instance settings as required by field_create_instance().
@@ -29,9 +29,6 @@ class DefaultFieldHandler {
    *    Entity type machine name.
    * @param string $bundle
    *    Bundle machine name.
-   *
-   * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
-   *    Current object instance.
    */
   public function __construct($field_name, $entity_type, $bundle) {
 
@@ -91,9 +88,9 @@ class DefaultFieldHandler {
   /**
    * Set field widget type.
    *
-   * @param $display_name
-   * @param $formatter_type
-   * @param $label_inline
+   * @param string $display_name
+   * @param string $formatter_type
+   * @param bool $label_inline
    *
    * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
    *    Current object.
@@ -107,10 +104,20 @@ class DefaultFieldHandler {
   }
 
   /**
+   * Return field array built using field handler methods.
+   *
+   * @return array
+   *    Field settings array.
+   */
+  function getField() {
+    return $this->instance;
+  }
+
+  /**
    * Create field instance using constructed instance array.
    *
    * @return array
-   *    Instance field array as returned by field_create_instance().
+   *    Field array as returned by Field API CRUD operations.
    *
    * @throws \Exception
    * @throws \FieldException

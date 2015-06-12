@@ -2,13 +2,24 @@
 
 /**
  * @file
- * Contains \Drupal\field\BaseField\DefaultFieldHandler
+ * Contains \Drupal\field\BaseField\DefaultFieldHandler.
  */
 
 namespace Drupal\field\BaseField;
+use Drupal\field\FieldHandlerInterface;
 
-class DefaultFieldHandler {
+/**
+ * Class DefaultFieldHandler.
+ *
+ * @package Drupal\field\BaseField.
+ */
+class DefaultFieldHandler implements FieldHandlerInterface {
 
+  /**
+   * Base field settings as required by field_create_instance().
+   *
+   * @var array
+   */
   private $field = array();
 
   /**
@@ -18,12 +29,6 @@ class DefaultFieldHandler {
    *    Field machine name.
    * @param string $type
    *    Field type, as specified by hook_field_info() implementations.
-   *
-   * @return \Drupal\field\BaseField\DefaultFieldHandler $this
-   *    Current object instance.
-   *
-   * @throws \Exception
-   * @throws \FieldException
    */
   public function __construct($field_name, $type) {
     $this->field = array(
@@ -34,15 +39,25 @@ class DefaultFieldHandler {
   }
 
   /**
-   * Create base field using constructed field array.
+   * Return field array built using field handler methods.
    *
    * @return array
-   *    Base field array as returned by field_create_field().
+   *    Field settings array.
+   */
+  public function getField() {
+    return $this->field;
+  }
+
+  /**
+   * Create field instance using constructed instance array.
+   *
+   * @return array
+   *    Field array as returned by Field API CRUD operations.
    *
    * @throws \Exception
    * @throws \FieldException
    */
-  function save() {
+  public function save() {
     return field_create_field($this->field);
   }
 }
