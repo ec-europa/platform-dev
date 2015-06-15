@@ -2,7 +2,7 @@
   "require": {
     "drupal/coder": "dev-8.x-2.x",
     "drupal/phing-drush-task": "1.0",
-    "drush/drush": "dev-master",
+    "drush/drush": "8.0.*@beta",
     "pear/versioncontrol_git": "dev-master",
     "phing/phing": "~2.10"
   },
