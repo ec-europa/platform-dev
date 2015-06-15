@@ -119,13 +119,13 @@ function ec_world_countries_update_7100() {
 
 function ec_world_countries_update_7100() {
   $field = 'iso_3166_1_alpha_2_code';
-  // check if the field iso_3166_1_alpha_2_code has not been already created
+  // Check if the field iso_3166_1_alpha_2_code has not been already created.
   if (!field_info_instance('taxonomy_term', $field, 'ec_world_countries')) { 
     // Creates 2 letter code field.
     ec_world_countries_iso_field();
   }
-  $results = db_select('field_data_iso_3166_1_alpha_2_code')>fields(NULL, array('field'))>countQuery()>execute()>fetchField();
-  // check if the field iso_3166_1_alpha_2_code has values
+  $results = db_select('field_data_iso_3166_1_alpha_2_code')->fields(NULL, array('field'))->countQuery()->execute()->fetchField();
+  // Check if the field iso_3166_1_alpha_2_code has values.
   if ($results == 0) {
     // Assigns the 2 letter code to each country.
     ec_world_countries_add_code();
