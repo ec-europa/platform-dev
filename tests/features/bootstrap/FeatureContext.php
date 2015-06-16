@@ -17,6 +17,8 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
+   * Checks that a 403 Access Denied error occurred.
+   *
    * @Then I should get an access denied error
    */
   public function assertAccessDenied() {
@@ -100,13 +102,13 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    * @param NodeElement $element
    *   The element to check.
-   * @param $type
+   * @param string $type
    *   The expected type.
    *
    * @throws ExpectationException
    *   Thrown when the given element is not of the expected type.
    */
-  public function assertElementType(\Behat\Mink\Element\NodeElement $element, $type) {
+  public function assertElementType(NodeElement $element, $type) {
     if ($element->getTagName() !== $type) {
       throw new ExpectationException("The element is not a '$type'' field.", $this->getSession());
     }
