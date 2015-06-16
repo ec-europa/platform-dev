@@ -311,8 +311,8 @@ function cce_basic_config_form_node_form_after_build($form_element) {
  *
  * Dynamically set the following variables which contain hard coded strings and
  * depend on the install profile:
- * - print_pdf_pdf_tool
- * - image_captcha_fonts
+ * - 'print_pdf_pdf_tool'
+ * - 'image_captcha_fonts'
  */
 function cce_basic_config_strongarm_alter(&$variables) {
   $dynamic_variables = array();
