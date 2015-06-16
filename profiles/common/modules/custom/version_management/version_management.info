@@ -7,5 +7,6 @@ core = "7.x"
 project = "version_management"
 datestamp = "1425908683"
 
-
+dependencies[] = multisite_config
+registry_autoload[] = PSR-4
 
