@@ -67,7 +67,7 @@
     <!-- Make one of the profiles in order to build a multisite platform. -->
     <target name="make-multisite-platform">
         <!-- Override the location of the make file. -->
-        <property name="platform.make" value="${platform.resources.profiles.dir}/${platform.profile.name}/build.make" override="yes" />
+        <property name="platform.make" value="${platform.resources.dir}/${platform.profile.name}.make" override="yes" />
         <phingcall target="make-platform" />
     </target>
 

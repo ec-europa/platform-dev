@@ -44,14 +44,6 @@
 
       // Menu dropdown.
       $('.dropdown-toggle').dropdown();
-
-      // Font size buttons.
-      $('.text_size_big').on("click", function() {
-        $('link[data-name="switcher"]').attr('href',Drupal.settings.basePath + Drupal.settings.pathToTheme + '/css/text_size_big.css');
-      });
-      $('.text_size_small').on("click", function() {
-        $('link[data-name="switcher"]').attr('href',Drupal.settings.basePath + Drupal.settings.pathToTheme + '/css/text_size_small.css');
-      });
     }
   }
 
