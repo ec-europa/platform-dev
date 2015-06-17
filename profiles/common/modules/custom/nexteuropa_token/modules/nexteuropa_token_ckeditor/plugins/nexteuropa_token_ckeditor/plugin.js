@@ -114,7 +114,7 @@
      */
     regex: {
       parse_token: /\[(\w*\:\d*\:(view-mode\:\w*|link))\]\{(.*)\}/,
-      parse_placeholder: /<nexteuropatoken contenteditable="false" token="(.*)">(.*)<\/nexteuropatoken>/,
+      parse_placeholder: /<nexteuropatoken.*token="(.*?)".*>(.*)<\/nexteuropatoken>/,
       get_tokens: /\[\w*\:\d*\:(view-mode\:\w*|link)\]{.*?}/g,
       get_placeholders: /<nexteuropatoken.*?<\/nexteuropatoken>/g
     },
