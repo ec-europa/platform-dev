@@ -1,3 +1,8 @@
+/**
+ * @file
+ * CKEDITOR plugin file.
+ */
+
 (function($) {
 
   CKEDITOR.plugins.add('nexteuropa_token_ckeditor', {
@@ -101,11 +106,7 @@
     }
   });
 
-  /**
-   * Utility class.
-   *
-   * @type {*|Drupal.nexteuropa_token_ckeditor|{}}
-   */
+  // Utility class.
   Drupal.nexteuropa_token_ckeditor = Drupal.nexteuropa_token_ckeditor || {};
   Drupal.nexteuropa_token_ckeditor.filter = {
 
@@ -179,6 +180,5 @@
       return content;
     }
   };
-  
-})(jQuery);
 
+})(jQuery);

@@ -1,3 +1,8 @@
+/**
+ * @file
+ * NextEuropa Token CKEditor behavior.
+ */
+
 (function ($) {
 
   /**
