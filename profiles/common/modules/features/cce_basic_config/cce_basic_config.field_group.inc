@@ -164,4 +164,3 @@ function cce_basic_config_field_group_info() {
 
   return $export;
 }
-
