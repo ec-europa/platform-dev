@@ -1570,10 +1570,34 @@ function cce_basic_config_update_7204() {
 }
 
 /**
- * NEXTEUROPA-3298: Enable NextEuropa Token CKEditor module and plugin.
+ * NEXTEUROPA-3298: Enable CKEditor plugins and related modules.
  */
 function cce_basic_config_update_7205() {
-  module_enable(array('nexteuropa_token_ckeditor'));
+
+  // Enable new cce_basic_config dependencies.
+  $modules = array(
+    'nexteuropa_token_ckeditor',
+    'ckeditor_lite',
+    'token_filter',
+  );
+  module_enable($modules);
+
+  // Enable nexteuropa_token_ckeditor WYSIWYG plugin.
   multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', 'nexteuropa_token_ckeditor', array('NextEuropaToken'));
+
+  // Enable token_filter on full_html text filter.
   multisite_config_service('filter')->enableTextFilter('full_html', 'filter_tokens');
+
+  // Enable ckeditor_lite WYSIWYG plugin.
+  $lite_plugin_settings = array(
+    'lite' => array(
+      'lite_AcceptAll',
+      'lite_RejectAll',
+      'lite_AcceptOne',
+      'lite_RejectOne',
+      'lite_ToggleShow',
+      'lite_ToggleTracking',
+    ),
+  );
+  multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', 'lite', $lite_plugin_settings);
 }
