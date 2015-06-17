@@ -9,6 +9,24 @@
  */
 function newsletters_user_default_permissions() {
   $permissions = array();
+  
+  // Exported permission: 'administer email non-delivery report processing'.
+  $permissions['administer email non-delivery report processing'] = array(
+    'name' => 'administer email non-delivery report processing',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'bounce',
+  );
+
+  // Exported permission: 'administer newsletter statistics'.
+  $permissions['administer newsletter statistics'] = array(
+    'name' => 'administer newsletter statistics',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'simplenews_statistics',
+  );
 
   // Exported permission: 'administer newsletters'.
   $permissions['administer newsletters'] = array(
@@ -98,5 +116,14 @@ function newsletters_user_default_permissions() {
     'module' => 'simplenews',
   );
 
+  // Exported permission: 'view newsletter statistics'.
+  $permissions['view newsletter statistics'] = array(
+    'name' => 'view newsletter statistics',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'simplenews_statistics',
+  );
+  
   return $permissions;
 }
