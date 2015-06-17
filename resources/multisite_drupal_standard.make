@@ -456,6 +456,7 @@ projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.10"
+projects[views][patch][] = patches/views-exposed_form_ajax_broken-2425099-59.patch
 projects[views][patch][] = patches/views-exposed_groupfilter_views-1818176-11.patch
 projects[views][patch][] = patches/views-includes_handlers-1752062-6.patch
 projects[views][patch][] = patches/views-localization-bug-1685144-9.patch
