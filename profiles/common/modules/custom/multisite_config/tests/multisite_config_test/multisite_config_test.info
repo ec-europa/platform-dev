@@ -1,0 +1,17 @@
+name = Multisite Config Test
+description = Multisite Config Test feature.
+core = 7.x
+package = Multisite
+dependencies[] = features
+dependencies[] = taxonomy
+dependencies[] = text
+features[features_api][] = api:2
+features[field_base][] = body
+features[field_base][] = field_tags
+features[field_instance][] = node-test_with_fields-body
+features[field_instance][] = node-test_with_fields-field_tags
+features[field_instance][] = node-test_without_fields-body
+features[node][] = test_with_fields
+features[node][] = test_without_fields
+features[taxonomy][] = tags
+hidden = 1
