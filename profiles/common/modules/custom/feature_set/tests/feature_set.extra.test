@@ -3,7 +3,6 @@
 /**
  * @file
  * Tests for PROJECTFEATURE_feature_set.module.
- * ECWeb MULTISITE QA
  */
 
 /**
@@ -114,4 +113,5 @@ class MultisiteFeatureSetFeatureTest extends DrupalWebTestCase {
     $this->assertNoFieldChecked('edit-modules-multisite-features-ec-content-slider-enable', t('Module "Content-slider" is disabled in admin/modules.'));
     $this->assertNoFieldChecked('edit-modules-multisite-features-multisite-metatags-enable', t('Module "Multisite Megatags" is disabled in admin/modules.'));
   }
+
 }
