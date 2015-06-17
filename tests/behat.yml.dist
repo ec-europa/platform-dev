@@ -8,7 +8,7 @@ default:
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
       filters:
-        tags: "~@communities"
+        tags: "~@communities&&~@wip"
   extensions:
     Behat\MinkExtension:
       goutte: ~
@@ -38,7 +38,7 @@ communities:
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
       filters:
-        tags: "@communities"
+        tags: "@communities&&~@wip"
   extensions:
     Behat\MinkExtension:
       goutte: ~
