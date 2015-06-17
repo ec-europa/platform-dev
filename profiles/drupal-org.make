@@ -107,7 +107,7 @@ projects[entityreference][version] = "1.1"
 ;projects[entityreference][download][revision] = "3cbeb1b9e49ede063834f33a33e3fa6a409bd0f4"
 
 projects[entityreference_prepopulate][subdir] = "contributed"
-projects[entityreference_prepopulate][version] = "1.3"
+projects[entityreference_prepopulate][version] = "1.5"
 
 projects[eu-cookie-compliance][subdir] = "contributed"
 projects[eu-cookie-compliance][version] = "1.12"

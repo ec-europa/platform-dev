@@ -1,0 +1,60 @@
+Only in entityreference_prepopulate_patched: entityreference_prepopulate-ajax-prepopulation-1958800-43-D7.patch
+diff -b -B -r --exclude=.svn --exclude=.git -ru entityreference_prepopulate/entityreference_prepopulate.module entityreference_prepopulate_patched/entityreference_prepopulate.module
+--- entityreference_prepopulate/entityreference_prepopulate.module	2014-02-19 22:12:29.000000000 +0100
++++ entityreference_prepopulate_patched/entityreference_prepopulate.module	2015-06-17 11:22:38.134865734 +0200
+@@ -64,12 +64,6 @@
+ function entityreference_prepopulate_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+   list($id,,$bundle) = entity_extract_ids($entity_type, $entity);
+ 
+-  if (!empty($form_state['triggering_element']['#ajax'])) {
+-    // We are inside AJAX, so values can't be taken from URL at the
+-    // moment.
+-    return;
+-  }
+-
+   // Check if there is a field that needs to be prepopulated attached to the
+   // given entity.
+   $found = FALSE;
+@@ -234,8 +228,19 @@
+     $validate,
+   );
+ 
+-  if (module_exists('og') && og_is_group_audience_field($field_name)) {
+-    if (empty($instance['field_mode'])) {
++  $is_audience_field = module_exists('og') && og_is_group_audience_field($field_name);
++  // Add field mode to ID if the audience field has one.
++  if ($is_audience_field && !empty($instance['field_mode'])) {
++    $identifier[] = $instance['field_mode'];
++  }
++
++  $identifier = implode(':', $identifier);
++
++  if (isset($cache[$identifier])) {
++    return $cache[$identifier];
++  }
++
++  if ($is_audience_field && empty($instance['field_mode'])) {
+       // Group audience field, but no field-mode provided.
+       // So we iterate over the "default" and possibly "admin" field-modes,
+       // and return those values together.
+@@ -248,17 +253,8 @@
+         }
+       }
+ 
+-      // Return the values.
+-      return $ids;
+-    }
+-
+-    $identifier[] = $instance['field_mode'];
+-  }
+-
+-  $identifier = implode(':', $identifier);
+-
+-  if (isset($cache[$identifier])) {
+-    return $cache[$identifier];
++    // Cache and return the values.
++    return $cache[$identifier] = $ids;
+   }
+ 
+   $cache[$identifier] = $ids = array();
+Only in entityreference_prepopulate_patched: entityreference_prepopulate.module.rej

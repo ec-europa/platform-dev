@@ -24,6 +24,7 @@ projects[entity_translation][patch][] = ../multisite_drupal_core/patches/entity_
 projects[eu-cookie-compliance][patch][] = ../multisite_drupal_core/patches/eu_cookie_compliance-unified_cookie-3449.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/views-exposed_groupfilter_views-1818176-11.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/field-extra-fields-visible-1256368-83.patch
+projects[entityreference_prepopulate][patch][] = ../multisite_drupal_core/patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
 projects[features][patch][] = ../multisite_drupal_core/patches/features-var-export-object-1437264-12.patch
 projects[feeds_xpathparser][patch][] = ../multisite_drupal_core/patches/feeds_xpathparser-undefined_index_unique-1998194-2.patch
 projects[field_collection][patch][] = ../multisite_drupal_core/patches/field_collection-check-before-adding-index-2141781-27.patch
