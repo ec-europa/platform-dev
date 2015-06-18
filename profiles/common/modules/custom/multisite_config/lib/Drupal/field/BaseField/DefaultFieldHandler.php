@@ -53,11 +53,9 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    *
    * @return array
    *    Field array as returned by Field API CRUD operations.
-   *
-   * @throws \Exception
-   * @throws \FieldException
    */
   public function save() {
     return field_create_field($this->field);
   }
+
 }

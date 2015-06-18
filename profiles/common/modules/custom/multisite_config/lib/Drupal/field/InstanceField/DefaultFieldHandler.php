@@ -16,6 +16,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
 
   /**
    * Field instance settings as required by field_create_instance().
+   *
    * @var array
    */
   private $instance = array();
@@ -89,16 +90,19 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Set field widget type.
    *
    * @param string $display_name
+   *    Entity display machine name.
    * @param string $formatter_type
-   * @param bool $label_inline
+   *    Formatter type machine name.
+   * @param string $label
+   *    Label settings, either 'inline', 'above' or 'hidden'.
    *
    * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
    *    Current object.
    */
-  public function display($display_name, $formatter_type, $label_inline = FALSE) {
+  public function display($display_name, $formatter_type, $label = 'above') {
     $this->instance['display'][$display_name]['type'] = $formatter_type;
     if ($formatter_type != 'hidden') {
-      $this->instance['display'][$display_name]['label'] = $label_inline ? 'inline' : 'above';
+      $this->instance['display'][$display_name]['label'] = $label;
     }
     return $this;
   }
@@ -109,7 +113,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * @return array
    *    Field settings array.
    */
-  function getField() {
+  public function getField() {
     return $this->instance;
   }
 
@@ -118,11 +122,9 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    *
    * @return array
    *    Field array as returned by Field API CRUD operations.
-   *
-   * @throws \Exception
-   * @throws \FieldException
    */
-  function save() {
+  public function save() {
     return field_create_instance($this->instance);
   }
+
 }

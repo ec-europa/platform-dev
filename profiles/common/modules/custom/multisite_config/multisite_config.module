@@ -18,6 +18,7 @@
  *    Configuration API object.
  *
  * @throws \Exception
+ *    Throw exception if either module, service class or both are missing.
  */
 function multisite_config_service($module) {
   $class = "\\Drupal\\{$module}\\Config";

@@ -19,9 +19,6 @@ interface FieldHandlerInterface {
    *
    * @return array
    *    Field array as returned by Field API CRUD operations.
-   *
-   * @throws \Exception
-   * @throws \FieldException
    */
   public function save();
 
