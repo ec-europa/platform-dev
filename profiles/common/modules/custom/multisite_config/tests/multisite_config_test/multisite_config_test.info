@@ -3,6 +3,7 @@ description = Multisite Config Test feature.
 core = 7.x
 package = Multisite
 dependencies[] = features
+dependencies[] = multisite_config
 dependencies[] = taxonomy
 dependencies[] = text
 features[features_api][] = api:2
