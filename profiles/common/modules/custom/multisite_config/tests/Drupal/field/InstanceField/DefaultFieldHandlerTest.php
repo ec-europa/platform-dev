@@ -60,6 +60,33 @@ class DefaultFieldHandlerTest extends ConfigAbstractTest {
   }
 
   /**
+   * Test instance field creation.
+   *
+   * @dataProvider fieldDataProvider
+   */
+  public function testFieldInstanceCreation($field_name, $type, $label, $widget, $default_formatter, $teaser_formatter) {
+    $base_handler = new DefaultBaseFieldHandler($field_name, $type);
+    $base_handler->save();
+
+    $handler = new DefaultInstanceFieldHandler($field_name, 'node', self::CONTENT_TYPE_WITHOUT_FIELDS);
+    $handler->label($label)
+      ->widget($widget)
+      ->display('default', $default_formatter, 'inline')
+      ->display('teaser', $teaser_formatter);
+
+    $instance = $handler->getField();
+    $handler->save();
+
+    $saved_instance = field_info_instance('node', $field_name, self::CONTENT_TYPE_WITHOUT_FIELDS);
+    $this->assertEquals($label, $saved_instance['label']);
+    $this->assertEquals($widget, $saved_instance['widget']['type']);
+    $this->assertEquals($default_formatter, $saved_instance['display']['default']['type']);
+    $this->assertEquals($teaser_formatter, $saved_instance['display']['teaser']['type']);
+
+    field_delete_field($field_name);
+  }
+
+  /**
    * Data provider: name, type, label, widget, default and teaser formatters.
    *
    * @see self::testHandlerConstructor()
@@ -70,7 +97,7 @@ class DefaultFieldHandlerTest extends ConfigAbstractTest {
         'field_name_' . rand(),
         'taxonomy_term_reference',
         'Tags', 'taxonomy_autocomplete',
-        'i18n_taxonomy_term_reference_link',
+        'taxonomy_term_reference_link',
         'hidden',
       ),
       array(

@@ -11,6 +11,9 @@ use Drupal\field\FieldHandlerInterface;
 /**
  * Class DefaultFieldHandler.
  *
+ * This default class deals with common field base settings, typically those
+ * accessible at the root level if the field instance array.
+ *
  * @package Drupal\field\BaseField.
  */
 class DefaultFieldHandler implements FieldHandlerInterface {
@@ -20,7 +23,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    *
    * @var array
    */
-  private $field = array();
+  protected $field = array();
 
   /**
    * Create a base field, given its name and type.
