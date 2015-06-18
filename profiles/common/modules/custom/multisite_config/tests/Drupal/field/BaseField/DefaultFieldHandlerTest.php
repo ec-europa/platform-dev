@@ -20,7 +20,7 @@ class DefaultFieldHandlerTest extends ConfigAbstractTest {
   /**
    * Test base field handler constructor.
    *
-   * @dataProvider additionProvider
+   * @dataProvider fieldDataProvider
    */
   public function testHandlerConstructor($field_name, $type) {
     $handler = new DefaultFieldHandler($field_name, $type);
@@ -32,7 +32,7 @@ class DefaultFieldHandlerTest extends ConfigAbstractTest {
   /**
    * Test base field saving.
    *
-   * @dataProvider additionProvider
+   * @dataProvider fieldDataProvider
    */
   public function testFieldSaving($field_name, $type, $module) {
     $handler = new DefaultFieldHandler($field_name, $type);
@@ -55,7 +55,7 @@ class DefaultFieldHandlerTest extends ConfigAbstractTest {
    *
    * @see self::testHandlerConstructor()
    */
-  public function additionProvider() {
+  public function fieldDataProvider() {
     return array(
       array('field_name_' . rand(), 'text', 'text'),
       array('field_name_' . rand(), 'text_long', 'text'),

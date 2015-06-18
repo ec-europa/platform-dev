@@ -14,6 +14,9 @@ namespace Drupal\multisite_config\Tests;
  */
 abstract class ConfigAbstractTest extends \PHPUnit_Framework_TestCase {
 
+  const CONTENT_TYPE_WITH_FIELDS = 'test_with_fields';
+  const CONTENT_TYPE_WITHOUT_FIELDS = 'test_without_fields';
+
   /**
    * Service object instance as returned by multisite_config_service().
    *
