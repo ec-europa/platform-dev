@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # install.sh script settings
-webroot='/ec/dev/server/fpfis/webroot/sources/gervase/sites'
+webroot='/ec/dev/server/fpfis/webroot/sources'
 subdirectory='' #fill only if the site must be installed in a subdirectory of the webroot
 verbose=0 # 0 || 1
 force=0 # 0 || 1
