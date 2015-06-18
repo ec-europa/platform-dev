@@ -2,13 +2,14 @@
 
 /**
  * @file
- * Mark a node edit as not major version, preventing the timestamp from
- * updating.
+ * Mark a node edit as not major version prevents the timestamp from updating.
+ *
  * This module allows content types to be designated for major edits, and
- * users given the permission to mark an edit.  Marking an edit as not major
- * prevents $node->changed from being updated, which keeps the node from popping
- * to the top of ordered-by-time lists.  Revisions are marked with the correct
- * timestamp data.
+ * users given the permission to mark an edit.
+ *
+ * Marking an edit as not major prevents $node->changed from being updated,
+ * which keeps the node from popping to the top of ordered-by-time lists.
+ * Revisions are marked with the correct timestamp data.
  */
 
 /**
@@ -146,7 +147,7 @@ function version_management_node_presave($node) {
 /**
  * Implements hook_module_implements_alter().
  *
- * allow to launch the hook_node_presave at last
+ * Allow to launch the hook_node_presave at last.
  */
 function version_management_module_implements_alter(&$implementations, $hook) {
   if ($hook == 'node_presave') {

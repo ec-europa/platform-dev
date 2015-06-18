@@ -2,9 +2,11 @@ div.form-item-minor-version {
   display: inline;
 }
 
+/*
 .glyphicon {
-  /*color: orange;*/
+  color: orange;
 }
+*/
 
 /*
 .glyphicon:before {
@@ -13,11 +15,10 @@ div.form-item-minor-version {
  font-size: 1.5em;
 }
 .glyphicon.glyphicon-unchecked:checked:before {
-   content: "\e067";
+  content: "\e067";
 }
 input[type=checkbox].glyphicon{
-    visibility: hidden;
-
+  visibility: hidden;
 }
 */
 
@@ -27,11 +28,11 @@ input[type=checkbox].glyphicon{
 }
 
 #workbench-moderation-node-unpublish-form .form-checkbox {
-   margin-top: 4px;
+  margin-top: 4px;
 }
 
 #workbench-moderation-moderate-form .form-checkbox {
-   margin-top: 12px;
+  margin-top: 12px;
 }
 
 .major_version_mark_color {
