@@ -49,6 +49,9 @@ projects[better_exposed_filters][version] = "3.0-beta3"
 projects[bootstrap_gallery][subdir] = "contributed"
 projects[bootstrap_gallery][version] = "3.0"
 
+projects[bounce][subdir] = "contributed"
+projects[bounce][version] = "1.6"
+
 projects[captcha][subdir] = "contributed"
 projects[captcha][version] = "1.2"
 
@@ -293,6 +296,9 @@ projects[rules][version] = "2.8"
 
 projects[simplenews][subdir] = "contributed"
 projects[simplenews][version] = "1.1"
+
+projects[simplenews_statistics][subdir] = "contributed"
+projects[simplenews_statistics][version] = "1.0-alpha1"
 
 projects[site_map][subdir] = "contributed"
 projects[site_map][version] = "1.0"

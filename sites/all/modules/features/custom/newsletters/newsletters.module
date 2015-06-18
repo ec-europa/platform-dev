@@ -4,7 +4,7 @@
  * Code for the newsletters feature.
  */
 
-include_once('newsletters.features.inc');
+include_once 'newsletters.features.inc';
 
 /**
  * Implements hook_menu().
@@ -45,7 +45,7 @@ function newsletters_field_create_field($field) {
 }
 
 /**
- * Implements of hook_token_info().
+ * Implements hook_token_info().
  */
 function newsletters_token_info() {
   $info = array();
@@ -73,7 +73,6 @@ function newsletters_token_info() {
 
 /**
  * Implements hook_tokens().
- *
  */
 function newsletters_tokens($type, $tokens, $data = array(), $options = array()) {
   global $language;
@@ -106,6 +105,3 @@ function newsletters_tokens($type, $tokens, $data = array(), $options = array())
   }
   return $replacements;
 }
-
-
-

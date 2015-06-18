@@ -9,7 +9,7 @@
  */
 function newsletters_user_default_permissions() {
   $permissions = array();
-  
+
   // Exported permission: 'administer email non-delivery report processing'.
   $permissions['administer email non-delivery report processing'] = array(
     'name' => 'administer email non-delivery report processing',
@@ -124,6 +124,6 @@ function newsletters_user_default_permissions() {
     ),
     'module' => 'simplenews_statistics',
   );
-  
+
   return $permissions;
 }
