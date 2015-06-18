@@ -28,9 +28,6 @@ class Config extends ConfigBase {
    *
    * @return \Drupal\field\BaseField\DefaultFieldHandler
    *    Field handler object instance.
-   *
-   * @throws \Exception
-   * @throws \FieldException
    */
   public function createBaseField($field_name, $type) {
     $class = str_replace(' ', '', ucwords(str_replace('_', ' ', $type)));

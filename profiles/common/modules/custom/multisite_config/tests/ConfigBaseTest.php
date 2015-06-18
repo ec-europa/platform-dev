@@ -19,7 +19,7 @@ class ConfigBaseTest extends ConfigAbstractTest {
    */
   public function testServiceContainer() {
 
-    $paths = glob(drupal_get_path('module', 'multisite_config') . '/lib/Drupal/*' , GLOB_ONLYDIR);
+    $paths = glob(drupal_get_path('module', 'multisite_config') . '/lib/Drupal/*', GLOB_ONLYDIR);
     foreach ($paths as $path) {
       $name = basename($path);
       $this->assertTrue(class_exists("Drupal\\$name\\Config"));
@@ -32,7 +32,10 @@ class ConfigBaseTest extends ConfigAbstractTest {
   }
 
   /**
+   * Test case when both service class and module do not exist.
+   *
    * @expectedException \Exception
+   *
    * @expectedExceptionMessage Service class "\Drupal\not_existing_module\Config" and module "not_existing_module" does not exists.
    */
   public function testNotExistingServiceClassAndModule() {

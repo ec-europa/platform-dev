@@ -15,8 +15,9 @@ namespace Drupal\multisite_config\Tests;
 abstract class ConfigAbstractTest extends \PHPUnit_Framework_TestCase {
 
   /**
+   * Service object instance as returned by multisite_config_service().
+   *
    * @var object
-   *    Service object instance as returned by multisite_config_service().
    */
   protected $service;
 
