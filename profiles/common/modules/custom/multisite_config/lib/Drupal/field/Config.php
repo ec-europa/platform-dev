@@ -31,8 +31,8 @@ class Config extends ConfigBase {
    */
   public function createBaseField($field_name, $type) {
     $class = str_replace(' ', '', ucwords(str_replace('_', ' ', $type)));
-    $class = "\\Drupal\\field\\BaseField\\$class";
-    return class_exists($class) ? new $class() : new DefaultBaseFieldHandler($field_name, $type);
+    $class = "\\Drupal\\field\\BaseField\\{$class}FieldHandler";
+    return class_exists($class) ? new $class($field_name, $type) : new DefaultBaseFieldHandler($field_name, $type);
   }
 
   /**

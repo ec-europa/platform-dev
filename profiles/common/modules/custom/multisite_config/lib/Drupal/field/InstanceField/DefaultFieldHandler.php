@@ -11,6 +11,14 @@ use Drupal\field\FieldHandlerInterface;
 /**
  * Class DefaultFieldHandler.
  *
+ * This default class deals with common field instance settings, typically those
+ * accessible at the root level if the field instance array.
+ *
+ * This class can be extended with child classes taking care of specific field
+ * instance use cases per file type. Each child class will implement specific
+ * setting handling for both widgets and formatters related to that particular
+ * field type.
+ *
  * @package Drupal\field\InstanceField.
  */
 class DefaultFieldHandler implements FieldHandlerInterface {
@@ -20,7 +28,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    *
    * @var array
    */
-  private $instance = array();
+  protected $instance = array();
 
   /**
    * Construct instance field handler with required information.
