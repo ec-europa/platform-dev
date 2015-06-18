@@ -34,24 +34,34 @@ class DefaultFieldHandlerTest extends ConfigAbstractTest {
    *
    * @dataProvider additionProvider
    */
-  public function testFieldSaving($field_name, $type) {
+  public function testFieldSaving($field_name, $type, $module) {
     $handler = new DefaultFieldHandler($field_name, $type);
 
     $field = $handler->save();
     $this->assertEquals($type, $field['type']);
     $this->assertEquals($field_name, $field['field_name']);
+    $this->assertEquals($module, $field['module']);
+    $this->assertEquals(FALSE, $field['locked']);
+    $this->assertEquals(1, $field['active']);
+    $this->assertEquals(0, $field['deleted']);
+    $this->assertEquals(1, $field['cardinality']);
+    $this->assertEquals(FALSE, $field['translatable']);
 
     field_delete_field($field_name);
   }
 
   /**
-   * Data provider.
+   * Data provider: file name, field type and module providing it.
    *
    * @see self::testHandlerConstructor()
    */
   public function additionProvider() {
     return array(
-      array('field_name_' . rand(), 'text'),
+      array('field_name_' . rand(), 'text', 'text'),
+      array('field_name_' . rand(), 'text_long', 'text'),
+      array('field_name_' . rand(), 'taxonomy_term_reference', 'taxonomy'),
+      array('field_name_' . rand(), 'image', 'image'),
+      array('field_name_' . rand(), 'list_text', 'list'),
     );
   }
 
