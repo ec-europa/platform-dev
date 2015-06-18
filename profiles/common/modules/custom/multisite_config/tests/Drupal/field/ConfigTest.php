@@ -5,7 +5,7 @@
  * Contains \Drupal\multisite_config\Tests\NextEuropaDataExportTest.
  */
 
-namespace Drupal\multisite_config\Tests\field;
+namespace Drupal\multisite_config\Tests\Drupal\field;
 
 use Drupal\multisite_config\Tests\ConfigAbstractTest;
 use Drupal\field\Config;
@@ -13,7 +13,7 @@ use Drupal\field\Config;
 /**
  * Class ConfigTest.
  *
- * @package Drupal\multisite_config\Tests\field
+ * @package Drupal\multisite_config\Tests\Drupal\field
  */
 class ConfigTest extends ConfigAbstractTest {
 

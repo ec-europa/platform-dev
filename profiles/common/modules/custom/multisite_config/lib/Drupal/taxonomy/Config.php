@@ -103,7 +103,8 @@ class Config extends ConfigBase {
       }
 
       $entity = entity_create('taxonomy_term', $values);
-      return entity_save('taxonomy_term', $entity);
+      entity_save('taxonomy_term', $entity);
+      return $entity;
     }
     return FALSE;
   }
