@@ -82,7 +82,7 @@ class Config extends ConfigBase {
         ->condition('t.name', $name)
         ->condition('t.vid', $vocabulary->vid)
         ->execute()
-        ->fetchAll(PDO::FETCH_COLUMN);
+        ->fetchAll(\PDO::FETCH_COLUMN);
       if ($term) {
         return FALSE;
       }
@@ -98,7 +98,7 @@ class Config extends ConfigBase {
           ->condition('t.name', $parent)
           ->condition('t.vid', $vocabulary->vid)
           ->execute()
-          ->fetchAll(PDO::FETCH_COLUMN);
+          ->fetchAll(\PDO::FETCH_COLUMN);
         $values['parent'] = $parent_tid;
       }
 
