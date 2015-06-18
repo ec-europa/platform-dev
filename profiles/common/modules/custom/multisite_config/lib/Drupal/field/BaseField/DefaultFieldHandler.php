@@ -35,6 +35,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
       'field_name' => $field_name,
       'type' => $type,
     );
+
     return $this;
   }
 
