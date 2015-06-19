@@ -98,6 +98,7 @@ projects[context_entity_field][patch][] = patches/add-entity-references-1847038.
 
 projects[css_injector][subdir] = "contrib"
 projects[css_injector][version] = "1.10"
+projects[css_injector][patch][] = patches/css_injector-add_upload_file-2506775-10.patch
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.6"
