@@ -193,10 +193,10 @@ function multisite_workbench_moderation_view_views_default_views_alter(&$views) 
     $handler->display->display_options['defaults']['filter_groups'] = FALSE;
     $handler->display->display_options['defaults']['filters'] = FALSE;
     /* Filter criterion: Workbench Moderation: Current */
-    $handler->display->display_options['filters']['current']['id'] = 'current';
-    $handler->display->display_options['filters']['current']['table'] = 'workbench_moderation_node_history';
-    $handler->display->display_options['filters']['current']['field'] = 'current';
-    $handler->display->display_options['filters']['current']['value'] = '1';
+    $handler->display->display_options['filters']['is_current']['id'] = 'is_current';
+    $handler->display->display_options['filters']['is_current']['table'] = 'workbench_moderation_node_history';
+    $handler->display->display_options['filters']['is_current']['field'] = 'is_current';
+    $handler->display->display_options['filters']['is_current']['value'] = '1';
     /* Filter criterion: Workbench Moderation: State */
     $handler->display->display_options['filters']['state']['id'] = 'state';
     $handler->display->display_options['filters']['state']['table'] = 'workbench_moderation_node_history';
