@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Module file for Feature Set
+ * Module file for Feature Set.
  */
 
 // Indicates if all the enable modules are enabled.
@@ -10,11 +10,6 @@ define('FEATURE_SET_ENABLED', 0x01);
 
 // Indicates if all the disable modules are disabled.
 define('FEATURE_SET_DISABLED', 0x02);
-
-/**
- * @todo keep a running tally of modules in the disable list and make sure that
- *       no other feature set has that module listed in its disable list
- */
 
 /**
  * Implements hook_permission().
@@ -125,10 +120,10 @@ function feature_set_get_featuresets($install_state = NULL) {
  * Get information for a specific feature_set.
  *
  * @param string $feature_set
- *   The name of the feature_set to retrieve information for
+ *   The name of the feature_set to retrieve information for.
  *
  * @return mixed
- *   Array of feature_set information or FALSE if $feature_set doesn't exist
+ *   Array of feature_set information or FALSE if $feature_set doesn't exist.
  */
 function feature_set_get_featureset($feature_set) {
   $sets = feature_set_get_featuresets();
@@ -183,7 +178,7 @@ function feature_set_disable_feature_set($feature_set) {
  *   and enable. If $form_state is provided it will calculate the enable and
  *   disable sets with the form state in mind.
  */
-function feature_set_get_meta_feature_sets($form_state = NULL) {
+function feature_set_get_meta_feature_sets($form_state = array()) {
   $feature_sets = feature_set_get_featuresets();
   $sets = array(
     'enable' => array(),
@@ -415,7 +410,7 @@ function _feature_set_get_require($module) {
         $output .= t("requires") . " : " . $featuresets[$value]["title"] . " ";
       }
     }
-    $output .= '<div/>';
+    $output .= '</div>';
     return $output;
   }
 }

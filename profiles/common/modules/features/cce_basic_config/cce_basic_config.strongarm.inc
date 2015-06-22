@@ -743,15 +743,6 @@ example.org';
 
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
-  $strongarm->name = 'print_pdf_pdf_tool';
-  $strongarm->value = 'print_pdf_mpdf|sites/all/libraries/mpdf/mpdf.php';
-  $export['print_pdf_pdf_tool'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
   $strongarm->name = 'print_pdf_show_link';
   $strongarm->value = '2';
   $export['print_pdf_show_link'] = $strongarm;
@@ -1149,6 +1140,19 @@ video
   );
   $export['cce_basic_config_admin_pages'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_bilinear_interpolation';
+  $strongarm->value = 1;
+  $export['image_captcha_bilinear_interpolation'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_distortion_amplitude';
+  $strongarm->value = '5';
+  $export['image_captcha_distortion_amplitude'] = $strongarm;
+
   return $export;
 }
-

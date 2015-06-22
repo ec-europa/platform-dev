@@ -1,0 +1,667 @@
+From 7698c4fc90bc0196fcfa31420cb2a2c22f9a2afd Mon Sep 17 00:00:00 2001
+From: Horacio Lopes <horaciolopes@gmail.com>
+Date: Wed, 17 Jun 2015 16:31:29 +0200
+Subject: [PATCH 1/3] A better approach
+
+---
+ css_injector.admin.inc | 100 +++++++++++++++++++++++++++++++++++++++++---
+ css_injector.module    | 110 +++++++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 201 insertions(+), 9 deletions(-)
+
+diff --git a/css_injector.admin.inc b/css_injector.admin.inc
+index c91a77a..c985763 100644
+--- a/css_injector.admin.inc
++++ b/css_injector.admin.inc
+@@ -37,6 +37,9 @@ function css_injector_admin_form($form, &$form_state) {
+       '#crid' => $rule['crid'],
+     );
+   }
++
++  $form += css_injector_image_upload_form();
++
+   return $form;
+ }
+ 
+@@ -172,12 +175,12 @@ function css_injector_edit($form, $form_state, $crid = NULL) {
+   $rule['rule_themes'] = unserialize($rule['rule_themes']);
+ 
+   $form['conditional']['rule_themes'] = array(
+-  '#type' => 'select',
+-  '#title' => 'Themes to show on',
+-  '#default_value' => isset($rule['rule_themes']) ? $rule['rule_themes'] : $default_theme,
+-  '#options' => $themes,
+-  '#description' => t('Select themes css will be applied to. @theme theme is selected by default.', array('@theme' => $themes[$default_theme])),
+-  '#multiple' => TRUE,
++    '#type' => 'select',
++    '#title' => 'Themes to show on',
++    '#default_value' => isset($rule['rule_themes']) ? $rule['rule_themes'] : $default_theme,
++    '#options' => $themes,
++    '#description' => t('Select themes css will be applied to. @theme theme is selected by default.', array('@theme' => $themes[$default_theme])),
++    '#multiple' => TRUE,
+   );
+ 
+   // Shamelessly ripped from block.module. Who doesn't use this snippet
+@@ -322,3 +325,88 @@ function css_injector_delete_confirm_submit($form, &$form_state) {
+   $form_state['redirect'] = 'admin/config/development/css-injector';
+   return;
+ }
++
++/**
++ *  Image upload form
++ */
++function css_injector_image_upload_form($form, $form_state) {
++  
++  $form['upload_files'] = array(
++    '#title' => 'Files',
++    '#tree' => true,
++    '#type' => 'fieldset',
++    '#collapsed' => false,
++    '#collapsible' => true,
++  );
++
++  $form['upload_files']['image'] = array(
++    '#type' => 'managed_file',
++    '#title' => 'Upload an image file',
++    '#default_value' => '',
++    '#upload_location' => 'public://css_injector/images/',
++    '#upload_validators' => array(
++      'file_validate_extensions' => array('gif png jpg jpeg'),
++    ),
++  );
++
++  $form['upload_files']['submit'] = array(
++    '#type' => 'submit',
++    '#value' => 'Save file',
++    '#states' => array(
++      'invisible' => array(
++       ':input[name*="files[image][fid]"]' => array('value' => 0),
++      ),      
++    ),
++    '#submit' => array('css_injector_image_upload_form_submit')
++  );
++
++  $form['files'] = array(
++    '#title' => 'Manage Files',
++    '#tree' => true,
++    '#type' => 'fieldset',
++    '#collapsed' => false,
++    '#collapsible' => true,
++  );
++
++  $form['files']['search'] = array(
++    '#title' => 'Search',
++    '#type' => 'textfield'
++  );
++
++  $form['files']['search_submit'] = array(
++    '#value' => 'Search',
++    '#type' => 'button',
++    '#ajax' => array(
++      'callback' => 'css_injector_image_search_form_submit',
++    ),
++  );
++
++  $form += _css_injector_files_table($form);
++
++  return $form;
++}
++
++/**
++ *  Ajax Handler for search submit button
++ */
++
++function css_injector_image_search_form_submit($form, $form_state) {
++  if(!empty($form_state['input']['files']['search'])){
++    $commands[] = ajax_command_replace('#css-injector-files', _css_injector_files_table($form, $form_state['input']['files']['search'], 'markup'));
++    return array('#type' => 'ajax', '#commands' => $commands);
++  }
++}
++
++/**
++ *  Upload form submit handler
++ */
++
++function css_injector_image_upload_form_submit($form, $form_state) {
++  if(isset($form_state['input']['upload_files']['image']['fid']) && !empty($form_state['input']['upload_files']['image']['fid'])){
++    $fid = $form_state['input']['upload_files']['image']['fid'];
++    $file = file_load($fid);
++    $file->status = FILE_STATUS_PERMANENT;
++    file_save($file);
++    file_usage_add($file, 'css_injector', 'file', $fid);     
++  }
++}
+\ No newline at end of file
+diff --git a/css_injector.module b/css_injector.module
+index 49d9240..d4012bd 100644
+--- a/css_injector.module
++++ b/css_injector.module
+@@ -32,7 +32,7 @@ function css_injector_help($path, $arg) {
+     case 'admin/config/modules#description':
+       $output .= t('Allows administrators to inject CSS into the page output based on configurable rules.');
+       break;
+-    case 'admin/config/development/css-injector':
++    case 'admin/config/development/css-injector/':
+       $output .= '<p>' . t('Use CSS injection rules to add small snippets of CSS to the page output when specific criteria are met. For example, a simple rule could change the page background color at night or float a particular div to the right on node editing pages.') . '</p>';
+       break;
+   }
+@@ -105,13 +105,13 @@ function css_injector_css_alter(&$css) {
+ function css_injector_menu() {
+   $items = array(
+     'admin/config/development/css-injector' => array(
+-      'title' => 'CSS injector',
++      'title' => 'CSS Injector',
+       'description' => 'Add CSS to the page output based on configurable rules.',
+       'page callback' => 'drupal_get_form',
+       'page arguments' => array('css_injector_admin_form'),
+       'access arguments' => array('administer css injection'),
+       'file' => 'css_injector.admin.inc',
+-    ),
++    ),    
+     'admin/config/development/css-injector/edit' => array(
+       'title' => 'Edit CSS injector rule',
+       'page callback' => 'drupal_get_form',
+@@ -136,6 +136,12 @@ function css_injector_menu() {
+       'file' => 'css_injector.admin.inc',
+       'type' => MENU_CALLBACK,
+     ),
++    'admin/config/development/css-injector/file-delete/ajax/%' => array(
++      'page callback' => '_css_injector_delete_file',
++      'page arguments' => array(6),
++      'access arguments' => array('administer css injection'),
++      'type' => MENU_CALLBACK,
++    ),    
+   );
+   return $items;
+ }
+@@ -252,4 +258,102 @@ function _css_injector_rule_uri($crid) {
+     $uri = 'public://css_injector/css_injector_' . $crid . '.css';
+     return $uri;
+   }
++}
++
++/**
++ * Helper function to delete an existing image file.
++ */
++
++function _css_injector_delete_file($fid) {
++
++  $file = file_load($fid);
++  file_delete($file, true);  
++
++  $commands = array();
++
++  $table = _css_injector_files_table($commands, NULL, 'markup');
++  $commands[] = ajax_command_replace('#css-injector-files-table', $table);
++
++  drupal_add_library('system', 'drupal.ajax');
++  drupal_add_library('system', 'jquery.form');  
++
++  ajax_deliver(array('#type' => 'ajax', '#commands' => $commands));
++
++}
++
++
++/**
++ * Helper to build the files table
++ */
++
++function _css_injector_files_table(&$form, $search = NULL, $return_type = 'form'){
++
++  $result = db_select('file_managed', 'f')
++    ->fields('f')
++    ->condition('uri', '%' . db_like('css_injector/images') . '%', 'LIKE');
++
++  if(isset($search)) {
++    $result->condition('filename', '%' . db_like($search) . '%', 'LIKE');
++  }
++
++  $files = $result
++    ->execute()
++    ->fetchAllAssoc('fid');
++
++  $header = array('Preview', 'Filename', 'Path to use in CSS rule', 'Operations');
++    
++  if(!empty($files)){
++    foreach ($files as $fid => $f_obj) {
++
++      $styled_image = theme('image_style', array('style_name' => 'thumbnail', 'path' => $f_obj->uri));
++
++      drupal_add_library('system', 'drupal.ajax');
++      $query = array('tok' => drupal_get_token('delete_css_injector_file_' . $fid)) + drupal_get_destination();
++      
++      $ops = "";
++      $ops .= l(t('Delete file'), 'admin/config/development/css-injector/file-delete/ajax/' . $fid, array('attributes' => array('class' => array('use-ajax')), 'query' => $query));
++
++      $rows[] = array(
++        'data' => array(
++          $styled_image,
++          $f_obj->filename,
++          './images/'.$f_obj->filename,
++          $ops,
++        ),
++        'id' => array('file-'.$fid),
++      );
++
++    }
++  }
++  else{
++    $rows[] = array(
++      'data' => array(
++        array('data' => 'No files have been uploaded.', 'colspan' => 4),
++      ),
++    );
++  }
++
++  $table_markup = theme_table(
++    array(
++      'header' => $header, 
++      'rows' => $rows, 
++      'attributes' => array(
++        'id' => 'css-injector-files-table'
++      ),
++      'empty' => 'something',
++    )
++  );
++
++  if($return_type == 'markup'){
++    return '<div id="css-injector-files">'.$table_markup.'</div>';
++  }
++  else{
++    $form['files']['table'] = array(
++      '#prefix' => '<div id="css-injector-files">',
++      '#markup' => $table_markup,
++      '#suffix' => '</div>',    
++    );
++    return $form;
++  }
++  
+ }
+\ No newline at end of file
+-- 
+1.9.1
+
+
+From f94aae888522fe7e4ac2bdfa4e95a4ed69947484 Mon Sep 17 00:00:00 2001
+From: Horacio Lopes <horaciolopes@gmail.com>
+Date: Wed, 17 Jun 2015 17:14:13 +0200
+Subject: [PATCH 2/3] Notices, warnings & codesniffed
+
+---
+ css_injector.admin.inc | 49 +++++++++++++++-----------------
+ css_injector.module    | 76 ++++++++++++++++++++++++++------------------------
+ 2 files changed, 63 insertions(+), 62 deletions(-)
+
+diff --git a/css_injector.admin.inc b/css_injector.admin.inc
+index c985763..02c99cb 100644
+--- a/css_injector.admin.inc
++++ b/css_injector.admin.inc
+@@ -38,7 +38,7 @@ function css_injector_admin_form($form, &$form_state) {
+     );
+   }
+ 
+-  $form += css_injector_image_upload_form();
++  css_injector_image_upload_form($form);
+ 
+   return $form;
+ }
+@@ -139,7 +139,7 @@ function css_injector_edit($form, $form_state, $crid = NULL) {
+   );
+ 
+   if (isset($crid)) {
+-  $form['crid'] = array(
++    $form['crid'] = array(
+       '#type' => 'value',
+       '#value' => $crid,
+     );
+@@ -188,7 +188,7 @@ function css_injector_edit($form, $form_state, $crid = NULL) {
+   $php_access = (user_access('use PHP for settings') && module_exists('php'));
+   $options = array(
+     CSS_INJECTOR_PAGES_NOTLISTED => t('Add on every page except the listed pages.'),
+-    CSS_INJECTOR_PAGES_LISTED => t('add on only the listed pages.')
++    CSS_INJECTOR_PAGES_LISTED => t('add on only the listed pages.'),
+   );
+   $description = t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>'));
+ 
+@@ -270,7 +270,7 @@ function css_injector_edit_validate($form, &$form_state) {
+  * Submit button callback for the CSS rule edit form.
+  */
+ function css_injector_edit_save($form, &$form_state) {
+-  //$themes = implode('//', $form_state['values']['themes']);
++  // $themes = implode('//', $form_state['values']['themes']);
+   $rule = $form_state['values'];
+   $crid = !empty($form_state['values']['crid']) ? $form_state['values']['crid'] : NULL;
+   // Serialize themes list before inserting to databse.
+@@ -327,16 +327,16 @@ function css_injector_delete_confirm_submit($form, &$form_state) {
+ }
+ 
+ /**
+- *  Image upload form
++ * Image upload form.
+  */
+-function css_injector_image_upload_form($form, $form_state) {
+-  
++function css_injector_image_upload_form(&$form, $form_state) {
++
+   $form['upload_files'] = array(
+     '#title' => 'Files',
+-    '#tree' => true,
++    '#tree' => TRUE,
+     '#type' => 'fieldset',
+-    '#collapsed' => false,
+-    '#collapsible' => true,
++    '#collapsed' => FALSE,
++    '#collapsible' => TRUE,
+   );
+ 
+   $form['upload_files']['image'] = array(
+@@ -354,23 +354,23 @@ function css_injector_image_upload_form($form, $form_state) {
+     '#value' => 'Save file',
+     '#states' => array(
+       'invisible' => array(
+-       ':input[name*="files[image][fid]"]' => array('value' => 0),
+-      ),      
++        ':input[name*="files[image][fid]"]' => array('value' => 0),
++      ),
+     ),
+-    '#submit' => array('css_injector_image_upload_form_submit')
++    '#submit' => array('css_injector_image_upload_form_submit'),
+   );
+ 
+   $form['files'] = array(
+     '#title' => 'Manage Files',
+-    '#tree' => true,
++    '#tree' => TRUE,
+     '#type' => 'fieldset',
+-    '#collapsed' => false,
+-    '#collapsible' => true,
++    '#collapsed' => FALSE,
++    '#collapsible' => TRUE,
+   );
+ 
+   $form['files']['search'] = array(
+     '#title' => 'Search',
+-    '#type' => 'textfield'
++    '#type' => 'textfield',
+   );
+ 
+   $form['files']['search_submit'] = array(
+@@ -383,30 +383,27 @@ function css_injector_image_upload_form($form, $form_state) {
+ 
+   $form += _css_injector_files_table($form);
+ 
+-  return $form;
+ }
+ 
+ /**
+- *  Ajax Handler for search submit button
++ * Ajax Handler for search submit button.
+  */
+-
+ function css_injector_image_search_form_submit($form, $form_state) {
+-  if(!empty($form_state['input']['files']['search'])){
++  if (!empty($form_state['input']['files']['search'])) {
+     $commands[] = ajax_command_replace('#css-injector-files', _css_injector_files_table($form, $form_state['input']['files']['search'], 'markup'));
+     return array('#type' => 'ajax', '#commands' => $commands);
+   }
+ }
+ 
+ /**
+- *  Upload form submit handler
++ * Upload files form submit handler to make file permanent.
+  */
+-
+ function css_injector_image_upload_form_submit($form, $form_state) {
+-  if(isset($form_state['input']['upload_files']['image']['fid']) && !empty($form_state['input']['upload_files']['image']['fid'])){
++  if (isset($form_state['input']['upload_files']['image']['fid']) && !empty($form_state['input']['upload_files']['image']['fid'])) {
+     $fid = $form_state['input']['upload_files']['image']['fid'];
+     $file = file_load($fid);
+     $file->status = FILE_STATUS_PERMANENT;
+     file_save($file);
+-    file_usage_add($file, 'css_injector', 'file', $fid);     
++    file_usage_add($file, 'css_injector', 'file', $fid);
+   }
+-}
+\ No newline at end of file
++}
+diff --git a/css_injector.module b/css_injector.module
+index d4012bd..e903854 100644
+--- a/css_injector.module
++++ b/css_injector.module
+@@ -7,7 +7,6 @@
+  * a site's official theme.
+  */
+ 
+-
+ /**
+  * Deploy this CSS snippet on every page except the listed pages.
+  */
+@@ -32,9 +31,11 @@ function css_injector_help($path, $arg) {
+     case 'admin/config/modules#description':
+       $output .= t('Allows administrators to inject CSS into the page output based on configurable rules.');
+       break;
++
+     case 'admin/config/development/css-injector/':
+       $output .= '<p>' . t('Use CSS injection rules to add small snippets of CSS to the page output when specific criteria are met. For example, a simple rule could change the page background color at night or float a particular div to the right on node editing pages.') . '</p>';
+       break;
++
+   }
+   return $output;
+ }
+@@ -52,12 +53,18 @@ function css_injector_init() {
+         $file_uri = _css_injector_rule_uri($css_rule['crid']);
+         $theme_rules = unserialize($css_rule['rule_themes']);
+         global $theme;
+-        if (!is_array($theme_rules) || empty($theme_rules) || in_array($theme, $theme_rules, true)) {
++        if (!is_array($theme_rules) || empty($theme_rules) || in_array($theme, $theme_rules, TRUE)) {
+           switch ($css_rule['media']) {
+             case 'all':
+             case 'screen':
+             case 'print':
+-              drupal_add_css($file_uri, array('type' => 'file','group' => CSS_THEME,'media' => $css_rule['media'],'preprocess' => $css_rule['preprocess']));
++              $options = array(
++                'type' => 'file',
++                'group' => CSS_THEME,
++                'media' => $css_rule['media'],
++                'preprocess' => $css_rule['preprocess'],
++              );
++              drupal_add_css($file_uri, $options);
+               break;
+ 
+             case 'IE 7':
+@@ -111,7 +118,7 @@ function css_injector_menu() {
+       'page arguments' => array('css_injector_admin_form'),
+       'access arguments' => array('administer css injection'),
+       'file' => 'css_injector.admin.inc',
+-    ),    
++    ),
+     'admin/config/development/css-injector/edit' => array(
+       'title' => 'Edit CSS injector rule',
+       'page callback' => 'drupal_get_form',
+@@ -141,7 +148,7 @@ function css_injector_menu() {
+       'page arguments' => array(6),
+       'access arguments' => array('administer css injection'),
+       'type' => MENU_CALLBACK,
+-    ),    
++    ),
+   );
+   return $items;
+ }
+@@ -215,7 +222,6 @@ function _css_injector_delete_rule($crid) {
+  * @param $css_rule
+  *   Array describing the rule.
+  */
+-
+ function _css_injector_evaluate_rule($css_rule = array()) {
+   // Match path if necessary.
+   if (!empty($css_rule['rule_conditions'])) {
+@@ -263,11 +269,10 @@ function _css_injector_rule_uri($crid) {
+ /**
+  * Helper function to delete an existing image file.
+  */
+-
+ function _css_injector_delete_file($fid) {
+ 
+   $file = file_load($fid);
+-  file_delete($file, true);  
++  file_delete($file, TRUE);
+ 
+   $commands = array();
+ 
+@@ -275,7 +280,7 @@ function _css_injector_delete_file($fid) {
+   $commands[] = ajax_command_replace('#css-injector-files-table', $table);
+ 
+   drupal_add_library('system', 'drupal.ajax');
+-  drupal_add_library('system', 'jquery.form');  
++  drupal_add_library('system', 'jquery.form');
+ 
+   ajax_deliver(array('#type' => 'ajax', '#commands' => $commands));
+ 
+@@ -283,16 +288,15 @@ function _css_injector_delete_file($fid) {
+ 
+ 
+ /**
+- * Helper to build the files table
++ * Helper function to build the files table.
+  */
+-
+-function _css_injector_files_table(&$form, $search = NULL, $return_type = 'form'){
++function _css_injector_files_table(&$form, $search = NULL, $return_type = 'form') {
+ 
+   $result = db_select('file_managed', 'f')
+     ->fields('f')
+     ->condition('uri', '%' . db_like('css_injector/images') . '%', 'LIKE');
+ 
+-  if(isset($search)) {
++  if (isset($search)) {
+     $result->condition('filename', '%' . db_like($search) . '%', 'LIKE');
+   }
+ 
+@@ -300,16 +304,21 @@ function _css_injector_files_table(&$form, $search = NULL, $return_type = 'form'
+     ->execute()
+     ->fetchAllAssoc('fid');
+ 
+-  $header = array('Preview', 'Filename', 'Path to use in CSS rule', 'Operations');
+-    
+-  if(!empty($files)){
++  $header = array(
++    'Preview',
++    'Filename',
++    'Path to use in CSS rule',
++    'Operations',
++  );
++
++  if (!empty($files)) {
+     foreach ($files as $fid => $f_obj) {
+ 
+       $styled_image = theme('image_style', array('style_name' => 'thumbnail', 'path' => $f_obj->uri));
+ 
+       drupal_add_library('system', 'drupal.ajax');
+       $query = array('tok' => drupal_get_token('delete_css_injector_file_' . $fid)) + drupal_get_destination();
+-      
++
+       $ops = "";
+       $ops .= l(t('Delete file'), 'admin/config/development/css-injector/file-delete/ajax/' . $fid, array('attributes' => array('class' => array('use-ajax')), 'query' => $query));
+ 
+@@ -317,43 +326,38 @@ function _css_injector_files_table(&$form, $search = NULL, $return_type = 'form'
+         'data' => array(
+           $styled_image,
+           $f_obj->filename,
+-          './images/'.$f_obj->filename,
++          './images/' . $f_obj->filename,
+           $ops,
+         ),
+-        'id' => array('file-'.$fid),
++        'id' => array('file-' . $fid),
+       );
+ 
+     }
+   }
+-  else{
+-    $rows[] = array(
+-      'data' => array(
+-        array('data' => 'No files have been uploaded.', 'colspan' => 4),
+-      ),
+-    );
+-  }
+ 
+   $table_markup = theme_table(
+     array(
+-      'header' => $header, 
+-      'rows' => $rows, 
++      'header' => $header,
++      'rows' => $rows,
+       'attributes' => array(
+-        'id' => 'css-injector-files-table'
++        'id' => 'css-injector-files-table',
+       ),
+-      'empty' => 'something',
++      'empty' => 'No files have been uploaded.',
++      'sticky' => FALSE,
++      'caption' => NULL,
++      'colgroups' => array(),
+     )
+   );
+ 
+-  if($return_type == 'markup'){
+-    return '<div id="css-injector-files">'.$table_markup.'</div>';
++  if ($return_type == 'markup') {
++    return '<div id="css-injector-files">' . $table_markup . '</div>';
+   }
+-  else{
++  else {
+     $form['files']['table'] = array(
+       '#prefix' => '<div id="css-injector-files">',
+       '#markup' => $table_markup,
+-      '#suffix' => '</div>',    
++      '#suffix' => '</div>',
+     );
+     return $form;
+   }
+-  
+-}
+\ No newline at end of file
++}
+-- 
+1.9.1
+
+
+From e1456672b05b8b9772126543ea0a19c7ba5917a7 Mon Sep 17 00:00:00 2001
+From: Horacio Lopes <horaciolopes@gmail.com>
+Date: Wed, 17 Jun 2015 17:21:09 +0200
+Subject: [PATCH 3/3] Missing parameter & rows
+
+---
+ css_injector.admin.inc | 2 +-
+ css_injector.module    | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/css_injector.admin.inc b/css_injector.admin.inc
+index 02c99cb..3286979 100644
+--- a/css_injector.admin.inc
++++ b/css_injector.admin.inc
+@@ -38,7 +38,7 @@ function css_injector_admin_form($form, &$form_state) {
+     );
+   }
+ 
+-  css_injector_image_upload_form($form);
++  css_injector_image_upload_form($form, $form_state);
+ 
+   return $form;
+ }
+diff --git a/css_injector.module b/css_injector.module
+index e903854..95b80df 100644
+--- a/css_injector.module
++++ b/css_injector.module
+@@ -334,6 +334,9 @@ function _css_injector_files_table(&$form, $search = NULL, $return_type = 'form'
+ 
+     }
+   }
++  else {
++    $rows = array();
++  }
+ 
+   $table_markup = theme_table(
+     array(
+-- 
+1.9.1
+

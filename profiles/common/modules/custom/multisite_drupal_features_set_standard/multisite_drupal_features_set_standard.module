@@ -5,8 +5,8 @@
  */
 
 /**
-* hook_feature_set_api
-*/
+ * Implements hook_feature_set_api().
+ */
 function multisite_drupal_features_set_standard_feature_set_api() {
   return array('version' => '1.0');
 }

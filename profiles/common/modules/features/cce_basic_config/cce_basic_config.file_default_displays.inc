@@ -168,4 +168,3 @@ function cce_basic_config_file_default_displays() {
 
   return $export;
 }
-
