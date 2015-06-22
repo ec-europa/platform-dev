@@ -81,12 +81,20 @@ $ cd tests/
 $ ../bin/behat
 ```
 
+For your convenience a symlink to the Behat executable is present in the tests/
+folder, so you can also run the tests like this:
+
+```
+$ cd tests/
+$ ./behat
+```
+
 If you want to execute a single test, just provide the path to the test as an
 argument. The tests are located in `tests/features/`:
 
 ```
 $ cd tests/
-$ ../bin/behat features/content_editing.feature
+$ ./behat features/content_editing.feature
 ```
 
 If you have installed the development version (using the `build-platform-dev`
