@@ -96,6 +96,9 @@ behat.base_url = http://localhost
 # The location to search for Behat subcontexts.
 behat.subcontexts.path = ${platform.build.profiles.dir}/common/modules
 
+# The output format to use for Behat tests, either 'progress' or 'pretty'.
+behat.formatter.name = pretty
+
 
 # PHP CodeSniffer configuration
 # -----------------------------

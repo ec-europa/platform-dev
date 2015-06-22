@@ -27,6 +27,8 @@ default:
       subcontexts:
         paths:
           - '${behat.subcontexts.path}'
+  formatters:
+    ${behat.formatter.name}: ~
 
 communities:
   suites:
@@ -57,3 +59,5 @@ communities:
       subcontexts:
         paths:
           - '${behat.subcontexts.path}'
+  formatters:
+    ${behat.formatter.name}: ~
