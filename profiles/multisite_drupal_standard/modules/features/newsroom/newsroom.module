@@ -206,14 +206,9 @@ function newsroom_tags_space(&$item) {
  */
 function newsroom_technical_fields_to_tid($field_name, $field_value, $reset = TRUE) {
   // Let's initiate term_ids to field value, in case we can't map it.
-  if ($reset == TRUE) {
-    $term_ids = '';
-  }
-  else {
-    $term_ids = $field_value;
-  }
+  $term_ids = $reset ? '' : $field_value;
   $query = new EntityFieldQuery();
-  $entities = $query->entityCondition('entity_type', 'taxonomy_term')
+  $query->entityCondition('entity_type', 'taxonomy_term')
       ->fieldCondition($field_name, 'value', $field_value)
       ->execute();
   $result = $query->execute();
@@ -835,6 +830,7 @@ function newsroom_content($newsroom_grouping_terms, $full_display = FALSE, $news
         foreach ($newsroom_view_exec['view']->result as $row) {
           $created = $row->node_created > $created ? $row->node_created : $created;
         }
+        
         $newsroom_boxes[] = array_merge($newsroom_view_exec, array(
           'title' => l($newsroom_grouping_term->name, $full_list_url),
           'list_link' => l(t('<span class="more">More</span> <span class="more_type">%1</span>', array('%1' => $newsroom_grouping_term->name)), $full_list_url, array('html' => TRUE)),
@@ -935,6 +931,7 @@ function newsroom_render_boxes($boxes) {
   else {
     $newsroom_content .= '<div class="nr_column_single">' . $columns_newsroom[1]['content'] . '</div>';
   }
+//  $newsroom_content .= '<div class="new-items-total">' . . '</div>';
   return $newsroom_content;
 }
 
@@ -953,6 +950,7 @@ function newsroom_fetch_content_view($view_arguments, $newsroom_grouping_term_na
     $newsroom_content_view->set_display($default_view_display);
     $newsroom_content_view->sticky = $sticky;
     $pager = $newsroom_content_view->display_handler->get_option('pager');
+    
     if ($full_display == TRUE) {
       $pager['type'] = 'full';
       $pager['options']['items_per_page'] = '15';
@@ -976,6 +974,7 @@ function newsroom_fetch_content_view($view_arguments, $newsroom_grouping_term_na
     }
 
     $newsroom_content_view->display_handler->set_option('pager', $pager);
+    
     $block = $newsroom_content_view->execute_display($default_view_display);
     return array('block' => $block, 'view' => $newsroom_content_view);
   }
@@ -1539,6 +1538,14 @@ function newsroom_newsroom_redirect($redirect_type = 'item', $param_1 = 0, $para
  * Implements pre_render_hook().
  */
 function newsroom_views_pre_render(&$view) {
+  if ($view->name == 'newsroom_page_content') {
+    foreach($view->result as $key => $result) {
+      if (empty(node_last_viewed($result->nid))) {
+        $new_title = empty($result->field_field_newsroom_item_short_title[0]['rendered']['#markup']) ? $result->node_title : $result->field_field_newsroom_item_short_title[0]['rendered']['#markup'];          
+        $view->result[$key]->field_field_newsroom_item_short_title[0]['rendered']['#markup'] = '<span class="itemFlag flagHot newItem">' . t('New') . '</span> ' . $new_title;
+      }
+    }
+  }
   if ($view->name == 'newsroom') {
     $areas = array('header', 'footer', 'empty');
     foreach ($areas as $area) {
@@ -1740,15 +1747,16 @@ function newsroom_theme($existing, $type, $theme, $path) {
 /**
  * Implements hook_preprocess_views_viewnewsroom_preprocess_views_view().
  */
-function newsroom_preprocess_views_view(&$variables) {
-  if ($variables['view']->name !== 'newsroom_page_content' || $variables['view']->current_display !== 'agenda') {
+function newsroom_preprocess_views_view(&$vars) {
+  
+  if ($vars['view']->name !== 'newsroom_page_content' || $vars['view']->current_display !== 'agenda') {
     return;
   }
 
-  $agenda = newsroom_prepare_agenda($variables['view']);
+  $agenda = newsroom_prepare_agenda($vars['view']);
 
   if ($agenda) {
-    $variables['rows'] = theme('newsroom_agenda', $agenda);
+    $vars['rows'] = theme('newsroom_agenda', $agenda);
   }
 }
 
@@ -1789,6 +1797,7 @@ function newsroom_prepare_agenda($view) {
       }
     }
 
+    // TODO: $options variable doesn't have value. To be removed!
     // If using a custom date field, filter the fields to process.
     if (!empty($options['date'])) {
       $date_fields = array_intersect_key($date_fields, $options['date_field']);
@@ -1937,12 +1946,6 @@ function _newsroom_process_dates($instance, $entity, $field, $item) {
   }
 
   // Allow modules to alter the date objects.
-  $context = array(
-    'instance' => $instance,
-    'entity' => $entity,
-    'field' => $field,
-  );
-
   $start = $date1->format(DATE_FORMAT_DATETIME);
   $end = $date2->format(DATE_FORMAT_DATETIME);
   $all_day = _newsroom_date_all_day_field($field, $instance, $date1, $date2);
