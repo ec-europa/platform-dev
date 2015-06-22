@@ -308,7 +308,6 @@ function cce_basic_config_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-
   // Exported field_base: 'field_video_description'
   $field_bases['field_video_description'] = array(
     'active' => 1,

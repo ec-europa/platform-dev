@@ -11,6 +11,9 @@ function ec_resp_preprocess(&$variables) {
   if (isset($variables['form']['#form_id'])) {
     switch ($variables['form']['#form_id']) {
       case 'feature_set_admin_form':
+        // Add specific javascript.
+        drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/feature-set.js', array('scope' => 'footer', 'weight' => 13));
+        
         $categories_list = '';
         $features_list = '';
 
@@ -457,41 +460,6 @@ function ec_resp_preprocess_html(&$variables) {
   else {
     $variables['head_title'] = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
   }
-
-  // Add specific css for font size switcher
-  // it has to be done here, to add custom data.
-  global $base_url;
-  $element = array(
-    '#tag' => 'link',
-    '#attributes' => array(
-      'href' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/css/text_size_small.css',
-      'rel' => 'stylesheet',
-      'type' => 'text/css',
-      'data-name' => 'switcher',
-    ),
-  );
-  drupal_add_html_head($element, 'font_size_switcher');
-
-  // Add javascripts for IE only.
-  $html5shiv = array(
-    '#tag' => 'script',
-    '#attributes' => array(
-      'src' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/scripts/html5shiv.min.js',
-    ),
-    '#prefix' => '<!--[if lt IE 9]>',
-    '#suffix' => '</script><![endif]-->',
-  );
-  drupal_add_html_head($html5shiv, 'html5shiv');
-
-  $respond = array(
-    '#tag' => 'script',
-    '#attributes' => array(
-      'src' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/scripts/respond.min.js',
-    ),
-    '#prefix' => '<!--[if lt IE 9]>',
-    '#suffix' => '</script><![endif]-->',
-  );
-  drupal_add_html_head($respond, 'respond');
 
   // Add javascripts to the footer scope.
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));

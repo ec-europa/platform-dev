@@ -312,7 +312,6 @@ function nexteuropa_editorial_field_default_field_instances() {
   t('Name');
   t('Team roles and permissions');
   t('Team visibility');
-  t('User tasks');
 
   return $field_instances;
 }
