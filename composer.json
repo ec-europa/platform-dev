@@ -1,5 +1,6 @@
 {
   "require": {
+    "behat/behat": "dev-fix-verbose-option as 3.0.x-dev",
     "drupal/coder": "dev-8.x-2.x",
     "drupal/drupal-extension": "~3.0",
     "drupal/phing-drush-task": "1.0",
@@ -9,7 +10,8 @@
     "ext-xml": "*",
     "pear/versioncontrol_git": "dev-master",
     "phing/phing": "~2.10",
-    "php": ">=5.4.0"
+    "php": ">=5.4.0",
+    "typhonius/behattask": "1.0"
   },
   "_comment": "Remove the 'minimum-stability' and 'prefer-stable' directives once new releases of Coder and PHP CodeSniffer are available.",
   "minimum-stability": "dev",
@@ -25,6 +27,11 @@
       "url": "http://git.drupal.org/project/coder.git"
     },
     {
+      "_comment": "Temporary fork including fix for issue #765.",
+      "type": "vcs",
+      "url": "git@github.com:pfrenssen/Behat.git"
+    },
+    {
       "type": "package",
       "package": {
         "name": "drupal/phing-drush-task",
@@ -35,6 +42,20 @@
           "reference": "7.x-1.0"
         },
         "autoload": { "classmap": [ "DrushTask.php" ] },
+        "include-path": [ "." ]
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "typhonius/behattask",
+        "version": "1.0",
+        "source": {
+          "url": "https://gist.github.com/5719e15be9687ff7c138.git",
+          "type": "git",
+          "reference": "0ea666882cba3099dfa4feeb02e1bb85b2c0bde9"
+        },
+        "autoload": { "classmap": [ "BehatTask.php" ] },
         "include-path": [ "." ]
       }
     }

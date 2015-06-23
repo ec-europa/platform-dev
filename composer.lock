@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8af14542825feee1c4da6bf6a0864797",
+    "hash": "d5f9402ca38e2f5e3fd323556bc23208",
     "packages": [
         {
             "name": "behat/behat",
-            "version": "v3.0.15",
+            "version": "dev-fix-verbose-option",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Behat/Behat.git",
-                "reference": "b35ae3d45332d80c532af69cc36f780a9397a996"
+                "url": "https://github.com/pfrenssen/Behat.git",
+                "reference": "5439021077eb4ec30890ba2ebf1942a40458624d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Behat/zipball/b35ae3d45332d80c532af69cc36f780a9397a996",
-                "reference": "b35ae3d45332d80c532af69cc36f780a9397a996",
+                "url": "https://api.github.com/repos/pfrenssen/Behat/zipball/5439021077eb4ec30890ba2ebf1942a40458624d",
+                "reference": "5439021077eb4ec30890ba2ebf1942a40458624d",
                 "shasum": ""
             },
             "require": {
@@ -58,7 +58,6 @@
                     "Behat\\Testwork": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -74,18 +73,21 @@
             "keywords": [
                 "Agile",
                 "BDD",
+                "Examples",
                 "ScenarioBDD",
                 "Scrum",
                 "StoryBDD",
+                "Symfony",
                 "User story",
                 "business",
                 "development",
                 "documentation",
-                "examples",
-                "symfony",
                 "testing"
             ],
-            "time": "2015-02-22 14:10:33"
+            "support": {
+                "source": "https://github.com/pfrenssen/Behat/tree/fix-verbose-option"
+            },
+            "time": "2015-06-23 12:51:33"
         },
         {
             "name": "behat/gherkin",
@@ -2072,12 +2074,38 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2015-06-10 15:30:22"
+        },
+        {
+            "name": "typhonius/behattask",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://gist.github.com/5719e15be9687ff7c138.git",
+                "reference": "0ea666882cba3099dfa4feeb02e1bb85b2c0bde9"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "BehatTask.php"
+                ]
+            },
+            "include-path": [
+                "."
+            ]
         }
     ],
     "packages-dev": [],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "3.0.x-dev",
+            "alias_normalized": "3.0.9999999.9999999-dev",
+            "version": "dev-fix-verbose-option",
+            "package": "behat/behat"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "behat/behat": 20,
         "drupal/coder": 20,
         "drush/drush": 10,
         "pear/versioncontrol_git": 20
