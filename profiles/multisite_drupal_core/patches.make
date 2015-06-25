@@ -65,6 +65,7 @@ projects[drupal][patch][] = ../multisite_drupal_core/patches/user-request_passwo
 projects[drupal][patch][] = ../multisite_drupal_core/patches/user-vulnerability-884.patch
 projects[video][patch][] = ../multisite_drupal_core/patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = ../multisite_drupal_core/patches/video-security-883.patch
+projects[views][patch][] = ../multisite_drupal_core/patches/views-exposed-ajax-not-working-2425099-52.patch
 projects[views][patch][] = ../multisite_drupal_core/patches/views-localization-bug-1685144-9.patch
 projects[webform][patch][] = ../multisite_drupal_core/patches/webform-use_ecas_link-1235.patch
 projects[workbench_access][patch][] = ../multisite_drupal_core/patches/workbench_access-fix_php_issues-4517.patch
