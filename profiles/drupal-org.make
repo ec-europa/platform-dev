@@ -357,7 +357,7 @@ projects[video][subdir] = "contributed"
 projects[video][version] = "2.11"
 
 projects[views][subdir] = "contributed"
-projects[views][version] = "3.10"
+projects[views][version] = "3.11"
 
 projects[views_bootstrap][subdir] = "contributed"
 projects[views_bootstrap][version] = "3.1"
