@@ -7,6 +7,7 @@
 
 define('MULTISITE_DYNAMIC_BASETHEME_JQUERY_VERSION', '1.7');
 define('MULTISITE_DYNAMIC_BASETHEME_JMUTLI_LOAD_ALWAYS', '1');
+define('MULTISITE_DYNAMIC_BASETHEME_THEME_DEFAULT_KEY', '');
 
 
 /**
@@ -28,7 +29,7 @@ function multisite_dynamic_basetheme_form_system_theme_settings_alter(&$form, $f
         '#weight' => -100,
       );
 
-      $default_value = (theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) ? theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key) : 0;
+      $default_value = (theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) ? theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key) : MULTISITE_DYNAMIC_BASETHEME_THEME_DEFAULT_KEY;
 
       $form['base_theme_fieldset']['ec_resp_base_theme_of_subtheme'] = array(
         '#type' => 'select',
@@ -57,7 +58,7 @@ function multisite_dynamic_basetheme_form_system_theme_settings_submit($form, &$
   if ($old_value !== $new_value) {
     _multisite_dynamic_basetheme_rebuild_system_theme();
     
-    if ($new_value == '') {
+    if ($new_value == MULTISITE_DYNAMIC_BASETHEME_THEME_DEFAULT_KEY) {
       $theme_key = $form_state['build_info']['args'][0];
       $theme_info_file = drupal_parse_info_file(drupal_get_path('theme', $theme_key) . "/$theme_key.info");
       $new_value = $theme_info_file['base theme'];
@@ -73,6 +74,10 @@ function multisite_dynamic_basetheme_form_system_theme_settings_submit($form, &$
 function _multisite_dynamic_basetheme_jquery_modules_handle($base_theme) {
   // Enable-disable jquery modules.
   if (empty($base_theme)) {
+    return;
+  }
+  // Enable-disable jquery modules only for multisite base theme changes.
+  if (strpos($base_theme, 'ec_resp') !== 0 && _multisite_dynamic_basetheme_is_multisite_base_theme($base_theme) === FALSE) {
     return;
   }
   if ( $base_theme == 'ec_resp' ) {
@@ -144,7 +149,7 @@ function multisite_dynamic_basetheme_get_base_theme_list($theme_key = FALSE) {
     $theme_info_file = drupal_parse_info_file(drupal_get_path('theme', $theme_key) . "/$theme_key.info");
     $theme_base_key = $theme_info_file['base theme'];
     $theme_base_name = (isset($themes[$theme_base_key]) && _multisite_dynamic_basetheme_is_multisite_base_theme($themes[$theme_base_key])) ? $themes[$theme_base_key]->info['name'] : t("BASE THEME NOT FOUND");
-    $options_default[''] = t("Default: @base_theme (@base_theme_key)", array("@base_theme" => $theme_base_name, "@base_theme_key" => $theme_base_key));
+    $options_default[MULTISITE_DYNAMIC_BASETHEME_THEME_DEFAULT_KEY] = t("Default: @base_theme (@base_theme_key)", array("@base_theme" => $theme_base_name, "@base_theme_key" => $theme_base_key));
     $options = $options_default + $options;
     unset($options[$theme_base_key]);
   }
