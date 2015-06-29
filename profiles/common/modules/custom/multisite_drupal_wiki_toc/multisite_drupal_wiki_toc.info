@@ -4,4 +4,3 @@ package = Multisite Core Features
 core = 7.x
 version = 7.x-1.x-dev
 project = multisite_drupal_toolbox
-
