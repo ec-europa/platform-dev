@@ -32,7 +32,6 @@ projects[fullcalendar][patch][] = ../multisite_drupal_core/patches/fullcalendar-
 projects[views][patch][] = ../multisite_drupal_core/patches/views-includes_handlers-1752062-6.patch
 projects[i18n][patch][] = ../multisite_drupal_core/patches/i18n-hide_language_field-3996.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/imagegd-transparency-29_0.patch
-projects[jquery_update][patch][] = ../multisite_drupal_core/patches/jquery_update-jquery_effects_missing-2123973-3.patch
 projects[linkchecker][patch][] = ../multisite_drupal_core/patches/linkchecker-001-bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = ../multisite_drupal_core/patches/linkchecker-003-linkchecker_max_redirects-3576.patch
 projects[maxlength][patch][] = ../multisite_drupal_core/patches/maxlength-indefined_index-2235.patch
