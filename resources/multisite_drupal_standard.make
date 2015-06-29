@@ -231,8 +231,7 @@ projects[jqmulti][subdir] = "contrib"
 projects[jqmulti][version] = "1.0"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.4"
-projects[jquery_update][patch][] = patches/jquery_update-jquery_effects_missing-2123973-3.patch
+projects[jquery_update][version] = "2.6"
 
 projects[js_injector][subdir] = "contrib"
 projects[js_injector][version] = "2.1"
