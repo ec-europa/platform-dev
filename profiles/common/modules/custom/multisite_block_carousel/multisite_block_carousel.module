@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Module file for multisite_block_carousel
+ * Module file for multisite_block_carousel.
  */
 
 /**
@@ -61,7 +61,11 @@ function multisite_block_carousel_add_block_form($form, &$form_state) {
 }
 
 /**
- * Save the new carousel block.
+ * Submit handler for multisite_block_carousel_add_block_form().
+ *
+ * Saves the new carousel block.
+ *
+ * @see multisite_block_carousel_add_block_form()
  */
 function multisite_block_carousel_add_block_form_submit($form, &$form_state) {
   // Determine the delta (ID) of the new block.
@@ -127,6 +131,8 @@ function multisite_block_carousel_add_block_form_submit($form, &$form_state) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
  * Alters the block admin form to add delete links next to menu blocks.
  */
 function multisite_block_carousel_form_block_admin_display_form_alter(&$form, $form_state) {
@@ -135,13 +141,15 @@ function multisite_block_carousel_form_block_admin_display_form_alter(&$form, $f
     if (empty($blocks[$delta])) {
       $form['blocks']['block_carousel_' . $delta]['delete'] = array(
         '#type' => 'link',
-        '#title' => check_plain('delete'), '#href' => 'admin/structure/block/delete-block-carousel/' . $delta);
+        '#title' => check_plain('delete'),
+        '#href' => 'admin/structure/block/delete-block-carousel/' . $delta,
+      );
     }
   }
 }
 
 /**
- * Menu callback: confirm deletion of carousel blocks.
+ * Form constructor for the carousel blocks delete confirmation form.
  */
 function multisite_block_carousel_delete($form, &$form_state, $delta = 0) {
   $form['delta'] = array('#type' => 'hidden', '#value' => $delta);
@@ -150,7 +158,11 @@ function multisite_block_carousel_delete($form, &$form_state, $delta = 0) {
 }
 
 /**
- * Deletion of menu blocks.
+ * Form submission handler for multisite_block_carousel_delete().
+ *
+ * Deletes the carousel block.
+ *
+ * @see multisite_block_carousel_delete()
  */
 function multisite_block_carousel_delete_submit($form, &$form_state) {
   // Remove the menu block configuration variables.
@@ -172,7 +184,6 @@ function multisite_block_carousel_delete_submit($form, &$form_state) {
   drupal_set_message(t('The block has been removed.'));
   cache_clear_all();
   $form_state['redirect'] = 'admin/structure/block';
-  // return;
 }
 
 /**
@@ -231,8 +242,8 @@ function multisite_block_carousel_block_configure($delta = '') {
 /**
  * Implements hook_block_save().
  *
- * This hook declares how the configured options for a block
- * provided by this module are saved.
+ * This hook declares how the configured options for a block provided by this
+ * module are saved.
  */
 function multisite_block_carousel_block_save($delta = '', $edit = array()) {
   $deltas = variable_get('block_carousel_ids', array());
@@ -240,7 +251,6 @@ function multisite_block_carousel_block_save($delta = '', $edit = array()) {
   if (in_array($delta, $deltas)) {
     variable_set("block_carousel_{$delta}_gid", $edit["block_carousel_{$delta}_gid"]);
   }
-  // return;
 }
 
 /**
@@ -260,16 +270,23 @@ function multisite_block_carousel_block_view($delta = '') {
 }
 
 /**
- * A module-defined block content function.
+ * Returns block content.
+ *
+ * @param string $delta
+ *   The block machine name.
+ *
+ * @return string
+ *   The content of the block.
+ *
+ * @see multisite_block_carousel_block_view()
  */
 function multisite_block_carousel_contents($delta) {
   global $base_url;
   $deltas = variable_get('block_carousel_ids', array());
 
   if (in_array($delta, $deltas)) {
-
     if (variable_get("block_carousel_{$delta}_gid") == 'empty') {
-      return;
+      return '';
     }
 
     $gall = node_load(variable_get("block_carousel_{$delta}_gid"));
@@ -289,21 +306,23 @@ function multisite_block_carousel_contents($delta) {
     elseif (isset($gall->field_video_upload['und'])) {
       $media_items = $gall->field_video_upload['und'];
     }
+    // @todo This is unneeded, $media_items is already instantiated to an empty
+    //   array.
     else {
       $media_items = array();
     }
 
     // Sort table.
-    // usort($media_items, "multisite_block_carousel_custom_sort");
     $return .= '<div class=" carousel slide" id="block-carousel-' . $gall->nid . '">';
-    // Ccarousel slider.
+
+    // Carousel slider.
     $return .= '<ol class="carousel-indicators">';
-    foreach ($media_items as $id => $item):
+    foreach ($media_items as $id => $item) {
 
       $return .= '<li data-target="#block-carousel-' . $gall->nid . '" data-slide-to="' . $id . '" class="' . ($first ? "active" : "") . '"></li>';
 
       $first = FALSE;
-    endforeach;
+    }
 
     $return .= '</ol>';
 
@@ -312,7 +331,7 @@ function multisite_block_carousel_contents($delta) {
     // Carousel content.
     $return .= '<div class="carousel-inner">';
 
-    foreach ($media_items as $id => $item):
+    foreach ($media_items as $id => $item) {
       $return .= '<div class="item ' . ($first ? "active" : "") . '">';
 
       switch ($item['type']) {
@@ -339,7 +358,7 @@ function multisite_block_carousel_contents($delta) {
       $return .= '</div>';
 
       $first = FALSE;
-    endforeach;
+    }
 
     $return .= '</div>';
 
@@ -350,10 +369,3 @@ function multisite_block_carousel_contents($delta) {
     return array('#markup' => $return);
   }
 }
-
-/**
- * Custom sort function.
- */
-/*function multisite_block_carousel_custom_sort($a, $b) {
-  return $a['timestamp'] > $b['timestamp'];
-}*/
