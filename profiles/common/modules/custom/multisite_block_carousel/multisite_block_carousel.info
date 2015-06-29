@@ -7,4 +7,3 @@ php = 5.2.4
 project = multisite_block_carousel
 dependencies[] = block
 features[features_api][] = api:1
-files[] = tests/multisite_block_carousel.test
