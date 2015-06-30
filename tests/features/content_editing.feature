@@ -28,6 +28,7 @@ Feature: Content editing
       | <ol><li>A number?</li></ol>                                                                  | <ol><li>A number?</li>                                                                       |
       | <p><a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                         | <p><a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                         |
       | <h2 style=\"font-style:italic\">Styled heading</h2>                                          | <h2 style=\"font-style:italic\">Styled heading</h2>                                          |
+      | <div class=\"css_class-name\">Applied css class</div>                                        | <div class=\"css_class-name\">Applied css class</div>                                        |
 
   @api
   Scenario Outline: Test disallowed HTML
@@ -42,3 +43,5 @@ Feature: Content editing
     | <script>alert('xss')</script>                                       | <script>alert('xss')</script> |
     | <a href=\"javascript:alert('xss')\">xss</a>                         | javascript:alert              |
     | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p> | javascript:alert              |
+    | <div class=\"2classname\">Applied invalid css class</div>           | classname                     |
+    | <div class=\"classname?&*\">Applied invalid css class</div>         | classname                     |
