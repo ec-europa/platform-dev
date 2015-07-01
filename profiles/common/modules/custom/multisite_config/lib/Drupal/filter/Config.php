@@ -54,6 +54,17 @@ class Config extends ConfigBase {
   }
 
   /**
+   * Returns a list of all filters provided by modules.
+   *
+   * @return array
+   *   An array of filter formats.
+   */
+  public function getFilters() {
+    drupal_static_reset('filter_get_filters');
+    return filter_get_filters();
+  }
+
+  /**
    * Enable a filter on a text format.
    *
    * @param string $format_name
@@ -66,18 +77,17 @@ class Config extends ConfigBase {
    */
   public function enableTextFilter($format_name, $filter_name) {
 
-    $filters = filter_get_filters();
+    $filters = $this->getFilters();
     $format = $this->getFormat($format_name);
     if ($format && isset($filters[$filter_name])) {
 
       // Populate text filter object as expected by filter_format_save().
       $format->filters = $this->getFormatFilters($format_name);
-      if (isset($format->filters[$filter_name])) {
 
-        // Enable filter and save text format.
-        $format->filters[$format_name]['status'] = TRUE;
-        return $this->saveTextFormat($format);
-      }
+      // Enable filter and save text format.
+      $format->filters[$filter_name] = $filters[$filter_name];
+      $format->filters[$filter_name]['status'] = TRUE;
+      return $this->saveTextFormat($format);
     }
     return FALSE;
   }
@@ -95,19 +105,17 @@ class Config extends ConfigBase {
    */
   public function disableTextFilter($format_name, $filter_name) {
 
-    $filters = filter_get_filters();
+    $filters = $this->getFilters();
     $format = $this->getFormat($format_name);
     if ($format && isset($filters[$filter_name])) {
 
       // Populate text filter object as expected by filter_format_save().
       $format->filters = $this->getFormatFilters($format_name);
 
-      if (isset($format->filters[$filter_name])) {
-
-        // Disable filter and save text format.
-        $format->filters[$format_name]['status'] = FALSE;
-        return $this->saveTextFormat($format);
-      }
+      // Disable filter and save text format.
+      $format->filters[$filter_name] = $filters[$filter_name];
+      $format->filters[$filter_name]['status'] = FALSE;
+      return $this->saveTextFormat($format);
     }
     return FALSE;
   }
@@ -127,19 +135,17 @@ class Config extends ConfigBase {
    */
   public function setTextFilterWeight($format_name, $filter_name, $weight) {
 
-    $filters = filter_get_filters();
+    $filters = $this->getFilters();
     $format = $this->getFormat($format_name);
     if ($format && isset($filters[$filter_name])) {
 
       // Populate text filter object as expected by filter_format_save().
       $format->filters = $this->getFormatFilters($format_name);
 
-      if (isset($format->filters[$format_name])) {
-
-        // Set filter weight and save text format.
-        $format->filters[$format_name]['weight'] = $weight;
-        return $this->saveTextFormat($format);
-      }
+      // Set filter weight and save text format.
+      $format->filters[$filter_name] = $filters[$filter_name];
+      $format->filters[$filter_name]['weight'] = $weight;
+      return $this->saveTextFormat($format);
     }
     return FALSE;
   }
