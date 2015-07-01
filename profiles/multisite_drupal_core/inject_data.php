@@ -35,18 +35,7 @@ function inject_data() {
   $account3->field_lastname['und'][0]['value'] = 'Blake';
   user_save($account3);
 
-  // Custom Filter and custom Ckeditor profile activation for comments.
-  /*
-  $html_update = db_insert('ckeditor_input_format')
-  ->fields(array(
-  'name' => 'Basic',
-  'format' => 'basic_html',
-  ))
-  ->execute();
-  */
-
-  // Create content -----------------------------------------
-
+  // Create content.
   $node = new stdClass();
   $node->type = 'page';
   node_object_prepare($node);
@@ -102,5 +91,4 @@ function inject_data() {
       'config' => $exports['Example policy']->config,
     ))
     ->execute();
-
 }
