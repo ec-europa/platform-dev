@@ -374,7 +374,9 @@ function ec_resp_preprocess_user_profile(&$variables) {
 
   $date = '';
   if (isset($variables['user']->created)) {
-    $date .= t('Member since') . ' ' . format_date($variables['user']->created, 'custom', 'd/m/Y');
+    $date_string = format_date($variables['user']->created, 'custom', 'd/m/Y');
+    $args = array('@date' => $date_string);
+    $date .= t('Member since @date', $args);
   }
 
   $variables['user_info']['name'] = $identity;
@@ -384,7 +386,7 @@ function ec_resp_preprocess_user_profile(&$variables) {
   if (module_exists('contact')) {
     $account = $variables['elements']['#account'];
     $menu_item = menu_get_item("user/$account->uid/contact");
-    if (isset ($menu_item['access']) && $menu_item['access'] == TRUE) {
+    if (isset($menu_item['access']) && $menu_item['access'] == TRUE) {
       $variables['contact_form'] = l(t('Contact this user'), 'user/' . $account->uid . '/contact', array('attributes' => array('type' => 'message')));
     }
   }
@@ -729,7 +731,9 @@ function ec_resp_page_alter(&$page) {
   }
   else {
     if (user_access('administer site configuration')) {
-      drupal_set_message(t('Please select the IPG classification of your site') . ' ' . l(t('here.'), 'admin/config/system/site-information'), 'warning');
+      $link = l(t('here'), 'admin/config/system/site-information');
+      $args = array('!link' => $link);
+      drupal_set_message(t('Please select the IPG classification of your site !link.', $args), 'warning');
     }
   }
 
