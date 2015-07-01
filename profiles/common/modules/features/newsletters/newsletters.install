@@ -5,62 +5,23 @@
  */
 
 /**
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Implements hook_enable().
  */
-
 function newsletters_enable() {
-    //Activation message
-    drupal_set_message(t('Newsletters feature is now active on your site.'));
-
-    /*
-    // add content types to the simplenews related content
-    multisite_drupal_toolbox_simplenews_related_content_type('article', 'add');
-    multisite_drupal_toolbox_simplenews_related_content_type('page', 'add');
-    */
-
-    // put HTML format by default for mail
-    db_update('simplenews_category')
-      ->fields(array(
-        'format' => 'html',
-        'from_address' => 'EC-FP-INTERNET-SERVICES-DO-NOT-REPLY@ec.europa.eu',
-      ))
-      ->execute();
+  drupal_set_message(t('Newsletters feature is now active on your site.'));
+  db_update('simplenews_category')
+    ->fields(array(
+      'format' => 'html',
+      'from_address' => 'EC-FP-INTERNET-SERVICES-DO-NOT-REPLY@ec.europa.eu',
+    ))
+    ->execute();
 }
 
-/*
- * hook_disable
+/**
+ * Implements hook_disable().
  */
-
 function newsletters_disable() {
-    // remove simplenews block to the site_wide context
-    multisite_drupal_toolbox_remove_block_context('site_wide', '0');
-
-    // disable the content type simplenews
-    multisite_drupal_toolbox_disable_content_type('simplenews');
-
-    //Activation message
-    drupal_set_message(t('Newsletters feature is now disabled on your site.'));
-
-    /*
-    // delete content types to the simplenews related content
-    multisite_drupal_toolbox_simplenews_related_content_type('article', 'delete');
-    multisite_drupal_toolbox_simplenews_related_content_type('page', 'delete');
-    */
-
+  multisite_drupal_toolbox_remove_block_context('site_wide', '0');
+  multisite_drupal_toolbox_disable_content_type('simplenews');
+  drupal_set_message(t('Newsletters feature is now disabled on your site.'));
 }
-
-/**
- * Implements hook_install().
- */
-function newsletters_install() {
-  //Install scripts here
-}
-
-/**
- * Implements hook_uninstall().
- */
-function newsletters_uninstall() {
-  //Uninstall scripts here
-}
-

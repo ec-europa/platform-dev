@@ -98,9 +98,10 @@ projects[context_entity_field][patch][] = patches/add-entity-references-1847038.
 
 projects[css_injector][subdir] = "contrib"
 projects[css_injector][version] = "1.10"
+projects[css_injector][patch][] = patches/css_injector-add_upload_file-2506775-10.patch
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.6"
+projects[ctools][version] = "1.7"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.3"
@@ -136,7 +137,8 @@ projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
 
 projects[entityreference_prepopulate][subdir] = "contrib"
-projects[entityreference_prepopulate][version] = "1.3"
+projects[entityreference_prepopulate][version] = "1.5"
+projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
 
 projects[eu-cookie-compliance][subdir] = "contrib"
 projects[eu-cookie-compliance][version] = "1.12"
@@ -229,8 +231,7 @@ projects[jqmulti][subdir] = "contrib"
 projects[jqmulti][version] = "1.0"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.4"
-projects[jquery_update][patch][] = patches/jquery_update-jquery_effects_missing-2123973-3.patch
+projects[jquery_update][version] = "2.6"
 
 projects[js_injector][subdir] = "contrib"
 projects[js_injector][version] = "2.1"
@@ -242,7 +243,7 @@ projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.6"
 
 projects[libraries][subdir] = "contrib"
-projects[libraries][version] = "2.1"
+projects[libraries][version] = "2.2"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.2"
@@ -455,8 +456,8 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.10"
-projects[views][patch][] = patches/views-exposed_form_ajax_broken-2425099-59.patch
+projects[views][version] = "3.11"
+projects[views][patch][] = patches/views-exposed-ajax-not-working-2425099-52.patch
 projects[views][patch][] = patches/views-exposed_groupfilter_views-1818176-11.patch
 projects[views][patch][] = patches/views-includes_handlers-1752062-6.patch
 projects[views][patch][] = patches/views-localization-bug-1685144-9.patch

@@ -1,3 +1,9 @@
+/**
+ * @file
+ * Contains javascript code for the Version Management module.
+ */
+
+$.noConflict();
 (function ($) {
   Drupal.behaviors.myBehavior = {
     attach: function (context, settings) {

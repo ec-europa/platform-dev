@@ -13,7 +13,7 @@ function ec_resp_preprocess(&$variables) {
       case 'feature_set_admin_form':
         // Add specific javascript.
         drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/feature-set.js', array('scope' => 'footer', 'weight' => 13));
-        
+
         $categories_list = '';
         $features_list = '';
 
@@ -899,7 +899,9 @@ function ec_resp_form_element($variables) {
       ' ' => '-',
       '_' => '-',
       '[' => '-',
-      ']' => ''));
+      ']' => '',
+      )
+    );
   }
   // Add a class for disabled elements to facilitate cross-browser styling.
   if (!empty($element['#attributes']['disabled'])) {
@@ -1029,12 +1031,25 @@ function ec_resp_menu_link__menu_breadcrumb_menu(array $variables) {
   $sub_menu = '';
   $separator = variable_get('easy_breadcrumb-segments_separator');
 
+  // Check sub menu items.
   if ($element['#below']) {
     $sub_menu = drupal_render($element['#below']);
   }
+
+  // Check CSS classes.
+  $last = FALSE;
+  foreach ($element['#attributes']['class'] as $key => $class) {
+    if ($class == 'last') {
+      $last = TRUE;
+      break;
+    }
+  }
+
+  // Format output.
   $element['#localized_options']['html'] = TRUE;
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
-  return $output . $sub_menu . '<span class="easy-breadcrumb_segment-separator"> ' . $separator . ' </span>';
+  $suffix = ($last ? '' : '<span class="easy-breadcrumb_segment-separator"> ' . $separator . ' </span>');
+  return $output . $sub_menu . $suffix;
 }
 
 /**
