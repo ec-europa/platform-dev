@@ -1,0 +1,95 @@
+diff --git a/feature_set.admin.inc b/feature_set.admin.inc
+index e66bce6..d05c275 100644
+--- a/feature_set.admin.inc
++++ b/feature_set.admin.inc
+@@ -233,31 +233,51 @@ function feature_set_install_tasks() {
+ }
+ 
+ /**
+- * Disable a feature set, intended to disable an inconsinstent feature set.
++ * Disable a feature set, intended to disable an inconsistent feature set.
+  */
+-function _feature_set_disable_url() {
+-  $featureset = arg(4);
++function feature_set_disable_url($form, $form_state, $featureset) {
++  $form['featureset'] = array('#type' => 'value', '#value' => $featureset);
++  return confirm_form(
++    $form,
++    t('Are you sure you want to disable %title?', array('%title' => $featureset)),
++    'admin/structure/feature-set'
++  );
++}
++
++function feature_set_disable_url_submit($form, &$form_state) {
+   $featuresets = $featuresets = feature_set_get_featuresets();
+-  if (isset($featuresets[$featureset])) {
+-    feature_set_disable_feature_set($featuresets[$featureset]);
+-    drupal_goto('admin/structure/feature-set');
++  if (isset($featuresets[$form_state['values']['featureset']])) {
++    feature_set_disable_feature_set($featuresets[$form_state['values']['featureset']]);
+   }
+   else {
+-    return t('The feature set "%featureset" could not be found. Please check the link and try again', array('%featureset' => $featureset));
++    drupal_set_message(t('The feature set "%featureset" could not be found. Please check the link and try again', array('%featureset' => $form_state['values']['featureset'])), 'error');
+   }
++
++  $form_state['redirect'] = 'admin/structure/feature-set';
+ }
+ 
++
++
+ /**
+- * Enable a feature set intended to enable an inconsinstent feature set.
++ * Enable a feature set intended to enable an inconsistent feature set.
+  */
+-function _feature_set_enable_url() {
+-  $featureset = arg(4);
++function feature_set_enable_url($form, $form_state, $featureset) {
++  $form['featureset'] = array('#type' => 'value', '#value' => $featureset);
++  return confirm_form(
++    $form,
++    t('Are you sure you want to enable %title?', array('%title' => $featureset)),
++    'admin/structure/feature-set'
++  );
++}
++
++function feature_set_enable_url_submit($form, &$form_state) {
+   $featuresets = $featuresets = feature_set_get_featuresets();
+-  if (isset($featuresets[$featureset])) {
+-    feature_set_enable_feature_set($featuresets[$featureset]);
+-    drupal_goto('admin/structure/feature-set');
++  if (isset($featuresets[$form_state['values']['featureset']])) {
++    feature_set_enable_feature_set($featuresets[$form_state['values']['featureset']]);
+   }
+   else {
+-    return t('The feature set "%featureset" could not be found. Please check the link and try again', array('%featureset' => $featureset));
++    drupal_set_message(t('The feature set "%featureset" could not be found. Please check the link and try again', array('%featureset' => $form_state['values']['featureset'])), 'error');
+   }
++
++  $form_state['redirect'] = 'admin/structure/feature-set';
+ }
+diff --git a/feature_set.module b/feature_set.module
+index b7d6067..b2083d9 100644
+--- a/feature_set.module
++++ b/feature_set.module
+@@ -38,16 +38,17 @@ function feature_set_menu() {
+   $items['admin/structure/feature-set/enable/%'] = array(
+     'title' => 'Feature set enable',
+     'description' => 'Enable a feature set',
+-    'page callback' => '_feature_set_enable_url',
++    'page callback' => 'drupal_get_form',
++    'page arguments' => array('feature_set_enable_url', 4),
+     'access callback' => 'user_access',
+     'access arguments' => array('administer feature sets'),
+     'file' => 'feature_set.admin.inc',
+   );
+-
+   $items['admin/structure/feature-set/disable/%'] = array(
+     'title' => 'Feature set disable',
+     'description' => 'Disable a feature set',
+-    'page callback' => '_feature_set_disable_url',
++    'page callback' => 'drupal_get_form',
++    'page arguments' => array('feature_set_disable_url', 4),
+     'access callback' => 'user_access',
+     'access arguments' => array('administer feature sets'),
+     'file' => 'feature_set.admin.inc',
