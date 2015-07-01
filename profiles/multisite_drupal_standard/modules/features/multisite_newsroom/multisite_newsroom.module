@@ -819,12 +819,17 @@ function _multisite_newsroom_languages() {
 
 /**
  * Helper function to disable feeds importers.
+ *
+ * @param array $disabled
+ *  The disabled importers.
+ * @param string $importer_id
+ *  The id of the importer to disable or enable.
  */
-function _multisite_newsroom_disable_importer($disabled, $importer_id) {
+function _multisite_newsroom_disable_importer($disabled, $importer_ids) {
   $importers = feeds_importer_load_all(TRUE);
 
   foreach ($importers as $importer) {
-    if ($importer->id == $importer_id) {
+    if (in_array($importer->id, $importer_ids)) {
       $disabled[$importer->id] = TRUE;
     }
     else {
@@ -834,4 +839,242 @@ function _multisite_newsroom_disable_importer($disabled, $importer_id) {
 
   variable_set('default_feeds_importer', $disabled);
   feeds_cache_clear();
+}
+
+/**
+ * Helper function to enable translations for specific fields.
+ */
+function _multisite_newsroom_enable_translations() {
+  // Enable entity translation support for terms.
+  $enabled = variable_get('entity_translation_entity_types', array());
+  $enabled_types = array_filter($enabled);
+  if (!in_array('taxonomy_term', $enabled_types)) {
+    $enabled['taxonomy_term'] = 'taxonomy_term';
+    variable_set('entity_translation_entity_types', $enabled);
+  }
+
+  // Check if the title module is enabled.
+  if (!module_exists('title')) {
+    module_enable('title');
+  }
+  // Set translation mode for the vocabularies.
+  $taxonomies = array(
+    'newsroom_topic',
+    'newsroom_item_type',
+    'newsroom_service',
+  );
+  foreach ($taxonomies as $name) {
+    $vocabulary = taxonomy_vocabulary_machine_name_load($name);
+    // Set value for translations.
+    $vocabulary->i18n_mode = 4;
+    taxonomy_vocabulary_save($vocabulary);
+    // Replace name.
+    title_field_replacement_toggle('taxonomy_term', $name, 'name');
+  }
+
+  // Enable title replacement for the newsroom_item content type.
+  multisite_config_service('title')->replaceTitleField('node', 'newsroom_item', 'title');
+
+  // Override settings for multilanguage.
+  variable_set('language_content_type_newsroom_item', TRANSLATION_ENABLED);
+  // Set the entity translations options.
+  variable_set('language_content_type_newsroom_item', '4');
+  
+  // Enable translations for various fields.
+  $field_names = array(
+    'body',
+    'field_newsroom_item_other_link',
+    'field_newsroom_documents',
+    'field_newsroom_item_contact_text',
+    'field_newsroom_item_contact_mail',
+    'field_newsroom_item_linked_obj',
+    'field_newsroom_item_pre_title',
+    'field_newsroom_item_quote_box',
+    'field_newsroom_item_short_title',
+    'field_newsroom_item_speaker',
+    'field_teaser',
+    'field_illustrative_image',
+    'field_newsroom_category_domain',
+    'field_service_type',
+  );
+
+  foreach ($field_names as $field_name) {
+    $field = field_read_field($field_name);
+    if ($field) {
+      if ($field_name == 'field_illustrative_image') {
+        $field['cardinality'] = -1;
+      }
+      // Make the field translatable.
+      $field['translatable'] = 1;
+      field_update_field($field);
+    }
+  }
+}
+
+/**
+ * Helper function to enable languages.
+ */
+function _multisite_newsroom_enable_languages($languages) {
+  if (module_exists('locale')) {
+    include_once DRUPAL_ROOT . '/includes/locale.inc';
+    foreach ($languages as $lang) {
+      // Enabling languages
+      locale_add_language($lang);
+    }
+  }
+}
+
+/**
+ * Helper function to enable languages.
+ *
+ * @param array $premapping
+ *  The values to elaborate.
+ * @param string $type
+ *  Taxonomy or node.
+ *
+ * @return array
+ *  array containing the needed info for the importer.
+ */
+function _multisite_newsroom_prepare_dynamic_mapping($premapping, $type = NULL) {
+  $def_lang = strtoupper(language_default()->language);
+  // Get enabled languages codes.
+  $lang_keys = _multisite_newsroom_languages();
+  // Loop through all the fields, build the needed arrays.
+  $i = 0;
+  foreach ($premapping as $field => $values) {
+    // Things look different if the field is translatable.
+    if ($values['language']) {
+      // If fields are translatable, we create a different mapping for each language.
+      foreach ($lang_keys as $lang_key) {
+        $upper_key = strtoupper($lang_key);
+        // Xpath queries.
+        $queries['xpathparser:' . $i] = $values['query'] . '[@language="' . $upper_key . '"]/text()';
+
+        if ($type == 'topics' && $upper_key != $def_lang) {
+          $queries['xpathparser:' . $i] = '//channel/item[infsonewsroom:BasicSvType="Newsroom service"]/category[@domain!="Newsletter" and @language="' . $upper_key . '" and @infsonewsroom:TopicId="$Temporary target 1"]/' . $values['query'];
+        }
+        elseif ($type == 'topics' && $upper_key == $def_lang) {
+          $queries['xpathparser:' . $i] = $values['query'];
+        }
+        elseif ($type == 'types') {
+          $queries['xpathparser:' . $i] = $values['query'] . '[@lang="' . $upper_key . '"]/text()';
+        }
+        // Mapping arrays.
+        $mapping[$i] = array(
+          'source' => 'xpathparser:' . $i,
+          'target' => $field . ':et:' . $lang_key,
+          'unique' => FALSE,
+        );
+        // Additional values.
+        if (isset($values['options'])) {
+          foreach ($values['options'] as $key => $option) {
+            $mapping[$i][$key] = $option;
+          }
+        }
+        // Guid is the "unique" field but let's do this "dinamically".
+        if (isset($values['unique'])) {
+          $mapping[$i]['unique'] = TRUE;
+        }
+        $i++;
+      }
+    }
+    // Not translatable fields.
+    else {
+      // Xpath queries.
+      $queries['xpathparser:' . $i] = $values['query'];
+      // Mapping arrays.
+      $mapping[$i] = array(
+        'source' => 'xpathparser:' . $i,
+        'target' => $field,
+        'unique' => FALSE,
+      );
+
+      if (isset($values['options'])) {
+          foreach ($values['options'] as $key => $option) {
+            $mapping[$i][$key] = $option;
+          }
+        }
+      if (isset($values['unique'])) {
+        $mapping[$i]['unique'] = TRUE;
+      }
+      $i++;
+    }
+  }
+  // Build also the debug and raw_xml arrays.
+  foreach ($queries as $xpath => $query) {
+    $debug[$xpath] = $raw_xml[$xpath] = 0;
+  }
+
+  return array(
+    'mapping' => $mapping,
+    'queries' => $queries,
+    'debug' => $debug,
+    'raw_xml' => $raw_xml,
+  );
+}
+
+/**
+ * Helper function to enable languages.
+ *
+ * @param array $importer
+ *  The importer to import.
+ */
+function _multisite_newsroom_import_importer($importer) {
+  // Those Api calls are copied from the submit function of the
+  // import form provided bt the feeds_ui module. The alpha8 version
+  // of Feeds ( the one used in the platform) had a bugged implementation,
+  // fixed using the dev version code for the submit.
+  // Create a copy of the importer to preserve config.
+  $save = feeds_importer($importer->id);
+  $save->setConfig($importer->config);
+  foreach (array('fetcher', 'parser', 'processor') as $type) {
+    $save->setPlugin($importer->config[$type]['plugin_key']);
+    $save->$type->setConfig($importer->config[$type]['config']);
+  }
+  $save->save();
+}
+
+/**
+ * Helper function to delete menu, menu links, taxonomies.
+ */
+function multisite_newsroom_delete($name, $type = 'menu', $op = 'items') {
+  switch ($type) {
+    case 'menu':
+      if ($op == 'items') {
+        menu_delete_links($name);
+      }
+      else {
+        menu_delete(array('menu_name' => $name));
+      }
+      break;
+
+    case 'vocabulary':
+      if ($op == 'items') {
+        $voc = taxonomy_vocabulary_machine_name_load($name);
+        if (!empty($voc)) {
+          $terms = taxonomy_get_tree($voc->vid);
+          foreach ($terms as $term) {
+            taxonomy_term_delete($term->tid);
+          }
+        }
+      }
+      else {
+        $voc = taxonomy_vocabulary_machine_name_load($name);
+        if (!empty($voc)) {
+          taxonomy_vocabulary_delete($voc->vid);
+        }
+      }
+      break;
+
+    case 'node':
+      $node_type = array($name);
+      $query = new EntityFieldQuery();
+      $query->entityCondition('entity_type', 'node')
+        ->propertyCondition('type', $node_type, 'IN');
+      $result = $query->execute();
+      foreach ($result['node'] as $node) {
+        node_delete($node->nid);
+      }
+      break;
+  }
 }

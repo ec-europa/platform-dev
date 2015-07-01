@@ -4,13 +4,12 @@
  * multisite_newsroom.multilingual.inc
  */
 
+
 /**
  * Import the multilingual importer.
  */
-function _multisite_newsroom_create_multilingual_importer() {
-  // Get enabled languages codes.
-  $lang_keys = _multisite_newsroom_languages();
-
+function _multisite_newsroom_create_multilingual_items_importer() {
+  $def_lang = strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'title' => array(
@@ -62,25 +61,21 @@ function _multisite_newsroom_create_multilingual_importer() {
       'query' => 'infsonewsroom:BasicId',
       'language' => FALSE,
     ),
-    'field_newsroom_item_other_link' => array(
-      'query' => 'infsonewsroom:ContextOtherLinkText',
-      'language' => TRUE,
-    ),
     'field_newsroom_item_other_link:title' => array(
-      'query' => 'infsonewsroom:ContextOtherLinkText',
+      'query' => 'infsonewsroom:ContextOtherLinkText/text()',
       'language' => TRUE,
     ),
     'field_newsroom_item_other_link:url' => array(
-      'query' => 'infsonewsroom:ContextOtherLinkUrl',
+      'query' => 'infsonewsroom:ContextOtherLinkUrl/text()',
       'language' => TRUE,
     ),
     'field_newsroom_documents:url' => array(
       'query' => 'enclosure[not(@type="image/jpeg")]/@url',
-      'language' => FALSE,
+      'language' => TRUE,
     ),
     'field_newsroom_documents:title' => array(
       'query' => 'enclosure[not(@type="image/jpeg")]/@title',
-      'language' => FALSE,
+      'language' => TRUE,
     ),
     'promote' => array(
       'query' => 'infsonewsroom:pubHighlight/text()',
@@ -98,7 +93,7 @@ function _multisite_newsroom_create_multilingual_importer() {
       'query' => 'infsonewsroom:BasicReferenceDate/text()',
       'language' => FALSE,
     ),
-    'field_newsroom_category:tid' => array(
+    'field_newsroom_category:etid' => array(
       'query' => 'category[@domain="Collection"]/@infsonewsroom:TopicId',
       'language' => FALSE,
     ),
@@ -164,61 +159,7 @@ function _multisite_newsroom_create_multilingual_importer() {
     ),
   );
 
-  // Loop through all the fields, build the needed arrays.
-  $i = 0;
-  foreach ($premapping as $field => $values) {
-    // Things look different if the field is translatable.
-    if ($values['language']) {
-      // If fields are translatable, we create a different mapping for each language.
-      foreach ($lang_keys as $lang_key) {
-        $upper_key = strtoupper($lang_key);
-        // Xpath queries.
-        $queries['xpathparser:' . $i] = $values['query'] . '[@language="' . $upper_key . '"]/text()';
-        // Mapping arrays.
-        $mapping[$i] = array(
-          'source' => 'xpathparser:' . $i,
-          'target' => $field . ':et:' . $lang_key,
-          'unique' => FALSE,
-        );
-        // Additional values.
-        if (isset($values['options'])) {
-          foreach ($values['options'] as $key => $option) {
-            $mapping[$i][$key] = $option;
-          }
-        }
-        // Guid is the "unique" field but let's do this "dinamically".
-        if (isset($values['unique'])) {
-          $mapping[$i]['unique'] = TRUE;
-        }
-        $i++;
-      }
-    }
-    // Not translatable fields.
-    else {
-      // Xpath queries.
-      $queries['xpathparser:' . $i] = $values['query'];
-      // Mapping arrays.
-      $mapping[$i] = array(
-        'source' => 'xpathparser:' . $i,
-        'target' => $field,
-        'unique' => FALSE,
-      );
-
-      if (isset($values['options'])) {
-          foreach ($values['options'] as $key => $option) {
-            $mapping[$i][$key] = $option;
-          }
-        }
-      if (isset($values['unique'])) {
-        $mapping[$i]['unique'] = TRUE;
-      }
-      $i++;
-    }
-  }
-  // Build also the debug and raw_xml arrays.
-  foreach ($queries as $xpath => $query) {
-    $debug[$xpath] = $raw_xml[$xpath] = 0;
-  }
+  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'node');
 
   // Build the importer object.
   $feeds_importer = new stdClass();
@@ -240,12 +181,12 @@ function _multisite_newsroom_create_multilingual_importer() {
     'parser' => array(
       'plugin_key' => 'FeedsXPathParserXML',
       'config' => array(
-        'sources' => $queries,
-        'rawXML' => $raw_xml,
+        'sources' => $importer_values['queries'],
+        'rawXML' => $importer_values['raw_xml'],
         'context' => '//channel/item',
         'exp' => array(
           'errors' => 1,
-          'debug' => $debug,
+          'debug' => $importer_values['debug'],
         ),
         'allow_override' => 0,
       ),
@@ -256,7 +197,7 @@ function _multisite_newsroom_create_multilingual_importer() {
         'expire' => '-1',
         'author' => '0',
         'authorize' => 0,
-        'mappings' => $mapping,
+        'mappings' => $importer_values['mapping'],
         'update_existing' => '2',
         'input_format' => 'full_html',
         'skip_hash_check' => 1,
@@ -271,17 +212,279 @@ function _multisite_newsroom_create_multilingual_importer() {
     'process_in_background' => 0,
   );
 
-  // Those Api calls are copied from the submit function of the
-  // import form provided bt the feeds_ui module. The alpha8 version
-  // of Feeds ( the one used in the platform) had a bugged implementation,
-  // fixed using the dev version code for the submit.
-  $importer = $feeds_importer;
-  // Create a copy of the importer to preserve config.
-  $save = feeds_importer($importer->id);
-  $save->setConfig($importer->config);
-  foreach (array('fetcher', 'parser', 'processor') as $type) {
-    $save->setPlugin($importer->config[$type]['plugin_key']);
-    $save->$type->setConfig($importer->config[$type]['config']);
-  }
-  $save->save();
+ // Import the importer.
+  _multisite_newsroom_import_importer($feeds_importer);
+}
+//translation[@English='title']/@*[local-name()=//agentlang]" />
+/**
+ * Import the multilingual importer.
+ */
+function _multisite_newsroom_create_multilingual_topics_importer() {
+  $def_lang = strtoupper(language_default()->language);
+  // Define the needed infos to build the importer dinamically.
+  $premapping = array(
+    'Temporary target 1' => array(
+      'query' => '@infsonewsroom:TopicId',
+      'target' => 'Temporary target 1',
+      'language' => FALSE,
+    ),
+    'guid' => array(
+      'query' => '@infsonewsroom:TopicId',
+      'language' => FALSE,
+      'unique' => 1,
+    ),
+    'field_newsroom_topic_id' => array(
+      'query' => '@infsonewsroom:TopicId',
+      'language' => FALSE,
+    ), 
+    'name' => array(
+      'query' => 'text()',
+      'language' => FALSE,
+    ), 
+    'name_field' => array(
+      'query' => 'text()',
+      'language' => TRUE,
+    ),  
+    'field_newsroom_category_domain' => array(
+      'query' => '@domain',
+      'language' => TRUE,
+    ),  
+    'parentguid' => array(
+      'query' => '@infsonewsroom:parentTopicId',
+      'language' => FALSE,
+    ), 
+  );
+
+  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'topics');
+
+  $feeds_importer = new stdClass();
+  $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
+  $feeds_importer->api_version = 1;
+  $feeds_importer->id = 'newsroom_topics_multilingual';
+  $feeds_importer->config = array(
+    'name' => 'Newsroom Topics Multilingual',
+    'description' => 'Imports Topics from the Newsroom service',
+    'fetcher' => array(
+      'plugin_key' => 'FeedsHTTPFetcher',
+      'config' => array(
+        'auto_detect_feeds' => FALSE,
+        'use_pubsubhubbub' => FALSE,
+        'designated_hub' => '',
+        'request_timeout' => NULL,
+      ),
+    ),
+    'parser' => array(
+      'plugin_key' => 'FeedsXPathParserXML',
+      'config' => array(
+        'sources' => $importer_values['queries'],
+        'rawXML' => $importer_values['raw_xml'],
+        'context' => '//channel/item[infsonewsroom:BasicSvType="Newsroom service"]/category[@domain!="Newsletter" and @language="' . $def_lang . '"]',
+        'exp' => array(
+          'errors' => 1,
+          'debug' => $importer_values['debug'],
+        ),
+        'allow_override' => 0,
+      ),
+    ),
+    'processor' => array(
+      'plugin_key' => 'FeedsTermProcessor',
+      'config' => array(
+        'vocabulary' => 0,
+        'mappings' => $importer_values['mapping'],
+        'update_existing' => '2',
+        'input_format' => 'plain_text',
+        'skip_hash_check' => 1,
+        'bundle' => 'newsroom_topic',
+      ),
+    ),
+    'content_type' => '',
+    'update' => 0,
+    'import_period' => '-1',
+    'expire_period' => 3600,
+    'import_on_create' => 1,
+    'process_in_background' => 0,
+  );
+
+  // Import the importer.
+  _multisite_newsroom_import_importer($feeds_importer);
+}
+
+/**
+ * Import the multilingual importer.
+ */
+function _multisite_newsroom_create_multilingual_types_importer() {
+  $def_lang = strtoupper(language_default()->language);
+  // Define the needed infos to build the importer dinamically.
+  $premapping = array(
+    'guid' => array(
+      'query' => 'infsonewsroom:BasicTypeId/text()',
+      'language' => FALSE,
+      'unique' => 1,
+    ),
+    'field_newsroom_type_id' => array(
+      'query' => 'infsonewsroom:BasicTypeId/text()',
+      'language' => FALSE,
+    ), 
+    'name' => array(
+      'query' => 'title[@lang="' . $def_lang . '"]/text()',
+      'language' => FALSE,
+    ), 
+    'name_field' => array(
+      'query' => 'title',
+      'language' => TRUE,
+    ),   
+    'parentguid' => array(
+      'query' => '@infsonewsroom:parentTopicId',
+      'language' => FALSE,
+    ), 
+  );
+
+  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'types');
+
+  $feeds_importer = new stdClass();
+  $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
+  $feeds_importer->api_version = 1;
+  $feeds_importer->id = 'newsroom_types_multilingual';
+  $feeds_importer->config = array(
+    'name' => 'Newsroom Type Multilingual',
+    'description' => 'Imports Item Types from the Newsroom service.',
+    'fetcher' => array(
+      'plugin_key' => 'FeedsHTTPFetcher',
+      'config' => array(
+        'auto_detect_feeds' => FALSE,
+        'use_pubsubhubbub' => FALSE,
+        'designated_hub' => '',
+        'request_timeout' => NULL,
+      ),
+    ),
+    'parser' => array(
+      'plugin_key' => 'FeedsXPathParserXML',
+      'config' => array(
+        'sources' => $importer_values['queries'],
+        'rawXML' => $importer_values['raw_xml'],
+        'context' => '//channel/item',
+        'exp' => array(
+          'errors' => 0,
+          'debug' => $importer_values['debug'],
+        ),
+        'allow_override' => 0,
+      ),
+    ),
+    'processor' => array(
+      'plugin_key' => 'FeedsTermProcessor',
+      'config' => array(
+        'vocabulary' => 'newsroom_item_type',
+        'mappings' => $importer_values['mapping'],
+        'update_existing' => '2',
+        'input_format' => 'plain_text',
+        'skip_hash_check' => 1,
+        'bundle' => 'newsroom_item_type',
+      ),
+    ),
+    'content_type' => '',
+    'update' => 0,
+    'import_period' => '-1',
+    'expire_period' => 3600,
+    'import_on_create' => 1,
+    'process_in_background' => 0,
+  );
+
+  // Import the importer.
+  _multisite_newsroom_import_importer($feeds_importer);
+}
+
+/**
+ * Import the multilingual importer.
+ */
+function _multisite_newsroom_create_multilingual_services_importer() {
+  $def_lang = strtoupper(language_default()->language);
+  // Define the needed infos to build the importer dinamically.
+  $premapping = array(
+    'guid' => array(
+      'query' => 'guid/text()',
+      'language' => FALSE,
+      'unique' => 1,
+    ),
+    'field_newsroom_service_id' => array(
+      'query' => 'infsonewsroom:BasicSvId/text()',
+      'language' => FALSE,
+    ), 
+    'name' => array(
+      'query' => 'title/text()',
+      'language' => FALSE,
+    ), 
+    'name_field' => array(
+      'query' => 'title',
+      'language' => TRUE,
+    ),
+    'field_newsroom_topic' => array(
+      'query' => 'category[@domain="Subchapter"]/@infsonewsroom:TopicId',
+      'language' => FALSE,
+    ),  
+    'field_service_active' => array(
+      'query' => 'infsonewsroom:BasicSvStatus/text()',
+      'language' => FALSE,
+    ),  
+    'field_service_type' => array(
+      'query' => 'infsonewsroom:BasicSvType',
+      'language' => TRUE,
+    ),  
+    'parentguid' => array(
+      'query' => '@infsonewsroom:parentTopicId',
+      'language' => FALSE,
+    ), 
+  );
+
+  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'taxonomy');
+  
+  $feeds_importer = new stdClass();
+  $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
+  $feeds_importer->api_version = 1;
+  $feeds_importer->id = 'newsroom_services_multilingual';
+  $feeds_importer->config = array(
+    'name' => 'Newsroom Services Multilingual',
+    'description' => 'Imports Services from the Newsroom service.',
+    'fetcher' => array(
+      'plugin_key' => 'FeedsHTTPFetcher',
+      'config' => array(
+        'auto_detect_feeds' => FALSE,
+        'use_pubsubhubbub' => FALSE,
+        'designated_hub' => '',
+        'request_timeout' => NULL,
+      ),
+    ),
+    'parser' => array(
+      'plugin_key' => 'FeedsXPathParserXML',
+      'config' => array(
+        'sources' => $importer_values['queries'],
+        'rawXML' => $importer_values['raw_xml'],
+        'context' => '//channel/item',
+        'exp' => array(
+          'errors' => 0,
+          'debug' => $importer_values['debug'],
+        ),
+        'allow_override' => 0,
+      ),
+    ),
+    'processor' => array(
+      'plugin_key' => 'FeedsTermProcessor',
+      'config' => array(
+        'vocabulary' => 'newsroom_service',
+        'mappings' => $importer_values['mapping'],
+        'update_existing' => '2',
+        'input_format' => 'plain_text',
+        'skip_hash_check' => 0,
+        'bundle' => 'newsroom_service',
+      ),
+    ),
+    'content_type' => '',
+    'update' => 0,
+    'import_period' => '10800',
+    'expire_period' => 3600,
+    'import_on_create' => 1,
+    'process_in_background' => 0,
+  );
+
+  // Import the importer.
+  _multisite_newsroom_import_importer($feeds_importer);
 }

@@ -13,6 +13,8 @@ dependencies[] = media
 dependencies[] = newsroom
 dependencies[] = views
 dependencies[] = views_tree
+dependencies[] = feeds_et
+dependencies[] = nexteuropa_multilingual
 configure = admin/config/content/newsroom
 feature_sets[multisite_newsroom][title] = Multisite newsroom
 feature_sets[multisite_newsroom][description] = Use the multisite newsroom to integrate your website with the corporate news service provided by DG connect, it will provide blocks with contextual news items selected basing on your own configuration of the newsroom. <a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/[FPFIS]+Newsroom+-+Documentation">Read documentation</a>
@@ -41,6 +43,7 @@ features[feeds_tamper][] = newsroom_items-xpathparser_38-convert_boolean
 features[feeds_tamper][] = newsroom_items-xpathparser_39-convert_boolean
 features[feeds_tamper][] = newsroom_topics-xpathparser_0-rewrite
 features[feeds_tamper][] = newsroom_type-xpathparser_0-rewrite
+features[feeds_tamper][] = newsroom_items_multilingual-xpathparser_31-convert_case
 features[field_base][] = field_actions_contact
 features[field_base][] = field_actions_content_reference
 features[field_base][] = field_actions_origin_id

@@ -19,7 +19,7 @@ function multisite_newsroom_field_default_field_bases() {
     'field_name' => 'field_actions_contact',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'email',
     'settings' => array(),
     'translatable' => 0,
@@ -46,7 +46,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
       'handler' => 'base',
@@ -93,7 +93,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 20,
@@ -115,7 +115,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
@@ -228,7 +228,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -257,7 +257,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -279,7 +279,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
@@ -307,7 +307,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
@@ -340,7 +340,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
       'handler' => 'base',
@@ -385,7 +385,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'tid',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'taxonomy',
     'settings' => array(
       'allowed_values' => array(
@@ -420,7 +420,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'fid',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'image',
     'settings' => array(
       'default_image' => 0,
@@ -443,7 +443,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
@@ -476,7 +476,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
       'handler' => 'views',
@@ -518,7 +518,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -536,7 +536,7 @@ function multisite_newsroom_field_default_field_bases() {
     'field_name' => 'field_newsroom_documents',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'link',
     'settings' => array(
       'attributes' => array(
@@ -577,7 +577,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'fid',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'file',
     'settings' => array(
       'display_default' => 0,
@@ -601,7 +601,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
@@ -634,7 +634,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -663,7 +663,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -692,7 +692,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(),
     'translatable' => 0,
@@ -708,7 +708,7 @@ function multisite_newsroom_field_default_field_bases() {
     'field_name' => 'field_newsroom_item_date',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'date',
     'settings' => array(
       'granularity' => array(
@@ -748,7 +748,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 10,
@@ -777,7 +777,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'fid',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'image',
     'settings' => array(
       'default_image' => 0,
@@ -807,7 +807,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(),
     'translatable' => 0,
@@ -823,7 +823,7 @@ function multisite_newsroom_field_default_field_bases() {
     'field_name' => 'field_newsroom_item_main_link',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'link',
     'settings' => array(
       'attributes' => array(
@@ -853,7 +853,7 @@ function multisite_newsroom_field_default_field_bases() {
     'field_name' => 'field_newsroom_item_other_link',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'link',
     'settings' => array(
       'attributes' => array(
@@ -894,7 +894,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -923,7 +923,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(),
     'translatable' => 0,
@@ -943,7 +943,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
@@ -976,7 +976,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -1005,7 +1005,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -1034,7 +1034,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'tid',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'taxonomy',
     'settings' => array(
       'allowed_values' => array(
@@ -1069,7 +1069,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -1149,7 +1149,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -1178,7 +1178,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -1207,7 +1207,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -1229,7 +1229,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
@@ -1285,7 +1285,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
@@ -1318,7 +1318,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'tid',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'taxonomy',
     'settings' => array(
       'allowed_values' => array(
@@ -1353,7 +1353,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -1382,7 +1382,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'tid',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'taxonomy',
     'settings' => array(
       'allowed_values' => array(
@@ -1410,7 +1410,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
@@ -1444,7 +1444,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 10,
@@ -1473,7 +1473,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'fid',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'image',
     'settings' => array(
       'default_image' => 0,
@@ -1503,7 +1503,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'tid',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'taxonomy',
     'settings' => array(
       'allowed_values' => array(
@@ -1538,7 +1538,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -1567,7 +1567,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
       'handler' => 'base',
@@ -1610,7 +1610,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -1639,7 +1639,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
       'handler' => 'views',
@@ -1681,7 +1681,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
       'handler' => 'views',
@@ -1723,7 +1723,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
       'handler' => 'views',
@@ -1765,7 +1765,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'tid',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'taxonomy',
     'settings' => array(
       'allowed_values' => array(
@@ -1800,7 +1800,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,
@@ -1829,7 +1829,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,

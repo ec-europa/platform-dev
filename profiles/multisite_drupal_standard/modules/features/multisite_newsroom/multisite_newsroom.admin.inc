@@ -4,6 +4,7 @@
  * Multisite Newsroom administration page.
  */
 
+include_once 'multisite_newsroom.multilingual.inc';
 
 /**
  * Multisite newsroom admin form.
@@ -308,9 +309,15 @@ function multisite_newsroom_admin_settings_form_validate($form, &$form_state) {
  */
 function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
   $multilingual = $form_state['values']['multilingual'] == 1 ? TRUE : FALSE;
+  
   // Shouldn't be needed, it is a setting form.
-  $multilingual ? variable_set('newsroom_multilingual', 1) : variable_set('newsroom_multilingual', 0);
-
+  if ($multilingual) {
+    variable_set('newsroom_multilingual', 1);
+  }
+  else {
+    variable_set('newsroom_multilingual', 0);
+  }
+  
   // Create default importers if new Newsroom Universe ID detected.
   if ($form_state['values']['newsroom_universe_id'] <> $form['universe_id']['newsroom_universe_id']['#default_value']) {
     variable_set('newsroom_universe_id', $form_state['values']['newsroom_universe_id']);
@@ -321,9 +328,30 @@ function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
   // Disabled importers.
   $disabled = variable_get('default_feeds_importer', array());
 
+  // Activate multilingualism for the newsroom if the checkbox is checked.
   if ($form_state['values']['multilingual'] != $form['newsroom_universe']['multilingual']['#default_value']) {
-    $importer_id = $multilingual ? 'newsroom_items' : 'newsroom_items_multilingual';
-    _multisite_newsroom_disable_importer($disabled, $importer_id);
+    if ($multilingual) {
+      // Add a test language. TO BE REMOVED!!!!
+      _multisite_newsroom_enable_languages(array('fr', 'de'));
+      // Make some fields translatable.
+      _multisite_newsroom_enable_translations();
+    }
+
+    $importer_id['items'] = $multilingual ? 'newsroom_items' : 'newsroom_items_multilingual';
+    $importer_id['topics'] = $multilingual ? 'newsroom_topics' : 'newsroom_topics_multilingual';
+    $importer_id['services'] = $multilingual ? 'newsroom_services' : 'newsroom_services_multilingual';
+    $importer_id['types'] = $multilingual ? 'newsroom_type' : 'newsroom_types_multilingual';
+
+    foreach ($importer_id as $key => $importer) {
+      $disabling[] = $importer;
+      
+      if ($multilingual) {
+        call_user_func('_multisite_newsroom_create_multilingual_' . $key . '_importer');
+      }
+    }
+
+    // Toggle the default importers.
+    _multisite_newsroom_disable_importer($disabled, $disabling);
   }
 
   // If the validation returns the confirm request.
@@ -342,7 +370,6 @@ function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
         // Add new instances.
         _multisite_newsroom_add_fields('topic', $check_values['check']['topic'][1]);
       }
-
       elseif (!empty($check_values['check']['topic'][0])) {
         // Remove instances.
         _multisite_newsroom_remove_fields('topic', $check_values['check']['topic'][0]);
@@ -358,7 +385,6 @@ function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
         // Add new instances.
         _multisite_newsroom_add_fields('select', $check_values['check']['select'][1]);
       }
-
       elseif (!empty($check_values['check']['select'][0])) {
         // Remove instances.
         _multisite_newsroom_remove_fields('select', $check_values['check']['select'][0]);

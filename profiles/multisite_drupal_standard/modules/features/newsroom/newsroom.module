@@ -57,18 +57,6 @@ function newsroom_feeds_plugins() {
     ),
   );
 
-  // A plugin needs to derive either directly or indirectly from FeedsFetcher,
-  // FeedsParser or FeedsProcessor.
-  $info['NewsroomFeedsNodeMultilingualProcessor'] = array(
-    'name' => 'Newsroom node multilingual processor',
-    'description' => 'Create and update newsroom items (also across multiple importer instances without duplicated items)',
-    'handler' => array(
-      'parent' => 'FeedsProcessor',
-      'class' => 'NewsroomFeedsNodeMultilingualProcessor',
-      'file' => 'NewsroomFeedsNodeMProcessor.inc',
-      'path' => drupal_get_path('module', 'newsroom') . '/plugins',
-    ),
-  );
   return $info;
 }
 
@@ -2156,8 +2144,26 @@ function _newsroom_create_default_importers($universe_url, $context = 'admin', $
 
   // Run the multilingual imports if required.
   if ($multilingual) {
-    unset($importers['newsroom_item_importer']);
-    $importers['newsroom_item_multilingual_importer'] = array(
+    
+    $keys = array('item', 'topic', 'service', /*'type' */);
+
+    foreach ($keys as $key) {
+      unset($importers['newsroom_' . $key . '_importer']);
+    }
+    
+    $importers['newsroom_types_multilingual_importer'] = array(
+      'segment' => 'rss-item-type-multilingual.cfm',
+      'importer' => 'newsroom_types_multilingual',
+    );
+    $importers['newsroom_services_multilingual_importer'] = array(
+      'segment' => 'rss-service-multilingual.cfm',
+      'importer' => 'newsroom_services_multilingual',
+    );
+    $importers['newsroom_topics_multilingual_importer'] = array(
+      'segment' => 'rss-service-multilingual.cfm',
+      'importer' => 'newsroom_topics_multilingual',
+    );
+    $importers['newsroom_items_multilingual_importer'] = array(
       'segment' => 'fullrss-multilingual.cfm',
       'importer' => 'newsroom_items_multilingual',
     );
