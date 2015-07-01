@@ -5,6 +5,7 @@ package = Multisite
 dependencies[] = features
 dependencies[] = multisite_config
 dependencies[] = taxonomy
+dependencies[] = field_group
 dependencies[] = text
 features[features_api][] = api:2
 features[field_base][] = body
