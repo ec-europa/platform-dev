@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Tests\Drupal\field\BaseField\DefaultFieldHandler.
+ * Contains test class.
  */
 
 namespace Drupal\multisite_config\Tests\Drupal\field\BaseField;

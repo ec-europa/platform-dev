@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\multisite_config\Tests\NextEuropaDataExportTest.
+ * Contains \Drupal\multisite_config\Tests\Drupal\field.
  */
 
 namespace Drupal\multisite_config\Tests\Drupal\field;

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Tests\Drupal\field\InstanceField\DefaultFieldHandler.
+ * Contains test class.
  */
 
 namespace Drupal\multisite_config\Tests\Drupal\field\InstanceField;
