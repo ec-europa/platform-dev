@@ -315,6 +315,9 @@ projects[menu_token][patch][] = patches/menu_token-link_uuid_menu_items_can_not_
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.7"
 
+projects[metatag][subdir] = "contrib"
+projects[metatag][version] = "1.6"
+
 projects[migrate][subdir] = "contrib"
 projects[migrate][version] = "2.7"
 
@@ -386,6 +389,9 @@ projects[scheduler][version] = 1.2
 projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.2
 
+projects[select_or_other][subdir] = "contrib"
+projects[select_or_other][version] = 2.22
+
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
@@ -421,7 +427,7 @@ projects[tmgmt][download][type] = git
 projects[tmgmt][subdir] = contrib
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.5"
+projects[token][version] = "1.6"
 
 projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = 1.1

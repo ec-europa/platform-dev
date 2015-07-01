@@ -1,0 +1,14 @@
+name = Nexteuropa_metatags
+description = Provide custom metatags (like metatags for ES indexation)
+core = 7.x
+package = NextEuropa
+version = 7.x-1.0
+project = nexteuropa_metatags
+dependencies[] = features
+dependencies[] = metatag
+dependencies[] = select_or_other
+dependencies[] = taxonomy
+dependencies[] = text
+features[features_api][] = api:2
+features[field_instance][] = taxonomy_term-ess_metatags-field_meta_id
+features[field_instance][] = taxonomy_term-ess_metatags-field_meta_value
