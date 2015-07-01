@@ -98,4 +98,14 @@
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
     </rule>
 
+    <!-- Code based on the classes from the Web Service Clients module do not follow Drupal class name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidClassName">
+        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.inc</exclude-pattern>
+    </rule>
+
+    <!-- Code based on the classes from the Web Service Clients module do not follow Drupal function name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.inc</exclude-pattern>
+    </rule>
+
 </ruleset>
