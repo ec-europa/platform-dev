@@ -20,15 +20,16 @@ function tmgmt_poetry_tmgmt_translator_plugin_info() {
 }
 
 /**
- * Local Exception class
+ * Local Exception class.
  */
 class TMGMTPoetryException extends Exception {
   /**
-   * Override of the parent __construct method.
+   * Constructs a TMGMTPoetryException object.
    */
-  public function __construct($message = "", $data = array(), $code = 0, Exception $previous = NULL) {
+  public function __construct($message = '', $data = array(), $code = 0, Exception $previous = NULL) {
     parent::__construct(strtr($message, $data), $code, $previous);
   }
+
 }
 
 /**
@@ -48,24 +49,22 @@ function tmgmt_poetry_menu() {
  */
 function _tmgmt_poetry_service_callback() {
   // Generate our own SOAP server.
-  $server = new SoapServer(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl");
-  $server->AddFunction("FPFISPoetryIntegrationRequest");
+  $server = new SoapServer(drupal_get_path('module', 'tmgmt_poetry') . '/wsdl/PoetryIntegration.wsdl');
+  $server->AddFunction('FPFISPoetryIntegrationRequest');
   $server->handle();
-
 }
 
 /**
  * Function available to call from our webservice.
  */
 function FPFISPoetryIntegrationRequest($user, $password, $msg) {
-
   // Authenticate the request.
   if (_tmgmt_poetry_authenticate($user, $password)) {
-    watchdog("POETRY", "Poetry callback authenticated correctly.");
+    watchdog('POETRY', 'Poetry callback authenticated correctly.');
     // Load the received XML and load the referenced Job.
     $xml = simplexml_load_string($msg);
     $request = $xml->request;
-    $reference = implode("/", (array) $request->demandeId);
+    $reference = implode('/', (array) $request->demandeId);
     $job = _tmgmt_poetry_load_job_by_reference($reference);
     // If the received message has a status, record it in the job.
     if (isset($request->status)) {
@@ -74,18 +73,18 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           $message[] = $status->statusMessage;
         }
       }
-      $message = implode(", ", $message);
+      $message = implode(', ', $message);
       $job->addMessage('Poetry message received: @message', array('@message' => $message));
     }
     // If the received message has the translated file, add it to the job.
     if (isset($request->attributions->attributionsFile)) {
       $content = (string) $request->attributions->attributionsFile;
       // Create a temporal file to store the received content.
-      $temp_filepath = (string) variable_get('file_private_path') . "/" .  $job->tjid . ".html";
-      $temp_file = fopen($temp_filepath, "w");
+      $temp_filepath = (string) variable_get('file_private_path') . '/' . $job->tjid . '.html';
+      $temp_file = fopen($temp_filepath, 'w');
       fwrite($temp_file, base64_decode($content));
       fclose($temp_file);
-      // Load controler to import the received file.
+      // Load controller to import the received file.
       $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
       if ($controller) {
         // Validate the file.
@@ -109,7 +108,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           }
         }
       }
-      // Delete temporal file.
+      // Delete temporary file.
       $realpath = realpath($temp_filepath);
       if (is_readable($realpath)) {
         unlink($realpath);
@@ -120,8 +119,9 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     return $xml->asXML();
   }
   else {
-    watchdog("POETRY", "Poetry callback failed authentication.", WATCHDOG_WARNING);
+    watchdog('POETRY', 'Poetry callback failed authentication.', WATCHDOG_WARNING);
     // Send answer to poetry.
+    // @todo $job is not defined in this case.
     $xml = _tmgmt_poetry_generate_answer_xml($job, 'ERROR: Failed authentication.');
     return $xml->asXML();
   }
@@ -131,7 +131,6 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
  * Helper function to create the XML to send to Poetry.
  */
 function _tmgmt_poetry_generate_request_xml($job) {
-
   // Load translator settings.
   $translator = $job->getTranslator();
   // Load data exporter.
@@ -143,7 +142,7 @@ function _tmgmt_poetry_generate_request_xml($job) {
   // Generate the ID for the request.
   $id_data = array(
     'codeDemandeur' => 'DIGIT',
-    'annee' => date("Y"),
+    'annee' => date('Y'),
     'sequence' => 'DIGIT',
     'version' => 00,
     'partie' => 00,
@@ -152,7 +151,7 @@ function _tmgmt_poetry_generate_request_xml($job) {
 
   // Generate the callback parameters.
   global $base_url;
-  $poetry = variable_get("poetry_service");
+  $poetry = variable_get('poetry_service');
   $callback_username = $poetry['callback_user'];
   $callback_password = $poetry['callback_password'];
   $callback_address = $base_url . '/tmgmt_poetry/service_callback?wsdl';
@@ -161,14 +160,14 @@ function _tmgmt_poetry_generate_request_xml($job) {
 
   // Create initial XML element using POETRY headers.
   $xml = new SimpleXMLElement("<?xml version=\"1.0\" encoding=\"utf-8\" ?>
-    <POETRY xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" 
+    <POETRY xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
     xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_services/poetry.xsd\">
     </POETRY>");
 
   // Add main request element.
   $request = $xml->addChild('request');
   $request->addAttribute('communication', 'asynchrone');
-  $request->addAttribute('id', implode("/", $id_data));
+  $request->addAttribute('id', implode('/', $id_data));
   $request->addAttribute('type', 'newPost');
 
   // Add the ID to the request.
@@ -249,10 +248,9 @@ function _tmgmt_poetry_generate_request_xml($job) {
  * Helper function to generate an answer xml for received Poetry requests.
  */
 function _tmgmt_poetry_generate_answer_xml($job, $message) {
-
   // Create initial XML element using POETRY headers.
   $xml = new SimpleXMLElement("<?xml version=\"1.0\" encoding=\"utf-8\" ?>
-    <POETRY xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" 
+    <POETRY xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
     xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_services/poetry.xsd\">
     </POETRY>");
 
@@ -291,7 +289,7 @@ function _tmgmt_poetry_generate_answer_xml($job, $message) {
  */
 function _tmgmt_poetry_authenticate($user, $password) {
   // Get Poetry configuration.
-  $poetry = variable_get("poetry_service");
+  $poetry = variable_get('poetry_service');
   if (($poetry['callback_user'] == $user) &&
     ($poetry['callback_password'] == $password)) {
     return TRUE;
@@ -322,13 +320,14 @@ function _tmgmt_poetry_send_soap_request($xml) {
   $msg = $xml->asXML();
 
   // Get Poetry configuration.
-  $poetry = variable_get("poetry_service");
+  $poetry = variable_get('poetry_service');
 
   // Create soap client.
   try {
     $client = new SoapClient($poetry['address']);
   }
   catch (Exception $e) {
+    // @todo This response is never used.
     $response = 'Error new SoapClient : ' . $e->getMessage();
   }
 
@@ -370,9 +369,9 @@ function _tmgmt_poetry_check_poetry_settings() {
  * @return string
  *   Themed messages.
  */
-function _tmgmt_poetry_theme_messages($messages, $type) {
+function _tmgmt_poetry_theme_messages(array $messages, $type) {
   $output = "<div class=\"messages $type\">\n";
-  $output .= theme("item_list", array("items" => $messages));
+  $output .= theme('item_list', array('items' => $messages));
   $output .= "</div>\n";
   return $output;
 }
