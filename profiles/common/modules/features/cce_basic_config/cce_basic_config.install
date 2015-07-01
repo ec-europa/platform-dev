@@ -1590,14 +1590,12 @@ function cce_basic_config_update_7205() {
 
   // Enable ckeditor_lite WYSIWYG plugin.
   $lite_plugin_settings = array(
-    'lite' => array(
-      'lite_AcceptAll',
-      'lite_RejectAll',
-      'lite_AcceptOne',
-      'lite_RejectOne',
-      'lite_ToggleShow',
-      'lite_ToggleTracking',
-    ),
+    'lite_AcceptAll',
+    'lite_RejectAll',
+    'lite_AcceptOne',
+    'lite_RejectOne',
+    'lite_ToggleShow',
+    'lite_ToggleTracking',
   );
   multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', 'lite', $lite_plugin_settings);
 }
