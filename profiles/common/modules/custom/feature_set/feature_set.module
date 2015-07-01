@@ -407,11 +407,13 @@ function _feature_set_get_require($module) {
     }
 
     $output = '<div id="require">';
+    $required_features = array();
     foreach ($list_features as $value) {
       if (in_array($value, $list_requires)) {
-        $output .= t("requires") . " : " . $featuresets[$value]["title"] . " ";
+        $required_features[] = t('requires : @title', array('@title' => $featuresets[$value]['title']));
       }
     }
+    $output .= implode(' ', $required_features);
     $output .= '</div>';
     return $output;
   }
