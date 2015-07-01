@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * nexteuropa_data_export_test.views_default.inc.
+ * Default views for the Nexteuropa Data Export Test module.
  */
 
 /**
