@@ -56,16 +56,16 @@ function inject_data() {
   $node->revision = 1;
 
   $node->body[$node->language][0]['value'] = '<p>Notice:</p>
-    <p>You have to login in order to perform any of the action described below &gt;&gt; ' . l(t('Login'),'user') . '</p>
+    <p>You have to login in order to perform any of the action described below &gt;&gt; ' . l(t('Login'), 'user') . '</p>
     <p>&nbsp;</p>
     <p>To complete the configuration of your site, here are&nbsp;some additional&nbsp;steps :</p>
-    <p>- to access the <strong>Feature set</strong> configuration page which helps you to choose the features you wish to install on your site &gt;&gt; ' . l(t('click here'),  'admin/structure/feature-set') . '</p>
-    <p>- to access the <strong>user creation</strong> page in order to add some users and to choose the role you wish to give them &gt;&gt; ' . l(t('click here'),  'admin/people') . '</p>
+    <p>- to access the <strong>Feature set</strong> configuration page which helps you to choose the features you wish to install on your site &gt;&gt; ' . l(t('click here'), 'admin/structure/feature-set') . '</p>
+    <p>- to access the <strong>user creation</strong> page in order to add some users and to choose the role you wish to give them &gt;&gt; ' . l(t('click here'), 'admin/people') . '</p>
     <p>&nbsp;</p>
     <p>Some information about&nbsp;roles&nbsp;:</p>
     <p>- admin user can do everything on the site, but will mainly be used to approve/refuse user account creation or community creation</p>
     <p>- community manager will act as admin in its community to approve/refuse membership requests and creation of contents inside the community</p>
-    <p>Management will be done through the <strong>Workbench </strong>you can access thru this ' . l(t('link'),  'admin/workbench') . '.</p>
+    <p>Management will be done through the <strong>Workbench </strong>you can access through this ' . l(t('link'), 'admin/workbench') . '.</p>
     <p>For more information about the various functionalities,&nbsp;a contextual help exists and can be accessed&nbsp;thru the &quot;Help&quot; link.&nbsp;The help section depends on your localisation on the site and gives details about the page.</p>
     ';
   $node->body[$node->language][0]['summary'] = '';
@@ -88,11 +88,11 @@ function inject_data() {
   $exports = cce_basic_config_default_password_policy();
   db_delete('password_policy')->execute();
   db_insert('password_policy')
-  ->fields(array(
-    'name' => 'Example policy',
-    'config' => $exports['Example policy']->config,
-  ))
-  ->execute();
+    ->fields(array(
+      'name' => 'Example policy',
+      'config' => $exports['Example policy']->config,
+    ))
+    ->execute();
 
   // Add solr facet blocks to the search context.
   global $theme_key;
