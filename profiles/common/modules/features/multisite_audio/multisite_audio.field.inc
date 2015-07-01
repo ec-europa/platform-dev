@@ -269,7 +269,10 @@ function multisite_audio_field_update($entity_type, $entity, $field, $instance, 
   }
   else {
     $original = entity_create_stub_entity($entity_type, array(
-      $id,$vid, $bundle));
+      $id,
+      $vid,
+      $bundle,
+    ));
     field_attach_load($entity_type, array($id => $original), FIELD_LOAD_CURRENT, array('field_id' => $field['id']));
   }
   $original_fids = array();
@@ -513,7 +516,7 @@ function multisite_audio_field_widget_uri($field, $instance, $data = array()) {
 /**
  * The #value_callback for the file_generic field element.
  */
-function multisite_audio_field_widget_value($element, $input = FALSE, $form_state) {
+function multisite_audio_field_widget_value($element, $input = FALSE, $form_state = array()) {
   if ($input) {
     // Checkboxes lose their value when empty.
     // If the display field is present make sure its unchecked value is saved.
@@ -601,8 +604,8 @@ function multisite_audio_field_widget_process($element, &$form_state, $form) {
   foreach (array('upload_button', 'remove_button') as $key) {
     $element[$key]['#submit'][] = 'file_field_widget_submit';
     $element[$key]['#limit_validation_errors'] = array(
-      array_slice(
-        $element['#parents'], 0, -1));
+      array_slice($element['#parents'], 0, -1),
+    );
   }
 
   return $element;
