@@ -35,9 +35,10 @@ class MultisiteReviewModule {
    * @var string
    */
   protected $path;
-  /*
-  * Modules selected to be reviewed from the setting form.
-  */
+
+  /**
+   * Modules selected to be reviewed from the setting form.
+   */
   protected $specific;
 
   /**
@@ -146,12 +147,12 @@ class MultisiteReviewModule {
   }
 
   /**
-   * Return only those custom modules which were selected via settings form.
+   * Returns only those custom modules which were selected via settings form.
+   *
    * @return array
    *   Return an array of selected modules.
    */
   public function getSpecific() {
-
     $result = array();
     foreach ($this->specific as $key => $value) {
 
@@ -162,4 +163,5 @@ class MultisiteReviewModule {
     }
     return $result;
   }
+
 }
