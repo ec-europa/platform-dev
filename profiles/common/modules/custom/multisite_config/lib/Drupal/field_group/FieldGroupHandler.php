@@ -93,7 +93,7 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    *
    * @return $this
    */
-  public function setChildren($children) {
+  public function setChildren(array $children) {
     foreach ($children as $child) {
       $this->setChild($child);
     }
