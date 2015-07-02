@@ -203,14 +203,85 @@ function nexteuropa_metatags_install() {
 
 
   // Add terms.
-  $term = (object) array(
+  $term_parent = (object) array(
     'vid' => $vocabulary->vid,
     'name' => 'Functioning of the EU',
   );
-  $term->field_meta_id[LANGUAGE_NONE][0]['value'] = '1';
-  $term->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::FUNCTIONING OF THE EU';
- 
+  $term_parent->field_meta_id[LANGUAGE_NONE][0]['value'] = '1';
+  $term_parent->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::FUNCTIONING OF THE EU'; 
+  taxonomy_term_save($term_parent);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => 'EU institutions, administration and staff',
+    'parent' => $term_parent->tid,
+  );
+  $term->field_meta_id[LANGUAGE_NONE][0]['value'] = '1.1';
+  $term->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::FUNCTIONING OF THE EU::EU INSTITUTIONS ADMINISTRATION AND STAFF';  
   taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => 'EU Law',
+    'parent' => $term_parent->tid,
+  );
+  $term->field_meta_id[LANGUAGE_NONE][0]['value'] = '1.2';
+  $term->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::FUNCTIONING OF THE EU::EU LAW';
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => 'Information & communication of the EU',
+    'parent' => $term_parent->tid,
+  );
+  $term->field_meta_id[LANGUAGE_NONE][0]['value'] = '1.3';
+  $term->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::FUNCTIONING OF THE EU::INFORMATION AND COMMUNICATION OF THE EU';
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => 'Enlargement',
+    'parent' => $term_parent->tid,
+  );
+  $term->field_meta_id[LANGUAGE_NONE][0]['value'] = '1.4';
+  $term->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::FUNCTIONING OF THE EU::ENLARGEMENT';
+  taxonomy_term_save($term);
+
+  $term_parent = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => 'Life & rights in the EU',
+  );
+  $term_parent->field_meta_id[LANGUAGE_NONE][0]['value'] = '2';
+  $term_parent->field_meta_value[LANGUAGE_NONE][0]['value'] = 'Life & rights in the EU';
+  taxonomy_term_save($term_parent);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => 'Justice',
+    'parent' => $term_parent->tid,
+  );
+  $term->field_meta_id[LANGUAGE_NONE][0]['value'] = '2.1';
+  $term->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::LIFE AND RIGHTS IN THE EU::JUSTICE';
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => 'Citizens\' rights and security',
+    'parent' => $term_parent->tid,
+  );
+  $term->field_meta_id[LANGUAGE_NONE][0]['value'] = '2.2';
+  $term->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::LIFE AND RIGHTS IN THE EU::CITIZENS RIGHTS AND SECURITY';
+  taxonomy_term_save($term);
+
+  $term = (object) array(
+    'vid' => $vocabulary->vid,
+    'name' => 'Immigration, residence and travel',
+    'parent' => $term_parent->tid,
+  );
+  $term->field_meta_id[LANGUAGE_NONE][0]['value'] = '2.3';
+  $term->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::LIFE AND RIGHTS IN THE EU::IMMIGRATION RESIDENCE AND TRAVEL';
+  taxonomy_term_save($term);
+
 }
 
 
