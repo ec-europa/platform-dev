@@ -24,8 +24,8 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
   /**
    * Return field array built using field handler methods.
    *
-   * @return array
-   *    Field settings array.
+   * @return object
+   *    Field settings object.
    */
   public function getDefinition() {
     return $this->definition;
