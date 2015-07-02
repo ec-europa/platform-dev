@@ -427,30 +427,6 @@ function cce_basic_config_install() {
   foreach ($plugin_settings as $group => $buttons) {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
   }
-
-  // Stage article field group settings.
-  $service = multisite_config_service('field_group');
-
-  $service->createFieldGroup('Content', 'group_article_content', 'node', 'article')
-    ->setChildren(array('body', 'field_image', 'title'))
-    ->setType('tab')->setFormatter('closed')->setWeight(0)
-    ->setInstanceSetting('classes', 'group-article-content field-group-tab')
-    ->setInstanceSetting('required_fields', TRUE)
-    ->save();
-
-  $service->createFieldGroup('Dates', 'group_article_date', 'node', 'article')
-    ->setChildren(array('field_article_publication_date', 'field_article_unpublish_on'))
-    ->setType('tab')->setFormatter('closed')->setWeight(4)
-    ->setInstanceSetting('classes', 'group-article-date field-group-tab')
-    ->setInstanceSetting('required_fields', TRUE)
-    ->save();
-
-  $service->createFieldGroup('Metadata', 'group_article_metadata', 'node', 'article')
-    ->setChildren(array('field_tags', 'language'))
-    ->setType('tab')->setFormatter('closed')->setWeight(5)
-    ->setInstanceSetting('classes', 'group-metadata-content field-group-tab')
-    ->setInstanceSetting('required_fields', TRUE)
-    ->save();
 }
 
 /**
