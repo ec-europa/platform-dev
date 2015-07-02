@@ -101,7 +101,7 @@ projects[email][subdir] = "contributed"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contributed"
-projects[entity][version] = "1.5"
+projects[entity][version] = "1.6"
 
 projects[entityreference][subdir] = "contributed"
 projects[entityreference][version] = "1.1"
