@@ -1,20 +1,23 @@
 <?php
+/**
+ * @file
+ * Install file for the NextEuropa Metatags feature.
+ */
 
 /**
  * Implements hook_install().
  */
-
 function nexteuropa_metatags_install() {
   // Create a vocabulary dedicated to the ESS metatags.
   $vocabulary = (object) array(
-    'name' => t('Metatags ESS GF'),
+    'name' => 'Metatags ESS GF',
     'machine_name' => 'metatags_ess_gf',
     'module' => 'nexteuropa_metatags',
   );
   taxonomy_vocabulary_save($vocabulary);
   $vocabulary = taxonomy_vocabulary_machine_name_load('metatags_ess_gf');
 
-  // Create a field
+  // Create a field to store the id of the tag value.
   $field_meta_id = array(
     'active' => 1,
     'cardinality' => 1,
@@ -44,6 +47,7 @@ function nexteuropa_metatags_install() {
     'type' => 'text',
   );
 
+  // Create a field to store the value of the tag.
   $field_meta_value = array(
     'active' => 1,
     'cardinality' => 1,
@@ -76,8 +80,7 @@ function nexteuropa_metatags_install() {
   field_create_field($field_meta_id);
   field_create_field($field_meta_value);
 
-
-
+  // Create an instance of field_meta_id in the vocabulary ess_matetags_gf.
   $field_instance_meta_id = array(
     'bundle' => $vocabulary->machine_name,
     'default_value' => NULL,
@@ -138,6 +141,7 @@ function nexteuropa_metatags_install() {
     ),
   );
 
+  // Create an instance of field_meta_value in the vocabulary ess_matetags_gf.
   $field_instance_meta_value = array(
     'bundle' => $vocabulary->machine_name,
     'default_value' => NULL,
@@ -201,14 +205,13 @@ function nexteuropa_metatags_install() {
   field_create_instance($field_instance_meta_id);
   field_create_instance($field_instance_meta_value);
 
-
   // Add terms.
   $term_parent = (object) array(
     'vid' => $vocabulary->vid,
     'name' => 'Functioning of the EU',
   );
   $term_parent->field_meta_id[LANGUAGE_NONE][0]['value'] = '1';
-  $term_parent->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::FUNCTIONING OF THE EU'; 
+  $term_parent->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::FUNCTIONING OF THE EU';
   taxonomy_term_save($term_parent);
 
   $term = (object) array(
@@ -217,7 +220,7 @@ function nexteuropa_metatags_install() {
     'parent' => $term_parent->tid,
   );
   $term->field_meta_id[LANGUAGE_NONE][0]['value'] = '1.1';
-  $term->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::FUNCTIONING OF THE EU::EU INSTITUTIONS ADMINISTRATION AND STAFF';  
+  $term->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::FUNCTIONING OF THE EU::EU INSTITUTIONS ADMINISTRATION AND STAFF';
   taxonomy_term_save($term);
 
   $term = (object) array(
@@ -281,9 +284,4 @@ function nexteuropa_metatags_install() {
   $term->field_meta_id[LANGUAGE_NONE][0]['value'] = '2.3';
   $term->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::LIFE AND RIGHTS IN THE EU::IMMIGRATION RESIDENCE AND TRAVEL';
   taxonomy_term_save($term);
-
 }
-
-
-
-
