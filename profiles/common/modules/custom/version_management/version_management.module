@@ -4,12 +4,14 @@
  * @file
  * Main functions and hook implementations of the Version Management module.
  *
- * Mark a node edit as not major version, preventing the timestamp from
- * updating.  This module allows content types to be designated for major
- * edits, and users given the permission to mark an edit.  Marking an edit as
- * not major prevents $node->changed from being updated, which keeps the node
- * from popping to the top of ordered-by-time lists.  Revisions are marked with
- * the correct timestamp data.
+ * Mark a node edit as not major version prevents the timestamp from updating.
+ *
+ * This module allows content types to be designated for major edits, and
+ * users given the permission to mark an edit.
+ *
+ * Marking an edit as not major prevents $node->changed from being updated,
+ * which keeps the node from popping to the top of ordered-by-time lists.
+ * Revisions are marked with the correct timestamp data.
  */
 
 /**
