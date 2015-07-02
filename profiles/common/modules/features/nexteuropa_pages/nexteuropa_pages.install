@@ -30,6 +30,12 @@ function nexteuropa_pages_install() {
     ->display('teaser', 'hidden')
     ->save();
 
+  $service->createInstanceField('comment_body', 'comment', 'comment_node_page')
+    ->label('Comment')
+    ->widget('text_textarea')
+    ->display('default', 'text_default', 'hidden')
+    ->save();
+
   // Stage field group configuration for page content type.
   $service = multisite_config_service('field_group');
 
