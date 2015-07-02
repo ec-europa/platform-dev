@@ -86,6 +86,21 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
   }
 
   /**
+   * Set field group children.
+   *
+   * @param array $children
+   *    Array of field machine names.
+   *
+   * @return $this
+   */
+  public function setChildren($children) {
+    foreach ($children as $child) {
+      $this->setChild($child);
+    }
+    return $this;
+  }
+
+  /**
    * Set field group weight.
    *
    * @param int $weight
