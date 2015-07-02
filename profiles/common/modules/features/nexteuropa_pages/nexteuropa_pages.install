@@ -13,6 +13,15 @@ function nexteuropa_pages_install() {
   // Apply default NextEuropa configuration to "Basic Page" content type.
   multisite_config_service('nexteuropa_core')->applyDefaultConfigurationToContentType('page');
 
+  // Stage page-related variables.
+  $service = multisite_config_service('system');
+
+  $service->setVariable('language_content_type_page', 2);
+  $service->setVariable('node_options_page', array('status'));
+  $service->setVariable('node_submitted_page', FALSE);
+  $service->setVariable('comment_page', 0);
+  $service->setVariable('comment_default_per_page_article', 50);
+
   // Stage page field instance settings.
   $service = multisite_config_service('field');
 
