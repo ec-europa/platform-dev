@@ -77,6 +77,7 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    *
    * @param string $field_name
    *    Machine name of the field belonging to the field group.
+   *
    * @return $this
    */
   public function setChild($field_name) {
@@ -89,6 +90,7 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    *
    * @param int $weight
    *    Field group weight.
+   *
    * @return $this
    */
   public function setWeight($weight) {
@@ -101,6 +103,7 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    *
    * @param string $format_type
    *    Field group format type.
+   *
    * @return $this
    */
   public function setType($format_type) {
@@ -113,6 +116,7 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    *
    * @param string $formatter
    *    Field group formatter.
+   *
    * @return $this
    */
   public function setFormatter($formatter) {
@@ -123,10 +127,11 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
   /**
    * Set field group instance setting name and value.
    *
-   * @param $name
+   * @param string $name
    *    Instance setting name.
-   * @param $value
+   * @param string $value
    *    Instance setting value.
+   *
    * @return $this
    */
   public function setInstanceSetting($name, $value) {

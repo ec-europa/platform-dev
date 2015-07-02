@@ -49,7 +49,7 @@ class ConfigTest extends ConfigAbstractTest {
   /**
    * Test building of definition array.
    */
-  public function testCRUD() {
+  public function testCrud() {
 
     $this->getFieldGroupHandler()->save();
     $definition = $this->getFieldGroupHandler()->getDefinition();

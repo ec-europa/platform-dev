@@ -38,7 +38,7 @@ class Config extends ConfigBase {
   /**
    * Loads a group definition given its identifier string.
    *
-   * @param $identifier
+   * @param string $identifier
    *    Identifier string, like "group_group_name|node|article|form".
    *
    * @return object
@@ -92,7 +92,7 @@ class Config extends ConfigBase {
   /**
    * Delete a field group given its identifier.
    *
-   * @param $identifier
+   * @param string $identifier
    *    Identifier string, like "group_group_name|node|article|form".
    */
   public function deleteFieldGroupByIdentifier($identifier) {
