@@ -51,9 +51,37 @@ class ConfigTest extends ConfigAbstractTest {
    */
   public function testCrud() {
 
+    // Test creating field group definition.
     $this->getFieldGroupHandler()->save();
     $definition = $this->getFieldGroupHandler()->getDefinition();
     $group = $this->service->loadFieldGroupByIdentifier($definition->identifier);
+    $this->assertEqualFieldGroupDefinition($group, $definition);
+
+    // Test updating field group definition.
+    $field_handler = $this->getFieldGroupHandler()
+      ->setWeight(10)
+      ->setChild('new_field')
+      ->setInstanceSetting('description', 'Test description');
+    $definition = $field_handler->getDefinition();
+    $field_handler->save();
+    $group = $this->service->loadFieldGroupByIdentifier($definition->identifier);
+    $this->assertEqualFieldGroupDefinition($group, $definition);
+
+    // Test deleting field group definition.
+    $this->service->deleteFieldGroupByIdentifier($definition->identifier);
+    $group = $this->service->loadFieldGroupByIdentifier($definition->identifier);
+    $this->assertNull($group);
+  }
+
+  /**
+   * Assert that group definitions are equal.
+   *
+   * @param object $group
+   *    Field group definition object, loaded from the database.
+   * @param object $definition
+   *    Field group definition object, constructed using FieldGroupHandler.
+   */
+  public function assertEqualFieldGroupDefinition($group, $definition) {
 
     $properties = array(
       'bundle',
@@ -71,8 +99,6 @@ class ConfigTest extends ConfigAbstractTest {
 
     $this->assertEquals($group->children, $definition->children, '', 0.0, 10, TRUE);
     $this->assertEquals($group->format_settings, $definition->format_settings, '', 0.0, 10, TRUE);
-
-    $this->service->deleteFieldGroupByIdentifier($definition->identifier);
   }
 
   /**
