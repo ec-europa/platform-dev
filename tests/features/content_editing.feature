@@ -46,5 +46,5 @@ Feature: Content editing
     | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p> | javascript:alert              |
     | <div class=\"2classname\">Applied invalid css class</div>           | classname                     |
     | <div class=\"classname?&*\">Applied invalid css class</div>         | classname                     |
-    | <div class=\"2invalidid\">A container with an invalid HTML ID</div> | invalidid                     |
-    | <div class=\"invalidid.\">A container with an invalid HTML ID</div> | invalidid                     |
+    | <div id=\"2invalidid\">A container with an invalid HTML ID</div>    | invalidid                     |
+    | <div id=\"invalidid.\">A container with an invalid HTML ID</div>    | invalidid                     |
