@@ -7,41 +7,14 @@
 
 namespace Drupal\field_group;
 
+use Drupal\field_group\Config;
+
 /**
  * Class DefaultFieldHandler.
  *
  * @package Drupal\field_group\InstanceField
  */
 class FieldGroupHandler implements FieldGroupHandlerInterface {
-
-  /**
-   * Field group definition array as required by field_group_save().
-   *
-   * @var array
-   */
-  protected $definition = array();
-
-  /**
-   * Return field array built using field handler methods.
-   *
-   * @return object
-   *    Field settings object.
-   */
-  public function getDefinition() {
-    return $this->definition;
-  }
-
-  /**
-   * Create field group instance using internal definition array.
-   *
-   * @return object
-   *    Field group configuration object.
-   */
-  public function save() {
-    $group = clone $this->definition;
-    field_group_group_save($group);
-    return $group;
-  }
 
   /**
    * Construct instance field handler with required information.
@@ -70,6 +43,45 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
     $this->definition->format_type = '';
     $this->definition->format_settings = array();
     return $this;
+  }
+
+  /**
+   * Field group definition array as required by field_group_save().
+   *
+   * @var array
+   */
+  protected $definition = array();
+
+  /**
+   * Return field array built using field handler methods.
+   *
+   * @return object
+   *    Field settings object.
+   */
+  public function getDefinition() {
+    return $this->definition;
+  }
+
+  /**
+   * Create field group instance using internal definition array.
+   *
+   * @return object
+   *    Field group configuration object.
+   */
+  public function save() {
+
+    $service = new Config();
+    $group = $service->loadFieldGroupByIdentifier($this->definition->identifier);
+    if ($group) {
+      foreach ($this->definition as $name => $value) {
+        $group->{$name} = $this->definition->{$name};
+      }
+      field_group_group_save($group);
+      return $group;
+    }
+    else {
+      return field_group_group_save($this->definition);
+    }
   }
 
   /**
