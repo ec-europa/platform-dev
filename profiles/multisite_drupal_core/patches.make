@@ -26,7 +26,6 @@ projects[views][patch][] = ../multisite_drupal_core/patches/views-exposed_groupf
 projects[drupal][patch][] = ../multisite_drupal_core/patches/field-extra-fields-visible-1256368-83.patch
 projects[entityreference_prepopulate][patch][] = ../multisite_drupal_core/patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
 projects[features][patch][] = ../multisite_drupal_core/patches/features-var-export-object-1437264-12.patch
-projects[feature_set][patch][] = ../feature_set-SA-CONTRIB-2015-041-nexteuropa-4425.patch
 projects[feeds_xpathparser][patch][] = ../multisite_drupal_core/patches/feeds_xpathparser-undefined_index_unique-1998194-2.patch
 projects[field_collection][patch][] = ../multisite_drupal_core/patches/field_collection-check-before-adding-index-2141781-27.patch
 projects[fullcalendar][patch][] = ../multisite_drupal_core/patches/fullcalendar-views_dom_id_check-1803770-4.patch
