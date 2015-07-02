@@ -12,4 +12,21 @@ function nexteuropa_pages_install() {
 
   // Apply default NextEuropa configuration to "Basic Page" content type.
   multisite_config_service('nexteuropa_core')->applyDefaultConfigurationToContentType('page');
+
+  // Stage field group configuration for page content type.
+  $service = multisite_config_service('field_group');
+
+  $service->createFieldGroup('Content', 'group_page_content', 'node', 'page')
+    ->setChildren(array('body', 'title'))
+    ->setType('tab')->setFormatter('closed')->setWeight(0)
+    ->setInstanceSetting('classes', 'group-page-content field-group-tab')
+    ->setInstanceSetting('required_fields', TRUE)
+    ->save();
+
+  $service->createFieldGroup('Metadata', 'group_page_metadata', 'node', 'page')
+    ->setChildren(array('field_tags', 'language'))
+    ->setType('tab')->setFormatter('closed')->setWeight(10)
+    ->setInstanceSetting('classes', 'group-page-metadata field-group-tab')
+    ->setInstanceSetting('required_fields', TRUE)
+    ->save();
 }
