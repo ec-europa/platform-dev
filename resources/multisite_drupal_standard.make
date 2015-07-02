@@ -122,7 +122,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.5"
+projects[entity][version] = "1.6"
 
 projects[entity_translation][download][branch] = 7.x-1.x
 projects[entity_translation][download][revision] = 221e302
