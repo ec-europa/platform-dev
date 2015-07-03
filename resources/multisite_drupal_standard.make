@@ -158,6 +158,12 @@ projects[features][subdir] = "contrib"
 projects[features][version] = "2.3"
 projects[features][patch][] = patches/features-var-export-object-1437264-12.patch
 
+projects[feature_set][subdir] = "contrib"
+projects[feature_set][version] = "1.2"
+projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459.patch
+projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteuropa_4459.patch
+projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
+
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-alpha8"
 
