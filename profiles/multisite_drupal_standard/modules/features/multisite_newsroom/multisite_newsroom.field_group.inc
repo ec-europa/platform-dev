@@ -104,6 +104,40 @@ function multisite_newsroom_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_newsroom_additional_info|node|newsroom_item|form';
+  $field_group->group_name = 'group_newsroom_additional_info';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'newsroom_item';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Additional information',
+    'weight' => '45',
+    'children' => array(
+      0 => 'field_newsroom_item_contact_mail',
+      1 => 'field_newsroom_item_contact_text',
+      2 => 'field_newsroom_item_other_link',
+      3 => 'field_newsroom_project',
+      4 => 'field_newsroom_project_acr',
+      5 => 'field_newsroom_project_website',
+      6 => 'field_nr_project_coordinator',
+      7 => 'field_newsroom_ec_content',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-newsroom-additional-info field-group-fieldset',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_newsroom_additional_info|node|newsroom_item|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_newsroom_item_basic_info|node|newsroom_item|form';
   $field_group->group_name = 'group_newsroom_item_basic_info';
   $field_group->entity_type = 'node';
@@ -175,24 +209,19 @@ function multisite_newsroom_field_group_info() {
     'weight' => '4',
     'children' => array(
       0 => 'body',
-      1 => 'field_newsroom_item_contact_mail',
-      2 => 'field_newsroom_item_contact_text',
-      3 => 'field_newsroom_item_image',
-      4 => 'field_newsroom_item_linked_obj',
-      5 => 'field_newsroom_item_other_link',
-      6 => 'field_newsroom_item_pre_title',
-      7 => 'field_newsroom_item_quote_box',
-      8 => 'field_newsroom_item_short_title',
-      9 => 'field_newsroom_item_speaker',
-      10 => 'field_newsroom_item_venue',
-      11 => 'field_newsroom_documents',
-      12 => 'field_newsroom_files',
-      13 => 'field_illustrative_image',
-      14 => 'field_newsroom_project',
-      15 => 'field_newsroom_project_acr',
-      16 => 'field_newsroom_slide',
-      17 => 'field_teaser',
-      18 => 'field_newsroom_location',
+      1 => 'field_newsroom_item_image',
+      2 => 'field_newsroom_item_linked_obj',
+      3 => 'field_newsroom_item_pre_title',
+      4 => 'field_newsroom_item_quote_box',
+      5 => 'field_newsroom_item_short_title',
+      6 => 'field_newsroom_item_speaker',
+      7 => 'field_newsroom_item_venue',
+      8 => 'field_newsroom_documents',
+      9 => 'field_newsroom_files',
+      10 => 'field_illustrative_image',
+      11 => 'field_newsroom_slide',
+      12 => 'field_teaser',
+      13 => 'field_newsroom_location',
     ),
     'format_type' => 'tab',
     'format_settings' => array(

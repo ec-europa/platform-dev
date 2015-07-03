@@ -347,9 +347,7 @@ function multisite_newsroom_views_default_views() {
     'newsroom_item_type' => 'newsroom_item_type',
     'newsroom_topic' => 'newsroom_topic',
   );
-  $handler->display->display_options['arguments']['term_node_tid_depth']['validate_options']['type'] = 'convert';
-  $handler->display->display_options['arguments']['term_node_tid_depth']['validate_options']['transform'] = TRUE;
-  $handler->display->display_options['arguments']['term_node_tid_depth']['validate_options']['pathauto_cleanstring'] = TRUE;
+  $handler->display->display_options['arguments']['term_node_tid_depth']['validate_options']['type'] = 'tids';
   $handler->display->display_options['arguments']['term_node_tid_depth']['depth'] = '1';
   $handler->display->display_options['arguments']['term_node_tid_depth']['break_phrase'] = TRUE;
   /* Contextual filter: Content: Has taxonomy term ID (with depth) */
@@ -357,8 +355,6 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['table'] = 'node';
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['field'] = 'term_node_tid_depth';
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['term_node_tid_depth_1']['exception']['title_enable'] = TRUE;
-  $handler->display->display_options['arguments']['term_node_tid_depth_1']['exception']['title'] = '';
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['title'] = '<span class="filter_type">%1</span> <span class="filter_topic">%2</span>';
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['default_argument_type'] = 'fixed';
@@ -371,19 +367,27 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['validate_options']['vocabularies'] = array(
     'newsroom_topic' => 'newsroom_topic',
   );
-  $handler->display->display_options['arguments']['term_node_tid_depth_1']['validate_options']['type'] = 'convert';
-  $handler->display->display_options['arguments']['term_node_tid_depth_1']['validate_options']['transform'] = TRUE;
-  $handler->display->display_options['arguments']['term_node_tid_depth_1']['validate_options']['pathauto_cleanstring'] = TRUE;
-  $handler->display->display_options['arguments']['term_node_tid_depth_1']['depth'] = '1';
-  $handler->display->display_options['arguments']['term_node_tid_depth_1']['break_phrase'] = TRUE;
-  /* Contextual filter: Global: Null */
-  $handler->display->display_options['arguments']['null']['id'] = 'null';
-  $handler->display->display_options['arguments']['null']['table'] = 'views';
-  $handler->display->display_options['arguments']['null']['field'] = 'null';
-  $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['term_node_tid_depth_1']['validate_options']['type'] = 'tids';
+  $handler->display->display_options['arguments']['term_node_tid_depth_1']['depth'] = '0';
+  /* Contextual filter: Content: Highlighted Newsroom Topics (field_highlighted_newsroom_topic) */
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['id'] = 'field_highlighted_newsroom_topic_tid';
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['table'] = 'field_data_field_highlighted_newsroom_topic';
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['field'] = 'field_highlighted_newsroom_topic_tid';
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['title'] = '<span class="filter_type">%1</span> <span class="filter_topic">%2</span>';
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['default_argument_options']['argument'] = 'all';
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['validate_options']['vocabularies'] = array(
+    'newsroom_topic' => 'newsroom_topic',
+  );
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['validate_options']['type'] = 'convert';
+  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['validate_options']['transform'] = TRUE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -432,7 +436,6 @@ function multisite_newsroom_views_default_views() {
   );
   $handler->display->display_options['arguments']['term_node_tid_depth']['validate_options']['type'] = 'convert';
   $handler->display->display_options['arguments']['term_node_tid_depth']['validate_options']['transform'] = TRUE;
-  $handler->display->display_options['arguments']['term_node_tid_depth']['validate_options']['pathauto_cleanstring'] = TRUE;
   $handler->display->display_options['arguments']['term_node_tid_depth']['depth'] = '1';
   $handler->display->display_options['arguments']['term_node_tid_depth']['break_phrase'] = TRUE;
   /* Contextual filter: Content: Has taxonomy term ID (with depth) */
@@ -457,7 +460,6 @@ function multisite_newsroom_views_default_views() {
   );
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['validate_options']['type'] = 'convert';
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['validate_options']['transform'] = TRUE;
-  $handler->display->display_options['arguments']['term_node_tid_depth_1']['validate_options']['pathauto_cleanstring'] = TRUE;
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['depth'] = '1';
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['break_phrase'] = TRUE;
   /* Contextual filter: Global: Null */
@@ -700,8 +702,8 @@ function multisite_newsroom_views_default_views() {
     t('Read more'),
     t('RSS feed'),
     t('<span class="filter_type">%1</span>'),
-    t('<span class="filter_type">%1</span> <span class="filter_topic">%2</span>'),
     t('All'),
+    t('<span class="filter_type">%1</span> <span class="filter_topic">%2</span>'),
     t('default_newsroom'),
     t('Feed'),
     t('%1'),
@@ -1165,7 +1167,6 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['relationships']['reverse_field_newsroom_item_type_node']['id'] = 'reverse_field_newsroom_item_type_node';
   $handler->display->display_options['relationships']['reverse_field_newsroom_item_type_node']['table'] = 'taxonomy_term_data';
   $handler->display->display_options['relationships']['reverse_field_newsroom_item_type_node']['field'] = 'reverse_field_newsroom_item_type_node';
-  $handler->display->display_options['relationships']['reverse_field_newsroom_item_type_node']['required'] = TRUE;
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
@@ -1628,15 +1629,23 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['arguments']['term_node_tid_depth']['validate_options']['type'] = 'tids';
   $handler->display->display_options['arguments']['term_node_tid_depth']['depth'] = '1';
   $handler->display->display_options['arguments']['term_node_tid_depth']['break_phrase'] = TRUE;
-  /* Contextual filter: Content: Newsroom Topics (field_newsroom_topics) */
-  $handler->display->display_options['arguments']['field_newsroom_topics_tid']['id'] = 'field_newsroom_topics_tid';
-  $handler->display->display_options['arguments']['field_newsroom_topics_tid']['table'] = 'field_data_field_newsroom_topics';
-  $handler->display->display_options['arguments']['field_newsroom_topics_tid']['field'] = 'field_newsroom_topics_tid';
-  $handler->display->display_options['arguments']['field_newsroom_topics_tid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['field_newsroom_topics_tid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_newsroom_topics_tid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_newsroom_topics_tid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_newsroom_topics_tid']['break_phrase'] = TRUE;
+  /* Contextual filter: Content: Newsroom: Has taxonomy term ID (with depth) */
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['id'] = 'newsroom_term_node_tid_depth';
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['table'] = 'node';
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['field'] = 'newsroom_term_node_tid_depth';
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['default_argument_options']['argument'] = 'all';
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['validate_options']['vocabularies'] = array(
+    'newsroom_topic' => 'newsroom_topic',
+  );
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['validate_options']['type'] = 'tids';
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['depth'] = '0';
+  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['break_phrase'] = TRUE;
   /* Contextual filter: Content: Highlighted Newsroom Topics (field_highlighted_newsroom_topic) */
   $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['id'] = 'field_highlighted_newsroom_topic_tid';
   $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['table'] = 'field_data_field_highlighted_newsroom_topic';

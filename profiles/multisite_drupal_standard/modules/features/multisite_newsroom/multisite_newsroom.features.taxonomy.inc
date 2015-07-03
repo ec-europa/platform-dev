@@ -13,7 +13,7 @@ function multisite_newsroom_taxonomy_default_vocabularies() {
       'name' => 'Newsroom Item Type',
       'machine_name' => 'newsroom_item_type',
       'description' => 'Newsroom Item Type',
-      'hierarchy' => 0,
+      'hierarchy' => 1,
       'module' => 'taxonomy',
       'weight' => 0,
       'language' => 'und',

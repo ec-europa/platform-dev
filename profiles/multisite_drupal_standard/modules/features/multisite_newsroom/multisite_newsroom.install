@@ -156,3 +156,19 @@ function multisite_newsroom_update_7104() {
   WHERE shared_teaser.bundle = 'newsroom_item';");
 }
 
+/**
+ * Remove obsolete from newsroom selection content type.
+ */
+function multisite_newsroom_update_7105() {
+  field_delete_field('field_bp_newsroom_country');
+  field_delete_field('field_bp_newsroom_co_operator');
+  field_delete_field('field_bp_newsroom_actions');
+  field_delete_field('field_bp_newsroom_ac_operator');
+  field_purge_batch(1000);
+  return t('The following fields have been deleted from your db:
+      	field_bp_newsroom_country,
+        field_bp_newsroom_co_operator,
+        field_bp_newsroom_actions,
+        field_bp_newsroom_ac_operator
+  ');
+}

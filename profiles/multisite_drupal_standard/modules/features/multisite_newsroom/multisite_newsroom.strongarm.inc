@@ -14,7 +14,7 @@ function multisite_newsroom_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'additional_settings__active_tab_newsroom_item';
-  $strongarm->value = 'edit-comment';
+  $strongarm->value = 'edit-menu';
   $export['additional_settings__active_tab_newsroom_item'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -149,6 +149,10 @@ function multisite_newsroom_strongarm() {
             'weight' => '5',
             'visible' => TRUE,
           ),
+          'teaser' => array(
+            'weight' => '5',
+            'visible' => TRUE,
+          ),
         ),
       ),
     ),
@@ -167,7 +171,10 @@ function multisite_newsroom_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '5',
+          'weight' => '6',
+        ),
+        'xmlsitemap' => array(
+          'weight' => '9',
         ),
       ),
       'display' => array(),
@@ -200,14 +207,18 @@ function multisite_newsroom_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'menu_options_newsroom_item';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    0 => 'main-menu',
+  );
   $export['menu_options_newsroom_item'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'menu_options_newsroom_selection';
-  $strongarm->value = array();
+  $strongarm->value = array(
+    0 => 'main-menu',
+  );
   $export['menu_options_newsroom_selection'] = $strongarm;
 
   $strongarm = new stdClass();

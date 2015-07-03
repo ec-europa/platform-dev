@@ -373,6 +373,61 @@ function multisite_newsroom_field_default_field_instances() {
     'workbench_access_field' => 0,
   );
 
+  // Exported field_instance: 'node-newsroom_item-field_newsroom_ec_content'
+  $field_instances['node-newsroom_item-field_newsroom_ec_content'] = array(
+    'bundle' => 'newsroom_item',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 35,
+      ),
+      'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_newsroom_ec_content',
+    'label' => 'EC content',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 0,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 45,
+    ),
+  );
+
   // Exported field_instance: 'node-newsroom_item-field_newsroom_files'
   $field_instances['node-newsroom_item-field_newsroom_files'] = array(
     'bundle' => 'newsroom_item',
@@ -502,7 +557,7 @@ function multisite_newsroom_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 33,
+      'weight' => 44,
     ),
   );
 
@@ -565,7 +620,7 @@ function multisite_newsroom_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 32,
+      'weight' => 43,
     ),
   );
 
@@ -971,7 +1026,7 @@ function multisite_newsroom_field_default_field_instances() {
       'module' => 'link',
       'settings' => array(),
       'type' => 'link_field',
-      'weight' => 37,
+      'weight' => 42,
     ),
   );
 
@@ -1592,6 +1647,72 @@ function multisite_newsroom_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-newsroom_item-field_newsroom_project_website'
+  $field_instances['node-newsroom_item-field_newsroom_project_website'] = array(
+    'bundle' => 'newsroom_item',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_default',
+        'weight' => 33,
+      ),
+      'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_newsroom_project_website',
+    'label' => 'Project website',
+    'required' => 0,
+    'settings' => array(
+      'attributes' => array(
+        'class' => '',
+        'configurable_title' => 0,
+        'rel' => '',
+        'target' => 'default',
+        'title' => '',
+      ),
+      'display' => array(
+        'url_cutoff' => 80,
+      ),
+      'enable_tokens' => 1,
+      'rel_remove' => 'default',
+      'title' => 'optional',
+      'title_maxlength' => 128,
+      'title_value' => '',
+      'url' => 0,
+      'user_register_form' => FALSE,
+      'validate_url' => 0,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'link',
+      'settings' => array(),
+      'type' => 'link_field',
+      'weight' => 40,
+    ),
+  );
+
   // Exported field_instance: 'node-newsroom_item-field_newsroom_short_item'
   $field_instances['node-newsroom_item-field_newsroom_short_item'] = array(
     'bundle' => 'newsroom_item',
@@ -1825,6 +1946,84 @@ function multisite_newsroom_field_default_field_instances() {
       ),
       'type' => 'options_select',
       'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance: 'node-newsroom_item-field_nr_project_coordinator'
+  $field_instances['node-newsroom_item-field_nr_project_coordinator'] = array(
+    'bundle' => 'newsroom_item',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 34,
+      ),
+      'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_nr_project_coordinator',
+    'label' => 'Project coordinator',
+    'required' => 0,
+    'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'basic_html' => 'basic_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'basic_html' => array(
+              'weight' => -8,
+            ),
+            'filtered_html' => array(
+              'weight' => -9,
+            ),
+            'full_html' => array(
+              'weight' => -10,
+            ),
+            'plain_text' => array(
+              'weight' => -7,
+            ),
+          ),
+        ),
+      ),
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 41,
     ),
   );
 
@@ -2302,16 +2501,16 @@ function multisite_newsroom_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
-  // Exported field_instance: 'node-newsroom_selection-field_bp_newsroom_ac_operator'
-  $field_instances['node-newsroom_selection-field_bp_newsroom_ac_operator'] = array(
+  // Exported field_instance: 'node-newsroom_selection-field_newsroom_topic_operator'
+  $field_instances['node-newsroom_selection-field_newsroom_topic_operator'] = array(
     'bundle' => 'newsroom_selection',
     'default_value' => array(
       0 => array(
-        'value' => 'AND',
+        'value' => 'OR',
       ),
     ),
     'deleted' => 0,
@@ -2319,17 +2518,12 @@ function multisite_newsroom_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 23,
+        'type' => 'list_default',
+        'weight' => 25,
       ),
       'mini_teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'notifications' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -2349,8 +2543,8 @@ function multisite_newsroom_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_bp_newsroom_ac_operator',
-    'label' => 'Actions Operator',
+    'field_name' => 'field_newsroom_topic_operator',
+    'label' => 'Selected topic operator',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -2359,187 +2553,11 @@ function multisite_newsroom_field_default_field_instances() {
       'active' => 1,
       'module' => 'options',
       'settings' => array(
-        'apply_chosen' => 0,
+        'apply_chosen' => '',
       ),
       'type' => 'options_select',
-      'weight' => 25,
+      'weight' => 5,
     ),
-    'workbench_access_field' => 0,
-  );
-
-  // Exported field_instance: 'node-newsroom_selection-field_bp_newsroom_actions'
-  $field_instances['node-newsroom_selection-field_bp_newsroom_actions'] = array(
-    'bundle' => 'newsroom_selection',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 22,
-      ),
-      'mini_teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'notifications' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'popup' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_bp_newsroom_actions',
-    'label' => 'Newsroom Actions',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'apply_chosen' => 0,
-      ),
-      'type' => 'options_select',
-      'weight' => 24,
-    ),
-    'workbench_access_field' => 0,
-  );
-
-  // Exported field_instance: 'node-newsroom_selection-field_bp_newsroom_co_operator'
-  $field_instances['node-newsroom_selection-field_bp_newsroom_co_operator'] = array(
-    'bundle' => 'newsroom_selection',
-    'default_value' => array(
-      0 => array(
-        'value' => 'AND',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 21,
-      ),
-      'mini_teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'notifications' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'popup' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_bp_newsroom_co_operator',
-    'label' => 'Country Operator',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'apply_chosen' => 0,
-      ),
-      'type' => 'options_select',
-      'weight' => 10,
-    ),
-    'workbench_access_field' => 0,
-  );
-
-  // Exported field_instance: 'node-newsroom_selection-field_bp_newsroom_country'
-  $field_instances['node-newsroom_selection-field_bp_newsroom_country'] = array(
-    'bundle' => 'newsroom_selection',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 20,
-      ),
-      'mini_teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'notifications' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'popup' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_bp_newsroom_country',
-    'label' => 'Newsroom Country',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'apply_chosen' => 0,
-      ),
-      'type' => 'options_select',
-      'weight' => 9,
-    ),
-    'workbench_access_field' => 0,
   );
 
   // Exported field_instance: 'node-newsroom_selection-field_selected_categories'
@@ -4049,7 +4067,6 @@ function multisite_newsroom_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Actions Operator');
   t('Around Europe & the World');
   t('Associated Newsroom Topic');
   t('Body');
@@ -4058,11 +4075,11 @@ function multisite_newsroom_field_default_field_instances() {
   t('Contact Text');
   t('Contact e-mail');
   t('Contact text');
-  t('Country Operator');
   t('Date');
   t('Date label');
   t('Defines the behavior of the links to newsroom items from the different lists and blocks. "Teaser only" items are the newsroom items that have no other content than a teaser and a main link.');
   t('Display date');
+  t('EC content');
   t('Featured item');
   t('Files');
   t('Highlight topic');
@@ -4078,10 +4095,8 @@ function multisite_newsroom_field_default_field_instances() {
   t('Main Link');
   t('Main image');
   t('Newsletter only');
-  t('Newsroom Actions');
   t('Newsroom Category');
   t('Newsroom Category Domain');
-  t('Newsroom Country');
   t('Newsroom Item ID');
   t('Newsroom Item Type');
   t('Newsroom Service ID');
@@ -4099,6 +4114,8 @@ function multisite_newsroom_field_default_field_instances() {
   t('Primary Topic');
   t('Project');
   t('Project Acronym');
+  t('Project coordinator');
+  t('Project website');
   t('Quote box');
   t('Rapid Press Release');
   t('Read more text');
@@ -4109,6 +4126,7 @@ function multisite_newsroom_field_default_field_instances() {
   t('Select the status of an action (is it on track, completed, at risk of delay or maybe delayed).');
   t('Selected categories');
   t('Selected topic highlights');
+  t('Selected topic operator');
   t('Selected topics');
   t('Selected types');
   t('Service active');
