@@ -29,6 +29,7 @@ Feature: Content editing
       | <p><a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                         | <p><a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                         |
       | <h2 style=\"font-style:italic\">Styled heading</h2>                                          | <h2 style=\"font-style:italic\">Styled heading</h2>                                          |
       | <div class=\"css_class-name\">Applied css class</div>                                        | <div class=\"css_class-name\">Applied css class</div>                                        |
+      | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               |
 
   @api
   Scenario Outline: Test disallowed HTML
@@ -45,3 +46,5 @@ Feature: Content editing
     | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p> | javascript:alert              |
     | <div class=\"2classname\">Applied invalid css class</div>           | classname                     |
     | <div class=\"classname?&*\">Applied invalid css class</div>         | classname                     |
+    | <div id=\"2invalidid\">A container with an invalid HTML ID</div>    | invalidid                     |
+    | <div id=\"invalidid.\">A container with an invalid HTML ID</div>    | invalidid                     |
