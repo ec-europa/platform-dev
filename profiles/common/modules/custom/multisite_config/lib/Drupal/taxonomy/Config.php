@@ -8,6 +8,7 @@
 namespace Drupal\taxonomy;
 
 use Drupal\multisite_config\ConfigBase;
+use \PDO;
 
 /**
  * Class Config.
@@ -72,7 +73,7 @@ class Config extends ConfigBase {
    * @return object|bool
    *    Return new term object or FALSE.
    */
-  public function createTaxonomyTerm($vocabulary, $name, $parent = NULL) {
+  public function createTaxonomyTerm($vocabulary, $name, $parent = NULL, $fields = NULL) {
 
     if ($vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary)) {
 
@@ -102,8 +103,15 @@ class Config extends ConfigBase {
         $values['parent'] = $parent_tid;
       }
 
+      if ($fields) {
+        foreach ($fields as $field_name => $field) {
+           $values[$field_name] = $field;
+        }
+      }
+
       $entity = entity_create('taxonomy_term', $values);
-      return entity_save('taxonomy_term', $entity);
+      entity_save('taxonomy_term', $entity);
+      return $entity;
     }
     return FALSE;
   }
