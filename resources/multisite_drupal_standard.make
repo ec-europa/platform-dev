@@ -270,9 +270,9 @@ projects[media][download][revision] = 64c5102
 projects[media][download][type] = git
 projects[media][patch][] = patches/media-wysiwyg-override-white-list-MULTISITE-2607.patch
 
-# Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
-# https://www.drupal.org/node/2401811
-# https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
+; Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
+; https://www.drupal.org/node/2401811
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
 projects[media][patch][] = http://www.drupal.org/files/issues/file_entity-remove-contextual-links-2401811-11.patch
 
 projects[media_crop][subdir] = "contrib"
