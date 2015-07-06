@@ -231,7 +231,8 @@ function nexteuropa_metatags_install() {
     'field_meta_value' => array(LANGUAGE_NONE => array(0 => array('value' => 'GLOBAL::FUNCTIONING OF THE EU'))),
   );
   $term_parent = multisite_config_service('taxonomy')->createTaxonomyTerm('metatags_ess_gf', 'Functioning of the EU', NULL, $fields);
-
+  
+  /*
   $term = (object) array(
     'vid' => $vocabulary->vid,
     'name' => 'EU institutions, administration and staff',
@@ -240,6 +241,16 @@ function nexteuropa_metatags_install() {
   $term->field_meta_id[LANGUAGE_NONE][0]['value'] = '1.1';
   $term->field_meta_value[LANGUAGE_NONE][0]['value'] = 'GLOBAL::FUNCTIONING OF THE EU::EU INSTITUTIONS ADMINISTRATION AND STAFF';
   taxonomy_term_save($term);
+  */
+
+  $fields = array(
+    'field_meta_id' => array(LANGUAGE_NONE => array(0 => array('value' => '1.1'))),
+    'field_meta_value' => array(LANGUAGE_NONE => array(0 => array('value' => 'GLOBAL::FUNCTIONING OF THE EU::EU INSTITUTIONS ADMINISTRATION AND STAFF'))),
+  );
+  $term = multisite_config_service('taxonomy')->createTaxonomyTerm('metatags_ess_gf', 'EU institutions, administration and staff', $term_parent->name, $fields);
+
+
+
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
