@@ -1225,40 +1225,48 @@ function ec_resp_link($variables) {
     switch ($variables['options']['attributes']['type']) {
       case 'add':
         $decoration .= '<span class="glyphicon glyphicon-plus"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-success';
+        $classes = array('btn', 'btn-success');        
         break;
 
       case 'expand':
         $decoration .= '<span class="glyphicon glyphicon-chevron-down"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
+        $classes = array('btn', 'btn-default', 'btn-sm');
         break;
 
       case 'collapse':
         $decoration .= '<span class="glyphicon glyphicon-chevron-up"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
+        $classes = array('btn', 'btn-default', 'btn-sm');
         break;
 
       case 'delete':
         $decoration .= '<span class="glyphicon glyphicon-trash"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-danger';
+        $classes = array('btn', 'btn-danger');
         break;
 
       case 'edit':
         $decoration .= '<span class="glyphicon glyphicon-pencil"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-info';
+        $classes = array('btn', 'btn-info');
         break;
 
       case 'message':
         $decoration .= '<span class="glyphicon glyphicon-envelope"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-primary';
+        $classes = array('btn', 'btn-primary');
         break;
 
       case 'small':
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
+        $classes = array('btn', 'btn-default', 'btn-sm');
         break;
 
       default:
+      	$classes = array();
         break;
+    }
+    
+    if (is_array($variables['options']['attributes']['class'])) {
+      $variables['options']['attributes']['class'] = array_merge($variables['options']['attributes']['class'], $classes);
+    }
+    else {
+      $variables['options']['attributes']['class'] = $classes;
     }
   }
   $output = $action_bar_before . $btn_group_before .
