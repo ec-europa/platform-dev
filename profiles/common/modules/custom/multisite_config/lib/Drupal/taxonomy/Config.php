@@ -8,6 +8,7 @@
 namespace Drupal\taxonomy;
 
 use Drupal\multisite_config\ConfigBase;
+use \PDO;
 
 /**
  * Class Config.
@@ -68,11 +69,15 @@ class Config extends ConfigBase {
    *    Term name.
    * @param string $parent
    *    Eventual parent name.
+   * @param array $fields
+   *    Fields instances attaches to the term
+   * @param integer $weight
+   *    Weight of the term
    *
    * @return object|bool
    *    Return new term object or FALSE.
    */
-  public function createTaxonomyTerm($vocabulary, $name, $parent = NULL) {
+  public function createTaxonomyTerm($vocabulary, $name, $parent = NULL, $fields = NULL, $weight = 0) {
 
     if ($vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary)) {
 
@@ -93,7 +98,7 @@ class Config extends ConfigBase {
       $values['name'] = $name;
 
       if ($parent) {
-        $parent_tid = (int) db_select('taxonomy_term_data', 't')
+        $parent_tid = db_select('taxonomy_term_data', 't')
           ->fields('t', array('tid'))
           ->condition('t.name', $parent)
           ->condition('t.vid', $vocabulary->vid)
@@ -102,8 +107,19 @@ class Config extends ConfigBase {
         $values['parent'] = $parent_tid;
       }
 
+      if ($fields) {
+        foreach ($fields as $field_name => $field) {
+           $values[$field_name] = $field;
+        }
+      }
+
+      if($weight) {
+        $values['weight'] = $weight;
+      }
+
       $entity = entity_create('taxonomy_term', $values);
-      return entity_save('taxonomy_term', $entity);
+      entity_save('taxonomy_term', $entity);
+      return $entity;
     }
     return FALSE;
   }
