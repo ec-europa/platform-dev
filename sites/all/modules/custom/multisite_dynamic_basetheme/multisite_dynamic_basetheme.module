@@ -170,7 +170,7 @@ function multisite_dynamic_basetheme_system_info_alter(&$info, $file, $type) {
     if ($new_base_theme = theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) {
       // Cannot use theme_list in hook_system_info_alter: infinite loop in
       // case of MAINTENANCE_MODE defined.
-      // Informations are 'manually' retrieved,to check the basetheme coherence.
+      // Information is 'manually' retrieved,to check the basetheme coherence.
       if (drupal_get_path('theme', $new_base_theme) != '') {
         // Check if new_base_theme is a multisite base theme.
         $new_base_theme_obj = new stdClass();
