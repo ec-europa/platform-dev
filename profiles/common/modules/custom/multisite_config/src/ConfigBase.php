@@ -8,14 +8,12 @@
 // @cond DEV
 namespace Drupal\multisite_config;
 
-use Drupal\multisite_config\ConfigBaseInterface;
-
 /**
  * Class ConfigBase.
  *
  * @package Drupal\multisite_config.
  */
-class ConfigBase implements ConfigBaseInterface {
+class ConfigBase {
 
   /**
    * Call a method dynamically.

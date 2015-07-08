@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Multisite Config Test feature.
+ */
+
+include_once 'multisite_config_test.features.inc';
