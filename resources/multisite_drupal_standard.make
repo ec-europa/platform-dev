@@ -122,7 +122,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.5"
+projects[entity][version] = "1.6"
 
 projects[entity_translation][download][branch] = 7.x-1.x
 projects[entity_translation][download][revision] = 221e302
@@ -270,9 +270,9 @@ projects[media][download][revision] = 64c5102
 projects[media][download][type] = git
 projects[media][patch][] = patches/media-wysiwyg-override-white-list-MULTISITE-2607.patch
 
-# Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
-# https://www.drupal.org/node/2401811
-# https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
+; Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
+; https://www.drupal.org/node/2401811
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
 projects[media][patch][] = http://www.drupal.org/files/issues/file_entity-remove-contextual-links-2401811-11.patch
 
 projects[media_crop][subdir] = "contrib"
@@ -314,6 +314,9 @@ projects[menu_token][patch][] = patches/menu_token-link_uuid_menu_items_can_not_
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.7"
+
+projects[metatag][subdir] = "contrib"
+projects[metatag][version] = "1.6"
 
 projects[migrate][subdir] = "contrib"
 projects[migrate][version] = "2.7"
@@ -386,6 +389,9 @@ projects[scheduler][version] = 1.2
 projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.2
 
+projects[select_or_other][subdir] = "contrib"
+projects[select_or_other][version] = 2.22
+
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
@@ -421,7 +427,7 @@ projects[tmgmt][download][type] = git
 projects[tmgmt][subdir] = contrib
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.5"
+projects[token][version] = "1.6"
 
 projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = 1.1
@@ -469,7 +475,7 @@ projects[views_bootstrap][subdir] = "contrib"
 projects[views_bootstrap][version] = "3.1"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.2"
+projects[views_bulk_operations][version] = "3.3"
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.0-beta7"

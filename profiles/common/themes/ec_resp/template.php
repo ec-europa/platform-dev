@@ -447,20 +447,24 @@ function ec_resp_preprocess_maintenance_page(&$variables) {
  */
 function ec_resp_preprocess_html(&$variables) {
   // Update page title.
-  if (arg(0) == 'node' && is_numeric(arg(1))) {
-    $node = node_load(arg(1));
-    // If the metatag title exists, it must be used to construct the title page.
-    if (isset($node->field_meta_title) && !empty($node->field_meta_title)) {
-      $variables['head_title'] = filter_xss($node->field_meta_title['und'][0]['value']);
+  // If nexteuropa_metatags is enabled, it should manage
+  // the metatags instead of ec_resp.
+  if (!module_exists('nexteuropa_metatags')) {
+    if (arg(0) == 'node' && is_numeric(arg(1))) {
+      $node = node_load(arg(1));
+      // If the metatag title exists, it must be used
+      // to construct the title page.
+      if (isset($node->field_meta_title) && !empty($node->field_meta_title)) {
+        $variables['head_title'] = filter_xss($node->field_meta_title['und'][0]['value']);
+      }
+      else {
+        $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
+      }
     }
     else {
-      $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
+      $variables['head_title'] = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
     }
   }
-  else {
-    $variables['head_title'] = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
-  }
-
   // Add javascripts to the footer scope.
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel.min.js', array('scope' => 'footer', 'weight' => 11));
@@ -662,62 +666,66 @@ function ec_resp_page_alter(&$page) {
     $type = $node->type;
   }
 
-  // Content-Language.
-  $meta_content_language = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'http-equiv' => 'Content-Language',
-      'content' => $language->language,
-    ),
-  );
-  drupal_add_html_head($meta_content_language, 'meta_content_language');
+  if (!module_exists('nexteuropa_metatags')) {
+    // Content-Language.
+    $meta_content_language = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'http-equiv' => 'Content-Language',
+        'content' => $language->language,
+      ),
+    );
+    drupal_add_html_head($meta_content_language, 'meta_content_language');
 
-  // Description.
-  $meta_description = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'name' => 'description',
-      'content' => $description,
-    ),
-  );
-  drupal_add_html_head($meta_description, 'meta_description');
+    // Description.
+    $meta_description = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'description',
+        'content' => $description,
+      ),
+    );
+    drupal_add_html_head($meta_description, 'meta_description');
 
-  // Reference.
-  $meta_reference = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'name' => 'reference',
-      'content' => filter_xss(variable_get('site_name')),
-    ),
-  );
-  drupal_add_html_head($meta_reference, 'meta_reference');
+    // Reference.
+    $meta_reference = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'reference',
+        'content' => filter_xss(variable_get('site_name')),
+      ),
+    );
+    drupal_add_html_head($meta_reference, 'meta_reference');
 
-  // Creator.
-  $meta_creator = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'name' => 'creator',
-      'content' => 'COMM/DG/UNIT',
-    ),
-  );
-  drupal_add_html_head($meta_creator, 'meta_creator');
+    // Creator.
+    $meta_creator = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'creator',
+        'content' => 'COMM/DG/UNIT',
+      ),
+    );
+    drupal_add_html_head($meta_creator, 'meta_creator');
+  }
 
   // IPG classification.
   $classification = variable_get('meta_configuration', 'none');
   if ($classification != 'none') {
-    $meta_classification = array(
-      '#type' => 'html_tag',
-      '#tag' => 'meta',
-      '#attributes' => array(
-        'name' => 'classification',
-        'content' => variable_get('meta_configuration', 'none'),
-      ),
-    );
-    drupal_add_html_head($meta_classification, 'meta_classification');
+    if (!module_exists('nexteuropa_metatags')) {
+      $meta_classification = array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'name' => 'classification',
+          'content' => variable_get('meta_configuration', 'none'),
+        ),
+      );
+      drupal_add_html_head($meta_classification, 'meta_classification');
+    }
   }
   else {
     if (user_access('administer site configuration')) {
@@ -725,117 +733,118 @@ function ec_resp_page_alter(&$page) {
     }
   }
 
-  // Keywords.
-  $meta_keywords = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'name' => 'keywords',
-      'content' => $keywords,
-    ),
-  );
-  drupal_add_html_head($meta_keywords, 'meta_keywords');
+  if (!module_exists('nexteuropa_metatags')) {
+    // Keywords.
+    $meta_keywords = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'keywords',
+        'content' => $keywords,
+      ),
+    );
+    drupal_add_html_head($meta_keywords, 'meta_keywords');
 
-  // Date.
-  $meta_date = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'name' => 'date',
-      'content' => format_date(time(), 'custom', 'd/m/Y'),
-    ),
-  );
-  drupal_add_html_head($meta_date, 'meta_date');
+    // Date.
+    $meta_date = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'date',
+        'content' => format_date(time(), 'custom', 'd/m/Y'),
+      ),
+    );
+    drupal_add_html_head($meta_date, 'meta_date');
 
-  // Og title.
-  $meta_og_title = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'og:title',
-      'content' => $title,
-    ),
-  );
-  drupal_add_html_head($meta_og_title, 'meta_og_title');
+    // Og title.
+    $meta_og_title = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'og:title',
+        'content' => $title,
+      ),
+    );
+    drupal_add_html_head($meta_og_title, 'meta_og_title');
 
-  // Og type.
-  $meta_og_type = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'og:type',
-      'content' => $type,
-    ),
-  );
-  drupal_add_html_head($meta_og_type, 'meta_og_type');
+    // Og type.
+    $meta_og_type = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'og:type',
+        'content' => $type,
+      ),
+    );
+    drupal_add_html_head($meta_og_type, 'meta_og_type');
 
-  // Og site name.
-  $meta_og_site_name = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'og:site_name',
-      'content' => filter_xss(variable_get('site_name')),
-    ),
-  );
+    // Og site name.
+    $meta_og_site_name = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'og:site_name',
+        'content' => filter_xss(variable_get('site_name')),
+      ),
+    );
 
-  drupal_add_html_head($meta_og_site_name, 'meta_og_site_name');
+    drupal_add_html_head($meta_og_site_name, 'meta_og_site_name');
 
-  // Og description.
-  $meta_og_description = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'og:description',
-      'content' => $description,
-    ),
+    // Og description.
+    $meta_og_description = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'og:description',
+        'content' => $description,
+      ),
+    );
+    drupal_add_html_head($meta_og_description, 'meta_og_description');
 
-  );
-  drupal_add_html_head($meta_og_description, 'meta_og_description');
+    // Fb admins.
+    $meta_fb_admins = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'fb:admins',
+        'content' => 'USER_ID',
+      ),
+    );
+    drupal_add_html_head($meta_fb_admins, 'meta_fb_admins');
 
-  // Fb admins.
-  $meta_fb_admins = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'fb:admins',
-      'content' => 'USER_ID',
-    ),
-  );
-  drupal_add_html_head($meta_fb_admins, 'meta_fb_admins');
+    // Robots.
+    $meta_robots = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'robots',
+        'content' => 'follow,index',
+      ),
+    );
+    drupal_add_html_head($meta_robots, 'meta_robots');
 
-  // Robots.
-  $meta_robots = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'robots',
-      'content' => 'follow,index',
-    ),
-  );
-  drupal_add_html_head($meta_robots, 'meta_robots');
+    // Revisit after.
+    $revisit_after = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'revisit-after',
+        'content' => '15 Days',
+      ),
+    );
+    drupal_add_html_head($revisit_after, 'revisit-after');
 
-  // Revisit after.
-  $revisit_after = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'revisit-after',
-      'content' => '15 Days',
-    ),
-  );
-  drupal_add_html_head($revisit_after, 'revisit-after');
-
-  // Viewport.
-  $viewport = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'name' => 'viewport',
-      'content' => 'width=device-width, initial-scale=1.0',
-    ),
-  );
-  drupal_add_html_head($viewport, 'viewport');
+    // Viewport.
+    $viewport = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'viewport',
+        'content' => 'width=device-width, initial-scale=1.0',
+      ),
+    );
+    drupal_add_html_head($viewport, 'viewport');
+  }
 }
 
 /**
@@ -1225,40 +1234,48 @@ function ec_resp_link($variables) {
     switch ($variables['options']['attributes']['type']) {
       case 'add':
         $decoration .= '<span class="glyphicon glyphicon-plus"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-success';
+        $classes = array('btn', 'btn-success');        
         break;
 
       case 'expand':
         $decoration .= '<span class="glyphicon glyphicon-chevron-down"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
+        $classes = array('btn', 'btn-default', 'btn-sm');
         break;
 
       case 'collapse':
         $decoration .= '<span class="glyphicon glyphicon-chevron-up"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
+        $classes = array('btn', 'btn-default', 'btn-sm');
         break;
 
       case 'delete':
         $decoration .= '<span class="glyphicon glyphicon-trash"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-danger';
+        $classes = array('btn', 'btn-danger');
         break;
 
       case 'edit':
         $decoration .= '<span class="glyphicon glyphicon-pencil"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-info';
+        $classes = array('btn', 'btn-info');
         break;
 
       case 'message':
         $decoration .= '<span class="glyphicon glyphicon-envelope"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-primary';
+        $classes = array('btn', 'btn-primary');
         break;
 
       case 'small':
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
+        $classes = array('btn', 'btn-default', 'btn-sm');
         break;
 
       default:
+      	$classes = array();
         break;
+    }
+    
+    if (is_array($variables['options']['attributes']['class'])) {
+      $variables['options']['attributes']['class'] = array_merge($variables['options']['attributes']['class'], $classes);
+    }
+    else {
+      $variables['options']['attributes']['class'] = $classes;
     }
   }
   $output = $action_bar_before . $btn_group_before .
