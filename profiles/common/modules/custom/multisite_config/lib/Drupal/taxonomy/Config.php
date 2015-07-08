@@ -68,16 +68,16 @@ class Config extends ConfigBase {
    * @param string $name
    *    Term name.
    * @param string $parent
-   *    Eventual parent name.
+   *    Parent field name, if any.
    * @param array $fields
-   *    Fields instances attaches to the term
-   * @param integer $weight
-   *    Weight of the term
+   *    Fields to be attached to term entity.
+   * @param int $weight
+   *    Term weight.
    *
    * @return object|bool
    *    Return new term object or FALSE.
    */
-  public function createTaxonomyTerm($vocabulary, $name, $parent = NULL, $fields = NULL, $weight = 0) {
+  public function createTaxonomyTerm($vocabulary, $name, $parent = NULL, $fields = array(), $weight = 0) {
 
     if ($vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary)) {
 
@@ -109,11 +109,11 @@ class Config extends ConfigBase {
 
       if ($fields) {
         foreach ($fields as $field_name => $field) {
-           $values[$field_name] = $field;
+          $values[$field_name] = $field;
         }
       }
 
-      if($weight) {
+      if ($weight) {
         $values['weight'] = $weight;
       }
 
