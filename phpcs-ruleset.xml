@@ -84,7 +84,6 @@
     <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/multisite_og_button</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/og_content_type_admin</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/subscriptions_og</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/multisite_drupal_communities.info</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/themes/bootstrap</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/themes/bootstrap</exclude-pattern>
 
