@@ -104,7 +104,7 @@ projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.7"
 
 projects[customerror][subdir] = "contrib"
-projects[customerror][version] = "1.3"
+projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
