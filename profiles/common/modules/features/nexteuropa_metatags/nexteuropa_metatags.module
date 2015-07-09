@@ -8,6 +8,42 @@
  * Implements hook_metatag_info().
  */
 function nexteuropa_metatags_metatag_info() {
+  $info['tags']['creator'] = array(
+    'label' => t('Creator'),
+    'description' => t(""),
+    'class' => 'DrupalTextMetaTag',
+    'context' => array('global'),
+    'name' => 'creator'
+  );
+  $info['tags']['reference'] = array(
+    'label' => t('Reference'),
+    'description' => t(""),
+    'class' => 'DrupalTextMetaTag',
+    'context' => array('global'),
+    'name' => 'reference'
+  );
+  $info['tags']['X-UA-Compatible'] = array(
+    'label' => t('X-UA-Compatible'),
+    'description' => t(""),
+    'class' => 'DrupalTextMetaTag',
+    'context' => array('global'),
+    'name' => 'X-UA-Compatible'
+  );
+  $info['tags']['date'] = array(
+    'label' => t('Date'),
+    'description' => t(""),
+    'class' => 'DrupalTextMetaTag',
+    'context' => array('global'),
+    'name' => 'date'
+  );
+  $info['tags']['classification'] = array(
+    'label' => t('Classification'),
+    'description' => t("IPG classification"),
+    'class' => 'DrupalTextMetaTag',
+    'context' => array('global'),
+    'name' => 'classification'
+  );
+
   $info['groups']['ESS_metatags'] = array(
     'label' => t('ESS metatags : metatags for ES indexation'),
   );
@@ -41,4 +77,17 @@ function nexteuropa_metatags_metatag_info() {
   );
 
   return $info;
+}
+
+/**
+ * Implements hook_variable_info().
+ */
+function nexteuropa_metatags_variable_info($options) {
+  $variable['metatag_enable_taxonomy_term__classification'] = array(
+    'title' => t('IPG classification', array(), $options),
+    'description' => t('IPG classification', array(), $options),
+    'type' => 'string',
+    'token' => TRUE, 
+  );
+  return $variable;
 }
