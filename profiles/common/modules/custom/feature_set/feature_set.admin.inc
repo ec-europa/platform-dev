@@ -224,6 +224,11 @@ function feature_set_disable_url($form, $form_state, $featureset) {
   );
 }
 
+/**
+ * Form submission handler for feature_set_disable_url().
+ *
+ * @see feature_set_disable_url()
+ */
 function feature_set_disable_url_submit($form, &$form_state) {
   $featuresets = $featuresets = feature_set_get_featuresets();
   if (isset($featuresets[$form_state['values']['featureset']])) {
@@ -248,6 +253,11 @@ function feature_set_enable_url($form, $form_state, $featureset) {
   );
 }
 
+/**
+ * Form submission handler for feature_set_enable_url().
+ *
+ * @see feature_set_enable_url()
+ */
 function feature_set_enable_url_submit($form, &$form_state) {
   $featuresets = $featuresets = feature_set_get_featuresets();
   if (isset($featuresets[$form_state['values']['featureset']])) {
