@@ -1238,7 +1238,7 @@ function ec_resp_link($variables) {
     switch ($variables['options']['attributes']['type']) {
       case 'add':
         $decoration .= '<span class="glyphicon glyphicon-plus"></span> ';
-        $classes = array('btn', 'btn-success');        
+        $classes = array('btn', 'btn-success');
         break;
 
       case 'expand':
@@ -1271,10 +1271,10 @@ function ec_resp_link($variables) {
         break;
 
       default:
-      	$classes = array();
+        $classes = array();
         break;
     }
-    
+
     if (is_array($variables['options']['attributes']['class'])) {
       $variables['options']['attributes']['class'] = array_merge($variables['options']['attributes']['class'], $classes);
     }
