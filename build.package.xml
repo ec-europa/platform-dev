@@ -145,24 +145,24 @@
     <!-- Set up Behat. -->
     <target name="setup-behat">
         <if>
-            <not>
-                <available file="${behat.yml.path}" type="file" property="behat.yml.available" />
-            </not>
+            <available file="${behat.yml.path}" type="file" property="behat.yml.available" />
             <then>
-                <echo message="Creating behat.yml configuration file" />
-                <loadfile property="behat.yml.content" file="${behat.yml.template}">
-                    <filterchain>
-                        <replacetokens>
-                            <token key="project.code.dir" value="${project.code.dir}" />
-                            <token key="drupal.site.dir" value="${drupal.site.dir}" />
-                            <token key="behat.base_url" value="${behat.base_url}" />
-                            <token key="behat.formatter.name" value="${behat.formatter.name}" />
-                        </replacetokens>
-                    </filterchain>
-                </loadfile>
-                <echo message="${behat.yml.content}" file="${behat.yml.path}" />
+                <echo message="Deleting existing behat.yml configuration file" />
+                <delete file="${behat.yml.path}" failonerror="false" />
             </then>
         </if>
+        <echo message="Creating behat.yml configuration file" />
+        <loadfile property="behat.yml.content" file="${behat.yml.template}">
+            <filterchain>
+                <replacetokens>
+                    <token key="project.code.dir" value="${project.code.dir}" />
+                    <token key="drupal.site.dir" value="${drupal.site.dir}" />
+                    <token key="behat.base_url" value="${behat.base_url}" />
+                    <token key="behat.formatter.name" value="${behat.formatter.name}" />
+                </replacetokens>
+            </filterchain>
+        </loadfile>
+        <echo message="${behat.yml.content}" file="${behat.yml.path}" />
         <symlink link="${phing.project.build.dir}/behat.yml" target="../tests/behat.yml" />
         <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
     </target>
