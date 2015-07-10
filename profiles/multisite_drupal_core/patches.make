@@ -13,6 +13,7 @@ projects[fullcalendar][patch][] = ../multisite_drupal_core/patches/fullcalendar-
 projects[apachesolr][patch][] = ../multisite_drupal_core/patches/apachesolr-attachment_indexation-481.patch
 projects[apachesolr_attachments][patch][] = ../multisite_drupal_core/patches/apachesolr_attachments-bypass_deadlocks-1854088-9.patch
 projects[apachesolr_attachments][patch][] = ../multisite_drupal_core/patches/apachesolr_attachments-empty_parent_entity_id.patch
+projects[apachesolr_search][patch][] = ../apachesolr_search-overwritten_menu_items.patch
 projects[apachesolr][patch][] = ../multisite_drupal_core/patches/apachesolr-invalidate-caches-new-node-type-2178283.patch
 projects[apachesolr][patch][] = ../multisite_drupal_core/patches/apachesolr-multiples_dates-4335.patch
 projects[chr][patch][] = ../multisite_drupal_core/patches/chr-1.6-patch-rewrite-header-host-without-standard-port-number.patch
