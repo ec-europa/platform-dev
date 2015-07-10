@@ -87,7 +87,7 @@ function nexteuropa_metatags_metatag_export_default() {
         'period' => 'day',
       ),
       'content-language' => array(
-        'value' => '',
+        'value' => '[language:language-ui:language]',
       ),
       'geo.position' => array(
         'value' => '',

@@ -4,6 +4,8 @@
  * Code for the NextEuropa Metatags feature.
  */
 
+include_once 'nexteuropa_metatags.tokens.inc';
+
 /**
  * Implements hook_metatag_info().
  */
@@ -91,3 +93,4 @@ function nexteuropa_metatags_variable_info($options) {
   );
   return $variable;
 }
+
