@@ -12,38 +12,34 @@ include_once 'nexteuropa_metatags.tokens.inc';
 function nexteuropa_metatags_metatag_info() {
   $info['tags']['creator'] = array(
     'label' => t('Creator'),
-    'description' => t(""),
     'class' => 'DrupalTextMetaTag',
     'context' => array('global'),
-    'name' => 'creator'
+    'name' => 'creator',
   );
   $info['tags']['reference'] = array(
     'label' => t('Reference'),
-    'description' => t(""),
     'class' => 'DrupalTextMetaTag',
     'context' => array('global'),
-    'name' => 'reference'
+    'name' => 'reference',
   );
   $info['tags']['X-UA-Compatible'] = array(
     'label' => t('X-UA-Compatible'),
-    'description' => t(""),
     'class' => 'DrupalTextMetaTag',
     'context' => array('global'),
-    'name' => 'X-UA-Compatible'
+    'name' => 'X-UA-Compatible',
   );
   $info['tags']['date'] = array(
     'label' => t('Date'),
-    'description' => t(""),
     'class' => 'DrupalTextMetaTag',
     'context' => array('global'),
-    'name' => 'date'
+    'name' => 'date',
   );
   $info['tags']['classification'] = array(
     'label' => t('Classification'),
     'description' => t("IPG classification"),
     'class' => 'DrupalTextMetaTag',
     'context' => array('global'),
-    'name' => 'classification'
+    'name' => 'classification',
   );
 
   $info['groups']['ESS_metatags'] = array(
@@ -89,8 +85,7 @@ function nexteuropa_metatags_variable_info($options) {
     'title' => t('IPG classification', array(), $options),
     'description' => t('IPG classification', array(), $options),
     'type' => 'string',
-    'token' => TRUE, 
+    'token' => TRUE,
   );
   return $variable;
 }
-

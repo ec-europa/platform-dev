@@ -63,9 +63,9 @@ function nexteuropa_metatags_token_info() {
   return $info;
 }
 
- /**
-  * Implements hook_tokens().
-  */
+/**
+ * Implements hook_tokens().
+ */
 function nexteuropa_metatags_tokens($type, $tokens, array $data = array(), array $options = array()) {
   // Language tokens.
   $replacements = array();
@@ -76,6 +76,7 @@ function nexteuropa_metatags_tokens($type, $tokens, array $data = array(), array
         case 'language-content':
           $replacements[$original] = token_render_array((array) $language_content);
           break;
+
         case 'language-ui':
           $replacements[$original] = token_render_array((array) $language);
           break;
@@ -88,9 +89,11 @@ function nexteuropa_metatags_tokens($type, $tokens, array $data = array(), array
           case 'language':
             $replacements[$original] = $sanitize ? check_plain($language_content->language) : $language_content->language;
             break;
+
           case 'name':
             $replacements[$original] = $sanitize ? check_plain($language_content->name) : $language_content->name;
             break;
+
           case 'native':
             $replacements[$original] = $sanitize ? check_plain($language_content->native) : $language_content->native;
             break;
@@ -105,9 +108,11 @@ function nexteuropa_metatags_tokens($type, $tokens, array $data = array(), array
           case 'language':
             $replacements[$original] = $language->language;
             break;
+
           case 'name':
             $replacements[$original] = $language->name;
             break;
+
           case 'native':
             $replacements[$original] = $language->native;
             break;
