@@ -11,7 +11,7 @@ function nexteuropa_metatags_metatag_export_default() {
   $config = array();
 
   // Exported Metatag config instance: global.
-  $config['global'] = (object) array(
+  $config['global'] = array(
     'instance' => 'global',
     'config' => array(
       'title' => array(
@@ -351,14 +351,14 @@ function nexteuropa_metatags_metatag_export_default() {
   );
 
   // Exported Metatag config instance: node.
-  $config['node'] = (object) array(
+  $config['node'] = array(
     'instance' => 'node',
     'config' => array(
       'title' => array(
         'value' => '[node:title] | [site:name]',
       ),
       'description' => array(
-        'value' => '[node:title_field]',
+        'value' => '[node:title]',
       ),
       'keywords' => array(
         'value' => '[node:field-tags]',
@@ -382,10 +382,10 @@ function nexteuropa_metatags_metatag_export_default() {
         'value' => '[node:content-type]',
       ),
       'og:title' => array(
-        'value' => '[node:title-field] - [node:title] - European Commission',
+        'value' => '[node:title] - [site:name] - European Commission',
       ),
       'og:description' => array(
-        'value' => '[node:title-field]',
+        'value' => '[node:title]',
       ),
       'og:updated_time' => array(
         'value' => '[node:changed:custom:c]',
