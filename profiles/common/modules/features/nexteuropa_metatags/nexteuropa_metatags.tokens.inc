@@ -15,12 +15,12 @@ function nexteuropa_metatags_token_info() {
   );
   $info['tokens']['language']['language-ui'] = array(
     'name' => t('User Interface'),
-    'description' => t('Tokens related to the active user interface language.'),
+    //'description' => t('Tokens related to the active user interface language.'),
     'type' => 'language-ui',
   );
   $info['tokens']['language']['language-content'] = array(
     'name' => t('Content'),
-    'description' => t('Tokens related to the active content language.'),
+    //'description' => t('Tokens related to the active content language.'),
     'type' => 'language-content',
   );
   // User interface language tokens.

@@ -339,7 +339,7 @@ function nexteuropa_metatags_metatag_export_default() {
         'value' => '[current-date:short]',
       ),
       'classification' => array(
-        'value' => '[variable:metatag_enable_taxonomy_term__classification]',
+        'value' => '[variable:classification]',
       ),
       'ESS_GF' => array(
         'value' => '',
