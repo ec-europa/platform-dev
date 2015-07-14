@@ -29,11 +29,9 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
  * @todo: Add documentation.
  */
 function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$path, &$options) {
-  global $language;
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
-
   $language_list = language_list('enabled');
-  $languages = array_flip(array_keys($language_list[1]));
+  $languages = $language_list[1];
 
   // Language can be passed as an option, or we go for current URL language.
   if (!isset($options['language'])) {
@@ -58,7 +56,8 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     $path = variable_get('site_frontpage', 'node');
   }
 
-  $path .= $delimiter . $options['language']->prefix;
+  $language_suffix = _nexteuropa_multilingual_get_language_suffix($options['language']);
+  $path .= $delimiter . $language_suffix;
 
   $options['alias'] = TRUE;
 }
@@ -74,10 +73,10 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
   // Handle if there are extra parameters after the suffix.
   $extra_params = explode("/", $suffix);
   $suffix = array_shift($extra_params);
-
   // Search prefix within enabled languages.
   foreach ($languages as $language) {
-    if (!empty($language->prefix) && $language->prefix == $suffix) {
+    $language_suffix = _nexteuropa_multilingual_get_language_suffix($language);
+    if ($language_suffix && $language_suffix == $suffix) {
       // Rebuild $path with the language removed.
       $path = implode($delimiter, $args);
       // Handle the path homepage.
@@ -109,4 +108,22 @@ function nexteuropa_multilingual_language_negotiation_switcher_url($type, $path)
     );
   }
   return $links;
+}
+
+/**
+ * Return the language suffix for the language passed as parameter.
+ *
+ * Suffix corresponds to language prefix. If not defined, the langcode is used.
+ * This suffix is used on the last part of the URL.
+ */
+function _nexteuropa_multilingual_get_language_suffix($language) {
+  if (is_object($language) && isset($language->language)) {
+    if (isset($language->prefix) && !empty($language->prefix)) {
+      return $language->prefix;
+    }
+    elseif (!empty($language->language)) {
+      return $language->language;
+    }
+  }
+  return NULL;
 }
