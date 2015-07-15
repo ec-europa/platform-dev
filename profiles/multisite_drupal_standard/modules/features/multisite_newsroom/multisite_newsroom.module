@@ -948,10 +948,10 @@ function _multisite_newsroom_prepare_dynamic_mapping($premapping, $type = NULL) 
       foreach ($lang_keys as $lang_key) {
         $upper_key = strtoupper($lang_key);
         // Xpath queries.
-        $queries['xpathparser:' . $i] = $values['query'] . '[@language="' . $upper_key . '"]/text()';
+        $queries['xpathparser:' . $i] = $values['query'] . '[@lang="' . $upper_key . '"]/text()';
 
         if ($type == 'topics' && $upper_key != $def_lang) {
-          $queries['xpathparser:' . $i] = '//channel/item[infsonewsroom:BasicSvType="Newsroom service"]/category[@domain!="Newsletter" and @language="' . $upper_key . '" and @infsonewsroom:TopicId="$Temporary target 1"]/' . $values['query'];
+          $queries['xpathparser:' . $i] = '//channel/item[infsonewsroom:BasicSvType="Newsroom service"]/category[@domain!="Newsletter" and @lang="' . $upper_key . '" and @infsonewsroom:TopicId="$Temporary target 1"]/' . $values['query'];
         }
         elseif ($type == 'topics' && $upper_key == $def_lang) {
           $queries['xpathparser:' . $i] = $values['query'];

@@ -13,7 +13,7 @@ function _multisite_newsroom_create_multilingual_items_importer() {
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'title' => array(
-      'query' => 'title[@language="EN"]/text()',
+      'query' => 'title[@lang="EN"]/text()',
       'language' => FALSE,
     ),
     'title_field' => array(
@@ -121,10 +121,6 @@ function _multisite_newsroom_create_multilingual_items_importer() {
       'query' => 'infsonewsroom:FullContent',
       'language' => TRUE,
     ),
-    'language' => array(
-      'query' => 'infsonewsroom:NewsLanguage/text()',
-      'language' => FALSE,
-    ),
     'field_newsroom_item_contact_text' => array(
       'query' => 'infsonewsroom:ContextContactText',
       'language' => TRUE,
@@ -160,6 +156,12 @@ function _multisite_newsroom_create_multilingual_items_importer() {
   );
 
   $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'node');
+
+  $importer_values['mapping'][] = array(
+    'source' => 'Blank source 1',
+    'target' => 'language',
+    'unique' => FALSE,
+  );
 
   // Build the importer object.
   $feeds_importer = new stdClass();
@@ -278,7 +280,7 @@ function _multisite_newsroom_create_multilingual_topics_importer() {
       'config' => array(
         'sources' => $importer_values['queries'],
         'rawXML' => $importer_values['raw_xml'],
-        'context' => '//channel/item[infsonewsroom:BasicSvType="Newsroom service"]/category[@domain!="Newsletter" and @language="' . $def_lang . '"]',
+        'context' => '//channel/item[infsonewsroom:BasicSvType="Newsroom service"]/category[@domain!="Newsletter" and @lang="' . $def_lang . '"]',
         'exp' => array(
           'errors' => 1,
           'debug' => $importer_values['debug'],
@@ -410,7 +412,7 @@ function _multisite_newsroom_create_multilingual_services_importer() {
       'language' => FALSE,
     ), 
     'name' => array(
-      'query' => 'title/text()',
+      'query' => 'title[@lang="' . $def_lang . '"]/text()',
       'language' => FALSE,
     ), 
     'name_field' => array(
