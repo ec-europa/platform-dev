@@ -167,16 +167,26 @@ function multisite_dynamic_basetheme_get_base_theme_list($theme_key = FALSE) {
 /**
  * Implements hook_system_info_alter().
  *
- * Rewrite 'base theme' of all subtheme with the setting
+ * Rewrite 'base theme' of all subtheme with the setting 
  * "ec_resp_base_theme_of_subtheme" (if defined).
  */
 function multisite_dynamic_basetheme_system_info_alter(&$info, $file, $type) {
   if ($type == "theme" && isset($file->info['base theme'])) {
     $theme_key = $file->name;
     if ($new_base_theme = theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) {
-      $themes = list_themes();
-      if (isset($themes[$new_base_theme]) && _multisite_dynamic_basetheme_is_multisite_base_theme($themes[$new_base_theme])) {
-        $info['base theme'] = $new_base_theme;
+      // If base theme is defined on sub-theme settings.
+      if ($new_base_theme = theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) {
+        // Cannot use theme_list in hook_system_info_alter: infinite loop in
+        // case of MAINTENANCE_MODE defined.
+        // Information is 'manually' retrieved,to check the basetheme coherence.
+        if (drupal_get_path('theme', $new_base_theme) != '') {
+          // Check if new_base_theme is a multisite base theme.
+          $new_base_theme_obj = new stdClass();
+          $new_base_theme_obj->info = drupal_parse_info_file(drupal_get_path('theme', $new_base_theme) . "/$new_base_theme.info");
+          if (_multisite_dynamic_basetheme_is_multisite_base_theme($new_base_theme_obj)) {
+            $info['base theme'] = $new_base_theme;
+          }
+        }    
       }
     }
   }
