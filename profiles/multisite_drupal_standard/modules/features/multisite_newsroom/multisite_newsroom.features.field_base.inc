@@ -803,7 +803,7 @@ function multisite_newsroom_field_default_field_bases() {
         0 => 'fid',
       ),
     ),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'image',
     'settings' => array(
       'default_image' => 0,
@@ -1976,13 +1976,13 @@ function multisite_newsroom_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_the_main_image_shared'
-  $field_bases['field_the_main_image_shared'] = array(
+  // Exported field_base: 'field_testimage'
+  $field_bases['field_testimage'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_the_main_image_shared',
+    'field_name' => 'field_testimage',
     'foreign keys' => array(
       'fid' => array(
         'columns' => array(

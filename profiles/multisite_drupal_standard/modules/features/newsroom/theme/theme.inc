@@ -29,18 +29,20 @@ function theme_newsroom_agenda($variables) {
     $agenda[$date]['#prefix'] = '<div class="date-row">';
     $agenda[$date]['#suffix'] = '</div>';
     $agenda[$date]['date']['#prefix'] = '<div class="date-date">';
-    $agenda[$date]['date']['#markup'] = theme('newsroom_agenda_date', strtotime($date));
+    $agenda[$date]['date']['#markup'] = theme('newsroom_agenda_date', array('date' => strtotime($date)));
     $agenda[$date]['date']['#suffix'] = '</div>';
     $agenda[$date]['events']['#prefix'] = '<div class="date-events">';
     $agenda[$date]['events']['#suffix'] = '</div>';
 
-    // Order items by their lenght.
-    usort($events, function ($a, $b) {
-      return $a['attributes']['length'] >= $b['attributes']['length'];
-    });
+    if (is_array($events)) {
+      // Order items by their lenght.
+      usort($events, function ($a, $b) {
+        return $a['attributes']['length'] >= $b['attributes']['length'];
+      });
 
-    foreach ($events as $delta => $event) {
-      $agenda[$date]['events'][$delta] = $event;
+      foreach ($events as $delta => $event) {
+        $agenda[$date]['events'][$delta] = $event;
+      }
     }
     $i++;
   }
@@ -51,8 +53,9 @@ function theme_newsroom_agenda($variables) {
  * Returns HTML for a Newsroom Agenda type block date card.
  */
 function theme_newsroom_agenda_date($variables) {
-  $date['day']['#markup'] = '<span class="day">' . date('d', $variables) . '</span>';
-  $date['month']['#markup'] = '<span class="month">' . date('M', $variables) . '</span>';
-  $date['year']['#markup'] = '<span class="year">' . date('Y', $variables) . '</span>';
+  $date = array();
+  $date['day']['#markup'] = '<span class="day">' . date('d', $variables['date']) . '</span>';
+  $date['month']['#markup'] = '<span class="month">' . date('M', $variables['date']) . '</span>';
+  $date['year']['#markup'] = '<span class="year">' . date('Y', $variables['date']) . '</span>';
   return drupal_render($date);
 }

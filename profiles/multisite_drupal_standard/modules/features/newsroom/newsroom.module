@@ -544,11 +544,12 @@ function newsroom_admin_tools() {
  */
 function newsroom_contents($delta) {
   $block_settings = _newsroom_get_summary_block_tid();
+  
   if (!$block_settings['display']) {
     return '';
   }
   
-  $topic_tids = array('all');
+  $topic_tids = array();
   $topic_name = array();
   // Sticky items (Centrally published).
   $sticky = TRUE;
@@ -762,7 +763,7 @@ function newsroom_content($newsroom_grouping_terms, $full_display = FALSE, $news
   module_load_include('inc', 'pathauto', 'pathauto');
   $blocks_by = variable_get('newsroom_block_by', 'type');
   $newsroom_boxes = array();
-
+  
   // Custom Agenda block if needed.
   if (variable_get('newsroom_display_agenda', 1) && $agenda_types = newsroom_agenda_types()) {
     $view_arguments[0] = implode('+', array_keys($agenda_types));
@@ -2316,3 +2317,6 @@ function newsroom_views_api() {
   );
 }
 
+function newsroom_views_plugins() {
+  
+}
