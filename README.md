@@ -49,6 +49,9 @@ drupal.db.password = hunter2
 # Admin user.
 drupal.admin.username = admin
 drupal.admin.password = admin
+
+# The base URL to use in Behat tests.
+behat.base_url = http://nexteuropa.local
 ```
 
 ## Listing the available build commands
@@ -60,9 +63,45 @@ short description of each target with the following command:
 $ ./bin/phing
 ```
 
-## Building a local development environment:
+## Building a local development environment
 
 ```
 $ ./bin/phing build-platform-dev
 $ ./bin/phing install-platform
+```
+
+## Running Behat tests
+
+The Behat test suite is located in the `tests/` folder. The easiest way to run
+them is by going into this folder and executing the Behat binary which is
+located in the `bin/` folder:
+
+```
+$ cd tests/
+$ ../bin/behat
+```
+
+For your convenience a symlink to the Behat executable is present in the tests/
+folder, so you can also run the tests like this:
+
+```
+$ cd tests/
+$ ./behat
+```
+
+If you want to execute a single test, just provide the path to the test as an
+argument. The tests are located in `tests/features/`:
+
+```
+$ cd tests/
+$ ./behat features/content_editing.feature
+```
+
+If you have installed the development version (using the `build-platform-dev`
+build target) then the tests can also be executed from the root folder of the
+build:
+
+```
+$ cd build/
+$ ../bin/behat
 ```

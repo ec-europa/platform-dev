@@ -8,6 +8,7 @@
 namespace Drupal\taxonomy;
 
 use Drupal\multisite_config\ConfigBase;
+use \PDO;
 
 /**
  * Class Config.
@@ -67,12 +68,16 @@ class Config extends ConfigBase {
    * @param string $name
    *    Term name.
    * @param string $parent
-   *    Eventual parent name.
+   *    Parent field name, if any.
+   * @param array $fields
+   *    Fields to be attached to term entity.
+   * @param int $weight
+   *    Term weight.
    *
    * @return object|bool
    *    Return new term object or FALSE.
    */
-  public function createTaxonomyTerm($vocabulary, $name, $parent = NULL) {
+  public function createTaxonomyTerm($vocabulary, $name, $parent = NULL, $fields = array(), $weight = 0) {
 
     if ($vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary)) {
 
@@ -82,7 +87,7 @@ class Config extends ConfigBase {
         ->condition('t.name', $name)
         ->condition('t.vid', $vocabulary->vid)
         ->execute()
-        ->fetchAll(PDO::FETCH_COLUMN);
+        ->fetchAll(\PDO::FETCH_COLUMN);
       if ($term) {
         return FALSE;
       }
@@ -93,17 +98,28 @@ class Config extends ConfigBase {
       $values['name'] = $name;
 
       if ($parent) {
-        $parent_tid = (int) db_select('taxonomy_term_data', 't')
+        $parent_tid = db_select('taxonomy_term_data', 't')
           ->fields('t', array('tid'))
           ->condition('t.name', $parent)
           ->condition('t.vid', $vocabulary->vid)
           ->execute()
-          ->fetchAll(PDO::FETCH_COLUMN);
+          ->fetchAll(\PDO::FETCH_COLUMN);
         $values['parent'] = $parent_tid;
       }
 
+      if ($fields) {
+        foreach ($fields as $field_name => $field) {
+          $values[$field_name] = $field;
+        }
+      }
+
+      if ($weight) {
+        $values['weight'] = $weight;
+      }
+
       $entity = entity_create('taxonomy_term', $values);
-      return entity_save('taxonomy_term', $entity);
+      entity_save('taxonomy_term', $entity);
+      return $entity;
     }
     return FALSE;
   }

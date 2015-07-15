@@ -8,7 +8,22 @@
  * Implements hook_feeds_tamper_default().
  */
 function multisite_newsroom_feeds_tamper_default() {
+  $def_lang = language_default()->language;
   $export = array();
+
+  $feeds_tamper = new stdClass();
+  $feeds_tamper->disabled = FALSE; /* Edit this to true to make a default feeds_tamper disabled initially */
+  $feeds_tamper->api_version = 2;
+  $feeds_tamper->id = 'newsroom_items_multilingual-blank_source_1-default_value';
+  $feeds_tamper->importer = 'newsroom_items_multilingual';
+  $feeds_tamper->source = 'Blank source 1';
+  $feeds_tamper->plugin_id = 'default_value';
+  $feeds_tamper->settings = array(
+    'default_value' => $def_lang,
+  );
+  $feeds_tamper->weight = 0;
+  $feeds_tamper->description = 'Set default language';
+  $export['newsroom_items_multilingual-blank_source_1-default_value'] = $feeds_tamper;
 
   $feeds_tamper = new stdClass();
   $feeds_tamper->disabled = FALSE; /* Edit this to true to make a default feeds_tamper disabled initially */

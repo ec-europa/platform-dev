@@ -2,13 +2,16 @@
 
 /**
  * @file
- * Mark a node edit as not major version, preventing the timestamp from
- * updating.
+ * Main functions and hook implementations of the Version Management module.
+ *
+ * Mark a node edit as not major version prevents the timestamp from updating.
+ *
  * This module allows content types to be designated for major edits, and
- * users given the permission to mark an edit.  Marking an edit as not major
- * prevents $node->changed from being updated, which keeps the node from popping
- * to the top of ordered-by-time lists.  Revisions are marked with the correct
- * timestamp data.
+ * users given the permission to mark an edit.
+ *
+ * Marking an edit as not major prevents $node->changed from being updated,
+ * which keeps the node from popping to the top of ordered-by-time lists.
+ * Revisions are marked with the correct timestamp data.
  */
 
 /**
@@ -80,7 +83,6 @@ function version_management_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
-
 /**
  * Helper function to build the version_management checkbox.
  */
@@ -99,7 +101,7 @@ function version_management_form_build() {
 }
 
 /**
- * Version_management additionnal handler for workbench_moderation forms.
+ * Version_management additional handler for workbench_moderation forms.
  */
 function version_management_handler_submit($form, &$form_state) {
   if (isset($form_state['values']['minor_version']) && $form_state['values']['minor_version'] == 0) {
@@ -146,7 +148,7 @@ function version_management_node_presave($node) {
 /**
  * Implements hook_module_implements_alter().
  *
- * allow to launch the hook_node_presave at last
+ * Allow to launch the hook_node_presave at last.
  */
 function version_management_module_implements_alter(&$implementations, $hook) {
   if ($hook == 'node_presave') {
@@ -155,7 +157,6 @@ function version_management_module_implements_alter(&$implementations, $hook) {
     $implementations['version_management'] = $group;
   }
 }
-
 
 /**
  * Implements hook_help().

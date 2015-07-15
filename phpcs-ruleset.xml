@@ -9,4 +9,15 @@
     <exclude-pattern>*.min.js</exclude-pattern>
 
     <rule ref="vendor/drupal/coder/coder_sniffer/Drupal" />
+
+    <!-- Views handlers not strictly follow Drupal class name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidClassName">
+        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
+    </rule>
+
+    <!-- Views handlers not strictly follow Drupal function name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName">
+        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
+    </rule>
+
 </ruleset>

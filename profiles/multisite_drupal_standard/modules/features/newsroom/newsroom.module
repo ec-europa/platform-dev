@@ -56,6 +56,7 @@ function newsroom_feeds_plugins() {
       'path' => drupal_get_path('module', 'newsroom') . '/plugins',
     ),
   );
+
   return $info;
 }
 
@@ -2226,7 +2227,7 @@ function _newsroom_validate_universe($universe_id = NULL) {
 /**
  * Create default set of importers.
  */
-function _newsroom_create_default_importers($universe_url, $context = 'admin', $redirect = NULL) {
+function _newsroom_create_default_importers($universe_url, $context = 'admin', $redirect = NULL, $multilingual) {
   $importers = array(
     'newsroom_type_importer' => array(
       'segment' => 'rss-item-type.cfm',
@@ -2253,6 +2254,33 @@ function _newsroom_create_default_importers($universe_url, $context = 'admin', $
       'importer' => 'newsroom_items',
     ),
   );
+
+  // Run the multilingual imports if required.
+  if ($multilingual) {
+    
+    $keys = array('item', 'topic', 'service', /*'type' */);
+
+    foreach ($keys as $key) {
+      unset($importers['newsroom_' . $key . '_importer']);
+    }
+    
+    $importers['newsroom_types_multilingual_importer'] = array(
+      'segment' => 'rss-item-type-multilingual.cfm',
+      'importer' => 'newsroom_types_multilingual',
+    );
+    $importers['newsroom_services_multilingual_importer'] = array(
+      'segment' => 'rss-service-multilingual.cfm',
+      'importer' => 'newsroom_services_multilingual',
+    );
+    $importers['newsroom_topics_multilingual_importer'] = array(
+      'segment' => 'rss-service-multilingual.cfm',
+      'importer' => 'newsroom_topics_multilingual',
+    );
+    $importers['newsroom_items_multilingual_importer'] = array(
+      'segment' => 'fullrss-multilingual.cfm',
+      'importer' => 'newsroom_items_multilingual',
+    );
+  }
 
   foreach ($importers as $importer) {
     $feed_source = feeds_source($importer['importer']);
@@ -2317,6 +2345,8 @@ function newsroom_views_api() {
   );
 }
 
+
 function newsroom_views_plugins() {
   
 }
+

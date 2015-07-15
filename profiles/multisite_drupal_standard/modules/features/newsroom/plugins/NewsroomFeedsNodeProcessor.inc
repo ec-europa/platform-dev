@@ -328,12 +328,23 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
       'name' => t('Sticky'),
       'description' => t('Boolean value, whether or not node is sticky at top of lists. (1 = sticky, 0 = not sticky)'),
     );
-
+    $targets['field_slide'] = array(
+      'name' => t('Slide'),
+      'description' => t('Image for the slideshow'),
+    );
     // Include language field if Locale module is enabled.
     if (module_exists('locale')) {
       $targets['language'] = array(
         'name' => t('Language'),
         'description' => t('The two-character language code of the node.'),
+      );
+    }
+
+    // Include title_field if entity translation module is enabled.
+    if (module_exists('entity_translation')) {
+      $targets['title_field'] = array(
+        'name' => t('Field Title'),
+        'description' => t('The field replacing the title'),
       );
     }
 
@@ -506,7 +517,7 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
           isset($targets[$this->id][$mapping['target']]['callback']) &&
           function_exists($targets[$this->id][$mapping['target']]['callback'])) {
         $callback = $targets[$this->id][$mapping['target']]['callback'];
-        $callback($source, $target_item, $mapping['target'], $value, $mapping);
+        $callback($source, $target_item, $mapping['target'], array($value), $mapping);
       }
       else {
         debug($value);

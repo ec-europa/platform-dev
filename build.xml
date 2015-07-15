@@ -17,6 +17,9 @@
     <echo msg="Loading Drush task." />
     <taskdef name="drush" classname="DrushTask" />
 
+    <echo msg="Loading Behat task." />
+    <taskdef name="behat" classname="BehatTask" />
+
     <import file="build.package.xml" />
     <import file="build.test.xml" />
 

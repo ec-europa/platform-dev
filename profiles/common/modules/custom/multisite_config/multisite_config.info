@@ -5,6 +5,7 @@ package = Multisite
 version = 7.x-1.0-dev
 project = multisite_config
 
+dependencies[] = entity
 dependencies[] = registry_autoload
 registry_autoload[] = PSR-0
 registry_autoload[] = PSR-4
