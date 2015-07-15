@@ -73,6 +73,7 @@ projects[workbench_access][patch][] = ../multisite_drupal_core/patches/workbench
 projects[workbench_moderation][patch][] = ../multisite_drupal_core/patches/workbench_moderation-001-wm-field_translations-2285931-1.patch
 projects[workbench_moderation][patch][] = ../multisite_drupal_core/patches/workbench_moderation-002-attachment_fix-1084436-47.patch
 projects[workbench_moderation][patch][] = ../multisite_drupal_core/patches/workbench_moderation-005-workbench_moderation.rules-5054.patch
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/support_for_migrate-1445824-35.patch
 projects[wysiwyg][patch][] = ../multisite_drupal_core/patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = ../multisite_drupal_core/patches/wysiwyg-local_css_file_paths-1793704-14.patch
 projects[context_entity_field][patch][] = ../multisite_drupal_core/patches/add-entity-references-1847038.patch
