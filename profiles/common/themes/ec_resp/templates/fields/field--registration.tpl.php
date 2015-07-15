@@ -1,10 +1,10 @@
 <?php
-
 /**
  * @file
  * Default template implementation to display the value of a field.
  *
  * This file is not used and is here as a starting point for customization only.
+ *
  * @see theme_field()
  *
  * Available variables:
@@ -56,7 +56,7 @@ HTML comment.
   <?php endif; ?>
   <div class="field-items"<?php print $content_attributes; ?>>
     <?php foreach ($items as $delta => $item): ?>
-        <?php 
+        <?php
         // Get field type.
         $field_classes = (isset($item['#form_id']) ? 'well' : 'btn btn-success');
         ?>    

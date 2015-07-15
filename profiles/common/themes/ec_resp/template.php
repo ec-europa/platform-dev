@@ -11,30 +11,68 @@ function ec_resp_preprocess(&$variables) {
   if (isset($variables['form']['#form_id'])) {
     switch ($variables['form']['#form_id']) {
       case 'feature_set_admin_form':
-        // Display feature set on two columns.
-        $output_right = $output_left = '';
+        // Add specific javascript.
+        drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/feature-set.js', array('scope' => 'footer', 'weight' => 13));
+        
+        $categories_list = '';
+        $features_list = '';
 
-        $first_column = 1;
         foreach ($variables['feature_set_category']['category'] as $category => $features) {
-          $output = '';
-          $output .= '<li>';
-          $output .= '<a class="list-group-item feature-set-category">' . $category . '</a>';
           $table = array(
             'header' => NULL,
             'rows' => array(),
             'attributes' => array('class' => array('feature-set-content table table-striped table-hover')),
           );
-          foreach ($features as $key => $item) {
 
+          // Create category id.
+          $category_id = preg_replace("/[^a-z0-9_\s-]/", "", strtolower($category));
+          $category_id = preg_replace("/[\s-]+/", " ", $category_id);
+          $category_id = preg_replace("/[\s_]/", "-", $category_id);
+
+          // Format categories.
+          $categories_list .= theme('html_tag', array(
+            'element' => array(
+              '#tag' => 'li',
+              '#attributes' => array(
+                'class' => 'feature-set__category',
+                'role' => 'presentation',
+              ),
+              '#value' => l(
+                $category . ' (' . count($features) . ')',
+                '',
+                array(
+                  'fragment' => $category_id,
+                  'external' => TRUE,
+                )
+              ),
+            ),
+          ));
+
+          // Format features.
+          $feature_full = '';
+          foreach ($features as $key => $item) {
             // Get the icon if available.
             if (!empty($item['#featuresetinfo']['font'])) {
-              $feature_icon = '<span class="' . $item['#featuresetinfo']['font'] . '"></span>';
+              $feature_icon = theme('html_tag', array(
+                'element' => array(
+                  '#tag' => 'div',
+                  '#attributes' => array(
+                    'class' => array(
+                      'feature-set__icon',
+                      $item['#featuresetinfo']['font'],
+                    ),
+                  ),
+                  '#value' => '',
+                ),
+              ));
             }
             elseif (!empty($item['#featuresetinfo']['icon'])) {
               $image = array(
                 'path' => $item['#featuresetinfo']['icon'],
                 'alt' => t('@feature-set icon', array('@feature-set' => $item['#featuresetinfo']['featureset'])),
-                'attributes' => array(),
+                'attributes' => array(
+                  'class' => 'feature-set__icon',
+                ),
               );
               $feature_icon = theme_image($image);
             }
@@ -42,34 +80,121 @@ function ec_resp_preprocess(&$variables) {
               $feature_icon = '';
             }
 
-            // Get the feature name and description.
-            $feature_content = '<blockquote>';
-            $feature_content .= '<p>' . $item['#featuresetinfo']['featureset'] . '</p>';
-            if (!empty($item['#featuresetinfo']['description'])) {
-              $feature_content .= '<small>' . $item['#featuresetinfo']['description'] . '</small>';
-            }
-            $feature_content .= '</blockquote>';
-            $table['rows'][] = array(
-              array('data' => $feature_icon, 'class' => 'feature-set-image'),
-              array('data' => $feature_content, 'class' => 'feature_set_content'),
-              array('data' => render($item), 'class' => 'feature_set_switcher'),
-            );
+            // Format feature name.
+            $feature_name = theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'div',
+                '#attributes' => array(
+                  'class' => 'feature-set__name',
+                ),
+                '#value' => $item['#featuresetinfo']['featureset'],
+              ),
+            ));
+
+            // Format feature documentation.
+            $feature_documentation = !empty($item['#featuresetinfo']['documentation'])
+              ? l(
+                t('See @name documentation', array('@name' => $item['#featuresetinfo']['featureset'])),
+                $item['#featuresetinfo']['documentation'],
+                array('attributes' => array('target' => '_blank')))
+              : '';
+
+            // Format feature description.
+            $feature_description_value = '';
+            $feature_description_value .= !empty($item['#featuresetinfo']['description'])
+              ? $item['#featuresetinfo']['description']
+              : '';
+            $feature_description_value .= !empty($feature_documentation)
+              ? theme('html_tag', array(
+                'element' => array(
+                  '#tag' => 'footer',
+                  '#attributes' => array(
+                    'class' => 'feature-set__doc',
+                  ),
+                  '#value' => $feature_documentation,
+                ),
+              ))
+              : '';
+
+            $feature_description = theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'blockquote',
+                '#attributes' => array(
+                  'class' => 'feature-set__desc',
+                ),
+                '#value' => $feature_description_value,
+              ),
+            ));
+
+            // Format feature requirements.
+            $feature_require = theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'div',
+                '#attributes' => array(
+                  'class' => 'feature-set__doc',
+                ),
+                '#value' => !empty($item['#featuresetinfo']['require'])
+                ? $item['#featuresetinfo']['require']
+                : '',
+              ),
+            ));
+
+            // Format switcher.
+            $feature_switcher = theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'div',
+                '#attributes' => array(
+                  'class' => 'feature-set__switch',
+                ),
+                '#value' => render($item),
+              ),
+            ));
+
+            // Group content.
+            $feature_header = theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'div',
+                '#attributes' => array(
+                  'class' => 'feature-set__header',
+                ),
+                '#value' => $feature_icon . $feature_name . $feature_switcher,
+              ),
+            ));
+            $feature_content = theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'div',
+                '#attributes' => array(
+                  'class' => 'feature-set__content',
+                ),
+                '#value' => $feature_description . $feature_require,
+              ),
+            ));
+            $feature_full .= theme('html_tag', array(
+              'element' => array(
+                '#tag' => 'div',
+                '#attributes' => array(
+                  'class' => 'feature-set__feature',
+                ),
+                '#value' => $feature_header . $feature_content,
+              ),
+            ));
           }
 
-          $output .= theme('table', $table);
-          $output .= '</li>';
-
-          if ($first_column) {
-            $output_left .= $output;
-          }
-          else {
-            $output_right .= $output;
-          }
-
-          $first_column = 1 - $first_column;
+          // Update feature list.
+          $features_list .= theme('html_tag', array(
+            'element' => array(
+              '#tag' => 'div',
+              '#attributes' => array(
+                'id' => $category_id,
+                'class' => 'feature-set__feature-group',
+              ),
+              '#value' => $feature_full,
+            ),
+          ));
         }
-        $variables['feature_set_output_left'] = $output_left;
-        $variables['feature_set_output_right'] = $output_right;
+
+        $variables['feature_set_categories_list'] = $categories_list;
+        $variables['feature_set_features_list'] = $features_list;
         break;
     }
   }
@@ -315,7 +440,6 @@ function ec_resp_preprocess_maintenance_page(&$variables) {
   if (!$variables['db_is_active']) {
     unset($variables['site_name']);
   }
-  drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/maintenance-page.css');
 }
 
 /**
@@ -325,50 +449,17 @@ function ec_resp_preprocess_html(&$variables) {
   // Update page title.
   if (arg(0) == 'node' && is_numeric(arg(1))) {
     $node = node_load(arg(1));
-    // if the metatag title exists, it must be used to construct the title page
-    if(isset($node->field_meta_title) && !empty($node->field_meta_title))
+    // If the metatag title exists, it must be used to construct the title page.
+    if (isset($node->field_meta_title) && !empty($node->field_meta_title)) {
       $variables['head_title'] = filter_xss($node->field_meta_title['und'][0]['value']);
-    else 
+    }
+    else {
       $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
+    }
   }
   else {
     $variables['head_title'] = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
   }
-
-  // Add specific css for font size switcher
-  // it has to be done here, to add custom data.
-  global $base_url;
-  $element = array(
-    '#tag' => 'link',
-    '#attributes' => array(
-      'href' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/css/text_size_small.css',
-      'rel' => 'stylesheet',
-      'type' => 'text/css',
-      'data-name' => 'switcher',
-    ),
-  );
-  drupal_add_html_head($element, 'font_size_switcher');
-
-  // Add javascripts for IE only.
-  $html5shiv = array(
-    '#tag' => 'script',
-    '#attributes' => array(
-      'src' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/scripts/html5shiv.min.js',
-    ),
-    '#prefix' => '<!--[if lt IE 9]>',
-    '#suffix' => '</script><![endif]-->',
-  );
-  drupal_add_html_head($html5shiv, 'html5shiv');
-
-  $respond = array(
-    '#tag' => 'script',
-    '#attributes' => array(
-      'src' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/scripts/respond.min.js',
-    ),
-    '#prefix' => '<!--[if lt IE 9]>',
-    '#suffix' => '</script><![endif]-->',
-  );
-  drupal_add_html_head($respond, 'respond');
 
   // Add javascripts to the footer scope.
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
@@ -511,11 +602,11 @@ function _ec_resp_media_gallery_count($matches) {
   $nb_pictures = 0;
   $nb_video = 0;
 
-  if (isset($node->field_picture_upload[LANGUAGE_NONE])):
+  if (isset($node->field_picture_upload[LANGUAGE_NONE])) :
     $nb_pictures = count($node->field_picture_upload[LANGUAGE_NONE]);
   endif;
 
-  if (isset($node->field_video_upload[LANGUAGE_NONE])):
+  if (isset($node->field_video_upload[LANGUAGE_NONE])) :
     $nb_video = count($node->field_video_upload[LANGUAGE_NONE]);
   endif;
 
@@ -545,11 +636,13 @@ function ec_resp_page_alter(&$page) {
 
   $title = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
   if (!empty($node)) {
-    // if the metatag title exists, it must be used to construct the title page
-    if(isset($node->field_meta_title) && !empty($node->field_meta_title))
+    // If the metatag title exists, it must be used to construct the title page.
+    if (isset($node->field_meta_title) && !empty($node->field_meta_title)) {
       $title = filter_xss($node->field_meta_title['und'][0]['value']);
-    else
+    }
+    else {
       $title = $node_title . ' - ' . $title;
+    }
   }
 
   $keywords = '';
@@ -907,7 +1000,6 @@ function ec_resp_menu_link($variables) {
   // Test if there is a sub menu.
   if ($element['#below'] && !theme_get_setting('disable_dropdown_menu') && !in_array('dropdown', $element['#attributes']['class'])) {
     // Menu item has sub menu.
-
     // Add carret and class.
     $element['#title'] .= '<b class="caret"></b>';
     $element['#attributes']['class'][] = 'dropdown';
@@ -1299,7 +1391,7 @@ function ec_resp_preprocess_block(&$variables) {
     'workbench' => 'block',
     'social_bookmark' => 'social-bookmark',
     'views' => 'view_ec_content_slider-block',
-    'om_maximenu' => array('om-maximenu-1','om-maximenu-2'),
+    'om_maximenu' => array('om-maximenu-1', 'om-maximenu-2'),
     'menu' => 'menu-service-tools',
     'cce_basic_config' => 'footer_ipg',
   );
@@ -1307,7 +1399,7 @@ function ec_resp_preprocess_block(&$variables) {
   // List of all blocks that don't need their title to be displayed.
   $block_no_title = array(
     'fat_footer' => 'fat-footer',
-    'om_maximenu' => array('om-maximenu-1','om-maximenu-2'),
+    'om_maximenu' => array('om-maximenu-1', 'om-maximenu-2'),
     'menu' => 'menu-service-tools',
     'cce_basic_config' => 'footer_ipg',
   );

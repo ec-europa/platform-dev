@@ -15,26 +15,6 @@ function nexteuropa_core_init() {
 }
 
 /**
- * Implements hook_migrate_api().
- */
-function nexteuropa_core_migrate_api() {
-  return array(
-    'api' => 2,
-    'groups' => array(
-      'NextEuropa' => array(
-        'title' => t('Stage initial content, users and terms.'),
-      ),
-    ),
-    'migrations' => array(
-      'NextEuropaCoreUserTasks' => array(
-        'class_name' => 'NextEuropaCoreUserTasksMigration',
-        'group_name' => 'NextEuropa',
-      ),
-    ),
-  );
-}
-
-/**
  * Implements hook_form_FORM_ID_alter().
  */
 function nexteuropa_core_form_taxonomy_overview_terms_alter(&$form, $form_state) {
@@ -60,5 +40,15 @@ function nexteuropa_core_form_taxonomy_overview_terms_submit($form, &$form_state
       $uri = entity_uri('taxonomy_term', $term);
       pathauto_create_alias('taxonomy_term', 'update', $uri['path'], array('term' => $term), $term->vocabulary_machine_name);
     }
+  }
+}
+
+/**
+ * Implements hook_wysiwyg_editor_settings_alter().
+ */
+function nexteuropa_core_wysiwyg_editor_settings_alter(&$settings, $context) {
+  // Turn CKEditor Lite tracking off by default.
+  if (module_exists('ckeditor_lite') && $context['profile']->editor == 'ckeditor') {
+    $settings['lite']['isTracking'] = FALSE;
   }
 }

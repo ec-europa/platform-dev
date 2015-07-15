@@ -3,13 +3,19 @@
  * @file
  * Default theme implementation of main page.
  */
-?><!DOCTYPE html>
-<html>
+?>
+<!DOCTYPE html>
+<html lang="<?php print (isset($language) ? $language->language : '') ?>">
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
+  <!-- HTML5 element support for IE6-8 -->
+  <!--[if lt IE 9]>
+    <script src="<?php print url(drupal_get_path('theme', 'ec_resp') . '/scripts/html5shiv.min.js', array('language' => (object)array('language' => FALSE))); ?>"></script>
+    <script src="<?php print url(drupal_get_path('theme', 'ec_resp') . '/scripts/respond.min.js', array('language' => (object)array('language' => FALSE))); ?>"></script>
+  <![endif]--> 
   <?php print $scripts; ?>
 
 </head>

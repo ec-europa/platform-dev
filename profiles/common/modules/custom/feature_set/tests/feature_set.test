@@ -3,7 +3,6 @@
 /**
  * @file
  * Tests for PROJECTFEATURE_feature_set.module.
- * ECWeb MULTISITE QA
  */
 
 /**
@@ -24,7 +23,7 @@ class MultisiteFeatureSetQAWebTestCase extends DrupalWebTestCase {
   /**
    * Test Info File.
    *
-   * TestFile <featurename>.info
+   * TestFile <featurename>.info.
    */
   public function testInfoFile() {
     $module = basename(__FILE__, ".test");
@@ -81,7 +80,7 @@ class MultisiteFeatureSetQAWebTestCase extends DrupalWebTestCase {
   /**
    * Test Install File.
    *
-   * TestFile <featurename>.install
+   * TestFile <featurename>.install.
    */
   public function testInstallFile() {
     $module = basename(__FILE__, ".test");
@@ -92,6 +91,5 @@ class MultisiteFeatureSetQAWebTestCase extends DrupalWebTestCase {
     $this->assertTrue(strpos($data, $module . '_enable'), 'The module contains a hook_enable');
     $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
   }
-
 
 }

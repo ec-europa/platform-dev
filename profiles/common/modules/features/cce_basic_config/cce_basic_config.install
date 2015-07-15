@@ -292,77 +292,66 @@ function cce_basic_config_install() {
   }
 
   // Add a fivestar rate widget.
-  // Check if rate widget already exists.
-  $rate_widgets = variable_get("rate_widgets");
-  if (!$rate_widgets || count($rate_widgets) == 0) {
-    $rate_widgets = array();
-  }
-  else {
-    foreach ($rate_widgets as $rate_widget) {
-      if ($rate_widget->name == 'rate_fivestar') {
-        // The widget fivestar already exists.
-        return;
-      }
-    }
-  }
-
-  $rate_widgets[1] = (object) array(
-    'name' => 'rate_fivestar',
-    'tag' => 'vote',
-    'title' => 'rate_fivestar',
-    'node_types' => array(),
-    'comment_types' => array(),
-    'options' => array(
-      0 => array(
-        0 => '0',
-        1 => '1',
+  $path = drupal_get_path('module', 'rate');
+  $rate_widgets = array(
+    (object) array(
+      'name' => 'rate_fivestar',
+      'tag' => 'vote',
+      'title' => 'rate_fivestar',
+      'node_types' => array(),
+      'comment_types' => array(),
+      'options' => array(
+        0 => array(
+          0 => '0',
+          1 => '1',
+        ),
+        1 => array(
+          0 => '25',
+          1 => '2',
+        ),
+        2 => array(
+          0 => '50',
+          1 => '3',
+        ),
+        3 => array(
+          0 => '75',
+          1 => '4',
+        ),
+        4 => array(
+          0 => '100',
+          1 => '5',
+        ),
       ),
-      1 => array(
-        0 => '25',
-        1 => '2',
+      'template' => 'fivestar',
+      'node_display' => '2',
+      'teaser_display' => FALSE,
+      'comment_display' => '2',
+      'node_display_mode' => '1',
+      'teaser_display_mode' => '1',
+      'comment_display_mode' => '1',
+      'roles' => array(
+        2 => '2',
+        3 => 0,
+        1 => 0,
+        4 => 0,
+        5 => 0,
       ),
-      2 => array(
-        0 => '50',
-        1 => '3',
-      ),
-      3 => array(
-        0 => '75',
-        1 => '4',
-      ),
-      4 => array(
-        0 => '100',
-        1 => '5',
-      ),
+      'allow_voting_by_author' => 1,
+      'noperm_behaviour' => '1',
+      'displayed' => '1',
+      'displayed_just_voted' => '2',
+      'description' => '',
+      'description_in_compact' => TRUE,
+      'delete_vote_on_second_click' => '0',
+      'use_source_translation' => TRUE,
+      'value_type' => 'percent',
+      'theme' => 'rate_template_fivestar',
+      'css' => $path . '/templates/fivestar/fivestar.css',
+      'js' => $path . '/templates/fivestar/fivestar.js',
+      'translate' => TRUE,
     ),
-    'template' => 'fivestar',
-    'node_display' => '2',
-    'teaser_display' => FALSE,
-    'comment_display' => '2',
-    'node_display_mode' => '1',
-    'teaser_display_mode' => '1',
-    'comment_display_mode' => '1',
-    'roles' => array(
-      2 => '2',
-      3 => 0,
-      1 => 0,
-      4 => 0,
-      5 => 0,
-    ),
-    'allow_voting_by_author' => 1,
-    'noperm_behaviour' => '1',
-    'displayed' => '1',
-    'displayed_just_voted' => '2',
-    'description' => '',
-    'description_in_compact' => TRUE,
-    'delete_vote_on_second_click' => '0',
-    'use_source_translation' => TRUE,
-    'value_type' => 'percent',
-    'theme' => 'rate_template_fivestar',
-    'css' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.css',
-    'js' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.js',
-    'translate' => TRUE,
   );
-  variable_set("rate_widgets", $rate_widgets);
+  variable_set('rate_widgets', $rate_widgets);
 
   if (db_table_exists('captcha_points')) {
     db_update('captcha_points')
@@ -1076,9 +1065,11 @@ function cce_basic_config_update_7192() {
 
   // Captcha.
   variable_set('captcha_default_challenge', 'image_captcha/Image');
+  $path = drupal_get_path('module', 'captcha');
   variable_set('image_captcha_fonts', array(
-    'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf' => 'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf',
-    'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf' => 'sites/all/modules/contributed/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf'));
+    $path . '/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf' => $path . '/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf',
+    $path . '/image_captcha/fonts/Tuffy/Tuffy.ttf' => $path . '/image_captcha/fonts/Tuffy/Tuffy.ttf',
+  ));
   variable_set('image_captcha_distortion_amplitude', '5');
   variable_set('image_captcha_bilinear_interpolation', 1);
 
@@ -1354,7 +1345,7 @@ function cce_basic_config_update_7200() {
       ->execute();
   }
 
-  variable_set('multisite_version', '1.8');
+  variable_set('multisite_version', '2.0');
 }
 
 /**
@@ -1474,4 +1465,49 @@ function cce_basic_config_update_7202() {
     ->condition('link_path', 'user/login')
     ->condition('menu_name', 'user-menu')
     ->execute();
+}
+
+/**
+ * Update the location of the Rate attachments.
+ */
+function cce_basic_config_update_7203() {
+  // The Rate module has moved to the modules subdirectory in the profile. The
+  // module hardcodes the locations of its CSS and JS attachments inside a
+  // variable. Update these so they point to the correct location.
+  $path = drupal_get_path('module', 'rate');
+  $rate_widgets = variable_get('rate_widgets', array());
+
+  foreach ($rate_widgets as &$rate_widget) {
+    foreach (array('css', 'js') as $attachment) {
+      if (!empty($rate_widget->$attachment) && strpos($rate_widget->$attachment, 'sites/all/modules/contributed/rate') === 0) {
+        $rate_widget->$attachment = str_replace('sites/all/modules/contributed/rate', $path, $rate_widget->attachment);
+      }
+    }
+  }
+
+  variable_set('rate_widgets', $rate_widgets);
+}
+
+/**
+ * Update variables with new module locations after folder restructuring.
+ */
+function cce_basic_config_update_7204() {
+  module_load_include('inc', 'features', 'features.export');
+
+  $variables_to_revert = array(
+    'image_captcha_fonts',
+    'print_pdf_pdf_tool',
+  );
+
+  // Retrieve the default values for the variables from the exported feature.
+  $defaults = array_intersect_key(features_get_default('variable', 'cce_basic_config'), array_flip($variables_to_revert));
+
+  // It is only needed to revert the variable if it is actually overridden.
+  // @see variable_features_revert()
+  $variables = strongarm_vars_load(TRUE, TRUE);
+  foreach ($defaults as $name => $default) {
+    if (!empty($variables[$name]->in_code_only) || ($default->value !== $variables[$name]->value)) {
+      variable_set($name, $default->value);
+    }
+  }
 }

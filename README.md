@@ -1,5 +1,10 @@
 # NextEuropa
 
+## Requirements
+
+* Composer
+* PHP Phar extension
+
 ## Install build system
 
 Before we can build the NextEuropa platform we need to install the build system

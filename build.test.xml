@@ -19,4 +19,16 @@
         </drush>
     </target>
 
+    <!-- Run PHP CodeSniffer tests. -->
+    <target name="php-codesniffer" description="Run a PHP CodeSniffer test.">
+        <phpcodesniffer
+            standard="${phpcs.standard}"
+            format="${phpcs.format}"
+            file="${platform.resources.profiles.dir}"
+            allowedFileExtensions="${phpcs.extensions}"
+            ignorePatterns="${phpcs.ignore}"
+            verbosity="${phpcs.verbose}"
+        />
+    </target>
+
 </project>

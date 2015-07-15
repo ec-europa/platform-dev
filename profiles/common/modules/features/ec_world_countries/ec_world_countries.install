@@ -109,10 +109,16 @@ function ec_world_countries_uninstall() {
  * Creates the 2 letter code field & assigns codes to countries.
  */
 function ec_world_countries_update_7100() {
-
-  // Creates 2 letter code field.
-  ec_world_countries_iso_field();
-
-  // Assigns the 2 letter code to each country.
-  ec_world_countries_add_code();
+  $field = 'iso_3166_1_alpha_2_code';
+  // Check if the field iso_3166_1_alpha_2_code has not been already created.
+  if (!field_info_instance('taxonomy_term', $field, 'ec_world_countries')) { 
+    // Creates 2 letter code field.
+    ec_world_countries_iso_field();
+  }
+  $results = db_select('field_data_iso_3166_1_alpha_2_code')->fields(NULL, array('field'))->countQuery()->execute()->fetchField();
+  // Check if the field iso_3166_1_alpha_2_code has values.
+  if ($results == 0) {
+    // Assigns the 2 letter code to each country.
+    ec_world_countries_add_code();
+  }
 }

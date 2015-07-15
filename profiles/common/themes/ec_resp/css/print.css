@@ -1,7 +1,9 @@
-/* $Id: print.css,v 1.2 2010/09/09 15:27:08 webchick Exp $ */
+/**
+ * @file
+ * CSS for print.
+ */
 
 /* ---------- General Layout ---------- */
-
 body,
 input,
 textarea,
@@ -34,12 +36,13 @@ body {
   padding: 0;
   border: none;
 }
-#triptych-first, #triptych-middle, #triptych-last {
+#triptych-first,
+#triptych-middle,
+#triptych-last {
   width: 250px;
 }
 
 /* ---------- Node Pages ---------- */
-
 #comments .title,
 #comments form,
 .comment_forbidden {

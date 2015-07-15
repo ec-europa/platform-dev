@@ -146,7 +146,7 @@ class Config extends ConfigBase {
    * @param int $weight
    *    Role weight.
    *
-   * @return stdClass
+   * @return object
    *    Role object.
    */
   public function createRole($name, $weight = 0) {

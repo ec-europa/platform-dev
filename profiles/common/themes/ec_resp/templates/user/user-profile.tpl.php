@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Default theme implementation to present all user profile data.
@@ -33,7 +32,7 @@
  */
 ?>
 <div class="profile"<?php print $attributes; ?>>
-  <?php 
+  <?php
     // List basic fields.
     $basic = array(
       'field_firstname',
@@ -58,14 +57,14 @@
           </small>
       </div>
     </div>
-    <?php 
+    <?php
       if (isset ($contact_form)):
         print $contact_form;
       endif;
     ?>
   </div>
   
-  <?php 
+  <?php
     foreach ($user_profile as $key => $value):
       if (!in_array($key, $basic)):
         print render($value);

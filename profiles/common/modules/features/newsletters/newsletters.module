@@ -1,126 +1,107 @@
 <?php
-
 /**
  * @file
  * Code for the newsletters feature.
  */
-include_once('newsletters.features.inc');
 
-/*
- * hook_enable
+include_once 'newsletters.features.inc';
+
+/**
+ * Implements hook_menu().
  */
-
-function newsletters_init() {
-
-}
-
-
-
-/*
- * hook_menu
- */
-
 function newsletters_menu() {
-  $items['my_subscriptions'] = array('title' => 'Newsletters',
-      'access callback' => TRUE,
-      'page callback' => '_my_subscriptions',
-      'type' => MENU_NORMAL_ITEM,
-      'menu_name' => 'main-menu',
-      'weight' => 20,
-      );
+  $items = array();
+  $items['my_subscriptions'] = array(
+    'title' => 'Newsletters',
+    'access callback' => TRUE,
+    'page callback' => '_newsletters_my_subscriptions',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'main-menu',
+    'weight' => 20,
+  );
   return $items;
 }
 
-/*
- * display the subcriptions management page
+/**
+ * Display the subcriptions management page.
  */
-
-function _my_subscriptions() {
+function _newsletters_my_subscriptions() {
   $block = module_invoke('simplenews', 'block_view', '0');
   return $block['content'];
 }
 
-/*
- *  allow to link all content types to the related_content field of the simplenews content
+/**
+ * Implements hook_field_create_field().
  */
-
 function newsletters_field_create_field($field) {
   if ($field["field_name"] == 'field_related_contents') {
     $types = node_type_get_types();
     foreach ($types as $type => $value) {
-      if ($type != 'simplenews') multisite_drupal_toolbox_simplenews_related_content_type($type, 'add');
+      if ($type != 'simplenews') {
+        multisite_drupal_toolbox_simplenews_related_content_type($type, 'add');
+      }
     }
   }
 }
 
 /**
- * Implementation of hook_token_info().
+ * Implements hook_token_info().
  */
 function newsletters_token_info() {
+  $info = array();
   $info['types']['newsletter-breadcrumb'] = array(
-      'name' => 'newsletter breadcrumb',
-      'description' => 'Tokens related to breadcrumb of newsletter',
+    'name' => 'newsletter breadcrumb',
+    'description' => 'Tokens related to breadcrumb of newsletter',
   );
 
   $info['tokens']['newsletter-breadcrumb']['path'] = array(
-      'name' => t('newsletter breadcrumb path'),
-      'description' => t("The breadcrumb path of the newsletter."),
+    'name' => t('newsletter breadcrumb path'),
+    'description' => t("The breadcrumb path of the newsletter."),
   );
 
   $info['types']['Breadcrumb_newsletter'] = array(
-        'name' => 'Breadcrumb_newsletter',
-        'description' => 'Tokens related to Breadcrumb.',
+    'name' => 'Breadcrumb_newsletter',
+    'description' => 'Tokens related to Breadcrumb.',
   );
 
   $info['tokens']['Breadcrumb_newsletter']["newsletter_title"] = array(
-      'name' => t("newsletter Breadcrumb title"),
-      'description' => t("The Breadcrumb title of the newsletter"),
+    'name' => t("newsletter Breadcrumb title"),
+    'description' => t("The Breadcrumb title of the newsletter"),
   );
   return $info;
 }
 
 /**
  * Implements hook_tokens().
- *
  */
 function newsletters_tokens($type, $tokens, $data = array(), $options = array()) {
-    $replacements = array();
-    global $language;
+  global $language;
+  $replacements = array();
 
-
-    $sanitize = !empty($options['sanitize']);
-    // tokens for newsletter breadcrumb
-    if ($type == 'newsletter-breadcrump' && !empty($data['node'])) {
-        //get the current node
-        //var_dump($node);
-        $node = $data['node'];
-        foreach ($tokens as $name => $original) {
-            switch ($name) {
-                case 'path':
-                    //get the id of taxonomy
-                    $tid = $node->field_simplenews_term[$language->language][0]["tid"];
-                    //create a taxonomy path
-                    $tax_path = "taxonomy/term/$tid";
-                    //create a aliased path from taxonomy
-                    $path = drupal_get_path_alias($tax_path);
-                    //ready to return path
-                    $replacements[$original] = $path;
-                    break;
-            }
-        }
+  $sanitize = !empty($options['sanitize']);
+  // Tokens for newsletter breadcrumb.
+  if ($type == 'newsletter-breadcrump' && !empty($data['node'])) {
+    $node = $data['node'];
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'path':
+          $tid = $node->field_simplenews_term[$language->language][0]['tid'];
+          $tax_path = "taxonomy/term/" . $tid;
+          $path = drupal_get_path_alias($tax_path);
+          $replacements[$original] = $path;
+          break;
+      }
     }
+  }
 
-    if ($type == 'Breadcrumb_newsletter') {
-        foreach ($tokens as $name => $original) {
-            switch ($name) {
-                case 'newsletter_title':
-                    $replacements[$original] = t("newsletter");
-                    break;
-            }
-        }
+  if ($type == 'Breadcrumb_newsletter') {
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'newsletter_title':
+          $replacements[$original] = t("newsletter");
+          break;
+      }
     }
-    return $replacements;
+  }
+  return $replacements;
 }
-
-
-

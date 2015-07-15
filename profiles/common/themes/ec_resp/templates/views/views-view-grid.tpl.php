@@ -3,6 +3,7 @@
  * @file
  * Default simple view template to display a rows in a grid.
  *
+ * Available variables:
  * - $rows contains a nested array of rows. Each row contains an array of
  *   columns.
  *
@@ -20,7 +21,7 @@ endif;
 <?php endif; ?>
 
   <div class="row <?php print $class; ?>"<?php print $attributes; ?>>
-<?php 
+<?php
 $index = 0;
 
 // Get all views elements.
