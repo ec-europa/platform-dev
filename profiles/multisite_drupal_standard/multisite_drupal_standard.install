@@ -69,3 +69,11 @@ function multisite_drupal_standard_update_7200() {
     'nexteuropa_europa_search',
   ));
 }
+
+/**
+ * NEXTEUROPA-3298: Disable ckeditor_link module.
+ */
+function multisite_drupal_standard_update_7201() {
+  module_disable(array('ckeditor_link'));
+  drupal_uninstall_modules(array('ckeditor_link'));
+}

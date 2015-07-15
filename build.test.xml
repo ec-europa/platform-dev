@@ -31,4 +31,14 @@
         />
     </target>
 
+    <!-- Run Behat tests. -->
+    <target name="behat" description="Run Behat tests.">
+        <behat
+            executable="${behat.bin}"
+            config="${behat.yml.path}"
+            strict="${behat.options.strict}"
+            verbose="${behat.options.verbosity}"
+        />
+    </target>
+
 </project>

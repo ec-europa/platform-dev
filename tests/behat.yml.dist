@@ -1,0 +1,63 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\DrushContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\nexteuropa\Context\DrupalContext
+        - Drupal\nexteuropa\Context\MinkContext
+      filters:
+        tags: "~@communities&&~@wip"
+  extensions:
+    Behat\MinkExtension:
+      goutte: ~
+      selenium2: ~
+      javascript_session: 'selenium2'
+      base-url: '${behat.base_url}'
+    Drupal\DrupalExtension:
+      api_driver: 'drupal'
+      blackbox: ~
+      drupal:
+        drupal_root: '${platform.build.dir}'
+      selectors:
+        message_selector: '.messages'
+        error_message_selector: '.messages.error'
+        success_message_selector: '.messages.status'
+      subcontexts:
+        paths:
+          - '${behat.subcontexts.path}'
+  formatters:
+    ${behat.formatter.name}: ~
+
+communities:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\DrushContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\nexteuropa\Context\DrupalContext
+        - Drupal\nexteuropa\Context\MinkContext
+      filters:
+        tags: "@communities&&~@wip"
+  extensions:
+    Behat\MinkExtension:
+      goutte: ~
+      selenium2: ~
+      javascript_session: 'selenium2'
+      base-url: '${behat.base_url}'
+    Drupal\DrupalExtension:
+      api_driver: 'drupal'
+      blackbox: ~
+      drupal:
+        drupal_root: '${platform.build.dir}'
+      selectors:
+        message_selector: '.messages'
+        error_message_selector: '.messages.error'
+        success_message_selector: '.messages.status'
+      subcontexts:
+        paths:
+          - '${behat.subcontexts.path}'
+  formatters:
+    ${behat.formatter.name}: ~

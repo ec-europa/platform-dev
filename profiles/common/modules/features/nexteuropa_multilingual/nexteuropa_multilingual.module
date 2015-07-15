@@ -190,7 +190,7 @@ function nexteuropa_multilingual_tokens_alter(array &$replacements, array $conte
     $wrapper = entity_metadata_wrapper('node', $node);
     $original_language = $node->translations->original;
     // Title_field : field handled by the title module.
-    $replacements['[node:source:title]'] = $wrapper->language($original_language)->title_field->value();
+    $replacements['[node:source:title]'] = $wrapper->language($original_language)->label();
   }
 }
 

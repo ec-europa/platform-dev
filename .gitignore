@@ -6,6 +6,7 @@ nbproject/
 
 # Ignore local configuration overrides.
 build.properties.local
+tests/behat.yml
 
 # Ignore build folders.
 bin/
