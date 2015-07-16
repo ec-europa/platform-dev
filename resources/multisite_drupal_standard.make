@@ -30,6 +30,7 @@ projects[apachesolr][version] = "1.7"
 projects[apachesolr][patch][] = patches/apachesolr-attachment_indexation-481.patch
 projects[apachesolr][patch][] = patches/apachesolr-invalidate-caches-new-node-type-2178283.patch
 projects[apachesolr][patch][] = patches/apachesolr-multiples_dates-4335.patch
+projects[apachesolr][patch][] = patches/apachesolr_search-overwritten_menu_items.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.3"
