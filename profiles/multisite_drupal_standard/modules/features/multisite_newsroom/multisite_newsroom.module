@@ -1085,20 +1085,32 @@ function multisite_newsroom_delete($name, $type = 'menu', $op = 'items') {
  */
 function multisite_newsroom_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'newsroom_item_node_form') {
+    $terms = array();
     global $language;
     $def_lang = language_default()->language;
     $curr_lang = $language->language;
+    $taxonomy_fields = array(
+      'field_newsroom_item_type',
+      'field_primary_topic',
+      'field_newsroom_topics',
+      'field_highlighted_newsroom_topic',
+    );
 
-    $vid = taxonomy_vocabulary_machine_name_load('newsroom_item_type')->vid;
-    $terms = i18n_taxonomy_get_tree($vid, $def_lang);
+    $type_vid = taxonomy_vocabulary_machine_name_load('newsroom_item_type')->vid;
+    $topic_vid = taxonomy_vocabulary_machine_name_load('newsroom_topic')->vid;
+
+    $terms['newsroom_item_type'] = i18n_taxonomy_get_tree($type_vid, $def_lang);
+    $terms['newsroom_topic'] = i18n_taxonomy_get_tree($topic_vid, $def_lang);
+
     // Fields with wrong translation in node edit form.
-    $taxonomy_fields = array('field_newsroom_item_type');
-
     foreach ($taxonomy_fields as $taxonomy_field) {
-      foreach ($terms as $key => $value) {
+      $tree = $taxonomy_field == 'field_newsroom_item_type' ? $terms['newsroom_item_type'] : $terms['newsroom_topic'];
+ 
+      foreach ($tree as $key => $value) {
         $i18n_object = i18n_get_object('taxonomy_term', $value->tid);
         $t_term = $i18n_object->localize($curr_lang);
-        $form[$taxonomy_field]['und']['#options'][$value->tid] = $t_term->name;
+        $pref = $value->parents[0] != 0 ?  '- ' : '';
+        $form[$taxonomy_field]['und']['#options'][$value->tid] = $pref . $t_term->name;
       }
     }
   }
