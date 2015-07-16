@@ -1079,3 +1079,27 @@ function multisite_newsroom_delete($name, $type = 'menu', $op = 'items') {
       break;
   }
 }
+
+/*
+ * Implements hook_form_alter().
+ */
+function multisite_newsroom_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'newsroom_item_node_form') {
+    global $language;
+    $def_lang = language_default()->language;
+    $curr_lang = $language->language;
+
+    $vid = taxonomy_vocabulary_machine_name_load('newsroom_item_type')->vid;
+    $terms = i18n_taxonomy_get_tree($vid, $def_lang);
+    // Fields with wrong translation in node edit form.
+    $taxonomy_fields = array('field_newsroom_item_type');
+
+    foreach ($taxonomy_fields as $taxonomy_field) {
+      foreach ($terms as $key => $value) {
+        i18n_taxonomy_term_get_translation($value, $curr_lang);
+        $form[$taxonomy_field]['und']['#options'][$value->tid] = $value->name;
+      }
+      dsm($form[$taxonomy_field]);
+    }
+  }
+}
