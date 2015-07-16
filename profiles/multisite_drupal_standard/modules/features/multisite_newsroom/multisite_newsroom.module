@@ -1096,10 +1096,10 @@ function multisite_newsroom_form_alter(&$form, &$form_state, $form_id) {
 
     foreach ($taxonomy_fields as $taxonomy_field) {
       foreach ($terms as $key => $value) {
-        i18n_taxonomy_term_get_translation($value, $curr_lang);
-        $form[$taxonomy_field]['und']['#options'][$value->tid] = $value->name;
+        $i18n_object = i18n_get_object('taxonomy_term', $value->tid);
+        $t_term = $i18n_object->localize($curr_lang);
+        $form[$taxonomy_field]['und']['#options'][$value->tid] = $t_term->name;
       }
-      dsm($form[$taxonomy_field]);
     }
   }
 }
