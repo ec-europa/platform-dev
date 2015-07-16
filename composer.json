@@ -19,7 +19,8 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "Drupal\\nexteuropa\\": "tests/src"
+      "Drupal\\nexteuropa\\": "tests/src",
+      "NextEuropa\\": "src"
     }
   },
   "repositories": [

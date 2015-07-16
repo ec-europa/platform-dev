@@ -19,12 +19,41 @@
         </drush>
     </target>
 
+    <!-- Set up PHP CodeSniffer. -->
+    <target name="setup-php-codesniffer" description="Generate the configuration file for PHP CodeSniffer.">
+        <if>
+            <available file="${phpcs.config}" type="file" property="phpcs.config.available" />
+            <then>
+                <echo message="Deleting existing PHP Codesniffer default configuration file." />
+                <delete file="${phpcs.config}" failonerror="false" />
+            </then>
+        </if>
+        <if>
+            <available file="${phpcs.global.config}" type="file" property="phpcs.global.config.available" />
+            <then>
+                <echo message="Deleting existing PHP Codesniffer global configuration file." />
+                <delete file="${phpcs.global.config}" failonerror="false" />
+            </then>
+        </if>
+        <phpcodesnifferconfiguration
+            configFile="${phpcs.config}"
+            extensions="${phpcs.extensions}"
+            files="${phpcs.files}"
+            globalConfig="${phpcs.global.config}"
+            ignorePatterns="${phpcs.ignore}"
+            report="${phpcs.report}"
+            showProgress="${phpcs.progress}"
+            showSniffCodes="${phpcs.sniffcodes}"
+            standard="${phpcs.standard}"
+        />
+    </target>
+
     <!-- Run PHP CodeSniffer tests. -->
     <target name="php-codesniffer" description="Run a PHP CodeSniffer test.">
         <phpcodesniffer
             standard="${phpcs.standard}"
-            format="${phpcs.format}"
-            file="${platform.resources.profiles.dir}"
+            format="${phpcs.report}"
+            file="${phpcs.files}"
             allowedFileExtensions="${phpcs.extensions}"
             ignorePatterns="${phpcs.ignore}"
             verbosity="${phpcs.verbose}"

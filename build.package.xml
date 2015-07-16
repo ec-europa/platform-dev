@@ -162,7 +162,7 @@
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, update-htaccess" />
+        depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, update-htaccess, setup-php-codesniffer" />
 
     <target
         name="build-platform-dist"

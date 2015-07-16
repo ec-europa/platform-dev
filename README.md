@@ -105,3 +105,17 @@ build:
 $ cd build/
 $ ../bin/behat
 ```
+
+## Checking for coding standards violations
+
+When a development build is created by executing the 'build-platform-dev' Phing
+target PHP CodeSniffer will be set up and can be run with the following
+command:
+
+```
+# Scan all files for coding standards violations.
+$ ./bin/phpcs
+
+# Scan only a single folder.
+$ ./bin/phpcs profiles/common/modules/custom/ecas
+```
