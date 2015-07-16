@@ -1103,3 +1103,38 @@ function multisite_newsroom_form_alter(&$form, &$form_state, $form_id) {
     }
   }
 }
+
+/**
+ * Implements hook_url_inbound_alter().
+ *
+ * Resolves alias if the content is not translated.
+ */
+function multisite_newsroom_url_inbound_alter(&$path, $original_path, $path_language) {
+  // Check if no url alias has not been found for incoming path.
+  if ($path && $path == $original_path) {
+    // Resolve alias if the content is not translated to current language. Get
+    // alias of existing translation.
+    foreach (array_keys(language_list()) as $language) {
+      if ($source = drupal_lookup_path('source', $path, $language)) {
+        // Check if we are at the document page.
+        if (strpos($source, 'node/') === 0) {
+          $path = $source;
+          break;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_url_outbound_alter().
+ *
+ * Resolves alias from node language if the content is not translated.
+ */
+function multisite_newsroom_url_outbound_alter(&$path, &$options, $original_path) {
+  if (preg_match('/^node\/\d+$/', $path) && $node = menu_get_object('node', 1, $path)) {
+    if ($alias = drupal_get_path_alias($path, $node->language)) {
+      $path = $alias;
+    }
+  }
+}
