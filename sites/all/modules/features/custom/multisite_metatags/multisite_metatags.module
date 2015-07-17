@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Code for the Multisite Maps feature.
+ * Code for the Multisite Metatags feature.
  */
 
 include_once 'includes/file.mimetypes.inc';
@@ -26,7 +26,7 @@ function multisite_metatags_form_alter(&$form, &$form_state, $form_id) {
     foreach ($classification as $key => $obj_term) {
       $list[$obj_term->tid] = $obj_term->name . ' - ' . strip_tags($obj_term->description);
     }
-    $form['field_meta_classification']['und']['#options'] = $list;
+    $form['field_meta_classification'][LANGUAGE_NONE]['#options'] = $list;
     $form['#validate'][] = '_multisite_metatags_classification_validate';
   }
 }
@@ -37,13 +37,13 @@ function multisite_metatags_form_alter(&$form, &$form_state, $form_id) {
  * @see multisite_metatags_form_alter()
  */
 function _multisite_metatags_classification_validate($form, &$form_state) {
-  if ($form_state['values']['field_meta_classification']['und'][0]['tid'] == 0) {
-    if ($form['field_meta_classification']['und']['#required'] == 1) {
+  if ($form_state['values']['field_meta_classification'][LANGUAGE_NONE][0]['tid'] == 0) {
+    if ($form['field_meta_classification'][LANGUAGE_NONE]['#required'] == 1) {
       form_set_error('field_meta_classification', t('IPG Classification field is required.'));
     }
     else {
       if (arg(1) != 'add') {
-        $node = node_load($form['field_meta_classification']['und']['#entity']->vid);
+        $node = node_load($form['field_meta_classification'][LANGUAGE_NONE]['#entity']->vid);
         unset($node->field_meta_classification);
       }
     }
@@ -197,14 +197,14 @@ function theme_ogimage_widget($variables) {
 }
 
 /**
- * Implemets hook_preprocess_page().
+ * Implements hook_preprocess_page().
  */
 function multisite_metatags_preprocess_page(&$variables) {
-  if (arg(0) == 'node' && is_numeric(arg(1))) {
+  if (arg(0) == 'node' && is_numeric(arg(1)) && isset($variables['node'])) {
 
     // Meta Classification.
-    if (!empty($variables['node']->field_meta_classification['und']) && $variables['node']->field_meta_classification['und'][0]['tid'] > 0) {
-      $tax = taxonomy_term_load($variables['node']->field_meta_classification['und'][0]['tid']);
+    if (!empty($variables['node']->field_meta_classification[LANGUAGE_NONE]) && $variables['node']->field_meta_classification[LANGUAGE_NONE][0]['tid'] > 0) {
+      $tax = taxonomy_term_load($variables['node']->field_meta_classification[LANGUAGE_NONE][0]['tid']);
       $meta_classification = array(
         '#type' => 'html_tag',
         '#tag' => 'meta',
@@ -223,7 +223,7 @@ function multisite_metatags_preprocess_page(&$variables) {
         '#tag' => 'meta',
         '#attributes' => array(
           'name' => 'description',
-          'content' => $variables['node']->field_meta_description['und'][0]['value'],
+          'content' => $variables['node']->field_meta_description[LANGUAGE_NONE][0]['value'],
         ),
       );
       drupal_add_html_head($meta_description, 'meta_nodedescription');
@@ -286,9 +286,9 @@ function multisite_metatags_preprocess_page(&$variables) {
 
     // Meta OG image.
     $ogimg_found = FALSE;
-    if (isset($variables['node']) && (isset($variables['node']->body['und']['0']['safe_value']))) {
+    if (isset($variables['node']) && (isset($variables['node']->body[LANGUAGE_NONE]['0']['safe_value']))) {
       $dom = new DOMDocument();
-      @$dom->loadHTML($variables['node']->body['und']['0']['safe_value']);
+      @$dom->loadHTML($variables['node']->body[LANGUAGE_NONE]['0']['safe_value']);
       $img = $dom->getElementsByTagName('img');
 
       if ($img->length > 0) {
