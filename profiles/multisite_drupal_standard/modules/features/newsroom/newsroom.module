@@ -2258,7 +2258,7 @@ function _newsroom_create_default_importers($universe_url, $context = 'admin', $
   // Run the multilingual imports if required.
   if ($multilingual) {
     
-    $keys = array('item', 'topic', 'service', /*'type' */);
+    $keys = array('item', 'topic', 'service', 'type');
 
     foreach ($keys as $key) {
       unset($importers['newsroom_' . $key . '_importer']);
