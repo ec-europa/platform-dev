@@ -1163,7 +1163,7 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['relationships']['parent']['id'] = 'parent';
   $handler->display->display_options['relationships']['parent']['table'] = 'taxonomy_term_hierarchy';
   $handler->display->display_options['relationships']['parent']['field'] = 'parent';
-  /* Relationship: Taxonomy term: Content using Newsroom Item Type */
+  /* Relationship: Taxonomy term: Content using default instance */
   $handler->display->display_options['relationships']['reverse_field_newsroom_item_type_node']['id'] = 'reverse_field_newsroom_item_type_node';
   $handler->display->display_options['relationships']['reverse_field_newsroom_item_type_node']['table'] = 'taxonomy_term_data';
   $handler->display->display_options['relationships']['reverse_field_newsroom_item_type_node']['field'] = 'reverse_field_newsroom_item_type_node';
@@ -1195,23 +1195,26 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['fields']['tid_1']['exclude'] = TRUE;
   $handler->display->display_options['fields']['tid_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['tid_1']['separator'] = '';
-  /* Field: Taxonomy term: Name */
-  $handler->display->display_options['fields']['name_1']['id'] = 'name_1';
-  $handler->display->display_options['fields']['name_1']['table'] = 'taxonomy_term_data';
-  $handler->display->display_options['fields']['name_1']['field'] = 'name';
-  $handler->display->display_options['fields']['name_1']['label'] = '';
-  $handler->display->display_options['fields']['name_1']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['name_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['name_1']['pathauto_cleanstring'] = TRUE;
+  /* Field: Entity translation: Name: translated */
+  $handler->display->display_options['fields']['name_field_et']['id'] = 'name_field_et';
+  $handler->display->display_options['fields']['name_field_et']['table'] = 'field_data_name_field';
+  $handler->display->display_options['fields']['name_field_et']['field'] = 'name_field_et';
+  $handler->display->display_options['fields']['name_field_et']['label'] = '';
+  $handler->display->display_options['fields']['name_field_et']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['name_field_et']['element_type'] = '0';
+  $handler->display->display_options['fields']['name_field_et']['element_label_type'] = '0';
+  $handler->display->display_options['fields']['name_field_et']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['name_field_et']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['name_field_et']['element_default_classes'] = FALSE;
   /* Field: Taxonomy term: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'taxonomy_term_data';
   $handler->display->display_options['fields']['name']['field'] = 'name';
   $handler->display->display_options['fields']['name']['label'] = '';
   $handler->display->display_options['fields']['name']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['name']['alter']['text'] = '[name]';
+  $handler->display->display_options['fields']['name']['alter']['text'] = '[name_field_et]';
   $handler->display->display_options['fields']['name']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['name']['alter']['path'] = 'newsroom/[name_1]/!2';
+  $handler->display->display_options['fields']['name']['alter']['path'] = 'newsroom/[name_field_et]/!2';
   $handler->display->display_options['fields']['name']['alter']['absolute'] = TRUE;
   $handler->display->display_options['fields']['name']['alter']['replace_spaces'] = TRUE;
   $handler->display->display_options['fields']['name']['alter']['path_case'] = 'lower';
@@ -1310,7 +1313,7 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['filters']['machine_name']['value'] = array(
     'newsroom_topic' => 'newsroom_topic',
   );
-  /* Filter criterion: Taxonomy term: Newsroom Category Domain (field_newsroom_category_domain) */
+  /* Filter criterion: Field: Newsroom Category Domain (field_newsroom_category_domain) */
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['id'] = 'field_newsroom_category_domain_value';
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['table'] = 'field_data_field_newsroom_category_domain';
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['field'] = 'field_newsroom_category_domain_value';
@@ -1418,29 +1421,11 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['filters']['machine_name']['value'] = array(
     'newsroom_topic' => 'newsroom_topic',
   );
-  /* Filter criterion: Taxonomy term: Newsroom Category Domain (field_newsroom_category_domain) */
+  /* Filter criterion: Field: Newsroom Category Domain (field_newsroom_category_domain) */
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['id'] = 'field_newsroom_category_domain_value';
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['table'] = 'field_data_field_newsroom_category_domain';
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['field'] = 'field_newsroom_category_domain_value';
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['value'] = 'Collection';
-  $translatables['newsroom_navigation'] = array(
-    t('Master'),
-    t('[nothing]'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Parent'),
-    t('field_newsroom_item_type'),
-    t('Newsroom'),
-    t('.'),
-    t('[name]'),
-    t('All'),
-    t('Block'),
-    t('Collection Block'),
-  );
   $export['newsroom_navigation'] = $view;
 
   $view = new view();
