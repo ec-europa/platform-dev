@@ -7,6 +7,7 @@ package = Multisite
 files[] = newsroom.module
 files[] = views/newsroom_views_handler_field_taxonomy.inc
 files[] = views/newsroom_handler_argument_term_node_tid_depth.inc
+files[] = views/views_plugin_argument_validate_taxonomy_term_entity_translate.inc
 dependencies[] = views
 dependencies[] = feeds
 dependencies[] = feeds_tamper

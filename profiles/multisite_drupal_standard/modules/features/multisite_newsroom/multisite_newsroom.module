@@ -1156,6 +1156,6 @@ function multisite_newsroom_url_outbound_alter(&$path, &$options, $original_path
  *
  */
 function multisite_newsroom_strongarm_alter(&$variables) {
-  // Unset a "dynamic variable" created by cce_basic_config
+  // Unset a "dynamic variable" created by cce_basic_config feature
   unset($variables['image_captcha_fonts']);
 }
