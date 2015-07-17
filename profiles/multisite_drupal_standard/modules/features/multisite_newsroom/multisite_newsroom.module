@@ -1150,3 +1150,12 @@ function multisite_newsroom_url_outbound_alter(&$path, &$options, $original_path
     }
   }
 }
+
+/**
+ * Implements hook_url_strongarm_alter().
+ *
+ */
+function multisite_newsroom_strongarm_alter(&$variables) {
+  // Unset a "dynamic variable" created by cce_basic_config
+  unset($variables['image_captcha_fonts']);
+}
