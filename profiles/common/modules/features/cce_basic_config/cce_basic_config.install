@@ -369,6 +369,64 @@ function cce_basic_config_install() {
       ->condition('form_id', 'contact_personal_form')
       ->execute();
   }
+
+  // Create WYSIWYG profile for Full HTML text format.
+  multisite_config_service('wysiwyg')->createProfile('full_html', 'ckeditor');
+
+  $plugin_settings = array(
+    'default' => array(
+      'Bold',
+      'Italic',
+      'Underline',
+      'JustifyLeft',
+      'JustifyCenter',
+      'JustifyRight',
+      'JustifyBlock',
+      'BulletedList',
+      'NumberedList',
+      'Outdent',
+      'Indent',
+      'Undo',
+      'Link',
+      'Unlink',
+      'Anchor',
+      'TextColor',
+      'BGColor',
+      'Blockquote',
+      'Source',
+      'HorizontalRule',
+      'PasteFromWord',
+      'ShowBlocks',
+      'Format',
+      'Font',
+      'FontSize',
+      'Styles',
+      'Table',
+      'Smiley',
+      'Maximize',
+    ),
+    'drupal_path' => array(
+      'Link',
+    ),
+    'drupal' => array(
+      'media',
+      'break',
+    ),
+    'lite' => array(
+      'lite_AcceptAll',
+      'lite_RejectAll',
+      'lite_AcceptOne',
+      'lite_RejectOne',
+      'lite_ToggleShow',
+      'lite_ToggleTracking',
+    ),
+    'nexteuropa_token_ckeditor' => array(
+      'NextEuropaToken',
+    ),
+  );
+  foreach ($plugin_settings as $group => $buttons) {
+    multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
+  }
 }
 
 /**
@@ -1510,4 +1568,35 @@ function cce_basic_config_update_7204() {
       variable_set($name, $default->value);
     }
   }
+}
+
+/**
+ * NEXTEUROPA-3298: Enable CKEditor plugins and related modules.
+ */
+function cce_basic_config_update_7205() {
+
+  // Enable new cce_basic_config dependencies.
+  $modules = array(
+    'nexteuropa_token_ckeditor',
+    'ckeditor_lite',
+    'token_filter',
+  );
+  module_enable($modules);
+
+  // Enable nexteuropa_token_ckeditor WYSIWYG plugin.
+  multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', 'nexteuropa_token_ckeditor', array('NextEuropaToken'));
+
+  // Enable token_filter on full_html text filter.
+  multisite_config_service('filter')->enableTextFilter('full_html', 'filter_tokens');
+
+  // Enable ckeditor_lite WYSIWYG plugin.
+  $lite_plugin_settings = array(
+    'lite_AcceptAll',
+    'lite_RejectAll',
+    'lite_AcceptOne',
+    'lite_RejectOne',
+    'lite_ToggleShow',
+    'lite_ToggleTracking',
+  );
+  multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', 'lite', $lite_plugin_settings);
 }

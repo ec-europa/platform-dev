@@ -48,7 +48,13 @@
   <div class="container">
     <?php
       print drupal_render($menu_breadcrumb);
+
+      if ($content):
+        $separator = variable_get('easy_breadcrumb-segments_separator');
+        print '<span class="easy-breadcrumb_segment-separator"> ' . $separator . ' </span>';
+      endif;
+
+      print_r($content);
     ?>
-    <?php print_r($content) ?>
   </div>
 </div>

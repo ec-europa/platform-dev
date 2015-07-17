@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * cce_basic_config.field_group.inc
@@ -12,9 +11,7 @@ function cce_basic_config_field_group_info() {
   $export = array();
 
   $field_group = new stdClass();
-  /* Edit this to true to make a default field_group disabled initially */
-
-  $field_group->disabled = FALSE;
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
   $field_group->identifier = 'group_article_content|node|article|form';
   $field_group->group_name = 'group_article_content';
@@ -24,7 +21,7 @@ function cce_basic_config_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Content',
-    'weight' => '0',
+    'weight' => 0,
     'children' => array(
       0 => 'body',
       1 => 'field_image',
@@ -34,18 +31,15 @@ function cce_basic_config_field_group_info() {
     'format_settings' => array(
       'formatter' => 'closed',
       'instance_settings' => array(
-        'description' => '',
         'classes' => 'group-article-content field-group-tab',
-        'required_fields' => 1,
+        'required_fields' => TRUE,
       ),
     ),
   );
   $export['group_article_content|node|article|form'] = $field_group;
 
   $field_group = new stdClass();
-  /* Edit this to true to make a default field_group disabled initially */
-
-  $field_group->disabled = FALSE;
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
   $field_group->identifier = 'group_article_date|node|article|form';
   $field_group->group_name = 'group_article_date';
@@ -55,7 +49,7 @@ function cce_basic_config_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Dates',
-    'weight' => '4',
+    'weight' => 4,
     'children' => array(
       0 => 'field_article_publication_date',
       1 => 'field_article_unpublish_on',
@@ -64,18 +58,15 @@ function cce_basic_config_field_group_info() {
     'format_settings' => array(
       'formatter' => 'closed',
       'instance_settings' => array(
-        'description' => '',
         'classes' => 'group-article-date field-group-tab',
-        'required_fields' => 1,
+        'required_fields' => TRUE,
       ),
     ),
   );
   $export['group_article_date|node|article|form'] = $field_group;
 
   $field_group = new stdClass();
-  /* Edit this to true to make a default field_group disabled initially */
-
-  $field_group->disabled = FALSE;
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
   $field_group->identifier = 'group_article_metadata|node|article|form';
   $field_group->group_name = 'group_article_metadata';
@@ -85,7 +76,7 @@ function cce_basic_config_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Metadata',
-    'weight' => '5',
+    'weight' => 5,
     'children' => array(
       0 => 'field_tags',
       1 => 'language',
@@ -94,73 +85,12 @@ function cce_basic_config_field_group_info() {
     'format_settings' => array(
       'formatter' => 'closed',
       'instance_settings' => array(
-        'description' => '',
         'classes' => 'group-metadata-content field-group-tab',
-        'required_fields' => 1,
+        'required_fields' => TRUE,
       ),
     ),
   );
   $export['group_article_metadata|node|article|form'] = $field_group;
-
-  $field_group = new stdClass();
-  /* Edit this to true to make a default field_group disabled initially */
-
-  $field_group->disabled = FALSE;
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_page_content|node|page|form';
-  $field_group->group_name = 'group_page_content';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'page';
-  $field_group->mode = 'form';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Content',
-    'weight' => '0',
-    'children' => array(
-      0 => 'body',
-      1 => 'title',
-    ),
-    'format_type' => 'tab',
-    'format_settings' => array(
-      'formatter' => 'closed',
-      'instance_settings' => array(
-        'description' => '',
-        'classes' => 'group-page-content field-group-tab',
-        'required_fields' => 1,
-      ),
-    ),
-  );
-  $export['group_page_content|node|page|form'] = $field_group;
-
-  $field_group = new stdClass();
-  /* Edit this to true to make a default field_group disabled initially */
-
-  $field_group->disabled = FALSE;
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_page_metadata|node|page|form';
-  $field_group->group_name = 'group_page_metadata';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'page';
-  $field_group->mode = 'form';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Metadata',
-    'weight' => '10',
-    'children' => array(
-      0 => 'field_tags',
-      1 => 'language',
-    ),
-    'format_type' => 'tab',
-    'format_settings' => array(
-      'formatter' => 'closed',
-      'instance_settings' => array(
-        'description' => '',
-        'classes' => 'group-page-metadata field-group-tab',
-        'required_fields' => 1,
-      ),
-    ),
-  );
-  $export['group_page_metadata|node|page|form'] = $field_group;
 
   return $export;
 }

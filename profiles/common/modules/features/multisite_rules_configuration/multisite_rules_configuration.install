@@ -5,26 +5,11 @@
  */
 
 /**
- * Implements hook_enable().
- */
-function multisite_rules_configuration_enable() {
-  // Enable scripts here.
-}
-
-/**
- * Implements hook_disable().
- */
-function multisite_rules_configuration_disable() {
-  // Disable scripts here.
-}
-
-/**
  * Implements hook_update_N().
- * 
- * Add Archived and Validated Workflow States
+ *
+ * Add Archived and Validated Workflow States.
  */
 function multisite_rules_configuration_update_7110() {
-
   // Add Archived and Validated Workflow States.
   $result = db_select('workbench_moderation_states', 'wms')
     ->fields('wms')
@@ -33,6 +18,7 @@ function multisite_rules_configuration_update_7110() {
     ->fetchObject();
 
   if (!$result) {
+    // @todo The $arch_state variable is unused.
     $arch_state = db_insert('workbench_moderation_states')
       ->fields(array(
         'name' => 'archived',
@@ -50,6 +36,7 @@ function multisite_rules_configuration_update_7110() {
     ->fetchObject();
 
   if (!$result) {
+    // @todo The $vali_state variable is unused.
     $vali_state = db_insert('workbench_moderation_states')
       ->fields(array(
         'name' => 'validated',
@@ -61,7 +48,6 @@ function multisite_rules_configuration_update_7110() {
   }
 
   // Add Archived and Validated corresponding transitions.
-
   $transitions = array(
     array(
       'from_name' => 'published',
@@ -96,19 +82,4 @@ function multisite_rules_configuration_update_7110() {
   }
 
   $query->execute();
-
-}
-
-/**
- * Implements hook_install().
- */
-function multisite_rules_configuration_install() {
-  // Install scripts here.
-}
-
-/**
- * Implements hook_uninstall().
- */
-function multisite_rules_configuration_uninstall() {
-  // Uninstall scripts here.
 }

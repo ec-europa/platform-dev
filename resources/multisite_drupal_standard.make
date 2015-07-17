@@ -30,6 +30,7 @@ projects[apachesolr][version] = "1.7"
 projects[apachesolr][patch][] = patches/apachesolr-attachment_indexation-481.patch
 projects[apachesolr][patch][] = patches/apachesolr-invalidate-caches-new-node-type-2178283.patch
 projects[apachesolr][patch][] = patches/apachesolr-multiples_dates-4335.patch
+projects[apachesolr][patch][] = patches/apachesolr_search-overwritten_menu_items.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.3"
@@ -101,10 +102,10 @@ projects[css_injector][version] = "1.10"
 projects[css_injector][patch][] = patches/css_injector-add_upload_file-2506775-10.patch
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.6"
+projects[ctools][version] = "1.7"
 
 projects[customerror][subdir] = "contrib"
-projects[customerror][version] = "1.3"
+projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
@@ -122,7 +123,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.5"
+projects[entity][version] = "1.6"
 
 projects[entity_translation][download][branch] = 7.x-1.x
 projects[entity_translation][download][revision] = 221e302
@@ -137,7 +138,8 @@ projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
 
 projects[entityreference_prepopulate][subdir] = "contrib"
-projects[entityreference_prepopulate][version] = "1.3"
+projects[entityreference_prepopulate][version] = "1.5"
+projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
 
 projects[eu-cookie-compliance][subdir] = "contrib"
 projects[eu-cookie-compliance][version] = "1.12"
@@ -230,8 +232,7 @@ projects[jqmulti][subdir] = "contrib"
 projects[jqmulti][version] = "1.0"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.4"
-projects[jquery_update][patch][] = patches/jquery_update-jquery_effects_missing-2123973-3.patch
+projects[jquery_update][version] = "2.6"
 
 projects[js_injector][subdir] = "contrib"
 projects[js_injector][version] = "2.1"
@@ -270,9 +271,9 @@ projects[media][download][revision] = 64c5102
 projects[media][download][type] = git
 projects[media][patch][] = patches/media-wysiwyg-override-white-list-MULTISITE-2607.patch
 
-# Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
-# https://www.drupal.org/node/2401811
-# https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
+; Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
+; https://www.drupal.org/node/2401811
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
 projects[media][patch][] = http://www.drupal.org/files/issues/file_entity-remove-contextual-links-2401811-11.patch
 
 projects[media_crop][subdir] = "contrib"
@@ -314,6 +315,9 @@ projects[menu_token][patch][] = patches/menu_token-link_uuid_menu_items_can_not_
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.7"
+
+projects[metatag][subdir] = "contrib"
+projects[metatag][version] = "1.6"
 
 projects[migrate][subdir] = "contrib"
 projects[migrate][version] = "2.7"
@@ -386,6 +390,9 @@ projects[scheduler][version] = 1.2
 projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.2
 
+projects[select_or_other][subdir] = "contrib"
+projects[select_or_other][version] = 2.22
+
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
@@ -421,7 +428,7 @@ projects[tmgmt][download][type] = git
 projects[tmgmt][subdir] = contrib
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.5"
+projects[token][version] = "1.6"
 
 projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = 1.1
@@ -456,11 +463,12 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.10"
-projects[views][patch][] = patches/views-exposed_form_ajax_broken-2425099-59.patch
+projects[views][version] = "3.11"
+projects[views][patch][] = patches/views-exposed-ajax-not-working-2425099-52.patch
 projects[views][patch][] = patches/views-exposed_groupfilter_views-1818176-11.patch
 projects[views][patch][] = patches/views-includes_handlers-1752062-6.patch
 projects[views][patch][] = patches/views-localization-bug-1685144-9.patch
+projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -469,7 +477,7 @@ projects[views_bootstrap][subdir] = "contrib"
 projects[views_bootstrap][version] = "3.1"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.2"
+projects[views_bulk_operations][version] = "3.3"
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.0-beta7"
@@ -513,6 +521,7 @@ projects[workbench_moderation][version] = "1.4"
 projects[workbench_moderation][patch][] = patches/workbench_moderation-001-wm-field_translations-2285931-1.patch
 projects[workbench_moderation][patch][] = patches/workbench_moderation-002-attachment_fix-1084436-47.patch
 projects[workbench_moderation][patch][] = patches/workbench_moderation-005-workbench_moderation.rules-5054.patch
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/support_for_migrate-1445824-35.patch
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"

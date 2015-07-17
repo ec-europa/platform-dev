@@ -111,8 +111,8 @@ function multisite_drupal_toolbox_get_default_filter_options() {
     ),
     'nofollow_policy' => 'disabled',
     'nofollow_domains' => array(),
-    'valid_classes' => array(),
-    'valid_ids' => array(),
+    'valid_classes' => array('`^(?:-?[_a-zA-Z]+[_a-zA-Z0-9-]*)$`'),
+    'valid_ids' => array('`^(?:[a-zA-Z][a-zA-Z0-9_-]*)$`'),
     'style_urls' => array(),
   );
 }
