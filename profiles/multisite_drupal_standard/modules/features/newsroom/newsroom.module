@@ -1754,6 +1754,9 @@ function newsroom_views_pre_view(&$view, &$display_id, &$args) {
  * @param type $argument_settings
  */
 function newsroom_taxonomy_term_from_request($request, $argument_settings, $filter_field) {
+  global $language;
+  $curr_lang = $language->language;
+  $multilingual =  variable_get('newsroom_multilingual', FALSE);
   // Try to get simple way, suppose it is the ID or name.
   $taxonomy_term = is_numeric($request) ? taxonomy_term_load($request) : taxonomy_get_term_by_name(str_replace('-', ' ', $request), NEWSROOM_TYPE_VOCABULARY);
 
@@ -1761,12 +1764,19 @@ function newsroom_taxonomy_term_from_request($request, $argument_settings, $filt
   if (!$taxonomy_term) {
     // Take vocabularies from context filter field.
     $vocabularies = isset($argument_settings[$filter_field]['validate_options']['vocabularies']) ? array_values($argument_settings[$filter_field]['validate_options']['vocabularies']) : array();
+
     if (count($vocabularies) > 0) {
       $taxonomy_terms = newsroom_get_term_from_vocabularies($vocabularies);
       // Compare taxonomy terms modified by pathauto with the current value
       // from the URL.
       if ($taxonomy_terms) {
         foreach($taxonomy_terms as $term_item) {
+          if ($multilingual) {
+            $fullterm = taxonomy_term_load($term_item['tid']);
+            $translation = field_get_items('taxonomy_term', $fullterm, 'name_field', $curr_lang);
+            $term_item['name'] = $translation ? $translation[0]['safe_value'] : $term_item['name'];
+          }
+ 
           if (pathauto_cleanstring($term_item['name']) == $request) {
             $taxonomy_term = taxonomy_term_load($term_item['tid']);
             break;
