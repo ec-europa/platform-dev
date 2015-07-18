@@ -2355,4 +2355,9 @@ function newsroom_views_api() {
   );
 }
 
+/**
+ * Implements of hook_views_plugins().
+ */
+function newsroom_views_plugins() {
+}
 
