@@ -40,9 +40,42 @@ class views_plugin_argument_validate_taxonomy_term_entity_translate extends view
           return FALSE;
         }
 
+        if ($argument == 'all') {
+          return TRUE;
+        }
+
+        if (!is_numeric($argument)) {
+          foreach ($vocabularies as $voc_name) {
+            $query = db_select('field_data_name_field', 'nf');
+            $query->fields('nf', array('entity_id', 'language'));
+            $query->condition('name_field_value', $argument, '=');
+            $query->condition('bundle', $voc_name, '=');
+            $term = $query->execute()->fetchObject();
+            if (is_object($term)) {
+              $terms[] = $term->entity_id;
+            }
+          }
+        }
+
         $tids = new stdClass();
-        $tids->value = $argument;
-        $tids = views_break_phrase($argument, $tids);
+        $loaded_tids = '';
+        
+        if (!empty($terms)) {
+          foreach ($terms as $tid) {
+            $loaded_tids .= $tid . ',';
+          }
+        }
+
+        if (!empty($loaded_tids)) {
+          $loaded_tids = trim($loaded_tids, ',');
+          $tids->value = $loaded_tids;
+          $tids = views_break_phrase($loaded_tids, $tids);
+        }
+        else {
+          $tids->value = $argument;
+          $tids = views_break_phrase($argument, $tids);
+        }
+
         if ($tids->value == array(-1)) {
           return FALSE;
         }
@@ -79,16 +112,19 @@ class views_plugin_argument_validate_taxonomy_term_entity_translate extends view
               $validated_cache[$term->tid] = FALSE;
               return FALSE;
             }
+            $this->argument->argument = '';
             $term = taxonomy_term_load($term->tid);
+            $this->argument->argument .= $term->tid . ',';
+
             $titles[] = $validated_cache[$term->tid] = check_plain(entity_label('taxonomy_term', $term));
             unset($test[$term->tid]);
           }
         }
-
+        $this->argument->argument = trim($this->argument->argument, ',');
         // Remove duplicate titles
         $titles = array_unique($titles);
-
         $this->argument->validated_title = implode($tids->operator == 'or' ? ' + ' : ', ', $titles);
+  
         // If this is not empty, we did not find a tid.
         return empty($test);
 
