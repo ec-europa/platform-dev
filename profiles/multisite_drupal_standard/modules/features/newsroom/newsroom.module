@@ -2356,16 +2356,3 @@ function newsroom_views_api() {
 }
 
 
-function newsroom_views_plugins() {
-  return array(
-    'module' => 'newsroom', // This just tells our themes are elsewhere.
-    'argument validator' => array(
-      'taxonomy_term_entity_translate' => array(
-        'title' => t('Taxonomy term Entity Translate'),
-        'handler' => 'views_plugin_argument_validate_taxonomy_term_entity_translate',
-        'path' => drupal_get_path('module', 'newsroom') . '/views',
-      ),
-    ),
-  );
-}
-
