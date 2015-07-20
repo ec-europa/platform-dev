@@ -1,0 +1,41 @@
+#!/usr/bin/env php
+<?php
+/**
+ * @file
+ * Git pre-push hook to check coding standards before pushing.
+ */
+
+/**
+ * The SHA1 ID of an empty branch.
+ */
+define ('SHA1_EMPTY', '0000000000000000000000000000000000000000');
+
+$file_list = [];
+
+// Loop over the commits.
+while ($commit = trim(fgets(STDIN))) {
+  list ($local_ref, $local_sha, $remote_ref, $remote_sha) = explode(' ', $commit);
+
+  // Do a full check if this is a new branch.
+  if ($remote_sha === SHA1_EMPTY) {
+    $file_list = ['profiles/'];
+    break;
+  }
+
+  // Escape shell command arguments. These should normally be safe since they
+  // only contain SHA numbers, but you never know.
+  foreach (['local_sha', 'remote_sha'] as $argument) {
+    $$argument = escapeshellcmd($$argument);
+  }
+
+  $command = "git diff-tree --no-commit-id --name-only -r '$local_sha' '$remote_sha' -- profiles/";
+  $file_list = array_merge($file_list, explode("\n", `$command`));
+}
+
+// Remove duplicates and empty lines.
+$file_list = array_unique(array_filter($file_list));
+
+// Run PHP CodeSniffer and exit.
+passthru(getcwd() . "/bin/phpcs '" . implode("' '", $file_list) . "'", $return_var);
+
+exit($return_var);
