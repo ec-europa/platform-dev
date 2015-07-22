@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Displays the default message for updates
+ * Displays the default message for updates.
  */
 
 /**
