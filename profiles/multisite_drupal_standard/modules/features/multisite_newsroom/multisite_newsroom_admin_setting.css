@@ -1,0 +1,16 @@
+.selected {
+  background:#f9f9f9;
+  border:2px solid green;
+  font-weight:bold;
+  padding:10px;
+}
+
+.not-selected {
+  border:2px solid  #8c2e0b;
+  padding:10px;
+  color:#8c2e0b;
+}
+
+.not-selected input[type="text"] {
+  border:1px solid #8c2e0b;
+}
