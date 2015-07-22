@@ -447,11 +447,11 @@ libraries[ckeditor_lite][download][url] = http://download.ckeditor.com/lite/rele
 libraries[ckeditor_lite][subdir] = ckeditor/plugins
 libraries[ckeditor_lite][directory_name] = "lite"
 
-;tcpdf 6.0.013
-libraries[tcpdf][download][type] = "git"
-libraries[tcpdf][download][url] = "http://git.code.sf.net/p/tcpdf/code"
-libraries[tcpdf][download][tag] = "6.0.053"
-libraries[tcpdf][directory_name] = "tcpdf"
+;tcpdf 6.0.053
+libraries[tcpdf][download][type] = "file"
+libraries[tcpdf][download][request_type]= "get"
+libraries[tcpdf][download][file_type] = "zip"
+libraries[tcpdf][download][url] = "https://github.com/tcpdf-clone/tcpdf/archive/6.0.053.zip"
 libraries[tcpdf][destination] = "libraries"
 
 ;mpdf 5.7
