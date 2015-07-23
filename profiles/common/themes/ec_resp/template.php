@@ -1011,24 +1011,26 @@ function ec_resp_menu_tree__menu_breadcrumb_menu($variables) {
 function ec_resp_menu_link($variables) {
   $element = $variables['element'];
   $sub_menu = '';
+  $hide_children = (isset($variables['element']['#localized_options']['attributes']['data-hide-children']) ? $variables['element']['#localized_options']['attributes']['data-hide-children'] : 0);
 
-  // Test if there is a sub menu.
-  if ($element['#below'] && !theme_get_setting('disable_dropdown_menu') && !in_array('dropdown', $element['#attributes']['class'])) {
-    // Menu item has sub menu.
-    // Add carret and class.
-    $element['#title'] .= '<b class="caret"></b>';
-    $element['#attributes']['class'][] = 'dropdown';
-
-    // Add attributes to children items.
-    $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
-    $element['#localized_options']['attributes']['data-toggle'][] = 'dropdown';
-
+  // Test if there is a sub menu and if it has to be displayed.
+  if ($element['#below'] && !$hide_children) {
     // Render sub menu.
     $sub_menu = drupal_render($element['#below']);
 
-    // Add CSS class to ul tag
-    // Dirty, but I see no better way to do it.
-    $sub_menu = str_replace('<ul class="', '<ul class="dropdown-menu ', $sub_menu);
+    if (!theme_get_setting('disable_dropdown_menu') && !in_array('dropdown', $element['#attributes']['class'])) {
+      // Add carret and class.
+      $element['#title'] .= '<b class="caret"></b>';
+      $element['#attributes']['class'][] = 'dropdown';
+
+      // Add attributes to children items.
+      $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
+      $element['#localized_options']['attributes']['data-toggle'][] = 'dropdown';
+
+      // Add CSS class to ul tag
+      // Dirty, but I see no better way to do it.
+      $sub_menu = str_replace('<ul class="', '<ul class="dropdown-menu ', $sub_menu);
+    }
   }
 
   $element['#localized_options']['html'] = TRUE;
