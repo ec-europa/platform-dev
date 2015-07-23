@@ -1,8 +1,6 @@
 <?php
 /**
  * @file
- * media_avportal/includes/media_avportal.formatters.inc
- *
  * Formatters for Media: Avportal.
  */
 
@@ -109,7 +107,8 @@ function media_avportal_file_formatter_image_view($file, $display, $langcode) {
       '#theme' => 'image_style',
       '#style_name' => $image_style,
       '#path' => $wrapper->getLocalThumbnailPath($video_thumb),
-      '#alt' => isset($file->override['attributes']['alt']) ? $file->override['attributes']['alt'] : $file->filename);
+      '#alt' => isset($file->override['attributes']['alt']) ? $file->override['attributes']['alt'] : $file->filename,
+    );
     return $element;
   }
 }

@@ -27,7 +27,9 @@ function media_avportal_stream_wrappers() {
       'name' => t('AV Portal videos'),
       'class' => 'MediaAvportalStreamWrapper',
       'description' => t('Videos provided by AV Portal.'),
-      'type' => STREAM_WRAPPERS_READ_VISIBLE));
+      'type' => STREAM_WRAPPERS_READ_VISIBLE,
+    ),
+  );
 }
 
 /**
@@ -39,13 +41,14 @@ function media_avportal_theme($existing, $type, $theme, $path) {
       'variables' => array('uri' => NULL, 'options' => array()),
       'file' => 'media_avportal.theme.inc',
       'path' => $path . '/includes/themes',
-      'template' => 'media-avportal-video'),
-
+      'template' => 'media-avportal-video',
+    ),
     'media_avportal_language_switcher' => array(
       'variables' => array('languages' => NULL, 'video_language' => NULL),
       'file' => 'media_avportal.theme.inc',
       'path' => $path . '/includes/themes',
-    ));
+    ),
+  );
 }
 
 /**
@@ -72,7 +75,8 @@ function media_avportal_file_mimetype_mapping_alter(&$mapping) {
  */
 function media_avportal_ctools_plugin_api($owner, $api) {
   static $api_versions = array(
-    'file_entity' => array('file_default_displays' => 1));
+    'file_entity' => array('file_default_displays' => 1),
+  );
   if (isset($api_versions[$owner][$api])) {
     return array('version' => $api_versions[$owner][$api]);
   }
