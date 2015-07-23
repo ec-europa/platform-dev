@@ -55,7 +55,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 
   // Handle the homepage url.
   if ($path == '<front>' || $path == '') {
-    $path = variable_get('site_frontpage', 'node');
+    $path = drupal_get_path_alias(variable_get('site_frontpage', 'node'));
   }
 
   $path .= $delimiter . $options['language']->prefix;
