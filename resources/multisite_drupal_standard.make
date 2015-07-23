@@ -501,7 +501,7 @@ projects[votingapi][subdir] = "contrib"
 projects[votingapi][version] = "2.11"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.0"
+projects[webform][version] = "4.9"
 projects[webform][patch][] = patches/webform-use_ecas_link-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
