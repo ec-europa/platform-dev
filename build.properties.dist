@@ -67,6 +67,8 @@ platform.resources.profile.dir = ${platform.resources.profiles.dir}/${platform.p
 platform.resources.composer.json = ${platform.resources.dir}/composer.json
 platform.resources.composer.lock = ${platform.resources.dir}/composer.lock
 
+platform.resources.source.dir = ${platform.basedir}/src
+
 # Files and directories inside the Drupal installation.
 platform.build.sites.dir = ${platform.build.dir}/sites
 platform.build.site.dir = ${platform.build.sites.dir}/${platform.build.site.name}
@@ -127,7 +129,7 @@ phpcs.config = ${project.basedir}/phpcs.xml
 phpcs.standard = ${project.basedir}/phpcs-ruleset.xml
 
 # Paths to check, delimited by semicolons.
-phpcs.files = ${platform.resources.profiles.dir}
+phpcs.files = ${platform.resources.profiles.dir};${platform.resources.source.dir}
 
 # Paths to ignore, delimited by semicolons.
 phpcs.ignore =
