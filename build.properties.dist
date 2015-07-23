@@ -130,7 +130,7 @@ phpcs.standard = ${project.basedir}/phpcs-ruleset.xml
 phpcs.files = ${platform.resources.profiles.dir}
 
 # Paths to ignore, delimited by semicolons.
-phpcs.ignore = common/libraries;multisite_drupal_communities/libraries;multisite_drupal_standard/libraries;common/modules/custom/ecas/libraries;multisite_drupal_communities/modules/contrib;multisite_drupal_standard/modules/contrib
+phpcs.ignore =
 
 # The report format. For example 'full', 'summary', 'diff', 'xml', 'json'.
 phpcs.report = full

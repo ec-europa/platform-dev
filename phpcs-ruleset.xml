@@ -89,6 +89,17 @@
 
     <rule ref="./vendor/drupal/coder/coder_sniffer/Drupal" />
 
+    <!-- Exclude third party code. -->
+    <exclude-pattern>profiles/common/libraries/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/libraries/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/libraries/</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/custom/ecas/libraries/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/modules/contrib/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/modules/contrib/</exclude-pattern>
+    <exclude-pattern>profiles/minimal/</exclude-pattern>
+    <exclude-pattern>profiles/standard/</exclude-pattern>
+    <exclude-pattern>profiles/testing/</exclude-pattern>
+
     <!-- Views handlers not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
