@@ -128,4 +128,9 @@
 
     <!-- Exclude third party code which is not following Drupal coding standards -->
     <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/icons</exclude-pattern>
+
+    <!-- Phing tasks require to use CamelCaps for argument names. -->
+    <rule ref="Drupal.NamingConventions.ValidVariableName">
+        <exclude-pattern>src/Phing</exclude-pattern>
+    </rule>
 </ruleset>

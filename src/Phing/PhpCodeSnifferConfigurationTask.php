@@ -213,7 +213,7 @@ PHP;
     $this->extensions = array();
     $token = ' ,;';
     $extension = strtok($extensions, $token);
-    while ($extension !== false) {
+    while ($extension !== FALSE) {
       $this->extensions[] = $extension;
       $extension = strtok($token);
     }
@@ -229,7 +229,7 @@ PHP;
     $this->files = array();
     $token = ' ,;';
     $file = strtok($files, $token);
-    while ($file !== false) {
+    while ($file !== FALSE) {
       $this->files[] = $file;
       $file = strtok($token);
     }
@@ -255,7 +255,7 @@ PHP;
     $this->ignorePatterns = array();
     $token = ' ,;';
     $pattern = strtok($ignorePatterns, $token);
-    while ($pattern !== false) {
+    while ($pattern !== FALSE) {
       $this->ignorePatterns[] = $pattern;
       $pattern = strtok($token);
     }
