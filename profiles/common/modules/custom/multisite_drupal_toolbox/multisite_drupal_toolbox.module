@@ -59,7 +59,7 @@ function multisite_drupal_toolbox_menu() {
     'access arguments' => array('administer site configuration'),
     'weight' => -5,
   );
-  $items['check_url'] = array (
+  $items['check_url'] = array(
     'title' => 'Check URLs',
     'page callback' => '_multisite_drupal_toolbox_url_exists',
     'access arguments' => array('use text format full_html'),
@@ -405,7 +405,7 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
  * Implements hook_filter_info_alter().
  */
 function multisite_drupal_toolbox_filter_info() {
-  $info['toolbox_sanitize'] = array (
+  $info['toolbox_sanitize'] = array(
     'title' => t('Sanitize HTML'),
     'description' => t('Security process to prevent xss attack (provided by nexteuropa toolbox)'),
     'process callback' => '_multisite_drupal_toolbox_filter_sanitize',
@@ -1291,7 +1291,7 @@ function multisite_drupal_toolbox_tokens_alter(array &$replacements, array $cont
   // (rules automatically cleans non replaced token).
   if ($context['type'] == 'recipient_user') {
     if (isset($context['data']['recipient_user'])) {
-      unset ($replacements[current($context['tokens'])]);
+      unset($replacements[current($context['tokens'])]);
     }
     else {
       $replacements[current($context['tokens'])] = current($context['tokens']);
@@ -1428,7 +1428,7 @@ function multisite_drupal_toolbox_taxonomy_term_delete($term_obj) {
       }
     }
   }
-  if (!empty ($operations)) {
+  if (!empty($operations)) {
     $batch = array(
       'title' => t('Taxonomy term deletion process'),
       'operations' => $operations,
@@ -1540,15 +1540,17 @@ function multisite_drupal_toolbox_library_alter(&$javascript, $module) {
 }
 
 /**
-  * Helper to check if an url is valid with drupal_http_request.
-  * Return a boolean in json format.
-  */
-function _multisite_drupal_toolbox_url_exists($url=NULL) {
+ * Helper to check if an url is valid with drupal_http_request.
+ *
+ * Return a boolean in json format.
+ */
+function _multisite_drupal_toolbox_url_exists($url = NULL) {
   $response = drupal_http_request($_GET['url']);
-  if (isset($response->errno) && $response->errno == 0 && $response->code >=200 && $response->code < 300){
-    $output = true;
-  } else {
-    $output =  false;
+  if (isset($response->errno) && $response->errno == 0 && $response->code >= 200 && $response->code < 300) {
+    $output = TRUE;
+  }
+  else {
+    $output = FALSE;
   }
   drupal_add_http_header('Content-Type', 'application/json');
   echo drupal_json_encode($output);
