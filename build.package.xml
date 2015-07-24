@@ -174,10 +174,20 @@
         <symlink link="${server.docroot}" target="${platform.build.dir}" overwrite="true" />
     </target>
 
+    <!-- Update .htaccess. -->
+    <target name="update-htaccess">
+        <if>
+            <istrue value="${drupal.htaccess.append.text}" />
+            <then>
+                <append destfile="${drupal.htaccess.path}" text="${drupal.htaccess.append.text}" />
+            </then>
+        </if>
+    </target>
+
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat" />
+        depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, update-htaccess" />
 
     <target
         name="build-platform-dist"

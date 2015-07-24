@@ -24,6 +24,12 @@ drupal.admin.username = admin
 drupal.admin.password = pass
 drupal.admin.email = admin@example.com
 
+# The location of the .htaccess file in the Drupal root folder.
+drupal.htaccess.path = ${platform.build.dir}/.htaccess
+
+# Configuration to append to the .htaccess file in the Drupal root folder.
+drupal.htaccess.append.text =
+
 
 # Platform configuration
 # ----------------------
