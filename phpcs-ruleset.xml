@@ -16,7 +16,6 @@
     <exclude-pattern>profiles/common/modules/custom/media_avportal</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/multisite_oracle_access</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/custom/taxonomy_browser</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/tmgmt_mtec</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/views_xml_backend</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/communities</exclude-pattern>

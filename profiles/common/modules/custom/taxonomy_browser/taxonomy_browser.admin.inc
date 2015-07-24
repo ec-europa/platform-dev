@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Taxonomy browser admin.inc file
+ * Taxonomy browser admin.inc file.
  */
 
 /**
