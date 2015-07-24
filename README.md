@@ -72,17 +72,21 @@ $ ./bin/phing install-platform
 
 ## Running Behat tests
 
-The Behat test suite is located in the `tests/` folder. The easiest way to run
-them is by going into this folder and executing the Behat binary which is
-located in the `bin/` folder:
+The Behat test suite is located in the `tests/` folder. When the development
+version is installed (by running `./bin/phing build-platform-dev`) the Behat
+configuration file (`behat.yml`) will be generated automatically using the base
+URL that is defined in `build.properties.local`.
+
+If you are not using the development build but one of the other builds
+(`build-platform-dist` or `build-multisite-dist`) and you want to run the tests
+then you'll need to set up the Behat configuration manually:
 
 ```
-$ cd tests/
-$ ../bin/behat
+$ ./bin/phing setup-behat
 ```
 
-For your convenience a symlink to the Behat executable is present in the tests/
-folder, so you can also run the tests like this:
+The easiest way to run the tests is by going into the test folder and executing
+the symlink which is placed there for your convenience.
 
 ```
 $ cd tests/
@@ -97,9 +101,16 @@ $ cd tests/
 $ ./behat features/content_editing.feature
 ```
 
-If you have installed the development version (using the `build-platform-dev`
-build target) then the tests can also be executed from the root folder of the
-build:
+The tests can also be run from the root of the repository (or any other folder)
+by calling the behat executable directly and specifying the location of the
+`behat.yml` configuration file.
+
+```
+# Running the tests from the repository root folder.
+$ ./bin/behat -c tests/behat.yml
+```
+
+The tests can also be executed from the root folder of the build:
 
 ```
 $ cd build/
