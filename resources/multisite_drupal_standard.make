@@ -207,6 +207,12 @@ projects[fullcalendar][version] = "2.0"
 projects[fullcalendar][patch][] = patches/fullcalendar-ajax_date_format-2185449-11.patch
 projects[fullcalendar][patch][] = patches/fullcalendar-views_dom_id_check-1803770-4.patch
 
+projects[geofield][subdir] = "contrib"
+projects[geofield][version] = "2.3"
+
+projects[geophp][subdir] = "contrib"
+projects[geophp][version] = "1.7"
+
 projects[hidden_captcha][subdir] = "contrib"
 projects[hidden_captcha][version] = "1.0"
 
@@ -586,6 +592,24 @@ libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
 libraries[mpdf][destination] = "libraries"
+
+;leaflet 0.7.3
+libraries[leaflet][destination] = "libraries"
+libraries[leaflet][download][type] = "git"
+libraries[leaflet][download][url] = "https://github.com/vperron/leaflet-dist.git"
+libraries[leaflet][download][tag] = "v0.7.2"
+libraries[leaflet][directory_name] = "leaflet"
+
+;Leaflet.draw
+libraries[Leaflet.draw][destination] = "libraries"
+libraries[Leaflet.draw][download][type] = "git"
+libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
+libraries[Leaflet.draw][tag] = "v0.2.4"
+
+;Leaflet.widget
+libraries[Leaflet.widget][destination] = "libraries"
+libraries[Leaflet.widget][download][type] = "git"
+libraries[Leaflet.widget][download][url] = "https://github.com/tnightingale/Leaflet.widget.git"
 
 ; tcpdf 6.0.053
 libraries[tcpdf][download][type] = "file"

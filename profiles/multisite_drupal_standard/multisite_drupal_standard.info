@@ -103,6 +103,7 @@ dependencies[] = transliteration
 dependencies[] = multisite_dynamic_basetheme
 dependencies[] = fpa
 dependencies[] = flag
+dependencies[] = geofield
 
 dependencies[] = filefield_sources_plupload
 
