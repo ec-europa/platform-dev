@@ -1257,3 +1257,81 @@ function ec_resp_17_preprocess_admin_menu_icon(&$variables) {
   $logo_url = file_create_url($theme_path . '/images/favicon.png');
   $variables['src'] = preg_replace('@^https?:@', 'http:', $logo_url);
 }
+
+/**
+ * Implements template_preprocess_block().
+ *
+ * Backport from the ec_resp theme (2.0).
+ */
+function ec_resp_17_preprocess_block(&$variables) {
+
+  global $language;
+
+  if (isset($variables['block']->bid) &&
+    $variables['block']->bid == 'locale-language') {
+    $languages = language_list();
+
+    $items = array();
+    $items[] = array(
+      'data' => '<span class="off-screen">' . t("Current language") . ':</span> ' . $language->language,
+      'class' => array('selected'),
+      'title' => $language->native,
+      'lang' => $language->language,
+    );
+    // Get path of translated content.
+    $translations = translation_path_get_translations(current_path());
+    $language_default = language_default();
+
+    foreach ($languages as $language_object) {
+      $prefix = $language_object->language;
+      $language_name = $language_object->name;
+
+      if (isset($translations[$prefix])) {
+        $path = $translations[$prefix];
+      }
+      else {
+        $path = current_path();
+      }
+
+      // Get the related url alias
+      // Check if the multisite language negotiation
+      // with suffix url is enabled.
+      $language_negociation = variable_get('language_negotiation_language');
+      if (isset($language_negociation['locale-url-suffix'])) {
+        $delimiter = variable_get('language_suffix_delimiter', '_');
+        $alias = drupal_get_path_alias($path, $prefix);
+
+        if ($alias == variable_get('site_frontpage', 'node')) {
+          $path = ($prefix == 'en') ? '' : 'index';
+        }
+        else {
+          if ($alias != $path) {
+            $path = $alias;
+          }
+          else {
+            $path = drupal_get_path_alias(isset($translations[$language_name]) ? $translations[$language_name] : $path, $language_name);
+          }
+        }
+      }
+      else {
+        $path = drupal_get_path_alias($path, $prefix);
+      }
+
+      // Add enabled languages.
+      if ($language_name != $language->name) {
+        $items[] = array(
+          'data' => l($language_name, filter_xss($path), array(
+            'attributes' => array(
+              'hreflang' => $prefix,
+              'lang' => $prefix,
+              'title' => $language_name,
+            ),
+            'language' => $language_object,
+          )),
+        );
+      }
+    }
+
+    $variables['language_list'] = theme('item_list', array('items' => $items));
+  }
+}
