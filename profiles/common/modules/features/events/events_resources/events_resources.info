@@ -13,6 +13,5 @@ features[features_api][] = api:2
 features[field_base][] = field_resource
 features[field_instance][] = node-event-field_resource
 features[taxonomy][] = resources
-files[]=tests/events_resources.test
 files[]=tests/events_resources.extra.test
 stylesheets[all][] = css/events_resources.css

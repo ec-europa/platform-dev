@@ -7,5 +7,4 @@ project = multisite_custom_error
 dependencies[] = features
 dependencies[] = customerror
 features[features_api][] = api:2
-files[] = tests/multisite_custom_error.test
 files[] = tests/multisite_custom_error.extra.test
