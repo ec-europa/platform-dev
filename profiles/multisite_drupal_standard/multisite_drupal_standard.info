@@ -104,6 +104,7 @@ dependencies[] = multisite_dynamic_basetheme
 dependencies[] = fpa
 dependencies[] = flag
 dependencies[] = geofield
+dependencies[] = leaflet_widget
 
 dependencies[] = filefield_sources_plupload
 

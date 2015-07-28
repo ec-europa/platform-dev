@@ -211,7 +211,7 @@ projects[geofield][subdir] = "contrib"
 projects[geofield][version] = "2.3"
 
 projects[geophp][subdir] = "contrib"
-projects[geophp][version] = "1.7"
+projects[geophp][version] = "1.x-dev"
 
 projects[hidden_captcha][subdir] = "contrib"
 projects[hidden_captcha][version] = "1.0"
@@ -248,6 +248,10 @@ projects[l10n_update][version] = "1.1"
 
 projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.6"
+
+projects[leaflet_widget][subdir] = "contrib"
+projects[leaflet_widget][version] = "2.0-beta1"
+projects[leaflet_widget][patch][] = patches/leaflet_widget-1974478-vertical-tab-refresh-8.patch
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
@@ -592,19 +596,6 @@ libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
 libraries[mpdf][destination] = "libraries"
-
-;leaflet 0.7.3
-libraries[leaflet][destination] = "libraries"
-libraries[leaflet][download][type] = "git"
-libraries[leaflet][download][url] = "https://github.com/vperron/leaflet-dist.git"
-libraries[leaflet][download][tag] = "v0.7.2"
-libraries[leaflet][directory_name] = "leaflet"
-
-;Leaflet.draw
-libraries[Leaflet.draw][destination] = "libraries"
-libraries[Leaflet.draw][download][type] = "git"
-libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
-libraries[Leaflet.draw][tag] = "v0.2.4"
 
 ;Leaflet.widget
 libraries[Leaflet.widget][destination] = "libraries"
