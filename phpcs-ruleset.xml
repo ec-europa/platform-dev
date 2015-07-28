@@ -87,7 +87,7 @@
     <exclude-pattern>profiles/multisite_drupal_communities/themes/bootstrap</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/themes/bootstrap</exclude-pattern>
 
-    <rule ref="vendor/drupal/coder/coder_sniffer/Drupal" />
+    <rule ref="./vendor/drupal/coder/coder_sniffer/Drupal" />
 
     <!-- Views handlers not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
