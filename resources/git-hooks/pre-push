@@ -32,8 +32,10 @@ while ($commit = trim(fgets(STDIN))) {
   $file_list = array_merge($file_list, explode("\n", `$command`));
 }
 
-// Remove duplicates and empty lines.
-$file_list = array_unique(array_filter($file_list));
+// Remove duplicates, empty lines and files that no longer exist in the branch.
+$file_list = array_unique(array_filter($file_list, function ($file) {
+  return !empty($file) && file_exists($file);
+}));
 
 // Run PHP CodeSniffer and exit.
 passthru(getcwd() . "/bin/phpcs '" . implode("' '", $file_list) . "'", $return_var);
