@@ -93,7 +93,6 @@ function newsroom_feeds_after_parse(FeedsSource $source, FeedsParserResult $resu
  *   Item entity
  */
 function newsroom_newsroom_mapping(&$item) {
-  debug($item, 'Feeds');
   // If no end date specified , provide the start date to prevent.
   // Feeds to use now() as the end date.
   if (!isset($item['xpathparser:9'])) {
@@ -133,12 +132,10 @@ function newsroom_newsroom_services_mapping(&$item) {
  *   Item array
  */
 function newsroom_newsroom_types_mapping(&$item) {
-
   if (!isset($item['xpathparser:4'])) {
     // Set parent to '0' if no match.
     $item['xpathparser:4'] = 0;
   }
-  debug($item, 'newsroom_newsroom_types_mapping', TRUE);
 }
 
 /**
@@ -424,6 +421,16 @@ function newsroom_list_filter() {
 function newsroom_list_filter_form($form, &$form_state) {
   $arguments = $form_state['build_info']['args'];
   $form = array();
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Reset filter'),
+    '#weight' => 10,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Reset filter'),
+    '#weight' => 10,
+  );
   if (!empty($arguments[0])) {
     // Selected country.
     $selected_country = !empty($arguments[2]) && !empty($arguments[2][1]) ? $arguments[2][1] : 0;
@@ -1411,6 +1418,7 @@ function newsroom_newsroom_item_import_access() {
  * Imports or deletes a single news item based on the original newsroom ID.
  */
 function newsroom_newsroom_item_importer($newsroom_id = 0, $delete = FALSE, $reimport = FALSE) {
+  global $_newsroom_universe_url;
   if ($newsroom_id == 0) {
     drupal_not_found();
   }
@@ -1431,24 +1439,8 @@ function newsroom_newsroom_item_importer($newsroom_id = 0, $delete = FALSE, $rei
       }
     }
     else {
-      global $_newsroom_universe_url;
-      $source = feeds_source('newsroom_items');
-      $config = $source->getConfig();
-      // @TODO deal with the case if we don't have an item setup.
-      $additional_config = array(
-        'FeedsHTTPFetcher' => array(
-          'source' => $_newsroom_universe_url .
-          variable_get('newsroom_single_item_import_segment', 'fullrss.cfm?item_id=') .
-          $newsroom_id,
-        ),
-      );
-      $source->setConfig(array_merge($config, $additional_config));
-      // Make sure we force the import of the item.
-      $processor_config = $source->importer->processor->getConfig();
-      $source->importer->processor->setConfig(array_merge($processor_config, $additional_config));
-      $source->import();
-      $source->delete();
-
+      $url = $_newsroom_universe_url . variable_get('newsroom_single_item_import_segment', 'fullrss.cfm?item_id=') . $newsroom_id;
+      _newsroom_run_newsroom_items_importer($url);
       $path = 'news-redirect/' . $newsroom_id;
       if ($reimport) {
         drupal_goto($path);
@@ -1456,6 +1448,30 @@ function newsroom_newsroom_item_importer($newsroom_id = 0, $delete = FALSE, $rei
       return l(t('Go to Newsroom Item'), $path);
     }
   }
+}
+
+/**
+ * Call newsroom items import with the certain URL.
+ *
+ * @param string $url
+ *  URL to call.
+ */
+function _newsroom_run_newsroom_items_importer($url) {
+  $source = feeds_source('newsroom_items');
+  $config = $source->getConfig();
+  // @TODO deal with the case if we don't have an item setup.
+  $additional_config = array(
+    'FeedsHTTPFetcher' => array(
+      'source' => $url
+      ,
+    ),
+  );
+  $source->setConfig(array_merge($config, $additional_config));
+  // Make sure we force the import of the item.
+  $processor_config = $source->importer->processor->getConfig();
+  $source->importer->processor->setConfig(array_merge($processor_config, $additional_config));
+  $source->import();
+  $source->delete();
 }
 
 /**
@@ -1616,8 +1632,8 @@ function newsroom_views_pre_render(&$view) {
     }
     
     if ($view->build_info['substitutions']['!2'] == 'all') {
-      if (isset($view->footer['area_text_custom'])) {
-        $view->footer['area_text_custom']->options['content'] = str_replace('about %2', '', $view->footer['area_text_custom']->options['content']);
+      if (isset($view->header['area_text_custom'])) {
+        $view->header['area_text_custom']->options['content'] = str_replace('about %2', '', $view->header['area_text_custom']->options['content']);
       }
     }
     else {
@@ -1669,9 +1685,9 @@ function newsroom_views_pre_render(&$view) {
  *   Arguments
  */
 function newsroom_views_pre_view(&$view, &$display_id, &$args) {
+
   if ($view->name == 'newsroom') {
     module_load_include('inc', 'pathauto', 'pathauto');
-
     $arguments_settings = $view->display[$view->current_display]->handler->get_option('arguments');
     // Select the appropriate display in case only one type is set.
     if ($display_id == 'default_newsroom' && isset($args[0]) && $args[0] !== $arguments_settings['term_node_tid_depth']['default_argument_options']['argument']) {
@@ -1689,6 +1705,7 @@ function newsroom_views_pre_view(&$view, &$display_id, &$args) {
       }
 
       $types = explode(' ', $args[0]);
+      
       if (count($types) == 1) {
         // Convert type or topic url part to taxonomy term id
         // and assign to arguments, because we use 'tids' validation.
@@ -1719,6 +1736,7 @@ function newsroom_views_pre_view(&$view, &$display_id, &$args) {
             $display = 'default_newsroom';
             break;
         }
+
         $view->set_display($display);
       }
     }
@@ -2298,25 +2316,10 @@ function newsroom_views_data_alter(&$data) {
 }
 
 /**
- * Implements hook_module_implements_alter().
- */
-function newsroom_module_implements_alter(&$implementations, $hook) {
-  if ($hook == 'views_plugins') {
-    $group = $implementations['newsroom'];
-    unset($implementations['newsroom']);
-    $implementations['newsroom'] = $group;
-  }
-}
-
-/**
  * Implements of hook_views_api().
  */
 function newsroom_views_api() {
   return array(
     'api' => 3.0
   );
-}
-
-function newsroom_views_plugins() {
-  
 }
