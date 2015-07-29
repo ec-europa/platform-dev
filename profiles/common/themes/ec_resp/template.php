@@ -1145,14 +1145,16 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
         $form['submit']['#attributes']['class'][] = 'btn-small';
       }
       break;
+
     case 'feature_set_admin_form':
-      if (isset ($form['submit']) && $form['submit']['#type'] == "submit" ){
+      if (isset($form['submit']) && $form['submit']['#type'] == "submit") {
         $form['submit']['#value'] = t('Validate');
-	    $form['submit']['#attributes']['class'][] = 'btn';
-	    $form['submit']['#attributes']['class'][] = 'btn-lg';
-	    $form['submit']['#attributes']['class'][] = 'btn-success';
+        $form['submit']['#attributes']['class'][] = 'btn';
+        $form['submit']['#attributes']['class'][] = 'btn-lg';
+        $form['submit']['#attributes']['class'][] = 'btn-success';
       }
       break;
+
     default:
       break;
   }
