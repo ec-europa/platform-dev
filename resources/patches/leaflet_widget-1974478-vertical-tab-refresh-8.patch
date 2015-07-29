@@ -16,6 +16,7 @@
 +                    var map_widget = Drupal.leaflet_widget[$(map).attr('id')];
 +                    if(map_widget != undefined) {
 +                      map_widget.invalidateSize();
++                      map_widget.fitBounds(map_widget.widget.vectors.getBounds());
 +                    }
 +                  });
 +                }
