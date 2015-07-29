@@ -1,6 +1,6 @@
 --- js/widget.js	2014-07-07 19:23:35.000000000 +0200
 +++ js/widget.js	2015-07-28 10:13:47.281997339 +0200
-@@ -7,6 +7,35 @@
+@@ -7,6 +7,36 @@
        // Ensure we've set the default icon path to the leaflet library.
        L.Icon.Default.imagePath = settings.leaflet_widget.defaultIconPath;
  
