@@ -284,14 +284,12 @@ function newsroom_newsletter_subscription() {
     $view->set_display('block');
     $view->pre_execute();
     $view->execute();
-
     if (!empty($view->result)) {
       $service = array_shift($view->result);
-
       $content = drupal_get_form('newsroom_newsletter_subscription_form', array('tid' => $service->field_field_newsroom_service_id[0]['raw']['safe_value'], 'name' => $service->taxonomy_term_data_name));
     }
   }
-
+  
   return $content;
 }
 
@@ -363,7 +361,7 @@ function newsroom_newsletter_subscription_form_ajax($form, &$form_state){
   $input['response_type'] = $form_state['input']['response_type'];
   $query = http_build_query($input);
 
-  $request = drupal_http_request($url. '?' .$query);
+  $request = drupal_http_request($url . '?' . $query);
   $json_data = $request->data;
   $data = drupal_json_decode($json_data);
   $subscription = $data['subscription'];
@@ -1719,6 +1717,58 @@ function newsroom_views_pre_render(&$view) {
  *   Arguments
  */
 function newsroom_views_pre_view(&$view, &$display_id, &$args) {
+
+  if ($view->name == 'newsletter_subscription') {
+    // The proper context filter cannot be found for taxonomy term pages 
+    // so we set it manually.    
+    $current_path = menu_get_item();
+
+    // Try to get proper taxonomy context filter.
+    if ($current_path['path'] === 'taxonomy/term/%') {
+      $taxonomy_term = NULL;
+      $current_page_path = current_path();
+
+      // Never sure what menu_callback will get you with.
+      // A view overridding a taxo page.
+      $url_tokens = explode('/', $current_page_path);
+      if (isset($url_tokens[2]) && is_numeric($url_tokens[2])) {
+        $taxonomy_term = taxonomy_term_load($url_tokens[2]);
+      }
+
+      if (!empty($taxonomy_term) && isset($taxonomy_term->field_associated_newsroom_topic) && !empty($taxonomy_term->field_associated_newsroom_topic)) {
+        $has_newsroom_topic_argument = FALSE;
+        // Check the current display.
+        if (isset($view->display[$view->current_display]->handler->options['arguments'])) {
+          foreach ($view->display[$view->current_display]->handler->options['arguments'] as $key => $argument) {
+            // Check if this field taxonomy ref to newsroom_topic vocabulary.
+            if ($argument['default_argument_type'] == 'taxonomy_tid'
+              && isset($argument['default_argument_options']['vocabularies']['newsroom_topic'])) {
+              $has_newsroom_topic_argument = TRUE;
+              break;
+            }
+          }
+        }
+
+        // Check the default display, if we don't have ovverrides.
+        if (isset($view->display['default']->handler->options['arguments'])) {
+          foreach ($view->display['default']->handler->options['arguments'] as $key => $argument) {
+            // Check if this field taxonomy ref to newsroom_topic vocabulary.
+            if ($argument['default_argument_type'] == 'taxonomy_tid' &&
+              isset($argument['default_argument_options']['vocabularies']['newsroom_topic'])) {
+              $has_newsroom_topic_argument = TRUE;
+              break;
+            }
+          }
+        }
+
+        // Set argument from the taxonomy associated newsroom topic.
+        if ($has_newsroom_topic_argument) {
+          $args = array($taxonomy_term->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid']);
+        }
+      }
+    }
+  }
+
   if ($view->name == 'newsroom') {
     module_load_include('inc', 'pathauto', 'pathauto');
 
@@ -2348,25 +2398,10 @@ function newsroom_views_data_alter(&$data) {
 }
 
 /**
- * Implements hook_module_implements_alter().
- */
-function newsroom_module_implements_alter(&$implementations, $hook) {
-  if ($hook == 'views_plugins') {
-    $group = $implementations['newsroom'];
-    unset($implementations['newsroom']);
-    $implementations['newsroom'] = $group;
-  }
-}
-
-/**
  * Implements of hook_views_api().
  */
 function newsroom_views_api() {
   return array(
     'api' => 3.0
   );
-}
-
-function newsroom_views_plugins() {
-
 }
