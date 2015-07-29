@@ -1287,8 +1287,8 @@ function multisite_drupal_toolbox_tokens($type, $tokens, array $data = array(), 
  * Implments hook_tokens_alter().
  */
 function multisite_drupal_toolbox_tokens_alter(array &$replacements, array $context) {
-  // Preserve recipient_user token
-  // (rules automatically cleans non replaced token).
+  // Preserve recipient_user token (rules automatically cleans non replaced
+  // token).
   if ($context['type'] == 'recipient_user') {
     if (isset($context['data']['recipient_user'])) {
       unset($replacements[current($context['tokens'])]);
@@ -1540,18 +1540,17 @@ function multisite_drupal_toolbox_library_alter(&$javascript, $module) {
 }
 
 /**
- * Helper to check if an url is valid with drupal_http_request.
+ * Page callback that returns if an URL is valid with drupal_http_request().
  *
- * Return a boolean in json format.
+ * Returns a boolean in JSON format.
+ *
+ * @todo This is redundant and should be removed. The calling code can simply
+ *   inspect the HTTP response code of the URL to see if it exists. This is now
+ *   doing two requests where one would be sufficient.
  */
-function _multisite_drupal_toolbox_url_exists($url = NULL) {
+function _multisite_drupal_toolbox_url_exists() {
   $response = drupal_http_request($_GET['url']);
-  if (isset($response->errno) && $response->errno == 0 && $response->code >= 200 && $response->code < 300) {
-    $output = TRUE;
-  }
-  else {
-    $output = FALSE;
-  }
+  $output = isset($response->errno) && $response->errno == 0 && $response->code >= 200 && $response->code < 300;
   drupal_add_http_header('Content-Type', 'application/json');
   echo drupal_json_encode($output);
   drupal_exit();
