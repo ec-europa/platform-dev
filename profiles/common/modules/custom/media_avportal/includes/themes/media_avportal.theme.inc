@@ -33,7 +33,7 @@ function media_avportal_preprocess_media_avportal_video(&$variables) {
   $variables['video_language'] = str_replace('+', ' ', $video_language);
 
   // Build a language switcher if > 1 language available.
-  if (count($video_languages) > 1 && variable_get('media_avportal_language_bar', FALSE)) {
+  if (count($video_languages) > 1) {
     $variables['language_switcher'] = theme('media_avportal_language_switcher', array(
         'languages' => $video_languages,
         'video_language' => $video_language,
