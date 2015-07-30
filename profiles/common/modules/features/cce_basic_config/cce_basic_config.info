@@ -25,6 +25,7 @@ dependencies[] = i18n_node
 dependencies[] = i18n_taxonomy
 dependencies[] = image
 ;dependencies[] = jquery_update
+dependencies[] = libraries
 dependencies[] = linkchecker
 dependencies[] = locale
 dependencies[] = media
