@@ -54,7 +54,7 @@ projects[workbench_og][download][revision] = a12d332
 projects[workbench_og][download][branch] = 7.x-2.x 
 
 projects[scheduler][subdir] = contributed
-projects[scheduler][version] = 1.2 
+projects[scheduler][version] = 1.3
 
 projects[scheduler_workbench][subdir] = contributed
 projects[scheduler_workbench][version] = 1.2
