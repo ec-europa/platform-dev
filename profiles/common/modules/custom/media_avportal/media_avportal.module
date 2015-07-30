@@ -95,7 +95,7 @@ function media_avportal_menu() {
 }
 
 /**
- * General configuration form for AvPortal.
+ * General configuration form for youtube (account info + youtube settings).
  */
 function media_avportal_settings_form($form, $form_state) {
 
