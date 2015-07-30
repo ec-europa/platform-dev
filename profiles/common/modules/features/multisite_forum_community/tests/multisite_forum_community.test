@@ -139,18 +139,4 @@ class MultisiteForumCommunityQAWebTestCase extends MultisiteDrupalWebTestCase {
     $this->assertResponse('200', t('Group member can access forum topic creation page.'));
   }
 
-  /**
-   * Test Info File.
-   * TestFile <featurename>.info
-   */
-  function testInfoFile() {
-    $module = basename(__FILE__, ".test");
-    parent::multisiteDrupalToolboxTestInfoFile($module);
-  }
-
-  function testInstallFile() {
-    $module = basename(__FILE__, ".test");
-    parent::multisiteDrupalToolboxTestInstallFile($module);
-  }
-
 }
