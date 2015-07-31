@@ -1,6 +1,8 @@
 /**
- * @file Jquery module file.
+ * @file
+ * Jquery module file.
  */
+
 (function($) {
   Drupal.behaviors.media_avportal = {
     attach : function(context, settings) {
@@ -12,7 +14,7 @@
           $(this).addClass('current');
           var iframe = $(this).parents('div.language-switcher').prev('p')
                 .find('iframe');
-          if(!iframe.length) {
+          if (!iframe.length) {
             iframe = $(this).parents('div.language-switcher').prev('iframe')
           }
           var lng = $(this).text().replace('+', ' ');

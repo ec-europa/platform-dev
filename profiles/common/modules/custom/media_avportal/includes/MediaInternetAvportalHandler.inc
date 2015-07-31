@@ -1,8 +1,6 @@
 <?php
 /**
  * @file
- * media_avportal/includes/MediaInterenetAvportalHandler.inc
- *
  * Contains MediaInternetAvportalHandler.
  */
 
@@ -70,4 +68,5 @@ class MediaInternetAvportalHandler extends MediaInternetBaseHandler {
     }
     return $file;
   }
+
 }
