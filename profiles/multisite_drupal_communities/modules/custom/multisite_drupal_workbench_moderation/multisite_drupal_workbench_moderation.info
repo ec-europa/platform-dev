@@ -2,9 +2,3 @@ name = multisite drupal workbench moderation
 description = module to customize the workbench moderation module with organic groups
 package = multisite drupal toolbox
 core = 7.x
-
-; Information added by drupal.org packaging script on 2011-11-24
-version = "7.x-1.0"
-core = "7.x"
-project = "multisite_drupal_toolbox"
-datestamp = "1322093758"

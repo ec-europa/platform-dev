@@ -113,7 +113,7 @@ class OGButtonTestCase extends DrupalWebTestCase {
    * - the block displays the correct creation links (follows user permissions)
    * - the block is invisible on a non-group page (context not available)
    */
-  public function testOGButtonModule() {
+  public function testOgButtonModule() {
     $region = 'content';
     $block_id = 'og-contextual-links';
     $module = 'multisite_og_button';
@@ -152,4 +152,5 @@ class OGButtonTestCase extends DrupalWebTestCase {
     $this->drupalGet('<front>');
     $this->assertNoText('Create content', t('Group context was not available, the block "OG Contextual Links" was not found.'));
   }
+
 }

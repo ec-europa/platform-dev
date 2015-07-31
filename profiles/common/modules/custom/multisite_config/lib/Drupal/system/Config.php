@@ -129,12 +129,9 @@ class Config extends ConfigBase {
    *    Variable name.
    * @param mixed $value
    *    Variable default value.
-   *
-   * @return mixed
-   *    Variable value.
    */
   public function setVariable($name, $value = NULL) {
-    return variable_set($name, $value);
+    variable_set($name, $value);
   }
 
   /**

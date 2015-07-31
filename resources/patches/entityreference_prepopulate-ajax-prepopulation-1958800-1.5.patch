@@ -1,0 +1,78 @@
+--- entityreference_prepopulate/entityreference_prepopulate.module	2014-02-19 22:12:29.000000000 +0100
++++ entityreference_prepopulate/entityreference_prepopulate.module	2015-06-17 14:02:11.000000000 +0200
+@@ -64,12 +64,6 @@
+ function entityreference_prepopulate_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+   list($id,,$bundle) = entity_extract_ids($entity_type, $entity);
+ 
+-  if (!empty($form_state['triggering_element']['#ajax'])) {
+-    // We are inside AJAX, so values can't be taken from URL at the
+-    // moment.
+-    return;
+-  }
+-
+   // Check if there is a field that needs to be prepopulated attached to the
+   // given entity.
+   $found = FALSE;
+@@ -234,8 +228,21 @@
+     $validate,
+   );
+ 
+-  if (module_exists('og') && og_is_group_audience_field($field_name)) {
+-    if (empty($instance['field_mode'])) {
++
++  $is_audience_field = module_exists('og') && og_is_group_audience_field($field_name);
++ 
++  // Add field mode to ID if the audience field has one.
++  if ($is_audience_field && !empty($instance['field_mode'])) {
++    $identifier[] = $instance['field_mode'];
++  }
++
++  $identifier = implode(':', $identifier);
++
++  if (isset($cache[$identifier])) {
++    return $cache[$identifier];
++  }
++
++  if ($is_audience_field && empty($instance['field_mode'])) {
+       // Group audience field, but no field-mode provided.
+       // So we iterate over the "default" and possibly "admin" field-modes,
+       // and return those values together.
+@@ -247,27 +254,15 @@
+           $ids = array_merge($ids, $og_ids);
+         }
+       }
+-
+-      // Return the values.
+-      return $ids;
++    // Cache and return the values.
++    return $cache[$identifier] = $ids;
+     }
+ 
+-    $identifier[] = $instance['field_mode'];
+-  }
+-
+-  $identifier = implode(':', $identifier);
+-
+-  if (isset($cache[$identifier])) {
+-    return $cache[$identifier];
+-  }
+ 
+   $cache[$identifier] = $ids = array();
+ 
+   // Check if we have cached values.
+-  if (!$ids) {
+-    $ids = entityreference_prepopulate_get_values_from_cache($field, $instance);
+-  }
+-
++  if (!$ids = entityreference_prepopulate_get_values_from_cache($field, $instance)) {
+   // Get the providers.
+   $enabled_providers = !empty($instance['settings']['behaviors']['prepopulate']['providers']) ? array_filter($instance['settings']['behaviors']['prepopulate']['providers']) : array();
+ 
+@@ -295,6 +290,7 @@
+       break;
+     }
+   }
++  }
+ 
+   if (!$ids || !$validate) {
+     // No IDs found, or no validation is needed.

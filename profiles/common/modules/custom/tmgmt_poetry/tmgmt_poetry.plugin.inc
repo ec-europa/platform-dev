@@ -71,7 +71,6 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * Implements TMGMTTranslatorPluginControllerInterface::requestTranslation().
    */
   public function requestTranslation(TMGMTJob $job) {
-
     // Pull the source data array through the job and flatten it.
     $xml = $this->prepareDataForSending($job);
     // Request translation from MT@EC service.
@@ -105,7 +104,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   }
 
   /**
-   * Overrides TMGMTDefaultTranslatorPluginController::getSupportedTargetLanguages().
+   * {@inheritdoc}
    */
   public function getSupportedTargetLanguages(TMGMTTranslator $translator, $source_language) {
     $languages = array();
@@ -138,9 +137,9 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *   Data for sending to the translator service.
    */
   protected function prepareDataForSending(TMGMTJob $job) {
-
     $xml = _tmgmt_poetry_generate_request_xml($job);
 
     return $xml;
   }
+
 }

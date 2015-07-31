@@ -1,17 +1,11 @@
 <?php
 /**
  * @file
- * Idol admin search
+ * Idol admin search.
  */
 
-
 /**
- * Form builder for the Europa Search form.
- *
- * @param array $form
- *   form
- * @param array $form_state
- *   form state
+ * Form constructor for the Europa Search form.
  */
 function nexteuropa_europa_search_admin_form(array $form, array $form_state) {
   $form['idol_settings'] = array(

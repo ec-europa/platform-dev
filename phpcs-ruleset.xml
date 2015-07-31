@@ -7,6 +7,113 @@
     <!-- Minified files don't have to comply with coding standards. -->
     <exclude-pattern>*.min.css</exclude-pattern>
     <exclude-pattern>*.min.js</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp/scripts/ec.js</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp/css/ec_resp.css</exclude-pattern>
+
+    <!-- Legacy modules which are not compliant with coding standards. These are
+         being fixed in NEXTEUROPA-3575. Whenever a module is fixed, please
+         remove it from this list so it can be tested. -->
+    <exclude-pattern>profiles/common/modules/custom/media_avportal</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/custom/multisite_oracle_access</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/custom/taxonomy_browser</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/custom/tmgmt_mtec</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/custom/views_xml_backend</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/communities</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/content_examples</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/dev</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/e_library</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/ec_content_slider</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/ec_embedded_image</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/ec_embedded_video</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/ec_profiles</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/ec_world_countries</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/ecas_env</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/events</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/f_a_q</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/fat_footer</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/feed_rss_core</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/idea</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/likedislike</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/links</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multi_user_blog</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multilingual_tools</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_activity</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_autosave</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_business_indicators</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_charts</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_custom_error</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_eu_cookie_compliance</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_forum_community</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_forum_core</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_maps</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_maxlength</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_community</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_core</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_standard</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_megamenu</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_metatags</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_multilingual_references</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_notifications</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_path_override</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_readspeaker</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_registration</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_settings</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_translations</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_twitterblock</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_workbench_moderation_view</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/news</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/news</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/news</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/newsletters</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/nexteuropa_core</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/node_pager</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/sitemap</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/social_bookmark</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/solr_config</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/splash_screen</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/survey</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/text_collapse</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/wiki</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp_17</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/multisite_drupal_access</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/multisite_og_button</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/og_content_type_admin</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/subscriptions_og</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/themes/bootstrap</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/themes/bootstrap</exclude-pattern>
 
     <rule ref="vendor/drupal/coder/coder_sniffer/Drupal" />
+
+    <!-- Views handlers not strictly follow Drupal class name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidClassName">
+        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
+        <exclude-pattern>profiles/*/modules/**/views/*.inc</exclude-pattern>
+    </rule>
+
+    <!-- Views handlers not strictly follow Drupal function name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName">
+        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
+        <exclude-pattern>profiles/*/modules/**/views/*.inc</exclude-pattern>
+    </rule>
+
+    <!-- Code based on the classes from the Web Service Clients module do not follow Drupal class name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidClassName">
+        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.inc</exclude-pattern>
+    </rule>
+
+    <!-- Code based on the classes from Web Service Clients or TMGMT do not follow Drupal function name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/tmgmt_workbench/includes/tmgmt_workbench.ui.inc</exclude-pattern>
+    </rule>
+
+    <!-- Callbacks for the SoapServer class (part of the Soap extension) do not follow Drupal function name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.InvalidName">
+        <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/tmgmt_poetry.module</exclude-pattern>
+    </rule>
 </ruleset>

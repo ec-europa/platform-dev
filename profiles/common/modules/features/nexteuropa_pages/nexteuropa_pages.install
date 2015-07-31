@@ -12,4 +12,94 @@ function nexteuropa_pages_install() {
 
   // Apply default NextEuropa configuration to "Basic Page" content type.
   multisite_config_service('nexteuropa_core')->applyDefaultConfigurationToContentType('page');
+
+  // Stage page-related variables.
+  $service = multisite_config_service('system');
+
+  $service->setVariable('language_content_type_page', 2);
+  $service->setVariable('node_options_page', array('status'));
+  $service->setVariable('node_submitted_page', FALSE);
+  $service->setVariable('comment_page', 0);
+  $service->setVariable('comment_default_per_page_article', 50);
+
+  // Stage page field instance settings.
+  $service = multisite_config_service('field');
+
+  $service->createInstanceField('body', 'node', 'page')
+    ->label('Body')
+    ->widget('text_textarea_with_summary')
+    ->display('default', 'text_default', 'hidden')
+    ->display('teaser', 'text_summary_or_trimmed', 'hidden')
+    ->save();
+
+  $service->createInstanceField('field_tags', 'node', 'page')
+    ->label('Tags')
+    ->widget('taxonomy_autocomplete')
+    ->display('default', 'i18n_taxonomy_term_reference_link', 'inline')
+    ->display('teaser', 'hidden')
+    ->save();
+
+  $service->createInstanceField('comment_body', 'comment', 'comment_node_page')
+    ->label('Comment')
+    ->widget('text_textarea')
+    ->display('default', 'text_default', 'hidden')
+    ->save();
+
+  // Stage field group configuration for page content type.
+  $service = multisite_config_service('field_group');
+
+  $service->createFieldGroup('Content', 'group_page_content', 'node', 'page')
+    ->setChildren(array(
+      'title_field',
+      'title',
+      'body',
+    ))
+    ->setType('tab')->setFormatter('closed')->setWeight(0)
+    ->setInstanceSetting('classes', 'group-page-content field-group-tab')
+    ->setInstanceSetting('required_fields', TRUE)
+    ->save();
+
+  $service->createFieldGroup('Metadata', 'group_page_metadata', 'node', 'page')
+    ->setChildren(array(
+      'field_tags',
+      'language',
+      'og_group_ref',
+      'group_content_access',
+      'scheduler_settings',
+    ))
+    ->setType('tab')->setFormatter('closed')->setWeight(10)
+    ->setInstanceSetting('classes', 'group-page-metadata field-group-tab')
+    ->setInstanceSetting('required_fields', TRUE)
+    ->save();
+}
+
+/**
+ * NEXTEUROPA-3763: Add OG and Title fields to page field groups.
+ */
+function nexteuropa_pages_update_7201() {
+  $service = multisite_config_service('field_group');
+
+  $service->createFieldGroup('Content', 'group_page_content', 'node', 'page')
+    ->setChildren(array(
+      'title_field',
+      'title',
+      'body',
+    ))
+    ->setType('tab')->setFormatter('closed')->setWeight(0)
+    ->setInstanceSetting('classes', 'group-page-content field-group-tab')
+    ->setInstanceSetting('required_fields', TRUE)
+    ->save();
+
+  $service->createFieldGroup('Metadata', 'group_page_metadata', 'node', 'page')
+    ->setChildren(array(
+      'field_tags',
+      'language',
+      'og_group_ref',
+      'group_content_access',
+      'scheduler_settings',
+    ))
+    ->setType('tab')->setFormatter('closed')->setWeight(10)
+    ->setInstanceSetting('classes', 'group-page-metadata field-group-tab')
+    ->setInstanceSetting('required_fields', TRUE)
+    ->save();
 }

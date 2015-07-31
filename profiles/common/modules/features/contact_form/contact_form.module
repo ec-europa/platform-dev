@@ -20,32 +20,37 @@ function contact_form_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_mail_alter().
  */
 function contact_form_mail_alter(&$message) {
-  $language = $message['language'];
-  $variables = array(
-    '!site-name' => variable_get('site_name', 'Drupal'),
-    '!subject' => $message['params']['subject'],
-    '!category' => isset($message['params']['category']['category']) ? $message['params']['category']['category'] : '',
-    '!form-url' => url($_GET['q'], array('absolute' => TRUE, 'language' => $language)),
-    '!sender-name' => format_username($message['params']['sender']),
-    '!sender-url' => $message['params']['sender']->uid ? url('user/' . $message['params']['sender']->uid, array('absolute' => TRUE, 'language' => $language)) : $message['params']['sender']->mail,
-    '!referer' => (isset($message['params']['referer']) ? $message['params']['referer'] : ''),
-  );
 
-  switch ($message['id']) {
-    case 'contact_page_mail':
-      foreach ($message['body'] as $line) {
-        $body[] = $line;
-      }
-      $body[] = t('Referer: !referer', $variables, array('langcode' => $language->language));
-      $message['body'] = $body;
-      break;
+  $valid_form_ids = array('contact_page_mail', 'contact_page_copy');
 
-    case 'contact_page_copy':
-      $body[0] = t('Here is a copy of the email you sent to support on !site-name:', $variables, array('langcode' => $language->language));
-      foreach ($message['body'] as $line) {
-        $body[] = $line;
-      }
-      $message['body'] = $body;
-      break;
+  if (in_array($message['id'], $valid_form_ids)) {
+    $language = $message['language'];
+    $variables = array(
+      '!site-name' => variable_get('site_name', 'Drupal'),
+      '!subject' => $message['params']['subject'],
+      '!category' => isset($message['params']['category']['category']) ? $message['params']['category']['category'] : '',
+      '!form-url' => url($_GET['q'], array('absolute' => TRUE, 'language' => $language)),
+      '!sender-name' => format_username($message['params']['sender']),
+      '!sender-url' => $message['params']['sender']->uid ? url('user/' . $message['params']['sender']->uid, array('absolute' => TRUE, 'language' => $language)) : $message['params']['sender']->mail,
+      '!referer' => (isset($message['params']['referer']) ? $message['params']['referer'] : ''),
+    );
+
+    switch ($message['id']) {
+      case 'contact_page_mail':
+        foreach ($message['body'] as $line) {
+          $body[] = $line;
+        }
+        $body[] = t('Referer: !referer', $variables, array('langcode' => $language->language));
+        $message['body'] = $body;
+        break;
+
+      case 'contact_page_copy':
+        $body[0] = t('Here is a copy of the email you sent to support on !site-name:', $variables, array('langcode' => $language->language));
+        foreach ($message['body'] as $line) {
+          $body[] = $line;
+        }
+        $message['body'] = $body;
+        break;
+    }
   }
 }

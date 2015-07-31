@@ -30,7 +30,6 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
    * Creates a new node in memory and returns it.
    */
   protected function newEntity(FeedsSource $source) {
-    debug(REQUEST_TIME);
     $node = new stdClass();
     $node->type = $this->bundle();
     $node->changed = REQUEST_TIME;
@@ -247,7 +246,6 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
     switch ($target_element) {
       case 'created':
         $target_node->created = feeds_to_unixtime($value, REQUEST_TIME);
-        debug($value);
         break;
 
       case 'feeds_source':
@@ -483,20 +481,16 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
     setTargetElement().
     */
     self::loadMappers();
-    debug($this->config['mappings']);
     foreach ($this->config['mappings'] as $mapping) {
-      debug($mapping['target']);
       // Retrieve source element's value from parser.
       if (isset($sources[$this->id][$mapping['source']]) &&
           is_array($sources[$this->id][$mapping['source']]) &&
           isset($sources[$this->id][$mapping['source']]['callback']) &&
           function_exists($sources[$this->id][$mapping['source']]['callback'])) {
         $callback = $sources[$this->id][$mapping['source']]['callback'];
-        debug($callback);
         $value = $callback($source, $result, $mapping['source']);
       }
       else {
-        debug('getSourceElement');
         $value = $parser->getSourceElement($source, $result, $mapping['source']);
       }
 
@@ -509,7 +503,6 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
         $callback($source, $target_item, $mapping['target'], $value, $mapping);
       }
       else {
-        debug($value);
         $this->setTargetElement($source, $target_item, $mapping['target'], $value, $mapping);
       }
     }

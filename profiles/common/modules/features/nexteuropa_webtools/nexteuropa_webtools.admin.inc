@@ -1,4 +1,12 @@
 <?php
+/**
+ * @file
+ * Administration forms for the NextEuropa Webtools feature.
+ */
+
+/**
+ * Form construction for the NextEuropa Webtools settings form.
+ */
 function nexteuropa_webtools_settings_form() {
   $form = array();
 
@@ -12,4 +20,3 @@ function nexteuropa_webtools_settings_form() {
 
   return system_settings_form($form);
 }
-

@@ -39,7 +39,8 @@ function feature_set_menu() {
   $items['admin/structure/feature-set/enable/%'] = array(
     'title' => 'Feature set enable',
     'description' => 'Enable a feature set',
-    'page callback' => '_feature_set_enable_url',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('feature_set_enable_url', 4),
     'access callback' => 'user_access',
     'access arguments' => array('administer feature sets'),
     'file' => 'feature_set.admin.inc',
@@ -48,7 +49,8 @@ function feature_set_menu() {
   $items['admin/structure/feature-set/disable/%'] = array(
     'title' => 'Feature set disable',
     'description' => 'Disable a feature set',
-    'page callback' => '_feature_set_disable_url',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('feature_set_disable_url', 4),
     'access callback' => 'user_access',
     'access arguments' => array('administer feature sets'),
     'file' => 'feature_set.admin.inc',
@@ -405,11 +407,13 @@ function _feature_set_get_require($module) {
     }
 
     $output = '<div id="require">';
+    $required_features = array();
     foreach ($list_features as $value) {
       if (in_array($value, $list_requires)) {
-        $output .= t("requires") . " : " . $featuresets[$value]["title"] . " ";
+        $required_features[] = t('requires : @title', array('@title' => $featuresets[$value]['title']));
       }
     }
+    $output .= implode(' ', $required_features);
     $output .= '</div>';
     return $output;
   }

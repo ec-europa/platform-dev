@@ -212,33 +212,60 @@ function feature_set_install_tasks() {
   );
   return $tasks;
 }
-
 /**
- * Disable a feature set, intended to disable an inconsinstent feature set.
+ * Disable a feature set, intended to disable an inconsistent feature set.
  */
-function _feature_set_disable_url() {
-  $featureset = arg(4);
-  $featuresets = $featuresets = feature_set_get_featuresets();
-  if (isset($featuresets[$featureset])) {
-    feature_set_disable_feature_set($featuresets[$featureset]);
-    drupal_goto('admin/structure/feature-set');
-  }
-  else {
-    return t('The feature set "%featureset" could not be found. Please check the link and try again', array('%featureset' => $featureset));
-  }
+function feature_set_disable_url($form, $form_state, $featureset) {
+  $form['featureset'] = array('#type' => 'value', '#value' => $featureset);
+  return confirm_form(
+    $form,
+    t('Are you sure you want to disable %title?', array('%title' => $featureset)),
+    'admin/structure/feature-set'
+  );
 }
 
 /**
- * Enable a feature set intended to enable an inconsinstent feature set.
+ * Form submission handler for feature_set_disable_url().
+ *
+ * @see feature_set_disable_url()
  */
-function _feature_set_enable_url() {
-  $featureset = arg(4);
+function feature_set_disable_url_submit($form, &$form_state) {
   $featuresets = $featuresets = feature_set_get_featuresets();
-  if (isset($featuresets[$featureset])) {
-    feature_set_enable_feature_set($featuresets[$featureset]);
-    drupal_goto('admin/structure/feature-set');
+  if (isset($featuresets[$form_state['values']['featureset']])) {
+    feature_set_disable_feature_set($featuresets[$form_state['values']['featureset']]);
   }
   else {
-    return t('The feature set "%featureset" could not be found. Please check the link and try again', array('%featureset' => $featureset));
+    drupal_set_message(t('The feature set "%featureset" could not be found. Please check the link and try again', array('%featureset' => $form_state['values']['featureset'])), 'error');
   }
+
+  $form_state['redirect'] = 'admin/structure/feature-set';
+}
+
+/**
+ * Enable a feature set intended to enable an inconsistent feature set.
+ */
+function feature_set_enable_url($form, $form_state, $featureset) {
+  $form['featureset'] = array('#type' => 'value', '#value' => $featureset);
+  return confirm_form(
+    $form,
+    t('Are you sure you want to enable %title?', array('%title' => $featureset)),
+    'admin/structure/feature-set'
+  );
+}
+
+/**
+ * Form submission handler for feature_set_enable_url().
+ *
+ * @see feature_set_enable_url()
+ */
+function feature_set_enable_url_submit($form, &$form_state) {
+  $featuresets = $featuresets = feature_set_get_featuresets();
+  if (isset($featuresets[$form_state['values']['featureset']])) {
+    feature_set_enable_feature_set($featuresets[$form_state['values']['featureset']]);
+  }
+  else {
+    drupal_set_message(t('The feature set "%featureset" could not be found. Please check the link and try again', array('%featureset' => $form_state['values']['featureset'])), 'error');
+  }
+
+  $form_state['redirect'] = 'admin/structure/feature-set';
 }

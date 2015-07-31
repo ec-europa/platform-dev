@@ -58,12 +58,12 @@
       </div>
     </div>
     <?php
-      if (isset ($contact_form)):
+      if (isset($contact_form)):
         print $contact_form;
       endif;
     ?>
   </div>
-  
+
   <?php
     foreach ($user_profile as $key => $value):
       if (!in_array($key, $basic)):

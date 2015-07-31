@@ -34,6 +34,19 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
   }
 
   /**
+   * Subscribes the user to the given group and grants the given OG role.
+   *
+   * @param string $role
+   *   The OG role to grant to the user.
+   * @param string $group
+   *   The group to subscribe the user to.
+   *
+   * @throws \InvalidArgumentException
+   *   Thrown when the group doesn't exist, when multiple groups have the given
+   *   group name, or when the given role doesn't exist in the given group.
+   * @throws \Exception
+   *   Thrown when an anonymous user is attempted to be subscribed to a group.
+   *
    * @Given I have the :role role in the :group group
    */
   public function assignUserToGroupRole($role, $group) {
@@ -80,7 +93,7 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
   /**
    * Returns a list of OG groups with the given name across all entities.
    *
-   * @param $name
+   * @param string $name
    *   The name of the groups to return.
    *
    * @return array

@@ -56,7 +56,7 @@ function _mont_group_taxonomy_edit_term($node, $term_id = 0) {
     $form['relations']['parent']['#required'] = TRUE;
   }
   else {
-    $form['relations']['parent']['#options'] = array('<' . t('root') . '>');
+    $form['relations']['parent']['#options'] = array(t('<root>'));
     $form['relations']['parent']['#default_value'] = array(0);
     $form['relations']['parent']['#value'] = array(0);
   }

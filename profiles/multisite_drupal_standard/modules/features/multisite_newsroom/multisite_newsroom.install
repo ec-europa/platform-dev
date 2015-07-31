@@ -24,15 +24,6 @@ function multisite_newsroom_enable() {
  * Implements hook_disable().
  */
 function multisite_newsroom_disable() {
-
-  // Deactivate content types.
-  multisite_drupal_toolbox_disable_content_type('newsroom_delete_item_importer');
-  multisite_drupal_toolbox_disable_content_type('newsroom_item');
-  multisite_drupal_toolbox_disable_content_type('newsroom_item_importer');
-  multisite_drupal_toolbox_disable_content_type('newsroom_service_importer');
-  multisite_drupal_toolbox_disable_content_type('newsroom_topic_importer');
-  multisite_drupal_toolbox_disable_content_type('newsroom_type_importer');
-
   drupal_set_message(t('Newsroom %v feature is now inactive on your site.', array('%v' => _multisite_newsroom_get_version())));
 
   // Delete from solR.
