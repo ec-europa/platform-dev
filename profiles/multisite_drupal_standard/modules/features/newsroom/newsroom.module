@@ -281,14 +281,12 @@ function newsroom_newsletter_subscription() {
     $view->set_display('block');
     $view->pre_execute();
     $view->execute();
-
     if (!empty($view->result)) {
       $service = array_shift($view->result);
-      
       $content = drupal_get_form('newsroom_newsletter_subscription_form', array('tid' => $service->field_field_newsroom_service_id[0]['raw']['safe_value'], 'name' => $service->taxonomy_term_data_name));
     }
   }
-
+  
   return $content;
 }
 
@@ -306,6 +304,9 @@ function newsroom_newsletter_subscription_form($form, &$form_state) {
   $form['intro'] = array(
     '#markup' => '<div class="title">' . $args['name'] . '</div>',
   );
+  $form['feedback'] = array(
+    '#markup' => '<div class="feedback"></div>',
+  );
   $form['email'] = array(
     '#prefix' => '<div class="inputMail">',
     '#suffix' => '</div>',
@@ -315,11 +316,22 @@ function newsroom_newsletter_subscription_form($form, &$form_state) {
       'class' => array(),
     ),
   );
-  $form['submit'] = array(
-    '#prefix' => '<div class="inputSubscribe">',
-    '#suffix' => '</div>',
-    '#type' => 'submit',
+  $form['response_type'] = array(
+    '#type' => 'hidden',
+    '#value' => 'json'
+  );
+  $form['submit_email_prefix'] = array(
+    '#markup' => '<div class="inputSubscribe">',
+  );
+  $form['submit_email'] = array(
+    '#type' => 'button',
     '#value' => t('Subscribe'),
+    '#ajax' => array(
+      'callback' => 'newsroom_newsletter_subscription_form_ajax',
+    ),
+  );
+  $form['submit_email_submit'] = array(
+    '#markup' => '</div>',
   );
   $form['service_id'] = array(
     '#type' => 'hidden',
@@ -329,6 +341,41 @@ function newsroom_newsletter_subscription_form($form, &$form_state) {
     '#markup' => '<div class="linkPreviousIssues"><a href="' . $_newsroom_universe_url . 'newsletter-specific-archive.cfm?serviceId=' . $args['tid'] . '">' . t('Previous issues') . '</a></div>',
   );
   return $form;
+}
+
+/**
+ * Newsletter subscription form ajax callback.
+ */
+function newsroom_newsletter_subscription_form_ajax($form, &$form_state){
+
+  $form_id = $form['#form_id'];
+  $selector = '#' . str_replace('_', '-', $form_id);
+
+  $url = $form['#action'];
+
+  $input['service_id'] = $form_state['input']['service_id'];
+  $input['email'] = $form_state['input']['email'];
+  $input['response_type'] = $form_state['input']['response_type'];
+  $query = http_build_query($input);
+
+  $request = drupal_http_request($url . '?' . $query);
+  $json_data = $request->data;
+  $data = drupal_json_decode($json_data);
+  $subscription = $data['subscription'];
+
+  if ($subscription['status'] == 'Failed') {
+    form_set_error('email', $subscription['feedbackMessage']);
+    $commands[] = ajax_command_invoke($selector . ' #edit-email', 'addClass', array('error'));
+  }
+  else {
+    $type = ($subscription['isNewUser'] === "False" && $subscription['isNewSubscription'] === "False") ? 'warning' :  'status';
+    drupal_set_message($subscription['feedbackMessage'], $type);
+    $commands[] = ajax_command_invoke($selector . ' #edit-email', 'removeClass', array('error'));
+  }
+  $replacement = theme_status_messages();
+  $commands[] = ajax_command_replace($selector . ' .feedback', '<div class="feedback">' . $replacement . '</div>');
+
+  return array('#type' => 'ajax', '#commands' => $commands);
 }
 
 /**
@@ -529,7 +576,7 @@ function newsroom_admin_tools() {
     foreach ($links as $link) {
       $content .= '<div class="btn-group-sm btn-group">' . theme('link', $link) . '</div>';
     }
-    
+
     if (!empty($content)) {
       $content = '<div class="btn-toolbar">' . $content . '</div>';
     }
@@ -551,16 +598,16 @@ function newsroom_admin_tools() {
  */
 function newsroom_contents($delta) {
   $block_settings = _newsroom_get_summary_block_tid();
-  
+
   if (!$block_settings['display']) {
     return '';
   }
-  
+
   $topic_tids = array();
   $topic_name = array();
   // Sticky items (Centrally published).
   $sticky = TRUE;
-  if (!drupal_is_front_page()) {    
+  if (!drupal_is_front_page()) {
     $sticky = FALSE;
     if (!empty($block_settings['topic'])) {
       foreach ($block_settings['topic'] as $topic) {
@@ -569,7 +616,7 @@ function newsroom_contents($delta) {
       }
     }
   }
-  
+
   $newsroom_content = newsroom_content($block_settings['type'], FALSE, implode('+', $topic_tids), $sticky, $block_settings['topic'], $block_settings['topic_operator']);
 
   // Prepend RSS link if there is content.
@@ -590,7 +637,7 @@ function _newsroom_build_rss_link($topic_tids, $topic_name) {
   ));
   $rss .= l($rss_title, $rss_path);
   $rss .= '</div>';
-  
+
   return $rss;
 }
 
@@ -641,12 +688,12 @@ function _newsroom_get_summary_block_tid() {
   }
 
   if ($newsroom_selection_node) {
-    
+
     if (!empty($newsroom_selection_node->field_newsroom_topic_operator)) {
       $topic_operator = $newsroom_selection_node->field_newsroom_topic_operator['und'][0]['value'];
-    }      
-      
-    //$topic_operator = 
+    }
+
+    //$topic_operator =
     $topic_config = field_get_items('node', $newsroom_selection_node, 'field_selected_topics');
     $selected_topics = array();
     if ($topic_config) {
@@ -770,7 +817,7 @@ function newsroom_content($newsroom_grouping_terms, $full_display = FALSE, $news
   module_load_include('inc', 'pathauto', 'pathauto');
   $blocks_by = variable_get('newsroom_block_by', 'type');
   $newsroom_boxes = array();
-  
+
   // Custom Agenda block if needed.
   if (variable_get('newsroom_display_agenda', 1) && $agenda_types = newsroom_agenda_types()) {
     $view_arguments[0] = implode('+', array_keys($agenda_types));
@@ -982,8 +1029,8 @@ function newsroom_fetch_content_view($view_arguments, $newsroom_grouping_term_na
   $view = views_get_view('newsroom_page_content');
   if (!is_object($view)) {
     return FALSE;
-  }  
-  
+  }
+
   $view->newsroom_display_type = FALSE;
   $view->newsroom_type_name = $newsroom_grouping_term_name === NEWSROOM_CALENDAR_BLOCK ? t('Calendar') : $newsroom_grouping_term_name->name;
   $view->set_arguments($view_arguments);
@@ -1539,7 +1586,7 @@ function newsroom_newsroom_redirect($redirect_type = 'item', $param_1 = 0, $para
   if (!$param_1) {
     drupal_not_found();
   }
-  
+
   module_load_include('inc', 'pathauto', 'pathauto');
 
   $path = FALSE;
@@ -1595,11 +1642,12 @@ function newsroom_newsroom_redirect($redirect_type = 'item', $param_1 = 0, $para
  * Implements pre_render_hook().
  */
 function newsroom_views_pre_render(&$view) {
-  
+
   // Mark items as new if a user did't see it before.
   if ($view->name == 'newsroom_page_content') {
     foreach ($view->result as $key => $result) {
-      if (empty(node_last_viewed($result->nid))) {
+      $last_viewed = node_last_viewed($result->nid);
+      if (empty($last_viewed)) {
         $new_title = empty($result->field_field_newsroom_item_short_title[0]['rendered']['#markup']) ? $result->node_title : $result->field_field_newsroom_item_short_title[0]['rendered']['#markup'];
         $view->result[$key]->field_field_newsroom_item_short_title[0]['rendered']['#markup'] = '<span class="itemFlag flagHot newItem">' . t('New') . '</span> ' . $new_title;
       }
@@ -1607,8 +1655,8 @@ function newsroom_views_pre_render(&$view) {
   }
 
   if ($view->name == 'newsroom') {
-    
-    // Replace [newsroom_url_prefix] for view area to site prefix 
+
+    // Replace [newsroom_url_prefix] for view area to site prefix
     // for example 'digital-agenda'.
     $areas = array('header', 'footer', 'empty');
     foreach ($areas as $area) {
@@ -1630,7 +1678,7 @@ function newsroom_views_pre_render(&$view) {
     if (count(explode(' ', $view->build_info['substitutions']['!1']) > 1)) {
       $view->build_info['substitutions']['%1'] = str_replace(' + ', ' & ', $view->build_info['substitutions']['%1']);
     }
-    
+
     if ($view->build_info['substitutions']['!2'] == 'all') {
       if (isset($view->header['area_text_custom'])) {
         $view->header['area_text_custom']->options['content'] = str_replace('about %2', '', $view->header['area_text_custom']->options['content']);
@@ -1686,15 +1734,66 @@ function newsroom_views_pre_render(&$view) {
  */
 function newsroom_views_pre_view(&$view, &$display_id, &$args) {
 
+  if ($view->name == 'newsletter_subscription') {
+    // The proper context filter cannot be found for taxonomy term pages 
+    // so we set it manually.    
+    $current_path = menu_get_item();
+
+    // Try to get proper taxonomy context filter.
+    if ($current_path['path'] === 'taxonomy/term/%') {
+      $taxonomy_term = NULL;
+      $current_page_path = current_path();
+
+      // Never sure what menu_callback will get you with.
+      // A view overridding a taxo page.
+      $url_tokens = explode('/', $current_page_path);
+      if (isset($url_tokens[2]) && is_numeric($url_tokens[2])) {
+        $taxonomy_term = taxonomy_term_load($url_tokens[2]);
+      }
+
+      if (!empty($taxonomy_term) && isset($taxonomy_term->field_associated_newsroom_topic) && !empty($taxonomy_term->field_associated_newsroom_topic)) {
+        $has_newsroom_topic_argument = FALSE;
+        // Check the current display.
+        if (isset($view->display[$view->current_display]->handler->options['arguments'])) {
+          foreach ($view->display[$view->current_display]->handler->options['arguments'] as $key => $argument) {
+            // Check if this field taxonomy ref to newsroom_topic vocabulary.
+            if ($argument['default_argument_type'] == 'taxonomy_tid'
+              && isset($argument['default_argument_options']['vocabularies']['newsroom_topic'])) {
+              $has_newsroom_topic_argument = TRUE;
+              break;
+            }
+          }
+        }
+
+        // Check the default display, if we don't have ovverrides.
+        if (isset($view->display['default']->handler->options['arguments'])) {
+          foreach ($view->display['default']->handler->options['arguments'] as $key => $argument) {
+            // Check if this field taxonomy ref to newsroom_topic vocabulary.
+            if ($argument['default_argument_type'] == 'taxonomy_tid' &&
+              isset($argument['default_argument_options']['vocabularies']['newsroom_topic'])) {
+              $has_newsroom_topic_argument = TRUE;
+              break;
+            }
+          }
+        }
+
+        // Set argument from the taxonomy associated newsroom topic.
+        if ($has_newsroom_topic_argument) {
+          $args = array($taxonomy_term->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid']);
+        }
+      }
+    }
+  }
+
   if ($view->name == 'newsroom') {
     module_load_include('inc', 'pathauto', 'pathauto');
     $arguments_settings = $view->display[$view->current_display]->handler->get_option('arguments');
     // Select the appropriate display in case only one type is set.
     if ($display_id == 'default_newsroom' && isset($args[0]) && $args[0] !== $arguments_settings['term_node_tid_depth']['default_argument_options']['argument']) {
       $display_field = 'default';
-      
+
       $is_previous = isset($args[2]) && $args[2] == 'previous';
-      
+
       // Convert topic url part to taxonomy term id
       // and assign to arguments, because we use 'tids' validation.
       if (isset($args[1]) && !empty($args[1])) {
@@ -1710,7 +1809,7 @@ function newsroom_views_pre_view(&$view, &$display_id, &$args) {
         // Convert type or topic url part to taxonomy term id
         // and assign to arguments, because we use 'tids' validation.
         $type = newsroom_taxonomy_term_from_request($types[0], $arguments_settings, 'term_node_tid_depth');
-        
+
         if ($type) {
           $type = is_array($type) ? array_shift($type) : $type;
           // Take children types IDs and use them as argument
@@ -1766,7 +1865,7 @@ function newsroom_views_pre_view(&$view, &$display_id, &$args) {
 }
 
 /**
- * Try to get taxonomy term 
+ * Try to get taxonomy term
  * @param type $request
  * @param type $argument_settings
  */
@@ -2303,7 +2402,7 @@ function newsroom_views_data_alter(&$data) {
   if (isset($data['taxonomy_term_data']['name']['field'])) {
     $data['taxonomy_term_data']['name']['field']['handler'] = 'newsroom_views_handler_field_taxonomy';
   }
-  
+
   $data['node']['newsroom_term_node_tid_depth'] = array(
     'help' => t('Display content if it has the selected taxonomy terms, or children of the selected terms. Due to additional complexity, this has fewer options than the versions without depth.'),
     'real field' => 'nid',
