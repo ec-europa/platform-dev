@@ -20,7 +20,8 @@ function nexteuropa_notices_init() {
     array(
       'type' => 'file',
       'scope' => 'footer',
-      'weight' => 100)
+      'weight' => 100,
+    )
   );
 }
 
@@ -28,7 +29,7 @@ function nexteuropa_notices_init() {
  * Implements hook_preprocess_block().
  */
 function nexteuropa_notices_preprocess_block(&$variables) {
-  if (isset ($variables['block']->module) && $variables['block']->module == 'bean') {
+  if (isset($variables['block']->module) && $variables['block']->module == 'bean') {
     foreach ($variables['elements']['bean'] as $key => $content) {
       if (isset($content['#bundle']) && $content['#bundle'] == 'notice') {
         $variables['classes_array'][] = 'notice';

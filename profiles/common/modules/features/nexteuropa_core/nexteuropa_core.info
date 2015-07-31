@@ -9,7 +9,6 @@ dependencies[] = bean_admin_ui
 dependencies[] = bean_entitycache
 dependencies[] = chosen
 dependencies[] = coffee
-dependencies[] = ckeditor_lite
 dependencies[] = multisite_config
 dependencies[] = context
 dependencies[] = context_ui

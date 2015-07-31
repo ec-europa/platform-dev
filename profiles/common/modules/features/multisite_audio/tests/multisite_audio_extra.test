@@ -3,7 +3,6 @@
 /**
  * @file
  * Tests for multisite_audio.
- * ECWeb MULTISITE Feature Test
  */
 
 /**
@@ -31,6 +30,7 @@ class MultisiteAudioFeatureTest extends DrupalWebTestCase {
   /**
    * Test functionality of the audio field.
    *
+   * Performs the following actions:
    * - Creates a content type.
    * - Adds a single-valued audio field to it.
    * - Test that the single-valued audio field has every setting.
@@ -40,6 +40,7 @@ class MultisiteAudioFeatureTest extends DrupalWebTestCase {
    */
   public function testAudioField() {
     $content_type_machine = strtolower($this->randomName(10));
+    // @todo The $title variable is unused.
     $title = $this->randomName(20);
 
     // Create and login user.
@@ -129,4 +130,5 @@ class MultisiteAudioFeatureTest extends DrupalWebTestCase {
 
     $this->assertText(t('Saved @name configuration.', array('@name' => $field_name)));
   }
+
 }

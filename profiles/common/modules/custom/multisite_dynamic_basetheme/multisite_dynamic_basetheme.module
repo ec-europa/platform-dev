@@ -7,26 +7,26 @@
 
 define('MULTISITE_DYNAMIC_BASETHEME_JQUERY_VERSION', '1.7');
 define('MULTISITE_DYNAMIC_BASETHEME_JMUTLI_LOAD_ALWAYS', '1');
-
+define('MULTISITE_DYNAMIC_BASETHEME_THEME_DEFAULT_KEY', '');
 
 /**
  * Implements hook_form_BASE_FORM_ID_alter() for system_theme_settings().
  */
 function multisite_dynamic_basetheme_form_system_theme_settings_alter(&$form, $form_state) {
   // Get current theme object.
-  if (isset ($form_state['build_info']['args'][0])) {
+  if (isset($form_state['build_info']['args'][0])) {
     $theme_key = $form_state['build_info']['args'][0];
     $themes = list_themes();
     $theme_object = $themes[$theme_key];
 
-    if (isset ($theme_object->base_theme)) {
+    if (isset($theme_object->base_theme)) {
       $form['base_theme_fieldset'] = array(
         '#type' => 'fieldset',
         '#title' => t('Base theme'),
         '#weight' => -100,
       );
 
-      $default_value = (theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) ? theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key) : 0;
+      $default_value = (theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) ? theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key) : MULTISITE_DYNAMIC_BASETHEME_THEME_DEFAULT_KEY;
 
       $form['base_theme_fieldset']['ec_resp_base_theme_of_subtheme'] = array(
         '#type' => 'select',
@@ -37,6 +37,7 @@ function multisite_dynamic_basetheme_form_system_theme_settings_alter(&$form, $f
       );
       $form['#submit'][] = 'multisite_dynamic_basetheme_form_system_theme_settings_submit';
 
+      // @todo $settings is unused in its scope.
       $var = 'theme_' . $theme_key . '_settings';
       $settings = variable_get($var);
     }
@@ -54,7 +55,7 @@ function multisite_dynamic_basetheme_form_system_theme_settings_submit($form, &$
   if ($old_value !== $new_value) {
     _multisite_dynamic_basetheme_rebuild_system_theme();
 
-    if ($new_value == '') {
+    if ($new_value == MULTISITE_DYNAMIC_BASETHEME_THEME_DEFAULT_KEY) {
       $theme_key = $form_state['build_info']['args'][0];
       $theme_info_file = drupal_parse_info_file(drupal_get_path('theme', $theme_key) . "/$theme_key.info");
       $new_value = $theme_info_file['base theme'];
@@ -69,6 +70,10 @@ function multisite_dynamic_basetheme_form_system_theme_settings_submit($form, &$
 function _multisite_dynamic_basetheme_jquery_modules_handle($base_theme) {
   // Enable-disable jquery modules.
   if (empty($base_theme)) {
+    return;
+  }
+  // Enable-disable jquery modules only for multisite base theme changes.
+  if (strpos($base_theme, 'ec_resp') !== 0 && _multisite_dynamic_basetheme_is_multisite_base_theme($base_theme) === FALSE) {
     return;
   }
   if ($base_theme == 'ec_resp') {
@@ -114,7 +119,7 @@ function _multisite_dynamic_basetheme_rebuild_system_theme() {
  */
 function _multisite_dynamic_basetheme_is_multisite_base_theme($theme) {
   if (is_object($theme)) {
-    return (isset ($theme->info['multisite']) && $theme->info['multisite'] == 1);
+    return isset($theme->info['multisite']) && $theme->info['multisite'] == 1;
   }
   return FALSE;
 }
@@ -152,7 +157,7 @@ function multisite_dynamic_basetheme_get_base_theme_list($theme_key = FALSE) {
       $theme_base_name = $themes[$theme_base_key]->info['name'];
     }
 
-    $options_default[''] = t("Default: @base_theme (@base_theme_key)", array("@base_theme" => $theme_base_name, "@base_theme_key" => $theme_base_key));
+    $options_default[MULTISITE_DYNAMIC_BASETHEME_THEME_DEFAULT_KEY] = t("Default: @base_theme (@base_theme_key)", array("@base_theme" => $theme_base_name, "@base_theme_key" => $theme_base_key));
     $options = $options_default + $options;
     unset($options[$theme_base_key]);
   }
@@ -163,16 +168,26 @@ function multisite_dynamic_basetheme_get_base_theme_list($theme_key = FALSE) {
 /**
  * Implements hook_system_info_alter().
  *
- * Rewrite 'base theme' of all subtheme with the setting
+ * Rewrite 'base theme' of all subtheme with the setting 
  * "ec_resp_base_theme_of_subtheme" (if defined).
  */
 function multisite_dynamic_basetheme_system_info_alter(&$info, $file, $type) {
   if ($type == "theme" && isset($file->info['base theme'])) {
     $theme_key = $file->name;
     if ($new_base_theme = theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) {
-      $themes = list_themes();
-      if (isset($themes[$new_base_theme]) && _multisite_dynamic_basetheme_is_multisite_base_theme($themes[$new_base_theme])) {
-        $info['base theme'] = $new_base_theme;
+      // If base theme is defined on sub-theme settings.
+      if ($new_base_theme = theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key)) {
+        // Cannot use theme_list in hook_system_info_alter: infinite loop in
+        // case of MAINTENANCE_MODE defined.
+        // Information is 'manually' retrieved,to check the basetheme coherence.
+        if (drupal_get_path('theme', $new_base_theme) != '') {
+          // Check if new_base_theme is a multisite base theme.
+          $new_base_theme_obj = new stdClass();
+          $new_base_theme_obj->info = drupal_parse_info_file(drupal_get_path('theme', $new_base_theme) . "/$new_base_theme.info");
+          if (_multisite_dynamic_basetheme_is_multisite_base_theme($new_base_theme_obj)) {
+            $info['base theme'] = $new_base_theme;
+          }
+        }    
       }
     }
   }

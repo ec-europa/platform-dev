@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Javascript functionality for the NextEuropa IEF Views Widget.
+ */
+
 (function ($) {
     Drupal.behaviors.nexteuropa_ief_views_widget = {
         attach: function(context) {

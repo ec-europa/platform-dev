@@ -2,6 +2,10 @@
 /**
  * @file
  * Contains classes for Client connections handlers.
+ *
+ * This is extending the base class from the Web Service Clients module.
+ *
+ * @see https://www.drupal.org/project/clients
  */
 
 /**
