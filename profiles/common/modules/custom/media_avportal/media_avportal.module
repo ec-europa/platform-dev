@@ -89,11 +89,11 @@ function media_avportal_menu() {
   $items = array();
 
   $items['admin/config/media/media_avportal'] = array(
-      'title' => 'Media Av Portal settings',
-      'description' => 'Adjust Media Av Portal settings.',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('media_avportal_settings_form'),
-      'access arguments' => array('administer site configuration'),
+    'title' => 'Media Av Portal settings',
+    'description' => 'Adjust Media Av Portal settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('media_avportal_settings_form'),
+    'access arguments' => array('administer site configuration'),
   );
   return $items;
 }
@@ -104,11 +104,11 @@ function media_avportal_menu() {
 function media_avportal_settings_form($form, $form_state) {
 
   $form['media_avportal_language_bar'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Language bar'),
-      '#description' => t('You need to clear the cache after changing this setting'),
-      '#default_value' => variable_get('media_avportal_language_bar', FALSE)
+    '#type' => 'checkbox',
+    '#title' => t('Language bar'),
+    '#description' => t('You need to clear the cache after changing this setting'),
+    '#default_value' => variable_get('media_avportal_language_bar', FALSE),
   );
- 
+
   return system_settings_form($form);
 }
