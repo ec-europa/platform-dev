@@ -128,7 +128,7 @@ projects[features][subdir] = "contributed"
 projects[features][version] = "2.3"
 
 projects[feeds][subdir] = "contributed"
-projects[feeds][version] = "2.0-alpha8"
+projects[feeds][version] = "2.0-alpha9"
 
 projects[feeds_tamper][subdir] = "contributed"
 projects[feeds_tamper][version] = "1.0"
