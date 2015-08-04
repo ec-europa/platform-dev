@@ -14,6 +14,15 @@ itself. This can be done using composer:
 $ composer install
 ```
 
+### Tips
+
+If you have a global install of composer already, this may cause conflict.
+Try the command below.
+
+```
+$ curl -sS https://getcomposer.org/installer | php
+```
+
 ## Customize build properties
 
 Create a new file in the root of the project named `build.properties.local`
