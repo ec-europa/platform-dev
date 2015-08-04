@@ -608,14 +608,6 @@ libraries[Leaflet.widget][destination] = "libraries"
 libraries[Leaflet.widget][download][type] = "git"
 libraries[Leaflet.widget][download][url] = "https://github.com/tnightingale/Leaflet.widget.git"
 
-; tcpdf 6.0.053
-libraries[tcpdf][download][type] = "file"
-libraries[tcpdf][download][request_type]= "get"
-libraries[tcpdf][download][file_type] = "zip"
-libraries[tcpdf][download][url] = "https://github.com/tcpdf-clone/tcpdf/archive/6.0.053.zip"
-libraries[tcpdf][destination] = "libraries"
-
-
 ; ======
 ; Themes
 ; ======
