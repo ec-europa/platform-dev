@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7bf23d581f9017c5ee4abbf81da334c8",
+    "hash": "da024127736e440c71a4dfa67f999636",
     "packages": [
         {
             "name": "behat/behat",
@@ -502,15 +502,21 @@
         },
         {
             "name": "drupal/coder",
-            "version": "dev-8.x-2.x",
+            "version": "dev-NEXTEUROPA-4429",
             "source": {
                 "type": "git",
-                "url": "http://git.drupal.org/project/coder.git",
-                "reference": "6002c8ba9eb849a366aea62cabc3577f4053c6b1"
+                "url": "https://github.com/pfrenssen/coder.git",
+                "reference": "9435e6d77a5478023b4044283ccd8457769bce5a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pfrenssen/coder/zipball/9435e6d77a5478023b4044283ccd8457769bce5a",
+                "reference": "9435e6d77a5478023b4044283ccd8457769bce5a",
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.2.0",
-                "squizlabs/php_codesniffer": ">=2.3.3"
+                "squizlabs/php_codesniffer": "dev-js-braceless-do-while"
             },
             "require-dev": {
                 "phpunit/phpunit": ">=3.7"
@@ -530,7 +536,7 @@
                 "issues": "https://drupal.org/project/issues/coder",
                 "source": "https://drupal.org/project/coder"
             },
-            "time": "2015-06-28 10:44:12"
+            "time": "2015-07-30 17:16:01"
         },
         {
             "name": "drupal/drupal-driver",
@@ -1307,16 +1313,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "2.3.3",
+            "version": "dev-js-braceless-do-while",
             "source": {
                 "type": "git",
-                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "c1a26c729508f73560c1a4f767f60b8ab6b4a666"
+                "url": "https://github.com/pfrenssen/PHP_CodeSniffer.git",
+                "reference": "434a59bc9d7945311deb90767a3a62c0e87b54a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/c1a26c729508f73560c1a4f767f60b8ab6b4a666",
-                "reference": "c1a26c729508f73560c1a4f767f60b8ab6b4a666",
+                "url": "https://api.github.com/repos/pfrenssen/PHP_CodeSniffer/zipball/434a59bc9d7945311deb90767a3a62c0e87b54a6",
+                "reference": "434a59bc9d7945311deb90767a3a62c0e87b54a6",
                 "shasum": ""
             },
             "require": {
@@ -1361,7 +1367,6 @@
                     "CodeSniffer/Standards/Zend/Sniffs/"
                 ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1377,7 +1382,12 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2015-06-24 03:16:23"
+            "support": {
+                "issues": "https://github.com/squizlabs/PHP_CodeSniffer/issues",
+                "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki",
+                "source": "https://github.com/squizlabs/PHP_CodeSniffer"
+            },
+            "time": "2015-07-29 18:27:54"
         },
         {
             "name": "symfony/browser-kit",

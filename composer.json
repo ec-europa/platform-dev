@@ -1,7 +1,7 @@
 {
   "require": {
     "behat/behat": "dev-fix-verbose-option as 3.0.x-dev",
-    "drupal/coder": "dev-8.x-2.x",
+    "drupal/coder": "dev-NEXTEUROPA-4429",
     "drupal/drupal-driver": "dev-master#a1fa9cd8e6e",
     "drupal/drupal-extension": "dev-master#f26a57a356f",
     "drupal/phing-drush-task": "1.0",
@@ -25,8 +25,14 @@
   },
   "repositories": [
     {
+      "_comment": "Temporary fork of drupal/coder with a fix for NEXTEUROPA-4429",
       "type": "vcs",
-      "url": "http://git.drupal.org/project/coder.git"
+      "url": "git@github.com:pfrenssen/coder.git"
+    },
+    {
+      "_comment": "Temporary fork of squizlabs/php_codesniffer including fix for NEXTEUROPA-4429.",
+      "type": "vcs",
+      "url": "git@github.com:pfrenssen/PHP_CodeSniffer.git"
     },
     {
       "_comment": "Temporary fork including fix for issue #765.",
