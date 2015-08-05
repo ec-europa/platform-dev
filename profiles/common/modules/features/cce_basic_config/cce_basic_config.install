@@ -445,15 +445,6 @@ function cce_basic_config_install() {
     $dynamic_variables['print_pdf_pdf_tool'] = reset($pdf_tool);
   }
 
-  // Dynamically set the 'image_captcha_fonts' variable. It cannot be exported
-  // in a regular feature since it hard codes the paths to where the fonts are
-  // installed that are used for the image captchas.  These are different
-  // depending on the installation profile that is used.
-  $dynamic_variables['image_captcha_fonts'] = array(
-    drupal_get_path('module', 'image_captcha') . '/fonts/Tuffy/Tuffy_Bold.ttf',
-    drupal_get_path('module', 'image_captcha') . '/fonts/Tuffy/Tuffy.ttf',
-  );
-
   // Add the dynamic variables to the exported component.
   foreach ($dynamic_variables as $variable => $value) {
     variable_set($variable, $value);
@@ -1574,30 +1565,6 @@ function cce_basic_config_update_7203() {
   }
 
   variable_set('rate_widgets', $rate_widgets);
-}
-
-/**
- * Update variables with new module locations after folder restructuring.
- */
-function cce_basic_config_update_7204() {
-  module_load_include('inc', 'features', 'features.export');
-
-  $variables_to_revert = array(
-    'image_captcha_fonts',
-    'print_pdf_pdf_tool',
-  );
-
-  // Retrieve the default values for the variables from the exported feature.
-  $defaults = array_intersect_key(features_get_default('variable', 'cce_basic_config'), array_flip($variables_to_revert));
-
-  // It is only needed to revert the variable if it is actually overridden.
-  // @see variable_features_revert()
-  $variables = strongarm_vars_load(TRUE, TRUE);
-  foreach ($defaults as $name => $default) {
-    if (!empty($variables[$name]->in_code_only) || ($default->value !== $variables[$name]->value)) {
-      variable_set($name, $default->value);
-    }
-  }
 }
 
 /**
