@@ -52,8 +52,6 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['arguments']['field_newsroom_topic_tid']['default_action'] = 'default';
   $handler->display->display_options['arguments']['field_newsroom_topic_tid']['default_argument_type'] = 'taxonomy_tid';
   $handler->display->display_options['arguments']['field_newsroom_topic_tid']['default_argument_options']['node'] = TRUE;
-  $handler->display->display_options['arguments']['field_newsroom_topic_tid']['default_argument_options']['anyall'] = '+';
-  $handler->display->display_options['arguments']['field_newsroom_topic_tid']['default_argument_options']['limit'] = TRUE;
   $handler->display->display_options['arguments']['field_newsroom_topic_tid']['default_argument_options']['vocabularies'] = array(
     'newsroom_topic' => 'newsroom_topic',
   );

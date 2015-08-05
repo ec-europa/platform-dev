@@ -10,6 +10,86 @@
 function multisite_newsroom_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'file-image-field_newsroom_copyrights'
+  $field_instances['file-image-field_newsroom_copyrights'] = array(
+    'bundle' => 'image',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
+      'preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'wysiwyg' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'file',
+    'field_name' => 'field_newsroom_copyrights',
+    'label' => 'Copyrights',
+    'required' => 0,
+    'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'basic_html' => 'basic_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'basic_html' => array(
+              'weight' => 5,
+            ),
+            'filtered_html' => array(
+              'weight' => -9,
+            ),
+            'full_html' => array(
+              'weight' => -10,
+            ),
+            'plain_text' => array(
+              'weight' => -8,
+            ),
+          ),
+        ),
+      ),
+      'entity_translation_sync' => FALSE,
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+      'wysiwyg_override' => 0,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => -1,
+    ),
+  );
+
   // Exported field_instance: 'node-newsroom_item-body'
   $field_instances['node-newsroom_item-body'] = array(
     'bundle' => 'newsroom_item',
@@ -124,12 +204,14 @@ function multisite_newsroom_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'hidden',
-        'module' => 'image',
+        'module' => 'newsroom',
         'settings' => array(
-          'image_link' => 'file',
+          'display_copyright' => 1,
+          'display_title' => 1,
           'image_style' => 'newsroom_style',
+          'zoomable' => 1,
         ),
-        'type' => 'image',
+        'type' => 'newsroom_zoomable_image',
         'weight' => 1,
       ),
       'mini_teaser' => array(
@@ -774,12 +856,14 @@ function multisite_newsroom_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'hidden',
-        'module' => 'image',
+        'module' => 'newsroom',
         'settings' => array(
-          'image_link' => '',
+          'display_copyright' => 1,
+          'display_title' => 1,
           'image_style' => 'newsroom_style',
+          'zoomable' => 1,
         ),
-        'type' => 'image',
+        'type' => 'newsroom_zoomable_image',
         'weight' => 5,
       ),
       'mini_teaser' => array(
@@ -3881,6 +3965,7 @@ function multisite_newsroom_field_default_field_instances() {
   t('Contact Text');
   t('Contact e-mail');
   t('Contact text');
+  t('Copyrights');
   t('Date');
   t('Date label');
   t('Defines the behavior of the links to newsroom items from the different lists and blocks. "Teaser only" items are the newsroom items that have no other content than a teaser and a main link.');

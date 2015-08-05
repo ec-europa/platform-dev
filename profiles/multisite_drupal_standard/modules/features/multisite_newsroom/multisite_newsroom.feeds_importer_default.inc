@@ -135,6 +135,9 @@ function multisite_newsroom_feeds_importer_default() {
           'xpathparser:46' => 'infsonewsroom:ContextProjectURLDisplay/text()',
           'xpathparser:47' => 'infsonewsroom:ContextProjectCoordinator/text()',
           'xpathparser:48' => 'infsonewsroom:ContextECContent/text()',
+          'xpathparser:49' => 'enclosure[@type="image/jpeg"]/@alt',
+          'xpathparser:50' => 'enclosure[@type="image/jpeg"]/@title',
+          'xpathparser:51' => 'enclosure[@type="image/jpeg"]/@copyright',
         ),
         'rawXML' => array(
           'xpathparser:1' => 0,
@@ -178,6 +181,9 @@ function multisite_newsroom_feeds_importer_default() {
           'xpathparser:46' => 0,
           'xpathparser:47' => 0,
           'xpathparser:48' => 0,
+          'xpathparser:49' => 0,
+          'xpathparser:50' => 0,
+          'xpathparser:51' => 0,
         ),
         'context' => '//channel/item',
         'exp' => array(
@@ -225,6 +231,9 @@ function multisite_newsroom_feeds_importer_default() {
             'xpathparser:46' => 0,
             'xpathparser:47' => 0,
             'xpathparser:48' => 0,
+            'xpathparser:49' => 0,
+            'xpathparser:50' => 0,
+            'xpathparser:51' => 0,
           ),
         ),
         'allow_override' => 0,
@@ -445,6 +454,21 @@ function multisite_newsroom_feeds_importer_default() {
           40 => array(
             'source' => 'xpathparser:48',
             'target' => 'field_newsroom_ec_content',
+            'unique' => FALSE,
+          ),
+          41 => array(
+            'source' => 'xpathparser:49',
+            'target' => 'field_file_image_alt_text',
+            'unique' => FALSE,
+          ),
+          42 => array(
+            'source' => 'xpathparser:50',
+            'target' => 'field_file_image_title_text',
+            'unique' => FALSE,
+          ),
+          43 => array(
+            'source' => 'xpathparser:51',
+            'target' => 'field_newsroom_copyrights',
             'unique' => FALSE,
           ),
         ),
