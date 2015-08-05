@@ -313,4 +313,3 @@ function cce_basic_config_form_node_form_after_build($form_element) {
 
   return $form_element;
 }
-
