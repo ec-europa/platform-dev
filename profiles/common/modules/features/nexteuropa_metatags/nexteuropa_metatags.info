@@ -5,7 +5,6 @@ package = NextEuropa
 version = 7.x-1.0
 project = nexteuropa_metatags
 dependencies[] = nexteuropa_core
-dependencies[] = features
 dependencies[] = metatag
 dependencies[] = metatag_dc
 dependencies[] = metatag_facebook
