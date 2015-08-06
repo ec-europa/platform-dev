@@ -845,7 +845,7 @@ function newsroom_content($newsroom_grouping_terms, $full_display = FALSE, $news
     foreach ($newsroom_grouping_terms as $newsroom_grouping_term) {
       $default_view_display = 'default_newsroom';
       $classes = array('term-' . $newsroom_grouping_term->tid);
-
+      $newsroom_block_id = '';
       if ($blocks_by !== 'collection') {
         $newsroom_type_tids = newsroom_get_children($newsroom_grouping_term->tid, $newsroom_grouping_term->vid);
         $view_arguments[0] = $newsroom_type_tids;
@@ -887,6 +887,7 @@ function newsroom_content($newsroom_grouping_terms, $full_display = FALSE, $news
         }
 
         $clean_url_type_name = pathauto_cleanstring($newsroom_grouping_term->name);
+        $newsroom_block_id = 'newsroom-block-' . $clean_url_type_name;
         if (count($topics) == 1) {
           $topics_segment = pathauto_cleanstring($topics[key($topics)]->name);
         }
@@ -911,6 +912,7 @@ function newsroom_content($newsroom_grouping_terms, $full_display = FALSE, $news
           'title' => l($newsroom_grouping_term->name, $full_list_url),
           'list_link' => l(t('<span class="more">More</span> <span class="more_type">%1</span>', array('%1' => $newsroom_grouping_term->name)), $full_list_url, array('html' => TRUE)),
           'classes' => $classes,
+          'id' => $newsroom_block_id,
           'highlight' => $topic_is_highlighted,
           'agenda' => FALSE,
           'last_update' => $created,
@@ -973,7 +975,8 @@ function newsroom_render_boxes($boxes) {
     }
 
     $columns_newsroom[$active_column]['visible'] = TRUE;
-    $columns_newsroom[$active_column]['content'] .= '<div class="' . implode(' ', $box['classes']) . '">'; /* add "highlighted" classname to display that block as highlighted (ie press releases, speeches) */
+    $columns_newsroom[$active_column]['content'] .= '<a name="' . $box['id'] .'"></a>';
+    $columns_newsroom[$active_column]['content'] .= '<div id="' . $box['id'] .'" class="' . implode(' ', $box['classes']) . '">'; /* add "highlighted" classname to display that block as highlighted (ie press releases, speeches) */
     $columns_newsroom[$active_column]['content'] .= '<h3 class="newsroom_title">' . $box['title'] . '</h3>';
     $columns_newsroom[$active_column]['content'] .= $box['block']['content'];
     $columns_newsroom[$active_column]['content'] .= '<div class="newsroom_more">' . $box['list_link'] . '</div>';
