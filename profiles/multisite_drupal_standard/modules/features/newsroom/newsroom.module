@@ -16,14 +16,14 @@ global $_newsroom_universe_url;
  * Implements hook_init().
  */
 function newsroom_init() {
+  global $_newsroom_universe_url;
+  if ($universe_id = variable_get('newsroom_universe_id', FALSE)) {
+    $_newsroom_universe_url = NEWSROOM_URL . $universe_id . '/';
+  }
   // We show message in the admin part and for users who has access
   // to site configuration. 
   if (arg(0) == 'admin' && user_access('administer site configuration')) {
-    if ($universe_id = variable_get('newsroom_universe_id', FALSE)) {
-      global $_newsroom_universe_url;
-      $_newsroom_universe_url = NEWSROOM_URL . $universe_id . '/';
-    }
-    else {
+    if (empty($universe_id)) {
       $newsroom_config_path = url('admin/config/content/newsroom');
       $newsroom_config_path = filter_xss($newsroom_config_path);
       drupal_set_message(t('The Newsroom feature needs to be configured before use. Please visit the <a href="!link">configuration page</a>!', array('!link' => $newsroom_config_path)), 'warning', FALSE);
@@ -1470,6 +1470,7 @@ function newsroom_newsroom_item_import_access() {
  */
 function newsroom_newsroom_item_importer($newsroom_id = 0, $delete = FALSE, $reimport = FALSE) {
   global $_newsroom_universe_url;
+
   if ($newsroom_id == 0) {
     drupal_not_found();
   }
@@ -2582,6 +2583,13 @@ function newsroom_views_api() {
  * Implements of hook_feeds_after_save().
  */
 function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id) {
+
+  if ($entity->type == 'newsroom_item') {
+    // We take post date from Newsroom item.
+    $entity->created = strtotime($item['xpathparser:8']);
+    node_save($entity);
+  }
+
   // Get the files if it excists and set the values from the xpath parser
   // for these fields.
   if (isset($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']) && !empty($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid'])) {
