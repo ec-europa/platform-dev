@@ -5,7 +5,6 @@ package = Multisite Core Features
 version = 7.x-1.2
 project = links_core
 dependencies[] = cce_basic_config
-dependencies[] = i18n_taxonomy
 dependencies[] = link
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0

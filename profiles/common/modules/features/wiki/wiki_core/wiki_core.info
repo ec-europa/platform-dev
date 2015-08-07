@@ -7,7 +7,6 @@ project = wiki_core
 dependencies[] = apachesolr
 dependencies[] = cce_basic_config
 dependencies[] = diff
-dependencies[] = i18n_taxonomy
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_wiki_toc
 dependencies[] = translation

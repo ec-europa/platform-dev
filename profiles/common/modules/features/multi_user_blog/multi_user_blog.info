@@ -6,7 +6,6 @@ version = 7.x-1.1
 project = multi_user_blog
 dependencies[] = apachesolr
 dependencies[] = cce_basic_config
-dependencies[] = i18n_taxonomy
 dependencies[] = rate
 dependencies[] = translation
 features[context][] = blog_posts

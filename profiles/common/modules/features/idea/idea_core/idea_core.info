@@ -6,7 +6,6 @@ version = 7.x-1.3
 project = idea_core
 dependencies[] = apachesolr
 dependencies[] = cce_basic_config
-dependencies[] = i18n_taxonomy
 dependencies[] = survey_core
 dependencies[] = translation
 features[ctools][] = field_group:field_group:1

@@ -5,7 +5,6 @@ package = Multisite Standard Features
 version = 7.x-2.1
 project = events_standard
 dependencies[] = events_core
-dependencies[] = i18n_taxonomy
 features[context][] = even_posts
 features[ctools][] = context:context:3
 features[ctools][] = strongarm:strongarm:1

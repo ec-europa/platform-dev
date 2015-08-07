@@ -9,7 +9,6 @@ dependencies[] = cce_basic_config
 dependencies[] = entityreference
 dependencies[] = entityreference_prepopulate
 dependencies[] = file
-dependencies[] = i18n_taxonomy
 dependencies[] = media
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = translation
