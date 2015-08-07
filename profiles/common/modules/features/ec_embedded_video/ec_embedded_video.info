@@ -5,15 +5,9 @@ package = Multisite Features
 version = 7.x-1.2
 project = ec_embedded_video
 dependencies[] = cce_basic_config
-dependencies[] = ctools
-dependencies[] = features
-dependencies[] = file_entity
-dependencies[] = media
 dependencies[] = media_avportal
 dependencies[] = media_dailymotion
 dependencies[] = media_vimeo
-dependencies[] = media_wysiwyg
-dependencies[] = media_wysiwyg_view_mode
 dependencies[] = media_youtube
 dependencies[] = mediafield
 */
