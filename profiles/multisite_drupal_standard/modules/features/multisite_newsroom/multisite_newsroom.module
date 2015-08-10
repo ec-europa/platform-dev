@@ -1160,3 +1160,29 @@ function multisite_newsroom_strongarm_alter(&$variables) {
   // Unset a "dynamic variable" created by cce_basic_config.
   unset($variables['image_captcha_fonts']);
 }
+
+/**
+ * Rebuild multilingual importers.
+ */
+function _multisite_newsroom_rebuild_importers() {
+  // remove importers.
+  $importers = array(
+    'items' => 'newsroom_items_multilingual',
+    'services' => 'newsroom_services_multilingual',
+    'topics' => 'newsroom_topics_multilingual',
+    'types' => 'newsroom_types_multilingual',
+  );
+
+  foreach ($importers as $key => $importer) {
+    feeds_importer($importer)->delete();
+    // Recreate them.
+    call_user_func('_multisite_newsroom_create_multilingual_' . $key . '_importer');
+  }
+
+  $form['rebuilt'] = array(
+    '#type' => 'markup',
+    '#markup' => t('Importers have been rebuilt :p'),
+  );
+
+  return $form['rebuilt'];
+}

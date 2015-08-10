@@ -84,10 +84,18 @@ function _multisite_newsroom_create_multilingual_items_importer() {
     'field_newsroom_topics' => array(
       'query' => 'category/@infsonewsroom:TopicId',
       'language' => FALSE,
+      'options' => array(
+        'term_search' => '1',
+        'autocreate' => 0,
+      ),
     ),
     'field_primary_topic' => array(
       'query' => 'category[@infsonewsroom:TopicPrimary="1"]/@infsonewsroom:TopicId',
       'language' => FALSE,
+      'options' => array(
+        'term_search' => '1',
+        'autocreate' => 0,
+      ),
     ),
     'created' => array(
       'query' => 'infsonewsroom:BasicReferenceDate/text()',
