@@ -52,8 +52,6 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['arguments']['field_newsroom_topic_tid']['default_action'] = 'default';
   $handler->display->display_options['arguments']['field_newsroom_topic_tid']['default_argument_type'] = 'taxonomy_tid';
   $handler->display->display_options['arguments']['field_newsroom_topic_tid']['default_argument_options']['node'] = TRUE;
-  $handler->display->display_options['arguments']['field_newsroom_topic_tid']['default_argument_options']['anyall'] = '+';
-  $handler->display->display_options['arguments']['field_newsroom_topic_tid']['default_argument_options']['limit'] = TRUE;
   $handler->display->display_options['arguments']['field_newsroom_topic_tid']['default_argument_options']['vocabularies'] = array(
     'newsroom_topic' => 'newsroom_topic',
   );
@@ -86,19 +84,6 @@ function multisite_newsroom_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
-  $translatables['newsletter_subscription'] = array(
-    t('Master'),
-    t('Newsletter subscription'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Name'),
-    t('All'),
-    t('Block'),
-  );
   $export['newsletter_subscription'] = $view;
 
   $view = new view();
@@ -155,6 +140,12 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['header']['view']['empty'] = TRUE;
   $handler->display->display_options['header']['view']['view_to_insert'] = 'newsroom_type_featured_item:block';
   $handler->display->display_options['header']['view']['inherit_arguments'] = TRUE;
+  /* Header: Global: Unfiltered text */
+  $handler->display->display_options['header']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['header']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['empty'] = TRUE;
+  $handler->display->display_options['header']['area_text_custom']['content'] = '<a href="/newsroom/!1/!2/">Current %1 about %2</a>';
   /* Relationship: Content: Newsroom Item Type (field_newsroom_item_type) */
   $handler->display->display_options['relationships']['field_newsroom_item_type_tid']['id'] = 'field_newsroom_item_type_tid';
   $handler->display->display_options['relationships']['field_newsroom_item_type_tid']['table'] = 'field_data_field_newsroom_item_type';
@@ -335,6 +326,7 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['arguments']['term_node_tid_depth']['exception']['title'] = '';
   $handler->display->display_options['arguments']['term_node_tid_depth']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['term_node_tid_depth']['title'] = '<span class="filter_type">%1</span>';
+  $handler->display->display_options['arguments']['term_node_tid_depth']['breadcrumb'] = '%1';
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['argument'] = 'all';
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['number_of_records'] = '0';
@@ -357,6 +349,7 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['default_action'] = 'default';
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['title_enable'] = TRUE;
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['title'] = '<span class="filter_type">%1</span> <span class="filter_topic">%2</span>';
+  $handler->display->display_options['arguments']['term_node_tid_depth_1']['breadcrumb'] = '%2';
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['default_argument_options']['argument'] = 'all';
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['summary']['number_of_records'] = '0';
@@ -369,25 +362,16 @@ function multisite_newsroom_views_default_views() {
   );
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['validate_options']['type'] = 'tids';
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['depth'] = '0';
-  /* Contextual filter: Content: Highlighted Newsroom Topics (field_highlighted_newsroom_topic) */
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['id'] = 'field_highlighted_newsroom_topic_tid';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['table'] = 'field_data_field_highlighted_newsroom_topic';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['field'] = 'field_highlighted_newsroom_topic_tid';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['title_enable'] = TRUE;
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['title'] = '<span class="filter_type">%1</span> <span class="filter_topic">%2</span>';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['default_argument_options']['argument'] = 'all';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['validate']['type'] = 'taxonomy_term';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['validate_options']['vocabularies'] = array(
-    'newsroom_topic' => 'newsroom_topic',
-  );
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['validate_options']['type'] = 'convert';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['validate_options']['transform'] = TRUE;
+  /* Contextual filter: Global: Null */
+  $handler->display->display_options['arguments']['null']['id'] = 'null';
+  $handler->display->display_options['arguments']['null']['table'] = 'views';
+  $handler->display->display_options['arguments']['null']['field'] = 'null';
+  $handler->display->display_options['arguments']['null']['breadcrumb_enable'] = TRUE;
+  $handler->display->display_options['arguments']['null']['breadcrumb'] = '%2';
+  $handler->display->display_options['arguments']['null']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['null']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['null']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['null']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -405,6 +389,31 @@ function multisite_newsroom_views_default_views() {
 
   /* Display: default_newsroom */
   $handler = $view->new_display('page', 'default_newsroom', 'default_newsroom');
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['content'] = '<div class="communityTools">
+<div class="RSSButton">[nothing_1]</div>
+</div>';
+  $handler->display->display_options['header']['area']['format'] = 'full_html';
+  $handler->display->display_options['header']['area']['tokenize'] = TRUE;
+  /* Header: embedded_node */
+  $handler->display->display_options['header']['entity']['id'] = 'entity';
+  $handler->display->display_options['header']['entity']['table'] = 'entity__global';
+  $handler->display->display_options['header']['entity']['field'] = 'entity';
+  $handler->display->display_options['header']['entity']['ui_name'] = 'embedded_node';
+  $handler->display->display_options['header']['entity']['empty'] = TRUE;
+  $handler->display->display_options['header']['entity']['entity_id'] = '0';
+  /* Header: featured */
+  $handler->display->display_options['header']['view']['id'] = 'view';
+  $handler->display->display_options['header']['view']['table'] = 'views';
+  $handler->display->display_options['header']['view']['field'] = 'view';
+  $handler->display->display_options['header']['view']['ui_name'] = 'featured';
+  $handler->display->display_options['header']['view']['empty'] = TRUE;
+  $handler->display->display_options['header']['view']['view_to_insert'] = 'newsroom_type_featured_item:block';
+  $handler->display->display_options['header']['view']['inherit_arguments'] = TRUE;
   $handler->display->display_options['path'] = 'newsroom';
 
   /* Display: Feed */
@@ -413,6 +422,7 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'rss';
   $handler->display->display_options['style_options']['uses_fields'] = TRUE;
   $handler->display->display_options['row_plugin'] = 'node_rss';
+  $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Has taxonomy term ID (with depth) */
   $handler->display->display_options['arguments']['term_node_tid_depth']['id'] = 'term_node_tid_depth';
@@ -434,7 +444,7 @@ function multisite_newsroom_views_default_views() {
     'newsroom_item_type' => 'newsroom_item_type',
     'newsroom_topic' => 'newsroom_topic',
   );
-  $handler->display->display_options['arguments']['term_node_tid_depth']['validate_options']['type'] = 'convert';
+  $handler->display->display_options['arguments']['term_node_tid_depth']['validate_options']['type'] = 'tids';
   $handler->display->display_options['arguments']['term_node_tid_depth']['validate_options']['transform'] = TRUE;
   $handler->display->display_options['arguments']['term_node_tid_depth']['depth'] = '1';
   $handler->display->display_options['arguments']['term_node_tid_depth']['break_phrase'] = TRUE;
@@ -458,9 +468,9 @@ function multisite_newsroom_views_default_views() {
     'newsroom_item_type' => 'newsroom_item_type',
     'newsroom_topic' => 'newsroom_topic',
   );
-  $handler->display->display_options['arguments']['term_node_tid_depth_1']['validate_options']['type'] = 'convert';
+  $handler->display->display_options['arguments']['term_node_tid_depth_1']['validate_options']['type'] = 'tids';
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['validate_options']['transform'] = TRUE;
-  $handler->display->display_options['arguments']['term_node_tid_depth_1']['depth'] = '1';
+  $handler->display->display_options['arguments']['term_node_tid_depth_1']['depth'] = '0';
   $handler->display->display_options['arguments']['term_node_tid_depth_1']['break_phrase'] = TRUE;
   /* Contextual filter: Global: Null */
   $handler->display->display_options['arguments']['null']['id'] = 'null';
@@ -478,14 +488,39 @@ function multisite_newsroom_views_default_views() {
 
   /* Display: events */
   $handler = $view->new_display('page', 'events', 'events');
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['content'] = '<div class="communityTools">
+<div class="RSSButton">[nothing_1]</div>
+</div>';
+  $handler->display->display_options['header']['area']['format'] = 'full_html';
+  $handler->display->display_options['header']['area']['tokenize'] = TRUE;
+  /* Header: embedded_node */
+  $handler->display->display_options['header']['entity']['id'] = 'entity';
+  $handler->display->display_options['header']['entity']['table'] = 'entity__global';
+  $handler->display->display_options['header']['entity']['field'] = 'entity';
+  $handler->display->display_options['header']['entity']['ui_name'] = 'embedded_node';
+  $handler->display->display_options['header']['entity']['empty'] = TRUE;
+  $handler->display->display_options['header']['entity']['entity_id'] = '0';
+  /* Header: featured */
+  $handler->display->display_options['header']['view']['id'] = 'view';
+  $handler->display->display_options['header']['view']['table'] = 'views';
+  $handler->display->display_options['header']['view']['field'] = 'view';
+  $handler->display->display_options['header']['view']['ui_name'] = 'featured';
+  $handler->display->display_options['header']['view']['empty'] = TRUE;
+  $handler->display->display_options['header']['view']['view_to_insert'] = 'newsroom_type_featured_item:block';
+  $handler->display->display_options['header']['view']['inherit_arguments'] = TRUE;
+  /* Header: Global: Unfiltered text */
+  $handler->display->display_options['header']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['header']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['empty'] = TRUE;
+  $handler->display->display_options['header']['area_text_custom']['content'] = '<a href="/[newsroom_url_prefix]/newsroom/!1/!2/previous">Past %1 about %2</a>';
+  $handler->display->display_options['header']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['footer'] = FALSE;
-  /* Footer: Global: Unfiltered text */
-  $handler->display->display_options['footer']['area_text_custom']['id'] = 'area_text_custom';
-  $handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
-  $handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
-  $handler->display->display_options['footer']['area_text_custom']['empty'] = TRUE;
-  $handler->display->display_options['footer']['area_text_custom']['content'] = '<a href="/newsroom/!1/!2/previous">Past %1 about %2</a>';
-  $handler->display->display_options['footer']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Date -  start date (field_newsroom_item_date) */
   $handler->display->display_options['sorts']['field_newsroom_item_date_value']['id'] = 'field_newsroom_item_date_value';
@@ -519,14 +554,39 @@ function multisite_newsroom_views_default_views() {
 
   /* Display: previous_events */
   $handler = $view->new_display('page', 'previous_events', 'previous_events');
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['content'] = '<div class="communityTools">
+<div class="RSSButton">[nothing_1]</div>
+</div>';
+  $handler->display->display_options['header']['area']['format'] = 'full_html';
+  $handler->display->display_options['header']['area']['tokenize'] = TRUE;
+  /* Header: embedded_node */
+  $handler->display->display_options['header']['entity']['id'] = 'entity';
+  $handler->display->display_options['header']['entity']['table'] = 'entity__global';
+  $handler->display->display_options['header']['entity']['field'] = 'entity';
+  $handler->display->display_options['header']['entity']['ui_name'] = 'embedded_node';
+  $handler->display->display_options['header']['entity']['empty'] = TRUE;
+  $handler->display->display_options['header']['entity']['entity_id'] = '0';
+  /* Header: featured */
+  $handler->display->display_options['header']['view']['id'] = 'view';
+  $handler->display->display_options['header']['view']['table'] = 'views';
+  $handler->display->display_options['header']['view']['field'] = 'view';
+  $handler->display->display_options['header']['view']['ui_name'] = 'featured';
+  $handler->display->display_options['header']['view']['empty'] = TRUE;
+  $handler->display->display_options['header']['view']['view_to_insert'] = 'newsroom_type_featured_item:block';
+  $handler->display->display_options['header']['view']['inherit_arguments'] = TRUE;
+  /* Header: Global: Unfiltered text */
+  $handler->display->display_options['header']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['header']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['empty'] = TRUE;
+  $handler->display->display_options['header']['area_text_custom']['content'] = '<a href="/[newsroom_url_prefix]/newsroom/!1/!2/">Current %1 about %2</a>';
+  $handler->display->display_options['header']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['footer'] = FALSE;
-  /* Footer: Global: Unfiltered text */
-  $handler->display->display_options['footer']['area_text_custom']['id'] = 'area_text_custom';
-  $handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
-  $handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
-  $handler->display->display_options['footer']['area_text_custom']['empty'] = TRUE;
-  $handler->display->display_options['footer']['area_text_custom']['content'] = '<a href="/newsroom/!1/!2/">Current %1 about %2</a>';
-  $handler->display->display_options['footer']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Date - end date (field_newsroom_item_date:value2) */
   $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['id'] = 'field_newsroom_item_date_value2';
@@ -595,14 +655,39 @@ function multisite_newsroom_views_default_views() {
 
   /* Display: consultation_funding */
   $handler = $view->new_display('page', 'consultation_funding', 'consultation_funding');
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['content'] = '<div class="communityTools">
+<div class="RSSButton">[nothing_1]</div>
+</div>';
+  $handler->display->display_options['header']['area']['format'] = 'full_html';
+  $handler->display->display_options['header']['area']['tokenize'] = TRUE;
+  /* Header: embedded_node */
+  $handler->display->display_options['header']['entity']['id'] = 'entity';
+  $handler->display->display_options['header']['entity']['table'] = 'entity__global';
+  $handler->display->display_options['header']['entity']['field'] = 'entity';
+  $handler->display->display_options['header']['entity']['ui_name'] = 'embedded_node';
+  $handler->display->display_options['header']['entity']['empty'] = TRUE;
+  $handler->display->display_options['header']['entity']['entity_id'] = '0';
+  /* Header: featured */
+  $handler->display->display_options['header']['view']['id'] = 'view';
+  $handler->display->display_options['header']['view']['table'] = 'views';
+  $handler->display->display_options['header']['view']['field'] = 'view';
+  $handler->display->display_options['header']['view']['ui_name'] = 'featured';
+  $handler->display->display_options['header']['view']['empty'] = TRUE;
+  $handler->display->display_options['header']['view']['view_to_insert'] = 'newsroom_type_featured_item:block';
+  $handler->display->display_options['header']['view']['inherit_arguments'] = TRUE;
+  /* Header: Global: Unfiltered text */
+  $handler->display->display_options['header']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['header']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['empty'] = TRUE;
+  $handler->display->display_options['header']['area_text_custom']['content'] = '<a href="/[newsroom_url_prefix]/newsroom/!1/!2/previous">Past %1 about %2</a>';
+  $handler->display->display_options['header']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['footer'] = FALSE;
-  /* Footer: Global: Unfiltered text */
-  $handler->display->display_options['footer']['area_text_custom']['id'] = 'area_text_custom';
-  $handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
-  $handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
-  $handler->display->display_options['footer']['area_text_custom']['empty'] = TRUE;
-  $handler->display->display_options['footer']['area_text_custom']['content'] = '<a href="/newsroom/!1/!2/previous">Past %1 about %2</a>';
-  $handler->display->display_options['footer']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Date - end date (field_newsroom_item_date:value2) */
   $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['id'] = 'field_newsroom_item_date_value2';
@@ -635,14 +720,38 @@ function multisite_newsroom_views_default_views() {
 
   /* Display: previous_consultation_funding */
   $handler = $view->new_display('page', 'previous_consultation_funding', 'previous_consultation_funding');
-  $handler->display->display_options['defaults']['footer'] = FALSE;
-  /* Footer: Global: Unfiltered text */
-  $handler->display->display_options['footer']['area_text_custom']['id'] = 'area_text_custom';
-  $handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
-  $handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
-  $handler->display->display_options['footer']['area_text_custom']['empty'] = TRUE;
-  $handler->display->display_options['footer']['area_text_custom']['content'] = '<a href="/newsroom/!1/!2">Current %1 about %2</a>';
-  $handler->display->display_options['footer']['area_text_custom']['tokenize'] = TRUE;
+  $handler->display->display_options['defaults']['header'] = FALSE;
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['content'] = '<div class="communityTools">
+<div class="RSSButton">[nothing_1]</div>
+</div>';
+  $handler->display->display_options['header']['area']['format'] = 'full_html';
+  $handler->display->display_options['header']['area']['tokenize'] = TRUE;
+  /* Header: embedded_node */
+  $handler->display->display_options['header']['entity']['id'] = 'entity';
+  $handler->display->display_options['header']['entity']['table'] = 'entity__global';
+  $handler->display->display_options['header']['entity']['field'] = 'entity';
+  $handler->display->display_options['header']['entity']['ui_name'] = 'embedded_node';
+  $handler->display->display_options['header']['entity']['empty'] = TRUE;
+  $handler->display->display_options['header']['entity']['entity_id'] = '0';
+  /* Header: featured */
+  $handler->display->display_options['header']['view']['id'] = 'view';
+  $handler->display->display_options['header']['view']['table'] = 'views';
+  $handler->display->display_options['header']['view']['field'] = 'view';
+  $handler->display->display_options['header']['view']['ui_name'] = 'featured';
+  $handler->display->display_options['header']['view']['empty'] = TRUE;
+  $handler->display->display_options['header']['view']['view_to_insert'] = 'newsroom_type_featured_item:block';
+  $handler->display->display_options['header']['view']['inherit_arguments'] = TRUE;
+  /* Header: Global: Unfiltered text */
+  $handler->display->display_options['header']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['header']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['header']['area_text_custom']['empty'] = TRUE;
+  $handler->display->display_options['header']['area_text_custom']['content'] = '<a href="/[newsroom_url_prefix]/newsroom/!1/!2">Current %1 about %2</a>';
+  $handler->display->display_options['header']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Date - end date (field_newsroom_item_date:value2) */
   $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['id'] = 'field_newsroom_item_date_value2';
@@ -673,49 +782,6 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['granularity'] = 'second';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['default_date'] = 'now';
   $handler->display->display_options['path'] = 'newsroom_consultation_funding';
-  $translatables['newsroom'] = array(
-    t('Master'),
-    t('Newsroom'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('<div class="communityTools">
-<div class="RSSButton">[nothing_1]</div>
-</div>'),
-    t('term from field_newsroom_item_type'),
-    t('.'),
-    t(','),
-    t('[path]'),
-    t('[title]'),
-    t('<span class="date_prefix">[field_date_label]:</span> '),
-    t('[field_display_date][field_newsroom_item_date]'),
-    t('Read more'),
-    t('RSS feed'),
-    t('<span class="filter_type">%1</span>'),
-    t('All'),
-    t('<span class="filter_type">%1</span> <span class="filter_topic">%2</span>'),
-    t('default_newsroom'),
-    t('Feed'),
-    t('%1'),
-    t('%2 in %1'),
-    t('events'),
-    t('<a href="/newsroom/!1/!2/previous">Past %1 about %2</a>'),
-    t('previous_events'),
-    t('<a href="/newsroom/!1/!2/">Current %1 about %2</a>'),
-    t('consultation_funding'),
-    t('previous_consultation_funding'),
-    t('<a href="/newsroom/!1/!2">Current %1 about %2</a>'),
-  );
   $export['newsroom'] = $view;
 
   $view = new view();
@@ -937,28 +1003,6 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['block_description'] = 'Calendar block';
-  $translatables['newsroom_calendar'] = array(
-    t('Master'),
-    t('<none>'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('<h2>Consult planned events</h2>'),
-    t('term from field_newsroom_item_type'),
-    t('[path]'),
-    t('[field_newsroom_item_main_link]'),
-    t('[title]'),
-    t('All taxonomy terms'),
-    t('Body'),
-    t('Month'),
-    t('All'),
-    t('Calendar block'),
-    t('Calendar'),
-    t('Calendar to be displayed mainly in left or right sidebars'),
-  );
   $export['newsroom_calendar'] = $view;
 
   $view = new view();
@@ -1115,21 +1159,6 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['filters']['field_newsroom_type_value']['operator'] = 'not';
   $handler->display->display_options['filters']['field_newsroom_type_value']['value'] = array(
     'default' => 'default',
-  );
-  $translatables['newsroom_calendar_navigation'] = array(
-    t('Master'),
-    t('[nothing]'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Parent'),
-    t('.'),
-    t('All'),
-    t('Block'),
-    t('Calendar'),
   );
   $export['newsroom_calendar_navigation'] = $view;
 
@@ -1423,24 +1452,6 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['table'] = 'field_data_field_newsroom_category_domain';
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['field'] = 'field_newsroom_category_domain_value';
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['value'] = 'Collection';
-  $translatables['newsroom_navigation'] = array(
-    t('Master'),
-    t('[nothing]'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Parent'),
-    t('field_newsroom_item_type'),
-    t('Newsroom'),
-    t('.'),
-    t('[name]'),
-    t('All'),
-    t('Block'),
-    t('Collection Block'),
-  );
   $export['newsroom_navigation'] = $view;
 
   $view = new view();
@@ -1820,30 +1831,6 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['field'] = 'field_newsroom_item_date_value2';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['operator'] = '>=';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['default_date'] = 'now';
-  $translatables['newsroom_page_content'] = array(
-    t('Master'),
-    t('%1'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('term from field_newsroom_item_type'),
-    t('[field_newsroom_item_type]:'),
-    t('[path]'),
-    t('[title]'),
-    t('<span class="date_prefix">[field_date_label]:</span> '),
-    t('[field_display_date][field_newsroom_item_date]'),
-    t('[field_newsroom_item_venue], '),
-    t('Read more'),
-    t('[field_newsroom_item_type_1-tid]'),
-    t('All'),
-    t('Newsroom'),
-    t('Consultation / Fundin Opportunities'),
-    t('Events'),
-    t('Agenda'),
-  );
   $export['newsroom_page_content'] = $view;
 
   $view = new view();
@@ -1880,15 +1867,11 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['relationships']['field_newsroom_item_type_tid']['id'] = 'field_newsroom_item_type_tid';
   $handler->display->display_options['relationships']['field_newsroom_item_type_tid']['table'] = 'field_data_field_newsroom_item_type';
   $handler->display->display_options['relationships']['field_newsroom_item_type_tid']['field'] = 'field_newsroom_item_type_tid';
-  /* Relationship: Nodequeue: Queue */
+  /* Relationship: Broken/missing handler */
   $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['required'] = TRUE;
-  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
-  $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
-    'homepage_newsroom' => 'homepage_newsroom',
-  );
   /* Field: Content: Newsroom Item Type */
   $handler->display->display_options['fields']['field_newsroom_item_type']['id'] = 'field_newsroom_item_type';
   $handler->display->display_options['fields']['field_newsroom_item_type']['table'] = 'field_data_field_newsroom_item_type';
@@ -2022,26 +2005,6 @@ function multisite_newsroom_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'news_events');
-  $translatables['newsroom_queue'] = array(
-    t('Master'),
-    t('News & Events'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('<a href="/newsroom">More from the Newsroom</a>'),
-    t('term from field_newsroom_item_type'),
-    t('queue'),
-    t('[field_newsroom_item_type]:'),
-    t('[title]'),
-    t('deadline: [field_newsroom_item_date]'),
-    t('[field_newsroom_item_venue], '),
-    t('Read more'),
-    t('<p>[field__teaser] [view_node]</p>'),
-    t('Block'),
-  );
   $export['newsroom_queue'] = $view;
 
   $view = new view();
@@ -2154,20 +2117,6 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['displays'] = array(
     'block' => 'block',
     'default' => 0,
-  );
-  $translatables['newsroom_related_content'] = array(
-    t('Master'),
-    t('Related content'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('All'),
-    t('Block'),
-    t('Attachment'),
-    t('Content referencing Content from field_related_content'),
   );
   $export['newsroom_related_content'] = $view;
 
@@ -2330,27 +2279,6 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['table'] = 'field_data_field_newsroom_category_domain';
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['field'] = 'field_newsroom_category_domain_value';
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['value'] = 'Collection';
-  $translatables['newsroom_term_selection'] = array(
-    t('Master'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('%5B[field_newsroom_category_domain]%5D [name]'),
-    t('.'),
-    t('Topics'),
-    t('Newsletters'),
-    t('Collections'),
-  );
   $export['newsroom_term_selection'] = $view;
 
   $view = new view();
@@ -2482,26 +2410,6 @@ function multisite_newsroom_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
-  $translatables['newsroom_type_featured_item'] = array(
-    t('Master'),
-    t('Newsroom Type Featured Item'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Taxonomy term referencing Content from field_featured_item'),
-    t('<div class="newsroom-featured-item">
-<div class="newsroom-type">[field_newsroom_item_type]</div>
-<div class="newsroom-title">[title]</div>
-<div class="newsroom-image">[field_illustrative_image] </div>
-<div class="newsroom-date">[created]</div>
-<div class="newsroom-teaser">[field__teaser]</div>
-</div>'),
-    t('All'),
-    t('Block'),
-  );
   $export['newsroom_type_featured_item'] = $view;
 
   return $export;

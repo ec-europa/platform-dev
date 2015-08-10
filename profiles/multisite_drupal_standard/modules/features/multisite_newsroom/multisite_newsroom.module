@@ -800,3 +800,12 @@ function _multisite_newsroom_get_term_from_id($id, $voc) {
   }
   return $term;
 }
+
+/**
+ * Implements hook_url_strongarm_alter().
+ *
+ */
+function multisite_newsroom_strongarm_alter(&$variables) {
+  // Unset a "dynamic variable" created by cce_basic_config
+  unset($variables['image_captcha_fonts']);
+}
