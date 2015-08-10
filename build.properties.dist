@@ -82,6 +82,11 @@ platform.build.profile.dir = ${platform.build.profiles.dir}/${platform.profile.n
 platform.build.composer.json = ${platform.build.dir}/composer.json
 platform.build.composer.lock = ${platform.build.dir}/composer.lock
 
+# Git resources.
+phing.project.git.dir = ${project.basedir}/.git
+phing.project.git.githooks.dir = ${phing.project.git.dir}/hooks
+platform.resources.githooks.dir = ${platform.resources.dir}/git-hooks
+
 
 # Behat configuration
 # -------------------
