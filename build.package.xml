@@ -159,10 +159,17 @@
         </if>
     </target>
 
+    <!-- Link git pre-push hook. -->
+    <target
+        name="link-pre-push-hook"
+        description="Create a symlink for the git pre-push hook.">
+        <symlink link="${phing.project.git.githooks.dir}/pre-push" target="${platform.resources.githooks.dir}/pre-push" overwrite="true" />
+    </target>
+
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, update-htaccess, setup-php-codesniffer" />
+        depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-php-codesniffer, update-htaccess, link-pre-push-hook" />
 
     <target
         name="build-platform-dist"
