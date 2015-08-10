@@ -957,7 +957,7 @@ function _multisite_newsroom_prepare_dynamic_mapping($premapping, $type = NULL) 
         'id' => $type . '-' . $str . '-efq_finder',
         'importer' => $type,
         'source' => 'xpathparser:' . $i,
-        'field' => $field,
+        'field' => $premapping[$field]['field'],
       );
 
       _multisite_newsroom_dynamic_tamper($tamper);
@@ -1050,7 +1050,7 @@ function _multisite_newsroom_dynamic_tamper($tamper) {
     'update' => 'Update',
     'entity_type' => 'taxonomy_term',
     'bundle' => $tamper['settings']['bundle'],
-    'field' => 'field_newsroom_type_id',
+    'field' => $tamper['field'],
     'column' => 'value',
     'property' => FALSE,
   );
