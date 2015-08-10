@@ -48,6 +48,8 @@ function _multisite_newsroom_create_multilingual_items_importer() {
         'term_search' => '1',
         'autocreate' => 0,
       ),
+      'tamper' => TRUE,
+      'vocabulary' => 'newsroom_item_type',
     ),
     'field_tags' => array(
       'query' => 'category[@domain="Policy" or @domain="Activity" or @domain="Theme" or @domain="Collection" or @domain="Tag"]/text()',
@@ -88,6 +90,8 @@ function _multisite_newsroom_create_multilingual_items_importer() {
         'term_search' => '1',
         'autocreate' => 0,
       ),
+      'tamper' => TRUE,
+      'vocabulary' => 'newsroom_topic',
     ),
     'field_primary_topic' => array(
       'query' => 'category[@infsonewsroom:TopicPrimary="1"]/@infsonewsroom:TopicId',
@@ -96,6 +100,8 @@ function _multisite_newsroom_create_multilingual_items_importer() {
         'term_search' => '1',
         'autocreate' => 0,
       ),
+      'tamper' => TRUE,
+      'vocabulary' => 'newsroom_topic',
     ),
     'created' => array(
       'query' => 'infsonewsroom:BasicReferenceDate/text()',
@@ -195,7 +201,7 @@ function _multisite_newsroom_create_multilingual_items_importer() {
     ),
   );
 
-  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'node');
+  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_items_multilingual');
 
   $importer_values['mapping'][] = array(
     'source' => 'Blank source 1',
@@ -297,7 +303,7 @@ function _multisite_newsroom_create_multilingual_topics_importer() {
     ), 
   );
 
-  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'topics');
+  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_topics_multilingual');
 
   $feeds_importer = new stdClass();
   $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
@@ -381,7 +387,7 @@ function _multisite_newsroom_create_multilingual_types_importer() {
     ), 
   );
 
-  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'types');
+  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_types_multilingual');
 
   $feeds_importer = new stdClass();
   $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
@@ -477,7 +483,7 @@ function _multisite_newsroom_create_multilingual_services_importer() {
     ), 
   );
 
-  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'taxonomy');
+  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_services_multilingual');
   
   $feeds_importer = new stdClass();
   $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */

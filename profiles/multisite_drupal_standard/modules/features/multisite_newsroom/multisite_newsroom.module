@@ -944,7 +944,25 @@ function _multisite_newsroom_prepare_dynamic_mapping($premapping, $type = NULL) 
   $lang_keys = _multisite_newsroom_languages();
   // Loop through all the fields, build the needed arrays.
   $i = 0;
+  
   foreach ($premapping as $field => $values) {
+    if (isset($values['tamper'])) {
+      $str = 'xpathparser_' . $i;
+      $tamper = array(
+        'settings' => array(
+          'entity_type' => 'taxonomy_term',
+          'bundle' => $premapping[$field]['vocabulary'],
+          'column' => 'value',
+        ),
+        'id' => $type . '-' . $str . '-efq_finder',
+        'importer' => $type,
+        'source' => 'xpathparser:' . $i,
+        'field' => $field,
+      );
+
+      _multisite_newsroom_dynamic_tamper($tamper);
+    }
+
     // Things look different if the field is translatable.
     if ($values['language']) {
       // If fields are translatable, we create a different mapping for each language.
@@ -953,13 +971,13 @@ function _multisite_newsroom_prepare_dynamic_mapping($premapping, $type = NULL) 
         // Xpath queries.
         $queries['xpathparser:' . $i] = $values['query'] . '[@lang="' . $upper_key . '"]/text()';
 
-        if ($type == 'topics' && $upper_key != $def_lang) {
+        if (strpos($type, 'topic') && $upper_key != $def_lang) {
           $queries['xpathparser:' . $i] = '//channel/item[infsonewsroom:BasicSvType="Newsroom service"]/category[@domain!="Newsletter" and @lang="' . $upper_key . '" and @infsonewsroom:TopicId="$Temporary target 1"]/' . $values['query'];
         }
-        elseif ($type == 'topics' && $upper_key == $def_lang) {
+        elseif (strpos('topic', $type) && $upper_key == $def_lang) {
           $queries['xpathparser:' . $i] = $values['query'];
         }
-        elseif ($type == 'types') {
+        elseif (strpos('newsroom_types')) {
           $queries['xpathparser:' . $i] = $values['query'] . '[@lang="' . $upper_key . '"]/text()';
         }
         // Mapping arrays.
@@ -1003,6 +1021,7 @@ function _multisite_newsroom_prepare_dynamic_mapping($premapping, $type = NULL) 
       $i++;
     }
   }
+
   // Build also the debug and raw_xml arrays.
   foreach ($queries as $xpath => $query) {
     $debug[$xpath] = $raw_xml[$xpath] = 0;
@@ -1014,6 +1033,37 @@ function _multisite_newsroom_prepare_dynamic_mapping($premapping, $type = NULL) 
     'debug' => $debug,
     'raw_xml' => $raw_xml,
   );
+}
+
+/**
+ * Build tampers programmatically.
+ */
+function _multisite_newsroom_dynamic_tamper($tamper) {
+  $feeds_tamper = new stdClass();
+  $feeds_tamper->disabled = FALSE; /* Edit this to true to make a default feeds_tamper disabled initially */
+  $feeds_tamper->api_version = 2;
+  $feeds_tamper->id = $tamper['id'];
+  $feeds_tamper->importer = $tamper['importer'];
+  $feeds_tamper->source = $tamper['source'];
+  $feeds_tamper->plugin_id = 'efq_finder';
+  $feeds_tamper->settings = array(
+    'update' => 'Update',
+    'entity_type' => 'taxonomy_term',
+    'bundle' => $tamper['settings']['bundle'],
+    'field' => 'field_newsroom_type_id',
+    'column' => 'value',
+    'property' => FALSE,
+  );
+  $feeds_tamper->weight = 0;
+  $feeds_tamper->description = 'Entity Field Query finder';
+
+  // Delete a pre-existing tamper with the same id.
+  db_delete('feeds_tamper')
+    ->condition('id', $feeds_tamper->id)
+    ->execute();
+    dsm($feeds_tamper);
+  // Save the tamper.
+  feeds_tamper_save_instance($feeds_tamper);
 }
 
 /**

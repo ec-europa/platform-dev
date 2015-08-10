@@ -68,12 +68,10 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
 
   if ($multilingual) {
     $form['newsroom_universe']['rebuild'] = array(
-      //'#attributes' => array('onclick' => 'if (!confirm("Are you sure?")) { return false; }'),
       '#type' => 'submit',
       '#value' => 'Rebuild importers on the fly',
       '#prefix' => '<div id="newsroom_rebuild">',
       '#suffix' => '</div>',
-      //'#markup' => '<button>' . t('Rebuild importers on the fly') . '</button>',
       '#ajax' => array(
         'callback' => '_multisite_newsroom_rebuild_importers',
         'event' => 'click',
