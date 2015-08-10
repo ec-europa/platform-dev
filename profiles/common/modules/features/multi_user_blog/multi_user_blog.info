@@ -55,4 +55,3 @@ features[variable][] = pathauto_node_blog_post_en_pattern
 features[variable][] = pathauto_node_blog_post_pattern
 features[variable][] = pathauto_node_blog_post_und_pattern
 features[views_view][] = blog
-files[] = tests/multi_user_blog.test

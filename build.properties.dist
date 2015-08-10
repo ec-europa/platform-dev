@@ -24,6 +24,12 @@ drupal.admin.username = admin
 drupal.admin.password = pass
 drupal.admin.email = admin@example.com
 
+# The location of the .htaccess file in the Drupal root folder.
+drupal.htaccess.path = ${platform.build.dir}/.htaccess
+
+# Configuration to append to the .htaccess file in the Drupal root folder.
+drupal.htaccess.append.text =
+
 
 # Platform configuration
 # ----------------------
@@ -60,6 +66,8 @@ platform.resources.profile.dir = ${platform.resources.profiles.dir}/${platform.p
 
 platform.resources.composer.json = ${platform.resources.dir}/composer.json
 platform.resources.composer.lock = ${platform.resources.dir}/composer.lock
+
+platform.resources.source.dir = ${platform.basedir}/src
 
 # Files and directories inside the Drupal installation.
 platform.build.sites.dir = ${platform.build.dir}/sites
@@ -114,14 +122,29 @@ behat.options.verbosity = 2
 # The file extensions to test.
 phpcs.extensions = php inc module install info test profile theme css js
 
+# The default configuration file to generate.
+phpcs.config = ${project.basedir}/phpcs.xml
+
 # The coding standard to use.
 phpcs.standard = ${project.basedir}/phpcs-ruleset.xml
 
-# Paths to ignore.
-phpcs.ignore = common/libraries;multisite_drupal_communities/libraries;multisite_drupal_standard/libraries;common/modules/custom/ecas/libraries;multisite_drupal_communities/modules/contrib;multisite_drupal_standard/modules/contrib
+# Paths to check, delimited by semicolons.
+phpcs.files = ${platform.resources.profiles.dir};${platform.resources.source.dir}
 
-# The report format. For example 'full', 'summary', 'diff'.
-phpcs.format = full
+# Paths to ignore, delimited by semicolons.
+phpcs.ignore =
+
+# The report format. For example 'full', 'summary', 'diff', 'xml', 'json'.
+phpcs.report = full
+
+# Whether or not to show sniff codes in the report.
+phpcs.sniffcodes = 0
+
+# Whether or not to show the progress of the run.
+phpcs.progress = 1
+
+# The location of the file containing the global configuration options.
+phpcs.global.config = ${project.basedir}/vendor/squizlabs/php_codesniffer/CodeSniffer.conf
 
 
 # Host configuration

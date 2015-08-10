@@ -13,10 +13,7 @@
     <!-- Legacy modules which are not compliant with coding standards. These are
          being fixed in NEXTEUROPA-3575. Whenever a module is fixed, please
          remove it from this list so it can be tested. -->
-    <exclude-pattern>profiles/common/modules/custom/media_avportal</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/multisite_oracle_access</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/custom/taxonomy_browser</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/tmgmt_mtec</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/views_xml_backend</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/communities</exclude-pattern>
@@ -87,7 +84,18 @@
     <exclude-pattern>profiles/multisite_drupal_communities/themes/bootstrap</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/themes/bootstrap</exclude-pattern>
 
-    <rule ref="vendor/drupal/coder/coder_sniffer/Drupal" />
+    <rule ref="./vendor/drupal/coder/coder_sniffer/Drupal" />
+
+    <!-- Exclude third party code. -->
+    <exclude-pattern>profiles/common/libraries/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/libraries/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/libraries/</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/custom/ecas/libraries/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/modules/contrib/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/modules/contrib/</exclude-pattern>
+    <exclude-pattern>profiles/minimal/</exclude-pattern>
+    <exclude-pattern>profiles/standard/</exclude-pattern>
+    <exclude-pattern>profiles/testing/</exclude-pattern>
 
     <!-- Views handlers not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
@@ -115,5 +123,13 @@
     <!-- Callbacks for the SoapServer class (part of the Soap extension) do not follow Drupal function name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidFunctionName.InvalidName">
         <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/tmgmt_poetry.module</exclude-pattern>
+    </rule>
+
+    <!-- Exclude third party code which is not following Drupal coding standards -->
+    <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/icons</exclude-pattern>
+
+    <!-- Phing tasks require to use CamelCaps for argument names. -->
+    <rule ref="Drupal.NamingConventions.ValidVariableName">
+        <exclude-pattern>src/Phing</exclude-pattern>
     </rule>
 </ruleset>

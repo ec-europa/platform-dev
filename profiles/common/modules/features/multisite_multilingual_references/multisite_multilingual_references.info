@@ -9,4 +9,3 @@ dependencies[] = "ctools"
 features[features_api][] = api:2
 stylesheets[all][] = "css/multisite_multilingual_references.css"
 scripts[] = "js/multisite_multilingual_references.js"
-files[] = tests/multisite_multilingual_references.test

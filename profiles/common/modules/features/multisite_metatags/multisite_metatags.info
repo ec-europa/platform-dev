@@ -12,5 +12,4 @@ features[field_base][] = field_meta_classification
 features[field_base][] = field_meta_description
 features[field_instance][] = node-contenttype-field_meta_classification
 features[field_instance][] = node-contenttype-field_meta_description
-files[] = tests/multisite_metatags.test
 files[] = tests/multisite_metatags.extra.test

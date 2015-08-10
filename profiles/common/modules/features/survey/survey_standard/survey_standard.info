@@ -7,7 +7,6 @@ project = survey_standard
 dependencies[] = survey_core
 dependencies[] = i18n_taxonomy
 features[features_api][] = api:2
-files[] = tests/survey_standard.test
 files[] = tests/survey_standard.extra.test
 features[context][] = survey_posts
 features[ctools][] = context:context:3

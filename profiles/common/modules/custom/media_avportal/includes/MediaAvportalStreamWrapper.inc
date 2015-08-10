@@ -1,13 +1,15 @@
 <?php
 /**
  * @file
- * media_avportal/includes/MediaAvportalStreamWrapper.inc
- * Create a Avportal Stream Wrapper class for the Media/Resource module.
+ * Create an Avportal Stream Wrapper class for the Media/Resource module.
  */
 
 /**
- *  Create an instance like this:
- *  $avportal = new MediaAvportalStreamWrapper('avportal://v/[video-code]');
+ * Create an instance like this.
+ *
+ * @code
+ *   $avportal = new MediaAvportalStreamWrapper('avportal://v/[video-code]');
+ * @endcode
  */
 class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
 
@@ -15,13 +17,13 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
   protected $baseUrl = 'http://ec.europa.eu/avservices/video/player.cfm';
 
   /**
-   * Returns a url in the format.
-   * 
-   * http://ec.europa.eu/avservices/video/player.cfm?ref=qsPQN4MiTeE.
+   * Returns a URL in the format.
    *
-   * Overrides interpolateUrl() defined in MediaReadOnlyStreamWrapper.
-   * This is an exact copy of the function in MediaReadOnlyStreamWrapper,
-   * here in case that example is redefined or removed.
+   * @see http://ec.europa.eu/avservices/video/player.cfm?ref=qsPQN4MiTeE
+   *
+   * Overrides interpolateUrl() defined in MediaReadOnlyStreamWrapper.  This is
+   * an exact copy of the function in MediaReadOnlyStreamWrapper, here in case
+   * that example is redefined or removed.
    */
   public function interpolateUrl() {
     if ($parameters = $this->get_parameters()) {
@@ -112,4 +114,5 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
     }
     return $local_path;
   }
+
 }

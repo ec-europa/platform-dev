@@ -1,8 +1,6 @@
 <?php
 /**
  * @file
- * media_avportal/includes/themes/media_avportal.theme.inc
- *
  * Theme and preprocess functions for Media: YouTube.
  */
 
@@ -33,7 +31,7 @@ function media_avportal_preprocess_media_avportal_video(&$variables) {
   $variables['video_language'] = str_replace('+', ' ', $video_language);
 
   // Build a language switcher if > 1 language available.
-  if (count($video_languages) > 1) {
+  if (count($video_languages) > 1 && variable_get('media_avportal_language_bar', FALSE)) {
     $variables['language_switcher'] = theme('media_avportal_language_switcher', array(
         'languages' => $video_languages,
         'video_language' => $video_language,
@@ -48,8 +46,9 @@ function media_avportal_preprocess_media_avportal_video(&$variables) {
 
 /**
  * Theme function to display the language switcher.
- * 
- * note that the logic is done in javascript to circumvent the field cache
+ *
+ * Note that the logic is done in javascript to circumvent the field cache.
+ *
  * @see media_avportal.js
  */
 function theme_media_avportal_language_switcher(&$vars) {
@@ -60,5 +59,6 @@ function theme_media_avportal_language_switcher(&$vars) {
   }
   return theme('item_list', array(
     'items' => $out,
-    'title' => t('available languages')));
+    'title' => t('available languages'),
+  ));
 }

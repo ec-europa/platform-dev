@@ -25,6 +25,11 @@ function cce_basic_config_filter_default_formats() {
           'filter_url_length' => 72,
         ),
       ),
+      'toolbox_sanitize' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(),
+      ),
       'filter_html' => array(
         'weight' => 1,
         'status' => 1,
@@ -62,6 +67,11 @@ function cce_basic_config_filter_default_formats() {
           'filter_url_length' => 72,
         ),
       ),
+      'toolbox_sanitize' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(),
+      ),
       'filter_html' => array(
         'weight' => 1,
         'status' => 1,
@@ -98,6 +108,11 @@ function cce_basic_config_filter_default_formats() {
         'settings' => array(
           'filter_url_length' => 72,
         ),
+      ),
+      'toolbox_sanitize' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(),
       ),
       'filter_tokens' => array(
         'weight' => 0,
