@@ -145,6 +145,10 @@ function _multisite_newsroom_create_multilingual_items_importer() {
       'query' => 'infsonewsroom:ContextECContent',
       'language' => FALSE,
     ),
+    'field_newsroom_item_venue' => array(
+      'query' => 'infsonewsroom:ContextVenue/text()',
+      'language' => FALSE,
+    ),
     'body' => array(
       'query' => 'infsonewsroom:FullContent',
       'language' => TRUE,
