@@ -49,7 +49,7 @@ class newsroom_views_handler_field_taxonomy extends views_handler_field {
    * @param array $form_state
    *   Form state array.
    */
-  public function options_form(array &$form, array &$form_state) {
+  public function options_form(&$form, &$form_state) {
     $form['link_to_taxonomy'] = array(
       '#title' => t('Link this field to its taxonomy term page'),
       '#description' => t("Enable to override this field's links."),
@@ -108,7 +108,7 @@ class newsroom_views_handler_field_taxonomy extends views_handler_field {
    * @return string
    *   Output.
    */
-  public function render(array $values) {
+  public function render($values) {
     $value = $this->get_value($values);
     return $this->render_link($this->sanitize_value($value), $values);
   }

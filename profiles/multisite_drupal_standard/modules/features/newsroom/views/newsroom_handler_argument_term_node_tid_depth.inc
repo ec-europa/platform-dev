@@ -40,7 +40,7 @@ class newsroom_handler_argument_term_node_tid_depth extends views_handler_argume
    * @param array $form_state
    *   Form state.
    */
-  public function options_form(array &$form, array &$form_state) {
+  public function options_form(&$form, &$form_state) {
     $form['depth'] = array(
       '#type' => 'weight',
       '#title' => t('Depth'),
@@ -88,7 +88,7 @@ class newsroom_handler_argument_term_node_tid_depth extends views_handler_argume
    * @return array
    *   Actions.
    */
-  public function set_breadcrumb(array &$breadcrumb) {
+  public function set_breadcrumb(&$breadcrumb) {
     if (empty($this->options['set_breadcrumb']) || !is_numeric($this->argument)) {
       return array();
     }
