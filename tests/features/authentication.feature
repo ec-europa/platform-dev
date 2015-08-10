@@ -19,7 +19,54 @@ Scenario Outline: Anonymous user cannot access site administration
   Then I should get an access denied error
 
   Examples:
-  | path            |
-  | admin/dashboard |
-  | admin/structure |
-  | admin/config    |
+  | path                        |
+  | admin/config                |
+  | admin/dashboard             |
+  | admin/structure             |
+  | admin/structure/feature-set |
+  | node/add/article            |
+
+@api
+Scenario Outline: Editors can access certain administration pages
+  Given I am logged in as a user with the "editor" role
+  Then I visit "<path>"
+
+  Examples:
+  | path             |
+  | node/add/article |
+
+@api
+Scenario Outline: Editors cannot access pages intended for administrators
+  Given I am logged in as a user with the "editor" role
+  When I go to "<path>"
+  Then I should get an access denied error
+
+  Examples:
+  | path                        |
+  | admin/config                |
+  | admin/dashboard             |
+  | admin/structure             |
+  | admin/structure/feature-set |
+
+@api
+Scenario Outline: Administrators can access certain administration pages
+  Given I am logged in as a user with the "administrator" role
+  Then I visit "<path>"
+
+  Examples:
+  | path                        |
+  | admin/config                |
+  | admin/dashboard             |
+  | admin/structure             |
+  | admin/structure/feature-set |
+  | node/add/article            |
+
+@api
+Scenario Outline: Administrators should not be able to access technical pages intended for developers
+  Given I am logged in as a user with the "administrator" role
+  When I go to "<path>"
+  Then I should get an access denied error
+
+  Examples:
+  | path                     |
+  | admin/structure/features |

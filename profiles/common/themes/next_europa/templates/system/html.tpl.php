@@ -1,8 +1,7 @@
 <?php
 /**
  * @file
- * Default theme implementation to display the basic html structure of a single
- * Drupal page.
+ * Default theme implementation to display basic html of a single Drupal page.
  *
  * Variables:
  * - $css: An array of CSS files for the current page.
@@ -56,7 +55,7 @@
   <!--[if lt IE 9]>
     <script src="<?php print base_path() . drupal_get_path('theme', 'next_europa') . '/js/html5shiv.min.js'; ?>"></script>
     <script src="<?php print base_path() . drupal_get_path('theme', 'next_europa') . '/js/respond.min.js'; ?>"></script>
-  <![endif]-->  
+  <![endif]-->
   <?php print $scripts; ?>
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>

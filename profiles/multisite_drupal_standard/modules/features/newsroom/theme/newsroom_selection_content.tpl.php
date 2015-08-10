@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Default theme implementation for the newsroom infso selection
+ * Default theme implementation for the newsroom infso selection.
  */
 ?>
 <div class="newsroom_selection_block">

@@ -30,7 +30,6 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
    * Creates a new node in memory and returns it.
    */
   protected function newEntity(FeedsSource $source) {
-    debug(REQUEST_TIME);
     $node = new stdClass();
     $node->type = $this->bundle();
     $node->changed = REQUEST_TIME;
@@ -109,8 +108,9 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
                 array(
                   '%name' => $author->name,
                   '%op' => $op,
-                  '%content_type' => $entity->type)
+                  '%content_type' => $entity->type,
                 )
+              )
             );
       }
     }
@@ -205,7 +205,8 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
     $period = drupal_map_assoc(
         array(FEEDS_EXPIRE_NEVER, 3600, 10800, 21600, 43200,
           86400, 259200, 604800, 2592000, 2592000 * 3,
-          2592000 * 6, 31536000),
+          2592000 * 6, 31536000,
+        ),
         'feeds_format_expire'
         );
     $form['expire'] = array(
@@ -247,7 +248,6 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
     switch ($target_element) {
       case 'created':
         $target_node->created = feeds_to_unixtime($value, REQUEST_TIME);
-        debug($value);
         break;
 
       case 'feeds_source':
@@ -476,7 +476,6 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
     // it is not likes this.
     foreach ($this->config['mappings'] as $mapping) {
       if (isset($targets[$this->id][$mapping['target']]['real_target'])) {
-//        unset($target_item->{$targets[$this->id][$mapping['target']]['real_target']});
         $target_item->{$targets[$this->id][$mapping['target']]['real_target']} = NULL;
       }
       else {
@@ -492,22 +491,18 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
 
     If the mapping specifies a callback method, use the callback instead of
     setTargetElement().
-    */
+     */
     self::loadMappers();
-    debug($this->config['mappings']);
     foreach ($this->config['mappings'] as $mapping) {
-      debug($mapping['target']);
       // Retrieve source element's value from parser.
       if (isset($sources[$this->id][$mapping['source']]) &&
           is_array($sources[$this->id][$mapping['source']]) &&
           isset($sources[$this->id][$mapping['source']]['callback']) &&
           function_exists($sources[$this->id][$mapping['source']]['callback'])) {
         $callback = $sources[$this->id][$mapping['source']]['callback'];
-        debug($callback);
         $value = $callback($source, $result, $mapping['source']);
       }
       else {
-        debug('getSourceElement');
         $value = $parser->getSourceElement($source, $result, $mapping['source']);
       }
 
@@ -520,7 +515,6 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
         $callback($source, $target_item, $mapping['target'], array($value), $mapping);
       }
       else {
-        debug($value);
         $this->setTargetElement($source, $target_item, $mapping['target'], $value, $mapping);
       }
     }

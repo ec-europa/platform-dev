@@ -1,6 +1,6 @@
 /**
  * @file
- * Javascripts for nexteuropa multilingual feature.
+ * Javascript functionality for the NextEuropa Multilingual feature.
  */
 
 (function($){

@@ -25,4 +25,3 @@ features[workbench_moderation_transitions][] = needs_review:published
 features[workbench_moderation_transitions][] = needs_review:validated
 features[workbench_moderation_transitions][] = published:archived
 features[workbench_moderation_transitions][] = validated:published
-files[] = tests/multisite_rules_configuration.test

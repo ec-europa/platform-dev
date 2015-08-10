@@ -18,4 +18,3 @@ features[features_api][] = api:2
 features[field_base][] = field_slide
 features[field_instance][] = node-contenttype-field_slide
 features[views_view][] = view_ec_content_slider
-files[] = tests/ec_content_slider.test

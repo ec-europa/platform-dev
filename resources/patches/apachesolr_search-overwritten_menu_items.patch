@@ -1,0 +1,11 @@
+--- apachesolr_search.module	Fri Jul 10 13:14:05 2015
++++ apachesolr_search.module	Fri Jul 10 10:57:03 2015
+@@ -230,7 +230,7 @@
+     $search_type_id = !empty($search_page['settings']['apachesolr_search_search_type']) ? $search_page['settings']['apachesolr_search_search_type'] : FALSE;
+     $search_type = !empty($search_types[$search_type_id]) ? $search_types[$search_type_id] : FALSE;
+ 
+-    if ($search_type) {
++    if ($search_type && !empty($position)) {
+       $title_callback = $search_type['title callback'];
+       $items[$search_page['search_path']]['title callback'] = $title_callback;
+       $items[$search_page['search_path']]['title arguments'] = array($search_page['page_id'], $position, $keys_pos);

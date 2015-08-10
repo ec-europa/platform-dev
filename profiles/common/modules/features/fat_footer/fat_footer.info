@@ -6,4 +6,3 @@ version = 7.x-1.1
 project = fat_footer
 dependencies[] = workbench_moderation
 features[features_api][] = api:2
-files[] = tests/fat_footer.test

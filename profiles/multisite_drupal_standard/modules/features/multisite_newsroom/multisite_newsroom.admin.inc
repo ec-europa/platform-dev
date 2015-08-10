@@ -112,6 +112,8 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
     '#title' => t('Delete all the existing instances in this content type'),
     '#description' => t('If you want to delete all the instance of the topic field together check this.'),
     '#default_value' => 0,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
 
   $form['newsroom_fields']['newsroom_content_types_select'] = array(
@@ -370,6 +372,7 @@ function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
         // Add new instances.
         _multisite_newsroom_add_fields('topic', $check_values['check']['topic'][1]);
       }
+
       elseif (!empty($check_values['check']['topic'][0])) {
         // Remove instances.
         _multisite_newsroom_remove_fields('topic', $check_values['check']['topic'][0]);
@@ -385,6 +388,7 @@ function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
         // Add new instances.
         _multisite_newsroom_add_fields('select', $check_values['check']['select'][1]);
       }
+
       elseif (!empty($check_values['check']['select'][0])) {
         // Remove instances.
         _multisite_newsroom_remove_fields('select', $check_values['check']['select'][0]);
@@ -407,7 +411,8 @@ function _multisite_newsroom_delete_confirm($form, &$form_state) {
       $desc .= t('@num nodes containing values for the field @field in the content type @ct',
         array(
           '@num' => $values[$field][$i]['nodes'],
-          '@field' => $field, '@ct' => $values[$field][$i]['ct']
+          '@field' => $field,
+          '@ct' => $values[$field][$i]['ct'],
         )
       ) . '<br/>';
     }

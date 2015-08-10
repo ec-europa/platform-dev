@@ -1,0 +1,13 @@
+diff --git a/file_entity.module b/file_entity.module
+index 5d058e4..eceda43 100644
+--- a/file_entity.module
++++ b/file_entity.module
+@@ -1955,7 +1955,7 @@ function file_entity_file_download($uri) {
+     return file_get_content_headers($file);
+   }
+ 
+-  return -1;
++  return NULL;
+ }
+ 
+ /**

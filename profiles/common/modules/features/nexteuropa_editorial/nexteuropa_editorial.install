@@ -129,23 +129,27 @@ function nexteuropa_editorial_enable() {
   $og_permissions = array(
     'contributor' => array(
       'draft',
-      'needs_review'),
+      'needs_review',
+    ),
     'validator' => array(
       'draft',
       'validated',
-      'needs_review'),
+      'needs_review',
+    ),
     'publisher' => array(
       'draft',
       'validated',
       'needs_review',
       'published',
-      'expired'),
+      'expired',
+    ),
     'administrator member'  => array(
       'draft',
       'validated',
       'needs_review',
       'published',
-      'expired'),
+      'expired',
+    ),
   );
   foreach ($og_permissions as $role => $states) {
     $permissions = array();

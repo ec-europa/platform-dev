@@ -1,6 +1,7 @@
 /**
  * @file
  * Contains javascript code for the Version Management module.
+ *
  * Code to manage events triggered on the version management checkbox.
  */
 

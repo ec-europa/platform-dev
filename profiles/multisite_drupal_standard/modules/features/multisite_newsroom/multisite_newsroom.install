@@ -24,15 +24,6 @@ function multisite_newsroom_enable() {
  * Implements hook_disable().
  */
 function multisite_newsroom_disable() {
-
-  // Deactivate content types.
-  multisite_drupal_toolbox_disable_content_type('newsroom_delete_item_importer');
-  multisite_drupal_toolbox_disable_content_type('newsroom_item');
-  multisite_drupal_toolbox_disable_content_type('newsroom_item_importer');
-  multisite_drupal_toolbox_disable_content_type('newsroom_service_importer');
-  multisite_drupal_toolbox_disable_content_type('newsroom_topic_importer');
-  multisite_drupal_toolbox_disable_content_type('newsroom_type_importer');
-
   drupal_set_message(t('Newsroom %v feature is now inactive on your site.', array('%v' => _multisite_newsroom_get_version())));
 
   // Delete from solR.
@@ -122,7 +113,7 @@ function multisite_newsroom_update_7102() {
     // Delete content type.
     // node_type_delete($type);
   }
-  
+
   // Update feeds_item table to avoid import of the items again
   // Drop ID of the importer content types.
   db_query("UPDATE {feeds_item} SET feed_nid = 0 WHERE id IN ('newsroom_items', 'newsroom_services', 'newsroom_topics', 'newsroom_type')");
@@ -133,14 +124,14 @@ function multisite_newsroom_update_7102() {
  */
 function multisite_newsroom_update_7103() {
   db_update('feeds_item')
-  ->expression('guid', 'CONCAT(:newstring, guid)', array(':newstring' => 'newsroom_topic-'))
-  ->condition('id', 'newsroom_topics')
-  ->execute();
+    ->expression('guid', 'CONCAT(:newstring, guid)', array(':newstring' => 'newsroom_topic-'))
+    ->condition('id', 'newsroom_topics')
+    ->execute();
 
   db_update('feeds_item')
-  ->expression('guid', 'CONCAT(:newstring, guid)', array(':newstring' => 'newsroom_type-'))
-  ->condition('id', 'newsroom_type')
-  ->execute();
+    ->expression('guid', 'CONCAT(:newstring, guid)', array(':newstring' => 'newsroom_type-'))
+    ->condition('id', 'newsroom_type')
+    ->execute();
 }
 
 /**

@@ -1,5 +1,5 @@
 #tb_browser a {
-	color:#fff;
+  color: #fff;
 }
 
 #tb_browser ul {
@@ -10,7 +10,7 @@
 }
 
 #tb_browser .taxonomy-tree-opener {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 #tb_view div {

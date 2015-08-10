@@ -3,7 +3,6 @@
 /**
  * @file
  * Tests for PROJECTFEATURE_multisite_newsroom.module.
- * ECWeb MULTISITE QA
  */
 
 /**
@@ -27,8 +26,6 @@ class MultisiteNewsroomQAWebTestCase extends DrupalWebTestCase {
 
   /**
    * Test Info File.
-   *
-   * TestFile <featurename>.info
    */
   protected function testInfoFile() {
     $module = basename(__FILE__, ".test");
@@ -213,16 +210,14 @@ class MultisiteNewsroomWebTestCase extends FeedsWebTestCase {
   /**
    * Create a test feed node. Test user has to have sufficient permissions.
    *
-   * * create [type] content
-   * * use feeds
-   *
-   * Assumes that page content type has been configured with
-   * createImporterConfiguration() as a feed content type.
-   *
    * @return int
    *   The node id of the node created.
    */
   public function createFeedNodeItem($id = 'syndication', $feed_url = NULL, $title = '', $content_type = NULL) {
+    // Test user has to have sufficient permissions
+    // Create [type] content and use feeds
+    // Assumes that page content type has been configured with
+    // createImporterConfiguration() as a feed content type.
     if (empty($feed_url)) {
       $feed_url = $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'feeds') . '/tests/feeds/developmentseed.rss2';
     }
@@ -274,4 +269,5 @@ class MultisiteNewsroomWebTestCase extends FeedsWebTestCase {
     $this->assertEqual($config['FeedsHTTPFetcher']['source'], $feed_url, t('URL in DB correct.'));
     return $nid;
   }
+
 }

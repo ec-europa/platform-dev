@@ -14,12 +14,12 @@ define('MULTISITE_DYNAMIC_BASETHEME_THEME_DEFAULT_KEY', '');
  */
 function multisite_dynamic_basetheme_form_system_theme_settings_alter(&$form, $form_state) {
   // Get current theme object.
-  if (isset ($form_state['build_info']['args'][0])) {
+  if (isset($form_state['build_info']['args'][0])) {
     $theme_key = $form_state['build_info']['args'][0];
     $themes = list_themes();
     $theme_object = $themes[$theme_key];
 
-    if (isset ($theme_object->base_theme)) {
+    if (isset($theme_object->base_theme)) {
       $form['base_theme_fieldset'] = array(
         '#type' => 'fieldset',
         '#title' => t('Base theme'),
@@ -37,6 +37,7 @@ function multisite_dynamic_basetheme_form_system_theme_settings_alter(&$form, $f
       );
       $form['#submit'][] = 'multisite_dynamic_basetheme_form_system_theme_settings_submit';
 
+      // @todo $settings is unused in its scope.
       $var = 'theme_' . $theme_key . '_settings';
       $settings = variable_get($var);
     }
@@ -118,7 +119,7 @@ function _multisite_dynamic_basetheme_rebuild_system_theme() {
  */
 function _multisite_dynamic_basetheme_is_multisite_base_theme($theme) {
   if (is_object($theme)) {
-    return (isset ($theme->info['multisite']) && $theme->info['multisite'] == 1);
+    return isset($theme->info['multisite']) && $theme->info['multisite'] == 1;
   }
   return FALSE;
 }
@@ -167,7 +168,7 @@ function multisite_dynamic_basetheme_get_base_theme_list($theme_key = FALSE) {
 /**
  * Implements hook_system_info_alter().
  *
- * Rewrite 'base theme' of all subtheme with the setting 
+ * Rewrite 'base theme' of all subtheme with the setting
  * "ec_resp_base_theme_of_subtheme" (if defined).
  */
 function multisite_dynamic_basetheme_system_info_alter(&$info, $file, $type) {
@@ -186,7 +187,7 @@ function multisite_dynamic_basetheme_system_info_alter(&$info, $file, $type) {
           if (_multisite_dynamic_basetheme_is_multisite_base_theme($new_base_theme_obj)) {
             $info['base theme'] = $new_base_theme;
           }
-        }    
+        }
       }
     }
   }
