@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * tzet.views_default.inc
+ * Views integration for Taxonomy Browser.
  */
 
 /**

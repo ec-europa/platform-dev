@@ -6,5 +6,4 @@ version = 7.x-1.1
 project = multisite_autosave
 dependencies[] = autosave
 features[features_api][] = api:2
-files[] = tests/multisite_autosave.test
 files[] = tests/multisite_autosave_extra.test

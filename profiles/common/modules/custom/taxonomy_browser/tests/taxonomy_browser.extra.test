@@ -2,11 +2,10 @@
 /**
  * @file
  * Tests for taxonomy_browser.module.
- * ECBWeb MULTISITE Feature Test
  */
 
 /**
- * Defines a base class for testing the Taxonomy browser feature.
+ * Defines a class for testing the Taxonomy browser feature.
  */
 class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
   protected $webUser;
@@ -26,13 +25,15 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
    * Configure the environment, enable the required modules.
    */
   public function setUp() {
-    parent::setUp(array('taxonomy_browser',
-                        'taxonomy',
-                        'views',
-                        'views_content',
-                        'views_ui',
-                        'node',
-                        'block'));
+    parent::setUp(array(
+      'block',
+      'node',
+      'taxonomy',
+      'taxonomy_browser',
+      'views',
+      'views_content',
+      'views_ui',
+    ));
   }
 
   /**
@@ -111,7 +112,7 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
 
   /**
    * Verify that the 'vocabulary_test' is successfully created with its terms.
-   * 
+   *
    * @param string $url
    *   URL to verify.
    */
@@ -126,7 +127,7 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
 
   /**
    * Verify that the view and the vocabulary created are loaded in the settings.
-   * 
+   *
    * @param string $url
    *   URL to verify.
    */
@@ -347,4 +348,5 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
     $term->parent = taxonomy_get_term_by_name('term-' . $i, $vocabulary->vid);
     taxonomy_term_save($term);
   }
+
 }

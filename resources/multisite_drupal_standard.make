@@ -158,8 +158,14 @@ projects[features][subdir] = "contrib"
 projects[features][version] = "2.3"
 projects[features][patch][] = patches/features-var-export-object-1437264-12.patch
 
+projects[feature_set][subdir] = "contrib"
+projects[feature_set][version] = "1.2"
+projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459.patch
+projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteuropa_4459.patch
+projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
+
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-alpha8"
+projects[feeds][version] = "2.0-alpha9"
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.0"
@@ -177,6 +183,9 @@ projects[field_group][version] = "1.4"
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta1"
+; https://www.drupal.org/node/2351691
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6860
+projects[file_entity][patch][] = https://www.drupal.org/files/issues/Fix_file_entity_file_download-2351691-1.patch
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.9"
@@ -206,6 +215,12 @@ projects[fullcalendar][subdir] = "contrib"
 projects[fullcalendar][version] = "2.0"
 projects[fullcalendar][patch][] = patches/fullcalendar-ajax_date_format-2185449-11.patch
 projects[fullcalendar][patch][] = patches/fullcalendar-views_dom_id_check-1803770-4.patch
+
+projects[geofield][subdir] = "contrib"
+projects[geofield][version] = "2.3"
+
+projects[geophp][subdir] = "contrib"
+projects[geophp][version] = "1.x-dev"
 
 projects[hidden_captcha][subdir] = "contrib"
 projects[hidden_captcha][version] = "1.0"
@@ -242,6 +257,10 @@ projects[l10n_update][version] = "1.1"
 
 projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.6"
+
+projects[leaflet_widget][subdir] = "contrib"
+projects[leaflet_widget][version] = "2.0-beta1"
+projects[leaflet_widget][patch][] = patches/leaflet_widget-1974478-vertical-tab-refresh-8.patch
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
@@ -304,6 +323,7 @@ projects[menu_attributes][subdir] = "contrib"
 projects[menu_attributes][version] = "1.0-rc2"
 projects[menu_attributes][patch][] = patches/menu_attributes-add_icon_for_menu_item-2327.patch
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_disable_css_class-2988.patch
+projects[menu_attributes][patch][] = patches/menu_attributes-option_to_hide_children-6757.patch
 
 projects[menu_block][subdir] = "contrib"
 projects[menu_block][version] = "2.4"
@@ -385,7 +405,7 @@ projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.8"
 
 projects[scheduler][subdir] = "contrib"
-projects[scheduler][version] = 1.2
+projects[scheduler][version] = 1.3
 
 projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.2
@@ -500,7 +520,7 @@ projects[votingapi][subdir] = "contrib"
 projects[votingapi][version] = "2.11"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.0"
+projects[webform][version] = "4.9"
 projects[webform][patch][] = patches/webform-use_ecas_link-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
@@ -586,13 +606,16 @@ libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
 libraries[mpdf][destination] = "libraries"
 
-; tcpdf 6.0.013
-libraries[tcpdf][download][type] = "git"
-libraries[tcpdf][download][url] = "http://git.code.sf.net/p/tcpdf/code"
-libraries[tcpdf][download][tag] = "6.0.053"
-libraries[tcpdf][directory_name] = "tcpdf"
-libraries[tcpdf][destination] = "libraries"
+; Leaflet.draw
+libraries[Leaflet.draw][destination] = "libraries"
+libraries[Leaflet.draw][download][type] = "git"
+libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
+libraries[Leaflet.draw][tag] = "v0.2.4"
 
+; Leaflet.widget
+libraries[Leaflet.widget][destination] = "libraries"
+libraries[Leaflet.widget][download][type] = "git"
+libraries[Leaflet.widget][download][url] = "https://github.com/tnightingale/Leaflet.widget.git"
 
 ; ======
 ; Themes

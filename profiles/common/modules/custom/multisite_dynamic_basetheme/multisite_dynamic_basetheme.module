@@ -168,7 +168,7 @@ function multisite_dynamic_basetheme_get_base_theme_list($theme_key = FALSE) {
 /**
  * Implements hook_system_info_alter().
  *
- * Rewrite 'base theme' of all subtheme with the setting 
+ * Rewrite 'base theme' of all subtheme with the setting
  * "ec_resp_base_theme_of_subtheme" (if defined).
  */
 function multisite_dynamic_basetheme_system_info_alter(&$info, $file, $type) {
@@ -187,7 +187,7 @@ function multisite_dynamic_basetheme_system_info_alter(&$info, $file, $type) {
           if (_multisite_dynamic_basetheme_is_multisite_base_theme($new_base_theme_obj)) {
             $info['base theme'] = $new_base_theme;
           }
-        }    
+        }
       }
     }
   }

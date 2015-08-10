@@ -202,6 +202,9 @@ function theme_ogimage_widget($variables) {
 function multisite_metatags_preprocess_page(&$variables) {
   if (arg(0) == 'node' && is_numeric(arg(1)) && isset($variables['node'])) {
 
+    // We need our language multiple times, so we load it at start.
+    global $language;
+
     // Meta Classification.
     if (!empty($variables['node']->field_meta_classification[LANGUAGE_NONE]) && $variables['node']->field_meta_classification[LANGUAGE_NONE][0]['tid'] > 0) {
       $tax = taxonomy_term_load($variables['node']->field_meta_classification[LANGUAGE_NONE][0]['tid']);
@@ -218,15 +221,30 @@ function multisite_metatags_preprocess_page(&$variables) {
 
     // Meta Description.
     if (!empty($variables['node']->field_meta_description)) {
-      $meta_description = array(
-        '#type' => 'html_tag',
-        '#tag' => 'meta',
-        '#attributes' => array(
-          'name' => 'description',
-          'content' => $variables['node']->field_meta_description[LANGUAGE_NONE][0]['value'],
-        ),
-      );
-      drupal_add_html_head($meta_description, 'meta_nodedescription');
+
+      // Initialize our variable.
+      $meta_description_var = NULL;
+
+      // Make it language aware. Based on the current language.
+      if (!empty($variables['node']->field_meta_description[$language->language])) {
+        $meta_description_var = $variables['node']->field_meta_description[$language->language][0]['value'];
+      }
+      elseif (!empty($variables['node']->field_meta_description[LANGUAGE_NONE])) {
+        $meta_description_var = $variables['node']->field_meta_description[LANGUAGE_NONE][0]['value'];
+      }
+
+      // Check if our variable is set. Then add the meta tag.
+      if (!is_null($meta_description_var)) {
+        $meta_description = array(
+          '#type' => 'html_tag',
+          '#tag' => 'meta',
+          '#attributes' => array(
+            'name' => 'description',
+            'content' => $meta_description_var,
+          ),
+        );
+        drupal_add_html_head($meta_description, 'meta_nodedescription');
+      }
     }
 
     // Meta Date.
@@ -265,7 +283,6 @@ function multisite_metatags_preprocess_page(&$variables) {
     // Meta Reference.
     $reference_prefix = variable_get('meta_reference');
     if ($reference_prefix) {
-      global $language;
       $path = current_path();
 
       if (!empty($variables['node'])) {
