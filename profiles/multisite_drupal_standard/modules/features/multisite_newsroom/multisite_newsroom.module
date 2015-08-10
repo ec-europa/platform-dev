@@ -1159,6 +1159,7 @@ function multisite_newsroom_url_outbound_alter(&$path, &$options, $original_path
 function multisite_newsroom_strongarm_alter(&$variables) {
   // Unset a "dynamic variable" created by cce_basic_config.
   unset($variables['image_captcha_fonts']);
+  unset($variables['print_pdf_pdf_tool']);
 }
 
 /**
@@ -1181,7 +1182,7 @@ function _multisite_newsroom_rebuild_importers() {
 
   $form['rebuilt'] = array(
     '#type' => 'markup',
-    '#markup' => t('Importers have been rebuilt :p'),
+    '#markup' => t('Importers have been rebuilt'),
   );
 
   return $form['rebuilt'];
