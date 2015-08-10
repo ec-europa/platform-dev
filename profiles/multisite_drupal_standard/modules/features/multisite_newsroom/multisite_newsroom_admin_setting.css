@@ -14,3 +14,7 @@
 .not-selected input[type="text"] {
   border:1px solid #8c2e0b;
 }
+
+.fieldset-description { 
+	padding: 10px 0; 
+}
