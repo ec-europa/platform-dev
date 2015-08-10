@@ -272,6 +272,16 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
   // Submit handler.
   $form['#submit'][] = 'multisite_newsroom_admin_settings_form_submit';
 
+  if (variable_get('newsroom_universe_id') != NULL) {
+    $form['actions']['run'] = array(
+      '#type' => 'submit',
+      '#value' => t('Run the importers'),
+      '#access' => TRUE,
+      '#submit' => array('multisite_newsroom_admin_settings_form_run_importers'),
+      '#weight' => 10,
+    );
+  }
+
   // Define the fields_form array().
   $form_state['fields_form'] = array();
   $form_state['fields_form']['topic'] = $top_ct;
@@ -414,6 +424,14 @@ function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
 
     cache_clear_all('newsroom:', 'cache', TRUE);
   }
+}
+
+/**
+ * Run the importers
+ */
+function multisite_newsroom_admin_settings_form_run_importers() {
+  $multilingual = variable_get('newsroom_multilingual') == 1 ? TRUE : FALSE;
+  _newsroom_create_default_importers(NEWSROOM_URL . variable_get('newsroom_universe_id'), 'admin', url('admin/config/content/newsroom'), $multilingual);
 }
 
 /**
