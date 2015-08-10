@@ -944,7 +944,7 @@ function _multisite_newsroom_prepare_dynamic_mapping($premapping, $type = NULL) 
   $lang_keys = _multisite_newsroom_languages();
   // Loop through all the fields, build the needed arrays.
   $i = 0;
-  
+
   foreach ($premapping as $field => $values) {
     if (isset($values['tamper'])) {
       $str = 'xpathparser_' . $i;
@@ -1061,7 +1061,6 @@ function _multisite_newsroom_dynamic_tamper($tamper) {
   db_delete('feeds_tamper')
     ->condition('id', $feeds_tamper->id)
     ->execute();
-    dsm($feeds_tamper);
   // Save the tamper.
   feeds_tamper_save_instance($feeds_tamper);
 }
