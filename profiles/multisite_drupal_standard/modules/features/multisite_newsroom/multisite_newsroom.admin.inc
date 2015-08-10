@@ -4,7 +4,6 @@
  * Multisite Newsroom administration page.
  */
 
-
 /**
  * Multisite newsroom admin form.
  */
@@ -364,7 +363,8 @@ function _multisite_newsroom_delete_confirm($form, &$form_state) {
       $desc .= t('@num nodes containing values for the field @field in the content type @ct',
         array(
           '@num' => $values[$field][$i]['nodes'],
-          '@field' => $field, '@ct' => $values[$field][$i]['ct']
+          '@field' => $field,
+          '@ct' => $values[$field][$i]['ct'],
         )
       ) . '<br/>';
     }

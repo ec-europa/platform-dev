@@ -6,8 +6,7 @@
  */
 
 /**
- * Field handler to provide simple renderer that allows linking to a taxonomy
- * term.
+ * Field handler to provide renderer that allows linking to a taxonomy term.
  *
  * @ingroup views_field_handlers
  */
@@ -18,7 +17,7 @@ class newsroom_views_handler_field_taxonomy extends views_handler_field {
    * This constructer assumes the taxonomy_term_data table. If using another
    * table, we'll need to be more specific.
    */
-  function construct() {
+  public function construct() {
     parent::construct();
     $this->additional_fields['vid'] = 'vid';
     $this->additional_fields['tid'] = 'tid';
@@ -28,7 +27,13 @@ class newsroom_views_handler_field_taxonomy extends views_handler_field {
     );
   }
 
-  function option_definition() {
+  /**
+   * Option definition.
+   *
+   * @return bool
+   *   Options.
+   */
+  public function option_definition() {
     $options = parent::option_definition();
     $options['link_to_taxonomy'] = array('default' => FALSE, 'bool' => TRUE);
     $options['convert_spaces'] = array('default' => FALSE, 'bool' => TRUE);
@@ -37,9 +42,14 @@ class newsroom_views_handler_field_taxonomy extends views_handler_field {
   }
 
   /**
-   * Provide link to taxonomy option
+   * Provide link to taxonomy option.
+   *
+   * @param array $form
+   *   Form array.
+   * @param array $form_state
+   *   Form state array.
    */
-  function options_form(&$form, &$form_state) {
+  public function options_form(array &$form, array &$form_state) {
     $form['link_to_taxonomy'] = array(
       '#title' => t('Link this field to its taxonomy term page'),
       '#description' => t("Enable to override this field's links."),
@@ -66,7 +76,7 @@ class newsroom_views_handler_field_taxonomy extends views_handler_field {
    *
    * Data should be made XSS safe prior to calling this function.
    */
-  function render_link($data, $values) {
+  public function render_link($data, $values) {
     module_load_include('inc', 'pathauto', 'pathauto');
     $tid = $this->get_value($values, 'tid');
     if (!empty($this->options['link_to_taxonomy']) && !empty($tid) && $data !== NULL && $data !== '') {
@@ -89,8 +99,18 @@ class newsroom_views_handler_field_taxonomy extends views_handler_field {
     return $data;
   }
 
-  function render($values) {
+  /**
+   * Renders output.
+   *
+   * @param array $values
+   *   Values.
+   *
+   * @return string
+   *   Output.
+   */
+  public function render(array $values) {
     $value = $this->get_value($values);
     return $this->render_link($this->sanitize_value($value), $values);
   }
+
 }

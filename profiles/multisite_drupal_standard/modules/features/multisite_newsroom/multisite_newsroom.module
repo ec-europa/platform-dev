@@ -4,7 +4,6 @@
  * Code for the Multisite Newsroom feature.
  */
 
-
 include_once 'multisite_newsroom.features.field_base.inc';
 include_once 'multisite_newsroom.features.inc';
 
@@ -35,7 +34,8 @@ function multisite_newsroom_help($path, $arg) {
     case 'admin/help#multisite_newsroom':
       $help = '<p>' . t('The multisite newsroom feature is meant to integrate the newsroom corporate service into a Drupal Multisite/Next Europa client. By enabling it you will have the chance to fetch contents from the newsroom service basing on the configuraiton of your "universe" into your instance of the newsroom. To configure the newsroom you will need to get an "Universe id" from the service provider, you will have this code once your universe has been fully configured as a service and it will be ready to serve you contents. In the newsroom <a href="@newsroom" title="newsroom configuraiton">admin settings page</a> you can then define many of the newsroom behaviours and you can start palying associating you existing content types with the newly imported news coming from the newsroom.', array('@newsroom' => url('admin/config/content/newsroom'))) . '</p>';
 
-    break;
+      break;
+
   }
 
   return $help;
@@ -371,7 +371,7 @@ function _multisite_newsroom_check_deletion($type, $checks = array()) {
  * @return array
  *   Variables to pass.
  */
-function _multisite_newsroom_prepare_check($previous, $input) {
+function _multisite_newsroom_prepare_check(array $previous, array $input) {
   // Set some values.
   $selected['topic'] = array_filter($input['newsroom_content_types_topic']);
   $selected['select'] = array_filter($input['newsroom_content_types_select']);
@@ -568,7 +568,7 @@ function multisite_newsroom_restore_conf_all($form, &$form_state) {
  * @param array $operation_details
  *   Array of values.
  */
-function multisite_newsroom_restore_batch($chunk, $voc, $operation_details) {
+function multisite_newsroom_restore_batch(array $chunk, $voc, array $operation_details) {
 
   foreach ($chunk as $id => $fields) {
     // Try to find the corresponding term basing on its ID.
@@ -579,11 +579,11 @@ function multisite_newsroom_restore_batch($chunk, $voc, $operation_details) {
 
       // This is special, make them handable!.
       $special = array(
-        'field_newsroom_field_featured_item'
+        'field_newsroom_field_featured_item',
       );
 
       if (!empty($fields)) {
-        // Override values
+        // Override values.
         foreach ($fields as $field_name => $value) {
           if (!in_array($propname, $special)) {
             $term[$field_name]['und'][0]['value'] = $value;
@@ -690,7 +690,8 @@ function multisite_newsroom_form_taxonomy_form_term_alter(&$form, &$form_state) 
         '#submit' => array('multisite_newsroom_backup_conf'),
       );
 
-    break;
+      break;
+
   }
 }
 
@@ -743,9 +744,10 @@ function _multisite_newsroom_get_ids($voc, $data) {
  * Grab the newsroom fields from a term.
  *
  * @param object $term
- *  The term to get the values from.
+ *   The term to get the values from.
+ *
  * @return array
- *  Formatted values for the newsroom related fields.
+ *   Formatted values for the newsroom related fields.
  */
 function _multisite_newsroom_export_prepare_values($term) {
   $term = get_object_vars($term);
@@ -774,9 +776,9 @@ function _multisite_newsroom_export_prepare_values($term) {
  * Find a term basing on its newsroom id.
  *
  * @param string $id
- *  The id coming from the newsroom.
+ *   The id coming from the newsroom.
  * @param string $voc
- *  Vocabulay's machine name.
+ *   Vocabulay's machine name.
  *
  * @return object
  *   The term object.
@@ -803,9 +805,8 @@ function _multisite_newsroom_get_term_from_id($id, $voc) {
 
 /**
  * Implements hook_url_strongarm_alter().
- *
  */
 function multisite_newsroom_strongarm_alter(&$variables) {
-  // Unset a "dynamic variable" created by cce_basic_config
+  // Unset a "dynamic variable" created by cce_basic_config.
   unset($variables['image_captcha_fonts']);
 }

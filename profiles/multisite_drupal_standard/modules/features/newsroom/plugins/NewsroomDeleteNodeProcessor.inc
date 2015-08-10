@@ -133,7 +133,8 @@ class NewsroomDeleteNodeProcessor extends FeedsProcessor {
     $period = drupal_map_assoc(
         array(FEEDS_EXPIRE_NEVER, 3600, 10800, 21600, 43200, 86400,
           259200, 604800, 2592000, 2592000 * 3,
-          2592000 * 6, 31536000),
+          2592000 * 6, 31536000,
+        ),
         'feeds_format_expire');
     $form['expire'] = array(
       '#type' => 'select',

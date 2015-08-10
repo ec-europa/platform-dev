@@ -2,8 +2,9 @@
 
 /**
  * @file
- * This file contains the newsroom blocks and feeds alter hooks
+ * This file contains the newsroom blocks and feeds alter hooks.
  */
+
 define('NEWSROOM_TYPE_VOCABULARY', 'newsroom_item_type');
 define('NEWSROOM_TOPIC_VOCABULARY', 'newsroom_topic');
 define('NEWSROOM_TOPIC_OPERATOR_OR', 'OR');
@@ -21,7 +22,7 @@ function newsroom_init() {
     $_newsroom_universe_url = NEWSROOM_URL . $universe_id . '/';
   }
   // We show message in the admin part and for users who has access
-  // to site configuration. 
+  // to site configuration.
   if (arg(0) == 'admin' && user_access('administer site configuration')) {
     if (empty($universe_id)) {
       $newsroom_config_path = url('admin/config/content/newsroom');
@@ -94,9 +95,9 @@ function newsroom_feeds_after_parse(FeedsSource $source, FeedsParserResult $resu
  * Alter the mapping for each items.
  *
  * @param array $item
- *   Item entity
+ *   Item entity.
  */
-function newsroom_newsroom_mapping(&$item) {
+function newsroom_newsroom_mapping(array &$item) {
   // If no end date specified , provide the start date to prevent.
   // Feeds to use now() as the end date.
   if (!isset($item['xpathparser:9'])) {
@@ -121,10 +122,10 @@ function newsroom_newsroom_mapping(&$item) {
  * Alter the mapping for each items.
  *
  * @param array $item
- *   Item entity
+ *   Item entity.
  */
-function newsroom_newsroom_services_mapping(&$item) {
-  // Resolve the mapping for the chapters.
+function newsroom_newsroom_services_mapping(array &$item) {
+  // Resolve the mapping for the chapters
   // If the Chapter ID doesn't map, leave it empty.
   newsroom_newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:3');
 }
@@ -133,9 +134,9 @@ function newsroom_newsroom_services_mapping(&$item) {
  * Alter the mapping for each items.
  *
  * @param array $item
- *   Item array
+ *   Item array.
  */
-function newsroom_newsroom_types_mapping(&$item) {
+function newsroom_newsroom_types_mapping(array &$item) {
   if (!isset($item['xpathparser:4'])) {
     // Set parent to '0' if no match.
     $item['xpathparser:4'] = 0;
@@ -146,9 +147,9 @@ function newsroom_newsroom_types_mapping(&$item) {
  * Alter the mapping for each items.
  *
  * @param array $item
- *   Item array
+ *   Item array.
  */
-function newsroom_newsroom_topics_mapping(&$item) {
+function newsroom_newsroom_topics_mapping(array &$item) {
   if (!isset($item['xpathparser:4'])) {
     // Set parent to '0' if no match.
     $item['xpathparser:4'] = 0;
@@ -159,15 +160,15 @@ function newsroom_newsroom_topics_mapping(&$item) {
  * Trigger a mapping only. If the corresponding xpath return some information.
  *
  * @param array $item
- *   Corresponding item to alter
+ *   Corresponding item to alter.
  * @param string $field_name
- *   the field name to use to resolve the mapping to the current term id
+ *   The field name to use to resolve the mapping to the current term id.
  * @param string $item_xpath
- *   the xpath for the original newsroom id of this object
+ *   The xpath for the original newsroom id of this object.
  * @param bool $reset
- *   if set to TRUE, will return an empty string if no mapping found
+ *   If set to TRUE, will return an empty string if no mapping found.
  */
-function newsroom_newsroom_mapping_xpath(&$item, $field_name, $item_xpath, $reset = TRUE) {
+function newsroom_newsroom_mapping_xpath(array &$item, $field_name, $item_xpath, $reset = TRUE) {
   if (isset($item[$item_xpath])) {
     $newsroom_import_name = $item[$item_xpath];
     $item[$item_xpath] = newsroom_technical_fields_to_tid($field_name, $newsroom_import_name, $reset);
@@ -178,9 +179,9 @@ function newsroom_newsroom_mapping_xpath(&$item, $field_name, $item_xpath, $rese
  * Forces the import as a string and not the match with term id.
  *
  * @param array $item
- *   Item array
+ *   Item array.
  */
-function newsroom_tags_space(&$item) {
+function newsroom_tags_space(array &$item) {
   if (isset($item['xpathparser:20'])) {
     if (is_string($item['xpathparser:20']) && is_numeric($item['xpathparser:20'])) {
       $item['xpathparser:20'] = ' ' . $item['xpathparser:20'] . ' ';
@@ -199,14 +200,14 @@ function newsroom_tags_space(&$item) {
  * Try to resolve each taxonomy term with a corresponding ID to map.
  *
  * @param string $field_name
- *   The mapping field
+ *   The mapping field.
  * @param string $field_value
- *   The mapping field value
+ *   The mapping field value.
  * @param bool $reset
- *   If set to TRUE, will return an empty string if no mapping found
+ *   If set to TRUE, will return an empty string if no mapping found.
  *
  * @return array
- *   Taxonomy ids
+ *   Taxonomy ids.
  */
 function newsroom_technical_fields_to_tid($field_name, $field_value, $reset = TRUE) {
   // Let's initiate term_ids to field value, in case we can't map it.
@@ -290,7 +291,7 @@ function newsroom_newsletter_subscription() {
       $content = drupal_get_form('newsroom_newsletter_subscription_form', array('tid' => $service->field_field_newsroom_service_id[0]['raw']['safe_value'], 'name' => $service->taxonomy_term_data_name));
     }
   }
-  
+
   return $content;
 }
 
@@ -322,7 +323,7 @@ function newsroom_newsletter_subscription_form($form, &$form_state) {
   );
   $form['response_type'] = array(
     '#type' => 'hidden',
-    '#value' => 'json'
+    '#value' => 'json',
   );
   $form['submit_email_prefix'] = array(
     '#markup' => '<div class="inputSubscribe">',
@@ -350,7 +351,7 @@ function newsroom_newsletter_subscription_form($form, &$form_state) {
 /**
  * Newsletter subscription form ajax callback.
  */
-function newsroom_newsletter_subscription_form_ajax($form, &$form_state){
+function newsroom_newsletter_subscription_form_ajax($form, &$form_state) {
 
   $form_id = $form['#form_id'];
   $selector = '#' . str_replace('_', '-', $form_id);
@@ -372,7 +373,7 @@ function newsroom_newsletter_subscription_form_ajax($form, &$form_state){
     $commands[] = ajax_command_invoke($selector . ' #edit-email', 'addClass', array('error'));
   }
   else {
-    $type = ($subscription['isNewUser'] === "False" && $subscription['isNewSubscription'] === "False") ? 'warning' :  'status';
+    $type = ($subscription['isNewUser'] === "False" && $subscription['isNewSubscription'] === "False") ? 'warning' : 'status';
     drupal_set_message($subscription['feedbackMessage'], $type);
     $commands[] = ajax_command_invoke($selector . ' #edit-email', 'removeClass', array('error'));
   }
@@ -595,23 +596,22 @@ function newsroom_admin_tools() {
  * content and link for each newsroom type.
  *
  * @param int $delta
- *   The order
+ *   The order.
  *
  * @return string
- *   Content
+ *   Content.
  */
 function newsroom_contents($delta) {
   $block_settings = _newsroom_get_summary_block_tid();
-
-  if (!$block_settings['display']) {
-    return '';
-  }
 
   $topic_tids = array();
   $topic_name = array();
   // Sticky items (Centrally published).
   $sticky = TRUE;
   if (!drupal_is_front_page()) {
+    if (!$block_settings['display']) {
+      return '';
+    }
     $sticky = FALSE;
     if (!empty($block_settings['topic'])) {
       foreach ($block_settings['topic'] as $topic) {
@@ -631,7 +631,18 @@ function newsroom_contents($delta) {
   return $newsroom_content;
 }
 
-function _newsroom_build_rss_link($topic_tids, $topic_name) {
+/**
+ * Builds rss link.
+ *
+ * @param array $topic_tids
+ *   Topics ids.
+ * @param string $topic_name
+ *   Topic name.
+ *
+ * @return string
+ *   RSS.
+ */
+function _newsroom_build_rss_link(array $topic_tids, $topic_name) {
   $rss_path = 'newsroom/all/' . implode('+', $topic_tids) . '/feed';
   $rss_title = count($topic_name) > 0 ? 'RSS feed : ' . implode(', ', $topic_name) : 'RSS feed';
   $rss = '<div class="newsroom_rss">';
@@ -697,7 +708,6 @@ function _newsroom_get_summary_block_tid() {
       $topic_operator = $newsroom_selection_node->field_newsroom_topic_operator['und'][0]['value'];
     }
 
-    //$topic_operator =
     $topic_config = field_get_items('node', $newsroom_selection_node, 'field_selected_topics');
     $selected_topics = array();
     if ($topic_config) {
@@ -733,9 +743,9 @@ function _newsroom_get_summary_block_tid() {
     $config['display'] = TRUE;
   }
 
-  $config['topic'] = taxonomy_term_load_multiple($selected_topics);
+  $config['topic'] = count($selected_topics) > 0 ? taxonomy_term_load_multiple($selected_topics) : array();
   $config['topic_operator'] = $topic_operator;
-  $config['topic_highlights'] = taxonomy_term_load_multiple($selected_topic_highlights);
+  $config['topic_highlights'] = count($selected_topic_highlights) > 0 ? taxonomy_term_load_multiple($selected_topic_highlights) : array();
   $config['type'] = newsroom_get_grouping_terms($selected_types);
 
   return $config;
@@ -806,26 +816,28 @@ function newsroom_get_grouping_terms($selected) {
  * Call to the content view, set up the argument vocabulary by vocabulary.
  *
  * @param array $newsroom_grouping_terms
- *   Newroom type terms
+ *   Newroom type terms.
  * @param bool $full_display
- *   Show full display
+ *   Show full display.
  * @param int $newsroom_topic_tids
- *   Main tid
+ *   Main tid.
  * @param bool $sticky
- *   Centrally published
+ *   Centrally published.
  *
  * @return string
- *   Content
+ *   Content.
  */
-function newsroom_content($newsroom_grouping_terms, $full_display = FALSE, $newsroom_topic_tids = 'all', $sticky = NULL, $topics = array(), $topic_operator = NEWSROOM_TOPIC_OPERATOR_OR) {
+function newsroom_content(array $newsroom_grouping_terms, $full_display = FALSE, $newsroom_topic_tids = 'all', $sticky = NULL, $topics = array(), $topic_operator = NEWSROOM_TOPIC_OPERATOR_OR) {
   module_load_include('inc', 'pathauto', 'pathauto');
   $blocks_by = variable_get('newsroom_block_by', 'type');
   $newsroom_boxes = array();
-
+  // We skip the newsroom topic param if it is empty string.
+  if (!empty($newsroom_topic_tids)) {
+    $view_arguments[1] = $newsroom_topic_tids;
+  }
   // Custom Agenda block if needed.
   if (variable_get('newsroom_display_agenda', 1) && $agenda_types = newsroom_agenda_types()) {
     $view_arguments[0] = implode('+', array_keys($agenda_types));
-    $view_arguments[1] = $newsroom_topic_tids;
     $agenda_box = newsroom_fetch_content_view($view_arguments, NEWSROOM_CALENDAR_BLOCK, 'agenda', $sticky, $full_display, $topic_operator);
 
     if ($agenda_box && $agenda_box['block']['content'] != '') {
@@ -834,6 +846,7 @@ function newsroom_content($newsroom_grouping_terms, $full_display = FALSE, $news
         'title' => l(t('Calendar'), $full_list_url),
         'list_link' => l(t('<span class="more">%1</span>', array('%1' => t('More ongoing activities'))), $full_list_url, array('html' => TRUE)),
         'classes' => array('agenda', 'highlighted'),
+        'id' => 'newsroom-agenda-block',
         'highlight' => TRUE,
         'agenda' => TRUE,
         'weight' => '0',
@@ -849,7 +862,6 @@ function newsroom_content($newsroom_grouping_terms, $full_display = FALSE, $news
       if ($blocks_by !== 'collection') {
         $newsroom_type_tids = newsroom_get_children($newsroom_grouping_term->tid, $newsroom_grouping_term->vid);
         $view_arguments[0] = $newsroom_type_tids;
-        $view_arguments[1] = $newsroom_topic_tids;
         $newsroom_type_display = field_get_items('taxonomy_term', $newsroom_grouping_term, 'field_newsroom_type');
 
         // Some newsroom type are not using the normal sorting.
@@ -872,7 +884,6 @@ function newsroom_content($newsroom_grouping_terms, $full_display = FALSE, $news
       }
       else {
         $view_arguments[0] = $newsroom_grouping_term->tid;
-        $view_arguments[1] = $newsroom_topic_tids;
       }
 
       $newsroom_view_exec = newsroom_fetch_content_view($view_arguments, $newsroom_grouping_term, $default_view_display, $sticky, $full_display, $topic_operator);
@@ -904,6 +915,7 @@ function newsroom_content($newsroom_grouping_terms, $full_display = FALSE, $news
 
         // Check latest item in box.
         $created = 0;
+
         foreach ($newsroom_view_exec['view']->result as $row) {
           $created = $row->node_created > $created ? $row->node_created : $created;
         }
@@ -955,10 +967,12 @@ function newsroom_render_boxes($boxes) {
   $columns_newsroom = array(
     1 => array(
       'visible' => FALSE,
-      'content' => ''),
+      'content' => '',
+    ),
     2 => array(
       'visible' => FALSE,
-      'content' => ''),
+      'content' => '',
+    ),
   );
   $num_columns = variable_get('newsroom_summary_block_columns', 1);
 
@@ -975,8 +989,8 @@ function newsroom_render_boxes($boxes) {
     }
 
     $columns_newsroom[$active_column]['visible'] = TRUE;
-    $columns_newsroom[$active_column]['content'] .= '<a name="' . $box['id'] .'"></a>';
-    $columns_newsroom[$active_column]['content'] .= '<div id="' . $box['id'] .'" class="' . implode(' ', $box['classes']) . '">'; /* add "highlighted" classname to display that block as highlighted (ie press releases, speeches) */
+    $columns_newsroom[$active_column]['content'] .= '<a name="' . $box['id'] . '"></a>';
+    $columns_newsroom[$active_column]['content'] .= '<div id="' . $box['id'] . '" class="' . implode(' ', $box['classes']) . '">'; /* add "highlighted" classname to display that block as highlighted (ie press releases, speeches) */
     $columns_newsroom[$active_column]['content'] .= '<h3 class="newsroom_title">' . $box['title'] . '</h3>';
     $columns_newsroom[$active_column]['content'] .= $box['block']['content'];
     $columns_newsroom[$active_column]['content'] .= '<div class="newsroom_more">' . $box['list_link'] . '</div>';
@@ -1001,14 +1015,14 @@ function newsroom_render_boxes($boxes) {
  * Sort newsroom boxes.
  *
  * @param array $a
- *  Newsroom box.
+ *   Newsroom box.
  * @param array $b
- *  Newsroom box.
+ *   Newsroom box.
  *
  * @return bool
- *  Value
+ *   Value.
  */
-function _newssroom_sort_newsroom_boxes($a, $b) {
+function _newssroom_sort_newsroom_boxes(array $a, array $b) {
   // Highligths at begining or end - based on setting.
   if ($a['highlight'] !== $b['highlight']) {
     return variable_get('newsroom_display_highlights_begin', 0) ? $a['highlight'] == FALSE : $a['highlight'] == TRUE;
@@ -1075,6 +1089,7 @@ function newsroom_fetch_content_view($view_arguments, $newsroom_grouping_term_na
   }
 
   $view->display_handler->set_option('pager', $pager);
+
   return array('block' => $view->execute_display($default_view_display), 'view' => $view);
 }
 
@@ -1097,8 +1112,9 @@ function newsroom_agenda_types() {
           ->fieldCondition('field_newsroom_type', 'value', array(
             'events',
             'consultation_funding',
-            'agenda')
-      );
+            'agenda',
+            )
+          );
       $result = $query->execute();
       $newsroom_agenda_types = isset($result['taxonomy_term']) ? $result['taxonomy_term'] : FALSE;
       cache_set('newsroom:agenda_types', $newsroom_agenda_types, 'cache_newsroom', time() + 360);
@@ -1111,11 +1127,11 @@ function newsroom_agenda_types() {
  * Merges a term_tid and its children into one array.
  *
  * @param int $term_tid
- *   Term id
+ *   Term id.
  * @param int $term_vid
- *   Vid id
+ *   Vid id.
  *
- * @return array
+ * @return array.
  *   tids
  */
 function newsroom_get_children($term_tid, $term_vid) {
@@ -1132,10 +1148,10 @@ function newsroom_get_children($term_tid, $term_vid) {
  * Returns the Newsroom title and link depending by taxonomy terms.
  *
  * @param int $delta
- *   The order
+ *   The order.
  *
  * @return string
- *   Subject
+ *   Subject.
  */
 function newsroom_subject($delta) {
   $newsroom_subject = l(t('Newsroom'), 'newsroom/all');
@@ -1258,8 +1274,8 @@ function newsroom_node_view($node, $view_mode, $langcode) {
  * @return array
  *   Field data.
  */
-function newsroom_get_topic_entities($topic_ids) {
-  $topic_ids = is_array($topic_ids) ?  $topic_ids : array($topic_ids);
+function newsroom_get_topic_entities(array $topic_ids) {
+  $topic_ids = is_array($topic_ids) ? $topic_ids : array($topic_ids);
 
   $key = 'newsroom:get_topic_entities:' . md5(implode('', $topic_ids));
   $data = &drupal_static(__FUNCTION__);
@@ -1509,7 +1525,7 @@ function newsroom_newsroom_item_importer($newsroom_id = 0, $delete = FALSE, $rei
  * Call newsroom items import with the certain URL.
  *
  * @param string $url
- *  URL to call.
+ *   URL to call.
  */
 function _newsroom_run_newsroom_items_importer($url) {
   $source = feeds_source('newsroom_items');
@@ -1734,17 +1750,17 @@ function newsroom_views_pre_render(&$view) {
  * Preview view hook.
  *
  * @param array $view
- *   view entity
+ *   View entity.
  * @param int $display_id
- *   Display Id
+ *   Display Id.
  * @param array $args
- *   Arguments
+ *   Arguments.
  */
-function newsroom_views_pre_view(&$view, &$display_id, &$args) {
+function newsroom_views_pre_view(array &$view, &$display_id, array &$args) {
 
   if ($view->name == 'newsletter_subscription') {
-    // The proper context filter cannot be found for taxonomy term pages 
-    // so we set it manually.    
+    // The proper context filter cannot be found for taxonomy term pages
+    // so we set it manually.
     $current_path = menu_get_item();
 
     // Try to get proper taxonomy context filter.
@@ -1812,7 +1828,7 @@ function newsroom_views_pre_view(&$view, &$display_id, &$args) {
       }
 
       $types = explode(' ', $args[0]);
-      
+
       if (count($types) == 1) {
         // Convert type or topic url part to taxonomy term id
         // and assign to arguments, because we use 'tids' validation.
@@ -1873,11 +1889,14 @@ function newsroom_views_pre_view(&$view, &$display_id, &$args) {
 }
 
 /**
- * Try to get taxonomy term
- * @param type $request
- * @param type $argument_settings
+ * Try to get taxonomy term.
+ *
+ * @param array $request
+ *   URL request part.
+ * @param array $argument_settings
+ *   View arguments.
  */
-function newsroom_taxonomy_term_from_request($request, $argument_settings, $filter_field) {
+function newsroom_taxonomy_term_from_request(array $request, array $argument_settings, $filter_field) {
   // Try to get simple way, suppose it is the ID or name.
   $taxonomy_term = is_numeric($request) ? taxonomy_term_load($request) : taxonomy_get_term_by_name(str_replace('-', ' ', $request), NEWSROOM_TYPE_VOCABULARY);
 
@@ -1890,7 +1909,7 @@ function newsroom_taxonomy_term_from_request($request, $argument_settings, $filt
       // Compare taxonomy terms modified by pathauto with the current value
       // from the URL.
       if ($taxonomy_terms) {
-        foreach($taxonomy_terms as $term_item) {
+        foreach ($taxonomy_terms as $term_item) {
           if (pathauto_cleanstring($term_item['name']) == $request) {
             $taxonomy_term = taxonomy_term_load($term_item['tid']);
             break;
@@ -2022,7 +2041,7 @@ function newsroom_preprocess_views_view(&$vars) {
  */
 function newsroom_prepare_agenda($view) {
   if (empty($view->result)) {
-    return;
+    return array();
   }
   $today = date('Y-m-d', time());
   $events = array();
@@ -2167,7 +2186,7 @@ function newsroom_prepare_agenda($view) {
  * @param array $instance
  *   The field instance.
  * @param object $entity
- *   The entity object
+ *   The entity object.
  * @param array $field
  *   The field info.
  * @param array $item
@@ -2179,7 +2198,7 @@ function newsroom_prepare_agenda($view) {
  *   - 1: The end date object.
  *   - 2: A Boolean representing whether the date is all day.
  */
-function _newsroom_process_dates($instance, $entity, $field, $item) {
+function _newsroom_process_dates(array $instance, $entity, array $field, array $item) {
   if (isset($item['db']['value'])) {
     $date1 = $item['db']['value'];
     date_timezone_set($date1, timezone_open($item['timezone']));
@@ -2189,7 +2208,7 @@ function _newsroom_process_dates($instance, $entity, $field, $item) {
   else {
     $date = date_formatter_process($instance['display']['default']['type'], $entity->entity_type, $entity, $field, $instance, LANGUAGE_NONE, $item, $instance['display']['default']);
     if (empty($date['value']['local']['object'])) {
-      return;
+      return array();
     }
 
     $date1 = $date['value']['local']['object'];
@@ -2287,19 +2306,20 @@ function newsroom_field_formatter_settings_form($field, $instance, $view_mode, $
         '#default_value' => $settings['display_copyright'],
       );
       break;
+
     case 'newsroom_main_link':
       $element['display_type'] = array(
-      '#title' => t('Type of display context'),
-      '#type' => 'select',
-      '#options' => array(
-        'default' => t('Default'),
-        'title' => t('Title only'),
-        'teaser' => t('Teaser also displayed'),
-      ),
-      '#default_value' => $settings['display_type'],
-    );
-      
-    break;
+        '#title' => t('Type of display context'),
+        '#type' => 'select',
+        '#options' => array(
+          'default' => t('Default'),
+          'title' => t('Title only'),
+          'teaser' => t('Teaser also displayed'),
+        ),
+        '#default_value' => $settings['display_type'],
+      );
+
+      break;
   }
 
   return $element;
@@ -2311,41 +2331,41 @@ function newsroom_field_formatter_settings_form($field, $instance, $view_mode, $
 function newsroom_field_formatter_settings_summary($field, $instance, $view_mode) {
   $display = $instance['display'][$view_mode];
   if ($display['type'] == 'newsroom_main_link') {
-      if ($display['settings']['display_type']) {
-        $options = array(
-          'default' => t('Default'),
-          'title' => t('Title only'),
-          'teaser' => t('Teaser also displayed'),
-        );
+    if ($display['settings']['display_type']) {
+      $options = array(
+        'default' => t('Default'),
+        'title' => t('Title only'),
+        'teaser' => t('Teaser also displayed'),
+      );
 
-        return $options[$display['settings']['display_type']];
-      }
-      else {
-        return t('Default');
-      }
+      return $options[$display['settings']['display_type']];
+    }
+    else {
+      return t('Default');
+    }
   }
 
   if ($display['type'] == 'newsroom_zoomable_image') {
-      $settings = $display['settings'];
-      $summary = array();
-      $image_styles = image_style_options(FALSE, PASS_THROUGH);
-      unset($image_styles['']);
-      if (isset($image_styles[$settings['image_style']])) {
-        $summary[] = t('Image style: @style', array('@style' => $image_styles[$settings['image_style']]));
-      }
-      else {
-        $summary[] = t('Original image');
-      }
-      if ($settings['zoomable']) {
-        $summary[] = t('Is zoomable');
-      }
-      if ($settings['display_title']) {
-        $summary[] = t('Displays title');
-      }
-      if ($settings['display_copyright']) {
-        $summary[] = t('Displays copyright');
-      }
-      return implode(',', $summary);
+    $settings = $display['settings'];
+    $summary = array();
+    $image_styles = image_style_options(FALSE, PASS_THROUGH);
+    unset($image_styles['']);
+    if (isset($image_styles[$settings['image_style']])) {
+      $summary[] = t('Image style: @style', array('@style' => $image_styles[$settings['image_style']]));
+    }
+    else {
+      $summary[] = t('Original image');
+    }
+    if ($settings['zoomable']) {
+      $summary[] = t('Is zoomable');
+    }
+    if ($settings['display_title']) {
+      $summary[] = t('Displays title');
+    }
+    if ($settings['display_copyright']) {
+      $summary[] = t('Displays copyright');
+    }
+    return implode(',', $summary);
   }
   return '';
 }
@@ -2355,7 +2375,7 @@ function newsroom_field_formatter_settings_summary($field, $instance, $view_mode
  */
 function newsroom_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $elements = array();
-  
+
   switch ($display['type']) {
     case 'newsroom_main_link':
       foreach ($items as $delta => $item) {
@@ -2391,7 +2411,9 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
           '#display' => $display,
         );
       }
+
       break;
+
     case 'newsroom_zoomable_image':
 
       foreach ($items as $delta => $item) {
@@ -2461,7 +2483,6 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
       break;
   }
 
-  
   return $elements;
 }
 
@@ -2474,7 +2495,7 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
  * @return string
  *   Value of the Click-through field of the item type.
  */
-function _newsroom_item_type_teaser_only_settings($node_wrapper) {
+function _newsroom_item_type_teaser_only_settings(EntityMetadataWrapper $node_wrapper) {
   $type = $node_wrapper->field_newsroom_item_type->value();
   $type_wrapper = entity_metadata_wrapper('taxonomy_term', $type);
   return $type_wrapper->field_direct_link_if_teaser_only->value();
@@ -2484,7 +2505,7 @@ function _newsroom_item_type_teaser_only_settings($node_wrapper) {
  * Validate if a given Newsroom Universe exists.
  *
  * @param string $universe_id
- *   Newsroom Universe ID
+ *   Newsroom Universe ID.
  *
  * @return bool
  *   Newsroom Universe exists or not.
@@ -2574,16 +2595,16 @@ function newsroom_views_data_alter(&$data) {
 }
 
 /**
- * Implements of hook_views_api().
+ * Implements hook_views_api().
  */
 function newsroom_views_api() {
   return array(
-    'api' => 3.0
+    'api' => 3.0,
   );
 }
 
 /**
- * Implements of hook_feeds_after_save().
+ * Implements hook_feeds_after_save().
  */
 function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id) {
 
@@ -2599,22 +2620,22 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
     $file = file_load($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']);
     if ($file) {
       if (isset($item['xpathparser:49']) && !empty($item['xpathparser:49'])) {
-        $file->field_file_image_alt_text[LANGUAGE_NONE][0]['value'] = $item['xpathparser:49']; 
+        $file->field_file_image_alt_text[LANGUAGE_NONE][0]['value'] = $item['xpathparser:49'];
       }
       if (isset($item['xpathparser:50']) && !empty($item['xpathparser:50'])) {
-        $file->field_file_image_title_text[LANGUAGE_NONE][0]['value'] = $item['xpathparser:50']; 
+        $file->field_file_image_title_text[LANGUAGE_NONE][0]['value'] = $item['xpathparser:50'];
       }
       if (isset($item['xpathparser:51']) && !empty($item['xpathparser:51'])) {
-        $file->field_newsroom_copyrights[LANGUAGE_NONE][0]['value'] = $item['xpathparser:51']; 
+        $file->field_newsroom_copyrights[LANGUAGE_NONE][0]['value'] = $item['xpathparser:51'];
       }
       file_save($file);
     }
   }
-  
+
 }
 
 /**
- * Implements of hook_feeds_processor_targets_alter().
+ * Implements hook_feeds_processor_targets_alter().
  */
 function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle_name) {
   // We expose image additional fields to feeds mapper. So later we can use
@@ -2625,7 +2646,7 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
     'field_newsroom_copyrights',
   );
   foreach (field_info_instances('file', 'image') as $name => $instance) {
-    if (in_array($name, $fields)) {      
+    if (in_array($name, $fields)) {
       $targets[$name] = array(
         'name' => t('Image:@name', array('@name' => $instance['label'])),
         'callback' => NULL,

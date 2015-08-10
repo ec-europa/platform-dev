@@ -1,3 +1,9 @@
+<?php
+/**
+ * @file
+ * Zoomable image HTML markup.
+ */
+?>
 <figure>
   <?php if($zoomable): ?>
     <div class="picContainer zoomable">

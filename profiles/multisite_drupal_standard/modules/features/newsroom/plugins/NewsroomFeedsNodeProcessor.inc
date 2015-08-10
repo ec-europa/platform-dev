@@ -108,8 +108,9 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
                 array(
                   '%name' => $author->name,
                   '%op' => $op,
-                  '%content_type' => $entity->type)
+                  '%content_type' => $entity->type,
                 )
+              )
             );
       }
     }
@@ -204,7 +205,8 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
     $period = drupal_map_assoc(
         array(FEEDS_EXPIRE_NEVER, 3600, 10800, 21600, 43200,
           86400, 259200, 604800, 2592000, 2592000 * 3,
-          2592000 * 6, 31536000),
+          2592000 * 6, 31536000,
+        ),
         'feeds_format_expire'
         );
     $form['expire'] = array(
@@ -463,7 +465,6 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
     // it is not likes this.
     foreach ($this->config['mappings'] as $mapping) {
       if (isset($targets[$this->id][$mapping['target']]['real_target'])) {
-//        unset($target_item->{$targets[$this->id][$mapping['target']]['real_target']});
         $target_item->{$targets[$this->id][$mapping['target']]['real_target']} = NULL;
       }
       else {
@@ -479,7 +480,7 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
 
     If the mapping specifies a callback method, use the callback instead of
     setTargetElement().
-    */
+     */
     self::loadMappers();
     foreach ($this->config['mappings'] as $mapping) {
       // Retrieve source element's value from parser.

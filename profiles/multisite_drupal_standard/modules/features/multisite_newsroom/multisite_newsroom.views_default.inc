@@ -121,8 +121,8 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['content'] = '<div class="communityTools">
-<div class="RSSButton">[nothing_1]</div>
-</div>';
+  <div class="RSSButton">[nothing_1]</div>
+  </div>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = TRUE;
   /* Header: embedded_node */
@@ -386,6 +386,11 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'newsroom_item' => 'newsroom_item',
   );
+  /* Filter criterion: Content: Sticky */
+  $handler->display->display_options['filters']['sticky']['id'] = 'sticky';
+  $handler->display->display_options['filters']['sticky']['table'] = 'node';
+  $handler->display->display_options['filters']['sticky']['field'] = 'sticky';
+  $handler->display->display_options['filters']['sticky']['value'] = '1';
 
   /* Display: default_newsroom */
   $handler = $view->new_display('page', 'default_newsroom', 'default_newsroom');
@@ -395,8 +400,8 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['content'] = '<div class="communityTools">
-<div class="RSSButton">[nothing_1]</div>
-</div>';
+  <div class="RSSButton">[nothing_1]</div>
+  </div>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = TRUE;
   /* Header: embedded_node */
@@ -494,8 +499,8 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['content'] = '<div class="communityTools">
-<div class="RSSButton">[nothing_1]</div>
-</div>';
+  <div class="RSSButton">[nothing_1]</div>
+  </div>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = TRUE;
   /* Header: embedded_node */
@@ -560,8 +565,8 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['content'] = '<div class="communityTools">
-<div class="RSSButton">[nothing_1]</div>
-</div>';
+  <div class="RSSButton">[nothing_1]</div>
+  </div>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = TRUE;
   /* Header: embedded_node */
@@ -661,8 +666,8 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['content'] = '<div class="communityTools">
-<div class="RSSButton">[nothing_1]</div>
-</div>';
+  <div class="RSSButton">[nothing_1]</div>
+  </div>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = TRUE;
   /* Header: embedded_node */
@@ -726,8 +731,8 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['content'] = '<div class="communityTools">
-<div class="RSSButton">[nothing_1]</div>
-</div>';
+  <div class="RSSButton">[nothing_1]</div>
+  </div>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = TRUE;
   /* Header: embedded_node */
@@ -782,6 +787,7 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['granularity'] = 'second';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['default_date'] = 'now';
   $handler->display->display_options['path'] = 'newsroom_consultation_funding';
+
   $export['newsroom'] = $view;
 
   $view = new view();

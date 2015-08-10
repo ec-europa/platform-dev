@@ -113,7 +113,7 @@ function multisite_newsroom_update_7102() {
     // Delete content type.
     // node_type_delete($type);
   }
-  
+
   // Update feeds_item table to avoid import of the items again
   // Drop ID of the importer content types.
   db_query("UPDATE {feeds_item} SET feed_nid = 0 WHERE id IN ('newsroom_items', 'newsroom_services', 'newsroom_topics', 'newsroom_type')");
@@ -124,14 +124,14 @@ function multisite_newsroom_update_7102() {
  */
 function multisite_newsroom_update_7103() {
   db_update('feeds_item')
-  ->expression('guid', 'CONCAT(:newstring, guid)', array(':newstring' => 'newsroom_topic-'))
-  ->condition('id', 'newsroom_topics')
-  ->execute();
+    ->expression('guid', 'CONCAT(:newstring, guid)', array(':newstring' => 'newsroom_topic-'))
+    ->condition('id', 'newsroom_topics')
+    ->execute();
 
   db_update('feeds_item')
-  ->expression('guid', 'CONCAT(:newstring, guid)', array(':newstring' => 'newsroom_type-'))
-  ->condition('id', 'newsroom_type')
-  ->execute();
+    ->expression('guid', 'CONCAT(:newstring, guid)', array(':newstring' => 'newsroom_type-'))
+    ->condition('id', 'newsroom_type')
+    ->execute();
 }
 
 /**

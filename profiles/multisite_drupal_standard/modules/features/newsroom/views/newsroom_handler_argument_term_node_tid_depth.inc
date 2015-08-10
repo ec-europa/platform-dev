@@ -14,7 +14,13 @@
  * @ingroup views_argument_handlers
  */
 class newsroom_handler_argument_term_node_tid_depth extends views_handler_argument {
-  function option_definition() {
+  /**
+   * Returns definitions.
+   *
+   * @return array
+   *   Options.
+   */
+  public function option_definition() {
     $options = parent::option_definition();
 
     $options['depth'] = array('default' => 0);
@@ -22,11 +28,19 @@ class newsroom_handler_argument_term_node_tid_depth extends views_handler_argume
     $options['set_breadcrumb'] = array('default' => FALSE, 'bool' => TRUE);
     $options['use_taxonomy_term_path'] = array('default' => FALSE, 'bool' => TRUE);
     $options['use_and'] = array('default' => FALSE, 'bool' => TRUE);
-    
+
     return $options;
   }
 
-  function options_form(&$form, &$form_state) {
+  /**
+   * Returns settings form.
+   *
+   * @param array $form
+   *   Form array.
+   * @param array $form_state
+   *   Form state.
+   */
+  public function options_form(array &$form, array &$form_state) {
     $form['depth'] = array(
       '#type' => 'weight',
       '#title' => t('Depth'),
@@ -65,9 +79,18 @@ class newsroom_handler_argument_term_node_tid_depth extends views_handler_argume
     parent::options_form($form, $form_state);
   }
 
-  function set_breadcrumb(&$breadcrumb) {
+  /**
+   * Sets breadcrumb.
+   *
+   * @param array $breadcrumb
+   *   Breadcrumbs.
+   *
+   * @return array
+   *   Actions.
+   */
+  public function set_breadcrumb(array &$breadcrumb) {
     if (empty($this->options['set_breadcrumb']) || !is_numeric($this->argument)) {
-      return;
+      return array();
     }
 
     return views_taxonomy_set_breadcrumb($breadcrumb, $this);
@@ -76,7 +99,7 @@ class newsroom_handler_argument_term_node_tid_depth extends views_handler_argume
   /**
    * Override default_actions() to remove summary actions.
    */
-  function default_actions($which = NULL) {
+  public function default_actions($which = NULL) {
     if ($which) {
       if (in_array($which, array('ignore', 'not found', 'empty', 'default'))) {
         return parent::default_actions($which);
@@ -91,7 +114,16 @@ class newsroom_handler_argument_term_node_tid_depth extends views_handler_argume
     return $actions;
   }
 
-  function query($group_by = FALSE) {
+  /**
+   * Returns query.
+   *
+   * @param bool $group_by
+   *   Group by expression.
+   *
+   * @return bool
+   *   Resukt.
+   */
+  public function query($group_by = FALSE) {
     $this->ensure_my_table();
 
     if (!empty($this->options['break_phrase'])) {
@@ -118,7 +150,6 @@ class newsroom_handler_argument_term_node_tid_depth extends views_handler_argume
     // Now build the subqueries.
     $subquery = db_select('taxonomy_index', 'tn');
     $subquery->addField('tn', 'nid');
-//    $subquery->addExpression('COUNT(tn.nid)', 'ncount');
     $where = db_or()->condition('tn.tid', $tids, $operator);
     $last = 'tn';
 
@@ -143,19 +174,26 @@ class newsroom_handler_argument_term_node_tid_depth extends views_handler_argume
     // or not.
     $subquery->condition($where);
     if (!empty($this->options['use_and'])) {
-       $subquery->groupBy('tn.nid'); 
-       $subquery->having('COUNT(*) = ' . count($tids));
-    } 
-        
+      $subquery->groupBy('tn.nid');
+      $subquery->having('COUNT(*) = ' . count($tids));
+    }
+
     $this->query->add_where(0, "$this->table_alias.$this->real_field", $subquery, 'IN');
   }
 
-  function title() {
+  /**
+   * Return title.
+   *
+   * @return string
+   *   Title string.
+   */
+  public function title() {
     $term = taxonomy_term_load($this->argument);
     if (!empty($term)) {
       return check_plain($term->name);
     }
-    // TODO review text
+    // TODO review text.
     return t('No name');
   }
+
 }
