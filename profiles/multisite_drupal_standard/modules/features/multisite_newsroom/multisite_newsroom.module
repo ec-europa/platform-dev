@@ -854,33 +854,6 @@ function _multisite_newsroom_enable_translations() {
     $enabled['taxonomy_term'] = 'taxonomy_term';
     variable_set('entity_translation_entity_types', $enabled);
   }
-
-  // Check if the title module is enabled.
-  if (!module_exists('title')) {
-    module_enable('title');
-  }
-  // Set translation mode for the vocabularies.
-  $taxonomies = array(
-    'newsroom_topic',
-    'newsroom_item_type',
-    'newsroom_service',
-  );
-  foreach ($taxonomies as $name) {
-    $vocabulary = taxonomy_vocabulary_machine_name_load($name);
-    // Set value for translations.
-    $vocabulary->i18n_mode = 4;
-    taxonomy_vocabulary_save($vocabulary);
-    // Replace name.
-    title_field_replacement_toggle('taxonomy_term', $name, 'name');
-  }
-
-  // Enable title replacement for the newsroom_item content type.
-  multisite_config_service('title')->replaceTitleField('node', 'newsroom_item', 'title');
-
-  // Override settings for multilanguage.
-  variable_set('language_content_type_newsroom_item', TRANSLATION_ENABLED);
-  // Set the entity translations options.
-  variable_set('language_content_type_newsroom_item', '4');
   
   // Enable translations for various fields.
   $field_names = array(
