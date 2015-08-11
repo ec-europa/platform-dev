@@ -110,6 +110,7 @@ function _newsroom_newsroom_mapping(array &$item) {
   // Resolve the mapping for the original newsroom_type name;
   // If no mapping provided, keep the original name.
   _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_type_id', 'xpathparser:18', TRUE);
+  debug($item['xpathparser:18']);
   _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:33', TRUE);
   _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:34', TRUE);
   _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:36', TRUE);
