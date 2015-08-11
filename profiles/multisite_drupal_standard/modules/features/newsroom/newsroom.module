@@ -1183,7 +1183,7 @@ function newsroom_node_view($node, $view_mode, $langcode) {
     
     // Redirect item if redirection is forced for this type.
     // Except for editors who can import items.
-//    if (!user_access('import newsroom feeds')) {
+    if (!user_access('import newsroom feeds')) {
       // Only if we have a main link.
       if ($type && $node_wrapper->__isset('field_newsroom_item_main_link')) {
         if (_newsroom_item_type_teaser_only_settings($node_wrapper) == 'force') {
@@ -1191,7 +1191,7 @@ function newsroom_node_view($node, $view_mode, $langcode) {
           drupal_goto($link['url'], array(), 301);
         }
       }
-//    }
+    }
 
     // Fetch menu context for item so we can have an active trail set for it.
     // Basically we try to find a menu item (node||term) that has the same Topic
