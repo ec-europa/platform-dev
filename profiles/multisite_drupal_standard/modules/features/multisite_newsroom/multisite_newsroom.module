@@ -1237,7 +1237,7 @@ function _multisite_newsroom_rebuild_importers() {
  * @param string $voc
  *   Vocabulary machine name.
  */
-function multisite_newsroom_check_vocabularies($voc) {
+function _multisite_newsroom_check_vocabularies($voc) {
   $check = taxonomy_vocabulary_machine_name_load($voc);
   if (!$check) {
     $vocab = (object) array(
