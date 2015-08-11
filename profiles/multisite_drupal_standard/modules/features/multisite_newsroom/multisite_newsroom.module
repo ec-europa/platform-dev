@@ -974,10 +974,10 @@ function _multisite_newsroom_prepare_dynamic_mapping($premapping, $type = NULL) 
         if (strpos($type, 'topic') && $upper_key != $def_lang) {
           $queries['xpathparser:' . $i] = '//channel/item[infsonewsroom:BasicSvType="Newsroom service"]/category[@domain!="Newsletter" and @lang="' . $upper_key . '" and @infsonewsroom:TopicId="$Temporary target 1"]/' . $values['query'];
         }
-        elseif (strpos('topic', $type) && $upper_key == $def_lang) {
+        elseif (strpos($type, 'topic') && $upper_key == $def_lang) {
           $queries['xpathparser:' . $i] = $values['query'];
         }
-        elseif (strpos('newsroom_types')) {
+        elseif (strpos($type, 'newsroom_types')) {
           $queries['xpathparser:' . $i] = $values['query'] . '[@lang="' . $upper_key . '"]/text()';
         }
         // Mapping arrays.
