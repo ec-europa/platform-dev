@@ -1395,7 +1395,7 @@ function newsroom_permission() {
 function newsroom_menu() {
   $items['news-redirect'] = array(
     'title' => 'Newsroom Item Redirect',
-    'page callback' => 'newsroom_newsroom_item_redirect',
+    'page callback' => '_newsroom_newsroom_item_redirect',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
