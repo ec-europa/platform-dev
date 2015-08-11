@@ -1853,7 +1853,7 @@ function newsroom_views_pre_view(&$view, &$display_id, array &$args) {
  * @param array $argument_settings
  *   View arguments.
  */
-function newsroom_taxonomy_term_from_request($request, $argument_settings, $filter_field) {
+function _newsroom_taxonomy_term_from_request($request, $argument_settings, $filter_field) {
   global $language;
   $curr_lang = $language->language;
   $multilingual =  variable_get('newsroom_multilingual', FALSE);
