@@ -16,6 +16,9 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
   // Get some information basing on the activation of the universe id.
   $universe_id = _multisite_newsroom_check_universe_id();
 
+  // Check the value for multilingualism.
+  $multilingual = variable_get('newsroom_multilingual', FALSE);
+
   // This is special, made just to hold the universe_id field.
   $form['universe_id'] = array(
     '#type' => 'container',
@@ -60,8 +63,24 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
   $form['newsroom_universe']['multilingual'] = array(
     '#type' => 'checkbox',
     '#title' => t('Is your universe multilingual?'),
-    '#default_value' => variable_get('newsroom_multilingual', 0),
+    '#default_value' => $multilingual,
   );
+
+  if ($multilingual) {
+    $form['newsroom_universe']['rebuild'] = array(
+      '#type' => 'submit',
+      '#value' => 'Rebuild importers on the fly',
+      '#prefix' => '<div id="newsroom_rebuild">',
+      '#suffix' => '</div>',
+      '#ajax' => array(
+        'callback' => '_multisite_newsroom_rebuild_importers',
+        'event' => 'click',
+        'wrapper' => 'newsroom_rebuild',
+        'effect' => 'fade',
+        'method' => 'replace',
+      ),
+    );
+  }
 
   $form['newsroom_universe']['newsroom_url_prefix'] = array(
     '#type' => 'textfield',
