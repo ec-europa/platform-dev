@@ -2389,6 +2389,11 @@ function newsroom_field_formatter_info() {
       'field types' => array('link_field'),
       'multiple values' => FIELD_BEHAVIOR_DEFAULT,
     ),
+    'newsroom_pathauto' => array(
+      'label' => t('Newsroom Path Auto'),
+      'field types' => array('text'),
+      'multiple values' => FIELD_BEHAVIOR_DEFAULT,
+    ),
     'newsroom_zoomable_image' => array(
       'label' => t('Newsroom image'),
       'field types' => array('image'),
@@ -2506,8 +2511,13 @@ function newsroom_field_formatter_settings_summary($field, $instance, $view_mode
  */
 function newsroom_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $elements = array();
-
   switch ($display['type']) {
+    case 'newsroom_pathauto':
+      module_load_include('inc', 'pathauto', 'pathauto');
+      foreach ($items as $delta => $item) {
+        $elements[$delta] = array('#markup' => pathauto_cleanstring($item['safe_value']));
+      }
+      break;
     case 'newsroom_main_link':
       foreach ($items as $delta => $item) {
         if (!empty($item['url'])) {

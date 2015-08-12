@@ -1333,6 +1333,7 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['fields']['name_field_et']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['name_field_et']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['name_field_et']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['name_field_et']['type'] = 'newsroom_pathauto';
   /* Field: Taxonomy term: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'taxonomy_term_data';
