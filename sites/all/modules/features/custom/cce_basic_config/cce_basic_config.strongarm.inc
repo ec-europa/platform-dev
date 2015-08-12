@@ -1145,7 +1145,6 @@ video
     'admin/content/webform',
     'admin/structure/block',
     'admin/help',
-    'node/add',
   );
   $export['cce_basic_config_admin_pages'] = $strongarm;
 
