@@ -103,9 +103,30 @@ function multisite_newsroom_image_default_styles() {
  * Implements hook_post_features_enable_feature().
  */
 function multisite_newsroom_post_features_enable_feature($component) {
-  if ($component == 'field_base') {
-    // Revert the field component, it seems it is not ready after it's enabled.
-    features_revert(array('multisite_newsroom' => array($component)));
+  switch ($component) {
+    case 'field_base':
+      // Revert the field component, it seems it is not ready after it's enabled.
+      features_revert(array('multisite_newsroom' => array($component)));
+      break;
+
+    case 'taxonomy' :
+      // Set translation mode for the vocabularies.
+      $taxonomies = array(
+        'newsroom_topic',
+        'newsroom_item_type',
+        'newsroom_service',
+      );
+
+      foreach ($taxonomies as $name) {
+        // Replace name.
+        title_field_replacement_toggle('taxonomy_term', $name, 'name');
+      }
+      break;
+
+    case 'node' :
+      // Enable title replacement for the newsroom_item content type.
+      multisite_config_service('title')->replaceTitleField('node', 'newsroom_item', 'title');
+      break;
   }
 }
 
@@ -1208,4 +1229,25 @@ function _multisite_newsroom_rebuild_importers() {
   );
 
   return $form['rebuilt'];
+}
+
+/**
+ * Check if the vocabulary exists, otherwise create it.
+ *
+ * @param string $voc
+ *   Vocabulary machine name.
+ */
+function _multisite_newsroom_check_vocabularies($voc) {
+  $check = taxonomy_vocabulary_machine_name_load($voc);
+  if (!$check) {
+    $vocab = (object) array(
+      'name' => $voc,
+      'description' => '',
+      'machine_name' => $voc,
+    );
+    taxonomy_vocabulary_save($vocab);
+    $check = taxonomy_vocabulary_machine_name_load($voc);
+  }
+
+  return $check->vid;
 }
