@@ -74,7 +74,7 @@ function multisite_newsroom_feeds_importer_default() {
   );
   $export['newsroom_deleted_items'] = $feeds_importer;
 
-  $feeds_importer = new stdClass();
+ $feeds_importer = new stdClass();
   $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
   $feeds_importer->api_version = 1;
   $feeds_importer->id = 'newsroom_items';
@@ -138,6 +138,7 @@ function multisite_newsroom_feeds_importer_default() {
           'xpathparser:49' => 'enclosure[@type="image/jpeg"]/@alt',
           'xpathparser:50' => 'enclosure[@type="image/jpeg"]/@title',
           'xpathparser:51' => 'enclosure[@type="image/jpeg"]/@copyright',
+          'xpathparser:52' => 'infsonewsroom:BasicDate/text()',
         ),
         'rawXML' => array(
           'xpathparser:1' => 0,
@@ -184,6 +185,7 @@ function multisite_newsroom_feeds_importer_default() {
           'xpathparser:49' => 0,
           'xpathparser:50' => 0,
           'xpathparser:51' => 0,
+          'xpathparser:52' => 0,
         ),
         'context' => '//channel/item',
         'exp' => array(
@@ -234,6 +236,7 @@ function multisite_newsroom_feeds_importer_default() {
             'xpathparser:49' => 0,
             'xpathparser:50' => 0,
             'xpathparser:51' => 0,
+            'xpathparser:52' => 0,
           ),
         ),
         'allow_override' => 0,
@@ -469,6 +472,11 @@ function multisite_newsroom_feeds_importer_default() {
           43 => array(
             'source' => 'xpathparser:51',
             'target' => 'field_newsroom_copyrights',
+            'unique' => FALSE,
+          ),
+          44 => array(
+            'source' => 'xpathparser:52',
+            'target' => 'created',
             'unique' => FALSE,
           ),
         ),

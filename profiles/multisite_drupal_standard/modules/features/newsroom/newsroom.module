@@ -2609,12 +2609,6 @@ function newsroom_views_api() {
  */
 function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id) {
 
-  if ($entity->type == 'newsroom_item') {
-    // We take post date from Newsroom item.
-    $entity->created = strtotime($item['xpathparser:8']);
-    node_save($entity);
-  }
-
   // Get the files if it excists and set the values from the xpath parser
   // for these fields.
   if (isset($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']) && !empty($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid'])) {
