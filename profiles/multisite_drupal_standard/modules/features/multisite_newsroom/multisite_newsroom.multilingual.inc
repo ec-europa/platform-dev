@@ -37,6 +37,18 @@ function _multisite_newsroom_create_multilingual_items_importer() {
       'query' => 'enclosure[@type="image/jpeg"]/@url',
       'language' => FALSE,
     ),
+    'field_illustrative_image:alt' => array(
+      'query' => 'enclosure[@type="image/jpeg"]/@alt',
+      'language' => FALSE,
+    ),
+    'field_illustrative_image:text' => array(
+      'query' => 'enclosure[@type="image/jpeg"]/@title',
+      'language' => FALSE,
+    ), 
+    'field_illustrative_image:copyright' => array(
+      'query' => 'enclosure[@type="image/jpeg"]/@copyright',
+      'language' => FALSE,
+    ), 
     'field_newsroom_item_rapid_pr' => array(
       'query' => 'infsonewsroom:BasicRapidPressRelease/text()',
       'language' => FALSE,
