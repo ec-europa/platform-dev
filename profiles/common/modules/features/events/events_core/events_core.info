@@ -7,7 +7,6 @@ project = events_core
 dependencies[] = cce_basic_config
 dependencies[] = colorbox
 dependencies[] = date_views
-dependencies[] = field_group
 dependencies[] = fullcalendar_colors
 dependencies[] = fullcalendar_legend
 dependencies[] = fullcalendar_options
