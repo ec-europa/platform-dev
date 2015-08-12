@@ -258,12 +258,10 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
     ),
     '#default_value' => variable_get('newsroom_url_mode', 'name'),
   );
-
-  $form['newsroom_others']['newsroom_navigation_depth'] = array(
-    '#type' => 'select',
-    '#title' => t('Newsroom Navigation depth'),
-    '#options' => array(0, 1, 2),
-    '#default_value' => variable_get('newsroom_navigation_depth', 1),
+  $form['newsroom_others']['newsroom_proposal_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Newsroom proposal URL'),
+    '#default_value' => variable_get('newsroom_proposal_url', NULL),
   );
   // Attach a css to the admin settings form.
   $form['#attached']['css'] = array(

@@ -10,6 +10,7 @@ define('NEWSROOM_TOPIC_VOCABULARY', 'newsroom_topic');
 define('NEWSROOM_TOPIC_OPERATOR_OR', 'OR');
 define('NEWSROOM_CALENDAR_BLOCK', 'calendar');
 define('NEWSROOM_URL', 'http://ec.europa.eu/information_society/newsroom/cf/');
+define('NEWSROOM_PROPOSAL_ACCESS', 'send newsroom item proposal');
 
 global $_newsroom_universe_url;
 
@@ -220,6 +221,9 @@ function newsroom_block_info() {
   $blocks['newsroom_list_filter'] = array(
     'info' => t('Newsroom List Filter'),
   );
+  $blocks['newsroom_proposal'] = array(
+    'info' => t('News proposal'),
+  );
   return $blocks;
 }
 
@@ -249,8 +253,153 @@ function newsroom_block_view($delta = '') {
       $block['subject'] = NULL;
       $block['content'] = _newsroom_list_filter();
       break;
+    case 'newsroom_proposal':
+      $blocks['subject'] = t('Newsroom item proposal');
+      $blocks['content'] = _newsroom_block_news_proposal();
+      break;
   }
   return $block;
+}
+
+/**
+ * Returns block with the link to newsroom proposal form.
+ *
+ * @global object $user
+ *   Global user object.
+ * @global string $base_url
+ *   Global URL.
+ *
+ * @return string
+ *   Block content.
+ */
+function _newsroom_block_news_proposal() {
+
+  if(!user_access(NEWSROOM_PROPOSAL_ACCESS)) {
+    return NULL;
+  }
+
+  global $user;
+  global $base_url;
+
+  $topic_id = NULL;
+  
+  // Try to get Topic ID from the entity.
+  $node = menu_get_object();
+
+  if ($node) {
+    if (isset($node->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid']) && !empty($node->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid'])) {
+      $topic_id = $node->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid'];
+    }
+    elseif (isset($node->og_group_ref[LANGUAGE_NONE][0]['target_id']) && !empty($node->og_group_ref[LANGUAGE_NONE][0]['target_id'])) {
+      $group = node_load($node->og_group_ref[LANGUAGE_NONE][0]['target_id']);
+      if (isset($group->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid']) && !empty($group->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid'])) {
+        $topic_id = $group->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid'];
+      }
+    }
+  }
+  else {
+    // Taxonomy term override.
+    $taxonomy_term = NULL;
+    $current_page_path = current_path();
+
+    if (strpos($current_page_path, 'taxonomy/term') !== FALSE) {
+      // Never sure what menu_callback will get you with.
+      // A view overridding a taxo page.
+      $url_tokens = explode('/', $current_page_path);
+      if (isset($url_tokens[2]) && is_numeric($url_tokens[2])) {
+        $taxonomy_term = taxonomy_term_load($url_tokens[2]);
+
+        if (isset($taxonomy_term->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid']) && !empty($taxonomy_term->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid'])) {
+          $topic_id = $taxonomy_term->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid'];
+        }
+      }
+    }
+  }
+
+  $output = '<div class="communityTools">';
+  $output .= '<div class="RSSButton"><a href="' . $base_url . '/news-proposal/?topic_id=' . $topic_id . '">' . t('Propose newsroom item') . '</a></div>';
+  $output .= '</div>';
+
+  return $output;
+}
+
+/**
+ * Defines newsroom proposal form.
+ */
+function newsroom_newsroom_proposal_form($form, $form_state) {
+  global $user;
+
+  $account = user_load($user->uid);
+  $form['#action'] = $newsroom_url = variable_get('newsroom_proposal_url', NULL);
+  $form['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('title'),
+    '#description' => 'Title of a newsroom item',
+    '#default_value' => '',
+    '#required' => TRUE,
+  );
+  $form['teaser'] = array(
+    '#title' => t('Teaser'),
+    '#type' => 'textarea',
+    '#description' => t('Teaser of a newsroom item'),
+    '#size' => 18,
+  );
+  $form['body'] = array(
+    '#title' => t('Main text'),
+    '#type' => 'textarea',
+    '#description' => t('Text of a newsroom item'),
+    '#required' => TRUE,
+  );
+  $form['url'] = array(
+    '#title' => t('URL'),
+    '#type' => 'textfield',
+    '#description' => t('Link to a newsroom item'),
+  );
+  $form['start_date'] = array(
+    '#title' => t('Date'),
+    '#type' => 'date',
+    '#description' => t('Publication or event date'),
+  );
+  $form['end_date'] = array(
+    '#title' => t('End date'),
+    '#type' => 'date',
+    '#description' => t('End date'),
+  );
+  $form['venue'] = array(
+    '#title' => t('Venue'),
+    '#type' => 'textfield',
+    '#description' => t('Description of the venue'),
+  );
+  $form['topic_id'] = array(
+    '#title' => t('Topic ID'),
+    '#type' => 'hidden',
+    '#value' => isset($_REQUEST['topic_id']) ? $_REQUEST['topic_id'] : NULL,
+    '#required' => TRUE,
+  );
+  $form['email'] = array(
+    '#title' => t('E-mail'),
+    '#type' => 'hidden',
+    '#value' => $account->mail,
+    '#required' => TRUE,
+  );
+  $form['lastname'] = array(
+    '#title' => t('Last name'),
+    '#type' => 'hidden',
+    '#value' => isset($account->field_lastname[LANGUAGE_NONE][0]['value']) ? $account->field_lastname[LANGUAGE_NONE][0]['value'] : '',
+    '#required' => TRUE,
+  );
+  $form['firstname'] = array(
+    '#title' => t('First name'),
+    '#type' => 'hidden',
+    '#value' => isset($account->field_firstname[LANGUAGE_NONE][0]['value']) ? $account->field_firstname[LANGUAGE_NONE][0]['value'] : '',
+    '#required' => TRUE,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Send'),
+  );
+
+  return $form;
 }
 
 /**
@@ -1385,6 +1534,9 @@ function newsroom_permission() {
     'edit remote newsroom item' => array(
       'title' => t('Edit newsroom item in Newsroom'),
     ),
+    NEWSROOM_PROPOSAL_ACCESS => array(
+      'title' => t('Send newsroom item proposal'),
+    ), 
   );
 }
 
@@ -1429,6 +1581,12 @@ function newsroom_menu() {
     'page callback' => '_newsroom_newsroom_redirect',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
+  );
+  $items['news-proposal'] = array(
+    'title' => 'Newsroom item proposal',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('newsroom_newsroom_proposal_form'),
+    'access arguments' => array(NEWSROOM_PROPOSAL_ACCESS),
   );
 
   return $items;
