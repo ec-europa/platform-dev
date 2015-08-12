@@ -1811,6 +1811,11 @@ function newsroom_views_pre_render(&$view) {
       }
     }
 
+    // TODO : find the solution to avoid No name in substitutions.
+    if ($view->build_info['substitutions']['%2'] == 'No name') {
+      $view->build_info['substitutions']['%2'] = '';
+    }
+
     if (in_array($view->current_display, array('previous_events', 'previous_consultation_funding'))) {
       $view->build_info['title'] = str_replace('<span class="filter_type">', '<span class="filter_type">' . t('Past') . ' ', $view->build_info['title']);
     }

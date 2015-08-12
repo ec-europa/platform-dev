@@ -193,7 +193,7 @@ class newsroom_handler_argument_term_node_tid_depth extends views_handler_argume
       return check_plain($term->name);
     }
     // TODO review text.
-    return t('No name');
+    return 'test';
   }
 
 }
