@@ -1333,7 +1333,16 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['fields']['name_field_et']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['name_field_et']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['name_field_et']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['name_field_et']['type'] = 'newsroom_pathauto';
+  $handler->display->display_options['fields']['name_field_et']['type'] = 'text_plain';
+  /* Field: Filtered name */
+  $handler->display->display_options['fields']['name_field_et_1']['id'] = 'name_field_et_1';
+  $handler->display->display_options['fields']['name_field_et_1']['table'] = 'field_data_name_field';
+  $handler->display->display_options['fields']['name_field_et_1']['field'] = 'name_field_et';
+  $handler->display->display_options['fields']['name_field_et_1']['ui_name'] = 'Filtered name';
+  $handler->display->display_options['fields']['name_field_et_1']['label'] = '';
+  $handler->display->display_options['fields']['name_field_et_1']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['name_field_et_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['name_field_et_1']['type'] = 'newsroom_pathauto';
   /* Field: Taxonomy term: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'taxonomy_term_data';
@@ -1342,7 +1351,7 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['fields']['name']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['name']['alter']['text'] = '[name_field_et]';
   $handler->display->display_options['fields']['name']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['name']['alter']['path'] = 'newsroom/[name_field_et]/!2';
+  $handler->display->display_options['fields']['name']['alter']['path'] = 'newsroom/[name_field_et_1]/!2';
   $handler->display->display_options['fields']['name']['alter']['absolute'] = TRUE;
   $handler->display->display_options['fields']['name']['alter']['replace_spaces'] = TRUE;
   $handler->display->display_options['fields']['name']['alter']['path_case'] = 'lower';
@@ -1554,24 +1563,7 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['table'] = 'field_data_field_newsroom_category_domain';
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['field'] = 'field_newsroom_category_domain_value';
   $handler->display->display_options['filters']['field_newsroom_category_domain_value']['value'] = 'Collection';
-  $translatables['newsroom_navigation'] = array(
-    t('Master'),
-    t('[nothing]'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Parent'),
-    t('field_newsroom_item_type'),
-    t('Newsroom'),
-    t('.'),
-    t('[name]'),
-    t('All'),
-    t('Block'),
-    t('Collection Block'),
-  );
+
   $export['newsroom_navigation'] = $view;
 
   $view = new view();

@@ -2753,10 +2753,6 @@ function _newsroom_create_default_importers($universe_url, $context = 'admin', $
  * Implements hook_views_data_alter().
  */
 function newsroom_views_data_alter(&$data) {
-  if (isset($data['taxonomy_term_data']['name']['field'])) {
-    $data['taxonomy_term_data']['name']['field']['handler'] = 'newsroom_views_handler_field_taxonomy';
-  }
-
   $data['node']['newsroom_term_node_tid_depth'] = array(
     'help' => t('Display content if it has the selected taxonomy terms, or children of the selected terms. Due to additional complexity, this has fewer options than the versions without depth.'),
     'real field' => 'nid',
