@@ -22,7 +22,7 @@ projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.7"
 
 projects[advanced_help][subdir] = "contrib"
-projects[advanced_help][version] = "1.0"
+projects[advanced_help][version] = "1.3"
 projects[advanced_help][patch][] = patches/advanced_help-solve_error_message-2202.patch
 
 projects[apachesolr][subdir] = "contrib"
