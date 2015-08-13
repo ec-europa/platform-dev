@@ -1084,6 +1084,26 @@ video
   $strongarm->name = 'image_captcha_distortion_amplitude';
   $strongarm->value = '5';
   $export['image_captcha_distortion_amplitude'] = $strongarm;
+  
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE;
+  $strongarm->api_version = 1;
+  $strongarm->name = 'cce_basic_config_survey_whitelist_js';
+  $strongarm->value = array(
+    "sfc2014",
+    "rawmaterials",
+    "mare-emd",
+    "kroes",
+    "horizon2020",
+    "inseparable",
+    "epale",
+    "clima-ets-summer-university",
+    "eacea-site",
+    "eac-eyp",
+    "rebuttal",
+  );
+  $export['cce_basic_config_survey_whitelist_js'] = $strongarm;
 
   return $export;
 }

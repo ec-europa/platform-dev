@@ -1642,3 +1642,25 @@ function cce_basic_config_update_7207() {
     variable_set($variable, $value);
   }
 }
+
+
+
+/**
+ * MULTISITE-5882: use variables to define site who should use survey JS.
+ */
+function cce_basic_config_update_7208() {
+  $cce_basic_config_survey_whitelist_js = array(
+    "sfc2014",
+    "rawmaterials",
+    "mare-emd",
+    "kroes",
+    "horizon2020",
+    "inseparable",
+    "epale",
+    "clima-ets-summer-university",
+    "eacea-site",
+    "eac-eyp",
+    "rebuttal",
+  );
+  variable_set('toolbox_survey_whitelist_js', $cce_basic_config_survey_whitelist_js);
+}
