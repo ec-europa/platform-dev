@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * multisite_newsroom.views_default.inc
+ * nexteuropa_newsroom.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function multisite_newsroom_views_default_views() {
+function nexteuropa_newsroom_views_default_views() {
   $export = array();
 
   $view = new view();
@@ -1972,7 +1972,7 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['fields']['field_illustrative_image']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_illustrative_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_illustrative_image']['settings'] = array(
-    'image_style' => 'multisite_list',
+    'image_style' => 'nexteuropa_list',
     'image_link' => 'content',
   );
   /* Field: Content: Title */

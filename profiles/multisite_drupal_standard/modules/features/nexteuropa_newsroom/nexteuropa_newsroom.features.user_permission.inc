@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * multisite_newsroom.features.user_permission.inc
+ * nexteuropa_newsroom.features.user_permission.inc
  */
 
 /**
  * Implements hook_user_default_permissions().
  */
-function multisite_newsroom_user_default_permissions() {
+function nexteuropa_newsroom_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: 'administer newsroom advanced settings'.
@@ -16,7 +16,7 @@ function multisite_newsroom_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
     ),
-    'module' => 'multisite_newsroom',
+    'module' => 'nexteuropa_newsroom',
   );
 
   // Exported permission: 'administer newsroom settings'.
@@ -26,7 +26,7 @@ function multisite_newsroom_user_default_permissions() {
       'administrator' => 'administrator',
       'editor' => 'editor',
     ),
-    'module' => 'multisite_newsroom',
+    'module' => 'nexteuropa_newsroom',
   );
 
   // Exported permission: 'create newsroom_item content'.

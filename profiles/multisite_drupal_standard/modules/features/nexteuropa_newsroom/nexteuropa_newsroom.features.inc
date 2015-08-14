@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * multisite_newsroom.features.inc
+ * nexteuropa_newsroom.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function multisite_newsroom_ctools_plugin_api($module = NULL, $api = NULL) {
+function nexteuropa_newsroom_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "context" && $api == "context") {
     return array("version" => "3");
   }
@@ -28,14 +28,14 @@ function multisite_newsroom_ctools_plugin_api($module = NULL, $api = NULL) {
 /**
  * Implements hook_views_api().
  */
-function multisite_newsroom_views_api($module = NULL, $api = NULL) {
+function nexteuropa_newsroom_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
 
 /**
  * Implements hook_node_info().
  */
-function multisite_newsroom_node_info() {
+function nexteuropa_newsroom_node_info() {
   $items = array(
     'newsroom_item' => array(
       'name' => t('Newsroom Item'),

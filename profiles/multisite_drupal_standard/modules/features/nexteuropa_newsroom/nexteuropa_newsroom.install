@@ -2,19 +2,19 @@
 
 /**
  * @file
- * Install, update and uninstall functions for the multisite_newsroom module.
+ * Install, update and uninstall functions for the nexteuropa_newsroom module.
  *
  * @see https://webgate.ec.europa.eu
- * /CITnet/confluence/display/MULTISITE/Custom+features
+ * /CITnet/confluence/display/nexteuropa/Custom+features
  */
 
-include_once 'multisite_newsroom.install.inc';
+include_once 'nexteuropa_newsroom.install.inc';
 
 /**
  * Implements hook_enable().
  */
-function multisite_newsroom_enable() {
-  drupal_set_message(t('Newsroom %v feature is now active on your site.', array('%v' => _multisite_newsroom_get_version())));
+function nexteuropa_newsroom_enable() {
+  drupal_set_message(t('Newsroom %v feature is now active on your site.', array('%v' => _nexteuropa_newsroom_get_version())));
   cache_clear_all('plugins:feeds:plugins', 'cache');
   // Add to solR.
   multisite_drupal_toolbox_config_solr_bundle('newsroom_item', 'add');
@@ -23,8 +23,8 @@ function multisite_newsroom_enable() {
 /**
  * Implements hook_disable().
  */
-function multisite_newsroom_disable() {
-  drupal_set_message(t('Newsroom %v feature is now inactive on your site.', array('%v' => _multisite_newsroom_get_version())));
+function nexteuropa_newsroom_disable() {
+  drupal_set_message(t('Newsroom %v feature is now inactive on your site.', array('%v' => _nexteuropa_newsroom_get_version())));
 
   // Delete from solR.
   multisite_drupal_toolbox_config_solr_bundle('newsroom_item', 'delete');
@@ -33,7 +33,7 @@ function multisite_newsroom_disable() {
 /**
  * Implements hook_install().
  */
-function multisite_newsroom_install() {
+function nexteuropa_newsroom_install() {
   variable_set('newsroom_block_by', 'type');
   variable_set('newsroom_summary_block_num_items', 3);
   variable_set('newsroom_summary_block_num_highlighted_items', 3);
@@ -53,7 +53,7 @@ function multisite_newsroom_install() {
 /**
  * Implements hook_uninstall().
  */
-function multisite_newsroom_uninstall() {
+function nexteuropa_newsroom_uninstall() {
   variable_del('newsroom_block_items_by');
   variable_del('newsroom_summary_block_num_items');
   variable_del('newsroom_summary_block_num_highlighted_items');
@@ -74,7 +74,7 @@ function multisite_newsroom_uninstall() {
 /**
  * Set universe ID from previous variable.
  */
-function multisite_newsroom_update_7101() {
+function nexteuropa_newsroom_update_7101() {
   if ($newsroom_universe_root = variable_get('newsroom_universe_root', FALSE)) {
     $universe_id = array_pop(explode('/', trim($newsroom_universe_root, '/')));
     variable_set('newsroom_universe_id', $universe_id);
@@ -85,7 +85,7 @@ function multisite_newsroom_update_7101() {
 /**
  * Remove obsolete importer content types and nodes.
  */
-function multisite_newsroom_update_7102() {
+function nexteuropa_newsroom_update_7102() {
   $types = array(
     'newsroom_type_importer',
     'newsroom_service_importer',
@@ -122,7 +122,7 @@ function multisite_newsroom_update_7102() {
 /**
  * Fix imported term GUIDs to avoid "wrong parents".
  */
-function multisite_newsroom_update_7103() {
+function nexteuropa_newsroom_update_7103() {
   db_update('feeds_item')
     ->expression('guid', 'CONCAT(:newstring, guid)', array(':newstring' => 'newsroom_topic-'))
     ->condition('id', 'newsroom_topics')
@@ -137,7 +137,7 @@ function multisite_newsroom_update_7103() {
 /**
  * Migrate data from shared teaser to newsroom teaser.
  */
-function multisite_newsroom_update_7104() {
+function nexteuropa_newsroom_update_7104() {
   $result = db_query("REPLACE INTO field_data_field_teaser
   SELECT `entity_type`, `bundle`, `deleted`, `entity_id`, `revision_id`, `language`, `delta`, `field_shared_teaser_value`, `field_shared_teaser_format` FROM field_data_field_shared_teaser shared_teaser
   WHERE shared_teaser.bundle = 'newsroom_item';");
@@ -150,7 +150,7 @@ function multisite_newsroom_update_7104() {
 /**
  * Remove obsolete from newsroom selection content type.
  */
-function multisite_newsroom_update_7105() {
+function nexteuropa_newsroom_update_7105() {
   field_delete_field('field_bp_newsroom_country');
   field_delete_field('field_bp_newsroom_co_operator');
   field_delete_field('field_bp_newsroom_actions');

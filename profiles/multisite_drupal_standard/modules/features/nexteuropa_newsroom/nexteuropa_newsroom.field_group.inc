@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * multisite_newsroom.field_group.inc
+ * nexteuropa_newsroom.field_group.inc
  */
 
 /**
  * Implements hook_field_group_info().
  */
-function multisite_newsroom_field_group_info() {
+function nexteuropa_newsroom_field_group_info() {
   $export = array();
 
   $field_group = new stdClass();

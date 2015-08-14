@@ -1,14 +1,14 @@
  <?php
 /**
  * @file
- * multisite_newsroom.multilingual.inc
+ * nexteuropa_newsroom.multilingual.inc
  */
 
 
 /**
  * Import the multilingual importer.
  */
-function _multisite_newsroom_create_multilingual_items_importer() {
+function _nexteuropa_newsroom_create_multilingual_items_importer() {
   $def_lang = strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
@@ -216,7 +216,7 @@ function _multisite_newsroom_create_multilingual_items_importer() {
     ),
   );
 
-  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_items_multilingual');
+  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_items_multilingual');
 
   $importer_values['mapping'][] = array(
     'source' => 'Blank source 1',
@@ -276,13 +276,13 @@ function _multisite_newsroom_create_multilingual_items_importer() {
   );
 
  // Import the importer.
-  _multisite_newsroom_import_importer($feeds_importer);
+  _nexteuropa_newsroom_import_importer($feeds_importer);
 }
 //translation[@English='title']/@*[local-name()=//agentlang]" />
 /**
  * Import the multilingual importer.
  */
-function _multisite_newsroom_create_multilingual_topics_importer() {
+function _nexteuropa_newsroom_create_multilingual_topics_importer() {
   $def_lang = strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
@@ -318,7 +318,7 @@ function _multisite_newsroom_create_multilingual_topics_importer() {
     ), 
   );
 
-  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_topics_multilingual');
+  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_topics_multilingual');
 
   $feeds_importer = new stdClass();
   $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
@@ -369,13 +369,13 @@ function _multisite_newsroom_create_multilingual_topics_importer() {
   );
 
   // Import the importer.
-  _multisite_newsroom_import_importer($feeds_importer);
+  _nexteuropa_newsroom_import_importer($feeds_importer);
 }
 
 /**
  * Import the multilingual importer.
  */
-function _multisite_newsroom_create_multilingual_types_importer() {
+function _nexteuropa_newsroom_create_multilingual_types_importer() {
   $def_lang = strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
@@ -402,7 +402,7 @@ function _multisite_newsroom_create_multilingual_types_importer() {
     ), 
   );
 
-  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_types_multilingual');
+  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_types_multilingual');
 
   $feeds_importer = new stdClass();
   $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
@@ -453,13 +453,13 @@ function _multisite_newsroom_create_multilingual_types_importer() {
   );
 
   // Import the importer.
-  _multisite_newsroom_import_importer($feeds_importer);
+  _nexteuropa_newsroom_import_importer($feeds_importer);
 }
 
 /**
  * Import the multilingual importer.
  */
-function _multisite_newsroom_create_multilingual_services_importer() {
+function _nexteuropa_newsroom_create_multilingual_services_importer() {
   $def_lang = strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
@@ -498,7 +498,7 @@ function _multisite_newsroom_create_multilingual_services_importer() {
     ), 
   );
 
-  $importer_values = _multisite_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_services_multilingual');
+  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_services_multilingual');
   
   $feeds_importer = new stdClass();
   $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
@@ -549,5 +549,5 @@ function _multisite_newsroom_create_multilingual_services_importer() {
   );
 
   // Import the importer.
-  _multisite_newsroom_import_importer($feeds_importer);
+  _nexteuropa_newsroom_import_importer($feeds_importer);
 }

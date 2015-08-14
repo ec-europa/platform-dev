@@ -8,7 +8,7 @@
 /**
  * Get current module version.
  */
-function _multisite_newsroom_get_version() {
+function _nexteuropa_newsroom_get_version() {
   $module = basename(__FILE__, ".install.inc");
   $path = drupal_get_path('module', $module) . '/' . $module . '.info';
   $info = drupal_parse_info_file($path);

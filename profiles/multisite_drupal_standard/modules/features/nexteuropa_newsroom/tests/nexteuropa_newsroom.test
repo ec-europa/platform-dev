@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Tests for PROJECTFEATURE_multisite_newsroom.module.
+ * Tests for PROJECTFEATURE_nexteuropa_newsroom.module.
  */
 
 /**
- * Defines a base class for QA testing the "multisite_newsroom" feature.
+ * Defines a base class for QA testing the "nexteuropa_newsroom" feature.
  */
-class MultisiteNewsroomQAWebTestCase extends DrupalWebTestCase {
+class nexteuropaNewsroomQAWebTestCase extends DrupalWebTestCase {
 
   /**
    * Returns test information.
@@ -19,7 +19,7 @@ class MultisiteNewsroomQAWebTestCase extends DrupalWebTestCase {
   public static function getInfo() {
     return array(
       'name' => 'Newsroom QA tests',
-      'description' => 'Test the multisite_newsroom features to ensure it follows QA requirements.',
+      'description' => 'Test the nexteuropa_newsroom features to ensure it follows QA requirements.',
       'group' => 'Newsroom',
     );
   }
@@ -40,7 +40,7 @@ class MultisiteNewsroomQAWebTestCase extends DrupalWebTestCase {
     $this->assertTrue(array_key_exists('description', $info), 'The module\'s description is available.');
 
     // Add package information.
-    // Ex: package = Multisite_features
+    // Ex: package = nexteuropa_features
     $this->assertTrue(array_key_exists('package', $info), 'The module\'s package is available.');
 
     // Add core information.
@@ -97,9 +97,9 @@ class MultisiteNewsroomQAWebTestCase extends DrupalWebTestCase {
 }
 
 /**
- * Defines a base class for QA testing the "multisite_newsroom" feature.
+ * Defines a base class for QA testing the "nexteuropa_newsroom" feature.
  */
-class MultisiteNewsroomWebTestCase extends FeedsWebTestCase {
+class nexteuropaNewsroomWebTestCase extends FeedsWebTestCase {
   /**
    * Returns test information.
    *
@@ -109,7 +109,7 @@ class MultisiteNewsroomWebTestCase extends FeedsWebTestCase {
   public static function getInfo() {
     return array(
       'name' => 'Newsroom tests',
-      'description' => 'Test the multisite_newsroom features.',
+      'description' => 'Test the nexteuropa_newsroom features.',
       'group' => 'Newsroom',
     );
   }
@@ -120,7 +120,7 @@ class MultisiteNewsroomWebTestCase extends FeedsWebTestCase {
   public function setUp() {
     // This set up all the dependencies.
     parent::setUp();
-    module_enable(array('multisite_newsroom'), TRUE);
+    module_enable(array('nexteuropa_newsroom'), TRUE);
 
     $https_proxy = array(
       'dae',
@@ -145,7 +145,7 @@ class MultisiteNewsroomWebTestCase extends FeedsWebTestCase {
    */
   protected function testImporters() {
     // Test import.
-    $test_feeds_path = $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'multisite_newsroom') . '/tests/xml/';
+    $test_feeds_path = $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'nexteuropa_newsroom') . '/tests/xml/';
     // Types.
     $this->importURL('newsroom_type_importer', $test_feeds_path . 'types.xml');
     $nid = $this->createFeedNodeItem('newsroom_type', $test_feeds_path . 'types.xml', 'Testing Types', 'newsroom_type_importer');
