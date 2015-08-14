@@ -368,8 +368,6 @@ function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
   // Activate multilingualism for the newsroom if the checkbox is checked.
   if ($form_state['values']['multilingual'] != $form['newsroom_others']['multilingual']['#default_value']) {
     if ($multilingual) {
-      // Add a test language. TO BE REMOVED!!!!
-      //_multisite_newsroom_enable_languages(array('fr', 'de'));
       // Make some fields translatable.
       _multisite_newsroom_enable_translations();
     }
