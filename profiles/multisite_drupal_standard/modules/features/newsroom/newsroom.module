@@ -730,7 +730,6 @@ function _newsroom_admin_tools() {
  */
 function _newsroom_contents($delta) {
   $block_settings = _newsroom_get_summary_block_tid();
-
   $topic_tids = array();
   $topic_name = array();
   // Sticky items (Centrally published).
@@ -885,6 +884,8 @@ function _newsroom_get_summary_block_tid() {
  *   Terms
  */
 function _newsroom_get_grouping_terms($selected) {
+  global $language;
+
   $terms = &drupal_static(__FUNCTION__);
 
   if (!isset($terms)) {
@@ -894,13 +895,21 @@ function _newsroom_get_grouping_terms($selected) {
     }
     else {
       $blocks_by = variable_get('newsroom_block_by', 'type');
+      
       if ($blocks_by !== 'collection') {
         // We'll loop through the newsroom by type vocabulary.
         $newsroom_type_vocabulary = taxonomy_vocabulary_machine_name_load(NEWSROOM_TYPE_VOCABULARY);
         $terms = array();
         if (is_object($newsroom_type_vocabulary) && $newsroom_type_vocabulary !== FALSE) {
-          $terms = taxonomy_get_tree($newsroom_type_vocabulary->vid, 0, 1, 1);
+//          $terms = taxonomy_get_tree($newsroom_type_vocabulary->vid, 0, 1, TRUE);
+          $def_lang = language_default()->language;
+          $terms = i18n_taxonomy_get_tree($newsroom_type_vocabulary->vid, $def_lang);
+          foreach ($terms as $key => $term) {
+            $test = i18n_get_object('taxonomy_term', $term->tid);
+            $terms[$key] = $test->get_object();
+          }
         }
+
         // Filter types if needed.
         if (!empty($selected)) {
           foreach ($terms as $key => $type) {
@@ -962,6 +971,8 @@ function _newsroom_content(array $newsroom_grouping_terms, $full_display = FALSE
   if (!empty($newsroom_topic_tids)) {
     $view_arguments[1] = $newsroom_topic_tids;
   }
+  
+  
   // Custom Agenda block if needed.
   if (variable_get('newsroom_display_agenda', 1) && $agenda_types = _newsroom_agenda_types()) {
     $view_arguments[0] = implode('+', array_keys($agenda_types));
@@ -990,7 +1001,7 @@ function _newsroom_content(array $newsroom_grouping_terms, $full_display = FALSE
         $newsroom_type_tids = _newsroom_get_children($newsroom_grouping_term->tid, $newsroom_grouping_term->vid);
         $view_arguments[0] = $newsroom_type_tids;
         $newsroom_type_display = field_get_items('taxonomy_term', $newsroom_grouping_term, 'field_newsroom_type');
-
+        
         // Some newsroom type are not using the normal sorting.
         // This is machine-name defined by newsroom type.
         if ($newsroom_type_display) {
@@ -1014,6 +1025,7 @@ function _newsroom_content(array $newsroom_grouping_terms, $full_display = FALSE
       }
 
       $newsroom_view_exec = _newsroom_fetch_content_view($view_arguments, $newsroom_grouping_term, $default_view_display, $sticky, $full_display, $topic_operator);
+      
       // If we have some content, let's add a title.
       if ($newsroom_view_exec && $newsroom_view_exec['block']['content'] != '') {
         $topic_is_highlighted = _newsroom_type_is_highlighted($newsroom_grouping_term);
@@ -1178,7 +1190,7 @@ function _newsroom_fetch_content_view($view_arguments, $newsroom_grouping_term_n
   if (!is_object($view)) {
     return FALSE;
   }
-
+  
   $view->newsroom_display_type = FALSE;
   $view->newsroom_type_name = $newsroom_grouping_term_name === NEWSROOM_CALENDAR_BLOCK ? t('Calendar') : $newsroom_grouping_term_name->name;
   $view->set_arguments($view_arguments);
@@ -1216,6 +1228,7 @@ function _newsroom_fetch_content_view($view_arguments, $newsroom_grouping_term_n
   }
 
   $view->display_handler->set_option('pager', $pager);
+  $view->execute_display($default_view_display);
 
   return array('block' => $view->execute_display($default_view_display), 'view' => $view);
 }
@@ -1931,6 +1944,7 @@ function newsroom_views_pre_view(&$view, &$display_id, array &$args) {
   }
 
   if ($view->name == 'newsroom') {
+    
     module_load_include('inc', 'pathauto', 'pathauto');
     $arguments_settings = $view->display[$view->current_display]->handler->get_option('arguments');
     // Select the appropriate display in case only one type is set.
@@ -1941,7 +1955,7 @@ function newsroom_views_pre_view(&$view, &$display_id, array &$args) {
 
       // Convert topic url part to taxonomy term id
       // and assign to arguments, because we use 'tids' validation.
-      if (isset($args[1]) && !empty($args[1])) {
+      if (isset($args[1]) && !empty($args[1]) && $args[1] != 'all') {
         $topic = _newsroom_taxonomy_term_from_request($args[1], $arguments_settings, 'term_node_tid_depth_1');
         if ($topic) {
           $args[1] = $topic->tid;
@@ -2030,7 +2044,9 @@ function _newsroom_taxonomy_term_from_request($request, $argument_settings, $fil
     $vocabularies = isset($argument_settings[$filter_field]['validate_options']['vocabularies']) ? array_values($argument_settings[$filter_field]['validate_options']['vocabularies']) : array();
 
     if (count($vocabularies) > 0) {
+
       $taxonomy_terms = newsroom_get_term_from_vocabularies($vocabularies);
+
       // Compare taxonomy terms modified by pathauto with the current value
       // from the URL.
       if ($taxonomy_terms) {
@@ -2040,7 +2056,7 @@ function _newsroom_taxonomy_term_from_request($request, $argument_settings, $fil
             $translation = field_get_items('taxonomy_term', $fullterm, 'name_field', $curr_lang);
             $term_item['name'] = $translation ? $translation[0]['safe_value'] : $term_item['name'];
           }
- 
+
           if (pathauto_cleanstring($term_item['name']) == $request) {
             $taxonomy_term = taxonomy_term_load($term_item['tid']);
             break;
@@ -2060,22 +2076,24 @@ function _newsroom_taxonomy_term_from_request($request, $argument_settings, $fil
  *   tids
  */
 function newsroom_get_term_from_vocabularies($vocabularies = array()) {
-  $taxonomy_terms = &drupal_static(__FUNCTION__);
   $key = 'newsroom:vocabulary_terms:' . md5(implode('', $vocabularies));
-  if (!isset($taxonomy_terms)) {
-    if ($cache = cache_get($key)) {
-      $taxonomy_terms = $cache->data;
-    }
-    else {
-      $query = db_select('taxonomy_term_data', 'td');
-      $query->leftJoin('taxonomy_vocabulary', 'tv', 'td.vid = tv.vid');
-      $query->fields('td');
-      $query->fields('tv', array('machine_name'));
-      $query->condition('tv.machine_name', $vocabularies);
-      $taxonomy_terms = _newsroom_pdo_to_array($query->execute());
-      cache_set($key, $taxonomy_terms, 'cache_newsroom', time() + 360);
-    }
+
+  $cache = cache_get($key);
+
+  if ($cache = cache_get($key)) {
+    $taxonomy_terms = $cache->data;
   }
+  else {
+    $query = db_select('taxonomy_term_data', 'td');
+    $query->leftJoin('taxonomy_vocabulary', 'tv', 'td.vid = tv.vid');
+    $query->fields('td');
+    $query->fields('tv', array('machine_name'));
+    $query->condition('tv.machine_name', $vocabularies);
+    $taxonomy_terms = _newsroom_pdo_to_array($query->execute());
+
+    cache_set($key, $taxonomy_terms, 'cache_newsroom', time() + 360);
+  }
+
   return $taxonomy_terms;
 }
 
@@ -2819,4 +2837,10 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
       );
     }
   }
+}
+
+function newsroom_views_pre_execute(&$view) {
+	if ($view->name == 'test' || $view->name == 'newsroom' || $view->name == 'newsroom_page_content') {
+		dpq($view->build_info['query']);
+	}
 }

@@ -235,6 +235,13 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Entity translation: Title: translated */
+  $handler->display->display_options['fields']['title_field_et']['id'] = 'title_field_et';
+  $handler->display->display_options['fields']['title_field_et']['table'] = 'field_data_title_field';
+  $handler->display->display_options['fields']['title_field_et']['field'] = 'title_field_et';
+  $handler->display->display_options['fields']['title_field_et']['label'] = '';
+  $handler->display->display_options['fields']['title_field_et']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title_field_et']['element_label_colon'] = FALSE;
   /* Field: Content: Short Title */
   $handler->display->display_options['fields']['field_newsroom_item_short_title']['id'] = 'field_newsroom_item_short_title';
   $handler->display->display_options['fields']['field_newsroom_item_short_title']['table'] = 'field_data_field_newsroom_item_short_title';
@@ -244,7 +251,7 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['fields']['field_newsroom_item_short_title']['alter']['path'] = '[field_newsroom_item_main_link]';
   $handler->display->display_options['fields']['field_newsroom_item_short_title']['alter']['absolute'] = TRUE;
   $handler->display->display_options['fields']['field_newsroom_item_short_title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_newsroom_item_short_title']['empty'] = '[title]';
+  $handler->display->display_options['fields']['field_newsroom_item_short_title']['empty'] = '[title_field_et]';
   /* Field: Taxonomy term: Date label */
   $handler->display->display_options['fields']['field_date_label']['id'] = 'field_date_label';
   $handler->display->display_options['fields']['field_date_label']['table'] = 'field_data_field_date_label';
@@ -1583,6 +1590,13 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['fields']['field_newsroom_item_main_link']['settings'] = array(
     'display_type' => 'title',
   );
+  /* Field: Entity translation: Title: translated */
+  $handler->display->display_options['fields']['title_field_et']['id'] = 'title_field_et';
+  $handler->display->display_options['fields']['title_field_et']['table'] = 'field_data_title_field';
+  $handler->display->display_options['fields']['title_field_et']['field'] = 'title_field_et';
+  $handler->display->display_options['fields']['title_field_et']['label'] = '';
+  $handler->display->display_options['fields']['title_field_et']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['title_field_et']['element_label_colon'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -1604,7 +1618,7 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['fields']['field_newsroom_item_short_title']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_newsroom_item_short_title']['alter']['path'] = '[field_newsroom_item_main_link]';
   $handler->display->display_options['fields']['field_newsroom_item_short_title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_newsroom_item_short_title']['empty'] = '[title]';
+  $handler->display->display_options['fields']['field_newsroom_item_short_title']['empty'] = '[title_field_et]';
   /* Field: Taxonomy term: Date label */
   $handler->display->display_options['fields']['field_date_label']['id'] = 'field_date_label';
   $handler->display->display_options['fields']['field_date_label']['table'] = 'field_data_field_date_label';
@@ -1747,14 +1761,6 @@ function multisite_newsroom_views_default_views() {
     'newsroom_item' => 'newsroom_item',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Language */
-  $handler->display->display_options['filters']['language']['id'] = 'language';
-  $handler->display->display_options['filters']['language']['table'] = 'node';
-  $handler->display->display_options['filters']['language']['field'] = 'language';
-  $handler->display->display_options['filters']['language']['value'] = array(
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-    'und' => 'und',
-  );
   /* Filter criterion: Content: Sticky */
   $handler->display->display_options['filters']['sticky']['id'] = 'sticky';
   $handler->display->display_options['filters']['sticky']['table'] = 'node';
@@ -1893,30 +1899,6 @@ function multisite_newsroom_views_default_views() {
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['field'] = 'field_newsroom_item_date_value2';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['operator'] = '>=';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['default_date'] = 'now';
-  $translatables['newsroom_page_content'] = array(
-    t('Master'),
-    t('%1'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('term from field_newsroom_item_type'),
-    t('[field_newsroom_item_type]:'),
-    t('[path]'),
-    t('[title]'),
-    t('<span class="date_prefix">[field_date_label]:</span> '),
-    t('[field_display_date][field_newsroom_item_date]'),
-    t('[field_newsroom_item_venue], '),
-    t('Read more'),
-    t('[field_newsroom_item_type_1-tid]'),
-    t('All'),
-    t('Newsroom'),
-    t('Consultation / Fundin Opportunities'),
-    t('Events'),
-    t('Agenda'),
-  );
   $export['newsroom_page_content'] = $view;
 
   $view = new view();
