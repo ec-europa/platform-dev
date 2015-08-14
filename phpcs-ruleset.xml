@@ -13,7 +13,6 @@
     <!-- Legacy modules which are not compliant with coding standards. These are
          being fixed in NEXTEUROPA-3575. Whenever a module is fixed, please
          remove it from this list so it can be tested. -->
-    <exclude-pattern>profiles/common/modules/custom/multisite_oracle_access</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/tmgmt_mtec</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/views_xml_backend</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/communities</exclude-pattern>
@@ -42,7 +41,6 @@
     <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_custom_error</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_eu_cookie_compliance</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_forum_community</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_forum_core</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_maps</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_maxlength</exclude-pattern>

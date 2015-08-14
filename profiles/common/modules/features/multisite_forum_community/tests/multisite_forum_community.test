@@ -1,29 +1,40 @@
 <?php
+/**
+ * @file
+ * Test file.
+ */
 
 /**
  * Test Multisite Forum features to ensure it follows QA requirements.
  */
 class MultisiteForumCommunityQAWebTestCase extends MultisiteDrupalWebTestCase {
-
   protected $profile = 'multisite_drupal_communities';
   protected $user1;
   protected $user2;
-  protected $node_community;
+  protected $nodeCommunity;
 
+  /**
+   * Getter method.
+   */
   public static function getInfo() {
     return array(
-        'name' => 'Multisite Forum Community QA tests',
-        'description' => 'Test Multisite Forum Community feature to ensure it follows QA requirements.',
-        'group' => 'Multisite - Communities',
+      'name' => 'Multisite Forum Community QA tests',
+      'description' => 'Test Multisite Forum Community feature to ensure it follows QA requirements.',
+      'group' => 'Multisite - Communities',
     );
   }
 
-  function setUp() {
+  /**
+   * Parent method.
+   */
+  public function setUp() {
     parent::setUp('multisite_forum_core', 'multisite_forum_community');
   }
 
-  function testFeatureInitialization() {
-
+  /**
+   * Test initialization.
+   */
+  public function testFeatureInitialization() {
     $field_instance = field_info_instance('node', 'og_group_ref', MULTISITE_FORUM_CT_NAME);
     $status = isset($field_instance) && is_array($field_instance) && !empty($field_instance);
     $this->assert($status, 'Field og_group_ref correctly added Discussion content type');
@@ -40,37 +51,36 @@ class MultisiteForumCommunityQAWebTestCase extends MultisiteDrupalWebTestCase {
     $this->assert(isset($value['multisite_forum_community']), 'multisite_forum_community negotiation found');
   }
 
-  function testDiscussionOGCreation() {
+  /**
+   * Test testDiscussionOGCreation.
+   */
+  public function testDiscussionOgCreation() {
     $this->user1 = $this->drupalCreateUser();
     $this->user2 = $this->drupalCreateUser();
 
     $this->drupalLogin($this->user1);
 
-    //Create content of community type
+    // Create content of community type.
     $settings = array(
-        'type' => 'community',
-        'title' => 'Sample Community',
-        'body' => array(LANGUAGE_NONE => array(array('Community body'))),
-        'moderate' => 1,
-        'status' => 1,
-        'revisions' => NULL,
-        'taxonomy' => NULL,
-        'uid' => $this->user1->uid,
-        OG_GROUP_FIELD => array(LANGUAGE_NONE => array(0 => array('value' => 1))),
-        OG_ACCESS_FIELD => array(LANGUAGE_NONE => array(0 => array('value' => 1))),
+      'type' => 'community',
+      'title' => 'Sample Community',
+      'body' => array(LANGUAGE_NONE => array(array('Community body'))),
+      'moderate' => 1,
+      'status' => 1,
+      'revisions' => NULL,
+      'taxonomy' => NULL,
+      'uid' => $this->user1->uid,
+      OG_GROUP_FIELD => array(LANGUAGE_NONE => array(0 => array('value' => 1))),
+      OG_ACCESS_FIELD => array(LANGUAGE_NONE => array(0 => array('value' => 1))),
     );
-    $this->node_community = $this->drupalCreateNode($settings);
+    $this->nodeCommunity = $this->drupalCreateNode($settings);
     $this->drupalGet('community/sample-community');
     $this->assertRaw('Sample Community', t('Community created.'));
-    $this->assertTrue($this->node_community, t('Node ID @nid is a group.', array('@nid' => $this->node_community->nid)));
+    $this->assertTrue($this->nodeCommunity, t('Node ID @nid is a group.', array('@nid' => $this->nodeCommunity->nid)));
 
     // Test with group manager.
-
-
-    $nid = $this->node_community->nid;
+    $nid = $this->nodeCommunity->nid;
     $options = array('query' => array('og_group_ref' => $nid));
-
-
 
     // Check if group manager has link to forum management page.
     $this->drupalGet("node/{$nid}/group");
@@ -98,17 +108,16 @@ class MultisiteForumCommunityQAWebTestCase extends MultisiteDrupalWebTestCase {
     $this->drupalGet("group/node/{$nid}/admin/forum");
     $this->assertLink($name, 0, 'Group manager can edit term');
 
-
     // Manager can post a forum topic.
     $field = array();
     $field[LANGUAGE_NONE][0]['target_id'] = $nid;
 
     $settings = array(
-        'title' => $this->randomName(),
-        'type' => MULTISITE_FORUM_CT_NAME,
-        'body' => array(LANGUAGE_NONE => array(array($this->randomName(64)))),
-        'og_group_ref' => $field,
-        'taxonomy_forums' => array('undefine' => array('tid' => $term->tid)),
+      'title' => $this->randomName(),
+      'type' => MULTISITE_FORUM_CT_NAME,
+      'body' => array(LANGUAGE_NONE => array(array($this->randomName(64)))),
+      'og_group_ref' => $field,
+      'taxonomy_forums' => array('undefine' => array('tid' => $term->tid)),
     );
     $node = $this->drupalCreateNode($settings);
 
@@ -117,9 +126,8 @@ class MultisiteForumCommunityQAWebTestCase extends MultisiteDrupalWebTestCase {
     $this->assertLink('Edit', 0, 'Group manager can edit is own forum topics.');
 
     // Test now with normal member.
-
     $this->drupalLogin($this->user2);
-    $nid = $this->node_community->nid;
+    $nid = $this->nodeCommunity->nid;
 
     // Assert the user is not a group member.
     $this->assertFalse(og_is_member('node', $nid, 'user', $this->user2), t('User is a not group member.'));

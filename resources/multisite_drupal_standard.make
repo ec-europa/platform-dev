@@ -22,8 +22,7 @@ projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.7"
 
 projects[advanced_help][subdir] = "contrib"
-projects[advanced_help][version] = "1.0"
-projects[advanced_help][patch][] = patches/advanced_help-solve_error_message-2202.patch
+projects[advanced_help][version] = "1.3"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.7"
@@ -352,6 +351,7 @@ projects[og][download][branch] = 7.x-2.x
 projects[og][download][revision] = fba6dda
 projects[og][download][type] = git
 projects[og][subdir] = "contrib"
+projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e

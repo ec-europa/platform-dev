@@ -4,10 +4,8 @@ core = 7.x
 package = Multisite Features
 version = 7.x-1.1
 project = multisite_eu_cookie_compliance
-dependencies[] = ctools
+dependencies[] = cce_basic_config
 dependencies[] = eu_cookie_compliance
-dependencies[] = features
-dependencies[] = strongarm
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
 features[user_permission][] = administer EU Cookie Compliance popup
@@ -36,4 +34,3 @@ features[variable][] = eu_cookie_compliance_ro
 features[variable][] = eu_cookie_compliance_sk
 features[variable][] = eu_cookie_compliance_sl
 features[variable][] = eu_cookie_compliance_sv
-

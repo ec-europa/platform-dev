@@ -1,9 +1,10 @@
 <?php
 /**
- * @file code that generates a fat footer.
+ * @file
+ * Code that generates a fat footer.
  */
 
-/*
+/**
  * Theming the fat footer.
  */
 function theme_fat_footer_links($variables) {
@@ -12,7 +13,7 @@ function theme_fat_footer_links($variables) {
   $links = $variables['links'];
   foreach ($links as $key => $link) {
     $output .= "<div class=\"fat_footer_item\">";
-    $output .= l(t($link['link']['title']), $link['link']['href'], $link);
+    $output .= l($link['link']['title'], $link['link']['href'], $link);
 
     if (isset($link['sub_items'])) {
       $output .= theme('links', array('links' => $link['sub_items']));
@@ -22,7 +23,7 @@ function theme_fat_footer_links($variables) {
   return $output;
 }
 
-/*
+/**
  * Implements hook_theme().
  */
 function fat_footer_theme() {
@@ -33,7 +34,7 @@ function fat_footer_theme() {
   );
 }
 
-/*
+/**
  * Implements hook_block_info().
  */
 function fat_footer_block_info() {
@@ -43,7 +44,7 @@ function fat_footer_block_info() {
   return $blocks;
 }
 
-/*
+/**
  * Implements hook_block_view().
  */
 function fat_footer_block_view($delta = '') {
@@ -57,7 +58,7 @@ function fat_footer_block_view($delta = '') {
   return $block;
 }
 
-/*
+/**
  * Create the content for the block.
  */
 function fat_footer_content() {
@@ -69,17 +70,19 @@ function fat_footer_content() {
       $class = '';
       $l = $item['link']['localized_options'];
       $l['href'] = $item['link']['href'];
-      $l['title'] = t($item['link']['title']);
+      $l['title'] = $item['link']['title'];
       $links['menu-' . $item['link']['mlid'] . $class]['link'] = $l;
 
       if ($item['below']) {
         $sub_links = array();
-        foreach ($item['below'] as $sub_item) { 
-          $class = '';
-          $l = $sub_item['link']['localized_options'];
-          $l['href'] = $sub_item['link']['href'];
-          $l['title'] = t($sub_item['link']['title']);
-          $sub_links['menu-' . $sub_item['link']['mlid'] . $class] = $l;   
+        foreach ($item['below'] as $sub_item) {
+          if (!$sub_item['link']['hidden']) {
+            $class = '';
+            $l = $sub_item['link']['localized_options'];
+            $l['href'] = $sub_item['link']['href'];
+            $l['title'] = $sub_item['link']['title'];
+            $sub_links['menu-' . $sub_item['link']['mlid'] . $class] = $l;
+          }
         }
         $links['menu-' . $item['link']['mlid'] . $class]['sub_items'] = $sub_links;
       }

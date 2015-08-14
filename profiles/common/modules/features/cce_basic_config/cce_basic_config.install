@@ -1548,9 +1548,25 @@ function cce_basic_config_update_7202() {
 }
 
 /**
- * Update the location of the Rate attachments.
+ * NEXTEUROPA-4872: Fix media popup.
  */
 function cce_basic_config_update_7203() {
+  $admin_pages = variable_get('cce_basic_config_admin_pages', array());
+
+  foreach ($admin_pages as $key => $value) {
+    if ($value == "node/add") {
+      unset($admin_pages[$key]);
+    }
+  }
+
+  variable_set('cce_basic_config_admin_pages', $admin_pages);
+}
+
+
+/**
+ * Update the location of the Rate attachments.
+ */
+function cce_basic_config_update_7204() {
   // The Rate module has moved to the modules subdirectory in the profile. The
   // module hardcodes the locations of its CSS and JS attachments inside a
   // variable. Update these so they point to the correct location.
@@ -1641,5 +1657,28 @@ function cce_basic_config_update_7207() {
   // Add the dynamic variables to the exported component.
   foreach ($dynamic_variables as $variable => $value) {
     variable_set($variable, $value);
+  }
+}
+
+/**
+ * MULTISITE-5882: use variables to define site who should use survey JS.
+ */
+function cce_basic_config_update_7208() {
+  $cce_basic_config_survey_whitelist_js = array(
+    "sfc2014",
+    "rawmaterials",
+    "mare-emd",
+    "kroes",
+    "horizon2020",
+    "inseparable",
+    "epale",
+    "clima-ets-summer-university",
+    "eacea-site",
+    "eac-eyp",
+    "rebuttal",
+  );
+
+  if (in_array(basename(conf_path()), $cce_basic_config_survey_whitelist_js, TRUE)) {
+    variable_set('toolbox_survey_whitelist_js', TRUE);
   }
 }

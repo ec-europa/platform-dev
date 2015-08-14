@@ -14,3 +14,8 @@ projects[drupal][patch][] = patches/standard-change_article_description-791.patc
 projects[drupal][patch][] = patches/user-drupal.d7.user-password-reset-logged-in-889772.patch
 projects[drupal][patch][] = patches/user-request_password_behaviour-2205.patch
 projects[drupal][patch][] = patches/user-vulnerability-884.patch
+
+; Allow DRUPAL_MAXIMUM_TEMP_FILE_AGE to be overridden.
+; https://www.drupal.org/node/1399846
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5641
+projects[drupal][patch][] = http://www.drupal.org/files/issues/1399846-278.patch
