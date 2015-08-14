@@ -1,7 +1,7 @@
 name = Nexteuropa Newsroom
 description = Integration with the Newsroom application
 core = 7.x
-package = Nexteuropa features
+package = Nexteuropa
 version = 7.x-2.0
 project = nexteuropa_newsroom
 dependencies[] = fe_nodequeue
