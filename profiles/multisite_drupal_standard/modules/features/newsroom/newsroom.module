@@ -2838,9 +2838,3 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
     }
   }
 }
-
-function newsroom_views_pre_execute(&$view) {
-	if ($view->name == 'test' || $view->name == 'newsroom' || $view->name == 'newsroom_page_content') {
-		dpq($view->build_info['query']);
-	}
-}
