@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * multisite_newsroom.features.field_instance.inc
+ * nexteuropa_newsroom.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function multisite_newsroom_field_default_field_instances() {
+function nexteuropa_newsroom_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'file-image-field_newsroom_copyrights'

@@ -1,20 +1,20 @@
 <?php
 /**
  * @file
- * Multisite Newsroom administration page.
+ * nexteuropa Newsroom administration page.
  */
 
-include_once 'multisite_newsroom.multilingual.inc';
+include_once 'nexteuropa_newsroom.multilingual.inc';
 
 /**
- * Multisite newsroom admin form.
+ * nexteuropa newsroom admin form.
  */
-function multisite_newsroom_admin_settings($form, &$form_state) {
+function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   // Be aware about the selected content types in the fields fieldset.
-  $sel_ct = _multisite_newsroom_get_instances('select');
-  $top_ct = _multisite_newsroom_get_instances('topic');
+  $sel_ct = _nexteuropa_newsroom_get_instances('select');
+  $top_ct = _nexteuropa_newsroom_get_instances('topic');
   // Get some information basing on the activation of the universe id.
-  $universe_id = _multisite_newsroom_check_universe_id();
+  $universe_id = _nexteuropa_newsroom_check_universe_id();
 
   // Check the value for multilingualism.
   $multilingual = variable_get('newsroom_multilingual', FALSE);
@@ -43,7 +43,7 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
     '#disabled' => $universe_id['disabled'],
     '#description' => $universe_id['description'],
     '#default_value' => variable_get('newsroom_universe_id', NULL),
-    '#element_validate' => array('multisite_newsroom_universe_id_validate'),
+    '#element_validate' => array('nexteuropa_newsroom_universe_id_validate'),
   );
 
   // Other settings for the newsroom.
@@ -71,7 +71,7 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
       '#prefix' => '<div id="newsroom_rebuild">',
       '#suffix' => '<div class="description">' . t("Rebuild the importers if you enabled or disabled languages or if you are noticing unexpected behaviors like fields not imported.") . '</div></div>',
       '#ajax' => array(
-        'callback' => '_multisite_newsroom_rebuild_importers',
+        'callback' => '_nexteuropa_newsroom_rebuild_importers',
         'event' => 'click',
         'wrapper' => 'newsroom_rebuild',
         'effect' => 'fade',
@@ -143,7 +143,7 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
     '#type' => 'checkboxes',
     '#title' => t('Newsroom content types topic'),
     '#description' => t('Choose the content types in which you want to activate a relationship with a newsroom topic.'),
-    '#options' => _multisite_newsroom_prepare_options('ct'),
+    '#options' => _nexteuropa_newsroom_prepare_options('ct'),
     '#multiple' => TRUE,
     '#default_value' => $top_ct,
   );
@@ -161,7 +161,7 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
     '#type' => 'checkboxes',
     '#title' => t('Newsroom content types select'),
     '#description' => t('Choose the content types in which you want to activate a complex relationship with the newsroom items.'),
-    '#options' => _multisite_newsroom_prepare_options('ct'),
+    '#options' => _nexteuropa_newsroom_prepare_options('ct'),
     '#multiple' => TRUE,
     '#default_value' => $sel_ct,
   );
@@ -225,21 +225,21 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
   $form['newsroom_blocks']['newsroom_summary_block_columns'] = array(
     '#type' => 'select',
     '#title' => t('Number of columns to use on the summary blocks'),
-    '#options' => _multisite_newsroom_prepare_options(2),
+    '#options' => _nexteuropa_newsroom_prepare_options(2),
     '#default_value' => variable_get('newsroom_summary_block_columns', 1),
   );
 
   $form['newsroom_blocks']['newsroom_summary_block_num_items'] = array(
     '#type' => 'select',
     '#title' => t('Number of items in boxes in the summary blocks'),
-    '#options' => _multisite_newsroom_prepare_options(5),
+    '#options' => _nexteuropa_newsroom_prepare_options(5),
     '#default_value' => variable_get('newsroom_summary_block_num_items', 3),
   );
 
   $form['newsroom_blocks']['newsroom_summary_block_num_highlighted_items'] = array(
     '#type' => 'select',
     '#title' => t('Number of items in boxes of highlighted types in the summary blocks'),
-    '#options' => _multisite_newsroom_prepare_options(6),
+    '#options' => _nexteuropa_newsroom_prepare_options(6),
     '#default_value' => variable_get('newsroom_summary_block_num_highlighted_items', 3),
   );
 
@@ -253,39 +253,39 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
   $form['newsroom_blocks']['home_blocks']['newsroom_summary_home_block_num_items'] = array(
     '#type' => 'select',
     '#title' => t('Number of items in boxes in the summary block on the homepage'),
-    '#options' => _multisite_newsroom_prepare_options(5),
+    '#options' => _nexteuropa_newsroom_prepare_options(5),
     '#default_value' => variable_get('newsroom_summary_home_block_num_items', 3),
   );
 
   $form['newsroom_blocks']['home_blocks']['newsroom_summary_home_block_num_highlighted_items'] = array(
     '#type' => 'select',
     '#title' => t('Number of items in boxes of highlighted types in the summary block on the homepage'),
-    '#options' => _multisite_newsroom_prepare_options(6),
+    '#options' => _nexteuropa_newsroom_prepare_options(6),
     '#default_value' => variable_get('newsroom_summary_home_block_num_highlighted_items', 3),
   );
 
   $form['newsroom_blocks']['home_blocks']['newsroom_summary_home_block_num_agenda'] = array(
     '#type' => 'select',
     '#title' => t('Number of days to list in the Agenda block on the homepage'),
-    '#options' => _multisite_newsroom_prepare_options(6),
+    '#options' => _nexteuropa_newsroom_prepare_options(6),
     '#default_value' => variable_get('newsroom_summary_home_block_num_agenda', 3),
   );
 
   // Attach a css to the admin settings form.
   $form['#attached']['css'] = array(
-    drupal_get_path('module', 'multisite_newsroom') . '/multisite_newsroom_admin_setting.css',
+    drupal_get_path('module', 'nexteuropa_newsroom') . '/nexteuropa_newsroom_admin_setting.css',
   );
   // Validate function.
-  $form['#validate'][] = 'multisite_newsroom_admin_settings_form_validate';
+  $form['#validate'][] = 'nexteuropa_newsroom_admin_settings_form_validate';
   // Submit handler.
-  $form['#submit'][] = 'multisite_newsroom_admin_settings_form_submit';
+  $form['#submit'][] = 'nexteuropa_newsroom_admin_settings_form_submit';
 
   if (variable_get('newsroom_universe_id') != NULL) {
     $form['actions']['run'] = array(
       '#type' => 'submit',
       '#value' => t('Run the importers'),
       '#access' => TRUE,
-      '#submit' => array('multisite_newsroom_admin_settings_form_run_importers'),
+      '#submit' => array('nexteuropa_newsroom_admin_settings_form_run_importers'),
       '#weight' => 10,
     );
   }
@@ -297,7 +297,7 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
 
   // Confirmation step_needed.
   if (isset($form_state['storage']['confirm']) && empty($form_state['confirm']['processed'])) {
-    return _multisite_newsroom_delete_confirm($form, $form_state);
+    return _nexteuropa_newsroom_delete_confirm($form, $form_state);
   }
   // Normal form.
   else {
@@ -308,30 +308,30 @@ function multisite_newsroom_admin_settings($form, &$form_state) {
 /**
  * Validation step for the the newsroom admin form.
  */
-function multisite_newsroom_admin_settings_form_validate($form, &$form_state) {
+function nexteuropa_newsroom_admin_settings_form_validate($form, &$form_state) {
   // If we are not during a confirm or this has happened right before.
   if (!isset($form_state['storage']['confirm']) && empty($form_state['confirm']['processed'])) {
-    $check_values = _multisite_newsroom_prepare_check($form_state['fields_form'], $form_state['input']);
+    $check_values = _nexteuropa_newsroom_prepare_check($form_state['fields_form'], $form_state['input']);
 
     // Check every topic instance if requested.
     if ($check_values['delete']['topic'] == 1) {
-      $test = _multisite_newsroom_check_deletion('topic', 'all');
+      $test = _nexteuropa_newsroom_check_deletion('topic', 'all');
     }
     // If there are less values than before, check instances.
     else {
       if (!empty($check_values['check']['topic'][0])) {
-        $test = _multisite_newsroom_check_deletion('topic', $check_values['check']['topic'][0]);
+        $test = _nexteuropa_newsroom_check_deletion('topic', $check_values['check']['topic'][0]);
       }
     }
 
     // Check every select instance if requested.
     if ($check_values['delete']['select'] == 1) {
-      $test = _multisite_newsroom_check_deletion('select', 'all');
+      $test = _nexteuropa_newsroom_check_deletion('select', 'all');
     }
     // If there are less values than before, check instances.
     else {
       if (!empty($check_values['check']['select'][0])) {
-        $test = _multisite_newsroom_check_deletion('select', $check_values['check']['select'][0]);
+        $test = _nexteuropa_newsroom_check_deletion('select', $check_values['check']['select'][0]);
       }
     }
     if (!empty($test)) {
@@ -344,7 +344,7 @@ function multisite_newsroom_admin_settings_form_validate($form, &$form_state) {
 /**
  * Submit handler for the newsroom admin form.
  */
-function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
+function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
   $multilingual = $form_state['values']['multilingual'] == 1 ? TRUE : FALSE;
   
   // Shouldn't be needed, it is a setting form.
@@ -369,7 +369,7 @@ function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
   if ($form_state['values']['multilingual'] != $form['newsroom_others']['multilingual']['#default_value']) {
     if ($multilingual) {
       // Make some fields translatable.
-      _multisite_newsroom_enable_translations();
+      _nexteuropa_newsroom_enable_translations();
     }
 
     $importer_id['items'] = $multilingual ? 'newsroom_items' : 'newsroom_items_multilingual';
@@ -381,12 +381,12 @@ function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
       $disabling[] = $importer;
       
       if ($multilingual) {
-        call_user_func('_multisite_newsroom_create_multilingual_' . $key . '_importer');
+        call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
       }
     }
 
     // Toggle the default importers.
-    _multisite_newsroom_disable_importer($disabled, $disabling);
+    _nexteuropa_newsroom_disable_importer($disabled, $disabling);
   }
 
   // If the validation returns the confirm request.
@@ -394,37 +394,37 @@ function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
     $form_state['rebuild'] = TRUE;
   }
   else {
-    $check_values = _multisite_newsroom_prepare_check($form_state['fields_form'], $form_state['values']);
+    $check_values = _nexteuropa_newsroom_prepare_check($form_state['fields_form'], $form_state['values']);
 
     // Remove every topic instance if requested.
     if ($check_values['delete']['topic'] == 1) {
-      _multisite_newsroom_remove_fields('topic', 'all');
+      _nexteuropa_newsroom_remove_fields('topic', 'all');
     }
     else {
       if (!empty($check_values['selected']['topic']) && !empty($check_values['check']['topic'][1])) {
         // Add new instances.
-        _multisite_newsroom_add_fields('topic', $check_values['check']['topic'][1]);
+        _nexteuropa_newsroom_add_fields('topic', $check_values['check']['topic'][1]);
       }
 
       elseif (!empty($check_values['check']['topic'][0])) {
         // Remove instances.
-        _multisite_newsroom_remove_fields('topic', $check_values['check']['topic'][0]);
+        _nexteuropa_newsroom_remove_fields('topic', $check_values['check']['topic'][0]);
       }
     }
 
     // Remove every select instance if requested.
     if ($check_values['delete']['select'] == 1) {
-      _multisite_newsroom_remove_fields('select', 'all');
+      _nexteuropa_newsroom_remove_fields('select', 'all');
     }
     else {
       if (!empty($check_values['selected']['select']) && !empty($check_values['check']['select'][1])) {
         // Add new instances.
-        _multisite_newsroom_add_fields('select', $check_values['check']['select'][1]);
+        _nexteuropa_newsroom_add_fields('select', $check_values['check']['select'][1]);
       }
 
       elseif (!empty($check_values['check']['select'][0])) {
         // Remove instances.
-        _multisite_newsroom_remove_fields('select', $check_values['check']['select'][0]);
+        _nexteuropa_newsroom_remove_fields('select', $check_values['check']['select'][0]);
       }
     }
 
@@ -435,7 +435,7 @@ function multisite_newsroom_admin_settings_form_submit($form, &$form_state) {
 /**
  * Run the importers
  */
-function multisite_newsroom_admin_settings_form_run_importers() {
+function nexteuropa_newsroom_admin_settings_form_run_importers() {
   $multilingual = variable_get('newsroom_multilingual') == 1 ? TRUE : FALSE;
   _newsroom_create_default_importers(NEWSROOM_URL . variable_get('newsroom_universe_id'), 'admin', url('admin/config/content/newsroom'), $multilingual);
 }
@@ -443,7 +443,7 @@ function multisite_newsroom_admin_settings_form_run_importers() {
 /**
  * Add a confirmation step if needed.
  */
-function _multisite_newsroom_delete_confirm($form, &$form_state) {
+function _nexteuropa_newsroom_delete_confirm($form, &$form_state) {
   $form_state['confirm']['processed'] = TRUE;
   $values = $form_state['confirm']['values'];
   $desc = '<div class="messages error"><h3>' . t('Part of the form has not been submitted yet. You have:') . '</h3></br><i>';
@@ -466,7 +466,7 @@ function _multisite_newsroom_delete_confirm($form, &$form_state) {
 /**
  * Implements hook_validate().
  */
-function multisite_newsroom_universe_id_validate($element, &$form_state) {
+function nexteuropa_newsroom_universe_id_validate($element, &$form_state) {
   if (!_newsroom_validate_universe($form_state['values']['newsroom_universe_id'])) {
     form_error($element, t('You must enter a valid Newsroom Universe ID.'));
   }

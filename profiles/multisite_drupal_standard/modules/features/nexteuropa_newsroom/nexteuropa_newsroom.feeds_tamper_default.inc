@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * multisite_newsroom.feeds_tamper_default.inc
+ * nexteuropa_newsroom.feeds_tamper_default.inc
  */
 
 /**
  * Implements hook_feeds_tamper_default().
  */
-function multisite_newsroom_feeds_tamper_default() {
+function nexteuropa_newsroom_feeds_tamper_default() {
   $export = array();
 
   $feeds_tamper = new stdClass();

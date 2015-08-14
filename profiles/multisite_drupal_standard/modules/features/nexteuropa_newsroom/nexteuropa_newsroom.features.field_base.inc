@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * multisite_newsroom.features.field_base.inc
+ * nexteuropa_newsroom.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function multisite_newsroom_field_default_field_bases() {
+function nexteuropa_newsroom_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'field_associated_newsroom_select'

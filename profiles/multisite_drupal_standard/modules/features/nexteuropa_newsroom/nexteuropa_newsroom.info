@@ -1,9 +1,9 @@
-name = Multisite Newsroom
+name = Nexteuropa Newsroom
 description = Integration with the Newsroom application
 core = 7.x
-package = Multisite features
+package = Nexteuropa features
 version = 7.x-2.0
-project = multisite_newsroom
+project = nexteuropa_newsroom
 dependencies[] = fe_nodequeue
 dependencies[] = fullcalendar_colors
 dependencies[] = geofield
@@ -13,13 +13,13 @@ dependencies[] = feeds_et
 dependencies[] = i18n_taxonomy
 dependencies[] = nexteuropa_multilingual
 configure = admin/config/content/newsroom
-feature_sets[multisite_newsroom][title] = Multisite newsroom
-feature_sets[multisite_newsroom][description] = Use the multisite newsroom to integrate your website with the corporate news service provided by DG connect, it will provide blocks with contextual news items selected basing on your own configuration of the newsroom. <a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/[FPFIS]+Newsroom+-+Documentation">Read documentation</a>
-feature_sets[multisite_newsroom][icon] = multisite_newsroom.png
-feature_sets[multisite_newsroom][enable][] = multisite_newsroom
-feature_sets[multisite_newsroom][disable][] = multisite_newsroom
-feature_sets[multisite_newsroom][uninstall][] = multisite_newsroom
-feature_sets[multisite_newsroom][category] = Communication
+feature_sets[nexteuropa_newsroom][title] = Nexteuropa newsroom
+feature_sets[nexteuropa_newsroom][description] = Use the nexteuropa newsroom to integrate your website with the corporate news service provided by DG connect, it will provide blocks with contextual news items selected basing on your own configuration of the newsroom. <a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/display/nexteuropa/[FPFIS]+Newsroom+-+Documentation">Read documentation</a>
+feature_sets[nexteuropa_newsroom][icon] = nexteuropa_newsroom.png
+feature_sets[nexteuropa_newsroom][enable][] = nexteuropa_newsroom
+feature_sets[nexteuropa_newsroom][disable][] = nexteuropa_newsroom
+feature_sets[nexteuropa_newsroom][uninstall][] = nexteuropa_newsroom
+feature_sets[nexteuropa_newsroom][category] = Communication
 features[context][] = newsroom
 features[context][] = newsroom_item
 features[context][] = newsroom_site_wide
@@ -249,5 +249,5 @@ features_exclude[dependencies][strongarm] = strongarm
 features_exclude[field_base][field_tags] = field_tags
 features_exclude[field_base][body] = body
 
-files[] = tests/multisite_newsroom.test
-multisite_version = 2.0
+files[] = tests/nexteuropa_newsroom.test
+nexteuropa_version = 2.0

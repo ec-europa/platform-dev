@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * multisite_newsroom.feeds_importer_default.inc
+ * nexteuropa_newsroom.feeds_importer_default.inc
  */
 
 /**
  * Implements hook_feeds_importer_default().
  */
-function multisite_newsroom_feeds_importer_default() {
+function nexteuropa_newsroom_feeds_importer_default() {
   $export = array();
 
   $feeds_importer = new stdClass();

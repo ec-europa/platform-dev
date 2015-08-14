@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * multisite_newsroom.context.inc
+ * nexteuropa_newsroom.context.inc
  */
 
 /**
  * Implements hook_context_default_contexts().
  */
-function multisite_newsroom_context_default_contexts() {
+function nexteuropa_newsroom_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();
