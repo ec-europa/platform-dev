@@ -879,28 +879,11 @@ function _multisite_newsroom_enable_translations() {
   // Enable translations for various fields.
   $field_names = array(
     'body',
-    'field_newsroom_item_other_link',
-    //'field_newsroom_documents',
-    'field_newsroom_item_contact_text',
-    'field_newsroom_item_contact_mail',
-    'field_newsroom_item_linked_obj',
-    'field_newsroom_item_pre_title',
-    'field_newsroom_item_quote_box',
-    'field_newsroom_item_short_title',
-    'field_newsroom_item_speaker',
-    'field_teaser',
-    'field_illustrative_image',
-    'field_newsroom_category_domain',
-    'field_service_type',
-    'field_newsroom_project',
   );
 
   foreach ($field_names as $field_name) {
     $field = field_read_field($field_name);
     if ($field) {
-      if ($field_name == 'field_illustrative_image') {
-        $field['cardinality'] = -1;
-      }
       // Make the field translatable.
       $field['translatable'] = 1;
       field_update_field($field);
