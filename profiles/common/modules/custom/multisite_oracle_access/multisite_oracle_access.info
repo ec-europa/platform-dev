@@ -1,6 +1,0 @@
-name = multisite_oracle_access
-description = allow connection to oracle databases via a fpfis dedicated service
-core = 7.x
-package = multisite drupal toolbox
-version = 7.x-1.0
-project = multisite_oracle_access
