@@ -1,5 +1,6 @@
 {
   "require": {
+    "pear/pear": "dev-master",
     "behat/behat": "dev-fix-verbose-option as 3.0.x-dev",
     "drupal/coder": "dev-NEXTEUROPA-4429",
     "drupal/drupal-driver": "dev-master#a1fa9cd8e6e",
