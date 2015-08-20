@@ -111,7 +111,6 @@ function _newsroom_newsroom_mapping(array &$item) {
   // Resolve the mapping for the original newsroom_type name;
   // If no mapping provided, keep the original name.
   _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_type_id', 'xpathparser:18', TRUE);
-  debug($item['xpathparser:18']);
   _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:33', TRUE);
   _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:34', TRUE);
   _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:36', TRUE);
@@ -1639,7 +1638,9 @@ function _newsroom_newsroom_item_importer($newsroom_id = 0, $delete = FALSE, $re
       }
     }
     else {
-      $url = $_newsroom_universe_url . variable_get('newsroom_single_item_import_segment', 'fullrss.cfm?item_id=') . $newsroom_id;
+      $multilingual = variable_get('newsroom_multilingual', FALSE);
+      $url_segment = $multilingual ? '-multilingual' : '';
+      $url = $_newsroom_universe_url . variable_get('newsroom_single_item_import_segment', 'fullrss' . $url_segment . '.cfm?item_id=') . $newsroom_id;
       _newsroom_run_newsroom_items_importer($url);
       $path = 'news-redirect/' . $newsroom_id;
       if ($reimport) {
@@ -1657,19 +1658,15 @@ function _newsroom_newsroom_item_importer($newsroom_id = 0, $delete = FALSE, $re
  *   URL to call.
  */
 function _newsroom_run_newsroom_items_importer($url) {
-  $source = feeds_source('newsroom_items');
-  $config = $source->getConfig();
-  // @TODO deal with the case if we don't have an item setup.
-  $additional_config = array(
-    'FeedsHTTPFetcher' => array(
-      'source' => $url
-      ,
-    ),
-  );
-  $source->setConfig(array_merge($config, $additional_config));
-  // Make sure we force the import of the item.
-  $processor_config = $source->importer->processor->getConfig();
-  $source->importer->processor->setConfig(array_merge($processor_config, $additional_config));
+  $multilingual = variable_get('newsroom_multilingual', FALSE);
+  $newsroom_importer_id = $multilingual ? 'newsroom_items_multilingual' : 'newsroom_items';
+
+  // Load the Feeds Source object.
+  $source = feeds_source($newsroom_importer_id);
+  // Load the source fetcher config.
+  $fetcher_config = $source->getConfigFor($source->importer->fetcher);
+  $fetcher_config['source'] = $url;
+  $source->setConfigFor($source->importer->fetcher, $fetcher_config);
   $source->import();
   $source->delete();
 }
