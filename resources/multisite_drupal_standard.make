@@ -351,6 +351,7 @@ projects[og][download][branch] = 7.x-2.x
 projects[og][download][revision] = fba6dda
 projects[og][download][type] = git
 projects[og][subdir] = "contrib"
+projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
