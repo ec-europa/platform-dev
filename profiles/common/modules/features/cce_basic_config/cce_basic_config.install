@@ -1547,7 +1547,6 @@ function cce_basic_config_update_7202() {
 }
 
 /**
-<<<<<<< HEAD:profiles/common/modules/features/cce_basic_config/cce_basic_config.install
  * Update the location of the Rate attachments.
  */
 function cce_basic_config_update_7203() {
