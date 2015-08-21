@@ -58,6 +58,7 @@ projects[quicktabs][patch][] = ../multisite_drupal_core/patches/quicktabs-tabs_b
 projects[quicktabs][patch][] = ../multisite_drupal_core/patches/quicktabs-user-interface-2108935-2.patch
 projects[quicktabs][patch][] = ../multisite_drupal_core/patches/quicktabs-ajax-default-tab-none_1741488-10.patch
 projects[og_linkchecker][patch][] = ../multisite_drupal_core/patches/og_linkchecker-001-og_linkchecker-og-2-x-compatibility-2214661-2.patch
+projects[og][patch][] = ../multisite_drupal_core/patches/og-og_field_access-bypass_field_access-5159.patch
 projects[rate][patch][] = ../multisite_drupal_core/patches/rate-translate_description-1178.patch
 projects[simplenews][patch][] = ../multisite_drupal_core/patches/simplenews-fieldset-weight-4330.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/standard-change_article_description-791.patch
