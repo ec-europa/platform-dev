@@ -1646,7 +1646,7 @@ function cce_basic_config_update_7207() {
 /**
  * NEXTEUROPA-4872: Fix media popup.
  */
-function cce_basic_config_update_7203() {
+function cce_basic_config_update_7208() {
   $admin_pages = variable_get('cce_basic_config_admin_pages', array());
 
   foreach ($admin_pages as $key => $value) {
