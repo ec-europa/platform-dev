@@ -50,18 +50,6 @@
         />
     </target>
 
-    <!-- Run PHP CodeSniffer tests. -->
-    <target name="php-codesniffer" description="Run a PHP CodeSniffer test.">
-        <phpcodesniffer
-            standard="${phpcs.standard}"
-            format="${phpcs.report}"
-            file="${phpcs.files}"
-            allowedFileExtensions="${phpcs.extensions}"
-            ignorePatterns="${phpcs.ignore}"
-            verbosity="${phpcs.verbose}"
-        />
-    </target>
-
     <!-- Set up Behat. -->
     <target name="setup-behat">
         <if>
