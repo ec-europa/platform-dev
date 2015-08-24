@@ -1644,7 +1644,6 @@ function cce_basic_config_update_7207() {
 }
 
 
-
 /**
  * MULTISITE-5882: use variables to define site who should use survey JS.
  */
@@ -1662,5 +1661,8 @@ function cce_basic_config_update_7208() {
     "eac-eyp",
     "rebuttal",
   );
-  variable_set('toolbox_survey_whitelist_js', $cce_basic_config_survey_whitelist_js);
+
+  if (in_array(basename(conf_path()), $cce_basic_config_survey_whitelist_js, TRUE)) {
+    variable_set('toolbox_survey_whitelist_js', TRUE);
+  }
 }
