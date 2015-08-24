@@ -847,7 +847,7 @@ function is_admin() {
  * Check if current theme is ec_default theme.
  */
 function multisite_drupal_toolbox_cce_theme() {
-  return variable_get('theme_default', 'ec_default');
+  return variable_get('theme_default', 'ec_resp');
 }
 
 /**
@@ -1497,28 +1497,18 @@ function multisite_drupal_toolbox_modules_installed($modules) {
  */
 function multisite_drupal_toolbox_library_alter(&$javascript, $module) {
 
-  // Use jquery 1.10 for specific admin pages.
-  if (module_exists('jquery_update')) {
+  global $theme;
 
-    $list_pages = variable_get('cce_basic_config_admin_pages', array());
+  // Use jquery 1.10 when ec_resp is used.
+  if (module_exists('jquery_update') && $theme === multisite_drupal_toolbox_cce_theme()) {
 
     $path = drupal_get_path('module', 'jquery_update');
     $version = variable_get('jquery_update_jquery_version', '1.10');
-    $admin_version = variable_get('jquery_update_jquery_admin_version', '');
 
     $min = variable_get('jquery_update_compression_type', 'min') == 'none' ? '' : '.min';
     $cdn = variable_get('jquery_update_jquery_cdn', 'none');
 
-    $current_path = current_path();
-
-    $list_pages = variable_get('cce_basic_config_admin_pages', array());
-    foreach ($list_pages as $page) {
-      if (strpos($current_path, $page) === 0) {
-        if (version_compare($version, $admin_version, '!=')) {
-          jquery_update_jquery_replace($javascript, $cdn, $path, $min, $version);
-        }
-      }
-    }
+    jquery_update_jquery_replace($javascript, $cdn, $path, $min, $version);
   }
 }
 
