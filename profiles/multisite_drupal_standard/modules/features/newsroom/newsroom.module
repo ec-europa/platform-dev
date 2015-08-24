@@ -3054,7 +3054,6 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
   // TODO : find a better way to remove translation.
   $languages = language_list();
   $def_lang = language_default()->language;
-  debug($source);
 
   // Try to remove disabled translations, check the title for translation.
   foreach($languages as $language) {
@@ -3077,12 +3076,16 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
           $handler->removeTranslation($language->language);
           field_attach_presave('node', $entity);
           field_attach_update('node', $entity);
+          
+          // It is necessary to clean the cache
+          // to remove the translation completely.
+          cache_clear_all($entity_id, 'cache_entity_node');
         }
       }
       
     }
   }
-  
+
   // Get the files if it excists and set the values from the xpath parser
   // for these fields.
   if (isset($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']) && !empty($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid'])) {
