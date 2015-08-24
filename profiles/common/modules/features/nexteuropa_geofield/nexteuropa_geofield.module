@@ -1,0 +1,193 @@
+<?php
+/**
+ * @file
+ * Code for the NextEuropa GeoField feature.
+ */
+
+/**
+ * Implements hook_field_schema().
+ */
+function nexteuropa_geofield_field_schema($field) {
+  $schema = array();
+
+  switch ($field['type']) {
+    case 'geofield_geojson':
+      $schema['columns']['geofield_geojson'] = array (
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+      );
+      break;
+  }
+  return $schema;
+}
+
+/**
+ * Implements hook_field_info().
+ */
+function nexteuropa_geofield_field_info() {
+  return array (
+    'geofield_geojson' => array (
+      'label' => t('Geofield geoJSON'),
+      'description' => t('Interactive map to manage geo data.'),
+      'default_widget' => 'geofield_widget_map',
+      'default_formatter' => 'geofield_geojson_map_format',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function nexteuropa_geofield_field_widget_info() {
+  return array(
+    'geofield_widget_map' => array(
+      'label' => t('Interactive map'),
+      'field types' => array('geofield_geojson'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $widget = $element;
+  $widget['#delta'] = $delta;
+  $value = isset($items[$delta]) ? $items[$delta] : '';
+
+  switch ($instance['widget']['type']) {
+    case 'geofield_widget_map':
+      $element ['geojson_map'] = array(
+        '#type' => 'item',
+        '#title' => t('Map'),
+        '#markup' => '<div id="geofield_geojson_map"></div><div id="geofield_geojson_map_wrapper"></div>',
+      );
+
+      $element ['geojson_map']['#attached']['js'] = array(
+        libraries_get_path('leaflet') . '/leaflet-src.js',
+        libraries_get_path('Leaflet.draw') . '/dist/leaflet.draw-src.js',
+        drupal_get_path('module', 'nexteuropa_geofield') . '/js/nexteuropa_geofield.edit.js',
+      );
+      $element ['geojson_map']['#attached']['css'] = array(
+        libraries_get_path('leaflet') . '/leaflet.css',
+        drupal_get_path('module', 'nexteuropa_geofield') . '/css/nexteuropa_geofield.css',
+        libraries_get_path('Leaflet.draw') . '/dist/leaflet.draw.css',
+      );
+      $element ['geofield_geojson'] = array(
+        '#type' => 'textarea',
+        '#default_value' => isset($value['geofield_geojson']) ? $value['geofield_geojson'] : '',
+        '#prefix' => '<div class="hide">',
+        '#suffix' => '</div>',
+      );
+      drupal_add_js(array('nexteuropa_geojson' => array('map' => isset($value['geofield_geojson']) ? $value['geofield_geojson']  : '' )), 'setting');
+      break;
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_widget_settings_form().
+ */
+function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
+  $widget = $instance['widget'];
+  $value = $widget['settings'];
+
+  if ($widget['type'] == 'geofield_widget_map') {
+    $element['fs_default_map_center'] = array(
+      '#type' => 'fieldset',
+      '#collapsed' => FALSE,
+      '#title' => t('Default map center'),
+    );
+    $element['fs_default_map_center']['lng'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Longitude'),
+      '#default_value' => isset($value['fs_default_map_center']['lng']) ? $value['fs_default_map_center']['lng'] : 0,
+      '#size' => 30,
+      '#maxlength' => 30,
+    );
+    $element['fs_default_map_center']['lat'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Latitude'),
+      '#default_value' => isset($value['fs_default_map_center']['lat']) ? $value['fs_default_map_center']['lat'] : 0,
+      '#size' => 30,
+      '#maxlength' => 30,
+    );
+    $element['fs_objects'] = array(
+      '#type' => 'fieldset',
+      '#collapsed' => FALSE,
+      '#title' => t('Map objects'),
+    );
+    $element['fs_objects']['objects'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Allowed objects'),
+      '#default_value' => isset($value['fs_objects']['objects']) ? $value['fs_objects']['objects'] : array(),
+      //'#options' => drupal_map_assoc(array(t('polygon'), t('rectangle'), t('circle'), t('marker'), t('polyline'))),
+      '#options' => drupal_map_assoc(array(t('polygon'), t('rectangle'), t('marker'), t('polyline'))),
+      '#description' => t('Select the map objects that can be put on the map.'),
+    );
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function nexteuropa_geofield_field_formatter_info() {
+  return array(
+    'geofield_geojson_map_format' => array(
+      'label' => t('Interactive map'),
+      'field types' => array('geofield_geojson'),
+    ),
+    'geofield_geojson_raw' => array(
+      'label' => t('geoJson data'),
+      'field types' => array('geofield_geojson'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function nexteuropa_geofield_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  switch ($display['type']) {
+    case 'geofield_geojson_raw':
+      $element[0] = array(
+        '#type' => 'html_tag',
+        '#tag' => 'div',
+        '#attributes' => array(
+          'id' => 'geofield_geojson_raw',
+        ),
+        '#value' => isset($items[0]['geofield_geojson']) ? $items[0]['geofield_geojson'] : '',
+      );
+      break;
+    case 'geofield_geojson_map_format':
+      $value = isset($items[0]['geofield_geojson']) ? $items[0]['geofield_geojson'] : '';
+      $element [0] = array(
+        '#type' => 'markup',
+        '#markup' => '<div id="geofield_geojson_map"></div><div id="geofield_geojson_map_wrapper"></div>',
+      );
+      $element [0]['#attached']['js'][0] = array('type' => 'file', 'data' => libraries_get_path('leaflet') . '/leaflet-src.js', 'weight' => '-1');
+      $element [0]['#attached']['js'][1] = libraries_get_path('Leaflet.draw') . '/dist/leaflet.draw-src.js';
+      $element [0]['#attached']['js'][2] = drupal_get_path('module', 'nexteuropa_geofield') . '/js/nexteuropa_geofield.view.js';
+
+      $element [0]['#attached']['css'] = array(
+        libraries_get_path('leaflet') . '/leaflet.css',
+        drupal_get_path('module', 'nexteuropa_geofield') . '/css/nexteuropa_geofield.css',
+        libraries_get_path('Leaflet.draw') . '/dist/leaflet.draw.css',
+      );
+      drupal_add_js(array('nexteuropa_geojson' => array('map' => $value)), 'setting');
+      break;
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function nexteuropa_geofield_field_is_empty($item, $field) {
+  return empty($item['geofield_geojson']);
+}
+

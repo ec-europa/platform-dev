@@ -1,0 +1,33 @@
+#geofield_geojson_map {
+  height: 300px;
+}
+
+.leaflet_label_wrapper {
+   filter: alpha(opacity = 25);
+    -webkit-transition: opacity 0.5s ease-in-out;
+    -moz-transition: opacity 0.5s ease-in-out;
+    -o-transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/*#map_wrapper .leaflet-draw-edit-remove {*/
+#map_wrapper .remove-label {
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+  color: #000;
+}
+
+#map_wrapper .leaflet_label_wrapper {
+  border: 1px solid #eee;
+  padding: 2px;
+  margin: 1px;
+  box-shadow: none;
+  border-radius: none;
+}
+
+.leaflet_label {
+  margin-right: 3px;
+}
+
