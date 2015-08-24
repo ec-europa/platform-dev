@@ -72,23 +72,23 @@ function newsroom_feeds_plugins() {
 function newsroom_feeds_after_parse(FeedsSource $source, FeedsParserResult $result) {
   if ($source->id == 'newsroom_items') {
     foreach ($result->items as $id => &$item) {
-      _newsroom_newsroom_mapping($item);
+      _newsroom_mapping($item);
     }
   }
   if ($source->id == 'newsroom_services') {
     foreach ($result->items as $id => &$item) {
-      _newsroom_newsroom_services_mapping($item);
+      _newsroom_services_mapping($item);
     }
   }
 
   if ($source->id == 'newsroom_type') {
     foreach ($result->items as $id => &$item) {
-      _newsroom_newsroom_types_mapping($item);
+      _newsroom_types_mapping($item);
     }
   }
   if ($source->id == 'newsroom_topics') {
     foreach ($result->items as $id => &$item) {
-      _newsroom_newsroom_topics_mapping($item);
+      _newsroom_topics_mapping($item);
     }
   }
 }
@@ -99,7 +99,7 @@ function newsroom_feeds_after_parse(FeedsSource $source, FeedsParserResult $resu
  * @param array $item
  *   Item entity.
  */
-function _newsroom_newsroom_mapping(array &$item) {
+function _newsroom_mapping(array &$item) {
   // If no end date specified , provide the start date to prevent.
   // Feeds to use now() as the end date.
   if (!isset($item['xpathparser:9'])) {
@@ -110,11 +110,11 @@ function _newsroom_newsroom_mapping(array &$item) {
   }
   // Resolve the mapping for the original newsroom_type name;
   // If no mapping provided, keep the original name.
-  _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_type_id', 'xpathparser:18', TRUE);
-  _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:33', TRUE);
-  _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:34', TRUE);
-  _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:36', TRUE);
-  _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:41', TRUE);
+  _newsroom_mapping_xpath($item, 'field_newsroom_type_id', 'xpathparser:18', TRUE);
+  _newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:33', TRUE);
+  _newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:34', TRUE);
+  _newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:36', TRUE);
+  _newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:41', TRUE);
 }
 
 /**
@@ -123,10 +123,10 @@ function _newsroom_newsroom_mapping(array &$item) {
  * @param array $item
  *   Item entity.
  */
-function _newsroom_newsroom_services_mapping(array &$item) {
+function _newsroom_services_mapping(array &$item) {
   // Resolve the mapping for the chapters
   // If the Chapter ID doesn't map, leave it empty.
-  _newsroom_newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:3');
+  _newsroom_mapping_xpath($item, 'field_newsroom_topic_id', 'xpathparser:3');
 }
 
 /**
@@ -135,7 +135,7 @@ function _newsroom_newsroom_services_mapping(array &$item) {
  * @param array $item
  *   Item array.
  */
-function _newsroom_newsroom_types_mapping(array &$item) {
+function _newsroom_types_mapping(array &$item) {
   if (!isset($item['xpathparser:4'])) {
     // Set parent to '0' if no match.
     $item['xpathparser:4'] = 0;
@@ -148,7 +148,7 @@ function _newsroom_newsroom_types_mapping(array &$item) {
  * @param array $item
  *   Item array.
  */
-function _newsroom_newsroom_topics_mapping(array &$item) {
+function _newsroom_topics_mapping(array &$item) {
   if (!isset($item['xpathparser:4'])) {
     // Set parent to '0' if no match.
     $item['xpathparser:4'] = 0;
@@ -167,7 +167,7 @@ function _newsroom_newsroom_topics_mapping(array &$item) {
  * @param bool $reset
  *   If set to TRUE, will return an empty string if no mapping found.
  */
-function _newsroom_newsroom_mapping_xpath(array &$item, $field_name, $item_xpath, $reset = TRUE) {
+function _newsroom_mapping_xpath(array &$item, $field_name, $item_xpath, $reset = TRUE) {
   if (isset($item[$item_xpath])) {
     $newsroom_import_name = $item[$item_xpath];
     $item[$item_xpath] = _newsroom_technical_fields_to_tid($field_name, $newsroom_import_name, $reset);
@@ -1560,55 +1560,79 @@ function newsroom_permission() {
 function newsroom_menu() {
   $items['news-redirect'] = array(
     'title' => 'Newsroom Item Redirect',
-    'page callback' => '_newsroom_newsroom_item_redirect',
+    'page callback' => '_newsroom_item_redirect',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
   $items['news-topic-redirect'] = array(
     'title' => 'Newsroom Item Topic Redirect',
-    'page callback' => '_newsroom_newsroom_item_topic_redirect',
+    'page callback' => '_newsroom_topic_redirect',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
   $items['news-type-redirect'] = array(
     'title' => 'Newsroom Item Type Redirect',
-    'page callback' => '_newsroom_newsroom_item_type_redirect',
+    'page callback' => '_newsroom_type_redirect',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['news-service-redirect'] = array(
+    'title' => 'Newsroom Item Service Redirect',
+    'page callback' => '_newsroom_service_redirect',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
   $items['news-import'] = array(
     'title' => 'Newsroom Item Import',
-    'page callback' => '_newsroom_newsroom_item_import',
-    'access callback' => '_newsroom_newsroom_item_import_access',
+    'page callback' => '_newsroom_item_import',
+    'access callback' => '_newsroom_item_import_access',
     'type' => MENU_CALLBACK,
   );
   $items['news-topic-import'] = array(
     'title' => 'Newsroom Topic Import',
-    'page callback' => '_newsroom_newsroom_topic_import',
-    'access callback' => '_newsroom_newsroom_item_import_access',
+    'page callback' => '_newsroom_topic_import',
+    'access callback' => '_newsroom_item_import_access',
     'type' => MENU_CALLBACK,
   );
   $items['news-type-import'] = array(
     'title' => 'Newsroom Type Import',
-    'page callback' => '_newsroom_newsroom_type_import',
-    'access callback' => '_newsroom_newsroom_item_import_access',
+    'page callback' => '_newsroom_type_import',
+    'access callback' => '_newsroom_item_import_access',
     'type' => MENU_CALLBACK,
   );
   $items['news-service-import'] = array(
     'title' => 'Newsroom Service Import',
-    'page callback' => '_newsroom_newsroom_service_import',
-    'access callback' => '_newsroom_newsroom_item_import_access',
+    'page callback' => '_newsroom_service_import',
+    'access callback' => '_newsroom_item_import_access',
     'type' => MENU_CALLBACK,
   );
   $items['news-delete'] = array(
     'title' => 'Newsroom Item Delete',
-    'page callback' => '_newsroom_newsroom_item_delete',
-    'access callback' => '_newsroom_newsroom_item_import_access',
+    'page callback' => '_newsroom_item_delete',
+    'access callback' => '_newsroom_item_import_access',
+    'type' => MENU_CALLBACK,
+  );
+  $items['news-topic-delete'] = array(
+    'title' => 'Newsroom Topic Delete',
+    'page callback' => '_newsroom_topic_delete',
+    'access callback' => '_newsroom_item_import_access',
+    'type' => MENU_CALLBACK,
+  );
+  $items['news-type-delete'] = array(
+    'title' => 'Newsroom Type Delete',
+    'page callback' => '_newsroom_type_delete',
+    'access callback' => '_newsroom_item_import_access',
+    'type' => MENU_CALLBACK,
+  );
+  $items['news-service-delete'] = array(
+    'title' => 'Newsroom Service Delete',
+    'page callback' => '_newsroom_service_delete',
+    'access callback' => '_newsroom_item_import_access',
     'type' => MENU_CALLBACK,
   );
   $items['news-dispatcher'] = array(
     'title' => 'Newsroom Item Redirect',
-    'page callback' => '_newsroom_newsroom_redirect',
+    'page callback' => '_newsroom_redirect',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
@@ -1625,83 +1649,84 @@ function newsroom_menu() {
 /**
  * Controls access to page based on IP (newsroom server) and role.
  */
-function _newsroom_newsroom_item_import_access() {
+function _newsroom_item_import_access() {
   $allowed_ips = array_map('trim', explode(',', variable_get('newsroom_allowed_ips')));
   return user_access('import newsroom feeds') ? TRUE : in_array(ip_address(), $allowed_ips);
 }
 
 /**
- * Imports or deletes a single news item based on the original newsroom ID.
+ * Imports or deletes a single taxonomy term item based on real newsroom ID.
  */
-function _newsroom_newsroom_topic_importer($topic_id = 0, $delete = FALSE, $reimport = FALSE) {
-  global $_newsroom_universe_url;
+function _newsroom_taxonomy_term_importer($field_title, $redirect_path, $field_name, $url, $importer_id, $tid = 0, $delete = FALSE, $reimport = FALSE) {
 
-  if ($topic_id == 0) {
+  if ($tid == 0) {
     drupal_not_found();
+    drupal_exit();
   }
-  else {
-    if ($delete) {
-      $topic = _newsroom_technical_fields_to_tid('field_newsroom_topic_id', $topic_id);
-      if ($topic) {
-        taxonomy_term_delete($topic[0]);
-        $message = t('Newsroom Topic tid: %1 deleted', array('%1' => implode(', ', $nids_to_delete)));
-        watchdog('newsroom', $message);
-        drupal_set_message($message);
-        return '';
-      }
-      else {
-        drupal_not_found();
-        drupal_exit();
-      }
+  
+  if ($delete) {
+    $terms = _newsroom_technical_fields_to_tid($field_name, $tid);
+    if ($terms) {
+      taxonomy_term_delete($terms[0]);
+      $message = t('Newsroom %2 tid: %1 deleted', array('%1' => implode(', ', $terms), '%2' => $field_title));
+      watchdog('newsroom', $message);
+      drupal_set_message($message);
+      return '';
     }
     else {
-      $url = $_newsroom_universe_url . variable_get('newsroom_single_item_import_segment', 'fullrss.cfm?item_id=') . $topic_id;
-      _newsroom_run_newsroom_items_importer($url);
-      $path = 'news-topic-redirect/' . $topic_id;
-      if ($reimport) {
-        drupal_goto($path);
-      }
-      return l(t('Go to Newsroom Topic'), $path);
+      drupal_not_found();
+      drupal_exit();
     }
   }
+  else {
+    _newsroom_run_importer($url, $importer_id);
+    $path = $redirect_path . '/' . $tid;
+    if ($reimport) {
+      drupal_goto($path);
+    }
+    return l(t('Go to Newsroom @field_title', array('@field_title' => $field_title)), $path);
+  }   
 }
 
 /**
  * Imports or deletes a single news item based on the original newsroom ID.
  */
-function _newsroom_newsroom_item_importer($newsroom_id = 0, $delete = FALSE, $reimport = FALSE) {
+function _newsroom_item_importer($newsroom_id = 0, $delete = FALSE, $reimport = FALSE) {
   global $_newsroom_universe_url;
 
   if ($newsroom_id == 0) {
     drupal_not_found();
+    drupal_exit();
   }
-  else {
-    if ($delete) {
-      $newsroom_item = _newsroom_get_newsroom_item_by_id($newsroom_id);
-      if ($newsroom_item) {
-        $nids_to_delete = array_keys($newsroom_item);
-        node_delete_multiple($nids_to_delete);
-        $message = t('Newsroom Item nid: %1 deleted', array('%1' => implode(', ', $nids_to_delete)));
-        watchdog('newsroom', $message);
-        drupal_set_message($message);
-        return '';
-      }
-      else {
-        drupal_not_found();
-        drupal_exit();
-      }
+
+  if ($delete) {
+    $newsroom_item = _newsroom_get_newsroom_item_by_id($newsroom_id);
+    if ($newsroom_item) {
+      $nids_to_delete = array_keys($newsroom_item);
+      node_delete_multiple($nids_to_delete);
+      $message = t('Newsroom Item nid: %1 deleted', array('%1' => implode(', ', $nids_to_delete)));
+      watchdog('newsroom', $message);
+      drupal_set_message($message);
+      return '';
     }
     else {
-      $multilingual = variable_get('newsroom_multilingual', FALSE);
-      $url_segment = $multilingual ? '-multilingual' : '';
-      $url = $_newsroom_universe_url . variable_get('newsroom_single_item_import_segment', 'fullrss' . $url_segment . '.cfm?item_id=') . $newsroom_id;
-      _newsroom_run_newsroom_items_importer($url);
-      $path = 'news-redirect/' . $newsroom_id;
-      if ($reimport) {
-        drupal_goto($path);
-      }
-      return l(t('Go to Newsroom Item'), $path);
+      drupal_not_found();
+      drupal_exit();
     }
+  }
+  else {
+    // Prepare URLs for importers and get feed importer ID.
+    $multilingual = variable_get('newsroom_multilingual', FALSE);
+    $url_segment = $multilingual ? '-multilingual' : '';
+    $url = $_newsroom_universe_url . variable_get('newsroom_single_item_import_segment', 'fullrss' . $url_segment . '.cfm?item_id=') . $newsroom_id;
+    $newsroom_importer_id = $multilingual ? 'newsroom_items_multilingual' : 'newsroom_items';
+
+    _newsroom_run_importer($url, $newsroom_importer_id);
+    $path = 'news-redirect/' . $newsroom_id;
+    if ($reimport) {
+      drupal_goto($path);
+    }
+    return l(t('Go to Newsroom Item'), $path);
   }
 }
 
@@ -1711,12 +1736,9 @@ function _newsroom_newsroom_item_importer($newsroom_id = 0, $delete = FALSE, $re
  * @param string $url
  *   URL to call.
  */
-function _newsroom_run_newsroom_items_importer($url) {
-  $multilingual = variable_get('newsroom_multilingual', FALSE);
-  $newsroom_importer_id = $multilingual ? 'newsroom_items_multilingual' : 'newsroom_items';
-
+function _newsroom_run_importer($url, $importer_id) {
   // Load the Feeds Source object.
-  $source = feeds_source($newsroom_importer_id);
+  $source = feeds_source($importer_id);
   $config = $source->getConfig();
   // @TODO deal with the case if we don't have an item setup.
   $additional_config = array(
@@ -1757,44 +1779,207 @@ function _newsroom_get_newsroom_item_by_id($newsroom_id = 0) {
 }
 
 /**
- * Shortcut to delete a Newsroom Item.
+ * Shortcut to delete a Newsroom Type.
+ *
+ * @param int $type_id
+ *   Original type id.
+ *
+ * @return string
+ *   Message.
  */
-function _newsroom_newsroom_item_delete($newsroom_id = 0) {
-  return _newsroom_newsroom_item_importer($newsroom_id, TRUE);
+function _newsroom_type_delete($type_id = 0) {
+  return _newsroom_type_importer($type_id, TRUE);
+}
+
+/**
+ * Shortcut to delete a Newsroom Type.
+ *
+ * @param int $type_id
+ *   Original type id.
+ * @param bool $reimport
+ *   Redirect to newsroom page or display message.
+ *
+ * @return string
+ *   Message.
+ */
+function _newsroom_type_import($type_id = 0, $reimport = NULL) {
+  return _newsroom_type_importer($type_id, FALSE, $reimport == 'reimport');
+}
+
+/**
+ * Calls general method to import taxonomy term with params for newsroom type.
+ *
+ * @param int $type_id
+ *   Original type id.
+ * @param bool $delete
+ *   Defines delete or import item.
+ * @param bool $reimport
+ *   redirect to newsroom page or display message.
+ *
+ * @return string
+ *   Message
+ */
+function _newsroom_type_importer($type_id, $delete = FALSE, $reimport = FALSE) {
+  global $_newsroom_universe_url;
+  
+  $multilingual = variable_get('newsroom_multilingual', FALSE);
+  $url_segment = $multilingual ? '-multilingual' : '';
+  $url = $_newsroom_universe_url . variable_get('newsroom_single_type_import_segment', 'rss-item-type' . $url_segment . '.cfm?item_type_id=') . $type_id;
+  $importer_id = $multilingual ? 'newsroom_types_multilingual' : 'newsroom_type';
+
+  return _newsroom_taxonomy_term_importer('Type', 'news-type-redirect', 'field_newsroom_type_id', $url, $importer_id, $type_id, $delete, $reimport);
+}
+
+/**
+ * Shortcut to delete a Newsroom Service.
+ *
+ * @param int $service_id
+ *   Original service id.
+ *
+ * @return string
+ *   Message
+ */
+function _newsroom_service_delete($service_id = 0) {
+  return _newsroom_service_importer($service_id, TRUE);
+}
+
+/**
+ * Shortcut to delete a Newsroom Service.
+ * 
+ * @param int $service_id
+ *   Service taxonomy term id.
+ * @param bool $reimport
+ *   Redirect to newsroom page or display message.
+ *
+ * @return string
+ *   Message.
+ */
+function _newsroom_service_import($service_id = 0, $reimport = NULL) {
+  return _newsroom_service_importer($service_id, FALSE, $reimport == 'reimport');
+}
+
+/**
+ * Calls general method to import taxonomy term with params for newsroom service.
+ *
+ * @param int $service_id
+ *   Original service id.
+ * @param bool $delete
+ *   Defines delete or import item.
+ * @param bool $reimport
+ *   Redirect to newsroom page or display message.
+ *
+ * @return string
+ *   Message.
+ */
+function _newsroom_service_importer($service_id, $delete = FALSE, $reimport = FALSE) {
+  global $_newsroom_universe_url;
+
+  $multilingual = variable_get('newsroom_multilingual', FALSE);
+  $url_segment = $multilingual ? '-multilingual' : '';
+  $url = $_newsroom_universe_url . variable_get('newsroom_single_service_import_segment', 'rss-service' . $url_segment . '.cfm?service_id=') . $service_id;
+  $importer_id = $multilingual ? 'newsroom_services_multilingual' : 'newsroom_services';
+
+  return _newsroom_taxonomy_term_importer('Service', 'news-service-redirect', 'field_newsroom_service_id', $url, $importer_id, $service_id, $delete, $reimport);
+}
+
+/**
+ * Shortcut to delete a Newsroom Topic.
+ *
+ * @param int $topic_id
+ *   Original topic id.
+ *
+ * @return string
+ *   Message.
+ */
+function _newsroom_topic_delete($topic_id = 0) {
+  return _newsroom_topic_importer($topic_id, TRUE);
+}
+
+/**
+ * Shortcut to delete a Newsroom Topic.
+ *
+ * @param type $topic_id
+ *   Original topic id.
+ * @param bool $reimport
+ *   Redirect to newsroom page or display message.
+ *
+ * @return string
+ *   Message.
+ */
+function _newsroom_topic_import($topic_id = 0, $reimport = NULL) {
+  return _newsroom_topic_importer($topic_id, FALSE, $reimport == 'reimport');
+}
+
+/**
+ * Calls general method to import taxonomy term with params for newsroom topic.
+ *
+ * @param int $topic_id
+ *   Original topic id.
+ * @param bool $delete
+ *   Defines delete or import item.
+ * @param bool $reimport
+ *   Redirect to newsroom page or display message.
+ *
+ * @return string
+ *   Message
+ */
+function _newsroom_topic_importer($topic_id, $delete = FALSE, $reimport = FALSE) {
+  global $_newsroom_universe_url;
+  
+  $multilingual = variable_get('newsroom_multilingual', FALSE);
+  $url_segment = $multilingual ? '-multilingual' : '';
+  $url = $_newsroom_universe_url . variable_get('newsroom_single_topic_import_segment', 'rss-service' . $url_segment . '.cfm?topic_id=') . $topic_id;
+  $importer_id = $multilingual ? 'newsroom_topics_multilingual' : 'newsroom_topics';
+
+  return _newsroom_taxonomy_term_importer('Topic', 'news-topic-redirect', 'field_newsroom_topic_id', $url, $importer_id, $topic_id, $delete, $reimport);
 }
 
 /**
  * Shortcut to delete a Newsroom Item.
  */
-function _newsroom_newsroom_item_import($newsroom_id = 0, $reimport = NULL) {
-  return _newsroom_newsroom_item_importer($newsroom_id, FALSE, $reimport == 'reimport');
+function _newsroom_item_delete($newsroom_id = 0) {
+  return _newsroom_item_importer($newsroom_id, TRUE);
+}
+
+/**
+ * Shortcut to import a Newsroom Item.
+ */
+function _newsroom_item_import($newsroom_id = 0, $reimport = NULL) {
+  return _newsroom_item_importer($newsroom_id, FALSE, $reimport == 'reimport');
 }
 
 /**
  * Redirects to the Newsroom Item. With the Original Newsroom ID.
  */
-function _newsroom_newsroom_item_redirect($newsroom_id = 0) {
-  return _newsroom_newsroom_redirect('item', $newsroom_id);
+function _newsroom_item_redirect($newsroom_id = 0) {
+  return _newsroom_redirect('item', $newsroom_id);
 }
 
 /**
  * Redirects to the Newsroom Item Topic. With the Original Newsroom Topic ID.
  */
-function _newsroom_newsroom_item_topic_redirect($topic_id = 0) {
-  return _newsroom_newsroom_redirect('topic', $topic_id);
+function _newsroom_topic_redirect($topic_id = 0) {
+  return _newsroom_redirect('topic', $topic_id);
 }
 
 /**
  * Redirects to the Newsroom Item Type. With the Original Newsroom Type ID.
  */
-function _newsroom_newsroom_item_type_redirect($type_id = 0) {
-  return _newsroom_newsroom_redirect('type', $type_id);
+function _newsroom_type_redirect($type_id = 0) {
+  return _newsroom_redirect('type', $type_id);
+}
+
+/**
+ * Redirects to the Newsroom Service. With the Original Newsroom Service ID.
+ */
+function _newsroom_service_redirect($service_id = 0) {
+  return _newsroom_redirect('service', $service_id);
 }
 
 /**
  * Redirects to the Newsroom Item with the Original Newsroom ID.
  */
-function _newsroom_newsroom_redirect($redirect_type = 'item', $param_1 = 0, $param_2 = 0) {
+function _newsroom_redirect($redirect_type = 'item', $param_1 = 0, $param_2 = 0) {
   if (!$param_1) {
     drupal_not_found();
   }
@@ -1838,6 +2023,18 @@ function _newsroom_newsroom_redirect($redirect_type = 'item', $param_1 = 0, $par
         $type_term = taxonomy_term_load($type[0]);
         $topic_term = taxonomy_term_load($topic[0]);
         $path = 'newsroom/' . pathauto_cleanstring($type_term->name) . '/' . pathauto_cleanstring($topic_term->name);
+      }
+      break;
+      
+    // Newsroom service.
+    case 'service':
+      $service = _newsroom_technical_fields_to_tid('field_newsroom_service_id', $param_1);
+
+      if ($service) {
+        $taxonomy_term = taxonomy_term_load($service[0]);
+        if ($taxonomy_term) {
+          $path = 'taxonomy/term/' . $taxonomy_term->tid;
+        }
       }
       break;
   }
@@ -1912,7 +2109,7 @@ function newsroom_views_pre_render(&$view) {
       $view->build_info['title'] = isset($view->display[$view->current_display]->display_options['title']) ? $view->display[$view->current_display]->display_options['title'] : $view->display['default']->display_options['title'];
     }
 
-    // Iclude rendered entity from settings.
+    // Include rendered entity from settings.
     if (isset($view->header['entity']) && isset($view->header['entity']->options['ui_name']) && $view->header['entity']->options['ui_name'] == 'embedded_node') {
       $patterns = trim(variable_get('newsroom_embedded_node_patterns', ''));
       $patterns = explode("\n", $patterns);

@@ -214,10 +214,16 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#default_value' => variable_get('newsroom_single_topic_import_segment', 'rss-service-multilingual.cfm?topic_id='),
   );
   
-  $form['newsroom_universe']['newsroom_single_item_import_segment'] = array(
+  $form['newsroom_universe']['newsroom_single_type_import_segment'] = array(
     '#type' => 'textfield',
-    '#title' => t('URL chunk for single item import'),
-    '#default_value' => variable_get('newsroom_single_item_import_segment', 'rss-service-multilingual.cfm?item_id='),
+    '#title' => t('URL chunk for single type import'),
+    '#default_value' => variable_get('newsroom_single_type_import_segment', 'rss-item-type-multilingual.cfm?item_type_id='),
+  );
+  
+  $form['newsroom_universe']['newsroom_single_service_import_segment'] = array(
+    '#type' => 'textfield',
+    '#title' => t('URL chunk for single service import'),
+    '#default_value' => variable_get('newsroom_single_service_import_segment', 'rss-service-multilingual.cfm?service_id='),
   );
 
   $form['newsroom_universe']['newsroom_single_item_edit_segment'] = array(
