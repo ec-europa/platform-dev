@@ -536,7 +536,7 @@ function _nexteuropa_newsroom_create_multilingual_services_importer() {
         'mappings' => $importer_values['mapping'],
         'update_existing' => '2',
         'input_format' => 'plain_text',
-        'skip_hash_check' => 0,
+        'skip_hash_check' => 1,
         'bundle' => 'newsroom_service',
       ),
     ),
