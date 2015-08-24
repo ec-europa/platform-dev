@@ -1582,6 +1582,24 @@ function newsroom_menu() {
     'access callback' => '_newsroom_newsroom_item_import_access',
     'type' => MENU_CALLBACK,
   );
+  $items['news-topic-import'] = array(
+    'title' => 'Newsroom Topic Import',
+    'page callback' => '_newsroom_newsroom_topic_import',
+    'access callback' => '_newsroom_newsroom_item_import_access',
+    'type' => MENU_CALLBACK,
+  );
+  $items['news-type-import'] = array(
+    'title' => 'Newsroom Type Import',
+    'page callback' => '_newsroom_newsroom_type_import',
+    'access callback' => '_newsroom_newsroom_item_import_access',
+    'type' => MENU_CALLBACK,
+  );
+  $items['news-service-import'] = array(
+    'title' => 'Newsroom Service Import',
+    'page callback' => '_newsroom_newsroom_service_import',
+    'access callback' => '_newsroom_newsroom_item_import_access',
+    'type' => MENU_CALLBACK,
+  );
   $items['news-delete'] = array(
     'title' => 'Newsroom Item Delete',
     'page callback' => '_newsroom_newsroom_item_delete',
@@ -1610,6 +1628,42 @@ function newsroom_menu() {
 function _newsroom_newsroom_item_import_access() {
   $allowed_ips = array_map('trim', explode(',', variable_get('newsroom_allowed_ips')));
   return user_access('import newsroom feeds') ? TRUE : in_array(ip_address(), $allowed_ips);
+}
+
+/**
+ * Imports or deletes a single news item based on the original newsroom ID.
+ */
+function _newsroom_newsroom_topic_importer($topic_id = 0, $delete = FALSE, $reimport = FALSE) {
+  global $_newsroom_universe_url;
+
+  if ($topic_id == 0) {
+    drupal_not_found();
+  }
+  else {
+    if ($delete) {
+      $topic = _newsroom_technical_fields_to_tid('field_newsroom_topic_id', $topic_id);
+      if ($topic) {
+        taxonomy_term_delete($topic[0]);
+        $message = t('Newsroom Topic tid: %1 deleted', array('%1' => implode(', ', $nids_to_delete)));
+        watchdog('newsroom', $message);
+        drupal_set_message($message);
+        return '';
+      }
+      else {
+        drupal_not_found();
+        drupal_exit();
+      }
+    }
+    else {
+      $url = $_newsroom_universe_url . variable_get('newsroom_single_item_import_segment', 'fullrss.cfm?item_id=') . $topic_id;
+      _newsroom_run_newsroom_items_importer($url);
+      $path = 'news-topic-redirect/' . $topic_id;
+      if ($reimport) {
+        drupal_goto($path);
+      }
+      return l(t('Go to Newsroom Topic'), $path);
+    }
+  }
 }
 
 /**
@@ -1663,10 +1717,18 @@ function _newsroom_run_newsroom_items_importer($url) {
 
   // Load the Feeds Source object.
   $source = feeds_source($newsroom_importer_id);
-  // Load the source fetcher config.
-  $fetcher_config = $source->getConfigFor($source->importer->fetcher);
-  $fetcher_config['source'] = $url;
-  $source->setConfigFor($source->importer->fetcher, $fetcher_config);
+  $config = $source->getConfig();
+  // @TODO deal with the case if we don't have an item setup.
+  $additional_config = array(
+    'FeedsHTTPFetcher' => array(
+      'source' => $url
+      ,
+    ),
+  );
+  $source->setConfig(array_merge($config, $additional_config));
+  // Make sure we force the import of the item.
+  $processor_config = $source->importer->processor->getConfig();
+  $source->importer->processor->setConfig(array_merge($processor_config, $additional_config));
   $source->import();
   $source->delete();
 }
@@ -2824,6 +2886,7 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
     'field_file_image_alt_text',
     'field_newsroom_copyrights',
   );
+
   foreach (field_info_instances('file', 'image') as $name => $instance) {
     if (in_array($name, $fields)) {
       $targets[$name] = array(
