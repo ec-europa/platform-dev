@@ -3051,7 +3051,38 @@ function newsroom_views_api() {
  * Implements hook_feeds_after_save().
  */
 function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id) {
+  // TODO : find a better way to remove translation.
+  $languages = language_list();
+  $def_lang = language_default()->language;
+  debug($source);
 
+  // Try to remove disabled translations, check the title for translation.
+  foreach($languages as $language) {
+    // Check only active and skip the default language.
+    if ($language->enabled && $language->language != $def_lang) {
+      $config = $source->importer()->processor->getConfig();
+      if (isset($config['mappings'])) {
+        $xpath_expression = NULL; 
+        foreach($config['mappings'] as $mapping) {
+          if ($mapping['target'] == 'title_field:et:' . $language->language) {
+            $xpath_expression = $mapping['source'];
+            break;
+          }
+        }
+
+        // If title is empty it means there is no translation.
+        if (!empty($xpath_expression) && isset($item[$xpath_expression]) && empty($item[$xpath_expression])) {
+          // Delete translation for the current language.
+          $handler = entity_translation_get_handler('node', $entity);
+          $handler->removeTranslation($language->language);
+          field_attach_presave('node', $entity);
+          field_attach_update('node', $entity);
+        }
+      }
+      
+    }
+  }
+  
   // Get the files if it excists and set the values from the xpath parser
   // for these fields.
   if (isset($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']) && !empty($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid'])) {
