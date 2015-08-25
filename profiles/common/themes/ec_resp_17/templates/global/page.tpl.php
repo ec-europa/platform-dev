@@ -1,9 +1,7 @@
 <?php
-// $Id: page.tpl.php,v 1.9 2010/11/07 21:48:56 dries Exp $
-
 /**
  * @file
- * ec_resp's theme implementation to display a single Drupal page.
+ * Ec_resp's theme implementation to display a single Drupal page.
  *
  * The doctype, html, head and body tags are not in this template. Instead they
  * can be found in the html.tpl.php template normally located in the
@@ -42,7 +40,8 @@
  * - $secondary_menu (array): An array containing the Secondary menu links for
  *   the site, if they have been configured.
  * - $breadcrumb: The breadcrumb trail for the current page.
- * - $menu_visible: Checking if the main menu is available in the region featured
+ * - $menu_visible: Checking if the main menu is available
+ *                  in the region featured
  *
  * Page content (in order of occurrence in the default page.tpl.php):
  * - $title_prefix (array): An array containing additional output populated by
@@ -65,22 +64,37 @@
  *   comment/reply/12345).
  *
  * Regions:
- * - $page['header_top']: Displayed at the top line of the header -> language switcher, links, ...
- * - $page['header_right']: Displayed in the right part of the header -> logo, search box, ...
+ * - $page['header_top']: Displayed at the top line of the header
+ *                      -> language switcher, links, ...
+ * - $page['header_right']: Displayed in the right part of the header
+ *                      -> logo, search box, ...
  *
- * - $page['featured']: Displayed below the header, take full width of screen -> main menu, global information, ...
- * - $page['tools']: Displayed on top right of content area, before the page title -> login/logout buttons, author information, ...
+ * - $page['featured']: Displayed below the header, take full width of screen
+ *                      -> main menu, global information, ...
+ * - $page['tools']: Displayed on top right of content area
+ *                   before the page title
+ *                      -> login/logout buttons, author information, ...
  *
- * - $page['sidebar_left']: Small sidebar displayed on left of the content, if not empty -> navigation, pictures, ... 
- * - $page['sidebar_right']: Small sidebar displayed on right of the content, if not empty -> latest content, calendar, ... 
+ * - $page['sidebar_left']: Small sidebar displayed on left of the content,
+ *                          if not empty
+ *                      -> navigation, pictures, ...
+ * - $page['sidebar_right']: Small sidebar displayed on right of the content,
+ *                           if not empty
+ *                      -> latest content, calendar, ...
  *
- * - $page['content_top']: Displayed in middle column, right before the page title -> carousel, important news, ...  
- * - $page['help']: Displayed between page title and content -> information about the page, contextual help, ... 
+ * - $page['content_top']: Displayed in middle column, before the page title
+ *                      -> carousel, important news, ...
+ * - $page['help']: Displayed between page title and content
+ *                      -> information about the page, contextual help, ...
  * - $page['content']: The main content of the current page.
- * - $page['content_right']: Large sidebar displayed on right of the content, if not empty -> 2 column layout 
- * - $page['content_bottom']: Displayed below the content, in middle column -> print button, share tools, ...
+ * - $page['content_right']: Large sidebar displayed on right of the content,
+ *                           if not empty
+ *                      -> 2 column layout
+ * - $page['content_bottom']: Displayed below the content, in middle column
+ *                      -> print button, share tools, ...
  *
- * - $page['footer']: Displayed at bottom of the page, on full width -> latest update, copyright, ...
+ * - $page['footer']: Displayed at bottom of the page, on full width
+ *                      -> latest update, copyright, ...
  *
  * @see template_preprocess()
  * @see template_preprocess_page()
@@ -112,7 +126,7 @@ global $base_url;
     </div>
   </div><!-- /#layout-header -->
   
-  <div class="region-featured-wrapper <?php if ($has_responsive_sidebar) print 'sidebar-visible-sm'; ?>">
+  <div class="region-featured-wrapper <?php if ($has_responsive_sidebar): print 'sidebar-visible-sm'; endif; ?>">
     <?php if ($menu_visible || $has_responsive_sidebar): ?>
       <div class="mobile-user-bar navbar navbar-default visible-xs" data-spy="affix" data-offset-top="82">
         <div class="container">
