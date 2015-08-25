@@ -6,6 +6,5 @@ core = 7.x
 project = survey_standard
 dependencies[] = survey_core
 features[features_api][] = api:2
-files[] = tests/survey_standard.extra.test
 features[context][] = survey_posts
 features[ctools][] = context:context:3
