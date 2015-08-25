@@ -1240,3 +1240,29 @@ function _nexteuropa_newsroom_check_vocabularies($voc) {
 
   return $check->vid;
 }
+
+/**
+ * Find an item basing on its id.
+ *
+ * @param string $id
+ *   Newsroom item id.
+ */
+function _nexteuropa_newsroom_item_by_id($id) {
+  if (is_numeric($id)) {
+    $q = new EntityFieldQuery;
+    $q->entityCondition('entity_type', 'node')
+      ->fieldCondition('field_newsroom_item_id', 'value', $id, '=');
+    $result = $q->execute();
+
+    if (!empty($result)) {
+      $nid = array_keys($result['node']);
+      return $nid[0];
+    }
+    else {
+      return NULL;
+    }
+  }
+  else {
+    return FALSE;
+  }
+}
