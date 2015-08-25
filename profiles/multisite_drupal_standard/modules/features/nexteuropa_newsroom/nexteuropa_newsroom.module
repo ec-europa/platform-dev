@@ -873,9 +873,12 @@ function _nexteuropa_newsroom_enable_translations() {
   $enabled_types = array_filter($enabled);
   if (!in_array('taxonomy_term', $enabled_types)) {
     $enabled['taxonomy_term'] = 'taxonomy_term';
-    variable_set('entity_translation_entity_types', $enabled);
   }
-  
+  if (!in_array('file', $enabled_types)) {
+    $enabled['file'] = 'file';
+  }
+  variable_set('entity_translation_entity_types', $enabled);
+
   // Enable translations for various fields.
   $field_names = array(
     'body',
