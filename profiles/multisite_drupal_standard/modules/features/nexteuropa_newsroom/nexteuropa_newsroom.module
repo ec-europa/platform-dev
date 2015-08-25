@@ -1192,7 +1192,7 @@ function nexteuropa_newsroom_strongarm_alter(&$variables) {
  * Rebuild multilingual importers.
  */
 function _nexteuropa_newsroom_rebuild_importers() {
-  // remove importers.
+  // Remove importers.
   $importers = array(
     'items' => 'newsroom_items_multilingual',
     'services' => 'newsroom_services_multilingual',
