@@ -1142,6 +1142,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
     global $language;
     $def_lang = language_default()->language;
     $curr_lang = $language->language;
+ 
     $taxonomy_fields = array(
       'field_newsroom_item_type',
       'field_primary_topic',
@@ -1158,12 +1159,18 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
     // Fields with wrong translation in node edit form.
     foreach ($taxonomy_fields as $taxonomy_field) {
       $tree = $taxonomy_field == 'field_newsroom_item_type' ? $terms['newsroom_item_type'] : $terms['newsroom_topic'];
- 
+
       foreach ($tree as $key => $value) {
         $i18n_object = i18n_get_object('taxonomy_term', $value->tid);
         $t_term = $i18n_object->localize($curr_lang);
         $pref = $value->parents[0] != 0 ?  '- ' : '';
         $form[$taxonomy_field]['und']['#options'][$value->tid] = $pref . $t_term->name;
+      }
+
+      if (!empty($form['#node']->$taxonomy_field)) {
+        $value_array = $form['#node']->$taxonomy_field;
+        $value = $value_array['und'][0]['tid']; 
+        $form[$taxonomy_field]['und']['#default_value'] = array($value);
       }
     }
   }
