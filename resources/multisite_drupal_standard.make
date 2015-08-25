@@ -449,6 +449,7 @@ projects[tmgmt][subdir] = contrib
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
+projects[token][patch][] = patches/token-1058912-88-limit-token-depth.patch
 
 projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = 1.1
