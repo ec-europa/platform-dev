@@ -159,12 +159,12 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       'language' => TRUE,
     ),
     'field_newsroom_project_website:url' => array(
-      'query' => 'infsonewsroom:ContextProjectURL/text()',
-      'language' => FALSE,
+      'query' => 'infsonewsroom:ContextProjectURL',
+      'language' => TRUE,
     ),
     'field_newsroom_project_website:title' => array(
-      'query' => 'infsonewsroom:ContextProjectURLDisplay/text()',
-      'language' => FALSE,
+      'query' => 'infsonewsroom:ContextProjectURLDisplay',
+      'language' => TRUE,
     ),  
     'field_newsroom_location:wkt' => array(
       'query' => 'infsonewsroom:ContextWellknowntext/text()',
