@@ -3085,22 +3085,28 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
       
     }
   }
-
-  // Get the files if it excists and set the values from the xpath parser
-  // for these fields.
-  if (isset($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']) && !empty($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid'])) {
-    $file = file_load($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']);
-    if ($file) {
-      if (isset($item['xpathparser:49']) && !empty($item['xpathparser:49'])) {
-        $file->field_file_image_alt_text[LANGUAGE_NONE][0]['value'] = $item['xpathparser:49'];
+  
+  $multilingual = variable_get('newsroom_multilingual', FALSE);
+  
+  if ($multilingual) {
+    
+  } else {
+    // Get the files if it excists and set the values from the xpath parser
+    // for these fields.
+    if (isset($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']) && !empty($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid'])) {
+      $file = file_load($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']);
+      if ($file) {
+        if (isset($item['xpathparser:49']) && !empty($item['xpathparser:49'])) {
+          $file->field_file_image_alt_text[LANGUAGE_NONE][0]['value'] = $item['xpathparser:49'];
+        }
+        if (isset($item['xpathparser:50']) && !empty($item['xpathparser:50'])) {
+          $file->field_file_image_title_text[LANGUAGE_NONE][0]['value'] = $item['xpathparser:50'];
+        }
+        if (isset($item['xpathparser:51']) && !empty($item['xpathparser:51'])) {
+          $file->field_newsroom_copyrights[LANGUAGE_NONE][0]['value'] = $item['xpathparser:51'];
+        }
+        file_save($file);
       }
-      if (isset($item['xpathparser:50']) && !empty($item['xpathparser:50'])) {
-        $file->field_file_image_title_text[LANGUAGE_NONE][0]['value'] = $item['xpathparser:50'];
-      }
-      if (isset($item['xpathparser:51']) && !empty($item['xpathparser:51'])) {
-        $file->field_newsroom_copyrights[LANGUAGE_NONE][0]['value'] = $item['xpathparser:51'];
-      }
-      file_save($file);
     }
   }
 
