@@ -81,3 +81,6 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/su
 projects[wysiwyg][patch][] = ../multisite_drupal_core/patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = ../multisite_drupal_core/patches/wysiwyg-local_css_file_paths-1793704-14.patch
 projects[context_entity_field][patch][] = ../multisite_drupal_core/patches/add-entity-references-1847038.patch
+
+projects[drupal][patch][] = ../multisite_drupal_core/patches/SA-CORE-2015-002-D7.patch
+projects[drupal][patch][] = ../multisite_drupal_core/patches/SA-CORE-2015-003.patch
