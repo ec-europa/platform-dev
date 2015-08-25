@@ -235,7 +235,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_illustrative_image',
-    'label' => 'Image',
+    'label' => 'Illustrative Image',
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
@@ -251,8 +251,15 @@ function nexteuropa_newsroom_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'image',
+      'module' => 'media',
       'settings' => array(
+        'allowed_schemes' => array(
+          'public' => 'public',
+        ),
+        'allowed_types' => array(
+          'image' => 'image',
+        ),
+        'browser_plugins' => array(),
         'filefield_sources' => array(
           'filefield_sources' => array(),
           'source_attach' => array(
@@ -271,7 +278,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'preview_image_style' => 'thumbnail',
         'progress_indicator' => 'throbber',
       ),
-      'type' => 'image_image',
+      'type' => 'media_generic',
       'weight' => 30,
     ),
   );
@@ -879,7 +886,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_newsroom_item_image',
-    'label' => 'Illustrative Image',
+    'label' => 'Newsroom item image',
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
@@ -3745,7 +3752,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
   t('If filled in, it shows content from the referenced node, and not the taxonomy term.');
   t('If no type is selected all types will be used.');
   t('Illustrative Image');
-  t('Image');
+  t('Newsroom item image');
   t('Linked Object');
   t('Listing behavior');
   t('Location');
