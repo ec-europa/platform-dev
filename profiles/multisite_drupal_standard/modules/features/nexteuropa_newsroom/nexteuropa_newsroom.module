@@ -882,6 +882,9 @@ function _nexteuropa_newsroom_enable_translations() {
   // Enable translations for various fields.
   $field_names = array(
     'body',
+    'field_file_image_alt_text',
+    'field_file_image_title_text',
+    'field_caption',
   );
 
   foreach ($field_names as $field_name) {
