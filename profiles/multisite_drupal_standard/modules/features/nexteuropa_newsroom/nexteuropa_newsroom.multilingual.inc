@@ -278,11 +278,13 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     'import_on_create' => 1,
     'process_in_background' => 0,
   );
-
- // Import the importer.
+ 
+  // Create the tamper for the language.
+  _nexteuropa_newsroom_dynamic_tamper(NULL);
+  // Import the importer.
   _nexteuropa_newsroom_import_importer($feeds_importer);
 }
-//translation[@English='title']/@*[local-name()=//agentlang]" />
+
 /**
  * Import the multilingual importer.
  */
