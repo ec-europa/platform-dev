@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.38"
+projects[drupal][version] = "7.39"
 
 projects[drupal][patch][] = patches/ajax-js_url_suffix.patch
 projects[drupal][patch][] = patches/default-settings-php-include-local-settings-3154.patch
