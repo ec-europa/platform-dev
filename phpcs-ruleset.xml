@@ -41,7 +41,6 @@
     <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_custom_error</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_eu_cookie_compliance</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_forum_community</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_forum_core</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_maps</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_maxlength</exclude-pattern>
