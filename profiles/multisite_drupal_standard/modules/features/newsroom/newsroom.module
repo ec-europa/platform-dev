@@ -1958,15 +1958,15 @@ function _newsroom_item_redirect($newsroom_id = 0) {
 /**
  * Redirects to the Newsroom Item Topic. With the Original Newsroom Topic ID.
  */
-function _newsroom_topic_redirect($topic_id = 0) {
-  return _newsroom_redirect('topic', $topic_id);
+function _newsroom_topic_redirect($topic_id = 0, $direct = 0) {
+  return _newsroom_redirect('topic', $topic_id, $direct);
 }
 
 /**
  * Redirects to the Newsroom Item Type. With the Original Newsroom Type ID.
  */
-function _newsroom_type_redirect($type_id = 0) {
-  return _newsroom_redirect('type', $type_id);
+function _newsroom_type_redirect($type_id = 0, $direct = 0) {
+  return _newsroom_redirect('type', $type_id, $direct);
 }
 
 /**
@@ -2002,7 +2002,11 @@ function _newsroom_redirect($redirect_type = 'item', $param_1 = 0, $param_2 = 0)
       $type = _newsroom_technical_fields_to_tid('field_newsroom_type_id', $param_1);
       if ($type) {
         $type_term = taxonomy_term_load($type[0]);
-        $path = 'newsroom/' . pathauto_cleanstring($type_term->name);;
+        if (!empty($param_2)) {
+          $path = 'taxonomy/term/' . $type_term->tid;
+        } else {
+          $path = 'newsroom/' . pathauto_cleanstring($type_term->name);;
+        }
       }
       break;
 
@@ -2011,7 +2015,11 @@ function _newsroom_redirect($redirect_type = 'item', $param_1 = 0, $param_2 = 0)
       $topic = _newsroom_technical_fields_to_tid('field_newsroom_topic_id', $param_1);
       if ($topic) {
         $topic_term = taxonomy_term_load($topic[0]);
-        $path = 'newsroom/all/' . pathauto_cleanstring($topic_term->name);
+        if (!empty($param_2)) {
+          $path = 'taxonomy/term/' . $topic_term->tid;
+        } else {
+          $path = 'newsroom/all/' . pathauto_cleanstring($topic_term->name);
+        }
       }
       break;
 
@@ -2830,6 +2838,7 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
       break;
 
     case 'newsroom_zoomable_image':
+      $def_lang = language_default()->language;
 
       foreach ($items as $delta => $item) {
         $image = array(
@@ -2838,8 +2847,8 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
         $path_to_original = file_create_url($item['uri']);
 
         // Sets alt text.
-        if (isset($item['field_file_image_alt_text'][LANGUAGE_NONE][0])) {
-          $image['alt'] = $item['field_file_image_alt_text'][LANGUAGE_NONE][0]['safe_value'];
+        if (isset($item['field_file_image_alt_text'][$def_lang][0])) {
+          $image['alt'] = $item['field_file_image_alt_text'][$def_lang][0]['safe_value'];
         }
         elseif (array_key_exists('alt', $item)) {
           $image['alt'] = $item['alt'];
@@ -2850,10 +2859,10 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
 
         // Sets title.
         $title = NULL;
-        if (isset($item['field_file_image_title_text'][LANGUAGE_NONE][0])) {
-          $image['title'] = $item['field_file_image_title_text'][LANGUAGE_NONE][0]['safe_value'];
+        if (isset($item['field_file_image_title_text'][$def_lang][0])) {
+          $image['title'] = $item['field_file_image_title_text'][$def_lang][0]['safe_value'];
           if ($display['settings']['display_title']) {
-            $title = $item['field_file_image_title_text'][LANGUAGE_NONE][0]['safe_value'];
+            $title = $item['field_file_image_title_text'][$def_lang][0]['safe_value'];
           }
         }
         elseif (isset($item['title']) && drupal_strlen($item['title']) > 0) {
@@ -2864,8 +2873,8 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
 
         // Sets copyright.
         if ($display['settings']['display_copyright']) {
-          if (isset($item['field_newsroom_copyrights'][LANGUAGE_NONE][0])) {
-            $copyright = $item['field_newsroom_copyrights'][LANGUAGE_NONE][0]['safe_value'];
+          if (isset($item['field_newsroom_copyrights'][$def_lang][0])) {
+            $copyright = $item['field_newsroom_copyrights'][$def_lang][0]['safe_value'];
           }
         }
 
@@ -3051,51 +3060,109 @@ function newsroom_views_api() {
  * Implements hook_feeds_after_save().
  */
 function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id) {
-  // TODO : find a better way to remove translation.
-  $languages = language_list();
-  $def_lang = language_default()->language;
 
-  // Try to remove disabled translations, check the title for translation.
-  foreach($languages as $language) {
-    // Check only active and skip the default language.
-    if ($language->enabled && $language->language != $def_lang) {
-      $config = $source->importer()->processor->getConfig();
-      if (isset($config['mappings'])) {
-        $xpath_expression = NULL; 
-        foreach($config['mappings'] as $mapping) {
-          if ($mapping['target'] == 'title_field:et:' . $language->language) {
-            $xpath_expression = $mapping['source'];
-            break;
+  if ($source->importer()->fetcher->id == 'newsroom_items_multilingual') {
+    // TODO : find a better way to remove translation.
+    $languages = language_list();
+    $def_lang = language_default()->language;
+
+    // Try to remove disabled translations, check the title for translation.
+    foreach($languages as $language) {
+      // Check only active and skip the default language.
+      if ($language->enabled && $language->language != $def_lang) {
+        $config = $source->importer()->processor->getConfig();
+        if (isset($config['mappings'])) {
+          $xpath_expression = NULL; 
+          foreach($config['mappings'] as $mapping) {
+            if ($mapping['target'] == 'title_field:et:' . $language->language) {
+              $xpath_expression = $mapping['source'];
+              break;
+            }
+          }
+
+          // If title is empty it means there is no translation.
+          if (!empty($xpath_expression) && isset($item[$xpath_expression]) && empty($item[$xpath_expression])) {
+            // Delete translation for the current language.
+            $handler = entity_translation_get_handler('node', $entity);
+            $handler->removeTranslation($language->language);
+            field_attach_presave('node', $entity);
+            field_attach_update('node', $entity);
+
+            // It is necessary to clean the cache
+            // to remove the translation completely.
+            cache_clear_all($entity_id, 'cache_entity_node');
           }
         }
 
-        // If title is empty it means there is no translation.
-        if (!empty($xpath_expression) && isset($item[$xpath_expression]) && empty($item[$xpath_expression])) {
-          // Delete translation for the current language.
-          $handler = entity_translation_get_handler('node', $entity);
-          $handler->removeTranslation($language->language);
-          field_attach_presave('node', $entity);
-          field_attach_update('node', $entity);
-          
-          // It is necessary to clean the cache
-          // to remove the translation completely.
-          cache_clear_all($entity_id, 'cache_entity_node');
-        }
       }
-      
     }
+
+    if (isset($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']) && !empty($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid'])) {
+
+      $fields = array(
+        'field_file_image_title_text' => 'title',
+        'field_newsroom_copyrights' => 'copyright',
+        'field_caption' => 'caption',
+        'field_file_image_alt_text' => 'alt',
+      );
+      $fid = $entity->field_illustrative_image[LANGUAGE_NONE][0]['fid'];
+      debug($fid);
+      $file = file_load($fid);
+      if ($file) {
+
+        $handler = entity_translation_get_handler('file', $file); 
+
+        $config = $source->importer()->processor->getConfig();
+        if (isset($config['mappings'])) { 
+          foreach($config['mappings'] as $mapping) {
+            foreach($fields as $field => $field_name) {
+              foreach($languages as $language) {
+                if ($language->language == $def_lang) {
+                  continue;
+                }
+                if ($mapping['target'] == 'field_illustrative_image:' . $field_name . ':et:' . $language->language && !empty($mapping['source']) && isset($item[$mapping['source']]) && !empty($item[$mapping['source']])) {
+                  $translation = array(
+                    'translate' => 0,
+                    'status' => 1,
+                    'language' => $language->language,
+                    'source' => $def_lang,
+                  );
+                  $values = array(
+                    "$field" => array (
+                      "$language->language" => array(
+                        '0' => array(
+                          'value' => $item[$mapping['source']],
+                        )
+                      )
+                    )
+                  );
+                  debug($translation);
+                  debug($values);
+                  $handler->setTranslation($translation, $values);
+                  field_attach_update('node', $entity);
+                  //debug($mapping['source']);
+                  //debug($item[$mapping['source']]);
+                  //$file->$field += array($language->language => array(0 => array('value' => $item[$mapping['source']])));
+                }
+              }
+            }
+          }
+        }
+        //debug($file);
+        file_save($file);
+        cache_clear_all($fid, 'cache_entity_file');
+      }
+    }
+    
+    debug($entity);
   }
   
-  $multilingual = variable_get('newsroom_multilingual', FALSE);
-  
-  if ($multilingual) {
-    
-  } else {
-    // Get the files if it excists and set the values from the xpath parser
-    // for these fields.
+  if ($source->importer()->fetcher->id == 'newsroom_items') {
     if (isset($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']) && !empty($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid'])) {
       $file = file_load($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']);
       if ($file) {
+        // Get the files if it excists and set the values from the xpath parser
+        // for these fields.
         if (isset($item['xpathparser:49']) && !empty($item['xpathparser:49'])) {
           $file->field_file_image_alt_text[LANGUAGE_NONE][0]['value'] = $item['xpathparser:49'];
         }
@@ -3109,7 +3176,6 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
       }
     }
   }
-
 }
 
 /**
@@ -3118,20 +3184,55 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
 function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle_name) {
   // We expose image additional fields to feeds mapper. So later we can use
   // these values to save them to file's fields.
-  $fields = array(
-    'field_file_image_title_text',
-    'field_file_image_alt_text',
-    'field_newsroom_copyrights',
-  );
+  $multilingual = variable_get('newsroom_multilingual', FALSE);
+  if ($multilingual) {
+    $fields = array(
+      'field_file_image_title_text',
+      'field_file_image_alt_text',
+      'field_newsroom_copyrights',
+    );
 
-  foreach (field_info_instances('file', 'image') as $name => $instance) {
-    if (in_array($name, $fields)) {
-      $targets[$name] = array(
-        'name' => t('Image:@name', array('@name' => $instance['label'])),
-        'callback' => NULL,
-        'description' => t('The @label field of the image.', array('@label' => $instance['label'])),
-        'real_target' => $name,
-      );
+    foreach (field_info_instances('file', 'image') as $name => $instance) {
+      if (in_array($name, $fields)) {
+        $targets[$name] = array(
+          'name' => t('Image:@name', array('@name' => $instance['label'])),
+          'callback' => NULL,
+          'description' => t('The @label field of the image.', array('@label' => $instance['label'])),
+          'real_target' => $name,
+        );
+      }
+    }
+  } else {
+    $field_names = array(
+      'field_file_image_title_text' => 'field_illustrative_image:title:et:',
+      'field_newsroom_copyrights' => 'field_illustrative_image:copyright:et:',
+      'field_caption' => 'field_illustrative_image:caption:et:',
+      'field_file_image_alt_text' => 'field_illustrative_image:alt:et:',
+    );
+    
+    $fields = array();
+    $languages = language_list();
+    foreach($languages as $language) {
+      // Check only active and skip the default language.
+      if ($language->enabled) {
+
+        foreach($field_names as $field_name) { 
+          $fields[] = $field_name . $language->language;
+        }
+      }
+    }
+
+    foreach (field_info_instances('file', 'image') as $name => $instance) {
+      if (in_array($name, array_keys($field_names))) {
+        foreach($fields as $field) {
+          $targets[$field] = array(
+            'name' => t('Image:@name', array('@name' => $field)),
+            'callback' => NULL,
+            'description' => t('The @label field of the image.', array('@label' => $field)),
+            'real_target' => $field,
+          );
+        }
+      }
     }
   }
 }
