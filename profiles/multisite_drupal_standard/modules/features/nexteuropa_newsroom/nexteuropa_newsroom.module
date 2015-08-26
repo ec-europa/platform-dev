@@ -1154,7 +1154,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
     $topic_vid = taxonomy_vocabulary_machine_name_load('newsroom_topic')->vid;
 
     $terms['newsroom_item_type'] = i18n_taxonomy_get_tree($type_vid, $def_lang);
-    $terms['newsroom_topic'] = i18n_taxonomy_get_tree($topic_vid, $def_lang);z
+    $terms['newsroom_topic'] = i18n_taxonomy_get_tree($topic_vid, $def_lang);
 
     // Fields with wrong translation in node edit form.
     foreach ($taxonomy_fields as $taxonomy_field) {
