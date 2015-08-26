@@ -2420,6 +2420,7 @@ function newsroom_theme($existing, $type, $theme, $path) {
         'image_style' => NULL,
         'title' => NULL,
         'copyright' => NULL,
+        'caption' => NULL,
         'path_to_original' => NULL,
         'zoomable' => FALSE,
         'display_title' => FALSE,
@@ -2686,6 +2687,7 @@ function newsroom_field_formatter_info() {
         'image_style' => '',
         'display_title' => '',
         'display_copyright' => '',
+        'display_caption' => '',
         'zoomable' => '',
       ),
     ),
@@ -2725,6 +2727,11 @@ function newsroom_field_formatter_settings_form($field, $instance, $view_mode, $
         '#title' => t('Display copyright'),
         '#type' => 'checkbox',
         '#default_value' => $settings['display_copyright'],
+      );
+      $element['display_caption'] = array(
+        '#title' => t('Display caption'),
+        '#type' => 'checkbox',
+        '#default_value' => $settings['display_caption'],
       );
       break;
 
@@ -2880,6 +2887,14 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
             $copyright = $item['field_newsroom_copyrights'][$language->language][0]['safe_value'];
           }
         }
+        
+        // Sets copyright.
+        $caption = '';
+        if ($display['settings']['display_caption']) {
+          if (isset($item['field_caption'][$language->language][0])) {
+            $caption = $item['field_caption'][$language->language][0]['safe_value'];
+          }
+        }
 
         if (isset($item['attributes'])) {
           $image['attributes'] = $item['attributes'];
@@ -2889,6 +2904,8 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
           $image['width'] = $item['width'];
           $image['height'] = $item['height'];
         }
+        
+        $image['title'] = $title;
 
         if ($display['settings']['image_style']) {
           $image['style_name'] = $display['settings']['image_style'];
@@ -2900,8 +2917,8 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
 
         $elements[$delta] = array(
           '#theme' => 'newsroom_zoomable_image',
-          '#title' => $title,
           '#copyright' => $copyright,
+          '#caption' => $caption,
           '#image_output' => $image_output,
           '#path_to_original' => $path_to_original,
           '#zoomable' => $zoomable,
