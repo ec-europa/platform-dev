@@ -3,30 +3,29 @@
  * @file
  * Drupal needs this blank file.
  */
- 
+
 /**
-* CKEditor plugins hook
-*/
+ * CKEditor plugins hook.
+ */
 function text_collapse_ckeditor_plugin() {
   return array(
-      'collapse' => array(
-          'name' => 'collapse',
-          'desc' => 'Collapse - ' . t('Inserts [collapsed][/collapsed] tags'),
-          'path' => drupal_get_path('module', 'text_collapse') . '/plugins/collapse/',
-          'buttons' => array
-          (
-              'collapse' => array('label' => 'Insert collapsible block', 'icon' => 'button.png' ),
-          )
-      )
+    'collapse' => array(
+      'name' => 'collapse',
+      'desc' => 'Collapse - ' . t('Inserts [collapsed][/collapsed] tags'),
+      'path' => drupal_get_path('module', 'text_collapse') . '/plugins/collapse/',
+      'buttons' => array(
+        'collapse' => array('label' => 'Insert collapsible block', 'icon' => 'button.png'),
+      ),
+    ),
   );
 }
 
 /**
-* WYSYWIG plugins hook
-*/
+ * Implements hook_wysiwyg_plugin().
+ */
 function text_collapse_wysiwyg_plugin($editor, $version) {
   switch ($editor) {
-    case 'ckeditor': {
+    case 'ckeditor':
       return array(
         'collapse' => array(
           'name' => 'collapse',
@@ -34,13 +33,10 @@ function text_collapse_wysiwyg_plugin($editor, $version) {
           'path' => drupal_get_path('module', 'text_collapse') . '/plugins/collapse/',
           'internal' => FALSE,
           'load' => TRUE,
-          'buttons' => array
-          (
-              'collapse' => t('Insert collapsible block'),
-          )
-        )
+          'buttons' => array(
+            'collapse' => t('Insert collapsible block'),
+          ),
+        ),
       );
-      break;
-    }
   }
 }
