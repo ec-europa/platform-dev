@@ -1667,8 +1667,11 @@ function _newsroom_taxonomy_term_importer($field_title, $redirect_path, $field_n
   if ($delete) {
     $terms = _newsroom_technical_fields_to_tid($field_name, $tid);
     if ($terms) {
-      taxonomy_term_delete($terms[0]);
-      $message = t('Newsroom %2 tid: %1 deleted', array('%1' => implode(', ', $terms), '%2' => $field_title));
+      $taxonomy_term = taxonomy_term_load($terms[0]);
+      $taxonomy_term->field_newsroom_published[LANGUAGE_NONE][0]['value'] = 0;
+      taxonomy_term_save($taxonomy_term);
+
+      $message = t('Newsroom %2 tid: %1 disabled', array('%1' => implode(', ', $terms), '%2' => $field_title));
       watchdog('newsroom', $message);
       drupal_set_message($message);
       return '';
@@ -2838,7 +2841,7 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
       break;
 
     case 'newsroom_zoomable_image':
-      $def_lang = language_default()->language;
+      global $language;
 
       foreach ($items as $delta => $item) {
         $image = array(
@@ -2847,8 +2850,8 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
         $path_to_original = file_create_url($item['uri']);
 
         // Sets alt text.
-        if (isset($item['field_file_image_alt_text'][$def_lang][0])) {
-          $image['alt'] = $item['field_file_image_alt_text'][$def_lang][0]['safe_value'];
+        if (isset($item['field_file_image_alt_text'][$language->language][0])) {
+          $image['alt'] = $item['field_file_image_alt_text'][$language->language][0]['safe_value'];
         }
         elseif (array_key_exists('alt', $item)) {
           $image['alt'] = $item['alt'];
@@ -2859,10 +2862,10 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
 
         // Sets title.
         $title = NULL;
-        if (isset($item['field_file_image_title_text'][$def_lang][0])) {
-          $image['title'] = $item['field_file_image_title_text'][$def_lang][0]['safe_value'];
+        if (isset($item['field_file_image_title_text'][$language->language][0])) {
+          $image['title'] = $item['field_file_image_title_text'][$language->language][0]['safe_value'];
           if ($display['settings']['display_title']) {
-            $title = $item['field_file_image_title_text'][$def_lang][0]['safe_value'];
+            $title = $item['field_file_image_title_text'][$language->language][0]['safe_value'];
           }
         }
         elseif (isset($item['title']) && drupal_strlen($item['title']) > 0) {
@@ -2873,8 +2876,8 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
 
         // Sets copyright.
         if ($display['settings']['display_copyright']) {
-          if (isset($item['field_newsroom_copyrights'][$def_lang][0])) {
-            $copyright = $item['field_newsroom_copyrights'][$def_lang][0]['safe_value'];
+          if (isset($item['field_newsroom_copyrights'][$language->language][0])) {
+            $copyright = $item['field_newsroom_copyrights'][$language->language][0]['safe_value'];
           }
         }
 
