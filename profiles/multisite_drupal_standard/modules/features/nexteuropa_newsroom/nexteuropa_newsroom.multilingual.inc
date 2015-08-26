@@ -13,7 +13,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'title' => array(
-      'query' => 'title[@lang="EN"]/text()',
+      'query' => 'title[@lang="' . $def_lang . '"]/text()',
       'language' => FALSE,
     ),
     'title_field' => array(

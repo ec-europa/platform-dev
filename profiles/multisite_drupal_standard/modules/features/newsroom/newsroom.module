@@ -18,6 +18,66 @@ global $_newsroom_universe_url;
  * Implements hook_init().
  */
 function newsroom_init() {
+//  $languages = language_list();
+//    $def_lang = language_default()->language;
+//  $fid = 20;
+//  debug($fid);
+//  $file = file_load($fid);
+////  var_dump($file);
+//  if ($file) {
+//    
+//    $fields = array(
+//        'field_file_image_title_text' => 'title',
+//        'field_newsroom_copyrights' => 'copyright',
+//        'field_caption' => 'caption',
+//        'field_file_image_alt_text' => 'alt',
+//      );
+//    foreach($fields as $field => $field_name) {
+//      $file->$field = array(LANGUAGE_NONE => array(0 => array('value' => $field_name . ' - default' )));
+//    }
+//    
+//    file_save($file);
+//    $handler = entity_translation_get_handler('file', $file); 
+//
+//    foreach($fields as $field => $field_name) {
+//      foreach($languages as $language) {
+////        debug($language->language);
+//        if ($language->language == $def_lang) {
+//          continue;
+//        }
+//
+//        $translation = array(
+//          'translate' => 0,
+//          'status' => 1,
+//          'language' => $language->language,
+//          'source' => $def_lang,
+//        );
+//        $values = array(
+//          "$field" => array (
+//            "$language->language" => array(
+//              '0' => array(
+//                'value' => $field_name . ' - ' . $language->language,
+//              )
+//            )
+//          )
+//        );
+////        debug($translation);
+////        debug($values);
+////            $handler->setTranslation($translation, $values);
+////            field_attach_update('file', $file);
+//        //debug($mapping['source']);
+//        //debug($item[$mapping['source']]);
+//        $file->$field += array($language->language => array(0 => array('value' => $field_name . ' - ' . $language->language)));
+//        debug($file->$field);
+//      }
+//    }
+//    
+//    file_save($file);
+//    cache_clear_all($fid, 'cache_entity_file');
+//  }
+  
+//  debug($file);
+  
   global $_newsroom_universe_url;
   if ($universe_id = variable_get('newsroom_universe_id', FALSE)) {
     $_newsroom_universe_url = NEWSROOM_URL . $universe_id . '/';
@@ -3106,20 +3166,34 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
         'field_file_image_alt_text' => 'alt',
       );
       $fid = $entity->field_illustrative_image[LANGUAGE_NONE][0]['fid'];
-      debug($fid);
+      debug($item);
       $file = file_load($fid);
       if ($file) {
-
-        $handler = entity_translation_get_handler('file', $file); 
-
         $config = $source->importer()->processor->getConfig();
         if (isset($config['mappings'])) { 
+          // Save default language at first.
+          foreach($config['mappings'] as $mapping) {
+            foreach($fields as $field => $field_name) {
+              if ($mapping['target'] == 'field_illustrative_image:' . $field_name . ':et:' . $def_lang && !empty($mapping['source']) && isset($item[$mapping['source']]) && !empty($item[$mapping['source']])) {
+                debug($item[$mapping['source']]);
+                $file->$field = array($def_lang => array(0 => array('value' => $item[$mapping['source']])));
+              }
+            }
+          }
+
+          file_save($file);
+        
+          $handler = entity_translation_get_handler('file', $file); 
+
+          // Handle the rest of available translations.
           foreach($config['mappings'] as $mapping) {
             foreach($fields as $field => $field_name) {
               foreach($languages as $language) {
+                
                 if ($language->language == $def_lang) {
                   continue;
                 }
+                
                 if ($mapping['target'] == 'field_illustrative_image:' . $field_name . ':et:' . $language->language && !empty($mapping['source']) && isset($item[$mapping['source']]) && !empty($item[$mapping['source']])) {
                   $translation = array(
                     'translate' => 0,
@@ -3136,13 +3210,9 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
                       )
                     )
                   );
-                  debug($translation);
-                  debug($values);
-                  $handler->setTranslation($translation, $values);
-                  field_attach_update('node', $entity);
-                  //debug($mapping['source']);
-                  //debug($item[$mapping['source']]);
-                  //$file->$field += array($language->language => array(0 => array('value' => $item[$mapping['source']])));
+                  debug($mapping);
+                  debug($item[$mapping['source']]);
+                  $handler->setTranslation($translation, $values);                  
                 }
               }
             }
@@ -3153,8 +3223,8 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
         cache_clear_all($fid, 'cache_entity_file');
       }
     }
-    
-    debug($entity);
+
+    debug($source);
   }
   
   if ($source->importer()->fetcher->id == 'newsroom_items') {
@@ -3186,6 +3256,38 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
   // these values to save them to file's fields.
   $multilingual = variable_get('newsroom_multilingual', FALSE);
   if ($multilingual) {
+//    $field_names = array(
+//      'field_file_image_title_text' => 'field_illustrative_image:title:et:',
+//      'field_newsroom_copyrights' => 'field_illustrative_image:copyright:et:',
+//      'field_caption' => 'field_illustrative_image:caption:et:',
+//      'field_file_image_alt_text' => 'field_illustrative_image:alt:et:',
+//    );
+//    
+//    $fields = array();
+//    $languages = language_list();
+//    foreach($languages as $language) {
+//      // Check only active and skip the default language.
+//      if ($language->enabled) {
+//
+//        foreach($field_names as $field_name) { 
+//          $fields[] = $field_name . $language->language;
+//        }
+//      }
+//    }
+//
+//    foreach (field_info_instances('file', 'image') as $name => $instance) {
+//      if (in_array($name, array_keys($field_names))) {
+//        foreach($fields as $field) {
+//          $targets[$field] = array(
+//            'name' => t('Image:@name', array('@name' => $field)),
+//            'callback' => NULL,
+//            'description' => t('The @label field of the image.', array('@label' => $field)),
+//            'real_target' => $field,
+//          );
+//        }
+//      }
+//    }
+  } else {
     $fields = array(
       'field_file_image_title_text',
       'field_file_image_alt_text',
@@ -3200,38 +3302,6 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
           'description' => t('The @label field of the image.', array('@label' => $instance['label'])),
           'real_target' => $name,
         );
-      }
-    }
-  } else {
-    $field_names = array(
-      'field_file_image_title_text' => 'field_illustrative_image:title:et:',
-      'field_newsroom_copyrights' => 'field_illustrative_image:copyright:et:',
-      'field_caption' => 'field_illustrative_image:caption:et:',
-      'field_file_image_alt_text' => 'field_illustrative_image:alt:et:',
-    );
-    
-    $fields = array();
-    $languages = language_list();
-    foreach($languages as $language) {
-      // Check only active and skip the default language.
-      if ($language->enabled) {
-
-        foreach($field_names as $field_name) { 
-          $fields[] = $field_name . $language->language;
-        }
-      }
-    }
-
-    foreach (field_info_instances('file', 'image') as $name => $instance) {
-      if (in_array($name, array_keys($field_names))) {
-        foreach($fields as $field) {
-          $targets[$field] = array(
-            'name' => t('Image:@name', array('@name' => $field)),
-            'callback' => NULL,
-            'description' => t('The @label field of the image.', array('@label' => $field)),
-            'real_target' => $field,
-          );
-        }
       }
     }
   }
