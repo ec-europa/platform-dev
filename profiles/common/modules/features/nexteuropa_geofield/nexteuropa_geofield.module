@@ -7,6 +7,7 @@
 /**
  * Implements hook_field_schema().
  */
+
 function nexteuropa_geofield_field_schema($field) {
   $schema = array();
 
@@ -44,6 +45,10 @@ function nexteuropa_geofield_field_widget_info() {
     'geofield_widget_map' => array(
       'label' => t('Interactive map'),
       'field types' => array('geofield_geojson'),
+      /*'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+        'default value' => FIELD_BEHAVIOR_NONE,
+      ),*/
     ),
   );
 }
@@ -55,6 +60,11 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
   $widget = $element;
   $widget['#delta'] = $delta;
   $value = isset($items[$delta]) ? $items[$delta] : '';
+  $settings = $instance['widget']['settings'];
+
+
+//print_r($instance);
+//print_r($field);
 
   switch ($instance['widget']['type']) {
     case 'geofield_widget_map':
@@ -80,7 +90,21 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
         '#prefix' => '<div class="hide">',
         '#suffix' => '</div>',
       );
+
+
+
+    foreach ($items as $item) {
+      $elements[$delta] = $element;
+      $elements[$delta]['#default_value'] = $item;
+      $elements[$delta]['#weight'] = $delta;
+      $delta++;
+    }
+
+
+
       drupal_add_js(array('nexteuropa_geojson' => array('map' => isset($value['geofield_geojson']) ? $value['geofield_geojson']  : '' )), 'setting');
+      drupal_add_js(array('nexteuropa_geojson' => array('settings' => $settings)), 'setting');
+      drupal_add_js(array('nexteuropa_geojson' => array('cardinality' => $field['cardinality'])), 'setting');
       break;
   }
   return $element;
@@ -93,23 +117,26 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
   $widget = $instance['widget'];
   $value = $widget['settings'];
 
+//print_r($field);
+//print_r($instance);
+
   if ($widget['type'] == 'geofield_widget_map') {
     $element['fs_default_map_center'] = array(
       '#type' => 'fieldset',
       '#collapsed' => FALSE,
       '#title' => t('Default map center'),
     );
-    $element['fs_default_map_center']['lng'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Longitude'),
-      '#default_value' => isset($value['fs_default_map_center']['lng']) ? $value['fs_default_map_center']['lng'] : 0,
-      '#size' => 30,
-      '#maxlength' => 30,
-    );
     $element['fs_default_map_center']['lat'] = array(
       '#type' => 'textfield',
       '#title' => t('Latitude'),
       '#default_value' => isset($value['fs_default_map_center']['lat']) ? $value['fs_default_map_center']['lat'] : 0,
+      '#size' => 30,
+      '#maxlength' => 30,
+    );
+    $element['fs_default_map_center']['lng'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Longitude'),
+      '#default_value' => isset($value['fs_default_map_center']['lng']) ? $value['fs_default_map_center']['lng'] : 0,
       '#size' => 30,
       '#maxlength' => 30,
     );
@@ -126,8 +153,25 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
       '#options' => drupal_map_assoc(array(t('polygon'), t('rectangle'), t('marker'), t('polyline'))),
       '#description' => t('Select the map objects that can be put on the map.'),
     );
+    $element['fs_objects']['objects_amount'] = array(
+      '#type' => 'select',
+      '#title' => t('Number of objects'),
+      '#description' => t('Maximum number of objects users can add on the map'),
+      '#options' => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+      '#default_value' => 3,
+    );
   }
   return $element;
+}
+
+/**
+ * Implements hook_form_ID_alter().
+ */
+function nexteuropa_geofield_form_field_ui_field_edit_form_alter(&$form, &$form_state, $form_id) {
+  if($form_state['build_info']['args'][0]['widget']['type'] == 'geofield_widget_map') {
+    $form['field']['cardinality']['#default_value'] = 1;
+    $form['field']['cardinality']['#disabled'] = TRUE;
+  } 
 }
 
 /**
@@ -151,6 +195,9 @@ function nexteuropa_geofield_field_formatter_info() {
  */
 function nexteuropa_geofield_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
+  $settings = $instance['widget']['settings'];
+print_r($instance);
+print_r($display);
 
   switch ($display['type']) {
     case 'geofield_geojson_raw':
@@ -179,6 +226,7 @@ function nexteuropa_geofield_field_formatter_view($entity_type, $entity, $field,
         libraries_get_path('Leaflet.draw') . '/dist/leaflet.draw.css',
       );
       drupal_add_js(array('nexteuropa_geojson' => array('map' => $value)), 'setting');
+      drupal_add_js(array('nexteuropa_geojson' => array('settings' => $settings)), 'setting');
       break;
   }
   return $element;
@@ -188,6 +236,6 @@ function nexteuropa_geofield_field_formatter_view($entity_type, $entity, $field,
  * Implements hook_field_is_empty().
  */
 function nexteuropa_geofield_field_is_empty($item, $field) {
-  return empty($item['geofield_geojson']);
+  return TRUE;//empty($item['geofield_geojson']);
 }
 

@@ -1,67 +1,63 @@
-//jQuery(document).ready(function($){
 (function ($) {
 
+  Drupal.behaviors.toolbox = {
+    attach: attach
+  };
 
-    Drupal.behaviors.toolbox = {
-        attach: attach
-    };
+  function attach(context, settings) {
+    var lat = settings.nexteuropa_geojson.settings.fs_default_map_center['lat'];
+    var lng = settings.nexteuropa_geojson.settings.fs_default_map_center['lng'];
+    var map = L.map('geofield_geojson_map', {}).setView([lat, lng], 13);
 
-    function attach(context, settings) {
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
 
-console.log(settings);
-console.log(settings.nexteuropa_geojson.map);
+    drawnItems = L.featureGroup().addTo(map);
 
+    // loaded GeoJSON map
+    if(settings.nexteuropa_geojson.map) {
+      loadedmap = jQuery.parseJSON(settings.nexteuropa_geojson.map);
+      drawnItems = L.geoJson(loadedmap).addTo(map);
 
-  /* var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
-      map = new L.Map('mymap', {layers: [osm], center: new L.LatLng(51.505, -0.04), zoom: 13}),*/
-
-  var map = L.map('geofield_geojson_map', {}).setView([51.505, -0.09], 13);
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
-
-  drawnItems = L.featureGroup().addTo(map);
-  console.log(map);
-  console.log($('.field-type-geofield-geojson textarea').val());
-  // loaded GeoJSON map
-//  if($('.field-type-geofield-geojson textarea').val().length > 0) {
-//    loadedmap = jQuery.parseJSON($('.field-type-geofield-geojson textarea').val());
-if(settings.nexteuropa_geojson.map) {
-    loadedmap = jQuery.parseJSON(settings.nexteuropa_geojson.map);
-    drawnItems = L.geoJson(loadedmap).addTo(map);
-
-    i = 0;
-    for(key in drawnItems._layers) {
-      drawnItems._layers[key].bindPopup(drawnItems._layers[key].feature.properties.label);
-      create_label(key, drawnItems._layers[key].feature.properties.label);
-      i++;
+      i = 0;
+      for(key in drawnItems._layers) {
+        drawnItems._layers[key].bindPopup(drawnItems._layers[key].feature.properties.label);
+        create_label(key, drawnItems._layers[key].feature.properties.label);
+        i++;
+      }
+      map.fitBounds(drawnItems.getBounds());
     }
-    console.log(drawnItems);
-    map.fitBounds(drawnItems.getBounds());
-  }
 
-  map.addControl(new L.Control.Draw({
-   draw : {
+    var marker_setting = settings.nexteuropa_geojson.settings.fs_objects.objects['marker'] == 0 ? false : true;
+    var polygon_setting = settings.nexteuropa_geojson.settings.fs_objects.objects['polygon'] == 0 ? false : true;
+    var polyline_setting = settings.nexteuropa_geojson.settings.fs_objects.objects['polyline'] == 0 ? false : true;
+    var rectangle_setting = settings.nexteuropa_geojson.settings.fs_objects.objects['rectangle'] == 0 ? false : true;  
+ 
+    var drawControl = new L.Control.Draw({
+      draw : {
         position : 'topleft',
-        polygon : true,
-        polyline : true,
-        rectangle : true,
+        polygon : polygon_setting,
+        polyline : polyline_setting,
+        rectangle : rectangle_setting,
+        marker: marker_setting,
         circle : false
-
-    },
+      },
       edit: { featureGroup: drawnItems }
-  }));
+    });
+
+    map.addControl(drawControl);
+
+    var objects_count = 0;
 
     map.on('draw:created', function(e) {
+if(objects_count < settings.nexteuropa_geojson.settings.fs_objects.objects_amount) {
+
       var type = e.layerType,
       layer = e.layer;
 
       var geoJSON = layer.toGeoJSON();
       feature = layer.feature;
-
-      console.log(type);
 
       if (type === 'marker') {
       }
@@ -71,21 +67,27 @@ if(settings.nexteuropa_geojson.map) {
     
       //layer.bindPopup('<h1>Blank popup</h1>');
 
+      console.log(objects_count);
+      
+        objects_count++;
+
       drawnItems.addLayer(layer);
       create_label(layer._leaflet_id, "");
 
       // update GeoJSON field
       geojson_map = drawnItems.toGeoJSON();
       $('.field-type-geofield-geojson textarea').text(JSON.stringify(geojson_map));
-
+}
 
     });
+
 
 
 map.on('draw:deleted', function (e) {
     var layers = e.layers._layers;
     var leaflet_id = Object.keys(layers)[0];
     $('#label_wrapper_'+leaflet_id).remove();
+    objects_count--;
  });
 
 
