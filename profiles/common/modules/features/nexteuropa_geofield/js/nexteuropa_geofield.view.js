@@ -1,11 +1,12 @@
 (function ($) {
+  Drupal.behaviors.toolbox = {
+    attach: attach
+  };
 
+  function attach(context, settings) {
 
-    Drupal.behaviors.toolbox = {
-        attach: attach
-    };
+console.log(settings);
 
-    function attach(context, settings) {
 
   var map = L.map('geofield_geojson_map', {}).setView([51.505, -0.09], 13);
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
