@@ -88,7 +88,7 @@ class TMGMTMtecTranslatorPluginController extends TMGMTDefaultTranslatorPluginCo
   }
 
   /**
-   * Overrides TMGMTDefaultTranslatorPluginController::getSupportedTargetLanguages().
+   * {@inheritdoc}
    */
   public function getSupportedTargetLanguages(TMGMTTranslator $translator, $source_language) {
     // Retrieve the supported languages from the site configuration.
@@ -230,4 +230,5 @@ class TMGMTMtecTranslatorPluginController extends TMGMTDefaultTranslatorPluginCo
     ftp_close($conn_id);
     return $filename;
   }
+
 }
