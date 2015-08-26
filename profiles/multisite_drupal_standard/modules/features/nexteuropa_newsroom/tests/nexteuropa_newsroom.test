@@ -256,8 +256,6 @@ class nexteuropaNewsroomWebTestCase extends FeedsWebTestCase {
       ->condition('s.feed_nid', $nid, '=');
     $query->addExpression("COUNT(*)");
     $result = $query->execute()->fetchField();
-    debug($query->__toString());
-    debug($query->getArguments());
     $this->assertEqual(1, $result);
 
     $source = db_select('feeds_source', 's')
