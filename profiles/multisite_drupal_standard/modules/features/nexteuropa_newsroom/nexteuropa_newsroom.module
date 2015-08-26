@@ -1017,28 +1017,47 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, $type = NULL)
     'raw_xml' => $raw_xml,
   );
 }
+  
 
 /**
  * Build tampers programmatically.
  */
 function _nexteuropa_newsroom_dynamic_tamper($tamper) {
-  $feeds_tamper = new stdClass();
-  $feeds_tamper->disabled = FALSE;
-  $feeds_tamper->api_version = 2;
-  $feeds_tamper->id = $tamper['id'];
-  $feeds_tamper->importer = $tamper['importer'];
-  $feeds_tamper->source = $tamper['source'];
-  $feeds_tamper->plugin_id = 'efq_finder';
-  $feeds_tamper->settings = array(
-    'update' => 'Update',
-    'entity_type' => 'taxonomy_term',
-    'bundle' => $tamper['settings']['bundle'],
-    'field' => $tamper['field'],
-    'column' => 'value',
-    'property' => FALSE,
-  );
-  $feeds_tamper->weight = 0;
-  $feeds_tamper->description = 'Entity Field Query finder';
+  $def_lang = language_default()->language;
+
+  if ($tamper == NULL) {
+    $feeds_tamper = new stdClass();
+    $feeds_tamper->disabled = FALSE;
+    $feeds_tamper->api_version = 2;
+    $feeds_tamper->id = 'newsroom_items_multilingual-blank_source_1-default_value';
+    $feeds_tamper->importer = 'newsroom_items_multilingual';
+    $feeds_tamper->source = 'Blank source 1';
+    $feeds_tamper->plugin_id = 'default_value';
+    $feeds_tamper->settings = array(
+      'default_value' => $def_lang,
+    );
+    $feeds_tamper->weight = 0;
+    $feeds_tamper->description = 'Set default language';
+  }
+  else {
+    $feeds_tamper = new stdClass();
+    $feeds_tamper->disabled = FALSE;
+    $feeds_tamper->api_version = 2;
+    $feeds_tamper->id = $tamper['id'];
+    $feeds_tamper->importer = $tamper['importer'];
+    $feeds_tamper->source = $tamper['source'];
+    $feeds_tamper->plugin_id = 'efq_finder';
+    $feeds_tamper->settings = array(
+      'update' => 'Update',
+      'entity_type' => 'taxonomy_term',
+      'bundle' => $tamper['settings']['bundle'],
+      'field' => $tamper['field'],
+      'column' => 'value',
+      'property' => FALSE,
+    );
+    $feeds_tamper->weight = 0;
+    $feeds_tamper->description = 'Entity Field Query finder';
+  }
 
   // Delete a pre-existing tamper with the same id.
   db_delete('feeds_tamper')
