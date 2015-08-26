@@ -87,20 +87,9 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
       $element ['geofield_geojson'] = array(
         '#type' => 'textarea',
         '#default_value' => isset($value['geofield_geojson']) ? $value['geofield_geojson'] : '',
-        '#prefix' => '<div class="hide">',
-        '#suffix' => '</div>',
+        //'#prefix' => '<div class="hide">',
+        //'#suffix' => '</div>',
       );
-
-
-
-    foreach ($items as $item) {
-      $elements[$delta] = $element;
-      $elements[$delta]['#default_value'] = $item;
-      $elements[$delta]['#weight'] = $delta;
-      $delta++;
-    }
-
-
 
       drupal_add_js(array('nexteuropa_geojson' => array('map' => isset($value['geofield_geojson']) ? $value['geofield_geojson']  : '' )), 'setting');
       drupal_add_js(array('nexteuropa_geojson' => array('settings' => $settings)), 'setting');
@@ -158,7 +147,18 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
       '#title' => t('Number of objects'),
       '#description' => t('Maximum number of objects users can add on the map'),
       '#options' => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
-      '#default_value' => 3,
+      '#default_value' => isset($value['fs_objects']['objects_amount']) ? $value['fs_objects']['objects_amount'] : 3,
+    );
+    $element['fs_objects']['prepopulate_label'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Object label populate'),
+      '#default_value' => isset($value['fs_objects']['objects_amount']) ? $value['fs_objects']['prepopulate_label'] : 'prepopulate',
+      '#options' => array('prepopulate' => t('Use title and body content to populate the name and the description of the object label.')),
+      '#states' => array(
+        'visible' => array(
+          'select[name="instance[widget][settings][fs_objects][objects_amount]"]' => array('value' => '1'),
+        ),
+      ),
     );
   }
   return $element;
@@ -236,6 +236,6 @@ print_r($display);
  * Implements hook_field_is_empty().
  */
 function nexteuropa_geofield_field_is_empty($item, $field) {
-  return TRUE;//empty($item['geofield_geojson']);
+  return empty($item['geofield_geojson']);
 }
 
