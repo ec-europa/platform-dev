@@ -16,6 +16,8 @@
             <option name="account-pass" value="${drupal.admin.password}"/>
             <option name="account-mail" value="${drupal.admin.email}"/>
             <param>${platform.profile.name}</param>
+            <!-- Prevent e-mails from being sent during the installation. -->
+            <param>install_configure_form.update_status_module='array(FALSE,FALSE)'</param>
         </drush>
     </target>
 
@@ -45,18 +47,6 @@
             showProgress="${phpcs.progress}"
             showSniffCodes="${phpcs.sniffcodes}"
             standard="${phpcs.standard}"
-        />
-    </target>
-
-    <!-- Run PHP CodeSniffer tests. -->
-    <target name="php-codesniffer" description="Run a PHP CodeSniffer test.">
-        <phpcodesniffer
-            standard="${phpcs.standard}"
-            format="${phpcs.report}"
-            file="${phpcs.files}"
-            allowedFileExtensions="${phpcs.extensions}"
-            ignorePatterns="${phpcs.ignore}"
-            verbosity="${phpcs.verbose}"
         />
     </target>
 
