@@ -14,11 +14,11 @@
       <?php echo $image_output; ?>
     </div>
   <?php endif; ?>
-  <?php if ($title || $copyright): ?>
+  <?php if ($caption || $copyright): ?>
     <figcaption>
-      <?php if ($title): ?>
+      <?php if ($caption): ?>
       <div class="legend">
-          <?php echo $title; ?>
+          <?php echo $caption; ?>
       </div>
       <?php endif; ?>
       <?php if ($copyright): ?>
