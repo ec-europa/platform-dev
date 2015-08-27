@@ -1667,11 +1667,9 @@ function _newsroom_taxonomy_term_importer($field_title, $redirect_path, $field_n
   if ($delete) {
     $terms = _newsroom_technical_fields_to_tid($field_name, $tid);
     if ($terms) {
-      $taxonomy_term = taxonomy_term_load($terms[0]);
-      $taxonomy_term->field_newsroom_published[LANGUAGE_NONE][0]['value'] = 0;
-      taxonomy_term_save($taxonomy_term);
+      taxonomy_term_delete($terms[0]);
 
-      $message = t('Newsroom %2 tid: %1 disabled', array('%1' => implode(', ', $terms), '%2' => $field_title));
+      $message = t('Newsroom %2 tid: %1 deleted', array('%1' => implode(', ', $terms), '%2' => $field_title));
       watchdog('newsroom', $message);
       drupal_set_message($message);
       return '';
