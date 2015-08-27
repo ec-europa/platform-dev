@@ -1,15 +1,14 @@
 --- includes/form.inc
 +++ includes/form.inc
-@@ -1163,7 +1163,7 @@ function drupal_validate_form($form_id, &$form, &$form_state) {
- 
+@@ -1175,7 +1175,7 @@
    // If the session token was set by drupal_prepare_form(), ensure that it
-   // matches the current user's session.
+   // matches the current user's session. This is duplicate to code in
+   // form_builder() but left to protect any custom form handling code.
 -  if (isset($form['#token'])) {
 +  if (!empty($form['#token'])) {
-     if (!drupal_valid_token($form_state['values']['form_token'], $form['#token'])) {
-       $path = current_path();
-       $query = drupal_get_query_parameters();
-
+     if (!drupal_valid_token($form_state['values']['form_token'], $form['#token']) || !empty($form_state['invalid_token'])) {
+       _drupal_invalid_token_set_form_error();
+       // Stop here and don't run any further validation handlers, because they
 --- modules/simpletest/tests/form.test
 +++ modules/simpletest/tests/form.test
 @@ -633,6 +633,14 @@ class FormValidationTestCase extends DrupalWebTestCase {
