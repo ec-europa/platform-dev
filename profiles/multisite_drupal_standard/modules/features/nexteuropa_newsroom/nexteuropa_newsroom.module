@@ -1138,6 +1138,7 @@ function nexteuropa_newsroom_delete($name, $type = 'menu', $op = 'items') {
  */
 function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'newsroom_item_node_form') {
+    // Build language aware options list for taxonomy reference fields.
     $terms = array();
     global $language;
     $def_lang = language_default()->language;
@@ -1167,12 +1168,19 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
         $form[$taxonomy_field]['und']['#options'][$value->tid] = $pref . $t_term->name;
       }
 
+      // The default value is lost in the translations, so we need to set it this way.
       if (!empty($form['#node']->$taxonomy_field)) {
+        $values = array();
         $value_array = $form['#node']->$taxonomy_field;
-        $value = $value_array['und'][0]['tid']; 
-        $form[$taxonomy_field]['und']['#default_value'] = array($value);
+        foreach ($value_array['und'] as $value) {
+          $values[] = $value['tid']; 
+          $form[$taxonomy_field]['und']['#default_value'] = $values;
+        }
       }
     }
+
+    // The widget will loose this settings, otherwise.
+    $form['field_newsroom_topics']['und']['#multiple'] = TRUE;
   }
 }
 
