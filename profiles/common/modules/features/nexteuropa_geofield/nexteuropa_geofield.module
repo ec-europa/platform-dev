@@ -62,10 +62,6 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
   $value = isset($items[$delta]) ? $items[$delta] : '';
   $settings = $instance['widget']['settings'];
 
-
-//print_r($instance);
-//print_r($field);
-
   switch ($instance['widget']['type']) {
     case 'geofield_widget_map':
       $element ['geojson_map'] = array(
@@ -87,8 +83,8 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
       $element ['geofield_geojson'] = array(
         '#type' => 'textarea',
         '#default_value' => isset($value['geofield_geojson']) ? $value['geofield_geojson'] : '',
-        //'#prefix' => '<div class="hide">',
-        //'#suffix' => '</div>',
+        '#prefix' => '<div id="geofield_geojson" class="hide">',
+        '#suffix' => '</div>',
       );
 
       drupal_add_js(array('nexteuropa_geojson' => array('map' => isset($value['geofield_geojson']) ? $value['geofield_geojson']  : '' )), 'setting');
@@ -105,9 +101,6 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
 function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
   $widget = $instance['widget'];
   $value = $widget['settings'];
-
-//print_r($field);
-//print_r($instance);
 
   if ($widget['type'] == 'geofield_widget_map') {
     $element['fs_default_map_center'] = array(
@@ -196,8 +189,6 @@ function nexteuropa_geofield_field_formatter_info() {
 function nexteuropa_geofield_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   $settings = $instance['widget']['settings'];
-print_r($instance);
-print_r($display);
 
   switch ($display['type']) {
     case 'geofield_geojson_raw':
