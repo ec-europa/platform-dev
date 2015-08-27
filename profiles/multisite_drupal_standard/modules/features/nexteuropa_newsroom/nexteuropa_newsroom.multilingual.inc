@@ -218,6 +218,10 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       'query' => 'infsonewsroom:BasicTeaser',
       'language' => TRUE,
     ),
+    '_feed_changed' => array(
+      'query' => 'infsonewsroom:pubUpdateDate/text()',
+      'language' => FALSE,
+    ),
   );
 
   $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_items_multilingual');

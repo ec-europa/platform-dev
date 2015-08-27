@@ -3077,6 +3077,15 @@ function newsroom_views_api() {
 }
 
 /**
+ * Implements hook_entity_presave().
+ */
+function newsroom_entity_presave($entity, $type) {
+  if(isset($entity->_feed_changed) && isset($entity->changed)) {
+    $entity->changed = $entity->_feed_changed;
+  }
+}
+
+/**
  * Implements hook_feeds_after_save().
  */
 function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id) {
@@ -3203,9 +3212,22 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
 }
 
 /**
+ * Implements hook_feeds_set_target().
+ */
+function newsroom_feeds_set_target(FeedsSource $source, $entity, $target, $feed_element) {
+  $entity->_feed_changed = feeds_to_unixtime($feed_element, REQUEST_TIME);
+}
+
+/**
  * Implements hook_feeds_processor_targets_alter().
  */
 function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle_name) {
+  $targets['_feed_changed'] = array(
+    'name' => t('Changed date'),
+    'description' => t('The UNIX time when a !entity_type has been changed.', array('!entity_type' => $entity_type)),
+    'callback' => 'newsroom_feeds_set_target',
+  );
+
   // We expose image additional fields to feeds mapper. So later we can use
   // these values to save them to file's fields.
   $multilingual = variable_get('newsroom_multilingual', FALSE);
