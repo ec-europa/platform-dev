@@ -5,7 +5,7 @@
  */
 
 /**
- * CKEditor plugins hook.
+ * Implements hook_ckeditor_plugin().
  */
 function text_collapse_ckeditor_plugin() {
   return array(
@@ -14,7 +14,7 @@ function text_collapse_ckeditor_plugin() {
       'desc' => 'Collapse - ' . t('Inserts [collapsed][/collapsed] tags'),
       'path' => drupal_get_path('module', 'text_collapse') . '/plugins/collapse/',
       'buttons' => array(
-        'collapse' => array('label' => 'Insert collapsible block', 'icon' => 'button.png'),
+        'collapse' => array('label' => t('Insert collapsible block'), 'icon' => 'button.png'),
       ),
     ),
   );
