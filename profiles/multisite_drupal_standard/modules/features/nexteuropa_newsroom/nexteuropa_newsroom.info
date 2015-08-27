@@ -91,7 +91,6 @@ features[field_base][] = field_newsroom_topics
 features[field_base][] = field_newsroom_type
 features[field_base][] = field_newsroom_type_id
 features[field_base][] = field_nr_project_coordinator
-features[field_base][] = field_pilar_and_action_image
 features[field_base][] = field_primary_topic
 features[field_base][] = field_read_more_text
 features[field_base][] = field_related_content
@@ -248,6 +247,7 @@ features_exclude[dependencies][context] = context
 features_exclude[dependencies][strongarm] = strongarm
 features_exclude[field_base][field_tags] = field_tags
 features_exclude[field_base][body] = body
-
+features_exclude[field_base][name_field] = name_field
+features_exclude[feeds_tamper][newsroom_items_multilingual-blank_source_1-default_value] = newsroom_items_multilingual-blank_source_1-default_value
 files[] = tests/nexteuropa_newsroom.test
 nexteuropa_version = 2.0
