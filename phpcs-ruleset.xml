@@ -65,7 +65,6 @@
     <exclude-pattern>profiles/common/modules/features/social_bookmark</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/solr_config</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/splash_screen</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/text_collapse</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/wiki</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp_17</exclude-pattern>
     <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
