@@ -400,7 +400,7 @@ projects[workbench_access][subdir] = "contributed"
 projects[workbench_access][version] = "1.2"
 
 projects[workbench_email][subdir] = "contributed"
-projects[workbench_email][version] = "3.3"
+projects[workbench_email][version] = "3.4"
 
 projects[wysiwyg][subdir] = "contributed"
 projects[wysiwyg][version] = "2.2"
