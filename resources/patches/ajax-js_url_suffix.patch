@@ -6,6 +6,6 @@
    //      E.g.: path/nojs#myfragment
 -  this.url = element_settings.url.replace(/\/nojs(\/|$|\?|&|#)/g, '/ajax$1');
 +  this.url = element_settings.url.replace(/\/nojs(\/|$|\?|&|#|_)/g, '/ajax$1');
-   this.wrapper = '#' + element_settings.wrapper;
- 
-   // If there isn't a form, jQuery.ajax() will be used instead, allowing us to
+   // If the 'nojs' version of the URL is trusted, also trust the 'ajax' version.
+   if (Drupal.settings.urlIsAjaxTrusted[element_settings.url]) {
+     Drupal.settings.urlIsAjaxTrusted[this.url] = true;
