@@ -41,7 +41,7 @@ projects[registry_autoload][subdir] = contributed
 projects[registry_autoload][version] = 1.2
 
 projects[smart_trim][subdir] = contributed
-projects[smart_trim][version] = 1.4
+projects[smart_trim][version] = 1.5
 
 projects[og][subdir] = contributed
 projects[og][download][type] = git
