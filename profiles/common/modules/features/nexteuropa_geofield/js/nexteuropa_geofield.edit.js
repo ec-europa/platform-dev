@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Code for nexteuropa_geofield.edit.js file.
+ */
+
 (function ($) {
 
   Drupal.behaviors.toolbox = {
@@ -9,6 +14,9 @@
     var lng = settings.nexteuropa_geojson.settings.fs_default_map_center['lng'];
     var map = L.map('geofield_geojson_map', {}).setView([lat, lng], 13);
 
+    // Manage a map objects counter.
+    var objects_count = 0;
+
     // Create map.
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -16,22 +24,44 @@
 
     drawnItems = L.featureGroup().addTo(map);
 
-    // Loaded GeoJSON map.
+    // Load the GeoJSON data to build the map.
     if(settings.nexteuropa_geojson.map) {
       loadedMap = jQuery.parseJSON(settings.nexteuropa_geojson.map);
       drawnItems = L.geoJson(loadedMap).addTo(map);
-
-      for(key in drawnItems._layers) {
-        // Create popups.
-        layer_properties = drawnItems._layers[key].feature.properties;
-        popup_content = buildPopupContent(key, layer_properties.label, layer_properties.description);
-        drawnItems._layers[key].bindPopup(popup_content);
-        // Only add inputs elements if the popups are not pre-populated.
-        if(settings.nexteuropa_geojson.settings.fs_objects.prepopulate_label.prepopulate == 0) {
+      
+      // Popups are not pre-populated.
+      if(settings.nexteuropa_geojson.settings.fs_objects.prepopulate_label.prepopulate == 0) {
+        for(key in drawnItems._layers) {
           // Create forms elements to manage popups content.
-          create_label(key, layer_properties.label, layer_properties.description);
+          layer_properties = drawnItems._layers[key].feature.properties;
+          createLabel(key, layer_properties.label, layer_properties.description);
+          objects_count++;
         }
+        updateGeoJsonField();
+        updatePopups();
       }
+      // Popups are pre-populated with the conteny title and body.
+      else {
+        $( "input[name*='title_field']" ).change(function() {
+          updateGeoJsonField();
+          updatePopups();
+        });
+        $('#geofield_geojson_map').click(function() {
+          updateGeoJsonField();
+          updatePopups();
+        });
+        CKEDITOR.on('instanceReady', function(ev) {
+          updatePopups();
+          for (var c in CKEDITOR.instances) {
+            CKEDITOR.instances[c].on('change', function() {
+              updateGeoJsonField();
+              updatePopups();
+            });
+            break;
+          }
+        });
+      }
+
       // Focus on map elements.
       map.fitBounds(drawnItems.getBounds());
     }
@@ -56,12 +86,10 @@
 
     map.addControl(drawControl);
 
-    // Manage a map objects counter.
-    var objects_count = 0;
-
     // Manage the event : when a new object is put on the map.
     map.on('draw:created', function(e) {
       if(objects_count < settings.nexteuropa_geojson.settings.fs_objects.objects_amount) {
+        console.log(objects_count);
         var type = e.layerType,
         layer = e.layer;
 
@@ -75,7 +103,7 @@
 
         // Only add inputs elements if the popups are not pre-populated.
         if(settings.nexteuropa_geojson.settings.fs_objects.prepopulate_label.prepopulate == 0)
-          create_label(layer._leaflet_id, "", "");
+          createLabel(layer._leaflet_id, "", "");
         else {
           // prepopulate the popups with the title and body content
           name = $( "input[name*='title_field']" ).val();
@@ -93,17 +121,26 @@
       }
     });
 
-
     // Manage the event : when an object is removed from the map.
     map.on('draw:deleted', function (e) {
-        var layers = e.layers._layers;
-        var leaflet_id = Object.keys(layers)[0];
-        $('#label_wrapper_'+leaflet_id).remove();
-        objects_count--;
+      var layers = e.layers._layers;
+      var leaflet_id = Object.keys(layers)[0];
+      $('#label_wrapper_'+leaflet_id).remove();
+      objects_count--;
+      updateGeoJsonField();
     });
 
-    // Create inputs (and their related events) to manage popups contents.
-    function create_label(leaflet_id, label, description) {
+
+    /**
+     * Create 2 inputs (and their related events) to manage popups contents.
+     * @param {Number} leaflet_id
+     *   id of the leaflet layer 
+     * @param {String} label
+     *   title of the popup
+     * @return {String} description
+     *   the content of the popup 
+     */
+    function createLabel(leaflet_id, label, description) {
       var myinput = '<div id="label_wrapper_'+leaflet_id+'" class="leaflet_label_wrapper"><input class="leaflet_label" name="myField" type="text" id="L'+leaflet_id+'">';
       myinput = myinput + '<textarea rows="2" class="leaflet_description" id="T'+leaflet_id+'"/>';
       myinput = myinput + '<a data-label-id="'+leaflet_id+'" class="remove-label" title="Delete labels."><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>';
@@ -114,21 +151,12 @@
 
       // manage change event on input elements
       $('#L'+leaflet_id+', #T'+leaflet_id).change(function() {
-        /*layer = map._layers[leaflet_id];
-
-        popup_content = buildPopupContent(leaflet_id, "", "");
-  
-        layer.bindPopup(popup_content);
-        layer._popup.setContent(popup_content);
-        layer._popup.update();
-        layer.openPopup();
-        */
-        createPopup(leaflet_id, "", "");
         updateGeoJsonField();
+        updatePopups();
       });
 
       // Manage focus event on input elements.
-      $('#L'+leaflet_id).focus(function() {
+      $('#L'+leaflet_id+', #T'+leaflet_id).focus(function() {
         layer = map._layers[leaflet_id];
         layer.openPopup();
 
@@ -141,7 +169,7 @@
       });
 
       // Manage blur event on input elements.
-      $('#L'+leaflet_id).blur(function() {
+      $('#L'+leaflet_id+', #T'+leaflet_id).blur(function() {
         layer = map._layers[leaflet_id];
         layer.closePopup();
         //layer.setStyle({color:'#f06eaa'});
@@ -152,15 +180,18 @@
         layer = map._layers[$(this).attr('data-label-id')];
         layer.closePopup();
         layer.unbindPopup();
-        $('#L'+leaflet_id).val('');
+        $('#L'+$(this).attr('data-label-id')).val('');
       });
     }
 
+    /**
+     * Update the GeoJSON field that contents the geoJson data by checking all elements in the map object.
+     */  
     function updateGeoJsonField() {
       geojson_map = drawnItems.toGeoJSON();
       i = 0
       for(key in drawnItems._layers) {
-        // check if the popups must be populated or not
+        // check if the popups must be populated by the title and body content.
         if(settings.nexteuropa_geojson.settings.fs_objects.prepopulate_label.prepopulate == 0) {
           name = $('#L'+key).val();
           description = $('#T'+key).val();
@@ -172,7 +203,6 @@
             break;
           }
         }
-        //geojson_map.features[i].properties.label = drawnItems._layers[key]._popup.getContent();
         geojson_map.features[i].properties.label = name;
         geojson_map.features[i].properties.description = description;
         i++;
@@ -180,10 +210,37 @@
       $('#geofield_geojson textarea').text(JSON.stringify(geojson_map));
     }
 
+    /**
+     * Update all the popups on the map by checking all elements in the map object.
+     */ 
     function updatePopups() {
-    
+      geojson_map = drawnItems.toGeoJSON();
+      i = 0;
+      for(key in drawnItems._layers) {
+        if(settings.nexteuropa_geojson.settings.fs_objects.prepopulate_label.prepopulate == 0) {
+          name = $('#L'+key).val();
+          description = $('#T'+key).val();
+        }
+        else {
+          name = $( "input[name*='title_field']" ).val();
+          for (var c in CKEDITOR.instances) {
+            description = CKEDITOR.instances[c].getData();
+            break;
+          }
+        }
+        createPopup(key, name, description);
+      }
     }
 
+    /**
+     * Build the html content put in a popup.
+     * @param {Number} leaflet_id
+     *   id of the leaflet layer of the popup
+     * @param {String} label
+     *   title of the popup
+     * @return {String} description
+     *   the content of the popup
+     */ 
     function buildPopupContent(leaflet_id, name, description) {
       var content = '<div id="popup_' + leaflet_id + '">';
       content = content + '<h4 class="popup_name">' + name + '</h4>';
@@ -192,13 +249,21 @@
       return content;
     }
 
+    /**
+     * Create the popup object and bind it to a map layer.
+     * @param {Number} leaflet_id
+     *   id of the leaflet layer of the popup
+     * @param {String} label
+     *   title of the popup
+     * @return {String} description
+     *   the content of the popup
+     */
     function createPopup(leaflet_id, name, description) {
       layer = map._layers[leaflet_id];
       popup_content = buildPopupContent(leaflet_id, name, description);
       layer.bindPopup(popup_content);
       layer._popup.setContent(popup_content);
       layer._popup.update();
-      layer.openPopup();            
     } 
 
   } 

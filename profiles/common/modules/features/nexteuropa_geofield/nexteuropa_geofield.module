@@ -148,7 +148,7 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
       '#default_value' => isset($value['fs_objects']['objects_amount']) ? $value['fs_objects']['prepopulate_label'] : 'prepopulate',
       '#options' => array('prepopulate' => t('Use title and body content to populate the name and the description of the object label.')),
       '#states' => array(
-        'visible' => array(
+        'enabled' => array(
           'select[name="instance[widget][settings][fs_objects][objects_amount]"]' => array('value' => '1'),
         ),
       ),
@@ -164,6 +164,9 @@ function nexteuropa_geofield_form_field_ui_field_edit_form_alter(&$form, &$form_
   if($form_state['build_info']['args'][0]['widget']['type'] == 'geofield_widget_map') {
     $form['field']['cardinality']['#default_value'] = 1;
     $form['field']['cardinality']['#disabled'] = TRUE;
+    $form['instance']['default_value_widget']['#collapsible'] = TRUE;
+    $form['instance']['default_value_widget']['#collapsed'] = TRUE;
+    $form['instance']['default_value_widget']['#access'] = FALSE;
   } 
 }
 
