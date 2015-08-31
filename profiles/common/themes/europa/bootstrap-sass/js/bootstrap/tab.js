@@ -1,18 +1,19 @@
-/* ========================================================================
- * Bootstrap: tab.js v3.3.1
- * http://getbootstrap.com/javascript/#tabs
+/**
+ * @file
+ * Bootstrap: tab.js v3.3.1.
+ *
+ * Http://getbootstrap.com/javascript/#tabs.
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- * ======================================================================== */
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE).
+ * ======================================================================== .
+ */
 
-
-+function ($) {
++ function ($) {
   'use strict';
 
   // TAB CLASS DEFINITION
   // ====================
-
   var Tab = function (element) {
     this.element = $(element)
   }
@@ -28,37 +29,40 @@
 
     if (!selector) {
       selector = $this.attr('href')
-      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '')
+      // Strip for ie7
     }
 
-    if ($this.parent('li').hasClass('active')) return
+    if ($this.parent('li').hasClass('active')) {
+      return
 
-    var $previous = $ul.find('.active:last a')
-    var hideEvent = $.Event('hide.bs.tab', {
-      relatedTarget: $this[0]
-    })
-    var showEvent = $.Event('show.bs.tab', {
-      relatedTarget: $previous[0]
-    })
-
-    $previous.trigger(hideEvent)
-    $this.trigger(showEvent)
-
-    if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) return
-
-    var $target = $(selector)
-
-    this.activate($this.closest('li'), $ul)
-    this.activate($target, $target.parent(), function () {
-      $previous.trigger({
-        type: 'hidden.bs.tab',
+      var $previous = $ul.find('.active:last a')
+      var hideEvent = $.Event('hide.bs.tab', {
         relatedTarget: $this[0]
       })
-      $this.trigger({
-        type: 'shown.bs.tab',
+      var showEvent = $.Event('show.bs.tab', {
         relatedTarget: $previous[0]
       })
-    })
+
+      $previous.trigger(hideEvent)
+      $this.trigger(showEvent)
+
+      if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) {
+        return
+
+        var $target = $(selector)
+
+        this.activate($this.closest('li'), $ul)
+        this.activate($target, $target.parent(), function () {
+          $previous.trigger({
+            type: 'hidden.bs.tab',
+            relatedTarget: $this[0]
+          })
+          $this.trigger({
+            type: 'shown.bs.tab',
+            relatedTarget: $previous[0]
+          })
+        } } })
   }
 
   Tab.prototype.activate = function (element, container, callback) {
@@ -82,9 +86,11 @@
           .attr('aria-expanded', true)
 
       if (transition) {
-        element[0].offsetWidth // reflow for transition
+        element[0].offsetWidth
+        // Reflow for transition.
         element.addClass('in')
-      } else {
+      }
+      else {
         element.removeClass('fade')
       }
 
@@ -109,18 +115,18 @@
     $active.removeClass('in')
   }
 
-
   // TAB PLUGIN DEFINITION
   // =====================
-
   function Plugin(option) {
     return this.each(function () {
       var $this = $(this)
       var data  = $this.data('bs.tab')
 
-      if (!data) $this.data('bs.tab', (data = new Tab(this)))
-      if (typeof option == 'string') data[option]()
-    })
+      if (!data) {
+        $this.data('bs.tab', (data = new Tab(this)))
+        if (typeof option == 'string') {
+          data[option]()
+        } } })
   }
 
   var old = $.fn.tab
@@ -128,19 +134,15 @@
   $.fn.tab             = Plugin
   $.fn.tab.Constructor = Tab
 
-
   // TAB NO CONFLICT
   // ===============
-
   $.fn.tab.noConflict = function () {
     $.fn.tab = old
     return this
   }
 
-
   // TAB DATA-API
   // ============
-
   var clickHandler = function (e) {
     e.preventDefault()
     Plugin.call($(this), 'show')

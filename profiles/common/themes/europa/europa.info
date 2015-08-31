@@ -110,4 +110,3 @@ settings[bootstrap_breadcrumb_title] = 1
 ; Advanced
 ; --------------
 settings[bootstrap_cdn] = ""
-
