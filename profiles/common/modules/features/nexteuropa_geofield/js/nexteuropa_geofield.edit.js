@@ -41,9 +41,10 @@
       }
       // Popups are pre-populated with the conteny title and body.
       else {
-        $("input[name*='title_field']").change(function() {
+        $("input[name*='title']").change(function() {
           updateGeoJsonField();
           updatePopups();
+          console.log($("input[name*='title']").val());
         });
         $('#geofield_geojson_map').click(function() {
           updateGeoJsonField();
@@ -105,7 +106,7 @@
         }
         else {
           // Prepopulate the popups with the title and body content.
-          name = $("input[name*='title_field']").val();
+          name = $("input[name*='title']").val();
           for (var c in CKEDITOR.instances) {
             description = CKEDITOR.instances[c].getData();
             break;
@@ -193,7 +194,7 @@
           description = $('#T' + key).val();
         }
         else {
-          name = $("input[name*='title_field']").val();
+          name = $("input[name*='title']").val();
           for (var c in CKEDITOR.instances) {
             description = CKEDITOR.instances[c].getData();
             break;
@@ -218,7 +219,7 @@
           description = $('#T' + key).val();
         }
         else {
-          name = $("input[name*='title_field']").val();
+          name = $("input[name*='title']").val();
           for (var c in CKEDITOR.instances) {
             description = CKEDITOR.instances[c].getData();
             break;

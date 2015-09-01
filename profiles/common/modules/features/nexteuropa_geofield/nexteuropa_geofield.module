@@ -82,7 +82,7 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
       $element['geofield_geojson'] = array(
         '#type' => 'textarea',
         '#default_value' => isset($value['geofield_geojson']) ? $value['geofield_geojson'] : '',
-        '#prefix' => '<div id="geofield_geojson" class="hide">',
+        '#prefix' => '<div id="geofield_geojson" class="hidezzzz">',
         '#suffix' => '</div>',
       );
 
