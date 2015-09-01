@@ -1,8 +1,5 @@
-/**
- * @file
- * Copyright (C) 2006 Google Inc.
- */
-
+// Copyright (C) 2006 Google Inc.
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,9 +11,13 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+
 /**
- * Some functions for browser-side pretty printing of code contained in html.
+ * @fileoverview
+ * some functions for browser-side pretty printing of code contained in html.
  *
+ * <p>
  * For a fairly comprehensive set of languages see the
  * <a href="http://google-code-prettify.googlecode.com/svn/trunk/README.html#langs">README</a>
  * file that came with this source.  At a minimum, the lexer should work on a
@@ -24,7 +25,7 @@
  * XML, CSS, Javascript, and Makefiles.  It works passably on Ruby, PHP and Awk
  * and a subset of Perl, but, because of commenting conventions, doesn't work on
  * Smalltalk, Lisp-like, or CAML-like languages without an explicit lang class.
- *
+ * <p>
  * Usage: <ol>
  * <li> include this source file in an html page via
  *   {@code <script type="text/javascript" src="/path/to/prettify.js"></script>}
@@ -48,7 +49,6 @@
  * <blockquote>
  *   Java annotations (start with "@") are now captured as literals ("lit")
  * </blockquote>
- *
  * @requires console
  */
 
@@ -56,8 +56,8 @@
 /*global console, document, navigator, setTimeout, window */
 
 /**
- * Split {@code prettyPrint} into multiple timeouts so as not to interfere with UI events.
- *
+ * Split {@code prettyPrint} into multiple timeouts so as not to interfere with
+ * UI events.
  * If set to {@code false}, {@code prettyPrint()} is synchronous.
  */
 window['PR_SHOULD_USE_CONTINUATION'] = true;
@@ -67,7 +67,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
   // We use things that coerce to strings to make them compact when minified
   // and to defeat aggressive optimizers that fold large string constants.
   var FLOW_CONTROL_KEYWORDS = ["break,continue,do,else,for,if,return,while"];
-  var C_KEYWORDS = [FLOW_CONTROL_KEYWORDS,"auto,case,char,const,default," +
+  var C_KEYWORDS = [FLOW_CONTROL_KEYWORDS,"auto,case,char,const,default," + 
       "double,enum,extern,float,goto,int,long,register,short,signed,sizeof," +
       "static,struct,switch,typedef,union,unsigned,void,volatile"];
   var COMMON_KEYWORDS = [C_KEYWORDS,"catch,class,delete,false,import," +
@@ -97,7 +97,8 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
       "sub,undef,unless,until,use,wantarray,while,BEGIN,END";
   var PYTHON_KEYWORDS = [FLOW_CONTROL_KEYWORDS, "and,as,assert,class,def,del," +
       "elif,except,exec,finally,from,global,import,in,is,lambda," +
-      "nonlocal,not,or,pass,print,raise,try,with,yield,False,True,None"];
+      "nonlocal,not,or,pass,print,raise,try,with,yield," +
+      "False,True,None"];
   var RUBY_KEYWORDS = [FLOW_CONTROL_KEYWORDS, "alias,and,begin,case,class," +
       "def,defined,elsif,end,ensure,false,in,module,next,nil,not,or,redo," +
       "rescue,retry,self,super,then,true,undef,unless,until,when,yield," +
@@ -109,156 +110,131 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
       PYTHON_KEYWORDS, RUBY_KEYWORDS, SH_KEYWORDS];
   var C_TYPES = /^(DIR|FILE|vector|(de|priority_)?queue|list|stack|(const_)?iterator|(multi)?(set|map)|bitset|u?(int|float)\d*)/;
 
-  // Token style names.  correspond to css classes.
-  /*
-   * Token style for a string literal.
-   *
+  // token style names.  correspond to css classes
+  /**
+   * token style for a string literal
    * @const
    */
   var PR_STRING = 'str';
-
-  /*
-   * Token style for a keyword.
-   *
+  /**
+   * token style for a keyword
    * @const
    */
   var PR_KEYWORD = 'kwd';
-
-  /*
-   * Token style for a comment.
-   *
+  /**
+   * token style for a comment
    * @const
    */
   var PR_COMMENT = 'com';
-
-  /*
-   * Token style for a type.
-   *
+  /**
+   * token style for a type
    * @const
    */
   var PR_TYPE = 'typ';
-
-  /*
-   * Token style for a literal value.  e.g. 1, null, true.
-   *
+  /**
+   * token style for a literal value.  e.g. 1, null, true.
    * @const
    */
   var PR_LITERAL = 'lit';
-
-  /*
-   * Token style for a punctuation string.
-   *
+  /**
+   * token style for a punctuation string.
    * @const
    */
   var PR_PUNCTUATION = 'pun';
-
-  /*
-   * Token style for a punctuation string.
-   *
+  /**
+   * token style for a punctuation string.
    * @const
    */
   var PR_PLAIN = 'pln';
 
-  /*
-   * Token style for an sgml tag.
-   *
+  /**
+   * token style for an sgml tag.
    * @const
    */
   var PR_TAG = 'tag';
-
-  /*
-   * Token style for a markup declaration such as a DOCTYPE.
-   *
+  /**
+   * token style for a markup declaration such as a DOCTYPE.
    * @const
    */
   var PR_DECLARATION = 'dec';
-
-  /*
-   * Token style for embedded source.
-   *
+  /**
+   * token style for embedded source.
    * @const
    */
   var PR_SOURCE = 'src';
-
-  /*
-   * Token style for an sgml attribute name.
-   *
+  /**
+   * token style for an sgml attribute name.
    * @const
    */
   var PR_ATTRIB_NAME = 'atn';
-
-  /*
-   * Token style for an sgml attribute value.
-   *
+  /**
+   * token style for an sgml attribute value.
    * @const
    */
   var PR_ATTRIB_VALUE = 'atv';
 
-  /*
+  /**
    * A class that indicates a section of markup that is not code, e.g. to allow
    * embedding of line numbers within code listings.
-   *
    * @const
    */
   var PR_NOCODE = 'nocode';
 
-  /*
-   * A set of tokens that can precede a regular expression literal in
-   * javascript
-   * http://web.archive.org/web/20070717142515/http://www.mozilla.org/js/language/js20/rationale/syntax.html
-   * has the full list, but I've removed ones that might be problematic when
-   * seen in languages that don't support regular expression literals.
-   *
-   * <p>Specifically, I've removed any keywords that can't precede a regexp
-   * literal in a syntactically legal javascript program, and I've removed the
-   * "in" keyword since it's not a keyword in many languages, and might be used
-   * as a count of inches.
-   *
-   * <p>The link a above does not accurately describe EcmaScript rules since
-   * it fails to distinguish between (a=++/b/i) and (a++/b/i) but it works
-   * very well in practice.
-   *
-   * @private
-   *
-   * @const
-   */
-  var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|\\!|\\!=|\\!==|\\#|\\%|\\%=|&|&&|&&=|&=|\\(|\\*|\\*=|\\+=|\\,|\\-=|\\->|\\/|\\/=|:|::|\\;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\@|\\[|\\^|\\^=|\\^\\^|\\^\\^=|\\{|\\||\\|=|\\|\\||\\|\\|=|\\~|break|case|continue|delete|do|else|finally|instanceof|return|throw|try|typeof)\\s*';
 
-  // CAVEAT: this does not properly handle the case where a regular
-  // expression immediately follows another since a regular expression may
-  // have flags for case-sensitivity and the like.  Having regexp tokens
-  // adjacent is not valid in any language I'm aware of, so I'm punting.
-  // TODO: maybe style special characters inside a regexp as punctuation.
+
+/**
+ * A set of tokens that can precede a regular expression literal in
+ * javascript
+ * http://web.archive.org/web/20070717142515/http://www.mozilla.org/js/language/js20/rationale/syntax.html
+ * has the full list, but I've removed ones that might be problematic when
+ * seen in languages that don't support regular expression literals.
+ *
+ * <p>Specifically, I've removed any keywords that can't precede a regexp
+ * literal in a syntactically legal javascript program, and I've removed the
+ * "in" keyword since it's not a keyword in many languages, and might be used
+ * as a count of inches.
+ *
+ * <p>The link a above does not accurately describe EcmaScript rules since
+ * it fails to distinguish between (a=++/b/i) and (a++/b/i) but it works
+ * very well in practice.
+ *
+ * @private
+ * @const
+ */
+var REGEXP_PRECEDER_PATTERN = '(?:^^\\.?|[+-]|\\!|\\!=|\\!==|\\#|\\%|\\%=|&|&&|&&=|&=|\\(|\\*|\\*=|\\+=|\\,|\\-=|\\->|\\/|\\/=|:|::|\\;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\@|\\[|\\^|\\^=|\\^\\^|\\^\\^=|\\{|\\||\\|=|\\|\\||\\|\\|=|\\~|break|case|continue|delete|do|else|finally|instanceof|return|throw|try|typeof)\\s*';
+
+// CAVEAT: this does not properly handle the case where a regular
+// expression immediately follows another since a regular expression may
+// have flags for case-sensitivity and the like.  Having regexp tokens
+// adjacent is not valid in any language I'm aware of, so I'm punting.
+// TODO: maybe style special characters inside a regexp as punctuation.
+
+
   /**
-   * Combine patterns.
-   *
    * Given a group of {@link RegExp}s, returns a {@code RegExp} that globally
    * matches the union of the sets of strings matched by the input RegExp.
    * Since it matches globally, if the input strings have a start-of-input
    * anchor (/^.../), it is ignored for the purposes of unioning.
-   *
    * @param {Array.<RegExp>} regexs non multiline, non-global regexs.
-   *
    * @return {RegExp} a global regex.
    */
   function combinePrefixPatterns(regexs) {
     var capturedGroupIndex = 0;
-
+  
     var needToFoldCase = false;
     var ignoreCase = false;
     for (var i = 0, n = regexs.length; i < n; ++i) {
       var regex = regexs[i];
       if (regex.ignoreCase) {
         ignoreCase = true;
-      }
-      else if (/[a-z]/i.test(regex.source.replace(
+      } else if (/[a-z]/i.test(regex.source.replace(
                      /\\u[0-9a-f]{4}|\\x[0-9a-f]{2}|\\[^ux]/gi, ''))) {
         needToFoldCase = true;
         ignoreCase = false;
         break;
       }
     }
-
+  
     var escapeCharToCodeUnit = {
       'b': 8,
       't': 9,
@@ -267,7 +243,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
       'f': 0xc,
       'r': 0xd
     };
-
+  
     function decodeEscape(charsetPart) {
       var cc0 = charsetPart.charCodeAt(0);
       if (cc0 !== 92 /* \\ */) {
@@ -277,18 +253,15 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
       cc0 = escapeCharToCodeUnit[c1];
       if (cc0) {
         return cc0;
-      }
-      else if ('0' <= c1 && c1 <= '7') {
+      } else if ('0' <= c1 && c1 <= '7') {
         return parseInt(charsetPart.substring(1), 8);
-      }
-      else if (c1 === 'u' || c1 === 'x') {
+      } else if (c1 === 'u' || c1 === 'x') {
         return parseInt(charsetPart.substring(2), 16);
-      }
-      else {
+      } else {
         return charsetPart.charCodeAt(1);
       }
     }
-
+  
     function encodeEscape(charCode) {
       if (charCode < 0x20) {
         return (charCode < 0x10 ? '\\x0' : '\\x') + charCode.toString(16);
@@ -299,32 +272,34 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
       }
       return ch;
     }
-
+  
     function caseFoldCharset(charSet) {
       var charsetParts = charSet.substring(1, charSet.length - 1).match(
           new RegExp(
-              '\\\\u[0-9A-Fa-f]{4}|\\\\x[0-9A-Fa-f]{2}|\\\\[0-3][0-7]{0,2}'
-              + '|\\\\[0-7]{1,2}|\\\\[\\s\\S]|-|[^-\\\\]', 'g'));
+              '\\\\u[0-9A-Fa-f]{4}'
+              + '|\\\\x[0-9A-Fa-f]{2}'
+              + '|\\\\[0-3][0-7]{0,2}'
+              + '|\\\\[0-7]{1,2}'
+              + '|\\\\[\\s\\S]'
+              + '|-'
+              + '|[^-\\\\]',
+              'g'));
       var groups = [];
       var ranges = [];
       var inverse = charsetParts[0] === '^';
       for (var i = inverse ? 1 : 0, n = charsetParts.length; i < n; ++i) {
         var p = charsetParts[i];
-        if (/\\[bdsw]/i.test(p)) {
-
-          // Don't muck with named groups.
+        if (/\\[bdsw]/i.test(p)) {  // Don't muck with named groups.
           groups.push(p);
-        }
-        else {
+        } else {
           var start = decodeEscape(p);
           var end;
           if (i + 2 < n && '-' === charsetParts[i + 1]) {
             end = decodeEscape(charsetParts[i + 2]);
             i += 2;
-                  }
-          else {
+          } else {
             end = start;
-                  }
+          }
           ranges.push([start, end]);
           // If the range might intersect letters, then expand it.
           // This case handling is too simplistic.
@@ -337,89 +312,78 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
             if (!(end < 97 || start > 122)) {
               ranges.push([Math.max(97, start) & ~32, Math.min(end, 122) & ~32]);
             }
-                  }
+          }
         }
       }
-
+  
       // [[1, 10], [3, 4], [8, 12], [14, 14], [16, 16], [17, 17]]
       // -> [[1, 12], [14, 14], [16, 17]]
-      ranges.sort(function (a, b) { return (a[0] - b[0]) || (b[1] - a[1]); });
+      ranges.sort(function (a, b) { return (a[0] - b[0]) || (b[1]  - a[1]); });
       var consolidatedRanges = [];
       var lastRange = [NaN, NaN];
       for (var i = 0; i < ranges.length; ++i) {
         var range = ranges[i];
         if (range[0] <= lastRange[1] + 1) {
           lastRange[1] = Math.max(lastRange[1], range[1]);
-        }
-        else {
+        } else {
           consolidatedRanges.push(lastRange = range);
         }
       }
-
+  
       var out = ['['];
-      if (inverse) {
-        out.push('^'); }
+      if (inverse) { out.push('^'); }
       out.push.apply(out, groups);
       for (var i = 0; i < consolidatedRanges.length; ++i) {
         var range = consolidatedRanges[i];
         out.push(encodeEscape(range[0]));
         if (range[1] > range[0]) {
-          if (range[1] + 1 > range[0]) {
-            out.push('-'); }
+          if (range[1] + 1 > range[0]) { out.push('-'); }
           out.push(encodeEscape(range[1]));
         }
       }
       out.push(']');
       return out.join('');
     }
-
+  
     function allowAnywhereFoldCaseAndRenumberGroups(regex) {
       // Split into character sets, escape sequences, punctuation strings
       // like ('(', '(?:', ')', '^'), and runs of characters that do not
       // include any of the above.
       var parts = regex.source.match(
           new RegExp(
-              '(?:\\[(?:[^\\x5C\\x5D]|\\\\[\\s\\S])*\\]'
-      // A character set.
-              + '|\\\\u[A-Fa-f0-9]{4}'
-      // A unicode escape.
-              + '|\\\\x[A-Fa-f0-9]{2}'
-      // A hex escape.
-              + '|\\\\[0-9]+'
-      // A back-reference or octal escape.
-              + '|\\\\[^ux0-9]'
-      // Other escape sequence.
-              + '|\\(\\?[:!=]'
-      // Start of a non-capturing group.
-              + '|[\\(\\)\\^]'
-      // start/emd of a group, or line start.
-              + '|[^\\x5B\\x5C\\(\\)\\^]+'
-      // Run of other characters.
+              '(?:'
+              + '\\[(?:[^\\x5C\\x5D]|\\\\[\\s\\S])*\\]'  // a character set
+              + '|\\\\u[A-Fa-f0-9]{4}'  // a unicode escape
+              + '|\\\\x[A-Fa-f0-9]{2}'  // a hex escape
+              + '|\\\\[0-9]+'  // a back-reference or octal escape
+              + '|\\\\[^ux0-9]'  // other escape sequence
+              + '|\\(\\?[:!=]'  // start of a non-capturing group
+              + '|[\\(\\)\\^]'  // start/emd of a group, or line start
+              + '|[^\\x5B\\x5C\\(\\)\\^]+'  // run of other characters
               + ')',
               'g'));
       var n = parts.length;
-
+  
       // Maps captured group numbers to the number they will occupy in
       // the output or to -1 if that has not been determined, or to
       // undefined if they need not be capturing in the output.
       var capturedGroups = [];
-
+  
       // Walk over and identify back references to build the capturedGroups
       // mapping.
       for (var i = 0, groupIndex = 0; i < n; ++i) {
         var p = parts[i];
         if (p === '(') {
-          // Groups are 1-indexed, so max group index is count of '('
+          // groups are 1-indexed, so max group index is count of '('
           ++groupIndex;
-        }
-        else if ('\\' === p.charAt(0)) {
+        } else if ('\\' === p.charAt(0)) {
           var decimalValue = +p.substring(1);
           if (decimalValue && decimalValue <= groupIndex) {
             capturedGroups[decimalValue] = -1;
-                  }
+          }
         }
       }
-
+  
       // Renumber groups and reduce capturing groups to non-capturing groups
       // where possible.
       for (var i = 1; i < capturedGroups.length; ++i) {
@@ -434,22 +398,20 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
           if (capturedGroups[groupIndex] === undefined) {
             parts[i] = '(?:';
           }
-        }
-        else if ('\\' === p.charAt(0)) {
+        } else if ('\\' === p.charAt(0)) {
           var decimalValue = +p.substring(1);
           if (decimalValue && decimalValue <= groupIndex) {
             parts[i] = '\\' + capturedGroups[groupIndex];
-                  }
+          }
         }
       }
-
+  
       // Remove any prefix anchors so that the output will match anywhere.
       // ^^ really does mean an anchored match though.
       for (var i = 0, groupIndex = 0; i < n; ++i) {
-        if ('^' === parts[i] && '^' !== parts[i + 1]) {
-          parts[i] = ''; }
+        if ('^' === parts[i] && '^' !== parts[i + 1]) { parts[i] = ''; }
       }
-
+  
       // Expand letters to groups to handle mixing of case-sensitive and
       // case-insensitive patterns if necessary.
       if (regex.ignoreCase && needToFoldCase) {
@@ -458,38 +420,36 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
           var ch0 = p.charAt(0);
           if (p.length >= 2 && ch0 === '[') {
             parts[i] = caseFoldCharset(p);
-          }
-          else if (ch0 !== '\\') {
+          } else if (ch0 !== '\\') {
             // TODO: handle letters in numeric escapes.
             parts[i] = p.replace(
                 /[a-zA-Z]/g,
                 function (ch) {
                   var cc = ch.charCodeAt(0);
                   return '[' + String.fromCharCode(cc & ~32, cc | 32) + ']';
-                          });
+                });
           }
         }
       }
-
+  
       return parts.join('');
     }
-
+  
     var rewritten = [];
     for (var i = 0, n = regexs.length; i < n; ++i) {
       var regex = regexs[i];
-      if (regex.global || regex.multiline) {
-        throw new Error('' + regex); }
+      if (regex.global || regex.multiline) { throw new Error('' + regex); }
       rewritten.push(
           '(?:' + allowAnywhereFoldCaseAndRenumberGroups(regex) + ')');
     }
-
+  
     return new RegExp(rewritten.join('|'), ignoreCase ? 'gi' : 'g');
   }
 
+
   /**
-   * Split markup into a string of source code and an array.
-   *
-   * Mapping ranges in that string to the text nodes in which they appear.
+   * Split markup into a string of source code and an array mapping ranges in
+   * that string to the text nodes in which they appear.
    *
    * <p>
    * The HTML DOM structure:</p>
@@ -528,82 +488,74 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
    * </p>
    *
    * @param {Node} node an HTML DOM subtree containing source-code.
-   *
    * @return {Object} source code and the text nodes in which they occur.
    */
   function extractSourceSpans(node) {
     var nocode = /(?:^|\s)nocode(?:\s|$)/;
-
+  
     var chunks = [];
     var length = 0;
     var spans = [];
     var k = 0;
-
+  
     var whitespace;
     if (node.currentStyle) {
       whitespace = node.currentStyle.whiteSpace;
-    }
-    else if (window.getComputedStyle) {
+    } else if (window.getComputedStyle) {
       whitespace = document.defaultView.getComputedStyle(node, null)
           .getPropertyValue('white-space');
     }
     var isPreformatted = whitespace && 'pre' === whitespace.substring(0, 3);
-
+  
     function walk(node) {
       switch (node.nodeType) {
-        case 1:
-          // Element.
-          if (nocode.test(node.className)) {
-            return; }
+        case 1:  // Element
+          if (nocode.test(node.className)) { return; }
           for (var child = node.firstChild; child; child = child.nextSibling) {
             walk(child);
           }
           var nodeName = node.nodeName;
           if ('BR' === nodeName || 'LI' === nodeName) {
             chunks[k] = '\n';
-            spans[k < < 1] = length++;
-            spans[(k++ < < 1) | 1] = node;
+            spans[k << 1] = length++;
+            spans[(k++ << 1) | 1] = node;
           }
           break;
-
-        case 3: case 4:
-            // Text.
-            var text = node.nodeValue;
-            if (text.length) {
-              if (!isPreformatted) {
-                text = text.replace(/[ \t\r\n]+/g, ' ');
-              }
-              else {
-                text = text.replace(/\r\n?/g, '\n');
-                // Normalize newlines.
-              }
-              // TODO: handle tabs here?
-              chunks[k] = text;
-              spans[k < < 1] = length;
-              length += text.length;
-              spans[(k++ < < 1) | 1] = node;
+        case 3: case 4:  // Text
+          var text = node.nodeValue;
+          if (text.length) {
+            if (!isPreformatted) {
+              text = text.replace(/[ \t\r\n]+/g, ' ');
+            } else {
+              text = text.replace(/\r\n?/g, '\n');  // Normalize newlines.
             }
+            // TODO: handle tabs here?
+            chunks[k] = text;
+            spans[k << 1] = length;
+            length += text.length;
+            spans[(k++ << 1) | 1] = node;
+          }
           break;
       }
     }
-
+  
     walk(node);
-
+  
     return {
       sourceCode: chunks.join('').replace(/\n$/, ''),
       spans: spans
     };
   }
 
+
   /**
-   * Apply the given language handler to sourceCode and add the resulting decorations to out.
-   *
+   * Apply the given language handler to sourceCode and add the resulting
+   * decorations to out.
    * @param {number} basePos the index of sourceCode within the chunk of source
    *    whose decorations are already present on out.
    */
   function appendDecorations(basePos, sourceCode, langHandler, out) {
-    if (!sourceCode) {
-      return; }
+    if (!sourceCode) { return; }
     var job = {
       sourceCode: sourceCode,
       basePos: basePos
@@ -615,8 +567,6 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
   var notWs = /\S/;
 
   /**
-   * Return child element.
-   *
    * Given an element, if it contains only one child element and any text nodes
    * it contains contain only space characters, return the sole child element.
    * Otherwise returns undefined.
@@ -631,66 +581,61 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
     var wrapper = undefined;
     for (var c = element.firstChild; c; c = c.nextSibling) {
       var type = c.nodeType;
-      wrapper = (type === 1)
-      // Element Node.
+      wrapper = (type === 1)  // Element Node
           ? (wrapper ? element : c)
-          : (type === 3)
-      // Text Node.
+          : (type === 3)  // Text Node
           ? (notWs.test(c.nodeValue) ? element : wrapper)
           : wrapper;
     }
     return wrapper === element ? undefined : wrapper;
   }
 
-  /**
-   * Find token boundaries and returns a decoration list of the form.
-   *
-   * Given triples of [style, pattern, context] returns a lexing function,
-   * The lexing function interprets the patterns to find token boundaries and
-   * returns a decoration list of the form
-   * [index_0, style_0, index_1, style_1, ..., index_n, style_n]
-   * where index_n is an index into the sourceCode, and style_n is a style
-   * constant like PR_PLAIN.  index_n-1 <= index_n, and style_n-1 applies to
-   * all characters in sourceCode[index_n-1:index_n].
-   *
-   * The stylePatterns is a list whose elements have the form
-   * [style : string, pattern : RegExp, DEPRECATED, shortcut : string].
-   *
-   * Style is a style constant like PR_PLAIN, or can be a string of the
-   * form 'lang-FOO', where FOO is a language extension describing the
-   * language of the portion of the token in $1 after pattern executes.
-   * E.g., if style is 'lang-lisp', and group 1 contains the text
-   * '(hello (world))', then that portion of the token will be passed to the
-   * registered lisp handler for formatting.
-   * The text before and after group 1 will be restyled using this decorator
-   * so decorators should take care that this doesn't result in infinite
-   * recursion.  For example, the HTML lexer rule for SCRIPT elements looks
-   * something like ['lang-js', /<[s]cript>(.+?)<\/script>/].  This may match
-   * '<script>foo()<\/script>', which would cause the current decorator to
-   * be called with '<script>' which would not match the same rule since
-   * group 1 must not be empty, so it would be instead styled as PR_TAG by
-   * the generic tag rule.  The handler registered for the 'js' extension would
-   * then be called with 'foo()', and finally, the current decorator would
-   * be called with '<\/script>' which would not match the original rule and
-   * so the generic tag rule would identify it as a tag.
-   *
-   * Pattern must only match prefixes, and if it matches a prefix, then that
-   * match is considered a token with the same style.
-   *
-   * Context is applied to the last non-whitespace, non-comment token
-   * recognized.
-   *
-   * Shortcut is an optional string of characters, any of which, if the first
-   * character, gurantee that this pattern and only this pattern matches.
-   *
-   * @param {Array} shortcutStylePatterns patterns that always start with
-   *   a known character.  Must have a shortcut string.
-   * @param {Array} fallthroughStylePatterns patterns that will be tried in
-   *   order if the shortcut ones fail.  May have shortcuts.
-   *
-   * @return {function (Object)} a
-   *   function that takes source code and returns a list of decorations.
-   */
+  /** Given triples of [style, pattern, context] returns a lexing function,
+    * The lexing function interprets the patterns to find token boundaries and
+    * returns a decoration list of the form
+    * [index_0, style_0, index_1, style_1, ..., index_n, style_n]
+    * where index_n is an index into the sourceCode, and style_n is a style
+    * constant like PR_PLAIN.  index_n-1 <= index_n, and style_n-1 applies to
+    * all characters in sourceCode[index_n-1:index_n].
+    *
+    * The stylePatterns is a list whose elements have the form
+    * [style : string, pattern : RegExp, DEPRECATED, shortcut : string].
+    *
+    * Style is a style constant like PR_PLAIN, or can be a string of the
+    * form 'lang-FOO', where FOO is a language extension describing the
+    * language of the portion of the token in $1 after pattern executes.
+    * E.g., if style is 'lang-lisp', and group 1 contains the text
+    * '(hello (world))', then that portion of the token will be passed to the
+    * registered lisp handler for formatting.
+    * The text before and after group 1 will be restyled using this decorator
+    * so decorators should take care that this doesn't result in infinite
+    * recursion.  For example, the HTML lexer rule for SCRIPT elements looks
+    * something like ['lang-js', /<[s]cript>(.+?)<\/script>/].  This may match
+    * '<script>foo()<\/script>', which would cause the current decorator to
+    * be called with '<script>' which would not match the same rule since
+    * group 1 must not be empty, so it would be instead styled as PR_TAG by
+    * the generic tag rule.  The handler registered for the 'js' extension would
+    * then be called with 'foo()', and finally, the current decorator would
+    * be called with '<\/script>' which would not match the original rule and
+    * so the generic tag rule would identify it as a tag.
+    *
+    * Pattern must only match prefixes, and if it matches a prefix, then that
+    * match is considered a token with the same style.
+    *
+    * Context is applied to the last non-whitespace, non-comment token
+    * recognized.
+    *
+    * Shortcut is an optional string of characters, any of which, if the first
+    * character, gurantee that this pattern and only this pattern matches.
+    *
+    * @param {Array} shortcutStylePatterns patterns that always start with
+    *   a known character.  Must have a shortcut string.
+    * @param {Array} fallthroughStylePatterns patterns that will be tried in
+    *   order if the shortcut ones fail.  May have shortcuts.
+    *
+    * @return {function (Object)} a
+    *   function that takes source code and returns a list of decorations.
+    */
   function createSimpleLexer(shortcutStylePatterns, fallthroughStylePatterns) {
     var shortcuts = {};
     var tokenizer;
@@ -719,7 +664,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
 
     var nPatterns = fallthroughStylePatterns.length;
 
-    /*
+    /**
      * Lexes job.sourceCode and produces an output array job.decorations of
      * style classes preceded by the position at which they start in
      * job.sourceCode in order.
@@ -732,14 +677,13 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
      */
     var decorate = function (job) {
       var sourceCode = job.sourceCode, basePos = job.basePos;
-       /* Even entries are positions in source in ascending order.  Odd enties
+      /** Even entries are positions in source in ascending order.  Odd enties
         * are style markers (e.g., PR_COMMENT) that run from that position until
         * the end.
         * @type {Array.<number|string>}
         */
       var decorations = [basePos, PR_PLAIN];
-      var pos = 0;
-      // Index into sourceCode.
+      var pos = 0;  // index into sourceCode
       var tokens = sourceCode.match(tokenizer) || [];
       var styleCache = {};
 
@@ -751,14 +695,12 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
         var isEmbedded;
         if (typeof style === 'string') {
           isEmbedded = false;
-        }
-        else {
+        } else {
           var patternParts = shortcuts[token.charAt(0)];
           if (patternParts) {
             match = token.match(patternParts[1]);
             style = patternParts[0];
-                  }
-          else {
+          } else {
             for (var i = 0; i < nPatterns; ++i) {
               patternParts = fallthroughStylePatterns[i];
               match = token.match(patternParts[1]);
@@ -766,13 +708,12 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
                 style = patternParts[0];
                 break;
               }
-                    }
+            }
 
-            if (!match) {
-              // Make sure that we make progress.
+            if (!match) {  // make sure that we make progress
               style = PR_PLAIN;
-                    }
-                  }
+            }
+          }
 
           isEmbedded = style.length >= 5 && 'lang-' === style.substring(0, 5);
           if (isEmbedded && !(match && typeof match[1] === 'string')) {
@@ -780,8 +721,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
             style = PR_SOURCE;
           }
 
-          if (!isEmbedded) {
-            styleCache[token] = style; }
+          if (!isEmbedded) { styleCache[token] = style; }
         }
 
         var tokenStart = pos;
@@ -789,10 +729,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
 
         if (!isEmbedded) {
           decorations.push(basePos + tokenStart, style);
-        }
-        else {
-
-          // Treat group 1 as an embedded block of source code.
+        } else {  // Treat group 1 as an embedded block of source code.
           var embeddedSource = match[1];
           var embeddedSourceStart = token.indexOf(embeddedSource);
           var embeddedSourceEnd = embeddedSourceStart + embeddedSource.length;
@@ -802,20 +739,20 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
             // entire token, so we catch the right context in match[2].
             embeddedSourceEnd = token.length - match[2].length;
             embeddedSourceStart = embeddedSourceEnd - embeddedSource.length;
-                  }
+          }
           var lang = style.substring(5);
-          // Decorate the left of the embedded source.
+          // Decorate the left of the embedded source
           appendDecorations(
               basePos + tokenStart,
               token.substring(0, embeddedSourceStart),
               decorate, decorations);
-          // Decorate the embedded source.
+          // Decorate the embedded source
           appendDecorations(
               basePos + tokenStart + embeddedSourceStart,
               embeddedSource,
               langHandlerForExtension(lang, embeddedSource),
               decorations);
-          // Decorate the right of the embedded section.
+          // Decorate the right of the embedded section
           appendDecorations(
               basePos + tokenStart + embeddedSourceEnd,
               token.substring(embeddedSourceEnd),
@@ -827,23 +764,21 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
     return decorate;
   }
 
-  /**
-   * Returns a function that produces a list of decorations from source text.
-   *
-   * This code treats ", ', and ` as string delimiters, and \ as a string
-   * escape.  It does not recognize perl's qq() style strings.
-   * It has no special handling for double delimiter escapes as in basic, or
-   * the tripled delimiters used in python, but should work on those regardless
-   * although in those cases a single string literal may be broken up into
-   * multiple adjacent string literals.
-   *
-   * It recognizes C, C++, and shell style comments.
-   *
-   * @param {Object} options a set of optional parameters.
-   *
-   * @return {function (Object)} a function that examines the source code
-   *     in the input job and builds the decoration list.
-   */
+  /** returns a function that produces a list of decorations from source text.
+    *
+    * This code treats ", ', and ` as string delimiters, and \ as a string
+    * escape.  It does not recognize perl's qq() style strings.
+    * It has no special handling for double delimiter escapes as in basic, or
+    * the tripled delimiters used in python, but should work on those regardless
+    * although in those cases a single string literal may be broken up into
+    * multiple adjacent string literals.
+    *
+    * It recognizes C, C++, and shell style comments.
+    *
+    * @param {Object} options a set of optional parameters.
+    * @return {function (Object)} a function that examines the source code
+    *     in the input job and builds the decoration list.
+    */
   function sourceDecorator(options) {
     var shortcutStylePatterns = [], fallthroughStylePatterns = [];
     if (options['tripleQuotedStrings']) {
@@ -851,14 +786,12 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
       shortcutStylePatterns.push(
           [PR_STRING,  /^(?:\'\'\'(?:[^\'\\]|\\[\s\S]|\'{1,2}(?=[^\']))*(?:\'\'\'|$)|\"\"\"(?:[^\"\\]|\\[\s\S]|\"{1,2}(?=[^\"]))*(?:\"\"\"|$)|\'(?:[^\\\']|\\[\s\S])*(?:\'|$)|\"(?:[^\\\"]|\\[\s\S])*(?:\"|$))/,
            null, '\'"']);
-    }
-    else if (options['multiLineStrings']) {
+    } else if (options['multiLineStrings']) {
       // 'multi-line-string', "multi-line-string"
       shortcutStylePatterns.push(
           [PR_STRING,  /^(?:\'(?:[^\\\']|\\[\s\S])*(?:\'|$)|\"(?:[^\\\"]|\\[\s\S])*(?:\"|$)|\`(?:[^\\\`]|\\[\s\S])*(?:\`|$))/,
            null, '\'"`']);
-    }
-    else {
+    } else {
       // 'single-line-string', "single-line-string"
       shortcutStylePatterns.push(
           [PR_STRING,
@@ -873,13 +806,11 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
     var hc = options['hashComments'];
     if (hc) {
       if (options['cStyleComments']) {
-        if (hc > 1) {
-          // Multiline hash comments.
+        if (hc > 1) {  // multiline hash comments
           shortcutStylePatterns.push(
               [PR_COMMENT, /^#(?:##(?:[^#]|#(?!##))*(?:###|$)|.*)/, null, '#']);
-        }
-        else {
-          // Stop C preprocessor declarations at an unclosed open comment.
+        } else {
+          // Stop C preprocessor declarations at an unclosed open comment
           shortcutStylePatterns.push(
               [PR_COMMENT, /^#(?:(?:define|elif|else|endif|error|ifdef|include|ifndef|line|pragma|undef|warning)\b|[^\r\n]*)/,
                null, '#']);
@@ -888,8 +819,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
             [PR_STRING,
              /^<(?:(?:(?:\.\.\/)*|\/?)(?:[\w-]+(?:\/[\w-]+)+)?[\w-]+\.h|[a-z]\w*)>/,
              null]);
-      }
-      else {
+      } else {
         shortcutStylePatterns.push([PR_COMMENT, /^#[^\r\n]*/, null, '#']);
       }
     }
@@ -899,7 +829,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
           [PR_COMMENT, /^\/\*[\s\S]*?(?:\*\/|$)/, null]);
     }
     if (options['regexLiterals']) {
-      /*
+      /**
        * @const
        */
       var REGEX_LITERAL = (
@@ -907,13 +837,13 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
           // not followed by * or / so that it is not confused with
           // comments.
           '/(?=[^/*])'
-          // And then contains any number of raw characters,
+          // and then contains any number of raw characters,
           + '(?:[^/\\x5B\\x5C]'
-          // Escape sequences (\x5C),
-          + '|\\x5C[\\s\\S]'
-          // Or non-nesting character sets (\x5B\x5D);
-          + '|\\x5B(?:[^\\x5C\\x5D]|\\x5C[\\s\\S])*(?:\\x5D|$))+'
-          // Finally closed by a /.
+          // escape sequences (\x5C),
+          +    '|\\x5C[\\s\\S]'
+          // or non-nesting character sets (\x5B\x5D);
+          +    '|\\x5B(?:[^\\x5C\\x5D]|\\x5C[\\s\\S])*(?:\\x5D|$))+'
+          // finally closed by a /.
           + '/');
       fallthroughStylePatterns.push(
           ['lang-regex',
@@ -936,20 +866,21 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
 
     shortcutStylePatterns.push([PR_PLAIN,       /^\s+/, null, ' \r\n\t\xA0']);
     fallthroughStylePatterns.push(
-        // TODO(mikesamuel): recognize non-latin letters and numerals in idents.
+        // TODO(mikesamuel): recognize non-latin letters and numerals in idents
         [PR_LITERAL,     /^@[a-z_$][a-z_$@0-9]*/i, null],
         [PR_TYPE,        /^(?:[@_]?[A-Z]+[a-z][A-Za-z_$@0-9]*|\w+_t\b)/, null],
         [PR_PLAIN,       /^[a-z_$][a-z_$@0-9]*/i, null],
         [PR_LITERAL,
          new RegExp(
              '^(?:'
-             // A hex number.
+             // A hex number
              + '0x[a-f0-9]+'
-             // Or an octal or decimal number,
+             // or an octal or decimal number,
              + '|(?:\\d(?:_\\d+)*\\d*(?:\\.\\d*)?|\\.\\d\\+)'
-             // Possibly in scientific notation.
-             + '(?:e[+\\-]?\\d+)?)'
-             // With an optional modifier like UL for unsigned long.
+             // possibly in scientific notation
+             + '(?:e[+\\-]?\\d+)?'
+             + ')'
+             // with an optional modifier like UL for unsigned long
              + '[a-z]*', 'i'),
          null, '0123456789'],
         // Don't treat escaped quotes in bash as starting strings.  See issue 144.
@@ -968,7 +899,8 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
       });
 
   /**
-   * Given a DOM subtree, wraps it in a list, and puts each line into its own list item.
+   * Given a DOM subtree, wraps it in a list, and puts each line into its own
+   * list item.
    *
    * @param {Node} node modified in place.  Its content is pulled into an
    *     HTMLOListElement, and each line is moved into a separate list item.
@@ -978,21 +910,20 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
   function numberLines(node, opt_startLineNum) {
     var nocode = /(?:^|\s)nocode(?:\s|$)/;
     var lineBreak = /\r\n?|\n/;
-
+  
     var document = node.ownerDocument;
-
+  
     var whitespace;
     if (node.currentStyle) {
       whitespace = node.currentStyle.whiteSpace;
-    }
-    else if (window.getComputedStyle) {
+    } else if (window.getComputedStyle) {
       whitespace = document.defaultView.getComputedStyle(node, null)
           .getPropertyValue('white-space');
     }
     // If it's preformatted, then we need to split lines on line breaks
     // in addition to <BR>s.
     var isPreformatted = whitespace && 'pre' === whitespace.substring(0, 3);
-
+  
     var li = document.createElement('LI');
     while (node.firstChild) {
       li.appendChild(node.firstChild);
@@ -1000,52 +931,47 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
     // An array of lines.  We split below, so this is initialized to one
     // un-split line.
     var listItems = [li];
-
+  
     function walk(node) {
       switch (node.nodeType) {
-        case 1:
-          // Element.
-          if (nocode.test(node.className)) {
-            break; }
+        case 1:  // Element
+          if (nocode.test(node.className)) { break; }
           if ('BR' === node.nodeName) {
             breakAfter(node);
             // Discard the <BR> since it is now flush against a </LI>.
             if (node.parentNode) {
               node.parentNode.removeChild(node);
             }
-          }
-          else {
+          } else {
             for (var child = node.firstChild; child; child = child.nextSibling) {
               walk(child);
-                      }
+            }
           }
           break;
-
-        case 3: case 4:
-            // Text.
-            if (isPreformatted) {
-              var text = node.nodeValue;
-              var match = text.match(lineBreak);
-              if (match) {
-                var firstLine = text.substring(0, match.index);
-                node.nodeValue = firstLine;
-                var tail = text.substring(match.index + match[0].length);
-                if (tail) {
-                  var parent = node.parentNode;
-                  parent.insertBefore(
+        case 3: case 4:  // Text
+          if (isPreformatted) {
+            var text = node.nodeValue;
+            var match = text.match(lineBreak);
+            if (match) {
+              var firstLine = text.substring(0, match.index);
+              node.nodeValue = firstLine;
+              var tail = text.substring(match.index + match[0].length);
+              if (tail) {
+                var parent = node.parentNode;
+                parent.insertBefore(
                     document.createTextNode(tail), node.nextSibling);
-                }
-                breakAfter(node);
-                if (!firstLine) {
-                  // Don't leave blank text nodes in the DOM.
-                  node.parentNode.removeChild(node);
-                }
+              }
+              breakAfter(node);
+              if (!firstLine) {
+                // Don't leave blank text nodes in the DOM.
+                node.parentNode.removeChild(node);
               }
             }
+          }
           break;
       }
     }
-
+  
     // Split a line after the given node.
     function breakAfter(lineEndNode) {
       // If there's nothing to the right, then we can skip ending the line
@@ -1053,10 +979,9 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
       // would require us to create a bunch of empty copies.
       while (!lineEndNode.nextSibling) {
         lineEndNode = lineEndNode.parentNode;
-        if (!lineEndNode) {
-          return; }
+        if (!lineEndNode) { return; }
       }
-
+  
       function breakLeftOf(limit, copy) {
         // Clone shallowly if this node needs to be on both sides of the break.
         var rightSide = copy ? limit.cloneNode(false) : limit;
@@ -1078,9 +1003,9 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
         }
         return rightSide;
       }
-
+  
       var copiedListItem = breakLeftOf(lineEndNode.nextSibling, 0);
-
+  
       // Walk the parent chain until we reach an unattached LI.
       for (var parent;
            // Check nodeType since IE invents document fragments.
@@ -1090,17 +1015,19 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
       // Put it on the list of lines for later processing.
       listItems.push(copiedListItem);
     }
-
+  
     // Split lines while there are lines left to split.
-    for (var i = 0; i < listItems.length; ++i) {
+    for (var i = 0;  // Number of lines that have been split so far.
+         i < listItems.length;  // length updated by breakAfter calls.
+         ++i) {
       walk(listItems[i]);
     }
-
+  
     // Make sure numeric indices show correctly.
-    if (opt_startLineNum === (opt_startLineNum | 0)) {
+    if (opt_startLineNum === (opt_startLineNum|0)) {
       listItems[0].setAttribute('value', opt_startLineNum);
     }
-
+  
     var ol = document.createElement('OL');
     ol.className = 'linenums';
     var offset = Math.max(0, ((opt_startLineNum - 1 /* zero index */)) | 0) || 0;
@@ -1115,16 +1042,13 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
       }
       ol.appendChild(li);
     }
-
+  
     node.appendChild(ol);
   }
 
   /**
-   * Recombine tags and decorations.
-   *
    * Breaks {@code job.sourceCode} around style boundaries in
    * {@code job.decorations} and modifies {@code job.sourceNode} in place.
-   *
    * @param {Object} job like <pre>{
    *    sourceCode: {string} source as plain text,
    *    spans: {Array.<number|Node>} alternating span start indices into source
@@ -1133,29 +1057,28 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
    *    decorations: {Array.<number|string} an array of style classes preceded
    *       by the position at which they start in job.sourceCode in order
    * }</pre>
-   *
    * @private
    */
   function recombineTagsAndDecorations(job) {
     var isIE = /\bMSIE\b/.test(navigator.userAgent);
     var newlineRe = /\n/g;
-
+  
     var source = job.sourceCode;
     var sourceLength = source.length;
     // Index into source after the last code-unit recombined.
     var sourceIndex = 0;
-
+  
     var spans = job.spans;
     var nSpans = spans.length;
     // Index into spans after the last span which ends at or before sourceIndex.
     var spanIndex = 0;
-
+  
     var decorations = job.decorations;
     var nDecorations = decorations.length;
     // Index into decorations after the last decoration which ends at or before
     // sourceIndex.
     var decorationIndex = 0;
-
+  
     // Remove all zero-length decorations.
     decorations[nDecorations] = sourceLength;
     var decPos, i;
@@ -1163,13 +1086,12 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
       if (decorations[i] !== decorations[i + 2]) {
         decorations[decPos++] = decorations[i++];
         decorations[decPos++] = decorations[i++];
-      }
-      else {
+      } else {
         i += 2;
       }
     }
     nDecorations = decPos;
-
+  
     // Simplify decorations.
     for (i = decPos = 0; i < nDecorations;) {
       var startPos = decorations[i];
@@ -1183,23 +1105,22 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
       decorations[decPos++] = startDec;
       i = end;
     }
-
+  
     nDecorations = decorations.length = decPos;
-
+  
     var decoration = null;
     while (spanIndex < nSpans) {
       var spanStart = spans[spanIndex];
       var spanEnd = spans[spanIndex + 2] || sourceLength;
-
+  
       var decStart = decorations[decorationIndex];
       var decEnd = decorations[decorationIndex + 2] || sourceLength;
-
+  
       var end = Math.min(spanEnd, decEnd);
-
+  
       var textNode = spans[spanIndex + 1];
       var styledText;
-      if (textNode.nodeType !== 1
-      // Don't muck with <BR>s or <LI>s
+      if (textNode.nodeType !== 1  // Don't muck with <BR>s or <LI>s
           // Don't introduce spans around empty text nodes.
           && (styledText = source.substring(sourceIndex, end))) {
         // This may seem bizarre, and it is.  Emitting LF on IE causes the
@@ -1207,8 +1128,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
         // Emitting Windows standard issue linebreaks (CRLF) causes a blank
         // space to appear at the beginning of every line but the first.
         // Emitting an old Mac OS 9 line separator makes everything spiffy.
-        if (isIE) {
-          styledText = styledText.replace(newlineRe, '\r'); }
+        if (isIE) { styledText = styledText.replace(newlineRe, '\r'); }
         textNode.nodeValue = styledText;
         var document = textNode.ownerDocument;
         var span = document.createElement('SPAN');
@@ -1216,18 +1136,16 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
         var parentNode = textNode.parentNode;
         parentNode.replaceChild(span, textNode);
         span.appendChild(textNode);
-        if (sourceIndex < spanEnd) {
-
-          // Split off a text node.
+        if (sourceIndex < spanEnd) {  // Split off a text node.
           spans[spanIndex + 1] = textNode
               // TODO: Possibly optimize by using '' if there's no flicker.
               = document.createTextNode(source.substring(end, spanEnd));
           parentNode.insertBefore(textNode, span.nextSibling);
         }
       }
-
+  
       sourceIndex = end;
-
+  
       if (sourceIndex >= spanEnd) {
         spanIndex += 2;
       }
@@ -1237,34 +1155,31 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
     }
   }
 
-  /**
- * Maps language-specific file extensions to handlers. */
+
+  /** Maps language-specific file extensions to handlers. */
   var langHandlerRegistry = {};
-  /**
-   * Register a language handler for the given file extensions.
-   *
-   * @param {function (Object)} handler a function from source code to a list
-   *      of decorations.  Takes a single argument job which describes the
-   *      state of the computation.   The single parameter has the form
-   *      {@code {
-   *        sourceCode: {string} as plain text.
-   *        decorations: {Array.<number|string>} an array of style classes
-   *                     preceded by the position at which they start in
-   *                     job.sourceCode in order.
-   *                     The language handler should assigned this field.
-   *        basePos: {int} the position of source in the larger source chunk.
-   *                 All positions in the output decorations array are relative
-   *                 to the larger source chunk.
-   *      } }
-   * @param {Array.<string>} fileExtensions
-   */
+  /** Register a language handler for the given file extensions.
+    * @param {function (Object)} handler a function from source code to a list
+    *      of decorations.  Takes a single argument job which describes the
+    *      state of the computation.   The single parameter has the form
+    *      {@code {
+    *        sourceCode: {string} as plain text.
+    *        decorations: {Array.<number|string>} an array of style classes
+    *                     preceded by the position at which they start in
+    *                     job.sourceCode in order.
+    *                     The language handler should assigned this field.
+    *        basePos: {int} the position of source in the larger source chunk.
+    *                 All positions in the output decorations array are relative
+    *                 to the larger source chunk.
+    *      } }
+    * @param {Array.<string>} fileExtensions
+    */
   function registerLangHandler(handler, fileExtensions) {
     for (var i = fileExtensions.length; --i >= 0;) {
       var ext = fileExtensions[i];
       if (!langHandlerRegistry.hasOwnProperty(ext)) {
         langHandlerRegistry[ext] = handler;
-      }
-      else if (window['console']) {
+      } else if (window['console']) {
         console['warn']('cannot override language handler %s', ext);
       }
     }
@@ -1287,14 +1202,14 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
            [PR_PLAIN,       /^[^<?]+/],
            [PR_DECLARATION, /^<!\w[^>]*(?:>|$)/],
            [PR_COMMENT,     /^<\!--[\s\S]*?(?:-\->|$)/],
-           // Unescaped content in an unknown language.
+           // Unescaped content in an unknown language
            ['lang-',        /^<\?([\s\S]+?)(?:\?>|$)/],
            ['lang-',        /^<%([\s\S]+?)(?:%>|$)/],
            [PR_PUNCTUATION, /^(?:<[%?]|[%?]>)/],
            ['lang-',        /^<xmp\b[^>]*>([\s\S]+?)<\/xmp\b[^>]*>/i],
            // Unescaped content in javascript.  (Or possibly vbscript).
            ['lang-js',      /^<script\b[^>]*>([\s\S]*?)(<\/script\b[^>]*>)/i],
-           // Contains unescaped stylesheet content.
+           // Contains unescaped stylesheet content
            ['lang-css',     /^<style\b[^>]*>([\s\S]*?)(<\/style\b[^>]*>)/i],
            ['lang-in.tag',  /^(<\/?[a-z][^<>]*>)/i]
           ]),
@@ -1370,8 +1285,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
         }), ['js']);
   registerLangHandler(sourceDecorator({
           'keywords': COFFEE_KEYWORDS,
-          'hashComments': 3,
-    // ### style block comments.
+          'hashComments': 3,  // ### style block comments
           'cStyleComments': true,
           'multilineStrings': true,
           'tripleQuotedStrings': true,
@@ -1385,29 +1299,26 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
     try {
       // Extract tags, and convert the source code to plain text.
       var sourceAndSpans = extractSourceSpans(job.sourceNode);
-      /* Plain text. @type {string} */
+      /** Plain text. @type {string} */
       var source = sourceAndSpans.sourceCode;
       job.sourceCode = source;
       job.spans = sourceAndSpans.spans;
       job.basePos = 0;
 
-      // Apply the appropriate language handler.
+      // Apply the appropriate language handler
       langHandlerForExtension(opt_langExtension, source)(job);
 
       // Integrate the decorations and tags back into the source code,
       // modifying the sourceNode in place.
       recombineTagsAndDecorations(job);
-    }
-    catch (e) {
+    } catch (e) {
       if ('console' in window) {
         console['log'](e && e['stack'] ? e['stack'] : e);
-          }
+      }
     }
   }
 
   /**
-   * Pretty print html text.
-   *
    * @param sourceCodeHtml {string} The HTML to pretty print.
    * @param opt_langExtension {string} The language name to use.
    *     Typically, a filename extension like 'cpp' or 'java'.
@@ -1435,7 +1346,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
 
   function prettyPrint(opt_whenDone) {
     function byTagName(tn) { return document.getElementsByTagName(tn); }
-    // Fetch a list of nodes to rewrite.
+    // fetch a list of nodes to rewrite
     var codeSegments = [byTagName('pre'), byTagName('code'), byTagName('xmp')];
     var elements = [];
     for (var i = 0; i < codeSegments.length; ++i) {
@@ -1468,7 +1379,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
         if (className.indexOf('prettyprint') >= 0) {
           // If the classes includes a language extensions, use it.
           // Language extensions can be specified like
-          // <pre class="prettyprint lang-cpp">
+          //     <pre class="prettyprint lang-cpp">
           // the language extension "cpp" is used to find a language handler as
           // passed to PR.registerLangHandler.
           // HTML5 recommends that a language be specified using "language-"
@@ -1486,7 +1397,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
             langExtension = langExtension[1];
           }
 
-          // Make sure this is not nested in an already prettified element.
+          // make sure this is not nested in an already prettified element
           var nested = false;
           for (var p = cs.parentNode; p; p = p.parentNode) {
             if ((p.tagName === 'pre' || p.tagName === 'code' ||
@@ -1503,10 +1414,9 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
             lineNums = lineNums
                   ? lineNums[1] && lineNums[1].length ? +lineNums[1] : true
                   : false;
-            if (lineNums) {
-              numberLines(cs, lineNums); }
+            if (lineNums) { numberLines(cs, lineNums); }
 
-            // Do the pretty printing.
+            // do the pretty printing
             prettyPrintingJob = {
               langExtension: langExtension,
               sourceNode: cs,
@@ -1517,10 +1427,9 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
         }
       }
       if (k < elements.length) {
-        // Finish up in a continuation.
+        // finish up in a continuation
         setTimeout(doWork, 250);
-      }
-      else if (opt_whenDone) {
+      } else if (opt_whenDone) {
         opt_whenDone();
       }
     }
@@ -1528,7 +1437,7 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
     doWork();
   }
 
-   /*
+   /**
     * Find all the {@code <pre>} and {@code <code>} tags in the DOM with
     * {@code class=prettyprint} and prettify them.
     *
@@ -1536,19 +1445,15 @@ window['PR_SHOULD_USE_CONTINUATION'] = true;
     *     has been finished.
     */
   window['prettyPrintOne'] = prettyPrintOne;
-
-   /*
+   /**
     * Pretty print a chunk of code.
     *
     * @param {string} sourceCodeHtml code as html
-    *
     * @return {string} code as html, but prettier
     */
   window['prettyPrint'] = prettyPrint;
-
-   /*
+   /**
     * Contains functions for creating and registering new language handlers.
-    *
     * @type {Object}
     */
   window['PR'] = {

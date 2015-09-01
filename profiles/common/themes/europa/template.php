@@ -4,17 +4,18 @@
  * template.php
  */
 
+
 /**
  * Implements hook_theme().
  */
 function europa_theme() {
-  return array(
-    'node_form' => array(
-      'render element' => 'form',
-      'template' => 'node-form',
-      'path' => drupal_get_path('module', 'europa') . '/theme',
-    ),
-  );
+    return array(
+        'node_form' => array(
+            'render element' => 'form',
+            'template' => 'node-form',
+            'path' => drupal_get_path('module', 'europa') . '/theme',
+        ),
+    );
 }
 
 /**
@@ -22,34 +23,34 @@ function europa_theme() {
  */
 function europa_form_node_form_alter(&$form, &$form_state, $form_id) {
 
-  // Eventually remove field from vertical tabs or other similar groupings.
-  $node_form_sidebar = theme_get_setting('node_form_sidebar');
-  if ($node_form_sidebar) {
-    foreach ($node_form_sidebar as $field_name) {
-      $form[$field_name]['#group'] = NULL;
+    // Eventually remove field from vertical tabs or other similar groupings.
+    $node_form_sidebar = theme_get_setting('node_form_sidebar');
+    if ($node_form_sidebar) {
+        foreach ($node_form_sidebar as $field_name) {
+            $form[$field_name]['#group'] = NULL;
+        }
     }
-  }
 }
 
 /**
  * Preprocessor for theme('node_form').
  */
 function europa_preprocess_node_form(&$variables) {
-  $i = 100;
-  $variables['sidebar'] = array();
-  $node_form_sidebar = theme_get_setting('node_form_sidebar');
-  if ($node_form_sidebar) {
-    foreach ($node_form_sidebar as $field_name) {
-      if (isset($variables['form'][$field_name])) {
-        $variables['form'][$field_name]['#weight'] = $i++;
-        $variables['sidebar'][$field_name] = $variables['form'][$field_name];
-        hide($variables['form'][$field_name]);
-      }
+    $i = 100;
+    $variables['sidebar'] = array();
+    $node_form_sidebar = theme_get_setting('node_form_sidebar');
+    if ($node_form_sidebar) {
+        foreach ($node_form_sidebar as $field_name) {
+            if (isset($variables['form'][$field_name])) {
+                $variables['form'][$field_name]['#weight'] = $i++;
+                $variables['sidebar'][$field_name] = $variables['form'][$field_name];
+                hide($variables['form'][$field_name]);
+            }
+        }
     }
-  }
-  // Extract the form buttons, and put them in independent variable.
-  $variables['buttons'] = $variables['form']['actions'];
-  hide($variables['form']['actions']);
+    // Extract the form buttons, and put them in independent variable.
+    $variables['buttons'] = $variables['form']['actions'];
+    hide($variables['form']['actions']);
 }
 
 /**
@@ -112,7 +113,7 @@ function europa_easy_breadcrumb($variables) {
       $it = $breadcrumb[$i];
       $content = decode_entities($it['content']);
       if (isset($it['url'])) {
-        $html .= '<li>' . l($content, $it['url'], array('attributes' => array('class' => $it['class']))) . '</li>';
+        $html .= '<li>' . l($content, $it['url'], array('attributes' => array('class' => $it['class'])))  . '</li>';
       }
       else {
         $class = implode(' ', $it['class']);
@@ -131,14 +132,12 @@ function europa_easy_breadcrumb($variables) {
 
 /**
  * Implements hook_preprocess_image().
- */
+*/
 function europa_preprocess_image(&$variables) {
-  // Fix issue between print module and bootstrap theme.
-  // Print module put a string instead of an array
-  // in $variables['attributes']['class'].
+  // Fix issue between print module and bootstrap theme, print module put a string instead of an array in $variables['attributes']['class']
   if ($shape = theme_get_setting('bootstrap_image_responsive')) {
-    if (isset($variables['attributes']['class'])) {
-      if (is_array($variables['attributes']['class'])) {
+    if(isset($variables['attributes']['class'])) {
+      if(is_array($variables['attributes']['class'])) {
         $variables['attributes']['class'][] = 'img-responsive';
       }
       else {
@@ -219,6 +218,7 @@ function europa_form_element(&$variables) {
   // Putting description into variable since it is not going to change.
   // Here Bootstrap tooltips have been removed since in current implemenation we
   // will use descriptions that are displayed under <label> element.
+
   if (!empty($element['#description'])) {
     $description = '<p class="help-block">' . $element['#description'] . '</p>';
   }
@@ -257,9 +257,9 @@ function europa_form_element(&$variables) {
 
       $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
 
-      // If (form_get_error($element)) {
-      $output .= $feedback_message;
-      // }
+      //if (form_get_error($element)) {
+        $output .= $feedback_message;
+      //}
       break;
 
     case 'after':
@@ -273,9 +273,9 @@ function europa_form_element(&$variables) {
 
       $output .= ' ' . theme('form_element_label', $variables) . "\n";
 
-      // If (form_get_error($element)) {
-      $output .= $feedback_message;
-      // }
+      //if (form_get_error($element)) {
+        $output .= $feedback_message;
+      //}
       break;
 
     case 'none':
@@ -287,9 +287,9 @@ function europa_form_element(&$variables) {
 
       $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
 
-      // If (form_get_error($element)) {
-      $output .= $feedback_message;
-      // }
+      //if (form_get_error($element)) {
+        $output .= $feedback_message;
+      //}
       break;
   }
 

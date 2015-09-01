@@ -1,19 +1,18 @@
-/**
- * @file
- * Bootstrap: scrollspy.js v3.3.1.
- *
- * Http://getbootstrap.com/javascript/#scrollspy.
+/* ========================================================================
+ * Bootstrap: scrollspy.js v3.3.1
+ * http://getbootstrap.com/javascript/#scrollspy
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE).
- * ========================================================================
- */
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
 
-+ function ($) {
+
++function ($) {
   'use strict';
 
   // SCROLLSPY CLASS DEFINITION
   // ==========================
+
   function ScrollSpy(element, options) {
     var process  = $.proxy(this.process, this)
 
@@ -133,19 +132,19 @@
       .removeClass('active')
   }
 
+
   // SCROLLSPY PLUGIN DEFINITION
   // ===========================
+
   function Plugin(option) {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.scrollspy')
       var options = typeof option == 'object' && option
 
-      if (!data) {
-        $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
-        if (typeof option == 'string') {
-          data[option]()
-        } } })
+      if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
   }
 
   var old = $.fn.scrollspy
@@ -153,15 +152,19 @@
   $.fn.scrollspy             = Plugin
   $.fn.scrollspy.Constructor = ScrollSpy
 
+
   // SCROLLSPY NO CONFLICT
   // =====================
+
   $.fn.scrollspy.noConflict = function () {
     $.fn.scrollspy = old
     return this
   }
 
+
   // SCROLLSPY DATA-API
   // ==================
+
   $(window).on('load.bs.scrollspy.data-api', function () {
     $('[data-spy="scroll"]').each(function () {
       var $spy = $(this)
