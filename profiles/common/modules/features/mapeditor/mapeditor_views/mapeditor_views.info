@@ -1,0 +1,8 @@
+name = Mapeditor views
+description = Views integration for the Mapeditor module.
+core = 7.x
+dependencies[] = mapeditor
+dependencies[] = geofield
+dependencies[] = views
+dependencies[] = entity
+files[] = mapeditor_views_plugin_style.inc

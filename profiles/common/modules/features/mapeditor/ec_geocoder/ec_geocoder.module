@@ -1,0 +1,165 @@
+<?php
+
+/**
+ * @file
+ * Contains hooks and helper functions for the EC geocoder module.
+ */
+
+define('EC_GEOCODER_URL', 'http://webtools.ec.europa.eu/geocoding');
+define('EC_GEOCODER_MINIMUM_QUALITY', 50);
+
+/**
+ * Implements hook_menu().
+ */
+function ec_geocoder_menu() {
+  $items['admin/config/system/ec_geocoder'] = array(
+    'title' => 'EC geocoder',
+    'description' => 'Configuration for EC geocoder',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'weight' => '0',
+  );
+
+  $items['admin/config/system/ec_geocoder/settings'] = array(
+    'title' => 'EC geocoder settings',
+    'description' => 'Settings for EC geocoder',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ec_geocoder_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ec_geocoder.forms.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_field_widget_form_alter().
+ *
+ * Adds a Geocoder button to a geofield if an address field is available.
+ */
+function ec_geocoder_field_widget_form_alter(&$element, &$form_state, $context) {
+  if ($context['field']['type'] == 'geofield') {
+    $has_address_field = FALSE;
+
+    // Checks if there is an addressfield in this bundle.
+    // @todo figure what to do when 2 addressfields.
+    $fields = field_info_instances($context['instance']['entity_type'], $context['instance']['bundle']);
+    foreach ($fields as $field) {
+      $field_info = field_info_field($field['field_name']);
+      if ($field_info['type'] == 'addressfield') {
+        $has_address_field = TRUE;
+        $address_field_name = $field['field_name'];
+      }
+    }
+
+    // Adds a geocoder button.
+    if ($has_address_field) {
+      $element['message'] = array(
+        '#type' => 'markup',
+        '#prefix' => '<div id="ec-geocoder-message">',
+        '#suffix' => '</div>',
+        '#markup' => 'Turn an address into coordinates using geocoder.',
+      );
+      $element['geocoder_submit'] = array(
+        '#type' => 'button',
+        '#ajax' => array(
+          'callback' => '_ec_geocoder_callback',
+          'wrapper' => 'message',
+        ),
+        '#value' => t('Geocode'),
+      );
+      $form_state['values']['address_field_name'] = $address_field_name;
+
+      // Checks widget type and makes it available to ajax callback.
+      $field_info_instance = field_info_instance($context['instance']['entity_type'], $context['instance']['field_name'], $context['instance']['bundle']);
+      $element['geofield_widget_type'] = array(
+        '#type' => 'hidden',
+        '#value' => $field_info_instance['widget']['type'],
+      );
+    }
+  }
+}
+
+/**
+ * Callback for submit_driven example.
+ *
+ * Replaces lat and long field and message of the geofield.
+ */
+function _ec_geocoder_callback($form, $form_state) {
+
+  // Fetches field name of widget that triggered callback.
+  $parent = $form_state['triggering_element']['#parents'][0];
+  $address_field_name = $form_state['values']['address_field_name'];
+
+  // Fetches the entered address from the form (checks for inline entity form).
+  if (isset($form_state['values'][$address_field_name])) {
+    $entered_address = $form_state['values'][$address_field_name][LANGUAGE_NONE][0];
+  }
+  elseif (isset($form_state['values'][$parent][LANGUAGE_NONE]['form'][$address_field_name])) {
+    $entered_address = $form_state['values'][$parent][LANGUAGE_NONE]['form'][$address_field_name][LANGUAGE_NONE][0];
+  }
+  $widget = $form_state['values'][$parent][LANGUAGE_NONE][0]['geofield_widget_type'];
+
+  // Geocodes the address.
+  if (isset($entered_address)) {
+
+    // Fetches the country name from the country code.
+    $countries = country_get_list();
+    $entered_address['country'] = $countries[$entered_address['country']];
+
+    // Turns address into string.
+    $address = implode(',', array_filter($entered_address));
+
+    // Prepares call to geocoder service.
+    $data = array(
+      'request' => 'GetGeocoding',
+      'outputFormat' => 'json',
+      'minquality' => variable_get('ec_geocoder_minimum_quality', EC_GEOCODER_MINIMUM_QUALITY),
+      'nbaddresses' => '1',
+      'addresses_0' => $address,
+    );
+    $url = url(variable_get('ec_geocoder_url', EC_GEOCODER_URL), array('query' => $data));
+
+    // Fetches result from geocoder service.
+    $result = drupal_http_request($url);
+    if ($result->data) {
+      $data = $result->data;
+      $data = $result = substr($data, 1, -1);
+      $data = drupal_json_decode($data);
+      if (isset($data['features'][0]['geometry'])) {
+        $coordinates = $data['features'][0]['geometry']['coordinates'];
+        $lat = $coordinates[1];
+        $lon = $coordinates[0];
+        $wkt = "POINT (${lon} ${lat})";
+        $address = $data['features'][0]['properties']['formattedAddress'];
+        $result_message = t('Found the address @address', array('@address' => $address));
+
+        // Replace field values with values found with geocoder.
+        $parent = strtr($parent, array('_' => '-'));
+        if ($widget == 'geofield_wkt') {
+          $commands[] = ajax_command_invoke("input[id*='${parent}'][id*='geom]", 'val', array($wkt));
+        }
+        else {
+          $commands[] = ajax_command_invoke("input[id*='${parent}'][id*='geom-lon']", 'val', array($lon));
+          $commands[] = ajax_command_invoke("input[id*='${parent}'][id*='geom-lat']", 'val', array($lat));
+        }
+      }
+      else {
+        $result_message = t('Did not find coordinates. Try lowering the minimum quality of the geocoding service.', array('@address' => $address));
+      }
+    }
+    else {
+      $result_message = t('Geocoding service did not return any results');
+    }
+
+  }
+  else {
+    $result_message = t('No address was found');
+  }
+
+  // Replaces the field help text.
+  $commands[] = ajax_command_replace('#ec-geocoder-message', '<div id="ec-geocoder-message">' . $result_message . '</div>');
+  return array('#type' => 'ajax', '#commands' => $commands);
+}

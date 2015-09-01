@@ -1,0 +1,11 @@
+id;first_name;nick_name;last_name;place_birth;maiden_name;punch_card_nr;date_birth;premium_member;email;country
+1;Gunwalls;ho loaded;to the gunwalls;sutler prow;shrouds sheet;123;01/01/12;TRUE;buccaneer@gangplank.pi;españa
+2;heave to jury;mast blow the man down;Bilged on her anchor;brigantine draft lass booty;trysail salmagundi;456;01/02/12;FALSE;buccaneer@gangplank.pi;nederland
+3;Man-of-war;squiffy nipper;line ballast brig hail-shot;Privateer;topmast draught;789;01/03/12;TRUE;buccaneer@gangplank.pi;deutschland
+4;Furl fluke;quarter marooned measured fer yer chains;mizzenmast keel;lee fathom rum;Hempen halter;1122;01/04/12;FALSE;buccaneer@gangplank.pi;danmark
+5;hearties cog;Privateer;Gangplank Sail;ho Admiral of the Black list rigging;bilge scourge of the seven seas;1455;01/05/12;TRUE;buccaneer@gangplank.pi;malta
+6;Buccaneer run a shot across the bow coxswain;mizzen draught hearties;chase boom provost;jolly boat;Capstan yawl poop deck;1788;01/06/12;FALSE;buccaneer@gangplank.pi;hrvatska
+7;careen tack wench yard cable;gangway furl;gaff tender;Bowsprit capstan hail-shot careen;line bring a spring upon her cable flogging;2121;01/07/12;TRUE;buccaneer@gangplank.pi;italia
+8;execution dock;reef chase guns;ahoy hornswaggle;ahoy hornswaggle;Sea Legs;2454;01/08/12;FALSE;buccaneer@gangplank.pi;ireland
+9;parrel topsail;Sink me case shot;ahoy hornswaggle;ahoy hornswaggle;Sea Legs;2787;01/09/12;TRUE;sinkmecaseshot@gangplank.pi;MALTA
+10;Brethren of the Coast;Nelsons folly gibbet;ahoy hornswaggle;ahoy hornswaggle;Sea Legs;3120;01/10/12;TRUE;buccaneer@gangplank.pi;norge
