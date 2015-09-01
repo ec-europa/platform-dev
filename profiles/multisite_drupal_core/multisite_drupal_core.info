@@ -2,11 +2,3 @@ name = Multisite plateform
 description = Install with commonly used features pre-configured and modules required by the multisite plateform.
 version = VERSION
 core = 7.x
-
-files[] = multisite_drupal_core.profile
-
-; Information added by drupal.org packaging script on 2011-12-05
-version = "7.31"
-project = "drupal"
-datestamp = "1323125439"
-

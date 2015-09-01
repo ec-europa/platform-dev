@@ -6,15 +6,8 @@ version = 7.x-1.2
 project = ec_embedded_image
 
 dependencies[] = cce_basic_config
-dependencies[] = ctools
-dependencies[] = features
-dependencies[] = file_entity
-dependencies[] = image
-dependencies[] = media
 dependencies[] = media_flickr
 dependencies[] = media_internet
-dependencies[] = text
-dependencies[] = video
 
 features[ctools][] = file_entity:file_default_displays:1
 features[features_api][] = api:2

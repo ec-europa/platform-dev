@@ -248,18 +248,4 @@ class MultisiteForumCoreQAWebTestCase extends MultisiteDrupalWebTestCase {
 //    
 //  }
 
-  /**
-   * Test Info File.
-   * TestFile <featurename>.info
-   */
-  function testInfoFile() {
-    $module = basename(__FILE__, ".test");
-    parent::multisiteDrupalToolboxTestInfoFile($module);
-  }
-
-  function testInstallFile() {
-    $module = basename(__FILE__, ".test");
-    parent::multisiteDrupalToolboxTestInstallFile($module);
-  }
-
 }

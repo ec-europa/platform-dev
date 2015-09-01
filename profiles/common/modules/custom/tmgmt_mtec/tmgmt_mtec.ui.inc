@@ -62,4 +62,5 @@ class TMGMTMtecTranslatorUIController extends TMGMTDefaultTranslatorUIController
     );
     return parent::pluginSettingsForm($form, $form_state, $translator);
   }
+
 }

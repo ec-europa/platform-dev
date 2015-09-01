@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Default views for NextEuropa Token CKEditor.
+ */
 
 /**
  * Implements hook_views_default_views().
@@ -6,7 +10,6 @@
 function nexteuropa_token_ckeditor_views_default_views() {
   $views = array();
   // Export code begin.
-
   $view = new view();
   $view->name = 'nexteuropa_token_ckeditor_filter_view';
   $view->description = '';

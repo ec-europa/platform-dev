@@ -5,7 +5,6 @@ core = 7.x
 version = 7.x-2.1
 project = likedislike
 features[features_api][] = api:2
-files[] = tests/likedislike.test
 files[] = tests/likedislike.extra.test
 scripts[] = scripts/form_script.js
 configure = admin/config/likedislike

@@ -427,6 +427,28 @@ function cce_basic_config_install() {
   foreach ($plugin_settings as $group => $buttons) {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
   }
+
+  // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
+  // in a regular feature since it includes the path to where the Print PDF
+  // module is installed, which is different depending on the installation
+  // profile that is used.
+  // Get the list of available PDF converters.
+  // @see print_pdf_settings()
+  $dynamic_variables = array();
+  $available_libs = array();
+  drupal_alter('print_pdf_available_libs', $available_libs);
+
+  // We are using the "mpdf" tool, extract it from the available converters.
+  $pdf_tool = preg_grep('/^print_pdf_mpdf|/', array_keys($available_libs));
+
+  if (!empty($pdf_tool)) {
+    $dynamic_variables['print_pdf_pdf_tool'] = reset($pdf_tool);
+  }
+
+  // Add the dynamic variables to the exported component.
+  foreach ($dynamic_variables as $variable => $value) {
+    variable_set($variable, $value);
+  }
 }
 
 /**
@@ -1525,9 +1547,25 @@ function cce_basic_config_update_7202() {
 }
 
 /**
- * Update the location of the Rate attachments.
+ * NEXTEUROPA-4872: Fix media popup.
  */
 function cce_basic_config_update_7203() {
+  $admin_pages = variable_get('cce_basic_config_admin_pages', array());
+
+  foreach ($admin_pages as $key => $value) {
+    if ($value == "node/add") {
+      unset($admin_pages[$key]);
+    }
+  }
+
+  variable_set('cce_basic_config_admin_pages', $admin_pages);
+}
+
+
+/**
+ * Update the location of the Rate attachments.
+ */
+function cce_basic_config_update_7204() {
   // The Rate module has moved to the modules subdirectory in the profile. The
   // module hardcodes the locations of its CSS and JS attachments inside a
   // variable. Update these so they point to the correct location.
@@ -1543,30 +1581,6 @@ function cce_basic_config_update_7203() {
   }
 
   variable_set('rate_widgets', $rate_widgets);
-}
-
-/**
- * Update variables with new module locations after folder restructuring.
- */
-function cce_basic_config_update_7204() {
-  module_load_include('inc', 'features', 'features.export');
-
-  $variables_to_revert = array(
-    'image_captcha_fonts',
-    'print_pdf_pdf_tool',
-  );
-
-  // Retrieve the default values for the variables from the exported feature.
-  $defaults = array_intersect_key(features_get_default('variable', 'cce_basic_config'), array_flip($variables_to_revert));
-
-  // It is only needed to revert the variable if it is actually overridden.
-  // @see variable_features_revert()
-  $variables = strongarm_vars_load(TRUE, TRUE);
-  foreach ($defaults as $name => $default) {
-    if (!empty($variables[$name]->in_code_only) || ($default->value !== $variables[$name]->value)) {
-      variable_set($name, $default->value);
-    }
-  }
 }
 
 /**
@@ -1598,4 +1612,72 @@ function cce_basic_config_update_7205() {
     'lite_ToggleTracking',
   );
   multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', 'lite', $lite_plugin_settings);
+}
+
+/**
+ * NEXTEUROPA-4729: Disable and uninstall print_pdf_tcpdf module.
+ */
+function cce_basic_config_update_7206() {
+  module_disable(array('print_pdf_tcpdf'), FALSE);
+  drupal_uninstall_modules(array('print_pdf_tcpdf'), FALSE);
+}
+
+
+/**
+ * NEXTEUROPA-4706: Drupal alter makes features stay overriden.
+ */
+function cce_basic_config_update_7207() {
+  // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
+  // in a regular feature since it includes the path to where the Print PDF
+  // module is installed, which is different depending on the installation
+  // profile that is used.
+  // Get the list of available PDF converters.
+  // @see print_pdf_settings()
+  $dynamic_variables = array();
+  $available_libs = array();
+  drupal_alter('print_pdf_available_libs', $available_libs);
+
+  // We are using the "mpdf" tool, extract it from the available converters.
+  $pdf_tool = preg_grep('/^print_pdf_mpdf|/', array_keys($available_libs));
+
+  if (!empty($pdf_tool)) {
+    $dynamic_variables['print_pdf_pdf_tool'] = reset($pdf_tool);
+  }
+
+  // Dynamically set the 'image_captcha_fonts' variable. It cannot be exported
+  // in a regular feature since it hard codes the paths to where the fonts are
+  // installed that are used for the image captchas.  These are different
+  // depending on the installation profile that is used.
+  $dynamic_variables['image_captcha_fonts'] = array(
+    drupal_get_path('module', 'image_captcha') . '/fonts/Tuffy/Tuffy_Bold.ttf',
+    drupal_get_path('module', 'image_captcha') . '/fonts/Tuffy/Tuffy.ttf',
+  );
+
+  // Add the dynamic variables to the exported component.
+  foreach ($dynamic_variables as $variable => $value) {
+    variable_set($variable, $value);
+  }
+}
+
+/**
+ * MULTISITE-5882: use variables to define site who should use survey JS.
+ */
+function cce_basic_config_update_7208() {
+  $cce_basic_config_survey_whitelist_js = array(
+    "sfc2014",
+    "rawmaterials",
+    "mare-emd",
+    "kroes",
+    "horizon2020",
+    "inseparable",
+    "epale",
+    "clima-ets-summer-university",
+    "eacea-site",
+    "eac-eyp",
+    "rebuttal",
+  );
+
+  if (in_array(basename(conf_path()), $cce_basic_config_survey_whitelist_js, TRUE)) {
+    variable_set('toolbox_survey_whitelist_js', TRUE);
+  }
 }

@@ -23,17 +23,3 @@ function survey_standard_disable() {
   variable_del('pathauto_node_webform_en_pattern');
   variable_del('pathauto_node_webform_und_pattern');
 }
-
-/**
- * Implements hook_install().
- */
-function survey_standard_install() {
-  // Not implemented yet.
-}
-
-/**
- * Implements hook_uninstall().
- */
-function survey_standard_uninstall() {
-  // Not implemented yet.
-}

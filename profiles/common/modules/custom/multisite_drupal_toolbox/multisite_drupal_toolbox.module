@@ -59,7 +59,7 @@ function multisite_drupal_toolbox_menu() {
     'access arguments' => array('administer site configuration'),
     'weight' => -5,
   );
-  $items['check_url'] = array (
+  $items['check_url'] = array(
     'title' => 'Check URLs',
     'page callback' => '_multisite_drupal_toolbox_url_exists',
     'access arguments' => array('use text format full_html'),
@@ -91,24 +91,7 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
   }
 
   // Add survey JS on all site in the white list.
-  $opt_in_site = array(
-    // "digital-agenda",
-    // "futurium",
-    // "licences-for-europe-dialogue",
-    // "cnect-site",
-    "sfc2014",
-    "rawmaterials",
-    "mare-emd",
-    "kroes",
-    "horizon2020",
-    "inseparable",
-    "epale",
-    "clima-ets-summer-university",
-    "eacea-site",
-    "eac-eyp",
-    "rebuttal",
-  );
-  if (in_array(basename(conf_path()), $opt_in_site, TRUE)) {
+  if (variable_get('toolbox_survey_whitelist_js', FALSE)) {
     drupal_add_js('//ec.europa.eu/wel/surveys/wr_survey01/wr_survey.js', 'external');
   }
 }
@@ -400,26 +383,31 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
   }
 }
 
-/**
- * Implements hook_node_presave().
- */
-function multisite_drupal_toolbox_node_presave($node) {
-  // Security process to prevent xss attack in node contents.
-  // Sanitize for the node save.
-  if (isset($node->nid) && isset($node->body['und'][0])) {
-    $node->body['und'][0]['value'] = multisite_drupal_toolbox_sanitize($node->body['und'][0]['value'], $node->nid);
-  }
-}
 
 /**
- * Implements hook_node_view_alter().
+ * Implements hook_filter_info_alter().
  */
-function multisite_drupal_toolbox_node_view_alter(&$build) {
-  // Security process to prevent xss attack in node contents.
-  // Sanitize for the node preview.
-  if (isset($build['body']) && isset($build['#node']->body['und'][0]['value'])) {
-    $build['body'][0]['#markup'] = multisite_drupal_toolbox_sanitize($build['body'][0]['#markup'], $build['#node']->nid);
+function multisite_drupal_toolbox_filter_info() {
+  $info['toolbox_sanitize'] = array(
+    'title' => t('Sanitize HTML'),
+    'description' => t('Security process to prevent xss attack (provided by nexteuropa toolbox)'),
+    'process callback' => '_multisite_drupal_toolbox_filter_sanitize',
+  );
+  return $info;
+}
+
+
+/**
+ * Alter filter process callback for the token input filter.
+ *
+ * @see multisite_drupal_toolbox_filter_info()
+ */
+function _multisite_drupal_toolbox_filter_sanitize($text, $filter, $format, $langcode, $cache, $cache_id) {
+  $nid = NULL;
+  if (arg(0) == 'node' && is_numeric(arg(1))) {
+    $nid = arg(1);
   }
+  return multisite_drupal_toolbox_sanitize($text, $nid);
 }
 
 /**
@@ -859,7 +847,7 @@ function is_admin() {
  * Check if current theme is ec_default theme.
  */
 function multisite_drupal_toolbox_cce_theme() {
-  return variable_get('theme_default', 'ec_default');
+  return variable_get('theme_default', 'ec_resp');
 }
 
 /**
@@ -1282,11 +1270,11 @@ function multisite_drupal_toolbox_tokens($type, $tokens, array $data = array(), 
  * Implments hook_tokens_alter().
  */
 function multisite_drupal_toolbox_tokens_alter(array &$replacements, array $context) {
-  // Preserve recipient_user token
-  // (rules automatically cleans non replaced token).
+  // Preserve recipient_user token (rules automatically cleans non replaced
+  // token).
   if ($context['type'] == 'recipient_user') {
     if (isset($context['data']['recipient_user'])) {
-      unset ($replacements[current($context['tokens'])]);
+      unset($replacements[current($context['tokens'])]);
     }
     else {
       $replacements[current($context['tokens'])] = current($context['tokens']);
@@ -1423,7 +1411,7 @@ function multisite_drupal_toolbox_taxonomy_term_delete($term_obj) {
       }
     }
   }
-  if (!empty ($operations)) {
+  if (!empty($operations)) {
     $batch = array(
       'title' => t('Taxonomy term deletion process'),
       'operations' => $operations,
@@ -1509,42 +1497,33 @@ function multisite_drupal_toolbox_modules_installed($modules) {
  */
 function multisite_drupal_toolbox_library_alter(&$javascript, $module) {
 
-  // Use jquery 1.10 for specific admin pages.
-  if (module_exists('jquery_update')) {
+  global $theme;
 
-    $list_pages = variable_get('cce_basic_config_admin_pages', array());
+  // Use jquery 1.10 when ec_resp is used.
+  if (module_exists('jquery_update') && $theme === multisite_drupal_toolbox_cce_theme()) {
 
     $path = drupal_get_path('module', 'jquery_update');
     $version = variable_get('jquery_update_jquery_version', '1.10');
-    $admin_version = variable_get('jquery_update_jquery_admin_version', '');
 
     $min = variable_get('jquery_update_compression_type', 'min') == 'none' ? '' : '.min';
     $cdn = variable_get('jquery_update_jquery_cdn', 'none');
 
-    $current_path = current_path();
-
-    $list_pages = variable_get('cce_basic_config_admin_pages', array());
-    foreach ($list_pages as $page) {
-      if (strpos($current_path, $page) === 0) {
-        if (version_compare($version, $admin_version, '!=')) {
-          jquery_update_jquery_replace($javascript, $cdn, $path, $min, $version);
-        }
-      }
-    }
+    jquery_update_jquery_replace($javascript, $cdn, $path, $min, $version);
   }
 }
 
 /**
-  * Helper to check if an url is valid with drupal_http_request.
-  * Return a boolean in json format.
-  */
-function _multisite_drupal_toolbox_url_exists($url=NULL) {
+ * Page callback that returns if an URL is valid with drupal_http_request().
+ *
+ * Returns a boolean in JSON format.
+ *
+ * @todo This is redundant and should be removed. The calling code can simply
+ *   inspect the HTTP response code of the URL to see if it exists. This is now
+ *   doing two requests where one would be sufficient.
+ */
+function _multisite_drupal_toolbox_url_exists() {
   $response = drupal_http_request($_GET['url']);
-  if (isset($response->errno) && $response->errno == 0 && $response->code >=200 && $response->code < 300){
-    $output = true;
-  } else {
-    $output =  false;
-  }
+  $output = isset($response->errno) && $response->errno == 0 && $response->code >= 200 && $response->code < 300;
   drupal_add_http_header('Content-Type', 'application/json');
   echo drupal_json_encode($output);
   drupal_exit();

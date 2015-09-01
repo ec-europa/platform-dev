@@ -21,7 +21,7 @@ function tmgmt_mtec_tmgmt_translator_plugin_info() {
 }
 
 /**
- * Local Exception class
+ * Local Exception class.
  */
 class TMGMTMtecException extends Exception {
 
@@ -31,6 +31,7 @@ class TMGMTMtecException extends Exception {
   public function __construct($message = "", $data = array(), $code = 0, Exception $previous = NULL) {
     parent::__construct(strtr($message, $data), $code, $previous);
   }
+
 }
 
 
@@ -80,12 +81,12 @@ function _tmgmt_mtec_correct_callback($values) {
 
       // Open connection and login.
       $conn_id = ftp_connect($ftp_server['address'], $ftp_server['port'], 15);
-      if(!$conn_id){
+      if (!$conn_id) {
         watchdog('MT@EC', "Couldn't connect to the FTP server.", WATCHDOG_ERROR);
         drupal_exit();
       }
       $login_result = ftp_login($conn_id, $ftp_server['user'], $ftp_server['password']);
-      if(!$login_result){
+      if (!$login_result) {
         watchdog('MT@EC', "Couldn't login to the FTP server.", WATCHDOG_ERROR);
         drupal_exit();
       }
@@ -144,7 +145,7 @@ function _tmgmt_mtec_correct_callback($values) {
  * Callback function for error MTEC requests.
  */
 function _tmgmt_mtec_error_callback($values) {
-  
+
   // Retrieve jobID from callback.
   $parameters = drupal_get_query_parameters();
   $tjid = (isset($parameters['tjid'])) ? $parameters['tjid'] : '';
@@ -177,12 +178,12 @@ function tmgmt_mtec_tmgmt_job_delete(TMGMTJob $job) {
 
   // Open connection and login.
   $conn_id = ftp_connect($ftp_server['address'], $ftp_server['port'], 15);
-  if(!$conn_id){
+  if (!$conn_id) {
     watchdog('MT@EC', "Couldn't connect to the FTP server.", WATCHDOG_ERROR);
     drupal_exit();
   }
   $login_result = ftp_login($conn_id, $ftp_server['user'], $ftp_server['password']);
-  if(!$login_result){
+  if (!$login_result) {
     watchdog('MT@EC', "Couldn't login to the FTP server.", WATCHDOG_ERROR);
     drupal_exit();
   }
@@ -246,7 +247,7 @@ function _tmgmt_mtect_check_mtec_settings() {
  * @return string
  *   Themed messages.
  */
-function _tmgmt_mtect_theme_messages($messages, $type) {
+function _tmgmt_mtect_theme_messages(array $messages, $type) {
   $output = "<div class=\"messages $type\">\n";
   $output .= theme("item_list", array("items" => $messages));
   $output .= "</div>\n";
@@ -255,12 +256,12 @@ function _tmgmt_mtect_theme_messages($messages, $type) {
 
 /**
  * Helper function for build the filename.
- * 
+ *
  * @param string $tjid
  *   Id of job.
  * @param string $extension
  *   Extension of the file.
- * 
+ *
  * @return string
  *   Full name of file.
  */
@@ -289,7 +290,7 @@ function tmgmt_mtec_entity_info_alter(&$entity_info) {
  * Helper function to remove a directory on a FTP server recursively.
  */
 function _tmgmt_mtec_ftp_rmdir($handle, $path) {
-  try{
+  try {
     if (@ftp_delete($handle, $path) === FALSE) {
       if ($children = @ftp_nlist($handle, $path)) {
         foreach ($children as $child) {
@@ -301,16 +302,16 @@ function _tmgmt_mtec_ftp_rmdir($handle, $path) {
   }
   catch (Exception $e) {
     $job->addMessage(' Error when deleting the file from the ftp server: @message', array('@message' => $e->getMessage()), 'error');
-  } 
+  }
 }
 
 /**
  * Helper function to check for a file for 10 seconds.
  */
-function _tmgmt_mtec_check_ftp_file($conn_id, $file){
+function _tmgmt_mtec_check_ftp_file($conn_id, $file) {
   $i = 0;
   $found = FALSE;
-  while($i<10 && !$found){
+  while ($i < 10 && !$found) {
     if (ftp_size($conn_id, $file) != -1) {
       $found = TRUE;
     }

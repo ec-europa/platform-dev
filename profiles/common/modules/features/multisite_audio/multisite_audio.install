@@ -60,17 +60,3 @@ function multisite_audio_disable() {
   // Deactivation message.
   drupal_set_message(t('Multisite Audio %v feature is now inactive on your site.', array('%v' => _multisite_audio_get_version())));
 }
-
-/**
- * Implements hook_install().
- */
-function multisite_audio_install() {
-  // Nothing yet.
-}
-
-/**
- * Implements hook_uninstall().
- */
-function multisite_audio_uninstall() {
-  // Nothing yet.
-}

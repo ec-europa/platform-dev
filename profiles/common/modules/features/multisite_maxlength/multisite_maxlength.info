@@ -7,4 +7,3 @@ project = multisite_maxlength
 dependencies[] = features
 dependencies[] = maxlength
 features[features_api][] = api:2
-files[] = tests/multisite_maxlength.test

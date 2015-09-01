@@ -8,4 +8,3 @@ features[features_api][] = api:2
 features[user_permission][] = administer splash screen
 features[variable][] = splash_screen_blacklist
 features[variable][] = splash_screen_home_page
-files[] = tests/splash_screen.test
