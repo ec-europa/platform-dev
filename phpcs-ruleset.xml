@@ -60,7 +60,6 @@
     <exclude-pattern>profiles/common/modules/features/newsletters</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/nexteuropa_core</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/node_pager</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/sitemap</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/social_bookmark</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/solr_config</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/splash_screen</exclude-pattern>
