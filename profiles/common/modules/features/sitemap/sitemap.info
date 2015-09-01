@@ -29,4 +29,3 @@ features[variable][] = xmlsitemap_settings_node_page
 features[variable][] = xmlsitemap_settings_taxonomy_term_tags
 features[variable][] = xmlsitemap_xsl
 files[] = tests/sitemap.test
-
