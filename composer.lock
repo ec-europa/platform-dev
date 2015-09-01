@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "45ed9f6bd73f40a84745152bad55b9e8",
+    "hash": "c53004b6a909633fd90ad2134564445e",
     "packages": [
         {
             "name": "behat/behat",
@@ -540,16 +540,16 @@
         },
         {
             "name": "drupal/drupal-driver",
-            "version": "dev-master",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhedstrom/DrupalDriver.git",
-                "reference": "a1fa9cd8e6e"
+                "reference": "570009ad7bcd37f5d2a701f813d51d90d9bead11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhedstrom/DrupalDriver/zipball/6b8abe37462179fe896858922e38abbab3cba75b",
-                "reference": "a1fa9cd8e6e",
+                "url": "https://api.github.com/repos/jhedstrom/DrupalDriver/zipball/570009ad7bcd37f5d2a701f813d51d90d9bead11",
+                "reference": "570009ad7bcd37f5d2a701f813d51d90d9bead11",
                 "shasum": ""
             },
             "require": {
@@ -563,11 +563,6 @@
                 "phpunit/phpunit": "~4.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1.x-dev"
-                }
-            },
             "autoload": {
                 "psr-0": {
                     "Drupal\\Component": "src/",
@@ -592,20 +587,20 @@
                 "test",
                 "web"
             ],
-            "time": "2015-07-09 17:07:17"
+            "time": "2015-08-26 22:38:05"
         },
         {
             "name": "drupal/drupal-extension",
-            "version": "dev-master",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhedstrom/drupalextension.git",
-                "reference": "f26a57a356f"
+                "reference": "b107fc6293ab8daab370faae8c6df251c8e93da7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhedstrom/drupalextension/zipball/c19fbce8889c59463ca4965acea97cafbbe56b05",
-                "reference": "f26a57a356f",
+                "url": "https://api.github.com/repos/jhedstrom/drupalextension/zipball/b107fc6293ab8daab370faae8c6df251c8e93da7",
+                "reference": "b107fc6293ab8daab370faae8c6df251c8e93da7",
                 "shasum": ""
             },
             "require": {
@@ -651,7 +646,7 @@
                 "test",
                 "web"
             ],
-            "time": "2015-07-09 18:15:56"
+            "time": "2015-08-26 22:31:06"
         },
         {
             "name": "drupal/phing-drush-task",
@@ -2218,8 +2213,6 @@
     "stability-flags": {
         "behat/behat": 20,
         "drupal/coder": 20,
-        "drupal/drupal-driver": 20,
-        "drupal/drupal-extension": 20,
         "drush/drush": 10,
         "pear/versioncontrol_git": 20
     },
