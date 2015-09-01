@@ -60,11 +60,9 @@
     <exclude-pattern>profiles/common/modules/features/newsletters</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/nexteuropa_core</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/node_pager</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/sitemap</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/social_bookmark</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/solr_config</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/splash_screen</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/wiki</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp_17</exclude-pattern>
     <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
