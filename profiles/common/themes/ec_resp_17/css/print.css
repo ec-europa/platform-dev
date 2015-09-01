@@ -6,7 +6,7 @@ body,
 input,
 textarea,
 select {
-  color: 1000;
+  color: #000000;
   background: none;
 }
 body.two-sidebars,
