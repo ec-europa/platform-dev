@@ -83,7 +83,7 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
       $element ['geofield_geojson'] = array(
         '#type' => 'textarea',
         '#default_value' => isset($value['geofield_geojson']) ? $value['geofield_geojson'] : '',
-        '#prefix' => '<div id="geofield_geojson" class="hideZZZ">',
+        '#prefix' => '<div id="geofield_geojson" class="hide">',
         '#suffix' => '</div>',
       );
 
@@ -233,3 +233,37 @@ function nexteuropa_geofield_field_is_empty($item, $field) {
   return empty($item['geofield_geojson']);
 }
 
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_geofield_menu() {
+  $items = array();
+  $items['node/%node/geojson'] = array(
+    'title' => 'GeoJson data',
+    'page callback' => '_nexteuropa_geofield_get_geojson',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+  );
+  return $items;
+}
+
+/**
+ * Return the geoJSON data contained in a geofield_geojson field of a node.
+ * Callback of the menu router 'node/%node/geojson'.
+ */
+function _nexteuropa_geofield_get_geojson($node) {
+  $data = field_info_instances("node",$node->type);
+
+  foreach ($data as $key => $value) {
+    if ($data[$key]['widget']['type'] == 'geofield_widget_map') {
+      $field_name = $key;
+    }
+  }
+
+  $geojson_data = $node->$field_name;
+  $geojson_data = $geojson_data[LANGUAGE_NONE][0]['geofield_geojson'];
+
+  drupal_add_http_header('Content-Type', 'application/json');
+  print $geojson_data;
+  drupal_exit();
+}
