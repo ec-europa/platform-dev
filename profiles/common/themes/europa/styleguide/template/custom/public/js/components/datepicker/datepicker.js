@@ -1,8 +1,3 @@
-/**
- * @file
- * File picker javascript file.
- */
-
 $(function() {
     $(document).ready(function() {
         var $datepicker = $("#datepicker");

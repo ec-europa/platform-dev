@@ -1,19 +1,18 @@
-/**
- * @file
- * Bootstrap: transition.js v3.3.1.
- *
- * Http://getbootstrap.com/javascript/#transitions.
+/* ========================================================================
+ * Bootstrap: transition.js v3.3.1
+ * http://getbootstrap.com/javascript/#transitions
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE).
- * ========================================================================
- */
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
 
-+ function ($) {
+
++function ($) {
   'use strict';
 
   // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
   // ============================================================
+
   function transitionEnd() {
     var el = document.createElement('bootstrap')
 
@@ -30,8 +29,7 @@
       }
     }
 
-    return false
-    // Explicit for ie8 (  ._.)
+    return false // explicit for ie8 (  ._.)
   }
 
   // http://blog.alexmaccaw.com/css-transitions
@@ -39,8 +37,7 @@
     var called = false
     var $el = this
     $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) {
-        $($el).trigger($.support.transition.end) } }
+    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
     setTimeout(callback, duration)
     return this
   }
@@ -48,15 +45,14 @@
   $(function () {
     $.support.transition = transitionEnd()
 
-    if (!$.support.transition) {
-      return
+    if (!$.support.transition) return
 
-      $.event.special.bsTransitionEnd = bindType: $.support.transition.end,
+    $.event.special.bsTransitionEnd = {
+      bindType: $.support.transition.end,
       delegateType: $.support.transition.end,
       handle: function (e) {
-        if ($(e.target).is(this)) {
-          return e.handleObj.handler.apply(this, arguments)
-        } }
+        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
+      }
     }
   })
 
