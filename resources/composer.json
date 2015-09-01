@@ -1,14 +1,4 @@
 {
-  "require-dev": {
-    "behat/behat": "3.0.*@stable",
-    "drupal/drupal-extension": "~3.0"
-  },
-  "config": {
-    "bin-dir": "bin/"
-  },
-  "autoload": {
-    "psr-4": {
-      "Drupal\\nexteuropa\\": "profiles/multisite_drupal_standard/tests/src"
-    }
+  "require": {
   }
 }
