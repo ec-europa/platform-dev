@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Code for nexteuropa_geofield.view.js file.
+ */
+
 (function ($) {
   Drupal.behaviors.toolbox = {
     attach: attach
@@ -11,13 +16,13 @@
     }).addTo(map);
 
     drawnItems = L.featureGroup().addTo(map);
-    // loaded GeoJSON map
-    if(settings.nexteuropa_geojson.map) {
+    // Load GeoJSON map.
+    if (settings.nexteuropa_geojson.map) {
       loadedmap = jQuery.parseJSON(settings.nexteuropa_geojson.map);
       drawnItems = L.geoJson(loadedmap).addTo(map);
 
       i = 0;
-      for(key in drawnItems._layers) {
+      for (key in drawnItems._layers) {
         layer_properties = drawnItems._layers[key].feature.properties;
         popup_content = buildPopupContent(key, layer_properties.label, layer_properties.description);
         drawnItems._layers[key].bindPopup(popup_content);
@@ -26,6 +31,15 @@
       map.fitBounds(drawnItems.getBounds());
     }
 
+    /**
+     * Build the html content put in a popup.
+     * @param {Number} leaflet_id
+     *   id of the leaflet layer of the popup
+     * @param {String} label
+     *   title of the popup
+     * @return {String} description
+     *   the content of the popup
+     */
     function buildPopupContent(leaflet_id, name, description) {
       var content = '<div id="popup_' + leaflet_id + '">';
       content = content + '<h4 class="popup_name">' + name + '</h4>';
@@ -34,6 +48,4 @@
       return content;
     }
   }
-
 })(jQuery);
-
