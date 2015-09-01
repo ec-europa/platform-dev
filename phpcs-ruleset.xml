@@ -93,6 +93,7 @@
     <exclude-pattern>profiles/minimal/</exclude-pattern>
     <exclude-pattern>profiles/standard/</exclude-pattern>
     <exclude-pattern>profiles/testing/</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/europa/bootstrap-sass/</exclude-pattern>
 
     <!-- Views handlers not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
