@@ -342,7 +342,10 @@ function multisite_forum_community_query_term_access_alter(QueryAlterableInterfa
   $vocabulary = taxonomy_vocabulary_machine_name_load('forums');
 
   foreach ($query->conditions() as $condition) {
-    if (is_string($condition['field']) && $condition['field'] == "t.vid" && $condition['value'] == $vocabulary->vid) {
+    if (isset($condition['field']) &&
+        is_string($condition['field']) &&
+        $condition['field'] == "t.vid" &&
+        $condition['value'] == $vocabulary->vid) {
       $is_forum_query = TRUE;
     }
   }
