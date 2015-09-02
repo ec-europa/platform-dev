@@ -49,9 +49,8 @@
   <div class="container">
     <?php
       $menu_breadcrumb = menu_tree('menu-breadcrumb-menu');
-      print drupal_render($menu_breadcrumb); 
+      print drupal_render($menu_breadcrumb);
     ?>
     <?php print_r($content) ?>
   </div>
 </div>
-        
