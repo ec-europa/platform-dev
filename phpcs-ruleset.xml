@@ -9,12 +9,6 @@
     <exclude-pattern>*.min.js</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/scripts/ec.js</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/css/ec_resp.css</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/europa/js/html5.js</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/europa/js/modernizr.js</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/europa/styleguide/template/custom/public/kss.css</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/europa/styleguide/template/custom/public/less.js</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/europa/styleguide/assets/public/kss.css</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/europa/styleguide/assets/public/less.js</exclude-pattern>
 
     <!-- Legacy modules which are not compliant with coding standards. These are
          being fixed in NEXTEUROPA-3575. Whenever a module is fixed, please
@@ -63,16 +57,14 @@
     <exclude-pattern>profiles/common/modules/features/multisite_twitterblock</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_workbench_moderation_view</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/news</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/newsletters</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/nexteuropa_core</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/node_pager</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/sitemap</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/social_bookmark</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/solr_config</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/splash_screen</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/wiki</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp_17</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/multisite_drupal_access</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/multisite_og_button</exclude-pattern>
