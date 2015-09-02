@@ -22,7 +22,7 @@
             'http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             }
-      ).addTo(map);
+        ).addTo(map);
 
         drawnItems = L.featureGroup().addTo(map);
 
@@ -94,7 +94,7 @@
                 },
                 edit: { featureGroup: drawnItems }
             }
-      );
+        );
 
         map.addControl(drawControl);
 
@@ -131,7 +131,7 @@
                     updateGeoJsonField();
                 }
             }
-      );
+        );
 
         // Manage the event : when an object is removed from the map.
         map.on(
@@ -142,7 +142,7 @@
                 objects_count--;
                 updateGeoJsonField();
             }
-    );
+        );
 
         /**
      * Create 2 inputs (and their related events) to manage popups contents.
