@@ -57,7 +57,6 @@
     <exclude-pattern>profiles/common/modules/features/multisite_twitterblock</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_workbench_moderation_view</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/newsletters</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/nexteuropa_core</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/node_pager</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/social_bookmark</exclude-pattern>
