@@ -1,12 +1,17 @@
 <?php
 
 /**
-* Implementation of hook_views_default_views_alter().
-*/
+ * @file
+ * Wiki views altering.
+ */
+
+/**
+ * Implements hook_views_default_views_alter().
+ */
 function wiki_standard_views_default_views_alter(&$views) {
   if (array_key_exists('wiki_list', $views)) {
-	$view=$views['wiki_list'];
-	 
+    $view = $views['wiki_list'];
+
     /* Display: Page */
     $handler = $view->display['page_1']->handler;
     $handler->display->display_options['defaults']['empty'] = FALSE;
@@ -16,7 +21,5 @@ function wiki_standard_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['weight'] = '15';
     $handler->display->display_options['menu']['name'] = 'main-menu';
     $handler->display->display_options['menu']['context'] = 0;
-
   }
 }
-

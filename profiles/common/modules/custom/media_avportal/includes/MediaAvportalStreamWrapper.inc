@@ -63,8 +63,16 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
       else {
         $url = 'http://ec.europa.eu/avservices/cfc/video.cfc?method=getVideoDetails&ref=' . $video_id . '&format=json';
         $response = drupal_http_request($url);
-        $video_info = drupal_json_decode($response->data);
-        cache_set('av_video_' . $video_id, $video_info, 'cache');
+        if ($response->data == 200) {
+          $video_info = drupal_json_decode($response->data);
+          cache_set('av_video_' . $video_id, $video_info, 'cache');
+        }
+        else {
+          $video_info = array(
+            'TITLE' => t('!!! ERROR !!! retrieving the video title'),
+            'THUMB' => t('none'),
+          );
+        }
       }
     }
     return $video_info;
@@ -84,14 +92,6 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
   public function getVideoThumb() {
     $info = $this->getVideoInformation();
     return $info['THUMB'];
-  }
-
-  /**
-   * Implements getVideoLanguages().
-   */
-  public function getVideoLanguages() {
-    $info = $this->getVideoInformation();
-    return $info['LANGS'];
   }
 
   /**

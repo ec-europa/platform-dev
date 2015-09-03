@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * news.features.inc
+ * News.features.inc.
  */
 
 /**

@@ -1,11 +1,16 @@
 <?php
 
 /**
-* Implementation of hook_views_default_views_alter().
-*/
+ * @file
+ * Wiki OG views altering.
+ */
+
+/**
+ * Implements hook_views_default_views_alter().
+ */
 function wiki_og_views_default_views_alter(&$views) {
   if (array_key_exists('wiki_list', $views)) {
-    $view=$views['wiki_list'];
+    $view = $views['wiki_list'];
 
     /* Display: Defaults */
     $handler = $view->display['default']->handler;
@@ -28,7 +33,6 @@ function wiki_og_views_default_views_alter(&$views) {
       1 => 'AND',
       2 => 'OR',
     );
-
 
     /* Display: Block */
     $handler = $view->display['block_1']->handler;
@@ -58,12 +62,9 @@ function wiki_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
 
-
-
-
     /* Display: Wiki public */
     $handler = $view->new_display('page', 'Wiki public', 'page_3');
-    
+
     $handler->display->display_options['defaults']['empty'] = FALSE;
     /* No results behavior: Global: Text area */
     $handler->display->display_options['empty']['area']['id'] = 'area';
@@ -118,8 +119,5 @@ function wiki_og_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['context'] = 0;
     $handler->display->display_options['menu']['context_only_inline'] = 0;
 
-
-
   }
 }
-

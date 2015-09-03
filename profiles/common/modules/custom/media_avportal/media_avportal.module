@@ -43,11 +43,6 @@ function media_avportal_theme($existing, $type, $theme, $path) {
       'path' => $path . '/includes/themes',
       'template' => 'media-avportal-video',
     ),
-    'media_avportal_language_switcher' => array(
-      'variables' => array('languages' => NULL, 'video_language' => NULL),
-      'file' => 'media_avportal.theme.inc',
-      'path' => $path . '/includes/themes',
-    ),
   );
 }
 
@@ -80,35 +75,4 @@ function media_avportal_ctools_plugin_api($owner, $api) {
   if (isset($api_versions[$owner][$api])) {
     return array('version' => $api_versions[$owner][$api]);
   }
-}
-
-/**
- * Implements hook_menu().
- */
-function media_avportal_menu() {
-  $items = array();
-
-  $items['admin/config/media/media_avportal'] = array(
-    'title' => 'Media Av Portal settings',
-    'description' => 'Adjust Media Av Portal settings.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('media_avportal_settings_form'),
-    'access arguments' => array('administer site configuration'),
-  );
-  return $items;
-}
-
-/**
- * General configuration form for AvPortal.
- */
-function media_avportal_settings_form($form, $form_state) {
-
-  $form['media_avportal_language_bar'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Language bar'),
-    '#description' => t('You need to clear the cache after changing this setting'),
-    '#default_value' => variable_get('media_avportal_language_bar', FALSE),
-  );
-
-  return system_settings_form($form);
 }

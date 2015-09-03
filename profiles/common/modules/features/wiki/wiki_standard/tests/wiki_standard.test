@@ -3,37 +3,48 @@
 /**
  * @file
  * Tests for PROJECTFEATURE_STARTERKIT.module.
- * ECWeb MULTISITE QA
+ *
+ * ECWeb MULTISITE QA.
  */
 
-class wikiStandard extends DrupalWebTestCase {
-  //class wikiStandard extends SimpleTestCloneTestCase {
-  protected $privileged_user;
-  protected $contributor_user;
+/**
+ * WikiStandard class.
+ */
+class WikiStandard extends DrupalWebTestCase {
+  protected $privilegedUser;
+  protected $contributorUser;
 
-    public static function getInfo() {
+  /**
+   * Get informations about Wiki tests.
+   */
+  public static function getInfo() {
     return array(
-        'name' => 'wiki_standard tests',
-        'description' => 'Test the wiki_standard features functionality.',
-        'group' => 'Multisite Standard Features',
+      'name' => 'wiki_standard tests',
+      'description' => 'Test the wiki_standard features functionality.',
+      'group' => 'Multisite Standard Features',
     );
   }
 
 
+  /**
+   * Initialise privileges.
+   */
   public function setUp() {
 
     parent::setUp();
-    //module_load_include('test', 'simpletest_clone');
+    // module_load_include('test', 'simpletest_clone');
+    // Login a user that has access to the content sync server admin settings.
+    $this->privilegedUser = $this->drupalCreateUserWithRole("administrator");
+    $this->contributorUser = $this->drupalCreateUserWithRole("contributor");
 
-    // Login a user that has access to the content sync server admin settings
-    $this->privileged_user = $this->drupalCreateUserWithRole("administrator");
-    $this->contributor_user = $this->drupalCreateUserWithRole("contributor");
+    $this->drupalLogin($this->privilegedUser);
+    module_enable(array('node', 'wiki_core', 'wiki_standard'), TRUE);
+  }
 
-    $this->drupalLogin($this->privileged_user);
-     module_enable(array('node', 'wiki_core', 'wiki_standard'), TRUE);
-   }
-
-  function testWikiStandard() {
+  /**
+   * Test wiki creation.
+   */
+  public function testWikiStandard() {
 
     $this->assertTrue(module_exists('wiki_standard'), t('wiki_standard feature enabled.'));
     $this->drupalGet('wiki');
@@ -54,20 +65,20 @@ class wikiStandard extends DrupalWebTestCase {
     $this->verbose('Wiki Node created: ' . '</pre>' . print_r($node, TRUE) . '</pre>');
     $this->verbose('Wiki Node created: ' . '</pre>' . print_r($settings['title'], TRUE) . '</pre>');
 
-    //Is the node accesible?
+    // Is the node accesible?
     $this->drupalGet('wiki/wiki-title');
     $this->assertResponse(200);
     $elements = $this->xpath("//h1");
     $this->assertTrue(isset($elements[0]), t('The wiki page contains a h1 title'));
 
-    //Is the node editable?
+    // Is the node editable?
     $this->drupalGet("node/{$node->nid}/edit");
     $this->assertResponse(200);
     $this->assertRaw('page-node-edit', 'Wiki is accesible to admin user.');
     $this->assertRaw(t('Edit Wiki'), 'Wiki ediform is accesible to admin user.');
     $this->assertText(t("@title", array('@title' => $settings['title'])), 'Title is present and accesible to admin user.');
-        $this->drupalLogout();
-    $this->drupalLogin($this->contributor_user);
+    $this->drupalLogout();
+    $this->drupalLogin($this->contributorUser);
     $settings = array(
       'type' => 'wiki',
       'title' => 'Wiki Title',
@@ -81,12 +92,11 @@ class wikiStandard extends DrupalWebTestCase {
 
     $this->drupalLogout();
 
-
   }
 
-    /**
+  /**
    * Creates a user with the give role.
-   * */
+   */
   public function drupalCreateUserWithRole($role) {
     // Get all of the roles in the system.
     $roles = user_roles();
