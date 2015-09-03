@@ -9,7 +9,7 @@
     "ext-json": "*",
     "ext-phar": "*",
     "ext-xml": "*",
-    "pear/versioncontrol_git": "dev-master",
+    "pear/versioncontrol_git": "dev-master#47d1c6dfe2f6",
     "phing/phing": "~2.10",
     "php": ">=5.4.0",
     "typhonius/behattask": "1.0"
@@ -38,6 +38,11 @@
       "_comment": "Temporary fork including fix for issue #765.",
       "type": "vcs",
       "url": "git@github.com:pfrenssen/Behat.git"
+    },
+    {
+      "_comment": "Temporary fork of pear/versioncontrol_git including fix for NEXTEUROPA-5516.",
+      "type": "vcs",
+      "url": "https://github.com/gboddin/VersionControl_Git.git"
     },
     {
       "type": "package",
