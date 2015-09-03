@@ -36,6 +36,5 @@ function sitemap_menu_default_menu_links() {
   // Included for use with string extractors like potx.
   t('Site map');
 
-
   return $menu_links;
 }
