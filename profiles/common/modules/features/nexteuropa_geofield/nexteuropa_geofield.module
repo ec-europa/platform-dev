@@ -116,15 +116,17 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
       '#type' => 'textfield',
       '#title' => t('Latitude'),
       '#default_value' => isset($value['fs_default_map_center']['lat']) ? $value['fs_default_map_center']['lat'] : 0,
-      '#size' => 30,
-      '#maxlength' => 30,
+      '#size' => 8,
+      '#element_validate' => array('_decimal_check'),
+      '#description' => t('Number with 5 decimals maximum : 53.45435'), 
     );
     $element['fs_default_map_center']['lng'] = array(
       '#type' => 'textfield',
       '#title' => t('Longitude'),
       '#default_value' => isset($value['fs_default_map_center']['lng']) ? $value['fs_default_map_center']['lng'] : 0,
-      '#size' => 30,
-      '#maxlength' => 30,
+      '#size' => 8,
+      '#element_validate' => array('_decimal_check'),
+      '#description' => t('Number with 5 decimals maximum : 53.45435'),
     );
     $element['fs_objects'] = array(
       '#type' => 'fieldset',
@@ -163,9 +165,46 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
         ),
       ),
     );
+
+    $element['fs_objects']['fs_prepopulate'] = array(
+      '#type' => 'fieldset',
+      '#collapsed' => FALSE,
+      '#title' => t('Prepopulate popup'),
+      '#states' => array(
+        'visible' => array(
+          'select[name="instance[widget][settings][fs_objects][objects_amount]"]' => array('value' => '1'),
+        ),
+      ),      
+    );
+    $element['fs_objects']['fs_prepopulate']['name_populate'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Name'),
+    );
+    $element['fs_objects']['fs_prepopulate']['description_populate'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Description'),
+    );
+    $element['fs_objects']['fs_prepopulate']['tokens'] = array(
+      '#theme' => 'token_tree_link',
+      '#token_types' => array('node'), 
+      '#global_types' => TRUE,
+      '#click_insert' => TRUE,
+    );
   }
   return $element;
 }
+
+/**
+ * Check if a form value is decimal with 5 decimals maximum.
+ */
+function _decimal_check($element, &$form_state) {
+  if (!empty($element['#value'])) {
+    if (!(preg_match('/^[0-9]+(\\.[0-9]{1,5})?$/', $element['#value']))) {
+      form_error($element, t('The field "!name" is not a decimal (with 5 decimals maximum).', array('!name' => t($element['#title']))));
+    }
+  }
+}
+
 
 /**
  * Implements hook_form_ID_alter().

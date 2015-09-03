@@ -35,7 +35,7 @@
                 for (key in drawnItems._layers) {
                     // Create forms elements to manage popups content.
                     layer_properties = drawnItems._layers[key].feature.properties;
-                    createLabel(key, layer_properties.label, layer_properties.description);
+                    createLabel(key, layer_properties.name, layer_properties.description);
                     objects_count++;
                 }
                 updateGeoJsonField();
@@ -148,18 +148,18 @@
          * Create 2 inputs (and their related events) to manage popups contents.
          * @param {Number} leaflet_id
          *   id of the leaflet layer
-         * @param {String} label
+         * @param {String} name
          *   title of the popup
          * @return {String} description
          *   the content of the popup
          */
-        function createLabel(leaflet_id, label, description) {
+        function createLabel(leaflet_id, name, description) {
             var myinput = '<div id="label_wrapper_' + leaflet_id + '" class="leaflet_label_wrapper"><input class="leaflet_label" name="myField" type="text" id="L' + leaflet_id + '">';
             myinput = myinput + '<textarea rows="2" class="leaflet_description" id="T' + leaflet_id + '"/>';
             myinput = myinput + '<a data-label-id="' + leaflet_id + '" class="remove-label" title="Delete labels."><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>';
 
             $('#geofield_geojson_map_wrapper').append(myinput);
-            $('#L' + leaflet_id).val(label);
+            $('#L' + leaflet_id).val(name);
             $('#T' + leaflet_id).val(description);
 
             // Manage change event on input elements.
@@ -224,7 +224,7 @@
                         break;
                     }
                 }
-                geojson_map.features[i].properties.label = name;
+                geojson_map.features[i].properties.name = name;
                 geojson_map.features[i].properties.description = description;
                 i++;
             }
@@ -257,7 +257,7 @@
          * Build the html content put in a popup.
          * @param {Number} leaflet_id
          *   id of the leaflet layer of the popup
-         * @param {String} label
+         * @param {String} name
          *   title of the popup
          * @return {String} description
          *   the content of the popup
@@ -274,7 +274,7 @@
          * Create the popup object and bind it to a map layer.
          * @param {Number} leaflet_id
          *   id of the leaflet layer of the popup
-         * @param {String} label
+         * @param {String} name
          *   title of the popup
          * @return {String} description
          *   the content of the popup
