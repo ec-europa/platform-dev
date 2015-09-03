@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c53004b6a909633fd90ad2134564445e",
+    "hash": "3ff7fb9036976cad1e8a8071713d3843",
     "packages": [
         {
             "name": "behat/behat",
-            "version": "dev-fix-verbose-option",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pfrenssen/Behat.git",
-                "reference": "5439021077eb4ec30890ba2ebf1942a40458624d"
+                "url": "https://github.com/Behat/Behat.git",
+                "reference": "dc6df78862e1c1e1faa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pfrenssen/Behat/zipball/5439021077eb4ec30890ba2ebf1942a40458624d",
-                "reference": "5439021077eb4ec30890ba2ebf1942a40458624d",
+                "url": "https://api.github.com/repos/Behat/Behat/zipball/dc6df78862e1c1e1faa7bffd396d7c3179d6749d",
+                "reference": "dc6df78862e1c1e1faa",
                 "shasum": ""
             },
             "require": {
@@ -58,6 +58,7 @@
                     "Behat\\Testwork": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -73,21 +74,18 @@
             "keywords": [
                 "Agile",
                 "BDD",
-                "Examples",
                 "ScenarioBDD",
                 "Scrum",
                 "StoryBDD",
-                "Symfony",
                 "User story",
                 "business",
                 "development",
                 "documentation",
+                "examples",
+                "symfony",
                 "testing"
             ],
-            "support": {
-                "source": "https://github.com/pfrenssen/Behat/tree/fix-verbose-option"
-            },
-            "time": "2015-06-23 12:51:33"
+            "time": "2015-08-22 11:49:54"
         },
         {
             "name": "behat/gherkin",
@@ -540,16 +538,16 @@
         },
         {
             "name": "drupal/drupal-driver",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhedstrom/DrupalDriver.git",
-                "reference": "570009ad7bcd37f5d2a701f813d51d90d9bead11"
+                "reference": "96ebcbbd6d553450c66979fdfd371895d4763231"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhedstrom/DrupalDriver/zipball/570009ad7bcd37f5d2a701f813d51d90d9bead11",
-                "reference": "570009ad7bcd37f5d2a701f813d51d90d9bead11",
+                "url": "https://api.github.com/repos/jhedstrom/DrupalDriver/zipball/96ebcbbd6d553450c66979fdfd371895d4763231",
+                "reference": "96ebcbbd6d553450c66979fdfd371895d4763231",
                 "shasum": ""
             },
             "require": {
@@ -587,20 +585,20 @@
                 "test",
                 "web"
             ],
-            "time": "2015-08-26 22:38:05"
+            "time": "2015-09-02 18:25:27"
         },
         {
             "name": "drupal/drupal-extension",
-            "version": "3.1.0",
+            "version": "v3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhedstrom/drupalextension.git",
-                "reference": "b107fc6293ab8daab370faae8c6df251c8e93da7"
+                "reference": "9f5eefec7f0ca51a95d3121f2c755662f8c7ff0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhedstrom/drupalextension/zipball/b107fc6293ab8daab370faae8c6df251c8e93da7",
-                "reference": "b107fc6293ab8daab370faae8c6df251c8e93da7",
+                "url": "https://api.github.com/repos/jhedstrom/drupalextension/zipball/9f5eefec7f0ca51a95d3121f2c755662f8c7ff0c",
+                "reference": "9f5eefec7f0ca51a95d3121f2c755662f8c7ff0c",
                 "shasum": ""
             },
             "require": {
@@ -617,11 +615,6 @@
                 "phpunit/phpunit": "3.7.*"
             },
             "type": "behat-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-0": {
                     "Drupal\\Drupal": "src/",
@@ -646,7 +639,7 @@
                 "test",
                 "web"
             ],
-            "time": "2015-08-26 22:31:06"
+            "time": "2015-09-02 22:21:25"
         },
         {
             "name": "drupal/phing-drush-task",
@@ -2201,14 +2194,7 @@
         }
     ],
     "packages-dev": [],
-    "aliases": [
-        {
-            "alias": "3.0.x-dev",
-            "alias_normalized": "3.0.9999999.9999999-dev",
-            "version": "dev-fix-verbose-option",
-            "package": "behat/behat"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "behat/behat": 20,
