@@ -1,8 +1,9 @@
 <?php
 /**
  * @file
- * Default theme implementation to display the basic html structure of a single
- * Drupal page.
+ * Default theme implementation.
+ *
+ * To display the basic html structure of a single Drupal page.
  *
  * Variables:
  * - $css: An array of CSS files for the current page.

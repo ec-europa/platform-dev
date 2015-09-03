@@ -1,3 +1,8 @@
+/**
+ * @file
+ * KSS javascript file.
+ */
+
 (function() {
   var KssStateGenerator;
 
@@ -28,7 +33,9 @@
             }
           }
         }
-      } catch (_error) {}
+      }
+      catch (_error) {
+      }
     }
 
     KssStateGenerator.prototype.insertRule = function(rule) {
@@ -38,7 +45,8 @@
       styleEl.type = 'text/css';
       if (styleEl.styleSheet) {
         styleEl.styleSheet.cssText = rule;
-      } else {
+      }
+      else {
         styleEl.appendChild(document.createTextNode(rule));
       }
       return headEl.appendChild(styleEl);
