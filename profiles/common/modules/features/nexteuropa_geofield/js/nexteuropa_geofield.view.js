@@ -26,7 +26,7 @@
             i = 0;
             for (key in drawnItems._layers) {
                 layer_properties = drawnItems._layers[key].feature.properties;
-                popup_content = buildPopupContent(key, layer_properties.label, layer_properties.description);
+                popup_content = buildPopupContent(key, layer_properties.name, layer_properties.description);
                 drawnItems._layers[key].bindPopup(popup_content);
                 i++;
             }
@@ -37,7 +37,7 @@
          * Build the html content put in a popup.
          * @param {Number} leaflet_id
          *   id of the leaflet layer of the popup
-         * @param {String} label
+         * @param {String} name
          *   title of the popup
          * @return {String} description
          *   the content of the popup
