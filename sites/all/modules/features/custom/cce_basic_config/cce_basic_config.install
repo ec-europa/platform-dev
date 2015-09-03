@@ -1474,3 +1474,18 @@ function cce_basic_config_update_7202() {
     ->condition('menu_name', 'user-menu')
     ->execute();
 }
+
+/**
+ * NEXTEUROPA-4872: Fix media popup.
+ */
+function cce_basic_config_update_7203() {
+  $admin_pages = variable_get('cce_basic_config_admin_pages', array());
+
+  foreach ($admin_pages as $key => $value) {
+    if ($value == "node/add") {
+      unset($admin_pages[$key]);
+    }
+  }
+
+  variable_set('cce_basic_config_admin_pages', $admin_pages);
+}

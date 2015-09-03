@@ -1,0 +1,603 @@
+diff --git a/includes/ajax.inc b/includes/ajax.inc
+index 6e8e277..50e8e28 100644
+--- a/includes/ajax.inc
++++ b/includes/ajax.inc
+@@ -230,6 +230,10 @@
+  *   functions.
+  */
+ function ajax_render($commands = array()) {
++  // Although ajax_deliver() does this, some contributed and custom modules
++  // render Ajax responses without using that delivery callback.
++  ajax_set_verification_header();
++
+   // Ajax responses aren't rendered with html.tpl.php, so we have to call
+   // drupal_get_css() and drupal_get_js() here, in order to have new files added
+   // during this request to be loaded by the page. We only want to send back
+@@ -487,6 +491,9 @@ function ajax_deliver($page_callback_result) {
+     }
+   }
+ 
++  // Let ajax.js know that this response is safe to process.
++  ajax_set_verification_header();
++
+   // Print the response.
+   $commands = ajax_prepare_response($page_callback_result);
+   $json = ajax_render($commands);
+@@ -577,6 +584,29 @@ function ajax_prepare_response($page_callback_result) {
+ }
+ 
+ /**
++ * Sets a response header for ajax.js to trust the response body.
++ *
++ * It is not safe to invoke Ajax commands within user-uploaded files, so this
++ * header protects against those being invoked.
++ *
++ * @see Drupal.ajax.options.success()
++ */
++function ajax_set_verification_header() {
++  $added = &drupal_static(__FUNCTION__);
++
++  // User-uploaded files cannot set any response headers, so a custom header is
++  // used to indicate to ajax.js that this response is safe. Note that most
++  // Ajax requests bound using the Form API will be protected by having the URL
++  // flagged as trusted in Drupal.settings, so this header is used only for
++  // things like custom markup that gets Ajax behaviors attached.
++  if (empty($added)) {
++    drupal_add_http_header('X-Drupal-Ajax-Token', '1');
++    // Avoid sending the header twice.
++    $added = TRUE;
++  }
++}
++
++/**
+  * Performs end-of-Ajax-request tasks.
+  *
+  * This function is the equivalent of drupal_page_footer(), but for Ajax
+@@ -764,7 +794,12 @@ function ajax_pre_render_element($element) {
+ 
+     $element['#attached']['js'][] = array(
+       'type' => 'setting',
+-      'data' => array('ajax' => array($element['#id'] => $settings)),
++      'data' => array(
++        'ajax' => array($element['#id'] => $settings),
++        'urlIsAjaxTrusted' => array(
++          $settings['url'] => TRUE,
++        ),
++      ),
+     );
+ 
+     // Indicate that Ajax processing was successful.
+diff --git a/includes/database/database.inc b/includes/database/database.inc
+index 01b6385..3d776b5 100644
+--- a/includes/database/database.inc
++++ b/includes/database/database.inc
+@@ -626,7 +626,7 @@ public function makeComment($comments) {
+    *   A sanitized version of the query comment string.
+    */
+   protected function filterComment($comment = '') {
+-    return preg_replace('/(\/\*\s*)|(\s*\*\/)/', '', $comment);
++    return strtr($comment, array('*' => ' * '));
+   }
+ 
+   /**
+diff --git a/includes/form.inc b/includes/form.inc
+index 306747b..f7671be 100644
+--- a/includes/form.inc
++++ b/includes/form.inc
+@@ -1128,6 +1128,17 @@ function drupal_prepare_form($form_id, &$form, &$form_state) {
+   drupal_alter($hooks, $form, $form_state, $form_id);
+ }
+ 
++/**
++ * Helper function to call form_set_error() if there is a token error.
++ */
++function _drupal_invalid_token_set_form_error() {
++  $path = current_path();
++  $query = drupal_get_query_parameters();
++  $url = url($path, array('query' => $query));
++
++  // Setting this error will cause the form to fail validation.
++  form_set_error('form_token', t('The form has become outdated. Copy any unsaved work in the form below and then <a href="@link">reload this page</a>.', array('@link' => $url)));
++}
+ 
+ /**
+  * Validates user-submitted form data in the $form_state array.
+@@ -1162,16 +1173,11 @@ function drupal_validate_form($form_id, &$form, &$form_state) {
+   }
+ 
+   // If the session token was set by drupal_prepare_form(), ensure that it
+-  // matches the current user's session.
++  // matches the current user's session. This is duplicate to code in
++  // form_builder() but left to protect any custom form handling code.
+   if (!empty($form['#token'])) {
+-    if (!drupal_valid_token($form_state['values']['form_token'], $form['#token'])) {
+-      $path = current_path();
+-      $query = drupal_get_query_parameters();
+-      $url = url($path, array('query' => $query));
+-
+-      // Setting this error will cause the form to fail validation.
+-      form_set_error('form_token', t('The form has become outdated. Copy any unsaved work in the form below and then <a href="@link">reload this page</a>.', array('@link' => $url)));
+-
++    if (!drupal_valid_token($form_state['values']['form_token'], $form['#token']) || !empty($form_state['invalid_token'])) {
++      _drupal_invalid_token_set_form_error();
+       // Stop here and don't run any further validation handlers, because they
+       // could invoke non-safe operations which opens the door for CSRF
+       // vulnerabilities.
+@@ -1827,6 +1833,20 @@ function form_builder($form_id, &$element, &$form_state) {
+     // from the POST data is set and matches the current form_id.
+     if ($form_state['programmed'] || (!empty($form_state['input']) && (isset($form_state['input']['form_id']) && ($form_state['input']['form_id'] == $form_id)))) {
+       $form_state['process_input'] = TRUE;
++      // If the session token was set by drupal_prepare_form(), ensure that it
++      // matches the current user's session.
++      $form_state['invalid_token'] = FALSE;
++      if (isset($element['#token'])) {
++        if (empty($form_state['input']['form_token']) || !drupal_valid_token($form_state['input']['form_token'], $element['#token'])) {
++          // Set an early form error to block certain input processing since that
++          // opens the door for CSRF vulnerabilities.
++          _drupal_invalid_token_set_form_error();
++          // This value is checked in _form_builder_handle_input_element().
++          $form_state['invalid_token'] = TRUE;
++          // Make sure file uploads do not get processed.
++          $_FILES = array();
++        }
++      }
+     }
+     else {
+       $form_state['process_input'] = FALSE;
+@@ -1930,6 +1950,18 @@ function form_builder($form_id, &$element, &$form_state) {
+       $element['#attributes']['enctype'] = 'multipart/form-data';
+     }
+ 
++    // Allow Ajax submissions to the form action to bypass verification. This is
++    // especially useful for multipart forms, which cannot be verified via a
++    // response header.
++    $element['#attached']['js'][] = array(
++      'type' => 'setting',
++      'data' => array(
++        'urlIsAjaxTrusted' => array(
++          $element['#action'] => TRUE,
++        ),
++      ),
++    );
++
+     // If a form contains a single textfield, and the ENTER key is pressed
+     // within it, Internet Explorer submits the form with no POST data
+     // identifying any submit button. Other browsers submit POST data as though
+@@ -1978,6 +2010,19 @@ function form_builder($form_id, &$element, &$form_state) {
+  * Adds the #name and #value properties of an input element before rendering.
+  */
+ function _form_builder_handle_input_element($form_id, &$element, &$form_state) {
++  static $safe_core_value_callbacks = array(
++    'form_type_token_value',
++    'form_type_textarea_value',
++    'form_type_textfield_value',
++    'form_type_checkbox_value',
++    'form_type_checkboxes_value',
++    'form_type_radios_value',
++    'form_type_password_confirm_value',
++    'form_type_select_value',
++    'form_type_tableselect_value',
++    'list_boolean_allowed_values_callback',
++  );
++
+   if (!isset($element['#name'])) {
+     $name = array_shift($element['#parents']);
+     $element['#name'] = $name;
+@@ -2056,7 +2101,14 @@ function _form_builder_handle_input_element($form_id, &$element, &$form_state) {
+       // property, optionally filtered through $value_callback.
+       if ($input_exists) {
+         if (function_exists($value_callback)) {
+-          $element['#value'] = $value_callback($element, $input, $form_state);
++          // Skip all value callbacks except safe ones like text if the CSRF
++          // token was invalid.
++          if (empty($form_state['invalid_token']) || in_array($value_callback, $safe_core_value_callbacks)) {
++            $element['#value'] = $value_callback($element, $input, $form_state);
++          }
++          else {
++            $input = NULL;
++          }
+         }
+         if (!isset($element['#value']) && isset($input)) {
+           $element['#value'] = $input;
+@@ -3911,6 +3963,29 @@ function theme_hidden($variables) {
+ }
+ 
+ /**
++ * Process function to prepare autocomplete data.
++ *
++ * @param $element
++ *   A textfield or other element with a #autocomplete_path.
++ *
++ * @return array
++ *   The processed form element.
++ */
++function form_process_autocomplete($element) {
++  $element['#autocomplete_input'] = array();
++  if ($element['#autocomplete_path'] && drupal_valid_path($element['#autocomplete_path'])) {
++    $element['#autocomplete_input']['#id'] = $element['#id'] .'-autocomplete';
++    // Force autocomplete to use non-clean URLs since this protects against the
++    // browser interpreting the path plus search string as an actual file.
++    $current_clean_url = isset($GLOBALS['conf']['clean_url']) ? $GLOBALS['conf']['clean_url'] : NULL;
++    $GLOBALS['conf']['clean_url'] = 0;
++    $element['#autocomplete_input']['#url_value'] = url($element['#autocomplete_path'], array('absolute' => TRUE));
++    $GLOBALS['conf']['clean_url'] = $current_clean_url;
++  }
++  return $element;
++}
++
++/**
+  * Returns HTML for a textfield form element.
+  *
+  * @param $variables
+@@ -3928,14 +4003,14 @@ function theme_textfield($variables) {
+   _form_set_class($element, array('form-text'));
+ 
+   $extra = '';
+-  if ($element['#autocomplete_path'] && drupal_valid_path($element['#autocomplete_path'])) {
++  if ($element['#autocomplete_path'] && !empty($element['#autocomplete_input'])) {
+     drupal_add_library('system', 'drupal.autocomplete');
+     $element['#attributes']['class'][] = 'form-autocomplete';
+ 
+     $attributes = array();
+     $attributes['type'] = 'hidden';
+-    $attributes['id'] = $element['#attributes']['id'] . '-autocomplete';
+-    $attributes['value'] = url($element['#autocomplete_path'], array('absolute' => TRUE));
++    $attributes['id'] = $element['#autocomplete_input']['#id'];
++    $attributes['value'] = $element['#autocomplete_input']['#url_value'];
+     $attributes['disabled'] = 'disabled';
+     $attributes['class'][] = 'autocomplete';
+     $extra = '<input' . drupal_attributes($attributes) . ' />';
+diff --git a/includes/menu.inc b/includes/menu.inc
+index 8e26b6d..0e9c977 100644
+--- a/includes/menu.inc
++++ b/includes/menu.inc
+@@ -1487,7 +1487,7 @@ function menu_tree_collect_node_links(&$tree, &$node_links) {
+  *   menu_tree_collect_node_links().
+  */
+ function menu_tree_check_access(&$tree, $node_links = array()) {
+-  if ($node_links) {
++  if ($node_links && (user_access('access content') || user_access('bypass node access'))) {
+     $nids = array_keys($node_links);
+     $select = db_select('node', 'n');
+     $select->addField('n', 'nid');
+diff --git a/misc/ajax.js b/misc/ajax.js
+index 01b894d..bb4a6e1 100644
+--- a/misc/ajax.js
++++ b/misc/ajax.js
+@@ -14,6 +14,8 @@
+ 
+ Drupal.ajax = Drupal.ajax || {};
+ 
++Drupal.settings.urlIsAjaxTrusted = Drupal.settings.urlIsAjaxTrusted || {};
++
+ /**
+  * Attaches the Ajax behavior to each Ajax form element.
+  */
+@@ -130,6 +132,11 @@ Drupal.ajax = function (base, element, element_settings) {
+   // 5. /nojs# - Followed by a fragment.
+   //      E.g.: path/nojs#myfragment
+   this.url = element_settings.url.replace(/\/nojs(\/|$|\?|&|#|_)/g, '/ajax$1');
++  // If the 'nojs' version of the URL is trusted, also trust the 'ajax' version.
++  if (Drupal.settings.urlIsAjaxTrusted[element_settings.url]) {
++    Drupal.settings.urlIsAjaxTrusted[this.url] = true;
++  }
++
+   this.wrapper = '#' + element_settings.wrapper;
+ 
+   // If there isn't a form, jQuery.ajax() will be used instead, allowing us to
+@@ -155,18 +162,36 @@ Drupal.ajax = function (base, element, element_settings) {
+       ajax.ajaxing = true;
+       return ajax.beforeSend(xmlhttprequest, options);
+     },
+-    success: function (response, status) {
++    success: function (response, status, xmlhttprequest) {
+       // Sanity check for browser support (object expected).
+       // When using iFrame uploads, responses must be returned as a string.
+       if (typeof response == 'string') {
+         response = $.parseJSON(response);
+       }
++
++      // Prior to invoking the response's commands, verify that they can be
++      // trusted by checking for a response header. See
++      // ajax_set_verification_header() for details.
++      // - Empty responses are harmless so can bypass verification. This avoids
++      //   an alert message for server-generated no-op responses that skip Ajax
++      //   rendering.
++      // - Ajax objects with trusted URLs (e.g., ones defined server-side via
++      //   #ajax) can bypass header verification. This is especially useful for
++      //   Ajax with multipart forms. Because IFRAME transport is used, the
++      //   response headers cannot be accessed for verification.
++      if (response !== null && !Drupal.settings.urlIsAjaxTrusted[ajax.url]) {
++        if (xmlhttprequest.getResponseHeader('X-Drupal-Ajax-Token') !== '1') {
++          var customMessage = Drupal.t("The response failed verification so will not be processed.");
++          return ajax.error(xmlhttprequest, ajax.url, customMessage);
++        }
++      }
++
+       return ajax.success(response, status);
+     },
+-    complete: function (response, status) {
++    complete: function (xmlhttprequest, status) {
+       ajax.ajaxing = false;
+       if (status == 'error' || status == 'parsererror') {
+-        return ajax.error(response, ajax.url);
++        return ajax.error(xmlhttprequest, ajax.url);
+       }
+     },
+     dataType: 'json',
+@@ -175,6 +200,9 @@ Drupal.ajax = function (base, element, element_settings) {
+ 
+   // Bind the ajaxSubmit function to the element event.
+   $(ajax.element).bind(element_settings.event, function (event) {
++    if (!Drupal.settings.urlIsAjaxTrusted[ajax.url] && !Drupal.urlIsLocal(ajax.url)) {
++      throw new Error(Drupal.t('The callback URL is not local and not trusted: !url', {'!url': ajax.url}));
++    }
+     return ajax.eventResponse(this, event);
+   });
+ 
+@@ -447,8 +475,8 @@ Drupal.ajax.prototype.getEffect = function (response) {
+ /**
+  * Handler for the form redirection error.
+  */
+-Drupal.ajax.prototype.error = function (response, uri) {
+-  alert(Drupal.ajaxError(response, uri));
++Drupal.ajax.prototype.error = function (xmlhttprequest, uri, customMessage) {
++  alert(Drupal.ajaxError(xmlhttprequest, uri, customMessage));
+   // Remove the progress element.
+   if (this.progress.element) {
+     $(this.progress.element).remove();
+@@ -462,7 +490,7 @@ Drupal.ajax.prototype.error = function (response, uri) {
+   $(this.element).removeClass('progress-disabled').removeAttr('disabled');
+   // Reattach behaviors, if they were detached in beforeSerialize().
+   if (this.form) {
+-    var settings = response.settings || this.settings || Drupal.settings;
++    var settings = this.settings || Drupal.settings;
+     Drupal.attachBehaviors(this.form, settings);
+   }
+ };
+diff --git a/misc/autocomplete.js b/misc/autocomplete.js
+index 5679081..d71441b 100644
+--- a/misc/autocomplete.js
++++ b/misc/autocomplete.js
+@@ -271,8 +271,11 @@ Drupal.ACDB.prototype.search = function (searchString) {
+   var db = this;
+   this.searchString = searchString;
+ 
+-  // See if this string needs to be searched for anyway.
+-  searchString = searchString.replace(/^\s+|\s+$/, '');
++  // See if this string needs to be searched for anyway. The pattern ../ is
++  // stripped since it may be misinterpreted by the browser.
++  searchString = searchString.replace(/^\s+|\.{2,}\/|\s+$/g, '');
++  // Skip empty search strings, or search strings ending with a comma, since
++  // that is the separator between search terms.
+   if (searchString.length <= 0 ||
+     searchString.charAt(searchString.length - 1) == ',') {
+     return;
+diff --git a/misc/drupal.js b/misc/drupal.js
+index 643baa1..427c4a1 100644
+--- a/misc/drupal.js
++++ b/misc/drupal.js
+@@ -270,6 +270,72 @@ Drupal.formatPlural = function (count, singular, plural, args, options) {
+ };
+ 
+ /**
++ * Returns the passed in URL as an absolute URL.
++ *
++ * @param url
++ *   The URL string to be normalized to an absolute URL.
++ *
++ * @return
++ *   The normalized, absolute URL.
++ *
++ * @see https://github.com/angular/angular.js/blob/v1.4.4/src/ng/urlUtils.js
++ * @see https://grack.com/blog/2009/11/17/absolutizing-url-in-javascript
++ * @see https://github.com/jquery/jquery-ui/blob/1.11.4/ui/tabs.js#L53
++ */
++Drupal.absoluteUrl = function (url) {
++  var urlParsingNode = document.createElement('a');
++
++  // Decode the URL first; this is required by IE <= 6. Decoding non-UTF-8
++  // strings may throw an exception.
++  try {
++    url = decodeURIComponent(url);
++  } catch (e) {}
++
++  urlParsingNode.setAttribute('href', url);
++
++  // IE <= 7 normalizes the URL when assigned to the anchor node similar to
++  // the other browsers.
++  return urlParsingNode.cloneNode(false).href;
++};
++
++/**
++ * Returns true if the URL is within Drupal's base path.
++ *
++ * @param url
++ *   The URL string to be tested.
++ *
++ * @return
++ *   Boolean true if local.
++ *
++ * @see https://github.com/jquery/jquery-ui/blob/1.11.4/ui/tabs.js#L58
++ */
++Drupal.urlIsLocal = function (url) {
++  // Always use browser-derived absolute URLs in the comparison, to avoid
++  // attempts to break out of the base path using directory traversal.
++  var absoluteUrl = Drupal.absoluteUrl(url);
++  var protocol = location.protocol;
++
++  // Consider URLs that match this site's base URL but use HTTPS instead of HTTP
++  // as local as well.
++  if (protocol === 'http:' && absoluteUrl.indexOf('https:') === 0) {
++    protocol = 'https:';
++  }
++  var baseUrl = protocol + '//' + location.host + Drupal.settings.basePath.slice(0, -1);
++
++  // Decoding non-UTF-8 strings may throw an exception.
++  try {
++    absoluteUrl = decodeURIComponent(absoluteUrl);
++  } catch (e) {}
++  try {
++    baseUrl = decodeURIComponent(baseUrl);
++  } catch (e) {}
++
++  // The given URL matches the site's base URL, or has a path under the site's
++  // base URL.
++  return absoluteUrl === baseUrl || absoluteUrl.indexOf(baseUrl + '/') === 0;
++};
++
++/**
+  * Generate the themed representation of a Drupal object.
+  *
+  * All requests for themed output must go through this function. It examines
+@@ -350,7 +416,7 @@ Drupal.getSelection = function (element) {
+ /**
+  * Build an error message from an Ajax response.
+  */
+-Drupal.ajaxError = function (xmlhttp, uri) {
++Drupal.ajaxError = function (xmlhttp, uri, customMessage) {
+   var statusCode, statusText, pathText, responseText, readyStateText, message;
+   if (xmlhttp.status) {
+     statusCode = "\n" + Drupal.t("An AJAX HTTP error occurred.") +  "\n" + Drupal.t("HTTP Result Code: !status", {'!status': xmlhttp.status});
+@@ -383,7 +449,10 @@ Drupal.ajaxError = function (xmlhttp, uri) {
+   // We don't need readyState except for status == 0.
+   readyStateText = xmlhttp.status == 0 ? ("\n" + Drupal.t("ReadyState: !readyState", {'!readyState': xmlhttp.readyState})) : "";
+ 
+-  message = statusCode + pathText + statusText + responseText + readyStateText;
++  // Additional message beyond what the xmlhttp object provides.
++  customMessage = customMessage ? ("\n" + Drupal.t("CustomMessage: !customMessage", {'!customMessage': customMessage})) : "";
++
++  message = statusCode + pathText + statusText + customMessage + responseText + readyStateText;
+   return message;
+ };
+ 
+diff --git a/modules/file/tests/file.test b/modules/file/tests/file.test
+index 33d7afd..5c19d00 100644
+--- a/modules/file/tests/file.test
++++ b/modules/file/tests/file.test
+@@ -377,6 +377,18 @@ function testManagedFile() {
+         $this->drupalPost($path, array(), t('Save'));
+         $this->assertRaw(t('The file id is %fid.', array('%fid' => 0)), 'Submitted without a file.');
+ 
++        // Submit with a file, but with an invalid form token. Ensure the file
++        // was not saved.
++        $last_fid_prior = $this->getLastFileId();
++        $edit = array(
++          'files[' . $input_base_name . ']' => drupal_realpath($test_file->uri),
++          'form_token' => 'invalid token',
++        );
++        $this->drupalPost($path, $edit, t('Save'));
++        $this->assertText('The form has become outdated. Copy any unsaved work in the form below');
++        $last_fid = $this->getLastFileId();
++        $this->assertEqual($last_fid_prior, $last_fid, 'File was not saved when uploaded with an invalid form token.');
++
+         // Submit a new file, without using the Upload button.
+         $last_fid_prior = $this->getLastFileId();
+         $edit = array('files[' . $input_base_name . ']' => drupal_realpath($test_file->uri));
+diff --git a/modules/profile/profile.test b/modules/profile/profile.test
+index 42a1a42..6cb0739 100644
+--- a/modules/profile/profile.test
++++ b/modules/profile/profile.test
+@@ -339,12 +339,22 @@ function testAutocomplete() {
+     $this->setProfileField($field, $field['value']);
+ 
+     // Set some html for what we want to see in the page output later.
+-    $autocomplete_html = '<input type="hidden" id="' . drupal_html_id('edit-' . $field['form_name'] . '-autocomplete') . '" value="' . url('profile/autocomplete/' . $field['fid'], array('absolute' => TRUE)) . '" disabled="disabled" class="autocomplete" />';
+-    $field_html = '<input type="text" maxlength="255" name="' . $field['form_name'] . '" id="' . drupal_html_id('edit-' . $field['form_name']) . '" size="60" value="' . $field['value'] . '" class="form-text form-autocomplete required" />';
++    // Autocomplete always uses non-clean URLs.
++    $current_clean_url = isset($GLOBALS['conf']['clean_url']) ? $GLOBALS['conf']['clean_url'] : NULL;
++    $GLOBALS['conf']['clean_url'] = 0;
++    $autocomplete_url = url('profile/autocomplete/' . $field['fid'], array('absolute' => TRUE));
++    $GLOBALS['conf']['clean_url'] = $current_clean_url;
++    $autocomplete_id = drupal_html_id('edit-' . $field['form_name'] . '-autocomplete');
++    $autocomplete_html = '<input type="hidden" id="' . $autocomplete_id . '" value="' . $autocomplete_url . '" disabled="disabled" class="autocomplete" />';
+ 
+     // Check that autocompletion html is found on the user's profile edit page.
+     $this->drupalGet('user/' . $this->admin_user->uid . '/edit/' . $category);
+     $this->assertRaw($autocomplete_html, 'Autocomplete found.');
++    $this->assertFieldByXPath(
++      '//input[@type="text" and @name="' . $field['form_name'] . '" and contains(@class, "form-autocomplete")]',
++      '',
++      'Text input field found'
++    );
+     $this->assertRaw('misc/autocomplete.js', 'Autocomplete JavaScript found.');
+     $this->assertRaw('class="form-text form-autocomplete"', 'Autocomplete form element class found.');
+ 
+diff --git a/modules/simpletest/drupal_web_test_case.php b/modules/simpletest/drupal_web_test_case.php
+index fb5c6a6..b67c478 100644
+--- a/modules/simpletest/drupal_web_test_case.php
++++ b/modules/simpletest/drupal_web_test_case.php
+@@ -2221,6 +2221,7 @@ protected function drupalPostAJAX($path, $edit, $triggering_element, $ajax_path
+ 
+     // Submit the POST request.
+     $return = drupal_json_decode($this->drupalPost(NULL, $edit, array('path' => $ajax_path, 'triggering_element' => $triggering_element), $options, $headers, $form_html_id, $extra_post));
++    $this->assertIdentical($this->drupalGetHeader('X-Drupal-Ajax-Token'), '1', 'Ajax response header found.');
+ 
+     // Change the page content by applying the returned commands.
+     if (!empty($ajax_settings) && !empty($return)) {
+diff --git a/modules/simpletest/tests/database_test.test b/modules/simpletest/tests/database_test.test
+index 9c533be..59d2e5d 100644
+--- a/modules/simpletest/tests/database_test.test
++++ b/modules/simpletest/tests/database_test.test
+@@ -1414,10 +1414,47 @@ function testVulnerableComment() {
+     }
+ 
+     $query = (string)$query;
+-    $expected = "/* Testing query comments SELECT nid FROM {node}; -- */ SELECT test.name AS name, test.age AS age\nFROM \n{test} test";
++    $expected = "/* Testing query comments  * / SELECT nid FROM {node}; -- */ SELECT test.name AS name, test.age AS age\nFROM \n{test} test";
+ 
+     $this->assertEqual($num_records, 4, 'Returned the correct number of rows.');
+     $this->assertEqual($query, $expected, 'The flattened query contains the sanitised comment string.');
++
++    $connection = Database::getConnection();
++    foreach ($this->makeCommentsProvider() as $test_set) {
++      list($expected, $comments) = $test_set;
++      $this->assertEqual($expected, $connection->makeComment($comments));
++    }
++  }
++
++  /**
++   * Provides expected and input values for testVulnerableComment().
++   */
++  function makeCommentsProvider() {
++    return array(
++      array(
++        '/*  */ ',
++        array(''),
++      ),
++      // Try and close the comment early.
++      array(
++        '/* Exploit  * / DROP TABLE node; -- */ ',
++        array('Exploit */ DROP TABLE node; --'),
++      ),
++      // Variations on comment closing.
++      array(
++        '/* Exploit  * / * / DROP TABLE node; -- */ ',
++        array('Exploit */*/ DROP TABLE node; --'),
++      ),
++      array(
++        '/* Exploit  *  * // DROP TABLE node; -- */ ',
++        array('Exploit **// DROP TABLE node; --'),
++      ),
++      // Try closing the comment in the second string which is appended.
++      array(
++        '/* Exploit  * / DROP TABLE node; --; Another try  * / DROP TABLE node; -- */ ',
++        array('Exploit */ DROP TABLE node; --', 'Another try */ DROP TABLE node; --'),
++      ),
++    );
+   }
+ 
+   /**
+diff --git a/modules/system/system.module b/modules/system/system.module
+index 8fc517f..c2aa9e0 100644
+--- a/modules/system/system.module
++++ b/modules/system/system.module
+@@ -359,7 +359,7 @@ function system_element_info() {
+     '#size' => 60,
+     '#maxlength' => 128,
+     '#autocomplete_path' => FALSE,
+-    '#process' => array('ajax_process_form'),
++    '#process' => array('form_process_autocomplete', 'ajax_process_form'),
+     '#theme' => 'textfield',
+     '#theme_wrappers' => array('form_element'),
+   );

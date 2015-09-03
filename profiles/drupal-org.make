@@ -49,6 +49,9 @@ projects[better_exposed_filters][version] = "3.0-beta3"
 projects[bootstrap_gallery][subdir] = "contributed"
 projects[bootstrap_gallery][version] = "3.0"
 
+projects[bounce][subdir] = "contributed"
+projects[bounce][version] = "1.6"
+
 projects[captcha][subdir] = "contributed"
 projects[captcha][version] = "1.2"
 
@@ -77,7 +80,7 @@ projects[css_injector][subdir] = "contributed"
 projects[css_injector][version] = "1.10"
 
 projects[ctools][subdir] = "contributed"
-projects[ctools][version] = "1.6"
+projects[ctools][version] = "1.7"
 
 projects[customerror][subdir] = "contributed"
 projects[customerror][version] = "1.3"
@@ -98,7 +101,7 @@ projects[email][subdir] = "contributed"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contributed"
-projects[entity][version] = "1.5"
+projects[entity][version] = "1.6"
 
 projects[entityreference][subdir] = "contributed"
 projects[entityreference][version] = "1.1"
@@ -107,7 +110,7 @@ projects[entityreference][version] = "1.1"
 ;projects[entityreference][download][revision] = "3cbeb1b9e49ede063834f33a33e3fa6a409bd0f4"
 
 projects[entityreference_prepopulate][subdir] = "contributed"
-projects[entityreference_prepopulate][version] = "1.3"
+projects[entityreference_prepopulate][version] = "1.5"
 
 projects[eu-cookie-compliance][subdir] = "contributed"
 projects[eu-cookie-compliance][version] = "1.12"
@@ -125,7 +128,7 @@ projects[features][subdir] = "contributed"
 projects[features][version] = "2.3"
 
 projects[feeds][subdir] = "contributed"
-projects[feeds][version] = "2.0-alpha8"
+projects[feeds][version] = "2.0-alpha9"
 
 projects[feeds_tamper][subdir] = "contributed"
 projects[feeds_tamper][version] = "1.0"
@@ -294,6 +297,9 @@ projects[rules][version] = "2.8"
 projects[simplenews][subdir] = "contributed"
 projects[simplenews][version] = "1.1"
 
+projects[simplenews_statistics][subdir] = "contributed"
+projects[simplenews_statistics][version] = "1.0-alpha1"
+
 projects[site_map][subdir] = "contributed"
 projects[site_map][version] = "1.0"
 
@@ -351,13 +357,13 @@ projects[video][subdir] = "contributed"
 projects[video][version] = "2.11"
 
 projects[views][subdir] = "contributed"
-projects[views][version] = "3.10"
+projects[views][version] = "3.11"
 
 projects[views_bootstrap][subdir] = "contributed"
 projects[views_bootstrap][version] = "3.1"
 
 projects[views_bulk_operations][subdir] = "contributed"
-projects[views_bulk_operations][version] = "3.2"
+projects[views_bulk_operations][version] = "3.3"
 
 projects[views_datasource][subdir] = "contributed"
 ;projects[views_datasource][version] = "1.x-dev"
@@ -382,7 +388,7 @@ projects[votingapi][subdir] = "contributed"
 projects[votingapi][version] = "2.11"
 
 projects[webform][subdir] = "contributed"
-projects[webform][version] = "4.0"
+projects[webform][version] = "4.9"
 
 projects[workbench][subdir] = "contributed"
 projects[workbench][version] = "1.2"
@@ -409,7 +415,7 @@ projects[js_injector][subdir] = "contributed"
 projects[js_injector][version] = "2.1"
 
 projects[jquery_update][subdir] = "contributed"
-projects[jquery_update][version] = "2.4"
+projects[jquery_update][version] = "2.6"
 
 projects[registration][subdir] = "contributed"
 projects[registration][version] = "1.3"
@@ -441,11 +447,11 @@ libraries[ckeditor_lite][download][url] = http://download.ckeditor.com/lite/rele
 libraries[ckeditor_lite][subdir] = ckeditor/plugins
 libraries[ckeditor_lite][directory_name] = "lite"
 
-;tcpdf 6.0.013
-libraries[tcpdf][download][type] = "git"
-libraries[tcpdf][download][url] = "http://git.code.sf.net/p/tcpdf/code"
-libraries[tcpdf][download][tag] = "6.0.053"
-libraries[tcpdf][directory_name] = "tcpdf"
+;tcpdf 6.0.053
+libraries[tcpdf][download][type] = "file"
+libraries[tcpdf][download][request_type]= "get"
+libraries[tcpdf][download][file_type] = "zip"
+libraries[tcpdf][download][url] = "https://github.com/tcpdf-clone/tcpdf/archive/6.0.053.zip"
 libraries[tcpdf][destination] = "libraries"
 
 ;mpdf 5.7
