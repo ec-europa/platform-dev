@@ -145,14 +145,14 @@
         );
 
         /**
-     * Create 2 inputs (and their related events) to manage popups contents.
-     * @param {Number} leaflet_id
-     *   id of the leaflet layer
-     * @param {String} label
-     *   title of the popup
-     * @return {String} description
-     *   the content of the popup
-     */
+         * Create 2 inputs (and their related events) to manage popups contents.
+         * @param {Number} leaflet_id
+         *   id of the leaflet layer
+         * @param {String} label
+         *   title of the popup
+         * @return {String} description
+         *   the content of the popup
+         */
         function createLabel(leaflet_id, label, description) {
             var myinput = '<div id="label_wrapper_' + leaflet_id + '" class="leaflet_label_wrapper"><input class="leaflet_label" name="myField" type="text" id="L' + leaflet_id + '">';
             myinput = myinput + '<textarea rows="2" class="leaflet_description" id="T' + leaflet_id + '"/>';
@@ -206,8 +206,8 @@
         }
 
         /**
-     * Update the GeoJSON field that contents the geoJson data by checking all elements in the map object.
-     */
+         * Update the GeoJSON field that contents the geoJson data by checking all elements in the map object.
+         */
         function updateGeoJsonField() {
             geojson_map = drawnItems.toGeoJSON();
             i = 0
@@ -232,8 +232,8 @@
         }
 
         /**
-     * Update all the popups on the map by checking all elements in the map object.
-     */
+         * Update all the popups on the map by checking all elements in the map object.
+         */
         function updatePopups() {
             geojson_map = drawnItems.toGeoJSON();
             i = 0;
@@ -254,14 +254,14 @@
         }
 
         /**
-     * Build the html content put in a popup.
-     * @param {Number} leaflet_id
-     *   id of the leaflet layer of the popup
-     * @param {String} label
-     *   title of the popup
-     * @return {String} description
-     *   the content of the popup
-     */
+         * Build the html content put in a popup.
+         * @param {Number} leaflet_id
+         *   id of the leaflet layer of the popup
+         * @param {String} label
+         *   title of the popup
+         * @return {String} description
+         *   the content of the popup
+         */
         function buildPopupContent(leaflet_id, name, description) {
             var content = '<div id="popup_' + leaflet_id + '">';
             content = content + '<h4 class="popup_name">' + name + '</h4>';
@@ -271,14 +271,14 @@
         }
 
         /**
-     * Create the popup object and bind it to a map layer.
-     * @param {Number} leaflet_id
-     *   id of the leaflet layer of the popup
-     * @param {String} label
-     *   title of the popup
-     * @return {String} description
-     *   the content of the popup
-     */
+         * Create the popup object and bind it to a map layer.
+         * @param {Number} leaflet_id
+         *   id of the leaflet layer of the popup
+         * @param {String} label
+         *   title of the popup
+         * @return {String} description
+         *   the content of the popup
+         */
         function createPopup(leaflet_id, name, description) {
             layer = map._layers[leaflet_id];
             popup_content = buildPopupContent(leaflet_id, name, description);

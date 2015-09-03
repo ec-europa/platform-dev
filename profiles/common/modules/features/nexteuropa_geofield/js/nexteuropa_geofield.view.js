@@ -34,14 +34,14 @@
         }
 
         /**
-     * Build the html content put in a popup.
-     * @param {Number} leaflet_id
-     *   id of the leaflet layer of the popup
-     * @param {String} label
-     *   title of the popup
-     * @return {String} description
-     *   the content of the popup
-     */
+         * Build the html content put in a popup.
+         * @param {Number} leaflet_id
+         *   id of the leaflet layer of the popup
+         * @param {String} label
+         *   title of the popup
+         * @return {String} description
+         *   the content of the popup
+         */
         function buildPopupContent(leaflet_id, name, description) {
             var content = '<div id="popup_' + leaflet_id + '">';
             content = content + '<h4 class="popup_name">' + name + '</h4>';
