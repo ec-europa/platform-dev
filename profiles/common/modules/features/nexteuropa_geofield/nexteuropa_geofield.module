@@ -30,10 +30,10 @@ function nexteuropa_geofield_field_info() {
 
   return array(
     'geofield_geojson' => array(
-        'label' => t('Geofield geoJSON'),
-        'description' => t('Interactive map to manage geo data.'),
-        'default_widget' => 'geofield_widget_map',
-        'default_formatter' => 'geofield_geojson_map_format',
+      'label' => t('Geofield geoJSON'),
+      'description' => t('Interactive map to manage geo data.'),
+      'default_widget' => 'geofield_widget_map',
+      'default_formatter' => 'geofield_geojson_map_format',
     ),
   );
 }
@@ -45,8 +45,8 @@ function nexteuropa_geofield_field_widget_info() {
 
   return array(
     'geofield_widget_map' => array(
-        'label' => t('Interactive map'),
-        'field types' => array('geofield_geojson'),
+      'label' => t('Interactive map'),
+      'field types' => array('geofield_geojson'),
       /*'behaviors' => array(
         'multiple values' => FIELD_BEHAVIOR_CUSTOM,
         'default value' => FIELD_BEHAVIOR_NONE,
@@ -188,12 +188,12 @@ function nexteuropa_geofield_field_formatter_info() {
 
   return array(
     'geofield_geojson_map_format' => array(
-        'label' => t('Interactive map'),
-        'field types' => array('geofield_geojson'),
+      'label' => t('Interactive map'),
+      'field types' => array('geofield_geojson'),
     ),
     'geofield_geojson_raw' => array(
-        'label' => t('geoJson data'),
-        'field types' => array('geofield_geojson'),
+      'label' => t('geoJson data'),
+      'field types' => array('geofield_geojson'),
     ),
   );
 }
@@ -221,11 +221,11 @@ function nexteuropa_geofield_field_formatter_view($entity_type, $entity, $field,
     case 'geofield_geojson_map_format':
         $value = isset($items[0]['geofield_geojson']) ? $items[0]['geofield_geojson'] : '';
       $element[0] = array(
-          '#type' => 'markup',
+        '#type' => 'markup',
         '#markup' => '<div id="geofield_geojson_map"></div><div id="geofield_geojson_map_wrapper"></div>',
       );
       $element[0]['#attached']['js'][0] = array(
-          'type' => 'file',
+        'type' => 'file',
         'data' => libraries_get_path('leaflet') . '/leaflet-src.js',
         'weight' => '-1',
       );
