@@ -72,6 +72,26 @@ L.custom = {
       gj.addTo(map);
     }
 
+    // Adds country highlighting.
+    if (typeof settings.country_highlight !== 'undefined') {
+      var country_options = {
+        style: function (feature) {
+          return {
+            fillColor: "#0065a2",
+            weight: 2,
+            opacity: 1,
+            color: "#0065a2",
+            fillOpacity: 0.15,
+            dashArray: '0'
+          };
+        }
+      };
+      var countries = L.wt.countries([{
+        "level": 0,
+        "countries": settings.country_highlight
+      }], country_options).addTo(map);
+    }
+
     // Processes next components.
     $wt._queue("next");
 

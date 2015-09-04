@@ -163,7 +163,8 @@ function _mapeditor_form_elements($group, $settings, $options = NULL) {
 
     case 'tile_layer':
       $form_element = array(
-        '#type' => 'container',
+        '#type' => 'fieldset',
+        '#title' => t('Map background'),
         '#weight' => 16,
       );
       $form_element['tile_layer'] = array(
@@ -171,6 +172,13 @@ function _mapeditor_form_elements($group, $settings, $options = NULL) {
         '#title' => t('Tile layer'),
         '#default_value' => isset($settings[$group]['tile_layer']) ? $settings[$group]['tile_layer'] : 'osmec',
         '#options' => _mapeditor_tiles(),
+      );
+      $form_element['country_highlight'] = array(
+        '#type' => 'textfield',
+        '#size' => 100,
+        '#description' => t('Adds country shaped polygons to the map. Enter two digit country codes separated by spaces. For example "BE NL LU"'),
+        '#title' => t('Highlight countries'),
+        '#default_value' => isset($settings[$group]['country_highlight']) ? $settings[$group]['country_highlight'] : NULL,
       );
       break;
 

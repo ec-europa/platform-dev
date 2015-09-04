@@ -98,19 +98,18 @@ L.custom = {
 
     // Fits the map to the available features.
     var all_coordinates = [[60.166628, 24.943508], [55.686724, 12.570072], [50.81423, 4.412692]];
-    map.fitBounds(all_coordinates, {padding: [30,30]});
-
+    map.fitBounds(all_coordinates, {padding: [30, 30]});
 
     // Defines custom actions for predefined options.
     var nuts_options = {
       style: function (feature) {
         return {
-          fillColor: "DarkOliveGreen",
+          fillColor: "#0065a2",
           weight: 2,
           opacity: 1,
-          color: "DarkGreen",
-          fillOpacity: 0.3,
-          dashArray	: '5'
+          color: "#0065a2",
+          fillOpacity: 0.15,
+          dashArray: '0'
         };
       },
       onEachFeature: function (feature, layer) {
@@ -126,8 +125,18 @@ L.custom = {
       }
     };
 
-    var mapeditor_nuts = {"NL":{"title":"Netherlands","url":"http:\/\/example.com"},"BE":{"title":"Belgium","url":"http:\/\/example.com"},"DE":{"title":"Germany","url":"http:\/\/example.com"},"EL":{"title":"Greece","url":"http:\/\/example.com"},"IE":{"title":"Ireland","url":"http:\/\/example.com"},"SE":{"title":"Sweden","url":"http:\/\/example.com"}};
-    var mapeditor_nuts_keys = ["NL","BE","DE","EL","IE","SE"];
+    var mapeditor_nuts = {
+      "NL": {
+        "title": "Netherlands",
+        "url": "http:\/\/example.com"
+      },
+      "BE": {"title": "Belgium", "url": "http:\/\/example.com"},
+      "DE": {"title": "Germany", "url": "http:\/\/example.com"},
+      "EL": {"title": "Greece", "url": "http:\/\/example.com"},
+      "IE": {"title": "Ireland", "url": "http:\/\/example.com"},
+      "SE": {"title": "Sweden", "url": "http:\/\/example.com"}
+    };
+    var mapeditor_nuts_keys = ["NL", "BE", "DE", "EL", "IE", "SE"];
 
     // Adds countries as Nuts to map.
     var nuts = L.wt.countries([{

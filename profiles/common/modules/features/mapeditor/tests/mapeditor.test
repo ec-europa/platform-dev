@@ -184,7 +184,8 @@ class MapeditorTestCase extends MapeditorDrupalWebTestCase {
     $node = $this->drupalCreateNode($settings);
     $this->drupalGet("node/" . $node->nid);
     $this->assertResponse(200, 'Insufficient data map has been created');
-   // Checks for the common error message when the data is insufficient
+
+    // Checks for the common error message when the data is insufficient
     // to build a map.
     $this->assertText('Not enough information to build map', 'Error message for missing data found');
 

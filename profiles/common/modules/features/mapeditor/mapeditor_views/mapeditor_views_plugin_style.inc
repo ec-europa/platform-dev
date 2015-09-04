@@ -36,7 +36,10 @@ class mapeditor_views_plugin_style extends views_plugin_style {
     $options['data_source'] = array('default' => '');
     $options['view_mode'] = array('default' => 'popup');
     $options['settings'] = array();
-    $options['tile_layer'] = array('default' => 'osmec');
+    $options['tile_layer']['contains'] = array(
+      'tile_layer' => array('default' => 'osmec'),
+      'country_highlight' => array('default' => ''),
+    );
     $options['height'] = array('default' => '430');
     $options['center']['contains'] = array(
       'lat' => array('default' => 50.84),
@@ -189,6 +192,7 @@ class mapeditor_views_plugin_style extends views_plugin_style {
         return '';
       }
       $settings['fitbounds'] = $this->options['center']['fitbounds'];
+      $settings['country_highlight'] = explode(' ', $this->options['tile_layer']['country_highlight']);
       $mapeditor_map = new MapeditorMapBuild($map, $settings);
       $mapeditor_map->setCustomJs('map.js');
       $mapeditor_map->setFeatures($features);

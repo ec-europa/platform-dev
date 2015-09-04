@@ -247,6 +247,7 @@ function _mapeditor_map_node_form_submit($form, &$form_state) {
     ),
     'tile_layer' => array(
       'tile_layer' => $form_state['values']['tile_layer'],
+      'country_highlight' => $form_state['values']['country_highlight'],
     ),
     'height' => array(
       'height' => $form_state['values']['height'],
@@ -563,6 +564,9 @@ function _mapeditor_map_definition($wrnode) {
     }
     if (isset($map_definition['fitbounds'])) {
       $settings['fitbounds'] = $map_definition['center']['fitbounds'];
+    }
+    if (isset($map_definition['tile_layer']['country_highlight'])) {
+      $settings['country_highlight'] = explode(' ', $map_definition['tile_layer']['country_highlight']);
     }
   }
   return array(
