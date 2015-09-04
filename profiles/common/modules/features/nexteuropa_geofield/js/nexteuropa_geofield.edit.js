@@ -10,9 +10,16 @@
     };
 
     function attach(context, settings) {
+console.log(settings.nexteuropa_geojson.settings);
+
         var lat = settings.nexteuropa_geojson.settings.fs_default_map_center['lat'];
         var lng = settings.nexteuropa_geojson.settings.fs_default_map_center['lng'];
         var map = L.map('geofield_geojson_map', {}).setView([lat, lng], 13);
+
+        // If there is one defined object on the map, the popup content is prepopulated.
+        if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
+          
+        }
 
         // Manage a map objects counter.
         var objects_count = 0;
@@ -31,7 +38,7 @@
             loadedMap = jQuery.parseJSON(settings.nexteuropa_geojson.map);
             drawnItems = L.geoJson(loadedMap).addTo(map);
             // Popups are not pre-populated.
-            if (settings.nexteuropa_geojson.settings.fs_objects.prepopulate_label.prepopulate == 0) {
+            if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
                 for (key in drawnItems._layers) {
                     // Create forms elements to manage popups content.
                     layer_properties = drawnItems._layers[key].feature.properties;
@@ -114,7 +121,7 @@
                     drawnItems.addLayer(layer);
 
                     // Only add inputs elements if the popups are not pre-populated.
-                    if (settings.nexteuropa_geojson.settings.fs_objects.prepopulate_label.prepopulate == 0) {
+                    if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
                         createLabel(layer._leaflet_id, "", "");
                     }
                     else {
@@ -213,7 +220,7 @@
             i = 0
             for (key in drawnItems._layers) {
                 // Check if the popups must be populated by the title and body content.
-                if (settings.nexteuropa_geojson.settings.fs_objects.prepopulate_label.prepopulate == 0) {
+                if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
                     name = $('#L' + key).val();
                     description = $('#T' + key).val();
                 }
@@ -238,7 +245,7 @@
             geojson_map = drawnItems.toGeoJSON();
             i = 0;
             for (key in drawnItems._layers) {
-                if (settings.nexteuropa_geojson.settings.fs_objects.prepopulate_label.prepopulate == 0) {
+                if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
                     name = $('#L' + key).val();
                     description = $('#T' + key).val();
                 }
