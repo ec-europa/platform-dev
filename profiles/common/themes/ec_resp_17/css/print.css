@@ -6,7 +6,7 @@ body,
 input,
 textarea,
 select {
-  color: #000;
+  color: #000000;
   background: none;
 }
 body.two-sidebars,
@@ -34,7 +34,9 @@ body {
   padding: 0;
   border: none;
 }
-#triptych-first, #triptych-middle, #triptych-last {
+#triptych-first,
+#triptych-middle,
+#triptych-last {
   width: 250px;
 }
 

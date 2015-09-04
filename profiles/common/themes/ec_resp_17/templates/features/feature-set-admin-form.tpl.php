@@ -1,12 +1,12 @@
 <?php
 /**
  * @file
- * theme implementation to display feature set.
+ * Theme implementation to display feature set.
  *
  * Available variables:
  * - $feature_set_category: list of features, grouped by category
  * - $feature_set_row: raw list of features, ungrouped
- * - $feature_set_input: rendered form input (submit and hidden fields) 
+ * - $feature_set_input: rendered form input (submit and hidden fields)
  */
 
 ?>
@@ -25,6 +25,6 @@
   </div>
 </div>
 
-<?php 
+<?php
   print $feature_set_input;
 ?>
