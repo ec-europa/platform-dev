@@ -1,0 +1,5 @@
+NL,"Bowsprit capstan hail-shot bring her cable flogging",http://example.com
+BE,"Sink me case shot, Ahoy hornswaggle",http://example.com
+LU,"Brethren of the Coast: Nelsons folly gibbet",http://example.com
+DE,"Furl fluke or Quarter marooned, measured fer yer chains",http://example.com
+DK,"Buccaneer run a shot across bow coxswain for hearties",http://example.com

@@ -1,0 +1,10 @@
+name = EC geocoder
+description = Drupal interface for using the EC geocoder service
+core = 7.x
+package = Custom
+version = 7.x-1.0
+project = ec_geocoder
+configure = admin/config/system/ec_geocoder/settings
+mtime = 1427115785
+multisite_version = 1.7
+dependencies[] = locale

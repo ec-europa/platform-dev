@@ -1,0 +1,15 @@
+name = "Mapmock"
+description = "Mock data for a map project"
+package = "Custom"
+core = 7.x
+
+dependencies[] = taxonomy
+dependencies[] = list
+dependencies[] = number
+dependencies[] = migrate
+dependencies[] = migrate_ui
+dependencies[] = entity
+dependencies[] = views
+dependencies[] = geofield
+
+files[] = mapmock.migrate.inc
