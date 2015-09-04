@@ -9,9 +9,6 @@
     <exclude-pattern>*.min.js</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/scripts/ec.js</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/css/ec_resp.css</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/ec_resp_17/scripts/ec.js</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/ec_resp_17/scripts/scripts.js</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/ec_resp_17/css/ec_resp.css</exclude-pattern>
 
     <!-- Legacy modules which are not compliant with coding standards. These are
          being fixed in NEXTEUROPA-3575. Whenever a module is fixed, please
@@ -65,6 +62,7 @@
     <exclude-pattern>profiles/common/modules/features/social_bookmark</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/solr_config</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/splash_screen</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp_17</exclude-pattern>
     <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/multisite_drupal_access</exclude-pattern>
