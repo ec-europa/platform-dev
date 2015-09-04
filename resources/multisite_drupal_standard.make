@@ -420,7 +420,7 @@ projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.0"
 
 projects[smart_trim][subdir] = "contrib"
-projects[smart_trim][version] = 1.4
+projects[smart_trim][version] = 1.5
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
