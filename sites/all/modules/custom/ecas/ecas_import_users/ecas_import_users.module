@@ -98,7 +98,8 @@ function ecas_import_users_page_content() {
 
   // forms
   if (function_exists('getLdapEntries')) {
-    $output .= drupal_render(drupal_get_form('ecas_import_user_ldap_user_form')); // search by lastname
+    $form = drupal_get_form('ecas_import_user_ldap_user_form');
+    $output .= drupal_render($form);
   }
   else {
     $output .= t('Sorry, this function currently appears to be unavailable - please check the FPFIS_Common libraries setup.');
