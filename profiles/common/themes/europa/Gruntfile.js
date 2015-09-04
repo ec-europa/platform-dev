@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Gruntfile javascript : load tasks and files.
+ */
+
 'use strict';
 
 module.exports = function (grunt) {
@@ -39,7 +44,7 @@ module.exports = function (grunt) {
     copy: {
       main: {
         files: [
-          // includes files within path and its sub-directories
+          // Includes files within path and its sub-directories
           {expand: true, src: ['images/**'], dest: 'styleguide/assets/'},
           {expand: true, src: ['css/**'], dest: 'styleguide/assets/'},
           {expand: true, src: ['js/**'], dest: 'styleguide/assets/'}
@@ -47,7 +52,7 @@ module.exports = function (grunt) {
       },
       all: {
         files: [
-          // includes files within path and its sub-directories
+          // Includes files within path and its sub-directories
           {expand: true, src: ['sass/**'], dest: 'styleguide/assets/'},
           {expand: true, src: ['bootstrap-sass/**'], dest: 'styleguide/assets/'},
           {expand: true, src: ['bootstrap/**'], dest: 'styleguide/assets/'},

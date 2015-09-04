@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @file
  * Customize the display of a node form.
