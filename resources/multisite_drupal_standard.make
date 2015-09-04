@@ -101,7 +101,7 @@ projects[css_injector][version] = "1.10"
 projects[css_injector][patch][] = patches/css_injector-add_upload_file-2506775-10.patch
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.7"
+projects[ctools][version] = "1.8"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
