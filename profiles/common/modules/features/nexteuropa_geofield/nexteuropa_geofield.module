@@ -103,6 +103,8 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
  */
 function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
 
+print_r($instance);
+
   $widget = $instance['widget'];
   $value = $widget['settings'];
 
@@ -154,6 +156,7 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
       '#options' => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
       '#default_value' => isset($value['fs_objects']['objects_amount']) ? $value['fs_objects']['objects_amount'] : 3,
     );
+    /*
     $element['fs_objects']['prepopulate_label'] = array(
       '#type' => 'checkboxes',
       '#title' => t('Object label populate'),
@@ -165,7 +168,7 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
         ),
       ),
     );
-
+    */
     $element['fs_objects']['fs_prepopulate'] = array(
       '#type' => 'fieldset',
       '#collapsed' => FALSE,
@@ -176,19 +179,28 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
         ),
       ),      
     );
+    
+    $options = array();
+    foreach(field_info_instances("node", $instance['bundle']) as $key => $field) {
+      $options[$key] = t('Field ') . $field['label'];
+    }
+    // Case when the title is not manage with the title module.
+    if(!in_array('field_title', array_keys($options))) {
+      $options['field_title'] = 'Field title';
+    }
     $element['fs_objects']['fs_prepopulate']['name_populate'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Name'),
+      '#type' => 'select_or_other',
+      '#title' => t('Popup name'),
+      '#options' => $options,
+      '#description' => t('Choose a field to populate the popup name'),
+      '#other' => t('Free value'),
     );
     $element['fs_objects']['fs_prepopulate']['description_populate'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Description'),
-    );
-    $element['fs_objects']['fs_prepopulate']['tokens'] = array(
-      '#theme' => 'token_tree_link',
-      '#token_types' => array('node'), 
-      '#global_types' => TRUE,
-      '#click_insert' => TRUE,
+      '#type' => 'select_or_other',
+      '#title' => t('Popup description'),
+      '#options' => $options,
+      '#description' => t('Choose a field to populate the popup description'),
+      '#other' => t('Free value'),
     );
   }
   return $element;
