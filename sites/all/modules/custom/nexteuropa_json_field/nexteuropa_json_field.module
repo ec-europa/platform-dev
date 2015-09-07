@@ -1,0 +1,117 @@
+<?php
+
+/**
+ * @file
+ * Code for the NextEuropa JSON field module.
+ */
+
+/**
+ * Implements hook_field_info().
+ */
+function nexteuropa_json_field_field_info() {
+  return array(
+    'json_settings' => array(
+      'label' => t('JSON settings'),
+      'description' => t('JSON settings'),
+      'settings' => array('max_length' => ''),
+      'instance_settings' => array(
+        'text_processing' => 0,
+      ),
+      'default_widget' => 'text_textarea',
+      'default_formatter' => 'json_settings_default',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_instance_settings_form().
+ */
+function nexteuropa_json_field_field_instance_settings_form($field, $instance) {
+  $options = module_invoke_all('json_field_js_to_load');
+
+  $form = array();
+
+  if (!empty($options)) {
+    $settings = $instance['settings'];
+    $form['js_to_load'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Javascript to load'),
+      '#default_value' => isset($settings['js_to_load']) ? $settings['js_to_load'] : array(),
+      '#options' => $options,
+      '#description' => t('Select external javascripts to load for this field'),
+    );
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function nexteuropa_json_field_field_formatter_info() {
+  return array(
+    'json_settings_default' => array(
+      'label' => t('Script application/json'),
+      'field types' => array('json_settings'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_info_alter().
+ */
+function nexteuropa_json_field_field_widget_info_alter(&$info) {
+  $widgets = array(
+    'text_textarea' => array('json_settings'),
+  );
+
+  foreach ($widgets as $widget => $field_types) {
+    $info[$widget]['field types'] = array_merge($info[$widget]['field types'], $field_types);
+  }
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function nexteuropa_json_field_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  switch ($display['type']) {
+    case 'json_settings_default':
+      // Include javascripts (if defined).
+      $settings = $instance['settings'];
+      if (isset($settings['js_to_load']) && !empty($settings['js_to_load'])) {
+        static $javascript_included;
+        foreach ($settings['js_to_load'] as $js_variable) {
+          $js_url = variable_get($js_variable, '');
+          if ($js_url != '' && !$javascript_included[$js_variable]) {
+            // Ensure to use a PR URL (compatibility for http/https).
+            $js_url = preg_replace("#^https?:#", "", $js_url);
+            drupal_add_js($js_url, 'external');
+            $javascript_included[$js_variable] = TRUE;
+          }
+        }
+      }
+
+      // Build element.
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array();
+        // Strip_tags to avoid javascript injection.
+        $element[$delta]['#markup'] = strip_tags($item['value']);
+        $element[$delta]['#prefix'] = "<script type=\"application/json\">";
+        $element[$delta]['#suffix'] = "</script>";
+      }
+      break;
+
+    default:
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function nexteuropa_json_field_field_is_empty($item, $field) {
+  if (empty($item['value']) && (string) $item['value'] !== '0') {
+    return TRUE;
+  }
+  return FALSE;
+}
