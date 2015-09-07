@@ -31,46 +31,49 @@ function communities_views_pre_render(&$view) {
 
       if ($i == 0) {
         // First.
-        $output .= l($letter, $url, array(
+        $options = array(
           'attributes' => array(
             'type' => 'small',
             'action_bar' => 'first',
             'btn_group' => 'first',
             'class' => array('hidden-phone'),
           ),
-          )
         );
+        $output .= l($letter, $url, $options);
       }
       elseif ($i == $len - 1) {
         // Last.
-        $output .= l($letter, $url, array(
+        $options = array(
           'attributes' => array(
             'type' => 'small',
             'btn_group' => 'last',
             'class' => array('hidden-phone'),
           ),
-        ));
+        );
+        $output .= l($letter, $url, $options);
       }
       else {
-        $output .= l($letter, $url, array(
+        $options = array(
           'attributes' => array(
             'type' => 'small',
             'class' => array('hidden-phone'),
           ),
-        ));
+        );
+        $output .= l($letter, $url, $options);
       }
       $i++;
     }
 
     // Add create community button.
     if (user_access('create community content')) {
-      $output .= l(t('Create a new community'), 'node/add/community', array(
+      $options = array(
         'attributes' => array(
           'type' => 'add',
           'action_bar' => 'last',
           'btn_group' => 'single',
         ),
-      ));
+      );
+      $output .= l(t('Create a new community'), 'node/add/community', $options);
     }
 
     // Update view header.
@@ -356,7 +359,7 @@ function _communities_get_url_in_group($path, $original_path) {
 
 
 /**
- * Implementation of _to_arg function.
+ * Returns the sanitized group title or 'none' if there is no group context.
  */
 function group_name_to_arg($arg = NULL) {
   module_load_include('inc', 'pathauto', 'pathauto');
@@ -372,7 +375,15 @@ function group_name_to_arg($arg = NULL) {
 
 
 /**
- * Implementation of _load function.
+ * Returns the ID of the Community node corresponding to the given group name.
+ *
+ * @param string $arg
+ *   The group name, or 'none' if no ID should be returned.
+ *
+ * @return int | NULL
+ *   The node ID of the Community node,
+ *   or the integer 0 if no group name was given,
+ *   or NULL if the Community node could not be derived from the path alias.
  */
 function group_name_load($arg) {
   global $language;
