@@ -31,7 +31,7 @@
                 i++;
             }
             // Fix zoom to 16 when there is one object on the map.
-            if(i == 1) {
+            if (i == 1) {
                 console.log(drawnItems);
                 map.fitBounds(drawnItems.getBounds(), {maxZoom:16});
             }
