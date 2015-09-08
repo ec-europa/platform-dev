@@ -30,7 +30,6 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
                         'taxonomy',
                         'views',
                         'views_content',
-                        'views_ui',
                         'node',
                         'block'));
   }
