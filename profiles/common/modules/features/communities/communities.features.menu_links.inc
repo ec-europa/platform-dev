@@ -32,6 +32,5 @@ function communities_menu_default_menu_links() {
   // Included for use with string extractors like potx.
   t('My workbench');
 
-
   return $menu_links;
 }

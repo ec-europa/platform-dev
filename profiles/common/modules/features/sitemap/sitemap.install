@@ -11,13 +11,12 @@ include_once 'sitemap.install.inc';
 /**
  * Implements hook_enable().
  */
-
 function sitemap_enable() {
   $item = array(
     'link_path' => 'sitemap',
     'link_title' => t('Site map'),
     'menu_name' => 'main-menu',
-    'weight' => '50'
+    'weight' => '50',
   );
   menu_link_save($item);
   $cron_true = drupal_cron_run();
@@ -34,12 +33,20 @@ function sitemap_enable() {
 /**
  * Implements hook_disable().
  */
-
 function sitemap_disable() {
   menu_link_delete(NULL, 'sitemap');
   module_disable(array('xmlsitemap'), FALSE);
-  module_disable(array('xmlsitemap_engines', 'xmlsitemap_node', 'xmlsitemap_taxonomy', 'xmlsitemap_user'), FALSE);
-  drupal_uninstall_modules(array('xmlsitemap', 'xmlsitemap_engines', 'xmlsitemap_node', 'xmlsitemap_taxonomy', 'xmlsitemap_user'), TRUE);
+  module_disable(array('xmlsitemap_engines',
+                       'xmlsitemap_node',
+                       'xmlsitemap_taxonomy',
+                       'xmlsitemap_user',
+                       ), FALSE);
+  drupal_uninstall_modules(array('xmlsitemap',
+                                 'xmlsitemap_engines',
+                                 'xmlsitemap_node',
+                                 'xmlsitemap_taxonomy',
+                                 'xmlsitemap_user',
+                                 ), TRUE);
 
   variable_del('xmlsitemap_base_url');
   variable_del('xmlsitemap_batch_limit');
@@ -63,30 +70,15 @@ function sitemap_disable() {
 
   menu_cache_clear_all();
   cache_clear_all('variables', 'cache_bootstrap');
-  //Activation message
+  // Activation message.
   drupal_set_message(t('Sitemap %v feature is now inactive on your site.', array('%v' => _sitemap_get_version())));
 }
 
-
-
 /**
- * Implements hook_install().
- */
-function sitemap_install() {
-  //Install scripts here
-}
-
-/**
- * Implements hook_uninstall().
- */
-function sitemap_uninstall() {
-  //Uninstall scripts here
-}
-/**
- * Remove uneeded persistent variables
+ * Remove uneeded persistent variables.
  */
 function sitemap_update_7120() {
-  //a best practice is to use variable_del instead db_delete
+  // A best practice is to use variable_del instead db_delete
   variable_del('xmlsitemap_base_url');
   variable_del('xmlsitemap_batch_limit');
   variable_del('xmlsitemap_lastmod_format');

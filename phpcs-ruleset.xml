@@ -9,11 +9,13 @@
     <exclude-pattern>*.min.js</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/scripts/ec.js</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/css/ec_resp.css</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp_17/scripts/ec.js</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp_17/scripts/scripts.js</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp_17/css/ec_resp.css</exclude-pattern>
 
     <!-- Legacy modules which are not compliant with coding standards. These are
          being fixed in NEXTEUROPA-3575. Whenever a module is fixed, please
          remove it from this list so it can be tested. -->
-    <exclude-pattern>profiles/common/modules/features/communities</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/content_examples</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/dev</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/e_library</exclude-pattern>
@@ -57,15 +59,10 @@
     <exclude-pattern>profiles/common/modules/features/multisite_twitterblock</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_workbench_moderation_view</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/newsletters</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/nexteuropa_core</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/node_pager</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/sitemap</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/social_bookmark</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/solr_config</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/splash_screen</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/wiki</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/ec_resp_17</exclude-pattern>
     <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/multisite_drupal_access</exclude-pattern>
