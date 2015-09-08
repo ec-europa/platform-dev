@@ -81,6 +81,14 @@
 
             // Focus on map elements.
             map.fitBounds(drawnItems.getBounds());
+            // Fix zoom to 16 when there is one object on the map.
+            if(settings.nexteuropa_geojson.settings.fs_objects.objects_amount == 1) {
+                console.log(drawnItems);
+                map.fitBounds(drawnItems.getBounds(), {maxZoom:16});
+            }
+            else {
+                map.fitBounds(drawnItems.getBounds());
+            }
         }
 
         // Get map controls settings.
@@ -326,7 +334,7 @@
 
             case "body":
               for (var c in CKEDITOR.instances) {
-                value = CKEDITOR.instances[c].getdata();
+                value = CKEDITOR.instances[c].getData();
                 break;
               }
               break;
