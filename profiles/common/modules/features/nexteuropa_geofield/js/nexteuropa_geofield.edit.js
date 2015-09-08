@@ -10,15 +10,17 @@
     };
 
     function attach(context, settings) {
-console.log(settings.nexteuropa_geojson.settings);
+        console.log(settings.nexteuropa_geojson.settings);
 
         var lat = settings.nexteuropa_geojson.settings.fs_default_map_center['lat'];
         var lng = settings.nexteuropa_geojson.settings.fs_default_map_center['lng'];
         var map = L.map('geofield_geojson_map', {}).setView([lat, lng], 13);
 
-        // If there is one defined object on the map, the popup content is prepopulated.
-        if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
-          
+        // Get all the necessary DOM objects.
+        // If there is only one defined object on the map, get the fields used to populate the popup.
+        if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount == 1) {
+          name_field = settings.nexteuropa_geojson.settings.fs_objects.fs_prepopulate.name_populate;
+          description_field = settings.nexteuropa_geojson.settings.fs_objects.fs_prepopulate.description_populate;
         }
 
         // Manage a map objects counter.
@@ -50,11 +52,11 @@ console.log(settings.nexteuropa_geojson.settings);
             }
             // Popups are pre-populated with the conteny title and body.
             else {
-                $("input[name*='title']").change(
+                name_obj = getFieldObject(name_field);
+                name_obj.change(
                     function() {
                         updateGeoJsonField();
                         updatePopups();
-                        console.log($("input[name*='title']").val());
                     }
                 );
                 $('#geofield_geojson_map').click(
@@ -65,16 +67,14 @@ console.log(settings.nexteuropa_geojson.settings);
                 );
                 CKEDITOR.on(
                     'instanceReady', function(ev) {
+                        description_obj = getFieldObject(description_field);
+                        description_obj.on(
+                            'change', function() {
+                                updateGeoJsonField();
+                                updatePopups();
+                            }
+                        );
                         updatePopups();
-                        for (var c in CKEDITOR.instances) {
-                            CKEDITOR.instances[c].on(
-                                'change', function() {
-                                    updateGeoJsonField();
-                                    updatePopups();
-                                }
-                            );
-                            break;
-                        }
                     }
                 );
             }
@@ -83,6 +83,7 @@ console.log(settings.nexteuropa_geojson.settings);
             map.fitBounds(drawnItems.getBounds());
         }
 
+        // Get map controls settings.
         var marker_setting = settings.nexteuropa_geojson.settings.fs_objects.objects['marker'] == 0 ? false : true;
         var polygon_setting = settings.nexteuropa_geojson.settings.fs_objects.objects['polygon'] == 0 ? false : true;
         var polyline_setting = settings.nexteuropa_geojson.settings.fs_objects.objects['polyline'] == 0 ? false : true;
@@ -126,14 +127,10 @@ console.log(settings.nexteuropa_geojson.settings);
                     }
                     else {
                         // Prepopulate the popups with the title and body content.
-                        name = $("input[name*='title']").val();
-                        for (var c in CKEDITOR.instances) {
-                            description = CKEDITOR.instances[c].getData();
-                            break;
-                        }
+                        name = getFieldValue(name_field);
+                        description = getFieldValue(description_field);
                         createPopup(layer._leaflet_id, name, description);
                     }
-
                     // Update GeoJSON field.
                     updateGeoJsonField();
                 }
@@ -213,23 +210,20 @@ console.log(settings.nexteuropa_geojson.settings);
         }
 
         /**
-         * Update the GeoJSON field that contents the geoJson data by checking all elements in the map object.
+         * Update the GeoJSON field that contents the geoJSON data by checking all elements in the map object.
          */
         function updateGeoJsonField() {
             geojson_map = drawnItems.toGeoJSON();
             i = 0
             for (key in drawnItems._layers) {
-                // Check if the popups must be populated by the title and body content.
+                // Check if the popups must be populated by input fields.
                 if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
                     name = $('#L' + key).val();
                     description = $('#T' + key).val();
                 }
                 else {
-                    name = $("input[name*='title']").val();
-                    for (var c in CKEDITOR.instances) {
-                        description = CKEDITOR.instances[c].getData();
-                        break;
-                    }
+                    name = getFieldValue(name_field);
+                    description = getFieldValue(description_field);
                 }
                 geojson_map.features[i].properties.name = name;
                 geojson_map.features[i].properties.description = description;
@@ -250,11 +244,8 @@ console.log(settings.nexteuropa_geojson.settings);
                     description = $('#T' + key).val();
                 }
                 else {
-                    name = $("input[name*='title']").val();
-                    for (var c in CKEDITOR.instances) {
-                        description = CKEDITOR.instances[c].getData();
-                        break;
-                    }
+                    name = getFieldValue(name_field);
+                    description = getFieldValue(description_field);
                 }
                 createPopup(key, name, description);
             }
@@ -292,6 +283,58 @@ console.log(settings.nexteuropa_geojson.settings);
             layer.bindPopup(popup_content);
             layer._popup.setContent(popup_content);
             layer._popup.update();
+        }
+
+        /**
+         * Get the DOM object of a input field
+         * @param {String} field
+         *   name of the field
+         * @return {String}
+         *   the DOM object of the field
+         */
+        function getFieldObject(field) {
+          switch (field) {
+            case "title_field":
+              obj = $("input[name*='title']");
+              break;
+
+            case "body":
+              for (var c in CKEDITOR.instances) {
+                obj = CKEDITOR.instances[c];
+                break;
+              }
+              break;
+
+            default:
+              obj = $("input[name*=" + field + "]");
+          }
+          return obj;
+        }
+
+        /**
+         * Get the value of a input field
+         * @param {String} field
+         *   name of the field
+         * @return {String}
+         *   the value of the field
+         */
+        function getFieldValue(field) {
+          switch (field) {
+            case "title_field":
+              value = $("input[name*='title']").val();
+              break;
+
+            case "body":
+              for (var c in CKEDITOR.instances) {
+                value = CKEDITOR.instances[c].getdata();
+                break;
+              }
+              break;
+
+            default:
+              value = $("input[name*=" + field + "]").val();
+          }
+          return value;
         }
     }
 })(jQuery);
