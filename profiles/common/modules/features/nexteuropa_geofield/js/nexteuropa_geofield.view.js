@@ -10,7 +10,7 @@
 
     function attach(context, settings) {
 
-        var map = L.map('geofield_geojson_map', {}).setView([51.505, -0.09], 13);
+        var map = L.map('geofield_geojson_map', {}).setView([51.505, -0.09], 5);
         L.tileLayer(
             'http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -30,7 +30,14 @@
                 drawnItems._layers[key].bindPopup(popup_content);
                 i++;
             }
-            map.fitBounds(drawnItems.getBounds());
+            // Fix zoom to 16 when there is one object on the map.
+            if(i == 1) {
+                console.log(drawnItems);
+                map.fitBounds(drawnItems.getBounds(), {maxZoom:16});
+            }
+            else {
+                map.fitBounds(drawnItems.getBounds());
+            }
         }
 
         /**
