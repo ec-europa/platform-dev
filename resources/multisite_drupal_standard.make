@@ -340,6 +340,7 @@ projects[metatag][version] = "1.6"
 ; A recent version of the Migrate module is pinned that contains a fix for
 ; https://www.drupal.org/node/2504517
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
+; Todo: revert back to the stable version when Migrate 7.x-2.9 is released.
 projects[migrate][download][branch] = 7.x-2.x
 projects[migrate][download][revision] = 046c6ad
 projects[migrate][download][type] = git
