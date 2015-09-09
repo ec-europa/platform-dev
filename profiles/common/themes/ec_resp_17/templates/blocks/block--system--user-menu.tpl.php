@@ -72,7 +72,7 @@
       $dest = 'home';
     else:
       $dest = drupal_get_path_alias();
-    endif
+    endif;
 
     foreach ($menu as $item_id):
       // Get icon links to menu item.
@@ -87,16 +87,16 @@
           $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . '"></span> ' . $item_id['title'];
         else:
           $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . ' menu-no-title"></span>';
-        endif
-      endif
+        endif;
+      endif;
 
       // Add redirection for login, logout and register.
       if ($item_id['href'] == 'user/login' || $item_id['href'] == 'user/register'):
         $item_id['query']['destination'] = $dest;
-      endif
+      endif;
       if ($item_id['href'] == 'user/logout'):
         $item_id['query']['destination'] = $base_url;
-      endif
+      endif;
 
       // Add icon before menu item
       // TODO: make it editable in administration.
@@ -108,12 +108,12 @@
         $item_id['attributes']['type'] = 'logout';
       elseif ($item_id['href'] == 'admin/workbench'):
         $item_id['attributes']['type'] = 'workbench';
-      endif
+      endif;
 
       $item_id['html'] = TRUE;
 
       $items .= l($item_id['title'], $item_id['href'], $item_id);
-    }
+    endforeach;
 
     print $items;
   ?>    
