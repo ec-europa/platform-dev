@@ -187,7 +187,7 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
       '#options' => $options,
       '#description' => t('Choose a field to populate the popup description'),
       // '#other' => t('Free value'),
-      '#default_value' => isset($value['fs_objects']['fs_prepopulate']['description_populate']) ? $value['fs_objects']['fs_prepopulate']['description_populate'] : 'title_field',
+      '#default_value' => isset($value['fs_objects']['fs_prepopulate']['description_populate']) ? $value['fs_objects']['fs_prepopulate']['description_populate'] : 'body',
     );
   }
   return $element;
