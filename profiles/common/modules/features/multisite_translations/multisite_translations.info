@@ -13,7 +13,6 @@ dependencies[] = tmgmt_language_combination
 dependencies[] = tmgmt_local
 dependencies[] = tmgmt_node_ui
 dependencies[] = tmgmt_node
-dependencies[] = tmgmt_ui
 dependencies[] = tmgmt_i18n_string
 dependencies[] = tmgmt_field
 dependencies[] = message
