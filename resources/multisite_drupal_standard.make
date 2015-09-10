@@ -178,7 +178,7 @@ projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.4"
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.0-beta1"
+projects[file_entity][version] = "2.0-beta2"
 ; https://www.drupal.org/node/2351691
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6860
 projects[file_entity][patch][] = https://www.drupal.org/files/issues/Fix_file_entity_file_download-2351691-1.patch
