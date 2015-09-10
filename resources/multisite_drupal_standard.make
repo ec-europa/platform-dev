@@ -466,7 +466,7 @@ projects[user_field_privacy][subdir] = "contrib"
 projects[user_field_privacy][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.0-alpha5"
+projects[uuid][version] = "1.0-alpha6"
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
