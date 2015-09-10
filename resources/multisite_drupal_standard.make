@@ -263,7 +263,7 @@ projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "1.1"
 
 projects[language_cookie][subdir] = "contrib"
-projects[language_cookie][version] = "1.6"
+projects[language_cookie][version] = "1.9"
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
