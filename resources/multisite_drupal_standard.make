@@ -107,7 +107,7 @@ projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.8"
+projects[date][version] = "2.9"
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
