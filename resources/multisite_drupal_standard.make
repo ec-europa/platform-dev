@@ -327,7 +327,7 @@ projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "2.0-rc5"
 
 projects[menu_attributes][subdir] = "contrib"
-projects[menu_attributes][version] = "1.0-rc2"
+projects[menu_attributes][version] = "1.0-rc3"
 projects[menu_attributes][patch][] = patches/menu_attributes-add_icon_for_menu_item-2327.patch
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_disable_css_class-2988.patch
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_hide_children-6757.patch
