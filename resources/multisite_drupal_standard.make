@@ -252,7 +252,7 @@ projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "1.1"
 
 projects[language_cookie][subdir] = "contrib"
-projects[language_cookie][version] = "1.6"
+projects[language_cookie][version] = "1.9"
 
 projects[leaflet_widget][subdir] = "contrib"
 projects[leaflet_widget][version] = "2.0-beta1"
