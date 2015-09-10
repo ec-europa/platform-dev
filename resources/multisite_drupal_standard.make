@@ -32,7 +32,7 @@ projects[apachesolr][patch][] = patches/apachesolr-multiples_dates-4335.patch
 projects[apachesolr][patch][] = patches/apachesolr_search-overwritten_menu_items.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
-projects[apachesolr_attachments][version] = "1.3"
+projects[apachesolr_attachments][version] = "1.4"
 projects[apachesolr_attachments][patch][] = patches/apachesolr_attachments-empty_parent_entity_id.patch
 projects[apachesolr_attachments][patch][] = patches/apachesolr_attachments-bypass_deadlocks-1854088-9.patch
 
