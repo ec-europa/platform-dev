@@ -74,7 +74,7 @@ projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
 
 projects[ckeditor_lite][subdir] = contrib
-projects[ckeditor_lite][version] = 1.0-rc1
+projects[ckeditor_lite][version] = 1.0-rc3
 
 projects[coffee][subdir] = "contrib"
 projects[coffee][version] = 2.2
