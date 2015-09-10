@@ -370,7 +370,7 @@ projects[piwik][subdir] = "contrib"
 projects[piwik][version] = "2.7"
 
 projects[plupload][subdir] = "contrib"
-projects[plupload][version] = "1.3"
+projects[plupload][version] = "1.7"
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
