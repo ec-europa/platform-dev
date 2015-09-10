@@ -65,7 +65,7 @@ projects[chosen][subdir] = "contrib"
 projects[chosen][version] = 2.0-beta4
 
 projects[chr][subdir] = "contrib"
-projects[chr][version] = "1.6"
+projects[chr][version] = "1.7"
 projects[chr][patch][] = patches/chr-deprecated_call-5588.patch
 projects[chr][patch][] = patches/chr-patches.patch
 projects[chr][patch][] = patches/chr-1.6-patch-rewrite-header-host-without-standard-port-number.patch
