@@ -395,7 +395,7 @@ projects[registry_autoload][subdir] = "contrib"
 projects[registry_autoload][version] = 1.3
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.8"
+projects[rules][version] = "2.9"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.3
