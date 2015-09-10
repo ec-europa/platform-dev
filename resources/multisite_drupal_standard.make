@@ -13,7 +13,7 @@ includes[] = "drupal-core.make"
 ; ===================
 
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.0-rc4"
+projects[admin_menu][version] = "3.0-rc5"
 projects[admin_menu][patch][] = patches/admin_menu-correctly_display-2360249-74.patch
 projects[admin_menu][patch][] = patches/admin_menu-ie6detect-1961178-2.patch
 projects[admin_menu][patch][] = patches/admin_menu-undefined_index_name-1997386-3.patch
