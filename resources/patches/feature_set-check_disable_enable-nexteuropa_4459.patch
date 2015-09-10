@@ -19,13 +19,14 @@
    }
  }
 
-@@ -142,8 +142,42 @@
+@@ -142,8 +142,43 @@
  
  function feature_set_disable_feature_set($feature_set) {
    if (!empty($feature_set['disable'])) {
 +    // Before disabling a feature set, we have to check if included features
 +    // implement content types and then if it remains nodes with
 +    // theses content types.
++    $check_node = 0;
 +    foreach ($feature_set['disable'] as $module_to_disable) {
 +      $info_file = drupal_get_path('module', $module_to_disable) . "/" . $module_to_disable . ".info";
 +      $info = drupal_parse_info_file($info_file);
