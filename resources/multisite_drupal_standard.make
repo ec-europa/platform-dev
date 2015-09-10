@@ -262,7 +262,7 @@ projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.2"
+projects[link][version] = "1.3"
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
