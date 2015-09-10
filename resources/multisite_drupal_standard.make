@@ -356,7 +356,7 @@ projects[om_maximenu][subdir] = "contrib"
 projects[om_maximenu][version] = "1.44"
 
 projects[password_policy][subdir] = "contrib"
-projects[password_policy][version] = "2.0-alpha4"
+projects[password_policy][version] = "2.0-alpha5"
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
