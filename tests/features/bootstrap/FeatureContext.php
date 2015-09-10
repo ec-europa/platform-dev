@@ -114,4 +114,23 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
   }
 
+  /**
+   * Opens specified page sing specified protocol.
+   *
+   * @Given /^(?:|I )am on "(?P<page>[^"]+)" using the "(?P<protocol>[^"]+)" protocol$/
+   *
+   * @When /^(?:|I )go to "(?P<page>[^"]+)" using the "(?P<protocol>[^"]+)" protocol$/
+   */
+  public function visitProtocol($page, $protocol) {
+    if ($protocol == 'https') {
+      variable_set('https', '1');
+      $url = url($page, array('absolute' => TRUE, 'https' => TRUE));
+      $this->visitPath($url);
+    }
+    else {
+      $url = url($page, array('absolute' => TRUE, 'https' => FALSE));
+      $this->visitPath($url);
+    }
+  }
+
 }
