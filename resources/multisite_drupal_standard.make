@@ -281,9 +281,7 @@ projects[maxlength][patch][] = patches/maxlength-indefined_index-2235.patch
 projects[maxlength][patch][] = patches/maxlength-prevent_undefined_index_error-1416608-3.patch
 
 projects[media][subdir] = contrib
-projects[media][download][branch] = 7.x-2.x
-projects[media][download][revision] = 64c5102
-projects[media][download][type] = git
+projects[media][version] = "2.0-beta1"
 projects[media][patch][] = patches/media-wysiwyg-override-white-list-MULTISITE-2607.patch
 
 ; Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
