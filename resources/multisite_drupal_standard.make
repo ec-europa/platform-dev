@@ -201,7 +201,7 @@ projects[filefield_sources_plupload][subdir] = "contrib"
 projects[filefield_sources_plupload][version] = "1.1"
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.5"
+projects[flag][version] = "3.6"
 
 projects[flexslider][subdir] = "contrib"
 projects[flexslider][version] = "2.0-alpha3"
