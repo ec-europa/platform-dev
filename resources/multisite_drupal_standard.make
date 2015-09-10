@@ -392,7 +392,7 @@ projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.3"
 
 projects[registry_autoload][subdir] = "contrib"
-projects[registry_autoload][version] = 1.2
+projects[registry_autoload][version] = 1.3
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.8"
