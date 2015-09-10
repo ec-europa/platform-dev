@@ -59,7 +59,7 @@ projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.0"
 
 projects[captcha][subdir] = "contrib"
-projects[captcha][version] = "1.2"
+projects[captcha][version] = "1.3"
 
 projects[chosen][subdir] = "contrib"
 projects[chosen][version] = 2.0-beta4
