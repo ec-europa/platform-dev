@@ -124,9 +124,7 @@ projects[email][version] = "1.3"
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.6"
 
-projects[entity_translation][download][branch] = 7.x-1.x
-projects[entity_translation][download][revision] = 221e302
-projects[entity_translation][download][type] = git
+projects[entity_translation][version] = "1.0-beta4"
 projects[entity_translation][subdir] = "contrib"
 projects[entity_translation][patch][] = patches/entity_translation-001-et-forward_revisions-1707156-23.patch
 
