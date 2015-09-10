@@ -320,7 +320,7 @@ projects[menu_attributes][patch][] = patches/menu_attributes-option_to_disable_c
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_hide_children-6757.patch
 
 projects[menu_block][subdir] = "contrib"
-projects[menu_block][version] = "2.4"
+projects[menu_block][version] = "2.7"
 projects[menu_block][patch][] = patches/menu_block-jqueryUI_issue-5211.patch
 
 projects[menu_token][subdir] = "contrib"
