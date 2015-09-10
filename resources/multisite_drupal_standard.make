@@ -152,7 +152,7 @@ projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.3"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.3"
+projects[features][version] = "2.6"
 projects[features][patch][] = patches/features-var-export-object-1437264-12.patch
 
 projects[feature_set][subdir] = "contrib"
