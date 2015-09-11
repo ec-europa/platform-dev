@@ -270,7 +270,7 @@ projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
 
 projects[maxlength][subdir] = "contrib"
-projects[maxlength][version] = "3.0-beta1"
+projects[maxlength][version] = "3.2"
 projects[maxlength][patch][] = patches/maxlength-indefined_index-2235.patch
 projects[maxlength][patch][] = patches/maxlength-prevent_undefined_index_error-1416608-3.patch
 
