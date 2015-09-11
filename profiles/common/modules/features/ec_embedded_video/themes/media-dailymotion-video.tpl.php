@@ -10,7 +10,7 @@
  *  $height - The height to render.
  *  $autoplay - If TRUE, then start the player automatically when displaying.
  *  $fullscreen - Whether to allow fullscreen playback.
- *  $output - The object/embed code
+ *  $output - The object/embed code.
  *
  * Note that we set the width & height of the outer wrapper manually so that
  * the JS will respect that when resizing later.

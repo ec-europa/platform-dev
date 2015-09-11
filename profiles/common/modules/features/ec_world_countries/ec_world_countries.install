@@ -111,7 +111,7 @@ function ec_world_countries_uninstall() {
 function ec_world_countries_update_7100() {
   $field = 'iso_3166_1_alpha_2_code';
   // Check if the field iso_3166_1_alpha_2_code has not been already created.
-  if (!field_info_instance('taxonomy_term', $field, 'ec_world_countries')) { 
+  if (!field_info_instance('taxonomy_term', $field, 'ec_world_countries')) {
     // Creates 2 letter code field.
     ec_world_countries_iso_field();
   }

@@ -15,7 +15,7 @@ include_once 'ec_profiles.install.inc';
 function ec_profiles_enable() {
   drupal_set_message(t('EC Profiles feature is now active on your site.'));
 
-  //Load the role
+  // Load the role.
   $role = user_role_load_by_name('authenticated user');
 
   user_role_grant_permissions($role->rid, array('access user profiles'));
@@ -26,26 +26,11 @@ function ec_profiles_enable() {
  * Implements hook_disable().
  */
 function ec_profiles_disable() {
-  //Example
-
-  //Load the role
+  // Example
+  // Load the role.
   $role = user_role_load_by_name('authenticated user');
 
   user_role_revoke_permissions($role->rid, array('access user profiles'));
 
   drupal_set_message(t('ec_profiles %v feature is now inactive on your site.', array('%v' => _ec_profiles_get_version())));
-}
-
-/**
- * Implements hook_install().
- */
-function ec_profiles_install() {
-  //Install scripts here
-}
-
-/**
- * Implements hook_uninstall().
- */
-function ec_profiles_uninstall() {
-  //Uninstall scripts here
 }

@@ -219,7 +219,6 @@ function nuts_regions_field() {
 
   // Defines the field instance for the user entity.
   // @todo discuss if this is desirable.
-
   $t = get_t();
   $array_instances = array(
     'nuts_region' => array(
