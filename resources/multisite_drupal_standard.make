@@ -16,7 +16,7 @@ projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
 
 projects[advagg][subdir] = "contrib"
-projects[advagg][version] = "2.7"
+projects[advagg][version] = "2.15"
 
 projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.3"
