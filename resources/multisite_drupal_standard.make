@@ -548,7 +548,7 @@ projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "1.6"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.0"
+projects[xmlsitemap][version] = "2.2"
 
 ; =========
 ; Libraries
