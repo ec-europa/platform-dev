@@ -34,7 +34,7 @@ projects[apachesolr_attachments][patch][] = patches/apachesolr_attachments-empty
 projects[apachesolr_attachments][patch][] = patches/apachesolr_attachments-bypass_deadlocks-1854088-9.patch
 
 projects[apachesolr_multilingual][subdir] = "contrib"
-projects[apachesolr_multilingual][version] = "1.2"
+projects[apachesolr_multilingual][version] = "1.3"
 
 projects[apachesolr_multisitesearch][subdir] = "contrib"
 projects[apachesolr_multisitesearch][version] = "1.1"
