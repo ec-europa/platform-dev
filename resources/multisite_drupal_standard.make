@@ -86,7 +86,7 @@ projects[colorbox][subdir] = "contrib"
 projects[colorbox][version] = "2.9"
 
 projects[colors][subdir] = "contrib"
-projects[colors][version] = "1.0-beta2"
+projects[colors][version] = "1.0-rc1"
 
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.6"
