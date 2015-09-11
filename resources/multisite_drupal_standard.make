@@ -291,7 +291,7 @@ projects[media_crop][subdir] = "contrib"
 projects[media_crop][version] = "1.4"
 
 projects[media_dailymotion][subdir] = "contrib"
-projects[media_dailymotion][version] = "1.0"
+projects[media_dailymotion][version] = "1.1"
 projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol-4103.patch
 
 projects[media_flickr][subdir] = "contrib"
