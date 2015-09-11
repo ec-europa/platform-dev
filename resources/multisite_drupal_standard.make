@@ -204,7 +204,7 @@ projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.6"
 
 projects[flexslider][subdir] = "contrib"
-projects[flexslider][version] = "2.0-alpha3"
+projects[flexslider][version] = "2.0-rc1"
 
 projects[flexslider_views_slideshow][download][revision] = "0b1f8e7e24c168d1820ccded63c319327d57a97e"
 projects[flexslider_views_slideshow][download][type] = "git"
