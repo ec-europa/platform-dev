@@ -602,6 +602,12 @@ libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
 libraries[mpdf][destination] = "libraries"
 
+; Leaflet.draw
+libraries[Leaflet.draw][destination] = "libraries"
+libraries[Leaflet.draw][download][type] = "git"
+libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
+libraries[Leaflet.draw][tag] = "v0.2.4"
+
 ; ======
 ; Themes
 ; ======
