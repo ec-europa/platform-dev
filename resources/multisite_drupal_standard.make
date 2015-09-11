@@ -196,7 +196,7 @@ projects[flexslider_views_slideshow][subdir] = "contrib"
 projects[fpa][subdir] = "contrib"
 projects[fpa][version] = "2.6"
 
-projects[freepager][download][revision] = "698effdfaf7573426ce24acf0ec622bfbf75fc73"
+projects[freepager][download][revision] = "c11c40f"
 projects[freepager][download][type] = "git"
 projects[freepager][download][url] = "http://git.drupal.org/project/freepager.git"
 projects[freepager][subdir] = "contrib"
