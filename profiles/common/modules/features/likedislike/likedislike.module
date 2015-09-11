@@ -158,7 +158,8 @@ function likedislike_form($form, &$form_state) {
       0 => t('Like / Dislike with labels'),
       1 => t('Like / Dislike without labels - Thumbs only'),
       2 => t('Like ONLY with label'),
-      3 => t('Like ONLY without label - Thumb only'))),
+      3 => t('Like ONLY without label - Thumb only'),
+  )),
     '#description' => t('Choose the widget you prefer.'),
     '#required' => TRUE,
   );
@@ -176,7 +177,8 @@ function likedislike_form($form, &$form_state) {
     '#options' => drupal_map_assoc(array(
       0 => t('No URL specified - URL detected automatically'),
       1 => t('No URL specified - URL detected automatically but without considering request parameters'),
-      2 => t('User specified URL'))),
+      2 => t('User specified URL'),
+  )),
     '#description' => t('By default, URL of an article is automatically detected by the button. Nevertheless, it is also possible to specify the URL of an article by using the parameter "url" (useful when several buttons are used on the same page).'),
     '#required' => TRUE,
   );
@@ -205,7 +207,8 @@ function likedislike_form($form, &$form_state) {
       1 => t('From HTML lang'),
       2 => t('From META http-equiv content-language'),
       3 => t('From META name language'),
-      4 => t('Language specified'))),
+      4 => t('Language specified'),
+  )),
     '#description' => t('In order to change the language detection you should
       use this options. If this parameter is not defined, the application
       tries to detect the language automatically from HTML or META tags.'),
