@@ -432,7 +432,7 @@ projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
 
 projects[site_map][subdir] = "contrib"
-projects[site_map][version] = "1.0"
+projects[site_map][version] = "1.3"
 
 projects[smart_trim][subdir] = "contrib"
 projects[smart_trim][version] = 1.5
