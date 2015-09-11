@@ -494,7 +494,7 @@ projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 
 projects[views_data_export][subdir] = "contrib"
-projects[views_data_export][version] = "3.0-beta7"
+projects[views_data_export][version] = "3.0-beta8"
 
 projects[views_datasource][download][revision] = "6e9b6b980fc2826b09391ae1c2ec0c5a85c6c24a"
 projects[views_datasource][download][type] = "git"
