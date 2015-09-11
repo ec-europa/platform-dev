@@ -517,9 +517,7 @@ projects[views_bulk_operations][version] = "3.3"
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.0-beta8"
 
-projects[views_datasource][download][revision] = "6e9b6b980fc2826b09391ae1c2ec0c5a85c6c24a"
-projects[views_datasource][download][type] = "git"
-projects[views_datasource][download][url] = "http://git.drupal.org/project/views_datasource.git"
+projects[views_datasource][version] = "1.0-alpha2"
 projects[views_datasource][subdir] = "contrib"
 
 projects[views_litepager][subdir] = "contrib"
