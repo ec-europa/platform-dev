@@ -165,7 +165,7 @@ projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
 
 projects[feeds_xpathparser][subdir] = "contrib"
-projects[feeds_xpathparser][version] = "1.0-beta4"
+projects[feeds_xpathparser][version] = "1.1"
 projects[feeds_xpathparser][patch][] = patches/feeds_xpathparser-undefined_index_unique-1998194-2.patch
 
 projects[field_collection][subdir] = "contrib"
