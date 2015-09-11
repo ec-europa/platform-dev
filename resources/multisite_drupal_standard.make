@@ -329,7 +329,7 @@ projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.6"
+projects[metatag][version] = "1.7"
 
 projects[migrate][subdir] = "contrib"
 projects[migrate][version] = "2.7"
