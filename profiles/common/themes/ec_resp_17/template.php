@@ -205,7 +205,7 @@ function ec_resp_17_preprocess_user_profile(&$variables) {
   if (module_exists('contact')) {
     $account = $variables['elements']['#account'];
     $menu_item = menu_get_item("user/$account->uid/contact");
-    if (isset ($menu_item['access']) && $menu_item['access'] == TRUE) {
+    if (isset($menu_item['access']) && $menu_item['access'] == TRUE) {
       $variables['contact_form'] = l(t('Contact this user'), 'user/' . $account->uid . '/contact', array('attributes' => array('type' => 'message')));
 
     }
@@ -414,11 +414,11 @@ function ec_resp_17_media_gallery_count($matches) {
   $nb_pictures = 0;
   $nb_video = 0;
 
-  if (isset($node->field_picture_upload['und'])):
+  if (isset($node->field_picture_upload['und'])) :
     $nb_pictures = count($node->field_picture_upload['und']);
   endif;
 
-  if (isset($node->field_video_upload['und'])):
+  if (isset($node->field_video_upload['und'])) :
     $nb_video = count($node->field_video_upload['und']);
   endif;
 
@@ -527,7 +527,8 @@ function ec_resp_17_page_alter($page) {
   }
   else {
     if (user_access('administer site configuration')) {
-      drupal_set_message(t('Please select the IPG classification of your site') . ' ' . l(t('here.'), 'admin/config/system/site-information'), 'warning');
+      $message = t('Please select the IPG classification of your site');
+      drupal_set_message($message . ' ' . l(t('here.'), 'admin/config/system/site-information'), 'warning');
     }
   }
 
@@ -705,7 +706,8 @@ function ec_resp_17_form_element($variables) {
       ' ' => '-',
       '_' => '-',
       '[' => '-',
-      ']' => ''));
+      ']' => '',
+    ));
   }
   // Add a class for disabled elements to facilitate cross-browser styling.
   if (!empty($element['#attributes']['disabled'])) {

@@ -101,7 +101,7 @@ projects[css_injector][version] = "1.10"
 projects[css_injector][patch][] = patches/css_injector-add_upload_file-2506775-10.patch
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.7"
+projects[ctools][version] = "1.8"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -420,7 +420,7 @@ projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.0"
 
 projects[smart_trim][subdir] = "contrib"
-projects[smart_trim][version] = 1.4
+projects[smart_trim][version] = 1.5
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
@@ -534,7 +534,7 @@ projects[workbench_access][version] = "1.2"
 projects[workbench_access][patch][] = patches/workbench_access-fix_php_issues-4517.patch
 
 projects[workbench_email][subdir] = "contrib"
-projects[workbench_email][version] = "3.3"
+projects[workbench_email][version] = "3.4"
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"

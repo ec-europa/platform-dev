@@ -1,7 +1,9 @@
 <?php
 /**
- * @file views-view.tpl.php
- * Main view template
+ * @file
+ * Views-view.tpl.php.
+ *
+ * Main view template.
  *
  * Variables available:
  * - $classes_array: An array of classes determined in
@@ -21,7 +23,7 @@
  * - $pager: The pager next/prev links to display, if any
  * - $exposed: Exposed widget form/info to display
  * - $feed_icon: Feed icon to display, if any
- * - $more: A link to view more, if any
+ * - $more: A link to view more, if any.
  *
  * @ingroup views_templates
  */
@@ -53,12 +55,12 @@
   <?php if ($rows): ?>
     <div class="view-content">
       <?php
-          //Check if the galleries are actually empty
-          $rows = str_replace('[Empty_gallery][Empty_gallery]', $empty_img, $rows );
-          //Check if there is only one picture
-          $rows = str_replace('[Empty_gallery]', '', $rows );
-          //Replace nid by number of items in gallery
-          $rows = preg_replace_callback('#<div id="nb_items">([0-9]+)</div>#', "ec_resp_17_media_gallery_count" , $rows);
+          // Check if the galleries are actually empty.
+          $rows = str_replace('[Empty_gallery][Empty_gallery]', $empty_img, $rows);
+          // Check if there is only one picture.
+          $rows = str_replace('[Empty_gallery]', '', $rows);
+          // Replace nid by number of items in gallery.
+          $rows = preg_replace_callback('#<div id="nb_items">([0-9]+)</div>#', "ec_resp_17_media_gallery_count", $rows);
 
           print $rows;
       ?>
