@@ -162,7 +162,7 @@ projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta1"
 
 projects[feeds_tamper][subdir] = "contrib"
-projects[feeds_tamper][version] = "1.0"
+projects[feeds_tamper][version] = "1.1"
 
 projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.0-beta4"
