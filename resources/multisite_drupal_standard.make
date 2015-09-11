@@ -242,7 +242,7 @@ projects[i18nviews][download][url] = "http://git.drupal.org/project/i18nviews.gi
 projects[i18nviews][subdir] = "contrib"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = 1.5
+projects[inline_entity_form][version] = "1.6"
 
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
