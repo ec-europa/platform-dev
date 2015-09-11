@@ -344,7 +344,7 @@ projects[message][subdir] = "contrib"
 projects[message][version] = "1.7"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.6"
+projects[metatag][version] = "1.7"
 
 ; A recent version of the Migrate module is pinned that contains a fix for
 ; https://www.drupal.org/node/2504517
