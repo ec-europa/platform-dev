@@ -264,7 +264,7 @@ projects[linkchecker][patch][] = patches/linkchecker-001-bean-integration-212773
 projects[linkchecker][patch][] = patches/linkchecker-003-linkchecker_max_redirects-3576.patch
 
 projects[mail_edit][subdir] = "contrib"
-projects[mail_edit][version] = "1.0"
+projects[mail_edit][version] = "1.1"
 
 projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
