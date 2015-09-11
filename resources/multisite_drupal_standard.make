@@ -524,7 +524,7 @@ projects[views_litepager][subdir] = "contrib"
 projects[views_litepager][version] = "3.0"
 
 projects[views_slideshow][subdir] = "contrib"
-projects[views_slideshow][version] = "3.0"
+projects[views_slideshow][version] = "3.1"
 
 projects[views_slideshow_slider][subdir] = "contrib"
 projects[views_slideshow_slider][version] = "3.0"
