@@ -321,7 +321,7 @@ projects[media_node][version] = "1.0-rc2"
 projects[media_node][patch][] = patches/media_node-incorrect_permission_check-4273.patch
 
 projects[media_vimeo][subdir] = "contrib"
-projects[media_vimeo][version] = "2.0"
+projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "2.0-rc5"
