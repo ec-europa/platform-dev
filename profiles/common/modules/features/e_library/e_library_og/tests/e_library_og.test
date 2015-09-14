@@ -8,43 +8,50 @@
 /**
  * Defines a base class for testing the "communities" module.
  */
-class e_library_ogWebTestCase extends DrupalWebTestCase {
+class ElibraryOgWebTestCase extends DrupalWebTestCase {
 
-  protected $privileged_user;
+  protected $privilegedUser;
 
   protected $profile = 'multisite_drupal_communities';
 
+  /**
+   * Return class informations.
+   */
   public static function getInfo() {
     return array(
-        'name' => 'e_library_og',
-        'description' => 'Test the communities feature.',
-        'group' => 'Multisite - Communities',
+      'name' => 'e_library_og',
+      'description' => 'Test the communities feature.',
+      'group' => 'Multisite - Communities',
     );
   }
 
-  function setUp() {
-    $this->privileged_user = new stdClass();
-    // Enable modules
+  /**
+   * Initialize user.
+   */
+  public function setUp() {
+    $this->privilegedUser = new stdClass();
+    // Enable modules.
     parent::setUp();
 
-    // Login a user that has access to the content sync server admin settings
-    $this->privileged_user = $this->drupalCreateUserWithRole("administrator");
-    $this->drupalLogin($this->privileged_user);
+    // Login a user that has access to the content sync server admin settings.
+    $this->privilegedUser = $this->drupalCreateUserWithRole("administrator");
+    $this->drupalLogin($this->privilegedUser);
   }
 
-  function testCommunitiesE_library() {
+  /**
+   * Test communities elibrary creation.
+   */
+  public function testCommunitiesElibrary() {
 
-    // check the communities directory URL
+    // Check the communities directory URL.
     $this->drupalGet('communities_directory');
-    //OK code 200
+    // OK code 200
     $this->assertResponse(200);
-    //Check the presence of HTML class: view-communities-directory
+    // Check the presence of HTML class: view-communities-directory
     $this->assertRaw('view-communities-directory', 'Communities enabled and accessible.');
 
-
-    // COMUNITY CREATION
-
-    //Create content of community type
+    // COMUNITY CREATION.
+    // Create content of community type.
     $settings = array(
       'type' => 'community',
       'title' => 'Sample Community',
@@ -59,8 +66,7 @@ class e_library_ogWebTestCase extends DrupalWebTestCase {
     $this->assertRaw('Sample Community', t('Community created.'));
 
     $this->assertTrue($node, t('Node ID @nid is a group.', array('@nid' => $node->nid)));
-    // LINK CREATION in the created community
-
+    // LINK CREATION in the created community.
     module_enable(array("e_library_og"));
     $this->drupalGet('community/sample-community');
     $this->assertTrue(module_exists('e_library_og'), t('e_library_og feature enabled.'));
@@ -76,16 +82,16 @@ class e_library_ogWebTestCase extends DrupalWebTestCase {
       'body' => array(LANGUAGE_NONE => array(array('Link body'))),
       'og_group_ref' => $field,
     );
-        $this->drupalGet('node/add/document');
+    $this->drupalGet('node/add/document');
     $this->assertResponse(200);
     $this->assertRaw('node-document-form', 'Add documents form accessible.');
     $node = $this->drupalCreateNode($settings);
     $this->verbose('e_library Node created: ' . print_r($node, TRUE));
 
-    //Access Link Page was displayed
+    // Access Link Page was displayed.
     $this->drupalGet('community/sample-community/e_library/e_library-title');
     $this->assertResponse(200);
-    //Chech the presence of h1
+    // Chech the presence of h1
     $elements = $this->xpath("//h1");
     $this->assertTrue(isset($elements[0]), t('The e_library page contains a h1 title'));
     $this->assertRaw('e_library Title', t('Title found.'));
@@ -94,8 +100,6 @@ class e_library_ogWebTestCase extends DrupalWebTestCase {
     $this->drupalGet('node/add/document');
     $this->assertResponse(200);
     $this->assertRaw('node-form', 'Communities enabled and accessible.');
-
-
 
   }
 

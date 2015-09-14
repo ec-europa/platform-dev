@@ -18,7 +18,6 @@
          remove it from this list so it can be tested. -->
     <exclude-pattern>profiles/common/modules/features/content_examples</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/dev</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/e_library</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/ec_content_slider</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/ec_embedded_image</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/ec_embedded_video</exclude-pattern>
