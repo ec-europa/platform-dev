@@ -264,7 +264,7 @@ function events_core_views_default_views() {
   $handler->display->display_options['filters']['field_event_date_value2']['operator'] = '>=';
   $handler->display->display_options['filters']['field_event_date_value2']['default_date'] = 'now';
   $export['events'] = $view;
-  
+
   $translatables['calendar'] = array(
     t('Master'),
     t('<none>'),
@@ -280,6 +280,6 @@ function events_core_views_default_views() {
     t('Dates'),
     t('Month'),
   );
-  
+
   return $export;
 }

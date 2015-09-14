@@ -3,7 +3,8 @@
 /**
  * @file
  * Tests for events_resources.module.
- * ECWeb MULTISITE Feature Test
+ *
+ * ECWeb MULTISITE Feature Test.
  */
 
 /**
@@ -39,7 +40,8 @@ class EventsResourcesFeatureTest extends DrupalWebTestCase {
   public function setUp() {
     // Enable any modules required for the test.
     parent::setUp(array(
-      'apachesolr', 'events_core', 'events_standard', 'events_resources'));
+      'apachesolr', 'events_core', 'events_standard', 'events_resources',
+    ));
 
     $this->resourcesName = 'resources';
     $this->entityType = 'node';
@@ -51,7 +53,8 @@ class EventsResourcesFeatureTest extends DrupalWebTestCase {
       'bypass workbench moderation',
     );
     $this->resourcesList = array(
-      'Resource one', 'Resource two', 'Resource three');
+      'Resource one', 'Resource two', 'Resource three',
+    );
   }
 
   /**
