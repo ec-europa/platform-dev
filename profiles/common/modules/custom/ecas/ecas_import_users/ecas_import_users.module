@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Main functions and hook implementations of the ECAS Import Users module.
+ * Module file of ecas_import_users.
  */
 
 /**
@@ -50,65 +50,64 @@ function ecas_import_users_menu() {
 }
 
 /**
- * Provides the default argument for the 'Names' menu router wildcard.
+ * Returns $arg or everybody if $arg is '%' or empty.
  *
  * @param string $arg
- *   The URL argument to be tested.
+ *   Parameter from url.
  *
  * @return string
- *   The URL argument, or the default argument if the URL argument is missing.
+ *   Give back 'everybody' or the $arg itself.
  */
 function ecas_import_users_names_to_arg($arg) {
   return (empty($arg) || $arg == '%') ? 'everybody' : $arg;
 }
 
 /**
- * Provides the default argument for the 'Group' menu router wildcard.
+ * Returns $arg or all-groups if $arg is '%' or empty.
  *
  * @param string $arg
- *   The URL argument to be tested.
+ *   Parameter from url.
  *
  * @return string
- *   The URL argument, or the default argument if the URL argument is missing.
+ *   Give back 'all-groups' or the $arg itself.
  */
 function ecas_import_users_group_to_arg($arg) {
   return (empty($arg) || $arg == '%') ? 'all-groups' : $arg;
 }
 
 /**
- * Provides the default argument for the 'Search by' menu router wildcard.
+ * Returns $arg or by-lastname if $arg is '%' or empty.
  *
  * @param string $arg
- *   The URL argument to be tested.
+ *   Parameter from url.
  *
  * @return string
- *   The URL argument, or the default argument if the URL argument is missing.
+ *   Give back 'by-lastname' or the $arg itself.
  */
 function ecas_import_users_search_by_to_arg($arg) {
   return (empty($arg) || $arg == '%') ? 'by-lastname' : $arg;
 }
 
 /**
- * Provides the default argument for the 'Country' menu router wildcard.
+ * Returns $arg or all-countries if $arg is '%' or empty.
  *
  * @param string $arg
- *   The URL argument to be tested.
+ *   Parameter from url.
  *
  * @return string
- *   The URL argument, or the default argument if the URL argument is missing.
  */
 function ecas_import_users_country_to_arg($arg) {
   return (empty($arg) || $arg == '%') ? 'all-countries' : $arg;
 }
 
 /**
- * Provides the default argument for the 'Mail' menu router wildcard.
+ * Returns $arg or no-mail if $arg is '%' or empty.
  *
  * @param string $arg
- *   The URL argument to be tested.
+ *   Parameter from url.
  *
  * @return string
- *   The URL argument, or the default argument if the URL argument is missing.
+ *   Give back 'no-mail' or the $arg itself.
  */
 function ecas_import_users_mail_to_arg($arg) {
   return (empty($arg) || $arg == '%') ? 'no-mail' : $arg;
@@ -158,17 +157,19 @@ function ecas_import_users_page_content() {
 }
 
 /**
- * Returns the base Distinguished Name that contains the groups within the LDAP.
+ * Returns the already defined FPFIS_LDAP_BASE_DN_DG or the basic value of it.
+ *
+ * @todo It can be a variable instead of using contant.
  *
  * @return string
- *   The base Distinguished Name.
+ *   The base Distinguished Name that contains the groups within the LDAP.
  */
 function _ecas_import_users_groups_dn() {
   return defined('FPFIS_LDAP_BASE_DN_DG') ? constant('FPFIS_LDAP_BASE_DN_DG') : 'ou=Groups,o=cec.eu.int';
 }
 
 /**
- * Form constructor for the LDAP user form.
+ * Form construction for the ldap handled user form.
  */
 function ecas_import_user_ldap_user_form($form, &$form_state) {
   $result = getLdapEntries(_ecas_import_users_groups_dn(), 'cn=DG_*', array('cn'));
@@ -231,9 +232,7 @@ function ecas_import_user_ldap_user_form($form, &$form_state) {
 }
 
 /**
- * Form validate handler for ecas_import_user_ldap_user_form().
- *
- * @see ecas_import_user_ldap_user_form()
+ * Form validation handler for ldap_user_form().
  */
 function ecas_import_user_ldap_user_form_validate($form, &$form_state) {
   if ($form_state['values']['lastname'] == '' && $form_state['values']['dg'] == 'all-groups' && $form_state['values']['country'] == 'all-countries' && $form_state['values']['mail'] == '') {
@@ -242,13 +241,14 @@ function ecas_import_user_ldap_user_form_validate($form, &$form_state) {
 }
 
 /**
- * Cleans the content of the given value.
+ * Clean the content of the given value.
  *
  * @param string $value
- *   The value to clean.
+ *   Contains the content.
  *
  * @return string
- *   The cleaned value.
+ *   Cleaned $value.
+>>>>>>> master:sites/all/modules/custom/ecas/ecas_import_users/ecas_import_users.module
  */
 function _ecas_import_users_clean_name_field($value) {
   if (empty($value)) {
@@ -261,13 +261,11 @@ function _ecas_import_users_clean_name_field($value) {
     $value = implode(',', preg_split('/,/', $value, -1, PREG_SPLIT_NO_EMPTY));
   }
 
-  return ($value);
+  return $value;
 }
 
 /**
- * Form submit handler for ecas_import_user_ldap_user_form().
- *
- * @see ecas_import_user_ldap_user_form()
+ * Form submission handler for ldap_user_form().
  */
 function ecas_import_user_ldap_user_form_submit($form, &$form_state) {
   $form_state['redirect'] = sprintf(
@@ -276,12 +274,15 @@ function ecas_import_user_ldap_user_form_submit($form, &$form_state) {
     $form_state['values']['dg'],
     $form_state['values']['search_by'],
     $form_state['values']['country'],
-    empty($form_state['values']['mail']) ? 'no-mail' : $form_state['values']['mail']
+    (empty($form_state['values']['mail']) ? 'no-mail' : $form_state['values']['mail'])
   );
 }
 
 /**
  * Generate the 'admin/people/import/%/%/%/%/%' page.
+ *
+ * @return html
+ *   Rendered form with tabs_tabset local menu.
  */
 function ecas_import_users_show_user_content() {
   $received_arguments = func_get_args();
@@ -302,7 +303,7 @@ function ecas_import_users_show_user_content() {
 }
 
 /**
- * Form constructor for the show user content form.
+ * Form constructor for the admin/people/import pages.
  */
 function ecas_import_users_show_user_content_form($form, &$form_state, $arguments) {
   $filters = '';
@@ -359,56 +360,60 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
   }
 
   if ($dg == 'all-groups') {
-    $base_dn = FPFIS_LDAP_BASE_DN;
-    $filter = '(&' . $filters . '(|(employeeType=f)(employeeType=E)(employeeType=n))(recordStatus=a))';
-    $extra = array(
-      'cn',
-      'givenname',
-      'dg',
-      'c',
-      'departmentnumber',
-      'o',
-      'uid',
-      'mail',
-      'sn',
+    $result = getLdapEntries(FPFIS_LDAP_BASE_DN,
+      '(&' . $filters . '(|(employeeType=f)(employeeType=E)(employeeType=n)(employeeType=i))(recordStatus=a))',
+      array(
+        'cn',
+        'givenname',
+        'dg',
+        'c',
+        'departmentnumber',
+        'o',
+        'uid',
+        'mail',
+        'sn',
+      )
     );
     $result = getLdapEntries($base_dn, $filter, $extra);
   }
   else {
     if ($dg == 'none') {
-      $base_dn = FPFIS_LDAP_BASE_DN;
-      $filter = '(&' . $filters . '(!(dg=*))(|(employeeType=f)(employeeType=E)(employeeType=n))(recordStatus=a))';
-      $extra = array(
-        'cn',
-        'givenname',
-        'dg',
-        'c',
-        'departmentnumber',
-        'o',
-        'uid',
-        'mail',
-        'sn',
+      $result = getLdapEntries(FPFIS_LDAP_BASE_DN,
+        '(&' . $filters . '(!(dg=*))(|(employeeType=f)(employeeType=E)(employeeType=n)(employeeType=i))(recordStatus=a))',
+        array(
+          'cn',
+          'givenname',
+          'dg',
+          'c',
+          'departmentnumber',
+          'o',
+          'uid',
+          'mail',
+          'sn',
+        )
       );
       $result = getLdapEntries($base_dn, $filter, $extra);
     }
     else {
-      $base_dn = FPFIS_LDAP_BASE_DN;
-      $filter = '(&' . $filters . '(dg=' . $dg . ')(|(employeeType=f)(employeeType=E)(employeeType=n))(recordStatus=a))';
-      $extra = array(
-        'cn',
-        'givenname',
-        'dg',
-        'c',
-        'departmentnumber',
-        'o',
-        'uid',
-        'mail',
-        'sn',
+      $result = getLdapEntries(FPFIS_LDAP_BASE_DN,
+        '(&' . $filters . '(dg=' . $dg . ')(|(employeeType=f)(employeeType=E)(employeeType=n)(employeeType=i))(recordStatus=a))',
+        array(
+          'cn',
+          'givenname',
+          'dg',
+          'c',
+          'departmentnumber',
+          'o',
+          'uid',
+          'mail',
+          'sn',
+        )
       );
       $result = getLdapEntries($base_dn, $filter, $extra);
     }
   }
   if ($result['count'] == 0) {
+    // drupal_set_message(t('No user found'));
     $message = '<div class="messages status">' . t('No user found') . '</div>';
     $form['div_tag'] = array('#markup' => $message);
   }
@@ -479,9 +484,7 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
 }
 
 /**
- * Form submit handler for ecas_import_users_show_user_content_form().
- *
- * @see ecas_import_users_show_user_content_form()
+ * Form submission handler for show_user_content().
  */
 function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
   $users = $form_state['values']['fs'];
@@ -491,24 +494,25 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
     if ($value != '0') {
       list($uid, $cn, $mail, $firstname, $lastname) = explode('|', $value);
       $account = user_load_by_name($uid);
-      // If the user account doesn't exist.
+      // If the user account doesn't exit.
       if (!$account) {
+
+        // 1 is "active", 0 is "blocked".
         $account = ecas_create_user($uid, array(
-          // 1 is "active", 0 is "blocked".
           'status' => variable_get('ecas_import_users_default_status', 1),
         ));
 
         if ($account && $account->uid > 0) {
           // Save user profile data.
           ecas_sync_user_info(
-            $account,
-            array(
-              'mail' => $mail,
-              'givenname' => $firstname,
-              'sn' => $lastname,
-            ),
+              $account,
+              array(
+                'mail' => $mail,
+                'givenname' => $firstname,
+                'sn' => $lastname,
+              ),
             // This allows other modules to detect a user creation.
-            array('ecas_import_users_user_creation' => TRUE)
+              array('ecas_import_users_user_creation' => TRUE)
           );
           drupal_set_message(t('User !user_uid imported', array('!user_uid' => check_plain($uid))));
           $imported_users[] = $uid;
@@ -526,7 +530,7 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
 
   // Tries to guess the original form URL.
   $matches = array();
-  if (preg_match('/(.*import)\/.*$/', $_GET['q'], $matches)) {
+  if (preg_match('/(.*import)\/.*$/', current_path(), $matches)) {
     $form_state['#redirect'] = $matches[1];
   }
   else {

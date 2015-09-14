@@ -10,22 +10,11 @@
  */
 class EcasImportUsersAdminSettingsTest extends DrupalWebTestCase {
 
-  /**
-   * A test web user.
-   *
-   * @var object
-   */
   protected $webUser;
-
-  /**
-   * A test administrator user.
-   *
-   * @var object
-   */
   protected $adminUser;
 
   /**
-   * Returns test case metadata.
+   * {@inheritdoc}
    */
   public static function getInfo() {
     return array(
@@ -46,7 +35,7 @@ class EcasImportUsersAdminSettingsTest extends DrupalWebTestCase {
     $this->webUser = $this->drupalCreateUser(array(
       'create article content',
       'create page content',
-    ));
+        ));
 
     $this->adminUser = $this->drupalCreateUser(array(
       'bypass node access',
@@ -54,6 +43,7 @@ class EcasImportUsersAdminSettingsTest extends DrupalWebTestCase {
       'administer ecas',
       'access ecas import users function',
     ));
+
   }
 
   /**
@@ -103,29 +93,12 @@ class EcasImportUsersAdminSettingsTest extends DrupalWebTestCase {
  */
 class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
 
-  /**
-   * A test web user.
-   *
-   * @var object
-   */
   protected $webUser;
-
-  /**
-   * A test ECAS user.
-   *
-   * @var object
-   */
   protected $ecasUser;
-
-  /**
-   * A test administrator user.
-   *
-   * @var object
-   */
   protected $adminUser;
 
   /**
-   * Returns test case metadata.
+   * {@inheritdoc}
    */
   public static function getInfo() {
     return array(
@@ -150,7 +123,6 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
       'cardinality' => 1,
     );
     field_create_field($field);
-
     $instance = array(
       'field_name' => 'field_firstname',
       'entity_type' => 'user',
@@ -167,7 +139,6 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
       'cardinality' => 1,
     );
     field_create_field($field);
-
     $instance = array(
       'field_name' => 'field_lastname',
       'entity_type' => 'user',
@@ -184,7 +155,6 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
       'cardinality' => 1,
     );
     field_create_field($field);
-
     $instance = array(
       'field_name' => 'field_ecas_mail',
       'entity_type' => 'user',
@@ -198,28 +168,25 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
     $this->webUser = $this->drupalCreateUser(array(
       'create article content',
       'create page content',
-    ));
-
+       ));
     $this->ecasUser = $this->drupalCreateUser(array(
       'create article content',
       'create page content',
     ));
-
-    // @todo Variable $cas_authmap is unused in its scope.
     $cas_authmap = db_insert('authmap')
-      ->fields(array(
-        'authname' => $this->ecasUser->name,
-        'uid' => $this->ecasUser->uid,
-        'module' => 'ecas',
-      ))
-      ->execute();
+        ->fields(array(
+          'authname' => $this->ecasUser->name,
+          'uid' => $this->ecasUser->uid,
+          'module' => 'ecas',
+        ))
+        ->execute();
 
     $this->adminUser = $this->drupalCreateUser(array(
       'bypass node access',
       'administer users',
       'administer nodes',
       'administer ecas',
-      'access ecas import users function',
+    'access ecas import users function',
     ));
   }
 
@@ -328,9 +295,9 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
     $this->drupalPost(NULL, $edit, 'Import');
     $this->assertText('User ' . $lookup['name'] . ' imported', 'User ' . $lookup['name'] . ' was succesfully imported');
 
-    // Verify the user is actually listed in the Drupal users list.
+    // Verify the user is actually listed in the drupal users list.
     $this->drupalGet('admin/people/people');
-    $this->assertText($lookup['name'], 'User ' . $lookup['name'] . ' was listed as a Drupal user');
+    $this->assertText($lookup['name'], 'User ' . $lookup['name'] . ' was listed as a drupal user');
     $user = user_load_by_name($lookup['name']);
     $this->drupalGet('user/' . $user->uid . '/edit');
     $this->assertFieldById('edit-field-firstname-und-0-value', $lookup['firstname'], 'First name is imported');
@@ -400,9 +367,9 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
     $this->drupalPost(NULL, $edit, 'Import');
     $this->assertText('User ' . $lookup['name'] . ' imported', 'User ' . $lookup['name'] . ' was succesfully imported');
 
-    // Verify the user is actually listed in the Drupal users list.
+    // Verify the user is actually listed in the drupal users list.
     $this->drupalGet('admin/people/people');
-    $this->assertText($lookup['name'], 'User ' . $lookup['name'] . ' was listed as a Drupal user');
+    $this->assertText($lookup['name'], 'User ' . $lookup['name'] . ' was listed as a drupal user');
     $user = user_load_by_name($lookup['name']);
     $this->drupalGet('user/' . $user->uid . '/edit');
     $this->assertFieldById('edit-field-firstname-und-0-value', $lookup['firstname'], 'First name is imported');
