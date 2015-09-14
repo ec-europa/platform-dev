@@ -10,7 +10,7 @@
 function news_core_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_news-comment_body'
+  // Exported field_instance: 'comment-comment_node_news-comment_body'.
   $field_instances['comment-comment_node_news-comment_body'] = array(
     'bundle' => 'comment_node_news',
     'default_value' => NULL,
@@ -75,7 +75,7 @@ function news_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-body'
+  // Exported field_instance: 'node-news-body'.
   $field_instances['node-news-body'] = array(
     'bundle' => 'news',
     'default_value' => NULL,
@@ -120,7 +120,7 @@ function news_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-field_link'
+  // Exported field_instance: 'node-news-field_link'.
   $field_instances['node-news-field_link'] = array(
     'bundle' => 'news',
     'default_value' => NULL,
@@ -173,7 +173,7 @@ function news_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-field_news_publication_date'
+  // Exported field_instance: 'node-news-field_news_publication_date'.
   $field_instances['node-news-field_news_publication_date'] = array(
     'bundle' => 'news',
     'deleted' => 0,
@@ -229,7 +229,7 @@ function news_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-field_news_unpublication_date'
+  // Exported field_instance: 'node-news-field_news_unpublication_date'.
   $field_instances['node-news-field_news_unpublication_date'] = array(
     'bundle' => 'news',
     'deleted' => 0,
@@ -285,7 +285,7 @@ function news_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-field_tags'
+  // Exported field_instance: 'node-news-field_tags'.
   $field_instances['node-news-field_tags'] = array(
     'bundle' => 'news',
     'default_value' => NULL,
@@ -326,7 +326,7 @@ function news_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-field_top_news'
+  // Exported field_instance: 'node-news-field_top_news'.
   $field_instances['node-news-field_top_news'] = array(
     'bundle' => 'news',
     'default_value' => array(

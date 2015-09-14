@@ -10,7 +10,7 @@
 function newsletters_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_related_contents'
+  // Exported field_base: 'field_related_contents'.
   $field_bases['field_related_contents'] = array(
     'active' => 1,
     'cardinality' => -1,

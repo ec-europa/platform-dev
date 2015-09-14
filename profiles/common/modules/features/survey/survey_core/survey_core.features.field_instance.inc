@@ -10,7 +10,7 @@
 function survey_core_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_webform-comment_body'
+  // Exported field_instance: 'comment-comment_node_webform-comment_body'.
   $field_instances['comment-comment_node_webform-comment_body'] = array(
     'bundle' => 'comment_node_webform',
     'default_value' => NULL,
@@ -75,7 +75,7 @@ function survey_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-webform-body'
+  // Exported field_instance: 'node-webform-body'.
   $field_instances['node-webform-body'] = array(
     'bundle' => 'webform',
     'default_value' => NULL,
@@ -119,7 +119,7 @@ function survey_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-webform-field_tags'
+  // Exported field_instance: 'node-webform-field_tags'.
   $field_instances['node-webform-field_tags'] = array(
     'bundle' => 'webform',
     'default_value' => NULL,

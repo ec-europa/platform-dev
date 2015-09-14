@@ -98,7 +98,7 @@ function nexteuropa_data_export_export_action_views_bulk_operations_form($option
 function nexteuropa_data_export_views_post_build(&$view) {
 
   // Exclude fields that are not selected before running the export.
-  // @see: nexteuropa_data_export_export_action_form()
+  // See: nexteuropa_data_export_export_action_form().
   if (isset($view->nexteuropa_data_export)) {
     foreach ($view->field as $field_name => $field) {
       if (!in_array($field_name, $view->nexteuropa_data_export['fields'])) {
