@@ -95,6 +95,7 @@ function ecas_import_users_search_by_to_arg($arg) {
  *   Parameter from url.
  *
  * @return string
+ *   Return
  */
 function ecas_import_users_country_to_arg($arg) {
   return (empty($arg) || $arg == '%') ? 'all-countries' : $arg;
@@ -248,7 +249,6 @@ function ecas_import_user_ldap_user_form_validate($form, &$form_state) {
  *
  * @return string
  *   Cleaned $value.
->>>>>>> master:sites/all/modules/custom/ecas/ecas_import_users/ecas_import_users.module
  */
 function _ecas_import_users_clean_name_field($value) {
   if (empty($value)) {
