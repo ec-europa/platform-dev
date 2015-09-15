@@ -562,35 +562,39 @@ projects[xmlsitemap][version] = "2.0"
 ; Libraries
 ; =========
 
-; chosen 1.1.0
+; chosen 1.4.2
 libraries[chosen][download][type] = get
-libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/v1.1.0/chosen_v1.1.0.zip
+libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip
 libraries[chosen][directory_name] = chosen
 libraries[chosen][destination] = libraries
 
-; ckeditor 4.3.2
+; colorbox 1.6.3
+libraries[colorbox][download][type] = get
+libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archive/1.6.3.zip
+libraries[colorbox][directory_name] = colorbox
+libraries[colorbox][destination] = libraries
+
+; ckeditor 4.5.3
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.0/ckeditor_4.4.0_full.zip"
-libraries[ckeditor][download][sha1] = "4673a4c20e484f0d712ca85fddec6a991cef61d9"
+libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.5.3/ckeditor_4.5.3_full.zip"
+libraries[ckeditor][download][sha1] = "73de9333d175214d3d5a1246e4eea4c891387c33"
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ; ckeditor_lite library. Buttons are added in nexteuropa_core_install().
 libraries[ckeditor_lite][download][type]= "file"
 libraries[ckeditor_lite][download][request_type]= "get"
 libraries[ckeditor_lite][download][file_type] = "zip"
-libraries[ckeditor_lite][download][url] = http://download.ckeditor.com/lite/releases/lite_1.1.30.zip
+libraries[ckeditor_lite][download][url] = http://download.ckeditor.com/lite/releases/lite_1.2.14.zip
 libraries[ckeditor_lite][subdir] = ckeditor/plugins
 libraries[ckeditor_lite][directory_name] = "lite"
 
 ; cycle 3.0.2 (commit d6557ca)
 libraries[cycle][download][type] = "git"
-libraries[cycle][download][url] = "https://github.com/malsup/cycle.git"
-libraries[cycle][download][revision] = f314eff3a0b77902fe2afe7640d7ec0728ff3dc6
-libraries[cycle][directory_name] = "jquery.cycle"
-libraries[cycle][download][sha1] = "f71640db8972ed6d249f57ea8cce29c389c4a84f"
 libraries[cycle][destination] = "libraries"
+libraries[cycle][download][url] = https://github.com/malsup/cycle.git
+libraries[cycle][tag] = "3.0.3"
 
 ; history.js v1.8b2
 libraries[history][download][type] = "git"
