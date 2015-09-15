@@ -259,6 +259,9 @@ projects[language_cookie][version] = "1.6"
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
+projects[leaflet_widget] = "contrib"
+projects[leaflet_widget] = "2.0-beta1"
+
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.2"
 
@@ -610,9 +613,9 @@ libraries[Leaflet.draw][tag] = "v0.2.4"
 
 ; Leaflet
 libraries[leaflet][destination] = "libraries"
-libraries[leaflet][download][type] = "git"
-libraries[leaflet][download][url] = "https://github.com/Leaflet/Leaflet.git"
-libraries[leaflet][tag] = "v0.7.3"
+libraries[leaflet][download][type] = "file"
+libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip"
+libraries[leaflet][directory_name] = "leaflet"
 
 ; ======
 ; Themes
