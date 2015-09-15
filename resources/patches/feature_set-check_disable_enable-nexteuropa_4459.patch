@@ -19,13 +19,14 @@
    }
  }
 
-@@ -142,8 +142,42 @@
+@@ -142,8 +142,43 @@
  
  function feature_set_disable_feature_set($feature_set) {
    if (!empty($feature_set['disable'])) {
 +    // Before disabling a feature set, we have to check if included features
 +    // implement content types and then if it remains nodes with
 +    // theses content types.
++    $check_node = 0;
 +    foreach ($feature_set['disable'] as $module_to_disable) {
 +      $info_file = drupal_get_path('module', $module_to_disable) . "/" . $module_to_disable . ".info";
 +      $info = drupal_parse_info_file($info_file);
@@ -61,5 +62,33 @@
 +  }
    if (!empty($feature_set['uninstall'])) {
      drupal_uninstall_modules($feature_set['uninstall']);
+   }
+   
+--- feature_set.admin.inc       2015-02-25 14:00:55.000000000 +0100
++++ feature_set.admin.inc   2015-09-07 14:56:28.308956893 +0200
+@@ -140,12 +145,18 @@
+       $featureset = str_replace('featureset-', '', $key);
+       // only operate if its in an 'OK' status
+       if ( isset($featuresets[$featureset]) && $featuresets[$featureset]['status'] != 0) {
+-         if ($form_state['values'][$key]) {
+-          $operations[] = array('feature_set_enable_feature_set', array($featuresets[$featureset]));
+-         }
+-         else {
+-          $operations[] = array('feature_set_disable_feature_set', array($featuresets[$featureset]));
+-         }
++        if ($form_state['values'][$key]) {
++          // Do not enable a module already enabled.
++          if (!module_exists($featureset)) {
++             $operations[] = array('feature_set_enable_feature_set', array($featuresets[$featureset]));
++          }
++        }
++        else {
++          // Do not disable a module already disabled.
++          if (module_exists($featureset)) {
++            $operations[] = array('feature_set_disable_feature_set', array($featuresets[$featureset]));
++          }
++        }
+       }
+     }
    }
 
