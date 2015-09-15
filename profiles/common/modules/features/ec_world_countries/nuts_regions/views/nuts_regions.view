@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Nuts_regions view creation.
+ */
 
 $view = new view();
 $view->name = 'nuts_regions';
