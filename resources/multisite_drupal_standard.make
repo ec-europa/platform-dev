@@ -617,6 +617,30 @@ libraries[Leaflet.widget][destination] = "libraries"
 libraries[Leaflet.widget][download][type] = "git"
 libraries[Leaflet.widget][download][url] = "https://github.com/tnightingale/Leaflet.widget.git"
 
+; ==============================
+; Libraries for NextEuropa Theme
+; ==============================
+
+; Next Europa theme : Bootstrap 3.3.4
+libraries[next_europa_bootstrap][download][type] = get
+libraries[next_europa_bootstrap][download][url] = https://github.com/twbs/bootstrap-sass/archive/v3.3.4.zip
+libraries[next_europa_bootstrap][download][file_type] = "zip"
+libraries[next_europa_bootstrap][download][subtree] = "bootstrap-sass-3.3.4/assets"
+libraries[next_europa_bootstrap][directory_name] = bootstrap-sass
+libraries[next_europa_bootstrap][destination] =  "themes/next_europa"
+
+; Ec_resp theme : Respond JS
+libraries[next_europa_respond][destination] = "themes/next_europa"
+libraries[next_europa_respond][directory_name] = "js"
+libraries[next_europa_respond][download][type] = "get"
+libraries[next_europa_respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
+
+; Ec_resp theme : Html5
+libraries[next_europa_html5shiv][destination] = "themes/next_europa"
+libraries[next_europa_html5shiv][directory_name] = "js"
+libraries[next_europa_html5shiv][download][type] = "get"
+libraries[next_europa_html5shiv][download][url] = "https://raw.githubusercontent.com/aFarkas/html5shiv/master/dist/html5shiv.min.js"
+
 ; ======
 ; Themes
 ; ======

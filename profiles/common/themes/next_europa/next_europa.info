@@ -1,5 +1,5 @@
 name = Next Europa
-description = NextEuropa base theme, based on Bootstrap 3.
+description = NextEuropa base theme, based on Bootstrap 3.3.4
 package = NextEuropa_theme
 base theme = bootstrap
 version = "7.x-1.0"
@@ -28,7 +28,7 @@ stylesheets[all][] = ../bootstrap/css/overrides.css
 ; ========================================
 ; Scripts
 ; ========================================
-scripts[] = bootstrap-sass/js/bootstrap.min.js
+scripts[] = bootstrap-sass/javascripts/bootstrap.min.js
 
 ; ========================================
 ; Settings
