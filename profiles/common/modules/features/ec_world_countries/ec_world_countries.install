@@ -5,7 +5,7 @@
  */
 
 // Includes helper installation functions.
-include_once 'ec_world_countries.install.inc';
+module_load_include('php', 'ec_world_countries', 'includes/countries');
 
 /**
  * Implements hook_enable().
@@ -20,9 +20,9 @@ function ec_world_countries_enable() {
   }
   else {
     $vocabulary = array(
-      'name' => t('EC World Countries'),
+      'name' => 'EC World Countries',
       'machine_name' => 'ec_world_countries',
-      'description' => t('A list of the world countries'),
+      'description' => 'A list of the world countries',
       'hierarchy' => 1,
       'module' => 'ec_world_countries',
       'weight' => 1,
@@ -39,13 +39,13 @@ function ec_world_countries_enable() {
   include_once 'includes/countries.php';
   $country_array = ec_world_countries_countries();
   foreach ($country_array as $continent => $countries) {
-    $term = (object) array('vid' => $vid, 'name' => st($continent));
+    $term = (object) array('vid' => $vid, 'name' => $continent);
     taxonomy_term_save($term);
     $tid = $term->tid;
     foreach ($countries as $country => $cy_name) {
       $subterm = (object) array(
         'vid' => $vid,
-        'name' => $t($cy_name),
+        'name' => $cy_name,
         'parent' => $tid,
       );
       taxonomy_term_save($subterm);

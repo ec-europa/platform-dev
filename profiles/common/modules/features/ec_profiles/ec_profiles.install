@@ -13,8 +13,6 @@ include_once 'ec_profiles.install.inc';
  * Implements hook_enable().
  */
 function ec_profiles_enable() {
-  drupal_set_message(t('EC Profiles feature is now active on your site.'));
-
   // Load the role.
   $role = user_role_load_by_name('authenticated user');
 

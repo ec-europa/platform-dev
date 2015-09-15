@@ -152,4 +152,3 @@ $handler->display->display_options['filters']['nuts_country_value']['group_info'
 /* Display: Page */
 $handler = $view->new_display('page', 'Page', 'page');
 $handler->display->display_options['path'] = 'nuts-regions';
-
