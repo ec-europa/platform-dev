@@ -114,4 +114,34 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
   }
 
+  /**
+   * Opens specified page sing specified protocol.
+   *
+   * @Given /^(?:|I )am on "(?P<page>[^"]+)" using the "(?P<protocol>[^"]+)" protocol$/
+   *
+   * @When /^(?:|I )go to "(?P<page>[^"]+)" using the "(?P<protocol>[^"]+)" protocol$/
+   */
+  public function visitProtocol($page, $protocol) {
+    if ($protocol == 'https') {
+      variable_set('https', '1');
+      $url = url($page, array('absolute' => TRUE, 'https' => TRUE));
+      $this->visitPath($url);
+    }
+    else {
+      $url = url($page, array('absolute' => TRUE, 'https' => FALSE));
+      $this->visitPath($url);
+    }
+  }
+  
+  /**
+   * Wait until the id="updateprogress" element is gone, or timeout after 3 min.
+   *
+   * @Given /^I wait for the batch job to finish$/
+   *
+   * @see https://swsblog.stanford.edu/blog/behat-custom-step-definition-wait-batch-api-finish
+   */
+  public function iWaitForTheBatchJobToFinish() {
+    $this->getSession()->wait(180000, 'jQuery("#updateprogress").length === 0');
+  }
+
 }
