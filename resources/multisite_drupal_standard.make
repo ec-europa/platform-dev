@@ -313,6 +313,9 @@ projects[language_cookie][version] = "1.6"
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
+projects[leaflet_widget] = "contrib"
+projects[leaflet_widget] = "2.0-beta1"
+
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.3"
 
@@ -747,8 +750,12 @@ libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
 libraries[mpdf][destination] = "libraries"
 
+; Leaflet
+libraries[leaflet][destination] = "libraries"
+libraries[leaflet][download][type] = "file"
+libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip"
+libraries[leaflet][directory_name] = "leaflet"
 
-<<<<<<< HEAD
 ; ===========================
 ; Libraries for Ec_resp Theme
 ; ===========================
@@ -784,13 +791,6 @@ libraries[respond][destination] = "themes/ec_resp"
 libraries[respond][directory_name] = "scripts"
 libraries[respond][download][type] = "get"
 libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
-=======
-; Leaflet
-libraries[leaflet][destination] = "libraries"
-libraries[leaflet][download][type] = "git"
-libraries[leaflet][download][url] = "https://github.com/Leaflet/Leaflet.git"
-libraries[leaflet][tag] = "v0.7.3"
->>>>>>> 915d64a... NEXTEUROPA-5213-implement-a-module-to-manage
 
 ; ======
 ; Themes
