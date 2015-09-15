@@ -13,13 +13,10 @@ includes[] = "drupal-core.make"
 ; ===================
 
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.0-rc4"
-projects[admin_menu][patch][] = patches/admin_menu-correctly_display-2360249-74.patch
-projects[admin_menu][patch][] = patches/admin_menu-ie6detect-1961178-2.patch
-projects[admin_menu][patch][] = patches/admin_menu-undefined_index_name-1997386-3.patch
+projects[admin_menu][version] = "3.0-rc5"
 
 projects[advagg][subdir] = "contrib"
-projects[advagg][version] = "2.7"
+projects[advagg][version] = "2.15"
 
 projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.3"
@@ -32,12 +29,12 @@ projects[apachesolr][patch][] = patches/apachesolr-multiples_dates-4335.patch
 projects[apachesolr][patch][] = patches/apachesolr_search-overwritten_menu_items.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
-projects[apachesolr_attachments][version] = "1.3"
+projects[apachesolr_attachments][version] = "1.4"
 projects[apachesolr_attachments][patch][] = patches/apachesolr_attachments-empty_parent_entity_id.patch
 projects[apachesolr_attachments][patch][] = patches/apachesolr_attachments-bypass_deadlocks-1854088-9.patch
 
 projects[apachesolr_multilingual][subdir] = "contrib"
-projects[apachesolr_multilingual][version] = "1.2"
+projects[apachesolr_multilingual][version] = "1.3"
 
 projects[apachesolr_multisitesearch][subdir] = "contrib"
 projects[apachesolr_multisitesearch][version] = "1.1"
@@ -46,26 +43,26 @@ projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
 
 projects[bean][subdir] = "contrib"
-projects[bean][version] = 1.7
+projects[bean][version] = 1.9
 
 projects[better_exposed_filters][subdir] = "contrib"
-projects[better_exposed_filters][version] = "3.0-beta3"
+projects[better_exposed_filters][version] = "3.2"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta1"
 projects[better_formats][patch][] = patches/better_format-strict-warning-1717470-11.patch
 
 projects[bootstrap_gallery][subdir] = "contrib"
-projects[bootstrap_gallery][version] = "3.0"
+projects[bootstrap_gallery][version] = "3.1"
 
 projects[captcha][subdir] = "contrib"
-projects[captcha][version] = "1.2"
+projects[captcha][version] = "1.3"
 
 projects[chosen][subdir] = "contrib"
 projects[chosen][version] = 2.0-beta4
 
 projects[chr][subdir] = "contrib"
-projects[chr][version] = "1.6"
+projects[chr][version] = "1.7"
 projects[chr][patch][] = patches/chr-deprecated_call-5588.patch
 projects[chr][patch][] = patches/chr-patches.patch
 projects[chr][patch][] = patches/chr-1.6-patch-rewrite-header-host-without-standard-port-number.patch
@@ -74,7 +71,7 @@ projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
 
 projects[ckeditor_lite][subdir] = contrib
-projects[ckeditor_lite][version] = 1.0-rc1
+projects[ckeditor_lite][version] = 1.0-rc3
 
 projects[coffee][subdir] = "contrib"
 projects[coffee][version] = 2.2
@@ -83,10 +80,10 @@ projects[collapse_text][subdir] = "contrib"
 projects[collapse_text][version] = "2.4"
 
 projects[colorbox][subdir] = "contrib"
-projects[colorbox][version] = "2.8"
+projects[colorbox][version] = "2.9"
 
 projects[colors][subdir] = "contrib"
-projects[colors][version] = "1.0-beta2"
+projects[colors][version] = "1.0-rc1"
 
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.6"
@@ -101,19 +98,19 @@ projects[css_injector][version] = "1.10"
 projects[css_injector][patch][] = patches/css_injector-add_upload_file-2506775-10.patch
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.8"
+projects[ctools][version] = "1.9"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.8"
+projects[date][version] = "2.9"
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.7"
+projects[ds][version] = "2.11"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
@@ -124,9 +121,7 @@ projects[email][version] = "1.3"
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.6"
 
-projects[entity_translation][download][branch] = 7.x-1.x
-projects[entity_translation][download][revision] = 221e302
-projects[entity_translation][download][type] = git
+projects[entity_translation][version] = "1.0-beta4"
 projects[entity_translation][subdir] = "contrib"
 projects[entity_translation][patch][] = patches/entity_translation-001-et-forward_revisions-1707156-23.patch
 
@@ -141,8 +136,7 @@ projects[entityreference_prepopulate][version] = "1.5"
 projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
 
 projects[eu-cookie-compliance][subdir] = "contrib"
-projects[eu-cookie-compliance][version] = "1.12"
-projects[eu-cookie-compliance][patch][] = patches/eu_cookie_compliance-unified_cookie-3449.patch
+projects[eu-cookie-compliance][version] = "1.13"
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
@@ -154,7 +148,7 @@ projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.3"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.3"
+projects[features][version] = "2.6"
 projects[features][patch][] = patches/features-var-export-object-1437264-12.patch
 
 projects[feature_set][subdir] = "contrib"
@@ -164,14 +158,13 @@ projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteu
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-alpha9"
+projects[feeds][version] = "2.0-beta1"
 
 projects[feeds_tamper][subdir] = "contrib"
-projects[feeds_tamper][version] = "1.0"
+projects[feeds_tamper][version] = "1.1"
 
 projects[feeds_xpathparser][subdir] = "contrib"
-projects[feeds_xpathparser][version] = "1.0-beta4"
-projects[feeds_xpathparser][patch][] = patches/feeds_xpathparser-undefined_index_unique-1998194-2.patch
+projects[feeds_xpathparser][version] = "1.1"
 
 projects[field_collection][subdir] = "contrib"
 projects[field_collection][version] = "1.0-beta8"
@@ -180,22 +173,19 @@ projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.4"
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.0-beta1"
-; https://www.drupal.org/node/2351691
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6860
-projects[file_entity][patch][] = https://www.drupal.org/files/issues/Fix_file_entity_file_download-2351691-1.patch
+projects[file_entity][version] = "2.0-beta2"
 
 projects[filefield_sources][subdir] = "contrib"
-projects[filefield_sources][version] = "1.9"
+projects[filefield_sources][version] = "1.10"
 
 projects[filefield_sources_plupload][subdir] = "contrib"
 projects[filefield_sources_plupload][version] = "1.1"
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.5"
+projects[flag][version] = "3.6"
 
 projects[flexslider][subdir] = "contrib"
-projects[flexslider][version] = "2.0-alpha3"
+projects[flexslider][version] = "2.0-rc1"
 
 projects[flexslider_views_slideshow][download][revision] = "0b1f8e7e24c168d1820ccded63c319327d57a97e"
 projects[flexslider_views_slideshow][download][type] = "git"
@@ -204,7 +194,7 @@ projects[flexslider_views_slideshow][subdir] = "contrib"
 projects[fpa][subdir] = "contrib"
 projects[fpa][version] = "2.6"
 
-projects[freepager][download][revision] = "698effdfaf7573426ce24acf0ec622bfbf75fc73"
+projects[freepager][download][revision] = "c11c40f"
 projects[freepager][download][type] = "git"
 projects[freepager][download][url] = "http://git.drupal.org/project/freepager.git"
 projects[freepager][subdir] = "contrib"
@@ -227,13 +217,13 @@ projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.13"
 projects[i18n][patch][] = patches/i18n-hide_language_field-3996.patch
 
-projects[i18nviews][download][revision] = "26bd52c4664b0fec8155273f0c0f3ab8a5a2ef66"
+projects[i18nviews][download][revision] = "fdc8c33"
 projects[i18nviews][download][type] = "git"
 projects[i18nviews][download][url] = "http://git.drupal.org/project/i18nviews.git"
 projects[i18nviews][subdir] = "contrib"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = 1.5
+projects[inline_entity_form][version] = "1.6"
 
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
@@ -254,13 +244,13 @@ projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "1.1"
 
 projects[language_cookie][subdir] = "contrib"
-projects[language_cookie][version] = "1.6"
+projects[language_cookie][version] = "1.9"
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.2"
+projects[link][version] = "1.3"
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
@@ -268,21 +258,21 @@ projects[linkchecker][patch][] = patches/linkchecker-001-bean-integration-212773
 projects[linkchecker][patch][] = patches/linkchecker-003-linkchecker_max_redirects-3576.patch
 
 projects[mail_edit][subdir] = "contrib"
-projects[mail_edit][version] = "1.0"
+projects[mail_edit][version] = "1.1"
 
 projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
 
 projects[maxlength][subdir] = "contrib"
-projects[maxlength][version] = "3.0-beta1"
-projects[maxlength][patch][] = patches/maxlength-indefined_index-2235.patch
-projects[maxlength][patch][] = patches/maxlength-prevent_undefined_index_error-1416608-3.patch
+projects[maxlength][version] = "3.2"
 
 projects[media][subdir] = contrib
-projects[media][download][branch] = 7.x-2.x
-projects[media][download][revision] = 64c5102
-projects[media][download][type] = git
-projects[media][patch][] = patches/media-wysiwyg-override-white-list-MULTISITE-2607.patch
+projects[media][version] = "2.0-beta1"
+; Issue #2062721: Add a white list of file fields that can be overwritten when
+; the file is added in the wysiwyg.
+; https://www.drupal.org/node/2062721
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2607
+projects[media][patch][] = https://www.drupal.org/files/issues/media-wysiwyg-override-white-list-2062721-83.patch
 
 ; Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
 ; https://www.drupal.org/node/2401811
@@ -293,7 +283,7 @@ projects[media_crop][subdir] = "contrib"
 projects[media_crop][version] = "1.4"
 
 projects[media_dailymotion][subdir] = "contrib"
-projects[media_dailymotion][version] = "1.0"
+projects[media_dailymotion][version] = "1.1"
 projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol-4103.patch
 
 projects[media_flickr][subdir] = "contrib"
@@ -308,19 +298,19 @@ projects[media_node][version] = "1.0-rc2"
 projects[media_node][patch][] = patches/media_node-incorrect_permission_check-4273.patch
 
 projects[media_vimeo][subdir] = "contrib"
-projects[media_vimeo][version] = "2.0"
+projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][version] = "2.0-rc5"
+projects[media_youtube][version] = "3.0"
 
 projects[menu_attributes][subdir] = "contrib"
-projects[menu_attributes][version] = "1.0-rc2"
+projects[menu_attributes][version] = "1.0-rc3"
 projects[menu_attributes][patch][] = patches/menu_attributes-add_icon_for_menu_item-2327.patch
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_disable_css_class-2988.patch
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_hide_children-6757.patch
 
 projects[menu_block][subdir] = "contrib"
-projects[menu_block][version] = "2.4"
+projects[menu_block][version] = "2.7"
 projects[menu_block][patch][] = patches/menu_block-jqueryUI_issue-5211.patch
 
 projects[menu_token][subdir] = "contrib"
@@ -328,16 +318,16 @@ projects[menu_token][version] = "1.0-beta5"
 projects[menu_token][patch][] = patches/menu_token-link_uuid_menu_items_can_not_be_edited-2005556-2.patch
 
 projects[message][subdir] = "contrib"
-projects[message][version] = "1.7"
+projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.6"
+projects[metatag][version] = "1.7"
 
 projects[migrate][subdir] = "contrib"
-projects[migrate][version] = "2.7"
+projects[migrate][version] = "2.8"
 
 projects[mimemail][subdir] = "contrib"
-projects[mimemail][version] = "1.0-beta3"
+projects[mimemail][version] = "1.0-beta4"
 
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
@@ -358,7 +348,7 @@ projects[om_maximenu][subdir] = "contrib"
 projects[om_maximenu][version] = "1.44"
 
 projects[password_policy][subdir] = "contrib"
-projects[password_policy][version] = "2.0-alpha4"
+projects[password_policy][version] = "2.0-alpha5"
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
@@ -372,7 +362,7 @@ projects[piwik][subdir] = "contrib"
 projects[piwik][version] = "2.7"
 
 projects[plupload][subdir] = "contrib"
-projects[plupload][version] = "1.3"
+projects[plupload][version] = "1.7"
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
@@ -388,16 +378,16 @@ projects[rate][version] = "1.7"
 projects[rate][patch][] = patches/rate-translate_description-1178.patch
 
 projects[realname][subdir] = "contrib"
-projects[realname][version] = "1.1"
+projects[realname][version] = "1.2"
 
 projects[registration][subdir] = "contrib"
-projects[registration][version] = "1.3"
+projects[registration][version] = "1.5"
 
 projects[registry_autoload][subdir] = "contrib"
-projects[registry_autoload][version] = 1.2
+projects[registry_autoload][version] = 1.3
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.8"
+projects[rules][version] = "2.9"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.3
@@ -413,7 +403,7 @@ projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
 
 projects[site_map][subdir] = "contrib"
-projects[site_map][version] = "1.0"
+projects[site_map][version] = "1.3"
 
 projects[smart_trim][subdir] = "contrib"
 projects[smart_trim][version] = 1.5
@@ -468,7 +458,7 @@ projects[user_field_privacy][subdir] = "contrib"
 projects[user_field_privacy][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.0-alpha5"
+projects[uuid][version] = "1.0-alpha6"
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
@@ -496,27 +486,25 @@ projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 
 projects[views_data_export][subdir] = "contrib"
-projects[views_data_export][version] = "3.0-beta7"
+projects[views_data_export][version] = "3.0-beta8"
 
-projects[views_datasource][download][revision] = "6e9b6b980fc2826b09391ae1c2ec0c5a85c6c24a"
-projects[views_datasource][download][type] = "git"
-projects[views_datasource][download][url] = "http://git.drupal.org/project/views_datasource.git"
+projects[views_datasource][version] = "1.0-alpha2"
 projects[views_datasource][subdir] = "contrib"
 
 projects[views_litepager][subdir] = "contrib"
 projects[views_litepager][version] = "3.0"
 
 projects[views_slideshow][subdir] = "contrib"
-projects[views_slideshow][version] = "3.0"
+projects[views_slideshow][version] = "3.1"
 
 projects[views_slideshow_slider][subdir] = "contrib"
 projects[views_slideshow_slider][version] = "3.0"
 
 projects[votingapi][subdir] = "contrib"
-projects[votingapi][version] = "2.11"
+projects[votingapi][version] = "2.12"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.9"
+projects[webform][version] = "4.10"
 projects[webform][patch][] = patches/webform-use_ecas_link-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
@@ -526,11 +514,10 @@ projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
 
 projects[workbench_access][subdir] = "contrib"
-projects[workbench_access][version] = "1.2"
-projects[workbench_access][patch][] = patches/workbench_access-fix_php_issues-4517.patch
+projects[workbench_access][version] = "1.3"
 
 projects[workbench_email][subdir] = "contrib"
-projects[workbench_email][version] = "3.4"
+projects[workbench_email][version] = "3.5"
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"
@@ -549,10 +536,10 @@ projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
 
 projects[xml_field][subdir] = "contrib"
-projects[xml_field][version] = "1.5"
+projects[xml_field][version] = "1.6"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.0"
+projects[xmlsitemap][version] = "2.2"
 
 ; =========
 ; Libraries
