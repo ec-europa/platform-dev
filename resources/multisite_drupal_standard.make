@@ -101,7 +101,7 @@ projects[css_injector][version] = "1.10"
 projects[css_injector][patch][] = patches/css_injector-add_upload_file-2506775-10.patch
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.8"
+projects[ctools][version] = "1.7"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -420,7 +420,7 @@ projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.0"
 
 projects[smart_trim][subdir] = "contrib"
-projects[smart_trim][version] = 1.5
+projects[smart_trim][version] = 1.4
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
@@ -534,7 +534,7 @@ projects[workbench_access][version] = "1.2"
 projects[workbench_access][patch][] = patches/workbench_access-fix_php_issues-4517.patch
 
 projects[workbench_email][subdir] = "contrib"
-projects[workbench_email][version] = "3.4"
+projects[workbench_email][version] = "3.3"
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"
@@ -562,7 +562,7 @@ projects[xmlsitemap][version] = "2.0"
 ; Libraries
 ; =========
 
-; chosen 1.1.0
+; chosen 1.2.0
 libraries[chosen][download][type] = get
 libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/v1.1.0/chosen_v1.1.0.zip
 libraries[chosen][directory_name] = chosen
@@ -616,6 +616,42 @@ libraries[Leaflet.draw][tag] = "v0.2.4"
 libraries[Leaflet.widget][destination] = "libraries"
 libraries[Leaflet.widget][download][type] = "git"
 libraries[Leaflet.widget][download][url] = "https://github.com/tnightingale/Leaflet.widget.git"
+
+; Europa theme : HTML5
+libraries[html5][destination] = "themes/europa"
+libraries[html5][directory_name] = "js"
+libraries[html5][download][type] = "get"
+libraries[html5][download][url] = "http://html5shiv.googlecode.com/svn/trunk/html5.js"
+
+; Europa theme : Media Queries in JavaScript
+libraries[enquire][destination] = "themes/europa"
+libraries[enquire][directory_name] = "js"
+libraries[enquire][download][type] = "get"
+libraries[enquire][download][url] = "https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.min.js"
+
+; Europa theme : Modernizr
+libraries[modernizr][destination] = "themes/europa"
+libraries[modernizr][directory_name] = "js"
+libraries[modernizr][download][type] = "get"
+libraries[modernizr][download][url] = "http://modernizr.com/downloads/modernizr-latest.js"
+
+; Europa theme : Respond JS
+libraries[respond][destination] = "themes/europa"
+libraries[respond][directory_name] = "js"
+libraries[respond][download][type] = "get"
+libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
+
+; Europa theme : Velocity : fast animation engine for motion designers
+libraries[velocity][destination] = "themes/europa"
+libraries[velocity][directory_name] = "js"
+libraries[velocity][download][type] = "get"
+libraries[velocity][download][url] = "https://raw.githubusercontent.com/julianshapiro/velocity/master/velocity.min.js"
+
+; Europa theme : Bootstrap 3.3.1
+libraries[bootstrap][download][type] = get
+libraries[bootstrap][download][url] = https://github.com/twbs/bootstrap-sass/archive/v3.3.1.zip
+libraries[bootstrap][download][file_type] = "zip"
+libraries[bootstrap][destination] =  "themes/europa"
 
 ; ======
 ; Themes

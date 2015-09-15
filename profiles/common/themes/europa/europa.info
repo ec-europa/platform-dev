@@ -26,19 +26,20 @@ stylesheets[all][] = css/style-sass.css
 ; ========================================
 ; Scripts
 ; ========================================
-;scripts[] = bootstrap-sass/js/bootstrap/affix.js
-;scripts[] = bootstrap-sass/js/bootstrap/alert.js
-;scripts[] = bootstrap-sass/js/bootstrap/button.js
-;scripts[] = bootstrap-sass/js/bootstrap/carousel.js
-scripts[] = bootstrap-sass/js/bootstrap/collapse.js
-scripts[] = bootstrap-sass/js/bootstrap/dropdown.js
-;scripts[] = bootstrap-sass/js/bootstrap/modal.js
-;scripts[] = bootstrap-sass/js/bootstrap/tooltip.js
-;scripts[] = bootstrap-sass/js/bootstrap/popover.js
-scripts[] = bootstrap-sass/js/bootstrap/scrollspy.js
-scripts[] = bootstrap-sass/js/bootstrap/tab.js
-scripts[] = bootstrap-sass/js/bootstrap/transition.js
-scripts[] = js/modernizr.js
+;scripts[] = boostrap/assets/javascripts/bootstrap/affix.js
+;scripts[] = boostrap/assets/javascripts/bootstrap/alert.js
+;scripts[] = boostrap/assets/javascripts/bootstrap/button.js
+;scripts[] = boostrap/assets/javascripts/bootstrap/carousel.js
+;scripts[] = bootstrap/assets/javascripts/bootstrap/modal.js
+;scripts[] = bootstrap/assets/javascripts/bootstrap/tooltip.js
+;scripts[] = bootstrap/assets/javascripts/bootstrap/popover.js
+
+scripts[] = bootstrap/assets/javascripts/bootstrap/collapse.js
+scripts[] = bootstrap/assets/javascripts/bootstrap/dropdown.js
+scripts[] = bootstrap/assets/javascripts/bootstrap/scrollspy.js
+scripts[] = bootstrap/assets/javascripts/bootstrap/tab.js
+scripts[] = bootstrap/assets/javascripts/bootstrap/transition.js
+scripts[] = js/modernizr-latest.js
 scripts[] = js/enquire.min.js
 scripts[] = js/velocity.min.js
 
