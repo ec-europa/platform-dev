@@ -256,10 +256,6 @@ projects[l10n_update][version] = "1.1"
 projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.6"
 
-projects[leaflet_widget][subdir] = "contrib"
-projects[leaflet_widget][version] = "2.0-beta1"
-projects[leaflet_widget][patch][] = patches/leaflet_widget-1974478-vertical-tab-refresh-8.patch
-
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
@@ -297,7 +293,7 @@ projects[media_crop][subdir] = "contrib"
 projects[media_crop][version] = "1.4"
 
 projects[media_dailymotion][subdir] = "contrib"
-projects[media_dailymotion][version] = "1.0"
+projects[media_dailymotion][version] = "1.1"
 projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol-4103.patch
 
 projects[media_flickr][subdir] = "contrib"
@@ -604,11 +600,6 @@ libraries[Leaflet.draw][destination] = "libraries"
 libraries[Leaflet.draw][download][type] = "git"
 libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
 libraries[Leaflet.draw][tag] = "v0.2.4"
-
-; Leaflet.widget
-libraries[Leaflet.widget][destination] = "libraries"
-libraries[Leaflet.widget][download][type] = "git"
-libraries[Leaflet.widget][download][url] = "https://github.com/tnightingale/Leaflet.widget.git"
 
 ; mpdf 5.7
 libraries[mpdf][download][type]= "file"

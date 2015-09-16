@@ -4,16 +4,15 @@
  * Code for the Events feature.
  */
 
-include_once('events_og.features.inc');
-include_once('events_og.views_alter.inc');
+include_once 'events_og.features.inc';
+include_once 'events_og.views_alter.inc';
 
-
-/*
-* hook_menu
-*/
+/**
+ * Implements hook_menu().
+ */
 function events_og_menu() {
   $items = array();
- 
+
   $items['community/%group_name/calendar'] = array(
     'title' => 'Events',
     'page callback' => 'views_page',
@@ -26,4 +25,3 @@ function events_og_menu() {
 
   return $items;
 }
-
