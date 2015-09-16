@@ -508,7 +508,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pfrenssen/coder/zipball/9435e6d77a5478023b4044283ccd8457769bce5a",
+                "url": "https://api.github.com/repos/pfrenssen/coder/zipball/e65d136c9e03f3f9ae835162467fd6fb80dfbb56",
                 "reference": "9435e6d77a5478023b4044283ccd8457769bce5a",
                 "shasum": ""
             },
@@ -1399,12 +1399,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pfrenssen/PHP_CodeSniffer.git",
-                "reference": "6ad911134876ddb1d0dc6b8bf5b3f2f8e31e75ec"
+                "reference": "d3aba2fe379c1e88e9e5a909301dfb2ca4ca190d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pfrenssen/PHP_CodeSniffer/zipball/6ad911134876ddb1d0dc6b8bf5b3f2f8e31e75ec",
-                "reference": "6ad911134876ddb1d0dc6b8bf5b3f2f8e31e75ec",
+                "url": "https://api.github.com/repos/pfrenssen/PHP_CodeSniffer/zipball/d3aba2fe379c1e88e9e5a909301dfb2ca4ca190d",
+                "reference": "d3aba2fe379c1e88e9e5a909301dfb2ca4ca190d",
                 "shasum": ""
             },
             "require": {
@@ -1469,7 +1469,7 @@
                 "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki",
                 "source": "https://github.com/squizlabs/PHP_CodeSniffer"
             },
-            "time": "2015-09-01 12:39:17"
+            "time": "2015-09-14 12:51:57"
         },
         {
             "name": "symfony/browser-kit",
