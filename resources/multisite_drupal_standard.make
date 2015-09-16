@@ -596,6 +596,27 @@ libraries[cycle][destination] = "libraries"
 libraries[cycle][download][url] = https://github.com/malsup/cycle.git
 libraries[cycle][tag] = "3.0.3"
 
+; fancybox 2.1.5
+libraries[fancybox][download][type]= "file"
+libraries[fancybox][download][request_type]= "get"
+libraries[fancybox][download][file_type] = "zip"
+libraries[fancybox][download][url] = https://github.com/fancyapps/fancyBox/zipball/v2.1.5
+libraries[fancybox][destination] = "../common/libraries"
+
+; flexslider 2.5.0
+libraries[flexslider][download][type]= "file"
+libraries[flexslider][download][url] = https://github.com/woothemes/FlexSlider/archive/version/2.5.0.zip
+libraries[flexslider][download][request_type]= "get"
+libraries[flexslider][download][file_type] = "zip"
+libraries[flexslider][destination] = "../common/libraries"
+
+; fullcalendar 1.6.7
+libraries[fullcalendar][download][url] = https://github.com/fullcalendar/fullcalendar/archive/v1.6.7.zip
+libraries[fullcalendar][download][type]= "file"
+libraries[fullcalendar][download][request_type]= "get"
+libraries[fullcalendar][download][file_type] = "zip"
+libraries[fullcalendar][destination] = "../common/libraries"
+
 ; history.js v1.8b2
 libraries[history][download][type] = "git"
 libraries[history][download][url] = "https://github.com/browserstate/history.js/"
