@@ -58,3 +58,15 @@ Feature: User menu
       | My workbench | My Workbench        |
       | My account   | Cornelia Polyhymnia |
       | Log out      | Page not found      |
+
+  @api
+  Scenario Outline: Test that editors and editorial team members cannot access translation links
+    Given I am logged in as a "<role>"
+    When I am on the homepage
+    Then I should not see the link "Manage translation tasks"
+    And I should not see the link "Translate"
+
+    Examples:
+      | role                  |
+      | editor                |
+      | editorial team member |
