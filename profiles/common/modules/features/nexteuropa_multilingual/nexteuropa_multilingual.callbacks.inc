@@ -49,17 +49,17 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     return;
   }
 
-  $path = drupal_get_path_alias(empty($path) ? variable_get('site_frontpage', 'node') : $path, $options['language']->language);
+  // We don't add the language suffix if $path is empty.
+  // We don't force the frontpage URL to $path if $path is empty.
+  if (!empty($path)) {
+    $path = drupal_get_path_alias(($path == '<front>') ? variable_get('site_frontpage', 'node') : $path, $options['language']->language);
 
-  // Handle the homepage url.
-  if ($path == '<front>' || $path == '') {
-    $path = drupal_get_path_alias(variable_get('site_frontpage', 'node'));
+    $language_suffix = _nexteuropa_multilingual_get_language_suffix($options['language']);
+    $path .= $delimiter . $language_suffix;
+
+    $options['alias'] = TRUE;
+
   }
-
-  $language_suffix = _nexteuropa_multilingual_get_language_suffix($options['language']);
-  $path .= $delimiter . $language_suffix;
-
-  $options['alias'] = TRUE;
 }
 
 
