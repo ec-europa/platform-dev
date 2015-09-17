@@ -16,13 +16,6 @@ function ec_embedded_image_install() {
 }
 
 /**
- * Implements hook_uninstall().
- */
-function ec_embedded_image_uninstall() {
-  //Do nothing
-}
-
-/**
  * Implements hook_enable().
  */
 function ec_embedded_image_enable() {
