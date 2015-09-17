@@ -1,8 +1,7 @@
 <?php
 /**
  * @file
- * nuts_regions.views_default.inc
- * Contains views.
+ * Nuts_regions views altering.
  */
 
 /**

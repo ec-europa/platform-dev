@@ -4,4 +4,4 @@
  * Code for the EC Profiles feature.
  */
 
-include_once('ec_profiles.features.inc');
+include_once 'ec_profiles.features.inc';

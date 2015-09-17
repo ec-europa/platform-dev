@@ -136,4 +136,5 @@ class NutsMigration extends Migration {
       }
     }
   }
+
 }
