@@ -1,5 +1,5 @@
 #transparency {
-  background: rgba(0,0,0,0.7);/*chrome, mozilla*/
+  background: rgba(0, 0, 0, 0.7); /*chrome, mozilla*/
   filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#99000000', EndColorStr='#99000000'); /* Internet Explorer */
   bottom: 0;
   color: white;
