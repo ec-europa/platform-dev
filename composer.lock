@@ -589,16 +589,16 @@
         },
         {
             "name": "drupal/drupal-extension",
-            "version": "v3.1.1",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jhedstrom/drupalextension.git",
-                "reference": "9f5eefec7f0ca51a95d3121f2c755662f8c7ff0c"
+                "reference": "d07879aa125b7991dc4c2719b333734b8110562e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jhedstrom/drupalextension/zipball/9f5eefec7f0ca51a95d3121f2c755662f8c7ff0c",
-                "reference": "9f5eefec7f0ca51a95d3121f2c755662f8c7ff0c",
+                "url": "https://api.github.com/repos/jhedstrom/drupalextension/zipball/d07879aa125b7991dc4c2719b333734b8110562e",
+                "reference": "d07879aa125b7991dc4c2719b333734b8110562e",
                 "shasum": ""
             },
             "require": {
@@ -639,7 +639,7 @@
                 "test",
                 "web"
             ],
-            "time": "2015-09-02 22:21:25"
+            "time": "2015-09-16 19:51:36"
         },
         {
             "name": "drupal/phing-drush-task",
