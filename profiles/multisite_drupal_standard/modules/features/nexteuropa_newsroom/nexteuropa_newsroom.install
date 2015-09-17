@@ -111,7 +111,7 @@ function nexteuropa_newsroom_update_7102() {
     // Release content type previously featurized.
     db_query("UPDATE {node_type} SET `custom` = 1, `locked` = 0 WHERE `type` = :type", array(':type' => $type));
     // Delete content type.
-    // node_type_delete($type);
+    node_type_delete($type);
   }
 
   // Update feeds_item table to avoid import of the items again

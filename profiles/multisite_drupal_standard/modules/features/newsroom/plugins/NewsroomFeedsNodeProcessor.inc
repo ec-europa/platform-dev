@@ -140,31 +140,6 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
   }
 
   /**
-   * Implement expire().
-   *
-   * @todo: move to processor stage?
-   */
-  public function expire($time = NULL) {
-    if ($time === NULL) {
-      $time = $this->expiryTime();
-    }
-    if ($time == FEEDS_EXPIRE_NEVER) {
-      return;
-    }
-    $count = $this->getLimit();
-    $nodes = db_query_range("SELECT n.nid FROM {node} n JOIN {feeds_item} fi ON fi.entity_type = 'node' AND n.nid = fi.entity_id WHERE fi.id = :id AND n.created < :created", 0, $count, array(':id' => $this->id, ':created' => REQUEST_TIME - $time));
-    $nids = array();
-    foreach ($nodes as $node) {
-      $nids[$node->nid] = $node->nid;
-    }
-    $this->entityDeleteMultiple($nids);
-    if (db_query_range("SELECT 1 FROM {node} n JOIN {feeds_item} fi ON fi.entity_type = 'node' AND n.nid = fi.entity_id WHERE fi.id = :id AND n.created < :created", 0, 1, array(':id' => $this->id, ':created' => REQUEST_TIME - $time))->fetchField()) {
-      return FEEDS_BATCH_ACTIVE;
-    }
-    return FEEDS_BATCH_COMPLETE;
-  }
-
-  /**
    * Return expiry time.
    */
   public function expiryTime() {
@@ -288,6 +263,7 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
     $type = node_type_get_type($this->bundle());
 
     $targets = parent::getMappingTargets();
+    
     if ($type && $type->has_title) {
       $targets['title'] = array(
         'name' => t('Title'),
@@ -347,13 +323,6 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
         'description' => t('The field replacing the title'),
       );
     }
-    // Include title_field if entity translation module is enabled.
-    if (module_exists('entity_translation')) {
-      $targets['title_field'] = array(
-        'name' => t('Field Title'),
-        'description' => t('The field replacing the title'),
-      );
-    }
     // Include comment field if Comment module is enabled.
     if (module_exists('comment')) {
       $targets['comment'] = array(
@@ -373,9 +342,11 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
     }
 
     // Let other modules expose mapping targets.
-    self::loadMappers();
+    
     $entity_type = $this->entityType();
     $bundle = $this->bundle();
+
+    self::loadMappers();
     drupal_alter('feeds_processor_targets', $targets, $entity_type, $bundle);
 
     return $targets;
@@ -435,7 +406,7 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
     }
     return 0;
   }
-
+  
   /**
    * Execute mapping on an item.
    *
@@ -478,7 +449,7 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
       $target_item = array();
     }
 
-    // If value is empty or NULL, we override it, in th original method
+    // If value is empty or NULL, we override it, in the original method
     // it is not likes this.
     foreach ($this->config['mappings'] as $mapping) {
       if (isset($targets[$this->id][$mapping['target']]['real_target'])) {
@@ -524,6 +495,7 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
         $this->setTargetElement($source, $target_item, $mapping['target'], $value, $mapping);
       }
     }
+
     return $target_item;
   }
 

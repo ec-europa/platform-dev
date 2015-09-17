@@ -11,6 +11,8 @@ define('NEWSROOM_TOPIC_OPERATOR_OR', 'OR');
 define('NEWSROOM_CALENDAR_BLOCK', 'calendar');
 define('NEWSROOM_URL', 'http://ec.europa.eu/information_society/newsroom/cf/');
 define('NEWSROOM_PROPOSAL_ACCESS', 'send newsroom item proposal');
+define('NEWSROOM_CLICKTHROUGH_FORCE', 'force');
+
 
 global $_newsroom_universe_url;
 
@@ -885,63 +887,59 @@ function _newsroom_get_summary_block_tid() {
 function _newsroom_get_grouping_terms($selected) {
   global $language;
 
-  $terms = &drupal_static(__FUNCTION__);
+//  $terms = &drupal_static(__FUNCTION__);
 
-  if (!isset($terms)) {
-    // Get cached terms if exists.
-    if ($cache = cache_get('newsroom:grouping_terms')) {
-      $terms = $cache->data;
+  // Get cached terms if exists.
+  if ($cache = cache_get('newsroom:grouping_terms')) {
+    $terms = $cache->data;
+  }
+  else {
+    $blocks_by = variable_get('newsroom_block_by', 'type');
+
+    if ($blocks_by !== 'collection') {
+      // We'll loop through the newsroom by type vocabulary.
+      $newsroom_type_vocabulary = taxonomy_vocabulary_machine_name_load(NEWSROOM_TYPE_VOCABULARY);
+      $terms = array();
+      if (is_object($newsroom_type_vocabulary) && $newsroom_type_vocabulary !== FALSE) {
+        $terms = taxonomy_get_tree($newsroom_type_vocabulary->vid, 0, 1, TRUE);
+        foreach ($terms as $key => $term) {
+          $test = i18n_get_object('taxonomy_term', $term->tid);
+          $terms[$key] = $test->get_object();
+        }
+      }
+
+      // Filter types if needed.
+      if (!empty($selected)) {
+        foreach ($terms as $key => $type) {
+          if (!in_array($type->tid, $selected)) {
+            unset($terms[$key]);
+          }
+        }
+      }
     }
     else {
-      $blocks_by = variable_get('newsroom_block_by', 'type');
-      
-      if ($blocks_by !== 'collection') {
-        // We'll loop through the newsroom by type vocabulary.
-        $newsroom_type_vocabulary = taxonomy_vocabulary_machine_name_load(NEWSROOM_TYPE_VOCABULARY);
-        $terms = array();
-        if (is_object($newsroom_type_vocabulary) && $newsroom_type_vocabulary !== FALSE) {
-//          $terms = taxonomy_get_tree($newsroom_type_vocabulary->vid, 0, 1, TRUE);
-          $def_lang = language_default()->language;
-          $terms = i18n_taxonomy_get_tree($newsroom_type_vocabulary->vid, $def_lang);
-          foreach ($terms as $key => $term) {
-            $test = i18n_get_object('taxonomy_term', $term->tid);
-            $terms[$key] = $test->get_object();
-          }
-        }
-
-        // Filter types if needed.
-        if (!empty($selected)) {
-          foreach ($terms as $key => $type) {
-            if (!in_array($type->tid, $selected)) {
-              unset($terms[$key]);
-            }
-          }
-        }
+      if (!empty($selected)) {
+        $terms = taxonomy_term_load_multiple($selected);
       }
       else {
-        if (!empty($selected)) {
-          $terms = taxonomy_term_load_multiple($selected);
-        }
-        else {
 
-          $view = views_get_view('newsroom_term_selection');
-          $view->set_display('entityreference_3');
-          $view->pre_execute();
-          $view->execute();
+        $view = views_get_view('newsroom_term_selection');
+        $view->set_display('entityreference_3');
+        $view->pre_execute();
+        $view->execute();
 
-          $term_items = $view->result;
-          $terms = array();
+        $term_items = $view->result;
+        $terms = array();
 
-          foreach ($term_items as &$term_item) {
-            $term = taxonomy_term_load($term_item->tid);
-            if ($term) {
-              $terms[] = $term;
-            }
+        foreach ($term_items as &$term_item) {
+          $term = taxonomy_term_load($term_item->tid);
+          if ($term) {
+            $terms[] = $term;
           }
         }
       }
-      cache_set('newsroom:grouping_terms', $terms, 'cache_newsroom', time() + 360);
     }
+    cache_set('newsroom:grouping_terms', $terms, 'cache_newsroom', time() + 360);
   }
 
   return $terms;
@@ -1347,7 +1345,7 @@ function newsroom_node_view($node, $view_mode, $langcode) {
     if (!user_access('import newsroom feeds')) {
       // Only if we have a main link.
       if ($type && $node_wrapper->__isset('field_newsroom_item_main_link')) {
-        if (_newsroom_item_type_teaser_only_settings($node_wrapper) == 'force') {
+        if (_newsroom_item_type_teaser_only_settings($node_wrapper) == NEWSROOM_CLICKTHROUGH_FORCE) {
           $link = $node_wrapper->field_newsroom_item_main_link->value();
           drupal_goto($link['url'], array(), 301);
         }
@@ -2065,8 +2063,9 @@ function newsroom_views_pre_render(&$view) {
   if ($view->name == 'newsroom_page_content') {
     foreach ($view->result as $key => $result) {
       $last_viewed = node_last_viewed($result->nid);
+
       if (empty($last_viewed)) {
-        $new_title = empty($result->field_field_newsroom_item_short_title[0]['rendered']['#markup']) ? $result->node_title : $result->field_field_newsroom_item_short_title[0]['rendered']['#markup'];
+        $new_title = empty($result->field_field_newsroom_item_short_title[0]['rendered']['#markup']) ? $result->field_title_field_et[0]['rendered']['#markup'] : $result->field_field_newsroom_item_short_title[0]['rendered']['#markup'];
         $view->result[$key]->field_field_newsroom_item_short_title[0]['rendered']['#markup'] = '<span class="itemFlag flagHot newItem">' . t('New') . '</span> ' . $new_title;
       }
     }
@@ -2222,6 +2221,7 @@ function newsroom_views_pre_view(&$view, &$display_id, array &$args) {
       // and assign to arguments, because we use 'tids' validation.
       if (isset($args[1]) && !empty($args[1]) && $args[1] != 'all') {
         $topic = _newsroom_taxonomy_term_from_request($args[1], $arguments_settings, 'term_node_tid_depth_1');
+        
         if ($topic) {
           $args[1] = $topic->tid;
         }
@@ -2300,32 +2300,27 @@ function _newsroom_taxonomy_term_from_request($request, $argument_settings, $fil
   global $language;
   $curr_lang = $language->language;
   $multilingual =  variable_get('newsroom_multilingual', FALSE);
-  // Try to get simple way, suppose it is the ID or name.
-  $taxonomy_term = is_numeric($request) ? taxonomy_term_load($request) : taxonomy_get_term_by_name(str_replace('-', ' ', $request), NEWSROOM_TYPE_VOCABULARY);
 
-  // Try to convert to autopath value and compare with available terms.
-  if (!$taxonomy_term) {
     // Take vocabularies from context filter field.
-    $vocabularies = isset($argument_settings[$filter_field]['validate_options']['vocabularies']) ? array_values($argument_settings[$filter_field]['validate_options']['vocabularies']) : array();
+  $vocabularies = isset($argument_settings[$filter_field]['validate_options']['vocabularies']) ? array_values($argument_settings[$filter_field]['validate_options']['vocabularies']) : array();
 
-    if (count($vocabularies) > 0) {
+  if (count($vocabularies) > 0) {
 
-      $taxonomy_terms = newsroom_get_term_from_vocabularies($vocabularies);
+    $taxonomy_terms = newsroom_get_term_from_vocabularies($vocabularies);
 
-      // Compare taxonomy terms modified by pathauto with the current value
-      // from the URL.
-      if ($taxonomy_terms) {
-        foreach($taxonomy_terms as $term_item) {
-          if ($multilingual) {
-            $fullterm = taxonomy_term_load($term_item['tid']);
-            $translation = field_get_items('taxonomy_term', $fullterm, 'name_field', $curr_lang);
-            $term_item['name'] = $translation ? $translation[0]['safe_value'] : $term_item['name'];
-          }
+    // Compare taxonomy terms modified by pathauto with the current value
+    // from the URL.
+    if ($taxonomy_terms) {
+      foreach($taxonomy_terms as $term_item) {
+        if ($multilingual) {
+          $fullterm = taxonomy_term_load($term_item['tid']);
+          $translation = field_get_items('taxonomy_term', $fullterm, 'name_field', $curr_lang);
+          $term_item['name'] = $translation ? $translation[0]['safe_value'] : $term_item['name'];
+        }
 
-          if (pathauto_cleanstring($term_item['name']) == $request) {
-            $taxonomy_term = taxonomy_term_load($term_item['tid']);
-            break;
-          }
+        if (pathauto_cleanstring($term_item['name']) == $request) {
+          $taxonomy_term = taxonomy_term_load($term_item['tid']);
+          break;
         }
       }
     }
@@ -2801,6 +2796,7 @@ function newsroom_field_formatter_settings_summary($field, $instance, $view_mode
  */
 function newsroom_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $elements = array();
+  
   switch ($display['type']) {
     case 'newsroom_pathauto':
       module_load_include('inc', 'pathauto', 'pathauto');
@@ -2819,10 +2815,13 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
 
           // If item is Teaser only.
           $wrapper = entity_metadata_wrapper('node', $entity);
-          if ($wrapper->field_newsroom_teaser_only->value()) {
-            switch (_newsroom_item_type_teaser_only_settings($wrapper)) {
+          $click_through = _newsroom_item_type_teaser_only_settings($wrapper);
+          
+          if ($click_through == NEWSROOM_CLICKTHROUGH_FORCE) {
+            $item['url'] = $main_link_url;
+          } else if ($wrapper->field_newsroom_teaser_only->value()) {
+            switch ($click_through) {
               case 'always':
-              case 'force':
                 $item['url'] = $main_link_url;
                 break;
 
@@ -3089,6 +3088,7 @@ function newsroom_entity_presave($entity, $type) {
 function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id) {
 
   if ($source->importer()->fetcher->id == 'newsroom_items_multilingual') {
+
     // TODO : find a better way to remove translation.
     $languages = language_list();
     $def_lang = language_default()->language;
@@ -3278,5 +3278,11 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
         );
       }
     }
+  }
+}
+
+function newsroom_views_pre_execute(&$view) {
+  if ($view->name == 'newsroom') {
+//    dpq($view->build_info['query']);
   }
 }

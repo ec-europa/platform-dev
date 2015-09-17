@@ -88,6 +88,10 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       'query' => 'infsonewsroom:ContextOtherLinkUrl',
       'language' => TRUE,
     ),
+    'field_newsroom_item_main_link:url' => array(
+      'query' => 'infsonewsroom:BasicUrl',
+      'language' => TRUE,
+    ),
     'field_newsroom_documents:url' => array(
       'query' => 'enclosure[not(@type="image/jpeg")]/@url',
       'language' => FALSE,

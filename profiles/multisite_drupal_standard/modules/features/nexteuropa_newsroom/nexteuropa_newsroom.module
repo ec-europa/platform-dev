@@ -131,71 +131,12 @@ function nexteuropa_newsroom_post_features_enable_feature($component) {
 }
 
 /**
- * Implements hook_post_features_revert().
- */
-function nexteuropa_newsroom_post_features_revert($component) {
-  _nexteuropa_newsroom_create_instances($component);
-}
-
-/**
- * Helper function to create "fake" isntances of exported field bases.
- *
- * @param string $component
- *   Feature component name.
- */
-function _nexteuropa_newsroom_create_instances($component) {
-  // Create a content type if it doesn't exist already.
-  if ($component != 'field_base') {
-    return;
-  }
-  else {
-    $type_name = 'nexteuropa_newsroom_fs';
-    $type = node_type_load($type_name);
-    if (!$type) {
-      $type = array(
-        'type' => $type_name,
-        'name' => t('Field instances'),
-        'base' => 'node_content',
-        'description' => t('Instantiate fields'),
-        'custom' => 1,
-        'modified' => 1,
-        'locked' => 0,
-        'disabled' => 1,
-      );
-
-      $type = node_type_set_defaults($type);
-      node_type_save($type);
-    }
-
-    // Get fields from the features file.
-    $fields = call_user_func_array('nexteuropa_newsroom_field_default_field_bases', array(''));
-
-    // Loop through the fields and build "fake" instances.
-    foreach ($fields as $field_name => $field_options) {
-      $exist = field_info_instance('node', $field_name, $type->type);
-      // Only work with unlocked fields and check for existing instances.
-      if ($field_options['locked'] == 0 && $exist === NULL) {
-        $instance = array(
-          'field_name' => $field_name,
-          'entity_type' => 'node',
-          'bundle' => $type->type,
-          'label' => 'default instance',
-          'description' => 'A default instance',
-          'required' => 0,
-        );
-        field_create_instance($instance);
-      }
-    }
-  }
-}
-
-/**
  * Helper function to check if the universe ID has been already set.
  */
 function _nexteuropa_newsroom_check_universe_id() {
   // After initital setup disable Universe ID field.
   $universe_id = array();
-  if (variable_get('newsroom_universe_id', NULL) !== NULL) {
+  if (!empty(variable_get('newsroom_universe_id', NULL))) {
     $universe_id['disabled'] = TRUE;
     $universe_id['description'] = t('To change the Newsroom Universe ID contact the site administrator.');
     $universe_id['class'] = "selected";
