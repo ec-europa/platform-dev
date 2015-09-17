@@ -247,7 +247,8 @@ function e_library_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-e_library_related_document-field_related_document'
+  // Exported field_instance
+  // 'node-e_library_related_document-field_related_document'.
   $field_instances['node-e_library_related_document-field_related_document'] = array(
     'bundle' => 'e_library_related_document',
     'default_value' => NULL,

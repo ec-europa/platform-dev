@@ -1,10 +1,15 @@
 <?php
 /**
-* Implementation of hook_views_default_views_alter().
-*/
+ * @file
+ * Views altering.
+ */
+
+/**
+ * Implements hook_views_default_views_alter().
+ */
 function e_library_standard_views_default_views_alter(&$views) {
   if (array_key_exists('e_library', $views)) {
-    $view=$views['e_library'];
+    $view = $views['e_library'];
 
     /* Display: Page */
     $handler = $view->new_display('page', 'Page', 'page');
@@ -18,70 +23,3 @@ function e_library_standard_views_default_views_alter(&$views) {
 
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
