@@ -617,12 +617,47 @@ libraries[fullcalendar][download][request_type]= "get"
 libraries[fullcalendar][download][file_type] = "zip"
 libraries[fullcalendar][destination] = "../common/libraries"
 
+; fullcalendar 1.5.4 fork (used for the events_resources module)
+libraries[fullcalendar_resources][download][url] = http://ikelin.github.io/fullcalendar/fullcalendar-1.5.4.zip
+libraries[fullcalendar_resources][download][type]= "file"
+libraries[fullcalendar_resources][download][request_type]= "get"
+libraries[fullcalendar_resources][download][file_type] = "zip"
+libraries[fullcalendar_resources][destination] = "../common/libraries"
+
 ; history.js v1.8b2
 libraries[history][download][type] = "git"
 libraries[history][download][url] = "https://github.com/browserstate/history.js/"
 libraries[history][directory_name] = "history.js"
 libraries[history][destination] = "libraries"
 libraries[history][download][tag] = "1.8.0b2"
+
+; imgAreaSelect 0.9.10
+libraries[jquery.imgareaselect][download][url] = http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
+libraries[jquery.imgareaselect][download][type]= "file"
+libraries[jquery.imgareaselect][download][request_type]= "get"
+libraries[jquery.imgareaselect][download][file_type] = "zip"
+libraries[jquery.imgareaselect][destination] = "../common/libraries"
+
+; jplayer 2.9.2
+libraries[jplayer][download][url] = https://github.com/happyworm/jPlayer/archive/2.9.2.zip
+libraries[jplayer][download][type]= "file"
+libraries[jplayer][download][request_type]= "get"
+libraries[jplayer][download][file_type] = "zip"
+libraries[jplayer][destination] = "../common/libraries"
+
+; jquery 1.11.3
+libraries[jquery][download][url] = http://code.jquery.com/jquery-1.11.3.min.js
+libraries[jquery][download][type]= "file"
+libraries[jquery][download][request_type]= "get"
+libraries[jquery][destination] = "../common/libraries"
+libraries[jquery][directory_name] = "jquery"
+
+; modernizr 2.8.3
+libraries[modernizr][download][url] = https://github.com/Modernizr/Modernizr/archive/v2.8.3.zip
+libraries[modernizr][download][type]= "file"
+libraries[modernizr][download][request_type]= "get"
+libraries[modernizr][download][file_type] = "zip"
+libraries[modernizr][destination] = "../common/libraries"
 
 ; mpdf 5.7
 libraries[mpdf][download][type]= "file"
