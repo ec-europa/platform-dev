@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * edee.context.inc
+ * Edee.context.inc.
  */
 
 /**
