@@ -294,11 +294,11 @@ projects[media_crop][version] = "1.4"
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
-projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol-4103.patch
 ; Issue #2560403: Provide Short URL for media dailymotion.
 ; https://www.drupal.org/node/2560403
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7082
-projects[media_dailymotion][patch][] = https://www.drupal.org/files/issues/media-dailymotion-short-url-2560403.patch
+projects[media_dailymotion][patch][] = https://www.drupal.org/files/issues/media_dailymotion-mini-url-2560403-7-7.x.patch
+projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol-4103.patch
 
 projects[media_flickr][subdir] = "contrib"
 projects[media_flickr][version] = "1.0-alpha4"
