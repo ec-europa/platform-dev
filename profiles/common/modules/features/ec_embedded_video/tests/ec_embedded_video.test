@@ -72,4 +72,5 @@ class EmbeddedVideosWebTestCase extends DrupalWebTestCase {
 
     return $field_name;
   }
+
 }
