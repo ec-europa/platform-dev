@@ -1,6 +1,6 @@
 /**
  * @file
- * Javascript fil for embedded images (flickr).
+ * Javascript file for embedded images (flickr).
  */
 
 (function ($) {
