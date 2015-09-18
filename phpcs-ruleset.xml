@@ -69,12 +69,16 @@
 
     <!-- Exclude third party code. -->
     <exclude-pattern>profiles/common/libraries/</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/libraries/</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_standard/libraries/</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/ecas/libraries/</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/modules/contrib/</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_standard/modules/contrib/</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp/bootstrap/</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp/scripts/html5shiv.min.js</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp/scripts/jquery.mousewheel.min.js</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp/scripts/respond.min.js</exclude-pattern>
     <exclude-pattern>profiles/minimal/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/libraries/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/modules/contrib/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/libraries/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/modules/contrib/</exclude-pattern>
     <exclude-pattern>profiles/standard/</exclude-pattern>
     <exclude-pattern>profiles/testing/</exclude-pattern>
 
