@@ -11,7 +11,6 @@ dependencies[] = newsroom
 dependencies[] = views_tree
 dependencies[] = feeds_et
 dependencies[] = i18n_taxonomy
-dependencies[] = views_conditional
 dependencies[] = nexteuropa_multilingual
 configure = admin/config/content/newsroom
 feature_sets[nexteuropa_newsroom][title] = Nexteuropa newsroom
