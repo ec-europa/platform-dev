@@ -17,8 +17,7 @@ function wiki_core_enable() {
   // Add type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('wiki', 'add');
 
-  // Add type to the simplenews related content
-  // multisite_drupal_toolbox_simplenews_related_content_type('wiki', 'add');
+  // Add type to the simplenews related content.
   drupal_set_message(st('Wiki feature is now active on your site.'));
 }
 
@@ -33,8 +32,7 @@ function wiki_core_disable() {
   // Remove type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('wiki', 'delete');
 
-  // Remove type to the simplenews related content
-  // multisite_drupal_toolbox_simplenews_related_content_type('wiki', 'remove');
+  // Remove type to the simplenews related content.
   multisite_drupal_toolbox_disable_content_type('wiki');
 
   // Administrator.

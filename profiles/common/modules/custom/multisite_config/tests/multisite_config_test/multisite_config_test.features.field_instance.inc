@@ -10,7 +10,7 @@
 function multisite_config_test_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-test_with_fields-body'
+  // Exported field_instance: 'node-test_with_fields-body'.
   $field_instances['node-test_with_fields-body'] = array(
     'bundle' => 'test_with_fields',
     'default_value' => NULL,
@@ -54,7 +54,7 @@ function multisite_config_test_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-test_with_fields-field_tags'
+  // Exported field_instance: 'node-test_with_fields-field_tags'.
   $field_instances['node-test_with_fields-field_tags'] = array(
     'bundle' => 'test_with_fields',
     'default_value' => NULL,
@@ -94,7 +94,7 @@ function multisite_config_test_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-test_without_fields-body'
+  // Exported field_instance: 'node-test_without_fields-body'.
   $field_instances['node-test_without_fields-body'] = array(
     'bundle' => 'test_without_fields',
     'default_value' => NULL,

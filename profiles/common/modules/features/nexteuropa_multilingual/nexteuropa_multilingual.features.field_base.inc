@@ -10,7 +10,7 @@
 function nexteuropa_multilingual_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'title_field'
+  // Exported field_base: 'title_field'.
   $field_bases['title_field'] = array(
     'active' => 1,
     'cardinality' => 1,

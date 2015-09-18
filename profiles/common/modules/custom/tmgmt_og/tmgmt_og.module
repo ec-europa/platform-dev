@@ -192,8 +192,8 @@ function tmgmt_og_query_tmgmt_entity_get_translatable_entities_alter(QueryAltera
   if (($group = og_context())) {
     $fields = $query->getFields();
     foreach ($fields as $field => $info) {
-      // Get field on primary table, which is aliased as "e"
-      // @see tmgmt_entity_get_translatable_entities()
+      // Get field on primary table, which is aliased as "e".
+      // See tmgmt_entity_get_translatable_entities().
       if ($info['table'] == 'e') {
         $query->join('og_membership', 'om', 'e.' . $info['alias'] . ' = om.etid');
         $query->condition('om.group_type', $group['group_type']);

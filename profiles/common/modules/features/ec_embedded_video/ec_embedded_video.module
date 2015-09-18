@@ -95,7 +95,7 @@ function _ec_embedded_video_preprocess_media_avportal_video(&$variables) {
  */
 function _ec_embedded_video_preprocess_media_dailymotion_video(&$variables) {
   // We support only iframe (not object) for dailymotion.
-  // @see media_dailymotion.theme.inc
+  // @see media_dailymotion.theme.inc.
   $daily_query = array('logo' => 0, 'autoPlay' => $variables['autoplay']);
   $variables['url'] = url('//www.dailymotion.com/embed/video/' . $variables['video_id'], array('query' => $daily_query, 'external' => TRUE));
 

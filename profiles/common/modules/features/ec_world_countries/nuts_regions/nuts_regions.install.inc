@@ -186,7 +186,7 @@ function nuts_regions_field() {
 
   $array_fields = array(
 
-    // Defines the nuts region field/
+    // Defines the nuts region field.
     'nuts_region' => array(
       'field_name' => 'nuts_region',
       'cardinality' => 1,

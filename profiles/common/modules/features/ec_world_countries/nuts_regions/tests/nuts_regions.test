@@ -31,7 +31,6 @@ class NutsRegionsTestCase extends DrupalWebTestCase {
     parent::setUp(array(
       'nuts_regions',
     ));
-    // module_enable(array('nuts_regions'));
     $vid = taxonomy_vocabulary_machine_name_load('nuts_regions')->vid;
     $this->adminUser = $this->drupalCreateUser(array(
       'access content',
