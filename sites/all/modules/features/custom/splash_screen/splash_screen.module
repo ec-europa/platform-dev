@@ -11,6 +11,15 @@ define("SPLASH_SCREEN_PATH", "splash");
  * Implements hook_menu().
  */
 function splash_screen_menu() {
+  $items['admin/config/regional/splash_screen_settings'] = array(
+    'title' => 'Splash screen settings',
+    'description' => 'Configure the splash screen module',
+    'file' => 'includes/splash_screen.admin.inc',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('_splash_screen_settings_form'),
+    'access arguments' => array('administer splash screen'),
+  );
+
   $items[SPLASH_SCREEN_PATH] = array(
     'title' => 'Splash screen',
     'page callback' => 'theme',
@@ -19,6 +28,18 @@ function splash_screen_menu() {
     'type' => MENU_CALLBACK,
   );
   return $items;
+}
+
+ /**
+ * Implements hook_permission().
+ */
+function splash_screen_permission() {
+  return array(
+    'administer splash screen' => array(
+      'title' => t('Administer splash screen'),
+      'description' => t('Administrer full settings of the splash screen module.'),
+    ),
+  );
 }
 
 /**
@@ -53,7 +74,7 @@ function splash_screen_preprocess_splash(&$variables) {
   global $base_url;
 
   // Initialize variables.
-  $home_page = variable_get('splash_screen_home_page', '');
+  $home_page = variable_get('site_frontpage', '');
   $href = $home_page;
   $options = array();
   $languages_blacklist = variable_get('splash_screen_blacklist', array());
