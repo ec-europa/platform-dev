@@ -116,9 +116,9 @@ class NutsMigration extends Migration {
     if ($row->level > 0) {
 
       // Extracts the Nuts code of the possible parent as follows:
-      // - parent of BE2 is BE
-      // - parent of BE21 is BE2
-      // - parent of BE211 is BE21
+      // - Parent of BE2 is BE.
+      // - Parent of BE21 is BE2.
+      // - Parent of BE211 is BE21.
       $possible_parent = substr($row->nuts_code, 0, $row->level + 1);
       $query = new EntityFieldQuery();
       $query->entityCondition('entity_type', 'taxonomy_term')

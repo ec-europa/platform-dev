@@ -10,7 +10,7 @@
 function ec_content_slider_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_slide'
+  // Exported field_base: 'field_slide'.
   $field_bases['field_slide'] = array(
     'active' => 1,
     'cardinality' => 1,
