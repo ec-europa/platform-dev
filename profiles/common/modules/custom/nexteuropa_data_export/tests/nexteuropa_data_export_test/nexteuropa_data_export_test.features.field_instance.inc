@@ -10,7 +10,7 @@
 function nexteuropa_data_export_test_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-test_export-body'
+  // Exported field_instance: 'node-test_export-body'.
   $field_instances['node-test_export-body'] = array(
     'bundle' => 'test_export',
     'default_value' => NULL,
@@ -54,7 +54,7 @@ function nexteuropa_data_export_test_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-test_export-field_test_export_text_field'
+  // Exported field_instance: 'node-test_export-field_test_export_text_field'.
   $field_instances['node-test_export-field_test_export_text_field'] = array(
     'bundle' => 'test_export',
     'default_value' => NULL,

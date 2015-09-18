@@ -10,7 +10,7 @@
 function news_og_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_highlighted'
+  // Exported field_base: 'field_highlighted'.
   $field_bases['field_highlighted'] = array(
     'active' => 1,
     'cardinality' => 1,

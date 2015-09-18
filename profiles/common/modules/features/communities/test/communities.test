@@ -90,7 +90,6 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
     og_group('node', $node1->nid, $membership);
     $this->drupalGet('group/node/' . $node1->nid . '/admin/people');
     $this->assertResponse(200);
-    // $this->verbose(print_r($this->communityUser, TRUE));
     $this->assertRaw($this->communityUser->name, 'User added to the group.');
 
     // Give a og role (community _manager) to this user.
