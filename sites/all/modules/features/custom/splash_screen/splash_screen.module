@@ -54,7 +54,6 @@ function splash_screen_boot() {
   }
 }
 
-
 /**
  * Implements hook_theme().
  */
