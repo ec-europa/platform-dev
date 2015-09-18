@@ -612,7 +612,6 @@ libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
 libraries[mpdf][destination] = "libraries"
 
-
 ; ============================
 ; Libraries for Ec_resp Theme
 ; ============================
@@ -624,6 +623,7 @@ libraries[ec_resp_bootstrap][download][file_type] = "zip"
 libraries[ec_resp_bootstrap][destination] =  "themes/ec_resp"
 libraries[ec_resp_bootstrap][directory_name] = bootstrap
 
+; Ec_resp theme : Bootstrap less
 libraries[ec_resp_bootstrap_less][download][type] = "get"
 libraries[ec_resp_bootstrap_less][download][url] = "https://github.com/twbs/bootstrap/archive/v3.3.5.zip"
 libraries[ec_resp_bootstrap_less][download][subtree] = "bootstrap-3.3.5/less"
