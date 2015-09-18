@@ -24,7 +24,7 @@ function splash_screen_menu() {
 /**
  * Implements hook_boot().
  *
- * Redirect to splash page when go at /
+ * Display splash page when go at /
  */
 function splash_screen_boot() {
   // If empty, $_GET['q'] is rewritten by splash screen path.
