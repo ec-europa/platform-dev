@@ -263,7 +263,7 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
     $type = node_type_get_type($this->bundle());
 
     $targets = parent::getMappingTargets();
-    
+
     if ($type && $type->has_title) {
       $targets['title'] = array(
         'name' => t('Title'),
@@ -316,7 +316,7 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
       );
     }
 
-     // Include title_field if entity translation module is enabled.
+    // Include title_field if entity translation module is enabled.
     if (module_exists('entity_translation')) {
       $targets['title_field'] = array(
         'name' => t('Field Title'),
@@ -342,7 +342,6 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
     }
 
     // Let other modules expose mapping targets.
-    
     $entity_type = $this->entityType();
     $bundle = $this->bundle();
 
@@ -406,7 +405,7 @@ class NewsroomFeedsNodeProcessor extends FeedsProcessor {
     }
     return 0;
   }
-  
+
   /**
    * Execute mapping on an item.
    *

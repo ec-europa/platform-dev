@@ -105,11 +105,11 @@ function nexteuropa_newsroom_image_default_styles() {
 function nexteuropa_newsroom_post_features_enable_feature($component) {
   switch ($component) {
     case 'field_base':
-      // Revert the field component, it seems it is not ready after it's enabled.
+      // Revert the field component,it seems it is not ready after it's enabled.
       features_revert(array('nexteuropa_newsroom' => array($component)));
       break;
 
-    case 'taxonomy' :
+    case 'taxonomy':
       // Set translation mode for the vocabularies.
       $taxonomies = array(
         'newsroom_topic',
@@ -123,7 +123,7 @@ function nexteuropa_newsroom_post_features_enable_feature($component) {
       }
       break;
 
-    case 'node' :
+    case 'node':
       // Enable title replacement for the newsroom_item content type.
       multisite_config_service('title')->replaceTitleField('node', 'newsroom_item', 'title');
       break;
@@ -784,10 +784,10 @@ function _nexteuropa_newsroom_languages() {
 /**
  * Helper function to disable feeds importers.
  *
- * @param array $disabled
- *  The disabled importers.
- * @param string $importer_id
- *  The id of the importer to disable or enable.
+ * @param bool $disabled
+ *   The disabled importers.
+ * @param string $importer_ids
+ *   The id of the importer to disable or enable.
  */
 function _nexteuropa_newsroom_disable_importer($disabled, $importer_ids) {
   $importers = feeds_importer_load_all(TRUE);
@@ -845,7 +845,7 @@ function _nexteuropa_newsroom_enable_languages($languages) {
   if (module_exists('locale')) {
     include_once DRUPAL_ROOT . '/includes/locale.inc';
     foreach ($languages as $lang) {
-      // Enabling languages
+      // Enabling languages.
       locale_add_language($lang);
     }
   }
@@ -855,14 +855,14 @@ function _nexteuropa_newsroom_enable_languages($languages) {
  * Helper function to enable languages.
  *
  * @param array $premapping
- *  The values to elaborate.
+ *   The values to elaborate.
  * @param string $type
- *  Taxonomy or node.
+ *   Taxonomy or node.
  *
  * @return array
- *  array containing the needed info for the importer.
+ *   Array containing the needed info for the importer.
  */
-function _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, $type = NULL) {
+function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type = NULL) {
   $def_lang = strtoupper(language_default()->language);
   // Get enabled languages codes.
   $lang_keys = _nexteuropa_newsroom_languages();
@@ -889,7 +889,8 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, $type = NULL)
 
     // Things look different if the field is translatable.
     if ($values['language']) {
-      // If fields are translatable, we create a different mapping for each language.
+      // If fields are translatable,
+      // we create a different mapping for each language.
       foreach ($lang_keys as $lang_key) {
         $upper_key = strtoupper($lang_key);
         // Xpath queries.
@@ -935,10 +936,10 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, $type = NULL)
       );
 
       if (isset($values['options'])) {
-          foreach ($values['options'] as $key => $option) {
-            $mapping[$i][$key] = $option;
-          }
+        foreach ($values['options'] as $key => $option) {
+          $mapping[$i][$key] = $option;
         }
+      }
       if (isset($values['unique'])) {
         $mapping[$i]['unique'] = TRUE;
       }
@@ -958,7 +959,6 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, $type = NULL)
     'raw_xml' => $raw_xml,
   );
 }
-  
 
 /**
  * Build tampers programmatically.
@@ -1012,9 +1012,9 @@ function _nexteuropa_newsroom_dynamic_tamper($tamper) {
  * Helper function to enable languages.
  *
  * @param array $importer
- *  The importer to import.
+ *   The importer to import.
  */
-function _nexteuropa_newsroom_import_importer($importer) {
+function _nexteuropa_newsroom_import_importer(array $importer) {
   // Those Api calls are copied from the submit function of the
   // import form provided by the feeds_ui module. The alpha8 version
   // of Feeds (the one used in the platform) had a bugged implementation,
@@ -1074,7 +1074,7 @@ function nexteuropa_newsroom_delete($name, $type = 'menu', $op = 'items') {
   }
 }
 
-/*
+/**
  * Implements hook_form_alter().
  */
 function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
@@ -1084,7 +1084,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
     global $language;
     $def_lang = language_default()->language;
     $curr_lang = $language->language;
- 
+
     $taxonomy_fields = array(
       'field_newsroom_item_type',
       'field_primary_topic',
@@ -1105,16 +1105,17 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
       foreach ($tree as $key => $value) {
         $i18n_object = i18n_get_object('taxonomy_term', $value->tid);
         $t_term = $i18n_object->localize($curr_lang);
-        $pref = $value->parents[0] != 0 ?  '- ' : '';
+        $pref = $value->parents[0] != 0 ? '- ' : '';
         $form[$taxonomy_field]['und']['#options'][$value->tid] = $pref . $t_term->name;
       }
 
-      // The default value is lost in the translations, so we need to set it this way.
+      // The default value is lost in the translations,
+      // so we need to set it this way.
       if (!empty($form['#node']->$taxonomy_field)) {
         $values = array();
         $value_array = $form['#node']->$taxonomy_field;
         foreach ($value_array['und'] as $value) {
-          $values[] = $value['tid']; 
+          $values[] = $value['tid'];
           $form[$taxonomy_field]['und']['#default_value'] = $values;
         }
       }

@@ -254,6 +254,7 @@ function newsroom_block_view($delta = '') {
       $block['subject'] = NULL;
       $block['content'] = _newsroom_list_filter();
       break;
+
     case 'newsroom_proposal':
       $blocks['subject'] = t('Newsroom item proposal');
       $blocks['content'] = _newsroom_block_news_proposal();
@@ -275,7 +276,7 @@ function newsroom_block_view($delta = '') {
  */
 function _newsroom_block_news_proposal() {
 
-  if(!user_access(NEWSROOM_PROPOSAL_ACCESS)) {
+  if (!user_access(NEWSROOM_PROPOSAL_ACCESS)) {
     return NULL;
   }
 
@@ -283,7 +284,7 @@ function _newsroom_block_news_proposal() {
   global $base_url;
 
   $topic_id = NULL;
-  
+
   // Try to get Topic ID from the entity.
   $node = menu_get_object();
 
@@ -887,8 +888,6 @@ function _newsroom_get_summary_block_tid() {
 function _newsroom_get_grouping_terms($selected) {
   global $language;
 
-//  $terms = &drupal_static(__FUNCTION__);
-
   // Get cached terms if exists.
   if ($cache = cache_get('newsroom:grouping_terms')) {
     $terms = $cache->data;
@@ -968,8 +967,7 @@ function _newsroom_content(array $newsroom_grouping_terms, $full_display = FALSE
   if (!empty($newsroom_topic_tids)) {
     $view_arguments[1] = $newsroom_topic_tids;
   }
-  
-  
+
   // Custom Agenda block if needed.
   if (variable_get('newsroom_display_agenda', 1) && $agenda_types = _newsroom_agenda_types()) {
     $view_arguments[0] = implode('+', array_keys($agenda_types));
@@ -998,7 +996,7 @@ function _newsroom_content(array $newsroom_grouping_terms, $full_display = FALSE
         $newsroom_type_tids = _newsroom_get_children($newsroom_grouping_term->tid, $newsroom_grouping_term->vid);
         $view_arguments[0] = $newsroom_type_tids;
         $newsroom_type_display = field_get_items('taxonomy_term', $newsroom_grouping_term, 'field_newsroom_type');
-        
+
         // Some newsroom type are not using the normal sorting.
         // This is machine-name defined by newsroom type.
         if ($newsroom_type_display) {
@@ -1022,7 +1020,7 @@ function _newsroom_content(array $newsroom_grouping_terms, $full_display = FALSE
       }
 
       $newsroom_view_exec = _newsroom_fetch_content_view($view_arguments, $newsroom_grouping_term, $default_view_display, $sticky, $full_display, $topic_operator);
-      
+
       // If we have some content, let's add a title.
       if ($newsroom_view_exec && $newsroom_view_exec['block']['content'] != '') {
         $topic_is_highlighted = _newsroom_type_is_highlighted($newsroom_grouping_term);
@@ -1187,7 +1185,7 @@ function _newsroom_fetch_content_view($view_arguments, $newsroom_grouping_term_n
   if (!is_object($view)) {
     return FALSE;
   }
-  
+
   $view->newsroom_display_type = FALSE;
   $view->newsroom_type_name = $newsroom_grouping_term_name === NEWSROOM_CALENDAR_BLOCK ? t('Calendar') : $newsroom_grouping_term_name->name;
   $view->set_arguments($view_arguments);
@@ -1339,7 +1337,7 @@ function newsroom_node_view($node, $view_mode, $langcode) {
     $node_wrapper = entity_metadata_wrapper('node', $node);
     $type = $node_wrapper->field_newsroom_item_type->value();
     $type_wrapper = entity_metadata_wrapper('taxonomy_term', $type);
-    
+
     // Redirect item if redirection is forced for this type.
     // Except for editors who can import items.
     if (!user_access('import newsroom feeds')) {
@@ -1546,7 +1544,7 @@ function newsroom_permission() {
     ),
     NEWSROOM_PROPOSAL_ACCESS => array(
       'title' => t('Send newsroom item proposal'),
-    ), 
+    ),
   );
 }
 
@@ -1661,13 +1659,18 @@ function _newsroom_taxonomy_term_importer($field_title, $redirect_path, $field_n
     drupal_not_found();
     drupal_exit();
   }
-  
+
   if ($delete) {
     $terms = _newsroom_technical_fields_to_tid($field_name, $tid);
     if ($terms) {
       taxonomy_term_delete($terms[0]);
 
-      $message = t('Newsroom %2 tid: %1 deleted', array('%1' => implode(', ', $terms), '%2' => $field_title));
+      $message = t('Newsroom %2 tid: %1 deleted',
+        array(
+          '%1' => implode(', ', $terms),
+          '%2' => $field_title,
+        )
+      );
       watchdog('newsroom', $message);
       drupal_set_message($message);
       return '';
@@ -1684,7 +1687,7 @@ function _newsroom_taxonomy_term_importer($field_title, $redirect_path, $field_n
       drupal_goto($path);
     }
     return l(t('Go to Newsroom @field_title', array('@field_title' => $field_title)), $path);
-  }   
+  }
 }
 
 /**
@@ -1813,14 +1816,14 @@ function _newsroom_type_import($type_id = 0, $reimport = NULL) {
  * @param bool $delete
  *   Defines delete or import item.
  * @param bool $reimport
- *   redirect to newsroom page or display message.
+ *   Redirect to newsroom page or display message.
  *
  * @return string
  *   Message
  */
 function _newsroom_type_importer($type_id, $delete = FALSE, $reimport = FALSE) {
   global $_newsroom_universe_url;
-  
+
   $multilingual = variable_get('newsroom_multilingual', FALSE);
   $url_segment = $multilingual ? '-multilingual' : '';
   $url = $_newsroom_universe_url . variable_get('newsroom_single_type_import_segment', 'rss-item-type' . $url_segment . '.cfm?item_type_id=') . $type_id;
@@ -1844,7 +1847,7 @@ function _newsroom_service_delete($service_id = 0) {
 
 /**
  * Shortcut to delete a Newsroom Service.
- * 
+ *
  * @param int $service_id
  *   Service taxonomy term id.
  * @param bool $reimport
@@ -1858,7 +1861,7 @@ function _newsroom_service_import($service_id = 0, $reimport = NULL) {
 }
 
 /**
- * Calls general method to import taxonomy term with params for newsroom service.
+ * Calls general method to import taxonomy term with params for news service.
  *
  * @param int $service_id
  *   Original service id.
@@ -1897,7 +1900,7 @@ function _newsroom_topic_delete($topic_id = 0) {
 /**
  * Shortcut to delete a Newsroom Topic.
  *
- * @param type $topic_id
+ * @param int $topic_id
  *   Original topic id.
  * @param bool $reimport
  *   Redirect to newsroom page or display message.
@@ -1924,7 +1927,7 @@ function _newsroom_topic_import($topic_id = 0, $reimport = NULL) {
  */
 function _newsroom_topic_importer($topic_id, $delete = FALSE, $reimport = FALSE) {
   global $_newsroom_universe_url;
-  
+
   $multilingual = variable_get('newsroom_multilingual', FALSE);
   $url_segment = $multilingual ? '-multilingual' : '';
   $url = $_newsroom_universe_url . variable_get('newsroom_single_topic_import_segment', 'rss-service' . $url_segment . '.cfm?topic_id=') . $topic_id;
@@ -2003,7 +2006,8 @@ function _newsroom_redirect($redirect_type = 'item', $param_1 = 0, $param_2 = 0)
         $type_term = taxonomy_term_load($type[0]);
         if (!empty($param_2)) {
           $path = 'taxonomy/term/' . $type_term->tid;
-        } else {
+        }
+        else {
           $path = 'newsroom/' . pathauto_cleanstring($type_term->name);;
         }
       }
@@ -2016,7 +2020,8 @@ function _newsroom_redirect($redirect_type = 'item', $param_1 = 0, $param_2 = 0)
         $topic_term = taxonomy_term_load($topic[0]);
         if (!empty($param_2)) {
           $path = 'taxonomy/term/' . $topic_term->tid;
-        } else {
+        }
+        else {
           $path = 'newsroom/all/' . pathauto_cleanstring($topic_term->name);
         }
       }
@@ -2032,7 +2037,7 @@ function _newsroom_redirect($redirect_type = 'item', $param_1 = 0, $param_2 = 0)
         $path = 'newsroom/' . pathauto_cleanstring($type_term->name) . '/' . pathauto_cleanstring($topic_term->name);
       }
       break;
-      
+
     // Newsroom service.
     case 'service':
       $service = _newsroom_technical_fields_to_tid('field_newsroom_service_id', $param_1);
@@ -2208,7 +2213,7 @@ function newsroom_views_pre_view(&$view, &$display_id, array &$args) {
   }
 
   if ($view->name == 'newsroom') {
-    
+
     module_load_include('inc', 'pathauto', 'pathauto');
     $arguments_settings = $view->display[$view->current_display]->handler->get_option('arguments');
     // Select the appropriate display in case only one type is set.
@@ -2221,7 +2226,7 @@ function newsroom_views_pre_view(&$view, &$display_id, array &$args) {
       // and assign to arguments, because we use 'tids' validation.
       if (isset($args[1]) && !empty($args[1]) && $args[1] != 'all') {
         $topic = _newsroom_taxonomy_term_from_request($args[1], $arguments_settings, 'term_node_tid_depth_1');
-        
+
         if ($topic) {
           $args[1] = $topic->tid;
         }
@@ -2296,12 +2301,12 @@ function newsroom_views_pre_view(&$view, &$display_id, array &$args) {
  * @param array $argument_settings
  *   View arguments.
  */
-function _newsroom_taxonomy_term_from_request($request, $argument_settings, $filter_field) {
+function _newsroom_taxonomy_term_from_request($request, array $argument_settings, $filter_field) {
   global $language;
   $curr_lang = $language->language;
-  $multilingual =  variable_get('newsroom_multilingual', FALSE);
+  $multilingual = variable_get('newsroom_multilingual', FALSE);
 
-    // Take vocabularies from context filter field.
+  // Take vocabularies from context filter field.
   $vocabularies = isset($argument_settings[$filter_field]['validate_options']['vocabularies']) ? array_values($argument_settings[$filter_field]['validate_options']['vocabularies']) : array();
 
   if (count($vocabularies) > 0) {
@@ -2311,7 +2316,7 @@ function _newsroom_taxonomy_term_from_request($request, $argument_settings, $fil
     // Compare taxonomy terms modified by pathauto with the current value
     // from the URL.
     if ($taxonomy_terms) {
-      foreach($taxonomy_terms as $term_item) {
+      foreach ($taxonomy_terms as $term_item) {
         if ($multilingual) {
           $fullterm = taxonomy_term_load($term_item['tid']);
           $translation = field_get_items('taxonomy_term', $fullterm, 'name_field', $curr_lang);
@@ -2796,7 +2801,7 @@ function newsroom_field_formatter_settings_summary($field, $instance, $view_mode
  */
 function newsroom_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $elements = array();
-  
+
   switch ($display['type']) {
     case 'newsroom_pathauto':
       module_load_include('inc', 'pathauto', 'pathauto');
@@ -2804,6 +2809,7 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
         $elements[$delta] = array('#markup' => pathauto_cleanstring($item['safe_value']));
       }
       break;
+
     case 'newsroom_main_link':
       foreach ($items as $delta => $item) {
         if (!empty($item['url'])) {
@@ -2816,10 +2822,11 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
           // If item is Teaser only.
           $wrapper = entity_metadata_wrapper('node', $entity);
           $click_through = _newsroom_item_type_teaser_only_settings($wrapper);
-          
+
           if ($click_through == NEWSROOM_CLICKTHROUGH_FORCE) {
             $item['url'] = $main_link_url;
-          } else if ($wrapper->field_newsroom_teaser_only->value()) {
+          }
+          elseif ($wrapper->field_newsroom_teaser_only->value()) {
             switch ($click_through) {
               case 'always':
                 $item['url'] = $main_link_url;
@@ -2884,7 +2891,7 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
             $copyright = $item['field_newsroom_copyrights'][$language->language][0]['safe_value'];
           }
         }
-        
+
         // Sets copyright.
         $caption = '';
         if ($display['settings']['display_caption']) {
@@ -2901,7 +2908,7 @@ function newsroom_field_formatter_view($entity_type, $entity, $field, $instance,
           $image['width'] = $item['width'];
           $image['height'] = $item['height'];
         }
-        
+
         $image['title'] = $title;
 
         if ($display['settings']['image_style']) {
@@ -2970,7 +2977,7 @@ function _newsroom_validate_universe($universe_id = NULL) {
 /**
  * Create default set of importers.
  */
-function _newsroom_create_default_importers($universe_url, $context = 'admin', $redirect = NULL, $multilingual) {
+function _newsroom_create_default_importers($universe_url, $context = 'admin', $redirect = NULL, $multilingual = FALSE) {
   $importers = array(
     'newsroom_type_importer' => array(
       'segment' => 'rss-item-type.cfm',
@@ -3000,13 +3007,13 @@ function _newsroom_create_default_importers($universe_url, $context = 'admin', $
 
   // Run the multilingual imports if required.
   if ($multilingual) {
-    
+
     $keys = array('item', 'topic', 'service', 'type');
 
     foreach ($keys as $key) {
       unset($importers['newsroom_' . $key . '_importer']);
     }
-    
+
     $importers['newsroom_types_multilingual_importer'] = array(
       'segment' => 'rss-item-type-multilingual.cfm',
       'importer' => 'newsroom_types_multilingual',
@@ -3077,7 +3084,7 @@ function newsroom_views_api() {
  * Implements hook_entity_presave().
  */
 function newsroom_entity_presave($entity, $type) {
-  if(isset($entity->_feed_changed) && isset($entity->changed)) {
+  if (isset($entity->_feed_changed) && isset($entity->changed)) {
     $entity->changed = $entity->_feed_changed;
   }
 }
@@ -3094,13 +3101,13 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
     $def_lang = language_default()->language;
 
     // Try to remove disabled translations, check the title for translation.
-    foreach($languages as $language) {
+    foreach ($languages as $language) {
       // Check only active and skip the default language.
       if ($language->enabled && $language->language != $def_lang) {
         $config = $source->importer()->processor->getConfig();
         if (isset($config['mappings'])) {
-          $xpath_expression = NULL; 
-          foreach($config['mappings'] as $mapping) {
+          $xpath_expression = NULL;
+          foreach ($config['mappings'] as $mapping) {
             if ($mapping['target'] == 'title_field:et:' . $language->language) {
               $xpath_expression = $mapping['source'];
               break;
@@ -3137,10 +3144,10 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
       $file = file_load($fid);
       if ($file) {
         $config = $source->importer()->processor->getConfig();
-        if (isset($config['mappings'])) { 
+        if (isset($config['mappings'])) {
           // Save default language at first.
-          foreach($config['mappings'] as $mapping) {
-            foreach($fields as $field => $field_name) {
+          foreach ($config['mappings'] as $mapping) {
+            foreach ($fields as $field => $field_name) {
               if ($mapping['target'] == 'field_illustrative_image:' . $field_name . ':et:' . $def_lang && !empty($mapping['source']) && isset($item[$mapping['source']]) && !empty($item[$mapping['source']])) {
                 $file->$field = array($def_lang => array(0 => array('value' => $item[$mapping['source']])));
               }
@@ -3148,18 +3155,18 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
           }
 
           file_save($file);
-        
-          $handler = entity_translation_get_handler('file', $file); 
+
+          $handler = entity_translation_get_handler('file', $file);
 
           // Handle the rest of available translations.
-          foreach($config['mappings'] as $mapping) {
-            foreach($fields as $field => $field_name) {
-              foreach($languages as $language) {
-                
+          foreach ($config['mappings'] as $mapping) {
+            foreach ($fields as $field => $field_name) {
+              foreach ($languages as $language) {
+
                 if ($language->language == $def_lang) {
                   continue;
                 }
-                
+
                 if ($mapping['target'] == 'field_illustrative_image:' . $field_name . ':et:' . $language->language && !empty($mapping['source']) && isset($item[$mapping['source']]) && !empty($item[$mapping['source']])) {
                   $translation = array(
                     'translate' => 0,
@@ -3168,15 +3175,15 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
                     'source' => $def_lang,
                   );
                   $values = array(
-                    "$field" => array (
+                    "$field" => array(
                       "$language->language" => array(
                         '0' => array(
                           'value' => $item[$mapping['source']],
-                        )
-                      )
-                    )
+                        ),
+                      ),
+                    ),
                   );
-                  $handler->setTranslation($translation, $values);                  
+                  $handler->setTranslation($translation, $values);
                 }
               }
             }
@@ -3187,7 +3194,7 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
       }
     }
   }
-  
+
   if ($source->importer()->fetcher->id == 'newsroom_items') {
     if (isset($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']) && !empty($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid'])) {
       $file = file_load($entity->field_illustrative_image[LANGUAGE_NONE][0]['fid']);
@@ -3236,14 +3243,14 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
       'field_caption' => 'field_illustrative_image:caption:et:',
       'field_file_image_alt_text' => 'field_illustrative_image:alt:et:',
     );
-    
+
     $fields = array();
     $languages = language_list();
-    foreach($languages as $language) {
+    foreach ($languages as $language) {
       // Check only active and skip the default language.
       if ($language->enabled) {
 
-        foreach($field_names as $field_name) { 
+        foreach ($field_names as $field_name) {
           $fields[] = $field_name . $language->language;
         }
       }
@@ -3251,7 +3258,7 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
 
     foreach (field_info_instances('file', 'image') as $name => $instance) {
       if (in_array($name, array_keys($field_names))) {
-        foreach($fields as $field) {
+        foreach ($fields as $field) {
           $targets[$field] = array(
             'name' => t('Image:@name', array('@name' => $field)),
             'callback' => NULL,
@@ -3261,7 +3268,8 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
         }
       }
     }
-  } else {
+  }
+  else {
     $fields = array(
       'field_file_image_title_text',
       'field_file_image_alt_text',
@@ -3278,11 +3286,5 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
         );
       }
     }
-  }
-}
-
-function newsroom_views_pre_execute(&$view) {
-  if ($view->name == 'newsroom') {
-//    dpq($view->build_info['query']);
   }
 }

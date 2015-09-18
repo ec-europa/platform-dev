@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * nexteuropa Newsroom administration page.
+ * Nexteuropa Newsroom administration page.
  */
 
 include_once 'nexteuropa_newsroom.multilingual.inc';
 
 /**
- * nexteuropa newsroom admin form.
+ * Nexteuropa newsroom admin form.
  */
 function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   // Be aware about the selected content types in the fields fieldset.
@@ -172,7 +172,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#description' => t('If you want to delete all the instance of the select field together check this.'),
     '#default_value' => 0,
   );
-  
+
   // Settings about the universe.
   $form['newsroom_universe'] = array(
     '#type' => 'fieldset',
@@ -213,13 +213,13 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#title' => t('URL chunk for single topic import'),
     '#default_value' => variable_get('newsroom_single_topic_import_segment', 'rss-service-multilingual.cfm?topic_id='),
   );
-  
+
   $form['newsroom_universe']['newsroom_single_type_import_segment'] = array(
     '#type' => 'textfield',
     '#title' => t('URL chunk for single type import'),
     '#default_value' => variable_get('newsroom_single_type_import_segment', 'rss-item-type-multilingual.cfm?item_type_id='),
   );
-  
+
   $form['newsroom_universe']['newsroom_single_service_import_segment'] = array(
     '#type' => 'textfield',
     '#title' => t('URL chunk for single service import'),
@@ -364,7 +364,7 @@ function nexteuropa_newsroom_admin_settings_form_validate($form, &$form_state) {
  */
 function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
   $multilingual = $form_state['values']['multilingual'] == 1 ? TRUE : FALSE;
-  
+
   // Shouldn't be needed, it is a setting form.
   if ($multilingual) {
     variable_set('newsroom_multilingual', 1);
@@ -372,7 +372,7 @@ function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
   else {
     variable_set('newsroom_multilingual', 0);
   }
-  
+
   // Create default importers if new Newsroom Universe ID detected.
   if ($form_state['values']['newsroom_universe_id'] <> $form['universe_id']['newsroom_universe_id']['#default_value']) {
     variable_set('newsroom_universe_id', $form_state['values']['newsroom_universe_id']);
@@ -397,7 +397,7 @@ function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
 
     foreach ($importer_id as $key => $importer) {
       $disabling[] = $importer;
-      
+
       if ($multilingual) {
         call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
       }
@@ -451,7 +451,7 @@ function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
 }
 
 /**
- * Run the importers
+ * Run the importers.
  */
 function nexteuropa_newsroom_admin_settings_form_run_importers() {
   $multilingual = variable_get('newsroom_multilingual') == 1 ? TRUE : FALSE;
