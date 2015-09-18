@@ -70,8 +70,6 @@ function splash_screen_theme($existing, $type, $theme, $path) {
  * Implements hook_preprocess().
  */
 function splash_screen_preprocess_splash(&$variables) {
-  global $base_url;
-
   // Initialize variables.
   $home_page = variable_get('site_frontpage', '');
   $href = $home_page;
