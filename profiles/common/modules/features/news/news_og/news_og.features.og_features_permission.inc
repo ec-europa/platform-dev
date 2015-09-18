@@ -10,7 +10,7 @@
 function news_og_og_features_default_permissions() {
   $permissions = array();
 
-  // Exported og permission: 'node:community:create news content'
+  // Exported og permission: 'node:community:create news content'.
   $permissions['node:community:create news content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -19,7 +19,7 @@ function news_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:delete any news content'
+  // Exported og permission: 'node:community:delete any news content'.
   $permissions['node:community:delete any news content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -27,7 +27,7 @@ function news_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:delete own news content'
+  // Exported og permission: 'node:community:delete own news content'.
   $permissions['node:community:delete own news content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -36,7 +36,7 @@ function news_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:update any news content'
+  // Exported og permission: 'node:community:update any news content'.
   $permissions['node:community:update any news content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -44,7 +44,7 @@ function news_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:update own news content'
+  // Exported og permission: 'node:community:update own news content'.
   $permissions['node:community:update own news content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',

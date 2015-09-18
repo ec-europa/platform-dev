@@ -10,7 +10,7 @@
 function survey_og_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-webform-body'
+  // Exported field_instance: 'node-webform-body'.
   $field_instances['node-webform-body'] = array(
     'bundle' => 'webform',
     'default_value' => NULL,
@@ -54,7 +54,7 @@ function survey_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-webform-field_tags'
+  // Exported field_instance: 'node-webform-field_tags'.
   $field_instances['node-webform-field_tags'] = array(
     'bundle' => 'webform',
     'default_value' => NULL,
@@ -95,7 +95,7 @@ function survey_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-webform-group_content_access'
+  // Exported field_instance: 'node-webform-group_content_access'.
   $field_instances['node-webform-group_content_access'] = array(
     'bundle' => 'webform',
     'default_value' => array(
@@ -146,7 +146,7 @@ function survey_og_field_default_field_instances() {
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-webform-og_group_ref'
+  // Exported field_instance: 'node-webform-og_group_ref'.
   $field_instances['node-webform-og_group_ref'] = array(
     'bundle' => 'webform',
     'default_value' => NULL,

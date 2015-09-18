@@ -10,7 +10,7 @@
 function communities_og_features_default_permissions() {
   $permissions = array();
 
-  // Exported og permission: 'node:community:View all unpublished content'
+  // Exported og permission: 'node:community:View all unpublished content'.
   $permissions['node:community:View all unpublished content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -19,7 +19,7 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:add user'
+  // Exported og permission: 'node:community:add user'.
   $permissions['node:community:add user'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -27,7 +27,7 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:administer group'
+  // Exported og permission: 'node:community:administer group'.
   $permissions['node:community:administer group'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -35,7 +35,7 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:approve and deny subscription'
+  // Exported og permission: 'node:community:approve and deny subscription'.
   $permissions['node:community:approve and deny subscription'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -43,7 +43,7 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:create article content'
+  // Exported og permission: 'node:community:create article content'.
   $permissions['node:community:create article content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -52,7 +52,7 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:delete any article content'
+  // Exported og permission: 'node:community:delete any article content'.
   $permissions['node:community:delete any article content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -60,7 +60,7 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:delete own article content'
+  // Exported og permission: 'node:community:delete own article content'.
   $permissions['node:community:delete own article content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -69,7 +69,7 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:manage members'
+  // Exported og permission: 'node:community:manage members'.
   $permissions['node:community:manage members'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -77,7 +77,7 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:manage permissions'
+  // Exported og permission: 'node:community:manage permissions'.
   $permissions['node:community:manage permissions'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -85,7 +85,7 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:manage roles'
+  // Exported og permission: 'node:community:manage roles'.
   $permissions['node:community:manage roles'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -94,7 +94,7 @@ function communities_og_features_default_permissions() {
   );
 
   // Exported og permission:
-  // 'node:community:moderate content from draft to needs_review'
+  // 'node:community:moderate content from draft to needs_review'.
   $permissions['node:community:moderate content from draft to needs_review'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -104,7 +104,7 @@ function communities_og_features_default_permissions() {
   );
 
   // Exported og permission:
-  // 'node:community:moderate content from needs_review to draft'
+  // 'node:community:moderate content from needs_review to draft'.
   $permissions['node:community:moderate content from needs_review to draft'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -114,7 +114,7 @@ function communities_og_features_default_permissions() {
   );
 
   // Exported og permission:
-  // 'node:community:moderate content from needs_review to published'
+  // 'node:community:moderate content from needs_review to published'.
   $permissions['node:community:moderate content from needs_review to published'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -123,7 +123,7 @@ function communities_og_features_default_permissions() {
   );
 
   // Exported og permission:
-  // 'node:community:moderate content from needs_review to validated'
+  // 'node:community:moderate content from needs_review to validated'.
   $permissions['node:community:moderate content from needs_review to validated'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -132,7 +132,7 @@ function communities_og_features_default_permissions() {
   );
 
   // Exported og permission:
-  // 'node:community:moderate content from published to archived'
+  // 'node:community:moderate content from published to archived'.
   $permissions['node:community:moderate content from published to archived'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -141,7 +141,7 @@ function communities_og_features_default_permissions() {
   );
 
   // Exported og permission:
-  // 'node:community:moderate content from validated to published'
+  // 'node:community:moderate content from validated to published'.
   $permissions['node:community:moderate content from validated to published'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -149,26 +149,26 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:subscribe'
+  // Exported og permission: 'node:community:subscribe'.
   $permissions['node:community:subscribe'] = array(
     'roles' => array(
       'non-member' => 'non-member',
     ),
   );
 
-  // Exported og permission: 'node:community:subscribe without approval'
+  // Exported og permission: 'node:community:subscribe without approval'.
   $permissions['node:community:subscribe without approval'] = array(
     'roles' => array(),
   );
 
-  // Exported og permission: 'node:community:unsubscribe'
+  // Exported og permission: 'node:community:unsubscribe'.
   $permissions['node:community:unsubscribe'] = array(
     'roles' => array(
       'member' => 'member',
     ),
   );
 
-  // Exported og permission: 'node:community:update any article content'
+  // Exported og permission: 'node:community:update any article content'.
   $permissions['node:community:update any article content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -176,7 +176,7 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:update group'
+  // Exported og permission: 'node:community:update group'.
   $permissions['node:community:update group'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -184,7 +184,7 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:update own article content'
+  // Exported og permission: 'node:community:update own article content'.
   $permissions['node:community:update own article content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',

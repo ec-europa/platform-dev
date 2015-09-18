@@ -10,7 +10,7 @@
 function e_library_core_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_document'
+  // Exported field_base: 'field_document'.
   $field_bases['field_document'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -41,7 +41,7 @@ function e_library_core_field_default_field_bases() {
     'type' => 'file',
   );
 
-  // Exported field_base: 'field_media_tags'
+  // Exported field_base: 'field_media_tags'.
   $field_bases['field_media_tags'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -76,7 +76,7 @@ function e_library_core_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_related_document'
+  // Exported field_base: 'field_related_document'.
   $field_bases['field_related_document'] = array(
     'active' => 1,
     'cardinality' => -1,
