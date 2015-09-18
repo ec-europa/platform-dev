@@ -4,4 +4,4 @@
  * Code for the Events feature.
  */
 
-include_once('events_standard.features.inc');
+include_once 'events_standard.features.inc';
