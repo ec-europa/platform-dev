@@ -1,10 +1,8 @@
 /**
  * @file
  * Provides FullCalendar objects and functions.
- *
- * Provides FullCalendar objects and functions.
- *
  */
+
 (function($) {
   Drupal.behaviors.events_resources = {
     attach: function (context, settings) {
@@ -12,14 +10,16 @@
         Drupal.fullcalendar.plugins.events_resources = {
           options: function (fullcalendar, settings) {
             return {
-              // the resources array for the "resourceDay" calendar view mode
+              // The resources array for the "resourceDay" calendar view mode.
               resources: Drupal.settings.events_resources.resources
             };
           }
         };
+
         /**
          * Parse Drupal events from the DOM.
-         * TODO other way to find and call this func or the callback be called
+         *
+         * TODO other way to find and call this func or the callback be called.
          */
         Drupal.fullcalendar.fullcalendar.prototype.parseEvents = function (callback) {
           var events = [];

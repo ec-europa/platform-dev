@@ -10,7 +10,7 @@
 function idea_core_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_idea-comment_body'
+  // Exported field_instance: 'comment-comment_node_idea-comment_body'.
   $field_instances['comment-comment_node_idea-comment_body'] = array(
     'bundle' => 'comment_node_idea',
     'default_value' => NULL,
@@ -71,7 +71,7 @@ function idea_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-idea-body'
+  // Exported field_instance: 'node-idea-body'.
   $field_instances['node-idea-body'] = array(
     'bundle' => 'idea',
     'default_value' => NULL,
@@ -115,7 +115,7 @@ function idea_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-idea-field_categories_taxonomy'
+  // Exported field_instance: 'node-idea-field_categories_taxonomy'.
   $field_instances['node-idea-field_categories_taxonomy'] = array(
     'bundle' => 'idea',
     'default_value' => NULL,
@@ -152,7 +152,7 @@ function idea_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-idea-field_status_taxonomy'
+  // Exported field_instance: 'node-idea-field_status_taxonomy'.
   $field_instances['node-idea-field_status_taxonomy'] = array(
     'bundle' => 'idea',
     'default_value' => NULL,
@@ -189,7 +189,7 @@ function idea_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-idea-field_tags'
+  // Exported field_instance: 'node-idea-field_tags'.
   $field_instances['node-idea-field_tags'] = array(
     'bundle' => 'idea',
     'default_value' => NULL,
@@ -229,7 +229,7 @@ function idea_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-idea-field_watching'
+  // Exported field_instance: 'node-idea-field_watching'.
   $field_instances['node-idea-field_watching'] = array(
     'bundle' => 'idea',
     'default_value' => array(

@@ -10,7 +10,7 @@
 function communities_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: navigation:admin/workbench
+  // Exported menu link: navigation:admin/workbench.
   $menu_links['navigation:admin/workbench'] = array(
     'menu_name' => 'navigation',
     'link_path' => 'admin/workbench',

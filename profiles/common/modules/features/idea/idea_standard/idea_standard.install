@@ -21,6 +21,6 @@ function idea_standard_enable() {
  */
 function idea_standard_disable() {
   // Example
-  // multisite_drupal_toolbox_disable_content_type('kit');
+  // multisite_drupal_toolbox_disable_content_type('kit');.
   drupal_set_message(t('idea_standard %v feature is now inactive on your site.', array('%v' => _idea_standard_get_version())));
 }

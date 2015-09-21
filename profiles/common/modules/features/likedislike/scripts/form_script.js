@@ -31,11 +31,11 @@
   function show_hide_lan_field($radiobutton) {
     if ($radiobutton.is(':checked')) {
       jQuery('.form-item-language-selector').css('display', 'block');
-      // jQuery('#edit-url-address').focus();
+      // jQuery('#edit-url-address').focus();.
     }
     else {
       jQuery('.form-item-language-selector').css('display', 'none');
-      // jQuery('#edit-url-address').val("");
+      // jQuery('#edit-url-address').val("");.
     }
   }
 })(jQuery);

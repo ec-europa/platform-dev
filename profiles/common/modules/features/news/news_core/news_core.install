@@ -70,7 +70,7 @@ function news_core_disable() {
  * DATE FIELD MIGRATION SCRIPT: datetime to datestamp.
  */
 function news_core_update_7101() {
-  // --- CONFIG ---
+  // Configuration.
   $content_type = 'news';
   $module_name = basename(__FILE__, '.install');
   // Get db fields instances of content type.
@@ -82,7 +82,7 @@ function news_core_update_7101() {
     $fields_features_info = call_user_func($module_name . '_field_default_fields');
   }
 
-  // --- MIGRATION ---
+  // Migration.
   foreach ($fields_instances as $field_name => $field_instance) {
     // Get db field config.
     $field_info = field_info_field($field_name);
@@ -130,7 +130,7 @@ function news_core_update_7101() {
       watchdog('system', $message, NULL, WATCHDOG_INFO);
       db_update('field_config')->fields(array('type' => 'datestamp'))->condition('id', $field_info['id'])->execute();
 
-      // --- ERROR LOGS ---
+      // Error logs.
     }
     elseif ($field_info['type'] == 'datestamp') {
       $message = t('The %field field has already been converted to a UNIX timestamp.', array('%field' => $field_name));

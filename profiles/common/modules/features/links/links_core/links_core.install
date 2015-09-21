@@ -10,7 +10,7 @@
  * Edit communities context to add a block.
  */
 function links_core_enable() {
-  // SolR configuration add bundle.S
+  // SolR configuration add bundle.S.
   multisite_drupal_toolbox_config_solr_bundle('links', 'add');
 
   // Add type to linkchecker scan.

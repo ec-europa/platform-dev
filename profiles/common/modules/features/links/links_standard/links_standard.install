@@ -21,6 +21,6 @@ function links_standard_enable() {
  */
 function links_standard_disable() {
   // Example
-  // multisite_drupal_toolbox_disable_content_type('kit');
+  // multisite_drupal_toolbox_disable_content_type('kit');.
   drupal_set_message(t('links_core %v feature is now inactive on your site.', array('%v' => _links_standard_get_version())));
 }

@@ -10,7 +10,7 @@
 function multisite_forum_community_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-discussion-group_content_access'
+  // Exported field_instance: 'node-discussion-group_content_access'.
   $field_instances['node-discussion-group_content_access'] = array(
     'bundle' => 'discussion',
     'default_value' => array(
@@ -61,7 +61,7 @@ function multisite_forum_community_field_default_field_instances() {
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-discussion-og_group_ref'
+  // Exported field_instance: 'node-discussion-og_group_ref'.
   $field_instances['node-discussion-og_group_ref'] = array(
     'bundle' => 'discussion',
     'default_value' => NULL,
@@ -130,7 +130,7 @@ function multisite_forum_community_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'taxonomy_term-forums-og_group_ref'
+  // Exported field_instance: 'taxonomy_term-forums-og_group_ref'.
   $field_instances['taxonomy_term-forums-og_group_ref'] = array(
     'bundle' => 'forums',
     'default_value' => NULL,

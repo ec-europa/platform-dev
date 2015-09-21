@@ -10,7 +10,7 @@
 function nexteuropa_notices_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'bean-notice-field_close_button'
+  // Exported field_instance: 'bean-notice-field_close_button'.
   $field_instances['bean-notice-field_close_button'] = array(
     'bundle' => 'notice',
     'default_value' => array(
@@ -48,7 +48,7 @@ function nexteuropa_notices_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'bean-notice-field_message'
+  // Exported field_instance: 'bean-notice-field_message'.
   $field_instances['bean-notice-field_message'] = array(
     'bundle' => 'notice',
     'default_value' => NULL,
@@ -109,7 +109,7 @@ function nexteuropa_notices_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'bean-notice-title_field'
+  // Exported field_instance: 'bean-notice-title_field'.
   $field_instances['bean-notice-title_field'] = array(
     'bundle' => 'notice',
     'default_value' => NULL,
