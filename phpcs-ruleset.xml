@@ -10,7 +10,6 @@
     <exclude-pattern>profiles/common/themes/ec_resp/scripts/ec.js</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/css/ec_resp.css</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp_17/scripts/ec.js</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/ec_resp_17/scripts/scripts.js</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp_17/css/ec_resp.css</exclude-pattern>
 
     <!-- Legacy modules which are not compliant with coding standards. These are
