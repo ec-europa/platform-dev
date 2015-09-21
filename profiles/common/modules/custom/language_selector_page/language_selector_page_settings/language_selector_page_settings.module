@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Language Selector Page Settings feature.
+ */
+
+include_once 'language_selector_page_settings.features.inc';
