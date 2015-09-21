@@ -11,7 +11,7 @@
       {
         // H2 and up.
         startLevel: 2,
-        // H2 through H6,
+        // H2 through H6.
         depth:      5,
         // Add "top" links to each header.
         topLinks:   false,

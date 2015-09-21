@@ -10,7 +10,7 @@
 function nexteuropa_webtools_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'bean-webtools-field_json_object'
+  // Exported field_instance: 'bean-webtools-field_json_object'.
   $field_instances['bean-webtools-field_json_object'] = array(
     'bundle' => 'webtools',
     'default_value' => NULL,

@@ -11,7 +11,7 @@
 function cce_basic_config_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'body'
+  // Exported field_base: 'body'.
   $field_bases['body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -40,7 +40,7 @@ function cce_basic_config_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
-  // Exported field_base: 'comment_body'
+  // Exported field_base: 'comment_body'.
   $field_bases['comment_body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -69,7 +69,7 @@ function cce_basic_config_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_article_publication_date'
+  // Exported field_base: 'field_article_publication_date'.
   $field_bases['field_article_publication_date'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -98,7 +98,7 @@ function cce_basic_config_field_default_field_bases() {
     'type' => 'datestamp',
   );
 
-  // Exported field_base: 'field_article_unpublish_on'
+  // Exported field_base: 'field_article_unpublish_on'.
   $field_bases['field_article_unpublish_on'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -127,7 +127,7 @@ function cce_basic_config_field_default_field_bases() {
     'type' => 'datestamp',
   );
 
-  // Exported field_base: 'field_caption'
+  // Exported field_base: 'field_caption'.
   $field_bases['field_caption'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -156,7 +156,7 @@ function cce_basic_config_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_creator'
+  // Exported field_base: 'field_creator'.
   $field_bases['field_creator'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -185,7 +185,7 @@ function cce_basic_config_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_firstname'
+  // Exported field_base: 'field_firstname'.
   $field_bases['field_firstname'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -214,7 +214,7 @@ function cce_basic_config_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_image'
+  // Exported field_base: 'field_image'.
   $field_bases['field_image'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -244,7 +244,7 @@ function cce_basic_config_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_lastname'
+  // Exported field_base: 'field_lastname'.
   $field_bases['field_lastname'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -273,7 +273,7 @@ function cce_basic_config_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_tags'
+  // Exported field_base: 'field_tags'.
   $field_bases['field_tags'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -308,7 +308,7 @@ function cce_basic_config_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_video_description'
+  // Exported field_base: 'field_video_description'.
   $field_bases['field_video_description'] = array(
     'active' => 1,
     'cardinality' => 1,

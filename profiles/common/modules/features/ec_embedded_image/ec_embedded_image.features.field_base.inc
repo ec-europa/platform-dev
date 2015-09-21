@@ -10,7 +10,7 @@
 function ec_embedded_image_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_file_image_alt_text'
+  // Exported field_base: 'field_file_image_alt_text'.
   $field_bases['field_file_image_alt_text'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -39,7 +39,7 @@ function ec_embedded_image_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_file_image_title_text'
+  // Exported field_base: 'field_file_image_title_text'.
   $field_bases['field_file_image_title_text'] = array(
     'active' => 1,
     'cardinality' => 1,

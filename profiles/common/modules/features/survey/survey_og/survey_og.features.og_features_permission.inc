@@ -10,7 +10,7 @@
 function survey_og_og_features_default_permissions() {
   $permissions = array();
 
-  // Exported og permission: 'node:community:create webform content'
+  // Exported og permission: 'node:community:create webform content'.
   $permissions['node:community:create webform content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -18,7 +18,7 @@ function survey_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:delete any webform content'
+  // Exported og permission: 'node:community:delete any webform content'.
   $permissions['node:community:delete any webform content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -26,7 +26,7 @@ function survey_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:delete own webform content'
+  // Exported og permission: 'node:community:delete own webform content'.
   $permissions['node:community:delete own webform content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -34,7 +34,7 @@ function survey_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:update any webform content'
+  // Exported og permission: 'node:community:update any webform content'.
   $permissions['node:community:update any webform content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -42,7 +42,7 @@ function survey_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:update own webform content'
+  // Exported og permission: 'node:community:update own webform content'.
   $permissions['node:community:update own webform content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',

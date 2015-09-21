@@ -78,14 +78,12 @@ function nuts_regions_vocabulary() {
     ),
   );
 
-  $t = get_t();
-
   // Defines the field instances.
   $array_instances = array(
 
     // Defines the nuts level field instance.
     'nuts_level' => array(
-      'label' => $t('Level'),
+      'label' => 'Level',
       'field_name' => 'nuts_level',
       'entity_type' => 'taxonomy_term',
       'bundle' => 'nuts_regions',
@@ -100,7 +98,7 @@ function nuts_regions_vocabulary() {
 
     // Defines the nuts id field instance.
     'nuts_id' => array(
-      'label' => $t('Code (ID)'),
+      'label' => 'Code (ID)',
       'field_name' => 'nuts_id',
       'required' => TRUE,
       'widget' => array(
@@ -112,7 +110,7 @@ function nuts_regions_vocabulary() {
 
     // Defines the nuts code field instance.
     'nuts_code' => array(
-      'label' => $t('NUTS Code'),
+      'label' => 'NUTS Code',
       'field_name' => 'nuts_code',
       'required' => TRUE,
       'widget' => array(
@@ -124,7 +122,7 @@ function nuts_regions_vocabulary() {
 
     // Defines the nuts code field instance.
     'nuts_country' => array(
-      'label' => $t('NUTS Country'),
+      'label' => 'NUTS Country',
       'field_name' => 'nuts_country',
       'required' => TRUE,
       'widget' => array(
@@ -136,7 +134,7 @@ function nuts_regions_vocabulary() {
 
     // Defines the nuts description field instance.
     'nuts_description' => array(
-      'label' => $t('Description'),
+      'label' => 'Description',
       'field_name' => 'nuts_description',
       'required' => TRUE,
       'widget' => array(
@@ -148,7 +146,7 @@ function nuts_regions_vocabulary() {
 
     // Defines the nuts remark field instance.
     'nuts_remark' => array(
-      'label' => $t('Remark'),
+      'label' => 'Remark',
       'field_name' => 'nuts_remark',
       'widget' => array(
         'type' => 'text_textfield',
@@ -160,8 +158,8 @@ function nuts_regions_vocabulary() {
 
   // Creates the taxonomy term entity.
   $obj = (object) array();
-  $obj->name = $t("NUTS regions");
-  $obj->description = $t("Eurostat's NUTS regions (Nomenclature of territorial units for statistics)");
+  $obj->name = "NUTS regions";
+  $obj->description = "Eurostat's NUTS regions (Nomenclature of territorial units for statistics)";
   $obj->machine_name = "nuts_regions";
   $obj->hierarchy = 2;
   $obj->module = "taxonomy";
@@ -188,7 +186,7 @@ function nuts_regions_field() {
 
   $array_fields = array(
 
-    // Defines the nuts region field/
+    // Defines the nuts region field.
     'nuts_region' => array(
       'field_name' => 'nuts_region',
       'cardinality' => 1,
@@ -219,12 +217,10 @@ function nuts_regions_field() {
 
   // Defines the field instance for the user entity.
   // @todo discuss if this is desirable.
-
-  $t = get_t();
   $array_instances = array(
     'nuts_region' => array(
       'field_name' => 'nuts_region',
-      'label' => $t('NUTS region'),
+      'label' => 'NUTS region',
       'widget' => array(
         'active' => 1,
         'module' => 'options',

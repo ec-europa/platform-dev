@@ -2,7 +2,7 @@
 
 /**
  * @file
- * media_avportal/includes/themes/media-avportal-video.tpl.php
+ * Media_avportal/includes/themes/media-avportal-video.tpl.php.
  *
  * Template file for theme('media_avportal_video').
  *
