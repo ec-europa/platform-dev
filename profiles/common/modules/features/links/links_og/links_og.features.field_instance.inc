@@ -10,7 +10,7 @@
 function links_og_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-links-group_content_access'
+  // Exported field_instance: 'node-links-group_content_access'.
   $field_instances['node-links-group_content_access'] = array(
     'bundle' => 'links',
     'default_value' => array(
@@ -61,7 +61,7 @@ function links_og_field_default_field_instances() {
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-links-og_group_ref'
+  // Exported field_instance: 'node-links-og_group_ref'.
   $field_instances['node-links-og_group_ref'] = array(
     'bundle' => 'links',
     'default_value' => NULL,

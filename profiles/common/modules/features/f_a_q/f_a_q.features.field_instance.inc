@@ -10,7 +10,7 @@
 function f_a_q_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_f_a_q-comment_body'
+  // Exported field_instance: 'comment-comment_node_f_a_q-comment_body'.
   $field_instances['comment-comment_node_f_a_q-comment_body'] = array(
     'bundle' => 'comment_node_f_a_q',
     'default_value' => NULL,
@@ -71,7 +71,7 @@ function f_a_q_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-f_a_q-body'
+  // Exported field_instance: 'node-f_a_q-body'.
   $field_instances['node-f_a_q-body'] = array(
     'bundle' => 'f_a_q',
     'default_value' => NULL,
@@ -115,7 +115,7 @@ function f_a_q_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-f_a_q-field_faq_categories'
+  // Exported field_instance: 'node-f_a_q-field_faq_categories'.
   $field_instances['node-f_a_q-field_faq_categories'] = array(
     'bundle' => 'f_a_q',
     'default_value' => NULL,
@@ -152,7 +152,7 @@ function f_a_q_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-f_a_q-field_tags'
+  // Exported field_instance: 'node-f_a_q-field_tags'.
   $field_instances['node-f_a_q-field_tags'] = array(
     'bundle' => 'f_a_q',
     'default_value' => NULL,
