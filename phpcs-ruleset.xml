@@ -71,9 +71,6 @@
 
     <rule ref="./vendor/drupal/coder/coder_sniffer/Drupal" />
 
-    <!-- Exclude STARTERKIT, example code. -->    
-    <exclude-pattern>profiles/common/modules/features/dev/STARTERKIT/</exclude-pattern>
-
     <!-- Exclude third party code. -->
     <exclude-pattern>profiles/common/libraries/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/libraries/</exclude-pattern>
