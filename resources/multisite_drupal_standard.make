@@ -586,7 +586,7 @@ libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor_lite][download][type]= "file"
 libraries[ckeditor_lite][download][request_type]= "get"
 libraries[ckeditor_lite][download][file_type] = "zip"
-libraries[ckeditor_lite][download][url] = http://download.ckeditor.com/lite/releases/lite_1.2.14.zip
+libraries[ckeditor_lite][download][url] = http://download.ckeditor.com/lite/releases/lite_1.1.30.zip
 libraries[ckeditor_lite][subdir] = ckeditor/plugins
 libraries[ckeditor_lite][directory_name] = "lite"
 
