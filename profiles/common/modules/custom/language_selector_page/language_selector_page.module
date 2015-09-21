@@ -50,7 +50,6 @@ function language_selector_page_block_content() {
       // Initialize variables.
       $is_available = FALSE;
       $not_available = '';
-      $served = '';
       $other = array();
 
       // Get currently served language.

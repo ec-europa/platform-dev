@@ -1,0 +1,13 @@
+name = Language Selector Page Settings
+description = Sets '2nd-language' for content language negotiation.
+core = 7.x
+package = Nexteuropa Digital Transformation
+version = 7.x-1.0
+project = language_selector_page_settings
+dependencies[] = ctools
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[variable][] = language_default
+features[variable][] = locale_language_negotiation_session_param
+features[variable][] = locale_language_providers_weight_language_content

@@ -5,5 +5,6 @@ dependencies[] = entity_translation
 dependencies[] = splash_screen
 
 version = "7.x-1.0"
+core = "7.x"
 project = "language_selector_page"
 datestamp = "1427356701"
