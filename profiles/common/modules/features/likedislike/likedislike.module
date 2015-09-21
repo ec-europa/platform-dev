@@ -50,19 +50,19 @@ function likedislike_block_view($delta = '') {
 function likedislike_contents() {
   $wid = variable_get('widget');
   switch ($wid) {
-    case 'Like / Dislike with labels':
+    case t('Like / Dislike with labels'):
       $wid_final = NULL;
       break;
 
-    case 'Like / Dislike without labels - Thumbs only':
+    case t('Like / Dislike without labels - Thumbs only'):
       $wid_final = '"layout":"thumbs",';
       break;
 
-    case 'Like ONLY with label':
+    case t('Like ONLY with label'):
       $wid_final = '"type":"likeonly",';
       break;
 
-    case 'Like ONLY without label - Thumb only':
+    case t('Like ONLY without label - Thumb only'):
       $wid_final = '"type":"likeonly","layout":"thumbs",';
       break;
 
@@ -73,11 +73,11 @@ function likedislike_contents() {
   $url = variable_get('url');
   $url_address = variable_get('url_address');
   switch ($url) {
-    case 'No URL specified - URL detected automatically':
+    case t('No URL specified - URL detected automatically'):
       $url_final = NULL;
       break;
 
-    case 'No URL specified - URL detected automatically but without considering request parameters':
+    case t('No URL specified - URL detected automatically but without considering request parameters'):
       $url_final = '"url":"noparams",';
       break;
 
@@ -97,23 +97,23 @@ function likedislike_contents() {
   $lan = variable_get('language');
   $language_selector = variable_get('language_selector');
   switch ($lan) {
-    case 'From URL':
+    case t('From URL'):
       $lan_final = '"lang":"url"';
       break;
 
-    case 'From HTML lang':
+    case t('From HTML lang'):
       $lan_final = '"lang":"html-lang"';
       break;
 
-    case 'From META http-equiv content-language':
+    case t('From META http-equiv content-language'):
       $lan_final = '"lang":"http-equiv"';
       break;
 
-    case 'From META name language':
+    case t('From META name language'):
       $lan_final = '"lang":"meta-language"';
       break;
 
-    case 'Language specified':
+    case t('Language specified'):
       $lan_final = '"lang":"' . $language_selector . '"';
       break;
 

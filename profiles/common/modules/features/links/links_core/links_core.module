@@ -11,8 +11,8 @@ include_once 'links_core.features.inc';
  */
 function links_core_token_info() {
   $info['types']['Breadcrumb_links'] = array(
-    'name' => 'Breadcrumb_links',
-    'description' => 'Tokens related to Breadcrumb.',
+    'name' => t('Breadcrumb_links'),
+    'description' => t('Tokens related to Breadcrumb.'),
   );
   $info['tokens']['Breadcrumb_links']["links_title"] = array(
     'name' => t("links Breadcrumb title"),
