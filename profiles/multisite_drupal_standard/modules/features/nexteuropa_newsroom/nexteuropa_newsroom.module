@@ -136,7 +136,8 @@ function nexteuropa_newsroom_post_features_enable_feature($component) {
 function _nexteuropa_newsroom_check_universe_id() {
   // After initital setup disable Universe ID field.
   $universe_id = array();
-  if (!empty(variable_get('newsroom_universe_id', NULL))) {
+  $nri = variable_get('newsroom_universe_id', NULL);
+  if (!empty($nri)) {
     $universe_id['disabled'] = TRUE;
     $universe_id['description'] = t('To change the Newsroom Universe ID contact the site administrator.');
     $universe_id['class'] = "selected";
