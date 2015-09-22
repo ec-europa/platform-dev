@@ -126,7 +126,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
       $res = drupal_uninstall_modules($this->modules);
       unset($this->modules);
     }
-
   }
 
   /**
@@ -144,7 +143,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @Given the/these module/modules is/are enabled
    */
   public function enableModule(TableNode $modules_table) {
-
     $rebuild = FALSE;
     $message = array();
     $this->modules = array();
