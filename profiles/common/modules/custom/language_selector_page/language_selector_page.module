@@ -139,3 +139,52 @@ function language_selector_page_preprocess_block(&$variables) {
     $variables['content'] = $content;
   }
 }
+
+/**
+ * Implements hook_url_outbound_alter().
+ *
+ * We alter the outbound url here, as this allows further modification and does
+ * not require JS. We simply check for the $_GET parameter and reappend it where
+ * it is needed (everywhere).
+ */
+function language_selector_page_url_outbound_alter(&$path, &$options, $original_path) {
+  // First we check if we have a 2nd-language paramter, and the url we are
+  // processing is not external.
+  if (isset($_GET['2nd-language']) && !$options['external']) {
+
+    // Now lets check if we are not setting it already, because then we would
+    // override.
+    if (!isset($options['query']['2nd-language'])) {
+      $options['query'] = array('2nd-language' => $_GET['2nd-language']);
+    }
+  }
+}
+
+/**
+ * Implements hook_drupal_goto_alter().
+ */
+function language_selector_page_drupal_goto_alter(&$path, &$options, &$http_response_code) {
+  if (isset($_GET['2nd-language'])) {
+    $options['query'] = array('2nd-language' => $_GET['2nd-language']);
+  }
+}
+
+
+/**
+ * Implements hook_field_language_alter().
+ */
+function language_selector_page_field_language_alter(&$display_language, $context) {
+  if (isset($_GET['2nd-language'])) {
+    locale_field_language_fallback($display_language, $context['entity'], $context['language']);
+  }
+}
+
+/**
+ * Implements hook_language_fallback_candidates_alter().
+ */
+function language_selector_page_language_fallback_candidates_alter(array &$fallback_candidates) {
+  if (isset($_GET['2nd-language'])) {
+    unset($fallback_candidates[$_GET['2nd-language']]);
+    array_unshift($fallback_candidates, $_GET['2nd-language']);
+  }
+}
