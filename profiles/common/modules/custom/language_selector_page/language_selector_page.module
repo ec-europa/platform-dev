@@ -121,7 +121,6 @@ function language_selector_page_preprocess_block(&$variables) {
     if (!empty($variables['elements']['other']['#markup'])) {
       foreach ($variables['elements']['other']['#markup'] as $code => $lang) {
         $options = array(
-          'language' => $lang,
           'query' => $_GET,
         );
         unset($options['query']['q']);
