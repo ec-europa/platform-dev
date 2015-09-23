@@ -96,11 +96,11 @@ function splash_screen_preprocess_splash(&$variables) {
 
   // Add enabled languages, if not in blacklist.
   foreach ($languages[1] as $lang) {
-    if (!in_array($lang->prefix, $languages_blacklist)) {
+    if (!in_array($lang->language, $languages_blacklist)) {
 
       // Prepare links options.
-      $options['attributes']['lang'] = $lang->prefix;
-      $options['attributes']['hreflang'] = $lang->prefix;
+      $options['attributes']['lang'] = $lang->language;
+      $options['attributes']['hreflang'] = $lang->language;
 
       $languages_list .= '<li>';
       $languages_list .= l($lang->native, $href, $options);

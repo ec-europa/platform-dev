@@ -10,7 +10,7 @@
 function idea_core_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_categories_taxonomy'
+  // Exported field_base: 'field_categories_taxonomy'.
   $field_bases['field_categories_taxonomy'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -45,7 +45,7 @@ function idea_core_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_status_taxonomy'
+  // Exported field_base: 'field_status_taxonomy'.
   $field_bases['field_status_taxonomy'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -80,7 +80,7 @@ function idea_core_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_watching'
+  // Exported field_base: 'field_watching'.
   $field_bases['field_watching'] = array(
     'active' => 1,
     'cardinality' => 1,

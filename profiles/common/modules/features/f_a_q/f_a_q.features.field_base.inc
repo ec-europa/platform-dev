@@ -10,7 +10,7 @@
 function f_a_q_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_faq_categories'
+  // Exported field_base: 'field_faq_categories'.
   $field_bases['field_faq_categories'] = array(
     'active' => 1,
     'cardinality' => 1,
