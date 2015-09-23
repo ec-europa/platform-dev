@@ -121,10 +121,8 @@ function language_selector_page_preprocess_block(&$variables) {
     if (!empty($variables['elements']['other']['#markup'])) {
       foreach ($variables['elements']['other']['#markup'] as $code => $lang) {
         $options = array(
-          'language' => $lang,
-          'query' => $_GET,
+          'query' => drupal_get_query_parameters(),
         );
-        unset($options['query']['q']);
         $options['query']['2nd-language'] = $code;
 
         $other .= '<li>' . l($lang->native, current_path(), $options) . '</li>';
@@ -137,5 +135,69 @@ function language_selector_page_preprocess_block(&$variables) {
     // Add content to block.
     $content = '<ol>' . $not_available . $served . $other . '</ol>';
     $variables['content'] = $content;
+  }
+}
+
+
+/**
+ * Implements hook_url_outbound_alter().
+ *
+ * We alter the outbound url here, as this allows further modification and does
+ * not require JS. We simply check for the $_GET parameter and reappend it where
+ * it is needed (everywhere).
+ */
+function language_selector_page_url_outbound_alter(&$path, &$options, $original_path) {
+  // First we get our url parameters.
+  $parameters = drupal_get_query_parameters();
+
+  // First we check if we have a 2nd-language paramter, and the url we are
+  // processing is not external.
+  if (isset($parameters['2nd-language']) && !$options['external']) {
+
+    // Now lets check if we are not setting it already, because then we would
+    // override.
+    if (!isset($options['query']['2nd-language'])) {
+      $options['query']['2nd-language'] = $parameters['2nd-language'];
+    }
+  }
+}
+
+/**
+ * Implements hook_drupal_goto_alter().
+ */
+function language_selector_page_drupal_goto_alter(&$path, &$options, &$http_response_code) {
+  // First we get our url parameters.
+  $parameters = drupal_get_query_parameters();
+
+  // Check if our parameter is set.
+  if (isset($parameters['2nd-language'])) {
+    $options['query']['2nd-language'] = $parameters['2nd-language'];
+  }
+}
+
+
+/**
+ * Implements hook_field_language_alter().
+ */
+function language_selector_page_field_language_alter(&$display_language, $context) {
+  // First we get our url parameters.
+  $parameters = drupal_get_query_parameters();
+
+  // Check if our parameter is set.
+  if (isset($parameters['2nd-language'])) {
+    locale_field_language_fallback($display_language, $context['entity'], $context['language']);
+  }
+}
+
+/**
+ * Implements hook_language_fallback_candidates_alter().
+ */
+function language_selector_page_language_fallback_candidates_alter(array &$fallback_candidates) {
+  // First we get our url parameters.
+  $parameters = drupal_get_query_parameters();
+
+  if (isset($parameters['2nd-language'])) {
+    unset($fallback_candidates[$parameters['2nd-language']]);
+    array_unshift($fallback_candidates, $parameters['2nd-language']);
   }
 }

@@ -5,14 +5,6 @@
  */
 
 /**
- * Implements hook_init().
- */
-function nexteuropa_multilingual_init() {
-  $path = drupal_get_path('module', 'nexteuropa_multilingual');
-  drupal_add_js($path . '/nexteuropa_multilingual.js', array('scope' => 'footer', 'weight' => 100));
-}
-
-/**
  * Implements hook_module_implements_alter().
  */
 function nexteuropa_multilingual_module_implements_alter(&$implementations, $hook) {
@@ -162,34 +154,5 @@ function nexteuropa_multilingual_tokens_alter(array &$replacements, array $conte
     $original_language = $node->translations->original;
     // Title_field : field handled by the title module.
     $replacements['[node:source:title]'] = $wrapper->language($original_language)->label();
-  }
-}
-
-/**
- * Implements hook_drupal_goto_alter().
- */
-function nexteuropa_multilingual_drupal_goto_alter(&$path, &$options, &$http_response_code) {
-  if (isset($_GET['2nd-language'])) {
-    $options['query'] = array('2nd-language' => $_GET['2nd-language']);
-  }
-}
-
-
-/**
- * Implements hook_field_language_alter().
- */
-function nexteuropa_multilingual_field_language_alter(&$display_language, $context) {
-  if (isset($_GET['2nd-language'])) {
-    locale_field_language_fallback($display_language, $context['entity'], $context['language']);
-  }
-}
-
-/**
- * Implements hook_language_fallback_candidates_alter().
- */
-function nexteuropa_multilingual_language_fallback_candidates_alter(array &$fallback_candidates) {
-  if (isset($_GET['2nd-language'])) {
-    unset($fallback_candidates[$_GET['2nd-language']]);
-    array_unshift($fallback_candidates, $_GET['2nd-language']);
   }
 }
