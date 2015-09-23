@@ -48,7 +48,6 @@
     <exclude-pattern>profiles/common/modules/features/node_pager</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/social_bookmark</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/solr_config</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/splash_screen</exclude-pattern>
     <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/multisite_drupal_access</exclude-pattern>
