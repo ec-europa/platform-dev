@@ -50,14 +50,13 @@ function language_selector_page_block_content() {
       // Initialize variables.
       $is_available = FALSE;
       $not_available = '';
-      $served = '';
       $other = array();
 
       // Get currently served language.
       $args = func_get_args();
       $entity_type = array_shift($args);
       $entity = array_shift($args);
-      $served_code = entity_translation_get_existing_language($entity_type, $entity);
+      $served_code = (isset($_GET['2nd-language']) ? check_plain($_GET['2nd-language']) : entity_translation_get_existing_language($entity_type, $entity));
       $served = $languages[1][$served_code];
 
       // Check available translations.
