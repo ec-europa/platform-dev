@@ -147,21 +147,24 @@
         },
         {
             "name": "behat/mink",
-            "version": "v1.6.1",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/Mink.git",
-                "reference": "8b68523a339ec991bcd638b39dc8f04f808da88a"
+                "reference": "6c129030ec2cc029905cf969a56ca8f087b2dfdf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/Mink/zipball/8b68523a339ec991bcd638b39dc8f04f808da88a",
-                "reference": "8b68523a339ec991bcd638b39dc8f04f808da88a",
+                "url": "https://api.github.com/repos/minkphp/Mink/zipball/6c129030ec2cc029905cf969a56ca8f087b2dfdf",
+                "reference": "6c129030ec2cc029905cf969a56ca8f087b2dfdf",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.1",
-                "symfony/css-selector": "~2.0"
+                "symfony/css-selector": "~2.1"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "~2.7"
             },
             "suggest": {
                 "behat/mink-browserkit-driver": "extremely fast headless driver for Symfony\\Kernel-based apps (Sf2, Silex)",
@@ -172,7 +175,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.6.x-dev"
+                    "dev-master": "1.7.x-dev"
                 }
             },
             "autoload": {
@@ -198,7 +201,7 @@
                 "testing",
                 "web"
             ],
-            "time": "2015-02-04 17:02:06"
+            "time": "2015-09-20 20:24:03"
         },
         {
             "name": "behat/mink-browserkit-driver",

@@ -1,16 +1,21 @@
 <?php
 
 /**
-* Implementation of hook_views_default_views_alter().
-*/
+ * @file
+ * Links OG views altering.
+ */
+
+/**
+ * Implements hook_views_default_views_alter().
+ */
 function links_og_views_default_views_alter(&$views) {
   // Alter only the 'view_name_of_interest' view.
   if (array_key_exists('links', $views)) {
-    $view=$views['links'];
+    $view = $views['links'];
 
     /* Display: Master */
     $handler = $view->display['default']->handler;
-    
+
     /* Relationship: OG membership: OG membership from Node */
     $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
     $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
@@ -43,7 +48,6 @@ function links_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
-
 
     /* Display: links_public */
     $handler = $view->new_display('page', 'links_public', 'page_1');
@@ -133,6 +137,5 @@ function links_og_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['name'] = 'main-menu';
     $handler->display->display_options['menu']['context'] = 0;
     $handler->display->display_options['menu']['context_only_inline'] = 0;
-
   }
 }

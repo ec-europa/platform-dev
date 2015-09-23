@@ -1,29 +1,16 @@
 <?php
 /**
  * @file
- * Install the feature links
+ * Install the feature links.
  */
 
 /**
- * Implements hook_install().
- */
-function links_core_install() {
-  //Nothing yet
-}
-
-/**
- * Implements hook_uninstall().
- */
-function links_core_uninstall() {
-  //Nothing yet
-}
-
-/*
  * Implements hook_enable().
- * Edit communities context to add a block
+ *
+ * Edit communities context to add a block.
  */
 function links_core_enable() {
-  // SolR configuration add bundle.S
+  // SolR configuration add bundle.S.
   multisite_drupal_toolbox_config_solr_bundle('links', 'add');
 
   // Add type to linkchecker scan.
@@ -33,10 +20,11 @@ function links_core_enable() {
 }
 
 
-/*
+/**
  * Implements hook_disable().
+ *
  * Edit communities context to remove block
- * Remove permissions
+ * Remove permissions.
  */
 function links_core_disable() {
   // SolR configuration add bundle.
@@ -70,5 +58,3 @@ function links_core_disable() {
 
   drupal_set_message(t('Links feature is now disabled on your site.'));
 }
-
-

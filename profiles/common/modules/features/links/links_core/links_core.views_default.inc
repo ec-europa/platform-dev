@@ -127,7 +127,6 @@ function links_core_views_default_views() {
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
 
-
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['title'] = FALSE;

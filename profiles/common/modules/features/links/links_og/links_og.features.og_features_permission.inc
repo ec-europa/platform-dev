@@ -10,7 +10,7 @@
 function links_og_og_features_default_permissions() {
   $permissions = array();
 
-  // Exported og permission: 'node:community:create links content'
+  // Exported og permission: 'node:community:create links content'.
   $permissions['node:community:create links content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -19,7 +19,7 @@ function links_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:delete any links content'
+  // Exported og permission: 'node:community:delete any links content'.
   $permissions['node:community:delete any links content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -27,7 +27,7 @@ function links_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:delete own links content'
+  // Exported og permission: 'node:community:delete own links content'.
   $permissions['node:community:delete own links content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -36,7 +36,7 @@ function links_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:update any links content'
+  // Exported og permission: 'node:community:update any links content'.
   $permissions['node:community:update any links content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -44,7 +44,7 @@ function links_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:update own links content'
+  // Exported og permission: 'node:community:update own links content'.
   $permissions['node:community:update own links content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',

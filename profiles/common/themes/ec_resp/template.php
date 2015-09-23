@@ -1635,10 +1635,12 @@ function ec_resp_preprocess_block(&$variables) {
           // Add the icon.
           if ($icon) {
             if ($display_title) {
-              $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . '"></span> ' . $item_id['title'];
+              $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . '" aria-hidden="true"></span> ' . $item_id['title'];
             }
             else {
-              $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . ' menu-no-title"></span>';
+              // If the title is not supposed to be displayed, add a visually
+              // hidden title that is accessible for screen readers.
+              $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . ' menu-no-title" aria-hidden="true"></span><span class="sr-only">' . $item_id['title'] . '</span>';
             }
           }
 
