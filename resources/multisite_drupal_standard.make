@@ -562,18 +562,24 @@ projects[xmlsitemap][version] = "2.0"
 ; Libraries
 ; =========
 
-; chosen 1.1.0
+; chosen 1.4.2
 libraries[chosen][download][type] = get
-libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/v1.1.0/chosen_v1.1.0.zip
+libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip
 libraries[chosen][directory_name] = chosen
 libraries[chosen][destination] = libraries
 
-; ckeditor 4.3.2
+; colorbox 1.6.3
+libraries[colorbox][download][type] = get
+libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archive/1.6.3.zip
+libraries[colorbox][directory_name] = colorbox
+libraries[colorbox][destination] = libraries
+
+; ckeditor 4.4.8
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.0/ckeditor_4.4.0_full.zip"
-libraries[ckeditor][download][sha1] = "4673a4c20e484f0d712ca85fddec6a991cef61d9"
+libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip"
+libraries[ckeditor][download][sha1] = "ed246ac87cad3c4cfa1f723fcfbe4a6e3a5c6992"
 libraries[ckeditor][directory_name] = "ckeditor"
 
 ; ckeditor_lite library. Buttons are added in nexteuropa_core_install().
@@ -586,11 +592,37 @@ libraries[ckeditor_lite][directory_name] = "lite"
 
 ; cycle 3.0.2 (commit d6557ca)
 libraries[cycle][download][type] = "git"
-libraries[cycle][download][url] = "https://github.com/malsup/cycle.git"
-libraries[cycle][download][revision] = f314eff3a0b77902fe2afe7640d7ec0728ff3dc6
-libraries[cycle][directory_name] = "jquery.cycle"
-libraries[cycle][download][sha1] = "f71640db8972ed6d249f57ea8cce29c389c4a84f"
 libraries[cycle][destination] = "libraries"
+libraries[cycle][download][url] = https://github.com/malsup/cycle.git
+libraries[cycle][tag] = "3.0.3"
+
+; fancybox 2.1.5
+libraries[fancybox][download][type]= "file"
+libraries[fancybox][download][request_type]= "get"
+libraries[fancybox][download][file_type] = "zip"
+libraries[fancybox][download][url] = https://github.com/fancyapps/fancyBox/zipball/v2.1.5
+libraries[fancybox][destination] = "../common/libraries"
+
+; flexslider 2.5.0
+libraries[flexslider][download][type]= "file"
+libraries[flexslider][download][url] = https://github.com/woothemes/FlexSlider/archive/version/2.5.0.zip
+libraries[flexslider][download][request_type]= "get"
+libraries[flexslider][download][file_type] = "zip"
+libraries[flexslider][destination] = "../common/libraries"
+
+; fullcalendar 1.6.7
+libraries[fullcalendar][download][url] = https://github.com/fullcalendar/fullcalendar/archive/v1.6.7.zip
+libraries[fullcalendar][download][type]= "file"
+libraries[fullcalendar][download][request_type]= "get"
+libraries[fullcalendar][download][file_type] = "zip"
+libraries[fullcalendar][destination] = "../common/libraries"
+
+; fullcalendar 1.5.4 fork (used for the events_resources module)
+libraries[fullcalendar_resources][download][url] = http://ikelin.github.io/fullcalendar/fullcalendar-1.5.4.zip
+libraries[fullcalendar_resources][download][type]= "file"
+libraries[fullcalendar_resources][download][request_type]= "get"
+libraries[fullcalendar_resources][download][file_type] = "zip"
+libraries[fullcalendar_resources][destination] = "../common/libraries"
 
 ; history.js v1.8b2
 libraries[history][download][type] = "git"
@@ -599,11 +631,39 @@ libraries[history][directory_name] = "history.js"
 libraries[history][destination] = "libraries"
 libraries[history][download][tag] = "1.8.0b2"
 
+; imgAreaSelect 0.9.10
+libraries[jquery.imgareaselect][download][url] = http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
+libraries[jquery.imgareaselect][download][type]= "file"
+libraries[jquery.imgareaselect][download][request_type]= "get"
+libraries[jquery.imgareaselect][download][file_type] = "zip"
+libraries[jquery.imgareaselect][destination] = "../common/libraries"
+
+; jplayer 2.9.2
+libraries[jplayer][download][url] = https://github.com/happyworm/jPlayer/archive/2.9.2.zip
+libraries[jplayer][download][type]= "file"
+libraries[jplayer][download][request_type]= "get"
+libraries[jplayer][download][file_type] = "zip"
+libraries[jplayer][destination] = "../common/libraries"
+
+; jquery 1.11.3
+libraries[jquery][download][url] = http://code.jquery.com/jquery-1.11.3.min.js
+libraries[jquery][download][type]= "file"
+libraries[jquery][download][request_type]= "get"
+libraries[jquery][destination] = "../common/libraries"
+libraries[jquery][directory_name] = "jquery"
+
 ; Leaflet.draw
 libraries[Leaflet.draw][destination] = "libraries"
 libraries[Leaflet.draw][download][type] = "git"
 libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
 libraries[Leaflet.draw][tag] = "v0.2.4"
+
+; modernizr 2.8.3
+libraries[modernizr][download][url] = https://github.com/Modernizr/Modernizr/archive/v2.8.3.zip
+libraries[modernizr][download][type]= "file"
+libraries[modernizr][download][request_type]= "get"
+libraries[modernizr][download][file_type] = "zip"
+libraries[modernizr][destination] = "../common/libraries"
 
 ; mpdf 5.7
 libraries[mpdf][download][type]= "file"
