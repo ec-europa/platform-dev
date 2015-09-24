@@ -140,13 +140,13 @@ function _nexteuropa_newsroom_check_universe_id() {
   if (!empty($nri)) {
     $universe_id['disabled'] = TRUE;
     $universe_id['description'] = t('To change the Newsroom Universe ID contact the site administrator.');
-    $universe_id['class'] = "selected";
+    $universe_id['class'] = 'selected';
     $universe_id['collapsing'] = FALSE;
   }
   else {
     $universe_id['disabled'] = FALSE;
     $universe_id['description'] = t('After setting the Newsroom Universe ID for the first time content will be imported from the Newsroom service. This might take a few minutes.');
-    $universe_id['class'] = "not-selected";
+    $universe_id['class'] = 'not-selected';
     $universe_id['collapsing'] = TRUE;
   }
   return $universe_id;
