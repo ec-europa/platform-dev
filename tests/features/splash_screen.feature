@@ -13,16 +13,17 @@ Feature: Splash Screen features
       | de        |
       | fr        |
       | bg        |
+    And I run drush "vdel" "splash_screen_blacklist --yes"
 
   @api
   Scenario: Users can access to splash screen pages
     Given I am an anonymous user
     When I go to "/"
     Then I should see an "body.not-front.page-splash" element
-    And I should see "English"
-    And I should see "Deutsch"
-    And I should see "Français"
-    And I should see "Български"
+    And I should see the link "English"
+    And I should see the link "Deutsch"
+    And I should see the link "Français"
+    And I should see the link "Български"
 
   @api
   Scenario: Links on splash screen pages are correct
@@ -34,8 +35,8 @@ Feature: Splash Screen features
     Then I should see an "body.not-front.page-splash" element
     And I should see the link "Français"
     When I click "Français"
-  	Then the url should match "(.*)fr-prefix(.*)"
-	
+    Then the url should match "(.*)fr-prefix(.*)"
+
   @api
   Scenario: Administrators can blacklisted languages for the splash screen page
     Given I am logged in as a user with the 'administrator' role
@@ -49,4 +50,3 @@ Feature: Splash Screen features
     And I should see the link "Deutsch"
     And I should not see "Български"
     And I should not see "Français"
-	

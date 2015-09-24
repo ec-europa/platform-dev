@@ -145,7 +145,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   public function enableModule(TableNode $modules_table) {
     $rebuild = FALSE;
     $message = array();
-    $this->modules = array();
     foreach ($modules_table->getHash() as $row) {
       if (!module_exists($row['modules'])) {
         if (!module_enable($row)) {
