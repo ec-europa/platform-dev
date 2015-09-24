@@ -524,53 +524,11 @@ function cce_basic_config_enable() {
     node_save($node);
   }
 
-  // Add blocks in site-wide context.
-  $context = module_invoke('context', 'load', 'site_wide');
-
-  $block_to_add1 = array(
-    'module' => 'system',
-    'delta' => 'user-menu',
-    'region' => 'tools',
-    'weight' => 1,
-  );
-  $context->reactions['block']['blocks']['user-menu'] = $block_to_add1;
-
-  $block_to_add3 = array(
-    'module' => 'search',
-    'delta' => 'form',
-    'region' => 'header_right',
-    'weight' => 1,
-  );
-  $context->reactions['block']['blocks']['form'] = $block_to_add3;
-
-  module_invoke('context', 'save', $context);
   variable_set('user_classes', 'btn btn-info btn-xs');
   variable_set('user_myaccount_data_image', 'user');
 
   // My Account.
   variable_set('user_logout_data_image', 'log-out');
-
-  // Add block easy_breadcrumb in site-wide context.
-  $context = module_invoke('context', 'load', 'site_wide');
-
-  $block_easy_breadcrumb = array(
-    'module' => 'easy_breadcrumb',
-    'delta' => 'easy_breadcrumb',
-    'region' => 'featured',
-    'weight' => -18,
-  );
-  $context->reactions['block']['blocks']['easy_breadcrumb'] = $block_easy_breadcrumb;
-
-  // Add menu service tools in site-wide context.
-  $block_service_tools = array(
-    'module' => 'menu',
-    'delta' => 'menu-service-tools',
-    'region' => 'header_top',
-    'weight' => -9,
-  );
-  $context->reactions['block']['blocks']['block_service_tools'] = $block_service_tools;
-
-  module_invoke('context', 'save', $context);
 }
 
 /**
@@ -583,23 +541,6 @@ function cce_basic_config_disable() {
   variable_del('user_myaccount_data_image');
   // Log out.
   variable_del('user_logout_data_image');
-}
-
-/**
- * Implements hook_post_features_enable_feature().
- */
-function cce_basic_config_post_features_enable_feature($component) {
-  // Add IPG footer in site-wide context.
-  $context = module_invoke('context', 'load', 'site_wide');
-  $block_footer_ipg = array(
-    'module' => 'cce_basic_config',
-    'delta' => 'footer_ipg',
-    'region' => 'footer',
-    'weight' => 1,
-  );
-  $context->reactions['block']['blocks']['footer-ipg'] = $block_footer_ipg;
-
-  module_invoke('context', 'save', $context);
 }
 
 /**
