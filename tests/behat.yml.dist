@@ -29,6 +29,7 @@ default:
           - '${behat.subcontexts.path}'
       drush:
         root: '${platform.build.dir}'
+        binary: "${drush.bin}"
   formatters:
     ${behat.formatter.name}: ~
 
