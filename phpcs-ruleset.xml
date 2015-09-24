@@ -17,14 +17,7 @@
          being fixed in NEXTEUROPA-3575. Whenever a module is fixed, please
          remove it from this list so it can be tested. -->
     <exclude-pattern>profiles/common/modules/features/content_examples</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/dev</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/ecas_env</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/f_a_q</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/fat_footer</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/feed_rss_core</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/idea</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/likedislike</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/links</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multi_user_blog</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multilingual_tools</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_activity</exclude-pattern>
@@ -69,12 +62,16 @@
 
     <!-- Exclude third party code. -->
     <exclude-pattern>profiles/common/libraries/</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/libraries/</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_standard/libraries/</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/ecas/libraries/</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/modules/contrib/</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_standard/modules/contrib/</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp/bootstrap/</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp/scripts/html5shiv.min.js</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp/scripts/jquery.mousewheel.min.js</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp/scripts/respond.min.js</exclude-pattern>
     <exclude-pattern>profiles/minimal/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/libraries/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/modules/contrib/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/libraries/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/modules/contrib/</exclude-pattern>
     <exclude-pattern>profiles/standard/</exclude-pattern>
     <exclude-pattern>profiles/testing/</exclude-pattern>
 

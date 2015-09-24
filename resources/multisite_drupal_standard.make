@@ -652,6 +652,12 @@ libraries[jquery][download][request_type]= "get"
 libraries[jquery][destination] = "../common/libraries"
 libraries[jquery][directory_name] = "jquery"
 
+; Leaflet.draw
+libraries[Leaflet.draw][destination] = "libraries"
+libraries[Leaflet.draw][download][type] = "git"
+libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
+libraries[Leaflet.draw][tag] = "v0.2.4"
+
 ; modernizr 2.8.3
 libraries[modernizr][download][url] = https://github.com/Modernizr/Modernizr/archive/v2.8.3.zip
 libraries[modernizr][download][type]= "file"
@@ -666,11 +672,41 @@ libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
 libraries[mpdf][destination] = "libraries"
 
-; Leaflet.draw
-libraries[Leaflet.draw][destination] = "libraries"
-libraries[Leaflet.draw][download][type] = "git"
-libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
-libraries[Leaflet.draw][tag] = "v0.2.4"
+; ============================
+; Libraries for Ec_resp Theme
+; ============================
+
+; Ec_resp theme : Bootstrap 3.3.5
+libraries[ec_resp_bootstrap][download][type] = get
+libraries[ec_resp_bootstrap][download][url] = https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip
+libraries[ec_resp_bootstrap][download][file_type] = "zip"
+libraries[ec_resp_bootstrap][destination] =  "themes/ec_resp"
+libraries[ec_resp_bootstrap][directory_name] = bootstrap
+
+; Ec_resp theme : Bootstrap less
+libraries[ec_resp_bootstrap_less][download][type] = "get"
+libraries[ec_resp_bootstrap_less][download][url] = "https://github.com/twbs/bootstrap/archive/v3.3.5.zip"
+libraries[ec_resp_bootstrap_less][download][subtree] = "bootstrap-3.3.5/less"
+libraries[ec_resp_bootstrap_less][destination] =  "themes/ec_resp/bootstrap"
+libraries[ec_resp_bootstrap_less][directory_name] = less
+
+; Ec_resp theme : Html5
+libraries[html5shiv][destination] = "themes/ec_resp"
+libraries[html5shiv][directory_name] = "scripts"
+libraries[html5shiv][download][type] = "get"
+libraries[html5shiv][download][url] = "https://raw.githubusercontent.com/aFarkas/html5shiv/master/dist/html5shiv.min.js"
+
+; Ec_resp theme : jQuery Mousewheel
+libraries[mousewheel][destination] = "themes/ec_resp"
+libraries[mousewheel][directory_name] = "scripts"
+libraries[mousewheel][download][type] = "get"
+libraries[mousewheel][download][url] = "https://raw.githubusercontent.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"
+
+; Ec_resp theme : Respond JS
+libraries[respond][destination] = "themes/ec_resp"
+libraries[respond][directory_name] = "scripts"
+libraries[respond][download][type] = "get"
+libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
 
 ; ======
 ; Themes
