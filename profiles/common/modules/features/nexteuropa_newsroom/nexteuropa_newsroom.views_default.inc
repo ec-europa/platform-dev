@@ -99,7 +99,7 @@ function nexteuropa_newsroom_views_default_views() {
   );
   $export['newsletter_subscription'] = $view;
 
-  $view = new view();
+ $view = new view();
   $view->name = 'newsroom';
   $view->description = '';
   $view->tag = 'newsroom';
@@ -432,7 +432,13 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['sorts']['field_newsroom_item_date_value']['id'] = 'field_newsroom_item_date_value';
   $handler->display->display_options['sorts']['field_newsroom_item_date_value']['table'] = 'field_data_field_newsroom_item_date';
   $handler->display->display_options['sorts']['field_newsroom_item_date_value']['field'] = 'field_newsroom_item_date_value';
+  $handler->display->display_options['sorts']['field_newsroom_item_date_value']['order'] = 'DESC';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['filter_groups']['operator'] = 'OR';
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'AND',
+  );
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
@@ -448,14 +454,36 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'newsroom_item' => 'newsroom_item',
   );
+  $handler->display->display_options['filters']['type']['group'] = 1;
   /* Filter criterion: Content: Date - end date (field_newsroom_item_date:value2) */
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['id'] = 'field_newsroom_item_date_value2';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['table'] = 'field_data_field_newsroom_item_date';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['field'] = 'field_newsroom_item_date_value2';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2']['group'] = 1;
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['granularity'] = 'second';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['form_type'] = 'date_text';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['default_date'] = 'now';
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status_1']['id'] = 'status_1';
+  $handler->display->display_options['filters']['status_1']['table'] = 'node';
+  $handler->display->display_options['filters']['status_1']['field'] = 'status';
+  $handler->display->display_options['filters']['status_1']['value'] = '1';
+  $handler->display->display_options['filters']['status_1']['group'] = 2;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['filters']['type_1']['table'] = 'node';
+  $handler->display->display_options['filters']['type_1']['field'] = 'type';
+  $handler->display->display_options['filters']['type_1']['value'] = array(
+    'newsroom_item' => 'newsroom_item',
+  );
+  $handler->display->display_options['filters']['type_1']['group'] = 2;
+  /* Filter criterion: Content: Date - end date (field_newsroom_item_date:value2) */
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['id'] = 'field_newsroom_item_date_value2_1';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['table'] = 'field_data_field_newsroom_item_date';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['field'] = 'field_newsroom_item_date_value2';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['operator'] = 'empty';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['group'] = 2;
   $handler->display->display_options['path'] = 'newsroom_events';
 
   /* Display: previous_events */
@@ -545,11 +573,22 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['footer']['area_text_custom']['content'] = '<a href="/digital-agenda/newsroom/!1/!2/previous">Past %1 about %2</a>';
   $handler->display->display_options['footer']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Content: Date -  start date (field_newsroom_item_date) */
+  $handler->display->display_options['sorts']['field_newsroom_item_date_value']['id'] = 'field_newsroom_item_date_value';
+  $handler->display->display_options['sorts']['field_newsroom_item_date_value']['table'] = 'field_data_field_newsroom_item_date';
+  $handler->display->display_options['sorts']['field_newsroom_item_date_value']['field'] = 'field_newsroom_item_date_value';
+  $handler->display->display_options['sorts']['field_newsroom_item_date_value']['order'] = 'DESC';
   /* Sort criterion: Content: Date - end date (field_newsroom_item_date:value2) */
   $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['id'] = 'field_newsroom_item_date_value2';
   $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['table'] = 'field_data_field_newsroom_item_date';
   $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['field'] = 'field_newsroom_item_date_value2';
+  $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['order'] = 'DESC';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['filter_groups']['operator'] = 'OR';
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'AND',
+  );
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
@@ -565,13 +604,35 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'newsroom_item' => 'newsroom_item',
   );
+  $handler->display->display_options['filters']['type']['group'] = 1;
   /* Filter criterion: Content: Date - end date (field_newsroom_item_date:value2) */
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['id'] = 'field_newsroom_item_date_value2';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['table'] = 'field_data_field_newsroom_item_date';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['field'] = 'field_newsroom_item_date_value2';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2']['group'] = 1;
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['granularity'] = 'second';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['default_date'] = 'now';
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['filters']['type_1']['table'] = 'node';
+  $handler->display->display_options['filters']['type_1']['field'] = 'type';
+  $handler->display->display_options['filters']['type_1']['value'] = array(
+    'newsroom_item' => 'newsroom_item',
+  );
+  $handler->display->display_options['filters']['type_1']['group'] = 2;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status_1']['id'] = 'status_1';
+  $handler->display->display_options['filters']['status_1']['table'] = 'node';
+  $handler->display->display_options['filters']['status_1']['field'] = 'status';
+  $handler->display->display_options['filters']['status_1']['value'] = '1';
+  $handler->display->display_options['filters']['status_1']['group'] = 2;
+  /* Filter criterion: Content: Date - end date (field_newsroom_item_date:value2) */
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['id'] = 'field_newsroom_item_date_value2_1';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['table'] = 'field_data_field_newsroom_item_date';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['field'] = 'field_newsroom_item_date_value2';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['operator'] = 'empty';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['group'] = 2;
   $handler->display->display_options['path'] = 'newsroom_consultation_funding';
 
   /* Display: previous_consultation_funding */
@@ -1338,7 +1399,7 @@ function nexteuropa_newsroom_views_default_views() {
 
   $export['newsroom_navigation'] = $view;
 
-  $view = new view();
+ $view = new view();
   $view->name = 'newsroom_page_content';
   $view->description = '';
   $view->tag = 'newsroom';
@@ -1554,7 +1615,13 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['id'] = 'field_newsroom_item_date_value2';
   $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['table'] = 'field_data_field_newsroom_item_date';
   $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['field'] = 'field_newsroom_item_date_value2';
+  $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['order'] = 'DESC';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['filter_groups']['operator'] = 'OR';
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'AND',
+  );
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
@@ -1576,7 +1643,28 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['table'] = 'field_data_field_newsroom_item_date';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['field'] = 'field_newsroom_item_date_value2';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2']['group'] = 1;
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['default_date'] = 'now';
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status_1']['id'] = 'status_1';
+  $handler->display->display_options['filters']['status_1']['table'] = 'node';
+  $handler->display->display_options['filters']['status_1']['field'] = 'status';
+  $handler->display->display_options['filters']['status_1']['value'] = '1';
+  $handler->display->display_options['filters']['status_1']['group'] = 2;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['filters']['type_1']['table'] = 'node';
+  $handler->display->display_options['filters']['type_1']['field'] = 'type';
+  $handler->display->display_options['filters']['type_1']['value'] = array(
+    'newsroom_item' => 'newsroom_item',
+  );
+  $handler->display->display_options['filters']['type_1']['group'] = 2;
+  /* Filter criterion: Content: Date - end date (field_newsroom_item_date:value2) */
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['id'] = 'field_newsroom_item_date_value2_1';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['table'] = 'field_data_field_newsroom_item_date';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['field'] = 'field_newsroom_item_date_value2';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['operator'] = 'empty';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['group'] = 2;
 
   /* Display: Events */
   $handler = $view->new_display('block', 'Events', 'events');
@@ -1586,11 +1674,18 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['sorts']['field_newsroom_item_date_value']['id'] = 'field_newsroom_item_date_value';
   $handler->display->display_options['sorts']['field_newsroom_item_date_value']['table'] = 'field_data_field_newsroom_item_date';
   $handler->display->display_options['sorts']['field_newsroom_item_date_value']['field'] = 'field_newsroom_item_date_value';
+  $handler->display->display_options['sorts']['field_newsroom_item_date_value']['order'] = 'DESC';
   /* Sort criterion: Content: Date - end date (field_newsroom_item_date:value2) */
   $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['id'] = 'field_newsroom_item_date_value2';
   $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['table'] = 'field_data_field_newsroom_item_date';
   $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['field'] = 'field_newsroom_item_date_value2';
+  $handler->display->display_options['sorts']['field_newsroom_item_date_value2']['order'] = 'DESC';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['filter_groups']['operator'] = 'OR';
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'AND',
+  );
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
@@ -1612,7 +1707,28 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['table'] = 'field_data_field_newsroom_item_date';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['field'] = 'field_newsroom_item_date_value2';
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['operator'] = '>=';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2']['group'] = 1;
   $handler->display->display_options['filters']['field_newsroom_item_date_value2']['default_date'] = 'now';
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status_1']['id'] = 'status_1';
+  $handler->display->display_options['filters']['status_1']['table'] = 'node';
+  $handler->display->display_options['filters']['status_1']['field'] = 'status';
+  $handler->display->display_options['filters']['status_1']['value'] = '1';
+  $handler->display->display_options['filters']['status_1']['group'] = 2;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['filters']['type_1']['table'] = 'node';
+  $handler->display->display_options['filters']['type_1']['field'] = 'type';
+  $handler->display->display_options['filters']['type_1']['value'] = array(
+    'newsroom_item' => 'newsroom_item',
+  );
+  $handler->display->display_options['filters']['type_1']['group'] = 2;
+  /* Filter criterion: Content: Date - end date (field_newsroom_item_date:value2) */
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['id'] = 'field_newsroom_item_date_value2_1';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['table'] = 'field_data_field_newsroom_item_date';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['field'] = 'field_newsroom_item_date_value2';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['operator'] = 'empty';
+  $handler->display->display_options['filters']['field_newsroom_item_date_value2_1']['group'] = 2;
 
   /* Display: Agenda */
   $handler = $view->new_display('block', 'Agenda', 'agenda');
