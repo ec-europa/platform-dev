@@ -54,7 +54,7 @@
     $name = (isset($full_user->field_firstname['und'][0]['value']) && isset($full_user->field_lastname['und'][0]['value']) ? $full_user->field_firstname['und'][0]['value'] . ' ' . $full_user->field_lastname['und'][0]['value'] : $user->name);
 
     print ("<div class='username'>" . t('Welcome,') . ' <strong>' . $name . '</strong></div>');
-  endif
+  endif;
 ?>
 
 <div id="<?php print $block_html_id; ?>" class="btn-group <?php print $classes; ?>">

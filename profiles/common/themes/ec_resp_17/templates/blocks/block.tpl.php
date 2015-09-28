@@ -124,7 +124,7 @@
 <?php endif;?>
 <?php print render($title_suffix); ?>
 
-  <div class="<?php if ($panel && $body_class): print 'panel-body'; endif ?> content"<?php print $content_attributes; ?>>
+  <div class="<?php if ($panel && $body_class): print 'panel-body'; endif; ?> content"<?php print $content_attributes; ?>>
   <?php
     print $content;
    ?>

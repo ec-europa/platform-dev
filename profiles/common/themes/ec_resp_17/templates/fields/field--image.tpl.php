@@ -61,7 +61,7 @@ HTML comment.
     <?php foreach ($items as $delta => $item): ?>
     	
       <div class="field-item <?php print $delta % 2 ? 'odd' : 'even'; ?>"<?php print $item_attributes[$delta]; ?>><?php
-      // unset($item['#markup']);
+      // unset($item['#markup']);.
       print render($item);
       ?></div>
 
