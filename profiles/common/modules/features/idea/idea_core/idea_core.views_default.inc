@@ -125,14 +125,14 @@ function idea_core_views_default_views() {
   $handler->display->display_options['fields']['name']['relationship'] = 'uid';
   $handler->display->display_options['fields']['name']['label'] = 'Author';
   $handler->display->display_options['fields']['name']['element_class'] = 'hidden-phone';
-  $handler->display->display_options['fields']['name']['element_label_class'] = 'hidden-phone';  
+  $handler->display->display_options['fields']['name']['element_label_class'] = 'hidden-phone';
   /* Field: Content: Idea we are watching */
   $handler->display->display_options['fields']['field_watching']['id'] = 'field_watching';
   $handler->display->display_options['fields']['field_watching']['table'] = 'field_data_field_watching';
   $handler->display->display_options['fields']['field_watching']['field'] = 'field_watching';
   $handler->display->display_options['fields']['field_watching']['label'] = 'Watched';
   $handler->display->display_options['fields']['field_watching']['element_class'] = 'hidden-phone';
-  $handler->display->display_options['fields']['field_watching']['element_label_class'] = 'hidden-phone';  
+  $handler->display->display_options['fields']['field_watching']['element_label_class'] = 'hidden-phone';
   /* Sort criterion: Vote results: Value */
   $handler->display->display_options['sorts']['value']['id'] = 'value';
   $handler->display->display_options['sorts']['value']['table'] = 'votingapi_cache';
@@ -157,7 +157,6 @@ function idea_core_views_default_views() {
     'idea' => 'idea',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');

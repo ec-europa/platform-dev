@@ -6,11 +6,11 @@
  */
 
 /**
-* Implementation of hook_views_default_views_alter().
-*/
+ * Implements hook_views_default_views_alter().
+ */
 function links_standard_views_default_views_alter(&$views) {
   if (array_key_exists('links', $views)) {
-    $view=$views['links'];
+    $view = $views['links'];
 
     /* Display: Page */
     $handler = $view->display['page']->handler;

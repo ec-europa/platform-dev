@@ -43,9 +43,6 @@ class SitemapCore extends DrupalWebTestCase {
         'access administration pages',
         'access content',
         'create article content',
-        // Investigate these permissions
-            // 'access site map',
-            // 'administer xmlsitemap',
     ));
     $this->drupalLogin($this->administrator);
   }

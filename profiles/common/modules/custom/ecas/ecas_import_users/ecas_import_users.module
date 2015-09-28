@@ -413,7 +413,6 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
     }
   }
   if ($result['count'] == 0) {
-    // drupal_set_message(t('No user found'));
     $message = '<div class="messages status">' . t('No user found') . '</div>';
     $form['div_tag'] = array('#markup' => $message);
   }

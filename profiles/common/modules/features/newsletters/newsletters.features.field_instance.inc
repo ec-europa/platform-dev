@@ -10,7 +10,7 @@
 function newsletters_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-simplenews-body'
+  // Exported field_instance: 'node-simplenews-body'.
   $field_instances['node-simplenews-body'] = array(
     'bundle' => 'simplenews',
     'default_value' => NULL,
@@ -55,7 +55,7 @@ function newsletters_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-simplenews-field_related_contents'
+  // Exported field_instance: 'node-simplenews-field_related_contents'.
   $field_instances['node-simplenews-field_related_contents'] = array(
     'bundle' => 'simplenews',
     'default_value' => NULL,
@@ -98,7 +98,7 @@ function newsletters_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-simplenews-field_simplenews_term'
+  // Exported field_instance: 'node-simplenews-field_simplenews_term'.
   $field_instances['node-simplenews-field_simplenews_term'] = array(
     'bundle' => 'simplenews',
     'default_value' => NULL,
@@ -153,7 +153,7 @@ function newsletters_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-simplenews-field_tags'
+  // Exported field_instance: 'node-simplenews-field_tags'.
   $field_instances['node-simplenews-field_tags'] = array(
     'bundle' => 'simplenews',
     'default_value' => NULL,

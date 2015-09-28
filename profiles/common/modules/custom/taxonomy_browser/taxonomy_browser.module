@@ -370,7 +370,9 @@ function _taxonomy_browser_create_block_content($vid, $vocabulary) {
 
   $view = views_get_page_view();
   // don't use views path, they are rewrited on communities pages.
+  // @code
   // $view_path = $view->get_path();
+  // @endcode
   // @TODO If view is returning 404 the $menu['href'] is set to 'customerror'
   // and the links are broken, $view->get_path(); would be the ideal solution.
   $menu = menu_get_item();

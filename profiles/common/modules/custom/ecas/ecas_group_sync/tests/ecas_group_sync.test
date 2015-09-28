@@ -80,7 +80,7 @@ class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
 
     // Check the ecas_group_sync settings.
     $this->drupalGet('admin/config/ecas/group_sync');
-    // OK code 200
+    // OK code 200.
     $this->assertResponse(200, 'User has access.');
     $this->assertRaw('DIGIT', t('Mapping created.'));
     $this->assertRaw('administrator', t('Mapping created.'));
@@ -133,7 +133,7 @@ class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
 
       // Check the ecas_group_sync settings.
       $this->drupalGet('admin/config/ecas/group_sync/group');
-      // OK code 200
+      // OK code 200.
       $this->assertResponse(200);
       $this->assertRaw('community_manager', t('Mapping created.'));
       $this->assertRaw('administrator', t('Mapping created.'));

@@ -10,7 +10,7 @@
 function events_og_og_features_default_permissions() {
   $permissions = array();
 
-  // Exported og permission: 'node:community:create event content'
+  // Exported og permission: 'node:community:create event content'.
   $permissions['node:community:create event content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -19,7 +19,7 @@ function events_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:delete any event content'
+  // Exported og permission: 'node:community:delete any event content'.
   $permissions['node:community:delete any event content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -27,7 +27,7 @@ function events_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:delete own event content'
+  // Exported og permission: 'node:community:delete own event content'.
   $permissions['node:community:delete own event content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -36,7 +36,7 @@ function events_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:update any event content'
+  // Exported og permission: 'node:community:update any event content'.
   $permissions['node:community:update any event content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -44,7 +44,7 @@ function events_og_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:update own event content'
+  // Exported og permission: 'node:community:update own event content'.
   $permissions['node:community:update own event content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
