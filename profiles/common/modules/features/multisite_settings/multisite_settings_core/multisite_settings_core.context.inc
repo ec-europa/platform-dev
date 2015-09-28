@@ -164,6 +164,18 @@ function multisite_settings_core_context_default_contexts() {
           'region' => 'header_right',
           'weight' => 1,
         ),
+        'menu-service-tools' => array(
+          'module' => 'menu',
+          'delta' => 'menu-service-tools',
+          'region' => 'header_top',
+          'weight' => -9,
+        ),
+        'footer' => array(
+          'module' => 'cce_basic_config',
+          'delta' => 'footer_ipg',
+          'region' => 'footer',
+          'weight' => 1,
+        ),
       ),
     ),
   );
