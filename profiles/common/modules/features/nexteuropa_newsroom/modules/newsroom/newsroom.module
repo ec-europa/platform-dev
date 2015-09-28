@@ -2067,6 +2067,10 @@ function newsroom_views_pre_render(&$view) {
   // Mark items as new if a user did't see it before.
   if ($view->name == 'newsroom_page_content') {
     foreach ($view->result as $key => $result) {
+      if ($result->node_created < time() - 14 * 86400) {
+        continue;
+      }
+
       $last_viewed = node_last_viewed($result->nid);
 
       if (empty($last_viewed)) {
