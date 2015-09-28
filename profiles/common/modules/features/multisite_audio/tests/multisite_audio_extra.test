@@ -62,7 +62,7 @@ class MultisiteAudioFeatureTest extends DrupalWebTestCase {
     $single_audio_field = strtolower($this->randomName(10));
     $multiple_audio_field = strtolower($this->randomName(10));
 
-    // Description of field to be created;
+    // Description of field to be created.
     $fields[$single_audio_field] = array('cardinality' => 1);
     $fields[$multiple_audio_field] = array('cardinality' => -1);
 

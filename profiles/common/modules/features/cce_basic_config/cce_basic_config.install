@@ -433,7 +433,7 @@ function cce_basic_config_install() {
   // module is installed, which is different depending on the installation
   // profile that is used.
   // Get the list of available PDF converters.
-  // @see print_pdf_settings()
+  // See print_pdf_settings().
   $dynamic_variables = array();
   $available_libs = array();
   drupal_alter('print_pdf_available_libs', $available_libs);
@@ -475,7 +475,7 @@ function cce_basic_config_enable() {
   // Dummy domain used for default email addresses.
   $default_email_domain = 'nomail.nodomain.notld';
 
-  // Add users acccounts.
+  // Add user accounts.
   $account = new stdClass();
   $account->is_new = TRUE;
   $account->status = TRUE;
@@ -512,7 +512,7 @@ function cce_basic_config_enable() {
   $account2->field_lastname['und'][0]['value'] = 'Blake';
   user_save($account2);
 
-  // Affect dummy contents to the user 'administrator'.
+  // Assign dummy content to the 'administrator' user.
   $query = db_select('node', 'n');
   $query->condition('n.type', 'article', '=')
     ->fields('n', array('nid', 'title', 'uid'));
@@ -579,17 +579,17 @@ function cce_basic_config_enable() {
 function cce_basic_config_disable() {
   drupal_set_message(t('The module cce_basic_config has been disabled on your site! Please contact FPFIS support to reactivate it.'));
   variable_del('user_classes');
-  variable_del('user_myaccount_data_image');
   // My Account.
-  variable_del('user_logout_data_image');
+  variable_del('user_myaccount_data_image');
   // Log out.
+  variable_del('user_logout_data_image');
 }
 
 /**
  * Implements hook_post_features_enable_feature().
  */
 function cce_basic_config_post_features_enable_feature($component) {
-  // Add footer ipg in site-wide context.
+  // Add IPG footer in site-wide context.
   $context = module_invoke('context', 'load', 'site_wide');
   $block_footer_ipg = array(
     'module' => 'cce_basic_config',
@@ -603,10 +603,9 @@ function cce_basic_config_post_features_enable_feature($component) {
 }
 
 /**
- * Add classification vocabulary, add file diplays settings.
+ * Add classification vocabulary, add file display settings.
  */
 function cce_basic_config_update_7140() {
-
   // Create a vocabulary for classification.
   // Add default categories.
   $vocabulary = taxonomy_vocabulary_machine_name_load('classification');
@@ -871,7 +870,7 @@ function cce_basic_config_update_7140() {
  * Add password_policy rules and handle password_policy 2.x upgrade.
  */
 function cce_basic_config_update_7150() {
-  // Insert the password policy in dB.
+  // Insert the password policy in the database.
   // Temporary since the module password_policy.
   $exports = cce_basic_config_default_password_policy();
 
@@ -884,13 +883,13 @@ function cce_basic_config_update_7150() {
 
   if (!db_table_exists('password_policy')) {
     db_create_table('password_policy', $schema['password_policy']);
-  };
+  }
   if (!db_table_exists('password_policy_history')) {
     db_create_table('password_policy_history', $schema['password_policy_history']);
-  };
+  }
   if (!db_table_exists('password_policy_notice_history')) {
     db_create_table('password_policy_notice_history', $schema['password_policy_notice_history']);
-  };
+  }
   db_insert('password_policy')
     ->fields(array(
       'name' => 'Example policy',
@@ -921,7 +920,6 @@ function cce_basic_config_update_7160() {
  * Update classification vocabulary ids.
  */
 function cce_basic_config_update_7170() {
-
   // Get the "classification" vid.
   $classification = NULL;
 
@@ -930,7 +928,10 @@ function cce_basic_config_update_7170() {
     if ($vocab_object->name == "classification") {
       $classification = $vocab_object->vid;
       if ($classification) {
-        $results = db_query("UPDATE {taxonomy_term_data} SET NAME=concat(name, :name) WHERE vid=:vid", array(':name' => '000', ':vid' => $classification));
+        db_query('UPDATE {taxonomy_term_data} SET NAME=concat(name, :name) WHERE vid=:vid', array(
+          ':name' => '000',
+          ':vid' => $classification,
+        ));
       }
       return;
     }
@@ -1170,8 +1171,7 @@ function cce_basic_config_update_7192() {
  * Date field migration.
  */
 function cce_basic_config_update_7193() {
-
-  // $content type : content type that contains fiels to replace.
+  // $content type : content type that contains fields to replace.
   // $module_name : module that contains fields.
   $content_type = 'article';
   $module_name = basename(__FILE__, '.install');
@@ -1205,15 +1205,19 @@ function cce_basic_config_update_7193() {
 
           if (field_has_data($field_info)) {
             // There is data: migrate data and update column to int.
-            watchdog('system', 'Update the  column ' . $column_name . ' of table ' . $table_name . ' : migrate datas and update to datestamp.', NULL, WATCHDOG_WARNING);
+            $variables = array(
+              '@column_name' => $column_name,
+              '@table_name' => $table_name,
+            );
+            watchdog('system', 'Update the column "@column_name" of table "@table_name": migrate data and update to datestamp.', $variables, WATCHDOG_WARNING);
 
             // Create a temporary date field.
             $param = array('type' => 'int', 'not null' => FALSE, 'default' => 0);
             db_add_field($table_name, $column_name . '_temp', $param);
 
             db_update($table_name)
-                    ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
-                    ->execute();
+              ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
+              ->execute();
 
             // Delete old column.
             db_drop_field($table_name, $column_name);
@@ -1222,26 +1226,40 @@ function cce_basic_config_update_7193() {
           }
           else {
             // If there is no data: just update column to int.
-            watchdog('system', 'Update the  column ' . $column_name . ' of table ' . $table_name . ' : update to datestamp.', NULL, WATCHDOG_WARNING);
+            $variables = array(
+              '@column_name' => $column_name,
+              '@table_name' => $table_name,
+            );
+            watchdog('system', 'Update the column "@column_name" of table "@table_name": update to datestamp.', $variables, WATCHDOG_WARNING);
             db_change_field($table_name, $column_name, $column_name, array('type' => 'int'));
           }
         }
       }
 
-      watchdog('system', 'Saving field config of ' . $field_name, NULL, WATCHDOG_INFO);
+      $variables = array('@field_name' => $field_name);
+      watchdog('system', 'Saving field config of "@field_name".', $variables, WATCHDOG_INFO);
       db_update('field_config')->fields(array('type' => 'datestamp'))->condition('id', $field_info['id'])->execute();
 
       // Error logs.
     }
     elseif ($field_info['type'] == 'datestamp') {
-      watchdog('system', 'Field ' . $field_name . ' has been already converted to UNIX timestamp""', NULL, WATCHDOG_WARNING);
+      $variables = array('@field_name' => $field_name);
+      watchdog('system', 'Field "@field_name" has been already converted to a UNIX timestamp.', $variables, WATCHDOG_WARNING);
     }
     elseif ($field_info['type'] == 'datetime') {
       if (!$field_features_info) {
-        watchdog('system', 'Field ' . $field_name . ' not found in ' . $module_name . '.features.field.inc', NULL, WATCHDOG_WARNING);
+        $variables = array(
+          '@field_name' => $field_name,
+          '@module_name' => $module_name,
+        );
+        watchdog('system', 'Field "@field_name" not found in "@module_name.features.field.inc".', $variables, WATCHDOG_WARNING);
       }
       elseif ($field_features_info['type'] != 'datestamp') {
-        watchdog('system', 'Field ' . $field_name . ' is not a datestamp in ' . $module_name . '.features.field.inc', NULL, WATCHDOG_WARNING);
+        $variables = array(
+          '@field_name' => $field_name,
+          '@module_name' => $module_name,
+        );
+        watchdog('system', 'Field "@field_name" is not a datestamp in "@module_name.features.field.inc".', $variables, WATCHDOG_WARNING);
       }
     }
   }
@@ -1356,14 +1374,14 @@ function cce_basic_config_update_7198() {
     drupal_set_message(t('Orphan content type discussion has been disabled.'));
   }
 
-  // Adding Libray tab as default.
+  // Adding Library tab as default.
   $plugins = variable_get('media__wysiwyg_browser_plugins');
   if (!in_array('media_default--media_browser_1', $plugins)) {
     array_push($plugins, 'media_default--media_browser_1');
     variable_set('media__wysiwyg_browser_plugins', $plugins);
   }
 
-  // Add footer ipg in site-wide context.
+  // Add IPG footer in site-wide context.
   $context = module_invoke('context', 'load', 'site_wide');
   $block_footer_ipg = array(
     'module' => 'cce_basic_config',
@@ -1632,7 +1650,7 @@ function cce_basic_config_update_7207() {
   // module is installed, which is different depending on the installation
   // profile that is used.
   // Get the list of available PDF converters.
-  // @see print_pdf_settings()
+  // See print_pdf_settings().
   $dynamic_variables = array();
   $available_libs = array();
   drupal_alter('print_pdf_available_libs', $available_libs);
@@ -1680,4 +1698,6 @@ function cce_basic_config_update_7208() {
   if (in_array(basename(conf_path()), $cce_basic_config_survey_whitelist_js, TRUE)) {
     variable_set('toolbox_survey_whitelist_js', TRUE);
   }
+
+  variable_set('multisite_version', '2.1');
 }

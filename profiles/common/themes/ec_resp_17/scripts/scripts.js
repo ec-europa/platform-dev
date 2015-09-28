@@ -1,11 +1,11 @@
 /**
  * @file
- * Javascripts for ec_resp theme
+ * Javascripts for ec_resp theme.
  *
  * Drupal.settings.pathToTheme: it is the equivalent to the path_to_theme() PHP function, it is set in the theme_preprocess_page().
  */
 
-// Use jQuery 1.7.1
+// Use jQuery 1.7.1.
 (function($){
   // Drupal.behaviours
   // https://drupal.org/node/304258

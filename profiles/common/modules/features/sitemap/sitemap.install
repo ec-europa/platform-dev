@@ -78,7 +78,7 @@ function sitemap_disable() {
  * Remove uneeded persistent variables.
  */
 function sitemap_update_7120() {
-  // A best practice is to use variable_del instead db_delete
+  // A best practice is to use variable_del() instead of db_delete().
   variable_del('xmlsitemap_base_url');
   variable_del('xmlsitemap_batch_limit');
   variable_del('xmlsitemap_lastmod_format');

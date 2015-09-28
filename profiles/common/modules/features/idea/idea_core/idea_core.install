@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Install the feature idea
+ * Install the feature idea.
  */
 
 /**
@@ -11,7 +11,7 @@
 function idea_core_install() {
   // Create a vocabulary dedicated to the categories.
   $vocabulary = (object) array(
-    'name' => st('Idea categories'),
+    'name' => 'Idea categories',
     'machine_name' => 'idea_categories',
     'module' => 'idea_core',
   );
@@ -21,43 +21,43 @@ function idea_core_install() {
   $vocabulary = taxonomy_vocabulary_machine_name_load('idea_categories');
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Communication'),
+    'name' => 'Communication',
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Improvements'),
+    'name' => 'Improvements',
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Legislation'),
+    'name' => 'Legislation',
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Resources'),
+    'name' => 'Resources',
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Services'),
+    'name' => 'Services',
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Other'),
+    'name' => 'Other',
   );
   taxonomy_term_save($term);
 
   // Create a vocabulary dedicated to the status.
   $vocabulary = (object) array(
-    'name' => st('Idea status'),
+    'name' => 'Idea status',
     'machine_name' => 'idea_status',
     'module' => 'idea_core',
   );
@@ -68,29 +68,29 @@ function idea_core_install() {
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Current Activity'),
+    'name' => 'Current Activity',
   );
   taxonomy_term_save($term);
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('In Action'),
+    'name' => 'In Action',
   );
   taxonomy_term_save($term);
-  
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('No Status'),
+    'name' => 'No Status',
   );
   taxonomy_term_save($term);
-  
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Unable to Implement'),
+    'name' => 'Unable to Implement',
   );
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Under Review'),
+    'name' => 'Under Review',
   );
   taxonomy_term_save($term);
 
@@ -122,7 +122,7 @@ function idea_core_enable() {
 }
 
 /**
- * Remove block from the context
+ * Remove block from the context.
  */
 function idea_core_disable() {
   // SolR configuration add bundle.
@@ -140,7 +140,7 @@ function idea_core_disable() {
   drupal_set_message(t('Idea feature is now disabled on your site.'));
 }
 
-/*
+/**
  * Implements hook_update_N().
  */
 function idea_core_update_7120() {
@@ -148,37 +148,37 @@ function idea_core_update_7120() {
   $vocabulary = taxonomy_vocabulary_machine_name_load('idea_categories');
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Communication'),
+    'name' => 'Communication',
   );
   taxonomy_term_save($term);
-  
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Improvements'),
+    'name' => 'Improvements',
   );
   taxonomy_term_save($term);
-  
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Legislation'),
+    'name' => 'Legislation',
   );
   taxonomy_term_save($term);
-  
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Resources'),
+    'name' => 'Resources',
   );
   taxonomy_term_save($term);
-  
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Services'),
+    'name' => 'Services',
   );
   taxonomy_term_save($term);
-  
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Other'),
+    'name' => 'Other',
   );
   taxonomy_term_save($term);
 
@@ -187,29 +187,29 @@ function idea_core_update_7120() {
 
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Current Activity'),
+    'name' => 'Current Activity',
   );
   taxonomy_term_save($term);
-  
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('In Action'),
+    'name' => 'In Action',
   );
   taxonomy_term_save($term);
-  
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('No Status'),
+    'name' => 'No Status',
   );
   taxonomy_term_save($term);
-  
+
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Unable to Implement'),
+    'name' => 'Unable to Implement',
   );
   $term = (object) array(
     'vid' => $vocabulary->vid,
-    'name' => st('Under Review'),
+    'name' => 'Under Review',
   );
   taxonomy_term_save($term);
 }

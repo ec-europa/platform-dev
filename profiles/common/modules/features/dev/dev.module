@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Dev feature.
- */
-
-include_once 'dev.features.inc';

@@ -3,7 +3,8 @@
 /**
  * @file
  * Tests for likedislike.module.
- * ECWeb MULTISITE Feature Test
+ *
+ * ECWeb MULTISITE Feature Test.
  */
 
 /**
@@ -89,4 +90,5 @@ class LikeDislikeFeatureTest extends DrupalWebTestCase {
     // Verify that users can access to the workbench moderation view.
     $this->likedislikeVerifyAccess('admin/config/likedislike');
   }
+
 }
