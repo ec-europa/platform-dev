@@ -69,6 +69,7 @@
     <exclude-pattern>profiles/multisite_drupal_standard/modules/contrib/</exclude-pattern>
     <exclude-pattern>profiles/standard/</exclude-pattern>
     <exclude-pattern>profiles/testing/</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp_17/bootstrap</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/scripts/ec.js</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp_17/scripts/ec.js</exclude-pattern>
 
