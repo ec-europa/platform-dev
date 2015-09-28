@@ -816,7 +816,7 @@ video
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'site_frontpage';
-  $strongarm->value = 'content/welcome-your-site';
+  $strongarm->value = 'node';
   $export['site_frontpage'] = $strongarm;
 
   $strongarm = new stdClass();
