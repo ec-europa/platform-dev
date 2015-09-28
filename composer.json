@@ -1,9 +1,8 @@
 {
   "require": {
-    "behat/behat": "dev-fix-verbose-option as 3.0.x-dev",
+    "behat/behat": "dev-master#dc6df78862e1c1e1faa",
     "drupal/coder": "dev-NEXTEUROPA-4429",
-    "drupal/drupal-driver": "dev-master#a1fa9cd8e6e",
-    "drupal/drupal-extension": "dev-master#f26a57a356f",
+    "drupal/drupal-extension": "~3.1.0",
     "drupal/phing-drush-task": "1.0",
     "drush/drush": "8.0.*@beta",
     "ext-json": "*",
@@ -33,11 +32,6 @@
       "_comment": "Temporary fork of squizlabs/php_codesniffer including fix for NEXTEUROPA-4429.",
       "type": "vcs",
       "url": "git@github.com:pfrenssen/PHP_CodeSniffer.git"
-    },
-    {
-      "_comment": "Temporary fork including fix for issue #765.",
-      "type": "vcs",
-      "url": "git@github.com:pfrenssen/Behat.git"
     },
     {
       "_comment": "Temporary fork of pear/versioncontrol_git including fix for NEXTEUROPA-5516.",

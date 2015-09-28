@@ -93,7 +93,8 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:moderate content from draft to needs_review'
+  // Exported og permission:
+  // 'node:community:moderate content from draft to needs_review'
   $permissions['node:community:moderate content from draft to needs_review'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -102,7 +103,8 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:moderate content from needs_review to draft'
+  // Exported og permission:
+  // 'node:community:moderate content from needs_review to draft'
   $permissions['node:community:moderate content from needs_review to draft'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -111,7 +113,8 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:moderate content from needs_review to published'
+  // Exported og permission:
+  // 'node:community:moderate content from needs_review to published'
   $permissions['node:community:moderate content from needs_review to published'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -119,7 +122,8 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:moderate content from needs_review to validated'
+  // Exported og permission:
+  // 'node:community:moderate content from needs_review to validated'
   $permissions['node:community:moderate content from needs_review to validated'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -127,7 +131,8 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:moderate content from published to archived'
+  // Exported og permission:
+  // 'node:community:moderate content from published to archived'
   $permissions['node:community:moderate content from published to archived'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -135,7 +140,8 @@ function communities_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:moderate content from validated to published'
+  // Exported og permission:
+  // 'node:community:moderate content from validated to published'
   $permissions['node:community:moderate content from validated to published'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',

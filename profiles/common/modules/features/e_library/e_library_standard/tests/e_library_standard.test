@@ -2,17 +2,19 @@
 
 /**
  * @file
- * Tests for PROJECTFEATURE_e_library_standard_core.module.
- * ECWeb MULTISITE QA
+ * Tests for PROJECTFEATURE_e_library_standard_core.module : eCWeb MULTISITE QA.
  */
 
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
-class Multisite_e_library_standardFunctionalWebTestCase extends DrupalWebTestCase {
-  protected $privileged_user;
-  protected $contributor_user;
+class MultisiteElibraryStandardFunctionalWebTestCase extends DrupalWebTestCase {
+  protected $privilegedUser;
+  protected $contributorUser;
 
+  /**
+   * Return class informations.
+   */
   public static function getInfo() {
     return array(
       'name' => 'E library standard functional tests',
@@ -21,20 +23,26 @@ class Multisite_e_library_standardFunctionalWebTestCase extends DrupalWebTestCas
     );
   }
 
+  /**
+   * Initialize users.
+   */
   public function setUp() {
     parent::setUp(array('e_library_core', 'e_library_standard'));
-    $this->privileged_user = $this->drupalCreateUserWithRole("administrator");
-    $this->contributor_user = $this->drupalCreateUserWithRole("contributor");
-    $this->drupalLogin($this->privileged_user);
+    $this->privilegedUser = $this->drupalCreateUserWithRole("administrator");
+    $this->contributorUser = $this->drupalCreateUserWithRole("contributor");
+    $this->drupalLogin($this->privilegedUser);
   }
 
-  function testELibraryStandard() {
+  /**
+   * Test ELibrary : document creation.
+   */
+  public function testElibraryStandard() {
     // Check the e_library page.
     $this->drupalGet('e_library');
     $this->assertResponse(200, 'The e_library is accessible');
     $this->assertRaw('Browse library of document', 'The e_library page is created');
 
-    // Content type creation
+    // Content type creation.
     $field_name = 'field_document';
     $edit = array(
       'title' => 'my first document',
@@ -47,9 +55,9 @@ class Multisite_e_library_standardFunctionalWebTestCase extends DrupalWebTestCas
     $this->clickLink('test_file.pdf');
     $this->assertResponse(200, 'The document uploaded is accessible');
 
-    // Get the node object
+    // Get the node object.
     $node = $this->drupalGetNodeByTitle('my first document');
-    // Change workflow state to published
+    // Change workflow state to published.
     $moderate = array('state' => workbench_moderation_state_published());
     $this->drupalPost("node/{$node->nid}/moderation", $moderate, t('Apply'));
 
@@ -58,8 +66,8 @@ class Multisite_e_library_standardFunctionalWebTestCase extends DrupalWebTestCas
   }
 
   /**
-  * Creates a user with the give role.
-  * */
+   * Creates a user with the give role.
+   * */
   public function drupalCreateUserWithRole($role) {
     // Get all of the roles in the system.
     $roles = user_roles();
@@ -79,5 +87,5 @@ class Multisite_e_library_standardFunctionalWebTestCase extends DrupalWebTestCas
     // Return the user we have created.
     return user_save($user);
   }
-}
 
+}

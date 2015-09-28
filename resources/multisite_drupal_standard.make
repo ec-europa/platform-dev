@@ -101,7 +101,7 @@ projects[css_injector][version] = "1.10"
 projects[css_injector][patch][] = patches/css_injector-add_upload_file-2506775-10.patch
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.7"
+projects[ctools][version] = "1.8"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -174,8 +174,7 @@ projects[feeds_xpathparser][version] = "1.0-beta4"
 projects[feeds_xpathparser][patch][] = patches/feeds_xpathparser-undefined_index_unique-1998194-2.patch
 
 projects[field_collection][subdir] = "contrib"
-projects[field_collection][version] = "1.0-beta7"
-projects[field_collection][patch][] = patches/field_collection-check-before-adding-index-2141781-27.patch
+projects[field_collection][version] = "1.0-beta8"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.4"
@@ -257,10 +256,6 @@ projects[l10n_update][version] = "1.1"
 projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.6"
 
-projects[leaflet_widget][subdir] = "contrib"
-projects[leaflet_widget][version] = "2.0-beta1"
-projects[leaflet_widget][patch][] = patches/leaflet_widget-1974478-vertical-tab-refresh-8.patch
-
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
@@ -298,7 +293,7 @@ projects[media_crop][subdir] = "contrib"
 projects[media_crop][version] = "1.4"
 
 projects[media_dailymotion][subdir] = "contrib"
-projects[media_dailymotion][version] = "1.0"
+projects[media_dailymotion][version] = "1.1"
 projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol-4103.patch
 
 projects[media_flickr][subdir] = "contrib"
@@ -421,7 +416,7 @@ projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.0"
 
 projects[smart_trim][subdir] = "contrib"
-projects[smart_trim][version] = 1.4
+projects[smart_trim][version] = 1.5
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
@@ -535,7 +530,7 @@ projects[workbench_access][version] = "1.2"
 projects[workbench_access][patch][] = patches/workbench_access-fix_php_issues-4517.patch
 
 projects[workbench_email][subdir] = "contrib"
-projects[workbench_email][version] = "3.3"
+projects[workbench_email][version] = "3.4"
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"
@@ -612,11 +607,6 @@ libraries[Leaflet.draw][destination] = "libraries"
 libraries[Leaflet.draw][download][type] = "git"
 libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
 libraries[Leaflet.draw][tag] = "v0.2.4"
-
-; Leaflet.widget
-libraries[Leaflet.widget][destination] = "libraries"
-libraries[Leaflet.widget][download][type] = "git"
-libraries[Leaflet.widget][download][url] = "https://github.com/tnightingale/Leaflet.widget.git"
 
 ; ======
 ; Themes
