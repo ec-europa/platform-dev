@@ -121,6 +121,7 @@ function ec_world_countries_countries() {
       'DK' => t('Denmark'),
       'EE' => t('Estonia'),
       'FI' => t('Finland'),
+      'MK' => t('The former Yugoslav Republic of Macedonia'),
       'FR' => t('France'),
       'DE' => t('Germany'),
       'GR' => t('Greece'),
