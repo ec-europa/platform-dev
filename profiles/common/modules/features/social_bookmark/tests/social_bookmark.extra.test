@@ -3,7 +3,8 @@
 /**
  * @file
  * Tests for social_bookmark.module.
- * ECWeb MULTISITE Feature Test
+ *
+ * ECWeb MULTISITE Feature Test.
  */
 
 /**
@@ -75,7 +76,7 @@ class SocialBookmarkFeatureTest extends DrupalWebTestCase {
     $this->assertFieldById('edit-statistics-socialbookmark', '', '"Enable statistics" parameter is available');
 
     // "Modify language's detection" fieldset.
-    $this->assertText(t('Modify language\'s detection'), '"Modify language\'s detection" fieldset exists');
+    $this->assertText(t("Modify language's detection"), '"Modify language\'s detection" fieldset exists');
     $this->assertText(t('Language source'), '"Language source" options group exists');
     $this->assertFieldById('edit-language-socialbookmark-from-url', '', '"From URL" parameter is available');
     $this->assertFieldById('edit-language-socialbookmark-from-meta-data', '', '"From META DATA" parameter is available');
@@ -99,7 +100,8 @@ class SocialBookmarkFeatureTest extends DrupalWebTestCase {
 
     // Create a user with permissions to access to the configuration page.
     $this->WebUser = $this->drupalCreateUser(array(
-      'administer site configuration', 'access administration pages', 'administer blocks'));
+      'administer site configuration', 'access administration pages', 'administer blocks',
+    ));
     $this->drupalLogin($this->WebUser);
     // Verify that users with permission can access to the configuration page.
     $this->socialbookmarkVerifyAccess('admin/config/socialbookmark/socialbookmark');
@@ -151,7 +153,8 @@ class SocialBookmarkFeatureTest extends DrupalWebTestCase {
 
     // Create a user with permissions to access to the configuration page.
     $this->WebUser = $this->drupalCreateUser(array(
-      'administer site configuration', 'access administration pages', 'administer blocks'));
+      'administer site configuration', 'access administration pages', 'administer blocks',
+    ));
     $this->drupalLogin($this->WebUser);
     // Verify that users with permission can access to the configuration page.
     $this->socialbarVerifyAccess('admin/config/socialbookmark/social_bar');
@@ -192,7 +195,7 @@ class SocialBookmarkFeatureTest extends DrupalWebTestCase {
     $this->assertFieldById('edit-statistics-socialbar', '', '"Enable statistics" parameter is available');
 
     // "Modify language's detection" fieldset.
-    $this->assertText(t('Modify language\'s detection'), '"Modify language\'s detection" fieldset exists');
+    $this->assertText(t("Modify language\'s detection"), '"Modify language\'s detection" fieldset exists');
     $this->assertText(t('Language source'), '"Language source" options group exists');
     $this->assertFieldById('edit-language-socialbar-from-url', '', '"From URL" parameter is available');
     $this->assertFieldById('edit-language-socialbar-from-meta-data', '', '"From META DATA" parameter is available');
@@ -232,4 +235,5 @@ class SocialBookmarkFeatureTest extends DrupalWebTestCase {
     $this->drupalGet('/');
     $this->assertRaw('<!--{"to":["twitter","wordpress","facebook",],"display":"inline","size":32,"text":"share-network","lang":"en","stats":true,}//-->', 'Social bar widgets are displayed');
   }
+
 }

@@ -16,6 +16,9 @@ function social_bookmark_init() {
   }
 }
 
+/**
+ * Implements hook_permission().
+ */
 function social_bookmark_permission() {
   return array(
     'access social bookmark config page' => array(
@@ -100,9 +103,11 @@ function _social_bookmark_contents() {
     case TRUE:
       $user_value_socialbookmark_twitter = '"twitter_via_handle":"' . $user_value_socialbookmark . '", ';
       break;
+
     case FALSE:
       $user_value_socialbookmark_twitter = "";
       break;
+
     default:
       $user_value_socialbookmark_twitter = "";
       break;

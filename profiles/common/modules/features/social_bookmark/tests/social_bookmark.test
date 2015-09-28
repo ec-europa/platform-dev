@@ -3,9 +3,13 @@
 /**
  * @file
  * Tests for PROJECTFEATURE_social_bookmark.module.
- * ECWeb MULTISITE QA
+ *
+ * ECWeb MULTISITE QA.
  */
 
+/**
+ * Defines a base class for testing the social_bookmark feature.
+ */
 class SocialBookmark extends DrupalWebTestCase {
 
   protected $adminrole;
@@ -202,6 +206,5 @@ class SocialBookmark extends DrupalWebTestCase {
     // Return the user we have created.
     return user_save($user);
   }
-
 
 }
