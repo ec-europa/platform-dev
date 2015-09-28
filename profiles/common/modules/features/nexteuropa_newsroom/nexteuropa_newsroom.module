@@ -1012,10 +1012,10 @@ function _nexteuropa_newsroom_dynamic_tamper($tamper) {
 /**
  * Helper function to enable languages.
  *
- * @param array $importer
+ * @param object $importer
  *   The importer to import.
  */
-function _nexteuropa_newsroom_import_importer(array $importer) {
+function _nexteuropa_newsroom_import_importer($importer) {
   // Those Api calls are copied from the submit function of the
   // import form provided by the feeds_ui module. The alpha8 version
   // of Feeds (the one used in the platform) had a bugged implementation,
