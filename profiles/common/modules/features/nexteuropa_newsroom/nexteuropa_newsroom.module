@@ -1228,13 +1228,11 @@ function _nexteuropa_newsroom_check_translations($premapping) {
   // Build an array with langauge settings for the fields.
   foreach ($premapping as $fieldname => $values) {
     // Sanitize fieldname
-    if (!isset($values['language'])) {
-      $attribute = strrchr($fieldname, ':');
-      $sanitized_name = str_replace($attribute, '', $fieldname);
-      $field = field_info_field($sanitized_name);
-      $language = field_is_translatable('node', $field);
-      $premapping[$fieldname]['language'] = $language;
-    }
+    $attribute = strrchr($fieldname, ':');
+    $sanitized_name = str_replace($attribute, '', $fieldname);
+    $field = field_info_field($sanitized_name);
+    $language = field_is_translatable('node', $field);
+    $premapping[$fieldname]['language'] = $language;
   }
 
   return $premapping;
