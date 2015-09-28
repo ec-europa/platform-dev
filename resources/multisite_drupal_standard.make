@@ -534,7 +534,12 @@ projects[workbench_access][version] = "1.2"
 projects[workbench_access][patch][] = patches/workbench_access-fix_php_issues-4517.patch
 
 projects[workbench_email][subdir] = "contrib"
-projects[workbench_email][version] = "3.4"
+projects[workbench_email][version] = "3.5"
+; Issue #2501321: Add email subject and message to Features.
+; https://www.drupal.org/node/2501321
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
+projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch
+
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"
