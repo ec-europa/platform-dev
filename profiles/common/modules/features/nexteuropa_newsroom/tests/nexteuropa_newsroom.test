@@ -8,7 +8,7 @@
 /**
  * Defines a base class for QA testing the "nexteuropa_newsroom" feature.
  */
-class nexteuropaNewsroomQAWebTestCase extends DrupalWebTestCase {
+class NexteuropaNewsroomQAWebTestCase extends DrupalWebTestCase {
 
   /**
    * Returns test information.
@@ -99,7 +99,7 @@ class nexteuropaNewsroomQAWebTestCase extends DrupalWebTestCase {
 /**
  * Defines a base class for QA testing the "nexteuropa_newsroom" feature.
  */
-class nexteuropaNewsroomWebTestCase extends FeedsWebTestCase {
+class NexteuropaNewsroomWebTestCase extends FeedsWebTestCase {
   /**
    * Returns test information.
    *
