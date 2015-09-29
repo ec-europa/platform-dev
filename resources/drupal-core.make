@@ -13,7 +13,7 @@ projects[drupal][patch][] = patches/user-drupal.d7.user-password-reset-logged-in
 projects[drupal][patch][] = patches/user-request_password_behaviour-2205.patch
 projects[drupal][patch][] = patches/user-vulnerability-884.patch
 
-; Allow management of visibility for pseudo-fields
+; Allow management of visibility for pseudo-fields.
 ; https://www.drupal.org/node/1256368
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-n1256368-91.patch
