@@ -13,27 +13,27 @@ function solr_config_apachesolr_exclude($entity_id, $entity_type, $row, $env_id)
   if ($entity_type == 'file') {
     $node = node_load($row->parent_entity_id);
 
+    // Node moderate with workbench moderation.
     if (isset($node->workbench_moderation)) {
-      // Node moderate with workbench moderation.
       $workflow = $node->workbench_moderation;
+      // Node parent is published.
       if (isset($workflow['published'])) {
-        // Node parent is published.
         return FALSE;
       }
       else {
-        apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id . "-node-" . $node->nid);
         // Remove file from solr index.
+        apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id . "-node-" . $node->nid);
         drupal_set_message(t('Entity @type @id removed from solr index', array('@type' => $entity_type, '@id' => $entity_id)));
         return TRUE;
       }
     }
+    // Standard drupal workflow : node parent is published.
     elseif ($node->status == 1) {
-      // Standard drupal workflow : node parent is published.
       return FALSE;
     }
     else {
-      apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id . "-node-" . $node->nid);
       // Remove file from solr index.
+      apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id . "-node-" . $node->nid);
       drupal_set_message(t('Entity @type @id removed from solr index', array('@type' => $entity_type, '@id' => $entity_id)));
       return TRUE;
     }
@@ -48,8 +48,8 @@ function solr_config_apachesolr_exclude($entity_id, $entity_type, $row, $env_id)
  */
 function solr_config_apachesolr_query_alter($query) {
   global $language;
-  $query->addFilter('ss_language', "(und OR " . $language->language . ")");
   // By default set the facet language to current language and neutral language.
+  $query->addFilter('ss_language', "(und OR " . $language->language . ")");
 }
 
 /**

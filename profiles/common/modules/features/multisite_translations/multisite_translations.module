@@ -46,7 +46,7 @@ function multisite_translations_form_alter(&$form, &$form_state, $form_id) {
 
     case 'locale_languages_predefined_form':
       // Generate translation roles after adding new languages
-      // and add translations skills to user_administrator.
+      // and add translation skills to user_administrator.
       $form['#submit'][] = 'create_translation_roles';
       break;
 
@@ -205,13 +205,12 @@ function create_translation_roles() {
         'submit translation jobs',
         'accept translation jobs',
         'access workbench',
-        // 'administer tmgmt',.
         'translate content',
       ));
     }
   }
 
-  // Add tranlations skill to user_administrator.
+  // Add translation skill to user_administrator.
   $delta = count($languages);
   if ($user = user_load_by_name('user_administrator')) {
     foreach ($languages as $lid => $language) {
@@ -323,7 +322,11 @@ function rules_action_mail_to_related_translation_role($subject, $message, $from
 
 
 /**
- * Implements hook_form().
+ * Form constructor for the user multisite translation form.
+ *
+ * @see multisite_translation_form_submit()
+ *
+ * @ingroup forms
  */
 function multisite_translation_form($form, &$form_state) {
   $form['submit'] = array('#type' => 'submit', '#value' => t('Rebuild translation roles'));
@@ -331,7 +334,9 @@ function multisite_translation_form($form, &$form_state) {
 }
 
 /**
- * Called on form submittion.
+ * Form submission handler for multisite_translation_form().
+ *
+ * @see multisite_translation_form()
  */
 function multisite_translation_form_submit($form, &$form_state) {
   create_translation_roles();
