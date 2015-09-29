@@ -7,13 +7,6 @@
 include_once 'multisite_mediagallery_community.install.inc';
 
 /**
- * Implements hook_install().
- */
-function multisite_mediagallery_community_install() {
-  // Nothing yet.
-}
-
-/**
  * Implements hook_enable().
  */
 function multisite_mediagallery_community_enable() {
@@ -78,13 +71,6 @@ function multisite_mediagallery_community_disable() {
 
   // Deactivation message.
   drupal_set_message(t('Multisite Media Gallery Community %v feature is now inactive on your site.', array('%v' => _multisite_mediagallery_community_get_version())));
-}
-
-/**
- * Implements hook_uninstall().
- */
-function multisite_mediagallery_community_uninstall() {
-  // Nothing yet.
 }
 
 /**

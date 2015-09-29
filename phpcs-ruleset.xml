@@ -26,11 +26,6 @@
     <exclude-pattern>profiles/common/modules/features/multisite_forum_core</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_maps</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_maxlength</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_community</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_core</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_standard</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_megamenu</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_metatags</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_multilingual_references</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_notifications</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_path_override</exclude-pattern>

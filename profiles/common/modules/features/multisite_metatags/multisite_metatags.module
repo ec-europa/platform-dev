@@ -177,7 +177,7 @@ function multisite_metatags_theme() {
  *
  * @ingroup themeable
  */
-function theme_ogimage_widget($variables) {
+function theme_ogimage_widget(array $variables = array()) {
   global $base_url;
 
   $element = $variables['element'];

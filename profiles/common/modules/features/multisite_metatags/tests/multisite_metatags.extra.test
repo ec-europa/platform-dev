@@ -3,7 +3,8 @@
 /**
  * @file
  * Tests for PROJECTFEATURE_multisite_metatags.module.
- * ECWeb MULTISITE Feature Test
+ *
+ * ECWeb MULTISITE Feature Test.
  */
 
 /**
@@ -33,7 +34,8 @@ class MultisiteMetatagsFeatureTest extends DrupalWebTestCase {
                         'cce_basic_config',
                         'node',
                         'variable',
-                        'variable_realm'));
+                        'variable_realm',
+    ));
   }
 
   /**
@@ -109,7 +111,8 @@ class MultisiteMetatagsFeatureTest extends DrupalWebTestCase {
         'create article content',
         'administer content types',
         'access content',
-        'access administration pages'));
+        'access administration pages',
+    ));
 
     $this->drupalLogin($this->web_user);
 
@@ -143,4 +146,5 @@ class MultisiteMetatagsFeatureTest extends DrupalWebTestCase {
     $edit['body[und][0][value]'] = $body;
     $this->drupalPost('node/add/article', $edit, t('Save'));
   }
+
 }
