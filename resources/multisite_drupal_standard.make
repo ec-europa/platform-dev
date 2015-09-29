@@ -94,7 +94,11 @@ projects[context][patch][] = patches/context-slow_menu_items-873936-20.patch
 
 projects[context_entity_field][subdir] = "contrib"
 projects[context_entity_field][version] = "1.1"
-projects[context_entity_field][patch][] = patches/add-entity-references-1847038.patch
+; Make condition work for entity references .
+; Patch implemented in DEV version.
+; https://www.drupal.org/node/1847038
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5056
+projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entity-references.patch
 
 projects[css_injector][subdir] = "contrib"
 projects[css_injector][version] = "1.10"

@@ -138,19 +138,19 @@ function _social_bookmark_admin_settings() {
     '#description' => t('Select a language (only available for the "Language specified" option)."'),
   );
 
-    $form['custom_user'] = array(
+  $form['custom_user'] = array(
     '#type' => 'fieldset',
     '#title' => t('Customize “via @username” mention for Twitter'),
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
-  $form['custom_user']['user_value_socialbookmark'] = array (
+  $form['custom_user']['user_value_socialbookmark'] = array(
     '#type' => 'textfield',
     '#title' => t('Twitter username'),
     '#size' => 30,
     '#maxlength' => 128,
     '#default_value' => variable_get('user_value_socialbookmark', 'EU_Commission'),
-    );
+  );
 
   $form['#attached']['js'] = array(
     drupal_get_path('module', 'social_bookmark') . '/scripts/social_bookmark.form.js',

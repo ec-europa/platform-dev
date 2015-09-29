@@ -12,16 +12,13 @@ Feature: User menu
     And I click "<link>"
     Then I should see the heading "<heading>"
 
-    # Currently the platform doesn't have a default homepage, so the heading
-    # "Page not found" appears after logging out and being redirected to the
-    # homepage.
     Examples:
       | link                     | heading                  |
       | My workbench             | My Workbench             |
       | My account               | Myrrine Augusta          |
       | Manage translation tasks | Manage Translation Tasks |
       | Translate                | Translate                |
-      | Log out                  | Page not found           |
+      | Log out                  | Welcome to NextEuropa    |
 
   @api
   Scenario Outline: Test user menu as editorial team member
@@ -32,14 +29,11 @@ Feature: User menu
     And I click "<link>"
     Then I should see the heading "<heading>"
 
-    # Currently the platform doesn't have a default homepage, so the heading
-    # "Page not found" appears after logging out and being redirected to the
-    # homepage.
     Examples:
-      | link         | heading        |
-      | My workbench | My Workbench   |
-      | My account   | Yami Vígdís    |
-      | Log out      | Page not found |
+      | link         | heading               |
+      | My workbench | My Workbench          |
+      | My account   | Yami Vígdís           |
+      | Log out      | Welcome to NextEuropa |
 
   @api
   Scenario Outline: Test user menu as editor
@@ -50,14 +44,11 @@ Feature: User menu
     And I click "<link>"
     Then I should see the heading "<heading>"
 
-    # Currently the platform doesn't have a default homepage, so the heading
-    # "Page not found" appears after logging out and being redirected to the
-    # homepage.
     Examples:
-      | link         | heading             |
-      | My workbench | My Workbench        |
-      | My account   | Cornelia Polyhymnia |
-      | Log out      | Page not found      |
+      | link         | heading               |
+      | My workbench | My Workbench          |
+      | My account   | Cornelia Polyhymnia   |
+      | Log out      | Welcome to NextEuropa |
 
   @api
   Scenario Outline: Test that editors and editorial team members cannot access translation links

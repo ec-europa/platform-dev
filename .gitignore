@@ -31,3 +31,11 @@ profiles/common/themes/ec_resp/bootstrap/
 profiles/common/themes/ec_resp/scripts/html5shiv.min.js
 profiles/common/themes/ec_resp/scripts/jquery.mousewheel.min.js
 profiles/common/themes/ec_resp/scripts/respond.min.js
+profiles/common/libraries/fancybox/
+profiles/common/libraries/flexslider/
+profiles/common/libraries/fullcalendar/
+profiles/common/libraries/fullcalendar_resources/
+profiles/common/libraries/jplayer/
+profiles/common/libraries/jquery.imgareaselect/
+profiles/common/libraries/jquery/
+profiles/common/libraries/modernizr/
