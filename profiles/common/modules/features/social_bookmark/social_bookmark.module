@@ -33,7 +33,6 @@ function social_bookmark_permission() {
  */
 function social_bookmark_menu() {
   $items = array();
-  $path = drupal_get_path('module', 'social_bookmark');
 
   $items['admin/config/socialbookmark'] = array(
     'title' => 'Social Bookmark',
@@ -42,7 +41,6 @@ function social_bookmark_menu() {
     'page arguments' => array('_social_bookmark_admin_settings'),
     'access arguments' => array('access social bookmark config page'),
     'file' => 'social_bookmark.admin.inc',
-    'file path' => $path,
   );
 
   $items['admin/config/socialbookmark/social_bookmark'] = array(
@@ -58,7 +56,6 @@ function social_bookmark_menu() {
     'page arguments' => array('_social_bookmark_bar_admin_settings'),
     'access arguments' => array('access social bookmark config page'),
     'file' => 'social_bookmark_bar.admin.inc',
-    'file path' => $path,
     'weight' => '0',
   );
   return $items;

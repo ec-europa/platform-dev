@@ -195,7 +195,7 @@ class SocialBookmarkFeatureTest extends DrupalWebTestCase {
     $this->assertFieldById('edit-statistics-socialbar', '', '"Enable statistics" parameter is available');
 
     // "Modify language's detection" fieldset.
-    $this->assertText(t("Modify language\'s detection"), '"Modify language\'s detection" fieldset exists');
+    $this->assertText(t("Modify language's detection"), '"Modify language\'s detection" fieldset exists');
     $this->assertText(t('Language source'), '"Language source" options group exists');
     $this->assertFieldById('edit-language-socialbar-from-url', '', '"From URL" parameter is available');
     $this->assertFieldById('edit-language-socialbar-from-meta-data', '', '"From META DATA" parameter is available');
