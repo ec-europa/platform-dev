@@ -10,7 +10,7 @@
 function communities_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-article-group_content_access'
+  // Exported field_instance: 'node-article-group_content_access'.
   $field_instances['node-article-group_content_access'] = array(
     'bundle' => 'article',
     'default_value' => array(
@@ -61,7 +61,7 @@ function communities_field_default_field_instances() {
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-article-og_group_ref'
+  // Exported field_instance: 'node-article-og_group_ref'.
   $field_instances['node-article-og_group_ref'] = array(
     'bundle' => 'article',
     'default_value' => NULL,
@@ -130,7 +130,7 @@ function communities_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-community-body'
+  // Exported field_instance: 'node-community-body'.
   $field_instances['node-community-body'] = array(
     'bundle' => 'community',
     'default_value' => NULL,
@@ -174,7 +174,7 @@ function communities_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-community-field_tags'
+  // Exported field_instance: 'node-community-field_tags'.
   $field_instances['node-community-field_tags'] = array(
     'bundle' => 'community',
     'default_value' => NULL,
@@ -214,7 +214,7 @@ function communities_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-community-field_thumbnail'
+  // Exported field_instance: 'node-community-field_thumbnail'.
   $field_instances['node-community-field_thumbnail'] = array(
     'bundle' => 'community',
     'deleted' => 0,
@@ -275,7 +275,7 @@ function communities_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-community-group_access'
+  // Exported field_instance: 'node-community-group_access'.
   $field_instances['node-community-group_access'] = array(
     'bundle' => 'community',
     'default_value' => array(
@@ -326,7 +326,7 @@ function communities_field_default_field_instances() {
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-community-group_group'
+  // Exported field_instance: 'node-community-group_group'.
   $field_instances['node-community-group_group'] = array(
     'bundle' => 'community',
     'default_value' => array(
@@ -383,7 +383,7 @@ function communities_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-community-og_roles_permissions'
+  // Exported field_instance: 'node-community-og_roles_permissions'.
   $field_instances['node-community-og_roles_permissions'] = array(
     'bundle' => 'community',
     'default_value' => array(

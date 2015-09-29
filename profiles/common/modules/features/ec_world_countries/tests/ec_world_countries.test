@@ -26,7 +26,6 @@ class EcWorldCountriesTestCase extends DrupalWebTestCase {
    */
   public function setUp() {
     parent::setUp('ec_world_countries');
-    // module_enable(array('ec_world_countries'));
     $vid = taxonomy_vocabulary_machine_name_load('ec_world_countries')->vid;
     $this->adminUser = $this->drupalCreateUser(
       array(

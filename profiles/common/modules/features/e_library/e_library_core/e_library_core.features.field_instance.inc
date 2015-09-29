@@ -10,7 +10,7 @@
 function e_library_core_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_document-comment_body'
+  // Exported field_instance: 'comment-comment_node_document-comment_body'.
   $field_instances['comment-comment_node_document-comment_body'] = array(
     'bundle' => 'comment_node_document',
     'default_value' => NULL,
@@ -70,7 +70,7 @@ function e_library_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-body'
+  // Exported field_instance: 'node-document-body'.
   $field_instances['node-document-body'] = array(
     'bundle' => 'document',
     'default_value' => NULL,
@@ -114,7 +114,7 @@ function e_library_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-field_document'
+  // Exported field_instance: 'node-document-field_document'.
   $field_instances['node-document-field_document'] = array(
     'bundle' => 'document',
     'deleted' => 0,
@@ -170,7 +170,7 @@ function e_library_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-field_media_tags'
+  // Exported field_instance: 'node-document-field_media_tags'.
   $field_instances['node-document-field_media_tags'] = array(
     'bundle' => 'document',
     'default_value' => NULL,
@@ -207,7 +207,7 @@ function e_library_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-document-field_tags'
+  // Exported field_instance: 'node-document-field_tags'.
   $field_instances['node-document-field_tags'] = array(
     'bundle' => 'document',
     'default_value' => NULL,

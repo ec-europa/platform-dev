@@ -11,7 +11,7 @@
  * @ingroup views_templates
  */
 
-if ($nb_col > 12): $nb_col = 12; endif
+if ($nb_col > 12): $nb_col = 12; endif;
 ?>
 
 <div class="<?php print $class; ?>">

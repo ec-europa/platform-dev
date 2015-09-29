@@ -18,4 +18,15 @@ function ec_resp_form_system_theme_settings_alter(&$form, &$form_state) {
     '#title' => t('Disable dropdown menu'),
     '#default_value' => theme_get_setting('disable_dropdown_menu'),
   );
+
+  $form['interinstitutional_fieldset'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Interinstitutional theme'),
+  );
+
+  $form['interinstitutional_fieldset']['enable_interinstitutional_theme'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable Interinstitutional theme'),
+    '#default_value' => theme_get_setting('enable_interinstitutional_theme'),
+  );
 }

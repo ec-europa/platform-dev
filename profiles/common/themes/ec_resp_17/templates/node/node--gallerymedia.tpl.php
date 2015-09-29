@@ -118,7 +118,7 @@
             $suffixe .= '</small></div>';
           $suffixe .= '</div>';
         $suffixe .= '</div>';
-      endif
+      endif;
 
       print $prefixe;
       print render($content);
@@ -132,7 +132,7 @@
     // form is being displayed on the same page.
     if ($teaser || !empty($content['comments']['comment_form'])):
       unset($content['links']['comment']['#links']['comment-add']);
-    endif
+    endif;
     // Only display the wrapper div if there are links.
     $links = render($content['links']);
     if ($links):

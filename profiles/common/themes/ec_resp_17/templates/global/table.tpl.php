@@ -20,13 +20,13 @@
     // Add 'sticky-enabled' class to the table to identify it for JS.
     // This is needed to target tables constructed by this function.
     $attributes['class'][] = 'sticky-enabled table table-striped';
-  endif
+  endif;
 
   $output = '<table' . drupal_attributes($attributes) . ">\n";
 
   if (isset($caption)):
     $output .= '<caption>' . $caption . "</caption>\n";
-  endif
+  endif;
 
   // Format the table columns:
   if (count($colgroups)):
@@ -40,11 +40,11 @@
             $cols = $value;
           else:
             $attributes[$key] = $value;
-          endif
-        endforeach
+          endif;
+        endforeach;
       else:
         $cols = $colgroup;
-      endif
+      endif;
 
       // Build colgroup.
       if (is_array($cols) && count($cols)):
@@ -52,13 +52,13 @@
         $i = 0;
         foreach ($cols as $col):
           $output .= ' <col' . drupal_attributes($col) . ' />';
-        endforeach
+        endforeach;
         $output .= " </colgroup>\n";
       else:
         $output .= ' <colgroup' . drupal_attributes($attributes) . " />\n";
-      endif
-    endforeach
-  endif
+      endif;
+    endforeach;
+  endif;
 
   // Add the 'empty' row message if available.
   if (!count($rows) && $empty):
@@ -68,15 +68,15 @@
         $header_count += isset($header_cell['colspan']) ? $header_cell['colspan'] : 1;
       else:
         $header_count++;
-      endif
-    endforeach
+      endif;
+    endforeach;
     $rows[] = array(array(
         'data' => $empty,
         'colspan' => $header_count,
         'class' => array('empty', 'message'),
       ),
     );
-  endif
+  endif;
 
   // Format the table header:
   if (count($header)):
@@ -87,13 +87,13 @@
     foreach ($header as $cell):
       $cell = tablesort_header($cell, $header, $ts);
       $output .= _theme_table_cell($cell, TRUE);
-    endforeach
+    endforeach;
     // Using ternary operator to close the tags based on whether or not there
     // are rows.
     $output .= (count($rows) ? " </tr></thead>\n" : "</tr>\n");
   else:
     $ts = array();
-  endif
+  endif;
 
   // Format the table rows:
   if (count($rows)):
@@ -113,8 +113,8 @@
             $cells = $value;
           else:
             $attributes[$key] = $value;
-          endif
-        endforeach
+          endif;
+        endforeach;
       else:
         $cells = $row;
       endif
@@ -123,7 +123,7 @@
         if (empty($row['no_striping'])):
           $class = $flip[$class];
           $attributes['class'][] = $class;
-        endif
+        endif;
 
         // Build row.
         $output .= ' <tr' . drupal_attributes($attributes) . '>';
@@ -131,12 +131,12 @@
         foreach ($cells as $cell):
           $cell = tablesort_cell($cell, $header, $ts, $i++);
           $output .= _theme_table_cell($cell);
-        endforeach
+        endforeach;
         $output .= " </tr>\n";
-      endif
-    endforeach
+      endif;
+    endforeach;
     $output .= "</tbody>\n";
-  endif
+  endif;
 
   $output .= "</table>\n";
   print $output;
