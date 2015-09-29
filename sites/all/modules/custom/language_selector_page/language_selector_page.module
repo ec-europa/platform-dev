@@ -6,18 +6,6 @@
  */
 
 /**
- * Implements hook_init().
- *
- * As we can not alter the autocomplete path without a hook_form_alter we add a
- * bit of javascript to alter these urls. We cannot load this last in the page
- * as this might break the purpose of it.
- */
-function language_selector_page_init() {
-  $path = drupal_get_path('module', 'language_selector_page');
-  drupal_add_js($path . '/js/language_selector_page.js', array('scope' => 'header', 'weight' => 0));
-}
-
-/**
  * Implements hook_block_info().
  */
 function language_selector_page_block_info() {
@@ -66,10 +54,7 @@ function language_selector_page_block_content() {
       $other = array();
 
       // Get currently served language.
-      $args = func_get_args();
-      $entity_type = array_shift($args);
-      $entity = array_shift($args);
-      $served_code = entity_translation_get_existing_language($entity_type, $entity);
+      $served_code = entity_translation_get_existing_language('node', $node);
       $served = $languages[1][$served_code];
 
       // Check available translations.
@@ -150,6 +135,7 @@ function language_selector_page_preprocess_block(&$variables) {
   }
 }
 
+
 /**
  * Implements hook_url_outbound_alter().
  *
@@ -158,7 +144,6 @@ function language_selector_page_preprocess_block(&$variables) {
  * it is needed (everywhere).
  */
 function language_selector_page_url_outbound_alter(&$path, &$options, $original_path) {
-
   // First we get our url parameters.
   $parameters = drupal_get_query_parameters();
 
@@ -169,13 +154,7 @@ function language_selector_page_url_outbound_alter(&$path, &$options, $original_
     // Now lets check if we are not setting it already, because then we would
     // override.
     if (!isset($options['query']['2nd-language'])) {
-      // Lets not alter the autocomplete paths here.
-      if (strpos($path, 'autocomplete')) {
-        return;
-      }
-      else {
-        $options['query']['2nd-language'] = $parameters['2nd-language'];
-      }
+      $options['query']['2nd-language'] = $parameters['2nd-language'];
     }
   }
 }
