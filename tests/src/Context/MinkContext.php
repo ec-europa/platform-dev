@@ -14,10 +14,7 @@ use Drupal\DrupalExtension\Context\MinkContext as DrupalExtensionMinkContext;
  */
 class MinkContext extends DrupalExtensionMinkContext {
 
-
   /**
-   * Opens homepage.
-   *
    * {@inheritdoc}
    */
   public function iAmOnHomepage() {
@@ -27,8 +24,6 @@ class MinkContext extends DrupalExtensionMinkContext {
 
 
   /**
-   * Checks, that current page is the homepage.
-   *
    * {@inheritdoc}
    */
   public function assertHomepage() {
