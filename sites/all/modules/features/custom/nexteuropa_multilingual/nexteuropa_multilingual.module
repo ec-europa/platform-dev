@@ -192,10 +192,24 @@ function nexteuropa_multilingual_field_language_alter(&$display_language, $conte
 
 /**
  * Implements hook_language_fallback_candidates_alter().
+ *
+ * Change the language fallback order.
  */
 function nexteuropa_multilingual_language_fallback_candidates_alter(array &$fallback_candidates) {
+  // Add the default language as first fallback.
+  $language_default = language_default();
+  $array_key = array_search($language_default->language, $fallback_candidates);
+  if ($array_key !== FALSE) {
+    unset($fallback_candidates[$array_key]);
+  }
+  array_unshift($fallback_candidates, $language_default->language);
+
+  // Add the 2nd language as first fallback.
   if (isset($_GET['2nd-language'])) {
-    unset($fallback_candidates[$_GET['2nd-language']]);
+    $array_key = array_search($_GET['2nd-language'], $fallback_candidates);
+    if ($array_key !== FALSE) {
+      unset($fallback_candidates[$array_key]);
+    }
     array_unshift($fallback_candidates, $_GET['2nd-language']);
   }
 }
