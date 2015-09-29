@@ -54,10 +54,7 @@ function language_selector_page_block_content() {
       $other = array();
 
       // Get currently served language.
-      $args = func_get_args();
-      $entity_type = array_shift($args);
-      $entity = array_shift($args);
-      $served_code = entity_translation_get_existing_language($entity_type, $entity);
+      $served_code = entity_translation_get_existing_language('node', $node);
       $served = $languages[1][$served_code];
 
       // Check available translations.
