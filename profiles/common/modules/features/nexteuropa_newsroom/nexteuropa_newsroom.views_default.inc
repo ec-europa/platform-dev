@@ -99,7 +99,7 @@ function nexteuropa_newsroom_views_default_views() {
   );
   $export['newsletter_subscription'] = $view;
 
- $view = new view();
+  $view = new view();
   $view->name = 'newsroom';
   $view->description = '';
   $view->tag = 'newsroom';
@@ -339,11 +339,6 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'newsroom_item' => 'newsroom_item',
   );
-  /* Filter criterion: Content: Sticky */
-  $handler->display->display_options['filters']['sticky']['id'] = 'sticky';
-  $handler->display->display_options['filters']['sticky']['table'] = 'node';
-  $handler->display->display_options['filters']['sticky']['field'] = 'sticky';
-  $handler->display->display_options['filters']['sticky']['value'] = '1';
 
   /* Display: default_newsroom */
   $handler = $view->new_display('page', 'default_newsroom', 'default_newsroom');
