@@ -2309,7 +2309,13 @@ function _newsroom_taxonomy_term_from_request($request, array $argument_settings
   global $language;
   $curr_lang = $language->language;
   $multilingual = variable_get('newsroom_multilingual', FALSE);
-
+  $taxonomy_term = NULL;
+  if (is_int($request)) {
+    $taxonomy_term = taxonomy_term_load($request);
+    if ($taxonomy_term) {
+      return $taxonomy_term;
+    }
+  }
   // Take vocabularies from context filter field.
   $vocabularies = isset($argument_settings[$filter_field]['validate_options']['vocabularies']) ? array_values($argument_settings[$filter_field]['validate_options']['vocabularies']) : array();
 
@@ -3097,7 +3103,6 @@ function newsroom_entity_presave($entity, $type) {
  * Implements hook_feeds_after_save().
  */
 function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id) {
-
   if ($source->importer()->fetcher->id == 'newsroom_items_multilingual') {
 
     // TODO : find a better way to remove translation.
