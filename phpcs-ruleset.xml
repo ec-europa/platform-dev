@@ -37,12 +37,9 @@
     <exclude-pattern>profiles/common/modules/features/multisite_readspeaker</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_registration</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_settings</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_translations</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_twitterblock</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_workbench_moderation_view</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/node_pager</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/solr_config</exclude-pattern>
     <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/multisite_drupal_access</exclude-pattern>
