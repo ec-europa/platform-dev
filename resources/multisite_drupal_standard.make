@@ -562,6 +562,12 @@ projects[xml_field][version] = "1.5"
 projects[xmlsitemap][subdir] = "contrib"
 projects[xmlsitemap][version] = "2.0"
 
+projects[feeds_et][subdir] = "contrib"
+projects[feeds_et][version] = "1.x-dev"
+; Issue #2078069: Support for link fields
+; https://www.drupal.org/node/2078069
+projects[feeds_et][patch][] = https://www.drupal.org/files/feeds_et_link_support-2078069-1.patch
+
 ; =========
 ; Libraries
 ; =========
