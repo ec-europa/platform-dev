@@ -7,13 +7,6 @@
 include_once 'multisite_mediagallery_standard.install.inc';
 
 /**
- * Implements hook_install().
- */
-function multisite_mediagallery_standard_install() {
-  // Nothing yet.
-}
-
-/**
  * Implements hook_enable().
  */
 function multisite_mediagallery_standard_enable() {
@@ -27,11 +20,4 @@ function multisite_mediagallery_standard_enable() {
 function multisite_mediagallery_standard_disable() {
   // Deactivation message.
   drupal_set_message(t('Multisite Media Gallery Standard %v feature is now inactive on your site.', array('%v' => _multisite_mediagallery_standard_get_version())));
-}
-
-/**
- * Implements hook_uninstall().
- */
-function multisite_mediagallery_standard_uninstall() {
-  // Nothing yet.
 }

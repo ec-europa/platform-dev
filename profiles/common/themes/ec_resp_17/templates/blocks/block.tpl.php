@@ -76,16 +76,16 @@
           if ($block->delta == $delta):
             $panel = FALSE;
             break;
-          endif
-        endforeach
+          endif;
+        endforeach;
       else :
         if ($block->delta == $value):
           $panel = FALSE;
           break;
-        endif
-      endif
-    endif
-  endforeach
+        endif;
+      endif;
+    endif;
+  endforeach;
 
   $title = TRUE;
   foreach ($block_no_title as $key => $value):
@@ -95,36 +95,36 @@
           if ($block->delta == $delta):
             $title = FALSE;
             break;
-          endif
-        endforeach
+          endif;
+        endforeach;
       else:
         if ($block->delta == $value):
           $title = FALSE;
           break;
-        endif
-      endif
-    endif
-  endforeach
+        endif;
+      endif;
+    endif;
+  endforeach;
 
   $body_class = TRUE;
   foreach ($block_no_body_class as $key => $value):
     if ($block->module == $key && $block->delta == $value):
       $body_class = FALSE;
-    endif
-  endforeach
+    endif;
+  endforeach;
 ?>
 
-<div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?> <?php if ($panel): print 'panel panel-default clearfix'; endif ?>">
+<div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?> <?php if ($panel): print 'panel panel-default clearfix'; endif; ?>">
   
 <?php print render($title_prefix); ?>
 <?php if ($title && $block->subject): ?>
-  <div class="<?php if ($panel): print 'panel-heading'; endif ?>">
+  <div class="<?php if ($panel): print 'panel-heading'; endif; ?>">
     <?php print $block->subject ?>
   </div>
 <?php endif;?>
 <?php print render($title_suffix); ?>
 
-  <div class="<?php if ($panel && $body_class): print 'panel-body'; endif ?> content"<?php print $content_attributes; ?>>
+  <div class="<?php if ($panel && $body_class): print 'panel-body'; endif; ?> content"<?php print $content_attributes; ?>>
   <?php
     print $content;
    ?>

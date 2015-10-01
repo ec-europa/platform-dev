@@ -4,6 +4,11 @@
 <ruleset name="NextEuropa">
     <description>Drupal coding standard for NextEuropa</description>
 
+    <!-- Exclude unsupported file types. -->
+    <exclude-pattern>*.gif</exclude-pattern>
+    <exclude-pattern>*.less</exclude-pattern>
+    <exclude-pattern>*.png</exclude-pattern>
+
     <!-- Minified files don't have to comply with coding standards. -->
     <exclude-pattern>*.min.css</exclude-pattern>
     <exclude-pattern>*.min.js</exclude-pattern>
@@ -26,11 +31,6 @@
     <exclude-pattern>profiles/common/modules/features/multisite_forum_core</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_maps</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_maxlength</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_community</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_core</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_standard</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_megamenu</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_metatags</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_multilingual_references</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_notifications</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_path_override</exclude-pattern>
@@ -65,6 +65,7 @@
     <exclude-pattern>profiles/multisite_drupal_standard/modules/contrib/</exclude-pattern>
     <exclude-pattern>profiles/standard/</exclude-pattern>
     <exclude-pattern>profiles/testing/</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_resp_17/bootstrap</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/scripts/ec.js</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp_17/scripts/ec.js</exclude-pattern>
 

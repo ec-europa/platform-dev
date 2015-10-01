@@ -56,23 +56,23 @@
       $identity = '';
       if (isset($user_profile['field_firstname'][0]['#markup'])):
         $identity .= $user_profile['field_firstname'][0]['#markup'];
-      endif
+      endif;
       if (isset($user_profile['field_lastname'][0]['#markup'])):
         if ($identity != ''):
           $identity .= ' ';
-        endif
+        endif;
         $identity .= $user_profile['field_lastname'][0]['#markup'];
-      endif
+      endif;
       $output .= '<blockquote><h3>' . $identity . '</h3>';
       if (isset($profile_user->created)):
         $member_txt = t('Member since');
         $output .= '<small>' . $member_txt . ' ' . date('d/m/Y', $profile_user->created) . '</small></blockquote>';
-      endif
+      endif;
       print $output;
     ?>
       </div>
     </div>
-    <?php if (isset($contact_form)): print $contact_form; endif?>
+    <?php if (isset($contact_form)): print $contact_form; endif;?>
   </div>
 
   <?php
@@ -81,8 +81,8 @@
       if (!in_array($key, $basic)):
         $display_additionnal = TRUE;
         break;
-      endif
-    endforeach
+      endif;
+    endforeach;
   ?>    
   
   <?php
@@ -105,7 +105,7 @@
               $field .= '<div class="row"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' . render($value) . '</div>';
             else:
               $field .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' . render($value) . '</div>';
-            endif
+            endif;
           break;
 
           case 'inline':
@@ -116,16 +116,16 @@
               $field .= '<div class="col-lg-10 col-md-9 col-sm-9 col-xs-8">' . render($value) . '</div>';
             else:
               $field .= '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' . render($value) . '</div>';
-            endif
+            endif;
           break;
-        endswitch
+        endswitch;
 
         $field .= '</div>';
         $field .= '</div>';
 
         print $field;
-      endif
-    endforeach
-  endif
+      endif;
+    endforeach;
+  endif;
   ?>
 </div>

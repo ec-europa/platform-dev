@@ -10,7 +10,7 @@
 function multisite_mediagallery_community_og_features_default_permissions() {
   $permissions = array();
 
-  // Exported og permission: 'node:community:create gallerymedia content'
+  // Exported og permission: 'node:community:create gallerymedia content'.
   $permissions['node:community:create gallerymedia content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -19,7 +19,7 @@ function multisite_mediagallery_community_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:delete any gallerymedia content'
+  // Exported og permission: 'node:community:delete any gallerymedia content'.
   $permissions['node:community:delete any gallerymedia content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -27,7 +27,7 @@ function multisite_mediagallery_community_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:delete own gallerymedia content'
+  // Exported og permission: 'node:community:delete own gallerymedia content'.
   $permissions['node:community:delete own gallerymedia content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -36,7 +36,7 @@ function multisite_mediagallery_community_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:update any gallerymedia content'
+  // Exported og permission: 'node:community:update any gallerymedia content'.
   $permissions['node:community:update any gallerymedia content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',
@@ -44,7 +44,7 @@ function multisite_mediagallery_community_og_features_default_permissions() {
     ),
   );
 
-  // Exported og permission: 'node:community:update own gallerymedia content'
+  // Exported og permission: 'node:community:update own gallerymedia content'.
   $permissions['node:community:update own gallerymedia content'] = array(
     'roles' => array(
       'administrator member' => 'administrator member',

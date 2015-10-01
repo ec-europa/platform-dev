@@ -199,7 +199,6 @@ function ec_resp_preprocess_feature_set_admin_form(&$variables) {
  */
 function ec_resp_preprocess_page(&$variables) {
   $title = drupal_get_title();
-
   // Format regions.
   $regions = array();
   $regions['header_right'] = (isset($variables['page']['header_right']) ? render($variables['page']['header_right']) : '');
@@ -287,6 +286,10 @@ function ec_resp_preprocess_page(&$variables) {
         $variables['menu_visible'] = TRUE;
       }
     }
+  }
+  // Update logo for interinstitutional theme option.
+  if (theme_get_setting('enable_interinstitutional_theme')) {
+    $variables['logo'] = file_create_url(drupal_get_path('theme', 'ec_resp') . '/logo_europa.png');
   }
 
   // Adding pathToTheme for Drupal.settings to be used in js files.
@@ -439,6 +442,17 @@ function ec_resp_preprocess_maintenance_page(&$variables) {
 }
 
 /**
+ * Implements hook_css_alter().
+ */
+function ec_resp_css_alter(&$css) {
+  // Loads eu_resp.css instead of ec_resp, if checked in theme settings.
+  if (theme_get_setting('enable_interinstitutional_theme')) {
+    $css = drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/eu_resp.min.css');
+    unset($css[drupal_get_path('theme', 'ec_resp') . '/css/ec_resp.css']);
+  }
+}
+
+/**
  * Implements template_preprocess_html().
  */
 function ec_resp_preprocess_html(&$variables) {
@@ -451,14 +465,20 @@ function ec_resp_preprocess_html(&$variables) {
       // If the metatag title exists, it must be used
       // to construct the title page.
       if (isset($node->field_meta_title) && !empty($node->field_meta_title)) {
-        $variables['head_title'] = filter_xss($node->field_meta_title['und'][0]['value']);
+        $title = filter_xss($node->field_meta_title['und'][0]['value']);
       }
       else {
-        $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
+        $title = filter_xss($node->title);
       }
     }
     else {
-      $variables['head_title'] = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
+      $title = filter_xss(variable_get('site_name'));
+    }
+    if (theme_get_setting('enable_interinstitutional_theme')) {
+      $variables['head_title'] = t('EUROPA - !title', array('!title' => $title));
+    }
+    else {
+      $variables['head_title'] = t('!title - European Commission', array('!title' => $title));
     }
   }
   // Add javascripts to the footer scope.
@@ -634,7 +654,12 @@ function ec_resp_page_alter(&$page) {
     $description = $node_title . ' - ' . $description;
   }
 
-  $title = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
+  if (theme_get_setting('enable_interinstitutional_theme')) {
+    $title = t('EUROPA - !title', array('!title' => filter_xss(variable_get('site_name'))));
+  }
+  else {
+    $title = t('!title - European Commission', array('!title' => filter_xss(variable_get('site_name'))));
+  }
   if (!empty($node)) {
     // If the metatag title exists, it must be used to construct the title page.
     if (isset($node->field_meta_title) && !empty($node->field_meta_title)) {
@@ -1116,7 +1141,13 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
       $form['search_block_form']['#attributes']['placeholder'][] = t('Search');
 
       $form['actions']['submit']['#type'] = 'image_button';
-      $form['actions']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.png';
+
+      if (theme_get_setting('enable_interinstitutional_theme')) {
+        $form['actions']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.gif';
+      }
+      else {
+        $form['actions']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.png';
+      }
       $form['actions']['submit']['#attributes']['class'][] = 'btn btn-default btn-small';
       break;
 

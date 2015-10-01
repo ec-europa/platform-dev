@@ -45,7 +45,7 @@ function language_selector_page_block_content() {
     $node = node_load(arg(1));
 
     // Doesn't manage neutral language.
-    if ($node->language !== 'und') {
+    if ($node->language !== LANGUAGE_NONE) {
 
       // Initialize variables.
       $is_available = FALSE;
@@ -56,7 +56,6 @@ function language_selector_page_block_content() {
       // Get currently served language.
       $served_code = entity_translation_get_existing_language('node', $node);
       $served = $languages[1][$served_code];
-
       // Check available translations.
       foreach ($node->translations->data as $code => $lang) {
         if ($code == $language->language) {
@@ -107,15 +106,22 @@ function language_selector_page_preprocess_block(&$variables) {
     $served = '';
     $other = '';
 
+    // Render 'not_available' languages.
     if (!empty($variables['elements']['not_available']['#markup'])) {
       $not_available = '<li class="lang-select-page__not-available">' . $variables['elements']['not_available']['#markup']->native . '</li>';
     }
 
+    // Render 'served' languages.
     if (!empty($variables['elements']['served']['#markup'])) {
       $served = '<li class="lang-select-page__served">' . $variables['elements']['served']['#markup']->native . '</li>';
     }
 
+    // Render 'other' languages.
     if (!empty($variables['elements']['other']['#markup'])) {
+      // Order the language list by using language weight.
+      uasort($variables['elements']['other']['#markup'], 'multisite_drupal_toolbox_sort_weight_object');
+
+      // Render elements.
       foreach ($variables['elements']['other']['#markup'] as $code => $lang) {
         $options = array(
           'language' => $lang,

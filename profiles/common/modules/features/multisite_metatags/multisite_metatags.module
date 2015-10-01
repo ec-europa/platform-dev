@@ -5,7 +5,7 @@
  */
 
 include_once 'includes/file.mimetypes.inc';
-module_load_include('inc', 'Variable_realm', 'variable_realm.form');
+module_load_include('inc', 'variable_realm', 'variable_realm.form');
 
 /**
  * Implements hook_form_alter().
@@ -177,7 +177,7 @@ function multisite_metatags_theme() {
  *
  * @ingroup themeable
  */
-function theme_ogimage_widget($variables) {
+function theme_ogimage_widget(array $variables = array()) {
   global $base_url;
 
   $element = $variables['element'];

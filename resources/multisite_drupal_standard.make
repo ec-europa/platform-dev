@@ -111,7 +111,12 @@ projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.8"
+projects[date][version] = "2.9"
+; Issue #2305049: Wrong timezone handling in migrate process.
+; https://www.drupal.org/node/2305049
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
+projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
@@ -341,8 +346,14 @@ projects[message][version] = "1.7"
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.6"
 
-projects[migrate][subdir] = "contrib"
-projects[migrate][version] = "2.7"
+; A recent version of the Migrate module is pinned that contains a fix for
+; https://www.drupal.org/node/2504517
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
+; Todo: revert back to the stable version when Migrate 7.x-2.9 is released.
+projects[migrate][download][branch] = 7.x-2.x
+projects[migrate][download][revision] = 046c6ad
+projects[migrate][download][type] = git
+projects[migrate][subdir] = contrib
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0-beta3"
@@ -711,6 +722,35 @@ libraries[respond][destination] = "themes/ec_resp"
 libraries[respond][directory_name] = "scripts"
 libraries[respond][download][type] = "get"
 libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
+
+; ============================
+; Libraries for Ec_resp_17 Theme
+; ============================
+
+; Ec_resp_17 theme : Bootstrap 3.1.1
+libraries[ec_resp_17_bootstrap][download][type] = get
+libraries[ec_resp_17_bootstrap][download][url] = https://github.com/twbs/bootstrap/releases/download/v3.1.1/bootstrap-3.1.1-dist.zip
+libraries[ec_resp_17_bootstrap][download][file_type] = "zip"
+libraries[ec_resp_17_bootstrap][destination] =  "themes/ec_resp_17"
+libraries[ec_resp_17_bootstrap][directory_name] = bootstrap
+
+libraries[ec_resp_17_bootstrap_less][download][type] = "get"
+libraries[ec_resp_17_bootstrap_less][download][url] = "https://github.com/twbs/bootstrap/archive/v3.1.1.zip"
+libraries[ec_resp_17_bootstrap_less][download][subtree] = "bootstrap-3.1.1/less"
+libraries[ec_resp_17_bootstrap_less][destination] =  "themes/ec_resp_17/bootstrap"
+libraries[ec_resp_17_bootstrap_less][directory_name] = less
+
+; Ec_resp_17 theme : jQuery Mousewheel
+libraries[ec_resp_17_mousewheel][destination] = "themes/ec_resp_17"
+libraries[ec_resp_17_mousewheel][directory_name] = "scripts"
+libraries[ec_resp_17_mousewheel][download][type] = "get"
+libraries[ec_resp_17_mousewheel][download][url] = "https://raw.githubusercontent.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"
+
+; Ec_resp_17 theme : Respond JS
+libraries[ec_resp_17_respond][destination] = "themes/ec_resp_17"
+libraries[ec_resp_17_respond][directory_name] = "scripts"
+libraries[ec_resp_17_respond][download][type] = "get"
+libraries[ec_resp_17_respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
 
 ; ======
 ; Themes

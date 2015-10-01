@@ -34,7 +34,7 @@ function multisite_mediagallery_community_form_gallerymedia_node_form_alter(&$fo
   if (isset($form['#groups']['group_gallerymedia_community'])) {
     $fields_group_community = $form['#groups']['group_gallerymedia_community']->children;
     foreach ($fields_group_community as $field) {
-      // If a field of the group tab 'Community' has the class 'element-hidden'
+      // If a field of the group tab 'Community' has the class 'element-hidden'.
       if (in_array('element-hidden', $form[$field]['#attributes']['class'])) {
         // Hide the group tab 'Community'.
         field_group_hide_field_groups($form, array('group_gallerymedia_community'));
