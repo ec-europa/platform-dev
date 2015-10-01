@@ -717,17 +717,17 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 ; ============================
 
 ; Ec_resp_17 theme : Bootstrap 3.1.1
-libraries[ec_resp_bootstrap][download][type] = get
-libraries[ec_resp_bootstrap][download][url] = https://github.com/twbs/bootstrap/releases/download/v3.1.1/bootstrap-3.1.1-dist.zip
-libraries[ec_resp_bootstrap][download][file_type] = "zip"
-libraries[ec_resp_bootstrap][destination] =  "themes/ec_resp_17"
-libraries[ec_resp_bootstrap][directory_name] = bootstrap
+libraries[ec_resp_17_bootstrap][download][type] = get
+libraries[ec_resp_17_bootstrap][download][url] = https://github.com/twbs/bootstrap/releases/download/v3.1.1/bootstrap-3.1.1-dist.zip
+libraries[ec_resp_17_bootstrap][download][file_type] = "zip"
+libraries[ec_resp_17_bootstrap][destination] =  "themes/ec_resp_17"
+libraries[ec_resp_17_bootstrap][directory_name] = bootstrap
 
-libraries[ec_resp_bootstrap_less][download][type] = "get"
-libraries[ec_resp_bootstrap_less][download][url] = "https://github.com/twbs/bootstrap/archive/v3.1.1.zip"
-libraries[ec_resp_bootstrap_less][download][subtree] = "bootstrap-3.1.1/less"
-libraries[ec_resp_bootstrap_less][destination] =  "themes/ec_resp_17/bootstrap"
-libraries[ec_resp_bootstrap_less][directory_name] = less
+libraries[ec_resp_17_bootstrap_less][download][type] = "get"
+libraries[ec_resp_17_bootstrap_less][download][url] = "https://github.com/twbs/bootstrap/archive/v3.1.1.zip"
+libraries[ec_resp_17_bootstrap_less][download][subtree] = "bootstrap-3.1.1/less"
+libraries[ec_resp_17_bootstrap_less][destination] =  "themes/ec_resp_17/bootstrap"
+libraries[ec_resp_17_bootstrap_less][directory_name] = less
 
 ; Ec_resp_17 theme : jQuery Mousewheel
 libraries[ec_resp_17_mousewheel][destination] = "themes/ec_resp_17"
