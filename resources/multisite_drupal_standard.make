@@ -111,7 +111,12 @@ projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.8"
+projects[date][version] = "2.9"
+; Issue #2305049: Wrong timezone handling in migrate process.
+; https://www.drupal.org/node/2305049
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
+projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
@@ -341,8 +346,14 @@ projects[message][version] = "1.7"
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.6"
 
-projects[migrate][subdir] = "contrib"
-projects[migrate][version] = "2.7"
+; A recent version of the Migrate module is pinned that contains a fix for
+; https://www.drupal.org/node/2504517
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
+; Todo: revert back to the stable version when Migrate 7.x-2.9 is released.
+projects[migrate][download][branch] = 7.x-2.x
+projects[migrate][download][revision] = 046c6ad
+projects[migrate][download][type] = git
+projects[migrate][subdir] = contrib
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0-beta3"
