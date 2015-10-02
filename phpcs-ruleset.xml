@@ -21,10 +21,7 @@
     <exclude-pattern>profiles/common/modules/features/ecas_env</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multi_user_blog</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multilingual_tools</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_activity</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_autosave</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_business_indicators</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_charts</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_custom_error</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_eu_cookie_compliance</exclude-pattern>
