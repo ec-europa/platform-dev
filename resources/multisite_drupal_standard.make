@@ -14,9 +14,6 @@ includes[] = "drupal-core.make"
 
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
-projects[admin_menu][patch][] = patches/admin_menu-correctly_display-2360249-74.patch
-projects[admin_menu][patch][] = patches/admin_menu-ie6detect-1961178-2.patch
-projects[admin_menu][patch][] = patches/admin_menu-undefined_index_name-1997386-3.patch
 
 projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.7"
@@ -180,7 +177,6 @@ projects[feeds_tamper][version] = "1.1"
 
 projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
-projects[feeds_xpathparser][patch][] = patches/feeds_xpathparser-undefined_index_unique-1998194-2.patch
 
 projects[field_collection][subdir] = "contrib"
 projects[field_collection][version] = "1.0-beta8"
@@ -284,8 +280,6 @@ projects[mailsystem][version] = "2.34"
 
 projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2"
-projects[maxlength][patch][] = patches/maxlength-indefined_index-2235.patch
-projects[maxlength][patch][] = patches/maxlength-prevent_undefined_index_error-1416608-3.patch
 
 projects[media][subdir] = contrib
 projects[media][download][branch] = 7.x-2.x
