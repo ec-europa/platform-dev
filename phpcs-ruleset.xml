@@ -25,8 +25,6 @@
     <exclude-pattern>profiles/common/modules/features/multisite_autosave</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_business_indicators</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_charts</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_custom_error</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_eu_cookie_compliance</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_forum_core</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_maps</exclude-pattern>

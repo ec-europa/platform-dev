@@ -3,14 +3,15 @@
 /**
  * @file
  * Tests for PROJECTFEATURE_multisite_custom_error.module.
- * ECWeb MULTISITE Feature Test
+ *
+ * ECWeb MULTISITE Feature Test.
  */
 
 /**
  * Defines a base class for testing the Multisite Custom Error feature.
  */
 class MultisiteMultilingualEntityReferencesFeatureTest extends DrupalWebTestCase {
-  protected $web_user;
+  protected $webUser;
   protected $title;
   protected $description;
 
@@ -35,22 +36,24 @@ class MultisiteMultilingualEntityReferencesFeatureTest extends DrupalWebTestCase
 
   /**
    * Verify that current user has no access to page.
-   * @param $url
-   * URL to verify.
+   *
+   * @param string $url
+   *   URL to verify.
    */
-  function multisiteCustomErrorVerifyNoAccess($url) {
-    // Test that page returns 403 Access Denied
+  public function multisiteCustomErrorVerifyNoAccess($url) {
+    // Test that page returns 403 Access Denied.
     $this->drupalGet($url);
     $this->assertResponse(403, 'Expected -> Access Denied');
   }
 
   /**
    * Verify that current user has access to Site information page.
-   * @param $url
-   * URL to verify.
+   *
+   * @param string $url
+   *   URL to verify.
    */
-  function multisiteCustomErrorVerifySiteInformationAccess($url) {
-    // Test that page returns 200 Access OK
+  public function multisiteCustomErrorVerifySiteInformationAccess($url) {
+    // Test that page returns 200 Access OK.
     $this->drupalGet($url);
     $this->assertResponse(200, 'Expected -> Access OK');
     $this->assertFieldByName('site_403', 'customerror/403', 'There is a default 403 (access denied) page.');
@@ -58,73 +61,82 @@ class MultisiteMultilingualEntityReferencesFeatureTest extends DrupalWebTestCase
   }
 
   /**
-   * Check the access to the 'Site information' configuration page depending on the available roles.
+   * Check the access to the 'Site information' configuration page.
    */
-  function testMultisiteCustomErrorSiteInformationAccess() {
+  public function testMultisiteCustomErrorSiteInformationAccess() {
     // Verify that anonymous users can't access to the Site information page.
     $this->multisiteCustomErrorVerifyNoAccess('admin/config/system/site-information');
 
     // Create a regular user and login.
-    $this->web_user = $this->drupalCreateUser();
-    $this->drupalLogin($this->web_user);
-    // Verify that authenticated users can't access to the Site information page.
+    $this->webUser = $this->drupalCreateUser();
+    $this->drupalLogin($this->webUser);
+    // Verify that authenticated users can't access
+    // to the Site information page.
     $this->multisiteCustomErrorVerifyNoAccess('admin/config/system/site-information');
 
-    // Create a user with permissions to access to the Site information page and login.
-    $this->web_user = $this->drupalCreateUser(array('administer site configuration'));
-    $this->drupalLogin($this->web_user);
-    // Verify that users with permission can access to the Site information page.
+    // Create a user with permissions to access
+    // to the Site information page and login.
+    $this->webUser = $this->drupalCreateUser(array('administer site configuration'));
+    $this->drupalLogin($this->webUser);
+    // Verify that users with permission can access
+    // to the Site information page.
     $this->multisiteCustomErrorVerifySiteInformationAccess('admin/config/system/site-information');
   }
 
   /**
    * Verify that current user has access to page.
-   * @param $url
-   * URL to verify.
+   *
+   * @param string $url
+   *   URL to verify.
    */
-  function multisiteCustomErrorVerifyConfigurationAccess($url) {
-    // Test that page returns 200 Access OK
+  public function multisiteCustomErrorVerifyConfigurationAccess($url) {
+    // Test that page returns 200 Access OK.
     $this->drupalGet($url);
     $this->assertResponse(200, 'Expected -> Access OK');
 
-    // 403 ERROR PAGE SETTINGS
+    // 403 ERROR PAGE SETTINGS.
     $this->assertText(t('403 Error Settings'), 'Creation of custom error page for 403 error is enabled.');
     $this->assertFieldById('edit-customerror-403-title', '', 'Ther is a "Title for 403" field.');
     $this->assertFieldByName('customerror_403', 'access denied', 'There is a "Description for 403" field.');
 
-    // 404 ERROR PAGE SETTINGS
+    // 404 ERROR PAGE SETTINGS.
     $this->assertText(t('404 Error Settings'), 'Creation of custom error page for 404 error is enabled.');
     $this->assertFieldById('edit-customerror-404-title', '', 'There is a "Title for 404".');
     $this->assertFieldByName('customerror_404', 'requested page not found', 'There is a "Description for 404" field.');
   }
 
   /**
-   * Check the access to the 'Cusotm error' configuration page depending on the available roles.
+   * Check the access to the 'Custom error' configuration page.
    */
-  function testMultisiteCustomErrorConfigurationAccess() {
-    // Verify that anonymous users can't access to the Custom Error configuration page.
+  public function testMultisiteCustomErrorConfigurationAccess() {
+    // Verify that anonymous users can't access
+    // to the Custom Error configuration page.
     $this->multisiteCustomErrorVerifyNoAccess('admin/config/system/customerror');
 
     // Create a regular user and login.
-    $this->web_user = $this->drupalCreateUser();
-    $this->drupalLogin($this->web_user);
-    // Verify that authenticated users can't access to the Custom Error configuration page.
+    $this->webUser = $this->drupalCreateUser();
+    $this->drupalLogin($this->webUser);
+    // Verify that authenticated users can't access
+    // to the Custom Error configuration page.
     $this->multisiteCustomErrorVerifyNoAccess('admin/config/system/customerror');
 
-    // Create a user with permissions to access to the Custom Error configuration page and login.
-    $this->web_user = $this->drupalCreateUser(array('administer site configuration'));
-    $this->drupalLogin($this->web_user);
-    // Verify that users with permission can access to the Custom Error configuration page.
+    // Create a user with permissions to access
+    // to the Custom Error configuration page and login.
+    $this->webUser = $this->drupalCreateUser(array('administer site configuration'));
+    $this->drupalLogin($this->webUser);
+    // Verify that users with permission can access
+    // to the Custom Error configuration page.
     $this->multisiteCustomErrorVerifyConfigurationAccess('admin/config/system/customerror');
   }
 
   /**
    * Verify that 403 error page is working.
-   * @param $url
-   * URL to verify.
+   *
+   * @param string $url
+   *   URL to verify.
    */
-  function multisiteCustomErrorPage403Access($url) {
-    // Test that page returns 200 Access OK
+  public function multisiteCustomErrorPage403Access($url) {
+    // Test that page returns 200 Access OK.
     $this->drupalGet($url);
     $this->assertText(t('access denied'), 'Acces denied. Custom 403 error page is working.');
   }
@@ -132,17 +144,18 @@ class MultisiteMultilingualEntityReferencesFeatureTest extends DrupalWebTestCase
   /**
    * Check the access to the 403 error page.
    */
-  function testCustomErrorPage403() {
+  public function testCustomErrorPage403() {
     $this->multisiteCustomErrorPage403Access('admin');
   }
 
   /**
    * Verify that 404 error page is working.
-   * @param $url
-   * URL to verify.
+   *
+   * @param string $url
+   *   URL to verify.
    */
-  function multisiteCustomErrorPage404Access($url) {
-    // Test that page returns 200 Access OK
+  public function multisiteCustomErrorPage404Access($url) {
+    // Test that page returns 200 Access OK.
     $this->drupalGet($url);
     $this->assertText(t('requested page not found'), 'Requested page not found. Custom 404 error page is working.');
   }
@@ -150,17 +163,18 @@ class MultisiteMultilingualEntityReferencesFeatureTest extends DrupalWebTestCase
   /**
    * Check the access to the 404 error page.
    */
-  function testCustomErrorPage404() {
+  public function testCustomErrorPage404() {
     $this->multisiteCustomErrorPage404Access('notfound');
   }
 
   /**
    * Verify that 403 error page is working.
-   * @param $url
-   * URL to verify.
+   *
+   * @param string $url
+   *   URL to verify.
    */
-  function multisiteCustomErrorPage403Test($url) {
-    // Test that page returns 200 Access OK
+  public function multisiteCustomErrorPage403Test($url) {
+    // Test that page returns 200 Access OK.
     $this->drupalGet($url);
     $this->assertText($this->title, 'Title found. New custom 403 error page is working.');
     $this->assertText($this->description, 'Description found. New custom 403 error page is working.');
@@ -169,10 +183,11 @@ class MultisiteMultilingualEntityReferencesFeatureTest extends DrupalWebTestCase
   /**
    * Edit 403 error message.
    */
-  function testCreatePage403() {
-    // Create a user with permissions to access to the Custom Error configuration page and login.
-    $this->web_user = $this->drupalCreateUser(array('administer site configuration'));
-    $this->drupalLogin($this->web_user);
+  public function testCreatePage403() {
+    // Create a user with permissions to access
+    // to the Custom Error configuration page and login.
+    $this->webUser = $this->drupalCreateUser(array('administer site configuration'));
+    $this->drupalLogin($this->webUser);
 
     $this->title = $this->randomName(10);
     $this->description = $this->randomName(100);
@@ -187,15 +202,16 @@ class MultisiteMultilingualEntityReferencesFeatureTest extends DrupalWebTestCase
     $this->drupalLogout();
 
     $this->multisiteCustomErrorPage403Test('admin');
-  } 
+  }
 
   /**
    * Verify that 404 error page is working.
-   * @param $url
-   * URL to verify.
+   *
+   * @param string $url
+   *   URL to verify.
    */
-  function multisiteCustomErrorPage404Test($url) {
-    // Test that page returns 200 Access OK
+  public function multisiteCustomErrorPage404Test($url) {
+    // Test that page returns 200 Access OK.
     $this->drupalGet($url);
     $this->assertText($this->title, 'Title found. New custom 404 error page is working.');
     $this->assertText($this->description, 'Description found. New custom 404 error page is working.');
@@ -204,10 +220,11 @@ class MultisiteMultilingualEntityReferencesFeatureTest extends DrupalWebTestCase
   /**
    * Edit 404 error message.
    */
-  function testCreatePage404() {
-    // Create a user with permissions to access to the Custom Error configuration page and login.
-    $this->web_user = $this->drupalCreateUser(array('administer site configuration'));
-    $this->drupalLogin($this->web_user);
+  public function testCreatePage404() {
+    // Create a user with permissions to access
+    // to the Custom Error configuration page and login.
+    $this->webUser = $this->drupalCreateUser(array('administer site configuration'));
+    $this->drupalLogin($this->webUser);
 
     $this->title = $this->randomName(10);
     $this->description = $this->randomName(100);
@@ -220,6 +237,6 @@ class MultisiteMultilingualEntityReferencesFeatureTest extends DrupalWebTestCase
     $this->assertText(t('The configuration options have been saved.'));
 
     $this->multisiteCustomErrorPage404Test('notfound');
-  } 
+  }
 
 }

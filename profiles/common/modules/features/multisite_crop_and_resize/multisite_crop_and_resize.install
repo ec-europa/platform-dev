@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Install the feature Multisite Crop and Resize
+ * Install the feature Multisite Crop and Resize.
  */
 
 include_once 'multisite_crop_and_resize.install.inc';
@@ -65,11 +65,4 @@ function multisite_crop_and_resize_install() {
     ->fields(array('weight' => $weight + 1))
     ->condition('name', 'multisite_crop_and_resize', '=')
     ->execute();
-}
-
-/**
- * Implements hook_uninstall().
- */
-function multisite_crop_and_resize_uninstall() {
-  // Nothing yet.
 }
