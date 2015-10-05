@@ -10,7 +10,7 @@
 function multisite_activity_core_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_comment_ref'
+  // Exported field_base: 'field_comment_ref'.
   $field_bases['field_comment_ref'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -55,7 +55,7 @@ function multisite_activity_core_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_node_ref'
+  // Exported field_base: 'field_node_ref'.
   $field_bases['field_node_ref'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -98,7 +98,7 @@ function multisite_activity_core_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_published'
+  // Exported field_base: 'field_published'.
   $field_bases['field_published'] = array(
     'active' => 1,
     'cardinality' => 1,

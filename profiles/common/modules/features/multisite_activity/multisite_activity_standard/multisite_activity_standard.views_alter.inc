@@ -6,8 +6,8 @@
  */
 
 /**
-* Implementation of hook_views_default_views_alter().
-*/
+ * Implements hook_views_default_views_alter().
+ */
 function multisite_activity_standard_views_default_views_alter(&$views) {
   // Alter only the 'view_name_of_interest' view.
   if (array_key_exists('multisite_activity', $views)) {
@@ -25,7 +25,6 @@ function multisite_activity_standard_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['weight'] = '70';
     $handler->display->display_options['menu']['name'] = 'main-menu';
     $handler->display->display_options['menu']['context'] = 0;
-    
+
   }
 }
-
