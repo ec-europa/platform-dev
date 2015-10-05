@@ -14,10 +14,10 @@ include_once 'ecas_env.features.inc';
 function ecas_env_menu_link_alter(&$item) {
   $ecas_menu_items = array();
   $ecas_menu_items = _ecas_menu($ecas_menu_items);
-  if (isset ($ecas_menu_items[$item['link_path']]) && $item['menu_name'] == 'user-menu') {
+  if (isset($ecas_menu_items[$item['link_path']]) && $item['menu_name'] == 'user-menu') {
     // If user edit menu item, we don't force the CSS class
     // (but currents are kept).
-    if (!isset ($item['customized']) || (isset ($item['customized']) && $item['customized'] == 0)) {
+    if (!isset($item['customized']) || (isset($item['customized']) && $item['customized'] == 0)) {
       switch ($item['link_path']) {
         case 'ecas':
           $item['options']['attributes']['title'] = t('Log in');
