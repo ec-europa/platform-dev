@@ -91,7 +91,7 @@ projects[context][patch][] = patches/context-slow_menu_items-873936-20.patch
 
 projects[context_entity_field][subdir] = "contrib"
 projects[context_entity_field][version] = "1.1"
-; Make condition work for entity references .
+; Make condition work for entity references.
 ; Patch implemented in DEV version.
 ; https://www.drupal.org/node/1847038
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5056
@@ -286,7 +286,6 @@ projects[media][download][branch] = 7.x-2.x
 projects[media][download][revision] = 64c5102
 projects[media][download][type] = git
 projects[media][patch][] = patches/media-wysiwyg-override-white-list-MULTISITE-2607.patch
-
 ; Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
 ; https://www.drupal.org/node/2401811
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
@@ -542,6 +541,10 @@ projects[workbench_access][patch][] = patches/workbench_access-fix_php_issues-45
 
 projects[workbench_email][subdir] = "contrib"
 projects[workbench_email][version] = "3.5"
+; Issue #2501321: Add email subject and message to Features.
+; https://www.drupal.org/node/2501321
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
+projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"
@@ -564,6 +567,7 @@ projects[xml_field][version] = "1.5"
 
 projects[xmlsitemap][subdir] = "contrib"
 projects[xmlsitemap][version] = "2.2"
+
 
 ; =========
 ; Libraries
@@ -679,47 +683,49 @@ libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
 libraries[mpdf][destination] = "libraries"
 
-; ============================
-; Libraries for Ec_resp Theme
-; ============================
 
-; Ec_resp theme : Bootstrap 3.3.5
+; ===========================
+; Libraries for Ec_resp Theme
+; ===========================
+
+; Ec_resp theme: Bootstrap 3.3.5
 libraries[ec_resp_bootstrap][download][type] = get
 libraries[ec_resp_bootstrap][download][url] = https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip
 libraries[ec_resp_bootstrap][download][file_type] = "zip"
 libraries[ec_resp_bootstrap][destination] =  "themes/ec_resp"
 libraries[ec_resp_bootstrap][directory_name] = bootstrap
 
-; Ec_resp theme : Bootstrap less
+; Ec_resp theme: Bootstrap less
 libraries[ec_resp_bootstrap_less][download][type] = "get"
 libraries[ec_resp_bootstrap_less][download][url] = "https://github.com/twbs/bootstrap/archive/v3.3.5.zip"
 libraries[ec_resp_bootstrap_less][download][subtree] = "bootstrap-3.3.5/less"
 libraries[ec_resp_bootstrap_less][destination] =  "themes/ec_resp/bootstrap"
 libraries[ec_resp_bootstrap_less][directory_name] = less
 
-; Ec_resp theme : Html5
+; Ec_resp theme: Html5
 libraries[html5shiv][destination] = "themes/ec_resp"
 libraries[html5shiv][directory_name] = "scripts"
 libraries[html5shiv][download][type] = "get"
 libraries[html5shiv][download][url] = "https://raw.githubusercontent.com/aFarkas/html5shiv/master/dist/html5shiv.min.js"
 
-; Ec_resp theme : jQuery Mousewheel
+; Ec_resp theme: jQuery Mousewheel
 libraries[mousewheel][destination] = "themes/ec_resp"
 libraries[mousewheel][directory_name] = "scripts"
 libraries[mousewheel][download][type] = "get"
 libraries[mousewheel][download][url] = "https://raw.githubusercontent.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"
 
-; Ec_resp theme : Respond JS
+; Ec_resp theme: Respond JS
 libraries[respond][destination] = "themes/ec_resp"
 libraries[respond][directory_name] = "scripts"
 libraries[respond][download][type] = "get"
 libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
 
-; ============================
-; Libraries for Ec_resp_17 Theme
-; ============================
 
-; Ec_resp_17 theme : Bootstrap 3.1.1
+; ==============================
+; Libraries for Ec_resp_17 Theme
+; ==============================
+
+; Ec_resp_17 theme: Bootstrap 3.1.1
 libraries[ec_resp_17_bootstrap][download][type] = get
 libraries[ec_resp_17_bootstrap][download][url] = https://github.com/twbs/bootstrap/releases/download/v3.1.1/bootstrap-3.1.1-dist.zip
 libraries[ec_resp_17_bootstrap][download][file_type] = "zip"
@@ -732,17 +738,18 @@ libraries[ec_resp_17_bootstrap_less][download][subtree] = "bootstrap-3.1.1/less"
 libraries[ec_resp_17_bootstrap_less][destination] =  "themes/ec_resp_17/bootstrap"
 libraries[ec_resp_17_bootstrap_less][directory_name] = less
 
-; Ec_resp_17 theme : jQuery Mousewheel
+; Ec_resp_17 theme: jQuery Mousewheel
 libraries[ec_resp_17_mousewheel][destination] = "themes/ec_resp_17"
 libraries[ec_resp_17_mousewheel][directory_name] = "scripts"
 libraries[ec_resp_17_mousewheel][download][type] = "get"
 libraries[ec_resp_17_mousewheel][download][url] = "https://raw.githubusercontent.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"
 
-; Ec_resp_17 theme : Respond JS
+; Ec_resp_17 theme: Respond JS
 libraries[ec_resp_17_respond][destination] = "themes/ec_resp_17"
 libraries[ec_resp_17_respond][directory_name] = "scripts"
 libraries[ec_resp_17_respond][download][type] = "get"
 libraries[ec_resp_17_respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
+
 
 ; ======
 ; Themes

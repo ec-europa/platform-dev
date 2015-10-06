@@ -10,7 +10,7 @@
 function multisite_activity_og_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'message-multisite_content_delete-field_node_ref'
+  // Exported field_instance: 'message-multisite_content_delete-field_node_ref'.
   $field_instances['message-multisite_content_delete-field_node_ref'] = array(
     'bundle' => 'multisite_content_delete',
     'default_value' => NULL,
@@ -47,7 +47,8 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-multisite_content_delete-field_published'
+  // Exported field_instance:
+  // 'message-multisite_content_delete-field_published'.
   $field_instances['message-multisite_content_delete-field_published'] = array(
     'bundle' => 'multisite_content_delete',
     'default_value' => array(
@@ -84,7 +85,7 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-multisite_content_delete-og_group_ref'
+  // Exported field_instance: 'message-multisite_content_delete-og_group_ref'.
   $field_instances['message-multisite_content_delete-og_group_ref'] = array(
     'bundle' => 'multisite_content_delete',
     'default_value' => NULL,
@@ -147,7 +148,7 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-multisite_content_update-field_node_ref'
+  // Exported field_instance: 'message-multisite_content_update-field_node_ref'.
   $field_instances['message-multisite_content_update-field_node_ref'] = array(
     'bundle' => 'multisite_content_update',
     'default_value' => NULL,
@@ -184,7 +185,8 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-multisite_content_update-field_published'
+  // Exported field_instance:
+  // 'message-multisite_content_update-field_published'.
   $field_instances['message-multisite_content_update-field_published'] = array(
     'bundle' => 'multisite_content_update',
     'default_value' => array(
@@ -221,7 +223,7 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-multisite_content_update-og_group_ref'
+  // Exported field_instance: 'message-multisite_content_update-og_group_ref'.
   $field_instances['message-multisite_content_update-og_group_ref'] = array(
     'bundle' => 'multisite_content_update',
     'default_value' => NULL,
@@ -284,7 +286,8 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-multisite_create_comment-field_comment_ref'
+  // Exported field_instance:
+  // 'message-multisite_create_comment-field_comment_ref'.
   $field_instances['message-multisite_create_comment-field_comment_ref'] = array(
     'bundle' => 'multisite_create_comment',
     'default_value' => NULL,
@@ -330,7 +333,7 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-multisite_create_comment-field_node_ref'
+  // Exported field_instance: 'message-multisite_create_comment-field_node_ref'.
   $field_instances['message-multisite_create_comment-field_node_ref'] = array(
     'bundle' => 'multisite_create_comment',
     'default_value' => NULL,
@@ -376,7 +379,8 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-multisite_create_comment-field_published'
+  // Exported field_instance:
+  // 'message-multisite_create_comment-field_published'.
   $field_instances['message-multisite_create_comment-field_published'] = array(
     'bundle' => 'multisite_create_comment',
     'default_value' => array(
@@ -413,7 +417,7 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-multisite_create_comment-og_group_ref'
+  // Exported field_instance: 'message-multisite_create_comment-og_group_ref'.
   $field_instances['message-multisite_create_comment-og_group_ref'] = array(
     'bundle' => 'multisite_create_comment',
     'default_value' => NULL,
@@ -476,7 +480,7 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-multisite_create_node-field_node_ref'
+  // Exported field_instance: 'message-multisite_create_node-field_node_ref'.
   $field_instances['message-multisite_create_node-field_node_ref'] = array(
     'bundle' => 'multisite_create_node',
     'default_value' => NULL,
@@ -522,7 +526,7 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-multisite_create_node-field_published'
+  // Exported field_instance: 'message-multisite_create_node-field_published'.
   $field_instances['message-multisite_create_node-field_published'] = array(
     'bundle' => 'multisite_create_node',
     'default_value' => array(
@@ -559,7 +563,7 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-multisite_create_node-og_group_ref'
+  // Exported field_instance: 'message-multisite_create_node-og_group_ref'.
   $field_instances['message-multisite_create_node-og_group_ref'] = array(
     'bundle' => 'multisite_create_node',
     'default_value' => NULL,
@@ -622,7 +626,7 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-user_subscribe_to_group-field_node_ref'
+  // Exported field_instance: 'message-user_subscribe_to_group-field_node_ref'.
   $field_instances['message-user_subscribe_to_group-field_node_ref'] = array(
     'bundle' => 'user_subscribe_to_group',
     'default_value' => NULL,
@@ -665,7 +669,7 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-user_subscribe_to_group-field_published'
+  // Exported field_instance: 'message-user_subscribe_to_group-field_published'.
   $field_instances['message-user_subscribe_to_group-field_published'] = array(
     'bundle' => 'user_subscribe_to_group',
     'default_value' => array(
@@ -702,7 +706,7 @@ function multisite_activity_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-user_subscribe_to_group-og_group_ref'
+  // Exported field_instance: 'message-user_subscribe_to_group-og_group_ref'.
   $field_instances['message-user_subscribe_to_group-og_group_ref'] = array(
     'bundle' => 'user_subscribe_to_group',
     'default_value' => NULL,

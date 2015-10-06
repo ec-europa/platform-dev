@@ -6,13 +6,12 @@
  */
 
 /**
-* Implementation of hook_views_default_views_alter().
-*/
+ * Implements hook_views_default_views_alter().
+ */
 function multisite_activity_og_views_default_views_alter(&$views) {
   // Alter only the 'view_name_of_interest' view.
   if (array_key_exists('multisite_activity', $views)) {
     $view = $views['multisite_activity'];
-
 
     /* Display: Defaults */
     $handler = $view->display['default']->handler;
@@ -32,7 +31,6 @@ function multisite_activity_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
-
 
     /* Display: News list page */
     $handler = $view->display['page_1']->handler;
@@ -54,4 +52,3 @@ function multisite_activity_og_views_default_views_alter(&$views) {
 
   }
 }
-

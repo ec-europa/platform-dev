@@ -48,12 +48,12 @@ function multisite_activity_core_tokens($type, $tokens, array $data = array(), a
 /**
  * Trim the body field for a node/ comment.
  *
- * @param $entity_type
+ * @param string $entity_type
  *   The entity type (node or comment).
- * @param $entity
+ * @param object $entity
  *   The entity object.
  *
- * @return
+ * @return string
  *   Body field text trimmed to 50 chars, with a "...Read more" suffix.
  */
 function multisite_activity_core_trim_body($entity_type, $entity) {
@@ -64,7 +64,7 @@ function multisite_activity_core_trim_body($entity_type, $entity) {
   $field_value = $wrapper->{$field_name}->value();
 
   if (!$field_value) {
-    return;
+    return '';
   }
 
   // Get the safe value.

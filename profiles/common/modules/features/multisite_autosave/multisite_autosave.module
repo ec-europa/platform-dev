@@ -2,15 +2,15 @@
 
 /**
  * @file
- * multisite_autosave definition module.
+ * Multisite_autosave definition module.
  */
 
 /**
  * Implements hook_js_alter().
  */
 function multisite_autosave_js_alter(&$javascript) {
-  // If the autosave js is invoked, our custom js replaces.
-  // it in order to get the functionality workink on IE. 
+  // If the autosave js is invoked, our custom js replaces
+  // it in order to get the functionality workink on IE.
   if (isset($javascript[drupal_get_path('module', 'autosave') . '/autosave.js']['data'])) {
     $javascript[drupal_get_path('module', 'autosave') . '/autosave.js']['data'] = drupal_get_path('module', 'multisite_autosave') . '/scripts/multisite_autosave.js';
     $javascript[drupal_get_path('module', 'autosave') . '/autosave.js']['scope'] = 'header';
@@ -43,7 +43,6 @@ function multisite_autosave_menu() {
 /**
  * Menu callback; AHAH return the form, repopulated with autosaved data.
  *
- * @global type $user
  * @param string $formid
  *   The ID of the form to reload.  This should be in Javascript format, vis,
  *   using - instead of _.
@@ -116,9 +115,10 @@ function _multisite_autosave_restore($formid, $timestamp) {
  * This is a wrapper around url() that removes any language prefixes
  * from the path if present.
  *
- * @param $path
+ * @param string $path
  *   A menu path such as es/node/add/article.
- * @return
+ *
+ * @return string
  *   A url as returned by url().
  */
 function _multisite_autosave_url($path) {
