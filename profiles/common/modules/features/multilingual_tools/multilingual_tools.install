@@ -34,7 +34,7 @@ function multilingual_tools_enable() {
 function multilingual_tools_disable() {
   // Temporary fix to solve the problem of language sync.
   // Issue occurs when language is added.
-  // @TODO : create a functiion- check on the module_disable function.
+  // @TODO : create a function - check on the module_disable function.
   module_disable(array('translation_overview', 'translation_table'), FALSE);
   drupal_uninstall_modules(array('translation_overview', 'translation_table'), FALSE);
 

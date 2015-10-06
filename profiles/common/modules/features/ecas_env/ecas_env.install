@@ -20,7 +20,5 @@ function ecas_env_enable() {
  * Implements hook_disable().
  */
 function ecas_env_disable() {
-  // Example
-  // multisite_drupal_toolbox_disable_content_type('kit');.
   drupal_set_message(t('ecas_env %v feature is now inactive on your site.', array('%v' => _ecas_env_get_version())));
 }

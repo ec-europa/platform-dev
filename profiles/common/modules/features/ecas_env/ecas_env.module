@@ -97,7 +97,10 @@ function ecas_env_node_view_alter(&$build) {
     $account_request_url = variable_get('ecas_account_request_url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL);
     $return_url = url('ecas', array('absolute' => TRUE));
     $account_request_url = str_replace('%local_ecas_url%', $return_url, $account_request_url);
-    $build['links']['comment']['#links']['comment_forbidden']['title'] = '<a href="' . $return_url . '">Log in</a> or <a href="' . $account_request_url . '">register</a> to post comments';
+    $link_log = l(t('Log in'), $return_url);
+    $link_register = l(t('register'), $account_request_url);
+    $title = t('!log_in or !register to post comments', array('!log_in' => $link_log, '!register' => $link_register));
+    $build['links']['comment']['#links']['comment_forbidden']['title'] = $title;
   }
 }
 
