@@ -202,12 +202,10 @@ function multisite_twitterblock_theme() {
  * @param array $variables
  *   Array of new variables.
  *
- * @global bool $is_https
- *
  * @return string
  *   Twitter output config.
  */
-function theme_fpfis_twitter(array $variables = array()) {
+function theme_fpfis_twitter(array $variables) {
   global $is_https;
   drupal_add_js(($is_https ? 'https' : 'http') . '://ec.europa.eu/wel/social-media-kit/social-media-kit.js');
   $type = $variables['type'];
@@ -298,7 +296,7 @@ function multisite_twitterblock_node_prepare($node) {
  * @param object $entity
  *   Entity object.
  * @param int $entity_id
- *   Entity Id.
+ *   Entity ID.
  * @param string $entity_type
  *   Entity type.
  */
@@ -406,7 +404,7 @@ function multisite_twitterblock_form_node_form_alter(&$form, $form_state) {
  * @param array $form
  *   Rendable array.
  */
-function _multisite_twitterblock_entity_subform(array &$form = array(), $fpfis_twitter_override = array()) {
+function _multisite_twitterblock_entity_subform(array &$form, $fpfis_twitter_override) {
   $field = MULTISITE_TWITTERBLOCK_FIELD_NAME;
   // Try to get settings from form entity.
   if (isset($form['#entity']->$field)) {
@@ -483,7 +481,7 @@ function multisite_twitterblock_check_availability($value, $variable_name) {
  * Loads overriding config from db.
  *
  * @param int $entity_id
- *   Entity Id.
+ *   Entity ID.
  * @param string $entity_type
  *   Entity type.
  *
@@ -593,7 +591,7 @@ function multisite_twitterblock_save(array $fpfis_twitter_override = array(), $e
  * Removes serialized twitter settings.
  *
  * @param int $entity_id
- *   Entity Id.
+ *   Entity ID.
  * @param string $entity_type
  *   Entity type.
  */
@@ -940,7 +938,7 @@ function multisite_twitterblock_get_var_name($machine_name, $entity_type) {
  * @param array $form_state
  *   Form state array.
  */
-function multisite_twitterblock_form_node_type_submit(array &$form = array(), array $form_state = array()) {
+function multisite_twitterblock_form_node_type_submit(array &$form, array $form_state) {
   if (isset($form_state['values'][MULTISITE_TWITTERBLOCK_FIELD_NAME])) {
     // We save settings if twitter settings are enabled.
     if (!empty($form_state['values'][MULTISITE_TWITTERBLOCK_FIELD_NAME]['enabled'])) {
@@ -976,7 +974,7 @@ function multisite_twitterblock_form_taxonomy_form_vocabulary_alter(&$form, $for
  * @param array $form_state
  *   Form state array.
  */
-function multisite_twitterblock_form_taxonomy_vocabulary_submit(array &$form = array(), array $form_state = array()) {
+function multisite_twitterblock_form_taxonomy_vocabulary_submit(array &$form, array $form_state) {
   if (isset($form_state['values'][MULTISITE_TWITTERBLOCK_FIELD_NAME])) {
     // We save settings if twitter settings are enabled.
     if (!empty($form_state['values'][MULTISITE_TWITTERBLOCK_FIELD_NAME]['enabled'])) {

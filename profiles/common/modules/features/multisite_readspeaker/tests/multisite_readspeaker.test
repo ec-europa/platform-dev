@@ -35,16 +35,6 @@ class ReadSpeakerTestCase extends DrupalWebTestCase {
   }
 
   /**
-   * Tests permissions.
-   */
-  public function testPermission() {
-    $data = module_invoke('multisite_readspeaker', 'permission');
-    $this->assertTrue(is_array($data), t('Permission hook returns array.'));
-    $this->assertTrue(array_key_exists('administer multisite_readspeaker', $data), t('Permission is as expected.'));
-    $this->assertTrue(array_key_exists('display multisite_readspeaker', $data), t('Permission is as expected.'));
-  }
-
-  /**
    * Tests the functionality of the readspeaker_hl.
    */
   public function testReadSpeakerBlock() {

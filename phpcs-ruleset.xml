@@ -73,8 +73,12 @@
     <!-- Views handlers not strictly follow Drupal function name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidFunctionName">
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/plugins/*.inc</exclude-pattern>
         <exclude-pattern>profiles/*/modules/**/views/*.inc</exclude-pattern>
+    </rule>
+
+    <!-- Context reaction not strictly follow Drupal function name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+        <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/plugins/multisite_twitterblock_reaction.inc</exclude-pattern>
     </rule>
 
     <!-- Code based on the classes from the Web Service Clients module do not follow Drupal class name conventions. -->
