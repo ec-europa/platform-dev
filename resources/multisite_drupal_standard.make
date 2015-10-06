@@ -27,14 +27,14 @@ projects[advanced_help][version] = "1.3"
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.7"
 projects[apachesolr][patch][] = patches/apachesolr-attachment_indexation-481.patch
-projects[apachesolr][patch][] = patches/apachesolr-invalidate-caches-new-node-type-2178283.patch
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-invalidate-caches-new-node-type-2178283.patch
 projects[apachesolr][patch][] = patches/apachesolr-multiples_dates-4335.patch
 projects[apachesolr][patch][] = patches/apachesolr_search-overwritten_menu_items.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.3"
 projects[apachesolr_attachments][patch][] = patches/apachesolr_attachments-empty_parent_entity_id.patch
-projects[apachesolr_attachments][patch][] = patches/apachesolr_attachments-bypass_deadlocks-1854088-9.patch
+projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/apachesolr-attachments-bypass-deadlocks-on-mass-update-1854088-9.patch
 
 projects[apachesolr_multilingual][subdir] = "contrib"
 projects[apachesolr_multilingual][version] = "1.2"
