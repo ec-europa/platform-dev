@@ -12,6 +12,7 @@
     <!-- Minified files don't have to comply with coding standards. -->
     <exclude-pattern>*.min.css</exclude-pattern>
     <exclude-pattern>*.min.js</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_readspeaker/js/ReadSpeaker/</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/css/ec_resp.css</exclude-pattern>
 
     <!-- Legacy modules which are not compliant with coding standards. These are
@@ -30,11 +31,8 @@
     <exclude-pattern>profiles/common/modules/features/multisite_maxlength</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_multilingual_references</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_notifications</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_path_override</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_readspeaker</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_registration</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_settings</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_twitterblock</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_workbench_moderation_view</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg</exclude-pattern>
     <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
@@ -76,6 +74,11 @@
     <rule ref="Drupal.NamingConventions.ValidFunctionName">
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
         <exclude-pattern>profiles/*/modules/**/views/*.inc</exclude-pattern>
+    </rule>
+
+    <!-- Context reaction not strictly follow Drupal function name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+        <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/plugins/multisite_twitterblock_reaction.inc</exclude-pattern>
     </rule>
 
     <!-- Code based on the classes from the Web Service Clients module do not follow Drupal class name conventions. -->

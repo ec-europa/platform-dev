@@ -41,7 +41,7 @@ function multisite_twitterblock_admin_settings() {
 
 /**
  * Provides an array of available vocabularies.
- * 
+ *
  * @return array
  *   Options list
  */
