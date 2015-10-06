@@ -22,9 +22,9 @@ function multisite_crop_and_resize_requirements($phase) {
     else {
       $requirements['multisite_crop_and_resize']['severity'] = REQUIREMENT_ERROR;
       $requirements['multisite_crop_and_resize']['value'] = 'imgAreaSelect library not found.';
-      $requirements['multisite_crop_and_resize']['description'] = 'Please download this library from <a href="http://odyniec.net/projects/imgareaselect/">http://odyniec.net/projects/imgareaselect</a> and copy it into the library directory.';
+      $requirements['multisite_crop_and_resize']['description'] = t('Please download this library from <a href="http://odyniec.net/projects/imgareaselect/">http://odyniec.net/projects/imgareaselect</a> and copy it into the library directory.');
     }
-    $requirements['multisite_crop_and_resize']['title'] = 'Multisite Crop and Resize';
+    $requirements['multisite_crop_and_resize']['title'] = t('Multisite Crop and Resize');
   }
   return $requirements;
 }

@@ -538,7 +538,6 @@
           cropEnabled = true;
           resetUI();
           activeCroppingInstance = $('.media-item img:visible').imgAreaSelect($.extend({}, areaSelectOptions, {show: false, enable: cropEnabled}));
-          // activeCroppingInstance.setOptions({enable: true});.
         });
 
       $('.disable-interface:not(.processed)')
@@ -548,7 +547,6 @@
           $('.format-and-crop-container-bottom').hide();
           cropEnabled = false;
           resetUI();
-          // activeCroppingInstance.setOptions({remove: true});.
         });
 
       var isCropOverridden = function () {
