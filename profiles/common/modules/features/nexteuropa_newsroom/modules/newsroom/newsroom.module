@@ -335,27 +335,27 @@ function newsroom_newsroom_proposal_form($form, $form_state) {
   $form['#action'] = $newsroom_url = variable_get('newsroom_proposal_url', NULL);
   $form['title'] = array(
     '#type' => 'textfield',
-    '#title' => t('title'),
-    '#description' => 'Title of a newsroom item',
+    '#title' => t('Title'),
+    '#description' => 'Title of your Newsroom item (mandatory)',
     '#default_value' => '',
     '#required' => TRUE,
   );
   $form['teaser'] = array(
     '#title' => t('Teaser'),
     '#type' => 'textarea',
-    '#description' => t('Teaser of a newsroom item'),
+    '#description' => t('Teaser of your Newsroom item (a teaser is a brief description of the subject of your item)'),
     '#size' => 18,
   );
   $form['body'] = array(
-    '#title' => t('Main text'),
+    '#title' => t('Full content'),
     '#type' => 'textarea',
-    '#description' => t('Text of a newsroom item'),
+    '#description' => t('Full content of the Newsroom item (mandatory - The full content is the body of your item)'),
     '#required' => TRUE,
   );
   $form['url'] = array(
     '#title' => t('URL'),
     '#type' => 'textfield',
-    '#description' => t('Link to a newsroom item'),
+    '#description' => t('Add a link to another web page'),
   );
   $form['start_date'] = array(
     '#title' => t('Date'),
@@ -370,7 +370,7 @@ function newsroom_newsroom_proposal_form($form, $form_state) {
   $form['venue'] = array(
     '#title' => t('Venue'),
     '#type' => 'textfield',
-    '#description' => t('Description of the venue'),
+    '#description' => t('Name and address of the venue'),
   );
   $form['topic_id'] = array(
     '#title' => t('Topic ID'),
