@@ -2,6 +2,7 @@
  * @file
  * This file provides a small modification to the autocomplete url paths.
  */
+
 (function($){
   Drupal.behaviors.language_selector_page = {
     attach: function (context, settings) {
@@ -14,9 +15,10 @@
       }
 
       /**
-       * Add second preferred language to autocomplete urls. Instead of
-       * suffixing, we prefix it as the autocomplete javascript is already using
-       * the suffix method.
+       * Add second preferred language to autocomplete urls.
+       *
+       * Instead of suffixing, we prefix it as the autocomplete javascript is
+       * already using the suffix method.
        */
       function addSecondLanguage(paramName, paramValue) {
         // Only apply this to autocomplete paths. All other urls are parsed by
@@ -37,6 +39,7 @@
 
       /**
        * Check if link leads to current domain or not.
+       *
        * Returns true if link leads to current domain, and false if not.
        */
       function isCurrentDomain(linkUrl) {
@@ -50,6 +53,7 @@
 
       /**
        * Helper function to get parameter.
+       *
        * Returns parameter value, or false if not found.
        */
       function getParameter(paramName, location) {
