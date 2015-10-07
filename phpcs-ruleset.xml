@@ -34,10 +34,6 @@
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg</exclude-pattern>
     <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/multisite_drupal_access</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/multisite_og_button</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/og_content_type_admin</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/subscriptions_og</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/themes/bootstrap</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/themes/bootstrap</exclude-pattern>
 
