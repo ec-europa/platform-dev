@@ -11,7 +11,11 @@
  * @ingroup views_filter_handlers
  */
 class views_handler_filter_ecas_user_roles extends views_handler_filter_many_to_one {
-  function get_value_options() {
+
+  /**
+   * Returns options.
+   */
+  public function get_value_options() {
     $this->value_options[1] = t('Anonymous User');
     $this->value_options[2] = t('Ecas User');
     $this->value_options[3] = t('Regular User');
@@ -20,8 +24,9 @@ class views_handler_filter_ecas_user_roles extends views_handler_filter_many_to_
   /**
    * Override empty and not empty operator labels to be clearer for user roles.
    */
-  function operators() {
+  public function operators() {
     $operators = parent::operators();
     return $operators;
   }
+
 }

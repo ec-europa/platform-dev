@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Multisite Business Indicators simpletest class
+ * Multisite Business Indicators simpletest class.
  */
 
 /**
@@ -10,8 +10,7 @@
 class BusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase {
   protected $profile = 'multisite_drupal_standard';
 
-  // @ignore sniffer_namingconventions_validvariablename_lowercamelname
-  var $public_files_directory = NULL;
+  protected $publicFilesDirectory = NULL;
 
   /**
    * {@inheritdoc}
@@ -57,7 +56,7 @@ class BusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase {
     $this->drupalLogin($this->privileged_user);
     $this->drupalGet('admin/reports/business-indicators');
     module_enable(array('jiraquestions', 'image_captcha'));
-    
+
     // Create users.
     $users = array();
     for ($i = 0; $i < 3; $i++) {
@@ -131,7 +130,8 @@ class BusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase {
       'nid' => $node->nid,
       'node_type' => 'comment_node_' . $node->type,
       'status' => COMMENT_PUBLISHED,
-      'cid' => 0, 'pid' => 0,
+      'cid' => 0,
+      'pid' => 0,
     );
 
     $comment = (object) $comment;
@@ -217,13 +217,13 @@ class BusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase {
    * Helper function to check user access.
    *
    * @param array $type
-   *   Can be either 'allow' or 'deny'
+   *   Can be either 'allow' or 'deny'.
    * @param object $account
-   *   Account to check permission on
+   *   Account to check permission on.
    * @param array $permissions
-   *   Array of permissions
+   *   Array of permissions.
    */
-  private function checkUserAccess($type, $account, $permissions) {
+  private function checkUserAccess(array $type = array(), $account = NULL, array $permissions = array()) {
     $roles = implode(', ', $account->roles);
     switch ($type) {
       case 'allow':
@@ -251,7 +251,7 @@ class BusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase {
       ->orderBy('nid', 'DESC')
       ->execute()
       ->fetchAssoc();
-    
+
     $this->assertTrue($node, 'Page "' . $node['nid'] . '" has been created and type ' . $node['type'], 'Webform');
 
     $this->drupalGet('node/' . $node['nid']);
@@ -270,4 +270,5 @@ class BusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase {
       ->condition('bieid', $statistic['bieid'], '=')
       ->execute();
   }
+
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @file
  * multisite_business_indicators_community.test
@@ -9,10 +9,12 @@
  */
 class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
   protected $profile = 'multisite_drupal_communities';
-  
-  // @ignore sniffer_namingconventions_validvariablename_lowercamelname
-  var $public_files_directory = NULL;
-  
+
+  protected $publicFilesDirectory = NULL;
+
+  /**
+   * Returns class informations.
+   */
   public static function getInfo() {
     return array(
       'name' => 'Business Indicators Community QA tests',
@@ -20,7 +22,7 @@ class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
       'group' => 'Multisite QA',
     );
   }
-  
+
   /**
    * {@inheritdoc}
    */
@@ -34,7 +36,7 @@ class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
 
     $this->administrator = $this->drupalCreateUserWithRole('administrator');
   }
-  
+
   /**
    * {@inheritdoc}
    */
@@ -47,46 +49,46 @@ class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
   /**
    * Test Business Indicators views.
    */
-  function testViews() {
-    
+  public function testViews() {
+
     $this->privileged_user = $this->drupalCreateUserWithRole('administrator');
     module_disable(array('captcha'));
     $this->drupalLogin($this->privileged_user);
     module_enable(array('jiraquestions', 'image_captcha'));
     $this->drupalGet('admin/reports/business-indicators');
-    
+
     // Create users.
     $users = array();
-    for ($i = 0 ; $i < 3 ; $i++) {
+    for ($i = 0; $i < 3; $i++) {
       $users[$i] = $this->drupalCreateUser(array(
         'create page content',
         'edit any page content',
         'delete any page content',
         'access business indicators',
-      ));    
-    }    
-    
+      ));
+    }
+
     // Create test content.
-    for ($i = 0 ; $i < 3 ; $i++) {
+    for ($i = 0; $i < 3; $i++) {
       $content = array();
       $content['type'] = 'page';
       $content['uid'] = $users[rand(0, 2)]->uid;
       $content['title'] = $this->randomName(16);
-      $content['body'][LANGUAGE_NONE][0]['value'] = $this->randomName(64); 
+      $content['body'][LANGUAGE_NONE][0]['value'] = $this->randomName(64);
       $content['body'][LANGUAGE_NONE][0]['summary'] = $this->randomName(64);
-      
+
       $node = $this->drupalCreateNode($content);
       $this->assert((bool) $node, 'Page "' . $node->nid . '" has been created.');
       $this->drupalCreateComment($node);
     }
-    
+
     $content = array();
     $content['type'] = 'community';
     $content['uid'] = $this->privileged_user->uid;
     $content['title'] = $this->randomName(16);
-    $content['body'][LANGUAGE_NONE][0]['value'] = $this->randomName(64); 
+    $content['body'][LANGUAGE_NONE][0]['value'] = $this->randomName(64);
     $content['body'][LANGUAGE_NONE][0]['summary'] = $this->randomName(64);
-    
+
     $community = $this->drupalCreateNode($content);
     $this->assert((bool) $node, 'Community "' . $community->nid . '" has been created.');
     $this->assertEqual($community->uid, $this->privileged_user->uid, 'Community owner is privileged user ' . $community->uid);
@@ -94,20 +96,20 @@ class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
     // Assign user to community.
     $this->privileged_user->og_group_ref[LANGUAGE_NONE][0]['target_id'] = $community->nid;
     user_save($this->privileged_user);
-    
+
     // Create test content.
-    for ($i = 0 ; $i < 3 ; $i++) {
+    for ($i = 0; $i < 3; $i++) {
       $content = array();
       $content['type'] = 'article';
       $content['uid'] = $this->privileged_user->uid;
       $content['title'] = $this->randomName(16);
-      $content['body'][LANGUAGE_NONE][0]['value'] = $this->randomName(64); 
+      $content['body'][LANGUAGE_NONE][0]['value'] = $this->randomName(64);
       $content['body'][LANGUAGE_NONE][0]['summary'] = $this->randomName(64);
       $content['og_group_ref'][LANGUAGE_NONE][0]['target_id'] = $community->nid;
 
-      $image = $this->createFile('image-' . rand() . '.jpg', 'image/png');      
+      $image = $this->createFile('image-' . rand() . '.jpg', 'image/png');
       $content['field_image'][LANGUAGE_NONE][0] = (array) $image;
-      
+
       $node = $this->drupalCreateNode($content);
       $this->assert((bool) $node, 'News "' . $node->nid . '" has been created.');
       $this->assertEqual($node->og_group_ref[LANGUAGE_NONE][0]['target_id'], $community->nid, "Community {$community->nid} assigned to node {$node->nid}");
@@ -117,8 +119,7 @@ class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
     $this->privileged_user = $this->drupalCreateUserWithRole('administrator');
     $this->drupalLogin($this->privileged_user);
     $this->drupalGet('admin/reports/business-indicators');
-    
-        
+
     // Check all blocks are positioned on overview page.
     $info = drupal_parse_info_file(drupal_get_path('module', 'multisite_business_indicators_community') . '/multisite_business_indicators_community.info');
     foreach ($info['features']['views_view'] as $view_name) {
@@ -129,30 +130,32 @@ class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
           $this->assertTrue((bool) $results, "View '{$view_name}' display '{$display_id}' not empty");
           $view->set_display($display_id);
           $title = $view->display[$display_id]->handler->get_option('title');
-          $this->assertText($title, "Block '{$title}' found on overview page.");          
+          $this->assertText($title, "Block '{$title}' found on overview page.");
         }
       }
     }
-
-    return;
   }
 
-  
-  function drupalCreateComment($node, $comment = array()) {
-     $comment += array(
+
+  /**
+   * Test comment creation.
+   */
+  public function drupalCreateComment($node, $comment = array()) {
+    $comment += array(
       'subject' => $this->randomName(8),
       'comment' => $this->randomName(32),
       'uid' => $node->uid,
       'nid' => $node->nid,
       'node_type' => 'comment_node_' . $node->type,
       'status' => COMMENT_PUBLISHED,
-      'cid' => 0, 'pid' => 0,
+      'cid' => 0,
+      'pid' => 0,
     );
     $comment = (object) $comment;
     comment_save($comment);
     $this->assertTrue($comment->cid, "Successfully created comment: {$comment->cid} for node {$node->nid} ({$node->type}).");
-  }  
-  
+  }
+
   /**
    * Create a user with a specific role.
    */
@@ -180,8 +183,11 @@ class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
     $account->pass_raw = $edit['pass'];
     return $account;
   }
-  
-  function createFile($filepath = NULL, $mime = 'text/plain', $contents = NULL, $scheme = NULL) {
+
+  /**
+   * Test file creation.
+   */
+  public function createFile($filepath = NULL, $mime = 'text/plain', $contents = NULL, $scheme = NULL) {
     if (!isset($filepath)) {
       // Prefix with non-latin characters to ensure that all file-related
       // tests work with international filenames.
@@ -212,5 +218,6 @@ class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
     $this->assertNotIdentical(drupal_write_record('file_managed', $file), FALSE, t('The file was added to the database.'), 'Create test file');
 
     return $file;
-  }  
+  }
+
 }

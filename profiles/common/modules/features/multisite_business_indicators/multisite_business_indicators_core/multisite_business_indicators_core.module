@@ -7,25 +7,25 @@
 include_once 'multisite_business_indicators_core.features.inc';
 
 /**
- * Implements hook_init()
+ * Implements hook_init().
  */
-function multisite_business_indicators_core_init() { 
-  
+function multisite_business_indicators_core_init() {
+
 }
 
 /**
- * Implements hook_permission()
+ * Implements hook_permission().
  */
 function multisite_business_indicators_core_permission() {
   return array(
-    'access business indicators' =>  array(
+    'access business indicators' => array(
       'title' => t('Access business indicators overview page'),
     ),
   );
 }
 
 /**
- * Implements hook_menu()
+ * Implements hook_menu().
  */
 function multisite_business_indicators_core_menu() {
   $items['admin/reports/business-indicators'] = array(
@@ -40,6 +40,7 @@ function multisite_business_indicators_core_menu() {
 
 /**
  * Implements menu page callback.
+ *
  * @see: multisite_business_indicators_core_menu()
  */
 function multisite_business_indicators_core_page_callback_overview() {
@@ -47,7 +48,7 @@ function multisite_business_indicators_core_page_callback_overview() {
 }
 
 /**
- * Implements hook_libraries_info()
+ * Implements hook_libraries_info().
  */
 function multisite_business_indicators_core_libraries_info() {
 
@@ -60,7 +61,7 @@ function multisite_business_indicators_core_libraries_info() {
       'pattern' => '@FusionCharts\sXT\s\(v([0-9a-zA-Z\.]+)\)@',
       'lines' => 5,
       'cols' => 300,
-    ),    
+    ),
     'files' => array(
       'js' => array('FusionCharts.js'),
       'php' => array('Code/PHP/Includes/FusionCharts.php'),

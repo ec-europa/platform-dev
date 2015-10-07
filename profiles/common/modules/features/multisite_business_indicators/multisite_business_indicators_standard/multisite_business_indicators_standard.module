@@ -163,13 +163,13 @@ function multisite_business_indicators_standard_views_data() {
 /**
  * Function for insert statistic into business_indicators_ext_index.
  *
- * @global object $user
- * @global object $language
- *
  * @param array $entity
  *   Insert into the db a business indicator record.
+ *
+ * @global object $user
+ * @global object $language
  */
-function insert_business_indicators_ext($entity) {
+function insert_business_indicators_ext(array $entity = array()) {
   global $user, $language;
   $key_roles = user_is_anonymous() ? 1 : (_is_ecas_user($user) ? 2 : 3);
   $statistic = control_business_indicators_ext_list($entity, $key_roles);
