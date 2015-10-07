@@ -31,9 +31,6 @@
     <exclude-pattern>profiles/common/modules/features/multisite_maxlength</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_multilingual_references</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_notifications</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_registration</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_settings</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_workbench_moderation_view</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg</exclude-pattern>
     <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
