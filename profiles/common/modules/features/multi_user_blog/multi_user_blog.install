@@ -1,11 +1,12 @@
 <?php
 /**
- * @file multi_user install file.
+ * @file
+ * Multi_user install file.
  */
 
-/*
-* Implements hook_disable().
-*/
+/**
+ * Implements hook_disable().
+ */
 function multi_user_blog_disable() {
   multisite_drupal_toolbox_disable_content_type('blog_post');
 
@@ -25,9 +26,9 @@ function multi_user_blog_disable() {
   drupal_set_message(t('multi user blogs feature is now disable on your site.'));
 }
 
-/*
-* Implements hook_enable().
-*/
+/**
+ * Implements hook_enable().
+ */
 function multi_user_blog_enable() {
   // SolR configuration add bundle.
   multisite_drupal_toolbox_config_solr_bundle('blog_post', 'add');
@@ -38,23 +39,9 @@ function multi_user_blog_enable() {
   // Add type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('blog_post', 'add');
 
-  //Add rating.
+  // Add rating.
   multisite_drupal_toolbox_rate_content_type('blog_post', 'add');
 
-  //Activation message.
+  // Activation message.
   drupal_set_message(t('multi user blogs feature is now enable on your site.'));
-}
-
-/**
- * Implements hook_install().
- */
-function multi_user_blog_install() {
-  // Install scripts here.
-}
-
-/**
- * Implements hook_uninstall().
- */
-function multi_user_blog_uninstall() {
-  // Uninstall scripts here.
 }

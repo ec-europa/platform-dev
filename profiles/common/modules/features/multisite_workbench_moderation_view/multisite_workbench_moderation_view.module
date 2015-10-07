@@ -4,32 +4,31 @@
  * @file
  * Code for the multisite_workbench_moderation_view feature.
  */
- 
-include_once('multisite_workbench_moderation_view_alter.inc');
+
+include_once 'multisite_workbench_moderation_view_alter.inc';
 
 /**
- *
- * @param type $views
+ * Implements hook_views_pre_view().
  */
 function multisite_workbench_moderation_view_views_pre_view(&$views) {
-  if($views->name == "workbench_moderation") {
+  if ($views->name == "workbench_moderation") {
 
-    //Alter display default fields for prying non admin user's eyes
+    // Alter display default fields for prying non admin user's eyes.
     if (array_key_exists('default', $views->display)) {
-      if ( !user_access('multisite_workbench_moderation_view_bulk_update') ) {
-        //&todo check if it needs to be by reference
+      if (!user_access('multisite_workbench_moderation_view_bulk_update')) {
+        // &todo check if it needs to be by reference.
         $handler_default = $views->display['default']->handler;
         unset($handler_default->options['fields']['views_bulk_operations']);
       }
     }
 
-    //Checkboxes on the first table column
+    // Checkboxes on the first table column.
     $handler_default = $views->display['default']->handler;
     $fields = $handler_default->options['fields'];
 
     $last_field = end($fields);
     $last_key = key($fields);
-    //PHP5 array_merge only accept type array
+    // PHP5 array_merge only accept type array.
     $last_element = array($last_key => $last_field);
     array_pop($fields);
     $fields = array_merge($last_element, $fields);
@@ -38,16 +37,22 @@ function multisite_workbench_moderation_view_views_pre_view(&$views) {
   }
 }
 
+/**
+ * Implements hook_form_alter().
+ */
 function multisite_workbench_moderation_view_form_alter(&$form) {
   if (isset($form['#form_id']) && $form['#form_id'] == 'views_form_workbench_moderation_moderate_all_page') {
     if (!empty($form['force_transition']) && isset($form['force_transition'])) {
 
-      //Beware is dangerous to unset variables, choose better to hide them.
+      // Beware is dangerous to unset variables, choose better to hide them.
       $form['force_transition']['#type'] = 'hidden';
     }
   }
 }
 
+/**
+ * Implements hook_permission().
+ */
 function multisite_workbench_moderation_view_permission() {
   $permissions = array();
 
