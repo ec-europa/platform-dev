@@ -74,9 +74,6 @@ projects[chr][patch][] = https://www.drupal.org/files/issues/chr-deprecated_call
 ; https://www.drupal.org/node/2142949
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1944
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-undefined-index-1-due-response-without-payload.patch
-; Issue : FPFIS fix jira REST remoting.
-; https://answers.atlassian.com/questions/72475/jira-update-custom-fields-using-rest-php-and-curl
-projects[chr][patch][] = patches/chr-jira-update-custom-fields-using-rest-php-and-curl.patch
 ; Issue #2355631 : rewrite header host without port number.
 ; https://www.drupal.org/node/2355631
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6231
