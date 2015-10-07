@@ -70,7 +70,16 @@ projects[chr][version] = "1.6"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5588
 ; https://www.drupal.org/node/2512054
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-deprecated_call-2512054-2.patch
-projects[chr][patch][] = patches/chr-patches.patch
+; Issue #2142949 : Receiving error message - Notice: Undefined offset: 1 in chr_curl_http_request().
+; https://www.drupal.org/node/2142949
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1944
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-undefined-index-1-due-response-without-payload.patch
+; Issue : FPFIS fix jira REST remoting.
+; https://answers.atlassian.com/questions/72475/jira-update-custom-fields-using-rest-php-and-curl
+projects[chr][patch][] = patches/chr-jira-update-custom-fields-using-rest-php-and-curl.patch
+; Issue #2355631 : rewrite header host without port number.
+; https://www.drupal.org/node/2355631
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6231
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewrite-header-host-without-standard-port-number_0.patch
 
 projects[ckeditor_link][subdir] = "contrib"
