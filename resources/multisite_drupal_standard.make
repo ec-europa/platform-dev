@@ -26,10 +26,17 @@ projects[advanced_help][version] = "1.3"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.7"
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-481
 projects[apachesolr][patch][] = patches/apachesolr-attachment_indexation-481.patch
+; Issue #2178283 : Apache Solr doesn't invalidate its caches when inserting a new node type.
+; https://drupal.org/node/2178283
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2890
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-invalidate-caches-new-node-type-2178283.patch
-projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple-dates-hack-1649158-15.patch
+; Issue #1649158 : Date Facets (without a time) can show in Multiple Months.
+; https://drupal.org/node/1649158
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4335
+projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple-dates-hack-1649158-15.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
 projects[apachesolr][patch][] = patches/apachesolr_search-overwritten_menu_items.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
