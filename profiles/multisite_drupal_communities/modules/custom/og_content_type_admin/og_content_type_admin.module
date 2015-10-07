@@ -8,7 +8,7 @@
 define('OG_CONTENT_TYPE_ADMIN_NOT_ASSIGNED_TO_GROUP', 0);
 define('OG_CONTENT_TYPE_ADMIN_ASSIGNED_TO_GROUP', 1);
 
-// Constants to indicats whether a content type
+// Constants to indicate whether a content type
 // is activated/deactivated/required.
 define('OG_CONTENT_TYPE_ADMIN_DEACTIVATED', 0);
 define('OG_CONTENT_TYPE_ADMIN_ACTIVATED', 1);
@@ -141,10 +141,10 @@ function og_content_type_admin_og_create_links($group) {
   $links = array();
   if ($group) {
     if (_og_content_type_admin_is_admin($group)) {
-      $links[] = l(t('Manage group content types'), "node/$group->nid/ogct", array(
-        'title' => t('Lets you decide which content types your group users can create.'),
-        )
-      );
+      $text = t('Manage group content types');
+      $path = "node/$group->nid/ogct";
+      $attributes = array('title' => t('Lets you decide which content types your group users can create.'));
+      $links[] = l($text, $path, $attributes);
     }
   }
   return $links;
@@ -205,13 +205,13 @@ function og_content_type_admin_main_submit($form, &$form_state) {
   if ($form_values['op'] == t('Add group')) {
     $all_groups = _og_content_type_get_all_groups();
 
-    $ogid = db_insert('og_content_type_admin')
-      ->fields(array(
-        'gid' => $form_values['group'],
-        'name' => $all_groups[$form_values['group']],
-        'types_allowed' => '',
-        'types_active' => '',
-        ))->execute();
+    $fields = array(
+      'gid' => $form_values['group'],
+      'name' => $all_groups[$form_values['group']],
+      'types_allowed' => '',
+      'types_active' => '',
+    );
+    $ogid = db_insert('og_content_type_admin')->fields($fields)->execute();
     if (0 == $ogid) {
       drupal_set_message(t('The group has been added.'));
     }
@@ -248,9 +248,11 @@ function theme_og_content_type_admin_main($form) {
     }
   }
 
-  $rows[] = array(drupal_render($form['group']), array(
-    'data' => drupal_render($form['submit']),
-    'colspan' => 2,
+  $rows[] = array(
+    drupal_render($form['group']),
+    array(
+      'data' => drupal_render($form['submit']),
+      'colspan' => 2,
     ),
   );
 
