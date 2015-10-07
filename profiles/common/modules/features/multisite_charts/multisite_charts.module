@@ -6,31 +6,6 @@
 
 include_once 'multisite_charts.features.inc';
 
-
-/**
- * Implements hook_requirements().
- */
-function multisite_charts_requirements($phase) {
-  $requirements = array();
-  $requirements['multisite_charts']['title'] = t('Multisite Charts');
-  if ($phase == 'runtime') {
-    // Fusionchart SWF files
-    $swf = glob(multisite_charts_get_library_path() . 'FusionCharts XT/Charts/*.swf');
-    if (!empty($swf)) {
-      $requirements['multisite_charts']['value'] = t('FusionCharts SWF files found.');
-      $requirements['multisite_charts']['severity'] = REQUIREMENT_OK;
-    }
-    else {
-      $requirements['multisite_charts']['value'] = t('FusionCharts SWF files not found.');
-      $requirements['multisite_charts']['severity'] = REQUIREMENT_ERROR;
-      $requirements['multisite_charts']['description'] = t('Please download these files from <a href="@url">http://www.fusioncharts.com</a> and copy them into the fusioncharts library directory as per instructions in the readme.txt file.', array('@url' => 'http://www.fusioncharts.com'));
-    }
-
-  }
-  return $requirements;
-}
-
-
 /**
  * Implements hook_theme().
  */
@@ -44,16 +19,23 @@ function multisite_charts_theme($existing, $type, $theme, $path) {
 
 
 /**
- * Chart rendering function
+ * Chart rendering function.
  *
- * @param array $info an array containing the chart data
- * @param string $jsid Name to be used for the id attribute in the DOM (used for javascript manipulation) optional
- * @return string the HTML to render the chart
+ * @param array $variables
+ *   An associative array containing:
+ *   - jsid: Name to be used for the id attribute.
+ *      in the DOM (used for javascript manipulation) optional
+ *   - info: An array containing the chart data.
+ *
+ * @return string
+ *   The HTML to render the chart.
  */
-function theme_multisite_chart($variables) {
+function theme_multisite_chart(array $variables = array()) {
   $info = $variables['info'];
   $jsid = $variables['jsid'];
-  static $chart_id; //incremental ID of each chart (static in case there is more then one chart on a page)
+  static $chart_id;
+  // Incremental ID of each chart
+  // (static in case there is more then one chart on a page).
   if (!isset($chart_id)) {
     $chart_id = 1;
   }
@@ -64,24 +46,25 @@ function theme_multisite_chart($variables) {
   $path = 'http://europa.eu/wel/fusioncharts/';
   $charts_path = $path . 'v0322/';
 
-  include_once(multisite_charts_get_library_path() . 'Code/PHP/Includes/FusionCharts.php');
-  //check that the fusioncharts package was installed
+  include_once multisite_charts_get_library_path() . 'Code/PHP/Includes/FusionCharts.php';
+  // Check that the fusioncharts package was installed.
   if (!function_exists('renderChart')) {
     return t('Please install the Fusion Charts package from InfoSoft as per instructions in the readme.');
   }
 
   drupal_add_js($charts_path . 'FusionCharts.js');
 
-  // Get the path of drupal instance
+  // Get the path of drupal instance.
   $path_drupal = base_path();
   $swf_file = $charts_path . $info['type'] . '.swf';
   return renderChart($swf_file, '', $info['xml'], $jsid, $info['width'], $info['height']);
 }
 
 /**
- * Get the charts library path
+ * Get the charts library path.
  *
  * @return string
+ *   The chart library path.
  */
 function multisite_charts_get_library_path() {
   global $conf;
@@ -101,7 +84,7 @@ function multisite_charts_get_library_path() {
  * Implements hook_node_view().
  */
 function multisite_charts_node_view($node, $view_mode, $langcode) {
-  if ('chart'==$node->type) {
+  if ('chart' == $node->type) {
     switch ($view_mode) {
       case 'full':
       case 'teaser':
@@ -112,7 +95,7 @@ function multisite_charts_node_view($node, $view_mode, $langcode) {
 
         $info = array();
         $info['type'] = $chart_type_items[0]['value'];
-        if ('full'==$view_mode) {
+        if ('full' == $view_mode) {
           $info['width'] = $chart_width_items[0]['value'];
           $info['height'] = $chart_height_items[0]['value'];
         }
@@ -130,4 +113,3 @@ function multisite_charts_node_view($node, $view_mode, $langcode) {
     }
   }
 }
-

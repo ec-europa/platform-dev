@@ -53,7 +53,7 @@ projects[better_exposed_filters][version] = "3.0-beta3"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta1"
-projects[better_formats][patch][] = patches/better_format-strict-warning-1717470-11.patch
+projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_format-strict-warning-1717470-11.patch
 
 projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.0"
@@ -220,8 +220,15 @@ projects[freepager][subdir] = "contrib"
 
 projects[fullcalendar][subdir] = "contrib"
 projects[fullcalendar][version] = "2.0"
-projects[fullcalendar][patch][] = patches/fullcalendar-ajax_date_format-2185449-11.patch
+; Issue #2185449: Using AJAX results in errors when scrolling through months
+; https://www.drupal.org/node/2185449
+projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/ajax_date_format-2185449-11.patch
 projects[fullcalendar][patch][] = patches/fullcalendar-views_dom_id_check-1803770-4.patch
+; Issue #2325549: AJAX doesn't work in jQuery 1.9+
+; https://www.drupal.org/node/2325549
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7373
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7237
+projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/2325549-jquery19_ajax.patch
 
 projects[geofield][subdir] = "contrib"
 projects[geofield][version] = "2.3"
@@ -549,7 +556,12 @@ projects[workbench_access][version] = "1.2"
 projects[workbench_access][patch][] = patches/workbench_access-fix_php_issues-4517.patch
 
 projects[workbench_email][subdir] = "contrib"
-projects[workbench_email][version] = "3.4"
+projects[workbench_email][version] = "3.5"
+; Issue #2501321: Add email subject and message to Features.
+; https://www.drupal.org/node/2501321
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
+projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch
+
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"
