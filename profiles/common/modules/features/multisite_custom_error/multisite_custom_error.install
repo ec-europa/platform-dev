@@ -21,9 +21,9 @@ function multisite_custom_error_enable() {
     variable_set('customerror_' . $code . '_theme', 'ec_resp');
     drupal_set_message(t('Default %v error page has been set.', array('%v' => $code)));
   }
-  $link = l(t('admin/config/system/site-information'), 'admin/config/system/site-information', array('attributes' => array('target' => '_blank')));
+  $link = l(t('Site information'), 'admin/config/system/site-information', array('attributes' => array('target' => '_blank')));
   drupal_set_message(t('Go to !link to review the settings.', array('!link' => $link)));
-  $link = l(t('admin/config/system/customerror'), 'admin/config/system/customerror', array('attributes' => array('target' => '_blank')));
+  $link = l(t('Custom error configuration'), 'admin/config/system/customerror', array('attributes' => array('target' => '_blank')));
   drupal_set_message(t('Go to !link to review additional configuration options.', array('!link' => $link)));
 }
 

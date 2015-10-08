@@ -85,11 +85,10 @@ function multisite_crop_and_resize_media_format_form_prepare_alter(&$form, $form
     );
 
     $image_style_options = image_style_options(FALSE);
+    $title = t('Current format is:', array(), array('context' => 'Media crop'));
     $form['image_edit_elements'][$top_container_key]['image_style'] = array(
       '#type' => 'select',
-      '#title' => t('Current format is:', array(), array(
-        'context' => 'Media crop',
-    )),
+      '#title' => $title,
       '#weight' => -2,
       '#options' => $image_style_options + array(
         '-1' => t('None'),
