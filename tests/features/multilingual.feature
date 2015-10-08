@@ -4,14 +4,17 @@ Feature: Multilingual features
   As a citizen of the European Union
   I want to be able to read content in my native language
 
-  Scenario: Content can be translated in available languages
+  Background:
     Given the following languages are available:
       | languages |
       | en        |
       | fr        |
       | de        |
     And "page" content type supports field translation
-    And I am viewing a multilingual "page" content:
+    And URL language suffix negotiation is enabled
+
+  Scenario: Content can be translated in available languages
+    Given I am viewing a multilingual "page" content:
       | language | title            |
       | en       | Title in English |
       | fr       | Title in French  |
@@ -24,13 +27,22 @@ Feature: Multilingual features
     When I click "Deutsch"
     And I should see the heading "Title in German"
 
+  Scenario: Custom URL suffix language negotiation is applied by default on new content.
+    Given I am logged in as a user with the 'administrator' role
+    And I am viewing a multilingual "page" content:
+      | language | title            |
+      | en       | Title in English |
+      | fr       | Title in French  |
+      | de       | Title in German  |
+    And I click "View"
+    Then I should be on "content/title-english_en"
+    When I click "Français"
+    Then I should be on "content/title-english_fr"
+    When I click "Deutsch"
+    Then I should be on "content/title-english_de"
+
   Scenario: Enable multiple languages
-    Given the following languages are available:
-      | languages |
-      | en        |
-      | fr        |
-      | de        |
-    And I am logged in as a user with the 'administrator' role
+    Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/regional/language"
     Then I should see "English"
     And I should see "French"
