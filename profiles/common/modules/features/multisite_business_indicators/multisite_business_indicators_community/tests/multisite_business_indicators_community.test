@@ -183,7 +183,7 @@ class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
   }
 
   /**
-   * Test file creation.
+   * Tests file creation.
    */
   public function createFile($filepath = NULL, $mime = 'text/plain', $contents = NULL, $scheme = NULL) {
     if (!isset($filepath)) {
