@@ -13,4 +13,3 @@ function multisite_registration_standard_ctools_plugin_api() {
     return array("version" => "1");
   }
 }
-

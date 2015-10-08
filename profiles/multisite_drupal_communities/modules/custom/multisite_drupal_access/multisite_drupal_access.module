@@ -1,63 +1,19 @@
 <?php
 /**
- * Implements hook_node_access().
+ * @file
+ * Update rights for communities contents.
  */
-
-/*
-function multisite_drupal_access_node_access($node, $op, $account) {
-  if (is_string($node)) {
-    return NODE_ACCESS_IGNORE;
-  }
-  
-  if($node->type == "community") {
-    return NODE_ACCESS_ALLOW; // allow any users to view a community node
-  }
- 
-  return NODE_ACCESS_IGNORE;
-}
-*/
 
 /**
- * Implements hook_node_grants().
+ * Implements hook_node_access_records().
  */
-/*
-function multisite_drupal_access_node_grants($account, $op) {
-  $grants = array();
-  
-  // allow tempopary any users to view private communities on specific url
-  if(arg(0) == 'communities_directory') {
-    $group_type = 'node';   
-    $query = new EntityFieldQuery();
-    $return = $query
-      ->entityCondition('entity_type', $group_type)
-      ->fieldCondition(OG_GROUP_FIELD, 'value', 1, '=')
-      ->addMetaData('account', user_load(1))
-      ->execute();
-      
-    if(!$return)
-      return;
-      
-    $groups = array_keys($return[$group_type]);
-
-    if ($op == 'view' && $groups) {
-      foreach ($groups as $gid) {
-        $realm = OG_ACCESS_REALM . ':' . $group_type;
-        $grants[$realm][] = $gid;
-      }
-    }
-  }
-  return $grants;
-}
-*/
-
-
 function multisite_drupal_access_node_access_records($node) {
   $grants = array();
 
-  // give the right for any users to view community type
-  if($node->type == 'community')  {
+  // Give the right for any users to view community type.
+  if ($node->type == 'community') {
     $group_type = 'node';
-    $grants[] = array (
+    $grants[] = array(
       'realm' => 'all',
       'gid' => 0,
       'grant_view' => 1,
@@ -67,9 +23,9 @@ function multisite_drupal_access_node_access_records($node) {
     );
   }
 
-  // allow users to see their own unpublished contents
-  if($node->status == 0) {
-    $grants[] = array (
+  // Allow users to see their own unpublished contents.
+  if ($node->status == 0) {
+    $grants[] = array(
       'realm' => 'unpublished',
       'gid' => $node->uid,
       'grant_view' => 1,
@@ -82,9 +38,11 @@ function multisite_drupal_access_node_access_records($node) {
   return $grants;
 }
 
+/**
+ * Implements hook_node_grants().
+ */
 function multisite_drupal_access_node_grants($account, $op) {
-  // allow users to see their own unpublished contents
+  // Allow users to see their own unpublished contents.
   $grants['unpublished'] = array($account->uid);
   return $grants;
 }
-
