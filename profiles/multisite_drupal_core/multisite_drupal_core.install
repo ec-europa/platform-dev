@@ -336,18 +336,6 @@ function multisite_drupal_core_install() {
     variable_set($variable, $file->uri);
   }
 
-  // Set the url language prefix to 'en'.
-  db_update('languages')
-    ->fields(array('prefix' => 'en'))
-    ->condition('language', 'en')
-    ->execute();
-
-  // Set up language negotiation.
-  $lni = language_negotiation_info();
-  $ln['language-default'] = $lni['language-default'];
-  $ln['locale-url'] = $lni['locale-url'];
-  language_negotiation_set('language', $ln);
-
   // Disable the Workbench block.
   db_update('block')
     ->fields(array('region' => '-1'))
