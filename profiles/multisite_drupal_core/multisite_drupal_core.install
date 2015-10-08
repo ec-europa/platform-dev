@@ -497,7 +497,4 @@ function multisite_drupal_core_install() {
   $conf['apachesolr_multisitesearch_last_metadata_fetch'] = REQUEST_TIME;
   $conf['apachesolr_multisitesearch_last_metadata_update'] = REQUEST_TIME;
 
-  // Revert all features.
-  features_include_defaults(NULL, TRUE);
-  features_revert();
 }
