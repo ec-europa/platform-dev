@@ -84,14 +84,8 @@ function multisite_wysiwyg_install() {
 }
 
 /**
- * Hook_uninstall.
- */
-function multisite_wysiwyg_uninstall() {
-  // Nothing yet.
-}
-
-/**
  * Hook_enable.
+ * Implements hook_enable().
  */
 function multisite_wysiwyg_enable() {
   // Activation message.
@@ -99,9 +93,9 @@ function multisite_wysiwyg_enable() {
 }
 
 /**
- * Hook_disable.
+ * Implements hook_disable().
  */
 function multisite_wysiwyg_disable() {
-  // Activation message.
+  // Deactivation message.
   drupal_set_message(t('Multisite Wysiwyg feature is now disabled on your site.'));
 }
