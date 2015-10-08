@@ -35,6 +35,7 @@ function subscriptions_og_subscriptions($op, $arg0 = NULL, $arg1 = NULL, $arg2 =
         'weight' => -10,
       );
       return $types;
+
     // Queue: Define parameters used by Subscriptions to query which
     // subscriptions should be sent. We search for subscriptions where the value
     // is equal to the GID of any group that the newly saved $node is posted to.
@@ -55,15 +56,24 @@ function subscriptions_og_subscriptions($op, $arg0 = NULL, $arg1 = NULL, $arg2 =
           'groupby' => 'ga.etid',
         );
         if ($arg0['type'] == 'comment') {
-          $params['node']['group_audience']['where'][] = array('s.send_comments', 1, '=');
+          $params['node']['group_audience']['where'][] = array(
+            's.send_comments',
+            1,
+            '=',
+          );
         }
         elseif ($arg0['type'] == 'node' && $arg0['action'] == 'update') {
-          $params['node']['group_audience']['where'][] = array('s.send_updates', 1, '=');
+          $params['node']['group_audience']['where'][] = array(
+            's.send_updates',
+            1,
+            '=',
+          );
         }
 
         return $params;
       }
       break;
+
     case 'fields':
       // $arg0 is module.
       if ($arg0 == 'node' || $arg0 == 'comment') {
@@ -77,17 +87,19 @@ function subscriptions_og_subscriptions($op, $arg0 = NULL, $arg1 = NULL, $arg2 =
         );
       }
       break;
+
     case 'token_types':
       if (strpos($arg0, 'content_og') === 0) {
         return array('node', 'comment');
       }
       break;
+
     case 'node_options':
-      // $arg1 is the current node
+      // $arg1 is the current node.
       $options = array();
       if (og_is_group('node', $arg1)) {
-        // Check if user is a member for private group
-        if(og_is_member('node', $arg1->nid) || $arg1->group_access['und'][0]['value'] == 1) {
+        // Check if user is a member for private group.
+        if (og_is_member('node', $arg1->nid) || $arg1->group_access['und'][0]['value'] == 1) {
           $options['group_audience'][] = array(
             'name' => t('To content posted in %name', array('%name' => $arg1->title)),
             'link' => 'node/' . $arg1->nid,
@@ -107,14 +119,21 @@ function subscriptions_og_subscriptions($op, $arg0 = NULL, $arg1 = NULL, $arg2 =
  * Defines a user's overview of which groups she is subscribed to.
  *
  * @param array $form
+ *   Array form.
  * @param int $uid
- *     The user's UID
+ *     The user's UID.
  */
 function subscriptions_og_page(array $form, $uid) {
-  // Load all active OG subscriptions for this user
+  // Load all active OG subscriptions for this user.
   $query = db_select('subscriptions', 's', array('fetch' => PDO::FETCH_ASSOC));
   $result = $query
-    ->fields('s', array('value', 'send_interval', 'author_uid', 'send_comments', 'send_updates'))
+    ->fields('s', array(
+      'value',
+      'send_interval',
+      'author_uid',
+      'send_comments',
+      'send_updates',
+    ))
     ->condition('s.module', 'node')
     ->condition('s.field', 'group_audience')
     ->condition('s.recipient_uid', $uid)
@@ -135,11 +154,10 @@ function subscriptions_og_page(array $form, $uid) {
 
   foreach ($groups as $group) {
     // Check that the user is allowed to view this group.
-    if(!node_access('view', $group)){
+    if (!node_access('view', $group)) {
       continue;
     }
-    // Check if user is a member for private group
-    //if (!og_is_member('node', $group->nid) && $group->group_access['und'][0]['value'] == 1) {
+    // Check if user is a member for private group.
     if (!og_is_member('node', $group->nid)) {
       continue;
     }
@@ -170,7 +188,7 @@ function subscriptions_og_page(array $form, $uid) {
   }
   else {
     $form = array(
-      array('#markup' => t('There are no available groups to subscribe to.'))
+      array('#markup' => t('There are no available groups to subscribe to.')),
     );
   }
 
@@ -183,44 +201,31 @@ function subscriptions_og_page(array $form, $uid) {
  * Intended for use with usort() and similar functions.
  *
  * @param OgGroup $first
+ *   First title to compare.
  * @param OgGroup $second
+ *   Second title to compare.
  *
  * @return int
- * < 0 if $first comes before $second, > 0 if $second comes before $first, and
- * 0 if they are equal in sorting order.
+ *   < 0 if $first comes before $second, > 0 if $second comes before $first, and
+ *   0 if they are equal in sorting order.
  */
-function _subscriptions_og_compare_groups($first, $second) {
+function _subscriptions_og_compare_groups(OgGroup $first, OgGroup $second) {
   return strcmp($first->title, $second->title);
 }
 
 /**
- * Implements hook_disable().
+ * Implements hook_subscriptions_node_options_alter().
  *
- * Removes our queue items.
- *
- * @ingroup hooks
- */
-function subscriptions_og_disable() {
-  db_delete('subscriptions_queue')
-  ->condition('module', 'node')
-  ->condition('field', 'group_audience')
-  ->execute();
-}
-
-/*
- * hook_subscriptions_node_options_alter
- * 
- * hide subscriptions options for private groups for non members
- * 
+ * Hide subscriptions options for private groups for non members.
  */
 function subscriptions_og_subscriptions_node_options_alter(&$node_options) {
-  foreach($node_options as $id => $node_option) {
-    if($id == 'nid') {
+  foreach ($node_options as $id => $node_option) {
+    if ($id == 'nid') {
       $node = node_load($node_option[0]['params']['value']);
       if (og_is_group('node', $node)) {
-        //if (!og_is_member('node', $node->nid) && $node->group_access['und'][0]['value'] == 1)
-        if (!og_is_member('node', $node->nid))
+        if (!og_is_member('node', $node->nid)) {
           $node_options = array();
+        }
         break;
       }
     }

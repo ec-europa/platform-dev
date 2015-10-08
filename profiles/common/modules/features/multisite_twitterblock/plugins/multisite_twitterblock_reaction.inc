@@ -2,19 +2,22 @@
 
 /**
  * @file
- * context reaction
+ * Context reaction.
  */
 
+/**
+ * Class for the twitter block context.
+ */
 class MultisiteTwitterblockReaction extends context_reaction {
 
   /**
    * Returns form options.
-   * 
+   *
    * @param string $context
-   *   Context name
-   * 
+   *   Context name.
+   *
    * @return array
-   *   array form
+   *   Array form.
    */
   public function options_form($context) {
     $values = $this->fetch_from_context($context);
@@ -53,4 +56,5 @@ class MultisiteTwitterblockReaction extends context_reaction {
   protected function execute() {
 
   }
+
 }

@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Subscriptions OG installation file.
+ */
+
+/**
+ * Implements hook_disable().
+ *
+ * Removes our queue items.
+ *
+ * @ingroup hooks
+ */
+function subscriptions_og_disable() {
+  db_delete('subscriptions_queue')
+    ->condition('module', 'node')
+    ->condition('field', 'group_audience')
+    ->execute();
+}

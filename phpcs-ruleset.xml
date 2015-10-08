@@ -12,15 +12,12 @@
     <!-- Minified files don't have to comply with coding standards. -->
     <exclude-pattern>*.min.css</exclude-pattern>
     <exclude-pattern>*.min.js</exclude-pattern>
+    <exclude-pattern>profiles/common/modules/features/multisite_readspeaker/js/ReadSpeaker/</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/css/ec_resp.css</exclude-pattern>
 
     <!-- Legacy modules which are not compliant with coding standards. These are
          being fixed in NEXTEUROPA-3575. Whenever a module is fixed, please
          remove it from this list so it can be tested. -->
-    <exclude-pattern>profiles/common/modules/features/content_examples</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/ecas_env</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multi_user_blog</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multilingual_tools</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_business_indicators</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_custom_error</exclude-pattern>
@@ -30,18 +27,8 @@
     <exclude-pattern>profiles/common/modules/features/multisite_maxlength</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_multilingual_references</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_notifications</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_path_override</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_readspeaker</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_registration</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_settings</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_twitterblock</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_workbench_moderation_view</exclude-pattern>
     <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/multisite_drupal_access</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/multisite_og_button</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/og_content_type_admin</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/subscriptions_og</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/themes/bootstrap</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/themes/bootstrap</exclude-pattern>
 
@@ -75,6 +62,11 @@
     <rule ref="Drupal.NamingConventions.ValidFunctionName">
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
         <exclude-pattern>profiles/*/modules/**/views/*.inc</exclude-pattern>
+    </rule>
+
+    <!-- Context reaction not strictly follow Drupal function name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+        <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/plugins/multisite_twitterblock_reaction.inc</exclude-pattern>
     </rule>
 
     <!-- Code based on the classes from the Web Service Clients module do not follow Drupal class name conventions. -->
