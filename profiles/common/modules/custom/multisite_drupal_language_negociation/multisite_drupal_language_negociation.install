@@ -21,7 +21,6 @@ function multisite_drupal_language_negociation_enable() {
   $ln['locale-url'] = $lni['locale-url'];
   language_negotiation_set('language', $ln);
 
-
   variable_set("language_suffix_delimiter", "_");
 }
 

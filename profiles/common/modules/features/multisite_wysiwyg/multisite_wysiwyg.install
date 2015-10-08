@@ -64,7 +64,7 @@ function multisite_wysiwyg_install() {
   );
   $full_html_format = (object) $full_html_format;
   filter_format_save($full_html_format);
-  
+
   // Enable default permissions for system roles.
   $filtered_html_permission = filter_permission_name($filtered_html_format);
   user_role_grant_permissions(DRUPAL_ANONYMOUS_RID,
@@ -84,7 +84,6 @@ function multisite_wysiwyg_install() {
 }
 
 /**
- * Hook_enable.
  * Implements hook_enable().
  */
 function multisite_wysiwyg_enable() {
