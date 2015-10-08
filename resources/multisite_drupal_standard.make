@@ -610,6 +610,14 @@ libraries[ckeditor_lite][download][url] = http://download.ckeditor.com/lite/rele
 libraries[ckeditor_lite][subdir] = ckeditor/plugins
 libraries[ckeditor_lite][directory_name] = "lite"
 
+; ckeditor_moono specific skin : moonocolor
+libraries[ckeditor_moono][download][type]= "file"
+libraries[ckeditor_moono][download][request_type]= "get"
+libraries[ckeditor_moono][download][file_type] = "zip"
+libraries[ckeditor_moono][download][url] = "http://download.ckeditor.com/moonocolor/releases/moonocolor_4.5.1.zip"
+libraries[ckeditor_moono][destination] = "../common/modules/features/multisite_wysiwyg/ckeditor/skins"
+libraries[ckeditor_moono][directory_name] = "moonocolor"
+
 ; cycle 3.0.2 (commit d6557ca)
 libraries[cycle][download][type] = "git"
 libraries[cycle][destination] = "libraries"
