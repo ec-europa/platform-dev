@@ -497,15 +497,6 @@ function multisite_drupal_core_install() {
   $conf['apachesolr_multisitesearch_last_metadata_fetch'] = REQUEST_TIME;
   $conf['apachesolr_multisitesearch_last_metadata_update'] = REQUEST_TIME;
 
-  // Disable the CAPTCHA on the user login form.
-  db_insert('captcha_points')
-    ->fields(array(
-      'form_id' => 'user_login',
-      'module' => 'NULL',
-      'captcha_type' => 'NULL',
-    ))
-    ->execute();
-
   // Revert all features.
   features_include_defaults(NULL, TRUE);
   features_revert();
