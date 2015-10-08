@@ -55,13 +55,28 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     $path = drupal_get_path_alias(($path == '<front>') ? variable_get('site_frontpage', 'node') : $path, $options['language']->language);
 
     $language_suffix = _nexteuropa_multilingual_get_language_suffix($options['language']);
-    $path .= $delimiter . $language_suffix;
+    $ending = $delimiter . $language_suffix;
+
+    // Include the suffix only if it's not added yet.
+    if (!nexteuropa_multilingual_check_string_end($path, $ending)) {
+      $path .= $ending;
+    }
 
     $options['alias'] = TRUE;
 
   }
 }
 
+/**
+ * Returns true if $needle is the ending of $haystack
+ * @param $haystack
+ * @param $needle
+ * @return bool
+ */
+function nexteuropa_multilingual_check_string_end($haystack, $needle) {
+  // search forward starting from end minus needle length characters
+  return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== FALSE);
+}
 
 /**
  * Extract the suffix from the path.
