@@ -1,9 +1,29 @@
+@api
 Feature: Multilingual features
   In order to easily understand the content of the European Commission
   As a citizen of the European Union
   I want to be able to read content in my native language
 
-  @api
+  Scenario: Content can be translated in available languages
+    Given the following languages are available:
+      | languages |
+      | en        |
+      | fr        |
+      | de        |
+    And "page" content type supports field translation
+    And I am viewing a multilingual "page" content:
+      | language | title            |
+      | en       | Title in English |
+      | fr       | Title in French  |
+      | de       | Title in German  |
+    And I should see the heading "Title in English"
+    And I should see the link "Français"
+    And I should see the link "Deutsch"
+    When I click "Français"
+    And I should see the heading "Title in French"
+    When I click "Deutsch"
+    And I should see the heading "Title in German"
+
   Scenario: Enable multiple languages
     Given the following languages are available:
       | languages |
@@ -16,7 +36,6 @@ Feature: Multilingual features
     And I should see "French"
     And I should see "German"
 
-  @api
   Scenario: Enable language suffix and check the base path
     Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/regional/language/configure"
