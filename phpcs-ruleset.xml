@@ -19,8 +19,6 @@
          being fixed in NEXTEUROPA-3575. Whenever a module is fixed, please
          remove it from this list so it can be tested. -->
     <exclude-pattern>profiles/common/modules/features/multisite_business_indicators</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_custom_error</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_eu_cookie_compliance</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_forum_core</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_maps</exclude-pattern>

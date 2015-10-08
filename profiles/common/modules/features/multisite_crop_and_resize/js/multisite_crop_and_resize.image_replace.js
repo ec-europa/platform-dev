@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Javascript file for image replacement.
+ */
+
 (function ($) {
   Drupal.media_crop = Drupal.media_crop || {};
 
