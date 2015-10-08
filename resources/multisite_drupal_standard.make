@@ -36,13 +36,20 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-i
 ; https://drupal.org/node/1649158
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4335
 projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple-dates-hack-1649158-15.patch
+; Issue #2446419 : Incorrect display of some main menu items and browser tab titles on some pages.
+; https://www.drupal.org/node/2446419
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
-projects[apachesolr][patch][] = patches/apachesolr_search-overwritten_menu_items.patch
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.3"
+; Issue #2581925 : Empty parent_entity_id in apachesolr_index_entities_file table.
+; https://www.drupal.org/node/2581925
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4224
-projects[apachesolr_attachments][patch][] = patches/apachesolr_attachments-empty_parent_entity_id.patch
+projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/apachesolr_attachments-empty_parent_entity_id-2581925-0.patch
+; Issue #1854088 : PDOException: SQLSTATE[40001]: Serialization failure: 1213 Deadlock found.
+; https://www.drupal.org/node/1854088
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3744
 projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/apachesolr-attachments-bypass-deadlocks-on-mass-update-1854088-9.patch
 projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/apachesolr_attachments-cleanup_efficiency_and_deadlock_chance_reduction-1854088-16.patch
 
