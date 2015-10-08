@@ -3,14 +3,14 @@
 /**
  * @file
  * Tests for og_content_type_admin.module.
- * ECWeb MULTISITE Feature Test
+ *
+ * ECWeb MULTISITE Feature Test.
  */
 
 /**
  * Defines a base class for testing the og_content_type_admin feature.
  */
 class OgContentTypeAdminFeatureTest extends DrupalWebTestCase {
-  protected $web_user;
   public $publicFilesDirectory;
 
   /**
@@ -32,7 +32,8 @@ class OgContentTypeAdminFeatureTest extends DrupalWebTestCase {
     parent::setUp(array(
       'og_content_type_admin', 'views', 'og', 'og_access',
       'og_field_access', 'og_context', 'og_ui', 'node',
-      'multisite_workbench_moderation_view'));
+      'multisite_workbench_moderation_view',
+    ));
   }
 
   /**
@@ -73,7 +74,8 @@ class OgContentTypeAdminFeatureTest extends DrupalWebTestCase {
     // content type admin configuration page.
     $web_user = $this->drupalCreateUser(array(
       'administer site configuration', 'access administration pages', 'administer nodes',
-      'access content overview', 'administer og content types', 'bypass workbench moderation'));
+      'access content overview', 'administer og content types', 'bypass workbench moderation',
+    ));
     $this->drupalLogin($web_user);
     // Verify that user with permissions can access to the
     // og content type admin configuration page.
@@ -147,4 +149,5 @@ class OgContentTypeAdminFeatureTest extends DrupalWebTestCase {
 
     $this->drupalGet('admin/config/group/og_content_types/admin/' . $this->group1->nid . '');
   }
+
 }
