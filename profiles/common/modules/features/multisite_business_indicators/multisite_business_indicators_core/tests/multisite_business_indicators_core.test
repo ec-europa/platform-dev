@@ -5,12 +5,10 @@
  */
 
 /**
- * Test Business Indicators features to ensure it follows QA requirements.
+ * {@inheritdoc}
  */
 class BusinessIndicatorsCoreQAWebTestCase extends DrupalWebTestCase {
   protected $profile = 'multisite_drupal_communities';
-
-  protected $publicFilesDirectory = NULL;
 
   /**
    * Returns class informations.
@@ -24,10 +22,9 @@ class BusinessIndicatorsCoreQAWebTestCase extends DrupalWebTestCase {
   }
 
   /**
-   * Test menu callback.
+   * Tests menu callback.
    */
   public function testMenuCallback() {
-
     $this->privileged_user = $this->drupalCreateUserWithRole('administrator');
     $this->drupalLogin($this->privileged_user);
     $this->drupalGet('admin/reports/business-indicators');
@@ -35,10 +32,9 @@ class BusinessIndicatorsCoreQAWebTestCase extends DrupalWebTestCase {
   }
 
   /**
-   * Test user creation.
+   * Tests user creation.
    */
   protected function drupalCreateUserWithRole($role_name) {
-
     $role = user_role_load_by_name($role_name);
 
     // Create a user assigned to that role.

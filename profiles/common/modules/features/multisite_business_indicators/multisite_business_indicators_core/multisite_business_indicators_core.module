@@ -7,13 +7,6 @@
 include_once 'multisite_business_indicators_core.features.inc';
 
 /**
- * Implements hook_init().
- */
-function multisite_business_indicators_core_init() {
-
-}
-
-/**
  * Implements hook_permission().
  */
 function multisite_business_indicators_core_permission() {

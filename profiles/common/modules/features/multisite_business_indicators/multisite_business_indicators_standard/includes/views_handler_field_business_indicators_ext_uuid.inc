@@ -13,7 +13,7 @@
 class views_handler_field_business_indicators_ext_uuid extends views_handler_field {
 
   /**
-   * Update the field render.
+   * {@inheritdoc}
    */
   public function render($values) {
     global $language;

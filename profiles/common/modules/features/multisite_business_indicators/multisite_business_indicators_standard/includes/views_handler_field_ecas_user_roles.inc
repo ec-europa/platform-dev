@@ -13,7 +13,7 @@
 class views_handler_field_ecas_user_roles extends views_handler_field_prerender_list {
 
   /**
-   * Class constructor.
+   * {@inheritdoc}
    */
   public function construct() {
     parent::construct();
@@ -21,7 +21,7 @@ class views_handler_field_ecas_user_roles extends views_handler_field_prerender_
   }
 
   /**
-   * Add field user_roles to the query.
+   * {@inheritdoc}
    */
   public function query() {
     $this->add_additional_fields();
@@ -29,7 +29,7 @@ class views_handler_field_ecas_user_roles extends views_handler_field_prerender_
   }
 
   /**
-   * Update roles in pre_render.
+   * {@inheritdoc}
    */
   public function pre_render(&$values) {
     $user_roles = array();
@@ -68,14 +68,14 @@ class views_handler_field_ecas_user_roles extends views_handler_field_prerender_
   }
 
   /**
-   * Returns role.
+   * {@inheritdoc}
    */
   public function render_item($count, $item) {
     return $item['role'];
   }
 
   /**
-   * Add tokens.
+   * {@inheritdoc}
    */
   public function document_self_tokens(&$tokens) {
     $tokens['[' . $this->options['id'] . '-role' . ']'] = t('The name of the role.');
@@ -83,7 +83,7 @@ class views_handler_field_ecas_user_roles extends views_handler_field_prerender_
   }
 
   /**
-   * Add tokens.
+   * {@inheritdoc}
    */
   public function add_self_tokens(&$tokens, $item) {
     if (!empty($item['role'])) {

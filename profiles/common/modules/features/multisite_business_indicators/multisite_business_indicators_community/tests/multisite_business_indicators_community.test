@@ -5,12 +5,10 @@
  */
 
 /**
- * Test Business Indicators features to ensure it follows QA requirements.
+ * {@inheritdoc}
  */
 class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
   protected $profile = 'multisite_drupal_communities';
-
-  protected $publicFilesDirectory = NULL;
 
   /**
    * Returns class informations.
@@ -47,7 +45,7 @@ class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
   }
 
   /**
-   * Test Business Indicators views.
+   * Tests Business Indicators views.
    */
   public function testViews() {
 
@@ -138,7 +136,7 @@ class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
 
 
   /**
-   * Test comment creation.
+   * Tests comment creation.
    */
   public function drupalCreateComment($node, $comment = array()) {
     $comment += array(

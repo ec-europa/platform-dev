@@ -10,8 +10,6 @@
 class BusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase {
   protected $profile = 'multisite_drupal_standard';
 
-  protected $publicFilesDirectory = NULL;
-
   /**
    * {@inheritdoc}
    */
@@ -223,7 +221,7 @@ class BusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase {
    * @param array $permissions
    *   Array of permissions.
    */
-  private function checkUserAccess(array $type = array(), $account = NULL, array $permissions = array()) {
+  private function checkUserAccess(array $type, $account, array $permissions) {
     $roles = implode(', ', $account->roles);
     switch ($type) {
       case 'allow':
