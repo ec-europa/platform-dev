@@ -62,6 +62,7 @@ dependencies[] = workbench
 dependencies[] = workbench_moderation
 dependencies[] = wysiwyg
 stylesheets[all][] = cce_basic_config.css
+features[context][] = site_wide
 features[ctools][] = context:context:3
 features[ctools][] = field_group:field_group:1
 features[ctools][] = file_entity:file_default_displays:1
