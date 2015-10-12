@@ -16,9 +16,7 @@ use Behat\Gherkin\Node\TableNode;
 class NextEuropaMultilingualSubContext extends RawDrupalContext implements DrupalSubContextInterface {
 
   /**
-   * The Drupal driver manager.
-   *
-   * @var \Drupal\DrupalDriverManager;
+   * {@inheritdoc}
    */
   protected $drupal;
 
