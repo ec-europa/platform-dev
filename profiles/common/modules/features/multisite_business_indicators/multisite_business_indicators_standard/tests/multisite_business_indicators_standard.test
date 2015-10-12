@@ -8,6 +8,9 @@
  * Test Business Indicators features to ensure it follows QA requirements.
  */
 class BusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase {
+  /**
+   * {@inheritdoc}
+   */
   protected $profile = 'multisite_drupal_standard';
 
   /**
