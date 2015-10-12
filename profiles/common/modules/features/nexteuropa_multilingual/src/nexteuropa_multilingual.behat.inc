@@ -21,26 +21,6 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   protected $drupal;
 
   /**
-   * Contains original values of "language_content_type_TYPE" variables.
-   *
-   * @see contentTypeSupportsFieldTranslation()
-   * @see resetLanguageContentTypeValues()
-   *
-   * @var array
-   */
-  protected $languageContentTypeValues = array();
-
-  /**
-   * Contains original language negotiation variables values.
-   *
-   * @see contentTypeSupportsFieldTranslation()
-   * @see resetLanguageContentTypeValues()
-   *
-   * @var array
-   */
-  protected $languageNegotiationValues = array();
-
-  /**
    * Constructs a NextEuropaMultilingualSubContext object.
    *
    * @param DrupalDriverManager $drupal
@@ -48,42 +28,6 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    */
   public function __construct(DrupalDriverManager $drupal) {
     $this->drupal = $drupal;
-    $this->languageNegotiationValues = array(
-      'language_negotiation_language' => array(),
-      'language_negotiation_language_content' => array(),
-      'language_negotiation_language_url' => array(),
-    );
-  }
-
-  /**
-   * Set field translation for specified content type.
-   *
-   * @param string $type
-   *    Content type machine name.
-   *
-   * @see resetLanguageContentTypeValues()
-   *
-   * @Given :type content type supports field translation
-   */
-  public function contentTypeSupportsFieldTranslation($type) {
-    $this->languageContentTypeValues[$type] = variable_get('language_content_type_' . $type, 0);
-    multisite_config_service('entity_translation')->enableEntityTranslation($type);
-  }
-
-  /**
-   * Set NextEuropa Multilingual URL suffix as default negotiation method.
-   *
-   * @see resetLanguageNegotiationMethods()
-   *
-   * @Given URL language suffix negotiation is enabled
-   */
-  public function urlLanguageSuffixNegotiationIsEnabled() {
-    foreach ($this->languageNegotiationValues as $variable_name => $variable_value) {
-      $this->languageNegotiationValues[$variable_name] = variable_get($variable_name, array());
-    }
-    multisite_config_service('locale')->setLanguageNegotiation('nexteuropa_multilingual_url_suffix', LANGUAGE_TYPE_INTERFACE);
-    multisite_config_service('locale')->setLanguageNegotiation('nexteuropa_multilingual_url_suffix', LANGUAGE_TYPE_CONTENT);
-    multisite_config_service('locale')->setLanguageNegotiation('nexteuropa_multilingual_url_suffix', LANGUAGE_TYPE_URL);
   }
 
   /**
@@ -160,30 +104,6 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
 
     // Visit newly created node page.
     $this->getSession()->visit($this->locatePath("node/$node->nid"));
-  }
-
-  /**
-   * Reset "language_content_type_TYPE" variables values.
-   *
-   * @AfterScenario
-   */
-  public function resetLanguageContentTypeValues() {
-    foreach ($this->languageContentTypeValues as $type => $value) {
-      variable_set('language_content_type_' . $type, $value);
-    }
-  }
-
-  /**
-   * Reset original language negotiation methods.
-   *
-   * @AfterScenario
-   */
-  public function resetLanguageNegotiationMethods() {
-    foreach ($this->languageNegotiationValues as $variable_name => $variable_value) {
-      if ($variable_value) {
-        variable_set($variable_name, $variable_value);
-      }
-    }
   }
 
 }
