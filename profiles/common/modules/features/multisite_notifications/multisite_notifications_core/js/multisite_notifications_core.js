@@ -27,7 +27,7 @@ jQuery(function($){
         $(this).val("");
         }
     }).blur(function(){
-        //Small update
+        // Small update.
         if ($(this).val().length == 0) {
         $(this).val(default_value);
         }
