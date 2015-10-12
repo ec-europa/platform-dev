@@ -65,7 +65,7 @@ projects[colors][subdir] = "contributed"
 projects[colors][version] = "1.0-beta2"
 
 projects[colorbox][subdir] = "contributed"
-projects[colorbox][version] = "2.8"
+projects[colorbox][version] = "2.10"
 
 ;projects[content_lock][subdir] = "contributed"
 ;projects[content_lock][version] = "1.4"
