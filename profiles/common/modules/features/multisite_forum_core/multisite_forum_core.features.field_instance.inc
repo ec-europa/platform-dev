@@ -10,7 +10,7 @@
 function multisite_forum_core_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_discussion-comment_body'
+  // Exported field_instance: 'comment-comment_node_discussion-comment_body'.
   $field_instances['comment-comment_node_discussion-comment_body'] = array(
     'bundle' => 'comment_node_discussion',
     'default_value' => NULL,
@@ -70,7 +70,7 @@ function multisite_forum_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-discussion-body'
+  // Exported field_instance: 'node-discussion-body'.
   $field_instances['node-discussion-body'] = array(
     'bundle' => 'discussion',
     'default_value' => NULL,
@@ -114,7 +114,7 @@ function multisite_forum_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-discussion-field_tags'
+  // Exported field_instance: 'node-discussion-field_tags'.
   $field_instances['node-discussion-field_tags'] = array(
     'bundle' => 'discussion',
     'default_value' => NULL,
@@ -154,7 +154,7 @@ function multisite_forum_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-discussion-taxonomy_forums'
+  // Exported field_instance: 'node-discussion-taxonomy_forums'.
   $field_instances['node-discussion-taxonomy_forums'] = array(
     'bundle' => 'discussion',
     'default_value' => NULL,

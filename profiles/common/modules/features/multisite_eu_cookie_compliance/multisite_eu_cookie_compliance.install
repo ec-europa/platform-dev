@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Install the feature multisite_eu_cookie_compliance
+ * Install the feature multisite_eu_cookie_compliance.
  */
 
 /**
@@ -14,21 +14,12 @@ function multisite_eu_cookie_compliance_install() {
 }
 
 /**
- * Implements hook_uninstall().
- */
-function multisite_eu_cookie_compliance_uninstall() {
-    //Nothing yet.
-}
-
-/**
- * Revert feature component
+ * Revert feature component.
  */
 function multisite_eu_cookie_compliance_enable() {
   // For some unknown reason, we need to manually trigger the rebuild of the
-  // variables in features
+  // variables in features.
   // @todo Investigate.
-
-
   $popup_settings = array(
     'popup_enabled' => 1,
     'popup_clicking_confirmation' => 0,
@@ -37,7 +28,7 @@ function multisite_eu_cookie_compliance_enable() {
       'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => "full_html",
     ),
-        'popup_agreed_enabled' => 0,
+    'popup_agreed_enabled' => 0,
     'popup_hide_agreed' => 0,
     'popup_agreed' => array(
       'value' => '<h2>Thank you for accepting cookies</h2><p>You can now hide this message or find out more about cookies.</p>',
@@ -55,13 +46,12 @@ function multisite_eu_cookie_compliance_enable() {
   $lang = ($language->language) ? $language->language : 'en';
   variable_set('eu_cookie_compliance_' . $lang, $popup_settings);
 
-
   // Activation message.
   drupal_set_message(t('EU Cookie Compliance feature is now active on your site.'));
 }
 
 /**
- *
+ * Implements hook_disable().
  */
 function multisite_eu_cookie_compliance_disable() {
   drupal_set_message(t('EU Cookie Compliance feature is now disabled on your site.'));
