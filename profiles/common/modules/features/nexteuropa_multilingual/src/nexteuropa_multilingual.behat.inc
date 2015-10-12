@@ -55,15 +55,20 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @Given I am viewing a multilingual :arg1 content:
    */
   public function iAmViewingMultilingualContent($type, TableNode $table) {
-
     if (!entity_translation_node_supported_type($type)) {
       throw new \InvalidArgumentException("'$type' is not a translatable content type.");
     }
 
     $translations = array();
     foreach ($table->getHash() as $row) {
-      $row['type'] = $type;
-      $translations[$row['language']] = (object) $row;
+      $node = (object) $row;
+      $node->type = $type;
+      $node->status = TRUE;
+      // If the node is managed by Workbench Moderation, mark it as published.
+      if (workbench_moderation_node_moderated($node)) {
+        $node->workbench_moderation_state_new = workbench_moderation_state_published();
+      }
+      $translations[$node->language] = $node;
     }
 
     // Consider the first defined language as the default one.
