@@ -111,7 +111,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     pathauto_create_alias('node', 'update', "node/$node->nid", $data);
 
     // Visit newly created node page.
-    $this->getSession()->visit($this->locatePath("node/$node->nid"));
+    $this->visitPath("node/$node->nid");
 
   }
 
