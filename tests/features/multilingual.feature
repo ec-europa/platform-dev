@@ -10,6 +10,8 @@ Feature: Multilingual features
       | en        |
       | fr        |
       | de        |
+    # The following two steps will not be necessary after NEXTEUROPA-5948
+    # gets in, then they can (and should) be removed.
     And "page" content type supports field translation
     And URL language suffix negotiation is enabled
 
@@ -34,6 +36,9 @@ Feature: Multilingual features
       | en       | Title in English |
       | fr       | Title in French  |
       | de       | Title in German  |
+    # Clicking on "View" will invalidate URL alias cache allowing
+    # URL suffix negotiation to correctly modify the URL.
+    # We should find a way to make this step not necessary.
     And I click "View"
     Then I should be on "content/title-english_en"
     When I click "Français"
