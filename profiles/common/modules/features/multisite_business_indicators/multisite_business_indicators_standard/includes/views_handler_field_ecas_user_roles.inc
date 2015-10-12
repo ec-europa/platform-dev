@@ -78,8 +78,8 @@ class views_handler_field_ecas_user_roles extends views_handler_field_prerender_
    * {@inheritdoc}
    */
   public function document_self_tokens(&$tokens) {
-    $tokens['[' . $this->options['id'] . '-role' . ']'] = t('The name of the role.');
-    $tokens['[' . $this->options['id'] . '-rid' . ']'] = t('The role ID of the role.');
+    $tokens['[' . $this->options['id'] . '-role]'] = t('The name of the role.');
+    $tokens['[' . $this->options['id'] . '-rid]'] = t('The role ID of the role.');
   }
 
   /**
