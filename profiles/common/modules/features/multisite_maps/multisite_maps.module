@@ -86,15 +86,17 @@ function escape($value) {
  */
 function multisite_maps_get_library_path() {
   global $conf;
-  $path = 'sites/all/libraries/FusionMaps XT/';
-  $lpath = libraries_get_path('FusionMaps XT/');
+
   if (isset($conf['fusion_maps_path'])) {
-    $path = $conf['fusion_maps_path'];
+    return $conf['fusion_maps_path'];
   }
-  elseif ($lpath) {
-    $path = $lpath . '/';
+  if (module_exists('libraries')) {
+    $path = libraries_get_path('FusionMaps XT');
   }
-  return $path;
+  if (!$path) {
+    $path = 'profiles/common/libraries/FusionMaps XT';
+  }
+  return $path . '/';
 }
 
 /**
