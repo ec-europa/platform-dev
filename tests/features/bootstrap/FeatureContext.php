@@ -168,4 +168,74 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
   }
 
+
+
+  /**
+   * Check the languages order in the language selector page.
+   *
+   * @Then the language options on the language selector page should be
+   */
+  public function assertContentLanguageSelectorPageOptions() {
+    $pattern = "English";
+    //$this->assertElementContainsText("css=#actions li.crm-contact-user-record", "Create User Record", "Create User Record link not in action menu of new contact");
+  }
+
+
+    /**
+     * @Then I should see :arg1 in the language selector page
+     */
+    public function iShouldSeeInTheLanguageSelectorPage($arg1)
+    {
+        //$this->assertSession()->pageTextMatches("/".$arg1."/");
+        //$this->assertSession()->pageTextMatches('/English(.*)Français(.*)Italiano/');
+
+        $text = '<li class="lang-select-page__served">English</li><li><a href="([^"]*)"[^>]* class="active">Français';
+        $text = '/<li class="lang-select-page__served">English<\/li><li><a href="(.*)" class="active">Français<\/a><\/li><li><a href="(.*)" class="active">Italiano<\/a><\/li>/';
+        //$text = '/(.*)Italiano/';
+        
+        //$this->assertSession()->responseContains($text);
+        
+        /*
+        $debug = print_r($this->assertSession()->session->getPage()->getContent(), TRUE);
+        $handle = fopen("/ec/dev/server/fpfis/webroot/sources/champcy/tmp/file.txt", "w");
+        fwrite($handle, $debug);
+        fclose($handle);
+        */
+        
+        $session = $this->getSession();
+        $actual = $session->getPage()->getContent();
+        //$actual = $this->assertSession()->session->getPage()->getContent();
+        $regex = $text;
+        $message = sprintf('The string "%s" was not found anywhere in the HTML response of the current page.', $text);
+
+        //$this->assert((bool) preg_match($regex, $actual), $message);
+        
+        if (! preg_match($regex, $actual) )
+          throw new Exception(sprintf('The string "%s" was not found anywhere in the HTML response of the current page.', $text));
+        
+        //return new Then("I should see text matching \"$arg1\"");
+        //throw new PendingException();
+    }
+
+    /**
+     * @Then the language options on the page content language switcher should be :active_language non clickable followed by :language_order links
+     */
+    public function theLanguageOptionsOnThePageContentLanguageSwitcherShouldBe($active_language, $language_order)
+    {
+      $pattern = '/<li class="lang-select-page__served">'.$active_language.'<\/li>';
+      $languages = explode(",", $language_order);
+      foreach($languages as $language) {
+        $pattern .= '<li><a href="(.*)" class="active">'.$language.'<\/a><\/li>';  
+      }
+      $pattern .= "/i";
+      
+      $session = $this->getSession();
+      $pageContent = $session->getPage()->getContent();
+
+      if (! preg_match($pattern, $pageContent) )
+        throw new Exception(sprintf('The page content language switcher is not set to %s and not followed by the language links %s.', $active_language, $language_order));
+    }
+
+
+
 }

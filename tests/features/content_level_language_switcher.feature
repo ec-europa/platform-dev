@@ -9,20 +9,16 @@ Scenario Outline: Anonymous user can see the content level language selector
   Then I should see an ".block-language-selector-page" element 
 
   Examples:
-  | url       | active_language | language_order                      |
-  | node/2_en | english         | [ french,deutsch,italiano ]         |
-  | node/2_bg | bg              | [ english,french,deutsch,italiano ] |
-  | node/2_de | deutsch         | [ english,french,italiano ]         |
-  | node/2_fr | french          | [ english,deutsch,italiano ]        |
+  | url       |
+  | node/2_en |
+  | node/2_fr |
 
 Scenario Outline: Anonymous user can see the available translations of a content
   Given I am an anonymous user
   When I go to "<url>"
-  Then I should see an ".block-language-selector-page" element
+  Then the language options on the page content language switcher should be "<active_language>" non clickable followed by "<language_order>" links
 
   Examples:
-  | url       | active_language | language_order                      |
-  | node/2_en | english         | [ french,deutsch,italiano ]         |
-  | node/2_bg | bg              | [ english,french,deutsch,italiano ] |
-  | node/2_de | deutsch         | [ english,french,italiano ]         |
-  | node/2_fr | french          | [ english,deutsch,italiano ]        |
+  | url                | active_language | language_order   |
+  | content/english_en | english         | français,italiano  |
+  | content/english_fr | français        | english,italiano |  
