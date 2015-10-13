@@ -1,0 +1,7 @@
+name = DGT Html
+description = DGT approved Html format to export translations
+package = Translation Management
+core = 7.x
+dependencies[] = tmgmt
+dependencies[] = tmgmt_file
+files[] = inc/tmgmt_dgt.format.html.inc
