@@ -111,7 +111,7 @@ projects[css_injector][version] = "1.10"
 ; Allow file upload with css injector
 ; https://www.drupal.org/node/2506775
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6580
-projects[css_injector][patch][] = patches/css_injector-add_upload_file-2506775-10.patch
+projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload_files_v4.patch
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.9"
