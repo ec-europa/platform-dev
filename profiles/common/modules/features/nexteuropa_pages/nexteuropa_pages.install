@@ -16,8 +16,6 @@ function nexteuropa_pages_install() {
   // Stage page-related variables.
   $service = multisite_config_service('system');
 
-  $service->setVariable('language_content_type_page', 2);
-  $service->setVariable('node_options_page', array('status'));
   $service->setVariable('node_submitted_page', FALSE);
   $service->setVariable('comment_page', 0);
   $service->setVariable('comment_default_per_page_article', 50);

@@ -47,6 +47,8 @@ class Config extends ConfigBase {
       $language_negotiation => -10,
       'language-default' => 10,
     );
+    // Reset available language provider.
+    drupal_static_reset("language_negotiation_info");
     language_negotiation_set($type, $negotiation);
   }
 

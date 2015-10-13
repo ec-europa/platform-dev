@@ -3,7 +3,6 @@
 /**
  * @file
  * Helpers for the install scripts.
- *
  */
 
 /**

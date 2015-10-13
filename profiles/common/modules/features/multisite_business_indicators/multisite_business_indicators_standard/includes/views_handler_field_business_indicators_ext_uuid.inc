@@ -11,7 +11,11 @@
  * @ingroup views_field_handlers
  */
 class views_handler_field_business_indicators_ext_uuid extends views_handler_field {
-  function render($values) {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function render($values) {
     global $language;
 
     if (array_key_exists($values->business_indicators_ext_index_type, node_type_get_types())) {
@@ -34,4 +38,5 @@ class views_handler_field_business_indicators_ext_uuid extends views_handler_fie
     }
     return $this->sanitize_value($title);
   }
+
 }

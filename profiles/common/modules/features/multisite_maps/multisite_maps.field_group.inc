@@ -41,7 +41,7 @@ function multisite_maps_field_group_info() {
   );
   $export['group_map_content|node|map|form'] = $field_group;
 
-    $field_group = new stdClass();
+  $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
   $field_group->identifier = 'group_map_metadata|node|map|form';
@@ -54,7 +54,7 @@ function multisite_maps_field_group_info() {
     'label' => 'Metadata',
     'weight' => '20',
     'children' => array(
-	    0 => 'language',
+      0 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -68,6 +68,5 @@ function multisite_maps_field_group_info() {
   );
   $export['group_news_metadata|node|map|form'] = $field_group;
 
-  
   return $export;
 }
