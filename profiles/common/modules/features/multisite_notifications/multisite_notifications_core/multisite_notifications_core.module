@@ -35,15 +35,6 @@ function multisite_notifications_core_subscriptions_queue_alter(&$event) {
 }
 
 /**
- * Implements hook_init().
- */
-function multisite_notifications_core_init() {
-
-  drupal_add_js(drupal_get_path('module', 'multisite_notifications_core') . '/js/multisite_notifications_core.js');
-  drupal_add_css(drupal_get_path('module', 'multisite_notifications_core') . '/css/multisite_notifications_core.css');
-}
-
-/**
  * Implements hook_menu().
  */
 function multisite_notifications_core_menu() {
