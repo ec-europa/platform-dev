@@ -22,17 +22,3 @@ function multisite_business_indicators_community_enable() {
 function multisite_business_indicators_community_disable() {
   drupal_set_message(t('Business Indicators Core %v feature is now inactive on your site.', array('%v' => _multisite_business_indicators_community_get_version())));
 }
-
-/**
- * Implements hook_install().
- */
-function multisite_business_indicators_community_install() {
-  //Install scripts here
-}
-
-/**
- * Implements hook_uninstall().
- */
-function multisite_business_indicators_community_uninstall() {
-  //Uninstall scripts here
-}
