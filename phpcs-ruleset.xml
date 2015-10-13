@@ -20,10 +20,7 @@
          remove it from this list so it can be tested. -->
     <exclude-pattern>profiles/common/modules/features/multisite_eu_cookie_compliance</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_forum_core</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_maps</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_maxlength</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_multilingual_references</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_notifications</exclude-pattern>
     <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/themes/bootstrap</exclude-pattern>
