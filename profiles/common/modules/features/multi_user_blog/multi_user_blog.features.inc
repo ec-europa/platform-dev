@@ -34,7 +34,7 @@ function multi_user_blog_node_info() {
     'blog_post' => array(
       'name' => t('Blog post'),
       'base' => 'node_content',
-      'description' => t('Content of user\'s blog'),
+      'description' => t("Content of user's blog"),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',

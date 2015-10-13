@@ -10,7 +10,7 @@
 function news_core_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_link'
+  // Exported field_base: 'field_link'.
   $field_bases['field_link'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -40,7 +40,7 @@ function news_core_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'field_news_publication_date'
+  // Exported field_base: 'field_news_publication_date'.
   $field_bases['field_news_publication_date'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -69,7 +69,7 @@ function news_core_field_default_field_bases() {
     'type' => 'datestamp',
   );
 
-  // Exported field_base: 'field_news_unpublication_date'
+  // Exported field_base: 'field_news_unpublication_date'.
   $field_bases['field_news_unpublication_date'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -98,7 +98,7 @@ function news_core_field_default_field_bases() {
     'type' => 'datestamp',
   );
 
-  // Exported field_base: 'field_top_news'
+  // Exported field_base: 'field_top_news'.
   $field_bases['field_top_news'] = array(
     'active' => 1,
     'cardinality' => 1,

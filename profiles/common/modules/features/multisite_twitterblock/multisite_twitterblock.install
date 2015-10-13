@@ -71,19 +71,23 @@ function multisite_twitterblock_uninstall() {
   variable_del('fpfis_twitter_override_types');
 }
 
-  /**
-   * Implements hook_schema().
-   */
+/**
+ * Implements hook_schema().
+ */
 function multisite_twitterblock_schema() {
   $schema['multisite_twitterblock_twitter_overrides'] = array(
     'description' => 'The base table for Twitter overrides',
     'fields' => array(
       'entity_id'    => array(
-        'type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE,
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
         'description' => 'The entity id this data is attached to',
       ),
       'entity_type' => array(
-        'type' => 'varchar', 'length' => 32, 'not null' => TRUE,
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
         'description' => 'The entity type this data is attached to',
       ),
       'data' => array(

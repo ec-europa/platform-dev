@@ -7,7 +7,7 @@
  * Available variables:
  * - $close_button: unformatted close button.
  * - $languages_list: the language list.
- * - $languages_list_array: unformated array of languages. 
+ * - $languages_list_array: unformated array of languages.
  * - $languages_blacklist: unformated array of blacklisted language codes.
  *
  * @see template_preprocess()

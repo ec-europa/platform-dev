@@ -1,10 +1,16 @@
 <?php
+
+/**
+ * @file
+ * Idea views altering.
+ */
+
 /**
  * Implements hook_views_default_views_alter().
  */
 function idea_standard_views_default_views_alter(&$views) {
   if (array_key_exists('idea_list', $views)) {
-    $view=$views['idea_list'];
+    $view = $views['idea_list'];
 
     /* Display: Page */
     $handler = $view->display['page_1']->handler;
@@ -15,7 +21,7 @@ function idea_standard_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['weight'] = '15';
     $handler->display->display_options['menu']['name'] = 'main-menu';
     $handler->display->display_options['menu']['context'] = 0;
-    
+
     $handler->display->display_options['defaults']['empty'] = FALSE;
     /* No results behavior: Global: Text area */
     $handler->display->display_options['empty']['area']['id'] = 'area';

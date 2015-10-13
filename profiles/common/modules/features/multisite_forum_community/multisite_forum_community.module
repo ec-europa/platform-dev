@@ -8,13 +8,6 @@
 include_once 'multisite_forum_community.features.inc';
 
 /**
- * Implements hook_init().
- */
-function multisite_forum_community_init() {
-
-}
-
-/**
  * Implements hook_og_permission().
  */
 function multisite_forum_community_og_permission() {
@@ -25,6 +18,7 @@ function multisite_forum_community_og_permission() {
     'description' => t('Access group forum.'),
     'default role' => array(OG_AUTHENTICATED_ROLE),
   );
+
   $perms['moderate forum'] = array(
     'title' => t('Moderate forum'),
     'description' => t('Moderate group forum.'),
@@ -38,6 +32,7 @@ function multisite_forum_community_og_permission() {
  * Implements hook_menu().
  */
 function multisite_forum_community_menu() {
+  $items = array();
 
   $items['community/%group_name/forum'] = array(
     'title' => 'Forum',
@@ -58,17 +53,6 @@ function multisite_forum_community_menu() {
     'weight' => 1,
   );
 
-  // $items['node/%/group/forum/%taxonomy_term'] = array(
-  // 'title' => 'Forums',
-  // 'page callback' => 'forum_page',
-  // 'page arguments' => array(4),
-  // 'access arguments' => array('access forum', 'node', 1),
-  // 'title arguments' => array(1),
-  // 'access callback' => 'og_ui_user_access_group',
-  // 'title callback' => 'multisite_forum_community_title_callback',
-  // 'file' => 'forum.pages.inc',
-  // 'file path' => drupal_get_path('module', 'forum'),
-  // );
   $items['group/node/%/admin/forum'] = array(
     'title' => 'Forums',
     'description' => 'Control forum hierarchy settings.',
@@ -81,6 +65,7 @@ function multisite_forum_community_menu() {
     'file' => 'forum.admin.inc',
     'file path' => drupal_get_path('module', 'forum'),
   );
+
   $items['group/node/%/admin/forum/list'] = array(
     'title' => 'List',
     'type' => MENU_DEFAULT_LOCAL_TASK,
@@ -88,16 +73,7 @@ function multisite_forum_community_menu() {
     'file' => 'forum.admin.inc',
     'file path' => drupal_get_path('module', 'forum'),
   );
-  // $items['group/node/%/admin/forum/add/container'] = array(
-  // 'title' => 'Add container',
-  // 'page callback' => 'forum_form_main',
-  // 'page arguments' => array('container'),
-  // 'type' => MENU_LOCAL_ACTION,
-  // 'access callback' => 'og_ui_user_access_group',
-  // 'access arguments' => array('moderate forum', 'node', 2),
-  // 'file' => 'forum.admin.inc',
-  // 'file path' => drupal_get_path('module', 'forum'),
-  // );
+
   $items['group/node/%/admin/forum/add/forum'] = array(
     'title' => 'Add forum',
     'page callback' => 'forum_form_main',
@@ -108,6 +84,7 @@ function multisite_forum_community_menu() {
     'file' => 'forum.admin.inc',
     'file path' => drupal_get_path('module', 'forum'),
   );
+
   $items['group/node/%/admin/forum/edit/container/%taxonomy_term'] = array(
     'title' => 'Edit container',
     'page callback' => 'forum_form_main',
@@ -117,6 +94,7 @@ function multisite_forum_community_menu() {
     'file' => 'forum.admin.inc',
     'file path' => drupal_get_path('module', 'forum'),
   );
+
   $items['group/node/%/admin/forum/edit/forum/%taxonomy_term'] = array(
     'title' => 'Edit forum',
     'page callback' => 'forum_form_main',
@@ -140,7 +118,6 @@ function multisite_forum_community_menu() {
     'page callback' => 'multisite_forum_community_forum_page',
     'page arguments' => array(1),
     'access arguments' => array('access content'),
-   // 'file' => 'forum.pages.inc',
   );
 
   return $items;
@@ -340,7 +317,7 @@ function multisite_forum_community_og_ui_get_group_admin($group_type, $gid) {
  */
 function multisite_forum_community_query_term_access_alter(QueryAlterableInterface $query) {
   global $user;
-  // No alter query for admin in admin/structure/taxonomy/forums
+  // No alter query for admin in admin/structure/taxonomy/forums.
   if ($user->uid == 1 && $_GET['q'] == 'admin/structure/taxonomy/forums') {
     return;
   }

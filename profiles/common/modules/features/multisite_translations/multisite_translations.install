@@ -20,15 +20,3 @@ function multisite_translations_enable() {
 function multisite_translations_disable() {
   drupal_set_message(t('Multisite translations management feature is now disable on your site.'));
 }
-
-/**
- * Implements hook_install().
- */
-function multisite_translations_install() {
-}
-
-/**
- * Implements hook_uninstall().
- */
-function multisite_translations_uninstall() {
-}

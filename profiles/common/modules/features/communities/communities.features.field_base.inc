@@ -10,7 +10,7 @@
 function communities_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_thumbnail'
+  // Exported field_base: 'field_thumbnail'.
   $field_bases['field_thumbnail'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -40,7 +40,7 @@ function communities_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'group_access'
+  // Exported field_base: 'group_access'.
   $field_bases['group_access'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -67,7 +67,7 @@ function communities_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'group_content_access'
+  // Exported field_base: 'group_content_access'.
   $field_bases['group_content_access'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -95,7 +95,7 @@ function communities_field_default_field_bases() {
     'type' => 'list_integer',
   );
 
-  // Exported field_base: 'group_group'
+  // Exported field_base: 'group_group'.
   $field_bases['group_group'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -122,7 +122,7 @@ function communities_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'og_group_ref'
+  // Exported field_base: 'og_group_ref'.
   $field_bases['og_group_ref'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -168,7 +168,7 @@ function communities_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'og_roles_permissions'
+  // Exported field_base: 'og_roles_permissions'.
   $field_bases['og_roles_permissions'] = array(
     'active' => 1,
     'cardinality' => 1,

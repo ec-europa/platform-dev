@@ -37,7 +37,7 @@
 
             if (!(editor.id in Drupal.nexteuropa_token_ckeditor)) {
               // Store editor reference in global Drupal object since it will be accessed from within
-              // Drupal.behaviors.nexteuropa_token_ckeditor defined in nexteuropa_token_ckeditor.js
+              // Drupal.behaviors.nexteuropa_token_ckeditor defined in nexteuropa_token_ckeditor.js.
               Drupal.nexteuropa_token_ckeditor[editor.id] = editor;
 
               // Get dialog container ID.

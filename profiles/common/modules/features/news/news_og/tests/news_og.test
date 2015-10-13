@@ -46,9 +46,9 @@ class NewsOgWebTestCase extends DrupalWebTestCase {
 
     // Check the communities directory URL.
     $this->drupalGet('communities_directory');
-    // OK code 200
+    // OK code 200.
     $this->assertResponse(200);
-    // Check the presence of HTML class: view-communities-directory
+    // Check the presence of HTML class: view-communities-directory.
     $this->assertRaw('view-communities-directory', 'Communities enabled and accessible.');
 
     // COMUNITY CREATION
@@ -82,7 +82,7 @@ class NewsOgWebTestCase extends DrupalWebTestCase {
     $this->drupalGet('communities_directory');
     $this->clickLink(t('Request group membership'));
 
-    // Could be 'I want to be registered'
+    // Could be 'I want to be registered'.
     $request = $this->randomString();
     $form_array = array(
       'og_membership_request[und][0][value]' => $request,
@@ -126,7 +126,7 @@ class NewsOgWebTestCase extends DrupalWebTestCase {
     // Access Link Page was displayed.
     $this->drupalGet('community/sample-community/news/news-title');
     $this->assertResponse(200);
-    // Chech the presence of h1
+    // Check the presence of h1.
     $elements = $this->xpath("//h1");
     $this->assertTrue(isset($elements[0]), t('The news page contains a h1 title'));
     $this->assertRaw('news Title', t('Title found.'));

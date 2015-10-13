@@ -5,17 +5,19 @@
  * Tests for multisite_translations.module.
  */
 
-
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
 class MultisiteTranslationsWebTestCase extends DrupalWebTestCase {
 
-  protected $translator_french_user;
-  protected $admin_user;
+  protected $translatorFrenchUser;
+  protected $adminUser;
 
-  public $field_names = array();
+  public $fieldNames = array();
 
+  /**
+   * Returns class informations.
+   */
   public static function getInfo() {
     return array(
       'name' => 'multisite translations',
@@ -24,28 +26,34 @@ class MultisiteTranslationsWebTestCase extends DrupalWebTestCase {
     );
   }
 
+  /**
+   * Initialize user.
+   */
   public function setUp() {
     parent::setUp(array('multisite_translations'));
-    $this->admin_user = $this->drupalCreateUserWithRole("administrator");
+    $this->adminUser = $this->drupalCreateUserWithRole("administrator");
   }
 
-  function testMultisiteTranslationInstall() {
-    $this->drupalLogin($this->admin_user);
+  /**
+   * Check translation.
+   */
+  public function testMultisiteTranslationInstall() {
+    $this->drupalLogin($this->adminUser);
 
-    // check if the ecweb translator is created
+    // Check if the ecweb translator is created.
     $this->drupalGet('admin/config/regional/tmgmt_translator');
     $this->assertRaw('ecweb translator', 'Ecweb translator created.');
 
     $this->setEnvironment('fr');
     create_translation_roles();
 
-    // check if roles are created
+    // Check if roles are created.
     $this->drupalGet('admin/people/permissions/roles');
     $this->assertRaw('translator_french', 'Translator roles created.');
 
-    $this->translator_french_user = $this->drupalCreateUserWithRole("translator_french");
+    $this->translatorFrenchUser = $this->drupalCreateUserWithRole("translator_french");
 
-    // test translation jobs process
+    // Test translation jobs process.
     variable_set('language_content_type_page', 2);
     $node = $this->drupalCreateNode(array('type' => 'page', 'title' => 'page1_translations'));
     $edit = array();
@@ -60,8 +68,8 @@ class MultisiteTranslationsWebTestCase extends DrupalWebTestCase {
 
     $this->drupalLogout();
 
-    // check if a translator can reach his translations jobs page
-    $this->drupalLogin($this->translator_french_user);
+    // Check if a translator can reach his translations jobs page.
+    $this->drupalLogin($this->translatorFrenchUser);
 
     $this->drupalGet('admin/workbench/translation-jobs');
     $this->assertRaw('translation jobs', 'Workbench translation jobs page found.');
@@ -73,15 +81,16 @@ class MultisiteTranslationsWebTestCase extends DrupalWebTestCase {
     $this->drupalGet('admin/tmgmt/items/' . $item1->tjiid . '/review');
     $this->assertRaw('page1_translations', 'Translator can review the content to translate.');
 
-    // check if a translator see the button "request translation" button on the node created
+    // Check if a translator see the button "request translation"
+    // on the node created.
     $this->drupalGet('node/' . $node->nid . '/translate');
     $this->assertRaw('Request translation', 'Translation request button is visible');
 
   }
 
   /**
-  * Creates a user with the give role.
-  **/
+   * Creates a user with the give role.
+   */
   public function drupalCreateUserWithRole($role) {
     // Get all of the roles in the system.
     $roles = user_roles();
@@ -103,7 +112,10 @@ class MultisiteTranslationsWebTestCase extends DrupalWebTestCase {
   }
 
 
-  function createJob($source = 'en', $target = 'de', $action = 'translate', $uid = 1)  {
+  /**
+   * Created a new job.
+   */
+  public function createJob($source = 'en', $target = 'de', $action = 'translate', $uid = 1) {
     $job = tmgmt_job_create($source, $target, $uid);
 
     // Manually specify the translator for now.
@@ -126,7 +138,7 @@ class MultisiteTranslationsWebTestCase extends DrupalWebTestCase {
    * @param string $langcode
    *   The language code.
    */
-  function setEnvironment($langcode) {
+  public function setEnvironment($langcode) {
     // Add the language.
     $edit = array(
       'langcode' => $langcode,

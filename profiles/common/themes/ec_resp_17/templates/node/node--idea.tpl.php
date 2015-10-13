@@ -102,7 +102,7 @@
       // Check idea status.
       if ($content['field_watching']['#object']->field_watching['und'][0]['value']):
         $prefixe .= '<div class="clearfix"><span class="label label-success pull-right"><span class="glyphicon glyphicon-eye-open"></span>' . t('watched') . '</span></div>';
-      endif
+      endif;
 
       // Theme author block.
       if ($display_submitted):
@@ -117,7 +117,7 @@
             $suffixe .= '</small></div>';
           $suffixe .= '</div>';
         $suffixe .= '</div>';
-      endif
+      endif;
 
       print $prefixe;
       print render($content);
@@ -131,7 +131,7 @@
     // form is being displayed on the same page.
     if ($teaser || !empty($content['comments']['comment_form'])):
       unset($content['links']['comment']['#links']['comment-add']);
-    endif
+    endif;
     // Only display the wrapper div if there are links.
     $links = render($content['links']);
     if ($links):

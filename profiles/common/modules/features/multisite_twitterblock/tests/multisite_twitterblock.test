@@ -3,7 +3,8 @@
 /**
  * @file
  * Tests for multisite_twitterblock.module.
- * ECWeb MULTISITE QA
+ *
+ * ECWeb MULTISITE QA.
  */
 
 /**
@@ -37,7 +38,7 @@ class MultisiteTwitterblockDevelopmentQA extends DrupalWebTestCase {
 
   /**
    * Returns test information.
-   * 
+   *
    * @return array
    *   Info
    */
@@ -149,4 +150,5 @@ class MultisiteTwitterblockDevelopmentQA extends DrupalWebTestCase {
     $this->assertNoField('fpfis_twitter_override[enabled]', 'No Override settings');
     $this->drupalLogout();
   }
+
 }

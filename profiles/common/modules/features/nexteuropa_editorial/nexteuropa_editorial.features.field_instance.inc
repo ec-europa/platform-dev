@@ -10,7 +10,7 @@
 function nexteuropa_editorial_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-editorial_team-body'
+  // Exported field_instance: 'node-editorial_team-body'.
   $field_instances['node-editorial_team-body'] = array(
     'bundle' => 'editorial_team',
     'default_value' => NULL,
@@ -63,7 +63,7 @@ function nexteuropa_editorial_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-editorial_team-group_access'
+  // Exported field_instance: 'node-editorial_team-group_access'.
   $field_instances['node-editorial_team-group_access'] = array(
     'bundle' => 'editorial_team',
     'default_value' => array(
@@ -123,7 +123,7 @@ function nexteuropa_editorial_field_default_field_instances() {
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-editorial_team-group_group'
+  // Exported field_instance: 'node-editorial_team-group_group'.
   $field_instances['node-editorial_team-group_group'] = array(
     'bundle' => 'editorial_team',
     'default_value' => array(
@@ -191,7 +191,7 @@ function nexteuropa_editorial_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-editorial_team-og_roles_permissions'
+  // Exported field_instance: 'node-editorial_team-og_roles_permissions'.
   $field_instances['node-editorial_team-og_roles_permissions'] = array(
     'bundle' => 'editorial_team',
     'default_value' => array(
@@ -254,7 +254,7 @@ function nexteuropa_editorial_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-editorial_team-title_field'
+  // Exported field_instance: 'node-editorial_team-title_field'.
   $field_instances['node-editorial_team-title_field'] = array(
     'bundle' => 'editorial_team',
     'default_value' => NULL,

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * multisite_twitterblock definition module.
+ * Multisite_twitterblock definition module.
  */
 
 define('MULTISITE_TWITTERBLOCK_DEFAULT_TYPE', 'smk-twitter_user_timeline');
@@ -81,7 +81,7 @@ function multisite_twitterblock_block_view($delta = '') {
   $block = array();
 
   switch ($delta) {
-    case 'fpfis_twitter':{
+    case 'fpfis_twitter':
       $config = array();
       // Node override.
       $node = menu_get_object();
@@ -128,7 +128,6 @@ function multisite_twitterblock_block_view($delta = '') {
       $block['subject'] = $config['title'];
       $block['content'] = theme('fpfis_twitter', $config);
       break;
-      }
   }
 
   return $block;
@@ -138,12 +137,12 @@ function multisite_twitterblock_block_view($delta = '') {
  * Loads twitter config.
  *
  * @param array $override
- *   array of new settings
+ *   Array of new settings.
  *
  * @return array
- *   twitter config
+ *   Twitter config.
  */
-function _multisite_twitterblock_load_twitter_config($override = NULL) {
+function _multisite_twitterblock_load_twitter_config(array $override = NULL) {
   $config = array(
     'title' => variable_get('fpfis_twitter_title', '<none>'),
     'type' => variable_get('fpfis_twitter_type', 'smk-twitter_user_timeline'),
@@ -199,15 +198,14 @@ function multisite_twitterblock_theme() {
 
 /**
  * Implements theme hook.
- * @global bool $is_https
  *
  * @param array $variables
- *   array of new variables
+ *   Array of new variables.
  *
  * @return string
- *   twitter output config
+ *   Twitter output config.
  */
-function theme_fpfis_twitter($variables) {
+function theme_fpfis_twitter(array $variables) {
   global $is_https;
   drupal_add_js(($is_https ? 'https' : 'http') . '://ec.europa.eu/wel/social-media-kit/social-media-kit.js');
   $type = $variables['type'];
@@ -294,11 +292,11 @@ function multisite_twitterblock_node_prepare($node) {
 
 /**
  * Load settings for the entity or set default.
- * 
+ *
  * @param object $entity
  *   Entity object.
  * @param int $entity_id
- *   Entity Id.
+ *   Entity ID.
  * @param string $entity_type
  *   Entity type.
  */
@@ -402,11 +400,11 @@ function multisite_twitterblock_form_node_form_alter(&$form, $form_state) {
 
 /**
  * Provides a settings subform.
- * 
+ *
  * @param array $form
  *   Rendable array.
  */
-function _multisite_twitterblock_entity_subform(&$form, $fpfis_twitter_override = array()) {
+function _multisite_twitterblock_entity_subform(array &$form, $fpfis_twitter_override) {
   $field = MULTISITE_TWITTERBLOCK_FIELD_NAME;
   // Try to get settings from form entity.
   if (isset($form['#entity']->$field)) {
@@ -469,10 +467,10 @@ function _multisite_twitterblock_entity_subform(&$form, $fpfis_twitter_override 
  * Checks value in the types array.
  *
  * @param string $value
- *   type
+ *   Type.
  *
  * @return bool
- *   result of checking
+ *   Result of checking.
  */
 function multisite_twitterblock_check_availability($value, $variable_name) {
   $options = array_values(variable_get($variable_name, array()));
@@ -483,12 +481,12 @@ function multisite_twitterblock_check_availability($value, $variable_name) {
  * Loads overriding config from db.
  *
  * @param int $entity_id
- *   Entity Id
+ *   Entity ID.
  * @param string $entity_type
- *   Entity type
+ *   Entity type.
  *
  * @return bool
- *   result of request
+ *   Result of request.
  */
 function multisite_twitterblock_load($entity_id, $entity_type = MULTISITE_TWITTERBLOCK_ENTITY_NODE) {
   if (is_numeric($entity_id)) {
@@ -506,7 +504,7 @@ function multisite_twitterblock_load($entity_id, $entity_type = MULTISITE_TWITTE
 
 /**
  * Implements hook_node_insert().
- * 
+ *
  * @TODO make generic for all entities
  */
 function multisite_twitterblock_node_insert($node) {
@@ -575,11 +573,11 @@ function multisite_twitterblock_taxonomy_term_delete($term) {
  * Stores serialized twitter settings.
  *
  * @param array $fpfis_twitter_override
- *   array
+ *    Array of overrides.
  * @param string $entity_type
- *   string
+ *   Entity type.
  */
-function multisite_twitterblock_save($fpfis_twitter_override, $entity_type = MULTISITE_TWITTERBLOCK_ENTITY_NODE) {
+function multisite_twitterblock_save(array $fpfis_twitter_override = array(), $entity_type = MULTISITE_TWITTERBLOCK_ENTITY_NODE) {
   $status = db_merge('multisite_twitterblock_twitter_overrides')
       ->key(array('entity_id' => $fpfis_twitter_override['entity_id']))
       ->fields(array(
@@ -593,9 +591,9 @@ function multisite_twitterblock_save($fpfis_twitter_override, $entity_type = MUL
  * Removes serialized twitter settings.
  *
  * @param int $entity_id
- *   Entity Id
+ *   Entity ID.
  * @param string $entity_type
- *   Entity type
+ *   Entity type.
  */
 function multisite_twitterblock_delete($entity_id, $entity_type = MULTISITE_TWITTERBLOCK_ENTITY_NODE) {
   $delete = db_delete('multisite_twitterblock_twitter_overrides')
@@ -608,18 +606,18 @@ function multisite_twitterblock_delete($entity_id, $entity_type = MULTISITE_TWIT
  * Defines form settings.
  *
  * @param array $default_values
- *   array of default values
+ *   Array of default values.
  * @param string $mode
- *   mode
+ *   Mode.
  * @param string $prefix
- *   prefix
+ *   Prefix.
  * @param string $container
- *   containter
+ *   Containter.
  *
  * @return array
- *   array form
+ *   Array form.
  */
-function _multisite_twitterblock_settings_form($default_values, $mode = 'full', $prefix = 'fpfis_twitter_', $container = '') {
+function _multisite_twitterblock_settings_form(array $default_values = array(), $mode = 'full', $prefix = 'fpfis_twitter_', $container = '') {
   $fpfis_twitter_types = variable_get('fpfis_twitter_types');
 
   $form[$prefix . 'title'] = array(
@@ -868,6 +866,7 @@ function multisite_twitterblock_context_page_reaction() {
 
 /**
  * Detecs twitterblock context.
+ *
  * @return array
  *   array of reactions
  */
@@ -918,12 +917,12 @@ function multisite_twitterblock_node_type_delete($type) {
 
 /**
  * Generates variable name based on entity type and machine name.
- * 
+ *
  * @param string $machine_name
  *   Machine name of the entity item.
  * @param string $entity_type
  *   Virtual entity type (content_type, taxonomy_vocabulary).
- * 
+ *
  * @return string
  *   Generated name.
  */
@@ -933,13 +932,13 @@ function multisite_twitterblock_get_var_name($machine_name, $entity_type) {
 
 /**
  * Submit handler for Node type form.
- * 
+ *
  * @param array $form
  *   Form array.
  * @param array $form_state
  *   Form state array.
  */
-function multisite_twitterblock_form_node_type_submit(&$form, $form_state) {
+function multisite_twitterblock_form_node_type_submit(array &$form, array $form_state) {
   if (isset($form_state['values'][MULTISITE_TWITTERBLOCK_FIELD_NAME])) {
     // We save settings if twitter settings are enabled.
     if (!empty($form_state['values'][MULTISITE_TWITTERBLOCK_FIELD_NAME]['enabled'])) {
@@ -969,13 +968,13 @@ function multisite_twitterblock_form_taxonomy_form_vocabulary_alter(&$form, $for
 
 /**
  * Submit handler for taxonomy vocabulary form.
- * 
+ *
  * @param array $form
  *   Form array.
  * @param array $form_state
  *   Form state array.
  */
-function multisite_twitterblock_form_taxonomy_vocabulary_submit(&$form, $form_state) {
+function multisite_twitterblock_form_taxonomy_vocabulary_submit(array &$form, array $form_state) {
   if (isset($form_state['values'][MULTISITE_TWITTERBLOCK_FIELD_NAME])) {
     // We save settings if twitter settings are enabled.
     if (!empty($form_state['values'][MULTISITE_TWITTERBLOCK_FIELD_NAME]['enabled'])) {

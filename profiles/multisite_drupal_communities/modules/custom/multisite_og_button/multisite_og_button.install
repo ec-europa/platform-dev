@@ -2,14 +2,14 @@
 
 /**
  * @file
- * Install, update, and uninstall functions for the Organic groups buttons module.
+ * Install, update, and uninstall functions for the OG buttons module.
  */
 
 /**
  * Implements hook_install().
  */
 function multisite_og_button_install() {
- drupal_set_message(st("Organic groups buttons installed"));
+  drupal_set_message(st("Organic groups buttons installed"));
 }
 
 /**
