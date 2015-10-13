@@ -561,6 +561,11 @@ projects[workbench_email][version] = "3.5"
 ; https://www.drupal.org/node/2501321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
 projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch
+; Issue #2590385: Features compatibility and revert issue fix.
+; https://www.drupal.org/node/2590385
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
+projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-feature_revert_lock.patch
+
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"
