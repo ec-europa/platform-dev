@@ -89,7 +89,7 @@ projects[collapse_text][subdir] = "contrib"
 projects[collapse_text][version] = "2.4"
 
 projects[colorbox][subdir] = "contrib"
-projects[colorbox][version] = "2.9"
+projects[colorbox][version] = "2.10"
 
 projects[colors][subdir] = "contrib"
 projects[colors][version] = "1.0-rc1"
