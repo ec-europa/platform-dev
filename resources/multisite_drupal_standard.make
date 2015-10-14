@@ -170,6 +170,9 @@ projects[entitycache][version] = 1.2
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
+; Make sure that "Rendered entity" entity reference formatter is language aware.
+; More at https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6056
+projects[entityreference][patch][1674792] = https://www.drupal.org/files/issues/entityreference-rendered-entity-is-not-language-aware-1674792-58.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
