@@ -578,7 +578,7 @@ projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
 
 projects[xml_field][subdir] = "contrib"
-projects[xml_field][version] = "1.5"
+projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
 projects[xmlsitemap][version] = "2.2"
