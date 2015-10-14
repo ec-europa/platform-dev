@@ -10,7 +10,7 @@
 function multisite_forum_core_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'taxonomy_forums'
+  // Exported field_base: 'taxonomy_forums'.
   $field_bases['taxonomy_forums'] = array(
     'active' => 1,
     'cardinality' => 1,
