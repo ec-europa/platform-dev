@@ -26,8 +26,6 @@ projects[advanced_help][version] = "1.3"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.7"
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-481
-projects[apachesolr][patch][] = patches/apachesolr-attachment_indexation-481.patch
 ; Issue #2178283 : Apache Solr doesn't invalidate its caches when inserting a new node type.
 ; https://drupal.org/node/2178283
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2890
