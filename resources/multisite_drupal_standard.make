@@ -288,8 +288,8 @@ projects[link][version] = "1.3"
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
-projects[linkchecker][patch][] = patches/linkchecker-001-bean-integration-2127731-0.patch
-projects[linkchecker][patch][] = patches/linkchecker-003-linkchecker_max_redirects-3576.patch
+projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
+projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
 
 projects[mail_edit][subdir] = "contrib"
 projects[mail_edit][version] = "1.0"
