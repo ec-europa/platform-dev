@@ -199,7 +199,7 @@ projects[file_entity][version] = "2.0-beta1"
 projects[file_entity][patch][] = https://www.drupal.org/files/issues/Fix_file_entity_file_download-2351691-1.patch
 
 projects[filefield_sources][subdir] = "contrib"
-projects[filefield_sources][version] = "1.9"
+projects[filefield_sources][version] = "1.10"
 
 projects[filefield_sources_plupload][subdir] = "contrib"
 projects[filefield_sources_plupload][version] = "1.1"
@@ -399,7 +399,7 @@ projects[piwik][subdir] = "contrib"
 projects[piwik][version] = "2.7"
 
 projects[plupload][subdir] = "contrib"
-projects[plupload][version] = "1.3"
+projects[plupload][version] = "1.7"
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
