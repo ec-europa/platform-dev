@@ -346,7 +346,7 @@ projects[menu_token][version] = "1.0-beta5"
 projects[menu_token][patch][] = patches/menu_token-link_uuid_menu_items_can_not_be_edited-2005556-2.patch
 
 projects[message][subdir] = "contrib"
-projects[message][version] = "1.7"
+projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.7"
