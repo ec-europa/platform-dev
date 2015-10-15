@@ -4,6 +4,20 @@
  * Nexteuropa_multilingual install file.
  */
 
+ /**
+ * Implements hook_requirements().
+ */
+function nexteuropa_multilingual_requirements() {
+  if (module_exists('multisite_drupal_language_negociation')) {
+    $t = get_t();
+    return array("" => array (
+      'title' => $t('NextEuropa Multilingual'),
+      'description' => $t('This module is not compatible with Multisite Drupal Language Negociation. Please disable that module first.'),
+      'severity' => REQUIREMENT_ERROR,
+    ));
+  }
+}
+
 /**
  * Implements hook_install().
  */
