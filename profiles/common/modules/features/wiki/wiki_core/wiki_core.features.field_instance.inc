@@ -10,7 +10,7 @@
 function wiki_core_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_wiki-comment_body'
+  // Exported field_instance: 'comment-comment_node_wiki-comment_body'.
   $field_instances['comment-comment_node_wiki-comment_body'] = array(
     'bundle' => 'comment_node_wiki',
     'default_value' => NULL,
@@ -75,7 +75,7 @@ function wiki_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-wiki-body'
+  // Exported field_instance: 'node-wiki-body'.
   $field_instances['node-wiki-body'] = array(
     'bundle' => 'wiki',
     'default_value' => NULL,
@@ -120,7 +120,7 @@ function wiki_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-wiki-field_tags'
+  // Exported field_instance: 'node-wiki-field_tags'.
   $field_instances['node-wiki-field_tags'] = array(
     'bundle' => 'wiki',
     'default_value' => NULL,

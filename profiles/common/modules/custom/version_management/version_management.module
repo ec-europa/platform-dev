@@ -58,10 +58,10 @@ function version_management_form_alter(&$form, &$form_state, $form_id) {
 
   if (
     isset($types[$formid_type])
-    // If: $form_id identifies a node-editing form,
+    // If: $form_id identifies a node-editing form.
     && preg_match('/_node_form$/', $form_id)
 
-    // And: The content type is one configured to permit Minor Edits,
+    // And: The content type is one configured to permit Minor Edits.
     && isset($types[$formid_type])
     && $types[$formid_type]
 

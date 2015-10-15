@@ -1528,3 +1528,19 @@ function _multisite_drupal_toolbox_url_exists() {
   echo drupal_json_encode($output);
   drupal_exit();
 }
+
+/**
+ * Sorts an object by the 'weight' element.
+ *
+ * Extend drupal API.
+ *
+ * @see drupal_sort_weight
+ */
+function multisite_drupal_toolbox_sort_weight_object($a, $b) {
+  $a_weight = (is_object($a) && isset($a->weight)) ? $a->weight : 0;
+  $b_weight = (is_object($b) && isset($b->weight)) ? $b->weight : 0;
+  if ($a_weight == $b_weight) {
+    return 0;
+  }
+  return ($a_weight < $b_weight) ? -1 : 1;
+}

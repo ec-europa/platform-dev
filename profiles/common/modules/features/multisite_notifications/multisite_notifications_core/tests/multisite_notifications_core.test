@@ -2,44 +2,50 @@
 
 /**
  * @file
- * Test case for testing the block example module.
+ * Test case for testing the Notification module.
  */
-class anonymousNotification extends DrupalWebTestCase {
+
+/**
+ * Tests notifcations for anonymous classe.
+ */
+class AnonymousNotification extends DrupalWebTestCase {
 
   protected $administrator;
   protected $visitor;
 
+  /**
+   * Returns class informations.
+   */
   public static function getInfo() {
     return array(
-        'name' => 'Anonymous Notification',
-        'description' => 'Test the configuration options and block created by Notifications module.',
-        'group' => 'Multisite Core Features',
+      'name' => 'Anonymous Notification',
+      'description' => 'Test the configuration options and block created by Notifications module.',
+      'group' => 'Multisite Core Features',
     );
   }
 
   /**
    * Enable modules and create user with specific permissions.
    */
-  function setUp() {
+  public function setUp() {
     parent::setUp('multisite_notifications_core', 'mail_logger');
     $this->administrator = $this->drupalCreateUserWithRole("administrator");
     $this->visitor = $this->drupalCreateUserWithRole("anonymous");
   }
 
   /**
+   * Test block activation.
+   *
    * Login user, create an example node, and test block functionality through
    * the admin and user interfaces.
-   *
-   * Test block activation
-   *
    */
-  function testSubscriptionBlockBasic() {
+  public function testSubscriptionBlockBasic() {
     $mail = 'DIGIT-FPFIS-SUPPORT@ec.europa.eu';
 
     // Log as admin.
     $this->drupalLogin($this->administrator);
 
-    //Add the subscription block in the sidebar.
+    // Add the subscription block in the sidebar.
     $this->drupalGet('admin/structure/block');
 
     // Enable the subscription block in sidebar_first.
@@ -49,82 +55,82 @@ class anonymousNotification extends DrupalWebTestCase {
     $this->assertRaw(t('The block settings have been updated.'), 'The block settings have been updated.');
 
     $settings = array(
-        'type' => 'page',
-        'my_special_field' => 'glark',
+      'type' => 'page',
+      'my_special_field' => 'glark',
     );
     $node = $this->drupalCreateNode($settings);
     $this->assertEqual($node->type, 'page');
 
-    // Browse as visitor
+    // Browse as visitor.
     $this->drupalLogout();
     $this->drupalGet('node/' . $node->nid);
     // Verify you see anonymous subscription block.
     $this->assertRaw(t('multisite-notifications-core-form'), 'Subscription block is enabled. Form is available.');
 
-    //Case 1 enter wrong email
+    // Case 1 enter wrong email.
     $wrong_data = array('mail' => 'InvalidMailwrongserver.com');
     $this->drupalPost('node', $wrong_data, t('Subscribe'));
     $this->assertTrue(!count($this->drupalGetMails()), 'OK: No email was sent when entering wrong email.');
     $this->assertRaw(t('The e-mail address you supplied is not valid'), 'Validation against wrong formed mail OK');
 
-    //Case 2 enter empty email
+    // Case 2 enter empty email.
     $wrong_data = array('mail' => '');
     $this->drupalPost(NULL, $wrong_data, t('Unsubscribe'));
     $this->assertTrue(!count($this->drupalGetMails()), 'OK: No email was sent. Submitted empty field');
 
-    //Case 3 enter right email
+    // Case 3 enter right email.
     $correct_data = array('mail' => $mail);
     $this->drupalPost(NULL, $correct_data, t('Subscribe'));
     $this->assertRaw(t('You will receive a confirmation e-mail shortly containing further instructions on how to complete your subscription.'), 'Confirmation notice that You will receive a confirmation e-mail shortly...OK');
 
-    //Case 4 enter existing email
+    // Case 4 enter existing email.
     $wrong_data = array('mail' => $mail);
     $this->drupalPost(NULL, $wrong_data, t('Subscribe'));
     $this->assertTrue(count($this->drupalGetMails()) < 2, 'No email was sent. You are already a subscriber!');
     $this->assertRaw(t('You are already a subscriber!'), 'Message "You are already a subscriber!" displayed');
 
-    //ADMINISTRATOR - DEBUG
+    // ADMINISTRATOR - DEBUG.
     $this->drupalLogin($this->administrator);
     $this->cronRun();
     $this->assertTrue(count($this->drupalGetMails()), 'Confirmation email was sent.');
     $this->drupalLogout();
 
-    //Get user id
+    // Get user id.
     $this->drupalLogin($this->administrator);
     $user = db_select('users', 'u')
-    ->fields('u')
-    ->condition('status', 0 , '=')
-    ->condition('mail', $mail, '=')
-    ->execute()
-    ->fetchAssoc();
+      ->fields('u')
+      ->condition('status', 0, '=')
+      ->condition('mail', $mail, '=')
+      ->execute()
+      ->fetchAssoc();
 
     $edit = array();
     $this->drupalPost('subscribe/' . $user['uid'], $edit, t('Confirm'));
     $this->assertRaw(t('Congratulations, you have confirmed your subscription.'), 'Confirmation message is visible');
 
-    //Check that new user is now active
+    // Check that new user is now active.
     $this->drupalLogin($this->administrator);
     $confirmed = db_select('users', 'u')
             ->fields('u')
-            ->condition('status', 1 , '=')
+            ->condition('status', 1, '=')
             ->condition('mail', $mail, '=')
             ->execute()
             ->fetchAssoc();
-     // Array is not empty
-     $this->assertTrue(isset($confirmed), 'User has confirmed his account.');
-     //Create article.
-     $node1 = $this->drupalCreateNode(
+    // Array is not empty.
+    $this->assertTrue(isset($confirmed), 'User has confirmed his account.');
+    // Create article.
+    $node1 = $this->drupalCreateNode(
             array(
-                'type' => 'article',
-                'title' => 'article title',
-                'body' => array(LANGUAGE_NONE => array(array($this->randomName(10)))),
-                'status' => 1,
-                'workbench_moderation_state_new' => 'published',
-                'promote' => 1,
-                'subscriptions_notify' => 'checked',
-                'field_article_publication_date[und][0][value][date]' => '08/09/2013',
-                'field_article_publication_date[und][0][value][time]' => '15:30',
-                ));
+              'type' => 'article',
+              'title' => 'article title',
+              'body' => array(LANGUAGE_NONE => array(array($this->randomName(10)))),
+              'status' => 1,
+              'workbench_moderation_state_new' => 'published',
+              'promote' => 1,
+              'subscriptions_notify' => 'checked',
+              'field_article_publication_date[und][0][value][date]' => '08/09/2013',
+              'field_article_publication_date[und][0][value][time]' => '15:30',
+            ));
 
     $this->drupalGet('node/' . $node1->nid);
     $this->assertResponse(200, 'Subscription content is accesible');
@@ -163,42 +169,43 @@ class anonymousNotification extends DrupalWebTestCase {
 
 }
 
-class multisiteNotification extends DrupalWebTestCase {
+/**
+ * Tests notifcations for authenticated users class.
+ */
+class MultisiteNotification extends DrupalWebTestCase {
 
   protected $administrator;
   protected $anonymous;
 
+  /**
+   * Returns class informations.
+   */
   public static function getInfo() {
     return array(
-        'name' => 'Notification',
-        'description' => 'Notification Feature. 1.0',
-        'group' => 'Multisite Core Features',
+      'name' => 'Notification',
+      'description' => 'Notification Feature. 1.0',
+      'group' => 'Multisite Core Features',
     );
   }
 
-  function setUp() {
+  /**
+   * Enable modules and create user with specific permissions.
+   */
+  public function setUp() {
     parent::setUp(array(
         'multisite_notifications_core',
         'mail_logger',
     ));
-
-   /* $this->visitor = $this->drupalCreateUser(array(
-        'access content',
-        'subscribe to all content types',
-        'subscribe to content',
-        'subscribe to content types',
-        'subscribe to taxonomy terms',
-        'suspend own subscriptions',
-    ));*/
-
     $this->administrator = $this->drupalCreateUserWithRole("administrator");
     $this->visitor = $this->drupalCreateUserWithRole("anonymous");
     $this->drupalLogin($this->administrator);
   }
 
-  function testNotifications() {
-
-    //access notifications page
+  /**
+   * Tests notifications.
+   */
+  public function testNotifications() {
+    // Access notifications page.
     $node1 = $this->drupalCreateNode(array('type' => 'page', 'title' => 'page for node 1'));
     $node2 = $this->drupalCreateNode(array('type' => 'article', 'title' => 'article for node 2'));
 
@@ -207,11 +214,10 @@ class multisiteNotification extends DrupalWebTestCase {
     $this->assertResponse(array(200), format_string('Settings Page: !url is accessible', array('!url' => $edit['url'])));
     $this->assertRaw('subscriptions-settings-form', 'Settings Form is present');
     $settings = array(
-        'subscriptions_blocked_nodes' => '1',
+      'subscriptions_blocked_nodes' => '1',
     );
     $this->drupalPost(NULL, $settings, t('Save configuration'));
     $this->assertText(t('The configuration options have been saved.'), 'Forms setttings saved: Node 1 should be blocked.');
-
 
     $this->drupalGet('node/' . $node1->nid);
     $this->assertNoRaw('subscriptions[1]', 'Option to subscribe to the page is not available');
@@ -222,7 +228,7 @@ class multisiteNotification extends DrupalWebTestCase {
     $this->assertRaw('subscriptions[2]', 'Option to subscribe to the page content type is present');
 
     $settings = array(
-        'subscriptions[2]' => 'checked',
+      'subscriptions[2]' => 'checked',
     );
     $this->drupalPost(NULL, $settings, t('Save'));
     $this->drupalLogout();
@@ -237,25 +243,25 @@ class multisiteNotification extends DrupalWebTestCase {
     $this->assertNoFieldChecked('edit-subscriptions-1', 'The user has not subscribed to this content.');
     $this->assertNoFieldChecked('edit-subscriptions-2', 'The user has not subscribed to this content type.');
 
-    //Subscribe
+    // Subscribe.
     $settings = array();
     $settings['subscriptions[1]'] = 'checked';
     $settings['subscriptions[2]'] = 'checked';
     $this->drupalPost(NULL, $settings, t('Save'));
 
-    //Create article in order to get notification
+    // Create article in order to get notification.
     $node3 = $this->drupalCreateNode(
             array(
-                'type' => 'article',
-                'title' => 'article for node 2',
-                'body' => array(LANGUAGE_NONE => array(array($this->randomName(10)))),
-                'status' => 1,
-                'workbench_moderation_state_new' => 'published',
-                'promote' => 1,
-                'subscriptions_notify' => 'checked',
-                'field_article_publication_date[und][0][value][date]' => '08/09/2013',
-                'field_article_publication_date[und][0][value][time]' => '15:30',
-                ));
+              'type' => 'article',
+              'title' => 'article for node 2',
+              'body' => array(LANGUAGE_NONE => array(array($this->randomName(10)))),
+              'status' => 1,
+              'workbench_moderation_state_new' => 'published',
+              'promote' => 1,
+              'subscriptions_notify' => 'checked',
+              'field_article_publication_date[und][0][value][date]' => '08/09/2013',
+              'field_article_publication_date[und][0][value][time]' => '15:30',
+            ));
 
     $this->verbose('Node created: ' . '</pre>' . print_r($node3, TRUE) . '</pre>');
 
@@ -265,16 +271,15 @@ class multisiteNotification extends DrupalWebTestCase {
 
     $this->drupalLogin($this->administrator);
     $this->drupalGet('admin/content');
-    $this->assertRaw(t('Send subscriptions notifications '), 'The checkbox exists on the content page');
+    $this->assertRaw(t('Send subscriptions notifications'), 'The checkbox exists on the content page');
 
     $this->cronRun();
     $this->assertTrue(count($this->drupalGetMails()), 'SUBSCRIPTION MAIL SUCCESFULLY SENT.');
     debug($this->drupalGetMails());
     $this->drupalGet('admin/reports/mail-logger');
-
   }
 
-    /**
+  /**
    * Creates a user with the give role.
    * */
   public function drupalCreateUserWithRole($role) {
@@ -296,6 +301,5 @@ class multisiteNotification extends DrupalWebTestCase {
     // Return the user we have created.
     return user_save($user);
   }
-
 
 }

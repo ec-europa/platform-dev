@@ -2,6 +2,7 @@
  * @file
  * Displays fields to add parameters in case the selected options before need those parameters.
  */
+
 (function (jQuery) {
   jQuery(document).ready(function(){
     show_hide_field(jQuery('#edit-language-socialbar-language-specified'), jQuery('.form-item-language-selector-socialbar'));
@@ -40,7 +41,7 @@
       show_hide_field(jQuery('#edit-display-socialbookmark'), jQuery('.form-item-orientation-socialbookmark'));
     });
 
-});
+  });
 
   function show_hide_field(trigger, field) {
     if (trigger.is(':checked')) {

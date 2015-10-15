@@ -10,7 +10,7 @@
 function ec_content_slider_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-contenttype-field_slide'
+  // Exported field_instance: 'node-contenttype-field_slide'.
   $field_instances['node-contenttype-field_slide'] = array(
     'bundle' => 'contenttype',
     'deleted' => 0,

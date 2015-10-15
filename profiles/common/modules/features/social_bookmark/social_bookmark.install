@@ -2,17 +2,10 @@
 
 /**
  * @file
- * Install the feature social bookmark
+ * Install the feature social bookmark.
  */
 
 include_once 'social_bookmark.install.inc';
-
-/**
- * Implements hook_install().
- */
-function social_bookmark_install() {
-  // Nothing yet.
-}
 
 /**
  * Implements hook_uninstall().
@@ -29,7 +22,7 @@ function social_bookmark_uninstall() {
  * Implements hook_enable().
  */
 function social_bookmark_enable() {
-  //Set the default value
+  // Set the default value.
   variable_set('user_value_socialbookmark', 'EU_Commission');
 
   // Add block in context.
@@ -44,9 +37,11 @@ function social_bookmark_enable() {
   // Activation message.
   drupal_set_message(t('Social bookmark %v feature is now active on your site.', array('%v' => _social_bookmark_get_version())));
   drupal_set_message(t('Social bookmark block has been created.'));
-  drupal_set_message(t('Social bookmark widget configuration:') . ' ' . l(t('admin/config/socialbookmark/social_bookmark'), 'admin/config/socialbookmark/social_bookmark', array('attributes' => array('target' => '_blank'))));
+  $link = l(t('admin/config/socialbookmark/social_bookmark'), 'admin/config/socialbookmark/social_bookmark', array('attributes' => array('target' => '_blank')));
+  drupal_set_message(t('Social bookmark widget configuration: !link', array('!link' => $link)));
   drupal_set_message(t('Social bar block has been created.'));
-  drupal_set_message(t('Social bar widget configuration:') . ' ' . l(t('admin/config/socialbookmark/social_bar'), 'admin/config/socialbookmark/social_bar', array('attributes' => array('target' => '_blank'))));
+  $link = l(t('admin/config/socialbookmark/social_bar'), 'admin/config/socialbookmark/social_bar', array('attributes' => array('target' => '_blank')));
+  drupal_set_message(t('Social bar widget configuration: !link', array('!link' => $link)));
 }
 
 /**
@@ -88,7 +83,7 @@ function _social_bookmark_get_global_var() {
 }
 
 /**
- * Set twitter custom user parameter
+ * Set twitter custom user parameter.
  */
 function social_bookmark_update_7310() {
   variable_set('user_value_socialbookmark', 'EU_Commission');

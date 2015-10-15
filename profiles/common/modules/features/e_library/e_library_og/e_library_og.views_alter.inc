@@ -1,10 +1,16 @@
 <?php
+
 /**
-* Implementation of hook_views_default_views_alter().
-*/
+ * @file
+ * Views altering.
+ */
+
+/**
+ * Implements hook_views_default_views_alter().
+ */
 function e_library_og_views_default_views_alter(&$views) {
   if (array_key_exists('e_library', $views)) {
-    $view=$views['e_library'];
+    $view = $views['e_library'];
 
     /* Display: Master */
     $handler = $view->display['default']->handler;
@@ -27,12 +33,10 @@ function e_library_og_views_default_views_alter(&$views) {
       2 => 'OR',
     );
 
-
     /* Display: Page */
     $handler = $view->new_display('page', 'Page', 'page');
     $handler->display->display_options['defaults']['arguments'] = FALSE;
     $handler->display->display_options['path'] = 'e_library';
-
 
     /* Contextual filter: OG membership: Group ID */
     $handler->display->display_options['arguments']['gid']['id'] = 'gid';
@@ -43,7 +47,6 @@ function e_library_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
-    
 
     /* Display: e_library_public */
     $handler = $view->new_display('page', 'e_library_public', 'page_1');
@@ -172,22 +175,19 @@ function e_library_og_views_default_views_alter(&$views) {
     $handler->display->display_options['menu']['context'] = 0;
     $handler->display->display_options['menu']['context_only_inline'] = 0;
 
-
-    
   }
-  
-  
+
   if (array_key_exists('elibrary_browser_tab', $views)) {
-    $view=$views['elibrary_browser_tab'];
-    
+    $view = $views['elibrary_browser_tab'];
+
     $handler = $view->display['default']->handler;
-    
+
     /* Relationship: OG membership: OG membership from Node */
     $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
     $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
     $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
     $handler->display->display_options['relationships']['og_membership_rel']['relationship'] = 'file_to_node';
-    
+
     /* Contextual filter: OG membership: Group ID */
     $handler->display->display_options['arguments']['gid']['id'] = 'gid';
     $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
@@ -198,7 +198,7 @@ function e_library_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
-    
+
     $handler = $view->display['media_browser_1']->handler;
     $handler->display->display_options['defaults']['arguments'] = FALSE;
     /* Contextual filter: OG membership: Group ID */
@@ -212,74 +212,7 @@ function e_library_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
-    
+
   }
-  
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

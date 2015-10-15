@@ -10,7 +10,7 @@
 function multisite_mediagallery_core_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-gallerymedia-body'
+  // Exported field_instance: 'node-gallerymedia-body'.
   $field_instances['node-gallerymedia-body'] = array(
     'bundle' => 'gallerymedia',
     'default_value' => NULL,
@@ -54,7 +54,7 @@ function multisite_mediagallery_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-gallerymedia-field_picture_upload'
+  // Exported field_instance: 'node-gallerymedia-field_picture_upload'.
   $field_instances['node-gallerymedia-field_picture_upload'] = array(
     'bundle' => 'gallerymedia',
     'deleted' => 0,
@@ -118,7 +118,7 @@ function multisite_mediagallery_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-gallerymedia-field_video_upload'
+  // Exported field_instance: 'node-gallerymedia-field_video_upload'.
   $field_instances['node-gallerymedia-field_video_upload'] = array(
     'bundle' => 'gallerymedia',
     'deleted' => 0,

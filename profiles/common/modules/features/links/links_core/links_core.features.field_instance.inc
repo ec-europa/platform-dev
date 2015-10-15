@@ -10,7 +10,7 @@
 function links_core_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_links-comment_body'
+  // Exported field_instance: 'comment-comment_node_links-comment_body'.
   $field_instances['comment-comment_node_links-comment_body'] = array(
     'bundle' => 'comment_node_links',
     'default_value' => NULL,
@@ -71,7 +71,7 @@ function links_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-links-field_link'
+  // Exported field_instance: 'node-links-field_link'.
   $field_instances['node-links-field_link'] = array(
     'bundle' => 'links',
     'default_value' => array(
@@ -129,7 +129,7 @@ function links_core_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-links-field_tags'
+  // Exported field_instance: 'node-links-field_tags'.
   $field_instances['node-links-field_tags'] = array(
     'bundle' => 'links',
     'default_value' => NULL,

@@ -608,7 +608,7 @@ function _ecas_force_login() {
       }
     }
     else {
-      // ECAS_LOGIN_INCLUDE_PAGES
+      // ECAS_LOGIN_INCLUDE_PAGES.
       if ($path_match) {
         // Current page matches pattern given, so we need to include this
         // page for ECAS login.

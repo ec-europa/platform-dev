@@ -10,7 +10,7 @@
 function multisite_notifications_og_og_features_default_permissions() {
   $permissions = array();
 
-  // Exported og permission: 'node:community:og subscribe'
+  // Exported og permission: 'node:community:og subscribe'.
   $permissions['node:community:og subscribe'] = array(
     'roles' => array(
       'member' => 'member',

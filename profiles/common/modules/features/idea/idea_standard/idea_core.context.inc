@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * idea_standard.context.inc
+ * Idea_standard.context.inc.
  */
 
 /**

@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- * Install, uninstall, update and schema hooks for the ECAS Import Users module.
+ * Installation file for ecas_import_users.
  */
 
 /**
@@ -10,4 +9,18 @@
  */
 function ecas_import_users_uninstall() {
   variable_del('ecas_import_users_default_status');
+}
+
+/**
+ * Implements hook_enable().
+ */
+function ecas_import_users_enable() {
+  drupal_set_message('ECAS import users is now active on your site.');
+}
+
+/**
+ * Implements hook_disable().
+ */
+function ecas_import_users_disable() {
+  drupal_set_message('ECAS import users is now active on your site.');
 }

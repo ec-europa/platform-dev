@@ -66,12 +66,12 @@ function tmgmt_workbench_tmgmt_source_plugin_info() {
 function tmgmt_workbench_query_tmgmt_entity_get_translatable_entities_alter(QueryAlterableInterface $query) {
 
   // Alter query when on TMGMT Source Overview page.
-  // @see: TMGMTWorkbenchSourceUIController::overviewForm()
+  // See: TMGMTWorkbenchSourceUIController::overviewForm().
   if (drupal_static('tmgmt_workbench_overview_form')) {
     $fields = $query->getFields();
     $states = variable_get('tmgmt_workbench_moderation_states', array());
     foreach ($fields as $field => $info) {
-      // Get field on primary table, which is aliased as "e"
+      // Get field on primary table, which is aliased as "e".
       // @see: tmgmt_entity_get_translatable_entities() for more details.
       if ($states && ($info['table'] == 'e')) {
         $query->join('workbench_moderation_node_history', 'wmnh', 'e.' . $info['alias'] . ' = wmnh.nid');

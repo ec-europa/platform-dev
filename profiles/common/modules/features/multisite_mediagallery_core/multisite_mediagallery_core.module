@@ -12,8 +12,8 @@ include_once 'multisite_mediagallery_core.features.inc';
  */
 function multisite_mediagallery_core_token_info() {
   $info['types']['Breadcrumb_gallery'] = array(
-    'name' => 'Breadcrumb_gallery',
-    'description' => 'Tokens related to Breadcrumb.',
+    'name' => t('Breadcrumb_gallery'),
+    'description' => t('Tokens related to Breadcrumb.'),
   );
   $info['tokens']['Breadcrumb_gallery']["gallerymedia_title"] = array(
     'name' => t("mediagallery Breadcrumb title"),

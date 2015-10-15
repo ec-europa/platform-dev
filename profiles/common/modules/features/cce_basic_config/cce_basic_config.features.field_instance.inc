@@ -11,7 +11,7 @@
 function cce_basic_config_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_article-comment_body'
+  // Exported field_instance: 'comment-comment_node_article-comment_body'.
   $field_instances['comment-comment_node_article-comment_body'] = array(
     'bundle' => 'comment_node_article',
     'default_value' => NULL,
@@ -44,7 +44,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'file-image-field_caption'
+  // Exported field_instance: 'file-image-field_caption'.
   $field_instances['file-image-field_caption'] = array(
     'bundle' => 'image',
     'default_value' => NULL,
@@ -118,7 +118,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'file-video-field_tags'
+  // Exported field_instance: 'file-video-field_tags'.
   $field_instances['file-video-field_tags'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -194,7 +194,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'file-video-field_video_description'
+  // Exported field_instance: 'file-video-field_video_description'.
   $field_instances['file-video-field_video_description'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -270,7 +270,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-body'
+  // Exported field_instance: 'node-article-body'.
   $field_instances['node-article-body'] = array(
     'bundle' => 'article',
     'default_value' => NULL,
@@ -315,7 +315,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_article_publication_date'
+  // Exported field_instance: 'node-article-field_article_publication_date'.
   $field_instances['node-article-field_article_publication_date'] = array(
     'bundle' => 'article',
     'deleted' => 0,
@@ -371,7 +371,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_article_unpublish_on'
+  // Exported field_instance: 'node-article-field_article_unpublish_on'.
   $field_instances['node-article-field_article_unpublish_on'] = array(
     'bundle' => 'article',
     'deleted' => 0,
@@ -427,7 +427,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_image'
+  // Exported field_instance: 'node-article-field_image'.
   $field_instances['node-article-field_image'] = array(
     'bundle' => 'article',
     'deleted' => 0,
@@ -510,7 +510,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_tags'
+  // Exported field_instance: 'node-article-field_tags'.
   $field_instances['node-article-field_tags'] = array(
     'bundle' => 'article',
     'default_value' => NULL,
@@ -551,7 +551,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_creator'
+  // Exported field_instance: 'user-user-field_creator'.
   $field_instances['user-user-field_creator'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -611,7 +611,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_firstname'
+  // Exported field_instance: 'user-user-field_firstname'.
   $field_instances['user-user-field_firstname'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -646,7 +646,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_lastname'
+  // Exported field_instance: 'user-user-field_lastname'.
   $field_instances['user-user-field_lastname'] = array(
     'bundle' => 'user',
     'default_value' => NULL,

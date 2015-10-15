@@ -1,11 +1,16 @@
 <?php
 
 /**
+ * @file
+ * Create a button for OG contextual links.
+ */
+
+/**
  * Implements hook_block_info().
  */
 function multisite_og_button_block_info() {
   $blocks['og-contextual-links'] = array(
-    'info' => t('OG Contextual Links'), 
+    'info' => t('OG Contextual Links'),
   );
 
   return $blocks;
@@ -14,7 +19,7 @@ function multisite_og_button_block_info() {
 /**
  * Implements hook_block_view().
  */
-function multisite_og_button_block_view($delta='') {
+function multisite_og_button_block_view($delta = '') {
   $block = array();
   switch ($delta) {
     case 'og-contextual-links':
@@ -26,14 +31,15 @@ function multisite_og_button_block_view($delta='') {
 }
 
 /**
- * Helper function to fetch the links
+ * Helper function to fetch the links.
  */
 function _multisite_og_button_contextual_links() {
-  $context = og_context();    
+  $context = og_context();
   if ($context) {
     $links = og_node_create_links('node', $context['gid'], 'og_group_ref');
-    if($links)
-      $links['og_node_create_links']['#theme']='dropdown';
+    if ($links) {
+      $links['og_node_create_links']['#theme'] = 'dropdown';
+    }
     return $links;
   }
 }

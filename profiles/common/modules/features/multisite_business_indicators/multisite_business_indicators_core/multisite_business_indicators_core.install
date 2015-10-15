@@ -13,11 +13,11 @@ include_once 'multisite_business_indicators_core.install.inc';
  * Implements hook_requirements().
  */
 function multisite_business_indicators_core_requirements($phase) {
-  
+
   $requirements = array();
   if ($phase == 'runtime') {
     $t = get_t();
-    
+
     if (libraries_detect('FusionCharts')) {
       $requirements['multisite_business_indicators_core']['severity'] = REQUIREMENT_OK;
       $requirements['multisite_business_indicators_core']['value'] = $t('FusionCharts SWF files found.');
@@ -44,18 +44,4 @@ function multisite_business_indicators_core_enable() {
  */
 function multisite_business_indicators_core_disable() {
   drupal_set_message(t('Business Indicators Core %v feature is now inactive on your site.', array('%v' => _multisite_business_indicators_core_get_version())));
-}
-
-/**
- * Implements hook_install().
- */
-function multisite_business_indicators_core_install() {
-  //Install scripts here
-}
-
-/**
- * Implements hook_uninstall().
- */
-function multisite_business_indicators_core_uninstall() {
-  //Uninstall scripts here
 }

@@ -111,7 +111,6 @@ dependencies[] = wysiwyg
 ;custom modules
 dependencies[] = multisite_drupal_access
 dependencies[] = multisite_drupal_features_set_og
-dependencies[] = multisite_drupal_language_negociation
 dependencies[] = multisite_workbench_moderation_view
 
 ;features

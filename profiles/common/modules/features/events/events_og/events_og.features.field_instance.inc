@@ -10,7 +10,7 @@
 function events_og_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-event-group_content_access'
+  // Exported field_instance: 'node-event-group_content_access'.
   $field_instances['node-event-group_content_access'] = array(
     'bundle' => 'event',
     'default_value' => array(
@@ -61,7 +61,7 @@ function events_og_field_default_field_instances() {
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-event-og_group_ref'
+  // Exported field_instance: 'node-event-og_group_ref'.
   $field_instances['node-event-og_group_ref'] = array(
     'bundle' => 'event',
     'default_value' => NULL,

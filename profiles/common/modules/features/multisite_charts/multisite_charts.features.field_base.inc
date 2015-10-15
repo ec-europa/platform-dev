@@ -10,7 +10,7 @@
 function multisite_charts_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_chart_height'
+  // Exported field_base: 'field_chart_height'.
   $field_bases['field_chart_height'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -26,7 +26,7 @@ function multisite_charts_field_default_field_bases() {
     'type' => 'number_integer',
   );
 
-  // Exported field_base: 'field_chart_type'
+  // Exported field_base: 'field_chart_type'.
   $field_bases['field_chart_type'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -93,7 +93,7 @@ function multisite_charts_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_chart_width'
+  // Exported field_base: 'field_chart_width'.
   $field_bases['field_chart_width'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -109,7 +109,7 @@ function multisite_charts_field_default_field_bases() {
     'type' => 'number_integer',
   );
 
-  // Exported field_base: 'field_chart_xml_data_source'
+  // Exported field_base: 'field_chart_xml_data_source'.
   $field_bases['field_chart_xml_data_source'] = array(
     'active' => 1,
     'cardinality' => 1,

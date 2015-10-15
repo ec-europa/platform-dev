@@ -10,7 +10,7 @@
 function events_resources_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-event-field_resource'
+  // Exported field_instance: 'node-event-field_resource'.
   $field_instances['node-event-field_resource'] = array(
     'bundle' => 'event',
     'default_value' => NULL,

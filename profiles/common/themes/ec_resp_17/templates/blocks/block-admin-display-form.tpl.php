@@ -30,7 +30,7 @@
   foreach ($block_regions as $region => $title):
     drupal_add_tabledrag('blocks', 'match', 'sibling', 'block-region-select', 'block-region-' . $region, NULL, FALSE);
     drupal_add_tabledrag('blocks', 'order', 'sibling', 'block-weight', 'block-weight-' . $region);
-  endforeach
+  endforeach;
 ?>
 <table id="blocks" class="table table-striped sticky-enabled">
   <thead>
