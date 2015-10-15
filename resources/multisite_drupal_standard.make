@@ -551,8 +551,7 @@ projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
 
 projects[workbench_access][subdir] = "contrib"
-projects[workbench_access][version] = "1.2"
-projects[workbench_access][patch][] = patches/workbench_access-fix_php_issues-4517.patch
+projects[workbench_access][version] = "1.4"
 
 projects[workbench_email][subdir] = "contrib"
 projects[workbench_email][version] = "3.5"
