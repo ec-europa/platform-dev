@@ -178,7 +178,7 @@ projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteu
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-alpha9"
+projects[feeds][version] = "2.0-beta1"
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
