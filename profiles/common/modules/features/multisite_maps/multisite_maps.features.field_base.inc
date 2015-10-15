@@ -10,7 +10,7 @@
 function multisite_maps_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_map_height'
+  // Exported field_base: 'field_map_height'.
   $field_bases['field_map_height'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -26,7 +26,7 @@ function multisite_maps_field_default_field_bases() {
     'type' => 'number_integer',
   );
 
-  // Exported field_base: 'field_map_type'
+  // Exported field_base: 'field_map_type'.
   $field_bases['field_map_type'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -961,7 +961,7 @@ function multisite_maps_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_map_width'
+  // Exported field_base: 'field_map_width'.
   $field_bases['field_map_width'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -977,7 +977,7 @@ function multisite_maps_field_default_field_bases() {
     'type' => 'number_integer',
   );
 
-  // Exported field_base: 'field_map_xml_data_source'
+  // Exported field_base: 'field_map_xml_data_source'.
   $field_bases['field_map_xml_data_source'] = array(
     'active' => 1,
     'cardinality' => 1,

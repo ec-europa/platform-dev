@@ -10,7 +10,7 @@
 function multisite_maps_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-map-field_map_height'
+  // Exported field_instance: 'node-map-field_map_height'.
   $field_instances['node-map-field_map_height'] = array(
     'bundle' => 'map',
     'default_value' => array(
@@ -54,7 +54,7 @@ function multisite_maps_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-map-field_map_type'
+  // Exported field_instance: 'node-map-field_map_type'.
   $field_instances['node-map-field_map_type'] = array(
     'bundle' => 'map',
     'default_value' => NULL,
@@ -90,7 +90,7 @@ function multisite_maps_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-map-field_map_width'
+  // Exported field_instance: 'node-map-field_map_width'.
   $field_instances['node-map-field_map_width'] = array(
     'bundle' => 'map',
     'default_value' => array(
@@ -134,7 +134,7 @@ function multisite_maps_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-map-field_map_xml_data_source'
+  // Exported field_instance: 'node-map-field_map_xml_data_source'.
   $field_instances['node-map-field_map_xml_data_source'] = array(
     'bundle' => 'map',
     'default_value' => NULL,

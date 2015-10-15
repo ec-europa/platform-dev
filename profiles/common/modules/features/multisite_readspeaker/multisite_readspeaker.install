@@ -1,6 +1,4 @@
 <?php
-// $Id: readspeaker_hl.install,v 1.2 2011/02/01 10:49:09 rsp Exp $
-
 /**
  * @file
  * The install and uninstall code for the ReadSpeaker module.
@@ -9,15 +7,15 @@
  */
 
 /**
-* Implements hook_enable().
-*/
+ * Implements hook_enable().
+ */
 function multisite_readspeaker_enable() {
   drupal_set_message(t('ReadSpeaker feature is now active on your site.'));
 }
 
 /**
-* Implements hook_disable().
-*/
+ * Implements hook_disable().
+ */
 function multisite_readspeaker_disable() {
   drupal_set_message(t('ReadSpeaker feature is now disabled on your site.'));
 }
@@ -25,7 +23,7 @@ function multisite_readspeaker_disable() {
 /**
  * Implements hook_install().
  *
- * Set variables for ReadSpeaker module
+ * Set variables for ReadSpeaker module.
  */
 function multisite_readspeaker_install() {
   variable_set('readspeaker_accountid', '');
@@ -42,7 +40,7 @@ function multisite_readspeaker_install() {
 /**
  * Implements hook_uninstall().
  *
- * Unset variables for ReadSpeaker module
+ * Unset variables for ReadSpeaker module.
  */
 function multisite_readspeaker_uninstall() {
   variable_del('readspeaker_accountid');

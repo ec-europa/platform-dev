@@ -35,15 +35,15 @@ class MultisiteForumCommunityQAWebTestCase extends MultisiteDrupalWebTestCase {
    * Test initialization.
    */
   public function testFeatureInitialization() {
-    $field_instance = field_info_instance('node', 'og_group_ref', MULTISITE_FORUM_CT_NAME);
+    $field_instance = field_info_instance('node', 'og_group_ref', MULTISITE_FORUM_CORE_CT_NAME);
     $status = isset($field_instance) && is_array($field_instance) && !empty($field_instance);
     $this->assert($status, 'Field og_group_ref correctly added Discussion content type');
 
-    $field_instance = field_info_instance('node', 'group_content_access', MULTISITE_FORUM_CT_NAME);
+    $field_instance = field_info_instance('node', 'group_content_access', MULTISITE_FORUM_CORE_CT_NAME);
     $status = isset($field_instance) && is_array($field_instance) && !empty($field_instance);
     $this->assert($status, 'Field group_content_access correctly added Discussion content type');
 
-    $field_instance = field_info_instance('taxonomy_term', 'og_group_ref', MULTISITE_FORUM_TAXO_NAME);
+    $field_instance = field_info_instance('taxonomy_term', 'og_group_ref', MULTISITE_FORUM_CORE_TAXO_NAME);
     $status = isset($field_instance) && is_array($field_instance) && !empty($field_instance);
     $this->assert($status, 'Field og_group_ref correctly added Discussion content type');
 
@@ -114,7 +114,7 @@ class MultisiteForumCommunityQAWebTestCase extends MultisiteDrupalWebTestCase {
 
     $settings = array(
       'title' => $this->randomName(),
-      'type' => MULTISITE_FORUM_CT_NAME,
+      'type' => MULTISITE_FORUM_CORE_CT_NAME,
       'body' => array(LANGUAGE_NONE => array(array($this->randomName(64)))),
       'og_group_ref' => $field,
       'taxonomy_forums' => array('undefine' => array('tid' => $term->tid)),

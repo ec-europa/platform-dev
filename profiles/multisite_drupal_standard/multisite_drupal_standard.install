@@ -58,22 +58,9 @@ function multisite_drupal_standard_update_7100() {
 }
 
 /**
- * NEXTEUROPA-3815: Enable NextEuropa features.
- */
-function multisite_drupal_standard_update_7200() {
-  module_enable(array(
-    'nexteuropa_core',
-    'nexteuropa_editorial',
-    'nexteuropa_multilingual',
-    'nexteuropa_pages',
-    'nexteuropa_europa_search',
-  ));
-}
-
-/**
  * NEXTEUROPA-3298: Disable ckeditor_link module.
  */
-function multisite_drupal_standard_update_7201() {
+function multisite_drupal_standard_update_7200() {
   module_disable(array('ckeditor_link'));
   drupal_uninstall_modules(array('ckeditor_link'));
 }

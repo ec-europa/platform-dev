@@ -10,7 +10,7 @@
 function multisite_notifications_core_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: management:admin/config/system/mail-edit
+  // Exported menu link: management:admin/config/system/mail-edit.
   $menu_links['management:admin/config/system/mail-edit'] = array(
     'menu_name' => 'management',
     'link_path' => 'admin/config/system/mail-edit',
@@ -29,7 +29,7 @@ function multisite_notifications_core_menu_default_menu_links() {
     'weight' => '0',
     'parent_path' => 'admin/config/system',
   );
-  // Exported menu link: management:admin/config/system/subscriptions
+  // Exported menu link: management:admin/config/system/subscriptions.
   $menu_links['management:admin/config/system/subscriptions'] = array(
     'menu_name' => 'management',
     'link_path' => 'admin/config/system/subscriptions',
@@ -48,7 +48,8 @@ function multisite_notifications_core_menu_default_menu_links() {
     'weight' => '0',
     'parent_path' => 'admin/config/system',
   );
-  // Exported menu link: management:admin/config/system/subscriptions/subscription-block
+  // Exported menu link:
+  // management:admin/config/system/subscriptions/subscription-block.
   $menu_links['management:admin/config/system/subscriptions/subscription-block'] = array(
     'menu_name' => 'management',
     'link_path' => 'admin/config/system/subscriptions/subscription-block',
@@ -72,7 +73,6 @@ function multisite_notifications_core_menu_default_menu_links() {
   t('Mail templates');
   t('Subscription Block');
   t('Subscriptions');
-
 
   return $menu_links;
 }
