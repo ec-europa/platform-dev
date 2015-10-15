@@ -10,16 +10,32 @@ Feature: Content level language switcher tests
       | en        |
       | fr        |
       | de        |
+    And "page" content:
+      | language | title     | 
+      | en       | english1  |
+      | fr       | français1 |      
 
-  Scenario: Content can be translated in available languages
-    Given I am viewing a multilingual "page" content:
-      | language | title                        |
-      | en       | This title is in English     |
-      | fr       | Ce titre est en Français     |
-      | de       | Dieser Titel ist auf Deutsch |
-    Then I should see the heading "This title is in English"
-    And I should see the link "Français"
-    And I should see the link "Deutsch"
+  Scenario Outline: Check background
+    Given I am an anonymous user
+    When I go to "<url>"
+    And I should see "english1"
+    Then I should see an ".block-language-selector-page" element
+
+    Examples:
+    | url                 |
+    | content/english1_en |
+    | content/english1_fr |
+
+
+  Scenario: Custom URL suffix language negotiation is applied by default on new content.
+    Given I am logged in as a user with the 'administrator' role
+    And I am viewing a multilingual "page" content:
+      | language | title            |
+      | en       | Title in English |
+      | fr       | Title in French  |
+      | de       | Title in German  |
+    Then I should see the heading "Title in English"
+
 
 
 Scenario Outline: Anonymous user can see the content level language selector
