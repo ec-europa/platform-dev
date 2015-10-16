@@ -125,7 +125,7 @@ function nexteuropa_newsroom_post_features_enable_feature($component) {
 
     case 'node':
       // Enable title replacement for the newsroom_item content type.
-      multisite_config_service('title')->replaceTitleField('node', 'newsroom_item', 'title');
+      title_field_replacement_toggle('node', 'newsroom_item', 'title');
       break;
   }
 }

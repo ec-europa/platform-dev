@@ -95,17 +95,6 @@ function nexteuropa_newsroom_update_7102() {
     'newsroom_item_importer',
   );
 
-  // Delete content in selected types.
-  $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'node')
-    ->propertyCondition('type', $types, 'IN');
-  $result = $query->execute();
-  if (!empty($result)) {
-    foreach ($result['node'] as $node) {
-      node_delete($node->nid);
-    }
-  }
-
   // Delete types.
   foreach ($types as $type) {
     // Release content type previously featurized.
