@@ -39,7 +39,6 @@
         if (settings.nexteuropa_geojson.map) {
             loadedMap = jQuery.parseJSON(settings.nexteuropa_geojson.map);
             drawnItems = L.geoJson(loadedMap).addTo(map);
-        
             // Popups are not pre-populated.
             if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
                 for (key in drawnItems._layers) {
