@@ -3,9 +3,9 @@
 }
 
 .remove-label {
-  width: 26px;
-  height: 26px;
-  line-height: 26px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
   text-align: center;
   color: #000;
   margin-left: 8px;
@@ -24,9 +24,19 @@
 
 .leaflet_label {
   margin-right: 3px;
-  float: left;
+  /*float: left;*/
+  /*border: 1px solid #000000;*/
 }
 
 .leaflet_description {
   width: 70%;
+  /*border: 1px solid #000000;*/
+}
+
+.hide {
+  display: none;
+}
+
+.label_title {
+  float: left;
 }

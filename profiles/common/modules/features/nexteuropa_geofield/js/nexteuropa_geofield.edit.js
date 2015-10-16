@@ -39,6 +39,7 @@
         if (settings.nexteuropa_geojson.map) {
             loadedMap = jQuery.parseJSON(settings.nexteuropa_geojson.map);
             drawnItems = L.geoJson(loadedMap).addTo(map);
+        
             // Popups are not pre-populated.
             if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
                 for (key in drawnItems._layers) {
@@ -49,34 +50,6 @@
                 }
                 updateGeoJsonField();
                 updatePopups();
-            }
-            // Popups are pre-populated with the conteny title and body.
-            else {
-                name_obj = getFieldObject(name_field);
-                name_obj.change(
-                    function() {
-                        updateGeoJsonField();
-                        updatePopups();
-                    }
-                );
-                $('#geofield_geojson_map').click(
-                    function() {
-                        updateGeoJsonField();
-                        updatePopups();
-                    }
-                );
-                CKEDITOR.on(
-                    'instanceReady', function(ev) {
-                        description_obj = getFieldObject(description_field);
-                        description_obj.on(
-                            'change', function() {
-                                updateGeoJsonField();
-                                updatePopups();
-                            }
-                        );
-                        updatePopups();
-                    }
-                );
             }
 
             // Focus on map elements.
@@ -89,6 +62,35 @@
             else {
                 map.fitBounds(drawnItems.getBounds());
             }
+        }
+
+        if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount == 1) {
+            // Popups are pre-populated with the conteny title and body.
+            name_obj = getFieldObject(name_field);
+            name_obj.change(
+                function() {
+                    updateGeoJsonField();
+                    updatePopups();
+                }
+            );
+            $('#geofield_geojson_map').click(
+                function() {
+                    updateGeoJsonField();
+                    updatePopups();
+                }
+            );
+            CKEDITOR.on(
+                'instanceReady', function(ev) {
+                    description_obj = getFieldObject(description_field);
+                    description_obj.on(
+                        'change', function() {
+                            updateGeoJsonField();
+                            updatePopups();
+                        }
+                    );
+                    updatePopups();
+                }
+            );
         }
 
         // Get map controls settings.
@@ -166,9 +168,9 @@
          *   the content of the popup
          */
         function createLabel(leaflet_id, name, description) {
-            var myinput = '<div id="label_wrapper_' + leaflet_id + '" class="leaflet_label_wrapper"><input class="leaflet_label" name="myField" type="text" id="L' + leaflet_id + '">';
-            myinput = myinput + '<textarea rows="2" class="leaflet_description" id="T' + leaflet_id + '"/>';
-            myinput = myinput + '<a data-label-id="' + leaflet_id + '" class="remove-label" title="Delete labels."><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></div>';
+            var myinput = '<div id="label_wrapper_' + leaflet_id + '" class="leaflet_label_wrapper"><div class="label_title"><label>Name</label><input class="leaflet_label form-text" name="myField" type="text" id="L' + leaflet_id + '"></div>';
+            myinput = myinput + '<div class="label_description"><label>Description</label><textarea rows="2" class="leaflet_description form-textarea" id="T' + leaflet_id + '"/>';
+            myinput = myinput + '<a data-label-id="' + leaflet_id + '" class="remove-label ui-icon ui-icon-closethick" title="Remove popup"></a></div></div>';
 
             $('#geofield_geojson_map_wrapper').append(myinput);
             $('#L' + leaflet_id).val(name);
@@ -213,6 +215,7 @@
                     layer.closePopup();
                     layer.unbindPopup();
                     $('#L' + $(this).attr('data-label-id')).val('');
+                    $('#T' + $(this).attr('data-label-id')).val('');
                 }
             );
         }
