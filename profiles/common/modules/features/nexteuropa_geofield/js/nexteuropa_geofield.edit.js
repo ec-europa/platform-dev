@@ -10,8 +10,6 @@
     };
 
     function attach(context, settings) {
-        console.log(settings.nexteuropa_geojson.settings);
-
         var lat = settings.nexteuropa_geojson.settings.fs_default_map_center['lat'];
         var lng = settings.nexteuropa_geojson.settings.fs_default_map_center['lng'];
         var map = L.map('geofield_geojson_map', {}).setView([lat, lng], 13);
@@ -55,7 +53,6 @@
             map.fitBounds(drawnItems.getBounds());
             // Fix zoom to 16 when there is one object on the map.
             if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount == 1) {
-                console.log(drawnItems);
                 map.fitBounds(drawnItems.getBounds(), {maxZoom:16});
             }
             else {
@@ -237,6 +234,18 @@
                 }
                 geojson_map.features[i].properties.name = name;
                 geojson_map.features[i].properties.description = description;
+                // Format Lat and Lng, only 4 decimals.
+                if (geojson_map.features[i].geometry.type == 'Point') {
+                    for (id in geojson_map.features[i].geometry.coordinates) {
+                        geojson_map.features[i].geometry.coordinates[id] = parseFloat(geojson_map.features[i].geometry.coordinates[id].toFixed(4));
+                    }
+                }
+                else {
+                    for (id in geojson_map.features[i].geometry.coordinates[0]) {
+                        geojson_map.features[i].geometry.coordinates[0][id][0] = parseFloat(geojson_map.features[i].geometry.coordinates[0][id][0].toFixed(4));
+                        geojson_map.features[i].geometry.coordinates[0][id][1] = parseFloat(geojson_map.features[i].geometry.coordinates[0][id][1].toFixed(4));
+                    }
+                }
                 i++;
             }
             $('#geofield_geojson textarea').text(JSON.stringify(geojson_map));
