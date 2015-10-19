@@ -10,7 +10,7 @@
 function nexteuropa_multilingual_requirements() {
   if (module_exists('multisite_drupal_language_negociation')) {
     $t = get_t();
-    return array("" => array (
+    return array('nexteuropa_multilingual_module_conflict' => array (
       'title' => $t('NextEuropa Multilingual'),
       'description' => $t('This module is not compatible with Multisite Drupal Language Negociation. Please disable that module first.'),
       'severity' => REQUIREMENT_ERROR,
