@@ -12,11 +12,13 @@ function multisite_drupal_language_negociation_requirements() {
   if (module_exists('nexteuropa_multilingual')) {
     $t = get_t();
     $args = array('%module' => 'NextEuropa Multilingual');
-    return array('multisite_drupal_language_negociation_module_conflict' => array (
-      'title' => 'Multisite drupal language negociation',
-      'description' => $t('This module is not compatible with %module. Please disable that module first.', $args),
-      'severity' => REQUIREMENT_ERROR,
-    ));
+    return array(
+      'multisite_drupal_language_negociation_module_conflict' => array(
+        'title' => 'Multisite drupal language negociation',
+        'description' => $t('This module is not compatible with %module. Please disable that module first.', $args),
+        'severity' => REQUIREMENT_ERROR,
+      ),
+    );
   }
 }
 
