@@ -53,7 +53,7 @@ projects[better_formats][version] = "1.0-beta1"
 projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_format-strict-warning-1717470-11.patch
 
 projects[bootstrap_gallery][subdir] = "contrib"
-projects[bootstrap_gallery][version] = "3.0"
+projects[bootstrap_gallery][version] = "3.1"
 
 projects[captcha][subdir] = "contrib"
 projects[captcha][version] = "1.2"
