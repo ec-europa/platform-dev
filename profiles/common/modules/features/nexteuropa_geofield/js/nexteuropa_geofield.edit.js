@@ -140,6 +140,9 @@
                     // Update GeoJSON field.
                     updateGeoJsonField();
                 }
+                else {
+                    alert("The Maximum number of items on the map is limited to " + settings.nexteuropa_geojson.settings.fs_objects.objects_amount);
+                }
             }
         );
 
