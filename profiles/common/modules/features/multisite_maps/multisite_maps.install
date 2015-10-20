@@ -12,8 +12,8 @@ function multisite_maps_requirements($phase) {
   $requirements = array();
   if ($phase == 'runtime') {
     // FusionMaps PHP file.
-    $file = glob(multisite_maps_get_library_path() . 'Code/PHP/Includes/FusionMaps.php');
-    if (!empty($file)) {
+    $file_exists = file_exists(multisite_maps_get_library_path() . 'Code/PHP/Includes/FusionMaps.php');
+    if ($file_exists) {
       $requirements['multisite_maps']['severity'] = REQUIREMENT_OK;
       $requirements['multisite_maps']['value'] = t('FusionMaps PHP file found.');
     }
