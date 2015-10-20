@@ -1,4 +1,4 @@
-name = nexteuropa_geofield
+name = nexteuropa geofield
 description = manage geojson data field
 core = 7.x
 package = NextEuropa

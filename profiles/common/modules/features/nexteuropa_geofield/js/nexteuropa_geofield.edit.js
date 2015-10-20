@@ -215,6 +215,7 @@
                     layer.unbindPopup();
                     $('#L' + $(this).attr('data-label-id')).val('');
                     $('#T' + $(this).attr('data-label-id')).val('');
+                    updateGeoJsonField();
                 }
             );
         }
@@ -251,7 +252,8 @@
                 }
                 i++;
             }
-            $('#geofield_geojson textarea').text(JSON.stringify(geojson_map));
+            //$('#geofield_geojson textarea').text(JSON.stringify(geojson_map));
+            $("textarea[name*=geofield_geojson]").text(JSON.stringify(geojson_map));
         }
 
         /**
@@ -269,7 +271,9 @@
                     name = getFieldValue(name_field);
                     description = getFieldValue(description_field);
                 }
-                createPopup(key, name, description);
+                if (name != "" && description != "") {
+                    createPopup(key, name, description);
+                }
             }
         }
 
