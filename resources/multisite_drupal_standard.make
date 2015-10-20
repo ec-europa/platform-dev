@@ -23,15 +23,29 @@ projects[advanced_help][version] = "1.3"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.7"
-projects[apachesolr][patch][] = patches/apachesolr-attachment_indexation-481.patch
-projects[apachesolr][patch][] = patches/apachesolr-invalidate-caches-new-node-type-2178283.patch
-projects[apachesolr][patch][] = patches/apachesolr-multiples_dates-4335.patch
-projects[apachesolr][patch][] = patches/apachesolr_search-overwritten_menu_items.patch
+; Issue #2178283 : Apache Solr doesn't invalidate its caches when inserting a new node type.
+; https://drupal.org/node/2178283
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2890
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-invalidate-caches-new-node-type-2178283.patch
+; Issue #1649158 : Date Facets (without a time) can show in Multiple Months.
+; https://drupal.org/node/1649158
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4335
+projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple-dates-hack-1649158-15.patch
+; Issue #2446419 : Incorrect display of some main menu items and browser tab titles on some pages.
+; https://www.drupal.org/node/2446419
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
-projects[apachesolr_attachments][patch][] = patches/apachesolr_attachments-empty_parent_entity_id.patch
-projects[apachesolr_attachments][patch][] = patches/apachesolr_attachments-bypass_deadlocks-1854088-9.patch
+; Issue #2581925 : Empty parent_entity_id in apachesolr_index_entities_file table.
+; https://www.drupal.org/node/2581925
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4224
+projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/apachesolr_attachments-empty_parent_entity_id-2581925-0.patch
+; Issue #1854088 : PDOException: SQLSTATE[40001]: Serialization failure: 1213 Deadlock found.
+; https://www.drupal.org/node/1854088
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3744
+projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/apachesolr_attachments-cleanup_efficiency_and_deadlock_chance_reduction-1854088-16.patch
 
 projects[apachesolr_multilingual][subdir] = "contrib"
 projects[apachesolr_multilingual][version] = "1.3"
@@ -89,7 +103,7 @@ projects[collapse_text][subdir] = "contrib"
 projects[collapse_text][version] = "2.4"
 
 projects[colorbox][subdir] = "contrib"
-projects[colorbox][version] = "2.9"
+projects[colorbox][version] = "2.10"
 
 projects[colors][subdir] = "contrib"
 projects[colors][version] = "1.0-rc1"
@@ -108,7 +122,10 @@ projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entit
 
 projects[css_injector][subdir] = "contrib"
 projects[css_injector][version] = "1.10"
-projects[css_injector][patch][] = patches/css_injector-add_upload_file-2506775-10.patch
+; Allow file upload with css injector
+; https://www.drupal.org/node/2506775
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6580
+projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload_files_v4.patch
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.9"

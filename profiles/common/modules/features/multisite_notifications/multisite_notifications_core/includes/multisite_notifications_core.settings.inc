@@ -5,83 +5,83 @@
  * Code for the multisite_notifications_core settgins page.
  */
 
+/**
+ * Render API callback: General settings for notifications.
+ */
 function multisite_notifications_core_general_settings() {
 
-//Subscription
+  // Subscription.
   $form['subscription_block_settings'] = array(
-      '#title' => t('Subscribe block settings'),
-      '#type' => 'fieldset',
-      '#collapsible' => TRUE,
-      '#collapsed' => FALSE,
+    '#title' => t('Subscribe block settings'),
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
 
   $form['subscription_block_settings']['subscribe_confirmation'] = array(
-      '#title' => t('Subscribe confirmation mail'),
-      '#type' => 'fieldset',
-      '#collapsible' => TRUE,
-      '#collapsed' => FALSE,
+    '#title' => t('Subscribe confirmation mail'),
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
 
-  //Subject
+  // Subject.
   foreach ($languages = language_list() as $language) {
     $form['subscription_block_settings']['subscribe_confirmation']['subscribe_subject_' . $language->language] = array(
-        '#title' => t('Subscribe mail subject: ' . $language->name),
-        '#type' => 'textfield',
-        '#default_value' => variable_get('subscribe_subject_' . $language->language, ''),
+      '#title' => t('Subscribe mail subject: @name', array('@name' => $language->name)),
+      '#type' => 'textfield',
+      '#default_value' => variable_get('subscribe_subject_' . $language->language, ''),
     );
   }
 
-  //Body
+  // Body.
   foreach ($languages = language_list() as $language) {
     $form['subscription_block_settings']['subscribe_confirmation']['subscribe_message_' . $language->language] = array(
-        '#title' => t('Subscribe mail body: ' . $language->name),
-        '#type' => 'textarea',
-        '#default_value' => variable_get('subscribe_message_' . $language->language, ''),
+      '#title' => t('Subscribe mail body: @name', array('@name' => $language->name)),
+      '#type' => 'textarea',
+      '#default_value' => variable_get('subscribe_message_' . $language->language, ''),
     );
   }
 
-
-  //Unsubscription
-
-   $form['subscription_block_settings']['unsubscribe_confirmation'] = array(
-      '#title' => t('Unsubscribe confirmation mail'),
-      '#type' => 'fieldset',
-      '#collapsible' => TRUE,
-      '#collapsed' => FALSE,
+  // Unsubscription.
+  $form['subscription_block_settings']['unsubscribe_confirmation'] = array(
+    '#title' => t('Unsubscribe confirmation mail'),
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
   );
 
-
-    //Subject
+  // Subject.
   foreach ($languages = language_list() as $language) {
     $form['subscription_block_settings']['unsubscribe_confirmation']['unsubscribe_subject_' . $language->language] = array(
-        '#title' => t('Unsubscribe mail subject: ' . $language->name),
-        '#type' => 'textfield',
-        '#default_value' => variable_get('unsubscribe_subject_' . $language->language, ''),
+      '#title' => t('Unsubscribe mail subject: @name', array('@name' => $language->name)),
+      '#type' => 'textfield',
+      '#default_value' => variable_get('unsubscribe_subject_' . $language->language, ''),
     );
   }
 
-   //Body
+  // Body.
   foreach ($languages = language_list() as $language) {
     $form['subscription_block_settings']['unsubscribe_confirmation']['unsubscribe_message_' . $language->language] = array(
-        '#title' => t('Unsubscribe mail body: ' . $language->name),
-        '#type' => 'textarea',
-        '#default_value' => variable_get('unsubscribe_message_' . $language->language, ''),
+      '#title' => t('Unsubscribe mail body: @name', array('@name' => $language->name)),
+      '#type' => 'textarea',
+      '#default_value' => variable_get('unsubscribe_message_' . $language->language, ''),
     );
   }
-
 
   return system_settings_form($form);
 
 }
 
 /**
+ * Mail template.
  *
  * @return \stdClass
+ *   The content of mail(subject, body, comment).
  */
 function _multisite_notifications_core_mail_template() {
   $template = new stdClass();
-  //
-  $template->subject='[site:name] updates : [node:title]';
+  $template->subject = '[site:name] updates : [node:title]';
   $template->body = '{{MAIL@ Dear {{[current-user:roles:last] == subscriber?subscriber:[current-user:name]}}.
 
 Your subscription on [site:name] notifies you of {{[subs:is-new]==0?:a new post:}}{{[subs:is-updated]#an updated post:}}{{[subs:is-old]#new comments on:
@@ -112,7 +112,7 @@ Your subscription on [site:name] notifies you of {{[subs:is-new]==0?:a new post:
 {{[current-user:roles:last] == subscriber? :"To manage your subscriptions go to: [subs:manage-url]"}}
 
 }}';
-  $template->comment='| {{[subs:is-new]?New:Updated}} {{[subs:is-published]?:UNPUBLISHED }}comment:
+  $template->comment = '| {{[subs:is-new]?New:Updated}} {{[subs:is-published]?:UNPUBLISHED }}comment:
 | Author: [comment:author:name]
 | Title: [comment:title]
 &nbsp;
