@@ -191,7 +191,6 @@ function multisite_drupal_core_install() {
     ->condition('name', 'seven')
     ->execute();
   variable_set('admin_theme', 'seven');
-  variable_set('node_admin_theme', '1');
 
   $contributor_role = new stdClass();
   $contributor_role->name = 'contributor';
