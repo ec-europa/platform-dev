@@ -252,7 +252,6 @@
                 }
                 i++;
             }
-            //$('#geofield_geojson textarea').text(JSON.stringify(geojson_map));
             $("textarea[name*=geofield_geojson]").text(JSON.stringify(geojson_map));
         }
 
