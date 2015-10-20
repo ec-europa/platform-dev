@@ -1,5 +1,8 @@
 /* --------------- Search Block ---------------- */
-#search-block-form  {
+#block-nexteuropa-europa-search-nexteuropa-europa-search-form .panel-body {
+    padding:0px;
+  }
+#nexteuropa-europa-search-search-form, #search-block-form  {
   position:absolute;
   right:7px;
   top:18px;
@@ -37,6 +40,17 @@
     margin-right:0px;
     background:none;
   }
+  .input-group-search .form-submit {
+    cursor:pointer;
+    height:26px;
+    width:32px;
+    padding:0px;
+    margin-right:0px;
+    background:none;
+    float:right;
+    margin-top:-14px;
+    margin-right:-2px;
+  }
   label {
     position:absolute;
     left:-9999px;
@@ -46,5 +60,20 @@
     height:16px;
     font-size:100%;
     overflow:hidden;
-  }
+  } 
+  input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #555;
+}
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #555;
+   opacity:  1;
+}
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #555;
+   opacity:  1;
+}
+input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #555;
+}
+
 }

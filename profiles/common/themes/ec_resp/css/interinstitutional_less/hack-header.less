@@ -75,6 +75,8 @@
   .easy-breadcrumb_segment-separator {
     color: #82B0BE;
     font-weight: bold;
+    background:url("../images/breadcrumb.gif") no-repeat scroll 2px 0px;
+    padding: 0px 2px 0px 11px;
   }
   a, 
   a:visited {
@@ -156,6 +158,29 @@
   background-color:transparent;
   color:#000;
 }
+
+.lang-select-site {
+  position: absolute;
+  z-index: 1024;
+  right:15px;
+  border-style:none;
+  box-shadow:none;  
+  height:23px;
+  .panel-body {
+    padding:0px;
+    .lang-select-site__link {
+      display: block;
+      margin: -15px;
+      padding: 15px;
+    }
+    .lang-select-site__code {
+      .label;
+      .label-primary;
+      margin-right: 4px;
+    }
+  }
+}
+
 
 /* ------------------ Hack when js is enabled ------------------ */
 .js {
