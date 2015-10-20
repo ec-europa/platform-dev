@@ -26,8 +26,10 @@
             i = 0;
             for (key in drawnItems._layers) {
                 layer_properties = drawnItems._layers[key].feature.properties;
-                popup_content = buildPopupContent(key, layer_properties.name, layer_properties.description);
-                drawnItems._layers[key].bindPopup(popup_content);
+                if (layer_properties.name && layer_properties.description) {
+                    popup_content = buildPopupContent(key, layer_properties.name, layer_properties.description);
+                    drawnItems._layers[key].bindPopup(popup_content);
+                }
                 i++;
             }
             // Fix zoom to 16 when there is one object on the map.
