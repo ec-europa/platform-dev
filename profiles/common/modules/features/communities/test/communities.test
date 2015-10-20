@@ -1,0 +1,136 @@
+<?php
+
+/**
+ * @file
+ * Tests for communities.module.
+ */
+
+/**
+ * Defines a base class for testing the "communities" module.
+ */
+class CommunitiesWebTestCase extends DrupalWebTestCase {
+
+  protected $communityUser;
+  protected $adminUser;
+  protected $contributorUser;
+
+  protected $profile = 'multisite_drupal_communities';
+
+  /**
+   * Return class informations.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Communities',
+      'description' => 'Test the communities feature (install, creation).',
+      'group' => 'Multisite - Communities',
+    );
+  }
+
+  /**
+   * Initialize users.
+   */
+  public function setUp() {
+    parent::setUp(array());
+
+    $this->adminUser = $this->drupalCreateUserWithRole("administrator");
+    $this->contributorUser = $this->drupalCreateUserWithRole("contributor");
+    $this->communityUser = $this->drupalCreateUserWithRole("editor");
+  }
+
+  /**
+   * Test communities creation.
+   */
+  public function testCommunitiesInstall() {
+    // Check the communities directory view.
+    $this->drupalGet('communities_directory');
+    $this->assertResponse(200);
+    $this->assertRaw('view-communities-directory', 'Communities enabled and accessible.');
+
+    // Check the community creation.
+    $this->drupalLogin($this->adminUser);
+
+    $settings = array(
+      'type' => 'community',
+      'title' => 'Community test1',
+      'body' => array(LANGUAGE_NONE => array(array('Community body'))),
+    );
+    $node1 = $this->drupalCreateNode($settings);
+    $this->drupalGet('community/community-test1');
+
+    $this->assertRaw('Community test1', t('Community created.'));
+    $this->assertRaw('Home page', t('Community block created.'));
+    $this->assertRaw('members list', t('Community block members list created.'));
+
+    // Create an article in the community.
+    $field = array();
+    $field[LANGUAGE_NONE][0]['target_id'] = $node1->nid;
+    $settings = array(
+      'type' => 'article',
+      'title' => 'Article test1',
+      'body' => array(LANGUAGE_NONE => array(array('Article body'))),
+      'og_group_ref' => $field,
+      'status' => 1,
+    );
+    $node2 = $this->drupalCreateNode($settings);
+    $this->drupalGet('community/community-test1/articles/article-test1');
+    $this->assertRaw('Article test1', t('Article created.'));
+
+    // Test my communities view.
+    $this->drupalGet('communities_directory/my');
+    $this->assertResponse(200);
+    $this->assertRaw('Community test1', t('Community created found in my communities.'));
+
+    // Add user to a group.
+    $membership = array(
+      'type' => 'user',
+      'entity' => $this->communityUser,
+      'state' => OG_STATE_ACTIVE,
+    );
+    og_group('node', $node1->nid, $membership);
+    $this->drupalGet('group/node/' . $node1->nid . '/admin/people');
+    $this->assertResponse(200);
+    $this->assertRaw($this->communityUser->name, 'User added to the group.');
+
+    // Give a og role (community _manager) to this user.
+    og_role_grant('node', $node1->nid, $this->communityUser->uid, 4);
+    $this->drupalGet('group/node/' . $node1->nid . '/admin/people');
+    $this->assertNoUniqueText("community_manager", 'New user is a community manager.');
+
+    // Test membership request.
+    $this->drupalLogin($this->contributorUser);
+    $this->drupalGet('communities_directory');
+    $this->clickLink(t('Request group membership'));
+
+    $form_array = array(
+      'og_membership_request[und][0][value]' => 'Please register me !',
+    );
+    $this->drupalPost(NULL, $form_array, t('Join'));
+    $this->assertRaw('Your membership to this group is pending', 'Membership in pending state.');
+  }
+
+
+  /**
+   * Creates a user with the give role.
+   */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
+  }
+
+}

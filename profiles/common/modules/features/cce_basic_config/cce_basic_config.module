@@ -1,0 +1,315 @@
+<?php
+
+/**
+ * @file
+ * Code for the CCE_basic_config feature.
+ */
+
+include_once 'cce_basic_config.features.inc';
+include_once 'cce_basic_config.file_default_displays.inc';
+include_once 'cce_basic_config.default_password_policy.inc';
+
+/**
+ * Implements hook_menu_alter().
+ */
+function cce_basic_config_menu_alter(&$items) {
+  // Hide default search tab.
+  $items['search/node']['access callback'] = FALSE;
+}
+
+/**
+ * Implements hook_form_system_site_information_settings_alter().
+ */
+function cce_basic_config_form_system_site_information_settings_alter(&$form, &$form_state, $form_id) {
+  // Get Taxonomy classification vid.
+  $vid_classification = db_select('taxonomy_vocabulary', 't')
+    ->fields('t')
+    ->condition('machine_name', 'classification', '=')
+    ->execute()
+    ->fetchAll();
+
+  // Get Taxonomy tree.
+  $classification = taxonomy_get_tree($vid_classification[0]->vid);
+
+  $list = array();
+  foreach ($classification as $key => $obj_term) {
+    $list[$obj_term->name] = $obj_term->name . ' - ' . strip_tags($obj_term->description);
+  }
+
+  // Create fieldset 'META Data'.
+  $form['meta'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('META data'),
+    '#weight' => 10,
+    '#collapsible' => FALSE,
+  );
+
+  // Create select field.
+  $form['meta']['classification'] = array(
+    '#type' => 'select',
+    '#title' => t('IPG Classification'),
+    '#options' => $list,
+    '#required' => TRUE,
+    '#empty_option' => 'none',
+    '#default_value' => variable_get('meta_configuration', 'none'),
+    '#description' => t('Choose the classification for your website. This classification respects the !url', array('!url' => l(t('IPG guidelines'), "http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm"))),
+  );
+
+  // Get the 'code' and set meta_configuration variable.
+  if (isset($form_state['input']['op']) && $form_state['input']['op'] == 'Save configuration') {
+    if (isset($form_state['input']['classification'])) {
+      $pattern = '@(^[0-9]+).*@';
+      $subject = $form_state['input']['classification'];
+      $result = preg_match($pattern, $subject, $matches);
+      if (isset($matches[1])) {
+        variable_set('meta_configuration', $matches[1]);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_media_format_form_alter().
+ */
+function cce_basic_config_form_media_format_form_alter(&$form) {
+  // When putting a media in content with wysiwyg.
+  // We just allow the default view mode for media document.
+  if ($form['#media']->type == 'document') {
+    unset($form['options']['format']['#options']['teaser']);
+    unset($form['options']['format']['#options']['preview']);
+    unset($form['#formats']['preview']);
+    unset($form['#formats']['teaser']);
+  }
+}
+
+/**
+ * Implements hook_preprocess_field().
+ *
+ * Renders the external flashplayer + thumbnail for the video field.
+ * The output variable $videos is being rendered by the field--video.tpl.php.
+ */
+function cce_basic_config_preprocess_field(&$variables) {
+  global $base_url, $theme;
+  if ('video' === $variables['element']['#field_type']) {
+
+    if (isset($variables['element']['#items'])) {
+      $output = '';
+      $field = $variables['element']['#field_name'];
+      $delta = 0;
+      $themepath = drupal_get_path('theme', $theme);
+
+      foreach ($variables['element']['#items'] as $key => $value) {
+        if (isset($value['playablefiles'][0]->uri)) {
+          $video_path = str_replace('http:', '', $base_url) . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://', '/', $value['playablefiles'][0]->uri);
+        }
+        else {
+          $video_path = str_replace('http:', '', $base_url) . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://', '/', $value['uri']);
+        }
+
+        $thumb = file_load($value['thumbnail']);
+
+        if (!empty($thumb)) {
+          $video_square_thumbnail = image_style_url('square_thumbnail', $thumb->uri);
+          $video_preview = image_style_url('preview', $thumb->uri);
+        }
+
+        $output .= '<div id="video_lightbox_' . $field . $delta . '" class="lightbox" style="display: none;">';
+        $output .= '<embed name="player_' . $field . $delta . '" id="player_' . $field . $delta . '"
+          type="application/x-shockwave-flash"
+          pluginspage="http://www.macromedia.com/go/getflashplayer"
+          width="800" height="600"
+          src="//ec.europa.eu/wel/players/jwflvplayer/player.swf"
+          allowfullscreen="true"
+          allowscriptaccess="always"
+          flashvars="file=' . $video_path . '&fullscreen=true&image=' . str_replace('http:', '', $video_preview) . '&skin=//ec.europa.eu/wel/players/jwflvplayer/skins/mainley.swf">
+          </embed>';
+        $output .= '</div>';
+
+        $output .= '<a href="#video_lightbox_' . $field . $delta . '" class="fancybox thumbnail" rel="gallery" title="' . $value['filename'] . '">';
+        $output .= '<div class="video-watermark">';
+        $output .= '<span class="glyphicon glyphicon-play watermark"></span>';
+        $output .= '<img src="' . $video_square_thumbnail . '" alt="' . $value['filename'] . '" title="" />';
+        $output .= '</div>';
+        $output .= '<p class="text-center hidden-xs">' . $value['filename'] . '</p>';
+        $output .= '</a>';
+
+        $delta++;
+      }
+
+      if (isset($variables['videos'])) {
+        $variables['videos'] .= $output;
+      }
+      else {
+        $variables['videos'] = $output;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function cce_basic_config_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == "field_ui_field_edit_form" || $form_id == "field_ui_field_settings_form") {
+    $settings = &$form['field']['settings'];
+
+    $settings['presets']['#default_value'] = array('default_flash_conversion');
+    $settings['preview_video_thumb_style']['#default_value'] = array('square_thumbnail');
+
+    $form['preview_video_thumb_style'] = array(
+      '#default_value' => $settings['preview_video_thumb_style']['#default_value'],
+    );
+
+    $form['presets'] = array(
+      '#default_value' => $settings['presets']['#default_value'],
+    );
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_field_info_alter().
+ */
+function cce_basic_config_field_info_alter(&$info) {
+  $vid = &$info['video'];
+  if (isset($vid)) {
+    $vid['settings']['thumbnail_format'] = 'png';
+  }
+}
+
+/**
+ * Implements hook_menu_link_alter().
+ *
+ * Alter the system links My Account and Log out.
+ */
+function cce_basic_config_menu_link_alter(&$item) {
+  // Rewrite links only for the user-menu menu.
+  // Don't rewrite if menu link was edited (customized=1).
+  if (isset($item['menu_name']) && $item['menu_name'] == 'user-menu') {
+    if ((isset($item['customized']) && $item['customized'] == 0) || !isset($item['customized'])) {
+      $link_path = $item['link_path'];
+
+      switch ($link_path) {
+        case 'user':
+          $item['options']['attributes']['title'] = t('My account');
+          $item['options']['attributes']['class'] = 'btn btn-default';
+          $item['options']['attributes']['data-image'] = 'user';
+          $item['options']['attributes']['data-display-title'] = 0;
+          $item['options']['attributes']['data-toggle'] = 'tooltip';
+          $item['options']['attributes']['data-placement'] = 'bottom';
+          $item['options']['attributes']['data-container'] = 'body';
+          break;
+
+        case 'user/logout':
+          $item['options']['attributes']['title'] = t('Log out');
+          $item['options']['attributes']['class'] = 'btn btn-default';
+          $item['options']['attributes']['data-image'] = 'log-out';
+          $item['options']['attributes']['data-display-title'] = 0;
+          $item['options']['attributes']['data-toggle'] = 'tooltip';
+          $item['options']['attributes']['data-placement'] = 'bottom';
+          $item['options']['attributes']['data-container'] = 'body';
+          break;
+
+        case 'manage-translate':
+          $item['options']['attributes']['title'] = t('Manage translation tasks');
+          $item['options']['attributes']['class'] = 'btn btn-default';
+          $item['options']['attributes']['data-image'] = 'flag';
+          $item['options']['attributes']['data-display-title'] = 0;
+          $item['options']['attributes']['data-toggle'] = 'tooltip';
+          $item['options']['attributes']['data-placement'] = 'bottom';
+          $item['options']['attributes']['data-container'] = 'body';
+          break;
+
+        case 'translate':
+          $item['options']['attributes']['title'] = t('Translate');
+          $item['options']['attributes']['class'] = 'btn btn-default';
+          $item['options']['attributes']['data-image'] = 'globe';
+          $item['options']['attributes']['data-display-title'] = 0;
+          $item['options']['attributes']['data-toggle'] = 'tooltip';
+          $item['options']['attributes']['data-placement'] = 'bottom';
+          $item['options']['attributes']['data-container'] = 'body';
+          break;
+
+        default:
+          break;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function cce_basic_config_block_info() {
+  $blocks = array();
+  $blocks['footer_ipg'] = array(
+    'info' => t('Footer IPG'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function cce_basic_config_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'footer_ipg':
+      $menu_service_tools = menu_tree('menu-service-tools');
+      $block['subject'] = 'Latest update';
+      $content = array(
+        // @todo Instead of hardcoding the date format, use format_date().
+        t('Last update: @date', array('@date' => date('d/m/Y'))),
+        '|',
+        t('<a href="#top-page">Top</a>'),
+        '|',
+        drupal_render($menu_service_tools),
+      );
+      $block['content'] = implode(' ', $content);
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_field_default_fields_alter().
+ *
+ * Force field_tags to be unlock.
+ */
+function cce_basic_config_field_default_fields_instances_alter(&$fields) {
+  foreach ($fields as $key => $field) {
+    if ($field['field_config']['field_name'] == 'field_tags') {
+      $fields[$key]['field_config']['locked'] = '0';
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Changes the label of the title attributes field supplied by the Menu
+ * Attributes module so it doesn't collide with the label of the node title.
+ * This is needed to be able to use these fields in Behat tests.
+ *
+ * @todo Remove this if upstream issue #2412221 gets accepted.
+ *
+ * @see https://www.drupal.org/node/2412221
+ */
+function cce_basic_config_form_node_form_alter(&$form, $form_state) {
+  $form['#after_build'][] = 'cce_basic_config_form_node_form_after_build';
+}
+
+/**
+ * Form after build handler for cce_basic_config_form_node_form_alter().
+ *
+ * Alters the node form after it gets altered by the Menu Attributes module.
+ *
+ * @see cce_basic_config_form_node_form_alter()
+ */
+function cce_basic_config_form_node_form_after_build($form_element) {
+  if (!empty($form_element['menu']['link']['options']['attributes']['title']['#title'])) {
+    $form_element['menu']['link']['options']['attributes']['title']['#title'] = t('Title attribute');
+  }
+
+  return $form_element;
+}

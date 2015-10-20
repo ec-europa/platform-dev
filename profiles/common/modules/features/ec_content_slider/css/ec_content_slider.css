@@ -1,0 +1,16 @@
+#transparency {
+  background: rgba(0, 0, 0, 0.7); /*chrome, mozilla*/
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#99000000', EndColorStr='#99000000'); /* Internet Explorer */
+  bottom: 0;
+  color: white;
+  left: 0;
+  padding: 5px;
+  position: absolute;
+  right: 0;
+}
+
+@media only screen and (max-width:600px) {
+  #transparency {
+    position: static;
+  }
+}

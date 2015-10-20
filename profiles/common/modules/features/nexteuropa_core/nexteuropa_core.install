@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the nexteuropa_core feature.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function nexteuropa_core_install() {
+
+  // Set permissions for "administrator" role.
+  $permissions = array(
+
+    // Admin menu.
+    'access administration menu',
+    'display drupal links',
+    'flush caches',
+
+    // Bean.
+    'administer beans',
+    'access bean overview',
+    'view bean page',
+    'view bean revisions',
+
+    // Block.
+    'administer blocks',
+
+    // Coffee.
+    'access coffee',
+
+    // File entity.
+    'bypass file access',
+    'administer files',
+
+    // Menu.
+    'administer menu',
+
+    // Node.
+    'bypass node access',
+    'administer nodes',
+    'access content overview',
+    'access content',
+    'view revisions',
+    'revert revisions',
+    'delete revisions',
+    'access administration pages',
+
+    // Path.
+    'create url aliases',
+
+    // Taxonomy.
+    'administer taxonomy',
+
+    // User.
+    'administer users',
+    'access user profiles',
+    'cancel account',
+
+    // Version Management.
+    'version management edits',
+  );
+  multisite_config_service('user')->grantPermission('administrator', $permissions);
+
+  // Set permissions for "contributor" role.
+  $permissions = array(
+    // Version Management.
+    'version management edits',
+  );
+  multisite_config_service('user')->grantPermission('contributor', $permissions);
+
+  // Set permissions for "editor" role.
+  $permissions = array(
+    // Version Management.
+    'version management edits',
+  );
+  multisite_config_service('user')->grantPermission('editor', $permissions);
+
+  // Enable Version Management for node types.
+  multisite_config_service('version_management')->enableVersionManagement('article');
+  multisite_config_service('version_management')->enableVersionManagement('page');
+}
+
+/**
+ * NEXTEUROPA-3747: Remove User Tasks terms and vocabulary.
+ */
+function nexteuropa_core_update_7001() {
+
+  $terms = multisite_config_service('taxonomy')->getVocabularyTerms('core_user_tasks');
+  foreach ($terms as $term) {
+    multisite_config_service('taxonomy')->deleteTaxonomyTerm($term->tid);
+  }
+  multisite_config_service('taxonomy')->deleteVocabulary('core_user_tasks');
+}
+
+/**
+ * NEXTEUROPA-3747: Remove User Tasks field.
+ */
+function nexteuropa_core_update_7002() {
+  field_delete_field('field_core_user_tasks');
+}

@@ -1,7 +1,0 @@
-name = Multisite settings og
-description = Provides a space to group contents about a common topic.
-core = 7.x
-package = Multisite OG Features
-version = 7.x-1.1
-project = communities
-features[features_api][] = api:2

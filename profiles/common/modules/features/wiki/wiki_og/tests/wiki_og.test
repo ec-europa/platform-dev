@@ -1,0 +1,159 @@
+<?php
+
+/**
+ * @file
+ * Tests for communities.module.
+ */
+
+/**
+ * Defines a base class for testing the "communities" module.
+ */
+class WikiOgWebTestCase extends DrupalWebTestCase {
+  protected $communityUser;
+  protected $adminUser;
+  protected $contributorUser;
+
+  protected $profile = 'multisite_drupal_communities';
+
+  /**
+   * Get information about OG Wiki.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'wiki_og',
+      'description' => 'Test the wiki_og feature.',
+      'group' => 'Multisite - Communities',
+    );
+  }
+
+  /**
+   * Initialize OG Wiki.
+   */
+  public function setUp() {
+    parent::setUp(array());
+
+    $this->adminUser = $this->drupalCreateUserWithRole("administrator");
+    $this->contributorUser = $this->drupalCreateUserWithRole("contributor");
+    $this->editor_user = $this->drupalCreateUserWithRole("editor");
+  }
+
+  /**
+   * Test OG wiki creation.
+   */
+  public function testCommunitiesWiki() {
+    // Check the communities directory URL.
+    $this->drupalGet('communities_directory');
+    // OK code 200.
+    $this->assertResponse(200);
+    // Check the presence of HTML class: view-communities-directory.
+    $this->assertRaw('view-communities-directory', 'Communities enabled and accessible.');
+
+    // Check the community creation.
+    $this->drupalLogin($this->adminUser);
+
+    // COMUNITY CREATION.
+    // Create content of community type.
+    $settings = array(
+      'type' => 'community',
+      'title' => 'Sample Community',
+      'body' => array(LANGUAGE_NONE => array(array('Community body'))),
+      'moderate' => 1,
+      'status' => 1,
+      'revisions' => NULL,
+      'taxonomy' => NULL,
+    );
+    $node1 = $this->drupalCreateNode($settings);
+
+    $this->assertTrue($node1, t('Node ID @nid is a group.', array('@nid' => $node1->nid)));
+
+    module_enable(array("wiki_og"));
+    $this->drupalGet('community/sample-community');
+    $this->assertTrue(module_exists('wiki_og'), t('wiki_og feature enabled.'));
+    $this->assertRaw('node/add/wiki', t('Link to create wiki available'));
+    $this->assertRaw('community/Sample-Community/wiki', t('Link to the wiki page available.'));
+
+    // Create a wiki in the created community.
+    $field = array();
+    $field[LANGUAGE_NONE][0]['target_id'] = $node1->nid;
+
+    $settings = array(
+      'type' => 'wiki',
+      'title' => 'Wiki Title',
+      'body' => array(LANGUAGE_NONE => array(array('Link body'))),
+      'og_group_ref' => $field,
+    );
+    $node2 = $this->drupalCreateNode($settings);
+
+    // Access to the wiki page.
+    $this->drupalGet('community/sample-community/wiki/wiki-title');
+    $this->assertResponse(200);
+    // Check the presence of h1.
+    $elements = $this->xpath("//h1");
+    $this->assertTrue(isset($elements[0]), t('The wiki page contains a h1 title'));
+    $this->assertRaw('Wiki Title', t('Title found.'));
+
+    // Add user to a group.
+    $membership = array(
+      'type' => 'user',
+      'entity' => $this->editor_user,
+      'state' => OG_STATE_ACTIVE,
+    );
+    og_group('node', $node1->nid, $membership);
+    $this->drupalGet('group/node/' . $node1->nid . '/admin/people');
+    $this->assertResponse(200);
+    $this->assertRaw($this->editor_user->name, 'User added to the group.');
+
+    // Give a og role (community _manager) to this user.
+    og_role_grant('node', $node1->nid, $this->editor_user->uid, 4);
+    $this->drupalGet('group/node/' . $node1->nid . '/admin/people');
+    $this->assertNoUniqueText("community_manager", 'New user is a community manager.');
+
+    $this->drupalLogout();
+
+    // As community manager create a wiki in the created community.
+    $this->drupalLogin($this->editor_user);
+
+    $field = array();
+    $field[LANGUAGE_NONE][0]['target_id'] = $node1->nid;
+
+    $settings = array(
+      'type' => 'wiki',
+      'title' => 'Wiki Title2',
+      'body' => array(LANGUAGE_NONE => array(array('Link body'))),
+      'og_group_ref' => $field,
+    );
+    $node3 = $this->drupalCreateNode($settings);
+
+    // Access to the wiki page.
+    $this->drupalGet('community/sample-community/wiki/wiki-title2');
+    $this->assertResponse(200);
+    // Check the presence of h1.
+    $elements = $this->xpath("//h1");
+    $this->assertTrue(isset($elements[0]), t('The wiki page contains a h1 title'));
+    $this->assertRaw('Wiki Title2', t('Wiki Title 2 found.'));
+  }
+
+  /**
+   * Creates a user with the give role.
+   * */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
+  }
+
+}

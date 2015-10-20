@@ -1,22 +1,31 @@
 <?php
+/**
+ * @file
+ * Install, uninstall, update and schema hooks for the Communities profile.
+ */
 
 /**
  * Implements hook_install().
  *
  * Perform actions to set up the site for this profile.
  */
-
 function multisite_drupal_communities_install() {
   include_once DRUPAL_ROOT . '/profiles/multisite_drupal_core/multisite_drupal_core.install';
   multisite_drupal_core_install();
 
-  // permissions to the contributor
+  // Permissions to the contributor.
   $contrib_rid = get_rid('contributor');
-  user_role_grant_permissions($contrib_rid, array(  
-  'view all unpublished content',
-  //'moderate content from needs_review to published',
-  'moderate content from needs_review to draft',
-  //'edit any article content',
-  //'delete any article content',
-  )); 
+  user_role_grant_permissions($contrib_rid, array(
+    'view all unpublished content',
+    'moderate content from needs_review to draft',
+  ));
+}
+
+
+/**
+ * NEXTEUROPA-3298: Disable ckeditor_link features.
+ */
+function multisite_drupal_communities_update_7201() {
+  module_disable(array('ckeditor_link'));
+  drupal_uninstall_modules(array('ckeditor_link'));
 }

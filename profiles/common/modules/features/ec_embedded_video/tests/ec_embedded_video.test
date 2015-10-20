@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * @file
+ * Tests for ec_embedded_video.module.
+ */
+
+/**
+ * Defines a base class for testing the "Embedded video" module.
+ */
+class EmbeddedVideosWebTestCase extends DrupalWebTestCase {
+  /**
+   * {@inheritdoc}
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'EC embedded video feature',
+      'description' => 'Test the EC embedded videos feature.',
+      'group' => 'Multisite - Media',
+    );
+  }
+
+  protected $permissions = array(
+    'access content',
+    'administer content types',
+    'administer nodes',
+    'access administration pages',
+    'create page content',
+  );
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp('ec_embedded_video');
+
+    $this->web_user = $this->drupalCreateUser($this->permissions);
+    $this->drupalLogin($this->web_user);
+  }
+
+  /**
+   * Test if can be managed.
+   */
+  public function testPageShouldBeAccessible() {
+    $this->drupalGet('admin/structure/types/manage');
+    $this->assertResponse(200, 'User whith the right access can update content types');
+    $this->createVideoField();
+
+  }
+
+  /**
+   * Create and test content type.
+   */
+  public function createVideoField($node_type = 'page', $settings = array()) {
+    $name = strtolower($this->randomName());
+    $edit = array(
+      'fields[_add_new_field][label]' => $name,
+      'fields[_add_new_field][field_name]' => $name,
+      'fields[_add_new_field][type]' => 'media',
+      'fields[_add_new_field][widget_type]' => 'media_generic',
+    );
+    $field_name = 'field_' . $name;
+    $this->drupalPost('admin/structure/types/manage/' . $node_type . '/fields', $edit, t('Save'));
+    $this->drupalPost(NULL, array(), t('Save field settings'));
+
+    $this->drupalPost(NULL, $settings, t('Save settings'));
+
+    // Is field created?
+    $this->assertRaw(t('Saved %label configuration', array('%label' => $name)), 'Field added');
+    node_types_rebuild();
+    menu_rebuild();
+
+    return $field_name;
+  }
+
+}

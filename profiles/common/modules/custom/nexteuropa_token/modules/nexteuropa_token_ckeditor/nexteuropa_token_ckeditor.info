@@ -1,0 +1,12 @@
+name = NextEuropa Token CKEditor
+description = Allows to insert tokens and render exposed by NextEuropa Tokens into a CKEditor textarea.
+core = 7.x
+package = NextEuropa
+version = 7.x-1.x-dev
+project = nexteuropa_token_ckeditor
+configure = admin/config/system/nexteuropa-tokens
+
+dependencies[] = nexteuropa_token
+dependencies[] = wysiwyg
+dependencies[] = views
+files[] = views/nexteuropa_token_ckeditor_handler_field_selection.inc

@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * @file
+ * Tests for PROJECTFEATURE_STARTERKIT.module.
+ *
+ * ECWeb MULTISITE QA.
+ */
+
+/**
+ * WikiStandard class.
+ */
+class WikiStandard extends DrupalWebTestCase {
+  protected $privilegedUser;
+  protected $contributorUser;
+
+  /**
+   * Get informations about Wiki tests.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'wiki_standard tests',
+      'description' => 'Test the wiki_standard features functionality.',
+      'group' => 'Multisite Standard Features',
+    );
+  }
+
+
+  /**
+   * Initialise privileges.
+   */
+  public function setUp() {
+
+    parent::setUp();
+    // module_load_include('test', 'simpletest_clone');
+    // Login a user that has access to the content sync server admin settings.
+    $this->privilegedUser = $this->drupalCreateUserWithRole("administrator");
+    $this->contributorUser = $this->drupalCreateUserWithRole("contributor");
+
+    $this->drupalLogin($this->privilegedUser);
+    module_enable(array('node', 'wiki_core', 'wiki_standard'), TRUE);
+  }
+
+  /**
+   * Test wiki creation.
+   */
+  public function testWikiStandard() {
+
+    $this->assertTrue(module_exists('wiki_standard'), t('wiki_standard feature enabled.'));
+    $this->drupalGet('wiki');
+
+    $settings = array(
+      'type' => 'wiki',
+      'title' => 'Wiki Title',
+      'body' => array(LANGUAGE_NONE => array(array('body'))),
+      'status' => 1,
+      'revisions' => NULL,
+      'taxonomy' => NULL,
+    );
+    $node = $this->drupalCreateNode($settings);
+
+    $this->drupalGet('wiki');
+    $this->assertResponse(200);
+
+    $this->verbose('Wiki Node created: ' . '</pre>' . print_r($node, TRUE) . '</pre>');
+    $this->verbose('Wiki Node created: ' . '</pre>' . print_r($settings['title'], TRUE) . '</pre>');
+
+    // Is the node accesible?
+    $this->drupalGet('wiki/wiki-title');
+    $this->assertResponse(200);
+    $elements = $this->xpath("//h1");
+    $this->assertTrue(isset($elements[0]), t('The wiki page contains a h1 title'));
+
+    // Is the node editable?
+    $this->drupalGet("node/{$node->nid}/edit");
+    $this->assertResponse(200);
+    $this->assertRaw('page-node-edit', 'Wiki is accesible to admin user.');
+    $this->assertRaw(t('Edit Wiki'), 'Wiki ediform is accesible to admin user.');
+    $this->assertText(t("@title", array('@title' => $settings['title'])), 'Title is present and accesible to admin user.');
+    $this->drupalLogout();
+    $this->drupalLogin($this->contributorUser);
+    $settings = array(
+      'type' => 'wiki',
+      'title' => 'Wiki Title',
+      'body' => array(LANGUAGE_NONE => array(array('body'))),
+      'status' => 1,
+      'revisions' => NULL,
+      'taxonomy' => NULL,
+    );
+    $node = $this->drupalCreateNode($settings);
+    $this->assertTrue(isset($node), 'Node wiki can be created by contributor user');
+
+    $this->drupalLogout();
+
+  }
+
+  /**
+   * Creates a user with the give role.
+   */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
+  }
+
+}
