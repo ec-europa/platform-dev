@@ -48,8 +48,10 @@ function splash_screen_permission() {
  * Display splash page when go at /.
  */
 function splash_screen_boot() {
-  // If empty, $_GET['q'] is rewritten by splash screen path.
-  if (empty($_GET['q'])) {
+  global $conf;
+  // If splash screen homepage hijacking enabled, and empty URL,
+  // $_GET['q'] is rewritten by splash screen path.
+  if (isset($conf['splash_screen_homepage_hijacking']) && $conf['splash_screen_homepage_hijacking'] && empty($_GET['q'])) {
     $_GET['q'] = SPLASH_SCREEN_PATH;
   }
 }
