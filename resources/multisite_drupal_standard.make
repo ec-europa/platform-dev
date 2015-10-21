@@ -793,6 +793,41 @@ libraries[respond][directory_name] = "scripts"
 libraries[respond][download][type] = "get"
 libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
 
+; Leaflet
+libraries[leaflet][destination] = "libraries"
+libraries[leaflet][download][type] = "file"
+libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip"
+libraries[leaflet][directory_name] = "leaflet"
+
+; ==============================
+; Libraries for Ec_resp_17 Theme
+; ==============================
+
+; Ec_resp_17 theme: Bootstrap 3.1.1
+libraries[ec_resp_17_bootstrap][download][type] = get
+libraries[ec_resp_17_bootstrap][download][url] = https://github.com/twbs/bootstrap/releases/download/v3.1.1/bootstrap-3.1.1-dist.zip
+libraries[ec_resp_17_bootstrap][download][file_type] = "zip"
+libraries[ec_resp_17_bootstrap][destination] =  "themes/ec_resp_17"
+libraries[ec_resp_17_bootstrap][directory_name] = bootstrap
+
+libraries[ec_resp_17_bootstrap_less][download][type] = "get"
+libraries[ec_resp_17_bootstrap_less][download][url] = "https://github.com/twbs/bootstrap/archive/v3.1.1.zip"
+libraries[ec_resp_17_bootstrap_less][download][subtree] = "bootstrap-3.1.1/less"
+libraries[ec_resp_17_bootstrap_less][destination] =  "themes/ec_resp_17/bootstrap"
+libraries[ec_resp_17_bootstrap_less][directory_name] = less
+
+; Ec_resp_17 theme: jQuery Mousewheel
+libraries[ec_resp_17_mousewheel][destination] = "themes/ec_resp_17"
+libraries[ec_resp_17_mousewheel][directory_name] = "scripts"
+libraries[ec_resp_17_mousewheel][download][type] = "get"
+libraries[ec_resp_17_mousewheel][download][url] = "https://raw.githubusercontent.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"
+
+; Ec_resp_17 theme: Respond JS
+libraries[ec_resp_17_respond][destination] = "themes/ec_resp_17"
+libraries[ec_resp_17_respond][directory_name] = "scripts"
+libraries[ec_resp_17_respond][download][type] = "get"
+libraries[ec_resp_17_respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
+
 ; ======
 ; Themes
 ; ======
