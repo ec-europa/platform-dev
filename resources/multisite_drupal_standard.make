@@ -718,7 +718,12 @@ libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
 libraries[mpdf][destination] = "libraries"
 
-
+; Leaflet
+libraries[leaflet][destination] = "libraries"
+libraries[leaflet][download][type] = "file"
+libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip"
+libraries[leaflet][directory_name] = "leaflet"
+=======
 ; ===========================
 ; Libraries for Ec_resp Theme
 ; ===========================
@@ -784,7 +789,6 @@ libraries[ec_resp_17_respond][destination] = "themes/ec_resp_17"
 libraries[ec_resp_17_respond][directory_name] = "scripts"
 libraries[ec_resp_17_respond][download][type] = "get"
 libraries[ec_resp_17_respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
-
 
 ; ======
 ; Themes
