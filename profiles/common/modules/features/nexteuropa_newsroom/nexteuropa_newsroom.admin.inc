@@ -385,10 +385,6 @@ function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
 
   // Activate multilingualism for the newsroom if the checkbox is checked.
   if ($form_state['values']['multilingual'] != $form['newsroom_others']['multilingual']['#default_value']) {
-    if ($multilingual) {
-      // Make some fields translatable.
-      _nexteuropa_newsroom_enable_translations();
-    }
 
     $importer_id['items'] = $multilingual ? 'newsroom_items' : 'newsroom_items_multilingual';
     $importer_id['topics'] = $multilingual ? 'newsroom_topics' : 'newsroom_topics_multilingual';
@@ -397,10 +393,6 @@ function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
 
     foreach ($importer_id as $key => $importer) {
       $disabling[] = $importer;
-
-      if ($multilingual) {
-        call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
-      }
     }
 
     // Toggle the default importers.
