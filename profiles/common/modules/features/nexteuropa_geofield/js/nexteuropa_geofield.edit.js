@@ -298,7 +298,7 @@
                     name = getFieldValue(name_field);
                     description = getFieldValue(description_field);
                 }
-                if (name != "" && description != "") {
+                if (name != "" || description != "") {
                     createPopup(key, name, description);
                 }
             }
