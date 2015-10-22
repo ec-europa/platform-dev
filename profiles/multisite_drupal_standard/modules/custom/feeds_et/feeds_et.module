@@ -8,25 +8,6 @@ module_load_include('inc', 'feeds_et', 'feeds_et.mappers');
  */
 
 /**
- * Implements hook_feeds_plugins().
- */
-function feeds_et_feeds_plugins() {
-  $info = array();
-  $info['FeedsEntityTranslation'] = array(
-    'name' => 'Feeds: Entity Translation',
-    'description' => 'Adds support for importing translations via Entity Translation.',
-    'help' => 'Extends fields for all enabled languages when importing.',
-    'handler' => array(
-      'parent' => 'FeedsImporter',
-      'class' => 'FeedsEntityTranslation',
-      'file' => 'FeedsEntityTranslation.inc',
-      'path' => drupal_get_path('module', 'feeds_et'),
-    ),
-  );
-  return $info;
-}
-
-/**
  * Implements hook_feeds_processor_targets_alter().
  *
  * @param $targets array of target fields
@@ -87,7 +68,7 @@ function _feeds_et_process_targets(&$targets, $field_name, $original_target, $fi
   $callback = $targets[$field_name]['callback'];
 
   foreach ($field_languages as $language_code => $language_info) {
-    
+
     // Add new targets to parse language along
     $targets[$field_name . ':et:' . $language_code] = array(
       'name' => t($original_target['name'] . ' [' . $language_info->name . ']'),

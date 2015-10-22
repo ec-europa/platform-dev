@@ -4,11 +4,10 @@ core = 7.x
 dependencies[] = "feeds"
 dependencies[] = "entity_translation"
 package = Feeds
-files[] = FeedsYoutubeParser.inc
 
-; Information added by Drupal.org packaging script on 2015-05-04
+; Information added by Drupal.org packaging script on 2015-10-10
 version = "7.x-1.x-dev"
 core = "7.x"
 project = "feeds_et"
-datestamp = "1430752382"
+datestamp = "1444463640"
 
