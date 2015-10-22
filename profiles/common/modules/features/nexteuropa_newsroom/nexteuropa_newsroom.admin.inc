@@ -5,6 +5,7 @@
  */
 
 include_once 'nexteuropa_newsroom.multilingual.inc';
+include_once drupal_get_path('module','pathauto') . '/pathauto.inc';
 
 /**
  * Nexteuropa newsroom admin form.
@@ -78,6 +79,23 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
         'method' => 'replace',
       ),
     );
+
+    $vocabulary = taxonomy_vocabulary_machine_name_load('newsroom_item_type');
+    $types = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
+    if (!empty($types)) {
+      foreach ($types as $tid => $type) {
+        $type_name = pathauto_cleanstring(strtolower($type->name));
+        $form['newsroom_others'][$type_name . '_rootpath'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Pattern for %type', array('%type' => $type_name)),
+          '#required' => FALSE,
+          '#description' => t('You can define here a root path for your items basing on the item type. The default behavior is to have sections correponding to the types, so if you have two types like 
+            news and events you will get pattern like news/[node:title], events[node:title], you can override the root path for your elements here.'),
+          '#default_value' => variable_get('newsroom_' . $type_name . '_root', $type_name),
+          '#element_validate' => array('nexteuropa_newsroom_type_root_validate'),
+        );
+      }
+    }
   }
 
   $form['newsroom_others']['newsroom_block_by'] = array(
@@ -367,6 +385,15 @@ function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
 
   // Shouldn't be needed, it is a setting form.
   if ($multilingual) {
+    $keys = array_keys($form_state['values']);
+    $rootpaths = preg_grep('/rootpath/', $keys);
+
+    if (!empty($rootpaths)) {
+      foreach ($rootpaths as $type) {
+        $typename = str_replace('_rootpath', '', $type);
+        variable_set('newsroom_' . $typename . '_root', $form_state['values'][$type]);
+      }
+    }
     variable_set('newsroom_multilingual', 1);
   }
   else {
@@ -480,4 +507,11 @@ function nexteuropa_newsroom_universe_id_validate($element, &$form_state) {
   if (!_newsroom_validate_universe($form_state['values']['newsroom_universe_id'])) {
     form_error($element, t('You must enter a valid Newsroom Universe ID.'));
   }
+}
+
+/**
+ * Implements hook_validate().
+ */
+function nexteuropa_newsroom_type_root_validate($element, &$form_state) {
+  return pathauto_cleanstring($element['#value']);
 }
