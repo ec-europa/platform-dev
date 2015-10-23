@@ -111,22 +111,48 @@ function nexteuropa_newsroom_post_features_enable_feature($component) {
       break;
 
     case 'taxonomy':
+      // Disabled importers.
+      $disabled = variable_get('default_feeds_importer', array());
       // Set translation mode for the vocabularies.
-      $taxonomies = array(
-        'newsroom_topic',
-        'newsroom_item_type',
-        'newsroom_service',
+      $importer_id = array(
+         'topics' => 'newsroom_topic',
+         'services' => 'newsroom_service',
+         'types' => 'newsroom_item_type',
       );
 
-      foreach ($taxonomies as $name) {
-        // Replace name.
-        title_field_replacement_toggle('taxonomy_term', $name, 'name');
+      foreach ($importer_id as $key => $importer) {
+        title_field_replacement_toggle('taxonomy_term', $importer, 'name');
+        $importer = $importer == 'newsroom_item_type' ? 'newsroom_type' : $importer . 's';
+        $disabling[] = $importer;
+        call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer'); 
       }
+    
+      // Toggle the default importers.
+      _nexteuropa_newsroom_disable_importer($disabled, $disabling);
+      cache_clear_all('plugins:feeds:plugins', 'cache');
       break;
 
     case 'node':
+      // No way to generate the node importer without this.  
+      drupal_static_reset();
+      drupal_flush_all_caches();
       // Enable title replacement for the newsroom_item content type.
       title_field_replacement_toggle('node', 'newsroom_item', 'title');
+      // Disabled importers.
+      $disabled = variable_get('default_feeds_importer', array());
+
+      $importer_id = array(
+        'items' => 'newsroom_items',
+      );
+      // Create the dynamic node importer and disable the static ones.
+      foreach ($importer_id as $key => $importer) {
+        $disabling[] = $importer;
+        call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
+      }
+    
+      // Toggle the default importers.
+      _nexteuropa_newsroom_disable_importer($disabled, $disabling);
+      cache_clear_all('plugins:feeds:plugins', 'cache');
       break;
   }
 }
@@ -791,7 +817,7 @@ function _nexteuropa_newsroom_languages() {
  * @param string $importer_ids
  *   The id of the importer to disable or enable.
  */
-function _nexteuropa_newsroom_disable_importer($disabled, $importer_ids) {
+function _nexteuropa_newsroom_disable_importer($disabled, $importer_ids, $toggle = FALSE) {
   $importers = feeds_importer_load_all(TRUE);
 
   foreach ($importers as $importer) {
@@ -799,7 +825,9 @@ function _nexteuropa_newsroom_disable_importer($disabled, $importer_ids) {
       $disabled[$importer->id] = TRUE;
     }
     else {
-      $disabled[$importer->id] = FALSE;
+      if ($toggle) {
+        $disabled[$importer->id] = FALSE;
+      }
     }
   }
 

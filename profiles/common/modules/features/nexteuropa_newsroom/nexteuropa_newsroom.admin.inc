@@ -423,7 +423,7 @@ function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
     }
 
     // Toggle the default importers.
-    _nexteuropa_newsroom_disable_importer($disabled, $disabling);
+    _nexteuropa_newsroom_disable_importer($disabled, $disabling, TRUE);
   }
 
   // If the validation returns the confirm request.
