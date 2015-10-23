@@ -98,6 +98,7 @@ function splash_screen_preprocess_splash(&$variables) {
   });
 
   // Export variables to template.
+  $variables['icon'] = theme('nexteuropa_multilingual_language_icon');
   $variables['close_button'] = $close_button;
   $variables['languages_list'] = theme('nexteuropa_multilingual_language_list', [
     'languages' => $languages,
