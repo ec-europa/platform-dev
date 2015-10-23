@@ -75,22 +75,6 @@ function splash_screen_preprocess_splash(&$variables) {
   $href = $home_page;
   $options = array();
   $languages_blacklist = variable_get('splash_screen_blacklist', array());
-  $close_button = '';
-
-  // Prepare links href when destination is set.
-  // Use case: use site level language selector.
-  if (isset($_GET['destination'])) {
-    $href_array = parse_url($_GET['destination']);
-    $href = $href_array['path'];
-
-    if (isset($href_array['query'])) {
-      parse_str($href_array['query'], $parameters);
-      $options['query'] = $parameters;
-    }
-
-    // Also enable close button.
-    $close_button = l(t('Close'), $href, $options);
-  }
 
   // Compile list of enabled languages, if not in blacklist.
   $languages = array_filter(language_list('enabled')[1], function ($language) use ($languages_blacklist) {
@@ -99,7 +83,6 @@ function splash_screen_preprocess_splash(&$variables) {
 
   // Export variables to template.
   $variables['icon'] = theme('nexteuropa_multilingual_language_icon');
-  $variables['close_button'] = $close_button;
   $variables['languages_list'] = theme('nexteuropa_multilingual_language_list', [
     'languages' => $languages,
     'path' => $href,
