@@ -18,3 +18,10 @@
 .fieldset-description {
   padding: 10px 0;
 }
+
+#edit-newsroom-paths .form-item,
+#edit-newsroom-paths--1 .form-item,
+#edit-newsroom-paths--2 .form-item {
+	width:50%;
+	float:left;
+}

@@ -79,23 +79,6 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
         'method' => 'replace',
       ),
     );
-
-    $vocabulary = taxonomy_vocabulary_machine_name_load('newsroom_item_type');
-    $types = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
-    if (!empty($types)) {
-      foreach ($types as $tid => $type) {
-        $type_name = pathauto_cleanstring(strtolower($type->name));
-        $form['newsroom_others'][$type_name . '_rootpath'] = array(
-          '#type' => 'textfield',
-          '#title' => t('Pattern for %type', array('%type' => $type_name)),
-          '#required' => FALSE,
-          '#description' => t('You can define here a root path for your items basing on the item type. The default behavior is to have sections correponding to the types, so if you have two types like 
-            news and events you will get pattern like news/[node:title], events[node:title], you can override the root path for your elements here.'),
-          '#default_value' => variable_get('newsroom_' . $type_name . '_root', $type_name),
-          '#element_validate' => array('nexteuropa_newsroom_type_root_validate'),
-        );
-      }
-    }
   }
 
   $form['newsroom_others']['newsroom_block_by'] = array(
@@ -141,12 +124,61 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     ),
     '#default_value' => variable_get('newsroom_url_mode', 'name'),
   );
+
   $form['newsroom_others']['newsroom_proposal_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Newsroom proposal URL'),
     '#default_value' => variable_get('newsroom_proposal_url', NULL),
   );
 
+  $vocabulary = taxonomy_vocabulary_machine_name_load('newsroom_item_type');
+  $types = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
+  
+  if (!empty($types)) {
+    $form['newsroom_paths'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Newsroom content path settings'),
+      '#prefix' => '<div id="newsroom_reset">',
+      '#suffix' => '</div>',
+      '#description' => t("You can define here a root path for your items basing on the item type. The default behavior is to have sections correponding to the types, so if you have two types like 
+            news and events you will get pattern like news/[node:title], events/[node:title], you can override the root path for your elements here. Do not use leading por trailing slashes"),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+      '#access' => user_access('administer newsroom settings'),
+    );
+
+    foreach ($types as $tid => $type) {
+      $type_name = pathauto_cleanstring(strtolower($type->name));
+      $parents = taxonomy_get_parents($type->tid);
+      $parent = '';
+      
+      if (!empty($parents)) {
+        $parent = reset($parents);
+        $parent = pathauto_cleanstring(strtolower($parent->name)) . '/'; 
+      }
+
+      $form['newsroom_paths'][$type_name . '_rootpath'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Pattern for %type', array('%type' => $type_name)),
+        '#required' => FALSE,
+        '#description' => t('aliases pattern for the %type_name topic', array('%type_name' => $type_name)),
+        '#default_value' => variable_get('newsroom_' . $type_name . '_root', $parent . $type_name),
+        '#element_validate' => array('nexteuropa_newsroom_type_root_validate'),
+      );
+    }
+
+    $form['newsroom_paths']['reset'] = array(
+      '#type' => 'submit',
+      '#value' => 'Reset to the defaults',
+      '#ajax' => array(
+        'callback' => '_nexteuropa_newsroom_reset_paths',
+        'event' => 'click',
+        'wrapper' => 'newsroom_reset',
+        'effect' => 'fade',
+        'method' => 'replace',
+      ),
+    );
+  }
   // Settings about the newsroom fields.
   $form['newsroom_fields'] = array(
     '#type' => 'fieldset',
@@ -513,5 +545,42 @@ function nexteuropa_newsroom_universe_id_validate($element, &$form_state) {
  * Implements hook_validate().
  */
 function nexteuropa_newsroom_type_root_validate($element, &$form_state) {
-  return pathauto_cleanstring($element['#value']);
+  $value = preg_replace('@^/|/$@', '', $element['#value']);
+  $value_array = explode('/', $value);
+  $pattern = '';
+
+  for ($i = 1; $i <= count($value_array); $i++) {
+    $segment = pathauto_cleanstring($value_array[$i - 1]);
+    $pattern .= $segment;
+    if ($i < count($value_array) && $segment != '') {
+      $pattern .= '/';
+    }
+  }
+
+  if ($form_state['values'][$element['#name']] != $pattern) {
+    drupal_set_message(t('The value for the %el has been modified. BEFORE: %or ::: AFTER: %mod', array('%el' =>  $element['#name'], '%or' => $form_state['values'][$element['#name']], '%mod' => $pattern)), 'warning');
+    $form_state['values'][$element['#name']] = $pattern;
+  }
+}
+
+/**
+ * Reset values in the path patterns field for the newsroom items.
+ */
+function _nexteuropa_newsroom_reset_paths($form, &$form_state) {
+  $vocabulary = taxonomy_vocabulary_machine_name_load('newsroom_item_type');
+  $types = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
+
+  foreach ($types as $tid => $type) {
+    $type_name = pathauto_cleanstring(strtolower($type->name));
+    $parents = taxonomy_get_parents($type->tid);
+    $parent = '';
+
+    if (!empty($parents)) {
+      $parent = reset($parents);
+      $parent = pathauto_cleanstring(strtolower($parent->name)) . '/'; 
+    }
+
+    $form['newsroom_paths'][$type_name . '_rootpath']['#value'] = $parent . $type_name;
+  }
+  return $form['newsroom_paths'];
 }
