@@ -147,11 +147,18 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
       '#access' => user_access('administer newsroom settings'),
     );
 
+    $form['newsroom_paths']['patterns'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Do you want to take over the configuration of pattern for node aliases?'),
+      '#description' => t('if this is unchecked the newsroom will not alter the aliases for its nodes.'),
+      '#default_value' => variable_get('newsroom_patterns', FALSE),
+    );
+
     foreach ($types as $tid => $type) {
       $type_name = pathauto_cleanstring(strtolower($type->name));
       $parents = taxonomy_get_parents($type->tid);
       $parent = '';
-      
+
       if (!empty($parents)) {
         $parent = reset($parents);
         $parent = pathauto_cleanstring(strtolower($parent->name)) . '/'; 
@@ -414,18 +421,25 @@ function nexteuropa_newsroom_admin_settings_form_validate($form, &$form_state) {
  */
 function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
   $multilingual = $form_state['values']['multilingual'] == 1 ? TRUE : FALSE;
-
+  $patterns = $form_state['values']['patterns'] == 1 ? TRUE : FALSE;
+  $keys = array_keys($form_state['values']);
+  $rootpaths = preg_grep('/rootpath/', $keys);
   // Shouldn't be needed, it is a setting form.
-  if ($multilingual) {
-    $keys = array_keys($form_state['values']);
-    $rootpaths = preg_grep('/rootpath/', $keys);
-
-    if (!empty($rootpaths)) {
-      foreach ($rootpaths as $type) {
-        $typename = str_replace('_rootpath', '', $type);
-        variable_set('newsroom_' . $typename . '_root', $form_state['values'][$type]);
-      }
+  if (!empty($rootpaths)) {
+    foreach ($rootpaths as $type) {
+      $typename = str_replace('_rootpath', '', $type);
+      variable_set('newsroom_' . $typename . '_root', $form_state['values'][$type]);
     }
+  }
+
+  if ($patterns) {
+    variable_set('newsroom_patterns', 1);
+  }
+  else {
+    variable_set('newsroom_patterns', 0);
+  }
+
+  if ($multilingual) {
     variable_set('newsroom_multilingual', 1);
   }
   else {

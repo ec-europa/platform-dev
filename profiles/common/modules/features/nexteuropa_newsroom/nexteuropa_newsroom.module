@@ -1271,13 +1271,14 @@ function _nexteuropa_newsroom_check_translations($premapping) {
  * Implements hook_node_presave().
  */
 function nexteuropa_newsroom_node_presave($node) {
-  if ($node->type == 'newsroom_item') {
+  if ($node->type == 'newsroom_item' && variable_get('newsroom_patterns', FALSE)) {
     // Get all the types.
     if (isset($node->field_newsroom_item_type['und'][0]['tid'])) {
       $type_tid = $node->field_newsroom_item_type['und'][0]['tid'];
       $type = pathauto_cleanstring(strtolower(taxonomy_term_load($type_tid)->name));
       $conf = variable_get('newsroom_' . $type . '_root', FALSE);
       if ($conf) {
+        $node->path['pathauto'] = FALSE;
         $node->path['alias'] = $conf . '/' . pathauto_cleanstring($node->title);
       }
     }
