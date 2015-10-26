@@ -84,3 +84,4 @@ projects[context_entity_field][patch][] = ../multisite_drupal_core/patches/add-e
 
 projects[drupal][patch][] = ../multisite_drupal_core/patches/SA-CORE-2015-002-D7.patch
 projects[drupal][patch][] = ../multisite_drupal_core/patches/SA-CORE-2015-003.patch
+projects[drupal][patch][] = ../multisite_drupal_core/patches/SA-CORE-2015-004.patch
