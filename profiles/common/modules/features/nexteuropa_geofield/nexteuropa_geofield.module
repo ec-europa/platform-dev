@@ -322,9 +322,20 @@ function _nexteuropa_geofield_get_geojson($node) {
  * Implements hook_node_validate().
  */
 function nexteuropa_geofield_node_validate($node, $form, &$form_state) {
-  // When the node form is not valid, custom javascripts must be loaded.
-  $field_instance = $form_state['field']['field_geo'][LANGUAGE_NONE];
-  drupal_add_js(array('nexteuropa_geojson' => array('map' => $node->field_geo['und'][0]['geofield_geojson'])), 'setting');
-  drupal_add_js(array('nexteuropa_geojson' => array('settings' => $field_instance['instance']['widget']['settings'])), 'setting');
-  drupal_add_js(array('nexteuropa_geojson' => array('cardinality' => $field_instance['field']['cardinality'])), 'setting');
+  $check_errors = form_get_errors();
+  // Add the nexteuropa_geofield javascript files only if the form is not valid.
+  if (count($check_errors) > 0) {
+    $fields_info = field_info_instances('node', $node->type);
+    foreach ($fields_info as $field_name => $value) {
+      $field_info = field_info_field($field_name);
+      $type = $field_info['type'];
+      // Add the javascript files if there is a geofield_geojson field.
+      if ($type == 'geofield_geojson') {
+        $field_instance = $form_state['field'][$field_name][LANGUAGE_NONE];
+        drupal_add_js(array('nexteuropa_geojson' => array('map' => $node->{$field_name}['und'][0]['geofield_geojson'])), 'setting');
+        drupal_add_js(array('nexteuropa_geojson' => array('settings' => $field_instance['instance']['widget']['settings'])), 'setting');
+        drupal_add_js(array('nexteuropa_geojson' => array('cardinality' => $field_instance['field']['cardinality'])), 'setting');
+      }
+    }
+  }
 }
