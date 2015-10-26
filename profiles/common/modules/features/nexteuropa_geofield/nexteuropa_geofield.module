@@ -317,3 +317,14 @@ function _nexteuropa_geofield_get_geojson($node) {
   print $geojson_data;
   drupal_exit();
 }
+
+/**
+ * Implements hook_node_validate().
+ */
+function nexteuropa_geofield_node_validate($node, $form, &$form_state) {
+  // When the node form is not valid, custom javascripts must be loaded.
+  $field_instance = $form_state['field']['field_geo'][LANGUAGE_NONE];
+  drupal_add_js(array('nexteuropa_geojson' => array('map' => $node->field_geo['und'][0]['geofield_geojson'])), 'setting');
+  drupal_add_js(array('nexteuropa_geojson' => array('settings' => $field_instance['instance']['widget']['settings'])), 'setting');
+  drupal_add_js(array('nexteuropa_geojson' => array('cardinality' => $field_instance['field']['cardinality'])), 'setting');
+}
