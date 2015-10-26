@@ -26,7 +26,7 @@
             i = 0;
             for (key in drawnItems._layers) {
                 layer_properties = drawnItems._layers[key].feature.properties;
-                if (layer_properties.name && layer_properties.description) {
+                if (layer_properties.name || layer_properties.description) {
                     popup_content = buildPopupContent(key, layer_properties.name, layer_properties.description);
                     drawnItems._layers[key].bindPopup(popup_content);
                 }
