@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * multisite_readspeaker.features.user_permission.inc
+ * Multisite_readspeaker.features.user_permission.inc.
  */
 
 /**

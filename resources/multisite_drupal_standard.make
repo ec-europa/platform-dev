@@ -13,31 +13,42 @@ includes[] = "drupal-core.make"
 ; ===================
 
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.0-rc4"
-projects[admin_menu][patch][] = patches/admin_menu-correctly_display-2360249-74.patch
-projects[admin_menu][patch][] = patches/admin_menu-ie6detect-1961178-2.patch
-projects[admin_menu][patch][] = patches/admin_menu-undefined_index_name-1997386-3.patch
+projects[admin_menu][version] = "3.0-rc5"
 
 projects[advagg][subdir] = "contrib"
-projects[advagg][version] = "2.7"
+projects[advagg][version] = "2.16"
 
 projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.3"
 
 projects[apachesolr][subdir] = "contrib"
 projects[apachesolr][version] = "1.7"
-projects[apachesolr][patch][] = patches/apachesolr-attachment_indexation-481.patch
-projects[apachesolr][patch][] = patches/apachesolr-invalidate-caches-new-node-type-2178283.patch
-projects[apachesolr][patch][] = patches/apachesolr-multiples_dates-4335.patch
-projects[apachesolr][patch][] = patches/apachesolr_search-overwritten_menu_items.patch
+; Issue #2178283 : Apache Solr doesn't invalidate its caches when inserting a new node type.
+; https://drupal.org/node/2178283
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2890
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-invalidate-caches-new-node-type-2178283.patch
+; Issue #1649158 : Date Facets (without a time) can show in Multiple Months.
+; https://drupal.org/node/1649158
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4335
+projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple-dates-hack-1649158-15.patch
+; Issue #2446419 : Incorrect display of some main menu items and browser tab titles on some pages.
+; https://www.drupal.org/node/2446419
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
-projects[apachesolr_attachments][version] = "1.3"
-projects[apachesolr_attachments][patch][] = patches/apachesolr_attachments-empty_parent_entity_id.patch
-projects[apachesolr_attachments][patch][] = patches/apachesolr_attachments-bypass_deadlocks-1854088-9.patch
+projects[apachesolr_attachments][version] = "1.4"
+; Issue #2581925 : Empty parent_entity_id in apachesolr_index_entities_file table.
+; https://www.drupal.org/node/2581925
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4224
+projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/apachesolr_attachments-empty_parent_entity_id-2581925-0.patch
+; Issue #1854088 : PDOException: SQLSTATE[40001]: Serialization failure: 1213 Deadlock found.
+; https://www.drupal.org/node/1854088
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3744
+projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/apachesolr_attachments-cleanup_efficiency_and_deadlock_chance_reduction-1854088-16.patch
 
 projects[apachesolr_multilingual][subdir] = "contrib"
-projects[apachesolr_multilingual][version] = "1.2"
+projects[apachesolr_multilingual][version] = "1.3"
 
 projects[apachesolr_multisitesearch][subdir] = "contrib"
 projects[apachesolr_multisitesearch][version] = "1.1"
@@ -46,17 +57,17 @@ projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
 
 projects[bean][subdir] = "contrib"
-projects[bean][version] = 1.7
+projects[bean][version] = 1.9
 
 projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.0-beta3"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta1"
-projects[better_formats][patch][] = patches/better_format-strict-warning-1717470-11.patch
+projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_format-strict-warning-1717470-11.patch
 
 projects[bootstrap_gallery][subdir] = "contrib"
-projects[bootstrap_gallery][version] = "3.0"
+projects[bootstrap_gallery][version] = "3.1"
 
 projects[captcha][subdir] = "contrib"
 projects[captcha][version] = "1.2"
@@ -66,15 +77,24 @@ projects[chosen][version] = 2.0-beta4
 
 projects[chr][subdir] = "contrib"
 projects[chr][version] = "1.6"
-projects[chr][patch][] = patches/chr-deprecated_call-5588.patch
-projects[chr][patch][] = patches/chr-patches.patch
-projects[chr][patch][] = patches/chr-1.6-patch-rewrite-header-host-without-standard-port-number.patch
+; Issue #2512054 : Call to legacy function curl_http_request. Please use chr_curl_http_request instead.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5588
+; https://www.drupal.org/node/2512054
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-deprecated_call-2512054-2.patch
+; Issue #2142949 : Receiving error message - Notice: Undefined offset: 1 in chr_curl_http_request().
+; https://www.drupal.org/node/2142949
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1944
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-undefined-index-1-due-response-without-payload.patch
+; Issue #2355631 : rewrite header host without port number.
+; https://www.drupal.org/node/2355631
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6231
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewrite-header-host-without-standard-port-number_0.patch
 
 projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
 
 projects[ckeditor_lite][subdir] = contrib
-projects[ckeditor_lite][version] = 1.0-rc1
+projects[ckeditor_lite][version] = 1.0-rc3
 
 projects[coffee][subdir] = "contrib"
 projects[coffee][version] = 2.2
@@ -83,10 +103,10 @@ projects[collapse_text][subdir] = "contrib"
 projects[collapse_text][version] = "2.4"
 
 projects[colorbox][subdir] = "contrib"
-projects[colorbox][version] = "2.8"
+projects[colorbox][version] = "2.10"
 
 projects[colors][subdir] = "contrib"
-projects[colors][version] = "1.0-beta2"
+projects[colors][version] = "1.0-rc1"
 
 projects[context][subdir] = "contrib"
 projects[context][version] = "3.6"
@@ -94,7 +114,7 @@ projects[context][patch][] = patches/context-slow_menu_items-873936-20.patch
 
 projects[context_entity_field][subdir] = "contrib"
 projects[context_entity_field][version] = "1.1"
-; Make condition work for entity references .
+; Make condition work for entity references.
 ; Patch implemented in DEV version.
 ; https://www.drupal.org/node/1847038
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5056
@@ -102,22 +122,30 @@ projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entit
 
 projects[css_injector][subdir] = "contrib"
 projects[css_injector][version] = "1.10"
-projects[css_injector][patch][] = patches/css_injector-add_upload_file-2506775-10.patch
+; Allow file upload with css injector
+; https://www.drupal.org/node/2506775
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6580
+projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload_files_v4.patch
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.8"
+projects[ctools][version] = "1.9"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.8"
+projects[date][version] = "2.9"
+; Issue #2305049: Wrong timezone handling in migrate process.
+; https://www.drupal.org/node/2305049
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
+projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.7"
+projects[ds][version] = "2.11"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
@@ -144,9 +172,8 @@ projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
 projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
 
-projects[eu-cookie-compliance][subdir] = "contrib"
-projects[eu-cookie-compliance][version] = "1.12"
-projects[eu-cookie-compliance][patch][] = patches/eu_cookie_compliance-unified_cookie-3449.patch
+projects[eu_cookie_compliance][subdir] = "contrib"
+projects[eu_cookie_compliance][version] = "1.14"
 
 projects[extlink][subdir] = "contrib"
 projects[extlink][version] = "1.18"
@@ -158,8 +185,11 @@ projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.3"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.3"
-projects[features][patch][] = patches/features-var-export-object-1437264-12.patch
+projects[features][version] = "2.7"
+; Issue #1437264: features_var_export is converting custom class objects to arrays if don't have export method
+; https://www.drupal.org/node/1437264
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4759
+projects[features][patch][] = https://www.drupal.org/files/issues/features-var-export-object-1437264-12_0.patch
 
 projects[feature_set][subdir] = "contrib"
 projects[feature_set][version] = "1.2"
@@ -168,14 +198,13 @@ projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteu
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-alpha9"
+projects[feeds][version] = "2.0-beta1"
 
 projects[feeds_tamper][subdir] = "contrib"
-projects[feeds_tamper][version] = "1.0"
+projects[feeds_tamper][version] = "1.1"
 
 projects[feeds_xpathparser][subdir] = "contrib"
-projects[feeds_xpathparser][version] = "1.0-beta4"
-projects[feeds_xpathparser][patch][] = patches/feeds_xpathparser-undefined_index_unique-1998194-2.patch
+projects[feeds_xpathparser][version] = "1.1"
 
 projects[field_collection][subdir] = "contrib"
 projects[field_collection][version] = "1.0-beta8"
@@ -184,22 +213,19 @@ projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.4"
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.0-beta1"
-; https://www.drupal.org/node/2351691
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6860
-projects[file_entity][patch][] = https://www.drupal.org/files/issues/Fix_file_entity_file_download-2351691-1.patch
+projects[file_entity][version] = "2.0-beta2"
 
 projects[filefield_sources][subdir] = "contrib"
-projects[filefield_sources][version] = "1.9"
+projects[filefield_sources][version] = "1.10"
 
 projects[filefield_sources_plupload][subdir] = "contrib"
 projects[filefield_sources_plupload][version] = "1.1"
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.5"
+projects[flag][version] = "3.6"
 
 projects[flexslider][subdir] = "contrib"
-projects[flexslider][version] = "2.0-alpha3"
+projects[flexslider][version] = "2.0-rc1"
 
 projects[flexslider_views_slideshow][download][revision] = "0b1f8e7e24c168d1820ccded63c319327d57a97e"
 projects[flexslider_views_slideshow][download][type] = "git"
@@ -208,15 +234,20 @@ projects[flexslider_views_slideshow][subdir] = "contrib"
 projects[fpa][subdir] = "contrib"
 projects[fpa][version] = "2.6"
 
-projects[freepager][download][revision] = "698effdfaf7573426ce24acf0ec622bfbf75fc73"
-projects[freepager][download][type] = "git"
-projects[freepager][download][url] = "http://git.drupal.org/project/freepager.git"
 projects[freepager][subdir] = "contrib"
+projects[freepager][version] = "2.x-dev"
 
 projects[fullcalendar][subdir] = "contrib"
 projects[fullcalendar][version] = "2.0"
-projects[fullcalendar][patch][] = patches/fullcalendar-ajax_date_format-2185449-11.patch
+; Issue #2185449: Using AJAX results in errors when scrolling through months
+; https://www.drupal.org/node/2185449
+projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/ajax_date_format-2185449-11.patch
 projects[fullcalendar][patch][] = patches/fullcalendar-views_dom_id_check-1803770-4.patch
+; Issue #2325549: AJAX doesn't work in jQuery 1.9+
+; https://www.drupal.org/node/2325549
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7373
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7237
+projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/2325549-jquery19_ajax.patch
 
 projects[geofield][subdir] = "contrib"
 projects[geofield][version] = "2.3"
@@ -231,13 +262,11 @@ projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.13"
 projects[i18n][patch][] = patches/i18n-hide_language_field-3996.patch
 
-projects[i18nviews][download][revision] = "26bd52c4664b0fec8155273f0c0f3ab8a5a2ef66"
-projects[i18nviews][download][type] = "git"
-projects[i18nviews][download][url] = "http://git.drupal.org/project/i18nviews.git"
 projects[i18nviews][subdir] = "contrib"
+projects[i18nviews][version] = "3.x-dev"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = 1.5
+projects[inline_entity_form][version] = "1.6"
 
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
@@ -258,13 +287,13 @@ projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "1.1"
 
 projects[language_cookie][subdir] = "contrib"
-projects[language_cookie][version] = "1.6"
+projects[language_cookie][version] = "1.9"
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.2"
+projects[link][version] = "1.3"
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
@@ -278,16 +307,13 @@ projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
 
 projects[maxlength][subdir] = "contrib"
-projects[maxlength][version] = "3.0-beta1"
-projects[maxlength][patch][] = patches/maxlength-indefined_index-2235.patch
-projects[maxlength][patch][] = patches/maxlength-prevent_undefined_index_error-1416608-3.patch
+projects[maxlength][version] = "3.2"
 
 projects[media][subdir] = contrib
 projects[media][download][branch] = 7.x-2.x
 projects[media][download][revision] = 64c5102
 projects[media][download][type] = git
 projects[media][patch][] = patches/media-wysiwyg-override-white-list-MULTISITE-2607.patch
-
 ; Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
 ; https://www.drupal.org/node/2401811
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
@@ -316,19 +342,19 @@ projects[media_node][version] = "1.0-rc2"
 projects[media_node][patch][] = patches/media_node-incorrect_permission_check-4273.patch
 
 projects[media_vimeo][subdir] = "contrib"
-projects[media_vimeo][version] = "2.0"
+projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "2.0-rc5"
 
 projects[menu_attributes][subdir] = "contrib"
-projects[menu_attributes][version] = "1.0-rc2"
+projects[menu_attributes][version] = "1.0-rc3"
 projects[menu_attributes][patch][] = patches/menu_attributes-add_icon_for_menu_item-2327.patch
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_disable_css_class-2988.patch
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_hide_children-6757.patch
 
 projects[menu_block][subdir] = "contrib"
-projects[menu_block][version] = "2.4"
+projects[menu_block][version] = "2.7"
 projects[menu_block][patch][] = patches/menu_block-jqueryUI_issue-5211.patch
 
 projects[menu_token][subdir] = "contrib"
@@ -336,16 +362,22 @@ projects[menu_token][version] = "1.0-beta5"
 projects[menu_token][patch][] = patches/menu_token-link_uuid_menu_items_can_not_be_edited-2005556-2.patch
 
 projects[message][subdir] = "contrib"
-projects[message][version] = "1.7"
+projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.6"
+projects[metatag][version] = "1.7"
 
-projects[migrate][subdir] = "contrib"
-projects[migrate][version] = "2.7"
+; A recent version of the Migrate module is pinned that contains a fix for
+; https://www.drupal.org/node/2504517
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
+; Todo: revert back to the stable version when Migrate 7.x-2.9 is released.
+projects[migrate][download][branch] = 7.x-2.x
+projects[migrate][download][revision] = 046c6ad
+projects[migrate][download][type] = git
+projects[migrate][subdir] = contrib
 
 projects[mimemail][subdir] = "contrib"
-projects[mimemail][version] = "1.0-beta3"
+projects[mimemail][version] = "1.0-beta4"
 
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
@@ -366,7 +398,7 @@ projects[om_maximenu][subdir] = "contrib"
 projects[om_maximenu][version] = "1.44"
 
 projects[password_policy][subdir] = "contrib"
-projects[password_policy][version] = "2.0-alpha4"
+projects[password_policy][version] = "2.0-alpha5"
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
@@ -380,7 +412,7 @@ projects[piwik][subdir] = "contrib"
 projects[piwik][version] = "2.7"
 
 projects[plupload][subdir] = "contrib"
-projects[plupload][version] = "1.3"
+projects[plupload][version] = "1.7"
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
@@ -396,16 +428,16 @@ projects[rate][version] = "1.7"
 projects[rate][patch][] = patches/rate-translate_description-1178.patch
 
 projects[realname][subdir] = "contrib"
-projects[realname][version] = "1.1"
+projects[realname][version] = "1.2"
 
 projects[registration][subdir] = "contrib"
-projects[registration][version] = "1.3"
+projects[registration][version] = "1.6"
 
 projects[registry_autoload][subdir] = "contrib"
-projects[registry_autoload][version] = 1.2
+projects[registry_autoload][version] = 1.3
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.8"
+projects[rules][version] = "2.9"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.3
@@ -421,7 +453,7 @@ projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
 
 projects[site_map][subdir] = "contrib"
-projects[site_map][version] = "1.0"
+projects[site_map][version] = "1.3"
 
 projects[smart_trim][subdir] = "contrib"
 projects[smart_trim][version] = 1.5
@@ -476,7 +508,7 @@ projects[user_field_privacy][subdir] = "contrib"
 projects[user_field_privacy][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.0-alpha5"
+projects[uuid][version] = "1.0-beta1"
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
@@ -504,27 +536,25 @@ projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 
 projects[views_data_export][subdir] = "contrib"
-projects[views_data_export][version] = "3.0-beta7"
+projects[views_data_export][version] = "3.0-beta8"
 
-projects[views_datasource][download][revision] = "6e9b6b980fc2826b09391ae1c2ec0c5a85c6c24a"
-projects[views_datasource][download][type] = "git"
-projects[views_datasource][download][url] = "http://git.drupal.org/project/views_datasource.git"
+projects[views_datasource][version] = "1.0-alpha2"
 projects[views_datasource][subdir] = "contrib"
 
 projects[views_litepager][subdir] = "contrib"
 projects[views_litepager][version] = "3.0"
 
 projects[views_slideshow][subdir] = "contrib"
-projects[views_slideshow][version] = "3.0"
+projects[views_slideshow][version] = "3.1"
 
 projects[views_slideshow_slider][subdir] = "contrib"
 projects[views_slideshow_slider][version] = "3.0"
 
 projects[votingapi][subdir] = "contrib"
-projects[votingapi][version] = "2.11"
+projects[votingapi][version] = "2.12"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.9"
+projects[webform][version] = "4.11"
 projects[webform][patch][] = patches/webform-use_ecas_link-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
@@ -534,11 +564,14 @@ projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
 
 projects[workbench_access][subdir] = "contrib"
-projects[workbench_access][version] = "1.2"
-projects[workbench_access][patch][] = patches/workbench_access-fix_php_issues-4517.patch
+projects[workbench_access][version] = "1.4"
 
 projects[workbench_email][subdir] = "contrib"
-projects[workbench_email][version] = "3.4"
+projects[workbench_email][version] = "3.5"
+; Issue #2501321: Add email subject and message to Features.
+; https://www.drupal.org/node/2501321
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
+projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"
@@ -557,10 +590,11 @@ projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
 
 projects[xml_field][subdir] = "contrib"
-projects[xml_field][version] = "1.5"
+projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.0"
+projects[xmlsitemap][version] = "2.2"
+
 
 projects[feeds_et][subdir] = "contrib"
 projects[feeds_et][version] = "1.x-dev"
@@ -599,6 +633,14 @@ libraries[ckeditor_lite][download][file_type] = "zip"
 libraries[ckeditor_lite][download][url] = http://download.ckeditor.com/lite/releases/lite_1.1.30.zip
 libraries[ckeditor_lite][subdir] = ckeditor/plugins
 libraries[ckeditor_lite][directory_name] = "lite"
+
+; ckeditor_moono specific skin : moonocolor
+libraries[ckeditor_moono][download][type]= "file"
+libraries[ckeditor_moono][download][request_type]= "get"
+libraries[ckeditor_moono][download][file_type] = "zip"
+libraries[ckeditor_moono][download][url] = "http://download.ckeditor.com/moonocolor/releases/moonocolor_4.5.1.zip"
+libraries[ckeditor_moono][destination] = "../common/modules/features/multisite_wysiwyg/ckeditor/skins"
+libraries[ckeditor_moono][directory_name] = "moonocolor"
 
 ; cycle 3.0.2 (commit d6557ca)
 libraries[cycle][download][type] = "git"
@@ -682,41 +724,77 @@ libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
 libraries[mpdf][destination] = "libraries"
 
-; ============================
+; Leaflet
+libraries[leaflet][destination] = "libraries"
+libraries[leaflet][download][type] = "file"
+libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip"
+libraries[leaflet][directory_name] = "leaflet"
+=======
+; ===========================
 ; Libraries for Ec_resp Theme
-; ============================
+; ===========================
 
-; Ec_resp theme : Bootstrap 3.3.5
+; Ec_resp theme: Bootstrap 3.3.5
 libraries[ec_resp_bootstrap][download][type] = get
 libraries[ec_resp_bootstrap][download][url] = https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip
 libraries[ec_resp_bootstrap][download][file_type] = "zip"
 libraries[ec_resp_bootstrap][destination] =  "themes/ec_resp"
 libraries[ec_resp_bootstrap][directory_name] = bootstrap
 
-; Ec_resp theme : Bootstrap less
+; Ec_resp theme: Bootstrap less
 libraries[ec_resp_bootstrap_less][download][type] = "get"
 libraries[ec_resp_bootstrap_less][download][url] = "https://github.com/twbs/bootstrap/archive/v3.3.5.zip"
 libraries[ec_resp_bootstrap_less][download][subtree] = "bootstrap-3.3.5/less"
 libraries[ec_resp_bootstrap_less][destination] =  "themes/ec_resp/bootstrap"
 libraries[ec_resp_bootstrap_less][directory_name] = less
 
-; Ec_resp theme : Html5
+; Ec_resp theme: Html5
 libraries[html5shiv][destination] = "themes/ec_resp"
 libraries[html5shiv][directory_name] = "scripts"
 libraries[html5shiv][download][type] = "get"
 libraries[html5shiv][download][url] = "https://raw.githubusercontent.com/aFarkas/html5shiv/master/dist/html5shiv.min.js"
 
-; Ec_resp theme : jQuery Mousewheel
+; Ec_resp theme: jQuery Mousewheel
 libraries[mousewheel][destination] = "themes/ec_resp"
 libraries[mousewheel][directory_name] = "scripts"
 libraries[mousewheel][download][type] = "get"
 libraries[mousewheel][download][url] = "https://raw.githubusercontent.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"
 
-; Ec_resp theme : Respond JS
+; Ec_resp theme: Respond JS
 libraries[respond][destination] = "themes/ec_resp"
 libraries[respond][directory_name] = "scripts"
 libraries[respond][download][type] = "get"
 libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
+
+
+; ==============================
+; Libraries for Ec_resp_17 Theme
+; ==============================
+
+; Ec_resp_17 theme: Bootstrap 3.1.1
+libraries[ec_resp_17_bootstrap][download][type] = get
+libraries[ec_resp_17_bootstrap][download][url] = https://github.com/twbs/bootstrap/releases/download/v3.1.1/bootstrap-3.1.1-dist.zip
+libraries[ec_resp_17_bootstrap][download][file_type] = "zip"
+libraries[ec_resp_17_bootstrap][destination] =  "themes/ec_resp_17"
+libraries[ec_resp_17_bootstrap][directory_name] = bootstrap
+
+libraries[ec_resp_17_bootstrap_less][download][type] = "get"
+libraries[ec_resp_17_bootstrap_less][download][url] = "https://github.com/twbs/bootstrap/archive/v3.1.1.zip"
+libraries[ec_resp_17_bootstrap_less][download][subtree] = "bootstrap-3.1.1/less"
+libraries[ec_resp_17_bootstrap_less][destination] =  "themes/ec_resp_17/bootstrap"
+libraries[ec_resp_17_bootstrap_less][directory_name] = less
+
+; Ec_resp_17 theme: jQuery Mousewheel
+libraries[ec_resp_17_mousewheel][destination] = "themes/ec_resp_17"
+libraries[ec_resp_17_mousewheel][directory_name] = "scripts"
+libraries[ec_resp_17_mousewheel][download][type] = "get"
+libraries[ec_resp_17_mousewheel][download][url] = "https://raw.githubusercontent.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"
+
+; Ec_resp_17 theme: Respond JS
+libraries[ec_resp_17_respond][destination] = "themes/ec_resp_17"
+libraries[ec_resp_17_respond][directory_name] = "scripts"
+libraries[ec_resp_17_respond][download][type] = "get"
+libraries[ec_resp_17_respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
 
 ; ======
 ; Themes

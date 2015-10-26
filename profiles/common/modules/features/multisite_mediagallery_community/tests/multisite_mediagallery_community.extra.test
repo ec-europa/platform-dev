@@ -3,7 +3,8 @@
 /**
  * @file
  * Tests for mediagallery_community feature.
- * ECWeb MULTISITE Feature Test
+ *
+ * ECWeb MULTISITE Feature Test.
  */
 
 /**
@@ -170,4 +171,5 @@ class MultisiteMediaGalleryCommunityFeatureTest extends DrupalWebTestCase {
     // Return the user we have created.
     return user_save($user);
   }
+
 }

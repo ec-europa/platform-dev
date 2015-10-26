@@ -130,7 +130,7 @@ global $base_url;
     </div>
   </div><!-- /#layout-header -->
   
-  <div class="region-featured-wrapper <?php if ($has_responsive_sidebar): print 'sidebar-visible-sm'; endif ?>">
+  <div class="region-featured-wrapper <?php if ($has_responsive_sidebar): print 'sidebar-visible-sm'; endif; ?>">
     <?php if ($menu_visible || $has_responsive_sidebar): ?>
       <div class="mobile-user-bar navbar navbar-default visible-xs" data-spy="affix" data-offset-top="82">
         <div class="container">

@@ -10,7 +10,7 @@
 function multisite_translations_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_job_reference'
+  // Exported field_base: 'field_job_reference'.
   $field_bases['field_job_reference'] = array(
     'active' => 1,
     'cardinality' => 1,

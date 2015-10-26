@@ -3,7 +3,8 @@
 /**
  * @file
  * Tests for multisite_mediagallery_standard.module.
- * ECWeb MULTISITE Feature Test
+ *
+ * ECWeb MULTISITE Feature Test.
  */
 
 /**
@@ -100,4 +101,5 @@ class MultisiteMediaGalleryStandardFeatureTest extends DrupalWebTestCase {
     $this->drupalPost('node/add/gallerymedia', $edit, t('Save'));
     $this->assertText(t('Media Gallery @title has been created.', array('@title' => $edit['title'])), 'A Media Gallery test node has been successfully created', 'API');
   }
+
 }

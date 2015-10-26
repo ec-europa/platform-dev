@@ -10,7 +10,7 @@
 function multisite_metatags_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_meta_classification'
+  // Exported field_base: 'field_meta_classification'.
   $field_bases['field_meta_classification'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -45,7 +45,7 @@ function multisite_metatags_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_meta_description'
+  // Exported field_base: 'field_meta_description'.
   $field_bases['field_meta_description'] = array(
     'active' => 1,
     'cardinality' => 1,

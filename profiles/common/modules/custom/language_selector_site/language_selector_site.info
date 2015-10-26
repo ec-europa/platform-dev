@@ -1,7 +1,7 @@
 name = Language selector (Site)
 description = Manage language selector at site level.
 core = 7.x
-dependencies[] = splash_screen
+dependencies[] = multisite_drupal_toolbox
 
 version = "7.x-1.0"
 project = "language_selector_site"

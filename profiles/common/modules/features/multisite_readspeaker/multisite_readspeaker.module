@@ -86,7 +86,7 @@ function _multisite_readspeaker_language_list() {
     'nl' => array(
       'langid' => 'nl_nl',
       'alttext' => 'Laat de tekst voorlezen met ReadSpeaker',
-      ),
+    ),
     'nb' => array(
       'langid' => 'no_nb',
       'alttext' => 'Lytt til denne siden med ReadSpeaker',
@@ -128,7 +128,7 @@ function _multisite_readspeaker_language_list() {
 /**
  * Implements hook_menu().
  *
- * Insert 'ReadSpeaker' link into content management menu
+ * Insert 'ReadSpeaker' link into content management menu.
  */
 function multisite_readspeaker_menu() {
   $items = array();
@@ -263,7 +263,7 @@ function multisite_readspeaker_form($form, &$form_state) {
 /**
  * Implements hook_permission().
  *
- * Insert 'display ReadSpeaker' permission
+ * Insert 'display ReadSpeaker' permission.
  */
 function multisite_readspeaker_permission() {
   return array(
@@ -277,7 +277,7 @@ function multisite_readspeaker_permission() {
 }
 
 /**
- * Implementation of hook_block_info().
+ * Implements hook_block_info().
  */
 function multisite_readspeaker_block_info() {
   $blocks = array();
@@ -288,16 +288,15 @@ function multisite_readspeaker_block_info() {
 }
 
 /**
- * Implementation of hook_block_view().
+ * Implements hook_block_view().
  */
-function multisite_readspeaker_block_view($delta='') {
+function multisite_readspeaker_block_view($delta = '') {
   $block = array();
   switch ($delta) {
-    case 'readspeaker_player': {
+    case 'readspeaker_player':
       $block['subject'] = NULL;
       $block['content'] = theme('multisite_readspeaker_button');
       break;
-    }
   }
   return $block;
 }
@@ -305,7 +304,7 @@ function multisite_readspeaker_block_view($delta='') {
 /**
  * Implements hook_node_view().
  *
- * Insert 'ReadSpeaker' button in the node
+ * Insert 'ReadSpeaker' button in the node.
  */
 function multisite_readspeaker_node_view($node, $build_mode = 'full') {
   $node_types = variable_get('readspeaker_nodes', array());
@@ -322,7 +321,7 @@ function multisite_readspeaker_node_view($node, $build_mode = 'full') {
 /**
  * Implements hook_taxonomy_term_view_alter().
  *
- * Insert 'ReadSpeaker' button in the taxonomy term
+ * Insert 'ReadSpeaker' button in the taxonomy term.
  */
 function multisite_readspeaker_taxonomy_term_view_alter(&$build) {
   $readspeaker_vocabularies = variable_get('readspeaker_vocabularies', array());
@@ -373,19 +372,21 @@ function theme_multisite_readspeaker_button() {
       $button_style = "";
     }
 
-    // set the default readspeaker language.
+    // Set the default readspeaker language.
     $readspeaker_languages = _multisite_readspeaker_language_list();
     $default_langid        = variable_get('readspeaker_langid', FALSE);
     $readspeaker_langcode  = $readspeaker_languages[$default_langid]['langid'];
 
-    // detect node language or drupal language in case node is neutral or not a node.
+    // Detect node language or drupal language in case
+    // node is neutral or not a node.
     if ($node && $node->language !== LANGUAGE_NONE) {
       $langid = $node->language;
     }
     else {
       $langid = $language->language;
     }
-    // if current language is defined in the settings, use the appropriate language instead of default
+    // If current language is defined in the settings,
+    // use the appropriate language instead of default.
     if (isset($readspeaker_languages[$langid])) {
       // @TODO the language might not be available for the current readspeaker account
       $readspeaker_langcode = $readspeaker_languages[$langid]['langid'];
@@ -397,7 +398,7 @@ function theme_multisite_readspeaker_button() {
     $path = url(current_path(), array('https' => ($protocol == 'https'), 'absolute' => TRUE));
     $read_id = variable_get('readspeaker_readid', 'block-system-main');
 
-    // Create output
+    // Create output.
     $output = '<!-- RS_MODULE_CODE -->';
     $output .= '<div id="readspeaker_button1" class="rs_skip rsbtn rs_preserve"' . $button_style . '>
     <a class="rsbtn_play" accesskey="L" title="Listen to this page using ReadSpeaker" href="' . $protocol . '://app.eu.readspeaker.com/cgi-bin/rsent?customerid=' . $accountid . '&amp;lang=' . $readspeaker_langcode . '&amp;readid=' . $read_id . '&amp;url=' . urlencode($path) . '">

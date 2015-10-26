@@ -133,7 +133,7 @@ function version_management_node_presave($node) {
     else {
       // Manage the second node_save when workbench_moderation is used.
       $minor_version_nids = variable_get('minor_version_nids');
-      if (isset($minor_version_nids[$node->nid])) {
+      if (isset($node->nid) && isset($minor_version_nids[$node->nid])) {
         unset($node->changed);
         $node->timestamp = $node->original->workbench_moderation['current']->timestamp;
         if ($node->workbench_moderation['updating_live_revision']) {

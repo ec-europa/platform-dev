@@ -5,7 +5,7 @@ INSTALLATION:
 
 2. The module needs the jstree library.
    Download the jstree libray at http://www.jstree.com
-   Unzip the archive in the directory sites/all/libraries
+   Unzip the archive in the libraries directory
    
 3. Enable the module
 
@@ -31,4 +31,4 @@ settings of the module (contextual filter like => Content: Has taxonomy term ID 
 REQUIREMENTS:
 ------------
 
-1. The module needs the jstree library installed in the sites/all/libraries directory
+1. The module needs the jstree library installed in the libraries directory

@@ -2,24 +2,10 @@
 
 /**
  * @file
- * Install the feature multisite_metatags
+ * Install the feature multisite_metatags.
  */
 
 include_once 'multisite_metatags.install.inc';
-
-/**
- * Implements hook_install().
- */
-function multisite_metatags_install() {
-  // Nothing yet.
-}
-
-/**
- * Implements hook_uninstall().
- */
-function multisite_metatags_uninstall() {
-  // Nothing yet.
-}
 
 /**
  * Implements hook_enable().

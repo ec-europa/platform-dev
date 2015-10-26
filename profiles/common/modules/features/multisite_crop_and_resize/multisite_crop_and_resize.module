@@ -85,10 +85,10 @@ function multisite_crop_and_resize_media_format_form_prepare_alter(&$form, $form
     );
 
     $image_style_options = image_style_options(FALSE);
+    $title = t('Current format is:', array(), array('context' => 'Media crop'));
     $form['image_edit_elements'][$top_container_key]['image_style'] = array(
       '#type' => 'select',
-      '#title' => t('Current format is:', array(), array(
-        'context' => 'Media crop')),
+      '#title' => $title,
       '#weight' => -2,
       '#options' => $image_style_options + array(
         '-1' => t('None'),
@@ -313,6 +313,7 @@ function multisite_crop_and_resize_media_format_form_prepare_alter(&$form, $form
 
     // Create width, height, x, y fields.
     foreach (array('width', 'height', 'x', 'y', 'rotate') as $name) {
+      // @codingStandardsIgnoreStart : Ignore the variable translation
       $form[$name] = array(
         '#title' => t(ucfirst($name), array(), array('context' => 'Media crop')),
         '#title_display' => 'invisible',
@@ -324,6 +325,7 @@ function multisite_crop_and_resize_media_format_form_prepare_alter(&$form, $form
         ),
         '#theme_wrappers' => array(),
       );
+      // @codingStandardsIgnoreEnd
     }
 
     $form['#attached']['css'][] = drupal_get_path('module', 'media_crop') . "/css/media_crop.base.css";

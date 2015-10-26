@@ -10,7 +10,7 @@
 function multisite_mediagallery_core_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_picture_upload'
+  // Exported field_base: 'field_picture_upload'.
   $field_bases['field_picture_upload'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -40,7 +40,7 @@ function multisite_mediagallery_core_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_video_upload'
+  // Exported field_base: 'field_video_upload'.
   $field_bases['field_video_upload'] = array(
     'active' => 1,
     'cardinality' => -1,
