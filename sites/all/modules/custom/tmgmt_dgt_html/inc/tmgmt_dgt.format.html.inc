@@ -76,9 +76,17 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
    */
   public function validateImport($imported_file) {
     $dom = new DOMDocument();
-    if (!$dom->loadHTML($imported_file)) {
-      return FALSE;
+    if (file_exists($imported_file)) {
+      if (!$dom->loadHTMLFile($imported_file)) {
+        return FALSE;
+      }
     }
+    else {
+      if (!$dom->loadHTML($imported_file)) {
+        return FALSE;
+      }
+    }
+
     $xml = simplexml_import_dom($dom);
 
     // Collect meta information.
@@ -120,7 +128,12 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
    */
   protected function getXml($imported_file) {
     $dom = new DOMDocument();
-    $dom->loadHTML($imported_file);
+    if (file_exists($imported_file)) {
+      $dom->loadHTMLFile($imported_file);
+    }
+    else {
+      $dom->loadHTML($imported_file);
+    }
 
     return simplexml_import_dom($dom);
   }
