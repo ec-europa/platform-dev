@@ -34,7 +34,7 @@ function newsroom_update_7101() {
 function newsroom_update_7102() {
   $old_newsroom = variable_get('newsroom_universe_root', FALSE);
   if ($old_newsroom) {
-    $id = substr($old_newsroom, strrpos($old_newsroom, '/') + 1);
+    $id = drupal_substr($old_newsroom, strrpos($old_newsroom, '/') + 1);
     variable_set('newsroom_universe_id', $id);
     variable_del('newsroom_universe_root');
   }

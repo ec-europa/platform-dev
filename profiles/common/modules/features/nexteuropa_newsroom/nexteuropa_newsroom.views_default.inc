@@ -1394,7 +1394,7 @@ function nexteuropa_newsroom_views_default_views() {
 
   $export['newsroom_navigation'] = $view;
 
- $view = new view();
+  $view = new view();
   $view->name = 'newsroom_page_content';
   $view->description = '';
   $view->tag = 'newsroom';
@@ -1795,7 +1795,7 @@ function nexteuropa_newsroom_views_default_views() {
     t('[field_newsroom_item_main_link]'),
     t('[title]'),
     t('deadline: [field_newsroom_item_date]'),
-    t('[field_newsroom_item_venue], '),
+    t('[field_newsroom_item_venue],'),
     t('Read more'),
     t('<p>[field_shared_teaser] [view_node]</p>'),
     t('[field_newsroom_item_type_1-tid]'),

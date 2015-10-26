@@ -5,7 +5,7 @@
  */
 
 include_once 'nexteuropa_newsroom.multilingual.inc';
-include_once drupal_get_path('module','pathauto') . '/pathauto.inc';
+include_once drupal_get_path('module', 'pathauto') . '/pathauto.inc';
 
 /**
  * Nexteuropa newsroom admin form.
@@ -51,7 +51,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   $form['newsroom_others'] = array(
     '#type' => 'fieldset',
     '#title' => t('Newsroom client settings'),
-    '#description' => t("These settings will determine newsroom behavior in your website. 
+    '#description' => t("These settings will determine newsroom behavior in your website.
       In particular you can choose here whether to import multilingual content from the newsroom or not.
       Mind the fact that we rely on the enabled languages in your website, so you will not be able to import items in a language that doesn't exist yet."),
     '#collapsible' => TRUE,
@@ -133,14 +133,14 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
 
   $vocabulary = taxonomy_vocabulary_machine_name_load('newsroom_item_type');
   $types = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
-  
+
   if (!empty($types)) {
     $form['newsroom_paths'] = array(
       '#type' => 'fieldset',
       '#title' => t('Newsroom content path settings'),
       '#prefix' => '<div id="newsroom_reset">',
       '#suffix' => '</div>',
-      '#description' => t("You can define here a root path for your items basing on the item type. The default behavior is to have sections correponding to the types, so if you have two types like 
+      '#description' => t("You can define here a root path for your items basing on the item type. The default behavior is to have sections correponding to the types, so if you have two types like
             news and events you will get pattern like news/[node:title], events/[node:title], you can override the root path for your elements here. Do not use leading por trailing slashes"),
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
@@ -155,13 +155,13 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     );
 
     foreach ($types as $tid => $type) {
-      $type_name = pathauto_cleanstring(strtolower($type->name));
+      $type_name = pathauto_cleanstring(drupal_strtolower($type->name));
       $parents = taxonomy_get_parents($type->tid);
       $parent = '';
 
       if (!empty($parents)) {
         $parent = reset($parents);
-        $parent = pathauto_cleanstring(strtolower($parent->name)) . '/'; 
+        $parent = pathauto_cleanstring(drupal_strtolower($parent->name)) . '/';
       }
 
       $form['newsroom_paths'][$type_name . '_rootpath'] = array(
@@ -420,8 +420,9 @@ function nexteuropa_newsroom_admin_settings_form_validate($form, &$form_state) {
  * Submit handler for the newsroom admin form.
  */
 function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
+  dsm($form_state['values']);
   $multilingual = $form_state['values']['multilingual'] == 1 ? TRUE : FALSE;
-  $patterns = $form_state['values']['patterns'] == 1 ? TRUE : FALSE;
+  $patterns = isset($form_state['values']['patterns']) && $form_state['values']['patterns'] == 1 ? TRUE : FALSE;
   $keys = array_keys($form_state['values']);
   $rootpaths = preg_grep('/rootpath/', $keys);
   // Shouldn't be needed, it is a setting form.
@@ -432,19 +433,9 @@ function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
     }
   }
 
-  if ($patterns) {
-    variable_set('newsroom_patterns', 1);
-  }
-  else {
-    variable_set('newsroom_patterns', 0);
-  }
+  $patterns ? variable_set('newsroom_patterns', 1) : variable_set('newsroom_patterns', 0);
 
-  if ($multilingual) {
-    variable_set('newsroom_multilingual', 1);
-  }
-  else {
-    variable_set('newsroom_multilingual', 0);
-  }
+  $multilingual ? variable_set('newsroom_multilingual', 1) : variable_set('newsroom_multilingual', 0);
 
   // Create default importers if new Newsroom Universe ID detected.
   if ($form_state['values']['newsroom_universe_id'] <> $form['universe_id']['newsroom_universe_id']['#default_value']) {
@@ -585,13 +576,13 @@ function _nexteuropa_newsroom_reset_paths($form, &$form_state) {
   $types = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
 
   foreach ($types as $tid => $type) {
-    $type_name = pathauto_cleanstring(strtolower($type->name));
+    $type_name = pathauto_cleanstring(drupal_strtolower($type->name));
     $parents = taxonomy_get_parents($type->tid);
     $parent = '';
 
     if (!empty($parents)) {
       $parent = reset($parents);
-      $parent = pathauto_cleanstring(strtolower($parent->name)) . '/'; 
+      $parent = pathauto_cleanstring(drupal_strtolower($parent->name)) . '/';
     }
 
     $form['newsroom_paths'][$type_name . '_rootpath']['#value'] = $parent . $type_name;

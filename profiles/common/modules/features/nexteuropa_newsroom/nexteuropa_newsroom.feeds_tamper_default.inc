@@ -103,7 +103,7 @@ function nexteuropa_newsroom_feeds_tamper_default() {
   $feeds_tamper->weight = 0;
   $feeds_tamper->description = 'Set default language';
   $export['newsroom_items_multilingual-blank_source_1-default_value'] = $feeds_tamper;
-  
+
   $feeds_tamper = new stdClass();
   $feeds_tamper->disabled = FALSE; /* Edit this to true to make a default feeds_tamper disabled initially */
   $feeds_tamper->api_version = 2;

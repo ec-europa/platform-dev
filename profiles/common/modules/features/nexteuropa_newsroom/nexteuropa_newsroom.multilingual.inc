@@ -8,8 +8,8 @@
 /**
  * Import the multilingual importer.
  */
-function _nexteuropa_newsroom_create_multilingual_items_importer() {  
-  $def_lang = strtoupper(language_default()->language);
+function _nexteuropa_newsroom_create_multilingual_items_importer() {
+  $def_lang = drupal_strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'title' => array(
@@ -252,7 +252,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
  * Import the multilingual importer.
  */
 function _nexteuropa_newsroom_create_multilingual_topics_importer() {
-  $def_lang = strtoupper(language_default()->language);
+  $def_lang = drupal_strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'Temporary target 1' => array(
@@ -340,7 +340,7 @@ function _nexteuropa_newsroom_create_multilingual_topics_importer() {
  * Import the multilingual importer.
  */
 function _nexteuropa_newsroom_create_multilingual_types_importer() {
-  $def_lang = strtoupper(language_default()->language);
+  $def_lang = drupal_strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'guid' => array(
@@ -421,7 +421,7 @@ function _nexteuropa_newsroom_create_multilingual_types_importer() {
  * Import the multilingual importer.
  */
 function _nexteuropa_newsroom_create_multilingual_services_importer() {
-  $def_lang = strtoupper(language_default()->language);
+  $def_lang = drupal_strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'guid' => array(
