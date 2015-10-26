@@ -69,7 +69,7 @@ projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_f
 projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.0"
 
-projects[bounce][subdir] = "contributed"
+projects[bounce][subdir] = "contrib"
 projects[bounce][version] = "1.6"
 
 projects[captcha][subdir] = "contrib"
@@ -460,7 +460,7 @@ projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
 
-projects[simplenews_statistics][subdir] = "contributed"
+projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
 
 projects[site_map][subdir] = "contrib"
