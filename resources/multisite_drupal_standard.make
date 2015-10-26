@@ -241,8 +241,12 @@ projects[fullcalendar][subdir] = "contrib"
 projects[fullcalendar][version] = "2.0"
 ; Issue #2185449: Using AJAX results in errors when scrolling through months
 ; https://www.drupal.org/node/2185449
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4393
 projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/ajax_date_format-2185449-11.patch
-projects[fullcalendar][patch][] = patches/fullcalendar-views_dom_id_check-1803770-4.patch
+; Issue #1803770: Uncaught TypeError: Cannot read property 'views_dom_id:***' of undefined.
+; https://www.drupal.org/node/1803770
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4112
+projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/uncaught_typeerror-1803770-10.patch
 ; Issue #2325549: AJAX doesn't work in jQuery 1.9+
 ; https://www.drupal.org/node/2325549
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7373
