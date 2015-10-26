@@ -1,4 +1,4 @@
-﻿Feature: Splash Screen features
+Feature: Splash Screen features
   In order navigate on the site in my language of preference
   As a citizen of the European Union
   I want to be able to choose my language at my first site connection
