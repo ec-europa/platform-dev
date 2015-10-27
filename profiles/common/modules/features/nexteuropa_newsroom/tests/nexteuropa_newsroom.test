@@ -1,0 +1,271 @@
+<?php
+
+/**
+ * @file
+ * Tests for PROJECTFEATURE_nexteuropa_newsroom.module.
+ */
+
+/**
+ * Defines a base class for QA testing the "nexteuropa_newsroom" feature.
+ */
+class NexteuropaNewsroomQAWebTestCase extends DrupalWebTestCase {
+
+  /**
+   * Returns test information.
+   *
+   * @return array
+   *   Info
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Newsroom QA tests',
+      'description' => 'Test the nexteuropa_newsroom features to ensure it follows QA requirements.',
+      'group' => 'Newsroom',
+    );
+  }
+
+  /**
+   * Test Info File.
+   */
+  protected function testInfoFile() {
+    $module = basename(__FILE__, ".test");
+    $path = drupal_get_path('module', $module) . '/' . $module . '.info';
+    $info = drupal_parse_info_file($path);
+
+    // Add name information. Ex: name=Newsletters.
+    $this->assertTrue(array_key_exists('name', $info), 'The module\'s name is available.' . $module);
+
+    // Add description information.
+    // Ex: description = Publish and send newsletters to lists of subscribers.
+    $this->assertTrue(array_key_exists('description', $info), 'The module\'s description is available.');
+
+    // Add package information.
+    // Ex: package = nexteuropa_features
+    $this->assertTrue(array_key_exists('package', $info), 'The module\'s package is available.');
+
+    // Add core information.
+    // Ex core = 7.x.
+    $this->assertTrue(array_key_exists('core', $info), 'The Drupal core version is available.');
+    $this->assertEqual($info['core'], '7.x');
+
+    // Add php information.
+    // Ex: php = 5.2.4.
+    $this->assertTrue(array_key_exists('php', $info), 'The PHP version info is available.');
+    $this->assertEqual($info['php'], '5.2.4');
+
+    // Add version information.
+    // (check if the version number matches with this page title).
+    // Ex: version = 7.x-1.0.
+    $this->assertTrue(array_key_exists('version', $info));
+
+    // Add feature information:.
+    // features[features_api][] = api:1.
+    $this->assertEqual($info['features']['features_api'][0], 'api:2', 'The Feature API dependency is available.');
+
+    // Remove menu dependencies:.
+    if (array_key_exists('dependencies', $info)) {
+
+      // dependencies[] = "menu".
+      $this->assertFalse(in_array('menu', $info['dependencies']), 'There is no reference to the menu dependency.');
+
+      // Remove taxonomy dependencies.
+      // dependencies[] = "taxonomy".
+      $this->assertFalse(in_array('taxonomy', $info['dependencies']), 'There is no reference to the taxonomy dependency.');
+    }
+    // Check other dependencies (modules + features) to be sure they are needed.
+    // FIXME: manual check?.
+    // Remove tags taxonomy:.
+    // features[taxonomy][] = "tags".
+    if (array_key_exists('features', $info) && array_key_exists('taxonomy', $info['features'])) {
+      $this->assertFalse(in_array('tags', $info['features']['taxonomy']), 'The dependency to the tags taxonomy has been removed.');
+    }
+  }
+
+  /**
+   * TestInstallFile.
+   */
+  protected function testInstallFile() {
+    $module = basename(__FILE__, ".test");
+    $path = drupal_get_path('module', $module) . '/' . $module . '.install';
+    $data = file_get_contents($path);
+    $this->assertTrue(strpos($data, $module . '_install'), 'The module contains a hook_install');
+    $this->assertTrue(strpos($data, $module . '_uninstall'), 'The module contains a hook_uninstall');
+    $this->assertTrue(strpos($data, $module . '_enable'), 'The module contains a hook_enable');
+    $this->assertTrue(strpos($data, $module . '_disable'), 'The module contains a hook_disable');
+  }
+
+}
+
+/**
+ * Defines a base class for QA testing the "nexteuropa_newsroom" feature.
+ */
+class NexteuropaNewsroomWebTestCase extends FeedsWebTestCase {
+  /**
+   * Returns test information.
+   *
+   * @return array
+   *   Info
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Newsroom tests',
+      'description' => 'Test the nexteuropa_newsroom features.',
+      'group' => 'Newsroom',
+    );
+  }
+
+  /**
+   * Set up test.
+   */
+  public function setUp() {
+    // This set up all the dependencies.
+    parent::setUp();
+    module_enable(array('nexteuropa_newsroom'), TRUE);
+
+    $https_proxy = array(
+      'dae',
+      '127.0.0.1',
+      'localhost',
+      'fpfis-dev.net1.cec.eu.int',
+      'intragate.ec.europa.eu',
+      '127.0.0.1',
+      'localhost',
+      'biguonia.cc.cec.eu.int',
+      '158.167.39.277',
+      'dbprod-dmrz.jrc.org',
+      '139.191.254.129',
+      'intragate.acceptance.ec.europa.eu',
+      'intragate.ec.europa.eu',
+    );
+    variable_set('proxy_exceptions', $https_proxy);
+  }
+
+  /**
+   * Test Importers.
+   */
+  protected function testImporters() {
+    // Test import.
+    $test_feeds_path = $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'nexteuropa_newsroom') . '/tests/xml/';
+    // Types.
+    $this->importURL('newsroom_type_importer', $test_feeds_path . 'types.xml');
+    $nid = $this->createFeedNodeItem('newsroom_type', $test_feeds_path . 'types.xml', 'Testing Types', 'newsroom_type_importer');
+
+    // Import again, this verifies url field was mapped correctly.
+    $this->drupalPost('node/' . $nid . '/import', array(), 'Import');
+    $this->assertText('Updated 24 terms.');
+
+    // Check results.
+    $this->drupalGet('admin/structure/taxonomy/newsroom_item_type');
+    $this->assertText('Funding Opportunity');
+
+    // Topics.
+    $this->importURL('newsroom_topic_importer', $test_feeds_path . 'topics.xml');
+    $nid = $this->createFeedNodeItem('newsroom_topics', $test_feeds_path . 'topics.xml', 'Testing Topics', 'newsroom_topic_importer');
+    // Import again, this verifies url field was mapped correctly.
+    $this->drupalPost('node/' . $nid . '/import', array(), 'Import');
+    $this->assertText('Updated 598 terms.');
+
+    // Check results.
+    $this->drupalGet('admin/structure/taxonomy/newsroom_topic');
+    $this->assertText('Acession Countries');
+
+    // Services.
+    $this->importURL('newsroom_service_importer', $test_feeds_path . 'services.xml');
+    $nid = $this->createFeedNodeItem('newsroom_services', $test_feeds_path . 'services.xml', 'Testing Services', 'newsroom_service_importer');
+    // Import again, this verifies url field was mapped correctly.
+    $this->drupalPost('node/' . $nid . '/import', array(), 'Import');
+    $this->assertText('There are no new terms.');
+
+    // Check results.
+    $this->drupalGet('admin/structure/taxonomy/newsroom_service');
+    $this->assertText('Digital Agenda Assembly Newsletter');
+
+    // Services.
+    $this->importURL('newsroom_item_importer', $test_feeds_path . 'items.xml');
+    $nid = $this->createFeedNodeItem('newsroom_items', $test_feeds_path . 'items.xml', 'Testing Items', 'newsroom_item_importer');
+    // Import again, this verifies url field was mapped correctly.
+    $this->drupalPost('node/' . $nid . '/import', array(), 'Import');
+    $this->assertText('Updated 25 nodes.');
+
+    // Check if at least one node was created.
+    $this->drupalGet('node/' . $nid + 1 . '');
+
+    // Check that newsroom homepage is created.
+    $this->drupalGet('newsroom/all');
+    // $this->drupalGet('node/' . $imported_nid . '');
+    // Check redirection to item based on original ID.
+    $this->drupalGet('news-redirect/16631');
+    $this->assertText('SMART 2014/1074 - Language resource coordination');
+    $this->drupalGet('news-dispatcher/item/16631');
+    $this->assertText('SMART 2014/1074 - Language resource coordination');
+
+    // Check redirection to Chapter newsroom page
+    // $this->drupalGet('news-dispatcher/topic/928');
+    // Check redirection to item type newsroom page
+    // $this->drupalGet('news-dispatcher/type/news article');
+    // Check redirection to an item type newsroom page of a Chapter
+    // $this->drupalGet('news-dispatcher/type-topic/928/call for tenders');
+  }
+
+  /**
+   * Create a test feed node. Test user has to have sufficient permissions.
+   *
+   * @return int
+   *   The node id of the node created.
+   */
+  public function createFeedNodeItem($id = 'syndication', $feed_url = NULL, $title = '', $content_type = NULL) {
+    // Test user has to have sufficient permissions
+    // Create [type] content and use feeds
+    // Assumes that page content type has been configured with
+    // createImporterConfiguration() as a feed content type.
+    if (empty($feed_url)) {
+      $feed_url = $GLOBALS['base_url'] . '/' . drupal_get_path('module', 'feeds') . '/tests/feeds/developmentseed.rss2';
+    }
+
+    drupal_flush_all_caches();
+
+    // If content type not given, retrieve it.
+    if (!$content_type) {
+      $result = db_select('feeds_importer', 'f')
+        ->condition('f.id', $id, '=')
+        ->fields('f', array('config'))
+        ->execute();
+      $config = unserialize($result->fetchField());
+      $content_type = $config['content_type'];
+      $this->assertFalse(empty($content_type), 'Valid content type found: ' . $content_type);
+    }
+
+    // Create a feed node.
+    $edit = array(
+      'title' => $title,
+      'feeds[FeedsHTTPFetcher][source]' => $feed_url,
+    );
+    $this->drupalPost('node/add/' . str_replace('_', '-', $content_type), $edit, 'Save');
+    $this->assertText('has been created.');
+
+    $results = db_query_range('SELECT n.nid FROM {node} n ORDER BY n.created DESC', 0, 1);
+    $nid = NULL;
+    if ($results) {
+      foreach ($results as $result) {
+        $nid = $result->nid;
+      }
+    }
+    // Check whether feed got recorded in feeds_source table.
+    $query = db_select('feeds_source', 's')
+      ->condition('s.id', $id, '=')
+      ->condition('s.feed_nid', $nid, '=');
+    $query->addExpression("COUNT(*)");
+    $result = $query->execute()->fetchField();
+    $this->assertEqual(1, $result);
+
+    $source = db_select('feeds_source', 's')
+      ->condition('s.id', $id, '=')
+      ->condition('s.feed_nid', $nid, '=')
+      ->fields('s', array('config'))
+      ->execute()->fetchObject();
+    $config = unserialize($source->config);
+    $this->assertEqual($config['FeedsHTTPFetcher']['source'], $feed_url, t('URL in DB correct.'));
+    return $nid;
+  }
+
+}
