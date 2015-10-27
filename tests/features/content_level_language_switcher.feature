@@ -10,50 +10,40 @@ Feature: Content level language switcher tests
       | en        |
       | fr        |
       | de        |
-    And "page" content:
-      | language | title     | 
-      | en       | english1  |
-      | fr       | français1 |      
-
-  Scenario Outline: Check background
-    Given I am an anonymous user
-    When I go to "<url>"
-    And I should see "english1"
+      | it        |
+    And I am logged in as a user with the 'administrator' role
+    When I go to "admin/config/regional/language"
+    And I fill in "edit-weight-en" with "-10"
+    And I fill in "edit-weight-fr" with "-9"    
+    And I fill in "edit-weight-de" with "-8"
+    And I fill in "edit-weight-it" with "-7"
+    And I press the "Save configuration" button
+    Then I should see "Configuration saved."
+    
+  Scenario: Anonymous user can see the content level language selector
+    Given I am viewing a multilingual "page" content:
+      | language | title                        |
+      | en       | This title is in English     |
+      | fr       | Ce titre est en Français     |
+      | de       | Dieser Titel ist auf Deutsch |
+    Then I should see an ".block-language-selector-page" element
+    When I click "Français"
+    Then I should see an ".block-language-selector-page" element
+    When I click "Deutsch"
     Then I should see an ".block-language-selector-page" element
 
+  Scenario Outline: Anonymous user can see the available translations of a content
+    Given I am viewing a multilingual "page" content:
+      | language | title                       |
+      | en       | This title is in English    |
+      | fr       | Ce titre est en Français    |
+      | it       | Questo titolo è in Francese |
+    When I go to "<url>"
+    Then the language options on the page content language switcher should be "<active_language>" non clickable followed by "<language_order>" links
+
     Examples:
-    | url                 |
-    | content/english1_en |
-    | content/english1_fr |
+    | url                      | active_language | language_order    |
+    | content/title-english_en | english         | français,italiano |
+    | content/title-english_fr | français        | english,italiano  | 
+    | content/title-english_it | italiano        | english,français  |
 
-
-  Scenario: Custom URL suffix language negotiation is applied by default on new content.
-    Given I am logged in as a user with the 'administrator' role
-    And I am viewing a multilingual "page" content:
-      | language | title            |
-      | en       | Title in English |
-      | fr       | Title in French  |
-      | de       | Title in German  |
-    Then I should see the heading "Title in English"
-
-
-
-Scenario Outline: Anonymous user can see the content level language selector
-  Given I am an anonymous user
-  When I go to "<url>"
-  Then I should see an ".block-language-selector-page" element 
-
-  Examples:
-  | url                |
-  | content/english_en |
-  | content/english_fr |
-
-Scenario Outline: Anonymous user can see the available translations of a content
-  Given I am an anonymous user
-  When I go to "<url>"
-  Then the language options on the page content language switcher should be "<active_language>" non clickable followed by "<language_order>" links
-
-  Examples:
-  | url                | active_language | language_order    |
-  | content/english_en | english         | français,italiano |
-  | content/english_fr | français        | english,italiano  |  
