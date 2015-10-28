@@ -30,8 +30,3 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/cleanup-files-13
 ; https://www.drupal.org/node/1617918
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4863
 projects[drupal][patch][] = https://www.drupal.org/files/issues/1617918-33-d7-do-not-test.patch
-
-; SA-CORE-2015-004
-projects[drupal][patch][] = patches/SA-CORE-2015-004.patch
-
-
