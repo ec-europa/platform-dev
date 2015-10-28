@@ -1,0 +1,90 @@
+<?php
+
+/**
+ * Base class to testing the Soap Services
+ * Class TMGMT_PoetryWebTestCase
+ */
+class TMGMT_PoetryWebTestCase extends DrupalWebTestCase {
+  protected $poetry_service;
+
+  /**
+   * Don't create a simpletest temporary tables
+   */
+  public function setUp() {
+    // support existing database prefixes. if we didn't,
+    // the prefix would be set as '', causing failures.
+    $this->setup = TRUE;
+    $uri = url(drupal_get_path('module', 'tmgmt_poetry_test').'/tmgmt_poetry_test.wsdl', array('absolute' => TRUE, 'language' => (object)array('language' => FALSE)));
+    $poetry_service = array(
+      'address' => $uri,
+      'method' => 'requestService',
+      'user' => 'tmgmt_poetry_soap_user',
+      'password' => 'tmgmt_poetry_soap_pwd',
+      'callback_user' => 'Poetry',
+      'callback_password' => 'PoetryPWD',
+    );
+
+    $this->poetry_service = variable_get('poetry_service');
+    variable_set('poetry_service', $poetry_service);
+  }
+
+  /**
+   * Don't remove this, otherwise all the database will be empty!!!
+   */
+  function tearDown() {
+    variable_set('poetry_service', $this->poetry_service);
+  }
+
+
+  /**
+   * Creates a node based on default settings.
+   *
+   * @param array $settings
+   *   An associative array of settings to change from the defaults, keys are
+   *   node properties, for example 'title' => 'Hello, world!'.
+   * @return object|void Created node object.
+   * Created node object.
+   * @throws \Exception
+   */
+  protected function drupalCreateNode($settings = array()) {
+    // Populate defaults array.
+    $settings += array(
+      'body' => array(LANGUAGE_NONE => array(array())),
+      'title' => $this->randomName(8),
+      'comment' => 2,
+      'changed' => REQUEST_TIME,
+      'moderate' => 0,
+      'promote' => 0,
+      'revision' => 1,
+      'log' => '',
+      'status' => 1,
+      'sticky' => 0,
+      'type' => 'page',
+      'revisions' => NULL,
+      'language' => LANGUAGE_NONE,
+    );
+
+    // Use the original node's created time for existing nodes.
+    if (isset($settings['created']) && !isset($settings['date'])) {
+      $settings['date'] = format_date($settings['created'], 'custom', 'Y-m-d H:i:s O');
+    }
+
+    // If the node's user uid is not specified manually, use the currently
+    // logged in user if available, or else the user running the test.
+    if (!isset($settings['uid'])) {
+      if ($this->loggedInUser) {
+        $settings['uid'] = $this->loggedInUser->uid;
+      }
+      else {
+        global $user;
+        $settings['uid'] = $user->uid;
+      }
+    }
+
+    $node = (object) $settings;
+    node_save($node);
+
+    return $node;
+  }
+}
+

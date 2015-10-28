@@ -1,0 +1,8 @@
+name = Poetry Test Service Mocker
+description = Provides a local implementation of the Poetry API
+package = TMGT Poetry
+core = 7.x
+hidden = TRUE
+
+files[] = tmgmt_poetry.test
+files[] = functional/TMGMTPoetryTranslationRequestResponseTestCase.test
