@@ -30,6 +30,8 @@ default:
       drush:
         root: '${platform.build.dir}'
         binary: "${drush.bin}"
+      region_map:
+        header_top: ".region-header-top"
   formatters:
     ${behat.formatter.name}: ~
 
@@ -62,5 +64,7 @@ communities:
       subcontexts:
         paths:
           - '${behat.subcontexts.path}'
+      region_map:
+        header_top: ".region-header-top"
   formatters:
     ${behat.formatter.name}: ~
