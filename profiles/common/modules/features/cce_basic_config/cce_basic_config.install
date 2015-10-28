@@ -1651,8 +1651,10 @@ function cce_basic_config_update_7208() {
  * executed on existing sites.
  * Convert the 'format' column in {date_format_locale}
  * to case sensitive varchar.
+ *
+ * @see system_update_7080()
  */
-function system_update_7209() {
+function cce_basic_config_update_7209() {
   $spec = array(
     'description' => 'The date format string.',
     'type' => 'varchar',
