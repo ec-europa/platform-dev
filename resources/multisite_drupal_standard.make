@@ -313,10 +313,11 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2"
 
 projects[media][subdir] = contrib
-projects[media][download][branch] = 7.x-2.x
-projects[media][download][revision] = 64c5102
-projects[media][download][type] = git
-projects[media][patch][] = patches/media-wysiwyg-override-white-list-MULTISITE-2607.patch
+projects[media][version] = 2.0-beta1
+; Issue #2062721: Add a white list of file fields that can be overwritten when the file is added in the wysiwyg
+; https://www.drupal.org/node/2062721
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2607
+projects[media][patch][] = https://www.drupal.org/files/issues/media-wysiwyg-override-white-list-2062721-86.patch
 ; Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
 ; https://www.drupal.org/node/2401811
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
