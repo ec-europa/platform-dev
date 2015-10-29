@@ -149,6 +149,8 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
+   * Assert that we are on the language selector page.
+   *
    * @Then I should be on the language selector page
    */
   public function assertLanguageSelectorPage() {
