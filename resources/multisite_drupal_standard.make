@@ -69,6 +69,9 @@ projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_f
 projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
 
+projects[bounce][subdir] = "contrib"
+projects[bounce][version] = "1.6"
+
 projects[captcha][subdir] = "contrib"
 projects[captcha][version] = "1.2"
 
@@ -241,8 +244,12 @@ projects[fullcalendar][subdir] = "contrib"
 projects[fullcalendar][version] = "2.0"
 ; Issue #2185449: Using AJAX results in errors when scrolling through months
 ; https://www.drupal.org/node/2185449
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4393
 projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/ajax_date_format-2185449-11.patch
-projects[fullcalendar][patch][] = patches/fullcalendar-views_dom_id_check-1803770-4.patch
+; Issue #1803770: Uncaught TypeError: Cannot read property 'views_dom_id:***' of undefined.
+; https://www.drupal.org/node/1803770
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4112
+projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/uncaught_typeerror-1803770-10.patch
 ; Issue #2325549: AJAX doesn't work in jQuery 1.9+
 ; https://www.drupal.org/node/2325549
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7373
@@ -310,10 +317,11 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2"
 
 projects[media][subdir] = contrib
-projects[media][download][branch] = 7.x-2.x
-projects[media][download][revision] = 64c5102
-projects[media][download][type] = git
-projects[media][patch][] = patches/media-wysiwyg-override-white-list-MULTISITE-2607.patch
+projects[media][version] = 2.0-beta1
+; Issue #2062721: Add a white list of file fields that can be overwritten when the file is added in the wysiwyg
+; https://www.drupal.org/node/2062721
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2607
+projects[media][patch][] = https://www.drupal.org/files/issues/media-wysiwyg-override-white-list-2062721-86.patch
 ; Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
 ; https://www.drupal.org/node/2401811
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
@@ -451,6 +459,9 @@ projects[select_or_other][version] = 2.22
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
+
+projects[simplenews_statistics][subdir] = "contrib"
+projects[simplenews_statistics][version] = "1.0-alpha1"
 
 projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.3"
