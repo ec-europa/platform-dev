@@ -32,6 +32,7 @@ function splash_screen_install() {
  */
 function splash_screen_uninstall() {
   variable_del('splash_screen_blacklist');
+  variable_del('splash_screen_homepage_hijacking');
 }
 
 /**
@@ -44,4 +45,12 @@ function splash_screen_update_7201() {
   }
   // Delete useless variable.
   variable_del('splash_screen_home_page');
+}
+
+/**
+ * Define default value for variable Homepage hijacking.
+ */
+function splash_screen_update_7202() {
+  // Keep previous behavior for existing sites (Homepage is overridden).
+  variable_set('splash_screen_homepage_hijacking', '1');
 }

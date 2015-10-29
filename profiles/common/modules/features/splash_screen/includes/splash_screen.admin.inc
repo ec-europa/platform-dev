@@ -20,6 +20,13 @@ function _splash_screen_settings_form() {
   $blacklist_arr = variable_get('splash_screen_blacklist', array());
   $blacklist = implode("\r\n", $blacklist_arr);
 
+  $fieldset_general['splash_screen_homepage_hijacking'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Homepage hijacking'),
+    '#description' => t('If enabled, homepage "/" will be overridden by the splash screen page.'),
+    '#default_value' => variable_get('splash_screen_homepage_hijacking', 0),
+  );
+
   $fieldset_general['splash_screen_blacklist'] = array(
     '#type' => 'textarea',
     '#title' => t('Languages blacklist'),
