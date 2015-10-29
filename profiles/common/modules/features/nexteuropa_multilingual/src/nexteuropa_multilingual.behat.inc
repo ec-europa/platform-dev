@@ -110,9 +110,10 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     $data = array('node' => $node);
     pathauto_create_alias('node', 'update', "node/$node->nid", $data);
 
+    // Get node path without any base path by setting 'base_url' and 'absolute'.
+    $path = url('node/' . $node->nid, array('base_url' => '', 'absolute' => TRUE));
     // Visit newly created node page.
-    $this->visitPath("node/$node->nid");
-
+    $this->visitPath($path);
   }
 
   /**
@@ -145,6 +146,13 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       }
     }
     return $entity->path['pathauto'];
+  }
+
+  /**
+   * @Then I should be on the language selector page
+   */
+  public function assertLanguageSelectorPage() {
+    $this->assertSession()->elementExists('css', '#language-selector-site-language-list-page');
   }
 
 }
