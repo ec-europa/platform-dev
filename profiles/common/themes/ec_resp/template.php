@@ -1197,13 +1197,7 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
       $form['actions']['preview']['#attributes']['class'][] = 'btn btn-default';
     }
   }
-  $form['#after_build'][] = '_ec_resp_cck_alter';
-}
 
-/**
- * After_build function for form_alter.
- */
-function _ec_resp_cck_alter($form, &$form_state) {
   // Hide format field.
   if (!user_access('administer nodes')) {
     $form['comment_body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
@@ -1212,8 +1206,6 @@ function _ec_resp_cck_alter($form, &$form_state) {
     $form['body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
     $form['body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
   }
-
-  return $form;
 }
 
 /**
