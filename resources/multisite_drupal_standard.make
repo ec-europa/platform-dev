@@ -149,10 +149,6 @@ projects[ds][version] = "2.7"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
-; Issue #2290941 : Breadcrumb shows escaped HTML tags on core admin pages
-; https://www.drupal.org/node/2290941
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6099
-projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/check-plain-vs-filter-xss_0_1.patch
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
