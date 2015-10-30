@@ -28,5 +28,25 @@ Feature: Second favorite language tests
     | content/title-english_en | ?2nd-language=fr | Italiano | content/title-english_en | ?2nd-language=it | Questo titolo è in inglese |
     
 
+  Scenario Outline: Check the role of the second favorite language on the language fallback
+    Given I am viewing a multilingual "page" content:
+      | language | title                      |
+      | en       | This title is in English   |
+      | fr       | Ce titre est en Français   |
+      | it       | Questo titolo è in inglese |
+    When I go to "<url><favorite>"  
+    Then I should see the heading "<title>"
+
+    Examples:
+    | url                      | favorite         | title                      |
+    | content/title-english_en | ?2nd-language=en | This title is in English   |
+    | content/title-english_fr | ?2nd-language=en | Ce titre est en Français   |
+    | content/title-english_it | ?2nd-language=en | Questo titolo è in inglese | 
+    | content/title-english_de | ?2nd-language=en | This title is in English   |      
+    | content/title-english_de |                  | This title is in English   |
+    | content/title-english_de | ?2nd-language=fr | Ce titre est en Français   |
+    | content/title-english_de | ?2nd-language=it | Questo titolo è in inglese |
 
 
+    
+    
