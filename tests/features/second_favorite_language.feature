@@ -47,6 +47,36 @@ Feature: Second favorite language tests
     | content/title-english_de | ?2nd-language=fr | Ce titre est en Français   |
     | content/title-english_de | ?2nd-language=it | Questo titolo è in inglese |
 
+  Scenario Outline: Check the role of the second favorite language on the language fallback
+    Given I am viewing a multilingual "page" content:
+      | language | title                      |
+      | en       | English   |
+      | fr       | Français  |
+    When I go to "<url><favorite>"  
+    Then I should see the heading "<title>"
 
+    Examples:
+    | url                | favorite         | title    |
+    | content/english_en | ?2nd-language=en | English  |
+    | content/english_fr | ?2nd-language=en | Français |
+    | content/english_it | ?2nd-language=en | English  | 
+    | content/english_it | ?2nd-language=fr | Français |     
+    | content/english_de | ?2nd-language=en | English  |      
+    | content/english_de |                  | English  |
+    | content/english_de | ?2nd-language=fr | Français |
+    | content/english_de | ?2nd-language=it | English  |
+    
+  Scenario Outline: Check the role of the second favorite language on the language fallback
+    When I go to "<url>"  
+    Then I should not see the heading "Page not found"
+
+    Examples:
+    | url                  |
+    | tags/economic_en |
+    | tags/economic_fr |
+    | tags/economic_it |
+    | tags/economic_de |   
+  
+    
     
     
