@@ -17,7 +17,7 @@ function events_core_enable() {
   // Add type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('event', 'add');
 
-  //Flush the cache in order to reload the jquery (even if the callendar is not displayed)
+  // Flush the cache in order to display fullcalendar.
   drupal_flush_all_caches();
 
   // Activation message.
