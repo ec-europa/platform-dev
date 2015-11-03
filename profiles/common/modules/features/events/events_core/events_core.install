@@ -17,6 +17,9 @@ function events_core_enable() {
   // Add type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('event', 'add');
 
+  //Flush the cache in order to reload the jquery (even if the callendar is not displayed)
+  drupal_flush_all_caches();
+
   // Activation message.
   drupal_set_message(t('Events feature is now active on your site.'));
 }
