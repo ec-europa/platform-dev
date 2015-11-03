@@ -10,6 +10,7 @@ Feature: Second favorite language tests
       | fr        |
       | de        |
       | it        |
+      | bg        |
 
   Scenario Outline: Check the role of the second favorite language on the language fallback
     Given I am viewing a multilingual "page" content:
@@ -24,12 +25,6 @@ Feature: Second favorite language tests
     
     Examples:
     | url                      | favorite         | language | target                   | target_favorite  | title                      |
-    | content/title-english_en |                  | Français | content/title-english_en | ?2nd-language=fr | Ce titre est en Français   |
+    | content/title-english_de |                  | Français | content/title-english_de | ?2nd-language=fr | Ce titre est en Français   |
     | content/title-english_bg | ?2nd-language=fr | Italiano | content/title-english_bg | ?2nd-language=it | Questo titolo è in inglese |
     | content/title-english_de | ?2nd-language=fr | Français | content/title-english_de | ?2nd-language=fr | Ce titre est en Français   |
-    | content/title-english_en | ?2nd-language=fr | English  | content/title-english_en |                  | This title is in English  |      
-
-  
-    
-    
-    
