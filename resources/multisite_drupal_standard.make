@@ -586,6 +586,10 @@ projects[workbench_email][version] = "3.5"
 ; https://www.drupal.org/node/2501321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
 projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch
+; Issue only reproducible on NextEuropa platform
+; https://www.drupal.org/node/2590385
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
+projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"
