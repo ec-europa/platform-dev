@@ -20,18 +20,21 @@ Feature: Content level language switcher tests
     And I press the "Save configuration" button
     Then I should see "Configuration saved."
     
-  Scenario: Anonymous user can see the content level language selector
+  Scenario: Check the visibility of the content level language switcher
     Given I am viewing a multilingual "page" content:
       | language | title                        |
       | en       | This title is in English     |
       | fr       | Ce titre est en Français     |
       | de       | Dieser Titel ist auf Deutsch |
+    When I go to "content/title-english_en"
+    Then I should not see an ".block-language-selector-page" element
+    When I go to "content/title-english_fr"
+    Then I should not see an ".block-language-selector-page" element
+    When I go to "content/title-english_de"
+    Then I should not see an ".block-language-selector-page" element
+    When I go to "content/title-english_it"
     Then I should see an ".block-language-selector-page" element
-    When I click "Français"
-    Then I should see an ".block-language-selector-page" element
-    When I click "Deutsch"
-    Then I should see an ".block-language-selector-page" element
-
+    
   Scenario Outline: Anonymous user can see the available translations of a content
     Given I am viewing a multilingual "page" content:
       | language | title                       |
@@ -42,8 +45,8 @@ Feature: Content level language switcher tests
     Then the language options on the page content language switcher should be "<active_language>" non clickable followed by "<language_order>" links
 
     Examples:
-    | url                      | active_language | language_order    |
-    | content/title-english_en | english         | français,italiano |
-    | content/title-english_fr | français        | english,italiano  | 
-    | content/title-english_it | italiano        | english,français  |
+    | url                                      | active_language | language_order    |
+    | content/title-english_de                 | english         | français,italiano |
+    | content/title-english_de?2nd-language=fr | français        | english,italiano  |    
+
 
