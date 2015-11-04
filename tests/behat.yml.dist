@@ -32,6 +32,10 @@ default:
         binary: "${drush.bin}"
       region_map:
         content_top: ".region-content-top"
+        header: "#layout-header"
+        primary_tabs: ".tabs-primary"
+        content: "#layout-body"
+        footer: "#layout-footer"
   formatters:
     ${behat.formatter.name}: ~
 
@@ -66,5 +70,9 @@ communities:
           - '${behat.subcontexts.path}'
       region_map:
         content_top: ".region-content-top"
+        header: "#layout-header"
+        primary_tabs: ".tabs-primary"
+        content: "#layout-body"
+        footer: "#layout-footer"
   formatters:
     ${behat.formatter.name}: ~
