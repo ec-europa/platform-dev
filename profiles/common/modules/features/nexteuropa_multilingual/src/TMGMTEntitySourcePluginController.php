@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_multilingual\TMGMTEntitySourcePluginController
+ * Contains \Drupal\nexteuropa_multilingual\TMGMTEntitySourcePluginController.
  */
 
 namespace Drupal\nexteuropa_multilingual;
