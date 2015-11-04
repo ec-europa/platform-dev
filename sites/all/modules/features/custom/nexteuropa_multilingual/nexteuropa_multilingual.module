@@ -190,3 +190,10 @@ function nexteuropa_multilingual_language_fallback_candidates_alter(array &$fall
   }
 
 }
+
+/**
+ * Implements hook_tmgmt_source_plugin_info_alter().
+ */
+function nexteuropa_multilingual_tmgmt_source_plugin_info_alter(&$info) {
+  $info['entity']['plugin controller class'] = 'Drupal\nexteuropa_multilingual\TMGMTEntitySourcePluginController';
+}
