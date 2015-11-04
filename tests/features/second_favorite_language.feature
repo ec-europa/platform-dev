@@ -27,4 +27,4 @@ Feature: Second favorite language tests
     | url                      | favorite         | language | target                   | target_favorite  | title                      |
     | content/title-english_de |                  | Français | content/title-english_de | ?2nd-language=fr | Ce titre est en Français   |
     | content/title-english_bg | ?2nd-language=fr | Italiano | content/title-english_bg | ?2nd-language=it | Questo titolo è in inglese |
-    | content/title-english_de | ?2nd-language=fr | Français | content/title-english_de | ?2nd-language=fr | Ce titre est en Français   |
+    | content/title-english_de | ?2nd-language=it | Français | content/title-english_de | ?2nd-language=fr | Ce titre est en Français   |
