@@ -172,8 +172,14 @@ projects[entity_translation][patch][] = patches/entity_translation-001-et-forwar
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
 
+projects[entityreference][download][branch] = 7.x-1.x
+projects[entityreference][download][revision] = ab62b9a
+projects[entityreference][download][type] = git
 projects[entityreference][subdir] = "contrib"
-projects[entityreference][version] = "1.1"
+; Issue #2401811: Rendered entity is not language aware
+; https://www.drupal.org/node/1674792
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6056
+projects[entityreference][patch][] = https://www.drupal.org/files/issues/entityreference-rendered-entity-is-not-language-aware-1674792-85.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
@@ -465,6 +471,10 @@ projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
 
 projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
+; Syntax error in simplenews_statistics test file
+; https://www.drupal.org/node/2607422
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6813
+projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/syntax_error-2607422-1.patch
 
 projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.3"
