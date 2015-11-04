@@ -14,7 +14,7 @@
  * - $base_path: The base URL path of the Drupal installation. At the very
  *   least, this will always default to /.
  * - $directory: The directory the template is located in, e.g. modules/system
- *   or themes/ec_resp.
+ *   or themes/ec_resp_20.
  * - $is_front: TRUE if the current page is the front page.
  * - $logged_in: TRUE if the user is registered and signed in.
  * - $is_admin: TRUE if the user has permission to access administration pages.
@@ -41,7 +41,7 @@
  * - $secondary_menu (array): An array containing the Secondary menu links for
  *   the site, if they have been configured.
  * - $breadcrumb: The breadcrumb trail for the current page.
- * - $menu_visible: Checking if the main menu is available in the 
+ * - $menu_visible: Checking if the main menu is available in the
  *    region featured
  *
  * Page content (in order of occurrence in the default page.tpl.php):
@@ -65,34 +65,34 @@
  *   comment/reply/12345).
  *
  * Regions:
- * - $page['header_top']: Displayed at the top line of the header 
+ * - $page['header_top']: Displayed at the top line of the header
  *    -> language switcher, links, ...
- * - $page['header_right']: Displayed in the right part of the header 
+ * - $page['header_right']: Displayed in the right part of the header
  *    -> logo, search box, ...
- * - $page['featured']: Displayed below the header, take full width of screen 
+ * - $page['featured']: Displayed below the header, take full width of screen
  *    -> main menu, global information, ...
- * - $page['tools']: Displayed on top right of content area 
+ * - $page['tools']: Displayed on top right of content area
  *    -> login/logout buttons, author information, ...
- * - $page['sidebar_left']: Small sidebar displayed on left of the content 
- *    -> navigation, pictures, ... 
+ * - $page['sidebar_left']: Small sidebar displayed on left of the content
+ *    -> navigation, pictures, ...
  * - $page['sidebar_right']: Small sidebar displayed on right of the content
- *    -> latest content, calendar, ... 
- * - $page['content_top']: Displayed in middle column 
- *    -> carousel, important news, ...  
- * - $page['help']: Displayed between page title and content 
- *    -> information about the page, contextual help, ... 
+ *    -> latest content, calendar, ...
+ * - $page['content_top']: Displayed in middle column
+ *    -> carousel, important news, ...
+ * - $page['help']: Displayed between page title and content
+ *    -> information about the page, contextual help, ...
  * - $page['content']: The main content of the current page.
  * - $page['content_right']: Large sidebar displayed on right of the content
- *    -> 2 column layout 
- * - $page['content_bottom']: Displayed below the content, in middle column 
+ *    -> 2 column layout
+ * - $page['content_bottom']: Displayed below the content, in middle column
  *    -> print button, share tools, ...
- * - $page['footer']: Displayed at bottom of the page, on full width 
+ * - $page['footer']: Displayed at bottom of the page, on full width
  *    -> latest update, copyright, ...
  *
  * @see template_preprocess()
  * @see template_preprocess_page()
  * @see template_process()
- * @see ec_resp_process_page()
+ * @see ec_resp_20_process_page()
  */
 ?>
 
@@ -118,7 +118,7 @@ global $base_url;
       <div id="sub-title" class="hidden-xs"><?php print $site_slogan; ?></div>
     </div>
   </div><!-- /#layout-header -->
-  
+
   <div class="region-featured-wrapper <?php print ($has_responsive_sidebar ? 'sidebar-visible-sm' : ''); ?>">
     <?php if ($menu_visible || $has_responsive_sidebar): ?>
       <div class="mobile-user-bar navbar navbar-default visible-sm visible-xs" data-spy="affix" data-offset-top="82">
@@ -155,7 +155,7 @@ global $base_url;
       <div id="responsive-header-right"></div>
       <div id="responsive-sidebar-left"></div>
       <div id="responsive-sidebar-right"></div>
-    </div><!-- /#responsive-sidebar-->   
+    </div><!-- /#responsive-sidebar-->
   <?php endif; ?>
 
   <div id="layout-body" class="container">
@@ -171,7 +171,7 @@ global $base_url;
           <?php print $title; ?>
         </h1>
       <?php endif; ?>
-      
+
       <?php print render($title_suffix); ?>
 
       <div class="col-lg-<?php print $cols['tools']['lg']; ?> col-md-<?php print $cols['tools']['md']; ?> col-sm-<?php print $cols['tools']['sm']; ?> col-xs-<?php print $cols['tools']['xs']; ?>">
@@ -184,16 +184,16 @@ global $base_url;
         <?php print $messages; ?>
     </div><!-- /#messages -->
     <?php endif; ?>
-        
+
     <div class="row">
       <?php if ($regions['sidebar_left']): ?>
       <div id="sidebar-left" class="col-lg-<?php print ($cols['sidebar_left']['lg']); ?> col-md-<?php print ($cols['sidebar_left']['md']); ?> col-sm-<?php print ($cols['sidebar_left']['sm']); ?> col-xs-<?php print ($cols['sidebar_left']['xs']); ?> sidebar-left visible-lg visible-md">
         <?php print $regions['sidebar_left']; ?>
       </div>
-      <?php endif; ?>     
+      <?php endif; ?>
 
       <div id="content-wrapper" class="col-lg-<?php print $cols['content_main']['lg']; ?> col-md-<?php print $cols['content_main']['md']; ?> col-sm-<?php print $cols['content_main']['sm']; ?> col-md-<?php print $cols['content_main']['xs']; ?>">
-        
+
         <a id="content"></a>
 
         <?php if ($title): ?>
@@ -213,7 +213,7 @@ global $base_url;
         <?php endif; ?>
 
         <?php print $regions['help']; ?>
-        
+
         <?php if ($action_links): ?>
         <ul class="action-links">
           <?php print render($action_links); ?>
@@ -229,7 +229,7 @@ global $base_url;
           <?php print $regions['content_right']; ?>
           </div>
         </div>
-        
+
         <?php print $feed_icons; ?>
 
         <?php print $regions['content_bottom']; ?>
@@ -243,7 +243,7 @@ global $base_url;
       <?php if ($regions['sidebar_right']): ?>
       <div id="sidebar-right" class="col-lg-<?php print ($cols['sidebar_right']['lg']); ?> col-md-<?php print ($cols['sidebar_right']['md']); ?> col-sm-<?php print ($cols['sidebar_right']['sm']); ?> col-xs-<?php print ($cols['sidebar_right']['xs']); ?> sidebar-right visible-lg visible-md">
         <?php print $regions['sidebar_right']; ?>
-      </div>  
+      </div>
       <?php endif; ?>
     </div>
   </div><!-- /#layout-body -->
@@ -251,7 +251,7 @@ global $base_url;
   <a href="#top-page" class="btn-back-top">
     <span class="glyphicon glyphicon-chevron-up"></span>
   </a>
-  
+
   <div id="layout-footer">
     <div class="container">
       <?php print $regions['footer']; ?>

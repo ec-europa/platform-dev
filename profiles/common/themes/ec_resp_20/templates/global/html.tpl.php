@@ -12,9 +12,9 @@
   <?php print $styles; ?>
   <!-- HTML5 element support for IE6-8 -->
   <!--[if lt IE 9]>
-    <script src="<?php print url(drupal_get_path('theme', 'ec_resp') . '/scripts/html5shiv.min.js', array('language' => (object)array('language' => FALSE))); ?>"></script>
-    <script src="<?php print url(drupal_get_path('theme', 'ec_resp') . '/scripts/respond.min.js', array('language' => (object)array('language' => FALSE))); ?>"></script>
-  <![endif]--> 
+    <script src="<?php print url(drupal_get_path('theme', 'ec_resp_20') . '/scripts/html5shiv.min.js', array('language' => (object)array('language' => FALSE))); ?>"></script>
+    <script src="<?php print url(drupal_get_path('theme', 'ec_resp_20') . '/scripts/respond.min.js', array('language' => (object)array('language' => FALSE))); ?>"></script>
+  <![endif]-->
   <?php print $scripts; ?>
 
 </head>

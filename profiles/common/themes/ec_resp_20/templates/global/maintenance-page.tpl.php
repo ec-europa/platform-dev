@@ -8,7 +8,7 @@
  *
  * @see template_preprocess()
  * @see template_preprocess_maintenance_page()
- * @see ec_resp_process_maintenance_page()
+ * @see ec_resp_20_process_maintenance_page()
  */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"

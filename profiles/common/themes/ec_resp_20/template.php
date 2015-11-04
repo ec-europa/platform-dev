@@ -7,7 +7,7 @@
 /**
  * Implements template_preprocess().
  */
-function ec_resp_preprocess(&$variables) {
+function ec_resp_20_preprocess(&$variables) {
   if (isset($variables['form']['#form_id'])) {
     switch ($variables['form']['#form_id']) {
       case 'feature_set_admin_form':
@@ -78,7 +78,7 @@ function ec_resp_preprocess(&$variables) {
 /**
  * Implements template_preprocess_page().
  */
-function ec_resp_preprocess_page(&$variables) {
+function ec_resp_20_preprocess_page(&$variables) {
   $title = drupal_get_title();
 
   // Format regions.
@@ -178,7 +178,7 @@ function ec_resp_preprocess_page(&$variables) {
 /**
  * Implements template_preprocess_node().
  */
-function ec_resp_preprocess_node(&$variables) {
+function ec_resp_20_preprocess_node(&$variables) {
   $variables['prefix_display'] = FALSE;
   $variables['suffix_display'] = FALSE;
 
@@ -234,7 +234,7 @@ function ec_resp_preprocess_node(&$variables) {
 /**
  * Implements template_preprocess_user_profile().
  */
-function ec_resp_preprocess_user_profile(&$variables) {
+function ec_resp_20_preprocess_user_profile(&$variables) {
   // Format profile page.
   $identity = '';
   if (isset($variables['field_firstname'][0]['safe_value'])) {
@@ -268,7 +268,7 @@ function ec_resp_preprocess_user_profile(&$variables) {
 /**
  * Implements template_preprocess_field().
  */
-function ec_resp_preprocess_field(&$variables, $hook) {
+function ec_resp_20_preprocess_field(&$variables, $hook) {
   switch ($variables['element']['#field_name']) {
     case 'group_group':
       if (isset($variables['items'][0]['#type']) && $variables['items'][0]['#type'] == 'link') {
@@ -283,52 +283,52 @@ function ec_resp_preprocess_field(&$variables, $hook) {
 /**
  * Custom implementation for select element of Form API.
  */
-function ec_resp_preprocess_select(&$variables) {
+function ec_resp_20_preprocess_select(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
 /**
  * Custom implementation for textfield element of Form API.
  */
-function ec_resp_preprocess_textfield(&$variables) {
+function ec_resp_20_preprocess_textfield(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
 /**
  * Custom implementation for password element of Form API.
  */
-function ec_resp_preprocess_password(&$variables) {
+function ec_resp_20_preprocess_password(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
 /**
  * Custom implementation for textarea element of Form API.
  */
-function ec_resp_preprocess_textarea(&$variables) {
+function ec_resp_20_preprocess_textarea(&$variables) {
   $variables['element']['#attributes']['class'][] = 'form-control';
 }
 
 /**
  * Implements template_preprocess_maintenance_page().
  */
-function ec_resp_preprocess_maintenance_page(&$variables) {
+function ec_resp_20_preprocess_maintenance_page(&$variables) {
   if (!$variables['db_is_active']) {
     unset($variables['site_name']);
   }
-  drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/maintenance-page.css');
+  drupal_add_css(drupal_get_path('theme', 'ec_resp_20') . '/css/maintenance-page.css');
 }
 
 /**
  * Implements template_preprocess_html().
  */
-function ec_resp_preprocess_html(&$variables) {
+function ec_resp_20_preprocess_html(&$variables) {
   // Update page title.
   if (arg(0) == 'node' && is_numeric(arg(1))) {
     $node = node_load(arg(1));
     // if the metatag title exists, it must be used to construct the title page
     if(isset($node->field_meta_title) && !empty($node->field_meta_title))
       $variables['head_title'] = filter_xss($node->field_meta_title['und'][0]['value']);
-    else 
+    else
       $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
   }
   else {
@@ -336,15 +336,15 @@ function ec_resp_preprocess_html(&$variables) {
   }
 
   // Add javascripts to the footer scope.
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel.min.js', array('scope' => 'footer', 'weight' => 11));
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec_resp.js', array('scope' => 'footer', 'weight' => 12));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp_20') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp_20') . '/scripts/jquery.mousewheel.min.js', array('scope' => 'footer', 'weight' => 11));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp_20') . '/scripts/ec_resp.js', array('scope' => 'footer', 'weight' => 12));
 }
 
 /**
  * Implements template_preprocess_menu_link().
  */
-function ec_resp_preprocess_menu_link(&$variables) {
+function ec_resp_20_preprocess_menu_link(&$variables) {
   // Get icon links to menu item.
   $icon = (isset($variables['element']['#localized_options']['attributes']['data-image']) ? $variables['element']['#localized_options']['attributes']['data-image'] : '');
 
@@ -371,16 +371,16 @@ function ec_resp_preprocess_menu_link(&$variables) {
 /**
  * Implements template_preprocess_views_view().
  */
-function ec_resp_preprocess_views_view(&$variables) {
+function ec_resp_20_preprocess_views_view(&$variables) {
   $view = $variables['view'];
 
   switch ($view->name) {
     case 'galleries':
       if ($view->current_display == 'medias_block') {
-        drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-medias-block.js');
+        drupal_add_js(drupal_get_path('theme', 'ec_resp_20') . '/scripts/view-medias-block.js');
       }
       else {
-        drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/view-galleries.js');
+        drupal_add_js(drupal_get_path('theme', 'ec_resp_20') . '/scripts/view-galleries.js');
       }
 
       // Get empty gallery picture, if needed.
@@ -401,7 +401,7 @@ function ec_resp_preprocess_views_view(&$variables) {
       // Check if there is only one picture.
       $rows = str_replace('[Empty_gallery]', '', $rows);
       // Replace nid by number of items in gallery.
-      $variables['rows'] = preg_replace_callback('#<div id="nb_items">([0-9]+)</div>#', "_ec_resp_media_gallery_count", $rows);
+      $variables['rows'] = preg_replace_callback('#<div id="nb_items">([0-9]+)</div>#', "_ec_resp_20_media_gallery_count", $rows);
 
       break;
   }
@@ -410,7 +410,7 @@ function ec_resp_preprocess_views_view(&$variables) {
 /**
  * Implements template_preprocess_views_view_grid().
  */
-function ec_resp_preprocess_views_view_grid(&$variables) {
+function ec_resp_20_preprocess_views_view_grid(&$variables) {
 
   // Set length of each column, depending of number of element on one line.
   $grid_col = array();
@@ -471,7 +471,7 @@ function ec_resp_preprocess_views_view_grid(&$variables) {
 /**
  * Count items in media gallery.
  */
-function _ec_resp_media_gallery_count($matches) {
+function _ec_resp_20_media_gallery_count($matches) {
   $node = node_load($matches[1]);
   $nb_pictures = 0;
   $nb_video = 0;
@@ -490,7 +490,7 @@ function _ec_resp_media_gallery_count($matches) {
 /**
  * Implements hook_page_alter().
  */
-function ec_resp_page_alter(&$page) {
+function ec_resp_20_page_alter(&$page) {
 
   global $language;
   if (arg(0) == 'node') {
@@ -713,7 +713,7 @@ function ec_resp_page_alter(&$page) {
 /**
  * Implements hook_block_view_alter().
  */
-function ec_resp_block_view_alter(&$data, $block) {
+function ec_resp_20_block_view_alter(&$data, $block) {
 
   if ($block->region == 'sidebar_left' || $block->region == 'sidebar_right') {
     // Add classes to list.
@@ -744,7 +744,7 @@ function ec_resp_block_view_alter(&$data, $block) {
 /**
  * Implements theme_form_element().
  */
-function ec_resp_form_element($variables) {
+function ec_resp_20_form_element($variables) {
   $element = &$variables['element'];
 
   // This function is invoked as theme wrapper, but the rendered form element
@@ -817,7 +817,7 @@ function ec_resp_form_element($variables) {
 /**
  * Implements theme_button().
  */
-function ec_resp_button($variables) {
+function ec_resp_20_button($variables) {
   $element = $variables['element'];
   $element['#attributes']['type'] = 'submit';
   element_set_attributes($element, array('id', 'name', 'value'));
@@ -834,7 +834,7 @@ function ec_resp_button($variables) {
 /**
  * Implements theme_menu_tree().
  */
-function ec_resp_menu_tree($variables) {
+function ec_resp_20_menu_tree($variables) {
   $classes = 'menu clearfix list-group list-group-flush list-unstyled';
 
   return '<ul class="' . $classes . '">' . $variables['tree'] . '</ul>';
@@ -843,7 +843,7 @@ function ec_resp_menu_tree($variables) {
 /**
  * Implements theme_menu_tree_main_menu().
  */
-function ec_resp_menu_tree__main_menu($variables) {
+function ec_resp_20_menu_tree__main_menu($variables) {
   if (strpos($variables['tree'], 'dropdown-menu')) {
     // There is a dropdown in this tree.
     $variables['tree'] = str_replace('nav navbar-nav', 'list-group list-group-flush list-unstyled', $variables['tree']);
@@ -858,14 +858,14 @@ function ec_resp_menu_tree__main_menu($variables) {
 /**
  * Implements theme_menu_tree__menu_breadcrumb_menu().
  */
-function ec_resp_menu_tree__menu_breadcrumb_menu($variables) {
+function ec_resp_20_menu_tree__menu_breadcrumb_menu($variables) {
   return '<div class="menu menu-breadcrumb">' . $variables['tree'] . '</div>';
 }
 
 /**
  * Implements theme_menu_link().
  */
-function ec_resp_menu_link($variables) {
+function ec_resp_20_menu_link($variables) {
   $element = $variables['element'];
   $sub_menu = '';
 
@@ -897,7 +897,7 @@ function ec_resp_menu_link($variables) {
 /**
  * Implements theme_menu_link__menu_breadcrumb_menu().
  */
-function ec_resp_menu_link__menu_breadcrumb_menu(array $variables) {
+function ec_resp_20_menu_link__menu_breadcrumb_menu(array $variables) {
   $element = $variables['element'];
   $sub_menu = '';
   $separator = variable_get('easy_breadcrumb-segments_separator');
@@ -913,7 +913,7 @@ function ec_resp_menu_link__menu_breadcrumb_menu(array $variables) {
 /**
  * Implements theme_field__field_type().
  */
-function ec_resp_field__taxonomy_term_reference($variables) {
+function ec_resp_20_field__taxonomy_term_reference($variables) {
   $output = '';
 
   // Render the label, if it's not hidden.
@@ -937,7 +937,7 @@ function ec_resp_field__taxonomy_term_reference($variables) {
 /**
  * Alter tabs.
  */
-function ec_resp_menu_local_tasks(&$variables) {
+function ec_resp_20_menu_local_tasks(&$variables) {
   $output = '';
 
   if (!empty($variables['primary'])) {
@@ -959,13 +959,13 @@ function ec_resp_menu_local_tasks(&$variables) {
 /**
  * Implements hook_form_alter().
  */
-function ec_resp_form_alter(&$form, &$form_state, $form_id) {
+function ec_resp_20_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'search_block_form':
       $form['search_block_form']['#attributes']['placeholder'][] = t('Search');
 
       $form['actions']['submit']['#type'] = 'image_button';
-      $form['actions']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.png';
+      $form['actions']['submit']['#src'] = drupal_get_path('theme', 'ec_resp_20') . '/images/search-button.png';
       $form['actions']['submit']['#attributes']['class'][] = 'btn btn-default btn-small';
       break;
 
@@ -975,7 +975,7 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
       $form['basic']['keys']['#title'] = '';
       $form['basic']['keys']['#attributes']['placeholder'][] = t('Search');
       $form['basic']['submit']['#type'] = 'image_button';
-      $form['basic']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.png';
+      $form['basic']['submit']['#src'] = drupal_get_path('theme', 'ec_resp_20') . '/images/search-button.png';
       $form['basic']['submit']['#attributes']['class'][] = 'btn btn-default btn-small';
       break;
 
@@ -1020,7 +1020,7 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Returns HTML for a link.
  */
-function ec_resp_link($variables) {
+function ec_resp_20_link($variables) {
   $decoration = '';
   $action_bar_before = '';
   $action_bar_after = '';
@@ -1075,7 +1075,7 @@ function ec_resp_link($variables) {
     switch ($variables['options']['attributes']['type']) {
       case 'add':
         $decoration .= '<span class="glyphicon glyphicon-plus"></span> ';
-        $classes = array('btn', 'btn-success');        
+        $classes = array('btn', 'btn-success');
         break;
 
       case 'expand':
@@ -1111,7 +1111,7 @@ function ec_resp_link($variables) {
       	$classes = array();
         break;
     }
-    
+
     if (is_array($variables['options']['attributes']['class'])) {
       $variables['options']['attributes']['class'] = array_merge($variables['options']['attributes']['class'], $classes);
     }
@@ -1131,7 +1131,7 @@ function ec_resp_link($variables) {
 /**
  * Render a block (to be displayed in a template file).
  */
-function ec_resp_block_render($module, $block_id) {
+function ec_resp_20_block_render($module, $block_id) {
   $block = block_load($module, $block_id);
   $block_content = _block_render_blocks(array($block));
   $build = _block_get_renderable_array($block_content);
@@ -1142,16 +1142,16 @@ function ec_resp_block_render($module, $block_id) {
 /**
  * Add an icon corresponding to content type.
  */
-function ec_resp_icon_type_classes($subject) {
+function ec_resp_20_icon_type_classes($subject) {
   $pattern = '@<i class="icon-(.+)"></i>@';
-  $resexp = preg_replace_callback($pattern, 'ec_resp_class_replace', $subject);
+  $resexp = preg_replace_callback($pattern, 'ec_resp_20_class_replace', $subject);
   return $resexp;
 }
 
 /**
  * Add html markup for icons.
  */
-function ec_resp_class_replace($match) {
+function ec_resp_20_class_replace($match) {
   $output = '';
 
   switch ($match[1]) {
@@ -1220,7 +1220,7 @@ function ec_resp_class_replace($match) {
 /**
  * Put Breadcrumbs in a li structure.
  */
-function ec_resp_breadcrumb($variables) {
+function ec_resp_20_breadcrumb($variables) {
   $breadcrumb = $variables['breadcrumb'];
 
   $crumbs = '';
@@ -1239,8 +1239,8 @@ function ec_resp_breadcrumb($variables) {
  *
  * Preprocesses variables for theme_admin_menu_icon().
  */
-function ec_resp_preprocess_admin_menu_icon(&$variables) {
-  $theme_path = drupal_get_path('theme', 'ec_resp');
+function ec_resp_20_preprocess_admin_menu_icon(&$variables) {
+  $theme_path = drupal_get_path('theme', 'ec_resp_20');
   $logo_url = file_create_url($theme_path . '/images/favicon.png');
   $variables['src'] = preg_replace('@^https?:@', '', $logo_url);
 }
@@ -1248,7 +1248,7 @@ function ec_resp_preprocess_admin_menu_icon(&$variables) {
 /**
  * Implements template_preprocess_block().
  */
-function ec_resp_preprocess_block(&$variables) {
+function ec_resp_20_preprocess_block(&$variables) {
 
   global $user, $language;
   if (!empty($user) && 0 != $user->uid) {
@@ -1491,7 +1491,7 @@ function ec_resp_preprocess_block(&$variables) {
 /**
  * Returns HTML for a dropdown.
  */
-function ec_resp_dropdown($variables) {
+function ec_resp_20_dropdown($variables) {
   $items = $variables['items'];
   $attributes = array();
   $output = "";
@@ -1526,7 +1526,7 @@ function ec_resp_dropdown($variables) {
 /**
  * Implements theme_table().
  */
-function ec_resp_table($variables) {
+function ec_resp_20_table($variables) {
   $header = $variables['header'];
   $rows = $variables['rows'];
   $attributes = $variables['attributes'];
@@ -1671,13 +1671,13 @@ function ec_resp_table($variables) {
 /**
  * Implements template_preprocess_comment().
  */
-function ec_resp_preprocess_comment(&$variables) {
+function ec_resp_20_preprocess_comment(&$variables) {
   $variables['comment_created'] = format_date($variables['elements']['#comment']->created, 'custom', 'd/m/Y H:i');
 }
 
 /**
  * Implements template_preprocess_comment_wrapper().
  */
-function ec_resp_preprocess_comment_wrapper(&$variables) {
+function ec_resp_20_preprocess_comment_wrapper(&$variables) {
   $variables['title_text'] = $variables['content']['#node']->type != 'forum' ? t('Comments') : t('Replies');
 }
