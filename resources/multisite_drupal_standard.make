@@ -69,6 +69,9 @@ projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_f
 projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
 
+projects[bounce][subdir] = "contrib"
+projects[bounce][version] = "1.6"
+
 projects[captcha][subdir] = "contrib"
 projects[captcha][version] = "1.2"
 
@@ -149,6 +152,10 @@ projects[ds][version] = "2.11"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
+; Issue #2290941 : Breadcrumb shows escaped HTML tags on core admin pages
+; https://www.drupal.org/node/2290941
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6753
+projects[easy_breadcrumb][patch][] = https://www.drupal.org/files/issues/check-plain-vs-filter-xss_0_1.patch
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -165,8 +172,14 @@ projects[entity_translation][patch][] = patches/entity_translation-001-et-forwar
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
 
+projects[entityreference][download][branch] = 7.x-1.x
+projects[entityreference][download][revision] = ab62b9a
+projects[entityreference][download][type] = git
 projects[entityreference][subdir] = "contrib"
-projects[entityreference][version] = "1.1"
+; Issue #2401811: Rendered entity is not language aware
+; https://www.drupal.org/node/1674792
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6056
+projects[entityreference][patch][] = https://www.drupal.org/files/issues/entityreference-rendered-entity-is-not-language-aware-1674792-85.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
@@ -241,8 +254,12 @@ projects[fullcalendar][subdir] = "contrib"
 projects[fullcalendar][version] = "2.0"
 ; Issue #2185449: Using AJAX results in errors when scrolling through months
 ; https://www.drupal.org/node/2185449
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4393
 projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/ajax_date_format-2185449-11.patch
-projects[fullcalendar][patch][] = patches/fullcalendar-views_dom_id_check-1803770-4.patch
+; Issue #1803770: Uncaught TypeError: Cannot read property 'views_dom_id:***' of undefined.
+; https://www.drupal.org/node/1803770
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4112
+projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/uncaught_typeerror-1803770-10.patch
 ; Issue #2325549: AJAX doesn't work in jQuery 1.9+
 ; https://www.drupal.org/node/2325549
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7373
@@ -297,8 +314,7 @@ projects[link][version] = "1.3"
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
-projects[linkchecker][patch][] = patches/linkchecker-001-bean-integration-2127731-0.patch
-projects[linkchecker][patch][] = patches/linkchecker-003-linkchecker_max_redirects-3576.patch
+projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
 
 projects[mail_edit][subdir] = "contrib"
 projects[mail_edit][version] = "1.0"
@@ -310,10 +326,11 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2"
 
 projects[media][subdir] = contrib
-projects[media][download][branch] = 7.x-2.x
-projects[media][download][revision] = 64c5102
-projects[media][download][type] = git
-projects[media][patch][] = patches/media-wysiwyg-override-white-list-MULTISITE-2607.patch
+projects[media][version] = 2.0-beta1
+; Issue #2062721: Add a white list of file fields that can be overwritten when the file is added in the wysiwyg
+; https://www.drupal.org/node/2062721
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2607
+projects[media][patch][] = https://www.drupal.org/files/issues/media-wysiwyg-override-white-list-2062721-86.patch
 ; Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
 ; https://www.drupal.org/node/2401811
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
@@ -452,6 +469,13 @@ projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
 
+projects[simplenews_statistics][subdir] = "contrib"
+projects[simplenews_statistics][version] = "1.0-alpha1"
+; Syntax error in simplenews_statistics test file
+; https://www.drupal.org/node/2607422
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6813
+projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/syntax_error-2607422-1.patch
+
 projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.3"
 
@@ -572,6 +596,10 @@ projects[workbench_email][version] = "3.5"
 ; https://www.drupal.org/node/2501321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
 projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch
+; Issue only reproducible on NextEuropa platform
+; https://www.drupal.org/node/2590385
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
+projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"

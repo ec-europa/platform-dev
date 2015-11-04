@@ -1,0 +1,12 @@
+===================================================================
+--- a/workbench_email.features.inc
++++ b/workbench_email.features.inc
+@@ -95,8 +95,11 @@
+ function workbench_email_features_rebuild($module) {
+   $defaults = features_get_default('workbench_email', $module);
+   foreach ($defaults as $machine_name => $transition) {
++    $transition = get_object_vars($transition);
+     $role = workbench_email_get_role_by_name($transition['role']);
+   }
+   drupal_static_reset('workbench_email');
+ }

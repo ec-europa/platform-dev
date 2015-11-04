@@ -24,7 +24,7 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-n1256368-
 ; Allow DRUPAL_MAXIMUM_TEMP_FILE_AGE to be overridden.
 ; https://www.drupal.org/node/1399846
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5641
-projects[drupal][patch][] = https://www.drupal.org/files/issues/cleanup-files-1399846-282.patch
+projects[drupal][patch][] = https://www.drupal.org/files/issues/cleanup-files-1399846-291.patch
 
 ; A validation error occurs for anonymous users when $form['#token'] == FALSE.
 ; https://www.drupal.org/node/1617918
