@@ -32,6 +32,22 @@ function _splash_screen_settings_form() {
   // Inserts the fieldset for grouping general settings fields.
   $form['splash_screen'] = $fieldset_general;
 
+  // Override options.
+  $form['splash_screen']['splash_screen_set_title'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Set custom splash screen title'),
+    '#description' => t('If this option is set and the title is filled in below, this title will be used for the splash screen. In other cases it will fall back to the site name'),
+    '#default_value' => variable_get('splash_screen_set_title', 0),
+  );
+
+  // Splash screen title field.
+  $form['splash_screen']['splash_screen_title_value'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Splash screen title'),
+    '#description' => t('The title to use for the splash screen page'),
+    '#default_value' => variable_get('splash_screen_title_value'),
+  );
+
   // Adds buttons for processing the form.
   $form['buttons'] = array(
     'submit' => array(
@@ -62,6 +78,11 @@ function _splash_screen_admin_submit($form, &$form_state) {
 
   // Updates the $form_state before passing it to the Drupal system.
   $form_state['values']['splash_screen_blacklist'] = $blacklist_arr;
+
+  if (empty($form_state['values']['splash_screen_title_value']) && $form_state['values']['splash_screen_set_title'] == 1) {
+    form_set_error('splash_screen_title_value', t('You cannot override the title with an empty value.'));
+    return FALSE;
+  }
 
   // Delegates persistence to the existing Drupal system.
   system_settings_form_submit($form, $form_state);

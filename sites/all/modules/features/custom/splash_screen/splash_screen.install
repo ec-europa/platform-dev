@@ -32,6 +32,8 @@ function splash_screen_install() {
  */
 function splash_screen_uninstall() {
   variable_del('splash_screen_blacklist');
+  variable_del('splash_screen_title_value');
+  variable_del('splash_screen_set_title');
 }
 
 /**
