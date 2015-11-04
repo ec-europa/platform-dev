@@ -76,13 +76,17 @@ function splash_screen_theme($existing, $type, $theme, $path) {
  * Implements hook_preprocess().
  */
 function splash_screen_preprocess_splash(&$variables) {
-  // Set the the splash screen page to the site name.
-  if (variable_get('splash_screen_title_value') && variable_get('splash_screen_set_title', 0)) {
-    drupal_set_title(variable_get('splash_screen_title_value'));
+  // Check the configuration.
+  if (variable_get('splash_screen_set_title', 0)) {
+    $site_name_value = variable_get('splash_screen_title_value');
+    $custom_splash_title = $site_name_value ? $site_name_value : FALSE;
   }
-  elseif ($site_name = variable_get('site_name')) {
-    drupal_set_title($site_name);
-  }
+
+  // Fallback to the site name if it is not configured.
+  $splash_screen_title = $custom_splash_title ? $custom_splash_title : variable_get('site_name');
+
+  // Set the title.
+  drupal_set_title($splash_screen_title);
 
   // Initialize variables.
   $home_page = variable_get('site_frontpage', '');
