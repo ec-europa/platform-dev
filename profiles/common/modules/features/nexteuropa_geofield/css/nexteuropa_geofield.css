@@ -1,0 +1,42 @@
+#geofield_geojson_map {
+  height: 300px;
+}
+
+.remove-label {
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  color: #000;
+  margin-left: 8px;
+  float: right;
+  cursor: pointer;
+}
+
+.leaflet_label_wrapper {
+  border: 1px solid #eee;
+  padding: 2px;
+  margin: 1px;
+  margin-top: 4px;
+  box-shadow: none;
+  border-radius: none;
+}
+
+.leaflet_label {
+  margin-right: 3px;
+  /*float: left;*/
+  /*border: 1px solid #000000;*/
+}
+
+.leaflet_description {
+  width: 70%;
+  /*border: 1px solid #000000;*/
+}
+
+.hide {
+  display: none;
+}
+
+.label_title {
+  float: left;
+}

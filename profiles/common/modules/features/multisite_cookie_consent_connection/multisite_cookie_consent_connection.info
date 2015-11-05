@@ -9,4 +9,3 @@ dependencies[] = entity
 dependencies[] = multisite_cookie_rest
 features[clients_connection][] = csr
 features[features_api][] = api:2
-project path = sites/all/modules/features
