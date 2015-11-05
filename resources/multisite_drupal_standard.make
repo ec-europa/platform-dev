@@ -468,7 +468,7 @@ projects[simplenews_statistics][version] = "1.0-alpha1"
 ; Syntax error in simplenews_statistics test file
 ; https://www.drupal.org/node/2607422
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6813
-projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/syntax_error-2607422-1.patch
+projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-syntax_error-2607422-3.patch
 
 projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.3"
