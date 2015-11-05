@@ -17,7 +17,7 @@
 ?>
 
 <nav class="site-level-language-selector">
-  <img src="<?php print drupal_get_path('module', 'splash_screen'); ?>/theme/icon_language.png" width="64" height="64" alt="Select language" title="Select language" />
+  <?php print $icon; ?>
   <?php print $languages_list; ?>
   <?php print $close_button; ?>
 </nav>
