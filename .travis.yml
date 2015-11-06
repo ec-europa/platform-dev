@@ -49,6 +49,9 @@ matrix:
   include:
     - env: PHP_VERSION="5.6" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PACKAGE="mysql-server-5.6" MYSQL_PPA_REPO="deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.6" 
     - env: PHP_VERSION="5.6" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PACKAGE="mysql-server-5.7" MYSQL_PPA_REPO="deb http://repo.mysql.com/apt/ubuntu/ precise mysql-5.7"
+    - env: PHP_VERSION="5.6" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PACKAGE="percona-server-server-5.6" MYSQL_PPA_REPO="deb http://repo.percona.com/apt trusty main"
+    - env: PHP_VERSION="5.6" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PACKAGE="mariadb-server" MYSQL_PPA_REPO="deb [arch=amd64,i386] http://mirror.netcologne.de/mariadb/repo/10.0/ubuntu trusty main"
+    - env: PHP_VERSION="5.5" PHP_PPA_REPO="ppa:ondrej/php5" MYSQL_PACKAGE="mysql-server-5.5" MYSQL_PPA_REPO="ppa:ondrej/mysql-5.5"
   allow_failures:
     - env: PHP_VERSION="5.6" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PACKAGE="percona-server-server-5.6" MYSQL_PPA_REPO="deb http://repo.percona.com/apt trusty main"
     - env: PHP_VERSION="5.6" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PACKAGE="mariadb-server" MYSQL_PPA_REPO="deb [arch=amd64,i386] http://mirror.netcologne.de/mariadb/repo/10.0/ubuntu trusty main"
