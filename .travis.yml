@@ -24,7 +24,7 @@ script:
   # checking if we can build dist :
   - ./bin/phing 'build-multisite-dist' -D'composer.bin'='./composer.phar'
   # archiving the result for later release ( php 5.6 only and on tagging ):
-  - if [[ "${PHP_VERSION}" == "5.6" ]]; then tar cz build > next-europa-platform-${TRAVIS_TAG}.tar.gz ; fi
+  - if [[ ! -z "${RELEASE_ME}" ]]; then tar cz build > next-europa-platform-${TRAVIS_TAG}.tar.gz ; fi
   # now installing dev deps as well :
   - ./composer.phar install -o --no-interaction --ansi --no-scripts --no-progress 
   # checking if we can build dev :
@@ -47,7 +47,7 @@ deploy:
     tags: true
 matrix:
   include:
-    - env: PHP_VERSION="5.6" MYSQL_PACKAGE="mysql-server-5.6" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PPA_REPO="deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.6" 
+    - env: PHP_VERSION="5.6" MYSQL_PACKAGE="mysql-server-5.6" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PPA_REPO="deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.6" RELEASE_ME=YES 
     - env: PHP_VERSION="5.6" MYSQL_PACKAGE="mysql-server-5.7" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PPA_REPO="deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.7"
     - env: PHP_VERSION="5.6" MYSQL_PACKAGE="percona-server-server-5.6"  PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PPA_REPO="deb http://repo.percona.com/apt trusty main"
     - env: PHP_VERSION="5.6" MYSQL_PACKAGE="mariadb-server" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PPA_REPO="deb [arch=amd64,i386] http://mirror.netcologne.de/mariadb/repo/10.0/ubuntu trusty main"
