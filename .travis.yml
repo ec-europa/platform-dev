@@ -3,10 +3,11 @@ php:
   - 5.6
 script:
   - curl -sS https://getcomposer.org/installer | php
-  - ./composer.phar install -o --no-interaction --ansi --no-scripts --no-progress --no-dev
-  - ./bin/phing 'build-multisite-dist' -D'composer.bin'='./composer.phar'
-  - rm composer.phar
-  - tar cz build > next-europa-platform-${TRAVIS_TAG}.tar.gz
+  - ./composer.phar install -o --no-interaction --ansi --no-scripts --no-progress
+  - mkdir build
+  - echo "Build multisite ${PROFILE}"
+  - ./vendor/bin/drush --concurrency=10 --no-patch-txt --no-core --nocolor --root=$(pwd)/build --yes --pipe make /home/travis/build/ec-europa/platform-dev/resources/${MULTISITE_PROFILE}.make build
+  - tar cz build > legacy-europa-platform-${PROFILE}-${TRAVIS_TAG}.tar.gz
   - ls -lha
 deploy:
   skip_cleanup: true
@@ -17,3 +18,7 @@ deploy:
   on:
     repo: ec-europa/platform-dev
     tags: true
+matrix:
+  include:
+    - env: MULTISITE_PROFILE=multisite_drupal_communities PROFILE=community
+    - env: MUTLSITE_PROFILE=multisite_drupal_standard PROFILE=publishing
