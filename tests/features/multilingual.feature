@@ -4,6 +4,7 @@ Feature: Multilingual features
   As a citizen of the European Union
   I want to be able to read content in my native language
 
+
   Background:
     Given the following languages are available:
       | languages |
@@ -18,13 +19,18 @@ Feature: Multilingual features
       | fr       | Ce titre est en Français     |
       | de       | Dieser Titel ist auf Deutsch |
     Then I should see the heading "This title is in English"
-    And I should see the link "Français"
-    And I should see the link "Deutsch"
-    # Language switcher is broken. Will be fixed in NEXTEUROPA-5895.
-    # When I click "Français"
-    # And I should see the heading "Ce titre est en Français"
-    # When I click "Deutsch"
-    # And I should see the heading "Dieser Titel ist auf Deutsch"
+    And I click "English" in the "header" region
+    Then I should be on the language selector page
+    And I click "Français"
+    Then I should see the heading "Ce titre est en Français"
+    And I click "Français" in the "header" region
+    Then I should be on the language selector page
+    When I click "Deutsch"
+    And I should see the heading "Dieser Titel ist auf Deutsch"
+    And I click "Deutsch"
+    Then I should be on the language selector page
+    And I click "English"
+    Then I should see the heading "This title is in English"
 
   Scenario: Custom URL suffix language negotiation is applied by default on new content.
     Given I am logged in as a user with the 'administrator' role
@@ -33,14 +39,15 @@ Feature: Multilingual features
       | en       | Title in English |
       | fr       | Title in French  |
       | de       | Title in German  |
-    # This is currently broken. It is not possible to switch to a different
-    # language URL. Instead an URL query argument "2nd-language" is appended to
-    # the URL. This will be fixed in NEXTEUROPA-5881.
-    # Then I should be on "content/title-english_en"
-    # When I click "Français"
-    # Then I should be on "content/title-english_fr"
-    # When I click "Deutsch"
-    # Then I should be on "content/title-english_de"
+    Then I should be on "content/title-english_en"
+    And I click "English" in the "header" region
+    Then I should be on the language selector page
+    And I click "Français"
+    Then I should be on "content/title-english_fr"
+    And I click "Français" in the "header" region
+    Then I should be on the language selector page
+    And I click "Deutsch"
+    Then I should be on "content/title-english_de"
 
   Scenario: Enable multiple languages
     Given I am logged in as a user with the 'administrator' role

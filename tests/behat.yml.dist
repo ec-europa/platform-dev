@@ -31,7 +31,14 @@ default:
         root: '${platform.build.dir}'
         binary: "${drush.bin}"
       region_map:
+<<<<<<< HEAD
         header_top: ".region-header-top"
+=======
+        header: "#layout-header"
+        primary_tabs: ".tabs-primary"
+        content: "#layout-body"
+        footer: "#layout-footer"
+>>>>>>> develop
   formatters:
     ${behat.formatter.name}: ~
 
@@ -65,6 +72,13 @@ communities:
         paths:
           - '${behat.subcontexts.path}'
       region_map:
+<<<<<<< HEAD
         header_top: ".region-header-top"
+=======
+        header: "#layout-header"
+        primary_tabs: ".tabs-primary"
+        content: "#layout-body"
+        footer: "#layout-footer"
+>>>>>>> develop
   formatters:
     ${behat.formatter.name}: ~
