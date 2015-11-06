@@ -45,4 +45,4 @@ matrix:
     - env: PHP_VERSION="5.6" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PAKCAGE="mysql-server-5.7" MYSQL_PPA_REPO="ppa:ondrej/mysql-5.7"
     - env: PHP_VERSION="5.6" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PACKAGE="percona-server-server-5.6" MYSQL_PPA_REPO="deb http://repo.percona.com/apt trusty main"
     - env: PHP_VERSION="5.6" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PACKAGE="mariadb-server-10.0" MYSQL_PPA_REPO="ppa:ondrej/mariadb-10.0"
-    - env: PHP_VERSION="5.5" PHP_PPA_REPO="ppa:ondrej/php5" MYSQL_PACKAGE="mysql-server-5.5" MYSQL_PPA_REPO=""ppa:ondrej/mysql-5.5"
+    - env: PHP_VERSION="5.5" PHP_PPA_REPO="ppa:ondrej/php5" MYSQL_PACKAGE="mysql-server-5.5" MYSQL_PPA_REPO="ppa:ondrej/mysql-5.5"
