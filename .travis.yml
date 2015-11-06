@@ -1,13 +1,34 @@
-language: php
-php:
-  - 5.6
+language: generic 
+sudo: required
+dist: trusty
+before_script:
+    - echo "Testing for PHP version ${PHP_VERSION} ..."
+    - sudo apt-get update > /dev/null
+    - sudo apt-get install python-software-properties
+    - sudo add-apt-repository -y ${PPA_REPO}
+    - sudo apt-get update > /dev/null
+    - sudo apt-get install -y --force-yes lighttpd php5-cgi php5-curl php5-mysql php5-intl mysql-server
+    # lighty drupal server :
+    - mkdir build
+    - wget "https://gist.githubusercontent.com/gboddin/20a900c2d3c65a3a6615/raw/790b5a56fd673b3dae215dd5b76170647890240f/drupal_dev_lighttpd.sh" -qO drupal_lighty_server && chmod +x drupal_lighty_server && ./drupal_lighty_server build ${HTTP_SERVER_PORT} & 
 script:
   - curl -sS https://getcomposer.org/installer | php
   - ./composer.phar install -o --no-interaction --ansi --no-scripts --no-progress --no-dev
+  # checking if we can build dist :
   - ./bin/phing 'build-multisite-dist' -D'composer.bin'='./composer.phar'
-  - rm composer.phar
-  - tar cz build > next-europa-platform-${TRAVIS_TAG}.tar.gz
-  - ls -lha
+  # archiving the result for later release ( php 5.6 only and on tagging ):
+  - if [[ "${PHP_VERSION}" == "5.6" ]]; then tar cz build > next-europa-platform-${TRAVIS_TAG}.tar.gz ; fi
+  # now installing dev deps as well :
+  - ./composer.phar install -o --no-interaction --ansi --no-scripts --no-progress 
+  # checking if we can build dev :
+  - ./bin/phing 'build-platform-dev' -D'behat.base_url'="http://127.0.0.1:${HTTP_SERVER_PORT}/" -D'composer.bin'='./composer.phar'
+  # perform cs tests :
+  - ./bin/phpcs -p --colors --report=full --standard=phpcs.xml profiles
+  - ./bin/phpcs -p --colors --report=full --standard=phpcs.xml src
+  # install the platform on the local dbserver :
+  - ./bin/phing 'install-platform' -D'drupal.db.password'='' -D'drupal.db.user'='root'
+  # run the behat tests :
+  - ./bin/behat -c build/behat.yml --colors
 deploy:
   skip_cleanup: true
   provider: releases
@@ -17,3 +38,7 @@ deploy:
   on:
     repo: ec-europa/platform-dev
     tags: true
+matrix:
+  include:
+    - env: PHP_VERSION="5.6" PPA_REPO="ppa:ondrej/php5-5.6"
+    - env: PHP_VERSION="5.5" PPA_REPO="ppa:ondrej/php5"
