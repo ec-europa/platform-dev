@@ -8,7 +8,7 @@ before_script:
     - sudo add-apt-repository -y ${PHP_PPA_REPO}
     - sudo add-apt-repository -y ${MYSQL_PPA_REPO}
     - sudo apt-get update > /dev/null
-    - sudo apt-get install -y --force-yes lighttpd php5-cgi php5-curl php5-mysql php5-intl ${MYSQL_PAKCAGE}
+    - sudo apt-get install -y --force-yes lighttpd php5-cgi php5-curl php5-mysql php5-intl ${MYSQL_PACKAGE}
     # lighty drupal server :
     - mkdir build
     - wget "https://gist.githubusercontent.com/gboddin/20a900c2d3c65a3a6615/raw/790b5a56fd673b3dae215dd5b76170647890240f/drupal_dev_lighttpd.sh" -qO drupal_lighty_server && chmod +x drupal_lighty_server && ./drupal_lighty_server build ${HTTP_SERVER_PORT} & 
