@@ -5,7 +5,7 @@ script:
   - ./composer.phar install -o --no-interaction --ansi --no-scripts --no-progress
   - mkdir build
   - echo "Build multisite ${PROFILE}"
-  - ./vendor/bin/drush --concurrency=10 --no-patch-txt --no-core --nocolor --root=$(pwd)/build --yes --pipe make /home/travis/build/ec-europa/platform-dev/resources/${MULTISITE_PROFILE}.make build
+  - ./vendor/bin/drush --concurrency=10 --no-patch-txt --no-core --nocolor --root=$(pwd)/build --yes --pipe make $(pwd)/${MULTISITE_PROFILE} build
   - tar cz build > legacy-europa-platform-${PROFILE}-${TRAVIS_TAG}.tar.gz
 deploy:
   skip_cleanup: true
@@ -18,5 +18,5 @@ deploy:
     tags: true
 matrix:
   include:
-    - env: MULTISITE_PROFILE=multisite_drupal_communities PROFILE=community
-    - env: MUTLSITE_PROFILE=multisite_drupal_standard PROFILE=publishing
+    - env: MULTISITE_PROFILE=profiles/multisite_drupal_communities/build.make PROFILE=community
+    - env: MUTLSITE_PROFILE=profiles/multisite_drupal_standard/build.make PROFILE=publishing
