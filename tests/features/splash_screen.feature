@@ -60,9 +60,7 @@ Feature: Splash Screen features
     Then I should see the success message "The configuration options have been saved."
     When I go to "/"
     Then I should see "Splash screen testing title" in the "title" element
-
-  @api
-  Scenario: Being able to see the splash screen title
-    Given I am logged in as a user with the 'anonymous user' role
+    # Also test as an anonymous user
+    Given I am not logged in
     And I go to "/"
     Then I should see "Splash screen testing title" in the "title" element
