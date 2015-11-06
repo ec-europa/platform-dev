@@ -31,7 +31,7 @@ default:
         root: '${platform.build.dir}'
         binary: "${drush.bin}"
       region_map:
-        header_top: ".region-header-top"
+        header_top: ".region-header-right"
         header: "#layout-header"
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
