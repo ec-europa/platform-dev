@@ -1,0 +1,62 @@
+<?php
+/**
+ * @file
+ * Install the feature links.
+ */
+
+/**
+ * Implements hook_enable().
+ *
+ * Edit communities context to add a block.
+ */
+function links_og_enable() {
+  // Add block in context.
+  multisite_drupal_toolbox_add_views_context('communities', 'links:page');
+  multisite_drupal_toolbox_add_content_type_context('communities', 'links');
+
+  multisite_drupal_toolbox_add_path_context('communities_menu_item', 'community/*/links/*');
+  multisite_drupal_toolbox_add_views_context('communities_menu_item', 'links:page');
+
+  // Override drupal variables defined in core feature.
+  variable_set('pathauto_node_links_pattern', 'community/[node:og_group_ref]/links/[node:title]');
+
+  drupal_flush_all_caches();
+}
+
+
+/**
+ * Implements hook_disable().
+ *
+ * Edit communities context to remove block
+ * Remove permissions.
+ */
+function links_og_disable() {
+  // Remove block.
+  multisite_drupal_toolbox_remove_views_context('communities', 'links');
+  multisite_drupal_toolbox_remove_content_type_context('communities', 'links');
+
+  multisite_drupal_toolbox_remove_path_context('communities_menu_item', 'community/*/links/*');
+  multisite_drupal_toolbox_remove_views_context('communities_menu_item', 'links:page');
+
+  variable_del('pathauto_node_links_pattern');
+}
+
+/**
+ * Implements hook_modules_enabled().
+ */
+function links_og_modules_enabled($modules) {
+  if (in_array('links_og', $modules)) {
+    // Force feature revert to update og permissions.
+    features_revert(array('links_og' => array('og_features_permission')));
+  }
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Add links options on "communities_menu_item" context.
+ */
+function links_og_update_7101() {
+  multisite_drupal_toolbox_add_path_context('communities_menu_item', 'community/*/links/*');
+  multisite_drupal_toolbox_add_views_context('communities_menu_item', 'links:page');
+}

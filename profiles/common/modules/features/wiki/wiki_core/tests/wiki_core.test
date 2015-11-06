@@ -1,0 +1,106 @@
+<?php
+
+/**
+ * @file
+ * Tests for PROJECTFEATURE_STARTERKIT.module.
+ *
+ * ECWeb MULTISITE QA.
+ */
+
+/**
+ * Defines a base class for testing the Wiki feature.
+ */
+class MultisiteWikiStandardFeatureTest extends DrupalWebTestCase {
+  /**
+   * Info for the simpleTest UI.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'wiki_core feature test',
+      'description' => 'Test the wiki_core feature to ensure it works as intended.',
+      'group' => 'Multisite Core Features',
+    );
+  }
+
+  /**
+   * Configure the environment, enable the required modules.
+   */
+  public function setUp() {
+    parent::setUp(array('wiki_core'));
+    $this->user_contributor = $this->drupalCreateUserWithRole("user_contributor");
+  }
+
+  /**
+   * Creates a user with the given role.
+   */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
+  }
+
+  /**
+   * Check content type and fields.
+   */
+  public function testWikiInstallation() {
+    // Checkout there is a content type called wiki.
+    $node_type = node_type_get_type('wiki');
+    $this->assertTrue($node_type, 'There is a Wiki content type.', 'API');
+
+    // Checkout wiki has a body field.
+    $body = field_info_instance('node', 'body', 'wiki');
+    $this->assertTrue($body, 'Wiki content type has a body field.', 'API');
+  }
+
+  /**
+   * Check the access to the content creation depending on roles.
+   */
+  public function testWikiAccess() {
+
+    // Verify that anonymous users can't create wiki nodes.
+    $this->drupalGet('node/add/wiki');
+    $this->assertResponse(403, 'Anonymous Access -> Expected Fail');
+
+    $this->drupalLogin($this->user_contributor);
+    // Verify that authenticated users with permissions can create wiki nodes.
+    $this->drupalGet('node/add/wiki');
+    $this->assertResponse(200, 'Authenticated Access -> Expected OK');
+  }
+
+  /**
+   * Create a "test" node and check it.
+   */
+  public function testWikiCreate() {
+    $this->drupalLogin($this->user_contributor);
+    $title = $this->randomName(8);
+
+    $settings = array(
+      'body' => array(LANGUAGE_NONE => array(array($this->randomName(128)))),
+      'title' => $title,
+      'type' => 'wiki',
+      'status' => 1,
+      'revisions' => NULL,
+      'language' => LANGUAGE_NONE,
+    );
+    $node = $this->drupalCreateNode($settings);
+
+    $this->drupalGet('node/' . $node->nid);
+    $this->assertResponse(array(200), format_string('Settings Page: !url is accessible', array('!url' => 'node/' . $node->nid)));
+
+  }
+
+}

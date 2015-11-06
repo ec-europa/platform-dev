@@ -1,0 +1,16 @@
+--- menu_attributes.module	Fri Jul 17 10:58:03 2015
++++ menu_attributes.module	Fri Jul 17 10:42:30 2015
+@@ -273,6 +273,13 @@
+       '#rows' => 2,
+     ),
+   );
++  $info['data-hide-children'] = array(
++    'label' => t('Hide children menu items'),
++    'description' => t('If checked, children items of this menu item will never be displayed (mainly used when displaying menu blocks).'),
++    'form' => array(
++      '#type' => 'checkbox',
++    ),
++  );
+   $info['id'] = array(
+     'label' => t('ID'),
+     'description' => t('Specifies a unique ID for the link.'),

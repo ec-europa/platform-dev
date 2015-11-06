@@ -1,0 +1,27 @@
+<?php
+/**
+ * @file
+ * Install the feature multisite_activity_og.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function multisite_activity_og_enable() {
+  drupal_set_message(t('Multisite activity feature is now enabled on your site.'));
+
+  // Add block in context.
+  multisite_drupal_toolbox_add_block_context('communities_homepage', 'views-multisite_activity-block_1', 'views', 'multisite_activity-block_1', 'content_bottom');
+
+}
+
+
+/**
+ * Implements hook_disable().
+ */
+function multisite_activity_og_disable() {
+  drupal_set_message(t('Multisite activity feature is now disabled on your site.'));
+
+  // Remove block in context.
+  multisite_drupal_toolbox_remove_block_context('communities_homepage', 'views-multisite_activity-block_1', 'views', 'multisite_activity-block_1', 'content_bottom');
+}

@@ -1,0 +1,94 @@
+--- feature_set.module	2015-02-25 14:00:55.000000000 +0100
++++ feature_set.module	2015-07-02 14:45:55.000000000 +0200
+@@ -136,7 +136,17 @@
+ 
+ function feature_set_enable_feature_set($feature_set) {
+   if (!empty($feature_set['enable'])) {
+-    module_enable($feature_set['enable']);
++    if (module_enable($feature_set['enable'])) {
++      return TRUE;
++    }
++    else {
++      foreach ($feature_set['enable'] as $module) {
++        if (!drupal_get_path('module', $module)) {
++          drupal_set_message(t("<b>%m</b> module could not be activated.", array('%m' => $module)), 'error');
++        }
++      }
++      return FALSE;
++    }
+   }
+ }
+
+@@ -142,8 +142,43 @@
+ 
+ function feature_set_disable_feature_set($feature_set) {
+   if (!empty($feature_set['disable'])) {
++    // Before disabling a feature set, we have to check if included features
++    // implement content types and then if it remains nodes with
++    // theses content types.
++    $check_node = 0;
++    foreach ($feature_set['disable'] as $module_to_disable) {
++      $info_file = drupal_get_path('module', $module_to_disable) . "/" . $module_to_disable . ".info";
++      $info = drupal_parse_info_file($info_file);
++
++      // The feature implements a content type.
++      if (isset($info['features']['node'])) {
++        $node_type_warning = array();
++        foreach ($info['features']['node'] as $node_type) {
++          $result = db_select('node', 'n')
++            ->fields('n', array('nid'))
++            ->condition('type', $node_type, '=')
++            ->execute()
++            ->fetchAll();
++
++          // It exists nodes of this content type.
++          if (count($result) > 0) {
++            $check_node++;
++            $node_type_warning[] = $node_type;
++          }
++        }
++      }
++    }
++
++    if ($check_node > 0) {
++      drupal_set_message(t("<b>WARNING</b><br/> %f not disabled, you have to remove all <b>%t</b> contents.", array(
++        '%f' => check_plain($feature_set['title']),
++        '%t' => implode("", $node_type_warning),
++      )), 'warning');
++    }
++    else {
+     module_disable($feature_set['disable']);
+   }
++  }
+   if (!empty($feature_set['uninstall'])) {
+     drupal_uninstall_modules($feature_set['uninstall']);
+   }
+   
+--- feature_set.admin.inc       2015-02-25 14:00:55.000000000 +0100
++++ feature_set.admin.inc   2015-09-07 14:56:28.308956893 +0200
+@@ -140,12 +145,18 @@
+       $featureset = str_replace('featureset-', '', $key);
+       // only operate if its in an 'OK' status
+       if ( isset($featuresets[$featureset]) && $featuresets[$featureset]['status'] != 0) {
+-         if ($form_state['values'][$key]) {
+-          $operations[] = array('feature_set_enable_feature_set', array($featuresets[$featureset]));
+-         }
+-         else {
+-          $operations[] = array('feature_set_disable_feature_set', array($featuresets[$featureset]));
+-         }
++        if ($form_state['values'][$key]) {
++          // Do not enable a module already enabled.
++          if (!module_exists($featureset)) {
++             $operations[] = array('feature_set_enable_feature_set', array($featuresets[$featureset]));
++          }
++        }
++        else {
++          // Do not disable a module already disabled.
++          if (module_exists($featureset)) {
++            $operations[] = array('feature_set_disable_feature_set', array($featuresets[$featureset]));
++          }
++        }
+       }
+     }
+   }
+

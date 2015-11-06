@@ -1,0 +1,12 @@
+name = Events
+description = Add an events calendar to your site
+core = 7.x
+package = Multisite Standard Features
+version = 7.x-2.1
+project = events_standard
+dependencies[] = events_core
+features[context][] = even_posts
+features[ctools][] = context:context:3
+features[ctools][] = strongarm:strongarm:1
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2

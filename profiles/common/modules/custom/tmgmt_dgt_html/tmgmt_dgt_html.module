@@ -1,0 +1,29 @@
+<?php
+/**
+ * @file
+ * Module file for DGT approved HMTL format.
+ */
+
+/**
+ * Implements hook_tmgmt_file_format_plugin_info().
+ */
+function tmgmt_dgt_html_tmgmt_file_format_plugin_info() {
+
+  $info['html_poetry']['label'] = t('HTML DGT');
+  $info['html_poetry']['plugin controller class'] = 'TMGMTFileDGTFormatHTML';
+
+  return $info;
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function tmgmt_dgt_html_theme() {
+  return array(
+    'tmgmt_dgt_html_template' => array(
+      'path' => drupal_get_path('module', 'tmgmt_dgt_html') . '/templates',
+      'template' => 'tmgmt_dgt_html_template',
+    ),
+  );
+}

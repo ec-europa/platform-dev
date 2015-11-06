@@ -1,0 +1,42 @@
+<?php
+/**
+ * @file
+ * Drupal needs this blank file.
+ */
+
+/**
+ * Implements hook_ckeditor_plugin().
+ */
+function text_collapse_ckeditor_plugin() {
+  return array(
+    'collapse' => array(
+      'name' => 'collapse',
+      'desc' => 'Collapse - ' . t('Inserts [collapsed][/collapsed] tags'),
+      'path' => drupal_get_path('module', 'text_collapse') . '/plugins/collapse/',
+      'buttons' => array(
+        'collapse' => array('label' => t('Insert collapsible block'), 'icon' => 'button.png'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_wysiwyg_plugin().
+ */
+function text_collapse_wysiwyg_plugin($editor, $version) {
+  switch ($editor) {
+    case 'ckeditor':
+      return array(
+        'collapse' => array(
+          'name' => 'collapse',
+          'desc' => 'Collapse - ' . t('Inserts [collapsed][/collapsed] tags'),
+          'path' => drupal_get_path('module', 'text_collapse') . '/plugins/collapse/',
+          'internal' => FALSE,
+          'load' => TRUE,
+          'buttons' => array(
+            'collapse' => t('Insert collapsible block'),
+          ),
+        ),
+      );
+  }
+}

@@ -1,0 +1,9 @@
+.ldap_entry div {
+  padding: 0px 0px 0px 20px;
+}
+
+.ldap_entry label.option {
+  border-bottom: 1px solid #666;
+  display: block;
+  font-weight: bold;
+}

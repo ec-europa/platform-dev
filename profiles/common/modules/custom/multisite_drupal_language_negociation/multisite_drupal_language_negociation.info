@@ -1,0 +1,10 @@
+name = multisite drupal language negociation
+description = language negociation process for the multisite plateform
+package = multisite drupal toolbox
+core = 7.x
+dependencies[] = locale
+dependencies[] = translation
+
+version = "7.x-1.1"
+project = "multisite_drupal_language_negociation"
+datestamp = "1322093758"

@@ -1,0 +1,27 @@
+<?php
+/**
+ * @file
+ * Wiki OG module file.
+ */
+
+include_once 'wiki_og.features.inc';
+include_once 'wiki_og.views_alter.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function wiki_og_menu() {
+  $items = array();
+
+  $items['community/%group_name/wiki'] = array(
+    'title' => 'Wikis',
+    'page callback' => 'views_page',
+    'page arguments' => array('wiki_list', 'page_2', 1),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'menu-communities-menu',
+    'weight' => 1,
+  );
+
+  return $items;
+}

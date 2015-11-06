@@ -1,8 +1,0 @@
-name = Multisite Create Button
-description = "Provides contextual links to create site wide content"
-package = "Multisite Core Features"
-
-core = 7.x
-version = "7.x-1.0"
-files[] = multisite_create_button.module
-files[] = multisite_create_button.test

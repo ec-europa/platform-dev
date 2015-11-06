@@ -1,0 +1,25 @@
+name = events_og
+description = Add an events calendar to your communities
+core = 7.x
+package = Multisite OG Features
+
+dependencies[] = events_core
+dependencies[] = field_group
+
+features[ctools][] = context:context:3
+features[ctools][] = field_group:field_group:1
+features[ctools][] = strongarm:strongarm:1
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[field_group][] = group_event_community|node|event|form
+features[field_instance][] = node-event-group_content_access
+features[field_instance][] = node-event-og_group_ref
+features[og_features_permission][] = node:community:create event content
+features[og_features_permission][] = node:community:delete any event content
+features[og_features_permission][] = node:community:delete own event content
+features[og_features_permission][] = node:community:update any event content
+features[og_features_permission][] = node:community:update own event content
+features[og_features_role][] = node:community:community_manager
+features[variable][] = pathauto_node_event_pattern
+
+files[] = tests/events_og.test

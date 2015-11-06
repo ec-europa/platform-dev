@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * @file
+ * Multisite Toolbox installation module.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function multisite_drupal_toolbox_enable() {
+  variable_set('contact_form_maxlength', 1000);
+
+  // Remove "Workbench information" block from its default location.
+  db_update('block')
+    ->fields(array('region' => '-1'))
+    ->condition('module', 'workbench', '=')
+    ->condition('delta', 'block', '=')
+    ->execute();
+
+  // Enable toolbox_sanitize on all text filters.
+  multisite_config_service('filter')->enableTextFilter('basic_html', 'toolbox_sanitize');
+  multisite_config_service('filter')->enableTextFilter('filtered_html', 'toolbox_sanitize');
+  multisite_config_service('filter')->enableTextFilter('full_html', 'toolbox_sanitize');
+}
+
+/**
+ * Implements hook_disable().
+ */
+function multisite_drupal_toolbox_disable() {
+  variable_set('contact_form_maxlength');
+}
+
+/**
+ * Makes the "Workbench information" block available again.
+ */
+function multisite_drupal_toolbox_update_7105() {
+  db_update('block')
+    ->fields(array('region' => '-1'))
+    ->condition('module', 'workbench', '=')
+    ->condition('delta', 'block', '=')
+    ->condition('region', '', '=')
+    ->execute();
+}
+
+/**
+ * MULTISITE-6395: Enable toolbox sanitize filter.
+ */
+function multisite_drupal_toolbox_update_7201() {
+  // Enable toolbox_sanitize on full_html text filter.
+  multisite_config_service('filter')->enableTextFilter('basic_html', 'toolbox_sanitize');
+  multisite_config_service('filter')->enableTextFilter('filtered_html', 'toolbox_sanitize');
+  multisite_config_service('filter')->enableTextFilter('full_html', 'toolbox_sanitize');
+}

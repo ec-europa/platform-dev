@@ -1,0 +1,91 @@
+<?php
+
+/**
+ * @file
+ * Tests for PROJECTFEATURE_e_library_standard_core.module : eCWeb MULTISITE QA.
+ */
+
+/**
+ * Defines a base class for testing the "multisite_translations" module.
+ */
+class MultisiteElibraryStandardFunctionalWebTestCase extends DrupalWebTestCase {
+  protected $privilegedUser;
+  protected $contributorUser;
+
+  /**
+   * Return class informations.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'E library standard functional tests',
+      'description' => 'Test the e_library_standard features',
+      'group' => 'Multisite Standard',
+    );
+  }
+
+  /**
+   * Initialize users.
+   */
+  public function setUp() {
+    parent::setUp(array('e_library_core', 'e_library_standard'));
+    $this->privilegedUser = $this->drupalCreateUserWithRole("administrator");
+    $this->contributorUser = $this->drupalCreateUserWithRole("contributor");
+    $this->drupalLogin($this->privilegedUser);
+  }
+
+  /**
+   * Test ELibrary : document creation.
+   */
+  public function testElibraryStandard() {
+    // Check the e_library page.
+    $this->drupalGet('e_library');
+    $this->assertResponse(200, 'The e_library is accessible');
+    $this->assertRaw('Browse library of document', 'The e_library page is created');
+
+    // Content type creation.
+    $field_name = 'field_document';
+    $edit = array(
+      'title' => 'my first document',
+    );
+    $edit['files[' . $field_name . '_' . LANGUAGE_NONE . '_0]'] = drupal_realpath('sites/all/modules/features/custom/e_library/e_library_standard/tests/test_file.pdf');
+    $this->drupalPost('node/add/document', $edit, t('Save'));
+
+    $this->assertRaw('my first document', 'Document created');
+    $this->assertLink('test_file.pdf', 0, 'Link to uploaded document accessible');
+    $this->clickLink('test_file.pdf');
+    $this->assertResponse(200, 'The document uploaded is accessible');
+
+    // Get the node object.
+    $node = $this->drupalGetNodeByTitle('my first document');
+    // Change workflow state to published.
+    $moderate = array('state' => workbench_moderation_state_published());
+    $this->drupalPost("node/{$node->nid}/moderation", $moderate, t('Apply'));
+
+    $this->drupalGet('e_library');
+    $this->assertLink('my first document', 0, 'The document created is visible in the e_library');
+  }
+
+  /**
+   * Creates a user with the give role.
+   * */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
+  }
+
+}
