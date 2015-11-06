@@ -20,3 +20,5 @@ matrix:
   include:
     - env: MULTISITE_PROFILE=profiles/multisite_drupal_communities/build.make PROFILE=community
     - env: MUTLSITE_PROFILE=profiles/multisite_drupal_standard/build.make PROFILE=publishing
+  exclude:
+    - php: 5.6
