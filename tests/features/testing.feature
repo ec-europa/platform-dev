@@ -9,5 +9,5 @@ Scenario: Administrator user can see the testing page
     |modules|
     |simpletest|
   Given I am logged in as a user with the 'administrator' role
-  When I visit "admin/config/development/testing_en"
+  When I visit "admin/config/development/testing"
   Then I should see the text "Select the test(s) or test group(s) you would like to run, and click Run tests."

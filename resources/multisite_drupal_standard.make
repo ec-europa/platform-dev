@@ -314,6 +314,7 @@ projects[link][version] = "1.3"
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
+projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
 
 projects[mail_edit][subdir] = "contrib"
@@ -474,7 +475,7 @@ projects[simplenews_statistics][version] = "1.0-alpha1"
 ; Syntax error in simplenews_statistics test file
 ; https://www.drupal.org/node/2607422
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6813
-projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/syntax_error-2607422-1.patch
+projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-syntax_error-2607422-3.patch
 
 projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.3"
@@ -751,7 +752,7 @@ libraries[leaflet][destination] = "libraries"
 libraries[leaflet][download][type] = "file"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip"
 libraries[leaflet][directory_name] = "leaflet"
-=======
+
 ; ===========================
 ; Libraries for Ec_resp Theme
 ; ===========================
@@ -787,36 +788,6 @@ libraries[respond][destination] = "themes/ec_resp"
 libraries[respond][directory_name] = "scripts"
 libraries[respond][download][type] = "get"
 libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
-
-
-; ==============================
-; Libraries for Ec_resp_17 Theme
-; ==============================
-
-; Ec_resp_17 theme: Bootstrap 3.1.1
-libraries[ec_resp_17_bootstrap][download][type] = get
-libraries[ec_resp_17_bootstrap][download][url] = https://github.com/twbs/bootstrap/releases/download/v3.1.1/bootstrap-3.1.1-dist.zip
-libraries[ec_resp_17_bootstrap][download][file_type] = "zip"
-libraries[ec_resp_17_bootstrap][destination] =  "themes/ec_resp_17"
-libraries[ec_resp_17_bootstrap][directory_name] = bootstrap
-
-libraries[ec_resp_17_bootstrap_less][download][type] = "get"
-libraries[ec_resp_17_bootstrap_less][download][url] = "https://github.com/twbs/bootstrap/archive/v3.1.1.zip"
-libraries[ec_resp_17_bootstrap_less][download][subtree] = "bootstrap-3.1.1/less"
-libraries[ec_resp_17_bootstrap_less][destination] =  "themes/ec_resp_17/bootstrap"
-libraries[ec_resp_17_bootstrap_less][directory_name] = less
-
-; Ec_resp_17 theme: jQuery Mousewheel
-libraries[ec_resp_17_mousewheel][destination] = "themes/ec_resp_17"
-libraries[ec_resp_17_mousewheel][directory_name] = "scripts"
-libraries[ec_resp_17_mousewheel][download][type] = "get"
-libraries[ec_resp_17_mousewheel][download][url] = "https://raw.githubusercontent.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"
-
-; Ec_resp_17 theme: Respond JS
-libraries[ec_resp_17_respond][destination] = "themes/ec_resp_17"
-libraries[ec_resp_17_respond][directory_name] = "scripts"
-libraries[ec_resp_17_respond][download][type] = "get"
-libraries[ec_resp_17_respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
 
 ; ======
 ; Themes
