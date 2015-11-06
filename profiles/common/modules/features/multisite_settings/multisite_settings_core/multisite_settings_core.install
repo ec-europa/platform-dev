@@ -97,5 +97,6 @@ function multisite_settings_core_update_7123() {
   // DELETE FROM cache_variable;
   // DELETE FROM cache_bootstrap WHERE cid = 'variables';
   // @endcode
+  include_once DRUPAL_ROOT . '/includes/language.inc';
   language_types_set();
 }
