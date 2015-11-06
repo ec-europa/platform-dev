@@ -8,7 +8,7 @@
     "ext-json": "*",
     "ext-phar": "*",
     "ext-xml": "*",
-    "pear/versioncontrol_git": "dev-master#47d1c6dfe2f6",
+    "pear/versioncontrol_git": "dev-master",
     "pfrenssen/phpcs-pre-push": "1.0",
     "phing/phing": "~2.10",
     "php": ">=5.4.0",
@@ -33,11 +33,6 @@
       "_comment": "Temporary fork of squizlabs/php_codesniffer including fix for NEXTEUROPA-4429.",
       "type": "vcs",
       "url": "git@github.com:pfrenssen/PHP_CodeSniffer.git"
-    },
-    {
-      "_comment": "Temporary fork of pear/versioncontrol_git including fix for NEXTEUROPA-5516.",
-      "type": "vcs",
-      "url": "https://github.com/gboddin/VersionControl_Git.git"
     },
     {
       "type": "package",
