@@ -1,5 +1,5 @@
 {
     "require": {
-        "drush/drush": "dev-master"
+        "drush/drush": "^7.1"
     }
 }
