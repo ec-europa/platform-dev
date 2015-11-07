@@ -4,21 +4,29 @@ script:
   - curl -sS https://getcomposer.org/installer | php
   - ./composer.phar install -o --no-interaction --ansi --no-scripts --no-progress
   - echo "Build multisite ${PROFILE}"
-  - ./vendor/bin/drush --concurrency=10 --root=$(pwd)/build --yes --pipe make $(pwd)/${MULTISITE_PROFILE} build
-  - ls build -lha
+  - ./vendor/bin/drush --concurrency=10 --root=$(pwd)/build --yes --pipe make $(pwd)/profiles/${PROFILE}/build.make build
+  - rm build/*.patch
+  - rm build/{INSTALL.{mysql,pgsql,sqlite},CHANGELOG,UPGRADE}.txt
+  - cp -R "profiles/multisite_drupal_core" "build/profiles"
+  - cp -R "profiles/${PROFILE}" "build/profiles"
+  - cp -R "sites/all/modules/" "build/sites/all"
+  - cp -R "sites/all/themes" "build/sites/all"
+  - cp -R "sites/all/libraries" "build/sites/all"
+  - cp -R "sites/default/files/" "build/sites/default/files/"
+  - find build
   - tar cz build > legacy-europa-platform-${PROFILE}-${TRAVIS_TAG}.tar.gz
 deploy:
   skip_cleanup: true
   provider: releases
   api_key:
     secure: mjJBmbunwTVl6xWVf+Un6aGEX0xKkAPy/wj75R9Uzhiy4UyvA5dULp8IbzavQvgniOYbunvCYYgswNcylUf7cfQlhoNfRcT+E0lvHH+BpHj5QdPdtaQTPzjkaFjcTL3fm1tZV+bPaWuvWjDiqClUnqMlmveH3JfB7BNNi8Ylr1vf64v9GHbDnxN0io2PO9eIQ7GyAuvliWan0l2HwOblp9r2UVQQCo9a/31Yhn7mp8X17OyEAyyB7vva6tswybzBAGCND/GtmMcFfSnWMUyI1opeJe7v04LPPh7HVfT3R/JtXjYUO7kEBKmXca8FptKTnGnB17FJMThiCAogTG1QjtCqe95kAhL2wJp8prpghuNmLYGbfDuFmJIQaA2C67VQCtHRKD2zhKLhW5zbH0YM2rg3A5trGU69hrE7uTYX65dyOldnEeBMZYRI9jeyNgdaWzGdreJaJOwKK/Yu+uAC1bBB9s814XbE72ZNpfTDrRyzMOP5NNwsTfLNipQCYEVLRk6mR8KV9pnnrnNfNr2hfomBRAtI6Q97td9VOREs3nVvTdYkTFQ+SNiWPtTYUmZnX/JxrrwkW4C2yNvubXF0uFZHxW66kQZM8PlMj6EO4rhKguBKPhIEioYOK1tT7IqL/RFH6B6cnWrFvmpCkoXwtWEETu5tky+0UpP0t3F4J+4=
-  file: next-europa-platform-${TRAVIS_TAG}.tar.gz 
+  file: legacy-europa-platform-${PROFILE}-${TRAVIS_TAG}.tar.gz
   on:
     repo: ec-europa/platform-dev
     tags: true
 matrix:
   include:
-    - env: MULTISITE_PROFILE=profiles/multisite_drupal_communities/build.make PROFILE=community
-    - env: MULTISITE_PROFILE=profiles/multisite_drupal_standard/build.make PROFILE=publishing
+    - env: PROFILE=multisite_drupal_communities
+    - env: PROFILE=multisite_drupal_standard
   exclude:
     - php: 5.6
