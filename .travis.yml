@@ -13,7 +13,6 @@ script:
   - cp -R "sites/all/themes" "build/sites/all"
   - cp -R "sites/all/libraries" "build/sites/all"
   - cp -R "sites/default/files/" "build/sites/default/files/"
-  - find build
   - tar cz build > legacy-europa-platform-${PROFILE}-${TRAVIS_TAG}.tar.gz
 deploy:
   skip_cleanup: true
