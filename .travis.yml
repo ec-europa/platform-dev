@@ -6,6 +6,7 @@ script:
   - mkdir build
   - echo "Build multisite ${PROFILE}"
   - ./vendor/bin/drush --concurrency=10 --no-patch-txt --no-core --nocolor --root=$(pwd)/build --yes --pipe make $(pwd)/${MULTISITE_PROFILE} build
+  - ls build -lha
   - tar cz build > legacy-europa-platform-${PROFILE}-${TRAVIS_TAG}.tar.gz
 deploy:
   skip_cleanup: true
