@@ -74,3 +74,6 @@ Feature: Multilingual features
     And the cache has been cleared
     And I should not see "admin/fake-url" in the ".form-item-site-frontpage span.field-prefix" element
     And I should not see "en-prefix" in the ".form-item-site-frontpage span.field-prefix" element
+    When I go to "admin/config/regional/language/edit/en"
+    And I fill in "edit-prefix" with "en"
+    And I press the "Save language" button
