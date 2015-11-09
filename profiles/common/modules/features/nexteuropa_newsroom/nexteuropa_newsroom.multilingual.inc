@@ -19,7 +19,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       'query' => 'title',
     ),
     'guid' => array(
-      'query' => 'guid/text()',
+      'query' => '@nrid',
       'unique' => 1,
     ),
     'field_newsroom_item_date:start' => array(
@@ -260,7 +260,7 @@ function _nexteuropa_newsroom_create_multilingual_topics_importer() {
       'target' => 'Temporary target 1',
     ),
     'guid' => array(
-      'query' => '@infsonewsroom:TopicId',
+      'query' => '@nrid',
       'unique' => 1,
     ),
     'field_newsroom_topic_id' => array(
@@ -344,7 +344,7 @@ function _nexteuropa_newsroom_create_multilingual_types_importer() {
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'guid' => array(
-      'query' => 'infsonewsroom:BasicTypeId/text()',
+      'query' => '@nrid',
       'unique' => 1,
     ),
     'field_newsroom_type_id' => array(
@@ -425,7 +425,7 @@ function _nexteuropa_newsroom_create_multilingual_services_importer() {
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'guid' => array(
-      'query' => 'guid/text()',
+      'query' => '@nrid',
       'unique' => 1,
     ),
     'field_newsroom_service_id' => array(
