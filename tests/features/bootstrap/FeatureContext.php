@@ -168,4 +168,26 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
   }
 
+
+  /**
+   * Check the languages order in the language selector page.
+   *
+   * @Then the language options on the page content language switcher should be :active_language non clickable followed by :language_order links
+   */
+  public function theLanguageOptionsOnThePageContentLanguageSwitcherShouldBe($active_language, $language_order) {
+    $pattern = '/<li class="lang-select-page__served">' . $active_language . '<\/li>';
+    $languages = explode(",", $language_order);
+    foreach ($languages as $language) {
+      $pattern .= '<li><a href="(.*)" class="active">' . $language . '<\/a><\/li>';
+    }
+    $pattern .= "/i";
+
+    $session = $this->getSession();
+    $page_content = $session->getPage()->getContent();
+
+    if (!preg_match($pattern, $page_content)) {
+      throw new Exception(sprintf('The page content language switcher is not set to %s and not followed by the language links %s.', $active_language, $language_order));
+    }
+  }
+
 }
