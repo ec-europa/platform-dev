@@ -75,6 +75,8 @@ function splash_screen_preprocess_splash(&$variables) {
   // Set the title.
   drupal_set_title($splash_screen_title);
 
+  $variables['title'] = $splash_screen_title;
+
   // Initialize variables.
   $home_page = variable_get('site_frontpage', '');
   $href = $home_page;
