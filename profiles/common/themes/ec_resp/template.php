@@ -477,7 +477,7 @@ function ec_resp_preprocess_html(&$variables) {
     if (theme_get_setting('enable_interinstitutional_theme')) {
       $variables['head_title'] = t('EUROPA - !title', array('!title' => $title));
     }
-    elseif (arg(0) !== 'splash') {
+    else {
       $variables['head_title'] = t('!title - European Commission', array('!title' => $title));
     }
   }
