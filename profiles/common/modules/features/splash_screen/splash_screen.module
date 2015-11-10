@@ -70,10 +70,8 @@ function splash_screen_theme($existing, $type, $theme, $path) {
  * Implements hook_preprocess().
  */
 function splash_screen_preprocess_splash(&$variables) {
-  // Cache our custom title.
-  $custom_splash_screen_title = variable_get('splash_screen_title_value', FALSE);
-  // Fallback to the site name if it is not configured.
-  $splash_screen_title = $custom_splash_screen_title ? $custom_splash_screen_title : variable_get('site_name');
+  // Set our custom title.
+  $splash_screen_title = variable_get('splash_screen_title_value', variable_get('site_name'));
   // Set the title.
   drupal_set_title($splash_screen_title);
 
