@@ -36,7 +36,7 @@ function _splash_screen_settings_form() {
   $form['splash_screen']['splash_screen_title_value'] = array(
     '#type' => 'textfield',
     '#title' => t('Splash screen title'),
-    '#description' => t('The title to use for the splash screen page'),
+    '#description' => t('The title to use for the splash screen page. If none is entered it will fall back to the site name.'),
     '#default_value' => variable_get('splash_screen_title_value'),
   );
 
