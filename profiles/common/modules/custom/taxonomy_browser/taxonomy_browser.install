@@ -61,8 +61,7 @@ function taxonomy_browser_update_7200(&$sandbox) {
       db_update('block')
         ->fields(array(
           'delta' => 'taxonomy_browser_vocabulary_' . $vids_var,
-          )
-        )
+        ))
         ->condition('delta', 'taxonomy_browser')
         ->execute();
     }
