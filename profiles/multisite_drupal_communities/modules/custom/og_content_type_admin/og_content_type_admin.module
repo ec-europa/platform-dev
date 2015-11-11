@@ -506,7 +506,7 @@ function og_content_type_admin_admin_submit($form, &$form_state) {
       ->fields(array(
         'types_allowed' => serialize($assigned[$group]),
         'types_active' => serialize($required[$group]),
-        ))
+      ))
       ->condition('name', $group, '=')
       ->execute();
 

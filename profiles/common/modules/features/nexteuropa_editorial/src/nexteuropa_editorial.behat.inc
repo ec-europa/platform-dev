@@ -5,9 +5,7 @@
  * Contains \NextEuropaEditorialSubContext.
  */
 
-use Behat\Behat\Context\Environment\InitializedContextEnvironment;
 use Drupal\DrupalDriverManager;
-use Drupal\DrupalExtension\Context\DrupalContext;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 
@@ -77,7 +75,7 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
     }
 
     // Get the currently logged in user from DrupalContext.
-    /** @var DrupalContext $context */
+    /** @var \Drupal\DrupalExtension\Context\DrupalContext $context */
     $context = $this->getContext('\Drupal\DrupalExtension\Context\DrupalContext');
     if (empty($context->user)) {
       throw new \Exception('Cannot assign anonymous user to a group.');
@@ -137,7 +135,7 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
    *   The requested context, or FALSE if the context is not registered.
    */
   protected function getContext($class) {
-    /** @var InitializedContextEnvironment $environment */
+    /** @var \Behat\Behat\Context\Environment\InitializedContextEnvironment $environment */
     $environment = $this->drupal->getEnvironment();
     foreach ($environment->getContexts() as $context) {
       if ($context instanceof $class) {

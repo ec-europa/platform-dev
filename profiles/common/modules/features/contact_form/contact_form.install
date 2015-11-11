@@ -21,10 +21,8 @@ function contact_form_enable() {
 
   // Set default contact form.
   $site_mail = variable_get('site_mail', ini_get('sendmail_from'));
-  $contact_mail = db_update('contact')
-    ->fields(array(
-    'recipients' => $site_mail,
-  ))
+  db_update('contact')
+    ->fields(array('recipients' => $site_mail))
     ->condition('cid', 1, '=')
     ->execute();
 

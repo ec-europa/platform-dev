@@ -13,24 +13,21 @@ function nexteuropa_webtools_post_features_enable_feature($component) {
   $admin_rid = user_role_load_by_name('administrator');
   if ($admin_rid && isset($admin_rid->rid)) {
     user_role_grant_permissions($admin_rid->rid, array(
-        'create any webtools bean',
-        'edit any webtools bean',
-        'view any webtools bean',
-        'delete any webtools bean',
-        'administer webtools',
-      )
-    );
+      'create any webtools bean',
+      'edit any webtools bean',
+      'view any webtools bean',
+      'delete any webtools bean',
+      'administer webtools',
+    ));
   }
   // Grant webtools bean permissions for anonymous user role.
   user_role_grant_permissions('1', array(
-      'view any webtools bean',
-    )
-  );
+    'view any webtools bean',
+  ));
   // Grant webtools bean permissions for authenticated user role.
   user_role_grant_permissions('2', array(
-        'view any webtools bean',
-    )
-  );
+    'view any webtools bean',
+  ));
 }
 
 /**
@@ -44,8 +41,8 @@ function nexteuropa_webtools_requirements($phase) {
     if ($smartloader_prurl == '') {
       $requirements['webtools_smartloader_prurl'] = array(
         'description' => $t('Javascript not found. Define the webtools_smartloader_prurl at: !url', array(
-            '!url' => l($t('admin/config/services/webtools'), 'admin/config/services/webtools'),
-          )),
+          '!url' => l($t('admin/config/services/webtools'), 'admin/config/services/webtools'),
+        )),
         'severity' => REQUIREMENT_ERROR,
         'value' => $t('Not found'),
         'title' => $t('Webtools smartloader'),
@@ -54,8 +51,8 @@ function nexteuropa_webtools_requirements($phase) {
     else {
       $requirements['webtools_smartloader_prurl'] = array(
         'description' => $t('Javascript defined at !url', array(
-            '!url' => l($smartloader_prurl, $smartloader_prurl),
-          )),
+          '!url' => l($smartloader_prurl, $smartloader_prurl),
+        )),
         'severity' => REQUIREMENT_OK,
         'value' => $t('Defined'),
         'title' => $t('Webtools smartloader'),

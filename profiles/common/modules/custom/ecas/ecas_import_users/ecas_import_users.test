@@ -35,7 +35,7 @@ class EcasImportUsersAdminSettingsTest extends DrupalWebTestCase {
     $this->webUser = $this->drupalCreateUser(array(
       'create article content',
       'create page content',
-        ));
+    ));
 
     $this->adminUser = $this->drupalCreateUser(array(
       'bypass node access',
@@ -168,7 +168,7 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
     $this->webUser = $this->drupalCreateUser(array(
       'create article content',
       'create page content',
-       ));
+    ));
     $this->ecasUser = $this->drupalCreateUser(array(
       'create article content',
       'create page content',
@@ -186,7 +186,7 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
       'administer users',
       'administer nodes',
       'administer ecas',
-    'access ecas import users function',
+      'access ecas import users function',
     ));
   }
 
