@@ -182,7 +182,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       "weight" => 0,
       "plugin" => "local",
       "settings" => [
-        "auto_accept" => TRUE,
+        "auto_accept" => FALSE,
         "allow_all" => TRUE,
       ],
     ];

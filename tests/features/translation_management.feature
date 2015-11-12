@@ -31,6 +31,8 @@ Feature: Translation management features
     And I click "view" in the "In progress" row
     And I fill in "Translation" with "Dieser Titel ist auf Deutsch"
     And I press the "Save" button
+    And I click "reviewed" in the "The translation of This title is in English to German is finished and can now be reviewed." row
+    And I press the "Save as completed" button
     Then I should see "The translation for This title is in English has been accepted."
     And I click "This title is in English"
     And I should be on "content/title-english_en"
