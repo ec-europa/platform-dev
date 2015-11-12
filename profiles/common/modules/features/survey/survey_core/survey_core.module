@@ -1,0 +1,104 @@
+<?php
+/**
+ * @file
+ * Code for the Survey feature.
+ */
+
+include_once 'survey_core.features.inc';
+
+/**
+ * Implements hook_node_view().
+ */
+function survey_core_node_view($node, $view_mode, $langcode) {
+  if ($node->type == 'webform') {
+    if (isset($node->content['webform'])) {
+      $back_survey = l(t('Back to survey list'), 'survey');
+
+      $node->content['back_link']['#prefix'] = '<div class="webform-back-survey">';
+      $node->content['back_link']['#markup'] = $back_survey;
+      $node->content['back_link']['#weight'] = $node->content['webform']['#weight'] + 1;
+      $node->content['back_link']['#suffix'] = '</div>';
+    }
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function survey_core_menu() {
+  $items = array();
+  $items['survey_analysis/%'] = array(
+    'title' => 'Analysis',
+    'page callback' => 'survey_analysis',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'weight' => 5,
+  );
+
+  return $items;
+}
+
+
+/**
+ * Display analysis results of a webform.
+ */
+function survey_analysis($nid) {
+  $node = node_load($nid);
+  $sids = array();
+  $components = $node->webform['components'];
+  $data = array();
+  foreach ($components as $cid => $component) {
+    if ($row_data = webform_component_invoke($component['type'], 'analysis', $component, $sids, FALSE)) {
+      $data[$cid] = $row_data;
+    }
+  }
+
+  global $base_path, $language;
+
+  $url_survey = $base_path . $language->language . '/survey';
+  $back_survey = '<a href="' . $url_survey . '">' . t('Back to survey list') . '</a>';
+
+  $output = theme('webform_results_analysis', array(
+    'node' => $node,
+    'data' => $data,
+    'sids' => $sids,
+    'component' => NULL,
+  ));
+  $output .= '<div class="webform-back-survey">' . $back_survey . '</div>';
+
+  return $output;
+}
+
+/**
+ * Implements hook_token_info().
+ */
+function survey_core_token_info() {
+  $info['types']['Breadcrumb_survey'] = array(
+    'name' => 'Breadcrumb_survey',
+    'description' => 'Tokens related to Breadcrumb.',
+  );
+  $info['tokens']['Breadcrumb_survey']["survey_title"] = array(
+    'name' => t("survey Breadcrumb title"),
+    'description' => t("The Breadcrumb title of the survey."),
+  );
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function survey_core_tokens($type, $tokens, $data = array(), $options = array()) {
+  $replacements = array();
+  $sanitize = !empty($options['sanitize']);
+  // Tokens for e_libray_core Breadcrumb.
+  if ($type == 'Breadcrumb_survey') {
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'survey_title':
+          $replacements[$original] = t("survey");
+          break;
+      }
+    }
+  }
+  return $replacements;
+}

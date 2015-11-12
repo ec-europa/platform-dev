@@ -1,0 +1,85 @@
+<?php
+/**
+ * @file
+ * Code for the multisite_rules_configuration install.
+ */
+
+/**
+ * Implements hook_update_N().
+ *
+ * Add Archived and Validated Workflow States.
+ */
+function multisite_rules_configuration_update_7110() {
+  // Add Archived and Validated Workflow States.
+  $result = db_select('workbench_moderation_states', 'wms')
+    ->fields('wms')
+    ->condition('name', 'archived', '=')
+    ->execute()
+    ->fetchObject();
+
+  if (!$result) {
+    // @todo The $arch_state variable is unused.
+    $arch_state = db_insert('workbench_moderation_states')
+      ->fields(array(
+        'name' => 'archived',
+        'label' => 'Archived',
+        'description' => 'Content is not published anymore',
+        'weight' => 100,
+      ))
+      ->execute();
+  }
+
+  $result = db_select('workbench_moderation_states', 'wms')
+    ->fields('wms')
+    ->condition('name', 'validated', '=')
+    ->execute()
+    ->fetchObject();
+
+  if (!$result) {
+    // @todo The $vali_state variable is unused.
+    $vali_state = db_insert('workbench_moderation_states')
+      ->fields(array(
+        'name' => 'validated',
+        'label' => 'Validated',
+        'description' => 'Approved by administrator',
+        'weight' => 10,
+      ))
+      ->execute();
+  }
+
+  // Add Archived and Validated corresponding transitions.
+  $transitions = array(
+    array(
+      'from_name' => 'published',
+      'to_name' => 'archived',
+    ),
+    array(
+      'from_name' => 'needs_review',
+      'to_name' => 'validated',
+    ),
+    array(
+      'from_name' => 'validated',
+      'to_name' => 'published',
+    ),
+  );
+
+  // Save default transitions to the database.
+  $query = db_insert('workbench_moderation_transitions')
+    ->fields(array('from_name', 'to_name'));
+
+  foreach ($transitions as $transition) {
+
+    $result = db_select('workbench_moderation_transitions', 'wmt')
+      ->fields('wmt')
+      ->condition('from_name', $transition['from_name'], '=')
+      ->condition('to_name', $transition['to_name'], '=')
+      ->execute()
+      ->fetchObject();
+
+    if (!$result) {
+      $query->values($transition);
+    }
+  }
+
+  $query->execute();
+}

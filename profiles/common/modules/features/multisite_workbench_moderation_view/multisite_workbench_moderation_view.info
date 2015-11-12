@@ -1,0 +1,9 @@
+name = Workbench Moderation View for multisite
+description = Adds the new Moderate All tabs which allows to perform bulk operations over moderation states.
+package = Multisite Core Features
+core = 7.x
+version = 7.x-1.2
+project = multisite_workbench_moderation_view
+dependencies[] = cce_basic_config
+dependencies[] = views_bulk_operations
+features[features_api][] = api:2

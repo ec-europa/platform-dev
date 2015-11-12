@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall hooks for multisite_settings_core.
+ */
+
+/**
+ * Implements hook_taxonomy_vocabulary_insert().
+ */
+function multisite_settings_core_taxonomy_vocabulary_insert($vocabulary) {
+  if ($vocabulary->machine_name == 'tags') {
+    // Add the vocabulary tags to the taxonomy browser settings.
+    $vids = variable_get('taxonomy_browser_vocabulary', array(2 => 2));
+    $vids[$vocabulary->vid] = $vocabulary->vid;
+    variable_set('taxonomy_browser_vocabulary', $vids);
+
+    // Add the block to the workbench context.
+    $context = module_invoke('context', 'load', 'workbench_moderate_all');
+    $block_to_add = array(
+      'module' => 'taxonomy_browser',
+      'delta' => 'taxonomy_browser_vocabulary_' . $vocabulary->vid,
+      'region' => 'sidebar_left',
+      'weight' => '-10',
+    );
+    $context->reactions['block']['blocks']['taxonomy_browser-taxonomy_browser_vocabulary_' . $vocabulary->vid] = $block_to_add;
+    module_invoke('context', 'save', $context);
+  }
+}
+
+/**
+ * Add and configure the context workbench.
+ */
+function multisite_settings_core_update_7121() {
+  // Add the vocabulary tags to the taxonomy browser settings.
+  $tags_vocab = taxonomy_vocabulary_machine_name_load('tags');
+  $vids = variable_get('taxonomy_browser_vocabulary');
+  $vids[$tags_vocab->vid] = $tags_vocab->vid;
+  variable_set('taxonomy_browser_vocabulary', $vids);
+
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'workbench_moderate_all';
+  $context->description = '';
+  $context->tag = 'workbench';
+  $context->conditions = array(
+    'path' => array(
+      'values' => array(
+        'admin/workbench/moderate-all*' => 'admin/workbench/moderate-all*',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'taxonomy_browser-taxonomy_browser_vocabulary_' . $tags_vocab->vid => array(
+          'module' => 'taxonomy_browser',
+          'delta' => 'taxonomy_browser_vocabulary_' . $tags_vocab->vid,
+          'region' => 'sidebar_left',
+          'weight' => '-10',
+        ),
+      ),
+    ),
+  );
+  $context->condition_mode = 0;
+
+  context_save($context);
+}
+
+/**
+ * Disable cookie language.
+ */
+function multisite_settings_core_update_7122() {
+  $lang = variable_get('language_negotiation_language');
+  if (isset($lang['language_cookie'])) {
+    unset($lang['language_cookie']);
+    variable_set('language_negotiation_language', $lang);
+  }
+}
+
+/**
+ * Regenerate the language negotiation URL.
+ */
+function multisite_settings_core_update_7123() {
+  // The custom modules have moved to a new location. The callback that
+  // generates the language negotiation URL is stored in a variable for
+  // performance reasons, but this includes a hardcoded path that points to the
+  // location of the callback before the modules were relocated.
+  // This callback is already invoked before Drupal is fully bootstrapped. If
+  // you find that you cannot execute database updates because Drupal cannot be
+  // bootstrapped, please execute the following database queries to clear the
+  // hardcoded path from the variables table, and the various cache layers:
+  //
+  // @code
+  // DELETE FROM variable WHERE name = 'language_negotiation_language_url';
+  // DELETE FROM cache_variable;
+  // DELETE FROM cache_bootstrap WHERE cid = 'variables';
+  // @endcode
+  include_once DRUPAL_ROOT . '/includes/language.inc';
+  language_types_set();
+}

@@ -1,0 +1,96 @@
+<?php
+
+/**
+ * @file
+ * Tests for PROJECTFEATURE_sitemap.module.
+ *
+ * ECWeb MULTISITE QA.
+ */
+
+/**
+ * Class to test sitemap.
+ */
+class SitemapCore extends DrupalWebTestCase {
+
+  protected $administrator;
+  protected $visitor;
+  protected $profile = 'standard';
+
+  /**
+   * Return informations concerning sitemap class.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Sitemap',
+      'description' => 'Test the sitemap features to ensure it follows QA requirements',
+      'group' => 'Multisite Core Features',
+    );
+  }
+
+  /**
+   * Initialize users.
+   */
+  public function setUp() {
+
+    parent::setUp();
+    module_enable(array('sitemap'), TRUE);
+    drupal_flush_all_caches();
+    $this->visitor = $this->drupalCreateUser(array(
+        'access content',
+    ));
+    $this->administrator = new stdClass();
+    $this->administrator = $this->drupalCreateUser(array(
+        'access administration pages',
+        'access content',
+        'create article content',
+    ));
+    $this->drupalLogin($this->administrator);
+  }
+
+  /**
+   * Test sitemap.
+   */
+  public function testSitemap() {
+    // Fetch the current profile.
+    $profile = drupal_get_profile();
+    // standard.
+    $this->verbose('Profile ' . print_r($profile, TRUE));
+    // Fetch the available permissions.
+    $permissions = user_permission_get_modules();
+    $this->verbose('Permissions ' . print_r($permissions, TRUE));
+
+    // Check the presence of module.
+    $this->assertTrue(module_exists('sitemap'), t('%feature_name feature enabled.', array('%feature_name' => 'sitemap')));
+    $this->assertTrue(module_exists('site_map'), t('%module feature enabled.', array('%module' => 'site_map')));
+    $this->assertTrue(module_exists('xmlsitemap'), t('%module feature enabled.', array('%module' => 'xmlsitemap')));
+
+    $this->createSampleNodes($count = 3);
+
+    // Access the sitemap.
+    $edit['url'] = 'sitemap';
+    $this->drupalGet($edit['url']);
+    $this->assertResponse(array(200), format_string('URL !url is accessible', array('!url' => $edit['url'])));
+
+    $this->assertText('Site map', 'Site map page is accesible.');
+    $this->clickLink(t('Front page of'));
+    $this->assertResponse(200, 'Sitemap link is accesible');
+  }
+
+  /**
+   * Create n nodes.
+   *
+   * @param string $count
+   *   Or int or object...
+   */
+  public function createSampleNodes($count = 3) {
+    $langcode = LANGUAGE_NONE;
+    // Post $count article nodes.
+    for ($i = 0; $i < $count; $i++) {
+      $edit = array();
+      $edit['title'] = $this->randomName();
+      $edit["body[$langcode][0][value]"] = $this->randomName();
+      $this->drupalPost('node/add/article', $edit, t('Save'));
+    }
+  }
+
+}

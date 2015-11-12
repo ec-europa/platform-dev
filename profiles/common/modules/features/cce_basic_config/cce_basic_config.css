@@ -1,0 +1,24 @@
+/**
+ * @file
+ * Global css.
+ */
+#admin-menu {
+  font-family: Verdana,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+#admin-menu #admin-menu-wrapper .dropdown a {
+  font-size: 1.4em;
+}
+#admin-menu #admin-menu-wrapper .dropdown li ul,
+#admin-menu #admin-menu-wrapper .dropdown li li {
+  width: 180px;
+}
+#admin-menu #admin-menu-wrapper .dropdown li li.expandable {
+  background-position: 165px 8px;
+}
+#admin-menu #admin-menu-wrapper .dropdown li li.expandable ul {
+  margin-top: -24px;
+  margin-left: 180px;
+}
+#admin-menu #admin-menu-wrapper .dropdown .expandable .dropdown a {
+  line-height: 1.2em;
+}

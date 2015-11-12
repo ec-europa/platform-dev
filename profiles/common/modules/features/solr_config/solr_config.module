@@ -1,0 +1,67 @@
+<?php
+/**
+ * @file
+ * Code for the solr_config feature.
+ */
+
+include_once 'solr_config.features.inc';
+
+/**
+ * Implements hook_apachesolr_exclude().
+ */
+function solr_config_apachesolr_exclude($entity_id, $entity_type, $row, $env_id) {
+  if ($entity_type == 'file') {
+    $node = node_load($row->parent_entity_id);
+
+    // Node moderate with workbench moderation.
+    if (isset($node->workbench_moderation)) {
+      $workflow = $node->workbench_moderation;
+      // Node parent is published.
+      if (isset($workflow['published'])) {
+        return FALSE;
+      }
+      else {
+        // Remove file from solr index.
+        apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id . "-node-" . $node->nid);
+        drupal_set_message(t('Entity @type @id removed from solr index', array('@type' => $entity_type, '@id' => $entity_id)));
+        return TRUE;
+      }
+    }
+    // Standard drupal workflow : node parent is published.
+    elseif ($node->status == 1) {
+      return FALSE;
+    }
+    else {
+      // Remove file from solr index.
+      apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id . "-node-" . $node->nid);
+      drupal_set_message(t('Entity @type @id removed from solr index', array('@type' => $entity_type, '@id' => $entity_id)));
+      return TRUE;
+    }
+  }
+  return FALSE;
+
+}
+
+
+/**
+ * Implements hook_apachesolr_query_alter().
+ */
+function solr_config_apachesolr_query_alter($query) {
+  global $language;
+  // By default set the facet language to current language and neutral language.
+  $query->addFilter('ss_language', "(und OR " . $language->language . ")");
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function solr_config_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  if ($form_id == 'apachesolr_index_action_form') {
+    if ($user->uid != 1) {
+      // Show the solr index actions only for the user 1,
+      // prevent webmasters to reindex the multisite index.
+      unset($form['action']);
+    }
+  }
+}

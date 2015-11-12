@@ -1,0 +1,153 @@
+<?php
+
+/**
+ * @file
+ * Tests for multisite_translations.module.
+ */
+
+/**
+ * Defines a base class for testing the "multisite_translations" module.
+ */
+class MultisiteTranslationsWebTestCase extends DrupalWebTestCase {
+
+  protected $translatorFrenchUser;
+  protected $adminUser;
+
+  public $fieldNames = array();
+
+  /**
+   * Returns class informations.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'multisite translations',
+      'description' => 'Test the multisite translations feature (install, worflow...).',
+      'group' => 'Multisite multilingual',
+    );
+  }
+
+  /**
+   * Initialize user.
+   */
+  public function setUp() {
+    parent::setUp(array('multisite_translations'));
+    $this->adminUser = $this->drupalCreateUserWithRole("administrator");
+  }
+
+  /**
+   * Check translation.
+   */
+  public function testMultisiteTranslationInstall() {
+    $this->drupalLogin($this->adminUser);
+
+    // Check if the ecweb translator is created.
+    $this->drupalGet('admin/config/regional/tmgmt_translator');
+    $this->assertRaw('ecweb translator', 'Ecweb translator created.');
+
+    $this->setEnvironment('fr');
+    create_translation_roles();
+
+    // Check if roles are created.
+    $this->drupalGet('admin/people/permissions/roles');
+    $this->assertRaw('translator_french', 'Translator roles created.');
+
+    $this->translatorFrenchUser = $this->drupalCreateUserWithRole("translator_french");
+
+    // Test translation jobs process.
+    variable_set('language_content_type_page', 2);
+    $node = $this->drupalCreateNode(array('type' => 'page', 'title' => 'page1_translations'));
+    $edit = array();
+    $edit['language'] = 'en';
+    $this->drupalPost('node/' . $node->nid . '/edit', $edit, t('Save'));
+
+    $job = $this->createJob('en', 'fr', 'translate');
+    $job->requestTranslation();
+
+    $item1 = $job->addItem('node', 'node', $node->nid);
+    $item1->setState(TMGMT_JOB_ITEM_STATE_REVIEW, 'message test');
+
+    $this->drupalLogout();
+
+    // Check if a translator can reach his translations jobs page.
+    $this->drupalLogin($this->translatorFrenchUser);
+
+    $this->drupalGet('admin/workbench/translation-jobs');
+    $this->assertRaw('translation jobs', 'Workbench translation jobs page found.');
+    $this->assertRaw('page1_translations', 'Translator can see its translation jobs.');
+
+    $this->drupalGet('admin/tmgmt/jobs/' . $job->tjid);
+    $this->assertRaw('Job Items', 'Translator can access the job.');
+
+    $this->drupalGet('admin/tmgmt/items/' . $item1->tjiid . '/review');
+    $this->assertRaw('page1_translations', 'Translator can review the content to translate.');
+
+    // Check if a translator see the button "request translation"
+    // on the node created.
+    $this->drupalGet('node/' . $node->nid . '/translate');
+    $this->assertRaw('Request translation', 'Translation request button is visible');
+
+  }
+
+  /**
+   * Creates a user with the give role.
+   */
+  public function drupalCreateUserWithRole($role) {
+    // Get all of the roles in the system.
+    $roles = user_roles();
+
+    // Find the index for the role we want to assign to the user.
+    $index = array_search($role, $roles);
+
+    // Get the permissions for the role.
+    $permissions = user_role_permissions(array(array_search($role, $roles) => $role));
+
+    // Create the user with the permissions.
+    $user = $this->drupalCreateUser(array_keys($permissions[$index]));
+
+    // Assign the role.
+    $user->roles[$index] = $role;
+
+    // Return the user we have created.
+    return user_save($user);
+  }
+
+
+  /**
+   * Created a new job.
+   */
+  public function createJob($source = 'en', $target = 'de', $action = 'translate', $uid = 1) {
+    $job = tmgmt_job_create($source, $target, $uid);
+
+    // Manually specify the translator for now.
+    $job->translator = "ecweb";
+    $job->settings = array('action' => $action);
+
+    $this->assertEqual(SAVED_NEW, $job->save());
+
+    // Assert that the translator was assigned a tid.
+    $this->assertTrue($job->tjid > 0);
+    return $job;
+  }
+
+
+  /**
+   * Sets the proper environment.
+   *
+   * Currently just adds a new language.
+   *
+   * @param string $langcode
+   *   The language code.
+   */
+  public function setEnvironment($langcode) {
+    // Add the language.
+    $edit = array(
+      'langcode' => $langcode,
+    );
+    $this->drupalPost('admin/config/regional/language/add', $edit, t('Add language'));
+    $this->assertText($langcode, t('Language added successfully.'));
+    // This is needed to refresh the static cache of the language list.
+    $languages = &drupal_static('language_list');
+    $languages = NULL;
+  }
+
+}

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Multisite Drupal Communities installation profile.
+ */
 
 /**
  * Implements hook_form_FORM_ID_alter().

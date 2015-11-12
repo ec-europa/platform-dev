@@ -1,0 +1,20 @@
+<?php
+/**
+ * @file
+ * Install the feature news.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function multisite_registration_standard_enable() {
+  // Activation message.
+  drupal_set_message(t('Registration feature is now active on your site.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function multisite_registration_standard_disable() {
+  drupal_set_message(t('Registration feature is now disabled on your site.'));
+}

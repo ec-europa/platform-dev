@@ -1,9 +1,0 @@
-<?php
-
-/**
- * @file
- * STARTERKIT definition module.
- */
-
-include_once('STARTERKIT.features.inc');
-
