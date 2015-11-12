@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * Wiki installation file.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function wiki_standard_enable() {
+  // Add wiki content type to newsletters related contents.
+  multisite_drupal_toolbox_add_content_type_newsletters('wiki');
+}

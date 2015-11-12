@@ -1,0 +1,12 @@
+.ecas_group_sync_mapping .form-item {
+  float: left;
+  width: 240px;
+}
+
+.ecas_group_sync_mapping .row_mapping {
+  clear: both;
+}
+
+.ecas_group_sync_mapping label {
+  display: inline;
+}

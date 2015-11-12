@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- */
-
-include_once('wiki_standard.features.inc');
-include_once('wiki_standard.views_alter.inc');

@@ -1,0 +1,16 @@
+<?php
+/**
+ * @file
+ * Code for the EC Embedded Image feature.
+ */
+
+include_once 'ec_embedded_image.features.inc';
+
+/**
+ * Implements hook_form_alter().
+ */
+function ec_embedded_image_form_media_flickr_settings_form_alter(&$form, &$form_state) {
+  if (empty($form['api']['media_flickr__api_key']['#default_value']) || empty($form['api']['media_flickr__api_secret']['#default_value'])) {
+    $form['api']['#collapsed'] = FALSE;
+  };
+}
