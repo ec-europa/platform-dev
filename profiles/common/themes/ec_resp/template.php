@@ -474,11 +474,15 @@ function ec_resp_preprocess_html(&$variables) {
     else {
       $title = filter_xss(variable_get('site_name'));
     }
+
     if (theme_get_setting('enable_interinstitutional_theme')) {
       $variables['head_title'] = t('EUROPA - !title', array('!title' => $title));
     }
     else {
-      $variables['head_title'] = t('!title - European Commission', array('!title' => $title));
+      $check_splash_screen = (module_exists('splash_screen') && arg(0) == SPLASH_SCREEN_PATH);
+      if (!$check_splash_screen) {
+        $variables['head_title'] = t('!title - European Commission', array('!title' => $title));
+      }
     }
   }
   // Add javascripts to the footer scope.
