@@ -495,7 +495,7 @@ projects[tmgmt][subdir] = contrib
 ; [Poetry] - Don't translate tokens
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6851
 ; https://www.drupal.org/node/2614100
-projects[tmgmt][patch][2614100] = https://www.drupal.org/files/issues/tmgmt-alter-field-values-2614100-1.patch
+projects[tmgmt][patch][2614100] = https://www.drupal.org/files/issues/tmgmt-alter-field-values-2614100-5.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
