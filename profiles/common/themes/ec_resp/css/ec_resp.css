@@ -7360,7 +7360,7 @@ tr.odd {
   height: 145px;
   width: 100%;
   background-repeat: repeat-x;
-  background-position: 0 0;
+  background-position: left bottom;
   background-image: url("../images/title/title.gif");
   position: relative;
   z-index: 10;
