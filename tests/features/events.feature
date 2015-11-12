@@ -6,9 +6,9 @@ Feature: Event features
   @api
   Scenario: Users can see the calendar
     Given I am an anonymous user
-    Given these modules are enabled
-      |modules|
-      |events_standard|
-    When I go to "calendar_en"
+    Given these featureSet are enabled
+      |featureSet|
+      |Events|
+    When I go to "calendar"
     Then I should see an "div.fullcalendar" element
     Then I should see the text "Consult planned events"
