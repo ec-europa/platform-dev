@@ -1,0 +1,10 @@
+--- a/workbench_email.features.inc	2015-09-03 07:01:42.000000000 +0200
++++ b/workbench_email.features.inc	2015-11-04 11:02:32.075548143 +0100
+@@ -95,6 +95,7 @@
+ function workbench_email_features_rebuild($module) {
+   $defaults = features_get_default('workbench_email', $module);
+   foreach ($defaults as $machine_name => $transition) {
++    $transition = get_object_vars($transition);
+     $role = workbench_email_get_role_by_name($transition['role']);
+     workbench_email_save((object) $transition, $role->rid, NULL, NULL, $transition['author'], $transition['automatic']);
+   }

@@ -307,5 +307,13 @@ function nexteuropa_multilingual_language_fallback_candidates_alter(array &$fall
     }
     array_unshift($fallback_candidates, $parameters['2nd-language']);
   }
+}
 
+/**
+ * Implements hook_pathauto_alias_alter().
+ */
+function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) {
+  // Force all aliases to be saved as language neutral.
+  // All content translations will have a unique alias.
+  $context['language'] = LANGUAGE_NONE;
 }
