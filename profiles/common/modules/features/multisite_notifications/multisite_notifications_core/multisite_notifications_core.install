@@ -13,51 +13,51 @@ include_once 'includes/multisite_notifications_core.settings.inc';
 function multisite_notifications_core_enable() {
   // Provide default settings values for subscriptions.
   db_update('subscriptions_user')
-          ->fields(array(
-              'digest' => 0,
-              'send_interval' => 1,
-              'send_updates' => 1,
-              'send_comments' => 1,
-              'send_interval_visible' => 1,
-              'send_updates_visible' => 1,
-              'send_comments_visible' => 1,
-              'autosub_on_post' => 0,
-              'autosub_on_update' => 0,
-              'autosub_on_comment' => 0,
-              'send_self' => 1,
-              'suspended' => 0,
-          ))
-          ->condition('uid', "-2")
-          ->execute();
+    ->fields(array(
+      'digest' => 0,
+      'send_interval' => 1,
+      'send_updates' => 1,
+      'send_comments' => 1,
+      'send_interval_visible' => 1,
+      'send_updates_visible' => 1,
+      'send_comments_visible' => 1,
+      'autosub_on_post' => 0,
+      'autosub_on_update' => 0,
+      'autosub_on_comment' => 0,
+      'send_self' => 1,
+      'suspended' => 0,
+    ))
+    ->condition('uid', "-2")
+    ->execute();
 
   // Subscriber have notifications enabled by default for each content type.
   $content_types = node_type_get_types();
   foreach ($content_types as $content_type) {
     db_insert('subscriptions')
-            ->fields(array(
-                'module' => 'node',
-                'field' => 'type',
-                'value' => $content_type->type,
-                'recipient_uid' => -6,
-                'send_interval' => 1,
-                'author_uid' => -1,
-                'send_updates' => 1,
-                'send_comments' => 1,
-            ))
-            ->execute();
+      ->fields(array(
+        'module' => 'node',
+        'field' => 'type',
+        'value' => $content_type->type,
+        'recipient_uid' => -6,
+        'send_interval' => 1,
+        'author_uid' => -1,
+        'send_updates' => 1,
+        'send_comments' => 1,
+      ))
+      ->execute();
 
     $tpl = _multisite_notifications_core_mail_template();
 
     db_insert('mail_edit')
-            ->fields(array(
-                'id' => 'subscriptions_mail_node-type-' . $content_type->type,
-                'language' => 'en',
-                'description' => 'Notifications for Article content type subscriptions',
-                'subject' => $tpl->subject,
-                'body' => $tpl->body,
-                'subscriptions_comment_body' => $tpl->comment,
-            ))
-            ->execute();
+      ->fields(array(
+        'id' => 'subscriptions_mail_node-type-' . $content_type->type,
+        'language' => 'en',
+        'description' => 'Notifications for Article content type subscriptions',
+        'subject' => $tpl->subject,
+        'body' => $tpl->body,
+        'subscriptions_comment_body' => $tpl->comment,
+      ))
+      ->execute();
 
   }
 
