@@ -2,12 +2,13 @@
 #layout-header {
   position: relative;
   height: 88px;
-  z-index: 10;
   line-height: 1.4;
   background-color: #fff;
   width: 100%;
-  background-repeat: none;
+  background-repeat: no-repeat;
+  background-image: none;
   min-height: 88px;
+  z-index: initial;
 
   /* ------------------ title and sub-title ------------------ */
   #main-title {
@@ -15,7 +16,6 @@
     position: absolute;
     left: 92px;
     top: 20px;
-    z-index: 1;
     margin: 0;
     padding: 0;
     font-size: 30px !important;
@@ -26,7 +26,6 @@
     position: absolute;
     left: 92px;
     top: 55px;
-    z-index: 1;
     margin: 0;
     padding: 0;
     font-size: 20px !important;
@@ -49,13 +48,13 @@
     margin:-2px 0 0 -2px;
   }
   #banner-image-right {
-    background: url("../images/header-background.gif") no-repeat scroll right bottom;
+    background: url("../images/header-background.gif") no-repeat scroll right 20px;
     position: absolute;
-    z-index: 5;
     right: 15px;
-    top: 20px;
+    top: 0px;
     width: 400px;
-    height: 68px;
+    height: 98px;
+    z-index: initial;
   }
 }
 
@@ -79,7 +78,7 @@
     background: url("../images/breadcrumb.gif") no-repeat scroll 2px 0px;
     padding: 0px 2px 0px 11px;
   }
-  a, 
+  a,
   a:visited {
     color: #000;
     font-weight: normal;
@@ -168,8 +167,9 @@
   z-index: 1024;
   right: 15px;
   border-style: none;
-  box-shadow: none;  
+  box-shadow: none;
   height: 23px;
+  background: transparent;
   .panel-body {
     padding: 0px;
     .lang-select-site__link {
@@ -188,6 +188,7 @@
 /* ------------------ Hack when js is enabled ------------------ */
 .js {
   #services, #block-menu-menu-service-tools .menu {
-    padding: 1px 150px 4px 0;
+    padding: 1px 100px 4px 0;
+    right:0;
   }
 }

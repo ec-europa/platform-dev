@@ -31,7 +31,7 @@
   width:100%;
   background-repeat:repeat-x;
   background-position:0 0;
-  background-image:url("../images/title/title.gif");  
+  background-image:url("../images/title/title.gif");
   position:relative;
   z-index:10;
   min-height:145px;
@@ -56,7 +56,7 @@
     left: 245px;
     top: 100px;
     text-decoration: none;
-  }  
+  }
   /* ------------------ banner picture ------------------ */
   #banner-flag {
     position:absolute;
@@ -70,7 +70,7 @@
   #banner-image-right {
     position:absolute;
     right:15px;
-    top:38px;
+    top:0px;
     z-index:7;
     height:107px;
     width:210px;
@@ -124,7 +124,7 @@
   .easy-breadcrumb {
     display: inline-block;
   }
-  a, 
+  a,
   a:visited {
     color: #fff;
     text-decoration: none;
@@ -241,16 +241,17 @@
 }
 
 .lang-select-site {
-  position: absolute;
   z-index: 1024;
+  top: 2px;
   right:15px;
   border-style:none;
-  box-shadow:none;  
+  box-shadow:none;
+  text-align: right;
+  background-color: transparent;
   .panel-body {
     padding:0;
     .lang-select-site__link {
       display: block;
-      margin-top: -30px;
       padding: 0;
     }
     .lang-select-site__code {
@@ -261,6 +262,9 @@
   }
 }
 
+#block-menu-menu-service-tools {
+  position: relative; // hack IE / FF
+}
 
 /* ------------------ Hack when js is enabled ------------------ */
 .js {
@@ -273,7 +277,7 @@
 }
 
 @media (max-width: @screen-xs-max) {
-  .language-selector-close, 
+  .language-selector-close,
   .language-selector-open {
     padding: 3px;
     font-size: 14px;
@@ -282,7 +286,4 @@
     line-height: 18px;
     width: 138px;
   }
-}  
-
-
-
+}
