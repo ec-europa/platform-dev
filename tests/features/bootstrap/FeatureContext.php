@@ -168,6 +168,47 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
   }
 
+  /**
+   * Enables one or more Feature Set(s).
+   *
+   * Provide feature set names in the following format:
+   *
+   * | featureSet  |
+   * | Events      |
+   * | Links       |
+   *
+   * @param TableNode $featureset_table
+   *   The table listing feature set titles.
+   *
+   * @Given the/these featureSet/FeatureSets is/are enabled
+   */
+  public function enableFeatureSet(TableNode $featureset_table) {
+    $rebuild = FALSE;
+    $message = array();
+    $featuresets = feature_set_get_featuresets();
+    foreach ($featureset_table->getHash() as $row) {
+      foreach ($featuresets as $featureset_available) {
+        if ($featureset_available['title'] == $row['featureSet']) {
+          if (!feature_set_enable_feature_set($featureset_available)) {
+            $message[] = $row['featureSet'];
+          }
+          else {
+            $this->modules[] = $row['featureSet'];
+            $rebuild = TRUE;
+          }
+        }
+      }
+    }
+    if (!empty($message)) {
+      throw new \Exception(sprintf('Feature Set "%s" not found', implode(', ', $message)));
+    }
+    else {
+      if ($rebuild) {
+        drupal_flush_all_caches();
+      }
+      return TRUE;
+    }
+  }
 
   /**
    * Check the languages order in the language selector page.
