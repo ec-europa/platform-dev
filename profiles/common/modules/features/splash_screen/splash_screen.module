@@ -105,6 +105,7 @@ function splash_screen_preprocess_splash(&$variables) {
       // Set language option.
       $options['language'] = $lang;
 
+      // Prepare links language.
       $languages_list .= '<li>';
       $languages_list .= l($lang->native, $href, $options);
       $languages_list .= '</li>';
