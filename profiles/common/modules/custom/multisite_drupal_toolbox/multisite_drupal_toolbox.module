@@ -5,6 +5,7 @@
  * Multisite Toolbox definition module.
  */
 
+ define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
 /**
  * Implements hook_menu().
  */
@@ -135,6 +136,76 @@ function multisite_drupal_toolbox_boot() {
 function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
     variable_set("language_count", 2);
+  }
+
+  _multisite_drupal_toolbox_show_features_status();
+}
+
+
+/**
+ * Display a message to warn for overridden features.
+ */
+function _multisite_drupal_toolbox_show_features_status() {
+  // Don't display the message for ajax pages (coffee, admin menu cache...).
+  $ajax_call = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+
+  if (user_access('administer site configuration') && path_is_admin(current_path()) && !$ajax_call) {
+    static $cache;
+    if (!isset($cache)) {
+      $cache = cache_get('multisite_drupal_toobox_feature_status');
+    }
+    else {
+      // Display of message already computed, avoid multiples execution.
+      return;
+    }
+
+    if (isset($cache->data)) {
+      // Get $output message from cache.
+      $output = $cache->data;
+    }
+    else {
+      // No cache available, build the $output message.
+      $output = "";
+      $items = array();
+
+      // $default_text get from theme_features_storage_link.
+      $default_text = array(
+        FEATURES_OVERRIDDEN => t('Overridden'),
+        FEATURES_DEFAULT => t('Default'),
+        FEATURES_NEEDS_REVIEW => t('Needs review'),
+        FEATURES_REBUILDING => t('Rebuilding'),
+        FEATURES_REBUILDABLE => t('Rebuilding'),
+        FEATURES_CONFLICT => t('Conflict'),
+        FEATURES_DISABLED => t('Disabled'),
+        FEATURES_CHECKING => t('Checking...'),
+      );
+      module_load_include('inc', 'features', 'features.export');
+
+      $features = features_get_features(NULL, FALSE);
+      $features_blacklisted = explode(',', MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED);
+
+      // Build tab of features in non-default status.
+      foreach ($features as $k => $m) {
+        if (!in_array($m->name, $features_blacklisted)) {
+          $status = features_get_storage($m->name);
+          if ($status !== FEATURES_DEFAULT) {
+            $hname = $m->info['name'];
+            $items[$hname] = $hname . " - " . $default_text[$status];
+          }
+        }
+      }
+      // Build $output message.
+      if (!empty($items)) {
+        ksort($items);
+        $output = t("Some of this website's features are overridden: !features_list", array('!features_list' => theme('item_list', array('items' => $items))));
+      }
+      cache_set("multisite_drupal_toobox_feature_status", $output);
+    }
+
+    // Print $output message.
+    if (!empty($output)) {
+      drupal_set_message($output, 'warning', FALSE);
+    }
   }
 }
 
@@ -1539,6 +1610,22 @@ function _multisite_drupal_toolbox_url_exists() {
 function multisite_drupal_toolbox_sort_weight_object($a, $b) {
   $a_weight = (is_object($a) && isset($a->weight)) ? $a->weight : 0;
   $b_weight = (is_object($b) && isset($b->weight)) ? $b->weight : 0;
+  if ($a_weight == $b_weight) {
+    return 0;
+  }
+  return ($a_weight < $b_weight) ? -1 : 1;
+}
+
+/**
+ * Sorts an object by the "info['name']" property.
+ *
+ * Extend drupal API.
+ *
+ * @see drupal_sort_weight
+ */
+function multisite_drupal_toolbox_sort_name_object($a, $b) {
+  $a_weight = (is_object($a) && isset($a->info['name'])) ? $a->info['name'] : 0;
+  $b_weight = (is_object($b) && isset($b->info['name'])) ? $b->info['name'] : 0;
   if ($a_weight == $b_weight) {
     return 0;
   }
