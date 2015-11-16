@@ -291,6 +291,9 @@ function ec_resp_preprocess_page(&$variables) {
   if (theme_get_setting('enable_interinstitutional_theme')) {
     $variables['logo'] = file_create_url(drupal_get_path('theme', 'ec_resp') . '/logo_europa.png');
   }
+  else if(theme_get_setting('default_logo')) {
+    $variables['logo'] = file_create_url(drupal_get_path('theme', 'ec_resp') . '/logo.svg');
+  }
 
   // Adding pathToTheme for Drupal.settings to be used in js files.
   $base_theme = multisite_drupal_toolbox_get_base_theme();
