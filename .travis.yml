@@ -1,13 +1,41 @@
-language: php
-php:
-  - 5.6
+language: generic 
+sudo: required
+dist: trusty
+before_script:
+    - sudo apt-get update > /dev/null
+    - echo "Testing for PHP version ${PHP_VERSION} ${MYSQL_PACKAGE} ..."
+    ## apt gpg key (mariadb,percona) :
+    - sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+    - sudo apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
+    - sudo apt-key adv --keyserver keys.gnupg.net --recv-keys 5072E1F5
+    ## remove any distro leftover 
+    - sudo apt-get remove --purge  libmysqlclient18
+    - sudo apt-get install python-software-properties
+    - sudo add-apt-repository -y "${PHP_PPA_REPO}"
+    - sudo add-apt-repository -y "${MYSQL_PPA_REPO}"
+    - sudo apt-get update > /dev/null
+    - sudo apt-get install -y --force-yes ${MYSQL_PACKAGE} lighttpd php5-cgi php5-curl php5-mysql php5-intl
+    # lighty drupal server :
+    - mkdir build
+    - wget "https://gist.githubusercontent.com/gboddin/20a900c2d3c65a3a6615/raw/790b5a56fd673b3dae215dd5b76170647890240f/drupal_dev_lighttpd.sh" -qO drupal_lighty_server && chmod +x drupal_lighty_server && ./drupal_lighty_server build ${HTTP_SERVER_PORT} & 
 script:
   - curl -sS https://getcomposer.org/installer | php
   - ./composer.phar install -o --no-interaction --ansi --no-scripts --no-progress --no-dev
+  # checking if we can build dist :
   - ./bin/phing 'build-multisite-dist' -D'composer.bin'='./composer.phar'
-  - rm composer.phar
-  - tar cz build > next-europa-platform-${TRAVIS_TAG}.tar.gz
-  - ls -lha
+  # archiving the result for later release ( php 5.6 only and on tagging ):
+  - if [[ ! -z "${RELEASE_ME}" ]]; then tar cz build > next-europa-platform-${TRAVIS_TAG}.tar.gz ; fi
+  # now installing dev deps as well :
+  - ./composer.phar install -o --no-interaction --ansi --no-scripts --no-progress 
+  # checking if we can build dev :
+  - ./bin/phing 'build-platform-dev' -D'behat.base_url'="http://127.0.0.1:${HTTP_SERVER_PORT}/" -D'composer.bin'='./composer.phar'
+  # perform cs tests :
+  - ./bin/phpcs -p --colors --report=full --standard=phpcs.xml profiles
+  - ./bin/phpcs -p --colors --report=full --standard=phpcs.xml src
+  # install the platform on the local dbserver :
+  - ./bin/phing 'install-platform' -D'drupal.db.password'='' -D'drupal.db.user'='root'
+  # run the behat tests :
+  - ./bin/behat -c build/behat.yml --colors
 deploy:
   skip_cleanup: true
   provider: releases
@@ -17,3 +45,15 @@ deploy:
   on:
     repo: ec-europa/platform-dev
     tags: true
+matrix:
+  include:
+    - env: PHP_VERSION="5.6" MYSQL_PACKAGE="mysql-server-5.6" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PPA_REPO="deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.6" RELEASE_ME=YES 
+    - env: PHP_VERSION="5.6" MYSQL_PACKAGE="mysql-server-5.7" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PPA_REPO="deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.7"
+    - env: PHP_VERSION="5.6" MYSQL_PACKAGE="percona-server-server-5.6"  PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PPA_REPO="deb http://repo.percona.com/apt trusty main"
+    - env: PHP_VERSION="5.6" MYSQL_PACKAGE="mariadb-server" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PPA_REPO="deb [arch=amd64,i386] http://mirror.netcologne.de/mariadb/repo/10.0/ubuntu trusty main"
+    - env: PHP_VERSION="5.5" MYSQL_PACKAGE="mysql-server-5.5" PHP_PPA_REPO="ppa:ondrej/php5" MYSQL_PPA_REPO="ppa:ondrej/mysql-5.5"
+  allow_failures:
+    - env: PHP_VERSION="5.6" MYSQL_PACKAGE="mysql-server-5.7" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PPA_REPO="deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.7"
+    - env: PHP_VERSION="5.6" MYSQL_PACKAGE="percona-server-server-5.6"  PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PPA_REPO="deb http://repo.percona.com/apt trusty main"
+    - env: PHP_VERSION="5.6" MYSQL_PACKAGE="mariadb-server" PHP_PPA_REPO="ppa:ondrej/php5-5.6" MYSQL_PPA_REPO="deb [arch=amd64,i386] http://mirror.netcologne.de/mariadb/repo/10.0/ubuntu trusty main"
+    - env: PHP_VERSION="5.5" MYSQL_PACKAGE="mysql-server-5.5" PHP_PPA_REPO="ppa:ondrej/php5" MYSQL_PPA_REPO="ppa:ondrej/mysql-5.5"
