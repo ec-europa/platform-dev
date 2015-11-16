@@ -896,6 +896,7 @@ function cce_basic_config_update_7180() {
       }
     }
   }
+  $module_path = drupal_get_path('module', 'rate');
 
   $rate_widgets[1] = (object) array(
     'name' => 'rate_fivestar',
@@ -949,8 +950,8 @@ function cce_basic_config_update_7180() {
     'use_source_translation' => TRUE,
     'value_type' => 'percent',
     'theme' => 'rate_template_fivestar',
-    'css' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.css',
-    'js' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.js',
+    'css' => $module_path . '/templates/fivestar/fivestar.css',
+    'js' => $module_path . '/templates/fivestar/fivestar.js',
     'translate' => TRUE,
   );
   variable_set("rate_widgets", $rate_widgets);
@@ -1343,7 +1344,7 @@ function cce_basic_config_update_7199() {
   $tags .= "\nvideo";
   variable_set('security_allowed_tags', $tags);
 
-  variable_set('print_pdf_pdf_tool', 'print_pdf_mpdf|sites/all/libraries/mpdf/mpdf.php');
+  variable_set('print_pdf_pdf_tool', 'print_pdf_mpdf|' . libraries_get_path('mpdf') . '/mpdf.php');
 }
 
 /**
@@ -1641,4 +1642,25 @@ function cce_basic_config_update_7208() {
   }
 
   variable_set('multisite_version', '2.1');
+}
+
+/**
+ * Drupal 7.41 update.
+ *
+ * Added here in case the update 7080 of system module was already
+ * executed on existing sites.
+ * Convert the 'format' column in {date_format_locale}
+ * to case sensitive varchar.
+ *
+ * @see system_update_7080()
+ */
+function cce_basic_config_update_7209() {
+  $spec = array(
+    'description' => 'The date format string.',
+    'type' => 'varchar',
+    'length' => 100,
+    'not null' => TRUE,
+    'binary' => TRUE,
+  );
+  db_change_field('date_format_locale', 'format', 'format', $spec);
 }
