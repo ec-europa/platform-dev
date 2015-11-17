@@ -79,8 +79,8 @@ function nexteuropa_multilingual_disable() {
   // Remove block from context.
   multisite_drupal_toolbox_remove_block_context('site_wide', 'language_selector_site');
   multisite_drupal_toolbox_remove_block_context('site_wide', 'language_selector_page');
-  
-  // Disable modules
+
+  // Disable modules.
   module_disable(array('language_selector_site'), FALSE);
   module_disable(array('language_selector_page'), FALSE);
 }
