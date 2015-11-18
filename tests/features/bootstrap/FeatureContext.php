@@ -188,8 +188,8 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
       // Restore prefix language if changed.
       if (!empty($language->prefix)) {
-        $language->prefix = NULL;
-        $properties = 'prefix';
+        $language->prefix = '';
+        $properties[] = 'prefix';
       }
 
       // Update language if a field has changed.
