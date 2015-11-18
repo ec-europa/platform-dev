@@ -62,7 +62,7 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
       $node = $doc->getElementsByTagName('div')->item(0);
 
       // Get all node childs even text node elements.
-      foreach($node->childNodes as $child) {
+      foreach ($node->childNodes as $child) {
         if ($child->nodeType == XML_TEXT_NODE) {
           $data[$key]['#text'] .= $child->nodeValue;
         }
