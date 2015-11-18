@@ -171,45 +171,26 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Reinitialize some environment settings.
    *
-   * @AfterScenario @cleanEnvironment
+   * @AfterFeature @cleanEnvironment
    */
-  public function cleanEnvironment() {
-    $rebuild = FALSE;
-    drupal_flush_all_caches();
-    // Restore site_frontpage if changed.
-    if (variable_get("site_frontpage") !== "node") {
-      variable_set("site_frontpage", "node");
-      $rebuild = TRUE;
-    }
+  public static function cleanEnvironment() {
+    // Restore homepage.
+    variable_set("site_frontpage", "node");
 
     // Restore default language (en) settings.
-    $languages = language_list('enabled');
+    $languages = language_list('enabled', TRUE);
     if (isset($languages['1']['en'])) {
-      $properties = array();
       $language = $languages['1']['en'];
 
-      // Restore prefix language if changed.
-      if (!empty($language->prefix)) {
-        $language->prefix = '';
-        $properties[] = 'prefix';
-      }
+      $language->prefix = '';
+      $properties[] = 'prefix';
 
-      // Update language if a field has changed.
-      if (!empty($properties)) {
-        $fields = array_intersect_key((array) $language, array_flip($properties));
-        // Update language fields.
-        db_update('languages')
-          ->fields($fields)
-          ->condition('language', $language->language)
-          ->execute();
-
-        $rebuild = TRUE;
-      }
-    }
-
-    // Flush caches if necessary.
-    if ($rebuild) {
-      drupal_flush_all_caches();
+      $fields = array_intersect_key((array) $language, array_flip($properties));
+      // Update language fields.
+      db_update('languages')
+        ->fields($fields)
+        ->condition('language', $language->language)
+        ->execute();
     }
   }
 
