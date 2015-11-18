@@ -174,6 +174,8 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @AfterScenario @cleanEnvironment
    */
   public function cleanEnvironment() {
+    $rebuild = FALSE;
+    drupal_flush_all_caches();
     // Restore site_frontpage if changed.
     if (variable_get("site_frontpage") !== "node") {
       variable_set("site_frontpage", "node");
