@@ -122,6 +122,27 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#default_value' => $contacts['responsable'],
     );
 
+    $feedback_contacts = $translator->getSetting('feedback_contacts');
+    $form['feedback_contacts'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('DGT Contacts'),
+      '#collapsible' => FALSE,
+      '#collapsed' => FALSE,
+      '#description' => t("Contact persons for send a feedback"),
+    );
+    $form['feedback_contacts']['to'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Email to'),
+      '#required' => TRUE,
+      '#default_value' => $feedback_contacts['to'],
+    );
+    $form['feedback_contacts']['cc'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Email CC'),
+      '#required' => TRUE,
+      '#default_value' => $feedback_contacts['cc'],
+    );
+
     return parent::pluginSettingsForm($form, $form_state, $translator);
   }
 
