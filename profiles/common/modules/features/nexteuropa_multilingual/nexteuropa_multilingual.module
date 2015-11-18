@@ -227,7 +227,7 @@ function nexteuropa_multilingual_preprocess_field(&$variables) {
   if (!empty($variables['label']) && isset($variables['label_hidden']) && $variables['label_hidden'] == FALSE) {
     if (isset($variables['element']['#object']->nid)) {
       // Translate label here as it is content.
-      // $variables['label'] = 'Translated title';
+      // $variables['label'] = 'Translated title'.
     }
   }
 }
