@@ -169,7 +169,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * Reinitialise some environment settings.
+   * Reinitialize some environment settings.
    *
    * @AfterScenario @cleanEnvironment
    */
