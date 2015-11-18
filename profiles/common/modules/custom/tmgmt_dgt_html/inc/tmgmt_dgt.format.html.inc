@@ -57,13 +57,18 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
     foreach ($xml->xpath("//div[@class='atom']") as $atom) {
       // Assets are our strings (eq fields in nodes).
       $key = $this->decodeIdSafeBase64((string) $atom['id']);
-      if ($atom->children()->asXML() != '') {
-        foreach ($atom->children() as $child) {
-          $data[$key]['#text'] = $data[$key]['#text'] . $child->asXML();
+
+      $doc = DOMDocument::loadXML($atom->asXML());
+      $node = $doc->getElementsByTagName('div')->item(0);
+
+      // Get all node childs even text node elements.
+      foreach($node->childNodes as $child) {
+        if ($child->nodeType == XML_TEXT_NODE) {
+          $data[$key]['#text'] .= $child->nodeValue;
         }
-      }
-      else {
-        $data[$key]['#text'] = (string) $atom;
+        else {
+          $data[$key]['#text'] .= $doc->saveXml($child);
+        }
       }
     }
     // The job item IDs in the translation data are mapped to the language that
