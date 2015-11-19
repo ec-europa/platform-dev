@@ -40,7 +40,7 @@ function language_selector_site_block_content() {
   $block = array(
     'code' => array(
       '#type' => 'markup',
-      '#markup' => $language->language,
+      '#markup' => isset($language->prefix) ? $language->prefix : $language->language,
     ),
     'label' => array(
       '#type' => 'markup',
