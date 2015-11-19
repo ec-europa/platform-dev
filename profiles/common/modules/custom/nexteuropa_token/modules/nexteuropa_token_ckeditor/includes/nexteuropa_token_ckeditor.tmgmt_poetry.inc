@@ -47,7 +47,6 @@ function nexteuropa_token_ckeditor_tmgmt_field_source_data_alter(&$fields, $enti
  */
 function nexteuropa_token_ckeditor_tmgmt_field_pre_populate_entity_alter(&$entity, $entity_type, $data, $langcode) {
 
-  return;
 }
 
 /**
