@@ -194,4 +194,16 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
   }
 
+  /**
+   * Creates a language.
+   *
+   * @Given the :language language is available
+   *
+   * @param string $langcode
+   *   The ISO code of the language to create.
+   */
+  public function createLanguages($langcode) {
+    $this->languageCreate((object) ['langcode' => $langcode]);
+  }
+
 }

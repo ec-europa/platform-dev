@@ -26,16 +26,18 @@ Feature: Splash Screen features
     And I should see the link "Български"
 
   @api
-  Scenario: Links on splash screen pages are correct
+  # Regression test for a bug that broke the Portuguese (pt-pt) link.
+  # See https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-5585
+  Scenario: Test language with a custom prefix
     Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/regional/language/edit/fr"
-    And I fill in "edit-prefix" with "fr-prefix"
+    And the "pt-pt" language is available
+    When I go to "admin/config/regional/language/edit/pt-pt"
+    And I fill in "edit-prefix" with "pt"
     And I press the "Save language" button
-    And I go to "/"
-    Then I should see an "body.not-front.page-splash" element
-    And I should see the link "Français"
-    When I click "Français"
-    Then the url should match "(.*)fr-prefix(.*)"
+    When I go to "/"
+    Then I should see the link "Português"
+    When I click "Português"
+    Then the url should match "(.*)_pt"
 
   @api
   Scenario: Administrators can blacklisted languages for the splash screen page
