@@ -5,17 +5,10 @@
  */
 
 module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.access_control');
+module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.webservice');
 
 /**
- * Implements hook_init().
- */
-function tmgmt_poetry_init() {
-
-  module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.webservice');
-}
-
-/**
- * Implements hook_entity().
+ * Implements hook_entity_info_alter().
  */
 function tmgmt_poetry_entity_info_alter(&$entity_info) {
   $entity_info['tmgmt_job']['controller class'] = 'TMGMTPoetryJobController';
@@ -102,11 +95,11 @@ function tmgmt_poetry_form_tmgmt_ui_locale_translation_review_form_alter(&$form,
  */
 function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) {
   $translator = '';
-  // IF TRANSLATOR VALUES HAS BEEN CHANGED.
+  // If translator values has been changed.
   if (isset($form_state['values']['translator'])) {
     $translator_name = $form_state['values']['translator'];
+    // Obtain current translation job translator.
     $translator = tmgmt_translator_load($translator_name);
-    // OBTAIN CURRENT TRANSLATION JOB TRANSLATOR.
   }
   elseif (isset($form_state['tmgmt_job']->translator)) {
     $translator = $form_state['tmgmt_job']->getTranslator();
@@ -126,14 +119,6 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
     if (count($job_items) > 0) {
       $job_item = array_shift($job_items);
     }
-    /*
-    if($form_state['tmgmt_job']->state == TMGMT_JOB_STATE_ACTIVE
-    && (isset($job_item) && $job_item->state < TMGMT_JOB_ITEM_STATE_REVIEW)
-    ) {
-    $form['actions']['submit']['#value'] = t('Submit language changes');
-    }
-     */
-
   }
 }
 
@@ -145,8 +130,8 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
   $translator = $origin_job->getTranslator();
   if ($translator->plugin != 'poetry') {
     $requested_languages = array();
-    // THE TRANSLATOR HAS BEEN CHANGED,
-    // PROCEED TO CLEAR THE SETTINGS OF ORIGIN JOB AND THE MAIN REFERENCE.
+    // The translator has benn changed,
+    // proceed to clear the settings of origin job and the main reference.
     if (isset($origin_job->settings['languages'])) {
       $origin_job->settings = NULL;
       $origin_job->reference = NULL;
@@ -163,11 +148,11 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
   }
 
   $languages = language_list('language');
-  // REMOVE OLD TRANSLATIONS IN CASE THAT THEY ARE
-  // NOT AVAILABLE IN THE SETTINGS OF THE MAIN TRANSLATION.
+  // Remove old translations in case that they are not available
+  // in the settings of the main translation.
   $language_targets_to_remove = array();
   foreach ($languages as $language) {
-    // IF A LANGUAGE IS NOT IN THE REQUESTED TRANSLATION.
+    // If a language is not in the requested translation.
     if (!in_array($language->language, array_merge(array($origin_job->source_language), $requested_languages), TRUE)) {
       $language_targets_to_remove[] = $language->language;
     }
@@ -180,8 +165,8 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
 
   $origin_job_item = array_shift($origin_job_items);
 
-  // IN CASE IF A TRANSLATION REQUEST IS ALREADY SENT,
-  // CHECK IF THERE WAS ADDED OR REMOVED ADDITIONAL LANGUAGES.
+  // In case if a translation request is already sent,
+  // check if there was added or removed additionnal languages.
   if (($form_state['triggering_element']['#value'] != $form['actions']['checkout']['#value']) && $origin_job->state == TMGMT_JOB_STATE_ACTIVE && $origin_job_item->state < TMGMT_JOB_ITEM_STATE_REVIEW) {
     if ($form_state['values']['languages'] !== $origin_job->settings['languages']) {
       unset($origin_job->settings['translations']);
@@ -198,8 +183,8 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
       $origin_job_languages = $origin_job->settings['languages'];
       $origin_job->settings['languages'] = $form_state['values']['languages'];
       $origin_job->save();
-      // IF NEW REQUEST IS FAILED
-      // RESET THE MAIN JOB TRANSLATION LANGUAGES TO OLD VALUE AND SAVE.
+      // If new request is failed,
+      // reset the main job translation languages to old value and save.
       if (!tmgmt_ui_job_request_translation($origin_job)) {
         $origin_job->settings['languages'] = $origin_job_languages;
         $origin_job->state = TMGMT_JOB_STATE_ACTIVE;
