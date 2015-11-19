@@ -8,17 +8,17 @@
   * Implements hook_requirements().
   */
 function nexteuropa_multilingual_requirements() {
+  $requirements = [];
   if (module_exists('multisite_drupal_language_negociation')) {
     $t = get_t();
     $args = array('%module' => 'Multisite Drupal Language Negociation');
-    return array(
-      'nexteuropa_multilingual_module_conflict' => array(
-        'title' => 'NextEuropa Multilingual',
-        'description' => $t('This module is not compatible with %module. Please disable that module first.', $args),
-        'severity' => REQUIREMENT_ERROR,
-      ),
-    );
+    $requirements['nexteuropa_multilingual_module_conflict'] = [
+      'title' => 'NextEuropa Multilingual',
+      'description' => $t('This module is not compatible with %module. Please disable that module first.', $args),
+      'severity' => REQUIREMENT_ERROR,
+    ];
   }
+  return $requirements;
 }
 
 /**
