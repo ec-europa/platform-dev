@@ -58,10 +58,12 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
       // Assets are our strings (eq fields in nodes).
       $key = $this->decodeIdSafeBase64((string) $atom['id']);
 
-      $doc = DOMDocument::loadXML($atom->asXML());
+      $doc = new DOMDocument();
+      $doc->loadXML($atom->asXML());
       $node = $doc->getElementsByTagName('div')->item(0);
 
       // Get all node childs even text node elements.
+      $data[$key] = array("#text" => "");
       foreach ($node->childNodes as $child) {
         if ($child->nodeType == XML_TEXT_NODE) {
           $data[$key]['#text'] .= $child->nodeValue;
