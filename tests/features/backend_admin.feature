@@ -12,8 +12,7 @@ Scenario: Warning is shown when feature is overridden
   When I am on "admin"
   Then I should not see the warning message containing "Some of this website's features are overridden"
   And I should not see the warning message containing "Multisite drupal toolbox test"
-  When I run drush "vset" "splash_screen_blacklist 'bar'"
-  And the cache has been cleared
-  When I am on "admin"
+  When I run drush "vset" "multisite_drupal_toolbox_foobar 'bar'"
+  And I am on "admin"
   Then I should see the warning message containing "Some of this website's features are overridden"
   And I should see the warning message containing "Multisite drupal toolbox test"
