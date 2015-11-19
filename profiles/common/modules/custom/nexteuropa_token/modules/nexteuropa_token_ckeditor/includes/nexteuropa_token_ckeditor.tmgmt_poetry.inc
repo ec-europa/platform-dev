@@ -12,7 +12,7 @@
  *
  * @link https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6851
  */
-define('NEXTEUROPA_TOKEN_CKEDITOR_REGEX_TMGMT_POETRY_IGNORE', '/<poetry_ignore value=\"(.*)\"\/>/U');
+define('NEXTEUROPA_TOKEN_CKEDITOR_REGEX_TMGMT_POETRY_IGNORE', '/<token value=\"(.*)\"\/>/U');
 
 /**
  * TMGMT Poetry ignore tag template.
@@ -22,21 +22,21 @@ define('NEXTEUROPA_TOKEN_CKEDITOR_REGEX_TMGMT_POETRY_IGNORE', '/<poetry_ignore v
  *
  * @link https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6851
  */
-define('NEXTEUROPA_TOKEN_CKEDITOR_TMGMT_POETRY_IGNORE_TAG', '<poetry_ignore value="%s"/>');
+define('NEXTEUROPA_TOKEN_CKEDITOR_TMGMT_POETRY_IGNORE_TAG', '<token value="%s"/>');
 
 /**
  * Implements hook_tmgmt_field_source_data_alter().
  */
-function nexteuropa_token_ckeditor_tmgmt_field_source_data_alter(&$fields, $entity_type, $entity, $langcode) {
+function nexteuropa_token_ckeditor_tmgmt_field_source_data_alter(&$data, $entity_type, $entity, $langcode) {
   $entity_info = entity_get_info($entity_type);
   $bundle_key = $entity_info['bundle keys']['bundle'];
   $instances = field_info_instances($entity_type, $entity->{$bundle_key});
   foreach ($instances as $field_name => $instance) {
     $widget_type = $instance['widget']['type'];
     $widget_types = array('text_textarea_with_summary', 'text_textarea');
-    if (in_array($widget_type, $widget_types) && isset($fields[$field_name])) {
-      foreach (element_children($fields[$field_name]) as $key) {
-        $fields[$field_name][$key]['value']['#text'] = nexteuropa_token_ckeditor_replace_tokens_with_tmgmt_poetry_ignore_tags($fields[$field_name][$key]['value']['#text']);
+    if (in_array($widget_type, $widget_types) && isset($data[$field_name])) {
+      foreach (element_children($data[$field_name]) as $key) {
+        $data[$field_name][$key]['value']['#text'] = nexteuropa_token_ckeditor_replace_tokens_with_tmgmt_poetry_ignore_tags($data[$field_name][$key]['value']['#text']);
       }
     }
   }
@@ -45,8 +45,19 @@ function nexteuropa_token_ckeditor_tmgmt_field_source_data_alter(&$fields, $enti
 /**
  * Implements hook_tmgmt_field_pre_populate_entity_alter().
  */
-function nexteuropa_token_ckeditor_tmgmt_field_pre_populate_entity_alter(&$entity, $entity_type, $data, $langcode) {
-
+function nexteuropa_token_ckeditor_tmgmt_field_pre_populate_entity_alter(&$data, $entity, $entity_type, $langcode) {
+  $entity_info = entity_get_info($entity_type);
+  $bundle_key = $entity_info['bundle keys']['bundle'];
+  $instances = field_info_instances($entity_type, $entity->{$bundle_key});
+  foreach ($instances as $field_name => $instance) {
+    $widget_type = $instance['widget']['type'];
+    $widget_types = array('text_textarea_with_summary', 'text_textarea');
+    if (in_array($widget_type, $widget_types) && isset($data[$field_name])) {
+      foreach (element_children($data[$field_name]) as $key) {
+        $data[$field_name][$key]['value']['#text'] = nexteuropa_token_ckeditor_replace_tmgmt_poetry_ignore_tags_with_tokens($data[$field_name][$key]['value']['#text']);
+      }
+    }
+  }
 }
 
 /**
