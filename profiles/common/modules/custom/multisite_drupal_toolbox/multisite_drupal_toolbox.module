@@ -5,7 +5,9 @@
  * Multisite Toolbox definition module.
  */
 
- define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
+// TODO: fix natif overridden feature multisite_wysiwyg
+// and multisite_rules_configuration and remove them from black list.
+ define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core,multisite_wysiwyg,multisite_rules_configuration');
 /**
  * Implements hook_menu().
  */
@@ -150,21 +152,15 @@ function _multisite_drupal_toolbox_show_features_status() {
   $ajax_call = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
 
   if (user_access('administer site configuration') && path_is_admin(current_path()) && !$ajax_call) {
-    static $cache;
-    if (!isset($cache)) {
-      $cache = cache_get('multisite_drupal_toobox_feature_status');
-    }
-    else {
+    static $control;
+
+    if (isset($control)) {
       // Display of message already computed, avoid multiples execution.
       return;
     }
-
-    if (isset($cache->data)) {
-      // Get $output message from cache.
-      $output = $cache->data;
-    }
     else {
-      // No cache available, build the $output message.
+      // First call, build the $output message.
+      $control = TRUE;
       $output = "";
       $items = array();
 
@@ -199,7 +195,6 @@ function _multisite_drupal_toolbox_show_features_status() {
         ksort($items);
         $output = t("Some of this website's features are overridden: !features_list", array('!features_list' => theme('item_list', array('items' => $items))));
       }
-      cache_set("multisite_drupal_toobox_feature_status", $output);
     }
 
     // Print $output message.
