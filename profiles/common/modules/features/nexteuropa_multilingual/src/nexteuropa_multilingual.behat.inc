@@ -80,10 +80,10 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       'source' => $node->language,
     );
 
+    // Add others languages.
     foreach ($translations as $language => $node_translation) {
-      $translation_handler = entity_translation_get_handler('node', $node);
-      $translation_handler->loadTranslations();
-
+      $handler  = entity_translation_get_handler('node', $node);
+      $handler->getTranslations();
       $translation['uid'] = $node->uid;
       $translation['created'] = $node->created;
       $translation['changed'] = $node->changed;
@@ -92,23 +92,17 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       $values = array();
       $values['title_field'][$language][0]['value'] = $node_translation->title;
 
-      // Add the new translation and store it.
-      $translation_handler->setTranslation($translation, $values);
-
-      // Preserve original language setting.
-      $node->field_language = $node->language;
-      $node->language = $node->translations->original;
-
-      // Apply Pathauto settings.
-      $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $language);
-
-      // Save entity.
-      node_save($node);
+      $handler->setTranslation($translation, $values);
     }
 
-    // Explicitly create URL aliases for all node translations.
-    $data = array('node' => $node);
-    pathauto_create_alias('node', 'update', "node/$node->nid", $data);
+    // Preserve original language setting.
+    $node->field_language = $node->language;
+    $node->language = $node->translations->original;
+
+    // Apply Pathauto settings.
+    $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $language);
+
+    node_save($node);
 
     // Get node path without any base path by setting 'base_url' and 'absolute'.
     $path = url('node/' . $node->nid, array('base_url' => '', 'absolute' => TRUE));
