@@ -15,7 +15,7 @@ function multisite_drupal_toolbox_test_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'multisite_drupal_toolbox_foobar';
   $strongarm->value = 'foo';
-  $export['admin_theme'] = $strongarm;
+  $export['multisite_drupal_toolbox_foobar'] = $strongarm;
 
   return $export;
 }
