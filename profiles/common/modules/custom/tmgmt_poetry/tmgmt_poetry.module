@@ -64,6 +64,33 @@ function _tmgmt_poetry_load_job_by_reference($reference) {
 }
 
 /**
+ * Add a button to send a feedback to DGT.
+ *
+ * Implements hook_form_FORM_ID_alter().
+ */
+function tmgmt_poetry_form_tmgmt_ui_workbench_moderation_translation_review_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form_state['item'])) {
+    $job = $form_state['item'];
+    if ($job->state == 2) {
+      $translator_feedback_contacts = $job->getTranslator()->getSetting('feedback_contacts');
+      $mailto = format_string('mailto:@mail?subject=@subject&cc=@cc',
+       array(
+         '@mail' => $translator_feedback_contacts['to'],
+         '@subject' => 'Issue with ' . $job->tjid,
+         '@cc' => $translator_feedback_contacts['cc'],
+       ));
+      $form['actions']['feedback'] = array(
+        '#type' => 'link',
+        '#title' => 'Feedback to DGT',
+        '#href' => $mailto,
+        '#weight' => -1,
+        '#attributes' => array('class' => array('button')),
+      );
+    }
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) {
@@ -228,10 +255,10 @@ function _tmgmt_poetry_obtain_related_translation_jobs($languages = array(), $re
 function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $delai) {
   db_insert('poetry_status')
       ->fields(array(
-          'tjiid' => $tjiid,
-          'target_language' => $target_language,
-          'status' => $status,
-          'delai' => $delai,
+        'tjiid' => $tjiid,
+        'target_language' => $target_language,
+        'status' => $status,
+        'delai' => $delai,
       ))
       ->execute();
 }
