@@ -59,10 +59,10 @@ function nexteuropa_token_ckeditor_tmgmt_field_pre_populate_entity_alter(&$data,
 /**
  * Get fields that need to be processed by TMGMT alter hooks.
  *
- * @param string $entity_type
- *   The entity type.
  * @param object $entity
  *   An entity object.
+ * @param string $entity_type
+ *   The entity type.
  *
  * @return array
  *   List of field base names.
