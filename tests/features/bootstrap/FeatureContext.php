@@ -229,7 +229,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     if (!preg_match($pattern, $page_content)) {
       throw new Exception(sprintf('The page content language switcher is not set to %s and not followed by the language links %s.', $active_language, $language_order));
     }
-  }   
+  }
 
   /**
    * Reinitialize some environment settings.
