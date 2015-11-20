@@ -161,7 +161,6 @@ function _multisite_drupal_toolbox_show_features_status() {
     else {
       // First call, build the $output message.
       $control = TRUE;
-      $output = "";
       $items = array();
 
       // $default_text get from theme_features_storage_link.
@@ -190,16 +189,12 @@ function _multisite_drupal_toolbox_show_features_status() {
           }
         }
       }
-      // Build $output message.
+      // Build and print $output message.
       if (!empty($items)) {
         ksort($items);
         $output = t("Some of this website's features are overridden: !features_list", array('!features_list' => theme('item_list', array('items' => $items))));
+        drupal_set_message($output, 'warning', FALSE);
       }
-    }
-
-    // Print $output message.
-    if (!empty($output)) {
-      drupal_set_message($output, 'warning', FALSE);
     }
   }
 }
