@@ -100,7 +100,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     $node->language = $node->translations->original;
 
     // Apply Pathauto settings.
-    $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $language);
+    $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node->language);
 
     node_save($node);
 
@@ -149,6 +149,49 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    */
   public function assertLanguageSelectorPage() {
     $this->assertSession()->elementExists('css', '#language-selector-site-language-list-page');
+  }
+
+  /**
+   * Create a TMGMT local translator.
+   *
+   * @param string $name
+   *    Local translator human readable name.
+   *
+   * @Given local translator :name is available
+   */
+  public function localTranslatorIsAvailable($name) {
+    /** @var \TMGMTTranslatorController $controller */
+    $controller = entity_get_controller('tmgmt_translator');
+    $values = [
+      "name" => strtolower(str_replace(' ', '_', $name)),
+      "label" => $name,
+      "description" => "",
+      "weight" => 0,
+      "plugin" => "local",
+      "settings" => [
+        "auto_accept" => FALSE,
+        "allow_all" => TRUE,
+      ],
+    ];
+    $translator = $controller->create($values);
+    $controller->save($translator);
+    $this->translators[] = $translator;
+  }
+
+  /**
+   * Remove translators created during scenarios execution.
+   *
+   * @AfterScenario
+   */
+  public function removeTranslators() {
+    if (isset($this->translators)) {
+      /** @var \TMGMTTranslatorController $controller */
+      $controller = entity_get_controller('tmgmt_translator');
+      /** @var \TMGMTTranslator $translator */
+      foreach ($this->translators as $translator) {
+        $controller->delete([$translator->identifier()]);
+      }
+    }
   }
 
 }
