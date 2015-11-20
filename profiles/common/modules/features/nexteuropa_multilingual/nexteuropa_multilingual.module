@@ -7,6 +7,96 @@
 include_once 'nexteuropa_multilingual.tokens.inc';
 
 /**
+ * Implements hook_theme().
+ */
+function nexteuropa_multilingual_theme($existing, $type, $theme, $path) {
+  return array(
+    'nexteuropa_multilingual_language_list' => array(
+      'path' => $path . '/theme',
+    ),
+    'nexteuropa_multilingual_language_icon' => array(
+      'path' => $path . '/theme',
+    ),
+  );
+}
+
+/**
+ * Returns HTML for a list of languages.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - languages: An array of languages which should be shown in the list.
+ *   - path: The path to which the user should be directed after clicking on a
+ *     language.
+ *   - options: Options to pass to the l() function when generating the link to
+ *     the given path (optional).
+ *   - title: Title for the language list (optional).
+ *   - type: The type of list (optional). Can be either 'ol' or 'ul'. Defaults
+ *     to 'ol'.
+ *   - attributes: Attributes to apply to the item list (optional).
+ *
+ * @return string
+ *   The HTML for the language list.
+ *
+ * @ingroup themeable
+ */
+function theme_nexteuropa_multilingual_language_list(array $variables) {
+  // Provide defaults.
+  $options = !empty($variables['options']) ? $variables['options'] : [];
+  $title = !empty($variables['title']) ? $variables['title'] : '';
+  $type = !empty($variables['type']) ? $variables['type'] : 'ol';
+  $attributes = !empty($variables['attributes']) ? $variables['attributes'] : [];
+
+  $languages = [];
+  foreach ($variables['languages'] as $language) {
+    $options['attributes']['lang'] = $language->language;
+    $options['attributes']['hreflang'] = $language->language;
+    $options['language'] = $language;
+    $languages[] = l($language->native, $variables['path'], $options);
+  }
+
+  return theme('item_list', [
+    'items' => $languages,
+    'title' => $title,
+    'type' => $type,
+    'attributes' => $attributes,
+  ]);
+}
+
+/**
+ * Returns HTML for a language icon.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - width: Optional width of the icon, in pixels. Defaults to 60.
+ *   - height: Optional height of the icon, in pixels. Defaults to 60.
+ *   - alt: Optional alternative text for text-based browsers. Defaults to
+ *     'Language icon'.
+ *   - title: Optional title text which is displayed when the image is hovered
+ *     in some popular browsers. Defaults to 'Language icon'.
+ *
+ * @return string
+ *   The HTML for the language icon.
+ *
+ * @ingroup themeable
+ */
+function theme_nexteuropa_multilingual_language_icon(array $variables) {
+  // Provide default values.
+  $width = !empty($variables['width']) ? $variables['width'] : 60;
+  $height = !empty($variables['height']) ? $variables['height'] : 60;
+  $alt = !empty($variables['alt']) ? $variables['alt'] : t('Language icon');
+  $title = !empty($variables['title']) ? $variables['title'] : t('Language icon');
+
+  return theme('image', [
+    'path' => drupal_get_path('module', 'nexteuropa_multilingual') . '/theme/language-icon.png',
+    'width' => $width,
+    'height' => $height,
+    'alt' => $alt,
+    'title' => $title,
+  ]);
+}
+
+/**
  * Implements hook_module_implements_alter().
  */
 function nexteuropa_multilingual_module_implements_alter(&$implementations, $hook) {
@@ -217,5 +307,13 @@ function nexteuropa_multilingual_language_fallback_candidates_alter(array &$fall
     }
     array_unshift($fallback_candidates, $parameters['2nd-language']);
   }
+}
 
+/**
+ * Implements hook_pathauto_alias_alter().
+ */
+function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) {
+  // Force all aliases to be saved as language neutral.
+  // All content translations will have a unique alias.
+  $context['language'] = LANGUAGE_NONE;
 }

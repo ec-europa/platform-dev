@@ -464,23 +464,26 @@ function ec_resp_preprocess_html(&$variables) {
       $node = node_load(arg(1));
       // If the metatag title exists, it must be used
       // to construct the title page.
-      if (isset($node->field_meta_title) && !empty($node->field_meta_title)) {
-        $title = filter_xss($node->field_meta_title['und'][0]['value']);
+      if ($node && isset($node->field_meta_title) && !empty($node->field_meta_title)) {
+        $title = strip_tags($node->field_meta_title['und'][0]['value']);
       }
       else {
-        $title = filter_xss($node->title);
+        $title = strip_tags($node->title);
       }
     }
     else {
-      $title = filter_xss(variable_get('site_name'));
+      // For all no-node page, keep the default drupal behavior.
+      $title = strip_tags(drupal_get_title());
     }
+
     if (theme_get_setting('enable_interinstitutional_theme')) {
-      $variables['head_title'] = t('EUROPA - !title', array('!title' => $title));
+      $variables['head_title'] = format_string('EUROPA - !title', array('!title' => $title));
     }
     else {
-      $variables['head_title'] = t('!title - European Commission', array('!title' => $title));
+      $variables['head_title'] = format_string('!title - European Commission', array('!title' => $title));
     }
   }
+
   // Add javascripts to the footer scope.
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel.min.js', array('scope' => 'footer', 'weight' => 11));
@@ -932,8 +935,7 @@ function ec_resp_form_element($variables) {
       '_' => '-',
       '[' => '-',
       ']' => '',
-      )
-    );
+    ));
   }
   // Add a class for disabled elements to facilitate cross-browser styling.
   if (!empty($element['#attributes']['disabled'])) {
@@ -1079,6 +1081,11 @@ function ec_resp_menu_link__menu_breadcrumb_menu(array $variables) {
     }
   }
 
+  if (theme_get_setting('enable_interinstitutional_theme')) {
+    $element['#title'] = 'Europa';
+    $element['#href'] = 'http://europa.eu/index_en.htm';
+  }
+
   // Format output.
   $element['#localized_options']['html'] = TRUE;
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
@@ -1137,6 +1144,15 @@ function ec_resp_menu_local_tasks(&$variables) {
  */
 function ec_resp_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
+    case 'nexteuropa_europa_search_search_form':
+      if (theme_get_setting('enable_interinstitutional_theme')) {
+        $form['search_input_group']['europa_search_submit']['#type'] = 'image_button';
+        $form['search_input_group']['europa_search_submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.gif';
+        $form['search_input_group']['europa_search_submit']['#attributes']['class'] = array_merge(['search_input_group']['europa_search_submit']['#attributes']['class'], array('btn', 'btn-default'));
+        $form['search_input_group']['europa_search_submit']['#attributes']['alt'] = t('Search');
+      }
+      break;
+
     case 'search_block_form':
       $form['search_block_form']['#attributes']['placeholder'][] = t('Search');
 
@@ -1149,6 +1165,7 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
         $form['actions']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.png';
       }
       $form['actions']['submit']['#attributes']['class'][] = 'btn btn-default btn-small';
+      $form['actions']['submit']['#attributes']['alt'] = t('Search');
       break;
 
     case 'apachesolr_search_custom_page_search_form':
@@ -1197,13 +1214,7 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
       $form['actions']['preview']['#attributes']['class'][] = 'btn btn-default';
     }
   }
-  $form['#after_build'][] = '_ec_resp_cck_alter';
-}
 
-/**
- * After_build function for form_alter.
- */
-function _ec_resp_cck_alter($form, &$form_state) {
   // Hide format field.
   if (!user_access('administer nodes')) {
     $form['comment_body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
@@ -1212,8 +1223,6 @@ function _ec_resp_cck_alter($form, &$form_state) {
     $form['body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
     $form['body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
   }
-
-  return $form;
 }
 
 /**
@@ -1796,10 +1805,11 @@ function ec_resp_table($variables) {
         $header_count++;
       }
     }
-    $rows[] = array(array(
-      'data' => $empty,
-      'colspan' => $header_count,
-      'class' => array('empty', 'message'),
+    $rows[] = array(
+      array(
+        'data' => $empty,
+        'colspan' => $header_count,
+        'class' => array('empty', 'message'),
       ),
     );
   }
