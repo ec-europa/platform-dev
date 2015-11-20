@@ -79,7 +79,7 @@ projects[chosen][subdir] = "contrib"
 projects[chosen][version] = 2.0-beta4
 
 projects[chr][subdir] = "contrib"
-projects[chr][version] = "1.6"
+projects[chr][version] = "1.7"
 ; Issue #2512054 : Call to legacy function curl_http_request. Please use chr_curl_http_request instead.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5588
 ; https://www.drupal.org/node/2512054
