@@ -94,11 +94,11 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       ->fetchAllAssoc('tjid');
     if ($results) {
       foreach ($results as $tjid) {
-        $job = tmgmt_job_load($tjid->tjid);
-
-        $translator = $job->getTranslator();
-        if ($translator && $translator->plugin == 'poetry' && $job->getState() == 1) {
-          return FALSE;
+        if ($job = tmgmt_job_load($tjid->tjid)) {
+          $translator = $job->getTranslator();
+          if ($translator && $translator->plugin == 'poetry' && $job->getState() == 1) {
+            return FALSE;
+          }
         }
       }
     }
