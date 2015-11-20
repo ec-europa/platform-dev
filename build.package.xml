@@ -159,11 +159,24 @@
         </if>
     </target>
 
-    <!-- Install Composer dependencies for the build system. -->
-    <target name="install-build-dependencies">
+    <!-- Install dependencies for the build system. -->
+    <target name="install-build-dependencies" depends="install-composer-packages, install-npm-packages" />
+
+    <!-- Install Composer dependencies. -->
+    <target name="install-composer-packages">
         <composer command="install" composer="${composer.bin}">
             <arg value="--working-dir=${project.basedir}" />
         </composer>
+    </target>
+
+    <!-- Install npm packages. -->
+    <target name="install-npm-packages">
+        <exec
+            command="npm install"
+            dir="${project.basedir}"
+            passthru="true"
+            checkreturn="true"
+        />
     </target>
 
     <target
