@@ -580,7 +580,7 @@ projects[votingapi][subdir] = "contrib"
 projects[votingapi][version] = "2.12"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.11"
+projects[webform][version] = "4.12"
 projects[webform][patch][] = patches/webform-use_ecas_link-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
@@ -593,7 +593,7 @@ projects[workbench_access][subdir] = "contrib"
 projects[workbench_access][version] = "1.4"
 
 projects[workbench_email][subdir] = "contrib"
-projects[workbench_email][version] = "3.5"
+projects[workbench_email][version] = "3.6"
 ; Issue #2501321: Add email subject and message to Features.
 ; https://www.drupal.org/node/2501321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
