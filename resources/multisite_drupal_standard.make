@@ -489,13 +489,9 @@ projects[title][download][type] = git
 projects[title][subdir] = "contrib"
 
 projects[tmgmt][download][branch] = 7.x-1.x
-projects[tmgmt][download][revision] = ccecc7898b5df981c026463cd494f0bdc90f348a
+projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
 projects[tmgmt][download][type] = git
 projects[tmgmt][subdir] = contrib
-; [Poetry] - Don't translate tokens
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6851
-; https://www.drupal.org/node/2614100
-projects[tmgmt][patch][2614100] = https://www.drupal.org/files/issues/tmgmt-alter-field-values-2614100-14.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
