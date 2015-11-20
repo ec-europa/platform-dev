@@ -420,9 +420,13 @@ projects[password_policy][subdir] = "contrib"
 projects[password_policy][version] = "2.0-alpha5"
 
 projects[pathauto][subdir] = "contrib"
-projects[pathauto][version] = "1.2"
+projects[pathauto][version] = "1.3"
+; https://www.drupal.org/node/1267966
+; The online patch doesn't work with 1.3 version
 projects[pathauto][patch][] = patches/pathauto-admin_patterns-1267966-140.patch
-projects[pathauto][patch][] = patches/pathauto-automatic_url_alias_issue-1847444-10.patch
+; Generate automatic URL alias
+; https://www.drupal.org/node/1847444
+projects[pathauto][patch][] = https://www.drupal.org/files/issues/pathauto-patch_for_pathautho1.3.patch
 
 projects[pathauto_persist][subdir] = "contrib"
 projects[pathauto_persist][version] = "1.4"
