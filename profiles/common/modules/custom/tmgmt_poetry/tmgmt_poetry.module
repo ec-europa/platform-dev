@@ -68,7 +68,7 @@ function _tmgmt_poetry_load_job_by_reference($reference) {
  *
  * Implements hook_form_FORM_ID_alter().
  */
-function tmgmt_poetry_form_tmgmt_ui_locale_translation_review_form_alter(&$form, &$form_state, $form_id) {
+function tmgmt_poetry_form_tmgmt_ui_workbench_moderation_translation_review_form_alter(&$form, &$form_state, $form_id) {
   if (isset($form_state['item'])) {
     $job = $form_state['item'];
     if ($job->state == 2) {
@@ -255,10 +255,10 @@ function _tmgmt_poetry_obtain_related_translation_jobs($languages = array(), $re
 function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $delai) {
   db_insert('poetry_status')
       ->fields(array(
-          'tjiid' => $tjiid,
-          'target_language' => $target_language,
-          'status' => $status,
-          'delai' => $delai,
+        'tjiid' => $tjiid,
+        'target_language' => $target_language,
+        'status' => $status,
+        'delai' => $delai,
       ))
       ->execute();
 }
