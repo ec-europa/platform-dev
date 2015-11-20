@@ -70,7 +70,7 @@ projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
 
 projects[bounce][subdir] = "contrib"
-projects[bounce][version] = "1.6"
+projects[bounce][version] = "1.7"
 
 projects[captcha][subdir] = "contrib"
 projects[captcha][version] = "1.2"
@@ -220,7 +220,7 @@ projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
 
 projects[field_collection][subdir] = "contrib"
-projects[field_collection][version] = "1.0-beta8"
+projects[field_collection][version] = "1.0-beta10"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.4"
@@ -235,7 +235,7 @@ projects[filefield_sources_plupload][subdir] = "contrib"
 projects[filefield_sources_plupload][version] = "1.1"
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.6"
+projects[flag][version] = "3.7"
 
 projects[flexslider][subdir] = "contrib"
 projects[flexslider][version] = "2.0-rc1"
@@ -296,13 +296,13 @@ projects[jqmulti][subdir] = "contrib"
 projects[jqmulti][version] = "1.0"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.6"
+projects[jquery_update][version] = "2.7"
 
 projects[js_injector][subdir] = "contrib"
 projects[js_injector][version] = "2.1"
 
 projects[l10n_update][subdir] = "contrib"
-projects[l10n_update][version] = "1.1"
+projects[l10n_update][version] = "2.0"
 
 projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.9"
@@ -319,7 +319,7 @@ projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integr
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
 
 projects[mail_edit][subdir] = "contrib"
-projects[mail_edit][version] = "1.0"
+projects[mail_edit][version] = "1.1"
 
 projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
@@ -425,7 +425,7 @@ projects[pathauto][patch][] = patches/pathauto-admin_patterns-1267966-140.patch
 projects[pathauto][patch][] = patches/pathauto-automatic_url_alias_issue-1847444-10.patch
 
 projects[pathauto_persist][subdir] = "contrib"
-projects[pathauto_persist][version] = "1.3"
+projects[pathauto_persist][version] = "1.4"
 
 projects[piwik][subdir] = "contrib"
 projects[piwik][version] = "2.7"
@@ -528,7 +528,7 @@ projects[tweetbutton][subdir] = "contrib"
 projects[tweetbutton][version] = "2.0-beta1"
 
 projects[user_dashboard][subdir] = "contrib"
-projects[user_dashboard][version] = "1.3"
+projects[user_dashboard][version] = "1.4"
 
 projects[user_field_privacy][subdir] = "contrib"
 projects[user_field_privacy][version] = "1.2"
@@ -562,7 +562,7 @@ projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 
 projects[views_data_export][subdir] = "contrib"
-projects[views_data_export][version] = "3.0-beta8"
+projects[views_data_export][version] = "3.0-beta9"
 
 projects[views_datasource][version] = "1.0-alpha2"
 projects[views_datasource][subdir] = "contrib"
