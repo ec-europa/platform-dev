@@ -100,7 +100,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     $node->language = $node->translations->original;
 
     // Apply Pathauto settings.
-    $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $language);
+    $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node->language);
 
     node_save($node);
 
