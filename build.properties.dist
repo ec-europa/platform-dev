@@ -90,7 +90,7 @@ platform.resources.githooks.dir = ${platform.resources.dir}/git-hooks
 
 # npm packages.
 npm.package.dir = ${project.basedir}/node_modules
-npm.package.bin.dir = ${npm.package.dir}/bin
+npm.package.bin.dir = ${npm.package.dir}/.bin
 
 
 # Behat configuration
