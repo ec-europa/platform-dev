@@ -219,7 +219,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       $job_item = array_shift($job_items);
     }
 
-    // Load translator settings.
+    // Load translator settings : Contacts.
     $translator = $job->getTranslator();
     $contacts = $translator->getSetting('contacts');
     $form['contacts'] = array(
@@ -252,6 +252,37 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#title' => t('Responsible'),
       '#required' => TRUE,
       '#default_value' => (!empty($job->settings['contacts']['responsable']) ? $job->settings['contacts']['responsable'] : $contacts['responsable']),
+    );
+
+    // Load translator settings : Organization.
+    $organization = $translator->getSetting('organization');
+    $form['organization'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Organization'),
+      '#collapsible' => FALSE,
+      '#collapsed' => FALSE,
+      '#description' => t("Requester organization information"),
+    );
+    $form['organization']['responsable'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Responsable'),
+      '#required' => TRUE,
+      '#default_value' => $organization['responsable'],
+      '#description' => t("Eg.: DIGIT"),
+    );
+    $form['organization']['auteur'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Author'),
+      '#required' => TRUE,
+      '#default_value' => $organization['auteur'],
+      '#description' => t("Eg.: IE/CE/DIGIT"),
+    );
+    $form['organization']['demandeur'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Requester'),
+      '#required' => TRUE,
+      '#default_value' => $organization['demandeur'],
+      '#description' => t("Eg.: IE/CE/DIGIT/A/3"),
     );
 
     $form['delai'] = array(
