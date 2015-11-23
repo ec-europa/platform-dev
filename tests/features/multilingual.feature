@@ -19,11 +19,11 @@ Feature: Multilingual features
       | fr       | Ce titre est en Français     |
       | de       | Dieser Titel ist auf Deutsch |
     Then I should see the heading "This title is in English"
-    And I click "English" in the "header" region
+    And I click "English" in the "header_top" region
     Then I should be on the language selector page
     And I click "Français"
     Then I should see the heading "Ce titre est en Français"
-    And I click "Français" in the "header" region
+    And I click "Français" in the "header_top" region
     Then I should be on the language selector page
     When I click "Deutsch"
     And I should see the heading "Dieser Titel ist auf Deutsch"
@@ -40,11 +40,11 @@ Feature: Multilingual features
       | fr       | Title in French  |
       | de       | Title in German  |
     Then I should be on "content/title-english_en"
-    And I click "English" in the "header" region
+    And I click "English" in the "header_top" region
     Then I should be on the language selector page
     And I click "Français"
     Then I should be on "content/title-english_fr"
-    And I click "Français" in the "header" region
+    And I click "Français" in the "header_top" region
     Then I should be on the language selector page
     And I click "Deutsch"
     Then I should be on "content/title-english_de"
@@ -56,6 +56,7 @@ Feature: Multilingual features
     And I should see "French"
     And I should see "German"
 
+  @cleanEnvironment
   Scenario: Enable language suffix and check the base path
     Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/regional/language/configure"

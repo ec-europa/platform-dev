@@ -2,7 +2,7 @@ Feature: Splash Screen features
   In order navigate on the site in my language of preference
   As a citizen of the European Union
   I want to be able to choose my language at my first site connection
-  
+
   Background:
     Given these modules are enabled
       |modules|
@@ -50,3 +50,19 @@ Feature: Splash Screen features
     And I should see the link "Deutsch"
     And I should not see "Български"
     And I should not see "Français"
+
+  @api
+  Scenario: Being able to change the splash screen title
+    Given I am logged in as a user with the 'administrator' role
+    When I go to "/"
+    Then I should see "NextEuropa" in the "html head title" element
+    When I go to "admin/config/regional/splash_screen_settings"
+    And I fill in "edit-splash-screen-title-value" with "Splash screen testing title"
+    And I press the "Save" button
+    Then I should see the success message "The configuration options have been saved."
+    When I go to "/"
+    Then I should see "Splash screen testing title" in the "html head title" element
+    # Also test as an anonymous user
+    Given I am not logged in
+    And I go to "/"
+    Then I should see "Splash screen testing title" in the "html head title" element

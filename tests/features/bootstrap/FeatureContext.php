@@ -229,6 +229,32 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     if (!preg_match($pattern, $page_content)) {
       throw new Exception(sprintf('The page content language switcher is not set to %s and not followed by the language links %s.', $active_language, $language_order));
     }
+  }   
+
+  /**
+   * Reinitialize some environment settings.
+   *
+   * @AfterScenario @cleanEnvironment
+   */
+  public static function cleanEnvironment() {
+    // Restore homepage.
+    variable_set("site_frontpage", "node");
+
+    // Restore default language (en) settings.
+    $languages = language_list('enabled', TRUE);
+    if (isset($languages['1']['en'])) {
+      $language = $languages['1']['en'];
+
+      $language->prefix = '';
+      $properties[] = 'prefix';
+
+      $fields = array_intersect_key((array) $language, array_flip($properties));
+      // Update language fields.
+      db_update('languages')
+        ->fields($fields)
+        ->condition('language', $language->language)
+        ->execute();
+    }
   }
 
 }
