@@ -24,6 +24,7 @@ default:
         message_selector: '.messages'
         error_message_selector: '.messages.error'
         success_message_selector: '.messages.status'
+        warning_message_selector: '.messages.warning'
       subcontexts:
         paths:
           - '${behat.subcontexts.path}'
