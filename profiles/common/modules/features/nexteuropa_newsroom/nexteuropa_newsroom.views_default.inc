@@ -1828,34 +1828,27 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
-  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['row_plugin'] = 'fields';
+  /* Relationship: Entity Reference: Referenced Entity */
+  $handler->display->display_options['relationships']['field_related_content_target_id']['id'] = 'field_related_content_target_id';
+  $handler->display->display_options['relationships']['field_related_content_target_id']['table'] = 'field_data_field_related_content';
+  $handler->display->display_options['relationships']['field_related_content_target_id']['field'] = 'field_related_content_target_id';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Content: Related content */
-  $handler->display->display_options['fields']['field_related_content']['id'] = 'field_related_content';
-  $handler->display->display_options['fields']['field_related_content']['table'] = 'field_data_field_related_content';
-  $handler->display->display_options['fields']['field_related_content']['field'] = 'field_related_content';
-  $handler->display->display_options['fields']['field_related_content']['label'] = '';
-  $handler->display->display_options['fields']['field_related_content']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_related_content']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_related_content']['settings'] = array(
-    'link' => 1,
-  );
-  $handler->display->display_options['fields']['field_related_content']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_related_content']['multi_type'] = 'ul';
-  /* Sort criterion: Content: Post date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'node';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
+  $handler->display->display_options['fields']['title_1']['table'] = 'node';
+  $handler->display->display_options['fields']['title_1']['field'] = 'title';
+  $handler->display->display_options['fields']['title_1']['relationship'] = 'field_related_content_target_id';
+  $handler->display->display_options['fields']['title_1']['label'] = '';
+  $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
   /* Contextual filter: Content: Nid */
   $handler->display->display_options['arguments']['nid']['id'] = 'nid';
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
@@ -1884,6 +1877,11 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'newsroom_item' => 'newsroom_item',
   );
+  /* Filter criterion: Content: Related content (field_related_content) */
+  $handler->display->display_options['filters']['field_related_content_target_id']['id'] = 'field_related_content_target_id';
+  $handler->display->display_options['filters']['field_related_content_target_id']['table'] = 'field_data_field_related_content';
+  $handler->display->display_options['filters']['field_related_content_target_id']['field'] = 'field_related_content_target_id';
+  $handler->display->display_options['filters']['field_related_content_target_id']['operator'] = 'not empty';
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
@@ -1901,6 +1899,7 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: Entity Reference: Referencing entity */
   $handler->display->display_options['relationships']['reverse_field_related_content_node']['id'] = 'reverse_field_related_content_node';
@@ -1928,11 +1927,13 @@ function nexteuropa_newsroom_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
+    t('Content entity referenced from field_related_content'),
     t('All'),
     t('Block'),
     t('Attachment'),
     t('Content referencing Content from field_related_content'),
   );
+
   $export['newsroom_related_content'] = $view;
 
   $view = new view();
