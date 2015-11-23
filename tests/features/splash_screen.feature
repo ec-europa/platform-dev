@@ -49,9 +49,6 @@ Feature: Splash Screen features
     And I should see the link "Deutsch"
     And I should not see "Български"
     And I should not see "Français"
-    # Clean up after the fact.
-    # @todo Remove this once NEXTEUROPA-5519 is in.
-    And I run drush "vdel" "splash_screen_blacklist --yes"
 
   Scenario: Being able to change the splash screen title
     Given I am logged in as a user with the 'administrator' role
