@@ -1,4 +1,3 @@
-@cleanEnvironment
 Feature: Multilingual features
   In order to easily understand the content of the European Commission
   As a citizen of the European Union
@@ -17,7 +16,7 @@ Feature: Multilingual features
     And I should see "French"
     And I should see "German"
 
-  @api
+  @api @cleanEnvironment
   Scenario: Enable language suffix and check the base path
     Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/regional/language/configure"
