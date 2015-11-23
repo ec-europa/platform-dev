@@ -1240,12 +1240,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/gboddin/VersionControl_Git.git",
+                "url": "https://github.com/pear/VersionControl_Git.git",
                 "reference": "47d1c6dfe2f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gboddin/VersionControl_Git/zipball/47d1c6dfe2f6f9f785fd8d8762e5d68f59a9b15d",
+                "url": "https://api.github.com/repos/pear/VersionControl_Git/zipball/47d1c6dfe2f6f9f785fd8d8762e5d68f59a9b15d",
                 "reference": "47d1c6dfe2f6",
                 "shasum": ""
             },
