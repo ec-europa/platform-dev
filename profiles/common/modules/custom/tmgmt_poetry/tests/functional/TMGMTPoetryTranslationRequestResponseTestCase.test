@@ -201,7 +201,7 @@ class TMGMTPoetryTranslationResponseTestCase extends TMGMT_PoetryWebTestCase {
       array(
         'translator' => 'poetry',
         'settings' => array('languages' => array_combine($languages, $languages)),
-      ),
+      )
     );
     // Add initial job item.
     $job_item = $job->addItem('entity', 'node', $node->nid);
@@ -277,7 +277,7 @@ class TMGMTPoetryTranslationResponseTestCase extends TMGMT_PoetryWebTestCase {
       array(
         'translator' => 'poetry',
         'settings' => array('languages' => array_combine($languages, $languages)),
-      ),
+      )
     );
     // Add initial job item.
     $job_item = $job->addItem('entity', 'node', $node->nid);
