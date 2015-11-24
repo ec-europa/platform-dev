@@ -80,9 +80,21 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       'source' => $node->language,
     );
 
+    // Apply Pathauto settings.
+    $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node->language);
+
+    // Preserve original language setting.
+    $node->field_language = $node->language;
+
+    // Set language.
+    $node->language = $node->translations->original;
+
+    // Save node (first language).
+    node_save($node);
+
+    // Add others languages.
     foreach ($translations as $language => $node_translation) {
-      $translation_handler = entity_translation_get_handler('node', $node);
-      $translation_handler->loadTranslations();
+      $handler  = entity_translation_get_handler('node', $node);
 
       $translation['uid'] = $node->uid;
       $translation['created'] = $node->created;
@@ -90,25 +102,16 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       $translation['language'] = $language;
 
       $values = array();
+      // Title field.
       $values['title_field'][$language][0]['value'] = $node_translation->title;
 
-      // Add the new translation and store it.
-      $translation_handler->setTranslation($translation, $values);
+      $handler->setTranslation($translation, $values);
+      // Set translation language.
+      $handler->setFormLanguage($language);
 
-      // Preserve original language setting.
-      $node->field_language = $node->language;
-      $node->language = $node->translations->original;
-
-      // Apply Pathauto settings.
-      $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $language);
-
-      // Save entity.
+      // Save node (new translation).
       node_save($node);
     }
-
-    // Explicitly create URL aliases for all node translations.
-    $data = array('node' => $node);
-    pathauto_create_alias('node', 'update', "node/$node->nid", $data);
 
     // Get node path without any base path by setting 'base_url' and 'absolute'.
     $path = url('node/' . $node->nid, array('base_url' => '', 'absolute' => TRUE));
