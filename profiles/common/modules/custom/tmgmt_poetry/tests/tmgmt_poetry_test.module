@@ -60,8 +60,8 @@ function tmgmt_poetry_test_receive_translation() {
 
   $url = url('tmgmt_poetry/service_callback', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE))) . '?wsdl';
   $client = new SoapClient($url, array(
-      'cache_wsdl' => WSDL_CACHE_NONE,
-      'trace' => 1,
+    'cache_wsdl' => WSDL_CACHE_NONE,
+    'trace' => 1,
   ));
 
   $languages = $job->settings['languages'];
