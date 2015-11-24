@@ -549,8 +549,7 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.11"
-projects[views][patch][] = patches/views-exposed-ajax-not-working-2425099-52.patch
+projects[views][version] = "3.13"
 projects[views][patch][] = patches/views-exposed_groupfilter_views-1818176-11.patch
 projects[views][patch][] = patches/views-includes_handlers-1752062-6.patch
 projects[views][patch][] = patches/views-localization-bug-1685144-9.patch
