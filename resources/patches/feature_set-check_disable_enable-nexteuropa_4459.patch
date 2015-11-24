@@ -66,29 +66,25 @@
    
 --- feature_set.admin.inc       2015-02-25 14:00:55.000000000 +0100
 +++ feature_set.admin.inc   2015-09-07 14:56:28.308956893 +0200
-@@ -140,12 +145,18 @@
-       $featureset = str_replace('featureset-', '', $key);
-       // only operate if its in an 'OK' status
-       if ( isset($featuresets[$featureset]) && $featuresets[$featureset]['status'] != 0) {
--         if ($form_state['values'][$key]) {
--          $operations[] = array('feature_set_enable_feature_set', array($featuresets[$featureset]));
--         }
--         else {
--          $operations[] = array('feature_set_disable_feature_set', array($featuresets[$featureset]));
--         }
-+        if ($form_state['values'][$key]) {
+@@ -146,14 +146,20 @@
+       // Only operate if its in an 'OK' status.
+       if (isset($featuresets[$featureset]) && $featuresets[$featureset]['status'] != 0) {
+         if ($form_state['values'][$key]) {
 +          // Do not enable a module already enabled.
 +          if (!module_exists($featureset)) {
-+             $operations[] = array('feature_set_enable_feature_set', array($featuresets[$featureset]));
-+          }
+           $operations[] = array('feature_set_enable_feature_set', array($featuresets[$featureset]));
+         }
 +        }
-+        else {
+         else {
 +          // Do not disable a module already disabled.
 +          if (module_exists($featureset)) {
-+            $operations[] = array('feature_set_disable_feature_set', array($featuresets[$featureset]));
-+          }
-+        }
+           $operations[] = array('feature_set_disable_feature_set', array($featuresets[$featureset]));
+         }
        }
      }
    }
++  }
+ 
+   if (!empty($operations)) {
+     // We might be in an install profile an thus have another batch active.
 
