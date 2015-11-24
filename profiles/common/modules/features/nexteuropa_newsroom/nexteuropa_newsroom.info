@@ -245,4 +245,4 @@ features_exclude[field_base][body] = body
 features_exclude[field_base][name_field] = name_field
 features_exclude[feeds_tamper][newsroom_items_multilingual-blank_source_1-default_value] = newsroom_items_multilingual-blank_source_1-default_value
 files[] = tests/nexteuropa_newsroom.test
-nexteuropa_version = 2.0
+multisite_version = 2.1
