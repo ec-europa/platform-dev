@@ -297,6 +297,7 @@ projects[jqmulti][version] = "1.0"
 
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.6"
+projects[jquery_update][patch][] = "https://www.drupal.org/files/issues/jquery_update_permissions-2621436-2_0.patch"
 
 projects[js_injector][subdir] = "contrib"
 projects[js_injector][version] = "2.1"
