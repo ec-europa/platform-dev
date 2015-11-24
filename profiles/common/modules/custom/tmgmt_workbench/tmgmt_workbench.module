@@ -101,14 +101,9 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
     $state = $node->workbench_moderation['current']->state;
     $translation_is_enabled = in_array($state, $states);
 
-    if ($translation_is_enabled) {
-      $form['top_actions']['#type'] = 'actions';
-      $form['top_actions']['#weight'] = -10;
-      tmgmt_ui_add_cart_form($form['top_actions'], $form_state, 'workbench_moderation', $form_state['entity_type'], $form_state['entity']->nid);
-    }
-    else {
-      unset($form['top_actions']);
-    }
+    unset($form['top_actions']);
+    $form['languages']['#multiple'] = FALSE;
+    $form['languages']['#suffix'] = format_string('<div class="description">@description</div>', array('@description' => t('More target languages can be added in the job configuration page before sending it to translation')));
 
     $options = &$form['languages']['#options'];
     foreach ($languages as $langcode => $language) {
@@ -161,9 +156,8 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
  * Validation callback for the entity translation overview form.
  */
 function tmgmt_workbench_translate_form_validate($form, &$form_state) {
-  $selected = array_filter($form_state['values']['languages']);
-  if (empty($selected)) {
-    form_set_error('languages', t('You have to select at least one language for requesting a translation.'));
+  if (!isset($form_state['input']['languages'])) {
+    form_set_error('languages', t('You have to select a language for requesting a translation.'));
   }
 }
 
@@ -174,24 +168,22 @@ function tmgmt_workbench_translate_form_submit($form, &$form_state) {
   $entity = $form_state['entity'];
   $entity_type = $form_state['entity_type'];
   list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
-  $values = $form_state['values'];
+  $langcode = $form_state['input']['languages'];
   $jobs = array();
-  foreach (array_keys(array_filter($values['languages'])) as $langcode) {
-    // Create the job object.
-    $job = tmgmt_job_create(entity_language($entity_type, $entity), $langcode, $GLOBALS['user']->uid);
-    try {
-      // Add the job item.
-      $job->addItem('workbench_moderation', $entity_type, $id);
-      // Append this job to the array of created jobs so we can redirect the
-      // user to a multistep checkout form if necessary.
-      $jobs[$job->tjid] = $job;
-    }
-    catch (TMGMTException $e) {
-      watchdog_exception('tmgmt', $e);
-      $languages = language_list();
-      $target_lang_name = $languages[$langcode]->language;
-      drupal_set_message(t('Unable to add job item for target language %name. Make sure the source content is not empty.', array('%name' => $target_lang_name)), 'error');
-    }
+  // Create the job object.
+  $job = tmgmt_job_create(entity_language($entity_type, $entity), $langcode, $GLOBALS['user']->uid);
+  try {
+    // Add the job item.
+    $job->addItem('workbench_moderation', $entity_type, $id);
+    // Append this job to the array of created jobs so we can redirect the
+    // user to a multistep checkout form if necessary.
+    $jobs[$job->tjid] = $job;
+  }
+  catch (TMGMTException $e) {
+    watchdog_exception('tmgmt', $e);
+    $languages = language_list();
+    $target_lang_name = $languages[$langcode]->language;
+    drupal_set_message(t('Unable to add job item for target language %name. Make sure the source content is not empty.', array('%name' => $target_lang_name)), 'error');
   }
   tmgmt_ui_job_checkout_and_redirect($form_state, $jobs);
 }
