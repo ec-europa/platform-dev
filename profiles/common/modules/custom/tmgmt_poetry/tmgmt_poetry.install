@@ -1,0 +1,79 @@
+<?php
+/**
+ * @file
+ * Install file of the translation management Poetry .
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function tmgmt_poetry_schema() {
+  $schema['poetry_map'] = array(
+    'description' => 'Table containing the mappings between Drupal and Poetry',
+    'fields' => array(
+      'entity_type' => array(
+        'description' => 'Entity type',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'entity_id' => array(
+        'description' => 'Entity id',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'annee' => array(
+        'description' => 'Annee',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'numero' => array(
+        'description' => 'Numero',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'version' => array(
+        'description' => 'Version',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'partie' => array(
+        'description' => 'Partie',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('entity_type', 'entity_id'),
+  );
+
+  $schema['poetry_status'] = array(
+    'description' => 'Table containing the status of the Poetry requests',
+    'fields' => array(
+      'tjiid' => array(
+        'description' => 'Job Item ID',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'target_language' => array(
+        'description' => 'Target language',
+        'type' => 'varchar',
+        'length' => 12,
+        'not null' => TRUE,
+      ),
+      'status' => array(
+        'description' => 'Request status',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'delai' => array(
+        'description' => 'Delivery date',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('tjiid', 'target_language'),
+  );
+  return $schema;
+}
