@@ -234,7 +234,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Reinitialize some environment settings.
    *
-   * @AfterFeature @cleanEnvironment
+   * @AfterScenario @cleanEnvironment
    */
   public static function cleanEnvironment() {
     // Restore homepage.
