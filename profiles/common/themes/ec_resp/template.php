@@ -292,7 +292,7 @@ function ec_resp_preprocess_page(&$variables) {
     $variables['logo'] = file_create_url(drupal_get_path('theme', 'ec_resp') . '/logo_europa.png');
   }
   elseif (theme_get_setting('default_logo')) {
-    $variables['logo'] = file_create_url(drupal_get_path('theme', 'ec_resp') . '/logo.svg');
+    $variables['svg_logo'] = file_create_url(drupal_get_path('theme', 'ec_resp') . '/logo.svg');
   }
 
   // Adding pathToTheme for Drupal.settings to be used in js files.
