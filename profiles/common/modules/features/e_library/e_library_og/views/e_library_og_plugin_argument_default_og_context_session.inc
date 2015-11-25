@@ -12,7 +12,7 @@ class e_library_og_plugin_argument_default_og_context_session extends views_plug
   /**
    * Return the user's session group context argument.
    */
-  function get_argument() {
+  public function get_argument() {
     return isset($_SESSION['og_context']['gid']) ? $_SESSION['og_context']['gid'] : NULL;
   }
 
