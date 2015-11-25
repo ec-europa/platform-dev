@@ -28,7 +28,7 @@ function multisite_drupal_toolbox_enable() {
  * Implements hook_disable().
  */
 function multisite_drupal_toolbox_disable() {
-  variable_set('contact_form_maxlength');
+  variable_del('contact_form_maxlength');
 }
 
 /**
