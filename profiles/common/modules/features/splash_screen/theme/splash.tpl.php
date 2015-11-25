@@ -19,5 +19,7 @@
 <nav class="site-level-language-selector">
   <?php print $icon; ?>
   <?php print $languages_list; ?>
-  <?php print $close_button; ?>
+  <?php if (isset($close_button)): ?>
+    <?php print $close_button; ?>
+  <?php endif; ?>
 </nav>
