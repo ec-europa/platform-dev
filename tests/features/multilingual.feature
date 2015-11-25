@@ -86,7 +86,7 @@ Feature: Multilingual features
       | language | title                        |
       | en       | This title is in English     |
     And I click "Translate" in the "primary_tabs" region
-    And I check the box "edit-languages-de"
+    And I select the radio button "" with the id "edit-languages-de"
     And I press the "Request translation" button
     And I select "Translator A" from "Translator"
     And I press the "Submit to translator" button
