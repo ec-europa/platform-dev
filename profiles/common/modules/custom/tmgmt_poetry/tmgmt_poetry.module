@@ -1,9 +1,20 @@
 <?php
-
 /**
  * @file
  * Module file of the translation management Poetry .
  */
+
+module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.access_control');
+module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.webservice');
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function tmgmt_poetry_entity_info_alter(&$entity_info) {
+  $entity_info['tmgmt_job']['controller class'] = 'TMGMTPoetryJobController';
+  $entity_info['tmgmt_job']['entity class'] = 'TMGMTPoetryJob';
+  _tmgmt_poetry_access_entity_info_alter($entity_info);
+}
 
 /**
  * Implements hook_tmgmt_translator_plugin_info().
@@ -11,8 +22,8 @@
 function tmgmt_poetry_tmgmt_translator_plugin_info() {
   return array(
     'poetry' => array(
-      'label' => t('Poetry translator'),
-      'description' => t('Poetry Translator service.'),
+      'label' => t('DGT Connector'),
+      'description' => t('DGT Translation service.'),
       'plugin controller class' => 'TMGMTPoetryTranslatorPluginController',
       'ui controller class' => 'TMGMTPoetryTranslatorUIController',
     ),
@@ -20,281 +31,20 @@ function tmgmt_poetry_tmgmt_translator_plugin_info() {
 }
 
 /**
- * Local Exception class.
+ * Implements hook_entity_type_delete().
+ *
+ * When main translation job is removed,
+ * delete also the sub translation if the translator is poetry.
  */
-class TMGMTPoetryException extends Exception {
-  /**
-   * Constructs a TMGMTPoetryException object.
-   */
-  public function __construct($message = '', $data = array(), $code = 0, Exception $previous = NULL) {
-    parent::__construct(strtr($message, $data), $code, $previous);
-  }
-
-}
-
-/**
- * Implements hook_menu().
- */
-function tmgmt_poetry_menu() {
-  $items = array();
-  $items['tmgmt_poetry/service_callback'] = array(
-    'page callback' => '_tmgmt_poetry_service_callback',
-    'access callback' => TRUE,
-  );
-  return $items;
-}
-
-/**
- * Function to define our webservice and register the available methods.
- */
-function _tmgmt_poetry_service_callback() {
-  // Generate our own SOAP server.
-  $server = new SoapServer(drupal_get_path('module', 'tmgmt_poetry') . '/wsdl/PoetryIntegration.wsdl');
-  $server->AddFunction('FPFISPoetryIntegrationRequest');
-  $server->handle();
-}
-
-/**
- * Function available to call from our webservice.
- */
-function FPFISPoetryIntegrationRequest($user, $password, $msg) {
-  // Authenticate the request.
-  if (_tmgmt_poetry_authenticate($user, $password)) {
-    watchdog('POETRY', 'Poetry callback authenticated correctly.');
-    // Load the received XML and load the referenced Job.
-    $xml = simplexml_load_string($msg);
-    $request = $xml->request;
-    $reference = implode('/', (array) $request->demandeId);
-    $job = _tmgmt_poetry_load_job_by_reference($reference);
-    // If the received message has a status, record it in the job.
-    if (isset($request->status)) {
-      foreach ($request->status as $status) {
-        if (isset($status->statusMessage)) {
-          $message[] = $status->statusMessage;
-        }
-      }
-      $message = implode(', ', $message);
-      $job->addMessage('Poetry message received: @message', array('@message' => $message));
-    }
-    // If the received message has the translated file, add it to the job.
-    if (isset($request->attributions->attributionsFile)) {
-      $content = (string) $request->attributions->attributionsFile;
-      // Create a temporal file to store the received content.
-      $temp_filepath = (string) variable_get('file_private_path') . '/' . $job->tjid . '.html';
-      $temp_file = fopen($temp_filepath, 'w');
-      fwrite($temp_file, base64_decode($content));
-      fclose($temp_file);
-      // Load controller to import the received file.
-      $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
-      if ($controller) {
-        // Validate the file.
-        $validated_job = $controller->validateImport($temp_filepath);
-        if (!$validated_job) {
-          $job->addMessage('Failed to validate file, import aborted.', array(), 'error');
-        }
-        elseif ($validated_job->tjid != $job->tjid) {
-          $uri = $validated_job->uri();
-          $label = $validated_job->label();
-          $job->addMessage('Import file is from job <a href="@url">@label</a>, import aborted.', array('@url' => url($uri['path']), '@label' => $label));
-        }
-        else {
-          try {
-            // Validation successful, start import.
-            $job->addTranslatedData($controller->import($temp_filepath));
-            $job->addMessage('Successfully received the translation file.');
-          }
-          catch (Exception $e) {
-            $job->addMessage('File import failed with the following message: @message', array('@message' => $e->getMessage()), 'error');
-          }
-        }
-      }
-      // Delete temporary file.
-      $realpath = realpath($temp_filepath);
-      if (is_readable($realpath)) {
-        unlink($realpath);
-      }
-    }
-    // Send answer to poetry.
-    $xml = _tmgmt_poetry_generate_answer_xml($job, 'OK');
-    return $xml->asXML();
-  }
-  else {
-    watchdog('POETRY', 'Poetry callback failed authentication.', WATCHDOG_WARNING);
-    // Send answer to poetry.
-    // @todo $job is not defined in this case.
-    $xml = _tmgmt_poetry_generate_answer_xml($job, 'ERROR: Failed authentication.');
-    return $xml->asXML();
-  }
-}
-
-/**
- * Helper function to create the XML to send to Poetry.
- */
-function _tmgmt_poetry_generate_request_xml($job) {
-  // Load translator settings.
+function tmgmt_poetry_tmgmt_job_delete($job) {
   $translator = $job->getTranslator();
-  // Load data exporter.
-  $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
-
-  // Encode the data to be translated.
-  $content = base64_encode($controller->export($job));
-
-  // Generate the ID for the request.
-  $id_data = array(
-    'codeDemandeur' => 'DIGIT',
-    'annee' => date('Y'),
-    'sequence' => 'DIGIT',
-    'version' => 00,
-    'partie' => 00,
-    'produit' => 'TRA',
-  );
-
-  // Generate the callback parameters.
-  global $base_url;
-  $poetry = variable_get('poetry_service');
-  $callback_username = $poetry['callback_user'];
-  $callback_password = $poetry['callback_password'];
-  $callback_address = $base_url . '/tmgmt_poetry/service_callback?wsdl';
-  $callback_path = 'FPFISPoetryIntegrationRequest';
-  $callback_remark = '';
-
-  // Create initial XML element using POETRY headers.
-  $xml = new SimpleXMLElement("<?xml version=\"1.0\" encoding=\"utf-8\" ?>
-    <POETRY xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-    xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_services/poetry.xsd\">
-    </POETRY>");
-
-  // Add main request element.
-  $request = $xml->addChild('request');
-  $request->addAttribute('communication', 'asynchrone');
-  $request->addAttribute('id', implode('/', $id_data));
-  $request->addAttribute('type', 'newPost');
-
-  // Add the ID to the request.
-  $application_id = $request->addChild('demandeID');
-  foreach ($id_data as $key => $value) {
-    $application_id->addChild($key, $value);
+  if (!empty($translator) && $translator->plugin == 'poetry' && isset($job->settings['languages']) && (strpos($job->reference, 'MAIN_' . $job->tjid) !== FALSE)) {
+    $related_jobs = _tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
+    foreach ($related_jobs as $related_job) {
+      entity_get_controller('tmgmt_job')->delete(array($related_job->tjid));
+      entity_get_controller('tmgmt_job_item')->delete(array($related_job->tjiid));
+    }
   }
-
-  // Add request information.
-  $application = $request->addChild('demande');
-  $application->addChild('userReference', $job->tjid);
-  $application->addChild('titre', $job->label);
-  $application->addChild('organisationResponsable', 'DIGIT');
-  $application->addChild('organisationAuteur', 'IE/CE/DIGIT');
-  $application->addChild('serviceDemandeur', 'IE/CE/DIGIT/A/3');
-  $application->addChild('applicationReference', 'FPFIS');
-  $application->addChild('delai', date('d/m/Y', strtotime('+1 year')));
-
-  $procedure = $application->addChild('procedure');
-  $procedure->addAttribute('id', 'NEANT');
-
-  $destination = $application->addChild('destination');
-  $destination->addAttribute('id', 'PUBLIC');
-
-  $type = $application->addChild('type');
-  $type->addAttribute('id', 'INF');
-
-  // Get contact information from translator and add it to the request.
-  $contacts = $translator->getSetting('contacts');
-
-  $author = $request->addChild('contacts');
-  $author->addAttribute('type', 'auteur');
-  $author->addChild('contactNickname', $contacts['author']);
-
-  $secretary = $request->addChild('contacts');
-  $secretary->addAttribute('type', 'secretaire');
-  $secretary->addChild('contactNickname', $contacts['secretary']);
-
-  $contact = $request->addChild('contacts');
-  $contact->addAttribute('type', 'contact');
-  $contact->addChild('contactNickname', $contacts['contact']);
-
-  $responsible = $request->addChild('contacts');
-  $responsible->addAttribute('type', 'responsable');
-  $responsible->addChild('contactNickname', $contacts['responsible']);
-
-  // Add callback information to the request.
-  $callback = $request->addChild('retour');
-  $callback->addAttribute('type', 'webService');
-  $callback->addAttribute('action', 'UPDATE');
-  $callback->addChild('retourUser', $callback_username);
-  $callback->addChild('retourPassword', $callback_password);
-  $callback->addChild('retourAddress', $callback_address);
-  $callback->addChild('retourPath', $callback_path);
-  $callback->addChild('retourRemark', $callback_remark);
-
-  // Add the content to be translated.
-  $filename = 'content.html';
-  $document_source = $request->addChild('documentSource');
-  $document_source->addAttribute('format', 'HTML');
-  $document_source->addChild('documentSourceName', $filename);
-  $language = $document_source->addChild('documentSourceLang');
-  $language->addAttribute('lgCode', strtoupper($job->source_language));
-  $language->addChild('documentSourceLangPages', '1');
-  $document_source->addChild('documentSourceFile', $content);
-
-  $attribution = $request->addChild('attributions');
-  $attribution->addAttribute('format', 'HTML');
-  $attribution->addAttribute('lgCode', strtoupper($job->target_language));
-
-  $attribtion_delay = $attribution->addChild('attributionsDelai', date('d/m/Y', strtotime('+1 year')));
-  $attribtion_delay->addAttribute('format', 'DD/MM/YYYY');
-
-  return $xml;
-}
-
-/**
- * Helper function to generate an answer xml for received Poetry requests.
- */
-function _tmgmt_poetry_generate_answer_xml($job, $message) {
-  // Create initial XML element using POETRY headers.
-  $xml = new SimpleXMLElement("<?xml version=\"1.0\" encoding=\"utf-8\" ?>
-    <POETRY xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-    xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_services/poetry.xsd\">
-    </POETRY>");
-
-  // Add main request element.
-  $request = $xml->addChild('request');
-  $request->addAttribute('id', $job->reference);
-  $request->addAttribute('type', 'status');
-
-  // Add request identifier.
-  $application_id_data = explode('/', $job->reference);
-  $application_id = $request->addChild('demandeID');
-  $application_id->addChild('codeDemandeur', $application_id_data[0]);
-  $application_id->addChild('annee', $application_id_data[1]);
-  $application_id->addChild('numero', $application_id_data[2]);
-  $application_id->addChild('version', $application_id_data[3]);
-  $application_id->addChild('partie', $application_id_data[4]);
-  $application_id->addChild('produit', $application_id_data[5]);
-
-  $status = $request->addChild('status');
-  $status->addAttribute('type', 'request');
-  $status->addAttribute('code', 0);
-
-  $status_date = $status->addChild('statusDate', date('d/m/Y'));
-  $status_date->addAttribute('format', 'dd/mm/yyyy');
-
-  $status_time = $status->addChild('statusTime', date('h:i:s'));
-  $status_time->addAttribute('format', 'hh:mm:ss');
-
-  $status->addChild('statusMessage', 'OK');
-
-  return $xml;
-}
-
-/**
- * Helper function to authenticate request made to our service.
- */
-function _tmgmt_poetry_authenticate($user, $password) {
-  // Get Poetry configuration.
-  $poetry = variable_get('poetry_service');
-  if (($poetry['callback_user'] == $user) &&
-    ($poetry['callback_password'] == $password)) {
-    return TRUE;
-  }
-  return FALSE;
 }
 
 /**
@@ -303,10 +53,10 @@ function _tmgmt_poetry_authenticate($user, $password) {
 function _tmgmt_poetry_load_job_by_reference($reference) {
   $job = NULL;
   $result = db_select('tmgmt_job', 'job')
-    ->fields('job', array('tjid'))
-    ->condition('reference', $reference, '=')
-    ->execute()
-    ->fetchAssoc();
+      ->fields('job', array('tjid'))
+      ->condition('reference', $reference, '=')
+      ->execute()
+      ->fetchAssoc();
   if (isset($result['tjid']) && !empty($result['tjid'])) {
     $job = tmgmt_job_load($result['tjid']);
   }
@@ -314,64 +64,201 @@ function _tmgmt_poetry_load_job_by_reference($reference) {
 }
 
 /**
- * Helper function to send a soap request.
+ * Add a button to send a feedback to DGT.
+ *
+ * Implements hook_form_FORM_ID_alter().
  */
-function _tmgmt_poetry_send_soap_request($xml) {
-  $msg = $xml->asXML();
-
-  // Get Poetry configuration.
-  $poetry = variable_get('poetry_service');
-
-  // Create soap client.
-  try {
-    $client = new SoapClient($poetry['address']);
+function tmgmt_poetry_form_tmgmt_ui_workbench_moderation_translation_review_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form_state['item'])) {
+    $job = $form_state['item'];
+    if ($job->state == 2) {
+      $translator_feedback_contacts = $job->getTranslator()->getSetting('feedback_contacts');
+      $mailto = format_string('mailto:@mail?subject=@subject&cc=@cc',
+       array(
+         '@mail' => $translator_feedback_contacts['to'],
+         '@subject' => 'Issue with ' . $job->tjid,
+         '@cc' => $translator_feedback_contacts['cc'],
+       ));
+      $form['actions']['feedback'] = array(
+        '#type' => 'link',
+        '#title' => 'Feedback to DGT',
+        '#href' => $mailto,
+        '#weight' => -1,
+        '#attributes' => array('class' => array('button')),
+      );
+    }
   }
-  catch (Exception $e) {
-    // @todo This response is never used.
-    $response = 'Error new SoapClient : ' . $e->getMessage();
-  }
-
-  // Send the SOAP request and handle possible errors.
-  try {
-    $response = $client->$poetry['method']($poetry['user'], $poetry['password'], $msg);
-  }
-  catch (Exception $e) {
-    $response = 'Error sending soap call : ' . $e->getMessage();
-  }
-  return $response;
 }
 
 /**
- * Helper module to check MT@EC settings.
+ * Implements hook_form_FORM_ID_alter().
  */
-function _tmgmt_poetry_check_poetry_settings() {
-  $messages = array();
-  $poetry_settings = variable_get('poetry_service');
-  if (empty($poetry_settings)) {
-    $messages[] = t('Main "poetry_service" variable was not set or is empty. See the README.txt file or read the wiki page.');
-    $type = 'error';
+function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) {
+  $translator = '';
+  // If translator values has been changed.
+  if (isset($form_state['values']['translator'])) {
+    $translator_name = $form_state['values']['translator'];
+    // Obtain current translation job translator.
+    $translator = tmgmt_translator_load($translator_name);
   }
-  if (empty($messages)) {
-    $messages[] = t('Main "poetry_service" variable is properly set.');
-    $type = 'status';
+  elseif (isset($form_state['tmgmt_job']->translator)) {
+    $translator = $form_state['tmgmt_job']->getTranslator();
   }
-  return _tmgmt_poetry_theme_messages($messages, $type);
+  $form['translator_wrapper']['#id'] = "tmgmt-ui-translator-wrapper";
+  if ($translator->plugin == 'poetry' || $form_state['tmgmt_job']->getTranslator()->plugin == 'poetry') {
+    $form['#submit'][] = '_tmgmt_poetry_form_tmgmt_job_submit';
+
+    if (strpos($form_state['tmgmt_job']->reference, 'SUB_') !== FALSE) {
+      $form['actions']['abort_job']['#access'] = FALSE;
+      $form['actions']['submit']['#access'] = FALSE;
+      $form['actions']['delete']['#access'] = FALSE;
+      $form['translator_wrapper']['#access'] = FALSE;
+    }
+
+    $job_items = $form_state['tmgmt_job']->getItems();
+    if (count($job_items) > 0) {
+      $job_item = array_shift($job_items);
+    }
+  }
 }
 
 /**
- * Helper module to theme MT@EC messages.
- *
- * @param array $messages
- *   Array of messages to be displayed.
- * @param string $type
- *   Type of the messages.
- *
- * @return string
- *   Themed messages.
+ * Job Form Callback.
  */
-function _tmgmt_poetry_theme_messages(array $messages, $type) {
-  $output = "<div class=\"messages $type\">\n";
-  $output .= theme('item_list', array('items' => $messages));
-  $output .= "</div>\n";
-  return $output;
+function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
+  $origin_job = $form_state['tmgmt_job'];
+  $translator = $origin_job->getTranslator();
+  if ($translator->plugin != 'poetry') {
+    $requested_languages = array();
+    // The translator has benn changed,
+    // proceed to clear the settings of origin job and the main reference.
+    if (isset($origin_job->settings['languages'])) {
+      $origin_job->settings = NULL;
+      $origin_job->reference = NULL;
+      $origin_job->save();
+    }
+  }
+  else {
+    if (isset($form_state['values']['languages'])) {
+      $requested_languages = $form_state['values']['languages'];
+    }
+    else {
+      $requested_languages = $origin_job->settings['languages'];
+    }
+  }
+
+  $languages = language_list('language');
+  // Remove old translations in case that they are not available
+  // in the settings of the main translation.
+  $language_targets_to_remove = array();
+  foreach ($languages as $language) {
+    // If a language is not in the requested translation.
+    if (!in_array($language->language, array_merge(array($origin_job->source_language), $requested_languages), TRUE)) {
+      $language_targets_to_remove[] = $language->language;
+    }
+  }
+
+  $origin_job_items = $origin_job->getItems();
+  if ($origin_job_items === NULL) {
+    return;
+  }
+
+  $origin_job_item = array_shift($origin_job_items);
+
+  // In case if a translation request is already sent,
+  // check if there was added or removed additionnal languages.
+  if (($form_state['triggering_element']['#value'] != $form['actions']['checkout']['#value']) && $origin_job->state == TMGMT_JOB_STATE_ACTIVE && $origin_job_item->state < TMGMT_JOB_ITEM_STATE_REVIEW) {
+    if ($form_state['values']['languages'] !== $origin_job->settings['languages']) {
+      unset($origin_job->settings['translations']);
+      foreach ($form_state['values']['languages'] as $key_lang => $value_lang) {
+        // A LANGUAGE IS ADDED TO ALREADY SENT TRANSLATION REQUEST.
+        if (empty($origin_job->settings['languages'][$key_lang]) && !empty($value_lang)) {
+          $origin_job->settings['translations']['added'][] = $key_lang;
+          // A LANGUAGE IS REMOVED FROM ALREADY SENT TRANSLATION REQUEST.
+        }
+        elseif (!empty($origin_job->settings['languages'][$key_lang]) && empty($value_lang)) {
+          $origin_job->settings['translations']['removed'][] = $key_lang;
+        }
+      }
+      $origin_job_languages = $origin_job->settings['languages'];
+      $origin_job->settings['languages'] = $form_state['values']['languages'];
+      $origin_job->save();
+      // If new request is failed,
+      // reset the main job translation languages to old value and save.
+      if (!tmgmt_ui_job_request_translation($origin_job)) {
+        $origin_job->settings['languages'] = $origin_job_languages;
+        $origin_job->state = TMGMT_JOB_STATE_ACTIVE;
+        $origin_job->save();
+        return;
+      }
+    }
+    else {
+      drupal_set_message(t('No changes was detected to resubmit the request'));
+    }
+  }
+
+  // Find unchecked translations to be removed.
+  $result = _tmgmt_poetry_obtain_related_translation_jobs($language_targets_to_remove, 'SUB_' . $origin_job->tjid);
+  // If any, removed found translations.
+  if ($result) {
+    foreach ($result as $row) {
+      // Remove if the target language is the same as the main translation.
+      if ($origin_job->tjid !== $row->tjid && $origin_job_item->tjiid !== $row->tjiid) {
+        entity_get_controller('tmgmt_job')->delete(array($row->tjid));
+        entity_get_controller('tmgmt_job_item')->delete(array($row->tjiid));
+      }
+    }
+  }
+}
+
+/**
+ * Return related translations by the translated entity id.
+ *
+ * @param array $languages
+ *   Target languages.
+ * @param string $reference
+ *   Reference to look for.
+ * @param bool $not_poetry
+ *   Job does not belong to poetry.
+ *
+ * @return mixed
+ *   mixed.
+ */
+function _tmgmt_poetry_obtain_related_translation_jobs($languages = array(), $reference = '', $not_poetry = FALSE) {
+  $query = db_select('tmgmt_job', 'job');
+  $query->join('tmgmt_job_item', 'job_item', 'job.tjid = job_item.tjid');
+  $query->fields('job', array('tjid'))
+      ->fields('job_item', array('tjiid'));
+  if (count($languages) > 0) {
+    $query->condition('job.target_language', $languages, 'IN');
+  }
+  $query->condition('job.reference', $reference . '%', 'LIKE');
+  if ($not_poetry) {
+    $query->condition('job.reference', $reference . '_POETRY_%', 'NOT LIKE');
+  }
+
+  return $query->execute();
+}
+
+/**
+ * Insert a row on the item status table.
+ *
+ * @param int $tjiid
+ *   Job item identifier.
+ * @param string $target_language
+ *   Target language.
+ * @param string $status
+ *   Item status.
+ * @param string $delai
+ *   Item delay.
+ */
+function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $delai) {
+  db_insert('poetry_status')
+      ->fields(array(
+        'tjiid' => $tjiid,
+        'target_language' => $target_language,
+        'status' => $status,
+        'delai' => $delai,
+      ))
+      ->execute();
 }

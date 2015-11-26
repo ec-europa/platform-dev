@@ -80,9 +80,21 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       'source' => $node->language,
     );
 
+    // Apply Pathauto settings.
+    $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node->language);
+
+    // Preserve original language setting.
+    $node->field_language = $node->language;
+
+    // Set language.
+    $node->language = $node->translations->original;
+
+    // Save node (first language).
+    node_save($node);
+
+    // Add others languages.
     foreach ($translations as $language => $node_translation) {
-      $translation_handler = entity_translation_get_handler('node', $node);
-      $translation_handler->loadTranslations();
+      $handler  = entity_translation_get_handler('node', $node);
 
       $translation['uid'] = $node->uid;
       $translation['created'] = $node->created;
@@ -90,25 +102,16 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       $translation['language'] = $language;
 
       $values = array();
+      // Title field.
       $values['title_field'][$language][0]['value'] = $node_translation->title;
 
-      // Add the new translation and store it.
-      $translation_handler->setTranslation($translation, $values);
+      $handler->setTranslation($translation, $values);
+      // Set translation language.
+      $handler->setFormLanguage($language);
 
-      // Preserve original language setting.
-      $node->field_language = $node->language;
-      $node->language = $node->translations->original;
-
-      // Apply Pathauto settings.
-      $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $language);
-
-      // Save entity.
+      // Save node (new translation).
       node_save($node);
     }
-
-    // Explicitly create URL aliases for all node translations.
-    $data = array('node' => $node);
-    pathauto_create_alias('node', 'update', "node/$node->nid", $data);
 
     // Get node path without any base path by setting 'base_url' and 'absolute'.
     $path = url('node/' . $node->nid, array('base_url' => '', 'absolute' => TRUE));
@@ -155,6 +158,49 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    */
   public function assertLanguageSelectorPage() {
     $this->assertSession()->elementExists('css', '#language-selector-site-language-list-page');
+  }
+
+  /**
+   * Create a TMGMT local translator.
+   *
+   * @param string $name
+   *    Local translator human readable name.
+   *
+   * @Given local translator :name is available
+   */
+  public function localTranslatorIsAvailable($name) {
+    /** @var \TMGMTTranslatorController $controller */
+    $controller = entity_get_controller('tmgmt_translator');
+    $values = [
+      "name" => strtolower(str_replace(' ', '_', $name)),
+      "label" => $name,
+      "description" => "",
+      "weight" => 0,
+      "plugin" => "local",
+      "settings" => [
+        "auto_accept" => FALSE,
+        "allow_all" => TRUE,
+      ],
+    ];
+    $translator = $controller->create($values);
+    $controller->save($translator);
+    $this->translators[] = $translator;
+  }
+
+  /**
+   * Remove translators created during scenarios execution.
+   *
+   * @AfterScenario
+   */
+  public function removeTranslators() {
+    if (isset($this->translators)) {
+      /** @var \TMGMTTranslatorController $controller */
+      $controller = entity_get_controller('tmgmt_translator');
+      /** @var \TMGMTTranslator $translator */
+      foreach ($this->translators as $translator) {
+        $controller->delete([$translator->identifier()]);
+      }
+    }
   }
 
 }
