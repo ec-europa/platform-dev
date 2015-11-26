@@ -354,19 +354,20 @@ function cce_basic_config_install() {
   variable_set('rate_widgets', $rate_widgets);
 
   if (db_table_exists('captcha_points')) {
-    db_update('captcha_points')
-      ->fields(array('captcha_type' => 'default'))
-      ->condition('form_id', 'contact_site_form')
+    db_insert('captcha_points')
+      ->fields(array('captcha_type' => NULL, 'form_id' => 'forum_node_form'))
       ->execute();
 
-    db_update('captcha_points')
-      ->fields(array('captcha_type' => 'default'))
-      ->condition('form_id', 'user_register_form')
+    db_insert('captcha_points')
+      ->fields(array('captcha_type' => NULL, 'form_id' => 'user_login'))
       ->execute();
 
-    db_update('captcha_points')
-      ->fields(array('captcha_type' => 'default'))
-      ->condition('form_id', 'contact_personal_form')
+    db_insert('captcha_points')
+      ->fields(array('captcha_type' => NULL, 'form_id' => 'user_login_block'))
+      ->execute();
+
+    db_insert('captcha_points')
+      ->fields(array('captcha_type' => NULL, 'form_id' => 'user_pass'))
       ->execute();
   }
 
