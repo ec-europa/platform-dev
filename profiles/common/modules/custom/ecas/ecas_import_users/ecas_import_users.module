@@ -374,7 +374,6 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
         'sn',
       )
     );
-    $result = getLdapEntries($base_dn, $filter, $extra);
   }
   else {
     if ($dg == 'none') {
@@ -392,7 +391,6 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
           'sn',
         )
       );
-      $result = getLdapEntries($base_dn, $filter, $extra);
     }
     else {
       $result = getLdapEntries(FPFIS_LDAP_BASE_DN,
@@ -409,7 +407,6 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
           'sn',
         )
       );
-      $result = getLdapEntries($base_dn, $filter, $extra);
     }
   }
   if ($result['count'] == 0) {
