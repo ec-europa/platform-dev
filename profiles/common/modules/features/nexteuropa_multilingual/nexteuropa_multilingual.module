@@ -229,7 +229,8 @@ function nexteuropa_multilingual_preprocess_field(&$variables) {
       $element = $variables['element'];
       // Get field instance.
       $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
-      // The field language properly respects the IPG language fallback but not the label, the label must be translated.
+      // The field language properly respects the IPG language fallback,
+      // but not its label. The label must be translated.
       $variables['label'] = i18n_field_translate_property($instance, 'label', $element['#language']);
     }
   }
@@ -240,7 +241,9 @@ function nexteuropa_multilingual_preprocess_field(&$variables) {
  */
 function nexteuropa_multilingual_field_group_pre_render_alter(&$element, &$group, $form) {
   // Field group label translation does not fit to the IPG language fallback.
-  $language_fallback = entity_translation_get_existing_language('node', $form['#node']);
-  $element['#title'] = t($group->label, array(), array('langcode' => $language_fallback));
-  $group->label_language = $language_fallback;
+  if (!empty($element['#title'])) {
+    $language_fallback = entity_translation_get_existing_language('node', $form['#node']);
+    $element['#title'] = t('@string', array('@string' => $group->label), array('langcode' => $language_fallback));
+    $group->label_language = $language_fallback;
+  }
 }
