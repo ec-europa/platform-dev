@@ -101,8 +101,16 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
     // Obtain current translation job translator.
     $translator = tmgmt_translator_load($translator_name);
   }
-  elseif (isset($form_state['tmgmt_job']->translator)) {
-    $translator = $form_state['tmgmt_job']->getTranslator();
+  elseif ($form_state['tmgmt_job']->getTranslator()->plugin != 'poetry') {
+    // Set poetry as default translator.
+    $translator = tmgmt_translator_load('poetry');
+    $form_state['tmgmt_job']->translator = $translator->plugin;
+    $form['translator_wrapper']['translator']['#default_value'] = 'poetry';
+    $original_form = tmgmt_translator_ui_controller('poetry')->checkoutInfo($form_state['tmgmt_job']);
+    $form['translator_wrapper']['settings'] = array_merge($form['translator_wrapper']['settings'], $original_form['settings']);
+  }
+  else {
+    $translator = tmgmt_translator_load('poetry');
   }
   $form['translator_wrapper']['#id'] = "tmgmt-ui-translator-wrapper";
   if ($translator->plugin == 'poetry' || $form_state['tmgmt_job']->getTranslator()->plugin == 'poetry') {
