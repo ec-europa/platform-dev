@@ -47,7 +47,7 @@ function theme_multisite_map(array $variables) {
   $path = $protocol . '://webtools.ec.europa.eu/fusionmapsxt/Maps/';
   $js_path = $path;
 
-  include_once multisite_maps_get_library_path() . 'Code/PHP/Includes/FusionMaps.php';
+  include_once multisite_maps_get_library_path() . '/Code/PHP/Includes/FusionMaps.php';
   // Check that the fusionmaps package was installed.
   if (!function_exists('renderChart')) {
     return t('Please install the Fusion Maps package from InfoSoft as per instructions in the readme.');
@@ -94,9 +94,9 @@ function multisite_maps_get_library_path() {
     $path = libraries_get_path('FusionMaps XT');
   }
   if (!$path) {
-    $path = 'profiles/common/libraries/FusionMaps XT';
+    $path = 'profiles/'. $conf['install_profile'] . '/libraries/FusionMaps XT';
   }
-  return $path . '/';
+  return $path;
 }
 
 /**
