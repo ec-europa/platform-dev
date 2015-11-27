@@ -213,7 +213,7 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
     // Add the raw password so that we can log in as this user.
     $account->pass_raw = $edit['pass'];
     if ($denied == DENIED) {
-      deny_account_action($account, NULL);
+      ecas_extra_deny_account_action($account, NULL);
     }
 
     if ($ecas) {
@@ -392,7 +392,7 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
 
     // Block all web users.
     $edit = array(
-      'operation' => 'action::deny_account_action',
+      'operation' => 'action::ecas_extra_deny_account_action',
       'views_bulk_operations[2]' => '2',
       'views_bulk_operations[3]' => '4',
     );
