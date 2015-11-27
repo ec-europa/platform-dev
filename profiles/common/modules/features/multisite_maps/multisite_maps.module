@@ -94,7 +94,7 @@ function multisite_maps_get_library_path() {
     $path = libraries_get_path('FusionMaps XT');
   }
   if (!$path) {
-    $path = 'profiles/'. $conf['install_profile'] . '/libraries/FusionMaps XT';
+    $path = 'profiles/' . $conf['install_profile'] . '/libraries/FusionMaps XT';
   }
   return $path;
 }
