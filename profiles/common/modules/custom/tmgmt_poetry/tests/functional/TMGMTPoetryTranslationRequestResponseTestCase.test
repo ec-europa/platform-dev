@@ -1,0 +1,340 @@
+<?php
+/**
+ * @file
+ * Call the endpoint tests when no authentication is being used.
+ */
+
+/**
+ * OS Web Resource resource test class.
+ */
+class TMGMTPoetryTranslationResponseTestCase extends TMGMT_PoetryWebTestCase {
+
+  /**
+   * Implementation of setUp().
+   */
+  public function setUp() {
+    parent::setUp();
+  }
+
+  /**
+   * Implementation of getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name'        => 'TMGMT Poetry: Request and Receive a translation',
+      'description' => 'Request and Receive a translation',
+      'group'       => 'TMGMT Poetry Request and Response',
+    );
+  }
+
+  /**
+   * Test.
+   */
+  public function testResponseTranslation() {
+    $node_data = array(
+      'type' => 'article',
+      'body' => array('en' => array(array('value' => 'Testing body'))),
+      'language' => 'en',
+      'title' => 'Testing article translation',
+    );
+    $node = $this->drupalCreateNode($node_data);
+
+    $languages = language_list();
+    unset($languages[$node->language]);
+    $languages = array_keys($languages);
+    $target_language = array_shift($languages);
+
+    // Create a job and job item.
+    $job = tmgmt_job_create(
+      $node->language,
+      $target_language,
+      1,
+      array(
+        'translator' => 'poetry',
+        'settings' => array('languages' => array_combine($languages, $languages)),
+      )
+    );
+    // Add initial job item.
+    $job_item = $job->addItem('entity', 'node', $node->nid);
+    // Create additional job items.
+    $job->save();
+
+    $this->assertTrue((strpos($job->reference, 'MAIN') !== FALSE), ' "MAIN" identifier is correctly assigned to main translation (' . $job->reference . ')');
+
+    $additional_jobs = _tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $job->tjid)->rowCount();
+    $this->assertTrue($additional_jobs == count($languages), ' Additional jobs were created successfully and SUB identifier was assigned correctly');
+
+    $job->requestTranslation();
+
+    $this->assertTrue((strpos($job->reference, '_POETRY_') !== FALSE), ' "POETRY" identifier is correctly added to main translation job after the request (' . $job->reference . ')');
+
+    $additional_jobs = _tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $job->tjid . '_POETRY')->rowCount();
+    $this->assertTrue($additional_jobs == count($languages), ' Additional jobs were created successfully and SUB identifier was assigned correctly after the request');
+
+    $poetry = variable_get("poetry_service");
+
+    $url = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
+    $client = new SoapClient($url, array('cache_wsdl' => WSDL_CACHE_NONE, 'trace' => 1));
+
+    $return_languages = array_merge($languages, array($target_language));
+    foreach ($return_languages as $return_language) {
+      $msg = _tmgmt_poetry_test_make_xml_msg($job, $return_language, $job->getSetting('export_format'));
+      try {
+        $client->FPFISPoetryIntegrationRequest($poetry['callback_user'], $poetry['callback_password'], $msg);
+      }
+      catch (Exception $e) {
+        $response = 'Error new SoapClient : ' . $e->getMessage();
+        watchdog('tmgmt_poetry_tests', $response);
+      }
+      $ids = _tmgmt_poetry_obtain_related_translation_jobs(array($return_language), '%_' . $job->tjid . '_POETRY')->fetchAll();
+      $id = array_shift($ids);
+      $received_job_item = entity_load('tmgmt_job_item', array($id->tjiid), array(), TRUE);
+      /** @var TMGMTJobItem $received_job_item */
+      $received_job_item = reset($received_job_item);
+
+      $this->assertTrue($received_job_item->state == TMGMT_JOB_ITEM_STATE_REVIEW,
+        sprintf('%s: %s Translation is received correctly and its status is Needs Review', strtoupper($return_language), $received_job_item->getJob()->reference)
+      );
+    }
+
+    $job->delete();
+    $job_item->delete();
+    node_delete($node->nid);
+  }
+
+  /**
+   * Test not supported format client response.
+   */
+  public function testFormatCheckResponse() {
+    $node_data = array(
+      'type' => 'article',
+      'body' => array('en' => array(array('value' => 'Testing body'))),
+      'language' => 'en',
+      'title' => 'Testing article translation',
+    );
+    $node = $this->drupalCreateNode($node_data);
+
+    $languages = language_list();
+    unset($languages[$node->language]);
+    $languages = array_keys($languages);
+    $target_language = array_shift($languages);
+
+    // Create a job and job items.
+    $job = tmgmt_job_create(
+      $node->language,
+      $target_language,
+      1,
+      array(
+        'translator' => 'poetry',
+        'settings' => array('languages' => array_combine($languages, $languages)),
+      )
+    );
+    // Add initial job item.
+    $job_item = $job->addItem('entity', 'node', $node->nid);
+    // Create additional job items.
+    $job->save();
+
+    // Request translation for requested languages,
+    // this operation will assign a new identifiers with DEMANDE_ID
+    // This call will be performed to our local test module
+    // which simulates a POETRY webservice.
+    $job->requestTranslation();
+
+    // Obtain testing poetry configuration.
+    $poetry = variable_get("poetry_service");
+
+    $url = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
+    $client = new SoapClient($url, array('cache_wsdl' => WSDL_CACHE_NONE, 'trace' => 1));
+
+    $return_languages = array_merge($languages, array($target_language));
+
+    foreach ($return_languages as $return_language) {
+      // This format is not supported by the POETRY module.
+      $not_valid_format = 'DOCX';
+      $msg = _tmgmt_poetry_test_make_xml_msg($job, $return_language, $not_valid_format);
+      try {
+        $response = $client->FPFISPoetryIntegrationRequest($poetry['callback_user'], $poetry['callback_password'], $msg);
+      }
+      catch (Exception $e) {
+        $response = 'Error new SoapClient : ' . $e->getMessage();
+      }
+      watchdog('tmgmt_poetry_test', print_r($response, TRUE));
+      $ids = _tmgmt_poetry_obtain_related_translation_jobs(array($return_language), '%_' . $job->tjid . '_POETRY')->fetchAll();
+      $id = array_shift($ids);
+      $received_job_item = entity_load('tmgmt_job_item', array($id->tjiid), array(), TRUE);
+      /** @var TMGMTJobItem $received_job_item */
+      $received_job_item = reset($received_job_item);
+
+      $this->assertTrue($received_job_item->state == TMGMT_JOB_ITEM_STATE_ACTIVE,
+        sprintf('%s: %s The format was not correct and the state of translation has not been changed', strtoupper($return_language), $received_job_item->getJob()->reference)
+      );
+    }
+
+    $job->delete();
+    $job_item->delete();
+    node_delete($node->nid);
+  }
+
+
+  /**
+   * Test not supported format client response.
+   */
+  public function testRefuseJobs() {
+    $node_data = array(
+      'type' => 'article',
+      'body' => array('en' => array(array('value' => 'Testing body'))),
+      'language' => 'en',
+      'title' => 'Testing article translation',
+    );
+    $node = $this->drupalCreateNode($node_data);
+
+    $languages = language_list();
+    unset($languages[$node->language]);
+    $languages = array_keys($languages);
+    $target_language = array_shift($languages);
+
+    // Create a job and job item.
+    $job = tmgmt_job_create(
+      $node->language,
+      $target_language,
+      1,
+      array(
+        'translator' => 'poetry',
+        'settings' => array('languages' => array_combine($languages, $languages)),
+      ),
+    );
+    // Add initial job item.
+    $job_item = $job->addItem('entity', 'node', $node->nid);
+    // Create additional job items.
+    $job->save();
+
+    // Request translation for requested languages,
+    // this operation will assign a new identifiers with DEMANDE_ID
+    // This call will be performed to our local test module
+    // which simulates a POETRY webservice.
+    $job->requestTranslation();
+
+    // Obtain testing poetry configuration.
+    $poetry = variable_get("poetry_service");
+
+    $url = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
+      'absolute' => TRUE,
+      'language' => (object) array('language' => FALSE),
+    ));
+    $client = new SoapClient($url, array(
+      'cache_wsdl' => WSDL_CACHE_NONE,
+      'trace' => 1,
+    ));
+
+    $return_languages = array_merge($languages, array($target_language));
+    $msg = _tmgmt_poetry_test_make_xml_msg_refused($job, $return_languages);
+    try {
+      $response = $client->FPFISPoetryIntegrationRequest($poetry['callback_user'], $poetry['callback_password'], $msg);
+    }
+    catch (Exception $e) {
+      $response = 'Error new SoapClient : ' . $e->getMessage();
+    }
+    watchdog('tmgmt_poetry_test', print_r($response, TRUE));
+
+    $ids = _tmgmt_poetry_obtain_related_translation_jobs($return_languages, '%_' . $job->tjid . '_POETRY')->fetchAll();
+    foreach ($ids as $id) {
+      $received_job_item = entity_load('tmgmt_job_item', array($id->tjiid), array(), TRUE);
+      /** @var TMGMTJobItem $received_job_item */
+      $received_job_item = reset($received_job_item);
+
+      $this->assertTrue($received_job_item->state == TMGMT_JOB_ITEM_STATE_ABORTED,
+        sprintf('%s: %s Poetry returned a message with a refused status for the job and its status has changed to aborted', strtoupper($received_job_item->getJob()->target_language), $received_job_item->getJob()->reference)
+      );
+    }
+
+    $job->delete();
+    $job_item->delete();
+    node_delete($node->nid);
+  }
+
+  /**
+   * Test not supported format client response.
+   */
+  public function testCancelJob() {
+    $node_data = array(
+      'type' => 'article',
+      'body' => array('en' => array(array('value' => 'Testing body'))),
+      'language' => 'en',
+      'title' => 'Testing article translation',
+    );
+    $node = $this->drupalCreateNode($node_data);
+
+    $languages = language_list();
+    unset($languages[$node->language]);
+    $languages = array_keys($languages);
+    $target_language = array_shift($languages);
+
+    // Create a job and job item.
+    $job = tmgmt_job_create(
+      $node->language,
+      $target_language,
+      1,
+      array(
+        'translator' => 'poetry',
+        'settings' => array('languages' => array_combine($languages, $languages)),
+      ),
+    );
+    // Add initial job item.
+    $job_item = $job->addItem('entity', 'node', $node->nid);
+    // Create additional job items.
+    $job->save();
+
+    // Request translation for requested languages,
+    // this operation will assign a new identifiers with DEMANDE_ID
+    // This call will be performed to our local test module
+    // which simulates a POETRY webservice.
+    $job->requestTranslation();
+
+    // Obtain testing poetry configuration.
+    $poetry = variable_get("poetry_service");
+
+    $url = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
+      'absolute' => TRUE,
+      'language' => (object) array('language' => FALSE),
+    ));
+    $client = new SoapClient($url, array(
+      'cache_wsdl' => WSDL_CACHE_NONE,
+      'trace' => 1,
+    ));
+
+    // Request for cancel only one job,
+    // the rest of the translation jobs will remain in active status.
+    $return_languages = array_merge($languages, array($target_language));
+    $request_language = reset($return_languages);
+    $msg = _tmgmt_poetry_test_make_xml_msg_refused($job, array($request_language), 'CNL');
+    try {
+      $response = $client->FPFISPoetryIntegrationRequest($poetry['callback_user'], $poetry['callback_password'], $msg);
+    }
+    catch (Exception $e) {
+      $response = 'Error new SoapClient : ' . $e->getMessage();
+    }
+    watchdog('tmgmt_poetry_test', print_r($response, TRUE));
+
+    $ids = _tmgmt_poetry_obtain_related_translation_jobs($return_languages, '%_' . $job->tjid . '_POETRY')->fetchAll();
+    foreach ($ids as $id) {
+      $received_job_item = entity_load('tmgmt_job_item', array($id->tjiid), array(), TRUE);
+      /** @var TMGMTJobItem $received_job_item */
+      $received_job_item = reset($received_job_item);
+      if ($request_language == $received_job_item->getJob()->target_language) {
+        $this->assertTrue($received_job_item->state == TMGMT_JOB_ITEM_STATE_ABORTED,
+          sprintf('%s: %s Poetry returned a message with a cancelled status for the job and its status has changed to aborted', strtoupper($received_job_item->getJob()->target_language), $received_job_item->getJob()->reference)
+        );
+      }
+      else {
+        $this->assertTrue($received_job_item->state == TMGMT_JOB_ITEM_STATE_ACTIVE,
+          sprintf('%s: %s Poetry returned a message with a cancelled status for the one of the jobs but current remains in active state', strtoupper($received_job_item->getJob()->target_language), $received_job_item->getJob()->reference)
+        );
+      }
+    }
+
+    $job->delete();
+    $job_item->delete();
+    node_delete($node->nid);
+  }
+
+}

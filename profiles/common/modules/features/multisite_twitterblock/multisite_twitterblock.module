@@ -404,7 +404,7 @@ function multisite_twitterblock_form_node_form_alter(&$form, $form_state) {
  * @param array $form
  *   Rendable array.
  */
-function _multisite_twitterblock_entity_subform(array &$form, $fpfis_twitter_override) {
+function _multisite_twitterblock_entity_subform(array &$form, $fpfis_twitter_override = array()) {
   $field = MULTISITE_TWITTERBLOCK_FIELD_NAME;
   // Try to get settings from form entity.
   if (isset($form['#entity']->$field)) {
