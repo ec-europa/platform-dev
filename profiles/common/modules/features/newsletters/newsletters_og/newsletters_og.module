@@ -99,8 +99,6 @@ function _newsletters_og_get_newsletter_term($gid) {
     $nl = current($og_memberships);
     return ($nl);
   }
-
-  return;
 }
 
 
