@@ -10,7 +10,7 @@
 function nexteuropa_data_export_test_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'body'
+  // Exported field_base: 'body'.
   $field_bases['body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -39,7 +39,7 @@ function nexteuropa_data_export_test_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
-  // Exported field_base: 'field_test_export_text_field'
+  // Exported field_base: 'field_test_export_text_field'.
   $field_bases['field_test_export_text_field'] = array(
     'active' => 1,
     'cardinality' => 1,

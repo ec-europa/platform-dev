@@ -11,7 +11,6 @@
  *   Return form with additional buttons.
  */
 function multisite_review_form($form, &$form_state) {
-
   $enabled_modules = _get_enabled_modules();
 
   $form['what_to_review'] = array(
@@ -27,6 +26,7 @@ function multisite_review_form($form, &$form_state) {
 
 /**
  * Helper to provide enabled modules.
+ *
  * @return array
  *   Returns enabled modules.
  */

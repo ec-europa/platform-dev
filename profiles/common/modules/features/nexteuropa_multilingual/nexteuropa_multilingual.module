@@ -7,11 +7,93 @@
 include_once 'nexteuropa_multilingual.tokens.inc';
 
 /**
- * Implements hook_init().
+ * Implements hook_theme().
  */
-function nexteuropa_multilingual_init() {
-  $path = drupal_get_path('module', 'nexteuropa_multilingual');
-  drupal_add_js($path . '/nexteuropa_multilingual.js', array('scope' => 'footer', 'weight' => 100));
+function nexteuropa_multilingual_theme($existing, $type, $theme, $path) {
+  return array(
+    'nexteuropa_multilingual_language_list' => array(
+      'path' => $path . '/theme',
+    ),
+    'nexteuropa_multilingual_language_icon' => array(
+      'path' => $path . '/theme',
+    ),
+  );
+}
+
+/**
+ * Returns HTML for a list of languages.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - languages: An array of languages which should be shown in the list.
+ *   - path: The path to which the user should be directed after clicking on a
+ *     language.
+ *   - options: Options to pass to the l() function when generating the link to
+ *     the given path (optional).
+ *   - title: Title for the language list (optional).
+ *   - type: The type of list (optional). Can be either 'ol' or 'ul'. Defaults
+ *     to 'ol'.
+ *   - attributes: Attributes to apply to the item list (optional).
+ *
+ * @return string
+ *   The HTML for the language list.
+ *
+ * @ingroup themeable
+ */
+function theme_nexteuropa_multilingual_language_list(array $variables) {
+  // Provide defaults.
+  $options = !empty($variables['options']) ? $variables['options'] : [];
+  $title = !empty($variables['title']) ? $variables['title'] : '';
+  $type = !empty($variables['type']) ? $variables['type'] : 'ol';
+  $attributes = !empty($variables['attributes']) ? $variables['attributes'] : [];
+
+  $languages = [];
+  foreach ($variables['languages'] as $language) {
+    $options['attributes']['lang'] = $language->language;
+    $options['attributes']['hreflang'] = $language->language;
+    $options['language'] = $language;
+    $languages[] = l($language->native, $variables['path'], $options);
+  }
+
+  return theme('item_list', [
+    'items' => $languages,
+    'title' => $title,
+    'type' => $type,
+    'attributes' => $attributes,
+  ]);
+}
+
+/**
+ * Returns HTML for a language icon.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - width: Optional width of the icon, in pixels. Defaults to 60.
+ *   - height: Optional height of the icon, in pixels. Defaults to 60.
+ *   - alt: Optional alternative text for text-based browsers. Defaults to
+ *     'Language icon'.
+ *   - title: Optional title text which is displayed when the image is hovered
+ *     in some popular browsers. Defaults to 'Language icon'.
+ *
+ * @return string
+ *   The HTML for the language icon.
+ *
+ * @ingroup themeable
+ */
+function theme_nexteuropa_multilingual_language_icon(array $variables) {
+  // Provide default values.
+  $width = !empty($variables['width']) ? $variables['width'] : 60;
+  $height = !empty($variables['height']) ? $variables['height'] : 60;
+  $alt = !empty($variables['alt']) ? $variables['alt'] : t('Language icon');
+  $title = !empty($variables['title']) ? $variables['title'] : t('Language icon');
+
+  return theme('image', [
+    'path' => drupal_get_path('module', 'nexteuropa_multilingual') . '/theme/language-icon.png',
+    'width' => $width,
+    'height' => $height,
+    'alt' => $alt,
+    'title' => $title,
+  ]);
 }
 
 /**
@@ -189,36 +271,49 @@ function nexteuropa_multilingual_tokens_alter(array &$replacements, array $conte
     // must be used to generate the content url even for non translated content.
     $wrapper = entity_metadata_wrapper('node', $node);
     $original_language = $node->translations->original;
-    // Title_field : field handled by the title module.
-    $replacements['[node:source:title]'] = $wrapper->language($original_language)->title_field->value();
-  }
-}
-
-/**
- * Implements hook_drupal_goto_alter().
- */
-function nexteuropa_multilingual_drupal_goto_alter(&$path, &$options, &$http_response_code) {
-  if (isset($_GET['2nd-language'])) {
-    $options['query'] = array('2nd-language' => $_GET['2nd-language']);
-  }
-}
-
-
-/**
- * Implements hook_field_language_alter().
- */
-function nexteuropa_multilingual_field_language_alter(&$display_language, $context) {
-  if (isset($_GET['2nd-language'])) {
-    locale_field_language_fallback($display_language, $context['entity'], $context['language']);
+    $entity_properties = $wrapper->getPropertyInfo();
+    // Check if the title module is used to manage the title as a field.
+    if (isset($entity_properties['title_field'])) {
+      $replacements['[node:source:title]'] = $wrapper->language($original_language)->title_field->raw();
+    }
+    else {
+      $replacements['[node:source:title]'] = $wrapper->language($original_language)->label();
+    }
   }
 }
 
 /**
  * Implements hook_language_fallback_candidates_alter().
+ *
+ * Change the language fallback order.
  */
 function nexteuropa_multilingual_language_fallback_candidates_alter(array &$fallback_candidates) {
-  if (isset($_GET['2nd-language'])) {
-    unset($fallback_candidates[$_GET['2nd-language']]);
-    array_unshift($fallback_candidates, $_GET['2nd-language']);
+  // First we get our url parameters.
+  $parameters = drupal_get_query_parameters();
+
+  // Add the default language as first fallback.
+  $language_default = language_default();
+  $array_key = array_search($language_default->language, $fallback_candidates);
+  if ($array_key !== FALSE) {
+    unset($fallback_candidates[$array_key]);
   }
+  array_unshift($fallback_candidates, $language_default->language);
+
+  // Add the 2nd language as first fallback.
+  if (isset($parameters['2nd-language'])) {
+    $array_key = array_search($parameters['2nd-language'], $fallback_candidates);
+    if ($array_key !== FALSE) {
+      unset($fallback_candidates[$array_key]);
+    }
+    array_unshift($fallback_candidates, $parameters['2nd-language']);
+  }
+}
+
+/**
+ * Implements hook_pathauto_alias_alter().
+ */
+function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) {
+  // Force all aliases to be saved as language neutral.
+  // All content translations will have a unique alias.
+  $context['language'] = LANGUAGE_NONE;
 }

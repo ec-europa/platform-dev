@@ -1,0 +1,23 @@
+--- webform.module	2013-01-03 16:38:38.027106913 +0100
++++ webform.module	2013-01-03 16:22:41.322095149 +0100
+@@ -2095,8 +2095,17 @@
+     }
+     elseif ($user->uid == 0) {
+       // The user is anonymous, so (at least) needs to log in to view the form.
+-      $login = url('user/login', array('query' => drupal_get_destination()));
+-      $register = url('user/register', array('query' => drupal_get_destination()));
++      // ecas login handling
++      if(module_exists('ecas')) {
++        $account_request_url = variable_get('ecas_account_request_url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL);
++        $login = url('ecas', array('absolute' => TRUE));
++        $register = str_replace('%local_ecas_url%', $login, $account_request_url);
++      }
++      else {
++        $login = url('user/login', array('query' => drupal_get_destination()));
++        $register = url('user/register', array('query' => drupal_get_destination()));
++      }
++
+       if (variable_get('user_register', 1) == 0) {
+         $message = t('You must <a href="!login">login</a> to view this form.', array('!login' => $login));
+       }
+

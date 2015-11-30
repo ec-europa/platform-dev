@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Default views for NextEuropa Token CKEditor.
+ */
 
 /**
  * Implements hook_views_default_views().
@@ -6,7 +10,6 @@
 function nexteuropa_token_ckeditor_views_default_views() {
   $views = array();
   // Export code begin.
-
   $view = new view();
   $view->name = 'nexteuropa_token_ckeditor_filter_view';
   $view->description = '';
@@ -107,15 +110,16 @@ function nexteuropa_token_ckeditor_views_default_views() {
   $handler->display->display_options['fields']['nexteuropa_token_ckeditor_widget_selection']['field'] = 'nexteuropa_token_ckeditor_widget_selection';
   $handler->display->display_options['fields']['nexteuropa_token_ckeditor_widget_selection']['label'] = 'Insert as';
   $handler->display->display_options['fields']['nexteuropa_token_ckeditor_widget_selection']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['nexteuropa_token_ckeditor_widget_selection']['label_field'] = 'nexteuropa_token_ckeditor_widget_selection';
+  $handler->display->display_options['fields']['nexteuropa_token_ckeditor_widget_selection']['label_field'] = 'title';
   $handler->display->display_options['fields']['nexteuropa_token_ckeditor_widget_selection']['view_modes'] = array(
     'full' => 'full',
     'teaser' => 'teaser',
     'rss' => 0,
     'search_index' => 0,
     'search_result' => 0,
+    'diff_standard' => 0,
+    'print' => 0,
     'token' => 0,
-    'revision' => 0,
   );
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';

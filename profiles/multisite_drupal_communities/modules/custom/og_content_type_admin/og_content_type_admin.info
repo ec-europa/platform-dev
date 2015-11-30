@@ -14,6 +14,5 @@ dependencies[] = views
 dependencies[] = node
 dependencies[] = multisite_workbench_moderation_view
 features[features_api][] = api:1
-files[] = tests/og_content_type_admin.test
 files[] = tests/og_content_type_admin.extra.test
 configure = admin/config/group/og_content_types

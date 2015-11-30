@@ -64,7 +64,8 @@ function multisite_registration_core_user_default_permissions() {
     'module' => 'registration',
   );
 
-  // Exported permission: create multisite_registration registration other anonymous.
+  // Exported permission:
+  // create multisite_registration registration other anonymous.
   $permissions['create multisite_registration registration other anonymous'] = array(
     'name' => 'create multisite_registration registration other anonymous',
     'roles' => array(
@@ -74,7 +75,8 @@ function multisite_registration_core_user_default_permissions() {
     'module' => 'registration',
   );
 
-  // Exported permission: create multisite_registration registration other users.
+  // Exported permission:
+  // create multisite_registration registration other users.
   $permissions['create multisite_registration registration other users'] = array(
     'name' => 'create multisite_registration registration other users',
     'roles' => array(

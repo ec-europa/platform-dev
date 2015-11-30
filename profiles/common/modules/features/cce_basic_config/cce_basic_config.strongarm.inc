@@ -52,27 +52,9 @@ function cce_basic_config_strongarm() {
 
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_default_per_page_article';
-  $strongarm->value = '50';
-  $export['comment_default_per_page_article'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
   $strongarm->name = 'comment_form_location_article';
   $strongarm->value = 1;
   $export['comment_form_location_article'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_page';
-  $strongarm->value = 0;
-  $export['comment_page'] = $strongarm;
 
   $strongarm = new stdClass();
   /* Edit this to true to make a default strongarm disabled initially */
@@ -160,28 +142,6 @@ function cce_basic_config_strongarm() {
 
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
-  $strongarm->name = 'field_bundle_settings_node__page';
-  $strongarm->value = array(
-    'view_modes' => array(),
-    'extra_fields' => array(
-      'form' => array(
-        'title' => array(
-          'weight' => '-10',
-        ),
-        'path' => array(
-          'weight' => '22',
-        ),
-      ),
-      'display' => array(),
-    ),
-  );
-  $export['field_bundle_settings_node__page'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
   $strongarm->name = 'file_private_path';
   $strongarm->value = 'sites/default/files/private_files';
   $export['file_private_path'] = $strongarm;
@@ -233,7 +193,7 @@ function cce_basic_config_strongarm() {
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'jquery_update_jquery_admin_version';
-  $strongarm->value = '1.5';
+  $strongarm->value = '1.7';
   $export['jquery_update_jquery_admin_version'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -262,15 +222,6 @@ function cce_basic_config_strongarm() {
   $strongarm->name = 'language_content_type_article';
   $strongarm->value = '2';
   $export['language_content_type_article'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
-  $strongarm->name = 'language_content_type_page';
-  $strongarm->value = '2';
-  $export['language_content_type_page'] = $strongarm;
 
   $strongarm = new stdClass();
   /* Edit this to true to make a default strongarm disabled initially */
@@ -444,7 +395,7 @@ example.org';
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'multisite_version';
-  $strongarm->value = '2.0';
+  $strongarm->value = '2.1';
   $export['multisite_version'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -474,17 +425,6 @@ example.org';
 
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_page';
-  $strongarm->value = array(
-    0 => 'status',
-  );
-  $export['node_options_page'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
   $strongarm->name = 'node_preview_article';
   $strongarm->value = '1';
   $export['node_preview_article'] = $strongarm;
@@ -497,15 +437,6 @@ example.org';
   $strongarm->name = 'node_submitted_article';
   $strongarm->value = 1;
   $export['node_submitted_article'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
-  $strongarm->name = 'node_submitted_page';
-  $strongarm->value = FALSE;
-  $export['node_submitted_page'] = $strongarm;
 
   $strongarm = new stdClass();
   /* Edit this to true to make a default strongarm disabled initially */
@@ -743,15 +674,6 @@ example.org';
 
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
-  $strongarm->name = 'print_pdf_pdf_tool';
-  $strongarm->value = 'print_pdf_mpdf|sites/all/libraries/mpdf/mpdf.php';
-  $export['print_pdf_pdf_tool'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
   $strongarm->name = 'print_pdf_show_link';
   $strongarm->value = '2';
   $export['print_pdf_show_link'] = $strongarm;
@@ -894,7 +816,7 @@ video
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'site_frontpage';
-  $strongarm->value = 'content/welcome-your-site';
+  $strongarm->value = 'node';
   $export['site_frontpage'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -1145,10 +1067,22 @@ video
     'admin/content/webform',
     'admin/structure/block',
     'admin/help',
-    'node/add',
   );
   $export['cce_basic_config_admin_pages'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_bilinear_interpolation';
+  $strongarm->value = 1;
+  $export['image_captcha_bilinear_interpolation'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_distortion_amplitude';
+  $strongarm->value = '5';
+  $export['image_captcha_distortion_amplitude'] = $strongarm;
+
   return $export;
 }
-

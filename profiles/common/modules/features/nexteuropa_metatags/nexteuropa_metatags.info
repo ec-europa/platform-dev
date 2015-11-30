@@ -1,0 +1,16 @@
+name = Nexteuropa Metatags
+description = Provide custom metatags (like metatags for ES indexation)
+core = 7.x
+package = NextEuropa
+version = 7.x-1.0
+project = nexteuropa_metatags
+dependencies[] = nexteuropa_core
+dependencies[] = metatag
+dependencies[] = metatag_dc
+dependencies[] = metatag_facebook
+dependencies[] = metatag_opengraph
+dependencies[] = select_or_other
+dependencies[] = taxonomy
+features[features_api][] = api:2
+features[metatag][] = global
+features[metatag][] = node

@@ -5,9 +5,7 @@
  * Contains \NextEuropaEditorialSubContext.
  */
 
-use Behat\Behat\Context\Environment\InitializedContextEnvironment;
 use Drupal\DrupalDriverManager;
-use Drupal\DrupalExtension\Context\DrupalContext;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 
@@ -34,6 +32,19 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
   }
 
   /**
+   * Subscribes the user to the given group and grants the given OG role.
+   *
+   * @param string $role
+   *   The OG role to grant to the user.
+   * @param string $group
+   *   The group to subscribe the user to.
+   *
+   * @throws \InvalidArgumentException
+   *   Thrown when the group doesn't exist, when multiple groups have the given
+   *   group name, or when the given role doesn't exist in the given group.
+   * @throws \Exception
+   *   Thrown when an anonymous user is attempted to be subscribed to a group.
+   *
    * @Given I have the :role role in the :group group
    */
   public function assignUserToGroupRole($role, $group) {
@@ -64,7 +75,7 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
     }
 
     // Get the currently logged in user from DrupalContext.
-    /** @var DrupalContext $context */
+    /** @var \Drupal\DrupalExtension\Context\DrupalContext $context */
     $context = $this->getContext('\Drupal\DrupalExtension\Context\DrupalContext');
     if (empty($context->user)) {
       throw new \Exception('Cannot assign anonymous user to a group.');
@@ -80,7 +91,7 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
   /**
    * Returns a list of OG groups with the given name across all entities.
    *
-   * @param $name
+   * @param string $name
    *   The name of the groups to return.
    *
    * @return array
@@ -124,7 +135,7 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
    *   The requested context, or FALSE if the context is not registered.
    */
   protected function getContext($class) {
-    /** @var InitializedContextEnvironment $environment */
+    /** @var \Behat\Behat\Context\Environment\InitializedContextEnvironment $environment */
     $environment = $this->drupal->getEnvironment();
     foreach ($environment->getContexts() as $context) {
       if ($context instanceof $class) {

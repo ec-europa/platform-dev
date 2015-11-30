@@ -6,6 +6,18 @@
  */
 
 /**
+ * Implements hook_init().
+ *
+ * As we can not alter the autocomplete path without a hook_form_alter we add a
+ * bit of javascript to alter these urls. We cannot load this last in the page
+ * as this might break the purpose of it.
+ */
+function language_selector_page_init() {
+  $path = drupal_get_path('module', 'language_selector_page');
+  drupal_add_js($path . '/js/language_selector_page.js', array('scope' => 'header', 'weight' => 0));
+}
+
+/**
  * Implements hook_block_info().
  */
 function language_selector_page_block_info() {
@@ -45,7 +57,7 @@ function language_selector_page_block_content() {
     $node = node_load(arg(1));
 
     // Doesn't manage neutral language.
-    if ($node->language !== 'und') {
+    if ($node->language !== LANGUAGE_NONE) {
 
       // Initialize variables.
       $is_available = FALSE;
@@ -54,43 +66,43 @@ function language_selector_page_block_content() {
       $other = array();
 
       // Get currently served language.
-      $args = func_get_args();
-      $entity_type = array_shift($args);
-      $entity = array_shift($args);
-      $served_code = entity_translation_get_existing_language($entity_type, $entity);
+      $served_code = entity_translation_get_existing_language('node', $node);
       $served = $languages[1][$served_code];
 
-      // Check available translations.
-      foreach ($node->translations->data as $code => $lang) {
-        if ($code == $language->language) {
-          $is_available = TRUE;
+      // Display the switcher only if the current language is not available.
+      if (!in_array($language->language, array_keys($node->translations->data))) {
+        // Check available translations.
+        foreach ($node->translations->data as $code => $lang) {
+          if ($code == $language->language) {
+            $is_available = TRUE;
+          }
+
+          if ($code != $served->language) {
+            $other[$code] = $languages[1][$code];
+          }
         }
 
-        if ($code != $served->language) {
-          $other[$code] = $languages[1][$code];
+        // Check if required language is available.
+        if (!$is_available) {
+          $not_available = $language;
         }
-      }
 
-      // Check if required language is available.
-      if (!$is_available) {
-        $not_available = $language;
+        // Update block.
+        $block = array(
+          'not_available' => array(
+            '#type' => 'object',
+            '#markup' => $not_available,
+          ),
+          'served' => array(
+            '#type' => 'object',
+            '#markup' => $served,
+          ),
+          'other' => array(
+            '#type' => 'array',
+            '#markup' => $other,
+          ),
+        );
       }
-
-      // Update block.
-      $block = array(
-        'not_available' => array(
-          '#type' => 'object',
-          '#markup' => $not_available,
-        ),
-        'served' => array(
-          '#type' => 'object',
-          '#markup' => $served,
-        ),
-        'other' => array(
-          '#type' => 'array',
-          '#markup' => $other,
-        ),
-      );
     }
   }
 
@@ -110,21 +122,26 @@ function language_selector_page_preprocess_block(&$variables) {
     $served = '';
     $other = '';
 
+    // Render 'not_available' languages.
     if (!empty($variables['elements']['not_available']['#markup'])) {
       $not_available = '<li class="lang-select-page__not-available">' . $variables['elements']['not_available']['#markup']->native . '</li>';
     }
 
+    // Render 'served' languages.
     if (!empty($variables['elements']['served']['#markup'])) {
       $served = '<li class="lang-select-page__served">' . $variables['elements']['served']['#markup']->native . '</li>';
     }
 
+    // Render 'other' languages.
     if (!empty($variables['elements']['other']['#markup'])) {
+      // Order the language list by using language weight.
+      uasort($variables['elements']['other']['#markup'], 'multisite_drupal_toolbox_sort_weight_object');
+
+      // Render elements.
       foreach ($variables['elements']['other']['#markup'] as $code => $lang) {
         $options = array(
-          'language' => $lang,
-          'query' => $_GET,
+          'query' => drupal_get_query_parameters(),
         );
-        unset($options['query']['q']);
         $options['query']['2nd-language'] = $code;
 
         $other .= '<li>' . l($lang->native, current_path(), $options) . '</li>';
@@ -137,5 +154,62 @@ function language_selector_page_preprocess_block(&$variables) {
     // Add content to block.
     $content = '<ol>' . $not_available . $served . $other . '</ol>';
     $variables['content'] = $content;
+  }
+}
+
+/**
+ * Implements hook_url_outbound_alter().
+ *
+ * We alter the outbound url here, as this allows further modification and does
+ * not require JS. We simply check for the $_GET parameter and reappend it where
+ * it is needed (everywhere).
+ */
+function language_selector_page_url_outbound_alter(&$path, &$options, $original_path) {
+
+  // First we get our url parameters.
+  $parameters = drupal_get_query_parameters();
+
+  // First we check if we have a 2nd-language paramter, and the url we are
+  // processing is not external.
+  if (isset($parameters['2nd-language']) && !$options['external']) {
+
+    // Now lets check if we are not setting it already, because then we would
+    // override.
+    if (!isset($options['query']['2nd-language'])) {
+      // Lets not alter the autocomplete paths here.
+      if (strpos($path, 'autocomplete')) {
+        return;
+      }
+      else {
+        $options['query']['2nd-language'] = $parameters['2nd-language'];
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_drupal_goto_alter().
+ */
+function language_selector_page_drupal_goto_alter(&$path, &$options, &$http_response_code) {
+  // First we get our url parameters.
+  $parameters = drupal_get_query_parameters();
+
+  // Check if our parameter is set.
+  if (isset($parameters['2nd-language'])) {
+    $options['query']['2nd-language'] = $parameters['2nd-language'];
+  }
+}
+
+
+/**
+ * Implements hook_field_language_alter().
+ */
+function language_selector_page_field_language_alter(&$display_language, $context) {
+  // First we get our url parameters.
+  $parameters = drupal_get_query_parameters();
+
+  // Check if our parameter is set.
+  if (isset($parameters['2nd-language'])) {
+    locale_field_language_fallback($display_language, $context['entity'], $context['language']);
   }
 }

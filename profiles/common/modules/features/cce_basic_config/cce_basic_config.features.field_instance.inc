@@ -11,7 +11,7 @@
 function cce_basic_config_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_article-comment_body'
+  // Exported field_instance: 'comment-comment_node_article-comment_body'.
   $field_instances['comment-comment_node_article-comment_body'] = array(
     'bundle' => 'comment_node_article',
     'default_value' => NULL,
@@ -44,40 +44,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'comment-comment_node_page-comment_body'
-  $field_instances['comment-comment_node_page-comment_body'] = array(
-    'bundle' => 'comment_node_page',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'comment',
-    'field_name' => 'comment_body',
-    'label' => 'Comment',
-    'required' => TRUE,
-    'settings' => array(
-      'text_processing' => 1,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 5,
-      ),
-      'type' => 'text_textarea',
-      'weight' => 0,
-    ),
-  );
-
-  // Exported field_instance: 'file-image-field_caption'
+  // Exported field_instance: 'file-image-field_caption'.
   $field_instances['file-image-field_caption'] = array(
     'bundle' => 'image',
     'default_value' => NULL,
@@ -151,7 +118,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'file-video-field_tags'
+  // Exported field_instance: 'file-video-field_tags'.
   $field_instances['file-video-field_tags'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -227,7 +194,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'file-video-field_video_description'
+  // Exported field_instance: 'file-video-field_video_description'.
   $field_instances['file-video-field_video_description'] = array(
     'bundle' => 'video',
     'default_value' => NULL,
@@ -303,7 +270,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-body'
+  // Exported field_instance: 'node-article-body'.
   $field_instances['node-article-body'] = array(
     'bundle' => 'article',
     'default_value' => NULL,
@@ -348,7 +315,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_article_publication_date'
+  // Exported field_instance: 'node-article-field_article_publication_date'.
   $field_instances['node-article-field_article_publication_date'] = array(
     'bundle' => 'article',
     'deleted' => 0,
@@ -404,7 +371,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_article_unpublish_on'
+  // Exported field_instance: 'node-article-field_article_unpublish_on'.
   $field_instances['node-article-field_article_unpublish_on'] = array(
     'bundle' => 'article',
     'deleted' => 0,
@@ -460,7 +427,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_image'
+  // Exported field_instance: 'node-article-field_image'.
   $field_instances['node-article-field_image'] = array(
     'bundle' => 'article',
     'deleted' => 0,
@@ -543,7 +510,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_tags'
+  // Exported field_instance: 'node-article-field_tags'.
   $field_instances['node-article-field_tags'] = array(
     'bundle' => 'article',
     'default_value' => NULL,
@@ -584,93 +551,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-page-body'
-  $field_instances['node-page-body'] = array(
-    'bundle' => 'page',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(
-          'trim_length' => 600,
-        ),
-        'type' => 'text_summary_or_trimmed',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'body',
-    'label' => 'Body',
-    'required' => FALSE,
-    'settings' => array(
-      'display_summary' => TRUE,
-      'text_processing' => 1,
-      'user_field_privacy' => FALSE,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 20,
-        'summary_rows' => 5,
-      ),
-      'type' => 'text_textarea_with_summary',
-      'weight' => 2,
-    ),
-  );
-
-  // Exported field_instance: 'node-page-field_tags'
-  $field_instances['node-page-field_tags'] = array(
-    'bundle' => 'page',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'i18n_taxonomy',
-        'settings' => array(),
-        'type' => 'i18n_taxonomy_term_reference_link',
-        'weight' => 1,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_tags',
-    'label' => 'Tags',
-    'required' => 0,
-    'settings' => array(
-      'user_field_privacy' => FALSE,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'taxonomy',
-      'settings' => array(
-        'autocomplete_path' => 'taxonomy/autocomplete',
-        'size' => 60,
-      ),
-      'type' => 'taxonomy_autocomplete',
-      'weight' => 1,
-    ),
-  );
-
-  // Exported field_instance: 'user-user-field_creator'
+  // Exported field_instance: 'user-user-field_creator'.
   $field_instances['user-user-field_creator'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -730,7 +611,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_firstname'
+  // Exported field_instance: 'user-user-field_firstname'.
   $field_instances['user-user-field_firstname'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -765,7 +646,7 @@ function cce_basic_config_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_lastname'
+  // Exported field_instance: 'user-user-field_lastname'.
   $field_instances['user-user-field_lastname'] = array(
     'bundle' => 'user',
     'default_value' => NULL,

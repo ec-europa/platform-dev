@@ -5,20 +5,20 @@
  * Tests for communities.module.
  */
 
-
 /**
  * Defines a base class for testing the "communities" module.
  */
 class CommunitiesWebTestCase extends DrupalWebTestCase {
 
-  protected $community_user;
-  protected $admin_user;
-  protected $contributor_user;
+  protected $communityUser;
+  protected $adminUser;
+  protected $contributorUser;
 
   protected $profile = 'multisite_drupal_communities';
 
-  public $field_names = array();
-
+  /**
+   * Return class informations.
+   */
   public static function getInfo() {
     return array(
       'name' => 'Communities',
@@ -27,30 +27,29 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
     );
   }
 
-  function setUp() {
-    parent::setUp(array(
-    ));
+  /**
+   * Initialize users.
+   */
+  public function setUp() {
+    parent::setUp(array());
 
-    $this->admin_user = $this->drupalCreateUserWithRole("administrator");
-    $this->contributor_user = $this->drupalCreateUserWithRole("contributor");
-    $this->editor_user = $this->drupalCreateUserWithRole("editor");
+    $this->adminUser = $this->drupalCreateUserWithRole("administrator");
+    $this->contributorUser = $this->drupalCreateUserWithRole("contributor");
+    $this->communityUser = $this->drupalCreateUserWithRole("editor");
   }
 
-  function testCommunitiesInstall() {
-    // check the communities directory view
+  /**
+   * Test communities creation.
+   */
+  public function testCommunitiesInstall() {
+    // Check the communities directory view.
     $this->drupalGet('communities_directory');
     $this->assertResponse(200);
     $this->assertRaw('view-communities-directory', 'Communities enabled and accessible.');
 
-    // check the community creation
-    $this->drupalLogin($this->admin_user);
-    /*
-    $node_array = array(
-      'title' => 'Community test1',
-      'body[und][0][value]' => 'Community body',
-    );
-    $this->drupalPost('node/add/community', $node_array, t('Save'));
-    */
+    // Check the community creation.
+    $this->drupalLogin($this->adminUser);
+
     $settings = array(
       'type' => 'community',
       'title' => 'Community test1',
@@ -63,7 +62,7 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
     $this->assertRaw('Home page', t('Community block created.'));
     $this->assertRaw('members list', t('Community block members list created.'));
 
-    // create an article in the community
+    // Create an article in the community.
     $field = array();
     $field[LANGUAGE_NONE][0]['target_id'] = $node1->nid;
     $settings = array(
@@ -77,30 +76,29 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
     $this->drupalGet('community/community-test1/articles/article-test1');
     $this->assertRaw('Article test1', t('Article created.'));
 
-    // test my communities view
+    // Test my communities view.
     $this->drupalGet('communities_directory/my');
     $this->assertResponse(200);
     $this->assertRaw('Community test1', t('Community created found in my communities.'));
 
-    // add user to a group
+    // Add user to a group.
     $membership = array(
       'type' => 'user',
-      'entity' => $this->editor_user,
+      'entity' => $this->communityUser,
       'state' => OG_STATE_ACTIVE,
     );
     og_group('node', $node1->nid, $membership);
     $this->drupalGet('group/node/' . $node1->nid . '/admin/people');
     $this->assertResponse(200);
-    //$this->verbose(print_r($this->editor_user, TRUE));
-    $this->assertRaw($this->editor_user->name, 'User added to the group.');
-    
-    // give a og role (community _manager) to this user
-    og_role_grant('node', $node1->nid, $this->editor_user->uid, 4);
+    $this->assertRaw($this->communityUser->name, 'User added to the group.');
+
+    // Give a og role (community _manager) to this user.
+    og_role_grant('node', $node1->nid, $this->communityUser->uid, 4);
     $this->drupalGet('group/node/' . $node1->nid . '/admin/people');
     $this->assertNoUniqueText("community_manager", 'New user is a community manager.');
 
-    // test membership request
-    $this->drupalLogin($this->contributor_user);
+    // Test membership request.
+    $this->drupalLogin($this->contributorUser);
     $this->drupalGet('communities_directory');
     $this->clickLink(t('Request group membership'));
 
@@ -113,8 +111,8 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
 
 
   /**
-  * Creates a user with the give role.
-  **/
+   * Creates a user with the give role.
+   */
   public function drupalCreateUserWithRole($role) {
     // Get all of the roles in the system.
     $roles = user_roles();
@@ -136,6 +134,3 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
   }
 
 }
-
-
-

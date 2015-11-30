@@ -12,4 +12,3 @@ features[views_view][] = article_pager
 features[views_view][] = events_pager
 features[views_view][] = news_pager
 features[views_view][] = page_view
-files[]= tests/node_pager.test

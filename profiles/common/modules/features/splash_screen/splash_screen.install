@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Install the feature splash screen
+ * Install the feature splash screen.
  */
 
 /**
@@ -24,15 +24,25 @@ function splash_screen_disable() {
  * Implements hook_install().
  */
 function splash_screen_install() {
-  variable_set('splash_screen_home_page', variable_get('site_frontpage', 'home'));
   variable_set('splash_screen_blacklist', array());
-  variable_set('site_frontpage', 'splash');
 }
 
 /**
  * Implements hook_uninstall().
  */
 function splash_screen_uninstall() {
-  variable_del('splash_screen_home_page');
   variable_del('splash_screen_blacklist');
+  variable_del('splash_screen_title_value');
+}
+
+/**
+ * Clean up splash screen frontpage variables.
+ */
+function splash_screen_update_7201() {
+  // Restore site frontpage.
+  if (variable_get('site_frontpage') == "splash" && variable_get('splash_screen_home_page')) {
+    variable_set('site_frontpage', variable_get('splash_screen_home_page', 'home'));
+  }
+  // Delete useless variable.
+  variable_del('splash_screen_home_page');
 }

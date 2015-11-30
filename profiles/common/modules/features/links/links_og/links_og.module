@@ -4,15 +4,15 @@
  * Code for the Links feature.
  */
 
-include_once('links_og.features.inc');
-include_once('links_og.views_alter.inc');
+include_once 'links_og.features.inc';
+include_once 'links_og.views_alter.inc';
 
-/*
-* hook_menu
-*/
+/**
+ * Implements hook_menu().
+ */
 function links_og_menu() {
   $items = array();
- 
+
   $items['community/%group_name/links'] = array(
     'title' => 'Links',
     'page callback' => 'views_page',
@@ -25,5 +25,3 @@ function links_og_menu() {
 
   return $items;
 }
-
- 

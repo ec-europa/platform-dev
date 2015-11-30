@@ -15,13 +15,6 @@ function _splash_screen_settings_form() {
     '#collapsed' => FALSE,
   );
 
-  $fieldset_general['splash_screen_home_page'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Real home page'),
-    '#description' => t('Enter the path of the real home page, without language suffix, domain, and trailing slash, i.e.: home'),
-    '#default_value' => variable_get('splash_screen_home_page', ''),
-  );
-
   // Formats the blacklisted languages array as a line separated list
   // before displaying them.
   $blacklist_arr = variable_get('splash_screen_blacklist', array());
@@ -38,6 +31,14 @@ function _splash_screen_settings_form() {
 
   // Inserts the fieldset for grouping general settings fields.
   $form['splash_screen'] = $fieldset_general;
+
+  // Splash screen title field.
+  $form['splash_screen']['splash_screen_title_value'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Splash screen title'),
+    '#description' => t('The title to use for the splash screen page. If none is entered it will fall back to the site name.'),
+    '#default_value' => variable_get('splash_screen_title_value'),
+  );
 
   // Adds buttons for processing the form.
   $form['buttons'] = array(

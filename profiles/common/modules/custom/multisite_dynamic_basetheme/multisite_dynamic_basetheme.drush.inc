@@ -41,14 +41,14 @@ function multisite_dynamic_basetheme_drush_command() {
  */
 function drush_multisite_dynamic_basetheme_theme_base_theme_list() {
   $options = multisite_dynamic_basetheme_get_base_theme_list();
-  drush_print("Available base theme :");
-  if (!empty ($options)) {
+  drush_print('Available base theme :');
+  if (!empty($options)) {
     foreach ($options as $machine_name => $option) {
-      drush_print("- " . $machine_name, '1');
+      drush_print('- ' . $machine_name, '1');
     }
   }
   else {
-    drush_print("No base theme available on this site", '1');
+    drush_print('No base theme available on this site', '1');
   }
 }
 
@@ -108,7 +108,7 @@ function drush_multisite_dynamic_basetheme_theme_base_theme_set() {
 
   // Check current theme (is a subtheme).
   global $theme_info;
-  if (!isset ($theme_info->info['base theme'])) {
+  if (!isset($theme_info->info['base theme'])) {
     drush_set_error("TBT_CURRENT_IS_NOT_A_SUBTHEME", t("The base theme cannot be set: your current theme (@name) is not a sub-theme (`base theme` not found on the info file).", array('@name' => $theme_info->info['name'])));
     exit();
   }

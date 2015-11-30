@@ -7,4 +7,3 @@ project = news_standard
 dependencies[] = news_core
 features[ctools][] = context:context:3
 features[features_api][] = api:2
-files[] = tests/news_core.test

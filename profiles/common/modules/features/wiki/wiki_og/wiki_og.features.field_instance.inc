@@ -10,7 +10,7 @@
 function wiki_og_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-wiki-body'
+  // Exported field_instance: 'node-wiki-body'.
   $field_instances['node-wiki-body'] = array(
     'bundle' => 'wiki',
     'default_value' => NULL,
@@ -55,7 +55,7 @@ function wiki_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-wiki-field_tags'
+  // Exported field_instance: 'node-wiki-field_tags'.
   $field_instances['node-wiki-field_tags'] = array(
     'bundle' => 'wiki',
     'default_value' => NULL,
@@ -96,7 +96,7 @@ function wiki_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-wiki-group_content_access'
+  // Exported field_instance: 'node-wiki-group_content_access'.
   $field_instances['node-wiki-group_content_access'] = array(
     'bundle' => 'wiki',
     'default_value' => array(
@@ -147,7 +147,7 @@ function wiki_og_field_default_field_instances() {
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-wiki-og_group_ref'
+  // Exported field_instance: 'node-wiki-og_group_ref'.
   $field_instances['node-wiki-og_group_ref'] = array(
     'bundle' => 'wiki',
     'default_value' => NULL,

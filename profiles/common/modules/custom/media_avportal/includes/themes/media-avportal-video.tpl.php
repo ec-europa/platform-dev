@@ -1,9 +1,6 @@
 <?php
-
 /**
  * @file
- * media_avportal/includes/themes/media-avportal-video.tpl.php
- *
  * Template file for theme('media_avportal_video').
  *
  * Variables available:

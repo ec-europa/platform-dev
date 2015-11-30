@@ -10,7 +10,7 @@
 function sitemap_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: navigation_site-map:sitemap
+  // Exported menu link: navigation_site-map:sitemap.
   $menu_links['navigation_site-map:sitemap'] = array(
     'menu_name' => 'navigation',
     'link_path' => 'sitemap',
@@ -35,7 +35,6 @@ function sitemap_menu_default_menu_links() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Site map');
-
 
   return $menu_links;
 }

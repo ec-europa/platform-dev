@@ -62,4 +62,3 @@ function cce_basic_config_taxonomy_default_vocabularies() {
     ),
   );
 }
-

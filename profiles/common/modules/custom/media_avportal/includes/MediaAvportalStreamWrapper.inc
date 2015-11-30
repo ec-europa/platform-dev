@@ -1,13 +1,15 @@
 <?php
 /**
  * @file
- * media_avportal/includes/MediaAvportalStreamWrapper.inc
- * Create a Avportal Stream Wrapper class for the Media/Resource module.
+ * Create an Avportal Stream Wrapper class for the Media/Resource module.
  */
 
 /**
- *  Create an instance like this:
- *  $avportal = new MediaAvportalStreamWrapper('avportal://v/[video-code]');
+ * Create an instance like this.
+ *
+ * @code
+ *   $avportal = new MediaAvportalStreamWrapper('avportal://v/[video-code]');
+ * @endcode
  */
 class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
 
@@ -15,13 +17,13 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
   protected $baseUrl = 'http://ec.europa.eu/avservices/video/player.cfm';
 
   /**
-   * Returns a url in the format.
-   * 
-   * http://ec.europa.eu/avservices/video/player.cfm?ref=qsPQN4MiTeE.
+   * Returns a URL in the format.
    *
-   * Overrides interpolateUrl() defined in MediaReadOnlyStreamWrapper.
-   * This is an exact copy of the function in MediaReadOnlyStreamWrapper,
-   * here in case that example is redefined or removed.
+   * @see http://ec.europa.eu/avservices/video/player.cfm?ref=qsPQN4MiTeE
+   *
+   * Overrides interpolateUrl() defined in MediaReadOnlyStreamWrapper.  This is
+   * an exact copy of the function in MediaReadOnlyStreamWrapper, here in case
+   * that example is redefined or removed.
    */
   public function interpolateUrl() {
     if ($parameters = $this->get_parameters()) {
@@ -61,8 +63,16 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
       else {
         $url = 'http://ec.europa.eu/avservices/cfc/video.cfc?method=getVideoDetails&ref=' . $video_id . '&format=json';
         $response = drupal_http_request($url);
-        $video_info = drupal_json_decode($response->data);
-        cache_set('av_video_' . $video_id, $video_info, 'cache');
+        if ($response->data == 200) {
+          $video_info = drupal_json_decode($response->data);
+          cache_set('av_video_' . $video_id, $video_info, 'cache');
+        }
+        else {
+          $video_info = array(
+            'TITLE' => t('!!! ERROR !!! retrieving the video title'),
+            'THUMB' => t('none'),
+          );
+        }
       }
     }
     return $video_info;
@@ -85,14 +95,6 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
   }
 
   /**
-   * Implements getVideoLanguages().
-   */
-  public function getVideoLanguages() {
-    $info = $this->getVideoInformation();
-    return $info['LANGS'];
-  }
-
-  /**
    * Implements getLocalThumbnailPath().
    */
   public function getLocalThumbnailPath($remote_path) {
@@ -112,4 +114,5 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
     }
     return $local_path;
   }
+
 }

@@ -10,72 +10,7 @@
 function newsletters_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_simplenews-comment_body'
-  $field_instances['comment-comment_node_simplenews-comment_body'] = array(
-    'bundle' => 'comment_node_simplenews',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'comment',
-    'field_name' => 'comment_body',
-    'label' => 'Comment',
-    'required' => 1,
-    'settings' => array(
-      'better_formats' => array(
-        'allowed_formats' => array(
-          'basic_html' => 'basic_html',
-          'filtered_html' => 0,
-          'full_html' => 0,
-          'plain_text' => 0,
-          'wiki' => 0,
-        ),
-        'allowed_formats_toggle' => 1,
-        'default_order_toggle' => 0,
-        'default_order_wrapper' => array(
-          'formats' => array(
-            'basic_html' => array(
-              'weight' => 5,
-            ),
-            'filtered_html' => array(
-              'weight' => -9,
-            ),
-            'full_html' => array(
-              'weight' => -10,
-            ),
-            'plain_text' => array(
-              'weight' => -8,
-            ),
-            'wiki' => array(
-              'weight' => 0,
-            ),
-          ),
-        ),
-      ),
-      'text_processing' => 1,
-      'user_field_privacy' => FALSE,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 5,
-      ),
-      'type' => 'text_textarea',
-      'weight' => 0,
-    ),
-  );
-
-  // Exported field_instance: 'node-simplenews-body'
+  // Exported field_instance: 'node-simplenews-body'.
   $field_instances['node-simplenews-body'] = array(
     'bundle' => 'simplenews',
     'default_value' => NULL,
@@ -120,7 +55,7 @@ function newsletters_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-simplenews-field_related_contents'
+  // Exported field_instance: 'node-simplenews-field_related_contents'.
   $field_instances['node-simplenews-field_related_contents'] = array(
     'bundle' => 'simplenews',
     'default_value' => NULL,
@@ -163,7 +98,7 @@ function newsletters_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-simplenews-field_simplenews_term'
+  // Exported field_instance: 'node-simplenews-field_simplenews_term'.
   $field_instances['node-simplenews-field_simplenews_term'] = array(
     'bundle' => 'simplenews',
     'default_value' => NULL,
@@ -218,7 +153,7 @@ function newsletters_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-simplenews-field_tags'
+  // Exported field_instance: 'node-simplenews-field_tags'.
   $field_instances['node-simplenews-field_tags'] = array(
     'bundle' => 'simplenews',
     'default_value' => NULL,
@@ -262,7 +197,6 @@ function newsletters_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
-  t('Comment');
   t('Newsletter category');
   t('Tags');
   t('related contents');

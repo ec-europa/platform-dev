@@ -8,7 +8,7 @@ platform.profile.name = multisite_drupal_standard
 platform.site.name = NextEuropa
 
 # The Drupal core make file.
-drupal.make = ${platform.resources.profiles.dir}/drupal-core.make
+drupal.make = ${platform.resources.dir}/drupal-core.make
 
 # Database settings.
 drupal.db.type = mysql
@@ -24,6 +24,12 @@ drupal.admin.username = admin
 drupal.admin.password = pass
 drupal.admin.email = admin@example.com
 
+# The location of the .htaccess file in the Drupal root folder.
+drupal.htaccess.path = ${platform.build.dir}/.htaccess
+
+# Configuration to append to the .htaccess file in the Drupal root folder.
+drupal.htaccess.append.text =
+
 
 # Platform configuration
 # ----------------------
@@ -33,7 +39,7 @@ drupal.admin.email = admin@example.com
 platform.basedir = ${project.basedir}
 
 # The make file for the platform.
-platform.make = ${platform.resources.profile.dir}/build.make
+platform.make = ${platform.resources.dir}/${platform.profile.name}.make
 
 
 # Paths
@@ -61,6 +67,8 @@ platform.resources.profile.dir = ${platform.resources.profiles.dir}/${platform.p
 platform.resources.composer.json = ${platform.resources.dir}/composer.json
 platform.resources.composer.lock = ${platform.resources.dir}/composer.lock
 
+platform.resources.source.dir = ${platform.basedir}/src
+
 # Files and directories inside the Drupal installation.
 platform.build.sites.dir = ${platform.build.dir}/sites
 platform.build.site.dir = ${platform.build.sites.dir}/${platform.build.site.name}
@@ -74,31 +82,80 @@ platform.build.profile.dir = ${platform.build.profiles.dir}/${platform.profile.n
 platform.build.composer.json = ${platform.build.dir}/composer.json
 platform.build.composer.lock = ${platform.build.dir}/composer.lock
 
+# Git resources.
+phing.project.git.dir = ${project.basedir}/.git
+phing.project.git.githooks.dir = ${phing.project.git.dir}/hooks
+platform.resources.githooks.dir = ${platform.resources.dir}/git-hooks
+
 
 # Behat configuration
 # -------------------
 
-# This is for local testing, not needed on continuousphp.
+# The location of the Behat executable.
 behat.bin = ${project.basedir}/bin/behat
+
+# The location of the Behat tests.
 behat.dir = ${project.basedir}/tests
-behat.yml = ${behat.dir}/behat.yml
+
+# The location of the Behat configuration template.
+behat.yml.template = ${behat.dir}/behat.yml.dist
+
+# The location of the generated Behat configuration file.
+behat.yml.path = ${behat.dir}/behat.yml
+
+# The base URL to use in Behat tests.
 behat.base_url = http://localhost
+
+# The location to search for Behat subcontexts.
+behat.subcontexts.path = ${platform.build.profiles.dir}/common/modules
+
+# The output format to use for Behat tests, either 'progress' or 'pretty'.
+behat.formatter.name = progress
+
+# Enable strict mode in Behat tests. Will only pass if all tests are explicitly
+# passing.
+behat.options.strict = false
+
+# Set verbosity for Behat tests. 0 is completely silent, 1 is normal output, 2
+# shows exception backtraces, 3 shows debugging information.
+behat.options.verbosity = 2
 
 
 # PHP CodeSniffer configuration
 # -----------------------------
 
 # The file extensions to test.
-phpcs.extensions = php inc module install info test profile theme
+phpcs.extensions = php inc module install info test profile theme css js
+
+# The default configuration file to generate.
+phpcs.config = ${project.basedir}/phpcs.xml
 
 # The coding standard to use.
 phpcs.standard = ${project.basedir}/phpcs-ruleset.xml
 
-# Paths to ignore.
-phpcs.ignore = common/libraries;multisite_drupal_communities/libraries;multisite_drupal_standard/libraries;common/modules/custom/ecas/libraries;multisite_drupal_communities/modules/contrib;multisite_drupal_standard/modules/contrib
+# Paths to check, delimited by semicolons.
+phpcs.files = ${platform.resources.profiles.dir};${platform.resources.source.dir}
 
-# The report format. For example 'full', 'summary', 'diff'.
-phpcs.format = full
+# Paths to ignore, delimited by semicolons.
+phpcs.ignore =
+
+# The report format. For example 'full', 'summary', 'diff', 'xml', 'json'.
+phpcs.report = full
+
+# Whether or not to show sniff codes in the report.
+phpcs.sniffcodes = 0
+
+# Whether or not to show the progress of the run.
+phpcs.progress = 1
+
+# The location of the file containing the global configuration options.
+phpcs.global.config = ${project.basedir}/vendor/squizlabs/php_codesniffer/CodeSniffer.conf
+
+
+# Host configuration
+# ------------------
+
+server.docroot = /var/www
 
 
 # Debugging

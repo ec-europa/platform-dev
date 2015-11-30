@@ -1,7 +1,7 @@
 <?php
 /**
- * @file tmgmt_mtec.install
- * Install file of the translation management MT@EC .
+ * @file
+ * Install file of the translation management MT@EC.
  */
 
 /**

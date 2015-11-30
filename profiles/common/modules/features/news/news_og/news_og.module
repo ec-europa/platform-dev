@@ -4,17 +4,15 @@
  * Code for the News feature.
  */
 
-include_once('news_og.features.inc');
-include_once('news_og.views_alter.inc');
+include_once 'news_og.features.inc';
+include_once 'news_og.views_alter.inc';
 
-
-
-/*
-* hook_menu
-*/
+/**
+ * Implements hook_menu().
+ */
 function news_og_menu() {
   $items = array();
- 
+
   $items['community/%group_name/news'] = array(
     'title' => 'News',
     'page callback' => 'views_page',
@@ -36,9 +34,7 @@ function news_og_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'news_node_form':
       $desc = $form['field_top_news']['und']['#description'];
-      $form['field_top_news']['und']['#description'] = $desc." ".t('(The visibility of the news must be set to public to appear on the site homepage)');
+      $form['field_top_news']['und']['#description'] = $desc . " " . t('(The visibility of the news must be set to public to appear on the site homepage)');
       break;
   }
 }
-
-

@@ -7,197 +7,191 @@
 /**
  * Implements template_preprocess().
  */
-function ec_resp_preprocess(&$variables) {
-  if (isset($variables['form']['#form_id'])) {
-    switch ($variables['form']['#form_id']) {
-      case 'feature_set_admin_form':
-        // Add specific javascript.
-        drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/feature-set.js', array('scope' => 'footer', 'weight' => 13));
-        
-        $categories_list = '';
-        $features_list = '';
+function ec_resp_preprocess_feature_set_admin_form(&$variables) {
+  // Add specific javascript.
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/feature-set.js', array('scope' => 'footer', 'weight' => 13));
 
-        foreach ($variables['feature_set_category']['category'] as $category => $features) {
-          $table = array(
-            'header' => NULL,
-            'rows' => array(),
-            'attributes' => array('class' => array('feature-set-content table table-striped table-hover')),
-          );
+  $categories_list = '';
+  $features_list = '';
 
-          // Create category id.
-          $category_id = preg_replace("/[^a-z0-9_\s-]/", "", strtolower($category));
-          $category_id = preg_replace("/[\s-]+/", " ", $category_id);
-          $category_id = preg_replace("/[\s_]/", "-", $category_id);
+  foreach ($variables['feature_set_category']['category'] as $category => $features) {
+    $table = array(
+      'header' => NULL,
+      'rows' => array(),
+      'attributes' => array('class' => array('feature-set-content table table-striped table-hover')),
+    );
 
-          // Format categories.
-          $categories_list .= theme('html_tag', array(
-            'element' => array(
-              '#tag' => 'li',
-              '#attributes' => array(
-                'class' => 'feature-set__category',
-                'role' => 'presentation',
-              ),
-              '#value' => l(
-                $category . ' (' . count($features) . ')',
-                '',
-                array(
-                  'fragment' => $category_id,
-                  'external' => TRUE,
-                )
+    // Create category id.
+    $category_id = preg_replace("/[^a-z0-9_\s-]/", "", strtolower($category));
+    $category_id = preg_replace("/[\s-]+/", " ", $category_id);
+    $category_id = preg_replace("/[\s_]/", "-", $category_id);
+
+    // Format categories.
+    $categories_list .= theme('html_tag', array(
+      'element' => array(
+        '#tag' => 'li',
+        '#attributes' => array(
+          'class' => 'feature-set__category',
+          'role' => 'presentation',
+        ),
+        '#value' => l(
+          $category . ' (' . count($features) . ')',
+          '',
+          array(
+            'fragment' => $category_id,
+            'external' => TRUE,
+          )
+        ),
+      ),
+    ));
+
+    // Format features.
+    $feature_full = '';
+    foreach ($features as $key => $item) {
+      // Get the icon if available.
+      if (!empty($item['#featuresetinfo']['font'])) {
+        $feature_icon = theme('html_tag', array(
+          'element' => array(
+            '#tag' => 'div',
+            '#attributes' => array(
+              'class' => array(
+                'feature-set__icon',
+                $item['#featuresetinfo']['font'],
               ),
             ),
-          ));
+            '#value' => '',
+          ),
+        ));
+      }
+      elseif (!empty($item['#featuresetinfo']['icon'])) {
+        $image = array(
+          'path' => $item['#featuresetinfo']['icon'],
+          'alt' => t('@feature-set icon', array('@feature-set' => $item['#featuresetinfo']['featureset'])),
+          'attributes' => array(
+            'class' => 'feature-set__icon',
+          ),
+        );
+        $feature_icon = theme_image($image);
+      }
+      else {
+        $feature_icon = '';
+      }
 
-          // Format features.
-          $feature_full = '';
-          foreach ($features as $key => $item) {
-            // Get the icon if available.
-            if (!empty($item['#featuresetinfo']['font'])) {
-              $feature_icon = theme('html_tag', array(
-                'element' => array(
-                  '#tag' => 'div',
-                  '#attributes' => array(
-                    'class' => array(
-                      'feature-set__icon',
-                      $item['#featuresetinfo']['font'],
-                    ),
-                  ),
-                  '#value' => '',
-                ),
-              ));
-            }
-            elseif (!empty($item['#featuresetinfo']['icon'])) {
-              $image = array(
-                'path' => $item['#featuresetinfo']['icon'],
-                'alt' => t('@feature-set icon', array('@feature-set' => $item['#featuresetinfo']['featureset'])),
-                'attributes' => array(
-                  'class' => 'feature-set__icon',
-                ),
-              );
-              $feature_icon = theme_image($image);
-            }
-            else {
-              $feature_icon = '';
-            }
+      // Format feature name.
+      $feature_name = theme('html_tag', array(
+        'element' => array(
+          '#tag' => 'div',
+          '#attributes' => array(
+            'class' => 'feature-set__name',
+          ),
+          '#value' => $item['#featuresetinfo']['featureset'],
+        ),
+      ));
 
-            // Format feature name.
-            $feature_name = theme('html_tag', array(
-              'element' => array(
-                '#tag' => 'div',
-                '#attributes' => array(
-                  'class' => 'feature-set__name',
-                ),
-                '#value' => $item['#featuresetinfo']['featureset'],
-              ),
-            ));
+      // Format feature documentation.
+      $feature_documentation = !empty($item['#featuresetinfo']['documentation'])
+        ? l(
+          t('See @name documentation', array('@name' => $item['#featuresetinfo']['featureset'])),
+          $item['#featuresetinfo']['documentation'],
+          array('attributes' => array('target' => '_blank')))
+        : '';
 
-            // Format feature documentation.
-            $feature_documentation = !empty($item['#featuresetinfo']['documentation'])
-              ? l(
-                t('See @name documentation', array('@name' => $item['#featuresetinfo']['featureset'])),
-                $item['#featuresetinfo']['documentation'],
-                array('attributes' => array('target' => '_blank')))
-              : '';
-
-            // Format feature description.
-            $feature_description_value = '';
-            $feature_description_value .= !empty($item['#featuresetinfo']['description'])
-              ? $item['#featuresetinfo']['description']
-              : '';
-            $feature_description_value .= !empty($feature_documentation)
-              ? theme('html_tag', array(
-                'element' => array(
-                  '#tag' => 'footer',
-                  '#attributes' => array(
-                    'class' => 'feature-set__doc',
-                  ),
-                  '#value' => $feature_documentation,
-                ),
-              ))
-              : '';
-
-            $feature_description = theme('html_tag', array(
-              'element' => array(
-                '#tag' => 'blockquote',
-                '#attributes' => array(
-                  'class' => 'feature-set__desc',
-                ),
-                '#value' => $feature_description_value,
-              ),
-            ));
-
-            // Format feature requirements.
-            $feature_require = theme('html_tag', array(
-              'element' => array(
-                '#tag' => 'div',
-                '#attributes' => array(
-                  'class' => 'feature-set__doc',
-                ),
-                '#value' => !empty($item['#featuresetinfo']['require'])
-                ? $item['#featuresetinfo']['require']
-                : '',
-              ),
-            ));
-
-            // Format switcher.
-            $feature_switcher = theme('html_tag', array(
-              'element' => array(
-                '#tag' => 'div',
-                '#attributes' => array(
-                  'class' => 'feature-set__switch',
-                ),
-                '#value' => render($item),
-              ),
-            ));
-
-            // Group content.
-            $feature_header = theme('html_tag', array(
-              'element' => array(
-                '#tag' => 'div',
-                '#attributes' => array(
-                  'class' => 'feature-set__header',
-                ),
-                '#value' => $feature_icon . $feature_name . $feature_switcher,
-              ),
-            ));
-            $feature_content = theme('html_tag', array(
-              'element' => array(
-                '#tag' => 'div',
-                '#attributes' => array(
-                  'class' => 'feature-set__content',
-                ),
-                '#value' => $feature_description . $feature_require,
-              ),
-            ));
-            $feature_full .= theme('html_tag', array(
-              'element' => array(
-                '#tag' => 'div',
-                '#attributes' => array(
-                  'class' => 'feature-set__feature',
-                ),
-                '#value' => $feature_header . $feature_content,
-              ),
-            ));
-          }
-
-          // Update feature list.
-          $features_list .= theme('html_tag', array(
-            'element' => array(
-              '#tag' => 'div',
-              '#attributes' => array(
-                'id' => $category_id,
-                'class' => 'feature-set__feature-group',
-              ),
-              '#value' => $feature_full,
+      // Format feature description.
+      $feature_description_value = '';
+      $feature_description_value .= !empty($item['#featuresetinfo']['description'])
+        ? $item['#featuresetinfo']['description']
+        : '';
+      $feature_description_value .= !empty($feature_documentation)
+        ? theme('html_tag', array(
+          'element' => array(
+            '#tag' => 'footer',
+            '#attributes' => array(
+              'class' => 'feature-set__doc',
             ),
-          ));
-        }
+            '#value' => $feature_documentation,
+          ),
+        ))
+        : '';
 
-        $variables['feature_set_categories_list'] = $categories_list;
-        $variables['feature_set_features_list'] = $features_list;
-        break;
+      $feature_description = theme('html_tag', array(
+        'element' => array(
+          '#tag' => 'blockquote',
+          '#attributes' => array(
+            'class' => 'feature-set__desc',
+          ),
+          '#value' => $feature_description_value,
+        ),
+      ));
+
+      // Format feature requirements.
+      $feature_require = theme('html_tag', array(
+        'element' => array(
+          '#tag' => 'div',
+          '#attributes' => array(
+            'class' => 'feature-set__doc',
+          ),
+          '#value' => !empty($item['#featuresetinfo']['require'])
+          ? $item['#featuresetinfo']['require']
+          : '',
+        ),
+      ));
+
+      // Format switcher.
+      $feature_switcher = theme('html_tag', array(
+        'element' => array(
+          '#tag' => 'div',
+          '#attributes' => array(
+            'class' => 'feature-set__switch',
+          ),
+          '#value' => render($item),
+        ),
+      ));
+
+      // Group content.
+      $feature_header = theme('html_tag', array(
+        'element' => array(
+          '#tag' => 'div',
+          '#attributes' => array(
+            'class' => 'feature-set__header',
+          ),
+          '#value' => $feature_icon . $feature_name . $feature_switcher,
+        ),
+      ));
+      $feature_content = theme('html_tag', array(
+        'element' => array(
+          '#tag' => 'div',
+          '#attributes' => array(
+            'class' => 'feature-set__content',
+          ),
+          '#value' => $feature_description . $feature_require,
+        ),
+      ));
+      $feature_full .= theme('html_tag', array(
+        'element' => array(
+          '#tag' => 'div',
+          '#attributes' => array(
+            'class' => 'feature-set__feature',
+          ),
+          '#value' => $feature_header . $feature_content,
+        ),
+      ));
     }
+
+    // Update feature list.
+    $features_list .= theme('html_tag', array(
+      'element' => array(
+        '#tag' => 'div',
+        '#attributes' => array(
+          'id' => $category_id,
+          'class' => 'feature-set__feature-group',
+        ),
+        '#value' => $feature_full,
+      ),
+    ));
   }
+
+  $variables['feature_set_categories_list'] = $categories_list;
+  $variables['feature_set_features_list'] = $features_list;
 }
 
 /**
@@ -205,7 +199,6 @@ function ec_resp_preprocess(&$variables) {
  */
 function ec_resp_preprocess_page(&$variables) {
   $title = drupal_get_title();
-
   // Format regions.
   $regions = array();
   $regions['header_right'] = (isset($variables['page']['header_right']) ? render($variables['page']['header_right']) : '');
@@ -294,6 +287,10 @@ function ec_resp_preprocess_page(&$variables) {
       }
     }
   }
+  // Update logo for interinstitutional theme option.
+  if (theme_get_setting('enable_interinstitutional_theme')) {
+    $variables['logo'] = file_create_url(drupal_get_path('theme', 'ec_resp') . '/logo_europa.png');
+  }
 
   // Adding pathToTheme for Drupal.settings to be used in js files.
   $base_theme = multisite_drupal_toolbox_get_base_theme();
@@ -374,7 +371,9 @@ function ec_resp_preprocess_user_profile(&$variables) {
 
   $date = '';
   if (isset($variables['user']->created)) {
-    $date .= t('Member since') . ' ' . format_date($variables['user']->created, 'custom', 'd/m/Y');
+    $date_string = format_date($variables['user']->created, 'custom', 'd/m/Y');
+    $args = array('@date' => $date_string);
+    $date .= t('Member since @date', $args);
   }
 
   $variables['user_info']['name'] = $identity;
@@ -384,7 +383,7 @@ function ec_resp_preprocess_user_profile(&$variables) {
   if (module_exists('contact')) {
     $account = $variables['elements']['#account'];
     $menu_item = menu_get_item("user/$account->uid/contact");
-    if (isset ($menu_item['access']) && $menu_item['access'] == TRUE) {
+    if (isset($menu_item['access']) && $menu_item['access'] == TRUE) {
       $variables['contact_form'] = l(t('Contact this user'), 'user/' . $account->uid . '/contact', array('attributes' => array('type' => 'message')));
     }
   }
@@ -443,58 +442,47 @@ function ec_resp_preprocess_maintenance_page(&$variables) {
 }
 
 /**
+ * Implements hook_css_alter().
+ */
+function ec_resp_css_alter(&$css) {
+  // Loads eu_resp.css instead of ec_resp, if checked in theme settings.
+  if (theme_get_setting('enable_interinstitutional_theme')) {
+    $css = drupal_add_css(drupal_get_path('theme', 'ec_resp') . '/css/eu_resp.min.css');
+    unset($css[drupal_get_path('theme', 'ec_resp') . '/css/ec_resp.css']);
+  }
+}
+
+/**
  * Implements template_preprocess_html().
  */
 function ec_resp_preprocess_html(&$variables) {
   // Update page title.
-  if (arg(0) == 'node' && is_numeric(arg(1))) {
-    $node = node_load(arg(1));
-    // If the metatag title exists, it must be used to construct the title page.
-    if (isset($node->field_meta_title) && !empty($node->field_meta_title)) {
-      $variables['head_title'] = filter_xss($node->field_meta_title['und'][0]['value']);
+  // If nexteuropa_metatags is enabled, it should manage
+  // the metatags instead of ec_resp.
+  if (!module_exists('nexteuropa_metatags')) {
+    if (arg(0) == 'node' && is_numeric(arg(1))) {
+      $node = node_load(arg(1));
+      // If the metatag title exists, it must be used
+      // to construct the title page.
+      if ($node && isset($node->field_meta_title) && !empty($node->field_meta_title)) {
+        $title = strip_tags($node->field_meta_title['und'][0]['value']);
+      }
+      else {
+        $title = strip_tags($node->title);
+      }
     }
     else {
-      $variables['head_title'] = filter_xss($node->title) . ' - ' . t('European Commission');
+      // For all no-node page, keep the default drupal behavior.
+      $title = strip_tags(drupal_get_title());
+    }
+
+    if (theme_get_setting('enable_interinstitutional_theme')) {
+      $variables['head_title'] = format_string('EUROPA - !title', array('!title' => $title));
+    }
+    else {
+      $variables['head_title'] = format_string('!title - European Commission', array('!title' => $title));
     }
   }
-  else {
-    $variables['head_title'] = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
-  }
-
-  // Add specific css for font size switcher
-  // it has to be done here, to add custom data.
-  global $base_url;
-  $element = array(
-    '#tag' => 'link',
-    '#attributes' => array(
-      'href' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/css/text_size_small.css',
-      'rel' => 'stylesheet',
-      'type' => 'text/css',
-      'data-name' => 'switcher',
-    ),
-  );
-  drupal_add_html_head($element, 'font_size_switcher');
-
-  // Add javascripts for IE only.
-  $html5shiv = array(
-    '#tag' => 'script',
-    '#attributes' => array(
-      'src' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/scripts/html5shiv.min.js',
-    ),
-    '#prefix' => '<!--[if lt IE 9]>',
-    '#suffix' => '</script><![endif]-->',
-  );
-  drupal_add_html_head($html5shiv, 'html5shiv');
-
-  $respond = array(
-    '#tag' => 'script',
-    '#attributes' => array(
-      'src' => $base_url . '/' . drupal_get_path('theme', 'ec_resp') . '/scripts/respond.min.js',
-    ),
-    '#prefix' => '<!--[if lt IE 9]>',
-    '#suffix' => '</script><![endif]-->',
-  );
-  drupal_add_html_head($respond, 'respond');
 
   // Add javascripts to the footer scope.
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
@@ -669,7 +657,12 @@ function ec_resp_page_alter(&$page) {
     $description = $node_title . ' - ' . $description;
   }
 
-  $title = filter_xss(variable_get('site_name')) . ' - ' . t('European Commission');
+  if (theme_get_setting('enable_interinstitutional_theme')) {
+    $title = t('EUROPA - !title', array('!title' => filter_xss(variable_get('site_name'))));
+  }
+  else {
+    $title = t('!title - European Commission', array('!title' => filter_xss(variable_get('site_name'))));
+  }
   if (!empty($node)) {
     // If the metatag title exists, it must be used to construct the title page.
     if (isset($node->field_meta_title) && !empty($node->field_meta_title)) {
@@ -697,180 +690,187 @@ function ec_resp_page_alter(&$page) {
     $type = $node->type;
   }
 
-  // Content-Language.
-  $meta_content_language = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'http-equiv' => 'Content-Language',
-      'content' => $language->language,
-    ),
-  );
-  drupal_add_html_head($meta_content_language, 'meta_content_language');
+  if (!module_exists('nexteuropa_metatags')) {
+    // Content-Language.
+    $meta_content_language = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'http-equiv' => 'Content-Language',
+        'content' => $language->language,
+      ),
+    );
+    drupal_add_html_head($meta_content_language, 'meta_content_language');
 
-  // Description.
-  $meta_description = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'name' => 'description',
-      'content' => $description,
-    ),
-  );
-  drupal_add_html_head($meta_description, 'meta_description');
+    // Description.
+    $meta_description = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'description',
+        'content' => $description,
+      ),
+    );
+    drupal_add_html_head($meta_description, 'meta_description');
 
-  // Reference.
-  $meta_reference = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'name' => 'reference',
-      'content' => filter_xss(variable_get('site_name')),
-    ),
-  );
-  drupal_add_html_head($meta_reference, 'meta_reference');
+    // Reference.
+    $meta_reference = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'reference',
+        'content' => filter_xss(variable_get('site_name')),
+      ),
+    );
+    drupal_add_html_head($meta_reference, 'meta_reference');
 
-  // Creator.
-  $meta_creator = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'name' => 'creator',
-      'content' => 'COMM/DG/UNIT',
-    ),
-  );
-  drupal_add_html_head($meta_creator, 'meta_creator');
+    // Creator.
+    $meta_creator = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'creator',
+        'content' => 'COMM/DG/UNIT',
+      ),
+    );
+    drupal_add_html_head($meta_creator, 'meta_creator');
+  }
 
   // IPG classification.
   $classification = variable_get('meta_configuration', 'none');
   if ($classification != 'none') {
-    $meta_classification = array(
-      '#type' => 'html_tag',
-      '#tag' => 'meta',
-      '#attributes' => array(
-        'name' => 'classification',
-        'content' => variable_get('meta_configuration', 'none'),
-      ),
-    );
-    drupal_add_html_head($meta_classification, 'meta_classification');
+    if (!module_exists('nexteuropa_metatags')) {
+      $meta_classification = array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'name' => 'classification',
+          'content' => variable_get('meta_configuration', 'none'),
+        ),
+      );
+      drupal_add_html_head($meta_classification, 'meta_classification');
+    }
   }
   else {
     if (user_access('administer site configuration')) {
-      drupal_set_message(t('Please select the IPG classification of your site') . ' ' . l(t('here.'), 'admin/config/system/site-information'), 'warning');
+      $link = l(t('here'), 'admin/config/system/site-information');
+      $args = array('!link' => $link);
+      drupal_set_message(t('Please select the IPG classification of your site !link.', $args), 'warning');
     }
   }
 
-  // Keywords.
-  $meta_keywords = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'name' => 'keywords',
-      'content' => $keywords,
-    ),
-  );
-  drupal_add_html_head($meta_keywords, 'meta_keywords');
+  if (!module_exists('nexteuropa_metatags')) {
+    // Keywords.
+    $meta_keywords = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'keywords',
+        'content' => $keywords,
+      ),
+    );
+    drupal_add_html_head($meta_keywords, 'meta_keywords');
 
-  // Date.
-  $meta_date = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'name' => 'date',
-      'content' => format_date(time(), 'custom', 'd/m/Y'),
-    ),
-  );
-  drupal_add_html_head($meta_date, 'meta_date');
+    // Date.
+    $meta_date = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'date',
+        'content' => format_date(time(), 'custom', 'd/m/Y'),
+      ),
+    );
+    drupal_add_html_head($meta_date, 'meta_date');
 
-  // Og title.
-  $meta_og_title = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'og:title',
-      'content' => $title,
-    ),
-  );
-  drupal_add_html_head($meta_og_title, 'meta_og_title');
+    // Og title.
+    $meta_og_title = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'og:title',
+        'content' => $title,
+      ),
+    );
+    drupal_add_html_head($meta_og_title, 'meta_og_title');
 
-  // Og type.
-  $meta_og_type = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'og:type',
-      'content' => $type,
-    ),
-  );
-  drupal_add_html_head($meta_og_type, 'meta_og_type');
+    // Og type.
+    $meta_og_type = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'og:type',
+        'content' => $type,
+      ),
+    );
+    drupal_add_html_head($meta_og_type, 'meta_og_type');
 
-  // Og site name.
-  $meta_og_site_name = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'og:site_name',
-      'content' => filter_xss(variable_get('site_name')),
-    ),
-  );
+    // Og site name.
+    $meta_og_site_name = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'og:site_name',
+        'content' => filter_xss(variable_get('site_name')),
+      ),
+    );
 
-  drupal_add_html_head($meta_og_site_name, 'meta_og_site_name');
+    drupal_add_html_head($meta_og_site_name, 'meta_og_site_name');
 
-  // Og description.
-  $meta_og_description = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'og:description',
-      'content' => $description,
-    ),
+    // Og description.
+    $meta_og_description = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'og:description',
+        'content' => $description,
+      ),
+    );
+    drupal_add_html_head($meta_og_description, 'meta_og_description');
 
-  );
-  drupal_add_html_head($meta_og_description, 'meta_og_description');
+    // Fb admins.
+    $meta_fb_admins = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'fb:admins',
+        'content' => 'USER_ID',
+      ),
+    );
+    drupal_add_html_head($meta_fb_admins, 'meta_fb_admins');
 
-  // Fb admins.
-  $meta_fb_admins = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'fb:admins',
-      'content' => 'USER_ID',
-    ),
-  );
-  drupal_add_html_head($meta_fb_admins, 'meta_fb_admins');
+    // Robots.
+    $meta_robots = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'robots',
+        'content' => 'follow,index',
+      ),
+    );
+    drupal_add_html_head($meta_robots, 'meta_robots');
 
-  // Robots.
-  $meta_robots = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'robots',
-      'content' => 'follow,index',
-    ),
-  );
-  drupal_add_html_head($meta_robots, 'meta_robots');
+    // Revisit after.
+    $revisit_after = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'property' => 'revisit-after',
+        'content' => '15 Days',
+      ),
+    );
+    drupal_add_html_head($revisit_after, 'revisit-after');
 
-  // Revisit after.
-  $revisit_after = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'property' => 'revisit-after',
-      'content' => '15 Days',
-    ),
-  );
-  drupal_add_html_head($revisit_after, 'revisit-after');
-
-  // Viewport.
-  $viewport = array(
-    '#type' => 'html_tag',
-    '#tag' => 'meta',
-    '#attributes' => array(
-      'name' => 'viewport',
-      'content' => 'width=device-width, initial-scale=1.0',
-    ),
-  );
-  drupal_add_html_head($viewport, 'viewport');
+    // Viewport.
+    $viewport = array(
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'viewport',
+        'content' => 'width=device-width, initial-scale=1.0',
+      ),
+    );
+    drupal_add_html_head($viewport, 'viewport');
+  }
 }
 
 /**
@@ -934,7 +934,8 @@ function ec_resp_form_element($variables) {
       ' ' => '-',
       '_' => '-',
       '[' => '-',
-      ']' => ''));
+      ']' => '',
+    ));
   }
   // Add a class for disabled elements to facilitate cross-browser styling.
   if (!empty($element['#attributes']['disabled'])) {
@@ -1031,24 +1032,26 @@ function ec_resp_menu_tree__menu_breadcrumb_menu($variables) {
 function ec_resp_menu_link($variables) {
   $element = $variables['element'];
   $sub_menu = '';
+  $hide_children = (isset($variables['element']['#localized_options']['attributes']['data-hide-children']) ? $variables['element']['#localized_options']['attributes']['data-hide-children'] : 0);
 
-  // Test if there is a sub menu.
-  if ($element['#below'] && !theme_get_setting('disable_dropdown_menu') && !in_array('dropdown', $element['#attributes']['class'])) {
-    // Menu item has sub menu.
-    // Add carret and class.
-    $element['#title'] .= '<b class="caret"></b>';
-    $element['#attributes']['class'][] = 'dropdown';
-
-    // Add attributes to children items.
-    $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
-    $element['#localized_options']['attributes']['data-toggle'][] = 'dropdown';
-
+  // Test if there is a sub menu and if it has to be displayed.
+  if ($element['#below'] && !$hide_children) {
     // Render sub menu.
     $sub_menu = drupal_render($element['#below']);
 
-    // Add CSS class to ul tag
-    // Dirty, but I see no better way to do it.
-    $sub_menu = str_replace('<ul class="', '<ul class="dropdown-menu ', $sub_menu);
+    if (!theme_get_setting('disable_dropdown_menu') && !in_array('dropdown', $element['#attributes']['class'])) {
+      // Add carret and class.
+      $element['#title'] .= '<b class="caret"></b>';
+      $element['#attributes']['class'][] = 'dropdown';
+
+      // Add attributes to children items.
+      $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
+      $element['#localized_options']['attributes']['data-toggle'][] = 'dropdown';
+
+      // Add CSS class to ul tag
+      // Dirty, but I see no better way to do it.
+      $sub_menu = str_replace('<ul class="', '<ul class="dropdown-menu ', $sub_menu);
+    }
   }
 
   $element['#localized_options']['html'] = TRUE;
@@ -1064,12 +1067,30 @@ function ec_resp_menu_link__menu_breadcrumb_menu(array $variables) {
   $sub_menu = '';
   $separator = variable_get('easy_breadcrumb-segments_separator');
 
+  // Check sub menu items.
   if ($element['#below']) {
     $sub_menu = drupal_render($element['#below']);
   }
+
+  // Check CSS classes.
+  $last = FALSE;
+  foreach ($element['#attributes']['class'] as $key => $class) {
+    if ($class == 'last') {
+      $last = TRUE;
+      break;
+    }
+  }
+
+  if (theme_get_setting('enable_interinstitutional_theme')) {
+    $element['#title'] = 'Europa';
+    $element['#href'] = 'http://europa.eu/index_en.htm';
+  }
+
+  // Format output.
   $element['#localized_options']['html'] = TRUE;
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
-  return $output . $sub_menu . '<span class="easy-breadcrumb_segment-separator"> ' . $separator . ' </span>';
+  $suffix = ($last ? '' : '<span class="easy-breadcrumb_segment-separator"> ' . $separator . ' </span>');
+  return $output . $sub_menu . $suffix;
 }
 
 /**
@@ -1123,12 +1144,28 @@ function ec_resp_menu_local_tasks(&$variables) {
  */
 function ec_resp_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
+    case 'nexteuropa_europa_search_search_form':
+      if (theme_get_setting('enable_interinstitutional_theme')) {
+        $form['search_input_group']['europa_search_submit']['#type'] = 'image_button';
+        $form['search_input_group']['europa_search_submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.gif';
+        $form['search_input_group']['europa_search_submit']['#attributes']['class'] = array_merge(['search_input_group']['europa_search_submit']['#attributes']['class'], array('btn', 'btn-default'));
+        $form['search_input_group']['europa_search_submit']['#attributes']['alt'] = t('Search');
+      }
+      break;
+
     case 'search_block_form':
       $form['search_block_form']['#attributes']['placeholder'][] = t('Search');
 
       $form['actions']['submit']['#type'] = 'image_button';
-      $form['actions']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.png';
+
+      if (theme_get_setting('enable_interinstitutional_theme')) {
+        $form['actions']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.gif';
+      }
+      else {
+        $form['actions']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.png';
+      }
       $form['actions']['submit']['#attributes']['class'][] = 'btn btn-default btn-small';
+      $form['actions']['submit']['#attributes']['alt'] = t('Search');
       break;
 
     case 'apachesolr_search_custom_page_search_form':
@@ -1157,6 +1194,15 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
       }
       break;
 
+    case 'feature_set_admin_form':
+      if (isset($form['submit']) && $form['submit']['#type'] == "submit") {
+        $form['submit']['#value'] = t('Validate');
+        $form['submit']['#attributes']['class'][] = 'btn';
+        $form['submit']['#attributes']['class'][] = 'btn-lg';
+        $form['submit']['#attributes']['class'][] = 'btn-success';
+      }
+      break;
+
     default:
       break;
   }
@@ -1168,13 +1214,7 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
       $form['actions']['preview']['#attributes']['class'][] = 'btn btn-default';
     }
   }
-  $form['#after_build'][] = '_ec_resp_cck_alter';
-}
 
-/**
- * After_build function for form_alter.
- */
-function _ec_resp_cck_alter($form, &$form_state) {
   // Hide format field.
   if (!user_access('administer nodes')) {
     $form['comment_body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
@@ -1183,8 +1223,6 @@ function _ec_resp_cck_alter($form, &$form_state) {
     $form['body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
     $form['body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
   }
-
-  return $form;
 }
 
 /**
@@ -1245,40 +1283,48 @@ function ec_resp_link($variables) {
     switch ($variables['options']['attributes']['type']) {
       case 'add':
         $decoration .= '<span class="glyphicon glyphicon-plus"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-success';
+        $classes = array('btn', 'btn-success');
         break;
 
       case 'expand':
         $decoration .= '<span class="glyphicon glyphicon-chevron-down"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
+        $classes = array('btn', 'btn-default', 'btn-sm');
         break;
 
       case 'collapse':
         $decoration .= '<span class="glyphicon glyphicon-chevron-up"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
+        $classes = array('btn', 'btn-default', 'btn-sm');
         break;
 
       case 'delete':
         $decoration .= '<span class="glyphicon glyphicon-trash"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-danger';
+        $classes = array('btn', 'btn-danger');
         break;
 
       case 'edit':
         $decoration .= '<span class="glyphicon glyphicon-pencil"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-info';
+        $classes = array('btn', 'btn-info');
         break;
 
       case 'message':
         $decoration .= '<span class="glyphicon glyphicon-envelope"></span> ';
-        $variables['options']['attributes']['class'] .= ' btn btn-primary';
+        $classes = array('btn', 'btn-primary');
         break;
 
       case 'small':
-        $variables['options']['attributes']['class'] .= ' btn btn-default btn-sm';
+        $classes = array('btn', 'btn-default', 'btn-sm');
         break;
 
       default:
+        $classes = array();
         break;
+    }
+
+    if (is_array($variables['options']['attributes']['class'])) {
+      $variables['options']['attributes']['class'] = array_merge($variables['options']['attributes']['class'], $classes);
+    }
+    else {
+      $variables['options']['attributes']['class'] = $classes;
     }
   }
   $output = $action_bar_before . $btn_group_before .
@@ -1598,10 +1644,12 @@ function ec_resp_preprocess_block(&$variables) {
           // Add the icon.
           if ($icon) {
             if ($display_title) {
-              $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . '"></span> ' . $item_id['title'];
+              $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . '" aria-hidden="true"></span> ' . $item_id['title'];
             }
             else {
-              $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . ' menu-no-title"></span>';
+              // If the title is not supposed to be displayed, add a visually
+              // hidden title that is accessible for screen readers.
+              $item_id['title'] = '<span class="glyphicon glyphicon-' . $icon . ' menu-no-title" aria-hidden="true"></span><span class="sr-only">' . $item_id['title'] . '</span>';
             }
           }
 
@@ -1757,10 +1805,11 @@ function ec_resp_table($variables) {
         $header_count++;
       }
     }
-    $rows[] = array(array(
-      'data' => $empty,
-      'colspan' => $header_count,
-      'class' => array('empty', 'message'),
+    $rows[] = array(
+      array(
+        'data' => $empty,
+        'colspan' => $header_count,
+        'class' => array('empty', 'message'),
       ),
     );
   }

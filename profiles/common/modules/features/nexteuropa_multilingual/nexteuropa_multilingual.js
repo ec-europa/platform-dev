@@ -1,6 +1,6 @@
 /**
  * @file
- * Javascripts for nexteuropa multilingual feature
+ * Javascript functionality for the NextEuropa Multilingual feature.
  */
 
 (function($){
@@ -20,7 +20,7 @@
       function addSecondLanguage(paramName, paramValue) {
         $('a[href]').each(function() {
           if (!getParameter(paramName, this.href) && isCurrentDomain(this.href)) {
-            var sep = (this.href.indexOf('?') != -1) ? '&' : '?'; 
+            var sep = (this.href.indexOf('?') != -1) ? '&' : '?';
              $(this).attr('href', this.href + sep + paramName + '=' + paramValue);
           }
         });
@@ -34,6 +34,7 @@
 
       /**
        * Check if link leads to current domain or not.
+       *
        * Returns true if link leads to current domain, and false if not.
        */
       function isCurrentDomain(linkUrl) {
@@ -47,6 +48,7 @@
 
       /**
        * Helper function to get parameter.
+       *
        * Returns parameter value, or false if not found.
        */
       function getParameter(paramName, location) {

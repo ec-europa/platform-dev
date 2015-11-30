@@ -1,0 +1,15 @@
+diff --git a/js/ajax_view.js b/js/ajax_view.js
+index 7d54c67..42aa467 100644
+--- a/js/ajax_view.js
++++ b/js/ajax_view.js
+@@ -58,6 +58,10 @@ Drupal.views.ajaxView = function(settings) {
+ 
+   // Add the ajax to exposed forms.
+   this.$exposed_form = this.$view.children('.view-filters').children('form');
++  // If the form is not a direct child, look for it elsewhere
++  if (!this.$exposed_form.length) {
++    this.$exposed_form = $('form#views-exposed-form-' + settings.view_name.replace(/_/g, '-') + '-' + settings.view_display_id.replace(/_/g, '-'));
++  }
+   this.$exposed_form.once(jQuery.proxy(this.attachExposedFormAjax, this));
+ 
+   // Add the ajax to pagers.

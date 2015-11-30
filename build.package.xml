@@ -67,7 +67,7 @@
     <!-- Make one of the profiles in order to build a multisite platform. -->
     <target name="make-multisite-platform">
         <!-- Override the location of the make file. -->
-        <property name="platform.make" value="${platform.resources.profiles.dir}/${platform.profile.name}/build.make" override="yes" />
+        <property name="platform.make" value="${platform.resources.dir}/${platform.profile.name}.make" override="yes" />
         <phingcall target="make-platform" />
     </target>
 
@@ -142,20 +142,44 @@
         </composer>
     </target>
 
+    <!-- Link site document root to Webserver document root. -->
+    <target
+        name="link-docroot"
+        description="Create a symlink from the build folder to the webserver document root.">
+        <symlink link="${server.docroot}" target="${platform.build.dir}" overwrite="true" />
+    </target>
+
+    <!-- Update .htaccess. -->
+    <target name="update-htaccess">
+        <if>
+            <istrue value="${drupal.htaccess.append.text}" />
+            <then>
+                <append destfile="${drupal.htaccess.path}" text="${drupal.htaccess.append.text}" />
+            </then>
+        </if>
+    </target>
+
+    <!-- Install Composer dependencies for the build system. -->
+    <target name="install-build-dependencies">
+        <composer command="install" composer="${composer.bin}">
+            <arg value="--working-dir=${project.basedir}" />
+        </composer>
+    </target>
+
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-php-codesniffer, update-htaccess" />
 
     <target
         name="build-platform-dist"
         description="Build a version of the platform intended to distribute as a release package."
-        depends="delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies" />
 
     <target
         name="build-multisite-dist"
         description="Build a multisite version of the platform intended to distribute as a release package."
-        depends="delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles">
+        depends="install-build-dependencies, delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles">
 
         <!-- First make the standard profile. -->
         <property name="platform.profile.name" value="multisite_drupal_standard" override="yes" />
@@ -168,7 +192,6 @@
         <!-- Call the remaining build targets. -->
         <phingcall target="copy-platform-resources" />
         <phingcall target="install-platform-dependencies" />
-
     </target>
 
 </project>

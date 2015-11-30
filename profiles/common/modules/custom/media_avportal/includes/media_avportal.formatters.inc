@@ -1,8 +1,6 @@
 <?php
 /**
  * @file
- * media_avportal/includes/media_avportal.formatters.inc
- *
  * Formatters for Media: Avportal.
  */
 
@@ -38,17 +36,15 @@ function media_avportal_file_formatter_info() {
 /**
  * Implements hook_file_formatter_FORMATTER_view().
  */
-function media_avportal_file_formatter_video_view($file, $display, $langcode) {
+function media_avportal_file_formatter_video_view($file, $display) {
 
   $scheme = file_uri_scheme($file->uri);
   // WYSIWYG does not yet support video inside a running editor instance.
   if ($scheme == 'avportal' && empty($file->override['wysiwyg'])) {
     $wrapper = file_stream_wrapper_get_instance_by_uri($file->uri);
-    $languages = $wrapper->getVideoLanguages();
     $element = array(
       '#theme' => 'media_avportal_video',
       '#uri' => $file->uri,
-      '#options' => array('languages' => $languages),
     );
 
     // Fake a default for attributes so the ternary doesn't choke.
@@ -98,7 +94,7 @@ function _avportal_validate_video_width_and_height($element, &$form_state, $form
 /**
  * Implements hook_file_formatter_FORMATTER_view().
  */
-function media_avportal_file_formatter_image_view($file, $display, $langcode) {
+function media_avportal_file_formatter_image_view($file, $display) {
   if (isset($file->filemime) && $file->filemime == 'video/avportal') {
 
     $wrapper = file_stream_wrapper_get_instance_by_uri($file->uri);
@@ -109,7 +105,8 @@ function media_avportal_file_formatter_image_view($file, $display, $langcode) {
       '#theme' => 'image_style',
       '#style_name' => $image_style,
       '#path' => $wrapper->getLocalThumbnailPath($video_thumb),
-      '#alt' => isset($file->override['attributes']['alt']) ? $file->override['attributes']['alt'] : $file->filename);
+      '#alt' => isset($file->override['attributes']['alt']) ? $file->override['attributes']['alt'] : $file->filename,
+    );
     return $element;
   }
 }

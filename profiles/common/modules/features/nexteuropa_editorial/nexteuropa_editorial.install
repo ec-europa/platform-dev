@@ -13,8 +13,8 @@ function nexteuropa_editorial_install() {
   // Create "editorial team member" site-wide role, automatically assigned
   // when a user is a member of an editorial team group.
   //
-  // @see: nexteuropa_editorial_og_membership_insert()
-  // @see: nexteuropa_editorial_og_membership_delete()
+  // See: nexteuropa_editorial_og_membership_insert().
+  // See: nexteuropa_editorial_og_membership_delete().
   multisite_config_service('user')->createRole(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, 2);
 
   // Set "editorial team member" permissions.
@@ -129,23 +129,27 @@ function nexteuropa_editorial_enable() {
   $og_permissions = array(
     'contributor' => array(
       'draft',
-      'needs_review'),
+      'needs_review',
+    ),
     'validator' => array(
       'draft',
       'validated',
-      'needs_review'),
+      'needs_review',
+    ),
     'publisher' => array(
       'draft',
       'validated',
       'needs_review',
       'published',
-      'expired'),
+      'expired',
+    ),
     'administrator member'  => array(
       'draft',
       'validated',
       'needs_review',
       'published',
-      'expired'),
+      'expired',
+    ),
   );
   foreach ($og_permissions as $role => $states) {
     $permissions = array();

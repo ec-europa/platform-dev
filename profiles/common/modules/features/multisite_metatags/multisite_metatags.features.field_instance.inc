@@ -10,7 +10,7 @@
 function multisite_metatags_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-contenttype-field_meta_classification'
+  // Exported field_instance: 'node-contenttype-field_meta_classification'.
   $field_instances['node-contenttype-field_meta_classification'] = array(
     'bundle' => 'contenttype',
     'default_value' => NULL,
@@ -47,7 +47,7 @@ function multisite_metatags_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-contenttype-field_meta_description'
+  // Exported field_instance: 'node-contenttype-field_meta_description'.
   $field_instances['node-contenttype-field_meta_description'] = array(
     'bundle' => 'contenttype',
     'default_value' => NULL,

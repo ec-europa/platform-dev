@@ -2,7 +2,6 @@
 
 <project name="NextEuropa" default="help">
 
-    <!-- If `build.properties.local` exists then we want it badly -->
     <property file="build.properties.local" />
     <property file="build.properties" />
     <property file="build.properties.dist" />
@@ -14,8 +13,16 @@
         </exec>
     </target>
 
+    <includepath classpath="src/Phing" />
+
     <echo msg="Loading Drush task." />
     <taskdef name="drush" classname="DrushTask" />
+
+    <echo msg="Loading Behat task." />
+    <taskdef name="behat" classname="BehatTask" />
+
+    <echo msg="Loading PHP Codesniffer Configuration task." />
+    <taskdef name="phpcodesnifferconfiguration" classname="\NextEuropa\Phing\PhpCodeSnifferConfigurationTask" />
 
     <import file="build.package.xml" />
     <import file="build.test.xml" />

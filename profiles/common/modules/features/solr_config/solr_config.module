@@ -6,26 +6,34 @@
 
 include_once 'solr_config.features.inc';
 
+/**
+ * Implements hook_apachesolr_exclude().
+ */
 function solr_config_apachesolr_exclude($entity_id, $entity_type, $row, $env_id) {
   if ($entity_type == 'file') {
     $node = node_load($row->parent_entity_id);
 
-    if (isset($node->workbench_moderation)) { // node moderate with workbench moderation
+    // Node moderate with workbench moderation.
+    if (isset($node->workbench_moderation)) {
       $workflow = $node->workbench_moderation;
-      if (isset($workflow['published'])) { // node parent is published
+      // Node parent is published.
+      if (isset($workflow['published'])) {
         return FALSE;
       }
       else {
-        apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id . "-node-" . $node->nid); // remove file from solr index
+        // Remove file from solr index.
+        apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id . "-node-" . $node->nid);
         drupal_set_message(t('Entity @type @id removed from solr index', array('@type' => $entity_type, '@id' => $entity_id)));
         return TRUE;
       }
     }
-    elseif ($node->status == 1) { // standard drupal workflow : node parent is published
+    // Standard drupal workflow : node parent is published.
+    elseif ($node->status == 1) {
       return FALSE;
     }
     else {
-      apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id . "-node-" . $node->nid); // remove file from solr index
+      // Remove file from solr index.
+      apachesolr_index_delete_entity_from_index($env_id, $entity_type, $entity_id . "-node-" . $node->nid);
       drupal_set_message(t('Entity @type @id removed from solr index', array('@type' => $entity_type, '@id' => $entity_id)));
       return TRUE;
     }
@@ -35,18 +43,25 @@ function solr_config_apachesolr_exclude($entity_id, $entity_type, $row, $env_id)
 }
 
 
+/**
+ * Implements hook_apachesolr_query_alter().
+ */
 function solr_config_apachesolr_query_alter($query) {
   global $language;
-  $query->addFilter('ss_language', "(und OR ".$language->language.")"); // by default set the facet language to current language and neutral language
+  // By default set the facet language to current language and neutral language.
+  $query->addFilter('ss_language', "(und OR " . $language->language . ")");
 }
 
+/**
+ * Implements hook_form_alter().
+ */
 function solr_config_form_alter(&$form, &$form_state, $form_id) {
   global $user;
-  if($form_id == 'apachesolr_index_action_form') {
-    if($user->uid != 1) {
-      // show the solr index actions only for the user 1, prevent webmasters to reindex the multisite index
+  if ($form_id == 'apachesolr_index_action_form') {
+    if ($user->uid != 1) {
+      // Show the solr index actions only for the user 1,
+      // prevent webmasters to reindex the multisite index.
       unset($form['action']);
     }
   }
 }
-

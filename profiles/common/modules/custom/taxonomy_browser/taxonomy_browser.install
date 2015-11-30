@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Install the feature taxonomy_browser
+ * Install, uninstall, update and schema hooks for Taxonomy Browser.
  */
 
 include_once 'taxonomy_browser.install.inc';
@@ -26,13 +26,6 @@ function taxonomy_browser_enable() {
 function taxonomy_browser_disable() {
   // Deactivation message.
   drupal_set_message(t('Taxonomy browser %v feature is now inactive on your site.', array('%v' => _taxonomy_browser_get_version())));
-}
-
-/**
- * Implements hook_install().
- */
-function taxonomy_browser_install() {
-  // Nothing yet.
 }
 
 /**
@@ -68,8 +61,7 @@ function taxonomy_browser_update_7200(&$sandbox) {
       db_update('block')
         ->fields(array(
           'delta' => 'taxonomy_browser_vocabulary_' . $vids_var,
-          )
-        )
+        ))
         ->condition('delta', 'taxonomy_browser')
         ->execute();
     }

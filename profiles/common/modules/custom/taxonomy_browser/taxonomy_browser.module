@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * allow to filter view with a taxonomy tree
+ * Allow to filter view with a taxonomy tree.
  */
 
 include_once 'taxonomy_browser.features.inc';
@@ -117,7 +117,7 @@ function _taxonomy_browser_taxonomy_get_nested_tree($terms = array(), $max_depth
  * Function _taxonomy_browser_output_taxonomy_nested_tree().
  */
 function _taxonomy_browser_output_taxonomy_nested_tree($tree, $path, $counted_tree = array()) {
-  $output='';
+  $output = '';
   if (count($tree)) {
     $output = '<ul class="taxonomy-tree">';
     foreach ($tree as $term) {
@@ -184,20 +184,23 @@ function _taxonomy_browser_taxonomy_create_tree($vid, $path, $ajax = FALSE, $sel
 
 /**
  * Helper function for admittance of taxonomy tree.
- * 
+ *
  * @param array $tree
  *   Basic taxonomy tree or subtree.
  * @param string $children_key
  *   Name of the key of children.
- * 
+ *
  * @return array $return
  *   Returnable array what contains the result tree.
  */
-function _taxonomy_browser_recursive_admittance($tree, $children_key = 'children') {
+function _taxonomy_browser_recursive_admittance(array $tree, $children_key = 'children') {
   $return = array();
   foreach ($tree as $key => $value) {
     if (isset($value->$children_key)) {
-      $return[$key] = array('count' => count(taxonomy_select_nodes($key)), 'children' => _taxonomy_browser_recursive_admittance($value->$children_key, $children_key));
+      $return[$key] = array(
+        'count' => count(taxonomy_select_nodes($key)),
+        'children' => _taxonomy_browser_recursive_admittance($value->$children_key, $children_key),
+      );
     }
     else {
       $return[$key] = array('count' => count(taxonomy_select_nodes($key)));
@@ -208,14 +211,14 @@ function _taxonomy_browser_recursive_admittance($tree, $children_key = 'children
 
 /**
  * Helper recursive function for recounting the levels.
- * 
+ *
  * @param array $tree
  *   Input array without recounting.
- * 
+ *
  * @return int $sum
  *   Sum of the items.
  */
-function _taxonomy_browser_recount_items(&$tree) {
+function _taxonomy_browser_recount_items(array &$tree) {
   $sum = 0;
   foreach ($tree as $key => &$value) {
     $count = 0;
@@ -239,8 +242,8 @@ function taxonomy_browser_block_info() {
   foreach ($vids as $vid) {
     if (!empty($vid)) {
       $vocab = taxonomy_vocabulary_load($vid);
-	  if ($vocab){
-	    $block_name = str_replace(' ', '', $vocab->machine_name);
+      if ($vocab) {
+        $block_name = str_replace(' ', '', $vocab->machine_name);
         $blocks['taxonomy_browser_vocabulary_' . $vocab->vid] = array(
           'info' => t('taxonomy_browser: @vocabulary', array('@vocabulary' => $vocab->name)),
         );
@@ -334,7 +337,6 @@ function taxonomy_browser_block_view($delta = '') {
       }
       drupal_add_library('system', 'drupal.ajax');
 
-      
       $block['title'] = check_plain($vocabulary->name);
 
       $path = variable_get('taxonomy_browser_vocabulary_' . $vid . '_view', '');
@@ -368,7 +370,9 @@ function _taxonomy_browser_create_block_content($vid, $vocabulary) {
 
   $view = views_get_page_view();
   // don't use views path, they are rewrited on communities pages.
+  // @code
   // $view_path = $view->get_path();
+  // @endcode
   // @TODO If view is returning 404 the $menu['href'] is set to 'customerror'
   // and the links are broken, $view->get_path(); would be the ideal solution.
   $menu = menu_get_item();
@@ -438,11 +442,11 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
 /**
  * Implements hook_taxonomy_vocabulary_delete().
  */
-function taxonomy_browser_taxonomy_vocabulary_delete($vocabulary){
-  // update "taxonomy_browser_vocabulary" variable when a vocabulary is deleted
+function taxonomy_browser_taxonomy_vocabulary_delete($vocabulary) {
+  // Update "taxonomy_browser_vocabulary" variable when a vocabulary is deleted.
   $vids = variable_get('taxonomy_browser_vocabulary', array());
-  if (!empty($vids)){
-    unset ($vids[$vocabulary->vid]);
-	variable_set ('taxonomy_browser_vocabulary',$vids);
+  if (!empty($vids)) {
+    unset($vids[$vocabulary->vid]);
+    variable_set('taxonomy_browser_vocabulary', $vids);
   }
 }

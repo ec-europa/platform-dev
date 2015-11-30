@@ -2,8 +2,6 @@
 
 /**
  * @file
- * media_avportal/includes/media_avportal.variables.inc
- *
  * Variable defaults for Media: AV Portal.
  */
 

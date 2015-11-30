@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * tzet.features.inc
+ * Taxonomy Browser Features integration.
  */
 
 /**

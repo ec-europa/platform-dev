@@ -1,11 +1,16 @@
 <?php
 
 /**
+ * @file
+ * Views integration for the TMGMT OG module.
+ */
+
+/**
  * Implements hook_default_views().
  */
 function tmgmt_og_views_default_views() {
   $views = array();
-  
+
   $view = new view();
   $view->name = 'tmgmt_og_job_overview';
   $view->description = 'Gives a bulk operation overview of translation jobs in an Organic Group.';
@@ -299,6 +304,6 @@ function tmgmt_og_views_default_views() {
   $handler->display->display_options['filters']['translator']['expose']['operator'] = 'translator_op';
   $handler->display->display_options['filters']['translator']['expose']['identifier'] = 'translator';
 
-  $views['tmgmt_og_job_overview'] = $view;  
+  $views['tmgmt_og_job_overview'] = $view;
   return $views;
 }

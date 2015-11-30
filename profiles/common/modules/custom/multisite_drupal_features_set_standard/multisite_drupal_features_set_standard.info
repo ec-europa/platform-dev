@@ -3,9 +3,7 @@ description = settings for the features set for the standard profile
 package = multisite drupal toolbox
 core = 7.x
 
-; Information added by drupal.org packaging script on 2011-11-24
 version = "7.x-1.0"
-core = "7.x"
 project = "multisite_drupal_toolbox"
 datestamp = "1322093758"
 
@@ -74,14 +72,14 @@ feature_sets[multisite_metatags][font] = 'multisite-icon-bookmarks'
 feature_sets[multisite_metatags][enable][] = multisite_metatags
 feature_sets[multisite_metatags][disable][] = multisite_metatags
 
-feature_sets[multisite_webtools][title] = 'Webtools'
-feature_sets[multisite_webtools][description] = 'Provides usefull widgets to webmasters.'
-feature_sets[multisite_webtools][documentation] = ''
-feature_sets[multisite_webtools][category] = 'Communication'
-feature_sets[multisite_webtools][icon] = ''
-feature_sets[multisite_webtools][font] = 'multisite-icon-share'
-feature_sets[multisite_webtools][enable][] = multisite_maxlength
-feature_sets[multisite_webtools][disable][] = multisite_maxlength
+feature_sets[nexteuropa_webtools][title] = 'Webtools'
+feature_sets[nexteuropa_webtools][description] = 'Provides usefull widgets to webmasters.'
+feature_sets[nexteuropa_webtools][documentation] = ''
+feature_sets[nexteuropa_webtools][category] = 'Communication'
+feature_sets[nexteuropa_webtools][icon] = ''
+feature_sets[nexteuropa_webtools][font] = 'multisite-icon-share'
+feature_sets[nexteuropa_webtools][enable][] = nexteuropa_webtools
+feature_sets[nexteuropa_webtools][disable][] = nexteuropa_webtools
 
 feature_sets[wiki_standard][title] = 'Wiki'
 feature_sets[wiki_standard][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every visitor, can view the content of the wiki.'
@@ -183,6 +181,15 @@ feature_sets[nexteuropa_notices][icon] = ''
 feature_sets[nexteuropa_notices][font] = 'multisite-icon-bubble2'
 feature_sets[nexteuropa_notices][enable][] = nexteuropa_notices
 feature_sets[nexteuropa_notices][disable][] = nexteuropa_notices
+
+feature_sets[nexteuropa_geofield][title] = 'GIS field'
+feature_sets[nexteuropa_geofield][description] = 'Allow web masters to manage geoJSON data in a field with an interactive map as widget.'
+feature_sets[nexteuropa_geofield][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/GIS+field+-+documentation'
+feature_sets[nexteuropa_geofield][category] = 'Information to users'
+feature_sets[nexteuropa_geofield][icon] = ''
+feature_sets[nexteuropa_geofield][font] = 'multisite-icon-location'
+feature_sets[nexteuropa_geofield][enable][] = nexteuropa_geofield
+feature_sets[nexteuropa_geofield][disable][] = nexteuropa_geofield
 
 ; Media
 feature_sets[e_library_standard][title] = 'E-Library'

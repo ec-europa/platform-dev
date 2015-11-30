@@ -10,7 +10,7 @@
 function multisite_translations_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'message-job_translation_log-field_job_reference'
+  // Exported field_instance: 'message-job_translation_log-field_job_reference'.
   $field_instances['message-job_translation_log-field_job_reference'] = array(
     'bundle' => 'job_translation_log',
     'default_value' => NULL,

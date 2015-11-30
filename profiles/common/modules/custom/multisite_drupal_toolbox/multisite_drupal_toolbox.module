@@ -9,7 +9,6 @@
  * Implements hook_menu().
  */
 function multisite_drupal_toolbox_menu() {
-
   $items['admin/workbench/comment'] = array(
     'title' => 'Comments',
     'description' => 'List and edit site comments and the comment approval queue.',
@@ -60,7 +59,7 @@ function multisite_drupal_toolbox_menu() {
     'access arguments' => array('administer site configuration'),
     'weight' => -5,
   );
-  $items['check_url'] = array (
+  $items['check_url'] = array(
     'title' => 'Check URLs',
     'page callback' => '_multisite_drupal_toolbox_url_exists',
     'access arguments' => array('use text format full_html'),
@@ -92,24 +91,7 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
   }
 
   // Add survey JS on all site in the white list.
-  $opt_in_site = array(
-    // "digital-agenda",
-    // "futurium",
-    // "licences-for-europe-dialogue",
-    // "cnect-site",
-    "sfc2014",
-    "rawmaterials",
-    "mare-emd",
-    "kroes",
-    "horizon2020",
-    "inseparable",
-    "epale",
-    "clima-ets-summer-university",
-    "eacea-site",
-    "eac-eyp",
-    "rebuttal",
-  );
-  if (in_array(basename(conf_path()), $opt_in_site, TRUE)) {
+  if (variable_get('toolbox_survey_whitelist_js', FALSE)) {
     drupal_add_js('//ec.europa.eu/wel/surveys/wr_survey01/wr_survey.js', 'external');
   }
 }
@@ -160,7 +142,6 @@ function multisite_drupal_toolbox_init() {
  * Implements hook_menu_alter().
  */
 function multisite_drupal_toolbox_menu_alter(&$items) {
-
   // Use default theme for specific admin pages.
   $list_pages = variable_get('cce_basic_config_admin_pages', array());
   foreach ($items as $url => $item) {
@@ -402,26 +383,31 @@ function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
   }
 }
 
-/**
- * Implements hook_node_presave().
- */
-function multisite_drupal_toolbox_node_presave($node) {
-  // Security process to prevent xss attack in node contents.
-  // Sanitize for the node save.
-  if (isset($node->nid) && isset($node->body['und'][0])) {
-    $node->body['und'][0]['value'] = multisite_drupal_toolbox_sanitize($node->body['und'][0]['value'], $node->nid);
-  }
-}
 
 /**
- * Implements hook_node_view_alter().
+ * Implements hook_filter_info_alter().
  */
-function multisite_drupal_toolbox_node_view_alter(&$build) {
-  // Security process to prevent xss attack in node contents.
-  // Sanitize for the node preview.
-  if (isset($build['body']) && isset($build['#node']->body['und'][0]['value'])) {
-    $build['body'][0]['#markup'] = multisite_drupal_toolbox_sanitize($build['body'][0]['#markup'], $build['#node']->nid);
+function multisite_drupal_toolbox_filter_info() {
+  $info['toolbox_sanitize'] = array(
+    'title' => t('Sanitize HTML'),
+    'description' => t('Security process to prevent xss attack (provided by nexteuropa toolbox)'),
+    'process callback' => '_multisite_drupal_toolbox_filter_sanitize',
+  );
+  return $info;
+}
+
+
+/**
+ * Alter filter process callback for the token input filter.
+ *
+ * @see multisite_drupal_toolbox_filter_info()
+ */
+function _multisite_drupal_toolbox_filter_sanitize($text, $filter, $format, $langcode, $cache, $cache_id) {
+  $nid = NULL;
+  if (arg(0) == 'node' && is_numeric(arg(1))) {
+    $nid = arg(1);
   }
+  return multisite_drupal_toolbox_sanitize($text, $nid);
 }
 
 /**
@@ -430,16 +416,20 @@ function multisite_drupal_toolbox_node_view_alter(&$build) {
 function multisite_drupal_toolbox_sanitize($content, $nid) {
   // Security process to prevent xss attack in node contents.
   $nodes_bypass = explode("\n", variable_get("security_bypassed_nodes", ""));
-  $tags_allowed = explode("\n", variable_get("security_allowed_tags", ""));
-
-  foreach ($tags_allowed as $id => $tag) {
-    $tags_allowed[$id] = trim($tag);
-  }
 
   // Check if the node must be bypass.
   if (!in_array($nid, $nodes_bypass) || is_null($nid)) {
-    $content = filter_xss($content, $tags_allowed);
-    // Use the drupal filter_xss function to filter xss attacks.
+    // Retrieve the list of allowed tags that were configured in the UI.
+    $tags_allowed = explode("\n", variable_get("security_allowed_tags", ""));
+    // Trim whitespace and filter empty lines.
+    $tags_allowed = array_map('trim', $tags_allowed);
+    $tags_allowed = array_filter($tags_allowed);
+
+    module_load_include('inc', 'multisite_drupal_toolbox', 'multisite_drupal_toolbox.sanitize');
+    $filter_options = multisite_drupal_toolbox_get_default_filter_options();
+    $filter_options['valid_elements'] = array_fill_keys($tags_allowed, array('*' => TRUE));
+
+    $content = multisite_drupal_toolbox_filter_xss($content, $filter_options);
   }
   return $content;
 }
@@ -448,18 +438,20 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
  * Public function to disable a content type.
  */
 function multisite_drupal_toolbox_disable_content_type($type) {
-
   $type_info = node_type_load($type);
   $type_info->module = 'node';
   $type_info->custom = 1;
   $type_info->modified = 1;
   $type_info->locked = 0;
   $type_info->disabled = 1;
-  $test = node_type_save($type_info);
+  node_type_save($type_info);
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_disable_content_type() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_disable_content_type() instead.
  */
 function _disable_content_type($type) {
   multisite_drupal_toolbox_disable_content_type($type);
@@ -487,7 +479,10 @@ function multisite_drupal_toolbox_add_block_context($context_name, $block_title,
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_add_block_context() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_add_block_context() instead.
  */
 function _add_block_context($context_name, $block_title, $module, $delta, $region, $weight = '-10') {
   multisite_drupal_toolbox_add_block_context($context_name, $block_title, $module, $delta, $region, $weight);
@@ -508,7 +503,10 @@ function multisite_drupal_toolbox_remove_block_context($context_name, $block_tit
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_remove_block_context() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_remove_block_context() instead.
  */
 function _remove_block_context($context_name, $block_title) {
   multisite_drupal_toolbox_remove_block_context($context_name, $block_title);
@@ -529,7 +527,10 @@ function multisite_drupal_toolbox_add_views_context($context_name, $view_title) 
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_add_views_context() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_add_views_context() instead.
  */
 function _add_views_context($context_name, $view_title) {
   multisite_drupal_toolbox_add_views_context($context_name, $view_title);
@@ -550,7 +551,10 @@ function multisite_drupal_toolbox_remove_views_context($context_name, $view_titl
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_remove_views_context() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_remove_views_context() instead.
  */
 function _remove_views_context($context_name, $view_title) {
   multisite_drupal_toolbox_remove_views_context($context_name, $view_title);
@@ -571,7 +575,10 @@ function multisite_drupal_toolbox_add_content_type_context($context_name, $conte
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_add_content_type_context() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_add_content_type_context() instead.
  */
 function _add_content_type_context($context_name, $content_type) {
   multisite_drupal_toolbox_add_content_type_context($context_name, $content_type);
@@ -592,7 +599,10 @@ function multisite_drupal_toolbox_remove_content_type_context($context_name, $co
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_remove_content_type_context() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_remove_content_type_context() instead.
  */
 function _remove_content_type_context($context_name, $content_type) {
   multisite_drupal_toolbox_remove_content_type_context($context_name, $content_type);
@@ -613,7 +623,10 @@ function multisite_drupal_toolbox_add_path_context($context_name, $path) {
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_add_path_context() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_add_path_context() instead.
  */
 function _add_path_context($context_name, $path) {
   multisite_drupal_toolbox_add_path_context($context_name, $path);
@@ -634,7 +647,10 @@ function multisite_drupal_toolbox_remove_path_context($context_name, $path) {
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_remove_path_context() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_remove_path_context() instead.
  */
 function _remove_path_context($context_name, $path) {
   multisite_drupal_toolbox_remove_path_context($context_name, $path);
@@ -665,7 +681,10 @@ function multisite_drupal_toolbox_add_content_type_newsletters($node_type) {
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_add_content_type_newsletters().
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_add_content_type_newsletters().
  */
 function add_content_type_newsletters($node_type) {
   multisite_drupal_toolbox_add_content_type_newsletters($node_type);
@@ -683,7 +702,10 @@ function multisite_drupal_toolbox_disable_block($module, $delta) {
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_disable_block() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_disable_block() instead.
  */
 function _disable_block($module, $delta) {
   multisite_drupal_toolbox_disable_block($module, $delta);
@@ -727,7 +749,10 @@ function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_config_solr_bundle() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_config_solr_bundle() instead.
  */
 function config_solr_bundle($bundle, $op) {
   multisite_drupal_toolbox_config_solr_bundle($bundle, $op);
@@ -741,7 +766,10 @@ function multisite_drupal_toolbox_notification_content_type($content_type, $op) 
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_notification_content_type() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_notification_content_type() instead.
  */
 function notification_content_type($content_type, $op) {
   multisite_drupal_toolbox_notification_content_type($content_type, $op);
@@ -760,7 +788,10 @@ function multisite_drupal_toolbox_get_og_rid($role_name) {
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_get_og_rid() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_get_og_rid() instead.
  */
 function get_og_rid($role_name) {
   return multisite_drupal_toolbox_get_og_rid($role_name);
@@ -779,7 +810,10 @@ function multisite_drupal_toolbox_get_rid($role_name) {
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_get_rid() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_get_rid() instead.
  */
 function get_rid($role_name) {
   return multisite_drupal_toolbox_get_rid($role_name);
@@ -800,7 +834,10 @@ function multisite_drupal_toolbox_is_admin() {
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_is_admin().
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_is_admin().
  */
 function is_admin() {
   return multisite_drupal_toolbox_is_admin();
@@ -810,11 +847,14 @@ function is_admin() {
  * Check if current theme is ec_default theme.
  */
 function multisite_drupal_toolbox_cce_theme() {
-  return variable_get('theme_default', 'ec_default');
+  return variable_get('theme_default', 'ec_resp');
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_cce_theme() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_cce_theme() instead.
  */
 function multisite_cce_theme() {
   return multisite_drupal_toolbox_cce_theme();
@@ -830,7 +870,10 @@ function multisite_drupal_toolbox_workbench_redirect_submit($form, &$form_state)
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_workbench_redirect_submit() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_workbench_redirect_submit() instead.
  */
 function workbench_redirect_submit($form, &$form_state) {
   multisite_drupal_toolbox_workbench_redirect_submit($form, $form_state);
@@ -879,8 +922,10 @@ function multisite_drupal_toolbox_simplenews_related_content_type($content_type,
 /**
  * Obsolete.
  *
- * Use multisite_drupal_toolbox_simplenews_related_content_type().
  * You need to add the module rate as a dependancy to your feature.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_simplenews_related_content_type().
  */
 function simplenews_related_content_type($content_type, $op) {
   multisite_drupal_toolbox_simplenews_related_content_type($content_type, $op);
@@ -925,7 +970,10 @@ function multisite_drupal_toolbox_rate_content_type($content_type, $op) {
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_rate_content_type() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_rate_content_type() instead.
  */
 function rate_content_type($content_type, $op) {
   multisite_drupal_toolbox_rate_content_type($content_type, $op);
@@ -945,7 +993,8 @@ function multisite_drupal_toolbox_linkchecker_user_report_page_workbench() {
 /**
  * Obsolete.
  *
- * Use multisite_drupal_toolbox_linkchecker_user_report_page_workbench().
+ * @obsolete
+ *   Use multisite_drupal_toolbox_linkchecker_user_report_page_workbench().
  */
 function linkchecker_user_report_page_workbench() {
   return multisite_drupal_toolbox_linkchecker_user_report_page_workbench();
@@ -964,6 +1013,8 @@ function multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_r
 
 /**
  * Obsolete.
+ *
+ * @obsolete
  */
 function _linkchecker_user_access_account_broken_links_report_workbench() {
   return multisite_drupal_toolbox_linkchecker_user_access_account_broken_links_report_workbench();
@@ -1018,7 +1069,10 @@ function multisite_drupal_toolbox_form_security_settings($form, &$form_state) {
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_form_security_settings() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_form_security_settings() instead.
  */
 function form_security_settings($form, &$form_state) {
   return multisite_drupal_toolbox_form_security_settings($form, $form_state);
@@ -1156,7 +1210,10 @@ function multisite_drupal_toolbox_i18n_sync_translation($entity_type, $translati
 }
 
 /**
- * Obsolete. Use multisite_drupal_toolbox_linkit_scan_url() instead.
+ * Obsolete.
+ *
+ * @obsolete
+ *   Use multisite_drupal_toolbox_linkit_scan_url() instead.
  */
 function linkit_scan_url($url, $field) {
   return multisite_drupal_toolbox_linkit_scan_url($url, $field);
@@ -1213,11 +1270,11 @@ function multisite_drupal_toolbox_tokens($type, $tokens, array $data = array(), 
  * Implments hook_tokens_alter().
  */
 function multisite_drupal_toolbox_tokens_alter(array &$replacements, array $context) {
-  // Preserve recipient_user token
-  // (rules automatically cleans non replaced token).
+  // Preserve recipient_user token (rules automatically cleans non replaced
+  // token).
   if ($context['type'] == 'recipient_user') {
     if (isset($context['data']['recipient_user'])) {
-      unset ($replacements[current($context['tokens'])]);
+      unset($replacements[current($context['tokens'])]);
     }
     else {
       $replacements[current($context['tokens'])] = current($context['tokens']);
@@ -1338,11 +1395,13 @@ function multisite_drupal_toolbox_taxonomy_term_delete($term_obj) {
       $query->fields('f', array(
         'entity_type',
         'entity_id',
-        $field['field_name'] . '_tid', 'language'))
-            ->leftJoin('taxonomy_term_data', 't', 't.tid=f.' . $field['field_name'] . '_tid');
+        $field['field_name'] . '_tid',
+        'language',
+      ))
+        ->leftJoin('taxonomy_term_data', 't', 't.tid=f.' . $field['field_name'] . '_tid');
       $query->where('t.tid IS NULL')
-            ->where('f.' . $field['field_name'] . '_tid=' . $term_obj->tid)
-            ->orderBy('f.entity_id', 'ASC');
+        ->where('f.' . $field['field_name'] . '_tid=' . $term_obj->tid)
+        ->orderBy('f.entity_id', 'ASC');
       $res = $query->execute();
       foreach ($res as $target) {
         $operations[] = array(
@@ -1352,7 +1411,7 @@ function multisite_drupal_toolbox_taxonomy_term_delete($term_obj) {
       }
     }
   }
-  if (!empty ($operations)) {
+  if (!empty($operations)) {
     $batch = array(
       'title' => t('Taxonomy term deletion process'),
       'operations' => $operations,
@@ -1438,43 +1497,50 @@ function multisite_drupal_toolbox_modules_installed($modules) {
  */
 function multisite_drupal_toolbox_library_alter(&$javascript, $module) {
 
-  // Use jquery 1.10 for specific admin pages.
-  if (module_exists('jquery_update')) {
+  global $theme;
 
-    $list_pages = variable_get('cce_basic_config_admin_pages', array());
+  // Use jquery 1.10 when ec_resp is used.
+  if (module_exists('jquery_update') && $theme === multisite_drupal_toolbox_cce_theme()) {
 
     $path = drupal_get_path('module', 'jquery_update');
     $version = variable_get('jquery_update_jquery_version', '1.10');
-    $admin_version = variable_get('jquery_update_jquery_admin_version', '');
 
     $min = variable_get('jquery_update_compression_type', 'min') == 'none' ? '' : '.min';
     $cdn = variable_get('jquery_update_jquery_cdn', 'none');
 
-    $current_path = current_path();
-
-    $list_pages = variable_get('cce_basic_config_admin_pages', array());
-    foreach ($list_pages as $page) {
-      if (strpos($current_path, $page) === 0) {
-        if (version_compare($version, $admin_version, '!=')) {
-          jquery_update_jquery_replace($javascript, $cdn, $path, $min, $version);
-        }
-      }
-    }
+    jquery_update_jquery_replace($javascript, $cdn, $path, $min, $version);
   }
 }
 
 /**
-  * Helper to check if an url is valid with drupal_http_request.
-  * Return a boolean in json format.
-  */
-function _multisite_drupal_toolbox_url_exists($url=NULL) {
+ * Page callback that returns if an URL is valid with drupal_http_request().
+ *
+ * Returns a boolean in JSON format.
+ *
+ * @todo This is redundant and should be removed. The calling code can simply
+ *   inspect the HTTP response code of the URL to see if it exists. This is now
+ *   doing two requests where one would be sufficient.
+ */
+function _multisite_drupal_toolbox_url_exists() {
   $response = drupal_http_request($_GET['url']);
-  if (isset($response->errno) && $response->errno == 0 && $response->code >=200 && $response->code < 300){
-    $output = true;
-  } else {
-    $output =  false;
-  }
+  $output = isset($response->errno) && $response->errno == 0 && $response->code >= 200 && $response->code < 300;
   drupal_add_http_header('Content-Type', 'application/json');
   echo drupal_json_encode($output);
   drupal_exit();
+}
+
+/**
+ * Sorts an object by the 'weight' element.
+ *
+ * Extend drupal API.
+ *
+ * @see drupal_sort_weight
+ */
+function multisite_drupal_toolbox_sort_weight_object($a, $b) {
+  $a_weight = (is_object($a) && isset($a->weight)) ? $a->weight : 0;
+  $b_weight = (is_object($b) && isset($b->weight)) ? $b->weight : 0;
+  if ($a_weight == $b_weight) {
+    return 0;
+  }
+  return ($a_weight < $b_weight) ? -1 : 1;
 }

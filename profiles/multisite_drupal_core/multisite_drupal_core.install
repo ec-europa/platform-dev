@@ -8,62 +8,6 @@
  * Implements hook_install().
  */
 function multisite_drupal_core_install() {
-  // Add text formats.
-  $filtered_html_format = array(
-    'format' => 'filtered_html',
-    'name' => 'Filtered HTML',
-    'weight' => 0,
-    'filters' => array(
-      // URL filter.
-      'filter_url' => array(
-        'weight' => 0,
-        'status' => 1,
-      ),
-      // HTML filter.
-      'filter_html' => array(
-        'weight' => 1,
-        'status' => 1,
-      ),
-      // Line break filter.
-      'filter_autop' => array(
-        'weight' => 2,
-        'status' => 1,
-      ),
-      // HTML corrector filter.
-      'filter_htmlcorrector' => array(
-        'weight' => 10,
-        'status' => 1,
-      ),
-    ),
-  );
-  $filtered_html_format = (object) $filtered_html_format;
-  filter_format_save($filtered_html_format);
-
-  $full_html_format = array(
-    'format' => 'full_html',
-    'name' => 'Full HTML',
-    'weight' => 1,
-    'filters' => array(
-      // URL filter.
-      'filter_url' => array(
-        'weight' => 0,
-        'status' => 1,
-      ),
-      // Line break filter.
-      'filter_autop' => array(
-        'weight' => 1,
-        'status' => 1,
-      ),
-      // HTML corrector filter.
-      'filter_htmlcorrector' => array(
-        'weight' => 10,
-        'status' => 1,
-      ),
-    ),
-  );
-  $full_html_format = (object) $full_html_format;
-  filter_format_save($full_html_format);
-
   // Enable some standard blocks.
   $default_theme = variable_get('theme_default', 'bartik');
   $admin_theme = 'seven';
@@ -203,14 +147,6 @@ function multisite_drupal_core_install() {
     rdf_mapping_save($rdf_mapping);
   }
 
-  // Default "Basic page" to not be promoted and have comments disabled.
-  variable_set('node_options_page', array('status'));
-  variable_set('comment_page', COMMENT_NODE_HIDDEN);
-
-  // Don't display date and author information for "Basic page" nodes by
-  // default.
-  variable_set('node_submitted_page', FALSE);
-
   // Enable user picture support and set the default to a square thumbnail
   // option.
   variable_set('user_pictures', '1');
@@ -220,23 +156,6 @@ function multisite_drupal_core_install() {
 
   // Allow visitor account creation with administrative approval.
   variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
-
-  // Enable default permissions for system roles.
-  $filtered_html_permission = filter_permission_name($filtered_html_format);
-  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID,
-    array(
-      'access content',
-      'access comments',
-      $filtered_html_permission,
-    ));
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID,
-    array(
-      'access content',
-      'access comments',
-      'post comments',
-      'skip comment approval',
-      $filtered_html_permission,
-    ));
 
   // Create a default role for site administrators, with all available
   // permissions assigned.
@@ -272,7 +191,6 @@ function multisite_drupal_core_install() {
     ->condition('name', 'seven')
     ->execute();
   variable_set('admin_theme', 'seven');
-  variable_set('node_admin_theme', '1');
 
   $contributor_role = new stdClass();
   $contributor_role->name = 'contributor';
@@ -384,6 +302,13 @@ function multisite_drupal_core_install() {
     }
   }
 
+  // Disable all Solr environments for the remainder of this request. We are
+  // going to create some files, and need to prevent the apachesolr module from
+  // trying to update the Solr indexes when hook_entity_save() fires.
+  // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3659
+  $environments = &drupal_static('apachesolr_load_all_environments');
+  $environments = array();
+
   // Set default images.
   $theme_path = drupal_get_path('theme', 'ec_resp');
   $default_images = array(
@@ -401,18 +326,6 @@ function multisite_drupal_core_install() {
     $f = file_save($file);
     variable_set($variable, $file->uri);
   }
-
-  // Set the url language prefix to 'en'.
-  db_update('languages')
-    ->fields(array('prefix' => 'en'))
-    ->condition('language', 'en')
-    ->execute();
-
-  // Set up language negotiation.
-  $lni = language_negotiation_info();
-  $ln['language-default'] = $lni['language-default'];
-  $ln['locale-url'] = $lni['locale-url'];
-  language_negotiation_set('language', $ln);
 
   // Disable the Workbench block.
   db_update('block')
@@ -479,7 +392,15 @@ function multisite_drupal_core_install() {
     ->condition('menu_name', 'main-menu')
     ->execute();
 
-  // Revert all features.
-  features_include_defaults(NULL, TRUE);
-  features_revert();
+  // At the end of the installation cron will be run. During cron an error
+  // might occur in the apachesolr_multisitesearch module when it tries to
+  // update the solr metadata for servers that may not be configured, or may
+  // not be reachable from the environment where the site is being installed.
+  // We can work around it by tricking the module into thinking it has already
+  // performed its updates.
+  // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3659
+  global $conf;
+  $conf['apachesolr_multisitesearch_last_metadata_fetch'] = REQUEST_TIME;
+  $conf['apachesolr_multisitesearch_last_metadata_update'] = REQUEST_TIME;
+
 }
