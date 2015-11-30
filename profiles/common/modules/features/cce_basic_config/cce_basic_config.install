@@ -456,7 +456,7 @@ function cce_basic_config_install() {
  * Initialize 'theme default' and 'admin theme'.
  */
 function _cce_basic_config_post_install_theme() {
-  // Define the theme used.
+  // Define themes.
   $themes = array(
     'theme_default' => 'ec_resp',
     'admin_theme' => 'seven',
