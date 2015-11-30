@@ -420,7 +420,6 @@ function nexteuropa_newsroom_admin_settings_form_validate($form, &$form_state) {
  * Submit handler for the newsroom admin form.
  */
 function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
-  dsm($form_state['values']);
   $multilingual = $form_state['values']['multilingual'] == 1 ? TRUE : FALSE;
   $patterns = isset($form_state['values']['patterns']) && $form_state['values']['patterns'] == 1 ? TRUE : FALSE;
   $keys = array_keys($form_state['values']);
