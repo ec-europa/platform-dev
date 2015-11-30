@@ -168,8 +168,14 @@ projects[entity_translation][patch][] = patches/entity_translation-001-et-forwar
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
 
+; A recent version of the Entity Reference module is pinned. It contains the fix for
+; https://www.drupal.org/node/1836106
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7800
+; Todo: go back to the stable version when Entity Reference 7.x-1.2 is released.
+projects[entityreference][download][branch] = "7.x-1.x"
+projects[entityreference][download][revision] = "b5009cd1406f72a4"
+projects[entityreference][download][type] = "git"
 projects[entityreference][subdir] = "contrib"
-projects[entityreference][version] = "1.1"
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
