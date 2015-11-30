@@ -20,7 +20,7 @@ function multi_user_blog_disable() {
   multisite_drupal_toolbox_content_type_linkchecker('blog_post', 'delete');
 
   // Remove rating.
-  multisite_drupal_toolbox_rate_content_type('blog_post', 'remove');
+  multisite_drupal_toolbox_rate_content_type('blog_post', 'delete');
 
   // Activation message.
   drupal_set_message(t('multi user blogs feature is now disable on your site.'));
