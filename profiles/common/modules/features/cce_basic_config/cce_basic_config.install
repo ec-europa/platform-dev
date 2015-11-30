@@ -474,7 +474,7 @@ function _cce_basic_config_post_install_theme() {
  * Initialize default blocks.
  */
 function _cce_basic_config_post_install_default_blocks() {
-  // Enable some standard blocks.
+  // Enable standard blocks.
   $default_theme = variable_get('theme_default', 'bartik');
   $admin_theme = 'seven';
   $blocks = array(
