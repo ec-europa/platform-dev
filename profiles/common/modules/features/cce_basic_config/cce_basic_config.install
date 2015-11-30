@@ -453,7 +453,7 @@ function cce_basic_config_install() {
 }
 
 /**
- *
+ * Initialize 'theme default' and 'admin theme'.
  */
 function _cce_basic_config_post_install_theme() {
   // Define the theme used.
@@ -471,7 +471,7 @@ function _cce_basic_config_post_install_theme() {
 }
 
 /**
- *
+ * Initialize default blocks.
  */
 function _cce_basic_config_post_install_default_blocks() {
   // Enable some standard blocks.
@@ -564,7 +564,7 @@ function _cce_basic_config_post_install_default_blocks() {
 }
 
 /**
- *
+ * Initialize apachesorl.
  */
 function _cce_basic_config_post_install_apachesolr() {
   // Disable all Solr environments for the remainder of this request. We are
@@ -588,7 +588,9 @@ function _cce_basic_config_post_install_apachesolr() {
 }
 
 /**
+ * Initialize content type.
  *
+ * Add 'page' and ''article' CT and their body.
  */
 function _cce_basic_config_post_install_default_content_type() {
   // Insert default pre-defined node types into the database. For a complete
@@ -652,7 +654,7 @@ function _cce_basic_config_post_install_default_content_type() {
 }
 
 /**
- *
+ * Initialize user configuration (picture, registration...).
  */
 function _cce_basic_config_post_install_user_config() {
   // Enable user picture support and set the default to a square thumbnail
@@ -666,7 +668,7 @@ function _cce_basic_config_post_install_user_config() {
 }
 
 /**
- *
+ * Initialize default images.
  */
 function _cce_basic_config_post_install_default_images() {
   // Set default images.
@@ -690,7 +692,7 @@ function _cce_basic_config_post_install_default_images() {
 }
 
 /**
- *
+ * Initialize user roles and permissions.
  */
 function _cce_basic_config_post_install_user_roles_perms() {
   // Create a default role for site administrators, with all available
@@ -795,7 +797,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
 }
 
 /**
- *
+ * Initialize menu items.
  */
 function _cce_basic_config_post_install_default_menu_items() {
   $t = get_t();
@@ -866,7 +868,7 @@ function _cce_basic_config_post_install_default_menu_items() {
 }
 
 /**
- *
+ * Insert default terms.
  */
 function _cce_basic_config_post_install_default_terms() {
   // Add dummy terms in 'tags' vocabulary.
@@ -883,7 +885,10 @@ function _cce_basic_config_post_install_default_terms() {
 }
 
 /**
+ * Finalize profile installation by inserting some site configurations.
  *
+ * Insert user roles, assign permission to roles, define themes,
+ * define basic content type, etc...
  */
 function cce_basic_config_post_install() {
   _cce_basic_config_post_install_theme();
@@ -1250,16 +1255,6 @@ function cce_basic_config_update_7140() {
   user_role_revoke_permissions($adm_rid, array(
     'administer software updates',
   ));
-
-}
-
-/**
- * Finalize profile installation by inserting some site configurations.
- *
- * Insert user roles, assign permission to roles, define themes,
- * define basic content type, etc...
- */
-function cce_basic_config_finalize_install() {
 
 }
 
