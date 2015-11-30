@@ -8,7 +8,7 @@
  * Implements hook_install().
  */
 function multisite_drupal_standard_install() {
-  cce_basic_config_post_install ();
+  cce_basic_config_post_install();
 }
 
 /**

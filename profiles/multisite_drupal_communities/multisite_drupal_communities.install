@@ -10,7 +10,7 @@
  * Perform actions to set up the site for this profile.
  */
 function multisite_drupal_communities_install() {
-  cce_basic_config_post_install ();
+  cce_basic_config_post_install();
 
   // Permissions to the contributor.
   $contrib_rid = get_rid('contributor');
