@@ -10,5 +10,5 @@ Scenario: FusionMap library is found
     |multisite_maps|
   And I am logged in as an administrator
   When I am on "admin/reports/status"
-  Then I should see "FusionMaps PHP files found." in the "table.system-status-report" element
-  And I should not see "FusionMaps SWF files not found." in the "table.system-status-report" element
+  Then I should see "FusionMaps PHP file found." in the "table.system-status-report" element
+  And I should not see "FusionMaps SWF file not found." in the "table.system-status-report" element
