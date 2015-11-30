@@ -8,9 +8,7 @@
  * Implements hook_install().
  */
 function multisite_drupal_standard_install() {
-  // Run the installer from the Multisite Core profile.
-  require_once DRUPAL_ROOT . '/profiles/multisite_drupal_core/multisite_drupal_core.install';
-  multisite_drupal_core_install();
+  cce_basic_config_post_install ();
 }
 
 /**
