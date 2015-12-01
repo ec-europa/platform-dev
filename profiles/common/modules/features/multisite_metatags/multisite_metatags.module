@@ -154,6 +154,12 @@ function _multisite_metatags_form_submit($form, &$form_state) {
   if (isset($form_state['input']['creator'])) {
     variable_set('meta_creator', $form_state['input']['creator']);
   }
+
+  if (isset($form_state['values']['meta_og_image'])) {
+    $file = file_load($form_state['values']['meta_og_image']);
+    $file->status = FILE_STATUS_PERMANENT;
+    file_save($file);
+  }
 }
 
 /**
