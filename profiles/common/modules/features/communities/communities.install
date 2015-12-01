@@ -10,7 +10,6 @@ include_once 'communities.install.inc';
  * Implements hook_disable().
  */
 function communities_disable() {
-  multisite_drupal_toolbox_disable_content_type('community');
   // SolR configuration add bundle.
   multisite_drupal_toolbox_config_solr_bundle('community', 'delete');
   drupal_set_message(t('Communities %v feature is now disable on your site.', array('%v' => _communities_get_version())));

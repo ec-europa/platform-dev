@@ -29,7 +29,6 @@ function e_library_og_disable() {
   multisite_drupal_toolbox_remove_views_context('communities', 'e_library');
   multisite_drupal_toolbox_remove_views_context('communities', 'e_library:page');
   multisite_drupal_toolbox_remove_content_type_context('communities', 'document');
-  multisite_drupal_toolbox_disable_content_type('document');
 
   multisite_drupal_toolbox_remove_path_context('communities_menu_item', 'community/*/document/*');
   multisite_drupal_toolbox_remove_views_context('communities_menu_item', 'e_library:page');

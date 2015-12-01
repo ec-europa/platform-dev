@@ -131,8 +131,6 @@ function idea_core_disable() {
   // Remove type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('idea', 'delete');
 
-  multisite_drupal_toolbox_disable_content_type('idea');
-
   // Remove rating.
   multisite_drupal_toolbox_rate_content_type('idea', 'delete');
 
