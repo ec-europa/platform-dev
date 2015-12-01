@@ -8,8 +8,6 @@
  * Implements hook_disable().
  */
 function multi_user_blog_disable() {
-  multisite_drupal_toolbox_disable_content_type('blog_post');
-
   // SolR configuration add bundle.
   multisite_drupal_toolbox_config_solr_bundle('blog_post', 'delete');
 

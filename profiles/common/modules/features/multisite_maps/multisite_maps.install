@@ -51,8 +51,6 @@ function multisite_maps_disable() {
   // Remove type to linkchecker scan.
   _content_type_linkchecker('map', 'delete');
 
-  _disable_content_type('map');
-
   // Deactivation message.
   drupal_set_message(t('Multisite Maps feature is now disabled on your site.'));
 }
