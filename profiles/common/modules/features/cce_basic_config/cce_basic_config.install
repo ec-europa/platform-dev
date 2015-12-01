@@ -19,8 +19,8 @@ function cce_basic_config_requirements($phase) {
   $requirements['install_tag'] = array(
     'title' => $t('Tag'),
     'value' => $t('%profile_tag ', array(
-        '%profile_tag' => variable_get('multisite_version'),
-      )),
+      '%profile_tag' => variable_get('multisite_version'),
+    )),
     'severity' => REQUIREMENT_INFO,
     'weight' => -8,
   );
@@ -981,8 +981,7 @@ function cce_basic_config_update_7191() {
     ->fields(array(
       'weight' => '-30',
       'menu_name' => 'user-menu',
-      )
-     )
+    ))
     ->condition('link_title', 'My workbench', '=')
     ->condition('menu_name', 'main-menu', '=')
     ->execute();

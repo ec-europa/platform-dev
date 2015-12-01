@@ -43,14 +43,12 @@ class EcasExtraAdminSettingsTest extends DrupalWebTestCase {
    * {@inheritdoc}
    */
   public function setUp() {
-    parent::setUp(array(
-      'ecas_extra',
-    ));
+    parent::setUp(array('ecas_extra'));
 
     $this->webUser = $this->drupalCreateUser(array(
       'create article content',
       'create page content',
-        ));
+    ));
 
     $this->adminUser = $this->drupalCreateUser(array(
       'bypass node access',
@@ -58,7 +56,6 @@ class EcasExtraAdminSettingsTest extends DrupalWebTestCase {
       'administer ecas',
       'administer users',
     ));
-
   }
 
   /**
@@ -222,10 +219,10 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
     if ($ecas) {
       db_insert('authmap')
         ->fields(array(
-           'authname' => $name,
-           'uid' => $account->uid,
-           'module' => 'ecas',
-           ))
+          'authname' => $name,
+          'uid' => $account->uid,
+          'module' => 'ecas',
+        ))
         ->execute();
     }
     return $account;

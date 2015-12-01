@@ -193,8 +193,8 @@ class MultisiteNotification extends DrupalWebTestCase {
    */
   public function setUp() {
     parent::setUp(array(
-        'multisite_notifications_core',
-        'mail_logger',
+      'multisite_notifications_core',
+      'mail_logger',
     ));
     $this->administrator = $this->drupalCreateUserWithRole("administrator");
     $this->visitor = $this->drupalCreateUserWithRole("anonymous");

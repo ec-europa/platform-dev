@@ -8,7 +8,6 @@
 namespace Drupal\multisite_config\Tests\Drupal\field;
 
 use Drupal\multisite_config\Tests\ConfigAbstractTest;
-use Drupal\field\Config;
 
 /**
  * Class ConfigTest.
