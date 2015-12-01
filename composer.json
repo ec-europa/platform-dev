@@ -80,6 +80,7 @@
     "post-install-cmd": "resources/scripts/composer/post-install.sh"
   },
   "config": {
-    "bin-dir": "bin/"
+    "bin-dir": "bin/",
+    "process-timeout": 1200
   }
 }

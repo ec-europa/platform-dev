@@ -327,6 +327,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
     if ($job->state != TMGMT_JOB_STATE_UNPROCESSED) {
       $form['languages']['#disabled'] = TRUE;
       $form['contacts']['#disabled'] = TRUE;
+      $form['organization']['#disabled'] = TRUE;
       $form['delai']['#disabled'] = TRUE;
       $form['remark']['#disabled'] = TRUE;
     }
