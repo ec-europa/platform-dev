@@ -253,7 +253,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
               '@language' => $language,
               '@url' => url($uri['path']),
               '@label' => $label,
-              ));
+            ));
           }
           else {
             try {
