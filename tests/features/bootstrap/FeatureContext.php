@@ -10,6 +10,7 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Behat\Gherkin\Node\PyStringNode;
 
 /**
  * Contains generic step definitions.
@@ -229,7 +230,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     if (!preg_match($pattern, $page_content)) {
       throw new Exception(sprintf('The page content language switcher is not set to %s and not followed by the language links %s.', $active_language, $language_order));
     }
-  }   
+  }
 
   /**
    * Reinitialize some environment settings.
@@ -255,6 +256,22 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         ->condition('language', $language->language)
         ->execute();
     }
+  }
+
+  /**
+   * Creates a file with specified name and context in current workdir.
+   *
+   * @param string $filename
+   *   Name of the file (relative path).
+   * @param PyStringNode $content
+   *   PyString string instance.
+   *
+   * @Given /^(?:there is )?a file named "([^"]*)" with:$/
+   */
+  public function aFileNamedWith($filename, PyStringNode $content) {
+    $content = strtr((string) $content, array("'''" => '"""'));
+    $drupal = $this->getDrupalParameter('drupal');
+    file_put_contents($drupal['drupal_root'] . '/' . $filename, $content);
   }
 
 }
