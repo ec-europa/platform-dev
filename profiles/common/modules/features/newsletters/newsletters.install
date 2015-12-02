@@ -22,6 +22,5 @@ function newsletters_enable() {
  */
 function newsletters_disable() {
   multisite_drupal_toolbox_remove_block_context('site_wide', '0');
-  multisite_drupal_toolbox_disable_content_type('simplenews');
   drupal_set_message(t('Newsletters feature is now disabled on your site.'));
 }

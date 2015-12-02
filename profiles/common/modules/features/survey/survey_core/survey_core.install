@@ -30,9 +30,6 @@ function survey_core_disable() {
   // Remove type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('webform', 'delete');
 
-  // Disable the content type webform.
-  multisite_drupal_toolbox_disable_content_type('webform');
-
   // Deactivation message.
   drupal_set_message(t('Survey %v feature is now disabled on your site.', array('%v' => _survey_core_get_version())));
 }
