@@ -143,7 +143,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
       '#description' => t("You can define here a root path for your items basing on the item type. The default behavior is to have sections correponding to the types, so if you have two types like
             news and events you will get pattern like news/[node:title], events/[node:title], you can override the root path for your elements here. Do not use leading por trailing slashes"),
       '#collapsible' => TRUE,
-      '#collapsed' => FALSE,
+      '#collapsed' => TRUE,
       '#access' => user_access('administer newsroom settings'),
     );
 
