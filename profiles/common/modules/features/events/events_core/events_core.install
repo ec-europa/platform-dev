@@ -36,8 +36,6 @@ function events_core_disable() {
   // Remove type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('event', 'delete');
 
-  multisite_drupal_toolbox_disable_content_type('event');
-
   drupal_set_message(t('Events feature is now disabled on your site.'));
 }
 
