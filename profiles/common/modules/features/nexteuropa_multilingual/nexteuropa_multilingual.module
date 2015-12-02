@@ -227,11 +227,20 @@ function nexteuropa_multilingual_preprocess_field(&$variables) {
   if (!empty($variables['label']) && isset($variables['label_hidden']) && $variables['label_hidden'] == FALSE) {
     if (isset($variables['element']['#object']->nid)) {
       $element = $variables['element'];
-      // Get field instance.
+      // Get the field object and the field instance.
       $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
-      // The field language properly respects the IPG language fallback,
-      // but not its label. The label must be translated.
+      $field = field_info_field($element['#field_name']);
+
+      // The field language property respects the IPG language fallback,
+      // but not its label and its value (for select list field).
+      // Translate label.
       $variables['label'] = i18n_field_translate_property($instance, 'label', $element['#language']);
+      // Translate field value (for select list field).
+      if (isset($variables['items']['0']['#markup']) && $translated_value = i18n_field_translate_allowed_values($field, $element['#language'])) {
+        foreach ($variables['items'] as $key => $item) {
+          $variables['items'][$key]['#markup'] = $translated_value[$key];
+        }
+      }
     }
   }
 }
