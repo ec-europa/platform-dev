@@ -168,8 +168,14 @@ projects[entity_translation][patch][] = patches/entity_translation-001-et-forwar
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
 
+projects[entityreference][download][branch] = 7.x-1.x
+projects[entityreference][download][revision] = ab62b9a
+projects[entityreference][download][type] = git
 projects[entityreference][subdir] = "contrib"
-projects[entityreference][version] = "1.1"
+; Issue #2401811: Rendered entity is not language aware
+; https://www.drupal.org/node/1674792
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6056
+projects[entityreference][patch][] = https://www.drupal.org/files/issues/entityreference-rendered-entity-is-not-language-aware-1674792-85.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
@@ -587,6 +593,10 @@ projects[workbench_email][version] = "3.5"
 ; https://www.drupal.org/node/2501321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
 projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch
+; Issue only reproducible on NextEuropa platform
+; https://www.drupal.org/node/2590385
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
+projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"

@@ -12,8 +12,6 @@ use Behat\Mink\Session;
 use Behat\Mink\Driver\GoutteDriver;
 use Behat\Mink\Driver\Goutte\Client as GoutteClient;
 use Drupal\Driver\DrupalDriver;
-use Drupal\Driver\Cores\Drupal7;
-use WebDriver\Exception;
 
 /**
  * Class NextEuropaDataExportAbstractTest.

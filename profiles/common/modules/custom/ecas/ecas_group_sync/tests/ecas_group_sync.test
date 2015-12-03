@@ -67,15 +67,13 @@ class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
     $this->drupalLogin($this->adminUser);
 
     // Create mapping rule.
-    // @todo The variable $id is unused in its scope.
-    $id = db_insert('ecas_sync_mapping')
+    db_insert('ecas_sync_mapping')
       ->fields(array(
         'LDAPfield' => 'dg',
         'LDAPfield_value' => 'DIGIT',
         'synctype' => 'role',
         'synctype_value' => '3',
-        )
-      )
+      ))
       ->execute();
 
     // Check the ecas_group_sync settings.

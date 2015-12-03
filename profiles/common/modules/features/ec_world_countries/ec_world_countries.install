@@ -5,7 +5,7 @@
  */
 
 // Includes helper installation functions.
-module_load_include('php', 'ec_world_countries', 'includes/countries');
+module_load_include('install.inc', 'ec_world_countries');
 
 /**
  * Implements hook_enable().
