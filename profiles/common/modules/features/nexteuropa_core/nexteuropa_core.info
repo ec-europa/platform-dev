@@ -33,6 +33,7 @@ dependencies[] = pathauto
 dependencies[] = smart_trim
 dependencies[] = strongarm
 dependencies[] = taxonomy
+dependencies[] = text
 dependencies[] = token
 dependencies[] = transliteration
 dependencies[] = version_management
