@@ -5,9 +5,9 @@
  * Multisite Toolbox definition module.
  */
 
-// TODO: fix natif overridden feature multisite_wysiwyg
-// and multisite_rules_configuration and remove them from black list.
- define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core,multisite_rules_configuration,nexteuropa_core');
+// TODO: fix natif overridden multisite_rules_configuration
+// and remove them from black list.
+ define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core,multisite_rules_configuration');
 /**
  * Implements hook_menu().
  */
