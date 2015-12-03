@@ -140,6 +140,12 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @param TableNode $modules_table
    *   The table listing modules.
    *
+   * @return bool
+   *   Always returns TRUE.
+   *
+   * @throws \Exception
+   *   Thrown when a module does not exist.
+   *
    * @Given the/these module/modules is/are enabled
    */
   public function enableModule(TableNode $modules_table) {
@@ -192,6 +198,18 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         ->condition('language', $language->language)
         ->execute();
     }
+  }
+
+  /**
+   * Creates a language.
+   *
+   * @param string $langcode
+   *   The ISO code of the language to create.
+   *
+   * @Given the :language language is available
+   */
+  public function createLanguages($langcode) {
+    $this->languageCreate((object) ['langcode' => $langcode]);
   }
 
 }
