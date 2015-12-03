@@ -114,4 +114,58 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
   }
 
+  /**
+   * Disabled and uninstall modules.
+   *
+   * @AfterScenario
+   */
+  public function cleanModule() {
+    if (isset($this->modules) && !empty($this->modules)) {
+      // Disable and uninstall any modules that were enabled.
+      module_disable($this->modules);
+      $res = drupal_uninstall_modules($this->modules);
+      unset($this->modules);
+    }
+  }
+
+  /**
+   * Enables one or more modules.
+   *
+   * Provide modules data in the following format:
+   *
+   * | modules  |
+   * | blog     |
+   * | book     |
+   *
+   * @param TableNode $modules_table
+   *   The table listing modules.
+   *
+   * @Given the/these module/modules is/are enabled
+   */
+  public function enableModule(TableNode $modules_table) {
+    $rebuild = FALSE;
+    $message = array();
+    foreach ($modules_table->getHash() as $row) {
+      if (!module_exists($row['modules'])) {
+        if (!module_enable($row)) {
+          $message[] = $row['modules'];
+        }
+        else {
+          $this->modules[] = $row['modules'];
+          $rebuild = TRUE;
+        }
+      }
+    }
+
+    if (!empty($message)) {
+      throw new \Exception(sprintf('Modules "%s" not found', implode(', ', $message)));
+    }
+    else {
+      if ($rebuild) {
+        drupal_flush_all_caches();
+      }
+      return TRUE;
+    }
+  }
+
 }

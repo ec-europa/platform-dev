@@ -103,15 +103,12 @@ dependencies[] = transliteration
 dependencies[] = multisite_dynamic_basetheme
 dependencies[] = fpa
 dependencies[] = flag
-dependencies[] = geofield
-dependencies[] = leaflet_widget
 
 dependencies[] = filefield_sources_plupload
 
 dependencies[] = multisite_create_button
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_standard
-dependencies[] = multisite_drupal_language_negociation
 
 ; Features.
 dependencies[] = cce_basic_config

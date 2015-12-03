@@ -2,38 +2,25 @@
 
 /**
  * @file
- * Install the feature Mega Menu
+ * Install the feature Mega Menu.
  */
-
-/**
- * Implements hook_install().
- */
-function multisite_megamenu_install() {
-  // Not implemented yet.
-}
-
-/**
- * Implements hook_uninstall().
- */
-function multisite_megamenu_uninstall() {
-  // Not implemented yet.
-}
 
 /**
  * Implements hook_enable().
  */
 function multisite_megamenu_enable() {
-  // Create new megamenu bar and import into it the (flattened) items in the the Drupal main menu
+  // Create new megamenu bar and import into it
+  // the (flattened) items in the the Drupal main menu.
   $menu_id = _multisite_megamenu_import_menu();
   if ($menu_id) {
     $context_name = 'site_wide';
     $region = 'featured';
 
-    // Remove default menu block in region from context
-    $context=module_invoke('context', 'load', $context_name);
+    // Remove default menu block in region from context.
+    $context = module_invoke('context', 'load', $context_name);
     if (is_array($context->reactions['block']['blocks']) && count($context->reactions['block']['blocks'])) {
       foreach ($context->reactions['block']['blocks'] as $block => $block_data) {
-        if ('system-main-menu'==$block && $region==$block_data['region']) {
+        if ('system-main-menu' == $block && $region == $block_data['region']) {
           _remove_block_context($context_name, 'system-main-menu');
           drupal_set_message(t('The default main menu has been removed from the "@context" context.', array('@context' => $context_name)));
           break;
@@ -41,17 +28,17 @@ function multisite_megamenu_enable() {
       }
     }
 
-    // Add megamenu block in region to context
+    // Add megamenu block in region to context.
     _add_block_context($context_name, 'om_maximenu-om-maximenu-1', 'om_maximenu', 'om-maximenu-' . $menu_id, $region);
     drupal_set_message(t('A Mega Menu bar has been created and inserted in the "@region" region of the "@context" context.', array('@region' => $region, '@context' => $context_name)));
   }
 
-  // Alter default configuration
+  // Alter default configuration.
   $om_maximenu = variable_get('om_maximenu');
   $om_maximenu[1]['block_options']['stacking'] = 'row';
   variable_set('om_maximenu', $om_maximenu);
-  
-  // Activation message
+
+  // Activation message.
   drupal_set_message(t('Mega Menu feature is now active on your site.'));
 }
 
@@ -63,10 +50,10 @@ function multisite_megamenu_disable() {
   $region = 'featured';
 
   // Remove any megamenu in region from context.
-  $context=module_invoke('context', 'load', $context_name);
+  $context = module_invoke('context', 'load', $context_name);
   if (is_array($context->reactions['block']['blocks']) && count($context->reactions['block']['blocks'])) {
     foreach ($context->reactions['block']['blocks'] as $block => $block_data) {
-      if ('om_maximenu'==$block_data['module'] && $region==$block_data['region']) {
+      if ('om_maximenu' == $block_data['module'] && $region == $block_data['region']) {
         _remove_block_context($context_name, $block);
       }
     }
@@ -82,10 +69,16 @@ function multisite_megamenu_disable() {
 }
 
 /**
- * Build the info array structure needed to create a megamenu instance with the items in a normal menu (by default the main menu)
+ * Menu informations.
  *
- * @param string $mlid the normal menu id
- * @return mixed the menu info structure array or FALSE
+ * Build the info array structure needed to create a megamenu instance
+ * with the items in a normal menu (by default the main menu).
+ *
+ * @param string $mlid
+ *   The normal menu id.
+ *
+ * @return mixed $menu_info
+ *   The menu info structure array or FALSE.
  */
 function _multisite_megamenu_get_menu_info($mlid = 'main-menu') {
   if (!is_string($mlid)) {
@@ -96,7 +89,7 @@ function _multisite_megamenu_get_menu_info($mlid = 'main-menu') {
   while ($record = $result->fetchObject()) {
     $item_list[] = $record->mlid;
   }
-  $items_str = ',' . join(',', $item_list);
+  $items_str = ',' . implode(',', $item_list);
   $menu_info = array(
     $mlid => array(
       'mlid' => $mlid,
@@ -107,10 +100,16 @@ function _multisite_megamenu_get_menu_info($mlid = 'main-menu') {
 }
 
 /**
- * Get the id of a megamenu that has been created by importing a normal menu (by default the main menu)
+ * Menu id.
  *
- * @param string $mlid the normal menu id
- * @return mixed the megamenu id or FALSE
+ * Get the id of a megamenu that has been created
+ * by importing a normal menu (by default the main menu).
+ *
+ * @param string $mlid
+ *   The normal menu id.
+ *
+ * @return mixed $menu_id
+ *   The megamenu id or FALSE.
  */
 function _multisite_megamenu_get_imported_menu($mlid = 'main-menu') {
   // Load om_maximenu settings and look for the id of our new menu.
@@ -132,10 +131,16 @@ function _multisite_megamenu_get_imported_menu($mlid = 'main-menu') {
 }
 
 /**
- * Create a megamenu instance and populate with the (flattened) menu items in a normal menu (by default the main menu)
+ * Megamenu instance.
  *
- * @param string $mlid the normal menu id
- * @return mixed the megamenu id or FALSE
+ * Create a megamenu instance and populate with the (flattened) menu items
+ * in a normal menu (by default the main menu).
+ *
+ * @param string $mlid
+ *   The normal menu id.
+ *
+ * @return mixed $menu
+ *   The megamenu menu.
  */
 function _multisite_megamenu_import_menu($mlid = 'main-menu') {
   // Obtain main menu info and prepare data for import.
@@ -147,7 +152,7 @@ function _multisite_megamenu_import_menu($mlid = 'main-menu') {
   $_om_maximenu_variable = variable_get('om_maximenu');
 
   // Import main menu (but note: the global variable is not updated).
-  require_once(drupal_get_path('module', 'om_maximenu') . '/inc/om_maximenu.import.inc');
+  require_once drupal_get_path('module', 'om_maximenu') . '/inc/om_maximenu.import.inc';
   om_maximenu_import_submit($form, $form_state);
 
   // Load om_maximenu settings and look for the id of our new menu.

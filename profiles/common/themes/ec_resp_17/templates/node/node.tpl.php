@@ -1,9 +1,11 @@
 <?php
-// $Id: node.tpl.php,v 1.2 2010/12/01 00:18:15 webchick Exp $
-
 /**
  * @file
- * ec_resp's theme implementation to display a node.
+ * Id: node.tpl.php,v 1.2 2010/12/01 00:18:15 webchick Exp $.
+ */
+/**
+ * @file
+ * Ec_resp's theme implementation to display a node.
  *
  * Available variables:
  * - $title: the (sanitized) title of the node.
@@ -92,25 +94,25 @@
 
   <div class="content clearfix"<?php print $content_attributes; ?>>
 
-    <?php 
+    <?php
       // We hide several elements now so that we can render them later.
       hide($content['comments']);
       hide($content['links']);
 
       // Theme author block.
-      if ($display_submitted) {
+      if ($display_submitted):
         $suffixe .= '<div class="row node-info">';
           $suffixe .= '<div class="node-info-submitted col-lg-6 col-md-6 col-sm-6 col-xs-12 col-lg-offset-6 col-md-offset-6 col-sm-offset-6">';
             $suffixe .= '<div class="well well-sm node-submitted clearfix"><small>';
-              //author picture
+              // Author picture.
               $suffixe .= $user_picture;
 
-              //publication date
+              // Publication date.
               $suffixe .= $submitted;
             $suffixe .= '</small></div>';
           $suffixe .= '</div>';
         $suffixe .= '</div>';
-      }
+      endif;
 
       print $prefixe;
       print render($content);
@@ -122,9 +124,9 @@
   <?php
     // Remove the "Add new comment" link on the teaser page or if the comment
     // form is being displayed on the same page.
-    if ($teaser || !empty($content['comments']['comment_form'])) {
+    if ($teaser || !empty($content['comments']['comment_form'])):
       unset($content['links']['comment']['#links']['comment-add']);
-    }
+    endif;
     // Only display the wrapper div if there are links.
     $links = render($content['links']);
     if ($links):

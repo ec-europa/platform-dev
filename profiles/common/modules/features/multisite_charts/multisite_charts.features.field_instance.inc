@@ -10,7 +10,7 @@
 function multisite_charts_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-chart-field_chart_height'
+  // Exported field_instance: 'node-chart-field_chart_height'.
   $field_instances['node-chart-field_chart_height'] = array(
     'bundle' => 'chart',
     'default_value' => array(
@@ -96,7 +96,7 @@ function multisite_charts_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-chart-field_chart_type'
+  // Exported field_instance: 'node-chart-field_chart_type'.
   $field_instances['node-chart-field_chart_type'] = array(
     'bundle' => 'chart',
     'default_value' => NULL,
@@ -174,7 +174,7 @@ function multisite_charts_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-chart-field_chart_width'
+  // Exported field_instance: 'node-chart-field_chart_width'.
   $field_instances['node-chart-field_chart_width'] = array(
     'bundle' => 'chart',
     'default_value' => array(
@@ -260,7 +260,7 @@ function multisite_charts_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-chart-field_chart_xml_data_source'
+  // Exported field_instance: 'node-chart-field_chart_xml_data_source'.
   $field_instances['node-chart-field_chart_xml_data_source'] = array(
     'bundle' => 'chart',
     'default_value' => NULL,

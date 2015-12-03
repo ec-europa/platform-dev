@@ -14,10 +14,10 @@ include_once 'ecas_env.features.inc';
 function ecas_env_menu_link_alter(&$item) {
   $ecas_menu_items = array();
   $ecas_menu_items = _ecas_menu($ecas_menu_items);
-  if (isset ($ecas_menu_items[$item['link_path']]) && $item['menu_name'] == 'user-menu') {
+  if (isset($ecas_menu_items[$item['link_path']]) && $item['menu_name'] == 'user-menu') {
     // If user edit menu item, we don't force the CSS class
     // (but currents are kept).
-    if (!isset ($item['customized']) || (isset ($item['customized']) && $item['customized'] == 0)) {
+    if (!isset($item['customized']) || (isset($item['customized']) && $item['customized'] == 0)) {
       switch ($item['link_path']) {
         case 'ecas':
           $item['options']['attributes']['title'] = t('Log in');
@@ -97,7 +97,7 @@ function ecas_env_node_view_alter(&$build) {
     $account_request_url = variable_get('ecas_account_request_url', ECAS_DEFAULT_ACCOUNT_REQUEST_URL);
     $return_url = url('ecas', array('absolute' => TRUE));
     $account_request_url = str_replace('%local_ecas_url%', $return_url, $account_request_url);
-    $build['links']['comment']['#links']['comment_forbidden']['title'] = '<a href="' . $return_url . '">Log in</a> or <a href="' . $account_request_url . '">register</a> to post comments';
+    $build['links']['comment']['#links']['comment_forbidden']['title'] = t('<a href="@return_url">Log in</a> or <a href="@account_request_url">register</a> to post comments', array('@return_url' => $return_url, '@account_request_url' => $account_request_url));
   }
 }
 

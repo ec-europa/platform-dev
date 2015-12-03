@@ -10,7 +10,7 @@
 function newsletters_og_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-simplenews-group_content_access'
+  // Exported field_instance: 'node-simplenews-group_content_access'.
   $field_instances['node-simplenews-group_content_access'] = array(
     'bundle' => 'simplenews',
     'default_value' => array(
@@ -61,7 +61,7 @@ function newsletters_og_field_default_field_instances() {
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-simplenews-og_group_ref'
+  // Exported field_instance: 'node-simplenews-og_group_ref'.
   $field_instances['node-simplenews-og_group_ref'] = array(
     'bundle' => 'simplenews',
     'default_value' => NULL,
@@ -130,7 +130,7 @@ function newsletters_og_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'taxonomy_term-newsletter-og_group_ref'
+  // Exported field_instance: 'taxonomy_term-newsletter-og_group_ref'.
   $field_instances['taxonomy_term-newsletter-og_group_ref'] = array(
     'bundle' => 'newsletter',
     'default_value' => NULL,

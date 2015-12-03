@@ -30,9 +30,9 @@ function ec_embedded_video_file_type($file) {
 }
 
 /**
- * Default Protocol-relative URL (PRURL) of the Video Cookie Consent webservice 
- * offered by Webtools.
+ * Default Protocol-relative URL (PRURL).
  *
+ * Of the Video Cookie Consent webservice offered by Webtools.
  * This is the location of the service that offers a "shield" between the video
  * service in order to protect the user from unwanted cookies. The basic concept
  * is that all embedded YouTube, Vimeo and dailymotion iframe sources are
@@ -47,9 +47,10 @@ define('EC_EMBEDDED_VIDEO_COOKIE_CONSENT_WEBSERVICE_PRURL', '//ec.europa.eu/cook
 function ec_embedded_video_theme_registry_alter(&$theme_registry) {
   $path = drupal_get_path('module', 'ec_embedded_video') . '/themes';
 
-  // Add Cookie Consent support themeing and preprocess for supported filetypes.
+  // Add Cookie Consent support theming and preprocess for supported filetypes.
   foreach (array('media_youtube', 'media_vimeo',
-      'media_dailymotion', 'media_avportal') as $module) {
+      'media_dailymotion', 'media_avportal',
+  ) as $module) {
     if (module_exists($module)) {
       // Override the location of supported Media providers template files.
       $theme_registry[$module . '_video']['path'] = $path;
@@ -78,10 +79,14 @@ function _ec_embedded_video_preprocess_media_vimeo_video(&$variables) {
  * Preprocess function for media_avportal_video.
  */
 function _ec_embedded_video_preprocess_media_avportal_video(&$variables) {
-  $query = array ('ref' => $variables['video_id'] , 'videolang' => $variables['video_language'], 'starttime' => 0, 'endtime' => 0,);
-  $variables['url'] = url('//ec.europa.eu/avservices/play.cfm', array ('query' => $query , 'external' => TRUE ));
+  $query = array(
+    'ref' => $variables['video_id'],
+    'starttime' => 0,
+    'endtime' => 0,
+  );
+  $variables['url'] = url('//ec.europa.eu/avservices/play.cfm', array('query' => $query, 'external' => TRUE));
 
-  // Don't use cookie complient for avportal video
+  // Don't use cookie compliant for avportal video.
   $variables['ec_embedded_video_url'] = $variables['url'];
 }
 
@@ -90,7 +95,7 @@ function _ec_embedded_video_preprocess_media_avportal_video(&$variables) {
  */
 function _ec_embedded_video_preprocess_media_dailymotion_video(&$variables) {
   // We support only iframe (not object) for dailymotion.
-  // @see media_dailymotion.theme.inc
+  // @see media_dailymotion.theme.inc.
   $daily_query = array('logo' => 0, 'autoPlay' => $variables['autoplay']);
   $variables['url'] = url('//www.dailymotion.com/embed/video/' . $variables['video_id'], array('query' => $daily_query, 'external' => TRUE));
 

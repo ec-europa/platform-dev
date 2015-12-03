@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Install the feature Multisite Media Gallery Core
+ * Install the feature Multisite Media Gallery Core.
  */
 
 include_once 'multisite_mediagallery_core.install.inc';
@@ -9,7 +9,7 @@ include_once 'multisite_mediagallery_core.install.inc';
 /**
  * Implements hook_enable().
  *
- * Edit communities context to add a block
+ * Edit communities context to add a block.
  */
 function multisite_mediagallery_core_enable() {
   // SolR configuration add bundle.
@@ -29,7 +29,7 @@ function multisite_mediagallery_core_enable() {
  * Implements hook_disable().
  *
  * Edit communities context to remove block
- * Remove permissions
+ * Remove permissions.
  */
 function multisite_mediagallery_core_disable() {
   // solR configuration add bundle.
@@ -42,18 +42,4 @@ function multisite_mediagallery_core_disable() {
 
   // Disabling message.
   drupal_set_message(t('Multisite Media Gallery Core %v feature is now inactive on your site.', array('%v' => _multisite_mediagallery_core_get_version())));
-}
-
-/**
- * Implements hook_install().
- */
-function multisite_mediagallery_core_install() {
-  // Nothing yet.
-}
-
-/**
- * Implements hook_uninstall().
- */
-function multisite_mediagallery_core_uninstall() {
-  // Nothing yet.
 }

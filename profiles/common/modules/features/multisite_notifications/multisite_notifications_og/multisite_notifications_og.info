@@ -1,5 +1,5 @@
 name = multisite_notifications_og
-description = provide notifications/subscriptions functionnalities for organic groups
+description = provide notifications/subscriptions functionalities for organic groups
 core = 7.x
 package = Multisite OG Features
 version = 7.x-1.0

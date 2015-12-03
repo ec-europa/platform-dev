@@ -10,7 +10,7 @@
 function social_bookmark_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: access social bookmark config page
+  // Exported permission: access social bookmark config page.
   $permissions['access social bookmark config page'] = array(
     'name' => 'access social bookmark config page',
     'roles' => array(

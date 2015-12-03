@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Install the feature events
+ * Install the feature events.
  */
 
 include_once 'events_standard.install.inc';
@@ -17,25 +17,6 @@ function events_standard_enable() {
  * Implements hook_disable().
  */
 function events_standard_disable() {
-  //Example
-
+  // Example.
   drupal_set_message(t('events_standard %v feature is now inactive on your site.', array('%v' => _events_standard_get_version())));
 }
-/**
- * hook_install
- */
-function events_standard_install() {
-  //Nothing yet
-}
-
-/**
- * hook_uninstall
- */
-function events_standard_uninstall() {
-  //Nothing yet
-}
-
-
-
-
-

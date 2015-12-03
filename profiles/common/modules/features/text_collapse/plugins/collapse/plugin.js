@@ -79,9 +79,9 @@ CKEDITOR.plugins.add('collapse',
                 editor.insertElement(container);
               }
       };
-      // dialog.add
+      // dialog.add.
     });
     // init:
   }
-  // plugin.add
+  // plugin.add.
 });

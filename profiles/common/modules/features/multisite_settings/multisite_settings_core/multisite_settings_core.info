@@ -10,7 +10,6 @@ dependencies[] = menu
 dependencies[] = taxonomy_browser
 features[context][] = homepage
 features[context][] = search
-features[context][] = site_wide
 features[context][] = workbench_moderate_all
 features[ctools][] = context:context:3
 features[ctools][] = strongarm:strongarm:1

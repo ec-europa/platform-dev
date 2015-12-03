@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * Newsroom install file.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function newsroom_schema() {
+  $schema['cache_newsroom'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_newsroom']['description'] = 'Cache table for the Newsroom module to store already menu paths for newsroom items and other variables.';
+  return $schema;
+}
+
+/**
+ * Implements hook_enable().
+ */
+function newsroom_enable() {
+  cache_clear_all('plugins:feeds:plugins', 'cache');
+}
+
+/**
+ * Update to trigger cahce refresh.
+ */
+function newsroom_update_7101() {
+
+}
+
+/**
+ * Update the variable used to store the universe id.
+ */
+function newsroom_update_7102() {
+  $old_newsroom = variable_get('newsroom_universe_root', FALSE);
+  if ($old_newsroom) {
+    $id = drupal_substr($old_newsroom, strrpos($old_newsroom, '/') + 1);
+    variable_set('newsroom_universe_id', $id);
+    variable_del('newsroom_universe_root');
+  }
+}

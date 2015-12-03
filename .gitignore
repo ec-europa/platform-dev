@@ -24,3 +24,18 @@ profiles/testing
 profiles/multisite_drupal_*/libraries
 profiles/multisite_drupal_*/modules/contrib
 profiles/multisite_drupal_*/themes
+
+# Ignore third party libraries that are placed inside module and theme folders
+# during the build.
+profiles/common/themes/ec_resp/bootstrap/
+profiles/common/themes/ec_resp/scripts/html5shiv.min.js
+profiles/common/themes/ec_resp/scripts/jquery.mousewheel.min.js
+profiles/common/themes/ec_resp/scripts/respond.min.js
+profiles/common/libraries/fancybox/
+profiles/common/libraries/flexslider/
+profiles/common/libraries/fullcalendar/
+profiles/common/libraries/fullcalendar_resources/
+profiles/common/libraries/jplayer/
+profiles/common/libraries/jquery.imgareaselect/
+profiles/common/libraries/jquery/
+profiles/common/libraries/modernizr/

@@ -6,9 +6,38 @@
  */
 
 /**
+ * Implements hook_requirements().
+ */
+function multisite_drupal_language_negociation_requirements() {
+  if (module_exists('nexteuropa_multilingual')) {
+    $t = get_t();
+    $args = array('%module' => 'NextEuropa Multilingual');
+    return array(
+      'multisite_drupal_language_negociation_module_conflict' => array(
+        'title' => 'Multisite drupal language negociation',
+        'description' => $t('This module is not compatible with %module. Please disable that module first.', $args),
+        'severity' => REQUIREMENT_ERROR,
+      ),
+    );
+  }
+}
+
+/**
  * Implements hook_enable().
  */
 function multisite_drupal_language_negociation_enable() {
+  // Set the url language prefix to 'en'.
+  db_update('languages')
+    ->fields(array('prefix' => 'en'))
+    ->condition('language', 'en')
+    ->execute();
+
+  // Set up language negotiation.
+  $lni = language_negotiation_info();
+  $ln['language-default'] = $lni['language-default'];
+  $ln['locale-url'] = $lni['locale-url'];
+  language_negotiation_set('language', $ln);
+
   variable_set("language_suffix_delimiter", "_");
 }
 

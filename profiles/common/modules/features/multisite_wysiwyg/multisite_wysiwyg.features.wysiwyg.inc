@@ -10,7 +10,7 @@
 function multisite_wysiwyg_wysiwyg_default_profiles() {
   $profiles = array();
 
-  // Exported profile: multisite_wysiwyg
+  // Exported profile: multisite_wysiwyg.
   $profiles['multisite_wysiwyg'] = array(
     'format' => 'multisite_wysiwyg',
     'editor' => 'ckeditor',

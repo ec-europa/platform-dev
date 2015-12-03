@@ -15,13 +15,6 @@ function _splash_screen_settings_form() {
     '#collapsed' => FALSE,
   );
 
-  $fieldset_general['splash_screen_home_page'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Real home page'),
-    '#description' => t('Enter the path of the real home page, without language suffix, domain, and trailing slash, i.e.: home'),
-    '#default_value' => variable_get('splash_screen_home_page', ''),
-  );
-
   // Formats the blacklisted languages array as a line separated list
   // before displaying them.
   $blacklist_arr = variable_get('splash_screen_blacklist', array());

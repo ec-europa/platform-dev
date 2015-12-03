@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Javascript file for crop and resize.
+ */
+
 (function ($) {
   Drupal.media_crop = Drupal.media_crop || {};
   Drupal.media_crop.actions = Drupal.media_crop.actions || {};
@@ -5,7 +10,7 @@
   Drupal.behaviors.media_crop = {
     attach: function (context) {
 
-      // Process special elements
+      // Process special elements.
       Drupal.media_crop.processSpecialSelect(context);
 
       var freeze = false;
@@ -65,10 +70,12 @@
           case "left":
             ret = 0;
             break;
+
           case "bottom":
           case "right":
             ret = orig - crop;
             break;
+
           case "center":
             ret = (orig / 2) - (crop / 2);
             break;
@@ -95,7 +102,7 @@
         var w = img.width();
         var h = img.height();
 
-        // Resize the image if it is not in the correct size
+        // Resize the image if it is not in the correct size.
         if (w != 350 || h != 350) {
           var normalizer = Math.max(w, h);
           w = Math.round(w / normalizer * 350);
@@ -259,7 +266,7 @@
         var cih = currentImage.height();
 
         if (rotDiff) {
-          // Resizing the container
+          // Resizing the container.
           currentImage.animate({
             'margin-top': (350 - cih) / 2
           }, $.extend({
@@ -273,7 +280,7 @@
           setTimeout(animationFinished, animationOptions.duration);
         }
 
-        // Saves the selection
+        // Saves the selection.
         var x = Number($('input[name=x]', context).val());
         var y = Number($('input[name=y]', context).val());
         var w = Number($('input[name=width]', context).val());
@@ -304,8 +311,9 @@
             switch (rotDiff) {
               case 270:
               case 90:
-                // Restores the selection
-                k = angle / 90; // k will be either -1 or 1
+                // Restores the selection.
+                // K will be either -1 or 1.
+                k = angle / 90;
                 if (rotDiff == 270) {
                   k /= 3;
                 }
@@ -314,6 +322,7 @@
                 w_ = h;
                 h_ = w;
                 break;
+
               case 0:
                 x_ = x;
                 y_ = y;
@@ -529,7 +538,6 @@
           cropEnabled = true;
           resetUI();
           activeCroppingInstance = $('.media-item img:visible').imgAreaSelect($.extend({}, areaSelectOptions, {show: false, enable: cropEnabled}));
-          //activeCroppingInstance.setOptions({enable: true});
         });
 
       $('.disable-interface:not(.processed)')
@@ -539,7 +547,6 @@
           $('.format-and-crop-container-bottom').hide();
           cropEnabled = false;
           resetUI();
-          //activeCroppingInstance.setOptions({remove: true});
         });
 
       var isCropOverridden = function () {
@@ -582,7 +589,6 @@
       var getFormattedMedia = Drupal.media.formatForm.getFormattedMedia;
       // Override Drupal.media.formatForm.getFormattedMedia(),
       // it is safe to do, as this js gets loaded only for local images.
-
       Drupal.media.formatForm.getFormattedMedia = function () {
         var formatType = ($('input[name=format]', context).val() || 'media_crop');
         var options = Drupal.media.formatForm.getOptions();

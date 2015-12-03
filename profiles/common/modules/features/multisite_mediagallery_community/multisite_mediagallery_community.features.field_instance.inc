@@ -10,7 +10,7 @@
 function multisite_mediagallery_community_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-gallerymedia-group_content_access'
+  // Exported field_instance: 'node-gallerymedia-group_content_access'.
   $field_instances['node-gallerymedia-group_content_access'] = array(
     'bundle' => 'gallerymedia',
     'default_value' => array(
@@ -61,7 +61,7 @@ function multisite_mediagallery_community_field_default_field_instances() {
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-gallerymedia-og_group_ref'
+  // Exported field_instance: 'node-gallerymedia-og_group_ref'.
   $field_instances['node-gallerymedia-og_group_ref'] = array(
     'bundle' => 'gallerymedia',
     'default_value' => NULL,

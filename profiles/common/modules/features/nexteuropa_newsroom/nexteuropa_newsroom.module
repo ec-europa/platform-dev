@@ -1,0 +1,1286 @@
+<?php
+/**
+ * @file
+ * Code for the nexteuropa Newsroom feature.
+ */
+
+include_once 'nexteuropa_newsroom.features.field_base.inc';
+include_once 'nexteuropa_newsroom.features.inc';
+include_once 'nexteuropa_newsroom.multilingual.inc';
+include_once drupal_get_path('module', 'pathauto') . '/pathauto.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_newsroom_menu() {
+  // Configuration page.
+  $items['admin/config/content/newsroom'] = array(
+    'title' => 'Newsroom',
+    'description' => 'Configure Newsroom settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_newsroom_admin_settings'),
+    'access arguments' => array('administer newsroom settings'),
+    'file' => 'nexteuropa_newsroom.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_help().
+ */
+function nexteuropa_newsroom_help($path, $arg) {
+  $help = '';
+  switch ($path) {
+    // Help text for the newsroom feature.
+    case 'admin/help#nexteuropa_newsroom':
+      $help = '<p>' . t('The nexteuropa newsroom feature is meant to integrate the newsroom corporate service into a Drupal nexteuropa/Next Europa client. By enabling it you will have the chance to fetch contents from the newsroom service basing on the configuraiton of your "universe" into your instance of the newsroom. To configure the newsroom you will need to get an "Universe id" from the service provider, you will have this code once your universe has been fully configured as a service and it will be ready to serve you contents. In the newsroom <a href="@newsroom" title="newsroom configuraiton">admin settings page</a> you can then define many of the newsroom behaviours and you can start palying associating you existing content types with the newly imported news coming from the newsroom.', array('@newsroom' => url('admin/config/content/newsroom'))) . '</p>';
+
+      break;
+
+  }
+
+  return $help;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function nexteuropa_newsroom_permission() {
+  return array(
+    'administer newsroom settings' => array(
+      'title' => t('Administer Newsroom settings'),
+    ),
+    'administer newsroom advanced settings' => array(
+      'title' => t('Administer all the newsroom settings'),
+    ),
+  );
+}
+
+/**
+ * Sets feature set api version.
+ *
+ * @return array
+ *   version number
+ */
+function nexteuropa_newsroom_feature_set_api() {
+  return array('version' => '1.0');
+}
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function nexteuropa_newsroom_image_default_styles() {
+  $styles = array();
+
+  // Exported image style: newsroom_style.
+  $styles['newsroom_style'] = array(
+    'name' => 'newsroom_style',
+    'label' => 'newsroom_style',
+    'effects' => array(
+      1 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 250,
+          'height' => '',
+          'upscale' => 1,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  return $styles;
+}
+
+/**
+ * Implements hook_post_features_enable_feature().
+ */
+function nexteuropa_newsroom_post_features_enable_feature($component) {
+  switch ($component) {
+    case 'field_base':
+      // Revert the field component,it seems it is not ready after it's enabled.
+      features_revert(array('nexteuropa_newsroom' => array($component)));
+      break;
+
+    case 'taxonomy':
+      // Disabled importers.
+      $disabled = variable_get('default_feeds_importer', array());
+      // Set translation mode for the vocabularies.
+      $importer_id = array(
+         'topics' => 'newsroom_topic',
+         'services' => 'newsroom_service',
+         'types' => 'newsroom_item_type',
+      );
+
+      foreach ($importer_id as $key => $importer) {
+        title_field_replacement_toggle('taxonomy_term', $importer, 'name');
+        $importer = $importer == 'newsroom_item_type' ? 'newsroom_type' : $importer . 's';
+        $disabling[] = $importer;
+        call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
+      }
+
+      // Toggle the default importers.
+      _nexteuropa_newsroom_disable_importer($disabled, $disabling);
+      cache_clear_all('plugins:feeds:plugins', 'cache');
+      break;
+
+    case 'node':
+      // No way to generate the node importer without this.
+      drupal_static_reset();
+      drupal_flush_all_caches();
+      // Enable title replacement for the newsroom_item content type.
+      title_field_replacement_toggle('node', 'newsroom_item', 'title');
+      // Disabled importers.
+      $disabled = variable_get('default_feeds_importer', array());
+
+      $importer_id = array(
+        'items' => 'newsroom_items',
+      );
+      // Create the dynamic node importer and disable the static ones.
+      foreach ($importer_id as $key => $importer) {
+        $disabling[] = $importer;
+        call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
+      }
+
+      // Toggle the default importers.
+      _nexteuropa_newsroom_disable_importer($disabled, $disabling);
+      cache_clear_all('plugins:feeds:plugins', 'cache');
+      break;
+  }
+}
+
+/**
+ * Helper function to check if the universe ID has been already set.
+ */
+function _nexteuropa_newsroom_check_universe_id() {
+  // After initital setup disable Universe ID field.
+  $universe_id = array();
+  $nri = variable_get('newsroom_universe_id', NULL);
+  if (!empty($nri)) {
+    $universe_id['disabled'] = TRUE;
+    $universe_id['description'] = t('To change the Newsroom Universe ID contact the site administrator.');
+    $universe_id['class'] = 'selected';
+    $universe_id['collapsing'] = FALSE;
+  }
+  else {
+    $universe_id['disabled'] = FALSE;
+    $universe_id['description'] = t('After setting the Newsroom Universe ID for the first time content will be imported from the Newsroom service. This might take a few minutes.');
+    $universe_id['class'] = 'not-selected';
+    $universe_id['collapsing'] = TRUE;
+  }
+  return $universe_id;
+}
+
+/**
+ * Prepare options for the content type select.
+ *
+ * @param string $type
+ *   Type of the options to generate.
+ *
+ * @return array
+ *   Array of options.
+ */
+function _nexteuropa_newsroom_prepare_options($type) {
+  $options = array();
+  if (is_numeric($type)) {
+    for ($i = 1; $i <= $type; $i++) {
+      $options[$i] = $i;
+    }
+  }
+  else {
+    // Get a list of the existing content type.
+    $content_types = node_type_get_types();
+    // Exclude the ct used for the import.
+    unset($content_types['newsroom_item']);
+    unset($content_types['newsroom_selection']);
+    // Build options for selecting content types.
+    foreach ($content_types as $name => $content_type) {
+      if ($content_type->disabled !== 1) {
+        $options[$name] = $content_type->name;
+      }
+    }
+  }
+  return $options;
+}
+
+/**
+ * Add fields to selected content types.
+ *
+ * @param string $type
+ *   Select or topic fo the moment.
+ * @param array $sel_ct
+ *   Array of content types machine names.
+ */
+function _nexteuropa_newsroom_add_fields($type = 'topic', $sel_ct = array()) {
+  $field_name = 'field_associated_newsroom_' . $type;
+
+  if (!empty($sel_ct)) {
+    foreach ($sel_ct as $machine_name => $content_type) {
+      $exist = field_info_instance('node', $field_name, $machine_name);
+      // Check for existing instances.
+      if ($exist === NULL) {
+        $instance = array(
+          'field_name' => $field_name,
+          'entity_type' => 'node',
+          'bundle' => $machine_name,
+          'label' => 'Newsroom ' . $type,
+          'description' => '',
+          'required' => 0,
+        );
+        field_create_instance($instance);
+        // Call the field_group helper function, we surely have to update it.
+        _nexteuropa_newsroom_field_group($machine_name, $field_name);
+        // Set a message to inform the user about the field instance creation.
+        drupal_set_message(t('Created instance of @field in the @bundle content type', array('@field' => $field_name, '@bundle' => $machine_name)));
+      }
+    }
+  }
+}
+
+/**
+ * Remove all the instances of a fields.
+ *
+ * @param string $type
+ *   Select or topic fo the moment.
+ * @param array $sel_ct
+ *   Array of content types machine names.
+ */
+function _nexteuropa_newsroom_remove_fields($type = 'topic', $sel_ct = array()) {
+  // This function runs after checking for existing field values in the databas.
+  $field_name = 'field_associated_newsroom_' . $type;
+  // All is the parameter we get when an user want to delete all the instances.
+  if ($sel_ct == 'all') {
+    $instances = _nexteuropa_newsroom_get_instances($type);
+  }
+  // Limit the search to the selected content types.
+  elseif (!empty($sel_ct)) {
+    foreach ($sel_ct as $content_type) {
+      $instances[] = $content_type;
+    }
+  }
+
+  if (!empty($instances)) {
+    // Loop through the instances to delete them.
+    foreach ($instances as $instance) {
+      $instance = field_info_instance('node', $field_name, $instance);
+      field_delete_instance($instance, FALSE);
+      // Call the field_group helper function, we could have to delete it.
+      _nexteuropa_newsroom_field_group($instance['bundle'], $field_name);
+      // Add the message to queue.
+      drupal_set_message(t('Deleted instance of @field in the @bundle content type', array('@field' => $field_name, '@bundle' => $instance['bundle'])));
+    }
+  }
+}
+
+/**
+ * Get the existing instances of fields.
+ *
+ * @param string $type
+ *   Select or topic for the moment.
+ *
+ * @return array
+ *   instances
+ */
+function _nexteuropa_newsroom_get_instances($type) {
+  // Get instances per field.
+  $instances = array();
+  if ($type) {
+    $content_types = node_type_get_types();
+    $field_name = 'field_associated_newsroom_' . $type;
+    $instances = array();
+    // We loop through the list of content types to find all the instances.
+    foreach ($content_types as $machine_name => $content_type) {
+      $exist = field_info_instance('node', $field_name, $machine_name);
+      if ($exist !== NULL) {
+        $instances[] = $exist['bundle'];
+      }
+    }
+  }
+  return $instances;
+}
+
+/**
+ * Check if it safe to delete field instances.
+ *
+ * @param string $type
+ *   Select or topic fo the moment.
+ * @param array $checks
+ *   Array of items to check.
+ *
+ * @return array
+ *   Information about the field name and nodes found.
+ */
+function _nexteuropa_newsroom_check_deletion($type, $checks = array()) {
+  $nodes = array();
+  // "All" is the parameter we get to delete all the instances.
+  if ($checks == 'all') {
+    $instances = _nexteuropa_newsroom_get_instances($type);
+  }
+  else {
+    if (!empty($checks)) {
+      // Get the instances to check for.
+      foreach ($checks as $field => $check) {
+        $instances[] = $check;
+      }
+    }
+  }
+
+  if (!empty($instances)) {
+    foreach ($instances as $instance) {
+      // Check in the database for values of the selected field.
+      $query = db_select('field_data_field_associated_newsroom_' . $type, 'ch');
+      $query->condition('bundle', $instance, '=');
+      $num_rows = $query->countQuery()->execute()->fetchField();
+      // There are values, we store the number of nodes to show it to the user.
+      if ($num_rows > 0) {
+        $nodes['field_data_field_associated_newsroom_' . $type][] = array(
+          'ct' => $instance,
+          'nodes' => $num_rows,
+        );
+      }
+    }
+  }
+  return $nodes;
+}
+
+/**
+ * Prepare check for instances deletion.
+ *
+ * @param array $previous
+ *   Old values.
+ * @param array $input
+ *   New values.
+ *
+ * @return array
+ *   Variables to pass.
+ */
+function _nexteuropa_newsroom_prepare_check(array $previous, array $input) {
+  // Set some values.
+  $selected['topic'] = array_filter($input['newsroom_content_types_topic']);
+  $selected['select'] = array_filter($input['newsroom_content_types_select']);
+  $check_topic = array();
+  $check_select = array();
+  // Check the two array for differences. we need to catch also a deselection.
+  if ($selected != $previous) {
+    $check_topic[] = array_diff($previous['topic'], $selected['topic']);
+    $check_topic[] = array_diff($selected['topic'], $previous['topic']);
+    $check_select[] = array_diff($previous['select'], $selected['select']);
+    $check_select[] = array_diff($selected['select'], $previous['select']);
+  }
+  // Prepare all the relevant data formatted into an array().
+  $infos = array(
+    'selected' => array(
+      'topic' => $selected['topic'],
+      'select' => $selected['select'],
+    ),
+    'delete' => array(
+      'topic' => $input['newsroom_content_types_delete_topic'],
+      'select' => $input['newsroom_content_types_delete_select'],
+    ),
+    'check' => array(
+      'topic' => $check_topic,
+      'select' => $check_select,
+    ),
+  );
+
+  return $infos;
+}
+
+/**
+ * Create a field_group to hold the newsroom fields in a vertical tab.
+ *
+ * @param string $machine_name
+ *   Content type machine name.
+ * @param string $field_name
+ *   Field machine name.
+ */
+function _nexteuropa_newsroom_field_group($machine_name, $field_name) {
+  // Get info about the group, it's likely to be already in the database.
+  $groups = field_group_info_groups('node', $machine_name, 'form', TRUE);
+  $fields = array('topic', 'select');
+  $group_name = 'group_' . $machine_name . '_newsroom';
+  $instances = FALSE;
+  // Check for instances of the newsroom fields inside the given content type.
+  foreach ($fields as $field) {
+    $field_name = 'field_associated_newsroom_' . $field;
+    if (field_info_instance('node', $field_name, $machine_name) != NULL) {
+      $instances[] = field_info_instance('node', $field_name, $machine_name);
+    }
+  }
+  // If the group is already there, remove it.
+  if (isset($groups[$group_name])) {
+    $query = db_delete('field_group')
+      ->condition('bundle', $machine_name, '=')
+      ->condition('group_name', 'group_' . $machine_name . '_newsroom', '=')
+      ->execute();
+  }
+  // Create the group with the right children.
+  if ($instances) {
+    $field_group = (object) array(
+      'identifier' => $group_name . '|node|' . $machine_name . '|form',
+      'group_name' => $group_name,
+      'entity_type' => 'node',
+      'bundle' => $machine_name,
+      'mode' => 'form',
+      'children' => array(),
+      'parent_name' => '',
+      'weight' => 5,
+      'label' => 'Newsroom fields',
+      'format_type' => 'tab',
+      'disabled' => FALSE,
+      'format_settings' => array(
+        'instance_settings' => array(
+          'required_fields' => 0,
+          'classes' => 'group-newsroom field-group-tab',
+          'description' => '',
+        ),
+        'formatter' => 'closed',
+      ),
+    );
+
+    foreach ($instances as $instance) {
+      $field_group->children[] = $instance['field_name'];
+    }
+
+    field_group_group_save($field_group);
+  }
+  // Remove the group since we don't have fields to show.
+  else {
+    drupal_set_message(t('Removed the fieldgroup @name from the @content_type content type', array('@name' => $group_name, '@content_type' => $machine_name)), 'status');
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function nexteuropa_newsroom_form_nexteuropa_newsroom_admin_settings_alter(&$form, &$form_state, $form_id) {
+  // If we are in a confimation step, change the form visualization.
+  if (isset($form_state['storage']['confirm'])) {
+    drupal_set_message(t('You are in a confirmation page, to submit all the form settings check the box below'), 'warning');
+    $form['newsroom_universe']['#collapsible'] = TRUE;
+    $form['newsroom_universe']['#collapsed'] = TRUE;
+    $form['newsroom_fields']['#collapsed'] = FALSE;
+  }
+}
+
+/**
+ * Submit handler.
+ */
+function nexteuropa_newsroom_restore_conf($form, &$form_state) {
+  $voc = $form['vocabulary_machine_name']['#value'];
+  // Get the id coming from the newsroom.
+  $id = _nexteuropa_newsroom_get_ids($voc, $form['#term']);
+  // The name of the variable contains the id.
+  $name = $voc . '_backup';
+  $backup = variable_get($name, array());
+
+  if (empty($backup)) {
+    drupal_set_message(t('No backup has been found for the vocabulary: @voc and the term: @name.', array('@voc' => $voc, '@name' => $form['#term']['name'])), 'warning');
+    return;
+  }
+
+  $term = $backup[$id];
+
+  if (empty($term)) {
+    drupal_set_message(t('No backup has been found for the term: @name.', array('@name' => $form['#term']['name'])), 'warning');
+    return;
+  }
+
+  // Override values basing on the backup ones.
+  foreach ($term as $propname => $prop) {
+    $form_state['values'][$propname]['und'][0]['value'] = $prop;
+  }
+
+  // Set a message for the user.
+  drupal_set_message(t('The configuration for the term "@name" has been restored from the backup version.', array('@name' => $form['#term']['name'])), 'status');
+  // Submit the form so the term get saved.
+  return taxonomy_form_term_submit($form, $form_state);
+}
+
+/**
+ * Submit handler.
+ */
+function nexteuropa_newsroom_restore_conf_all($form, &$form_state) {
+  $name = '';
+  $voc = $form['#vocabulary']->machine_name;
+  // Get the current variable for the specific vocubulary,
+  $backup = variable_get($voc . '_backup', array());
+
+  if (!empty($backup)) {
+    // Divide terms into chunks, grouping five of them.
+    $chunks = array_chunk($backup, 5, TRUE);
+    $num_operations = $sandbox['limit'] = count($chunks);
+    $operations = array();
+
+    for ($i = 0; $i < $num_operations; $i++) {
+      $operations[] = array(
+        'nexteuropa_newsroom_restore_batch',
+        array(
+          $chunks[$i],
+          $voc,
+          t('(Operation @operation)', array('@operation' => $i)),
+        ),
+      );
+    }
+
+    $batch = array(
+      'operations' => $operations,
+      'finished' => 'nexteuropa_newsroom_restore_batch_finished',
+      'title' => t('Restore configuration for terms'),
+      'init_message' => t('The restore of your configuration has been started'),
+      'progress_message' => t('Current: @current | Remaining:
+        @remaining | Total: @total | Percentage: @percentage | Estimate:
+        @estimate | Elapsed: @elapsed'),
+      'error_message' => t('The restore did not work.'),
+    );
+
+    batch_set($batch);
+  }
+  else {
+    drupal_set_message(t("We couldn't get the backup for the vocabulary: @voc", array('@voc' => $voc)), 'warning');
+  }
+}
+
+/**
+ * The batch operation.
+ *
+ * @param array $chunk
+ *   The terms to be updated.
+ * @param string $voc
+ *   Vocabulary's machine name.
+ * @param array $operation_details
+ *   Array of values.
+ */
+function nexteuropa_newsroom_restore_batch(array $chunk, $voc, array $operation_details) {
+
+  foreach ($chunk as $id => $fields) {
+    // Try to find the corresponding term basing on its ID.
+    $term = _nexteuropa_newsroom_get_term_from_id($id, $voc);
+    if ($term) {
+      // Let's work with an array.
+      $term = get_object_vars($term);
+
+      // This is special, make them handable!.
+      $special = array(
+        'field_newsroom_field_featured_item',
+      );
+
+      if (!empty($fields)) {
+        // Override values.
+        foreach ($fields as $field_name => $value) {
+          if (!in_array($propname, $special)) {
+            $term[$field_name]['und'][0]['value'] = $value;
+          }
+          else {
+            if (is_numeric($value)) {
+              $term[$field_name]['und'][0]['target_id'] = $value;
+            }
+            else {
+              unset($term[$field_name]['und'][0]);
+            }
+          }
+        }
+
+        if (isset($context)) {
+          // Build the worked term name list.
+          $context['results'][] .= $conf['name'] . ', ';
+          $context['message'] = t('Restoring "@title"', array('@title' => $term['name'])) . ' ' . $operation_details;
+        }
+      }
+      // Save the term with the new values.
+      taxonomy_term_save((object) $term);
+    }
+  }
+}
+
+/**
+ * Submit handler.
+ */
+function nexteuropa_newsroom_backup_conf($form, &$form_state) {
+  $voc = $form['vocabulary_machine_name']['#value'];
+  $tree = taxonomy_get_tree($voc);
+  // Get the current backup.
+  $current_values = variable_get($voc . '_backup', array());
+  $id = _nexteuropa_newsroom_get_ids($voc, $form_state['values']);
+  $term = (object) $form_state['values'];
+  $new_values = _nexteuropa_newsroom_export_prepare_values($term);
+  // If no backup have been saved, save it for for the first time.
+  if (empty($current_values)) {
+    variable_set($voc . '_backup', $new_values);
+  }
+  else {
+    // Override the values for the specific term.
+    $new_values = reset($new_values);
+    $current_values[$id] = $new_values;
+  }
+
+  // Set values for the newsroom backup.
+  variable_set($voc . '_backup', $current_values);
+
+  // Set a message to the user.
+  drupal_set_message(t('We saved a backup of your configuration for the term "@name". if you need to restore the values in the backup click on the "Restore & Save" button', array('@name' => $form['#term']['name'])), 'status');
+  // Submit the form so the term get saved.
+  return taxonomy_form_term_submit($form, $form_state);
+}
+
+/**
+ * Submit handler.
+ */
+function nexteuropa_newsroom_backup_conf_all($form, &$form_state) {
+  $name = '';
+  $voc = $form['#vocabulary']->machine_name;
+  // We need the whole tree here.
+  $tree = taxonomy_get_tree($form['#vocabulary']->vid);
+
+  foreach ($tree as $base_term) {
+    $tid = $base_term->tid;
+    $term = taxonomy_term_load($tid);
+    $id = _nexteuropa_newsroom_get_ids($voc, (array) $term);
+
+    // Working with arrays.
+    $term = _nexteuropa_newsroom_export_prepare_values($term);
+    $term = reset($term);
+    $values[$id] = $term;
+  }
+
+  // Save the variable.
+  variable_set($voc . '_backup', $values);
+
+  // Set a message to the user.
+  drupal_set_message(t('We saved a backup of your configuration for the vocabulary: "@name". if you need to restore the values in the backup click on the "Restore" button', array('@name' => $voc)), 'status');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function nexteuropa_newsroom_form_taxonomy_form_term_alter(&$form, &$form_state) {
+  $voc_name = $form['vocabulary_machine_name']['#value'];
+
+  switch ($voc_name) {
+    case 'newsroom_item_type':
+    case 'newsroom_service':
+    case 'newsroom_topic':
+
+      $form['actions']['restore_config'] = array(
+        '#type' => 'submit',
+        '#value' => t('Restore conf & Save'),
+        '#submit' => array('nexteuropa_newsroom_restore_conf'),
+      );
+
+      $form['actions']['backup_config'] = array(
+        '#type' => 'submit',
+        '#value' => t('Backup conf & Save'),
+        '#submit' => array('nexteuropa_newsroom_backup_conf'),
+      );
+
+      break;
+
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function nexteuropa_newsroom_form_taxonomy_overview_terms_alter(&$form, &$form_state) {
+  $vocs = array(
+    'newsroom_topic',
+    'newsroom_service',
+    'newsroom_item_type',
+  );
+
+  if (in_array($form['#vocabulary']->machine_name, $vocs)) {
+    $form['actions']['backup_config'] = array(
+      '#type' => 'submit',
+      '#value' => t('Backup configuration'),
+      '#submit' => array('nexteuropa_newsroom_backup_conf_all'),
+    );
+
+    $form['actions']['restore_config'] = array(
+      '#type' => 'submit',
+      '#value' => t('Restore configuration'),
+      '#submit' => array('nexteuropa_newsroom_restore_conf_all'),
+    );
+  }
+}
+
+/**
+ * Get newsroom id values.
+ */
+function _nexteuropa_newsroom_get_ids($voc, $data) {
+  switch ($voc) {
+    case 'newsroom_item_type':
+      $id = $data['field_newsroom_type_id']['und'][0]['value'];
+      break;
+
+    case 'newsroom_service':
+      $id = $data['field_newsroom_service_id']['und'][0]['value'];
+      break;
+
+    case 'newsroom_topic':
+      $id = $data['field_newsroom_topic_id']['und'][0]['value'];
+      break;
+  }
+  return $id;
+}
+
+/**
+ * Grab the newsroom fields from a term.
+ *
+ * @param object $term
+ *   The term to get the values from.
+ *
+ * @return array
+ *   Formatted values for the newsroom related fields.
+ */
+function _nexteuropa_newsroom_export_prepare_values($term) {
+  $term = get_object_vars($term);
+  $voc = $term['vocabulary_machine_name'];
+  $id = _nexteuropa_newsroom_get_ids($voc, $term);
+  $values = array();
+  $values[$id] = array();
+  $voc = str_replace('_item', '', $voc);
+  foreach ($term as $propname => $prop) {
+    // Should work only with custom fields.
+    if (strpos($propname, 'field') === 0) {
+      if ($propname == 'field_' . $voc . '_id') {
+        continue;
+      }
+
+      if (isset($prop['und'][0]['value'])) {
+        $values[$id][$propname] = $prop['und'][0]['value'];
+      }
+    }
+  }
+
+  return $values;
+}
+
+/**
+ * Find a term basing on its newsroom id.
+ *
+ * @param string $id
+ *   The id coming from the newsroom.
+ * @param string $voc
+ *   Vocabulay's machine name.
+ *
+ * @return object
+ *   The term object.
+ */
+function _nexteuropa_newsroom_get_term_from_id($id, $voc) {
+  $field = str_replace('_item', '', $voc);
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'taxonomy_term')
+    ->entityCondition('bundle', $voc)
+    ->fieldCondition('field_' . $field . '_id', 'value', $id, '=');
+
+  $results = $query->execute();
+
+  if (!empty($results)) {
+    $result = reset($results['taxonomy_term']);
+    $tid = $result->tid;
+    $term = taxonomy_term_load($tid);
+  }
+  else {
+    $term = FALSE;
+  }
+  return $term;
+}
+
+/**
+ * Helper function to get the enabled languages.
+ */
+function _nexteuropa_newsroom_languages() {
+  $lang = locale_language_list('name');
+  $lang_keys = array_keys($lang);
+  $eng = array_search('en', $lang_keys);
+  if ($eng) {
+    unset($lang_keys[$eng]);
+    array_unshift($lang_keys, 'en');
+  }
+
+  return $lang_keys;
+}
+
+/**
+ * Helper function to disable feeds importers.
+ *
+ * @param bool $disabled
+ *   The disabled importers.
+ * @param string $importer_ids
+ *   The id of the importer to disable or enable.
+ */
+function _nexteuropa_newsroom_disable_importer($disabled, $importer_ids, $toggle = FALSE) {
+  $importers = feeds_importer_load_all(TRUE);
+
+  foreach ($importers as $importer) {
+    if (in_array($importer->id, $importer_ids)) {
+      $disabled[$importer->id] = TRUE;
+    }
+    else {
+      if ($toggle) {
+        $disabled[$importer->id] = FALSE;
+      }
+    }
+  }
+
+  variable_set('default_feeds_importer', $disabled);
+  feeds_cache_clear();
+}
+
+/**
+ * Helper function to enable translations for specific fields.
+ */
+function _nexteuropa_newsroom_enable_translations() {
+  // Enable entity translation support for terms.
+  $enabled = variable_get('entity_translation_entity_types', array());
+  $enabled_types = array_filter($enabled);
+  if (!in_array('taxonomy_term', $enabled_types)) {
+    $enabled['taxonomy_term'] = 'taxonomy_term';
+  }
+  if (!in_array('file', $enabled_types)) {
+    $enabled['file'] = 'file';
+  }
+  variable_set('entity_translation_entity_types', $enabled);
+
+  // Enable translations for various fields.
+  $field_names = array(
+    'body',
+    'field_file_image_alt_text',
+    'field_file_image_title_text',
+    'field_caption',
+  );
+
+  foreach ($field_names as $field_name) {
+    $field = field_read_field($field_name);
+    if ($field) {
+      // Make the field translatable.
+      $field['translatable'] = 1;
+      field_update_field($field);
+    }
+  }
+}
+
+/**
+ * Helper function to enable languages.
+ */
+function _nexteuropa_newsroom_enable_languages($languages) {
+  if (module_exists('locale')) {
+    include_once DRUPAL_ROOT . '/includes/locale.inc';
+    foreach ($languages as $lang) {
+      // Enabling languages.
+      locale_add_language($lang);
+    }
+  }
+}
+
+/**
+ * Helper function to enable languages.
+ *
+ * @param array $premapping
+ *   The values to elaborate.
+ * @param string $type
+ *   Taxonomy or node.
+ *
+ * @return array
+ *   Array containing the needed info for the importer.
+ */
+function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type = NULL) {
+  $def_lang = drupal_strtoupper(language_default()->language);
+  // Get enabled languages codes.
+  $lang_keys = _nexteuropa_newsroom_languages();
+  // Loop through all the fields, build the needed arrays.
+  $i = 0;
+
+  foreach ($premapping as $field => $values) {
+    if (isset($values['tamper'])) {
+      $str = 'xpathparser_' . $i;
+      $tamper = array(
+        'settings' => array(
+          'entity_type' => 'taxonomy_term',
+          'bundle' => $premapping[$field]['vocabulary'],
+          'column' => 'value',
+        ),
+        'id' => $type . '-' . $str . '-efq_finder',
+        'importer' => $type,
+        'source' => 'xpathparser:' . $i,
+        'field' => $premapping[$field]['field'],
+      );
+
+      _nexteuropa_newsroom_dynamic_tamper($tamper);
+    }
+
+    // Things look different if the field is translatable.
+    if ($values['language']) {
+      // If fields are translatable,
+      // we create a different mapping for each language.
+      foreach ($lang_keys as $lang_key) {
+        $upper_key = drupal_strtoupper($lang_key);
+        // Xpath queries.
+        $queries['xpathparser:' . $i] = $values['query'] . '[@lang="' . $upper_key . '"]/text()';
+
+        if (strpos($type, 'topic') && $upper_key != $def_lang) {
+          $queries['xpathparser:' . $i] = '//channel/item[infsonewsroom:BasicSvType="Newsroom service"]/category[@domain!="Newsletter" and @lang="' . $upper_key . '" and @infsonewsroom:TopicId="$Temporary target 1"]/' . $values['query'];
+        }
+        elseif (strpos($type, 'topic') && $upper_key == $def_lang) {
+          $queries['xpathparser:' . $i] = $values['query'];
+        }
+        elseif (strpos($type, 'newsroom_types')) {
+          $queries['xpathparser:' . $i] = $values['query'] . '[@lang="' . $upper_key . '"]/text()';
+        }
+        // Mapping arrays.
+        $mapping[$i] = array(
+          'source' => 'xpathparser:' . $i,
+          'target' => $field . ':et:' . $lang_key,
+          'unique' => FALSE,
+        );
+        // Additional values.
+        if (isset($values['options'])) {
+          foreach ($values['options'] as $key => $option) {
+            $mapping[$i][$key] = $option;
+          }
+        }
+        // Guid is the "unique" field but let's do this "dinamically".
+        if (isset($values['unique'])) {
+          $mapping[$i]['unique'] = TRUE;
+        }
+        $i++;
+      }
+    }
+    // Not translatable fields.
+    else {
+      // Xpath queries.
+      $queries['xpathparser:' . $i] = $values['query'];
+      // Mapping arrays.
+      $mapping[$i] = array(
+        'source' => 'xpathparser:' . $i,
+        'target' => $field,
+        'unique' => FALSE,
+      );
+
+      if (isset($values['options'])) {
+        foreach ($values['options'] as $key => $option) {
+          $mapping[$i][$key] = $option;
+        }
+      }
+      if (isset($values['unique'])) {
+        $mapping[$i]['unique'] = TRUE;
+      }
+      $i++;
+    }
+  }
+
+  // Build also the debug and raw_xml arrays.
+  foreach ($queries as $xpath => $query) {
+    $debug[$xpath] = $raw_xml[$xpath] = 0;
+  }
+
+  return array(
+    'mapping' => $mapping,
+    'queries' => $queries,
+    'debug' => $debug,
+    'raw_xml' => $raw_xml,
+  );
+}
+
+/**
+ * Build tampers programmatically.
+ */
+function _nexteuropa_newsroom_dynamic_tamper($tamper) {
+  $def_lang = language_default()->language;
+
+  if ($tamper == NULL) {
+    $feeds_tamper = new stdClass();
+    $feeds_tamper->disabled = FALSE;
+    $feeds_tamper->api_version = 2;
+    $feeds_tamper->id = 'newsroom_items_multilingual-blank_source_1-default_value';
+    $feeds_tamper->importer = 'newsroom_items_multilingual';
+    $feeds_tamper->source = 'Blank source 1';
+    $feeds_tamper->plugin_id = 'default_value';
+    $feeds_tamper->settings = array(
+      'default_value' => $def_lang,
+    );
+    $feeds_tamper->weight = 0;
+    $feeds_tamper->description = 'Set default language';
+  }
+  else {
+    $feeds_tamper = new stdClass();
+    $feeds_tamper->disabled = FALSE;
+    $feeds_tamper->api_version = 2;
+    $feeds_tamper->id = $tamper['id'];
+    $feeds_tamper->importer = $tamper['importer'];
+    $feeds_tamper->source = $tamper['source'];
+    $feeds_tamper->plugin_id = 'efq_finder';
+    $feeds_tamper->settings = array(
+      'update' => 'Update',
+      'entity_type' => 'taxonomy_term',
+      'bundle' => $tamper['settings']['bundle'],
+      'field' => $tamper['field'],
+      'column' => 'value',
+      'property' => FALSE,
+    );
+    $feeds_tamper->weight = 0;
+    $feeds_tamper->description = 'Entity Field Query finder';
+  }
+
+  // Delete a pre-existing tamper with the same id.
+  db_delete('feeds_tamper')
+    ->condition('id', $feeds_tamper->id)
+    ->execute();
+  // Save the tamper.
+  feeds_tamper_save_instance($feeds_tamper);
+}
+
+/**
+ * Helper function to enable languages.
+ *
+ * @param object $importer
+ *   The importer to import.
+ */
+function _nexteuropa_newsroom_import_importer($importer) {
+  // Those Api calls are copied from the submit function of the
+  // import form provided by the feeds_ui module. The alpha8 version
+  // of Feeds (the one used in the platform) had a bugged implementation,
+  // fixed using the dev version code for the submit.
+  // Create a copy of the importer to preserve config.
+  $save = feeds_importer($importer->id);
+  $save->setConfig($importer->config);
+  foreach (array('fetcher', 'parser', 'processor') as $type) {
+    $save->setPlugin($importer->config[$type]['plugin_key']);
+    $save->$type->setConfig($importer->config[$type]['config']);
+  }
+  $save->save();
+}
+
+/**
+ * Helper function to delete menu, menu links, taxonomies.
+ */
+function nexteuropa_newsroom_delete($name, $type = 'menu', $op = 'items') {
+  switch ($type) {
+    case 'menu':
+      if ($op == 'items') {
+        menu_delete_links($name);
+      }
+      else {
+        menu_delete(array('menu_name' => $name));
+      }
+      break;
+
+    case 'vocabulary':
+      if ($op == 'items') {
+        $voc = taxonomy_vocabulary_machine_name_load($name);
+        if (!empty($voc)) {
+          $terms = taxonomy_get_tree($voc->vid);
+          foreach ($terms as $term) {
+            taxonomy_term_delete($term->tid);
+          }
+        }
+      }
+      else {
+        $voc = taxonomy_vocabulary_machine_name_load($name);
+        if (!empty($voc)) {
+          taxonomy_vocabulary_delete($voc->vid);
+        }
+      }
+      break;
+
+    case 'node':
+      $node_type = array($name);
+      $query = new EntityFieldQuery();
+      $query->entityCondition('entity_type', 'node')
+        ->propertyCondition('type', $node_type, 'IN');
+      $result = $query->execute();
+      foreach ($result['node'] as $node) {
+        node_delete($node->nid);
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'newsroom_item_node_form') {
+    // Build language aware options list for taxonomy reference fields.
+    $terms = array();
+    global $language;
+    $def_lang = language_default()->language;
+    $curr_lang = $language->language;
+
+    $taxonomy_fields = array(
+      'field_newsroom_item_type',
+      'field_primary_topic',
+      'field_newsroom_topics',
+      'field_highlighted_newsroom_topic',
+    );
+
+    $type_vid = taxonomy_vocabulary_machine_name_load('newsroom_item_type')->vid;
+    $topic_vid = taxonomy_vocabulary_machine_name_load('newsroom_topic')->vid;
+
+    $terms['newsroom_item_type'] = i18n_taxonomy_get_tree($type_vid, $def_lang);
+    $terms['newsroom_topic'] = i18n_taxonomy_get_tree($topic_vid, $def_lang);
+
+    // Fields with wrong translation in node edit form.
+    foreach ($taxonomy_fields as $taxonomy_field) {
+      $tree = $taxonomy_field == 'field_newsroom_item_type' ? $terms['newsroom_item_type'] : $terms['newsroom_topic'];
+
+      foreach ($tree as $key => $value) {
+        $i18n_object = i18n_get_object('taxonomy_term', $value->tid);
+        $t_term = $i18n_object->localize($curr_lang);
+        $pref = $value->parents[0] != 0 ? '- ' : '';
+        $form[$taxonomy_field]['und']['#options'][$value->tid] = $pref . $t_term->name;
+      }
+
+      // The default value is lost in the translations,
+      // so we need to set it this way.
+      if (!empty($form['#node']->$taxonomy_field)) {
+        $values = array();
+        $value_array = $form['#node']->$taxonomy_field;
+        foreach ($value_array['und'] as $value) {
+          $values[] = $value['tid'];
+          $form[$taxonomy_field]['und']['#default_value'] = $values;
+        }
+      }
+    }
+
+    // The widget will loose this settings, otherwise.
+    $form['field_newsroom_topics']['und']['#multiple'] = TRUE;
+  }
+}
+
+/**
+ * Implements hook_url_inbound_alter().
+ *
+ * Resolves alias if the content is not translated.
+ */
+function nexteuropa_newsroom_url_inbound_alter(&$path, $original_path, $path_language) {
+  // Check if no url alias has not been found for incoming path.
+  if ($path && $path == $original_path) {
+    // Resolve alias if the content is not translated to current language. Get
+    // alias of existing translation.
+    foreach (array_keys(language_list()) as $language) {
+      if ($source = drupal_lookup_path('source', $path, $language)) {
+        // Check if we are at the document page.
+        if (strpos($source, 'node/') === 0) {
+          $path = $source;
+          break;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_url_outbound_alter().
+ *
+ * Resolves alias from node language if the content is not translated.
+ */
+function nexteuropa_newsroom_url_outbound_alter(&$path, &$options, $original_path) {
+  if (preg_match('/^node\/\d+$/', $path) && $node = menu_get_object('node', 1, $path)) {
+    if ($alias = drupal_get_path_alias($path, $node->language)) {
+      $path = $alias;
+    }
+  }
+}
+
+/**
+ * Implements hook_url_strongarm_alter().
+ */
+function nexteuropa_newsroom_strongarm_alter(&$variables) {
+  // Unset a "dynamic variable" created by cce_basic_config.
+  unset($variables['image_captcha_fonts']);
+  unset($variables['print_pdf_pdf_tool']);
+}
+
+/**
+ * Rebuild multilingual importers.
+ */
+function _nexteuropa_newsroom_rebuild_importers() {
+  // Remove importers.
+  $importers = array(
+    'items' => 'newsroom_items_multilingual',
+    'services' => 'newsroom_services_multilingual',
+    'topics' => 'newsroom_topics_multilingual',
+    'types' => 'newsroom_types_multilingual',
+  );
+
+  foreach ($importers as $key => $importer) {
+    feeds_importer($importer)->delete();
+    // Recreate them.
+    call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
+  }
+
+  $form['rebuilt'] = array(
+    '#type' => 'markup',
+    '#markup' => t('Importers have been rebuilt'),
+  );
+
+  return $form['rebuilt'];
+}
+
+/**
+ * Check if the vocabulary exists, otherwise create it.
+ *
+ * @param string $voc
+ *   Vocabulary machine name.
+ */
+function _nexteuropa_newsroom_check_vocabularies($voc) {
+  $check = taxonomy_vocabulary_machine_name_load($voc);
+  if (!$check) {
+    $vocab = (object) array(
+      'name' => $voc,
+      'description' => '',
+      'machine_name' => $voc,
+    );
+    taxonomy_vocabulary_save($vocab);
+    $check = taxonomy_vocabulary_machine_name_load($voc);
+  }
+
+  return $check->vid;
+}
+
+/**
+ * Check if a field is translatable.
+ *
+ * @param array $premapping
+ *   Premappings array.
+ */
+function _nexteuropa_newsroom_check_translations($premapping) {
+  // Build an array with langauge settings for the fields.
+  foreach ($premapping as $fieldname => $values) {
+    // Sanitize fieldname
+    $attribute = strrchr($fieldname, ':');
+    $sanitized_name = str_replace($attribute, '', $fieldname);
+    $field = field_info_field($sanitized_name);
+    $language = field_is_translatable('node', $field);
+    $premapping[$fieldname]['language'] = $language;
+  }
+
+  return $premapping;
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function nexteuropa_newsroom_node_presave($node) {
+  if ($node->type == 'newsroom_item' && variable_get('newsroom_patterns', FALSE)) {
+    // Get all the types.
+    if (isset($node->field_newsroom_item_type['und'][0]['tid'])) {
+      $type_tid = $node->field_newsroom_item_type['und'][0]['tid'];
+      $type = pathauto_cleanstring(drupal_strtolower(taxonomy_term_load($type_tid)->name));
+      $conf = variable_get('newsroom_' . $type . '_root', FALSE);
+      if ($conf) {
+        $node->path['pathauto'] = FALSE;
+        $node->path['alias'] = $conf . '/' . pathauto_cleanstring($node->title);
+      }
+    }
+  }
+}

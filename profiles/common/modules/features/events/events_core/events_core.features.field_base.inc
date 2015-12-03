@@ -10,7 +10,7 @@
 function events_core_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_event_date'
+  // Exported field_base: 'field_event_date'.
   $field_bases['field_event_date'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -41,7 +41,7 @@ function events_core_field_default_field_bases() {
     'type' => 'datestamp',
   );
 
-  // Exported field_base: 'field_location'
+  // Exported field_base: 'field_location'.
   $field_bases['field_location'] = array(
     'active' => 1,
     'cardinality' => -1,
