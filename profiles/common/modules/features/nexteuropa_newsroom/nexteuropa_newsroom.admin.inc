@@ -562,7 +562,15 @@ function nexteuropa_newsroom_type_root_validate($element, &$form_state) {
   }
 
   if ($form_state['values'][$element['#name']] != $pattern) {
-    drupal_set_message(t('The value for the %el has been modified. BEFORE: %or ::: AFTER: %mod', array('%el' =>  $element['#name'], '%or' => $form_state['values'][$element['#name']], '%mod' => $pattern)), 'warning');
+    drupal_set_message(
+      t('The value for the %el has been modified. BEFORE: %or ::: AFTER: %mod',
+      array(
+        '%el' => $element['#name'],
+        '%or' => $form_state['values'][$element['#name']],
+        '%mod' => $pattern,
+      )),
+      'warning'
+    );
     $form_state['values'][$element['#name']] = $pattern;
   }
 }

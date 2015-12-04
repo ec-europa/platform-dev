@@ -115,9 +115,9 @@ function nexteuropa_newsroom_post_features_enable_feature($component) {
       $disabled = variable_get('default_feeds_importer', array());
       // Set translation mode for the vocabularies.
       $importer_id = array(
-         'topics' => 'newsroom_topic',
-         'services' => 'newsroom_service',
-         'types' => 'newsroom_item_type',
+        'topics' => 'newsroom_topic',
+        'services' => 'newsroom_service',
+        'types' => 'newsroom_item_type',
       );
 
       foreach ($importer_id as $key => $importer) {
@@ -882,6 +882,57 @@ function _nexteuropa_newsroom_enable_languages($languages) {
 }
 
 /**
+ * Helper prepares the tamper settings.
+ *
+ * @param string $settings
+ *   Tamper settings.
+ * @param int $i
+ *   The order in the parser.
+ * @param string $type
+ *   Taxonomy or node.
+ *
+ * @return array
+ *   Tamper settings.
+ */
+function _nexteuropa_newsroom_prepare_dynamic_tamper($settings, $i, $type = NULL) {
+  $str = 'xpathparser_' . $i;
+  $tamper = array(
+    'id' => $type . '-' . $str . '-' . $settings['plugin_id'],
+    'importer' => $type,
+    'source' => 'xpathparser:' . $i,
+    'plugin_id' => $settings['plugin_id'],
+  );
+
+  // Prepare setting for Entity Field Query finder.
+  if ($settings['plugin_id'] == 'efq_finder') {
+    $tamper += array(
+      'settings' => array(
+        'entity_type' => 'taxonomy_term',
+        'bundle' => $settings['vocabulary'],
+        'column' => 'value',
+        'property' => FALSE,
+        'update' => 'Update',
+        'field' => $settings['field'],
+      ),
+      'description' => 'Entity Field Query finder',
+    );
+  }
+
+  // Prepare setting for Rewrite plugin.
+  if ($settings['plugin_id'] == 'rewrite') {
+    $str = 'xpathparser_' . $i;
+    $tamper += array(
+      'settings' => array(
+        'text' => $settings['prefix'] . '[xpathparser:' . $i . ']',
+      ),
+      'description' => 'Rewrite',
+    );
+  }
+  debug($tamper);
+  return $tamper;
+}
+
+/**
  * Helper function to enable languages.
  *
  * @param array $premapping
@@ -901,19 +952,7 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type =
 
   foreach ($premapping as $field => $values) {
     if (isset($values['tamper'])) {
-      $str = 'xpathparser_' . $i;
-      $tamper = array(
-        'settings' => array(
-          'entity_type' => 'taxonomy_term',
-          'bundle' => $premapping[$field]['vocabulary'],
-          'column' => 'value',
-        ),
-        'id' => $type . '-' . $str . '-efq_finder',
-        'importer' => $type,
-        'source' => 'xpathparser:' . $i,
-        'field' => $premapping[$field]['field'],
-      );
-
+      $tamper = _nexteuropa_newsroom_prepare_dynamic_tamper($values['tamper'], $i, $type);
       _nexteuropa_newsroom_dynamic_tamper($tamper);
     }
 
@@ -1017,17 +1056,10 @@ function _nexteuropa_newsroom_dynamic_tamper($tamper) {
     $feeds_tamper->id = $tamper['id'];
     $feeds_tamper->importer = $tamper['importer'];
     $feeds_tamper->source = $tamper['source'];
-    $feeds_tamper->plugin_id = 'efq_finder';
-    $feeds_tamper->settings = array(
-      'update' => 'Update',
-      'entity_type' => 'taxonomy_term',
-      'bundle' => $tamper['settings']['bundle'],
-      'field' => $tamper['field'],
-      'column' => 'value',
-      'property' => FALSE,
-    );
+    $feeds_tamper->plugin_id = $tamper['plugin_id'];
+    $feeds_tamper->settings = $tamper['settings'];
     $feeds_tamper->weight = 0;
-    $feeds_tamper->description = 'Entity Field Query finder';
+    $feeds_tamper->description = $tamper['description'];
   }
 
   // Delete a pre-existing tamper with the same id.
