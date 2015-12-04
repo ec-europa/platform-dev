@@ -304,15 +304,7 @@ projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "1.1"
 
 projects[language_cookie][subdir] = "contrib"
-<<<<<<< HEAD
-<<<<<<< HEAD
 projects[language_cookie][version] = "1.9"
-=======
-projects[language_cookie][version] = "1.6"
->>>>>>> 915d64a... NEXTEUROPA-5213-implement-a-module-to-manage
-=======
-projects[language_cookie][version] = "1.9"
->>>>>>> 6cd0994... NEXTEUROPA-5213 update nexteuropa_geofield
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
