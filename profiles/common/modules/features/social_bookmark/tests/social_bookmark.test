@@ -33,9 +33,7 @@ class SocialBookmark extends DrupalWebTestCase {
     parent::setUp(array('social_bookmark'));
     $this->adminrole = $this->drupalCreateUserWithRole('administrator');
 
-    $this->anonymous = $this->drupalCreateUser(array(
-        'access content',
-    ));
+    $this->anonymous = $this->drupalCreateUser(array('access content'));
 
     $this->drupalLogin($this->adminrole);
     $this->setTheme('ec_resp');
@@ -65,9 +63,9 @@ class SocialBookmark extends DrupalWebTestCase {
     $block['content'] = check_plain('<div id="share-tool-right"><script type="text/javascript">iBeginShare.attachLink("share-tool-right",{share_counter_display: "true", share_lang: "' . $language->language . '"});</script></div>');
     $block['region'] = 'footer';
     $bid = db_query("SELECT bid FROM {block} WHERE module = :module AND delta = :delta", array(
-        ':module' => $block['module'],
-        ':delta' => $block['delta'],
-            ))->fetchField();
+      ':module' => $block['module'],
+      ':delta' => $block['delta'],
+    ))->fetchField();
 
     $this->verbose('bid fetched: ' . '</pre>' . print_r($bid, TRUE) . '</pre>');
     $this->verbose('block invoked: ' . '</pre>' . print_r($block, TRUE) . '</pre>');
@@ -116,9 +114,9 @@ class SocialBookmark extends DrupalWebTestCase {
     cache_clear_all();
     db_update('block')
       ->fields(array(
-          'pages' => trim($pages),
-          'region' => $region,
-          'visibility' => $visibility,
+        'pages' => trim($pages),
+        'region' => $region,
+        'visibility' => $visibility,
       ))
       ->condition('module', $module)
       ->condition('delta', $delta)
@@ -145,8 +143,8 @@ class SocialBookmark extends DrupalWebTestCase {
 
     // Confirm that the custom block was found at the proper region.
     $xpath = $this->buildXPathQuery('//div[@class=:region-class]//div[@id=:block-id]/*', array(
-        ':region-class' => 'region region-' . str_replace('_', '-', $region),
-        ':block-id' => 'block-' . $block['module'] . '-' . $block['delta'],
+      ':region-class' => 'region region-' . str_replace('_', '-', $region),
+      ':block-id' => 'block-' . $block['module'] . '-' . $block['delta'],
     ));
     $this->assertFieldByXPath($xpath, NULL, format_string('Custom block found in %region_name region.', array('%region_name' => $region)));
   }

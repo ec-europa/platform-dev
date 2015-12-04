@@ -1,3 +1,4 @@
+@api
 Feature: Splash Screen features
   In order navigate on the site in my language of preference
   As a citizen of the European Union
@@ -5,17 +6,15 @@ Feature: Splash Screen features
 
   Background:
     Given these modules are enabled
-      |modules|
-      |splash_screen|
+      | modules       |
+      | splash_screen |
     And these following languages are available:
       | languages |
       | en        |
       | de        |
       | fr        |
       | bg        |
-    And I run drush "vdel" "splash_screen_blacklist --yes"
 
-  @api
   Scenario: Users can access to splash screen pages
     Given I am an anonymous user
     When I go to "/"
@@ -25,19 +24,19 @@ Feature: Splash Screen features
     And I should see the link "Français"
     And I should see the link "Български"
 
-  @api
-  Scenario: Links on splash screen pages are correct
+  # Regression test for a bug that broke the Portuguese (pt-pt) link.
+  # See https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-5585
+  Scenario: Test language with a custom prefix
     Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/regional/language/edit/fr"
-    And I fill in "edit-prefix" with "fr-prefix"
+    And the "pt-pt" language is available
+    When I go to "admin/config/regional/language/edit/pt-pt"
+    And I fill in "edit-prefix" with "pt"
     And I press the "Save language" button
-    And I go to "/"
-    Then I should see an "body.not-front.page-splash" element
-    And I should see the link "Français"
-    When I click "Français"
-    Then the url should match "(.*)fr-prefix(.*)"
+    When I go to "/"
+    Then I should see the link "Português"
+    When I click "Português"
+    Then the url should match "(.*)_pt"
 
-  @api
   Scenario: Administrators can blacklisted languages for the splash screen page
     Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/regional/splash_screen_settings"
@@ -51,7 +50,6 @@ Feature: Splash Screen features
     And I should not see "Български"
     And I should not see "Français"
 
-  @api
   Scenario: Being able to change the splash screen title
     Given I am logged in as a user with the 'administrator' role
     When I go to "/"

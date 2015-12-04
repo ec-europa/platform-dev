@@ -40,7 +40,7 @@ function e_library_core_enable() {
   // Activation message.
   drupal_set_message(t('E-library feature is now active on your site.'));
   $link = l(t('"Media: node" module setup page'), 'admin/config/media/media_node', array('attributes' => array('target' => '_blank')));
-  drupal_set_message(t('You may want to "Rebuild all media referencing nodes". Go to the !link and click the "Rebuild" button.', array('link' => $link)));
+  drupal_set_message(t('You may want to "Rebuild all media referencing nodes". Go to the !link and click the "Rebuild" button.', array('!link' => $link)));
 }
 
 /**
@@ -66,7 +66,7 @@ function e_library_core_disable() {
     $types_conf[$type] = 0;
     media_node_variable_set('types', $types_conf);
     $link = l(t('"Media: node" module setup page'), 'admin/config/media/media_node', array('attributes' => array('target' => '_blank')));
-    drupal_set_message(t('You may want to "Rebuild all media referencing nodes". Go to the !link and click the "Rebuild" button.', array('link' => $link)));
+    drupal_set_message(t('You may want to "Rebuild all media referencing nodes". Go to the !link and click the "Rebuild" button.', array('!link' => $link)));
   }
 
 }

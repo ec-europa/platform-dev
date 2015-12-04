@@ -97,9 +97,7 @@ class OGButtonTestCase extends DrupalWebTestCase {
 
     // Associate usera to the groupa.
     $group = og_get_group('node', $this->groups['groupa']->nid);
-    og_group($group->gid, array(
-        'entity' => $this->users['usera'],
-    ));
+    og_group($group->gid, array('entity' => $this->users['usera']));
 
     $this->drupalLogout();
   }
