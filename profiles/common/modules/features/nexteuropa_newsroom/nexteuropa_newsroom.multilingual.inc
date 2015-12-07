@@ -372,7 +372,7 @@ function _nexteuropa_newsroom_create_multilingual_types_importer() {
       'query' => 'title',
     ),
     'parentguid' => array(
-      'query' => 'infsonewsroom:BasicTypeParent',
+      'query' => 'infsonewsroom:BasicTypeParent/text()',
       'tamper' => array(
         'plugin_id' => 'rewrite',
         'prefix' => 'type-',
