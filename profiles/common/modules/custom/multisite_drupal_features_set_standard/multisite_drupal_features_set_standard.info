@@ -74,7 +74,7 @@ feature_sets[multisite_metatags][disable][] = multisite_metatags
 
 feature_sets[nexteuropa_webtools][title] = 'Webtools'
 feature_sets[nexteuropa_webtools][description] = 'Provides usefull widgets to webmasters.'
-feature_sets[nexteuropa_webtools][documentation] = ''
+feature_sets[nexteuropa_webtools][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Webtools+feature'
 feature_sets[nexteuropa_webtools][category] = 'Communication'
 feature_sets[nexteuropa_webtools][icon] = ''
 feature_sets[nexteuropa_webtools][font] = 'multisite-icon-share'
