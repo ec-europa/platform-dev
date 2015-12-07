@@ -182,6 +182,15 @@ feature_sets[nexteuropa_notices][font] = 'multisite-icon-bubble2'
 feature_sets[nexteuropa_notices][enable][] = nexteuropa_notices
 feature_sets[nexteuropa_notices][disable][] = nexteuropa_notices
 
+feature_sets[nexteuropa_geofield][title] = 'GIS field'
+feature_sets[nexteuropa_geofield][description] = 'Allow web masters to manage geoJSON data in a field with an interactive map as widget.'
+feature_sets[nexteuropa_geofield][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/GIS+field+-+documentation'
+feature_sets[nexteuropa_geofield][category] = 'Information to users'
+feature_sets[nexteuropa_geofield][icon] = ''
+feature_sets[nexteuropa_geofield][font] = 'multisite-icon-location'
+feature_sets[nexteuropa_geofield][enable][] = nexteuropa_geofield
+feature_sets[nexteuropa_geofield][disable][] = nexteuropa_geofield
+
 ; Media
 feature_sets[e_library_standard][title] = 'E-Library'
 feature_sets[e_library_standard][description] = 'Allows contributors to publish documents represented as uploaded files in various possible formats (pdf, xls, doc...). Documents will be stored in a space named E-Library. Every visitor can have access to the documents in the E-Library.'
@@ -268,14 +277,14 @@ feature_sets[multisite_translations][font] = 'multisite-icon-flag'
 feature_sets[multisite_translations][enable][] = multisite_translations
 feature_sets[multisite_translations][disable][] = multisite_translations
 
-;feature_sets[splash_screen][title] = 'Splash screen'
-;feature_sets[splash_screen][description] = 'Provide a home page to choose language and store language in cookie.'
-;feature_sets[splash_screen][documentation] = ''
-;feature_sets[splash_screen][category] = 'Multilingualism'
-;feature_sets[splash_screen][icon] = ''
-;feature_sets[splash_screen][font] = 'multisite-icon-publish'
-;feature_sets[splash_screen][enable][] = splash_screen
-;feature_sets[splash_screen][disable][] = splash_screen
+feature_sets[splash_screen][title] = 'Splash screen'
+feature_sets[splash_screen][description] = 'Provide a home page to choose language.'
+feature_sets[splash_screen][documentation] = ''
+feature_sets[splash_screen][category] = 'Multilingualism'
+feature_sets[splash_screen][icon] = ''
+feature_sets[splash_screen][font] = 'multisite-icon-publish'
+feature_sets[splash_screen][enable][] = splash_screen
+feature_sets[splash_screen][disable][] = splash_screen
 
 
 ; Navigation

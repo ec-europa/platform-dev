@@ -5,8 +5,8 @@ Feature: Warn administrators if features are overridden
 
 @api
 Scenario: Warning is shown when feature is overridden
-      Given the module is enabled
-      |modules|
+  Given the module is enabled
+      |modules                      |
       |multisite_drupal_toolbox_test|
   And I am logged in as an administrator
   When I am on "admin"
@@ -16,3 +16,8 @@ Scenario: Warning is shown when feature is overridden
   And I am on "admin"
   Then I should see the warning message containing "Some of this website's features are overridden"
   And I should see the warning message containing "Multisite drupal toolbox test"
+  When I am on the homepage
+  Then I should not see the warning message containing "Some of this website's features are overridden"
+  Given I am an anonymous user
+  When I am on "admin"
+  Then I should not see the warning message containing "Some of this website's features are overridden"

@@ -1,28 +1,30 @@
 --- feature_set.admin.inc	2015-07-03 16:21:22.768589487 +0200
 +++ feature_set.admin.inc	2015-07-03 16:30:10.000000000 +0200
-@@ -27,13 +27,17 @@
+@@ -27,14 +27,18 @@
          $elementname = 'featureset-' . $featureset;
          $form[$elementname] = array(
            '#type' => 'checkbox',
--          '#disabled' => empty($details['status']) ? TRUE : FALSE, // disabled the widget if its in an inconsistent
+-          '#disabled' => empty($details['status']) ? TRUE : FALSE,
+-          // Disabled the widget if its in an inconsistent.
 +          // Disable the widget if its in an inconsistent.
++          '#disabled' => (empty($details['status']) || _feature_set_is_requiredby($featureset) || _feature_set_requires($featureset)) ? TRUE : FALSE,
 +          '#disabled' => (empty($details['status']) || _feature_set_is_requiredby($featureset) || _feature_set_requires($featureset)) ? TRUE : FALSE,
            '#default_value' => (FEATURE_SET_ENABLED & $details['status']) ? 1 : 0,
            '#featuresetinfo' => array(
              'featureset' => $details['title'],
              'description' => $details['description'],
-+			'documentation' => $details['documentation'],
-+			'require' => _feature_set_get_require($featureset),
++            'documentation' => $details['documentation'],
++            'require' => _feature_set_get_require($featureset),
              'icon' => empty($details['icon']) ? '' : $details['icon'],
              'category' => empty($details['category']) ? '' : $details['category'],
-+			'font' => empty($details['font']) ? '' : $details['font'],
++            'font' => empty($details['font']) ? '' : $details['font'],
            ),
          );
  
 
 --- feature_set.module	2015-07-03 16:21:22.769589527 +0200
-+++ feature_set.module	2015-07-03 16:32:34.000000000 +0200
-@@ -80,6 +80,8 @@
++++ feature_set.module  2015-11-24 11:02:23.000000000 +0100
+@@ -125,6 +125,8 @@
        }
      }
    }
@@ -30,12 +32,11 @@
 +  
    return $sets;
  }
- 
-@@ -303,6 +305,87 @@
-   return FALSE;
+
+@@ -322,6 +369,88 @@
  }
  
-+/**
+ /**
 + * Return TRUE if features or modules require the module $module.
 + */
 +function _feature_set_is_requiredby($module) {
@@ -116,6 +117,8 @@
 +  }
 +}
 +
- 
- /**
++
++/**
   * Implements hook_theme().
+  */
+ function feature_set_theme($existing, $type, $theme, $path) {

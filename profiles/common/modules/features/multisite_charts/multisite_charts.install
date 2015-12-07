@@ -24,8 +24,6 @@ function multisite_charts_disable() {
 
   multisite_drupal_toolbox_content_type_linkchecker('chart', 'delete');
 
-  multisite_drupal_toolbox_disable_content_type('chart');
-
   // Activation message.
   drupal_set_message(t('Multisite Charts feature is now disabled on your site.'));
 }
@@ -37,14 +35,14 @@ function multisite_charts_requirements($phase) {
   $requirements = array();
   $requirements['multisite_charts']['title'] = t('Multisite Charts');
   if ($phase == 'runtime') {
-    // Fusionchart SWF files.
-    $swf = glob(multisite_charts_get_library_path() . 'FusionCharts XT/Charts/*.swf');
-    if (!empty($swf)) {
-      $requirements['multisite_charts']['value'] = t('FusionCharts SWF files found.');
+    // Fusionchart PHP file.
+    $file_exists = file_exists(multisite_charts_get_library_path() . 'Code/PHP/Includes/FusionCharts.php');
+    if ($file_exists) {
+      $requirements['multisite_charts']['value'] = t('FusionCharts PHP file found.');
       $requirements['multisite_charts']['severity'] = REQUIREMENT_OK;
     }
     else {
-      $requirements['multisite_charts']['value'] = t('FusionCharts SWF files not found.');
+      $requirements['multisite_charts']['value'] = t('FusionCharts PHP file not found.');
       $requirements['multisite_charts']['severity'] = REQUIREMENT_ERROR;
       $requirements['multisite_charts']['description'] = t('Please download these files from <a href="@url">http://www.fusioncharts.com</a> and copy them into the fusioncharts library directory as per instructions in the readme.txt file.', array('@url' => 'http://www.fusioncharts.com'));
     }

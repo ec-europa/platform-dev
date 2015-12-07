@@ -935,8 +935,7 @@ function ec_resp_form_element($variables) {
       '_' => '-',
       '[' => '-',
       ']' => '',
-      )
-    );
+    ));
   }
   // Add a class for disabled elements to facilitate cross-browser styling.
   if (!empty($element['#attributes']['disabled'])) {
@@ -1082,6 +1081,11 @@ function ec_resp_menu_link__menu_breadcrumb_menu(array $variables) {
     }
   }
 
+  if (theme_get_setting('enable_interinstitutional_theme')) {
+    $element['#title'] = 'Europa';
+    $element['#href'] = 'http://europa.eu/index_en.htm';
+  }
+
   // Format output.
   $element['#localized_options']['html'] = TRUE;
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
@@ -1140,6 +1144,15 @@ function ec_resp_menu_local_tasks(&$variables) {
  */
 function ec_resp_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
+    case 'nexteuropa_europa_search_search_form':
+      if (theme_get_setting('enable_interinstitutional_theme')) {
+        $form['search_input_group']['europa_search_submit']['#type'] = 'image_button';
+        $form['search_input_group']['europa_search_submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.gif';
+        $form['search_input_group']['europa_search_submit']['#attributes']['class'] = array_merge(['search_input_group']['europa_search_submit']['#attributes']['class'], array('btn', 'btn-default'));
+        $form['search_input_group']['europa_search_submit']['#attributes']['alt'] = t('Search');
+      }
+      break;
+
     case 'search_block_form':
       $form['search_block_form']['#attributes']['placeholder'][] = t('Search');
 
@@ -1152,6 +1165,7 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
         $form['actions']['submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.png';
       }
       $form['actions']['submit']['#attributes']['class'][] = 'btn btn-default btn-small';
+      $form['actions']['submit']['#attributes']['alt'] = t('Search');
       break;
 
     case 'apachesolr_search_custom_page_search_form':
@@ -1791,10 +1805,11 @@ function ec_resp_table($variables) {
         $header_count++;
       }
     }
-    $rows[] = array(array(
-      'data' => $empty,
-      'colspan' => $header_count,
-      'class' => array('empty', 'message'),
+    $rows[] = array(
+      array(
+        'data' => $empty,
+        'colspan' => $header_count,
+        'class' => array('empty', 'message'),
       ),
     );
   }

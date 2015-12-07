@@ -33,9 +33,6 @@ function links_core_disable() {
   // Remove type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('links', 'delete');
 
-  // Remove permissions.
-  multisite_drupal_toolbox_disable_content_type('links');
-
   // Administrator.
   $adm_rid = multisite_drupal_toolbox_get_rid('administrator');
   user_role_revoke_permissions($adm_rid, array(
