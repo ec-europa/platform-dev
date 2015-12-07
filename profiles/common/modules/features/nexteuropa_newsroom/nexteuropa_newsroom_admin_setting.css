@@ -22,6 +22,6 @@
 #edit-newsroom-paths .form-type-textfield,
 #edit-newsroom-paths--1 .form-type-textfield,
 #edit-newsroom-paths--2 .form-type-textfield {
-	width:50%;
-	float:left;
+  width: 50%;
+  float: left;
 }
