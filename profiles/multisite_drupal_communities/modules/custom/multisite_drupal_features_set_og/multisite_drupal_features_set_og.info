@@ -97,7 +97,7 @@ feature_sets[wiki_og][disable][] = wiki_core
 
 feature_sets[multisite_webtools][title] = 'Webtools'
 feature_sets[multisite_webtools][description] = 'Provide usefull widgets for webmasters.'
-feature_sets[multisite_webtools][documentation] = ''
+feature_sets[multisite_webtools][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Webtools+feature'
 feature_sets[multisite_webtools][category] = 'Communication'
 feature_sets[multisite_webtools][icon] = 'Provides webtools block type'
 feature_sets[multisite_webtools][font] = 'multisite-icon-share'
