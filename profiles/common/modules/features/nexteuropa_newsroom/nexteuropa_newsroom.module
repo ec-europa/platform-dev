@@ -928,7 +928,6 @@ function _nexteuropa_newsroom_prepare_dynamic_tamper($settings, $i, $type = NULL
       'description' => 'Rewrite',
     );
   }
-  debug($tamper);
   return $tamper;
 }
 
