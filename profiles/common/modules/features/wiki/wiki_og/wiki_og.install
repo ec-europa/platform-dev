@@ -34,9 +34,6 @@ function wiki_og_disable() {
   multisite_drupal_toolbox_remove_views_context("communities_menu_item", "wiki_list:page_1");
   multisite_drupal_toolbox_remove_path_context('communities_menu_item', 'community/*/wiki/*');
 
-  /*** Remove permissions ***/
-  multisite_drupal_toolbox_disable_content_type('wiki');
-
   // Delete drupal variables.
   variable_del('pathauto_node_wiki_pattern');
 }

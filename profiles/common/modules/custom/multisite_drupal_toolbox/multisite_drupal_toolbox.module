@@ -5,9 +5,9 @@
  * Multisite Toolbox definition module.
  */
 
-// TODO: fix natif overridden feature multisite_wysiwyg
-// and multisite_rules_configuration and remove them from black list.
- define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core,multisite_wysiwyg,multisite_rules_configuration,nexteuropa_multilingual,nexteuropa_core');
+// TODO: fix natif overridden feature multisite_rules_configuration
+// and remove them from black list.
+ define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core,multisite_rules_configuration');
 /**
  * Implements hook_menu().
  */
@@ -497,6 +497,9 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
 
 /**
  * Public function to disable a content type.
+ *
+ * @obsolete
+ *   See 'multisite_drupal_toolbox_features_post_restore'.
  */
 function multisite_drupal_toolbox_disable_content_type($type) {
   $type_info = node_type_load($type);
@@ -512,7 +515,7 @@ function multisite_drupal_toolbox_disable_content_type($type) {
  * Obsolete.
  *
  * @obsolete
- *   Use multisite_drupal_toolbox_disable_content_type() instead.
+ *   See 'multisite_drupal_toolbox_features_post_restore'.
  */
 function _disable_content_type($type) {
   multisite_drupal_toolbox_disable_content_type($type);
@@ -1604,4 +1607,26 @@ function multisite_drupal_toolbox_sort_weight_object($a, $b) {
     return 0;
   }
   return ($a_weight < $b_weight) ? -1 : 1;
+}
+
+
+/**
+ * Implements hook_features_post_restore().
+ *
+ * When a features module is disabled, disable any node types it provides.
+ *
+ * @see node_features_disable_feature
+ */
+function multisite_drupal_toolbox_features_post_restore($op, $items) {
+  if ($op == 'disable') {
+    foreach ($items as $module => $components) {
+      if (in_array('node', $components) && $default_types = features_get_default('node', $module)) {
+        foreach ($default_types as $type_name => $type_info) {
+          $type_info = node_type_load($type_name);
+          $type_info->disabled = 1;
+          node_type_save($type_info);
+        }
+      }
+    }
+  }
 }
