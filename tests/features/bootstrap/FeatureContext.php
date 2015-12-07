@@ -295,13 +295,15 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Transforms human readable field labels for Articles into machine names.
    *
+   * @param TableNode $article_table
+   *   The original table.
+   *
+   * @return TableNode
+   *   The transformed table.
+   *
    * @Transform rowtable:title,body,tags,moderation state
    */
   public function castArticleNodeTable(TableNode $article_table) {
-    // @todo This is based on test code from Behat Drupal Extension. It is
-    //   untested. This depends on Behat PR #654: Add support for row table
-    //   transformations.
-    // @see https://github.com/Behat/Behat/pull/654
     $aliases = array(
       'title' => 'title',
       'body' => 'body[und][0][value]',
@@ -309,18 +311,14 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
       'moderation state' => 'workbench_moderation_state_new',
     );
 
-    // The first column of the table contains the field names.
-    // @todo Untested.
-    $table = $article_table->getRowsHash();
-    reset($table);
-    $first_row = key($table);
-
-    // Replace the aliased field names with the actual ones.
-    foreach ($table[$first_row] as $key => $alias) {
-      if (array_key_exists($alias, $aliases)) {
-        $table[$first_row][$key] = $aliases[$alias];
+    $table = $article_table->getTable();
+    array_walk($table, function (&$row) use ($aliases) {
+      // The first column of the row contains the field names. Replace the
+      // aliased field name with the machine name if it exists.
+      if (array_key_exists($row[0], $aliases)) {
+        $row[0] = $aliases[$row[0]];
       }
-    }
+    });
 
     return new TableNode($table);
   }
