@@ -295,7 +295,7 @@ projects[jqmulti][subdir] = "contrib"
 projects[jqmulti][version] = "1.0"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.6"
+projects[jquery_update][version] = "2.7"
 
 projects[js_injector][subdir] = "contrib"
 projects[js_injector][version] = "2.1"
