@@ -3309,7 +3309,7 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
 }
 
 /**
- * Implements of hook_views_handlers().
+ * Implements hook_views_handlers().
  */
 function newsroom_views_handlers() {
   return array(

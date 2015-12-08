@@ -2249,7 +2249,6 @@ function nexteuropa_newsroom_views_default_views() {
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
 
-
   $export['newsroom_type_featured_item'] = $view;
 
   return $export;
