@@ -771,7 +771,8 @@ function _newsroom_contents($delta) {
  *   RSS.
  */
 function _newsroom_build_rss_link(array $topic_tids, $topic_name) {
-  $rss_path = 'newsroom/all/' . implode('+', $topic_tids) . '/feed';
+  $topic_url = count($topic_tids) > 0 ? implode('+', $topic_tids) : 'all';
+  $rss_path = 'newsroom/all/' . $topic_url . '/feed';
   $rss_title = count($topic_name) > 0 ? 'RSS feed : ' . implode(', ', $topic_name) : 'RSS feed';
   $rss = '<div class="newsroom_rss">';
   $rss .= theme('feed_icon', array(
@@ -3079,6 +3080,15 @@ function newsroom_views_data_alter(&$data) {
       'accept depth modifier' => TRUE,
     ),
   );
+  // Term name field.
+  $data['taxonomy_term_data']['name'] = array(
+    'title' => t('Name'),
+    'help' => t('The taxonomy term name.'),
+    'field' => array(
+      'handler' => 'newsroom_views_handler_field_taxonomy',
+      'click sortable' => TRUE,
+    ),
+  );
 }
 
 /**
@@ -3296,4 +3306,18 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
       }
     }
   }
+}
+
+/**
+ * Implements of hook_views_handlers().
+ */
+function newsroom_views_handlers() {
+  return array(
+    'handlers' => array(
+      'newsroom_views_handler_field_taxonomy' => array(
+        'parent' => 'views_handler_field_taxonomy',
+        'path' => drupal_get_path('module', 'newsroom') . '/views',
+      ),
+    ),
+  );
 }
