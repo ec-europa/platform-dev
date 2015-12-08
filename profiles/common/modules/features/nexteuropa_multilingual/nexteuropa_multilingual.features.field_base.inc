@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Nexteuropa_multilingual.features.field_base.inc.
+ * nexteuropa_multilingual.features.field_base.inc
  */
 
 /**
@@ -17,14 +17,6 @@ function nexteuropa_multilingual_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'title_field',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',

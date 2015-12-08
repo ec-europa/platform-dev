@@ -22,7 +22,7 @@ projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.3"
 
 projects[apachesolr][subdir] = "contrib"
-projects[apachesolr][version] = "1.7"
+projects[apachesolr][version] = "1.8"
 ; Issue #2178283 : Apache Solr doesn't invalidate its caches when inserting a new node type.
 ; https://drupal.org/node/2178283
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2890
@@ -224,6 +224,9 @@ projects[field_collection][version] = "1.0-beta10"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.4"
+; https://www.drupal.org/node/2604284
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
+projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta2"
