@@ -24,6 +24,24 @@ function cce_basic_config_requirements($phase) {
     'severity' => REQUIREMENT_INFO,
     'weight' => -8,
   );
+
+  global $base_url;
+  if ($continuousphp_package = file_get_contents($base_url . '/continuousphp.package')) {
+    $info = json_decode($continuousphp_package, TRUE);
+    $t = get_t();
+    $requirements['git_ref'] = array(
+      'title' => $t('Git ref'),
+      'value' => $info['ref'],
+      'severity' => REQUIREMENT_INFO,
+      'weight' => -7,
+    );
+    $requirements['git_commit'] = array(
+      'title' => $t('Git commit'),
+      'value' => l($info['commit'], 'https://github.com/ec-europa/platform-dev/commit/' . $info['commit']),
+      'severity' => REQUIREMENT_INFO,
+      'weight' => -7,
+    );
+  }
   return $requirements;
 }
 
