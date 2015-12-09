@@ -256,7 +256,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $poetry = variable_get("poetry_service");
     $callback_username = $poetry['callback_user'];
     $callback_password = $poetry['callback_password'];
-    $callback_address = url('tmgmt_poetry/service_callback', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE))) . '?wsdl';
+    $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
     $callback_path = 'FPFISPoetryIntegrationRequest';
     $callback_remark = '';
 
@@ -279,7 +279,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     }
 
     // Add request information.
-    $organization = $translator->getSetting('organization');
+    $organization = $job->settings['organization'];
     $demande = $request->addChild('demande');
     $demande->addChild('userReference', 'Job ID ' . $job->tjid);
     $demande->addChild('titre', 'NE-CMS: ' . $job->label);

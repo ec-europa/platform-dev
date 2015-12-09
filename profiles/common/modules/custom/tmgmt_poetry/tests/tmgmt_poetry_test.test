@@ -1,20 +1,25 @@
 <?php
+/**
+ * @file
+ * Tests for the Soap services.
+ */
 
 /**
- * Base class to testing the Soap Services
- * Class TMGMT_PoetryWebTestCase
+ * Base class to testing the Soap Services.
+ *
+ * Class TMGMT_PoetryWebTestCase.
  */
 class TMGMT_PoetryWebTestCase extends DrupalWebTestCase {
-  protected $poetry_service;
+  protected $poetryService;
 
   /**
-   * Don't create a simpletest temporary tables
+   * Don't create a simpletest temporary tables.
    */
   public function setUp() {
-    // support existing database prefixes. if we didn't,
+    // Support existing database prefixes. if we didn't,
     // the prefix would be set as '', causing failures.
     $this->setup = TRUE;
-    $uri = url(drupal_get_path('module', 'tmgmt_poetry_test').'/tmgmt_poetry_test.wsdl', array('absolute' => TRUE, 'language' => (object)array('language' => FALSE)));
+    $uri = url(drupal_get_path('module', 'tmgmt_poetry_test') . '/tmgmt_poetry_test.wsdl', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
     $poetry_service = array(
       'address' => $uri,
       'method' => 'requestService',
@@ -24,17 +29,16 @@ class TMGMT_PoetryWebTestCase extends DrupalWebTestCase {
       'callback_password' => 'PoetryPWD',
     );
 
-    $this->poetry_service = variable_get('poetry_service');
-    variable_set('poetry_service', $poetry_service);
+    $this->poetryService = variable_get('poetryService');
+    variable_set('poetryService', $poetry_service);
   }
 
   /**
    * Don't remove this, otherwise all the database will be empty!!!
    */
-  function tearDown() {
-    variable_set('poetry_service', $this->poetry_service);
+  public function tearDown() {
+    variable_set('poetryService', $this->poetryService);
   }
-
 
   /**
    * Creates a node based on default settings.
@@ -42,9 +46,9 @@ class TMGMT_PoetryWebTestCase extends DrupalWebTestCase {
    * @param array $settings
    *   An associative array of settings to change from the defaults, keys are
    *   node properties, for example 'title' => 'Hello, world!'.
+   *
    * @return object|void Created node object.
-   * Created node object.
-   * @throws \Exception
+   *   Created node object.
    */
   protected function drupalCreateNode($settings = array()) {
     // Populate defaults array.
@@ -86,5 +90,5 @@ class TMGMT_PoetryWebTestCase extends DrupalWebTestCase {
 
     return $node;
   }
-}
 
+}

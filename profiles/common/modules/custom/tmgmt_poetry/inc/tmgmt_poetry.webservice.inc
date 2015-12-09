@@ -91,11 +91,7 @@ function _tmgmt_poetry_generate_answer_xml($job = NULL, $message = 'OK', $code =
 function _tmgmt_poetry_authenticate($user, $password) {
   // Get Poetry configuration.
   $poetry = variable_get("poetry_service");
-  if (($poetry['callback_user'] == $user) &&
-      ($poetry['callback_password'] == $password)) {
-    return TRUE;
-  }
-  return FALSE;
+  return ($poetry['callback_user'] === $user && $poetry['callback_password'] === $password);
 }
 
 /**
@@ -257,7 +253,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
               '@language' => $language,
               '@url' => url($uri['path']),
               '@label' => $label,
-              ));
+            ));
           }
           else {
             try {

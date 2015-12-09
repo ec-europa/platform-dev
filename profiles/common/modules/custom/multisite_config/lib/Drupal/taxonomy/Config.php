@@ -8,7 +8,6 @@
 namespace Drupal\taxonomy;
 
 use Drupal\multisite_config\ConfigBase;
-use \PDO;
 
 /**
  * Class Config.

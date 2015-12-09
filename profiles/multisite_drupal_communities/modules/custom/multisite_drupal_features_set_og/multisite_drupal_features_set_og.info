@@ -95,14 +95,14 @@ feature_sets[wiki_og][enable][] = wiki_core
 feature_sets[wiki_og][disable][] = wiki_og
 feature_sets[wiki_og][disable][] = wiki_core
 
-feature_sets[multisite_webtools][title] = 'Webtools'
-feature_sets[multisite_webtools][description] = 'Provide usefull widgets for webmasters.'
-feature_sets[multisite_webtools][documentation] = ''
-feature_sets[multisite_webtools][category] = 'Communication'
-feature_sets[multisite_webtools][icon] = 'Provides webtools block type'
-feature_sets[multisite_webtools][font] = 'multisite-icon-share'
-feature_sets[multisite_webtools][enable][] = multisite_maxlength
-feature_sets[multisite_webtools][disable][] = multisite_maxlength
+feature_sets[nexteuropa_webtools][title] = 'Webtools'
+feature_sets[nexteuropa_webtools][description] = 'Provide usefull widgets for webmasters.'
+feature_sets[nexteuropa_webtools][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Webtools+feature'
+feature_sets[nexteuropa_webtools][category] = 'Communication'
+feature_sets[nexteuropa_webtools][icon] = ''
+feature_sets[nexteuropa_webtools][font] = 'multisite-icon-share'
+feature_sets[nexteuropa_webtools][enable][] = nexteuropa_webtools
+feature_sets[nexteuropa_webtools][disable][] = nexteuropa_webtools
 
 feature_sets[text_collapse][title] = 'Text collapse'
 feature_sets[text_collapse][description] = 'Users can create collapsible text blocks in CKEditor'

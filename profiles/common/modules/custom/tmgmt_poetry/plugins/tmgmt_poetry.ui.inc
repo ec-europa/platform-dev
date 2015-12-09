@@ -122,6 +122,27 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#default_value' => $contacts['responsable'],
     );
 
+    $feedback_contacts = $translator->getSetting('feedback_contacts');
+    $form['feedback_contacts'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('DGT Contacts'),
+      '#collapsible' => FALSE,
+      '#collapsed' => FALSE,
+      '#description' => t("Contact persons for send a feedback"),
+    );
+    $form['feedback_contacts']['to'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Email to'),
+      '#required' => TRUE,
+      '#default_value' => $feedback_contacts['to'],
+    );
+    $form['feedback_contacts']['cc'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Email CC'),
+      '#required' => TRUE,
+      '#default_value' => $feedback_contacts['cc'],
+    );
+
     return parent::pluginSettingsForm($form, $form_state, $translator);
   }
 
@@ -219,7 +240,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       $job_item = array_shift($job_items);
     }
 
-    // Load translator settings.
+    // Load translator settings : Contacts.
     $translator = $job->getTranslator();
     $contacts = $translator->getSetting('contacts');
     $form['contacts'] = array(
@@ -252,6 +273,37 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#title' => t('Responsible'),
       '#required' => TRUE,
       '#default_value' => (!empty($job->settings['contacts']['responsable']) ? $job->settings['contacts']['responsable'] : $contacts['responsable']),
+    );
+
+    // Load translator settings : Organization.
+    $organization = $translator->getSetting('organization');
+    $form['organization'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Organization'),
+      '#collapsible' => FALSE,
+      '#collapsed' => FALSE,
+      '#description' => t("Requester organization information"),
+    );
+    $form['organization']['responsable'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Responsable'),
+      '#required' => TRUE,
+      '#default_value' => $organization['responsable'],
+      '#description' => t("Eg.: DIGIT"),
+    );
+    $form['organization']['auteur'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Author'),
+      '#required' => TRUE,
+      '#default_value' => $organization['auteur'],
+      '#description' => t("Eg.: IE/CE/DIGIT"),
+    );
+    $form['organization']['demandeur'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Requester'),
+      '#required' => TRUE,
+      '#default_value' => $organization['demandeur'],
+      '#description' => t("Eg.: IE/CE/DIGIT/A/3"),
     );
 
     $form['delai'] = array(

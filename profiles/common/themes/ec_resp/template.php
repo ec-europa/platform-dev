@@ -464,23 +464,26 @@ function ec_resp_preprocess_html(&$variables) {
       $node = node_load(arg(1));
       // If the metatag title exists, it must be used
       // to construct the title page.
-      if (isset($node->field_meta_title) && !empty($node->field_meta_title)) {
-        $title = filter_xss($node->field_meta_title['und'][0]['value']);
+      if ($node && isset($node->field_meta_title) && !empty($node->field_meta_title)) {
+        $title = strip_tags($node->field_meta_title['und'][0]['value']);
       }
       else {
-        $title = filter_xss($node->title);
+        $title = strip_tags($node->title);
       }
     }
     else {
-      $title = filter_xss(variable_get('site_name'));
+      // For all no-node page, keep the default drupal behavior.
+      $title = strip_tags(drupal_get_title());
     }
+
     if (theme_get_setting('enable_interinstitutional_theme')) {
-      $variables['head_title'] = t('EUROPA - !title', array('!title' => $title));
+      $variables['head_title'] = format_string('EUROPA - !title', array('!title' => $title));
     }
     else {
-      $variables['head_title'] = t('!title - European Commission', array('!title' => $title));
+      $variables['head_title'] = format_string('!title - European Commission', array('!title' => $title));
     }
   }
+
   // Add javascripts to the footer scope.
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel.min.js', array('scope' => 'footer', 'weight' => 11));
@@ -932,8 +935,7 @@ function ec_resp_form_element($variables) {
       '_' => '-',
       '[' => '-',
       ']' => '',
-      )
-    );
+    ));
   }
   // Add a class for disabled elements to facilitate cross-browser styling.
   if (!empty($element['#attributes']['disabled'])) {
@@ -1788,10 +1790,11 @@ function ec_resp_table($variables) {
         $header_count++;
       }
     }
-    $rows[] = array(array(
-      'data' => $empty,
-      'colspan' => $header_count,
-      'class' => array('empty', 'message'),
+    $rows[] = array(
+      array(
+        'data' => $empty,
+        'colspan' => $header_count,
+        'class' => array('empty', 'message'),
       ),
     );
   }

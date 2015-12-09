@@ -44,7 +44,7 @@ function events_resources_requirements($phase) {
       $req['value'] = $t('Plugin fork not found.');
       $req['description'] = $t('You need to download the !fullcalendar and extract contents inside the <em>fullcalendar</em> folder of the archive into the %path folder of your server.', array(
         '!fullcalendar' => l($t('FullCalendar plugin fork'), 'http://ikelin.github.io/fullcalendar/'),
-      '%path' => 'sites/all/libraries/' . EVENTS_RESOURCES_FULLCALENDAR_RESOURCES_PLUGIN_NAME,
+        '%path' => 'sites/all/libraries/' . EVENTS_RESOURCES_FULLCALENDAR_RESOURCES_PLUGIN_NAME,
       ));
     }
     $requirements['events_resources'] = $req;

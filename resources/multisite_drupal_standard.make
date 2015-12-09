@@ -22,7 +22,7 @@ projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.3"
 
 projects[apachesolr][subdir] = "contrib"
-projects[apachesolr][version] = "1.7"
+projects[apachesolr][version] = "1.8"
 ; Issue #2178283 : Apache Solr doesn't invalidate its caches when inserting a new node type.
 ; https://drupal.org/node/2178283
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2890
@@ -148,7 +148,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.7"
+projects[ds][version] = "2.8"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
@@ -168,8 +168,14 @@ projects[entity_translation][patch][] = patches/entity_translation-001-et-forwar
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
 
+projects[entityreference][download][branch] = 7.x-1.x
+projects[entityreference][download][revision] = ab62b9a
+projects[entityreference][download][type] = git
 projects[entityreference][subdir] = "contrib"
-projects[entityreference][version] = "1.1"
+; Issue #2401811: Rendered entity is not language aware
+; https://www.drupal.org/node/1674792
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6056
+projects[entityreference][patch][] = https://www.drupal.org/files/issues/entityreference-rendered-entity-is-not-language-aware-1674792-85.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
@@ -212,6 +218,9 @@ projects[field_collection][version] = "1.0-beta8"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.4"
+; https://www.drupal.org/node/2604284
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
+projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta1"
@@ -286,7 +295,7 @@ projects[jqmulti][subdir] = "contrib"
 projects[jqmulti][version] = "1.0"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.6"
+projects[jquery_update][version] = "2.7"
 
 projects[js_injector][subdir] = "contrib"
 projects[js_injector][version] = "2.1"
@@ -584,6 +593,10 @@ projects[workbench_email][version] = "3.5"
 ; https://www.drupal.org/node/2501321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
 projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch
+; Issue only reproducible on NextEuropa platform
+; https://www.drupal.org/node/2590385
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
+projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"
@@ -730,6 +743,11 @@ libraries[mpdf][download][file_type] = "zip"
 libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
 libraries[mpdf][destination] = "libraries"
 
+; Leaflet
+libraries[leaflet][destination] = "libraries"
+libraries[leaflet][download][type] = "file"
+libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip"
+libraries[leaflet][directory_name] = "leaflet"
 
 ; ===========================
 ; Libraries for Ec_resp Theme

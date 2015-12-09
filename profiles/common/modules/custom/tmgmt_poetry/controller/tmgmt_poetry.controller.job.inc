@@ -32,7 +32,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
       foreach ($requested_languages as $key_requested_language => $requested_language) {
         if ($key_requested_language != $origin_job->target_language) {
           if (empty($requested_language)) {
-            // REMOVE A JOB IF IT WAS UNCHECKED.
+            // Remove a job if it was unchecked.
             $job_ids_remove = _tmgmt_poetry_obtain_related_translation_jobs(array($key_requested_language), 'SUB_' . $origin_job->tjid)->fetchAll();
             if (count($job_ids_remove) > 0) {
               $job_id_remove = array_shift($job_ids_remove);
@@ -42,8 +42,8 @@ class TMGMTPoetryJobController extends TMGMTJobController {
             continue;
           }
 
-          // CHECK IF JOB IS ALREADY CREATED
-          // AND IN THAT CASE DON'T CREATE IT AGAIN.
+          // Check if job is already created
+          // and it that case don't create it again.
           if (_tmgmt_poetry_obtain_related_translation_jobs(array($requested_language), 'SUB_' . $origin_job->tjid)->rowCount() > 0) {
             continue;
           }
@@ -67,10 +67,9 @@ class TMGMTPoetryJobController extends TMGMTJobController {
       }
     }
 
-    // IF A POETRY TRANSLATOR HAS ACCEPTED
-    // A TRANSLATION REQUEST WE SHOULD UPDATE
-    // THE RELATED ADDITIONAL SUB TRANSLATION JOBS
-    // WITH A REFERENCE RETURNED BY POETRY.
+    // If a poetry translation has accepted a translation request
+    // we should update the related additionnal sub translation jobs
+    // with a reference returned by poetry.
     if ($origin_job->state == TMGMT_JOB_STATE_ACTIVE && (strpos($origin_job->reference, 'MAIN_' . $origin_job->tjid . '_POETRY') !== FALSE)) {
       $jobs = _tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $origin_job->tjid, TRUE);
       foreach ($jobs as $ids) {
