@@ -215,7 +215,8 @@ function nexteuropa_multilingual_form_alter(&$form, $form_state, $form_id) {
       }
       break;
   }
-  if (substr($form_id, -9) == 'node_form') {
+
+  if (isset($form_state['build_info']['base_form_id']) && $form_state['build_info']['base_form_id'] == 'node_form') {
     $language_default = language_default();
     // Hide all languages except neutral language and default language
     // in node source form.
