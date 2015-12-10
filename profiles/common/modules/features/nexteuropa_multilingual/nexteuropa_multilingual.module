@@ -125,6 +125,7 @@ function nexteuropa_multilingual_form_alter(&$form, $form_state, $form_id) {
       }
       break;
   }
+
   if (substr($form_id, -9) == 'node_form') {
     $language_default = language_default();
     // Hide all languages except neutral language and default language
@@ -258,9 +259,21 @@ function nexteuropa_multilingual_preprocess_field(&$variables) {
  */
 function nexteuropa_multilingual_field_group_pre_render_alter(&$element, &$group, $form) {
   // Field group label translation does not fit to the IPG language fallback.
-  if (!empty($element['#title'])) {
-    $language_fallback = entity_translation_get_existing_language('node', $form['#node']);
-    $element['#title'] = t('@string', array('@string' => $group->label), array('langcode' => $language_fallback));
-    $group->label_language = $language_fallback;
+  if (!empty($element['#title']) && isset($form['#entity_type'])) {
+    $entity = NULL;
+    $entity_map = array('user' => 'account' , 'taxonomy_term' => 'term');
+    $entity_type = $form['#entity_type'];
+    if (isset($form['#' . $entity_type])) {
+      $entity = $form['#' . $entity_type];
+    }
+    elseif (isset($form['#' . $entity_map[$entity_type]])) {
+      $entity = $form['#' . $entity_map[$entity_type]];
+    }
+
+    if ($entity) {
+      $language_fallback = entity_translation_get_existing_language($entity_type, $entity);
+      $element['#title'] = t('@string', array('@string' => $group->label), array('langcode' => $language_fallback));
+      $group->label_language = $language_fallback;
+    }
   }
 }
