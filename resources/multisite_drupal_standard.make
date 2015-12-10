@@ -511,7 +511,7 @@ projects[title][download][type] = git
 projects[title][subdir] = "contrib"
 
 projects[tmgmt][download][branch] = 7.x-1.x
-projects[tmgmt][download][revision] = c76ced1
+projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
 projects[tmgmt][download][type] = git
 projects[tmgmt][subdir] = contrib
 
