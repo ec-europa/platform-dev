@@ -631,6 +631,13 @@ projects[xml_field][version] = "2.2"
 projects[xmlsitemap][subdir] = "contrib"
 projects[xmlsitemap][version] = "2.2"
 
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4221
+projects[multifield][download][branch] = 7.x-1.x
+projects[multifield][download][revision] = 1aaeaa8
+projects[multifield][download][type] = git
+projects[multifield][subdir] = "contrib"
+projects[multifield][patch][] = https://www.drupal.org/files/issues/integration_with_tmgmt-2326355-3.patch
+projects[multifield][patch][] = https://www.drupal.org/files/issues/multifield-integration-with-ds-2307423-4.patch
 
 ; =========
 ; Libraries
