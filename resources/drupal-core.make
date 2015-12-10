@@ -15,10 +15,6 @@ projects[drupal][patch][] = patches/user-request_password_behaviour-2205.patch
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3154
 projects[drupal][patch][] = patches/default-settings-php-include-local-settings-3154.patch
 
-; Move local configuration directives out of the Git repository.
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3154
-projects[drupal][patch][] = patches/default-settings-php-include-local-settings-3154.patch
-
 ; Allow management of visibility for pseudo-fields.
 ; https://www.drupal.org/node/1256368
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
