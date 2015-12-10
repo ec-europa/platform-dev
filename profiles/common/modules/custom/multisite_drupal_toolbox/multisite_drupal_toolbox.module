@@ -139,6 +139,10 @@ function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
     variable_set("language_count", 2);
   }
+  if ($node == 10){
+    
+    $i = 2;
+  }
 
   _multisite_drupal_toolbox_show_features_status();
 }
