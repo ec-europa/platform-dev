@@ -272,7 +272,7 @@ function nexteuropa_multilingual_field_group_pre_render_alter(&$element, &$group
 
     if ($entity) {
       $language_fallback = entity_translation_get_existing_language($entity_type, $entity);
-      $element['#title'] = t('@string', array('@string' => $group->label), array('langcode' => $language_fallback));
+      $element['#title'] = locale($group->label, '', $language_fallback);
       $group->label_language = $language_fallback;
     }
   }
