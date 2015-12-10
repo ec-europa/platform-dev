@@ -638,6 +638,7 @@ projects[multifield][download][type] = git
 projects[multifield][subdir] = "contrib"
 projects[multifield][patch][] = https://www.drupal.org/files/issues/integration_with_tmgmt-2326355-3.patch
 projects[multifield][patch][] = https://www.drupal.org/files/issues/multifield-integration-with-ds-2307423-4.patch
+projects[multifield][patch][] = https://www.drupal.org/files/issues/multifield-features-integration-fix-api-2102265-32.patch
 
 ; =========
 ; Libraries
