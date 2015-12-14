@@ -303,7 +303,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    * @Transform rowtable:title,body,tags,moderation state
    */
-  public function castArticleNodeTable(TableNode $article_table) {
+  public function transformArticleNodeTable(TableNode $article_table) {
     $aliases = array(
       'title' => 'title',
       'body' => 'body',
@@ -311,7 +311,25 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
       'moderation state' => 'workbench_moderation_state_new',
     );
 
-    $table = $article_table->getTable();
+    return $this->transformRowTable($article_table, $aliases);
+  }
+
+  /**
+   * Helper method to transform column names in row tables.
+   *
+   * @param \Behat\Gherkin\Node\TableNode $table_node
+   *   The table to transform.
+   * @param array $aliases
+   *   An associative array of aliases that are uses for the column names. Keyed
+   *   by alias, and with the transformed string as value.
+   *
+   * @return \Behat\Gherkin\Node\TableNode
+   *   The transformed table
+   *
+   * @see self::transformArticleNodeTable()
+   */
+  protected function transformRowTable(TableNode $table_node, array $aliases) {
+    $table = $table_node->getTable();
     array_walk($table, function (&$row) use ($aliases) {
       // The first column of the row contains the field names. Replace the
       // aliased field name with the machine name if it exists.
