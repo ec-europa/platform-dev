@@ -315,6 +315,26 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
+   * Transforms human readable field labels for Users into machine names.
+   *
+   * @param TableNode $user_table
+   *   The original table.
+   *
+   * @return TableNode
+   *   The transformed table.
+   *
+   * @Transform rowtable:first name,last name
+   */
+  public function transformUserTable(TableNode $user_table) {
+    $aliases = array(
+      'first name' => 'field_firstname',
+      'last name' => 'field_lastname',
+    );
+
+    return $this->transformRowTable($user_table, $aliases);
+  }
+
+  /**
    * Helper method to transform column names in row tables.
    *
    * @param \Behat\Gherkin\Node\TableNode $table_node
