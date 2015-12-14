@@ -306,7 +306,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   public function castArticleNodeTable(TableNode $article_table) {
     $aliases = array(
       'title' => 'title',
-      'body' => 'body[und][0][value]',
+      'body' => 'body',
       'tags' => 'field_tags',
       'moderation state' => 'workbench_moderation_state_new',
     );

@@ -5,9 +5,17 @@ Feature: Article content type
 
   @api
   Scenario: Create an article
+    Given "Tags" terms:
+      | name              | weight | description   |
+      | State aid         | -10    | A term.       |
+      | Corporate tax law | 5      | A fine term.  |
     Given I am viewing an "article" content:
-      | title            | EC decides tax advantages for Fiat and Starbucks are illegal                                                                     |
-      | body             | Commissioner Margrethe Vestager stated that tax rulings that reduce a company's tax burden are not in line with state aid rules. |
-      | tags             | State aid, Corporate tax law, Luxembourg, The Netherlands                                                                        |
-      | moderation state | Published                                                                                                                        |
-    Then I break
+      | title            | EC decides tax advantages for Fiat are illegal                        |
+      | body             | Commissioner states tax rulings are not in line with state aid rules. |
+      | tags             | State aid, Corporate tax law                                          |
+      | moderation state | published                                                             |
+    Then I should see the link "State aid"
+    And I should see the link "Corporate tax law"
+    And I should see the heading "EC decides tax advantages for Fiat are illegal"
+    And I should see the text "Commissioner states tax rulings are not in line with state aid rules."
+    And I should see the text "Published by Anonymous
