@@ -380,6 +380,43 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     });
 
     return new TableNode($table);
+   
+  /**
+   * Prepare for PHP errors log.
+   *
+   * @BeforeSuite
+   */
+  public static function preparePhpErrors($event) {
+    // Clear out the watchdog table at the beginning of each test suite.
+    db_truncate('watchdog')->execute();
+  }
+
+  /**
+   * Check for PHP errors log.
+   *
+   * @AfterSuite
+   */
+  public static function checkPhpErrors($event) {
+    // Find any PHP errors at the end of the suite
+    // and output them as an exception.
+    $log = db_select('watchdog', 'w')
+      ->fields('w')
+      ->condition('w.type', 'php', '=')
+      ->execute()
+      ->fetchAll();
+    if (!empty($log)) {
+      $errors = count($log);
+      $message = "$errors PHP errors were logged to the watchdog in this suite:\n\n";
+      foreach ($log as $error) {
+        $error->variables = unserialize($error->variables);
+        $date = date('Y-m-d H:i:sP', $error->timestamp);
+        $message .= sprintf("Message: %s: %s in %s (line %s of %s).\n", $error->variables['%type'], $error->variables['!message'], $error->variables['%function'], $error->variables['%line'], $error->variables['%file']);
+        $message .= "Location: $error->location\n";
+        $message .= "Referer: $error->referer\n";
+        $message .= "Date/Time: $date\n\n";
+      }
+      throw new Exception($message);
+    }
   }
 
 }
