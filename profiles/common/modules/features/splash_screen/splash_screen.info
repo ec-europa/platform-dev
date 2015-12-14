@@ -1,5 +1,5 @@
 name = Splash screen
-description = Provide a homepage to choose language and store language in cookie.
+description = Provide a homepage to choose language.
 core = 7.x
 package = Multisite Features
 version = 7.x-2.0
