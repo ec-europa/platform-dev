@@ -93,10 +93,12 @@ function _newsletters_og_get_newsletter_term($gid) {
     ->propertyCondition('group_type', 'node', '=')
     ->propertyCondition('entity_type', 'taxonomy_term', '=')
     ->execute();
-  $og_memberships = og_membership_load_multiple(array_keys($result['og_membership']));
 
-  $nl = current($og_memberships);
-  return ($nl);
+  if (isset($result['og_membership'])) {
+    $og_memberships = og_membership_load_multiple(array_keys($result['og_membership']));
+    $nl = current($og_memberships);
+    return ($nl);
+  }
 }
 
 
@@ -106,8 +108,9 @@ function _newsletters_og_get_newsletter_term($gid) {
 function newsletters_og_init() {
   $og_context = og_context();
   if (isset($og_context['gid'])) {
-    $nl = _newsletters_og_get_newsletter_term($og_context['gid']);
-    $nl_id = 'tid-' . $nl->etid;
-    $_SESSION['simplenews_subscriptions_filter']['list'] = $nl_id;
+    if ($nl = _newsletters_og_get_newsletter_term($og_context['gid'])) {
+      $nl_id = 'tid-' . $nl->etid;
+      $_SESSION['simplenews_subscriptions_filter']['list'] = $nl_id;
+    }
   }
 }
