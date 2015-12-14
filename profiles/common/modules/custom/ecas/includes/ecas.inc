@@ -26,46 +26,49 @@ function _is_ecas_user($user) {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function ecas_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'user_profile_form') {
-    $user = user_load($form['#user']->uid);
-    // Load the user related to the profile.
-    if (_is_ecas_user($user)) {
-      // Remove the "Current password".
-      $form['account']['current_pass']['#access'] = FALSE;
+function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  $user = user_load($form['#user']->uid);
+  // Load the user related to the profile.
+  if (_is_ecas_user($user)) {
+    // Remove the "Current password".
+    $form['account']['current_pass']['#access'] = FALSE;
 
-      // Remove the "Password" and "Confirm password"  fields from the
-      // 'user/%/edit' page.
-      $form['account']['pass']['#access'] = FALSE;
-      if (!empty($user->mail)) {
-        $form['account']['mail']['#disabled'] = TRUE;
-      }
-
-      // Disable the firstname and lastname fields.
-      $form['field_firstname']['#disabled'] = TRUE;
-      $form['field_lastname']['#disabled'] = TRUE;
-
-      // Disable the creator field.
-      $form['field_creator']['#disabled'] = TRUE;
-
-      // Disable the name field.
-      $form['account']['name']['#disabled'] = TRUE;
-
-      $ecas_ch_pw_url = variable_get('ecas_change_password_url', ECAS_DEFAULT_CHANGE_PASSWORD_URL);
-      $form['account']['ecas_information_label'] = array(
-        '#markup' => sprintf(
-          t('This account is managed by ECAS. Its password can be changed using %s.'),
-          l(t('the ECAS change password page'), $ecas_ch_pw_url)
-        ),
-        '#weight' => -10,
-      );
+    // Remove the "Password" and "Confirm password"  fields from the
+    // 'user/%/edit' page.
+    $form['account']['pass']['#access'] = FALSE;
+    if (!empty($user->mail)) {
+      $form['account']['mail']['#disabled'] = TRUE;
     }
+
+    // Disable the firstname and lastname fields.
+    $form['field_firstname']['#disabled'] = TRUE;
+    $form['field_lastname']['#disabled'] = TRUE;
+
+    // Disable the creator field.
+    $form['field_creator']['#disabled'] = TRUE;
+
+    // Disable the name field.
+    $form['account']['name']['#disabled'] = TRUE;
+
+    $ecas_ch_pw_url = variable_get('ecas_change_password_url', ECAS_DEFAULT_CHANGE_PASSWORD_URL);
+    $form['account']['ecas_information_label'] = array(
+      '#markup' => sprintf(
+        t('This account is managed by ECAS. Its password can be changed using %s.'),
+        l(t('the ECAS change password page'), $ecas_ch_pw_url)
+      ),
+      '#weight' => -10,
+    );
   }
-  elseif ($form_id == 'user_pass') {
-    $form['#validate'] = array('_ecas_user_pass_validate');
-  }
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ecas_form_user_pass_alter(&$form, &$form_state, $form_id) {
+  $form['#validate'] = array('_ecas_user_pass_validate');
 }
 
 /**

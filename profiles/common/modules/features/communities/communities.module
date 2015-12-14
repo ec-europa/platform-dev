@@ -505,18 +505,18 @@ function communities_node_view($node, $view_mode, $langcode) {
 function communities_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'community_node_form':
-      $form[OG_GROUP_FIELD]['#access'] = FALSE;
       // Hide group field of the group content.
+      $form[OG_GROUP_FIELD]['#access'] = FALSE;
       break;
   }
+  // If it's a node edit form.
   if (isset($form_state['build_info']['base_form_id']) && $form_state['build_info']['base_form_id'] == 'node_form') {
-    // If it's a node edit form.
     $context = og_context();
+    // We are not in a og context.
     if (!isset($context['gid'])) {
-      // We are not in a og context.
       if (isset($form[OG_CONTENT_ACCESS_FIELD])) {
-        $form['field_highlighted']['#access'] = FALSE;
         // Hide highlighted field.
+        $form['field_highlighted']['#access'] = FALSE;
       }
     }
   }
