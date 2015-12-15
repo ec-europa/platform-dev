@@ -3233,6 +3233,7 @@ class CAS_Client
      * @return array Array representation of the XML node
      */
     private function _xmlToArray($node) {
+        $result = array();
 
         if($node->nodeType == XML_TEXT_NODE) {
             $result = html_entity_decode(htmlentities($node->nodeValue, ENT_COMPAT, 'UTF-8'),
