@@ -5,12 +5,28 @@
  * Allows to insert and render tokens into a CKEditor-enabled textarea.
  */
 
+include_once 'includes/nexteuropa_token_ckeditor.tmgmt_poetry.inc';
+
 /**
  * Default filter view, exposed by nexteuropa_token_ckeditor module.
  *
  * @see nexteuropa_token_ckeditor_form_nexteuropa_token_settings_form_alter()
  */
 define('NEXTEUROPA_TOKEN_CKEDITOR_DEFAULT_FILTER_VIEW', 'nexteuropa_token_ckeditor_filter_view:default');
+
+/**
+ * Regular expression matching inline view mode tokens.
+ *
+ * @see nexteuropa_token_ckeditor_token_filter_filter_tokens()
+ */
+define('NEXTEUROPA_TOKEN_CKEDITOR_REGEX_VIEW_MODE_TOKENS', '/((\[\w*\:\d*\:view-mode\:\w*\]){.*})/U');
+
+/**
+ * Regular expression matching inline link tokens.
+ *
+ * @see nexteuropa_token_ckeditor_token_filter_filter_tokens()
+ */
+define('NEXTEUROPA_TOKEN_CKEDITOR_REGEX_LINK_TOKENS', '/((\[\w*\:\d*\:link]){.*})/U');
 
 /**
  * Implements hook_views_api().
@@ -160,10 +176,8 @@ function nexteuropa_token_ckeditor_filter_info_alter(&$info) {
  */
 function nexteuropa_token_ckeditor_token_filter_filter_tokens($text, $filter, $format, $langcode, $cache, $cache_id) {
   $regular_expressions = array(
-    // Matches view mode tokens.
-    '/((\[\w*\:\d*\:view-mode\:\w*\]){.*})/U',
-    // Matches link tokens.
-    '/((\[\w*\:\d*\:link]){.*})/U',
+    NEXTEUROPA_TOKEN_CKEDITOR_REGEX_VIEW_MODE_TOKENS,
+    NEXTEUROPA_TOKEN_CKEDITOR_REGEX_LINK_TOKENS,
   );
   foreach ($regular_expressions as $regular_expression) {
     $matches = array();

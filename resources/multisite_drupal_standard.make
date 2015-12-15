@@ -22,7 +22,7 @@ projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.3"
 
 projects[apachesolr][subdir] = "contrib"
-projects[apachesolr][version] = "1.7"
+projects[apachesolr][version] = "1.8"
 ; Issue #2178283 : Apache Solr doesn't invalidate its caches when inserting a new node type.
 ; https://drupal.org/node/2178283
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2890
@@ -60,7 +60,7 @@ projects[bean][subdir] = "contrib"
 projects[bean][version] = 1.9
 
 projects[better_exposed_filters][subdir] = "contrib"
-projects[better_exposed_filters][version] = "3.0-beta3"
+projects[better_exposed_filters][version] = "3.2"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta1"
@@ -70,16 +70,16 @@ projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
 
 projects[bounce][subdir] = "contrib"
-projects[bounce][version] = "1.6"
+projects[bounce][version] = "1.7"
 
 projects[captcha][subdir] = "contrib"
-projects[captcha][version] = "1.2"
+projects[captcha][version] = "1.3"
 
 projects[chosen][subdir] = "contrib"
 projects[chosen][version] = 2.0-beta4
 
 projects[chr][subdir] = "contrib"
-projects[chr][version] = "1.6"
+projects[chr][version] = "1.7"
 ; Issue #2512054 : Call to legacy function curl_http_request. Please use chr_curl_http_request instead.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5588
 ; https://www.drupal.org/node/2512054
@@ -205,7 +205,7 @@ projects[features][version] = "2.7"
 projects[features][patch][] = https://www.drupal.org/files/issues/features-var-export-object-1437264-12_0.patch
 
 projects[feature_set][subdir] = "contrib"
-projects[feature_set][version] = "1.2"
+projects[feature_set][version] = "1.3"
 projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
@@ -220,10 +220,13 @@ projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
 
 projects[field_collection][subdir] = "contrib"
-projects[field_collection][version] = "1.0-beta8"
+projects[field_collection][version] = "1.0-beta10"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.4"
+; https://www.drupal.org/node/2604284
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
+projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta2"
@@ -235,7 +238,7 @@ projects[filefield_sources_plupload][subdir] = "contrib"
 projects[filefield_sources_plupload][version] = "1.1"
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.6"
+projects[flag][version] = "3.7"
 
 projects[flexslider][subdir] = "contrib"
 projects[flexslider][version] = "2.0-rc1"
@@ -270,8 +273,10 @@ projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/2325549-jq
 projects[geofield][subdir] = "contrib"
 projects[geofield][version] = "2.3"
 
+projects[geophp][download][branch] = 7.x-1.x
+projects[geophp][download][revision] = 2777c5e
+projects[geophp][download][type] = git
 projects[geophp][subdir] = "contrib"
-projects[geophp][version] = "1.x-dev"
 
 projects[hidden_captcha][subdir] = "contrib"
 projects[hidden_captcha][version] = "1.0"
@@ -296,13 +301,13 @@ projects[jqmulti][subdir] = "contrib"
 projects[jqmulti][version] = "1.0"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.6"
+projects[jquery_update][version] = "2.7"
 
 projects[js_injector][subdir] = "contrib"
 projects[js_injector][version] = "2.1"
 
 projects[l10n_update][subdir] = "contrib"
-projects[l10n_update][version] = "1.1"
+projects[l10n_update][version] = "2.0"
 
 projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.9"
@@ -319,7 +324,7 @@ projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integr
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
 
 projects[mail_edit][subdir] = "contrib"
-projects[mail_edit][version] = "1.0"
+projects[mail_edit][version] = "1.1"
 
 projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
@@ -420,12 +425,16 @@ projects[password_policy][subdir] = "contrib"
 projects[password_policy][version] = "2.0-alpha5"
 
 projects[pathauto][subdir] = "contrib"
-projects[pathauto][version] = "1.2"
+projects[pathauto][version] = "1.3"
+; https://www.drupal.org/node/1267966
+; The online patch doesn't work with 1.3 version
 projects[pathauto][patch][] = patches/pathauto-admin_patterns-1267966-140.patch
-projects[pathauto][patch][] = patches/pathauto-automatic_url_alias_issue-1847444-10.patch
+; Generate automatic URL alias
+; https://www.drupal.org/node/1847444
+projects[pathauto][patch][] = https://www.drupal.org/files/issues/pathauto-patch_for_pathautho1.3.patch
 
 projects[pathauto_persist][subdir] = "contrib"
-projects[pathauto_persist][version] = "1.3"
+projects[pathauto_persist][version] = "1.4"
 
 projects[piwik][subdir] = "contrib"
 projects[piwik][version] = "2.7"
@@ -504,7 +513,7 @@ projects[title][download][type] = git
 projects[title][subdir] = "contrib"
 
 projects[tmgmt][download][branch] = 7.x-1.x
-projects[tmgmt][download][revision] = c76ced1
+projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
 projects[tmgmt][download][type] = git
 projects[tmgmt][subdir] = contrib
 
@@ -528,7 +537,7 @@ projects[tweetbutton][subdir] = "contrib"
 projects[tweetbutton][version] = "2.0-beta1"
 
 projects[user_dashboard][subdir] = "contrib"
-projects[user_dashboard][version] = "1.3"
+projects[user_dashboard][version] = "1.4"
 
 projects[user_field_privacy][subdir] = "contrib"
 projects[user_field_privacy][version] = "1.2"
@@ -545,8 +554,7 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.11"
-projects[views][patch][] = patches/views-exposed-ajax-not-working-2425099-52.patch
+projects[views][version] = "3.13"
 projects[views][patch][] = patches/views-exposed_groupfilter_views-1818176-11.patch
 projects[views][patch][] = patches/views-includes_handlers-1752062-6.patch
 projects[views][patch][] = patches/views-localization-bug-1685144-9.patch
@@ -562,7 +570,7 @@ projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 
 projects[views_data_export][subdir] = "contrib"
-projects[views_data_export][version] = "3.0-beta8"
+projects[views_data_export][version] = "3.0-beta9"
 
 projects[views_datasource][version] = "1.0-alpha2"
 projects[views_datasource][subdir] = "contrib"
@@ -580,7 +588,7 @@ projects[votingapi][subdir] = "contrib"
 projects[votingapi][version] = "2.12"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.11"
+projects[webform][version] = "4.12"
 projects[webform][patch][] = patches/webform-use_ecas_link-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
@@ -593,7 +601,7 @@ projects[workbench_access][subdir] = "contrib"
 projects[workbench_access][version] = "1.4"
 
 projects[workbench_email][subdir] = "contrib"
-projects[workbench_email][version] = "3.5"
+projects[workbench_email][version] = "3.6"
 ; Issue #2501321: Add email subject and message to Features.
 ; https://www.drupal.org/node/2501321
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
