@@ -263,7 +263,9 @@ function nexteuropa_multilingual_preprocess_field(&$variables) {
 }
 
 /**
- * Implements hook_field_group_pre_render_alter().
+ * Implements hook_field_group_pre_render().
+ *
+ * Define the label language of field groups.
  */
 function nexteuropa_multilingual_field_group_pre_render(&$element, &$group, & $form) {
   $entity = NULL;
