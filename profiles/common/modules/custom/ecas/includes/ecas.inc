@@ -372,9 +372,9 @@ function ecas_login_check() {
     }
 
     // Preparing validation URL to retrieve attributes as well :
-    $validateServerUrl = 'https://'.FPFIS_ECAS_URL.':'.FPFIS_ECAS_PORT;
-    $validateServerUrl .= FPFIS_ECAS_URI.'/serviceValidate?userDetails=true&groups=*';
-    phpCAS::setServerServiceValidateURL($validateServerUrl);
+    $validate_server_url = 'https://' . FPFIS_ECAS_URL . ':' . FPFIS_ECAS_PORT;
+    $validate_server_url .= FPFIS_ECAS_URI . '/serviceValidate?userDetails=true&groups=*';
+    phpCAS::setServerServiceValidateURL($validate_server_url);
 
     if ($force_login === ECAS_LOGIN) {
       phpCAS::forceAuthentication();
@@ -386,8 +386,7 @@ function ecas_login_check() {
       $ecas_groups = $ecas_attributes['cas:groups'];
       $ecas_email = $ecas_attributes['cas:email'];
 
-
-        // Try to log into Drupal.
+      // Try to log into Drupal.
       $account = user_load_by_name($ecas_name);
 
       // Extra process to filter ECAS user.
@@ -418,18 +417,17 @@ function ecas_login_check() {
 
     // Final check to make sure we have a good user.
     if ($account && $account->uid > 0) {
-        // Retrieve information about the user from ECAS attributes.
-        $user_info = phpCAS::getAttributes();
+      // Retrieve information about the user from ECAS attributes.
+      $user_info = phpCAS::getAttributes();
 
-        // Update her information.
-        if (!empty($user_info)) {
-          ecas_sync_user_info($account, $user_info, $ecas_sync_user_info_args);
-        }
-        else {
-          $args = array(':username' => $account->name);
-          drupal_set_message(t('Warning: no information could be found for username :username', $args));
-        }
-
+      // Update her information.
+      if (!empty($user_info)) {
+        ecas_sync_user_info($account, $user_info, $ecas_sync_user_info_args);
+      }
+      else {
+        $args = array(':username' => $account->name);
+        drupal_set_message(t('Warning: no information could be found for username :username', $args));
+      }
 
       if ($account->status == 0) {
         // Case when account is blocked.
@@ -678,8 +676,8 @@ function _ecas_init_phpcas_client() {
 
   phpCAS::setNoCasServerValidation();
   // SNET proxies are blocking curl ...
-  // Let's make the module identify itself in their logs
-  phpCAS::setExtraCurlOption(CURLOPT_USERAGENT,'DrupalECAS/2.x (https://webgate.ec.europa.eu/CITnet/stash/projects/NEXTEUROPA/repos/platform-dev)');
+  // Let's make the module identify itself in their logs.
+  phpCAS::setExtraCurlOption(CURLOPT_USERAGENT, 'DrupalECAS/2.x (https://webgate.ec.europa.eu/CITnet/stash/projects/NEXTEUROPA/repos/platform-dev)');
 
   foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
     phpCAS::setExtraCurlOption($key, $value);
