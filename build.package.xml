@@ -95,18 +95,14 @@
 
     <!-- Copy the profile folders for deploying on production. -->
     <target name="copy-platform-profiles">
-        <!-- Make a backup of the core profiles folder. -->
-        <move file="${platform.build.profiles.dir}" todir="${phing.project.tmp.dir}" />
+        <!-- Delete the core profiles folder so it can be replaced with ours. -->
+        <delete dir="${platform.build.profiles.dir}" includeemptydirs="true" failonerror="true" />
         <!-- Copy our profiles folder. -->
         <copy todir="${platform.build.profiles.dir}">
             <fileset dir="${platform.resources.profiles.dir}">
                 <include name="**"></include>
             </fileset>
         </copy>
-        <!-- Restore the core profiles. -->
-        <move file="${phing.project.tmp.dir}/profiles/minimal" todir="${platform.build.profiles.dir}" />
-        <move file="${phing.project.tmp.dir}/profiles/standard" todir="${platform.build.profiles.dir}" />
-        <move file="${phing.project.tmp.dir}/profiles/testing" todir="${platform.build.profiles.dir}" />
     </target>
 
     <!-- Symlink various resources for easy development. -->
