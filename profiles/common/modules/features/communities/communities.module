@@ -500,24 +500,24 @@ function communities_node_view($node, $view_mode, $langcode) {
 
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function communities_form_alter(&$form, $form_state, $form_id) {
-  switch ($form_id) {
-    case 'community_node_form':
-      // Hide group field of the group content.
-      $form[OG_GROUP_FIELD]['#access'] = FALSE;
-      break;
-  }
+function communities_form_community_node_form_alter(&$form, &$form_state, $form_id) {
+  // Hide group field of the group content.
+  $form[OG_GROUP_FIELD]['#access'] = FALSE;
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function communities_form_node_form_alter(&$form, &$form_state, $form_id) {
   // If it's a node edit form.
-  if (isset($form_state['build_info']['base_form_id']) && $form_state['build_info']['base_form_id'] == 'node_form') {
-    $context = og_context();
-    // We are not in a og context.
-    if (!isset($context['gid'])) {
-      if (isset($form[OG_CONTENT_ACCESS_FIELD])) {
-        // Hide highlighted field.
-        $form['field_highlighted']['#access'] = FALSE;
-      }
+  $context = og_context();
+  // We are not in a og context.
+  if (!isset($context['gid'])) {
+    if (isset($form[OG_CONTENT_ACCESS_FIELD])) {
+      // Hide highlighted field.
+      $form['field_highlighted']['#access'] = FALSE;
     }
   }
 }

@@ -38,7 +38,7 @@ function multisite_workbench_moderation_view_views_pre_view(&$views) {
 }
 
 /**
- * Implements hook_form_FOMR_ID_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
 function multisite_workbench_moderation_view_form_views_form_workbench_moderation_moderate_all_page_alter(&$form, &$form_state, $form_id) {
   if (!empty($form['force_transition']) && isset($form['force_transition'])) {
