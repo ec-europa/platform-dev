@@ -57,28 +57,21 @@ function newsletters_og_og_ui_get_group_admin() {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID__alter().
  */
-function newsletters_og_form_alter(&$form, &$form_state, $form_id) {
-  switch ($form_id) {
-    case 'simplenews_admin_subscription':
-      // dsm($form);
-      // dsm($form_state);
-      $og_context = og_context();
-      $nl = _newsletters_og_get_newsletter_term($og_context['gid']);
-      $nl_id = 'tid-' . $nl->etid;
+function newsletters_og_form_simplenews_admin_subscription_alter(&$form, &$form_state, $form_id) {
+  $og_context = og_context();
+  $nl = _newsletters_og_get_newsletter_term($og_context['gid']);
+  $nl_id = 'tid-' . $nl->etid;
 
-      $options = $form['filter']['filters']['list']['#options'];
-      foreach (array_keys($options) as $option) {
-        if ($option != $nl_id) {
-          unset($form['filter']['filters']['list']['#options'][$option]);
-        }
-      }
-      $form['filter']['filters']['list']['#default_value'] = $nl_id;
-      hide($form['filter']['filters']);
-      break;
+  $options = $form['filter']['filters']['list']['#options'];
+  foreach (array_keys($options) as $option) {
+    if ($option != $nl_id) {
+      unset($form['filter']['filters']['list']['#options'][$option]);
+    }
   }
-
+  $form['filter']['filters']['list']['#default_value'] = $nl_id;
+  hide($form['filter']['filters']);
 }
 
 
