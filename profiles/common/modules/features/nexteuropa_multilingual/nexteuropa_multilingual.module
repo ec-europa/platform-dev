@@ -244,10 +244,10 @@ function nexteuropa_multilingual_preprocess_field(&$variables) {
     // Get the field object and the field instance.
     $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
     $field = field_info_field($element['#field_name']);
-    
+
     // Get entity language (content language).
     $lang = entity_translation_get_existing_language($element['#entity_type'], $element['#object']);
-    
+
     // Translate label.
     if (!empty($variables['label'])) {
       $variables['label'] = i18n_field_translate_property($instance, 'label', $lang);
