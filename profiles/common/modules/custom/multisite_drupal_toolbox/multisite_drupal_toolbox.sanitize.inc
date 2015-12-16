@@ -559,8 +559,12 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
       else {
         // All attribute values are checked for bad protocols. This is the same
         // exact method used by Drupal's filter_xss().
-        $attrinfo['value'] = filter_xss_bad_protocol($attrinfo['value']);
-
+        if (preg_match('/\[([^\s\[\]:]*):([^\[\]]*)\]/x', $attrinfo['value'])) {
+          $attrinfo['value'] = filter_xss($attrinfo['value']);
+        }
+        else {
+          $attrinfo['value'] = filter_xss_bad_protocol($attrinfo['value']);
+        }
         // If this is <a href> element, then check domain name for
         // rel="nofollow" policies in effect.
         if ($element == 'a' && $attrname == 'href' && $nofollow_policy != 'disabled' && !$add_nofollow) {
