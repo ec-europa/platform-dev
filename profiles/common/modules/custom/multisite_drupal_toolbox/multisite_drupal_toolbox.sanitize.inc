@@ -559,7 +559,7 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
       else {
         // All attribute values are checked for bad protocols. This is the same
         // exact method used by Drupal's filter_xss().
-        if (preg_match('/\[([^\s\[\]:]*):([^\[\]]*)\]/x', $attrinfo['value'])) {
+        if (preg_match('/\[([^\s\[\]:]*):([^\[\]]*)\]/', $attrinfo['value'])) {
           $attrinfo['value'] = filter_xss($attrinfo['value']);
         }
         else {
