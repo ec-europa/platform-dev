@@ -271,14 +271,20 @@ function nexteuropa_multilingual_preprocess_field(&$variables) {
  */
 function nexteuropa_multilingual_field_group_pre_render(&$element, &$group, & $form) {
   $entity = NULL;
+  // Map between entity type name and key name on the $form array.
   $entity_map = array('user' => 'account' , 'taxonomy_term' => 'term');
   $entity_type = $form['#entity_type'];
 
+  // Try to retrive entity from $form.
   if (isset($form['#' . $entity_type])) {
     $entity = $form['#' . $entity_type];
   }
-  elseif (isset($form['#' . $entity_map[$entity_type]])) {
+  elseif (isset($entity_map[$entity_type]) && isset($form['#' . $entity_map[$entity_type]])) {
     $entity = $form['#' . $entity_map[$entity_type]];
+  }
+  // Bean => entity.
+  elseif (isset($form['#entity'])) {
+    $entity = $form['#entity'];
   }
 
   if ($entity) {
