@@ -83,14 +83,10 @@
 
     <!-- Symlink the profile folders for easy development. -->
     <target name="link-platform-profiles">
-        <!-- Make a backup of the core profiles folder. -->
-        <move file="${platform.build.profiles.dir}" todir="${phing.project.tmp.dir}" />
+        <!-- Delete the core profiles folder. -->
+        <delete dir="${platform.build.profiles.dir}" />
         <!-- Symlink our profiles folder. -->
         <symlink link="${platform.build.profiles.dir}" target="${platform.resources.profiles.dir}" />
-        <!-- Restore the core profiles. -->
-        <move file="${phing.project.tmp.dir}/profiles/minimal" todir="${platform.build.profiles.dir}" />
-        <move file="${phing.project.tmp.dir}/profiles/standard" todir="${platform.build.profiles.dir}" />
-        <move file="${phing.project.tmp.dir}/profiles/testing" todir="${platform.build.profiles.dir}" />
     </target>
 
     <!-- Copy the profile folders for deploying on production. -->
