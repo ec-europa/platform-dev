@@ -71,16 +71,6 @@
         <phingcall target="make-platform" />
     </target>
 
-    <!--
-        Clean up core profiles which might be present inside the symlinked
-        profiles folder.
-    -->
-    <target name="clean-platform-profiles">
-        <delete dir="${platform.resources.profiles.dir}/minimal" />
-        <delete dir="${platform.resources.profiles.dir}/standard" />
-        <delete dir="${platform.resources.profiles.dir}/testing" />
-    </target>
-
     <!-- Symlink the profile folders for easy development. -->
     <target name="link-platform-profiles">
         <!-- Delete the core profiles folder. -->
@@ -161,17 +151,17 @@
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-php-codesniffer, update-htaccess" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-php-codesniffer, update-htaccess" />
 
     <target
         name="build-platform-dist"
         description="Build a version of the platform intended to distribute as a release package."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies" />
 
     <target
         name="build-multisite-dist"
         description="Build a multisite version of the platform intended to distribute as a release package."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles">
+        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles">
 
         <!-- First make the standard profile. -->
         <property name="platform.profile.name" value="multisite_drupal_standard" override="yes" />
