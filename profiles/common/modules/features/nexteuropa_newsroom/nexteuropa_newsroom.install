@@ -92,7 +92,6 @@ function nexteuropa_newsroom_update_7102() {
     'newsroom_service_importer',
     'newsroom_topic_importer',
     'newsroom_delete_item_importer',
-    'newsroom_delete_item_importer',
     'newsroom_item_importer',
   );
 

@@ -1515,19 +1515,16 @@ function _newsroom_fetch_active_menu($topic_id) {
  */
 function _newsroom_get_menu_by_path($path) {
   $key = 'newsroom:get_menu_by_path:' . md5($path);
-  $data = &drupal_static(__FUNCTION__);
-  if (!isset($data)) {
-    if ($cache = cache_get($key)) {
-      $data = $cache->data;
-    }
-    else {
-      $query = db_select('menu_links', 'ml')
-          ->fields('ml')
-          ->condition('ml.link_path', $path)
-          ->execute();
-      $data = _newsroom_pdo_to_array($query);
-      cache_set($key, $data);
-    }
+  if ($cache = cache_get($key)) {
+    $data = $cache->data;
+  }
+  else {
+    $query = db_select('menu_links', 'ml')
+        ->fields('ml')
+        ->condition('ml.link_path', $path)
+        ->execute();
+    $data = _newsroom_pdo_to_array($query);
+    cache_set($key, $data);
   }
   return $data;
 }
