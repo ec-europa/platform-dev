@@ -34,7 +34,6 @@ function multisite_mediagallery_core_enable() {
 function multisite_mediagallery_core_disable() {
   // solR configuration add bundle.
   multisite_drupal_toolbox_config_solr_bundle('gallerymedia', 'delete');
-  multisite_drupal_toolbox_disable_content_type('gallerymedia');
   multisite_drupal_toolbox_remove_block_context('homepage', 'galleries-medias_block');
 
   // Disable block Carousel.

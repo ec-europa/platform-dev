@@ -1411,7 +1411,7 @@
                 }
             ],
             "description": "VersionControl_Git is a library that provides OO interface to handle Git repository.",
-            "time": "2015-08-26 14:05:34"
+            "time": "2015-11-04 13:03:54"
         },
         {
             "name": "pfrenssen/phpcs-pre-push",

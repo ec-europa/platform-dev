@@ -14,6 +14,34 @@
         var lng = settings.nexteuropa_geojson.settings.fs_default_map_center['lng'];
         var map = L.map('geofield_geojson_map', {}).setView([lat, lng], 13);
 
+        $(document).ready(function() {
+            if (context == document) {
+                // If there are vertical tabs the widget should refresh when swapping between them.
+                if ($('.vertical-tabs').length > 0 && $('.vertical-tabs-panes').length > 0) {
+                    var refresh = function() {
+                        $('.vertical-tabs-panes').find('.vertical-tabs-pane').each(function(key, pane){
+                            // Check pane is visible and refresh widget if it is.
+                            if ($(pane).is(':visible')) {
+                                map.invalidateSize();
+                                if (settings.nexteuropa_geojson.map) {
+                                    map.fitBounds(drawnItems.getBounds());
+                                }
+                                else {
+                                    map.setView([lat, lng], 13);
+                                }
+                            }
+                        });
+                    };
+                    // Refresh current vertical tab.
+                    refresh();
+                    // Refresh when changing to a different vertical tab.
+                    $('.vertical-tabs').find('.vertical-tab-button').each(function(key, tab){
+                        $(tab).find('a').bind('click', refresh);
+                    });
+                }
+            }
+        });
+
         // Get all the necessary DOM objects.
         // If there is only one defined object on the map, get the fields used to populate the popup.
         if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount == 1) {
@@ -270,7 +298,7 @@
                     name = getFieldValue(name_field);
                     description = getFieldValue(description_field);
                 }
-                if (name != "" && description != "") {
+                if (name != "" || description != "") {
                     createPopup(key, name, description);
                 }
             }

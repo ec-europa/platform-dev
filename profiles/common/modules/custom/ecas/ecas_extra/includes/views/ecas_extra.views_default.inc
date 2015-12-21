@@ -147,7 +147,7 @@ function ecas_extra_views_default_views() {
           'override_label' => 0,
           'label' => '',
         ),
-        'action::deny_account_action' => array(
+        'action::ecas_extra_deny_account_action' => array(
           'selected' => 1,
           'use_queue' => 0,
           'skip_confirmation' => 0,

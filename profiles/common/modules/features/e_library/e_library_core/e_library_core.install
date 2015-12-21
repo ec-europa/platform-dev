@@ -50,8 +50,6 @@ function e_library_core_disable() {
   // solR configuration delete bundle.
   multisite_drupal_toolbox_config_solr_bundle('document', 'delete');
 
-  multisite_drupal_toolbox_disable_content_type('document');
-
   $vocabulary = taxonomy_vocabulary_machine_name_load('media_tags');
   taxonomy_vocabulary_delete($vocabulary->vid);
 

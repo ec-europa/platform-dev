@@ -432,7 +432,6 @@ function taxonomy_browser_views_post_render(&$view, &$output, &$cache) {
           }
           array_pop($breadcrumb);
           drupal_set_breadcrumb($breadcrumb);
-
         }
       }
     }

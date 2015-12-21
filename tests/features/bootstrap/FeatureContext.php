@@ -10,6 +10,7 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Behat\Gherkin\Node\PyStringNode;
 
 /**
  * Contains generic step definitions.
@@ -175,6 +176,69 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
+   * Enables one or more Feature Set(s).
+   *
+   * Provide feature set names in the following format:
+   *
+   * | featureSet  |
+   * | Events      |
+   * | Links       |
+   *
+   * @param TableNode $featureset_table
+   *   The table listing feature set titles.
+   *
+   * @Given the/these featureSet/FeatureSets is/are enabled
+   */
+  public function enableFeatureSet(TableNode $featureset_table) {
+    $rebuild = FALSE;
+    $message = array();
+    $featuresets = feature_set_get_featuresets();
+    foreach ($featureset_table->getHash() as $row) {
+      foreach ($featuresets as $featureset_available) {
+        if ($featureset_available['title'] == $row['featureSet']) {
+          if (!feature_set_enable_feature_set($featureset_available)) {
+            $message[] = $row['featureSet'];
+          }
+          else {
+            $this->modules[] = $row['featureSet'];
+            $rebuild = TRUE;
+          }
+        }
+      }
+    }
+    if (!empty($message)) {
+      throw new \Exception(sprintf('Feature Set "%s" not found', implode(', ', $message)));
+    }
+    else {
+      if ($rebuild) {
+        drupal_flush_all_caches();
+      }
+      return TRUE;
+    }
+  }
+
+  /**
+   * Check the languages order in the language selector page.
+   *
+   * @Then the language options on the page content language switcher should be :active_language non clickable followed by :language_order links
+   */
+  public function theLanguageOptionsOnThePageContentLanguageSwitcherShouldBe($active_language, $language_order) {
+    $pattern = '/<li class="lang-select-page__served">' . $active_language . '<\/li>';
+    $languages = explode(",", $language_order);
+    foreach ($languages as $language) {
+      $pattern .= '<li><a href="(.*)" class="active">' . $language . '<\/a><\/li>';
+    }
+    $pattern .= "/i";
+
+    $session = $this->getSession();
+    $page_content = $session->getPage()->getContent();
+
+    if (!preg_match($pattern, $page_content)) {
+      throw new Exception(sprintf('The page content language switcher is not set to %s and not followed by the language links %s.', $active_language, $language_order));
+    }
+  }
+
+  /**
    * Reinitialize some environment settings.
    *
    * @AfterScenario @cleanEnvironment
@@ -198,6 +262,22 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         ->condition('language', $language->language)
         ->execute();
     }
+  }
+
+  /**
+   * Creates a file with specified name and context in current workdir.
+   *
+   * @param string $filename
+   *   Name of the file (relative path).
+   * @param PyStringNode $content
+   *   PyString string instance.
+   *
+   * @Given /^(?:there is )?a file named "([^"]*)" with:$/
+   */
+  public function aFileNamedWith($filename, PyStringNode $content) {
+    $content = strtr((string) $content, array("'''" => '"""'));
+    $drupal = $this->getDrupalParameter('drupal');
+    file_put_contents($drupal['drupal_root'] . '/' . $filename, $content);
   }
 
   /**

@@ -428,7 +428,7 @@ function ecas_login_check() {
         }
         else {
           $args = array(':username' => $account->name);
-          drupal_set_message(t('Warning: no information could be found for username :username'), $args);
+          drupal_set_message(t('Warning: no information could be found for username :username', $args));
         }
       }
 
