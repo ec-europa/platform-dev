@@ -296,7 +296,12 @@ function ecas_sync_profile_core(&$user, array $user_info) {
     $edit[$field_ecasmail][LANGUAGE_NONE][0]['value'] = $user_info['cas:email'];
   }
   if (!empty($field_ecascreator) && isset($edit[$field_ecascreator])) {
-    $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['cas:domain'] . '/' . $user_info['cas:departmentNumber'];
+    if($user_info['cas:domain'] == 'external') {
+      $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['cas:domain'];
+    }
+    else {
+      $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['cas:domain'] . '/' . $user_info['cas:departmentNumber'];
+    }
   }
 
   // Save changes.
@@ -372,8 +377,9 @@ function ecas_login_check() {
     }
 
     // Preparing validation URL to retrieve attributes as well :
+    $assurance_level = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
     $validate_server_url = 'https://' . FPFIS_ECAS_URL . ':' . FPFIS_ECAS_PORT;
-    $validate_server_url .= FPFIS_ECAS_URI . '/serviceValidate?userDetails=true&groups=*';
+    $validate_server_url .= FPFIS_ECAS_URI . '/TicketValidationService?assuranceLevel='.$assurance_level.'&ticketTypes=SERVICE,PROXY&userDetails=true&groups=*';
     phpCAS::setServerServiceValidateURL($validate_server_url);
 
     if ($force_login === ECAS_LOGIN) {
