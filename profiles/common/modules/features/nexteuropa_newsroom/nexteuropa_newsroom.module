@@ -71,8 +71,6 @@ function nexteuropa_newsroom_feature_set_api() {
  * Implements hook_image_default_styles().
  */
 function nexteuropa_newsroom_image_default_styles() {
-  $styles = array();
-
   // Exported image style: newsroom_style.
   $styles['newsroom_style'] = array(
     'name' => 'newsroom_style',
@@ -417,7 +415,7 @@ function _nexteuropa_newsroom_field_group($machine_name, $field_name) {
   }
   // If the group is already there, remove it.
   if (isset($groups[$group_name])) {
-    $query = db_delete('field_group')
+    db_delete('field_group')
       ->condition('bundle', $machine_name, '=')
       ->condition('group_name', 'group_' . $machine_name . '_newsroom', '=')
       ->execute();
@@ -509,9 +507,8 @@ function nexteuropa_newsroom_restore_conf($form, &$form_state) {
  * Submit handler.
  */
 function nexteuropa_newsroom_restore_conf_all($form, &$form_state) {
-  $name = '';
   $voc = $form['#vocabulary']->machine_name;
-  // Get the current variable for the specific vocubulary,
+  // Get the current variable for the specific vocubulary.
   $backup = variable_get($voc . '_backup', array());
 
   if (!empty($backup)) {
@@ -592,7 +589,7 @@ function nexteuropa_newsroom_restore_batch(array $chunk, $voc, array $operation_
         if (isset($context)) {
           // Build the worked term name list.
           $context['results'][] .= $conf['name'] . ', ';
-          $context['message'] = t('Restoring "@title"', array('@title' => $term['name'])) . ' ' . $operation_details;
+          $context['message'] = t('Restoring "@title" @operations', array('@title' => $term['name'], '@operations' => $operation_details));
         }
       }
       // Save the term with the new values.
@@ -606,7 +603,6 @@ function nexteuropa_newsroom_restore_batch(array $chunk, $voc, array $operation_
  */
 function nexteuropa_newsroom_backup_conf($form, &$form_state) {
   $voc = $form['vocabulary_machine_name']['#value'];
-  $tree = taxonomy_get_tree($voc);
   // Get the current backup.
   $current_values = variable_get($voc . '_backup', array());
   $id = _nexteuropa_newsroom_get_ids($voc, $form_state['values']);
@@ -635,7 +631,6 @@ function nexteuropa_newsroom_backup_conf($form, &$form_state) {
  * Submit handler.
  */
 function nexteuropa_newsroom_backup_conf_all($form, &$form_state) {
-  $name = '';
   $voc = $form['#vocabulary']->machine_name;
   // We need the whole tree here.
   $tree = taxonomy_get_tree($form['#vocabulary']->vid);
@@ -821,14 +816,7 @@ function _nexteuropa_newsroom_disable_importer($disabled, $importer_ids, $toggle
   $importers = feeds_importer_load_all(TRUE);
 
   foreach ($importers as $importer) {
-    if (in_array($importer->id, $importer_ids)) {
-      $disabled[$importer->id] = TRUE;
-    }
-    else {
-      if ($toggle) {
-        $disabled[$importer->id] = FALSE;
-      }
-    }
+    $disabled[$importer->id] = in_array($importer->id, $importer_ids);
   }
 
   variable_set('default_feeds_importer', $disabled);
@@ -1105,18 +1093,15 @@ function nexteuropa_newsroom_delete($name, $type = 'menu', $op = 'items') {
       break;
 
     case 'vocabulary':
-      if ($op == 'items') {
-        $voc = taxonomy_vocabulary_machine_name_load($name);
-        if (!empty($voc)) {
+      $voc = taxonomy_vocabulary_machine_name_load($name);
+      if (!empty($voc)) {
+        if ($op == 'items') {
           $terms = taxonomy_get_tree($voc->vid);
           foreach ($terms as $term) {
             taxonomy_term_delete($term->tid);
           }
         }
-      }
-      else {
-        $voc = taxonomy_vocabulary_machine_name_load($name);
-        if (!empty($voc)) {
+        else {
           taxonomy_vocabulary_delete($voc->vid);
         }
       }
@@ -1289,7 +1274,7 @@ function _nexteuropa_newsroom_check_translations(array $premapping) {
   foreach ($premapping as $fieldname => $values) {
     // Sanitize fieldname.
     $attribute = strrchr($fieldname, ':');
-    $sanitized_name = str_replace($attribute, '', $fieldname);
+    $sanitized_name = isset($values['original_field']) ? $values['original_field'] : str_replace($attribute, '', $fieldname);
     $field = field_info_field($sanitized_name);
     $language = field_is_translatable('node', $field);
     $premapping[$fieldname]['language'] = $language;

@@ -28,8 +28,7 @@ function newsroom_init() {
   // to site configuration.
   if (arg(0) == 'admin' && user_access('administer site configuration')) {
     if (empty($universe_id)) {
-      $newsroom_config_path = url('admin/config/content/newsroom');
-      $newsroom_config_path = filter_xss($newsroom_config_path);
+      $newsroom_config_path = filter_xss(url('admin/config/content/newsroom'));
       drupal_set_message(t('The Newsroom feature needs to be configured before use. Please visit the <a href="!link">configuration page</a>!', array('!link' => $newsroom_config_path)), 'warning', FALSE);
     }
   }
@@ -49,18 +48,6 @@ function newsroom_feeds_plugins() {
       'parent' => 'FeedsProcessor',
       'class' => 'NewsroomDeleteNodeProcessor',
       'file' => 'NewsroomDeleteNodeProcessor.inc',
-      'path' => drupal_get_path('module', 'newsroom') . '/plugins',
-    ),
-  );
-  // A plugin needs to derive either directly or indirectly from FeedsFetcher,
-  // FeedsParser or FeedsProcessor.
-  $info['NewsroomFeedsNodeProcessor'] = array(
-    'name' => 'Newsroom node processor',
-    'description' => 'Create and update newsroom items (also across multiple importer instances without duplicated items)',
-    'handler' => array(
-      'parent' => 'FeedsProcessor',
-      'class' => 'NewsroomFeedsNodeProcessor',
-      'file' => 'NewsroomFeedsNodeProcessor.inc',
       'path' => drupal_get_path('module', 'newsroom') . '/plugins',
     ),
   );
@@ -280,7 +267,6 @@ function _newsroom_block_news_proposal() {
     return NULL;
   }
 
-  global $user;
   global $base_url;
 
   $topic_id = NULL;
@@ -806,7 +792,7 @@ function _newsroom_get_summary_block_tid() {
   if ($current_path['page_callback'] === 'views_page' && $current_path['path'] === 'taxonomy/term/%') {
     $argument_values = array_values($current_path['page_arguments']);
     $last_argument_element = end($argument_values);
-    // We may have a term page, let's try to load it,
+    // We may have a term page, let's try to load it.
     if (is_numeric($last_argument_element)) {
       $entity = taxonomy_term_load($last_argument_element);
       $selected_topics[] = $entity->tid;
@@ -1028,7 +1014,7 @@ function _newsroom_content(array $newsroom_grouping_terms, $full_display = FALSE
         if ($topic_is_highlighted) {
           // Controls width.
           $classes[] = 'featured';
-          // Controls border;
+          // Controls border.
           $classes[] = 'highlighted';
         }
 
@@ -1069,12 +1055,7 @@ function _newsroom_content(array $newsroom_grouping_terms, $full_display = FALSE
     }
   }
 
-  if (!empty($newsroom_boxes)) {
-    return newsroom_render_boxes($newsroom_boxes);
-  }
-  else {
-    return '';
-  }
+  return !empty($newsroom_boxes) ? newsroom_render_boxes($newsroom_boxes) : '';
 }
 
 /**
@@ -1249,7 +1230,7 @@ function _newsroom_agenda_types() {
             'events',
             'consultation_funding',
             'agenda',
-            )
+          )
           );
       $result = $query->execute();
       $newsroom_agenda_types = isset($result['taxonomy_term']) ? $result['taxonomy_term'] : FALSE;
@@ -1743,8 +1724,7 @@ function _newsroom_run_importer($url, $importer_id) {
   // @TODO deal with the case if we don't have an item setup.
   $additional_config = array(
     'FeedsHTTPFetcher' => array(
-      'source' => $url
-      ,
+      'source' => $url,
     ),
   );
   $source->setConfig(array_merge($config, $additional_config));
@@ -2061,9 +2041,8 @@ function _newsroom_redirect($redirect_type = 'item', $param_1 = 0, $param_2 = 0)
  * Implements pre_render_hook().
  */
 function newsroom_views_pre_render(&$view) {
-
   // Mark items as new if a user did't see it before.
-  if ($view->name == 'newsroom_page_content') {
+  if (user_is_logged_in() && $view->name == 'newsroom_page_content') {
     foreach ($view->result as $key => $result) {
       if ($result->node_created < time() - 14 * 86400) {
         continue;
@@ -2101,7 +2080,7 @@ function newsroom_views_pre_render(&$view) {
     }
 
     if (in_array($view->current_display, array('previous_events', 'previous_consultation_funding'))) {
-      $view->build_info['title'] = str_replace('<span class="filter_type">', '<span class="filter_type">' . t('Past') . ' ', $view->build_info['title']);
+      $view->build_info['title'] = str_replace('<span class="filter_type">', '<span class="filter_type"> Past ', $view->build_info['title']);
     }
     // If there is more than one parameter.
     if (count(explode(' ', $view->build_info['substitutions']['!1']) > 1)) {
@@ -2114,7 +2093,7 @@ function newsroom_views_pre_render(&$view) {
       }
     }
     else {
-      $view->build_info['title'] = str_replace('<span class="filter_topic">', '<span class="filter_topic">' . t('about') . ' ', $view->build_info['title']);
+      $view->build_info['title'] = str_replace('<span class="filter_topic">', '<span class="filter_topic">about ', $view->build_info['title']);
       if (count(explode(' ', $view->build_info['substitutions']['!2']) > 1)) {
         $view->build_info['substitutions']['%2'] = str_replace(' + ', ' & ', $view->build_info['substitutions']['%2']);
       }
@@ -2353,7 +2332,7 @@ function newsroom_get_term_from_vocabularies($vocabularies = array()) {
 
   $cache = cache_get($key);
 
-  if ($cache = cache_get($key)) {
+  if ($cache) {
     $taxonomy_terms = $cache->data;
   }
   else {
@@ -2488,12 +2467,6 @@ function _newsroom_prepare_agenda($view) {
           'field_info' => $field->field_info,
         );
       }
-    }
-
-    // TODO: $options variable doesn't have value. To be removed!
-    // If using a custom date field, filter the fields to process.
-    if (!empty($options['date'])) {
-      $date_fields = array_intersect_key($date_fields, $options['date_field']);
     }
 
     // If there are no date fields (gcal only), return.
@@ -3169,7 +3142,6 @@ function newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_
               }
             }
           }
-
           file_save($file);
 
           $handler = entity_translation_get_handler('file', $file);
@@ -3265,7 +3237,6 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
     foreach ($languages as $language) {
       // Check only active and skip the default language.
       if ($language->enabled) {
-
         foreach ($field_names as $field_name) {
           $fields[] = $field_name . $language->language;
         }
@@ -3275,6 +3246,7 @@ function newsroom_feeds_processor_targets_alter(&$targets, $entity_type, $bundle
     foreach (field_info_instances('file', 'image') as $name => $instance) {
       if (in_array($name, array_keys($field_names))) {
         foreach ($fields as $field) {
+          
           $targets[$field] = array(
             'name' => t('Image:@name', array('@name' => $field)),
             'callback' => NULL,

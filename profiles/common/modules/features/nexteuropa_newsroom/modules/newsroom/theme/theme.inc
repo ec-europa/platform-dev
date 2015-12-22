@@ -35,7 +35,7 @@ function theme_newsroom_agenda($variables) {
     $agenda[$date]['events']['#suffix'] = '</div>';
 
     if (is_array($events)) {
-      // Order items by their lenght.
+      // Order items by their length.
       usort($events, function ($a, $b) {
         return $a['attributes']['length'] >= $b['attributes']['length'];
       });

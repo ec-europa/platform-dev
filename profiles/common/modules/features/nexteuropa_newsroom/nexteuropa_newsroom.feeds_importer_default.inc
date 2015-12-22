@@ -243,7 +243,7 @@ function nexteuropa_newsroom_feeds_importer_default() {
       ),
     ),
     'processor' => array(
-      'plugin_key' => 'NewsroomFeedsNodeProcessor',
+      'plugin_key' => 'FeedsNodeProcessor',
       'config' => array(
         'expire' => '-1',
         'author' => '0',
