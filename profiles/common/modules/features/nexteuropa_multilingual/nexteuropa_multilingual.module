@@ -319,51 +319,66 @@ function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) 
   $context['language'] = LANGUAGE_NONE;
 }
 
+
 /**
  * Implements hook_preprocess_field().
+ *
+ * The field language property respects the IPG language fallback,
+ * but not its label and its value (for select list field).
+ * It not works natively due to entity_translation and the 2nd language
+ * parameters.
  */
 function nexteuropa_multilingual_preprocess_field(&$variables) {
-  if (!empty($variables['label']) && isset($variables['label_hidden']) && $variables['label_hidden'] == FALSE) {
-    if (isset($variables['element']['#object']->nid)) {
-      $element = $variables['element'];
-      // Get the field object and the field instance.
-      $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
-      $field = field_info_field($element['#field_name']);
+  if (isset($variables['element']['#object'])) {
+    $element = $variables['element'];
+    // Get the field object and the field instance.
+    $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
+    $field = field_info_field($element['#field_name']);
 
-      // The field language property respects the IPG language fallback,
-      // but not its label and its value (for select list field).
-      // Translate label.
-      $variables['label'] = i18n_field_translate_property($instance, 'label', $element['#language']);
-      // Translate field value (for select list field).
-      if (isset($variables['items']['0']['#markup']) && $translated_value = i18n_field_translate_allowed_values($field, $element['#language'])) {
-        foreach ($variables['items'] as $key => $item) {
-          $variables['items'][$key]['#markup'] = $translated_value[$key];
-        }
+    // Get entity language (content language).
+    $lang = entity_translation_get_existing_language($element['#entity_type'], $element['#object']);
+
+    // Translate label.
+    if (!empty($variables['label'])) {
+      $variables['label'] = i18n_field_translate_property($instance, 'label', $lang);
+    }
+    // Translate field value (for select list field).
+    if ($translated_value = i18n_field_translate_allowed_values($field, $lang)) {
+      foreach ($variables['items'] as $key => $item) {
+        // Get key of the value.
+        $key_value = $element['#items'][$key]['value'];
+        // Get translated field value.
+        $variables['items'][$key]['#markup'] = $translated_value[$key_value];
       }
     }
   }
 }
 
 /**
- * Implements hook_field_group_pre_render_alter().
+ * Implements hook_field_group_pre_render().
+ *
+ * Define the label language of field groups.
  */
-function nexteuropa_multilingual_field_group_pre_render_alter(&$element, &$group, $form) {
-  // Field group label translation does not fit to the IPG language fallback.
-  if (!empty($element['#title']) && isset($form['#entity_type'])) {
-    $entity = NULL;
-    $entity_map = array('user' => 'account' , 'taxonomy_term' => 'term');
-    $entity_type = $form['#entity_type'];
-    if (isset($form['#' . $entity_type])) {
-      $entity = $form['#' . $entity_type];
-    }
-    elseif (isset($form['#' . $entity_map[$entity_type]])) {
-      $entity = $form['#' . $entity_map[$entity_type]];
-    }
+function nexteuropa_multilingual_field_group_pre_render(&$element, &$group, & $form) {
+  $entity = NULL;
+  // Map between entity type name and key name on the $form array.
+  $entity_map = array('user' => 'account' , 'taxonomy_term' => 'term');
+  $entity_type = $form['#entity_type'];
 
-    if ($entity) {
-      $language_fallback = entity_translation_get_existing_language($entity_type, $entity);
-      $element['#title'] = locale($group->label, '', $language_fallback);
-      $group->label_language = $language_fallback;
-    }
+  // Try to retrive entity from $form.
+  if (isset($form['#' . $entity_type])) {
+    $entity = $form['#' . $entity_type];
+  }
+  elseif (isset($entity_map[$entity_type]) && isset($form['#' . $entity_map[$entity_type]])) {
+    $entity = $form['#' . $entity_map[$entity_type]];
+  }
+  // Bean => entity.
+  elseif (isset($form['#entity'])) {
+    $entity = $form['#entity'];
+  }
+
+  if ($entity) {
+    $language_fallback = entity_translation_get_existing_language($entity_type, $entity);
+    $group->label_language = $language_fallback;
   }
 }
