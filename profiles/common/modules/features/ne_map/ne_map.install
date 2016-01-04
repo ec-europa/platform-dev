@@ -1,0 +1,84 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function ne_map_schema() {
+  $schema = array();
+
+  $schema['ne_map'] = array(
+    'description' => 'The base table for maps.',
+    'fields' => array(
+      'mid' => array(
+        'description' => 'The primary identifier for the map.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'description' => 'The type (bundle) of this map.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'title' => array(
+        'description' => 'The title of the map.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'uid' => array(
+        'description' => 'ID of Drupal user creator.',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the map was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'changed' => array(
+        'description' => 'The Unix timestamp when the map was most recently saved.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'description' => array(
+        'description' => 'map description.',
+        'type' => 'text',
+      ),
+      'settings' => array(
+        'description' => 'Settings in JSON',
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'big',
+        'sortable' => TRUE,
+        'views' => TRUE,
+      ),
+    ),
+    'primary key' => array('mid'),
+  );
+  return $schema;
+}
+
+function ne_map_install() {
+// Grant permission to view maps.
+  $permissions = array('view ne_map entities');
+  foreach(array('anonymous user', 'authenticated user') as $role_name) {
+    $role = user_role_load_by_name($role_name);
+    user_role_grant_permissions($role->rid, $permissions);
+  }
+
+}
+
+/**
+ * Grant permission to view maps.
+ */
+function ne_map_update_7001() {
+  $permissions = array('view ne_map entities');
+  $role = user_role_load_by_name('anonymous user');
+  user_role_grant_permissions($role->rid, $permissions);
+}
