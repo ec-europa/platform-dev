@@ -1,0 +1,4 @@
+name = Tile layer
+description = Provide a map layer bundle to store tile data and settings for a map.
+core = 7.x
+dependencies[] = map_layer

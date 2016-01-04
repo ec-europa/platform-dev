@@ -1,0 +1,26 @@
+<?php
+/**
+ * @file
+ * Installation and schema hooks for tile layer module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function tile_layer_install() {
+
+  // Creates the tile layer.
+  _create_tile_layer();
+}
+/**
+ * Creates the tile map layer bundle.
+ */
+function _create_tile_layer() {
+  $bundle = new stdClass();
+  $bundle->type = 'tile_layer';
+  $bundle->label = t('Tile layer');
+  $bundle->is_new = TRUE;
+  $bundle->description = t("Map layer with tiles");
+  $controller = new MapLayerTypeController('map_layer_type');
+  $controller->save($bundle);
+}
