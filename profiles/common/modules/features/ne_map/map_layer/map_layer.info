@@ -1,0 +1,11 @@
+name = Map layer
+description = Map layer entity.
+package = Maps
+version = VERSION
+core = 7.x
+
+dependencies[] = entity
+dependencies[] = views
+dependencies[] = link
+
+files[] = map_layer.controller.inc
