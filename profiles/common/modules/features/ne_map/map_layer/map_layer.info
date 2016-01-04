@@ -1,11 +1,11 @@
-name = Map layer
-description = Map layer entity.
-package = Maps
-version = VERSION
+name = Nexteuropa map layer
+description = Provides entity that allows users to add a layer to a map.
+package = Nexteuropa maps
 core = 7.x
-
+version = 7.x-1.0-dev
+project = map_layer
+project path = profiles/common/modules/features/map_layer
 dependencies[] = entity
 dependencies[] = views
 dependencies[] = link
-
 files[] = map_layer.controller.inc

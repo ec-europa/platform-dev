@@ -64,14 +64,14 @@ class MapController extends EntityAPIController {
     $custom_js = array();
 
 
+
+    // Allow modules to alter the map build.
+    drupal_alter('ne_map_build_content', $custom_js);
 //    // @todo find decent solution.
     if(module_exists('map_layer')) {
       $map_layer_js = base_path() . drupal_get_path('module', 'map_layer') . "/js/map_layer.js?v=" . rand(0, 33333);
       $custom_js[] = $map_layer_js;
     }
-
-    // Allow modules to alter the map build.
-    drupal_alter('ne_map_build_content', $custom_js);
 
     $ne_map_js = base_path() . drupal_get_path('module', 'ne_map') . "/js/ne_map.js?v=" . rand(0, 33333);
     $custom_js[] = $ne_map_js;

@@ -2,7 +2,10 @@
 if (typeof layers == 'undefined') {
   var layers = [];
 }
-var layers_to_enable = [];
+// Create layers array if none.
+if (typeof tile_layers == 'undefined') {
+  var tile_layers = [];
+}
 
 // @todo remove duplicate
 // Defines custom Icon.
@@ -17,10 +20,6 @@ var defaultIcon = L.Icon.extend({
     popupAnchor: [-3, -76]
   }
 });
-
-
-
-
 
 // Defines layers control.
 var layersControl = [
@@ -42,9 +41,3 @@ var layers_panel = L.wt.sidebar({
     "display": false
   }
 });
-
-// Defines layers panel in sidebar.
-//    // @todo figure out if needed
-// if (layers.length > 0) {
-//  var layers_control = L.wt.control(layersControl);
-//}

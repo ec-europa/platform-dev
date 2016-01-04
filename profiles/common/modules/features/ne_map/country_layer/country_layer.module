@@ -1,0 +1,162 @@
+<?php
+/**
+ * @file
+ * Provides functionality for the country map layer bundle.
+ */
+
+/**
+ * Implements hook_map_layer_build_content().
+ */
+function country_layer_map_layer_build_content_alter(&$content, $wrapper, $entity) {
+
+  // Fetches map data from country layer.
+  if ($entity->type == 'country_layer') {
+    $settings = drupal_json_decode($wrapper->settings->value());
+    if (map_layer_fieldcheck('map_country_list', $wrapper) || map_layer_fieldcheck('map_countries', $wrapper)) {
+      if (map_layer_fieldcheck('map_country_list', $wrapper)) {
+        $countries = explode(' ', $wrapper->map_country_list->value());
+        $countries = array_combine($countries, $countries);
+      }
+
+      // Overrides the countries if the map_countries field has values.
+      if (map_layer_fieldcheck('map_countries', $wrapper)) {
+        $countries = country_map_items($wrapper->map_countries->value());
+      }
+      $layers[] = array(
+        'layer_settings' => $settings,
+        'label' => $wrapper->title->value(),
+        'countries' => $countries,
+        'id' => map_layer_id($wrapper->title->value()),
+      );
+    }
+    $content['#attached']['js'][] = array(
+      'data' => array(
+        'country_layers' => $layers,
+      ),
+      'type' => 'setting',
+    );
+  }
+  return $content;
+}
+
+/**
+ * Implements hook_map_layer_inline_entity_form().
+ *
+ * Extends the inline entity form with country maps specific fields.
+ */
+function country_layer_map_layer_inline_entity_form_alter(&$entity_form, $settings, $type) {
+  if ($type == 'country_layer') {
+    $entity_form['style'] = country_layer_form_elements('style', $settings);
+    $entity_form['attribution'] = map_layer_form_elements('attribution', $settings);
+  }
+  return $entity_form;
+}
+
+/**
+ * Implements hook_map_layer_inline_entity_form_submit().
+ *
+ * Alters the settings before submitting.
+ */
+function country_layer_map_layer_inline_entity_form_submit_alter(&$settings, $map_layer) {
+  if ($map_layer->type == 'country_layer') {
+    $settings['style'] = $map_layer->style;
+    $settings['attribution'] = $map_layer->attribution;
+    $settings['enabled'] = $map_layer->enabled;
+  }
+  return $settings;
+}
+
+/**
+ * Implements hook_map_layer_inline_entity_form().
+ *
+ * Adds the country layer custom JavaScript.
+ */
+function country_layer_ne_map_build_content_alter(&$custom_js) {
+  $country_layer_js = base_path() . drupal_get_path('module', 'country_layer') . "/js/country_layer.js?v=" . rand(0, 33333);
+  $custom_js[] = $country_layer_js;
+  return $custom_js;
+}
+
+/**
+ * Creates list of countries from CSV data.
+ */
+function country_map_items($data) {
+  $lines = explode("\n", $data);
+  $csv_data = array();
+  foreach ($lines as $line) {
+    if (isset($line[0])) {
+      $csv_data[] = str_getcsv($line);
+    }
+  }
+  foreach ($csv_data as $item) {
+    $code = strtoupper($item[0]);
+    $countries[$code] = array(
+      'name' => isset($item[1]) ? check_plain($item[1]) : NULL,
+      'url' => isset($item[2]) ? trim($item[2]) : NULL,
+      'value' => isset($item[3]) ? trim($item[3]) : 1,
+      'level' => isset($item[4]) ? trim($item[4]) : 0,
+      'color' => isset($item[5]) ? trim($item[5]) : '#C8E9F2',
+    );
+  }
+  return $countries;
+}
+
+/**
+ * Helper function to standardize forms between field formatters and others.
+ *
+ * Returns a fully loaded form element.
+ */
+function country_layer_form_elements($group, $settings) {
+  $form_element = NULL;
+  switch ($group) {
+    case 'style':
+      $form_element = array(
+        '#type' => 'fieldset',
+        '#title' => t('Style'),
+        '#weight' => 16,
+      );
+      $form_element['show_label'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show country label'),
+        '#default_value' => $settings[$group]['show_label'],
+      );
+      $form_element['fill_color'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Fill color'),
+        '#default_value' => $settings[$group]['fill_color'],
+        '#size' => 24,
+      );
+      $form_element['fill_opacity'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Fill opacity'),
+        '#default_value' => $settings[$group]['fill_opacity'],
+        '#size' => 24,
+      );
+      $form_element['border_weight'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Border weight'),
+        '#default_value' => $settings[$group]['border_weight'],
+        '#size' => 24,
+      );
+      $form_element['border_color'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Border color'),
+        '#default_value' => $settings[$group]['border_color'],
+        '#size' => 24,
+      );
+      $form_element['border_opacity'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Border opacity'),
+        '#default_value' => $settings[$group]['border_opacity'],
+        '#size' => 24,
+      );
+      $form_element['dash_array'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Dash array'),
+        '#default_value' => $settings[$group]['dash_array'],
+        '#size' => 24,
+      );
+      break;
+  }
+  return $form_element;
+}

@@ -317,6 +317,9 @@ function map_layer_load_multiple($mlids = array(), $conditions = array(), $reset
  */
 function map_layer_save($map_layer) {
 
+
+  dpm($map_layer);
+
   $settings = array(
     'popup' => array(
       'show' => $map_layer->show,
