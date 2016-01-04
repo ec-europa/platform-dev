@@ -1,0 +1,118 @@
+<?php
+/**
+ * @file
+ * Installation and schema hooks for csv_layer.module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function csv_layer_install() {
+
+  // Creates the CSV map layer.
+  _create_csv_layer();
+
+  // Adds fields to CSV map layer.
+  _create_map_csv_field();
+}
+
+/**
+ * Creates the CSV map layer bundle.
+ */
+function _create_csv_layer() {
+  $bundle = new stdClass();
+  $bundle->type = 'csv_layer';
+  $bundle->label = t('CSV layer');
+  $bundle->is_new = TRUE;
+  $bundle->description = t("Map layer from CSV data");
+  $controller = new MapLayerTypeController('map_layer_type');
+  $controller->save($bundle);
+}
+
+/**
+ * Defines and creates topic field.
+ */
+function _create_map_csv_field() {
+  if (field_info_field('map_csv')) {
+    watchdog('map_layer', 'Field Map CSV not created because it exists already', array(), WATCHDOG_NOTICE, NULL);
+  }
+  else {
+    $array_fields = array(
+
+      // Defines the topics term field.
+      'map_csv' => array(
+        'active' => 1,
+        'cardinality' => 1,
+        'deleted' => 0,
+        'entity_types' => array(),
+        'indexes' => array(
+          'format' => array(
+            0 => 'format',
+          ),
+        ),
+        'locked' => 1,
+        'module' => 'text',
+        'settings' => array(),
+        'translatable' => 0,
+        'field_name' => 'map_csv',
+        'translatable' => 0,
+        'type' => 'text_long',
+      ),
+    );
+
+    // Creates the defined field(s).
+    foreach ($array_fields as $field) {
+      field_create_field($field);
+    }
+  }
+
+  // Defines the Map CSV field for the content type den.
+  $t = get_t();
+  $array_instances = array(
+    'map_csv' => array(
+      'field_name' => 'map_csv',
+      'label' => $t('CSV data'),
+      'settings' => array(
+        'text_processing' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => 12,
+        ),
+        'type' => 'text_textarea',
+        'weight' => 3,
+      ),
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 11,
+        ),
+        'map_layer' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 11,
+        ),
+      ),
+      'entity_type' => 'map_layer',
+      'bundle' => 'csv_layer',
+      'default_value' => NULL,
+      'deleted' => 0,
+      // @todo add templates.
+      'description' => 'Enter comma separated values (CSV) in this format: latitude, longitude, name, description, link',
+
+    ),
+  );
+
+  // Creates the field instance on the entity.
+  foreach ($array_instances as $instance) {
+    field_create_instance($instance);
+  }
+}

@@ -1,0 +1,4 @@
+name = CSV layer
+description = Provide a map layer bundle to store CSV data and settings for a map.
+core = 7.x
+dependencies[] = map_layer

@@ -60,6 +60,7 @@ class MapLayerController extends EntityAPIController {
       // JavaScript library)
       case 'map_layer':
 
+
         // Allows other modules to change the content of the map. Each map
         // layer type can live in its own module.
         drupal_alter('map_layer_build_content', $content, $wrapper, $entity);
