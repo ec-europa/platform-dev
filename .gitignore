@@ -15,11 +15,6 @@ build/
 tmp/
 vendor/
 
-# Ignore core profiles in the symlinked profiles folder.
-profiles/minimal
-profiles/standard
-profiles/testing
-
 # Ignore contrib modules, themes and libraries in the symlinked profiles folder.
 profiles/multisite_drupal_*/libraries
 profiles/multisite_drupal_*/modules/contrib
