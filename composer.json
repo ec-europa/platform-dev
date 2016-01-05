@@ -4,7 +4,7 @@
     "drupal/coder": ">=8.2.5",
     "drupal/drupal-extension": "~3.1.0",
     "drupal/phing-drush-task": "1.0",
-    "drush/drush": "8.0.*@beta",
+    "drush/drush": ">=8.0.1",
     "ext-json": "*",
     "ext-phar": "*",
     "ext-xml": "*",
