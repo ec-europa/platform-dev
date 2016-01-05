@@ -423,6 +423,8 @@ projects[om_maximenu][version] = "1.44"
 
 projects[password_policy][subdir] = "contrib"
 projects[password_policy][version] = "2.0-alpha5"
+; https://www.drupal.org/node/2489918 - MULTISITE-8185
+projects[password_policy][patch][] = https://www.drupal.org/files/issues/password_policy-7.x-2.x-fix_element_alter_error-2489918-4.patch
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.3"
@@ -749,11 +751,11 @@ libraries[modernizr][download][request_type]= "get"
 libraries[modernizr][download][file_type] = "zip"
 libraries[modernizr][destination] = "../common/libraries"
 
-; mpdf 5.7
+; mpdf 5.7.4a
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v5.7.4a.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet

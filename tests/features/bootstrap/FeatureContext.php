@@ -195,25 +195,46 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     $featuresets = feature_set_get_featuresets();
     foreach ($featureset_table->getHash() as $row) {
       foreach ($featuresets as $featureset_available) {
-        if ($featureset_available['title'] == $row['featureSet']) {
-          if (!feature_set_enable_feature_set($featureset_available)) {
-            $message[] = $row['featureSet'];
+        if ($featureset_available['title'] == $row['featureSet'] &&
+        feature_set_status($featureset_available) === FEATURE_SET_DISABLED) {
+          if (feature_set_enable_feature_set($featureset_available)) {
+            $this->features_set[] = $featureset_available;
+            $rebuild = TRUE;
           }
           else {
-            $this->modules[] = $row['featureSet'];
-            $rebuild = TRUE;
+            $message[] = $row['featureSet'];
           }
         }
       }
     }
     if (!empty($message)) {
-      throw new \Exception(sprintf('Feature Set "%s" not found', implode(', ', $message)));
+      throw new \Exception(sprintf('Feature Set "%s" not correctly enabled', implode(', ', $message)));
     }
     else {
       if ($rebuild) {
         drupal_flush_all_caches();
       }
       return TRUE;
+    }
+  }
+
+  /**
+   * Disables one or more Feature Set(s).
+   *
+   * Disable any Feature Set that were enabled during Feature test.
+   *
+   * @AfterScenario
+   */
+  public function cleanFeatureSet() {
+    if (isset($this->features_set) && !empty($this->features_set)) {
+      // Disable and uninstall any feature set that were enabled.
+      foreach ($this->features_set as $featureset) {
+        if (isset($featureset['disable'])) {
+          $featureset['uninstall'] = $featureset['disable'];
+          feature_set_disable_feature_set($featureset);
+        }
+      }
+      unset($this->features_set);
     }
   }
 
