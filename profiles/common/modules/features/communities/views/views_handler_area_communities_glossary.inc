@@ -9,7 +9,7 @@
  */
 class views_handler_area_communities_glossary extends views_handler_area {
   /**
-   * Return the glossary
+   * Return the glossary.
    */
   public function render($empty = FALSE) {
     global $user;

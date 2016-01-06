@@ -5,7 +5,7 @@
  */
 
 /**
- * Implements of hook_views_data().
+ * Implements hook_views_data().
  */
 function communities_views_data() {
   $data = array();
