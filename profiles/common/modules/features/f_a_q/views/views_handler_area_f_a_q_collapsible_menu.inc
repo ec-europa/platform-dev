@@ -5,11 +5,14 @@
  */
 
 /**
- * Views area handler to display (expand all /collapes all) menu for the list of FAQ.
+ * Views area handler to display (expand all /collapes all) menu for the list of
+ * FAQ.
  */
 class views_handler_area_f_a_q_collapsible_menu extends views_handler_area {
-
-  function render($empty = FALSE) {
+  /**
+   * Return the collapsile menu.
+   */
+  public function render($empty = FALSE) {
     // Add a bit of jQuery to make it work.
     drupal_add_js(drupal_get_path('module', 'f_a_q') . '/faq.js');
 
