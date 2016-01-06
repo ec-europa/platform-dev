@@ -33,7 +33,7 @@ function nexteuropa_newsroom_disable() {
 /**
  * Implements hook_schema().
  */
-function newsroom_schema() {
+function nexteuropa_newsroom_schema() {
   $schema['cache_newsroom'] = drupal_get_schema_unprocessed('system', 'cache');
   $schema['cache_newsroom']['description'] = 'Cache table for the Newsroom module to store already menu paths for newsroom items and other variables.';
   return $schema;
