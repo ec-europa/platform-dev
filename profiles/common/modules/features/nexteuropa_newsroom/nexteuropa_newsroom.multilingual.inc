@@ -58,7 +58,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       ),
       'tamper' => array(
         'plugin_id' => 'efq_finder',
-        'vocabulary' => 'newsroom_item_type',
+        'vocabulary' => NEWSROOM_TYPE_VOCABULARY,
         'field' => 'field_newsroom_type_id',
       ),
     ),
@@ -91,26 +91,26 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       'query' => 'infsonewsroom:pubHighlight/text()',
     ),
     'field_newsroom_topics' => array(
-      'query' => 'category/@infsonewsroom:TopicId',
+      'query' => 'category[@domain!="Newsletter"]/@infsonewsroom:TopicId',
       'options' => array(
         'term_search' => '1',
         'autocreate' => 0,
       ),
       'tamper' => array(
         'plugin_id' => 'efq_finder',
-        'vocabulary' => 'newsroom_topic',
+        'vocabulary' => NEWSROOM_TOPIC_VOCABULARY,
         'field' => 'field_newsroom_topic_id',
       ),
     ),
     'field_primary_topic' => array(
-      'query' => 'category[@infsonewsroom:TopicPrimary="1"]/@infsonewsroom:TopicId',
+      'query' => 'category[@infsonewsroom:TopicPrimary="1" and @domain!="Newsletter"]/@infsonewsroom:TopicId',
       'options' => array(
         'term_search' => '1',
         'autocreate' => 0,
       ),
       'tamper' => array(
         'plugin_id' => 'efq_finder',
-        'vocabulary' => 'newsroom_topic',
+        'vocabulary' => NEWSROOM_TOPIC_VOCABULARY,
         'field' => 'field_newsroom_topic_id',
       ),
     ),
@@ -151,10 +151,10 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       'query' => 'infsonewsroom:ContextWellknowntext/text()',
     ),
     'field_highlighted_newsroom_topic' => array(
-      'query' => 'category[@infsonewsroom:TopicHighlight="1"]/@infsonewsroom:TopicId',
+      'query' => 'category[@infsonewsroom:TopicHighlight="1" and @domain!="Newsletter"]/@infsonewsroom:TopicId',
       'tamper' => array(
         'plugin_id' => 'efq_finder',
-        'vocabulary' => 'newsroom_topic',
+        'vocabulary' => NEWSROOM_TOPIC_VOCABULARY,
         'field' => 'field_newsroom_topic_id',
       ),
     ),
@@ -198,7 +198,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
 
   $premapping = _nexteuropa_newsroom_check_translations($premapping);
 
-  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_items_multilingual');
+  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, NEWSROOM_ITEM_IMPORTER);
 
   $importer_values['mapping'][] = array(
     'source' => 'Blank source 1',
@@ -210,7 +210,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
   $feeds_importer = new stdClass();
   $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
   $feeds_importer->api_version = 1;
-  $feeds_importer->id = 'newsroom_items_multilingual';
+  $feeds_importer->id = NEWSROOM_ITEM_IMPORTER;
   $feeds_importer->config = array(
     'name' => 'Newsroom Items Multilanguage',
     'description' => 'Imports Newsroom Items from the Newsroom service',
@@ -301,12 +301,12 @@ function _nexteuropa_newsroom_create_multilingual_topics_importer() {
 
   $premapping = _nexteuropa_newsroom_check_translations($premapping);
 
-  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_topics_multilingual');
+  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, NEWSROOM_TOPIC_IMPORTER);
 
   $feeds_importer = new stdClass();
   $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
   $feeds_importer->api_version = 1;
-  $feeds_importer->id = 'newsroom_topics_multilingual';
+  $feeds_importer->id = NEWSROOM_TOPIC_IMPORTER;
   $feeds_importer->config = array(
     'name' => 'Newsroom Topics Multilingual',
     'description' => 'Imports Topics from the Newsroom service',
@@ -340,7 +340,7 @@ function _nexteuropa_newsroom_create_multilingual_topics_importer() {
         'update_existing' => '2',
         'input_format' => 'plain_text',
         'skip_hash_check' => 1,
-        'bundle' => 'newsroom_topic',
+        'bundle' => NEWSROOM_TOPIC_VOCABULARY,
       ),
     ),
     'content_type' => '',
@@ -386,12 +386,12 @@ function _nexteuropa_newsroom_create_multilingual_types_importer() {
 
   $premapping = _nexteuropa_newsroom_check_translations($premapping);
 
-  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_types_multilingual');
+  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, NEWSROOM_TYPE_IMPORTER);
 
   $feeds_importer = new stdClass();
   $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
   $feeds_importer->api_version = 1;
-  $feeds_importer->id = 'newsroom_types_multilingual';
+  $feeds_importer->id = NEWSROOM_TYPE_IMPORTER;
   $feeds_importer->config = array(
     'name' => 'Newsroom Type Multilingual',
     'description' => 'Imports Item Types from the Newsroom service.',
@@ -420,12 +420,12 @@ function _nexteuropa_newsroom_create_multilingual_types_importer() {
     'processor' => array(
       'plugin_key' => 'FeedsTermProcessor',
       'config' => array(
-        'vocabulary' => 'newsroom_item_type',
+        'vocabulary' => NEWSROOM_TYPE_VOCABULARY,
         'mappings' => $importer_values['mapping'],
         'update_existing' => '2',
         'input_format' => 'plain_text',
         'skip_hash_check' => 1,
-        'bundle' => 'newsroom_item_type',
+        'bundle' => NEWSROOM_TYPE_VOCABULARY,
       ),
     ),
     'content_type' => '',
@@ -476,12 +476,12 @@ function _nexteuropa_newsroom_create_multilingual_services_importer() {
 
   $premapping = _nexteuropa_newsroom_check_translations($premapping);
 
-  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, 'newsroom_services_multilingual');
+  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, NEWSROOM_SERVICE_IMPORTER);
 
   $feeds_importer = new stdClass();
   $feeds_importer->disabled = FALSE; /* Edit this to true to make a default feeds_importer disabled initially */
   $feeds_importer->api_version = 1;
-  $feeds_importer->id = 'newsroom_services_multilingual';
+  $feeds_importer->id = NEWSROOM_SERVICE_IMPORTER;
   $feeds_importer->config = array(
     'name' => 'Newsroom Services Multilingual',
     'description' => 'Imports Services from the Newsroom service.',
@@ -510,12 +510,12 @@ function _nexteuropa_newsroom_create_multilingual_services_importer() {
     'processor' => array(
       'plugin_key' => 'FeedsTermProcessor',
       'config' => array(
-        'vocabulary' => 'newsroom_service',
+        'vocabulary' => NEWSROOM_SERVICE_VOCABULARY,
         'mappings' => $importer_values['mapping'],
         'update_existing' => '2',
         'input_format' => 'plain_text',
         'skip_hash_check' => 1,
-        'bundle' => 'newsroom_service',
+        'bundle' => NEWSROOM_SERVICE_VOCABULARY,
       ),
     ),
     'content_type' => '',

@@ -31,6 +31,15 @@ function nexteuropa_newsroom_disable() {
 }
 
 /**
+ * Implements hook_schema().
+ */
+function newsroom_schema() {
+  $schema['cache_newsroom'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_newsroom']['description'] = 'Cache table for the Newsroom module to store already menu paths for newsroom items and other variables.';
+  return $schema;
+}
+
+/**
  * Implements hook_install().
  */
 function nexteuropa_newsroom_install() {
@@ -47,7 +56,6 @@ function nexteuropa_newsroom_install() {
   variable_set('newsroom_navigation_depth', 1);
   variable_set('newsroom_agenda_after_highlights', 1);
   variable_set('newsroom_display_highlights_begin', 1);
-  variable_set('newsroom_multilingual', 1);
   _nexteuropa_newsroom_enable_translations();
 }
 

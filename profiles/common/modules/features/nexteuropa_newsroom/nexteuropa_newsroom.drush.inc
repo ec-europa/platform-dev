@@ -7,7 +7,7 @@
 /**
  * Implements hook_drush_command().
  */
-function newsroom_drush_command() {
+function nexteuropa_newsroom_drush_command() {
 
   $items['newsroom-init'] = array(
     'description' => 'Initializes Newsroom importers.',
@@ -23,13 +23,13 @@ function newsroom_drush_command() {
 /**
  * Callback for the newsroom-init command.
  */
-function drush_newsroom_init($universe_id = NULL) {
+function drush_nexteuropa_newsroom_newsroom_init($universe_id = NULL) {
   if ($universe_id) {
-    $universe_url = NEWSROOM_URL . $universe_id;
-    if (_newsroom_validate_universe($universe_id)) {
+    $universe_url = _nexteuropa_newsroom_get_universe_url($universe_id);
+    if (_nexteuropa_newsroom_validate_universe($universe_id)) {
       variable_set('newsroom_universe_id', $universe_id);
       drush_print(dt('Newsroom Universe was found at: !universe', array('!universe' => $universe_url)));
-      _newsroom_create_default_importers($universe_url, 'drush');
+      _nexteuropa_newsroom_create_default_importers($universe_id, 'drush');
     }
     else {
       return drush_set_error(dt('No Newsroom Universe was found at: !universe', array('!universe' => $universe_url)));

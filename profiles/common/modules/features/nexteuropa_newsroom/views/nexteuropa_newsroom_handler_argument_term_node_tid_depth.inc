@@ -13,7 +13,7 @@
  *
  * @ingroup views_argument_handlers
  */
-class newsroom_handler_argument_term_node_tid_depth extends views_handler_argument {
+class nexteuropa_newsroom_handler_argument_term_node_tid_depth extends views_handler_argument {
   /**
    * Returns definitions.
    *

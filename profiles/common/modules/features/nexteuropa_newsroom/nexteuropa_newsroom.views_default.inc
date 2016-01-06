@@ -1535,21 +1535,21 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['arguments']['term_node_tid_depth']['depth'] = '1';
   $handler->display->display_options['arguments']['term_node_tid_depth']['break_phrase'] = TRUE;
   /* Contextual filter: Content: Newsroom: Has taxonomy term ID (with depth) */
-  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['id'] = 'newsroom_term_node_tid_depth';
-  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['table'] = 'node';
-  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['field'] = 'newsroom_term_node_tid_depth';
-  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['validate']['type'] = 'taxonomy_term';
-  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['validate_options']['vocabularies'] = array(
+  $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['id'] = 'nexteuropa_newsroom_term_node_tid_depth';
+  $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['table'] = 'node';
+  $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['field'] = 'nexteuropa_newsroom_term_node_tid_depth';
+  $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['validate_options']['vocabularies'] = array(
     'newsroom_topic' => 'newsroom_topic',
   );
-  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['validate_options']['type'] = 'tids';
-  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['depth'] = '0';
-  $handler->display->display_options['arguments']['newsroom_term_node_tid_depth']['break_phrase'] = TRUE;
+  $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['validate_options']['type'] = 'tids';
+  $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['depth'] = '0';
+  $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['break_phrase'] = TRUE;
   /* Contextual filter: Content: Highlighted Newsroom Topics (field_highlighted_newsroom_topic) */
   $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['id'] = 'field_highlighted_newsroom_topic_tid';
   $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['table'] = 'field_data_field_highlighted_newsroom_topic';

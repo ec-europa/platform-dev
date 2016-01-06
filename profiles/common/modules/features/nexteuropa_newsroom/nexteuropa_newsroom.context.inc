@@ -69,7 +69,7 @@ function nexteuropa_newsroom_context_default_contexts() {
     'block' => array(
       'blocks' => array(
         'newsroom-newsroom_admin_tools' => array(
-          'module' => 'newsroom',
+          'module' => 'nexteuropa_newsroom',
           'delta' => 'newsroom_admin_tools',
           'region' => 'content',
           'weight' => '2',
