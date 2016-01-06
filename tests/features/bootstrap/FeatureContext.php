@@ -313,4 +313,73 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     $this->languageCreate((object) ['langcode' => $langcode]);
   }
 
+  /**
+   * Transforms human readable field labels for Articles into machine names.
+   *
+   * @param TableNode $article_table
+   *   The original table.
+   *
+   * @return TableNode
+   *   The transformed table.
+   *
+   * @Transform rowtable:title,body,tags,moderation state
+   */
+  public function transformArticleNodeTable(TableNode $article_table) {
+    $aliases = array(
+      'title' => 'title',
+      'body' => 'body',
+      'tags' => 'field_tags',
+      'moderation state' => 'workbench_moderation_state_new',
+    );
+
+    return $this->transformRowTable($article_table, $aliases);
+  }
+
+  /**
+   * Transforms human readable field labels for Users into machine names.
+   *
+   * @param TableNode $user_table
+   *   The original table.
+   *
+   * @return TableNode
+   *   The transformed table.
+   *
+   * @Transform rowtable:first name,last name
+   */
+  public function transformUserTable(TableNode $user_table) {
+    $aliases = array(
+      'first name' => 'field_firstname',
+      'last name' => 'field_lastname',
+    );
+
+    return $this->transformRowTable($user_table, $aliases);
+  }
+
+  /**
+   * Helper method to transform column names in row tables.
+   *
+   * @param \Behat\Gherkin\Node\TableNode $table_node
+   *   The table to transform.
+   * @param array $aliases
+   *   An associative array of aliases that are uses for the column names. Keyed
+   *   by alias, and with the transformed string as value.
+   *
+   * @return \Behat\Gherkin\Node\TableNode
+   *   The transformed table
+   *
+   * @see self::transformArticleNodeTable()
+   */
+  protected function transformRowTable(TableNode $table_node, array $aliases) {
+    $table = $table_node->getTable();
+    array_walk($table, function (&$row) use ($aliases) {
+      // The first column of the row contains the field names. Replace the
+      // aliased field name with the machine name if it exists.
+      if (array_key_exists($row[0], $aliases)) {
+        $row[0] = $aliases[$row[0]];
+      }
+    });
+
+    return new TableNode($table);
+  }
+
 }
