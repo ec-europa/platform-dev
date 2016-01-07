@@ -1082,8 +1082,9 @@ function ec_resp_menu_link__menu_breadcrumb_menu(array $variables) {
   }
 
   if (theme_get_setting('enable_interinstitutional_theme') && $element['#title'] == 'European Commission') {
+    global $language;
     $element['#title'] = 'Europa';
-    $element['#href'] = 'http://europa.eu/index_en.htm';
+    $element['#href'] = 'http://europa.eu/index_' . $language->language . '.htm';
   }
 
   // Format output.
