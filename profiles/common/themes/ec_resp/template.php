@@ -1081,7 +1081,7 @@ function ec_resp_menu_link__menu_breadcrumb_menu(array $variables) {
     }
   }
 
-  if (theme_get_setting('enable_interinstitutional_theme')) {
+  if (theme_get_setting('enable_interinstitutional_theme') && $element['#title'] == 'European Commission') {
     $element['#title'] = 'Europa';
     $element['#href'] = 'http://europa.eu/index_en.htm';
   }
@@ -1148,7 +1148,7 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
       if (theme_get_setting('enable_interinstitutional_theme')) {
         $form['search_input_group']['europa_search_submit']['#type'] = 'image_button';
         $form['search_input_group']['europa_search_submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.gif';
-        $form['search_input_group']['europa_search_submit']['#attributes']['class'] = array_merge(['search_input_group']['europa_search_submit']['#attributes']['class'], array('btn', 'btn-default'));
+        $form['search_input_group']['europa_search_submit']['#attributes']['class'] = array_merge($form['search_input_group']['europa_search_submit']['#attributes']['class'], array('btn', 'btn-default'));
         $form['search_input_group']['europa_search_submit']['#attributes']['alt'] = t('Search');
       }
       break;
