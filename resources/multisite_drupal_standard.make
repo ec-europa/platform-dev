@@ -230,6 +230,10 @@ projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta2"
+; Fix error when switching from Public to Private destination
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8239
+; https://www.drupal.org/node/2537982
+projects[file_entity][patch][] = https://www.drupal.org/files/issues/2537982-fix-changing-file-scheme.patch
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.10"
