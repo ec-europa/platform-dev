@@ -758,6 +758,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view moderation messages',
     'view own unpublished content',
     'view revisions',
+    'access media browser',
   ));
 
   // Editor role.
@@ -784,6 +785,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'use workbench_moderation needs review tab',
     'view all unpublished content',
     'view own unpublished content',
+    'access media browser',
   ));
 
   // Grant permissions for authenticated users.
