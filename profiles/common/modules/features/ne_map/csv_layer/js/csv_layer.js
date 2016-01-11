@@ -27,7 +27,7 @@ if (typeof Drupal.settings.csv_layers !== 'undefined') {
     var id = csv_layers[i].id;
     var id = L.geoJson(csv_layers[i].features, {
       onEachFeature: function (feature, layer) {
-        if (csv_layers[i].layer_settings.popup.show) {
+        if (csv_layers[i].layer_settings.popup.show_popup) {
           if (csv_layers[i].layer_settings.popup.popin) {
             layer.bindInfo(feature.properties.popupContent)
           }
@@ -62,14 +62,17 @@ if (typeof Drupal.settings.csv_layers !== 'undefined') {
 
     // Collects the layers that are marked "enabled" to be activated in
     // ne_map.js.
-    if (typeof csv_layers[i].layer_settings.enabled != 'undefined') {
-      if (csv_layers[i].layer_settings.enabled.enabled == '1') {
+    if (typeof csv_layers[i].layer_settings.control.enabled != 'undefined') {
+      if (csv_layers[i].layer_settings.control.enabled == '1') {
         layers_to_enable.push({"label": csv_layers[i].label, "layer": id});
       }
     }
 
     // Adds all layers to the layercontrol.
-    layers.push({"label": csv_layers[i].label, "layer": id});
+    if (typeof csv_layers[i].layer_settings.control.show_in_control != 'undefined') {
+      if (csv_layers[i].layer_settings.control.show_in_control == '1') {
+        layers.push({"label": csv_layers[i].label, "layer": id});
+      }
+    }
   }
-
 }

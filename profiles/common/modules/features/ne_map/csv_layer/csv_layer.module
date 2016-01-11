@@ -56,7 +56,7 @@ function csv_layer_map_layer_inline_entity_form_submit_alter(&$settings, $map_la
     $settings['attribution'] = $map_layer->attribution;
     $settings['popup'] = $map_layer->popup;
     $settings['icon'] = $map_layer->icon;
-    $settings['enabled'] = $map_layer->enabled;
+    $settings['control'] = $map_layer->control;
     $settings['clustering'] = $map_layer->clustering;
   }
   return $settings;
