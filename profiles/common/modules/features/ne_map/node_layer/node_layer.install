@@ -1,0 +1,27 @@
+<?php
+/**
+ * @file
+ * Installation and schema hooks for Node layer module.
+ */
+
+/**
+ * Implements hook_instal().
+ */
+function node_layer_install() {
+
+  // Creates the URL map layer.
+  _create_node_layer();
+}
+
+/**
+ * Creates the URL map layer bundle.
+ */
+function _create_node_layer() {
+  $bundle = new stdClass();
+  $bundle->type = 'node_layer';
+  $bundle->label = t('Node layer');
+  $bundle->is_new = TRUE;
+  $bundle->description = t("Map layer from geo data stored in nodes");
+  $controller = new MapLayerTypeController('map_layer_type');
+  $controller->save($bundle);
+}

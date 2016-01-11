@@ -1,0 +1,7 @@
+name = Node layer
+description = Provide a custom field for selecting nodes to be used as data in a map layer.
+core = 7.x
+dependencies[] = map_layer
+dependencies[] = node
+dependencies[] = geophp
+files[] = node_layer.geofeatures.inc
