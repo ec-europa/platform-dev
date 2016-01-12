@@ -36,7 +36,7 @@ if (typeof Drupal.settings.country_layers !== 'undefined') {
     var options = {
       label: settings.style.show_label ? true : false,
       style: function (feature) {
-        var code = (feature.properties.NUTS_ID || feature.properties.CNTR_ID);
+        var code = (feature.properties.CNTR_ID);
         var style = window.settings.style;
         var fill_color = style.fill_color;
         if (typeof countries[code].fill_color != 'undefined') {
@@ -52,7 +52,7 @@ if (typeof Drupal.settings.country_layers !== 'undefined') {
         };
       },
       onEachFeature: function (feature, layer) {
-        var code = (feature.properties.NUTS_ID || feature.properties.CNTR_ID);
+        var code = (feature.properties.CNTR_ID);
         var customEvents = {
           click: function (e) {
             // @todo. repair url?
@@ -66,9 +66,12 @@ if (typeof Drupal.settings.country_layers !== 'undefined') {
     };
 
     // Sets the nuts level.
-    // @todo. Make nuts level work.
-
-    var id = L.wt.countries([{"level": 0, "countries": country_keys}], options);
+    // @todo. Make nuts level work on a per country level.
+    var nuts_level = 0;
+    if (typeof country_layers[i].layer_settings.nuts.level != 'undefined') {
+      nuts_level = country_layers[i].layer_settings.nuts.level;
+    }
+    var id = L.wt.countries([{"level": nuts_level, "countries": country_keys}], options);
 
     // Adds layer attribution if set.
     // @todo. attrib texts gets overwritten when multiple layers of same type.

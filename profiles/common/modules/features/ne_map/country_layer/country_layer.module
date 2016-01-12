@@ -54,7 +54,6 @@ function country_layer_map_layer_inline_entity_form_alter(&$entity_form, $settin
     $url = file_create_url(drupal_get_path('module', 'country_layer') . '/template.txt');
     $entity_form['map_countries'][LANGUAGE_NONE][0]['value']['#description'] .= '. ' . t('<a href="!url">Example</a>', array('!url' => $url));
   }
-dpm($entity_form);
   return $entity_form;
 }
 
