@@ -2,3 +2,4 @@ name = URL layer
 description = Provide a map layer bundle to store settings and URLs that contain map data.
 core = 7.x
 dependencies[] = map_layer
+dependencies[] = link
