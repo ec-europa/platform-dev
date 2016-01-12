@@ -90,10 +90,10 @@ function splash_screen_preprocess_splash(&$variables) {
   $languages_blacklist = variable_get('splash_screen_blacklist', array());
 
   // Compile list of enabled languages, if not in blacklist.
-  $languages = array_filter(language_list('enabled')[1], function ($language) use ($languages_blacklist) {
+  $languages_enabled = language_list('enabled');
+  $languages = array_filter($languages_enabled[1], function ($language) use ($languages_blacklist) {
     return !in_array($language->language, $languages_blacklist);
   });
-
   // Export variables to template.
   $variables['icon'] = theme('nexteuropa_multilingual_language_icon');
   $variables['languages_list'] = theme('nexteuropa_multilingual_language_list', [
