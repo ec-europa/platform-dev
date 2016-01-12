@@ -20,34 +20,7 @@ function country_layer_install() {
 }
 
 /**
- *  dev: remove and recreate
- *
- * @todo remove
- */
-function csv_layer_update_7000() {
-  $fields = array(
-    'map_countries',
-    'map_country_list',
-  );
-  foreach ($fields as $field) {
-    if ($instance = field_info_instance('map', $field, 'map')) {
-      field_delete_instance($instance);
-    }
-  }
-  field_purge_batch(count($fields));
-
-  // Creates country layer.
-  map_layer_create_country_layer();
-
-  // Creates countries field.
-  map_layer_create_map_countries_field();
-
-  // Creates country list field.
-  map_layer_create_map_country_list_field();
-}
-
-/**
- * Creates the tile map layer bundle.
+ * Creates the country map layer bundle.
  */
 function map_layer_create_country_layer() {
   $bundle = new stdClass();
@@ -92,9 +65,8 @@ function map_layer_create_map_countries_field() {
     }
   }
 
-  // Defines the map country field for the country layer bundle.
-  //
-  //Creates multiple line textarea field for CSV data.
+  // Defines the map country field for the country layer bundle. Creates
+  // multiple line textarea field for CSV data.
   $t = get_t();
   $array_instances = array(
     'map_countries' => array(
@@ -223,5 +195,4 @@ function map_layer_create_map_country_list_field() {
   foreach ($array_instances as $instance) {
     field_create_instance($instance);
   }
-
 }
