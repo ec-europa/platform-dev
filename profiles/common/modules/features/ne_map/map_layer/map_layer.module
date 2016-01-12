@@ -38,7 +38,7 @@ function map_layer_entity_info() {
       'module' => 'map_layer',
       'access callback' => 'map_layer_access',
       'inline entity form' => array(
-        'controller' => 'MapLayerInlineEntityFormController'
+        'controller' => 'MapLayerInlineEntityFormController',
       ),
     ),
   );
@@ -113,7 +113,7 @@ function map_layer_menu() {
     'access arguments' => array(
       'view',
       'map_layer',
-      $map_layer_uri_argument_position
+      $map_layer_uri_argument_position,
     ),
     'file' => 'map_layer.pages.inc',
   );
@@ -133,13 +133,13 @@ function map_layer_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array(
       'map_layer_delete_form',
-      $map_layer_uri_argument_position
+      $map_layer_uri_argument_position,
     ),
     'access callback' => 'entity_access',
     'access arguments' => array(
       'edit',
       'map_layer',
-      $map_layer_uri_argument_position
+      $map_layer_uri_argument_position,
     ),
     'file' => 'map_layer.admin.inc',
   );
@@ -150,13 +150,13 @@ function map_layer_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array(
       'map_layer_form',
-      $map_layer_uri_argument_position
+      $map_layer_uri_argument_position,
     ),
     'access callback' => 'entity_access',
     'access arguments' => array(
       'edit',
       'map_layer',
-      $map_layer_uri_argument_position
+      $map_layer_uri_argument_position,
     ),
     'file' => 'map_layer.admin.inc',
     'type' => MENU_LOCAL_TASK,
@@ -168,7 +168,7 @@ function map_layer_menu() {
     $items['admin/structure/map-layer/add/' . $type] = array(
       'title' => 'Add map layer',
       'page callback' => 'map_layer_add',
-      'page arguments' => array(2),
+      'page arguments' => array(4),
       'access callback' => 'entity_access',
       'access arguments' => array('create', 'map_layer', $type),
       'file' => 'map_layer.admin.inc',
@@ -220,10 +220,8 @@ function map_layer_permission() {
       'restrict access' => TRUE,
     ),
   );
-
   return $permissions;
 }
-
 
 /**
  * Implements hook_entity_property_info_alter().
@@ -262,12 +260,10 @@ function map_layer_entity_property_info_alter(&$info) {
     'required' => TRUE,
     'schema field' => 'settings',
   );
-
 }
 
-
 /*******************************************************************************
- ********************************* Map layer API's **********************************
+ ********************************* Map layer API's *****************************
  ******************************************************************************/
 
 /**
@@ -283,9 +279,11 @@ function map_layer_access($op, $map_layer, $account = NULL, $entity_type = NULL)
     case 'create':
       return user_access('administer map_layer entities', $account)
       || user_access('create map_layer entities', $account);
+
     case 'view':
       return user_access('administer map_layer entities', $account)
       || user_access('view map_layer entities', $account);
+
     case 'edit':
     case 'update':
     case 'delete':
@@ -316,27 +314,6 @@ function map_layer_load_multiple($mlids = array(), $conditions = array(), $reset
  * Collects values for storing as JSON in settings.
  */
 function map_layer_save($map_layer) {
-
-
-  dpm($map_layer);
-
-  $settings = array(
-    'popup' => array(
-      'show' => $map_layer->show,
-      'popin' => $map_layer->popin,
-    ),
-    'clustering' => array(
-      'cluster_markers' => $map_layer->cluster_markers,
-    ),
-    'icon' => array(
-      'icon' => $map_layer->icon,
-    ),
-    'enabled' => array(
-      'enabled' => $map_layer->enabled,
-    ),
-    'show_settings' => $map_layer->show_settings,
-  );
-  $map_layer->settings = json_encode($settings);
   $map_layer->changed = REQUEST_TIME;
   entity_save('map_layer', $map_layer);
 }
@@ -355,9 +332,8 @@ function map_layer_delete_multiple($map_layer_ids) {
   entity_delete_multiple('map_layer', $map_layer_ids);
 }
 
-
 /*******************************************************************************
- ****************************** Map layer type API's ********************************
+ ****************************** Map layer type API's ***************************
  ******************************************************************************/
 
 /**
@@ -413,9 +389,6 @@ function map_layer_views_api() {
   );
 }
 
-
-
-
 /**
  * Helper function to standardize forms between field formatters and others.
  *
@@ -432,10 +405,10 @@ function map_layer_form_elements($group, $settings) {
         '#type' => 'fieldset',
         '#weight' => 15,
       );
-      $form_element['show'] = array(
+      $form_element['show_popup'] = array(
         '#title' => t('Show a popup when markers are clicked.'),
         '#type' => 'checkbox',
-        '#default_value' => $settings[$group]['show'],
+        '#default_value' => $settings[$group]['show_popup'],
       );
       $form_element['popin'] = array(
         '#title' => t('Use pop-in (show details in right side bar).'),
@@ -444,15 +417,21 @@ function map_layer_form_elements($group, $settings) {
       );
       break;
 
-    case 'enabled':
+    case 'control':
       $form_element = array(
-        '#type' => 'container',
+        '#type' => 'fieldset',
+        '#title' => t('Layer control'),
         '#weight' => 11,
       );
       $form_element['enabled'] = array(
         '#title' => t('Enable the layer by default in the map'),
         '#type' => 'checkbox',
         '#default_value' => $settings[$group]['enabled'],
+      );
+      $form_element['show_in_control'] = array(
+        '#title' => t('Show the layer in the layer control'),
+        '#type' => 'checkbox',
+        '#default_value' => $settings[$group]['show_in_control'],
       );
       break;
 
@@ -468,6 +447,7 @@ function map_layer_form_elements($group, $settings) {
         '#default_value' => $settings[$group]['icon'],
       );
       break;
+
     case 'clustering':
       $form_element = array(
         '#type' => 'container',
@@ -480,16 +460,16 @@ function map_layer_form_elements($group, $settings) {
       );
       break;
 
-    case 'tile_layer':
+    case 'tiles':
       $form_element = array(
         '#type' => 'fieldset',
         '#title' => t('Map background'),
         '#weight' => 19,
       );
-      $form_element['tile_layer'] = array(
+      $form_element['tiles'] = array(
         '#type' => 'select',
-        '#title' => t('Tile layer'),
-        '#default_value' => $settings[$group]['tile_layer'],
+        '#title' => t('Tiles'),
+        '#default_value' => $settings[$group]['tiles'],
         '#options' => ne_map_tiles(),
       );
       break;
@@ -566,8 +546,6 @@ function map_layer_fieldcheck($field, $wrapper) {
   }
 }
 
-
-
 /**
  * Generates an ID from a string.
  *
@@ -591,7 +569,7 @@ function map_layer_inline_entity_form_table_fields_alter(&$fields, $context) {
 }
 
 /**
- * Implements hook_inline_entity_form_entity_form_alter.
+ * Implements hook_inline_entity_form_entity_form_alter().
  */
 function map_layer_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
   if ($entity_form['#entity_type'] == 'map_layer') {
@@ -615,11 +593,12 @@ class MapLayerSettings {
         'icon' => 'blue',
       ),
       'popup' => array(
-        'show' => TRUE,
+        'show_popup' => TRUE,
         'popin' => TRUE,
       ),
-      'enabled' => array(
+      'control' => array(
         'enabled' => TRUE,
+        'show_in_control' => TRUE,
       ),
       'show_settings' => FALSE,
       'attribution' => array(
@@ -654,142 +633,17 @@ class MapLayerSettings {
       unset($this->settings[$key]);
     }
   }
-}
-
-/**
- * Creates the URL map layer bundle.
- */
-function map_layer_create_url_layer() {
-  $bundle = new stdClass();
-  $bundle->type = 'url_layer';
-  $bundle->label = t('URL layer');
-  $bundle->is_new = TRUE;
-  $bundle->description = t("Map layer from URLs");
-  $controller = new MapLayerTypeController('map_layer_type');
-  $controller->save($bundle);
-}
-
-/**
- * Defines and creates the Map URL base and instance field.
- */
-function map_layer_create_map_url_field() {
-  if (field_info_field('map_url')) {
-    watchdog('map_layer', 'Field Map URL not created because it exists already', array(), WATCHDOG_NOTICE, NULL);
-  }
-  else {
-    $array_fields = array(
-
-      // Defines the topics term field.
-      'map_url' => array(
-
-        'active' => 1,
-        'cardinality' => -1,
-        'deleted' => 0,
-        'entity_types' => array(),
-        'indexes' => array(),
-        'locked' => 1,
-        'module' => 'link',
-        'settings' => array(
-          'attributes' => array(
-            'class' => '',
-            'rel' => '',
-            'target' => 'default',
-          ),
-          'display' => array(
-            'url_cutoff' => 80,
-          ),
-          'enable_tokens' => 1,
-          'title' => 'optional',
-          'title_maxlength' => 128,
-          'title_value' => '',
-          'url' => 0,
-        ),
-        'translatable' => 0,
-        'type' => 'link_field',
-        'field_name' => 'map_url',
-      ),
-    );
-
-    // Creates the defined field(s).
-    foreach ($array_fields as $field) {
-      field_create_field($field);
-    }
-  }
-
-  // Defines the Map URL field for the content type den.
-  $t = get_t();
-  $array_instances = array(
-    'map_url' => array(
-      'entity_type' => 'map_layer',
-      'bundle' => 'url_layer',
-      'default_value' => NULL,
-      'deleted' => 0,
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'map_layer' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'field_name' => 'map_url',
-      'label' => $t('URL'),
-      'description' => 'URL where to find map data. You can link to json or kml files. The URLs must be publicly accessible.',
-      'required' => 0,
-      'settings' => array(
-        'absolute_url' => 1,
-        'attributes' => array(
-          'class' => '',
-          'configurable_class' => 0,
-          'configurable_title' => 0,
-          'rel' => '',
-          'target' => 'default',
-          'title' => '',
-        ),
-        'display' => array(
-          'url_cutoff' => 80,
-        ),
-        'enable_tokens' => 1,
-        'rel_remove' => 'default',
-        'title' => 'none',
-        'title_label_use_field_label' => 0,
-        'title_maxlength' => 128,
-        'title_value' => '',
-        'url' => 0,
-        'user_register_form' => FALSE,
-        'validate_url' => 1,
-      ),
-      'widget' => array(
-        'active' => 0,
-        'module' => 'link',
-        'settings' => array(),
-        'type' => 'link_field',
-        'weight' => 4,
-      ),
-    ),
-  );
-
-  // Creates the field instance on the entity.
-  foreach ($array_instances as $instance) {
-    field_create_instance($instance);
-  }
 
 }
 
-
 /**
- * Implements hook_map_layer_inline_entity_form().
+ * Implements hook_entity_view().
  *
- * Adds the map layer custom JavaScript.
+ * Removes title from map layer when view as map layer (via entity reference
+ * embedded in map.
  */
-//function map_layer_ne_map_build_content_alter(&$custom_js) {
-//  $map_layer_js = base_path() . drupal_get_path('module', 'map_layer') . "/js/map_layer.js?v=" . rand(0, 33333);
-//  $custom_js[] = $map_layer_js;
-//  return $custom_js;
-//}
+function map_layer_entity_view($entity, $type, $view_mode, $langcode) {
+  if ($type == 'map_layer' && $view_mode = 'map_layer') {
+    $entity->title = NULL;
+  }
+}

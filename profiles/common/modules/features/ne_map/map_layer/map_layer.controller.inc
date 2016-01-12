@@ -1,7 +1,18 @@
 <?php
 
+/**
+ * @file
+ * Provides functionality for the Map layer entity.
+ */
+
+/**
+ * Extends creation and displaying map layer entity.
+ */
 class MapLayerController extends EntityAPIController {
 
+  /**
+   * Extends creation of map layer entity.
+   */
   public function create(array $values = array()) {
     global $user;
     $values += array(
@@ -15,6 +26,9 @@ class MapLayerController extends EntityAPIController {
     return parent::create($values);
   }
 
+  /**
+   * Provides per view mode content for displaying the map layer entity.
+   */
   public function buildContent($entity, $view_mode = 'map_layer', $langcode = NULL, $content = array()) {
     $wrapper = entity_metadata_wrapper('map_layer', $entity);
     switch ($view_mode) {
@@ -35,31 +49,32 @@ class MapLayerController extends EntityAPIController {
 
         // Themes description like default field.
         $content['description'] = array(
-            '#weight' => 0,
-            '#field_name' => 'field_fake_description',
-            '#title' => t('Description'),
-            '#items' => array(array('value' => $entity->description)),
-            '#formatter' => 'text_default',
-            0 => array(
-              '#markup' => check_plain($entity->description)
-            )
-          ) + $field_defaults;
+          '#weight' => 0,
+          '#field_name' => 'field_fake_description',
+          '#title' => t('Description'),
+          '#items' => array(array('value' => $entity->description)),
+          '#formatter' => 'text_default',
+          0 => array(
+            '#markup' => check_plain($entity->description),
+          ),
+        ) + $field_defaults;
 
         // Themes settings like default field.
         $content['settings'] = array(
-            '#title' => t('Settings'),
-            '#field_name' => 'field_fake_settings',
-            '#items' => array(array('value' => $entity->settings)),
-            '#formatter' => 'text_default',
-            0 => array('#markup' => check_plain($entity->settings))
-          ) + $field_defaults;
+          '#title' => t('Settings'),
+          '#field_name' => 'field_fake_settings',
+          '#items' => array(array('value' => $entity->settings)),
+          '#formatter' => 'text_default',
+          0 => array(
+            '#markup' => check_plain($entity->settings),
+          ),
+        ) + $field_defaults;
 
         break;
 
       // Defines output for the map_layer view mode (adapted for the EC webtools
-      // JavaScript library)
+      // JavaScript library).
       case 'map_layer':
-
 
         // Allows other modules to change the content of the map. Each map
         // layer type can live in its own module.
@@ -69,9 +84,17 @@ class MapLayerController extends EntityAPIController {
     }
     return parent::buildContent($entity, $view_mode, $langcode, $content);
   }
+
 }
 
+/**
+ * Extends create and save functions of map layer type entity.
+ */
 class MapLayerTypeController extends EntityAPIControllerExportable {
+
+  /**
+   * Create map layer type.
+   */
   public function create(array $values = array()) {
     $values += array(
       'label' => '',
@@ -85,38 +108,52 @@ class MapLayerTypeController extends EntityAPIControllerExportable {
    */
   public function save($entity, DatabaseTransaction $transaction = NULL) {
     parent::save($entity, $transaction);
-    // Rebuild menu registry. We do not call menu_rebuild directly, but set
+
+    // Rebuilds menu registry. We do not call menu_rebuild directly, but set
     // variable that indicates rebuild in the end.
     // @see http://drupal.org/node/1399618
     variable_set('menu_rebuild_needed', TRUE);
   }
+
 }
 
 /**
  * UI controller for map layer type.
  */
 class MapLayerTypeUIController extends EntityDefaultUIController {
+
   /**
    * Overrides hook_menu() defaults.
    */
+  // @codingStandardsIgnoreStart
   public function hook_menu() {
     $items = parent::hook_menu();
     $items[$this->path]['description'] = 'Manage Map layer types.';
     return $items;
   }
+  // @codingStandardsIgnoreEnd
+
 }
 
 /**
  * Map layer class.
  */
 class MapLayer extends Entity {
+
+  /**
+   * Provides the label for the map layer entity.
+   */
   protected function defaultLabel() {
     return $this->title;
   }
 
+  /**
+   * Provides uri to view a map layer.
+   */
   protected function defaultUri() {
     return array('path' => 'map-layer/' . $this->identifier());
   }
+
 }
 
 /**
@@ -127,15 +164,25 @@ class MapLayerType extends Entity {
   public $label;
   public $weight = 0;
 
+  /**
+   * Constructs map layer type entity.
+   */
   public function __construct($values = array()) {
     parent::__construct($values, 'map_layer_type');
   }
 
-  function isLocked() {
+  /**
+   * Checks if entity type is locked.
+   */
+  public function isLocked() {
     return isset($this->status) && empty($this->is_new) && (($this->status & ENTITY_IN_CODE) || ($this->status & ENTITY_FIXED));
   }
+
 }
 
+/**
+ * Defines the inline entity form for the map layer entity.
+ */
 class MapLayerInlineEntityFormController extends EntityInlineEntityFormController {
 
   /**
@@ -146,8 +193,6 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
     // Fetches settings from settings field of current entity.
     $map_layer = $entity_form['#entity'];
 
-
-
     // Loads settings.
     $settings = new MapLayerSettings();
     if (!empty($map_layer->settings)) {
@@ -156,7 +201,7 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
     // @todo. how to prevent this?
     $settings = $settings->settings;
 
-    // Defines label field
+    // Defines label field.
     $entity_form['name'] = array(
       '#title' => t('Label'),
       '#type' => 'textfield',
@@ -169,7 +214,7 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
 
     // Defines the form elements using the uniform mapeditor for elements as
     // defined in map_layer_form_elements(). Different for map layer types.
-    $entity_form['enabled'] = map_layer_form_elements('enabled', $settings);
+    $entity_form['control'] = map_layer_form_elements('control', $settings);
 
     // Allow modules to alter the map layer inline entity form.
     $type = $map_layer->type;
@@ -187,8 +232,12 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
     parent::entityFormSubmit($entity_form, $form_state);
     $map_layer = $entity_form['#entity'];
 
-    // Allow modules to alter the settings before inline entity form submission.
+    // @todo figure out how to use just one alter hook.
+    // Allow modules to alter the settings before entity form submission.
     drupal_alter('map_layer_inline_entity_form_submit', $settings, $map_layer);
+
+    // Allows modules to alter the map_layer settings.
+    drupal_alter('map_layer_settings', $settings, $form_state);
 
     // Stores the layer settings in json (different settings per layer type).
     $map_layer->settings = drupal_json_encode($settings);
@@ -204,4 +253,5 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
   public function save($entity, $context) {
     $entity->save();
   }
+
 }

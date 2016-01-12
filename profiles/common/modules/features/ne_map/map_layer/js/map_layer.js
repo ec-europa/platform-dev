@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Provides generic map layer functionality.
+ */
+
 // Create layers array if none.
 if (typeof layers == 'undefined') {
   var layers = [];
@@ -31,13 +36,13 @@ var layersControl = [
     "label": "Tiles",
     "checkbox": tile_layers
   },
-];
+  ];
 
-// Hides the layers panel by default.
-var layers_panel = L.wt.sidebar({
-  "layers": {
-    "tooltip": "Layers",
-    "panel": layersControl,
-    "display": false
-  }
-});
+  // Hides the layers panel by default.
+  var layers_panel = L.wt.sidebar({
+    "layers": {
+      "tooltip": "Layers",
+      "panel": layersControl,
+      "display": false
+    }
+  });

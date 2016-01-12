@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Installation and schema hooks for map layer.module.
+ */
+
+/**
  * Implements hook_schema().
  */
 function map_layer_schema() {
@@ -100,65 +105,15 @@ function map_layer_schema() {
   return $schema;
 }
 
-
+/**
+ * Implements hook_install().
+ */
 function map_layer_install() {
 
   // Gives default users permissions to view map layers.
   $permissions = array('view map_layer entities');
-  foreach(array('anonymous user', 'authenticated user') as $role_name) {
+  foreach (array('anonymous user', 'authenticated user') as $role_name) {
     $role = user_role_load_by_name($role_name);
     user_role_grant_permissions($role->rid, $permissions);
   }
-}
-
-/**
- * Deletes obsolete field.
- * @todo REMOVE
- */
-function map_layer_update_7001() {
-  $fields = array(
-    'field_sdhkjhsdkfjh',
-    'field_asassd',
-
-  );
-  foreach ($fields as $field) {
-    if ($instance = field_info_instance('map_layer', $field, 'nolose_layer')) {
-      field_delete_instance($instance);
-    }
-  }
-  field_purge_batch(count($fields));
-}
-
-/**
- * Creates URL layer.
- */
-function map_layer_update_7002() {
-
-}
-
-/**
- * Grant permission to view map layers.
- */
-function map_layer_update_7003() {
-  $permissions = array('view map_layer entities');
-  $role = user_role_load_by_name('anonymous user');
-  user_role_grant_permissions($role->rid, $permissions);
-}
-
-/**
- * Grant permission to view map layers.
- */
-function map_layer_update_7004() {
-  $permissions = array('view map_layer entities');
-  foreach(array('anonymous user', 'authenticated user') as $role_name) {
-    $role = user_role_load_by_name($role_name);
-    user_role_grant_permissions($role->rid, $permissions);
-  }
-}
-
-/**
- * Do something.
- */
-function map_layer_update_7007() {
-
 }

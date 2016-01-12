@@ -1,10 +1,14 @@
 <?php
+/**
+ * @file
+ * Provides a view for map layer administration.
+ */
 
 /**
  * Implements hook_views_default_views().
  */
 function map_layer_views_default_views() {
-  $view = new view;
+  $view = new view();
   $view->name = 'map_layers';
   $view->description = '';
   $view->tag = 'default';
@@ -137,7 +141,7 @@ function map_layer_views_default_views() {
   $handler->display->display_options['fields']['changed']['empty_zero'] = 0;
   $handler->display->display_options['fields']['changed']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['changed']['date_format'] = 'short';
-    /* Field: Global: Custom text */
+  /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';

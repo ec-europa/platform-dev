@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Provides admin forms for map layer entities.
+ */
+
+/**
  * Generates the map layer type editing form.
  */
 function map_layer_type_form($form, &$form_state, $map_layer_type, $op = 'edit') {
@@ -51,7 +56,7 @@ function map_layer_type_form($form, &$form_state, $map_layer_type, $op = 'edit')
       '#value' => t('Delete map layer type'),
       '#weight' => 45,
       '#limit_validation_errors' => array(),
-      '#submit' => array('map_layer_type_form_submit_delete')
+      '#submit' => array('map_layer_type_form_submit_delete'),
     );
   }
   return $form;
@@ -70,6 +75,9 @@ function map_layer_type_form_submit(&$form, &$form_state) {
   $form_state['redirect'] = 'admin/structure/map-layer-types';
 }
 
+/**
+ * Redirects to the deletion confirmation form.
+ */
 function map_layer_type_form_submit_delete(&$form, &$form_state) {
   $form_state['redirect'] = 'admin/structure/map-layer-types/' . $form_state['map_layer_type']->type . '/delete';
 }
@@ -79,10 +87,11 @@ function map_layer_type_form_submit_delete(&$form, &$form_state) {
  */
 function map_layer_type_form_delete_confirm($form, &$form_state, $map_layer_type) {
   $form_state['map_layer_type'] = $map_layer_type;
+
   // Always provide entity id in the same form key as in the entity edit form.
   $form['map_layer_type_id'] = array(
     '#type' => 'value',
-    '#value' => entity_id('map_layer_type', $map_layer_type)
+    '#value' => entity_id('map_layer_type', $map_layer_type),
   );
   return confirm_form($form,
     t('Are you sure you want to delete map_layer type %title?', array('%title' => entity_label('map_layer_type', $map_layer_type))),
@@ -101,11 +110,11 @@ function map_layer_type_form_delete_confirm_submit($form, &$form_state) {
   map_layer_type_delete($map_layer_type);
   watchdog('map_layer_type', '@type: deleted %title.', array(
     '@type' => $map_layer_type->type,
-    '%title' => $map_layer_type->label
+    '%title' => $map_layer_type->label,
   ));
   drupal_set_message(t('@type %title has been deleted.', array(
     '@type' => $map_layer_type->type,
-    '%title' => $map_layer_type->label
+    '%title' => $map_layer_type->label,
   )));
 
   $form_state['redirect'] = 'admin/structure/map-layer-types';
@@ -123,8 +132,8 @@ function map_layer_admin_add_page() {
     'list' => array(
       '#theme' => 'item_list',
       '#items' => $items,
-      '#title' => t('Select type of map layer to create.')
-    )
+      '#title' => t('Select type of map layer to create.'),
+    ),
   );
 }
 
@@ -152,8 +161,11 @@ function map_layer_form($form, &$form_state, $map_layer) {
   if (!empty($map_layer->settings)) {
     $settings->customize(drupal_json_decode($map_layer->settings));
   }
-  // @todo. how to prevent this?
+  // @todo. figure out how to prevent this?
   $settings = $settings->settings;
+
+  // Makes settings available in form alter hooks.
+  $form_state['settings'] = $settings;
 
   $form['title'] = array(
     '#type' => 'textfield',
@@ -167,10 +179,10 @@ function map_layer_form($form, &$form_state, $map_layer) {
     '#rows' => 2,
     '#default_value' => $map_layer->description,
   );
-  $form['popup'] = map_layer_form_elements('popup', $settings);
-  $form['clustering'] = map_layer_form_elements('clustering', $settings);
-  $form['icon'] = map_layer_form_elements('icon', $settings);
-  $form['enabled'] = map_layer_form_elements('enabled', $settings);
+  // @todo. figure out what are map layer defaults.
+
+  // Provides checkboxes to define how the layer is shown in the layer control.
+  $form['control'] = map_layer_form_elements('control', $settings);
   $form['show_settings'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show settings'),
@@ -189,23 +201,18 @@ function map_layer_form($form, &$form_state, $map_layer) {
       ),
     ),
   );
-
   $form['uid'] = array(
     '#type' => 'value',
     '#value' => $map_layer->uid,
   );
-
   field_attach_form('map_layer', $map_layer, $form, $form_state);
-
   $submit = array();
   if (!empty($form['#submit'])) {
     $submit += $form['#submit'];
   }
-
   $form['actions'] = array(
     '#weight' => 100,
   );
-
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save map layer'),
@@ -221,14 +228,14 @@ function map_layer_form($form, &$form_state, $map_layer) {
       '#submit' => array('map_layer_form_submit_delete'),
     );
   }
-
   $form['#validate'][] = 'map_layer_form_validate';
-
   return $form;
 }
 
+/**
+ * Validates map layer form submission.
+ */
 function map_layer_form_validate($form, &$form_state) {
-
 }
 
 /**
@@ -237,17 +244,46 @@ function map_layer_form_validate($form, &$form_state) {
 function map_layer_form_submit($form, &$form_state) {
   $map_layer = $form_state['map_layer'];
 
+  // Copies submitted values to entity properties for simple entity forms.
   entity_form_submit_build_entity('map_layer', $map_layer, $form, $form_state);
 
+  // Constructs the layer settings for simple json storage in text field.
+  $settings = array(
+    'popup' => array(
+      'show_popup' => $form_state['values']['show_popup'],
+      'popin' => $form_state['values']['popin'],
+    ),
+    'clustering' => array(
+      'cluster_markers' => $form_state['values']['cluster_markers'],
+    ),
+    'icon' => array(
+      'icon' => $form_state['values']['icon'],
+    ),
+    'control' => array(
+      'show_in_control' => $form_state['values']['show_in_control'],
+      'enabled' => $form_state['values']['enabled'],
+    ),
+    'show_settings' => $form_state['values']['show_settings'],
+  );
+
+  // Allows modules to alter the map_layer settings.
+  drupal_alter('map_layer_settings', $settings, $form_state);
+
+  // Stores settings in json.
+  $map_layer->settings = json_encode($settings);
+
+  // Saves the map.
   map_layer_save($map_layer);
 
+  // Shows the created entity.
   $map_layer_uri = entity_uri('map_layer', $map_layer);
-
   $form_state['redirect'] = $map_layer_uri['path'];
-
   drupal_set_message(t('Map layer %title saved.', array('%title' => entity_label('map_layer', $map_layer))));
 }
 
+/**
+ * Loads deletion confirmation form.
+ */
 function map_layer_form_submit_delete($form, &$form_state) {
   $map_layer = $form_state['map_layer'];
   $map_layer_uri = entity_uri('map_layer', $map_layer);
@@ -262,7 +298,7 @@ function map_layer_delete_form($form, &$form_state, $map_layer) {
   // Always provide entity id in the same form key as in the entity edit form.
   $form['map_layer_type_id'] = array(
     '#type' => 'value',
-    '#value' => entity_id('map_layer', $map_layer)
+    '#value' => entity_id('map_layer', $map_layer),
   );
   $map_layer_uri = entity_uri('map_layer', $map_layer);
   return confirm_form($form,

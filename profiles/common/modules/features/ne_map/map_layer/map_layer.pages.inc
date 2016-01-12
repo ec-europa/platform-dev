@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Provides pages for the map layer entity.
+ */
+
+/**
  * Map layer view callback.
  */
 function map_layer_view($map_layer) {
