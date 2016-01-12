@@ -5,5 +5,4 @@ core = 7.x
 project path = profiles/common/modules/features/map_layer
 dependencies[] = inline_entity_form
 dependencies[] = views
-dependencies[] = ne_map
 files[] = map_layer.controller.inc

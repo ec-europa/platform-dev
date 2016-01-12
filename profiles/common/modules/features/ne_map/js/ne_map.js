@@ -51,8 +51,10 @@ L.custom = {
     if (typeof layers_to_enable != 'undefined') {
       var arrayLength = layers_to_enable.length;
       for (var i = 0; i < arrayLength; i++) {
+
         // @todo check possible issue addlayer vs addto
-        map.addLayer(layers_to_enable[i].layer);
+        // map.addLayer(layers_to_enable[i].layer);.
+        layers_to_enable[i].layer.addTo(map);
       }
     }
 

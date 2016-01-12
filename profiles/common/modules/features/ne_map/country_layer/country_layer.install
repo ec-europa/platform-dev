@@ -196,3 +196,23 @@ function map_layer_create_map_country_list_field() {
     field_create_instance($instance);
   }
 }
+
+/**
+ * Changes map layer field.
+ */
+function country_layer_update_7001() {
+
+  // Changes map layer field.
+  country_layer_change_map_layers_field();
+}
+
+/**
+ * Changes map layer field.
+ */
+function country_layer_change_map_layers_field() {
+  $field_info = field_read_field('map_layers');
+
+  // Adds country layer as target bundles.
+  $field_info['settings']['handler_settings']['target_bundles']['country_layer'] = 'country_layer';
+  field_update_field($field_info);
+}

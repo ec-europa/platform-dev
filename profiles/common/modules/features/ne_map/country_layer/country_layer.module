@@ -13,6 +13,7 @@ function country_layer_map_layer_build_content_alter(&$content, $wrapper, $entit
   if ($entity->type == 'country_layer') {
     $settings = drupal_json_decode($wrapper->settings->value());
     if (map_layer_fieldcheck('map_country_list', $wrapper) || map_layer_fieldcheck('map_countries', $wrapper)) {
+      $countries = array();
 
       // Adds country list if the map_countries_list field has values.
       if (map_layer_fieldcheck('map_country_list', $wrapper)) {

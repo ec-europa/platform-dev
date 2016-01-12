@@ -216,12 +216,13 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
     // defined in map_layer_form_elements(). Different for map layer types.
     $entity_form['control'] = map_layer_form_elements('control', $settings);
 
+    // Adds custom field API fields.
+    field_attach_form('map_layer', $map_layer, $entity_form, $form_state);
+
     // Allow modules to alter the map layer inline entity form.
     $type = $map_layer->type;
     drupal_alter('map_layer_inline_entity_form', $entity_form, $settings, $type);
 
-    // Adds custom field API fields.
-    field_attach_form('map_layer', $map_layer, $entity_form, $form_state);
     return $entity_form;
   }
 
