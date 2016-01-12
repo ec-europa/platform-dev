@@ -35,7 +35,7 @@ function tile_layer_map_layer_build_content_alter(&$content, $wrapper, $entity) 
  */
 function tile_layer_map_layer_inline_entity_form_alter(&$entity_form, $settings, $type) {
   if ($type == 'tile_layer') {
-    $entity_form['tile_layer'] = map_layer_form_elements('tile_layer', $settings);
+    $entity_form['tiles'] = map_layer_form_elements('tiles', $settings);
     $entity_form['attribution'] = map_layer_form_elements('attribution', $settings);
   }
   return $entity_form;
@@ -48,7 +48,7 @@ function tile_layer_map_layer_inline_entity_form_alter(&$entity_form, $settings,
  */
 function tile_layer_map_layer_inline_entity_form_submit_alter(&$settings, $map_layer) {
   if ($map_layer->type == 'tile_layer') {
-    $settings['tile_layer'] = $map_layer->tile_layer;
+    $settings['tiles'] = $map_layer->tiles;
     $settings['attribution'] = $map_layer->attribution;
     $settings['enabled'] = $map_layer->enabled;
   }

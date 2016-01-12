@@ -35,31 +35,41 @@ if (typeof Drupal.settings.tile_layers !== 'undefined') {
     var options = [];
     options.attribution = tile_layers[i].label;
 
-    // Collects the layers that are marked "enabled" to be activated in
-    // ne_map.js. Some tiles arent supported in L.wt.tileLayer yet.
-    switch (tile_layers[i].layer_settings.tile_layer.tile_layer) {
+    // Defines some tiles that arent supported in L.wt.tileLayer yet.
+    switch (tile_layers[i].layer_settings.tiles.tiles) {
       case 'countrynames_europe':
         id = L.tileLayer('//europa.eu/webtools/maps/tiles/countrynames_europe/{z}/{y}/{x}', options);
         break;
+
       case 'citynames_europe':
         id = L.tileLayer('//europa.eu/webtools/maps/tiles/citynames_europe/{z}/{y}/{x}', options);
         break;
+
       case 'roadswater_europe':
         id = L.tileLayer('//europa.eu/webtools/maps/tiles/roadswater_europe/{z}/{y}/{x}', options);
         break;
+
       case 'countryboundaries_world':
         id = L.tileLayer('//europa.eu/webtools/maps/tiles/countryboundaries_world/{z}/{y}/{x}', options);
         break;
+
       default:
-        id = L.wt.tileLayer(tile_layers[i].layer_settings.tile_layer.tile_layer, options);
+        id = L.wt.tileLayer(tile_layers[i].layer_settings.tiles.tiles, options);
     }
-    if (typeof tile_layers[i].layer_settings.enabled != 'undefined') {
-      if (tile_layers[i].layer_settings.enabled.enabled == '1') {
+
+    // Collects the layers that are marked "enabled" to be activated in
+    // ne_map.js.
+    if (typeof tile_layers[i].layer_settings.control.enabled != 'undefined') {
+      if (tile_layers[i].layer_settings.control.enabled == '1') {
         layers_to_enable.push({"label": tile_layers[i].label, "layer": id});
       }
     }
 
     // Adds all layers to the layercontrol.
-    tile_layers.push({"label": tile_layers[i].label, "layer": id});
+    if (typeof tile_layers[i].layer_settings.control.show_in_control != 'undefined') {
+      if (tile_layers[i].layer_settings.control.show_in_control == '1') {
+        tile_layers.push({"label": tile_layers[i].label, "layer": id});
+      }
+    }
   }
 }
