@@ -355,8 +355,10 @@ function node_layer_fetch_nodes($filters) {
  */
 function node_layer_query_alter($query) {
   if ($query->hasTag('efq_debug') && module_exists('devel')) {
+    // @codingStandardsIgnoreStart
     dpm((string) $query);
     dpm($query->arguments());
+    // @codingStandardsIgnoreEnd
   }
 }
 
