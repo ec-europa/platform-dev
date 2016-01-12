@@ -30,7 +30,7 @@ if (typeof Drupal.settings.url_layers !== 'undefined') {
     }
 
     // Sets custom popup.
-    if (url_layers[i].layer_settings.popup.show) {
+    if (url_layers[i].layer_settings.popup.show_popup) {
       if (url_layers[i].layer_settings.popup.popin == 0) {
         markers_options.onEachFeature = function (feature, layer) {
           layer.bindPopup("<h3>" + feature.properties.name + "</h3>" + feature.properties.description);
