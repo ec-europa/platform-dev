@@ -565,6 +565,8 @@ projects[views][patch][] = patches/views-exposed_groupfilter_views-1818176-11.pa
 projects[views][patch][] = patches/views-includes_handlers-1752062-6.patch
 projects[views][patch][] = patches/views-localization-bug-1685144-9.patch
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7788
+projects[views][patch][] = http://cgit.drupalcode.org/views/patch/?id=e5c8b65610fbfb93215466c2f234ec7aa825a1ba
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
