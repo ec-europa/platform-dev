@@ -11,6 +11,11 @@ if (typeof layers == 'undefined') {
   var layers = [];
 }
 
+// Create layers to enable array if none.
+if (typeof layers_to_enable == 'undefined') {
+  var layers_to_enable = [];
+}
+
 // Checks for URL layers, adds URLs to map and prepares layer control. Layers
 // and layer control are activated in ne_map.js. With URLs the EC corporate
 // L.wt.markers method can be used which accepts public URLs as input.
@@ -41,13 +46,20 @@ if (typeof Drupal.settings.url_layers !== 'undefined') {
     // Collects the layers that are marked "enabled" to be activated in
     // ne_map.js.
     id = L.wt.markers(url_layers[i].urls, markers_options);
-    if (typeof url_layers[i].layer_settings.enabled != 'undefined') {
-      if (url_layers[i].layer_settings.enabled.enabled == '1') {
+
+    // Collects the layers that are marked "enabled" to be activated in
+    // ne_map.js.
+    if (typeof url_layers[i].layer_settings.control.enabled != 'undefined') {
+      if (url_layers[i].layer_settings.control.enabled == '1') {
         layers_to_enable.push({"label": url_layers[i].label, "layer": id});
       }
     }
 
     // Adds all layers to the layercontrol.
-    layers.push({"label": url_layers[i].label, "layer": id});
+    if (typeof url_layers[i].layer_settings.control.show_in_control != 'undefined') {
+      if (url_layers[i].layer_settings.control.show_in_control == '1') {
+        layers.push({"label": url_layers[i].label, "layer": id});
+      }
+    }
   }
 }

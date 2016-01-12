@@ -43,6 +43,7 @@ function url_layer_map_layer_inline_entity_form_alter(&$entity_form, $settings, 
     $entity_form['popup'] = map_layer_form_elements('popup', $settings);
     $entity_form['clustering'] = map_layer_form_elements('clustering', $settings);
     $entity_form['icon'] = map_layer_form_elements('icon', $settings);
+    $entity_form['attribution'] = map_layer_form_elements('attribution', $settings);
   }
   return $entity_form;
 }
@@ -56,7 +57,8 @@ function url_layer_map_layer_inline_entity_form_submit_alter(&$settings, $map_la
   if ($map_layer->type == 'url_layer') {
     $settings['popup'] = $map_layer->popup;
     $settings['icon'] = $map_layer->icon;
-    $settings['enabled'] = $map_layer->enabled;
+    $settings['attribution'] = $map_layer->attribution;
+    $settings['control'] = $map_layer->control;
     $settings['clustering'] = $map_layer->clustering;
   }
   return $settings;
