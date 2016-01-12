@@ -2,6 +2,7 @@ name = Nexteuropa map
 description = Provides maps and layer entities that allow users to create maps using the corporate webtools JavaScript library.
 core = 7.x
 dependencies[] = entity
+dependencies[] = map_layer
 dependencies[] = views
 dependencies[] = inline_entity_form
 dependencies[] = entityreference
