@@ -11,9 +11,9 @@
     attach: function(context, settings) {
 
       // Gallery carrousel.
-      $('.carousel').carousel({
-        interval: 5000
-      });
+      //$('.carousel').carousel({
+      //  interval: 5000
+      //});
 
       // Tooltips.
       $('[data-toggle="tooltip"]').tooltip();

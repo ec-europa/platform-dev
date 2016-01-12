@@ -1,0 +1,5 @@
+NL,Nederland,http://example.com,"Bowsprit capstan hail-shot bring her cable flogging",0,LightSalmon
+BE,België,http://example.com,"Sink me case shot, Ahoy hornswaggle",0,LightGoldenRodYellow
+LU,Luxemburg,http://example.com,"Brethren of the Coast: Nelsons folly gibbet",0,LightCyan
+DE,Deutschland,http://example.com,"Furl fluke or Quarter marooned, measured fer yer chains",1,Lavender
+DK,Danmark,http://example.com,"Buccaneer run a shot across bow coxswain for hearties",2,LightPink

@@ -105,7 +105,7 @@ function map_layer_create_map_countries_field() {
       'bundle' => 'country_layer',
       'default_value' => NULL,
       'deleted' => 0,
-      'description' => 'Enter comma separated values (CSV) in this format: country code, label, NUTS level, description, link',
+      'description' => 'Enter comma separated values (CSV) in this format: country code, link, description, NUTS level, color',
     ),
   );
   foreach ($array_instances as $instance) {

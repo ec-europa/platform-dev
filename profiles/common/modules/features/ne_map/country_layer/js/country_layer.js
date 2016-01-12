@@ -65,6 +65,9 @@ if (typeof Drupal.settings.country_layers !== 'undefined') {
       }
     };
 
+    // Sets the nuts level.
+    // @todo. Make nuts level work.
+
     var id = L.wt.countries([{"level": 0, "countries": country_keys}], options);
 
     // Adds layer attribution if set.
@@ -80,13 +83,17 @@ if (typeof Drupal.settings.country_layers !== 'undefined') {
 
     // Collects the layers that are marked "enabled" to be activated in
     // ne_map.js.
-    if (typeof country_layers[i].layer_settings.enabled != 'undefined') {
-      if (country_layers[i].layer_settings.enabled.enabled == 1) {
+    if (typeof country_layers[i].layer_settings.control.enabled != 'undefined') {
+      if (country_layers[i].layer_settings.control.enabled == '1') {
         layers_to_enable.push({"label": country_layers[i].label, "layer": id});
       }
     }
 
     // Adds all layers to the layercontrol.
-    layers.push({"label": country_layers[i].label, "layer": id});
+    if (typeof country_layers[i].layer_settings.control.show_in_control != 'undefined') {
+      if (country_layers[i].layer_settings.control.show_in_control == '1') {
+        layers.push({"label": country_layers[i].label, "layer": id});
+      }
+    }
   }
 }
