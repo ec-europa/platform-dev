@@ -14,6 +14,9 @@ function csv_layer_install() {
 
   // Adds fields to CSV map layer.
   _create_map_csv_field();
+
+  // Changes map layers field to add csv layer as target bundle.
+  csv_layer_change_map_layers_field();
 }
 
 /**
@@ -116,3 +119,26 @@ function _create_map_csv_field() {
     field_create_instance($instance);
   }
 }
+
+/**
+ * Changes map layer field.
+ */
+function csv_layer_update_7001() {
+
+  // Changes map layer field.
+  csv_layer_change_map_layers_field();
+}
+
+/**
+ * Changes map layer field.
+ *
+ * Adds csv layer as target bundles.
+ */
+function csv_layer_change_map_layers_field() {
+  $field_info = field_read_field('map_layers');
+
+  // Adds csv layer as target bundles.
+  $field_info['settings']['handler_settings']['target_bundles']['csv_layer'] = 'csv_layer';
+  field_update_field($field_info);
+}
+

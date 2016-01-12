@@ -11,6 +11,9 @@ function tile_layer_install() {
 
   // Creates the tile layer.
   _create_tile_layer();
+
+  // Changes map layers field to add tile layer as target bundle.
+  tile_layer_change_map_layers_field();
 }
 /**
  * Creates the tile map layer bundle.
@@ -23,4 +26,17 @@ function _create_tile_layer() {
   $bundle->description = t("Map layer with tiles");
   $controller = new MapLayerTypeController('map_layer_type');
   $controller->save($bundle);
+}
+
+/**
+ * Changes map layer field.
+ *
+ * Adds tile layer as target bundles.
+ */
+function tile_layer_change_map_layers_field() {
+  $field_info = field_read_field('map_layers');
+
+  // Adds tile layer as target bundles.
+  $field_info['settings']['handler_settings']['target_bundles']['tile_layer'] = 'tile_layer';
+  field_update_field($field_info);
 }

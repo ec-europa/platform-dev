@@ -14,6 +14,9 @@ function url_layer_install() {
 
   // Adds fields to URL map layer.
   _create_map_url_field();
+
+  // Changes map layers field to add url layer as target bundle.
+  url_layer_change_map_layers_field();
 }
 
 /**
@@ -132,4 +135,17 @@ function _create_map_url_field() {
   foreach ($array_instances as $instance) {
     field_create_instance($instance);
   }
+}
+
+/**
+ * Changes map layer field.
+ *
+ * Adds url layer as target bundles.
+ */
+function url_layer_change_map_layers_field() {
+  $field_info = field_read_field('map_layers');
+
+  // Adds url layer as target bundles.
+  $field_info['settings']['handler_settings']['target_bundles']['url_layer'] = 'url_layer';
+  field_update_field($field_info);
 }
