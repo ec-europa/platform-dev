@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Provides pages for the map entity.
+ */
 
 /**
  * Map view callback.

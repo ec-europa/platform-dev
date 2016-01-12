@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Provides install and schema hooks for the map entity module.
+ */
 
 /**
  * Implements hook_schema().
@@ -64,21 +68,15 @@ function ne_map_schema() {
   return $schema;
 }
 
+/**
+ * Implements hook_install().
+ *
+ * Grants permission to view maps.
+ */
 function ne_map_install() {
-// Grant permission to view maps.
   $permissions = array('view ne_map entities');
-  foreach(array('anonymous user', 'authenticated user') as $role_name) {
+  foreach (array('anonymous user', 'authenticated user') as $role_name) {
     $role = user_role_load_by_name($role_name);
     user_role_grant_permissions($role->rid, $permissions);
   }
-
-}
-
-/**
- * Grant permission to view maps.
- */
-function ne_map_update_7001() {
-  $permissions = array('view ne_map entities');
-  $role = user_role_load_by_name('anonymous user');
-  user_role_grant_permissions($role->rid, $permissions);
 }

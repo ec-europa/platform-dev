@@ -1,25 +1,26 @@
 <?php
+/**
+ * @file
+ * Provides administration functionality for the map entity.
+ */
 
 /**
  * Add new map page callback.
  */
 function ne_map_add() {
-//  $map_type = ne_map_types($type);
-
   $map = entity_create('ne_map', array('type' => 'ne_map'));
   drupal_set_title(t('Create map'));
-
   $output = drupal_get_form('ne_map_form', $map);
-
   return $output;
 }
 
 /**
- * Map Form.
+ * Constructs the map form.
  */
 function ne_map_form($form, &$form_state, $map) {
   $form_state['map'] = $map;
 
+  // Provides a title field.
   $form['title'] = array(
     '#type' => 'textfield',
     '#required' => TRUE,
@@ -27,37 +28,55 @@ function ne_map_form($form, &$form_state, $map) {
     '#default_value' => $map->title,
   );
 
+  // Provides a description field.
   $form['description'] = array(
     '#type' => 'textarea',
     '#title' => t('Description'),
     '#default_value' => $map->description,
   );
 
+  // Stores the user ID.
   $form['uid'] = array(
     '#type' => 'value',
     '#value' => $map->uid,
   );
 
+  // Provides a field to store various map settings.
   $settings = new NEMapSettings();
   if (!empty($map->settings)) {
     $settings->customize(drupal_json_decode($map->settings));
   }
+
   // @todo. how to prevent this?
   $settings = $settings->settings;
 
-  // Defines the form elements using the uniform mapeditor for elements as
-  // defined in ne_map_form_elements().
+  // @todo decide on availibility of certain fields.
+  // Provides the height field whose values are stored as json in the settings.
   $form['height'] = ne_map_form_elements('height', $settings);
+
+  // Provides the map center field whose values is stored as json in the
+  // settings.
   $form['center'] = ne_map_form_elements('center', $settings);
+
+  // Provides the pop-up fields whose values is stored as json in the settings.
   $form['popup'] = ne_map_form_elements('popup', $settings);
+
+  // Provides the zoom fields whose values is stored as json in the settings.
   $form['zoom'] = ne_map_form_elements('zoom', $settings);
-  // @todo. add validation for zoom.
-  //  $form['#validate'][] = '_mapeditor_validate_zoom';
   $form['#validate'][] = 'ne_map_form_validate';
-  $form['tile_layer'] = ne_map_form_elements('tile_layer', $settings);
+
+  // Provides the tiles field whose values is stored as json in the settings.
+  $form['tiles'] = ne_map_form_elements('tiles', $settings);
+
+  // Provides the attribution fields whose values is stored as json in the
+  // settings.
   $form['attribution'] = ne_map_form_elements('attribution', $settings);
+
+  // Provides the clustering field whose values is stored as json in the
+  // settings.
   $form['clustering'] = ne_map_form_elements('clustering', $settings);
 
+  // Provides a checkbox to show /hide settings field.
   $form['show_settings'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show settings'),
@@ -104,8 +123,11 @@ function ne_map_form($form, &$form_state, $map) {
   return $form;
 }
 
+/**
+ * Provides validation for the map form.
+ */
 function ne_map_form_validate($form, &$form_state) {
-
+  // @todo. Add validation.
 }
 
 /**
@@ -134,10 +156,11 @@ function ne_map_form_submit_delete($form, &$form_state) {
  */
 function ne_map_delete_form($form, &$form_state, $map) {
   $form_state['map'] = $map;
+
   // Always provide entity id in the same form key as in the entity edit form.
   $form['map_type_id'] = array(
     '#type' => 'value',
-    '#value' => entity_id('ne_map', $map)
+    '#value' => entity_id('ne_map', $map),
   );
   $map_uri = entity_uri('ne_map', $map);
   return confirm_form($form,
@@ -155,8 +178,6 @@ function ne_map_delete_form($form, &$form_state, $map) {
 function ne_map_delete_form_submit($form, &$form_state) {
   $map = $form_state['map'];
   ne_map_delete($map);
-
   drupal_set_message(t('Map %title deleted.', array('%title' => entity_label('ne_map', $map))));
-
   $form_state['redirect'] = '<front>';
 }

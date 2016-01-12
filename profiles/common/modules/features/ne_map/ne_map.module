@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Provides functionality for the map entity.
+ */
 
 define('NE_MAP_WEBTOOLS_ENVIRONMENT', '//europa.eu/webtools/load.js');
 
@@ -15,11 +19,7 @@ function ne_map_entity_info() {
       'fieldable' => TRUE,
       'entity keys' => array(
         'id' => 'mid',
-//        'bundle' => 'type',
       ),
-//      'bundle keys' => array(
-//        'bundle' => 'type',
-//      ),
       'admin ui' => array(
         'path' => 'admin/structure/maps',
         'controller class' => 'MapUIController',
@@ -31,13 +31,8 @@ function ne_map_entity_info() {
           'label' => t('Map'),
           'admin' => array(
             'path' => 'admin/structure/maps',
-//            'file' => 'ne_map.admin.inc',
             'access arguments' => array('administer maps'),
           ),
-//          'admin' => array(
-//            'path' => 'admin/mapentity',
-//            'access arguments' => array('administer map'),
-//          ),
         ),
       ),
       'load hook' => 'ne_map_load',
@@ -65,7 +60,6 @@ function ne_map_menu() {
   $items['map/add'] = array(
     'title' => 'Add map',
     'page callback' => 'ne_map_add',
-//    'access arguments' => array('administer ne_map entities'),
     'access callback' => 'entity_access',
     'access arguments' => array('create', 'ne_map', 'ne_map'),
     'file' => 'ne_map.admin.inc',
@@ -73,16 +67,6 @@ function ne_map_menu() {
     'tab_parent' => 'map',
     'tab_root' => 'map',
   );
-//  foreach (ne_map_types() as $type => $info) {
-//    $items['map/add/' . $type] = array(
-//      'title' => 'Add map',
-//      'page callback' => 'ne_map_add',
-//      'page arguments' => array(2),
-//      'access callback' => 'entity_access',
-//      'access arguments' => array('create', 'ne_map', $type),
-//      'file' => 'ne_map.admin.inc',
-//    );
-//  }
 
   $map_uri = 'map/%ne_map';
   $map_uri_argument_position = 1;
@@ -124,28 +108,6 @@ function ne_map_menu() {
     'type' => MENU_LOCAL_TASK,
     'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
   );
-
-//  foreach (ne_map_types() as $type => $info) {
-//    $items['map/add/' . $type] = array(
-//      'title' => 'Add map',
-//      'page callback' => 'ne_map_add',
-//      'page arguments' => array(2),
-//      'access callback' => 'entity_access',
-//      'access arguments' => array('create', 'ne_map', $type),
-//      'file' => 'ne_map.admin.inc',
-//    );
-//  }
-
-//  $items['admin/structure/map-types/%ne_map_type/delete'] = array(
-//    'title' => 'Delete',
-//    'page callback' => 'drupal_get_form',
-//    'page arguments' => array('ne_map_type_form_delete_confirm', 4),
-//    'access arguments' => array('administer ne_map types'),
-//    'weight' => 1,
-//    'type' => MENU_NORMAL_ITEM,
-//    'file' => 'ne_map.admin.inc',
-//  );
-
   return $items;
 }
 
@@ -227,9 +189,11 @@ function ne_map_access($op, $map, $account = NULL, $entity_type = NULL) {
     case 'create':
       return user_access('administer ne_map entities', $account)
       || user_access('create ne_map entities', $account);
+
     case 'view':
       return user_access('administer ne_map entities', $account)
       || user_access('view ne_map entities', $account);
+
     case 'edit':
       return user_access('administer ne_map entities')
       || user_access('edit any ne_map entities')
@@ -300,7 +264,8 @@ function ne_map_form_elements($group, $settings, $options = NULL) {
         '#type' => 'select',
         '#options' => $zoom_options,
         '#default_value' => isset($settings[$group]['initialZoom']) ? $settings[$group]['initialZoom'] : 2,
-//        '#element_validate' => array('_mapeditor_validate_zoom'),
+        // @todo add zoom validation. See contrib Leaflet module
+        // '#element_validate' => array('_mapeditor_validate_zoom'),.
       );
       $form_element['minZoom'] = array(
         '#title' => t('Minimum zoom level'),
@@ -308,7 +273,8 @@ function ne_map_form_elements($group, $settings, $options = NULL) {
         '#type' => 'select',
         '#options' => $zoom_options,
         '#default_value' => isset($settings[$group]['minZoom']) ? $settings[$group]['minZoom'] : 1,
-//        '#element_validate' => array('_mapeditor_validate_zoom'),
+        // @todo add zoom validation. See contrib Leaflet module
+        // '#element_validate' => array('_mapeditor_validate_zoom'),.
       );
       $form_element['maxZoom'] = array(
         '#title' => t('Maximum zoom level'),
@@ -316,20 +282,22 @@ function ne_map_form_elements($group, $settings, $options = NULL) {
         '#type' => 'select',
         '#options' => $zoom_options,
         '#default_value' => isset($settings[$group]['maxZoom']) ? $settings[$group]['maxZoom'] : 14,
-//        '#element_validate' => array('_mapeditor_validate_zoom'),
+         // @todo add zoom validation. See contrib Leaflet module
+         // '#element_validate' => array('_mapeditor_validate_zoom'),.
       );
       break;
 
-    case 'tile_layer':
+    case 'tiles':
       $form_element = array(
         '#type' => 'fieldset',
         '#title' => t('Map background'),
         '#weight' => 16,
       );
-      $form_element['tile_layer'] = array(
+      $form_element['tiles'] = array(
         '#type' => 'select',
-        '#title' => t('Tile layer'),
-        '#default_value' => isset($settings[$group]['tile_layer']) ? $settings[$group]['tile_layer'] : 'osmec',
+        '#title' => t('Tiles'),
+        '#description' => t('Tiles to use a map background'),
+        '#default_value' => isset($settings[$group]['tiles']) ? $settings[$group]['tiles'] : 'osmec',
         '#options' => ne_map_tiles(),
       );
       break;
@@ -368,7 +336,6 @@ function ne_map_form_elements($group, $settings, $options = NULL) {
         ),
         'type' => 'setting',
       );
-
       break;
 
     case 'center':
@@ -424,7 +391,6 @@ function ne_map_form_elements($group, $settings, $options = NULL) {
   return $form_element;
 }
 
-
 /**
  * Provides available tiles.
  *
@@ -458,10 +424,14 @@ function ne_map_validate_height(&$form, &$form_state) {
   }
 }
 
-function _mapeditor_validate_zoom() {
-
+/**
+ * Validates zoom level.
+ *
+ * Checks e.g. that initial zoom is higher than maximum zoom.
+ */
+function _validate_zoom() {
+  // @todo. write validate zoom. See leaflet module.
 }
-
 
 /**
  * Save map layer.
@@ -472,8 +442,8 @@ function map_save($map) {
 
   // Fetches field values from form state.
   $settings = array(
-    'tile_layer' => array(
-      'tile_layer' => $map->tile_layer,
+    'tiles' => array(
+      'tiles' => $map->tiles,
     ),
     'height' => array(
       'height' => $map->height,
@@ -503,21 +473,19 @@ function map_save($map) {
 /**
  * Save map.
  */
-//function ne_map_save($map) {
-//  entity_save('ne_map', $map);
-//}
-//
+function ne_map_save($map) {
+  // @todo. re-enamble map save?
+  // entity_save('ne_map', $map);.
+}
+
 
 /**
  * Class providing JavaScript settings for a map.
  */
 class NEMapSettings {
 
-  // Holds filename of custom JavaScript to be passed to load.js.
-//  private $customJs;
-
   /**
-   * Defines defaults for the map construction (both geofield and NUTS).
+   * Provides the settings array and default values.
    */
   public function __construct() {
     $this->settings = array(
@@ -526,8 +494,8 @@ class NEMapSettings {
         'lon' => 28.154,
         'fitbounds' => TRUE,
       ),
-      'tile_layer' => array(
-        'tile_layer' => 'osmec',
+      'tiles' => array(
+        'tiles' => 'osmec',
       ),
       'dragging' => TRUE,
       'touchZoom' => TRUE,
@@ -542,7 +510,7 @@ class NEMapSettings {
         'maxZoom' => 10,
       ),
       'height' => array(
-        'height' => 430
+        'height' => 430,
       ),
       'icon' => array(
         'icon' => 'blue',
@@ -569,6 +537,7 @@ class NEMapSettings {
       unset($this->settings[$key]);
     }
   }
+
 }
 
 /**
@@ -592,20 +561,4 @@ function ne_map_admin_paths() {
     );
     return $paths;
   }
-}
-
-
-/**
- * Give permissions.
- */
-
-function test_perm() {
-
-  $permissions = array('view ne_map entities');
-  dd($permissions);
-  $role = user_role_load_by_name('anonymous user');
-  dd($role);
-  dd(user_role_grant_permissions($role->rid, $permissions));
-
-
 }

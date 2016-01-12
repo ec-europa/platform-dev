@@ -1,10 +1,14 @@
 <?php
+/**
+ * @file
+ * Provides administration view for the map entity.
+ */
 
 /**
  * Implements hook_views_default_views().
  */
 function ne_map_views_default_views() {
-  $view = new view;
+  $view = new view();
   $view->name = 'ne_maps';
   $view->description = '';
   $view->tag = 'default';
