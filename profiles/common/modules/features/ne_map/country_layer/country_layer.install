@@ -10,19 +10,22 @@
 function country_layer_install() {
 
   // Creates country layer.
-  map_layer_create_country_layer();
+  country_layer_create_country_layer();
 
   // Creates countries field.
-  map_layer_create_map_countries_field();
+  country_layer_create_map_countries_field();
 
   // Creates country list field.
-  map_layer_create_map_country_list_field();
+  country_layer_create_map_country_list_field();
+
+  // Changes map layers field.
+  country_layer_change_map_layers_field();
 }
 
 /**
  * Creates the country map layer bundle.
  */
-function map_layer_create_country_layer() {
+function country_layer_create_country_layer() {
   $bundle = new stdClass();
   $bundle->type = 'country_layer';
   $bundle->label = t('Country layer');
@@ -35,7 +38,7 @@ function map_layer_create_country_layer() {
 /**
  * Defines and creates map countries field.
  */
-function map_layer_create_map_countries_field() {
+function country_layer_create_map_countries_field() {
   if (field_info_field('map_countries')) {
     watchdog('map_layer', 'Field Map Countries not created because it exists already', array(), WATCHDOG_NOTICE, NULL);
   }
@@ -118,7 +121,7 @@ function map_layer_create_map_countries_field() {
  *
  * Creates single textfield for list of country codes.
  */
-function map_layer_create_map_country_list_field() {
+function country_layer_create_map_country_list_field() {
   if (field_info_field('map_country_list')) {
     watchdog('map_layer', 'Field Map country list not created because it exists already', array(), WATCHDOG_NOTICE, NULL);
   }
@@ -208,6 +211,8 @@ function country_layer_update_7001() {
 
 /**
  * Changes map layer field.
+ *
+ * Adds country layer as target bundles.
  */
 function country_layer_change_map_layers_field() {
   $field_info = field_read_field('map_layers');
