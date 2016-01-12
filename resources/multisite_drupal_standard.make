@@ -230,6 +230,10 @@ projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta2"
+; Fix error when switching from Public to Private destination
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8239
+; https://www.drupal.org/node/2537982
+projects[file_entity][patch][] = https://www.drupal.org/files/issues/2537982-fix-changing-file-scheme.patch
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.10"
@@ -628,6 +632,8 @@ projects[wysiwyg][version] = "2.2"
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor4-bug-version-1799.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7359
+projects[wysiwyg][patch][] = patches/wysiwyg.features.inc.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
@@ -751,11 +757,11 @@ libraries[modernizr][download][request_type]= "get"
 libraries[modernizr][download][file_type] = "zip"
 libraries[modernizr][destination] = "../common/libraries"
 
-; mpdf 5.7
+; mpdf 5.7.4a
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v5.7.4a.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet

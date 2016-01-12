@@ -49,6 +49,10 @@ function f_a_q_views_default_views() {
   $handler->display->display_options['header']['area']['empty'] = TRUE;
   $handler->display->display_options['header']['area']['content'] = '<h2>Quick answer to common questions</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
+  /* Header: Global: FAQ Collapsible Menu */
+  $handler->display->display_options['header']['f_a_q_collapsible_menu']['id'] = 'f_a_q_collapsible_menu';
+  $handler->display->display_options['header']['f_a_q_collapsible_menu']['table'] = 'views';
+  $handler->display->display_options['header']['f_a_q_collapsible_menu']['field'] = 'f_a_q_collapsible_menu';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';

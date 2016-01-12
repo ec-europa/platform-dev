@@ -25,22 +25,23 @@ function cce_basic_config_requirements($phase) {
     'weight' => -8,
   );
 
-  global $base_url;
-  if ($continuousphp_package = file_get_contents($base_url . '/continuousphp.package')) {
-    $info = json_decode($continuousphp_package, TRUE);
-    $t = get_t();
-    $requirements['git_ref'] = array(
-      'title' => $t('Git ref'),
-      'value' => $info['ref'],
-      'severity' => REQUIREMENT_INFO,
-      'weight' => -7,
-    );
-    $requirements['git_commit'] = array(
-      'title' => $t('Git commit'),
-      'value' => l($info['commit'], 'https://github.com/ec-europa/platform-dev/commit/' . $info['commit']),
-      'severity' => REQUIREMENT_INFO,
-      'weight' => -7,
-    );
+  if (file_exists(DRUPAL_ROOT . '/continuousphp.package')) {
+    if ($continuousphp_package = file_get_contents(DRUPAL_ROOT . '/continuousphp.package')) {
+      $info = json_decode($continuousphp_package, TRUE);
+      $t = get_t();
+      $requirements['git_ref'] = array(
+        'title' => $t('Git ref'),
+        'value' => $info['ref'],
+        'severity' => REQUIREMENT_INFO,
+        'weight' => -7,
+      );
+      $requirements['git_commit'] = array(
+        'title' => $t('Git commit'),
+        'value' => l($info['commit'], 'https://github.com/ec-europa/platform-dev/commit/' . $info['commit']),
+        'severity' => REQUIREMENT_INFO,
+        'weight' => -7,
+      );
+    }
   }
   return $requirements;
 }
@@ -758,6 +759,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view moderation messages',
     'view own unpublished content',
     'view revisions',
+    'access media browser',
   ));
 
   // Editor role.
@@ -784,6 +786,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'use workbench_moderation needs review tab',
     'view all unpublished content',
     'view own unpublished content',
+    'access media browser',
   ));
 
   // Grant permissions for authenticated users.
