@@ -502,7 +502,7 @@ class NEMapSettings {
       'scrollWheelZoom' => TRUE,
       'attribution' => array(
         'attributionControl' => TRUE,
-        'attribution' => t('Map data by Eurostat and the European Commissions'),
+        'attribution' => t('Map data by Eurostat and the European Commission'),
       ),
       'zoom' => array(
         'initialZoom' => 4,

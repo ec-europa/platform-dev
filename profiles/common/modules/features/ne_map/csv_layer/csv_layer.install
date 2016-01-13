@@ -109,7 +109,7 @@ function _create_map_csv_field() {
       'default_value' => NULL,
       'deleted' => 0,
       // @todo add templates.
-      'description' => 'Enter comma separated values (CSV) in this format: latitude, longitude, name, description, link',
+      'description' => 'Enter comma separated values (CSV) in this format: latitude, longitude, name, description, link.',
 
     ),
   );

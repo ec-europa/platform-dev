@@ -207,7 +207,7 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
       '#type' => 'textfield',
       // @todo make consistent use of lable or title
       '#default_value' => isset($map_layer->title) ? $map_layer->title : '',
-      '#description' => t('Name of the map layer'),
+      '#description' => t('Name of the map layer. This will be used in the layer control.'),
       '#required' => TRUE,
       '#weight' => -50,
     );

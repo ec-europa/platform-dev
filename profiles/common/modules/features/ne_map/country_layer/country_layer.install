@@ -108,7 +108,7 @@ function country_layer_create_map_countries_field() {
       'bundle' => 'country_layer',
       'default_value' => NULL,
       'deleted' => 0,
-      'description' => 'Enter comma separated values (CSV) in this format: country code, link, description, NUTS level, color',
+      'description' => 'Countries to be displayed on the map. Enter comma separated values (CSV) in this format: country code, link, description, NUTS level, color.',
     ),
   );
   foreach ($array_instances as $instance) {
@@ -190,7 +190,7 @@ function country_layer_create_map_country_list_field() {
       'bundle' => 'country_layer',
       'default_value' => NULL,
       'deleted' => 0,
-      'description' => 'Countries to show. Enter two digit country codes separated by spaces. For example "BE NL LU"',
+      'description' => 'Countries to be displayed on the map. Enter two digit country codes separated by spaces. For example "BE NL LU"',
     ),
   );
 

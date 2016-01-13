@@ -50,7 +50,7 @@ function tile_layer_map_layer_inline_entity_form_submit_alter(&$settings, $map_l
   if ($map_layer->type == 'tile_layer') {
     $settings['tiles'] = $map_layer->tiles;
     $settings['attribution'] = $map_layer->attribution;
-    $settings['enabled'] = $map_layer->enabled;
+    $settings['control'] = $map_layer->control;
   }
   return $settings;
 }

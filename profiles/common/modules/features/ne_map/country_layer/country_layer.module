@@ -53,7 +53,7 @@ function country_layer_map_layer_inline_entity_form_alter(&$entity_form, $settin
     $entity_form['nuts'] = country_layer_form_elements('nuts', $settings);
     $entity_form['attribution'] = map_layer_form_elements('attribution', $settings);
     $url = file_create_url(drupal_get_path('module', 'country_layer') . '/template.txt');
-    $entity_form['map_countries'][LANGUAGE_NONE][0]['value']['#description'] .= '. ' . t('<a href="!url">Example</a>', array('!url' => $url));
+    $entity_form['map_countries'][LANGUAGE_NONE][0]['value']['#description'] .= ' ' . t('<a href="!url">Example</a>', array('!url' => $url));
   }
   return $entity_form;
 }
@@ -176,6 +176,7 @@ function country_layer_form_elements($group, $settings) {
         '#title' => t('Dash array'),
         '#default_value' => $settings[$group]['dash_array'],
         '#size' => 24,
+        '#description' => t('Size of the dashes in border.'),
       );
       break;
   }

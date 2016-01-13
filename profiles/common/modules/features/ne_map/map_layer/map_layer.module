@@ -421,6 +421,7 @@ function map_layer_form_elements($group, $settings) {
       $form_element = array(
         '#type' => 'fieldset',
         '#title' => t('Layer control'),
+        '#description' => t('Let the user enable and disable layers in the layer control.'),
         '#weight' => 11,
       );
       $form_element['enabled'] = array(

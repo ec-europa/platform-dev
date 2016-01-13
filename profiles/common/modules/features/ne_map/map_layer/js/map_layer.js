@@ -7,9 +7,10 @@
 if (typeof layers == 'undefined') {
   var layers = [];
 }
+
 // Create layers array if none.
-if (typeof tile_layers == 'undefined') {
-  var tile_layers = [];
+if (typeof control_tile_layers == 'undefined') {
+  var control_tile_layers = [];
 }
 
 // @todo remove duplicate
@@ -34,7 +35,7 @@ var layersControl = [
   },
   {
     "label": "Tiles",
-    "checkbox": tile_layers
+    "checkbox": control_tile_layers
   },
   ];
 

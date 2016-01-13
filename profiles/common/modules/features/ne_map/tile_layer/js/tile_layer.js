@@ -17,8 +17,8 @@ if (typeof layers_to_enable == 'undefined') {
 }
 
 // Create tile layers array if none.
-if (typeof tile_layers == 'undefined') {
-  var tile_layers = [];
+if (typeof control_tile_layers == 'undefined') {
+  var control_tile_layers = [];
 }
 
 // Checks for tile layers, adds tiles to map and prepares layer control. Layers
@@ -64,11 +64,10 @@ if (typeof Drupal.settings.tile_layers !== 'undefined') {
         layers_to_enable.push({"label": tile_layers[i].label, "layer": id});
       }
     }
-
     // Adds all layers to the layercontrol.
     if (typeof tile_layers[i].layer_settings.control.show_in_control != 'undefined') {
       if (tile_layers[i].layer_settings.control.show_in_control == '1') {
-        tile_layers.push({"label": tile_layers[i].label, "layer": id});
+        control_tile_layers.push({"label": tile_layers[i].label, "layer": id});
       }
     }
   }
