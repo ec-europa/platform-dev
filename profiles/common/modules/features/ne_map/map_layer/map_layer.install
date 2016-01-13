@@ -70,32 +70,32 @@ function map_layer_schema() {
   $schema['map_layer_type'] = array(
     'description' => 'Stores information about all defined map layer types.',
     'fields' => array(
-        'id' => array(
-          'type' => 'serial',
-          'not null' => TRUE,
-          'description' => 'Primary Key: Unique map layer type ID.',
-        ),
-        'type' => array(
-          'description' => 'The machine-readable name of this type.',
-          'type' => 'varchar',
-          'length' => 32,
-          'not null' => TRUE,
-        ),
-        'label' => array(
-          'description' => 'The human-readable name of this type.',
-          'type' => 'varchar',
-          'length' => 255,
-          'not null' => TRUE,
-          'default' => '',
-        ),
-        'description' => array(
-          'description' => 'A brief description of this type.',
-          'type' => 'text',
-          'not null' => TRUE,
-          'size' => 'medium',
-          'translatable' => TRUE,
-        ),
-      ) + entity_exportable_schema_fields(),
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique map layer type ID.',
+      ),
+      'type' => array(
+        'description' => 'The machine-readable name of this type.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+      ),
+      'label' => array(
+        'description' => 'The human-readable name of this type.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'description' => array(
+        'description' => 'A brief description of this type.',
+        'type' => 'text',
+        'not null' => TRUE,
+        'size' => 'medium',
+        'translatable' => TRUE,
+      ),
+    ) + entity_exportable_schema_fields(),
     'primary key' => array('id'),
     'unique keys' => array(
       'type' => array('type'),

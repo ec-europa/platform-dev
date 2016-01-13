@@ -3,4 +3,3 @@ description = Provide a map layer bundle to store country data and settings for 
 core = 7.x
 dependencies[] = ne_map
 dependencies[] = text
-

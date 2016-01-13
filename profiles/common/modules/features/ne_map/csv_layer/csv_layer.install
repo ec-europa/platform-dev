@@ -141,4 +141,3 @@ function csv_layer_change_map_layers_field() {
   $field_info['settings']['handler_settings']['target_bundles']['csv_layer'] = 'csv_layer';
   field_update_field($field_info);
 }
-

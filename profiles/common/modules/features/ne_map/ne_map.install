@@ -123,10 +123,7 @@ function ne_map_create_map_layer_field() {
           'sort' => array(
             'type' => 'none',
           ),
-          'target_bundles' => array(
-//            'country_layer' => 'country_layer',
-            'url_layer' => 'url_layer',
-          ),
+          'target_bundles' => array(),
         ),
         'target_type' => 'map_layer',
       ),
@@ -188,22 +185,4 @@ function ne_map_create_map_layer_field() {
   foreach ($field_instances as $instance) {
     field_create_instance($instance);
   }
-}
-
-/**
- * create field
- */
-function ne_map_update_7001(){
-  $fields = array(
-    'map_layers',
-    'field_layrz',
-  );
-  foreach ($fields as $field) {
-    if ($instance = field_info_instance('ne_map', $field, 'ne_map')) {
-      field_delete_instance($instance);
-    }
-  }
-  field_purge_batch(count($fields));
-
-  ne_map_create_map_layer_field();
 }
