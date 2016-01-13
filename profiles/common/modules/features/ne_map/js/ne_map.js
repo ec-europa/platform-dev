@@ -10,6 +10,9 @@ L.custom = {
     // Sets variables from Drupal JS settings.
     var settings = Drupal.settings.settings;
 
+    // Defines map height.
+    obj.style.minHeight = settings.height.height + 'px';
+
     // Defines the map.
     var map = L.map(obj, {
         "center": [settings.center.lat, settings.center.lon],
