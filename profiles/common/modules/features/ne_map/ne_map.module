@@ -563,3 +563,10 @@ function ne_map_admin_paths() {
     return $paths;
   }
 }
+
+/**
+ * Implements hook_feature_set_api().
+ */
+function ne_map_feature_set_api() {
+  return array('version' => '1.0');
+}

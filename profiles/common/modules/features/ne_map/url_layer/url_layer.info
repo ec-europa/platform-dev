@@ -1,5 +1,9 @@
 name = URL layer
-description = Provide a map layer bundle to store settings and URLs that contain map data.
+description = Provides a map layer bundle to store and display geospatial data found in URLs.
 core = 7.x
 dependencies[] = map_layer
 dependencies[] = link
+multisite_version = 2.1
+package = Maps
+php = 5.2.4
+version = 7.x-1.0

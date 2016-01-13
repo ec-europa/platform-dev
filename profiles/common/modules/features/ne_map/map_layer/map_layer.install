@@ -117,3 +117,19 @@ function map_layer_install() {
     user_role_grant_permissions($role->rid, $permissions);
   }
 }
+
+/**
+ * Implements hook_enable().
+ */
+function map_layer_enable() {
+  $t = get_t();
+  drupal_set_message($t('Map layer has been enabled.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function map_layer_disable() {
+  $t = get_t();
+  drupal_set_message($t('Map layer has been disabled.'));
+}

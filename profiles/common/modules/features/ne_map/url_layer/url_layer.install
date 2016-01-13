@@ -149,3 +149,19 @@ function url_layer_change_map_layers_field() {
   $field_info['settings']['handler_settings']['target_bundles']['url_layer'] = 'url_layer';
   field_update_field($field_info);
 }
+
+/**
+ * Implements hook_enable().
+ */
+function url_layer_enable() {
+  $t = get_t();
+  drupal_set_message($t('URL layer has been enabled.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function url_layer_disable() {
+  $t = get_t();
+  drupal_set_message($t('URL layer has been disabled.'));
+}

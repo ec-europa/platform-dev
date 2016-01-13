@@ -141,3 +141,19 @@ function csv_layer_change_map_layers_field() {
   $field_info['settings']['handler_settings']['target_bundles']['csv_layer'] = 'csv_layer';
   field_update_field($field_info);
 }
+
+/**
+ * Implements hook_enable().
+ */
+function csv_layer_enable() {
+  $t = get_t();
+  drupal_set_message($t('CSV layer has been enabled.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function csv_layer_disable() {
+  $t = get_t();
+  drupal_set_message($t('CSV layer has been disabled.'));
+}

@@ -110,7 +110,7 @@ function ne_map_create_map_layer_field() {
           0 => 'target_id',
         ),
       ),
-      'locked' => 0,
+      'locked' => 1,
       'module' => 'entityreference',
       'settings' => array(
         'handler' => 'base',

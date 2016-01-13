@@ -1,5 +1,5 @@
 name = Nexteuropa map
-description = Provides maps and layer entities that allow users to create maps using the corporate webtools JavaScript library.
+description = Provides map entity that allows users to create maps using the corporate webtools JavaScript library.
 core = 7.x
 dependencies[] = entity
 dependencies[] = map_layer
@@ -9,3 +9,57 @@ dependencies[] = entityreference
 files[] = ne_map.controller.inc
 package = Nexteuropa maps
 project path = profiles/common/modules/features/ne_map
+multisite_version = 2.1
+package = Maps
+php = 5.2.4
+version = 7.x-1.0
+
+; Feature set entry for the Country layer
+feature_sets[country_layer][title] = 'Country layer'
+feature_sets[country_layer][description] = 'Allows users to display country outlines on a map'
+feature_sets[country_layer][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/iKNDBg'
+feature_sets[country_layer][category] = 'Maps'
+feature_sets[country_layer][icon] = ''
+feature_sets[country_layer][font] = 'multisite-icon-location'
+feature_sets[country_layer][enable][] = country_layer
+feature_sets[country_layer][disable][] = country_layer
+
+; Feature set entry for the CSV layer
+feature_sets[csv_layer][title] = 'CSV layer'
+feature_sets[csv_layer][description] = 'Allows users to display geospatial data from CSV on a map'
+feature_sets[csv_layer][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/iKNDBg'
+feature_sets[csv_layer][category] = 'Maps'
+feature_sets[csv_layer][icon] = ''
+feature_sets[csv_layer][font] = 'multisite-icon-location'
+feature_sets[csv_layer][enable][] = csv_layer
+feature_sets[csv_layer][disable][] = csv_layer
+
+; Feature set entry for the Node layer
+feature_sets[node_layer][title] = 'Node layer'
+feature_sets[node_layer][description] = 'Allows users to display geospatial data from nodes on a map'
+feature_sets[node_layer][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/iKNDBg'
+feature_sets[node_layer][category] = 'Maps'
+feature_sets[node_layer][icon] = ''
+feature_sets[node_layer][font] = 'multisite-icon-location'
+feature_sets[node_layer][enable][] = node_layer
+feature_sets[node_layer][disable][] = node_layer
+
+; Feature set entry for the Tile layer
+feature_sets[tile_layer][title] = 'Tile layer'
+feature_sets[tile_layer][description] = 'Allows users to display tiles on a map'
+feature_sets[tile_layer][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/iKNDBg'
+feature_sets[tile_layer][category] = 'Maps'
+feature_sets[tile_layer][icon] = ''
+feature_sets[tile_layer][font] = 'multisite-icon-location'
+feature_sets[tile_layer][enable][] = tile_layer
+feature_sets[tile_layer][disable][] = tile_layer
+
+; Feature set entry for the URL layer
+feature_sets[url_layer][title] = 'URL layer'
+feature_sets[url_layer][description] = 'Allows users to display geospatial data from URLs on a map'
+feature_sets[url_layer][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/iKNDBg'
+feature_sets[url_layer][category] = 'Maps'
+feature_sets[url_layer][icon] = ''
+feature_sets[url_layer][font] = 'multisite-icon-location'
+feature_sets[url_layer][enable][] = url_layer
+feature_sets[url_layer][disable][] = url_layer

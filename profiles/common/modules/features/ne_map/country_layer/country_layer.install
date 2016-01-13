@@ -202,15 +202,6 @@ function country_layer_create_map_country_list_field() {
 
 /**
  * Changes map layer field.
- */
-function country_layer_update_7001() {
-
-  // Changes map layer field.
-  country_layer_change_map_layers_field();
-}
-
-/**
- * Changes map layer field.
  *
  * Adds country layer as target bundles.
  */
@@ -220,4 +211,20 @@ function country_layer_change_map_layers_field() {
   // Adds country layer as target bundles.
   $field_info['settings']['handler_settings']['target_bundles']['country_layer'] = 'country_layer';
   field_update_field($field_info);
+}
+
+/**
+ * Implements hook_enable().
+ */
+function country_layer_enable() {
+  $t = get_t();
+  drupal_set_message($t('Country layer has been enabled.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function country_layer_disable() {
+  $t = get_t();
+  drupal_set_message($t('Country layer has been disabled.'));
 }

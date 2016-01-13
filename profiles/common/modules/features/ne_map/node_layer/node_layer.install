@@ -9,7 +9,7 @@
  */
 function node_layer_install() {
 
-  // Creates the URL map layer.
+  // Creates the node map layer.
   _create_node_layer();
 
   // Changes map layers field to add node layer as target bundle.
@@ -17,7 +17,7 @@ function node_layer_install() {
 }
 
 /**
- * Creates the URL map layer bundle.
+ * Creates the node map layer bundle.
  */
 function _create_node_layer() {
   $bundle = new stdClass();
@@ -40,4 +40,20 @@ function node_layer_change_map_layers_field() {
   // Adds node layer as target bundles.
   $field_info['settings']['handler_settings']['target_bundles']['node_layer'] = 'node_layer';
   field_update_field($field_info);
+}
+
+/**
+ * Implements hook_enable().
+ */
+function node_layer_enable() {
+  $t = get_t();
+  drupal_set_message($t('Node layer has been enabled.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function node_layer_disable() {
+  $t = get_t();
+  drupal_set_message($t('Node layer has been disabled.'));
 }

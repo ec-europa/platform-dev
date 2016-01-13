@@ -1,4 +1,4 @@
-name = Nexteuropa map layer
+name = Map layer
 description = Provides entity that allows users to add a layer to a map.
 package = Nexteuropa maps
 core = 7.x
@@ -6,3 +6,7 @@ project path = profiles/common/modules/features/map_layer
 dependencies[] = inline_entity_form
 dependencies[] = views
 files[] = map_layer.controller.inc
+multisite_version = 2.1
+package = Maps
+php = 5.2.4
+version = 7.x-1.0
