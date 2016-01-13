@@ -82,8 +82,6 @@ function ne_map_install() {
     user_role_grant_permissions($role->rid, $permissions);
   }
 
-  // Creates map layer field.
-  ne_map_create_map_layer_field();
 }
 
 /**
@@ -186,3 +184,24 @@ function ne_map_create_map_layer_field() {
     field_create_instance($instance);
   }
 }
+
+/**
+ * Implements hook_enable().
+ */
+function ne_map_enable() {
+  $t = get_t();
+
+  // Creates map layer field.
+  ne_map_create_map_layer_field();
+
+  drupal_set_message($t('NE map has been enabled.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function ne_map_disable() {
+  $t = get_t();
+  drupal_set_message($t('NE map has been disabled.'));
+}
+
