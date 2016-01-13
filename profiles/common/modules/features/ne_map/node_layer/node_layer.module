@@ -88,10 +88,11 @@ function node_layer_map_layer_inline_entity_form_alter(&$entity_form, $settings,
  * inline entity form. Shares  form elements with the inline entity form.
  */
 function node_layer_form_map_layer_form_alter(&$form, &$form_state, $form_id) {
-
-  // Defines the form elements shared by inline entity and stand alone form.
-  $settings = $form_state['settings'];
-  $form = node_layer_form_elements($form, $settings);
+  if ($form_state['map_layer']->type == 'node_layer') {
+    // Defines the form elements shared by inline entity and stand alone form.
+    $settings = $form_state['settings'];
+    $form = node_layer_form_elements($form, $settings);
+  }
 }
 
 /**

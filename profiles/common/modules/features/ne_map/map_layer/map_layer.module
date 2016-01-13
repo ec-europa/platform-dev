@@ -648,3 +648,16 @@ function map_layer_entity_view($entity, $type, $view_mode, $langcode) {
     $entity->title = NULL;
   }
 }
+
+/**
+ * Implements hook_admin_paths().
+ */
+function map_layer_admin_paths() {
+  if (variable_get('node_admin_theme')) {
+    $paths = array(
+      'map-layer/*/edit' => TRUE,
+      'map-layer/*/delete' => TRUE,
+    );
+    return $paths;
+  }
+}

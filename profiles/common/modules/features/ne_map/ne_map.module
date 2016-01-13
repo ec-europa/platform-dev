@@ -557,6 +557,7 @@ function ne_map_admin_paths() {
   if (variable_get('node_admin_theme')) {
     $paths = array(
       'map/*/edit' => TRUE,
+      'map/add' => TRUE,
       'map/*/delete' => TRUE,
     );
     return $paths;
