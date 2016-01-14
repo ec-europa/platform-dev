@@ -44,9 +44,9 @@ function csv_layer_map_layer_inline_entity_form_alter(&$entity_form, $settings, 
     $entity_form['attribution'] = map_layer_form_elements('attribution', $settings);
     $url = file_create_url(drupal_get_path('module', 'csv_layer') . '/template.txt');
     $entity_form['map_csv'][LANGUAGE_NONE][0]['value']['#description'] .= ' ' . t('<a href="!url">Example</a>', array('!url' => $url));
-    dpm($entity_form);
-  return $entity_form;
-}}
+    return $entity_form;
+  }
+}
 
 /**
  * Implements hook_map_layer_inline_entity_form_submit().

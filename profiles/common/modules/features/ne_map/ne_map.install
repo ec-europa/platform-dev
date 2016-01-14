@@ -204,4 +204,3 @@ function ne_map_disable() {
   $t = get_t();
   drupal_set_message($t('NE map has been disabled.'));
 }
-

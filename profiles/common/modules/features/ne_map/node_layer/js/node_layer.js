@@ -54,9 +54,6 @@ if (typeof Drupal.settings.node_layers !== 'undefined') {
       }
       var index;
       var features = node_layers[i].features;
-
-      console.log(node_layer.layer_settings);
-
       for (index = 0; index < features.length; ++index) {
         var lon = features[index].geometry.coordinates[0];
         var lat = features[index].geometry.coordinates[1];

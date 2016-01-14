@@ -4,6 +4,8 @@
  * Provides field definition for a Node layer field for maps.
  */
 
+module_load_include('inc', 'node_layer', 'node_layer.formatter');
+
 /**
  * Implements hook_map_layer_build_content().
  *
@@ -34,7 +36,7 @@ function node_layer_map_layer_build_content_alter(&$content, $wrapper, $entity) 
           'popup' => drupal_render($node_view),
         );
       }
-      $features = node_layer_prepare_features($items);
+      $features = ne_map_prepare_features($items);
       $layers[] = array(
         'layer_settings' => $settings,
         'label' => $wrapper->title->value(),
