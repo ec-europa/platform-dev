@@ -16,6 +16,11 @@ if (typeof layers_to_enable == 'undefined') {
   var layers_to_enable = [];
 }
 
+// Creates group to be able to fit map to bounds later.
+if (typeof group == 'undefined') {
+  var group = new L.featureGroup;
+}
+
 // Checks for node layers, adds node features to map and layer control.
 // Checks for node layers, adds geoJson features from to map and prepares layer
 // control. Layers and layer control are activated in ne_map.js. The Leaflet
@@ -96,6 +101,9 @@ if (typeof Drupal.settings.node_layers !== 'undefined') {
         }
       });
     }
+
+    // Adds the layer to a group to be able to fit map to bounds later.
+    group.addLayer(id);
 
     // Adds layer attribution if set.
     // @todo. attrib texts gets overwritten when multiple layers of same type.

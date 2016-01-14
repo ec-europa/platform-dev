@@ -99,7 +99,7 @@ function node_layer_field_formatter_view($entity_type, $entity, $field, $instanc
       $settings['control']['show_in_control'] = FALSE;
 
       // Returns geojson formatted geofield data. Uses same approach as
-      // map content type and view. _ne_map_prepare_features
+      // map content type and view. _node_layer_prepare_features
       // expects multiple items that hold multiple features.
       $field_items = array(
         array(

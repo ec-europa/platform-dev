@@ -36,7 +36,7 @@ function node_layer_map_layer_build_content_alter(&$content, $wrapper, $entity) 
           'popup' => drupal_render($node_view),
         );
       }
-      $features = ne_map_prepare_features($items);
+      $features = node_layer_prepare_features($items);
       $layers[] = array(
         'layer_settings' => $settings,
         'label' => $wrapper->title->value(),
@@ -314,7 +314,9 @@ function node_layer_fetch_nodes($filters) {
 
     // Filters result by bundle.
     $query->entityCondition('entity_type', 'node')
-      ->addTag('efq_debug')
+
+      // @todo clean up.
+      // ->addTag('efq_debug')
       ->entityCondition('bundle', $filters['map_content_type']);
 
     // Fetches the geofields in the content type and filters out nodes that
