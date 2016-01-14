@@ -55,8 +55,9 @@ if (typeof Drupal.settings.country_layers !== 'undefined') {
         var code = (feature.properties.CNTR_ID);
         var customEvents = {
           click: function (e) {
-            // @todo. repair url?
-            // window.location.href = countries[code].url;.
+
+            // @todo implement webtools method of linking.
+            window.location.href = countries[code].url;
           }
         };
         layer.on({
