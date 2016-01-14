@@ -193,7 +193,16 @@ function standard_install() {
       'cache' => -1,
     ),
   );
-  $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache'));
+  $query = db_insert('block')->fields(array(
+    'module',
+    'delta',
+    'theme',
+    'status',
+    'weight',
+    'region',
+    'pages',
+    'cache',
+  ));
   foreach ($blocks as $block) {
     $query->values($block);
   }
@@ -264,7 +273,7 @@ function standard_install() {
   // Don't display date, author information for "Basic page" nodes by default.
   variable_set('node_submitted_page', FALSE);
 
-  // Enable user picture support and set the default to a square thumbnail option.
+  // Enable user picture support and set the default to a square thumbnail.
   variable_set('user_pictures', '1');
   variable_set('user_picture_dimensions', '1024x1024');
   variable_set('user_picture_file_size', '800');
