@@ -9,7 +9,7 @@
  */
 function f_a_q_taxonomy_default_vocabularies() {
   return array(
-    'faq_categories' => array(
+    'faq_categories' => (object) array(
       'name' => 'FAQ categories',
       'machine_name' => 'faq_categories',
       'description' => NULL,
