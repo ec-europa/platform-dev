@@ -743,7 +743,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'use PHP to import nodes',
   ));
 
-  //Grant permissions for contributors.
+  // Grant permissions for contributors.
   $permissions = array(
     'access workbench',
     'create article content',
