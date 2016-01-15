@@ -71,7 +71,7 @@ function multisite_drupal_access_node_access_records($node) {
   }
 
   // Allow users to see their own unpublished contents in OG group.
-  if ($node->uid && (empty($node->status) && $groups = og_get_entity_groups('node', $node))) {
+  if (empty($node->status) && $groups = og_get_entity_groups('node', $node)) {
     foreach ($groups['node'] as $gid) {
       $grants[] = array(
         'realm' => "multisite_drupal_access_og_view_own_unpublished_" . $node->uid,
@@ -95,7 +95,7 @@ function multisite_drupal_access_node_grants($account, $op) {
   // Get all OG Group IDs the user is allowed to view unpublished nodes in.
   $entities = og_get_entity_groups();
   foreach ($entities['node'] as $entity_id) {
-    if ($account->uid && og_user_access('node', $entity_id, 'view own unpublished content') || og_user_access('node', $entity_id, 'view all unpublished content')) {
+    if (($account->uid || ($account->uid == 0 && user_access("view own unpublished content"))) && og_user_access('node', $entity_id, 'view own unpublished content') || og_user_access('node', $entity_id, 'view all unpublished content')) {
       $grants['multisite_drupal_access_og_view_own_unpublished_' . $account->uid][] = $entity_id;
     }
   }
