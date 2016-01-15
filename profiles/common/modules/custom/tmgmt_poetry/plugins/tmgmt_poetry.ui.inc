@@ -34,18 +34,6 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#collapsed' => FALSE,
       '#description' => t("General settings for the requests"),
     );
-    $form['settings']['username'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Username'),
-      '#required' => TRUE,
-      '#default_value' => $settings['username'],
-    );
-    $form['settings']['password'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Password'),
-      '#required' => TRUE,
-      '#default_value' => $settings['password'],
-    );
     $form['settings']['counter'] = array(
       '#type' => 'textfield',
       '#title' => t('Counter'),
