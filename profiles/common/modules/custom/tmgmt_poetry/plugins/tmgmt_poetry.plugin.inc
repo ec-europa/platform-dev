@@ -37,9 +37,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
 
     // Check if the general settings are set.
     $settings = $translator->getSetting('settings');
-    if ((isset($settings['username']) && !empty($settings['username'])) &&
-      (isset($settings['password']) && !empty($settings['password'])) &&
-      (isset($settings['counter']) && !empty($settings['counter'])) &&
+    if ((isset($settings['counter']) && !empty($settings['counter'])) &&
       (isset($settings['code']) && !empty($settings['code']))) {
       $general_settings_set = TRUE;
     }
@@ -66,7 +64,9 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     if ((isset($poetry_service['address']) && !empty($poetry_service['address'])) &&
       (isset($poetry_service['method']) && !empty($poetry_service['method'])) &&
       (isset($poetry_service['callback_user']) && !empty($poetry_service['callback_user'])) &&
-      (isset($poetry_service['callback_password']) && !empty($poetry_service['callback_password']))) {
+      (isset($poetry_service['callback_password']) && !empty($poetry_service['callback_password'])) &&
+      (isset($poetry_service['poetry_user']) && !empty($poetry_service['poetry_user'])) &&
+      (isset($poetry_service['poetry_password']) && !empty($poetry_service['poetry_password']))) {
       $poetry_settings_set = TRUE;
     }
     return $organization_set && $contacts_set && $poetry_settings_set && $general_settings_set;
@@ -401,7 +401,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     if ($client) {
       // Send the SOAP request and handle possible errors.
       try {
-        $response = $client->$poetry['method']($settings['username'], $settings['password'], $msg);
+        $response = $client->$poetry['method']($poetry['poetry_user'], $poetry['poetry_password'], $msg);
       }
       catch (Exception $e) {
         $response = 'Error sending soap call : ' . $e->getMessage();
