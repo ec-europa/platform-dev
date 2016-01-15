@@ -51,13 +51,16 @@ function multisite_drupal_access_node_grants($account, $op) {
 */
 
 
+/**
+ * Implements hook_node_access_records().
+ */
 function multisite_drupal_access_node_access_records($node) {
   $grants = array();
 
-  // give the right for any users to view community type
-  if($node->type == 'community')  {
+  // Give the right for any users to view community type.
+  if ($node->type == 'community') {
     $group_type = 'node';
-    $grants[] = array (
+    $grants[] = array(
       'realm' => 'all',
       'gid' => 0,
       'grant_view' => 1,
@@ -67,24 +70,49 @@ function multisite_drupal_access_node_access_records($node) {
     );
   }
 
-  // allow users to see their own unpublished contents
-  if($node->status == 0) {
-    $grants[] = array (
-      'realm' => 'unpublished',
-      'gid' => $node->uid,
-      'grant_view' => 1,
-      'grant_update' => 1,
-      'grant_delete' => 1,
-      'priority' => 0,
-    );
+  // Allow users to see their own unpublished contents in OG group.
+  if ($node->uid && (empty($node->status) && $groups = og_get_entity_groups('node', $node))) {
+    foreach ($groups['node'] as $gid) {
+      $grants[] = array(
+        'realm' => "multisite_drupal_access_og_view_own_unpublished_" . $node->uid,
+        'gid' => $gid,
+        'grant_view' => 1,
+        'grant_update' => 0,
+        'grant_delete' => 0,
+        'priority' => 10,
+      );
+    }
   }
 
   return $grants;
 }
 
+/**
+ * Implements hook_node_grants().
+ */
 function multisite_drupal_access_node_grants($account, $op) {
-  // allow users to see their own unpublished contents
-  $grants['unpublished'] = array($account->uid);
+  $grants = array();
+  // Get all OG Group IDs the user is allowed to view unpublished nodes in.
+  $entities = og_get_entity_groups();
+  foreach ($entities['node'] as $entity_id) {
+    if ($account->uid && og_user_access('node', $entity_id, 'view own unpublished content') || og_user_access('node', $entity_id, 'view all unpublished content')) {
+      $grants['multisite_drupal_access_og_view_own_unpublished_' . $account->uid][] = $entity_id;
+    }
+  }
+
   return $grants;
 }
 
+/**
+ * Implements hook_og_permission().
+ */
+function multisite_drupal_access_og_permission() {
+  // Add OG permission to view unpublished nodes.
+  return array(
+    'view own unpublished content' => array(
+      'title' => t('View own unpublished content'),
+      'description' => t("Allow user to see unpublished content within the group."),
+      'default role' => array(OG_ADMINISTRATOR_ROLE),
+    ),
+  );
+}
