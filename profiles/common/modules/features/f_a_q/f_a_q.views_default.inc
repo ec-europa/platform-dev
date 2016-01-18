@@ -167,12 +167,11 @@ function f_a_q_views_default_views() {
   $handler->display->display_options['fields']['term_node_tid']['label'] = '';
   $handler->display->display_options['fields']['term_node_tid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['term_node_tid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['term_node_tid']['empty'] = 'No category';
   $handler->display->display_options['fields']['term_node_tid']['limit'] = TRUE;
   $handler->display->display_options['fields']['term_node_tid']['vocabularies'] = array(
     'faq_categories' => 'faq_categories',
     'classification' => 0,
-    'idea_categories' => 0,
-    'idea_status' => 0,
     'tags' => 0,
   );
   $handler->display->display_options['path'] = 'faq';
@@ -180,30 +179,6 @@ function f_a_q_views_default_views() {
   $handler->display->display_options['menu']['title'] = 'F.A.Q';
   $handler->display->display_options['menu']['weight'] = '50';
   $handler->display->display_options['menu']['name'] = 'main-menu';
-  $translatables['faq'] = array(
-    t('Master'),
-    t('F.A.Q'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('<h2>Quick answer to common questions</h2>'),
-    t('Edit this item'),
-    t('[edit_node][body]
-'),
-    t('Page'),
-    t('<blockquote>[edit_node][body]</blockquote>
-'),
-  );
   $export['faq'] = $view;
 
   return $export;

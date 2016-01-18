@@ -1328,9 +1328,9 @@ function ec_resp_link($variables) {
       $variables['options']['attributes']['class'] = $classes;
     }
   }
+  $path = ($variables['path'] == '<nolink>') ? '#' : check_plain(url($variables['path'], $variables['options']));
   $output = $action_bar_before . $btn_group_before .
-    '<a href="' .
-    check_plain(url($variables['path'], $variables['options'])) . '"' .
+    '<a href="' . $path . '"' .
     drupal_attributes($variables['options']['attributes']) . '>' . $decoration .
     ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text'])) .
     '</a>' . $btn_group_after . $action_bar_after;
