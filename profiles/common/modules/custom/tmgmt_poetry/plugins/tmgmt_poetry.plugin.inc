@@ -340,7 +340,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $document_source->addAttribute('format', 'HTML');
     $document_source->addChild('documentSourceName', $filename);
     $language = $document_source->addChild('documentSourceLang');
-    $language->addAttribute('lgCode', strtoupper($job->source_language));
+    $language->addAttribute('lgCode', strtoupper($job->getTranslator()->mapToRemoteLanguage($job->source_language)));
     $language->addChild('documentSourceLangPages', '1');
     $document_source->addChild('documentSourceFile', $content);
 
@@ -364,7 +364,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       if (!empty($attribute_action)) {
         $attribution = $request->addChild('attributions');
         $attribution->addAttribute('format', 'HTML');
-        $attribution->addAttribute('lgCode', strtoupper($job_additional_lang_key));
+        $attribution->addAttribute('lgCode', strtoupper($job->getTranslator()->mapToRemoteLanguage($job_additional_lang_key)));
         $attribution->addAttribute('action', $attribute_action);
         $attribution_delai = $attribution->addChild('attributionsDelai', date('d/m/Y', strtotime($job->settings['delai'])));
         $attribution_delai->addAttribute('format', 'DD/MM/YYYY ');
