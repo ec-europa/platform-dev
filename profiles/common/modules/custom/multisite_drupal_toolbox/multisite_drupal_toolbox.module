@@ -1489,7 +1489,7 @@ function multisite_drupal_toolbox_taxonomy_term_delete($term_obj) {
     $current_batch =& batch_get();
     // A batch with an id is currently being executed.
     if (empty($current_batch['id'])) {
-      batch_process('');
+      batch_process();
     }
   }
 }
