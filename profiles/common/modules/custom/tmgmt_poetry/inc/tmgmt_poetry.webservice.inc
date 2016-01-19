@@ -321,11 +321,11 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
                 break;
 
               case 'languageSource':
-                $meta_tag['content'] = $job->source_language;
+                $meta_tag['content'] = $job->getTranslator()->mapToRemoteLanguage($job->source_language);
                 break;
 
               case 'languageTarget':
-                $meta_tag['content'] = $job->target_language;
+                $meta_tag['content'] = $job->getTranslator()->mapToRemoteLanguage($job->target_language);
                 break;
             }
           }
