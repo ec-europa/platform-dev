@@ -1,7 +1,8 @@
 <?php
 /**
  * @file
-
+ * Multisite drupal access.
+ */
 
 /**
  * Implements hook_node_access_records().
