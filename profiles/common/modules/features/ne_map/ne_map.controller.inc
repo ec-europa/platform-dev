@@ -35,7 +35,7 @@ class MapController extends EntityAPIController {
     $field_defaults = array(
       '#theme' => 'field',
       '#access' => TRUE,
-      '#label_display' => 'above',
+      '#label_display' => 'hidden',
       '#view_mode' => 'default',
       '#language' => LANGUAGE_NONE,
       '#field_type' => 'text',
@@ -53,15 +53,6 @@ class MapController extends EntityAPIController {
       0 => array(
         '#markup' => check_plain($entity->description),
       ),
-    ) + $field_defaults;
-
-    // Themes settings like default field.
-    $content['settings'] = array(
-      '#title' => t('Settings'),
-      '#field_name' => 'field_fake_settings',
-      '#items' => array(array('value' => $entity->settings)),
-      '#formatter' => 'text_default',
-      0 => array('#markup' => check_plain($entity->settings)),
     ) + $field_defaults;
 
     $settings = new NEMapSettings();
