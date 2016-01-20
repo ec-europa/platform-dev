@@ -108,6 +108,15 @@ function ne_map_menu() {
     'type' => MENU_LOCAL_TASK,
     'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
   );
+
+  $items['ne_map/webtools'] = array(
+    'title' => 'Webtools example',
+    'page callback' => 'ne_map_webtools',
+    'access arguments' => array('access content'),
+    'type' => MENU_SUGGESTED_ITEM,
+    'file' => 'ne_map.pages.inc',
+  );
+
   return $items;
 }
 

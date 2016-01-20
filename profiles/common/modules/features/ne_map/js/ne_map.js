@@ -61,13 +61,6 @@ L.custom = {
       }
     }
 
-    // Bounds map to markers, if set and if there is a group.
-    if (settings.center.fitbounds == '1') {
-      if (typeof group != 'undefined') {
-        map.fitBounds(group.getBounds(), {padding: [30, 30]});
-      }
-    }
-
     // Adds layers panel to sidebar when there are layers.
     if (typeof layers_panel != 'undefined') {
       layers_panel.addTo(map);

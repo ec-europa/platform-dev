@@ -237,9 +237,6 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
     // Allow modules to alter the settings before entity form submission.
     drupal_alter('map_layer_inline_entity_form_submit', $settings, $map_layer);
 
-    // Allows modules to alter the map_layer settings.
-    drupal_alter('map_layer_settings', $settings, $form_state);
-
     // Stores the layer settings in json (different settings per layer type).
     $map_layer->settings = drupal_json_encode($settings);
 

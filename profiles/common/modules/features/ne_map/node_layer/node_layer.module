@@ -65,7 +65,6 @@ function node_layer_ne_map_build_content_alter(&$custom_js) {
   return $custom_js;
 }
 
-
 /**
  * Implements hook_map_layer_inline_entity_form().
  *
