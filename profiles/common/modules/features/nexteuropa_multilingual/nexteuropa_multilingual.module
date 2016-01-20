@@ -348,7 +348,7 @@ function nexteuropa_multilingual_preprocess_field(&$variables) {
       $variables['label'] = i18n_field_translate_property($instance, 'label', $lang);
     }
     // Translate field value (for select list field).
-    if ($translated_value = i18n_field_translate_allowed_values($field, $lang)) {
+    if ($field['type'] == 'list_text' && $translated_value = i18n_field_translate_allowed_values($field, $lang)) {
       foreach ($variables['items'] as $key => $item) {
         // Get key of the value.
         $key_value = $element['#items'][$key]['value'];
