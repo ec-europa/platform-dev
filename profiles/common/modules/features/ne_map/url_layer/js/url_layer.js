@@ -12,17 +12,17 @@
 if (typeof Drupal.settings.url_layers !== 'undefined') {
   var url_layers = Drupal.settings.url_layers;
 
-// Create layers array if none.
+  // Create layers array if none.
   if (typeof layers_to_control == 'undefined') {
     var layers_to_control = [];
   }
 
-// Create layers to enable array if none.
+  // Create layers to enable array if none.
   if (typeof layers_to_enable == 'undefined') {
     var layers_to_enable = [];
   }
 
-// Creates group to be able to fit map to bounds later.
+  // Creates group to be able to fit map to bounds later.
   if (typeof wt_bounds_group == 'undefined') {
     var wt_bounds_group = [];
   }

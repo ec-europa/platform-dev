@@ -9,7 +9,7 @@ if (typeof control_tile_layers == 'undefined') {
 }
 
 // Defines the layer control switch for the sidebar if there are layers that
-// need control (switch on off) then
+// need control (switch on off).
 if (layers_to_control.length > 0) {
 
   // Defines layers control.
@@ -24,7 +24,7 @@ if (layers_to_control.length > 0) {
     },
   ];
 
-// Hides the layers panel by default.
+  // Hides the layers panel by default.
   var layers_panel = L.wt.sidebar({
     "layers": {
       "tooltip": "Layers",
