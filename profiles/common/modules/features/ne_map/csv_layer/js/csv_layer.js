@@ -12,14 +12,19 @@
 // L.marker method can be used which accepts geoJson features as input.
 if (typeof Drupal.settings.csv_layers !== 'undefined') {
 
-  // Create layers array if none.
-  if (typeof layers == 'undefined') {
-    var layers = [];
+  // Create layers to control array if none.
+  if (typeof layers_to_control == 'undefined') {
+    var layers_to_control = [];
   }
 
   // Create layers to enable array if none.
   if (typeof layers_to_enable == 'undefined') {
     var layers_to_enable = [];
+  }
+
+  // Creates group to be able to fit map to bounds later.
+  if (typeof group == 'undefined') {
+    var group = new L.featureGroup;
   }
 
   var csv_layers = Drupal.settings.csv_layers;
@@ -52,6 +57,13 @@ if (typeof Drupal.settings.csv_layers !== 'undefined') {
     // ne_map.js.
     id = L.wt.markers({"type":"FeatureCollection","features":csv_layers[i].features}, markers_options);
 
+    // Create a marker layer that can be used to get the bounds.
+    var geojson = L.geoJson(csv_layers[i].features, {
+      pointToLayer: function (feature, latlng) {
+        return L.marker(latlng);
+      }
+    });
+
     // Adds layer attribution if set.
     // @todo. attrib texts gets overwritten when multiple layers of same type.
     if (typeof csv_layers[i].layer_settings.attribution != 'undefined') {
@@ -68,13 +80,16 @@ if (typeof Drupal.settings.csv_layers !== 'undefined') {
     if (typeof csv_layers[i].layer_settings.control.enabled != 'undefined') {
       if (csv_layers[i].layer_settings.control.enabled == '1') {
         layers_to_enable.push({"label": csv_layers[i].label, "layer": id});
+
+        // Adds the layer to a group to be able to fit map to bounds later.
+        group.addLayer(geojson);
       }
     }
 
     // Adds all layers to the layercontrol.
     if (typeof csv_layers[i].layer_settings.control.show_in_control != 'undefined') {
       if (csv_layers[i].layer_settings.control.show_in_control == '1') {
-        layers.push({"label": csv_layers[i].label, "layer": id});
+        layers_to_control.push({"label": csv_layers[i].label, "layer": id});
       }
     }
   }

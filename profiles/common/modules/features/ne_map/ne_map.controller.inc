@@ -67,6 +67,9 @@ class MapController extends EntityAPIController {
     // Defines custom JavaScripts to be passed to load.js.
     $custom_js = array();
 
+    // Allow modules to alter the map build.
+    drupal_alter('ne_map_build_content', $custom_js);
+
     // Adds the map layer JavaScript as first (needs to be listed before any
     // other custom scripts).
     // @todo find decent solution.
@@ -74,9 +77,6 @@ class MapController extends EntityAPIController {
       $map_layer_js = base_path() . drupal_get_path('module', 'map_layer') . "/js/map_layer.js?v=" . rand(0, 33333);
       $custom_js[] = $map_layer_js;
     }
-
-    // Allow modules to alter the map build.
-    drupal_alter('ne_map_build_content', $custom_js);
 
     $ne_map_js = base_path() . drupal_get_path('module', 'ne_map') . "/js/ne_map.js?v=" . rand(0, 33333);
     $custom_js[] = $ne_map_js;

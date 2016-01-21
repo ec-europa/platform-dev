@@ -13,13 +13,18 @@
 if (typeof Drupal.settings.node_layers !== 'undefined') {
 
   // Create layers array if none.
-  if (typeof layers == 'undefined') {
-    var layers = [];
+  if (typeof layers_to_control == 'undefined') {
+    var layers_to_control = [];
   }
 
   // Create layers to enable array if none.
   if (typeof layers_to_enable == 'undefined') {
     var layers_to_enable = [];
+  }
+
+  // Creates group to be able to fit map to bounds later.
+  if (typeof group == 'undefined') {
+    var group = new L.featureGroup;
   }
 
   var node_layers = Drupal.settings.node_layers;
@@ -49,10 +54,14 @@ if (typeof Drupal.settings.node_layers !== 'undefined') {
     }
 
     // Creates the map layer.
-    id = L.wt.markers({
-      "type": "FeatureCollection",
-      "features": node_layers[i].features
-    }, markers_options);
+    id = L.wt.markers({"type": "FeatureCollection", "features": node_layers[i].features}, markers_options);
+
+    // Create a marker layer that can be used to get the bounds.
+    var geojson = L.geoJson(node_layers[i].features, {
+      pointToLayer: function (feature, latlng) {
+        return L.marker(latlng);
+      }
+    });
 
     // Adds layer attribution if set.
     // @todo. attrib texts gets overwritten when multiple layers of same type.
@@ -70,13 +79,16 @@ if (typeof Drupal.settings.node_layers !== 'undefined') {
     if (typeof node_layers[i].layer_settings.control.enabled != 'undefined') {
       if (node_layers[i].layer_settings.control.enabled == '1') {
         layers_to_enable.push({"label": node_layers[i].label, "layer": id});
+
+        // Adds the layer to a group to be able to fit map to bounds later.
+        group.addLayer(geojson);
       }
     }
 
     // Adds all layers to the layercontrol.
     if (typeof node_layers[i].layer_settings.control.show_in_control != 'undefined') {
       if (node_layers[i].layer_settings.control.show_in_control == '1') {
-        layers.push({"label": node_layers[i].label, "layer": id});
+        layers_to_control.push({"label": node_layers[i].label, "layer": id});
       }
     }
   }

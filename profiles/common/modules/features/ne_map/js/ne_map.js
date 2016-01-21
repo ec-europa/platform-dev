@@ -61,6 +61,24 @@ L.custom = {
       }
     }
 
+    // Bounds map to markers, if set and if there is a group.
+    if (settings.center.fitbounds == '1') {
+
+      // Node and CSV layers are bound as a group.
+      if (typeof group != 'undefined') {
+        map.fitBounds(group.getBounds(), {padding: [30, 30]});
+      }
+
+      // Fits map to bounds of url layers (different from other layers). URL
+      // layers are bound individually.
+      if (typeof wt_bounds_group != 'undefined') {
+        var arrayLength = wt_bounds_group.length;
+        for (var i = 0; i < arrayLength; i++) {
+          wt_bounds_group[i].fitBounds();
+        }
+      }
+    }
+
     // Adds layers panel to sidebar when there are layers.
     if (typeof layers_panel != 'undefined') {
       layers_panel.addTo(map);

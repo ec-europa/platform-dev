@@ -6,21 +6,26 @@
  * map_layer.js.
  */
 
-// Create layers array if none.
-if (typeof layers == 'undefined') {
-  var layers = [];
-}
-
-// Create layers to enable array if none.
-if (typeof layers_to_enable == 'undefined') {
-  var layers_to_enable = [];
-}
-
 // Checks for URL layers, adds URLs to map and prepares layer control. Layers
 // and layer control are activated in ne_map.js. With URLs the EC corporate
 // L.wt.markers method can be used which accepts public URLs as input.
 if (typeof Drupal.settings.url_layers !== 'undefined') {
   var url_layers = Drupal.settings.url_layers;
+
+// Create layers array if none.
+  if (typeof layers_to_control == 'undefined') {
+    var layers_to_control = [];
+  }
+
+// Create layers to enable array if none.
+  if (typeof layers_to_enable == 'undefined') {
+    var layers_to_enable = [];
+  }
+
+// Creates group to be able to fit map to bounds later.
+  if (typeof wt_bounds_group == 'undefined') {
+    var wt_bounds_group = [];
+  }
 
   // Cycles through URL to fetch settings and URLs.
   var arrayLength = url_layers.length;
@@ -52,13 +57,16 @@ if (typeof Drupal.settings.url_layers !== 'undefined') {
     if (typeof url_layers[i].layer_settings.control.enabled != 'undefined') {
       if (url_layers[i].layer_settings.control.enabled == '1') {
         layers_to_enable.push({"label": url_layers[i].label, "layer": id});
+
+        // Adds the layer to a group to be able to fit map to bounds later.
+        wt_bounds_group.push(id);
       }
     }
 
     // Adds all layers to the layercontrol.
     if (typeof url_layers[i].layer_settings.control.show_in_control != 'undefined') {
       if (url_layers[i].layer_settings.control.show_in_control == '1') {
-        layers.push({"label": url_layers[i].label, "layer": id});
+        layers_to_control.push({"label": url_layers[i].label, "layer": id});
       }
     }
   }
