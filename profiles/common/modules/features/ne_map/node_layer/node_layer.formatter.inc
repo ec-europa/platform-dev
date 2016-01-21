@@ -128,10 +128,10 @@ function node_layer_field_formatter_view($entity_type, $entity, $field, $instanc
       $map = new MapBuild($settings);
 
       // Defines the custom JavaScripts for the webtools JS map library.
-      $map_layer_js = base_path() . drupal_get_path('module', 'map_layer') . "/js/map_layer.js?v=" . rand(0, 33333);
-      $custom_js[] = $map_layer_js;
       $node_layer_js = base_path() . drupal_get_path('module', 'node_layer') . "/js/node_layer.js?v=" . rand(0, 33333);
       $custom_js[] = $node_layer_js;
+      $map_layer_js = base_path() . drupal_get_path('module', 'map_layer') . "/js/map_layer.js?v=" . rand(0, 33333);
+      $custom_js[] = $map_layer_js;
       $ne_map_js = base_path() . drupal_get_path('module', 'ne_map') . "/js/ne_map.js?v=" . rand(0, 33333);
       $custom_js[] = $ne_map_js;
       $map->setMoreCustomJs($custom_js);
