@@ -182,7 +182,6 @@ projects[entityreference][subdir] = "contrib"
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/entityreference-rendered-entity-is-not-language-aware-1674792-85.patch
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
 
-
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
 projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
