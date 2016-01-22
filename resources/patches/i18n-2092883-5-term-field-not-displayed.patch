@@ -1,0 +1,41 @@
+From 5753b3f28c5f25d56b2d57fe4c3414c0f33015b9 Mon Sep 17 00:00:00 2001
+From: Axel Rutz <axel.rutz@clever-systems.net>
+Date: Thu, 21 Aug 2014 03:26:56 +0200
+Subject: [PATCH] Issue #2092883 by paolomainardi, axel.rutz | ictineo: Fixed
+ Field not displayed & Notice
+
+---
+ i18n_taxonomy/i18n_taxonomy.module |   10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/i18n_taxonomy/i18n_taxonomy.module b/i18n_taxonomy/i18n_taxonomy.module
+index 4053348..74282a7 100644
+--- a/i18n_taxonomy/i18n_taxonomy.module
++++ b/i18n_taxonomy/i18n_taxonomy.module
+@@ -213,7 +213,7 @@ function i18n_taxonomy_field_formatter_view($entity_type, $entity, $field, $inst
+           );
+         }
+         else {
+-          $term = $item['taxonomy_term'];
++          $term = isset($item['taxonomy_term']) ? $item['taxonomy_term'] : taxonomy_term_load($item['tid']);
+           $uri = entity_uri('taxonomy_term', $term);
+           $element[$delta] = array(
+             '#type' => 'link',
+@@ -227,7 +227,13 @@ function i18n_taxonomy_field_formatter_view($entity_type, $entity, $field, $inst
+ 
+     case 'i18n_taxonomy_term_reference_plain':
+       foreach ($items as $delta => $item) {
+-        $name = ($item['tid'] != 'autocreate' ? i18n_taxonomy_term_name($item['taxonomy_term'], $language->language): $item['name']);
++        if ($item['tid'] == 'autocreate') {
++          $name = $item['name'];
++        }
++        else {
++          $term = isset($item['taxonomy_term']) ? $item['taxonomy_term'] : taxonomy_term_load($item['tid']);
++          $name = i18n_taxonomy_term_name($term, $language->language);
++        }
+         $element[$delta] = array(
+           '#markup' => check_plain($name),
+         );
+-- 
+1.7.9.5
+
