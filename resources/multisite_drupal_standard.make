@@ -180,6 +180,8 @@ projects[entityreference][subdir] = "contrib"
 ; https://www.drupal.org/node/1674792
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6056
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/entityreference-rendered-entity-is-not-language-aware-1674792-85.patch
+projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
+
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
