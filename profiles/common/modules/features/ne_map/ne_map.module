@@ -502,6 +502,7 @@ class NEMapSettings {
         'lat' => 55.106,
         'lon' => 28.154,
         'fitbounds' => TRUE,
+        'fitbounds_padding' => variable_get('ne_map_fitbounds_padding', 30),
       ),
       'tiles' => array(
         'tiles' => 'osmec',
@@ -524,7 +525,6 @@ class NEMapSettings {
       'icon' => array(
         'icon' => 'blue',
       ),
-      'padding' => variable_get('mapeditor_fitbounds_padding', 30),
       'show_settings' => FALSE,
     );
   }
