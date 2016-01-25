@@ -849,7 +849,7 @@ function _cce_basic_config_post_install_default_users() {
   foreach ($users as $user) {
     // Add user accounts.
     $account = new stdClass();
-    $account->is_new = $account->status TRUE;
+    $account->is_new = $account->status = TRUE;
     $account->name = $user['name'];
     $account->pass = user_hash_password('pass');
     $account->mail = $user['mail'];
