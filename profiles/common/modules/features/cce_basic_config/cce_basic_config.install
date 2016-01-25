@@ -815,6 +815,54 @@ function _cce_basic_config_post_install_user_roles_perms() {
 }
 
 /**
+ * Initialize default users.
+ */
+function _cce_basic_config_post_install_default_users() {
+  include_once DRUPAL_ROOT . '/includes/password.inc';
+  // Dummy domain used for default email addresses.
+  $default_email_domain = 'nomail.nodomain.notld';
+
+  $users = array(
+    array(
+      "name" => "user_administrator",
+      "mail" => 'administrator@' . $default_email_domain,
+      "field_firstname" => 'John',
+      "field_lastname" => 'Smith',
+      "role" => "administrator",
+    ),
+    array(
+      "name" => "user_contributor",
+      "mail" => 'contributor@' . $default_email_domain,
+      "field_firstname" => 'John',
+      "field_lastname" => 'Doe',
+      "role" => "contributor",
+    ),
+    array(
+      "name" => "user_editor",
+      "mail" => 'administrator@' . $default_email_domain,
+      "field_firstname" => 'John',
+      "field_lastname" => 'Blake',
+      "role" => "editor",
+    ),
+  );
+
+  foreach ($users as $user) {
+    // Add user accounts.
+    $account = new stdClass();
+    $account->is_new = $account->status TRUE;
+    $account->name = $user['name'];
+    $account->pass = user_hash_password('pass');
+    $account->mail = $user['mail'];
+    $account->init = $account->mail;
+    $role = user_role_load_by_name($user['role']);
+    $account->roles[$role->rid] = $user['role'];
+    $account->field_firstname['und'][0]['value'] = $user['field_firstname'];
+    $account->field_lastname['und'][0]['value'] = $user['field_lastname'];
+    user_save($account);
+  }
+}
+
+/**
  * Initialize menu items.
  */
 function _cce_basic_config_post_install_default_menu_items() {
@@ -918,6 +966,7 @@ function cce_basic_config_post_install() {
   _cce_basic_config_post_install_default_menu_items();
   _cce_basic_config_post_install_default_terms();
   _cce_basic_config_post_install_apachesolr();
+  _cce_basic_config_post_install_default_users();
 }
 
 /**
@@ -940,59 +989,6 @@ function cce_basic_config_uninstall() {
  * Implements hook_enable().
  */
 function cce_basic_config_enable() {
-  include_once DRUPAL_ROOT . '/includes/password.inc';
-  // Dummy domain used for default email addresses.
-  $default_email_domain = 'nomail.nodomain.notld';
-
-  // Add user accounts.
-  $account = new stdClass();
-  $account->is_new = TRUE;
-  $account->status = TRUE;
-  $account->name = 'user_administrator';
-  $account->pass = user_hash_password('pass');
-  $account->mail = 'administrator@' . $default_email_domain;
-  $account->init = $account->mail;
-  $account->roles[3] = 'administrator';
-  $account->field_firstname['und'][0]['value'] = 'John';
-  $account->field_lastname['und'][0]['value'] = 'Smith';
-  user_save($account);
-
-  $account1 = new stdClass();
-  $account1->is_new = TRUE;
-  $account1->status = TRUE;
-  $account1->name = 'user_contributor';
-  $account1->pass = user_hash_password('pass');
-  $account1->mail = 'contributor@' . $default_email_domain;
-  $account1->init = $account1->mail;
-  $account1->roles[4] = 'contributor';
-  $account1->field_firstname['und'][0]['value'] = 'John';
-  $account1->field_lastname['und'][0]['value'] = 'Doe';
-  user_save($account1);
-
-  $account2 = new stdClass();
-  $account2->is_new = TRUE;
-  $account2->status = TRUE;
-  $account2->name = 'user_editor';
-  $account2->pass = user_hash_password('pass');
-  $account2->mail = 'editor@' . $default_email_domain;
-  $account2->init = $account2->mail;
-  $account2->roles[5] = 'editor';
-  $account2->field_firstname['und'][0]['value'] = 'John';
-  $account2->field_lastname['und'][0]['value'] = 'Blake';
-  user_save($account2);
-
-  // Assign dummy content to the 'administrator' user.
-  $query = db_select('node', 'n');
-  $query->condition('n.type', 'article', '=')
-    ->fields('n', array('nid', 'title', 'uid'));
-  $results = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
-
-  foreach ($results as $result) {
-    $node = node_load($result['nid']);
-    $node->uid = $account->uid;
-    node_save($node);
-  }
-
   variable_set('user_classes', 'btn btn-info btn-xs');
   variable_set('user_myaccount_data_image', 'user');
 
