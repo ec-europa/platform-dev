@@ -16,12 +16,12 @@ if (typeof Drupal.settings.tile_layers !== 'undefined') {
     var layers_to_control = [];
   }
 
-// Create layers to enable array if none.
+  // Create layers to enable array if none.
   if (typeof layers_to_enable == 'undefined') {
     var layers_to_enable = [];
   }
 
-// Create tile layers array if none.
+  // Create tile layers array if none.
   if (typeof control_tile_layers == 'undefined') {
     var control_tile_layers = [];
   }
