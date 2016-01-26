@@ -180,6 +180,7 @@ projects[entityreference][subdir] = "contrib"
 ; https://www.drupal.org/node/1674792
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6056
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/entityreference-rendered-entity-is-not-language-aware-1674792-85.patch
+projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
@@ -223,7 +224,7 @@ projects[field_collection][subdir] = "contrib"
 projects[field_collection][version] = "1.0-beta10"
 
 projects[field_group][subdir] = "contrib"
-projects[field_group][version] = "1.4"
+projects[field_group][version] = "1.5"
 ; https://www.drupal.org/node/2604284
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
@@ -288,6 +289,7 @@ projects[hidden_captcha][version] = "1.0"
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.13"
 projects[i18n][patch][] = patches/i18n-hide_language_field-3996.patch
+projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.x-dev"

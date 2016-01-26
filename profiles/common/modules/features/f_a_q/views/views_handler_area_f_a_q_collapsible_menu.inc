@@ -22,15 +22,15 @@ class views_handler_area_f_a_q_collapsible_menu extends views_handler_area {
       'type' => 'expand',
       'action_bar' => 'first',
       'btn_group' => 'first',
-      'class' => 'action-expand',
+      'class' => array('action-expand'),
     );
-    $output .= l(t('Expand all'), '', array('attributes' => $attributes));
+    $output .= l(t('Expand all'), '<nolink>', array('attributes' => $attributes));
     $attributes = array(
       'type' => 'collapse',
       'btn_group' => 'last',
-      'class' => 'action-collapse',
+      'class' => array('action-collapse'),
     );
-    $output .= l(t('Collapse all'), '', array('attributes' => $attributes));
+    $output .= l(t('Collapse all'), '<nolink>', array('attributes' => $attributes));
 
     return $output;
   }
