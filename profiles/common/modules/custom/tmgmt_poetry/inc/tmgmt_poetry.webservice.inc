@@ -7,7 +7,7 @@
 /**
  * Implements hook_menu().
  */
-function tmgmt_poetry_menu() {
+function _tmgmt_poetry_webservices_menu() {
   $items = array();
   $items['tmgmt_poetry/service_callback'] = array(
     'page callback' => '_tmgmt_poetry_service_callback',

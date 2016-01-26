@@ -8,6 +8,25 @@ module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.access_control');
 module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.webservice');
 
 /**
+ * Implements hook_menu().
+ */
+function tmgmt_poetry_menu() {
+  $items = array();
+  $items['node/%node/dgt_connector'] = array(
+    'title' => 'DGT Connector',
+    'access arguments' => array('create translation jobs'),
+    'page callback' => 'tmgmt_job_poetry_form',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 4,
+  );
+  $items = array_merge($items, _tmgmt_poetry_webservices_menu());
+  return $items;
+}
+
+
+/**
  * Implements hook_entity_info_alter().
  */
 function tmgmt_poetry_entity_info_alter(&$entity_info) {
@@ -125,6 +144,17 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
     if (count($job_items) > 0) {
       $job_item = array_shift($job_items);
     }
+  }
+
+  // Simplified Poetry translation request interface.
+  $arg = arg();
+  if (isset($arg[2]) && $arg[2] == 'dgt_connector') {
+    hide($form['job_items_wrapper']);
+    hide($form['translator_wrapper']['translator']);
+    hide($form['translator_wrapper']['settings']['languages']);
+    hide($form['translator_wrapper']['settings']['organization']);
+    hide($form['actions']['submit']);
+    hide($form['actions']['delete']);
   }
 }
 
@@ -267,4 +297,41 @@ function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $de
         'delai' => $delai,
       ))
       ->execute();
+}
+
+/**
+ * Helper to provide a simplified poetry job request interface.
+ *
+ * @param int $nid
+ *   Id of the node to translate.
+ */
+function tmgmt_job_poetry_form($node) {
+  $entity_language = entity_language('node', $node);
+  $items = tmgmt_job_item_load_all_latest('entity', 'node', $node->nid, $entity_language);
+
+  // Check if there is already a empty job created.
+  if($items && in_array('', array_keys($items))) {
+    $job = tmgmt_job_load($items['']->tjid);
+  }
+  else {
+    // Create the job.
+    $job = tmgmt_job_create($entity_language, '');
+
+    // Create a job item.
+    $job->addItem('entity', 'node', $node->nid);
+    $job->save();
+  }
+  // Create the entity form for the job.
+  $form = entity_form('tmgmt_job', $job);
+  return $form;
+}
+
+/**
+ * Implements hook_theme.
+ */
+function tmgmt_poetry_custom_theme() {
+  $arg = arg();
+  if (isset($arg[2]) && $arg[2] == 'dgt_connector') {
+    return variable_get('admin_theme');
+  }
 }
