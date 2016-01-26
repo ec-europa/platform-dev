@@ -331,7 +331,7 @@ function ne_map_form_elements($group, $settings, $options = NULL) {
       class='description'></div>";
       $form_element['height']['#attached']['js'][] = array(
         'type' => 'file',
-        'data' => drupal_get_path('module', 'mapeditor') . '/js/forms.js',
+        'data' => drupal_get_path('module', 'ne_map') . '/js/forms.js',
       );
       $form_element['height']['#attached']['js'][] = array(
         'data' => array(
