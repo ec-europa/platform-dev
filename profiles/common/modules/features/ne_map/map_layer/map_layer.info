@@ -1,6 +1,5 @@
 name = Map layer
 description = Provides entity that allows users to add a layer to a map.
-package = Nexteuropa maps
 core = 7.x
 project path = profiles/common/modules/features/map_layer
 dependencies[] = inline_entity_form

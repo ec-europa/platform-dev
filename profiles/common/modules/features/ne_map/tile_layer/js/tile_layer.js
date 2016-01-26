@@ -6,25 +6,26 @@
  * map_layer.js.
  */
 
-// Create layers array if none.
-if (typeof layers == 'undefined') {
-  var layers = [];
-}
-
-// Create layers to enable array if none.
-if (typeof layers_to_enable == 'undefined') {
-  var layers_to_enable = [];
-}
-
-// Create tile layers array if none.
-if (typeof control_tile_layers == 'undefined') {
-  var control_tile_layers = [];
-}
-
 // Checks for tile layers, adds tiles to map and prepares layer control. Layers
 // and layer control are activated in ne_map.js. With tiles the EC corporate
 // L.wt.tileLayer method can be used which accepts tile names as input.
 if (typeof Drupal.settings.tile_layers !== 'undefined') {
+
+  // Create layers array if none.
+  if (typeof layers_to_control == 'undefined') {
+    var layers_to_control = [];
+  }
+
+  // Create layers to enable array if none.
+  if (typeof layers_to_enable == 'undefined') {
+    var layers_to_enable = [];
+  }
+
+  // Create tile layers array if none.
+  if (typeof control_tile_layers == 'undefined') {
+    var control_tile_layers = [];
+  }
+
   var tile_layers = Drupal.settings.tile_layers;
 
   // Cycles through URL to fetch settings and URLs.

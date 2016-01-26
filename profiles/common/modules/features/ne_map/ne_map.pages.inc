@@ -20,7 +20,7 @@ function ne_map_view($map) {
  */
 function ne_map_webtools() {
   global $base_url;
-  $load_js = variable_get('webtools_environment', NE_MAP_WEBTOOLS_ENVIRONMENT);
+  $load_js = variable_get('ne_map_webtools_environment', NE_MAP_WEBTOOLS_ENVIRONMENT);
   $element = array(
     '#type' => 'markup',
     '#markup' => "<script async src='${load_js}' type='text/javascript'></script>",

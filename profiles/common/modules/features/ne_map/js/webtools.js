@@ -18,7 +18,7 @@ L.custom = {
     });
 
     // Defines tile layer.
-    var tileLayer = L.wt.tileLayer("osmec").addTo(map);
+    var tileLayer = L.wt.tileLayer("gray").addTo(map);
 
     // Defines example features.
     var features = [{
@@ -71,7 +71,16 @@ L.custom = {
       "features": features
     }, markers_options);
     markers.addTo(map);
-    markers.fitBounds();
+
+    var group = new L.featureGroup;
+    // Create a marker layer that can be used to get the bounds.
+    var geojson = L.geoJson(features, {
+      pointToLayer: function (feature, latlng) {
+        return L.marker(latlng);
+      }
+    });
+    group.addLayer(geojson);
+    map.fitBounds(group.getBounds(), {padding: [30,30]});
 
     var kml = L.wt.markers(["http://europa.eu/webtools/test/data/geojson.js"], {
       color: "orange",
@@ -90,11 +99,11 @@ L.custom = {
     var countries_options = {
       style: function (feature) {
         return {
-          fillColor: "#0065a2",
+          fillColor: "yellow",
           weight: 2,
-          opacity: 1,
-          color: "#0065a2",
-          fillOpacity: 0.15,
+          opacity: 0.5,
+          color: "black",
+          fillOpacity: 0.5,
           dashArray: '0'
         };
       },

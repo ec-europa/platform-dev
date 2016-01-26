@@ -7,7 +7,6 @@ dependencies[] = views
 dependencies[] = inline_entity_form
 dependencies[] = entityreference
 files[] = ne_map.controller.inc
-package = Nexteuropa maps
 project path = profiles/common/modules/features/ne_map
 multisite_version = 2.1
 package = Maps
