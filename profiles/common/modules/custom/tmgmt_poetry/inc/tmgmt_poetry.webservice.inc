@@ -105,6 +105,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
   // Authenticate the request.
   if (_tmgmt_poetry_authenticate($user, $password)) {
     $languages = language_list();
+    $poetry_translator = tmgmt_translator_load('poetry');
     // Load the received XML and load the referenced Job.
     $xml = simplexml_load_string($msg);
     $request = $xml->request;
@@ -190,6 +191,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           if (isset($status['lgCode']) && !empty($status['lgCode'])) {
             $reference = '%' . $reference;
             $language_job = array(strtolower((string) $status['lgCode']));
+            $lanaguage_job = $poetry_translator->mapToLocalLanguage($language_job);
           }
           else {
             $reference = 'MAIN_%_POETRY_%' . $reference;
@@ -213,6 +215,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     foreach ($request->attributions as $attributions) {
       $reference = '%' . $reference;
       $language_job = array(strtolower((string) $attributions['lgCode']));
+      $language_job = $poetry_translator->mapToLocalLanguage($language_job);
       $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)->fetchAll();
       $ids = array_shift($ids);
       $job = tmgmt_job_load($ids->tjid);

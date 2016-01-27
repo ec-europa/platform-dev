@@ -66,7 +66,7 @@ function tmgmt_poetry_test_receive_translation() {
 
   $languages = $job->settings['languages'];
 
-  $languages[$job->target_language] = $job->target_language;
+  $languages[$job->getTranslator()->mapToRemoteLanguage($job->target_language)] = $job->getTranslator()->mapToRemoteLanguage($job->target_language);
 
   foreach ($languages as $language) {
     if ($language) {
