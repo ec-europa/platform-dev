@@ -302,7 +302,7 @@ function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $de
 /**
  * Helper to provide a simplified poetry job request interface.
  *
- * @param int $nid
+ * @param object $node
  *   Id of the node to translate.
  */
 function tmgmt_job_poetry_form($node) {
@@ -310,7 +310,7 @@ function tmgmt_job_poetry_form($node) {
   $items = tmgmt_job_item_load_all_latest('entity', 'node', $node->nid, $entity_language);
 
   // Check if there is already a empty job created.
-  if($items && in_array('', array_keys($items))) {
+  if ($items && in_array('', array_keys($items))) {
     $job = tmgmt_job_load($items['']->tjid);
   }
   else {
@@ -327,7 +327,7 @@ function tmgmt_job_poetry_form($node) {
 }
 
 /**
- * Implements hook_theme.
+ * Implements hook_theme().
  */
 function tmgmt_poetry_custom_theme() {
   $arg = arg();
