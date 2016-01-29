@@ -2135,3 +2135,11 @@ function cce_basic_config_update_7209() {
   );
   db_change_field('date_format_locale', 'format', 'format', $spec);
 }
+
+/**
+ * MULTISITE-7598: Disable and uninstall media_crop related modules.
+ */
+function cce_basic_config_update_7210() {
+  module_disable(array('multisite_crop_and_resize', 'media_crop'), FALSE);
+  drupal_uninstall_modules(array('multisite_crop_and_resize', 'media_crop'), FALSE);
+}
