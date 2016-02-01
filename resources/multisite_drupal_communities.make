@@ -16,3 +16,4 @@ projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
 projects[og_linkchecker][download][type] = git
 projects[og_linkchecker][subdir] = contrib
+projects[og_linkchecker][patch][] = https://www.drupal.org/files/issues/og_linkchecker-og-2-x-compatibility-2214661-2.patch

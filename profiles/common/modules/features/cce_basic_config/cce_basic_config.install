@@ -19,11 +19,30 @@ function cce_basic_config_requirements($phase) {
   $requirements['install_tag'] = array(
     'title' => $t('Tag'),
     'value' => $t('%profile_tag ', array(
-        '%profile_tag' => variable_get('multisite_version'),
-      )),
+      '%profile_tag' => variable_get('multisite_version'),
+    )),
     'severity' => REQUIREMENT_INFO,
     'weight' => -8,
   );
+
+  if (file_exists(DRUPAL_ROOT . '/continuousphp.package')) {
+    if ($continuousphp_package = file_get_contents(DRUPAL_ROOT . '/continuousphp.package')) {
+      $info = json_decode($continuousphp_package, TRUE);
+      $t = get_t();
+      $requirements['git_ref'] = array(
+        'title' => $t('Git ref'),
+        'value' => $info['ref'],
+        'severity' => REQUIREMENT_INFO,
+        'weight' => -7,
+      );
+      $requirements['git_commit'] = array(
+        'title' => $t('Git commit'),
+        'value' => l($info['commit'], 'https://github.com/ec-europa/platform-dev/commit/' . $info['commit']),
+        'severity' => REQUIREMENT_INFO,
+        'weight' => -7,
+      );
+    }
+  }
   return $requirements;
 }
 
@@ -354,19 +373,20 @@ function cce_basic_config_install() {
   variable_set('rate_widgets', $rate_widgets);
 
   if (db_table_exists('captcha_points')) {
-    db_update('captcha_points')
-      ->fields(array('captcha_type' => 'default'))
-      ->condition('form_id', 'contact_site_form')
+    db_insert('captcha_points')
+      ->fields(array('captcha_type' => NULL, 'form_id' => 'forum_node_form'))
       ->execute();
 
-    db_update('captcha_points')
-      ->fields(array('captcha_type' => 'default'))
-      ->condition('form_id', 'user_register_form')
+    db_insert('captcha_points')
+      ->fields(array('captcha_type' => NULL, 'form_id' => 'user_login'))
       ->execute();
 
-    db_update('captcha_points')
-      ->fields(array('captcha_type' => 'default'))
-      ->condition('form_id', 'contact_personal_form')
+    db_insert('captcha_points')
+      ->fields(array('captcha_type' => NULL, 'form_id' => 'user_login_block'))
+      ->execute();
+
+    db_insert('captcha_points')
+      ->fields(array('captcha_type' => NULL, 'form_id' => 'user_pass'))
       ->execute();
   }
 
@@ -449,6 +469,458 @@ function cce_basic_config_install() {
   foreach ($dynamic_variables as $variable => $value) {
     variable_set($variable, $value);
   }
+}
+
+/**
+ * Initialize 'theme default' and 'admin theme'.
+ */
+function _cce_basic_config_post_install_theme() {
+  // Define themes.
+  $themes = array(
+    'theme_default' => 'ec_resp',
+    'admin_theme' => 'seven',
+  );
+  theme_enable($themes);
+
+  foreach ($themes as $var => $theme) {
+    if (!is_numeric($var)) {
+      variable_set($var, $theme);
+    }
+  }
+}
+
+/**
+ * Initialize default blocks.
+ */
+function _cce_basic_config_post_install_default_blocks() {
+  // Enable standard blocks.
+  $default_theme = variable_get('theme_default', 'bartik');
+  $admin_theme = 'seven';
+  $blocks = array(
+    array(
+      'module' => 'system',
+      'delta' => 'main',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'node',
+      'delta' => 'recent',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 10,
+      'region' => 'dashboard_main',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'help',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'help',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'main',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'help',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'help',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'user',
+      'delta' => 'new',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'dashboard_sidebar',
+      'pages' => '',
+      'cache' => -1,
+    ),
+  );
+  $query = db_insert('block')->fields(array(
+    'module',
+    'delta',
+    'theme',
+    'status',
+    'weight',
+    'region',
+    'pages',
+    'cache',
+  ));
+  foreach ($blocks as $block) {
+    $query->values($block);
+  }
+  $query->execute();
+
+  // Disable the Workbench block.
+  db_update('block')
+    ->fields(array('region' => '-1'))
+    ->condition('module', 'workbench', '=')
+    ->condition('delta', 'block', '=')
+    ->execute();
+
+}
+
+/**
+ * Initialize apachesorl.
+ */
+function _cce_basic_config_post_install_apachesolr() {
+  // Disable all Solr environments for the remainder of this request. We are
+  // going to create some files, and need to prevent the apachesolr module from
+  // trying to update the Solr indexes when hook_entity_save() fires.
+  // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3659
+  $environments = &drupal_static('apachesolr_load_all_environments');
+  $environments = array();
+
+  // At the end of the installation cron will be run. During cron an error
+  // might occur in the apachesolr_multisitesearch module when it tries to
+  // update the solr metadata for servers that may not be configured, or may
+  // not be reachable from the environment where the site is being installed.
+  // We can work around it by tricking the module into thinking it has already
+  // performed its updates.
+  // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3659
+  global $conf;
+  $conf['apachesolr_multisitesearch_last_metadata_fetch'] = REQUEST_TIME;
+  $conf['apachesolr_multisitesearch_last_metadata_update'] = REQUEST_TIME;
+
+}
+
+/**
+ * Initialize content type.
+ *
+ * Add 'page' and ''article' CT and their body.
+ */
+function _cce_basic_config_post_install_default_content_type() {
+  // Insert default pre-defined node types into the database. For a complete
+  // list of available node type attributes, refer to the node type API
+  // documentation at: http://api.drupal.org/api/HEAD/function/hook_node_info.
+  $t = get_t();
+  $types = array(
+    array(
+      'type' => 'page',
+      'name' => $t('Basic page'),
+      'base' => 'node_content',
+      'description' => $t("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+    ),
+    array(
+      'type' => 'article',
+      'name' => $t('Article'),
+      'base' => 'node_content',
+      'description' => $t('Use <em>articles</em> for time-sensitive content.'),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+    ),
+  );
+
+  foreach ($types as $type) {
+    $type = node_type_set_defaults($type);
+    node_type_save($type);
+    node_add_body_field($type);
+  }
+
+  // Insert default pre-defined RDF mapping into the database.
+  $rdf_mappings = array(
+    array(
+      'type' => 'node',
+      'bundle' => 'page',
+      'mapping' => array(
+        'rdftype' => array('foaf:Document'),
+      ),
+    ),
+    array(
+      'type' => 'node',
+      'bundle' => 'article',
+      'mapping' => array(
+        'field_image' => array(
+          'predicates' => array('og:image', 'rdfs:seeAlso'),
+          'type' => 'rel',
+        ),
+        'field_tags' => array(
+          'predicates' => array('dc:subject'),
+          'type' => 'rel',
+        ),
+      ),
+    ),
+  );
+  foreach ($rdf_mappings as $rdf_mapping) {
+    rdf_mapping_save($rdf_mapping);
+  }
+}
+
+/**
+ * Initialize user configuration (picture, registration...).
+ */
+function _cce_basic_config_post_install_user_config() {
+  // Enable user picture support and set the default to a square thumbnail
+  // option.
+  variable_set('user_pictures', '1');
+  variable_set('user_picture_dimensions', '1024x1024');
+  variable_set('user_picture_file_size', '800');
+  variable_set('user_picture_style', 'thumbnail');
+  // Allow visitor account creation with administrative approval.
+  variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
+}
+
+/**
+ * Initialize default images.
+ */
+function _cce_basic_config_post_install_default_images() {
+  // Set default images.
+  $theme_path = drupal_get_path('theme', 'ec_resp');
+  $default_images = array(
+    'user_picture_default' => 'user_default.png',
+    'empty_gallery_default' => 'empty_gallery.png',
+  );
+
+  foreach ($default_images as $variable => $default_image) {
+    $file = new stdClass();
+    $file->fid = NULL;
+    $file->uri = "public://default_images/" . $default_image;
+    $file->filename = $default_image;
+    $file->filemime = file_get_mimetype($file->uri);
+    $file->uid = 1;
+    $file->status = FILE_STATUS_PERMANENT;
+    $f = file_save($file);
+    variable_set($variable, $file->uri);
+  }
+}
+
+/**
+ * Initialize user roles and permissions.
+ */
+function _cce_basic_config_post_install_user_roles_perms() {
+  // Create a default role for site administrators, with all available
+  // permissions assigned.
+  $admin_role = new stdClass();
+  $admin_role->name = 'administrator';
+  $admin_role->weight = 2;
+  user_role_save($admin_role);
+  user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
+
+  // Set this as the administrator role.
+  variable_set('user_admin_role', $admin_role->rid);
+
+  // Assign user 1 the "administrator" role.
+  db_insert('users_roles')
+    ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
+    ->execute();
+
+  // Grant permissions for administrators.
+  user_role_revoke_permissions($admin_role->rid, array(
+    'administer features',
+    'administer modules',
+    'administer software updates',
+    'manage features',
+    'use PHP to import nodes',
+  ));
+
+  // Contributor role.
+  $contributor_role = new stdClass();
+  $contributor_role->name = 'contributor';
+  user_role_save($contributor_role);
+  // Grant permissions for contributors.
+  user_role_grant_permissions($contributor_role->rid, array(
+    'access workbench',
+    'create article content',
+    'delete own article content',
+    'edit own article content',
+    'moderate content from draft to needs_review',
+    'moderate content from needs_review to draft',
+    'revert revisions',
+    'use workbench_moderation my drafts tab',
+    'use workbench_moderation needs review tab',
+    'view all unpublished content',
+    'view moderation history',
+    'view moderation messages',
+    'view own unpublished content',
+    'view revisions',
+    'access media browser',
+  ));
+
+  // Editor role.
+  $editor_role = new stdClass();
+  $editor_role->name = 'editor';
+  user_role_save($editor_role);
+  // Grant permissions for editors.
+  user_role_grant_permissions($editor_role->rid, array(
+    'create article content',
+    'delete any article content',
+    'delete own article content',
+    'delete revisions',
+    'edit any article content',
+    'edit own article content',
+    'export nodes',
+    'moderate content from draft to needs_review',
+    'moderate content from needs_review to draft',
+    'moderate content from needs_review to published',
+    'moderate content from needs_review to validated',
+    'moderate content from published to archived',
+    'moderate content from validated to published',
+    'revert revisions',
+    'use workbench_moderation my drafts tab',
+    'use workbench_moderation needs review tab',
+    'view all unpublished content',
+    'view own unpublished content',
+    'access media browser',
+  ));
+
+  // Grant permissions for authenticated users.
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array(
+    'access PDF version',
+    'access print',
+    'access site-wide contact form',
+    'access user contact forms',
+    'access user profiles',
+    'access workbench',
+    'use text format full_html',
+    'view moderation history',
+    'view moderation messages',
+    'view own unpublished content',
+    'view revisions',
+  ));
+
+  // Grant permissions for anonymous users.
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array(
+    'access PDF version',
+    'access print',
+    'access site-wide contact form',
+    'access user contact forms',
+    'access user profiles',
+    'post comments',
+    'search content',
+    'use advanced search',
+  ));
+}
+
+/**
+ * Initialize menu items.
+ */
+function _cce_basic_config_post_install_default_menu_items() {
+  $t = get_t();
+  // Create a Home link in the main menu.
+  $item = array(
+    'link_title' => $t('Home'),
+    'link_path' => '<front>',
+    'menu_name' => 'main-menu',
+  );
+  menu_link_save($item);
+
+  // Add login link to the user menu.
+  $options = array();
+  $options['attributes']['title'] = $t('Login');
+  $options['attributes']['class'][] = 'btn';
+  $options['attributes']['class'][] = 'btn-default';
+  $options['attributes']['data-image'] = 'log-in';
+  $options['attributes']['data-toggle'] = 'tooltip';
+  $options['attributes']['data-placement'] = 'bottom';
+  $options['attributes']['data-container'] = 'body';
+  $item = array(
+    'link_path' => 'user/login',
+    'link_title' => $t('Login'),
+    'menu_name' => 'user-menu',
+    'options' => $options,
+  );
+  menu_link_save($item);
+
+  // Add workbench link to the user menu.
+  $options = array();
+  $options['attributes']['title'] = $t('My workbench');
+  $options['attributes']['class'][] = 'btn';
+  $options['attributes']['class'][] = 'btn-info';
+  $options['attributes']['data-image'] = 'list-alt';
+  $options['attributes']['data-display-title'] = 0;
+  $options['attributes']['data-toggle'] = 'tooltip';
+  $options['attributes']['data-placement'] = 'bottom';
+  $options['attributes']['data-container'] = 'body';
+
+  $item = array(
+    'link_path' => 'admin/workbench',
+    'link_title' => $t('My workbench'),
+    'menu_name' => 'user-menu',
+    'weight' => '-30',
+    'options' => $options,
+  );
+  menu_link_save($item);
+
+  // Add search links to the main menu.
+  $item = array(
+    'link_path' => 'search/site',
+    'link_title' => $t('Search'),
+    'menu_name' => 'main-menu',
+    'weight' => '19999',
+  );
+  menu_link_save($item);
+
+  // Update home link in the main menu.
+  $options = array();
+  $options['attributes']['data-display-title'] = 0;
+  $options['attributes']['data-image'] = 'home';
+  db_update('menu_links')
+    ->fields(array('options' => serialize($options), 'weight' => '-50'))
+    ->condition('link_title', 'Home')
+    ->condition('menu_name', 'main-menu')
+    ->execute();
+
+}
+
+/**
+ * Insert default terms.
+ */
+function _cce_basic_config_post_install_default_terms() {
+  // Add dummy terms in 'tags' vocabulary.
+  $vocabulary = taxonomy_vocabulary_machine_name_load('tags');
+  $term = new stdClass();
+  $term->name = "sport";
+  $term->vid = $vocabulary->vid;
+  taxonomy_term_save($term);
+
+  $term = new stdClass();
+  $term->name = "economic";
+  $term->vid = $vocabulary->vid;
+  taxonomy_term_save($term);
+}
+
+/**
+ * Finalize profile installation by inserting some site configurations.
+ *
+ * Insert user roles, assign permission to roles, define themes,
+ * define basic content type, etc...
+ */
+function cce_basic_config_post_install() {
+  _cce_basic_config_post_install_theme();
+  _cce_basic_config_post_install_default_blocks();
+  _cce_basic_config_post_install_default_content_type();
+  _cce_basic_config_post_install_user_config();
+  _cce_basic_config_post_install_user_roles_perms();
+  _cce_basic_config_post_install_default_images();
+  _cce_basic_config_post_install_default_menu_items();
+  _cce_basic_config_post_install_default_terms();
+  _cce_basic_config_post_install_apachesolr();
 }
 
 /**
@@ -896,6 +1368,7 @@ function cce_basic_config_update_7180() {
       }
     }
   }
+  $module_path = drupal_get_path('module', 'rate');
 
   $rate_widgets[1] = (object) array(
     'name' => 'rate_fivestar',
@@ -949,8 +1422,8 @@ function cce_basic_config_update_7180() {
     'use_source_translation' => TRUE,
     'value_type' => 'percent',
     'theme' => 'rate_template_fivestar',
-    'css' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.css',
-    'js' => 'sites/all/modules/contributed/rate/templates/fivestar/fivestar.js',
+    'css' => $module_path . '/templates/fivestar/fivestar.css',
+    'js' => $module_path . '/templates/fivestar/fivestar.js',
     'translate' => TRUE,
   );
   variable_set("rate_widgets", $rate_widgets);
@@ -981,8 +1454,7 @@ function cce_basic_config_update_7191() {
     ->fields(array(
       'weight' => '-30',
       'menu_name' => 'user-menu',
-      )
-     )
+    ))
     ->condition('link_title', 'My workbench', '=')
     ->condition('menu_name', 'main-menu', '=')
     ->execute();
@@ -1343,7 +1815,7 @@ function cce_basic_config_update_7199() {
   $tags .= "\nvideo";
   variable_set('security_allowed_tags', $tags);
 
-  variable_set('print_pdf_pdf_tool', 'print_pdf_mpdf|sites/all/libraries/mpdf/mpdf.php');
+  variable_set('print_pdf_pdf_tool', 'print_pdf_mpdf|' . libraries_get_path('mpdf') . '/mpdf.php');
 }
 
 /**
@@ -1641,4 +2113,25 @@ function cce_basic_config_update_7208() {
   }
 
   variable_set('multisite_version', '2.1');
+}
+
+/**
+ * Drupal 7.41 update.
+ *
+ * Added here in case the update 7080 of system module was already
+ * executed on existing sites.
+ * Convert the 'format' column in {date_format_locale}
+ * to case sensitive varchar.
+ *
+ * @see system_update_7080()
+ */
+function cce_basic_config_update_7209() {
+  $spec = array(
+    'description' => 'The date format string.',
+    'type' => 'varchar',
+    'length' => 100,
+    'not null' => TRUE,
+    'binary' => TRUE,
+  );
+  db_change_field('date_format_locale', 'format', 'format', $spec);
 }

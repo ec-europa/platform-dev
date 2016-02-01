@@ -207,8 +207,7 @@ function e_library_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['field'] = 'gid';
     $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
     $handler->display->display_options['arguments']['gid']['default_action'] = 'default';
-    $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'php';
-    $handler->display->display_options['arguments']['gid']['default_argument_options']['code'] = 'return $_SESSION[\'og_context\'][\'gid\'];';
+    $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'e_library_og_context_session_groups';
     $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';

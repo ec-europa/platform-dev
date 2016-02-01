@@ -24,14 +24,12 @@ function text_collapse_enable() {
         'format' => 'full_html',
         'status' => 1,
         'settings' => serialize(array('form' => '1', 'default_title' => COLLAPSE_TEXT_DEFAULT_TITLE)),
-    ))
+      ))
       ->execute();
   }
   else {
     db_update('filter')
-      ->fields(array(
-      'status' => 1,
-      ))
+      ->fields(array('status' => 1))
       ->condition('module', 'collapse_text', '=')
       ->condition('name', 'collapse_text_filter', '=')
       ->condition('format', 'full_html', '=')
