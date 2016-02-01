@@ -183,13 +183,7 @@ function nexteuropa_newsroom_menu() {
  *   Agenda content,
  */
 function _nexteuropa_newsroom_agenda($view, $arg1 = NULL, $arg2 = NULL, $arg3 = NULL, $arg4 = NULL, $arg5 = NULL) {
-  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgenda');
-  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaItem');
   module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaFactory');
-  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaDay');
-  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaWeek');
-  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaMonth');
-  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaSchedule');
 
   $factory = new NewsroomAgendaFactory();
   return $factory->buildAgenda($view, $arg1, $arg2, $arg3, $arg4, $arg5)->getAgenda();
@@ -1109,7 +1103,7 @@ function nexteuropa_newsroom_node_view($node, $view_mode, $langcode) {
     $topics = array_merge($primary_topics, $topics);
     // Loop through topics (start with primary) to find menu item.
     foreach ($topics as $topic) {
-      if ($path = fetchActiveMenu($topic->tid)) {
+      if ($path = NewsroomHelper::fetchActiveMenu($topic->tid)) {
         // Set menu item and stop the search.
         menu_tree_set_path('main-menu', $path);
         break;
@@ -1725,7 +1719,7 @@ function nexteuropa_newsroom_theme($existing, $type, $theme, $path) {
       'template' => 'zoomable-image',
       'path' => $path . '/theme',
     ),
-    'newsroom_summary_block' => array(
+    'newsroom_summary' => array(
       'variables' => array(
         'items' => array(),
         'title' => NULL,
@@ -1734,16 +1728,26 @@ function nexteuropa_newsroom_theme($existing, $type, $theme, $path) {
       'template' => 'newsroom-summary-block',
       'path' => $path . '/theme',
     ),
-    'newsroom_summary_block_item' => array(
+    'newsroom_summary_block' => array(
       'variables' => array(
         'items' => array(),
         'title' => NULL,
-        'highlighted' => NULL,
-        'title' => NULL,
+        'classes' => array(),
         'type_url' => NULL,
         'url' => NULL,
       ),
       'template' => 'newsroom-block',
+      'path' => $path . '/theme',
+    ),
+    'newsroom_summary_block_item' => array(
+      'variables' => array(
+        'items' => array(),
+        'title' => NULL,
+        'classes' => array(),
+        'type_url' => NULL,
+        'url' => NULL,
+      ),
+      'template' => 'newsroom-block-item',
       'path' => $path . '/theme',
     ),
     'newsroom_agenda_page' => array(

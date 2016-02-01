@@ -55,6 +55,16 @@ class NewsroomHelper {
   public static function getNewsroomUrl() {
     return 'newsroom/' . implode('/', func_get_args());
   }
+  
+  /**
+   * Returns newsroom agenda URL.
+   *
+   * @return string
+   *   Newsroom agenda URL.
+   */
+  public static function getNewsroomAgendaUrl() {
+    return 'newsroom-agenda/' . implode('/', func_get_args());
+  }
 
   /**
    * Prepare options for the content type select.
@@ -191,7 +201,7 @@ class NewsroomHelper {
 
     // Check if they are added to menu.
     $menu_items = array();
-    // Fetch enities associated to topic using the special field.
+    // Fetch entities associated to topic using the special field.
     $topic_entities = NewsroomHelper::getNodesAssociatedToTopics($topic_id);
 
     if (count($topic_entities) > 0) {
