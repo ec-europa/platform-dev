@@ -28,7 +28,7 @@ function ecas_extra_menu() {
  */
 function ecas_extra_action_info() {
   return array(
-    'deny_account_action' => array(
+    'ecas_extra_deny_account_action' => array(
       'type' => 'user',
       'label' => t('Deny the activation of a user account.'),
       'configurable' => FALSE,
@@ -50,7 +50,7 @@ function ecas_extra_action_info() {
  *
  * @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3626
  */
-function deny_account_action_form($context) {
+function ecas_extra_deny_account_action_form($context) {
   $form['user_roles'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Available roles'),
@@ -63,10 +63,10 @@ function deny_account_action_form($context) {
  *
  * @todo Prefix the function name with the module name.
  *
- * @see deny_account_action_form()
+ * @see ecas_extra_deny_account_action_form()
  * @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3626
  */
-function deny_account_action_submit($form, $form_state) {
+function ecas_extra_deny_account_action_submit($form, $form_state) {
   $roles = array();
 
   // Keep only the selected roles.
@@ -92,7 +92,7 @@ function deny_account_action_submit($form, $form_state) {
  *
  * @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3626
  */
-function deny_account_action(&$object, $context) {
+function ecas_extra_deny_account_action(&$object, $context) {
   global $user, $base_url;
 
   // Avoid working with crap data.

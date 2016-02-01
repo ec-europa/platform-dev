@@ -7,107 +7,113 @@
 include_once 'multisite_translations.features.inc';
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function multisite_translations_form_alter(&$form, &$form_state, $form_id) {
-  switch ($form_id) {
-    case 'tmgmt_job_form':
-      // Put warning message to show the translation jobs in progress
-      // get all nodes related to the current job.
-      $job_nodes = db_select('tmgmt_job_item', 'tji')
-        ->fields('tji', array('item_id'))
-        ->condition('tjid', arg(5))
-        ->execute();
+function multisite_translations_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) {
+  // Put warning message to show the translation jobs in progress
+  // get all nodes related to the current job.
+  $job_nodes = db_select('tmgmt_job_item', 'tji')
+    ->fields('tji', array('item_id'))
+    ->condition('tjid', arg(5))
+    ->execute();
 
-      $output = "";
-      $check_job_translation = FALSE;
-      $language_list = language_list();
-      // Check if these nodes are related to other jobs translations.
-      while ($job_node = $job_nodes->fetchObject()) {
-        $query = db_select('tmgmt_job_item', 'tji');
-        $query->innerJoin('tmgmt_job', 'tj', 'tj.tjid = tji.tjid');
-        $results = $query->condition('tji.item_id', $job_node->item_id)
-          ->condition('tji.state', TMGMT_JOB_ITEM_STATE_REVIEW)
-          ->fields('tj', array('target_language'))
-          ->fields('tji', array('item_id'))
-          ->execute();
-        while ($result = $results->fetchObject()) {
-          $node = node_load($result->item_id);
-          $target_language = $language_list[$result->target_language]->name;
-          $output .= "<li>translation for <b>$node->title</b> in <b>$target_language</b> is already requested</li>";
-          $check_job_translation = TRUE;
-        }
-      }
-      if ($check_job_translation) {
-        drupal_set_message(t('<b>Translation jobs in progress !</b><br><ul> !output</ul>', array('!output' => $output)), 'warning');
-      }
-
-      break;
-
-    case 'locale_languages_predefined_form':
-      // Generate translation roles after adding new languages
-      // and add translation skills to user_administrator.
-      $form['#submit'][] = 'create_translation_roles';
-      break;
-
-    case "views_form_tmgmt_node_source_overview_page":
-      // Tmgmt admin node source page :
-      // disable content that have pending job translation requests.
-      $enabled_languages = language_list('enabled');
-      $count_enabled_languages = count($enabled_languages[1]) - 1;
-
-      if (isset($form['views_bulk_operations'])) {
-        foreach ($form['views_bulk_operations'] as $key => $value) {
-          if (isset($value['#return_value'])) {
-            $query = new EntityFieldQuery();
-            $return = $query
-              ->entityCondition('entity_type', 'tmgmt_job_item')
-              ->propertyCondition('item_type', 'node')
-              ->propertyCondition('item_id', $value['#return_value'])
-              ->propertyCondition('state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
-              ->count()
-              ->execute();
-            if ($return == $count_enabled_languages) {
-              // If they are a pending translation for each enabled languages
-              // => disable checkbox.
-              $form['views_bulk_operations'][$key]['#disabled'] = TRUE;
-            }
-          }
-        }
-      }
-      break;
-
-    case 'tmgmt_node_ui_node_form':
-        $node = node_load(arg(1));
-      // Hide request translation on node translation
-      // (display only on source node).
-      if ($node->tnid != $node->nid && $node->tnid != 0) {
-        foreach ($form['languages']['#options'] as $id => $option) {
-          $form['languages'][$id] = array('#disabled' => TRUE, '#type' => 'checkbox');
-        }
-        $form['actions']['#attributes']['class'][] = 'element-invisible';
-      }
-      break;
+  $output = "";
+  $check_job_translation = FALSE;
+  $language_list = language_list();
+  // Check if these nodes are related to other jobs translations.
+  while ($job_node = $job_nodes->fetchObject()) {
+    $query = db_select('tmgmt_job_item', 'tji');
+    $query->innerJoin('tmgmt_job', 'tj', 'tj.tjid = tji.tjid');
+    $results = $query->condition('tji.item_id', $job_node->item_id)
+      ->condition('tji.state', TMGMT_JOB_ITEM_STATE_REVIEW)
+      ->fields('tj', array('target_language'))
+      ->fields('tji', array('item_id'))
+      ->execute();
+    while ($result = $results->fetchObject()) {
+      $node = node_load($result->item_id);
+      $target_language = $language_list[$result->target_language]->name;
+      $output .= "<li>translation for <b>$node->title</b> in <b>$target_language</b> is already requested</li>";
+      $check_job_translation = TRUE;
+    }
   }
+  if ($check_job_translation) {
+    drupal_set_message(t('<b>Translation jobs in progress !</b><br><ul> !output</ul>', array('!output' => $output)), 'warning');
+  }
+}
 
-  if (substr($form_id, -9) == 'node_form') {
-    // Disable the language field since there are pending
-    // job translation items on this node.
-    if (isset($form['nid']['#value'])) {
-      $query = new EntityFieldQuery();
-      $return = (boolean) $query
-        ->entityCondition('entity_type', 'tmgmt_job_item')
-        ->propertyCondition('item_type', 'node')
-        ->propertyCondition('item_id', $form['nid']['#value'])
-        ->propertyCondition('state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
-        ->execute();
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_translations_form_locale_languages_predefined_form_alter(&$form, &$form_state, $form_id) {
+  // Generate translation roles after adding new languages
+  // and add translation skills to user_administrator.
+  $form['#submit'][] = 'create_translation_roles';
+}
 
-      if ($return) {
-        $form['language']['#disabled'] = TRUE;
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_translations_form_views_form_tmgmt_node_source_overview_page_alter(&$form, &$form_state, $form_id) {
+  // Tmgmt admin node source page :
+  // disable content that have pending job translation requests.
+  $enabled_languages = language_list('enabled');
+  $count_enabled_languages = count($enabled_languages[1]) - 1;
+
+  if (isset($form['views_bulk_operations'])) {
+    foreach ($form['views_bulk_operations'] as $key => $value) {
+      if (isset($value['#return_value'])) {
+        $query = new EntityFieldQuery();
+        $return = $query
+          ->entityCondition('entity_type', 'tmgmt_job_item')
+          ->propertyCondition('item_type', 'node')
+          ->propertyCondition('item_id', $value['#return_value'])
+          ->propertyCondition('state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
+          ->count()
+          ->execute();
+        if ($return == $count_enabled_languages) {
+          // If they are a pending translation for each enabled languages
+          // => disable checkbox.
+          $form['views_bulk_operations'][$key]['#disabled'] = TRUE;
+        }
       }
     }
   }
+}
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_translations_form_tmgmt_node_ui_node_form_alter(&$form, &$form_state, $form_id) {
+  $node = node_load(arg(1));
+  // Hide request translation on node translation
+  // (display only on source node).
+  if ($node->tnid != $node->nid && $node->tnid != 0) {
+    foreach ($form['languages']['#options'] as $id => $option) {
+      $form['languages'][$id] = array('#disabled' => TRUE, '#type' => 'checkbox');
+    }
+    $form['actions']['#attributes']['class'][] = 'element-invisible';
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function multisite_translations_form_node_form_alter(&$form, &$form_state, $form_id) {
+  // Disable the language field since there are pending
+  // job translation items on this node.
+  if (isset($form['nid']['#value'])) {
+    $query = new EntityFieldQuery();
+    $return = (boolean) $query
+      ->entityCondition('entity_type', 'tmgmt_job_item')
+      ->propertyCondition('item_type', 'node')
+      ->propertyCondition('item_id', $form['nid']['#value'])
+      ->propertyCondition('state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<>')
+      ->execute();
+
+    if ($return) {
+      $form['language']['#disabled'] = TRUE;
+    }
+  }
 }
 
 /**

@@ -91,7 +91,6 @@ function nexteuropa_editorial_install() {
   multisite_config_service('title')->replaceTitleField('node', 'editorial_team', 'title');
 
   // Add NextEuropa specific moderation states.
-  multisite_config_service('workbench_moderation')->createModerationState('validated', 'Validated', 'Ready to be reviewed', 0);
   multisite_config_service('workbench_moderation')->createModerationState('expired', 'Expired', 'Not visible to site visitors', 100);
 
   // Build all possible states transitions.
