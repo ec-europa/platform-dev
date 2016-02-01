@@ -17,7 +17,7 @@ function nexteuropa_newsroom_enable() {
   drupal_set_message(t('Newsroom %v feature is now active on your site.', array('%v' => _nexteuropa_newsroom_get_version())));
   cache_clear_all('plugins:feeds:plugins', 'cache');
   // Add to solR.
-  multisite_drupal_toolbox_config_solr_bundle('newsroom_item', 'add');
+  multisite_drupal_toolbox_config_solr_bundle(NEWSROOM_CONTENT_TYPE, 'add');
 }
 
 /**
@@ -27,15 +27,15 @@ function nexteuropa_newsroom_disable() {
   drupal_set_message(t('Newsroom %v feature is now inactive on your site.', array('%v' => _nexteuropa_newsroom_get_version())));
 
   // Delete from solR.
-  multisite_drupal_toolbox_config_solr_bundle('newsroom_item', 'delete');
+  multisite_drupal_toolbox_config_solr_bundle(NEWSROOM_CONTENT_TYPE, 'delete');
 }
 
 /**
  * Implements hook_schema().
  */
 function nexteuropa_newsroom_schema() {
-  $schema['cache_newsroom'] = drupal_get_schema_unprocessed('system', 'cache');
-  $schema['cache_newsroom']['description'] = 'Cache table for the Newsroom module to store already menu paths for newsroom items and other variables.';
+  $schema[NEWSROOM_CACHE_TABLE] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema[NEWSROOM_CACHE_TABLE]['description'] = 'Cache table for the Newsroom module to store already menu paths for newsroom items and other variables.';
   return $schema;
 }
 
@@ -43,7 +43,6 @@ function nexteuropa_newsroom_schema() {
  * Implements hook_install().
  */
 function nexteuropa_newsroom_install() {
-  variable_set('newsroom_block_by', 'type');
   variable_set('newsroom_summary_block_num_items', 3);
   variable_set('newsroom_summary_block_num_highlighted_items', 3);
   variable_set('newsroom_summary_home_block_num_agenda', 3);
@@ -52,7 +51,6 @@ function nexteuropa_newsroom_install() {
   variable_set('newsroom_universe_root', 'http://ec.europa.eu/information_society/newsroom/cf/dae/');
   variable_set('newsroom_summary_block_columns', 1);
   variable_set('newsroom_display_agenda', 1);
-  variable_set('newsroom_url_mode', 'name');
   variable_set('newsroom_navigation_depth', 1);
   variable_set('newsroom_agenda_after_highlights', 1);
   variable_set('newsroom_display_highlights_begin', 1);
@@ -159,4 +157,16 @@ function nexteuropa_newsroom_update_7105() {
         field_bp_newsroom_actions,
         field_bp_newsroom_ac_operator
   ');
+}
+
+/**
+ * Remove obsolete from newsroom selection content type.
+ */
+function nexteuropa_newsroom_update_7106() {
+  field_delete_field('field_selected_categories');
+  field_delete_field('field_newsroom_category');
+  field_purge_batch(1000);
+  return t('The following fields have been deleted from your db:
+    field_newsroom_category,
+    field_selected_categories');
 }

@@ -68,17 +68,17 @@ function nexteuropa_newsroom_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'newsroom-newsroom_admin_tools' => array(
+        'nexteuropa_newsroom-newsroom_related_content' => array(
+          'module' => 'nexteuropa_newsroom',
+          'delta' => 'newsroom_related_content',
+          'region' => 'content',
+          'weight' => '48',
+        ),
+        'nexteuropa_newsroom-newsroom_admin_tools' => array(
           'module' => 'nexteuropa_newsroom',
           'delta' => 'newsroom_admin_tools',
           'region' => 'content',
-          'weight' => '2',
-        ),
-        'views-newsroom_related_content-block' => array(
-          'module' => 'views',
-          'delta' => 'newsroom_related_content-block',
-          'region' => 'content',
-          'weight' => '1',
+          'weight' => '49',
         ),
       ),
     ),
@@ -88,6 +88,7 @@ function nexteuropa_newsroom_context_default_contexts() {
   // Translatables
   // Included for use with string extractors like potx.
   t('newsroom');
+
   $export['newsroom_item'] = $context;
 
   $context = new stdClass();

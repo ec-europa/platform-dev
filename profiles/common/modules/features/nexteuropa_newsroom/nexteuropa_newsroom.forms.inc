@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Nexteuropa Newsroom Forms.
@@ -75,8 +76,7 @@ function nexteuropa_newsroom_restore_conf_all($form, &$form_state) {
     );
 
     batch_set($batch);
-  }
-  else {
+  } else {
     drupal_set_message(t("We couldn't get the backup for the vocabulary: @voc", array('@voc' => $voc)), 'warning');
   }
 }
@@ -107,8 +107,7 @@ function nexteuropa_newsroom_backup_conf($form, &$form_state) {
   // If no backup have been saved, save it for for the first time.
   if (empty($current_values)) {
     variable_set($voc . '_backup', $new_values);
-  }
-  else {
+  } else {
     // Override the values for the specific term.
     $new_values = reset($new_values);
     $current_values[$id] = $new_values;
@@ -147,7 +146,6 @@ function nexteuropa_newsroom_form_taxonomy_form_term_alter(&$form, &$form_state)
       );
 
       break;
-
   }
 }
 
@@ -176,10 +174,18 @@ function nexteuropa_newsroom_form_taxonomy_overview_terms_alter(&$form, &$form_s
   }
 }
 
+function nexteuropa_newsroom_date_popup_process_alter(&$element, &$form_state, $context) {
+  if ($form_state['build_info']['form_id'] == 'nexteuropa_newsroom_agenda_datepicker_form') {
+    unset($element['date']['#title']);
+    unset($element['date']['#description']);
+  }
+}
+
 /**
  * Implements hook_form_alter().
  */
 function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
+ 
   if ($form_id == 'newsroom_item_node_form') {
     // Build language aware options list for taxonomy reference fields.
     $terms = array();
@@ -383,8 +389,7 @@ function nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax($form,
   if ($subscription['status'] == 'Failed') {
     form_set_error('email', $subscription['feedbackMessage']);
     $commands[] = ajax_command_invoke($selector . ' #edit-email', 'addClass', array('error'));
-  }
-  else {
+  } else {
     $type = ($subscription['isNewUser'] === "False" && $subscription['isNewSubscription'] === "False") ? 'warning' : 'status';
     drupal_set_message($subscription['feedbackMessage'], $type);
     $commands[] = ajax_command_invoke($selector . ' #edit-email', 'removeClass', array('error'));
@@ -428,8 +433,7 @@ function nexteuropa_newsroom_list_filter_form($form, &$form_state) {
         '#value' => t('Reset filter'),
         '#weight' => 10,
       );
-    }
-    else {
+    } else {
       $form['countries'] = array(
         '#title' => t('Filter by country'),
         '#type' => 'select',
@@ -459,11 +463,129 @@ function nexteuropa_newsroom_list_filter_submit(&$form, &$form_state) {
   $target_country = $form_state['values']['countries'] == '0' ? '' : $form_state['values']['countries'];
 
   if (!empty($arguments[2]) && !empty($arguments[2][0])) {
-    $path = _nexteuropa_newsroom_get_newsroom_url($arguments[2][0], $target_country);
-  }
-  else {
-    $path = _nexteuropa_newsroom_get_newsroom_url('all', $target_country);
+    $path = NewsroomHelper::getNewsroomUrl($arguments[2][0], $target_country);
+  } else {
+    $path = NewsroomHelper::getNewsroomUrl('all', $target_country);
   }
 
   drupal_goto($path);
+}
+
+/**
+ * Defines newsroom agenda filter form.
+ */
+function nexteuropa_newsroom_agenda_filter_form($form, &$form_state, $view, $type_id, $topic_id, $current_date) {
+  $arguments = $form_state['build_info']['args'];
+
+  $temp = new stdClass();
+  $temp->type = NEWSROOM_CONTENT_TYPE;
+  node_object_prepare($temp);
+  
+  $field_instance = field_info_instance('node', 'field_newsroom_topics', NEWSROOM_CONTENT_TYPE);
+  $field = field_info_field('field_newsroom_topics');
+  $topic_options = taxonomy_options_list($field, $field_instance, 'node', $temp);
+  $field_instance = field_info_instance('node', 'field_newsroom_item_type', NEWSROOM_CONTENT_TYPE);
+  $field = field_info_field('field_newsroom_item_type');
+  $type_options = taxonomy_options_list($field, $field_instance, 'node', $temp);
+
+  $events_types = NewsroomHelper::getEventsTermsIds();
+
+  // Filter out non events type.
+  foreach ($type_options as $key => $type_item) {
+    if (!in_array($key, $events_types)) {
+      unset($type_options[$key]);
+    }
+  }
+
+  $empty = array(t('- None -'));
+  $type_options = $empty + $type_options;
+  $topic_options = $empty + $topic_options;
+
+  $form = array();
+  $form['type_id'] = array(
+    '#type' => 'select',
+    '#title' => t('Type'),
+    '#options' => $type_options,
+    '#default_value' => $type_id,
+  );
+  $form['topic_id'] = array(
+    '#type' => 'select',
+    '#title' => t('Topic'),
+    '#options' => $topic_options,
+    '#default_value' => $topic_id,
+  );
+  $form['current_date'] = array(
+    '#type' => 'hidden',
+    '#value' => $current_date,
+  );
+  $form['view'] = array(
+    '#type' => 'hidden',
+    '#value' => $view,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#ajax' => array(
+      'callback' => 'nexteuropa_newsroom_agenda_ajax_form_submit',
+    ),
+    '#value' => t('Filter'),
+  );
+
+  return $form;
+}
+
+/**
+ * Defines newsroom agenda filter form.
+ */
+function nexteuropa_newsroom_agenda_datepicker_form($form, &$form_state, $view, $type_id, $topic_id, $current_date) {
+  $form = array();
+  $form['current_date'] = array(
+    '#type' => 'date_popup',
+    '#title' => t('Current date'),
+    '#default_value' => $current_date,
+    '#date_type' => DATE_DATETIME,
+    '#date_timezone' => date_default_timezone(),
+    '#date_format' => 'Y-m-d',
+    '#date_increment' => 1,
+    '#date_year_range' => '-2:+2',
+    '#ajax' => array(
+      'callback' => 'nexteuropa_newsroom_agenda_ajax_form_submit',
+    ),
+  );
+  $form['view'] = array(
+    '#type' => 'hidden',
+    '#value' => $view,
+  );
+  $form['type_id'] = array(
+    '#type' => 'hidden',
+    '#value' => $type_id,
+  );
+  $form['topic_id'] = array(
+    '#type' => 'hidden',
+    '#value' => $topic_id,
+  );
+  return $form;
+}
+
+function nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
+
+  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaFactory');
+
+  $view = isset($form_state['input']['view']) ? $form_state['input']['view'] : NULL;
+  $date = isset($form_state['input']['current_date']['date']) ? $form_state['input']['current_date']['date'] : date('Y-m-d');
+  $topic_id = isset($form_state['input']['topic_id']) ? $form_state['input']['topic_id'] : NULL;
+  $type_id = isset($form_state['input']['type_id']) ? $form_state['input']['type_id'] : NULL;
+  
+  $topics = array();
+  $topic = taxonomy_term_load($topic_id);
+  if ($topic) {
+    $topics[] = $topic;
+  }
+  $type = taxonomy_term_load($type_id);
+  $factory = new NewsroomAgendaFactory();
+  $agenda = $factory->build($view, $type, $topics, new DateTime($date));
+  
+  ctools_include('ajax');
+  $commands[] = ctools_ajax_command_redirect($agenda->getNavigationUrl($agenda->getCurrentDate()));
+
+  return array('#type' => 'ajax', '#commands' => $commands);
 }

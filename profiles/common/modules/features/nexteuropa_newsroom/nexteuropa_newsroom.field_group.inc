@@ -155,6 +155,7 @@ function nexteuropa_newsroom_field_group_info() {
       4 => 'field_newsroom_short_item',
       5 => 'field_newsroom_teaser_only',
       6 => 'field_related_content',
+      7 => 'field_newsroom_parent_content',
     ),
     'format_type' => 'tab',
     'format_settings' => array(

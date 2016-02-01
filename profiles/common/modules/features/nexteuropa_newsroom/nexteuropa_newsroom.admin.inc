@@ -9,8 +9,8 @@
  */
 function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   // Be aware about the selected content types in the fields fieldset.
-  $sel_ct = _nexteuropa_newsroom_get_instances('select');
-  $top_ct = _nexteuropa_newsroom_get_instances('topic');
+  $sel_ct = NewsroomHelper::getFieldInstances('select');
+  $top_ct = NewsroomHelper::getFieldInstances('topic');
   // Get some information basing on the activation of the universe id.
   $universe_id = _nexteuropa_newsroom_check_universe_id();
 
@@ -67,16 +67,6 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     ),
   );
 
-  $form['newsroom_others']['newsroom_block_by'] = array(
-    '#type' => 'select',
-    '#title' => t('List items in the summary blocks by'),
-    '#options' => array(
-      'type' => 'Item type',
-      'collection' => 'Collection',
-    ),
-    '#default_value' => variable_get('newsroom_block_by', 'type'),
-  );
-
   $form['newsroom_others']['newsroom_order_by_last_update'] = array(
     '#type' => 'checkbox',
     '#title' => t('Sort newsroom boxes chronologically in the summary blocks'),
@@ -99,16 +89,6 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Display Agenda after the highlights'),
     '#default_value' => variable_get('newsroom_agenda_after_highlights', 1),
-  );
-
-  $form['newsroom_others']['newsroom_url_mode'] = array(
-    '#type' => 'select',
-    '#title' => t('Newsroom URL pattern based on'),
-    '#options' => array(
-      'name' => 'Term Name',
-      'tid' => 'Term ID',
-    ),
-    '#default_value' => variable_get('newsroom_url_mode', 'name'),
   );
 
   $form['newsroom_others']['newsroom_proposal_url'] = array(
@@ -186,7 +166,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#type' => 'checkboxes',
     '#title' => t('Newsroom content types topic'),
     '#description' => t('Choose the content types in which you want to activate a relationship with a newsroom topic.'),
-    '#options' => _nexteuropa_newsroom_prepare_options('ct'),
+    '#options' => NewsroomHelper::prepareOptions('ct'),
     '#multiple' => TRUE,
     '#default_value' => $top_ct,
   );
@@ -204,7 +184,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#type' => 'checkboxes',
     '#title' => t('Newsroom content types select'),
     '#description' => t('Choose the content types in which you want to activate a complex relationship with the newsroom items.'),
-    '#options' => _nexteuropa_newsroom_prepare_options('ct'),
+    '#options' => NewsroomHelper::prepareOptions('ct'),
     '#multiple' => TRUE,
     '#default_value' => $sel_ct,
   );
@@ -286,21 +266,21 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   $form['newsroom_blocks']['newsroom_summary_block_columns'] = array(
     '#type' => 'select',
     '#title' => t('Number of columns to use on the summary blocks'),
-    '#options' => _nexteuropa_newsroom_prepare_options(2),
+    '#options' => NewsroomHelper::prepareOptions(2),
     '#default_value' => variable_get('newsroom_summary_block_columns', 1),
   );
 
   $form['newsroom_blocks']['newsroom_summary_block_num_items'] = array(
     '#type' => 'select',
     '#title' => t('Number of items in boxes in the summary blocks'),
-    '#options' => _nexteuropa_newsroom_prepare_options(5),
+    '#options' => NewsroomHelper::prepareOptions(5),
     '#default_value' => variable_get('newsroom_summary_block_num_items', 3),
   );
 
   $form['newsroom_blocks']['newsroom_summary_block_num_highlighted_items'] = array(
     '#type' => 'select',
     '#title' => t('Number of items in boxes of highlighted types in the summary blocks'),
-    '#options' => _nexteuropa_newsroom_prepare_options(6),
+    '#options' => NewsroomHelper::prepareOptions(6),
     '#default_value' => variable_get('newsroom_summary_block_num_highlighted_items', 3),
   );
 
@@ -314,21 +294,21 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   $form['newsroom_blocks']['home_blocks']['newsroom_summary_home_block_num_items'] = array(
     '#type' => 'select',
     '#title' => t('Number of items in boxes in the summary block on the homepage'),
-    '#options' => _nexteuropa_newsroom_prepare_options(5),
+    '#options' => NewsroomHelper::prepareOptions(5),
     '#default_value' => variable_get('newsroom_summary_home_block_num_items', 3),
   );
 
   $form['newsroom_blocks']['home_blocks']['newsroom_summary_home_block_num_highlighted_items'] = array(
     '#type' => 'select',
     '#title' => t('Number of items in boxes of highlighted types in the summary block on the homepage'),
-    '#options' => _nexteuropa_newsroom_prepare_options(6),
+    '#options' => NewsroomHelper::prepareOptions(6),
     '#default_value' => variable_get('newsroom_summary_home_block_num_highlighted_items', 3),
   );
 
   $form['newsroom_blocks']['home_blocks']['newsroom_summary_home_block_num_agenda'] = array(
     '#type' => 'select',
     '#title' => t('Number of days to list in the Agenda block on the homepage'),
-    '#options' => _nexteuropa_newsroom_prepare_options(6),
+    '#options' => NewsroomHelper::prepareOptions(6),
     '#default_value' => variable_get('newsroom_summary_home_block_num_agenda', 3),
   );
 

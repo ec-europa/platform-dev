@@ -116,9 +116,9 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     ),
     'created' => array(
       'query' => 'infsonewsroom:BasicReferenceDate/text()',
-    ),
-    'field_newsroom_category:etid' => array(
-      'query' => 'category[@domain="Collection"]/@infsonewsroom:TopicId',
+      'tamper' => array(
+        'plugin_id' => 'strtotime',
+      ),
     ),
     'sticky' => array(
       'query' => 'infsonewsroom:pubIsCentral/text()',
@@ -131,6 +131,9 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     ),
     'field_related_content' => array(
       'query' => 'infsonewsroom:slave/@guid',
+    ),
+    'field_newsroom_parent_content' => array(
+      'query' => 'infsonewsroom:master/@guid',
     ),
     'field_newsroom_project_acr' => array(
       'query' => 'infsonewsroom:ContextProjectAcronym/text()',
@@ -152,6 +155,10 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     ),
     'field_highlighted_newsroom_topic' => array(
       'query' => 'category[@infsonewsroom:TopicHighlight="1" and @domain!="Newsletter"]/@infsonewsroom:TopicId',
+      'options' => array(
+        'term_search' => '1',
+        'autocreate' => 0,
+      ),
       'tamper' => array(
         'plugin_id' => 'efq_finder',
         'vocabulary' => NEWSROOM_TOPIC_VOCABULARY,
@@ -193,6 +200,9 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     ),
     '_feed_changed' => array(
       'query' => 'infsonewsroom:pubUpdateDate/text()',
+      'tamper' => array(
+        'plugin_id' => 'strtotime',
+      ),
     ),
   );
 
@@ -246,7 +256,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
         'update_existing' => '2',
         'input_format' => 'full_html',
         'skip_hash_check' => 1,
-        'bundle' => 'newsroom_item',
+        'bundle' => NEWSROOM_CONTENT_TYPE,
       ),
     ),
     'content_type' => '',
@@ -471,6 +481,10 @@ function _nexteuropa_newsroom_create_multilingual_services_importer() {
     ),
     'parentguid' => array(
       'query' => '@infsonewsroom:parentTopicId',
+      'tamper' => array(
+        'plugin_id' => 'rewrite',
+        'prefix' => 'service-',
+      ),
     ),
   );
 
@@ -528,4 +542,256 @@ function _nexteuropa_newsroom_create_multilingual_services_importer() {
 
   // Import the importer.
   _nexteuropa_newsroom_import_importer($feeds_importer);
+}
+
+/**
+ * Helper function to enable languages.
+ *
+ * @param array $premapping
+ *   The values to elaborate.
+ * @param string $type
+ *   Taxonomy or node.
+ *
+ * @return array
+ *   Array containing the needed info for the importer.
+ */
+function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type = NULL) {
+  $def_lang = drupal_strtoupper(language_default()->language);
+  // Get enabled languages codes.
+  $lang_keys = _nexteuropa_newsroom_languages();
+  // Loop through all the fields, build the needed arrays.
+  $i = 0;
+
+  foreach ($premapping as $field => $values) {
+    if (isset($values['tamper'])) {
+      $tamper = _nexteuropa_newsroom_prepare_dynamic_tamper($values['tamper'], $i, $type);
+      _nexteuropa_newsroom_dynamic_tamper($tamper);
+    }
+
+    // Things look different if the field is translatable.
+    if ($values['language']) {
+      // If fields are translatable,
+      // we create a different mapping for each language.
+      foreach ($lang_keys as $lang_key) {
+        $upper_key = drupal_strtoupper($lang_key);
+        // Xpath queries.
+        $queries['xpathparser:' . $i] = $values['query'] . '[@lang="' . $upper_key . '"]/text()';
+
+        if (strpos($type, 'topic') && $upper_key != $def_lang) {
+          $queries['xpathparser:' . $i] = '//channel/item[infsonewsroom:BasicSvType="Newsroom service"]/category[@domain!="Newsletter" and @lang="' . $upper_key . '" and @infsonewsroom:TopicId="$Temporary target 1"]/' . $values['query'];
+        }
+        elseif (strpos($type, 'topic') && $upper_key == $def_lang) {
+          $queries['xpathparser:' . $i] = $values['query'];
+        }
+        elseif (strpos($type, 'newsroom_types')) {
+          $queries['xpathparser:' . $i] = $values['query'] . '[@lang="' . $upper_key . '"]/text()';
+        }
+        // Mapping arrays.
+        $mapping[$i] = array(
+          'source' => 'xpathparser:' . $i,
+          'target' => $field . ':et:' . $lang_key,
+          'unique' => FALSE,
+        );
+        // Additional values.
+        if (isset($values['options'])) {
+          foreach ($values['options'] as $key => $option) {
+            $mapping[$i][$key] = $option;
+          }
+        }
+        // Guid is the "unique" field but let's do this "dinamically".
+        if (isset($values['unique'])) {
+          $mapping[$i]['unique'] = TRUE;
+        }
+        $i++;
+      }
+    }
+    // Not translatable fields.
+    else {
+      // Xpath queries.
+      $queries['xpathparser:' . $i] = $values['query'];
+      // Mapping arrays.
+      $mapping[$i] = array(
+        'source' => 'xpathparser:' . $i,
+        'target' => $field,
+        'unique' => FALSE,
+      );
+
+      if (isset($values['options'])) {
+        foreach ($values['options'] as $key => $option) {
+          $mapping[$i][$key] = $option;
+        }
+      }
+      if (isset($values['unique'])) {
+        $mapping[$i]['unique'] = TRUE;
+      }
+      $i++;
+    }
+  }
+
+  // Build also the debug and raw_xml arrays.
+  foreach ($queries as $xpath => $query) {
+    $debug[$xpath] = $raw_xml[$xpath] = 0;
+  }
+
+  return array(
+    'mapping' => $mapping,
+    'queries' => $queries,
+    'debug' => $debug,
+    'raw_xml' => $raw_xml,
+  );
+}
+
+/**
+ * Helper function to enable languages.
+ *
+ * @param object $importer
+ *   The importer to import.
+ */
+function _nexteuropa_newsroom_import_importer($importer) {
+  // Those Api calls are copied from the submit function of the
+  // import form provided by the feeds_ui module. The alpha8 version
+  // of Feeds (the one used in the platform) had a bugged implementation,
+  // fixed using the dev version code for the submit.
+  // Create a copy of the importer to preserve config.
+  $save = feeds_importer($importer->id);
+  $save->setConfig($importer->config);
+  foreach (array('fetcher', 'parser', 'processor') as $type) {
+    $save->setPlugin($importer->config[$type]['plugin_key']);
+    $save->$type->setConfig($importer->config[$type]['config']);
+  }
+  $save->save();
+}
+
+/**
+ * Helper prepares the tamper settings.
+ *
+ * @param string $settings
+ *   Tamper settings.
+ * @param int $i
+ *   The order in the parser.
+ * @param string $type
+ *   Taxonomy or node.
+ *
+ * @return array
+ *   Tamper settings.
+ */
+function _nexteuropa_newsroom_prepare_dynamic_tamper($settings, $i, $type = NULL) {
+  $str = 'xpathparser_' . $i;
+  $tamper = array(
+    'id' => $type . '-' . $str . '-' . $settings['plugin_id'],
+    'importer' => $type,
+    'source' => 'xpathparser:' . $i,
+    'plugin_id' => $settings['plugin_id'],
+  );
+
+  // Prepare setting for Entity Field Query finder.
+  if ($settings['plugin_id'] == 'efq_finder') {
+    $tamper += array(
+      'settings' => array(
+        'entity_type' => 'taxonomy_term',
+        'bundle' => $settings['vocabulary'],
+        'column' => 'value',
+        'property' => FALSE,
+        'update' => 'Update',
+        'field' => $settings['field'],
+      ),
+      'description' => 'Entity Field Query finder',
+    );
+  }
+
+  // Prepare setting for Rewrite plugin.
+  if ($settings['plugin_id'] == 'rewrite') {
+    $tamper += array(
+      'settings' => array(
+        'text' => $settings['prefix'] . '[xpathparser:' . $i . ']',
+      ),
+      'description' => 'Rewrite',
+    );
+  }
+
+  // String to timestamp plugin.
+  if ($settings['plugin_id'] == 'strtotime') {
+    $tamper += array(
+      'settings' => '',
+      'description' => 'String to Unix timestamp',
+    );
+  }
+
+  return $tamper;
+}
+
+/**
+ * Build tampers programmatically.
+ */
+function _nexteuropa_newsroom_dynamic_tamper($tamper) {
+  $def_lang = language_default()->language;
+
+  if ($tamper == NULL) {
+    $feeds_tamper = new stdClass();
+    $feeds_tamper->disabled = FALSE;
+    $feeds_tamper->api_version = 2;
+    $feeds_tamper->id = 'newsroom_items_multilingual-blank_source_1-default_value';
+    $feeds_tamper->importer = NEWSROOM_ITEM_IMPORTER;
+    $feeds_tamper->source = 'Blank source 1';
+    $feeds_tamper->plugin_id = 'default_value';
+    $feeds_tamper->settings = array(
+      'default_value' => $def_lang,
+    );
+    $feeds_tamper->weight = 0;
+    $feeds_tamper->description = 'Set default language';
+  }
+  else {
+    $feeds_tamper = new stdClass();
+    $feeds_tamper->disabled = FALSE;
+    $feeds_tamper->api_version = 2;
+    $feeds_tamper->id = $tamper['id'];
+    $feeds_tamper->importer = $tamper['importer'];
+    $feeds_tamper->source = $tamper['source'];
+    $feeds_tamper->plugin_id = $tamper['plugin_id'];
+    $feeds_tamper->settings = $tamper['settings'];
+    $feeds_tamper->weight = 0;
+    $feeds_tamper->description = $tamper['description'];
+  }
+
+  // Delete a pre-existing tamper with the same id.
+  db_delete('feeds_tamper')
+    ->condition('id', $feeds_tamper->id)
+    ->execute();
+  // Save the tamper.
+  feeds_tamper_save_instance($feeds_tamper);
+}
+
+/**
+ * Helper function to get the enabled languages.
+ */
+function _nexteuropa_newsroom_languages() {
+  $lang = locale_language_list('name');
+  $lang_keys = array_keys($lang);
+  $eng = array_search('en', $lang_keys);
+  if ($eng) {
+    unset($lang_keys[$eng]);
+    array_unshift($lang_keys, 'en');
+  }
+
+  return $lang_keys;
+}
+
+/**
+ * Check if a field is translatable.
+ *
+ * @param array $premapping
+ *   Premappings array.
+ */
+function _nexteuropa_newsroom_check_translations(array $premapping) {
+  // Build an array with langauge settings for the fields.
+  foreach ($premapping as $fieldname => $values) {
+    // Sanitize fieldname.
+    $attribute = strrchr($fieldname, ':');
+    $sanitized_name = isset($values['original_field']) ? $values['original_field'] : str_replace($attribute, '', $fieldname);
+    $field = field_info_field($sanitized_name);
+    $language = field_is_translatable('node', $field);
+    $premapping[$fieldname]['language'] = $language;
+  }
+
+  return $premapping;
 }

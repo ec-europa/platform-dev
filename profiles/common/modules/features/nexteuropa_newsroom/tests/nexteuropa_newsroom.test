@@ -39,8 +39,8 @@ class NexteuropaNewsroomQAWebTestCase extends DrupalWebTestCase {
     // Ex: description = Publish and send newsletters to lists of subscribers.
     $this->assertTrue(array_key_exists('description', $info), 'The module\'s description is available.');
 
-    // Add package information.
-    // Ex: package = nexteuropa_features
+    // Add package information
+    // Ex: package = nexteuropa_features.
     $this->assertTrue(array_key_exists('package', $info), 'The module\'s package is available.');
 
     // Add core information.
@@ -198,13 +198,6 @@ class NexteuropaNewsroomWebTestCase extends FeedsWebTestCase {
     $this->assertText('SMART 2014/1074 - Language resource coordination');
     $this->drupalGet('news-dispatcher/item/16631');
     $this->assertText('SMART 2014/1074 - Language resource coordination');
-
-    // Check redirection to Chapter newsroom page
-    // $this->drupalGet('news-dispatcher/topic/928');
-    // Check redirection to item type newsroom page
-    // $this->drupalGet('news-dispatcher/type/news article');
-    // Check redirection to an item type newsroom page of a Chapter
-    // $this->drupalGet('news-dispatcher/type-topic/928/call for tenders');
   }
 
   /**
