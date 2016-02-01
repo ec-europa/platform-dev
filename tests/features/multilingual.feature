@@ -4,6 +4,7 @@ Feature: Multilingual features
   As a citizen of the European Union
   I want to be able to read content in my native language
 
+
   Background:
     Given the following languages are available:
       | languages |
@@ -18,13 +19,18 @@ Feature: Multilingual features
       | fr       | Ce titre est en Français     |
       | de       | Dieser Titel ist auf Deutsch |
     Then I should see the heading "This title is in English"
-    And I should see the link "Français"
-    And I should see the link "Deutsch"
-    # Language switcher is broken. Will be fixed in NEXTEUROPA-5895.
-    # When I click "Français"
-    # And I should see the heading "Ce titre est en Français"
-    # When I click "Deutsch"
-    # And I should see the heading "Dieser Titel ist auf Deutsch"
+    And I click "English" in the "header_top" region
+    Then I should be on the language selector page
+    And I click "Français"
+    Then I should see the heading "Ce titre est en Français"
+    And I click "Français" in the "header_top" region
+    Then I should be on the language selector page
+    When I click "Deutsch"
+    And I should see the heading "Dieser Titel ist auf Deutsch"
+    And I click "Deutsch"
+    Then I should be on the language selector page
+    And I click "English"
+    Then I should see the heading "This title is in English"
 
   Scenario: Custom URL suffix language negotiation is applied by default on new content.
     Given I am logged in as a user with the 'administrator' role
@@ -33,14 +39,15 @@ Feature: Multilingual features
       | en       | Title in English |
       | fr       | Title in French  |
       | de       | Title in German  |
-    # This is currently broken. It is not possible to switch to a different
-    # language URL. Instead an URL query argument "2nd-language" is appended to
-    # the URL. This will be fixed in NEXTEUROPA-5881.
-    # Then I should be on "content/title-english_en"
-    # When I click "Français"
-    # Then I should be on "content/title-english_fr"
-    # When I click "Deutsch"
-    # Then I should be on "content/title-english_de"
+    Then I should be on "content/title-english_en"
+    And I click "English" in the "header_top" region
+    Then I should be on the language selector page
+    And I click "Français"
+    Then I should be on "content/title-english_fr"
+    And I click "Français" in the "header_top" region
+    Then I should be on the language selector page
+    And I click "Deutsch"
+    Then I should be on "content/title-english_de"
 
   Scenario: Enable multiple languages
     Given I am logged in as a user with the 'administrator' role
@@ -49,6 +56,7 @@ Feature: Multilingual features
     And I should see "French"
     And I should see "German"
 
+  @cleanEnvironment
   Scenario: Enable language suffix and check the base path
     Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/regional/language/configure"
@@ -67,3 +75,35 @@ Feature: Multilingual features
     And the cache has been cleared
     And I should not see "admin/fake-url" in the ".form-item-site-frontpage span.field-prefix" element
     And I should not see "en-prefix" in the ".form-item-site-frontpage span.field-prefix" element
+    When I go to "admin/config/regional/language/edit/en"
+    And I fill in "edit-prefix" with "en"
+    And I press the "Save language" button
+
+  Scenario: Path aliases are not deleted when translating content via translation management
+    Given local translator "Translator A" is available
+    Given I am logged in as a user with the "administrator" role
+    Given I am viewing a multilingual "page" content:
+      | language | title                        |
+      | en       | This title is in English     |
+    And I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-de"
+    And I press the "Request translation" button
+    And I select "Translator A" from "Translator"
+    And I press the "Submit to translator" button
+    Then I should see the following success messages:
+      | success messages                        |
+      | The translation job has been submitted. |
+    And I click "Translation"
+    Then I should see "This title is in English"
+    And I click "manage" in the "This title is in English" row
+    And I click "view" in the "In progress" row
+    And I fill in "Translation" with "Dieser Titel ist auf Deutsch"
+    And I press the "Save" button
+    And I click "reviewed" in the "The translation of This title is in English to German is finished and can now be reviewed." row
+    And I press the "Save as completed" button
+    Then I should see "The translation for This title is in English has been accepted."
+    And I click "This title is in English"
+    And I should be on "content/title-english_en"
+    And I should see the heading "This title is in English"
+    And I visit "content/title-english_de"
+    And I should see the heading "Dieser Titel ist auf Deutsch"

@@ -36,13 +36,13 @@ class SitemapCore extends DrupalWebTestCase {
     module_enable(array('sitemap'), TRUE);
     drupal_flush_all_caches();
     $this->visitor = $this->drupalCreateUser(array(
-        'access content',
+      'access content',
     ));
     $this->administrator = new stdClass();
     $this->administrator = $this->drupalCreateUser(array(
-        'access administration pages',
-        'access content',
-        'create article content',
+      'access administration pages',
+      'access content',
+      'create article content',
     ));
     $this->drupalLogin($this->administrator);
   }

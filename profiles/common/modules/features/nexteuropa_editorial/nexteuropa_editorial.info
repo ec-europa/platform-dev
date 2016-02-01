@@ -8,6 +8,7 @@ dependencies[] = cce_basic_config
 dependencies[] = i18n_taxonomy
 dependencies[] = linkchecker
 dependencies[] = linkchecker_bean
+dependencies[] = multisite_rules_configuration
 dependencies[] = nexteuropa_core
 dependencies[] = nexteuropa_multilingual
 dependencies[] = og

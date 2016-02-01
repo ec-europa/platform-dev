@@ -35,27 +35,24 @@ function news_core_disable() {
   // Remove type to linkchecker scan.
   multisite_drupal_toolbox_content_type_linkchecker('news', 'remove');
 
-  /*   * * Remove permissions ** */
-  multisite_drupal_toolbox_disable_content_type('news');
-
   // Administrator.
   $adm_rid = multisite_drupal_toolbox_get_rid('administrator');
   user_role_revoke_permissions($adm_rid, array(
-      'edit own news content',
-      'edit any news content',
-      'delete own news content',
-      'delete any news content',
-      'create news content',
+    'edit own news content',
+    'edit any news content',
+    'delete own news content',
+    'delete any news content',
+    'create news content',
   ));
 
   // Contributor.
   $ctb_rid = multisite_drupal_toolbox_get_rid('contributor');
   user_role_revoke_permissions($ctb_rid, array(
-      'edit own news content',
-      'edit any news content',
-      'delete own news content',
-      'delete any news content',
-      'create news content',
+    'edit own news content',
+    'edit any news content',
+    'delete own news content',
+    'delete any news content',
+    'create news content',
   ));
 
   drupal_set_message(t('News feature is now disabled on your site.'));

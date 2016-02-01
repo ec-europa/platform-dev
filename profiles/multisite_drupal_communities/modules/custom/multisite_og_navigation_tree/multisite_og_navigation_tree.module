@@ -77,7 +77,8 @@ function multisite_og_navigation_tree_og_fields_info() {
         'type' => 'taxonomy_term_reference',
         'cardinality' => FIELD_CARDINALITY_UNLIMITED,
         'settings' => array(
-          'allowed_values' => array(array(
+          'allowed_values' => array(
+            array(
               'vocabulary' => $machine_name,
               'parent' => '0',
             ),

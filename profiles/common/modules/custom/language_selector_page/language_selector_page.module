@@ -68,37 +68,41 @@ function language_selector_page_block_content() {
       // Get currently served language.
       $served_code = entity_translation_get_existing_language('node', $node);
       $served = $languages[1][$served_code];
-      // Check available translations.
-      foreach ($node->translations->data as $code => $lang) {
-        if ($code == $language->language) {
-          $is_available = TRUE;
+
+      // Display the switcher only if the current language is not available.
+      if (!in_array($language->language, array_keys($node->translations->data))) {
+        // Check available translations.
+        foreach ($node->translations->data as $code => $lang) {
+          if ($code == $language->language) {
+            $is_available = TRUE;
+          }
+
+          if ($code != $served->language) {
+            $other[$code] = $languages[1][$code];
+          }
         }
 
-        if ($code != $served->language) {
-          $other[$code] = $languages[1][$code];
+        // Check if required language is available.
+        if (!$is_available) {
+          $not_available = $language;
         }
-      }
 
-      // Check if required language is available.
-      if (!$is_available) {
-        $not_available = $language;
+        // Update block.
+        $block = array(
+          'not_available' => array(
+            '#type' => 'object',
+            '#markup' => $not_available,
+          ),
+          'served' => array(
+            '#type' => 'object',
+            '#markup' => $served,
+          ),
+          'other' => array(
+            '#type' => 'array',
+            '#markup' => $other,
+          ),
+        );
       }
-
-      // Update block.
-      $block = array(
-        'not_available' => array(
-          '#type' => 'object',
-          '#markup' => $not_available,
-        ),
-        'served' => array(
-          '#type' => 'object',
-          '#markup' => $served,
-        ),
-        'other' => array(
-          '#type' => 'array',
-          '#markup' => $other,
-        ),
-      );
     }
   }
 

@@ -102,7 +102,7 @@ function og_content_type_admin_enable() {
       'name' => $sitewide,
       'types_allowed' => serialize($all_allowed),
       'types_active' => serialize($all_active),
-  ))
+    ))
     ->execute();
   foreach ($node_types as $type) {
     if (!in_array($type->type, $exempt) && _og_content_type_admin_is_group_content($type->type) && !_og_content_type_admin_is_group_type($type->type)) {
@@ -113,13 +113,13 @@ function og_content_type_admin_enable() {
   $dfgid = 0;
   $group_default = 'Default';
   $query4 = db_insert('og_content_type_admin')
-      ->fields(array(
-        'gid' => $dfgid,
-        'name' => $group_default,
-        'types_allowed' => serialize($group_allowed),
-        'types_active' => serialize($group_active),
-  ))
-      ->execute();
+    ->fields(array(
+      'gid' => $dfgid,
+      'name' => $group_default,
+      'types_allowed' => serialize($group_allowed),
+      'types_active' => serialize($group_active),
+    ))
+    ->execute();
 }
 
 /**

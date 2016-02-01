@@ -43,14 +43,12 @@ class EcasExtraAdminSettingsTest extends DrupalWebTestCase {
    * {@inheritdoc}
    */
   public function setUp() {
-    parent::setUp(array(
-      'ecas_extra',
-    ));
+    parent::setUp(array('ecas_extra'));
 
     $this->webUser = $this->drupalCreateUser(array(
       'create article content',
       'create page content',
-        ));
+    ));
 
     $this->adminUser = $this->drupalCreateUser(array(
       'bypass node access',
@@ -58,7 +56,6 @@ class EcasExtraAdminSettingsTest extends DrupalWebTestCase {
       'administer ecas',
       'administer users',
     ));
-
   }
 
   /**
@@ -216,16 +213,16 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
     // Add the raw password so that we can log in as this user.
     $account->pass_raw = $edit['pass'];
     if ($denied == DENIED) {
-      deny_account_action($account, NULL);
+      ecas_extra_deny_account_action($account, NULL);
     }
 
     if ($ecas) {
       db_insert('authmap')
         ->fields(array(
-           'authname' => $name,
-           'uid' => $account->uid,
-           'module' => 'ecas',
-           ))
+          'authname' => $name,
+          'uid' => $account->uid,
+          'module' => 'ecas',
+        ))
         ->execute();
     }
     return $account;
@@ -395,7 +392,7 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
 
     // Block all web users.
     $edit = array(
-      'operation' => 'action::deny_account_action',
+      'operation' => 'action::ecas_extra_deny_account_action',
       'views_bulk_operations[2]' => '2',
       'views_bulk_operations[3]' => '4',
     );

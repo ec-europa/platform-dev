@@ -147,8 +147,8 @@ class ClientsConnectionMultiSiteCookieRESTCookieRetrieve implements ClientsConne
     }
     catch (Exception $e) {
       drupal_set_message(format_string('Could not retrieve a node from the remote site, got error message "@message".', array(
-            '@message' => $e->getMessage(),
-        )), 'warning');
+        '@message' => $e->getMessage(),
+      )), 'warning');
       return;
     }
 
