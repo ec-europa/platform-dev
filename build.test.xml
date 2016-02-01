@@ -85,4 +85,13 @@
         />
     </target>
 
+    <!-- Run PhantomJS. -->
+    <target name="phantomjs" description="Start the PhantomJS server." depends="install-npm-packages">
+        <exec
+            command="${phantomjs.bin} --debug=true --webdriver=4444"
+            dir="${npm.package.dir}"
+            passthru="true"
+            spawn="true"
+        />
+    </target>
 </project>

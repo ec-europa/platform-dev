@@ -5,6 +5,7 @@ default:
         - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\BatchContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
       filters:
@@ -48,6 +49,7 @@ communities:
         - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\BatchContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
       filters:

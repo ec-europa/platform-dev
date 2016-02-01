@@ -12,6 +12,7 @@ tests/behat.yml
 # Ignore build folders.
 bin/
 build/
+node_modules/
 tmp/
 vendor/
 

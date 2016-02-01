@@ -49,6 +49,7 @@ platform.make = ${platform.resources.dir}/${platform.profile.name}.make
 phing.bin = ${project.basedir}/bin/phing
 drush.bin = ${project.basedir}/bin/drush
 composer.bin = composer.phar
+phantomjs.bin = ${npm.package.bin.dir}/phantomjs
 
 # The build location
 phing.project.build.dir = build
@@ -86,6 +87,10 @@ platform.build.composer.lock = ${platform.build.dir}/composer.lock
 phing.project.git.dir = ${project.basedir}/.git
 phing.project.git.githooks.dir = ${phing.project.git.dir}/hooks
 platform.resources.githooks.dir = ${platform.resources.dir}/git-hooks
+
+# npm packages.
+npm.package.dir = ${project.basedir}/node_modules
+npm.package.bin.dir = ${npm.package.dir}/.bin
 
 
 # Behat configuration

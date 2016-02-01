@@ -1,0 +1,9 @@
+{
+  "name": "nexteuropa",
+  "description": "Drupal distribution for the European Commission",
+  "repository": "git@github.com:ec-europa/platform-dev.git",
+  "license": "EUPL-1.1",
+  "dependencies": {
+    "phantomjs": "~1.9"
+  }
+}
