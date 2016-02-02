@@ -63,9 +63,9 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
 
   switch ($instance['widget']['type']) {
     case 'geofield_widget_map':
-        if (!isset($element['#title'])) {
-          $element['#title'] = t('Map');
-        }
+      if (!isset($element['#title'])) {
+        $element['#title'] = t('Map');
+      }
         $element['geojson_map'] = array(
           '#type' => 'item',
           '#title' => $element['#title'],
