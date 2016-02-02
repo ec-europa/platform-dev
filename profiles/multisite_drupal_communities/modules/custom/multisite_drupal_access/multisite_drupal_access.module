@@ -45,7 +45,7 @@ function multisite_drupal_access_node_access_records($node) {
       }
     }
   }
-  
+
   return $grants;
 }
 
