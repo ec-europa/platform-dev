@@ -137,7 +137,7 @@ projects[feeds_xpathparser][subdir] = "contributed"
 projects[feeds_xpathparser][version] = "1.0-beta4"
 
 projects[field_group][subdir] = "contributed"
-;projects[field_group][version] = "1.3"
+projects[field_group][version] = "1.5"
 
 projects[field_collection][subdir] = "contributed"
 projects[field_collection][version] = "1.0-beta7"
