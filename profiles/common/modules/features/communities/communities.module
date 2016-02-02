@@ -174,7 +174,6 @@ function _communities_create_alias($node, $op) {
 
   // Generate one alias for each group linked in the node.
   if ($group_name) {
-
     $node_source = 'update' != $op ? 'node/' . $node->nid : $node->path['source'];
     $node_language = 'update' != $op ? $node->language : $node->path['language'];
 
@@ -182,9 +181,17 @@ function _communities_create_alias($node, $op) {
     // linked in the node and obtain the node alias.
     module_load_include('inc', 'pathauto');
     $og_group_ref = $node->og_group_ref[LANGUAGE_NONE];
+
     foreach ($og_group_ref as $v) {
       $node->og_group_ref[LANGUAGE_NONE] = array($v);
-      $new_path = pathauto_create_alias('node', $op, $node_source, array('node' => $node), $node->type, $node->language);
+      // We cannot use 'pathauto_create_alias' to save the path alias
+      // because $existing_path is not correctly loaded (we have multiple
+      // alias for one source and the last created alias is loaded as
+      // $existing_path,see pathauto_create_alias).
+      // So 'pathauto_create_alias' is used to build the alias and we save it
+      // using 'path_save'.
+      $new_path = pathauto_create_alias('node', 'return', $node_source, array('node' => $node), $node->type, $node->language);
+
       if ($new_path) {
         if (is_string($new_path)) {
           $new_paths[] = $new_path;
@@ -196,7 +203,9 @@ function _communities_create_alias($node, $op) {
     }
     $node->og_group_ref[LANGUAGE_NONE] = $og_group_ref;
 
-    // Remove current aliases.
+    // We cannot respect update action (see pathauto_update_action)
+    // due to multiples alias per node, so all aliases are deleted and resaved
+    // (avoid outdated alias in case of it changed).
     path_delete(array('source' => $node_source));
     if (isset($new_paths)) {
       // Save the aliases obtained.
@@ -212,7 +221,6 @@ function _communities_create_alias($node, $op) {
         path_save($path);
       }
     }
-
   }
 }
 
