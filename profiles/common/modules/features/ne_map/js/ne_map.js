@@ -63,7 +63,6 @@ L.custom = {
 
     // Bounds map to markers, if set and if there is a group.
     if (settings.center.fitbounds == '1') {
-
       // Node and CSV layers are bound as a group.
       if (typeof group != 'undefined') {
         map.fitBounds(group.getBounds(), {padding: [30, 30]});

@@ -36,11 +36,30 @@ function node_layer_map_layer_build_content_alter(&$content, $wrapper, $entity) 
           'popup' => drupal_render($node_view),
         );
       }
-      $features = node_layer_prepare_features($items);
+      $features = array();
+
+      // Prepares the geo features based on the geofield type that they are
+      // stored in.
+      $type = field_info_field($filters['geofield'])['type'];
+      if ($type == 'geofield') {
+        $features = node_layer_prepare_features($items);
+      }
+      elseif ($type == 'geofield_geojson') {
+        foreach ($items as $key => $item) {
+          $geojson_features = drupal_json_decode($item['field_items'][0]['geofield_geojson']);
+          foreach ($geojson_features['features'] as $geojson_feature) {
+            $features[] = $geojson_feature;
+          }
+        }
+      }
+
       $layers[] = array(
         'layer_settings' => $settings,
         'label' => $wrapper->title->value(),
-        'features' => $features,
+        'features' => array(
+          "type" => "FeatureCollection",
+          "features" => $features,
+        ),
         'id' => map_layer_id($wrapper->title->value()),
       );
       $content['#attached']['js'][] = array(
@@ -247,9 +266,11 @@ function node_layer_get_content_types() {
   // Fetches all the site's content types.
   $content_types = node_type_get_names();
 
-  // Cycles through all the field of the geofield type to create a list of
-  // content types that use that field.
-  $fields = field_read_fields(array('type' => 'geofield'));
+  // Cycles through all the field of the geofield & geofield_geojson type to
+  // create a list of content types that use that field.
+  $fields = array();
+  $fields = $fields + field_read_fields(array('type' => 'geofield', 'entity_type' => 'node'));
+  $fields = $fields + field_read_fields(array('type' => 'geofield_geojson', 'entity_type' => 'node'));
   foreach ($fields as $key => $field) {
     $instances = field_read_instances(array('field_name' => $key));
     foreach ($instances as $key => $instance) {
@@ -267,7 +288,7 @@ function node_layer_get_geofields($bundle) {
   $fields = field_read_instances(array('bundle' => $bundle));
   foreach ($fields as $field) {
     $field_info = field_info_field($field['field_name']);
-    if ($field_info['type'] == 'geofield') {
+    if (in_array($field_info['type'], array('geofield', 'geofield_geojson'))) {
       $geofields[$field['field_name']] = $field['label'];
     }
   }
@@ -319,9 +340,15 @@ function node_layer_fetch_nodes($filters) {
       ->entityCondition('bundle', $filters['map_content_type']);
 
     // Fetches the geofields in the content type and filters out nodes that
-    // have an empty geofield.
+    // have an empty geofield. The column differs per geofield type.
     if ($filters['geofield']) {
-      $query->fieldCondition($filters['geofield'], 'lat', 'NULL', '!=');
+      $type = field_info_field($filters['geofield'])['type'];
+      if ($type == 'geofield') {
+        $query->fieldCondition($filters['geofield'], 'lat', 'NULL', '!=');
+      }
+      elseif ($type == 'geofield_geojson') {
+        $query->fieldCondition($filters['geofield'], 'geofield_geojson', 'NULL', '!=');
+      }
     }
 
     // Allows including unpublished nodes in the result.
@@ -369,10 +396,11 @@ function node_layer_query_alter($query) {
 /**
  * Turns field items into geojson features.
  *
- * Shameless copy from leaflet_process_geofield().
+ * Return geojson formatted map features. Shameless copy from
+ * leaflet_process_geofield().
  */
 function node_layer_prepare_features($items = array()) {
-  $data = array();
+  $features = array();
   geophp_load();
   foreach ($items as $item) {
     foreach ($item['field_items'] as $delta => $field_item) {
@@ -397,7 +425,7 @@ function node_layer_prepare_features($items = array()) {
             $geofeature->setProperties($item['title'], $item['popup']);
           }
           $geofeature->setGeometry($type, $geom);
-          $data[] = $geofeature->data;
+          $features[] = $geofeature->data;
           break;
 
         // Formates multiple features of the same type.
@@ -412,7 +440,7 @@ function node_layer_prepare_features($items = array()) {
               $geofeature->setProperties($item['title'], $item['popup']);
             }
             $geofeature->setGeometry($class, $component);
-            $data[] = $geofeature->data;
+            $features[] = $geofeature->data;
           }
           break;
 
@@ -427,14 +455,17 @@ function node_layer_prepare_features($items = array()) {
               $geofeature->setProperties($item['title'], $item['popup']);
             }
             $geofeature->setGeometry($class, $component);
-            $data[] = $geofeature->data;
+            $features[] = $geofeature->data;
           }
           break;
 
       }
     }
   }
-  return $data;
+  return array(
+    "type" => "FeatureCollection",
+    "features" => $features,
+  );
 }
 
 /**

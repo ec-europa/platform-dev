@@ -21,7 +21,8 @@ L.custom = {
     var tileLayer = L.wt.tileLayer("gray").addTo(map);
 
     // Defines example features.
-    var features = [{
+    var features = [
+    {
       "type": "Feature",
       "properties": {
         "name": "Gunwalls",
@@ -33,18 +34,41 @@ L.custom = {
         // Southern Finland, FI",,MapQuest Open,city/town.
         "coordinates": [24.943508, 60.166628]
       }
-    }, {
-      "type": "Feature",
-      "properties": {
-        "name": "Man-of-war",
-        "popupContent": "Some place in Denmark"
+    },
+
+    {"type":"Feature","properties":{"name":"jasjdasjdkjdksajd","description":"saxsa"},"geometry":{"type":"Polygon","coordinates":[[[22.6563,49.4333],[22.6563,52.316],[28.5449,52.316],[28.5449,49.4333],[22.6563,49.4333]]]}},
+
+    {
+      "type":"Feature",
+      "properties":{
+        "name":"Eastern block",
+        "popupContent":"Eastern block"
       },
-      "geometry": {
-        "type": "Point",
-        // 55.686724,12.570072,copenhagen,"Copenhagen, Copenhagen Municipality,
-        // Capital Region of Denmark, DK",,MapQuest Open,city/town.
-        "coordinates": [12.570072, 55.686724]
+      "geometry":{
+        "type":"Polygon",
+        "coordinates": [
+          [
+            [13.6563,49.4333],
+            [13.6563,52.316],
+            [19.5449,52.316],
+            [19.5449,49.4333],
+            [13.6563,49.4333]
+          ]
+        ]
       }
+    },
+     {
+        "type": "Feature",
+        "properties": {
+          "name": "Man-of-war",
+          "popupContent": "Some place in Denmark"
+        },
+        "geometry": {
+          "type": "Point",
+          // 55.686724,12.570072,copenhagen,"Copenhagen, Copenhagen Municipality,
+          // Capital Region of Denmark, DK",,MapQuest Open,city/town.
+          "coordinates": [12.570072, 55.686724]
+        }
     }, {
       "type": "Feature",
       "properties": {
@@ -59,7 +83,8 @@ L.custom = {
         // Brussels-Capital, BE.
         "coordinates": [4.412692, 50.81423]
       }
-    }];
+    }
+    ];
 
     var markers_options = {
       "color": 'green',
@@ -138,6 +163,52 @@ L.custom = {
       "level": 0,
       "countries": countries_keys
     }], countries_options).addTo(map);
+
+    // Adds features using L.geojson.
+    var features2 = {
+        "type":"FeatureCollection",
+        "features":[
+        {
+          "type":"Feature",
+          "properties":{
+            "name":"sadfsdf",
+            "description":"sdaf"
+          },
+          "geometry":{
+            "type":"Point",
+            "coordinates":[
+               21.4453,
+               40.4051
+            ]
+          }
+        },
+        {
+          "type":"Feature",
+          "properties":{
+             "name":"Eastern block",
+             "description":"Eastern block"
+          },
+          "geometry":{
+            "type":"Polygon",
+            "coordinates": [
+              [
+                [-12.6563,-49.4333],
+                [-12.6563,-52.316],
+                [-18.5449,-52.316],
+                [-18.5449,-49.4333],
+                [-12.6563,-49.4333]
+              ]
+            ]
+          }
+        }
+      ]
+    };
+    var geojson2 = L.geoJson(features2, {
+      pointToLayer: function (feature, latlng) {
+        return L.marker(latlng);
+      }
+    });
+    geojson2.addTo(map);
 
     // Processes next components.
     $wt._queue("next");

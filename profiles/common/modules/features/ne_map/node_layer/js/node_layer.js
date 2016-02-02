@@ -28,6 +28,7 @@ if (typeof Drupal.settings.node_layers !== 'undefined') {
   }
 
   var node_layers = Drupal.settings.node_layers;
+  console.log(node_layers);
   var arrayLength = node_layers.length;
   for (var i = 0; i < arrayLength; i++) {
     var id = node_layers[i].id;
@@ -39,22 +40,35 @@ if (typeof Drupal.settings.node_layers !== 'undefined') {
       "cluster": cluster
     }
 
-    // Sets custom popup.
+    // Sets popup behaviour.
     if (node_layers[i].layer_settings.popup.show_popup) {
       if (node_layers[i].layer_settings.popup.popin) {
         markers_options.onEachFeature = function (feature, layer) {
-          layer.bindInfo(feature.properties.popupContent)
+          popup_content = buildPopupContent(feature);
+
+          // Uses the sidebar pop-in.
+          layer.bindInfo(popup_content);
         }
       }
       else {
         markers_options.onEachFeature = function (feature, layer) {
+          popup_content = buildPopupContent(feature);
+
+          // Uses the leaflet default pop-up.
           layer.bindPopup(feature.properties.popupContent);
         }
       }
     }
+    else {
+      markers_options.onEachFeature = function (feature, layer) {
+
+        // Disables pop-up.
+        layer.off('click');
+      }
+    }
 
     // Creates the map layer.
-    id = L.wt.markers({"type": "FeatureCollection", "features": node_layers[i].features}, markers_options);
+    id = L.wt.markers(node_layers[i].features, markers_options);
 
     // Create a marker layer that can be used to get the bounds.
     var geojson = L.geoJson(node_layers[i].features, {
@@ -91,5 +105,29 @@ if (typeof Drupal.settings.node_layers !== 'undefined') {
         layers_to_control.push({"label": node_layers[i].label, "layer": id});
       }
     }
+  }
+}
+
+/**
+ * Creates pop up content if the popupContent property isnt set.
+ */
+function buildPopupContent(feature) {
+
+  // Returns pop up content if defined in the geojson object.
+  if (typeof feature.properties.popupContent != 'undefined') {
+    return feature.properties.popupContent;
+  }
+
+  // Creates pop up content from name and description if not defined in the
+  // geojson object. This follows the markup of the the theme_popup function.
+  // Ideally this should be dealt with in php.
+  // @todo create Jira issue to discuss.
+  else if (typeof feature.properties.name != 'undefined' && feature.properties.description != 'undefined') {
+    return "<div class='map_layer-popup'><h3 class='map-layer-popup-title'>" + feature.properties.name + "</h3><div class='map-layer-description'>" + feature.properties.description + "</div>";
+  }
+
+  // Returns a string if no popup content.
+  else {
+    return "No popup found";
   }
 }
