@@ -141,6 +141,16 @@
         </if>
     </target>
 
+	<!-- Setup file directory -->
+    <target name="setup-files-directory">
+		 <if>
+            <istrue value="${platform.build.settings.dir}/files" />
+            <then>
+                <mkdir dir="${platform.build.settings.dir}/files/private_files" />
+            </then>
+        </if>
+    </target>
+
     <!-- Install Composer dependencies for the build system. -->
     <target name="install-build-dependencies">
         <composer command="install" composer="${composer.bin}">
@@ -151,12 +161,12 @@
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-php-codesniffer, update-htaccess" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-php-codesniffer, update-htaccess, setup-files-directory" />
 
     <target
         name="build-platform-dist"
         description="Build a version of the platform intended to distribute as a release package."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies, setup-files-directory" />
 
     <target
         name="build-multisite-dist"
