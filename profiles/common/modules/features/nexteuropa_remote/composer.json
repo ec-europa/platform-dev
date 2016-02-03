@@ -1,0 +1,11 @@
+{
+  "require-dev": {
+    "phpunit/phpunit": "4.5.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Drupal\\nexteuropa_remote\\": "./src/",
+      "Drupal\\nexteuropa_remote\\Tests\\": "./tests/"
+    }
+  }
+}

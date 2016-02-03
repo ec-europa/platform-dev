@@ -1,0 +1,161 @@
+<?php
+/**
+ * @file
+ * Module file.
+ */
+
+use Drupal\nexteuropa_remote\Entity\RemoteEntity;
+
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_remote_menu() {
+  $items['remote-entity/%nexteuropa_remote'] = [
+    'page callback' => 'nexteuropa_remote_view_page',
+    'page arguments' => [1],
+    'access callback' => 'nexteuropa_remote_access',
+    'access arguments' => ['view', 1],
+  ];
+  $items['remote-entity/%nexteuropa_remote/edit'] = [
+    'title callback' => 'nexteuropa_remote_page_title',
+    'title arguments' => [1],
+    'page callback' => 'nexteuropa_remote_page_edit',
+    'page arguments' => [1],
+    'access callback' => 'nexteuropa_remote_access',
+    'access arguments' => ['update', 1],
+  ];
+  return $items;
+}
+
+/**
+ * Load remote entity.
+ *
+ * @param int $id
+ *    Remote entity id.
+ *
+ * @return RemoteEntity|FALSE
+ *    Remote entity object, or FALSE if not found.
+ */
+function nexteuropa_remote_load($id) {
+  return entity_load_single('nexteuropa_remote_entity', $id);
+}
+
+/**
+ * Bean view page
+ */
+function nexteuropa_remote_view_page(RemoteEntity $entity) {
+  $title = $entity->label();
+  drupal_set_title($title);
+  return nexteuropa_remote_view($entity);
+}
+
+/**
+ * View the remote entity.
+ *
+ * @param RemoteEntity $entity
+ *    Remote entity object.
+ * @param string $view_mode
+ *    View mode machine name.
+ * @param string $language
+ *    Language code.
+ *
+ * @return array
+ *    Renderable array.
+ */
+function nexteuropa_remote_view(RemoteEntity $entity, $view_mode = 'default', $language = NULL) {
+  if (!isset($language)) {
+    $language = $GLOBALS['language_content']->language;
+  }
+  return $entity->view($view_mode, $language);
+}
+
+
+/**
+ * Implements hook_permission().
+ */
+function nexteuropa_remote_entity_permission() {
+  return [
+    'administer nexteuropa remote entities' => [
+      'title' => t('Administer nexteuropa remote entities'),
+    ],
+  ];
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function nexteuropa_remote_entity_info() {
+  return [
+    'nexteuropa_remote_entity' => [
+      'label' => t('Remote entity'),
+      'plural label' => t('Remote entities'),
+      'description' => t('Remote entities'),
+      'entity class' => 'Drupal\nexteuropa_remote\Entity\RemoteEntity',
+      'controller class' => 'Drupal\nexteuropa_remote\Entity\RemoteEntityController',
+      'base table' => 'nexteuropa_remote_entity',
+      'revision table' => 'nexteuropa_remote_entity_revision',
+      'fieldable' => TRUE,
+      'view modes' => [
+        'full' => [
+          'label' => t('Full page'),
+          'custom settings' => FALSE,
+        ],
+      ],
+      'entity keys' => [
+        'id' => 'id',
+        'revision' => 'revision_id',
+        'bundle' => 'type',
+        'label' => 'label',
+        'language' => 'language',
+      ],
+      'bundle keys' => [
+        'bundle' => 'type',
+      ],
+      'bundles' => [
+        'default' => [
+          'label' => t('Default'),
+          'admin' => [
+            'path' => 'admin/structure/remote-entities/manage/default',
+            'real path' => 'admin/structure/remote-entities/manage/default',
+            'bundle argument' => 4,
+            'access arguments' => ['administer nexteuropa remote entities'],
+          ],
+        ]
+      ],
+      'label callback' => 'entity_class_label',
+      'uri callback' => 'entity_class_uri',
+      'access callback' => 'nexteuropa_remote_access',
+      'module' => 'nexteuropa_remote',
+      'metadata controller class' => 'Drupal\nexteuropa_remote\Entity\RemoteEntityMetadataController',
+      'admin ui' => [
+        'path' => 'admin/structure/remote-entities',
+        'file' => 'includes/nexteuropa_remote.pages.inc',
+      ],
+      'path' => 'remote-entity/%nexteuropa_remote',
+      'metatags' => TRUE,
+      'translation' => [
+        'entity_translation' => [
+          'base path' => 'remote-entity/%nexteuropa_remote',
+        ],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Remote entity access callback.
+ *
+ * @param string $op
+ *    Current operation.
+ * @param RemoteEntity|NULL $entity
+ *    Remote entity object.
+ * @param object $account
+ *    User account for which to check permissions.
+ *
+ * @return bool
+ *    TRUE if given user can perform current operation, FALSE otherwise.
+ */
+function nexteuropa_remote_access($op, \Drupal\nexteuropa_remote\Entity\RemoteEntity $entity = NULL, $account = NULL) {
+  // @todo: integrate with Drupal permissions system.
+  return TRUE;
+}

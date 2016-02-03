@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpunit bootstrap="./tests/bootstrap.php">
+    <testsuites>
+        <testsuite name="Test suite">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <const name="DRUPAL_ROOT" value="/path/to/drupal/root"/>
+        <server name="REMOTE_ADDR" value="localhost"/>
+    </php>
+</phpunit>
