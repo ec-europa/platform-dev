@@ -50,6 +50,8 @@ function nexteuropa_remote_entity_info() {
       'admin ui' => [
         'path' => 'admin/structure/remote-entities',
         'file' => 'includes/nexteuropa_remote.pages.inc',
+        'controller class' => 'Drupal\nexteuropa_remote\Entity\RemoteEntityUIController',
+        'menu wildcard' => '%nexteuropa_remote',
       ],
       'path' => 'remote-entity/%nexteuropa_remote',
       'metatags' => TRUE,

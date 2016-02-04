@@ -16,36 +16,6 @@ function nexteuropa_remote_views_api() {
 }
 
 /**
- * Implements hook_menu().
- */
-function nexteuropa_remote_menu() {
-  $items['remote-entity/%nexteuropa_remote'] = [
-    'page callback' => 'nexteuropa_remote_view_page',
-    'page arguments' => [1],
-    'access callback' => 'nexteuropa_remote_access',
-    'access arguments' => ['view', 1],
-    'file' => 'includes/nexteuropa_remote.pages.inc',
-  ];
-  $items['remote-entity/%nexteuropa_remote/view'] = [
-    'title' => 'View',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => -10,
-  ];
-  $items['remote-entity/%nexteuropa_remote/edit'] = [
-    'title' => 'Edit',
-    'page callback' => 'nexteuropa_remote_edit_page',
-    'page arguments' => [1],
-    'access callback' => 'nexteuropa_remote_access',
-    'access arguments' => ['update', 1],
-    'weight' => 0,
-    'type' => MENU_LOCAL_TASK,
-    'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
-    'file' => 'includes/nexteuropa_remote.pages.inc',
-  ];
-  return $items;
-}
-
-/**
  * Implements hook_permission().
  */
 function nexteuropa_remote_entity_permission() {
