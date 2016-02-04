@@ -38,7 +38,7 @@ class RemoteEntityMetadataController extends \EntityDefaultMetadataController {
       'description' => t("User ID owning the remote entity."),
       'getter callback' => 'entity_property_getter_method',
       'setter callback' => 'entity_property_setter_method',
-      'setter permission' => 'administer whiles',
+      'setter permission' => 'administer nexteuropa remote entities',
       'required' => TRUE,
       'schema field' => 'uid',
     ];
@@ -48,7 +48,7 @@ class RemoteEntityMetadataController extends \EntityDefaultMetadataController {
       'type' => 'date',
       'description' => t("The date the remote entity was created."),
       'setter callback' => 'entity_property_verbatim_set',
-      'setter permission' => 'administer whiles',
+      'setter permission' => 'administer nexteuropa remote entities',
       'schema field' => 'created',
     ];
 
@@ -65,7 +65,7 @@ class RemoteEntityMetadataController extends \EntityDefaultMetadataController {
       'schema field' => 'status',
       'description' => t("Whether the remote entity is active (true) or not (false)."),
       'setter callback' => 'entity_property_verbatim_set',
-      'setter permission' => 'administer whiles',
+      'setter permission' => 'administer nexteuropa remote entities',
     ];
 
     return $info;
