@@ -43,6 +43,13 @@ class RemoteEntity extends \Entity {
   public $type = 'default';
 
   /**
+   * Entity language.
+   *
+   * @var string
+   */
+  public $language = LANGUAGE_NONE;
+
+  /**
    * The Unix timestamp when the entity was created.
    *
    * @var string
@@ -73,6 +80,7 @@ class RemoteEntity extends \Entity {
     }
     $this->changed = REQUEST_TIME;
     $this->is_new_revision = TRUE;
+    $this->uid = $GLOBALS['user']->uid;
     parent::save();
   }
 
@@ -97,17 +105,14 @@ class RemoteEntity extends \Entity {
   }
 
   /**
-   * URI callback.
-   *
-   * @see nexteuropa_remote_entity_info()
+   * Default URI callback.
    *
    * @return string
    *    Return entity URI.
    */
-  public function uri() {
+  public function defaultUri() {
     return [
       'path' => 'remote-entity/' . $this->id,
-      'options' => [],
     ];
   }
 
