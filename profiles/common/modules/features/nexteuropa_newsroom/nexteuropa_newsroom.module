@@ -843,7 +843,20 @@ function _nexteuropa_newsroom_rebuild_importers() {
   );
 
   foreach ($importers as $key => $importer) {
+    // Delete the tampers associated with the importer.
+    $tampers = feeds_tamper_load_by_importer($importer);
+    if (!empty($tampers)) {
+      foreach ($tampers as $instances) {
+        foreach ($instances as $instance) {
+          $id = $instance->id;
+          feeds_tamper_delete_instance($id);
+        }
+      }
+    }
+
+    // Delete the importer.
     feeds_importer($importer)->delete();
+
     // Recreate them.
     call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
   }
