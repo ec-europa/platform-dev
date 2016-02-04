@@ -528,6 +528,8 @@ projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
 projects[tmgmt][download][type] = git
 projects[tmgmt][subdir] = contrib
+; @see https://www.drupal.org/node/2489134
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
