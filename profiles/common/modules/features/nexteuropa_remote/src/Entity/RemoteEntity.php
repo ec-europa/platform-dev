@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_remote\Entity\RemoteEntity
+ * Contains \Drupal\nexteuropa_remote\Entity\RemoteEntity.
  */
 
 namespace Drupal\nexteuropa_remote\Entity;

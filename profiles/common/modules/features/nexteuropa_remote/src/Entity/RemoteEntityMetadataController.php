@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_remote\Entity\RemoteEntityMetadataController
+ * Contains \Drupal\nexteuropa_remote\Entity\RemoteEntityMetadataController.
  */
 
 namespace Drupal\nexteuropa_remote\Entity;
@@ -14,6 +14,12 @@ namespace Drupal\nexteuropa_remote\Entity;
  */
 class RemoteEntityMetadataController extends \EntityDefaultMetadataController {
 
+  /**
+   * Get entity's properties information.
+   *
+   * @return array
+   *    Properties info array.
+   */
   public function entityPropertyInfo() {
     $info = parent::entityPropertyInfo();
     $properties = &$info[$this->type]['properties'];
@@ -64,4 +70,5 @@ class RemoteEntityMetadataController extends \EntityDefaultMetadataController {
 
     return $info;
   }
+
 }

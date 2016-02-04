@@ -41,7 +41,7 @@ function nexteuropa_remote_load($id) {
 }
 
 /**
- * Bean view page
+ * Bean view page.
  */
 function nexteuropa_remote_view_page(RemoteEntity $entity) {
   $title = $entity->label();
@@ -120,7 +120,7 @@ function nexteuropa_remote_entity_info() {
             'bundle argument' => 4,
             'access arguments' => ['administer nexteuropa remote entities'],
           ],
-        ]
+        ],
       ],
       'label callback' => 'entity_class_label',
       'uri callback' => 'entity_class_uri',

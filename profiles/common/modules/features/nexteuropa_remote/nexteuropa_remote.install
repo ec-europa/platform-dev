@@ -30,7 +30,7 @@ function nexteuropa_remote_schema() {
         'not null' => TRUE,
         'default' => '',
       ],
-      'type' =>[
+      'type' => [
         'description' => 'The {while_type}.type of this while.',
         'type' => 'varchar',
         'length' => 32,

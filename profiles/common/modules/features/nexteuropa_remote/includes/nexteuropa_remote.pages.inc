@@ -43,13 +43,14 @@ function nexteuropa_remote_entity_form($form, &$form_state, RemoteEntity $entity
     '#weight' => 40,
   ];
 
+  $delete_access = ($op != 'add' && $op != 'clone') && nexteuropa_remote_access('delete', $entity);
   $form['actions']['delete'] = [
     '#type' => 'submit',
     '#value' => t('Delete'),
     '#weight' => 45,
     '#limit_validation_errors' => [],
     '#submit' => ['nexteuropa_remote_entity_form_submit_delete'],
-    '#access' => ($op != 'add' && $op != 'clone') && nexteuropa_remote_access('delete', $entity)
+    '#access' => $delete_access,
   ];
 
   field_attach_form('nexteuropa_remote_entity', $entity, $form, $form_state);
@@ -58,7 +59,7 @@ function nexteuropa_remote_entity_form($form, &$form_state, RemoteEntity $entity
 }
 
 /**
- * entity editing form validation callback.
+ * Entity editing form validation callback.
  */
 function nexteuropa_remote_entity_form_validate(&$form, &$form_state) {
   entity_form_field_validate('entity', $form, $form_state);
