@@ -132,19 +132,16 @@ function nexteuropa_newsroom_form_taxonomy_form_term_alter(&$form, &$form_state)
     case NEWSROOM_TYPE_VOCABULARY:
     case NEWSROOM_SERVICE_VOCABULARY:
     case NEWSROOM_TOPIC_VOCABULARY:
-
       $form['actions']['restore_config'] = array(
         '#type' => 'submit',
         '#value' => t('Restore conf & Save'),
         '#submit' => array('nexteuropa_newsroom_restore_conf'),
       );
-
       $form['actions']['backup_config'] = array(
         '#type' => 'submit',
         '#value' => t('Backup conf & Save'),
         '#submit' => array('nexteuropa_newsroom_backup_conf'),
       );
-
       break;
   }
 }
@@ -165,7 +162,6 @@ function nexteuropa_newsroom_form_taxonomy_overview_terms_alter(&$form, &$form_s
       '#value' => t('Backup configuration'),
       '#submit' => array('nexteuropa_newsroom_backup_conf_all'),
     );
-
     $form['actions']['restore_config'] = array(
       '#type' => 'submit',
       '#value' => t('Restore configuration'),
@@ -390,7 +386,7 @@ function nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax($form,
     form_set_error('email', $subscription['feedbackMessage']);
     $commands[] = ajax_command_invoke($selector . ' #edit-email', 'addClass', array('error'));
   } else {
-    $type = ($subscription['isNewUser'] === "False" && $subscription['isNewSubscription'] === "False") ? 'warning' : 'status';
+    $type = ($subscription['isNewUser'] === 'False' && $subscription['isNewSubscription'] === 'False') ? 'warning' : 'status';
     drupal_set_message($subscription['feedbackMessage'], $type);
     $commands[] = ajax_command_invoke($selector . ' #edit-email', 'removeClass', array('error'));
   }
@@ -544,7 +540,7 @@ function nexteuropa_newsroom_agenda_datepicker_form($form, &$form_state, $view, 
     '#default_value' => $current_date,
     '#date_type' => DATE_DATETIME,
     '#date_timezone' => date_default_timezone(),
-    '#date_format' => 'Y-m-d',
+    '#date_format' => 'd-m-Y',
     '#date_increment' => 1,
     '#date_year_range' => '-2:+2',
     '#ajax' => array(
@@ -575,17 +571,47 @@ function nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
   $topic_id = isset($form_state['input']['topic_id']) ? $form_state['input']['topic_id'] : NULL;
   $type_id = isset($form_state['input']['type_id']) ? $form_state['input']['type_id'] : NULL;
   
-  $topics = array();
   $topic = taxonomy_term_load($topic_id);
-  if ($topic) {
-    $topics[] = $topic;
-  }
   $type = taxonomy_term_load($type_id);
   $factory = new NewsroomAgendaFactory();
-  $agenda = $factory->build($view, $type, $topics, new DateTime($date));
+  $agenda = $factory->build($view, $type, $topic, new DateTime($date));
   
   ctools_include('ajax');
   $commands[] = ctools_ajax_command_redirect($agenda->getNavigationUrl($agenda->getCurrentDate()));
 
   return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Defines newsroom proposal form.
+ */
+function nexteuropa_newsroom_newsletter_form($form, $form_state, $service_id) {
+  global $user;
+  global $_newsroom_universe_url;
+
+  $account = user_load($user->uid);
+  $form['#action'] = $_newsroom_universe_url . 'subscription-quick-generic.cfm';
+  $form['email'] = array(
+    '#title' => t('E-mail'),
+    '#type' => 'hidden',
+    '#value' => $account ? $account->mail : NULL,
+    '#required' => TRUE,
+  );
+  $form['service_id'] = array(
+    '#type' => 'hidden',
+    '#value' => $service_id,
+    '#required' => TRUE,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#ajax' => array(
+      'callback' => 'nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax',
+    ),
+    '#value' => t('Subscribe'),
+    '#disabled' => !user_is_logged_in(),
+  );
+  $form['submit_response'] = array(
+    '#markup' => '<div class="submit_response"></div>',
+  );
+  return $form;
 }

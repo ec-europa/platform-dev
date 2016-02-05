@@ -9,21 +9,27 @@
  */
 abstract class NewsroomAgenda {
   const ITEMS_NUMBER = 10;
-  private $view = 'schedule';
-  private $topicUrl = 'all';
-  private $topics = array();
-  private $typeUrl = 'all';
-  private $typeId = NULL;
-  private $currentDate = NULL;
-  private $nextDate = NULL;
-  private $previousDate = NULL;
-  private $currentItems = array();
-  private $nextItems = array();
-  private $result = array();
-  private $query = NULL;
-  private $itemsCount = 0;
-  private $urlParts = array();
-  private $displayCalendar = TRUE;
+  const AGENDA_VIEW_SCHEDULE = 'schedule';
+  const AGENDA_VIEW_MONTH = 'month';
+  const AGENDA_VIEW_WEEK = 'week';
+  const AGENDA_VIEW_DAY = 'day';
+  const AGENDA_VIEW_SCHEDULE_BLOCK = 'schedule-block';
+  protected $view = NewsroomAgenda::AGENDA_VIEW_SCHEDULE;
+  protected $topicUrl = 'all';
+  protected $topics = array();
+  protected $typeUrl = 'all';
+  protected $typeId = NULL;
+  protected $currentDate = NULL;
+  protected $nextDate = NULL;
+  protected $previousDate = NULL;
+  protected $currentItems = array();
+  protected $nextItems = array();
+  protected $result = array();
+  protected $query = NULL;
+  protected $itemsCount = 0;
+  protected $urlParts = array();
+  protected $displayCalendar = TRUE;
+  protected $isBlock = FALSE;
 
   /**
    * Getter.
@@ -37,6 +43,20 @@ abstract class NewsroomAgenda {
    */
   public function setDisplayCalendar($value) {
     return $this->displayCalendar = $value;
+  }
+  
+  /**
+   * Getter.
+   */
+  public function getIsBlock() {
+    return $this->isBlock;
+  }
+
+  /**
+   * Setter.
+   */
+  public function setIsBlock($value) {
+    return $this->isBlock = $value;
   }
 
   /**
@@ -329,6 +349,7 @@ abstract class NewsroomAgenda {
       'date_form' => $this->getDisplayCalendar() ? $this->getForm('nexteuropa_newsroom_agenda_datepicker_form') : NULL,
       'items' => $this->getCurrentItems(),
       'next_event_items' => $this->getNextItems(),
+      'is_block' => $this->getIsBlock(),
       'navigation' => array(
         'previous' => $this->getPreviousDate() ? $this->getNavigationLink($this->getPreviousTitle(), $this->getPreviousDate()) : NULL,
         'next' => $this->getNextDate() ? $this->getNavigationLink($this->getNextTitle(), $this->getNextDate()) : NULL,
@@ -342,6 +363,7 @@ abstract class NewsroomAgenda {
       'filter_form' => NULL,
       'date_form' => NULL,
       'items' => $this->getCurrentItems(),
+      'is_block' => $this->getIsBlock(),
       'next_event_items' => $this->getNextItems(),
       'navigation' => array(),
     ));
@@ -355,7 +377,7 @@ abstract class NewsroomAgenda {
 
     $query = db_select('node', 'n');
     $query->distinct();
-    $query->fields('n', array('nid', 'title'));
+    $query->fields('n', array('nid', 'title', 'created'));
     $query->fields('tt', array('name'));
     $query->addField('tt', 'tid', 'typeId');
     $query->addField('d', 'field_newsroom_item_date_value', 'start_date');
@@ -373,19 +395,15 @@ abstract class NewsroomAgenda {
     if ($this->getTypeId()) {
       $query->condition('tt.tid', NewsroomHelper::getTermChildren($this->getTypeId()));
     }
-    
-    if (count($this->getTopics()) > 0) {
-      $query->condition('topic_data.tid', $this->getTopics());
-    }
 
-//    $query->processQuery($query);
-    
+    $query = $this->processQuery($query);
     $this->setQuery($query);
+
   }
-  
+
   protected function processQuery($query) {
     if (count($this->getTopics()) > 0) {
-      $query->condition('topic_data.tid', $this->getTopics());
+      $query->condition('topic_data.tid', $this->getTopicsId());
     }
     return $query;
   }
@@ -442,6 +460,7 @@ abstract class NewsroomAgenda {
   protected function prepareResult($items) {
     if (!empty($items) && count($items) > 0) {
       foreach ($items as $key => $item) {
+        $items[$key]->new = NewsroomHelper::isNewItem($item->created, $item->nid);
         if (empty($item->start_date_obj)) {
           $items[$key]->start_date_obj = !empty($item->start_date) ? new DateTime($item->start_date) : NULL;
           $items[$key]->start_date_obj->setTime(0, 0, 0);
@@ -553,6 +572,14 @@ abstract class NewsroomAgenda {
     }
 
     return $items;
+  }
+  
+  protected function getTopicsId() {
+    $topic_ids = array();
+    foreach ($this->getTopics() as $topic) {
+      $topic_ids[] = $topic->tid;
+    }
+    return $topic_ids;
   }
 
   /**

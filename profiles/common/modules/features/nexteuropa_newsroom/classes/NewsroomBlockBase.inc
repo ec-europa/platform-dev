@@ -10,11 +10,12 @@
  */
 abstract class NewsroomBlockBase {
 
-  private $topics = NULL;
-  private $type = NULL;
-  private $highlighted = FALSE;
-  private $is_agenda = NULL;
-  private $lastest_date = NULL;
+  protected $highlighted = 0;
+  protected $is_agenda = FALSE;
+  protected $lastest_date = NULL;
+  protected $type = NULL;  
+  protected $operator = 'OR';
+  protected $topics = array();
 
   public function __construct($type, $topics) {
     $this->setType($type);
@@ -27,21 +28,29 @@ abstract class NewsroomBlockBase {
   public function getHighlighted() {
     return $this->highlighted;
   }
-  
+
   public function getLatestDate() {
     return $this->lastest_date;
   }
-  
+
   public function setLatestDate($value) {
-    return $this->lastest_date = $value;
+    $this->lastest_date = $value;
   }
-  
+
   public function getIsAgenda() {
     return $this->is_agenda;
   }
-  
+
   public function setIsAgenda($value) {
-    return $this->is_agenda = $value;
+    $this->is_agenda = $value;
+  }
+
+  public function getOperator() {
+    return $this->operator;
+  }
+
+  public function setOperator($value) {
+    $this->operator = $value;
   }
 
   /**
@@ -55,7 +64,7 @@ abstract class NewsroomBlockBase {
    * Setter.
    */
   public function setType($value) {
-    return $this->type = $value;
+    $this->type = $value;
   }
 
   /**
@@ -69,9 +78,53 @@ abstract class NewsroomBlockBase {
    * Setter.
    */
   public function setTopics($value) {
-    return $this->topics = $value;
+    $this->topics = $value;
+  }
+
+  public function getCssClasses() {
+    $classes = array();
+    if ($this->getHighlighted()) {
+      $classes[] = 'featured';
+      $classes[] = 'highlighted';
+    }
+    if ($this->getIsAgenda()) {
+      $classes[] = 'agenda';
+      $classes[] = 'highlighted';
+    }
+
+    return $classes;
   }
   
+  /**
+   * Setter.
+   */
+  public function getTypeUrl() {
+    return $this->getType() ? pathauto_cleanstring(NewsroomHelper::getTermTranslatedName($this->getType())) : 'all';
+  }
+
+  /**
+   * Setter.
+   */
+  public function getTopicUrl() {
+    $url = 'all';
+    $topics = $this->getTopics();
+    if (count($topics) == 1) {
+      $topic = reset($topics);
+      $url = pathauto_cleanstring(NewsroomHelper::getTermTranslatedName($topic));
+    }
+
+    return $url;
+  }
+  
+  protected function getTopicsId() {
+    $topic_ids = array();
+    foreach ($this->getTopics() as $topic) {
+      $topic_ids[] = $topic->tid;
+    }
+    return $topic_ids;
+  }
+
   abstract function getTitle();
+
   abstract public function generateContent();
 }
