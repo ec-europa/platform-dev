@@ -36,7 +36,7 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch
 ;https://www.drupal.org/node/2333447#comment-10826660
-projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7_0.patch
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
