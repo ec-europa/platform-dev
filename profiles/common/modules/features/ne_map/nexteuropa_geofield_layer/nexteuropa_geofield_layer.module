@@ -117,3 +117,14 @@ function nexteuropa_geofield_layer_features($data) {
   }
   return $features;
 }
+
+dd('asfasfsafa');
+
+function nexteuropa_geofield_layer_js_alter(&$javascript) {
+  dd($javascript);
+
+// $javascript['profiles/multisite_drupal_standard/libraries/leaflet/leaflet-src.js']['#weight'] = 666;
+// $javascript['profiles/multisite_drupal_standard/libraries/leaflet/leaflet-src.js']['#group'] = 666;
+
+
+}

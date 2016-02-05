@@ -49,7 +49,7 @@ function _create_nexteuropa_geofield_map_field() {
         'map_geospatial' => array(
           'field_name' => 'map_geospatial',
           'type' => 'geofield_geojson',
-          'cardinality' => -1,
+          'cardinality' => 1,
           'deleted' => 0,
           'entity_types' => array(),
           'locked' => 1,
@@ -119,11 +119,32 @@ function _create_nexteuropa_geofield_map_field() {
 /**
  * Lock field.
  */
-function nexteuropa_geofield_layer_update_7001() {
+function nexteuropa_geofield_layer_update_7004() {
   $field_name = 'map_geospatial';
   $field = field_read_field($field_name);
 
   // Sets field lock: 0: unlock; 1: lock.
   $field['locked'] = 0;
   field_update_field($field);
+}
+
+/**
+ * Changes map layer field.
+ *
+ * Adds country layer as target bundles.
+ */
+function nexteuropa_geofield_layer_change_map_layers_field() {
+  $field_info = field_read_field('map_layers');
+
+  // Adds country layer as target bundles.
+  $field_info['settings']['handler_settings']['target_bundles']['nexteuropa_geofield_layer'] = 'nexteuropa_geofield_layer';
+  field_update_field($field_info);
+}
+
+/**
+ * change layer field
+ * @todo clean up.
+ */
+function nexteuropa_geofield_layer_update_7003() {
+  nexteuropa_geofield_layer_change_map_layers_field();
 }
